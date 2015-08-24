@@ -21,13 +21,13 @@ namespace UnrealBuildTool.Rules
 					//"Programs/UnrealHeaderTool/Public",
 					// ... add other public include paths required here ...
 					}
-					);
+			);
 
 			PrivateIncludePaths.AddRange(
 					new string[] {
 					// ... add other private include paths required here ...
 					}
-					);
+			);
 
 			PublicDependencyModuleNames.AddRange(
 					new string[]
@@ -39,18 +39,16 @@ namespace UnrealBuildTool.Rules
 					"SlateCore",
 					// ... add other public dependencies that you statically link with here ...
 					}
-					);
+			);
 
 			if (UEBuildConfiguration.bBuildEditor == true)
 			{
-
 				PublicDependencyModuleNames.AddRange(
 						new string[] 
 						{
 						"UnrealEd", 
 						}
-						);
-
+				);
 			}
 
 
@@ -59,7 +57,7 @@ namespace UnrealBuildTool.Rules
 					{
 					// ... add any modules that your module loads dynamically here ...
 					}
-					);
+			);
 
 			// var LuaPath = Path.Combine("..", "Plugins", "ScriptPlugin", "Source", "Lua");				
 			// var LuaLibDirectory = Path.Combine(LuaPath, "Lib", Target.Platform.ToString(), "Release");
