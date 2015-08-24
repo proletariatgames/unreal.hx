@@ -1,0 +1,21 @@
+{
+	"FileVersion" : 3,
+	"FriendlyName" : "UE4Haxe - UE4 Haxe Integration",
+	"Version" : 1,
+	"VersionName": "alpha",
+	"FriendlyVersion" : "1.0",
+	"EngineVersion" : "4.2.0",
+	"Description" : "Write UE4 game logic in Haxe.",
+	"Category" : "Programming Runtime.Language Binding",
+	"CreatedBy" : "Proletariat Inc.",
+	"CreatedByURL" : "http://proletariat.com",
+	"EnabledByDefault" : true,
+	"Modules" :
+	[
+		{
+			"Name" : "hxruntime",
+			"Type" : "Runtime",
+			"LoadingPhase" : "PreDefault"
+		}
+	]
+}
