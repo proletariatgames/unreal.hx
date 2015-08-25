@@ -85,7 +85,7 @@ namespace UnrealBuildTool.Rules
 
 			if (!hasRun)
 			{
-				hasRun = true;
+				// hasRun = true;
 				CompileAndLoadHaxe(Target);
 			}
 
@@ -152,7 +152,13 @@ namespace UnrealBuildTool.Rules
 
 				// PublicLibraryPaths.Add(Path.Combine(GameDir, "Intermediate/Haxe/Static"));
 				// PublicAdditionalLibraries.Add("UnrealInit");
-				PublicAdditionalLibraries.Add(Path.Combine(GameDir, "Intermediate/Haxe/Static/libUnrealInit.a"));
+				string file = Path.Combine(GameDir, "Intermediate/Haxe/Static/libUnrealInit.a");
+				Console.WriteLine("exists: " + File.Exists(file));
+				Console.WriteLine(file);
+				PublicAdditionalLibraries.Add(file);
+
+				// PublicAdditionalLibraries.Add("stdc++");
+				PublicAdditionalLibraries.Add("/usr/lib/libstdc++.dylib");
 
 				// TODO: compile hxcpp script
 				// shouldRecompile = false;
