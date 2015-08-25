@@ -4,12 +4,13 @@
 	"Version" : 1,
 	"VersionName": "alpha",
 	"FriendlyVersion" : "1.0",
-	"EngineVersion" : "4.2.0",
+	"EngineVersion" : "4.8.0",
 	"Description" : "Write UE4 game logic in Haxe.",
-	"Category" : "Programming Runtime.Language Binding",
+	"Category" : "Scripting",
 	"CreatedBy" : "Proletariat Inc.",
 	"CreatedByURL" : "http://proletariat.com",
 	"EnabledByDefault" : true,
+	"IsBetaVersion" : true,
 	"Modules" :
 	[
 		{

@@ -1,0 +1,3 @@
+# put here your additional haxe arguments
+# please do not add a target (like -cpp) as they will be added automatically
+# (see build-scripts.hxml and build-static.hxml)

@@ -1,0 +1,14 @@
+# this file is here for convenience only (e.g. to make your IDE work)
+# this is not used by the build pipeline, so make sure
+# you change 'arguments.hxml' if you want to persist with any of the changes
+arguments.hxml
+-cp ../Plugins/ue4hx/Haxe/Static
+-cp ../Plugins/ue4hx/Haxe/Scripts
+-cp Static
+-cp Scripts
+
+-main UnrealInit
+
+-D ue4scripts
+-D cppia
+-cpp ../Binaries/scripts.cppia
