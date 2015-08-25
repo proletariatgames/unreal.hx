@@ -11,6 +11,7 @@ namespace UnrealBuildTool.Rules
 	public class hxruntime : ModuleRules
 	{
 
+		static bool hasRun = false;
 		private string ModulePath
 		{
 			get { return Path.GetDirectoryName( RulesCompiler.GetModuleFilename( this.GetType().Name ) ); }
@@ -38,7 +39,7 @@ namespace UnrealBuildTool.Rules
 
 		public hxruntime(TargetInfo Target)
 		{
-			Console.WriteLine("\n\n\n=================\nBuild starting here\n");
+			Console.WriteLine("\n\n\n=================\nBuild starting here\n" + hasRun + "\n\n");
 			PublicIncludePaths.AddRange(
 					new string[] {					
 					//"Programs/UnrealHeaderTool/Public",
@@ -82,14 +83,11 @@ namespace UnrealBuildTool.Rules
 					}
 			);
 
-			Console.WriteLine(Target.Configuration);
-			Console.WriteLine(Target.Platform);
-			Console.WriteLine(Target.Architecture);
-			Console.WriteLine(Target.Type);
-
-			Console.WriteLine(this.Type);
-			Console.WriteLine(this.ModuleDirectory);
-			CompileAndLoadHaxe(Target);
+			if (!hasRun)
+			{
+				hasRun = true;
+				CompileAndLoadHaxe(Target);
+			}
 
 			// var LuaPath = Path.Combine("..", "Plugins", "ScriptPlugin", "Source", "Lua");				
 			// var LuaLibDirectory = Path.Combine(LuaPath, "Lib", Target.Platform.ToString(), "Release");
@@ -133,20 +131,34 @@ namespace UnrealBuildTool.Rules
 				CheckCompilation(HaxeSourcesPath, "Static", toCompile, ref shouldRecompile);
 				CheckCompilation(InternalHaxeSourcesPath, "Static", toCompile, ref shouldRecompile);
 
-				if (shouldRecompile)
+				// for now, we're ignoring shouldRecompile because we may edit dependencies that aren't directly in
+				// the directories followed. Maybe in the future we might look into all source paths (TODO)
+				if (toCompile.Count > 0)
 				{
+					int ret = CompileSources(toCompile.ToArray(), new List<string> { 
+						"arguments.hxml",
+						"-cp", "../Plugins/ue4hx/Haxe/Static",
+						"-cp", "Static",
+
+						"-main", "UnrealInit",
+
+						"-D", "scriptable",
+						"-D", "dll_export=",
+						"-D", "static_link",
+						"-cpp", "../Intermediate/Haxe/Static",
+					});
+					Console.WriteLine("haxe return:" + ret);
 				}
-				shouldRecompile = false;
-				toCompile = new List<string>();
-				// if (ShouldCompile(HaxeSourcesPath, "Static")
-				// 	|| ShouldCompile(InternalHaxeSourcesPath, "Static"))
-				// {
-				// }
-        //
-				// compile hxcpp cppia
-				// if (ShouldCompile(HaxeSourcesPath, "Scripts"))
-				// {
-				// }
+
+				// PublicLibraryPaths.Add(Path.Combine(GameDir, "Intermediate/Haxe/Static"));
+				// PublicAdditionalLibraries.Add("UnrealInit");
+				PublicAdditionalLibraries.Add(Path.Combine(GameDir, "Intermediate/Haxe/Static/libUnrealInit.a"));
+
+				// TODO: compile hxcpp script
+				// shouldRecompile = false;
+				// toCompile = new List<string>();
+
+				// CheckCompilation(HaxeSourcesPath, "Scripts", toCompile, ref shouldRecompile);
 			}
 			// if no haxe check if there is an already built output
 			// load static library
@@ -165,23 +177,25 @@ namespace UnrealBuildTool.Rules
 				lastCompilation = File.GetLastWriteTimeUtc(Path.Combine(pass, "Build.xml"));
 			}
 
-			CheckTimestampsRecurse(lastCompilation, sourcesDir, toCompile, ref shouldRecompile);
+			CheckTimestampsRecurse(lastCompilation, sourcesDir, "", toCompile, ref shouldRecompile);
 		}
 
-		private void CheckTimestampsRecurse(DateTime baseTime, string dirPath, List<string> toCompile, ref bool shouldRecompile)
+		private void CheckTimestampsRecurse(DateTime baseTime, string dirPath, string pack, List<string> toCompile, ref bool shouldRecompile)
 		{
 			if (Directory.Exists(dirPath))
 			{
 				string[] paths = Directory.GetFileSystemEntries(dirPath);
 				foreach (string path in paths)
 				{
+					string name = Path.GetFileName(path);
 					if (path.EndsWith(".hx"))
 					{
 						if (File.GetLastWriteTimeUtc(path) > baseTime)
 							shouldRecompile = true;
-						toCompile.Add(path);
+						toCompile.Add(pack + name.Substring(0, name.Length - 3));
 					} else if (Directory.Exists(path)) {
-						CheckTimestampsRecurse(baseTime, path, toCompile, ref shouldRecompile);
+						string newPack = pack + name + ".";
+						CheckTimestampsRecurse(baseTime, path, newPack, toCompile, ref shouldRecompile);
 					}
 				}
 			}
@@ -205,6 +219,22 @@ namespace UnrealBuildTool.Rules
 					}
 				}
 			}
+		}
+
+		public int CompileSources(string[] sources, List<string> args)
+		{
+			// create a temp file to work around file argument limitation
+			string tmpPath = Path.Combine(GameDir, "Intermediate");
+			if (!Directory.Exists(tmpPath))
+				Directory.CreateDirectory(tmpPath);
+			File.WriteAllText( Path.Combine(tmpPath, "files.hxml"), string.Join("\n", sources) );
+			args.Insert(0, HaxeSourcesPath);
+			args.Insert(0, "--cwd");
+			args.Add(Path.Combine(tmpPath, "files.hxml"));
+
+			// TODO: add arguments based on TargetInfo (ios,32-bit,etc)
+
+			return CallHaxe(args.ToArray(), true);
 		}
 
 		public int CallHaxe(string[] args, bool showErrors)

@@ -1,4 +1,4 @@
-class Main
+class UnrealInit
 {
 	static function main()
 	{
