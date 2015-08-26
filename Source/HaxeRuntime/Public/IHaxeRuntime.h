@@ -9,7 +9,7 @@
  * The public interface to this module.  In most cases, this interface is only public to sibling modules 
  * within this plugin.
  */
-class IHXRuntime : public IModuleInterface
+class IHaxeRuntime : public IModuleInterface
 {
 
 public:
@@ -20,9 +20,9 @@ public:
 	 *
 	 * @return Returns singleton instance, loading the module on demand if needed
 	 */
-	static inline IHXRuntime& Get()
+	static inline IHaxeRuntime& Get()
 	{
-		return FModuleManager::LoadModuleChecked< IHXRuntime >( "hxruntime" );
+		return FModuleManager::LoadModuleChecked< IHaxeRuntime >( "HaxeRuntime" );
 	}
 
 	/**
@@ -32,7 +32,7 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded( "hxruntime" );
+		return FModuleManager::Get().IsModuleLoaded( "HaxeRuntime" );
 	}
 };
 

@@ -8,7 +8,7 @@ using UnrealBuildTool;
 
 namespace UnrealBuildTool.Rules
 {
-	public class hxruntime : ModuleRules
+	public class HaxeRuntime : ModuleRules
 	{
 
 		static bool hasRun = false;
@@ -37,7 +37,7 @@ namespace UnrealBuildTool.Rules
 			get { return Path.GetFullPath( Path.Combine( ModulePath, "../../Haxe/" ) ); }
 		}
 
-		public hxruntime(TargetInfo Target)
+		public HaxeRuntime(TargetInfo Target)
 		{
 			Console.WriteLine("\n\n\n=================\n (1) Build starting here\n" + hasRun + "\n\n");
 			PublicIncludePaths.AddRange(
@@ -110,9 +110,11 @@ namespace UnrealBuildTool.Rules
 
 				// for now, we're ignoring shouldRecompile because we may edit dependencies that aren't directly in
 				// the directories followed. Maybe in the future we might look into all source paths (TODO)
-				string curOutput = Path.Combine(GameDir, "Intermediate/Haxe/Static/libhxruntime.a");
+				string curLibName = "libhaxeruntime.a"; //TODO: add prefixes and extensions according to platform
+				string curOutput = Path.Combine(GameDir, "Intermediate/Haxe/Static/" + curLibName);
 				if (toCompile.Count > 0 && compileHaxe)
 				{
+					Console.WriteLine("Compiling Haxe");
 					DateTime? lastDate = null;
 					if (File.Exists(curOutput))
 					{
@@ -120,7 +122,7 @@ namespace UnrealBuildTool.Rules
 					}
 					int ret = CompileSources(toCompile.ToArray(), new List<string> { 
 						"arguments.hxml",
-						"-cp", "../Plugins/ue4hx/Haxe/Static",
+						"-cp", "../Plugins/UE4Haxe/Haxe/Static",
 						"-cp", "Static",
 
 						"-main", "UnrealInit",
@@ -128,9 +130,10 @@ namespace UnrealBuildTool.Rules
 						"-D", "scriptable",
 						"-D", "dll_export=",
 						"-D", "static_link",
-						"-D", "destination=" + curOutput,
+						"-D", "destination=" + curLibName,
 						"-cpp", "../Intermediate/Haxe/Static",
 					});
+					Console.WriteLine("Haxe return code: " + ret);
 
 					if (ret == 0 && lastDate != null && File.GetLastWriteTimeUtc(curOutput) > lastDate)
 					{
@@ -147,9 +150,9 @@ namespace UnrealBuildTool.Rules
 						// Currently, Unreal doesn't support automatic recompilation of plugins
 						// (see https://forums.unrealengine.com/showthread.php?56191-Plugin-development-and-hot-reload-not-working)
 						// So any Static Haxe files must be recompiled by accessing
-						// Window->Developer Tools->Modules and recompiling hxruntime
+						// Window->Developer Tools->Modules and recompiling HaxeRuntime
 
-						string targetPath = Path.Combine(ModulePath, "Private", "HXRuntime.cpp"); // use a well known source path
+						string targetPath = Path.Combine(ModulePath, "Private", "HaxeRuntime.cpp"); // use a well known source path
 						File.SetLastWriteTimeUtc(targetPath, DateTime.UtcNow);
 					}
 				}
@@ -257,9 +260,12 @@ namespace UnrealBuildTool.Rules
 						buf.Append(arg.Replace("\\", "\\\\").Replace("\"", "\\\""));
 						buf.Append("\"");
 					}
+					string hxargs = buf.ToString();
+					Console.WriteLine("haxe " + hxargs);
+
 					hx.StartInfo.FileName = "haxe";
 					hx.StartInfo.CreateNoWindow = true;
-					hx.StartInfo.Arguments = buf.ToString();
+					hx.StartInfo.Arguments = hxargs;
 					hx.StartInfo.RedirectStandardError = true;
 					hx.StartInfo.UseShellExecute = false;
 					hx.Start();

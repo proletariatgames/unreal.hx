@@ -1,4 +1,4 @@
-#include "HXRuntimePrivatePCH.h"
+#include "HaxeRuntimePrivatePCH.h"
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
 	#include <windows.h>
@@ -28,14 +28,14 @@ static void *get_top_of_stack(void)
 #endif
 }
 
-class FHXRuntime : public IHXRuntime
+class FHaxeRuntime : public IHaxeRuntime
 {
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 };
 
-IMPLEMENT_MODULE( FHXRuntime, hxruntime )
+IMPLEMENT_MODULE( FHaxeRuntime, HaxeRuntime )
 
 static void *get_init_stack()
 {
@@ -46,7 +46,7 @@ static void *get_init_stack()
 
 static void *init_stack = get_init_stack();
 
-void FHXRuntime::StartupModule()
+void FHaxeRuntime::StartupModule()
 {
 	// This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
 	int x;
@@ -66,7 +66,7 @@ void FHXRuntime::StartupModule()
 }
 
 
-void FHXRuntime::ShutdownModule()
+void FHaxeRuntime::ShutdownModule()
 {
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.

@@ -14,7 +14,7 @@
 	"Modules" :
 	[
 		{
-			"Name" : "hxruntime",
+			"Name" : "HaxeRuntime",
 			"Type" : "Runtime",
 			"LoadingPhase" : "PreDefault"
 		}
