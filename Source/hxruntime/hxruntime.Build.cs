@@ -39,17 +39,20 @@ namespace UnrealBuildTool.Rules
 
 		public hxruntime(TargetInfo Target)
 		{
-			Console.WriteLine("\n\n\n=================\nBuild starting here\n" + hasRun + "\n\n");
+			Console.WriteLine("\n\n\n=================\n (1) Build starting here\n" + hasRun + "\n\n");
+			Log.TraceVerbose("VERBOSE MODE");
 			PublicIncludePaths.AddRange(
 					new string[] {					
 					//"Programs/UnrealHeaderTool/Public",
 					// ... add other public include paths required here ...
+					Path.Combine(ModulePath, "Public")
 					}
 			);
 
 			PrivateIncludePaths.AddRange(
 					new string[] {
 					// ... add other private include paths required here ...
+					Path.Combine(ModulePath, "Private")
 					}
 			);
 
@@ -83,11 +86,9 @@ namespace UnrealBuildTool.Rules
 					}
 			);
 
-			if (!hasRun)
-			{
-				// hasRun = true;
-				CompileAndLoadHaxe(Target);
-			}
+			CompileAndLoadHaxe(Target, !hasRun);
+			// we need to set hasRun since this code runs more than once per build
+			hasRun = true;
 
 			// var LuaPath = Path.Combine("..", "Plugins", "ScriptPlugin", "Source", "Lua");				
 			// var LuaLibDirectory = Path.Combine(LuaPath, "Lib", Target.Platform.ToString(), "Release");
@@ -112,7 +113,7 @@ namespace UnrealBuildTool.Rules
 			// }
 		}
 
-		public bool CompileAndLoadHaxe(TargetInfo Target)
+		public bool CompileAndLoadHaxe(TargetInfo Target, bool compileHaxe)
 		{
 			bool supported = false;
 
@@ -133,8 +134,14 @@ namespace UnrealBuildTool.Rules
 
 				// for now, we're ignoring shouldRecompile because we may edit dependencies that aren't directly in
 				// the directories followed. Maybe in the future we might look into all source paths (TODO)
-				if (toCompile.Count > 0)
+				string curOutput = Path.Combine(GameDir, "Intermediate/Haxe/Static/libUnrealInit.a");
+				if (toCompile.Count > 0 && compileHaxe)
 				{
+					DateTime? lastDate = null;
+					if (File.Exists(curOutput))
+					{
+						lastDate = File.GetLastWriteTimeUtc(curOutput);
+					}
 					int ret = CompileSources(toCompile.ToArray(), new List<string> { 
 						"arguments.hxml",
 						"-cp", "../Plugins/ue4hx/Haxe/Static",
@@ -148,14 +155,27 @@ namespace UnrealBuildTool.Rules
 						"-cpp", "../Intermediate/Haxe/Static",
 					});
 					Console.WriteLine("haxe return:" + ret);
+
+					if (ret == 0 && lastDate != null && File.GetLastWriteTimeUtc(curOutput) > lastDate)
+					{
+						Console.WriteLine("Setting timestamp...");
+						// HACK: there seems to be no way to add the .hx files as dependencies
+						// for this project. The PrerequisiteItems variable from Action is the one
+						// that keeps track of dependencies - and it cannot be set anywhere. Additionally -
+						// what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
+						// linking against.
+						// This leaves little option but to meddle with actual sources' timestamps.
+						// It seems that a better least intrusive hack would be to meddle with the
+						// output library file timestamp. However, it's not possible to reliably find
+						// the output file name at this stage
+						string targetPath = Path.Combine(ModulePath, "Private", "HXRuntime.cpp"); // use a well known source path
+						File.SetLastWriteTimeUtc(targetPath, DateTime.UtcNow);
+					}
 				}
 
 				// PublicLibraryPaths.Add(Path.Combine(GameDir, "Intermediate/Haxe/Static"));
 				// PublicAdditionalLibraries.Add("UnrealInit");
-				string file = Path.Combine(GameDir, "Intermediate/Haxe/Static/libUnrealInit.a");
-				Console.WriteLine("exists: " + File.Exists(file));
-				Console.WriteLine(file);
-				PublicAdditionalLibraries.Add(file);
+				PublicAdditionalLibraries.Add(curOutput);
 
 				// PublicAdditionalLibraries.Add("stdc++");
 				PublicAdditionalLibraries.Add("/usr/lib/libstdc++.dylib");
