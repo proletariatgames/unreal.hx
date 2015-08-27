@@ -4,7 +4,7 @@
 -D no-compilation
 -D no-root
 -D net_ver=40
-HaxeRuntime
+ubuild.HaxeRuntime
 --next
 
---macro Package.main("bin/src", { "HaxeRuntime": "../HaxeRuntime/HaxeRuntime.Build.cs" })
+--macro Package.main("bin/src", { "ubuild.HaxeRuntime": "../HaxeRuntime/HaxeRuntime.Build.cs" })

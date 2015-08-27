@@ -1,8 +1,9 @@
+package ubuild;
 import unrealbuildtool.*;
 import cs.system.io.Path;
 import cs.system.collections.generic.List_1 as Lst;
 
-using Helpers;
+using ubuild.Helpers;
 
 @:native("UnrealBuildTool.Rules.HaxeRuntime")
 class HaxeRuntime extends ModuleRules

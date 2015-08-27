@@ -3,6 +3,11 @@ import sys.FileSystem.*;
 import sys.io.File;
 using StringTools;
 
+/**
+  Packages all the generated .cs files in one or multiple Build.cs / Target.cs files
+  so they can be added to the build tool assembly.
+  This function is executed in macro context (--macro Package.main ... ) (see build.hxml)
+ **/
 class Package
 {
   public static function main(srcDir:String, mappedFiles:DynamicAccess<String>)
