@@ -1,0 +1,10 @@
+-cp src
+-net-lib lib/UnrealBuildTool.dll
+-cs bin
+-D no-compilation
+-D no-root
+-D net_ver=40
+HaxeRuntime
+--next
+
+--macro Package.main("bin/src", { "HaxeRuntime": "../HaxeRuntime/HaxeRuntime.Build.cs" })

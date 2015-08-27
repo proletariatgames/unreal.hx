@@ -1,3 +1,42 @@
+import unrealbuildtool.*;
+import cs.system.io.Path;
+import cs.system.collections.generic.List_1 as Lst;
+
+using Helpers;
+
+@:native("UnrealBuildTool.Rules.HaxeRuntime")
+class HaxeRuntime extends ModuleRules
+{
+  // we need this here since the constructor is called more
+  // than once per compilation - but we want to compile
+  // the Haxe code exactly once
+  static var hasRun = false;
+
+  var modulePath:String;
+  var thirdPartyPath:String;
+  var gameDir:String;
+  var haxeSourcesPath:String;
+  var internalHaxeSourcesPath:String;
+
+  public function new(target:TargetInfo)
+  {
+    super();
+    modulePath = RulesCompiler.GetModuleFilename( cs.Lib.toNativeType(std.Type.getClass(this)).Name );
+    thirdPartyPath = modulePath + "/../../ThirdParty";
+    gameDir = modulePath + "/../../../..";
+    haxeSourcesPath = gameDir + "/Haxe";
+    internalHaxeSourcesPath = modulePath + "/../../Haxe";
+
+    this.PublicIncludePaths.addRange(['$modulePath/Public']);
+    this.PrivateIncludePaths.addRange(['$modulePath/Private']);
+    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
+    if (UEBuildConfiguration.bBuildEditor)
+      this.PublicDependencyModuleNames.addRange(['UnrealEd']);
+    // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
+  }
+}
+
+/*
 // Copyright 2015 Proletariat Inc.
 using System;
 using System.IO;
@@ -11,79 +50,17 @@ namespace UnrealBuildTool.Rules
 	public class HaxeRuntime : ModuleRules
 	{
 
-		static bool hasRun = false;
-		private string ModulePath
-		{
-			get { return Path.GetDirectoryName( RulesCompiler.GetModuleFilename( this.GetType().Name ) ); }
-		}
-
-		private string ThirdPartyPath
-		{
-			get { return Path.GetFullPath( Path.Combine( ModulePath, "../../ThirdParty/" ) ); }
-		}
-
-		private string GameDir
-		{
-			get { return Path.GetFullPath( Path.Combine( ModulePath, "../../../../" ) ); }
-		}
-
-		private string HaxeSourcesPath
-		{
-			get { return Path.GetFullPath( Path.Combine( GameDir, "Haxe/" ) ); }
-		}
-
-		private string InternalHaxeSourcesPath
-		{
-			get { return Path.GetFullPath( Path.Combine( ModulePath, "../../Haxe/" ) ); }
-		}
-
 		public HaxeRuntime(TargetInfo Target)
 		{
-			Console.WriteLine("\n\n\n=================\n (1) Build starting here\n" + hasRun + "\n\n");
-			PublicIncludePaths.AddRange(
-					new string[] {					
-					//"Programs/UnrealHeaderTool/Public",
-					// ... add other public include paths required here ...
-					Path.Combine(ModulePath, "Public")
-					}
-			);
-
-			PrivateIncludePaths.AddRange(
-					new string[] {
-					// ... add other private include paths required here ...
-					Path.Combine(ModulePath, "Private")
-					}
-			);
-
-			PublicDependencyModuleNames.AddRange(
-					new string[]
-					{
-					"Core",
-					"CoreUObject",
-					"Engine",
-					"InputCore",
-					"SlateCore",
-					// ... add other public dependencies that you statically link with here ...
-					}
-			);
-
 			if (UEBuildConfiguration.bBuildEditor == true)
 			{
 				PublicDependencyModuleNames.AddRange(
-						new string[] 
+						new string[]
 						{
-						"UnrealEd", 
+						"UnrealEd",
 						}
 				);
 			}
-
-
-			DynamicallyLoadedModuleNames.AddRange(
-					new string[]
-					{
-					// ... add any modules that your module loads dynamically here ...
-					}
-			);
 
 			CompileAndLoadHaxe(Target, !hasRun);
 			// we need to set hasRun since this code runs more than once per build
@@ -120,7 +97,7 @@ namespace UnrealBuildTool.Rules
 					{
 						lastDate = File.GetLastWriteTimeUtc(curOutput);
 					}
-					int ret = CompileSources(toCompile.ToArray(), new List<string> { 
+					int ret = CompileSources(toCompile.ToArray(), new List<string> {
 						"arguments.hxml",
 						"-cp", "../Plugins/UE4Haxe/Haxe/Static",
 						"-cp", "Static",
@@ -297,4 +274,4 @@ namespace UnrealBuildTool.Rules
 		}
 	}
 }
-
+*/
