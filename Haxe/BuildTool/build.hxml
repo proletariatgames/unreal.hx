@@ -1,0 +1,13 @@
+-cp src
+-net-lib lib/UnrealBuildTool.dll
+-cs bin
+-D no-compilation
+-D no-root
+-D net_ver=40
+ubuild.HaxeRuntime
+ubuild.HaxeInit
+-D analyzer
+-D real_position
+--next
+
+--macro Package.main("bin/src", [{ name:"ubuild.HaxeInit", target:"../../Source/HaxeInit/HaxeInit.Build.cs" }, { name:"UnrealBuildTool.Rules.HaxeRuntime", target:"../Templates/Source/HaxeRuntime/HaxeRuntime.Build.cs" }])

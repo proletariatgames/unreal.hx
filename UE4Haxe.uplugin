@@ -14,9 +14,8 @@
 	"Modules" :
 	[
 		{
-			"Name" : "HaxeRuntime",
-			"Type" : "Runtime",
-			"LoadingPhase" : "PreDefault"
+			"Name" : "HaxeInit",
+			"Type" : "Editor"
 		}
 	]
 }

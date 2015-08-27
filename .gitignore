@@ -1,4 +1,5 @@
 /Binaries
 /Intermediate
-/Source/HaxeRuntime/HaxeRuntime.Build.cs
+HaxeRuntime.Build.cs
+HaxeInit.Build.cs
 

@@ -5,53 +5,21 @@ import cs.system.collections.generic.List_1 as Lst;
 
 using ubuild.Helpers;
 
+/**
+  This module will compile Haxe and add the hxcpp runtime to the game.
+ **/
 @:nativeGen
 @:native("UnrealBuildTool.Rules.HaxeRuntime")
-class HaxeRuntime extends ModuleRules
+class HaxeRuntime extends BaseModuleRules
 {
-  // we need this here since the constructor is called more
-  // than once per compilation - but we want to compile
-  // the Haxe code exactly once
-  static var firstRun = true;
-
-  var modulePath:String;
-  var thirdPartyPath:String;
-  var gameDir:String;
-  var haxeSourcesPath:String;
-  var internalHaxeSourcesPath:String;
-
-  public function new(target:TargetInfo)
+  override private function config(firstRun:Bool)
   {
-    super();
-
-    var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
-    modulePath = RulesCompiler.GetModuleFilename( cs.Lib.toNativeType(std.Type.getClass(this)).Name );
-    thirdPartyPath = modulePath + "/../../ThirdParty";
-    gameDir = allGames[0];
-    if (gameDir == null)
-      gameDir = modulePath + "/../../../..";
-    haxeSourcesPath = gameDir + "/Haxe";
-    internalHaxeSourcesPath = modulePath + "/../../Haxe";
-
     this.PublicIncludePaths.addRange(['$modulePath/Public']);
     this.PrivateIncludePaths.addRange(['$modulePath/Private']);
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
-
-    if (firstRun)
-      updateProject();
-
-    firstRun = false;
-  }
-
-  /**
-    Adds the HaxeRuntime module to the game project if it isn't there, and updates
-    the template files to the game
-   **/
-  private function updateProject()
-  {
   }
 }
 
