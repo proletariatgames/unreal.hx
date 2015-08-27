@@ -5,13 +5,14 @@ import cs.system.collections.generic.List_1 as Lst;
 
 using ubuild.Helpers;
 
+@:nativeGen
 @:native("UnrealBuildTool.Rules.HaxeRuntime")
 class HaxeRuntime extends ModuleRules
 {
   // we need this here since the constructor is called more
   // than once per compilation - but we want to compile
   // the Haxe code exactly once
-  static var hasRun = false;
+  static var firstRun = true;
 
   var modulePath:String;
   var thirdPartyPath:String;
@@ -22,9 +23,13 @@ class HaxeRuntime extends ModuleRules
   public function new(target:TargetInfo)
   {
     super();
+
+    var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
     modulePath = RulesCompiler.GetModuleFilename( cs.Lib.toNativeType(std.Type.getClass(this)).Name );
     thirdPartyPath = modulePath + "/../../ThirdParty";
-    gameDir = modulePath + "/../../../..";
+    gameDir = allGames[0];
+    if (gameDir == null)
+      gameDir = modulePath + "/../../../..";
     haxeSourcesPath = gameDir + "/Haxe";
     internalHaxeSourcesPath = modulePath + "/../../Haxe";
 
@@ -34,6 +39,19 @@ class HaxeRuntime extends ModuleRules
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
+
+    if (firstRun)
+      updateProject();
+
+    firstRun = false;
+  }
+
+  /**
+    Adds the HaxeRuntime module to the game project if it isn't there, and updates
+    the template files to the game
+   **/
+  private function updateProject()
+  {
   }
 }
 

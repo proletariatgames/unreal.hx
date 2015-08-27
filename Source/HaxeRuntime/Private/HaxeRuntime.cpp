@@ -59,10 +59,10 @@ void FHaxeRuntime::StartupModule()
 			top_of_stack = init_stack;
 	}
 
-	gc_set_top_of_stack((int *)top_of_stack, false);
-	const char *error = hxRunLibrary();
+	// gc_set_top_of_stack((int *)top_of_stack, false);
+	// const char *error = hxRunLibrary();
 	// if (error) { UE_LOG(HXR, Error, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
-	if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
+	// if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
 }
 
 
