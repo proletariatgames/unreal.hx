@@ -18,7 +18,7 @@ using StringTools;
 @:native("UnrealBuildTool.Rules.HaxeInit")
 class HaxeInit extends BaseModuleRules
 {
-  override private function config(firstRun:Bool)
+  override private function config(target:TargetInfo, firstRun:Bool)
   {
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     if (firstRun) updateProject();
@@ -33,33 +33,60 @@ class HaxeInit extends BaseModuleRules
     var proj = getProjectName();
     if (proj == null) return; // error state: do not fail; UE4 doesn't like exceptions on build scripts
     updateGameProject(proj);
-    updateGameModule(proj);
+    updateGameModule(proj, false);
   }
 
-  private function updateGameModule(projName:String)
+  private function updateGameModule(projName:String, alsoDelete:Bool)
   {
     // update templates that need to be updated
-    function recurse(templatePath:String, toPath:String)
+    function recurse(templatePath:String, toPath:String, alsoDelete:Bool)
     {
+      var checkMap = null;
+
       if (!exists(toPath))
         createDirectory(toPath);
+      else if (alsoDelete)
+        checkMap = new Map();
+
       for (file in readDirectory(templatePath))
       {
+        if (checkMap != null) checkMap[file] = true;
         var curTemplPath = '$templatePath/$file',
             curToPath = '$toPath/$file';
         if (isDirectory(curTemplPath))
         {
-          recurse(curTemplPath, curToPath);
+          recurse(curTemplPath, curToPath, true);
         } else {
-          if (!exists(curToPath) || File.getContent(curTemplPath) != File.getContent(curToPath))
-          {
-            trace('copying',curToPath);
-            File.copy(curTemplPath, curToPath);
-          }
+          var shouldCopy = !exists(curToPath);
+          var contents = File.getContent(curTemplPath);
+          if (!shouldCopy)
+            shouldCopy = contents != File.getContent(curToPath);
+
+          if (shouldCopy)
+            File.saveContent(curToPath, contents);
         }
       }
+
+      if (checkMap != null)
+      {
+        for (file in readDirectory(toPath))
+          if (!checkMap.exists(file))
+            deleteRecursive('$toPath/$file');
+      }
     }
-    recurse('$pluginPath/Haxe/Templates/Source', '$gameDir/Source');
+    recurse('$pluginPath/Haxe/Templates/Source', '$gameDir/Source', false);
+  }
+
+  private function deleteRecursive(path:String)
+  {
+    if (!isDirectory(path))
+    {
+      deleteFile(path);
+    } else {
+      for (file in readDirectory(path))
+        deleteRecursive('$path/$file');
+      deleteDirectory(path);
+    }
   }
 
   private function updateGameProject(projName:String)

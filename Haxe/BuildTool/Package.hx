@@ -29,11 +29,12 @@ class Package
         {
           recurse(p2, pack + file + '.');
         } else if (p2.endsWith('.cs')) {
-          var name = pack + file.substr(0,-3);
-          var target = mappedFiles[name];
+          var clsName = file.substr(0,-3);
+          // var name = pack + clsName;
+          var target = mappedFiles[clsName];
           if (target != null)
-            mappedFiles.remove(name);
-          if (name != first.name && target != null)
+            mappedFiles.remove(clsName);
+          if (clsName != first.name && target != null)
           {
             File.copy(p2, target);
           } else {

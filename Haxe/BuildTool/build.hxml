@@ -10,4 +10,4 @@ ubuild.HaxeInit
 -D real_position
 --next
 
---macro Package.main("bin/src", [{ name:"ubuild.HaxeInit", target:"../../Source/HaxeInit/HaxeInit.Build.cs" }, { name:"UnrealBuildTool.Rules.HaxeRuntime", target:"../Templates/Source/HaxeRuntime/HaxeRuntime.Build.cs" }])
+--macro Package.main("bin/src", [{ name:"HaxeInit", target:"../../Source/HaxeInit/HaxeInit.Build.cs" }, { name:"HaxeRuntime", target:"../Templates/Source/HaxeRuntime/HaxeRuntime.Build.cs" }])

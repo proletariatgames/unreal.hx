@@ -1,9 +1,14 @@
 package ubuild;
 import unrealbuildtool.*;
+import haxe.io.Eof;
+import sys.FileSystem.*;
+import sys.io.Process;
+import sys.io.File;
 import cs.system.io.Path;
 import cs.system.collections.generic.List_1 as Lst;
 
 using ubuild.Helpers;
+using StringTools;
 
 /**
   This module will compile Haxe and add the hxcpp runtime to the game.
@@ -12,48 +17,180 @@ using ubuild.Helpers;
 @:native("UnrealBuildTool.Rules.HaxeRuntime")
 class HaxeRuntime extends BaseModuleRules
 {
-  override private function config(firstRun:Bool)
+  override private function config(target:TargetInfo, firstRun:Bool)
   {
-    this.PublicIncludePaths.addRange(['$modulePath/Public']);
-    this.PrivateIncludePaths.addRange(['$modulePath/Private']);
-    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
+    trace(modulePath);
+    // this.PublicIncludePaths.addRange(['$modulePath/../Public']);
+    // this.PrivateIncludePaths.addRange(['$modulePath/Private']);
+		// PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
+    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore', 'MyProject1']);
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
+
+    // check if haxe compiler / sources are present
+    var hasHaxe = callHaxe(['-version'], false) == 0;
+
+    var libName = switch(target.Platform) {
+      case WinRT | Win64 | Win32 | XboxOne:
+        'haxeruntime.lib';
+      case WinRT_ARM | Unknown | PS4 | Mac | Linux | IOS | HTML5 | Desktop | Android:
+        'libhaxeruntime.a';
+    };
+    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}';
+    var outputStatic = '$outputDir/$libName';
+    if (!exists(outputDir)) createDirectory(outputDir);
+
+    var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
+    // try to compile haxe if we have Haxe installed
+    if (hasHaxe)
+    {
+      if (firstRun)
+      {
+        // create template files
+        mkTemplates();
+        // get all modules that need to be compiled
+        var modules = [];
+        getModules("Static", modules);
+        if (isProduction) getModules("Scripts", modules);
+        // compile static
+        if (modules.length > 0)
+        {
+          trace('compiling Haxe');
+          var args = [
+            'arguments.hxml',
+            '-cp', '$pluginPath/Haxe/Static',
+            '-cp', 'Static',
+
+            '-main', 'UnrealInit',
+
+            '-D', 'static_link',
+            '-D', 'destination=$outputStatic',
+            '-cpp', '$gameDir/Intermediate/Haxe/Static'
+          ];
+          if (!isProduction)
+            args = args.concat(['-D', 'scriptable', '-D', 'dll_export=']);
+          var ret = compileSources(modules, args);
+          trace("haxe returned",ret);
+        }
+      }
+    }
+
+    // add the output static linked library
+    if (!exists(outputStatic))
+    {
+      trace('noooo');
+      Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
+    } else {
+      Log.TraceVerbose('Using Haxe');
+      trace('using haxe');
+      this.Definitions.Add('WITH_HAXE=1');
+      this.PublicAdditionalLibraries.Add(outputStatic);
+      // FIXME look into why libstdc++ can only be linked with its full path
+      this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
+    }
+  }
+
+  private function compileSources(modules:Array<String>, args:Array<String>)
+  {
+    var tmpPath = '$gameDir/Intermediate';
+    if (!exists(tmpPath)) createDirectory(tmpPath);
+    File.saveContent('$tmpPath/files.hxml', modules.join('\n'));
+    args = ['--cwd', haxeSourcesPath, '$tmpPath/files.hxml'].concat(args);
+
+    //TODO: add arguments based on TargetInfo (ios, 32-bit, etc)
+
+    return callHaxe(args, true);
+  }
+
+  private function getModules(name:String, modules:Array<String>)
+  {
+    function recurse(path:String, pack:String)
+    {
+      for (file in readDirectory(path))
+      {
+        if (file.endsWith('.hx'))
+          modules.push(pack + file.substr(0,-3));
+        else if (isDirectory('$path/$file'))
+          recurse('$path/$file', pack + file + '.');
+      }
+    }
+
+    var game = '$gameDir/Haxe/$name';
+    if (exists(game)) recurse(game, '');
+    var templ = '$pluginPath/Haxe/$name';
+    if (exists(templ)) recurse(templ, '');
+  }
+
+  private function mkTemplates()
+  {
+    function recurse(template:String, to:String)
+    {
+      if (!exists(to))
+        createDirectory(to);
+      for (file in readDirectory(template))
+      {
+        var curTempl= '$template/$file',
+            curTo= '$to/$file';
+        if (isDirectory(curTempl))
+        {
+          recurse(curTempl, curTo);
+        } else {
+          var shouldCreate = file != 'arguments.hxml' || !exists(curTo);
+          if (shouldCreate)
+          {
+            File.saveBytes(curTo, File.getBytes(curTempl));
+          }
+        }
+      }
+    }
+
+    // var target = '$gameDir/Haxe';
+    // if (exists(target))
+    recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe');
+  }
+
+  private function callHaxe(args:Array<String>, showErrors:Bool)
+  {
+    var proc:Process = null;
+    try
+    {
+      proc = new Process('haxe', args);
+      var stderr = proc.stderr;
+      try
+      {
+        while(true)
+        {
+          var ln = stderr.readLine();
+          if (ln.indexOf(': Warning :') >= 0)
+          {
+            Log.TraceWarning('HaxeCompiler: $ln');
+          } else if (showErrors) {
+            Log.TraceError('HaxeCompiler: $ln');
+          } else {
+            Log.TraceInformation('HaxeCompiler: $ln');
+          }
+        }
+      }
+      catch(e:Eof) {}
+
+      var code = proc.exitCode();
+      proc.close();
+      return code;
+    }
+    catch(e:Dynamic)
+    {
+      Log.TraceError('ERROR: failed to launch `haxe ${args.join(' ')}` : $e');
+      if (proc != null)
+      {
+        try proc.close() catch(e:Dynamic) {};
+      }
+      return -1;
+    }
   }
 }
 
 /*
-// Copyright 2015 Proletariat Inc.
-using System;
-using System.IO;
-using System.Text;
-using System.Diagnostics;
-using System.Collections.Generic;
-using UnrealBuildTool;
-
-namespace UnrealBuildTool.Rules
-{
-	public class HaxeRuntime : ModuleRules
-	{
-
-		public HaxeRuntime(TargetInfo Target)
-		{
-			if (UEBuildConfiguration.bBuildEditor == true)
-			{
-				PublicDependencyModuleNames.AddRange(
-						new string[]
-						{
-						"UnrealEd",
-						}
-				);
-			}
-
-			CompileAndLoadHaxe(Target, !hasRun);
-			// we need to set hasRun since this code runs more than once per build
-			hasRun = true;
-		}
-
 		public bool CompileAndLoadHaxe(TargetInfo Target, bool compileHaxe)
 		{
 			bool supported = false;

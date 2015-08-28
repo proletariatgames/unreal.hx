@@ -29,24 +29,28 @@ class BaseModuleRules extends ModuleRules
   {
     super();
 
+    trace('starting - ', std.Type.getClass(this));
+    // RulesCompiler.
     //TODO: see in which occasion we might have more than one game folder
     var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
     if (allGames.length > 1)
       trace("AllGameFolders is returning more than one: ",allGames);
     modulePath = RulesCompiler.GetModuleFilename( cs.Lib.toNativeType(std.Type.getClass(this)).Name );
-    pluginPath = Path.GetFullPath('$modulePath/../../..');
-    thirdPartyPath = Path.GetFullPath(modulePath + "/../../ThirdParty");
+    var haxeInitPath = RulesCompiler.GetModuleFilename("HaxeInit");
+    trace(haxeInitPath);
+    pluginPath = Path.GetFullPath('$haxeInitPath/../../..');
+    thirdPartyPath = Path.GetFullPath(haxeInitPath + "/../../ThirdParty");
     gameDir = allGames[0];
     if (gameDir == null)
-      gameDir = Path.GetFullPath(modulePath + "/../../../..");
+      gameDir = Path.GetFullPath(haxeInitPath + "/../../../..");
     haxeSourcesPath = Path.GetFullPath(gameDir + "/Haxe");
-    internalHaxeSourcesPath = Path.GetFullPath(modulePath + "/../../Haxe");
+    internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
 
-    config(firstRun);
+    config(target, firstRun);
     firstRun = false;
   }
 
-  private function config(firstRun:Bool)
+  private function config(target:TargetInfo, firstRun:Bool)
   {
     throw 'Override me';
   }
