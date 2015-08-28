@@ -19,19 +19,15 @@ class HaxeRuntime extends BaseModuleRules
 {
   override private function config(target:TargetInfo, firstRun:Bool)
   {
-    // this.PublicIncludePaths.addRange(['$modulePath/../Public']);
-    // this.PrivateIncludePaths.addRange(['$modulePath/Private']);
 		// PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
-    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore', 'MyProject1']);
+    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
 
-    // check if haxe compiler / sources are present
-    var hasHaxe = callHaxe(['-version'], false) == 0;
 
     var libName = switch(target.Platform) {
-      case WinRT | Win64 | Win32 | XboxOne:
+      case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
         'haxeruntime.lib';
       case WinRT_ARM | Unknown | PS4 | Mac | Linux | IOS | HTML5 | Desktop | Android:
         'libhaxeruntime.a';
@@ -42,9 +38,12 @@ class HaxeRuntime extends BaseModuleRules
 
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
-    if (hasHaxe)
+    if (firstRun)
     {
-      if (firstRun)
+      // check if haxe compiler / sources are present
+      var hasHaxe = callHaxe(['-version'], false) == 0;
+
+      if (hasHaxe)
       {
         // create template files
         mkTemplates();
@@ -70,22 +69,22 @@ class HaxeRuntime extends BaseModuleRules
             '-D', 'static_link',
             '-D', 'destination=$outputStatic',
             '-cpp', '$gameDir/Intermediate/Haxe/Static'
-          ];
+              ];
           if (!isProduction)
             args = args.concat(['-D', 'scriptable', '-D', 'dll_export=']);
           var ret = compileSources(modules, args);
           trace("haxe returned",ret);
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
-						// HACK: there seems to be no way to add the .hx files as dependencies
-						// for this project. The PrerequisiteItems variable from Action is the one
-						// that keeps track of dependencies - and it cannot be set anywhere. Additionally -
-						// what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
-						// linking against.
-						// This leaves little option but to meddle with actual sources' timestamps.
-						// It seems that a better least intrusive hack would be to meddle with the
-						// output library file timestamp. However, it's not possible to reliably find
-						// the output file name at this stage
+            // HACK: there seems to be no way to add the .hx files as dependencies
+            // for this project. The PrerequisiteItems variable from Action is the one
+            // that keeps track of dependencies - and it cannot be set anywhere. Additionally -
+            // what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
+            // linking against.
+            // This leaves little option but to meddle with actual sources' timestamps.
+            // It seems that a better least intrusive hack would be to meddle with the
+            // output library file timestamp. However, it's not possible to reliably find
+            // the output file name at this stage
 
             var dep = Path.GetFullPath('$modulePath/../HaxeRuntime.h');
             // touch the file
