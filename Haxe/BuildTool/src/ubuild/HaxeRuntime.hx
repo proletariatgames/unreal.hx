@@ -19,7 +19,6 @@ class HaxeRuntime extends BaseModuleRules
 {
   override private function config(target:TargetInfo, firstRun:Bool)
   {
-    trace(modulePath);
     // this.PublicIncludePaths.addRange(['$modulePath/../Public']);
     // this.PrivateIncludePaths.addRange(['$modulePath/Private']);
 		// PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
@@ -56,6 +55,10 @@ class HaxeRuntime extends BaseModuleRules
         // compile static
         if (modules.length > 0)
         {
+          var curStamp:Null<Date> = null;
+          if (exists(outputStatic))
+            curStamp = stat(outputStatic).mtime;
+
           trace('compiling Haxe');
           var args = [
             'arguments.hxml',
@@ -72,6 +75,22 @@ class HaxeRuntime extends BaseModuleRules
             args = args.concat(['-D', 'scriptable', '-D', 'dll_export=']);
           var ret = compileSources(modules, args);
           trace("haxe returned",ret);
+          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+          {
+						// HACK: there seems to be no way to add the .hx files as dependencies
+						// for this project. The PrerequisiteItems variable from Action is the one
+						// that keeps track of dependencies - and it cannot be set anywhere. Additionally -
+						// what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
+						// linking against.
+						// This leaves little option but to meddle with actual sources' timestamps.
+						// It seems that a better least intrusive hack would be to meddle with the
+						// output library file timestamp. However, it's not possible to reliably find
+						// the output file name at this stage
+
+            var dep = Path.GetFullPath('$modulePath/../HaxeRuntime.h');
+            // touch the file
+            File.saveContent(dep, File.getContent(dep));
+          }
         }
       }
     }
@@ -79,7 +98,6 @@ class HaxeRuntime extends BaseModuleRules
     // add the output static linked library
     if (!exists(outputStatic))
     {
-      trace('noooo');
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
       Log.TraceVerbose('Using Haxe');

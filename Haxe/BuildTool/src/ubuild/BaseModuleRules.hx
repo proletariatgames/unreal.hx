@@ -16,7 +16,7 @@ class BaseModuleRules extends ModuleRules
   // we need this here since the constructor is called more
   // than once per compilation - but we want to compile
   // the Haxe code exactly once
-  static var firstRun = true;
+  static var firstRunMap = new Map();
 
   var modulePath:String;
   var pluginPath:String;
@@ -29,15 +29,15 @@ class BaseModuleRules extends ModuleRules
   {
     super();
 
-    trace('starting - ', std.Type.getClass(this));
+    var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
+    var firstRun = !firstRunMap.exists(curName);
     // RulesCompiler.
     //TODO: see in which occasion we might have more than one game folder
     var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
     if (allGames.length > 1)
       trace("AllGameFolders is returning more than one: ",allGames);
-    modulePath = RulesCompiler.GetModuleFilename( cs.Lib.toNativeType(std.Type.getClass(this)).Name );
+    modulePath = RulesCompiler.GetModuleFilename(curName);
     var haxeInitPath = RulesCompiler.GetModuleFilename("HaxeInit");
-    trace(haxeInitPath);
     pluginPath = Path.GetFullPath('$haxeInitPath/../../..');
     thirdPartyPath = Path.GetFullPath(haxeInitPath + "/../../ThirdParty");
     gameDir = allGames[0];
@@ -47,7 +47,7 @@ class BaseModuleRules extends ModuleRules
     internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
 
     config(target, firstRun);
-    firstRun = false;
+    firstRunMap[curName] = false;
   }
 
   private function config(target:TargetInfo, firstRun:Bool)

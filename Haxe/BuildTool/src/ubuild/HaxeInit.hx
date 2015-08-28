@@ -57,7 +57,7 @@ class HaxeInit extends BaseModuleRules
         {
           recurse(curTemplPath, curToPath, true);
         } else {
-          var shouldCopy = !exists(curToPath);
+          var shouldCopy = !exists(curToPath) || file.endsWith('.cs');
           var contents = File.getContent(curTemplPath);
           if (!shouldCopy)
             shouldCopy = contents != File.getContent(curToPath);
@@ -100,7 +100,6 @@ class HaxeInit extends BaseModuleRules
         return; //already there
     }
 
-    trace('adding');
     modules.push({ Name:'HaxeRuntime', Type:'Runtime', LoadingPhase:'Default' });
     File.saveContent(projFile, haxe.Json.stringify(props));
   }
