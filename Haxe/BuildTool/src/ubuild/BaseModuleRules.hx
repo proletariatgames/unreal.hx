@@ -31,7 +31,7 @@ class BaseModuleRules extends ModuleRules
 
     var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
     var firstRun = !firstRunMap.exists(curName);
-    // RulesCompiler.
+
     //TODO: see in which occasion we might have more than one game folder
     var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
     if (allGames.length > 1)
