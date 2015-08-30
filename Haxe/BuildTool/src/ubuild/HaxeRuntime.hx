@@ -19,7 +19,7 @@ class HaxeRuntime extends BaseModuleRules
 {
   override private function config(target:TargetInfo, firstRun:Bool)
   {
-		// PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
+    // PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
@@ -41,7 +41,7 @@ class HaxeRuntime extends BaseModuleRules
     if (firstRun)
     {
       // check if haxe compiler / sources are present
-      var hasHaxe = callHaxe(['-version'], false) == 0;
+      var hasHaxe = call('haxe', ['-version'], false) == 0;
 
       if (hasHaxe)
       {
@@ -59,6 +59,7 @@ class HaxeRuntime extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
+          var targetDir = '$gameDir/Intermediate/Haxe/Static';
           var args = [
             'arguments.hxml',
             '-cp', '$pluginPath/Haxe/Static',
@@ -66,14 +67,67 @@ class HaxeRuntime extends BaseModuleRules
 
             '-main', 'UnrealInit',
 
+            '-D', 'no-compilation',
             '-D', 'static_link',
             '-D', 'destination=$outputStatic',
-            '-cpp', '$gameDir/Intermediate/Haxe/Static'
-              ];
+            '-cpp', targetDir,
+
+            '--macro', 'ue4hx.internal.Build.build("$targetDir/uobjects.txt")'
+          ];
+
           if (!isProduction)
             args = args.concat(['-D', 'scriptable', '-D', 'dll_export=']);
           var ret = compileSources(modules, args);
-          trace("haxe returned",ret);
+
+          if (ret == 0)
+          {
+            var uobjects = new Map();
+            // move the uobjects
+            for (uobject in File.getContent(targetDir + '/uobjects.txt').split('\n'))
+            {
+              if (uobject == '') continue;
+              uobjects['src/$uobject.cpp'] = true;
+              var sourceFile = '$targetDir/src/$uobject.cpp';
+              var content = "#include <HaxeRuntime.h>\n" + File.getContent(sourceFile);
+              var target = fullPath('$modulePath/../Generated/$uobject.cpp');
+              if (!exists(target))
+              {
+                createDirectory( haxe.io.Path.directory(target) );
+                File.saveContent(target, content);
+              } else if (content != File.getContent(target)) {
+                File.saveContent(target, content);
+              }
+              deleteFile(sourceFile);
+            }
+
+            // change the build xml
+            var xml = Xml.parse( File.getContent('$targetDir/Build.xml') ).firstElement();
+            for (parent in xml.elements())
+            {
+              if (parent.nodeType == Element && parent.nodeName == 'compilerflag')
+              {
+                for (elt in parent)
+                {
+                  if (elt.nodeType == Element
+                      && elt.nodeName == 'file'
+                      && elt.get('name') != null
+                      && uobjects.exists(elt.get('name'))
+                     )
+                  {
+                    parent.removeChild(elt);
+                  }
+                }
+              }
+            }
+            File.saveContent('$targetDir/Build.xml', xml.toString());
+
+            // build it
+            var opts = [ for (opt in File.getContent(targetDir + '/Options.txt').split('\n')) '-D' + opt ];
+            var last = Sys.getCwd();
+            Sys.setCwd(targetDir);
+            ret = call('haxelib',['run','hxcpp','Build.xml'].concat(opts), true);
+            Sys.setCwd(last);
+          }
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
@@ -94,17 +148,43 @@ class HaxeRuntime extends BaseModuleRules
       }
     }
 
+    this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
     if (!exists(outputStatic))
     {
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
       Log.TraceVerbose('Using Haxe');
-      trace('using haxe');
+
+      var hxcppPath = haxelibPath('hxcpp');
+      if (hxcppPath != null)
+        this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
+      this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       this.PublicAdditionalLibraries.Add(outputStatic);
       // FIXME look into why libstdc++ can only be linked with its full path
       this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
+
+      switch(target.Platform)
+      {
+        case WinRT | Win64 | Win32:
+          this.Definitions.Add('HX_WINDOWS');
+          if (target.Platform == WinRT)
+            this.Definitions.Add('HX_WINRT');
+        case Mac:
+          this.Definitions.Add('HX_MACOS');
+        case Linux:
+          this.Definitions.Add('HX_LINUX');
+        case Android:
+          this.Definitions.Add('HX_ANDROID');
+        case IOS:
+          this.Definitions.Add('IPHONE');
+          this.Definitions.Add('IPHONEOS');
+        case HTML5:
+          this.Definitions.Add('EMSCRIPTEN');
+        case _:
+        // XboxOne | PS4 | IOS | HTML5
+      }
     }
   }
 
@@ -117,13 +197,14 @@ class HaxeRuntime extends BaseModuleRules
 
     //TODO: add arguments based on TargetInfo (ios, 32-bit, etc)
 
-    return callHaxe(args, true);
+    return call('haxe', args, true);
   }
 
   private function getModules(name:String, modules:Array<String>)
   {
     function recurse(path:String, pack:String)
     {
+      if (pack == 'ue4hx.' || pack == 'unreal.') return;
       for (file in readDirectory(path))
       {
         if (file.endsWith('.hx'))
@@ -167,12 +248,13 @@ class HaxeRuntime extends BaseModuleRules
     recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe');
   }
 
-  private function callHaxe(args:Array<String>, showErrors:Bool)
+  private function call(program:String, args:Array<String>, showErrors:Bool)
   {
+    Log.TraceInformation('$program ${args.join(' ')}');
     var proc:Process = null;
     try
     {
-      proc = new Process('haxe', args);
+      proc = new Process(program, args);
       var stderr = proc.stderr;
       try
       {
@@ -203,6 +285,37 @@ class HaxeRuntime extends BaseModuleRules
         try proc.close() catch(e:Dynamic) {};
       }
       return -1;
+    }
+  }
+
+  public function haxelibPath(name:String):String
+  {
+    try
+    {
+      var haxelib = new sys.io.Process('haxelib',['path', name]);
+      var found = null;
+      if (haxelib.exitCode() == 0)
+      {
+        for (ln in haxelib.stdout.readAll().toString().split('\n'))
+        {
+          if (exists(ln))
+          {
+            found = ln;
+            break;
+          }
+        }
+        if (found == null)
+          Log.TraceError('Cannot find a valid path for haxelib path $name');
+      } else {
+        Log.TraceError('Error while calling haxelib path $name: ${haxelib.stderr.readAll()}');
+      }
+      haxelib.close();
+      return found;
+    }
+    catch(e:Dynamic)
+    {
+      Log.TraceError('Error while calling haxelib path $name: $e');
+      return null;
     }
   }
 }

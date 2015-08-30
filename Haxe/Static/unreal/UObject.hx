@@ -1,5 +1,6 @@
 package unreal;
 
+@:uobject
 class UObject
 {
   private var wrapped:UObject_Native;
