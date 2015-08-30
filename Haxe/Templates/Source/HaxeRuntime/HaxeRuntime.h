@@ -1,9 +1,18 @@
-// Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
+#pragma once
 
 #ifndef __HAXESOURCES_H__
 #define __HAXESOURCES_H__
+ 
+#include "Engine.h"
+#include "ModuleManager.h"
+#include "UnrealEd.h"
 
-#include "EngineMinimal.h"
+class FHaxeRuntime : public IModuleInterface
+{
+public:
+  virtual void StartupModule() override;
+  virtual void ShutdownModule() override;
+};
 
 
 #endif

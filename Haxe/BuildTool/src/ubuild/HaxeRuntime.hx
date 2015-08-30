@@ -29,7 +29,7 @@ class HaxeRuntime extends BaseModuleRules
     var libName = switch(target.Platform) {
       case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
         'haxeruntime.lib';
-      case WinRT_ARM | Unknown | PS4 | Mac | Linux | IOS | HTML5 | Desktop | Android:
+      case _:
         'libhaxeruntime.a';
     };
     var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}';

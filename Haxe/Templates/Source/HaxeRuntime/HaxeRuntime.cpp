@@ -2,8 +2,6 @@
 
 #include "HaxeRuntime.h"
 
-IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, HaxeSources );
-
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
 	#include <windows.h>
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
@@ -11,7 +9,7 @@ IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, HaxeSources );
 #else
 #endif
 
-// DEFINE_LOG_CATEGORY(HXR);
+IMPLEMENT_GAME_MODULE( FHaxeRuntime, HaxeSources );
 
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
@@ -26,13 +24,22 @@ static void *get_top_of_stack(void)
 #elif PLATFORM_MAC || PLATFORM_IOS
   return pthread_get_stackaddr_np(pthread_self());
 #elif PLATFORM_LINUX || PLATFORM_ANDROID
-  return NULL;
+  pthread_t self = pthread_self();
+  pthread_attr_t attr;
+  void* addr;
+  size_t size;
+
+  pthread_getattr_np(self, &attr);
+  pthread_attr_getstack(&attr, &addr, &size);
+  pthread_attr_destroy(&attr);
+
+  return (void *) (((intptr_t)addr) + size);
 #else //PLATFORM_PS4, PLATFORM_HTML5
   return NULL;
 #endif
 }
 
-static int do_init()
+void FHaxeRuntime::StartupModule()
 {
   // This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
   int x;
@@ -47,10 +54,10 @@ static int do_init()
   gc_set_top_of_stack((int *)top_of_stack, false);
   const char *error = hxRunLibrary();
   // if (error) { UE_LOG(HXR, Error, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
-  if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); return 1; }
+  if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
 #endif
-
-  return 0;
 }
-
-static int init_stub = do_init();
+ 
+void FHaxeRuntime::ShutdownModule()
+{
+}
