@@ -1,12 +1,13 @@
 package unreal;
+import cpp.Pointer;
 
 @:uobject
 class UObject
 {
   private var wrapped:UObject_Native;
-  private function new(native:UObject_Native)
+  private function new(native:Pointer<Void>)
   {
-    this.wrapped = native;
+    this.wrapped = cast native;
   }
 
   public function IsAsset():Bool
@@ -16,8 +17,9 @@ class UObject
 }
 
 @:include("UObject/UObject.h")
-@:native("UObject")
+@:native("UObject *")
 extern class UObject_Native
 {
+  // bool uobject_IsAsset(void *self);
   public function IsAsset():Bool;
 }

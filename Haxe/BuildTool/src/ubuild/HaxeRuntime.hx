@@ -38,6 +38,7 @@ class HaxeRuntime extends BaseModuleRules
 
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
+    this.bUseRTTI = true;
     if (firstRun)
     {
       // check if haxe compiler / sources are present
@@ -104,8 +105,9 @@ class HaxeRuntime extends BaseModuleRules
             var xml = Xml.parse( File.getContent('$targetDir/Build.xml') ).firstElement();
             for (parent in xml.elements())
             {
-              if (parent.nodeType == Element && parent.nodeName == 'compilerflag')
+              if (parent.nodeType == Element && parent.nodeName == 'files')
               {
+                var toRemove = [];
                 for (elt in parent)
                 {
                   if (elt.nodeType == Element
@@ -114,11 +116,14 @@ class HaxeRuntime extends BaseModuleRules
                       && uobjects.exists(elt.get('name'))
                      )
                   {
-                    parent.removeChild(elt);
+                    toRemove.push(elt);
                   }
                 }
+                for (file in toRemove) parent.removeChild(file);
               }
             }
+            trace('here ok');
+            trace(xml);
             File.saveContent('$targetDir/Build.xml', xml.toString());
 
             // build it
