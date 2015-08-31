@@ -52,6 +52,7 @@ class HaxeRuntime extends BaseModuleRules
         var modules = [];
         getModules("Static", modules);
         if (isProduction) getModules("Scripts", modules);
+        var curSourcePath = Path.GetFullPath('$modulePath/..');
         // compile static
         if (modules.length > 0)
         {
@@ -68,12 +69,11 @@ class HaxeRuntime extends BaseModuleRules
 
             '-main', 'UnrealInit',
 
-            '-D', 'no-compilation',
             '-D', 'static_link',
             '-D', 'destination=$outputStatic',
             '-cpp', targetDir,
 
-            '--macro', 'ue4hx.internal.Build.build("$targetDir/uobjects.txt")'
+            '--macro', 'ue4hx.internal.GlueCode.create("$curSourcePath")'
           ];
 
           if (!isProduction)
@@ -82,56 +82,57 @@ class HaxeRuntime extends BaseModuleRules
 
           if (ret == 0)
           {
-            var uobjects = new Map();
+            // var uobjects = new Map();
             // move the uobjects
-            for (uobject in File.getContent(targetDir + '/uobjects.txt').split('\n'))
-            {
-              if (uobject == '') continue;
-              uobjects['src/$uobject.cpp'] = true;
-              var sourceFile = '$targetDir/src/$uobject.cpp';
-              var content = "#include <HaxeRuntime.h>\n" + File.getContent(sourceFile);
-              var target = fullPath('$modulePath/../Generated/$uobject.cpp');
-              if (!exists(target))
-              {
-                createDirectory( haxe.io.Path.directory(target) );
-                File.saveContent(target, content);
-              } else if (content != File.getContent(target)) {
-                File.saveContent(target, content);
-              }
-              deleteFile(sourceFile);
-            }
+            // for (uobject in File.getContent(targetDir + '/uobjects.txt').split('\n'))
+            // {
+            //   if (uobject == '') continue;
+            //   uobjects['src/$uobject.cpp'] = true;
+            //   var sourceFile = '$targetDir/src/$uobject.cpp';
+            //   var content = "#include <HaxeRuntime.h>\n" + File.getContent(sourceFile);
+            //   var target = fullPath('$modulePath/../Generated/$uobject.cpp');
+            //   if (!exists(target))
+            //   {
+            //     createDirectory( haxe.io.Path.directory(target) );
+            //     File.saveContent(target, content);
+            //   } else if (content != File.getContent(target)) {
+            //     File.saveContent(target, content);
+            //   }
+            //   deleteFile(sourceFile);
+            // }
 
             // change the build xml
-            var xml = Xml.parse( File.getContent('$targetDir/Build.xml') ).firstElement();
-            for (parent in xml.elements())
-            {
-              if (parent.nodeType == Element && parent.nodeName == 'files')
-              {
-                var toRemove = [];
-                for (elt in parent)
-                {
-                  if (elt.nodeType == Element
-                      && elt.nodeName == 'file'
-                      && elt.get('name') != null
-                      && uobjects.exists(elt.get('name'))
-                     )
-                  {
-                    toRemove.push(elt);
-                  }
-                }
-                for (file in toRemove) parent.removeChild(file);
-              }
-            }
-            trace('here ok');
-            trace(xml);
-            File.saveContent('$targetDir/Build.xml', xml.toString());
+            // var xml = Xml.parse( File.getContent('$targetDir/Build.xml') ).firstElement();
+            // for (parent in xml.elements())
+            // {
+            //   if (parent.nodeType == Element && parent.nodeName == 'files')
+            //   {
+            //     // parent.addChild(Xml.parse('<
+            //     // var toRemove = [];
+            //     // for (elt in parent)
+            //     // {
+            //     //   if (elt.nodeType == Element
+            //     //       && elt.nodeName == 'file'
+            //     //       && elt.get('name') != null
+            //     //       && uobjects.exists(elt.get('name'))
+            //     //      )
+            //     //   {
+            //     //     toRemove.push(elt);
+            //     //   }
+            //     // }
+            //     // for (file in toRemove) parent.removeChild(file);
+            //   }
+            // }
+            // trace('here ok');
+            // trace(xml);
+            // File.saveContent('$targetDir/Build.xml', xml.toString());
 
             // build it
-            var opts = [ for (opt in File.getContent(targetDir + '/Options.txt').split('\n')) '-D' + opt ];
-            var last = Sys.getCwd();
-            Sys.setCwd(targetDir);
-            ret = call('haxelib',['run','hxcpp','Build.xml'].concat(opts), true);
-            Sys.setCwd(last);
+            // var opts = [ for (opt in File.getContent(targetDir + '/Options.txt').split('\n')) '-D' + opt ];
+            // var last = Sys.getCwd();
+            // Sys.setCwd(targetDir);
+            // ret = call('haxelib',['run','hxcpp','Build.xml'].concat(opts), true);
+            // Sys.setCwd(last);
           }
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {

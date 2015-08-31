@@ -1,25 +1,29 @@
 package unreal;
-import cpp.Pointer;
 
 @:uobject
+@:headerCode('class UObject;')
 class UObject
 {
-  private var wrapped:UObject_Native;
-  private function new(native:Pointer<Void>)
+  private var wrapped:cpp.RawPointer<UObject_Type>;
+  private function new(native:cpp.Pointer<UObject_Type>)
   {
-    this.wrapped = cast native;
+    this.wrapped = native.get_raw();
   }
 
   public function IsAsset():Bool
   {
-    return wrapped.IsAsset();
+    return UObject_Glue.IsAsset(wrapped);
   }
 }
 
-@:include("UObject/UObject.h")
-@:native("UObject *")
-extern class UObject_Native
+@:uobjectGlue("UObject", "UObject/UObject.h")
+private extern class UObject_Glue
 {
-  // bool uobject_IsAsset(void *self);
-  public function IsAsset():Bool;
+  @:member public static function IsAsset(obj:cpp.RawPointer<UObject_Type>):Bool;
+}
+
+@:native('UObject')
+@:uobjectType
+private extern class UObject_Type
+{
 }

@@ -1,6 +1,6 @@
 # this file is here for convenience only (e.g. to make your IDE work)
 # this is not used by the build pipeline, so make sure
-# you change 'arguments.hxml' if you want to persist with any of the changes
+# you make any change to 'arguments.hxml' insted of this file
 arguments.hxml
 -cp ../Plugins/ue4hx/Haxe/Static
 -cp Static

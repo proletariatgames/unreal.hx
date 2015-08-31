@@ -1,0 +1,5 @@
+# this file is only here to provide IDE completion information
+# to the ue4hx.internal.* types
+--interp
+-cp Static
+ue4hx.internal.GlueCode
