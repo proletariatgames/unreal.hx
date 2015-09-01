@@ -21,7 +21,7 @@ class GlueCode
         {
           case TInst(i,_):
             var cls = i.get();
-            if (cls.meta.has(':uobjectGlue'))
+            if (cls.meta.has(':unrealGlue'))
             {
               // if (!foundGlues)
               // {
@@ -39,6 +39,7 @@ class GlueCode
   }
 
   private var haxeRuntimeDir:String;
+  private var writer:GlueWriter;
   public function new(haxeRuntimeDir)
   {
     this.haxeRuntimeDir = haxeRuntimeDir;
@@ -64,34 +65,23 @@ class GlueCode
 
     var dir = haxe.io.Path.directory(targetPath);
     if (!exists(dir)) createDirectory(dir);
-    var header = sys.io.File.write('$targetPath.h');
-    var cpp = sys.io.File.write('$targetPath.cpp');
 
     var cppName = '::' + name.replace('.', '::') +'_obj';
-    var defName = name.replace('.','_').toUpperCase();
-    header.writeString('#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n');
-    var inclGlue = exprConstString( cls.meta.extract(':uobjectGlue')[0].params[1] );
-    cpp.writeString('#include <HaxeRuntime.h>\n');
-    cpp.writeString('#include "$targetPath.h"\n');
-    cpp.writeString('#include <$inclGlue>\n');
+    var writer = this.writer = new GlueWriter('$targetPath.h', '$targetPath.cpp', name);
+    var inclGlue = exprConstString( cls.meta.extract(':unrealGlue')[0].params[1] );
+    writer.wcpp('#include <HaxeRuntime.h>\n');
+    writer.wcpp('#include "$targetPath.h"\n');
+    writer.wcpp('#include <$inclGlue>\n');
 
-    inline function writeBoth(str:String)
-    {
-      header.writeString(str);
-      cpp.writeString(str);
-    }
-    inline function wcpp(str:String) cpp.writeString(str);
-    inline function wh(str:String) header.writeString(str);
-
-    var wrappedClass = exprConstString( cls.meta.extract(':uobjectGlue')[0].params[0] );
-    wh('class $wrappedClass;\n');
+    var wrappedClass = exprConstString( cls.meta.extract(':unrealGlue')[0].params[0] );
+    writer.declare(wrappedClass);
     for (pack in cls.pack)
     {
-      writeBoth('namespace $pack {\n');
+      writer.wboth('namespace $pack {\n');
     }
 
     // TODO: extend wrapped type so we can access its protected fields
-    wh('class ${cls.name}_obj {\n\tpublic:\n');
+    writer.wh('class ${cls.name}_obj {\n\tpublic:\n');
 
     for (field in cls.statics.get())
     {
@@ -109,58 +99,56 @@ class GlueCode
       }
 
       var retStr = wrapperType(ret, field.pos);
-      wh('\t\tstatic $retStr ${field.name}(');
-      wcpp('$retStr $cppName::${field.name}(');
+      writer.wh('\t\tstatic $retStr ${field.name}(');
+      writer.wcpp('$retStr $cppName::${field.name}(');
 
       var first = true;
       for (arg in args)
       {
-        if (first) first = false; else writeBoth(', ');
+        if (first) first = false; else writer.wboth(', ');
 
         var t = wrapperType(arg.t, field.pos);
-        writeBoth('$t ${arg.name}');
+        writer.wboth('$t ${arg.name}');
       }
-      writeBoth(') ');
-      wh(';\n');
-      wcpp('{\n\t');
+      writer.wboth(') ');
+      writer.wh(';\n');
+      writer.wcpp('{\n\t');
 
       if (retStr != 'void')
-        wcpp('return ');
+        writer.wcpp('return ');
       if (field.meta.has(':member')) // non-static
       {
         var thisArg = args.shift();
-        wcpp(thisArg.name + '->' + field.name);
+        writer.wcpp(thisArg.name + '->' + field.name);
       } else {
-        wcpp(wrappedClass + '::' + field.name);
+        writer.wcpp(wrappedClass + '::' + field.name);
       }
 
       if (!field.meta.has(':prop'))
       {
-        wcpp('(');
+        writer.wcpp('(');
         var first = true;
         for (arg in args)
         {
-          if (first) first = false; else wcpp(', ');
-          wcpp("IMPLEMENTME");
+          if (first) first = false; else writer.wcpp(', ');
+          writer.wcpp("IMPLEMENTME");
         }
-        wcpp(')');
+        writer.wcpp(')');
       }
 
-      wcpp(';\n}\n\n');
+      writer.wcpp(';\n}\n\n');
     }
 
-    wh('};\n\n');
+    writer.wh('};\n\n');
     for (pack in cls.pack)
     {
-      writeBoth('}\n');
+      writer.wboth('}\n');
     }
 
-    wh('#endif\n');
-    header.close();
-    cpp.close();
+    writer.close();
   }
 
-  private static function wrapperType(t:Type, pos:Position):String
+  private function wrapperType(t:Type, pos:Position):String
   {
     var args = null, name = null, isUObj = false;
     switch(followWithAbstracts(t))
@@ -178,6 +166,9 @@ class GlueCode
         {
           name = exprConstString(native[0].params[0]);
         }
+
+        if (isUObj)
+          writer.declare(name);
       case TEnum(e, tl):
         name = e.toString();
         args = tl;
