@@ -80,60 +80,6 @@ class HaxeRuntime extends BaseModuleRules
             args = args.concat(['-D', 'scriptable', '-D', 'dll_export=']);
           var ret = compileSources(modules, args);
 
-          if (ret == 0)
-          {
-            // var uobjects = new Map();
-            // move the uobjects
-            // for (uobject in File.getContent(targetDir + '/uobjects.txt').split('\n'))
-            // {
-            //   if (uobject == '') continue;
-            //   uobjects['src/$uobject.cpp'] = true;
-            //   var sourceFile = '$targetDir/src/$uobject.cpp';
-            //   var content = "#include <HaxeRuntime.h>\n" + File.getContent(sourceFile);
-            //   var target = fullPath('$modulePath/../Generated/$uobject.cpp');
-            //   if (!exists(target))
-            //   {
-            //     createDirectory( haxe.io.Path.directory(target) );
-            //     File.saveContent(target, content);
-            //   } else if (content != File.getContent(target)) {
-            //     File.saveContent(target, content);
-            //   }
-            //   deleteFile(sourceFile);
-            // }
-
-            // change the build xml
-            // var xml = Xml.parse( File.getContent('$targetDir/Build.xml') ).firstElement();
-            // for (parent in xml.elements())
-            // {
-            //   if (parent.nodeType == Element && parent.nodeName == 'files')
-            //   {
-            //     // parent.addChild(Xml.parse('<
-            //     // var toRemove = [];
-            //     // for (elt in parent)
-            //     // {
-            //     //   if (elt.nodeType == Element
-            //     //       && elt.nodeName == 'file'
-            //     //       && elt.get('name') != null
-            //     //       && uobjects.exists(elt.get('name'))
-            //     //      )
-            //     //   {
-            //     //     toRemove.push(elt);
-            //     //   }
-            //     // }
-            //     // for (file in toRemove) parent.removeChild(file);
-            //   }
-            // }
-            // trace('here ok');
-            // trace(xml);
-            // File.saveContent('$targetDir/Build.xml', xml.toString());
-
-            // build it
-            // var opts = [ for (opt in File.getContent(targetDir + '/Options.txt').split('\n')) '-D' + opt ];
-            // var last = Sys.getCwd();
-            // Sys.setCwd(targetDir);
-            // ret = call('haxelib',['run','hxcpp','Build.xml'].concat(opts), true);
-            // Sys.setCwd(last);
-          }
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
@@ -162,9 +108,9 @@ class HaxeRuntime extends BaseModuleRules
     } else {
       Log.TraceVerbose('Using Haxe');
 
-      var hxcppPath = haxelibPath('hxcpp');
-      if (hxcppPath != null)
-        this.PrivateIncludePaths.Add('$hxcppPath/include');
+      // var hxcppPath = haxelibPath('hxcpp');
+      // if (hxcppPath != null)
+      //   this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       this.PublicAdditionalLibraries.Add(outputStatic);

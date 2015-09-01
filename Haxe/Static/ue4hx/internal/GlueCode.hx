@@ -58,22 +58,21 @@ class GlueCode
 
   private function createGlue(cls:ClassType, name:String)
   {
-    var path = name.replace('.','/');
-    // add the haxeRuntimeDir include path
-    var wholePath = '$haxeRuntimeDir/$path';
-    cls.meta.add(':include', [macro $v{'$wholePath.h'}], currentPos());
+    // get the haxeRuntimeDir include path
+    var targetPath = '$haxeRuntimeDir/${name.replace('.','/')}';
+    cls.meta.add(':include', [macro $v{'$targetPath.h'}], currentPos());
 
-    var dir = haxe.io.Path.directory(wholePath);
+    var dir = haxe.io.Path.directory(targetPath);
     if (!exists(dir)) createDirectory(dir);
-    var header = sys.io.File.write('$wholePath.h');
-    var cpp = sys.io.File.write('$wholePath.cpp');
+    var header = sys.io.File.write('$targetPath.h');
+    var cpp = sys.io.File.write('$targetPath.cpp');
 
-    var cppName = '::' + name.replace('.', '::');
+    var cppName = '::' + name.replace('.', '::') +'_obj';
     var defName = name.replace('.','_').toUpperCase();
     header.writeString('#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n');
     var inclGlue = exprConstString( cls.meta.extract(':uobjectGlue')[0].params[1] );
     cpp.writeString('#include <HaxeRuntime.h>\n');
-    cpp.writeString('#include "$wholePath.h"\n');
+    cpp.writeString('#include "$targetPath.h"\n');
     cpp.writeString('#include <$inclGlue>\n');
 
     inline function writeBoth(str:String)
@@ -119,15 +118,35 @@ class GlueCode
         if (first) first = false; else writeBoth(', ');
 
         var t = wrapperType(arg.t, field.pos);
-        wh('$t ${arg.name}');
+        writeBoth('$t ${arg.name}');
       }
       writeBoth(') ');
       wh(';\n');
-      wcpp('{\n');
+      wcpp('{\n\t');
 
+      if (retStr != 'void')
+        wcpp('return ');
       if (field.meta.has(':member')) // non-static
       {
+        var thisArg = args.shift();
+        wcpp(thisArg.name + '->' + field.name);
+      } else {
+        wcpp(wrappedClass + '::' + field.name);
       }
+
+      if (!field.meta.has(':prop'))
+      {
+        wcpp('(');
+        var first = true;
+        for (arg in args)
+        {
+          if (first) first = false; else wcpp(', ');
+          wcpp("IMPLEMENTME");
+        }
+        wcpp(')');
+      }
+
+      wcpp(';\n}\n\n');
     }
 
     wh('};\n\n');

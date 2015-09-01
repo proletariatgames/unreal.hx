@@ -2,10 +2,6 @@
 
 #ifndef __HAXESOURCES_H__
 #define __HAXESOURCES_H__
-
-#ifdef WITH_HAXE
-#include <hxcpp.h>
-#endif
  
 #include "Engine.h"
 #include "ModuleManager.h"
