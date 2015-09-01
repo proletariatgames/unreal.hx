@@ -92,7 +92,7 @@ class HaxeRuntime extends BaseModuleRules
             // output library file timestamp. However, it's not possible to reliably find
             // the output file name at this stage
 
-            var dep = Path.GetFullPath('$modulePath/../HaxeRuntime.h');
+            var dep = Path.GetFullPath('$modulePath/../HaxeRuntime.cpp');
             // touch the file
             File.saveContent(dep, File.getContent(dep));
           }
