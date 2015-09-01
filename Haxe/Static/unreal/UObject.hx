@@ -22,7 +22,7 @@ private extern class UObject_Glue
   @:member public static function IsAsset(obj:cpp.RawPointer<UObject_Type>):Bool;
 }
 
-@:native('UObject')
+@:native('::UObject')
 @:uobjectType
 private extern class UObject_Type
 {

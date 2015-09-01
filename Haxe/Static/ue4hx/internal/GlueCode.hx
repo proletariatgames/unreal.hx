@@ -84,6 +84,8 @@ class GlueCode
     inline function wcpp(str:String) cpp.writeString(str);
     inline function wh(str:String) header.writeString(str);
 
+    var wrappedClass = exprConstString( cls.meta.extract(':uobjectGlue')[0].params[0] );
+    wh('class $wrappedClass;\n');
     for (pack in cls.pack)
     {
       writeBoth('namespace $pack {\n');
@@ -108,7 +110,7 @@ class GlueCode
       }
 
       var retStr = wrapperType(ret, field.pos);
-      wh('\t\t$retStr ${field.name}(');
+      wh('\t\tstatic $retStr ${field.name}(');
       wcpp('$retStr $cppName::${field.name}(');
 
       var first = true;
@@ -172,7 +174,7 @@ class GlueCode
         var pointedTo = wrapperType(args[0], pos);
         return '$pointedTo *';
       case _ if (isUObj):
-        return '::' + name.replace('.','::');
+        return name.replace('.','::');
       case _:
         throw new Error('Unsupported type $t', pos);
     }
