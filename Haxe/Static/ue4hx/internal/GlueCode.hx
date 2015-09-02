@@ -1,5 +1,6 @@
 package ue4hx.internal;
 import haxe.macro.Context;
+import haxe.io.Path;
 import haxe.macro.Context.*;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -11,10 +12,13 @@ class GlueCode
 {
   public static function create(haxeRuntimeDir:String)
   {
+    haxeRuntimeDir = haxeRuntimeDir + '/Generated';
     // FIXME: run this at onAfterGenerate once HaxeFoundation/haxe#4515 is fixed
     Context.onGenerate(function(allTypes:Array<Type>) {
       var foundGlues = false;
       var gcode = new GlueCode(haxeRuntimeDir);
+      var visited = new Map();
+
       for (type in allTypes)
       {
         switch(type)
@@ -30,11 +34,30 @@ class GlueCode
               // }
 
               var name = i.toString();
+              visited[name] = true;
               gcode.createGlue(cls, name);
             }
           case _:
         }
       }
+
+      // delete non-generated files
+      function recurse(pack:String, path:String)
+      {
+        for (file in readDirectory(path))
+        {
+          if (file.endsWith('.h') || file.endsWith('.cpp'))
+          {
+            if (!visited.exists(pack + Path.withoutExtension(file)))
+              deleteFile('$path/$file');
+            continue;
+          }
+          var npath = '$path/$file';
+          if (isDirectory(npath))
+            recurse(pack + file + '.', npath);
+        }
+      }
+      recurse('',haxeRuntimeDir);
     });
   }
 
@@ -186,7 +209,7 @@ class GlueCode
       case _ if (isUObj):
         return name.replace('.','::');
       case _:
-        throw new Error('Unsupported type $t', pos);
+        throw new Error('Unsupported type $t ($name)', pos);
     }
   }
 }

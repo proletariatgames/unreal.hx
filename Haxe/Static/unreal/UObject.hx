@@ -22,6 +22,11 @@ class UObject
     return UClass.wrap(cast UObject_Glue.GetClass(cast wrapped));
   }
 
+  public function GetDesc():FString
+  {
+    return UObject_Glue.GetDesc(cast wrapped).toString();
+  }
+
   public static function wrap(native:cpp.Pointer<UObject_Fwd>):Null<UObject>
   {
     if (native == null) return null;
@@ -34,4 +39,5 @@ extern class UObject_Glue
 {
   @:member public static function IsAsset(obj:cpp.RawPointer<UObject_Fwd>):Bool;
   @:member public static function GetClass(obj:cpp.RawPointer<UObject_Fwd>):cpp.RawPointer<UClass_Fwd>;
+  @:member public static function GetDesc(obj:cpp.RawPointer<UObject_Fwd>):unreal.glue.FString;
 }
