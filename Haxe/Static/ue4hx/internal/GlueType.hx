@@ -80,20 +80,48 @@ using haxe.macro.TypeTools;
       }
     }
 
-    switch(name)
+    var basic = basicTypes[name];
+    if (basic != null) return basic;
+
+    var typeRef = TypeRef.parseRefName( name );
+    if (isUObj)
     {
+      return {
+        haxeType: typeRef,
+        glueType: typeRef.getGlueType().getRefName(),
+        // haxeGlueType:
+        // haxeGlueType:
+      };
     }
   }
+
+  static var basicTypes:Map<String, GlueTypeInfo> = {
+    var infos:Array<GlueTypeInfo> = [
+      {
+        glueType: new TypeRef('bool'),
+        haxeType: new TypeRef('Bool')
+      },
+    ];
+    var ret = new Map();
+    for (info in infos)
+    {
+      ret[info.haxeType.getRefName()] = info;
+    }
+    ret;
+  };
 }
 
 typedef GlueTypeInfo = {
-  cppType:String,
+  glueType:TypeRef,
+  haxeType:TypeRef,
+  ?haxeGlueType:TypeRef,
+  ?ueType:TypeRef,
 
-  ?cppUEType:String,
-  ?cppHaxeType:String,
+  ?glueHeaderIncludes:Array<String>,
+  ?glueCppIncludes:Array<String>,
 
-  ?declare:String,
-  ?includes:Array<String>,
-  ?toHaxeType:String,
-  ?toUEType:String,
+  ?glueReturnWrap:String,
+  ?glueArgumentWrap:String,
+  ?haxeReturnWrap:String,
+  ?haxeArgumentWrap:String
 }
