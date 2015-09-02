@@ -91,16 +91,16 @@ class HaxeInit extends BaseModuleRules
 
   private function updateGameProject(projName:String)
   {
-    // var projFile = this.gameDir + '/$projName.uproject';
-    // var props = haxe.Json.parse(File.getContent(projFile));
-    // var modules:Array<{ Name:String, Type:String, LoadingPhase:String }> = props.Modules;
-    // for (module in modules)
-    // {
-    //   if (module.Name == 'HaxeRuntime')
-    //     return; //already there
-    // }
-    //
-    // modules.push({ Name:'HaxeRuntime', Type:'Runtime', LoadingPhase:'Default' });
-    // File.saveContent(projFile, haxe.Json.stringify(props));
+    var projFile = this.gameDir + '/$projName.uproject';
+    var props = haxe.Json.parse(File.getContent(projFile));
+    var modules:Array<{ Name:String, Type:String, LoadingPhase:String }> = props.Modules;
+    for (module in modules)
+    {
+      if (module.Name == 'HaxeRuntime')
+        return; //already there
+    }
+
+    modules.push({ Name:'HaxeRuntime', Type:'Runtime', LoadingPhase:'Default' });
+    File.saveContent(projFile, haxe.Json.stringify(props));
   }
 }

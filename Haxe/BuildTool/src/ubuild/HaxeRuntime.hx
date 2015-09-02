@@ -108,9 +108,9 @@ class HaxeRuntime extends BaseModuleRules
     } else {
       Log.TraceVerbose('Using Haxe');
 
-      var hxcppPath = haxelibPath('hxcpp');
-      if (hxcppPath != null)
-        this.PrivateIncludePaths.Add('$hxcppPath/include');
+      // var hxcppPath = haxelibPath('hxcpp');
+      // if (hxcppPath != null)
+      //   this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       this.PublicAdditionalLibraries.Add(outputStatic);
