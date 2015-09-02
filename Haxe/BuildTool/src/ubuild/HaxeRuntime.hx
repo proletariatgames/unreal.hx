@@ -73,7 +73,7 @@ class HaxeRuntime extends BaseModuleRules
             '-D', 'destination=$outputStatic',
             '-cpp', targetDir,
 
-            '--macro', 'ue4hx.internal.GlueCode.create("$curSourcePath")'
+            '--macro', 'ue4hx.internal.GlueCode.create("$curSourcePath/Private/Generated")'
           ];
 
           if (!isProduction)
@@ -92,7 +92,7 @@ class HaxeRuntime extends BaseModuleRules
             // output library file timestamp. However, it's not possible to reliably find
             // the output file name at this stage
 
-            var dep = Path.GetFullPath('$modulePath/../HaxeRuntime.cpp');
+            var dep = Path.GetFullPath('$modulePath/../Private/HaxeRuntime.cpp');
             // touch the file
             File.saveContent(dep, File.getContent(dep));
           }
@@ -108,9 +108,9 @@ class HaxeRuntime extends BaseModuleRules
     } else {
       Log.TraceVerbose('Using Haxe');
 
-      // var hxcppPath = haxelibPath('hxcpp');
-      // if (hxcppPath != null)
-      //   this.PrivateIncludePaths.Add('$hxcppPath/include');
+      var hxcppPath = haxelibPath('hxcpp');
+      if (hxcppPath != null)
+        this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       this.PublicAdditionalLibraries.Add(outputStatic);
