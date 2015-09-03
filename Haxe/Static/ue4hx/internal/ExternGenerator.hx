@@ -91,7 +91,7 @@ class ExternGenerator
 
         var glueCppCode =
           ret.glueType.getCppType() +
-          ' ${helperType.getCppType()}::${field.name}(' + cppArgDecl + ') {' +
+          ' ${helperType.getCppType()}_obj::${field.name}(' + cppArgDecl + ') {' +
             '\t' + glueCppBody + ';\n}';
         var allTypes = [ for (arg in args) arg.type ];
         allTypes.push(ret);

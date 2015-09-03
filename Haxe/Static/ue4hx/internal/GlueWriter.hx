@@ -98,7 +98,8 @@ class GlueWriter
       getIncludes(headerIncludes) + '\n' +
       this.header.toString() +
       '\n#endif';
-    var cpp = getIncludes(cppIncludes) + '\n' +
+    var cpp = '#include <HaxeRuntime.h>\n' +
+      getIncludes(cppIncludes) + '\n' +
       this.cpp.toString();
 
     if (!exists(headerPath) || File.getContent(headerPath) != header)

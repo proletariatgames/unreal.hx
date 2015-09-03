@@ -28,11 +28,13 @@ class GlueCode
           continue;
         var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
         if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+        baseDir = FileSystem.fullPath(baseDir);
         var basePath = '$baseDir/${cl.name}';
         var headerPath = basePath + '.h';
-        cl.meta.add(':include', [macro $v{FileSystem.fullPath(baseDir) + '/' + cl.name + '.h'}], cl.pos);
+        cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
 
         var writer = new GlueWriter(headerPath, basePath + '.cpp', c.toString());
+        writer.addCppInclude(headerPath);
         for (pack in cl.pack) {
           writer.wboth('namespace $pack {\n');
         }

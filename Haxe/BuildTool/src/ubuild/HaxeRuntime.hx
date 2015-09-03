@@ -71,9 +71,8 @@ class HaxeRuntime extends BaseModuleRules
 
             '-D', 'static_link',
             '-D', 'destination=$outputStatic',
+            '-D', 'haxe_runtime_dir=$curSourcePath/Private',
             '-cpp', targetDir,
-
-            '--macro', 'ue4hx.internal.GlueCode.create("$curSourcePath/Private")'
           ];
 
           if (!isProduction)
