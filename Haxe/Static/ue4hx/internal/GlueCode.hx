@@ -37,12 +37,23 @@ class GlueCode
           writer.wboth('namespace $pack {\n');
         }
         writer.wh('class ${cl.name}_obj {\n\tpublic:\n');
+        for (inc in extract(cl.meta, 'glueHeaderIncludes'))
+          writer.addHeaderInclude(inc);
+
+        for (inc in extract(cl.meta, 'glueCppIncludes'))
+          writer.addCppInclude(inc);
 
         for (field in cl.statics.get()) {
           var glueHeaderCode = extract(field.meta, 'glueHeaderCode')[0];
           writer.wh('\t\t$glueHeaderCode\n');
           for (inc in extract(field.meta, 'glueHeaderIncludes'))
             writer.addHeaderInclude(inc);
+
+          var glueCppCode = extract(field.meta, 'glueCppCode')[0];
+          writer.wcpp(glueCppCode);
+          writer.wcpp('\n');
+          for (inc in extract(field.meta, 'glueCppIncludes'))
+            writer.addCppInclude(inc);
         }
         writer.wh('};\n\n');
 

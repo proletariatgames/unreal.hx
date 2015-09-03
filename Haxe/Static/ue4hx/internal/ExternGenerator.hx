@@ -79,16 +79,19 @@ class ExternGenerator
         var glueHeaderCode = 'static ${ret.glueType.getCppType()} ${field.name}(' + cppArgDecl + ');';
 
         var cppArgs = args.copy();
-        var glueCppBody = if (isStatic)
-          thisType.ueType.getCppType() + '::' + field.name + '(';
-        else
-          cppArgs.shift().escapedName + '->' + field.name + '(';
+        var glueCppBody = if (isStatic) {
+          thisType.ueType.getCppRefName() + '::' + field.name + '(';
+        } else {
+          var self = cppArgs.shift();
+          self.type.glueToUe(self.escapedName) + '->' + field.name + '(';
+        }
         glueCppBody += [ for (arg in cppArgs) arg.type.glueToUe(arg.escapedName) ].join(', ') + ')';
         if (!isVoid)
           glueCppBody = 'return ' + ret.ueToGlue( glueCppBody );
 
         var glueCppCode =
-          '${helperType.getCppType()}::${field.name}(' + cppArgDecl + ') {' +
+          ret.glueType.getCppType() +
+          ' ${helperType.getCppType()}::${field.name}(' + cppArgDecl + ') {' +
             '\t' + glueCppBody + ';\n}';
         var allTypes = [ for (arg in args) arg.type ];
         allTypes.push(ret);
@@ -179,6 +182,7 @@ class ExternGenerator
         ]
       });
     }
+    var pos = Context.currentPos();
     var def:TypeDefinition = {
       pack: this.helperType.pack,
       name: this.helperType.name,
@@ -186,13 +190,19 @@ class ExternGenerator
       isExtern: true,
       kind: TDClass(),
       fields: fields,
-      meta:[ createMeta(':unrealGlue', [], Context.currentPos() ) ]
+      meta:[
+        createMeta(':unrealGlue', [], pos ),
+        createMeta('glueHeaderIncludes', this.thisType.glueHeaderIncludes, pos),
+        createMeta('glueCppIncludes', this.thisType.glueCppIncludes, pos),
+      ]
     };
     Context.defineType(def);
   }
 
 
   private static function createMeta(name:String, value:Array<String>, pos:Position) {
+    if (value == null)
+      return { name: name, params:[], pos:pos };
     return { name: name, params:[for (v in value) macro @:pos(pos) $v{v}], pos:pos };
   }
 

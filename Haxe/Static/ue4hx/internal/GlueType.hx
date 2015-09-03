@@ -132,6 +132,7 @@ using StringTools;
 
         haxeToGlueExpr: '%.wrapped',
         glueToHaxeExpr: typeRef.getRefName() + '.${typeRef.name}_Wrap.wrap(cast %)',
+        glueToUeExpr: '( (::${typeRef.name} *) % )'
       };
     }
 

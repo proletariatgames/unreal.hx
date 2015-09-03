@@ -75,15 +75,31 @@ class GlueWriter
     return buf.toString();
   }
 
+  static function getIncludes(incs:Map<String,String>)
+  {
+    var buf = new StringBuf();
+    for (inc in incs)
+    {
+      buf.add('#include ');
+      if (inc.startsWith('\"') || inc.startsWith('<'))
+        buf.add(inc);
+      else
+        buf.add('"$inc"');
+      buf.add('\n');
+    }
+    return buf.toString();
+  }
+
   public function close()
   {
     var defName = typeName.replace('.','_').toUpperCase();
     var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
       getForwardDecls() + '\n' +
-      [ for (inc in headerIncludes) '#include inc' ].join('\n') + '\n' +
+      getIncludes(headerIncludes) + '\n' +
       this.header.toString() +
       '\n#endif';
-    var cpp = this.cpp.toString();
+    var cpp = getIncludes(cppIncludes) + '\n' +
+      this.cpp.toString();
 
     if (!exists(headerPath) || File.getContent(headerPath) != header)
     {

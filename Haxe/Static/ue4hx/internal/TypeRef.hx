@@ -86,6 +86,15 @@ class TypeRef
     return buf;
   }
 
+  public function getCppRefName():String {
+    return switch [this.pack, this.name] {
+    case [ ['cpp'], 'RawPointer' ]:
+      params[0].getCppRefName();
+    case _:
+      this.getCppType().toString();
+    }
+  }
+
   public function getRefName():String
   {
     return if (pack.length == 0)

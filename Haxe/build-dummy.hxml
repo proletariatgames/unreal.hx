@@ -4,3 +4,5 @@
 -cpp bin/cpp
 unreal.UObject
 -D haxe_runtime_dir=bin
+-D static_link
+-D dump

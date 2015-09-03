@@ -1,6 +1,7 @@
 /Binaries
 /Intermediate
 bin
+dump
 HaxeRuntime.Build.cs
 HaxeInit.Build.cs
 
