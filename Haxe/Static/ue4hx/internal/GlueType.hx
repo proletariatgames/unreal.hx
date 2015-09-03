@@ -3,6 +3,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 using haxe.macro.TypeTools;
+using StringTools;
 
 /**
   Represents a type whose glue code will be generated. Contains all the information
@@ -12,8 +13,45 @@ using haxe.macro.TypeTools;
  **/
 @:forward abstract GlueType(GlueTypeInfo) from GlueTypeInfo
 {
+  public var haxeGlueType(get,never):TypeRef;
+  public var glueType(get,never):TypeRef;
+
   inline function new(obj)
     this = obj;
+
+  public function haxeToGlue(expr:String)
+  {
+    if (this.haxeToGlueExpr == null)
+      return expr;
+    return this.haxeToGlueExpr.replace('%',expr);
+  }
+
+  public function glueToHaxe(expr:String)
+  {
+    if (this.glueToHaxeExpr == null)
+      return expr;
+    return this.glueToHaxeExpr.replace('%',expr);
+  }
+
+  public function glueToUe(expr:String) {
+    if (this.glueToUeExpr == null)
+      return expr;
+    return this.glueToUeExpr.replace('%', expr);
+  }
+
+  public function ueToGlue(expr:String) {
+    if (this.ueToGlueExpr == null)
+      return expr;
+    return this.ueToGlueExpr.replace('%', expr);
+  }
+
+  private function get_haxeGlueType():TypeRef {
+    return this.haxeGlueType != null ? this.haxeGlueType : this.haxeType;
+  }
+
+  private function get_glueType():TypeRef {
+    return this.glueType != null ? this.glueType : this.ueType;
+  }
 
   public static function get(type:Type, pos:Position):GlueType
   {
@@ -21,6 +59,9 @@ using haxe.macro.TypeTools;
         args = null,
         meta = null;
 
+    // we'll loop until we find a type we're interested in
+    // when found, we'll get its name, type parameters and
+    // if it's a class, its meta too
     while(true) {
       switch(type) {
       case TInst(i,tl):
@@ -47,7 +88,7 @@ using haxe.macro.TypeTools;
           break;
         }
         // follow it
-#if haxe >= 3300
+#if (haxe_ver >= 3.3)
         // this is more robust than the 3.2 version, since it will also correctly
         // follow @:multiType abstracts
         type = type.followWithAbstracts(true);
@@ -75,6 +116,7 @@ using haxe.macro.TypeTools;
       }
     }
 
+    // if we have it defined as a basic (special) type, use it
     var basic = basicTypes[name];
     if (basic != null) return basic;
 
@@ -88,8 +130,8 @@ using haxe.macro.TypeTools;
 
         glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
-        haxeToGlueExpr: '::expr::.wrapped',
-        glueToHaxeExpr: typeRef.getRefName() + '.wrap(::expr::)',
+        haxeToGlueExpr: '%.wrapped',
+        glueToHaxeExpr: typeRef.getRefName() + '.${typeRef.name}_Wrap.wrap(cast %)',
       };
     }
 
@@ -140,6 +182,10 @@ using haxe.macro.TypeTools;
         ueType: new TypeRef('bool'),
         haxeType: new TypeRef('Bool'),
       },
+      {
+        ueType: new TypeRef('void'),
+        haxeType: new TypeRef('Void')
+      }
     ];
     var ret = new Map();
     for (info in infos)
@@ -163,7 +209,7 @@ typedef GlueTypeInfo = {
   public var ueType:TypeRef;
 
   /**
-    Represents the glue type as seen by Haxe. Again in the `FString` example,
+    Represents the type in the glue helper as seen by Haxe. Again in the `FString` example,
     its `haxeGlueType` will be `cpp.ConstCharStar`.
 
     If null, this will be the same as `haxeType`
@@ -177,7 +223,7 @@ typedef GlueTypeInfo = {
 
     If null, this will be the same as `ueType`
    **/
-  @:optional public var glueType:TypeRef;
+  @:optional public var glueType:Null<TypeRef>;
   // @:optional public var glueHelperType:TypeRef;
 
   /**
@@ -198,7 +244,7 @@ typedef GlueTypeInfo = {
   @:optional public var ueToGlueExpr:Null<String>;
   /**
     Gets the wrapping expression from hxcpp `glueType` to UE4.
-    e.g. on `FString` this would be `FString( UTF8_TO_TCHAR(::expr::) )`
+    e.g. on `FString` this would be `FString( UTF8_TO_TCHAR(%) )`
    **/
   @:optional public var glueToUeExpr:Null<String>;
   /**

@@ -5,6 +5,17 @@ package unreal;
 class UClass extends UObject
 {
   public static function StaticClass():UClass;
+
+  public static function wrap(t) {
+    return new UClass(t);
+  }
+}
+
+class UClass_Wrap {
+  public static function wrap(ptr:cpp.Pointer<cpp.Void>):UClass {
+    if (ptr == null) return null;
+    return new UClass(ptr.get_raw());
+  }
 }
 
 // import unreal.forward.UClass as UClass_Fwd;

@@ -6,8 +6,21 @@ package unreal;
 @:glueCppIncludes("UObject/UObject.h")
 class UObject
 {
+  private var wrapped:cpp.RawPointer<cpp.Void>;
+  public function new(wrapped:cpp.RawPointer<cpp.Void>)
+  {
+    this.wrapped = wrapped;
+  }
+
   public function IsAsset():Bool;
   public function GetClass():UClass;
+}
+
+class UObject_Wrap {
+  public static function wrap(ptr:cpp.Pointer<cpp.Void>):UObject {
+    if (ptr == null) return null;
+    return new UObject(ptr.get_raw());
+  }
 }
 
 // import unreal.forward.UObject as UObject_Fwd;
