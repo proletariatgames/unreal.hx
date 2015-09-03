@@ -11,6 +11,8 @@ class GlueWriter
   public var typeName(default, null):String;
 
   private var forwardDecls:Map<String, Bool>;
+  private var headerIncludes:Map<String, String>;
+  private var cppIncludes:Map<String, String>;
   private var header:StringBuf;
   private var cpp:StringBuf;
 
@@ -21,8 +23,18 @@ class GlueWriter
     this.typeName = typeName;
 
     this.forwardDecls = new Map();
+    this.headerIncludes = new Map();
+    this.cppIncludes = new Map();
     this.header = new StringBuf();
     this.cpp = new StringBuf();
+  }
+
+  inline public function addHeaderInclude(inc) {
+    headerIncludes[inc] = inc;
+  }
+
+  inline public function addCppInclude(inc) {
+    cppIncludes[inc] = inc;
   }
 
   // write on header
@@ -68,6 +80,7 @@ class GlueWriter
     var defName = typeName.replace('.','_').toUpperCase();
     var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
       getForwardDecls() + '\n' +
+      [ for (inc in headerIncludes) '#include inc' ].join('\n') + '\n' +
       this.header.toString() +
       '\n#endif';
     var cpp = this.cpp.toString();

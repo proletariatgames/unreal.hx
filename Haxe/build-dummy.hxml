@@ -1,5 +1,6 @@
 # this file is only here to provide IDE completion information
 # to the ue4hx.internal.* types
 -cp Static
--cpp /tmp/cpp
+-cpp bin/cpp
 unreal.UObject
+-D haxe_runtime_dir=bin

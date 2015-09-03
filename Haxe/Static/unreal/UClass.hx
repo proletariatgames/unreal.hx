@@ -12,9 +12,9 @@ class UClass extends UObject
 }
 
 class UClass_Wrap {
-  public static function wrap(ptr:cpp.Pointer<cpp.Void>):UClass {
+  public static function wrap(ptr:cpp.Pointer<Dynamic>):UClass {
     if (ptr == null) return null;
-    return new UClass(ptr.get_raw());
+    return new UClass(ptr);
   }
 }
 

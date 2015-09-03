@@ -10,8 +10,11 @@ using Lambda;
 
 class ExternGenerator
 {
+  static var firstCompilation = true;
+  static var hasRun = false;
   public static function generate():Array<Field>
   {
+    registerMacroCalls();
     return new ExternGenerator().run();
   }
 
@@ -29,10 +32,23 @@ class ExternGenerator
     this.thisType = GlueType.get( Context.getLocalType(), Context.currentPos() );
   }
 
+  public static function registerMacroCalls() {
+    if (hasRun) return;
+    hasRun = true;
+    if (firstCompilation) {
+      firstCompilation = false;
+      Context.onMacroContextReused(function() {
+        trace('reusing macro context');
+        hasRun = false;
+        return true;
+      });
+    }
+    Context.onGenerate( GlueCode.onGenerate );
+  }
+
   public function run():Array<Field>
   {
     var typeRef = new TypeRef(cls.pack, cls.name);
-    // trace('building',typeRef);
     this.helperType = typeRef.getGlueHelperType();
 
     this.fields = this.fields.filter(function(v) return v.name != 'wrap');
@@ -47,6 +63,7 @@ class ExternGenerator
         if (!isStatic)
           args.unshift({ name: 'this', escapedName: 'self', type: thisType });
 
+        // generate this function's expression
         var expr =
           helperType.getRefName() + '.' + field.name + '(' +
             [ for (arg in args) arg.type.haxeToGlue(arg.name) ].join(',') +
@@ -54,9 +71,9 @@ class ExternGenerator
         var isVoid = ret.haxeType.isVoid();
         if (!isVoid)
           expr = 'return ' + ret.glueToHaxe(expr);
-        trace(expr);
         f.expr = Context.parse(expr, field.pos);
 
+        // generate the header and cpp glue code
         //TODO: optimization: use StringBuf instead of all these string concats
         var cppArgDecl = [ for ( arg in args ) arg.type.glueType.getCppType() + ' ' + arg.escapedName ].join(', ');
         var glueHeaderCode = 'static ${ret.glueType.getCppType()} ${field.name}(' + cppArgDecl + ');';
@@ -76,6 +93,7 @@ class ExternGenerator
         var allTypes = [ for (arg in args) arg.type ];
         allTypes.push(ret);
 
+        // add the glue codes so they can be later added to the glue extern type
         this.helperGlueFields.push({
           name: field.name,
           args: args,
@@ -108,7 +126,6 @@ class ExternGenerator
       }),
       pos: currentPos()
     });
-    trace('Adding wrap', typeRef);
 
     createHelperType();
     return fields;
@@ -168,7 +185,8 @@ class ExternGenerator
       pos: Context.currentPos(),
       isExtern: true,
       kind: TDClass(),
-      fields: fields
+      fields: fields,
+      meta:[ createMeta(':unrealGlue', [], Context.currentPos() ) ]
     };
     Context.defineType(def);
   }

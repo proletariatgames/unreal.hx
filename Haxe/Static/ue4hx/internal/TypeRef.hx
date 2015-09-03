@@ -62,6 +62,10 @@ class TypeRef
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppType(buf);
       buf.add(' *');
+    case [ ['cpp'], 'Void' ]:
+      buf.add('void');
+    case [ [], 'Bool' | 'bool' ]:
+      buf.add('bool');
     case _:
       buf.add('::');
       buf.add(this.pack.join('::'));

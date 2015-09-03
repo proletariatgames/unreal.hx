@@ -7,9 +7,9 @@ package unreal;
 class UObject
 {
   private var wrapped:cpp.RawPointer<cpp.Void>;
-  public function new(wrapped:cpp.RawPointer<cpp.Void>)
+  public function new(wrapped:cpp.Pointer<Dynamic>)
   {
-    this.wrapped = wrapped;
+    this.wrapped = wrapped.rawCast();
   }
 
   public function IsAsset():Bool;
@@ -17,9 +17,9 @@ class UObject
 }
 
 class UObject_Wrap {
-  public static function wrap(ptr:cpp.Pointer<cpp.Void>):UObject {
+  public static function wrap(ptr:cpp.Pointer<Dynamic>):UObject {
     if (ptr == null) return null;
-    return new UObject(ptr.get_raw());
+    return new UObject(ptr);
   }
 }
 
