@@ -3,3 +3,5 @@
 --interp
 -cp Static
 ue4hx.internal.GlueCode
+unreal.UObject
+# ue4hx.internal.GlueType

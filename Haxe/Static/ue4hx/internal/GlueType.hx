@@ -5,7 +5,10 @@ import haxe.macro.Type;
 using haxe.macro.TypeTools;
 
 /**
-  Represents a type whose glue code will be generated
+  Represents a type whose glue code will be generated. Contains all the information
+  on how to generate the glue code for the type
+
+  @see GlueTypeInfo
  **/
 @:forward abstract GlueType(GlueTypeInfo) from GlueTypeInfo
 {
@@ -16,67 +19,59 @@ using haxe.macro.TypeTools;
   {
     var name = null,
         args = null,
-        isUObj = false;
+        meta = null;
 
-    while(true)
-    {
-      switch(type)
-      {
-        case TInst(i,tl):
-          name = i.toString();
+    while(true) {
+      switch(type) {
+      case TInst(i,tl):
+        name = i.toString();
+        args = tl;
+        var it = i.get();
+        meta = it.meta;
+        var native = getMetaString(meta, ':native');
+        if (native != null)
+          name = native;
+        break;
+
+      case TEnum(e,tl):
+        name = e.toString();
+        args = tl;
+        break;
+
+      case TAbstract(a,tl):
+        var at = a.get();
+        if (at.meta.has(':coreType') || at.meta.has(':unrealType'))
+        {
+          name = a.toString();
           args = tl;
-          var it = i.get();
-          if (it.meta.has(':native'))
-          {
-            switch(it.meta.extract(':native')[0].params[0].expr) {
-              case EConst(CIdent(i) | CString(i)):
-                name = i;
-              case _:
-            };
-          }
-          if (it.meta.has(':uobject'))
-            isUObj = true;
           break;
-
-        case TEnum(e,tl):
-          name = e.toString();
-          args = tl;
-          break;
-
-        case TAbstract(a,tl):
-          var at = a.get();
-          if (at.meta.has(':coreType') || at.meta.has(':unrealType'))
-          {
-            name = a.toString();
-            args = tl;
-            break;
-          }
-          // follow it
+        }
+        // follow it
 #if haxe >= 3300
-          // this is more robust than the 3.2 version, since it will also correctly
-          // follow @:multiType abstracts
-          type = type.followWithAbstracts(true);
+        // this is more robust than the 3.2 version, since it will also correctly
+        // follow @:multiType abstracts
+        type = type.followWithAbstracts(true);
 #else
-          type = at.type.applyTypeParameters(at.params, tl);
+        type = at.type.applyTypeParameters(at.params, tl);
 #end
 
-        case TType(t,tl):
-          var tt = t.get();
-          if (tt.meta.has(':unrealType'))
-          {
-            name = t.toString();
-            args = tl;
-            break;
-          }
-          type = type.follow(true);
-        case TMono(mono):
-          type = mono.get();
-          if (type == null)
-            throw new Error('Unreal Glue: Type cannot be Unknown', pos);
-        case TLazy(f):
-          type = f();
-        case _:
-          throw new Error('Unreal Glue: Invalid type $type', pos);
+      case TType(t,tl):
+        var tt = t.get();
+        if (tt.meta.has(':unrealType'))
+        {
+          name = t.toString();
+          args = tl;
+          break;
+        }
+        type = type.follow(true);
+      case TMono(mono):
+        type = mono.get();
+        if (type == null)
+          throw new Error('Unreal Glue: Type cannot be Unknown', pos);
+      case TLazy(f):
+        type = f();
+      case _:
+        throw new Error('Unreal Glue: Invalid type $type', pos);
       }
     }
 
@@ -84,22 +79,66 @@ using haxe.macro.TypeTools;
     if (basic != null) return basic;
 
     var typeRef = TypeRef.parseRefName( name );
-    if (isUObj)
-    {
+    if (meta != null && meta.has(':uobject')) {
       return {
         haxeType: typeRef,
-        glueType: typeRef.getGlueType().getRefName(),
-        // haxeGlueType:
-        // haxeGlueType:
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
+
+        glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
+
+        haxeToGlueExpr: '::expr::.wrapped',
+        glueToHaxeExpr: typeRef.getRefName() + '.wrap(::expr::)',
       };
+    }
+
+    throw new Error('Unreal Glue: Type $name is not supported', pos);
+  }
+
+  static function getMetaArray(meta:MetaAccess, name:String):Null<Array<String>>
+  {
+    if (meta == null) return null;
+    var extracted = meta.extract(name);
+    if (extracted == null || extracted.length == 0)
+      return null;
+    var ret = [];
+    for (entry in extracted) {
+      if (entry.params != null) {
+        for (param in entry.params) {
+          switch(param.expr)
+          {
+          case EConst(CString(s) | CIdent(s)):
+            ret.push(s);
+          case _:
+            throw new Error('Unreal Glue: Unexpected non-string expression at meta $name', param.pos);
+          }
+        }
+      }
+    }
+
+    return ret;
+  }
+
+  static function getMetaString(meta:MetaAccess, name:String):Null<String>
+  {
+    if (meta == null) return null;
+    var extracted = meta.extract(name);
+    if (extracted == null || extracted.length == 0 || extracted[0].params == null)
+      return null;
+    switch(extracted[0].params[0].expr) {
+    case EConst(CString(s) | CIdent(s)):
+      return s;
+    case _:
+      throw new Error('Unreal Glue: Unexpected non-string expression at meta $name', extracted[0].params[0].pos);
     }
   }
 
   static var basicTypes:Map<String, GlueTypeInfo> = {
     var infos:Array<GlueTypeInfo> = [
       {
-        glueType: new TypeRef('bool'),
-        haxeType: new TypeRef('Bool')
+        ueType: new TypeRef('bool'),
+        haxeType: new TypeRef('Bool'),
       },
     ];
     var ret = new Map();
@@ -109,19 +148,65 @@ using haxe.macro.TypeTools;
     }
     ret;
   };
+
+  static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
 }
 
 typedef GlueTypeInfo = {
-  glueType:TypeRef,
-  haxeType:TypeRef,
-  ?haxeGlueType:TypeRef,
-  ?ueType:TypeRef,
+  /**
+    Represents the Haxe-side type
+   **/
+  public var haxeType:TypeRef;
+  /**
+    Represents the UE-side type (e.g. `FString` on case of FString)
+   **/
+  public var ueType:TypeRef;
 
-  ?glueHeaderIncludes:Array<String>,
-  ?glueCppIncludes:Array<String>,
+  /**
+    Represents the glue type as seen by Haxe. Again in the `FString` example,
+    its `haxeGlueType` will be `cpp.ConstCharStar`.
 
-  ?glueReturnWrap:String,
-  ?glueArgumentWrap:String,
-  ?haxeReturnWrap:String,
-  ?haxeArgumentWrap:String
+    If null, this will be the same as `haxeType`
+   **/
+  @:optional public var haxeGlueType:Null<TypeRef>;
+  /**
+    Represents the actual glue type. Normally, it will be the same as the ueType;
+    However, in some special cases, it will be different.
+    One classic case where it is different is `FString`: While `ueType` is the
+    actual `FString` type, its `glueType` will be `const char *`
+
+    If null, this will be the same as `ueType`
+   **/
+  @:optional public var glueType:TypeRef;
+  // @:optional public var glueHelperType:TypeRef;
+
+  /**
+    Represents the public includes that can be included in the glue header
+    These can only be includes that are safe to be included in both UE4 and hxcpp sides
+   **/
+  @:optional public var glueHeaderIncludes:Null<Array<String>>;
+  /**
+    Represents the private includes to the glue cpp files. These can be UE4 includes,
+    since the CPP file is only compiled by the UE4 side
+   **/
+  @:optional public var glueCppIncludes:Null<Array<String>>;
+
+  /**
+    Gets the wrapping expression from UE type to the glue Type
+    e.g. on `FString` this would be what transforms `FString` into `const char *`
+   **/
+  @:optional public var ueToGlueExpr:Null<String>;
+  /**
+    Gets the wrapping expression from hxcpp `glueType` to UE4.
+    e.g. on `FString` this would be `FString( UTF8_TO_TCHAR(::expr::) )`
+   **/
+  @:optional public var glueToUeExpr:Null<String>;
+  /**
+    Gets the wrapping expression from Haxe type to the glue type
+   **/
+  @:optional public var haxeToGlueExpr:Null<String>;
+  /**
+    Gets the wrapping expression from the Glue type to the Haxe type
+   **/
+  @:optional public var glueToHaxeExpr:Null<String>;
 }

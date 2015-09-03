@@ -1,12 +1,16 @@
 package ue4hx.internal;
 
+/**
+  Represents a fully qualified type reference. In Haxe terminology,
+  this should be the equivalent of a fully qualified ComplexType
+ **/
 class TypeRef
 {
   public var pack(default,null):Array<String>;
   public var name(default,null):String;
   public var params(default,null):Array<TypeRef>;
 
-  public function new(?pack, name, ?params)
+  public function new(?pack:Array<String>, name:String, ?params:Array<TypeRef>)
   {
     if (pack == null) pack = [];
     if (params == null) params = [];
@@ -21,16 +25,43 @@ class TypeRef
     return new TypeRef(pack, pack.pop());
   }
 
-  public function getGlueType():TypeRef
+  public function getGlueHelperType():TypeRef
   {
     var newPack = pack.copy();
-    if (pack[0] == 'unreal')
-    {
+    if (pack[0] == 'unreal') {
       newPack.insert(1, 'glue');
     } else {
       newPack.unshift('glue'); newPack.unshift('unreal');
     }
     return new TypeRef(newPack, name);
+  }
+
+  public function getCppType(?buf:StringBuf):StringBuf {
+    if (buf == null)
+      buf = new StringBuf();
+
+    switch [this.pack, this.name] {
+    case [ ['cpp'], 'RawPointer' ]:
+      params[0].getCppType(buf);
+      buf.add(' *');
+    case _:
+      buf.add('::');
+      buf.add(this.pack.join('::'));
+      if (this.pack.length != 0)
+        buf.add('::');
+      buf.add(this.name);
+
+      if (params.length > 0) {
+        buf.add('<');
+        var first = true;
+        for (param in params) {
+          if (first) first = false; else buf.add(', ');
+          param.getCppType(buf);
+        }
+        buf.add('>');
+      }
+    }
+    return buf;
   }
 
   public function getRefName():String

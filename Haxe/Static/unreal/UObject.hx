@@ -2,6 +2,8 @@ package unreal;
 
 @:build(ue4hx.internal.ExternGenerator.generate())
 @:autoBuild(ue4hx.internal.ExternGenerator.generate())
+@:uobject
+@:glueCppIncludes("UObject/UObject.h")
 class UObject
 {
   public function IsAsset():Bool;

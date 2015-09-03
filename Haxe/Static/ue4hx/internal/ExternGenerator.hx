@@ -5,6 +5,7 @@ import haxe.macro.Context.*;
 import haxe.macro.Type;
 
 using haxe.macro.Tools;
+using Lambda;
 
 class ExternGenerator
 {
@@ -12,29 +13,31 @@ class ExternGenerator
   {
     var fields = getBuildFields();
     var cls = getLocalClass().get();
-    var glueFields = [];
+    var helperGlueFields = [];
     var typeRef = new TypeRef(cls.pack, cls.name);
-    var glueType = typeRef.getGlueType();
+    var helperType = typeRef.getGlueHelperType();
 
-    for (field in fields)
-    {
-      switch (field.kind)
-      {
-        case FFun(f) if (f.expr == null):
-          // get type definitions for arguments/return
-          var args = [ for (arg in f.args) { name:arg.name, type: glueType(arg.type) } ];
-          var ret = glueType(f.ret);
+    for (field in fields) {
+      switch (field.kind) {
+      case FFun(f) if (f.expr == null):
+        // get type definitions for arguments/return
+        var args = [ for (arg in f.args) { name:arg.name, type: getGlueType(arg.type, field.pos) } ];
+        var ret = getGlueType(f.ret, field.pos);
 
-          // add function to glue class
-          // add Haxe code that calls the glue class
-          // add cpp code that generates the glue class
+        // add function to glue class
+        // add Haxe code that calls the glue class
+        // add cpp code that generates the glue class
+      case FVar(get,set) if (field.meta.exists(function(meta) return meta.name == ':')):
+      case _:
       }
     }
+
+    return fields;
   }
 
-  private static function glueType(c:ComplexType, pos:Position)
+  private static function getGlueType(c:ComplexType, pos:Position)
   {
-    var t = complexToType(c<Plug>PeepOpenos);
+    var t = complexToType(c, pos);
     return GlueType.get(t, pos);
   }
 
