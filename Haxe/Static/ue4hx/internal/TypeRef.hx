@@ -62,6 +62,8 @@ class TypeRef
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppType(buf);
       buf.add(' *');
+    case [ ['cpp'], 'ConstCharStar' ]:
+      buf.add('const char *');
     case [ ['cpp'], 'Void' ]:
       buf.add('void');
     case [ [], 'Bool' | 'bool' ]:

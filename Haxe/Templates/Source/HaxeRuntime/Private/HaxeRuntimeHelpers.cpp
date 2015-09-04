@@ -4,7 +4,7 @@
 namespace unreal {
 namespace glue {
 
-const char *RuntimeHelpers::FStringToHxcpp(FString &str)
+const char *RuntimeHelpers::FStringToHxcpp(FString str)
 {
   return TCHAR_TO_UTF8( *str );
 }
@@ -15,7 +15,7 @@ FString RuntimeHelpers::HxcppToFString(const char *str)
   return FString( UTF8_TO_TCHAR(str) );
 }
 
-const char *RuntimeHelpers::FTextToHxcpp(FText& str)
+const char *RuntimeHelpers::FTextToHxcpp(FText str)
 {
   return TCHAR_TO_UTF8( *(str.ToString()) );
 }

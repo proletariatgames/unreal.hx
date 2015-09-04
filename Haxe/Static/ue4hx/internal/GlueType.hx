@@ -186,7 +186,33 @@ using StringTools;
       {
         ueType: new TypeRef('void'),
         haxeType: new TypeRef('Void')
-      }
+      },
+      // FString
+      {
+        haxeType: new TypeRef(['unreal'],'FString'),
+        ueType: new TypeRef('FString'),
+        haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
+        glueType: new TypeRef(['cpp'],'ConstCharStar'), // will be converted to const char * by TypeRef implementation
+
+        glueCppIncludes:['<HaxeRuntimeHelpers.h>'],
+        ueToGlueExpr:'::unreal::glue::RuntimeHelpers::FStringToHxcpp( % )',
+        glueToUeExpr:'::unreal::glue::RuntimeHelpers::HxcppToFString( % )',
+        haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
+        glueToHaxeExpr: '%.toString()'
+      },
+      // FText
+      {
+        haxeType: new TypeRef(['unreal'],'FText'),
+        ueType: new TypeRef('FText'),
+        haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
+        glueType: new TypeRef(['cpp'],'ConstCharStar'),
+
+        glueCppIncludes:['<HaxeRuntimeHelpers.h>'],
+        ueToGlueExpr:'::unreal::glue::RuntimeHelpers::FTextToHxcpp( % )',
+        glueToUeExpr:'::unreal::glue::RuntimeHelpers::HxcppToFText( % )',
+        haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
+        glueToHaxeExpr: '%.toString()'
+      },
     ];
     var ret = new Map();
     for (info in infos)
