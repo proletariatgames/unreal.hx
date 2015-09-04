@@ -102,13 +102,16 @@ class GlueWriter
       getIncludes(cppIncludes) + '\n' +
       this.cpp.toString();
 
-    if (!exists(headerPath) || File.getContent(headerPath) != header)
-    {
-      File.saveContent(headerPath, header);
+    if (headerPath != null) {
+      if (!exists(headerPath) || File.getContent(headerPath) != header) {
+        File.saveContent(headerPath, header);
+      }
     }
-    if (!exists(cppPath) || File.getContent(cppPath) != cpp)
-    {
-      File.saveContent(cppPath, cpp);
+
+    if (cppPath != null) {
+      if (!exists(cppPath) || File.getContent(cppPath) != cpp) {
+        File.saveContent(cppPath, cpp);
+      }
     }
   }
 }

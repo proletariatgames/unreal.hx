@@ -31,7 +31,7 @@ class ExternGenerator
   }
 
   /**
-    Register onGenerate handler once per compilation
+    Registers onGenerate handler once per compilation
    **/
   public static function registerMacroCalls() {
     if (hasRun) return;

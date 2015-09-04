@@ -3,6 +3,7 @@
 -cp Static
 -cpp bin/cpp
 unreal.UObject
+unreal.helpers.HxcppRuntime
 -D haxe_runtime_dir=bin
 -D static_link
 -D dump

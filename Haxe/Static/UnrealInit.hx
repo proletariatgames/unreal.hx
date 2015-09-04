@@ -2,6 +2,7 @@ import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.UObject;
+import unreal.helpers.HxcppRuntime;
 
 class UnrealInit
 {
@@ -10,7 +11,7 @@ class UnrealInit
     trace("hello world");
     var stat = unreal.UClass.StaticClass();
     trace('Found stat',stat == null);
-    trace (stat.IsAsset());
+    trace(stat.IsAsset());
     trace(stat.GetDesc());
     trace(stat.GetDefaultConfigFilename());
     trace('new');

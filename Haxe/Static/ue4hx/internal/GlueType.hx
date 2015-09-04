@@ -194,9 +194,9 @@ using StringTools;
         haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
         glueType: new TypeRef(['cpp'],'ConstCharStar'), // will be converted to const char * by TypeRef implementation
 
-        glueCppIncludes:['<HaxeRuntimeHelpers.h>'],
-        ueToGlueExpr:'::unreal::glue::RuntimeHelpers::FStringToHxcpp( % )',
-        glueToUeExpr:'::unreal::glue::RuntimeHelpers::HxcppToFString( % )',
+        glueCppIncludes:['Engine.h'],
+        ueToGlueExpr:'TCHAR_TO_UTF8( *(%) )',
+        glueToUeExpr:'::FString( UTF8_TO_TCHAR(%) )',
         haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
         glueToHaxeExpr: '%.toString()'
       },
@@ -207,9 +207,9 @@ using StringTools;
         haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
         glueType: new TypeRef(['cpp'],'ConstCharStar'),
 
-        glueCppIncludes:['<HaxeRuntimeHelpers.h>'],
-        ueToGlueExpr:'::unreal::glue::RuntimeHelpers::FTextToHxcpp( % )',
-        glueToUeExpr:'::unreal::glue::RuntimeHelpers::HxcppToFText( % )',
+        glueCppIncludes:['Engine.h'],
+        ueToGlueExpr:'TCHAR_TO_UTF8( *((%).ToString()) )',
+        glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(%)) )',
         haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
         glueToHaxeExpr: '%.toString()'
       },
