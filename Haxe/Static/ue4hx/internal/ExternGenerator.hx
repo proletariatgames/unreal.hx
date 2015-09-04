@@ -12,8 +12,7 @@ class ExternGenerator
 {
   static var firstCompilation = true;
   static var hasRun = false;
-  public static function generate():Array<Field>
-  {
+  public static function generate():Array<Field> {
     registerMacroCalls();
     return new ExternGenerator().run();
   }
@@ -24,14 +23,16 @@ class ExternGenerator
   private var thisType:GlueType;
   private var helperType:TypeRef;
 
-  private function new()
-  {
+  private function new() {
     this.fields = getBuildFields();
     this.cls = getLocalClass().get();
     this.helperGlueFields = [];
     this.thisType = GlueType.get( Context.getLocalType(), Context.currentPos() );
   }
 
+  /**
+    Register onGenerate handler once per compilation
+   **/
   public static function registerMacroCalls() {
     if (hasRun) return;
     hasRun = true;
@@ -43,11 +44,10 @@ class ExternGenerator
         return true;
       });
     }
-    Context.onGenerate( GlueCode.onGenerate );
+    Context.onGenerate( NativeGlueCode.onGenerate );
   }
 
-  public function run():Array<Field>
-  {
+  public function run():Array<Field> {
     var typeRef = new TypeRef(cls.pack, cls.name);
     this.helperType = typeRef.getGlueHelperType();
 
@@ -104,8 +104,8 @@ class ExternGenerator
 
           glueHeaderCode:glueHeaderCode,
           glueCppCode:glueCppCode,
-          glueHeaderIncludes:getHeaderIncludes(allTypes),
-          glueCppIncludes:getCppIncludes(allTypes),
+          glueHeaderIncludes:collectHeaderIncludes(allTypes),
+          glueCppIncludes:collectCppIncludes(allTypes),
           pos:field.pos
         });
         // add function to helper glue class
@@ -134,7 +134,7 @@ class ExternGenerator
     return fields;
   }
 
-  private static function getHeaderIncludes(allTypes:Array<GlueType>) {
+  private static function collectHeaderIncludes(allTypes:Array<GlueType>) {
     var ret = new Map();
     for (t in allTypes) {
       if (t.glueHeaderIncludes != null) {
@@ -146,7 +146,7 @@ class ExternGenerator
     return ret.array();
   }
 
-  private static function getCppIncludes(allTypes:Array<GlueType>) {
+  private static function collectCppIncludes(allTypes:Array<GlueType>) {
     var ret = new Map();
     for (t in allTypes) {
       if (t.glueCppIncludes != null) {
@@ -172,8 +172,9 @@ class ExternGenerator
         pos: field.pos,
 
         // we could at this time just write the cpp/header code directly to the output file
-        // HOWEVER, we will defer this to a latter phase - so we can in the future benefit from DCE
+        // however, we will defer this to a latter phase - so we can in the future benefit from DCE
         // to make lighter executables. This way, we'll add the glue code as a metadata
+        // (see NativeGlueCode)
         meta: [
           createMeta('glueHeaderCode', [field.glueHeaderCode], field.pos),
           createMeta('glueCppCode', [field.glueCppCode], field.pos),

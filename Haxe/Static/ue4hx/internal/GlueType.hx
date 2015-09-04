@@ -131,7 +131,7 @@ using StringTools;
         glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
         haxeToGlueExpr: '%.wrapped',
-        glueToHaxeExpr: typeRef.getRefName() + '.${typeRef.name}_Wrap.wrap(cast %)',
+        glueToHaxeExpr: typeRef.getRefName() + '.${typeRef.name}_Wrap.wrap(cpp.Pointer.fromRaw( cast % ))',
         glueToUeExpr: '( (::${typeRef.name} *) % )'
       };
     }

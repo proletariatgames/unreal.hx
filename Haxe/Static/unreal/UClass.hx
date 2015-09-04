@@ -5,10 +5,6 @@ package unreal;
 class UClass extends UObject
 {
   public static function StaticClass():UClass;
-
-  public static function wrap(t) {
-    return new UClass(t);
-  }
 }
 
 class UClass_Wrap {
