@@ -21,6 +21,9 @@ class HaxeRuntime extends BaseModuleRules
   {
     // PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
+    var pvt = Path.GetFullPath('$modulePath/../Private');
+    this.PrivateIncludePaths.Add(pvt);
+    this.PrivateIncludePaths.Add('$pvt/Generated');
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here

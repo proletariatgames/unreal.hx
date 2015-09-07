@@ -191,27 +191,25 @@ using StringTools;
       {
         haxeType: new TypeRef(['unreal'],'FString'),
         ueType: new TypeRef('FString'),
-        haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
-        glueType: new TypeRef(['cpp'],'ConstCharStar'), // will be converted to const char * by TypeRef implementation
+        haxeGlueType: new TypeRef('String'),
+        glueType: new TypeRef('String'),
 
-        glueCppIncludes:['Engine.h'],
-        ueToGlueExpr:'TCHAR_TO_UTF8( *(%) )',
-        glueToUeExpr:'::FString( UTF8_TO_TCHAR(%) )',
-        haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
-        glueToHaxeExpr: '%.toString()'
+        glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
+        glueHeaderIncludes:['<hxcpp.h>'],
+        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
+        glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
       },
       // FText
       {
         haxeType: new TypeRef(['unreal'],'FText'),
         ueType: new TypeRef('FText'),
-        haxeGlueType: new TypeRef(['cpp'],'ConstCharStar'),
-        glueType: new TypeRef(['cpp'],'ConstCharStar'),
+        haxeGlueType: new TypeRef('String'),
+        glueType: new TypeRef('String'),
 
-        glueCppIncludes:['Engine.h'],
-        ueToGlueExpr:'TCHAR_TO_UTF8( *((%).ToString()) )',
-        glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(%)) )',
-        haxeToGlueExpr: 'cpp.ConstCharStar.fromString( % )',
-        glueToHaxeExpr: '%.toString()'
+        glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
+        glueHeaderIncludes:['<hxcpp.h>'],
+        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
+        glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
       },
     ];
     var ret = new Map();

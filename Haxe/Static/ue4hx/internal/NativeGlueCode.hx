@@ -4,6 +4,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
 
@@ -70,13 +71,27 @@ class NativeGlueCode
   }
 
   public function onAfterGenerate() {
-    trace('after generate');
+    var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (type in glueTypes) {
       switch(type) {
         case TInst(c,tl):
-          var cppPath = '$haxeRuntimeDir/${c.toString().replace('.','/')}.cpp';
-          var writer = new GlueWriter(null, cppPath, c.toString());
-          write(type,writer);
+          var cl = c.get();
+          if (cl.meta.has(':unrealGlue')) {
+            var cppPath = '$haxeRuntimeDir/${c.toString().replace('.','/')}.cpp';
+            var writer = new GlueWriter(null, cppPath, c.toString());
+            write(type,writer);
+          } else if (cl.meta.has(':ue4expose')) {
+            // copy the header to the generated folder
+            var path = c.toString().replace('.','/');
+            var headerPath = '$cppTarget/include/${path}.h';
+            var targetPath = '$haxeRuntimeDir/$path.h';
+            var dir = Path.directory(targetPath);
+            if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+
+            var contents = File.getContent(headerPath);
+            if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
+              File.saveContent(targetPath, contents);
+          }
         case _:
       }
     }
@@ -88,18 +103,26 @@ class NativeGlueCode
 
     for (type in types) {
       switch(type) {
-      case TInst(c,tl) if (c.toString().startsWith('unreal.glue')):
-        var cl = c.get();
-        if (!cl.meta.has(':unrealGlue'))
-          continue;
-        var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
-        if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-        var headerPath = '$baseDir/${cl.name}.h';
-        cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
+      case TInst(c,tl):
+        var typeName = c.toString();
+        if (typeName.startsWith('unreal.glue')) {
+          var cl = c.get();
+          if (!cl.meta.has(':unrealGlue'))
+            continue;
+          var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
+          if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+          var headerPath = '$baseDir/${cl.name}.h';
+          cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
 
-        glueTypes.push(type);
-        var writer = new GlueWriter(headerPath, null, c.toString());
-        write(type, writer);
+          glueTypes.push(type);
+          var writer = new GlueWriter(headerPath, null, c.toString());
+          write(type, writer);
+        } else if (typeName.startsWith('unreal.helpers')) {
+          var cl = c.get();
+          if (!cl.meta.has(':ue4expose'))
+            continue;
+          glueTypes.push(type);
+        }
       case _:
       }
     }

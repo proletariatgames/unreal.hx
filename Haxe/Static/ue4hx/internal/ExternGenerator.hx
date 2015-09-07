@@ -8,8 +8,7 @@ using haxe.macro.Tools;
 using StringTools;
 using Lambda;
 
-class ExternGenerator
-{
+class ExternGenerator {
   static var firstCompilation = true;
   static var hasRun = false;
   public static function generate():Array<Field> {
@@ -47,6 +46,7 @@ class ExternGenerator
     var nativeGlue = new NativeGlueCode();
     Context.onGenerate( nativeGlue.onGenerate );
     Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
+    haxe.macro.Compiler.include('unreal.helpers');
   }
 
   public function run():Array<Field> {
@@ -206,14 +206,12 @@ class ExternGenerator
     return { name: name, params:[for (v in value) macro @:pos(pos) $v{v}], pos:pos };
   }
 
-  private static function getTypeConv(c:ComplexType, pos:Position)
-  {
+  private static function getTypeConv(c:ComplexType, pos:Position) {
     var t = complexToType(c, pos);
     return TypeConv.get(t, pos);
   }
 
-  private static function complexToType(c:ComplexType, pos:Position):Type
-  {
+  private static function complexToType(c:ComplexType, pos:Position):Type {
     if (c == null) throw new Error('Unreal Glue: All types are required for external glue code functions', pos);
     return typeof({ expr:ECheckType(macro null, c), pos: pos });
   }
