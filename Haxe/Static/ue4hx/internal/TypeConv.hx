@@ -177,6 +177,8 @@ using StringTools;
     }
   }
 
+  static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
+
   static var basicTypes:Map<String, TypeConvInfo> = {
     var infos:Array<TypeConvInfo> = [
       {
@@ -191,25 +193,29 @@ using StringTools;
       {
         haxeType: new TypeRef(['unreal'],'FString'),
         ueType: new TypeRef('FString'),
-        haxeGlueType: new TypeRef('String'),
-        glueType: new TypeRef('String'),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
 
         glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
         glueHeaderIncludes:['<hxcpp.h>'],
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
         glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( cast % )',
+        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( cast % )'
       },
       // FText
       {
         haxeType: new TypeRef(['unreal'],'FText'),
         ueType: new TypeRef('FText'),
-        haxeGlueType: new TypeRef('String'),
-        glueType: new TypeRef('String'),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
 
         glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
         glueHeaderIncludes:['<hxcpp.h>'],
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( cast % )',
+        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( cast % )'
       },
     ];
     var ret = new Map();
@@ -219,8 +225,6 @@ using StringTools;
     }
     ret;
   };
-
-  static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
 }
 
 typedef TypeConvInfo = {
