@@ -13,28 +13,26 @@ using StringTools;
  **/
 class NativeGlueCode
 {
-  public static function onGenerate(types:Array<Type>) {
-    var haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
+
+  private var glueTypes:Array<Type>;
+  private var haxeRuntimeDir:String;
+
+  public function new() {
+    haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
     if (haxeRuntimeDir == null) {
       Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
-      return;
+    } else {
+      haxeRuntimeDir = FileSystem.fullPath(haxeRuntimeDir) + '/Generated';
     }
-    haxeRuntimeDir += '/Generated';
+  }
 
-    for (type in types) {
-      switch(type) {
-      case TInst(c,tl) if (c.toString().startsWith('unreal.glue')):
+  private function write(type:Type, writer:GlueWriter) {
+    switch (type) {
+      case TInst(c,tl):
         var cl = c.get();
-        if (!cl.meta.has(':unrealGlue'))
-          continue;
-        var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
-        if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-        baseDir = FileSystem.fullPath(baseDir);
-        var basePath = '$baseDir/${cl.name}';
-        var headerPath = basePath + '.h';
-        cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
 
-        var writer = new GlueWriter(headerPath, basePath + '.cpp', c.toString());
+        var headerPath = '$haxeRuntimeDir/${cl.pack.join('/')}/${cl.name}.h';
+
         writer.addCppInclude(headerPath);
         for (pack in cl.pack) {
           writer.wboth('namespace $pack {\n');
@@ -48,13 +46,15 @@ class NativeGlueCode
 
         for (field in cl.statics.get()) {
           var glueHeaderCode = extract(field.meta, 'glueHeaderCode')[0];
-          writer.wh('\t\t$glueHeaderCode\n');
+          if (glueHeaderCode != null)
+            writer.wh('\t\t$glueHeaderCode\n');
           for (inc in extract(field.meta, 'glueHeaderIncludes'))
             writer.addHeaderInclude(inc);
 
           // TODO: use onAfterGenerate to genenrate the cpp glue code
           var glueCppCode = extract(field.meta, 'glueCppCode')[0];
-          writer.wcpp(glueCppCode);
+          if (glueCppCode != null)
+            writer.wcpp(glueCppCode);
           writer.wcpp('\n');
           for (inc in extract(field.meta, 'glueCppIncludes'))
             writer.addCppInclude(inc);
@@ -65,6 +65,41 @@ class NativeGlueCode
           writer.wboth('}\n');
         }
         writer.close();
+      case _:
+    }
+  }
+
+  public function onAfterGenerate() {
+    trace('after generate');
+    for (type in glueTypes) {
+      switch(type) {
+        case TInst(c,tl):
+          var cppPath = '$haxeRuntimeDir/${c.toString().replace('.','/')}.cpp';
+          var writer = new GlueWriter(null, cppPath, c.toString());
+          write(type,writer);
+        case _:
+      }
+    }
+  }
+
+  public function onGenerate(types:Array<Type>) {
+    glueTypes = [];
+    if (haxeRuntimeDir == null) return;
+
+    for (type in types) {
+      switch(type) {
+      case TInst(c,tl) if (c.toString().startsWith('unreal.glue')):
+        var cl = c.get();
+        if (!cl.meta.has(':unrealGlue'))
+          continue;
+        var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
+        if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+        var headerPath = '$baseDir/${cl.name}.h';
+        cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
+
+        glueTypes.push(type);
+        var writer = new GlueWriter(headerPath, null, c.toString());
+        write(type, writer);
       case _:
       }
     }

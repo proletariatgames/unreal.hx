@@ -1,7 +1,7 @@
 package unreal.helpers;
 
-@:headerNamespaceCode('/*')
-@:headerClassCode('*/\nnamespace Empty {')
+// @:headerNamespaceCode('/*')
+// @:headerClassCode('*/\nnamespace Empty {')
 @:nativeGen class HxcppRuntime
 {
   public static function constCharToString(str:cpp.ConstCharStar):cpp.RawPointer<cpp.Void> {

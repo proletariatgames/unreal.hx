@@ -20,14 +20,14 @@ class ExternGenerator
   private var fields:Array<Field>;
   private var cls:ClassType;
   private var helperGlueFields:Array<HelperGlueField>;
-  private var thisType:GlueType;
+  private var thisType:TypeConv;
   private var helperType:TypeRef;
 
   private function new() {
     this.fields = getBuildFields();
     this.cls = getLocalClass().get();
     this.helperGlueFields = [];
-    this.thisType = GlueType.get( Context.getLocalType(), Context.currentPos() );
+    this.thisType = TypeConv.get( Context.getLocalType(), Context.currentPos() );
   }
 
   /**
@@ -44,7 +44,9 @@ class ExternGenerator
         return true;
       });
     }
-    Context.onGenerate( NativeGlueCode.onGenerate );
+    var nativeGlue = new NativeGlueCode();
+    Context.onGenerate( nativeGlue.onGenerate );
+    Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
   }
 
   public function run():Array<Field> {
@@ -56,8 +58,8 @@ class ExternGenerator
       switch (field.kind) {
       case FFun(f) if (f.expr == null):
         // get type definitions for arguments/return
-        var args = [ for (arg in f.args) { name:arg.name, escapedName: arg.name, type: getGlueType(arg.type, field.pos) } ];
-        var ret = getGlueType(f.ret, field.pos);
+        var args = [ for (arg in f.args) { name:arg.name, escapedName: arg.name, type: getTypeConv(arg.type, field.pos) } ];
+        var ret = getTypeConv(f.ret, field.pos);
 
         var isStatic = (field.access != null && field.access.has(AStatic));
         if (!isStatic)
@@ -92,7 +94,7 @@ class ExternGenerator
         var glueCppCode =
           ret.glueType.getCppType() +
           ' ${helperType.getCppType()}_obj::${field.name}(' + cppArgDecl + ') {' +
-            '\t' + glueCppBody + ';\n}';
+            '\n\t' + glueCppBody + ';\n}';
         var allTypes = [ for (arg in args) arg.type ];
         allTypes.push(ret);
 
@@ -108,9 +110,6 @@ class ExternGenerator
           glueCppIncludes:collectCppIncludes(allTypes),
           pos:field.pos
         });
-        // add function to helper glue class
-        // add Haxe code that calls the glue class
-        // add cpp code that generates the glue class
       case FVar(t, expr) if (field.meta.exists(function(meta) return meta.name == ':')):
       case _:
       }
@@ -134,7 +133,7 @@ class ExternGenerator
     return fields;
   }
 
-  private static function collectHeaderIncludes(allTypes:Array<GlueType>) {
+  private static function collectHeaderIncludes(allTypes:Array<TypeConv>) {
     var ret = new Map();
     for (t in allTypes) {
       if (t.glueHeaderIncludes != null) {
@@ -146,7 +145,7 @@ class ExternGenerator
     return ret.array();
   }
 
-  private static function collectCppIncludes(allTypes:Array<GlueType>) {
+  private static function collectCppIncludes(allTypes:Array<TypeConv>) {
     var ret = new Map();
     for (t in allTypes) {
       if (t.glueCppIncludes != null) {
@@ -207,10 +206,10 @@ class ExternGenerator
     return { name: name, params:[for (v in value) macro @:pos(pos) $v{v}], pos:pos };
   }
 
-  private static function getGlueType(c:ComplexType, pos:Position)
+  private static function getTypeConv(c:ComplexType, pos:Position)
   {
     var t = complexToType(c, pos);
-    return GlueType.get(t, pos);
+    return TypeConv.get(t, pos);
   }
 
   private static function complexToType(c:ComplexType, pos:Position):Type
@@ -222,8 +221,8 @@ class ExternGenerator
 
 typedef HelperGlueField = {
   name:String,
-  args:Array<{ name:String, escapedName:String, type:GlueType }>,
-  ret:GlueType,
+  args:Array<{ name:String, escapedName:String, type:TypeConv }>,
+  ret:TypeConv,
 
   glueHeaderCode:String,
   glueCppCode:String,

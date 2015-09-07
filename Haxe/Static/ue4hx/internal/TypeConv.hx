@@ -6,12 +6,12 @@ using haxe.macro.TypeTools;
 using StringTools;
 
 /**
-  Represents a type whose glue code will be generated. Contains all the information
+  Represents a Haxe type whose glue code will be generated. Contains all the information
   on how to generate the glue code for the type
 
-  @see GlueTypeInfo
+  @see TypeConvInfo
  **/
-@:forward abstract GlueType(GlueTypeInfo) from GlueTypeInfo
+@:forward abstract TypeConv(TypeConvInfo) from TypeConvInfo
 {
   public var haxeGlueType(get,never):TypeRef;
   public var glueType(get,never):TypeRef;
@@ -53,7 +53,7 @@ using StringTools;
     return this.glueType != null ? this.glueType : this.ueType;
   }
 
-  public static function get(type:Type, pos:Position):GlueType
+  public static function get(type:Type, pos:Position):TypeConv
   {
     var name = null,
         args = null,
@@ -177,8 +177,8 @@ using StringTools;
     }
   }
 
-  static var basicTypes:Map<String, GlueTypeInfo> = {
-    var infos:Array<GlueTypeInfo> = [
+  static var basicTypes:Map<String, TypeConvInfo> = {
+    var infos:Array<TypeConvInfo> = [
       {
         ueType: new TypeRef('bool'),
         haxeType: new TypeRef('Bool'),
@@ -225,7 +225,7 @@ using StringTools;
   static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
 }
 
-typedef GlueTypeInfo = {
+typedef TypeConvInfo = {
   /**
     Represents the Haxe-side type
    **/
