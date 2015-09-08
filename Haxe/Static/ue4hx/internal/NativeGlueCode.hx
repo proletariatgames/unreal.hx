@@ -10,7 +10,7 @@ using StringTools;
 
 /**
   Takes care of generating the native glue code - both header and source files
-  This is called by `ExternGenerator`
+  This is called by `GlueGenerator`
  **/
 class NativeGlueCode
 {

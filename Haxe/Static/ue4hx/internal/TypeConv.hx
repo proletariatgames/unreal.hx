@@ -201,8 +201,8 @@ using StringTools;
 
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
         glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( % )',
-        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( % )'
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)'
       },
       // FText
       {
@@ -216,8 +216,8 @@ using StringTools;
 
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( % )',
-        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( % )'
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)'
       },
     ];
     var ret = new Map();

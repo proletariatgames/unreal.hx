@@ -1,0 +1,6 @@
+# this file is only here to provide IDE completion information
+# to the externs builder
+-cp Static
+-cpp bin/cpp
+--no-output
+--macro ue4hx.internal.ExternProcessor.process(["Externs"])

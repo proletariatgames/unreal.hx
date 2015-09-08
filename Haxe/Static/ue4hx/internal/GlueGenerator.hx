@@ -8,25 +8,27 @@ using haxe.macro.Tools;
 using StringTools;
 using Lambda;
 
-class ExternGenerator {
+class GlueGenerator {
   static var firstCompilation = true;
   static var hasRun = false;
   public static function generate():Array<Field> {
     registerMacroCalls();
-    return new ExternGenerator().run();
+    return new GlueGenerator().run();
   }
 
   private var fields:Array<Field>;
+  private var fieldsToAdd:Array<Field>;
   private var cls:ClassType;
-  private var helperGlueFields:Array<HelperGlueField>;
+  private var externHelperGlueFields:Array<HelperGlueField>;
   private var thisType:TypeConv;
   private var helperType:TypeRef;
 
   private function new() {
     this.fields = getBuildFields();
     this.cls = getLocalClass().get();
-    this.helperGlueFields = [];
+    this.externHelperGlueFields = [];
     this.thisType = TypeConv.get( Context.getLocalType(), Context.currentPos() );
+    this.fieldsToAdd = [];
   }
 
   /**
@@ -51,7 +53,6 @@ class ExternGenerator {
 
   public function run():Array<Field> {
     var typeRef = new TypeRef(cls.pack, cls.name);
-    var fieldsToAdd:Array<Field> = [];
     this.helperType = typeRef.getGlueHelperType();
 
     this.fields = this.fields.filter(function(v) return v.name != 'wrap');
@@ -100,7 +101,7 @@ class ExternGenerator {
         allTypes.push(ret);
 
         // add the glue codes so they can be later added to the glue extern type
-        this.helperGlueFields.push({
+        this.externHelperGlueFields.push({
           name: field.name,
           args: args,
           ret: ret,
@@ -154,7 +155,7 @@ class ExternGenerator {
           var glueCppCode = retType + ' ${helperType.getCppType()}_obj::$prefix${field.name}(' + cppArgDecl + ') {\n' +
             '\t' + glueCppBody + ';\n}';
           var allTypes = [ thisType, tconv ];
-          this.helperGlueFields.push({
+          this.externHelperGlueFields.push({
             name: prefix + field.name,
             args: args,
             ret: ret,
@@ -166,7 +167,7 @@ class ExternGenerator {
             pos: field.pos
           });
 
-          fieldsToAdd.push({
+          this.fieldsToAdd.push({
             name: prefix + field.name,
             access: isStatic ? [AStatic] : null,
             kind: FFun({
@@ -196,10 +197,10 @@ class ExternGenerator {
       }),
       pos: currentPos()
     });
-    for (f in fieldsToAdd)
+    for (f in this.fieldsToAdd)
       fields.push(f);
 
-    createHelperType();
+    createExternHelperType();
     return fields;
   }
 
@@ -227,9 +228,9 @@ class ExternGenerator {
     return ret.array();
   }
 
-  private function createHelperType() {
+  private function createExternHelperType() {
     var fields = [];
-    for (field in this.helperGlueFields) {
+    for (field in this.externHelperGlueFields) {
       fields.push({
         name: field.name,
         access: [APublic, AStatic],
