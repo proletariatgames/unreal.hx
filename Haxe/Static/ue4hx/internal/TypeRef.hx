@@ -64,7 +64,7 @@ class TypeRef
       buf.add(' *');
     case [ ['cpp'], 'ConstCharStar' ]:
       buf.add('const char *');
-    case [ ['cpp'], 'Void' ]:
+    case [ [] | ['cpp'], 'Void' | 'void' ]:
       buf.add('void');
     case [ [], 'Bool' | 'bool' ]:
       buf.add('bool');

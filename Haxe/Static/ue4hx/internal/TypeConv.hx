@@ -198,10 +198,11 @@ using StringTools;
 
         glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
         glueHeaderIncludes:['<hxcpp.h>'],
+
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
         glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( cast % )',
-        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( cast % )'
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( % )',
+        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( % )'
       },
       // FText
       {
@@ -212,10 +213,11 @@ using StringTools;
 
         glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
         glueHeaderIncludes:['<hxcpp.h>'],
+
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( cast % )',
-        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( cast % )'
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.stringToPointer( % )',
+        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToString( % )'
       },
     ];
     var ret = new Map();

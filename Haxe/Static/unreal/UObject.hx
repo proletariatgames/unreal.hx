@@ -6,7 +6,7 @@ package unreal;
 @:glueCppIncludes("UObject/UObject.h")
 class UObject
 {
-  private var wrapped:cpp.RawPointer<cpp.Void>;
+  @:skip private var wrapped:cpp.RawPointer<cpp.Void>;
   public function new(wrapped:cpp.Pointer<Dynamic>)
   {
     this.wrapped = wrapped.rawCast();
@@ -16,6 +16,8 @@ class UObject
   public function GetClass():UClass;
   public function GetDesc():FString;
   public function GetDefaultConfigFilename():FString;
+  public function IsPostLoadThreadSafe():Bool;
+  public function PostLoad():Void;
 }
 
 // We need this separate class because of a build order issue (HaxeFoundation/haxe#4527)

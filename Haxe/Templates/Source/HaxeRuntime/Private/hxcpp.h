@@ -1,5 +1,6 @@
 // this is a minimal hxcpp header so we can reference some select hxcpp-generated headers in UE4
-// the actual hxcpp header can't be included by the UE4 build because of the -fno-rtti compiler option
+// the actual hxcpp header can't be included by the UE4 build because of incompatible compiler options
+
 #ifndef HXCPP_H
 #define HXCPP_H
 

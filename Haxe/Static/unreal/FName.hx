@@ -1,5 +1,0 @@
-package unreal;
-
-class FName
-{
-}

@@ -1,8 +1,6 @@
 package unreal.helpers;
 
-@:ue4expose
-@:keep
-@:nativeGen class HxcppRuntime
+@:ue4expose @:keep @:nativeGen class HxcppRuntime
 {
   public static function constCharToString(str:cpp.ConstCharStar):cpp.RawPointer<cpp.Void> {
     return HaxeHelpers.stringToPointer(str);

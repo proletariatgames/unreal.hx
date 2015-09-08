@@ -51,6 +51,7 @@ class ExternGenerator {
 
   public function run():Array<Field> {
     var typeRef = new TypeRef(cls.pack, cls.name);
+    var fieldsToAdd:Array<Field> = [];
     this.helperType = typeRef.getGlueHelperType();
 
     this.fields = this.fields.filter(function(v) return v.name != 'wrap');
@@ -110,7 +111,74 @@ class ExternGenerator {
           glueCppIncludes:collectCppIncludes(allTypes),
           pos:field.pos
         });
-      case FVar(t, expr) if (field.meta.exists(function(meta) return meta.name == ':')):
+      case FVar(t, expr) if (!field.meta.exists(function(meta) return meta.name == ':skip')):
+        if (expr != null) throw new Error('Unreal Glue: External C++ properties cannot contain expression initializers', field.pos);
+        var tconv = getTypeConv(t, field.pos);
+        // this is going to be a property that gets/sets the actual variable
+        field.kind = FProp("get", "set", t, expr);
+
+        var isStatic = (field.access != null && field.access.has(AStatic));
+
+        // generate getter and setter
+        function createField(prefix:String)
+        {
+          var args = prefix == "set_" ? [{ name:'value', escapedName: 'value', type:tconv }] : [];
+          if (!isStatic)
+            args.unshift({ name:'this', escapedName: 'self', type: thisType });
+
+          var glueCppBody = if (isStatic) {
+            thisType.ueType.getCppRefName() + '::' + field.name;
+          } else {
+            thisType.glueToUe('self') + '->' + field.name;
+          }
+
+          var ret = tconv,
+              hxExpr = helperType.getRefName() + '.' + prefix + field.name + '(' +
+                [ for (arg in args) arg.type.haxeToGlue(arg.name) ].join(', ') + ')';
+          switch(prefix) {
+          case 'get_':
+            glueCppBody = 'return ' + tconv.ueToGlue(glueCppBody);
+            hxExpr = 'return ' + tconv.glueToHaxe(hxExpr);
+          case 'set_':
+            glueCppBody = glueCppBody + ' = ' + tconv.glueToUe('value');
+            ret = TypeConv.get( Context.getType('Void'), field.pos );
+            hxExpr = '{\n\t' + hxExpr + ';\n\t' + 'return value;\n}';
+          case _: throw 'assert';
+          }
+          trace(hxExpr);
+
+          var cppArgDecl = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.escapedName ].join(', ');
+          var retType = ret.glueType.getCppType().toString();
+          var glueHeaderCode = 'static $retType $prefix${field.name}(' + cppArgDecl + ');';
+
+          var glueCppCode = retType + ' ${helperType.getCppType()}_obj::$prefix${field.name}(' + cppArgDecl + ') {\n' +
+            '\t' + glueCppBody + ';\n}';
+          var allTypes = [ thisType, tconv ];
+          this.helperGlueFields.push({
+            name: prefix + field.name,
+            args: args,
+            ret: ret,
+
+            glueHeaderCode: glueHeaderCode,
+            glueCppCode: glueCppCode,
+            glueHeaderIncludes: collectHeaderIncludes(allTypes),
+            glueCppIncludes: collectCppIncludes(allTypes),
+            pos: field.pos
+          });
+
+          fieldsToAdd.push({
+            name: prefix + field.name,
+            access: isStatic ? [AStatic] : null,
+            kind: FFun({
+              args: [ for (arg in ( isStatic ? args : args.slice(1) )) { name: arg.name, type: arg.type.haxeType.toComplexType() } ],
+              ret: tconv.haxeType.toComplexType(),
+              expr: Context.parse(hxExpr, field.pos)
+            }),
+            pos: field.pos
+          });
+        }
+        createField('get_');
+        createField('set_');
       case _:
       }
     }
@@ -128,6 +196,8 @@ class ExternGenerator {
       }),
       pos: currentPos()
     });
+    for (f in fieldsToAdd)
+      fields.push(f);
 
     createHelperType();
     return fields;
