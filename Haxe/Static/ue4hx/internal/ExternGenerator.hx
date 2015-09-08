@@ -120,6 +120,7 @@ class ExternGenerator {
         var isStatic = (field.access != null && field.access.has(AStatic));
 
         // generate getter and setter
+        // TODO: cleanup and unify function / property generation
         function createField(prefix:String)
         {
           var args = prefix == "set_" ? [{ name:'value', escapedName: 'value', type:tconv }] : [];
@@ -145,7 +146,6 @@ class ExternGenerator {
             hxExpr = '{\n\t' + hxExpr + ';\n\t' + 'return value;\n}';
           case _: throw 'assert';
           }
-          trace(hxExpr);
 
           var cppArgDecl = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.escapedName ].join(', ');
           var retType = ret.glueType.getCppType().toString();

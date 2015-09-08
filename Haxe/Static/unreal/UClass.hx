@@ -2,6 +2,7 @@ package unreal;
 
 @:glueCppIncludes("UObject/Class.h")
 @:uobject
+@:unrealExtern
 class UClass extends UObject
 {
   public static function StaticClass():UClass;

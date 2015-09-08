@@ -3,6 +3,7 @@ package unreal;
 @:build(ue4hx.internal.ExternGenerator.generate())
 @:autoBuild(ue4hx.internal.ExternGenerator.generate())
 @:uobject
+@:unrealExtern
 @:glueCppIncludes("UObject/UObject.h")
 class UObject
 {
