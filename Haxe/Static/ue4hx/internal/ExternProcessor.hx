@@ -220,6 +220,7 @@ class ExternProcessor {
       case _:
         this.buf.add('never);');
       }
+      this.newline();
     case FMethod(k):
       switch(Context.follow(field.type)) {
       case TFun(args,ret):
@@ -244,10 +245,87 @@ class ExternProcessor {
       } else {
         meth.ret;
       }
+      var isVoid = glueRet.haxeType.isVoid();
       this.glue.add('public static function ${meth.name}(');
       this.glue.add([ for (arg in helperArgs) escapeName(arg.name) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
       this.glue.add('):' + glueRet.haxeGlueType + ';\n');
 
+      // generate the header and cpp glue code
+      //TODO: optimization: use StringBuf instead of all these string concats
+      var cppArgDecl = [ for ( arg in helperArgs ) arg.t.glueType.getCppType() + ' ' + escapeName(arg.name) ].join(', ');
+      var glueHeaderCode = 'static ${meth.ret.glueType.getCppType()} ${field.name}(' + cppArgDecl + ');';
+
+      var glueCppBody = if (isStatic) {
+        this.thisConv.ueType.getCppRefName() + '::' + field.name;
+      } else {
+        var self = helperArgs[0];
+        self.t.glueToUe(escapeName(self.name)) + '->' + field.name;
+      }
+
+      if (meth.isProp) {
+        if (isSetter) {
+          glueCppBody += ' = ' + meth.args[0].t.glueToUe('value');
+        }
+      } else {
+        glueCppBody += [ for (arg in meth.args) arg.t.glueToUe(escapeName(arg.name)) ].join(', ') + ')';
+      }
+      if (!isVoid)
+        glueCppBody = 'return ' + meth.ret.ueToGlue( glueCppBody );
+
+      var glueCppCode =
+        meth.ret.glueType.getCppType() +
+        ' ${this.glueType.getCppType()}_obj::${field.name}(' + cppArgDecl + ') {' +
+          '\n\t' + glueCppBody + ';\n}';
+      var allTypes = [ for (arg in helperArgs) arg.t ];
+      allTypes.push(meth.ret);
+      this.buf.add('@:glueHeaderCode(\'');
+      escapeString(glueHeaderCode, this.buf);
+      this.buf.add('\')');
+      this.newline();
+      this.buf.add('@:glueCppCode(\'');
+      escapeString(glueCppCode, this.buf);
+      this.buf.add('\')');
+      this.newline();
+
+      var headerIncludes = new Map(),
+          cppIncludes = new Map();
+      var hasHeaderInc = false,
+          hasCppInc = false;
+      for (type in allTypes) {
+        if (type.glueCppIncludes != null) {
+          for (inc in type.glueCppIncludes)
+            cppIncludes[inc] = inc;
+            hasCppInc = true;
+        }
+        if (type.glueHeaderIncludes != null) {
+          for (inc in type.glueHeaderIncludes)
+            headerIncludes[inc] = inc;
+            hasHeaderInc = true;
+        }
+      }
+      if (hasHeaderInc) {
+        this.buf.add('@:glueHeaderIncludes(');
+        for (inc in headerIncludes) {
+          this.buf.add('\'');
+          escapeString(inc, this.buf);
+          this.buf.add('\'');
+        }
+        this.buf.add(')');
+        this.newline();
+      }
+      if (hasCppInc) {
+        this.buf.add('@:glueCppIncludes(');
+        for (inc in cppIncludes) {
+          this.buf.add('\'');
+          escapeString(inc, this.buf);
+          this.buf.add('\'');
+        }
+        this.buf.add(')');
+        this.newline();
+      }
+
+      if (meth.isFinal)
+        this.buf.add('@:final ');
       if (meth.isPublic)
         this.buf.add('public ');
       else
@@ -265,7 +343,7 @@ class ExternProcessor {
         ')';
       if (isSetter)
         haxeBody = haxeBody + ';\n${this.indentStr}return value';
-      else if (!glueRet.haxeType.isVoid())
+      else if (!isVoid)
         haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody);
       this.buf.add(haxeBody);
       this.buf.add(';');
@@ -280,6 +358,28 @@ class ExternProcessor {
       case _:
         name;
     };
+  }
+
+  private static function escapeString(str:String, ?buf:StringBuf):StringBuf {
+    if (buf == null) buf = new StringBuf();
+    for (i in 0...str.length) {
+      var code = str.fastCodeAt(i);
+      switch (code) {
+      case '\\'.code:
+        buf.add('\\\\');
+      case '\n'.code:
+        buf.add('\\n');
+      case '\t'.code:
+        buf.add('\\t');
+      case '\''.code:
+        buf.add('\\\'');
+      case '"'.code:
+        buf.add('\\"');
+      case chr:
+        buf.addChar(chr);
+      }
+    }
+    return buf;
   }
 
   private function processEnum(e:EnumType) {
