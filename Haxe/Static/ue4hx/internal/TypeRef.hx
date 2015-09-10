@@ -144,6 +144,13 @@ class TypeRef
     }
   }
 
+  public function withoutModule():TypeRef {
+    return if (this.moduleName == null)
+      this;
+    else
+      new TypeRef(this.pack, this.name, this.params);
+  }
+
   public function getRefName():String
   {
     var name = if (this.moduleName == null)
