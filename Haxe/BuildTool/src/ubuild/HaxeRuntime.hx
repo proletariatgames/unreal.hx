@@ -61,7 +61,7 @@ class HaxeRuntime extends BaseModuleRules
           '',
           '-cpp $gameDir/Haxe/Generated/Externs',
           '--no-output', // don't generate cpp files; just execute our macro
-          '--macro ue4hx.internal.ExternProcessor.process(["$pluginPath/Haxe/Externs","$gameDir/Haxe/Externs"], $forceCreateExterns)'
+          '--macro ue4hx.internal.ExternBaker.process(["$pluginPath/Haxe/Externs","$gameDir/Haxe/Externs"], $forceCreateExterns)'
         ];
         trace('baking externs');
         var ret = compileSources('bake-externs', null, bakeArgs);

@@ -15,7 +15,7 @@ using StringTools;
   compilation step, as it will generate actual Haxe files which will be used as the source for the next
   passes.
  **/
-class ExternProcessor {
+class ExternBaker {
   /**
     Processes the 'Externs' directories and creates Haxe wrappers based on them.
     This command should be run through `--macro` command-line option, and `--no-output` (so
@@ -79,7 +79,7 @@ class ExternProcessor {
       var buf = new StringBuf();
       if (pack.length != 0)
         buf.add('package ${pack.join('.')};\n');
-      var processor = new ExternProcessor(buf);
+      var processor = new ExternBaker(buf);
       for (type in module) {
         var glueBuf = processor.processType(type),
             glue = Std.string(glueBuf);
@@ -290,13 +290,13 @@ class ExternProcessor {
       // generate the header and cpp glue code
       //TODO: optimization: use StringBuf instead of all these string concats
       var cppArgDecl = [ for ( arg in helperArgs ) arg.t.glueType.getCppType() + ' ' + escapeName(arg.name) ].join(', ');
-      var glueHeaderCode = 'static ${meth.ret.glueType.getCppType()} ${field.name}(' + cppArgDecl + ');';
+      var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
       var glueCppBody = if (isStatic) {
-        this.thisConv.ueType.getCppRefName() + '::' + field.name;
+        this.thisConv.ueType.getCppRefName() + '::' + meth.uename;
       } else {
         var self = helperArgs[0];
-        self.t.glueToUe(escapeName(self.name)) + '->' + field.name;
+        self.t.glueToUe(escapeName(self.name)) + '->' + meth.uename;
       }
 
       if (meth.isProp) {
@@ -307,11 +307,11 @@ class ExternProcessor {
         glueCppBody += '(' + [ for (arg in meth.args) arg.t.glueToUe(escapeName(arg.name)) ].join(', ') + ')';
       }
       if (!isVoid)
-        glueCppBody = 'return ' + meth.ret.ueToGlue( glueCppBody );
+        glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody );
 
       var glueCppCode =
-        meth.ret.glueType.getCppType() +
-        ' ${this.glueType.getCppType()}_obj::${field.name}(' + cppArgDecl + ') {' +
+        glueRet.glueType.getCppType() +
+        ' ${this.glueType.getCppType()}_obj::${meth.name}(' + cppArgDecl + ') {' +
           '\n\t' + glueCppBody + ';\n}';
       var allTypes = [ for (arg in helperArgs) arg.t ];
       allTypes.push(meth.ret);
