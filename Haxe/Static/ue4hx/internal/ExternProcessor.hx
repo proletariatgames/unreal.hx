@@ -39,6 +39,7 @@ class ExternProcessor {
 
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
+    if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
     var processed = new Map(),
         toProcess = [];
     var i = classpaths.length;
@@ -150,13 +151,17 @@ class ExternProcessor {
 
     this.addDoc(c.doc);
     this.addMeta(c.meta.get());
+    this.buf.add('@:ueGluePath("${this.glueType.getRefName()}")\n');
     if (c.isPrivate)
       this.buf.add('private ');
     this.buf.add('class ${c.name} ');
     if (c.superClass != null) {
       var supRef = TypeRef.fromBaseType(c.superClass.t.get(), c.superClass.params, c.pos);
       this.buf.add('extends $supRef ');
+    } else {
+      this.buf.add('implements ue4hx.internal.NeedsGlue ');
     }
+
     for (iface in c.interfaces) {
       var ifaceRef = TypeRef.fromBaseType(iface.t.get(), iface.params, c.pos);
       this.buf.add('implements $ifaceRef ');
@@ -170,6 +175,7 @@ class ExternProcessor {
     }
 
     // add the wrap field
+    // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
     this.buf.add('@:unreflective public static function wrap(ptr:');
     this.buf.add(this.thisConv.haxeGlueType.toString());
     this.buf.add('):' + this.thisConv.haxeType);
@@ -298,7 +304,7 @@ class ExternProcessor {
           glueCppBody += ' = ' + meth.args[0].t.glueToUe('value');
         }
       } else {
-        glueCppBody += [ for (arg in meth.args) arg.t.glueToUe(escapeName(arg.name)) ].join(', ') + ')';
+        glueCppBody += '(' + [ for (arg in meth.args) arg.t.glueToUe(escapeName(arg.name)) ].join(', ') + ')';
       }
       if (!isVoid)
         glueCppBody = 'return ' + meth.ret.ueToGlue( glueCppBody );

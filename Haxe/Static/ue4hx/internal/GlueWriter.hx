@@ -4,6 +4,7 @@ import sys.FileSystem.*;
 
 using StringTools;
 
+//TODO: refactor to write cpp and header independently
 class GlueWriter
 {
   public var headerPath(default, null):String;

@@ -27,42 +27,44 @@ class NativeGlueCode
     }
   }
 
-  private function write(type:Type, writer:GlueWriter) {
+  private function write(type:Type, writer:GlueWriter, gluePath:String) {
     switch (type) {
       case TInst(c,tl):
+        var gluePack = gluePath.split('.'),
+            glueName = gluePack.pop();
         var cl = c.get();
 
-        var headerPath = '$haxeRuntimeDir/${cl.pack.join('/')}/${cl.name}.h';
+        var headerPath = '$haxeRuntimeDir/${gluePack.join('/')}/${glueName}.h';
 
         writer.addCppInclude(headerPath);
-        for (pack in cl.pack) {
+        for (pack in gluePack) {
           writer.wboth('namespace $pack {\n');
         }
-        writer.wh('class ${cl.name}_obj {\n\tpublic:\n');
-        for (inc in extract(cl.meta, 'glueHeaderIncludes'))
+        writer.wh('class ${glueName}_obj {\n\tpublic:\n');
+        for (inc in extract(cl.meta, ':glueHeaderIncludes'))
           writer.addHeaderInclude(inc);
 
-        for (inc in extract(cl.meta, 'glueCppIncludes'))
+        for (inc in extract(cl.meta, ':glueCppIncludes'))
           writer.addCppInclude(inc);
 
-        for (field in cl.statics.get()) {
-          var glueHeaderCode = extract(field.meta, 'glueHeaderCode')[0];
+        for (field in cl.statics.get().concat(cl.fields.get())) {
+          var glueHeaderCode = extract(field.meta, ':glueHeaderCode')[0];
           if (glueHeaderCode != null)
             writer.wh('\t\t$glueHeaderCode\n');
-          for (inc in extract(field.meta, 'glueHeaderIncludes'))
+          for (inc in extract(field.meta, ':glueHeaderIncludes'))
             writer.addHeaderInclude(inc);
 
           // TODO: use onAfterGenerate to genenrate the cpp glue code
-          var glueCppCode = extract(field.meta, 'glueCppCode')[0];
+          var glueCppCode = extract(field.meta, ':glueCppCode')[0];
           if (glueCppCode != null)
             writer.wcpp(glueCppCode);
           writer.wcpp('\n');
-          for (inc in extract(field.meta, 'glueCppIncludes'))
+          for (inc in extract(field.meta, ':glueCppIncludes'))
             writer.addCppInclude(inc);
         }
         writer.wh('};\n\n');
 
-        for (pack in cl.pack) {
+        for (pack in gluePack) {
           writer.wboth('}\n');
         }
         writer.close();
@@ -76,10 +78,11 @@ class NativeGlueCode
       switch(type) {
         case TInst(c,tl):
           var cl = c.get();
-          if (cl.meta.has(':unrealGlue')) {
-            var cppPath = '$haxeRuntimeDir/${c.toString().replace('.','/')}.cpp';
-            var writer = new GlueWriter(null, cppPath, c.toString());
-            write(type,writer);
+          if (cl.meta.has(':ueGluePath')) {
+            var gluePath = extract(cl.meta, ':ueGluePath')[0];
+            var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
+            var writer = new GlueWriter(null, cppPath, gluePath);
+            write(type,writer, gluePath);
           } else if (cl.meta.has(':ue4expose')) {
             // copy the header to the generated folder
             var path = c.toString().replace('.','/');
@@ -105,23 +108,32 @@ class NativeGlueCode
       switch(type) {
       case TInst(c,tl):
         var typeName = c.toString();
-        if (typeName.startsWith('unreal.glue')) {
-          var cl = c.get();
-          if (!cl.meta.has(':unrealGlue'))
-            continue;
-          var baseDir = '$haxeRuntimeDir/${cl.pack.join('/')}';
-          if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-          var headerPath = '$baseDir/${cl.name}.h';
-          cl.meta.add(':include', [macro $v{headerPath}], cl.pos);
-
-          glueTypes.push(type);
-          var writer = new GlueWriter(headerPath, null, c.toString());
-          write(type, writer);
-        } else if (typeName.startsWith('unreal.helpers')) {
+        if (typeName.startsWith('unreal.helpers')) {
           var cl = c.get();
           if (!cl.meta.has(':ue4expose'))
             continue;
           glueTypes.push(type);
+        } else if (typeName.startsWith('unreal')) {
+          var cl = c.get();
+          if (!cl.meta.has(':ueGluePath'))
+            continue;
+          var gluePath = extract(cl.meta, ':ueGluePath')[0];
+          var glueClass = switch (Context.follow(Context.getType(gluePath))) {
+          case TInst(cl,_):
+            cl.get();
+          case _: throw 'assert: $typeName ($gluePath is not a class)';
+          }
+
+          var gluePack = gluePath.split('.'),
+              glueName = gluePack.pop();
+          var baseDir = '$haxeRuntimeDir/${gluePack.join('/')}';
+          if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+          var headerPath = '$baseDir/${glueName}.h';
+          glueClass.meta.add(':include', [macro $v{headerPath}], cl.pos);
+
+          glueTypes.push(type);
+          var writer = new GlueWriter(headerPath, null, gluePath);
+          write(type, writer, gluePath);
         }
       case _:
       }
