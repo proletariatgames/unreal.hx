@@ -1,6 +1,6 @@
 package unreal;
 
-extern class AActor extends UObject
+@:uextern extern class AActor extends UObject
 {
   @:UPROPERTY public var bHidden:Bool;
   @:UPROPERTY private var bEditable:Bool;

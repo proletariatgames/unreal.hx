@@ -3,4 +3,7 @@
 -cp Static
 -cpp bin/cpp
 --no-output
---macro ue4hx.internal.ExternProcessor.process(["Externs"])
+--macro ue4hx.internal.ExternProcessor.process(["Externs"], true)
+
+# 
+-D use_rtti_doc

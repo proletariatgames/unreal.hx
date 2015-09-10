@@ -121,7 +121,7 @@ using StringTools;
     if (basic != null) return basic;
 
     var typeRef = TypeRef.parseRefName( name );
-    if (meta != null && meta.has(':uobject')) {
+    if (meta != null && meta.has(':uextern')) {
       return {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
@@ -131,7 +131,7 @@ using StringTools;
         glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
         haxeToGlueExpr: '%.wrapped',
-        glueToHaxeExpr: typeRef.getRefName() + '.${typeRef.name}_Wrap.wrap(cpp.Pointer.fromRaw( cast % ))',
+        glueToHaxeExpr: typeRef.getRefName() + '.wrap( cast % )',
         glueToUeExpr: '( (::${typeRef.name} *) % )'
       };
     }
