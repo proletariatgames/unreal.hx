@@ -1,0 +1,13 @@
+# this file is only here to provide IDE completion information and test
+# for the basic /Static build
+-cp Static
+-cp bin/externs
+-cpp bin/dummy
+unreal.UObject
+unreal.AActor
+unreal.helpers.HxcppRuntime
+# -cp ../../../Haxe/Static/
+# ATestActor
+-D haxe_runtime_dir=bin
+-D static_link
+-D dump

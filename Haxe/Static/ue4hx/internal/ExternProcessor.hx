@@ -4,17 +4,28 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import sys.FileSystem;
+import sys.io.File;
 
 using haxe.macro.Tools;
 
 using StringTools;
 
+/**
+  This is the first pass in the Haxe compilation pipeline. It must run as a separate
+  compilation step, as it will generate actual Haxe files which will be used as the source for the next
+  passes.
+ **/
 class ExternProcessor {
   /**
     Processes the 'Externs' directories and creates Haxe wrappers based on them.
     This command should be run through `--macro` command-line option, and `--no-output` (so
     hxcpp doesn't try to build those files).
-    The target directory will be the selected by `-cpp <target>` command-line option
+    The target directory will be the selected by `-cpp <targetdir>` command-line option
+
+    Classpaths included here will be added with ascending priority - the last being the higher
+    prioirty, and the first being the lower.
+
+    By default, `process` will only process Haxe files whose timestamps are higher than
    **/
   public static function process(classpaths:Array<String>, force:Bool) {
     // first, add the classpaths to the current compiler
@@ -22,7 +33,7 @@ class ExternProcessor {
       Compiler.addClassPath(cp);
     }
 
-    // we want to parse all
+    // we want to parse the documentation as well
     if (!Context.defined('use_rtti_doc'))
       Compiler.define('use_rtti_doc');
 
@@ -46,7 +57,7 @@ class ExternProcessor {
 
             var mtime = FileSystem.stat('$dir/$file').mtime;
             var dest = '$target/${pack.join('/')}/$file';
-            if (FileSystem.exists(dest) && (force || FileSystem.stat(dest).mtime.getTime() >= mtime.getTime()))
+            if (FileSystem.exists(dest) && (!force && FileSystem.stat(dest).mtime.getTime() >= mtime.getTime()))
               continue; // already in latest version
             toProcess.push(module);
           } else if (FileSystem.isDirectory('$dir/$file')) {
@@ -69,12 +80,23 @@ class ExternProcessor {
         buf.add('package ${pack.join('.')};\n');
       var processor = new ExternProcessor(buf);
       for (type in module) {
-        var glueBuf = processor.processType(type);
-        if (glueBuf != null) {
-          var glue = glueBuf.toString();
+        var glueBuf = processor.processType(type),
+            glue = Std.string(glueBuf);
+        if (glueBuf != null && glue != '') {
           var glueType = processor.glueType;
-          trace(glue);
+          var dir = target + '/' + glueType.pack.join('/');
+          if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+          var file = File.write('$dir/${glueType.name}.hx', false);
+          file.writeString('package ${glueType.pack.join('.')};\n' +
+            '@:unrealGlue extern class ${glueType.name} {\n');
+          file.writeString(glue);
+          file.writeString('}');
+          file.close();
         }
+
+        var dir = target + '/' + pack.join('/');
+        if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+        File.saveContent('$dir/$name.hx', buf.toString());
       }
     }
   }
@@ -131,6 +153,14 @@ class ExternProcessor {
     if (c.isPrivate)
       this.buf.add('private ');
     this.buf.add('class ${c.name} ');
+    if (c.superClass != null) {
+      var supRef = TypeRef.fromBaseType(c.superClass.t.get(), c.superClass.params, c.pos);
+      this.buf.add('extends $supRef ');
+    }
+    for (iface in c.interfaces) {
+      var ifaceRef = TypeRef.fromBaseType(iface.t.get(), iface.params, c.pos);
+      this.buf.add('implements $ifaceRef ');
+    }
     this.begin('{');
     for (field in c.statics.get()) {
       processField(field,true);
@@ -151,7 +181,7 @@ class ExternProcessor {
 
     this.buf.add('if (ptr == null) return null;');
     this.newline();
-    this.buf.add('return new ${this.typeRef.getRefName()}(ptr)');
+    this.buf.add('return new ${this.typeRef.getRefName()}(ptr);');
     this.end('}');
 
     if (c.superClass == null) {
@@ -166,7 +196,6 @@ class ExternProcessor {
     }
 
     this.end('}');
-    trace(buf);
   }
 
   private function processField(field:ClassField, isStatic:Bool) {
@@ -216,10 +245,12 @@ class ExternProcessor {
           ret: tconv,
           isProp: true, isFinal: true, isPublic: false
         });
-        this.buf.add('set);');
+        this.buf.add('set):');
       case _:
-        this.buf.add('never);');
+        this.buf.add('never):');
       }
+      this.buf.add(tconv.haxeType);
+      this.buf.add(';');
       this.newline();
     case FMethod(k):
       switch(Context.follow(field.type)) {
@@ -278,6 +309,9 @@ class ExternProcessor {
           '\n\t' + glueCppBody + ';\n}';
       var allTypes = [ for (arg in helperArgs) arg.t ];
       allTypes.push(meth.ret);
+
+      // add the glue header and cpp code to the non-extern class (instead of the glue helper)
+      // in order to be able to benefit from DCE (extern types are never DCE'd)
       this.buf.add('@:glueHeaderCode(\'');
       escapeString(glueHeaderCode, this.buf);
       this.buf.add('\')');
@@ -304,8 +338,10 @@ class ExternProcessor {
         }
       }
       if (hasHeaderInc) {
+        var first = true;
         this.buf.add('@:glueHeaderIncludes(');
         for (inc in headerIncludes) {
+          if (first) first = false; else this.buf.add(', ');
           this.buf.add('\'');
           escapeString(inc, this.buf);
           this.buf.add('\'');
@@ -314,8 +350,10 @@ class ExternProcessor {
         this.newline();
       }
       if (hasCppInc) {
+        var first = true;
         this.buf.add('@:glueCppIncludes(');
         for (inc in cppIncludes) {
+          if (first) first = false; else this.buf.add(', ');
           this.buf.add('\'');
           escapeString(inc, this.buf);
           this.buf.add('\'');

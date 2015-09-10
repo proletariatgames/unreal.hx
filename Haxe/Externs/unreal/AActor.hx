@@ -1,5 +1,6 @@
 package unreal;
 
+@:glueCppIncludes("Engine.h")
 @:uextern extern class AActor extends UObject
 {
   @:UPROPERTY public var bHidden:Bool;

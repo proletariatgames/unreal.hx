@@ -3,6 +3,7 @@ package unreal;
 /**
   The main Unreal Object class
  **/
+@:glueCppIncludes("UObject/UObject.h")
 @:uextern extern class UObject
 {
   /**

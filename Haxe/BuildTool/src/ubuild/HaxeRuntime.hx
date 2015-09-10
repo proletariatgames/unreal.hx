@@ -51,6 +51,7 @@ class HaxeRuntime extends BaseModuleRules
       {
         // create template files
         mkTemplates();
+        // bake glue code externs
         // get all modules that need to be compiled
         var modules = [];
         getModules("Static", modules);
