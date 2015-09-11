@@ -16,6 +16,9 @@ class NeedsGlueBuild
 
     var cls = Context.getLocalClass().get();
     if (!cls.meta.has(':uextern')) {
+      // FIXME: allow any namespace by using @:native; add @:native handling
+      if (cls.pack.length == 0)
+        throw new Error('Unreal Glue Extension: Do not extend Unreal types on the global namespace. Use a package', cls.pos);
       var hadErrors = false;
       // if we don't have the @:uextern meta, it means
       // we're subclassing an extern class

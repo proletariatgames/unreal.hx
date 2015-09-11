@@ -29,7 +29,7 @@ class BuildExpose {
           thisConv = TypeConv.get(t, this.pos);
       var toExpose = [];
       for (field in clt.statics.get()) {
-        if (!shouldExpose(field, null /* static methods won't override anything */))
+        if (!shouldExpose(field, null /* static methods don't override anything */))
           continue;
         toExpose.push(getMethodDef(field, true));
       }
