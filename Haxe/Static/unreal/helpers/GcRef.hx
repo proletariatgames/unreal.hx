@@ -8,18 +8,16 @@ package unreal.helpers;
     return HaxeHelpers.pointerToDynamic(this.ref);
   }
 
-  private function init() {
+  @:final @:nonVirtual @:void private function init() {
     this.ref = HaxeHelpers.dynamicToPointer( GcRoot.create(null) );
   }
 
-  public function set(dyn:cpp.RawPointer<cpp.Void>) {
+  @:final @:nonVirtual @:void public function set(dyn:cpp.RawPointer<cpp.Void>) {
     getRoot().value = HaxeHelpers.pointerToDynamic(dyn);
   }
 
-  public function destruct() {
-    var root = getRoot();
-    root.value = null;
-    root.destruct();
+  @:final @:nonVirtual @:void public function destruct() {
+    getRoot().destruct();
   }
 }
 
@@ -38,10 +36,11 @@ package unreal.helpers;
       if (root != null)
         throw 'GcRoot assert: root is not null';
 #end
-      // add a sibling
-      new GcRoot(null, this);
+      this.last = this;
+      this.next = this;
     } else {
       this.last = next.last;
+      this.last.next = this;
       next.last = this;
     }
   }
@@ -53,8 +52,10 @@ package unreal.helpers;
     return new GcRoot(value,root);
   }
 
-  public function destruct() {
+  @:void @:nonVirtual public function destruct() {
     this.last.next = this.next;
     this.next.last = this.last;
+    this.next = this.last = null;
+    this.value = null;
   }
 }
