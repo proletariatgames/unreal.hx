@@ -429,6 +429,7 @@ class ExternBaker {
 
   private function processEnum(e:EnumType) {
     this.pos = e.pos;
+    // TODO
   }
 
   private function addMeta(metas:Metadata) {

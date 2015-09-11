@@ -92,7 +92,7 @@ class NeedsGlueBuild
         pack: cls.pack,
         name: cls.name + '_HaxeGlue__',
         pos: cls.pos,
-        kind: TDAlias(macro : ue4hx.internal.HaxeGlueGen<$thisComplex> ),
+        kind: TDAlias(macro : ue4hx.internal.HaxeExposeGen<$thisComplex> ),
         fields: []
       });
 

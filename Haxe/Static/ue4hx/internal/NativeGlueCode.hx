@@ -83,7 +83,7 @@ class NativeGlueCode
             var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
             var writer = new GlueWriter(null, cppPath, gluePath);
             write(type,writer, gluePath);
-          } else if (cl.meta.has(':ue4expose')) {
+          } else if (cl.meta.has(':uexpose')) {
             // copy the header to the generated folder
             var path = c.toString().replace('.','/');
             var headerPath = '$cppTarget/include/${path}.h';
@@ -110,8 +110,10 @@ class NativeGlueCode
         var typeName = c.toString();
         if (typeName.startsWith('unreal.helpers')) {
           var cl = c.get();
-          if (!cl.meta.has(':ue4expose'))
+          if (!cl.meta.has(':uexpose'))
             continue;
+          cl.meta.add(':keep', [], cl.pos);
+          cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes.push(type);
         } else if (typeName.startsWith('unreal')) {
           var cl = c.get();
