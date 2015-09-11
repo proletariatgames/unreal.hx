@@ -4,7 +4,9 @@ import haxe.macro.Type;
 
 /**
   Represents a fully qualified type reference. In Haxe terminology,
-  this should be the equivalent of a fully qualified ComplexType
+  this should be the equivalent of a fully qualified ComplexType.
+
+  This provides some helpers to use the same type in both C++ as Haxe
  **/
 class TypeRef
 {

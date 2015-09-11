@@ -7,7 +7,8 @@ class DelayedGlueTypeBuild {
   public static function build():Type {
     return switch (Context.getLocalType()) {
       case TInst(_, [typeToGen]):
-        Context.getType('Dynamic');
+        // TODO
+        TDynamic(null);
       case _:
         throw 'assert';
     }

@@ -26,6 +26,7 @@ class ExternBaker {
     prioirty, and the first being the lower.
 
     By default, `process` will only process Haxe files whose timestamps are higher than
+    the target extern file. Set `force` to true to override this
    **/
   public static function process(classpaths:Array<String>, force:Bool) {
     // first, add the classpaths to the current compiler
