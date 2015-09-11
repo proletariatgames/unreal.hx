@@ -8,5 +8,19 @@ package unreal.helpers;
   public static function stringToConstChar(ptr:cpp.RawPointer<cpp.Void>):cpp.ConstCharStar {
     return cpp.ConstCharStar.fromString( HaxeHelpers.pointerToDynamic(ptr) );
   }
+
+  public static function getWrapped(ptr:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
+    var dyn:{ function reflectGetWrapped():cpp.Pointer<Dynamic>; } =
+      HaxeHelpers.pointerToDynamic(ptr);
+
+    var ret:cpp.Pointer<Dynamic>;
+    if (dyn == null) {
+      ret = null;
+    } else {
+      ret = dyn.reflectGetWrapped();
+    }
+
+    return ret.rawCast();
+  }
 }
 

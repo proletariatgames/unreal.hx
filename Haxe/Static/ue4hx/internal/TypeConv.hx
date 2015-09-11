@@ -57,7 +57,8 @@ using StringTools;
   {
     var name = null,
         args = null,
-        meta = null;
+        meta = null,
+        superClass = null;
 
     // we'll loop until we find a type we're interested in
     // when found, we'll get its name, type parameters and
@@ -72,6 +73,8 @@ using StringTools;
         var native = getMetaString(meta, ':native');
         if (native != null)
           name = native;
+
+        superClass = it.superClass;
         break;
 
       case TEnum(e,tl):
@@ -133,6 +136,36 @@ using StringTools;
         haxeToGlueExpr: '%.wrapped',
         glueToHaxeExpr: typeRef.getRefName() + '.wrap( cast % )',
         glueToUeExpr: '( (::${typeRef.name} *) % )'
+      };
+    }
+
+    // check if extends @:uextern
+    var uextension = false;
+    while (superClass != null) {
+      var cur = superClass.t.get();
+      if (cur.meta.has(':uextern')) {
+        uextension = true;
+        break;
+      }
+      superClass = cur.superClass;
+    }
+
+    if (uextension) {
+      var glueCppIncludes = getMetaArray(meta, ':glueCppIncludes');
+      if (glueCppIncludes == null) glueCppIncludes = [];
+      glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
+      return {
+        haxeType: typeRef,
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
+
+        glueCppIncludes: glueCppIncludes,
+
+        haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
+        glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getRefName()})',
+        ueToGlueExpr: '/* TODO */',
+        glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
     }
 

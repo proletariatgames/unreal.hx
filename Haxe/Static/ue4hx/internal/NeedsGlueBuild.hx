@@ -14,9 +14,9 @@ class NeedsGlueBuild
   {
     registerMacroCalls();
 
-    var hadErrors = false;
     var cls = Context.getLocalClass().get();
     if (!cls.meta.has(':uextern')) {
+      var hadErrors = false;
       // if we don't have the @:uextern meta, it means
       // we're subclassing an extern class
 
@@ -88,34 +88,27 @@ class NeedsGlueBuild
       }
 
       // add the haxe-side glue helper
+
+      toAdd.push((macro class {
+        @:extern private static function __internal_typing() {
+          var x : ue4hx.internal.HaxeExposeGen<$thisComplex> = null;
+        };
+      }).fields[0]);
+
+      // add the glueRef definition if needed
+      for (field in toAdd) fields.push(field);
       Context.defineType({
         pack: cls.pack,
-        name: cls.name + '_HaxeGlue__',
+        name: cls.name + '_GlueRef__',
         pos: cls.pos,
-        kind: TDAlias(macro : ue4hx.internal.HaxeExposeGen<$thisComplex> ),
+        kind: TDAlias( macro : ue4hx.internal.DelayedGlueType<$thisComplex> ),
         fields: []
       });
 
-      // add the glueRef definition if needed
-      trace(toAdd);
-      if (toAdd.length > 0) {
-        for (field in toAdd) fields.push(field);
-        Context.defineType({
-          pack: cls.pack,
-          name: cls.name + '_GlueRef__',
-          pos: cls.pos,
-          kind: TDAlias( macro : ue4hx.internal.DelayedGlueType<$thisComplex> ),
-          fields: []
-        });
-
-        if (hadErrors)
-          Context.error('Unreal Glue Extension: Build failed', cls.pos);
-        return fields;
-      }
+      if (hadErrors)
+        Context.error('Unreal Glue Extension: Build failed', cls.pos);
+      return fields;
     }
-
-    if (hadErrors)
-      Context.error('Unreal Glue Extension: Build failed', cls.pos);
 
     return null;
   }

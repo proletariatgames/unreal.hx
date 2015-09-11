@@ -168,39 +168,45 @@ class ExternBaker {
       this.buf.add('implements $ifaceRef ');
     }
     this.begin('{');
-    for (field in c.statics.get()) {
-      processField(field,true);
-    }
-    for (field in c.fields.get()) {
-      processField(field,false);
-    }
+      for (field in c.statics.get()) {
+        processField(field,true);
+      }
+      for (field in c.fields.get()) {
+        processField(field,false);
+      }
 
-    // add the wrap field
-    // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
-    this.buf.add('@:unreflective public static function wrap(ptr:');
-    this.buf.add(this.thisConv.haxeGlueType.toString());
-    this.buf.add('):' + this.thisConv.haxeType);
-    this.begin(' {');
-    if (!this.thisConv.haxeGlueType.isReflective()) {
-      this.buf.add('var ptr = cpp.Pointer.fromRaw(cast ptr);');
-      this.newline();
-    }
+      // add the wrap field
+      // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
+      this.buf.add('@:unreflective public static function wrap(ptr:');
+      this.buf.add(this.thisConv.haxeGlueType.toString());
+      this.buf.add('):' + this.thisConv.haxeType);
+      this.begin(' {');
+        if (!this.thisConv.haxeGlueType.isReflective()) {
+          this.buf.add('var ptr = cpp.Pointer.fromRaw(cast ptr);');
+          this.newline();
+        }
 
-    this.buf.add('if (ptr == null) return null;');
-    this.newline();
-    this.buf.add('return new ${this.typeRef.getRefName()}(ptr);');
-    this.end('}');
+        this.buf.add('if (ptr == null) return null;');
+        this.newline();
+        this.buf.add('return new ${this.typeRef.getRefName()}(ptr);');
+      this.end('}');
 
-    if (c.superClass == null) {
-      this.newline();
-      // add constructor
-      this.buf.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
-      this.newline();
-      if (this.thisConv.haxeGlueType.isReflective())
-        this.buf.add('private function new(wrapped) this.wrapped = wrapped;');
-      else
-        this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();');
-    }
+      if (c.superClass == null) {
+        this.newline();
+        // add constructor
+        this.buf.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
+        this.newline();
+        if (this.thisConv.haxeGlueType.isReflective())
+          this.buf.add('private function new(wrapped) this.wrapped = wrapped;');
+        else
+          this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();');
+
+        // add the reflectGetWrapped()
+        this.buf.add('@:ifFeature("${this.typeRef.getRefName()}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
+        this.begin(' {');
+          this.buf.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
+        this.end('}');
+      }
 
     this.end('}');
   }
@@ -382,16 +388,16 @@ class ExternBaker {
       this.buf.add([ for (arg in meth.args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
       this.buf.add('):' + meth.ret.haxeType + ' ');
       this.begin('{');
-      var haxeBody =
-        '${this.glueType}.${meth.name}(' +
-          [ for (arg in helperArgs) arg.t.haxeToGlue(arg.name) ].join(', ') +
-        ')';
-      if (isSetter)
-        haxeBody = haxeBody + ';\n${this.indentStr}return value';
-      else if (!isVoid)
-        haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody);
-      this.buf.add(haxeBody);
-      this.buf.add(';');
+        var haxeBody =
+          '${this.glueType}.${meth.name}(' +
+            [ for (arg in helperArgs) arg.t.haxeToGlue(arg.name) ].join(', ') +
+          ')';
+        if (isSetter)
+          haxeBody = haxeBody + ';\n${this.indentStr}return value';
+        else if (!isVoid)
+          haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody);
+        this.buf.add(haxeBody);
+        this.buf.add(';');
       this.end('}');
     }
   }

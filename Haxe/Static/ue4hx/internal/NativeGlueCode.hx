@@ -108,7 +108,7 @@ class NativeGlueCode
       switch(type) {
       case TInst(c,tl):
         var typeName = c.toString();
-        if (typeName.startsWith('unreal.helpers')) {
+        if (typeName.startsWith('unreal.helpers') || typeName.startsWith('_pvt')) {
           var cl = c.get();
           if (!cl.meta.has(':uexpose'))
             continue;

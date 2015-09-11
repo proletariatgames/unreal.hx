@@ -65,6 +65,7 @@ class BuildExpose {
             ret: field.ret.haxeGlueType.toComplexType(),
             expr: Context.parse(callExpr, field.cf.pos)
           }),
+          meta: field.ret.haxeType.isVoid() ? [{ name:':void', pos:field.cf.pos }] : null,
           pos: field.cf.pos
         });
       }
@@ -132,6 +133,7 @@ class BuildExpose {
     if (cf.meta.has(':uexpose'))
       return true;
     if (nativeMethods != null) {
+      trace(cf.name);
       // check if it was overriden
       return nativeMethods.exists(cf.name);
     } else {
