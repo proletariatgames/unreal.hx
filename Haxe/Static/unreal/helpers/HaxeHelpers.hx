@@ -2,11 +2,7 @@ package unreal.helpers;
 
 @:unreflective class HaxeHelpers
 {
-  public static function dynamicToPointer(dyn:Dynamic):cpp.RawPointer<cpp.Void> {
-    if (dyn == null) {
-      var n:cpp.Pointer<Dynamic> = null;
-      return n.rawCast();
-    }
+  @:ifFeature("unreal.helpers.HaxeHelpers") inline public static function dynamicToPointer(dyn:Dynamic):cpp.RawPointer<cpp.Void> {
     // there's no way to get a pointer to hxcpp's Dynamic struct
     // so we're using the undocumented GetPtr (defined in `include/hx/Object.h`)
     // this pointer should only be used in the stack - because this pointer will be
@@ -14,7 +10,7 @@ package unreal.helpers;
     return untyped __cpp__('{0}.GetPtr()',dyn);
   }
 
-  public static function pointerToDynamic(ptr:cpp.RawPointer<cpp.Void>):Dynamic {
+  @:ifFeature("unreal.helpers.HaxeHelpers") inline public static function pointerToDynamic(ptr:cpp.RawPointer<cpp.Void>):Dynamic {
     // TODO: test what happens if a null pointer is passed here
     // if (untyped __cpp__('{0} == 0', ptr)) {
     //   return null;
