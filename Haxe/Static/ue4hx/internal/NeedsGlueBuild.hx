@@ -47,7 +47,7 @@ class NeedsGlueBuild
       var fields:Array<Field> = Context.getBuildFields(),
           toAdd = [];
       for (field in fields) {
-        var isUProp = field.meta.hasMeta(':UPROPERTY');
+        var isUProp = field.meta.hasMeta(':uproperty');
         if (isUProp) {
           switch (field.kind) {
             case FVar(t,e) | FProp('default','default',t,e) if (t != null):
@@ -74,15 +74,15 @@ class NeedsGlueBuild
               for (field in dummy.fields) toAdd.push(field);
             case FProp(_,_,_,_):
               Context.warning(
-                'Unreal Glue Extension: UPROPERTY properties with getters and setters are not supported by Unreal',
+                'Unreal Glue Extension: uproperty properties with getters and setters are not supported by Unreal',
                 field.pos);
               hadErrors = true;
             case FFun(_):
-              Context.warning('Unreal Glue Extension: UPROPERTY is not compatible with functions', field.pos);
+              Context.warning('Unreal Glue Extension: uproperty is not compatible with functions', field.pos);
               hadErrors = true;
             case _:
               Context.warning(
-                'Unreal Glue Extension: UPROPERTY properties must have a type',
+                'Unreal Glue Extension: uproperty properties must have a type',
                 field.pos);
               hadErrors = true;
           }
@@ -91,7 +91,6 @@ class NeedsGlueBuild
       }
 
       // add the haxe-side glue helper
-
       toAdd.push((macro class {
         @:extern private static function __internal_typing() {
           var x : ue4hx.internal.HaxeExposeGen<$thisComplex> = null;

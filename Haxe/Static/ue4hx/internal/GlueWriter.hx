@@ -79,6 +79,8 @@ class GlueWriter
   static function getIncludes(incs:Map<String,String>)
   {
     var buf = new StringBuf();
+    var incs = [ for (inc in incs) inc ];
+    incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return Reflect.compare(v1,v2));
     for (inc in incs)
     {
       buf.add('#include ');
@@ -94,11 +96,12 @@ class GlueWriter
   public function close()
   {
     var defName = typeName.replace('.','_').toUpperCase();
-    var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
+    // var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
+    var header = '#pragma once\n' +
       getForwardDecls() + '\n' +
       getIncludes(headerIncludes) + '\n' +
-      this.header.toString() +
-      '\n#endif';
+      this.header.toString();
+      // '\n#endif';
     var cpp = '#include <HaxeRuntime.h>\n' +
       getIncludes(cppIncludes) + '\n' +
       this.cpp.toString();

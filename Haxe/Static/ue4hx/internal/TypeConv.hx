@@ -164,7 +164,7 @@ using StringTools;
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getRefName()})',
-        ueToGlueExpr: '/* TODO */',
+        ueToGlueExpr: '%->haxeGcRef.get()',
         glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
     }
