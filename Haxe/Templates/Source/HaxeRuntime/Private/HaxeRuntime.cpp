@@ -39,8 +39,13 @@ static void *get_top_of_stack(void)
 #endif
 }
 
-void FHaxeRuntime::StartupModule()
+static bool did_init = false;
+
+extern "C" void check_hx_init()
 {
+  if (did_init) return;
+  did_init = true;
+
   // This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
   int x;
   void *top_of_stack = get_top_of_stack();
@@ -56,6 +61,11 @@ void FHaxeRuntime::StartupModule()
   // if (error) { UE_LOG(HXR, Error, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
   if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
 #endif
+}
+
+void FHaxeRuntime::StartupModule()
+{
+  check_hx_init();
 }
  
 void FHaxeRuntime::ShutdownModule()
