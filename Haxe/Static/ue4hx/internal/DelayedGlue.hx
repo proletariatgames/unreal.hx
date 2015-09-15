@@ -59,7 +59,6 @@ class DelayedGlue {
 
     var glueExpr = getGlueType_impl(cls, pos);
     var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name) ].join(',') + ')';
-    trace(expr);
     block.push(Context.parse(expr, pos));
     if (block.length == 1)
       return block[0];
@@ -135,7 +134,6 @@ class DelayedGlue {
       uprops[prop] = null;
     }
     for (scall in MacroHelpers.extractStrings( cls.meta, ':usupercalls' )) {
-      trace('here', ignoreSupers[scall]);
       // if the field was already overriden in a previous Haxe declaration,
       // we should not build the super call
       if (!ignoreSupers.exists(scall))
@@ -162,6 +160,7 @@ class DelayedGlue {
     }
 
     for (uprop in uprops) {
+      this.handleProperty(uprop.cf, uprop.isStatic);
     }
 
     var glue = this.typeRef.getGlueHelperType();
@@ -184,6 +183,73 @@ class DelayedGlue {
       kind: TDClass(),
       fields: this.buildFields,
     });
+  }
+
+  private function handleProperty(field:ClassField, isStatic:Bool) {
+    var type = field.type,
+        tconv = TypeConv.get(type, field.pos);
+    var glue = this.typeRef.getGlueHelperType();
+    var headerDef = new HelperBuf(),
+        cppDef = new HelperBuf();
+    for (mode in ['get','set']) {
+      var ret = null;
+      if (mode == 'get') {
+        ret = tconv;
+      } else {
+        ret = TypeConv.get(Context.getType('Void'), field.pos);
+      }
+      headerDef = headerDef + 'public: static ' + ret.glueType.getCppType() + ' ' + mode + '_' + field.name + '(';
+      cppDef = cppDef + ret.glueType.getCppType() + ' ' + glue.getCppClass() + '_obj::' + mode + '_' + field.name + '(';
+
+      if (!isStatic) {
+        var thisDef = this.thisConv.glueType.getCppType() + ' self';
+        headerDef += thisDef;
+        cppDef += thisDef;
+      }
+
+      if (mode == 'set') {
+        var comma = isStatic ? '' : ', ';
+        headerDef = headerDef + comma + tconv.glueType.getCppType() + ' value';
+        cppDef = cppDef + comma + tconv.glueType.getCppType() + ' value';
+      }
+      headerDef += ');\n';
+      cppDef += ') {\n\t';
+
+      var cppBody = new HelperBuf();
+      if (isStatic) {
+        cppBody = cppBody + this.thisConv.ueType.getCppClass() + '::' + field.name;
+      } else {
+        cppBody = cppBody + this.thisConv.glueToUe('self') + '->' + field.name;
+      }
+
+      if (mode == 'get')
+        cppDef = cppDef + 'return ' + tconv.ueToGlue(cppBody.toString()) + ';\n}\n';
+      else
+        cppDef = cppDef + cppBody.toString() + ' = ' + tconv.glueToUe('value') + ';\n}\n';
+
+      var args:Array<FunctionArg> = if (isStatic)
+        [];
+      else
+        [{ name:'self', type:this.thisConv.haxeType.toComplexType() }];
+      if (mode == 'set')
+        args.push({ name:'value', type:tconv.haxeType.toComplexType() });
+      this.buildFields.push({
+        name: mode + '_' + field.name,
+        access: [APublic,AStatic],
+        kind: FFun({
+          args: args,
+          ret: ret.haxeGlueType.toComplexType(),
+          expr: null
+        }),
+        pos:field.pos
+      });
+    }
+    // add the remaining metadata
+    var allTypes = [this.thisConv, tconv];
+    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    for (meta in metas) {
+      field.meta.add(meta.name, meta.params, meta.pos);
+    }
   }
 
   private function handleSuperCall(field:ClassField, superField:ClassField) {
@@ -227,15 +293,8 @@ class DelayedGlue {
 
     var allTypes = [ for (arg in args) arg.type ];
     allTypes.push(ret);
-    var headerIncludes = [ for (t in allTypes) if(t.glueHeaderIncludes != null) for (inc in t.glueHeaderIncludes) inc => inc ];
-    var cppIncludes = [ for (t in allTypes) if(t.glueCppIncludes != null) for (inc in t.glueCppIncludes) inc => inc ];
 
-    var metas:Metadata = [
-      { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.pos },
-      { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.pos },
-      { name: ':glueHeaderIncludes', params:[ for (inc in headerIncludes) macro $v{inc} ], pos: field.pos },
-      { name: ':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos: field.pos },
-    ];
+    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
@@ -252,6 +311,19 @@ class DelayedGlue {
       }),
       pos: field.pos
     });
+  }
+
+  private static function getMetaDefinitions(headerDef:String, cppDef:String, allTypes:Array<TypeConv>, pos:Position):Metadata {
+    var headerIncludes = [ for (t in allTypes) if(t.glueHeaderIncludes != null) for (inc in t.glueHeaderIncludes) inc => inc ];
+    var cppIncludes = [ for (t in allTypes) if(t.glueCppIncludes != null) for (inc in t.glueCppIncludes) inc => inc ];
+
+    var metas:Metadata = [
+      { name: ':glueHeaderCode', params:[macro $v{headerDef}], pos: pos },
+      { name: ':glueCppCode', params:[macro $v{cppDef}], pos: pos },
+      { name: ':glueHeaderIncludes', params:[ for (inc in headerIncludes) macro $v{inc} ], pos: pos },
+      { name: ':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos: pos },
+    ];
+    return metas;
   }
 
 #end

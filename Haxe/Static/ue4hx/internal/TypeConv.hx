@@ -59,6 +59,7 @@ using StringTools;
         args = null,
         meta = null,
         superClass = null;
+    var isBasic = false;
 
     // we'll loop until we find a type we're interested in
     // when found, we'll get its name, type parameters and
@@ -86,6 +87,7 @@ using StringTools;
         var at = a.get();
         if (at.meta.has(':coreType') || at.meta.has(':unrealType'))
         {
+          isBasic = true;
           name = a.toString();
           args = tl;
           break;
@@ -155,7 +157,6 @@ using StringTools;
       if (glueCppIncludes == null) glueCppIncludes = [];
       glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
       glueCppIncludes.push('${NativeGlueCode.haxeRuntimeDir}/${typeRef.name}.h');
-      trace('here');
       return {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
@@ -170,6 +171,12 @@ using StringTools;
         glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
     }
+
+    if (isBasic)
+      return {
+        ueType: typeRef,
+        haxeType: typeRef
+      };
 
     throw new Error('Unreal Glue: Type $name is not supported', pos);
   }
