@@ -16,6 +16,30 @@ class DelayedGlue {
     return Context.parse(ret, pos);
   }
 
+  macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool):haxe.macro.Expr {
+    var cls = Context.getLocalClass().get(),
+        pos = Context.currentPos();
+    var field = cls.findField(fieldName, isStatic);
+    if (field == null) throw 'assert';
+
+    var tconv = TypeConv.get(field.type, pos);
+    var glueExpr = new HelperBuf() + getGlueType_impl(cls, pos);
+    glueExpr += '.' + (isSetter ? 'set_' : 'get_') + fieldName + '(';
+    if (!isStatic) {
+      var thisConv = TypeConv.get( Context.getLocalType(), pos );
+      glueExpr += thisConv.haxeToGlue('this');
+      if (isSetter)
+        glueExpr += ', ';
+    }
+    var expr = if (isSetter) {
+      (glueExpr + tconv.haxeToGlue('value')).toString() + ')';
+    } else {
+      tconv.glueToHaxe( glueExpr.toString() + ')' );
+    }
+    trace(expr);
+
+    return Context.parse(expr, pos);
+  }
 
   macro public static function getSuperExpr(fieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
     var cls = Context.getLocalClass().get(),
@@ -44,6 +68,7 @@ class DelayedGlue {
     switch(Context.follow(field.type)) {
     case TFun(targs,tret):
       var argn = 0;
+      // TESTME: add test for super.call(something, super.call(other))
       fargs = [ for (arg in targs) { name:'__usuper_arg' + argn++, type:TypeConv.get(arg.t, pos) } ];
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
@@ -230,9 +255,10 @@ class DelayedGlue {
       var args:Array<FunctionArg> = if (isStatic)
         [];
       else
-        [{ name:'self', type:this.thisConv.haxeType.toComplexType() }];
+        [{ name:'self', type:this.thisConv.haxeGlueType.toComplexType() }];
       if (mode == 'set')
-        args.push({ name:'value', type:tconv.haxeType.toComplexType() });
+        args.push({ name:'value', type:tconv.haxeGlueType.toComplexType() });
+      trace(ret,args);
       this.buildFields.push({
         name: mode + '_' + field.name,
         access: [APublic,AStatic],

@@ -32,15 +32,23 @@ class BuildExpose {
           thisConv = TypeConv.get(t, this.pos);
       var nativeUe = thisConv.ueType;
       var expose = typeRef.getExposeHelperType();
-      var toExpose = [];
+      var toExpose = [],
+          uprops = [];
       for (field in clt.statics.get()) {
-        if (shouldExpose(field))
+        if (field.meta.has(':uproperty'))
+          uprops.push(field);
+        else if (shouldExpose(field))
           toExpose.push(getMethodDef(field, Static));
       }
 
       var nativeMethods = collectNativeMethods(clt),
           haxeMethods = collectHaxeMethods(clt);
       for (field in clt.fields.get()) {
+        if (field.meta.has(':uproperty')) {
+          uprops.push(field);
+          continue;
+        }
+
         if (haxeMethods.exists(field.name))
           continue; // our methods are already virtual and we don't need to override anything
 
@@ -118,11 +126,33 @@ class BuildExpose {
       // add createHaxeWrapper
       {
         var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;' : ';');
+        var glueHeaderIncs = new Map();
+        for (uprop in uprops) {
+          var tconv = TypeConv.get(uprop.type, uprop.pos);
+          var data = new StringBuf();
+          data.add('UPROPERTY(');
+          var first = true;
+          for (meta in uprop.meta.extract(':uproperty')) {
+            if (meta.params != null) {
+              for (param in meta.params) {
+                if (first) first = false; else data.add(', ');
+                data.add(param.toString());
+              }
+            }
+          }
+          headerCode += data + ')\n\t';
+          headerCode += tconv.ueType.getCppType(null, false) + ' ' + uprop.name + ';';
+          if (tconv.glueHeaderIncludes != null) {
+            for (inc in tconv.glueHeaderIncludes)
+              glueHeaderIncs[inc] = inc;
+          }
+        }
         var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
 
         var metas = [
           { name: ':glueHeaderCode', params: [macro $v{headerCode}], pos: this.pos },
-          { name: ':glueCppCode', params: [macro $v{cppCode}], pos: this.pos }
+          { name: ':glueCppCode', params: [macro $v{cppCode}], pos: this.pos },
+          { name: ':glueHeaderIncludes', params: [for (inc in glueHeaderIncs) macro $v{inc}], pos: this.pos }
         ];
         buildFields.push({
           name: 'createHaxeWrapper',

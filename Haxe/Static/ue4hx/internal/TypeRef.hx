@@ -129,10 +129,10 @@ class TypeRef
     case [ [], 'Bool' | 'bool' ]:
       buf.add('bool');
     case _:
-      if (fullyQualified)
+      if (fullyQualified && pack.length > 0)
         buf.add('::');
       buf.add(this.pack.join('::'));
-      if (this.pack.length != 0)
+      if (this.pack.length > 0)
         buf.add('::');
       buf.add(this.name);
 

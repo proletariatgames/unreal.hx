@@ -77,21 +77,14 @@ class NeedsGlueBuild
               uprops.push(field.name);
               var getter = 'get_' + field.name,
                   setter = 'set_' + field.name;
-              var dummy = if (field.access != null && field.access.has(AStatic)) {
-                macro class {
-                  private function $getter():$t return $glueRefExpr.$getter();
-                  private function $setter(val:$t):$t {
-                    $glueRefExpr.$setter(val);
-                    return val;
-                  }
+              var isStatic = field.access != null && field.access.has(AStatic);
+              var dummy = macro class {
+                private function $getter():$t {
+                  return ue4hx.internal.DelayedGlue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false);
                 }
-              } else {
-                macro class {
-                  private function $getter():$t return $glueRefExpr.$getter(this);
-                  private function $setter(val:$t):$t {
-                    $glueRefExpr.$setter(this, val);
-                    return val;
-                  }
+                private function $setter(value:$t):$t {
+                  ue4hx.internal.DelayedGlue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true);
+                  return value;
                 }
               };
 

@@ -175,7 +175,8 @@ using StringTools;
     if (isBasic)
       return {
         ueType: typeRef,
-        haxeType: typeRef
+        haxeType: typeRef,
+        glueHeaderIncludes:['<hxcpp.h>']
       };
 
     throw new Error('Unreal Glue: Type $name is not supported', pos);
