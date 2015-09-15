@@ -28,9 +28,9 @@ class BuildExpose {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
       var clt = cl.get();
-      var nativeUeName = getNativeUeName(clt);
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
           thisConv = TypeConv.get(t, this.pos);
+      var nativeUe = thisConv.ueType;
       var expose = typeRef.getExposeHelperType();
       var toExpose = [];
       for (field in clt.statics.get()) {
@@ -53,7 +53,7 @@ class BuildExpose {
       var buildFields = [];
       for (field in toExpose) {
         var callExpr = if (field.type.isStatic())
-          typeRef.getRefName() + '.' + field.cf.name + '(';
+          typeRef.getClassPath() + '.' + field.cf.name + '(';
         else
           thisConv.glueToHaxe('self') + '.' + field.cf.name + '(';
         callExpr += [ for (arg in field.args) arg.type.glueToHaxe(arg.name) ].join(', ') + ')';
@@ -69,7 +69,7 @@ class BuildExpose {
         var headerDef = new HelperBuf(),
             cppDef = new HelperBuf();
         var ret = field.ret.ueType.getCppType().toString();
-        cppDef = cppDef + ret + ' ::' + nativeUeName + '::' + field.cf.name + '(';
+        cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + field.cf.name + '(';
         var modifier = field.type.isStatic() ? 'static ' : 'virtual ';
         headerDef = headerDef + modifier + ret + ' ' + field.cf.name + '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
@@ -81,7 +81,7 @@ class BuildExpose {
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name ) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue('this') );
-        var cppBody = expose.getCppRefName() + '::' + field.cf.name + '(' +
+        var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
           cppBody = 'return ' + field.ret.glueToUe( cppBody );
@@ -112,13 +112,13 @@ class BuildExpose {
         { name: ':uextern', params:[], pos:clt.pos },
       ];
 
-      var includes = ['<unreal/helpers/GcRef.h>', '<' + expose.getRefName().replace('.','/') + '.h>'];
-      var info = addNativeUeClass(clt, includes, metas);
+      var includes = ['<unreal/helpers/GcRef.h>', '<' + expose.getClassPath().replace('.','/') + '.h>'];
+      var info = addNativeUeClass(nativeUe, clt, includes, metas);
 
       // add createHaxeWrapper
       {
         var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;' : ';');
-        var cppCode = 'void *::$nativeUeName::createHaxeWrapper() {\n\treturn ${expose.getCppRefName()}::createHaxeWrapper((void *) this);\n}\n';
+        var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
 
         var metas = [
           { name: ':glueHeaderCode', params: [macro $v{headerCode}], pos: this.pos },
@@ -131,7 +131,7 @@ class BuildExpose {
             args: [{ name: 'ueType', type: thisConv.haxeGlueType.toComplexType() }],
             ret: thisConv.glueType.toComplexType(),
             expr: Context.parse(
-              'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getRefName()}( cpp.Pointer.fromRaw(cast ueType) )'), this.pos)
+              'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )'), this.pos)
           }),
           meta: metas,
           pos: this.pos
@@ -146,30 +146,30 @@ class BuildExpose {
         kind: TDClass(),
         fields: buildFields
       });
-      return Context.getType(expose.getRefName());
+      return Context.getType(expose.getClassPath());
     case _:
       throw new Error('Unreal Haxe Glue: Type $t not supported', Context.currentPos());
     }
   }
 
-  private static function getNativeUeName(clt:ClassType) {
+  public static function getNativeUeName(clt:ClassType) {
     // TODO: add A/U/F prefix
     return clt.name;
   }
 
-  private static function addNativeUeClass(clt:ClassType, includes:Array<String>, metas:Metadata):{ hasHaxeSuper:Bool } {
+  private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Array<String>, metas:Metadata):{ hasHaxeSuper:Bool } {
     var typeRef = TypeRef.fromBaseType(clt, clt.pos);
     var extendsAndImplements = [];
-    var name = getNativeUeName(clt);
-    metas.push({ name: ':ueGluePath', params: [macro $v{name}], pos: clt.pos });
-    includes.push('$name.generated.h');
+    var ueName = nativeUe.getCppClassName();
+    metas.push({ name: ':ueGluePath', params: [macro $v{ueName}], pos: clt.pos });
+    includes.push('${ueName}.generated.h');
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
       // TESTME - test extending Haxe classes
       var tconv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos );
       // any superclass here should also be present in the native side
-      extendsAndImplements.push('public ' + tconv.ueType.getCppRefName(false));
+      extendsAndImplements.push('public ' + tconv.ueType.getCppClass(false));
 
       hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
       // we're using the ueType so we'll include the glueCppIncludes
@@ -184,7 +184,7 @@ class BuildExpose {
       // look into @:uextern.
       if (impl.meta.has(':uextern')) {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
-        extendsAndImplements.push('public ' + tconv.ueType.getCppRefName(false));
+        extendsAndImplements.push('public ' + tconv.ueType.getCppClass(false));
         if (tconv.glueCppIncludes != null) {
           for (inc in tconv.glueCppIncludes)
             includes.push(inc);
@@ -206,7 +206,7 @@ class BuildExpose {
       }
       headerDef.add(')\n');
     }
-    headerDef.add('class HAXERUNTIME_API $name ');
+    headerDef.add('class HAXERUNTIME_API ${ueName} ');
     if (extendsAndImplements.length > 0) {
       headerDef.add(' : ');
       headerDef.add(extendsAndImplements.join(', '));
@@ -217,7 +217,7 @@ class BuildExpose {
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
       // headerDef.add('\t\tpublic virtual void *createHaxeWrapper();\n');
-      headerDef.add('\t\t$name() { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
+      headerDef.add('\t\t${ueName}() { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
     } else {
       // headerDef.add('\t\tpublic virtual void *createHaxeWrapper() override;\n');
     }

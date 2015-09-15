@@ -5,6 +5,7 @@ import haxe.macro.Type;
 
 using Lambda;
 using ue4hx.internal.MacroHelpers;
+using haxe.macro.Tools;
 
 class NeedsGlueBuild
 {
@@ -42,15 +43,37 @@ class NeedsGlueBuild
 
       // we need to indirectly reference it since the @:genericBuild cannot have its
       // static fields accessed directly
-      var glueRefExpr = Context.parse(thisType.withoutModule().getRefName() + '_GlueRef__', cls.pos);
+      var glueRefExpr = macro ue4hx.internal.DelayedGlue.getGlueType();
 
+      var superCalls = new Map(),
+          uprops = [];
       var fields:Array<Field> = Context.getBuildFields(),
           toAdd = [];
       for (field in fields) {
+        if (field.access != null && field.access.has(AOverride)) {
+          // TODO: should we check for non-override fields as well? This would
+          //       add some overhead for all override fields, which is something I'd like to avoid for now
+          //       specially since super calling in other fields doesn't seem particularly useful
+          switch (field.kind) {
+          case FFun(fn) if (fn.expr != null):
+            function map(e:Expr) {
+              return switch (e.expr) {
+              case ECall(macro super.$field, args):
+                superCalls[field] = field;
+                { expr:ECall(macro @:pos(e.pos) ue4hx.internal.DelayedGlue.getSuperExpr($v{field}), args), pos: e.pos };
+              case _:
+                e.map(map);
+              }
+            }
+            fn.expr = map(fn.expr);
+          case _:
+          }
+        }
         var isUProp = field.meta.hasMeta(':uproperty');
         if (isUProp) {
           switch (field.kind) {
             case FVar(t,e) | FProp('default','default',t,e) if (t != null):
+              uprops.push(field.name);
               var getter = 'get_' + field.name,
                   setter = 'set_' + field.name;
               var dummy = if (field.access != null && field.access.has(AStatic)) {
@@ -90,6 +113,9 @@ class NeedsGlueBuild
         // TODO check if it's UFUNCTION / UDELEGATE
       }
 
+      if (uprops.length > 0)
+        cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
+      cls.meta.add(':usupercalls', [ for (prop in uprops) macro $v{prop} ], cls.pos);
       // add the haxe-side glue helper
       toAdd.push((macro class {
         @:extern private static function __internal_typing() {
@@ -99,13 +125,6 @@ class NeedsGlueBuild
 
       // add the glueRef definition if needed
       for (field in toAdd) fields.push(field);
-      Context.defineType({
-        pack: cls.pack,
-        name: cls.name + '_GlueRef__',
-        pos: cls.pos,
-        kind: TDAlias( macro : ue4hx.internal.DelayedGlueType<$thisComplex> ),
-        fields: []
-      });
 
       if (hadErrors)
         Context.error('Unreal Glue Extension: Build failed', cls.pos);

@@ -5,6 +5,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 import sys.FileSystem;
 import sys.io.File;
+import ue4hx.internal.MacroHelpers;
 
 using StringTools;
 
@@ -35,7 +36,7 @@ class NativeGlueCode
         var cl = c.get();
 
         var headerPath = '$haxeRuntimeDir/${gluePack.join('/')}/${glueName}.h';
-        var headerDefs = extract(cl.meta, ':ueHeaderDef');
+        var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
         writer.addCppInclude(headerPath);
         for (pack in gluePack) {
@@ -48,13 +49,13 @@ class NativeGlueCode
             writer.wh(headerDef);
           }
         }
-        for (inc in extract(cl.meta, ':glueHeaderIncludes'))
+        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
           writer.addHeaderInclude(inc);
 
-        for (inc in extract(cl.meta, ':glueCppIncludes'))
+        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
           writer.addCppInclude(inc);
 
-        var cppDefs = extract(cl.meta, ':ueCppDef');
+        var cppDefs = MacroHelpers.extractStrings(cl.meta, ':ueCppDef');
         if (cppDefs != null) {
           for (cppDef in cppDefs) {
             writer.wcpp(cppDef);
@@ -62,17 +63,17 @@ class NativeGlueCode
         }
 
         for (field in cl.statics.get().concat(cl.fields.get())) {
-          var glueHeaderCode = extract(field.meta, ':glueHeaderCode')[0];
+          var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
           if (glueHeaderCode != null)
             writer.wh('\t\t$glueHeaderCode\n');
-          for (inc in extract(field.meta, ':glueHeaderIncludes'))
+          for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
             writer.addHeaderInclude(inc);
 
-          var glueCppCode = extract(field.meta, ':glueCppCode')[0];
+          var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
           if (glueCppCode != null)
             writer.wcpp(glueCppCode);
           writer.wcpp('\n');
-          for (inc in extract(field.meta, ':glueCppIncludes'))
+          for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
             writer.addCppInclude(inc);
         }
         writer.wh('};\n\n');
@@ -92,7 +93,7 @@ class NativeGlueCode
         case TInst(c,tl):
           var cl = c.get();
           if (cl.meta.has(':ueGluePath')) {
-            var gluePath = extract(cl.meta, ':ueGluePath')[0];
+            var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
             var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
             var writer = new GlueWriter(null, cppPath, gluePath);
             write(type,writer, gluePath);
@@ -130,7 +131,7 @@ class NativeGlueCode
         }
         if (cl.meta.has(':ueGluePath')) {
           var cl = c.get();
-          var gluePath = extract(cl.meta, ':ueGluePath')[0];
+          var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
 
           var gluePack = gluePath.split('.'),
               glueName = gluePack.pop();
@@ -157,21 +158,5 @@ class NativeGlueCode
       case _:
       }
     }
-  }
-
-  private static function extract(meta:MetaAccess, name:String):Array<String> {
-    var meta = meta.extract(name);
-    if (meta == null || meta.length == 0 || meta[0].params == null || meta[0].params.length == 0)
-      return [];
-    var ret = [];
-    for (param in meta[0].params) {
-      switch(param.expr) {
-        case EConst(CString(s)):
-          ret.push(s);
-        case _:
-          throw 'assert';
-      }
-    }
-    return ret;
   }
 }

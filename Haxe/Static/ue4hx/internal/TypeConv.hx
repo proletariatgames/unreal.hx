@@ -123,7 +123,7 @@ using StringTools;
     var basic = basicTypes[name];
     if (basic != null) return basic;
 
-    var typeRef = TypeRef.parseRefName( name );
+    var typeRef = TypeRef.parseClassName( name );
     if (meta != null && meta.has(':uextern')) {
       return {
         haxeType: typeRef,
@@ -134,7 +134,7 @@ using StringTools;
         glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
         haxeToGlueExpr: '%.wrapped',
-        glueToHaxeExpr: typeRef.getRefName() + '.wrap( cast % )',
+        glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
         glueToUeExpr: '( (::${typeRef.name} *) % )'
       };
     }
@@ -163,7 +163,7 @@ using StringTools;
         glueCppIncludes: glueCppIncludes,
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
-        glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getRefName()})',
+        glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
         ueToGlueExpr: '%->haxeGcRef.get()',
         glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
@@ -256,7 +256,7 @@ using StringTools;
     var ret = new Map();
     for (info in infos)
     {
-      ret[info.haxeType.getRefName()] = info;
+      ret[info.haxeType.getClassPath()] = info;
     }
     ret;
   };

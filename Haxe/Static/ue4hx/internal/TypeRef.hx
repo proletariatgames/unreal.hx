@@ -67,7 +67,7 @@ class TypeRef
     }
   }
 
-  public static function parseRefName(name:String)
+  public static function parseClassName(name:String)
   {
     var pack = name.split('.');
     return new TypeRef(pack, pack.pop());
@@ -149,12 +149,21 @@ class TypeRef
     return buf;
   }
 
-  public function getCppRefName(fullyQualified=true):String {
+  public function getCppClass(fullyQualified=true):String {
     return switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
-      params[0].getCppRefName(fullyQualified);
+      params[0].getCppClass(fullyQualified);
     case _:
       this.getCppType(null,fullyQualified).toString();
+    }
+  }
+
+  public function getCppClassName():String {
+    return switch [this.pack, this.name] {
+      case [ ['cpp'], 'RawPointer' ]:
+        params[0].getCppClassName();
+      case _:
+        this.name;
     }
   }
 
@@ -165,7 +174,7 @@ class TypeRef
       new TypeRef(this.pack, this.name, this.params);
   }
 
-  public function getRefName():String
+  public function getClassPath():String
   {
     var name = if (this.moduleName == null)
       this.name;
@@ -205,7 +214,7 @@ class TypeRef
 
   public function toString()
   {
-    var t = getRefName();
+    var t = getClassPath();
     if (params.length > 0)
     {
       return t + '<' + [ for( p in params) p.toString() ].join(', ') + '>';

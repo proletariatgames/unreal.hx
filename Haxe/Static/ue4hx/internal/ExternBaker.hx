@@ -152,7 +152,7 @@ class ExternBaker {
 
     this.addDoc(c.doc);
     this.addMeta(c.meta.get());
-    this.buf.add('@:ueGluePath("${this.glueType.getRefName()}")\n');
+    this.buf.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.isPrivate)
       this.buf.add('private ');
     this.buf.add('class ${c.name} ');
@@ -188,7 +188,7 @@ class ExternBaker {
 
         this.buf.add('if (ptr == null) return null;');
         this.newline();
-        this.buf.add('return new ${this.typeRef.getRefName()}(ptr);');
+        this.buf.add('return new ${this.typeRef.getClassPath()}(ptr);');
       this.end('}');
 
       if (c.superClass == null) {
@@ -202,7 +202,7 @@ class ExternBaker {
           this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();');
 
         // add the reflectGetWrapped()
-        this.buf.add('@:ifFeature("${this.typeRef.getRefName()}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
+        this.buf.add('@:ifFeature("${this.typeRef.getClassPath()}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
         this.begin(' {');
           this.buf.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
@@ -215,7 +215,7 @@ class ExternBaker {
     this.addDoc(field.doc);
     this.addMeta(field.meta.get());
 
-    var uename = switch(extract(field.meta, ':uename')[0]) {
+    var uename = switch(MacroHelpers.extractStrings(field.meta, ':uename')[0]) {
       case null:
         field.name;
       case name:
@@ -300,7 +300,7 @@ class ExternBaker {
       var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
       var glueCppBody = if (isStatic) {
-        this.thisConv.ueType.getCppRefName() + '::' + meth.uename;
+        this.thisConv.ueType.getCppClass() + '::' + meth.uename;
       } else {
         var self = helperArgs[0];
         self.t.glueToUe(escapeName(self.name)) + '->' + meth.uename;
@@ -487,23 +487,6 @@ class ExternBaker {
   private function newline() {
     buf.add('\n');
     buf.add(indentStr);
-  }
-
-
-  private static function extract(meta:MetaAccess, name:String):Array<String> {
-    var meta = meta.extract(name);
-    if (meta == null || meta.length == 0 || meta[0].params == null || meta[0].params.length == 0)
-      return [];
-    var ret = [];
-    for (param in meta[0].params) {
-      switch(param.expr) {
-        case EConst(CString(s)):
-          ret.push(s);
-        case _:
-          throw 'assert';
-      }
-    }
-    return ret;
   }
 
   private function get_voidType():TypeConv {
