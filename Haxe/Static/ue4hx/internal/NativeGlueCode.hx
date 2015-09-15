@@ -17,7 +17,21 @@ class NativeGlueCode
 {
 
   private var glueTypes:Array<Type>;
-  private var haxeRuntimeDir:String;
+
+  @:isVar public static var haxeRuntimeDir(get,null):String;
+
+  private static function get_haxeRuntimeDir() {
+    if (haxeRuntimeDir != null)
+      return haxeRuntimeDir;
+    haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
+
+    if (haxeRuntimeDir == null) {
+      Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
+    } else {
+      haxeRuntimeDir = FileSystem.fullPath(haxeRuntimeDir) + '/Generated';
+    }
+    return haxeRuntimeDir;
+  }
 
   public function new() {
     haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');

@@ -154,6 +154,8 @@ using StringTools;
       var glueCppIncludes = getMetaArray(meta, ':glueCppIncludes');
       if (glueCppIncludes == null) glueCppIncludes = [];
       glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
+      glueCppIncludes.push('${NativeGlueCode.haxeRuntimeDir}/${typeRef.name}.h');
+      trace('here');
       return {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),

@@ -376,7 +376,7 @@ class ExternBaker {
       }
 
       if (meth.isFinal)
-        this.buf.add('@:final ');
+        this.buf.add('@:final @:nonVirtual ');
       if (meth.isPublic)
         this.buf.add('public ');
       else

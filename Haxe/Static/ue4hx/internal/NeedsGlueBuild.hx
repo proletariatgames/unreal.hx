@@ -60,7 +60,8 @@ class NeedsGlueBuild
               return switch (e.expr) {
               case ECall(macro super.$field, args):
                 superCalls[field] = field;
-                { expr:ECall(macro @:pos(e.pos) ue4hx.internal.DelayedGlue.getSuperExpr($v{field}), args), pos: e.pos };
+                var args = [ for (arg in args) map(arg) ];
+                { expr:ECall(macro @:pos(e.pos) ue4hx.internal.DelayedGlue.getSuperExpr, [macro $v{field}].concat(args)), pos:e.pos };
               case _:
                 e.map(map);
               }
@@ -115,7 +116,7 @@ class NeedsGlueBuild
 
       if (uprops.length > 0)
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
-      cls.meta.add(':usupercalls', [ for (prop in uprops) macro $v{prop} ], cls.pos);
+      cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
       // add the haxe-side glue helper
       toAdd.push((macro class {
         @:extern private static function __internal_typing() {

@@ -9,5 +9,13 @@ package ue4hx.internal;
     this.add(dyn);
     return this;
   }
+
+  @:extern inline public function mapJoin<T>(arr:Array<T>, fn:T->String) {
+    var first = true;
+    for (val in arr) {
+      if (first) first = false; else this.add(', ');
+      this.add(fn(val));
+    }
+  }
 }
 
