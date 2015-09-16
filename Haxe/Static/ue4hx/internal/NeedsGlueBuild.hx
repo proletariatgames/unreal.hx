@@ -143,7 +143,7 @@ class NeedsGlueBuild
       });
     }
     var nativeGlue = new NativeGlueCode();
-    Context.onGenerate( nativeGlue.onGenerate );
+    Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
     Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
