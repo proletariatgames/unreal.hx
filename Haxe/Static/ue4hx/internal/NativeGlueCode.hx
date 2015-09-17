@@ -101,12 +101,17 @@ class NativeGlueCode
   }
 
   public function onAfterGenerate() {
+    var modules = new Map();
     var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (type in glueTypes) {
       switch(type) {
         case TInst(c,tl):
           var cl = c.get();
           if (cl.meta.has(':ueGluePath')) {
+            for (module in MacroHelpers.extractStrings(cl.meta, ':umodule')) {
+              modules[module] = true;
+            }
+
             var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
             var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
             var writer = new GlueWriter(null, cppPath, gluePath);
@@ -127,6 +132,12 @@ class NativeGlueCode
         case _:
       }
     }
+
+    var mfile = sys.io.File.write('$haxeRuntimeDir/modules.txt');
+    for (module in modules.keys()) {
+      mfile.writeString(module + '\n');
+    }
+    mfile.close();
   }
 
   public function onGenerate(types:Array<Type>) {

@@ -115,6 +115,13 @@ class HaxeRuntime extends BaseModuleRules
             // touch the file
             File.saveContent(dep, File.getContent(dep));
           }
+
+          if (ret == 0)
+          {
+            // get haxe module dependencies
+            var deps = File.getContent('$curSourcePath/Private/Generated/modules.txt').split('\n');
+            this.PrivateDependencyModuleNames.addRange(deps);
+          }
         }
       }
     }
