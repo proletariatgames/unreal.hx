@@ -17,6 +17,7 @@ class NativeGlueCode
 {
 
   private var glueTypes:Array<Type>;
+  private var touchedFiles:Map<String,Bool>;
 
   @:isVar public static var haxeRuntimeDir(get,null):String;
 
@@ -40,6 +41,7 @@ class NativeGlueCode
     } else {
       haxeRuntimeDir = FileSystem.fullPath(haxeRuntimeDir) + '/Generated';
     }
+    this.touchedFiles = new Map();
   }
 
   private function write(type:Type, writer:GlueWriter, gluePath:String) {
@@ -49,6 +51,7 @@ class NativeGlueCode
             glueName = gluePack.pop();
         var cl = c.get();
 
+        this.touchedFiles[gluePath] = true;
         var headerPath = '$haxeRuntimeDir/${gluePack.join('/')}/${glueName}.h';
         var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
@@ -113,12 +116,14 @@ class NativeGlueCode
             }
 
             var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
+            this.touchedFiles[gluePath] = true;
             var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
             var writer = new GlueWriter(null, cppPath, gluePath);
             write(type,writer, gluePath);
           }
           if (cl.meta.has(':uexpose')) {
             // copy the header to the generated folder
+            this.touchedFiles[c.toString()] = true;
             var path = c.toString().replace('.','/');
             var headerPath = '$cppTarget/include/${path}.h';
             var targetPath = '$haxeRuntimeDir/$path.h';
@@ -133,11 +138,28 @@ class NativeGlueCode
       }
     }
 
-    var mfile = sys.io.File.write('$haxeRuntimeDir/modules.txt');
+    // add all extra modules which we depend on
+    if (!FileSystem.exists('$haxeRuntimeDir/Data'))
+      FileSystem.createDirectory('$haxeRuntimeDir/Data');
+    var mfile = sys.io.File.write('$haxeRuntimeDir/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }
     mfile.close();
+
+    // clean generated folder
+    var touched = this.touchedFiles;
+    function recurse(path:String, packPath:String) {
+      for (file in FileSystem.readDirectory(path)) {
+        if (FileSystem.isDirectory('$path/$file')) {
+          if ( !(packPath == '' && file == 'Data') )
+            recurse('$path/$file', '$packPath$file.');
+        } else if (!touched.exists(packPath + haxe.io.Path.withoutExtension(file))) {
+          FileSystem.deleteFile('$path/$file');
+        }
+      }
+    }
+    recurse(haxeRuntimeDir, '');
   }
 
   public function onGenerate(types:Array<Type>) {
@@ -157,6 +179,7 @@ class NativeGlueCode
         if (cl.meta.has(':ueGluePath')) {
           var cl = c.get();
           var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
+          this.touchedFiles[gluePath] = true;
 
           var gluePack = gluePath.split('.'),
               glueName = gluePack.pop();

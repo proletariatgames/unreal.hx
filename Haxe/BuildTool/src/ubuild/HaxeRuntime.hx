@@ -119,7 +119,7 @@ class HaxeRuntime extends BaseModuleRules
           if (ret == 0)
           {
             // get haxe module dependencies
-            var deps = File.getContent('$curSourcePath/Private/Generated/modules.txt').split('\n');
+            var deps = File.getContent('$curSourcePath/Private/Generated/Data/modules.txt').split('\n');
             this.PrivateDependencyModuleNames.addRange(deps);
           }
         }
@@ -276,6 +276,7 @@ class HaxeRuntime extends BaseModuleRules
         }
       }
       catch(e:Eof) {}
+      Sys.println(proc.stdout.readAll().toString());
 
       var code = proc.exitCode();
       proc.close();
