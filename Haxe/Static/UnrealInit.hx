@@ -9,12 +9,6 @@ class UnrealInit
 {
   static function main()
   {
-    trace("hello world");
-    var stat = unreal.UClass.StaticClass();
-    trace('Found stat',stat == null);
-    trace(stat.IsAsset());
-    trace(stat.GetDesc());
-    trace(stat.GetDefaultConfigFilename());
-    trace('new');
+    trace("initializing unreal haxe");
   }
 }
