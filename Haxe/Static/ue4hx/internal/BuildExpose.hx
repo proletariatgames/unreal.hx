@@ -82,13 +82,23 @@ class BuildExpose {
         headerDef = headerDef + modifier + ret + ' ' + field.cf.name + '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
         cppDef += args; headerDef += args;
+        var native = nativeMethods[field.cf.name];
+        var thisConst = false;
+        if (native != null)
+          thisConst = native.meta.has(':thisConst');
+
+        if (thisConst) {
+          headerDef += ' const';
+          cppDef += ' const';
+        }
+
         if (field.type == Override)
           headerDef += ' override';
         headerDef += ';\n';
         cppDef += '{\n\t';
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name ) ];
         if (!field.type.isStatic())
-          args.unshift( thisConv.ueToGlue('this') );
+          args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this') );
         var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
@@ -282,7 +292,7 @@ class BuildExpose {
       var cur = sclass.t.get();
       if (cur.meta.has(':uextern')) {
         for (field in cur.fields.get())
-          ret[field.name] = true;
+          ret[field.name] = field;
       }
       sclass = cur.superClass;
     }

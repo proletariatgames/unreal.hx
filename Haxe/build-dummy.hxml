@@ -7,7 +7,8 @@ unreal.UObject
 unreal.AActor
 unreal.helpers.HxcppRuntime
 -cp ../../../Haxe/Static/
-pack.ATestActor
+entry.ATestEntryPoint
+-lib buddy
 -D haxe_runtime_dir=bin
 -D static_link
 -D dump

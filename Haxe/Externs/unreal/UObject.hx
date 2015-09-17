@@ -26,7 +26,7 @@ package unreal;
   /**
     Called during async load to determine if PostLoad can be called on the loading thread.
    **/
-  public function IsPostLoadThreadSafe():Bool;
+  @:thisConst public function IsPostLoadThreadSafe():Bool;
 
   /**
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
