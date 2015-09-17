@@ -155,6 +155,7 @@ class NativeGlueCode
           if ( !(packPath == '' && file == 'Data') )
             recurse('$path/$file', '$packPath$file.');
         } else if (!touched.exists(packPath + haxe.io.Path.withoutExtension(file))) {
+          trace('Deleting uneeded file $path/$file');
           FileSystem.deleteFile('$path/$file');
         }
       }

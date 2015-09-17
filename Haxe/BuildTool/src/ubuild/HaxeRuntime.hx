@@ -259,6 +259,19 @@ class HaxeRuntime extends BaseModuleRules
     try
     {
       proc = new Process(program, args);
+      var t = new cs.system.threading.Thread(function() {
+        var stdout = proc.stdout;
+        try
+        {
+          while(true)
+          {
+            Log.TraceInformation(stdout.readLine());
+          }
+        }
+        catch(e:Eof) {}
+      });
+      t.Start();
+
       var stderr = proc.stderr;
       try
       {
@@ -276,8 +289,8 @@ class HaxeRuntime extends BaseModuleRules
         }
       }
       catch(e:Eof) {}
-      Sys.println(proc.stdout.readAll().toString());
 
+      t.Join();
       var code = proc.exitCode();
       proc.close();
       return code;
