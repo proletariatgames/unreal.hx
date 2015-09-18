@@ -3,6 +3,6 @@
 -cp Static
 -cpp bin/externs
 --no-output
---macro ue4hx.internal.ExternBaker.process(["Externs"], true)
+--macro ue4hx.internal.ExternBaker.process(["Externs","../../../Haxe/Externs"], true)
 
 -D use_rtti_doc
