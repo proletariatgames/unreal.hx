@@ -202,7 +202,9 @@ class BuildExpose {
     var extendsAndImplements = [];
     var ueName = nativeUe.getCppClassName();
     metas.push({ name: ':ueGluePath', params: [macro $v{ueName}], pos: clt.pos });
-    includes.push('${ueName}.generated.h');
+    var uclass = clt.meta.extract(':uclass')[0];
+    if (uclass != null)
+      includes.push('${ueName}.generated.h');
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
@@ -234,7 +236,6 @@ class BuildExpose {
 
     var headerDef = new StringBuf(),
         cppDef = new StringBuf();
-    var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null) {
       headerDef.add('UCLASS(');
       if (uclass.params != null) {
@@ -251,7 +252,11 @@ class BuildExpose {
       headerDef.add(' : ');
       headerDef.add(extendsAndImplements.join(', '));
     }
-    headerDef.add(' {\n\tGENERATED_BODY()\n\n');
+    if (uclass != null) {
+      headerDef.add(' {\n\tGENERATED_BODY()\n\n');
+    } else {
+      headerDef.add(' {\n\n');
+    }
     // headerDef.add(' {\n\t');
     headerDef.add('public:\n');
     if (!hasHaxeSuper) {

@@ -59,6 +59,7 @@ using StringTools;
         args = null,
         meta = null,
         superClass = null;
+    var baseType:BaseType = null;
     var isBasic = false;
 
     // we'll loop until we find a type we're interested in
@@ -70,6 +71,7 @@ using StringTools;
         name = i.toString();
         args = tl;
         var it = i.get();
+        baseType = it;
         meta = it.meta;
         var native = getMetaString(meta, ':native');
         if (native != null)
@@ -80,11 +82,13 @@ using StringTools;
 
       case TEnum(e,tl):
         name = e.toString();
+        baseType = e.get();
         args = tl;
         break;
 
       case TAbstract(a,tl):
         var at = a.get();
+        baseType = at;
         if (at.meta.has(':coreType') || at.meta.has(':unrealType'))
         {
           isBasic = true;
@@ -125,7 +129,7 @@ using StringTools;
     var basic = basicTypes[name];
     if (basic != null) return basic;
 
-    var typeRef = TypeRef.parseClassName( name );
+    var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     if (meta != null && meta.has(':uextern')) {
       return {
         haxeType: typeRef,
