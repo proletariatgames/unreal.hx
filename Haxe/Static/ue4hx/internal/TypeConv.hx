@@ -248,7 +248,7 @@ using StringTools;
       {
         ueType: new TypeRef('uint64'),
         haxeType: new TypeRef(['unreal'],'FakeUInt64'),
-        haxeGlueType: new TypeRef(['haxe'],'Int64'),
+        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
         haxeToGlueExpr: 'cast (%)',
@@ -257,7 +257,7 @@ using StringTools;
       {
         ueType: new TypeRef('int64'),
         haxeType: new TypeRef(['unreal'],'Int64'),
-        haxeGlueType: new TypeRef(['haxe'],'Int64'),
+        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
         haxeToGlueExpr: 'cast (%)',
