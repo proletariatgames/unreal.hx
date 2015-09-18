@@ -232,6 +232,37 @@ using StringTools;
         ueType: new TypeRef('void'),
         haxeType: new TypeRef('Void')
       },
+      {
+        ueType: new TypeRef('uint32'),
+        haxeType: new TypeRef(['unreal'],'FakeUInt32'),
+        haxeGlueType: new TypeRef(['cpp'],'Int32'),
+        glueType: new TypeRef(['cpp'], 'Int32'),
+
+        haxeToGlueExpr: 'cast (%)',
+        glueToHaxeExpr: 'cast (%)'
+      },
+      {
+        ueType: new TypeRef('uint64'),
+        haxeType: new TypeRef(['unreal'],'FakeUInt64'),
+        haxeGlueType: new TypeRef(['haxe'],'Int64'),
+        glueType: new TypeRef(['cpp'], 'Int64'),
+
+        haxeToGlueExpr: 'cast (%)',
+        glueToHaxeExpr: 'cast (%)'
+      },
+      {
+        ueType: new TypeRef('int64'),
+        haxeType: new TypeRef(['unreal'],'Int64'),
+        haxeGlueType: new TypeRef(['haxe'],'Int64'),
+        glueType: new TypeRef(['cpp'], 'Int64'),
+
+        haxeToGlueExpr: 'cast (%)',
+        glueToHaxeExpr: 'cast (%)'
+      },
+      {
+        ueType: new TypeRef('void'),
+        haxeType: new TypeRef('Void')
+      },
       // FString
       {
         haxeType: new TypeRef(['unreal'],'FString'),

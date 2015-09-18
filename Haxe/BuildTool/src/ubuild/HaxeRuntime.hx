@@ -116,14 +116,12 @@ class HaxeRuntime extends BaseModuleRules
             File.saveContent(dep, File.getContent(dep));
           }
 
-          if (ret == 0)
+          if (ret != 0)
           {
-            // get haxe module dependencies
-            var deps = File.getContent('$curSourcePath/Private/Generated/Data/modules.txt').split('\n');
-            this.PrivateDependencyModuleNames.addRange(deps);
-          } else {
             throw 'Haxe compilation failed';
           }
+        } else {
+          throw 'Haxe compilation failed';
         }
       }
     }
@@ -135,6 +133,11 @@ class HaxeRuntime extends BaseModuleRules
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
       Log.TraceVerbose('Using Haxe');
+
+      // get haxe module dependencies
+      var targetPath = Path.GetFullPath('$modulePath/../Private/Generated/Data/modules.txt');
+      var deps = File.getContent(targetPath).trim().split('\n');
+      this.PrivateDependencyModuleNames.addRange(deps);
 
       // var hxcppPath = haxelibPath('hxcpp');
       // if (hxcppPath != null)

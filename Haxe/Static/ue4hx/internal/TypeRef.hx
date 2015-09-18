@@ -114,13 +114,13 @@ class TypeRef
     });
   }
 
-  public function getCppType(?buf:StringBuf,fullyQualified=true):StringBuf {
+  public function getCppType(?buf:StringBuf):StringBuf {
     if (buf == null)
       buf = new StringBuf();
 
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
-      params[0].getCppType(buf,fullyQualified);
+      params[0].getCppType(buf);
       buf.add(' *');
     case [ ['cpp'], 'ConstCharStar' ]:
       buf.add('const char *');
@@ -129,8 +129,6 @@ class TypeRef
     case [ [], 'Bool' | 'bool' ]:
       buf.add('bool');
     case _:
-      if (fullyQualified && pack.length > 0)
-        buf.add('::');
       buf.add(this.pack.join('::'));
       if (this.pack.length > 0)
         buf.add('::');
@@ -141,7 +139,7 @@ class TypeRef
         var first = true;
         for (param in params) {
           if (first) first = false; else buf.add(', ');
-          param.getCppType(buf, fullyQualified);
+          param.getCppType(buf);
         }
         buf.add('>');
       }
@@ -149,12 +147,12 @@ class TypeRef
     return buf;
   }
 
-  public function getCppClass(fullyQualified=true):String {
+  public function getCppClass():String {
     return switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
-      params[0].getCppClass(fullyQualified);
+      params[0].getCppClass();
     case _:
-      this.getCppType(null,fullyQualified).toString();
+      this.getCppType(null).toString();
     }
   }
 

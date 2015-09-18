@@ -151,7 +151,7 @@ class BuildExpose {
             }
           }
           headerCode += data + ')\n\t';
-          headerCode += tconv.ueType.getCppType(null, false) + ' ' + uprop.name + ';';
+          headerCode += tconv.ueType.getCppType(null) + ' ' + uprop.name + ';';
           if (tconv.glueHeaderIncludes != null) {
             for (inc in tconv.glueHeaderIncludes)
               glueHeaderIncs[inc] = inc;
@@ -209,7 +209,7 @@ class BuildExpose {
       // TESTME - test extending Haxe classes
       var tconv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos );
       // any superclass here should also be present in the native side
-      extendsAndImplements.push('public ' + tconv.ueType.getCppClass(false));
+      extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
 
       hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
       // we're using the ueType so we'll include the glueCppIncludes
@@ -224,7 +224,7 @@ class BuildExpose {
       // look into @:uextern.
       if (impl.meta.has(':uextern')) {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
-        extendsAndImplements.push('public ' + tconv.ueType.getCppClass(false));
+        extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
         if (tconv.glueCppIncludes != null) {
           for (inc in tconv.glueCppIncludes)
             includes.push(inc);

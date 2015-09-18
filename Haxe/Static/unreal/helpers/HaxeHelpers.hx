@@ -7,6 +7,7 @@ package unreal.helpers;
     // so we're using the undocumented GetPtr (defined in `include/hx/Object.h`)
     // this pointer should only be used in the stack - because this pointer will be
     // transparent to hxcpp - which might move the reference
+    var dyn:Dynamic = dyn;
     return untyped __cpp__('{0}.GetPtr()',dyn);
   }
 
