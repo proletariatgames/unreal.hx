@@ -1,6 +1,6 @@
 package ue4hx.internal;
 import sys.io.File;
-import sys.FileSystem.*;
+import sys.FileSystem;
 
 using StringTools;
 
@@ -107,13 +107,13 @@ class GlueWriter
       this.cpp.toString();
 
     if (headerPath != null) {
-      if (!exists(headerPath) || File.getContent(headerPath) != header) {
+      if (!FileSystem.exists(headerPath) || File.getContent(headerPath).trim() != header.trim()) {
         File.saveContent(headerPath, header);
       }
     }
 
     if (cppPath != null) {
-      if (!exists(cppPath) || File.getContent(cppPath) != cpp) {
+      if (!FileSystem.exists(cppPath) || File.getContent(cppPath).trim() != cpp.trim()) {
         File.saveContent(cppPath, cpp);
       }
     }

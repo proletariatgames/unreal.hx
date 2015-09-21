@@ -70,7 +70,7 @@ class HaxeInit extends BaseModuleRules
       if (checkMap != null)
       {
         for (file in readDirectory(toPath))
-          if (!checkMap.exists(file))
+          if (file != 'Generated' && !checkMap.exists(file))
             deleteRecursive('$toPath/$file');
       }
     }
@@ -83,8 +83,10 @@ class HaxeInit extends BaseModuleRules
     {
       deleteFile(path);
     } else {
-      for (file in readDirectory(path))
-        deleteRecursive('$path/$file');
+      for (file in readDirectory(path)) {
+        if (file != 'Generated')
+          deleteRecursive('$path/$file');
+      }
       deleteDirectory(path);
     }
   }
