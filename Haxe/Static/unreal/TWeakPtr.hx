@@ -1,5 +1,6 @@
 package unreal;
 
+@:unrealType
 @:forward TWeakPtr<T>(T) {
   public function Pin():TSharedPtr<T> {
     return null;

@@ -44,6 +44,7 @@ class ExternBaker {
     var processed = new Map(),
         toProcess = [];
     var i = classpaths.length;
+    var hadErrors = false;
     while( i --> 0 ) {
       var cp = classpaths[i];
       if (!FileSystem.exists(cp)) continue;
@@ -59,7 +60,7 @@ class ExternBaker {
 
             var mtime = FileSystem.stat('$dir/$file').mtime;
             var dest = '$target/${pack.join('/')}/$file';
-            if (FileSystem.exists(dest) && (!force && FileSystem.stat(dest).mtime.getTime() >= mtime.getTime()))
+            if (!force && FileSystem.exists(dest) && FileSystem.stat(dest).mtime.getTime() >= mtime.getTime())
               continue; // already in latest version
             toProcess.push(module);
           } else if (FileSystem.isDirectory('$dir/$file')) {
@@ -84,6 +85,7 @@ class ExternBaker {
       for (type in module) {
         var glueBuf = processor.processType(type),
             glue = Std.string(glueBuf);
+        hadErrors = hadErrors || processor.hadErrors;
         if (glueBuf != null && glue != '') {
           var glueType = processor.glueType;
           var dir = target + '/' + glueType.pack.join('/');
@@ -101,6 +103,8 @@ class ExternBaker {
         File.saveContent('$dir/$name.hx', buf.toString());
       }
     }
+    if (hadErrors)
+      throw new Error('Extern bake finished with errors',Context.currentPos());
   }
 
   private var buf:StringBuf;
@@ -113,12 +117,14 @@ class ExternBaker {
   private var indentStr:String;
 
   private var pos:Position;
+  private var hadErrors:Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
 
   private function new(buf:StringBuf) {
     this.buf = buf;
     this.indentStr = '';
+    this.hadErrors = false;
   }
 
   public function processType(type:Type):StringBuf {
@@ -272,7 +278,8 @@ class ExternBaker {
           // make sure that the return type is of type PHaxeCreated
           if (!isHaxeCreated(ret)) {
             Context.warning(
-              'The function constructor ${field.name} should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
+              'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
+            hadErrors = true;
           }
         }
         methods.push({

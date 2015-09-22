@@ -23,6 +23,9 @@ using StringTools;
   inline function new(obj)
     this = obj;
 
+  inline function underlying()
+    return this;
+
   public function haxeToGlue(expr:String)
   {
     if (this.haxeToGlueExpr == null)
@@ -69,50 +72,50 @@ using StringTools;
     return this.glueType != null ? this.glueType : this.ueType;
   }
 
-  public static function get(type:Type, pos:Position):TypeConv
-  {
-    var name = null,
-        args = null,
-        meta = null,
-        superClass = null;
-    var baseType:BaseType = null;
-    var isBasic = false,
-        isUObject = false;
-
+  private static function getTypeCtx(type:Type, pos:Position):TypeConvCtx {
     // we'll loop until we find a type we're interested in
     // when found, we'll get its name, type parameters and
     // if it's a class, its meta too
     while(true) {
       switch(type) {
-      case TInst(i,tl):
-        name = i.toString();
-        args = tl;
-        var it = i.get();
-        baseType = it;
-        meta = it.meta;
-        var native = getMetaString(meta, ':native');
+      case TInst(iref,tl):
+        var it = iref.get();
+        var name = iref.toString();
+        var native = getMetaString(it.meta, ':native');
         if (native != null)
           name = native;
+        return {
+          name: name,
+          args: tl,
+          meta: it.meta,
 
-        superClass = it.superClass;
-        isUObject = TypeConv.isUObject(type);
-        break;
+          superClass: it.superClass,
+          baseType: it,
+          isUObject: TypeConv.isUObject(type)
+        };
 
-      case TEnum(e,tl):
-        name = e.toString();
-        baseType = e.get();
-        args = tl;
-        break;
+      case TEnum(eref,tl):
+        var e = eref.get();
+        return {
+          name: eref.toString(),
+          args: tl,
+          meta: e.meta,
 
-      case TAbstract(a,tl):
-        var at = a.get();
-        baseType = at;
+          baseType: e,
+        }
+
+      case TAbstract(aref,tl):
+        var at = aref.get();
         if (at.meta.has(':coreType') || at.meta.has(':unrealType'))
         {
-          isBasic = true;
-          name = a.toString();
-          args = tl;
-          break;
+          return {
+            name: aref.toString(),
+            args: tl,
+            meta: at.meta,
+
+            baseType: at,
+            isBasic: true
+          }
         }
         // follow it
 #if (haxe_ver >= 3.3)
@@ -123,13 +126,15 @@ using StringTools;
         type = at.type.applyTypeParameters(at.params, tl);
 #end
 
-      case TType(t,tl):
-        var tt = t.get();
-        if (tt.meta.has(':unrealType'))
+      case TType(tref,tl):
+        var t = tref.get();
+        if (t.meta.has(':unrealType'))
         {
-          name = t.toString();
-          args = tl;
-          break;
+          return {
+            name: tref.toString(),
+            args: tl,
+            meta: t.meta
+          }
         }
         type = type.follow(true);
       case TMono(mono):
@@ -142,6 +147,19 @@ using StringTools;
         throw new Error('Unreal Glue: Invalid type $type', pos);
       }
     }
+    throw 'assert';
+  }
+
+  public static function get(type:Type, pos:Position):TypeConv
+  {
+    var ctx = getTypeCtx(type, pos);
+    var name = ctx.name,
+        args = ctx.args,
+        meta = ctx.meta,
+        superClass = ctx.superClass;
+    var baseType = ctx.baseType;
+    var isBasic = ctx.isBasic,
+        isUObject = ctx.isUObject;
 
     // if we have it defined as a basic (special) type, use it
     var basic = basicTypes[name];
@@ -211,6 +229,10 @@ using StringTools;
       };
     }
 
+    // switch (name) {
+    // case 'unreal.PHaxeCreated':
+    //   return get(args[0], pos);
+    // }
     if (isBasic)
       return {
         ueType: typeRef,
@@ -400,4 +422,15 @@ typedef TypeConvInfo = {
     Gets the wrapping expression from the Glue type to the Haxe type
    **/
   @:optional public var glueToHaxeExpr:Null<String>;
+}
+
+typedef TypeConvCtx = {
+  name:String,
+  args:Array<Type>,
+  meta:MetaAccess,
+
+  ?superClass:Null<{ t : Ref<ClassType>, params : Array<Type> }>,
+  ?baseType:Null<BaseType>,
+  ?isBasic:Bool,
+  ?isUObject:Bool
 }
