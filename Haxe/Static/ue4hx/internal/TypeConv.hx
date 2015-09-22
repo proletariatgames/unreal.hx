@@ -150,9 +150,30 @@ using StringTools;
     throw 'assert';
   }
 
+  private static function isPOwnership(ctx:TypeConvCtx) {
+    if (!ctx.isBasic)
+      return false;
+    switch (ctx.name) {
+    case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
+         'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr':
+      return true;
+    case _:
+      return false;
+    }
+  }
+
   public static function get(type:Type, pos:Position):TypeConv
   {
     var ctx = getTypeCtx(type, pos);
+    var ownershipModifier = null;
+    if (isPOwnership(ctx)) {
+      // TODO: cleanup so it plays nicely when more modifiers are added (e.g. Const, etc)
+      ownershipModifier = ctx;
+      ctx = getTypeCtx(ctx.args[0], pos);
+      if (isPOwnership(ctx))
+        throw new Error('Unreal Glue: You cannot use two pointer modifiers in the same type (${ownershipModifier.name}<${ctx.name}<>>)', pos);
+    }
+
     var name = ctx.name,
         args = ctx.args,
         meta = ctx.meta,
@@ -178,10 +199,10 @@ using StringTools;
 
           haxeToGlueExpr: '%.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
-          glueToUeExpr: '( (::${typeRef.name} *) % )'
+          glueToUeExpr: '( (${typeRef.name} *) % )'
         };
       } else {
-        return {
+        var ret:TypeConvInfo = {
           haxeType: typeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
           haxeGlueType: uePointer,
@@ -192,9 +213,26 @@ using StringTools;
 
           haxeToGlueExpr: '%.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
-          glueToUeExpr: '( (::${typeRef.name} *) %->getPointer() )',
-          // ueToGlueExpr: // check ownership
+          glueToUeExpr: '( (${typeRef.name} *) %->getPointer() )',
         };
+        var modf = ownershipModifier == null ? 'unreal.PExternal' : ownershipModifier.name;
+        switch (modf) {
+          case 'unreal.PExternal':
+            ret.ueToGlueExpr = 'new PExternal<${typeRef.name}>( % )';
+          case 'unreal.PHaxeCreated':
+            ret.ueToGlueExpr = 'new PHaxeCreated<${typeRef.name}>( % )';
+          case 'unreal.PStruct':
+            ret.ueToGlueExpr = 'new PStruct<${typeRef.name}>( % )';
+          case 'unreal.PSharedPtr':
+            ret.ueToGlueExpr = 'new PSharedPtr<${typeRef.name}>( % )';
+          case 'unreal.PSharedRef':
+            ret.ueToGlueExpr = 'new PSharedRef<${typeRef.name}>( % )';
+          case 'unreal.PWeakPtr':
+            ret.ueToGlueExpr = 'new PWeakPtr<${typeRef.name}>( % )';
+          case _:
+            throw 'assert: $modf';
+        }
+        return ret;
       }
     }
 
@@ -228,11 +266,6 @@ using StringTools;
         glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
     }
-
-    // switch (name) {
-    // case 'unreal.PHaxeCreated':
-    //   return get(args[0], pos);
-    // }
     if (isBasic)
       return {
         ueType: typeRef,
