@@ -13,6 +13,10 @@ using StringTools;
  **/
 @:forward abstract TypeConv(TypeConvInfo) from TypeConvInfo
 {
+  private static var GLOBALS:{
+    ?uobject:Type,
+  } = {};
+
   public var haxeGlueType(get,never):TypeRef;
   public var glueType(get,never):TypeRef;
 
@@ -45,6 +49,18 @@ using StringTools;
     return this.ueToGlueExpr.replace('%', expr);
   }
 
+  public static function resetGlobals() {
+    GLOBALS = {};
+  }
+
+  private static function isUObject(t:Type) {
+    var uobj = GLOBALS.uobject;
+    if (uobj == null) {
+      GLOBALS.uobject = uobj = Context.getType('unreal.UObject');
+    }
+    return Context.unify(t, uobj);
+  }
+
   private function get_haxeGlueType():TypeRef {
     return this.haxeGlueType != null ? this.haxeGlueType : this.haxeType;
   }
@@ -60,7 +76,8 @@ using StringTools;
         meta = null,
         superClass = null;
     var baseType:BaseType = null;
-    var isBasic = false;
+    var isBasic = false,
+        isUObject = false;
 
     // we'll loop until we find a type we're interested in
     // when found, we'll get its name, type parameters and
@@ -78,6 +95,7 @@ using StringTools;
           name = native;
 
         superClass = it.superClass;
+        isUObject = TypeConv.isUObject(type);
         break;
 
       case TEnum(e,tl):
@@ -131,18 +149,35 @@ using StringTools;
 
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     if (meta != null && meta.has(':uextern')) {
-      return {
-        haxeType: typeRef,
-        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
-        haxeGlueType: voidStar,
-        glueType: voidStar,
+      if (isUObject) {
+        return {
+          haxeType: typeRef,
+          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+          haxeGlueType: voidStar,
+          glueType: voidStar,
 
-        glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
+          glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
-        haxeToGlueExpr: '%.wrapped',
-        glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
-        glueToUeExpr: '( (::${typeRef.name} *) % )'
-      };
+          haxeToGlueExpr: '%.wrapped',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
+          glueToUeExpr: '( (::${typeRef.name} *) % )'
+        };
+      } else {
+        return {
+          haxeType: typeRef,
+          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+          haxeGlueType: uePointer,
+          glueType: uePointer,
+
+          glueCppIncludes: ['<OPointers.h>'].concat(getMetaArray(meta, ':glueCppIncludes')),
+          glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
+
+          haxeToGlueExpr: '%.wrapped',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
+          glueToUeExpr: '( (::${typeRef.name} *) %->getPointer() )',
+          // ueToGlueExpr: // check ownership
+        };
+      }
     }
 
     // check if extends @:uextern
@@ -225,6 +260,7 @@ using StringTools;
   }
 
   static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
+  static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
 
   static var basicTypes:Map<String, TypeConvInfo> = {
     var infos:Array<TypeConvInfo> = [

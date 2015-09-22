@@ -10,7 +10,7 @@ package unreal.helpers;
 {
   public static var NULL_PTR(get,never):cpp.RawPointer<UEPointer>;
 
-  inline private static function get_NULL_PTR():cpp.RawPointer<UEPointer>
+  @:extern inline private static function get_NULL_PTR():cpp.RawPointer<UEPointer>
     return untyped __cpp__('((::unreal::helpers::UEPointer *) 0)');
 
   /**

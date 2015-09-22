@@ -197,12 +197,12 @@ class ExternBaker {
         this.buf.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
         this.newline();
         if (this.thisConv.haxeGlueType.isReflective())
-          this.buf.add('private function new(wrapped) this.wrapped = wrapped;');
+          this.buf.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
         else
-          this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();');
+          this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();\n\t');
 
         // add the reflectGetWrapped()
-        this.buf.add('@:ifFeature("${this.typeRef.getClassPath()}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
+        this.buf.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
         this.begin(' {');
           this.buf.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
@@ -215,7 +215,7 @@ class ExternBaker {
     this.addDoc(field.doc);
     this.addMeta(field.meta.get());
 
-    var uename = switch(MacroHelpers.extractStrings(field.meta, ':uename')[0]) {
+    var uname = switch(MacroHelpers.extractStrings(field.meta, ':uname')[0]) {
       case null:
         field.name;
       case name:
@@ -240,7 +240,7 @@ class ExternBaker {
       case AccNormal | AccCall:
         methods.push({
           name: 'get_' + field.name,
-          uename: uename,
+          uname: uname,
           args: [],
           ret: tconv,
           isProp: true, isFinal: true, isPublic: false
@@ -253,7 +253,7 @@ class ExternBaker {
       case AccNormal | AccCall:
         methods.push({
           name: 'set_' + field.name,
-          uename: uename,
+          uname: uname,
           args: [{ name: 'value', t: tconv }],
           ret: tconv,
           isProp: true, isFinal: true, isPublic: false
@@ -268,9 +268,16 @@ class ExternBaker {
     case FMethod(k):
       switch(Context.follow(field.type)) {
       case TFun(args,ret):
+        if (uname == 'new') {
+          // make sure that the return type is of type PHaxeCreated
+          if (!isHaxeCreated(ret)) {
+            Context.warning(
+              'The function constructor ${field.name} should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
+          }
+        }
         methods.push({
           name: field.name,
-          uename: uename,
+          uname: uname,
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
           isProp: false, isFinal: false, isPublic: field.isPublic
@@ -300,10 +307,10 @@ class ExternBaker {
       var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
       var glueCppBody = if (isStatic) {
-        this.thisConv.ueType.getCppClass() + '::' + meth.uename;
+        this.thisConv.ueType.getCppClass() + '::' + meth.uname;
       } else {
         var self = helperArgs[0];
-        self.t.glueToUe(escapeName(self.name)) + '->' + meth.uename;
+        self.t.glueToUe(escapeName(self.name)) + '->' + meth.uname;
       }
 
       if (meth.isProp) {
@@ -400,6 +407,35 @@ class ExternBaker {
         this.buf.add(';');
       this.end('}');
     }
+  }
+
+  private static function isHaxeCreated(type:Type):Bool {
+    while (type != null) {
+      switch(type) {
+      case TAbstract(aRef, tl):
+        if (aRef.toString() == 'unreal.PHaxeCreated')
+          return true;
+        var a = aRef.get();
+        if (a.meta.has(':coreType'))
+            break;
+#if (haxe_ver >= 3.3)
+        // this is more robust than the 3.2 version, since it will also correctly
+        // follow @:multiType abstracts
+        type = type.followWithAbstracts(true);
+#else
+        type = at.type.applyTypeParameters(at.params, tl);
+#end
+      case TInst(_,_) | TEnum(_,_) | TAnonymous(_) | TFun(_,_) | TDynamic(_):
+        break;
+      case TMono(ref):
+        type = ref.get();
+      case TLazy(fn):
+        type = fn();
+      case TType(_,_):
+        type = Context.follow(type, true);
+      }
+    }
+    return false;
   }
 
   private static function escapeName(name:String) {

@@ -172,9 +172,9 @@ class TypeRef
       new TypeRef(this.pack, this.name, this.params);
   }
 
-  public function getClassPath():String
+  public function getClassPath(discardModule=false):String
   {
-    var name = if (this.moduleName == null)
+    var name = if (discardModule || this.moduleName == null)
       this.name;
     else
       this.moduleName + '.' + this.name;
