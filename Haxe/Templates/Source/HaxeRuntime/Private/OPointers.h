@@ -85,7 +85,7 @@ class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
     inline PSharedPtr(TSharedPtr<T> val) : value(val) {}
 
     virtual void *getPointer() override {
-      return &value.Get();
+      return value.Get();
     }
 
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
@@ -117,7 +117,8 @@ class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
     inline PWeakPtr(TWeakPtr<T> val) : value(val) {}
 
     virtual void *getPointer() override {
-      return value.Get();
+      //FIXME: the pointer may be deleted. For now this is up to the user to not access TWeakPtr directly
+      return value.Pin().Get();
     }
 
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
@@ -158,7 +159,7 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
     }
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override {
       checkShared();
-      return new PWeakPtr<T>( MakeShareable(value) );
+      return new PWeakPtr<T>( TSharedPtr<T>(MakeShareable(value)) );
     }
   private:
     inline void checkShared() {

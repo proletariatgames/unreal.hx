@@ -314,7 +314,11 @@ class ExternBaker {
       var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
       var glueCppBody = if (isStatic) {
-        this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+        if (meth.uname == 'new') {
+          'new ' + this.thisConv.ueType.getCppClass();
+        } else {
+          this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+        }
       } else {
         var self = helperArgs[0];
         self.t.glueToUe(escapeName(self.name)) + '->' + meth.uname;
@@ -430,7 +434,7 @@ class ExternBaker {
         // follow @:multiType abstracts
         type = type.followWithAbstracts(true);
 #else
-        type = at.type.applyTypeParameters(at.params, tl);
+        type = a.type.applyTypeParameters(a.params, tl);
 #end
       case TInst(_,_) | TEnum(_,_) | TAnonymous(_) | TFun(_,_) | TDynamic(_):
         break;
