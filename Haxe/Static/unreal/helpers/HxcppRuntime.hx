@@ -9,6 +9,10 @@ package unreal.helpers;
     return cpp.ConstCharStar.fromString( HaxeHelpers.pointerToDynamic(ptr) );
   }
 
+  @:void public static function throwString(str:cpp.ConstCharStar):Void {
+    throw str.toString();
+  }
+
   public static function getWrapped(ptr:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
     var dyn:{ function reflectGetWrapped():cpp.Pointer<Dynamic>; } =
       HaxeHelpers.pointerToDynamic(ptr);
