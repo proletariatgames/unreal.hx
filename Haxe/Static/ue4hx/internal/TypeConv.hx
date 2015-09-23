@@ -56,7 +56,7 @@ using StringTools;
     GLOBALS = {};
   }
 
-  private static function isUObject(t:Type) {
+  private static function typeIsUObject(t:Type) {
     var uobj = GLOBALS.uobject;
     if (uobj == null) {
       GLOBALS.uobject = uobj = Context.getType('unreal.UObject');
@@ -91,7 +91,7 @@ using StringTools;
 
           superClass: it.superClass,
           baseType: it,
-          isUObject: TypeConv.isUObject(type)
+          isUObject: TypeConv.typeIsUObject(type)
         };
 
       case TEnum(eref,tl):
@@ -194,6 +194,8 @@ using StringTools;
           ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
           haxeGlueType: voidStar,
           glueType: voidStar,
+
+          isUObject: true,
 
           glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
@@ -455,6 +457,11 @@ typedef TypeConvInfo = {
     Gets the wrapping expression from the Glue type to the Haxe type
    **/
   @:optional public var glueToHaxeExpr:Null<String>;
+
+  /**
+    Returns true if the type refers to a UObject type
+   **/
+  @:optional public var isUObject:Bool;
 }
 
 typedef TypeConvCtx = {

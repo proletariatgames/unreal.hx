@@ -15,8 +15,9 @@ class NeedsGlueBuild
   {
     registerMacroCalls();
 
-    var cls = Context.getLocalClass().get();
-    if (!cls.meta.has(':uextern')) {
+    var localClass = Context.getLocalClass();
+    var cls = localClass.get();
+    if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
         throw new Error('Unreal Glue Extension: Do not extend Unreal types on the global namespace. Use a package', cls.pos);
@@ -24,17 +25,6 @@ class NeedsGlueBuild
       // if we don't have the @:uextern meta, it means
       // we're subclassing an extern class
 
-      // if it's a UObject descendant:
-      // FIXME: add support for interfaces as well
-      var isUObject = false,
-          superClass = cls.superClass;
-      while (superClass != null) {
-        if (superClass.t.toString() == 'unreal.UObject') {
-          isUObject = true;
-          break;
-        }
-        superClass = superClass.t.get().superClass;
-      }
       // non-extern type that derives from UObject:
       // change uproperties to call getter/setters
       // warn if constructors are created

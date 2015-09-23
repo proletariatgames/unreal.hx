@@ -162,10 +162,14 @@ class ExternBaker {
     if (c.isPrivate)
       this.buf.add('private ');
     this.buf.add('class ${c.name} ');
+    var hasSuperClass = true;
     if (c.superClass != null) {
       var supRef = TypeRef.fromBaseType(c.superClass.t.get(), c.superClass.params, c.pos);
       this.buf.add('extends $supRef ');
+    } else if (!this.thisConv.isUObject) {
+      this.buf.add('extends unreal.Wrapper ');
     } else {
+      hasSuperClass = false;
       this.buf.add('implements ue4hx.internal.NeedsGlue ');
     }
 
@@ -197,7 +201,7 @@ class ExternBaker {
         this.buf.add('return new ${this.typeRef.getClassPath()}(ptr);');
       this.end('}');
 
-      if (c.superClass == null) {
+      if (!hasSuperClass) {
         this.newline();
         // add constructor
         this.buf.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
@@ -416,7 +420,7 @@ class ExternBaker {
           haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody);
         this.buf.add(haxeBody);
         this.buf.add(';');
-      this.end('}');
+      this.end('}\n');
     }
   }
 
