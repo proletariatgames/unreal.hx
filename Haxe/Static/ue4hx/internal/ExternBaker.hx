@@ -410,6 +410,14 @@ class ExternBaker {
       this.buf.add([ for (arg in meth.args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
       this.buf.add('):' + meth.ret.haxeType + ' ');
       this.begin('{');
+        if (!isStatic && !this.thisConv.isUObject) {
+          this.buf.add('#if UE4_CHECK_POINTER');
+          this.newline();
+          this.buf.add('this.checkPointer();');
+          this.newline();
+          this.buf.add('#end');
+          this.newline();
+        }
         var haxeBody =
           '${this.glueType}.${meth.name}(' +
             [ for (arg in helperArgs) arg.t.haxeToGlue(arg.name) ].join(', ') +
