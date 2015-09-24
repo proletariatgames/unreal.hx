@@ -162,7 +162,7 @@ using StringTools;
     }
   }
 
-  public static function get(type:Type, pos:Position):TypeConv
+  public static function get(type:Type, pos:Position, ?ownershipOverride:String = null):TypeConv
   {
     var ctx = getTypeCtx(type, pos);
     var ownershipModifier = null;
@@ -217,14 +217,26 @@ using StringTools;
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
           glueToUeExpr: '( (${typeRef.name} *) %->getPointer() )',
         };
-        var modf = ownershipModifier == null ? 'unreal.PExternal' : ownershipModifier.name;
+        var modf = ownershipOverride;
+        if (modf == null) {
+          if (ownershipModifier == null) {
+            return ret;
+          } else {
+            modf = ownershipModifier.name;
+          }
+        }
+        ret.haxeType = new TypeRef(['unreal'], modf.split('.')[1], [typeRef]);
         switch (modf) {
           case 'unreal.PExternal':
             ret.ueToGlueExpr = 'new PExternal<${typeRef.name}>( % )';
           case 'unreal.PHaxeCreated':
             ret.ueToGlueExpr = 'new PHaxeCreated<${typeRef.name}>( % )';
+            ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
           case 'unreal.PStruct':
             ret.ueToGlueExpr = 'new PStruct<${typeRef.name}>( % )';
+            ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
+            ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
+            ret.ueType = ret.ueType.params[0];
           case 'unreal.PSharedPtr':
             ret.ueToGlueExpr = 'new PSharedPtr<${typeRef.name}>( % )';
           case 'unreal.PSharedRef':

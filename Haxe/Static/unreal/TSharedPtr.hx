@@ -1,8 +1,8 @@
 package unreal;
 
 @:unrealType
-@:forward abstract TSharedPtr<T>(T) {
-  public static function MakeShareable<T>(value:HaxeCreated<T>):TSharedPtr<T> {
+@:forward abstract TSharedPtr<T>(T) to T {
+  public static function MakeShareable<T>(value:PHaxeCreated<T>):TSharedPtr<T> {
     // TODO MACRO?
     return null;
   }

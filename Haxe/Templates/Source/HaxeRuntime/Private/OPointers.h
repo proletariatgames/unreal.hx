@@ -148,6 +148,8 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
         delete value;
     }
 
+    // TODO: find a better way to deal with that so we don't need to compile so many different
+    //       templated classes every time we use PHaxeCreated of a different type
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override {
       checkShared();
       return new PSharedPtr<T>( MakeShareable(value) );

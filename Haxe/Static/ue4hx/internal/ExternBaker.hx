@@ -278,6 +278,14 @@ class ExternBaker {
     case FMethod(k):
       switch(Context.follow(field.type)) {
       case TFun(args,ret):
+        var cur = null;
+        methods.push( cur = {
+          name: field.name,
+          uname: uname,
+          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
+          ret: TypeConv.get(ret, field.pos),
+          isProp: false, isFinal: false, isPublic: field.isPublic
+        });
         if (uname == 'new') {
           // make sure that the return type is of type PHaxeCreated
           if (!isHaxeCreated(ret)) {
@@ -285,14 +293,15 @@ class ExternBaker {
               'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
             hadErrors = true;
           }
+
+          methods.push({
+            name: field.name + 'Struct',
+            uname: '.ctor',
+            args: cur.args,
+            ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
+            isProp: false, isFinal: false, isPublic: field.isPublic
+          });
         }
-        methods.push({
-          name: field.name,
-          uname: uname,
-          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
-          ret: TypeConv.get(ret, field.pos),
-          isProp: false, isFinal: false, isPublic: field.isPublic
-        });
       case _: throw 'assert';
       }
     }
@@ -318,9 +327,12 @@ class ExternBaker {
       var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
       var glueCppBody = if (isStatic) {
-        if (meth.uname == 'new') {
+        switch (meth.uname) {
+        case 'new':
           'new ' + this.thisConv.ueType.getCppClass();
-        } else {
+        case '.ctor':
+          this.thisConv.ueType.getCppClass();
+        case _:
           this.thisConv.ueType.getCppClass() + '::' + meth.uname;
         }
       } else {
@@ -510,6 +522,8 @@ class ExternBaker {
           }
           this.buf.add(')');
         }
+        if (meta.name == ':final')
+          this.buf.add(' @:nonVirtual ');
         this.newline();
       }
     }
