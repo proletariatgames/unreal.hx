@@ -117,7 +117,7 @@ class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
     inline PWeakPtr(TWeakPtr<T> val) : value(val) {}
 
     virtual void *getPointer() override {
-      //FIXME: the pointer may be deleted. For now this is up to the user to not access TWeakPtr directly
+      // FIXME: the pointer may be deleted. For now this is up to the user to not access TWeakPtr directly
       return value.Pin().Get();
     }
 
@@ -175,7 +175,7 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
 };
 
 template<typename T> ::unreal::helpers::UEPointer *::PSharedPtr<T>::toSharedPtr() {
-  return new PSharedPtr<T>(value);
+  return this;
 }
 template<typename T> ::unreal::helpers::UEPointer *::PSharedPtr<T>::toSharedRef() {
   return new PSharedRef<T>(value.ToSharedRef());
@@ -188,7 +188,7 @@ template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toSharedPtr(
   return new PSharedPtr<T>(value);
 }
 template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toSharedRef() {
-  return new PSharedRef<T>(value);
+  return this;
 }
 template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toWeakPtr() {
   return new PWeakPtr<T>(value);
@@ -201,5 +201,5 @@ template<typename T> ::unreal::helpers::UEPointer *::PWeakPtr<T>::toSharedRef() 
   return new PSharedRef<T>(value.Pin().ToSharedRef());
 }
 template<typename T> ::unreal::helpers::UEPointer *::PWeakPtr<T>::toWeakPtr() {
-  return new PWeakPtr<T>(value);
+  return this;
 }

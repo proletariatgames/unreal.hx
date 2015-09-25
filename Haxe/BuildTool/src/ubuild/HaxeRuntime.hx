@@ -58,6 +58,7 @@ class HaxeRuntime extends BaseModuleRules
           '# this pass will bake the extern type definitions into glue code',
           '-cp $pluginPath/Haxe/Static',
           '-D use-rtti-doc', // we want the documentation to be persisted
+          '-D bake-externs',
           '',
           '-cpp $gameDir/Haxe/Generated/Externs',
           '--no-output', // don't generate cpp files; just execute our macro

@@ -9,7 +9,9 @@ package ue4hx.internal;
   glue type definition, and make the needed expression changes to correctly deal with constructors,
   uproperty definition, etc.
  **/
+#if !bake_externs
 @:autoBuild(ue4hx.internal.NeedsGlueBuild.build())
+#end
 interface NeedsGlue
 {
 }

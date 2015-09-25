@@ -6,10 +6,10 @@ import unreal.helpers.UEPointer;
  **/
 class Wrapper implements ue4hx.internal.NeedsGlue {
   public var disposed(default,null):Bool;
-  @:unreflective private var wrapped:cpp.RawPointer<UEPointer>;
+  private var wrapped:cpp.Pointer<UEPointer>;
 
   private function new(wrapped:cpp.Pointer<UEPointer>) {
-    this.wrapped = wrapped.get_raw();
+    this.wrapped = wrapped;
     this.disposed = false;
     cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
   }
@@ -22,6 +22,10 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
 #end
       throw msg;
     }
+  }
+
+  public function rewrap(wrapped:cpp.Pointer<UEPointer>):Wrapper {
+    return new Wrapper(wrapped);
   }
 
   /**
@@ -40,13 +44,13 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
 
     // cancel the finalizer
     cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
-    untyped __cpp__('delete {0}',this.wrapped);
+    this.wrapped.destroy();
 
     // make sure we'll crash with a null reference if trying to use this object
-    this.wrapped = untyped __cpp__('0');
+    this.wrapped = null;
   }
 
   @:void @:unreflective inline static function disposeUEPointer(wrapper:Wrapper):Void {
-    untyped __cpp__('delete {0}',wrapper.wrapped);
+    wrapper.wrapped.destroy();
   }
 }

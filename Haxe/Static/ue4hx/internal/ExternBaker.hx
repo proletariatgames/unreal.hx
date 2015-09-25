@@ -216,6 +216,12 @@ class ExternBaker {
         this.begin(' {');
           this.buf.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
+      } else if (!this.thisConv.isUObject) {
+        // add rewrap
+        this.buf.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');
+        this.begin(' {');
+          this.buf.add('return new ${this.thisConv.haxeType}(wrapped);');
+        this.end('}');
       }
 
     this.end('}');

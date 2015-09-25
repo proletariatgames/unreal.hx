@@ -207,7 +207,7 @@ using StringTools;
         var ret:TypeConvInfo = {
           haxeType: typeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
-          haxeGlueType: uePointer,
+          haxeGlueType: uePointer.toReflective(),
           glueType: uePointer,
 
           glueCppIncludes: ['<OPointers.h>'].concat(getMetaArray(meta, ':glueCppIncludes')),
@@ -237,12 +237,15 @@ using StringTools;
             ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
-          case 'unreal.PSharedPtr':
+          case 'unreal.TSharedPtr':
             ret.ueToGlueExpr = 'new PSharedPtr<${typeRef.name}>( % )';
-          case 'unreal.PSharedRef':
+            ret.glueToUeExpr = '( (PSharedPtr<${typeRef.name}> *) %->toSharedPtr() )->value';
+          case 'unreal.TSharedRef':
             ret.ueToGlueExpr = 'new PSharedRef<${typeRef.name}>( % )';
-          case 'unreal.PWeakPtr':
+            ret.glueToUeExpr = '( (PSharedRef<${typeRef.name}> *) %->toSharedRef() )->value';
+          case 'unreal.TWeakPtr':
             ret.ueToGlueExpr = 'new PWeakPtr<${typeRef.name}>( % )';
+            ret.glueToUeExpr = '( (PWeakPtr<${typeRef.name}> *) %->toWeakPtr() )->value';
           case _:
             throw 'assert: $modf';
         }
