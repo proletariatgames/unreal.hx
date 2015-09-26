@@ -1,17 +1,13 @@
 package unreal;
 
 @:unrealType
+@:access(unreal.Wrapper)
 @:forward abstract TSharedPtr<T>(T) to T {
-  public static function MakeShareable<T>(value:PHaxeCreated<T>):TSharedPtr<T> {
-    // TODO MACRO?
-    return null;
+  @:to @:impl public static function toWeakPtr<T : Wrapper>(self:T):TWeakPtr<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() ) );
   }
 
-  public function toSharedRef():TSharedRef<T> {
-    return null;
-  }
-
-  @:to public function toWeakPtr():TWeakPtr<T> {
-    return null;
+  @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedRef() ) );
   }
 }

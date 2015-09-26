@@ -16,22 +16,13 @@ package unreal;
 
   @:impl public static function toSharedPtr<T : Wrapper>(self:T):TSharedPtr<T> {
     return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtr() ) );
-    // var wrapped:cpp.RawPointer<unreal.helpers.UEPointer> = @:privateAccess self.wrapped;
-    // return cast self.rewrap( untyped __cpp__('{0}->toSharedPtr()', wrapped) );
   }
 
-  public function toWeakPtr():TWeakPtr<T> {
-    // rewrap
-    return null;
+  @:impl public static function toWeakPtr<T : Wrapper>(self:T):TWeakPtr<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() ) );
   }
 
-  // public function toSharedPtr():TSharedPtr<T> {
-  //   // rewrap
-  //   return null;
-  // }
-
-  public function toSharedRef():TSharedRef<T> {
-    // rewrap
-    return null;
+  @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedRef() ) );
   }
 }
