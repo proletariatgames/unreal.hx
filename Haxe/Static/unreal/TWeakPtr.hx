@@ -1,12 +1,17 @@
 package unreal;
 
 @:unrealType
+@:access(unreal.Wrapper)
 @:forward abstract TWeakPtr<T>(T) {
-  public function Pin():TSharedPtr<T> {
-    return null;
+  @:impl public static function Pin<T : Wrapper>(self:T):TSharedPtr<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtr() ) );
   }
 
-  inline public function toSharedPtr():TSharedPtr<T> {
-    return Pin();
+  @:to @:impl inline public static function toSharedPtr<T : Wrapper>(self:T):TSharedPtr<T> {
+    return Pin(self);
+  }
+
+  @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedRef() ) );
   }
 }
