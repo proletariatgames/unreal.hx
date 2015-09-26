@@ -240,12 +240,15 @@ using StringTools;
           case 'unreal.TSharedPtr':
             ret.ueToGlueExpr = 'new PSharedPtr<${typeRef.name}>( % )';
             ret.glueToUeExpr = '( (PSharedPtr<${typeRef.name}> *) %->toSharedPtr() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedPtr<${typeRef}> )';
           case 'unreal.TSharedRef':
             ret.ueToGlueExpr = 'new PSharedRef<${typeRef.name}>( % )';
             ret.glueToUeExpr = '( (PSharedRef<${typeRef.name}> *) %->toSharedRef() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedRef<${typeRef}> )';
           case 'unreal.TWeakPtr':
             ret.ueToGlueExpr = 'new PWeakPtr<${typeRef.name}>( % )';
             ret.glueToUeExpr = '( (PWeakPtr<${typeRef.name}> *) %->toWeakPtr() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
           case _:
             throw 'assert: $modf';
         }
