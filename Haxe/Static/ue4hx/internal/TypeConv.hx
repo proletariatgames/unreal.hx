@@ -133,7 +133,9 @@ using StringTools;
           return {
             name: tref.toString(),
             args: tl,
-            meta: t.meta
+            meta: t.meta,
+
+            isBasic: true
           }
         }
         type = type.follow(true);
@@ -234,7 +236,7 @@ using StringTools;
             ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
           case 'unreal.PStruct':
             ret.ueToGlueExpr = 'new PStruct<${typeRef.name}>( % )';
-            ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
+            // ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
           case 'unreal.TSharedPtr':
@@ -290,7 +292,8 @@ using StringTools;
       return {
         ueType: typeRef,
         haxeType: typeRef,
-        glueHeaderIncludes:['<hxcpp.h>']
+        glueHeaderIncludes:['<hxcpp.h>'],
+        isBasic: true,
       };
 
     throw new Error('Unreal Glue: Type $name is not supported', pos);
@@ -342,10 +345,12 @@ using StringTools;
       {
         ueType: new TypeRef('bool'),
         haxeType: new TypeRef('Bool'),
+        isBasic: true,
       },
       {
         ueType: new TypeRef('void'),
-        haxeType: new TypeRef('Void')
+        haxeType: new TypeRef('Void'),
+        isBasic: true,
       },
       {
         ueType: new TypeRef('uint32'),
@@ -354,7 +359,8 @@ using StringTools;
         glueType: new TypeRef(['cpp'], 'Int32'),
 
         haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)'
+        glueToHaxeExpr: 'cast (%)',
+        isBasic: true,
       },
       {
         ueType: new TypeRef('uint64'),
@@ -363,7 +369,8 @@ using StringTools;
         glueType: new TypeRef(['cpp'], 'Int64'),
 
         haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)'
+        glueToHaxeExpr: 'cast (%)',
+        isBasic: true,
       },
       {
         ueType: new TypeRef('int64'),
@@ -372,11 +379,13 @@ using StringTools;
         glueType: new TypeRef(['cpp'], 'Int64'),
 
         haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)'
+        glueToHaxeExpr: 'cast (%)',
+        isBasic: true,
       },
       {
         ueType: new TypeRef('void'),
-        haxeType: new TypeRef('Void')
+        haxeType: new TypeRef('Void'),
+        isBasic: true,
       },
       // FString
       {
@@ -391,7 +400,8 @@ using StringTools;
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
         glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
-        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)'
+        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
+        isBasic: true,
       },
       // FText
       {
@@ -406,7 +416,8 @@ using StringTools;
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
-        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)'
+        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
+        isBasic: true
       },
     ];
     var ret = new Map();
@@ -477,9 +488,14 @@ typedef TypeConvInfo = {
   @:optional public var glueToHaxeExpr:Null<String>;
 
   /**
-    Returns true if the type refers to a UObject type
+    Tells whether the type refers to a UObject type
    **/
   @:optional public var isUObject:Bool;
+
+  /**
+    Tells whether the type is a basic type
+   **/
+  @:optional public var isBasic:Bool;
 }
 
 typedef TypeConvCtx = {

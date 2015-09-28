@@ -6,5 +6,4 @@ package unreal;
   using types annotated like that.
  **/
 @:unrealType
-@:forward abstract PExternal<T>(T) from T to T {
-}
+typedef PExternal<T> = T;

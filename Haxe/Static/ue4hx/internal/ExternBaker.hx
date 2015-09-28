@@ -252,14 +252,22 @@ class ExternBaker {
       this.buf.add('var ');
       this.buf.add(field.name);
       this.buf.add('(');
+      var prop = PropType.Prop;
+      var realTConv = switch [tconv.haxeType.pack, tconv.haxeType.name] {
+        case [ ['unreal'], 'PStruct' ]:
+          prop = PropType.StructProp;
+          TypeConv.get( field.type, field.pos, 'unreal.PExternal' );
+        case _:
+          tconv;
+      }
       switch(read) {
       case AccNormal | AccCall:
         methods.push({
           name: 'get_' + field.name,
           uname: uname,
           args: [],
-          ret: tconv,
-          isProp: true, isFinal: true, isPublic: false
+          ret: realTConv,
+          prop: prop, isFinal: true, isPublic: false
         });
         this.buf.add('get,');
       case _:
@@ -272,13 +280,13 @@ class ExternBaker {
           uname: uname,
           args: [{ name: 'value', t: tconv }],
           ret: tconv,
-          isProp: true, isFinal: true, isPublic: false
+          prop: prop, isFinal: true, isPublic: false
         });
         this.buf.add('set):');
       case _:
         this.buf.add('never):');
       }
-      this.buf.add(tconv.haxeType);
+      this.buf.add(realTConv.haxeType);
       this.buf.add(';');
       this.newline();
     case FMethod(k):
@@ -290,7 +298,7 @@ class ExternBaker {
           uname: uname,
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
-          isProp: false, isFinal: false, isPublic: field.isPublic
+          prop: NonProp, isFinal: false, isPublic: field.isPublic
         });
         if (uname == 'new') {
           // make sure that the return type is of type PHaxeCreated
@@ -305,7 +313,7 @@ class ExternBaker {
             uname: '.ctor',
             args: cur.args,
             ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
-            isProp: false, isFinal: false, isPublic: field.isPublic
+            prop: NonProp, isFinal: false, isPublic: field.isPublic
           });
         }
       case _: throw 'assert';
@@ -316,7 +324,7 @@ class ExternBaker {
       var helperArgs = meth.args.copy();
       if (!isStatic)
         helperArgs.unshift({ name: 'this', t: this.thisConv });
-      var isSetter = meth.isProp && meth.name.startsWith('set_');
+      var isSetter = meth.prop != NonProp && meth.name.startsWith('set_');
       var glueRet = if (isSetter) {
         voidType;
       } else {
@@ -346,7 +354,10 @@ class ExternBaker {
         self.t.glueToUe(escapeName(self.name)) + '->' + meth.uname;
       }
 
-      if (meth.isProp) {
+      if (meth.prop == StructProp && meth.name.startsWith('get_'))
+        glueCppBody = '&' + glueCppBody;
+
+      if (meth.prop != NonProp) {
         if (isSetter) {
           glueCppBody += ' = ' + meth.args[0].t.glueToUe('value');
         }
@@ -573,4 +584,10 @@ class ExternBaker {
       this.voidType = TypeConv.get(Context.getType('Void'), this.pos);
     return this.voidType;
   }
+}
+
+@:enum abstract PropType(Int) {
+  var NonProp = 0x0;
+  var Prop = 0x1;
+  var StructProp = 0x2;
 }
