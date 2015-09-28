@@ -240,7 +240,7 @@ using StringTools;
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
           case 'unreal.TSharedPtr':
-            ret.ueToGlueExpr = 'new PSharedPtr<${typeRef.name}>( % )';
+            ret.ueToGlueExpr = 'PSharedPtr<${typeRef.name}>::wrap( % )';
             ret.glueToUeExpr = '( (PSharedPtr<${typeRef.name}> *) %->toSharedPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedPtr<${typeRef}> )';
           case 'unreal.TSharedRef':
@@ -248,7 +248,7 @@ using StringTools;
             ret.glueToUeExpr = '( (PSharedRef<${typeRef.name}> *) %->toSharedRef() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedRef<${typeRef}> )';
           case 'unreal.TWeakPtr':
-            ret.ueToGlueExpr = 'new PWeakPtr<${typeRef.name}>( % )';
+            ret.ueToGlueExpr = 'PWeakPtr<${typeRef.name}>::wrap( % )';
             ret.glueToUeExpr = '( (PWeakPtr<${typeRef.name}> *) %->toWeakPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
           case _:

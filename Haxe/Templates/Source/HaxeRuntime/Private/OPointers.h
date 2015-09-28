@@ -92,7 +92,7 @@ class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
     inline PSharedPtr(TSharedPtr<T> val) : value(val) {}
 
     inline static ::unreal::helpers::UEPointer *wrap(TSharedPtr<T> val) {
-      if (val.IsValid()) {
+      if (!val.IsValid()) {
         return nullptr;
       }
       return new PSharedPtr<T>(val);
