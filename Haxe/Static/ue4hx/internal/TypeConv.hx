@@ -230,9 +230,9 @@ using StringTools;
         ret.haxeType = new TypeRef(['unreal'], modf.split('.')[1], [typeRef]);
         switch (modf) {
           case 'unreal.PExternal':
-            ret.ueToGlueExpr = 'new PExternal<${typeRef.name}>( % )';
+            ret.ueToGlueExpr = 'PExternal<${typeRef.name}>::wrap( % )';
           case 'unreal.PHaxeCreated':
-            ret.ueToGlueExpr = 'new PHaxeCreated<${typeRef.name}>( % )';
+            ret.ueToGlueExpr = 'PHaxeCreated<${typeRef.name}>::wrap( % )';
             ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
           case 'unreal.PStruct':
             ret.ueToGlueExpr = 'new PStruct<${typeRef.name}>( % )';

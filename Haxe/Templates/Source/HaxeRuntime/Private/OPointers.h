@@ -54,6 +54,13 @@ class HAXERUNTIME_API PExternal : public ::unreal::helpers::UEPointer {
 
     inline PExternal(T *val) : value(val) {}
 
+    inline static ::unreal::helpers::UEPointer *wrap(T *val) {
+      if (nullptr == val) {
+        return nullptr;
+      }
+      return new PExternal<T>(val);
+    }
+
     virtual void *getPointer() override {
       return value;
     }
@@ -83,6 +90,13 @@ class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
     TSharedPtr<T> value;
 
     inline PSharedPtr(TSharedPtr<T> val) : value(val) {}
+
+    inline static ::unreal::helpers::UEPointer *wrap(TSharedPtr<T> val) {
+      if (val.IsValid()) {
+        return nullptr;
+      }
+      return new PSharedPtr<T>(val);
+    }
 
     virtual void *getPointer() override {
       return value.Get();
@@ -116,6 +130,13 @@ class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
 
     inline PWeakPtr(TWeakPtr<T> val) : value(val) {}
 
+    inline static ::unreal::helpers::UEPointer *wrap(TWeakPtr<T> val) {
+      if (val.IsValid()) {
+        return nullptr;
+      }
+      return new PSharedPtr<T>(val);
+    }
+
     virtual void *getPointer() override {
       // FIXME: the pointer may be deleted. For now this is up to the user to not access TWeakPtr directly
       return value.Pin().Get();
@@ -137,6 +158,13 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
     bool isOwner;
 
     inline PHaxeCreated(T *val) : value(val), isOwner(true) {}
+
+    inline static ::unreal::helpers::UEPointer *wrap(T *val) {
+      if (nullptr == val) {
+        return nullptr;
+      }
+      return new PHaxeCreated<T>(val);
+    }
 
     virtual void *getPointer() override {
       return value;
