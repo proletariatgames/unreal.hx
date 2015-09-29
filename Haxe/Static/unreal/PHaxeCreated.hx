@@ -25,21 +25,11 @@ package unreal;
     return cast self;
   }
 
-  @:impl public static function toWeakPtr<T : Wrapper>(self:T):TWeakPtr<T> {
-    var ptr = cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() );
-    if (ptr != self.wrapped) {
-      self.wrapped.destroy();
-      // this reference will now be a TSharedPtr
-      self.wrapped = ptr;
-    }
-    return cast self;
-  }
-
   @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
     var ptr = cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedRef() );
     if (ptr != self.wrapped) {
       self.wrapped.destroy();
-      // this reference will now be a TSharedPtr
+      // this reference will now be a TSharedRef
       self.wrapped = ptr;
     }
     return cast self;
