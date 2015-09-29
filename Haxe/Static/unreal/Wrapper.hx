@@ -28,6 +28,22 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     return new Wrapper(wrapped);
   }
 
+  inline public static function copy<T:Wrapper>(obj:T):PHaxeCreated<T> {
+    return cast obj._copy();
+  }
+
+  inline public static function copyStruct<T:Wrapper>(obj:T):PHaxeCreated<T> {
+    return cast obj._copyStruct();
+  }
+
+  private function _copy():Wrapper {
+    throw 'The type ${Type.getClassName(Type.getClass(this))} does not support copy constructors';
+  }
+
+  private function _copyStruct():Wrapper {
+    throw 'The type ${Type.getClassName(Type.getClass(this))} does not support copy constructors';
+  }
+
   /**
     Releases the wrapped pointer. Call this if the object will not be used anymore
     in order to avoid the finalizer call overhead

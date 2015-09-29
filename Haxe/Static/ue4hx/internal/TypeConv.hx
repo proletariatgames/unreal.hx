@@ -227,7 +227,7 @@ using StringTools;
             modf = ownershipModifier.name;
           }
         }
-        ret.haxeType = new TypeRef(['unreal'], modf.split('.')[1], [typeRef]);
+        ret.haxeType = TypeRef.parseClassName(modf, [typeRef]);
         switch (modf) {
           case 'unreal.PExternal':
             ret.ueToGlueExpr = 'PExternal<${typeRef.name}>::wrap( % )';

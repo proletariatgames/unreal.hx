@@ -67,10 +67,10 @@ class TypeRef
     }
   }
 
-  public static function parseClassName(name:String)
+  public static function parseClassName(name:String, ?withParams:Array<TypeRef>)
   {
     var pack = name.split('.');
-    return new TypeRef(pack, pack.pop());
+    return new TypeRef(pack, pack.pop(), withParams);
   }
 
   public function getGlueHelperType():TypeRef

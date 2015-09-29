@@ -225,31 +225,40 @@ class ExternBaker {
           this.buf.add('return new ${this.thisConv.haxeType}(wrapped);');
         this.end('}');
         if (!c.meta.has(':noCopy')) {
-          var doc = "This will invoke the copy constructor of the referenced C++ class.\n\t\t" +
-            "This has some limitations - it won't copy the full inheritance chain of the class if it wasn't typed as the exact class\n\t\t" +
-            "it will also be a compilation error if the wrapped class forbids the C++ copy constructor;\n\t\t" +
-            "in this case, the extern class definition should contain the `@:noCopy` metadata";
+          var doc = "\n    Invokes the copy constructor of the referenced C++ class.\n    " +
+            "This has some limitations - it won't copy the full inheritance chain of the class if it wasn't typed as the exact class\n    " +
+            "it will also be a compilation error if the wrapped class forbids the C++ copy constructor;\n    " +
+            "in this case, the extern class definition should contain the `@:noCopy` metadata\n  ";
           // copy constructor
           methods.push({
-            name: 'copy',
+            name: '_copy',
             uname: '.copy',
             doc: doc,
             meta:null,
             args:[],
             ret:TypeConv.get(type, c.pos, 'unreal.PHaxeCreated'),
             prop:NonProp,
-            isFinal: false, isPublic:true, isStatic:false, isOverride: c.superClass != null
+            isFinal: false, isPublic:false, isStatic:false, isOverride: true
           });
           methods.push({
-            name: 'copyStruct',
+            name: '_copyStruct',
             uname: '.copyStruct',
             doc: doc,
             meta:null,
             args:[],
             ret:TypeConv.get(type, c.pos, 'unreal.PStruct'),
             prop:NonProp,
-            isFinal: false, isPublic:true, isStatic:false, isOverride: c.superClass != null
+            isFinal: false, isPublic:false, isStatic:false, isOverride: true
           });
+        } else {
+          this.buf.add('@:deprecated("This type does not support copy constructors") override public function copy()');
+          this.begin(' {');
+            this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+          this.end('}');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override public function copyStruct()');
+          this.begin(' {');
+            this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+          this.end('}');
         }
       }
 
@@ -383,7 +392,8 @@ class ExternBaker {
     var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
     // var glueCppPrelude = '';
-    var cppArgs = meth.args;
+    var cppArgs = meth.args,
+        retHaxeType = meth.ret.haxeType;
     var glueCppBody = if (isStatic) {
       switch (meth.uname) {
       case 'new':
@@ -400,9 +410,11 @@ class ExternBaker {
     } else {
       switch(meth.uname) {
       case '.copy':
+        retHaxeType = thisConv.haxeType;
         cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
         'new ' + this.thisConv.ueType.getCppClass();
       case '.copyStruct':
+        retHaxeType = thisConv.haxeType;
         cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
         this.thisConv.ueType.getCppClass();
       case _:
@@ -496,7 +508,7 @@ class ExternBaker {
 
     this.buf.add('function ${meth.name}(');
     this.buf.add([ for (arg in meth.args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
-    this.buf.add('):' + meth.ret.haxeType + ' ');
+    this.buf.add('):' + retHaxeType + ' ');
     this.begin('{');
       if (!isStatic && !this.thisConv.isUObject) {
         this.buf.add('#if UE4_CHECK_POINTER');
