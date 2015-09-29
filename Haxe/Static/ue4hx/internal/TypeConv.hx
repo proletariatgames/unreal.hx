@@ -157,7 +157,7 @@ using StringTools;
       return false;
     switch (ctx.name) {
     case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
-         'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr':
+         'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr' | 'unreal.PRef':
       return true;
     case _:
       return false;
@@ -251,6 +251,10 @@ using StringTools;
             ret.ueToGlueExpr = 'PWeakPtr<${typeRef.name}>::wrap( % )';
             ret.glueToUeExpr = '( (PWeakPtr<${typeRef.name}> *) %->toWeakPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
+          case 'unreal.PRef':
+            @:privateAccess ret.ueType.name = 'Reference';
+            ret.ueToGlueExpr = 'new PExternal<${typeRef.name}>( &(%) )';
+            ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
           case _:
             throw 'assert: $modf';
         }

@@ -24,27 +24,32 @@ class NativeGlueCode
   private static function get_haxeRuntimeDir() {
     if (haxeRuntimeDir != null)
       return haxeRuntimeDir;
-    haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
 
-    if (haxeRuntimeDir == null) {
-      Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
-    } else {
-      haxeRuntimeDir = FileSystem.fullPath(haxeRuntimeDir) + '/Generated';
-    }
+    setHaxeRuntimeDir();
     return haxeRuntimeDir;
   }
 
-  public function new() {
-    haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
-    if (haxeRuntimeDir == null) {
+  private static function setHaxeRuntimeDir() {
+    var dir = haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
+
+#if !bake_externs
+    if (dir == null) {
       Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
-    } else {
-      haxeRuntimeDir = FileSystem.fullPath(haxeRuntimeDir) + '/Generated';
     }
+    else
+#end
+    {
+      haxeRuntimeDir = FileSystem.fullPath(dir) + '/Generated';
+    }
+  }
+
+  public function new() {
+    setHaxeRuntimeDir();
     this.touchedFiles = new Map();
   }
 
   private function write(type:Type, writer:GlueWriter, gluePath:String) {
+    if (haxeRuntimeDir == null) return;
     switch (type) {
       case TInst(c,tl):
         var gluePack = gluePath.split('.'),
@@ -104,6 +109,7 @@ class NativeGlueCode
   }
 
   public function onAfterGenerate() {
+    if (haxeRuntimeDir == null) return;
     var modules = new Map();
     var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (type in glueTypes) {

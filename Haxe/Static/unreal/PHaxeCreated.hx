@@ -2,7 +2,8 @@ package unreal;
 
 /**
   `HaxeCreated` refers to a type that was created and owned by Haxe.
-  Unless it is converted to a shared pointer, its lifetime will be entirely defined by Haxe
+  Unless it is converted to a shared pointer, its lifetime will be entirely defined by Haxe.
+  Otherwise, it will lose ownership and its lifetime will be determined by the shared pointer
  **/
 @:unrealType
 @:access(unreal.Wrapper)
