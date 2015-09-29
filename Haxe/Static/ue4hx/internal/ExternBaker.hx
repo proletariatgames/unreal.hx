@@ -307,6 +307,13 @@ class ExternBaker {
               'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
             hadErrors = true;
           }
+          var retComplex = ret.toComplexType();
+          var thisType = thisConv.haxeType.toComplexType();
+          // make sure that the type is exactly PHaxeCreated<MyRetType>
+          Context.typeof(macro @:pos(field.pos) {
+            var complex:$retComplex = null;
+            var x:unreal.PHaxeCreated<$thisType> = complex;
+          });
 
           methods.push({
             name: field.name + 'Struct',
