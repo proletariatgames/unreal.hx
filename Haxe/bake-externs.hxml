@@ -6,3 +6,4 @@
 --macro ue4hx.internal.ExternBaker.process(["Externs","../../../Haxe/Externs"], true)
 
 -D use_rtti_doc
+-D bake_externs
