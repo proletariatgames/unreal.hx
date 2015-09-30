@@ -345,6 +345,18 @@ using StringTools;
   static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
 
   static var basicTypes:Map<String, TypeConvInfo> = {
+    var basicConvert = [
+      "cpp.Float32" => "float",
+      "cpp.Float64" => "double",
+      "Float" => "double",
+      "cpp.Int16" => "int16",
+      "cpp.Int32" => "int32",
+      "Int" => "int32",
+      "Int8" => "int8",
+      "UInt16" => "uint16",
+      "UInt8" => "uint8"
+    ];
+
     var infos:Array<TypeConvInfo> = [
       {
         ueType: new TypeRef('bool'),
@@ -424,6 +436,12 @@ using StringTools;
         isBasic: true
       },
     ];
+    infos = infos.concat([ for (key in basicConvert.keys()) {
+      ueType: TypeRef.parseClassName(basicConvert[key]),
+      glueType: TypeRef.parseClassName(key),
+      haxeType: TypeRef.parseClassName(key),
+      isBasic: true
+    }]);
     var ret = new Map();
     for (info in infos)
     {
