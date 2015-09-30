@@ -40,8 +40,13 @@ class InitPlugin {
     updateGameProject(gameDir, projectName);
     trace('Updating game module...');
     updateGameModule(gameDir, pluginPath);
-    if (!FileSystem.exists('$gameDir/Haxe/Static'))
-      FileSystem.createDirectory('$gameDir/Haxe/Static');
+    inline function checkDir(dir:String) {
+      if (!FileSystem.exists(dir))
+        FileSystem.createDirectory(dir);
+    }
+    checkDir('$gameDir/Haxe/Static');
+    checkDir('$gameDir/Haxe/Scripts');
+    checkDir('$gameDir/Haxe/Externs');
   }
 
   private static function updateGameModule(gameDir:String, pluginPath:String)
