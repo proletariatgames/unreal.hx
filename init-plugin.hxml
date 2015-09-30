@@ -1,0 +1,2 @@
+# run this file to bootstrap the Haxe plugin
+--run InitPlugin

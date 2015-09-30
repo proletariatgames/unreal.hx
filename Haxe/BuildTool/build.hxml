@@ -1,4 +1,5 @@
 -cp src
+-cp ../../
 -net-lib lib/UnrealBuildTool.dll
 -cs bin
 -D no-compilation
