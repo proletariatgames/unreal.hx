@@ -135,7 +135,7 @@ class BuildExpose {
 
       // add createHaxeWrapper
       {
-        var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;' : ';');
+        var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
         var glueHeaderIncs = new Map();
         for (uprop in uprops) {
           var tconv = TypeConv.get(uprop.type, uprop.pos);
@@ -150,7 +150,7 @@ class BuildExpose {
               }
             }
           }
-          headerCode += data + ')\n\t';
+          headerCode += data + ')\n\t\t';
           headerCode += tconv.ueType.getCppType(null) + ' ' + uprop.name + ';';
           if (tconv.glueHeaderIncludes != null) {
             for (inc in tconv.glueHeaderIncludes)
