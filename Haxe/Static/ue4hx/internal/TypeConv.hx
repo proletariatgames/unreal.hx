@@ -440,6 +440,7 @@ using StringTools;
       ueType: TypeRef.parseClassName(basicConvert[key]),
       glueType: TypeRef.parseClassName(key),
       haxeType: TypeRef.parseClassName(key),
+      glueHeaderIncludes:['<hxcpp.h>'],
       isBasic: true
     }]);
     var ret = new Map();
