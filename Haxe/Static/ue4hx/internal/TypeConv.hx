@@ -201,7 +201,7 @@ using StringTools;
 
           glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
-          haxeToGlueExpr: '%.wrapped',
+          haxeToGlueExpr: '@:privateAccess %.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
           glueToUeExpr: '( (${typeRef.name} *) % )'
         };
@@ -215,7 +215,7 @@ using StringTools;
           glueCppIncludes: ['<OPointers.h>'].concat(getMetaArray(meta, ':glueCppIncludes')),
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
 
-          haxeToGlueExpr: '%.wrapped',
+          haxeToGlueExpr: '@:privateAccess %.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
           glueToUeExpr: '( (${typeRef.name} *) %->getPointer() )',
         };
