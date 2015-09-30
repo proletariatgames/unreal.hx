@@ -138,7 +138,8 @@ class HaxeRuntime extends BaseModuleRules
       // get haxe module dependencies
       var targetPath = Path.GetFullPath('$modulePath/../Private/Generated/Data/modules.txt');
       var deps = File.getContent(targetPath).trim().split('\n');
-      this.PrivateDependencyModuleNames.addRange(deps);
+      if (deps.length != 1 || deps[0] != '')
+        this.PrivateDependencyModuleNames.addRange(deps);
 
       // var hxcppPath = haxelibPath('hxcpp');
       // if (hxcppPath != null)
