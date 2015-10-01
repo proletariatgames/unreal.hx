@@ -9,8 +9,8 @@ class UnrealInit
 {
   static function main()
   {
-    trace("initializing unreal haxe");
     haxe.Log.trace = customTrace;
+    trace("initializing unreal haxe");
   }
 
   static var oldTrace = haxe.Log.trace;

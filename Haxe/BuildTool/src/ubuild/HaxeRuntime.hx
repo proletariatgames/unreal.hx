@@ -125,6 +125,19 @@ class HaxeRuntime extends BaseModuleRules
           throw 'Haxe compilation failed';
         }
       }
+
+      // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
+      //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
+      //       recently changed how often the build scripts are run - so they don't run if the project
+      //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
+      var buildcs = '$gameDir/Source/HaxeRuntime/HaxeRuntime.Build.cs';
+      cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
+        trace('Touching $buildcs');
+        var thisTime = cs.system.DateTime.UtcNow;
+        // add one second so they don't end up with the exact same timestamp
+        thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
+        cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
+      });
     }
 
     this.MinFilesUsingPrecompiledHeaderOverride = -1;
