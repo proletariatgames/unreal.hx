@@ -26,30 +26,59 @@ using StringTools;
   inline function underlying()
     return this;
 
-  public function haxeToGlue(expr:String)
+  public function haxeToGlue(expr:String, ctx:Map<String,String>)
   {
     if (this.haxeToGlueExpr == null)
       return expr;
-    return this.haxeToGlueExpr.replace('%',expr);
+    return expand(this.haxeToGlueExpr, expr, ctx);
   }
 
-  public function glueToHaxe(expr:String)
+  public function glueToHaxe(expr:String, ctx:Map<String,String>)
   {
     if (this.glueToHaxeExpr == null)
       return expr;
-    return this.glueToHaxeExpr.replace('%',expr);
+    return expand(this.glueToHaxeExpr, expr, ctx);
   }
 
-  public function glueToUe(expr:String) {
+  public function glueToUe(expr:String, ctx:Map<String,String>) {
     if (this.glueToUeExpr == null)
       return expr;
-    return this.glueToUeExpr.replace('%', expr);
+    return expand(this.glueToUeExpr, expr, ctx);
   }
 
-  public function ueToGlue(expr:String) {
+  public function ueToGlue(expr:String, ctx:Map<String,String>) {
     if (this.ueToGlueExpr == null)
       return expr;
-    return this.ueToGlueExpr.replace('%', expr);
+    return expand(this.ueToGlueExpr, expr, ctx);
+  }
+
+  static function expand(expr:String, ethis:String, ctx:Map<String,String>) {
+    var buf = new StringBuf();
+    var i = -1, len = expr.length;
+    while(++i < len) {
+      switch(expr.fastCodeAt(i)) {
+      case '%'.code:
+        buf.add(ethis);
+      case '$'.code:
+        var next = expr.fastCodeAt(i+1);
+        if (next == '$'.code) {
+          i++;
+          buf.addChar('$'.code);
+        } else {
+          var start = i;
+          while (++i < len) {
+            var chr = expr.fastCodeAt(i);
+            if (!((chr >= 'a'.code && chr <= 'z'.code) || (chr >= 'A'.code && chr <= 'Z'.code)))
+              break;
+          }
+          var data = ctx == null ? null : ctx[expr.substring(start + 1,i)];
+          buf.add(data);
+        }
+      case chr:
+        buf.addChar(chr);
+      }
+    }
+    return buf.toString();
   }
 
   public static function resetGlobals() {
@@ -216,7 +245,7 @@ using StringTools;
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
 
           haxeToGlueExpr: '@:privateAccess %.wrapped',
-          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
           glueToUeExpr: '( (${typeRef.name} *) %->getPointer() )',
         };
         var modf = ownershipOverride;

@@ -22,19 +22,20 @@ class DelayedGlue {
     var field = cls.findField(fieldName, isStatic);
     if (field == null) throw 'assert';
 
+    var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
     var tconv = TypeConv.get(field.type, pos);
     var glueExpr = new HelperBuf() + getGlueType_impl(cls, pos);
     glueExpr += '.' + (isSetter ? 'set_' : 'get_') + fieldName + '(';
     if (!isStatic) {
       var thisConv = TypeConv.get( Context.getLocalType(), pos );
-      glueExpr += thisConv.haxeToGlue('this');
+      glueExpr += thisConv.haxeToGlue('this', ctx);
       if (isSetter)
         glueExpr += ', ';
     }
     var expr = if (isSetter) {
-      (glueExpr + tconv.haxeToGlue('value')).toString() + ')';
+      (glueExpr + tconv.haxeToGlue('value', ctx)).toString() + ')';
     } else {
-      tconv.glueToHaxe( glueExpr.toString() + ')' );
+      tconv.glueToHaxe( glueExpr.toString() + ')', ctx );
     }
     trace(expr);
 
@@ -83,7 +84,7 @@ class DelayedGlue {
     fargs.unshift({ name:'this', type: TypeConv.get(Context.getLocalType(), pos) });
 
     var glueExpr = getGlueType_impl(cls, pos);
-    var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name) ].join(',') + ')';
+    var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
     block.push(Context.parse(expr, pos));
     if (block.length == 1)
       return block[0];
@@ -244,13 +245,13 @@ class DelayedGlue {
       if (isStatic) {
         cppBody = cppBody + this.thisConv.ueType.getCppClass() + '::' + field.name;
       } else {
-        cppBody = cppBody + this.thisConv.glueToUe('self') + '->' + field.name;
+        cppBody = cppBody + this.thisConv.glueToUe('self', null) + '->' + field.name;
       }
 
       if (mode == 'get')
-        cppDef = cppDef + 'return ' + tconv.ueToGlue(cppBody.toString()) + ';\n}\n';
+        cppDef = cppDef + 'return ' + tconv.ueToGlue(cppBody.toString(), null) + ';\n}\n';
       else
-        cppDef = cppDef + cppBody.toString() + ' = ' + tconv.glueToUe('value') + ';\n}\n';
+        cppDef = cppDef + cppBody.toString() + ' = ' + tconv.glueToUe('value', null) + ';\n}\n';
 
       var args:Array<FunctionArg> = if (isStatic)
         [];
@@ -279,6 +280,7 @@ class DelayedGlue {
   }
 
   private function handleSuperCall(field:ClassField, superField:ClassField) {
+    var ctx = null;
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
       case TFun(targs, tret):
@@ -308,11 +310,11 @@ class DelayedGlue {
 
     // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
     {
-      var cppBody = new HelperBuf() + this.thisConv.glueToUe('self') + '->' + this.firstExternSuper.ueType.getCppClass() + '::' + superField.name + '(';
-      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name));
+      var cppBody = new HelperBuf() + this.thisConv.glueToUe('self', null) + '->' + this.firstExternSuper.ueType.getCppClass() + '::' + superField.name + '(';
+      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
       cppBody += ')';
       if (!ret.haxeType.isVoid())
-        cppDef = cppDef + 'return ' + ret.ueToGlue(cppBody.toString()) + ';\n}';
+        cppDef = cppDef + 'return ' + ret.ueToGlue(cppBody.toString(), null) + ';\n}';
       else
         cppDef = cppDef + cppBody + ';\n}';
     }

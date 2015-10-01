@@ -62,7 +62,7 @@ class NativeGlueCode
 
         writer.addCppInclude(headerPath);
         for (pack in gluePack) {
-          writer.wboth('namespace $pack {\n');
+          writer.wh('namespace $pack {\n');
         }
         if (headerDefs.length == 0) {
           writer.wh('class ${glueName}_obj {\n\tpublic:\n');
@@ -81,6 +81,7 @@ class NativeGlueCode
         if (cppDefs != null) {
           for (cppDef in cppDefs) {
             writer.wcpp(cppDef);
+            writer.wcpp('\n');
           }
         }
 
@@ -101,7 +102,7 @@ class NativeGlueCode
         writer.wh('};\n\n');
 
         for (pack in gluePack) {
-          writer.wboth('}\n');
+          writer.wh('}\n');
         }
         writer.close();
       case _:

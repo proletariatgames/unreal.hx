@@ -191,6 +191,9 @@ class ExternBaker {
       // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
       this.buf.add('@:unreflective public static function wrap(ptr:');
       this.buf.add(this.thisConv.haxeGlueType.toString());
+        if (!this.thisConv.isUObject) {
+          this.buf.add(', ?parent:Dynamic');
+        }
       this.buf.add('):' + this.thisConv.haxeType);
       this.begin(' {');
         if (!this.thisConv.haxeGlueType.isReflective()) {
@@ -200,7 +203,11 @@ class ExternBaker {
 
         this.buf.add('if (ptr == null) return null;');
         this.newline();
-        this.buf.add('return new ${this.typeRef.getClassPath()}(ptr);');
+        this.buf.add('return new ${this.typeRef.getClassPath()}(ptr');
+        if (!this.thisConv.isUObject) {
+          this.buf.add(', parent');
+        }
+        this.buf.add(');');
       this.end('}');
 
       if (!hasSuperClass) {
@@ -369,6 +376,7 @@ class ExternBaker {
   }
 
   private function processMethodDef(meth:MethodDef) {
+    var ctx = meth.prop != NonProp && !meth.isStatic && !this.thisConv.isUObject ? [ "parent" => "this" ] : null;
     var isStatic = meth.isStatic;
     this.addDoc(meth.doc);
     this.addMeta(meth.meta);
@@ -419,7 +427,7 @@ class ExternBaker {
         this.thisConv.ueType.getCppClass();
       case _:
         var self = helperArgs[0];
-        self.t.glueToUe(escapeName(self.name)) + '->' + meth.uname;
+        self.t.glueToUe(escapeName(self.name), ctx) + '->' + meth.uname;
       }
     }
 
@@ -428,13 +436,13 @@ class ExternBaker {
 
     if (meth.prop != NonProp) {
       if (isSetter) {
-        glueCppBody += ' = ' + meth.args[0].t.glueToUe('value');
+        glueCppBody += ' = ' + meth.args[0].t.glueToUe('value', ctx);
       }
     } else {
-      glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(escapeName(arg.name)) ].join(', ') + ')';
+      glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(escapeName(arg.name), ctx) ].join(', ') + ')';
     }
     if (!isVoid)
-      glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody );
+      glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );
 
     var glueCppCode =
       glueRet.glueType.getCppType() +
@@ -520,12 +528,12 @@ class ExternBaker {
       }
       var haxeBody =
         '${this.glueType}.${meth.name}(' +
-          [ for (arg in helperArgs) arg.t.haxeToGlue(arg.name) ].join(', ') +
+          [ for (arg in helperArgs) arg.t.haxeToGlue(arg.name, ctx) ].join(', ') +
         ')';
       if (isSetter)
         haxeBody = haxeBody + ';\n${this.indentStr}return value';
       else if (!isVoid)
-        haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody);
+        haxeBody = 'return ' + meth.ret.glueToHaxe(haxeBody, ctx);
       this.buf.add(haxeBody);
       this.buf.add(';');
     this.end('}\n');

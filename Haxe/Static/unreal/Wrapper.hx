@@ -7,10 +7,11 @@ import unreal.helpers.UEPointer;
 class Wrapper implements ue4hx.internal.NeedsGlue {
   public var disposed(default,null):Bool;
   private var wrapped:cpp.Pointer<UEPointer>;
+  private var parent:Dynamic;
 
-  private function new(wrapped:cpp.Pointer<UEPointer>) {
+  private function new(wrapped:cpp.Pointer<UEPointer>, ?parent:Dynamic) {
     this.wrapped = wrapped;
-    this.disposed = false;
+    this.parent = parent;
     cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
   }
 

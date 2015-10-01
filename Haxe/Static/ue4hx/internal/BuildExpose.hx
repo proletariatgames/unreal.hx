@@ -27,6 +27,7 @@ class BuildExpose {
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
+      var ctx = null;
       var clt = cl.get();
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
           thisConv = TypeConv.get(t, this.pos);
@@ -63,11 +64,11 @@ class BuildExpose {
         var callExpr = if (field.type.isStatic())
           typeRef.getClassPath() + '.' + field.cf.name + '(';
         else
-          thisConv.glueToHaxe('self') + '.' + field.cf.name + '(';
-        callExpr += [ for (arg in field.args) arg.type.glueToHaxe(arg.name) ].join(', ') + ')';
+          thisConv.glueToHaxe('self', ctx) + '.' + field.cf.name + '(';
+        callExpr += [ for (arg in field.args) arg.type.glueToHaxe(arg.name, ctx) ].join(', ') + ')';
 
         if (!field.ret.haxeType.isVoid())
-          callExpr = 'return ' + field.ret.haxeToGlue( callExpr );
+          callExpr = 'return ' + field.ret.haxeToGlue( callExpr , ctx);
 
         var fnArgs:Array<FunctionArg> =
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
@@ -96,13 +97,13 @@ class BuildExpose {
           headerDef += ' override';
         headerDef += ';\n';
         cppDef += '{\n\t';
-        var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name ) ];
+        var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
-          args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this') );
+          args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
         var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
-          cppBody = 'return ' + field.ret.glueToUe( cppBody );
+          cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
         cppDef += cppBody + ';\n}\n';
 
         var metas:Metadata = [
@@ -171,7 +172,7 @@ class BuildExpose {
             args: [{ name: 'ueType', type: thisConv.haxeGlueType.toComplexType() }],
             ret: thisConv.glueType.toComplexType(),
             expr: Context.parse(
-              'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )'), this.pos)
+              'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx), this.pos)
           }),
           meta: metas,
           pos: this.pos
