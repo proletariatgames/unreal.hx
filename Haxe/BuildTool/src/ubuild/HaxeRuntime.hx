@@ -116,14 +116,14 @@ class HaxeRuntime extends BaseModuleRules
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
-            // for this project. The PrerequisiteItems variable from Action is the one
-            // that keeps track of dependencies - and it cannot be set anywhere. Additionally -
-            // what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
-            // linking against.
-            // This leaves little option but to meddle with actual sources' timestamps.
-            // It seems that a better least intrusive hack would be to meddle with the
-            // output library file timestamp. However, it's not possible to reliably find
-            // the output file name at this stage
+            //       for this project. The PrerequisiteItems variable from Action is the one
+            //       that keeps track of dependencies - and it cannot be set anywhere. Additionally -
+            //       what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
+            //       linking against.
+            //       This leaves little option but to meddle with actual sources' timestamps.
+            //       It seems that a better least intrusive hack would be to meddle with the
+            //       output library file timestamp. However, it's not possible to reliably find
+            //       the output file name at this stage
 
             var dep = Path.GetFullPath('$modulePath/../Private/HaxeRuntime.cpp');
             // touch the file
