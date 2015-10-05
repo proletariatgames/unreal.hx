@@ -44,6 +44,19 @@ class HaxeRuntime extends BaseModuleRules
     this.bUseRTTI = true;
     if (firstRun)
     {
+      // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
+      //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
+      //       recently changed how often the build scripts are run - so they don't run if the project
+      //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
+      var buildcs = '$gameDir/Source/HaxeRuntime/HaxeRuntime.Build.cs';
+      cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
+        trace('Touching $buildcs');
+        var thisTime = cs.system.DateTime.UtcNow;
+        // add one second so they don't end up with the exact same timestamp
+        thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
+        cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
+      });
+
       // check if haxe compiler / sources are present
       var hasHaxe = call('haxe', ['-version'], false) == 0;
 
@@ -93,12 +106,12 @@ class HaxeRuntime extends BaseModuleRules
             '-D static_link',
             '-D destination=$outputStatic',
             '-D haxe_runtime_dir=$curSourcePath/Private',
-            '-cpp $targetDir',
+            '-cpp $targetDir/Temp',
           ];
 
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
-          var ret = compileSources('build-static', modules, args);
+          var ret = compileSources('build-static', modules, args, targetDir);
 
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
@@ -125,19 +138,6 @@ class HaxeRuntime extends BaseModuleRules
           throw 'Haxe compilation failed';
         }
       }
-
-      // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
-      //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
-      //       recently changed how often the build scripts are run - so they don't run if the project
-      //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
-      var buildcs = '$gameDir/Source/HaxeRuntime/HaxeRuntime.Build.cs';
-      cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
-        trace('Touching $buildcs');
-        var thisTime = cs.system.DateTime.UtcNow;
-        // add one second so they don't end up with the exact same timestamp
-        thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
-        cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
-      });
     }
 
     this.MinFilesUsingPrecompiledHeaderOverride = -1;
@@ -186,7 +186,7 @@ class HaxeRuntime extends BaseModuleRules
     }
   }
 
-  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>)
+  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String)
   {
     if (name != null) {
       var hxml = new StringBuf();
@@ -206,8 +206,12 @@ class HaxeRuntime extends BaseModuleRules
       if (arg.charCodeAt(0) == '-'.code) {
         var idx = arg.indexOf(' ');
         if (idx > 0) {
-          cmdArgs.push(arg.substr(0,idx));
-          cmdArgs.push(arg.substr(idx+1));
+          var cmd = arg.substr(0,idx);
+          cmdArgs.push(cmd);
+          if (cmd == '-cpp' && realOutput != null)
+            cmdArgs.push(realOutput);
+          else
+            cmdArgs.push(arg.substr(idx+1));
           continue;
         }
       }
