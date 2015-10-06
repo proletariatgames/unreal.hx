@@ -79,6 +79,22 @@ class BuildExpose {
             cppDef = new HelperBuf();
         var ret = field.ret.ueType.getCppType().toString();
         cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + field.cf.name + '(';
+
+
+        var ufunc = field.cf.meta.extract(':ufunction');
+        if (ufunc != null) {
+          headerDef = headerDef + 'UFUNCTION(';
+          var first = true;
+          for (meta in ufunc) {
+            if (meta.params != null) {
+              for (param in meta.params) {
+                if (first) first = false; else headerDef += ', ';
+                headerDef += param.toString();
+              }
+            }
+          }
+          headerDef += ')\n\t\t';
+        }
         var modifier = field.type.isStatic() ? 'static ' : 'virtual ';
         headerDef = headerDef + modifier + ret + ' ' + field.cf.name + '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
@@ -331,7 +347,7 @@ class BuildExpose {
       return false;
     }
 
-    if (cf.meta.has(':uexpose'))
+    if (cf.meta.has(':uexpose') || cf.meta.has(':ufunction'))
       return true;
     return false;
   }
