@@ -95,6 +95,8 @@ class HaxeRuntime extends BaseModuleRules
 
           trace('compiling Haxe');
           var targetDir = '$gameDir/Intermediate/Haxe/Static';
+          if (!exists(targetDir)) createDirectory(targetDir);
+
           var args = [
             'arguments.hxml',
             '-cp $gameDir/Haxe/Generated/Externs',
@@ -111,7 +113,7 @@ class HaxeRuntime extends BaseModuleRules
 
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
-          var ret = compileSources('build-static', modules, args, targetDir);
+          var ret = compileSources('build-static', modules, args, '$targetDir/Built');
 
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {

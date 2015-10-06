@@ -67,7 +67,7 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     this.wrapped = null;
   }
 
-  @:void @:unreflective inline static function disposeUEPointer(wrapper:Wrapper):Void {
+  @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
     wrapper.wrapped.destroy();
   }
 }

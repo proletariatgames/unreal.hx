@@ -96,6 +96,17 @@ class TypeRef
     return new TypeRef(newPack, name + '_Expose');
   }
 
+  public function getTypeParamType():TypeRef {
+    var newPack = this.pack.copy(),
+        name = this.name;
+    if (pack[0] == 'unreal') {
+      newPack.insert(1, '_pvt');
+    } else {
+      newPack.unshift('_pvt');
+    }
+    return new TypeRef(newPack, name + '_TypeParam');
+  }
+
   public function isVoid() {
     return switch[ pack, name ] {
       case [ [], 'Void' ]:
