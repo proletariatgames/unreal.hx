@@ -94,6 +94,33 @@ class NeedsGlueBuild
               hadErrors = true;
           }
         }
+
+        for (meta in field.meta) {
+          if (meta.name == ':ufunction' && meta.params != null) {
+            var fn = switch (field.kind) {
+            case FFun(f):
+              f;
+            case _:
+              throw new Error('Unreal Glue Extension: @:ufunction meta on a non-function', field.pos);
+            };
+            for (param in meta.params) {
+              switch(param) {
+              case macro BlueprintImplementableEvent:
+                if (fn.expr != null) {
+                  Context.warning('Unreal Glue Extension: BlueprintImplementableEvent ufunctions should not contain any implementation', field.pos);
+                  hadErrors = true;
+                }
+                switch (fn.ret) {
+                case null | TPath({ pack:[], name:"Void" }):
+                  fn.expr = macro {};
+                case _:
+                  fn.expr = macro { return cast null; };
+                }
+              case _:
+              }
+            }
+          }
+        }
         // TODO check if it's UFUNCTION / UDELEGATE
       }
 

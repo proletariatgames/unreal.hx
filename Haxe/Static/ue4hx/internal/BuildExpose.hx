@@ -80,7 +80,7 @@ class BuildExpose {
         var ret = field.ret.ueType.getCppType().toString();
         cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + field.cf.name + '(';
 
-
+        var implementCpp = true;
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null) {
           headerDef = headerDef + 'UFUNCTION(';
@@ -90,6 +90,11 @@ class BuildExpose {
               for (param in meta.params) {
                 if (first) first = false; else headerDef += ', ';
                 headerDef += param.toString();
+                switch(param) {
+                case macro BlueprintImplementableEvent:
+                  implementCpp = false;
+                case _:
+                }
               }
             }
           }
@@ -128,6 +133,7 @@ class BuildExpose {
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
         cppDef += cppBody + ';\n}\n';
 
+        if (!implementCpp) cppDef = new HelperBuf();
         var metas:Metadata = [
           { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.cf.pos },
           { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos }
