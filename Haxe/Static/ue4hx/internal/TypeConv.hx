@@ -105,6 +105,7 @@ using StringTools;
     // we'll loop until we find a type we're interested in
     // when found, we'll get its name, type parameters and
     // if it's a class, its meta too
+    var originalType = null;
     while(true) {
       switch(type) {
       case TInst(iref,tl):
@@ -120,7 +121,8 @@ using StringTools;
 
           superClass: it.superClass,
           baseType: it,
-          isUObject: TypeConv.typeIsUObject(type)
+          isUObject: TypeConv.typeIsUObject(type),
+          originalType: originalType
         };
 
       case TEnum(eref,tl):
@@ -131,6 +133,7 @@ using StringTools;
           meta: e.meta,
 
           baseType: e,
+          originalType: originalType
         }
 
       case TAbstract(aref,tl):
@@ -143,9 +146,12 @@ using StringTools;
             meta: at.meta,
 
             baseType: at,
-            isBasic: true
+            isBasic: true,
+            originalType: originalType
           }
         }
+        if (originalType == null)
+          originalType = at;
         // follow it
 #if (haxe_ver >= 3.3)
         // this is more robust than the 3.2 version, since it will also correctly
@@ -164,7 +170,8 @@ using StringTools;
             args: tl,
             meta: t.meta,
 
-            isBasic: true
+            isBasic: true,
+            originalType: originalType
           }
         }
         type = type.follow(true);
@@ -218,11 +225,16 @@ using StringTools;
     if (basic != null) return basic;
 
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
+    // FIXME: check conversion and maybe add cast if needed
+    var originalTypeRef = ctx.originalType == null ? typeRef : TypeRef.fromBaseType( ctx.originalType, pos );
+    var refName = typeRef.name;
+    if (meta != null && meta.has(':uname')) refName = getMetaString(meta, ':uname');
+
     if (meta != null && meta.has(':uextern')) {
       if (isUObject) {
         return {
-          haxeType: typeRef,
-          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+          haxeType: originalTypeRef,
+          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(refName)]),
           haxeGlueType: voidStar,
           glueType: voidStar,
 
@@ -232,12 +244,12 @@ using StringTools;
 
           haxeToGlueExpr: '@:privateAccess %.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
-          glueToUeExpr: '( (${typeRef.name} *) % )'
+          glueToUeExpr: '( (${refName} *) % )'
         };
       } else {
         var ret:TypeConvInfo = {
-          haxeType: typeRef,
-          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+          haxeType: originalTypeRef,
+          ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(refName)]),
           haxeGlueType: uePointer.toReflective(),
           glueType: uePointer,
 
@@ -246,7 +258,7 @@ using StringTools;
 
           haxeToGlueExpr: '@:privateAccess %.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
-          glueToUeExpr: '( (${typeRef.name} *) %->getPointer() )',
+          glueToUeExpr: '( (${refName} *) %->getPointer() )',
         };
         var modf = ownershipOverride;
         if (modf == null) {
@@ -256,33 +268,33 @@ using StringTools;
             modf = ownershipModifier.name;
           }
         }
-        ret.haxeType = TypeRef.parseClassName(modf, [typeRef]);
+        ret.haxeType = TypeRef.parseClassName(modf, [originalTypeRef]);
         switch (modf) {
           case 'unreal.PExternal':
-            ret.ueToGlueExpr = 'PExternal<${typeRef.name}>::wrap( % )';
+            ret.ueToGlueExpr = 'PExternal<${refName}>::wrap( % )';
           case 'unreal.PHaxeCreated':
-            ret.ueToGlueExpr = 'PHaxeCreated<${typeRef.name}>::wrap( % )';
-            ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
+            ret.ueToGlueExpr = 'PHaxeCreated<${refName}>::wrap( % )';
+            ret.glueToHaxeExpr = 'cast @:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
           case 'unreal.PStruct':
-            ret.ueToGlueExpr = 'new PStruct<${typeRef.name}>( % )';
+            ret.ueToGlueExpr = 'new PStruct<${refName}>( % )';
             // ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
           case 'unreal.TSharedPtr':
-            ret.ueToGlueExpr = 'PSharedPtr<${typeRef.name}>::wrap( % )';
-            ret.glueToUeExpr = '( (PSharedPtr<${typeRef.name}> *) %->toSharedPtr() )->value';
+            ret.ueToGlueExpr = 'PSharedPtr<${refName}>::wrap( % )';
+            ret.glueToUeExpr = '( (PSharedPtr<${refName}> *) %->toSharedPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedPtr<${typeRef}> )';
           case 'unreal.TSharedRef':
-            ret.ueToGlueExpr = 'new PSharedRef<${typeRef.name}>( % )';
-            ret.glueToUeExpr = '( (PSharedRef<${typeRef.name}> *) %->toSharedRef() )->value';
+            ret.ueToGlueExpr = 'new PSharedRef<${refName}>( % )';
+            ret.glueToUeExpr = '( (PSharedRef<${refName}> *) %->toSharedRef() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedRef<${typeRef}> )';
           case 'unreal.TWeakPtr':
-            ret.ueToGlueExpr = 'PWeakPtr<${typeRef.name}>::wrap( % )';
-            ret.glueToUeExpr = '( (PWeakPtr<${typeRef.name}> *) %->toWeakPtr() )->value';
+            ret.ueToGlueExpr = 'PWeakPtr<${refName}>::wrap( % )';
+            ret.glueToUeExpr = '( (PWeakPtr<${refName}> *) %->toWeakPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
           case 'unreal.PRef':
             @:privateAccess ret.ueType.name = 'Reference';
-            ret.ueToGlueExpr = 'new PExternal<${typeRef.name}>( &(%) )';
+            ret.ueToGlueExpr = 'new PExternal<${refName}>( &(%) )';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
           case _:
             throw 'assert: $modf';
@@ -309,7 +321,7 @@ using StringTools;
       glueCppIncludes.push('${NativeGlueCode.haxeRuntimeDir}/${typeRef.name}.h');
       return {
         haxeType: typeRef,
-        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(typeRef.name)]),
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(refName)]),
         haxeGlueType: voidStar,
         glueType: voidStar,
 
@@ -318,7 +330,7 @@ using StringTools;
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
         ueToGlueExpr: '%->haxeGcRef.get()',
-        glueToUeExpr: '((::${typeRef.name} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
+        glueToUeExpr: '((::${refName} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
       };
     }
     if (isBasic)
@@ -558,5 +570,7 @@ typedef TypeConvCtx = {
   ?superClass:Null<{ t : Ref<ClassType>, params : Array<Type> }>,
   ?baseType:Null<BaseType>,
   ?isBasic:Bool,
-  ?isUObject:Bool
+  ?isUObject:Bool,
+
+  ?originalType:BaseType,
 }
