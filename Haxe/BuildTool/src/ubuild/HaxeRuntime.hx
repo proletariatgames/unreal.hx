@@ -44,6 +44,9 @@ class HaxeRuntime extends BaseModuleRules
     this.bUseRTTI = true;
     if (firstRun)
     {
+      if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
+        Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
+      }
       // check if haxe compiler / sources are present
       var hasHaxe = call('haxe', ['-version'], false) == 0;
 
