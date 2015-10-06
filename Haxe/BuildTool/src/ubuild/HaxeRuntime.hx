@@ -44,6 +44,10 @@ class HaxeRuntime extends BaseModuleRules
     this.bUseRTTI = true;
     if (firstRun)
     {
+      if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
+        Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
+      }
+
       // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
       //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
       //       recently changed how often the build scripts are run - so they don't run if the project
