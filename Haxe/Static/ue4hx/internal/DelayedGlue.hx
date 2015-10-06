@@ -37,7 +37,6 @@ class DelayedGlue {
     } else {
       tconv.glueToHaxe( glueExpr.toString() + ')', ctx );
     }
-    trace(expr);
 
     return Context.parse(expr, pos);
   }
@@ -259,7 +258,6 @@ class DelayedGlue {
         [{ name:'self', type:this.thisConv.haxeGlueType.toComplexType() }];
       if (mode == 'set')
         args.push({ name:'value', type:tconv.haxeGlueType.toComplexType() });
-      trace(ret,args);
       this.buildFields.push({
         name: mode + '_' + field.name,
         access: [APublic,AStatic],
