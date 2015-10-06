@@ -95,7 +95,13 @@ class BuildExpose {
           }
           headerDef += ')\n\t\t';
         }
-        var modifier = field.type.isStatic() ? 'static ' : 'virtual ';
+        var modifier = if (field.type.isStatic())
+          'static ';
+        else if (!field.cf.meta.has(':final'))
+          'virtual ';
+        else
+          '';
+
         headerDef = headerDef + modifier + ret + ' ' + field.cf.name + '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
         cppDef += args; headerDef += args;

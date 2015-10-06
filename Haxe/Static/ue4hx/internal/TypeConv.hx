@@ -260,6 +260,8 @@ using StringTools;
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
           glueToUeExpr: '( (${refName} *) %->getPointer() )',
         };
+        if (originalTypeRef != typeRef)
+          ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
         var modf = ownershipOverride;
         if (modf == null) {
           if (ownershipModifier == null) {
@@ -274,7 +276,7 @@ using StringTools;
             ret.ueToGlueExpr = 'PExternal<${refName}>::wrap( % )';
           case 'unreal.PHaxeCreated':
             ret.ueToGlueExpr = 'PHaxeCreated<${refName}>::wrap( % )';
-            ret.glueToHaxeExpr = 'cast @:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
+            ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
           case 'unreal.PStruct':
             ret.ueToGlueExpr = 'new PStruct<${refName}>( % )';
             // ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
