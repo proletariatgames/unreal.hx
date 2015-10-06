@@ -74,13 +74,13 @@ class BuildExpose {
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
         if (!field.type.isStatic())
           fnArgs.unshift({ name: 'self', type: thisConv.haxeGlueType.toComplexType() });
-
         var headerDef = new HelperBuf(),
             cppDef = new HelperBuf();
         var ret = field.ret.ueType.getCppType().toString();
-        cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + field.cf.name + '(';
 
-        var implementCpp = true;
+        var implementCpp = true,
+            name = field.cf.name,
+            cppName = name;
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null) {
           headerDef = headerDef + 'UFUNCTION(';
@@ -93,6 +93,8 @@ class BuildExpose {
                 switch(param) {
                 case macro BlueprintImplementableEvent:
                   implementCpp = false;
+                case macro BlueprintNativeEvent:
+                  cppName += '_Implementation';
                 case _:
                 }
               }
@@ -100,6 +102,8 @@ class BuildExpose {
           }
           headerDef += ')\n\t\t';
         }
+
+        cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + cppName + '(';
         var modifier = if (field.type.isStatic())
           'static ';
         else if (!field.cf.meta.has(':final'))
@@ -107,7 +111,7 @@ class BuildExpose {
         else
           '';
 
-        headerDef = headerDef + modifier + ret + ' ' + field.cf.name + '(';
+        headerDef = headerDef + modifier + ret + ' ' + name + '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
         cppDef += args; headerDef += args;
         var native = nativeMethods[field.cf.name];

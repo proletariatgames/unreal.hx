@@ -116,6 +116,9 @@ class NeedsGlueBuild
                 case _:
                   fn.expr = macro { return cast null; };
                 }
+                field.meta.push({ name:':final', params:[], pos:field.pos });
+              case macro BlueprintNativeEvent:
+                field.meta.push({ name:':final', params:[], pos:field.pos });
               case _:
               }
             }
