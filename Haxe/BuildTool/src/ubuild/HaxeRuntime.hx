@@ -118,6 +118,13 @@ class HaxeRuntime extends BaseModuleRules
             '-cpp $targetDir/Temp',
           ];
 
+          switch (target.Platform) {
+          case Win32:
+            args.push('-D HXCPP_M32');
+          case _:
+            args.push('-D HXCPP_M64');
+          }
+
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
           var ret = compileSources('build-static', modules, args, '$targetDir/Built');
