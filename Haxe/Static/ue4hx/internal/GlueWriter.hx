@@ -83,11 +83,12 @@ class GlueWriter
     incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return Reflect.compare(v1,v2));
     for (inc in incs)
     {
+      inc = inc.replace('\\','/');
       buf.add('#include ');
       if (inc.startsWith('\"') || inc.startsWith('<'))
         buf.add(inc);
       else
-        buf.add('"${inc.replace('\\','/')}"');
+        buf.add('"$inc"');
       buf.add('\n');
     }
     return buf.toString();
