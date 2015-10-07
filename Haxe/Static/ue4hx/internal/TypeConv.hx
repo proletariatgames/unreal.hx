@@ -320,7 +320,7 @@ using StringTools;
       var glueCppIncludes = getMetaArray(meta, ':glueCppIncludes');
       if (glueCppIncludes == null) glueCppIncludes = [];
       glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
-      glueCppIncludes.push('${NativeGlueCode.haxeRuntimeDir}/${typeRef.name}.h');
+      glueCppIncludes.push('${NativeGlueCode.haxeRuntimeDir}/Public/Generated/${typeRef.withoutPrefix().name}.h');
       return {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(refName)]),

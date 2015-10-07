@@ -21,9 +21,11 @@ class HaxeRuntime extends BaseModuleRules
   {
     // PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
-    var pvt = Path.GetFullPath('$modulePath/../Private');
-    this.PrivateIncludePaths.Add(pvt);
-    this.PrivateIncludePaths.Add('$pvt/Generated');
+    var base = Path.GetFullPath('$modulePath/..');
+    this.PrivateIncludePaths.Add(base + '/Private');
+    this.PrivateIncludePaths.Add(base + '/Private/Generated');
+    this.PublicIncludePaths.Add(base + '/Public');
+    this.PublicIncludePaths.Add(base + '/Public/Generated');
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
     // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
@@ -114,7 +116,7 @@ class HaxeRuntime extends BaseModuleRules
             '',
             '-D static_link',
             '-D destination=$outputStatic',
-            '-D haxe_runtime_dir=$curSourcePath/Private',
+            '-D haxe_runtime_dir=$curSourcePath',
             '-cpp $targetDir/Temp',
           ];
 
@@ -172,7 +174,7 @@ class HaxeRuntime extends BaseModuleRules
       Log.TraceVerbose('Using Haxe');
 
       // get haxe module dependencies
-      var targetPath = Path.GetFullPath('$modulePath/../Private/Generated/Data/modules.txt');
+      var targetPath = Path.GetFullPath('$modulePath/../Generated/Data/modules.txt');
       var deps = File.getContent(targetPath).trim().split('\n');
       if (deps.length != 1 || deps[0] != '')
         this.PrivateDependencyModuleNames.addRange(deps);

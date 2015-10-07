@@ -39,7 +39,7 @@ class NativeGlueCode
     else
 #end
     {
-      haxeRuntimeDir = FileSystem.fullPath(dir) + '/Generated';
+      haxeRuntimeDir = FileSystem.fullPath(dir);
     }
   }
 
@@ -57,7 +57,7 @@ class NativeGlueCode
         var cl = c.get();
 
         this.touchedFiles[gluePath] = true;
-        var headerPath = '$haxeRuntimeDir/${gluePack.join('/')}/${glueName}.h';
+        var headerPath = '$haxeRuntimeDir/Public/Generated/${gluePack.join('/')}/${glueName}.h';
         var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
         writer.addCppInclude(headerPath);
@@ -124,16 +124,17 @@ class NativeGlueCode
 
             var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
             this.touchedFiles[gluePath] = true;
-            var cppPath = '$haxeRuntimeDir/${gluePath.replace('.','/')}.cpp';
+            var cppPath = '$haxeRuntimeDir/Private/Generated/${gluePath.replace('.','/')}.cpp';
             var writer = new GlueWriter(null, cppPath, gluePath);
             write(type,writer, gluePath);
           }
           if (cl.meta.has(':uexpose')) {
             // copy the header to the generated folder
             this.touchedFiles[c.toString()] = true;
+            var ref = TypeRef.parseClassName( c.toString() );
             var path = c.toString().replace('.','/');
             var headerPath = '$cppTarget/include/${path}.h';
-            var targetPath = '$haxeRuntimeDir/$path.h';
+            var targetPath = '$haxeRuntimeDir/Public/Generated/$path.h';
             var dir = Path.directory(targetPath);
             if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
 
@@ -146,9 +147,9 @@ class NativeGlueCode
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('$haxeRuntimeDir/Data'))
-      FileSystem.createDirectory('$haxeRuntimeDir/Data');
-    var mfile = sys.io.File.write('$haxeRuntimeDir/Data/modules.txt');
+    if (!FileSystem.exists('$haxeRuntimeDir/Generated/Data'))
+      FileSystem.createDirectory('$haxeRuntimeDir/Generated/Data');
+    var mfile = sys.io.File.write('$haxeRuntimeDir/Generated/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }
@@ -156,18 +157,19 @@ class NativeGlueCode
 
     // clean generated folder
     var touched = this.touchedFiles;
-    function recurse(path:String, packPath:String) {
+    function recurse(path:String, packPath:String, ?ext:String) {
       for (file in FileSystem.readDirectory(path)) {
         if (FileSystem.isDirectory('$path/$file')) {
           if ( !(packPath == '' && file == 'Data') )
             recurse('$path/$file', '$packPath$file.');
-        } else if (!touched.exists(packPath + haxe.io.Path.withoutExtension(file))) {
+        } else if ( (ext != null && Path.extension(file) != ext) || !touched.exists(packPath + Path.withoutExtension(file))) {
           trace('Deleting uneeded file $path/$file');
           FileSystem.deleteFile('$path/$file');
         }
       }
     }
-    recurse(haxeRuntimeDir, '');
+    recurse(haxeRuntimeDir + '/Public/Generated', '', 'h');
+    recurse(haxeRuntimeDir + '/Private/Generated', '', 'cpp');
   }
 
   public function onGenerate(types:Array<Type>) {
@@ -191,11 +193,12 @@ class NativeGlueCode
 
           var gluePack = gluePath.split('.'),
               glueName = gluePack.pop();
-          var baseDir = '$haxeRuntimeDir/${gluePack.join('/')}';
+          var baseDir = '$haxeRuntimeDir/Public/Generated/${gluePack.join('/')}';
           if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
           var headerPath = '$baseDir/${glueName}.h';
           // C++ doesn't like Windows forward slashes
           headerPath = headerPath.replace('\\','/');
+          trace(headerPath);
 
           try {
             switch (Context.follow(Context.getType(gluePath))) {

@@ -25,6 +25,24 @@ class TypeRef
     this.params = params;
   }
 
+  public function withoutPrefix():TypeRef {
+    switch [this.pack, this.name] {
+      case [ ['cpp'], 'RawPointer' ]:
+        return params[0].withoutPrefix();
+      case _:
+    }
+
+    trace(this.name);
+    trace(this.name.length, this.name.charAt(1), this.name.charAt(1).toUpperCase() == this.name.charAt(1), name.charAt(0));
+    if (this.name.length > 1 && this.name.charAt(1).toUpperCase() == this.name.charAt(1)) {
+      switch(name.charCodeAt(0)) {
+      case 'U'.code | 'A'.code | 'F'.code | 'T'.code:
+        return new TypeRef(this.pack, this.name.substr(1), this.params);
+      }
+    }
+    return this;
+  }
+
   public static function fromBaseType(ct:BaseType, ?params:Array<Type>, pos:Position):TypeRef {
     var mod = ct.module.split('.').pop();
     var params = (params == null ? [ for (param in ct.params) new TypeRef(param.name) ] : [ for (p in params) fromType(p, pos) ]);

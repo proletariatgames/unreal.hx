@@ -246,11 +246,12 @@ class BuildExpose {
   private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Array<String>, metas:Metadata):{ hasHaxeSuper:Bool } {
     var typeRef = TypeRef.fromBaseType(clt, clt.pos);
     var extendsAndImplements = [];
-    var ueName = nativeUe.getCppClassName();
-    metas.push({ name: ':ueGluePath', params: [macro $v{ueName}], pos: clt.pos });
+    var ueName = nativeUe.getCppClassName(),
+        fileName = nativeUe.withoutPrefix().getCppClassName();
+    metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
     var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null)
-      includes.push('${ueName}.generated.h');
+      includes.push('${fileName}.generated.h');
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
