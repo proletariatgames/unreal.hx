@@ -125,6 +125,13 @@ class HaxeRuntime extends BaseModuleRules
             args.push('-D HXCPP_M64');
           }
 
+          // set correct ABI
+          switch (target.Platform) {
+          case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
+            args.push('-D ABI=-MD');
+          case _:
+          }
+
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
           var ret = compileSources('build-static', modules, args, '$targetDir/Built');
