@@ -194,6 +194,8 @@ class NativeGlueCode
           var baseDir = '$haxeRuntimeDir/${gluePack.join('/')}';
           if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
           var headerPath = '$baseDir/${glueName}.h';
+          // C++ doesn't like Windows forward slashes
+          headerPath = headerPath.replace('\\','/');
 
           try {
             switch (Context.follow(Context.getType(gluePath))) {

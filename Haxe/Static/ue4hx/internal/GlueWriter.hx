@@ -87,7 +87,7 @@ class GlueWriter
       if (inc.startsWith('\"') || inc.startsWith('<'))
         buf.add(inc);
       else
-        buf.add('"$inc"');
+        buf.add('"${inc.replace('\\','/')}"');
       buf.add('\n');
     }
     return buf.toString();
