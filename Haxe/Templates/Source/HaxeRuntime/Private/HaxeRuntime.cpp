@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 #include "HaxeRuntime.h"
+#include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
 	#include <windows.h>
@@ -43,6 +44,7 @@ static bool did_init = false;
 
 extern "C" void check_hx_init()
 {
+  printf("checking init %d...\n\n\n\n", did_init);
   if (did_init) return;
   did_init = true;
 

@@ -32,8 +32,6 @@ class TypeRef
       case _:
     }
 
-    trace(this.name);
-    trace(this.name.length, this.name.charAt(1), this.name.charAt(1).toUpperCase() == this.name.charAt(1), name.charAt(0));
     if (this.name.length > 1 && this.name.charAt(1).toUpperCase() == this.name.charAt(1)) {
       switch(name.charCodeAt(0)) {
       case 'U'.code | 'A'.code | 'F'.code | 'T'.code:

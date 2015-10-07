@@ -94,7 +94,7 @@ class GlueWriter
     return buf.toString();
   }
 
-  public function close()
+  public function close(module:String="HaxeRuntime")
   {
     var defName = typeName.replace('.','_').toUpperCase();
     // var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
@@ -103,7 +103,7 @@ class GlueWriter
       getIncludes(headerIncludes) + '\n' +
       this.header.toString();
       // '\n#endif';
-    var cpp = '#include <HaxeRuntime.h>\n' +
+    var cpp = '#include <$module.h>\n' +
       getIncludes(cppIncludes) + '\n' +
       this.cpp.toString();
 

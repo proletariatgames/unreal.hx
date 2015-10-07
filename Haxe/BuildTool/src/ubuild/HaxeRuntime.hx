@@ -117,6 +117,7 @@ class HaxeRuntime extends BaseModuleRules
             '-D static_link',
             '-D destination=$outputStatic',
             '-D haxe_runtime_dir=$curSourcePath',
+            '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Temp',
           ];
 
