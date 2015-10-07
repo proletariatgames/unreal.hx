@@ -124,7 +124,7 @@ class NeedsGlueBuild
             }
           }
         }
-        // TODO check if it's UFUNCTION / UDELEGATE
+        // TODO check if it's UDELEGATE
       }
 
       if (uprops.length > 0)

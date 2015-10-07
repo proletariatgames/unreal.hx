@@ -137,10 +137,22 @@ class BuildExpose {
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
         cppDef += cppBody + ';\n}\n';
 
+        var allTypes = [ for (arg in field.args) arg.type ];
+        allTypes.push(field.ret);
+        var includes = new Map();
+        for (t in allTypes) {
+          // we only care about glue Header includes here since we're using the actual UE type
+          if (t.glueCppIncludes != null) {
+            for (inc in t.glueCppIncludes)
+              includes[inc] = inc;
+          }
+        }
+
         if (!implementCpp) cppDef = new HelperBuf();
         var metas:Metadata = [
           { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.cf.pos },
-          { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos }
+          { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos },
+          { name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: field.cf.pos }
         ];
         if (field.ret.haxeType.isVoid())
           metas.push({ name: ':void', pos: field.cf.pos });
@@ -185,8 +197,9 @@ class BuildExpose {
           }
           headerCode += data + ')\n\t\t';
           headerCode += tconv.ueType.getCppType(null) + ' ' + uprop.name + ';';
-          if (tconv.glueHeaderIncludes != null) {
-            for (inc in tconv.glueHeaderIncludes)
+          // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
+          if (tconv.glueCppIncludes != null) {
+            for (inc in tconv.glueCppIncludes)
               glueHeaderIncs[inc] = inc;
           }
         }
@@ -260,6 +273,7 @@ class BuildExpose {
       if (impl.meta.has(':uextern')) {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
         extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
+        // we're using the ueType so we'll include the glueCppIncludes
         if (tconv.glueCppIncludes != null) {
           for (inc in tconv.glueCppIncludes)
             includes.push(inc);
