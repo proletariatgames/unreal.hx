@@ -70,6 +70,9 @@ class HaxeRuntime extends BaseModuleRules
         mkTemplates();
         // bake glue code externs
 
+        // Windows paths have '\' which needs to be escaped for macro arguments
+        var escapedPluginPath = pluginPath.replace('\\','\\\\');
+        var escapedGameDir = gameDir.replace('\\','\\\\');
         var forceCreateExterns = true; //TODO: add logic to check if we're in plugin development mode (env var?)
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
@@ -79,7 +82,7 @@ class HaxeRuntime extends BaseModuleRules
           '',
           '-cpp $gameDir/Haxe/Generated/Externs',
           '--no-output', // don't generate cpp files; just execute our macro
-          '--macro ue4hx.internal.ExternBaker.process(["$pluginPath/Haxe/Externs","$gameDir/Haxe/Externs"], $forceCreateExterns)'
+          '--macro ue4hx.internal.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedGameDir/Haxe/Externs"], $forceCreateExterns)'
         ];
         trace('baking externs');
         var ret = compileSources('bake-externs', null, bakeArgs);
