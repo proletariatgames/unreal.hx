@@ -20,7 +20,7 @@ static void *get_top_of_stack(void)
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE //TODO: see if XBOXONE really behaves like Windows
   MEMORY_BASIC_INFORMATION info;
   VirtualQuery(&info, &info, sizeof(MEMORY_BASIC_INFORMATION));
-  return (void *)info.BaseAddress + info.RegionSize;
+  return (void *) (( (char *) info.BaseAddress) + info.RegionSize);
 #elif PLATFORM_MAC || PLATFORM_IOS
   return pthread_get_stackaddr_np(pthread_self());
 #elif PLATFORM_LINUX || PLATFORM_ANDROID
