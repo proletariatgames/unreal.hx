@@ -1,6 +1,7 @@
 package ubuild;
 import unrealbuildtool.*;
 import haxe.io.Eof;
+import sys.FileSystem;
 import sys.FileSystem.*;
 import sys.io.Process;
 import sys.io.File;
@@ -19,7 +20,6 @@ class HaxeRuntime extends BaseModuleRules
 {
   override private function config(target:TargetInfo, firstRun:Bool)
   {
-    // PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "MyProject1" });
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
     this.PrivateIncludePaths.Add(base + '/Private');
@@ -28,7 +28,6 @@ class HaxeRuntime extends BaseModuleRules
     this.PublicIncludePaths.Add(base + '/Public/Generated');
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
-    // this.DynamicallyLoadedModuleNames.addRange([]); // modules that are dynamically loaded here
 
 
     var libName = switch(target.Platform) {
@@ -54,7 +53,7 @@ class HaxeRuntime extends BaseModuleRules
       //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
       //       recently changed how often the build scripts are run - so they don't run if the project
       //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
-      var buildcs = '$gameDir/Source/HaxeRuntime/HaxeRuntime.Build.cs';
+      var buildcs = modulePath;
       cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
         trace('Touching $buildcs');
         var thisTime = cs.system.DateTime.UtcNow;
@@ -118,7 +117,7 @@ class HaxeRuntime extends BaseModuleRules
             '-D destination=$outputStatic',
             '-D haxe_runtime_dir=$curSourcePath',
             '-D HXCPP_DLL_EXPORT',
-            '-cpp $targetDir/Temp',
+            '-cpp $targetDir/Built',
           ];
 
           switch (target.Platform) {
@@ -137,7 +136,7 @@ class HaxeRuntime extends BaseModuleRules
 
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
-          var ret = compileSources('build-static', modules, args, '$targetDir/Built');
+          var ret = compileSources('build-static', modules, args);
 
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
@@ -186,8 +185,10 @@ class HaxeRuntime extends BaseModuleRules
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       this.PublicAdditionalLibraries.Add(outputStatic);
+
       // FIXME look into why libstdc++ can only be linked with its full path
-      this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
+      if (FileSystem.exists('/usr/lib/libstdc++.dylib'))
+        this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
 
       switch(target.Platform)
       {
