@@ -1,11 +1,10 @@
-package ubuild;
 import unrealbuildtool.*;
 import cs.system.io.Path;
 import cs.system.collections.generic.List_1 as Lst;
 import sys.FileSystem.*;
 import sys.io.File;
 
-using ubuild.Helpers;
+using Helpers;
 using StringTools;
 
 /**

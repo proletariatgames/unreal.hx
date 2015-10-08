@@ -1,4 +1,3 @@
-package ubuild;
 import unrealbuildtool.*;
 import haxe.io.Eof;
 import sys.FileSystem;
@@ -8,24 +7,22 @@ import sys.io.File;
 import cs.system.io.Path;
 import cs.system.collections.generic.List_1 as Lst;
 
-using ubuild.Helpers;
+using Helpers;
 using StringTools;
 
 /**
   This module will compile Haxe and add the hxcpp runtime to the game.
  **/
 @:nativeGen
-@:native("UnrealBuildTool.Rules.HaxeRuntime")
-class HaxeRuntime extends BaseModuleRules
+class HaxeModuleRules extends BaseModuleRules
 {
   override private function config(target:TargetInfo, firstRun:Bool)
   {
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
-    this.PrivateIncludePaths.Add(base + '/Private');
-    this.PrivateIncludePaths.Add(base + '/Private/Generated');
-    this.PublicIncludePaths.Add(base + '/Public');
-    this.PublicIncludePaths.Add(base + '/Public/Generated');
+    this.PrivateIncludePaths.Add(base + '/Generated/Private');
+    this.PublicIncludePaths.Add(base + '/Generated');
+    this.PublicIncludePaths.Add(base + '/Generated/Public');
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
 
@@ -67,8 +64,6 @@ class HaxeRuntime extends BaseModuleRules
 
       if (hasHaxe)
       {
-        // create template files
-        mkTemplates();
         // bake glue code externs
 
         // Windows paths have '\' which needs to be escaped for macro arguments
@@ -273,34 +268,6 @@ class HaxeRuntime extends BaseModuleRules
     if (exists(game)) recurse(game, '');
     var templ = '$pluginPath/Haxe/$name';
     if (exists(templ)) recurse(templ, '');
-  }
-
-  private function mkTemplates()
-  {
-    function recurse(template:String, to:String)
-    {
-      if (!exists(to))
-        createDirectory(to);
-      for (file in readDirectory(template))
-      {
-        var curTempl= '$template/$file',
-            curTo= '$to/$file';
-        if (isDirectory(curTempl))
-        {
-          recurse(curTempl, curTo);
-        } else {
-          var shouldCreate = file != 'arguments.hxml' || !exists(curTo);
-          if (shouldCreate)
-          {
-            File.saveBytes(curTo, File.getBytes(curTempl));
-          }
-        }
-      }
-    }
-
-    // var target = '$gameDir/Haxe';
-    // if (exists(target))
-    recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe');
   }
 
   private function call(program:String, args:Array<String>, showErrors:Bool)
