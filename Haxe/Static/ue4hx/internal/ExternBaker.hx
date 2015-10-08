@@ -649,26 +649,26 @@ class ExternBaker {
         ueCall = ueCall + '::';
       var ueEnumType = uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName;
 
-      var ueToHaxe = new HelperBuf() + 'switch(($ueEnumType) value) {',
-          haxeToUe = new HelperBuf() + 'switch(value) {';
+      var ueToHaxe = new HelperBuf() + 'switch(($ueEnumType) value) {\n\t',
+          haxeToUe = new HelperBuf() + 'switch(value) {\n\t';
       var idx = 1;
       for (name in e.names) {
         var ctor = e.constructs[name];
         var ueName = MacroHelpers.extractStrings(ctor.meta, ':uname')[0];
         if (ueName == null) ueName = name;
         var uePack = null;
-        ueToHaxe += 'case $ueCall$ueName:\n\t\t\treturn $idx;\n\t\t';
-        haxeToUe += 'case $idx:\n\t\t\treturn (int) $ueCall$ueName;\n\t\t';
+        ueToHaxe += 'case $ueCall$ueName:\n\t\treturn $idx;\n\t';
+        haxeToUe += 'case $idx:\n\t\treturn (int) $ueCall$ueName;\n\t';
         idx++;
       }
-      ueToHaxe += '}\n\t\treturn 0;';
-      haxeToUe += '}\n\t\treturn 0;';
+      ueToHaxe += '}\n\treturn 0;';
+      haxeToUe += '}\n\treturn 0;';
 
       this.glue.add('public static function ueToHaxe(value:Int):Int;\n');
       this.buf.add('@:glueHeaderCode("static int ueToHaxe(int value);")');
       this.newline();
       this.buf.add('@:glueCppCode("int ${this.glueType.getCppType()}_obj::ueToHaxe(int value) {');
-      escapeString('\n\t\t' +ueToHaxe.toString() + '\n\t}', this.buf);
+      escapeString('\n\t' +ueToHaxe.toString() + '\n}', this.buf);
       this.buf.add('")');
       this.newline();
       this.buf.add('public static function ueToHaxe(value:Int):Int');
@@ -680,7 +680,7 @@ class ExternBaker {
       this.buf.add('@:glueHeaderCode("static int haxeToUe(int value);")');
       this.newline();
       this.buf.add('@:glueCppCode("int ${this.glueType.getCppType()}_obj::haxeToUe(int value) {');
-      escapeString('\n\t\t' +haxeToUe.toString() + '\n\t}', this.buf);
+      escapeString('\n\t' +haxeToUe.toString() + '\n}', this.buf);
       this.buf.add('")');
       this.newline();
       this.buf.add('public static function haxeToUe(value:Int):Int');
@@ -688,9 +688,9 @@ class ExternBaker {
         this.buf.add('return ${this.glueType}.haxeToUe(value);');
       this.end('}');
 
-      this.buf.add('public static inline function wrap(v:Int):${this.typeRef} return all[ueToHaxe(v)];');
+      this.buf.add('public static inline function wrap(v:Int):${this.typeRef} return all[ueToHaxe(v) - 1];');
       this.newline();
-      this.buf.add('public static inline function unwrap(v:${this.typeRef}):Int return haxeToUe(v.getIndex());');
+      this.buf.add('public static inline function unwrap(v:${this.typeRef}):Int return haxeToUe(v.getIndex() + 1);');
     this.end('}');
     this.newline();
   }
