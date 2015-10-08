@@ -29,16 +29,17 @@ class Package
     var names = [];
     for (file in buildFiles) {
       var name = haxe.io.Path.withoutDirectory(file).substr(0,-('Build.hx'.length + 1));
-      names.push(name);
+      var className = name.charAt(0).toUpperCase() + name.substr(1);
+      names.push({ name:name, className:className });
       var target = file.substr(0,-2) + 'cs';
-      mappedFiles.push({ name:name, target: target });
+      mappedFiles.push({ name:className, target: target });
       sys.io.File.copy(file, '$targetDir/hx/$name.hx');
     }
 
     var masterT = Context.getType('HaxeModuleRules');
     var masterModule = null;
     for (name in names) {
-      var t = Context.getType(name); // make sure it's compiled
+      var t = Context.getType(name.className); // make sure it's compiled
       var isMaster = Context.unify(t, masterT);
       if (isMaster) {
         if (masterModule == null)
@@ -50,7 +51,7 @@ class Package
       case TInst(cl,_):
         var cl = cl.get();
         cl.meta.add(':nativeGen', [], cl.pos);
-        cl.meta.add(':native', [macro $v{name}], cl.pos);
+        cl.meta.add(':native', [macro $v{name.name}], cl.pos);
       case _:
       }
     }
