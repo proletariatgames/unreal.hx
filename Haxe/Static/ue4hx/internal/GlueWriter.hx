@@ -94,8 +94,9 @@ class GlueWriter
     return buf.toString();
   }
 
-  public function close(module:String="HaxeRuntime")
+  public function close(?module:String)
   {
+    if (module == null) module = NativeGlueCode.module;
     var defName = typeName.replace('.','_').toUpperCase();
     // var header = '#ifndef _${defName}_INCLUDED_\n#define _${defName}_INCLUDED_\n' +
     var header = '#pragma once\n' +

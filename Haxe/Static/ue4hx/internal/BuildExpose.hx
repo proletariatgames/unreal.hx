@@ -284,7 +284,7 @@ class BuildExpose {
 
     var targetModule = MacroHelpers.extractStrings(clt.meta, ':umodule')[0];
     if (targetModule == null)
-      targetModule = 'HaxeRuntime';
+      targetModule = NativeGlueCode.module;
 
     var headerDef = new StringBuf(),
         cppDef = new StringBuf();

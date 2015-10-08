@@ -325,9 +325,8 @@ using StringTools;
       var dir = NativeGlueCode.haxeRuntimeDir;
       if (module != null)
         dir = dir + '/../$module';
-      trace(typeRef,mod, dir);
 
-      glueCppIncludes.push('$dir/Public/Generated/${typeRef.withoutPrefix().name}.h');
+      glueCppIncludes.push('$dir/Generated/Public/${typeRef.withoutPrefix().name}.h');
       return {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef(refName)]),

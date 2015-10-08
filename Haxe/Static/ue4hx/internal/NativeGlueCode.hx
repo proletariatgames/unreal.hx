@@ -20,6 +20,7 @@ class NativeGlueCode
   private var touchedModules:Map<String,Map<String, Bool>>;
 
   @:isVar public static var haxeRuntimeDir(get,null):String;
+  public static var module(get,null):String;
 
   private static function get_haxeRuntimeDir() {
     if (haxeRuntimeDir != null)
@@ -27,6 +28,13 @@ class NativeGlueCode
 
     setHaxeRuntimeDir();
     return haxeRuntimeDir;
+  }
+
+  private static function get_module() {
+    var ret = haxeRuntimeDir.replace('\\','/');
+    while (ret.endsWith('/'))
+      ret = ret.substr(0,-1);
+    return ret.substr(ret.lastIndexOf('/')+1);
   }
 
   private static function setHaxeRuntimeDir() {
@@ -48,7 +56,8 @@ class NativeGlueCode
     this.touchedModules = new Map();
   }
 
-  private function touch(file:String, module:String="HaxeRuntime") {
+  private function touch(file:String, ?module:String) {
+    if (module == null) module = NativeGlueCode.module;
     var mod = this.touchedModules[module];
     if (mod == null) this.touchedModules[module] = mod = new Map();
     mod[file] = true;
@@ -64,7 +73,7 @@ class NativeGlueCode
 
         touch(gluePath, module);
         var dir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
-        var headerPath = '$dir/Public/Generated/${gluePack.join('/')}/${glueName}.h';
+        var headerPath = '$dir/Generated/Public/${gluePack.join('/')}/${glueName}.h';
         var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
         writer.addCppInclude(headerPath);
@@ -134,7 +143,7 @@ class NativeGlueCode
             var targetDir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
             var gluePack = gluePath.split('.'),
                 glueName = gluePack.pop();
-            var baseDir = '$targetDir/Private/Generated/${gluePack.join('/')}';
+            var baseDir = '$targetDir/Generated/Private/${gluePack.join('/')}';
             if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
             this.touch(gluePath, module);
 
@@ -149,7 +158,7 @@ class NativeGlueCode
             var path = c.toString().replace('.','/');
 
             var headerPath = '$cppTarget/include/${path}.h';
-            var targetPath = '$haxeRuntimeDir/Public/Generated/$path.h';
+            var targetPath = '$haxeRuntimeDir/Generated/Public/$path.h';
             var dir = Path.directory(targetPath);
             if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
 
@@ -186,8 +195,8 @@ class NativeGlueCode
     for (key in this.touchedModules.keys()) {
       trace(key);
       touched = this.touchedModules[key];
-      recurse(haxeRuntimeDir + '/../$key/Public/Generated', '', 'h');
-      recurse(haxeRuntimeDir + '/../$key/Private/Generated', '', 'cpp');
+      recurse(haxeRuntimeDir + '/../$key/Generated/Public', '', 'h');
+      recurse(haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp');
     }
   }
 
@@ -214,7 +223,7 @@ class NativeGlueCode
           var targetDir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
           var gluePack = gluePath.split('.'),
               glueName = gluePack.pop();
-          var baseDir = '$targetDir/Public/Generated/${gluePack.join('/')}';
+          var baseDir = '$targetDir/Generated/Public/${gluePack.join('/')}';
           if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
           var headerPath = '$baseDir/${glueName}.h';
           // C++ doesn't like Windows forward slashes
