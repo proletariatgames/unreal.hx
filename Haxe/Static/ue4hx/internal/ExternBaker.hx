@@ -601,7 +601,98 @@ class ExternBaker {
 
   private function processEnum(e:EnumType) {
     this.pos = e.pos;
-    // TODO
+    if (!e.isExtern || !e.meta.has(':uextern')) return;
+    this.typeRef = TypeRef.fromBaseType(e, e.pos);
+    this.glueType = this.typeRef.getGlueHelperType();
+
+    this.addDoc(e.doc);
+    this.addMeta(e.meta.get());
+    if (e.isPrivate)
+      this.buf.add('private ');
+    this.buf.add('enum ${e.name} ');
+    this.begin('{');
+      for (name in e.names) {
+        var ctor = e.constructs[name];
+        switch (Context.follow(ctor.type)) {
+        case TEnum(_,_):
+        case _:
+          throw new Error('Unreal Type Bake: Enum constructor $name has parameters', ctor.pos);
+        }
+        this.addDoc(ctor.doc);
+        this.addMeta(ctor.meta.get());
+        this.buf.add(name + ';');
+        this.newline();
+      }
+    this.end('}');
+    this.newline();
+
+    this.buf.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
+    this.addMeta(e.meta.get());
+    this.buf.add('class ${e.name}_EnumConv ');
+    this.begin('{');
+      this.buf.add('public static var all = std.Type.allEnums(${this.typeRef});');
+      this.newline();
+      var ueName = MacroHelpers.extractStrings(e.meta, ':uname')[0];
+      var isClass = e.meta.has(':class');
+      var uePack = null;
+      if (ueName == null) {
+        ueName = e.name;
+        uePack = e.pack;
+      } else {
+        uePack = ueName.split('.');
+        ueName = uePack.pop();
+      }
+      var ueCall = isClass ?
+        uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :
+        uePack.join('::');
+      if (ueCall != '')
+        ueCall = ueCall + '::';
+      var ueEnumType = uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName;
+
+      var ueToHaxe = new HelperBuf() + 'switch(($ueEnumType) value) {',
+          haxeToUe = new HelperBuf() + 'switch(value) {';
+      var idx = 1;
+      for (name in e.names) {
+        var ctor = e.constructs[name];
+        var ueName = MacroHelpers.extractStrings(ctor.meta, ':uname')[0];
+        if (ueName == null) ueName = name;
+        var uePack = null;
+        ueToHaxe += 'case $ueCall$ueName:\n\t\t\treturn $idx;\n\t\t';
+        haxeToUe += 'case $idx:\n\t\t\treturn (int) $ueCall$ueName;\n\t\t';
+        idx++;
+      }
+      ueToHaxe += '}\n\t\treturn 0;';
+      haxeToUe += '}\n\t\treturn 0;';
+
+      this.glue.add('public static function ueToHaxe(value:Int):Int;\n');
+      this.buf.add('@:glueHeaderCode("static int ueToHaxe(int value);")');
+      this.newline();
+      this.buf.add('@:glueCppCode("int ${this.glueType.getCppType()}_obj::ueToHaxe(int value) {');
+      escapeString('\n\t\t' +ueToHaxe.toString() + '\n\t}', this.buf);
+      this.buf.add('")');
+      this.newline();
+      this.buf.add('public static function ueToHaxe(value:Int):Int');
+      this.begin(' {');
+        this.buf.add('return ${this.glueType}.ueToHaxe(value);');
+      this.end('}');
+
+      this.glue.add('public static function haxeToUe(value:Int):Int;\n');
+      this.buf.add('@:glueHeaderCode("static int haxeToUe(int value);")');
+      this.newline();
+      this.buf.add('@:glueCppCode("int ${this.glueType.getCppType()}_obj::haxeToUe(int value) {');
+      escapeString('\n\t\t' +haxeToUe.toString() + '\n\t}', this.buf);
+      this.buf.add('")');
+      this.newline();
+      this.buf.add('public static function haxeToUe(value:Int):Int');
+      this.begin(' {');
+        this.buf.add('return ${this.glueType}.haxeToUe(value);');
+      this.end('}');
+
+      this.buf.add('public static inline function wrap(v:Int):${this.typeRef} return all[ueToHaxe(v)];');
+      this.newline();
+      this.buf.add('public static inline function unwrap(v:${this.typeRef}):Int return haxeToUe(v.getIndex());');
+    this.end('}');
+    this.newline();
   }
 
   private function addMeta(metas:Metadata) {
