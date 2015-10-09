@@ -131,7 +131,34 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
-          var ret = compileSources('build-static', modules, args);
+
+          var extraArgs = null,
+              oldEnvs = null;
+          switch(target.Platform) {
+          case Linux if (Sys.systemName() != "Linux"):
+            // cross compiling
+            var crossPath = Sys.getEnv("LINUX_ROOT");
+            if (crossPath != null) {
+              extraArgs = [
+                '-D', 'toolchain=linux',
+                '-D', 'linux',
+                '-D', 'HXCPP_CLANG',
+              ];
+              oldEnvs = setEnvs([
+                'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
+                'CXX' => 'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+                'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+                'HXCPP_STRIP' => 'echo'
+              ]);
+            } else {
+              Log.TraceWarning('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
+            }
+          case _:
+          }
+          var ret = compileSources('build-static', modules, args, extraArgs);
+
+          if (oldEnvs != null)
+            setEnvs(oldEnvs);
 
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
@@ -208,7 +235,17 @@ class HaxeModuleRules extends BaseModuleRules
     }
   }
 
-  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String)
+  private static function setEnvs(envs:Map<String,String>):Map<String,String> {
+    var oldEnvs = new Map();
+    for (key in envs.keys()) {
+      var old = Sys.getEnv(key);
+      oldEnvs[key] = old;
+      Sys.putEnv(key, envs[key]);
+    }
+    return oldEnvs;
+  }
+
+  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String, ?extraArgs:Array<String>)
   {
     if (name != null) {
       var hxml = new StringBuf();
@@ -246,6 +283,8 @@ class HaxeModuleRules extends BaseModuleRules
       cmdArgs = ['--cwd', haxeSourcesPath, '$tmpPath/files.hxml'].concat(cmdArgs);
     }
 
+    if (extraArgs != null)
+      cmdArgs = cmdArgs.concat(extraArgs);
     //TODO: add arguments based on TargetInfo (ios, 32-bit, etc)
     return call('haxe', cmdArgs, true);
   }
