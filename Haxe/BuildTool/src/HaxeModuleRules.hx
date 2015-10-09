@@ -16,7 +16,7 @@ using StringTools;
 @:nativeGen
 class HaxeModuleRules extends BaseModuleRules
 {
-  private var disabled:Bool = false;
+  private static var disabled:Bool = false;
 
   override private function config(target:TargetInfo, firstRun:Bool)
   {
