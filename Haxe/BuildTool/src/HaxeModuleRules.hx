@@ -16,6 +16,8 @@ using StringTools;
 @:nativeGen
 class HaxeModuleRules extends BaseModuleRules
 {
+  private var disabled:Bool = false;
+
   override private function config(target:TargetInfo, firstRun:Bool)
   {
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
@@ -40,7 +42,7 @@ class HaxeModuleRules extends BaseModuleRules
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
     this.bUseRTTI = true;
-    if (firstRun)
+    if (!disabled && firstRun)
     {
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
@@ -213,7 +215,7 @@ class HaxeModuleRules extends BaseModuleRules
 
     this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
-    if (!exists(outputStatic))
+    if (disabled || !exists(outputStatic))
     {
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
