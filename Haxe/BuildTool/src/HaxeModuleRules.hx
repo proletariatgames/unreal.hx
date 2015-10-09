@@ -146,6 +146,9 @@ class HaxeModuleRules extends BaseModuleRules
                 '-D toolchain=linux',
                 '-D linux',
                 '-D HXCPP_CLANG',
+                '-D xlinux_compile',
+                '-D magiclibs',
+                '-D HXCPP_VERBOSE'
               ];
               oldEnvs = setEnvs([
                 'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
