@@ -32,8 +32,8 @@ class Package
       var className = name.charAt(0).toUpperCase() + name.substr(1);
       names.push({ name:name, className:className });
       var target = file.substr(0,-2) + 'cs';
-      mappedFiles.push({ name:className, target: target });
-      sys.io.File.copy(file, '$targetDir/hx/$name.hx');
+      mappedFiles.push({ name:name, target: target });
+      sys.io.File.copy(file, '$targetDir/hx/$className.hx');
     }
 
     var masterT = Context.getType('HaxeModuleRules');
