@@ -1,8 +1,6 @@
-#if !xlinux_compile
 import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
-#end
 import unreal.UObject;
 import unreal.AActor;
 import unreal.helpers.HxcppRuntime;
