@@ -97,7 +97,7 @@ class HaxeModuleRules extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
-          var targetDir = '$gameDir/Intermediate/Haxe/Static';
+          var targetDir = '$gameDir/Intermediate/Haxe/${target.Platform}/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
           var args = [
@@ -140,9 +140,9 @@ class HaxeModuleRules extends BaseModuleRules
             var crossPath = Sys.getEnv("LINUX_ROOT");
             if (crossPath != null) {
               extraArgs = [
-                '-D', 'toolchain=linux',
-                '-D', 'linux',
-                '-D', 'HXCPP_CLANG',
+                '-D toolchain=linux',
+                '-D linux',
+                '-D HXCPP_CLANG',
               ];
               oldEnvs = setEnvs([
                 'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
@@ -155,7 +155,10 @@ class HaxeModuleRules extends BaseModuleRules
             }
           case _:
           }
-          var ret = compileSources('build-static', modules, args, extraArgs);
+
+          if (extraArgs != null)
+            args = args.concat(extraArgs);
+          var ret = compileSources(extraArgs == null ? 'build-static' : null, modules, args);
 
           if (oldEnvs != null)
             setEnvs(oldEnvs);
@@ -245,7 +248,7 @@ class HaxeModuleRules extends BaseModuleRules
     return oldEnvs;
   }
 
-  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String, ?extraArgs:Array<String>)
+  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String)
   {
     if (name != null) {
       var hxml = new StringBuf();
@@ -283,8 +286,6 @@ class HaxeModuleRules extends BaseModuleRules
       cmdArgs = ['--cwd', haxeSourcesPath, '$tmpPath/files.hxml'].concat(cmdArgs);
     }
 
-    if (extraArgs != null)
-      cmdArgs = cmdArgs.concat(extraArgs);
     //TODO: add arguments based on TargetInfo (ios, 32-bit, etc)
     return call('haxe', cmdArgs, true);
   }
