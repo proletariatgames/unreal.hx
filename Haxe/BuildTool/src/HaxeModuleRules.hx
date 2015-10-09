@@ -211,6 +211,15 @@ class HaxeModuleRules extends BaseModuleRules
           throw 'Haxe compilation failed';
         }
       }
+    } else if (disabled && firstRun) {
+      var gen = try {
+        Path.GetFullPath('$modulePath/../Generated');
+      } catch(e:Dynamic) {
+        null;
+      }
+      // delete everything in the generated folder
+      if (gen != null && exists(gen))
+        InitPlugin.deleteRecursive(gen,true);
     }
 
     this.MinFilesUsingPrecompiledHeaderOverride = -1;

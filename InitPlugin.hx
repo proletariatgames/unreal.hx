@@ -143,7 +143,7 @@ class InitPlugin {
     }
   }
 
-  private static function deleteRecursive(path:String, force=false):Bool
+  public static function deleteRecursive(path:String, force=false):Bool
   {
     var shouldDelete = true;
     if (!FileSystem.isDirectory(path))
