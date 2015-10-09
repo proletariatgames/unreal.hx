@@ -265,13 +265,13 @@ using StringTools;
         var ret:TypeConvInfo = {
           haxeType: originalTypeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
-          haxeGlueType: uePointer.toReflective(),
+          haxeGlueType: uePointer,
           glueType: uePointer,
 
           glueCppIncludes: ['<OPointers.h>'].concat(getMetaArray(meta, ':glueCppIncludes')),
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
 
-          haxeToGlueExpr: '@:privateAccess %.wrapped',
+          haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
           glueToUeExpr: '( (${refName.getCppType()} *) %->getPointer() )',
         };
