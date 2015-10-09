@@ -132,13 +132,16 @@ class HaxeModuleRules extends BaseModuleRules
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
 
+          var isCrossCompiling = false;
           var extraArgs = null,
               oldEnvs = null;
           switch(target.Platform) {
           case Linux if (Sys.systemName() != "Linux"):
             // cross compiling
+            isCrossCompiling = true;
             var crossPath = Sys.getEnv("LINUX_ROOT");
             if (crossPath != null) {
+              Log.TraceInformation('Cross compiling using $crossPath');
               extraArgs = [
                 '-D toolchain=linux',
                 '-D linux',
@@ -148,7 +151,11 @@ class HaxeModuleRules extends BaseModuleRules
                 'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
                 'CXX' => 'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
                 'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
-                'HXCPP_STRIP' => 'echo'
+                'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
+                'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
+                'HXCPP_LD' => 'x86_64-unknown-linux-gnu-ld',
+                'HXCPP_RANLIB' => 'x86_64-unknown-linux-gnu-ranlib',
+                'HXCPP_STRIP' => 'x86_64-unknown-linux-gnu-strip'
               ]);
             } else {
               Log.TraceWarning('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
@@ -158,11 +165,22 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (extraArgs != null)
             args = args.concat(extraArgs);
-          var ret = compileSources(extraArgs == null ? 'build-static' : null, modules, args);
+          var ret = compileSources(isCrossCompiling ? null : 'build-static', modules, args);
 
           if (oldEnvs != null)
             setEnvs(oldEnvs);
 
+          if (ret == 0 && isCrossCompiling) {
+            // somehow -D destination doesn't do anything when cross compiling
+            var hxcppDestination = '$targetDir/Built/libUnrealInit.a';
+            var shouldCopy =
+              !exists(outputStatic) ||
+              (exists(hxcppDestination) &&
+               stat(hxcppDestination).mtime.getTime() > stat(outputStatic).mtime.getTime());
+            if (shouldCopy) {
+              File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
+            }
+          }
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
