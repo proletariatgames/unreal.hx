@@ -120,6 +120,9 @@ class HaxeModuleRules extends BaseModuleRules
           switch (target.Platform) {
           case Win32:
             args.push('-D HXCPP_M32');
+          case Win64:
+            args.push('-D HXCPP_M64');
+            args.push('-D winrt');
           case _:
             args.push('-D HXCPP_M64');
           }

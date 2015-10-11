@@ -57,19 +57,15 @@ DECLARE_FAST_TLS(tlsDidInit);
 extern "C" void check_hx_init()
 {
   bool firstInit = true;
-  printf("Initializing Haxe... %d\n", gDidInit);
   if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
-    printf("Already initialized %d\n", gDidInit);
     while (gDidInit == 1) {
       // spin while waiting for the initialization to finish
       FPlatformProcess::Sleep(0.01f);
     }
-    printf("Waited\n");
 
     firstInit = false;
     // check if the thread was registered
     if (!GET_TLS_VALUE(tlsDidInit)) {
-      printf("Registering new thread...\n");
       SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
     } else {
       return;
