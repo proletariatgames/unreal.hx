@@ -13,12 +13,12 @@ extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
 
-#ifdef PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
   #define DECLARE_FAST_TLS(name) static __declspec( thread ) void *name
   #define GET_TLS_VALUE(name) name
   #define SET_TLS_VALUE(name, value) name = value
 #elif PLATFORM_MAC || PLATFORM_LINUX || PLATFORM_IOS || PLATFORM_ANDROID
-  #define DECLARE_FAST_TLS(name) static __thread void *name
+  #define DECLARE_FAST_TLS(name) static thread_local void *name
   #define GET_TLS_VALUE(name) name
   #define SET_TLS_VALUE(name, value) name = value
 #else
@@ -57,13 +57,14 @@ DECLARE_FAST_TLS(tlsDidInit);
 extern "C" void check_hx_init()
 {
   bool firstInit = true;
-  printf("Initializing Haxe...\n");
-  if (gDidInit || !FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0)) {
-    printf("Already initialized\n");
+  printf("Initializing Haxe... %d\n", gDidInit);
+  if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
+    printf("Already initialized %d\n", gDidInit);
     while (gDidInit == 1) {
       // spin while waiting for the initialization to finish
       FPlatformProcess::Sleep(0.01f);
     }
+    printf("Waited\n");
 
     firstInit = false;
     // check if the thread was registered
