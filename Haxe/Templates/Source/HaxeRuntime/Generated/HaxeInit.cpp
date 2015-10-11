@@ -17,7 +17,7 @@ extern "C" const char *hxRunLibrary();
   #define DECLARE_FAST_TLS(name) static __declspec( thread ) void *name
   #define GET_TLS_VALUE(name) name
   #define SET_TLS_VALUE(name, value) name = value
-#elif PLATFORM_MAC || PLATFORM_LINUX || PLATFORM_IOS || PLATFORM_ANDROID
+#elif PLATFORM_LINUX || PLATFORM_ANDROID
   #define DECLARE_FAST_TLS(name) static thread_local void *name
   #define GET_TLS_VALUE(name) name
   #define SET_TLS_VALUE(name, value) name = value
