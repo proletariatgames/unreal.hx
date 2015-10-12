@@ -248,7 +248,7 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()} *) % )'
         };
       } else if (ctx.isEnum) {
-        var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName, typeRef.params);
+        var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name, typeRef.params);
         return {
           haxeType: originalTypeRef,
           ueType: refName,
