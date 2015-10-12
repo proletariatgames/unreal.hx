@@ -27,7 +27,7 @@
   #include <stddef.h>
 #endif
 
-#define HXCPP_CLASS_ATTRIBUTES
+#define HXCPP_CLASS_ATTRIBUTES HAXERUNTIME_API
 
 #ifdef _MSC_VER
   #if defined(HXCPP_DLL_IMPORT)

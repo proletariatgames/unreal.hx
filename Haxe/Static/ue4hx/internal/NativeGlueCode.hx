@@ -193,7 +193,6 @@ class NativeGlueCode
       }
     }
     for (key in this.touchedModules.keys()) {
-      trace(key);
       touched = this.touchedModules[key];
       recurse(haxeRuntimeDir + '/../$key/Generated/Public', '', 'h');
       recurse(haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp');
