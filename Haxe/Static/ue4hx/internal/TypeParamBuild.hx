@@ -4,6 +4,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 
 using StringTools;
+using haxe.macro.Tools;
 
 class TypeParamBuild {
   public static function build():Type {
@@ -118,24 +119,37 @@ class TypeParamBuild {
 
       var cppCode = new HelperBuf();
       var module = NativeGlueCode.module;
-      cppCode += '#ifndef TypeParam_h_included__\n#include "$includeLocation"\n#endif\n';
-      var hxType = this.tconv.haxeType.getCppType().toString();
+      cppCode += '#ifndef TypeParam_h_included__\n#include "$includeLocation"\n#endif\n\n';
+      // get the concrete type
+      var hxType = TypeRef.fromType( Context.follow(Context.getType( this.tconv.haxeType.getClassPath() )), pos );
+      hxType = switch (hxType.pack) {
+        case ['unreal'] | ['haxe']:
+          hxType.withPack(['cpp']);
+        case _:
+          hxType;
+      }
+      var hxType = hxType.getCppType().toString();
+
       var cppName = tparam.getCppClass();
 
       cppCode += 'template<>\n$hxType TypeParam<$hxType>::haxeToUe(void *haxe) {\n';
-        cppCode += '\treturn $cppName::haxeToUe(haxe);\n}\n';
+        cppCode += '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
       cppCode += 'template<>\nvoid *TypeParam<$hxType>::ueToHaxe($hxType ue) {\n';
         cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
       cls.meta = extractMeta(
         macro
           @:nativeGen
-          // @:headerCode($v{'#ifndef TypeParam_h_included__\n#include "$includeLocation"\n#endif\n'})
           @:cppFileCode($v{cppCode.toString()})
           null
       );
 
       Context.defineType(cls);
     } else {
+      // we need to generate two classes in here:
+      // one @:uexpose with the haxeToGlue / glueToHaxe variants
+      // and one in the UE side which implements the ueToGlue / glueToUe expressions
+      var cls = macro class {
+      };
     }
   }
 

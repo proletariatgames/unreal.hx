@@ -25,6 +25,10 @@ class TypeRef
     this.params = params;
   }
 
+  inline public function withPack(pack:Array<String>):TypeRef {
+    return new TypeRef(pack, this.name, this.moduleName, this.params);
+  }
+
   public function withoutPrefix():TypeRef {
     switch [this.pack, this.name] {
       case [ ['cpp'], 'RawPointer' ]:
