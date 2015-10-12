@@ -34,7 +34,7 @@ class FName_Helper {
   @:glueHeaderIncludes('<hxcpp.h>')
   public static function from_string(str:String):unreal.PHaxeCreated<FName> {
     var ptr = HaxeHelpers.dynamicToPointer( str );
-    return cast @:privateAccess FNameImpl.wrap( cpp.Pointer.fromRaw(FName_Glue.from_string(ptr)) );
+    return cast @:privateAccess FNameImpl.wrap( FName_Glue.from_string(ptr) );
   }
 #end
 }

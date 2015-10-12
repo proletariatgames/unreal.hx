@@ -1,4 +1,5 @@
 #include "HaxeRuntime.h"
+#include "Engine.h"
 #include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
@@ -11,6 +12,20 @@
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
+
+#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
+  #define DECLARE_FAST_TLS(name) static __declspec( thread ) void *name
+  #define GET_TLS_VALUE(name) name
+  #define SET_TLS_VALUE(name, value) name = value
+#elif PLATFORM_LINUX || PLATFORM_ANDROID
+  #define DECLARE_FAST_TLS(name) static thread_local void *name
+  #define GET_TLS_VALUE(name) name
+  #define SET_TLS_VALUE(name, value) name = value
+#else
+  #define DECLARE_FAST_TLS(name) static uint32 name = FPlatformTLS::AllocTlsSlot()
+  #define GET_TLS_VALUE(name) FPlatformTLS::GetTlsValue(name)
+  #define SET_TLS_VALUE(name, value) FPlatformTLS::SetTlsValue(name, value)
+#endif
 
 static void *get_top_of_stack(void)
 {
@@ -36,12 +51,29 @@ static void *get_top_of_stack(void)
 #endif
 }
 
-static bool did_init = false;
+static volatile int32 gDidInit = 0;
+DECLARE_FAST_TLS(tlsDidInit);
 
 extern "C" void check_hx_init()
 {
-  if (did_init) return;
-  did_init = true;
+  bool firstInit = true;
+  if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
+    while (gDidInit == 1) {
+      // spin while waiting for the initialization to finish
+      FPlatformProcess::Sleep(0.01f);
+    }
+
+    firstInit = false;
+    // check if the thread was registered
+    if (!GET_TLS_VALUE(tlsDidInit)) {
+      SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
+    } else {
+      return;
+    }
+  } else {
+    // main thread needs TLS too
+    SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
+  }
 
   // This code will execute after your module is loaded into memory (but after global variables are initialized, of course.)
   int x;
@@ -54,8 +86,10 @@ extern "C" void check_hx_init()
 
 #ifdef WITH_HAXE
   gc_set_top_of_stack((int *)top_of_stack, false);
-  const char *error = hxRunLibrary();
-  // if (error) { UE_LOG(HXR, Error, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
-  if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
+  if (firstInit) {
+    const char *error = hxRunLibrary();
+    if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
+  }
 #endif
+  gDidInit = 2;
 }

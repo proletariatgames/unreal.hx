@@ -16,6 +16,8 @@ using StringTools;
 @:nativeGen
 class HaxeModuleRules extends BaseModuleRules
 {
+  private static var disabled:Bool = false;
+
   override private function config(target:TargetInfo, firstRun:Bool)
   {
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
@@ -40,7 +42,7 @@ class HaxeModuleRules extends BaseModuleRules
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
     this.bUseRTTI = true;
-    if (firstRun)
+    if (!disabled && firstRun)
     {
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
@@ -97,7 +99,7 @@ class HaxeModuleRules extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
-          var targetDir = '$gameDir/Intermediate/Haxe/Static';
+          var targetDir = '$gameDir/Intermediate/Haxe/${target.Platform}/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
           var args = [
@@ -118,6 +120,11 @@ class HaxeModuleRules extends BaseModuleRules
           switch (target.Platform) {
           case Win32:
             args.push('-D HXCPP_M32');
+          case Win64:
+            args.push('-D HXCPP_M64');
+          case WinRT:
+            args.push('-D HXCPP_M64');
+            args.push('-D winrt');
           case _:
             args.push('-D HXCPP_M64');
           }
@@ -131,8 +138,59 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (!isProduction)
             args = args.concat(['-D scriptable', '-D dll_export=']);
-          var ret = compileSources('build-static', modules, args);
 
+          var isCrossCompiling = false;
+          var extraArgs = null,
+              oldEnvs = null;
+          switch(target.Platform) {
+          case Linux if (Sys.systemName() != "Linux"):
+            // cross compiling
+            isCrossCompiling = true;
+            var crossPath = Sys.getEnv("LINUX_ROOT");
+            if (crossPath != null) {
+              Log.TraceInformation('Cross compiling using $crossPath');
+              extraArgs = [
+                '-D toolchain=linux',
+                '-D linux',
+                '-D HXCPP_CLANG',
+                '-D xlinux_compile',
+                '-D magiclibs',
+                '-D HXCPP_VERBOSE'
+              ];
+              oldEnvs = setEnvs([
+                'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
+                'CXX' => 'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+                'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+                'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
+                'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
+                'HXCPP_LD' => 'x86_64-unknown-linux-gnu-ld',
+                'HXCPP_RANLIB' => 'x86_64-unknown-linux-gnu-ranlib',
+                'HXCPP_STRIP' => 'x86_64-unknown-linux-gnu-strip'
+              ]);
+            } else {
+              Log.TraceWarning('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
+            }
+          case _:
+          }
+
+          if (extraArgs != null)
+            args = args.concat(extraArgs);
+          var ret = compileSources(isCrossCompiling ? null : 'build-static', modules, args);
+
+          if (oldEnvs != null)
+            setEnvs(oldEnvs);
+
+          if (ret == 0 && isCrossCompiling) {
+            // somehow -D destination doesn't do anything when cross compiling
+            var hxcppDestination = '$targetDir/Built/libUnrealInit.a';
+            var shouldCopy =
+              !exists(outputStatic) ||
+              (exists(hxcppDestination) &&
+               stat(hxcppDestination).mtime.getTime() > stat(outputStatic).mtime.getTime());
+            if (shouldCopy) {
+              File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
+            }
+          }
           if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
@@ -158,11 +216,20 @@ class HaxeModuleRules extends BaseModuleRules
           throw 'Haxe compilation failed';
         }
       }
+    } else if (disabled && firstRun) {
+      var gen = try {
+        Path.GetFullPath('$modulePath/../Generated');
+      } catch(e:Dynamic) {
+        null;
+      }
+      // delete everything in the generated folder
+      if (gen != null && exists(gen))
+        InitPlugin.deleteRecursive(gen,true);
     }
 
     this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
-    if (!exists(outputStatic))
+    if (disabled || !exists(outputStatic))
     {
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
@@ -206,6 +273,16 @@ class HaxeModuleRules extends BaseModuleRules
         // XboxOne | PS4 | IOS | HTML5
       }
     }
+  }
+
+  private static function setEnvs(envs:Map<String,String>):Map<String,String> {
+    var oldEnvs = new Map();
+    for (key in envs.keys()) {
+      var old = Sys.getEnv(key);
+      oldEnvs[key] = old;
+      Sys.putEnv(key, envs[key]);
+    }
+    return oldEnvs;
   }
 
   private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String)
