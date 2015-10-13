@@ -37,6 +37,7 @@ class NeedsGlueBuild
 
       var superCalls = new Map(),
           uprops = [];
+      var nativeCalls = new Map();
       var fields:Array<Field> = Context.getBuildFields(),
           toAdd = [];
       for (field in fields) {
@@ -61,13 +62,13 @@ class NeedsGlueBuild
           }
         }
         var isUProp = field.meta.hasMeta(':uproperty');
+        var isStatic = field.access != null && field.access.has(AStatic);
         if (isUProp) {
           switch (field.kind) {
             case FVar(t,e) | FProp('default','default',t,e) if (t != null):
               uprops.push(field.name);
               var getter = 'get_' + field.name,
                   setter = 'set_' + field.name;
-              var isStatic = field.access != null && field.access.has(AStatic);
               var dummy = macro class {
                 private function $getter():$t {
                   return ue4hx.internal.DelayedGlue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false);
@@ -110,11 +111,18 @@ class NeedsGlueBuild
                   Context.warning('Unreal Glue Extension: BlueprintImplementableEvent ufunctions should not contain any implementation', field.pos);
                   hadErrors = true;
                 }
+                nativeCalls[field.name] = field.name;
+                var call = {
+                  expr:ECall(
+                    macro @:pos(field.pos) ue4hx.internal.DelayedGlue.getNativeCall,
+                    [macro $v{field.name}, macro $v{isStatic}].concat([ for (arg in fn.args) macro $i{arg.name} ])),
+                  pos: field.pos
+                };
                 switch (fn.ret) {
                 case null | TPath({ pack:[], name:"Void" }):
-                  fn.expr = macro {};
+                  fn.expr = macro { $call; };
                 case _:
-                  fn.expr = macro { return cast null; };
+                  fn.expr = macro { return cast $call; };
                 }
                 field.meta.push({ name:':final', params:[], pos:field.pos });
               case macro BlueprintNativeEvent:
@@ -130,6 +138,7 @@ class NeedsGlueBuild
       if (uprops.length > 0)
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
       cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
+      cls.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], cls.pos);
       // add the haxe-side glue helper
       toAdd.push((macro class {
         @:extern private static function __internal_typing() {

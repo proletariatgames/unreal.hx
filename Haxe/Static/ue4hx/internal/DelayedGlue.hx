@@ -84,6 +84,45 @@ class DelayedGlue {
 
     var glueExpr = getGlueType_impl(cls, pos);
     var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
+    if (!fret.haxeType.isVoid())
+      expr = fret.glueToHaxe(expr, null);
+    block.push(Context.parse(expr, pos));
+    if (block.length == 1)
+      return block[0];
+    else
+      return { expr:EBlock(block), pos: pos };
+  }
+
+  macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+    var cls = Context.getLocalClass().get(),
+        pos = Context.currentPos();
+
+    var field = cls.findField(fieldName, isStatic);
+    if (field == null)
+      throw new Error('Unreal Glue Generation: Field calls native but no field was found with that name ($fieldName)', pos);
+    var fargs = null, fret = null;
+    switch(Context.follow(field.type)) {
+    case TFun(targs,tret):
+      var argn = 0;
+      // TESTME: add test for super.call(something, super.call(other))
+      fargs = [ for (arg in targs) { name:'__unative_arg' + argn++, type:TypeConv.get(arg.t, pos) } ];
+      fret = TypeConv.get(tret, pos);
+    case _: throw 'assert';
+    }
+    if (fargs.length != args.length)
+      throw new Error('Unreal Glue Generation: super.$fieldName number of arguments differ from super. Expected ${fargs.length}; got ${args.length}', pos);
+    var argn = 0;
+    var block = [ for (arg in args) {
+      var name = '__usuper_arg' + argn++;
+      macro var $name = $arg;
+    } ];
+    if (!isStatic)
+      fargs.unshift({ name:'this', type: TypeConv.get(Context.getLocalType(), pos) });
+
+    var glueExpr = getGlueType_impl(cls, pos);
+    var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
+    if (!fret.haxeType.isVoid())
+      expr = fret.glueToHaxe(expr, null);
     block.push(Context.parse(expr, pos));
     if (block.length == 1)
       return block[0];
@@ -154,7 +193,8 @@ class DelayedGlue {
 
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
-        superCalls = new Map();
+        superCalls = new Map(),
+        nativeCalls = new Map();
     for (prop in MacroHelpers.extractStrings( cls.meta, ':uproperties' )) {
       uprops[prop] = null;
     }
@@ -164,17 +204,26 @@ class DelayedGlue {
       if (!ignoreSupers.exists(scall))
         superCalls[scall] = null;
     }
+    for (ncall in MacroHelpers.extractStrings( cls.meta, ':unativecalls' )) {
+      if (!ignoreSupers.exists(ncall))
+        nativeCalls[ncall] = null;
+    }
 
     for (field in cls.fields.get()) {
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:false };
       } else if (superCalls.exists(field.name)) {
         superCalls[field.name] = field;
+      } else if (nativeCalls.exists(field.name)) {
+        nativeCalls[field.name] = { cf:field, isStatic:false };
       }
     }
     for (field in cls.statics.get()) {
-      if (uprops.exists(field.name))
+      if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:true };
+      } else if (nativeCalls.exists(field.name)) {
+        nativeCalls[field.name] = { cf:field, isStatic:true };
+      }
     }
 
     for (scall in superCalls) {
@@ -182,6 +231,10 @@ class DelayedGlue {
       var superField = allSuperFields[scall.name];
       if (superField == null) throw 'assert';
       this.handleSuperCall(scall, superField);
+    }
+
+    for (ncall in nativeCalls) {
+      this.handleNativeCall(ncall.cf, ncall.isStatic);
     }
 
     for (uprop in uprops) {
@@ -275,6 +328,73 @@ class DelayedGlue {
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
+  }
+
+  private function handleNativeCall(field:ClassField, isStatic:Bool) {
+    var ctx = null;
+    var args = null, ret = null;
+    switch( Context.follow(field.type) ) {
+      case TFun(targs, tret):
+        args = [ for (arg in targs) { name:arg.name, type:TypeConv.get(arg.t, field.pos) } ];
+        ret = TypeConv.get(tret, field.pos);
+      case _:
+        throw 'assert';
+    }
+
+    var glue = this.typeRef.getGlueHelperType();
+    var externName = field.name;
+    var headerDef = new HelperBuf(),
+        cppDef = new HelperBuf();
+    headerDef = headerDef + 'static ' + ret.glueType.getCppType() + ' ' + externName + '(';
+    cppDef = cppDef + ret.glueType.getCppType() + ' ' + glue.getCppClass() + '_obj::' + externName + '(';
+    var thisDef = thisConv.glueType.getCppType() + ' self';
+    headerDef += thisDef;
+    cppDef += thisDef;
+
+    if (args.length > 0) {
+      var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
+      headerDef = headerDef + ', ' + argsDef;
+      cppDef = cppDef + ', ' + argsDef;
+    }
+    headerDef += ');';
+    cppDef += ') {\n\t';
+
+    // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
+    {
+      var cppBody = new HelperBuf();
+      if (isStatic)
+        cppBody += this.thisConv.ueType.getCppClass() + '::';
+      else
+        cppBody += this.thisConv.glueToUe('self', null) + '->';
+      cppBody += field.name + '(';
+      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
+      cppBody += ')';
+      if (!ret.haxeType.isVoid())
+        cppDef = cppDef + 'return ' + ret.ueToGlue(cppBody.toString(), null) + ';\n}';
+      else
+        cppDef = cppDef + cppBody + ';\n}';
+    }
+
+    var allTypes = [ for (arg in args) arg.type ];
+    allTypes.push(ret);
+
+    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    for (meta in metas) {
+      field.meta.add(meta.name, meta.params, meta.pos);
+    }
+
+    this.buildFields.push({
+      name: externName,
+      access: [APublic,AStatic],
+      kind: FFun({
+        args: [
+            { name: 'self', type: this.thisConv.haxeGlueType.toComplexType() }
+          ].concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
+        ret: ret.haxeGlueType.toComplexType(),
+        expr: null
+      }),
+      pos: field.pos
+    });
   }
 
   private function handleSuperCall(field:ClassField, superField:ClassField) {
