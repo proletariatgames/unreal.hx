@@ -113,7 +113,7 @@ class DelayedGlue {
       throw new Error('Unreal Glue Generation: super.$fieldName number of arguments differ from super. Expected ${fargs.length}; got ${args.length}', pos);
     var argn = 0;
     var block = [ for (arg in args) {
-      var name = '__usuper_arg' + argn++;
+      var name = '__unative_arg' + argn++;
       macro var $name = $arg;
     } ];
     if (!isStatic)
