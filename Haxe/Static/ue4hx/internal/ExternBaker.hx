@@ -237,6 +237,7 @@ class ExternBaker {
             "it will also be a compilation error if the wrapped class forbids the C++ copy constructor;\n    " +
             "in this case, the extern class definition should contain the `@:noCopy` metadata\n  ";
           // copy constructor
+          // TODO add params if type has type parameter
           methods.push({
             name: '_copy',
             uname: '.copy',
@@ -343,6 +344,7 @@ class ExternBaker {
           uname: uname,
           doc: field.doc,
           meta:field.meta.get(),
+          params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
           prop: NonProp, isFinal: false, isPublic: field.isPublic, isStatic: isStatic
@@ -365,6 +367,7 @@ class ExternBaker {
           methods.push({
             name: field.name + 'Struct',
             uname: '.ctor',
+            params: [ for (p in field.params) p.name ],
             args: cur.args,
             ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
             prop: NonProp, isFinal: false, isPublic: field.isPublic, isStatic: isStatic
@@ -376,6 +379,7 @@ class ExternBaker {
   }
 
   private function processMethodDef(meth:MethodDef) {
+    var hasParams = meth.params != null && meth.params.length > 0;
     var ctx = meth.prop != NonProp && !meth.isStatic && !this.thisConv.isUObject ? [ "parent" => "this" ] : null;
     var isStatic = meth.isStatic;
     this.addDoc(meth.doc);
@@ -397,21 +401,25 @@ class ExternBaker {
     // generate the header and cpp glue code
     //TODO: optimization: use StringBuf instead of all these string concats
     var cppArgDecl = [ for ( arg in helperArgs ) arg.t.glueType.getCppType() + ' ' + escapeName(arg.name) ].join(', ');
-    var glueHeaderCode = 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
+    var glueHeaderCode = new HelperBuf();
+
+    if (hasParams) {
+      glueHeaderCode += 'template<';
+      glueHeaderCode.mapJoin(meth.params, function(p) return 'class $p');
+      glueHeaderCode += '>\n\t';
+    }
+    glueHeaderCode += 'static ${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ');';
 
     // var glueCppPrelude = '';
     var cppArgs = meth.args,
         retHaxeType = meth.ret.haxeType;
-    var glueCppBody = if (isStatic) {
+    var glueCppBody = new HelperBuf();
+    glueCppBody += if (isStatic) {
       switch (meth.uname) {
       case 'new':
         'new ' + this.thisConv.ueType.getCppClass();
       case '.ctor':
         this.thisConv.ueType.getCppClass();
-      // case '.copy':
-      //   'new ' + this.thisConv.ueType.getCppClass();
-      // case '.copyStruct':
-      //   this.thisConv.ueType.getCppClass();
       case _:
         this.thisConv.ueType.getCppClass() + '::' + meth.uname;
       }
@@ -430,7 +438,15 @@ class ExternBaker {
         self.t.glueToUe(escapeName(self.name), ctx) + '->' + meth.uname;
       }
     }
+    var params = new HelperBuf();
+    if (hasParams) {
+      params += '<';
+      params.mapJoin(meth.params, function(param) return param);
+      params += '>';
+    }
+    glueCppBody.add(params);
 
+    var glueCppBody = glueCppBody.toString();
     if (meth.prop == StructProp && meth.name.startsWith('get_'))
       glueCppBody = '&' + glueCppBody;
 
@@ -444,9 +460,16 @@ class ExternBaker {
     if (!isVoid)
       glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );
 
+    var glueCppCode = new HelperBuf();
+    if (hasParams) {
+      glueCppCode += 'template<';
+      glueCppCode.mapJoin(meth.params, function(p) return 'class $p');
+      glueCppCode += '>\n\t';
+    }
     var glueCppCode =
+      glueCppCode +
       glueRet.glueType.getCppType() +
-      ' ${this.glueType.getCppType()}_obj::${meth.name}(' + cppArgDecl + ') {' +
+      ' ${this.glueType.getCppType()}_obj::${meth.name}$params(' + cppArgDecl + ') {' +
         '\n\t' + glueCppBody + ';\n}';
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);
@@ -454,11 +477,11 @@ class ExternBaker {
     // add the glue header and cpp code to the non-extern class (instead of the glue helper)
     // in order to be able to benefit from DCE (extern types are never DCE'd)
     this.buf.add('@:glueHeaderCode(\'');
-    escapeString(glueHeaderCode, this.buf);
+    escapeString(glueHeaderCode.toString(), this.buf);
     this.buf.add('\')');
     this.newline();
     this.buf.add('@:glueCppCode(\'');
-    escapeString(glueCppCode, this.buf);
+    escapeString(glueCppCode.toString(), this.buf);
     this.buf.add('\')');
     this.newline();
 
@@ -502,6 +525,8 @@ class ExternBaker {
       this.buf.add(')');
       this.newline();
     }
+    if (hasParams)
+      this.buf.add('@:generic ');
 
     if (meth.isFinal)
       this.buf.add('@:final @:nonVirtual ');
@@ -514,7 +539,25 @@ class ExternBaker {
     if (meth.isOverride)
       this.buf.add('override ');
 
-    this.buf.add('function ${meth.name}(');
+    this.buf.add('function ${meth.name}');
+    if (hasParams) {
+      this.buf.add('<');
+      var first = true;
+      for (param in meth.params) {
+        if (first) first = false; else this.buf.add(', ');
+        this.buf.add(param);
+      }
+      this.buf.add('>');
+    }
+    this.buf.add('(');
+    if (hasParams) {
+      var first = true;
+      for (param in meth.params) {
+        if (first) first = false; else this.buf.add(', ');
+        this.buf.add('?${param}_TP:unreal.TypeParam<$param>');
+      }
+      if (meth.args.length != 0) this.buf.add(', ');
+    }
     this.buf.add([ for (arg in meth.args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
     this.buf.add('):' + retHaxeType + ' ');
     this.begin('{');
@@ -766,6 +809,7 @@ typedef MethodDef = {
   uname:String,
   ?doc:Null<String>,
   ?meta:Metadata,
+  ?params:Array<String>,
   args:Array<{ name:String, t:TypeConv }>,
   ret:TypeConv,
   prop:PropType,
