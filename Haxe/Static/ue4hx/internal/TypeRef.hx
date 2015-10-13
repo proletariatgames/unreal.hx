@@ -25,6 +25,10 @@ class TypeRef
     this.params = params;
   }
 
+  inline public function withPack(pack:Array<String>):TypeRef {
+    return new TypeRef(pack, this.name, this.moduleName, this.params);
+  }
+
   public function withoutPrefix():TypeRef {
     switch [this.pack, this.name] {
       case [ ['cpp'], 'RawPointer' ]:
@@ -114,13 +118,28 @@ class TypeRef
 
   public function getTypeParamType():TypeRef {
     var newPack = this.pack.copy(),
-        name = this.name;
+        name = new StringBuf();
     if (pack[0] == 'unreal') {
       newPack.insert(1, '_pvt');
     } else {
       newPack.unshift('_pvt');
     }
-    return new TypeRef(newPack, name + '_TypeParam');
+    var buf = this.getReducedPath();
+    buf.add('_TypeParam');
+
+    return new TypeRef(newPack, buf.toString());
+  }
+
+  public function getReducedPath(?buf:StringBuf):StringBuf {
+    if (buf == null) buf = new StringBuf();
+    buf.add(this.name);
+    if (this.params != null) {
+      for (param in this.params) {
+        buf.add('__');
+        param.getReducedPath(buf);
+      }
+    }
+    return buf;
   }
 
   public function isVoid() {
@@ -228,6 +247,15 @@ class TypeRef
       new TypeRef(['cpp'], this.name.substr(3), params);
     case _:
       this;
+    }
+  }
+
+  public function isPointer():Bool {
+    return switch [ this.pack, this.name ] {
+      case [ ['cpp'], 'RawPointer' | 'RawConstPointer' | 'Pointer' | 'ConstPointer' ]:
+        true;
+      case _:
+        false;
     }
   }
 

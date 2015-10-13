@@ -473,7 +473,7 @@ using StringTools;
         glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
-        isBasic: true,
+        isBasic: false,
       },
       // FText
       {
@@ -489,7 +489,7 @@ using StringTools;
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
-        isBasic: true
+        isBasic: false
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {
