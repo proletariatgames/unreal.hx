@@ -250,6 +250,15 @@ class TypeRef
     }
   }
 
+  public function isPointer():Bool {
+    return switch [ this.pack, this.name ] {
+      case [ ['cpp'], 'RawPointer' | 'RawConstPointer' | 'Pointer' | 'ConstPointer' ]:
+        true;
+      case _:
+        false;
+    }
+  }
+
   public function isReflective():Bool {
     return switch [ this.pack, this.name ] {
     case [ ['cpp'], 'RawPointer' | 'RawConstPointer' ]:

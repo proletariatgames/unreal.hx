@@ -98,7 +98,7 @@ class InitPlugin {
       if (checkMap != null)
       {
         for (file in FileSystem.readDirectory(toPath))
-          if (file != 'Generated' && !checkMap.exists(file))
+          if (file != 'Generated' && file != 'Private' && file != 'Public' && !checkMap.exists(file))
             deleteRecursive('$toPath/$file');
       }
     }
