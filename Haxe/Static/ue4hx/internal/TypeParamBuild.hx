@@ -130,6 +130,13 @@ class TypeParamBuild {
           hxType;
       }
       var hxType = hxType.getCppType().toString();
+      switch (hxType) {
+      case 'cpp::Int64':
+        hxType = 'long long int';
+      case 'cpp::UInt64':
+        hxType = 'unsigned long long int';
+      case _:
+      }
 
       var cppName = tparam.getCppClass();
 
