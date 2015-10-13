@@ -13,10 +13,6 @@ using StringTools;
  **/
 @:forward abstract TypeConv(TypeConvInfo) from TypeConvInfo
 {
-  private static var GLOBALS:{
-    ?uobject:Type,
-  } = {};
-
   public var haxeGlueType(get,never):TypeRef;
   public var glueType(get,never):TypeRef;
 
@@ -81,14 +77,10 @@ using StringTools;
     return buf.toString();
   }
 
-  public static function resetGlobals() {
-    GLOBALS = {};
-  }
-
   private static function typeIsUObject(t:Type) {
-    var uobj = GLOBALS.uobject;
+    var uobj = Globals.current.uobject;
     if (uobj == null) {
-      GLOBALS.uobject = uobj = Context.getType('unreal.UObject');
+      Globals.current.uobject = uobj = Context.getType('unreal.UObject');
     }
     return Context.unify(t, uobj);
   }

@@ -171,7 +171,7 @@ class NeedsGlueBuild
         return true;
       });
     }
-    TypeConv.resetGlobals();
+    Globals.reset();
     var nativeGlue = new NativeGlueCode();
     Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
     // seems like Haxe macro interpreter has a problem with void member closures,

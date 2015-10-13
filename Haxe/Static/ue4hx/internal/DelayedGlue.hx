@@ -134,22 +134,21 @@ class DelayedGlue {
   private static function getGlueType_impl(cls:ClassType, pos:Position) {
     var type = TypeRef.fromBaseType(cls, pos);
     var glue = type.getGlueHelperType();
-    try {
-      // ensure the glue is built
-      Context.getType( glue.getClassPath() );
-    }
-    catch(e:Dynamic) {
-      var msg = Std.string(e);
-      if (msg.startsWith('Type not found')) {
-        // type is not built. build it!
-        new DelayedGlue(cls,pos).build();
+    var path = glue.getClassPath();
+    if (!Globals.current.builtGlueTypes.exists(path)) {
+      // This is needed since while building a delayed glue, we may trigger
+      // another macro that will try to build the glue once again (since no glue was built yet)
+      // We must only build the last build call; all others will be built after this one
+      var dglue = new DelayedGlue(cls,pos);
+      Globals.current.buildingGlueTypes[path] = dglue;
+      dglue.build();
+      if (Globals.current.buildingGlueTypes[path] == dglue)
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
-      } else {
-        neko.Lib.rethrow(e);
-      }
+      Globals.current.builtGlueTypes[path] = true;
+      Globals.current.buildingGlueTypes[path] = null;
     }
 
-    return glue.getClassPath();
+    return path;
   }
 
   var cls:ClassType;
@@ -158,10 +157,15 @@ class DelayedGlue {
   var thisConv:TypeConv;
   var buildFields:Array<Field>;
   var firstExternSuper:TypeConv;
+  var gluePath:String;
 
   public function new(cls, pos) {
     this.cls = cls;
     this.pos = pos;
+  }
+
+  inline private function shouldContinue() {
+    return Globals.current.buildingGlueTypes[ this.gluePath ] == this;
   }
 
   public function build() {
@@ -169,6 +173,7 @@ class DelayedGlue {
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
     this.thisConv = TypeConv.get( Context.getLocalType(), this.pos );
     this.buildFields = [];
+    this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
 
     var allSuperFields = new Map();
     var ignoreSupers = new Map();
@@ -191,6 +196,8 @@ class DelayedGlue {
       }
     }
 
+    if (!this.shouldContinue())
+      return;
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
         superCalls = new Map(),
@@ -231,15 +238,23 @@ class DelayedGlue {
       var superField = allSuperFields[scall.name];
       if (superField == null) throw 'assert';
       this.handleSuperCall(scall, superField);
+      if (!this.shouldContinue())
+        return;
     }
 
     for (ncall in nativeCalls) {
       this.handleNativeCall(ncall.cf, ncall.isStatic);
+      if (!this.shouldContinue())
+        return;
     }
 
     for (uprop in uprops) {
       this.handleProperty(uprop.cf, uprop.isStatic);
+      if (!this.shouldContinue())
+        return;
     }
+    if (!this.shouldContinue())
+      return;
 
     var glue = this.typeRef.getGlueHelperType();
     var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
@@ -250,6 +265,8 @@ class DelayedGlue {
     if (glueCppIncludes != null && glueCppIncludes.length > 0)
       cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
+    if (!this.shouldContinue())
+      return;
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
@@ -261,6 +278,7 @@ class DelayedGlue {
       kind: TDClass(),
       fields: this.buildFields,
     });
+    Context.getType(glue.getClassPath());
   }
 
   private function handleProperty(field:ClassField, isStatic:Bool) {
