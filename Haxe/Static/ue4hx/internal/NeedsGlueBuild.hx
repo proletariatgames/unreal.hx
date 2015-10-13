@@ -80,6 +80,7 @@ class NeedsGlueBuild
               };
 
               for (field in dummy.fields) toAdd.push(field);
+              field.kind = FProp("get", "set", t, e);
             case FProp(_,_,_,_):
               Context.warning(
                 'Unreal Glue Extension: uproperty properties with getters and setters are not supported by Unreal',
