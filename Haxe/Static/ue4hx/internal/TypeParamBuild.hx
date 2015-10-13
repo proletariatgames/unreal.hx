@@ -122,7 +122,7 @@ class TypeParamBuild {
       var module = NativeGlueCode.module;
       cppCode += '#ifndef TypeParam_h_included__\n#include "$includeLocation"\n#endif\n\n';
       // get the concrete type
-      var hxType = TypeRef.fromType( Context.follow(Context.getType( this.tconv.haxeType.getClassPath() )), pos );
+      var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
       hxType = switch (hxType.pack) {
         case ['unreal'] | ['haxe']:
           hxType.withPack(['cpp']);
