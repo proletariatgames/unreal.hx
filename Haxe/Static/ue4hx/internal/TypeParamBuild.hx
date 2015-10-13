@@ -89,9 +89,7 @@ class TypeParamBuild {
 
   public function createCpp():Void {
     var tparam = this.tconv.ueType.getTypeParamType();
-    trace(tparam);
     if (this.tconv.isBasic) {
-      trace('is basic');
       // basic types are present on both hxcpp and UE, so
       // we don't need an intermediate glue type
       var glueType = this.tconv.haxeType;
