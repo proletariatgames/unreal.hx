@@ -28,7 +28,19 @@ class CreateGlue {
     var modules = [ for (module in toCompile) Context.getModule(module) ];
 
     // once we get here, we've built everything we need
+    var cur = Globals.cur;
 
+    // main build loop. all build-sensitive types are here
+    while (cur.uextensions != null) {
+      var uextensions = cur.uextensions;
+      cur.uextensions = null;
+      while (uextensions != null) {
+        var uext = uextensions.value;
+        uextensions = uextensions.next;
+        var type = Context.getType(uext);
+        new BuildUExtension().generate(type);
+      }
+    }
   }
 
   private static function getModules(path:String, modules:Array<String>)

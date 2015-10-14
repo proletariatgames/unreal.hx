@@ -32,13 +32,13 @@ class NeedsGlueBuild
       // non-extern type that derives from UObject:
       // change uproperties to call getter/setters
       // warn if constructors are created
-      var thisType = TypeRef.fromBaseType(cls, cls.pos),
-          thisComplex = thisType.toComplexType();
+      var thisType = TypeRef.fromBaseType(cls, cls.pos);
 
       // we need to indirectly reference it since the @:genericBuild cannot have its
       // static fields accessed directly
       var glueRefExpr = macro ue4hx.internal.DelayedGlue.getGlueType();
 
+      var changed = false;
       var superCalls = new Map(),
           uprops = [];
       var nativeCalls = new Map();
@@ -62,12 +62,14 @@ class NeedsGlueBuild
               }
             }
             fn.expr = map(fn.expr);
+            changed = true;
           case _:
           }
         }
         var isUProp = field.meta.hasMeta(':uproperty');
         var isStatic = field.access != null && field.access.has(AStatic);
         if (isUProp) {
+          changed = true;
           switch (field.kind) {
             case FVar(t,e) | FProp('default','default',t,e) if (t != null):
               uprops.push(field.name);
@@ -129,6 +131,7 @@ class NeedsGlueBuild
                 case _:
                   fn.expr = macro { return cast $call; };
                 }
+                changed = true;
                 field.meta.push({ name:':final', params:[], pos:field.pos });
               case macro BlueprintNativeEvent:
                 field.meta.push({ name:':final', params:[], pos:field.pos });
@@ -145,19 +148,15 @@ class NeedsGlueBuild
       cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
       cls.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], cls.pos);
 
-      // add the haxe-side glue helper
-      toAdd.push((macro class {
-        @:extern private static function __internal_typing() {
-          var x : ue4hx.internal.HaxeExposeGen<$thisComplex> = null;
-        };
-      }).fields[0]);
+      // mark to add the haxe-side glue helper
+      Globals.cur.uextensions = Globals.cur.uextensions.add(thisType.getClassPath());
 
       // add the glueRef definition if needed
       for (field in toAdd) fields.push(field);
 
       if (hadErrors)
         Context.error('Unreal Glue Extension: Build failed', cls.pos);
-      if (toAdd.length > 0)
+      if (toAdd.length > 0 || changed)
         return fields;
     }
 

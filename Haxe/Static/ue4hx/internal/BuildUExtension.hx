@@ -9,19 +9,18 @@ using StringTools;
 /**
   Generates the Haxe @:uexpose class which allows Unreal types to access Haxe types
  **/
-class BuildExpose {
+class BuildUExtension {
   public static function build():Type {
     return switch (Context.getLocalType()) {
       case TInst(_, [typeToGen]):
-        new BuildExpose(Context.currentPos()).generate(typeToGen);
+        new BuildUExtension().generate(typeToGen);
       case _:
         throw 'assert';
     }
   }
 
   private var pos:Position;
-  private function new(pos) {
-    this.pos = pos;
+  public function new() {
   }
 
   public function generate(t:Type):Type {
@@ -29,6 +28,7 @@ class BuildExpose {
     case TInst(cl,tl):
       var ctx = null;
       var clt = cl.get();
+      this.pos = clt.pos;
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
           thisConv = TypeConv.get(t, this.pos);
       var nativeUe = thisConv.ueType;
