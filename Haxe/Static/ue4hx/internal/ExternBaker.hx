@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Compiler;
 import haxe.macro.Context;
 import haxe.macro.Expr;

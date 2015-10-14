@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.*;
 import haxe.io.Path;
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -30,8 +31,48 @@ class NativeGlueCode
     mod[file] = true;
   }
 
-  private function write(type:Type, writer:GlueWriter, gluePath:String, module:String) {
-    if (Globals.cur.haxeRuntimeDir == null) return;
+  private function writeHeader(type:Type, writer:HeaderWriter, gluePath:String, module:String) {
+    switch (type) {
+      case TInst(c,tl):
+        var gluePack = gluePath.split('.'),
+            glueName = gluePack.pop();
+        var cl = c.get();
+
+        touch(gluePath, module);
+        var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+        var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
+
+        for (pack in gluePack) {
+          writer.buf.add('namespace $pack {\n');
+        }
+        if (headerDefs.length == 0) {
+          writer.buf.add('class ${glueName}_obj {\n\tpublic:\n');
+        } else {
+          for (headerDef in headerDefs) {
+            writer.buf.add(headerDef);
+          }
+        }
+        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
+          writer.include(inc);
+
+        for (field in cl.statics.get().concat(cl.fields.get())) {
+          var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
+          if (glueHeaderCode != null)
+            writer.buf.add('\t\t$glueHeaderCode\n');
+          for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
+            writer.include(inc);
+        }
+        writer.buf.add('};\n\n');
+
+        for (pack in gluePack) {
+          writer.buf.add('}\n');
+        }
+        writer.close(module == null ? Globals.cur.module : module);
+      case _:
+    }
+  }
+
+  private function writeCpp(type:Type, writer:CppWriter, gluePath:String, module:String) {
     switch (type) {
       case TInst(c,tl):
         var gluePack = gluePath.split('.'),
@@ -41,51 +82,26 @@ class NativeGlueCode
         touch(gluePath, module);
         var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
         var headerPath = '$dir/Generated/Public/${gluePack.join('/')}/${glueName}.h';
-        var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
-        writer.addCppInclude(headerPath);
-        for (pack in gluePack) {
-          writer.wh('namespace $pack {\n');
-        }
-        if (headerDefs.length == 0) {
-          writer.wh('class ${glueName}_obj {\n\tpublic:\n');
-        } else {
-          for (headerDef in headerDefs) {
-            writer.wh(headerDef);
-          }
-        }
-        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
-          writer.addHeaderInclude(inc);
-
+        writer.include(headerPath);
         for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
-          writer.addCppInclude(inc);
+          writer.include(inc);
 
         var cppDefs = MacroHelpers.extractStrings(cl.meta, ':ueCppDef');
         if (cppDefs != null) {
           for (cppDef in cppDefs) {
-            writer.wcpp(cppDef);
-            writer.wcpp('\n');
+            writer.buf.add(cppDef);
+            writer.buf.add('\n');
           }
         }
 
         for (field in cl.statics.get().concat(cl.fields.get())) {
-          var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
-          if (glueHeaderCode != null)
-            writer.wh('\t\t$glueHeaderCode\n');
-          for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
-            writer.addHeaderInclude(inc);
-
           var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
           if (glueCppCode != null)
-            writer.wcpp(glueCppCode);
-          writer.wcpp('\n');
+            writer.buf.add(glueCppCode);
+          writer.buf.add('\n');
           for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
-            writer.addCppInclude(inc);
-        }
-        writer.wh('};\n\n');
-
-        for (pack in gluePack) {
-          writer.wh('}\n');
+            writer.include(inc);
         }
         writer.close(module);
       case _:
@@ -115,8 +131,8 @@ class NativeGlueCode
             this.touch(gluePath, module);
 
             var cppPath = '$baseDir/$glueName.cpp';
-            var writer = new GlueWriter(null, cppPath, gluePath);
-            write(type,writer, gluePath, module);
+            var writer = new CppWriter(cppPath);
+            writeCpp(type, writer, gluePath, module);
           }
           if (cl.meta.has(':uexpose')) {
             // copy the header to the generated folder
@@ -208,8 +224,8 @@ class NativeGlueCode
           }
 
           glueTypes.push(type);
-          var writer = new GlueWriter(headerPath, null, gluePath);
-          write(type, writer, gluePath, module);
+          var writer = new HeaderWriter(headerPath);
+          writeHeader(type, writer, gluePath, module);
         }
       case _:
       }

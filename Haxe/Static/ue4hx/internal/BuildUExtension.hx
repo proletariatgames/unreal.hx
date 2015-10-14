@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -230,6 +231,7 @@ class BuildUExtension {
         });
       }
 
+      Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());
       Context.defineType({
         pack: expose.pack,
         name: expose.name,
@@ -249,6 +251,7 @@ class BuildUExtension {
     var extendsAndImplements = [];
     var ueName = nativeUe.getCppClassName(),
         fileName = nativeUe.withoutPrefix().getCppClassName();
+    // this ueGluePath is later added to gluesToGenerate (before defineType is called)
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
     var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null)

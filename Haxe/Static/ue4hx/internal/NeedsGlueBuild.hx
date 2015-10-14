@@ -15,10 +15,12 @@ class NeedsGlueBuild
     // check version level
     if (!checkedVersion)
       checkBuildVersionLevel();
-    var localClass = Context.getLocalClass();
-    var cls = localClass.get();
+    var localClass = Context.getLocalClass(),
+        cls = localClass.get(),
+        thisType = TypeRef.fromBaseType(cls, cls.pos);
+
     if (cls.meta.has(':ueGluePath')) {
-      Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(localClass.toString());
+      Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(thisType.getClassPath());
     }
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
@@ -32,7 +34,6 @@ class NeedsGlueBuild
       // non-extern type that derives from UObject:
       // change uproperties to call getter/setters
       // warn if constructors are created
-      var thisType = TypeRef.fromBaseType(cls, cls.pos);
 
       // we need to indirectly reference it since the @:genericBuild cannot have its
       // static fields accessed directly

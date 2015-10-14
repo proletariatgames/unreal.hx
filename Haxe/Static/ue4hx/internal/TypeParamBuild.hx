@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import sys.FileSystem;
 import haxe.macro.Expr;
@@ -188,26 +189,22 @@ class TypeParamBuild {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
 
-      var writer = new GlueWriter(null, path, tparam.getClassPath());
-      writer.addCppInclude('<${tparam.getClassPath().replace('.','/')}.h>');
-      writer.addCppInclude('<TypeParamGlue.h>');
+      var writer = new ue4hx.internal.buf.CppWriter(path);
+      writer.include('<${tparam.getClassPath().replace('.','/')}.h>');
+      writer.include('<TypeParamGlue.h>');
       var ueType = this.tconv.ueType.getCppType();
       var cppName = tparam.getCppClass();
 
       if (this.tconv.glueCppIncludes != null) {
         for (inc in this.tconv.glueCppIncludes)
-          writer.addCppInclude(inc);
-      }
-      if (this.tconv.glueHeaderIncludes != null) {
-        for (inc in this.tconv.glueHeaderIncludes)
-          writer.addHeaderInclude(inc);
+          writer.include(inc);
       }
 
-      writer.wcpp('template<>\n$ueType TypeParamGlue<$ueType>::haxeToUe(void *haxe) {\n');
-        writer.wcpp('\treturn ${this.tconv.glueToUe( cppName + '::haxeToGlue(haxe)', null )};\n}\n\n');
-      writer.wcpp('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
-        writer.wcpp('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
-      writer.close();
+      writer.buf.add('template<>\n$ueType TypeParamGlue<$ueType>::haxeToUe(void *haxe) {\n');
+        writer.buf.add('\treturn ${this.tconv.glueToUe( cppName + '::haxeToGlue(haxe)', null )};\n}\n\n');
+      writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
+        writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
+      writer.close(Globals.cur.module);
       Context.defineType(cls);
     }
   }

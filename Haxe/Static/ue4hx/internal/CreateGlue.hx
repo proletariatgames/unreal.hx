@@ -31,7 +31,11 @@ class CreateGlue {
     var cur = Globals.cur;
 
     // main build loop. all build-sensitive types are here
-    while (cur.uextensions != null) {
+    while (
+      cur.uextensions != null ||
+      cur.gluesToGenerate != null
+    ) {
+
       var uextensions = cur.uextensions;
       cur.uextensions = null;
       while (uextensions != null) {
@@ -39,6 +43,15 @@ class CreateGlue {
         uextensions = uextensions.next;
         var type = Context.getType(uext);
         new BuildUExtension().generate(type);
+      }
+
+      var glues = cur.gluesToGenerate;
+      cur.gluesToGenerate = null;
+      while (glues != null) {
+        var glue = glues.value;
+        glues = glues.next;
+
+        var type = Context.getType(glue);
       }
     }
   }

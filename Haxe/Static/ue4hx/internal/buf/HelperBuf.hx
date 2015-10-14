@@ -1,4 +1,4 @@
-package ue4hx.internal;
+package ue4hx.internal.buf;
 
 @:forward abstract HelperBuf(StringBuf) from StringBuf to StringBuf {
   inline public function new() {

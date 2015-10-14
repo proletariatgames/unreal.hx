@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.HelperBuf;
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -142,8 +143,10 @@ class DelayedGlue {
       var dglue = new DelayedGlue(cls,pos);
       Globals.cur.buildingGlueTypes[path] = dglue;
       dglue.build();
-      if (Globals.cur.buildingGlueTypes[path] == dglue)
+      if (Globals.cur.buildingGlueTypes[path] == dglue) {
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
+        Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(path);
+      }
       Globals.cur.builtGlueTypes[path] = true;
       Globals.cur.buildingGlueTypes[path] = null;
     }
