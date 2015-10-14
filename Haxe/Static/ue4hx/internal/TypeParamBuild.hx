@@ -114,10 +114,10 @@ class TypeParamBuild {
         }
       };
 
-      var includeLocation = NativeGlueCode.haxeRuntimeDir.replace('\\','/') + '/Generated/TypeParamGlue.h';
+      var includeLocation = Globals.cur.haxeRuntimeDir.replace('\\','/') + '/Generated/TypeParamGlue.h';
 
       var cppCode = new HelperBuf();
-      var module = NativeGlueCode.module;
+      var module = Globals.cur.module;
       cppCode += '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
       // get the concrete type
       var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
@@ -183,7 +183,7 @@ class TypeParamBuild {
       );
 
       // ue type
-      var path = NativeGlueCode.haxeRuntimeDir + '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';
+      var path = Globals.cur.haxeRuntimeDir + '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';
       var dir = haxe.io.Path.directory(path);
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);

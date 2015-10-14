@@ -78,9 +78,9 @@ using StringTools;
   }
 
   private static function typeIsUObject(t:Type) {
-    var uobj = Globals.current.uobject;
+    var uobj = Globals.cur.uobject;
     if (uobj == null) {
-      Globals.current.uobject = uobj = Context.getType('unreal.UObject');
+      Globals.cur.uobject = uobj = Context.getType('unreal.UObject');
     }
     return Context.unify(t, uobj);
   }
@@ -329,7 +329,7 @@ using StringTools;
       glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
       var mod = getMetaArray(meta, ':umodule');
       var module = mod == null ? null : mod[0];
-      var dir = NativeGlueCode.haxeRuntimeDir;
+      var dir = Globals.cur.haxeRuntimeDir;
       if (module != null)
         dir = dir + '/../$module';
 

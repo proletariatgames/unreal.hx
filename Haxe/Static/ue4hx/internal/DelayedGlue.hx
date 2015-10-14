@@ -135,17 +135,17 @@ class DelayedGlue {
     var type = TypeRef.fromBaseType(cls, pos);
     var glue = type.getGlueHelperType();
     var path = glue.getClassPath();
-    if (!Globals.current.builtGlueTypes.exists(path)) {
+    if (!Globals.cur.builtGlueTypes.exists(path)) {
       // This is needed since while building a delayed glue, we may trigger
       // another macro that will try to build the glue once again (since no glue was built yet)
       // We must only build the last build call; all others will be built after this one
       var dglue = new DelayedGlue(cls,pos);
-      Globals.current.buildingGlueTypes[path] = dglue;
+      Globals.cur.buildingGlueTypes[path] = dglue;
       dglue.build();
-      if (Globals.current.buildingGlueTypes[path] == dglue)
+      if (Globals.cur.buildingGlueTypes[path] == dglue)
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
-      Globals.current.builtGlueTypes[path] = true;
-      Globals.current.buildingGlueTypes[path] = null;
+      Globals.cur.builtGlueTypes[path] = true;
+      Globals.cur.buildingGlueTypes[path] = null;
     }
 
     return path;
@@ -165,7 +165,7 @@ class DelayedGlue {
   }
 
   inline private function shouldContinue() {
-    return Globals.current.buildingGlueTypes[ this.gluePath ] == this;
+    return Globals.cur.buildingGlueTypes[ this.gluePath ] == this;
   }
 
   public function build() {

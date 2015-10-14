@@ -158,6 +158,15 @@ class ExternBaker {
     this.thisConv = TypeConv.get(type,c.pos);
 
     this.addDoc(c.doc);
+    var fields = c.fields.get(),
+        statics = c.statics.get();
+    for (field in fields.concat(statics)) {
+      if (field.params.length > 0) {
+        this.buf.add('@:ueHasGenerics ');
+        break;
+      }
+    }
+
     this.addMeta(c.meta.get());
     this.buf.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.isPrivate)
@@ -180,10 +189,10 @@ class ExternBaker {
     }
     var methods = [];
     this.begin('{');
-      for (field in c.statics.get()) {
+      for (field in statics) {
         processField(field,true, methods);
       }
-      for (field in c.fields.get()) {
+      for (field in fields) {
         processField(field,false, methods);
       }
 

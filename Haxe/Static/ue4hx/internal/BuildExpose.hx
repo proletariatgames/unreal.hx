@@ -285,7 +285,7 @@ class BuildExpose {
 
     var targetModule = MacroHelpers.extractStrings(clt.meta, ':umodule')[0];
     if (targetModule == null)
-      targetModule = NativeGlueCode.module;
+      targetModule = Globals.cur.module;
 
     var headerDef = new StringBuf(),
         cppDef = new StringBuf();

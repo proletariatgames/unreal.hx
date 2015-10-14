@@ -17,6 +17,7 @@ using StringTools;
 class HaxeModuleRules extends BaseModuleRules
 {
   private static var disabled:Bool = false;
+  private static var VERSION_LEVEL = 1;
 
   override private function config(target:TargetInfo, firstRun:Bool)
   {
@@ -83,16 +84,16 @@ class HaxeModuleRules extends BaseModuleRules
           '--macro ue4hx.internal.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedGameDir/Haxe/Externs"], $forceCreateExterns)'
         ];
         trace('baking externs');
-        var ret = compileSources('bake-externs', null, bakeArgs);
+        var ret = compileSources('bake-externs', bakeArgs);
 
         // compileSource('bake-externs',
         // get all modules that need to be compiled
-        var modules = [];
-        getModules("Static", modules);
-        if (isProduction) getModules("Scripts", modules);
+        var modulePaths = ['$gameDir/Haxe/Static'];
+        if (isProduction) modulePaths.push('$gameDir/Haxe/Scripts');
+        modulePaths = [ for (path in modulePaths) '"' + path.replace('\\','/') + '"' ]; // windows backslashs
         var curSourcePath = Path.GetFullPath('$modulePath/..');
         // compile static
-        if (ret == 0 && modules.length > 0)
+        if (ret == 0)
         {
           var curStamp:Null<Date> = null;
           if (exists(outputStatic))
@@ -115,6 +116,7 @@ class HaxeModuleRules extends BaseModuleRules
             '-D haxe_runtime_dir=$curSourcePath',
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
+            '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
           ];
 
           switch (target.Platform) {
@@ -175,7 +177,8 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (extraArgs != null)
             args = args.concat(extraArgs);
-          var ret = compileSources(isCrossCompiling ? null : 'build-static', modules, args);
+          trace(Sys.getCwd());
+          var ret = compileSources(isCrossCompiling ? null : 'build-static', args);
 
           if (oldEnvs != null)
             setEnvs(oldEnvs);
@@ -285,8 +288,9 @@ class HaxeModuleRules extends BaseModuleRules
     return oldEnvs;
   }
 
-  private function compileSources(name:Null<String>, modules:Array<String>, args:Array<String>, ?realOutput:String)
+  private function compileSources(name:Null<String>, args:Array<String>, ?realOutput:String)
   {
+    args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
     if (name != null) {
       var hxml = new StringBuf();
       hxml.add('# this file is here for convenience only (e.g. to make your IDE work or to compile without invoking UE4 Build)\n');
@@ -316,14 +320,8 @@ class HaxeModuleRules extends BaseModuleRules
       }
       cmdArgs.push(arg);
     }
-    if (modules != null) {
-      var tmpPath = '$gameDir/Intermediate';
-      if (!exists(tmpPath)) createDirectory(tmpPath);
-      File.saveContent('$tmpPath/files.hxml', modules.join('\n'));
-      cmdArgs = ['--cwd', haxeSourcesPath, '$tmpPath/files.hxml'].concat(cmdArgs);
-    }
+    cmdArgs = ['--cwd', haxeSourcesPath].concat(cmdArgs);
 
-    //TODO: add arguments based on TargetInfo (ios, 32-bit, etc)
     return call('haxe', cmdArgs, true);
   }
 

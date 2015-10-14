@@ -9,14 +9,18 @@ using haxe.macro.Tools;
 
 class NeedsGlueBuild
 {
-  static var firstCompilation = true;
-  static var hasRun = false;
+  static var checkedVersion = false;
   public static function build():Array<Field>
   {
-    registerMacroCalls();
-
+    // check version level
+    if (!checkedVersion)
+      checkBuildVersionLevel();
     var localClass = Context.getLocalClass();
     var cls = localClass.get();
+    if (cls.meta.has(':ueGluePath')) {
+      Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(localClass.toString());
+    }
+
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
@@ -140,6 +144,7 @@ class NeedsGlueBuild
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
       cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
       cls.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], cls.pos);
+
       // add the haxe-side glue helper
       toAdd.push((macro class {
         @:extern private static function __internal_typing() {
@@ -152,32 +157,24 @@ class NeedsGlueBuild
 
       if (hadErrors)
         Context.error('Unreal Glue Extension: Build failed', cls.pos);
-      return fields;
+      if (toAdd.length > 0)
+        return fields;
     }
 
     return null;
   }
 
-  /**
-    Registers onGenerate handler once per compilation
-   **/
-  public static function registerMacroCalls() {
-    if (hasRun) return;
-    hasRun = true;
-    if (firstCompilation) {
-      firstCompilation = false;
-      Context.onMacroContextReused(function() {
-        trace('reusing macro context');
-        hasRun = false;
-        return true;
-      });
+  static function checkBuildVersionLevel() {
+    // we need this since we might make some breaking changes on the build system
+    // that may need a manual recompilation of BuildTool
+    // this function will check if we are running in a compatible build version level
+    // and error if we don't
+    checkedVersion = true;
+
+    var buildVer = haxe.macro.Compiler.getDefine('BUILDTOOL_VERSION_LEVEL');
+    if (buildVer == null || Std.parseInt(buildVer) < Globals.MIN_BUILDTOOL_VERSION_LEVEL) {
+      var pos = Context.makePosition({ file: 'UE4Haxe Toolchain', min:0, max:0 });
+      Context.fatalError('You have an incompatible build tool build. Please rebuild it by running `haxe init-plugin.hxml` on the plugin directory', pos);
     }
-    Globals.reset();
-    var nativeGlue = new NativeGlueCode();
-    Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
-    // seems like Haxe macro interpreter has a problem with void member closures,
-    // so we need this function definition
-    Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
-    haxe.macro.Compiler.include('unreal.helpers');
   }
 }

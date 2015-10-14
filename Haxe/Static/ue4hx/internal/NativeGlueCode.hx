@@ -19,52 +19,19 @@ class NativeGlueCode
   private var glueTypes:Array<Type>;
   private var touchedModules:Map<String,Map<String, Bool>>;
 
-  @:isVar public static var haxeRuntimeDir(get,null):String;
-  public static var module(get,null):String;
-
-  private static function get_haxeRuntimeDir() {
-    if (haxeRuntimeDir != null)
-      return haxeRuntimeDir;
-
-    setHaxeRuntimeDir();
-    return haxeRuntimeDir;
-  }
-
-  private static function get_module() {
-    var ret = haxeRuntimeDir.replace('\\','/');
-    while (ret.endsWith('/'))
-      ret = ret.substr(0,-1);
-    return ret.substr(ret.lastIndexOf('/')+1);
-  }
-
-  private static function setHaxeRuntimeDir() {
-    var dir = haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
-
-#if !bake_externs
-    if (dir == null) {
-      Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
-    }
-    else
-#end
-    {
-      haxeRuntimeDir = FileSystem.fullPath(dir);
-    }
-  }
-
   public function new() {
-    setHaxeRuntimeDir();
     this.touchedModules = new Map();
   }
 
   private function touch(file:String, ?module:String) {
-    if (module == null) module = NativeGlueCode.module;
+    if (module == null) module = Globals.cur.module;
     var mod = this.touchedModules[module];
     if (mod == null) this.touchedModules[module] = mod = new Map();
     mod[file] = true;
   }
 
   private function write(type:Type, writer:GlueWriter, gluePath:String, module:String) {
-    if (haxeRuntimeDir == null) return;
+    if (Globals.cur.haxeRuntimeDir == null) return;
     switch (type) {
       case TInst(c,tl):
         var gluePack = gluePath.split('.'),
@@ -72,7 +39,7 @@ class NativeGlueCode
         var cl = c.get();
 
         touch(gluePath, module);
-        var dir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
+        var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
         var headerPath = '$dir/Generated/Public/${gluePack.join('/')}/${glueName}.h';
         var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
@@ -126,7 +93,7 @@ class NativeGlueCode
   }
 
   public function onAfterGenerate() {
-    if (haxeRuntimeDir == null) return;
+    if (Globals.cur.haxeRuntimeDir == null) return;
     var modules = new Map();
     var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (type in glueTypes) {
@@ -140,7 +107,7 @@ class NativeGlueCode
 
             var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
             var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
-            var targetDir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
+            var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
             var gluePack = gluePath.split('.'),
                 glueName = gluePack.pop();
             var baseDir = '$targetDir/Generated/Private/${gluePack.join('/')}';
@@ -158,7 +125,7 @@ class NativeGlueCode
             var path = c.toString().replace('.','/');
 
             var headerPath = '$cppTarget/include/${path}.h';
-            var targetPath = '$haxeRuntimeDir/Generated/Public/$path.h';
+            var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
             var dir = Path.directory(targetPath);
             if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
 
@@ -171,9 +138,9 @@ class NativeGlueCode
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('$haxeRuntimeDir/Generated/Data'))
-      FileSystem.createDirectory('$haxeRuntimeDir/Generated/Data');
-    var mfile = sys.io.File.write('$haxeRuntimeDir/Generated/Data/modules.txt');
+    if (!FileSystem.exists('${Globals.cur.haxeRuntimeDir}/Generated/Data'))
+      FileSystem.createDirectory('${Globals.cur.haxeRuntimeDir}/Generated/Data');
+    var mfile = sys.io.File.write('${Globals.cur.haxeRuntimeDir}/Generated/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }
@@ -194,14 +161,14 @@ class NativeGlueCode
     }
     for (key in this.touchedModules.keys()) {
       touched = this.touchedModules[key];
-      recurse(haxeRuntimeDir + '/../$key/Generated/Public', '', 'h');
-      recurse(haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp');
+      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Public', '', 'h');
+      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp');
     }
   }
 
   public function onGenerate(types:Array<Type>) {
     glueTypes = [];
-    if (haxeRuntimeDir == null) return;
+    if (Globals.cur.haxeRuntimeDir == null) return;
 
     for (type in types) {
       switch(type) {
@@ -219,7 +186,7 @@ class NativeGlueCode
           var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
           this.touch(gluePath, module);
 
-          var targetDir = module == null ? haxeRuntimeDir : haxeRuntimeDir + '/../$module';
+          var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
           var gluePack = gluePath.split('.'),
               glueName = gluePack.pop();
           var baseDir = '$targetDir/Generated/Public/${gluePack.join('/')}';
