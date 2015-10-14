@@ -17,11 +17,13 @@ using StringTools;
 class NativeGlueCode
 {
 
-  private var glueTypes:Array<Type>;
+  private var glueTypes:Array<ClassType>;
   private var touchedModules:Map<String,Map<String, Bool>>;
+  private var modules:Map<String,Bool>;
 
   public function new() {
     this.touchedModules = new Map();
+    this.modules = new Map();
   }
 
   private function touch(file:String, ?module:String) {
@@ -31,125 +33,145 @@ class NativeGlueCode
     mod[file] = true;
   }
 
-  private function writeHeader(type:Type, writer:HeaderWriter, gluePath:String, module:String) {
-    switch (type) {
-      case TInst(c,tl):
-        var gluePack = gluePath.split('.'),
-            glueName = gluePack.pop();
-        var cl = c.get();
+  private function writeHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, module:String) {
+    var gluePack = gluePath.split('.'),
+        glueName = gluePack.pop();
 
-        touch(gluePath, module);
-        var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
-        var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
+    touch(gluePath, module);
+    var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+    var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
-        for (pack in gluePack) {
-          writer.buf.add('namespace $pack {\n');
-        }
-        if (headerDefs.length == 0) {
-          writer.buf.add('class ${glueName}_obj {\n\tpublic:\n');
-        } else {
-          for (headerDef in headerDefs) {
-            writer.buf.add(headerDef);
-          }
-        }
-        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
-          writer.include(inc);
-
-        for (field in cl.statics.get().concat(cl.fields.get())) {
-          var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
-          if (glueHeaderCode != null)
-            writer.buf.add('\t\t$glueHeaderCode\n');
-          for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
-            writer.include(inc);
-        }
-        writer.buf.add('};\n\n');
-
-        for (pack in gluePack) {
-          writer.buf.add('}\n');
-        }
-        writer.close(module == null ? Globals.cur.module : module);
-      case _:
+    for (pack in gluePack) {
+      writer.buf.add('namespace $pack {\n');
     }
+    if (headerDefs.length == 0) {
+      writer.buf.add('class ${glueName}_obj {\n\tpublic:\n');
+    } else {
+      for (headerDef in headerDefs) {
+        writer.buf.add(headerDef);
+      }
+    }
+    for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
+      writer.include(inc);
+
+    for (field in cl.statics.get().concat(cl.fields.get())) {
+      var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
+      if (glueHeaderCode != null)
+        writer.buf.add('\t\t$glueHeaderCode\n');
+      for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
+        writer.include(inc);
+    }
+    writer.buf.add('};\n\n');
+
+    for (pack in gluePack) {
+      writer.buf.add('}\n');
+    }
+    writer.close(module == null ? Globals.cur.module : module);
   }
 
-  private function writeCpp(type:Type, writer:CppWriter, gluePath:String, module:String) {
-    switch (type) {
-      case TInst(c,tl):
-        var gluePack = gluePath.split('.'),
-            glueName = gluePack.pop();
-        var cl = c.get();
+  private function writeCpp(cl:ClassType, writer:CppWriter, gluePath:String, module:String) {
+    var gluePack = gluePath.split('.'),
+        glueName = gluePack.pop();
 
-        touch(gluePath, module);
-        var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
-        var headerPath = '$dir/Generated/Public/${gluePack.join('/')}/${glueName}.h';
+    touch(gluePath, module);
+    var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+    var headerPath = '$dir/Generated/Public/${gluePack.join('/')}/${glueName}.h';
 
-        writer.include(headerPath);
-        for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
-          writer.include(inc);
+    writer.include(headerPath);
+    for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
+      writer.include(inc);
 
-        var cppDefs = MacroHelpers.extractStrings(cl.meta, ':ueCppDef');
-        if (cppDefs != null) {
-          for (cppDef in cppDefs) {
-            writer.buf.add(cppDef);
-            writer.buf.add('\n');
-          }
-        }
-
-        for (field in cl.statics.get().concat(cl.fields.get())) {
-          var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
-          if (glueCppCode != null)
-            writer.buf.add(glueCppCode);
-          writer.buf.add('\n');
-          for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
-            writer.include(inc);
-        }
-        writer.close(module);
-      case _:
+    var cppDefs = MacroHelpers.extractStrings(cl.meta, ':ueCppDef');
+    if (cppDefs != null) {
+      for (cppDef in cppDefs) {
+        writer.buf.add(cppDef);
+        writer.buf.add('\n');
+      }
     }
+
+    for (field in cl.statics.get().concat(cl.fields.get())) {
+      var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
+      if (glueCppCode != null)
+        writer.buf.add(glueCppCode);
+      writer.buf.add('\n');
+      for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
+        writer.include(inc);
+    }
+    writer.close(module);
+  }
+
+  public function writeGlueCpp(cl:ClassType) {
+    for (module in MacroHelpers.extractStrings(cl.meta, ':umodule')) {
+      modules[module] = true;
+    }
+
+    var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
+    var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
+    var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+    var gluePack = gluePath.split('.'),
+    glueName = gluePack.pop();
+    var baseDir = '$targetDir/Generated/Private/${gluePack.join('/')}';
+    if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+    this.touch(gluePath, module);
+
+    var cppPath = '$baseDir/$glueName.cpp';
+    var writer = new CppWriter(cppPath);
+    writeCpp(cl, writer, gluePath, module);
+  }
+
+  public function writeGlueHeader(cl:ClassType) {
+    var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
+    var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
+    this.touch(gluePath, module);
+
+    var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+    var gluePack = gluePath.split('.'),
+        glueName = gluePack.pop();
+    var baseDir = '$targetDir/Generated/Public/${gluePack.join('/')}';
+    if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
+    var headerPath = '$baseDir/${glueName}.h';
+    // C++ doesn't like Windows forward slashes
+    headerPath = headerPath.replace('\\','/');
+
+    try {
+      switch (Context.follow(Context.getType(gluePath))) {
+      case TInst(glueClassRef,_):
+        var glueClass = glueClassRef.get();
+        glueClass.meta.add(':include', [macro $v{headerPath}], cl.pos);
+      case _: throw 'assert: $gluePath is not a class';
+      }
+    }
+    catch(e:Dynamic) {
+      // the glue type doesn't exist: this happens when extending a UE4 class
+    }
+
+    glueTypes.push(cl);
+    var writer = new HeaderWriter(headerPath);
+    writeHeader(cl, writer, gluePath, module);
   }
 
   public function onAfterGenerate() {
     if (Globals.cur.haxeRuntimeDir == null) return;
-    var modules = new Map();
     var cppTarget:String = haxe.macro.Compiler.getOutput();
-    for (type in glueTypes) {
-      switch(type) {
-        case TInst(c,tl):
-          var cl = c.get();
-          if (cl.meta.has(':ueGluePath')) {
-            for (module in MacroHelpers.extractStrings(cl.meta, ':umodule')) {
-              modules[module] = true;
-            }
+    for (cl in glueTypes) {
+      if (cl.meta.has(':ueGluePath')) {
+        writeGlueCpp(cl);
+      }
+      if (cl.meta.has(':uexpose')) {
+        // copy the header to the generated folder
+        var path = TypeRef.fromBaseType(cl, cl.pos).getClassPath();
+        this.touch(path);
+        var ref = TypeRef.parseClassName(path);
+        var path = path.replace('.','/');
 
-            var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
-            var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
-            var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
-            var gluePack = gluePath.split('.'),
-                glueName = gluePack.pop();
-            var baseDir = '$targetDir/Generated/Private/${gluePack.join('/')}';
-            if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-            this.touch(gluePath, module);
+        var headerPath = '$cppTarget/include/${path}.h';
+        var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
+        var dir = Path.directory(targetPath);
+        if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
 
-            var cppPath = '$baseDir/$glueName.cpp';
-            var writer = new CppWriter(cppPath);
-            writeCpp(type, writer, gluePath, module);
-          }
-          if (cl.meta.has(':uexpose')) {
-            // copy the header to the generated folder
-            this.touch(c.toString());
-            var ref = TypeRef.parseClassName( c.toString() );
-            var path = c.toString().replace('.','/');
-
-            var headerPath = '$cppTarget/include/${path}.h';
-            var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
-            var dir = Path.directory(targetPath);
-            if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
-
-            var contents = File.getContent(headerPath);
-            if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
-              File.saveContent(targetPath, contents);
-          }
-        case _:
+        var contents = File.getContent(headerPath);
+        if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
+          File.saveContent(targetPath, contents);
       }
     }
 
@@ -183,7 +205,7 @@ class NativeGlueCode
   }
 
   public function onGenerate(types:Array<Type>) {
-    glueTypes = [];
+    this.glueTypes = [];
     if (Globals.cur.haxeRuntimeDir == null) return;
 
     for (type in types) {
@@ -194,38 +216,10 @@ class NativeGlueCode
         if (cl.meta.has(':uexpose')) {
           cl.meta.add(':keep', [], cl.pos);
           cl.meta.add(':nativeGen', [], cl.pos);
-          glueTypes.push(type);
+          glueTypes.push(cl);
         }
         if (cl.meta.has(':ueGluePath')) {
-          var cl = c.get();
-          var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
-          var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
-          this.touch(gluePath, module);
-
-          var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
-          var gluePack = gluePath.split('.'),
-              glueName = gluePack.pop();
-          var baseDir = '$targetDir/Generated/Public/${gluePack.join('/')}';
-          if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-          var headerPath = '$baseDir/${glueName}.h';
-          // C++ doesn't like Windows forward slashes
-          headerPath = headerPath.replace('\\','/');
-
-          try {
-            switch (Context.follow(Context.getType(gluePath))) {
-            case TInst(glueClassRef,_):
-              var glueClass = glueClassRef.get();
-              glueClass.meta.add(':include', [macro $v{headerPath}], cl.pos);
-            case _: throw 'assert: $typeName ($gluePath is not a class)';
-            }
-          }
-          catch(e:Dynamic) {
-            // the glue type doesn't exist: this happens when extending a UE4 class
-          }
-
-          glueTypes.push(type);
-          var writer = new HeaderWriter(headerPath);
-          writeHeader(type, writer, gluePath, module);
+          writeGlueHeader(cl);
         }
       case _:
       }

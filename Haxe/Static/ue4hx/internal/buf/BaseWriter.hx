@@ -20,9 +20,6 @@ class BaseWriter {
   }
 
   public function include(inc:String) {
-    if (inc == '') {
-      throw 'arg';
-    }
     if (!includeMap.exists(inc)) {
       this.includes.push(inc);
       this.includeMap[inc] = true;
