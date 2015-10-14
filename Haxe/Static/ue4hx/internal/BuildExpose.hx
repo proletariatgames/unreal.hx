@@ -61,6 +61,9 @@ class BuildExpose {
 
       var buildFields = [];
       for (field in toExpose) {
+        var uname = MacroHelpers.extractStrings(field.cf.meta, ':uname')[0];
+        if (uname == null)
+          uname = field.cf.name;
         var callExpr = if (field.type.isStatic())
           typeRef.getClassPath() + '.' + field.cf.name + '(';
         else
@@ -79,8 +82,8 @@ class BuildExpose {
         var ret = field.ret.ueType.getCppType().toString();
 
         var implementCpp = true,
-            name = field.cf.name,
-            cppName = name;
+            name = uname,
+            cppName = uname;
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null) {
           headerDef = headerDef + 'UFUNCTION(';
@@ -183,6 +186,9 @@ class BuildExpose {
         var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
         var glueHeaderIncs = new Map();
         for (uprop in uprops) {
+          var uname = MacroHelpers.extractStrings(uprop.meta, ':uname')[0];
+          if (uname == null)
+            uname = uprop.name;
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
           data.add('UPROPERTY(');
@@ -196,7 +202,7 @@ class BuildExpose {
             }
           }
           headerCode += data + ')\n\t\t';
-          headerCode += tconv.ueType.getCppType(null) + ' ' + uprop.name + ';';
+          headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
           if (tconv.glueCppIncludes != null) {
             for (inc in tconv.glueCppIncludes)
@@ -236,11 +242,6 @@ class BuildExpose {
     case _:
       throw new Error('Unreal Haxe Glue: Type $t not supported', Context.currentPos());
     }
-  }
-
-  public static function getNativeUeName(clt:ClassType) {
-    // TODO: add A/U/F prefix
-    return clt.name;
   }
 
   private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Array<String>, metas:Metadata):{ hasHaxeSuper:Bool } {

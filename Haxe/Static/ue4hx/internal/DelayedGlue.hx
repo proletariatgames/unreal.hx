@@ -287,6 +287,9 @@ class DelayedGlue {
     var glue = this.typeRef.getGlueHelperType();
     var headerDef = new HelperBuf(),
         cppDef = new HelperBuf();
+    var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
+    if (uname == null)
+      uname = field.name;
     for (mode in ['get','set']) {
       var ret = null;
       if (mode == 'get') {
@@ -313,9 +316,9 @@ class DelayedGlue {
 
       var cppBody = new HelperBuf();
       if (isStatic) {
-        cppBody = cppBody + this.thisConv.ueType.getCppClass() + '::' + field.name;
+        cppBody = cppBody + this.thisConv.ueType.getCppClass() + '::' + uname;
       } else {
-        cppBody = cppBody + this.thisConv.glueToUe('self', null) + '->' + field.name;
+        cppBody = cppBody + this.thisConv.glueToUe('self', null) + '->' + uname;
       }
 
       if (mode == 'get')
@@ -349,6 +352,9 @@ class DelayedGlue {
   }
 
   private function handleNativeCall(field:ClassField, isStatic:Bool) {
+    var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
+    if (uname == null)
+      uname = field.name;
     var ctx = null;
     var args = null, ret = null;
     switch( Context.follow(field.type) ) {
@@ -384,7 +390,7 @@ class DelayedGlue {
         cppBody += this.thisConv.ueType.getCppClass() + '::';
       else
         cppBody += this.thisConv.glueToUe('self', null) + '->';
-      cppBody += field.name + '(';
+      cppBody += uname + '(';
       cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
       cppBody += ')';
       if (!ret.haxeType.isVoid())
@@ -416,6 +422,9 @@ class DelayedGlue {
   }
 
   private function handleSuperCall(field:ClassField, superField:ClassField) {
+    var uname = MacroHelpers.extractStrings(superField.meta, ':uname')[0];
+    if (uname == null)
+      uname = superField.name;
     var ctx = null;
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
@@ -446,7 +455,7 @@ class DelayedGlue {
 
     // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
     {
-      var cppBody = new HelperBuf() + this.thisConv.glueToUe('self', null) + '->' + this.firstExternSuper.ueType.getCppClass() + '::' + superField.name + '(';
+      var cppBody = new HelperBuf() + this.thisConv.glueToUe('self', null) + '->' + this.firstExternSuper.ueType.getCppClass() + '::' + uname + '(';
       cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
       cppBody += ')';
       if (!ret.haxeType.isVoid())
