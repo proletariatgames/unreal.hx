@@ -26,7 +26,7 @@ import unreal.helpers.HaxeHelpers;
 @:ueGluePath("unreal.helpers.FName_Glue")
 @:glueCppIncludes("Engine.h")
 @:glueHeaderIncludes("<unreal/helpers/UEPointer.h>")
-class FName_Helper {
+class FName_Helper implements ue4hx.internal.NeedsGlue {
 #if !bake_externs
   @:glueHeaderCode('static ::unreal::helpers::UEPointer *from_string(void *str);')
   @:glueCppCode('::unreal::helpers::UEPointer *unreal::helpers::FName_Glue_obj::from_string(void *str) {\n\treturn new PHaxeCreated<FName>(new FName(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(str))));\n}')

@@ -17,13 +17,14 @@ using StringTools;
 class NativeGlueCode
 {
 
-  private var glueTypes:Array<ClassType>;
+  private var glueTypes:Map<String, ClassType>;
   private var touchedModules:Map<String,Map<String, Bool>>;
   private var modules:Map<String,Bool>;
 
   public function new() {
     this.touchedModules = new Map();
     this.modules = new Map();
+    this.glueTypes = new Map();
   }
 
   private function touch(file:String, ?module:String) {
@@ -145,7 +146,7 @@ class NativeGlueCode
       // the glue type doesn't exist: this happens when extending a UE4 class
     }
 
-    glueTypes.push(cl);
+    glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
     var writer = new HeaderWriter(headerPath);
     writeHeader(cl, writer, gluePath, module);
   }
@@ -205,7 +206,6 @@ class NativeGlueCode
   }
 
   public function onGenerate(types:Array<Type>) {
-    this.glueTypes = [];
     if (Globals.cur.haxeRuntimeDir == null) return;
 
     for (type in types) {
@@ -216,9 +216,9 @@ class NativeGlueCode
         if (cl.meta.has(':uexpose')) {
           cl.meta.add(':keep', [], cl.pos);
           cl.meta.add(':nativeGen', [], cl.pos);
-          glueTypes.push(cl);
+          glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
         }
-        if (cl.meta.has(':ueGluePath')) {
+        if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
           writeGlueHeader(cl);
         }
       case _:

@@ -30,11 +30,11 @@ class CreateGlue {
     // once we get here, we've built everything we need
     var cur = Globals.cur;
 
+    var nativeGlue = new NativeGlueCode();
     // main build loop. all build-sensitive types are here
     while (
       cur.uextensions != null ||
-      cur.gluesToGenerate != null
-    ) {
+      cur.gluesToGenerate != null) {
 
       var uextensions = cur.uextensions;
       cur.uextensions = null;
@@ -52,8 +52,20 @@ class CreateGlue {
         glues = glues.next;
 
         var type = Context.getType(glue);
+        switch(type) {
+        case TInst(c,_):
+          nativeGlue.writeGlueHeader(c.get());
+        case _:
+          throw 'assert';
+        }
       }
+
     }
+
+    Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
+    // seems like Haxe macro interpreter has a problem with void member closures,
+    // so we need this function definition
+    Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
   }
 
   private static function getModules(path:String, modules:Array<String>)
@@ -89,11 +101,6 @@ class CreateGlue {
     }
     Globals.reset();
     Globals.cur.setHaxeRuntimeDir();
-    var nativeGlue = new NativeGlueCode();
-    Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
-    // seems like Haxe macro interpreter has a problem with void member closures,
-    // so we need this function definition
-    Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
     haxe.macro.Compiler.include('unreal.helpers');
   }
 }

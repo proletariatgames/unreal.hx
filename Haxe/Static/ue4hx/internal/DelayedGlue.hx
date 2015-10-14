@@ -145,7 +145,7 @@ class DelayedGlue {
       dglue.build();
       if (Globals.cur.buildingGlueTypes[path] == dglue) {
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
-        Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(path);
+        Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(type.getClassPath());
       }
       Globals.cur.builtGlueTypes[path] = true;
       Globals.cur.buildingGlueTypes[path] = null;
