@@ -8,5 +8,7 @@ package unreal;
   // @:UPROPERTY private var bEditable:Bool;
   public var PrimaryActorTick:PStruct<FActorTickFunction>;
 
+  public function Tick(DeltaSeconds:Float32) : Void;
+
   // public function ActorHasTag(tag:FName):Bool;
 }
