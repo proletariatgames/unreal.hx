@@ -10,11 +10,11 @@ using StringTools;
 /**
   Generates the Haxe @:uexpose class which allows Unreal types to access Haxe types
  **/
-class BuildUExtension {
+class UExtensionBuild {
   public static function build():Type {
     return switch (Context.getLocalType()) {
       case TInst(_, [typeToGen]):
-        new BuildUExtension().generate(typeToGen);
+        new UExtensionBuild().generate(typeToGen);
       case _:
         throw 'assert';
     }

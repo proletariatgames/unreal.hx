@@ -31,7 +31,9 @@ class CreateGlue {
     var cur = Globals.cur;
 
     var nativeGlue = new NativeGlueCode();
-    // main build loop. all build-sensitive types are here
+
+    // main build loop. all build-sensitive types will be continously be built
+    // until there's nothing else to be built
     while (
       cur.uextensions != null ||
       cur.gluesToGenerate != null) {
@@ -42,7 +44,7 @@ class CreateGlue {
         var uext = uextensions.value;
         uextensions = uextensions.next;
         var type = Context.getType(uext);
-        new BuildUExtension().generate(type);
+        new UExtensionBuild().generate(type);
       }
 
       var glues = cur.gluesToGenerate;
@@ -54,12 +56,14 @@ class CreateGlue {
         var type = Context.getType(glue);
         switch(type) {
         case TInst(c,_):
-          nativeGlue.writeGlueHeader(c.get());
+          var cl = c.get();
+          if (cl.meta.has(':ueHasGenerics'))
+            new GenericBuild().buildFunctions(cl);
+          nativeGlue.writeGlueHeader(cl);
         case _:
           throw 'assert';
         }
       }
-
     }
 
     Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );

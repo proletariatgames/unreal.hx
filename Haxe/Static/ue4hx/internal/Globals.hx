@@ -55,7 +55,6 @@ class Globals {
   public var buildingGlueTypes:Map<String,DelayedGlue> = new Map();
   public var uobject:Type;
   public var gluesToGenerate:Lst<String>;
-  public var genericTypes:Lst<String>;
   public var uextensions:Lst<String>;
 
   function new() {
