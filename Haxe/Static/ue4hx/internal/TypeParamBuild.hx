@@ -19,7 +19,7 @@ class TypeParamBuild {
   }
 
   public static function ensureBuilt(typeToGen:Type, pos:Position, allowPartial:Bool):Type {
-    var ret = switch (Context.getType('ue4hx.internal.AnyTypeParam')) {
+    var ret = switch (Context.getType('unreal.TypeParam')) {
       case TAbstract(a,tl):
         TAbstract(a,[typeToGen]);
       case _:
@@ -114,11 +114,11 @@ class TypeParamBuild {
         }
       };
 
-      var includeLocation = NativeGlueCode.haxeRuntimeDir.replace('\\','/') + '/Generated/TypeParam.h';
+      var includeLocation = NativeGlueCode.haxeRuntimeDir.replace('\\','/') + '/Generated/TypeParamGlue.h';
 
       var cppCode = new HelperBuf();
       var module = NativeGlueCode.module;
-      cppCode += '#ifndef TypeParam_h_included__\n#include "$includeLocation"\n#endif\n\n';
+      cppCode += '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
       // get the concrete type
       var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
       hxType = switch (hxType.pack) {
@@ -138,9 +138,9 @@ class TypeParamBuild {
 
       var cppName = tparam.getCppClass();
 
-      cppCode += 'template<>\n$hxType TypeParam<$hxType>::haxeToUe(void *haxe) {\n';
+      cppCode += 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
         cppCode += '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
-      cppCode += 'template<>\nvoid *TypeParam<$hxType>::ueToHaxe($hxType ue) {\n';
+      cppCode += 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
         cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
       cls.name = tparam.name;
       cls.pack = tparam.pack;
@@ -190,7 +190,7 @@ class TypeParamBuild {
 
       var writer = new GlueWriter(null, path, tparam.getClassPath());
       writer.addCppInclude('<${tparam.getClassPath().replace('.','/')}.h>');
-      writer.addCppInclude('<TypeParam.h>');
+      writer.addCppInclude('<TypeParamGlue.h>');
       var ueType = this.tconv.ueType.getCppType();
       var cppName = tparam.getCppClass();
 
@@ -203,9 +203,9 @@ class TypeParamBuild {
           writer.addHeaderInclude(inc);
       }
 
-      writer.wcpp('template<>\n$ueType TypeParam<$ueType>::haxeToUe(void *haxe) {\n');
+      writer.wcpp('template<>\n$ueType TypeParamGlue<$ueType>::haxeToUe(void *haxe) {\n');
         writer.wcpp('\treturn ${this.tconv.glueToUe( cppName + '::haxeToGlue(haxe)', null )};\n}\n\n');
-      writer.wcpp('template<>\nvoid *TypeParam<$ueType>::ueToHaxe($ueType ue) {\n');
+      writer.wcpp('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
         writer.wcpp('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
       writer.close();
       Context.defineType(cls);
