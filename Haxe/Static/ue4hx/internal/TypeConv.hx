@@ -197,12 +197,12 @@ using StringTools;
   {
     var ctx = getTypeCtx(type, pos);
     var ownershipModifier = null;
-    if (isPOwnership(ctx)) {
+    while (isPOwnership(ctx)) {
       // TODO: cleanup so it plays nicely when more modifiers are added (e.g. Const, etc)
       ownershipModifier = ctx;
       ctx = getTypeCtx(ctx.args[0], pos);
-      if (isPOwnership(ctx))
-        throw new Error('Unreal Glue: You cannot use two pointer modifiers in the same type (${ownershipModifier.name}<${ctx.name}<>>)', pos);
+      // if (isPOwnership(ctx))
+      //   throw new Error('Unreal Glue: You cannot use two pointer modifiers in the same type (${ownershipModifier.name}<${ctx.name}<>>)', pos);
     }
 
     var name = ctx.name,
@@ -222,6 +222,12 @@ using StringTools;
     var originalTypeRef = ctx.originalType == null ? typeRef : TypeRef.fromBaseType( ctx.originalType, pos );
     var refName = new TypeRef(typeRef.name);
     if (meta != null && meta.has(':uname')) refName = TypeRef.parseClassName(getMetaString(meta, ':uname'));
+    var modf = ownershipOverride;
+    if (modf == null) {
+      if (ownershipModifier != null) {
+        modf = ownershipModifier.name;
+      }
+    }
 
     if (meta != null && meta.has(':uextern')) {
       if (isUObject) {
@@ -237,7 +243,8 @@ using StringTools;
 
           haxeToGlueExpr: '@:privateAccess %.wrapped',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
-          glueToUeExpr: '( (${refName.getCppType()} *) % )'
+          glueToUeExpr: '( (${refName.getCppType()} *) % )',
+          ownershipModifier: modf,
         };
       } else if (ctx.isEnum) {
         var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name, typeRef.params);
@@ -266,16 +273,12 @@ using StringTools;
           haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
           glueToUeExpr: '( (${refName.getCppType()} *) %->getPointer() )',
+          ownershipModifier: modf,
         };
         if (originalTypeRef != typeRef)
           ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
-        var modf = ownershipOverride;
         if (modf == null) {
-          if (ownershipModifier == null) {
-            return ret;
-          } else {
-            modf = ownershipModifier.name;
-          }
+          return ret;
         }
         ret.haxeType = TypeRef.parseClassName(modf, [originalTypeRef]);
         switch (modf) {
@@ -575,6 +578,8 @@ typedef TypeConvInfo = {
     Tells whether the type is a basic type
    **/
   @:optional public var isBasic:Bool;
+
+  @:optional public var ownershipModifier:String;
 }
 
 typedef TypeConvCtx = {

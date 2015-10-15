@@ -139,8 +139,8 @@ class HaxeModuleRules extends BaseModuleRules
           case _:
           }
 
-          if (!isProduction)
-            args = args.concat(['-D scriptable', '-D dll_export=']);
+          // if (!isProduction)
+          //   args = args.concat(['-D scriptable', '-D dll_export=']);
 
           var isCrossCompiling = false;
           var extraArgs = null,

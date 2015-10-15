@@ -197,14 +197,6 @@ class ExternBaker {
         if (!methods[nextIndex].ret.haxeType.isVoid())
           call = 'return ' + call;
         impl.meta.add(':functionCode', [macro $v{call}], impl.pos);
-        trace(call);
-        // if (!generic.isStatic) {
-        //   for (idx in nextIndex...methods.length) {
-        //     var meth = methods[idx];
-        //     meth.isStatic = true;
-        //     meth.args.unshift({ name: 'self', t: this.thisConv });
-        //   }
-        // }
       }
     }
 
@@ -551,7 +543,12 @@ class ExternBaker {
       declParams = params;
     } else if (meth.specialization != null) {
       params += '<';
-      params.mapJoin(meth.specialization.types, function (tconv) return tconv.ueType.getCppType().toString());
+      params.mapJoin(meth.specialization.types, function (tconv) return {
+        if (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct')
+          tconv.ueType.getCppClassName();
+        else
+          tconv.ueType.getCppType().toString();
+      });
       params += '>';
     }
     glueCppBody.add(params);
