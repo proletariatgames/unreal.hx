@@ -56,6 +56,7 @@ class NativeGlueCode
       writer.include(inc);
 
     for (field in cl.statics.get().concat(cl.fields.get())) {
+      if (field.meta.has(':extern')) continue;
       var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];
       if (glueHeaderCode != null)
         writer.buf.add('\t\t$glueHeaderCode\n');
@@ -91,6 +92,7 @@ class NativeGlueCode
     }
 
     for (field in cl.statics.get().concat(cl.fields.get())) {
+      if (field.meta.has(':extern')) continue;
       var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
       if (glueCppCode != null)
         writer.buf.add(glueCppCode);

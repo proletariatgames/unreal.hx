@@ -5,4 +5,5 @@ package unreal;
   Note that on the Haxe side, the type will still be used by reference
  **/
 @:unrealType
-typedef PStruct<T> = T;
+@:forward
+abstract PStruct<T>(T) from T to T {}

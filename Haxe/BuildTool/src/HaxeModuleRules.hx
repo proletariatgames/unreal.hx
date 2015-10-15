@@ -114,6 +114,7 @@ class HaxeModuleRules extends BaseModuleRules
             '-D static_link',
             '-D destination=$outputStatic',
             '-D haxe_runtime_dir=$curSourcePath',
+            '-D bake_dir=$gameDir/Haxe/Generated/Externs',
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
