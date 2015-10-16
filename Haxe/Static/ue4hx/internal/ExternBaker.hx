@@ -8,6 +8,7 @@ import sys.FileSystem;
 import sys.io.File;
 
 using haxe.macro.Tools;
+using ue4hx.internal.MacroHelpers;
 
 using StringTools;
 
@@ -164,11 +165,8 @@ class ExternBaker {
 
     var methods = [];
     for (generic in generics) {
-      trace('generic', generic.field.name);
-
       // exclude the generic base field
       for (impl in generic.impls) {
-        trace('\timpl',impl.name);
         impl.meta.remove(':glueCppCode');
         impl.meta.remove(':glueHeaderCode');
         // poor man's version of mk_mono
@@ -192,11 +190,11 @@ class ExternBaker {
         if (!generic.isStatic)
           args.push('this');
         for (arg in methods[nextIndex].args)
-          arg.name;
+          args.push(arg.name);
         var call = caller.getCppClass() + '::' + impl.name + '(' + args.join(', ') + ');';
         if (!methods[nextIndex].ret.haxeType.isVoid())
           call = 'return ' + call;
-        impl.meta.add(':functionCode', [macro $v{call}], impl.pos);
+        impl.meta.add(':functionCode', [macro $v{'\t\t' + call}], impl.pos);
       }
     }
 
@@ -307,6 +305,10 @@ class ExternBaker {
           this.buf.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
         else
           this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();\n\t');
+        this.buf.add('@:extern inline private function getWrapped():${this.thisConv.haxeGlueType}');
+        this.begin(' {');
+          this.buf.add('return this == null ? untyped __cpp__("(void *) 0") : this.wrapped;');
+        this.end('}');
 
         // add the reflectGetWrapped()
         this.buf.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
@@ -490,9 +492,11 @@ class ExternBaker {
       meth.ret;
     }
     var isVoid = glueRet.haxeType.isVoid();
-    this.glue.add('public static function ${meth.name}(');
-    this.glue.add([ for (arg in helperArgs) escapeName(arg.name) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
-    this.glue.add('):' + glueRet.haxeGlueType + ';\n');
+    if (!hasParams) {
+      this.glue.add('public static function ${meth.name}(');
+      this.glue.add([ for (arg in helperArgs) escapeName(arg.name) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
+      this.glue.add('):' + glueRet.haxeGlueType + ';\n');
+    }
 
     // generate the header and cpp glue code
     //TODO: optimization: use StringBuf instead of all these string concats
@@ -517,7 +521,10 @@ class ExternBaker {
       case '.ctor':
         this.thisConv.ueType.getCppClass();
       case _:
-        this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+        if (meth.meta.hasMeta(':global'))
+          meth.uname;
+        else
+          this.thisConv.ueType.getCppClass() + '::' + meth.uname;
       }
     } else {
       switch(meth.uname) {
@@ -580,17 +587,23 @@ class ExternBaker {
         '\n\t' + glueCppBody + ';\n}';
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);
+    if (meth.specialization != null) {
+      for (s in meth.specialization.types)
+        allTypes.push(s);
+    }
 
-    // add the glue header and cpp code to the non-extern class (instead of the glue helper)
-    // in order to be able to benefit from DCE (extern types are never DCE'd)
-    this.buf.add('@:glueHeaderCode(\'');
-    escapeString(glueHeaderCode.toString(), this.buf);
-    this.buf.add('\')');
-    this.newline();
-    this.buf.add('@:glueCppCode(\'');
-    escapeString(glueCppCode.toString(), this.buf);
-    this.buf.add('\')');
-    this.newline();
+    if (!hasParams) {
+      // add the glue header and cpp code to the non-extern class (instead of the glue helper)
+      // in order to be able to benefit from DCE (extern types are never DCE'd)
+      this.buf.add('@:glueHeaderCode(\'');
+      escapeString(glueHeaderCode.toString(), this.buf);
+      this.buf.add('\')');
+      this.newline();
+      this.buf.add('@:glueCppCode(\'');
+      escapeString(glueCppCode.toString(), this.buf);
+      this.buf.add('\')');
+      this.newline();
+    }
 
     var headerIncludes = new Map(),
         cppIncludes = new Map();
@@ -670,7 +683,7 @@ class ExternBaker {
       }
       if (meth.args.length != 0) this.buf.add(', ');
     }
-    this.buf.add([ for (arg in meth.args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
+    this.buf.add([ for (arg in args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
     this.buf.add('):' + retHaxeType + ' ');
     this.begin('{');
       if (hasParams) {

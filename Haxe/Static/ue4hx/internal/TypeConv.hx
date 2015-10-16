@@ -114,7 +114,8 @@ using StringTools;
           superClass: it.superClass,
           baseType: it,
           isUObject: TypeConv.typeIsUObject(type),
-          originalType: originalType
+          originalType: originalType,
+          isTypeParam: it.kind.match(KTypeParameter(_)),
         };
 
       case TEnum(eref,tl):
@@ -188,6 +189,9 @@ using StringTools;
     case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
          'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr' | 'unreal.PRef':
       return true;
+    case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PExternalDef' | 'ue4hx.internal.PStructDef':
+      ctx.name = 'unreal.' + ctx.name.split('.').pop().substr(0,-3);
+      return true;
     case _:
       return false;
     }
@@ -197,10 +201,13 @@ using StringTools;
   {
     var ctx = getTypeCtx(type, pos);
     var ownershipModifier = null;
-    while (isPOwnership(ctx)) {
+    if (isPOwnership(ctx)) {
       // TODO: cleanup so it plays nicely when more modifiers are added (e.g. Const, etc)
       ownershipModifier = ctx;
       ctx = getTypeCtx(ctx.args[0], pos);
+      var has = isPOwnership(ctx);
+      while(isPOwnership(ctx))
+        ctx = getTypeCtx(ctx.args[0], pos);
       // if (isPOwnership(ctx))
       //   throw new Error('Unreal Glue: You cannot use two pointer modifiers in the same type (${ownershipModifier.name}<${ctx.name}<>>)', pos);
     }
@@ -359,6 +366,26 @@ using StringTools;
         isBasic: true,
       };
 
+    if (ctx.isTypeParam) {
+      var typeRef = new TypeRef(typeRef.name);
+      if (modf != null) {
+        // work around Haxe issue #4591
+        switch(modf) {
+        case 'unreal.PStruct':
+          typeRef = new TypeRef(['ue4hx','internal'], 'PStructDef', [typeRef]);
+        case 'unreal.PHaxeCreated':
+          typeRef = new TypeRef(['ue4hx','internal'], 'PHaxeCreatedDef', [typeRef]);
+        case 'unreal.PExternal':
+          typeRef = new TypeRef(['ue4hx','internal'], 'PExternalDef', [typeRef]);
+        case _:
+          typeRef = TypeRef.parseClassName( modf, [typeRef] );
+        }
+      }
+      return {
+        ueType: typeRef,
+        haxeType: typeRef,
+      }
+    }
     throw new Error('Unreal Glue: Type $name is not supported', pos);
   }
 
@@ -594,4 +621,5 @@ typedef TypeConvCtx = {
   ?isEnum:Bool,
 
   ?originalType:BaseType,
+  ?isTypeParam:Bool,
 }

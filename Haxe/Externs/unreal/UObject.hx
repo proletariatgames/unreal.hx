@@ -32,4 +32,10 @@ package unreal;
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
    **/
   public function PostLoad():Void;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function IsGarbageCollecting():Bool;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function NewObject<T>():PExternal<T>;
 }

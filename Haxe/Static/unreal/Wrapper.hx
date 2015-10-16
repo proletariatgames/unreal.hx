@@ -25,6 +25,10 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     }
   }
 
+  @:extern inline private function getWrapped():cpp.RawPointer<UEPointer> {
+    return this == null ? UEPointer.NULL_PTR : this.wrapped.get_raw();
+  }
+
   public function rewrap(wrapped:cpp.Pointer<UEPointer>):Wrapper {
     return new Wrapper(wrapped);
   }
