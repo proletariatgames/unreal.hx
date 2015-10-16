@@ -273,6 +273,24 @@ class ExternBaker {
         processField(field,false, null, methods);
       }
 
+      var uname;
+      if (this.thisConv.isUObject) {
+        uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
+        case null:
+          c.name;
+        case name:
+          name;
+        };
+        uname = uname.substr(1);
+
+        // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
+        this.buf.add('static function __init__()');
+        this.begin(' {');
+        this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
+        this.end('}');
+        this.newline();
+      }
+
       // add the wrap field
       // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
       this.buf.add('@:unreflective public static function wrap(ptr:');
@@ -289,11 +307,18 @@ class ExternBaker {
 
         this.buf.add('if (ptr == null) return null;');
         this.newline();
-        this.buf.add('return new ${this.typeRef.getClassPath()}(ptr');
-        if (!this.thisConv.isUObject) {
-          this.buf.add(', parent');
+        if(this.thisConv.isUObject) {
+          this.buf.add('var currentClass = new unreal.UObject(ptr).GetClass();');
+          this.newline();
+          this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(currentClass.GetDesc()) == null)');
+          this.begin(' {');
+            this.buf.add('currentClass = currentClass.GetSuperClass();');
+          this.end('}');
+          this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(currentClass.GetDesc())(ptr);');
         }
-        this.buf.add(');');
+        else {
+          this.buf.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
+        }
       this.end('}');
 
       if (!hasSuperClass) {
