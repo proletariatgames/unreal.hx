@@ -301,14 +301,17 @@ using StringTools;
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
           case 'unreal.TSharedPtr':
+            ret.ueType = new TypeRef('TSharedPtr',[refName]);
             ret.ueToGlueExpr = 'PSharedPtr<${refName.getCppType()}>::wrap( % )';
             ret.glueToUeExpr = '( (PSharedPtr<${refName.getCppType()}> *) %->toSharedPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedPtr<${typeRef}> )';
           case 'unreal.TSharedRef':
+            ret.ueType = new TypeRef('TSharedRef',[refName]);
             ret.ueToGlueExpr = 'new PSharedRef<${refName.getCppType()}>( % )';
             ret.glueToUeExpr = '( (PSharedRef<${refName.getCppType()}> *) %->toSharedRef() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedRef<${typeRef}> )';
           case 'unreal.TWeakPtr':
+            ret.ueType = new TypeRef('TWeakPtr',[refName]);
             ret.ueToGlueExpr = 'PWeakPtr<${refName.getCppType()}>::wrap( % )';
             ret.glueToUeExpr = '( (PWeakPtr<${refName.getCppType()}> *) %->toWeakPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
@@ -368,26 +371,38 @@ using StringTools;
       };
 
     if (ctx.isTypeParam) {
-      var typeRef = new TypeRef(typeRef.name);
+      var haxeType = new TypeRef(typeRef.name),
+          ueType = new TypeRef(['cpp'], 'RawPointer', [haxeType]);
       if (modf != null) {
-        // work around Haxe issue #4591
+        // HACK: work around Haxe issue #4591. Change back to use modf itself when fixed
         switch(modf) {
         case 'unreal.PStruct':
-          typeRef = new TypeRef(['ue4hx','internal'], 'PStructDef', [typeRef]);
+          haxeType = new TypeRef(['ue4hx','internal'], 'PStructDef', [haxeType]);
+          ueType = haxeType;
         case 'unreal.PHaxeCreated':
-          typeRef = new TypeRef(['ue4hx','internal'], 'PHaxeCreatedDef', [typeRef]);
+          haxeType = new TypeRef(['ue4hx','internal'], 'PHaxeCreatedDef', [haxeType]);
         case 'unreal.PExternal':
-          typeRef = new TypeRef(['ue4hx','internal'], 'PExternalDef', [typeRef]);
+          haxeType = new TypeRef(['ue4hx','internal'], 'PExternalDef', [haxeType]);
         case 'unreal.PRef':
-          typeRef = new TypeRef(['ue4hx','internal'], 'PRefDef', [typeRef]);
+          haxeType = new TypeRef(['ue4hx','internal'], 'PRefDef', [haxeType]);
         case _:
-          typeRef = TypeRef.parseClassName( modf, [typeRef] );
+          ueType = new TypeRef( modf.split('.').pop(), [haxeType] );
+          haxeType = TypeRef.parseClassName( modf, [haxeType] );
         }
       }
       return {
-        ueType: typeRef,
-        haxeType: typeRef,
-      }
+        ueType: new TypeRef(['cpp'], 'RawPointer', [haxeType]),
+        haxeType: haxeType,
+        glueType: voidStar,
+        haxeGlueType: voidStar,
+
+        glueCppIncludes: ['<TypeParamGlue.h>'],
+
+        ueToGlueExpr: 'TypeParamGlue<T>::ueToHaxe( % )',
+        glueToUeExpr: 'TypeParamGlue<T>::haxeToUe( % )',
+        haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr: '(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : ${haxeType.toString()})'
+      };
     }
     throw new Error('Unreal Glue: Type $name is not supported', pos);
   }

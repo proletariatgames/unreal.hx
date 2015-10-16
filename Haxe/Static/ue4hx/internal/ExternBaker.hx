@@ -108,7 +108,7 @@ class ExternBaker {
       throw new Error('Extern bake finished with errors',Context.currentPos());
   }
 
-  private var buf:StringBuf;
+  private var buf:HelperBuf;
   private var glue:StringBuf;
   private var glueType:TypeRef;
   private var thisConv:TypeConv;
@@ -244,11 +244,19 @@ class ExternBaker {
       }
     }
 
+    var params = new HelperBuf();
+    if (c.params != null) {
+      params += '<';
+      params.mapJoin(c.params, function(p) return p.name);
+      params += '>';
+    }
+    var params = params.toString();
+
     this.addMeta(c.meta.get());
     this.buf.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.isPrivate)
       this.buf.add('private ');
-    this.buf.add('class ${c.name} ');
+    this.buf.add('class ${c.name}$params ');
     var hasSuperClass = true;
     if (c.superClass != null) {
       var supRef = TypeRef.fromBaseType(c.superClass.t.get(), c.superClass.params, c.pos);
@@ -292,7 +300,7 @@ class ExternBaker {
 
       // add the wrap field
       // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
-      this.buf.add('@:unreflective public static function wrap(ptr:');
+      this.buf.add('@:unreflective public static function wrap$params(ptr:');
       this.buf.add(this.thisConv.haxeGlueType.toString());
         if (!this.thisConv.isUObject) {
           this.buf.add(', ?parent:Dynamic');
@@ -546,7 +554,7 @@ class ExternBaker {
         this.thisConv.ueType.getCppClass();
       case _:
         if (meth.meta.hasMeta(':global'))
-          meth.uname;
+          '::' + meth.uname;
         else
           this.thisConv.ueType.getCppClass() + '::' + meth.uname;
       }
