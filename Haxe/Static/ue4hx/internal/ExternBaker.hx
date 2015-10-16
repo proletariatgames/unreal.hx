@@ -285,7 +285,7 @@ class ExternBaker {
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         this.buf.add('static function __init__()');
         this.begin(' {');
-        this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
+          this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
         this.end('}');
         this.newline();
       }
