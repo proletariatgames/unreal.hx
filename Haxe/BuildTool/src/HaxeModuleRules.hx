@@ -231,7 +231,8 @@ class HaxeModuleRules extends BaseModuleRules
         InitPlugin.deleteRecursive(gen,true);
     }
 
-    this.MinFilesUsingPrecompiledHeaderOverride = -1;
+    // this will disable precompiled headers
+    // this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
     if (disabled || !exists(outputStatic))
     {

@@ -1,4 +1,5 @@
 package unreal;
 
 @:unrealType
-typedef PRef<T> = T;
+@:forward
+abstract PRef<T>(T) from T to T {}

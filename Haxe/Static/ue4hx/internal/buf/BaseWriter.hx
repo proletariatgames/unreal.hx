@@ -48,7 +48,7 @@ class BaseWriter {
 
   public function close(module:String) {
     if (module == null) module = Globals.cur.module;
-    var contents = getContents(module);
+    var contents = getContents(module).trim();
     if (!FileSystem.exists(path) || File.getContent(path).trim() != contents) {
       File.saveContent(path, contents);
     }

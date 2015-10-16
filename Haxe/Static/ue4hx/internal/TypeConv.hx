@@ -189,7 +189,8 @@ using StringTools;
     case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
          'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr' | 'unreal.PRef':
       return true;
-    case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PExternalDef' | 'ue4hx.internal.PStructDef':
+    case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PExternalDef' | 'ue4hx.internal.PStructDef' |
+         'ue4hx.internal.PRefDef':
       ctx.name = 'unreal.' + ctx.name.split('.').pop().substr(0,-3);
       return true;
     case _:
@@ -377,6 +378,8 @@ using StringTools;
           typeRef = new TypeRef(['ue4hx','internal'], 'PHaxeCreatedDef', [typeRef]);
         case 'unreal.PExternal':
           typeRef = new TypeRef(['ue4hx','internal'], 'PExternalDef', [typeRef]);
+        case 'unreal.PRef':
+          typeRef = new TypeRef(['ue4hx','internal'], 'PRefDef', [typeRef]);
         case _:
           typeRef = TypeRef.parseClassName( modf, [typeRef] );
         }

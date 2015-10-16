@@ -7,7 +7,7 @@ package unreal;
  **/
 @:unrealType
 @:access(unreal.Wrapper)
-@:forward abstract PHaxeCreated<T>(T) to T {
+@:forward abstract PHaxeCreated<T>(T) to T to PRef<T> to PStruct<T> {
   @:extern inline private function new(val)
     this = val;
 
