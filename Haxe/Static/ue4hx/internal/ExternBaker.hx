@@ -273,9 +273,8 @@ class ExternBaker {
         processField(field,false, null, methods);
       }
 
-      var uname;
       if (this.thisConv.isUObject) {
-        uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
+        var uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
         case null:
           c.name;
         case name:
