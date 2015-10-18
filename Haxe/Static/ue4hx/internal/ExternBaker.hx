@@ -315,13 +315,15 @@ class ExternBaker {
         this.buf.add('if (ptr == null) return null;');
         this.newline();
         if(this.thisConv.isUObject) {
-          this.buf.add('var currentClass = new unreal.UObject(ptr).GetClass();');
+          this.buf.add('var currentClass = unreal._pvt.UObject_Glue.GetClass(ptr.rawCast());');
           this.newline();
-          this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(currentClass.GetDesc()) == null)');
+          this.buf.add('var curClass:String = null;');
+          this.newline();
+          this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal._pvt.UObject_Glue.GetDesc(currentClass) )) == null)');
           this.begin(' {');
-            this.buf.add('currentClass = currentClass.GetSuperClass();');
+            this.buf.add('currentClass = unreal._pvt.UClass_Glue.GetSuperClass(currentClass);');
           this.end('}');
-          this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(currentClass.GetDesc())(ptr);');
+          this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(curClass)(ptr);');
         }
         else {
           this.buf.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
