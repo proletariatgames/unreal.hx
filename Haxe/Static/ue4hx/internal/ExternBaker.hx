@@ -587,12 +587,12 @@ class ExternBaker {
       if (this.params.length > 0)
         self = { name: 'this', t: this.thisConv };
       else
-        self = helperArgs[0];
+        self = { name:escapeName(helperArgs[0].name), t: helperArgs[0].t };
 
       switch(meth.uname) {
         case 'get_Item' | 'set_Item':
           op = '[';
-          self.t.glueToUe(escapeName(self.name), ctx);
+          self.t.glueToUe(self.name, ctx);
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -602,8 +602,14 @@ class ExternBaker {
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
           this.thisConv.ueType.getCppClass();
         case _:
-          self.t.glueToUe(escapeName(self.name), ctx) + '->' + meth.uname;
+          self.t.glueToUe(self.name, ctx) + '->' + meth.uname;
       }
+    }
+    inline function doEscapeName(str:String) {
+      if (this.params.length > 0)
+        return str;
+      else
+        return escapeName(str);
     }
     var params = new HelperBuf();
     var declParams = new HelperBuf();
@@ -633,11 +639,11 @@ class ExternBaker {
         glueCppBody += ' = ' + meth.args[0].t.glueToUe('value', ctx);
       }
     } else if (op == '[') {
-      glueCppBody += '[' + cppArgs[0].t.glueToUe(escapeName(cppArgs[0].name), ctx) + ']';
+      glueCppBody += '[' + cppArgs[0].t.glueToUe(doEscapeName(cppArgs[0].name), ctx) + ']';
       if (cppArgs.length == 2)
-        glueCppBody += ' = ' + cppArgs[1].t.glueToUe(escapeName(cppArgs[1].name), ctx);
+        glueCppBody += ' = ' + cppArgs[1].t.glueToUe(doEscapeName(cppArgs[1].name), ctx);
     } else {
-      glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(escapeName(arg.name), ctx) ].join(', ') + ')';
+      glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(doEscapeName(arg.name), ctx) ].join(', ') + ')';
     }
     if (!isVoid)
       glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );

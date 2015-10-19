@@ -327,6 +327,14 @@ using StringTools;
           case _:
             throw 'assert: $modf';
         }
+
+        if (typeRef.params.length > 0) {
+          trace(args);
+          ret.glueCppIncludes.push('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
+          ret.ueToGlueExpr = 'new ' + typeRef.getGlueHelperType().getCppClass() + '_UE_obj<' +
+            [ for (param in args) TypeConv.get(param, pos).ueType.getCppType() ].join(',') +
+          '>(' + ret.ueToGlueExpr + ')';
+        }
         return ret;
       }
     }
@@ -389,22 +397,25 @@ using StringTools;
         case 'unreal.PExternal':
           haxeType = new TypeRef(['ue4hx','internal'], 'PExternalDef', [haxeType]);
         case 'unreal.PRef':
+          @:privateAccess ueType.name = 'Reference';
           haxeType = new TypeRef(['ue4hx','internal'], 'PRefDef', [haxeType]);
         case _:
           ueType = new TypeRef( modf.split('.').pop(), [haxeType] );
           haxeType = TypeRef.parseClassName( modf, [haxeType] );
         }
+      } else {
+        ueType = ueType.params[0];
       }
       return {
-        ueType: new TypeRef(['cpp'], 'RawPointer', [haxeType]),
+        ueType: ueType,
         haxeType: haxeType,
         glueType: voidStar,
         haxeGlueType: voidStar,
 
         glueCppIncludes: ['<TypeParamGlue.h>'],
 
-        ueToGlueExpr: 'TypeParamGlue<T>::ueToHaxe( % )',
-        glueToUeExpr: 'TypeParamGlue<T>::haxeToUe( % )',
+        ueToGlueExpr: 'TypeParamGlue<${ueType.getCppType()}>::ueToHaxe( % )',
+        glueToUeExpr: 'TypeParamGlue<${ueType.getCppType()}>::haxeToUe( % )',
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr: '(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : ${haxeType.toString()})'
       };
