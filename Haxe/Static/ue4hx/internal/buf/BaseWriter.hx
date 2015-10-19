@@ -26,6 +26,10 @@ class BaseWriter {
     }
   }
 
+  public function dontInclude(inc:String) {
+    this.includeMap[inc] = false;
+  }
+
   private function getIncludes(buf:HelperBuf)
   {
     var incs = [ for (inc in this.includes) inc ];

@@ -588,7 +588,6 @@ class ExternBaker {
         case '.ctor':
           meth.ret.ueType.getCppClass();
         case _:
-          trace(meth.uname, meth.name);
           if (meth.meta.hasMeta(':global'))
             '::' + meth.uname;
           else

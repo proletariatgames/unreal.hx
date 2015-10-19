@@ -44,7 +44,7 @@ class TypeParamBuild {
       var msg = Std.string(e);
       if (msg.startsWith('Type not found')) {
         // type is not built. Build it!
-        new TypeParamBuild(typeToGen, tconv, pos).createCpp();
+        new TypeParamBuild(tconv, pos).createCpp();
       } else {
         neko.Lib.rethrow(e);
       }
@@ -78,12 +78,10 @@ class TypeParamBuild {
     }
   }
 
-  var typeToGen:Type;
   var tconv:TypeConv;
   var pos:Position;
 
-  public function new(typeToGen, tconv, pos) {
-    this.typeToGen = typeToGen;
+  public function new(tconv, pos) {
     this.tconv = tconv;
     this.pos = pos;
   }

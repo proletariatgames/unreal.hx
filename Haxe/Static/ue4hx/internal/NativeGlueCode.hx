@@ -187,7 +187,7 @@ class NativeGlueCode
         glueName = gluePack.pop();
     var baseDir = '$targetDir/Generated/Public/${gluePack.join('/')}';
     if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-    var headerPath = '$baseDir/${glueName}.h';
+    var headerPath = '$targetDir/Generated/Public/${gluePath.replace('.','/')}.h';
     // C++ doesn't like Windows forward slashes
     headerPath = headerPath.replace('\\','/');
 
@@ -205,6 +205,7 @@ class NativeGlueCode
 
     glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
     var writer = new HeaderWriter(headerPath);
+    writer.dontInclude(headerPath);
     writeHeader(cl, writer, gluePath, module);
     if (cl.meta.has(':ueTemplate')) {
       var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');

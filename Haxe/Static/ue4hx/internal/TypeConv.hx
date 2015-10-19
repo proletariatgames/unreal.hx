@@ -265,6 +265,7 @@ using StringTools;
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
+          args: convArgs,
         };
       } else if (ctx.isEnum) {
         var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name, typeRef.params);
@@ -278,7 +279,8 @@ using StringTools;
           haxeToGlueExpr: conv.getClassPath() + '.unwrap(%)',
           glueToHaxeExpr: conv.getClassPath() + '.wrap(%)',
           glueToUeExpr: '( (${refName.getCppType()}) % )',
-          ueToGlueExpr: '( (int) % )'
+          ueToGlueExpr: '( (int) % )',
+          args: convArgs,
         };
       } else {
         var ueType = refName;
@@ -297,6 +299,7 @@ using StringTools;
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
           glueToUeExpr: '( (${ueType.getCppType()} *) %->getPointer() )',
           ownershipModifier: modf,
+          args: convArgs,
         };
         if (originalTypeRef != typeRef)
           ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
@@ -390,6 +393,7 @@ using StringTools;
         haxeType: typeRef,
         glueHeaderIncludes:['<hxcpp.h>'],
         isBasic: true,
+        args: convArgs,
       };
 
     if (ctx.isTypeParam) {
@@ -426,7 +430,9 @@ using StringTools;
         ueToGlueExpr: 'TypeParamGlue<${ueType.getCppType()}>::ueToHaxe( % )',
         glueToUeExpr: 'TypeParamGlue<${ueType.getCppType()}>::haxeToUe( % )',
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
-        glueToHaxeExpr: '(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : ${haxeType.toString()})'
+        glueToHaxeExpr: '(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : ${haxeType.toString()})',
+        args: convArgs,
+        isTypeParam: true,
       };
     }
     throw new Error('Unreal Glue: Type $name is not supported', pos);
@@ -650,6 +656,11 @@ typedef TypeConvInfo = {
   @:optional public var isBasic:Bool;
 
   @:optional public var ownershipModifier:String;
+
+  @:optional public var args:Array<TypeConv>;
+  @:optional public var params:Array<String>;
+
+  @:optional public var isTypeParam:Bool;
 }
 
 typedef TypeConvCtx = {
