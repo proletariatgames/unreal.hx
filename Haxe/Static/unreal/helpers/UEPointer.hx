@@ -7,7 +7,7 @@ package unreal.helpers;
  **/
 @:headerClassCode('\n\t\tvirtual ~UEPointer() {}\n};\n\n
 
-class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : UEPointer {
+class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : public UEPointer {
 \tpublic:
 \t\tUEPointer *proxy;
 \t\tvoid *ptr;

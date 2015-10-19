@@ -15,7 +15,8 @@ class GenericFuncBuild {
   public function new() {
   }
 
-  public function buildFunctions(cl:ClassType) {
+  public function buildFunctions(c:Ref<ClassType>) {
+    var cl = c.get();
     var typeRef = TypeRef.fromBaseType(cl, cl.pos),
         glue = typeRef.getGlueHelperType(),
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
@@ -28,7 +29,7 @@ class GenericFuncBuild {
     }
     var buf = new StringBuf();
     buf.add('package ${genericGlue.pack.join(".")};\n\n');
-    var glueCode = new ExternBaker(buf).processGenericFunctions(cl);
+    var glueCode = new ExternBaker(buf).processGenericFunctions(c);
     if (glueCode != null) {
       cl.meta.add(':cppFileCode', [macro $v{'#include <${caller.getClassPath().replace('.','/')}.h>\n'}], cl.pos);
       // write file if different

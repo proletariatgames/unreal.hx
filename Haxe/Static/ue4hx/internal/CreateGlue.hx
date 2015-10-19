@@ -58,7 +58,7 @@ class CreateGlue {
         case TInst(c,_):
           var cl = c.get();
           if (cl.meta.has(':ueHasGenerics'))
-            new GenericFuncBuild().buildFunctions(cl);
+            new GenericFuncBuild().buildFunctions(c);
           nativeGlue.writeGlueHeader(cl);
         case _:
           throw 'assert';

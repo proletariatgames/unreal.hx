@@ -112,6 +112,7 @@ class ExternBaker {
   private var glue:StringBuf;
   private var glueType:TypeRef;
   private var thisConv:TypeConv;
+  private var cls:ClassType;
 
   private var type:Type;
   private var typeRef:TypeRef;
@@ -130,7 +131,10 @@ class ExternBaker {
     this.params = [];
   }
 
-  public function processGenericFunctions(cl:ClassType):StringBuf {
+  public function processGenericFunctions(c:Ref<ClassType>):StringBuf {
+    trace('processing generic functions');
+    var cl = c.get();
+    this.cls = cl;
     this.params = [ for (p in cl.params) p.name ];
     this.glue = new StringBuf();
     var typeRef = TypeRef.fromBaseType(cl, cl.pos),
@@ -139,7 +143,8 @@ class ExternBaker {
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
     this.glueType = genericGlue;
 
-    this.type = Context.getType(typeRef.getClassPath());
+    // this.type = Context.getType(typeRef.getClassPath());
+    this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
     this.thisConv = TypeConv.get(this.type, cl.pos);
     var generics = [];
     var isStatic = true;
@@ -170,6 +175,7 @@ class ExternBaker {
     for (generic in generics) {
       // exclude the generic base field
       for (impl in generic.impls) {
+        trace('impl',impl.type.toString());
         impl.meta.remove(':glueCppCode');
         impl.meta.remove(':glueHeaderCode');
         // poor man's version of mk_mono
@@ -186,7 +192,7 @@ class ExternBaker {
         impl.pos = this.pos;
 
         var specializationTypes = [ for (param in tparams) TypeConv.get(param, this.pos) ];
-        var specialization = { types:specializationTypes, generic:generic.field.name };
+        var specialization = { types:specializationTypes, generic:generic.field.name, mtypes: tparams };
         var nextIndex = methods.length;
         this.processField(impl, generic.isStatic, specialization, methods);
         var args = [];
@@ -230,6 +236,7 @@ class ExternBaker {
   }
 
   private function processClass(type:Type, c:ClassType) {
+    this.cls = c;
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
     if (!c.isExtern || !c.meta.has(':uextern')) return;
@@ -405,7 +412,7 @@ class ExternBaker {
     this.end('}');
   }
 
-  private function processField(field:ClassField, isStatic:Bool, ?specialization:{ types:Array<TypeConv>, generic:String }, methods:Array<MethodDef>) {
+  private function processField(field:ClassField, isStatic:Bool, ?specialization:{ types:Array<TypeConv>, mtypes:Array<Type>, generic:String }, methods:Array<MethodDef>) {
     var uname = switch(MacroHelpers.extractStrings(field.meta, ':uname')[0]) {
       case null:
         field.name;
@@ -475,7 +482,7 @@ class ExternBaker {
         }
         methods.push( cur = {
           name: field.name,
-          uname: specialization != null ? specialization.generic : uname,
+          uname: specialization == null || uname != field.name ? uname : specialization.generic,
           doc: field.doc,
           meta:field.meta.get(),
           params: [ for (p in field.params) p.name ],
@@ -484,7 +491,7 @@ class ExternBaker {
           prop: NonProp, isFinal: false, isPublic: field.isPublic, isStatic: isStatic,
           specialization: specialization,
         });
-        if (uname == 'new') {
+        if (uname == 'new' && specialization == null) {
           // make sure that the return type is of type PHaxeCreated
           if (!isHaxeCreated(ret)) {
             Context.warning(
@@ -519,6 +526,10 @@ class ExternBaker {
   }
 
   public function processMethodDef(meth:MethodDef) {
+    // var thisConv = this.thisConv;
+    // if (meth.specialization != null && meth.specialization.mtypes.length > 0) {
+    //   thisConv = TypeConv.get( this.type.applyTypeParameters( meth., meth.specialization.mtypes ), this.pos );
+    // }
     var hasParams = meth.params != null && meth.params.length > 0;
     var ctx = meth.prop != NonProp && !meth.isStatic && !this.thisConv.isUObject ? [ "parent" => "this" ] : null;
     var isStatic = meth.isStatic;
@@ -538,7 +549,7 @@ class ExternBaker {
     var isVoid = glueRet.haxeType.isVoid();
     if (!hasParams) {
       var st = '';
-      if (this.params.length == 0)
+      if (this.params.length == 0 || meth.isStatic)
         st = 'static';
       this.glue.add('public $st function ${meth.name}(');
       this.glue.add([ for (arg in helperArgs) escapeName(arg.name) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
@@ -562,7 +573,7 @@ class ExternBaker {
     var baseGlueHeaderCode = null;
     if (this.params.length > 0 && !meth.isStatic) {
       baseGlueHeaderCode = 'virtual ' + glueHeaderCode.toString() + ' = 0;';
-      glueHeaderCode += ' override';
+      // glueHeaderCode += ' override';
     }
 
     // var glueCppPrelude = '';
@@ -573,10 +584,11 @@ class ExternBaker {
     glueCppBody += if (isStatic) {
       switch (meth.uname) {
         case 'new':
-          'new ' + this.thisConv.ueType.getCppClass();
+          'new ' + meth.ret.ueType.getCppClass();
         case '.ctor':
-          this.thisConv.ueType.getCppClass();
+          meth.ret.ueType.getCppClass();
         case _:
+          trace(meth.uname, meth.name);
           if (meth.meta.hasMeta(':global'))
             '::' + meth.uname;
           else
@@ -584,7 +596,7 @@ class ExternBaker {
       }
     } else {
       var self = null;
-      if (this.params.length > 0)
+      if (this.params.length > 0 && !meth.isStatic)
         self = { name: 'this', t: this.thisConv };
       else
         self = { name:escapeName(helperArgs[0].name), t: helperArgs[0].t };
@@ -592,7 +604,7 @@ class ExternBaker {
       switch(meth.uname) {
         case 'get_Item' | 'set_Item':
           op = '[';
-          self.t.glueToUe(self.name, ctx);
+          '(*' + self.t.glueToUe(self.name, ctx) + ')';
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -606,7 +618,7 @@ class ExternBaker {
       }
     }
     inline function doEscapeName(str:String) {
-      if (this.params.length > 0)
+      if (this.params.length > 0 && !meth.isStatic)
         return str;
       else
         return escapeName(str);
@@ -618,7 +630,7 @@ class ExternBaker {
       params.mapJoin(meth.params, function(param) return param);
       params += '>';
       declParams = params;
-    } else if (meth.specialization != null) {
+    } else if (meth.specialization != null && this.params.length == 0) {
       params += '<';
       params.mapJoin(meth.specialization.types, function (tconv) return {
         if (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct')
@@ -655,7 +667,7 @@ class ExternBaker {
       glueCppCode += '>\n\t';
     }
 
-    if (this.params.length > 0 && !hasParams) {
+    if (this.params.length > 0 && !hasParams && !meth.isStatic) {
       glueHeaderCode += '{\n\t$glueCppBody;\n}';
     } else {
       glueHeaderCode += ';';
@@ -792,7 +804,7 @@ class ExternBaker {
           this.newline();
         }
         var haxeBodyCall = '${this.glueType}.${meth.name}';
-        if (this.params.length > 0) {
+        if (this.params.length > 0 && !meth.isStatic) {
           haxeBodyCall = '( cast this.wrapped : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
         }
 
@@ -1045,5 +1057,5 @@ typedef MethodDef = {
   isPublic:Bool,
   isStatic:Bool,
   ?isOverride:Bool,
-  ?specialization:{ types:Array<TypeConv>, generic:String }
+  ?specialization:{ types:Array<TypeConv>, mtypes:Array<Type>, generic:String },
 }

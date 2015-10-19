@@ -52,7 +52,8 @@ class NativeGlueCode
       writer.buf.mapJoin(cl.params, function(p) return 'typename ' + p.name);
       writer.buf += '>';
     }
-    writer.buf.add('class ${glueName}_obj : ${oldGlueName} {\n\tpublic:\n');
+    writer.buf.add('class ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
+    writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 
@@ -61,6 +62,9 @@ class NativeGlueCode
       var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':ueHeaderCode')[0];
       if (glueHeaderCode != null)
         writer.buf.add('\t\t$glueHeaderCode\n');
+      writer.include('<' + gluePack.join('/') + '/' + oldGlueName + '.h>');
+      for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
+        writer.include(inc);
       for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
         writer.include(inc);
     }
@@ -80,6 +84,7 @@ class NativeGlueCode
     touch(gluePath, module);
     var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
     var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
+    var ctor = null;
     if (cl.meta.has(':ueTemplate'))
       writer.include('<unreal/helpers/UEPointer.h>');
 
@@ -88,9 +93,13 @@ class NativeGlueCode
     }
     if (headerDefs.length == 0) {
       var ext = '';
-      if (cl.meta.has(':ueTemplate'))
-        ext = ' : ::unreal::helpers::UEPointer ';
+      if (cl.meta.has(':ueTemplate')) {
+        ext = ' : public ::unreal::helpers::UEProxyPointer ';
+        ctor = '${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ::unreal::helpers::UEProxyPointer(ptr) {}';
+      }
       writer.buf.add('class ${glueName}_obj $ext{\n\tpublic:\n');
+      if (ctor != null)
+        writer.buf.add(ctor);
     } else {
       for (headerDef in headerDefs) {
         writer.buf.add(headerDef);
