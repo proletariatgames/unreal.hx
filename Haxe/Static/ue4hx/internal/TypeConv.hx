@@ -3,6 +3,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 using haxe.macro.TypeTools;
+using Lambda;
 using StringTools;
 
 /**
@@ -21,6 +22,10 @@ using StringTools;
 
   inline function underlying()
     return this;
+
+  public function hasTypeParams():Bool {
+    return this.isTypeParam || (this.args != null && this.args.exists(function(v) return v.hasTypeParams()));
+  }
 
   public function haxeToGlue(expr:String, ctx:Map<String,String>)
   {
