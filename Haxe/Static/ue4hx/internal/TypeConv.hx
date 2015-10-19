@@ -200,6 +200,7 @@ using StringTools;
 
   public static function get(type:Type, pos:Position, ?ownershipOverride:String = null):TypeConv
   {
+
     var ctx = getTypeCtx(type, pos);
     var ownershipModifier = null;
     if (isPOwnership(ctx)) {
@@ -283,7 +284,7 @@ using StringTools;
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
 
           haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
-          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast %, $$parent )',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
           glueToUeExpr: '( (${refName.getCppType()} *) %->getPointer() )',
           ownershipModifier: modf,
         };

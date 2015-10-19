@@ -491,8 +491,12 @@ class ExternBaker {
               'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
             hadErrors = true;
           }
-          var retComplex = ret.toComplexType();
-          var thisType = thisConv.haxeType.toComplexType();
+          inline function cancelParams(t:Type) {
+            return ret.applyTypeParameters(field.params, [for (p in field.params) Context.typeof(macro null)]);
+          }
+
+          var retComplex = cancelParams(ret).toComplexType();
+          var thisType = thisConv.haxeType.withParams([ for (p in thisConv.haxeType.params) new TypeRef('Dynamic') ]).toComplexType();
           // make sure that the type is exactly PHaxeCreated<MyRetType>
           Context.typeof(macro @:pos(field.pos) {
             var complex:$retComplex = null;
@@ -560,39 +564,45 @@ class ExternBaker {
       baseGlueHeaderCode = 'virtual ' + glueHeaderCode.toString() + ' = 0;';
       glueHeaderCode += ' override';
     }
-    glueHeaderCode += ';';
 
     // var glueCppPrelude = '';
     var cppArgs = meth.args,
         retHaxeType = meth.ret.haxeType;
+    var op = null;
     var glueCppBody = new HelperBuf();
     glueCppBody += if (isStatic) {
       switch (meth.uname) {
-      case 'new':
-        'new ' + this.thisConv.ueType.getCppClass();
-      case '.ctor':
-        this.thisConv.ueType.getCppClass();
-      case _:
-        if (meth.meta.hasMeta(':global'))
-          '::' + meth.uname;
-        else
-          this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+        case 'new':
+          'new ' + this.thisConv.ueType.getCppClass();
+        case '.ctor':
+          this.thisConv.ueType.getCppClass();
+        case _:
+          if (meth.meta.hasMeta(':global'))
+            '::' + meth.uname;
+          else
+            this.thisConv.ueType.getCppClass() + '::' + meth.uname;
       }
     } else {
+      var self = null;
+      if (this.params.length > 0)
+        self = { name: 'this', t: this.thisConv };
+      else
+        self = helperArgs[0];
+
       switch(meth.uname) {
-      case '.copy':
-        retHaxeType = thisConv.haxeType;
-        cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
-        'new ' + this.thisConv.ueType.getCppClass();
-      case '.copyStruct':
-        retHaxeType = thisConv.haxeType;
-        cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
-        this.thisConv.ueType.getCppClass();
-      case _ if (this.params.length > 0):
-        this.thisConv.glueToUe('this', ctx) + '->' + meth.uname;
-      case _:
-        var self = helperArgs[0];
-        self.t.glueToUe(escapeName(self.name), ctx) + '->' + meth.uname;
+        case 'get_Item' | 'set_Item':
+          op = '[';
+          self.t.glueToUe(escapeName(self.name), ctx);
+        case '.copy':
+          retHaxeType = thisConv.haxeType;
+          cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
+          'new ' + this.thisConv.ueType.getCppClass();
+        case '.copyStruct':
+          retHaxeType = thisConv.haxeType;
+          cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
+          this.thisConv.ueType.getCppClass();
+        case _:
+          self.t.glueToUe(escapeName(self.name), ctx) + '->' + meth.uname;
       }
     }
     var params = new HelperBuf();
@@ -622,6 +632,10 @@ class ExternBaker {
       if (isSetter) {
         glueCppBody += ' = ' + meth.args[0].t.glueToUe('value', ctx);
       }
+    } else if (op == '[') {
+      glueCppBody += '[' + cppArgs[0].t.glueToUe(escapeName(cppArgs[0].name), ctx) + ']';
+      if (cppArgs.length == 2)
+        glueCppBody += ' = ' + cppArgs[1].t.glueToUe(escapeName(cppArgs[1].name), ctx);
     } else {
       glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(escapeName(arg.name), ctx) ].join(', ') + ')';
     }
@@ -629,24 +643,22 @@ class ExternBaker {
       glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );
 
     var glueCppCode = new HelperBuf();
-    var clsParams = new HelperBuf();
     if (hasParams) {
       glueCppCode += 'template<';
       glueCppCode.mapJoin(meth.params, function(p) return 'class $p');
       glueCppCode += '>\n\t';
-    } else if (this.params.length > 0) {
-      glueCppCode += 'template<';
-      glueCppCode.mapJoin(this.params, function(p) return 'class $p');
-      glueCppCode += '>\n\t';
-      clsParams += '<';
-      clsParams.mapJoin(this.params, function(p) return p);
-      clsParams += '>';
     }
-    var glueCppCode =
-      glueCppCode +
-      glueRet.glueType.getCppType() +
-      ' ${this.glueType.getCppType()}_obj$clsParams::${meth.name}$declParams(' + cppArgDecl + ') {' +
-        '\n\t' + glueCppBody + ';\n}';
+
+    if (this.params.length > 0 && !hasParams) {
+      glueHeaderCode += '{\n\t$glueCppBody;\n}';
+    } else {
+      glueHeaderCode += ';';
+      glueCppCode =
+        glueCppCode +
+        glueRet.glueType.getCppType() +
+        ' ${this.glueType.getCppType()}_obj::${meth.name}$declParams(' + cppArgDecl + ') {' +
+          '\n\t' + glueCppBody + ';\n}';
+    }
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);
     if (meth.specialization != null) {
@@ -656,21 +668,26 @@ class ExternBaker {
 
     if (!hasParams) {
       if (baseGlueHeaderCode != null) {
-        this.buf.add('@:baseGlueHeaderCode(\'');
+        this.buf.add('@:glueHeaderCode(\'');
         escapeString(baseGlueHeaderCode, this.buf);
         this.buf.add('\')');
         this.newline();
+        this.buf.add('@:ueHeaderCode(\'');
+        escapeString(glueHeaderCode.toString(), this.buf);
+        this.buf.add('\')');
+        this.newline();
+      } else {
+        // add the glue header and cpp code to the non-extern class (instead of the glue helper)
+        // in order to be able to benefit from DCE (extern types are never DCE'd)
+        this.buf.add('@:glueHeaderCode(\'');
+        escapeString(glueHeaderCode.toString(), this.buf);
+        this.buf.add('\')');
+        this.newline();
+        this.buf.add('@:glueCppCode(\'');
+        escapeString(glueCppCode.toString(), this.buf);
+        this.buf.add('\')');
+        this.newline();
       }
-      // add the glue header and cpp code to the non-extern class (instead of the glue helper)
-      // in order to be able to benefit from DCE (extern types are never DCE'd)
-      this.buf.add('@:glueHeaderCode(\'');
-      escapeString(glueHeaderCode.toString(), this.buf);
-      this.buf.add('\')');
-      this.newline();
-      this.buf.add('@:glueCppCode(\'');
-      escapeString(glueCppCode.toString(), this.buf);
-      this.buf.add('\')');
-      this.newline();
     }
 
     var headerIncludes = new Map(),
@@ -770,7 +787,7 @@ class ExternBaker {
         }
         var haxeBodyCall = '${this.glueType}.${meth.name}';
         if (this.params.length > 0) {
-          haxeBodyCall = '( cast this.wrapped : cpp.Pointer<${this.glueType}> ).ref.${meth.name}';
+          haxeBodyCall = '( cast this.wrapped : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
         }
 
         var haxeBody =

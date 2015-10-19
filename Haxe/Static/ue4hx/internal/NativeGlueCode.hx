@@ -34,6 +34,45 @@ class NativeGlueCode
     mod[file] = true;
   }
 
+  private function writeUEHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, module:String) {
+    var gluePack = gluePath.split('.'),
+        oldGlueName = gluePack.pop();
+    var glueName = oldGlueName + "_UE";
+    gluePath += "_UE";
+
+    touch(gluePath, module);
+    var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
+
+    for (pack in gluePack) {
+      writer.buf.add('namespace $pack {\n');
+    }
+
+    if (cl.params.length > 0) {
+      writer.buf += 'template <';
+      writer.buf.mapJoin(cl.params, function(p) return 'typename ' + p.name);
+      writer.buf += '>';
+    }
+    writer.buf.add('class ${glueName}_obj : ${oldGlueName} {\n\tpublic:\n');
+    for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
+      writer.include(inc);
+
+    for (field in cl.statics.get().concat(cl.fields.get())) {
+      if (field.meta.has(':extern')) continue;
+      var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':ueHeaderCode')[0];
+      if (glueHeaderCode != null)
+        writer.buf.add('\t\t$glueHeaderCode\n');
+      for (inc in MacroHelpers.extractStrings(field.meta, ':glueCppIncludes'))
+        writer.include(inc);
+    }
+    writer.buf.add('};\n\n');
+
+    for (pack in gluePack) {
+      writer.buf.add('}\n');
+    }
+    writer.close(module == null ? Globals.cur.module : module);
+
+  }
+
   private function writeHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, module:String) {
     var gluePack = gluePath.split('.'),
         glueName = gluePack.pop();
@@ -41,12 +80,17 @@ class NativeGlueCode
     touch(gluePath, module);
     var dir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
     var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
+    if (cl.meta.has(':ueTemplate'))
+      writer.include('<unreal/helpers/UEPointer.h>');
 
     for (pack in gluePack) {
       writer.buf.add('namespace $pack {\n');
     }
     if (headerDefs.length == 0) {
-      writer.buf.add('class ${glueName}_obj {\n\tpublic:\n');
+      var ext = '';
+      if (cl.meta.has(':ueTemplate'))
+        ext = ' : ::unreal::helpers::UEPointer ';
+      writer.buf.add('class ${glueName}_obj $ext{\n\tpublic:\n');
     } else {
       for (headerDef in headerDefs) {
         writer.buf.add(headerDef);
@@ -65,6 +109,8 @@ class NativeGlueCode
     }
     writer.buf.add('};\n\n');
 
+    if (headerDefs.length == 0)
+      writer.buf.add('typedef ${glueName}_obj $glueName;\n\n');
     for (pack in gluePack) {
       writer.buf.add('}\n');
     }
@@ -151,6 +197,10 @@ class NativeGlueCode
     glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
     var writer = new HeaderWriter(headerPath);
     writeHeader(cl, writer, gluePath, module);
+    if (cl.meta.has(':ueTemplate')) {
+      var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');
+      writeUEHeader(cl, templWriter, gluePath, module);
+    }
   }
 
   public function onAfterGenerate() {
