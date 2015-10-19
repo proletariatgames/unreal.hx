@@ -665,7 +665,7 @@ class ExternBaker {
     }
 
     if (this.params.length > 0 && !hasParams && !meth.isStatic) {
-      glueHeaderCode += '{\n\t$glueCppBody;\n}';
+      glueHeaderCode += ' {\n\t\t\t$glueCppBody;\n\t\t}';
     } else {
       glueHeaderCode += ';';
       glueCppCode =
@@ -679,6 +679,16 @@ class ExternBaker {
     if (meth.specialization != null) {
       for (s in meth.specialization.types)
         allTypes.push(s);
+    }
+
+    var dependentTypes = null;
+    if (hasParams || (!meth.isStatic && this.params.length > 0)) {
+      dependentTypes = new Map();
+      for (type in allTypes) {
+        if (type.hasTypeParams()) {
+          dependentTypes[type.haxeType.toString()] = true;
+        }
+      }
     }
 
     if (!hasParams) {
