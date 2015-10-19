@@ -28,6 +28,9 @@ class TypeRef
   inline public function withPack(pack:Array<String>):TypeRef {
     return new TypeRef(pack, this.name, this.moduleName, this.params);
   }
+  inline public function withParams(params:Array<TypeRef>):TypeRef {
+    return new TypeRef(this.pack, this.name, this.moduleName, params);
+  }
 
   public function withoutPrefix():TypeRef {
     switch [this.pack, this.name] {

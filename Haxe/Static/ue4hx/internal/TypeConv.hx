@@ -230,6 +230,10 @@ using StringTools;
     var originalTypeRef = ctx.originalType == null ? typeRef : TypeRef.fromBaseType( ctx.originalType, pos );
     var refName = new TypeRef(typeRef.name);
     if (meta != null && meta.has(':uname')) refName = TypeRef.parseClassName(getMetaString(meta, ':uname'));
+    if (typeRef.params.length > 0) {
+      refName = refName.withParams( typeRef.params );
+    }
+
     var modf = ownershipOverride;
     if (modf == null) {
       if (ownershipModifier != null) {

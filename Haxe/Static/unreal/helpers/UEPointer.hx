@@ -5,7 +5,22 @@ package unreal.helpers;
   Shared pointers, weak pointers, pointers that are owned by Unreal and pointers that are
   owned by Hxcpp will all derive from this implementation and add the appropriate destructors when needed
  **/
-@:headerClassCode('\n\t\tvirtual ~UEPointer() {}\n')
+@:headerClassCode('\n\t\tvirtual ~UEPointer() {}\n};\n\n
+
+class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : UEPointer {
+\tpublic:
+\t\tUEPointer *proxy;
+\t\tvoid *ptr;
+\t\tUEProxyPointer(UEPointer *p) : proxy(p), ptr(p->getPointer()) { }
+\t\t~UEProxyPointer() {
+\t\t\tdelete proxy;
+\t\t}
+\t\tvoid *getPointer() { return this->ptr; }
+\t\tUEPointer *toSharedPtr() { return rewrap(this->proxy->toSharedPtr()); }
+\t\tUEPointer *toSharedRef() { return rewrap(this->proxy->toSharedRef()); }
+\t\tUEPointer *toWeakPtr() { return rewrap(this->proxy->toWeakPtr()); }
+\t\tvirtual UEProxyPointer *rewrap(UEPointer *inPtr) { return new UEProxyPointer(inPtr); }
+')
 @:uexpose class UEPointer
 {
   public static var NULL_PTR(get,never):cpp.RawPointer<UEPointer>;
