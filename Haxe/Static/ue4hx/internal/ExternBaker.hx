@@ -132,7 +132,6 @@ class ExternBaker {
   }
 
   public function processGenericFunctions(c:Ref<ClassType>):StringBuf {
-    trace('processing generic functions');
     var cl = c.get();
     this.cls = cl;
     this.params = [ for (p in cl.params) p.name ];
@@ -175,7 +174,6 @@ class ExternBaker {
     for (generic in generics) {
       // exclude the generic base field
       for (impl in generic.impls) {
-        trace('impl',impl.type.toString());
         impl.meta.remove(':glueCppCode');
         impl.meta.remove(':glueHeaderCode');
         // poor man's version of mk_mono
