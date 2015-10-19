@@ -36,6 +36,12 @@ class TypeParamBuild {
     }
 
     var tconv = TypeConv.get(typeToGen, pos);
+    ensureTypeConvBuilt(tconv, pos);
+
+    return ret;
+  }
+
+  public static function ensureTypeConvBuilt(tconv:TypeConv, pos:Position):Void {
     var tparam = tconv.ueType.getTypeParamType();
     try {
       Context.getType( tparam.getClassPath() );
@@ -49,7 +55,6 @@ class TypeParamBuild {
         neko.Lib.rethrow(e);
       }
     }
-    return ret;
   }
 
   public static function isPartial(t:Type, pos:Position):Bool {
