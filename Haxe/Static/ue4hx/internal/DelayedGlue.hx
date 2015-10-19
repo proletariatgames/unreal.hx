@@ -260,12 +260,16 @@ class DelayedGlue {
       return;
 
     var glue = this.typeRef.getGlueHelperType();
-    var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
-    var glueCppIncludes = this.thisConv.glueCppIncludes;
+    var glueHeaderIncludes = new Map(),
+        glueCppIncludes = new Map();
+    this.thisConv.getAllCppIncludes(glueCppIncludes);
+    this.thisConv.getAllHeaderIncludes(glueHeaderIncludes);
+    // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
+    // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
-    if (glueHeaderIncludes != null && glueHeaderIncludes.length > 0)
+    if (glueHeaderIncludes != null && glueHeaderIncludes.iterator().hasNext())
       cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
-    if (glueCppIncludes != null && glueCppIncludes.length > 0)
+    if (glueCppIncludes != null && glueCppIncludes.iterator().hasNext())
       cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
     if (!this.shouldContinue())

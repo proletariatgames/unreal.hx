@@ -53,6 +53,30 @@ using StringTools;
     return expand(this.ueToGlueExpr, expr, ctx);
   }
 
+  public function getAllCppIncludes(map:Map<String, String>) {
+    if (this.glueCppIncludes != null) {
+      for (incl in this.glueCppIncludes)
+        map[incl] = incl;
+    }
+    if (this.args != null) {
+      for (arg in this.args) {
+        arg.getAllCppIncludes(map);
+      }
+    }
+  }
+
+  public function getAllHeaderIncludes(map:Map<String, String>) {
+    if (this.glueHeaderIncludes != null) {
+      for (incl in this.glueHeaderIncludes)
+        map[incl] = incl;
+    }
+    if (this.args != null) {
+      for (arg in this.args) {
+        arg.getAllHeaderIncludes(map);
+      }
+    }
+  }
+
   static function expand(expr:String, ethis:String, ctx:Map<String,String>) {
     var buf = new StringBuf();
     var i = -1, len = expr.length;

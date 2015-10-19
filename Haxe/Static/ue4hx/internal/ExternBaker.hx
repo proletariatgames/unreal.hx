@@ -717,20 +717,12 @@ class ExternBaker {
 
     var headerIncludes = new Map(),
         cppIncludes = new Map();
-    var hasHeaderInc = false,
-        hasCppInc = false;
     for (type in allTypes) {
-      if (type.glueCppIncludes != null) {
-        for (inc in type.glueCppIncludes)
-          cppIncludes[inc] = inc;
-          hasCppInc = true;
-      }
-      if (type.glueHeaderIncludes != null) {
-        for (inc in type.glueHeaderIncludes)
-          headerIncludes[inc] = inc;
-          hasHeaderInc = true;
-      }
+      type.getAllCppIncludes(cppIncludes);
+      type.getAllHeaderIncludes(headerIncludes);
     }
+    var hasHeaderInc = headerIncludes.iterator().hasNext(),
+        hasCppInc = cppIncludes.iterator().hasNext();
     if (hasHeaderInc) {
       var first = true;
       this.buf.add('@:glueHeaderIncludes(');
