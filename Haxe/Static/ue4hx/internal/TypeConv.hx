@@ -262,17 +262,17 @@ using StringTools;
     if (args != null && args.length > 0) {
       convArgs = [ for (arg in args) TypeConv.get(arg, pos) ];
       typeRef = typeRef.withParams([ for (arg in convArgs) arg.haxeType ]);
-      // if (baseType != null && registerTParam) {
-      //   var shouldAdd = true;
-      //   for (arg in convArgs) {
-      //     if (arg.hasTypeParams()) {
-      //       shouldAdd = false;
-      //       break;
-      //     }
-      //   }
-      //   if (shouldAdd)
-      //     Globals.cur.typeParamsToBuild = Globals.cur.typeParamsToBuild.add({ base:baseType, args:convArgs });
-      // }
+      if (baseType != null && registerTParam) {
+        var shouldAdd = true;
+        for (arg in convArgs) {
+          if (arg.hasTypeParams()) {
+            shouldAdd = false;
+            break;
+          }
+        }
+        if (shouldAdd)
+          Globals.cur.typeParamsToBuild = Globals.cur.typeParamsToBuild.add({ base:baseType, args:convArgs, pos:pos });
+      }
     }
     // FIXME: check conversion and maybe add cast if needed
     var originalTypeRef = ctx.originalType == null ? typeRef : TypeRef.fromBaseType( ctx.originalType, pos );

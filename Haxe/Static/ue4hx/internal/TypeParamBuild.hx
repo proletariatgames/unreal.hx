@@ -66,6 +66,9 @@ class TypeParamBuild {
 
   public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position):Void {
     var applied = [ for (arg in args) arg.haxeType ];
+    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + args.join(',') + '>';
+    if (Globals.cur.builtParams.exists(built)) return;
+    Globals.cur.builtParams[built] = true;
     var meta = baseType.meta.extractStrings(':ueDependentTypes');
     var params = [ for (p in baseType.params) p.name ];
     if (args.length != params.length) {
@@ -206,7 +209,7 @@ class TypeParamBuild {
       var cls = macro class {
         public static function haxeToGlue(haxe:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
           var haxeTyped:$hxTypeComplex = unreal.helpers.HaxeHelpers.pointerToDynamic(haxe);
-          return ${Context.parse(this.tconv.haxeToGlue('haxeTyped', null), pos)};
+          return cast (${Context.parse(this.tconv.haxeToGlue('haxeTyped', null), pos)});
         }
 
         public static function glueToHaxe(glue:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {

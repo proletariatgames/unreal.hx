@@ -92,13 +92,13 @@ class TypeRef
     }
   }
 
-  public static function parseClassName(name:String, ?withParams:Array<TypeRef>)
+  public static function parseClassName(name:String, ?withParams:Array<TypeRef>, parseModule=false)
   {
     var pack = name.split('.');
     var name = pack.pop();
     var last = pack[pack.length-1];
     var module = null;
-    if (last != null && (last.charCodeAt(0) >= 'A'.code && last.charCodeAt(0) <= 'Z'.code)) {
+    if (parseModule && last != null && (last.charCodeAt(0) >= 'A'.code && last.charCodeAt(0) <= 'Z'.code)) {
       module = pack.pop();
     }
     return new TypeRef(pack, name, module, withParams);
@@ -107,14 +107,21 @@ class TypeRef
   public static function parse(type:String) {
     var idx = -1;
     function parseSub() {
-      var start = idx;
+      var start = idx + 1;
       var len = type.length,
           tparams = [];
+      var hasParams = false;
       while (++idx < len) {
         switch (type.fastCodeAt(idx)) {
+        case ' '.code if (start == idx):
+          start = idx + 1;
+          continue;
         case '<'.code:
+          hasParams =true;
           break;
-        case chr if ( (chr >= 'a'.code && chr <= 'z'.code) || (chr >= 'A'.code && chr <= 'Z'.code) || chr == '_'.code ):
+        case '>'.code | ','.code | ' '.code:
+          break;
+        case chr if ( (chr >= 'a'.code && chr <= 'z'.code) || (chr >= 'A'.code && chr <= 'Z'.code) || chr == '_'.code || chr == '.'.code || (chr >= '0'.code && chr <= '9'.code) ):
           // do nothing
         case chr:
           throw 'Unexpected character ${String.fromCharCode(chr)} at $idx for "$type"';
@@ -123,28 +130,31 @@ class TypeRef
 
       var last = idx,
           first = true;
-      while (idx < len) {
-        var wasFirst = first;
-        first = false;
-        // parse params
-        switch(type.fastCodeAt(idx)) {
-          case '<'.code:
-            if (!wasFirst)
-              throw 'Unexpected character < at $idx for "$type"';
-            tparams.push(parseSub());
-          case ','.code:
-            tparams.push(parseSub());
-          case ' '.code:
-            // ignore
-            idx++;
-          case '>'.code:
-            break;
-          case chr:
-            throw 'Unexpected character ${String.fromCharCode(chr)} at $idx for "$type"';
+      if (hasParams) {
+        while (idx < len) {
+          var wasFirst = first;
+          first = false;
+          // parse params
+          switch(type.fastCodeAt(idx)) {
+            case '<'.code:
+              if (!wasFirst)
+                throw 'Unexpected character < at $idx for "$type"';
+              tparams.push(parseSub());
+            case ','.code:
+              tparams.push(parseSub());
+            case ' '.code:
+              // ignore
+              idx++;
+            case '>'.code:
+              idx++;
+              break;
+            case chr:
+              throw 'Unexpected character ${String.fromCharCode(chr)} at $idx for "$type"';
+          }
         }
       }
 
-      return parseClassName(type.substring(start,last-1), tparams);
+      return parseClassName(type.substring(start,last), tparams, true);
     }
     var ret = parseSub();
     if (idx != type.length) throw 'Unexpected ending: "${type.substr(idx)}" for "$type"';

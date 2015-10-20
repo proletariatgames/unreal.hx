@@ -73,6 +73,7 @@ class CreateGlue {
       while (params != null) {
         var param = params.value;
         params = params.next;
+        TypeParamBuild.ensureTypesBuilt( param.base, param.args, param.pos );
       }
     }
 

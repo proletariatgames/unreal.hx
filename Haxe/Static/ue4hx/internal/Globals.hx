@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
 import sys.FileSystem;
@@ -56,7 +57,8 @@ class Globals {
   public var uobject:Type;
   public var gluesToGenerate:Lst<String>;
   public var uextensions:Lst<String>;
-  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv> }>;
+  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position }>;
+  public var builtParams:Map<String, Bool> = new Map();
   public var canCreateTypes:Bool;
 
   function new() {
