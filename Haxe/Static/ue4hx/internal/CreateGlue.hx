@@ -28,6 +28,20 @@ class CreateGlue {
     Globals.cur.canCreateTypes = true;
 
     var modules = [ for (module in toCompile) Context.getModule(module) ];
+    // make sure all fields have been typed
+    for (module in modules) {
+      for (type in module) {
+        switch(Context.follow(type)) {
+        case TInst(c,_):
+          var cl = c.get();
+          for (field in cl.fields.get())
+            Context.follow(field.type);
+          for (field in cl.statics.get())
+            Context.follow(field.type);
+        case _:
+        }
+      }
+    }
 
     // once we get here, we've built everything we need
     var cur = Globals.cur;
