@@ -252,10 +252,38 @@ using StringTools;
     var baseType = ctx.baseType;
     var isBasic = ctx.isBasic,
         isUObject = ctx.isUObject;
+    var modf = ownershipOverride;
+    if (modf == null) {
+      if (ownershipModifier != null) {
+        modf = ownershipModifier.name;
+      }
+    }
 
+    // this helper function will handle `modf` (`ownershipModifier`)
+    // on types that don't have a special way to handle it
+    inline function wrapOwnership(info:TypeConvInfo):TypeConvInfo {
+      if (modf != null) {
+        switch (modf) {
+        // TODO: (we need temp vars to make this work :(
+        // case 'unreal.PExternal' | 'unreal.PHaxeCreated':
+        //   info.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
+        //   if (info.ueToGlueExpr != null)
+        //     info.ueToGlueExpr = '&(' + info.ueToGlueExpr + ')';
+        //   if (info.glueToUeExpr != null
+        case 'unreal.PRef':
+          // if (info.ueType.name == 'RawPointer') {
+            // info.ueType = new TypeRef(['cpp'], 'Reference', info.ueType.params);
+          // } else {
+            info.ueType = new TypeRef(['cpp'], 'Reference', [info.ueType]);
+          // }
+        case _:
+        }
+      }
+      return info;
+    }
     // if we have it defined as a basic (special) type, use it
     var basic = basicTypes[name];
-    if (basic != null) return basic;
+    if (basic != null) return wrapOwnership(basic);
 
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     var convArgs = null;
@@ -263,7 +291,6 @@ using StringTools;
       convArgs = [ for (arg in args) TypeConv.get(arg, pos) ];
       typeRef = typeRef.withParams([ for (arg in convArgs) arg.haxeType ]);
       if (baseType != null && registerTParam) {
-        trace( 'type $name<' + [ for (arg in convArgs) arg.haxeType ].join(', ') + '>' );
         var shouldAdd = true;
         for (arg in convArgs) {
           if (arg.hasTypeParams()) {
@@ -283,16 +310,9 @@ using StringTools;
       refName = refName.withParams( typeRef.params );
     }
 
-    var modf = ownershipOverride;
-    if (modf == null) {
-      if (ownershipModifier != null) {
-        modf = ownershipModifier.name;
-      }
-    }
-
     if (meta != null && meta.has(':uextern')) {
       if (isUObject) {
-        return {
+        return wrapOwnership({
           haxeType: originalTypeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
           haxeGlueType: voidStar,
@@ -307,7 +327,7 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
-        };
+        });
       } else if (ctx.isEnum) {
         var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name, typeRef.params);
         return {
@@ -397,13 +417,15 @@ using StringTools;
 
     // check if extends @:uextern
     var uextension = false;
-    while (superClass != null) {
-      var cur = superClass.t.get();
-      if (cur.meta.has(':uextern')) {
-        uextension = true;
-        break;
+    if (ctx.isUObject) {
+      while (superClass != null) {
+        var cur = superClass.t.get();
+        if (cur.meta.has(':uextern')) {
+          uextension = true;
+          break;
+        }
+        superClass = cur.superClass;
       }
-      superClass = cur.superClass;
     }
 
     if (uextension) {
@@ -417,19 +439,22 @@ using StringTools;
         dir = dir + '/../$module';
 
       glueCppIncludes.push('$dir/Generated/Public/${typeRef.withoutPrefix().name}.h');
-      return {
+      return wrapOwnership({
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
         haxeGlueType: voidStar,
         glueType: voidStar,
+
+        isUObject: true,
 
         glueCppIncludes: glueCppIncludes,
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
         ueToGlueExpr: '%->haxeGcRef.get()',
-        glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))'
-      };
+        glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
+        ownershipModifier: modf,
+      });
     }
     if (isBasic)
       return {

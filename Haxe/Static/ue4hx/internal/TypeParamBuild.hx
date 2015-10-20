@@ -65,6 +65,8 @@ class TypeParamBuild {
   }
 
   public static function checkBuiltFields( type:Type ) {
+    // this will just check a type and make sure all TypeConvs are built - so they in turn
+    // will be added to `Globals.typeParamsToBuild`
     switch(Context.follow(type)) {
     case TInst(c, tl):
       var cl = c.get();
