@@ -3,9 +3,8 @@ package unreal;
 /**
   The main Unreal Object class
  **/
-@:glueCppIncludes("UObject/UObject.h")
-@:uextern extern class UObject
-{
+ @:glueCppIncludes("UObject/UObject.h")
+@:uextern extern class UObject {
   /**
     Returns true if this object is considered an asset.
    **/

@@ -1,5 +1,7 @@
 package unreal;
 
+import unreal.FActorTickFunction;
+
 @:glueCppIncludes("Engine.h")
 @:uextern extern class AActor extends UObject
 {
