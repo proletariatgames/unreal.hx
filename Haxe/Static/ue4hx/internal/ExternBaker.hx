@@ -453,7 +453,8 @@ class ExternBaker {
     switch(field.kind) {
     case FVar(read,write):
       this.addDoc(field.doc);
-      this.addMeta(field.meta.get());
+      var meta = field.meta.get();
+      this.addMeta(meta);
       if (field.isPublic)
         this.buf.add('public ');
       else
@@ -480,7 +481,8 @@ class ExternBaker {
           uname: uname,
           args: [],
           ret: realTConv,
-          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic
+          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic,
+          meta: meta
         });
         this.buf.add('get,');
       case _:
@@ -493,7 +495,8 @@ class ExternBaker {
           uname: uname,
           args: [{ name: 'value', t: tconv }],
           ret: tconv,
-          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic
+          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic,
+          meta: meta
         });
         this.buf.add('set):');
       case _:
