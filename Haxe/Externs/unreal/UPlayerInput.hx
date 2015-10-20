@@ -23,6 +23,12 @@ package unreal;
 	public var AxisMappings : PStruct<TArray<PStruct<FInputAxisKeyMapping>>>;
 
 	/** Clear the current cached key maps and rebuild from the source arrays. */
-	public function ForceRebuildingKeyMaps(bRestoreDefaults:Bool = false) : Void;
+	public function ForceRebuildingKeyMaps(?bRestoreDefaults:Bool = false) : Void;
 
+	/** Returns whether an Axis Mapping is inverted */
+	public function GetInvertAxis(AxisName : PStruct<FName>) : Bool;
+
+	/** Exec function to invert an axis mapping */
+	@:ufunction(exec)
+	public function InvertAxis(AxisName : PStruct<FName>) : Void;
 }
