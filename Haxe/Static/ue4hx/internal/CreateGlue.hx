@@ -15,6 +15,7 @@ class CreateGlue {
   static var hasRun = false;
 
   public static function run(alwaysCompilePaths:Array<String>) {
+    Globals.cur.canCreateTypes = true;
     // get all types that need to be compiled recursively
     var toCompile = [];
     for (path in alwaysCompilePaths) {
@@ -24,6 +25,7 @@ class CreateGlue {
       toCompile.push('UnrealInit');
 
     registerMacroCalls();
+    Globals.cur.canCreateTypes = true;
 
     var modules = [ for (module in toCompile) Context.getModule(module) ];
 
@@ -36,7 +38,8 @@ class CreateGlue {
     // until there's nothing else to be built
     while (
       cur.uextensions != null ||
-      cur.gluesToGenerate != null) {
+      cur.gluesToGenerate != null ||
+      cur.typeParamsToBuild != null) {
 
       var uextensions = cur.uextensions;
       cur.uextensions = null;
@@ -64,9 +67,18 @@ class CreateGlue {
           throw 'assert';
         }
       }
+
+      var params = cur.typeParamsToBuild;
+      cur.typeParamsToBuild = null;
+      while (params != null) {
+        var param = params.value;
+        params = params.next;
+      }
     }
 
-    Context.onGenerate( function(gen) nativeGlue.onGenerate(gen) );
+    // starting from now, we can't create new types
+    Globals.cur.canCreateTypes = false;
+    Context.onGenerate( function(gen) { nativeGlue.onGenerate(gen); } );
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
     Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );

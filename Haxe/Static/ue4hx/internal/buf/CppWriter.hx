@@ -7,12 +7,15 @@ class CppWriter extends BaseWriter {
   }
 
   override private function getContents(module:String):String {
+    var bufContents = this.buf.toString();
+    if (bufContents == '')
+      return null;
     var cpp = new HelperBuf() +
       '#include <$module.h>\n';
     getIncludes(cpp);
 
     cpp = cpp + '\n' +
-      this.buf.toString();
+      bufContents;
 
     return cpp.toString();
   }

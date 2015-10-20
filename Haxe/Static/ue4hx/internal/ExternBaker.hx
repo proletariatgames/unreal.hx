@@ -109,6 +109,7 @@ class ExternBaker {
   }
 
   private var buf:HelperBuf;
+  private var realBuf:HelperBuf;
   private var glue:StringBuf;
   private var glueType:TypeRef;
   private var thisConv:TypeConv;
@@ -120,12 +121,14 @@ class ExternBaker {
 
   private var pos:Position;
   private var params:Array<String>;
+  private var dependentTypes:Array<String>;
   public var hadErrors(default, null):Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
 
   public function new(buf:StringBuf) {
-    this.buf = buf;
+    this.realBuf = buf;
+    this.buf = new StringBuf();
     this.indentStr = '';
     this.hadErrors = false;
     this.params = [];
@@ -133,6 +136,7 @@ class ExternBaker {
 
   public function processGenericFunctions(c:Ref<ClassType>):StringBuf {
     var cl = c.get();
+    this.dependentTypes = [];
     this.cls = cl;
     this.params = [ for (p in cl.params) p.name ];
     this.glue = new StringBuf();
@@ -208,7 +212,20 @@ class ExternBaker {
     for (meth in methods)
       this.processMethodDef(meth);
     this.end('}');
+
+    this.addDependentTypes();
+    this.realBuf.add(this.buf);
+    this.buf = new StringBuf();
     return this.glue;
+  }
+
+  private function addDependentTypes() {
+    if (this.dependentTypes.length > 0) {
+      var deps = [ for (d in dependentTypes) d => d ];
+      this.realBuf.add('@:ueDependentTypes(');
+      this.realBuf.mapJoin(deps, function(type) return '"$type"');
+      this.realBuf.add(')\n');
+    }
   }
 
   public function processType(type:Type):StringBuf {
@@ -235,6 +252,7 @@ class ExternBaker {
 
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
+    this.dependentTypes = [];
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
     if (!c.isExtern || !c.meta.has(':uextern')) return;
@@ -408,6 +426,12 @@ class ExternBaker {
     for (meth in methods)
       this.processMethodDef(meth);
     this.end('}');
+
+    // before defining the class, let's go through all types and see if we have any type parameters that are dependent on
+    // our current type parameter specifications
+    this.addDependentTypes();
+    this.realBuf.add(this.buf);
+    this.buf = new StringBuf();
   }
 
   private function processField(field:ClassField, isStatic:Bool, ?specialization:{ types:Array<TypeConv>, mtypes:Array<Type>, generic:String }, methods:Array<MethodDef>) {
@@ -676,17 +700,10 @@ class ExternBaker {
     }
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);
-    if (meth.specialization != null) {
-      for (s in meth.specialization.types)
-        allTypes.push(s);
-    }
-
-    var dependentTypes = null;
-    if (hasParams || (!meth.isStatic && this.params.length > 0)) {
-      dependentTypes = new Map();
+    if (!hasParams && !meth.isStatic && this.params.length > 0) {
       for (type in allTypes) {
         if (type.hasTypeParams()) {
-          dependentTypes[type.haxeType.toString()] = true;
+          this.dependentTypes.push(type.haxeType.toString());
         }
       }
     }
@@ -975,6 +992,9 @@ class ExternBaker {
       this.buf.add('public static inline function unwrap(v:${this.typeRef}):Int return haxeToUe(v.getIndex() + 1);');
     this.end('}');
     this.newline();
+
+    this.realBuf.add(this.buf);
+    this.buf = new StringBuf();
   }
 
   private function addMeta(metas:Metadata) {

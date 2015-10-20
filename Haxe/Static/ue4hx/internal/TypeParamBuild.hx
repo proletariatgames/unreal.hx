@@ -6,6 +6,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 
 using StringTools;
+using ue4hx.internal.MacroHelpers;
 using haxe.macro.Tools;
 
 class TypeParamBuild {
@@ -42,6 +43,9 @@ class TypeParamBuild {
   }
 
   public static function ensureTypeConvBuilt(tconv:TypeConv, pos:Position):Void {
+    if (!Globals.cur.canCreateTypes) {
+      Context.warning("Unreal Glue: Ensuring type parameters are built outside create type context", pos);
+    }
     var tparam = tconv.ueType.getTypeParamType();
     try {
       Context.getType( tparam.getClassPath() );
@@ -49,10 +53,44 @@ class TypeParamBuild {
     catch(e:Dynamic) {
       var msg = Std.string(e);
       if (msg.startsWith('Type not found')) {
+        if (!Globals.cur.canCreateTypes) {
+          Context.warning('Unreal Glue: Trying to create type parameters outside create type context ($tparam)', pos);
+        }
         // type is not built. Build it!
         new TypeParamBuild(tconv, pos).createCpp();
       } else {
         neko.Lib.rethrow(e);
+      }
+    }
+  }
+
+  public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position):Void {
+    var applied = [ for (arg in args) arg.haxeType ];
+    var meta = baseType.meta.extractStrings(':ueDependentTypes');
+    var params = [ for (p in baseType.params) p.name ];
+    if (args.length != params.length) {
+      throw 'assert: ${args.length} != ${params.length} for $baseType';
+    }
+
+    // TODO make some kind of cache to avoid huge amount of lookups
+    if (meta != null) {
+      for (depType in meta) {
+        var tref = TypeRef.parse( depType ).applyParams(params, applied);
+        if (tref.name == baseType.name) {
+          var isEq = true;
+          if (tref.pack.length == baseType.pack.length) {
+            for (i in 0...tref.pack.length) {
+              if (tref.pack[i] != baseType.pack[i]) {
+                isEq = false;
+                break;
+              }
+            }
+          }
+          if (isEq) continue; // do not recurse on our own type
+        }
+        var type = tref.toComplexType().toType();
+        var tconv = TypeConv.get(type, pos);
+        ensureTypeConvBuilt(tconv, pos);
       }
     }
   }

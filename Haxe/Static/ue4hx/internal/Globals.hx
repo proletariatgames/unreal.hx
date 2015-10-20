@@ -56,6 +56,8 @@ class Globals {
   public var uobject:Type;
   public var gluesToGenerate:Lst<String>;
   public var uextensions:Lst<String>;
+  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv> }>;
+  public var canCreateTypes:Bool;
 
   function new() {
   }

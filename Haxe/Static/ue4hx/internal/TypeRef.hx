@@ -2,6 +2,8 @@ package ue4hx.internal;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 
+using StringTools;
+
 /**
   Represents a fully qualified type reference. In Haxe terminology,
   this should be the equivalent of a fully qualified ComplexType.
@@ -93,7 +95,70 @@ class TypeRef
   public static function parseClassName(name:String, ?withParams:Array<TypeRef>)
   {
     var pack = name.split('.');
-    return new TypeRef(pack, pack.pop(), withParams);
+    var name = pack.pop();
+    var last = pack[pack.length-1];
+    var module = null;
+    if (last != null && (last.charCodeAt(0) >= 'A'.code && last.charCodeAt(0) <= 'Z'.code)) {
+      module = pack.pop();
+    }
+    return new TypeRef(pack, name, module, withParams);
+  }
+
+  public static function parse(type:String) {
+    var idx = -1;
+    function parseSub() {
+      var start = idx;
+      var len = type.length,
+          tparams = [];
+      while (++idx < len) {
+        switch (type.fastCodeAt(idx)) {
+        case '<'.code:
+          break;
+        case chr if ( (chr >= 'a'.code && chr <= 'z'.code) || (chr >= 'A'.code && chr <= 'Z'.code) || chr == '_'.code ):
+          // do nothing
+        case chr:
+          throw 'Unexpected character ${String.fromCharCode(chr)} at $idx for "$type"';
+        }
+      }
+
+      var last = idx,
+          first = true;
+      while (idx < len) {
+        var wasFirst = first;
+        first = false;
+        // parse params
+        switch(type.fastCodeAt(idx)) {
+          case '<'.code:
+            if (!wasFirst)
+              throw 'Unexpected character < at $idx for "$type"';
+            tparams.push(parseSub());
+          case ','.code:
+            tparams.push(parseSub());
+          case ' '.code:
+            // ignore
+            idx++;
+          case '>'.code:
+            break;
+          case chr:
+            throw 'Unexpected character ${String.fromCharCode(chr)} at $idx for "$type"';
+        }
+      }
+
+      return parseClassName(type.substring(start,last-1), tparams);
+    }
+    var ret = parseSub();
+    if (idx != type.length) throw 'Unexpected ending: "${type.substr(idx)}" for "$type"';
+    return ret;
+  }
+
+  public function applyParams(originalParams:Array<String>, appliedParams:Array<TypeRef>) {
+    var idx = originalParams.indexOf(this.name);
+    if (idx >= 0 && this.pack.length == 0 && this.moduleName == null)
+      return appliedParams[idx];
+    else if (this.params.length > 0)
+      return this.withParams([ for (p in params) p.applyParams(originalParams, appliedParams) ]);
+    else
+      return this;
   }
 
   public function getGlueHelperType():TypeRef
