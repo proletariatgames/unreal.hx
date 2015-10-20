@@ -9,7 +9,7 @@ package unreal;
 @:uextern extern class FInputAxisKeyMapping {
 	/** Friendly name of axis, e.g "MoveForward" */
 	@:uproperty(EditAnywhere, Category="Input")
-	public var AxisName : FName;
+	public var AxisName : PStruct<FName>;
 
 	/** Multiplier to use for the mapping when accumulating the axis value */
 	@:uproperty(EditAnywhere, Category="Input")

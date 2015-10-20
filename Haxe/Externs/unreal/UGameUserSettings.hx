@@ -11,5 +11,5 @@ import unreal.Scalability;
 	public function SetToDefaults() : Void;
 
 	// cached for the UI, current state if stored in console variables
-	public var ScalabilityQuality : Scalability.FQualityLevels;
+	public var ScalabilityQuality : PStruct<Scalability.FQualityLevels>;
 }

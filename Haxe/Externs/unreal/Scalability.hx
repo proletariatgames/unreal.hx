@@ -5,7 +5,7 @@ package unreal;
    * Actual engine state you can get though GetQualityLevels().
   **/
 @:glueCppIncludes("Scalability.h")
-//@:uname("Scalability.FQualityLevels")
+@:uname("Scalability.FQualityLevels")
 @:uextern extern class FQualityLevels
 {
     public var ResolutionQuality : Int32;

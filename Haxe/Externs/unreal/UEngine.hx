@@ -20,6 +20,7 @@ import unreal.APlayerController;
 	public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
 
   // global UEngine *
+  @:uname("GEngine")
   @:global static var GEngine : UEngine;
 }
 
