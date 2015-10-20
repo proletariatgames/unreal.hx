@@ -10,7 +10,7 @@ package unreal;
   public function set_Item(index:Int, val:PRef<T>):Void;
   public function Pop():T;
   public function Push(obj:PRef<PRef<T>>):Void;
-  public function SetNumUninitalized(arraySize:Int):Void;
+  public function SetNumUninitialized(arraySize:Int):Void;
   public function Insert(item:PRef<PRef<T>>, index:Int):Int;
   public function Num():Int;
 
