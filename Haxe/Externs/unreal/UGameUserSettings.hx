@@ -1,5 +1,7 @@
 package unreal;
 
+import unreal.Scalability;
+
 @:glueCppIncludes("GameFramework/GameUserSettings.h")
 @:uextern extern class UGameUserSettings extends UObject {
 
@@ -7,4 +9,7 @@ package unreal;
 	public function ApplySettings(bCheckForCommandLineOverrides:Bool) : Void;
 
 	public function SetToDefaults() : Void;
+
+	// cached for the UI, current state if stored in console variables
+	public var ScalabilityQuality : Scalability.FQualityLevels;
 }
