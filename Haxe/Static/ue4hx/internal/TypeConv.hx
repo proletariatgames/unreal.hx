@@ -261,29 +261,30 @@ using StringTools;
 
     // this helper function will handle `modf` (`ownershipModifier`)
     // on types that don't have a special way to handle it
-    inline function wrapOwnership(info:TypeConvInfo):TypeConvInfo {
-      if (modf != null) {
-        switch (modf) {
-        // TODO: (we need temp vars to make this work :(
-        // case 'unreal.PExternal' | 'unreal.PHaxeCreated':
-        //   info.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
-        //   if (info.ueToGlueExpr != null)
-        //     info.ueToGlueExpr = '&(' + info.ueToGlueExpr + ')';
-        //   if (info.glueToUeExpr != null
-        case 'unreal.PRef':
-          // if (info.ueType.name == 'RawPointer') {
-            // info.ueType = new TypeRef(['cpp'], 'Reference', info.ueType.params);
-          // } else {
-            info.ueType = new TypeRef(['cpp'], 'Reference', [info.ueType]);
-          // }
-        case _:
-        }
-      }
-      return info;
-    }
+    // FIXME: implement this to get basic types working
+    // inline function wrapOwnership(info:TypeConvInfo):TypeConvInfo {
+    //   if (modf != null) {
+    //     switch (modf) {
+    //     // TODO: (we need temp vars to make this work :(
+    //     // case 'unreal.PExternal' | 'unreal.PHaxeCreated':
+    //     //   info.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
+    //     //   if (info.ueToGlueExpr != null)
+    //     //     info.ueToGlueExpr = '&(' + info.ueToGlueExpr + ')';
+    //     //   if (info.glueToUeExpr != null
+    //     case 'unreal.PRef':
+    //       // if (info.ueType.name == 'RawPointer') {
+    //         // info.ueType = new TypeRef(['cpp'], 'Reference', info.ueType.params);
+    //       // } else {
+    //         info.ueType = new TypeRef(['cpp'], 'Reference', [info.ueType]);
+    //       // }
+    //     case _:
+    //     }
+    //   }
+    //   return info;
+    // }
     // if we have it defined as a basic (special) type, use it
     var basic = basicTypes[name];
-    if (basic != null) return wrapOwnership(basic);
+    if (basic != null) return basic;
 
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     var convArgs = null;
@@ -312,7 +313,7 @@ using StringTools;
 
     if (meta != null && meta.has(':uextern')) {
       if (isUObject) {
-        return wrapOwnership({
+        var ret:TypeConvInfo = {
           haxeType: originalTypeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
           haxeGlueType: voidStar,
@@ -327,7 +328,13 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
-        });
+        };
+        if (modf == 'unreal.PRef') {
+          ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
+          ret.haxeToGlueExpr = 'cpp.Pointer.addressOf( ' + ret.haxeToGlueExpr + ' ).rawCast()';
+          ret.glueToUeExpr = '(static_cast<${refName.getCppType()} *&> (*( (${refName.getCppType()} **) % )))';
+        }
+        return ret;
       } else if (ctx.isEnum) {
         var conv = new TypeRef(typeRef.pack, typeRef.name + '_EnumConv', typeRef.moduleName != null ? typeRef.moduleName : typeRef.name, typeRef.params);
         return {
@@ -439,7 +446,7 @@ using StringTools;
         dir = dir + '/../$module';
 
       glueCppIncludes.push('$dir/Generated/Public/${typeRef.withoutPrefix().name}.h');
-      return wrapOwnership({
+      var ret:TypeConvInfo = {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
         haxeGlueType: voidStar,
@@ -454,7 +461,15 @@ using StringTools;
         ueToGlueExpr: '%->haxeGcRef.get()',
         glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
         ownershipModifier: modf,
-      });
+      };
+
+      if (modf == 'unreal.PRef') {
+        ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
+        ret.glueToUeExpr =
+          '(static_cast<${refName.getCppType()} *&> (*( (${refName.getCppType()} **) ::unreal::helpers::HxcppRuntime::getWrappedRef( % ) )))';
+      }
+
+      return ret;
     }
     if (isBasic)
       return {

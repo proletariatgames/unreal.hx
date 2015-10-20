@@ -26,5 +26,19 @@ package unreal.helpers;
 
     return ret.rawCast();
   }
+
+  public static function getWrappedRef(ptr:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
+    var dyn:{ function reflectGetWrappedRef():cpp.Pointer<Dynamic>; } =
+      HaxeHelpers.pointerToDynamic(ptr);
+
+    var ret:cpp.Pointer<Dynamic>;
+    if (dyn == null) {
+      ret = null;
+    } else {
+      ret = dyn.reflectGetWrappedRef();
+    }
+
+    return ret.rawCast();
+  }
 }
 

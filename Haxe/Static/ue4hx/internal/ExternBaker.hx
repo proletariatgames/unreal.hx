@@ -380,6 +380,10 @@ class ExternBaker {
         this.begin(' {');
           this.buf.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
+        this.buf.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrappedRef():cpp.Pointer<Dynamic>');
+        this.begin(' {');
+          this.buf.add('return cpp.Pointer.addressOf(this.wrapped).reinterpret();');
+        this.end('}');
       } else if (!this.thisConv.isUObject) {
         // add rewrap
         this.buf.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');
