@@ -146,10 +146,7 @@ class UExtensionBuild {
         var includes = new Map();
         for (t in allTypes) {
           // we only care about glue Header includes here since we're using the actual UE type
-          if (t.glueCppIncludes != null) {
-            for (inc in t.glueCppIncludes)
-              includes[inc] = inc;
-          }
+          t.getAllCppIncludes( includes );
         }
 
         if (!implementCpp) cppDef = new HelperBuf();
@@ -180,6 +177,7 @@ class UExtensionBuild {
       ];
 
       var includes = ['<unreal/helpers/GcRef.h>', '<' + expose.getClassPath().replace('.','/') + '.h>'];
+      var includes = [ for (inc in includes) inc => inc ];
       var info = addNativeUeClass(nativeUe, clt, includes, metas);
 
       // add createHaxeWrapper
@@ -205,10 +203,7 @@ class UExtensionBuild {
           headerCode += data + ')\n\t\t';
           headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
-          if (tconv.glueCppIncludes != null) {
-            for (inc in tconv.glueCppIncludes)
-              glueHeaderIncs[inc] = inc;
-          }
+          tconv.getAllCppIncludes( glueHeaderIncs );
         }
         var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
 
@@ -246,7 +241,7 @@ class UExtensionBuild {
     }
   }
 
-  private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Array<String>, metas:Metadata):{ hasHaxeSuper:Bool } {
+  private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Map<String, String>, metas:Metadata):{ hasHaxeSuper:Bool } {
     var typeRef = TypeRef.fromBaseType(clt, clt.pos);
     var extendsAndImplements = [];
     var ueName = nativeUe.getCppClassName(),
@@ -255,7 +250,7 @@ class UExtensionBuild {
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
     var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null)
-      includes.push('${fileName}.generated.h');
+      includes['${fileName}.generated.h'] = '${fileName}.generated.h';
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
@@ -266,10 +261,7 @@ class UExtensionBuild {
 
       hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
       // we're using the ueType so we'll include the glueCppIncludes
-      if (tconv.glueCppIncludes != null) {
-        for (inc in tconv.glueCppIncludes)
-          includes.push(inc);
-      }
+      tconv.getAllCppIncludes( includes );
     }
     for (iface in clt.interfaces) {
       var impl = iface.t.get();
@@ -279,10 +271,7 @@ class UExtensionBuild {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
         extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
         // we're using the ueType so we'll include the glueCppIncludes
-        if (tconv.glueCppIncludes != null) {
-          for (inc in tconv.glueCppIncludes)
-            includes.push(inc);
-        }
+        tconv.getAllCppIncludes( includes );
       }
     }
 

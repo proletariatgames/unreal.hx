@@ -42,7 +42,7 @@ class Globals {
     else
 #end
     {
-      haxeRuntimeDir = FileSystem.fullPath(dir);
+      haxeRuntimeDir = FileSystem.fullPath(dir).replace('\\','/');
     }
   }
 
