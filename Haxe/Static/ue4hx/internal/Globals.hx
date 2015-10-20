@@ -55,10 +55,29 @@ class Globals {
   public var builtGlueTypes:Map<String,Bool> = new Map();
   public var buildingGlueTypes:Map<String,DelayedGlue> = new Map();
   public var uobject:Type;
+  /**
+    Linked list of glue types that need to be generated
+   **/
   public var gluesToGenerate:Lst<String>;
+  /**
+    Linked list of uobject extensions which need to be exposed
+   **/
   public var uextensions:Lst<String>;
+  /**
+    This determines which type parameter glues need to be built. It gets added whenever
+    a TypeConv is created with a type that has type parameters, and is consumed asynchronously
+   **/
   public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position }>;
+  /**
+    In order to avoid infinite cycles of type parameter glue building, this keeps a list of all
+    type parameters that were already built
+   **/
   public var builtParams:Map<String, Bool> = new Map();
+
+  /**
+    Linked list of types that have type parameters
+   **/
+  public var typesWithTParams:Lst<String>;
   public var canCreateTypes:Bool;
 
   function new() {

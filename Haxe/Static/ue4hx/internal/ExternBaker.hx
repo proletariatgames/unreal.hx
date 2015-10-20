@@ -122,6 +122,7 @@ class ExternBaker {
   private var pos:Position;
   private var params:Array<String>;
   private var dependentTypes:Array<String>;
+  private var hasTParams:Bool;
   public var hadErrors(default, null):Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
@@ -251,6 +252,7 @@ class ExternBaker {
   }
 
   private function processClass(type:Type, c:ClassType) {
+    this.hasTParams = false;
     this.cls = c;
     this.dependentTypes = [];
     this.params = [ for (p in c.params) p.name ];
@@ -430,6 +432,8 @@ class ExternBaker {
     // before defining the class, let's go through all types and see if we have any type parameters that are dependent on
     // our current type parameter specifications
     this.addDependentTypes();
+    if (this.hasTParams)
+      this.realBuf.add('@:hasTParams\n');
     this.realBuf.add(this.buf);
     this.buf = new StringBuf();
   }
@@ -705,6 +709,15 @@ class ExternBaker {
         if (type.hasTypeParams()) {
           this.dependentTypes.push(type.haxeType.toString());
         }
+      }
+    }
+    for (t in allTypes) {
+      if (t.args != null && t.args.length > 0 && !t.hasTypeParams()) {
+        // add metadata to warn NeedsGlueBuild that we need to make sure this type is built
+        this.buf.add('@:hasTParams');
+        this.newline();
+        this.hasTParams = true;
+        break;
       }
     }
 

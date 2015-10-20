@@ -22,6 +22,9 @@ class NeedsGlueBuild
     if (cls.meta.has(':ueGluePath')) {
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(thisType.getClassPath());
     }
+    if (cls.meta.has(':hasTParams')) {
+      Globals.cur.typesWithTParams = Globals.cur.typesWithTParams.add(thisType.getClassPath());
+    }
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       // FIXME: allow any namespace by using @:native; add @:native handling

@@ -263,6 +263,7 @@ using StringTools;
       convArgs = [ for (arg in args) TypeConv.get(arg, pos) ];
       typeRef = typeRef.withParams([ for (arg in convArgs) arg.haxeType ]);
       if (baseType != null && registerTParam) {
+        trace( 'type $name<' + [ for (arg in convArgs) arg.haxeType ].join(', ') + '>' );
         var shouldAdd = true;
         for (arg in convArgs) {
           if (arg.hasTypeParams()) {

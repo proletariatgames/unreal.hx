@@ -64,9 +64,29 @@ class TypeParamBuild {
     }
   }
 
+  public static function checkBuiltFields( type:Type ) {
+    switch(Context.follow(type)) {
+    case TInst(c, tl):
+      var cl = c.get();
+      for (field in cl.fields.get().concat(cl.statics.get())) {
+        if (field.meta.has(':hasTParams')) {
+          switch(Context.follow(field.type)) {
+          case TFun(args,ret):
+            // just make sure they are built so
+            for (arg in args) TypeConv.get(arg.t, field.pos);
+            TypeConv.get(ret, field.pos);
+          case t:
+            TypeConv.get(t, field.pos);
+          }
+        }
+      }
+    case _:
+    }
+  }
+
   public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position):Void {
     var applied = [ for (arg in args) arg.haxeType ];
-    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + args.join(',') + '>';
+    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>';
     if (Globals.cur.builtParams.exists(built)) return;
     Globals.cur.builtParams[built] = true;
     var meta = baseType.meta.extractStrings(':ueDependentTypes');

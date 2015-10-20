@@ -39,7 +39,8 @@ class CreateGlue {
     while (
       cur.uextensions != null ||
       cur.gluesToGenerate != null ||
-      cur.typeParamsToBuild != null) {
+      cur.typeParamsToBuild != null ||
+      cur.typesWithTParams != null) {
 
       var uextensions = cur.uextensions;
       cur.uextensions = null;
@@ -66,6 +67,15 @@ class CreateGlue {
         case _:
           throw 'assert';
         }
+      }
+
+      var tparams = cur.typesWithTParams;
+      cur.typesWithTParams = null;
+      while (tparams != null) {
+        var param = tparams.value;
+        tparams = tparams.next;
+        var type = Context.getType(param);
+        TypeParamBuild.checkBuiltFields( type );
       }
 
       var params = cur.typeParamsToBuild;
