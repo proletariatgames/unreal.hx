@@ -235,6 +235,11 @@ class TypeParamBuild {
 
       var writer = new ue4hx.internal.buf.CppWriter(path);
       writer.include('<${tparam.getClassPath().replace('.','/')}.h>');
+      var incs = new Map();
+      this.tconv.getAllCppIncludes(incs);
+      this.tconv.getAllHeaderIncludes(incs);
+      for (inc in incs)
+        writer.include(inc);
       writer.include('<TypeParamGlue.h>');
       var ueType = this.tconv.ueType.getCppType();
       var cppName = tparam.getCppClass();
@@ -244,8 +249,9 @@ class TypeParamBuild {
           writer.include(inc);
       }
 
+      var glueType = this.tconv.glueType.getCppType();
       writer.buf.add('template<>\n$ueType TypeParamGlue<$ueType>::haxeToUe(void *haxe) {\n');
-        writer.buf.add('\treturn ${this.tconv.glueToUe( cppName + '::haxeToGlue(haxe)', null )};\n}\n\n');
+        writer.buf.add('\treturn ${this.tconv.glueToUe( '( (' + glueType + ')' +  cppName + '::haxeToGlue(haxe)' + ')', null )};\n}\n\n');
       writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
         writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
       writer.close(Globals.cur.module);
