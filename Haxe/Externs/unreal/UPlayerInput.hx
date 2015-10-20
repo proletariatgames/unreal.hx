@@ -20,7 +20,7 @@ package unreal;
 @:uextern extern class UPlayerInput extends UObject {
 
 	/** This player's version of Axis Mappings */
-	public var AxisMappings : TArray<PStruct<FInputAxisKeyMapping>>;
+	public var AxisMappings : PStruct<TArray<PStruct<FInputAxisKeyMapping>>>;
 
 	/** Clear the current cached key maps and rebuild from the source arrays. */
 	public function ForceRebuildingKeyMaps(bRestoreDefaults:Bool = false) : Void;
