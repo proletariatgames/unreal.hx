@@ -291,15 +291,18 @@ using StringTools;
         var ueType = refName;
         if (convArgs != null)
           ueType = ueType.withParams([ for (arg in convArgs) arg.ueType ]);
+        var metaArray = getMetaArray(meta, ':glueCppIncludes');
+        if (metaArray == null) {
+          Context.warning('Unreal Glue Code: glueCppIncludes missing for $typeRef', pos);
+          metaArray = [];
+        }
         var ret:TypeConvInfo = {
           haxeType: originalTypeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [ueType]),
           haxeGlueType: uePointer,
           glueType: uePointer,
-
-          glueCppIncludes: ['<OPointers.h>'].concat(getMetaArray(meta, ':glueCppIncludes')),
+          glueCppIncludes: ['<OPointers.h>'].concat(metaArray),
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
-
           haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
           glueToUeExpr: '( (${ueType.getCppType()} *) %->getPointer() )',
