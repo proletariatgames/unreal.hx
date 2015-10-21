@@ -8,7 +8,7 @@ package unreal;
 {
   public function get_Item(index:Int):PRef<T>;
   public function set_Item(index:Int, val:PRef<T>):Void;
-  public function Pop():T;
+  public function Pop(allowShrinking:Bool):T;
   public function Push(obj:PRef<PRef<T>>):Void;
   public function SetNumUninitialized(arraySize:Int):Void;
   public function Insert(item:PRef<PRef<T>>, index:Int):Int;

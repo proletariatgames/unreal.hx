@@ -86,7 +86,7 @@ class UExtensionBuild {
             name = uname,
             cppName = uname;
         var ufunc = field.cf.meta.extract(':ufunction');
-        if (ufunc != null) {
+        if (ufunc != null && ufunc[0] != null) {
           headerDef = headerDef + 'UFUNCTION(';
           var first = true;
           for (meta in ufunc) {
