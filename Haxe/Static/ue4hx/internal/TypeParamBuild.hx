@@ -291,6 +291,12 @@ class TypeParamBuild {
           writer.buf.add('\treturn PtrHelper<$ueType>(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');
         writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxeRef($ueType& ue) {\n');
           writer.buf.add('\treturn $cppName::glueToHaxe( ${pointerConv.ueToGlue( '&ue', null )} );\n}\n\n');
+      case 'unreal.PStruct' | 'ue4hx.internal.PStructRef':
+        var pointerConv = TypeConv.get(this.type, this.pos, 'unreal.PRef');
+        writer.buf.add('template<>\nPtrHelper<$ueType> TypeParamGlue<$ueType>::haxeToUePtr(void *haxe) {\n');
+          writer.buf.add('\treturn PtrHelper<$ueType>(&(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)}));\n}\n\n');
+        writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxeRef($ueType& ue) {\n');
+          writer.buf.add('\treturn $cppName::glueToHaxe( ${pointerConv.ueToGlue( 'ue', null )} );\n}\n\n');
       case _:
         writer.buf.add('template<>\nPtrHelper<$ueType> TypeParamGlue<$ueType>::haxeToUePtr(void *haxe) {\n');
           writer.buf.add('\treturn PtrHelper<$ueType>(${this.tconv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');

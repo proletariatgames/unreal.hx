@@ -346,6 +346,8 @@ class ExternBaker {
         this.buf.add('if (ptr == null) return null;');
         this.newline();
         if(this.thisConv.isUObject) {
+          this.buf.add('untyped __cpp__("printf(\\"ptr %llx\\\\n\\", (long long int) {0})", ptr.get_raw());');
+          this.newline();
           this.buf.add('var currentClass = _pvt._unreal.UObject_Glue.GetClass(ptr.rawCast());');
           this.newline();
           this.buf.add('var curClass:String = null;');
@@ -681,6 +683,7 @@ class ExternBaker {
     for (arg in cppArgs) {
       if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
         glueCppBodyVars += 'PtrHelper<${arg.t.ueType.getCppType()}> ${arg.name}_t = ${arg.t.glueToUe(arg.name, ctx)};\n\t\t\t';
+        glueCppBodyVars += 'printf(" -> value %llx ( %llx )\\n", (long long int) *(${arg.name}_t.ptr), (long long int) ${arg.name}_t.ptr);\n\t\t\t';
         cppArgTypes.push('*(${arg.name}_t.ptr)');
       } else {
         cppArgTypes.push(arg.t.glueToUe(doEscapeName(arg.name), ctx));
@@ -805,6 +808,8 @@ class ExternBaker {
         escapeString(inc, this.buf);
         this.buf.add('\'');
       }
+      if (first) first = false; else this.buf.add(', ');
+      this.buf.add('"cstdio"');
       this.buf.add(')');
       this.newline();
     }

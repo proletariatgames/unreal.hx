@@ -26,7 +26,7 @@ public:
     *( (T *) (void *) val ) = inVal;
     // printf("%llx -> %llx\n", );
     this->ptr = (T *) (void *) val;
-    printf("copy ctor called 2 %llx\n", (long long int) this->ptr);
+    printf("copy ctor called 2 %llx vs %llx\n", (long long int) *this->ptr, (long long int) inVal);
   }
 
   PtrHelper(T *inPtr) : ptr(inPtr) {
