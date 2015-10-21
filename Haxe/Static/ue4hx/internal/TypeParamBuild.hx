@@ -37,12 +37,12 @@ class TypeParamBuild {
     }
 
     var tconv = TypeConv.get(typeToGen, pos);
-    ensureTypeConvBuilt(tconv, pos);
+    ensureTypeConvBuilt(typeToGen, tconv, pos);
 
     return ret;
   }
 
-  public static function ensureTypeConvBuilt(tconv:TypeConv, pos:Position):Void {
+  public static function ensureTypeConvBuilt(type:Type, tconv:TypeConv, pos:Position):Void {
     if (!Globals.cur.canCreateTypes) {
       Context.warning("Unreal Glue: Ensuring type parameters are built outside create type context", pos);
     }
@@ -57,7 +57,7 @@ class TypeParamBuild {
           Context.warning('Unreal Glue: Trying to create type parameters outside create type context ($tparam)', pos);
         }
         // type is not built. Build it!
-        new TypeParamBuild(tconv, pos).createCpp();
+        new TypeParamBuild(type, tconv, pos).createCpp();
       } else {
         neko.Lib.rethrow(e);
       }
@@ -115,7 +115,7 @@ class TypeParamBuild {
         }
         var type = tref.toComplexType().toType();
         var tconv = TypeConv.get(type, pos);
-        ensureTypeConvBuilt(tconv, pos);
+        ensureTypeConvBuilt(type, tconv, pos);
       }
     }
   }
@@ -147,11 +147,13 @@ class TypeParamBuild {
   }
 
   var tconv:TypeConv;
+  var type:Type;
   var pos:Position;
 
-  public function new(tconv, pos) {
+  private function new(type, tconv, pos) {
     this.tconv = tconv;
     this.pos = pos;
+    this.type = type;
   }
 
   public function createCpp():Void {
@@ -208,6 +210,10 @@ class TypeParamBuild {
       cppCode += 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
         cppCode += '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
       cppCode += 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
+        cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
+      cppCode += 'template<>\nPtrHelper<$hxType> TypeParamGlue<$hxType>::haxeToUePtr(void *haxe) {\n';
+        cppCode += '\treturn PtrHelper<$hxType>($cppName::haxeToUe(haxe));\n}\n\n';
+      cppCode += 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxeRef($hxType& ue) {\n';
         cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
       cls.name = tparam.name;
       cls.pack = tparam.pack;
@@ -276,6 +282,22 @@ class TypeParamBuild {
         writer.buf.add('\treturn ${this.tconv.glueToUe( '( (' + glueType + ')' +  cppName + '::haxeToGlue(haxe)' + ')', null )};\n}\n\n');
       writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
         writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
+
+      switch (this.tconv.ownershipModifier) {
+      case 'unreal.PStruct' | 'ue4hx.internal.PStructRef' if (!this.tconv.isUObject):
+        // in this case, we need to generate the get pointer code for glueToHaxePtr
+        var pointerConv = TypeConv.get(this.type, this.pos, 'unreal.PExternal');
+        writer.buf.add('template<>\nPtrHelper<$ueType> TypeParamGlue<$ueType>::haxeToUePtr(void *haxe) {\n');
+          writer.buf.add('\treturn PtrHelper<$ueType>(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');
+        writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxeRef($ueType& ue) {\n');
+          writer.buf.add('\treturn $cppName::glueToHaxe( ${pointerConv.ueToGlue( '&ue', null )} );\n}\n\n');
+      case _:
+        writer.buf.add('template<>\nPtrHelper<$ueType> TypeParamGlue<$ueType>::haxeToUePtr(void *haxe) {\n');
+          writer.buf.add('\treturn PtrHelper<$ueType>(${this.tconv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');
+        writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxeRef($ueType& ue) {\n');
+          writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( '( ( ' + ueType +' ) ue )', null )} );\n}\n\n');
+      }
+
       writer.close(Globals.cur.module);
       Context.defineType(cls);
     }

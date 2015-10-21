@@ -222,7 +222,7 @@ class ExternBaker {
 
   private function addDependentTypes() {
     if (this.dependentTypes.length > 0) {
-      var deps = [ for (d in dependentTypes) d => d ];
+      var deps = [ for (d in this.dependentTypes) d => d ];
       this.realBuf.add('@:ueDependentTypes(');
       this.realBuf.mapJoin(deps, function(type) return '"$type"');
       this.realBuf.add(')\n');
@@ -350,6 +350,7 @@ class ExternBaker {
           this.newline();
           this.buf.add('var curClass:String = null;');
           this.newline();
+          this.buf.add('Sys.println("${c.name}");');
           this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetDesc(currentClass) )) == null)');
           this.begin(' {');
             this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
@@ -674,20 +675,32 @@ class ExternBaker {
     }
     glueCppBody.add(params);
 
+    // TODO clean up how we're dealing with PRef
+    var glueCppBodyVars = new HelperBuf();
+    var cppArgTypes = [];
+    for (arg in cppArgs) {
+      if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
+        glueCppBodyVars += 'PtrHelper<${arg.t.ueType.getCppType()}> ${arg.name}_t = ${arg.t.glueToUe(arg.name, ctx)};\n\t\t\t';
+        cppArgTypes.push('*(${arg.name}_t.ptr)');
+      } else {
+        cppArgTypes.push(arg.t.glueToUe(doEscapeName(arg.name), ctx));
+      }
+    }
+
     var glueCppBody = glueCppBody.toString();
     if (meth.prop == StructProp && meth.name.startsWith('get_'))
       glueCppBody = '&' + glueCppBody;
 
     if (meth.prop != NonProp) {
       if (isSetter) {
-        glueCppBody += ' = ' + meth.args[0].t.glueToUe('value', ctx);
+        glueCppBody += ' = ' + cppArgTypes[cppArgTypes.length-1];
       }
     } else if (op == '[') {
-      glueCppBody += '[' + cppArgs[0].t.glueToUe(doEscapeName(cppArgs[0].name), ctx) + ']';
+      glueCppBody += '[' + cppArgTypes[0] + ']';
       if (cppArgs.length == 2)
-        glueCppBody += ' = ' + cppArgs[1].t.glueToUe(doEscapeName(cppArgs[1].name), ctx);
+        glueCppBody += ' = ' + cppArgTypes[1];
     } else {
-      glueCppBody += '(' + [ for (arg in cppArgs) arg.t.glueToUe(doEscapeName(arg.name), ctx) ].join(', ') + ')';
+      glueCppBody += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
     }
     if (!isVoid)
       glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );
@@ -699,22 +712,33 @@ class ExternBaker {
       glueCppCode += '>\n\t';
     }
 
+    glueCppBodyVars += glueCppBody;
     if (this.params.length > 0 && !hasParams && !meth.isStatic) {
-      glueHeaderCode += ' {\n\t\t\t$glueCppBody;\n\t\t}';
+      glueHeaderCode += ' {\n\t\t\t$glueCppBodyVars;\n\t\t}';
     } else {
       glueHeaderCode += ';';
       glueCppCode =
         glueCppCode +
         glueRet.glueType.getCppType() +
         ' ${this.glueType.getCppType()}_obj::${meth.name}$declParams(' + cppArgDecl + ') {' +
-          '\n\t' + glueCppBody + ';\n}';
+          '\n\t' + glueCppBodyVars + ';\n}';
     }
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);
     if (!hasParams && !meth.isStatic && this.params.length > 0) {
       for (type in allTypes) {
         if (type.hasTypeParams()) {
-          this.dependentTypes.push(type.haxeType.toString());
+          var tref = type.haxeType;
+          while (tref.name == 'PRef' || tref.name == 'PRefDef') {
+            if (tref.pack.length == 1 && tref.name == 'PRef' && tref.pack[0] == 'unreal') {
+              tref = tref.params[0];
+            } else if (tref.pack.length == 2 && tref.name == 'PRefDef' && tref.pack[0] == 'ue4hx' && tref.pack[1] == 'internal') {
+              tref = tref.params[0];
+            } else {
+              break;
+            }
+          }
+          this.dependentTypes.push(tref.toString());
         }
       }
     }

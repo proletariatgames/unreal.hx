@@ -483,6 +483,7 @@ using StringTools;
     if (ctx.isTypeParam) {
       var haxeType = new TypeRef(typeRef.name),
           ueType = new TypeRef(['cpp'], 'RawPointer', [haxeType]);
+      var isRef = false;
       if (modf != null) {
         // HACK: work around Haxe issue #4591. Change back to use modf itself when fixed
         switch(modf) {
@@ -494,7 +495,9 @@ using StringTools;
         case 'unreal.PExternal':
           haxeType = new TypeRef(['ue4hx','internal'], 'PExternalDef', [haxeType]);
         case 'unreal.PRef':
-          @:privateAccess ueType.name = 'Reference';
+          // we'll use haxeToUePtr
+          isRef = true;
+          ueType = haxeType;
           haxeType = new TypeRef(['ue4hx','internal'], 'PRefDef', [haxeType]);
         case _:
           ueType = new TypeRef( modf.split('.').pop(), [haxeType] );
@@ -503,7 +506,7 @@ using StringTools;
       } else {
         ueType = ueType.params[0];
       }
-      return {
+      var ret:TypeConvInfo = {
         ueType: ueType,
         haxeType: haxeType,
         glueType: voidStar,
@@ -517,7 +520,13 @@ using StringTools;
         glueToHaxeExpr: '(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : ${haxeType.toString()})',
         args: convArgs,
         isTypeParam: true,
+        ownershipModifier: modf,
       };
+      if (isRef) {
+        ret.ueToGlueExpr = 'TypeParamGlue<${ueType.getCppType()}>::ueToHaxeRef( % )';
+        ret.glueToUeExpr = 'TypeParamGlue<${ueType.getCppType()}>::haxeToUePtr( % )';
+      }
+      return ret;
     }
     throw new Error('Unreal Glue: Type $name is not supported', pos);
   }
