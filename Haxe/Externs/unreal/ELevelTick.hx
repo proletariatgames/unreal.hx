@@ -4,8 +4,8 @@ package unreal;
  * Expand with more types as we need them.
  * Someday auto-extern will make this automatic and there will be much rejoicing
  */
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:uname("ELevelTick")
+@:glueCppIncludes("Engine.h")
+@:uname("enum ELevelTick")
 @:uextern extern enum ELevelTick {
   /** Update the level time only. */
   LEVELTICK_TimeOnly;

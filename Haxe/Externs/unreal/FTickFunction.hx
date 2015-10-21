@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Engine.h")
 @:uextern extern class FTickFunction {
   var bCanEverTick:Bool;
 }
