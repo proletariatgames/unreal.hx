@@ -12,25 +12,30 @@
  **/
 template<typename T>
 class HAXERUNTIME_API PtrHelper {
-private:
-  // since we only use this for basic types, the
-  // biggest size of a type is 8 bytes (int64/double)
-  // We don't need to define anything bigger than that then
-  unsigned char value[sizeof(T)];
 public:
   T *ptr;
+private:
+  bool isRealPtr;
+  // this will be big enough to hold the value of T if needed
+  unsigned char value[sizeof(T)];
 
-  PtrHelper(T inVal) {
-    printf("copy ctor called\n");
-    unsigned char *val = this->value;
-    *( (T *) (void *) val ) = inVal;
-    // printf("%llx -> %llx\n", );
-    this->ptr = (T *) (void *) val;
-    printf("copy ctor called 2 %llx vs %llx\n", (long long int) *this->ptr, (long long int) inVal);
+public:
+  // the good case, where we have the actual pointer
+  PtrHelper(T *inPtr) : ptr(inPtr), isRealPtr(true) {
   }
 
-  PtrHelper(T *inPtr) : ptr(inPtr) {
-    printf("ptr ctor called\n");
+  // make it be a pointer to itself (this should happen only with T being a pointer or a basic type)
+  PtrHelper(T inVal) : ptr( (T *) (void *) &this->value ), isRealPtr(false) {
+    *this->ptr = inVal;
+  }
+
+  // copy constructor
+  PtrHelper(const PtrHelper<T> &val) : ptr(val.ptr), isRealPtr(val.isRealPtr) {
+    if (!val.isRealPtr) {
+      // if not a real pointer, we need to copy the contents of the pointer
+      this->ptr = (T *) (void *) &this->value;
+      *this->ptr = *val.ptr;
+    }
   }
 };
 
