@@ -805,8 +805,6 @@ class ExternBaker {
         escapeString(inc, this.buf);
         this.buf.add('\'');
       }
-      if (first) first = false; else this.buf.add(', ');
-      this.buf.add('"cstdio"');
       this.buf.add(')');
       this.newline();
     }
