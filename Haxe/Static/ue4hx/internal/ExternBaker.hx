@@ -300,8 +300,9 @@ class ExternBaker {
     }
 
     for (iface in c.interfaces) {
-      var ifaceRef = TypeRef.fromBaseType(iface.t.get(), iface.params, c.pos);
-      this.buf.add('implements $ifaceRef ');
+      var t = TInst(iface.t, iface.params).toString();
+      // var ifaceRef = TypeRef.fromBaseType(iface.t.get(), iface.params, c.pos);
+      this.buf.add('implements $t ');
     }
     var methods = [];
     this.begin('{');
