@@ -100,7 +100,7 @@ class HaxeModuleRules extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
-          var targetDir = '$gameDir/Intermediate/Haxe/${target.Platform}/Static';
+          var targetDir = '$gameDir/Intermediate/Haxe/${target.Platform}-${target.Configuration}/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
           var args = [
@@ -120,9 +120,15 @@ class HaxeModuleRules extends BaseModuleRules
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
           ];
 
+          var debugSymbols = target.Configuration != Shipping;
+          if (debugSymbols)
+            args.push('-debug');
+
           switch (target.Platform) {
           case Win32:
             args.push('-D HXCPP_M32');
+            if (debugSymbols)
+              args.push('-D HXCPP_DEBUG_LINK');
           case Win64:
             args.push('-D HXCPP_M64');
           case WinRT:
@@ -186,7 +192,13 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (ret == 0 && isCrossCompiling) {
             // somehow -D destination doesn't do anything when cross compiling
-            var hxcppDestination = '$targetDir/Built/libUnrealInit.a';
+            // if (
+            var hxcppDestination = '$targetDir/Built/libUnrealInit';
+            if (debugSymbols)
+              hxcppDestination += '-debug.a';
+            else
+              hxcppDestination += '.a';
+
             var shouldCopy =
               !exists(outputStatic) ||
               (exists(hxcppDestination) &&
