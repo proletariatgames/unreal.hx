@@ -286,6 +286,21 @@ using StringTools;
     var basic = basicTypes[name];
     if (basic != null) return basic;
 
+    trace(name);
+    if (name == 'unreal.TSubclassOf') {
+      trace("HERE");
+      var ofType = TypeConv.get(args[0], pos);
+      var ueType = if (ofType.ueType.isPointer())
+        ofType.ueType.params[0];
+      else
+        ofType.ueType;
+      var ret = TypeConv.get( Context.follow(type), pos );
+      ret.glueCppIncludes.push("UObject/ObjectBase.h");
+      ret.ueType = new TypeRef('TSubclassOf', [ueType]);
+      ret.ueToGlueExpr = '( (UClass *) % )';
+      return ret;
+    }
+
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     var convArgs = null;
     if (args != null && args.length > 0) {
