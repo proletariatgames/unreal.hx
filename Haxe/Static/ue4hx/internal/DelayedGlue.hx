@@ -239,7 +239,7 @@ class DelayedGlue {
     for (scall in superCalls) {
       // use a previous declaration to not force build typed expressions just yet
       var superField = allSuperFields[scall.name];
-      if (superField == null) throw 'assert';
+      if (superField == null) throw new Error('Unreal Glue Generation: super is called for ' + scall.name + ' but no superclass definition exists', scall.pos);
       this.handleSuperCall(scall, superField);
       if (!this.shouldContinue())
         return;
