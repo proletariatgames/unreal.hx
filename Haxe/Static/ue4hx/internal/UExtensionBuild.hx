@@ -24,6 +24,39 @@ class UExtensionBuild {
   public function new() {
   }
 
+  public static function ufuncMetaNoImpl(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c;
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "BlueprintImplementableEvent" |
+      "BlueprintNativeEvent" | "Server" |
+      "Client" | "NetMulticast":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function ufuncMetaNeedsImpl(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c;
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "BlueprintNativeEvent" |
+      "Server" | "Client" | "NetMulticast":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
@@ -94,12 +127,8 @@ class UExtensionBuild {
               for (param in meta.params) {
                 if (first) first = false; else headerDef += ', ';
                 headerDef += param.toString();
-                switch(param) {
-                case macro BlueprintImplementableEvent:
+                if (ufuncMetaNoImpl(param)) {
                   implementCpp = false;
-                case macro BlueprintNativeEvent:
-                  cppName += '_Implementation';
-                case _:
                 }
               }
             }

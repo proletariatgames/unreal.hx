@@ -35,7 +35,6 @@ class Globals {
   public function setHaxeRuntimeDir() {
     var dir = haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
 
-    trace(dir);
 #if !bake_externs
     if (dir == null) {
       Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());

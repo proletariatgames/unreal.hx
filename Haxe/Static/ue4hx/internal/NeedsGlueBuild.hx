@@ -116,10 +116,15 @@ class NeedsGlueBuild
               throw new Error('Unreal Glue Extension: @:ufunction meta on a non-function', field.pos);
             };
             for (param in meta.params) {
-              switch(param) {
-              case macro BlueprintImplementableEvent:
+              if (UExtensionBuild.ufuncMetaNoImpl(param)) {
+                var name = switch (param.expr) {
+                case EConst(CIdent(i)):
+                  i;
+                case _: throw 'assert';
+                }
+
                 if (fn.expr != null) {
-                  Context.warning('Unreal Glue Extension: BlueprintImplementableEvent ufunctions should not contain any implementation', field.pos);
+                  Context.warning('Unreal Glue Extension: $name ufunctions should not contain any implementation', field.pos);
                   hadErrors = true;
                 }
                 nativeCalls[field.name] = field.name;
@@ -137,9 +142,27 @@ class NeedsGlueBuild
                 }
                 changed = true;
                 field.meta.push({ name:':final', params:[], pos:field.pos });
-              case macro BlueprintNativeEvent:
-                field.meta.push({ name:':final', params:[], pos:field.pos });
-              case _:
+              }
+
+              if (UExtensionBuild.ufuncMetaNeedsImpl(param)) {
+                var name = switch (param.expr) {
+                case EConst(CIdent(i)):
+                  i;
+                case _: throw 'assert';
+                }
+
+                var found = false;
+                for (impl in fields) {
+                  if (impl.name == field.name + '_Implementation') {
+                    found = true;
+                    impl.meta.push({ name:':uexpose', params:[], pos:impl.pos });
+                    break;
+                  }
+                }
+                if (!found) {
+                  Context.warning('Unreal Glue Extension: $name ufunctions need a `_Implementation` function which is missing for function ${field.name}', field.pos);
+                  hadErrors = true;
+                }
               }
             }
           }
