@@ -45,5 +45,13 @@ package unreal;
   @:global public static function IsGarbageCollecting():Bool;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("NewObject")
   @:global public static function NewObject<T>():PExternal<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("NewObject")
+  @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PExternal<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function GetTransientPackage():UPackage;
 }

@@ -2,6 +2,7 @@ package unreal;
 
 /** Secondary condition to check before considering the replication of a lifetime property. **/
 @:glueCppIncludes("UObject/UObject.h")
+@:uname("ELifetimeCondition")
 @:uextern extern enum ELifetimeCondition {
   COND_None;
   COND_InitialOnly;
@@ -16,6 +17,7 @@ package unreal;
 }
 
 @:glueCppIncludes("UObject/UObject.h")
+@:uname("ELifetimeRepNotifyCondition")
 @:uextern extern enum ELifetimeRepNotifyCondition {
   REPNOTIFY_OnChanged;
   REPNOTIFY_Always;

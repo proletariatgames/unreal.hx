@@ -13,6 +13,7 @@ package unreal;
   public function SetNumUninitialized(arraySize:Int):Void;
   public function Insert(item:PRef<PRef<T>>, index:Int):Int;
   public function Num():Int;
+  public function Empty():Void;
 
   @:uname('new') static function create<T>():PHaxeCreated<TArray<T>>;
 }

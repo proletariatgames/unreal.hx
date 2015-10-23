@@ -18,8 +18,5 @@ import unreal.FActorTickFunction;
 	@:uproperty(Replicated)
 	public var Role : ENetRole;
 
-	/** Getter for the cached world pointer */
-	public override function UWorld* GetWorld() const override;
-
   // public function ActorHasTag(tag:FName):Bool;
 }
