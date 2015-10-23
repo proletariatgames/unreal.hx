@@ -32,6 +32,15 @@ package unreal;
    **/
   public function PostLoad():Void;
 
+//#if WITH_ENGINE
+  @:thisConst
+  public function GetWorld() : UWorld;
+//#endif
+
+ @:thisConst
+ public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<PStruct<FLifetimeProperty>>>) : Void;
+
+
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
 
