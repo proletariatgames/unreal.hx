@@ -286,9 +286,7 @@ using StringTools;
     var basic = basicTypes[name];
     if (basic != null) return basic;
 
-    trace(name);
     if (name == 'unreal.TSubclassOf') {
-      trace("HERE");
       var ofType = TypeConv.get(args[0], pos);
       var ueType = if (ofType.ueType.isPointer())
         ofType.ueType.params[0];
