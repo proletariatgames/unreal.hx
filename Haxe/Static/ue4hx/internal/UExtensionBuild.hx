@@ -413,6 +413,27 @@ class UExtensionBuild {
       }
       sclass = cur.superClass;
     }
+    if (cls.interfaces.length > 0) {
+      var touched = new Map();
+      function touch(iface:Ref<ClassType>) {
+        var name = iface.toString();
+        if (touched.exists(name))
+          return;
+        touched[name] = true;
+        var cl = iface.get();
+        if (cl.meta.has(':uextern')) {
+          for (field in cl.fields.get()) {
+            if (!ret.exists(field.name)) {
+              ret[field.name] = field;
+            }
+          }
+          for (iface in cl.interfaces)
+            touch(iface.t);
+        }
+      }
+      for (iface in cls.interfaces)
+        touch(iface.t);
+    }
     return ret;
   }
 

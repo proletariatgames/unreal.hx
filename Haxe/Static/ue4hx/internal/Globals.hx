@@ -77,6 +77,8 @@ class Globals {
     Linked list of types that have type parameters
    **/
   public var typesWithTParams:Lst<String>;
+
+  public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
 
   function new() {

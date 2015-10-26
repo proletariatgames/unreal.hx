@@ -365,7 +365,7 @@ using StringTools;
           ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).wrapped';
           ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast % ), ${originalTypeRef})';
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
-          ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( % )';
+          ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
           ret.glueCppIncludes.push('Templates/Casts.h');
         }
 

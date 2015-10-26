@@ -19,6 +19,10 @@ class NeedsGlueBuild
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
 
+    if (Globals.cur.gluesTouched.exists(localClass.toString()))
+      return null;
+    Globals.cur.gluesTouched[localClass.toString()] = true;
+
     if (cls.meta.has(':ueGluePath')) {
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(thisType.getClassPath());
     }
