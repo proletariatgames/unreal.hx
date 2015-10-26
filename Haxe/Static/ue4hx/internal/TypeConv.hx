@@ -294,6 +294,11 @@ using StringTools;
         ofType.ueType;
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
+      if (ofType.glueCppIncludes != null) {
+        for (inc in ofType.glueCppIncludes)
+          ret.glueCppIncludes.push(inc);
+      }
+
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
       ret.ueToGlueExpr = '( (UClass *) % )';
       return ret;
