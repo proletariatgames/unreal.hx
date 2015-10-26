@@ -346,6 +346,9 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
+
+          canBeForwardDeclared: true,
+          forwardDecls: []
         };
         if (modf == 'unreal.PRef') {
           ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
@@ -772,6 +775,10 @@ typedef TypeConvInfo = {
   @:optional public var params:Array<String>;
 
   @:optional public var isTypeParam:Bool;
+
+  // forward declaration
+  @:optional public var canBeForwardDeclared:Bool;
+  @:optional public var forwardDecls:Array<String>;
 }
 
 typedef TypeConvCtx = {

@@ -187,7 +187,7 @@ class TypeParamBuild {
 
       var cppCode = new HelperBuf();
       var module = Globals.cur.module;
-      cppCode += '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
+      cppCode << '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
       // get the concrete type
       var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
       hxType = switch (hxType.pack) {
@@ -207,14 +207,14 @@ class TypeParamBuild {
 
       var cppName = tparam.getCppClass();
 
-      cppCode += 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
-        cppCode += '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
-      cppCode += 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
-        cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
-      cppCode += 'template<>\nPtrHelper<$hxType> TypeParamGlue<$hxType>::haxeToUePtr(void *haxe) {\n';
-        cppCode += '\treturn PtrHelper<$hxType>($cppName::haxeToUe(haxe));\n}\n\n';
-      cppCode += 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxeRef($hxType& ue) {\n';
-        cppCode += '\treturn $cppName::ueToHaxe(ue);\n}\n';
+      cppCode << 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
+        cppCode << '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
+      cppCode << 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
+        cppCode << '\treturn $cppName::ueToHaxe(ue);\n}\n';
+      cppCode << 'template<>\nPtrHelper<$hxType> TypeParamGlue<$hxType>::haxeToUePtr(void *haxe) {\n';
+        cppCode << '\treturn PtrHelper<$hxType>($cppName::haxeToUe(haxe));\n}\n\n';
+      cppCode << 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxeRef($hxType& ue) {\n';
+        cppCode << '\treturn $cppName::ueToHaxe(ue);\n}\n';
       cls.name = tparam.name;
       cls.pack = tparam.pack;
       cls.meta = extractMeta(

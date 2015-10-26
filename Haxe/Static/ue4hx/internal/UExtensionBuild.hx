@@ -120,23 +120,23 @@ class UExtensionBuild {
             cppName = uname;
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null && ufunc[0] != null) {
-          headerDef = headerDef + 'UFUNCTION(';
+          headerDef << 'UFUNCTION(';
           var first = true;
           for (meta in ufunc) {
             if (meta.params != null) {
               for (param in meta.params) {
-                if (first) first = false; else headerDef += ', ';
-                headerDef += param.toString();
+                if (first) first = false; else headerDef << ', ';
+                headerDef << param.toString();
                 if (ufuncMetaNoImpl(param)) {
                   implementCpp = false;
                 }
               }
             }
           }
-          headerDef += ')\n\t\t';
+          headerDef << ')\n\t\t';
         }
 
-        cppDef = cppDef + ret + ' ' + nativeUe.getCppClass() + '::' + cppName + '(';
+        cppDef << ret << ' ' << nativeUe.getCppClass() << '::' << cppName << '(';
         var modifier = if (field.type.isStatic())
           'static ';
         else if (!field.cf.meta.has(':final'))
@@ -144,23 +144,23 @@ class UExtensionBuild {
         else
           '';
 
-        headerDef = headerDef + modifier + ret + ' ' + name + '(';
+        headerDef << modifier << ret << ' ' << name << '(';
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
-        cppDef += args; headerDef += args;
+        cppDef << args; headerDef << args;
         var native = nativeMethods[field.cf.name];
         var thisConst = false;
         if (native != null)
           thisConst = native.meta.has(':thisConst');
 
         if (thisConst) {
-          headerDef += ' const';
-          cppDef += ' const';
+          headerDef << ' const';
+          cppDef << ' const';
         }
 
         if (field.type == Override)
-          headerDef += ' override';
-        headerDef += ';\n';
-        cppDef += '{\n\t';
+          headerDef << ' override';
+        headerDef << ';\n';
+        cppDef << '{\n\t';
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
@@ -168,7 +168,7 @@ class UExtensionBuild {
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
-        cppDef += cppBody + ';\n}\n';
+        cppDef << cppBody << ';\n}\n';
 
         var allTypes = [ for (arg in field.args) arg.type ];
         allTypes.push(field.ret);

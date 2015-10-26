@@ -275,9 +275,9 @@ class ExternBaker {
 
     var params = new HelperBuf();
     if (c.params != null) {
-      params += '<';
+      params << '<';
       params.mapJoin(c.params, function(p) return p.name);
-      params += '>';
+      params << '>';
     }
     var params = params.toString();
 
@@ -596,13 +596,13 @@ class ExternBaker {
     var glueHeaderCode = new HelperBuf();
 
     if (hasParams) {
-      glueHeaderCode += 'template<';
+      glueHeaderCode << 'template<';
       glueHeaderCode.mapJoin(meth.params, function(p) return 'class $p');
-      glueHeaderCode += '>\n\t';
+      glueHeaderCode << '>\n\t';
     }
     if (this.params.length == 0 || meth.isStatic)
-      glueHeaderCode += 'static ';
-    glueHeaderCode += '${glueRet.glueType.getCppType()} ${meth.name}(' + cppArgDecl + ')';
+      glueHeaderCode << 'static ';
+    glueHeaderCode << '${glueRet.glueType.getCppType()} ${meth.name}(' << cppArgDecl + ')';
 
     var baseGlueHeaderCode = null;
     if (this.params.length > 0 && !meth.isStatic) {
@@ -615,7 +615,7 @@ class ExternBaker {
         retHaxeType = meth.ret.haxeType;
     var op = null;
     var glueCppBody = new HelperBuf();
-    glueCppBody += if (isStatic) {
+    glueCppBody << if (isStatic) {
       switch (meth.uname) {
         case 'new':
           'new ' + meth.ret.ueType.getCppClass();
@@ -659,19 +659,19 @@ class ExternBaker {
     var params = new HelperBuf();
     var declParams = new HelperBuf();
     if (hasParams) {
-      params += '<';
+      params << '<';
       params.mapJoin(meth.params, function(param) return param);
-      params += '>';
+      params << '>';
       declParams = params;
     } else if (meth.specialization != null && this.params.length == 0) {
-      params += '<';
+      params << '<';
       params.mapJoin(meth.specialization.types, function (tconv) return {
         if (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct')
           tconv.ueType.getCppClassName();
         else
           tconv.ueType.getCppType().toString();
       });
-      params += '>';
+      params << '>';
     }
     glueCppBody.add(params);
 
@@ -680,7 +680,7 @@ class ExternBaker {
     var cppArgTypes = [];
     for (arg in cppArgs) {
       if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
-        glueCppBodyVars += 'PtrHelper<${arg.t.ueType.getCppType()}> ${arg.name}_t = ${arg.t.glueToUe(arg.name, ctx)};\n\t\t\t';
+        glueCppBodyVars << 'PtrHelper<${arg.t.ueType.getCppType()}> ${arg.name}_t = ${arg.t.glueToUe(arg.name, ctx)};\n\t\t\t';
         cppArgTypes.push('*(${arg.name}_t.ptr)');
       } else {
         cppArgTypes.push(arg.t.glueToUe(doEscapeName(arg.name), ctx));
@@ -707,21 +707,20 @@ class ExternBaker {
 
     var glueCppCode = new HelperBuf();
     if (hasParams) {
-      glueCppCode += 'template<';
+      glueCppCode << 'template<';
       glueCppCode.mapJoin(meth.params, function(p) return 'class $p');
-      glueCppCode += '>\n\t';
+      glueCppCode << '>\n\t';
     }
 
-    glueCppBodyVars += glueCppBody;
+    glueCppBodyVars << glueCppBody;
     if (this.params.length > 0 && !hasParams && !meth.isStatic) {
-      glueHeaderCode += ' {\n\t\t\t$glueCppBodyVars;\n\t\t}';
+      glueHeaderCode << ' {\n\t\t\t$glueCppBodyVars;\n\t\t}';
     } else {
-      glueHeaderCode += ';';
-      glueCppCode =
-        glueCppCode +
-        glueRet.glueType.getCppType() +
-        ' ${this.glueType.getCppType()}_obj::${meth.name}$declParams(' + cppArgDecl + ') {' +
-          '\n\t' + glueCppBodyVars + ';\n}';
+      glueHeaderCode << ';';
+      glueCppCode <<
+        glueRet.glueType.getCppType() <<
+        ' ${this.glueType.getCppType()}_obj::${meth.name}$declParams(' << cppArgDecl << ') {' <<
+          '\n\t' << glueCppBodyVars << ';\n}';
     }
     var allTypes = [ for (arg in helperArgs) arg.t ];
     allTypes.push(meth.ret);

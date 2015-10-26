@@ -25,16 +25,16 @@ class DelayedGlue {
 
     var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
     var tconv = TypeConv.get(field.type, pos);
-    var glueExpr = new HelperBuf() + getGlueType_impl(cls, pos);
-    glueExpr += '.' + (isSetter ? 'set_' : 'get_') + fieldName + '(';
+    var glueExpr = new HelperBuf() << getGlueType_impl(cls, pos);
+    glueExpr << '.' << (isSetter ? 'set_' : 'get_') << fieldName << '(';
     if (!isStatic) {
       var thisConv = TypeConv.get( Context.getLocalType(), pos );
-      glueExpr += thisConv.haxeToGlue('this', ctx);
+      glueExpr << thisConv.haxeToGlue('this', ctx);
       if (isSetter)
-        glueExpr += ', ';
+        glueExpr << ', ';
     }
     var expr = if (isSetter) {
-      (glueExpr + tconv.haxeToGlue('value', ctx)).toString() + ')';
+      (glueExpr << tconv.haxeToGlue('value', ctx)).toString() + ')';
     } else {
       tconv.glueToHaxe( glueExpr.toString() + ')', ctx );
     }
@@ -304,34 +304,34 @@ class DelayedGlue {
       } else {
         ret = TypeConv.get(Context.getType('Void'), field.pos);
       }
-      headerDef = headerDef + 'public: static ' + ret.glueType.getCppType() + ' ' + mode + '_' + field.name + '(';
-      cppDef = cppDef + ret.glueType.getCppType() + ' ' + glue.getCppClass() + '_obj::' + mode + '_' + field.name + '(';
+      headerDef << 'public: static ' << ret.glueType.getCppType() << ' ' << mode << '_' << field.name + '(';
+      cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << mode << '_' << field.name << '(';
 
       if (!isStatic) {
         var thisDef = this.thisConv.glueType.getCppType() + ' self';
-        headerDef += thisDef;
-        cppDef += thisDef;
+        headerDef << thisDef;
+        cppDef << thisDef;
       }
 
       if (mode == 'set') {
         var comma = isStatic ? '' : ', ';
-        headerDef = headerDef + comma + tconv.glueType.getCppType() + ' value';
-        cppDef = cppDef + comma + tconv.glueType.getCppType() + ' value';
+        headerDef << comma << tconv.glueType.getCppType() << ' value';
+        cppDef << comma << tconv.glueType.getCppType() << ' value';
       }
-      headerDef += ');\n';
-      cppDef += ') {\n\t';
+      headerDef << ');\n';
+      cppDef << ') {\n\t';
 
       var cppBody = new HelperBuf();
       if (isStatic) {
-        cppBody = cppBody + this.thisConv.ueType.getCppClass() + '::' + uname;
+        cppBody << this.thisConv.ueType.getCppClass() << '::' << uname;
       } else {
-        cppBody = cppBody + this.thisConv.glueToUe('self', null) + '->' + uname;
+        cppBody << this.thisConv.glueToUe('self', null) << '->' << uname;
       }
 
       if (mode == 'get')
-        cppDef = cppDef + 'return ' + tconv.ueToGlue(cppBody.toString(), null) + ';\n}\n';
+        cppDef << 'return ' << tconv.ueToGlue(cppBody.toString(), null) << ';\n}\n';
       else
-        cppDef = cppDef + cppBody.toString() + ' = ' + tconv.glueToUe('value', null) + ';\n}\n';
+        cppDef << cppBody.toString() << ' = ' << tconv.glueToUe('value', null) << ';\n}\n';
 
       var args:Array<FunctionArg> = if (isStatic)
         [];
@@ -376,34 +376,34 @@ class DelayedGlue {
     var externName = field.name;
     var headerDef = new HelperBuf(),
         cppDef = new HelperBuf();
-    headerDef = headerDef + 'static ' + ret.glueType.getCppType() + ' ' + externName + '(';
-    cppDef = cppDef + ret.glueType.getCppType() + ' ' + glue.getCppClass() + '_obj::' + externName + '(';
+    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
+    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
     var thisDef = thisConv.glueType.getCppType() + ' self';
-    headerDef += thisDef;
-    cppDef += thisDef;
+    headerDef << thisDef;
+    cppDef << thisDef;
 
     if (args.length > 0) {
       var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef = headerDef + ', ' + argsDef;
-      cppDef = cppDef + ', ' + argsDef;
+      headerDef << ', ' << argsDef;
+      cppDef << ', ' << argsDef;
     }
-    headerDef += ');';
-    cppDef += ') {\n\t';
+    headerDef << ');';
+    cppDef << ') {\n\t';
 
     // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
     {
       var cppBody = new HelperBuf();
       if (isStatic)
-        cppBody += this.thisConv.ueType.getCppClass() + '::';
+        cppBody << this.thisConv.ueType.getCppClass() << '::';
       else
-        cppBody += this.thisConv.glueToUe('self', null) + '->';
-      cppBody += uname + '(';
+        cppBody << this.thisConv.glueToUe('self', null) << '->';
+      cppBody << uname << '(';
       cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody += ')';
+      cppBody << ')';
       if (!ret.haxeType.isVoid())
-        cppDef = cppDef + 'return ' + ret.ueToGlue(cppBody.toString(), null) + ';\n}';
+        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
       else
-        cppDef = cppDef + cppBody + ';\n}';
+        cppDef << cppBody << ';\n}';
     }
 
     var allTypes = [ for (arg in args) arg.type ];
@@ -446,29 +446,29 @@ class DelayedGlue {
     var externName = field.name;
     var headerDef = new HelperBuf(),
         cppDef = new HelperBuf();
-    headerDef = headerDef + 'static ' + ret.glueType.getCppType() + ' ' + externName + '(';
-    cppDef = cppDef + ret.glueType.getCppType() + ' ' + glue.getCppClass() + '_obj::' + externName + '(';
+    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
+    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
     var thisDef = thisConv.glueType.getCppType() + ' self';
-    headerDef += thisDef;
-    cppDef += thisDef;
+    headerDef << thisDef;
+    cppDef << thisDef;
 
     if (args.length > 0) {
       var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef = headerDef + ', ' + argsDef;
-      cppDef = cppDef + ', ' + argsDef;
+      headerDef << ', ' << argsDef;
+      cppDef << ', ' << argsDef;
     }
-    headerDef += ');';
-    cppDef += ') {\n\t';
+    headerDef << ');';
+    cppDef << ') {\n\t';
 
     // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
     {
-      var cppBody = new HelperBuf() + this.thisConv.glueToUe('self', null) + '->' + this.firstExternSuper.ueType.getCppClass() + '::' + uname + '(';
+      var cppBody = new HelperBuf() << this.thisConv.glueToUe('self', null) << '->' << this.firstExternSuper.ueType.getCppClass() << '::' << uname << '(';
       cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody += ')';
+      cppBody << ')';
       if (!ret.haxeType.isVoid())
-        cppDef = cppDef + 'return ' + ret.ueToGlue(cppBody.toString(), null) + ';\n}';
+        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
       else
-        cppDef = cppDef + cppBody + ';\n}';
+        cppDef << cppBody << ';\n}';
     }
 
     var allTypes = [ for (arg in args) arg.type ];

@@ -7,11 +7,11 @@ class HeaderWriter extends BaseWriter {
   }
 
   override private function getContents(module:String):String {
-    var header = new HelperBuf() +
+    var header = new HelperBuf() <<
       '#pragma once\n';
     getIncludes(header);
 
-    header = header + '\n' +
+    header << '\n' <<
       this.buf.toString();
 
     return header.toString();

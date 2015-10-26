@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 
@@ -49,6 +50,19 @@ class TypeRef
     }
     return this;
   }
+
+  // public function getForwardDecl() {
+  //   if (this.isPointer())
+  //     return params[0].getForwardDecl();
+  //
+  //   if (this.pack.length == 0) {
+  //     return 'class ${this.name};';
+  //   }
+  //   var ret = new HelperBuf();
+  //   for (pack in this.pack) {
+  //     // ret
+  //   }
+  // }
 
   public static function fromBaseType(ct:BaseType, ?params:Array<Type>, pos:Position):TypeRef {
     var mod = ct.module.split('.').pop();
