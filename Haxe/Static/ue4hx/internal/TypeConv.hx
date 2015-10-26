@@ -294,9 +294,18 @@ using StringTools;
         ofType.ueType;
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
+      ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       if (ofType.glueCppIncludes != null) {
         for (inc in ofType.glueCppIncludes)
           ret.glueCppIncludes.push(inc);
+      }
+      switch (ret.forwardDeclType) {
+      case null | Never:
+        // do nothing; we already are set to never
+      case Templated(base):
+        ret.forwardDeclType = Templated(base.concat(['UObject/ObjectBase.h']));
+      case _:
+        ret.forwardDeclType = Templated(['UObject/ObjectBase.h']);
       }
 
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
@@ -346,6 +355,9 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
+
+          forwardDeclType: ForwardDeclEnum.Always,
+          forwardDecls: [refName.getForwardDecl()],
         };
         if (modf == 'unreal.PRef') {
           ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
@@ -369,26 +381,69 @@ using StringTools;
           args: convArgs,
         };
       } else {
-        var ueType = refName;
-        if (convArgs != null)
-          ueType = ueType.withParams([ for (arg in convArgs) arg.ueType ]);
-        var metaArray = getMetaArray(meta, ':glueCppIncludes');
-        if (metaArray == null) {
+        var cppIncludes = getMetaArray(meta, ':glueCppIncludes');
+        if (cppIncludes == null) {
           Context.warning('Unreal Glue Code: glueCppIncludes missing for $typeRef', pos);
-          metaArray = [];
+          cppIncludes = [];
         }
+        var ueType = refName;
+        var forwardDecls = [],
+            declType = ForwardDeclEnum.Always;
+        var addMyForward = true;
+        if (convArgs != null) {
+          var myIncludes = cppIncludes.copy();
+          declType = ForwardDeclEnum.Templated(myIncludes);
+          addMyForward = false;
+          ueType = ueType.withParams([ for (arg in convArgs) arg.ueType ]);
+          for (arg in convArgs) {
+            if (!arg.isTypeParam) {
+              // TArray types can be forward declared, so add an exception here
+              switch (arg.forwardDeclType) {
+              case null | Never:
+                declType = ForwardDeclEnum.Never;
+              case Templated(incs):
+                for (inc in incs)
+                  myIncludes.push(inc);
+              case _:
+                if (arg.forwardDecls == null) {
+                  forwardDecls.push(arg.ueType.getForwardDecl());
+                } else {
+                  for (decl in arg.forwardDecls)
+                    forwardDecls.push(decl);
+                }
+              }
+            }
+          }
+        }
+
+        // don't add forward declarations for non-UOBjects
+        // TODO proper forward declaration for structs (vs. classes)
+        switch (declType) {
+          case Templated(_):
+            // do nothing
+          case _:
+            declType = ForwardDeclEnum.Never;
+        }
+
+        if (addMyForward)
+          forwardDecls.push(ueType.getForwardDecl());
         var ret:TypeConvInfo = {
           haxeType: originalTypeRef,
           ueType: new TypeRef(['cpp'], 'RawPointer', [ueType]),
           haxeGlueType: uePointer,
           glueType: uePointer,
-          glueCppIncludes: ['<OPointers.h>'].concat(metaArray),
+
+          glueCppIncludes: ['<OPointers.h>'].concat(cppIncludes),
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
+
           haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
           glueToUeExpr: '( (${ueType.getCppType()} *) %->getPointer() )',
           ownershipModifier: modf,
           args: convArgs,
+
+          forwardDeclType: declType,
+          forwardDecls: forwardDecls,
         };
         if (originalTypeRef != typeRef)
           ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
@@ -407,6 +462,8 @@ using StringTools;
             // ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             ret.ueType = ret.ueType.params[0];
+            if (ret.forwardDeclType == Always)
+              ret.forwardDeclType = ForwardDeclEnum.AsFunction;
           case 'unreal.TSharedPtr':
             ret.ueType = new TypeRef('TSharedPtr',[ueType]);
             ret.ueToGlueExpr = 'PSharedPtr<${ueType.getCppType()}>::wrap( % )';
@@ -479,6 +536,9 @@ using StringTools;
         ueToGlueExpr: '%->haxeGcRef.get()',
         glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
         ownershipModifier: modf,
+
+        forwardDeclType: ForwardDeclEnum.Always,
+        forwardDecls: [refName.getForwardDecl()],
       };
 
       if (modf == 'unreal.PRef') {
@@ -664,6 +724,8 @@ using StringTools;
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
         isBasic: false,
+        forwardDeclType: ForwardDeclEnum.AsFunction,
+        forwardDecls: ['class FString;'],
       },
       // FText
       {
@@ -679,7 +741,9 @@ using StringTools;
         glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
-        isBasic: false
+        isBasic: false,
+        forwardDeclType: ForwardDeclEnum.AsFunction,
+        forwardDecls: ['class FText;'],
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {
@@ -772,6 +836,10 @@ typedef TypeConvInfo = {
   @:optional public var params:Array<String>;
 
   @:optional public var isTypeParam:Bool;
+
+  // forward declaration
+  @:optional public var forwardDeclType:ForwardDecl;
+  @:optional public var forwardDecls:Array<String>;
 }
 
 typedef TypeConvCtx = {
@@ -787,4 +855,18 @@ typedef TypeConvCtx = {
 
   ?originalType:BaseType,
   ?isTypeParam:Bool,
+}
+
+enum ForwardDeclEnum {
+  Never;
+  AsFunction;
+  Templated(mainIncludes:Array<String>);
+  Always;
+}
+
+@:forward
+abstract ForwardDecl(ForwardDeclEnum) from ForwardDeclEnum to ForwardDeclEnum {
+  @:extern inline public function isNever() {
+    return this == null || this == Never;
+  }
 }

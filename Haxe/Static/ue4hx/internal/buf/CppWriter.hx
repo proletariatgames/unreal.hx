@@ -10,11 +10,11 @@ class CppWriter extends BaseWriter {
     var bufContents = this.buf.toString();
     if (bufContents == '')
       return null;
-    var cpp = new HelperBuf() +
+    var cpp = new HelperBuf() <<
       '#include <$module.h>\n';
     getIncludes(cpp);
 
-    cpp = cpp + '\n' +
+    cpp << '\n' <<
       bufContents;
 
     return cpp.toString();

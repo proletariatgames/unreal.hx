@@ -30,4 +30,6 @@ package unreal;
 	/** Damage fall-off for radius damage (exponent).  Default 1.0=linear, 2.0=square of distance, etc. */
 	@:UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=DamageType)
 	public var DamageFalloff:Float;
+
+  public static function StaticClass():TSubclassOf<UDamageType>;
 }

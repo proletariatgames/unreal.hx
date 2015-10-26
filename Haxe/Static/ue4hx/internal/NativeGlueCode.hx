@@ -48,9 +48,9 @@ class NativeGlueCode
     }
 
     if (cl.params.length > 0) {
-      writer.buf += 'template <';
+      writer.buf << 'template <';
       writer.buf.mapJoin(cl.params, function(p) return 'typename ' + p.name);
-      writer.buf += '>';
+      writer.buf << '>';
     }
     writer.buf.add('class ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
     writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
@@ -115,6 +115,8 @@ class NativeGlueCode
         writer.buf.add('\t\t$glueHeaderCode\n');
       for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
         writer.include(inc);
+      for (fwd in MacroHelpers.extractStrings(field.meta, ':headerForwards'))
+        writer.forwardDeclare(fwd);
     }
     writer.buf.add('};\n\n');
 

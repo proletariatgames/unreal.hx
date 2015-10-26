@@ -5,7 +5,7 @@ package ue4hx.internal.buf;
     this = new StringBuf();
   }
 
-  @:op(A+B) inline public function add(dyn:Dynamic):HelperBuf {
+  @:op(A<<B) inline public function add(dyn:Dynamic):HelperBuf {
     this.add(dyn);
     return this;
   }
