@@ -115,6 +115,8 @@ class NativeGlueCode
         writer.buf.add('\t\t$glueHeaderCode\n');
       for (inc in MacroHelpers.extractStrings(field.meta, ':glueHeaderIncludes'))
         writer.include(inc);
+      for (fwd in MacroHelpers.extractStrings(field.meta, ':headerForwards'))
+        writer.forwardDeclare(fwd);
     }
     writer.buf.add('};\n\n');
 

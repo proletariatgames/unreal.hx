@@ -1,5 +1,6 @@
 package ue4hx.internal;
 import ue4hx.internal.buf.HelperBuf;
+import ue4hx.internal.TypeConv;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -172,17 +173,28 @@ class UExtensionBuild {
 
         var allTypes = [ for (arg in field.args) arg.type ];
         allTypes.push(field.ret);
-        var includes = new Map();
+        var headerIncludes = new Map(),
+            cppIncludes = new Map(),
+            headerForwards = new Map();
         for (t in allTypes) {
-          // we only care about glue Header includes here since we're using the actual UE type
-          t.getAllCppIncludes( includes );
+          if (!t.forwardDeclType.isNever()) {
+            for (decl in t.forwardDecls) {
+              headerForwards[decl] = decl;
+            }
+            t.getAllCppIncludes( cppIncludes );
+          } else {
+            // we only care about glue Header includes here since we're using the actual UE type
+            t.getAllCppIncludes( headerIncludes );
+          }
         }
 
         if (!implementCpp) cppDef = new HelperBuf();
         var metas:Metadata = [
           { name: ':glueHeaderCode', params:[macro $v{headerDef.toString()}], pos: field.cf.pos },
           { name: ':glueCppCode', params:[macro $v{cppDef.toString()}], pos: field.cf.pos },
-          { name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: field.cf.pos }
+          { name: ':glueHeaderIncludes', params:[for (inc in headerIncludes) macro $v{inc}], pos: field.cf.pos },
+          { name: ':glueCppIncludes', params:[for (inc in cppIncludes) macro $v{inc}], pos: field.cf.pos },
+          { name: ':headerForwards', params:[for (fwd in headerForwards) macro $v{fwd}], pos: field.cf.pos }
         ];
         if (field.ret.haxeType.isVoid())
           metas.push({ name: ':void', pos: field.cf.pos });
@@ -205,14 +217,19 @@ class UExtensionBuild {
         { name: ':uextern', params:[], pos:clt.pos },
       ];
 
-      var includes = ['<unreal/helpers/GcRef.h>', '<' + expose.getClassPath().replace('.','/') + '.h>'];
-      var includes = [ for (inc in includes) inc => inc ];
-      var info = addNativeUeClass(nativeUe, clt, includes, metas);
+      var headerIncludes = ['<unreal/helpers/GcRef.h>'],
+          cppIncludes = ['<' + expose.getClassPath().replace('.','/') + '.h>'];
+      var headerIncludes = [ for (inc in headerIncludes) inc => inc ],
+          cppIncludes = [ for (inc in cppIncludes) inc => inc ];
+      var info = addNativeUeClass(nativeUe, clt, headerIncludes, metas);
+      metas.push({ name:':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos:clt.pos });
 
       // add createHaxeWrapper
       {
         var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
-        var glueHeaderIncs = new Map();
+        var glueHeaderIncs = new Map(),
+            glueCppIncs = new Map(),
+            headerForwards = new Map();
         for (uprop in uprops) {
           var uname = MacroHelpers.extractStrings(uprop.meta, ':uname')[0];
           if (uname == null)
@@ -232,14 +249,32 @@ class UExtensionBuild {
           headerCode += data + ')\n\t\t';
           headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
-          tconv.getAllCppIncludes( glueHeaderIncs );
+          switch (tconv.forwardDeclType) {
+          case null | Never | AsFunction:
+            tconv.getAllCppIncludes( glueHeaderIncs );
+          case Templated(incs):
+            for (inc in incs) {
+              glueHeaderIncs[inc] = inc;
+            }
+            for (fwd in tconv.forwardDecls) {
+              headerForwards[fwd] = fwd;
+            }
+            tconv.getAllCppIncludes(glueCppIncs);
+          case Always:
+            for (fwd in tconv.forwardDecls) {
+              headerForwards[fwd] = fwd;
+            }
+            tconv.getAllCppIncludes(glueCppIncs);
+          }
         }
         var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
 
         var metas = [
           { name: ':glueHeaderCode', params: [macro $v{headerCode}], pos: this.pos },
           { name: ':glueCppCode', params: [macro $v{cppCode}], pos: this.pos },
-          { name: ':glueHeaderIncludes', params: [for (inc in glueHeaderIncs) macro $v{inc}], pos: this.pos }
+          { name: ':glueHeaderIncludes', params: [for (inc in glueHeaderIncs) macro $v{inc}], pos: this.pos },
+          { name: ':glueCppIncludes', params: [for (inc in glueCppIncs) macro $v{inc}], pos: this.pos },
+          { name: ':headerForwards', params: [ for (fwd in headerForwards) macro $v{fwd}], pos: this.pos }
         ];
         buildFields.push({
           name: 'createHaxeWrapper',
