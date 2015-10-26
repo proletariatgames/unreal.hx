@@ -622,10 +622,15 @@ class ExternBaker {
         case '.ctor':
           meth.ret.ueType.getCppClass();
         case _:
-          if (meth.meta.hasMeta(':global'))
-            '::' + meth.uname;
-          else
+          if (meth.meta.hasMeta(':global')) {
+            var namespace = MacroHelpers.extractStringsFromMetadata(meth.meta, ':global')[0];
+            if (namespace != null)
+              '::' + namespace.replace('.','::') + '::' + meth.uname;
+            else
+              '::' + meth.uname;
+          } else {
             this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+          }
       }
     } else {
       var self = null;

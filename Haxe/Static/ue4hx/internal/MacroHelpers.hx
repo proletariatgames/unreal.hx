@@ -38,4 +38,22 @@ class MacroHelpers
     }
     return null;
   }
+
+  public static function extractStringsFromMetadata(metas:Metadata, name:String):Array<String> {
+    var ret = [];
+    for (field in metas) {
+      if (field.name != name) continue;
+      if (field.params != null) {
+        for (param in field.params) {
+          switch(param.expr) {
+          case EConst(CString(s)):
+            ret.push(s);
+          case _:
+            throw 'assert: $param';
+          }
+        }
+      }
+    }
+    return ret;
+  }
 }
