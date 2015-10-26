@@ -295,6 +295,7 @@ using StringTools;
       else
         ofType.ueType;
       var ret = TypeConv.get( Context.follow(type), pos );
+      ret.haxeType = new TypeRef(['unreal'], 'TSubclassOf', [ofType.haxeType]);
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
       ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       if (ofType.glueCppIncludes != null) {

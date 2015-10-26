@@ -11,6 +11,7 @@ using haxe.macro.Tools;
 using ue4hx.internal.MacroHelpers;
 
 using StringTools;
+using Lambda;
 
 /**
   This is the first pass in the Haxe compilation pipeline. It must run as a separate
@@ -343,6 +344,18 @@ class ExternBaker {
             this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
           this.end('}');
           this.newline();
+
+          if (uname != 'UClass' && !methods.exists(function(m) return m.uname == 'StaticClass')) {
+            methods.push({
+              name:'StaticClass',
+              uname:'StaticClass',
+              doc:'\n\t\tReturns the `UClass` object which describes this class\n\t',
+              args: [],
+              ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
+              prop: PropType.NonProp,
+              isPublic: true, isFinal:true, isStatic: true
+            });
+          }
         }
       }
 
