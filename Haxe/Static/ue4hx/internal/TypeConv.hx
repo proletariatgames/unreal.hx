@@ -416,6 +416,15 @@ using StringTools;
           }
         }
 
+        // don't add forward declarations for non-UOBjects
+        // TODO proper forward declaration for structs (vs. classes)
+        switch (declType) {
+          case Templated(_):
+            // do nothing
+          case _:
+            declType = ForwardDeclEnum.Never;
+        }
+
         if (addMyForward)
           forwardDecls.push(ueType.getForwardDecl());
         var ret:TypeConvInfo = {
