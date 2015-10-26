@@ -2,6 +2,7 @@ package ue4hx.internal;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+
 using haxe.macro.TypeTools;
 using Lambda;
 using StringTools;
@@ -107,11 +108,11 @@ using StringTools;
   }
 
   private static function typeIsUObject(t:Type) {
-    var uobj = Globals.cur.uobject;
-    if (uobj == null) {
-      Globals.cur.uobject = uobj = Context.getType('unreal.UObject');
+    var uobject = Globals.cur.uobject;
+    if (uobject == null) {
+      Globals.cur.uobject = uobject = Context.getType('unreal.UObject');
     }
-    return Context.unify(t, uobj);
+    return Context.unify(t, uobject);
   }
 
   private function get_haxeGlueType():TypeRef {
@@ -140,9 +141,10 @@ using StringTools;
           args: tl,
           meta: it.meta,
 
+          isInterface: it.isInterface,
           superClass: it.superClass,
           baseType: it,
-          isUObject: TypeConv.typeIsUObject(type),
+          isUObject: TypeConv.typeIsUObject(type) || (it.isInterface && it.meta.has(':uextern')),
           originalType: originalType,
           isTypeParam: it.kind.match(KTypeParameter(_)),
         };
@@ -359,6 +361,14 @@ using StringTools;
           forwardDeclType: ForwardDeclEnum.Always,
           forwardDecls: [refName.getForwardDecl()],
         };
+        if (ctx.isInterface) {
+          ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).wrapped';
+          ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast % ), ${originalTypeRef})';
+          ret.ueToGlueExpr = 'Cast<UObject>( % )';
+          ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( % )';
+          ret.glueCppIncludes.push('Templates/Casts.h');
+        }
+
         if (modf == 'unreal.PRef') {
           ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
           ret.haxeToGlueExpr = 'cpp.Pointer.addressOf( ' + ret.haxeToGlueExpr + ' ).rawCast()';
@@ -847,6 +857,7 @@ typedef TypeConvCtx = {
   args:Array<Type>,
   meta:MetaAccess,
 
+  ?isInterface:Bool,
   ?superClass:Null<{ t : Ref<ClassType>, params : Array<Type> }>,
   ?baseType:Null<BaseType>,
   ?isBasic:Bool,

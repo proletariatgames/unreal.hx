@@ -25,6 +25,14 @@ class NeedsGlueBuild
     if (cls.meta.has(':hasTParams')) {
       Globals.cur.typesWithTParams = Globals.cur.typesWithTParams.add(thisType.getClassPath());
     }
+    var interf = cls.isInterface;
+    if (interf) {
+      switch [cls.pack, cls.name] {
+      case [ ['unreal'], 'IInterface' ]:
+        return null;
+      case _:
+      }
+    }
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       // FIXME: allow any namespace by using @:native; add @:native handling
@@ -179,7 +187,16 @@ class NeedsGlueBuild
       Globals.cur.uextensions = Globals.cur.uextensions.add(thisType.getClassPath());
 
       // add the glueRef definition if needed
-      for (field in toAdd) fields.push(field);
+      for (field in toAdd) {
+        if (interf) {
+          switch(field.kind) {
+          case FFun(fn):
+            fn.expr = null;
+          case _:
+          }
+        }
+        fields.push(field);
+      }
 
       if (hadErrors)
         Context.error('Unreal Glue Extension: Build failed', cls.pos);

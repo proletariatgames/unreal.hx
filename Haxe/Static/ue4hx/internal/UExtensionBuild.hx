@@ -127,7 +127,7 @@ class UExtensionBuild {
             if (meta.params != null) {
               for (param in meta.params) {
                 if (first) first = false; else headerDef << ', ';
-                headerDef << param.toString();
+                headerDef << param.toString().replace('[','(').replace(']',')');
                 if (ufuncMetaNoImpl(param)) {
                   implementCpp = false;
                 }
@@ -242,7 +242,7 @@ class UExtensionBuild {
             if (meta.params != null) {
               for (param in meta.params) {
                 if (first) first = false; else data.add(', ');
-                data.add(param.toString());
+                data.add(param.toString().replace('[','(').replace(']',')'));
               }
             }
           }
@@ -351,7 +351,7 @@ class UExtensionBuild {
         var first = true;
         for (param in uclass.params) {
           if (first) first = false; else headerDef.add(', ');
-          headerDef.add(param.toString());
+          headerDef.add(param.toString().replace('[','(').replace(']',')'));
         }
       }
       headerDef.add(')\n');
