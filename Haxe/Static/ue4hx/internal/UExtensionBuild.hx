@@ -149,7 +149,7 @@ class UExtensionBuild {
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
         cppDef << args; headerDef << args;
         var native = nativeMethods[field.cf.name];
-        var thisConst = field.cf.meta.has(':thisConst');
+        var thisConst = field.cf.meta.has(':thisConst') || (native != null && native.meta.has(':thisConst'));
 
         if (thisConst) {
           headerDef << ' const';
