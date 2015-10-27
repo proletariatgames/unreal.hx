@@ -38,6 +38,7 @@ class CreateGlue {
             Context.follow(field.type);
           for (field in cl.statics.get())
             Context.follow(field.type);
+          Context.follow(cl.constructor.get().type);
         case _:
         }
       }
