@@ -8,5 +8,8 @@ package unreal;
 
   @:thisConst
   public function GetDesiredRotation() : PStruct<FRotator> ;
+
+  @:thisConst
+  public function GetCharacter() : ACharacter;
 }
 

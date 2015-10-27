@@ -18,5 +18,16 @@ import unreal.FActorTickFunction;
 	@:uproperty(Replicated)
 	public var Role : ENetRole;
 
-  // public function ActorHasTag(tag:FName):Bool;
+  /**
+   * Get the owner of this Actor, used primarily for network replication.
+   * @return Actor that owns this Actor
+   */
+  @:ufunction(BlueprintCallable, Category=Actor)
+  @:thisConst
+  public function GetOwner() : AActor;
+
+  /** See if this actor contains the supplied tag */
+  @:ufunction(BlueprintCallable, Category="Utilities")
+  @:thisConst
+  public function ActorHasTag(Tag:PStruct<FName>) : Bool;
 }
