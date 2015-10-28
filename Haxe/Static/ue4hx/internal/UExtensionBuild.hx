@@ -372,14 +372,13 @@ class UExtensionBuild {
     headerDef.add('public:\n');
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
-      headerDef.add('void __hx_init() { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       if (clt.meta.has(':noDefaultConstructor')) {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) { __hx_init(); }\n');
+        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) { if (ObjectInitializer.GetClass()->GetDesc() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper("$ueName")); }\n');
       } else {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) { __hx_init(); }\n');
+        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) { if (ObjectInitializer.GetClass()->GetDesc() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       }
     } else {
-      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) {}\n');
+      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) { if (ObjectInitializer.GetClass()->GetDesc() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
     }
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
