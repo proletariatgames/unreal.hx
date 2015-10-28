@@ -544,7 +544,7 @@ using StringTools;
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
-        ueToGlueExpr: 'unreal::helpers::UEPointer::getGcRef(%)',
+        ueToGlueExpr: '::unreal::helpers::UEPointer::getGcRef(%)',
         glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
         ownershipModifier: modf,
 

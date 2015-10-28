@@ -170,6 +170,8 @@ class UExtensionBuild {
         cppDef << cppBody << ';\n}\n';
 
         var allTypes = [ for (arg in field.args) arg.type ];
+        if (!field.type.isStatic())
+          allTypes.push(thisConv);
         allTypes.push(field.ret);
         var headerIncludes = new Map(),
             cppIncludes = new Map(),
