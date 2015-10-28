@@ -366,20 +366,17 @@ class UExtensionBuild {
     } else {
       headerDef.add(' {\n\n');
     }
-    var superConv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos);
-    var superName = superConv.ueType.getCppClass();
     // headerDef.add(' {\n\t');
     headerDef.add('public:\n');
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
-      headerDef.add('void __hx_init() { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       if (clt.meta.has(':noDefaultConstructor')) {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) { __hx_init(); }\n');
+        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       } else {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) { __hx_init(); }\n');
+        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       }
     } else {
-      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) {}\n');
+      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) {}\n');
     }
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
