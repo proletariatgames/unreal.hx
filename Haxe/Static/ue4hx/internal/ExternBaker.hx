@@ -353,7 +353,7 @@ class ExternBaker {
               args: [],
               ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
               prop: PropType.NonProp,
-              isPublic: true, isFinal:true, isStatic: true
+              isHaxePublic: true, isFinal:true, isStatic: true, isPublic: true
             });
           }
         }
@@ -438,7 +438,7 @@ class ExternBaker {
             args:[],
             ret:TypeConv.get(type, c.pos, 'unreal.PHaxeCreated'),
             prop:NonProp,
-            isFinal: false, isPublic:false, isStatic:false, isOverride: true
+            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
           methods.push({
             name: '_copyStruct',
@@ -448,7 +448,7 @@ class ExternBaker {
             args:[],
             ret:TypeConv.get(type, c.pos, 'unreal.PStruct'),
             prop:NonProp,
-            isFinal: false, isPublic:false, isStatic:false, isOverride: true
+            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
         } else {
           this.buf.add('@:deprecated("This type does not support copy constructors") override public function copy()');
@@ -514,7 +514,8 @@ class ExternBaker {
           uname: uname,
           args: [],
           ret: realTConv,
-          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic,
+          prop: prop, isFinal: true, isHaxePublic: false, isStatic: isStatic,
+          isPublic: field.isPublic,
           meta: meta
         });
         this.buf.add('get,');
@@ -528,7 +529,8 @@ class ExternBaker {
           uname: uname,
           args: [{ name: 'value', t: tconv }],
           ret: tconv,
-          prop: prop, isFinal: true, isPublic: false, isStatic: isStatic,
+          prop: prop, isFinal: true, isHaxePublic: false, isStatic: isStatic,
+          isPublic: field.isPublic,
           meta: meta
         });
         this.buf.add('set):');
@@ -554,7 +556,9 @@ class ExternBaker {
           params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
-          prop: NonProp, isFinal: false, isPublic: field.isPublic, isStatic: isStatic,
+          prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+          isStatic: isStatic,
+          isPublic: field.isPublic,
           specialization: specialization,
         });
         if (uname == 'new' && specialization == null) {
@@ -582,7 +586,8 @@ class ExternBaker {
             params: [ for (p in field.params) p.name ],
             args: cur.args,
             ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
-            prop: NonProp, isFinal: false, isPublic: field.isPublic, isStatic: isStatic,
+            prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+            isStatic: isStatic, isPublic: field.isPublic,
             specialization: specialization,
           });
         }
@@ -683,6 +688,12 @@ class ExternBaker {
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
           this.thisConv.ueType.getCppClass();
+        case _ if(!meth.isPublic):
+          // For private/protected external functions we need to use a 
+          // local derived class with a static function that lets the wrapper
+          // call the private/protected function.
+          // See PRIVATE METHOD CALL comments farther down the code.
+          self.t.glueToUe(self.name, ctx) + '->*(WIP_FIXME::' + meth.uname + ")";
         case _:
           self.t.glueToUe(self.name, ctx) + '->' + meth.uname;
       }
@@ -749,7 +760,11 @@ class ExternBaker {
       glueCppCode << '>\n\t';
     }
 
+    // TODO for nonpublic members, use a derived class with a static
+    // function to "cheat" and call the private/protected C++ function
+
     glueCppBodyVars << glueCppBody;
+
     if (this.params.length > 0 && !hasParams && !meth.isStatic) {
       glueHeaderCode << ' {\n\t\t\t$glueCppBodyVars;\n\t\t}';
     } else {
@@ -854,7 +869,7 @@ class ExternBaker {
     }
     if (meth.isFinal)
       this.buf.add('@:final @:nonVirtual ');
-    if (meth.isPublic)
+    if (meth.isHaxePublic)
       this.buf.add('public ');
     else
       this.buf.add('private ');
@@ -1158,6 +1173,7 @@ typedef MethodDef = {
   ret:TypeConv,
   prop:PropType,
   isFinal:Bool,
+  isHaxePublic:Bool,
   isPublic:Bool,
   isStatic:Bool,
   ?isOverride:Bool,
