@@ -15,7 +15,7 @@
 	[
 		{
 			"Name" : "HaxeInit",
-			"Type" : "Editor"
+			"Type" : "Runtime"
 		}
 	]
 }
