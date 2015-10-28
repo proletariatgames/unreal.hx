@@ -370,14 +370,13 @@ class UExtensionBuild {
     headerDef.add('public:\n');
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
-      // headerDef.add('\t\tpublic virtual void *createHaxeWrapper();\n');
       if (clt.meta.has(':noDefaultConstructor')) {
         headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       } else {
-        headerDef.add('\t\t${ueName}() { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
+        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) { this->haxeGcRef.set(this->createHaxeWrapper()); }\n');
       }
     } else {
-      // headerDef.add('\t\tpublic virtual void *createHaxeWrapper() override;\n');
+      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) {}\n');
     }
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
