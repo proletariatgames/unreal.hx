@@ -5,7 +5,22 @@ package unreal.helpers;
   Shared pointers, weak pointers, pointers that are owned by Unreal and pointers that are
   owned by Hxcpp will all derive from this implementation and add the appropriate destructors when needed
  **/
-@:headerClassCode('\n\t\tvirtual ~UEPointer() {}\n};\n\n
+@:headerClassCode('\n\t\tvirtual ~UEPointer() {}\n
+\t\tstatic void *getPointer(UEPointer *ref) {
+\t\t\tif (ref == 0) {
+\t\t\t\treturn 0;
+\t\t\t}
+\t\t\treturn ref->getPointer();
+\t}
+
+\t\ttemplate<class T>
+\t\tstatic void *getGcRef(T ref) {
+\t\t\tif (ref == 0) {
+\t\t\t\treturn 0;
+\t\t\t}
+\t\t\treturn ref->haxeGcRef.get();
+\t\t}
+};\n\n
 
 class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : public UEPointer {
 \tpublic:

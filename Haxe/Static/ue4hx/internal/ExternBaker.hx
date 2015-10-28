@@ -402,9 +402,10 @@ class ExternBaker {
           this.buf.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
         else
           this.buf.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();\n\t');
-        this.buf.add('@:extern inline private function getWrapped():${this.thisConv.haxeGlueType}');
+        // This is used only on `unreal.UObject`,`cpp.Pointer<cpp.Void>` will fail if we used `this.thisConv.haxeGlueType.getReflective()`
+        this.buf.add('@:extern inline private function getWrapped():cpp.Pointer<Dynamic>');
         this.begin(' {');
-          this.buf.add('return this == null ? untyped __cpp__("(void *) 0") : this.wrapped;');
+          this.buf.add('return this == null ? null : cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
 
         // add the reflectGetWrapped()

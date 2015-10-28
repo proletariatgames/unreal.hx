@@ -353,7 +353,7 @@ using StringTools;
 
           glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
-          haxeToGlueExpr: '@:privateAccess %.wrapped',
+          haxeToGlueExpr: '@:privateAccess %.getWrapped().rawCast()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
@@ -363,7 +363,7 @@ using StringTools;
           forwardDecls: [refName.getForwardDecl()],
         };
         if (ctx.isInterface) {
-          ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).wrapped';
+          ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).getWrapped().rawCast()';
           ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast % ), ${originalTypeRef})';
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
           ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
@@ -447,9 +447,9 @@ using StringTools;
           glueCppIncludes: ['<OPointers.h>'].concat(cppIncludes),
           glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
 
-          haxeToGlueExpr: '@:privateAccess %.wrapped.get_raw()',
+          haxeToGlueExpr: '@:privateAccess %.getWrapped().get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
-          glueToUeExpr: '( (${ueType.getCppType()} *) %->getPointer() )',
+          glueToUeExpr: '( (${ueType.getCppType()} *) (::unreal::helpers::UEPointer::getPointer(%)) )',
           ownershipModifier: modf,
           args: convArgs,
 
@@ -540,11 +540,11 @@ using StringTools;
 
         isUObject: true,
 
-        glueCppIncludes: glueCppIncludes,
+        glueCppIncludes: glueCppIncludes.concat(['<unreal/helpers/UEPointer.h>']),
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
-        ueToGlueExpr: '%->haxeGcRef.get()',
+        ueToGlueExpr: 'unreal::helpers::UEPointer::getGcRef(%)',
         glueToUeExpr: '((::${refName.getCppType()} *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
         ownershipModifier: modf,
 
