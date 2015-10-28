@@ -345,7 +345,7 @@ class ExternBaker {
           this.end('}');
           this.newline();
 
-          if (uname != 'UClass' && !methods.exists(function(m) return m.uname == 'StaticClass')) {
+          if (uname != 'UClass' && !c.meta.has(':noClass') && !methods.exists(function(m) return m.uname == 'StaticClass')) {
             methods.push({
               name:'StaticClass',
               uname:'StaticClass',
