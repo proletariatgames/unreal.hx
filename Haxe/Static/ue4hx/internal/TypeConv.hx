@@ -531,7 +531,7 @@ using StringTools;
       if (module != null)
         dir = dir + '/../$module';
 
-      glueCppIncludes.push('$dir/Generated/Public/${typeRef.withoutPrefix().name}.h');
+      glueCppIncludes.push('$dir/Generated/Public/${refName.withoutPrefix().name}.h');
       var ret:TypeConvInfo = {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
