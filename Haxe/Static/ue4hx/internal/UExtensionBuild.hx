@@ -372,7 +372,7 @@ class UExtensionBuild {
     ctorBody << '\n\t\t\tUClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
       << 'while (!curClass->HasAllClassFlags(CLASS_Native)) {\n\t\t\t\t'
       << 'curClass = curClass->GetSuperClass();\n\t\t\t}\n\t\t\t'
-      << 'if (curClass->GetDesc() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper());\n\t\t';
+      << 'if (curClass->GetName() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper());\n\t\t';
     // headerDef.add(' {\n\t');
     headerDef.add('public:\n');
     if (!hasHaxeSuper) {

@@ -18,6 +18,11 @@ package unreal;
   public function GetDesc():FString;
 
   /**
+    Returns the name of this object (with no path information) Name of the object.
+   **/
+  public function GetName() : FString;
+
+  /**
     Get the default config filename for the specified UObject
    **/
   @:final public function GetDefaultConfigFilename():FString;

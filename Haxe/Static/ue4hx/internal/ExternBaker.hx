@@ -381,7 +381,7 @@ class ExternBaker {
             this.newline();
             this.buf.add('var curClass:String = null;');
             this.newline();
-            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetDesc(currentClass) )) == null)');
+            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
             this.begin(' {');
               this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
             this.end('}');
