@@ -176,7 +176,7 @@ using StringTools;
           }
         }
         if (originalType == null)
-          originalType = at;
+          originalType = TypeRef.fromType(type, pos);
         // follow it
 #if (haxe_ver >= 3.3)
         // this is more robust than the 3.2 version, since it will also correctly
@@ -334,7 +334,7 @@ using StringTools;
       }
     }
     // FIXME: check conversion and maybe add cast if needed
-    var originalTypeRef = ctx.originalType == null ? typeRef : TypeRef.fromBaseType( ctx.originalType, pos );
+    var originalTypeRef = ctx.originalType == null ? typeRef : ctx.originalType;
     var refName = new TypeRef(typeRef.name);
     if (meta != null && meta.has(':uname')) refName = TypeRef.parseClassName(getMetaString(meta, ':uname'));
     if (typeRef.params.length > 0) {
@@ -865,7 +865,7 @@ typedef TypeConvCtx = {
   ?isUObject:Bool,
   ?isEnum:Bool,
 
-  ?originalType:BaseType,
+  ?originalType:TypeRef,
   ?isTypeParam:Bool,
 }
 
