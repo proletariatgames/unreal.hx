@@ -90,7 +90,11 @@ class TypeRef
           base = a.get();
           params = tl;
         case TInst(i,tl):
-          base = i.get();
+          var it = i.get();
+          base = it;
+          if (it.kind.match(KTypeParameter(_))) {
+            return new TypeRef(it.name);
+          }
           params = tl;
         case TEnum(e,tl):
           base = e.get();
