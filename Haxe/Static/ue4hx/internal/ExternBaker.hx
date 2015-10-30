@@ -689,11 +689,11 @@ class ExternBaker {
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
           this.thisConv.ueType.getCppClass();
         case _ if(!meth.isPublic):
-          // For private/protected external functions we need to use a 
+          // For protected external functions we need to use a 
           // local derived class with a static function that lets the wrapper
-          // call the private/protected function.
-          // See PRIVATE METHOD CALL comments farther down the code.
-          self.t.glueToUe(self.name, ctx) + '->*(WIP_FIXME::' + meth.uname + ")";
+          // call the protected function.
+          // See PROTECTED METHOD CALL comments farther down the code.
+          '(' + self.t.glueToUe('_s_' + self.name, ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
         case _:
           self.t.glueToUe(self.name, ctx) + '->' + meth.uname;
       }
@@ -704,6 +704,7 @@ class ExternBaker {
       else
         return escapeName(str);
     }
+
     var params = new HelperBuf();
     var declParams = new HelperBuf();
     if (hasParams) {
@@ -723,35 +724,76 @@ class ExternBaker {
     }
     glueCppBody.add(params);
 
+    // Given an array of function arguments and a prefix to use for the arguments,
+    // fill in a HelperBuff with any special glue code needed to convert types, and 
+    // return an array of strings containing the C++ types 
     // TODO clean up how we're dealing with PRef
-    var glueCppBodyVars = new HelperBuf();
-    var cppArgTypes = [];
-    for (arg in cppArgs) {
-      if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
-        glueCppBodyVars << 'PtrHelper<${arg.t.ueType.getCppType()}> ${arg.name}_t = ${arg.t.glueToUe(arg.name, ctx)};\n\t\t\t';
-        cppArgTypes.push('*(${arg.name}_t.ptr)');
-      } else {
-        cppArgTypes.push(arg.t.glueToUe(doEscapeName(arg.name), ctx));
+    function genArgTypes(cppArgs:Array<{ name:String, t:TypeConv }>, argPrefix:String, cppBodyVars : HelperBuf) : Array<String> {
+      var cppArgTypes = [];
+      for (arg in cppArgs) {
+        if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
+          var prefixedArgName = argPrefix + arg.name;
+          cppBodyVars << 'PtrHelper<${arg.t.ueType.getCppType()}> ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, ctx)};\n\t\t\t';
+          cppArgTypes.push('*(${prefixedArgName}_t.ptr)');
+        } else {
+          cppArgTypes.push(arg.t.glueToUe(argPrefix+doEscapeName(arg.name), ctx));
+        }
       }
+      return cppArgTypes;
+    }
+
+    //
+    function genMethodCallArgs(body:String, meth:MethodDef, op:String, glueRet:TypeConv, cppArgs:Array<{ name:String, t:TypeConv }>, cppArgTypes:Array<String>) : String {
+      if (meth.prop == StructProp && meth.name.startsWith('get_'))
+        body = '&' + body;
+
+      if (meth.prop != NonProp) {
+        if (isSetter) {
+          body += ' = ' + cppArgTypes[cppArgTypes.length-1];
+        }
+      } else if (op == '[') {
+        body += '[' + cppArgTypes[0] + ']';
+        if (cppArgs.length == 2)
+          body += ' = ' + cppArgTypes[1];
+      } else {
+        body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
+      }
+      if (!glueRet.haxeType.isVoid())
+        body = 'return ' + glueRet.ueToGlue( body, ctx );
+      return body;
     }
 
     var glueCppBody = glueCppBody.toString();
-    if (meth.prop == StructProp && meth.name.startsWith('get_'))
-      glueCppBody = '&' + glueCppBody;
+    var glueCppBodyVars = new HelperBuf();
+    var cppArgTypes = genArgTypes(cppArgs, '', glueCppBodyVars);
 
-    if (meth.prop != NonProp) {
-      if (isSetter) {
-        glueCppBody += ' = ' + cppArgTypes[cppArgTypes.length-1];
-      }
-    } else if (op == '[') {
-      glueCppBody += '[' + cppArgTypes[0] + ']';
-      if (cppArgs.length == 2)
-        glueCppBody += ' = ' + cppArgTypes[1];
-    } else {
-      glueCppBody += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
+    // PROTECTED METHOD CALL
+    // We use a local derived class and static function to allow the haxe
+    // glue wrapper to call through to the protected functions. This is explained here:
+    // http://stackoverflow.com/questions/11631777/accessing-a-protected-member-of-a-base-class-in-another-subclass/11634082#11634082
+    //
+    if (!meth.isPublic) {
+      var staticCppBodyVars = new HelperBuf();
+      var staticCppArgTypes = genArgTypes(cppArgs, '_s_', staticCppBodyVars);
+
+      var staticBody = genMethodCallArgs(glueCppBody, meth, op, glueRet, cppArgs, staticCppArgTypes);
+      var localDerivedClassBody = new HelperBuf();
+      localDerivedClassBody << 'class _staticcall_${meth.name} : public ${typeRef.name} {\n';
+      var staticCppArgDecl = [ for ( arg in helperArgs ) arg.t.glueType.getCppType() + ' ' + '_s_' + escapeName(arg.name) ].join(', ');
+      localDerivedClassBody << '\t\tpublic:\n\t\t\tstatic ${glueRet.glueType.getCppType()} static_${meth.name}(${staticCppArgDecl}) {\n\t\t\t\t'
+        << staticCppBodyVars
+        << staticBody
+        << ';\n\t\t}\n'
+        << '\t};\n\t';
+        if (!glueRet.haxeType.isVoid()) localDerivedClassBody << 'return ';
+      localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}(' 
+        + [ for (arg in helperArgs) doEscapeName(arg.name) ].join(', ') + ')';
+      glueCppBodyVars << localDerivedClassBody;
     }
-    if (!isVoid)
-      glueCppBody = 'return ' + glueRet.ueToGlue( glueCppBody, ctx );
+    else {
+      glueCppBody = genMethodCallArgs(glueCppBody, meth, op, glueRet, cppArgs, cppArgTypes);
+      glueCppBodyVars << glueCppBody;
+    }
 
     var glueCppCode = new HelperBuf();
     if (hasParams) {
@@ -759,11 +801,6 @@ class ExternBaker {
       glueCppCode.mapJoin(meth.params, function(p) return 'class $p');
       glueCppCode << '>\n\t';
     }
-
-    // TODO for nonpublic members, use a derived class with a static
-    // function to "cheat" and call the private/protected C++ function
-
-    glueCppBodyVars << glueCppBody;
 
     if (this.params.length > 0 && !hasParams && !meth.isStatic) {
       glueHeaderCode << ' {\n\t\t\t$glueCppBodyVars;\n\t\t}';
