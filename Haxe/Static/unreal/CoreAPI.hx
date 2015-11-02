@@ -1,9 +1,9 @@
-package ue4hx.internal;
+package unreal;
 
 import unreal.UObject;
 import unreal.Wrapper;
 
-class UnrealHelpers {
+class CoreAPI {
 
   @:access(unreal.Wrapper.wrapped)
   @:access(unreal.UObject.wrapped)
