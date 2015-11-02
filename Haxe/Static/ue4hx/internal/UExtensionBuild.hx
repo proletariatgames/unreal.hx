@@ -239,7 +239,7 @@ class UExtensionBuild {
 
       // add createHaxeWrapper
       {
-        var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
+        var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var glueHeaderIncs = new Map(),
             glueCppIncs = new Map(),
             headerForwards = new Map();
@@ -250,14 +250,11 @@ class UExtensionBuild {
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
 
-          // mark each field as public or protected in the generated C++
-          // Can't mark it as private here, but then you can't legitimately
-          // extern a private field anyway.
-          if (uprop.isPublic) {
-            data.add('public:\n\t\t');
-          } else {
-            data.add('protected:\n\t\t');
-          }
+          // regardless of the Haxe definition, we make all properties public in C++ so
+          // that the glue code doesn't have to jump through hoops to access the properties.
+          // TODO when this code is unified with the extern baking code, this difference
+          // should go away.
+          data.add('public:\n\t\t');
 
           data.add('UPROPERTY(');
           var first = true;
@@ -270,7 +267,7 @@ class UExtensionBuild {
             }
           }
           headerCode += data + ')\n\t\t';
-          headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\t';
+          headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\n\t\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
           switch (tconv.forwardDeclType) {
           case null | Never | AsFunction:
