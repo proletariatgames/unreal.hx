@@ -669,9 +669,9 @@ using StringTools;
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
       "Int" => "int32",
-      "Int8" => "int8",
-      "UInt16" => "uint16",
-      "UInt8" => "uint8"
+      "cpp.Int8" => "int8",      
+      "cpp.UInt16" => "uint16",
+      "cpp.UInt8" => "uint8"
     ];
 
     var infos:Array<TypeConvInfo> = [
