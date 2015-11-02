@@ -21,6 +21,8 @@ class MacroHelpers
           switch(param.expr) {
           case EConst(CString(s)):
             ret.push(s);
+          case EConst(CIdent(s)):
+            ret.push(s);
           case _:
             throw 'assert: $param';
           }

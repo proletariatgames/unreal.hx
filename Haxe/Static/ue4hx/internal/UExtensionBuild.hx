@@ -5,6 +5,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 
+using Lambda;
 using haxe.macro.Tools;
 using StringTools;
 
@@ -68,13 +69,15 @@ class UExtensionBuild {
           thisConv = TypeConv.get(t, this.pos);
       var nativeUe = thisConv.ueType;
       var expose = typeRef.getExposeHelperType();
-      var toExpose = [],
+      var toExpose = new Map(),
           uprops = [];
+
       for (field in clt.statics.get()) {
-        if (field.meta.has(':uproperty'))
+        if (field.meta.has(':uproperty')) {
           uprops.push(field);
-        else if (shouldExpose(field))
-          toExpose.push(getMethodDef(field, Static));
+        } else if (shouldExpose(field)) {
+          toExpose[field.name] = getMethodDef(field, Static);
+        }
       }
 
       var nativeMethods = collectNativeMethods(clt),
@@ -82,6 +85,17 @@ class UExtensionBuild {
       for (field in clt.fields.get()) {
         if (field.meta.has(':uproperty')) {
           uprops.push(field);
+
+          // We also need to expose any functions that are used for custom replication conditions
+          if (isCustomReplicated(field)) {
+            var fnName = MacroHelpers.extractStrings(field.meta, ':ureplicate')[0];
+            var fnField = clt.fields.get().find(function(fld) return fld.name == fnName);
+            if (fnField == null) {
+              throw 'Custom replication function not found: $fnName';
+            }
+            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(fnName) ? Override : Member);
+          }
+
           continue;
         }
 
@@ -91,15 +105,13 @@ class UExtensionBuild {
         var isOverride = nativeMethods.exists(field.name);
 
         if (isOverride || shouldExpose(field)) {
-          toExpose.push(getMethodDef(field, isOverride ? Override : Member));
+          toExpose[field.name] = getMethodDef(field, isOverride ? Override : Member);
         }
       }
 
       var buildFields = [];
       for (field in toExpose) {
-        var uname = MacroHelpers.extractStrings(field.cf.meta, ':uname')[0];
-        if (uname == null)
-          uname = field.cf.name;
+        var uname = getUName(field.cf);
         var callExpr = if (field.type.isStatic())
           typeRef.getClassPath() + '.' + field.cf.name + '(';
         else
@@ -237,6 +249,9 @@ class UExtensionBuild {
       var info = addNativeUeClass(nativeUe, clt, headerIncludes, metas);
       metas.push({ name:':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos:clt.pos });
 
+      var hasReplicatedProperties = false;
+      var replicatedProps = new Map();
+
       // add createHaxeWrapper
       {
         var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
@@ -244,9 +259,7 @@ class UExtensionBuild {
             glueCppIncs = new Map(),
             headerForwards = new Map();
         for (uprop in uprops) {
-          var uname = MacroHelpers.extractStrings(uprop.meta, ':uname')[0];
-          if (uname == null)
-            uname = uprop.name;
+          var uname = getUName(uprop);
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
 
@@ -266,6 +279,15 @@ class UExtensionBuild {
               }
             }
           }
+
+          if (uprop.meta.has(":ureplicate")) {
+            if (first) first = false; else data.add(', ');
+            data.add('Replicated');
+            var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
+            replicatedProps[uprop] = repType;
+            hasReplicatedProperties = true;
+          }
+
           headerCode += data + ')\n\t\t';
           headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\n\t\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
@@ -287,7 +309,46 @@ class UExtensionBuild {
             tconv.getAllCppIncludes(glueCppIncs);
           }
         }
+
+        // Implement GetLifetimeReplicatedProps
         var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
+        if (hasReplicatedProperties) {
+          var hasCustomReplications = false;
+          var customReplications = new Map();
+
+          // Needs to be included for DOREPLIFETIME/etc
+          glueCppIncs['UnrealNetwork.h'] = 'UnrealNetwork.h';
+
+          cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
+          cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
+          for (replicatedProp in replicatedProps.keys()) {
+            var uname = getUName(replicatedProp);
+            var repType = replicatedProps[replicatedProp];
+            if (repType == null) {
+              cppCode += '\tDOREPLIFETIME(${nativeUe.getCppClass()}, $uname);\n';
+            } else {
+              if (isCustomReplicated(replicatedProp)) {
+                cppCode += '\tDOREPLIFETIME_CONDITION(${nativeUe.getCppClass()}, $uname, COND_Custom);\n';
+                customReplications[uname] = MacroHelpers.extractStrings(replicatedProp.meta, ':ureplicate')[0];
+                hasCustomReplications = true;
+              } else {
+                cppCode += '\tDOREPLIFETIME_CONDITION(${nativeUe.getCppClass()}, $uname, COND_$repType);\n';
+              }
+            }
+          }
+          cppCode += '}\n\n';
+
+          if (hasCustomReplications) {
+            headerCode += 'virtual void PreReplication( IRepChangedPropertyTracker & ChangedPropertyTracker ) override;\n\n\t\t';
+
+            cppCode += 'void ${nativeUe.getCppClass()}::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) {\n';
+            cppCode += '\tSuper::PreReplication(ChangedPropertyTracker);\n';
+            for (uname in customReplications.keys()) {
+              cppCode += '\tDOREPLIFETIME_ACTIVE_OVERRIDE(${nativeUe.getCppClass()}, $uname, ${customReplications[uname]}());\n';
+            }
+            cppCode += '}\n\n';
+          }
+        }
 
         var metas = [
           { name: ':glueHeaderCode', params: [macro $v{headerCode}], pos: this.pos },
@@ -500,6 +561,28 @@ class UExtensionBuild {
       return true;
     return false;
   }
+
+  private static function isCustomReplicated(cf:ClassField) {
+    if (!cf.meta.has(":ureplicate")) {
+      return false;
+    }
+
+    var repType = MacroHelpers.extractStrings(cf.meta, ':ureplicate')[0];
+    if (repType == null) {
+      return false;
+    }
+
+    return switch(repType) {
+      case 'InitialOnly', 'OwnerOnly', 'SkipOwner', 'SimulatedOnly',
+           'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
+      default: true;
+    }
+  }
+
+  private static function getUName(cf:ClassField) {
+    var uname = MacroHelpers.extractStrings(cf.meta, ':uname')[0];
+    return uname != null ? uname : cf.name;
+  }
 }
 
 @:enum abstract FieldType(Int) to Int {
@@ -511,3 +594,4 @@ class UExtensionBuild {
     return this == Static;
   }
 }
+
