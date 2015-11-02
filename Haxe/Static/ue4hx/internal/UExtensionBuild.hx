@@ -89,6 +89,7 @@ class UExtensionBuild {
           continue; // our methods are already virtual and we don't need to override anything
 
         var isOverride = nativeMethods.exists(field.name);
+
         if (isOverride || shouldExpose(field)) {
           toExpose.push(getMethodDef(field, isOverride ? Override : Member));
         }
@@ -119,6 +120,16 @@ class UExtensionBuild {
         var implementCpp = true,
             name = uname,
             cppName = uname;
+
+        // mark each field as public or protected in the generated C++
+        // Can't mark it as private here, but then you can't legitimately
+        // extern a private field anyway.
+        if (field.cf.isPublic) {
+          headerDef << 'public:\n\t\t';
+        } else {
+          headerDef << 'protected:\n\t\t';
+        }
+
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null && ufunc[0] != null) {
           headerDef << 'UFUNCTION(';
@@ -198,13 +209,15 @@ class UExtensionBuild {
         ];
         if (field.ret.haxeType.isVoid())
           metas.push({ name: ':void', pos: field.cf.pos });
+
         buildFields.push({
           name: field.cf.name,
           access: [APublic, AStatic],
           kind: FFun({
             args: fnArgs,
             ret: field.ret.haxeGlueType.toComplexType(),
-            expr: Context.parse(callExpr, field.cf.pos)
+            // TODO @:privateAccess shouldn't be necessary here, but the @:access metadata isn't working
+            expr: Context.parse('@:privateAccess (' + callExpr + ' )', field.cf.pos)
           }),
           meta: metas,
           pos: field.cf.pos
@@ -226,7 +239,7 @@ class UExtensionBuild {
 
       // add createHaxeWrapper
       {
-        var headerCode = 'virtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
+        var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\t\t' : ';\n\t\t');
         var glueHeaderIncs = new Map(),
             glueCppIncs = new Map(),
             headerForwards = new Map();
@@ -236,6 +249,16 @@ class UExtensionBuild {
             uname = uprop.name;
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
+
+          // mark each field as public or protected in the generated C++
+          // Can't mark it as private here, but then you can't legitimately
+          // extern a private field anyway.
+          if (uprop.isPublic) {
+            data.add('public:\n\t\t');
+          } else {
+            data.add('protected:\n\t\t');
+          }
+
           data.add('UPROPERTY(');
           var first = true;
           for (meta in uprop.meta.extract(':uproperty')) {
@@ -275,6 +298,8 @@ class UExtensionBuild {
           { name: ':glueHeaderIncludes', params: [for (inc in glueHeaderIncs) macro $v{inc}], pos: this.pos },
           { name: ':glueCppIncludes', params: [for (inc in glueCppIncs) macro $v{inc}], pos: this.pos },
           { name: ':headerForwards', params: [ for (fwd in headerForwards) macro $v{fwd}], pos: this.pos }
+          // TODO this should work instead of forcing the @:privateAccess
+          //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -375,6 +400,7 @@ class UExtensionBuild {
       << 'if (curClass->GetName() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper());\n\t\t';
     // headerDef.add(' {\n\t');
     headerDef.add('public:\n');
+
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
       if (clt.meta.has(':noDefaultConstructor')) {
