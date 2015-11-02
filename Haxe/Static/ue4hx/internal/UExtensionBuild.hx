@@ -91,7 +91,7 @@ class UExtensionBuild {
           if (isCustomReplicationType(repType)) {
             var fnField = clt.fields.get().find(function(fld) return fld.name == repType);
             if (fnField == null) {
-              throw 'Custom replication function not found: $repType';
+              throw new Error('Unreal Extension: Custom replication function not found: $repType', field.pos);
             }
             toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) ? Override : Member);
           }
