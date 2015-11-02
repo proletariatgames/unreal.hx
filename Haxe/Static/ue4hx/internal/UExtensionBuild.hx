@@ -87,13 +87,13 @@ class UExtensionBuild {
           uprops.push(field);
 
           // We also need to expose any functions that are used for custom replication conditions
-          if (isCustomReplicated(field)) {
-            var fnName = MacroHelpers.extractStrings(field.meta, ':ureplicate')[0];
-            var fnField = clt.fields.get().find(function(fld) return fld.name == fnName);
+          var repType = MacroHelpers.extractStrings(field.meta, ':ureplicate')[0];
+          if (isCustomReplicationType(repType)) {
+            var fnField = clt.fields.get().find(function(fld) return fld.name == repType);
             if (fnField == null) {
-              throw 'Custom replication function not found: $fnName';
+              throw 'Custom replication function not found: $repType';
             }
-            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(fnName) ? Override : Member);
+            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) ? Override : Member);
           }
 
           continue;
@@ -327,9 +327,9 @@ class UExtensionBuild {
             if (repType == null) {
               cppCode += '\tDOREPLIFETIME(${nativeUe.getCppClass()}, $uname);\n';
             } else {
-              if (isCustomReplicated(replicatedProp)) {
+              if (isCustomReplicationType(repType)) {
                 cppCode += '\tDOREPLIFETIME_CONDITION(${nativeUe.getCppClass()}, $uname, COND_Custom);\n';
-                customReplications[uname] = MacroHelpers.extractStrings(replicatedProp.meta, ':ureplicate')[0];
+                customReplications[uname] = repType;
                 hasCustomReplications = true;
               } else {
                 cppCode += '\tDOREPLIFETIME_CONDITION(${nativeUe.getCppClass()}, $uname, COND_$repType);\n';
@@ -562,12 +562,7 @@ class UExtensionBuild {
     return false;
   }
 
-  private static function isCustomReplicated(cf:ClassField) {
-    if (!cf.meta.has(":ureplicate")) {
-      return false;
-    }
-
-    var repType = MacroHelpers.extractStrings(cf.meta, ':ureplicate')[0];
+  private static function isCustomReplicationType(repType:String) : Bool {
     if (repType == null) {
       return false;
     }
