@@ -4,7 +4,8 @@ package unreal;
   The main Unreal Object class
  **/
 @:glueCppIncludes("Containers/Array.h")
-@:uextern extern class TArray<T>
+@:uname("TArray")
+@:uextern extern class TArrayImpl<T>
 {
   public function get_Item(index:Int):PRef<T>;
   public function set_Item(index:Int, val:PRef<T>):Void;
@@ -14,8 +15,6 @@ package unreal;
   public function Insert(item:PRef<PRef<T>>, index:Int):Int;
   public function Num():Int;
   public function Empty():Void;
-  public function Find(obj:PRef<PRef<T>>):Int;
 
   @:uname('new') static function create<T>():PHaxeCreated<TArray<T>>;
 }
-
