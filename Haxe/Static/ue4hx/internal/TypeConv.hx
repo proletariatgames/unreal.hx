@@ -13,7 +13,7 @@ using StringTools;
 
   @see TypeConvInfo
  **/
-@:forward abstract TypeConv(TypeConvInfo) from TypeConvInfo
+@:forward abstract TypeConv(TypeConvInfo) from TypeConvInfo to TypeConvInfo
 {
   public var haxeGlueType(get,never):TypeRef;
   public var glueType(get,never):TypeRef;
@@ -231,7 +231,21 @@ using StringTools;
     }
   }
 
-  public static function get(type:Type, pos:Position, ?ownershipOverride:String = null, registerTParam=true):TypeConv
+  public static function get(type:Type, pos:Position, ?ownershipOverride:String = null, registerTParam=true):TypeConv {
+    var ctx = getTypeCtx(type, pos);
+    if (ctx.name == 'unreal.Const') {
+      var ret = _get(ctx.args[0], pos, ownershipOverride, registerTParam);
+      if (ret.ueToGlueExpr != null) {
+        ret.ueToGlueExpr = ret.ueToGlueExpr.replace("%", "const_cast<" + ret.ueType.getCppType() + ">( % )");
+        ret.ueType = ret.ueType.withConst(true);
+      }
+      return ret;
+    } else {
+      return _get(type, pos, ownershipOverride, registerTParam);
+    }
+  }
+
+  private static function _get(type:Type, pos:Position, ?ownershipOverride:String = null, registerTParam=true):TypeConvInfo
   {
 
     var ctx = getTypeCtx(type, pos);
