@@ -17,6 +17,7 @@ class TypeRef
   public var name(default,null):String;
   public var params(default,null):Array<TypeRef>;
   public var moduleName(default,null):Null<String>;
+  public var isConst(default,null):Bool = false;
 
   public function new(?pack:Array<String>, name:String, ?moduleName:String, ?params:Array<TypeRef>)
   {
@@ -33,6 +34,12 @@ class TypeRef
   }
   inline public function withParams(params:Array<TypeRef>):TypeRef {
     return new TypeRef(this.pack, this.name, this.moduleName, params);
+  }
+
+  inline public function withConst(setConst:Bool) {
+    var ret = new TypeRef(this.pack, this.name, this.moduleName, params);
+    ret.isConst = setConst;
+    return ret;
   }
 
   public function withoutPrefix():TypeRef {
@@ -255,6 +262,11 @@ class TypeRef
   public function getCppType(?buf:StringBuf):StringBuf {
     if (buf == null)
       buf = new StringBuf();
+
+    // TODO implement more complex const handling, since C++ const is a bear
+    if (isConst) {
+      buf.add('const ');
+    }
 
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
