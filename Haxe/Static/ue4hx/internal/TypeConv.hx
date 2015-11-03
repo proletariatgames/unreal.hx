@@ -234,7 +234,7 @@ using StringTools;
   public static function get(type:Type, pos:Position, ?ownershipOverride:String = null, registerTParam=true):TypeConv {
     var ctx = getTypeCtx(type, pos);
     if (ctx.name == 'unreal.Const') {
-      var ret = _get(ctx.args[0], pos, ownershipOverride, registerTParam);
+      var ret = Reflect.copy(_get(ctx.args[0], pos, ownershipOverride, registerTParam));
       if (ret.ueToGlueExpr != null) {
         ret.ueToGlueExpr = ret.ueToGlueExpr.replace("%", "const_cast<" + ret.ueType.getCppType() + ">( % )");
         ret.ueType = ret.ueType.withConst(true);
