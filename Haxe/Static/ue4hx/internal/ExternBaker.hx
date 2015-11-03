@@ -150,7 +150,7 @@ class ExternBaker {
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
-    this.thisConv = TypeConv.get(this.type, cl.pos);
+    this.thisConv = TypeConv.get(this.type, cl.pos, 'unreal.PExternal');
     var generics = [];
     var isStatic = true;
     for (fields in [cl.statics.get(), cl.fields.get()]) {
@@ -264,7 +264,7 @@ class ExternBaker {
     this.type = type;
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
-    this.thisConv = TypeConv.get(type,c.pos);
+    this.thisConv = TypeConv.get(type,c.pos,'unreal.PExternal');
 
     this.addDoc(c.doc);
     var fields = c.fields.get(),
@@ -377,13 +377,15 @@ class ExternBaker {
           this.buf.add('if (ptr == null) return null;');
           this.newline();
           if(this.thisConv.isUObject) {
-            this.buf.add('var currentClass = _pvt._unreal.UObject_Glue.GetClass(ptr.rawCast());');
+            this.buf.add('var currentClass = new unreal.UObject(ptr).GetClass();');
             this.newline();
             this.buf.add('var curClass:String = null;');
             this.newline();
-            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
+            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get( curClass = currentClass.GetName().op_Dereference() ) == null)');
+            // this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
             this.begin(' {');
-              this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
+              this.buf.add('currentClass = currentClass.GetSuperClass();');
+              //this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
             this.end('}');
             this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(curClass)(ptr);');
           }
@@ -556,7 +558,7 @@ class ExternBaker {
           params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
-          prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+          prop: NonProp, isFinal: false, isHaxePublic: field.isPublic,
           isStatic: isStatic,
           isPublic: field.isPublic,
           specialization: specialization,
@@ -586,7 +588,7 @@ class ExternBaker {
             params: [ for (p in field.params) p.name ],
             args: cur.args,
             ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
-            prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+            prop: NonProp, isFinal: false, isHaxePublic: field.isPublic,
             isStatic: isStatic, isPublic: field.isPublic,
             specialization: specialization,
           });
@@ -680,6 +682,9 @@ class ExternBaker {
         case 'get_Item' | 'set_Item':
           op = '[';
           '(*' + self.t.glueToUe(self.name, ctx) + ')';
+        case 'op_Dereference':
+          op = '*';
+          '(**(' + self.t.glueToUe(self.name, ctx) + '))';
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -689,7 +694,7 @@ class ExternBaker {
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
           this.thisConv.ueType.getCppClass();
         case _ if(!meth.isPublic):
-          // For protected external functions we need to use a 
+          // For protected external functions we need to use a
           // local derived class with a static function that lets the wrapper
           // call the protected function.
           // See PROTECTED METHOD CALL comments farther down the code.
@@ -725,8 +730,8 @@ class ExternBaker {
     glueCppBody.add(params);
 
     // Given an array of function arguments and a prefix to use for the arguments,
-    // fill in a HelperBuff with any special glue code needed to convert types, and 
-    // return an array of strings containing the C++ types 
+    // fill in a HelperBuff with any special glue code needed to convert types, and
+    // return an array of strings containing the C++ types
     // TODO clean up how we're dealing with PRef
     function genArgTypes(cppArgs:Array<{ name:String, t:TypeConv }>, argPrefix:String, cppBodyVars : HelperBuf) : Array<String> {
       var cppArgTypes = [];
@@ -755,6 +760,10 @@ class ExternBaker {
         body += '[' + cppArgTypes[0] + ']';
         if (cppArgs.length == 2)
           body += ' = ' + cppArgTypes[1];
+      } else if (op == '*') {
+        if (cppArgs.length > 0) {
+          throw new Error('Extern Baker: op_Dereference must take zero arguments', pos);
+        }
       } else {
         body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
       }
@@ -786,7 +795,7 @@ class ExternBaker {
         << ';\n\t\t}\n'
         << '\t};\n\t';
         if (!glueRet.haxeType.isVoid()) localDerivedClassBody << 'return ';
-      localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}(' 
+      localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}('
         + [ for (arg in helperArgs) doEscapeName(arg.name) ].join(', ') + ')';
       glueCppBodyVars << localDerivedClassBody;
     }
