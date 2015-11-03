@@ -788,13 +788,18 @@ class ExternBaker {
 
       var staticBody = genMethodCallArgs(glueCppBody, meth, op, glueRet, cppArgs, staticCppArgTypes);
       var localDerivedClassBody = new HelperBuf();
+      // On windows, we need to disable the warning 4610 that this class can never be instantiated.
+      // We know that it can't, and that's just fine. But warnings are promoted to errors. so we have to disable
+      // this warning during this code.
+      localDerivedClassBody << "\n#if PLATFORM_WINDOWS\n#pragma warning( disable : 4610 )\n#endif // PLATFORM_WINDOWS\n\t";
       localDerivedClassBody << 'class _staticcall_${meth.name} : public ${typeRef.name} {\n';
       var staticCppArgDecl = [ for ( arg in helperArgs ) arg.t.glueType.getCppType() + ' ' + '_s_' + escapeName(arg.name) ].join(', ');
       localDerivedClassBody << '\t\tpublic:\n\t\t\tstatic ${glueRet.glueType.getCppType()} static_${meth.name}(${staticCppArgDecl}) {\n\t\t\t\t'
         << staticCppBodyVars
         << staticBody
         << ';\n\t\t}\n'
-        << '\t};\n\t';
+        << '\t};\n'
+        << "#if PLATFORM_WINDOWS\n#pragma warning( default : 4610 )\n#endif // PLATFORM_WINDOWS\n\n\t";
         if (!glueRet.haxeType.isVoid()) localDerivedClassBody << 'return ';
       localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}('
         + [ for (arg in helperArgs) doEscapeName(arg.name) ].join(', ') + ')';
