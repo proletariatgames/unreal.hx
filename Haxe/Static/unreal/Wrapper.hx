@@ -41,6 +41,10 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     return cast obj._copyStruct();
   }
 
+  private function _equals(other:Wrapper) : Bool {
+    throw ('The type ${Type.getClassName(Type.getClass(this))} does not support equals');
+  }
+
   private function _copy():Wrapper {
     throw 'The type ${Type.getClassName(Type.getClass(this))} does not support copy constructors';
   }

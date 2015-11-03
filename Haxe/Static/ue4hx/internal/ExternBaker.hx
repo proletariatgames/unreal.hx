@@ -431,6 +431,16 @@ class ExternBaker {
           // copy constructor
           // TODO add params if type has type parameter
           methods.push({
+            name: '_equals',
+            uname: '.equals',
+            doc: doc,
+            meta:null,
+            args:[{name:"other", t:this.thisConv}],
+            ret:TypeConv.get(Context.getType("Bool"), c.pos),
+            prop:NonProp,
+            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
+          });
+          methods.push({
             name: '_copy',
             uname: '.copy',
             doc: doc,
@@ -556,7 +566,7 @@ class ExternBaker {
           params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos),
-          prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+          prop: NonProp, isFinal: false, isHaxePublic: field.isPublic,
           isStatic: isStatic,
           isPublic: field.isPublic,
           specialization: specialization,
@@ -586,7 +596,7 @@ class ExternBaker {
             params: [ for (p in field.params) p.name ],
             args: cur.args,
             ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
-            prop: NonProp, isFinal: false, isHaxePublic: field.isPublic, 
+            prop: NonProp, isFinal: false, isHaxePublic: field.isPublic,
             isStatic: isStatic, isPublic: field.isPublic,
             specialization: specialization,
           });
@@ -680,6 +690,10 @@ class ExternBaker {
         case 'get_Item' | 'set_Item':
           op = '[';
           '(*' + self.t.glueToUe(self.name, ctx) + ')';
+        case '.equals':
+          var thisType = TypeConv.get(this.type, this.pos, 'unreal.PStruct');
+          cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
+          'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -689,7 +703,7 @@ class ExternBaker {
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
           this.thisConv.ueType.getCppClass();
         case _ if(!meth.isPublic):
-          // For protected external functions we need to use a 
+          // For protected external functions we need to use a
           // local derived class with a static function that lets the wrapper
           // call the protected function.
           // See PROTECTED METHOD CALL comments farther down the code.
@@ -725,8 +739,8 @@ class ExternBaker {
     glueCppBody.add(params);
 
     // Given an array of function arguments and a prefix to use for the arguments,
-    // fill in a HelperBuff with any special glue code needed to convert types, and 
-    // return an array of strings containing the C++ types 
+    // fill in a HelperBuff with any special glue code needed to convert types, and
+    // return an array of strings containing the C++ types
     // TODO clean up how we're dealing with PRef
     function genArgTypes(cppArgs:Array<{ name:String, t:TypeConv }>, argPrefix:String, cppBodyVars : HelperBuf) : Array<String> {
       var cppArgTypes = [];
@@ -786,7 +800,7 @@ class ExternBaker {
         << ';\n\t\t}\n'
         << '\t};\n\t';
         if (!glueRet.haxeType.isVoid()) localDerivedClassBody << 'return ';
-      localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}(' 
+      localDerivedClassBody << '_staticcall_${meth.name}::static_${meth.name}('
         + [ for (arg in helperArgs) doEscapeName(arg.name) ].join(', ') + ')';
       glueCppBodyVars << localDerivedClassBody;
     }
@@ -870,6 +884,9 @@ class ExternBaker {
       type.getAllCppIncludes(cppIncludes);
       type.getAllHeaderIncludes(headerIncludes);
     }
+    if (meth.uname == ".equals") {
+      cppIncludes['<TypeTraits.h>'] = '<TypeTraits.h>';
+    }
     var hasHeaderInc = headerIncludes.iterator().hasNext(),
         hasCppInc = cppIncludes.iterator().hasNext();
     if (hasHeaderInc && !isInterface) {
@@ -934,7 +951,12 @@ class ExternBaker {
       }
       if (meth.args.length != 0) this.buf.add(', ');
     }
-    this.buf.add([ for (arg in args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
+    //TODO: Fix this to not just hardset it to wrapper
+    if (meth.uname == '.equals') {
+      this.buf.add('other:unreal.Wrapper');
+    } else {
+      this.buf.add([ for (arg in args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
+    }
     this.buf.add('):' + retHaxeType + ' ');
     if (isInterface) {
       this.buf.add(';');
