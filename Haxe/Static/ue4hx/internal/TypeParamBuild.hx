@@ -262,6 +262,7 @@ class TypeParamBuild {
         FileSystem.createDirectory(dir);
 
       var writer = new ue4hx.internal.buf.CppWriter(path);
+      writer.buf.add(NativeGlueCode.prelude);
       writer.include('<${tparam.getClassPath().replace('.','/')}.h>');
       var incs = new Map();
       this.tconv.getAllCppIncludes(incs);
