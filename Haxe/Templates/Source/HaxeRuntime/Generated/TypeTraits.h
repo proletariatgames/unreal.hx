@@ -1,6 +1,8 @@
 #pragma once
 
 // namespace to let "operator ==" not become global
+// This is Substituion failure is not an error (also known as SFINAE)
+// https://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
 namespace Check {
   typedef char no[7];
   template<typename T> no& operator == (const T&, const T&);
