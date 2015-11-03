@@ -22,6 +22,7 @@ namespace TypeTraits {
     static bool isEq(T t1, T t2);
   };
 
+  // If we find the class has a == operator use it!
   template <typename T>
   class Equals<T, true> {
   public:
@@ -30,6 +31,7 @@ namespace TypeTraits {
     }
   };
 
+  // If the class doesn't have a == operator we can't structurally compare
   template <typename T>
   class Equals<T, false> {
   public:
