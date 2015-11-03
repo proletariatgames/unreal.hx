@@ -94,6 +94,7 @@ class ExternBaker {
           var dir = target + '/' + glueType.pack.join('/');
           if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
           var file = File.write('$dir/${glueType.name}.hx', false);
+          file.writeString(NativeGlueCode.prelude);
           file.writeString('package ${glueType.pack.join('.')};\n' +
             '@:unrealGlue extern class ${glueType.name} {\n');
           file.writeString(glue);
