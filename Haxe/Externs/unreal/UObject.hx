@@ -15,17 +15,17 @@ package unreal;
   /**
     A one line description of an object for viewing in the thumbnail view of the generic browser
    **/
-  public function GetDesc():FString;
+  public function GetDesc():PStruct<FString>;
 
   /**
     Returns the name of this object (with no path information) Name of the object.
    **/
-  public function GetName() : FString;
+  public function GetName() : PStruct<FString>;
 
   /**
     Get the default config filename for the specified UObject
    **/
-  @:final public function GetDefaultConfigFilename():FString;
+  @:final public function GetDefaultConfigFilename():PStruct<FString>;
 
   /**
     Called during async load to determine if PostLoad can be called on the loading thread.

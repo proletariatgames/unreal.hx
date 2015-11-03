@@ -150,7 +150,7 @@ class ExternBaker {
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
-    this.thisConv = TypeConv.get(this.type, cl.pos);
+    this.thisConv = TypeConv.get(this.type, cl.pos, 'unreal.PExternal');
     var generics = [];
     var isStatic = true;
     for (fields in [cl.statics.get(), cl.fields.get()]) {
@@ -264,7 +264,7 @@ class ExternBaker {
     this.type = type;
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
-    this.thisConv = TypeConv.get(type,c.pos);
+    this.thisConv = TypeConv.get(type,c.pos,'unreal.PExternal');
 
     this.addDoc(c.doc);
     var fields = c.fields.get(),
@@ -381,9 +381,11 @@ class ExternBaker {
             this.newline();
             this.buf.add('var curClass:String = null;');
             this.newline();
-            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
+            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get( curClass = unreal.FStringImpl.wrap( cast (_pvt._unreal.UObject_Glue.GetName(currentClass)), null).op_Dereference() ) == null)');
+            // this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
             this.begin(' {');
               this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
+              //this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
             this.end('}');
             this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(curClass)(ptr);');
           }
@@ -694,6 +696,9 @@ class ExternBaker {
           var thisType = TypeConv.get(this.type, this.pos, 'unreal.PStruct');
           cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
           'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
+        case 'op_Dereference':
+          op = '*';
+          '(**(' + self.t.glueToUe(self.name, ctx) + '))';
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -769,6 +774,10 @@ class ExternBaker {
         body += '[' + cppArgTypes[0] + ']';
         if (cppArgs.length == 2)
           body += ' = ' + cppArgTypes[1];
+      } else if (op == '*') {
+        if (cppArgs.length > 0) {
+          throw new Error('Extern Baker: op_Dereference must take zero arguments', pos);
+        }
       } else {
         body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
       }
