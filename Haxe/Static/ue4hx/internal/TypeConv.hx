@@ -473,9 +473,12 @@ using StringTools;
         if (originalTypeRef != typeRef)
           ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
         if (modf == null) {
-          return ret;
+          // By default, all non-UObject types are treated as PStruct
+          ret.ownershipModifier = modf = 'unreal.PStruct';
+        } else {
+          ret.haxeType = TypeRef.parseClassName(modf, [originalTypeRef]);
         }
-        ret.haxeType = TypeRef.parseClassName(modf, [originalTypeRef]);
+
         switch (modf) {
           case 'unreal.PExternal':
             ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( % )';
@@ -485,7 +488,7 @@ using StringTools;
           case 'unreal.PStruct':
             ret.ueToGlueExpr = 'new PStruct<${ueType.getCppType()}>( % )';
             // ret.glueToHaxeExpr = '@:privateAccess new unreal.PStruct(' + ret.glueToHaxeExpr + ')';
-            ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
+            ret.glueToUeExpr = '(*(' + ret.glueToUeExpr + '))';
             ret.ueType = ret.ueType.params[0];
             if (ret.forwardDeclType == Always)
               ret.forwardDeclType = ForwardDeclEnum.AsFunction;
@@ -683,7 +686,7 @@ using StringTools;
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
       "Int" => "int32",
-      "cpp.Int8" => "int8",      
+      "cpp.Int8" => "int8",
       "cpp.UInt16" => "uint16",
       "cpp.UInt8" => "uint8"
     ];
@@ -734,41 +737,21 @@ using StringTools;
         haxeType: new TypeRef('Void'),
         isBasic: true,
       },
-      // FString
+      // TCharStar
       {
-        haxeType: new TypeRef(['unreal'],'FString'),
-        ueType: new TypeRef('FString'),
+        haxeType: new TypeRef(['unreal'],'TCharStar'),
+        ueType: new TypeRef('TCHAR*'),
         haxeGlueType: voidStar,
         glueType: voidStar,
 
         glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
         glueHeaderIncludes:['<hxcpp.h>'],
 
-        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *(%) ))',
-        glueToUeExpr:'::FString( UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) )',
+        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',
+        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
         isBasic: false,
-        forwardDeclType: ForwardDeclEnum.AsFunction,
-        forwardDecls: ['class FString;'],
-      },
-      // FText
-      {
-        haxeType: new TypeRef(['unreal'],'FText'),
-        ueType: new TypeRef('FText'),
-        haxeGlueType: voidStar,
-        glueType: voidStar,
-
-        glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
-        glueHeaderIncludes:['<hxcpp.h>'],
-
-        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( *((%).ToString()) ))',
-        glueToUeExpr:'::FText::FromString( ::FString(UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%)) ))',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
-        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
-        isBasic: false,
-        forwardDeclType: ForwardDeclEnum.AsFunction,
-        forwardDecls: ['class FText;'],
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {
