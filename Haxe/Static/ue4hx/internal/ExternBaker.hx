@@ -377,14 +377,14 @@ class ExternBaker {
           this.buf.add('if (ptr == null) return null;');
           this.newline();
           if(this.thisConv.isUObject) {
-            this.buf.add('var currentClass = new unreal.UObject(ptr).GetClass();');
+            this.buf.add('var currentClass = _pvt._unreal.UObject_Glue.GetClass(ptr.rawCast());');
             this.newline();
             this.buf.add('var curClass:String = null;');
             this.newline();
-            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get( curClass = currentClass.GetName().op_Dereference() ) == null)');
+            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get( curClass = unreal.FStringImpl.wrap( cast (_pvt._unreal.UObject_Glue.GetName(currentClass)), null).op_Dereference() ) == null)');
             // this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
             this.begin(' {');
-              this.buf.add('currentClass = currentClass.GetSuperClass();');
+              this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
               //this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
             this.end('}');
             this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(curClass)(ptr);');

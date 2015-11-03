@@ -748,7 +748,7 @@ using StringTools;
         glueHeaderIncludes:['<hxcpp.h>'],
 
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',
-        glueToUeExpr:'UTF8_TO_TCHAR(%)',
+        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
         isBasic: false,
