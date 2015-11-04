@@ -1,5 +1,4 @@
 package unreal;
-import unreal.helpers.FName_Glue;
 import unreal.helpers.HaxeHelpers;
 
 @:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
