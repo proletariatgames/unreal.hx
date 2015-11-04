@@ -311,21 +311,21 @@ class DelayedGlue {
       throw new Error('Invalid argument for delegate ${cls.interfaces[0].t.get().name}', cls.pos);
     }
 
-    for (arg in args) {
-      if (arg.glueCppIncludes != null) {
-        for (include in arg.glueCppIncludes) {
-          writer.include(include);
+    for (arg in args.concat([ret])) {
+      if (!arg.forwardDeclType.isNever() && arg.forwardDecls != null) {
+        for (fwd in arg.forwardDecls) {
+          writer.forwardDeclare(fwd);
         }
-      }
-    }
-    if (ret.glueCppIncludes != null) {
-      for (include in ret.glueCppIncludes) {
-        writer.include(include);
+      } else {
+        if (arg.glueCppIncludes != null) {
+          for (include in arg.glueCppIncludes) {
+            writer.include(include);
+          }
+        }
       }
     }
 
     writer.include('$uname.generated.h');
-
     var type = cls.superClass.t.get().name;
     var isDynamicDelegate = switch(type) {
       case 'DynamicMulticastDelegate', 'DynamicDelegate': true;
