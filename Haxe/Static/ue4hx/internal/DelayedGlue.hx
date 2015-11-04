@@ -290,7 +290,8 @@ class DelayedGlue {
 
   private function handleProperty(field:ClassField, isStatic:Bool) {
     var type = field.type,
-        tconv = TypeConv.get(type, field.pos);
+        propTConv = TypeConv.get(type, field.pos);
+
     var glue = this.typeRef.getGlueHelperType();
     var headerDef = new HelperBuf(),
         cppDef = new HelperBuf();
@@ -298,6 +299,12 @@ class DelayedGlue {
     if (uname == null)
       uname = field.name;
     for (mode in ['get','set']) {
+      var tconv = propTConv;
+      var isStructProp = !propTConv.isUObject && propTConv.ownershipModifier == 'unreal.PStruct';
+      if (isStructProp && mode == 'get') {
+        tconv = TypeConv.get(type, field.pos, 'unreal.PExternal');
+      }
+
       var ret = null;
       if (mode == 'get') {
         ret = tconv;
@@ -329,7 +336,7 @@ class DelayedGlue {
       }
 
       if (mode == 'get')
-        cppDef << 'return ' << tconv.ueToGlue(cppBody.toString(), null) << ';\n}\n';
+        cppDef << 'return ' << tconv.ueToGlue((isStructProp ? '&' : '') + cppBody.toString(), null) << ';\n}\n';
       else
         cppDef << cppBody.toString() << ' = ' << tconv.glueToUe('value', null) << ';\n}\n';
 
@@ -351,7 +358,7 @@ class DelayedGlue {
       });
     }
     // add the remaining metadata
-    var allTypes = [this.thisConv, tconv];
+    var allTypes = [this.thisConv, propTConv];
     var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
