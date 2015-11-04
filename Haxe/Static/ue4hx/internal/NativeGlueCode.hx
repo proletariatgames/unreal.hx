@@ -256,6 +256,11 @@ class NativeGlueCode
         if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
           File.saveContent(targetPath, contents);
       }
+
+      var dependencies = MacroHelpers.extractStrings(cl.meta, ':ufiledependency');
+      for (dep in dependencies) {
+        touch(dep);
+      }
     }
 
     // add all extra modules which we depend on

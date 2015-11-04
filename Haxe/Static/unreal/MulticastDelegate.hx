@@ -11,16 +11,16 @@ package unreal;
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
 @:autoBuild(ue4hx.internal.DelegateBuild.build())
-interface MulticastDelegate<T : haxe.Constraints.Function> {
+@:ueNoGlue class MulticastDelegate<T : haxe.Constraints.Function> extends unreal.Wrapper {
   /**
     Removes a function from this multi-cast delegate
    **/
-  function Remove(handle:PStruct<FDelegateHandle>):Void;
+  // function Remove(handle:PStruct<FDelegateHandle>):Void {}
 
   /**
     Clears the current delegate
    **/
-  function Clear():Void;
+  // function Clear():Void {}
 
   // /**
   //   Removes all functions from this multi-cast delegate's invocation list that are bound to the specified UserObject

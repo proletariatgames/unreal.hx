@@ -10,10 +10,10 @@ package unreal;
   functions.
  **/
 @:autoBuild(ue4hx.internal.DelegateBuild.build())
-interface Event<T : haxe.Constraints.Function> {
+@:ueNoGlue class Event<T : haxe.Constraints.Function> extends unreal.Wrapper {
   /**
     Removes a function from this multi-cast delegate
    **/
-  function Remove(handle:PStruct<FDelegateHandle>):Void;
+  // function Remove(handle:PStruct<FDelegateHandle>):Void {}
 }
 

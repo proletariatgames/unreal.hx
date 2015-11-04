@@ -4,6 +4,7 @@ import haxe.macro.Context;
 import haxe.macro.Type;
 
 using haxe.macro.Tools;
+using StringTools;
 
 class DelegateBuild {
   public static function build():Array<Field> {
@@ -14,12 +15,12 @@ class DelegateBuild {
       return null;
 #end
 
-    var ifaces = cl.interfaces;
-    if (ifaces.length != 1) {
-      throw new Error('A delegate should implement only one interface, which should correspond to which kind it represents', cl.pos);
+    var superClass = cl.superClass;
+    if (superClass == null) {
+      throw new Error('A delegate should extend one of the Delegate classes, which should correspond to which kind it represents', cl.pos);
     }
 
-    var type = ifaces[0].t.get().name;
+    var type = superClass.t.get().name;
     switch(type) {
     case 'Delegate' | 'MulticastDelegate' | 'Event' | 'DynamicDelegate' | 'DynamicMulticastDelegate':
       // do nothing
@@ -27,7 +28,7 @@ class DelegateBuild {
       throw new Error('Invalid delegate type $type', cl.pos);
     }
 
-    var fnType = ifaces[0].params[0];
+    var fnType = superClass.params[0];
     var args, ret;
     switch(Context.follow(fnType)) {
     case TFun(a,r):
@@ -93,8 +94,8 @@ class DelegateBuild {
       }
     case 'MulticastDelegate' | 'DynamicMulticastDelegate':
       def = macro class {
-        public function Remove(handle:PStruct<unreal.FDelegateHandle>):Void {
-          ue4hx.internal.DelayedGlue.getNativeCall("Remove", false, handle);
+        public function IsBound():Bool {
+          return ue4hx.internal.DelayedGlue.getNativeCall("IsBound", false);
         }
 
         public function Clear():Void {
@@ -150,8 +151,28 @@ class DelegateBuild {
     }
 #end
     cl.meta.add(':unativecalls', [for (field in def.fields) macro $v{field.name}], cl.pos);
-    cl.meta.add(':uextern', [], cl.pos);
     cl.meta.add(':final', [], cl.pos);
+
+#if !bake_externs
+    if (!cl.meta.has(':uextern')) {
+      var typeThis:TypePath = {pack:[], name:cl.name};
+      var added = macro class {
+        @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+          var wrapped = cpp.Pointer.fromRaw(wrapped);
+          return wrapped != null ? new $typeThis(wrapped, parent) : null;
+        }
+      };
+      def.fields.push(added.fields[0]);
+
+      var uname = MacroHelpers.extractStrings(cl.meta, ":uname")[0];
+      if (uname == null) uname = cl.name;
+      var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+      cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
+      cl.meta.add(':uhxdelegate', [], cl.pos);
+    }
+#end
+    cl.meta.add(':uextern', [], cl.pos);
+
     return def.fields;
   }
 
