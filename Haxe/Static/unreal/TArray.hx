@@ -1,6 +1,10 @@
 package unreal;
 import unreal.helpers.HaxeHelpers;
 
+#if !bake_externs
+using unreal.CoreApi;
+#end
+
 @:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
 #if !bake_externs
 
@@ -50,7 +54,7 @@ import unreal.helpers.HaxeHelpers;
 
   public function find(obj:T) : Int {
     for(i in 0...length) {
-      if (get(i) == obj) {
+      if (get(i).equals(obj)) {
         return i;
       }
     }
