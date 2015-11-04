@@ -434,6 +434,16 @@ class ExternBaker {
           // copy constructor
           // TODO add params if type has type parameter
           methods.push({
+            name: '_equals',
+            uname: '.equals',
+            doc: doc,
+            meta:null,
+            args:[{name:"other", t:this.thisConv}],
+            ret:TypeConv.get(Context.getType("Bool"), c.pos),
+            prop:NonProp,
+            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
+          });
+          methods.push({
             name: '_copy',
             uname: '.copy',
             doc: doc,
@@ -683,6 +693,10 @@ class ExternBaker {
         case 'get_Item' | 'set_Item':
           op = '[';
           '(*' + self.t.glueToUe(self.name, ctx) + ')';
+        case '.equals':
+          var thisType = TypeConv.get(this.type, this.pos, 'unreal.PStruct');
+          cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
+          'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
           op = '*';
           '(**(' + self.t.glueToUe(self.name, ctx) + '))';
@@ -885,6 +899,9 @@ class ExternBaker {
       type.getAllCppIncludes(cppIncludes);
       type.getAllHeaderIncludes(headerIncludes);
     }
+    if (meth.uname == ".equals") {
+      cppIncludes['<TypeTraits.h>'] = '<TypeTraits.h>';
+    }
     var hasHeaderInc = headerIncludes.iterator().hasNext(),
         hasCppInc = cppIncludes.iterator().hasNext();
     if (hasHeaderInc && !isInterface) {
@@ -949,7 +966,12 @@ class ExternBaker {
       }
       if (meth.args.length != 0) this.buf.add(', ');
     }
-    this.buf.add([ for (arg in args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
+    //TODO: Fix this to not just hardset it to wrapper
+    if (meth.uname == '.equals') {
+      this.buf.add('other:unreal.Wrapper');
+    } else {
+      this.buf.add([ for (arg in args) arg.name + ':' + arg.t.haxeType.toString() ].join(', '));
+    }
     this.buf.add('):' + retHaxeType + ' ');
     if (isInterface) {
       this.buf.add(';');
