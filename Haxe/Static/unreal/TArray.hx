@@ -20,12 +20,12 @@ import unreal.helpers.HaxeHelpers;
   }
 
   @:arrayAccess
-  public inline function arrayWrite(index:Int, v:T) : T {
+  public inline function set(index:Int, v:T) : T {
     this.set_Item(index, v);
     return v;
   }
 
-  public function pop(allowShrinking:Bool) : T {
+  public function pop(allowShrinking:Bool = true) : T {
     return this.Pop(allowShrinking);
   }
 
