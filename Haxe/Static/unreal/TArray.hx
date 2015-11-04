@@ -2,7 +2,7 @@ package unreal;
 import unreal.helpers.HaxeHelpers;
 
 #if !bake_externs
-using unreal.CoreApi;
+using unreal.CoreAPI;
 #end
 
 @:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
