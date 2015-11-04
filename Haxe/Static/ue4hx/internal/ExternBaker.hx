@@ -300,7 +300,7 @@ class ExternBaker {
     this.buf.add('${c.name}$params ');
     var hasSuperClass = true;
     if (c.superClass != null) {
-      var supRef = TypeRef.fromBaseType(c.superClass.t.get(), c.superClass.params, c.pos);
+      var supRef = TInst(c.superClass.t, c.superClass.params).toString();
       this.buf.add('extends $supRef ');
     } else if (c.isInterface) {
       this.buf.add('extends unreal.IInterface ');

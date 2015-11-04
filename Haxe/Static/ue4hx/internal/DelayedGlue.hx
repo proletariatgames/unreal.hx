@@ -4,7 +4,9 @@ import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import ue4hx.internal.buf.HeaderWriter;
 
+using Lambda;
 using haxe.macro.Tools;
 using StringTools;
 #end
@@ -28,7 +30,7 @@ class DelayedGlue {
     var glueExpr = new HelperBuf() << getGlueType_impl(cls, pos);
     glueExpr << '.' << (isSetter ? 'set_' : 'get_') << fieldName << '(';
     if (!isStatic) {
-      var thisConv = TypeConv.get( Context.getLocalType(), pos );
+      var thisConv = TypeConv.get( Context.getLocalType(), pos, "unreal.PExternal");
       glueExpr << thisConv.haxeToGlue('this', ctx);
       if (isSetter)
         glueExpr << ', ';
@@ -125,10 +127,11 @@ class DelayedGlue {
     if (!fret.haxeType.isVoid())
       expr = fret.glueToHaxe(expr, null);
     block.push(Context.parse(expr, pos));
-    if (block.length == 1)
+    if (block.length == 1) {
       return block[0];
-    else
+    } else {
       return { expr:EBlock(block), pos: pos };
+    }
   }
 
 #if macro
@@ -174,7 +177,7 @@ class DelayedGlue {
   public function build() {
     var cls = this.cls;
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
-    this.thisConv = TypeConv.get( Context.getLocalType(), this.pos );
+    this.thisConv = TypeConv.get( Context.getLocalType(), this.pos, 'unreal.PExternal' );
     this.buildFields = [];
     this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
 
@@ -217,6 +220,10 @@ class DelayedGlue {
     for (ncall in MacroHelpers.extractStrings( cls.meta, ':unativecalls' )) {
       if (!ignoreSupers.exists(ncall))
         nativeCalls[ncall] = null;
+    }
+
+    if (cls.meta.has(":uhxdelegate")) {
+      writeDelegateDefinition(cls);
     }
 
     for (field in cls.fields.get()) {
@@ -286,6 +293,94 @@ class DelayedGlue {
       fields: this.buildFields,
     });
     Context.getType(glue.getClassPath());
+  }
+
+  private function writeDelegateDefinition(cls:ClassType) {
+    var uname = MacroHelpers.extractStrings(cls.meta, ":uname")[0];
+    if (uname == null) uname = cls.name;
+    var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+    var writer = new HeaderWriter(headerPath);
+
+    var fnType = cls.superClass.params[0];
+    var args, ret;
+    switch(Context.follow(fnType)) {
+    case TFun(a,r):
+      args = [ for (arg in a) TypeConv.get(arg.t, cls.pos) ];
+      ret = TypeConv.get(r, cls.pos);
+    case _:
+      throw new Error('Invalid argument for delegate ${cls.interfaces[0].t.get().name}', cls.pos);
+    }
+
+    for (arg in args) {
+      if (arg.glueCppIncludes != null) {
+        for (include in arg.glueCppIncludes) {
+          writer.include(include);
+        }
+      }
+    }
+    if (ret.glueCppIncludes != null) {
+      for (include in ret.glueCppIncludes) {
+        writer.include(include);
+      }
+    }
+
+    writer.include('$uname.generated.h');
+
+    var type = cls.superClass.t.get().name;
+    var isDynamicDelegate = switch(type) {
+      case 'DynamicMulticastDelegate', 'DynamicDelegate': true;
+      default: false;
+    }
+
+    var declMacro = switch (type) {
+      case 'Delegate': 'DECLARE_DELEGATE';
+      case 'DynamicDelegate': 'DECLARE_DYNAMIC_DELEGATE';
+      case 'Event': 'DECLARE_EVENT';
+      case 'MulticastDelegate': 'DECLARE_MULTICAST_DELEGATE';
+      case 'DynamicMulticastDelegate': 'DECLARE_DYNAMIC_MULTICAST_DELEGATE';
+      default: throw 'assert';
+    }
+
+    var argStr = switch (args.length) {
+      case 0: "";
+      case 1: "_OneParam";
+      case 2: "_TwoParams";
+      case 3: "_ThreeParams";
+      case 4: "_FourParams";
+      case 5: "_FiveParams";
+      case 6: "_SixParams";
+      case 7: "_SevenParams";
+      case 8: "_EightParams";
+      default: throw new Error('Cannot declare a delegate with more than 8 parameters', cls.pos);
+    }
+
+    var retStr = ret.haxeType.isVoid() ? "" : "_RetVal";
+    var constStr = cls.meta.has(':thisConst') ? "_Const" : "";
+
+    // TODO: Support "payload" variables?
+
+    writer.buf.add('$declMacro$retStr$argStr$constStr(');
+
+    if (!ret.haxeType.isVoid()) {
+      writer.buf.add('${ret.ueType.getCppType()}, ');
+    }
+    writer.buf.add(uname);
+
+    var paramNames = MacroHelpers.extractStrings(cls.meta, ':ueParamName');
+    for (i in 0...args.length) {
+      var arg = args[i];
+      writer.buf.add(', ${arg.ueType.getCppType()}');
+      if (isDynamicDelegate) {
+        var paramName = paramNames[i] != null ? paramNames[i] : 'arg$i';
+        writer.buf.add(', $paramName');
+      }
+    }
+    writer.buf.add(');\n\n\n');
+
+    writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
+    writer.buf.add('UCLASS() class U${uname}__Dummy : public UObject { GENERATED_BODY() };');
+    writer.close(Globals.cur.module);
+    cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
   }
 
   private function handleProperty(field:ClassField, isStatic:Bool) {
@@ -379,8 +474,10 @@ class DelayedGlue {
     headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
     cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
     var thisDef = thisConv.glueType.getCppType() + ' self';
-    headerDef << thisDef;
-    cppDef << thisDef;
+    if (!isStatic) {
+      headerDef << thisDef;
+      cppDef << thisDef;
+    }
 
     if (args.length > 0) {
       var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
@@ -393,11 +490,18 @@ class DelayedGlue {
     // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
     {
       var cppBody = new HelperBuf();
-      if (isStatic)
-        cppBody << this.thisConv.ueType.getCppClass() << '::';
-      else
-        cppBody << this.thisConv.glueToUe('self', null) << '->';
-      cppBody << uname << '(';
+      if (uname == "new") {
+        cppBody << "new " << this.thisConv.ueType.getCppClass();
+      } else {
+        if (isStatic)
+          cppBody << this.thisConv.ueType.getCppClass() << '::';
+        else
+          cppBody << this.thisConv.glueToUe('self', null) << '->';
+      }
+      if (uname != "new") {
+        cppBody << uname;
+      }
+      cppBody << '(';
       cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
       cppBody << ')';
       if (!ret.haxeType.isVoid())
@@ -414,13 +518,13 @@ class DelayedGlue {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
 
+    var selfArg = isStatic ? [] : [{name:'self', type:this.thisConv.haxeGlueType.toComplexType()}];
+
     this.buildFields.push({
       name: externName,
       access: [APublic,AStatic],
       kind: FFun({
-        args: [
-            { name: 'self', type: this.thisConv.haxeGlueType.toComplexType() }
-          ].concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
+        args: selfArg.concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
         ret: ret.haxeGlueType.toComplexType(),
         expr: null
       }),

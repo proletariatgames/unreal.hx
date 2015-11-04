@@ -7,7 +7,7 @@ package unreal;
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
 @:autoBuild(ue4hx.internal.DelegateBuild.build())
-interface DynamicMulticastDelegate <T : haxe.Constraints.Function> {
+@:ueNoGlue class DynamicMulticastDelegate <T : haxe.Constraints.Function> extends unreal.Wrapper {
   // added by the compiler:
   // function Broadcast(args):Void;
 }
