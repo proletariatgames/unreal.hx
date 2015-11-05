@@ -451,13 +451,20 @@ class UExtensionBuild {
     }
     var superConv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos);
     var superName = superConv.ueType.getCppClass();
+
+    headerDef.add('public:\n');
+    // include class map
+    includes['ClassMap.h'] = 'ClassMap.h';
+    headerDef.add('\t\tstatic void *getHaxePointer(void *inUObject) {\n');
+      headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
+
     var ctorBody = new HelperBuf();
-    ctorBody << '\n\t\t\tUClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
+    // first add our unwrapper to the class map
+    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper($ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+      << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
       << 'while (!curClass->HasAllClassFlags(CLASS_Native)) {\n\t\t\t\t'
       << 'curClass = curClass->GetSuperClass();\n\t\t\t}\n\t\t\t'
       << 'if (curClass->GetName() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper());\n\t\t';
-    // headerDef.add(' {\n\t');
-    headerDef.add('public:\n');
 
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');

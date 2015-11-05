@@ -308,6 +308,18 @@ class NativeGlueCode
         if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
           writeGlueHeader(cl);
         }
+        // add only once - we'll select a type that is always compiled
+        // if (typeName == 'unreal.helpers.HxcppRuntime') {
+        //   cl.meta.add(':buildXml', [macro $v{
+        //   '<files id="haxe">
+        //     <compilerflag value="-I${Globals.cur.haxeRuntimeDir}/Generated" />
+        //   </files>'
+        //   }], cl.pos);
+        // }
+        if (cl.meta.has(':uintrinsic')) {
+          var incPath = MacroHelpers.extractStrings(cl.meta, ':uintrinsic')[0];
+          cl.meta.add(':include', [macro $v{Globals.cur.haxeRuntimeDir + '/$incPath'}], cl.pos);
+        }
       case _:
       }
     }

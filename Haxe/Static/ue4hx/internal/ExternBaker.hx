@@ -340,9 +340,11 @@ class ExternBaker {
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         if (!c.isInterface) {
+          var glueClassGet = glueType.getClassPath() + '.StaticClass()';
           this.buf.add('static function __init__()');
           this.begin(' {');
-            this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
+            this.buf.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
+            // this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
           this.end('}');
           this.newline();
 
@@ -357,17 +359,24 @@ class ExternBaker {
               isHaxePublic: true, isFinal:true, isStatic: true, isPublic: true
             });
           }
-        }
-      }
 
-      // add the wrap field
-      // FIXME: test if class is the same so we can get inheritance correctly (on UObjects only)
-      if (!c.isInterface) {
+          // add wrap
+          this.buf.add('@:unreflective static function wrapPointer(uobject:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void>');
+          this.begin(' {');
+            this.buf.add('var ptr:cpp.Pointer<Dynamic> = cpp.Pointer.fromRaw(cast uobject);');
+            this.buf.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(ptr));');
+          this.end('}');
+
+          this.buf.add('@:unreflective public static function wrap(uobject:cpp.RawPointer<cpp.Void>):${this.typeRef.getClassPath()}');
+          this.begin(' {');
+            this.buf.add('return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(uobject) );');
+          this.end('}');
+        }
+      } else if (!c.isInterface) {
+        // add wrap for non-uobject types
         this.buf.add('@:unreflective public static function wrap$params(ptr:');
         this.buf.add(this.thisConv.haxeGlueType.toString());
-          if (!this.thisConv.isUObject) {
-            this.buf.add(', ?parent:Dynamic');
-          }
+        this.buf.add(', ?parent:Dynamic');
         this.buf.add('):' + this.thisConv.haxeType);
         this.begin(' {');
           if (!this.thisConv.haxeGlueType.isReflective()) {
@@ -377,22 +386,7 @@ class ExternBaker {
 
           this.buf.add('if (ptr == null) return null;');
           this.newline();
-          if(this.thisConv.isUObject) {
-            this.buf.add('var currentClass = _pvt._unreal.UObject_Glue.GetClass(ptr.rawCast());');
-            this.newline();
-            this.buf.add('var curClass:String = null;');
-            this.newline();
-            this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get( curClass = unreal.FStringImpl.wrap( cast (_pvt._unreal.UObject_Glue.GetName(currentClass)), null).op_Dereference() ) == null)');
-            // this.buf.add('while (unreal.helpers.GlueClassMap.classMap.get(curClass = unreal.helpers.HaxeHelpers.pointerToDynamic( _pvt._unreal.UObject_Glue.GetName(currentClass) )) == null)');
-            this.begin(' {');
-              this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
-              //this.buf.add('currentClass = _pvt._unreal.UClass_Glue.GetSuperClass(currentClass);');
-            this.end('}');
-            this.buf.add('return unreal.helpers.GlueClassMap.classMap.get(curClass)(ptr);');
-          }
-          else {
-            this.buf.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
-          }
+          this.buf.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
         this.end('}');
       }
 
