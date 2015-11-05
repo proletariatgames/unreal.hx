@@ -326,6 +326,7 @@ class NativeGlueCode
           var uname = MacroHelpers.extractStrings(et.meta, ":uname")[0];
           if (uname == null) uname = et.name;
           touch(uname);
+        }
       case _:
       }
     }
