@@ -104,6 +104,21 @@ class UExtensionBuild {
 
         var isOverride = nativeMethods.exists(field.name);
 
+        switch (field.kind) {
+        case FMethod(_):
+          if (field.name.startsWith('onRep_')) {
+            var propName = field.name.substr('onRep_'.length);
+            // ensure that the variable this replication function is for exists.
+            var prop = clt.fields.get().find(function(t){
+              return t.name == propName;
+            });
+            if (prop == null) {
+              throw new Error('Unreal Glue: Replication function defined for property that doesn\'t exist: $propName', field.pos);
+            }
+          }
+        default:
+        }
+
         if (isOverride || shouldExpose(field)) {
           toExpose[field.name] = getMethodDef(field, isOverride ? Override : Member);
         }
@@ -282,7 +297,24 @@ class UExtensionBuild {
 
           if (uprop.meta.has(":ureplicate")) {
             if (first) first = false; else data.add(', ');
-            data.add('Replicated');
+
+            var fnName = 'onRep_$uname';
+            var replicateFn = clt.fields.get().find(function(fld) {
+              return switch (fld.type) {
+                case TFun(_): fld.name == fnName;
+                default: false;
+              }
+            });
+
+            if (replicateFn != null) {
+              if (!replicateFn.meta.has(":ufunction")) {
+                throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
+              }
+              data.add('ReplicatedUsing=$fnName');
+            } else {
+              data.add('Replicated');
+            }
+
             var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
             replicatedProps[uprop] = repType;
             hasReplicatedProperties = true;
