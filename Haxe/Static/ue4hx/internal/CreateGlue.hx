@@ -41,6 +41,8 @@ class CreateGlue {
           var ctor = cl.constructor;
           if (ctor != null)
             Context.follow(ctor.get().type);
+        case TEnum(_):
+          UEnumBuild.processEnum(type);
         case _:
         }
       }

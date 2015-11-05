@@ -355,6 +355,23 @@ using StringTools;
       refName = refName.withParams( typeRef.params );
     }
 
+    // Handle uenums declared in haxe
+    if (ctx.isEnum && meta != null && meta.has(':uenum') && !meta.has(':uextern')) {
+      var ret:TypeConvInfo = {
+        haxeType: originalTypeRef,
+        ueType: refName,
+        haxeGlueType: new TypeRef("Int"),
+        glueType: new TypeRef("Int"),
+        glueCppIncludes: ['$refName.h'],
+        haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
+        glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
+        glueToUeExpr: '( ($refName) % )',
+        ueToGlueExpr : '( (int) % )',
+        args: convArgs,
+      };
+      return ret;
+    }
+
     if (meta != null && meta.has(':uextern')) {
       if (isUObject) {
         var ret:TypeConvInfo = {
