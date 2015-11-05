@@ -20,4 +20,7 @@ package unreal;
 
   @:thisConst
   public function GetGameState() : AGameState;
+
+  @:thisConst
+  public function GetGameInstance() : UGameInstance;
 }
