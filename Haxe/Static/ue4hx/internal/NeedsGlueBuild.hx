@@ -12,6 +12,9 @@ class NeedsGlueBuild
   static var checkedVersion = false;
   public static function build():Array<Field>
   {
+    #if bake_externs
+    return null;
+    #end
     // check version level
     if (!checkedVersion)
       checkBuildVersionLevel();

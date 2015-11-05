@@ -559,6 +559,7 @@ using StringTools;
       var glueCppIncludes = getMetaArray(meta, ':glueCppIncludes');
       if (glueCppIncludes == null) glueCppIncludes = [];
       glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
+      #if !bake_externs
       var mod = getMetaArray(meta, ':umodule');
       var module = mod == null ? null : mod[0];
       var dir = Globals.cur.haxeRuntimeDir;
@@ -566,6 +567,7 @@ using StringTools;
         dir = dir + '/../$module';
 
       glueCppIncludes.push('$dir/Generated/Public/${refName.withoutPrefix().name}.h');
+      #end
       var ret:TypeConvInfo = {
         haxeType: typeRef,
         ueType: new TypeRef(['cpp'], 'RawPointer', [refName]),
