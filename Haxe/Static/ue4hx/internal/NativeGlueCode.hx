@@ -320,6 +320,12 @@ class NativeGlueCode
           var incPath = MacroHelpers.extractStrings(cl.meta, ':uintrinsic')[0];
           cl.meta.add(':include', [macro $v{Globals.cur.haxeRuntimeDir + '/$incPath'}], cl.pos);
         }
+      case TEnum(e, _):
+        var et = e.get();
+        if (et.meta.has(':uenum')) {
+          var uname = MacroHelpers.extractStrings(et.meta, ":uname")[0];
+          if (uname == null) uname = et.name;
+          touch(uname);
       case _:
       }
     }
