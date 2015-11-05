@@ -19,8 +19,11 @@ import unreal.helpers.HaxeHelpers;
     return this.ToString().toString();
   }
 
-  @:op(A==B) public function equals(other:FName) : Bool {
-    return toString() == other.toString();
+  @:op(A==B) inline public function equals(other:FName) : Bool {
+    if (this == null)
+      return other == null;
+    else
+      return toString() == other.toString();
   }
 #end
 }

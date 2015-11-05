@@ -340,16 +340,18 @@ class ExternBaker {
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         if (!c.isInterface) {
-          if (!c.meta.has(':noClass') && !methods.exists(function(m) return m.uname == 'StaticClass')) {
-            methods.push({
-              name:'StaticClass',
-              uname:'StaticClass',
-              doc:'\n\t\tReturns the `UClass` object which describes this class\n\t',
-              args: [],
-              ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
-              prop: PropType.NonProp,
-              isHaxePublic: true, isFinal:true, isStatic: true, isPublic: true
-            });
+          if (!c.meta.has(':noClass')) {
+            if (!methods.exists(function(m) return m.uname == 'StaticClass')) {
+              methods.push({
+                name:'StaticClass',
+                uname:'StaticClass',
+                doc:'\n\t\tReturns the `UClass` object which describes this class\n\t',
+                args: [],
+                ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
+                prop: PropType.NonProp,
+                isHaxePublic: true, isFinal:true, isStatic: true, isPublic: true
+              });
+            }
 
             var glueClassGet = glueType.getClassPath() + '.StaticClass()';
             this.buf.add('static function __init__()');
