@@ -363,7 +363,7 @@ using StringTools;
         haxeGlueType: new TypeRef("Int"),
         glueType: new TypeRef("Int"),
         glueCppIncludes: ['$refName.h'],
-        haxeToGlueExpr: '{if (% == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(%);}',
+        haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
         glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
         glueToUeExpr: '( ($refName) % )',
         ueToGlueExpr : '( (int) % )',
