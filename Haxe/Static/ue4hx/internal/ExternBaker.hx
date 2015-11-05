@@ -434,16 +434,6 @@ class ExternBaker {
           // copy constructor
           // TODO add params if type has type parameter
           methods.push({
-            name: '_equals',
-            uname: '.equals',
-            doc: doc,
-            meta:null,
-            args:[{name:"other", t:this.thisConv}],
-            ret:TypeConv.get(Context.getType("Bool"), c.pos),
-            prop:NonProp,
-            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
-          });
-          methods.push({
             name: '_copy',
             uname: '.copy',
             doc: doc,
@@ -472,6 +462,18 @@ class ExternBaker {
           this.begin(' {');
             this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
+        }
+        if (!c.meta.has(':noEquals')) {
+            methods.push({
+            name: '_equals',
+            uname: '.equals',
+            doc: null,
+            meta:null,
+            args:[{name:"other", t:this.thisConv}],
+            ret:TypeConv.get(Context.getType("Bool"), c.pos),
+            prop:NonProp,
+            isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
+          });
         }
       }
 

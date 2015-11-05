@@ -18,6 +18,10 @@ import unreal.helpers.HaxeHelpers;
   public function toString():String {
     return this.ToString().toString();
   }
+
+  @:op(A==B) public function equals(other:FName) : Bool {
+    return toString() == other.toString();
+  }
 #end
 }
 
