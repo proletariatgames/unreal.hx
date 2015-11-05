@@ -340,15 +340,7 @@ class ExternBaker {
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         if (!c.isInterface) {
-          var glueClassGet = glueType.getClassPath() + '.StaticClass()';
-          this.buf.add('static function __init__()');
-          this.begin(' {');
-            this.buf.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
-            // this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
-          this.end('}');
-          this.newline();
-
-          if (uname != 'UClass' && !c.meta.has(':noClass') && !methods.exists(function(m) return m.uname == 'StaticClass')) {
+          if (!c.meta.has(':noClass') && !methods.exists(function(m) return m.uname == 'StaticClass')) {
             methods.push({
               name:'StaticClass',
               uname:'StaticClass',
@@ -358,14 +350,22 @@ class ExternBaker {
               prop: PropType.NonProp,
               isHaxePublic: true, isFinal:true, isStatic: true, isPublic: true
             });
-          }
 
-          // add wrap
-          this.buf.add('@:unreflective static function wrapPointer(uobject:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void>');
-          this.begin(' {');
-            this.buf.add('var ptr:cpp.Pointer<Dynamic> = cpp.Pointer.fromRaw(cast uobject);');
-            this.buf.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(ptr));');
-          this.end('}');
+            var glueClassGet = glueType.getClassPath() + '.StaticClass()';
+            this.buf.add('static function __init__()');
+            this.begin(' {');
+              this.buf.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
+              // this.buf.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
+            this.end('}');
+            this.newline();
+
+            // add wrap
+            this.buf.add('@:unreflective static function wrapPointer(uobject:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void>');
+            this.begin(' {');
+              this.buf.add('var ptr:cpp.Pointer<Dynamic> = cpp.Pointer.fromRaw(cast uobject);');
+              this.buf.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(ptr));');
+            this.end('}');
+          }
 
           this.buf.add('@:unreflective public static function wrap(uobject:cpp.RawPointer<cpp.Void>):${this.typeRef.getClassPath()}');
           this.begin(' {');
