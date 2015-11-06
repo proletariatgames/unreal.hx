@@ -372,7 +372,7 @@ using StringTools;
       return ret;
     }
 
-    if (meta != null && meta.has(':uextern')) {
+    if (meta != null && (meta.has(':uextern') || meta.has(':ustruct'))) {
       if (isUObject) {
         var ret:TypeConvInfo = {
           haxeType: originalTypeRef,
