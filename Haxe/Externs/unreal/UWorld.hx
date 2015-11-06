@@ -15,12 +15,15 @@ package unreal;
 @:uclass(customConstructor, config=Engine)
 @:uname("UWorld")
 @:uextern extern class UWorld extends UObject {
-	/** Time in seconds since level began play, but is NOT paused when the game is paused, and is NOT dilated/clamped. */
-	public var RealTimeSeconds : Float32;
+  /** Time in seconds since level began play, but is NOT paused when the game is paused, and is NOT dilated/clamped. */
+  public var RealTimeSeconds : Float32;
 
   @:thisConst
   public function GetGameState() : AGameState;
 
   @:thisConst
   public function GetGameInstance() : UGameInstance;
+
+  @:thisConst
+  public function IsPlayInEditor() : Bool;
 }
