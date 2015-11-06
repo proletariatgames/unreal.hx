@@ -3,6 +3,7 @@ package unreal;
 import unreal.APlayerController;
 
 @:glueCppIncludes('Engine.h')
+@:uname('UEngine.FOnTravelFailure')
 @:uextern extern class FOnTravelFailure extends MulticastDelegate<UWorld->ETravelFailure_Type->Const<PRef<FString>>->Void> {}
 
 /**
@@ -22,9 +23,9 @@ import unreal.APlayerController;
 	 */
 	public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
 
-  public function OnTravelFailure() : FOnTravelFailure;
+  public function OnTravelFailure() : UEngine.FOnTravelFailure;
 
-  public var TravelFailureEvent : FOnTravelFailure;
+  public var TravelFailureEvent : UEngine.FOnTravelFailure;
 
   /**
    * Returns the current netmode
