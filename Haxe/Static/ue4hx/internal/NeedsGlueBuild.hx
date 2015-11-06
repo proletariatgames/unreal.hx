@@ -180,6 +180,15 @@ class NeedsGlueBuild
         // TODO check if it's UDELEGATE
       }
 
+      var staticClassDef = macro class {
+        public static function StaticClass() : unreal.UClass {
+          return ue4hx.internal.DelayedGlue.getNativeCall('StaticClass', true);
+        }
+      };
+
+      toAdd.push(staticClassDef.fields[0]);
+      nativeCalls.set('StaticClass', 'StaticClass');
+
       if (uprops.length > 0)
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
       cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
