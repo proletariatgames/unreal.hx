@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Online/OnlineSubsystemUtils/Classes/FindSessionsCallbackProxy.h")
+@:glueCppIncludes('unreal/FixedFindSessionsCallbackProxy.h')
 @:uname("FBlueprintSessionResult")
 @:ustruct
 @:uextern extern class FBlueprintSessionResult {
