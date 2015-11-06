@@ -1,10 +1,10 @@
 package unreal;
 
-@:glueCppIncludes("Sockets/Public/SocketSubsystem.h")
+@:glueCppIncludes("SocketSubsystem.h")
 @:uname("ISocketSubsystem")
-@:uextern extern class ISocketSubsystem {
+@:uextern @:noCopy @:noEquals extern class ISocketSubsystem {
 
-	static public function Get() : ISocketSubsystem;
+	static public function Get() : PExternal<ISocketSubsystem>;
 	// TODO implement a NAME_None
 	//static public function Get(SubsystemName:Const<PRef<FName>>=NAME_None) : ISocketSubsystem;
 
