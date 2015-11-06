@@ -26,6 +26,17 @@ import unreal.APlayerController;
 
   public var TravelFailureEvent : FOnTravelFailure;
 
+  /**
+   * Returns the current netmode
+   * @param   NetDriverName    Name of the net driver to get mode for
+   * @return current netmode
+   *
+   * Note: if there is no valid net driver, returns NM_StandAlone
+   */
+  //virtual ENetMode GetNetMode(FName NetDriverName = NAME_GameNetDriver) const;
+  @:thisConst
+  public function GetNetMode(World:Const<UWorld>) : ENetMode;
+
   // global UEngine *
   @:uname("GEngine")
   @:global static var GEngine : UEngine;
