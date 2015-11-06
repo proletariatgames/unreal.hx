@@ -38,6 +38,10 @@ using unreal.CoreAPI;
     this.Push(obj);
   }
 
+  public function addZeroed(count:Int) : Int {
+    return this.AddZeroed(count);
+  }
+
 
   public function setNumUninitialized(arraySize:Int) : Void {
     this.SetNumUninitialized(arraySize);
