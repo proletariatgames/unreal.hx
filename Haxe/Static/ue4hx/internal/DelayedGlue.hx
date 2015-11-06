@@ -310,7 +310,22 @@ class DelayedGlue {
         if (field.meta.has(':uproperty')) {
           uprops.push({field:field, type:TypeConv.get(field.type, field.pos)});
         } else {
-          throw new Error('Unreal Glue: Only uproperty fields are supported: ${field.name}', field.pos);
+          throw new Error('Unreal Glue: Only uproperty fields are supported', field.pos);
+        }
+      } else {
+        if (field.meta.has(':ufunction')) {
+          throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
+        }
+        // we can only override non-extern functions
+        var scls = cls.superClass != null ? cls.superClass.t.get() : null;
+        while (scls != null) {
+          if (scls.fields.get().exists(function(f) return f.name == field.name)) {
+            if (scls.isExtern || scls.meta.has(':uextern')) {
+              throw new Error('Unreal Glue: overriding an extern function in a ustruct is not supported', field.pos);
+            }
+            break;
+          }
+          scls = scls.superClass != null ? scls.superClass.t.get() : null;
         }
       }
     }
