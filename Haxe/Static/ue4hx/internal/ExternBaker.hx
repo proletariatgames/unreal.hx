@@ -450,11 +450,11 @@ class ExternBaker {
             isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
         } else {
-          this.buf.add('@:deprecated("This type does not support copy constructors") override public function copy()');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copy() : unreal.Wrapper');
           this.begin(' {');
             this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.buf.add('@:deprecated("This type does not support copy constructors") override public function copyStruct()');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct() : unreal.Wrapper');
           this.begin(' {');
             this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
