@@ -36,6 +36,42 @@ class NeedsGlueBuild
       return null;
     }
 
+    var fields:Array<Field> = Context.getBuildFields(),
+        toAdd = [];
+
+    // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
+    // and add wrap/create calls
+    var superCls = cls.superClass;
+    while (superCls != null) {
+      var scls = superCls.t.get();
+      if (scls.meta.has(':ustruct')) {
+        cls.meta.add(':ustruct', [], cls.pos);
+        cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
+
+        var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
+        if (uname == null) uname = cls.name;
+        var structHeaderPath = '$uname.h';
+        cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
+
+        var typeThis:TypePath = {pack:[], name:cls.name};
+        var complexThis = TPath(typeThis);
+        var added = macro class {
+          @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+            var wrapped = cpp.Pointer.fromRaw(wrapped);
+            return wrapped != null ? new $typeThis(wrapped, parent) : null;
+          }
+          @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
+            return ue4hx.internal.DelayedGlue.getNativeCall("create", true);
+          }
+        };
+        for (field in added.fields) {
+          toAdd.push(field);
+        }
+        break;
+      }
+      superCls = superCls.t.get().superClass;
+    }
+
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
@@ -56,8 +92,6 @@ class NeedsGlueBuild
       var superCalls = new Map(),
           uprops = [];
       var nativeCalls = new Map();
-      var fields:Array<Field> = Context.getBuildFields(),
-          toAdd = [];
       for (field in fields) {
         if (field.access != null && field.access.has(AOverride)) {
           // TODO: should we check for non-override fields as well? This would
@@ -195,7 +229,11 @@ class NeedsGlueBuild
       cls.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], cls.pos);
 
       // mark to add the haxe-side glue helper
-      Globals.cur.uextensions = Globals.cur.uextensions.add(thisType.getClassPath());
+      if (!cls.meta.has(':ustruct')) {
+        Globals.cur.uextensions = Globals.cur.uextensions.add(thisType.getClassPath());
+      } else {
+        // Haxe-defined USTRUCTs are handled specially in DelayedGlue
+      }
 
       // add the glueRef definition if needed
       for (field in toAdd) {

@@ -224,6 +224,8 @@ class DelayedGlue {
 
     if (cls.meta.has(":uhxdelegate")) {
       writeDelegateDefinition(cls);
+    } else if (cls.meta.has(":ustruct")) {
+      writeStructDefinition(cls);
     }
 
     for (field in cls.fields.get()) {
@@ -295,11 +297,104 @@ class DelayedGlue {
     Context.getType(glue.getClassPath());
   }
 
+  private function writeStructDefinition(cls:ClassType) {
+    var uname = MacroHelpers.extractStrings(cls.meta, ":uname")[0];
+    if (uname == null) uname = cls.name;
+    var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+    var writer = new HeaderWriter(headerPath);
+    writer.buf.add(NativeGlueCode.prelude);
+
+    var uprops = [];
+    for (field in cls.fields.get()) {
+      if (field.kind.match(FVar(_))) {
+        if (field.meta.has(':uproperty')) {
+          uprops.push({field:field, type:TypeConv.get(field.type, field.pos)});
+        } else {
+          throw new Error('Unreal Glue: Only uproperty fields are supported', field.pos);
+        }
+      } else {
+        if (field.meta.has(':ufunction')) {
+          throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
+        }
+        // we can only override non-extern functions
+        var scls = cls.superClass != null ? cls.superClass.t.get() : null;
+        while (scls != null) {
+          if (scls.fields.get().exists(function(f) return f.name == field.name)) {
+            if (scls.isExtern || scls.meta.has(':uextern')) {
+              throw new Error('Unreal Glue: overriding an extern function in a ustruct is not supported', field.pos);
+            }
+            break;
+          }
+          scls = scls.superClass != null ? scls.superClass.t.get() : null;
+        }
+      }
+    }
+
+    for (prop in uprops) {
+      if (!prop.type.forwardDeclType.isNever() && prop.type.forwardDecls != null) {
+        for (fwd in prop.type.forwardDecls) {
+          writer.forwardDeclare(fwd);
+        }
+      } else {
+        if (prop.type.glueCppIncludes != null) {
+          for (include in prop.type.glueCppIncludes) {
+            writer.include(include);
+          }
+        }
+      }
+    }
+
+    var extendsStr = '';
+    if (cls.superClass != null && cls.superClass.t.get().name != "UnrealStruct") {
+      var tconv = TypeConv.get( TInst(cls.superClass.t, cls.superClass.params), cls.pos );
+      extendsStr = ': public ' + tconv.ueType.getCppClass();
+
+      // we're using the ueType so we'll include the glueCppIncludes
+      var includes = new Map();
+      tconv.getAllCppIncludes( includes );
+      for (include in includes) {
+        writer.include(include);
+      }
+    }
+
+    writer.include('$uname.generated.h');
+
+    var targetModule = MacroHelpers.extractStrings(cls.meta, ':umodule')[0];
+    if (targetModule == null) {
+      targetModule = Globals.cur.module;
+    }
+
+    writer.buf.add('USTRUCT()\n');
+    writer.buf.add('struct ${targetModule.toUpperCase()}_API ${uname} $extendsStr\n{\n');
+    writer.buf.add('\tGENERATED_USTRUCT_BODY()\n\n');
+    for (prop in uprops) {
+      writer.buf.add('\tUPROPERTY(');
+      var first = true;
+      for (meta in prop.field.meta.extract(':uproperty')) {
+        if (meta.params != null) {
+          for (param in meta.params) {
+            if (first) first = false; else writer.buf.add(', ');
+            writer.buf.add(param.toString().replace('[','(').replace(']',')'));
+          }
+        }
+      }
+      writer.buf.add(')\n');
+
+      var uname = MacroHelpers.extractStrings(prop.field.meta, ":uname")[0];
+      if (uname == null) uname = prop.field.name;
+      writer.buf.add('\t${prop.type.ueType.getCppType(null)} $uname;\n\n');
+    }
+    writer.buf.add('};\n');
+
+    writer.close(Globals.cur.module);
+  }
+
   private function writeDelegateDefinition(cls:ClassType) {
     var uname = MacroHelpers.extractStrings(cls.meta, ":uname")[0];
     if (uname == null) uname = cls.name;
     var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
     var writer = new HeaderWriter(headerPath);
+    writer.buf.add(NativeGlueCode.prelude);
 
     var fnType = cls.superClass.params[0];
     var args, ret;

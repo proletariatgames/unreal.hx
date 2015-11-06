@@ -305,6 +305,11 @@ class NativeGlueCode
           cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
         }
+        if (cl.meta.has(':ustruct')) {
+          var uname = MacroHelpers.extractStrings(cl.meta, ":uname")[0];
+          if (uname == null) uname = cl.name;
+          touch(uname);
+        }
         if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
           writeGlueHeader(cl);
         }
