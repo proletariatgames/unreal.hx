@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Online/OnlineSubsystem/Public/OnlineSessionSettings.h")
+@:glueCppIncludes("OnlineSessionSettings.h")
 @:uname("FOnlineSession")
 @:ustruct
 @:uextern extern class FOnlineSession {

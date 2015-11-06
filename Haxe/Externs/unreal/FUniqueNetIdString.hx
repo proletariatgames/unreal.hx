@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Online/OnlineSubsystem/Public/OnlineSubsystemTypes.h")
+@:glueCppIncludes("OnlineSubsystemTypes.h")
 @:uname("FUniqueNetIdString")
-@:uextern extern class FUniqueNetIdString {
+@:uextern extern class FUniqueNetIdString extends IOnlinePlatformData {
 }
