@@ -40,7 +40,8 @@ class NeedsGlueBuild
     // and add wrap/create calls
     var superCls = cls.superClass;
     while (superCls != null) {
-      if (superCls.t.get().name == 'UnrealStruct') {
+      var scls = superCls.t.get();
+      if (scls.meta.has(':ustruct')) {
         cls.meta.add(':ustruct', [], cls.pos);
         cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
 
