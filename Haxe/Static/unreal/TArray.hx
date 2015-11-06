@@ -47,6 +47,10 @@ using unreal.CoreAPI;
     return this.Insert(item, index);
   }
 
+  public function removeAt(index:Int, count:Int = 1, allowShrinking:Bool = true) : Void {
+    this.RemoveAt(index, count, allowShrinking);
+  }
+
   public function empty() : Void {
     return this.Empty();
   }

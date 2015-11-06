@@ -14,6 +14,7 @@ package unreal;
   public function Push(obj:PRef<PRef<T>>):Void;
   public function SetNumUninitialized(arraySize:Int):Void;
   public function Insert(item:PRef<PRef<T>>, index:Int):Int;
+  public function RemoveAt(Index:Int32, Count:Int32, bAllowShrinking:Bool):Void;
   public function Num():Int;
   public function Empty():Void;
 
