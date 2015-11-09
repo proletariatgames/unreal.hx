@@ -44,28 +44,30 @@ class NeedsGlueBuild
     var superCls = cls.superClass;
     while (superCls != null) {
       var scls = superCls.t.get();
-      if (scls.meta.has(':ustruct') && !scls.meta.has(':uextern')) {
+      if (scls.meta.has(':ustruct')) {
         cls.meta.add(':ustruct', [], cls.pos);
         cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
 
-        var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
-        if (uname == null) uname = cls.name;
-        var structHeaderPath = '$uname.h';
-        cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
+        if (!cls.meta.has(':uextern')) {
+          var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
+          if (uname == null) uname = cls.name;
+          var structHeaderPath = '$uname.h';
+          cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
 
-        var typeThis:TypePath = {pack:[], name:cls.name};
-        var complexThis = TPath(typeThis);
-        var added = macro class {
-          @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
-            var wrapped = cpp.Pointer.fromRaw(wrapped);
-            return wrapped != null ? new $typeThis(wrapped, parent) : null;
+          var typeThis:TypePath = {pack:[], name:cls.name};
+          var complexThis = TPath(typeThis);
+          var added = macro class {
+            @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+              var wrapped = cpp.Pointer.fromRaw(wrapped);
+              return wrapped != null ? new $typeThis(wrapped, parent) : null;
+            }
+            @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
+              return ue4hx.internal.DelayedGlue.getNativeCall("create", true);
+            }
+          };
+          for (field in added.fields) {
+            toAdd.push(field);
           }
-          @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
-            return ue4hx.internal.DelayedGlue.getNativeCall("create", true);
-          }
-        };
-        for (field in added.fields) {
-          toAdd.push(field);
         }
         break;
       }
@@ -214,14 +216,16 @@ class NeedsGlueBuild
         // TODO check if it's UDELEGATE
       }
 
-      var staticClassDef = macro class {
-        public static function StaticClass() : unreal.UClass {
-          return ue4hx.internal.DelayedGlue.getNativeCall('StaticClass', true);
-        }
-      };
+      if (!cls.meta.has(':ustruct')) {
+        var staticClassDef = macro class {
+          public static function StaticClass() : unreal.UClass {
+            return ue4hx.internal.DelayedGlue.getNativeCall('StaticClass', true);
+          }
+        };
 
-      toAdd.push(staticClassDef.fields[0]);
-      nativeCalls.set('StaticClass', 'StaticClass');
+        toAdd.push(staticClassDef.fields[0]);
+        nativeCalls.set('StaticClass', 'StaticClass');
+      }
 
       if (uprops.length > 0)
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
