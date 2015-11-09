@@ -461,7 +461,7 @@ class DelayedGlue {
     }
     writer.buf.add(uname);
 
-    var paramNames = MacroHelpers.extractStrings(cls.meta, ':ueParamName');
+    var paramNames = MacroHelpers.extractStrings(cls.meta, ':uParamName');
     for (i in 0...args.length) {
       var arg = args[i];
       writer.buf.add(', ${arg.ueType.getCppType()}');
