@@ -1,12 +1,20 @@
 package unreal;
-import unreal.helpers.HaxeHelpers;
 
-#if !bake_externs
+#if (!bake_externs && !macro)
+import unreal.helpers.HaxeHelpers;
 using unreal.CoreAPI;
 #end
 
+#if macro
+import haxe.macro.Expr;
+import haxe.macro.Context;
+using haxe.macro.Tools;
+
+private typedef TArrayImpl<T> = Dynamic;
+#end
+
 @:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
-#if !bake_externs
+#if (!bake_externs && !macro)
 
   public var length(get,never):Int;
 
@@ -69,5 +77,32 @@ using unreal.CoreAPI;
     return -1;
   }
 
+  public function toArray() : Array<T> {
+    return [for(i in 0...this.Num()) this.get_Item(i)];
+  }
+
+  public function mapToArray<A>(funct:T->A) : Array<A> {
+    return [for(i in 0...this.Num()) funct(this.get_Item(i))];
+  }
 #end
+
+  macro public static function create(?tParam:Expr) : Expr {
+    return macro unreal.TArrayImpl.create($tParam);
+  }
+
+  macro public function map(eThis:Expr, funct:Expr) : Expr {
+    var type = Context.typeof(funct).follow();
+    var returnType =  switch(type) {
+      case TFun(_, ret): ret.toComplexType();
+      default: throw new Error('funct must be a function', funct.pos);
+    }
+
+    return macro {
+      var tmp:unreal.TArray<$returnType> = unreal.TArrayImpl.create();
+      for (value in $eThis) {
+        tmp.Push($funct(value));
+      }
+      tmp;
+    };
+  }
 }
