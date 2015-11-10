@@ -29,8 +29,8 @@ class NeedsGlueBuild
     if (cls.meta.has(':ueGluePath')) {
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(thisType.getClassPath());
     }
-    if (cls.meta.has(':hasTParams')) {
-      Globals.cur.typesWithTParams = Globals.cur.typesWithTParams.add(thisType.getClassPath());
+    if (cls.meta.has(':needsTypeParamGlue')) {
+      Globals.cur.typesThatNeedTParams = Globals.cur.typesThatNeedTParams.add(thisType.getClassPath());
     }
     if (cls.meta.has(':ueNoGlue')) {
       return null;
