@@ -1,0 +1,33 @@
+package unreal;
+
+extern class UEngine_Extra {
+  /**
+    Gets all local players associated with the engine.
+    This function should only be used in rare cases where no UWorld* is available to get a player list associated with the world.
+    E.g, - use GetFirstLocalPlayerController(UWorld *InWorld) when possible!
+   */
+  public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
+
+  public function OnTravelFailure() : FOnTravelFailure;
+
+  public var TravelFailureEvent : FOnTravelFailure;
+  /**
+    Global UEngine
+   **/
+  @:uname("GEngine")
+  @:global static var GEngine : UEngine;
+
+  /**
+   * Returns the current netmode
+   * @param   NetDriverName    Name of the net driver to get mode for
+   * @return current netmode
+   *
+   * Note: if there is no valid net driver, returns NM_StandAlone
+   */
+  @:thisConst
+  public function GetNetMode(World:Const<UWorld>) : ENetMode;
+}
+
+@:glueCppIncludes('Engine.h')
+@:uname('UEngine.FOnTravelFailure')
+@:uextern extern class FOnTravelFailure extends MulticastDelegate<UWorld->ETravelFailure_Type->Const<PRef<FString>>->Void> {}

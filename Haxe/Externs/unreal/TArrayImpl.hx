@@ -9,7 +9,7 @@ package unreal;
 @:uextern extern class TArrayImpl<T>
 {
   public function get_Item(index:Int):PRef<T>;
-  public function set_Item(index:Int, val:PRef<T>):Void;
+  @:uIfAssign("T","T") public function set_Item(index:Int, val:PRef<T>):Void;
   public function Pop(allowShrinking:Bool):T;
   public function Push(obj:PRef<PRef<T>>):Void;
   public function AddZeroed(Count:Int32) : Int32;

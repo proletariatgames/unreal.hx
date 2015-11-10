@@ -56,6 +56,9 @@ class ExternBaker {
         var dir = cp + '/' + pack.join('/');
         for (file in FileSystem.readDirectory(dir)) {
           if (file.endsWith('.hx')) {
+            if (file.endsWith('_Extra.hx')) {
+              continue;
+            }
             var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
             if (processed[module])
               continue; // already existed on a classpath with higher precedence
@@ -270,6 +273,52 @@ class ExternBaker {
     this.addDoc(c.doc);
     var fields = c.fields.get(),
         statics = c.statics.get();
+    var meta = c.meta.get();
+    // process the _Extra type if found
+    try {
+      var extra = Context.getType(c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra');
+      switch(extra) {
+      case TInst(_.get() => ecl,_):
+        meta = meta.concat(ecl.meta.get());
+        if (ecl.meta.has(':hasCopy')) {
+          meta = meta.filter(function(m) return m.name != ':noCopy');
+        }
+        var efields = ecl.fields.get();
+        var estatics = ecl.statics.get();
+        for (field in efields) {
+          var oldField = fields.find(function(f) return f.name == field.name);
+          if (oldField != null) {
+            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          } else {
+            fields.push(field);
+          }
+        }
+
+        for (field in estatics) {
+          var oldField = statics.find(function(f) return f.name == field.name);
+          if (oldField != null) {
+            Context.warning('Unreal Extern Baker: The field ${field.name} already exists on ${c.name}', field.pos);
+          } else {
+            statics.push(field);
+          }
+        }
+      case _:
+        var pos = switch(extra) {
+        case TAbstract(a,_):
+          a.get().pos;
+        case TEnum(e,_):
+          e.get().pos;
+        case TType(t,_):
+          t.get().pos;
+        case _:
+          c.pos;
+        }
+        Context.warning('Unreal Extern Baker: Type ${c.name}_Extra is not a class',pos);
+      }
+    }
+    catch(e:Dynamic) {
+    }
+
     for (field in fields.concat(statics)) {
       if (field.params.length > 0) {
         this.buf.add('@:ueHasGenerics ');
@@ -285,7 +334,7 @@ class ExternBaker {
     }
     var params = params.toString();
 
-    this.addMeta(c.meta.get());
+    this.addMeta(meta);
     if (!c.isInterface)
       this.buf.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.params.length > 0)
@@ -340,7 +389,7 @@ class ExternBaker {
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         if (!c.isInterface) {
-          if (!c.meta.has(':noClass')) {
+          if (!meta.hasMeta(':noClass')) {
             if (!methods.exists(function(m) return m.uname == 'StaticClass')) {
               methods.push({
                 name:'StaticClass',
@@ -422,7 +471,7 @@ class ExternBaker {
         this.begin(' {');
           this.buf.add('return new ${this.thisConv.haxeType}(wrapped);');
         this.end('}');
-        if (!c.meta.has(':noCopy')) {
+        if (!meta.hasMeta(':noCopy')) {
           var doc = "\n    Invokes the copy constructor of the referenced C++ class.\n    " +
             "This has some limitations - it won't copy the full inheritance chain of the class if it wasn't typed as the exact class\n    " +
             "it will also be a compilation error if the wrapped class forbids the C++ copy constructor;\n    " +
@@ -450,16 +499,16 @@ class ExternBaker {
             isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
         } else {
-          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copy() : unreal.Wrapper');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copy()');
           this.begin(' {');
-            this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+            this.buf.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct() : unreal.Wrapper');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct()');
           this.begin(' {');
-            this.buf.add('throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
+            this.buf.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
         }
-        if (!c.meta.has(':noEquals')) {
+        if (!meta.hasMeta(':noEquals')) {
             methods.push({
             name: '_equals',
             uname: '.equals',
@@ -486,6 +535,20 @@ class ExternBaker {
     this.buf = new StringBuf();
   }
 
+  // private static function getEnableIf(meth:MethodDef, body:String, decl:String, args:String):String {
+  //   var buf = new HelperBuf();
+  //   buf << 'template <bool CHECKOP=std::is_assignable<CHECKOP,CHECKOP>::value>\n\t\tclass ${meth.name}__if_op {\n\t\t\tpublic:\n\t\t\t';
+  //     buf << decl << ';\n\t\t};\n\n\t\t';
+  //   buf << 'template <> class ${meth.name}__if_op<true> {\n\t\t\tpublic:\n\t\t\t';
+  //     buf << decl << ' {\n\t\t\t\t$body\n\t\t\t}\n\t\t};\n\n\t\t';
+  //   buf << 'template <> class ${meth.name}__if_op<false> {\n\t\t\tpublic:\n\t\t\t';
+  //     buf << decl << ' {\n\t\t\t\t::unreal::helpers::HxcppRuntime::throwString("Calling operator $op in type that can\'t be assigned");\n\t\t\t\tthrow "assert";\n\t\t\t}\n\t\t};\n\n\t\t';
+  //   if (!meth.ret.haxeType.isVoid())
+  //     buf << 'return ';
+  //   buf << '${meth.name}__if_op<${meth.params[0]}>::${meth.name}($args)';
+  //   return buf.toString();
+  // }
+
   private function processField(field:ClassField, isStatic:Bool, ?specialization:{ types:Array<TypeConv>, mtypes:Array<Type>, generic:String }, methods:Array<MethodDef>) {
     var uname = switch(MacroHelpers.extractStrings(field.meta, ':uname')[0]) {
       case null:
@@ -511,8 +574,8 @@ class ExternBaker {
       this.buf.add(field.name);
       this.buf.add('(');
       var prop = PropType.Prop;
-      var realTConv = switch [tconv.haxeType.pack, tconv.haxeType.name] {
-        case [ ['unreal'], 'PStruct' ]:
+      var realTConv = switch (tconv.ownershipModifier) {
+        case 'unreal.PStruct':
           prop = PropType.StructProp;
           TypeConv.get( field.type, field.pos, 'unreal.PExternal' );
         case _:
@@ -762,8 +825,11 @@ class ExternBaker {
 
     //
     function genMethodCallArgs(body:String, meth:MethodDef, op:String, glueRet:TypeConv, cppArgs:Array<{ name:String, t:TypeConv }>, cppArgTypes:Array<String>) : String {
-      if (meth.prop == StructProp && meth.name.startsWith('get_'))
+      if (meth.prop == StructProp && !isSetter) {
         body = '&' + body;
+      } else if (meth.prop == Prop && !isSetter && meth.ret.isUObject == true && meth.ret.haxeType.name != 'TSubclassOf') {
+        body = 'const_cast< ${meth.ret.ueType.getCppType()} >( $body )';
+      }
 
       if (meth.prop != NonProp) {
         if (isSetter) {

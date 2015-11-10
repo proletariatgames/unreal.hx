@@ -11,7 +11,7 @@ class CppWriter extends BaseWriter {
     if (bufContents == '')
       return null;
     var cpp = new HelperBuf() <<
-      '#include <$module.h>\n';
+      '#include <$module.h>\n#include "Engine.h"\n';
     getIncludes(cpp);
 
     cpp << '\n' <<
