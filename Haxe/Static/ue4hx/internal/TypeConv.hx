@@ -2,6 +2,7 @@ package ue4hx.internal;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import ue4hx.internal.buf.HelperBuf;
 
 using haxe.macro.TypeTools;
 using Lambda;
@@ -208,6 +209,15 @@ using StringTools;
         }
       case TLazy(f):
         type = f();
+      case TFun(_):
+        return {
+          name: "function",
+          args: [],
+          meta: null,
+          isFunction: true,
+          isBasic : false,
+          originalType : originalType
+        };
       case _:
         throw new Error('Unreal Glue: Invalid type $type', pos);
       }
@@ -301,6 +311,62 @@ using StringTools;
     // if we have it defined as a basic (special) type, use it
     var basic = basicTypes[name];
     if (basic != null) return basic;
+
+    //
+    // Handle lambdas
+    //
+
+    if (ctx.isFunction) {
+      var fnArgs = null, fnRet = null;
+      switch (type) {
+      case TFun(args, ret):
+        fnArgs = args.map(function(a) return get(a.t, pos));
+        fnRet = get(ret, pos);
+
+        #if !bake_externs
+          // We need to ensure that all types have TypeParamGlue built in order for LambdaBinder to work
+          for (i in 0...fnArgs.length) {
+            TypeParamBuild.ensureTypeConvBuilt(args[i].t, fnArgs[i], pos);
+          }
+          if (!fnRet.haxeType.isVoid()) {
+            TypeParamBuild.ensureTypeConvBuilt(ret, fnRet, pos);
+          }
+        #end
+      default:
+        throw 'assert';
+      }
+      var glueToUeExpr = new HelperBuf();
+      if (fnRet.haxeType.isVoid()) {
+        glueToUeExpr << 'LambdaBinderVoid<';
+      } else {
+        glueToUeExpr << 'LambdaBinder<';
+        glueToUeExpr << fnRet.ueType.getCppType();
+        if (fnArgs.length > 0) glueToUeExpr << ', ';
+      }
+      glueToUeExpr.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
+      glueToUeExpr << '>( % )';
+
+      var haxeTypeName = fnArgs.length > 0
+        ? fnArgs.map(function(arg) return arg.haxeType.getClassPath()).join('->')
+        : 'Void';
+      haxeTypeName += '->' + fnRet.haxeType.getClassPath();
+      var ret:TypeConvInfo = {
+        ueType: new TypeRef("void*"),
+        haxeType: new TypeRef(haxeTypeName),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
+
+        glueCppIncludes: ['<LambdaBinding.h>'],
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToDynamic( % )',
+        glueToUeExpr: glueToUeExpr.toString(),
+        isBasic: false,
+        isFunction: true,
+        functionArgs: fnArgs,
+        functionRet: fnRet,
+      };
+      return ret;
+    }
 
     if (name == 'unreal.TSubclassOf') {
       var ofType = TypeConv.get(args[0], pos);
@@ -863,6 +929,9 @@ typedef TypeConvInfo = {
   @:optional public var params:Array<String>;
 
   @:optional public var isTypeParam:Bool;
+  @:optional public var isFunction:Bool;
+  @:optional public var functionArgs:Array<TypeConvInfo>;
+  @:optional public var functionRet:TypeConvInfo;
 
   // forward declaration
   @:optional public var forwardDeclType:ForwardDecl;
@@ -880,6 +949,7 @@ typedef TypeConvCtx = {
   ?isBasic:Bool,
   ?isUObject:Bool,
   ?isEnum:Bool,
+  ?isFunction:Bool,
 
   ?originalType:TypeRef,
   ?isTypeParam:Bool,

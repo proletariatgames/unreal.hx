@@ -1,7 +1,19 @@
 package unreal.helpers;
 
 @:headerCode('extern "C" void check_hx_init();\n')
-@:headerClassCode('\t\tGcRef() { check_hx_init(); this->init(); };\n\n\t\t~GcRef() { this->destruct(); };\n')
+@:headerClassCode('
+  GcRef() {
+    check_hx_init();
+    this->init();
+  };
+  ~GcRef() {
+    this->destruct();
+  };
+  GcRef(const GcRef& rhs) {
+    this->init();
+    set(const_cast<GcRef&>(rhs).get());
+  }
+')
 @:uexpose @:keep class GcRef {
   public var ref(default,null):cpp.RawPointer<cpp.Void>;
 

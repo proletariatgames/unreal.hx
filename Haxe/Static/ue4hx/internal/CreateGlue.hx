@@ -59,7 +59,7 @@ class CreateGlue {
       cur.uextensions != null ||
       cur.gluesToGenerate != null ||
       cur.typeParamsToBuild != null ||
-      cur.typesWithTParams != null) {
+      cur.typesThatNeedTParams != null) {
 
       var uextensions = cur.uextensions;
       cur.uextensions = null;
@@ -88,8 +88,8 @@ class CreateGlue {
         }
       }
 
-      var tparams = cur.typesWithTParams;
-      cur.typesWithTParams = null;
+      var tparams = cur.typesThatNeedTParams;
+      cur.typesThatNeedTParams = null;
       while (tparams != null) {
         var param = tparams.value;
         tparams = tparams.next;
