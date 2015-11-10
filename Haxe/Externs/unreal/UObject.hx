@@ -45,6 +45,8 @@ package unreal;
  @:thisConst
  public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<PStruct<FLifetimeProperty>>>) : Void;
 
+ public function IsA(uclass:UClass) : Bool;
+
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
