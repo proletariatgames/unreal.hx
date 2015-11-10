@@ -49,7 +49,7 @@ class UEnumBuild
       writer.buf.add('enum class $uname : $enumBaseType {\n');
 
       var enumIndex = 0;
-      for (constrName in enumType.constructs.keys()) {
+      for (constrName in enumType.names) {
         var constr = enumType.constructs[constrName];
         writer.buf.add('\t$constrName = $enumIndex');
         var umeta = constr.meta.extract(':umeta')[0];
