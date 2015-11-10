@@ -330,6 +330,34 @@ using StringTools;
       return ret;
     }
 
+    if (name == 'unreal.TWeakObjectPtr') {
+      var ofType = TypeConv.get(args[0], pos);
+      var ueType = if (ofType.ueType.isPointer())
+        ofType.ueType.params[0];
+      else
+        ofType.ueType;
+      var ret = TypeConv.get( Context.follow(type), pos );
+      ret.haxeType = new TypeRef(['unreal'], 'TWeakObjectPtr', [ofType.haxeType]);
+      ret.glueCppIncludes.push("UObject/WeakObjectPtrTemplates.h");
+      ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
+      if (ofType.glueCppIncludes != null) {
+        for (inc in ofType.glueCppIncludes)
+          ret.glueCppIncludes.push(inc);
+      }
+      switch (ret.forwardDeclType) {
+      case null | Never:
+        // do nothing; we already are set to never
+      case Templated(base):
+        ret.forwardDeclType = Templated(base.concat(['UObject/WeakObjectPtrTemplates.h']));
+      case _:
+        ret.forwardDeclType = Templated(['UObject/WeakObjectPtrTemplates.h']);
+      }
+
+      ret.ueType = new TypeRef('TWeakObjectPtr', [ueType]);
+      ret.ueToGlueExpr = '( %.Get() )';
+      return ret;
+    }
+
     var typeRef = baseType != null ? TypeRef.fromBaseType(baseType, pos) : TypeRef.parseClassName( name );
     var convArgs = null;
     if (args != null && args.length > 0) {

@@ -1,5 +1,3 @@
 package unreal;
 
-// use FWeakObjectPtr?
-@:forward abstract TWeakObjectPtr<T : UObject>(T) {
-}
+@:unrealType typedef TWeakObjectPtr<T : UObject> = T;
