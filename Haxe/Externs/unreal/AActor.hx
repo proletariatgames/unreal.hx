@@ -30,4 +30,7 @@ import unreal.FActorTickFunction;
   @:ufunction(BlueprintCallable, Category="Utilities")
   @:thisConst
   public function ActorHasTag(Tag:PStruct<FName>) : Bool;
+
+  @:ufunction(BlueprintCallable, Category="Utilities|Transformation")
+  public function SetActorScale3D(NewScale3D:FVector): Void;
 }
