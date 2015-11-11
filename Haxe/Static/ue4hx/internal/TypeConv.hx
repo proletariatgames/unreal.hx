@@ -467,6 +467,7 @@ using StringTools;
         glueToUeExpr: '( ($refName) % )',
         ueToGlueExpr : '( (int) % )',
         args: convArgs,
+        isEnum: true,
       };
       return ret;
     }
@@ -520,6 +521,7 @@ using StringTools;
           glueToUeExpr: '( (${refName.getCppType()}) % )',
           ueToGlueExpr: '( (int) % )',
           args: convArgs,
+          isEnum: true,
         };
       } else {
         var cppIncludes = getMetaArray(meta, ':glueCppIncludes');
@@ -955,6 +957,7 @@ typedef TypeConvInfo = {
     Tells whether the type is a basic type
    **/
   @:optional public var isBasic:Bool;
+  @:optional public var isEnum:Bool;
 
   @:optional public var ownershipModifier:String;
 

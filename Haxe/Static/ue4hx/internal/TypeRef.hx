@@ -206,23 +206,23 @@ class TypeRef
 
   public function getGlueHelperType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_' + pack ],
+    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
         name = this.name;
-    newPack.unshift('_pvt');
+    newPack.unshift('__pvt');
     return new TypeRef(newPack, name + '_Glue');
   }
 
   public function getExposeHelperType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_' + pack ],
+    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
         name = this.name;
-    newPack.unshift('_pvt');
+    newPack.unshift('__pvt');
     return new TypeRef(newPack, name + '_Expose');
   }
 
   public function getTypeParamType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_' + pack ],
+    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
         name = new StringBuf();
-    newPack.unshift('_pvt');
+    newPack.unshift('__pvt');
     var buf = this.getReducedPath();
     buf.add('_TypeParam');
 

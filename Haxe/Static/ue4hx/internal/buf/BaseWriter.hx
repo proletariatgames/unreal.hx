@@ -53,13 +53,18 @@ class BaseWriter {
   public function close(module:String) {
     if (module == null) module = Globals.cur.module;
     var contents = getContents(module);
-    if (contents == null) {
+    if (contents == null || contents == '') {
       if (FileSystem.exists(path))
         FileSystem.deleteFile(path);
       return;
     }
     contents = contents.trim();
     if (!FileSystem.exists(path) || File.getContent(path).trim() != contents) {
+      var dir = haxe.io.Path.directory( path );
+      if (!FileSystem.exists(dir)) {
+        FileSystem.createDirectory(dir);
+      }
+
       File.saveContent(path, contents);
     }
   }

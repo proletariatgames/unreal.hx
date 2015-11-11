@@ -245,7 +245,21 @@ class TypeParamBuild {
           return unreal.helpers.HaxeHelpers.dynamicToPointer(${Context.parse(this.tconv.glueToHaxe('glueTyped', null), pos)});
         }
       };
+      if (this.tconv.isEnum == true) {
+        cls = macro class {
+          public static function haxeToGlue(haxe:cpp.RawPointer<cpp.Void>):Int {
+            var haxeTyped:$hxTypeComplex = unreal.helpers.HaxeHelpers.pointerToDynamic(haxe);
+            return cast (${Context.parse(this.tconv.haxeToGlue('haxeTyped', null), pos)});
+          }
 
+          public static function glueToHaxe(glue:Int):cpp.RawPointer<cpp.Void> {
+            var glueTyped:$glueTypeComplex = cast glue;
+            return unreal.helpers.HaxeHelpers.dynamicToPointer(${Context.parse(this.tconv.glueToHaxe('glueTyped', null), pos)});
+          }
+        };
+      }
+
+      trace(tparam.name, tparam.pack);
       cls.name = tparam.name;
       cls.pack = tparam.pack;
       cls.meta = extractMeta(
