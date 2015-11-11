@@ -16,10 +16,4 @@ extern class UPlayerInput_Extra {
     Returns whether an Axis Mapping is inverted
    **/
   public function GetInvertAxis(AxisName : FName) : Bool;
-
-  /**
-    Exec function to invert an axis mapping
-   **/
-  @:ufunction(Exec)
-  public function InvertAxis(AxisName : FName) : Void;
 }
