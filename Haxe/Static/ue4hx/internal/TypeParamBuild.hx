@@ -259,7 +259,6 @@ class TypeParamBuild {
         };
       }
 
-      trace(tparam.name, tparam.pack);
       cls.name = tparam.name;
       cls.pack = tparam.pack;
       cls.meta = extractMeta(
