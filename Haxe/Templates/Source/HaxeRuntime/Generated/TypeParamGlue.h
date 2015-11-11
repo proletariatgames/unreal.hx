@@ -2,12 +2,12 @@
 #define TypeParamGlue_h_included__
 
 #ifndef HAXERUNTIME_API
-  #define HAXERUNTIME_API 
+  #define HAXERUNTIME_API
 #endif
 #include <cstdio>
 
 /**
-  This type allows us to call fields that take a pointer/ref to a basic type inside 
+  This type allows us to call fields that take a pointer/ref to a basic type inside
   a type parameter context
  **/
 template<typename T>
@@ -62,5 +62,29 @@ public:
 
   static void *ueToHaxe(T& ue) {
     return TypeParamGluePtr<T>::ueToHaxeRef(ue);
+  }
+};
+
+template<typename T>
+class HAXERUNTIME_API TypeParamGlue<const T&> {
+public:
+  static const T& haxeToUe(void *haxe) {
+    return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+  }
+
+  static void *ueToHaxe(const T& ue) {
+    return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
+  }
+};
+
+template<typename T>
+class HAXERUNTIME_API TypeParamGlue<const T> {
+public:
+  static const T haxeToUe(void *haxe) {
+    return TypeParamGlue<T>::haxeToUe(haxe);
+  }
+
+  static void *ueToHaxe(T& ue) {
+    return TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
   }
 };
