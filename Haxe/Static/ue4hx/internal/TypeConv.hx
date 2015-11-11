@@ -349,7 +349,7 @@ using StringTools;
       var haxeTypeRef = new TypeRef(
         (
           fnArgs.length > 0
-            ? fnArgs.map(function(arg) return arg.haxeType.getClassPath()).join('->')
+            ? fnArgs.map(function(arg) return arg.haxeType.toString()).join('->')
             : 'Void'
         )
         + '->' + fnRet.haxeType.getClassPath()
