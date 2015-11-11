@@ -749,8 +749,8 @@ using StringTools;
         ownershipModifier: modf,
       };
       if (isRef) {
-        ret.ueToGlueExpr = 'TypeParamGlue<${ueType.getCppType()}>::ueToHaxeRef( % )';
-        ret.glueToUeExpr = 'TypeParamGlue<${ueType.getCppType()}>::haxeToUePtr( % )';
+        ret.ueToGlueExpr = 'TypeParamGluePtr<${ueType.getCppType()}>::ueToHaxeRef( % )';
+        ret.glueToUeExpr = 'TypeParamGluePtr<${ueType.getCppType()}>::haxeToUePtr( % )';
       }
       return ret;
     }

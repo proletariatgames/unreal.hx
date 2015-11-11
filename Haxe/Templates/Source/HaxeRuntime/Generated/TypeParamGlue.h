@@ -44,6 +44,23 @@ class HAXERUNTIME_API TypeParamGlue {
 public:
   static T haxeToUe(void *haxe);
   static void *ueToHaxe(T ue);
+};
+
+template<typename T>
+class HAXERUNTIME_API TypeParamGluePtr {
+public:
   static PtrHelper<T> haxeToUePtr(void *haxe);
   static void *ueToHaxeRef(T& ue);
+};
+
+template<typename T>
+class HAXERUNTIME_API TypeParamGlue<T&> {
+public:
+  static T& haxeToUe(void *haxe) {
+    return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+  }
+
+  static void *ueToHaxe(T& ue) {
+    return TypeParamGluePtr<T>::ueToHaxeRef(ue);
+  }
 };
