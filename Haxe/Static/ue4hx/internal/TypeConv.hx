@@ -336,23 +336,28 @@ using StringTools;
         throw 'assert';
       }
       var glueToUeExpr = new HelperBuf();
-      if (fnRet.haxeType.isVoid()) {
-        glueToUeExpr << 'LambdaBinderVoid<';
-      } else {
-        glueToUeExpr << 'LambdaBinder<';
-        glueToUeExpr << fnRet.ueType.getCppType();
-        if (fnArgs.length > 0) glueToUeExpr << ', ';
+      var binderTypeParams = fnArgs.copy();
+      if (!fnRet.haxeType.isVoid()) {
+        binderTypeParams.unshift(fnRet);
       }
-      glueToUeExpr.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
-      glueToUeExpr << '>( % )';
 
-      var haxeTypeName = fnArgs.length > 0
-        ? fnArgs.map(function(arg) return arg.haxeType.getClassPath()).join('->')
-        : 'Void';
-      haxeTypeName += '->' + fnRet.haxeType.getClassPath();
+      var binderClass = fnRet.haxeType.isVoid() ? 'LambdaBinderVoid' : 'LambdaBinder';
+      var binderTypeRef = new TypeRef(binderClass, binderTypeParams.map(function(tp) return tp.ueType));
+      glueToUeExpr << binderTypeRef.getCppType();
+      glueToUeExpr << '(%)';
+
+      var haxeTypeRef = new TypeRef(
+        (
+          fnArgs.length > 0
+            ? fnArgs.map(function(arg) return arg.haxeType.getClassPath()).join('->')
+            : 'Void'
+        )
+        + '->' + fnRet.haxeType.getClassPath()
+      );
+
       var ret:TypeConvInfo = {
-        ueType: new TypeRef("void*"),
-        haxeType: new TypeRef(haxeTypeName),
+        ueType: binderTypeRef,
+        haxeType: haxeTypeRef,
         haxeGlueType: voidStar,
         glueType: voidStar,
 
