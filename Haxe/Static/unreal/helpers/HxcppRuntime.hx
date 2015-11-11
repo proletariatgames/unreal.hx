@@ -1,21 +1,26 @@
 package unreal.helpers;
 
+private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
+
 @:uexpose @:keep class HxcppRuntime
 {
-  public static function constCharToString(str:cpp.ConstCharStar):cpp.RawPointer<cpp.Void> {
-    return HaxeHelpers.dynamicToPointer(str.toString());
+  @:extern static inline function toDyn(ptr:VoidPtr) return HaxeHelpers.pointerToDynamic(ptr);
+  @:extern static inline function toPtr(dyn:Dynamic) return HaxeHelpers.dynamicToPointer(dyn);
+
+  public static function constCharToString(str:cpp.ConstCharStar):VoidPtr {
+    return toPtr(str.toString());
   }
-  public static function stringToConstChar(ptr:cpp.RawPointer<cpp.Void>):cpp.ConstCharStar {
-    return cpp.ConstCharStar.fromString( HaxeHelpers.pointerToDynamic(ptr) );
+  public static function stringToConstChar(ptr:VoidPtr):cpp.ConstCharStar {
+    return cpp.ConstCharStar.fromString( toDyn(ptr) );
   }
 
   @:void public static function throwString(str:cpp.ConstCharStar):Void {
     throw str.toString();
   }
 
-  public static function getWrapped(ptr:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
+  public static function getWrapped(ptr:VoidPtr):VoidPtr {
     var dyn:{ function reflectGetWrapped():cpp.Pointer<Dynamic>; } =
-      HaxeHelpers.pointerToDynamic(ptr);
+      toDyn(ptr);
 
     var ret:cpp.Pointer<Dynamic>;
     if (dyn == null) {
@@ -27,9 +32,9 @@ package unreal.helpers;
     return ret.rawCast();
   }
 
-  public static function getWrappedRef(ptr:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void> {
+  public static function getWrappedRef(ptr:VoidPtr) : VoidPtr {
     var dyn:{ function reflectGetWrappedRef():cpp.Pointer<Dynamic>; } =
-      HaxeHelpers.pointerToDynamic(ptr);
+      toDyn(ptr);
 
     var ret:cpp.Pointer<Dynamic>;
     if (dyn == null) {
@@ -39,6 +44,43 @@ package unreal.helpers;
     }
 
     return ret.rawCast();
+  }
+
+  @:native("callFunction")
+  public static function callFunction0(ptr:VoidPtr) : VoidPtr {
+    return toPtr( toDyn(ptr)() );
+  }
+  @:native("callFunction")
+  public static function callFunction1(ptr:VoidPtr, arg0:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0)) );
+  }
+  @:native("callFunction")
+  public static function callFunction2(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1)) );
+  }
+  @:native("callFunction")
+  public static function callFunction3(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2)) );
+  }
+  @:native("callFunction")
+  public static function callFunction4(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr, arg3:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3)) );
+  }
+  @:native("callFunction")
+  public static function callFunction5(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr, arg3:VoidPtr, arg4:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4)) );
+  }
+  @:native("callFunction")
+  public static function callFunction6(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr, arg3:VoidPtr, arg4:VoidPtr, arg5:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4), toDyn(arg5)) );
+  }
+  @:native("callFunction")
+  public static function callFunction7(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr, arg3:VoidPtr, arg4:VoidPtr, arg5:VoidPtr, arg6:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4), toDyn(arg5), toDyn(arg6)) );
+  }
+  @:native("callFunction")
+  public static function callFunction8(ptr:VoidPtr, arg0:VoidPtr, arg1:VoidPtr, arg2:VoidPtr, arg3:VoidPtr, arg4:VoidPtr, arg5:VoidPtr, arg6:VoidPtr, arg7:VoidPtr) : VoidPtr {
+    return toPtr( (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4), toDyn(arg5), toDyn(arg6), toDyn(arg7)) );
   }
 }
 

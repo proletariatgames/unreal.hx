@@ -71,7 +71,7 @@ class TypeParamBuild {
     case TInst(c, tl):
       var cl = c.get();
       for (field in cl.fields.get().concat(cl.statics.get())) {
-        if (field.meta.has(':hasTParams')) {
+        if (field.meta.has(':needsTypeParamGlue')) {
           switch(Context.follow(field.type)) {
           case TFun(args,ret):
             // just make sure they are built so
