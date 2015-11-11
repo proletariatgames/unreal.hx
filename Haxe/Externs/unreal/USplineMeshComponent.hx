@@ -213,5 +213,6 @@ package unreal;
     Set the boundary max
   **/
   @:final public function SetBoundaryMax(InBoundaryMax : unreal.Float32) : Void;
+  // Interface_CollisionDataProvider interface implementation
   
 }

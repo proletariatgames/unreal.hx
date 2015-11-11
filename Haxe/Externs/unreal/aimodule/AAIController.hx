@@ -165,5 +165,8 @@ package unreal.aimodule;
   **/
   @:thisConst @:final public function GetPathFollowingComponent() : unreal.aimodule.UPathFollowingComponent;
   @:final public function GetAIPerceptionComponent() : unreal.aimodule.UAIPerceptionComponent;
+  // AIPerceptionListenerInterface interface implementation
+  // GameplayTaskOwnerInterface interface implementation
+  // GenericTeamAgentInterface interface implementation
   
 }

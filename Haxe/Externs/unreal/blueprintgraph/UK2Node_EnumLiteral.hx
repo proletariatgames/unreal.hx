@@ -17,5 +17,6 @@ package unreal.blueprintgraph;
 @:glueCppIncludes("K2Node_EnumLiteral.h")
 @:uextern extern class UK2Node_EnumLiteral extends unreal.blueprintgraph.UK2Node implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
   public var Enum : unreal.UEnum;
+  // NodeDependingOnEnumInterface interface implementation
   
 }

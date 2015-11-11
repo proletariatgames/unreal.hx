@@ -76,5 +76,6 @@ package unreal.gameplaydebugger;
   public function ServerDiscardNavmeshData() : Void;
   public function OnRep_PathCorridorData() : Void;
   public function ClientEnableTargetSelection(bEnable : Bool) : Void;
+  // EQSQueryResultSourceInterface interface implementation
   
 }

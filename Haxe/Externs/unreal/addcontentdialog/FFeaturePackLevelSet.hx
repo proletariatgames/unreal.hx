@@ -26,9 +26,4 @@ package unreal.addcontentdialog;
   **/
   public var MountName : unreal.FString;
   
-  /**
-    List of shared resource levels for this shared resource.
-  **/
-  public var DetailLevels : unreal.TArray<unreal.addcontentdialog.EFeaturePackDetailLevel>;
-  
 }

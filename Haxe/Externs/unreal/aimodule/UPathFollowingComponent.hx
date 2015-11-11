@@ -41,5 +41,6 @@ package unreal.aimodule;
     associated movement component
   **/
   private var MovementComp : unreal.UNavMovementComponent;
+  // AIResourceInterface interface implementation
   
 }

@@ -27,5 +27,6 @@ package unreal.umg;
   public var bIsExpanded : Bool;
   @:thisConst @:final public function GetIsExpanded() : Bool;
   @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
+  // NamedSlotInterface interface implementation
   
 }

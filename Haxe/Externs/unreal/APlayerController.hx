@@ -309,10 +309,8 @@ package unreal;
   public function ResetIgnoreInputFlags() : Void;
   @:thisConst @:final public function GetHitResultUnderCursor(TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   @:thisConst @:final public function GetHitResultUnderCursorByChannel(TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
-  @:thisConst @:final public function GetHitResultUnderCursorForObjects(ObjectTypes : unreal.Const<unreal.PRef<unreal.TArray<unreal.EObjectTypeQuery>>>, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   @:thisConst @:final public function GetHitResultUnderFinger(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   @:thisConst @:final public function GetHitResultUnderFingerByChannel(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
-  @:thisConst @:final public function GetHitResultUnderFingerForObjects(FingerIndex : unreal.inputcore.ETouchIndex, ObjectTypes : unreal.Const<unreal.PRef<unreal.TArray<unreal.EObjectTypeQuery>>>, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   
   /**
     Convert current mouse 2D position to World Space 3D position and direction. Returns false if unable to determine value. *

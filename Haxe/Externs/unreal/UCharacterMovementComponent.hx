@@ -830,5 +830,7 @@ package unreal;
     Replicate position correction to client when using root motion for movement.
   **/
   public function ClientAdjustRootMotionPosition(TimeStamp : unreal.Float32, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  // RVOAvoidanceInterface interface implementation
+  // NetworkPredictionInterface interface implementation
   
 }

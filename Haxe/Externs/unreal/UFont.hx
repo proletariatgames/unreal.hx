@@ -108,5 +108,6 @@ package unreal;
     What kind of font caching should we use? This controls which options we see
   **/
   public var FontCacheType : unreal.EFontCacheType;
+  // FontProviderInterface interface implementation
   
 }

@@ -21,11 +21,6 @@ package unreal;
 @:uextern extern class URadialForceComponent extends unreal.USceneComponent {
   
   /**
-    The object types that are affected by this radial force
-  **/
-  private var ObjectTypesToAffect : unreal.TArray<unreal.EObjectTypeQuery>;
-  
-  /**
     If > 0.f, will cause damage to destructible meshes as well
   **/
   public var DestructibleDamage : unreal.Float32;

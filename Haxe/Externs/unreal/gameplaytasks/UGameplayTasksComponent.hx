@@ -27,5 +27,6 @@ package unreal.gameplaytasks;
   **/
   private var SimulatedTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
   @:final public function OnRep_SimulatedTasks() : Void;
+  // GameplayTaskOwnerInterface interface implementation
   
 }

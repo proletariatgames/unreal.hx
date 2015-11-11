@@ -81,5 +81,7 @@ package unreal;
   public var EdRenderComp : unreal.UNavTestRenderingComponent;
   #end // WITH_EDITORONLY_DATA
   public var CapsuleComponent : unreal.UCapsuleComponent;
+  // NavAgentInterface interface implementation
+  // NavPathObserverInterface interface implementation
   
 }

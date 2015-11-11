@@ -27,5 +27,6 @@ package unreal;
     Description of collision
   **/
   public var ModelBodySetup : unreal.UBodySetup;
+  // Interface_CollisionDataProvider interface implementation
   
 }

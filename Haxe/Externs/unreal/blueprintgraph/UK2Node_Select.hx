@@ -41,5 +41,6 @@ package unreal.blueprintgraph;
     The number of selectable options this node currently has
   **/
   public var NumOptionPins : unreal.Int32;
+  // NodeDependingOnEnumInterface interface implementation
   
 }

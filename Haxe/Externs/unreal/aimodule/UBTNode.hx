@@ -21,5 +21,6 @@ package unreal.aimodule;
     node name
   **/
   public var NodeName : unreal.FString;
+  // GameplayTaskOwnerInterface interface implementation
   
 }

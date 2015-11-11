@@ -204,25 +204,32 @@ class TypeRef
       return this;
   }
 
+  private static function getSafePack(name:String) {
+    if (name.charAt(0).toLowerCase() != name.charAt(0)) {
+      return '_hx_$name';
+    } else {
+      return '_' + name;
+    }
+  }
   public function getGlueHelperType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
+    var newPack = [ for (pack in this.pack) '_' + pack ],
         name = this.name;
-    newPack.unshift('__pvt');
+    newPack.unshift('_pvt');
     return new TypeRef(newPack, name + '_Glue');
   }
 
   public function getExposeHelperType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
+    var newPack = [ for (pack in this.pack) '_' + pack ],
         name = this.name;
-    newPack.unshift('__pvt');
+    newPack.unshift('_pvt');
     return new TypeRef(newPack, name + '_Expose');
   }
 
   public function getTypeParamType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
+    var newPack = [ for (pack in this.pack) '_' + pack ],
         name = new StringBuf();
-    newPack.unshift('__pvt');
+    newPack.unshift('_pvt');
     var buf = this.getReducedPath();
     buf.add('_TypeParam');
 

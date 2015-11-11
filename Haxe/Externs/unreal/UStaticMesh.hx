@@ -174,5 +174,7 @@ package unreal;
     Returns the bounding box, in local space including bounds extension(s), of the StaticMesh asset
   **/
   @:thisConst @:final public function GetBoundingBox() : unreal.FBox;
+  // Interface_CollisionDataProvider interface implementation
+  // Interface_AssetUserData interface implementation
   
 }

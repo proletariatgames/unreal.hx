@@ -165,5 +165,7 @@ package unreal;
     @param bCheckCorrespondingSections Whether to check corresponding sections for disabled sections
   **/
   @:thisConst @:final public function IsSectionUsingCloth(InSectionIndex : unreal.Int32, bCheckCorrespondingSections : Bool) : Bool;
+  // Interface_CollisionDataProvider interface implementation
+  // Interface_AssetUserData interface implementation
   
 }

@@ -95,21 +95,6 @@ package unreal;
   public var bResampleAnimation : Bool;
   
   /**
-    Which encoding formats is the per-track compressor allowed to try on scale keys
-  **/
-  public var AllowedScaleFormats : unreal.TArray<unreal.AnimationCompressionFormat>;
-  
-  /**
-    Which encoding formats is the per-track compressor allowed to try on translation keys
-  **/
-  public var AllowedTranslationFormats : unreal.TArray<unreal.AnimationCompressionFormat>;
-  
-  /**
-    Which encoding formats is the per-track compressor allowed to try on rotation keys
-  **/
-  public var AllowedRotationFormats : unreal.TArray<unreal.AnimationCompressionFormat>;
-  
-  /**
     Maximum position difference to use when testing if an animation key may be removed. Lower values retain more keys, but yield less compression.
   **/
   public var MaxScaleDiffBitwise : unreal.Float32;

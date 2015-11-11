@@ -20,5 +20,6 @@ package unreal.umgeditor;
 @:umodule("UMGEditor")
 @:glueCppIncludes("Private/Animation/UMGMovieSceneObjectManager.h")
 @:uextern extern class UUMGMovieSceneObjectManager extends unreal.UObject implements unreal.moviescene.IMovieSceneObjectManager {
+  // MovieSceneObjectManager interface implementation
   
 }

@@ -108,5 +108,6 @@ package unreal;
     It should not be accessed during BeginDestroy(), just like any other UObject references, since GC may occur in any order.
   **/
   public var OwningWorld : unreal.UWorld;
+  // Interface_AssetUserData interface implementation
   
 }

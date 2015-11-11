@@ -44,7 +44,6 @@ package unreal.editor;
   public var StaticArrayOfInts : unreal.Int32;
   public var FixedArrayOfInts : unreal.TArray<unreal.Int32>;
   public var StructPropertyArray : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
-  public var EnumPropertyArray : unreal.TArray<unreal.editor.PropertEditorTestEnum>;
   public var ColorPropertyArray : unreal.TArray<unreal.FColor>;
   public var LinearColorPropertyArray : unreal.TArray<unreal.FLinearColor>;
   public var ActorPropertyArray : unreal.TArray<unreal.AActor>;

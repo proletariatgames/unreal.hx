@@ -23,5 +23,6 @@ package unreal;
   public var BadSprite : unreal.UBillboardComponent;
   public var GoodSprite : unreal.UBillboardComponent;
   public var CapsuleComponent : unreal.UCapsuleComponent;
+  // NavAgentInterface interface implementation
   
 }

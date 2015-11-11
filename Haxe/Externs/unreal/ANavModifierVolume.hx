@@ -21,5 +21,6 @@ package unreal;
 @:uextern extern class ANavModifierVolume extends unreal.AVolume implements unreal.INavRelevantInterface {
   private var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
   @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
+  // NavRelevantInterface interface implementation
   
 }

@@ -321,5 +321,6 @@ package unreal;
     Pass current state to server
   **/
   private function ServerUpdateState(InSteeringInput : unreal.Float32, InThrottleInput : unreal.Float32, InBrakeInput : unreal.Float32, InHandbrakeInput : unreal.Float32, CurrentGear : unreal.Int32) : Void;
+  // RVOAvoidanceInterface interface implementation
   
 }

@@ -313,5 +313,6 @@ package unreal.gameplayabilities;
     Retrieves the SourceObject associated with this ability. Can only be called on instanced abilities.
   **/
   @:thisConst @:final private function GetCurrentSourceObject() : unreal.UObject;
+  // GameplayTaskOwnerInterface interface implementation
   
 }

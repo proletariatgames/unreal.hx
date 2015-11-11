@@ -51,5 +51,6 @@ package unreal;
     Post process settings to use for this volume.
   **/
   public var Settings : unreal.FPostProcessSettings;
+  // Interface_PostProcessVolume interface implementation
   
 }

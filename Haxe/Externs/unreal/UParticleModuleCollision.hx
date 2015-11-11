@@ -92,11 +92,6 @@ package unreal;
   public var bApplyPhysics : Bool;
   
   /**
-    Which ObjectTypes to collide with
-  **/
-  public var CollisionTypes : unreal.TArray<unreal.EObjectTypeQuery>;
-  
-  /**
     What to do once a particles MaxCollisions is reached.
     One of the following:
     EPCC_Kill

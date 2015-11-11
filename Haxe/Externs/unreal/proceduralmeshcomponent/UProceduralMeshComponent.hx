@@ -69,5 +69,6 @@ package unreal.proceduralmeshcomponent;
     Collision data
   **/
   public var ProcMeshBodySetup : unreal.UBodySetup;
+  // Interface_CollisionDataProvider interface implementation
   
 }

@@ -143,5 +143,6 @@ package unreal;
     Event when this controller instigates ANY damage
   **/
   private function ReceiveInstigatedAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, DamagedActor : unreal.AActor, DamageCauser : unreal.AActor) : Void;
+  // NavAgentInterface interface implementation
   
 }

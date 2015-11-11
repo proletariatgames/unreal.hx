@@ -144,5 +144,6 @@ package unreal.paper2d;
   **/
   private var SourceUV : unreal.FVector2D;
   #end // WITH_EDITORONLY_DATA
+  // Interface_CollisionDataProvider interface implementation
   
 }

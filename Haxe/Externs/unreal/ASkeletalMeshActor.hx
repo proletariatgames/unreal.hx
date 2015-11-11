@@ -55,5 +55,6 @@ package unreal;
   public function OnRep_ReplicatedPhysAsset() : Void;
   public function OnRep_ReplicatedMaterial0() : Void;
   public function OnRep_ReplicatedMaterial1() : Void;
+  // MatineeAnimInterface interface implementation
   
 }

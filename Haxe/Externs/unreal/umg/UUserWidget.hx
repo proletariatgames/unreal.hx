@@ -469,5 +469,6 @@ package unreal.umg;
     The color and opacity of this widget.  Tints all child widgets.
   **/
   public var ColorAndOpacity : unreal.FLinearColor;
+  // NamedSlotInterface interface implementation
   
 }

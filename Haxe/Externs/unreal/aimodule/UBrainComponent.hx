@@ -24,5 +24,6 @@ package unreal.aimodule;
   private var BlackboardComp : unreal.aimodule.UBlackboardComponent;
   public function RestartLogic() : Void;
   public function StopLogic(Reason : unreal.FString) : Void;
+  // AIResourceInterface interface implementation
   
 }

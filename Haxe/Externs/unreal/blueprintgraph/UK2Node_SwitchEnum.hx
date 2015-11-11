@@ -31,5 +31,6 @@ package unreal.blueprintgraph;
     Name of the enum being switched on
   **/
   public var Enum : unreal.UEnum;
+  // NodeDependingOnEnumInterface interface implementation
   
 }

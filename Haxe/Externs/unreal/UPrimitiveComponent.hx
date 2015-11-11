@@ -821,5 +821,6 @@ package unreal;
     @see CanCharacterStepUpOn
   **/
   @:thisConst public function CanCharacterStepUp(Pawn : unreal.APawn) : Bool;
+  // NavRelevantInterface interface implementation
   
 }

@@ -131,11 +131,6 @@ package unreal;
   public function OnRep_ReplicatedBasedMovement() : Void;
   
   /**
-    Set whether this actor's movement replicates to network clients.
-  **/
-  public function SetReplicateMovement(bInReplicateMovement : Bool) : Void;
-  
-  /**
     Handle Crouching replicated from server
   **/
   public function OnRep_IsCrouched() : Void;

@@ -39,5 +39,6 @@ package unreal.aimodule;
   **/
   public var QueryParams : unreal.TArray<unreal.aimodule.FEnvNamedValue>;
   public var QueryTemplate : unreal.aimodule.UEnvQuery;
+  // EQSQueryResultSourceInterface interface implementation
   
 }

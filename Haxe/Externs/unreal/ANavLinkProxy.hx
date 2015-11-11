@@ -61,5 +61,7 @@ package unreal;
     check if any agent is moving through smart link right now
   **/
   @:thisConst @:final public function HasMovingAgents() : Bool;
+  // NavLinkHostInterface interface implementation
+  // NavRelevantInterface interface implementation
   
 }

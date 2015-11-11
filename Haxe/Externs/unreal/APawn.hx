@@ -264,5 +264,6 @@ package unreal;
     (Deprecated) Return the input vector in world space.
   **/
   @:thisConst @:final public function K2_GetMovementInputVector() : unreal.FVector;
+  // NavAgentInterface interface implementation
   
 }

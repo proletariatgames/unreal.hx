@@ -354,5 +354,6 @@ package unreal;
     Set Angular Drive motors params for all constraint instances
   **/
   @:final public function SetAllMotorsAngularDriveParams(InSpring : unreal.Float32, InDamping : unreal.Float32, InForceLimit : unreal.Float32, bSkipCustomPhysicsType : Bool) : Void;
+  // Interface_CollisionDataProvider interface implementation
   
 }

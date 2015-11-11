@@ -23,5 +23,6 @@ package unreal.animgraph;
   **/
   private var BoundEnum : unreal.UEnum;
   public var Node : unreal.FAnimNode_BlendListByEnum;
+  // NodeDependingOnEnumInterface interface implementation
   
 }

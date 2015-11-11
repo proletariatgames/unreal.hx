@@ -48,5 +48,6 @@ package unreal;
     @return The physical material.
   **/
   @:thisConst public function GetPhysicalMaterial() : unreal.UPhysicalMaterial;
+  // BlendableInterface interface implementation
   
 }

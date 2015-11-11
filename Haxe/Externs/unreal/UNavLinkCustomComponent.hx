@@ -84,5 +84,6 @@ package unreal;
     link Id assigned by navigation system
   **/
   private var NavLinkUserId : unreal.FakeUInt32;
+  // NavLinkCustomInterface interface implementation
   
 }

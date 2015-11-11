@@ -43,5 +43,6 @@ package unreal.moviescene;
     Pause playback.
   **/
   @:final public function Pause() : Void;
+  // RuntimeMovieScenePlayerInterface interface implementation
   
 }

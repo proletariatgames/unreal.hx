@@ -222,5 +222,6 @@ package unreal;
     If true, enables CheckStillInWorld checks
   **/
   public var bEnableWorldBoundsChecks : Bool;
+  // Interface_AssetUserData interface implementation
   
 }

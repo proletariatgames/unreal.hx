@@ -178,5 +178,6 @@ package unreal;
     Event called every frame
   **/
   public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
+  // Interface_AssetUserData interface implementation
   
 }

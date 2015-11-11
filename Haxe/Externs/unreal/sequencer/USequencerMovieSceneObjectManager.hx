@@ -20,5 +20,6 @@ package unreal.sequencer;
 @:umodule("Sequencer")
 @:glueCppIncludes("Private/SequencerMovieSceneObjectManager.h")
 @:uextern extern class USequencerMovieSceneObjectManager extends unreal.UObject implements unreal.moviescene.IMovieSceneObjectManager {
+  // MovieSceneObjectManager interface implementation
   
 }

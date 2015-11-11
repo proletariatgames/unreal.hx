@@ -26,5 +26,6 @@ package unreal.lightpropagationvolumeruntime;
   **/
   public var BlendWeight : unreal.Float32;
   public var Settings : unreal.lightpropagationvolumeruntime.FLightPropagationVolumeSettings;
+  // BlendableInterface interface implementation
   
 }
