@@ -27,7 +27,3 @@ extern class UEngine_Extra {
   @:thisConst
   public function GetNetMode(World:Const<UWorld>) : ENetMode;
 }
-
-@:glueCppIncludes('Engine.h')
-@:uname('UEngine.FOnTravelFailure')
-@:uextern extern class FOnTravelFailure extends MulticastDelegate<UWorld->ETravelFailure_Type->Const<PRef<FString>>->Void> {}
