@@ -345,7 +345,9 @@ using StringTools;
         binderTypeParams.unshift(fnRet);
       }
 
-      var binderClass = fnRet.haxeType.isVoid() ? 'LambdaBinderVoid' : 'LambdaBinder';
+      var binderClass = fnRet.haxeType.isVoid()
+        ? (binderTypeParams.length > 0 ? 'LambdaBinderVoid' : 'LambdaBinderVoidVoid')
+        : 'LambdaBinder';
       var binderTypeRef = new TypeRef(binderClass, binderTypeParams.map(function(tp) return tp.ueType));
       glueToUeExpr << binderTypeRef.getCppType();
       glueToUeExpr << '(%)';
@@ -402,6 +404,51 @@ using StringTools;
 
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
       ret.ueToGlueExpr = '( (UClass *) % )';
+      return ret;
+    } else if (name == 'unreal.MethodPointer') {
+      if (args.length != 2) {
+        throw new Error('MethodPointer requires two type params: the class and the function signature', pos);
+      }
+
+      var cppMethodType = new HelperBuf();
+      var haxeMethodType = new HelperBuf();
+      var className = switch (args[0]) {
+        case TInst(cls, _):
+          var cls = cls.get();
+          cls.meta.has(':uname') ? MacroHelpers.extractStrings(cls.meta, ':uname')[0] : cls.name;
+        default: throw new Error('MethodPointer expects first param to be a class', pos);
+      };
+
+      switch (args[1]) {
+      case TFun(fnArgs, fnRet):
+        var fnRet = get(fnRet, pos);
+        var fnArgs = fnArgs.map(function(arg) return get(arg.t, pos));
+        cppMethodType << 'MemberFunctionTranslator<$className, ${fnRet.ueType.getCppType()}';
+        if (fnArgs.length > 0) cppMethodType << ', ';
+        cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
+        cppMethodType << '>::Translator';
+
+        if (fnArgs.length == 0) {
+          haxeMethodType << 'Void';
+        } else {
+          haxeMethodType.mapJoin(fnArgs, function(arg) return arg.haxeType.toString());
+        }
+        haxeMethodType << '->';
+        haxeMethodType << fnRet.haxeType.toString();
+      default:
+        throw new Error('MethodPointer expects second param to be a function type', pos);
+      }
+
+      var ret:TypeConvInfo = {
+        ueType: voidStar,
+        //haxeType: new TypeRef(['unreal'], 'MethodPointer', [TypeRef.fromType(args[0], pos), new TypeRef([], haxeMethodType.toString())]),
+        haxeType: new TypeRef(['cpp'],'Pointer', [new TypeRef([],'Dynamic')]),
+        haxeGlueType: voidStar,
+        haxeToGlueExpr: 'untyped (%).rawCast()',
+        glueToUeExpr: '(($cppMethodType)%)()',
+        glueCppIncludes: ['<LambdaBinding.h>'],
+        isBasic: false,
+      };
       return ret;
     }
 
@@ -859,6 +906,11 @@ using StringTools;
       {
         ueType: new TypeRef('void'),
         haxeType: new TypeRef('Void'),
+        isBasic: true,
+      },
+      {
+        ueType: voidStar,
+        haxeType: voidStar,
         isBasic: true,
       },
       // TCharStar

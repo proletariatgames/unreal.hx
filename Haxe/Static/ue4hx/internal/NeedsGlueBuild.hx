@@ -94,6 +94,7 @@ class NeedsGlueBuild
       var superCalls = new Map(),
           uprops = [];
       var nativeCalls = new Map();
+      var methodPtrs = new Map();
       for (field in fields) {
         if (field.access != null && field.access.has(AOverride)) {
           // TODO: should we check for non-override fields as well? This would
@@ -150,6 +151,33 @@ class NeedsGlueBuild
                 'Unreal Glue Extension: uproperty properties must have a type',
                 field.pos);
               hadErrors = true;
+          }
+        }
+
+        // add the methodPtr accessor for any functions that are exposed/implemented in C++
+        if (!isStatic && (field.meta.hasMeta(':ufunction') || field.meta.hasMeta(':uexpose'))) {
+          switch (field.kind) {
+          case FFun(_):
+            var uname = field.name;
+            var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
+            if (unameMeta != null) {
+              uname = switch(unameMeta.params[0].expr) {
+              case EConst(CIdent(s)): s;
+              case EConst(CString(s)): s;
+              default: field.name;
+              }
+            }
+
+            var glueFnName = '_get_${field.name}_methodPtr';
+
+            var dummy = macro class {
+              private static function $glueFnName() : cpp.RawPointer<cpp.Void> {
+                return ue4hx.internal.DelayedGlue.getNativeCall($v{glueFnName}, true);
+              }
+            }
+            methodPtrs[field.name] = field.name;
+            toAdd.push(dummy.fields[0]);
+          case _:
           }
         }
 
@@ -231,6 +259,7 @@ class NeedsGlueBuild
         cls.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], cls.pos);
       cls.meta.add(':usupercalls', [ for (call in superCalls) macro $v{call} ], cls.pos);
       cls.meta.add(':unativecalls', [ for (call in nativeCalls) macro $v{call} ], cls.pos);
+      cls.meta.add(':umethodptrs', [ for(call in methodPtrs) macro $v{call} ], cls.pos);
 
       // mark to add the haxe-side glue helper
       if (!cls.meta.has(':ustruct')) {
