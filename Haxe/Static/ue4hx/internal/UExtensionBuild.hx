@@ -109,8 +109,9 @@ class UExtensionBuild {
           if (field.name.startsWith('onRep_')) {
             var propName = field.name.substr('onRep_'.length);
             // ensure that the variable this replication function is for exists.
+            // Can match the field uname or, if none exists, the field name
             var prop = clt.fields.get().find(function(t){
-              return t.name == propName;
+              return (getUName(t) == propName); // getUName() returns name if no uname
             });
             if (prop == null) {
               throw new Error('Unreal Glue: Replication function defined for property that doesn\'t exist: $propName', field.pos);
