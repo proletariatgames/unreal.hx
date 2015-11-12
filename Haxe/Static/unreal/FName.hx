@@ -23,7 +23,7 @@ import unreal.helpers.HaxeHelpers;
     if (this == null)
       return other == null;
     else
-      return toString() == other.toString();
+      return CoreAPI.equals(this, other);
   }
 #end
 }

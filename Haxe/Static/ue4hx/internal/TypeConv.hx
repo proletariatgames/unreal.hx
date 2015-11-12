@@ -323,6 +323,10 @@ using StringTools;
         fnArgs = args.map(function(a) return get(a.t, pos));
         fnRet = get(ret, pos);
 
+        if (!fnRet.haxeType.isVoid() && fnRet.isBasic == true && fnRet.ownershipModifier == 'unreal.PRef' || fnRet.ownershipModifier == 'unreal.PRefDef') {
+          throw new Error('Unreal Glue: Function lambda types that return a reference to a basic type are not supported', pos);
+        }
+
         #if !bake_externs
           // We need to ensure that all types have TypeParamGlue built in order for LambdaBinder to work
           for (i in 0...fnArgs.length) {
