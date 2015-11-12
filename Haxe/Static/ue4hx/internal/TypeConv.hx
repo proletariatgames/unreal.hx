@@ -503,7 +503,7 @@ using StringTools;
 
         if (modf == 'unreal.PRef') {
           ret.ueType = new TypeRef(['cpp'], 'Reference', [ret.ueType]);
-          ret.haxeToGlueExpr = 'cpp.Pointer.addressOf( ' + ret.haxeToGlueExpr + ' ).rawCast()';
+          ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).getWrappedAddr().rawCast()';
           ret.glueToUeExpr = '(static_cast<${refName.getCppType()} *&> (*( (${refName.getCppType()} **) % )))';
         }
         return ret;

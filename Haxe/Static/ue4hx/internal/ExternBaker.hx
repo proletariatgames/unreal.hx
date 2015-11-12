@@ -455,6 +455,10 @@ class ExternBaker {
         this.begin(' {');
           this.buf.add('return this == null ? null : cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
+        this.buf.add('@:extern inline private function getWrappedAddr():cpp.Pointer<Dynamic>');
+        this.begin(' {');
+          this.buf.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
+        this.end('}');
 
         // add the reflectGetWrapped()
         this.buf.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
