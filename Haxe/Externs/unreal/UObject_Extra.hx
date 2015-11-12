@@ -1,6 +1,15 @@
 package unreal;
 
 extern class UObject_Extra {
+
+  /**
+   * NOTE: Actually from UObjectBaseUtility class
+   * Checks the RF_PendingKill flag to see if it is dead but memory still valid
+   */
+  @:uexpose()
+  @:thisConst
+  public function IsPendingKill() : Bool;
+
   /**
     Returns true if this object is considered an asset.
    **/
