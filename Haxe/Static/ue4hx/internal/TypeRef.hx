@@ -204,6 +204,13 @@ class TypeRef
       return this;
   }
 
+  private static function getSafePack(name:String) {
+    if (name.charAt(0).toLowerCase() != name.charAt(0)) {
+      return '_hx_$name';
+    } else {
+      return '_' + name;
+    }
+  }
   public function getGlueHelperType():TypeRef
   {
     var newPack = [ for (pack in this.pack) '_hx_' + pack ],

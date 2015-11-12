@@ -4,6 +4,11 @@
 #include <unreal/helpers/HxcppRuntime.h>
 #include <Engine.h>
 
+// #if defined(__clang__) || defined(__GNUC__)
+// // if a type has non-virtual destructor, there's not much we can do about it
+// #pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"
+// #endif
+
 template<typename T>
 class HAXERUNTIME_API PStruct : public ::unreal::helpers::UEPointer {
   public:
