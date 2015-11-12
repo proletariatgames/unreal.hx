@@ -17,6 +17,9 @@ extern class UEngine_Extra {
   @:uname("GEngine")
   @:global static var GEngine : UEngine;
 
+  @:thisConst
+  public function UseSound() : Bool;
+
   /**
    * Returns the current netmode
    * @param   NetDriverName    Name of the net driver to get mode for
