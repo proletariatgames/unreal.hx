@@ -42,6 +42,18 @@ public:
   }
 };
 
+typedef LambdaBinderVoid<> LambdaBinderVoidVoid;
+
+template<typename Class, typename RV, typename... Args>
+class MemberFunctionTranslator
+{
+public:
+  // Pointer to a member function of the given signature
+  typedef RV (Class::*MemberFunctionType)(Args...);
+  // Pointer to a function that RETURNS a member function pointer.
+  typedef MemberFunctionType (*Translator)(void);
+};
+
 /*
  * Example Glue.cpp
  *

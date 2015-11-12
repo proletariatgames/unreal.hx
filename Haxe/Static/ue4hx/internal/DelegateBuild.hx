@@ -67,20 +67,22 @@ class DelegateBuild {
         def.fields.pop(); // take off GetUObject
       }
 
-      var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
-
       if (type != 'DynamicDelegate') {
-        var idx = 0;
-        def.fields.push({
-          name:"BindLambda",
-          access:[APublic],
-          kind: FFun({
-            args : [{name:'fn', type:lambdaType}],
-            ret : macro :Void,
-            expr : macro ue4hx.internal.DelayedGlue.getNativeCall("BindLambda", false, $i{'fn'}),
-          }),
-          pos: cl.pos
-        });
+        var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
+        var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
+
+        var dummy = macro class {
+          public function BindLambda(fn:$lambdaType) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("BindLambda", false, fn);
+          }
+          public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("BindUObject", false, obj, fn);
+          }
+        }
+
+        for (fld in dummy.fields) {
+          def.fields.push(fld);
+        }
       }
 
       var names = ['Execute'];
@@ -146,25 +148,21 @@ class DelegateBuild {
 
       if (type != 'DynamicMulticastDelegate') {
         var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
+        var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
 
-        var idx = 0;
-        def.fields.push({
-          name:"AddLambda",
-          access:[APublic],
-          kind: FFun({
-            args : [{name:'fn', type:lambdaType}],
-            ret : macro :unreal.FDelegateHandle,
-            expr : macro return ue4hx.internal.DelayedGlue.getNativeCall("AddLambda", false, $i{'fn'}),
-          }),
-          pos: cl.pos
-        });
-
-        var added = macro class {
+        var dummy = macro class {
+          public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
+            return ue4hx.internal.DelayedGlue.getNativeCall("AddLambda", false, fn);
+          }
+          public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
+            return ue4hx.internal.DelayedGlue.getNativeCall("AddUObject", false, obj, fn);
+          }
           public function Remove(handle:unreal.FDelegateHandle) : Void {
             ue4hx.internal.DelayedGlue.getNativeCall("Remove", false, handle);
           }
-        }
-        for (fld in added.fields) {
+        };
+
+        for (fld in dummy.fields) {
           def.fields.push(fld);
         }
       }

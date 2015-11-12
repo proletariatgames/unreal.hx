@@ -207,7 +207,8 @@ class DelayedGlue {
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
         superCalls = new Map(),
-        nativeCalls = new Map();
+        nativeCalls = new Map(),
+        methodPtrs = new Map();
     for (prop in MacroHelpers.extractStrings( cls.meta, ':uproperties' )) {
       uprops[prop] = null;
     }
@@ -218,8 +219,12 @@ class DelayedGlue {
         superCalls[scall] = null;
     }
     for (ncall in MacroHelpers.extractStrings( cls.meta, ':unativecalls' )) {
-      if (!ignoreSupers.exists(ncall))
+      if (!ignoreSupers.exists(ncall)) {
         nativeCalls[ncall] = null;
+      }
+    }
+    for (methodPtr in MacroHelpers.extractStrings( cls.meta, ':umethodptrs' )) {
+      methodPtrs[methodPtr] = null;
     }
 
     if (cls.meta.has(":uhxdelegate")) {
@@ -235,6 +240,9 @@ class DelayedGlue {
         superCalls[field.name] = field;
       } else if (nativeCalls.exists(field.name)) {
         nativeCalls[field.name] = { cf:field, isStatic:false };
+      }
+      if (methodPtrs.exists(field.name)) {
+        methodPtrs[field.name] = field;
       }
     }
     for (field in cls.statics.get()) {
@@ -265,6 +273,13 @@ class DelayedGlue {
       if (!this.shouldContinue())
         return;
     }
+
+    for (methodPtr in methodPtrs) {
+      this.handleMethodPointer(methodPtr);
+      if (!this.shouldContinue())
+        return;
+    }
+
     if (!this.shouldContinue())
       return;
 
@@ -283,6 +298,7 @@ class DelayedGlue {
 
     if (!this.shouldContinue())
       return;
+
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
@@ -629,6 +645,39 @@ class DelayedGlue {
         args: selfArg.concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
         ret: ret.haxeGlueType.toComplexType(),
         expr: null
+      }),
+      pos: field.pos
+    });
+  }
+
+  private function handleMethodPointer(field:ClassField) {
+    var externName = field.name;
+    var methodName = '_get_${externName}_methodPtr';
+
+    var glue = this.typeRef.getGlueHelperType();
+    var clsField = this.cls.statics.get().find(function (f) return f.name == methodName);
+    if (clsField == null) {
+      throw 'assert: can\'t find $methodName';
+    }
+
+    var headerDef = '\n\t\tstatic void* $methodName();';
+    var cppDef = 'void* ${glue.getCppClass()}_obj::$methodName() {\n\treturn (void*)${this.thisConv.ueType.getCppClass()}::_get_${externName}_methodPtr;\n}\n';
+    var metas:Metadata = [
+      { name: ':glueHeaderCode', params:[macro $v{headerDef}], pos: field.pos },
+      { name: ':glueCppCode', params:[macro $v{cppDef}], pos: field.pos },
+    ];
+
+    for (meta in metas) {
+      clsField.meta.add(meta.name, meta.params, meta.pos);
+    }
+
+    this.buildFields.push({
+      name: methodName,
+      access: [APublic, AStatic],
+      kind: FFun({
+       args : [],
+       ret : macro :cpp.RawPointer<cpp.Void>,
+       expr :null
       }),
       pos: field.pos
     });
