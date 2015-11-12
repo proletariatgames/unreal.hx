@@ -56,35 +56,54 @@ public:
 template<typename T>
 class HAXERUNTIME_API TypeParamGlue<T&> {
 public:
-  static T& haxeToUe(void *haxe) {
-    return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
-  }
-
-  static void *ueToHaxe(T& ue) {
-    return TypeParamGluePtr<T>::ueToHaxeRef(ue);
-  }
+  static T& haxeToUe(void *haxe);
+  static void *ueToHaxe(T& ue);
 };
 
 template<typename T>
 class HAXERUNTIME_API TypeParamGlue<const T&> {
 public:
-  static const T& haxeToUe(void *haxe) {
-    return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
-  }
-
-  static void *ueToHaxe(const T& ue) {
-    return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
-  }
+  static const T& haxeToUe(void *haxe);
+  static void *ueToHaxe(const T& ue);
 };
 
 template<typename T>
 class HAXERUNTIME_API TypeParamGlue<const T> {
 public:
-  static const T haxeToUe(void *haxe) {
-    return TypeParamGlue<T>::haxeToUe(haxe);
-  }
-
-  static void *ueToHaxe(T& ue) {
-    return TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
-  }
+  static const T haxeToUe(void *haxe);
+  static void *ueToHaxe(const T ue);
 };
+
+template<typename T>
+T& TypeParamGlue<T&>::haxeToUe(void *haxe) {
+  // warning: this WILL FAIL with basic types (like int*, float, double) and enums
+  // This will only be used like that on delegates - so these kinds of delegates are forbidden to be declared
+  return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+}
+
+template<typename T>
+void *TypeParamGlue<T&>::ueToHaxe(T& ue) {
+  return TypeParamGluePtr<T>::ueToHaxeRef(ue);
+}
+
+template<typename T>
+const T& TypeParamGlue<const T&>::haxeToUe(void *haxe) {
+  // warning: this WILL FAIL with basic types (like int*, float, double) and enums
+  // This will only be used like that on delegates - so these kinds of delegates are forbidden to be declared
+  return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+}
+
+template<typename T>
+void *TypeParamGlue<const T&>::ueToHaxe(const T& ue) {
+  return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
+}
+
+template<typename T>
+const T TypeParamGlue<const T>::haxeToUe(void *haxe) {
+  return TypeParamGlue<T>::haxeToUe(haxe);
+}
+
+template<typename T>
+void *TypeParamGlue<const T>::ueToHaxe(const T ue) {
+  return TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
+}
