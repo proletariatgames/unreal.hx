@@ -162,10 +162,10 @@ class NeedsGlueBuild
             var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
             if (unameMeta != null) {
               uname = switch(unameMeta.params[0].expr) {
-              case EConst(CIdent(s)): s;
-              case EConst(CString(s)): s;
-              default: field.name;
-              }
+                case EConst(CIdent(s)): s;
+                case EConst(CString(s)): s;
+                default: field.name;
+              };
             }
 
             var glueFnName = '_get_${field.name}_methodPtr';

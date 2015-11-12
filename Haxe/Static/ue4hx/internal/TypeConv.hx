@@ -411,7 +411,6 @@ using StringTools;
       }
 
       var cppMethodType = new HelperBuf();
-      var haxeMethodType = new HelperBuf();
       var className = switch (args[0]) {
         case TInst(cls, _):
           var cls = cls.get();
@@ -427,21 +426,12 @@ using StringTools;
         if (fnArgs.length > 0) cppMethodType << ', ';
         cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
         cppMethodType << '>::Translator';
-
-        if (fnArgs.length == 0) {
-          haxeMethodType << 'Void';
-        } else {
-          haxeMethodType.mapJoin(fnArgs, function(arg) return arg.haxeType.toString());
-        }
-        haxeMethodType << '->';
-        haxeMethodType << fnRet.haxeType.toString();
       default:
         throw new Error('MethodPointer expects second param to be a function type', pos);
       }
 
       var ret:TypeConvInfo = {
         ueType: voidStar,
-        //haxeType: new TypeRef(['unreal'], 'MethodPointer', [TypeRef.fromType(args[0], pos), new TypeRef([], haxeMethodType.toString())]),
         haxeType: new TypeRef(['cpp'],'Pointer', [new TypeRef([],'Dynamic')]),
         haxeGlueType: voidStar,
         haxeToGlueExpr: 'untyped (%).rawCast()',

@@ -75,7 +75,7 @@ class DelegateBuild {
           public function BindLambda(fn:$lambdaType) : Void {
             return ue4hx.internal.DelayedGlue.getNativeCall("BindLambda", false, fn);
           }
-          public function BindUObject(obj:unreal.UObject, fn:unreal.MethodPointer<unreal.UObject, $lambdaType>) : Void {
+          public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             return ue4hx.internal.DelayedGlue.getNativeCall("BindUObject", false, obj, fn);
           }
         }
@@ -154,7 +154,7 @@ class DelegateBuild {
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
             return ue4hx.internal.DelayedGlue.getNativeCall("AddLambda", false, fn);
           }
-          public function AddUObject(obj:unreal.UObject, fn:unreal.MethodPointer<unreal.UObject, $lambdaType>) : unreal.FDelegateHandle {
+          public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return ue4hx.internal.DelayedGlue.getNativeCall("AddUObject", false, obj, fn);
           }
           public function Remove(handle:unreal.FDelegateHandle) : Void {
