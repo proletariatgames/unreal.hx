@@ -18,7 +18,7 @@ package unreal.slatecore;
   Additional information about a selection event
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Components/ComboBoxString.h")
+@:glueCppIncludes("UMG.h")
 @:uname("ESelectInfo.Type")
 @:uextern extern enum ESelectInfo {
   

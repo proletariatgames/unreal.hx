@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/Viewport.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UViewport extends unreal.umg.UContentWidget {
   public var BackgroundColor : unreal.FLinearColor;
   @:thisConst @:final public function GetViewportWorld() : unreal.UWorld;

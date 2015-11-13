@@ -45,7 +45,7 @@ package unreal.paper2d;
   /**
     DEPRECATED in 4.5: The material override for this flipbook component (if any); replaced by the Materials array inherited from UMeshComponent
   **/
-  private var Material_DEPRECATED : unreal.UMaterialInterface;
+  @:deprecated private var Material_DEPRECATED : unreal.UMaterialInterface;
   
   /**
     Flipbook currently being played

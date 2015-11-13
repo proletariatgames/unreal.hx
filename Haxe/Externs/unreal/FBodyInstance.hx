@@ -206,7 +206,7 @@ package unreal;
     @todo : make this to be transient, so that it doesn't have to save anymore
     we have to still load them until resave
   **/
-  public var ResponseToChannels_DEPRECATED : unreal.FCollisionResponseContainer;
+  @:deprecated public var ResponseToChannels_DEPRECATED : unreal.FCollisionResponseContainer;
   
   /**
     Current scale of physics - used to know when and how physics must be rescaled to match current transform of OwnerComponent.

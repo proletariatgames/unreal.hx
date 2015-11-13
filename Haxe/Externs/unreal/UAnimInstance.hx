@@ -56,7 +56,7 @@ package unreal;
   /**
     DeltaTime *
   **/
-  public var DeltaTime_DEPRECATED : unreal.Float32;
+  @:deprecated public var DeltaTime_DEPRECATED : unreal.Float32;
   
   /**
     kismet event functions

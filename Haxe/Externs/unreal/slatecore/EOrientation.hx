@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates widget orientations.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Components/ScrollBar.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EOrientation")
 @:uextern extern enum EOrientation {
   

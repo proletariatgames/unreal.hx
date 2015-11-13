@@ -21,7 +21,7 @@ package unreal.umg;
   ● Text
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/TextBlock.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UTextBlock extends unreal.umg.UWidget {
   
   /**
@@ -116,6 +116,6 @@ package unreal.umg;
     The color of the text
   **/
   public var ColorAndOpacity : unreal.slatecore.FSlateColor;
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
 }

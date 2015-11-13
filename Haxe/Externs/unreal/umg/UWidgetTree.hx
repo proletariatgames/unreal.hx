@@ -18,7 +18,7 @@ package unreal.umg;
   The widget tree manages the collection of widgets in a blueprint widget.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/WidgetTree.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UWidgetTree extends unreal.UObject {
   private var AllWidgets : unreal.TArray<unreal.umg.UWidget>;
   

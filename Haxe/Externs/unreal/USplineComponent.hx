@@ -67,7 +67,7 @@ package unreal;
     Number of steps per spline segment to place in the reparameterization table
   **/
   public var ReparamStepsPerSegment : unreal.Int32;
-  public var bAllowSplineEditingPerInstance_DEPRECATED : Bool;
+  @:deprecated public var bAllowSplineEditingPerInstance_DEPRECATED : Bool;
   
   /**
     Input, distance along curve, output, parameter that puts you there.

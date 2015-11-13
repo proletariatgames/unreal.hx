@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/WidgetNavigation.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UWidgetNavigation extends unreal.UObject {
   
   /**

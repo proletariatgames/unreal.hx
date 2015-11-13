@@ -46,7 +46,7 @@ package unreal;
     Categories that this function belongs to in the material function library.
     Ideally categories should be chosen carefully so that there are not too many.
   **/
-  public var LibraryCategories_DEPRECATED : unreal.TArray<unreal.FString>;
+  @:deprecated public var LibraryCategories_DEPRECATED : unreal.TArray<unreal.FString>;
   
   /**
     Whether to list this function in the material function library, which is a window in the material editor that lists categorized functions.

@@ -26,7 +26,7 @@ package unreal;
     ScreenSize to display this LOD
   **/
   public var ScreenSize : unreal.Float32;
-  public var LODDistance_DEPRECATED : unreal.Float32;
+  @:deprecated public var LODDistance_DEPRECATED : unreal.Float32;
   
   /**
     Reduction settings to apply when building render data.

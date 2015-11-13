@@ -17,8 +17,8 @@ package unreal;
 @:uextern extern class USoundWave extends unreal.USoundBase {
   #if WITH_EDITORONLY_DATA
   public var AssetImportData : unreal.UAssetImportData;
-  public var SourceFileTimestamp_DEPRECATED : unreal.FString;
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**

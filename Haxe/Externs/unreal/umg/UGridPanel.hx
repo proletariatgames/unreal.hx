@@ -20,7 +20,7 @@ package unreal.umg;
   ● Many Children
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/GridPanel.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UGridPanel extends unreal.umg.UPanelWidget {
   
   /**

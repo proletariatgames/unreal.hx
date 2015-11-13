@@ -18,7 +18,7 @@ package unreal.slatecore;
   Used to determine how we should handle mouse wheel input events when someone scrolls.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Components/ScrollBox.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EConsumeMouseWheel")
 @:class @:uextern extern enum EConsumeMouseWheel {
   

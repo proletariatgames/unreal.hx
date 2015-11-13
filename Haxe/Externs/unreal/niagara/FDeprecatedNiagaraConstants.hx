@@ -23,15 +23,15 @@ package unreal.niagara;
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
 @:noCopy @:noEquals @:uextern extern class FDeprecatedNiagaraConstants {
-  public var MatrixConstants_DEPRECATED : unreal.TArray<unreal.FMatrix>;
-  public var VectorConstants_DEPRECATED : unreal.TArray<unreal.FVector4>;
-  public var ScalarConstants_DEPRECATED : unreal.TArray<unreal.Float32>;
-  public var MatrixConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
-  public var VectorConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:deprecated public var MatrixConstants_DEPRECATED : unreal.TArray<unreal.FMatrix>;
+  @:deprecated public var VectorConstants_DEPRECATED : unreal.TArray<unreal.FVector4>;
+  @:deprecated public var ScalarConstants_DEPRECATED : unreal.TArray<unreal.Float32>;
+  @:deprecated public var MatrixConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:deprecated public var VectorConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
   
   /**
     DEPRECATED PROPERTIES. REMOVE SOON!
   **/
-  public var ScalarConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:deprecated public var ScalarConstantsInfo_DEPRECATED : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
   
 }

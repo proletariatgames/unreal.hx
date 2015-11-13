@@ -14,7 +14,7 @@
 package unreal.slatecore;
 
 @:umodule("SlateCore")
-@:glueCppIncludes("Blueprint/WidgetNavigation.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EUINavigationRule")
 @:class @:uextern extern enum EUINavigationRule {
   

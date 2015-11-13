@@ -213,7 +213,7 @@ package unreal;
   /**
     The blueprint for creating an AnimationScript.
   **/
-  public var AnimationBlueprint_DEPRECATED : unreal.UAnimBlueprint;
+  @:deprecated public var AnimationBlueprint_DEPRECATED : unreal.UAnimBlueprint;
   #end // WITH_EDITORONLY_DATA
   
   /**

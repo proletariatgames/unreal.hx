@@ -243,7 +243,7 @@ package unreal.foliage;
   /**
     Deprecated. Now use the Mobility setting to control static/dynamic lighting
   **/
-  public var bEnableStaticLighting_DEPRECATED : Bool;
+  @:deprecated public var bEnableStaticLighting_DEPRECATED : Bool;
   
   /**
     The distance where instances will begin to fade out if using a PerInstanceFadeAmount material node. 0 disables.
@@ -276,7 +276,7 @@ package unreal.foliage;
     If checked, an overlap test with existing world geometry is performed before each instance is placed
   **/
   public var CollisionWithWorld : Bool;
-  public var LandscapeLayer_DEPRECATED : unreal.FName;
+  @:deprecated public var LandscapeLayer_DEPRECATED : unreal.FName;
   
   /**
     If a layer name is specified, painting on landscape will limit the foliage to areas of landscape with the specified layer painted

@@ -20,8 +20,8 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
 @:uextern extern class FButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
-  public var HoveredSound_DEPRECATED : unreal.FName;
-  public var PressedSound_DEPRECATED : unreal.FName;
+  @:deprecated public var HoveredSound_DEPRECATED : unreal.FName;
+  @:deprecated public var PressedSound_DEPRECATED : unreal.FName;
   
   /**
     The sound the button should play when initially hovered over

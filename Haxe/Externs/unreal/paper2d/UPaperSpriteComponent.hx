@@ -34,7 +34,7 @@ package unreal.paper2d;
   /**
     DEPRECATED in 4.4: The material override for this sprite component (if any); replaced by the Materials array inherited from UMeshComponent
   **/
-  private var MaterialOverride_DEPRECATED : unreal.UMaterialInterface;
+  @:deprecated private var MaterialOverride_DEPRECATED : unreal.UMaterialInterface;
   
   /**
     The sprite asset used by this component

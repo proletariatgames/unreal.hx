@@ -51,11 +51,11 @@ package unreal.blueprintgraph;
   /**
     Class that the function signature is from.
   **/
-  public var EventSignatureClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
+  @:deprecated public var EventSignatureClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     Name of function signature that this event implements
   **/
-  public var EventSignatureName_DEPRECATED : unreal.FName;
+  @:deprecated public var EventSignatureName_DEPRECATED : unreal.FName;
   
 }

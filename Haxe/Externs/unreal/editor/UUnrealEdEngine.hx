@@ -30,7 +30,7 @@ package unreal.editor;
   /**
     Array of sorted, localized editor sprite categories
   **/
-  public var SortedSpriteCategories_DEPRECATED : unreal.TArray<unreal.FString>;
+  @:deprecated public var SortedSpriteCategories_DEPRECATED : unreal.TArray<unreal.FString>;
   
   /**
     Whether the user needs to be prompted about a package being saved when the user does not have permission to write the file

@@ -14,7 +14,7 @@
 package unreal.slate;
 
 @:umodule("Slate")
-@:glueCppIncludes("Components/MultiLineEditableText.h")
+@:glueCppIncludes("UMG.h")
 @:uname("ETextJustify.Type")
 @:uextern extern enum ETextJustify {
   Left;

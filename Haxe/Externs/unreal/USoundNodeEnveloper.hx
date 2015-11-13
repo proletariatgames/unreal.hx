@@ -51,8 +51,8 @@ package unreal;
     The distribution defining the volume envelope.
   **/
   public var VolumeCurve : unreal.FRuntimeFloatCurve;
-  public var PitchInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
-  public var VolumeInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
+  @:deprecated public var PitchInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
+  @:deprecated public var VolumeInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
   
   /**
     If enabled, the envelope will loop using the loop settings.

@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/HorizontalBoxSlot.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UHorizontalBoxSlot extends unreal.umg.UPanelSlot {
   public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;

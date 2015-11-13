@@ -49,7 +49,7 @@ package unreal;
     The way rotation paths are estimated
   **/
   public var AngularDriveMode : unreal.EAngularDriveMode;
-  public var AngularPositionTarget_DEPRECATED : unreal.FQuat;
+  @:deprecated public var AngularPositionTarget_DEPRECATED : unreal.FQuat;
   
   /**
     Enables the angular drive towards a target velocity.
@@ -60,11 +60,11 @@ package unreal;
     Enables the angular drive towards a target orientation.
   **/
   public var bAngularOrientationDrive : Bool;
-  public var bAngularSlerpDrive_DEPRECATED : Bool;
-  public var bTwistVelocityDrive_DEPRECATED : Bool;
-  public var bTwistPositionDrive_DEPRECATED : Bool;
-  public var bSwingVelocityDrive_DEPRECATED : Bool;
-  public var bSwingPositionDrive_DEPRECATED : Bool;
+  @:deprecated public var bAngularSlerpDrive_DEPRECATED : Bool;
+  @:deprecated public var bTwistVelocityDrive_DEPRECATED : Bool;
+  @:deprecated public var bTwistPositionDrive_DEPRECATED : Bool;
+  @:deprecated public var bSwingVelocityDrive_DEPRECATED : Bool;
+  @:deprecated public var bSwingPositionDrive_DEPRECATED : Bool;
   
   /**
     Limit to the force the linear drive can apply.

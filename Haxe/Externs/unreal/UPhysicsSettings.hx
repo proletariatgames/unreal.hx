@@ -105,7 +105,7 @@ package unreal;
     Useful for constraining all objects in the world, for example if you are making a 2D game using 3D environments.
   **/
   public var DefaultDegreesOfFreedom : unreal.ESettingsDOF;
-  public var LockedAxis_DEPRECATED : unreal.ESettingsLockedAxis;
+  @:deprecated public var LockedAxis_DEPRECATED : unreal.ESettingsLockedAxis;
   
   /**
     Can 2D physics be used (Box2D)?

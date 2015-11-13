@@ -27,7 +27,7 @@ package unreal;
   /**
     Local space translation
   **/
-  public var PrePivot_DEPRECATED : unreal.FVector;
+  @:deprecated public var PrePivot_DEPRECATED : unreal.FVector;
   
   /**
     Description of collision

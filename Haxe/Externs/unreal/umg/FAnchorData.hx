@@ -20,7 +20,7 @@ package unreal.umg;
   
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/CanvasPanelSlot.h")
+@:glueCppIncludes("UMG.h")
 @:noCopy @:noEquals @:uextern extern class FAnchorData {
   
   /**

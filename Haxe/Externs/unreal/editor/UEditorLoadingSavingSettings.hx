@@ -106,7 +106,7 @@ package unreal.editor;
     Lists every directory to monitor for content changes. Can be virtual package paths (eg /Game/ or /MyPlugin/), or absolute paths on disk.
   **/
   public var AutoReimportDirectorySettings : unreal.TArray<unreal.editor.FAutoReimportDirectoryConfig>;
-  public var AutoReimportDirectories_DEPRECATED : unreal.TArray<unreal.FString>;
+  @:deprecated public var AutoReimportDirectories_DEPRECATED : unreal.TArray<unreal.FString>;
   
   /**
     When enabled, changes to made to source content files inside the content directories will automatically be reflected in the content browser.

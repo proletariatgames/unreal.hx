@@ -20,7 +20,7 @@ package unreal.umg;
   
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/WidgetBlueprintGeneratedClass.h")
+@:glueCppIncludes("UMG.h")
 @:noCopy @:noEquals @:uextern extern class FDelegateRuntimeBinding {
   
   /**

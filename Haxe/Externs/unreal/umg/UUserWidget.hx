@@ -18,7 +18,7 @@ package unreal.umg;
   The user widget is extensible by users through the WidgetBlueprint.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UUserWidget extends unreal.umg.UWidget implements unreal.umg.INamedSlotInterface {
   
   /**
@@ -421,12 +421,12 @@ package unreal.umg;
   /**
     A flag that determines if the widget's desired size is used for previewing the widget in the designer.
   **/
-  public var bUseDesiredSizeAtDesignTime_DEPRECATED : Bool;
+  @:deprecated public var bUseDesiredSizeAtDesignTime_DEPRECATED : Bool;
   
   /**
     A flag that determines if the design time size is used for previewing the widget in the designer.
   **/
-  public var bUseDesignTimeSize_DEPRECATED : Bool;
+  @:deprecated public var bUseDesignTimeSize_DEPRECATED : Bool;
   
   /**
     Stores the design time desired size of the user widget

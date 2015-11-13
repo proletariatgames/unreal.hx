@@ -20,9 +20,9 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Framework/Styling/CheckBoxWidgetStyle.h")
 @:uextern extern class FCheckBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
-  public var HoveredSound_DEPRECATED : unreal.FName;
-  public var UncheckedSound_DEPRECATED : unreal.FName;
-  public var CheckedSound_DEPRECATED : unreal.FName;
+  @:deprecated public var HoveredSound_DEPRECATED : unreal.FName;
+  @:deprecated public var UncheckedSound_DEPRECATED : unreal.FName;
+  @:deprecated public var CheckedSound_DEPRECATED : unreal.FName;
   
   /**
     The sound the check box should play when initially hovered over

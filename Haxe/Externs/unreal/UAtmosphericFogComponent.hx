@@ -21,8 +21,8 @@ package unreal;
 **/
 @:glueCppIncludes("Atmosphere/AtmosphericFogComponent.h")
 @:uextern extern class UAtmosphericFogComponent extends unreal.USceneComponent {
-  public var IrradianceTexture_DEPRECATED : unreal.UTexture2D;
-  public var TransmittanceTexture_DEPRECATED : unreal.UTexture2D;
+  @:deprecated public var IrradianceTexture_DEPRECATED : unreal.UTexture2D;
+  @:deprecated public var TransmittanceTexture_DEPRECATED : unreal.UTexture2D;
   private var PrecomputeParams : unreal.FAtmospherePrecomputeParameters;
   
   /**

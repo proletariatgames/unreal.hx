@@ -15,14 +15,14 @@ package unreal;
 
 @:glueCppIncludes("Engine/Level.h")
 @:uextern extern class FLevelSimplificationDetails {
-  public var bGenerateLandscapeSpecularMap_DEPRECATED : Bool;
-  public var bGenerateLandscapeRoughnessMap_DEPRECATED : Bool;
-  public var bGenerateLandscapeMetallicMap_DEPRECATED : Bool;
-  public var bGenerateLandscapeNormalMap_DEPRECATED : Bool;
-  public var bGenerateMeshSpecularMap_DEPRECATED : Bool;
-  public var bGenerateMeshRoughnessMap_DEPRECATED : Bool;
-  public var bGenerateMeshMetallicMap_DEPRECATED : Bool;
-  public var bGenerateMeshNormalMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateLandscapeSpecularMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateLandscapeRoughnessMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateLandscapeMetallicMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateLandscapeNormalMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateMeshSpecularMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateMeshRoughnessMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateMeshMetallicMap_DEPRECATED : Bool;
+  @:deprecated public var bGenerateMeshNormalMap_DEPRECATED : Bool;
   
   /**
     Whether to bake grass into landscape static mesh texture

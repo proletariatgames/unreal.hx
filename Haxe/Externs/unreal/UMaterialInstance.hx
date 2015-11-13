@@ -22,7 +22,7 @@ package unreal;
 @:glueCppIncludes("Materials/MaterialInstance.h")
 @:uextern extern class UMaterialInstance extends unreal.UMaterialInterface {
   public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
-  public var bOverrideBaseProperties_DEPRECATED : Bool;
+  @:deprecated public var bOverrideBaseProperties_DEPRECATED : Bool;
   
   /**
     Vector parameters.

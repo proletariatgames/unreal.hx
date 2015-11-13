@@ -23,6 +23,6 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FKSphereElem extends unreal.FKShapeElem {
   public var Radius : unreal.Float32;
   public var Center : unreal.FVector;
-  public var TM_DEPRECATED : unreal.FMatrix;
+  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
   
 }

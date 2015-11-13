@@ -24,7 +24,7 @@ package unreal.slatecore;
   /**
     The data associated with the font - this should always be filled in providing the source font filename is valid
   **/
-  public var FontData_DEPRECATED : unreal.TArray<unreal.UInt8>;
+  @:deprecated public var FontData_DEPRECATED : unreal.TArray<unreal.UInt8>;
   
   /**
     The hinting algorithm to use with the font

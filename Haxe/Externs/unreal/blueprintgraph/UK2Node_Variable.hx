@@ -20,12 +20,12 @@ package unreal.blueprintgraph;
   /**
     Name of variable
   **/
-  private var VariableName_DEPRECATED : unreal.FName;
+  @:deprecated private var VariableName_DEPRECATED : unreal.FName;
   
   /**
     Class that this variable is defined in. Should be NULL if bSelfContext is true.
   **/
-  private var VariableSourceClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
+  @:deprecated private var VariableSourceClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
   public var SelfContextInfo : unreal.blueprintgraph.ESelfContextInfo;
   
   /**

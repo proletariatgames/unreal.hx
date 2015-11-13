@@ -23,7 +23,7 @@ package unreal.umg;
   ● Clickable
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Button.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UButton extends unreal.umg.UContentWidget {
   
   /**
@@ -59,7 +59,7 @@ package unreal.umg;
   /**
     The template style asset, used to seed the mutable instance of the style.
   **/
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     Sets the color multiplier for the button content

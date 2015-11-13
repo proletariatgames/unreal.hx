@@ -40,7 +40,7 @@ package unreal;
   /**
     The reverb preset to employ.
   **/
-  public var ReverbType_DEPRECATED : unreal.ReverbPreset;
+  @:deprecated public var ReverbType_DEPRECATED : unreal.ReverbPreset;
   
   /**
     Whether to apply the reverb settings below.

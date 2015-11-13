@@ -18,7 +18,7 @@ package unreal.umg;
   This is the base class for all wrapped Slate controls that are exposed to UObjects.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Widget.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UWidget extends unreal.umg.UVisual {
   
   /**
@@ -103,7 +103,7 @@ package unreal.umg;
   /**
     The visibility of the widget
   **/
-  public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
+  @:deprecated public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
   
   /**
     Tooltip widget to show when the user hovers over the widget with the mouse

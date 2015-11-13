@@ -24,7 +24,7 @@ package unreal;
   /**
     DEPRECATED: use bUsePawnControlRotation instead
   **/
-  public var bUseControllerViewRotation_DEPRECATED : Bool;
+  @:deprecated public var bUseControllerViewRotation_DEPRECATED : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**

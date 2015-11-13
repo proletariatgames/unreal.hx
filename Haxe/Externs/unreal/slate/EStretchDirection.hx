@@ -14,7 +14,7 @@
 package unreal.slate;
 
 @:umodule("Slate")
-@:glueCppIncludes("Components/ScaleBox.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EStretchDirection.Type")
 @:uextern extern enum EStretchDirection {
   

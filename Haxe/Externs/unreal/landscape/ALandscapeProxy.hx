@@ -50,7 +50,7 @@ package unreal.landscape;
   #if WITH_EDITORONLY_DATA
   public var EditorLayerSettings : unreal.TArray<unreal.landscape.FLandscapeEditorLayerSettings>;
   public var ReimportHeightmapFilePath : unreal.FString;
-  public var EditorCachedLayerInfos_DEPRECATED : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
+  @:deprecated public var EditorCachedLayerInfos_DEPRECATED : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
   #end // WITH_EDITORONLY_DATA
   
   /**

@@ -58,7 +58,7 @@ package unreal;
     A value of 0 effectively disables this emitter outside of high detail mode,
     And this does not affect spawn per unit, unless the value is 0.
   **/
-  public var MediumDetailSpawnRateScale_DEPRECATED : unreal.Float32;
+  @:deprecated public var MediumDetailSpawnRateScale_DEPRECATED : unreal.Float32;
   
   /**
     Initial allocation count - overrides calculated peak count if > 0

@@ -80,7 +80,7 @@ package unreal;
   /**
     true if Material is masked and uses custom opacity
   **/
-  public var bIsMasked_DEPRECATED : Bool;
+  @:deprecated public var bIsMasked_DEPRECATED : Bool;
   
   /**
     true if this Material can be assumed Opaque when set to masked.
@@ -159,7 +159,7 @@ package unreal;
     Indicates that the material and its instances can be use with Slate UI and UMG
     This will result in the shaders required to support UI materials being compiled which will increase shader compile time and memory usage.
   **/
-  public var bUsedWithUI_DEPRECATED : Bool;
+  @:deprecated public var bUsedWithUI_DEPRECATED : Bool;
   
   /**
     Indicates that the material and its instances can be use with clothing
@@ -431,12 +431,12 @@ package unreal;
   public var Specular : unreal.FScalarMaterialInput;
   public var Metallic : unreal.FScalarMaterialInput;
   public var BaseColor : unreal.FColorMaterialInput;
-  public var SpecularColor_DEPRECATED : unreal.FColorMaterialInput;
+  @:deprecated public var SpecularColor_DEPRECATED : unreal.FColorMaterialInput;
   
   /**
     Reflection.
   **/
-  public var DiffuseColor_DEPRECATED : unreal.FColorMaterialInput;
+  @:deprecated public var DiffuseColor_DEPRECATED : unreal.FColorMaterialInput;
   
   /**
     Physical material to use for this graphics material. Used for sounds, effects etc.

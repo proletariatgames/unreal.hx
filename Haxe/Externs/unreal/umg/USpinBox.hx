@@ -18,7 +18,7 @@ package unreal.umg;
   A numerical entry box that allows for direct entry of the number or allows the user to click and slide the number.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/SpinBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class USpinBox extends unreal.umg.UWidget {
   public function OnSpinBoxValueChangedEvent__DelegateSignature(InValue : unreal.Float32) : Void;
   public function OnSpinBoxValueCommittedEvent__DelegateSignature(InValue : unreal.Float32, CommitMethod : unreal.slatecore.ETextCommit) : Void;
@@ -74,7 +74,7 @@ package unreal.umg;
     The amount by which to change the spin box value as the slider moves.
   **/
   public var Delta : unreal.Float32;
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The Style

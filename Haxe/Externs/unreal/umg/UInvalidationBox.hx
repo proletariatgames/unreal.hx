@@ -20,7 +20,7 @@ package unreal.umg;
   ● Caching / Performance
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/InvalidationBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UInvalidationBox extends unreal.umg.UContentWidget {
   
   /**

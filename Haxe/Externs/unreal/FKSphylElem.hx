@@ -33,6 +33,6 @@ package unreal;
   /**
     The transform assumes the sphyl axis points down Z.
   **/
-  public var TM_DEPRECATED : unreal.FMatrix;
+  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
   
 }

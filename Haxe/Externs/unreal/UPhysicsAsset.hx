@@ -50,7 +50,7 @@ package unreal;
     Default skeletal mesh to use when previewing this PhysicsAsset etc.
     Is the one that was used as the basis for creating this Asset.
   **/
-  public var DefaultSkelMesh_DEPRECATED : unreal.USkeletalMesh;
+  @:deprecated public var DefaultSkelMesh_DEPRECATED : unreal.USkeletalMesh;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -22,13 +22,13 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGrassType.h")
 @:uextern extern class ULandscapeGrassType extends unreal.UObject {
-  public var AlignToSurface_DEPRECATED : Bool;
-  public var RandomRotation_DEPRECATED : Bool;
-  public var EndCullDistance_DEPRECATED : unreal.Int32;
-  public var StartCullDistance_DEPRECATED : unreal.Int32;
-  public var PlacementJitter_DEPRECATED : unreal.Float32;
-  public var GrassDensity_DEPRECATED : unreal.Float32;
-  public var GrassMesh_DEPRECATED : unreal.UStaticMesh;
+  @:deprecated public var AlignToSurface_DEPRECATED : Bool;
+  @:deprecated public var RandomRotation_DEPRECATED : Bool;
+  @:deprecated public var EndCullDistance_DEPRECATED : unreal.Int32;
+  @:deprecated public var StartCullDistance_DEPRECATED : unreal.Int32;
+  @:deprecated public var PlacementJitter_DEPRECATED : unreal.Float32;
+  @:deprecated public var GrassDensity_DEPRECATED : unreal.Float32;
+  @:deprecated public var GrassMesh_DEPRECATED : unreal.UStaticMesh;
   public var GrassVarieties : unreal.TArray<unreal.landscape.FGrassVariety>;
   
 }

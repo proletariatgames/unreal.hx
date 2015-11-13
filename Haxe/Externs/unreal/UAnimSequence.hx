@@ -21,12 +21,12 @@ package unreal;
   /**
     Date/Time-stamp of the file from the last import
   **/
-  public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this skeletal mesh
   **/
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   
   /**
     Importing data and options used for this mesh

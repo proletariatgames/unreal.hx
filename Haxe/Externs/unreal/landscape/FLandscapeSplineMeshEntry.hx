@@ -36,7 +36,7 @@ package unreal.landscape;
   /**
     Orientation of the spline mesh, X=Up or Y=Up
   **/
-  public var Orientation_DEPRECATED : unreal.landscape.LandscapeSplineMeshOrientation;
+  @:deprecated public var Orientation_DEPRECATED : unreal.landscape.LandscapeSplineMeshOrientation;
   
   /**
     Scale of the spline mesh, (Z=Forwards)

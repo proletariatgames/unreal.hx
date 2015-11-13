@@ -22,13 +22,13 @@ package unreal.umg;
   ● Image
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Border.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UBorder extends unreal.umg.UContentWidget {
   
   /**
     Image to use for the border
   **/
-  private var Brush_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated private var Brush_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Whether or not to show the disabled effect when this border is disabled

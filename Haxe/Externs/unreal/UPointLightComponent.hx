@@ -57,7 +57,7 @@ package unreal;
     This clamping of the light's influence is not physically correct but very important for performance, larger lights cost more.
   **/
   public var AttenuationRadius : unreal.Float32;
-  public var Radius_DEPRECATED : unreal.Float32;
+  @:deprecated public var Radius_DEPRECATED : unreal.Float32;
   @:final public function SetAttenuationRadius(NewRadius : unreal.Float32) : Void;
   @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
   @:final public function SetSourceRadius(bNewValue : unreal.Float32) : Void;

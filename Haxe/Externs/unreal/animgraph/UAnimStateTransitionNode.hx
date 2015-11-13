@@ -74,7 +74,7 @@ package unreal.animgraph;
   /**
     The type of blending to use in the crossfade
   **/
-  public var CrossfadeMode_DEPRECATED : unreal.ETransitionBlendMode;
+  @:deprecated public var CrossfadeMode_DEPRECATED : unreal.ETransitionBlendMode;
   
   /**
     The duration to cross-fade for

@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/NamedSlotInterface.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern interface INamedSlotInterface {
   
 }

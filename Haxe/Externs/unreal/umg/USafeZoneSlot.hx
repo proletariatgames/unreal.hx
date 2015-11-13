@@ -20,7 +20,7 @@ package unreal.umg;
   
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/SafeZoneSlot.h")
+@:glueCppIncludes("UMG.h")
 @:noClass @:uextern extern class USafeZoneSlot extends unreal.umg.UPanelSlot {
   public var Padding : unreal.slatecore.FMargin;
   public var VAlign : unreal.slatecore.EVerticalAlignment;

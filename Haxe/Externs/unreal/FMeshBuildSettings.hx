@@ -39,7 +39,7 @@ package unreal;
     The local scale applied when building the mesh
   **/
   public var BuildScale3D : unreal.FVector;
-  public var BuildScale_DEPRECATED : unreal.Float32;
+  @:deprecated public var BuildScale_DEPRECATED : unreal.Float32;
   public var DstLightmapIndex : unreal.Int32;
   public var SrcLightmapIndex : unreal.Int32;
   public var MinLightmapResolution : unreal.Int32;
