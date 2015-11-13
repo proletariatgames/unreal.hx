@@ -275,12 +275,16 @@ class ExternBaker {
         statics = c.statics.get();
     var meta = c.meta.get();
     // process the _Extra type if found
+    var extraName = c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra';
     try {
-      var extra = Context.getType(c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra');
+      var extra = Context.getType(extraName);
       switch(extra) {
       case TInst(_.get() => ecl,_):
         if (ecl.meta.has(':glueCppIncludes')) {
           meta = meta.filter(function (meta) return meta.name != ':glueCppIncludes');
+          cls.meta.remove(':glueCppIncludes');
+          cls.meta.add(':glueCppIncludes', ecl.meta.extract(':glueCppIncludes')[0].params, ecl.pos);
+          this.thisConv = TypeConv.get(type,c.pos,'unreal.PExternal');
         }
         meta = meta.concat(ecl.meta.get());
         if (ecl.meta.has(':hasCopy')) {
@@ -320,6 +324,9 @@ class ExternBaker {
       }
     }
     catch(e:Dynamic) {
+      if (!Std.string(e).startsWith("Type not found '" + extraName)) {
+        throw new Error(Std.string(e), c.pos);
+      }
     }
 
     for (field in fields.concat(statics)) {
