@@ -72,7 +72,7 @@ class HaxeModuleRules extends BaseModuleRules
         // Windows paths have '\' which needs to be escaped for macro arguments
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
-        var forceCreateExterns = true; //TODO: add logic to check if we're in plugin development mode (env var?)
+        var forceCreateExterns = Sys.getEnv('BAKE_EXTERNS') != null;
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
           '-cp $pluginPath/Haxe/Static',

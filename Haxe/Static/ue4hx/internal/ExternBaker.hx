@@ -41,6 +41,8 @@ class ExternBaker {
     if (!Context.defined('use_rtti_doc'))
       Compiler.define('use_rtti_doc');
 
+    // we need this timestamp to make sure we bake everything if ue4hx.internal package
+    var latestInternal = (force ? 0.0 : getLatestInternalChange());
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
     if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
@@ -65,9 +67,10 @@ class ExternBaker {
               continue; // already existed on a classpath with higher precedence
             processed[module] = true;
 
-            var mtime = FileSystem.stat('$dir/$file').mtime;
+            var mtime = FileSystem.stat('$dir/$file').mtime.getTime();
+            var destTime = 0.0;
             var dest = '$target/${pack.join('/')}/$file';
-            if (!force && FileSystem.exists(dest) && FileSystem.stat(dest).mtime.getTime() >= mtime.getTime())
+            if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal)
               continue; // already in latest version
             toProcess.push(module);
           } else if (FileSystem.isDirectory('$dir/$file')) {
@@ -112,6 +115,29 @@ class ExternBaker {
     }
     if (hadErrors)
       throw new Error('Extern bake finished with errors',Context.currentPos());
+  }
+
+  private static function getLatestInternalChange():Float {
+    var latest = 0.0;
+    for (cp in Context.getClassPath()) {
+      if (FileSystem.exists('$cp/ue4hx/internal')) {
+        function recurse(dir:String) {
+          for (file in FileSystem.readDirectory(dir)) {
+            if (FileSystem.isDirectory('$dir/$file')) {
+              recurse('$dir/$file');
+            } else if (file.endsWith('.hx')) {
+              var time = FileSystem.stat('$dir/$file').mtime.getTime();
+              if (time > latest) {
+                latest = time;
+              }
+            }
+          }
+        }
+        recurse('$cp/ue4hx/internal');
+      }
+    }
+
+    return latest;
   }
 
   private static function joinMetas(extraModule:String, file:String) {
