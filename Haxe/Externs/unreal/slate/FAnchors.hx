@@ -20,7 +20,7 @@ package unreal.slate;
   Describes how a widget is anchored.
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Components/CanvasPanelSlot.h")
+@:glueCppIncludes("UMG.h")
 @:noCopy @:noEquals @:uextern extern class FAnchors {
   
   /**

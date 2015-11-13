@@ -106,7 +106,7 @@ package unreal;
     A value of 0 disables the dynamic shadow.
   **/
   public var DynamicShadowDistanceMovableLight : unreal.Float32;
-  public var WholeSceneDynamicShadowRadius_DEPRECATED : unreal.Float32;
+  @:deprecated public var WholeSceneDynamicShadowRadius_DEPRECATED : unreal.Float32;
   
   /**
     Can be used to make light shafts come from somewhere other than the light's actual direction.

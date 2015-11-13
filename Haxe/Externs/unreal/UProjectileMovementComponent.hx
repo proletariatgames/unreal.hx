@@ -27,8 +27,6 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/ProjectileMovementComponent.h")
 @:uextern extern class UProjectileMovementComponent extends unreal.UMovementComponent {
-  public function OnProjectileBounceDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, ImpactVelocity : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
-  public function OnProjectileStopDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Max number of iterations used for each discrete simulation step.

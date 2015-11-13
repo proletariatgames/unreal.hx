@@ -20,7 +20,7 @@ package unreal.umg;
   ● No Children
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/ProgressBar.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UProgressBar extends unreal.umg.UWidget {
   
   /**
@@ -42,22 +42,22 @@ package unreal.umg;
   /**
     The brush to use as the marquee image
   **/
-  public var MarqueeImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var MarqueeImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The brush to use as the fill image
   **/
-  public var FillImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var FillImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The brush to use as the background of the progress bar
   **/
-  public var BackgroundImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var BackgroundImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Style used for the progress bar
   **/
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The progress bar style

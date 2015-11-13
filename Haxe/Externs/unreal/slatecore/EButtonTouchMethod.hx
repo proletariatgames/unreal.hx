@@ -18,7 +18,7 @@ package unreal.slatecore;
   Ways in which touch interactions trigger a "Clicked" event.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Components/Button.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EButtonTouchMethod.Type")
 @:uextern extern enum EButtonTouchMethod {
   

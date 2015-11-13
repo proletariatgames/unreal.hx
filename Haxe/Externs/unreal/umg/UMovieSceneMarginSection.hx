@@ -20,7 +20,7 @@ package unreal.umg;
   A section in a Margin track
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Animation/MovieSceneMarginSection.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UMovieSceneMarginSection extends unreal.moviescene.UMovieSceneSection {
   
 }

@@ -21,11 +21,6 @@ package unreal;
 **/
 @:glueCppIncludes("Components/InterpToMovementComponent.h")
 @:uextern extern class UInterpToMovementComponent extends unreal.UMovementComponent {
-  public function OnInterpToReverseDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, Time : unreal.Float32) : Void;
-  public function OnInterpToStopDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, Time : unreal.Float32) : Void;
-  public function OnInterpToWaitBeginDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, Time : unreal.Float32) : Void;
-  public function OnInterpToWaitEndDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, Time : unreal.Float32) : Void;
-  public function OnInterpToResetDelegate__DelegateSignature(ImpactResult : unreal.Const<unreal.PRef<unreal.FHitResult>>, Time : unreal.Float32) : Void;
   
   /**
     List of control points to visit.

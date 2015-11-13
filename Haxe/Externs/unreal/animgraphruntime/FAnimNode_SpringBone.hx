@@ -54,7 +54,7 @@ package unreal.animgraphruntime;
   /**
     If true, Z position is always correct, no spring applied
   **/
-  public var bNoZSpring_DEPRECATED : Bool;
+  @:deprecated public var bNoZSpring_DEPRECATED : Bool;
   
   /**
     If spring stretches more than this, reset it. Useful for catching teleports etc

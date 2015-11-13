@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/WidgetComponent.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EWidgetSpace")
 @:class @:uextern extern enum EWidgetSpace {
   

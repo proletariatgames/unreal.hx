@@ -83,12 +83,12 @@ package unreal;
   /**
     Date/Time-stamp of the file from the last import
   **/
-  public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this static mesh
   **/
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   
   /**
     Importing data and options used for this mesh
@@ -118,7 +118,7 @@ package unreal;
     If true, strips unwanted complex collision data aka kDOP tree when cooking for consoles.
                   On the Playstation 3 data of this mesh will be stored in video memory.
   **/
-  public var bStripComplexCollisionForConsole_DEPRECATED : Bool;
+  @:deprecated public var bStripComplexCollisionForConsole_DEPRECATED : Bool;
   
   /**
     If true, use a less-conservative method of mip LOD texture factor computation.  Requires mesh to be resaved to take effect as algorithm is applied on save

@@ -106,7 +106,7 @@ package unreal;
     Whether the light is allowed to cast dynamic shadows from translucency.
   **/
   public var CastTranslucentShadows : Bool;
-  public var InverseSquaredFalloff_DEPRECATED : Bool;
+  @:deprecated public var InverseSquaredFalloff_DEPRECATED : Bool;
   
   /**
     Amount to sharpen shadow filtering
@@ -129,7 +129,7 @@ package unreal;
   /**
     Radius of light source shape. Moved to point light
   **/
-  public var SourceRadius_DEPRECATED : unreal.Float32;
+  @:deprecated public var SourceRadius_DEPRECATED : unreal.Float32;
   
   /**
     Shadow map channel which is used to match up with the appropriate static shadowing during a deferred shading pass.

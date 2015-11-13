@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Binding/ColorBinding.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UColorBinding extends unreal.umg.UPropertyBinding {
   @:thisConst @:final public function GetSlateValue() : unreal.slatecore.FSlateColor;
   @:thisConst @:final public function GetLinearValue() : unreal.FLinearColor;

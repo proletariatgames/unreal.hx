@@ -18,36 +18,8 @@ package unreal.umg;
   This is the base class for all wrapped Slate controls that are exposed to UObjects.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Widget.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UWidget extends unreal.umg.UVisual {
-  
-  /**
-    Common Bindings - If you add any new common binding, you must provide a UPropertyBinder for it.
-                      all primitive binding in UMG goes through native binding evaluators to prevent
-                      thunking through the VM.
-  **/
-  public function GetBool__DelegateSignature() : Bool;
-  public function GetFloat__DelegateSignature() : unreal.Float32;
-  public function GetInt32__DelegateSignature() : unreal.Int32;
-  public function GetSlateColor__DelegateSignature() : unreal.slatecore.FSlateColor;
-  public function GetLinearColor__DelegateSignature() : unreal.FLinearColor;
-  public function GetSlateBrush__DelegateSignature() : unreal.slatecore.FSlateBrush;
-  public function GetSlateVisibility__DelegateSignature() : unreal.umg.ESlateVisibility;
-  public function GetMouseCursor__DelegateSignature() : unreal.EMouseCursor;
-  public function GetCheckBoxState__DelegateSignature() : unreal.slatecore.ECheckBoxState;
-  public function GetWidget__DelegateSignature() : unreal.umg.UWidget;
-  
-  /**
-    Events
-  **/
-  public function GenerateWidgetForString__DelegateSignature(Item : unreal.FString) : unreal.umg.UWidget;
-  public function GenerateWidgetForObject__DelegateSignature(Item : unreal.UObject) : unreal.umg.UWidget;
-  
-  /**
-    Events
-  **/
-  public function OnReply__DelegateSignature() : unreal.umg.FEventReply;
-  public function OnPointerEvent__DelegateSignature(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Native property bindings.
@@ -103,7 +75,7 @@ package unreal.umg;
   /**
     The visibility of the widget
   **/
-  public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
+  @:deprecated public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
   
   /**
     Tooltip widget to show when the user hovers over the widget with the mouse

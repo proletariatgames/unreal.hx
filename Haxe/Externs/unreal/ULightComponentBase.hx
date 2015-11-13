@@ -88,7 +88,7 @@ package unreal;
     For other lights, this is just a brightness multiplier.
   **/
   public var Intensity : unreal.Float32;
-  public var Brightness_DEPRECATED : unreal.Float32;
+  @:deprecated public var Brightness_DEPRECATED : unreal.Float32;
   
   /**
     GUID used to associate a light component with precomputed shadowing information across levels.

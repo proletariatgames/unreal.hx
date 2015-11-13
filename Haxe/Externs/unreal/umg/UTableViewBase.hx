@@ -18,12 +18,7 @@ package unreal.umg;
   The base class for all wrapped table views
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/TableViewBase.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UTableViewBase extends unreal.umg.UWidget {
-  
-  /**
-    Delegate for constructing a UWidget based on a UObject
-  **/
-  public function OnGenerateRowUObject__DelegateSignature(Item : unreal.UObject) : unreal.umg.UWidget;
   
 }

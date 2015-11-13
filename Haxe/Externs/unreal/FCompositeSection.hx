@@ -32,7 +32,7 @@ package unreal;
   /**
     Start Time *
   **/
-  public var StartTime_DEPRECATED : unreal.Float32;
+  @:deprecated public var StartTime_DEPRECATED : unreal.Float32;
   
   /**
     Section Name

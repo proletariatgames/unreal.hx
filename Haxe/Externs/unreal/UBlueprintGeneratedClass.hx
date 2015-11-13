@@ -23,7 +23,7 @@ package unreal;
     This is a list of event graph call function nodes that are simple (no argument) thunks into the event graph (typically used for animation delegates, etc...)
     It is a deprecated list only used for backwards compatibility prior to VER_UE4_SERIALIZE_BLUEPRINT_EVENTGRAPH_FASTCALLS_IN_UFUNCTION.
   **/
-  public var FastCallPairs_DEPRECATED : unreal.TArray<unreal.FEventGraphFastCallPair>;
+  @:deprecated public var FastCallPairs_DEPRECATED : unreal.TArray<unreal.FEventGraphFastCallPair>;
   public var UberGraphFunction : unreal.UFunction;
   public var UberGraphFramePointerProperty : unreal.UStructProperty;
   

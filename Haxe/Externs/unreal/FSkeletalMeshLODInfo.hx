@@ -36,7 +36,7 @@ package unreal;
   /**
     Per-section control over whether to enable shadow casting.
   **/
-  public var bEnableShadowCasting_DEPRECATED : unreal.TArray<Bool>;
+  @:deprecated public var bEnableShadowCasting_DEPRECATED : unreal.TArray<Bool>;
   
   /**
     Mapping table from this LOD's materials to the USkeletalMesh materials array.

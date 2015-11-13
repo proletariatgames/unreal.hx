@@ -21,7 +21,7 @@ package unreal.umg;
   ● Text Entry
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/EditableTextBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UEditableTextBox extends unreal.umg.UWidget {
   
   /**
@@ -52,7 +52,7 @@ package unreal.umg;
   /**
     Padding between the box/border and the text widget inside (overrides Style)
   **/
-  public var Padding_DEPRECATED : unreal.slatecore.FMargin;
+  @:deprecated public var Padding_DEPRECATED : unreal.slatecore.FMargin;
   
   /**
     Minimum width that a text block should be
@@ -72,27 +72,27 @@ package unreal.umg;
   /**
     Text color and opacity when read-only (overrides Style)
   **/
-  public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     The color of the background/border around the editable text (overrides Style)
   **/
-  public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Text color and opacity (overrides Style)
   **/
-  public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Font color and opacity (overrides Style)
   **/
-  public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
   
   /**
     Style used for the text box
   **/
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The style

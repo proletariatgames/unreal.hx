@@ -41,7 +41,7 @@ package unreal;
   **/
   public var ReplicatedMesh : unreal.USkeletalMesh;
   public var SkeletalMeshComponent : unreal.USkeletalMeshComponent;
-  public var bWakeOnLevelStart_DEPRECATED : Bool;
+  @:deprecated public var bWakeOnLevelStart_DEPRECATED : Bool;
   
   /**
     Whether or not this actor should respond to anim notifies - CURRENTLY ONLY AFFECTS PlayParticleEffect NOTIFIES*

@@ -21,9 +21,9 @@ package unreal;
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintActor.h")
 @:uextern extern class APhysicsConstraintActor extends unreal.ARigidBodyBase {
-  public var bDisableCollision_DEPRECATED : Bool;
-  public var ConstraintActor2_DEPRECATED : unreal.AActor;
-  public var ConstraintActor1_DEPRECATED : unreal.AActor;
+  @:deprecated public var bDisableCollision_DEPRECATED : Bool;
+  @:deprecated public var ConstraintActor2_DEPRECATED : unreal.AActor;
+  @:deprecated public var ConstraintActor1_DEPRECATED : unreal.AActor;
   public var ConstraintComp : unreal.UPhysicsConstraintComponent;
   
 }

@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Binding/CheckedStateBinding.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UCheckedStateBinding extends unreal.umg.UPropertyBinding {
   @:thisConst @:final public function GetValue() : unreal.slatecore.ECheckBoxState;
   

@@ -20,16 +20,6 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
 @:uextern extern class UAbilitySystemComponent extends unreal.gameplaytasks.UGameplayTasksComponent implements unreal.gameplaytags.IGameplayTagAssetInterface {
-  
-  /**
-    UGameplayAbility*, Ability,
-  **/
-  public function AbilityAbilityKey__DelegateSignature(InputID : unreal.Int32) : Void;
-  
-  /**
-    Used to register callbacks to confirm/cancel input
-  **/
-  public function AbilityConfirmOrCancel__DelegateSignature() : Void;
   @:final public function K2_InitStats(Attributes : unreal.TSubclassOf<unreal.gameplayabilities.UAttributeSet>, DataTable : unreal.Const<unreal.UDataTable>) : Void;
   
   /**

@@ -191,7 +191,7 @@ package unreal;
     Square of the max distance from the client's viewpoint that this actor is relevant and will be replicated.
   **/
   public var NetCullDistanceSquared : unreal.Float32;
-  public var InputConsumeOption_DEPRECATED : unreal.EInputConsumeOptions;
+  @:deprecated public var InputConsumeOption_DEPRECATED : unreal.EInputConsumeOptions;
   
   /**
     Component that handles input for this actor, if input is enabled.

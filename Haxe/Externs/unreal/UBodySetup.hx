@@ -31,7 +31,7 @@ package unreal;
     Build scale for this body setup (static mesh settings define this value)
   **/
   public var BuildScale3D : unreal.FVector;
-  public var BuildScale_DEPRECATED : unreal.Float32;
+  @:deprecated public var BuildScale_DEPRECATED : unreal.Float32;
   
   /**
     Custom walkable slope setting for this body.
@@ -96,7 +96,7 @@ package unreal;
     If true (and bEnableFullAnimWeightBodies in SkelMeshComp is true), the physics of this bone will always be blended into the skeletal mesh, regardless of what PhysicsWeight of the SkelMeshComp is.
     This is useful for bones that should always be physics, even when blending physics in and out for hit reactions (eg cloth or pony-tails).
   **/
-  public var bAlwaysFullAnimWeight_DEPRECATED : Bool;
+  @:deprecated public var bAlwaysFullAnimWeight_DEPRECATED : Bool;
   
   /**
     If Unfixed it will use physics. If fixed, it will use kinematic. Default will inherit from OwnerComponent's behavior.

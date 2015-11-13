@@ -18,28 +18,28 @@ package unreal.umg;
   Allows a user to enter multiple lines of text
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/MultiLineEditableTextBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UMultiLineEditableTextBox extends unreal.umg.UWidget {
   
   /**
     Text color and opacity when read-only (overrides Style)
   **/
-  public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     The color of the background/border around the editable text (overrides Style)
   **/
-  public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Text color and opacity (overrides Style)
   **/
-  public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Font color and opacity (overrides Style)
   **/
-  public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
   
   /**
     Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
@@ -55,7 +55,7 @@ package unreal.umg;
     The justification of the text in the multilinebox
   **/
   public var Justification : unreal.slate.ETextJustify;
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The text style

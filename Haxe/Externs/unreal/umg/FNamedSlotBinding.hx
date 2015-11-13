@@ -19,7 +19,7 @@ package unreal.umg;
   allow script code to override OnPaint behavior.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class FNamedSlotBinding {
   public var Content : unreal.umg.UWidget;
   public var Name : unreal.FName;

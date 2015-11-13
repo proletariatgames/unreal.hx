@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionIf.h")
 @:uextern extern class UMaterialExpressionIf extends unreal.UMaterialExpression {
-  public var ConstAEqualsB_DEPRECATED : unreal.Float32;
+  @:deprecated public var ConstAEqualsB_DEPRECATED : unreal.Float32;
   
   /**
     only used if B is not hooked up

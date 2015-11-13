@@ -29,12 +29,12 @@ package unreal;
   /**
     Date/Time-stamp of the file from the last import
   **/
-  public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this static mesh. Relative to the object's package, BaseDir() or absolute
   **/
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -20,8 +20,8 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Framework/Styling/ComboBoxWidgetStyle.h")
 @:uextern extern class FComboBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
-  public var SelectionChangeSound_DEPRECATED : unreal.FName;
-  public var PressedSound_DEPRECATED : unreal.FName;
+  @:deprecated public var SelectionChangeSound_DEPRECATED : unreal.FName;
+  @:deprecated public var PressedSound_DEPRECATED : unreal.FName;
   
   /**
     The Sound to play when the selection is changed

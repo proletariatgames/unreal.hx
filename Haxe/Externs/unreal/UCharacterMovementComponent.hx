@@ -310,17 +310,17 @@ package unreal;
     This is calculated each update based on the input vector and the constraints of MaxAcceleration and the current movement mode.
   **/
   private var Acceleration : unreal.FVector;
-  public var UpperImpactNormalScale_DEPRECATED : unreal.Float32;
+  @:deprecated public var UpperImpactNormalScale_DEPRECATED : unreal.Float32;
   
   /**
     Multiplier to max ground speed to use when crouched
   **/
-  public var CrouchedSpeedMultiplier_DEPRECATED : unreal.Float32;
+  @:deprecated public var CrouchedSpeedMultiplier_DEPRECATED : unreal.Float32;
   
   /**
     Deprecated properties
   **/
-  public var bForceBraking_DEPRECATED : Bool;
+  @:deprecated public var bForceBraking_DEPRECATED : Bool;
   
   /**
     Force per kg applied constantly to all overlapping components.

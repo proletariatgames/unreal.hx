@@ -30,7 +30,7 @@ package unreal;
   /**
     The key which opens the console.
   **/
-  public var ConsoleKey_DEPRECATED : unreal.inputcore.FKey;
+  @:deprecated public var ConsoleKey_DEPRECATED : unreal.inputcore.FKey;
   
   /**
     The default on-screen touch input interface for the game (can be null to disable the onscreen interface)

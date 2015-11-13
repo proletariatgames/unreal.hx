@@ -21,7 +21,7 @@ package unreal.umg;
   ● Popup
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/MenuAnchor.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UMenuAnchor extends unreal.umg.UContentWidget {
   
   /**

@@ -21,14 +21,14 @@ package unreal.umg;
   ● Spinner Progress
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/CircularThrobber.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UCircularThrobber extends unreal.umg.UWidget {
   public var Image : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use for each segment of the throbber
   **/
-  public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The radius of the circle

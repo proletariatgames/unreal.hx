@@ -52,7 +52,7 @@ package unreal;
   /**
     Remove this when VER_UE4_MONTAGE_BRANCHING_POINT_REMOVAL is removed.
   **/
-  public var BranchingPoints_DEPRECATED : unreal.TArray<unreal.FBranchingPoint>;
+  @:deprecated public var BranchingPoints_DEPRECATED : unreal.TArray<unreal.FBranchingPoint>;
   
   /**
     slot data, each slot contains anim track

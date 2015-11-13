@@ -27,7 +27,7 @@ package unreal;
   /**
     for backwards compatibility
   **/
-  public var Blendables_DEPRECATED : unreal.TArray<unreal.UObject>;
+  @:deprecated public var Blendables_DEPRECATED : unreal.TArray<unreal.UObject>;
   
   /**
     Allows custom post process materials to be defined, using a MaterialInstance with the same Material as its parent to allow blending.
@@ -217,7 +217,7 @@ package unreal;
   /**
     >0, in unreal units, how wide the ambient occlusion effect should affect the geometry (in depth), will be removed - only used for non normal method which is not exposed
   **/
-  public var AmbientOcclusionDistance_DEPRECATED : unreal.Float32;
+  @:deprecated public var AmbientOcclusionDistance_DEPRECATED : unreal.Float32;
   
   /**
     >0, in unreal units, how many units before AmbientOcclusionFadeOutDistance it starts fading out
@@ -619,7 +619,7 @@ package unreal;
   public var bOverride_AmbientOcclusionBias : Bool;
   public var bOverride_AmbientOcclusionPower : Bool;
   public var bOverride_AmbientOcclusionRadiusInWS : Bool;
-  public var bOverride_AmbientOcclusionDistance_DEPRECATED : Bool;
+  @:deprecated public var bOverride_AmbientOcclusionDistance_DEPRECATED : Bool;
   public var bOverride_AmbientOcclusionFadeRadius : Bool;
   public var bOverride_AmbientOcclusionFadeDistance : Bool;
   public var bOverride_AmbientOcclusionRadius : Bool;

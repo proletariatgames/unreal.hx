@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Binding/WidgetBinding.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UWidgetBinding extends unreal.umg.UPropertyBinding {
   @:thisConst @:final public function GetValue() : unreal.umg.UWidget;
   

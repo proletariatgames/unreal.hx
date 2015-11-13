@@ -195,7 +195,7 @@ package unreal;
   **/
   public var AdjustBrightness : unreal.Float32;
   public var AssetImportData : unreal.UAssetImportData;
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   public var Source : unreal.FTextureSource;
   #end // WITH_EDITORONLY_DATA
   

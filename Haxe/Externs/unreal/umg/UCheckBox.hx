@@ -23,18 +23,18 @@ package unreal.umg;
   ● Toggle
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/CheckBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UCheckBox extends unreal.umg.UContentWidget {
   
   /**
     The color of the background border
   **/
-  public var BorderBackgroundColor_DEPRECATED : unreal.slatecore.FSlateColor;
+  @:deprecated public var BorderBackgroundColor_DEPRECATED : unreal.slatecore.FSlateColor;
   
   /**
     Spacing between the check box image and its content
   **/
-  public var Padding_DEPRECATED : unreal.slatecore.FMargin;
+  @:deprecated public var Padding_DEPRECATED : unreal.slatecore.FMargin;
   
   /**
     How the content of the toggle button should align within the given space
@@ -44,52 +44,52 @@ package unreal.umg;
   /**
     Image to use when the checkbox is in an ambiguous state and pressed
   **/
-  public var UndeterminedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UndeterminedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and hovered
   **/
-  public var UndeterminedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UndeterminedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is in an ambiguous state and hovered
   **/
-  public var UndeterminedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UndeterminedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and pressed
   **/
-  public var CheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var CheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and hovered
   **/
-  public var CheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var CheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked
   **/
-  public var CheckedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var CheckedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked and pressed
   **/
-  public var UncheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UncheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked and hovered
   **/
-  public var UncheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UncheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked
   **/
-  public var UncheckedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var UncheckedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Style of the check box
   **/
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The checkbox bar style

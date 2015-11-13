@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/ScrollBar.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UScrollBar extends unreal.umg.UWidget {
   
   /**
@@ -23,7 +23,7 @@ package unreal.umg;
   public var Thickness : unreal.FVector2D;
   public var Orientation : unreal.slatecore.EOrientation;
   public var bAlwaysShowScrollbar : Bool;
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     Style of the scrollbar

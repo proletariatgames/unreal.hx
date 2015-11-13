@@ -40,7 +40,7 @@ package unreal;
     How often this component is allowed to move, used to make various optimizations. Only safe to set in constructor, use SetMobility() during runtime.
   **/
   public var Mobility : unreal.EComponentMobility;
-  public var RelativeTranslation_DEPRECATED : unreal.FVector;
+  @:deprecated public var RelativeTranslation_DEPRECATED : unreal.FVector;
   
   /**
     Non-uniform scaling of the component relative to its parent.

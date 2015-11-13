@@ -61,7 +61,7 @@ package unreal.slatecore;
   /**
     Tinting applied to the image.
   **/
-  public var Tint_DEPRECATED : unreal.FLinearColor;
+  @:deprecated public var Tint_DEPRECATED : unreal.FLinearColor;
   
   /**
     The margin to use in Box and Border modes

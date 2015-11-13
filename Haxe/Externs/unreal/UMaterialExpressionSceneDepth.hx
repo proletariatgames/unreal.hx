@@ -26,7 +26,7 @@ package unreal;
     only used if Input is not hooked up
   **/
   public var ConstInput : unreal.FVector2D;
-  public var Coordinates_DEPRECATED : unreal.FExpressionInput;
+  @:deprecated public var Coordinates_DEPRECATED : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstInput' if not specified

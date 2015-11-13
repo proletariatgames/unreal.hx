@@ -22,7 +22,7 @@ package unreal.umg;
   ● Flows Vertical
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/VerticalBox.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UVerticalBox extends unreal.umg.UPanelWidget {
   @:final public function AddChildToVerticalBox(Content : unreal.umg.UWidget) : unreal.umg.UVerticalBoxSlot;
   

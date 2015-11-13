@@ -18,13 +18,13 @@ package unreal.umg;
   Editable text box widget
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/MultiLineEditableText.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UMultiLineEditableText extends unreal.umg.UWidget {
   
   /**
     Font color and opacity (overrides Style)
   **/
-  public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
   
   /**
     Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.

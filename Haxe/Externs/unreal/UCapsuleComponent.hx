@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/CapsuleComponent.h")
 @:uextern extern class UCapsuleComponent extends unreal.UShapeComponent {
-  private var CapsuleHeight_DEPRECATED : unreal.Float32;
+  @:deprecated private var CapsuleHeight_DEPRECATED : unreal.Float32;
   
   /**
     Radius of cap hemispheres and center cylinder.

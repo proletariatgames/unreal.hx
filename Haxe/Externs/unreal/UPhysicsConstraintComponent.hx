@@ -26,7 +26,7 @@ package unreal;
     All constraint settings
   **/
   public var ConstraintInstance : unreal.FConstraintInstance;
-  public var ConstraintSetup_DEPRECATED : unreal.UPhysicsConstraintTemplate;
+  @:deprecated public var ConstraintSetup_DEPRECATED : unreal.UPhysicsConstraintTemplate;
   
   /**
     Name of second component property to constrain. If Actor2 is NULL, will look within Owner.

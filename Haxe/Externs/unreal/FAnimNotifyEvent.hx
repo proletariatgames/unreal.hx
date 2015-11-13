@@ -84,6 +84,6 @@ package unreal;
   /**
     The user requested time for this notify
   **/
-  public var DisplayTime_DEPRECATED : unreal.Float32;
+  @:deprecated public var DisplayTime_DEPRECATED : unreal.Float32;
   
 }

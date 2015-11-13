@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Components/ContentWidget.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UContentWidget extends unreal.umg.UPanelWidget {
   @:thisConst @:final public function GetContentSlot() : unreal.umg.UPanelSlot;
   

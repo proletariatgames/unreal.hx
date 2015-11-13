@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Blueprint/WidgetNavigation.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class FWidgetNavigationData {
   public var WidgetToFocus : unreal.FName;
   public var Rule : unreal.slatecore.EUINavigationRule;

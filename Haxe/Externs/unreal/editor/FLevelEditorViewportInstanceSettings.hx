@@ -34,7 +34,7 @@ package unreal.editor;
   /**
     Whether the FPS counter should be shown.
   **/
-  public var bShowFPS_DEPRECATED : Bool;
+  @:deprecated public var bShowFPS_DEPRECATED : Bool;
   
   /**
     Whether this viewport is updating in real-time.

@@ -18,14 +18,14 @@ package unreal.umg;
   A Throbber widget that shows several zooming circles in a row.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Throbber.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UThrobber extends unreal.umg.UWidget {
   public var Image : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use for each segment of the throbber
   **/
-  public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Should the pieces animate their opacity?

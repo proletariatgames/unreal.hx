@@ -30,6 +30,6 @@ package unreal;
   public var X : unreal.Float32;
   public var Orientation : unreal.FQuat;
   public var Center : unreal.FVector;
-  public var TM_DEPRECATED : unreal.FMatrix;
+  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
   
 }

@@ -20,7 +20,7 @@ package unreal.umg;
   ● No Children
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/Image.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UImage extends unreal.umg.UWidget {
   
   /**
@@ -36,7 +36,7 @@ package unreal.umg;
   /**
     Image to draw
   **/
-  public var Image_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var Image_DEPRECATED : unreal.USlateBrushAsset;
   @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
   @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
   @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;

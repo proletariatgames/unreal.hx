@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Binding/Int32Binding.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UInt32Binding extends unreal.umg.UPropertyBinding {
   @:thisConst @:final public function GetValue() : unreal.Int32;
   

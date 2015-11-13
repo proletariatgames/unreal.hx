@@ -34,7 +34,7 @@ package unreal;
   /**
     The filename imported to create this object. Relative to this object's package, BaseDir() or absolute
   **/
-  public var ImportPath_DEPRECATED : unreal.FString;
+  @:deprecated public var ImportPath_DEPRECATED : unreal.FString;
   public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   

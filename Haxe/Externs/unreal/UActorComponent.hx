@@ -45,12 +45,12 @@ package unreal;
   /**
     True if this component was created as an instance component
   **/
-  public var bInstanceComponent_DEPRECATED : Bool;
+  @:deprecated public var bInstanceComponent_DEPRECATED : Bool;
   
   /**
     True if this component was created by a construction script, and will be destroyed by DestroyConstructedComponents
   **/
-  public var bCreatedByConstructionScript_DEPRECATED : Bool;
+  @:deprecated public var bCreatedByConstructionScript_DEPRECATED : Bool;
   
   /**
     Array of user data stored with the component

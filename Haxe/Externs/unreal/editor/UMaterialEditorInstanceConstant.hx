@@ -29,7 +29,7 @@ package unreal.editor;
   public var VisibleExpressions : unreal.TArray<unreal.FGuid>;
   public var SourceInstance : unreal.UMaterialInstanceConstant;
   public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
-  public var bOverrideBaseProperties_DEPRECATED : Bool;
+  @:deprecated public var bOverrideBaseProperties_DEPRECATED : Bool;
   
   /**
     Defines if SubsurfaceProfile from tis instance is used or it uses the parent one.

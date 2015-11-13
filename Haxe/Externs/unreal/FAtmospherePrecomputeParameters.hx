@@ -66,7 +66,7 @@ package unreal;
     Maximum scattering order
   **/
   public var MaxScatteringOrder : unreal.Int32;
-  public var DecayHeight_DEPRECATED : unreal.Float32;
+  @:deprecated public var DecayHeight_DEPRECATED : unreal.Float32;
   
   /**
     Rayleigh scattering density height scale, ranges from [0...1]

@@ -32,11 +32,11 @@ package unreal.niagara;
     Constants driven by the system. Named New for BC reasons. Once all data is updated beyond VER_UE4_NIAGARA_DATA_OBJECT_DEV_UI_FIX. Get rid of the deprecated consts and rename the New.
   **/
   public var ExternalConstantsNew : unreal.niagara.FNiagaraConstants;
-  public var InternalConstants_DEPRECATED : unreal.niagara.FDeprecatedNiagaraConstants;
+  @:deprecated public var InternalConstants_DEPRECATED : unreal.niagara.FDeprecatedNiagaraConstants;
   
   /**
     The set of external constants for this script.
   **/
-  public var ExternalConstants_DEPRECATED : unreal.niagara.FDeprecatedNiagaraConstants;
+  @:deprecated public var ExternalConstants_DEPRECATED : unreal.niagara.FDeprecatedNiagaraConstants;
   
 }

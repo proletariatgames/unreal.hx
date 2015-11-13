@@ -18,7 +18,7 @@ package unreal.slate;
   SProgressBar Fill Type
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Components/ProgressBar.h")
+@:glueCppIncludes("UMG.h")
 @:uname("EProgressBarFillType.Type")
 @:uextern extern enum EProgressBarFillType {
   

@@ -70,7 +70,7 @@ package unreal;
             CameraFacing_YUp                        Y-axis of the mesh should attempt to point up.
             CameraFacing_NegativeYUp        Y-axis of the mesh should attempt to point down.
   **/
-  public var CameraFacingUpAxisOption_DEPRECATED : unreal.EMeshCameraFacingUpAxis;
+  @:deprecated public var CameraFacingUpAxisOption_DEPRECATED : unreal.EMeshCameraFacingUpAxis;
   
   /**
     If true, then point the X-axis of the mesh towards the camera.
@@ -97,13 +97,13 @@ package unreal;
     The 'pre' rotation pitch (in degrees) to apply to the static mesh used.
   **/
   public var RollPitchYawRange : unreal.FRawDistributionVector;
-  public var Yaw_DEPRECATED : unreal.Float32;
-  public var Roll_DEPRECATED : unreal.Float32;
+  @:deprecated public var Yaw_DEPRECATED : unreal.Float32;
+  @:deprecated public var Roll_DEPRECATED : unreal.Float32;
   
   /**
     deprecated properties for initial orientation
   **/
-  public var Pitch_DEPRECATED : unreal.Float32;
+  @:deprecated public var Pitch_DEPRECATED : unreal.Float32;
   
   /**
     If true, use the emitter material when rendering rather than the one applied

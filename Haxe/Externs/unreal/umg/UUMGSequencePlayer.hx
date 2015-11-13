@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("Animation/UMGSequencePlayer.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UUMGSequencePlayer extends unreal.UObject {
   
 }

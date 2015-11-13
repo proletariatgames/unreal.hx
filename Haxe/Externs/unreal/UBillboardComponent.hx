@@ -34,7 +34,7 @@ package unreal;
   /**
     Sprite category that the component belongs to. Value serves as a key into the localization file.
   **/
-  public var SpriteCategoryName_DEPRECATED : unreal.FName;
+  @:deprecated public var SpriteCategoryName_DEPRECATED : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   public var VL : unreal.Float32;
   public var V : unreal.Float32;

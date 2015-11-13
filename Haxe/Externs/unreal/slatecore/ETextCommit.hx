@@ -18,7 +18,7 @@ package unreal.slatecore;
   Additional information about a text committal
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Components/EditableText.h")
+@:glueCppIncludes("UMG.h")
 @:uname("ETextCommit.Type")
 @:uextern extern enum ETextCommit {
   

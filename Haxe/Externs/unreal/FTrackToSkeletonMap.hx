@@ -28,6 +28,6 @@ package unreal;
   /**
     0 is the current Skeleton (the one above), and N is the Nth parent.
   **/
-  public var SkeletonIndex_DEPRECATED : unreal.Int32;
+  @:deprecated public var SkeletonIndex_DEPRECATED : unreal.Int32;
   
 }

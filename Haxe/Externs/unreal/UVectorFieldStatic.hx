@@ -23,7 +23,7 @@ package unreal;
 @:uextern extern class UVectorFieldStatic extends unreal.UVectorField {
   #if WITH_EDITORONLY_DATA
   public var AssetImportData : unreal.UAssetImportData;
-  public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**

@@ -46,7 +46,7 @@ package unreal;
   /**
     Deprecated level color used for visualization.
   **/
-  public var DrawColor_DEPRECATED : unreal.FColor;
+  @:deprecated public var DrawColor_DEPRECATED : unreal.FColor;
   
   /**
     If true, will be drawn on the 'level streaming status' map (STAT LEVELMAP console command)
@@ -107,6 +107,6 @@ package unreal;
   /**
     Deprecated name of the package containing the level to load. Use WorldAsset or GetWorldAssetPackageFName instead.
   **/
-  public var PackageName_DEPRECATED : unreal.FName;
+  @:deprecated public var PackageName_DEPRECATED : unreal.FName;
   
 }

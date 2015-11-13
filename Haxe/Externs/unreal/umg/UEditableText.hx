@@ -18,7 +18,7 @@ package unreal.umg;
   Editable text box widget
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/EditableText.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UEditableText extends unreal.umg.UWidget {
   
   /**
@@ -64,32 +64,32 @@ package unreal.umg;
   /**
     Text color and opacity (overrides Style)
   **/
-  public var ColorAndOpacity_DEPRECATED : unreal.slatecore.FSlateColor;
+  @:deprecated public var ColorAndOpacity_DEPRECATED : unreal.slatecore.FSlateColor;
   
   /**
     Font color and opacity (overrides Style)
   **/
-  public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
   
   /**
     Image brush used for the caret (overrides Style)
   **/
-  public var CaretImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var CaretImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Background image for the composing text (overrides Style)
   **/
-  public var BackgroundImageComposing_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var BackgroundImageComposing_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Background image for the selected text (overrides Style)
   **/
-  public var BackgroundImageSelected_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated public var BackgroundImageSelected_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Text style
   **/
-  public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The style

@@ -18,7 +18,7 @@ package unreal.umg;
   Slot for the UOverlay panel.  Allows content to be hover above other content.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/OverlaySlot.h")
+@:glueCppIncludes("UMG.h")
 @:uextern extern class UOverlaySlot extends unreal.umg.UPanelSlot {
   
   /**

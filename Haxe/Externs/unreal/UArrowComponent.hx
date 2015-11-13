@@ -39,7 +39,7 @@ package unreal;
   /**
     Sprite category that the arrow component belongs to, if being treated as a sprite. Value serves as a key into the localization file.
   **/
-  public var SpriteCategoryName_DEPRECATED : unreal.FName;
+  @:deprecated public var SpriteCategoryName_DEPRECATED : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   
   /**

@@ -18,7 +18,7 @@ package unreal.umg;
   The sizing options of UWidgets
 **/
 @:umodule("UMG")
-@:glueCppIncludes("Components/HorizontalBoxSlot.h")
+@:glueCppIncludes("UMG.h")
 @:uname("ESlateSizeRule.Type")
 @:uextern extern enum ESlateSizeRule {
   

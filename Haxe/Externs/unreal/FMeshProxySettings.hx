@@ -36,12 +36,12 @@ package unreal;
     Should Simplygon recalculate normals for the proxy mesh?
   **/
   public var bRecalculateNormals : Bool;
-  public var bExportSpecularMap_DEPRECATED : Bool;
-  public var bExportRoughnessMap_DEPRECATED : Bool;
-  public var bExportMetallicMap_DEPRECATED : Bool;
-  public var bExportNormalMap_DEPRECATED : Bool;
-  public var TextureHeight_DEPRECATED : unreal.Int32;
-  public var TextureWidth_DEPRECATED : unreal.Int32;
+  @:deprecated public var bExportSpecularMap_DEPRECATED : Bool;
+  @:deprecated public var bExportRoughnessMap_DEPRECATED : Bool;
+  @:deprecated public var bExportMetallicMap_DEPRECATED : Bool;
+  @:deprecated public var bExportNormalMap_DEPRECATED : Bool;
+  @:deprecated public var TextureHeight_DEPRECATED : unreal.Int32;
+  @:deprecated public var TextureWidth_DEPRECATED : unreal.Int32;
   
   /**
     Material simplification

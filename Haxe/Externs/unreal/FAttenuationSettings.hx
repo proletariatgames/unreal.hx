@@ -48,8 +48,8 @@ package unreal;
              Cone    - X is Cone Radius, Y is Cone Angle, Z is Cone Falloff Angle
   **/
   public var AttenuationShapeExtents : unreal.FVector;
-  public var RadiusMax_DEPRECATED : unreal.Float32;
-  public var RadiusMin_DEPRECATED : unreal.Float32;
+  @:deprecated public var RadiusMax_DEPRECATED : unreal.Float32;
+  @:deprecated public var RadiusMin_DEPRECATED : unreal.Float32;
   
   /**
     Which spatialization algorithm to use if spatializing mono sources.
@@ -70,7 +70,7 @@ package unreal;
     The shape of the attenuation volume.
   **/
   public var AttenuationShape : unreal.EAttenuationShape;
-  public var DistanceType_DEPRECATED : unreal.ESoundDistanceCalc;
+  @:deprecated public var DistanceType_DEPRECATED : unreal.ESoundDistanceCalc;
   public var CustomAttenuationCurve : unreal.FRuntimeFloatCurve;
   
   /**
