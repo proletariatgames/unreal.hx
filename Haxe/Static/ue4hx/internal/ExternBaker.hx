@@ -68,6 +68,11 @@ class ExternBaker {
             processed[module] = true;
 
             var mtime = FileSystem.stat('$dir/$file').mtime.getTime();
+            if (FileSystem.exists('$dir/${file.substr(0,-3)}_Extra.hx')) {
+              var extramtime = FileSystem.stat('$dir/${file.substr(0,-3)}_Extra.hx').mtime.getTime();
+              if (extramtime > mtime)
+                mtime = extramtime;
+            }
             var destTime = 0.0;
             var dest = '$target/${pack.join('/')}/$file';
             if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal)
@@ -82,6 +87,28 @@ class ExternBaker {
       }
       traverse();
     }
+
+    // delete untouched modules
+    var pack = [];
+    function traverse() {
+      var dir = '$target/${pack.join('/')}';
+      if (FileSystem.exists(dir)) {
+        for (file in FileSystem.readDirectory(dir)) {
+          if (file.endsWith('.hx') && !file.endsWith('GlueGeneric.hx') && !file.endsWith('Glue.hx') && !file.endsWith('GlueGenericCaller.hx')) {
+            var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
+            if (!processed.exists(module)) {
+              trace('Deleting uneeded baked extern $module ($dir/$file)');
+              FileSystem.deleteFile('$dir/$file');
+            }
+          } else if (FileSystem.isDirectory('$dir/$file')) {
+            pack.push(file);
+            traverse();
+            pack.pop();
+          }
+        }
+      }
+    }
+    traverse();
 
     for (type in toProcess) {
       var module = Context.getModule(type);
