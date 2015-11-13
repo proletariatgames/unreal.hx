@@ -16,7 +16,6 @@ package unreal.gameplaytasks;
 @:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTask.h")
 @:uextern extern class UGameplayTask extends unreal.UObject {
-  public function GenericGameplayTaskDelegate__DelegateSignature() : Void;
   
   /**
     Called to trigger the actual task once the delegates have been set up

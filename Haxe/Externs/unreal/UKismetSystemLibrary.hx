@@ -90,8 +90,6 @@ package unreal;
     Returns the platform specific unique device id
   **/
   static public function GetUniqueDeviceId() : unreal.FString;
-  public function OnAssetLoaded__DelegateSignature(Loaded : unreal.UObject) : Void;
-  public function OnAssetClassLoaded__DelegateSignature(Loaded : unreal.TSubclassOf<unreal.UObject>) : Void;
   
   /**
     Creates a literal integer

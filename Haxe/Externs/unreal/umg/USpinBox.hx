@@ -20,9 +20,6 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class USpinBox extends unreal.umg.UWidget {
-  public function OnSpinBoxValueChangedEvent__DelegateSignature(InValue : unreal.Float32) : Void;
-  public function OnSpinBoxValueCommittedEvent__DelegateSignature(InValue : unreal.Float32, CommitMethod : unreal.slatecore.ETextCommit) : Void;
-  public function OnSpinBoxBeginSliderMovement__DelegateSignature() : Void;
   
   /**
     The maximum allowable value that can be specified using the slider

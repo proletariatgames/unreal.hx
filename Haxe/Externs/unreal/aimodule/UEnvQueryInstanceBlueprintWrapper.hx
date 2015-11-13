@@ -16,7 +16,6 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h")
 @:uextern extern class UEnvQueryInstanceBlueprintWrapper extends unreal.UObject implements unreal.aimodule.IEQSQueryResultSourceInterface {
-  public function EQSQueryDoneSignature__DelegateSignature(QueryInstance : unreal.aimodule.UEnvQueryInstanceBlueprintWrapper, QueryStatus : unreal.aimodule.EEnvQueryStatus) : Void;
   
   /**
     index of query option, that generated items

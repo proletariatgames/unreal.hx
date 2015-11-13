@@ -21,9 +21,4 @@ package unreal.umg;
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UTableViewBase extends unreal.umg.UWidget {
   
-  /**
-    Delegate for constructing a UWidget based on a UObject
-  **/
-  public function OnGenerateRowUObject__DelegateSignature(Item : unreal.UObject) : unreal.umg.UWidget;
-  
 }

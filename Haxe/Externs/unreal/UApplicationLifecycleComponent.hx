@@ -19,6 +19,5 @@ package unreal;
 **/
 @:glueCppIncludes("Components/ApplicationLifecycleComponent.h")
 @:uextern extern class UApplicationLifecycleComponent extends unreal.UActorComponent {
-  public function ApplicationLifetimeDelegate__DelegateSignature() : Void;
   
 }

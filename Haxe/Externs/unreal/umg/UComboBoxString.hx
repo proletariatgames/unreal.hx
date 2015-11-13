@@ -20,8 +20,6 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UComboBoxString extends unreal.umg.UWidget {
-  public function OnSelectionChangedEvent__DelegateSignature(SelectedItem : unreal.FString, SelectionType : unreal.slatecore.ESelectInfo) : Void;
-  public function OnOpeningEvent__DelegateSignature() : Void;
   
   /**
     When false, the down arrow is not generated and it is up to the API consumer

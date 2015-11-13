@@ -21,8 +21,6 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/PawnSensingComponent.h")
 @:uextern extern class UPawnSensingComponent extends unreal.UActorComponent {
-  public function SeePawnDelegate__DelegateSignature(Pawn : unreal.APawn) : Void;
-  public function HearNoiseDelegate__DelegateSignature(Instigator : unreal.APawn, Location : unreal.Const<unreal.PRef<unreal.FVector>>, Volume : unreal.Float32) : Void;
   
   /**
     Cosine of limits of peripheral vision. Computed from PeripheralVisionAngle.

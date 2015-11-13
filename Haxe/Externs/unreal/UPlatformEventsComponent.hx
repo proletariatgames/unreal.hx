@@ -47,6 +47,5 @@ package unreal;
     @see IsInLaptopMode, IsInTabletMode
   **/
   @:final public function SupportsConvertibleLaptops() : Bool;
-  public function PlatformEventDelegate__DelegateSignature() : Void;
   
 }
