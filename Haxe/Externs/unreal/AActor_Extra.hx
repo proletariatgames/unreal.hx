@@ -10,6 +10,18 @@ extern class AActor_Extra {
   /** Event when play begins for this actor. */
   public function BeginPlay() : Void;
 
+  /**
+   * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
+   * Destruction is latent. It occurs at the end of the tick.
+   * @param bNetForce       [opt] Ignored unless called during play.  Default is false.
+   * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.  
+   * returns  true if destroyed or already marked for destruction, false if indestructible.
+   */
+  public function Destroy(bNetForce:Bool, bShouldModifyLevel:Bool);
+
+  /** Called once this actor has been deleted */
+  public function Destroyed() : Void;
+
   /** Apply damage to this actor.
    * @see https://www.unrealengine.com/blog/damage-in-ue4
    * @param DamageAmount    How much damage to apply
