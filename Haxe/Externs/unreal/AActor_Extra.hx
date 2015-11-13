@@ -17,7 +17,7 @@ extern class AActor_Extra {
    * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.  
    * returns  true if destroyed or already marked for destruction, false if indestructible.
    */
-  public function Destroy(bNetForce:Bool, bShouldModifyLevel:Bool);
+  public function Destroy(bNetForce:Bool, bShouldModifyLevel:Bool) : Void;
 
   /** Called once this actor has been deleted */
   public function Destroyed() : Void;
