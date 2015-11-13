@@ -6,9 +6,6 @@ extern class AController_Extra {
   @:thisConst
   public function GetCharacter() : ACharacter;
 
-  @:thisConst public function GetPawn() : unreal.APawn;
-
-  public function ChangeState(NewState:FName) : Void;
-
-	public function GameHasEnded(EndGameFocus:AActor, bIsWinner:Bool) : Void;
+  @:thisConst
+  public function GetPawn() : APawn;
 }

@@ -20,4 +20,7 @@ extern class UWorld_Extra {
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
 
   public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
+
+  @:thisConst
+  public function GetAuthGameMode() : AGameMode;
 }

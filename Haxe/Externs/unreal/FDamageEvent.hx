@@ -3,6 +3,8 @@ package unreal;
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uextern extern class FDamageEvent {
 
+  @:uname('new') public function createWithDamageType(dmgType:TSubclassOf<UDamageType>) : PHaxeCreated<FDamageEvent>;
+
 	/** Optional DamageType for this event.  If nullptr, UDamageType will be assumed. */
 	@:uproperty()
 	public var DamageTypeClass : TSubclassOf<UDamageType>;
