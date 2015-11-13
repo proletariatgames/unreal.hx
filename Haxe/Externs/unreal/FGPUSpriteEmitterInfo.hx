@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   The data needed by the runtime to simulate sprites.
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:uextern extern class FGPUSpriteEmitterInfo {
+@:noCopy @:noEquals @:uextern extern class FGPUSpriteEmitterInfo {
   
   /**
     Dynamic alpha scale from the ColorScaleOverLife module.

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class FAnimSlotGroup {
+@:noCopy @:noEquals @:uextern extern class FAnimSlotGroup {
   public var SlotNames : unreal.TArray<unreal.FName>;
   public var GroupName : unreal.FName;
   

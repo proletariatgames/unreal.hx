@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   ModelComponents are PrimitiveComponents that represent elements of BSP geometry in a ULevel object.
   They are used exclusively by ULevel and are not intended as general-purpose components.
   

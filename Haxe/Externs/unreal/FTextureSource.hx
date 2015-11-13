@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Texture source data management.
 **/
 @:glueCppIncludes("Engine/Texture.h")
-@:uextern extern class FTextureSource {
+@:noCopy @:noEquals @:uextern extern class FTextureSource {
   
 }

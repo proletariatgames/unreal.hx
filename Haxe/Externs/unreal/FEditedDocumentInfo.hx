@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:uextern extern class FEditedDocumentInfo {
+@:noCopy @:noEquals @:uextern extern class FEditedDocumentInfo {
   
   /**
     Saved zoom amount

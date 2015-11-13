@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper struct, since UnrealScript doesn't allow arrays of arrays, but
   arrays of structs of arrays are okay.
 **/
 @:glueCppIncludes("Engine/PlatformInterfaceBase.h")
-@:uextern extern class FDelegateArray {
+@:noCopy @:noEquals @:uextern extern class FDelegateArray {
   
 }

@@ -15,11 +15,13 @@ package unreal.landscape;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure storing Layer Data for import
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:uextern extern class FLandscapeImportLayerInfo {
+@:noCopy @:noEquals @:uextern extern class FLandscapeImportLayerInfo {
   #if WITH_EDITORONLY_DATA
   
   /**

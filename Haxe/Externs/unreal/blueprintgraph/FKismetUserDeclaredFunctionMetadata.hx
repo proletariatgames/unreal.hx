@@ -15,12 +15,14 @@ package unreal.blueprintgraph;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This structure describes metadata associated with a user declared function or macro
   It will be turned into regular metadata during compilation
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Tunnel.h")
-@:uextern extern class FKismetUserDeclaredFunctionMetadata {
+@:noCopy @:noEquals @:uextern extern class FKismetUserDeclaredFunctionMetadata {
   
   /**
     Cached value for whether or not the graph has latent functions, positive for TRUE, zero for FALSE, and INDEX_None for undetermined

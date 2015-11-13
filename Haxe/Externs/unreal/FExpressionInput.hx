@@ -20,6 +20,6 @@ package unreal;
   @warning: FExpressionInput is mirrored in MaterialShared.h and manually "subclassed" in Material.h (FMaterialInput)
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAbs.h")
-@:uextern extern class FExpressionInput {
+@:noCopy @:noEquals @:uextern extern class FExpressionInput {
   
 }

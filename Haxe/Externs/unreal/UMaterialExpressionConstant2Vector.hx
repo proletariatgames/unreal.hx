@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionConstant2Vector.h")
 @:uextern extern class UMaterialExpressionConstant2Vector extends unreal.UMaterialExpression {
   public var G : unreal.Float32;

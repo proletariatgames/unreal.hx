@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Mesh merging settings
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FMeshMergingSettings {
+@:noCopy @:noEquals @:uextern extern class FMeshMergingSettings {
   
   /**
     Merged material texture atlas resolution

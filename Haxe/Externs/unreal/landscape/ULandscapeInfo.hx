@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeInfo.h")
-@:uextern extern class ULandscapeInfo extends unreal.UObject {
+@:noClass @:uextern extern class ULandscapeInfo extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   public var Layers : unreal.TArray<unreal.landscape.FLandscapeInfoLayerSettings>;
   public var bIsValid : Bool;

@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is data that can be used to create an FGameplayAbilitySpec. Has some data that is only relevant when granted by a GameplayEffect
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FGameplayAbilitySpecDef {
+@:noCopy @:noEquals @:uextern extern class FGameplayAbilitySpecDef {
   
   /**
     This handle can be set if the SpecDef is used to create a real FGameplaybilitySpec

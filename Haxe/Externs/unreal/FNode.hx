@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Rig Controller for bone transform *
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:uextern extern class FNode {
+@:noCopy @:noEquals @:uextern extern class FNode {
   public var bAdvanced : Bool;
   
   /**

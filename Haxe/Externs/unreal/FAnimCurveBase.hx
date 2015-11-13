@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Float curve data for one track
 **/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
-@:uextern extern class FAnimCurveBase {
+@:noCopy @:noEquals @:uextern extern class FAnimCurveBase {
   
   /**
     Last observed name of the curve. We store this so we can recover from situations that

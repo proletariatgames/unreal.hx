@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:uextern extern class FPerBoneInterpolation {
+@:noCopy @:noEquals @:uextern extern class FPerBoneInterpolation {
   public var InterpolationSpeedPerSec : unreal.Float32;
   public var BoneReference : unreal.FBoneReference;
   

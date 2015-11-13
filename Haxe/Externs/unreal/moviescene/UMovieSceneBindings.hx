@@ -15,6 +15,8 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   MovieSceneBindings.  Contains the relationship between MovieScene possessables and actual objects being possessed.
 **/
 @:umodule("MovieScene")

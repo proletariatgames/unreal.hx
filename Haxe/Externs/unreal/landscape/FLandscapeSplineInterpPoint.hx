@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineControlPoint.h")
-@:uextern extern class FLandscapeSplineInterpPoint {
+@:noCopy @:noEquals @:uextern extern class FLandscapeSplineInterpPoint {
   
   /**
     Start/End Falloff fraction

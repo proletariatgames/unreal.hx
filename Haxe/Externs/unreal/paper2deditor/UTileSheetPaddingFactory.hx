@@ -15,11 +15,13 @@ package unreal.paper2deditor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Factory used to pad out each individual tile in a tile sheet texture
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileSetEditor/TileSheetPaddingFactory.h")
-@:uextern extern class UTileSheetPaddingFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UTileSheetPaddingFactory extends unreal.editor.UFactory {
   
   /**
     Should we use transparent black or white when filling the texture areas that aren't covered by tiles?

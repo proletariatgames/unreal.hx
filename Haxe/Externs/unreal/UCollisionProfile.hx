@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Set up and modify collision settings.
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")

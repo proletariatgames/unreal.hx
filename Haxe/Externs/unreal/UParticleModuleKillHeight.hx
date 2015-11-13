@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Kill/ParticleModuleKillHeight.h")
-@:uextern extern class UParticleModuleKillHeight extends unreal.UParticleModuleKillBase {
+@:noClass @:uextern extern class UParticleModuleKillHeight extends unreal.UParticleModuleKillBase {
   
   /**
     If true, take the particle systems scale into account

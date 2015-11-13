@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Preview APawn class for this track
 **/
 @:glueCppIncludes("Matinee/InterpGroupCamera.h")
-@:uextern extern class FCameraPreviewInfo {
+@:noCopy @:noEquals @:uextern extern class FCameraPreviewInfo {
   
   /**
     APawn Inst - CameraAnimInst doesn't really exist in editor *

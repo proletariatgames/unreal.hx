@@ -13,8 +13,14 @@
 **/
 package unreal.lightpropagationvolumeeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("LightPropagationVolumeEditor")
 @:glueCppIncludes("LightPropagationVolumeBlendableFactory.h")
-@:uextern extern class ULightPropagationVolumeBlendableFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class ULightPropagationVolumeBlendableFactory extends unreal.editor.UFactory {
   
 }

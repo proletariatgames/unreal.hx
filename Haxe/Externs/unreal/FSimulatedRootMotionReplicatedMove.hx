@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/Character.h")
-@:uextern extern class FSimulatedRootMotionReplicatedMove {
+@:noCopy @:noEquals @:uextern extern class FSimulatedRootMotionReplicatedMove {
   
   /**
     Root Motion information

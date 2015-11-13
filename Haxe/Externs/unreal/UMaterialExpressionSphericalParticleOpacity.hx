@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionSphericalParticleOpacity.h")
-@:uextern extern class UMaterialExpressionSphericalParticleOpacity extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionSphericalParticleOpacity extends unreal.UMaterialExpression {
   
   /**
     Constant density of the particle sphere.  Will be overridden if Density is connected.

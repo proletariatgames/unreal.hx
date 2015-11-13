@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FGameNameRedirect {
+@:noCopy @:noEquals @:uextern extern class FGameNameRedirect {
   public var NewGameName : unreal.FString;
   public var OldGameName : unreal.FString;
   

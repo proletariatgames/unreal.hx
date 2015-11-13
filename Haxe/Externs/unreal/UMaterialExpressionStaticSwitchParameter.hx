@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionStaticSwitchParameter.h")
 @:uextern extern class UMaterialExpressionStaticSwitchParameter extends unreal.UMaterialExpressionStaticBoolParameter {
   public var B : unreal.FExpressionInput;

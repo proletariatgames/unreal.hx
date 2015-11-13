@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
-@:uextern extern class FLandscapeEditorLayerSettings {
+@:noCopy @:noEquals @:uextern extern class FLandscapeEditorLayerSettings {
   #if WITH_EDITORONLY_DATA
   public var ReimportLayerFilePath : unreal.FString;
   public var LayerInfoObj : unreal.landscape.ULandscapeLayerInfoObject;

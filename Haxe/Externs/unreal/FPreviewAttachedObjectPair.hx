@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Preview items that are attached to the skeleton *
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FPreviewAttachedObjectPair {
+@:noCopy @:noEquals @:uextern extern class FPreviewAttachedObjectPair {
   
   /**
     The name of the attach point of the Object (for example a bone or socket name)

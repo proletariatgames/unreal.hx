@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FNavAvoidanceData {
+@:noCopy @:noEquals @:uextern extern class FNavAvoidanceData {
   
 }

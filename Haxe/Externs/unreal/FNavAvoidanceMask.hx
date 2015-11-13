@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
-@:uextern extern class FNavAvoidanceMask {
+@:noCopy @:noEquals @:uextern extern class FNavAvoidanceMask {
   public var bGroup31 : Bool;
   public var bGroup30 : Bool;
   public var bGroup29 : Bool;

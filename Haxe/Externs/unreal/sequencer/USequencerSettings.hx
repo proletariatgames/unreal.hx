@@ -15,11 +15,13 @@ package unreal.sequencer;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Serializable options for sequencer.
 **/
 @:umodule("Sequencer")
 @:glueCppIncludes("Private/SequencerSettings.h")
-@:uextern extern class USequencerSettings extends unreal.UObject {
+@:noClass @:uextern extern class USequencerSettings extends unreal.UObject {
   private var CurveValueSnapInterval : unreal.Float32;
   private var TimeSnapInterval : unreal.Float32;
   

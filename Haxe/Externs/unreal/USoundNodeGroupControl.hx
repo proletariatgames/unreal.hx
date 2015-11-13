@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Plays different sounds depending on the number of active sounds
   Any time a new sound is played, the first group that has an available slot will be chosen
 **/

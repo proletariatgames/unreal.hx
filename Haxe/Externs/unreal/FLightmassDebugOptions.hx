@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Debug options for Lightmass
 **/
 @:glueCppIncludes("Preferences/LightmassOptionsObject.h")
-@:uextern extern class FLightmassDebugOptions {
+@:noCopy @:noEquals @:uextern extern class FLightmassDebugOptions {
   
   /**
     The amount of time that will be count as full red when bColorByExecutionTime is enabled

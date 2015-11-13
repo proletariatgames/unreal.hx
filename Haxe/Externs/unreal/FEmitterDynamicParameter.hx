@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper structure for displaying the parameter.
 **/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
-@:uextern extern class FEmitterDynamicParameter {
+@:noCopy @:noEquals @:uextern extern class FEmitterDynamicParameter {
   
   /**
     The distriubtion for the parameter value.

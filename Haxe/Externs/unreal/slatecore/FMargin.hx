@@ -15,11 +15,13 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Describes the space around a Widget.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
-@:uextern extern class FMargin {
+@:noCopy @:noEquals @:uextern extern class FMargin {
   
   /**
     Holds the margin to the bottom.

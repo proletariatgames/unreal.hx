@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FStatColorMapEntry {
+@:noCopy @:noEquals @:uextern extern class FStatColorMapEntry {
   public var Out : unreal.FColor;
   public var In : unreal.Float32;
   

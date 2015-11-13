@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("VectorField/VectorFieldStatic.h")
 @:uextern extern class UVectorFieldStatic extends unreal.UVectorField {
   #if WITH_EDITORONLY_DATA

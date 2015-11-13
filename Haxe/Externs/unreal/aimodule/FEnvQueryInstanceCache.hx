@@ -15,11 +15,13 @@ package unreal.aimodule;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   cache of instances with sorted tests
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
-@:uextern extern class FEnvQueryInstanceCache {
+@:noCopy @:noEquals @:uextern extern class FEnvQueryInstanceCache {
   
   /**
     query template, duplicated in manager's world

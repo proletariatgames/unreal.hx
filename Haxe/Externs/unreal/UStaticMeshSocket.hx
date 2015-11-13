@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/StaticMeshSocket.h")
 @:uextern extern class UStaticMeshSocket extends unreal.UObject {
   #if WITH_EDITORONLY_DATA

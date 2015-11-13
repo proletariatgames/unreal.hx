@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Base struct for items using Fast TArray Replication
 **/
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FFastArraySerializerItem {
+@:noCopy @:noEquals @:uextern extern class FFastArraySerializerItem {
   public var ReplicationKey : unreal.Int32;
   public var ReplicationID : unreal.Int32;
   

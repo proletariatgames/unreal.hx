@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ParticleSystemAuditCommandlet.h")
-@:uextern extern class UParticleSystemAuditCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UParticleSystemAuditCommandlet extends unreal.UCommandlet {
   
   /**
     If a particle system has an LODDistance larger than this value, it will be reported

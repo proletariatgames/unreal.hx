@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Light/ParticleModuleLight_Seeded.h")
 @:uextern extern class UParticleModuleLight_Seeded extends unreal.UParticleModuleLight {
   

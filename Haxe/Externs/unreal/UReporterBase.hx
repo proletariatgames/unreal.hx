@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Debug/ReporterBase.h")
-@:uextern extern class UReporterBase extends unreal.UObject {
+@:noClass @:uextern extern class UReporterBase extends unreal.UObject {
   
 }

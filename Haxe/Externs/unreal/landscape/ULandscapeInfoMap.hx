@@ -13,8 +13,14 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeInfoMap.h")
-@:uextern extern class ULandscapeInfoMap extends unreal.UObject {
+@:noClass @:uextern extern class ULandscapeInfoMap extends unreal.UObject {
   
 }

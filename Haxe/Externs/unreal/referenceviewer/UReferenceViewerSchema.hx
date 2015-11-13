@@ -13,8 +13,14 @@
 **/
 package unreal.referenceviewer;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("ReferenceViewer")
 @:glueCppIncludes("ReferenceViewerSchema.h")
-@:uextern extern class UReferenceViewerSchema extends unreal.UEdGraphSchema {
+@:noClass @:uextern extern class UReferenceViewerSchema extends unreal.UEdGraphSchema {
   
 }

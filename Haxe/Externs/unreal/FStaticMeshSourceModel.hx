@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Source model from which a renderable static mesh is built.
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:uextern extern class FStaticMeshSourceModel {
+@:noCopy @:noEquals @:uextern extern class FStaticMeshSourceModel {
   
   /**
     ScreenSize to display this LOD

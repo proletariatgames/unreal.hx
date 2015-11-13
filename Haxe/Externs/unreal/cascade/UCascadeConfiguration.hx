@@ -13,9 +13,15 @@
 **/
 package unreal.cascade;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Cascade")
 @:glueCppIncludes("CascadeConfiguration.h")
-@:uextern extern class UCascadeConfiguration extends unreal.UObject {
+@:noClass @:uextern extern class UCascadeConfiguration extends unreal.UObject {
   
   /**
     Modules that Cascade should ignore in the menu system.

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Camera/ParticleModuleCameraOffset.h")
-@:uextern extern class UParticleModuleCameraOffset extends unreal.UParticleModuleCameraBase {
+@:noClass @:uextern extern class UParticleModuleCameraOffset extends unreal.UParticleModuleCameraBase {
   
   /**
     How to update the offset for this module.

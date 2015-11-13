@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is the base class that both baked states and transitions use
 **/
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class FAnimationStateBase {
+@:noCopy @:noEquals @:uextern extern class FAnimationStateBase {
   
   /**
     The name of this state

@@ -13,9 +13,15 @@
 **/
 package unreal.gameplaytagseditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_MultiCompareBase.h")
-@:uextern extern class UGameplayTagsK2Node_MultiCompareBase extends unreal.blueprintgraph.UK2Node {
+@:noClass @:uextern extern class UGameplayTagsK2Node_MultiCompareBase extends unreal.blueprintgraph.UK2Node {
   public var PinNames : unreal.TArray<unreal.FName>;
   public var NumberOfPins : unreal.Int32;
   

@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportCurveTableFactory.h")
-@:uextern extern class UReimportCurveTableFactory extends unreal.editor.UCSVImportFactory {
+@:noClass @:uextern extern class UReimportCurveTableFactory extends unreal.editor.UCSVImportFactory {
   
 }

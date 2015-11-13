@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Box shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FKBoxElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern extern class FKBoxElem extends unreal.FKShapeElem {
   
   /**
     length (not radius)

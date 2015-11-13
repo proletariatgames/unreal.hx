@@ -13,9 +13,15 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_ActorsOfClass.h")
-@:uextern extern class UEnvQueryGenerator_ActorsOfClass extends unreal.aimodule.UEnvQueryGenerator {
+@:noClass @:uextern extern class UEnvQueryGenerator_ActorsOfClass extends unreal.aimodule.UEnvQueryGenerator {
   
   /**
     context

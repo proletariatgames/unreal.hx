@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the open assets stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FBuildPromotionOpenAssetSettings {
+@:noCopy @:noEquals @:uextern extern class FBuildPromotionOpenAssetSettings {
   
   /**
     The texture asset to open

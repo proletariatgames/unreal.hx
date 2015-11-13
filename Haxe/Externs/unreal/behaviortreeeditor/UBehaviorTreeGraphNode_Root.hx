@@ -15,11 +15,13 @@ package unreal.behaviortreeeditor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Root node of this behavior tree, holds Blackboard data
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeGraphNode_Root.h")
-@:uextern extern class UBehaviorTreeGraphNode_Root extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
+@:noClass @:uextern extern class UBehaviorTreeGraphNode_Root extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
   public var BlackboardAsset : unreal.aimodule.UBlackboardData;
   
 }

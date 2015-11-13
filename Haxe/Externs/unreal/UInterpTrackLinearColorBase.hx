@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackLinearColorBase.h")
 @:uextern extern class UInterpTrackLinearColorBase extends unreal.UInterpTrack {
   

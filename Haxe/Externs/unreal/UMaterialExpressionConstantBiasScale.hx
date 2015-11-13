@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionConstantBiasScale.h")
 @:uextern extern class UMaterialExpressionConstantBiasScale extends unreal.UMaterialExpression {
   public var Scale : unreal.Float32;

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A set of parameters to describe how to transition between view targets.
 **/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FViewTargetTransitionParams {
+@:noCopy @:noEquals @:uextern extern class FViewTargetTransitionParams {
   
   /**
     If true, lock outgoing viewtarget to last frame's camera POV for the remainder of the blend.

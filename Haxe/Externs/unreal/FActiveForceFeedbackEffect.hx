@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/PlayerController.h")
-@:uextern extern class FActiveForceFeedbackEffect {
+@:noCopy @:noEquals @:uextern extern class FActiveForceFeedbackEffect {
   public var ForceFeedbackEffect : unreal.UForceFeedbackEffect;
   
 }

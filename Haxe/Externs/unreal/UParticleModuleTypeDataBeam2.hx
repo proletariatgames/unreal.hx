@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataBeam2.h")
 @:uextern extern class UParticleModuleTypeDataBeam2 extends unreal.UParticleModuleTypeDataBase {
   public var RenderTessellation : Bool;

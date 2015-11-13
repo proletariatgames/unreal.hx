@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information about an animation asset that needs to be ticked
 **/
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class FAnimTickRecord {
+@:noCopy @:noEquals @:uextern extern class FAnimTickRecord {
   public var SourceAsset : unreal.UAnimationAsset;
   
 }

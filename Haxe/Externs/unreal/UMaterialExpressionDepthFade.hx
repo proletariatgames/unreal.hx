@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDepthFade.h")
-@:uextern extern class UMaterialExpressionDepthFade extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionDepthFade extends unreal.UMaterialExpression {
   
   /**
     World space distance over which the fade should take place.  This is used when FadeDistance is unconnected.

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   An actor used to generate collision events (begin/end overlap) in the level.
 **/
 @:glueCppIncludes("Engine/TriggerBase.h")

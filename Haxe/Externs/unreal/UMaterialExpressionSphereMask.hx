@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionSphereMask.h")
-@:uextern extern class UMaterialExpressionSphereMask extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionSphereMask extends unreal.UMaterialExpression {
   
   /**
     in percent 0%=soft .. 100%=hard

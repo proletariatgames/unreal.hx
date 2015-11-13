@@ -13,8 +13,14 @@
 **/
 package unreal.introtutorials;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialImportFactory.h")
-@:uextern extern class UEditorTutorialImportFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UEditorTutorialImportFactory extends unreal.editor.UFactory {
   
 }

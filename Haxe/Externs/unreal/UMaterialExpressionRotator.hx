@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionRotator.h")
-@:uextern extern class UMaterialExpressionRotator extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionRotator extends unreal.UMaterialExpression {
   
   /**
     only used if Coordinate is not hooked up

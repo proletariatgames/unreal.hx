@@ -15,11 +15,13 @@ package unreal.proceduralmeshcomponent;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   One section of the procedural mesh. Each material has its own section.
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:uextern extern class FProcMeshSection {
+@:noCopy @:noEquals @:uextern extern class FProcMeshSection {
   
   /**
     Should we display this section

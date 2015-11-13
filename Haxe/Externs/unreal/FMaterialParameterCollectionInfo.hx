@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Stores information about a parameter collection that this material references, used to know when the material needs to be recompiled.
 **/
 @:glueCppIncludes("Materials/Material.h")
-@:uextern extern class FMaterialParameterCollectionInfo {
+@:noCopy @:noEquals @:uextern extern class FMaterialParameterCollectionInfo {
   
   /**
     The collection which this material has a dependency on.

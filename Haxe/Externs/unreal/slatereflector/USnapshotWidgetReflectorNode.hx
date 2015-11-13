@@ -15,10 +15,12 @@ package unreal.slatereflector;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   A widget reflector node that holds the widget information from a snapshot at a given point in time
 **/
 @:umodule("SlateReflector")
 @:glueCppIncludes("Private/Models/WidgetReflectorNode.h")
-@:uextern extern class USnapshotWidgetReflectorNode extends unreal.slatereflector.UWidgetReflectorNodeBase {
+@:noClass @:uextern extern class USnapshotWidgetReflectorNode extends unreal.slatereflector.UWidgetReflectorNodeBase {
   
 }

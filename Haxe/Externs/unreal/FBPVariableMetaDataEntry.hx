@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   One metadata entry for a variable
 **/
 @:glueCppIncludes("Engine/SCS_Node.h")
-@:uextern extern class FBPVariableMetaDataEntry {
+@:noCopy @:noEquals @:uextern extern class FBPVariableMetaDataEntry {
   
   /**
     Name of metadata value

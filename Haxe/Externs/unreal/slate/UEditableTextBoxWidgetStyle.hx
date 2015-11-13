@@ -13,6 +13,12 @@
 **/
 package unreal.slate;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/EditableTextBoxWidgetStyle.h")
 @:uextern extern class UEditableTextBoxWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {

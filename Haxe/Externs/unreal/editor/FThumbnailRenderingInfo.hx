@@ -15,6 +15,8 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds the settings for a class that needs a thumbnail renderer. Each entry
   maps to a corresponding class and holds the information needed
   to render the thumbnail, including which object to render via and its
@@ -22,7 +24,7 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
-@:uextern extern class FThumbnailRenderingInfo {
+@:noCopy @:noEquals @:uextern extern class FThumbnailRenderingInfo {
   
   /**
     The instance of the renderer class

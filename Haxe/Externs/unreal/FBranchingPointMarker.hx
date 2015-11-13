@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   AnimNotifies marked as BranchingPoints will create these markers on their Begin/End times.
         They create stopping points when the Montage is being ticked to dispatch events.
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:uextern extern class FBranchingPointMarker {
+@:noCopy @:noEquals @:uextern extern class FBranchingPointMarker {
   public var NotifyEventType : unreal.EAnimNotifyEventType;
   public var TriggerTime : unreal.Float32;
   public var NotifyIndex : unreal.Int32;

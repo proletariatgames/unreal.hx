@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   To be able to use struct PostProcessSettings. // Each property consists of a bool to enable it (by default off),
   // the variable declaration and further down the default value for it.
   // The comment should include the meaning and usable range.
 **/
 @:glueCppIncludes("Camera/CameraAnim.h")
-@:uextern extern class FPostProcessSettings {
+@:noCopy @:noEquals @:uextern extern class FPostProcessSettings {
   
   /**
     for backwards compatibility

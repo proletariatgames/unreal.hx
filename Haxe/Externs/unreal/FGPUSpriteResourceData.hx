@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   The source data for runtime resources.
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:uextern extern class FGPUSpriteResourceData {
+@:noCopy @:noEquals @:uextern extern class FGPUSpriteResourceData {
   
   /**
     Pivot offset in UV space for placing the verts of each particle.

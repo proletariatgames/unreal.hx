@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorPointGravity.h")
-@:uextern extern class UParticleModuleAttractorPointGravity extends unreal.UParticleModuleAttractorBase {
+@:noClass @:uextern extern class UParticleModuleAttractorPointGravity extends unreal.UParticleModuleAttractorBase {
   
   /**
     The strength of the point source.

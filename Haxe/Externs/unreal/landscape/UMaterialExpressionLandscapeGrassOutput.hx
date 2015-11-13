@@ -13,6 +13,12 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeGrassOutput.h")
 @:uextern extern class UMaterialExpressionLandscapeGrassOutput extends unreal.UMaterialExpressionCustomOutput {

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionParticleDirection.h")
-@:uextern extern class UMaterialExpressionParticleDirection extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionParticleDirection extends unreal.UMaterialExpression {
   
 }

@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SoundFactory.h")
-@:uextern extern class USoundFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class USoundFactory extends unreal.editor.UFactory {
   
   /**
     If not empty, generated SoundCues will be placed in PackageCuePackageSuffix, but only if bAutoCreateCue is true

@@ -13,9 +13,14 @@
 **/
 package unreal.gameplaytasks;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTasks")
 @:glueCppIncludes("Tasks/GameplayTask_WaitDelay.h")
 @:uextern extern class UGameplayTask_WaitDelay extends unreal.gameplaytasks.UGameplayTask {
-  public function TaskDelayDelegate__DelegateSignature() : Void;
   
 }

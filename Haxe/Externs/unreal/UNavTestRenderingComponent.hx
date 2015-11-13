@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavTestRenderingComponent.h")
-@:uextern extern class UNavTestRenderingComponent extends unreal.UPrimitiveComponent {
+@:noClass @:uextern extern class UNavTestRenderingComponent extends unreal.UPrimitiveComponent {
   
 }

@@ -15,6 +15,8 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   The idea here is that UGameplayEffectTemplates are templates created by system designers for commonly used
   GameplayEffects. For example: StandardPhysicalDamage, StandardSnare, etc.
   
@@ -34,7 +36,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTemplate.h")
-@:uextern extern class UGameplayEffectTemplate extends unreal.gameplayabilities.UGameplayEffect {
+@:noClass @:uextern extern class UGameplayEffectTemplate extends unreal.gameplayabilities.UGameplayEffect {
   #if WITH_EDITORONLY_DATA
   
   /**

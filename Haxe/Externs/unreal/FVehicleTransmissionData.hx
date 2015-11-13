@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:uextern extern class FVehicleTransmissionData {
+@:noCopy @:noEquals @:uextern extern class FVehicleTransmissionData {
   
   /**
     Strength of clutch (Kgm^2/s)

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("EditorFramework/ThumbnailInfo.h")
 @:uextern extern class UThumbnailInfo extends unreal.UObject {
   

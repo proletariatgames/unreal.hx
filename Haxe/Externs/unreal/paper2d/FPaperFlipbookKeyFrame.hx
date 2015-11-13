@@ -13,9 +13,15 @@
 **/
 package unreal.paper2d;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperFlipbook.h")
-@:uextern extern class FPaperFlipbookKeyFrame {
+@:noCopy @:noEquals @:uextern extern class FPaperFlipbookKeyFrame {
   public var FrameRun : unreal.Int32;
   public var Sprite : unreal.paper2d.UPaperSprite;
   

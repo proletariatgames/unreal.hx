@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Special hierarchy depths for various behaviors.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleSpecialHierarchyDepths {
+@:noCopy @:noEquals @:uextern extern class FDestructibleSpecialHierarchyDepths {
   
   /**
     The chunk hierarchy depth up to which chunks will always be processed.  These chunks are considered

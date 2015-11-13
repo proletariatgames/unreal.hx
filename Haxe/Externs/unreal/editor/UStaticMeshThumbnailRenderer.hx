@@ -13,6 +13,12 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/StaticMeshThumbnailRenderer.h")
 @:uextern extern class UStaticMeshThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {

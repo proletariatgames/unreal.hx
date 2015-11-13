@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Actor used to control temporary matinees for camera anims that only exist in the editor
 **/
 @:glueCppIncludes("Matinee/MatineeActorCameraAnim.h")

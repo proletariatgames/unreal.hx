@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Vector2D.h
 **/
 @:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
-@:uextern extern class FVector2D {
+@:noCopy @:noEquals @:uextern extern class FVector2D {
   
 }

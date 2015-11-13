@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBlueprintCallProxyBase.h")
 @:uextern extern class UOnlineBlueprintCallProxyBase extends unreal.UObject {
-  
-  /**
-    Called to trigger the actual online action once the delegates have been bound
-  **/
-  public function Activate() : Void;
   
 }

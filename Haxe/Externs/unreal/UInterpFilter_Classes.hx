@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("h")
-@:uextern extern class UInterpFilter_Classes extends unreal.UInterpFilter {
+@:noClass @:uextern extern class UInterpFilter_Classes extends unreal.UInterpFilter {
   #if WITH_EDITORONLY_DATA
   
   /**

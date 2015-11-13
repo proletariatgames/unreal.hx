@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("TexAligner/TexAligner.h")
-@:uextern extern class UTexAligner extends unreal.UObject {
+@:noClass @:uextern extern class UTexAligner extends unreal.UObject {
   
   /**
     Description for the editor to display.

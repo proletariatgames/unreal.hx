@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct encapsulating settings for reverb effects.
 **/
 @:glueCppIncludes("Sound/AudioVolume.h")
-@:uextern extern class FReverbSettings {
+@:noCopy @:noEquals @:uextern extern class FReverbSettings {
   
   /**
     Time to fade from the current reverb settings into this setting, in seconds.

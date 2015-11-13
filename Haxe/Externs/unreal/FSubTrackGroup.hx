@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A small structure holding data for grouping subtracks. (For UI drawing purposes)
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
-@:uextern extern class FSubTrackGroup {
+@:noCopy @:noEquals @:uextern extern class FSubTrackGroup {
   
   /**
     If this group is selected

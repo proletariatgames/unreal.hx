@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one event in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackEvent.h")
-@:uextern extern class FEventTrackKey {
+@:noCopy @:noEquals @:uextern extern class FEventTrackKey {
   public var EventName : unreal.FName;
   public var Time : unreal.Float32;
   

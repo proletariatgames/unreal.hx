@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FPluginRedirect {
+@:noCopy @:noEquals @:uextern extern class FPluginRedirect {
   public var NewPluginName : unreal.FString;
   public var OldPluginName : unreal.FString;
   

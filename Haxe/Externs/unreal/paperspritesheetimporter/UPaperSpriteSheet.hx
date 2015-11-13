@@ -13,9 +13,15 @@
 **/
 package unreal.paperspritesheetimporter;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("PaperSpriteSheetImporter")
 @:glueCppIncludes("Private/PaperSpriteSheet.h")
-@:uextern extern class UPaperSpriteSheet extends unreal.UObject {
+@:noClass @:uextern extern class UPaperSpriteSheet extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**

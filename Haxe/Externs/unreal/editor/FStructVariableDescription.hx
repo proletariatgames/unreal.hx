@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
-@:uextern extern class FStructVariableDescription {
+@:noCopy @:noEquals @:uextern extern class FStructVariableDescription {
   public var bEnable3dWidget : Bool;
   public var bDontEditoOnInstance : Bool;
   public var ToolTip : unreal.FString;

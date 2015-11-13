@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackFloatAnimBPParam.h")
-@:uextern extern class UInterpTrackFloatAnimBPParam extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern extern class UInterpTrackFloatAnimBPParam extends unreal.UInterpTrackFloatBase {
   
   /**
     Name of parameter in the MaterialInstance which this track will modify over time.

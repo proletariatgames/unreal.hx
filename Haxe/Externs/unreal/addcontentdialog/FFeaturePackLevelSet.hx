@@ -15,11 +15,13 @@ package unreal.addcontentdialog;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure that defines a shared feature pack resource.
 **/
 @:umodule("AddContentDialog")
 @:glueCppIncludes("TemplateProjectDefs.h")
-@:uextern extern class FFeaturePackLevelSet {
+@:noCopy @:noEquals @:uextern extern class FFeaturePackLevelSet {
   
   /**
     Mount name for the shared resource - this is the folder the resource will be copied to on project generation as well as the name of the folder that will appear in the content browser.

@@ -13,9 +13,15 @@
 **/
 package unreal.niagara;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraSimulation.h")
-@:uextern extern class FNiagaraConstants {
+@:noCopy @:noEquals @:uextern extern class FNiagaraConstants {
   public var DataObjectConstants : unreal.TArray<unreal.niagara.FNiagaraConstants_DataObject>;
   public var MatrixConstants : unreal.TArray<unreal.niagara.FNiagaraConstants_Matrix>;
   public var VectorConstants : unreal.TArray<unreal.niagara.FNiagaraConstants_Vector>;

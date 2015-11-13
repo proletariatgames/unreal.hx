@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Factory that creates curve assets, prompting to pick the kind of curve at creation time
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CurveFactory.h")
-@:uextern extern class UCurveFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UCurveFactory extends unreal.editor.UFactory {
   
   /**
     The type of blueprint that will be created

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   for easier detail customization, needed?
 **/
 @:glueCppIncludes("Camera/CameraAnim.h")
-@:uextern extern class FWeightedBlendables {
+@:noCopy @:noEquals @:uextern extern class FWeightedBlendables {
   public var Array : unreal.TArray<unreal.FWeightedBlendable>;
   
 }

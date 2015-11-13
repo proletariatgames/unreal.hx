@@ -13,8 +13,14 @@
 **/
 package unreal.moviescenetools;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneFactory.h")
-@:uextern extern class UMovieSceneFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UMovieSceneFactory extends unreal.editor.UFactory {
   
 }

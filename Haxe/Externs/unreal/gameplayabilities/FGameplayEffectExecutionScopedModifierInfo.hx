@@ -15,12 +15,14 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct representing modifier info used exclusively for "scoped" executions that happen instantaneously. These are
   folded into a calculation only for the extent of the calculation and never permanently added to an aggregator.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectExecutionScopedModifierInfo {
+@:noCopy @:noEquals @:uextern extern class FGameplayEffectExecutionScopedModifierInfo {
   
   /**
     Target tag requirements for the modifier to apply

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct containing information about what interfaces are implemented in this blueprint
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:uextern extern class FBPInterfaceDescription {
+@:noCopy @:noEquals @:uextern extern class FBPInterfaceDescription {
   
   /**
     References to the graphs associated with the required functions for this interface

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/DialogueWave.h")
-@:uextern extern class FDialogueContextMapping {
+@:noCopy @:noEquals @:uextern extern class FDialogueContextMapping {
   
   /**
     Cached object for playing the soundwave with subtitle information included.

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
 @:uextern extern class UAnimSequenceBase extends unreal.UAnimationAsset {
   #if WITH_EDITORONLY_DATA
@@ -42,10 +48,5 @@ package unreal;
     Animation notifies, sorted by time (earliest notification first).
   **/
   public var Notifies : unreal.TArray<unreal.FAnimNotifyEvent>;
-  
-  /**
-    Returns the total play length of the montage, if played back with a speed of 1.0.
-  **/
-  public function GetPlayLength() : unreal.Float32;
   
 }

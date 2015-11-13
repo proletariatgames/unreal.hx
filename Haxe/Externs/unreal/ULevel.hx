@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A Level is a collection of Actors (lights, volumes, mesh instances etc.).
   Multiple Levels can be loaded and unloaded into the World to create a streaming experience.
   

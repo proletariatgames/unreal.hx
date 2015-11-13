@@ -15,11 +15,13 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Identifies a bound object and an optional tag for sub-object lookup.
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneBindings.h")
-@:uextern extern class FMovieSceneBoundObjectInfo {
+@:noCopy @:noEquals @:uextern extern class FMovieSceneBoundObjectInfo {
   public var Tag : unreal.FString;
   public var Object : unreal.UObject;
   

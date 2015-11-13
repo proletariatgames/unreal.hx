@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("ConnectionCallbackProxy.h")
 @:uextern extern class UConnectionCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
-  
-  /**
-    Connects to an online service such as Google Play
-  **/
-  static public function ConnectToService(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController) : unreal.onlinesubsystemutils.UConnectionCallbackProxy;
   
 }

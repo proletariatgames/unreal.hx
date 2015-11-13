@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Example struct that pairs a enum input command to a GameplayAbilityClass.6
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySet.h")
-@:uextern extern class FGameplayAbilityBindInfo {
+@:noCopy @:noEquals @:uextern extern class FGameplayAbilityBindInfo {
   public var GameplayAbilityClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
   public var Command : unreal.gameplayabilities.EGameplayAbilityInputBinds;
   

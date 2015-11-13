@@ -15,11 +15,13 @@ package unreal.introtutorials;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Named context that corresponds to a particular tutorial
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialSettings.h")
-@:uextern extern class FTutorialContext {
+@:noCopy @:noEquals @:uextern extern class FTutorialContext {
   
   /**
     The tutorial to use in this context when the user chooses to launch

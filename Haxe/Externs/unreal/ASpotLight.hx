@@ -13,17 +13,17 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/SpotLight.h")
 @:uextern extern class ASpotLight extends unreal.ALight {
   #if WITH_EDITORONLY_DATA
   public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
   public var SpotLightComponent : unreal.USpotLightComponent;
-  
-  /**
-    BEGIN DEPRECATED (use component functions now in level script)
-  **/
-  @:final public function SetInnerConeAngle(NewInnerConeAngle : unreal.Float32) : Void;
-  @:final public function SetOuterConeAngle(NewOuterConeAngle : unreal.Float32) : Void;
   
 }

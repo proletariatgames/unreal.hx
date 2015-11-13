@@ -15,6 +15,8 @@ package unreal.blueprintgraph;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Imperative kismet node that sets one or more member variables of a struct
 **/
 @:umodule("BlueprintGraph")

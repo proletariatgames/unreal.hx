@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstProperty.h")
-@:uextern extern class UInterpTrackInstProperty extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstProperty extends unreal.UInterpTrackInst {
   
   /**
     Pointer to the UObject instance that is the outer of the color property we are interpolating on, this is used to process the property update callback.

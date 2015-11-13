@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldGlobal.h")
-@:uextern extern class UParticleModuleVectorFieldGlobal extends unreal.UParticleModuleVectorFieldBase {
+@:noClass @:uextern extern class UParticleModuleVectorFieldGlobal extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Global vector field tightness override.

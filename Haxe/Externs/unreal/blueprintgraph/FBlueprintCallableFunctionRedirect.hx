@@ -15,12 +15,14 @@ package unreal.blueprintgraph;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure used to automatically convert blueprintcallable functions (that have blueprint parameter) calls (in bp graph)
   into their never versions (with class param instead of blueprint).
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("EdGraphSchema_K2.h")
-@:uextern extern class FBlueprintCallableFunctionRedirect {
+@:noCopy @:noEquals @:uextern extern class FBlueprintCallableFunctionRedirect {
   public var ClassParamName : unreal.FString;
   public var BlueprintParamName : unreal.FString;
   public var NewFunctionName : unreal.FString;

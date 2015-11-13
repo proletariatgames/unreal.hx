@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionTextureObjectParameter.h")
-@:uextern extern class UMaterialExpressionTextureObjectParameter extends unreal.UMaterialExpressionTextureSampleParameter {
+@:noClass @:uextern extern class UMaterialExpressionTextureObjectParameter extends unreal.UMaterialExpressionTextureSampleParameter {
   
 }

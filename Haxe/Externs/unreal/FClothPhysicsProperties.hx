@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   now exposed a part of properties based on 3DS Max plug-in
   property names are also changed into 3DS Max plug-in's one
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FClothPhysicsProperties {
+@:noCopy @:noEquals @:uextern extern class FClothPhysicsProperties {
   
   /**
     Minimal amount of distance particles will keep of each other.

@@ -21,6 +21,6 @@ package unreal;
   * The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Matrix.h
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FMatrix {
+@:noCopy @:noEquals @:uextern extern class FMatrix {
   
 }

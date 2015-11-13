@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:uextern extern class FVehicleEngineData {
+@:noCopy @:noEquals @:uextern extern class FVehicleEngineData {
   
   /**
     Damping rate of engine in at zero throttle when the clutch is disengaged (in neutral gear) (Kgm^2/s)

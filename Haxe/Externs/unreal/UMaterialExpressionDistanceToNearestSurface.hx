@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDistanceToNearestSurface.h")
-@:uextern extern class UMaterialExpressionDistanceToNearestSurface extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionDistanceToNearestSurface extends unreal.UMaterialExpression {
   
   /**
     Defaults to current world position if not specified

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDesaturation.h")
-@:uextern extern class UMaterialExpressionDesaturation extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionDesaturation extends unreal.UMaterialExpression {
   public var LuminanceFactors : unreal.FLinearColor;
   public var Fraction : unreal.FExpressionInput;
   

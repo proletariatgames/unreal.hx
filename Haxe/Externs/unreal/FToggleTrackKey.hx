@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one toggle in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackToggle.h")
-@:uextern extern class FToggleTrackKey {
+@:noCopy @:noEquals @:uextern extern class FToggleTrackKey {
   public var ToggleAction : unreal.ETrackToggleAction;
   public var Time : unreal.Float32;
   

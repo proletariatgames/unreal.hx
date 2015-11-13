@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct to hold information about the "base" object the character is standing on.
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:uextern extern class FBasedMovementInfo {
+@:noCopy @:noEquals @:uextern extern class FBasedMovementInfo {
   
   /**
     Whether there is a velocity on the server. Used for forcing replication when velocity goes to zero.

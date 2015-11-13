@@ -15,10 +15,12 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A set of tracks bound to runtime objects
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
-@:uextern extern class FMovieSceneBinding {
+@:noCopy @:noEquals @:uextern extern class FMovieSceneBinding {
   
 }

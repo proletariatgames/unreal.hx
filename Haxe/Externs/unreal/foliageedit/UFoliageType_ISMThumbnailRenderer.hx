@@ -13,8 +13,14 @@
 **/
 package unreal.foliageedit;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("FoliageEdit")
 @:glueCppIncludes("FoliageType_ISMThumbnailRenderer.h")
-@:uextern extern class UFoliageType_ISMThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
+@:noClass @:uextern extern class UFoliageType_ISMThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
   
 }

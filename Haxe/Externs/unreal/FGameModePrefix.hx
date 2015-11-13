@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper structure, used to associate GameModes for a map via its filename prefix.
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FGameModePrefix {
+@:noCopy @:noEquals @:uextern extern class FGameModePrefix {
   
   /**
     GameMode used if none specified on the URL

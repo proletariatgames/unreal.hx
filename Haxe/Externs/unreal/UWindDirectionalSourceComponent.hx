@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Component that provides a directional wind source. Only affects SpeedTree assets.
 **/
 @:glueCppIncludes("Components/WindDirectionalSourceComponent.h")
-@:uextern extern class UWindDirectionalSourceComponent extends unreal.USceneComponent {
+@:noClass @:uextern extern class UWindDirectionalSourceComponent extends unreal.USceneComponent {
   public var MaxGustAmount : unreal.Float32;
   public var MinGustAmount : unreal.Float32;
   public var Speed : unreal.Float32;

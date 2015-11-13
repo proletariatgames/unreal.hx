@@ -15,11 +15,13 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is the contents of a tile map cell
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileLayer.h")
-@:uextern extern class FPaperTileInfo {
+@:noCopy @:noEquals @:uextern extern class FPaperTileInfo {
   
   /**
     This is the index of the current tile within the tile set

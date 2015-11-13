@@ -13,10 +13,14 @@
 **/
 package unreal.onlinesubsystem;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("Interfaces/TurnBasedMatchInterface.h")
-@:uextern extern interface ITurnBasedMatchInterface {
-  public function OnMatchReceivedTurn(Match : unreal.FString, bDidBecomeActive : Bool) : Void;
-  public function OnMatchEnded(Match : unreal.FString) : Void;
+@:noClass @:uextern extern interface ITurnBasedMatchInterface {
   
 }

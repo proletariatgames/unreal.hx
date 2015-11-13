@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/CullDistanceVolume.h")
-@:uextern extern class ACullDistanceVolume extends unreal.AVolume {
+@:noClass @:uextern extern class ACullDistanceVolume extends unreal.AVolume {
   
   /**
     Whether the volume is currently enabled or not.

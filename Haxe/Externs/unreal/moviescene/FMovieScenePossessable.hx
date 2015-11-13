@@ -15,10 +15,12 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   MovieScenePossessable is a "typed slot" used to allow the MovieScene to control an already-existing object
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
-@:uextern extern class FMovieScenePossessable {
+@:noCopy @:noEquals @:uextern extern class FMovieScenePossessable {
   
 }

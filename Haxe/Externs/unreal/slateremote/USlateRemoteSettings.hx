@@ -15,11 +15,13 @@ package unreal.slateremote;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements the settings for the Slate Remote plug-in.
 **/
 @:umodule("SlateRemote")
 @:glueCppIncludes("Private/Shared/SlateRemoteSettings.h")
-@:uextern extern class USlateRemoteSettings extends unreal.UObject {
+@:noClass @:uextern extern class USlateRemoteSettings extends unreal.UObject {
   
   /**
     The IP endpoint to listen to when the Remote Server runs in a game.

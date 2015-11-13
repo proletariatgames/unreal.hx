@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Factory for creating SlateStyles
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SlateWidgetStyleAssetFactory.h")
-@:uextern extern class USlateWidgetStyleAssetFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class USlateWidgetStyleAssetFactory extends unreal.editor.UFactory {
   public var StyleType : unreal.TSubclassOf<unreal.slatecore.USlateWidgetStyleContainerBase>;
   
 }

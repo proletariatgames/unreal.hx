@@ -13,6 +13,12 @@
 **/
 package unreal.animgraph;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_StateMachine.h")
 @:uextern extern class UAnimGraphNode_StateMachine extends unreal.animgraph.UAnimGraphNode_StateMachineBase {

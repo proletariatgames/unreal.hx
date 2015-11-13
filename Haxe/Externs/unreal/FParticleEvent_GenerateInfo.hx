@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventGenerator.h")
-@:uextern extern class FParticleEvent_GenerateInfo {
+@:noCopy @:noEquals @:uextern extern class FParticleEvent_GenerateInfo {
   
   /**
     The events we want to fire off when this event has been generated

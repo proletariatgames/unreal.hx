@@ -15,10 +15,12 @@ package unreal.sequencer;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Empty class used to house multiple named USequencerSettings
 **/
 @:umodule("Sequencer")
 @:glueCppIncludes("Private/SequencerSettings.h")
-@:uextern extern class USequencerSettingsContainer extends unreal.UObject {
+@:noClass @:uextern extern class USequencerSettingsContainer extends unreal.UObject {
   
 }

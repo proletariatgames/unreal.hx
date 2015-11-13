@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:uextern extern class UPropertyEditorTestObject extends unreal.UObject {
+@:noClass @:uextern extern class UPropertyEditorTestObject extends unreal.UObject {
   public var OnlyActorsAllowed : unreal.AActor;
   public var AnyMaterialInterface : unreal.UMaterialInterface;
   public var StaticMeshProp : unreal.UStaticMesh;

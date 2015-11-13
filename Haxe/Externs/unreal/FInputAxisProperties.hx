@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Configurable properties for control axes, used to transform raw input into game ready values.
 **/
 @:glueCppIncludes("GameFramework/InputSettings.h")
-@:uextern extern class FInputAxisProperties {
+@:noCopy @:noEquals @:uextern extern class FInputAxisProperties {
   
   /**
     Inverts reported values for this axis

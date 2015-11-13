@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/LightMapTexture2D.h")
 @:uextern extern class ULightMapTexture2D extends unreal.UTexture2D {
   

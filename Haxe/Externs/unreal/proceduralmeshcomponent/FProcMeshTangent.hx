@@ -15,12 +15,14 @@ package unreal.proceduralmeshcomponent;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used to specify a tangent vector for a vertex
   The Y tangent is computed from the cross product of the vertex normal (Tangent Z) and the TangentX member.
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:uextern extern class FProcMeshTangent {
+@:noCopy @:noEquals @:uextern extern class FProcMeshTangent {
   
   /**
     Bool that indicates whether we should flip the Y tangent when we compute it using cross product

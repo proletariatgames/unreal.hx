@@ -15,11 +15,13 @@ package unreal.iosruntimesettings;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   IOS Build resource file struct, used to serialize Directorys to the configs for use in the build system,
 **/
 @:umodule("IOSRuntimeSettings")
 @:glueCppIncludes("IOSRuntimeSettings.h")
-@:uextern extern class FIOSBuildResourceDirectory {
+@:noCopy @:noEquals @:uextern extern class FIOSBuildResourceDirectory {
   
   /**
     The path to the file.

@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportDestructibleMeshFactory.h")
-@:uextern extern class UReimportDestructibleMeshFactory extends unreal.editor.UDestructibleMeshFactory {
+@:noClass @:uextern extern class UReimportDestructibleMeshFactory extends unreal.editor.UDestructibleMeshFactory {
   
 }

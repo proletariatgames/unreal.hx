@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   UMaterial interface settings for Lightmass
 **/
 @:glueCppIncludes("Materials/MaterialInterface.h")
-@:uextern extern class FLightmassMaterialInterfaceSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassMaterialInterfaceSettings {
   
   /**
     If true, override the export resolution scale setting of the parent material.

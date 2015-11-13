@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Commandlet for replacing one kind of actor with another kind of actor, copying changed properties from the most-derived common superclass
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ReplaceActorCommandlet.h")
-@:uextern extern class UReplaceActorCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UReplaceActorCommandlet extends unreal.UCommandlet {
   
 }

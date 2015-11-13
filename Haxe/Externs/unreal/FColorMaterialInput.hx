@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/Material.h")
-@:uextern extern class FColorMaterialInput {
+@:noCopy @:noEquals @:uextern extern class FColorMaterialInput {
   
 }

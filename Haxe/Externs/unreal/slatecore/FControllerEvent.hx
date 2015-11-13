@@ -15,10 +15,12 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   DEPRECATED 4.6 - Do not use //@Todo slate: Remove this as soon as the 4.6 deprecated API is Removed.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern class FControllerEvent extends unreal.slatecore.FInputEvent {
+@:noCopy @:noEquals @:uextern extern class FControllerEvent extends unreal.slatecore.FInputEvent {
   
 }

@@ -13,9 +13,15 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_PathfindingBatch.h")
-@:uextern extern class UEnvQueryTest_PathfindingBatch extends unreal.aimodule.UEnvQueryTest_Pathfinding {
+@:noClass @:uextern extern class UEnvQueryTest_PathfindingBatch extends unreal.aimodule.UEnvQueryTest_Pathfinding {
   
   /**
     multiplier for max distance between point and context

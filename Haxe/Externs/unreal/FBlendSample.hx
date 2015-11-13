@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Sample data
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:uextern extern class FBlendSample {
+@:noCopy @:noEquals @:uextern extern class FBlendSample {
   
   /**
     blend 0->x, blend 1->y, blend 2->z

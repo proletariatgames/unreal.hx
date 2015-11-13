@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds information about a screen resolution to be used for playing.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
-@:uextern extern class FPlayScreenResolution {
+@:noCopy @:noEquals @:uextern extern class FPlayScreenResolution {
   
   /**
     The screen resolution's aspect ratio (as a string).

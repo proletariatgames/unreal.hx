@@ -13,9 +13,15 @@
 **/
 package unreal.gameplaytags;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
-@:uextern extern class UEditableGameplayTagQueryExpression_AnyTagsMatch extends unreal.gameplaytags.UEditableGameplayTagQueryExpression {
+@:noClass @:uextern extern class UEditableGameplayTagQueryExpression_AnyTagsMatch extends unreal.gameplaytags.UEditableGameplayTagQueryExpression {
   public var Tags : unreal.gameplaytags.FGameplayTagContainer;
   
 }

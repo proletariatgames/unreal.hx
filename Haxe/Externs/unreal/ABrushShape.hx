@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A brush that acts as a template for geometry mode modifiers like "Lathe".
 **/
 @:glueCppIncludes("Engine/BrushShape.h")

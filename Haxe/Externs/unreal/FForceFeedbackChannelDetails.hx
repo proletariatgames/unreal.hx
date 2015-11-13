@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
-@:uextern extern class FForceFeedbackChannelDetails {
+@:noCopy @:noEquals @:uextern extern class FForceFeedbackChannelDetails {
   public var Curve : unreal.FRuntimeFloatCurve;
   public var bAffectsRightSmall : Bool;
   public var bAffectsRightLarge : Bool;

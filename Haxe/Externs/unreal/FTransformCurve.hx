@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
-@:uextern extern class FTransformCurve extends unreal.FAnimCurveBase {
+@:noCopy @:noEquals @:uextern extern class FTransformCurve extends unreal.FAnimCurveBase {
   public var ScaleCurve : unreal.FVectorCurve;
   
   /**

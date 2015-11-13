@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeGrassOutput.h")
-@:uextern extern class FGrassInput {
+@:noCopy @:noEquals @:uextern extern class FGrassInput {
   public var Input : unreal.FExpressionInput;
   public var GrassType : unreal.landscape.ULandscapeGrassType;
   public var Name : unreal.FName;

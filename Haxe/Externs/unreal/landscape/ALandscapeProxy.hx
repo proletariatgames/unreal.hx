@@ -13,6 +13,12 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:uextern extern class ALandscapeProxy extends unreal.AActor {
@@ -157,25 +163,5 @@ package unreal.landscape;
   **/
   private var LandscapeGuid : unreal.FGuid;
   public var SplineComponent : unreal.landscape.ULandscapeSplinesComponent;
-  
-  /**
-    Change the Level of Detail distance factor
-  **/
-  public function ChangeLODDistanceFactor(InLODDistanceFactor : unreal.Float32) : Void;
-  
-  /**
-    Deform landscape using a given spline
-    @param StartWidth - Width of the spline at the start node, in Spline Component local space
-    @param EndWidth   - Width of the spline at the end node, in Spline Component local space
-    @param StartSideFalloff - Width of the falloff at either side of the spline at the start node, in Spline Component local space
-    @param EndSideFalloff - Width of the falloff at either side of the spline at the end node, in Spline Component local space
-    @param StartRoll - Roll applied to the spline at the start node, in degrees. 0 is flat
-    @param EndRoll - Roll applied to the spline at the end node, in degrees. 0 is flat
-    @param NumSubdivisions - Number of triangles to place along the spline when applying it to the landscape. Higher numbers give better results, but setting it too high will be slow and may cause artifacts
-    @param bRaiseHeights - Allow the landscape to be raised up to the level of the spline. If both bRaiseHeights and bLowerHeights are false, no height modification of the landscape will be performed
-    @param bLowerHeights - Allow the landscape to be lowered down to the level of the spline. If both bRaiseHeights and bLowerHeights are false, no height modification of the landscape will be performed
-    @param PaintLayer - LayerInfo to paint, or none to skip painting. The landscape must be configured with the same layer info in one of its layers or this will do nothing!
-  **/
-  @:final public function EditorApplySpline(InSplineComponent : unreal.USplineComponent, StartWidth : unreal.Float32, EndWidth : unreal.Float32, StartSideFalloff : unreal.Float32, EndSideFalloff : unreal.Float32, StartRoll : unreal.Float32, EndRoll : unreal.Float32, NumSubdivisions : unreal.Int32, bRaiseHeights : Bool, bLowerHeights : Bool, PaintLayer : unreal.landscape.ULandscapeLayerInfoObject) : Void;
   
 }

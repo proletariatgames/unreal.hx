@@ -13,6 +13,12 @@
 **/
 package unreal.slatecore;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontProviderInterface.h")
 @:uextern extern interface IFontProviderInterface {

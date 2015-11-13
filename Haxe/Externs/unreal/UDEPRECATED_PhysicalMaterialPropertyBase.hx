@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("PhysicalMaterials/PhysicalMaterialPropertyBase.h")
 @:uextern extern class UDEPRECATED_PhysicalMaterialPropertyBase extends unreal.UObject {
   

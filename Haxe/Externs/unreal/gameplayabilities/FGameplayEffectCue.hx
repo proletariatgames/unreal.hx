@@ -15,13 +15,15 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FGameplayEffectCue
       This is a cosmetic cue that can be tied to a UGameplayEffect.
    This is essentially a GameplayTag + a Min/Max level range that is used to map the level of a GameplayEffect to a normalized value used by the GameplayCue system.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectCue {
+@:noCopy @:noEquals @:uextern extern class FGameplayEffectCue {
   
   /**
     Tags passed to the gameplay cue handler when this cue is activated

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventGenerator.h")
 @:uextern extern class UParticleModuleEventGenerator extends unreal.UParticleModuleEventBase {
   public var Events : unreal.TArray<unreal.FParticleEvent_GenerateInfo>;

@@ -13,9 +13,15 @@
 **/
 package unreal.niagara;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:uextern extern class FNiagaraVariableInfo {
+@:noCopy @:noEquals @:uextern extern class FNiagaraVariableInfo {
   public var Type : unreal.niagara.ENiagaraDataType;
   public var Name : unreal.FName;
   

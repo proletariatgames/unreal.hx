@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/ParticleSystemReplay.h")
-@:uextern extern class UParticleSystemReplay extends unreal.UObject {
+@:noClass @:uextern extern class UParticleSystemReplay extends unreal.UObject {
   
   /**
     Unique ID number for this replay clip

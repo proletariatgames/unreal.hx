@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Distributions/DistributionVectorUniform.h")
 @:uextern extern class UDistributionVectorUniform extends unreal.UDistributionVector {
   public var bUseExtremes : Bool;

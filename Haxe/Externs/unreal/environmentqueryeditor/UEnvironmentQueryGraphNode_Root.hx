@@ -13,8 +13,14 @@
 **/
 package unreal.environmentqueryeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EnvironmentQueryGraphNode_Root.h")
-@:uextern extern class UEnvironmentQueryGraphNode_Root extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
+@:noClass @:uextern extern class UEnvironmentQueryGraphNode_Root extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
   
 }

@@ -13,9 +13,15 @@
 **/
 package unreal.udpmessaging;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UdpMessaging")
 @:glueCppIncludes("Private/Shared/UdpMessagingSettings.h")
-@:uextern extern class UUdpMessagingSettings extends unreal.UObject {
+@:noClass @:uextern extern class UUdpMessagingSettings extends unreal.UObject {
   
   /**
     The IP endpoints of remote tunnel nodes.

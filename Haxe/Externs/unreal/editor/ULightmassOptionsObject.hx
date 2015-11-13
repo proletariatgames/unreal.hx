@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/LightmassOptionsObject.h")
-@:uextern extern class ULightmassOptionsObject extends unreal.UObject {
+@:noClass @:uextern extern class ULightmassOptionsObject extends unreal.UObject {
   public var SwarmSettings : unreal.FSwarmDebugOptions;
   public var DebugSettings : unreal.FLightmassDebugOptions;
   

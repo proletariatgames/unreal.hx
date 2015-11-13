@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Allows named parameter based manipulation of pitch and volume
 **/
 @:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
-@:uextern extern class USoundNodeModulatorContinuous extends unreal.USoundNode {
+@:noClass @:uextern extern class USoundNodeModulatorContinuous extends unreal.USoundNode {
   public var VolumeModulationParams : unreal.FModulatorContinuousParams;
   public var PitchModulationParams : unreal.FModulatorContinuousParams;
   

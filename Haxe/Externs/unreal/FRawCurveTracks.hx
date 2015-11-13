@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Raw Curve data for serialization
 **/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
-@:uextern extern class FRawCurveTracks {
+@:noCopy @:noEquals @:uextern extern class FRawCurveTracks {
   #if WITH_EDITORONLY_DATA
   
   /**

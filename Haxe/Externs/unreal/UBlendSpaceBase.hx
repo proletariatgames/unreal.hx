@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Allows multiple animations to be blended between based on input parameters
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")

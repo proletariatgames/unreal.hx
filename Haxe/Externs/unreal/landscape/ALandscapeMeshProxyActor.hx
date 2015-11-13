@@ -13,6 +13,12 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeMeshProxyActor.h")
 @:uextern extern class ALandscapeMeshProxyActor extends unreal.AActor {

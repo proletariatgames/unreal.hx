@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/Scene.h")
-@:uextern extern class UScene extends unreal.UObject {
+@:noClass @:uextern extern class UScene extends unreal.UObject {
   
 }

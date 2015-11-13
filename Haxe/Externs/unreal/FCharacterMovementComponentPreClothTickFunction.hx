@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Tick function that calls UCharacterMovementComponent::PreClothTick
 **/
 @:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
-@:uextern extern class FCharacterMovementComponentPreClothTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern extern class FCharacterMovementComponentPreClothTickFunction extends unreal.FTickFunction {
   
 }

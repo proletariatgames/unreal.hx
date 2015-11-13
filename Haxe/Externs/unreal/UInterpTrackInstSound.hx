@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstSound.h")
-@:uextern extern class UInterpTrackInstSound extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstSound extends unreal.UInterpTrackInst {
   public var PlayAudioComp : unreal.UAudioComponent;
   public var LastUpdatePosition : unreal.Float32;
   

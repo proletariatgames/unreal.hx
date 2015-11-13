@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackFloatParticleParam.h")
-@:uextern extern class UInterpTrackFloatParticleParam extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern extern class UInterpTrackFloatParticleParam extends unreal.UInterpTrackFloatBase {
   
   /**
     Name of property in the Emitter which this track mill modify over time.

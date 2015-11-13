@@ -15,10 +15,12 @@ package unreal.papertiledimporter;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Imports a tile map (and associated textures & tile sets) exported from Tiled (http:www.mapeditor.org/)
 **/
 @:umodule("PaperTiledImporter")
 @:glueCppIncludes("PaperTiledImporterFactory.h")
-@:uextern extern class UPaperTiledImporterFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UPaperTiledImporterFactory extends unreal.editor.UFactory {
   
 }

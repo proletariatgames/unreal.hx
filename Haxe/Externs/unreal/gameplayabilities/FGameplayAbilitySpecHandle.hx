@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This file exists in addition so that GameplayEffect.h can use FGameplayAbilitySpec without having to include GameplayAbilityTypes.h which has depancies on
   GameplayEffect.h
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FGameplayAbilitySpecHandle {
+@:noCopy @:noEquals @:uextern extern class FGameplayAbilitySpecHandle {
   
 }

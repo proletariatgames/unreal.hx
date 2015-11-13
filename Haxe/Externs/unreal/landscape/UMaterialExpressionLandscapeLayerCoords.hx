@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerCoords.h")
-@:uextern extern class UMaterialExpressionLandscapeLayerCoords extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionLandscapeLayerCoords extends unreal.UMaterialExpression {
   
   /**
     Offset to apply to the mapping along V.

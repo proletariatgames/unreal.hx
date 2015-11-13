@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/TriggerVolume.h")
-@:uextern extern class ATriggerVolume extends unreal.AVolume {
+@:noClass @:uextern extern class ATriggerVolume extends unreal.AVolume {
   
 }

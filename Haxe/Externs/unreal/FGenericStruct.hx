@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FGenericStruct {
+@:noCopy @:noEquals @:uextern extern class FGenericStruct {
   public var Data : unreal.Int32;
   
 }

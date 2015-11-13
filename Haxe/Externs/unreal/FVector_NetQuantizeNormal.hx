@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FVector_NetQuantizeNormal
   
   16 bits per component
   Valid range: -1..+1 inclusive
 **/
 @:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
-@:uextern extern class FVector_NetQuantizeNormal extends unreal.FVector {
+@:noCopy @:noEquals @:uextern extern class FVector_NetQuantizeNormal extends unreal.FVector {
   
 }

@@ -15,10 +15,12 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   MovieSceneBoundObject connects an object to a "possessable" slot in the MovieScene asset
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneBindings.h")
-@:uextern extern class FMovieSceneBoundObject {
+@:noCopy @:noEquals @:uextern extern class FMovieSceneBoundObject {
   
 }

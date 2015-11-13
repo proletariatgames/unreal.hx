@@ -15,11 +15,13 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FNavigationEvent describes a navigation action (Left, Right, Up, Down)
   It is passed to event handlers dealing with navigation.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern class FNavigationEvent extends unreal.slatecore.FInputEvent {
+@:noCopy @:noEquals @:uextern extern class FNavigationEvent extends unreal.slatecore.FInputEvent {
   
 }

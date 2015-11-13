@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveBase.h")
-@:uextern extern class UParticleModuleLocationPrimitiveBase extends unreal.UParticleModuleLocationBase {
+@:noClass @:uextern extern class UParticleModuleLocationPrimitiveBase extends unreal.UParticleModuleLocationBase {
   
   /**
     The location of the bounding primitive relative to the position of the emitter.

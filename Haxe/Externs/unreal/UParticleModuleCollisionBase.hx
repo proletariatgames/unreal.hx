@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollisionBase.h")
-@:uextern extern class UParticleModuleCollisionBase extends unreal.UParticleModule {
+@:noClass @:uextern extern class UParticleModuleCollisionBase extends unreal.UParticleModule {
   
 }

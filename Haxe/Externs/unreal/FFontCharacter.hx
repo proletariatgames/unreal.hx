@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This struct is serialized using native serialization so any changes to it require a package version bump.
 **/
 @:glueCppIncludes("Engine/Font.h")
-@:uextern extern class FFontCharacter {
+@:noCopy @:noEquals @:uextern extern class FFontCharacter {
   public var VerticalOffset : unreal.Int32;
   public var TextureIndex : unreal.UInt8;
   public var VSize : unreal.Int32;

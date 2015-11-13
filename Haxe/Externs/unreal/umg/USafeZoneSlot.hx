@@ -13,9 +13,15 @@
 **/
 package unreal.umg;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UMG")
 @:glueCppIncludes("Components/SafeZoneSlot.h")
-@:uextern extern class USafeZoneSlot extends unreal.umg.UPanelSlot {
+@:noClass @:uextern extern class USafeZoneSlot extends unreal.umg.UPanelSlot {
   public var Padding : unreal.slatecore.FMargin;
   public var VAlign : unreal.slatecore.EVerticalAlignment;
   public var HAlign : unreal.slatecore.EHorizontalAlignment;

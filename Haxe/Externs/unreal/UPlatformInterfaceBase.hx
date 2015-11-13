@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/PlatformInterfaceBase.h")
 @:uextern extern class UPlatformInterfaceBase extends unreal.UObject {
   

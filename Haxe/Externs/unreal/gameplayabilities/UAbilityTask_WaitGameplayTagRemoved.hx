@@ -13,14 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayTag.h")
 @:uextern extern class UAbilityTask_WaitGameplayTagRemoved extends unreal.gameplayabilities.UAbilityTask_WaitGameplayTag {
-  
-  /**
-    Wait until the specified gameplay tag is Removed. By default this will look at the owner of this ability. OptionalExternalTarget can be set to make this look at another actor's tags for changes.
-    If the tag is not present when this task is started, it will immediately broadcast the Removed event. It will keep listening as long as OnlyTriggerOnce = false.
-  **/
-  static public function WaitGameplayTagRemove(WorldContextObject : unreal.UObject, Tag : unreal.gameplaytags.FGameplayTag, OptionalExternalTarget : unreal.AActor, OnlyTriggerOnce : Bool) : unreal.gameplayabilities.UAbilityTask_WaitGameplayTagRemoved;
   
 }

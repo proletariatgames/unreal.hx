@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Parameters to describe the application of U,V coordinates on a particular slice within a destructible.
 **/
 @:glueCppIncludes("Engine/DestructibleFractureSettings.h")
-@:uextern extern class FFractureMaterial {
+@:noCopy @:noEquals @:uextern extern class FFractureMaterial {
   
   /**
     The element index to use for the newly-created triangles.

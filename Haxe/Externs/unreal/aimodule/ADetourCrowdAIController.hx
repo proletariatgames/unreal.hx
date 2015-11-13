@@ -13,8 +13,14 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("DetourCrowdAIController.h")
-@:uextern extern class ADetourCrowdAIController extends unreal.aimodule.AAIController {
+@:noClass @:uextern extern class ADetourCrowdAIController extends unreal.aimodule.AAIController {
   
 }

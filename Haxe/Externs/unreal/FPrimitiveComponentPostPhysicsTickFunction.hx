@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Tick function that calls UPrimitiveComponent::PostPhysicsTick
 **/
 @:glueCppIncludes("Components/PrimitiveComponent.h")
-@:uextern extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {
   
 }

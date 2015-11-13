@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Base class for all table row structs to inherit from.
 **/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FTableRowBase {
+@:noCopy @:noEquals @:uextern extern class FTableRowBase {
   
 }

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Holds options for importing fonts.
 **/
 @:glueCppIncludes("Engine/FontImportOptions.h")

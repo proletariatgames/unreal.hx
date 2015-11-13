@@ -15,11 +15,13 @@ package unreal.aimodule;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Simple grid, generates points in 2D square around context
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_SimpleGrid.h")
-@:uextern extern class UEnvQueryGenerator_SimpleGrid extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
+@:noClass @:uextern extern class UEnvQueryGenerator_SimpleGrid extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
   
   /**
     context

@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Unique handle that can be used to distinguish timers that have identical delegates.
 **/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FTimerHandle {
+@:noCopy @:noEquals @:uextern extern class FTimerHandle {
   
 }

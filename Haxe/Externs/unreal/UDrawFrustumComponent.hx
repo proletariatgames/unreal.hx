@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Utility component for drawing a view frustum. Origin is at the component location, frustum points down position X axis.
 **/
 @:glueCppIncludes("Components/DrawFrustumComponent.h")

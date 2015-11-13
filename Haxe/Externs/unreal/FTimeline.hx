@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:uextern extern class FTimeline {
+@:noCopy @:noEquals @:uextern extern class FTimeline {
   
 }

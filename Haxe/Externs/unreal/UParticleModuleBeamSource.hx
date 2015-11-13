@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamSource.h")
 @:uextern extern class UParticleModuleBeamSource extends unreal.UParticleModuleBeamBase {
   

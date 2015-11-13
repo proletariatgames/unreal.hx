@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
-@:uextern extern class FModulatorContinuousParams {
+@:noCopy @:noEquals @:uextern extern class FModulatorContinuousParams {
   
   /**
     The mode with which to treat the input value

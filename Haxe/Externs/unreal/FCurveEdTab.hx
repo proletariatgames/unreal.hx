@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/InterpCurveEdSetup.h")
-@:uextern extern class FCurveEdTab {
+@:noCopy @:noEquals @:uextern extern class FCurveEdTab {
   public var ViewEndOutput : unreal.Float32;
   public var ViewStartOutput : unreal.Float32;
   public var ViewEndInput : unreal.Float32;

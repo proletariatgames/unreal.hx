@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Kill/ParticleModuleKillBox.h")
-@:uextern extern class UParticleModuleKillBox extends unreal.UParticleModuleKillBase {
+@:noClass @:uextern extern class UParticleModuleKillBox extends unreal.UParticleModuleKillBase {
   
   /**
     If true, the box will always be axis aligned and non-scalable.

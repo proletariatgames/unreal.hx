@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/MaterialParameterCollectionFactoryNew.h")
-@:uextern extern class UMaterialParameterCollectionFactoryNew extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UMaterialParameterCollectionFactoryNew extends unreal.editor.UFactory {
   
 }

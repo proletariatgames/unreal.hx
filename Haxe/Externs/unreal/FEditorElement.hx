@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Each elements in the grid
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:uextern extern class FEditorElement {
+@:noCopy @:noEquals @:uextern extern class FEditorElement {
   
   /**
     MAX_VERTICES @fixmeconst

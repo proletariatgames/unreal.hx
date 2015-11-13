@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/ParticleModuleRequired.h")
-@:uextern extern class FParticleBurst {
+@:noCopy @:noEquals @:uextern extern class FParticleBurst {
   
   /**
     The time at which to burst them (0..1: emitter lifetime)

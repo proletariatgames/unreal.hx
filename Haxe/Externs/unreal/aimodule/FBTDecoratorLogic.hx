@@ -13,9 +13,15 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTree.h")
-@:uextern extern class FBTDecoratorLogic {
+@:noCopy @:noEquals @:uextern extern class FBTDecoratorLogic {
   public var Number : unreal.UInt16;
   public var Operation : unreal.aimodule.EBTDecoratorLogic;
   

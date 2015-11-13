@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstLinearColorProp.h")
-@:uextern extern class UInterpTrackInstLinearColorProp extends unreal.UInterpTrackInstProperty {
+@:noClass @:uextern extern class UInterpTrackInstLinearColorProp extends unreal.UInterpTrackInstProperty {
   
   /**
     Saved value for restoring state when exiting Matinee.

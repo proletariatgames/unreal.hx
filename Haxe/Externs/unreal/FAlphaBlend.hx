@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Alpha Blend Type
 **/
 @:glueCppIncludes("AnimGraphNode_BlendListByBool.h")
-@:uextern extern class FAlphaBlend {
+@:noCopy @:noEquals @:uextern extern class FAlphaBlend {
   
   /**
     The current blended value derived from the begin and desired values

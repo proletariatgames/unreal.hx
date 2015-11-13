@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/InstancedStaticMeshComponent.h")
-@:uextern extern class FInstancedStaticMeshInstanceData {
+@:noCopy @:noEquals @:uextern extern class FInstancedStaticMeshInstanceData {
   public var ShadowmapUVBias : unreal.FVector2D;
   public var LightmapUVBias : unreal.FVector2D;
   public var Transform : unreal.FMatrix;

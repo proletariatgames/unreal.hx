@@ -13,8 +13,14 @@
 **/
 package unreal.behaviortreeeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeDecoratorGraph.h")
-@:uextern extern class UBehaviorTreeDecoratorGraph extends unreal.UEdGraph {
+@:noClass @:uextern extern class UBehaviorTreeDecoratorGraph extends unreal.UEdGraph {
   
 }

@@ -15,12 +15,14 @@ package unreal.niagara;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Dummy struct used to serialize in the old layout of FNiagaraConstants
   This should be removed once everyone has recompiled and saved their scripts.
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:uextern extern class FDeprecatedNiagaraConstants {
+@:noCopy @:noEquals @:uextern extern class FDeprecatedNiagaraConstants {
   public var MatrixConstants_DEPRECATED : unreal.TArray<unreal.FMatrix>;
   public var VectorConstants_DEPRECATED : unreal.TArray<unreal.FVector4>;
   public var ScalarConstants_DEPRECATED : unreal.TArray<unreal.Float32>;

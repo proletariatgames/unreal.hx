@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the material editor build promotion tests
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FMaterialEditorPromotionSettings {
+@:noCopy @:noEquals @:uextern extern class FMaterialEditorPromotionSettings {
   
   /**
     Default material asset to apply to static meshes *

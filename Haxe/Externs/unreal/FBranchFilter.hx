@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
-@:uextern extern class FBranchFilter {
+@:noCopy @:noEquals @:uextern extern class FBranchFilter {
   
   /**
     Blend Depth *

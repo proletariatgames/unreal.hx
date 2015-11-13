@@ -13,9 +13,15 @@
 **/
 package unreal.localization;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationSettings.h")
-@:uextern extern class FLocalizationTargetSettings {
+@:noCopy @:noEquals @:uextern extern class FLocalizationTargetSettings {
   
   /**
     Cultures for which the source text is being localized for.

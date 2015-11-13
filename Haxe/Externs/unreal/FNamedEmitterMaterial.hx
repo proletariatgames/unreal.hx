@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/ParticleSystem.h")
-@:uextern extern class FNamedEmitterMaterial {
+@:noCopy @:noEquals @:uextern extern class FNamedEmitterMaterial {
   public var Material : unreal.UMaterialInterface;
   public var Name : unreal.FName;
   

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A Component referencing a vector field.
 **/
 @:glueCppIncludes("Components/VectorFieldComponent.h")
@@ -39,11 +41,5 @@ package unreal;
     The vector field asset.
   **/
   public var VectorField : unreal.UVectorField;
-  
-  /**
-    Set the intensity of the vector field.
-    @param NewIntensity - The new intensity of the vector field.
-  **/
-  public function SetIntensity(NewIntensity : unreal.Float32) : Void;
   
 }

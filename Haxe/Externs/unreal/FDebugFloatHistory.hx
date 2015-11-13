@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for recording float values and displaying them as an Histogram through DrawDebugFloatHistory.
 **/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FDebugFloatHistory {
+@:noCopy @:noEquals @:uextern extern class FDebugFloatHistory {
   
   /**
     Auto adjust Min/Max as new values are recorded?

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
 @:uextern extern class UParticleModuleParameterDynamic extends unreal.UParticleModuleParameterBase {
   public var bUsesVelocity : Bool;

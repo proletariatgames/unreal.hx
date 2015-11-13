@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:uextern extern class FVehicleGearData {
+@:noCopy @:noEquals @:uextern extern class FVehicleGearData {
   
   /**
     Value of engineRevs/maxEngineRevs that is high enough to gear up

@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A group, associated with a particular  AActor  or set of Actors, which contains a set of InterpTracks for interpolating
   properties of the  AActor  over time.
   The Outer of an UInterpGroup is an InterpData.
 **/
 @:glueCppIncludes("MatineeOptions.h")
-@:uextern extern class FInterpEdSelKey {
+@:noCopy @:noEquals @:uextern extern class FInterpEdSelKey {
   public var UnsnappedPosition : unreal.Float32;
   public var KeyIndex : unreal.Int32;
   public var Track : unreal.UInterpTrack;

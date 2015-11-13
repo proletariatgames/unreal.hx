@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawnBase.h")
-@:uextern extern class UParticleModuleSpawnBase extends unreal.UParticleModule {
+@:noClass @:uextern extern class UParticleModuleSpawnBase extends unreal.UParticleModule {
   
   /**
     If true, the BurstList of the SpawnModule of the emitter will be processed.

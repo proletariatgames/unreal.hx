@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionSceneTexture.h")
-@:uextern extern class UMaterialExpressionSceneTexture extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionSceneTexture extends unreal.UMaterialExpression {
   
   /**
     Whether to use point sampled texture lookup (default) or using [bi-linear] filtered (can be slower, avoid faceted lock with distortions), some SceneTextures cannot be filtered

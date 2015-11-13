@@ -15,11 +15,13 @@ package unreal.sceneoutliner;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements the settings for the Scene Outliner.
 **/
 @:umodule("SceneOutliner")
 @:glueCppIncludes("Private/SceneOutlinerSettings.h")
-@:uextern extern class USceneOutlinerSettings extends unreal.UObject {
+@:noClass @:uextern extern class USceneOutlinerSettings extends unreal.UObject {
   
   /**
     True when the Scene Outliner is only displaying selected Actors

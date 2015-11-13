@@ -13,9 +13,15 @@
 **/
 package unreal.custommeshcomponent;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("CustomMeshComponent")
 @:glueCppIncludes("CustomMeshComponent.h")
-@:uextern extern class FCustomMeshTriangle {
+@:noCopy @:noEquals @:uextern extern class FCustomMeshTriangle {
   public var Vertex2 : unreal.FVector;
   public var Vertex1 : unreal.FVector;
   public var Vertex0 : unreal.FVector;

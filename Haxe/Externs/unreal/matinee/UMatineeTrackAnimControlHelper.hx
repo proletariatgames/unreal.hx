@@ -13,8 +13,14 @@
 **/
 package unreal.matinee;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Matinee")
 @:glueCppIncludes("MatineeTrackAnimControlHelper.h")
-@:uextern extern class UMatineeTrackAnimControlHelper extends unreal.matinee.UInterpTrackHelper {
+@:noClass @:uextern extern class UMatineeTrackAnimControlHelper extends unreal.matinee.UInterpTrackHelper {
   
 }

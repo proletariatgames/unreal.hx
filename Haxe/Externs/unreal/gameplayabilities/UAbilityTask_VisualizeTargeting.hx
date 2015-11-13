@@ -13,20 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_VisualizeTargeting.h")
 @:uextern extern class UAbilityTask_VisualizeTargeting extends unreal.gameplayabilities.UAbilityTask {
-  
-  /**
-    Spawns target actor and uses it for visualization.
-  **/
-  static public function VisualizeTargeting(WorldContextObject : unreal.UObject, Class : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityTargetActor>, TaskInstanceName : unreal.FName, Duration : unreal.Float32) : unreal.gameplayabilities.UAbilityTask_VisualizeTargeting;
-  
-  /**
-    Visualize target using a specified target actor.
-  **/
-  static public function VisualizeTargetingUsingActor(WorldContextObject : unreal.UObject, TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor, TaskInstanceName : unreal.FName, Duration : unreal.Float32) : unreal.gameplayabilities.UAbilityTask_VisualizeTargeting;
-  @:final public function BeginSpawningActor(WorldContextObject : unreal.UObject, Class : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityTargetActor>, SpawnedActor : unreal.PRef<unreal.gameplayabilities.AGameplayAbilityTargetActor>) : Bool;
-  @:final public function FinishSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : Void;
   
 }

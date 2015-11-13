@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventReceiverSpawn.h")
-@:uextern extern class UParticleModuleEventReceiverSpawn extends unreal.UParticleModuleEventReceiverBase {
+@:noClass @:uextern extern class UParticleModuleEventReceiverSpawn extends unreal.UParticleModuleEventReceiverBase {
   
   /**
     If bInheritVelocity is true, scale the velocity with this.

@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class FEditorParameterGroup {
+@:noCopy @:noEquals @:uextern extern class FEditorParameterGroup {
   public var Parameters : unreal.TArray<unreal.editor.UDEditorParameterValue>;
   public var GroupName : unreal.FName;
   

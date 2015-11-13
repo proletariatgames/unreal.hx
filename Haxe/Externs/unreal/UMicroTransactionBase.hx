@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/MicroTransactionBase.h")
-@:uextern extern class UMicroTransactionBase extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern extern class UMicroTransactionBase extends unreal.UPlatformInterfaceBase {
   
   /**
     In case of errors, this will describe possible solutions (if there are any)

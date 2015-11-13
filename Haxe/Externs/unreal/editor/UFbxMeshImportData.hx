@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Import data and options used when importing any mesh from FBX
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxMeshImportData.h")
-@:uextern extern class UFbxMeshImportData extends unreal.editor.UFbxAssetImportData {
+@:noClass @:uextern extern class UFbxMeshImportData extends unreal.editor.UFbxAssetImportData {
   
   /**
     Use the MikkTSpace tangent space generator for generating normals and tangents on the mesh

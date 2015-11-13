@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Elements of data for sound group volume control
 **/
 @:glueCppIncludes("Sound/SoundMix.h")
-@:uextern extern class FSoundClassAdjuster {
+@:noCopy @:noEquals @:uextern extern class FSoundClassAdjuster {
   
   /**
     A multiplier applied to VoiceCenterChannelVolume.

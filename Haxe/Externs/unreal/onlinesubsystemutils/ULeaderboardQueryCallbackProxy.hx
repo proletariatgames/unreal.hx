@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("LeaderboardQueryCallbackProxy.h")
 @:uextern extern class ULeaderboardQueryCallbackProxy extends unreal.UObject {
-  
-  /**
-    Queries a leaderboard for an integer value
-  **/
-  static public function CreateProxyObjectForIntQuery(PlayerController : unreal.APlayerController, StatName : unreal.FName) : unreal.onlinesubsystemutils.ULeaderboardQueryCallbackProxy;
   
 }

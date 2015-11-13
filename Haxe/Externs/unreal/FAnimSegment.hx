@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   this is anim segment that defines what animation and how *
 **/
 @:glueCppIncludes("Animation/AnimComposite.h")
-@:uextern extern class FAnimSegment {
+@:noCopy @:noEquals @:uextern extern class FAnimSegment {
   public var LoopingCount : unreal.Int32;
   
   /**

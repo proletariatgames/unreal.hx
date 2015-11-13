@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Debug/LogVisualizerCameraController.h")
-@:uextern extern class ALogVisualizerCameraController extends unreal.ADebugCameraController {
+@:noClass @:uextern extern class ALogVisualizerCameraController extends unreal.ADebugCameraController {
   public var PickedActor : unreal.AActor;
   
 }

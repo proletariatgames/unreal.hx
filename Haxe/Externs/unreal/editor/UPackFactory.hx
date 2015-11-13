@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Factory for unpacking upack files
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/PackFactory.h")
-@:uextern extern class UPackFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UPackFactory extends unreal.editor.UFactory {
   
 }

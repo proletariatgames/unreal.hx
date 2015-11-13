@@ -13,9 +13,15 @@
 **/
 package unreal.landscapeeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:uextern extern class ULandscapeEditorObject extends unreal.UObject {
+@:noClass @:uextern extern class ULandscapeEditorObject extends unreal.UObject {
   
   /**
     Limits painting to only the components that already have the selected layer

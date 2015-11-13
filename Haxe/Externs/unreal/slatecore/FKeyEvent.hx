@@ -15,11 +15,13 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FKeyEvent describes a key action (keyboard/controller key/button pressed or released.)
   It is passed to event handlers dealing with key input.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern class FKeyEvent extends unreal.slatecore.FInputEvent {
+@:noCopy @:noEquals @:uextern extern class FKeyEvent extends unreal.slatecore.FInputEvent {
   
 }

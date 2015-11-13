@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Per-object settings for Lightmass
 **/
 @:glueCppIncludes("Lightmass/LightmassPrimitiveSettingsObject.h")
-@:uextern extern class FLightmassPrimitiveSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassPrimitiveSettings {
   
   /**
     Fraction of samples taken that must be occluded in order to reach full occlusion.

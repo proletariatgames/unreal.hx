@@ -13,9 +13,15 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTTask_SetFlag.h")
-@:uextern extern class UTestBTTask_SetFlag extends unreal.aimodule.UBTTaskNode {
+@:noClass @:uextern extern class UTestBTTask_SetFlag extends unreal.aimodule.UBTTaskNode {
   public var TaskResult : unreal.aimodule.EBTNodeResult;
   public var bValue : Bool;
   public var KeyName : unreal.FName;

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Base struct for collection parameters
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollection.h")
-@:uextern extern class FCollectionParameterBase {
+@:noCopy @:noEquals @:uextern extern class FCollectionParameterBase {
   
   /**
     Uniquely identifies the parameter, used for fixing up materials that reference this parameter when renaming.

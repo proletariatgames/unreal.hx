@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Lightmass/LightmassPrimitiveSettingsObject.h")
 @:uextern extern class ULightmassPrimitiveSettingsObject extends unreal.UObject {
   public var LightmassSettings : unreal.FLightmassPrimitiveSettings;

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AimOffsetBlendSpace1D.h")
 @:uextern extern class UAimOffsetBlendSpace1D extends unreal.UBlendSpace1D {
   

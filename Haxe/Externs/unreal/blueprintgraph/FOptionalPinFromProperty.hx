@@ -13,9 +13,15 @@
 **/
 package unreal.blueprintgraph;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_GetClassDefaults.h")
-@:uextern extern class FOptionalPinFromProperty {
+@:noCopy @:noEquals @:uextern extern class FOptionalPinFromProperty {
   public var CategoryName : unreal.FName;
   public var bPropertyIsCustomized : Bool;
   public var bCanToggleVisibility : Bool;

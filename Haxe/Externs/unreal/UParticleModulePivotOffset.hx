@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Modules/Location/ParticleModulePivotOffset.h")
 @:uextern extern class UParticleModulePivotOffset extends unreal.UParticleModuleLocationBase {
   

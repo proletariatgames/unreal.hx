@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Attach one of these on an object using physics simulation and it will apply a force down the negative-X direction
   ie. point X in the direction you want the thrust in.
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsThruster.h")
-@:uextern extern class APhysicsThruster extends unreal.ARigidBodyBase {
+@:noClass @:uextern extern class APhysicsThruster extends unreal.ARigidBodyBase {
   #if WITH_EDITORONLY_DATA
   public var SpriteComponent : unreal.UBillboardComponent;
   public var ArrowComponent : unreal.UArrowComponent;

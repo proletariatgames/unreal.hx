@@ -15,10 +15,12 @@ package unreal.paperspritesheetimporter;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Reimports a UPaperSpriteSheet asset
 **/
 @:umodule("PaperSpriteSheetImporter")
 @:glueCppIncludes("Private/PaperSpriteSheetReimportFactory.h")
-@:uextern extern class UPaperSpriteSheetReimportFactory extends unreal.paperspritesheetimporter.UPaperSpriteSheetImportFactory {
+@:noClass @:uextern extern class UPaperSpriteSheetReimportFactory extends unreal.paperspritesheetimporter.UPaperSpriteSheetImportFactory {
   
 }

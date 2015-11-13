@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Parameters that pertain to chunk debris-level settings.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleDebrisParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleDebrisParameters {
   
   /**
     "Debris chunks" (see debrisDepth, above) will be destroyed if they leave this box.

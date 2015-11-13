@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Per-chunk authoring data.
 **/
 @:glueCppIncludes("Engine/DestructibleFractureSettings.h")
-@:uextern extern class FDestructibleChunkParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleChunkParameters {
   
   /**
     Defines the chunk to be uncrumbleable.  This means this chunk will not be broken down into fluid mesh particles

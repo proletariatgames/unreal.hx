@@ -13,9 +13,14 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("Blueprint/AIAsyncTaskBlueprintProxy.h")
 @:uextern extern class UAIAsyncTaskBlueprintProxy extends unreal.UObject {
-  @:final public function OnMoveCompleted(RequestID : unreal.aimodule.FAIRequestID, MovementResult : unreal.aimodule.EPathFollowingResult) : Void;
   
 }

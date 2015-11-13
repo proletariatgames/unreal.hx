@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used to indicate one active vertex animation that should be applied to this USkeletalMesh when rendered.
 **/
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class FActiveVertexAnim {
+@:noCopy @:noEquals @:uextern extern class FActiveVertexAnim {
   
   /**
     Time to evaluate the animation at.

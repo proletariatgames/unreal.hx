@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   SoundNodeDistanceCrossFade
   
   This node's purpose is to play different sounds based on the distance to the listener.

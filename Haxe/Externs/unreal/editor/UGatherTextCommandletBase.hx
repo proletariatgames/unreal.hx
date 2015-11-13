@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GatherTextCommandletBase.h")
-@:uextern extern class UGatherTextCommandletBase extends unreal.UCommandlet {
+@:noClass @:uextern extern class UGatherTextCommandletBase extends unreal.UCommandlet {
   
 }

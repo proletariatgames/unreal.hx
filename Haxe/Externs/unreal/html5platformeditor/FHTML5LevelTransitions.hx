@@ -13,9 +13,15 @@
 **/
 package unreal.html5platformeditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("HTML5TargetSettings.h")
-@:uextern extern class FHTML5LevelTransitions {
+@:noCopy @:noEquals @:uextern extern class FHTML5LevelTransitions {
   public var MapTo : unreal.FFilePath;
   public var MapFrom : unreal.FFilePath;
   

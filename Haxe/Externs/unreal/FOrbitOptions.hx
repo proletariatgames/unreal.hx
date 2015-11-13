@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Container struct for holding options on the data updating for the module.
 **/
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbit.h")
-@:uextern extern class FOrbitOptions {
+@:noCopy @:noEquals @:uextern extern class FOrbitOptions {
   
   /**
     Whether to use emitter time during data retrieval.

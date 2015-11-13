@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
-@:uextern extern class UParticleModuleBeamModifier extends unreal.UParticleModuleBeamBase {
+@:noClass @:uextern extern class UParticleModuleBeamModifier extends unreal.UParticleModuleBeamBase {
   
   /**
     The value to use when modifying the Strength.

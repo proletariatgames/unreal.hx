@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/InGameAdManager.h")
-@:uextern extern class UInGameAdManager extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern extern class UInGameAdManager extends unreal.UPlatformInterfaceBase {
   
   /**
     If true, the game will pause when the user clicks on the ad, which could take over the screen

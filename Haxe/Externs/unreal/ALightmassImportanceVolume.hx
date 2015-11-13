@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Lightmass/LightmassImportanceVolume.h")
 @:uextern extern class ALightmassImportanceVolume extends unreal.AVolume {
   

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionTransform.h")
-@:uextern extern class UMaterialExpressionTransform extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionTransform extends unreal.UMaterialExpression {
   
   /**
     Destination coordinate space of the FVector

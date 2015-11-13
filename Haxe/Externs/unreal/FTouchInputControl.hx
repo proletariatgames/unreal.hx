@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/TouchInterface.h")
-@:uextern extern class FTouchInputControl {
+@:noCopy @:noEquals @:uextern extern class FTouchInputControl {
   
   /**
     The alternate input to send from this control (for sticks, this is the vertical axis)

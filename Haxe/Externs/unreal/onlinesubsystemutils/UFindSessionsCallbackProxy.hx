@@ -13,17 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("FindSessionsCallbackProxy.h")
 @:uextern extern class UFindSessionsCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
-  
-  /**
-    Searches for advertised sessions with the default online subsystem
-  **/
-  static public function FindSessions(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MaxResults : unreal.Int32, bUseLAN : Bool) : unreal.onlinesubsystemutils.UFindSessionsCallbackProxy;
-  static public function GetPingInMs(Result : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FBlueprintSessionResult>>) : unreal.Int32;
-  static public function GetServerName(Result : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FBlueprintSessionResult>>) : unreal.FString;
-  static public function GetCurrentPlayers(Result : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FBlueprintSessionResult>>) : unreal.Int32;
-  static public function GetMaxPlayers(Result : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FBlueprintSessionResult>>) : unreal.Int32;
   
 }

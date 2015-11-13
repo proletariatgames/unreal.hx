@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/LevelStreamingPersistent.h")
-@:uextern extern class ULevelStreamingPersistent extends unreal.ULevelStreaming {
+@:noClass @:uextern extern class ULevelStreamingPersistent extends unreal.ULevelStreaming {
   
 }

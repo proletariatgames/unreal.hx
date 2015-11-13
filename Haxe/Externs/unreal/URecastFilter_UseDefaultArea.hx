@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Regular navigation area, applied to entire navigation data by default
 **/
 @:glueCppIncludes("AI/Navigation/NavFilters/RecastFilter_UseDefaultArea.h")

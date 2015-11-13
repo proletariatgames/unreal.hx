@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionIf.h")
 @:uextern extern class UMaterialExpressionIf extends unreal.UMaterialExpression {
   public var ConstAEqualsB_DEPRECATED : unreal.Float32;

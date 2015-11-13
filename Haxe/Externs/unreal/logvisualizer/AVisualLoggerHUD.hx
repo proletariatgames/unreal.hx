@@ -13,8 +13,14 @@
 **/
 package unreal.logvisualizer;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("Private/VisualLoggerHUD.h")
-@:uextern extern class AVisualLoggerHUD extends unreal.ADebugCameraHUD {
+@:noClass @:uextern extern class AVisualLoggerHUD extends unreal.ADebugCameraHUD {
   
 }

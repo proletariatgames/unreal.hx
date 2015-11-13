@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeMeshCollisionComponent.h")
-@:uextern extern class ULandscapeMeshCollisionComponent extends unreal.landscape.ULandscapeHeightfieldCollisionComponent {
+@:noClass @:uextern extern class ULandscapeMeshCollisionComponent extends unreal.landscape.ULandscapeHeightfieldCollisionComponent {
   
   /**
     Guid used to share PhysX heightfield objects in the editor

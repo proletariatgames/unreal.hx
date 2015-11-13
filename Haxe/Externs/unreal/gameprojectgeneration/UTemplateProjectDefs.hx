@@ -13,6 +13,12 @@
 **/
 package unreal.gameprojectgeneration;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
 @:uextern extern class UTemplateProjectDefs extends unreal.UObject {

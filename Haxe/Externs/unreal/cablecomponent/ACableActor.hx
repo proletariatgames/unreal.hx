@@ -15,11 +15,13 @@ package unreal.cablecomponent;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   An actor that renders a simulated cable
 **/
 @:umodule("CableComponent")
 @:glueCppIncludes("CableActor.h")
-@:uextern extern class ACableActor extends unreal.AActor {
+@:noClass @:uextern extern class ACableActor extends unreal.AActor {
   
   /**
     Cable component that performs simulation and rendering

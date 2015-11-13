@@ -13,18 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueInterface.h")
 @:uextern extern interface IGameplayCueInterface {
-  
-  /**
-    Internal function to map ufunctions directly to gameplaycue tags
-  **/
-  public function BlueprintCustomHandler(EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Void;
-  
-  /**
-    Call from a Cue handler event to continue checking for additional, more generic handlers. Called from the ability system blueprint library
-  **/
-  public function ForwardGameplayCueToParent() : Void;
   
 }

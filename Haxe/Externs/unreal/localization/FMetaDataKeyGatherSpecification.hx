@@ -13,9 +13,15 @@
 **/
 package unreal.localization;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationSettings.h")
-@:uextern extern class FMetaDataKeyGatherSpecification {
+@:noCopy @:noEquals @:uextern extern class FMetaDataKeyGatherSpecification {
   
   /**
     The pattern which will be formatted to form the localization key for the metadata value gathered as text.

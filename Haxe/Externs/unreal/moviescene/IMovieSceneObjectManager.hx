@@ -13,6 +13,12 @@
 **/
 package unreal.moviescene;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneObjectManager.h")
 @:uextern extern interface IMovieSceneObjectManager {

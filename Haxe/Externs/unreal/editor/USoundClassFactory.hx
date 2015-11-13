@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SoundClassFactory.h")
-@:uextern extern class USoundClassFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class USoundClassFactory extends unreal.editor.UFactory {
   
 }

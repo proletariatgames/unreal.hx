@@ -13,9 +13,15 @@
 **/
 package unreal.phat;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("PhAT")
 @:glueCppIncludes("PhATEdSkeletalMeshComponent.h")
-@:uextern extern class UPhATEdSkeletalMeshComponent extends unreal.USkeletalMeshComponent {
+@:noClass @:uextern extern class UPhATEdSkeletalMeshComponent extends unreal.USkeletalMeshComponent {
   public var BoneNoCollisionMaterial : unreal.UMaterialInterface;
   public var BoneMaterialHit : unreal.UMaterialInterface;
   public var BoneUnselectedMaterial : unreal.UMaterialInterface;

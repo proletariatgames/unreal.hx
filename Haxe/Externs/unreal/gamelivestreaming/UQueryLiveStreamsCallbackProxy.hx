@@ -13,13 +13,14 @@
 **/
 package unreal.gamelivestreaming;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameLiveStreaming")
 @:glueCppIncludes("QueryLiveStreamsCallbackProxy.h")
-@:uextern extern class UQueryLiveStreamsCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
-  
-  /**
-    Requests a list of live internet streams for the specified game name.  This will usually hit the internet so it could take a second or two.
-  **/
-  static public function QueryLiveStreams(GameName : unreal.FString) : unreal.gamelivestreaming.UQueryLiveStreamsCallbackProxy;
+@:noClass @:uextern extern class UQueryLiveStreamsCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
   
 }

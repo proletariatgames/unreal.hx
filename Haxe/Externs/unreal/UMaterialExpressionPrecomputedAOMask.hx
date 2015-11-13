@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionPrecomputedAOMask.h")
-@:uextern extern class UMaterialExpressionPrecomputedAOMask extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionPrecomputedAOMask extends unreal.UMaterialExpression {
   
 }

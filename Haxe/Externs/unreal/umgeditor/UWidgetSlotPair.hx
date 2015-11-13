@@ -13,8 +13,14 @@
 **/
 package unreal.umgeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UMGEditor")
 @:glueCppIncludes("Private/Utility/WidgetSlotPair.h")
-@:uextern extern class UWidgetSlotPair extends unreal.UObject {
+@:noClass @:uextern extern class UWidgetSlotPair extends unreal.UObject {
   
 }

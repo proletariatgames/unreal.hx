@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Used to emit a radial force or impulse that can affect physics objects and or destructible objects.
 **/
 @:glueCppIncludes("PhysicsEngine/RadialForceComponent.h")
@@ -54,20 +56,5 @@ package unreal;
     The radius to apply the force or impulse in
   **/
   public var Radius : unreal.Float32;
-  
-  /**
-    Fire a single impulse
-  **/
-  public function FireImpulse() : Void;
-  
-  /**
-    Add an object type for this radial force to affect
-  **/
-  public function AddObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
-  
-  /**
-    Remove an object type that is affected by this radial force
-  **/
-  public function RemoveObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
   
 }

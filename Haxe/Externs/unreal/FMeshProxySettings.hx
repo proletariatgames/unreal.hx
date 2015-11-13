@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FMeshProxySettings {
+@:noCopy @:noEquals @:uextern extern class FMeshProxySettings {
   public var bPlaneNegativeHalfspace : Bool;
   public var AxisIndex : unreal.Int32;
   public var ClippingLevel : unreal.Float32;

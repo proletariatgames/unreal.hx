@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDecalMipmapLevel.h")
-@:uextern extern class UMaterialExpressionDecalMipmapLevel extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionDecalMipmapLevel extends unreal.UMaterialExpression {
   public var ConstHeight : unreal.Float32;
   
   /**

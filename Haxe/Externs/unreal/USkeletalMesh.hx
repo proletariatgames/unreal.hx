@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   SkeletalMesh is geometry bound to a hierarchical skeleton of bones which can be animated for the purpose of deforming the mesh.
   Skeletal Meshes are built up of two parts; a set of polygons composed to make up the surface of the mesh, and a hierarchical skeleton which can be used to animate the polygons.
   The 3D models, rigging, and animations are created in an external modeling and animation application (3DSMax, Maya, Softimage, etc).
@@ -149,22 +151,6 @@ package unreal;
     Skeleton of this skeletal mesh *
   **/
   public var Skeleton : unreal.USkeleton;
-  
-  /**
-    Find a socket object in this SkeletalMesh by name.
-    Entering NAME_None will return NULL. If there are multiple sockets with the same name, will return the first one.
-  **/
-  @:thisConst @:final public function FindSocket(InSocketName : unreal.FName) : unreal.USkeletalMeshSocket;
-  
-  /**
-    Checks whether the provided section is using APEX cloth. if bCheckCorrespondingSections is true
-    disabled sections will defer to correspond sections to see if they use cloth (non-cloth sections
-    are disabled and another section added when cloth is enabled, using this flag allows for a check
-    on the original section to succeed)
-    @param InSectionIndex Index to check
-    @param bCheckCorrespondingSections Whether to check corresponding sections for disabled sections
-  **/
-  @:thisConst @:final public function IsSectionUsingCloth(InSectionIndex : unreal.Int32, bCheckCorrespondingSections : Bool) : Bool;
   // Interface_CollisionDataProvider interface implementation
   // Interface_AssetUserData interface implementation
   

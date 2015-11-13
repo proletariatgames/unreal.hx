@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/InheritableComponentHandler.h")
-@:uextern extern class FComponentOverrideRecord {
+@:noCopy @:noEquals @:uextern extern class FComponentOverrideRecord {
   public var ComponentKey : unreal.FComponentKey;
   public var ComponentTemplate : unreal.UActorComponent;
   

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Keyframe position data for one track.  Pos(i) occurs at Time(i).  Pos.Num() always equals Time.Num().
 **/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
-@:uextern extern class FAnimNotifyTrack {
+@:noCopy @:noEquals @:uextern extern class FAnimNotifyTrack {
   public var TrackColor : unreal.FLinearColor;
   public var TrackName : unreal.FName;
   

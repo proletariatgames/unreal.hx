@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Purchase information structure
 **/
 @:glueCppIncludes("Engine/MicroTransactionBase.h")
-@:uextern extern class FPurchaseInfo {
+@:noCopy @:noEquals @:uextern extern class FPurchaseInfo {
   
   /**
     Price displayable to the user

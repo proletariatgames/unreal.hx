@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure containing per-LOD settings that pertain to the entire UParticleSystem.
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
-@:uextern extern class FParticleSystemLOD {
+@:noCopy @:noEquals @:uextern extern class FParticleSystemLOD {
   
 }

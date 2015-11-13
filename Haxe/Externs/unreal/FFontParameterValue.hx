@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Editable font parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:uextern extern class FFontParameterValue {
+@:noCopy @:noEquals @:uextern extern class FFontParameterValue {
   public var ExpressionGUID : unreal.FGuid;
   public var FontPage : unreal.Int32;
   public var FontValue : unreal.UFont;

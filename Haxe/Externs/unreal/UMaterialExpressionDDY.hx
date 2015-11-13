@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDDY.h")
-@:uextern extern class UMaterialExpressionDDY extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionDDY extends unreal.UMaterialExpression {
   
   /**
     The value we want to compute ddx/ddy from

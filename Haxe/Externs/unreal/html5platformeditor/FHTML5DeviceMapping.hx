@@ -13,9 +13,15 @@
 **/
 package unreal.html5platformeditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("Private/HTML5SDKSettings.h")
-@:uextern extern class FHTML5DeviceMapping {
+@:noCopy @:noEquals @:uextern extern class FHTML5DeviceMapping {
   public var DevicePath : unreal.FFilePath;
   public var DeviceName : unreal.FString;
   

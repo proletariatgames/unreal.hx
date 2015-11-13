@@ -13,6 +13,12 @@
 **/
 package unreal.foliageedit;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("FoliageEdit")
 @:glueCppIncludes("Private/ActorFactoryProceduralFoliage.h")
 @:uextern extern class UActorFactoryProceduralFoliage extends unreal.editor.UActorFactoryBoxVolume {

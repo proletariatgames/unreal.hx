@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   @TODO: this can encapsulate globally defined fields as well (like with native
          delegate signatures); consider renaming to FFieldReference
 **/
 @:glueCppIncludes("K2Node_BaseMCDelegate.h")
-@:uextern extern class FMemberReference {
+@:noCopy @:noEquals @:uextern extern class FMemberReference {
   
   /**
     The Guid of the variable

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/Note.h")
 @:uextern extern class ANote extends unreal.AActor {
   #if WITH_EDITORONLY_DATA

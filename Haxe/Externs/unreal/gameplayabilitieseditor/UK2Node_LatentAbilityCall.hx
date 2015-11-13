@@ -13,8 +13,14 @@
 **/
 package unreal.gameplayabilitieseditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilitiesEditor")
 @:glueCppIncludes("K2Node_LatentAbilityCall.h")
-@:uextern extern class UK2Node_LatentAbilityCall extends unreal.gameplaytaskseditor.UK2Node_LatentGameplayTaskCall {
+@:noClass @:uextern extern class UK2Node_LatentAbilityCall extends unreal.gameplaytaskseditor.UK2Node_LatentGameplayTaskCall {
   
 }

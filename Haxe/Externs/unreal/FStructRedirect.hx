@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FStructRedirect {
+@:noCopy @:noEquals @:uextern extern class FStructRedirect {
   public var NewStructName : unreal.FString;
   public var OldStructName : unreal.FString;
   

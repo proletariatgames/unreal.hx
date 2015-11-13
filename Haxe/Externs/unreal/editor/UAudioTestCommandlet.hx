@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/AudioTestCommandlet.h")
-@:uextern extern class UAudioTestCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UAudioTestCommandlet extends unreal.UCommandlet {
   
 }

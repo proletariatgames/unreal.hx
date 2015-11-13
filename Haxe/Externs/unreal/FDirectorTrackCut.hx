@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one cut in this track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackDirector.h")
-@:uextern extern class FDirectorTrackCut {
+@:noCopy @:noEquals @:uextern extern class FDirectorTrackCut {
   
   /**
     Shot number for developer reference

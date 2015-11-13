@@ -15,11 +15,13 @@ package unreal.introtutorials;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Tutorial settings used to track completion state
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialStateSettings.h")
-@:uextern extern class UTutorialStateSettings extends unreal.UObject {
+@:noClass @:uextern extern class UTutorialStateSettings extends unreal.UObject {
   public var TutorialsProgress : unreal.TArray<unreal.introtutorials.FTutorialProgress>;
   
 }

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawnPerUnit.h")
-@:uextern extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
+@:noClass @:uextern extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
   
   /**
     If true, ignore the Z-component of the movement

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackSlomo.h")
-@:uextern extern class UInterpTrackSlomo extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern extern class UInterpTrackSlomo extends unreal.UInterpTrackFloatBase {
   
 }

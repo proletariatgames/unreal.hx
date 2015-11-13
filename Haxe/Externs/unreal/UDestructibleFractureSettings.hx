@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Information to create an NxDestructibleAsset
 **/
 @:glueCppIncludes("Engine/DestructibleFractureSettings.h")

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Used with objects that have physics to apply a force down the negative-X direction
   ie. point X in the direction you want the thrust in.
 **/

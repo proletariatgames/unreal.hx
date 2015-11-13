@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimCompress_Automatic.h")
-@:uextern extern class UAnimCompress_Automatic extends unreal.UAnimCompress {
+@:noClass @:uextern extern class UAnimCompress_Automatic extends unreal.UAnimCompress {
   public var bRaiseMaxErrorToExisting : Bool;
   public var bAutoReplaceIfExistingErrorTooGreat : Bool;
   public var bRunCurrentDefaultCompressor : Bool;

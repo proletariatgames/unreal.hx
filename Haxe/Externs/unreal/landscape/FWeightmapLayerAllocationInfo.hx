@@ -15,11 +15,13 @@ package unreal.landscape;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Stores information about which weightmap texture and channel each layer is stored
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeComponent.h")
-@:uextern extern class FWeightmapLayerAllocationInfo {
+@:noCopy @:noEquals @:uextern extern class FWeightmapLayerAllocationInfo {
   
   /**
     Only relevant in non-editor builds, this indicates which channel in the data array is this layer...must be > 1 to be valid, the first two are height *

@@ -13,6 +13,12 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Contexts/EnvQueryContext_Querier.h")
 @:uextern extern class UEnvQueryContext_Querier extends unreal.aimodule.UEnvQueryContext {

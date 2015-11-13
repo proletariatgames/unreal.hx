@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/SkeletalMeshComponent.h")
-@:uextern extern class FSingleAnimationPlayData {
+@:noCopy @:noEquals @:uextern extern class FSingleAnimationPlayData {
   
   /**
     Default setting for play rate of SequenceToPlay to play.

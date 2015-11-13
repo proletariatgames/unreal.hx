@@ -13,6 +13,12 @@
 **/
 package unreal.landscapeeditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("ActorFactoryLandscape.h")
 @:uextern extern class UActorFactoryLandscape extends unreal.editor.UActorFactory {

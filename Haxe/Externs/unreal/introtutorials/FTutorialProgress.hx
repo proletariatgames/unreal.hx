@@ -15,11 +15,13 @@ package unreal.introtutorials;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Track the progress of an individual tutorial
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialStateSettings.h")
-@:uextern extern class FTutorialProgress {
+@:noCopy @:noEquals @:uextern extern class FTutorialProgress {
   public var bUserDismissed : Bool;
   public var CurrentStage : unreal.Int32;
   public var Tutorial : unreal.FStringClassReference;

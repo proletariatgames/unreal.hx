@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Configurable properties for control axes.
 **/
 @:glueCppIncludes("GameFramework/InputSettings.h")
-@:uextern extern class FInputAxisConfigEntry {
+@:noCopy @:noEquals @:uextern extern class FInputAxisConfigEntry {
   
   /**
     Properties for the Axis Key

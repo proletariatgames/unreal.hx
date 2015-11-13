@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstParticleReplay.h")
-@:uextern extern class UInterpTrackInstParticleReplay extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstParticleReplay extends unreal.UInterpTrackInst {
   
   /**
     Position we were in last time we evaluated.

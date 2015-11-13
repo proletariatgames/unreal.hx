@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/ParticleEventManager.h")
-@:uextern extern class AParticleEventManager extends unreal.AActor {
+@:noClass @:uextern extern class AParticleEventManager extends unreal.AActor {
   
 }

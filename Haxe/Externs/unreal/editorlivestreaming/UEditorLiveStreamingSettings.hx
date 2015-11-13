@@ -15,11 +15,13 @@ package unreal.editorlivestreaming;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Holds preferences for the editor live streaming features
 **/
 @:umodule("EditorLiveStreaming")
 @:glueCppIncludes("EditorLiveStreamingSettings.h")
-@:uextern extern class UEditorLiveStreamingSettings extends unreal.UObject {
+@:noClass @:uextern extern class UEditorLiveStreamingSettings extends unreal.UObject {
   
   /**
     Enables broadcast of audio from your default microphone recording device

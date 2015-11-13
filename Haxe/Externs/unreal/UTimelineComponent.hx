@@ -15,99 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   TimelineComponent holds a series of events, floats, vectors or colors with associated keyframes.
   Events can be triggered at keyframes along the timeline.
   Floats, vectors, and colors are interpolated between keyframes along the timeline.
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
 @:uextern extern class UTimelineComponent extends unreal.UActorComponent {
-  
-  /**
-    Start playback of timeline
-  **/
-  @:final public function Play() : Void;
-  
-  /**
-    Start playback of timeline from the start
-  **/
-  @:final public function PlayFromStart() : Void;
-  
-  /**
-    Start playback of timeline in reverse
-  **/
-  @:final public function Reverse() : Void;
-  
-  /**
-    Start playback of timeline in reverse from the end
-  **/
-  @:final public function ReverseFromEnd() : Void;
-  
-  /**
-    Stop playback of timeline
-  **/
-  @:final public function Stop() : Void;
-  
-  /**
-    Get whether this timeline is playing or not.
-  **/
-  @:thisConst @:final public function IsPlaying() : Bool;
-  
-  /**
-    Get whether we are reversing or not
-  **/
-  @:thisConst @:final public function IsReversing() : Bool;
-  
-  /**
-    Jump to a position in the timeline.
-    @param bFireEvents If true, event functions that are between current position and new playback position will fire.
-    @param bFireUpdate If true, the update output exec will fire after setting the new playback position.
-  **/
-  @:final public function SetPlaybackPosition(NewPosition : unreal.Float32, bFireEvents : Bool, bFireUpdate : Bool) : Void;
-  
-  /**
-    Get the current playback position of the Timeline
-  **/
-  @:thisConst @:final public function GetPlaybackPosition() : unreal.Float32;
-  
-  /**
-    true means we whould loop, false means we should not.
-  **/
-  @:final public function SetLooping(bNewLooping : Bool) : Void;
-  
-  /**
-    Get whether we are looping or not
-  **/
-  @:thisConst @:final public function IsLooping() : Bool;
-  
-  /**
-    Sets the new play rate for this timeline
-  **/
-  @:final public function SetPlayRate(NewRate : unreal.Float32) : Void;
-  
-  /**
-    Get the current play rate for this timeline
-  **/
-  @:thisConst @:final public function GetPlayRate() : unreal.Float32;
-  
-  /**
-    Set the new playback position time to use
-  **/
-  @:final public function SetNewTime(NewTime : unreal.Float32) : Void;
-  
-  /**
-    Get length of the timeline
-  **/
-  @:thisConst @:final public function GetTimelineLength() : unreal.Float32;
-  
-  /**
-    Set length of the timeline
-  **/
-  @:final public function SetTimelineLength(NewLength : unreal.Float32) : Void;
-  
-  /**
-    Sets the length mode of the timeline
-  **/
-  @:final public function SetTimelineLengthMode(NewLengthMode : unreal.ETimelineLengthMode) : Void;
-  @:final public function OnRep_Timeline() : Void;
   
 }

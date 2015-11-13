@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
-@:uextern extern class FLocationBoneSocketInfo {
+@:noCopy @:noEquals @:uextern extern class FLocationBoneSocketInfo {
   
   /**
     The offset from the bone/socket to use

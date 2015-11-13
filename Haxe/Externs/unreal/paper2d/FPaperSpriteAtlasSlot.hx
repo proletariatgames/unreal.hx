@@ -13,9 +13,15 @@
 **/
 package unreal.paper2d;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSpriteAtlas.h")
-@:uextern extern class FPaperSpriteAtlasSlot {
+@:noCopy @:noEquals @:uextern extern class FPaperSpriteAtlasSlot {
   public var Height : unreal.Int32;
   public var Width : unreal.Int32;
   public var Y : unreal.Int32;

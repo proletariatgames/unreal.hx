@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/LevelThumbnailRenderer.h")
-@:uextern extern class ULevelThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
+@:noClass @:uextern extern class ULevelThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
   
 }

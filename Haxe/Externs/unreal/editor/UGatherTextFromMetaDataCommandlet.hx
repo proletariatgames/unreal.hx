@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGatherTextFromMetaDataCommandlet: Localization commandlet that collects all text to be localized from generated metadata.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GatherTextFromMetadataCommandlet.h")
-@:uextern extern class UGatherTextFromMetaDataCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGatherTextFromMetaDataCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

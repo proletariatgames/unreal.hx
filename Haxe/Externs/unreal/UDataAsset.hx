@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Base class for a simple asset containing data.
 **/
 @:glueCppIncludes("Engine/DataAsset.h")

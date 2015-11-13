@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/Rig.h")
-@:uextern extern class FRigTransformConstraint {
+@:noCopy @:noEquals @:uextern extern class FRigTransformConstraint {
   
   /**
     EditAnywhere, Category="FTransformBaseConstraint"

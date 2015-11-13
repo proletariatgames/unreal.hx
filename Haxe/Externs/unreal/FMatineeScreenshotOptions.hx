@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FMatineeScreenshotOptions {
+@:noCopy @:noEquals @:uextern extern class FMatineeScreenshotOptions {
   public var bHideHud : Bool;
   
   /**

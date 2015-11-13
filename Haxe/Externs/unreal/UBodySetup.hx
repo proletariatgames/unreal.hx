@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   BodySetup contains all collision information that is associated with a single asset.
   A single BodySetup instance is shared among many BodyInstances so that geometry data is not duplicated.
   Assets typically implement a GetBodySetup function that is used during physics state creation.

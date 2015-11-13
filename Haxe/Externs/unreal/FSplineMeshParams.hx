@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure that holds info about spline, passed to renderer to deform UStaticMesh.
   Also used by Lightmass, so be sure to update Lightmass::FSplineMeshParams and the static lighting code if this changes!
 **/
 @:glueCppIncludes("Components/SplineMeshComponent.h")
-@:uextern extern class FSplineMeshParams {
+@:noCopy @:noEquals @:uextern extern class FSplineMeshParams {
   
   /**
     Ending offset of the mesh from the spline, in component space.

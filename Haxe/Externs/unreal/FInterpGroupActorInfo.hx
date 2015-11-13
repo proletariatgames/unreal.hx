@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A group and all the actors controlled by the group
 **/
 @:glueCppIncludes("Matinee/MatineeActor.h")
-@:uextern extern class FInterpGroupActorInfo {
+@:noCopy @:noEquals @:uextern extern class FInterpGroupActorInfo {
   public var Actors : unreal.TArray<unreal.AActor>;
   public var ObjectName : unreal.FName;
   

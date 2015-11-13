@@ -15,10 +15,12 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Base class for all mouse and keyevents.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern class FInputEvent {
+@:noCopy @:noEquals @:uextern extern class FInputEvent {
   
 }

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimCompress_LeastDestructive.h")
-@:uextern extern class UAnimCompress_LeastDestructive extends unreal.UAnimCompress {
+@:noClass @:uextern extern class UAnimCompress_LeastDestructive extends unreal.UAnimCompress {
   
 }

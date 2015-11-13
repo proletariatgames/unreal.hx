@@ -15,11 +15,13 @@ package unreal.niagara;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This struct now only exists for backwards compatibility and should be removed once effects are updated.
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEffect.h")
-@:uextern extern class FDeprecatedNiagaraEmitterProperties {
+@:noCopy @:noEquals @:uextern extern class FDeprecatedNiagaraEmitterProperties {
   
   /**
     these are the spawn script constants from the effect editor; will be added to the emitter's constant map

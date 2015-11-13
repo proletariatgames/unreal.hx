@@ -15,11 +15,13 @@ package unreal.paper2deditor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Settings for the Paper2D tile set editor
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileSetEditor/TileSetEditorSettings.h")
-@:uextern extern class UTileSetEditorSettings extends unreal.UObject {
+@:noClass @:uextern extern class UTileSetEditorSettings extends unreal.UObject {
   
   /**
     Should we use transparent black or white when filling the texture areas that aren't covered by tiles?

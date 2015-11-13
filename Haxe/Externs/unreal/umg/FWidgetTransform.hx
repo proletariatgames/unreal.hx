@@ -15,11 +15,13 @@ package unreal.umg;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Describes the standard transformation of a widget
 **/
 @:umodule("UMG")
 @:glueCppIncludes("Components/Widget.h")
-@:uextern extern class FWidgetTransform {
+@:noCopy @:noEquals @:uextern extern class FWidgetTransform {
   
   /**
     The angle in degrees to rotate

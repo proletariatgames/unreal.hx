@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/ActorComponent.h")
-@:uextern extern class FSimpleMemberReference {
+@:noCopy @:noEquals @:uextern extern class FSimpleMemberReference {
   
   /**
     The Guid of the member

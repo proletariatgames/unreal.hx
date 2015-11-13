@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Data needed for local vector fields.
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:uextern extern class FGPUSpriteLocalVectorFieldInfo {
+@:noCopy @:noEquals @:uextern extern class FGPUSpriteLocalVectorFieldInfo {
   
   /**
     Tile vector field in z axis?

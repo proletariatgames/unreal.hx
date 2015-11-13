@@ -13,6 +13,12 @@
 **/
 package unreal.gameplaytagseditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_SwitchGameplayTagContainer.h")
 @:uextern extern class UGameplayTagsK2Node_SwitchGameplayTagContainer extends unreal.blueprintgraph.UK2Node_Switch {
@@ -23,6 +29,5 @@ package unreal.gameplaytagseditor;
   **/
   public var PinNames : unreal.TArray<unreal.FName>;
   public var PinContainers : unreal.TArray<unreal.gameplaytags.FGameplayTagContainer>;
-  static private function NotEqual_TagContainerTagContainer(A : unreal.gameplaytags.FGameplayTagContainer, B : unreal.FString) : Bool;
   
 }

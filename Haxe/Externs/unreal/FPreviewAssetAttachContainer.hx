@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Component which deals with attaching assets
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FPreviewAssetAttachContainer {
+@:noCopy @:noEquals @:uextern extern class FPreviewAssetAttachContainer {
   
 }

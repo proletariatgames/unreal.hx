@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Per-light settings for Lightmass
 **/
 @:glueCppIncludes("Components/DirectionalLightComponent.h")
-@:uextern extern class FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassLightSettings {
   
   /**
     Whether to use area shadows for stationary light precomputed shadowmaps.

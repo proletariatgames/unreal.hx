@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloatUniformCurve.h")
-@:uextern extern class FInterpCurvePointVector2D {
+@:noCopy @:noEquals @:uextern extern class FInterpCurvePointVector2D {
   
 }

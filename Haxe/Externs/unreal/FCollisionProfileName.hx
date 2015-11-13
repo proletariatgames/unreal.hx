@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_Trace.h")
-@:uextern extern class FCollisionProfileName {
+@:noCopy @:noEquals @:uextern extern class FCollisionProfileName {
   public var Name : unreal.FName;
   
 }

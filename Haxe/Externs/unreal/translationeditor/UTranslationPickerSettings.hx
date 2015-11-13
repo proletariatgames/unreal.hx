@@ -13,9 +13,15 @@
 **/
 package unreal.translationeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/TranslationPickerEditWindow.h")
-@:uextern extern class UTranslationPickerSettings extends unreal.UObject {
+@:noClass @:uextern extern class UTranslationPickerSettings extends unreal.UObject {
   
   /**
     Bool submit translation picker changes to Localization Service

@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\RandomStream.h
 **/
 @:glueCppIncludes("FunctionalTest.h")
-@:uextern extern class FRandomStream {
+@:noCopy @:noEquals @:uextern extern class FRandomStream {
   
 }

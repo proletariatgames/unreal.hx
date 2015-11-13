@@ -15,11 +15,13 @@ package unreal.enginesettings;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for auto-complete commands and their descriptions.
 **/
 @:umodule("EngineSettings")
 @:glueCppIncludes("ConsoleSettings.h")
-@:uextern extern class FAutoCompleteCommand {
+@:noCopy @:noEquals @:uextern extern class FAutoCompleteCommand {
   public var Desc : unreal.FString;
   public var Command : unreal.FString;
   

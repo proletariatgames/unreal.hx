@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   This class is a base class for any function libraries exposed to blueprints.
   Methods in subclasses are expected to be static, and no methods should be added to this base class.
 **/

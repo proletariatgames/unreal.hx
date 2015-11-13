@@ -15,11 +15,13 @@ package unreal.newsfeed;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Holds the settings for the news feed.
 **/
 @:umodule("NewsFeed")
 @:glueCppIncludes("Private/Implementation/NewsFeedSettings.h")
-@:uextern extern class UNewsFeedSettings extends unreal.UObject {
+@:noClass @:uextern extern class UNewsFeedSettings extends unreal.UObject {
   
   /**
     Whether to show only unread news feed items.

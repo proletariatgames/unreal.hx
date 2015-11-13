@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Point/spot settings for Lightmass
 **/
 @:glueCppIncludes("Components/PointLightComponent.h")
-@:uextern extern class FLightmassPointLightSettings extends unreal.FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassPointLightSettings extends unreal.FLightmassLightSettings {
   
 }

@@ -13,9 +13,15 @@
 **/
 package unreal.gameplaydebugger;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerSettings.h")
-@:uextern extern class FGDTCustomViewNames {
+@:noCopy @:noEquals @:uextern extern class FGDTCustomViewNames {
   public var GameView5 : unreal.FString;
   public var GameView4 : unreal.FString;
   public var GameView3 : unreal.FString;

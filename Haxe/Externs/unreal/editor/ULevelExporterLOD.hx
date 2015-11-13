@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/LevelExporterLOD.h")
-@:uextern extern class ULevelExporterLOD extends unreal.UExporter {
+@:noClass @:uextern extern class ULevelExporterLOD extends unreal.UExporter {
   
 }

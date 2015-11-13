@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A predefined force-feedback effect to be played on a controller
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")

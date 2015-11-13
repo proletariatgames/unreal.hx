@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/SceneCapture.h")
 @:uextern extern class ASceneCapture extends unreal.AActor {
   public var MeshComp : unreal.UStaticMeshComponent;

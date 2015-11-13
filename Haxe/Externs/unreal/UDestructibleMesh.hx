@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Holds an APEX destructible asset as well as an associated USkeletalMesh.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")

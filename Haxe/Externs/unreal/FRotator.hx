@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Rotator.h
 **/
 @:glueCppIncludes("GameFramework/Actor.h")
-@:uextern extern class FRotator {
+@:noCopy @:noEquals @:uextern extern class FRotator {
   
 }

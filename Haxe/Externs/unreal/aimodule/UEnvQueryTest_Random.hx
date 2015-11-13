@@ -13,6 +13,12 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Random.h")
 @:uextern extern class UEnvQueryTest_Random extends unreal.aimodule.UEnvQueryTest {

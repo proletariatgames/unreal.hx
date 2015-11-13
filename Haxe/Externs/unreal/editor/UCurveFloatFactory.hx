@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Factory that creates float curve assets
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CurveFactory.h")
-@:uextern extern class UCurveFloatFactory extends unreal.editor.UCurveFactory {
+@:noClass @:uextern extern class UCurveFloatFactory extends unreal.editor.UCurveFactory {
   
 }

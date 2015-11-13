@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Parameters that apply to a destructible actor.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleParameters {
   
   /**
     A collection of flags defined in DestructibleParametersFlag.

@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Represents a mapping of key handles to key index that may be serialized
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
-@:uextern extern class FKeyHandleMap {
+@:noCopy @:noEquals @:uextern extern class FKeyHandleMap {
   
 }

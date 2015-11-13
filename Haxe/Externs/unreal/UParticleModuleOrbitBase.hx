@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbitBase.h")
-@:uextern extern class UParticleModuleOrbitBase extends unreal.UParticleModule {
+@:noClass @:uextern extern class UParticleModuleOrbitBase extends unreal.UParticleModule {
   
   /**
     If true, distribution values will be retrieved using the EmitterTime.

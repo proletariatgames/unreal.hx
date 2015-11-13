@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Internal state, not accessible to script.
 **/
 @:glueCppIncludes("Engine/BrushBuilder.h")
-@:uextern extern class FBuilderPoly {
+@:noCopy @:noEquals @:uextern extern class FBuilderPoly {
   public var PolyFlags : unreal.Int32;
   public var ItemName : unreal.FName;
   public var Direction : unreal.Int32;

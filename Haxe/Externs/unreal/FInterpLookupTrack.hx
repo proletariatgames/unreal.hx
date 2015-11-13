@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackMove.h")
-@:uextern extern class FInterpLookupTrack {
+@:noCopy @:noEquals @:uextern extern class FInterpLookupTrack {
   public var Points : unreal.TArray<unreal.FInterpLookupPoint>;
   
 }

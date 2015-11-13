@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here : Engine\Source\Runtime\Core\Public\Math\BoxSphereBounds.h
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FBoxSphereBounds {
+@:noCopy @:noEquals @:uextern extern class FBoxSphereBounds {
   
 }

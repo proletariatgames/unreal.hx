@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Cached vertex information at the time the mesh was painted.
 **/
 @:glueCppIncludes("Components/StaticMeshComponent.h")
-@:uextern extern class FPaintedVertex {
+@:noCopy @:noEquals @:uextern extern class FPaintedVertex {
   public var Color : unreal.FColor;
   public var Normal : unreal.FPackedNormal;
   public var Position : unreal.FVector;

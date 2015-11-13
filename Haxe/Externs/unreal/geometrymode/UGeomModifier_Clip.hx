@@ -13,9 +13,15 @@
 **/
 package unreal.geometrymode;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Clip.h")
-@:uextern extern class UGeomModifier_Clip extends unreal.geometrymode.UGeomModifier_Edit {
+@:noClass @:uextern extern class UGeomModifier_Clip extends unreal.geometrymode.UGeomModifier_Edit {
   
   /**
     The mouse position, in world space, where the user currently is hovering.

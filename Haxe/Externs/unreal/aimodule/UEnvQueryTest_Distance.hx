@@ -13,9 +13,15 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Distance.h")
-@:uextern extern class UEnvQueryTest_Distance extends unreal.aimodule.UEnvQueryTest {
+@:noClass @:uextern extern class UEnvQueryTest_Distance extends unreal.aimodule.UEnvQueryTest {
   
   /**
     context

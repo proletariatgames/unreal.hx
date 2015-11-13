@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Transform definition
 **/
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
-@:uextern extern class FBlendSampleData {
+@:noCopy @:noEquals @:uextern extern class FBlendSampleData {
   public var Time : unreal.Float32;
   public var TotalWeight : unreal.Float32;
   public var SampleDataIndex : unreal.Int32;

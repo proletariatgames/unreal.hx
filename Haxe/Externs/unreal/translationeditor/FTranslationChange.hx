@@ -13,9 +13,15 @@
 **/
 package unreal.translationeditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/TranslationUnit.h")
-@:uextern extern class FTranslationChange {
+@:noCopy @:noEquals @:uextern extern class FTranslationChange {
   
   /**
     Translation at time of this change

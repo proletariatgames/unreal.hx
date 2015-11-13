@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportFbxSkeletalMeshFactory.h")
-@:uextern extern class UReimportFbxSkeletalMeshFactory extends unreal.editor.UFbxFactory {
+@:noClass @:uextern extern class UReimportFbxSkeletalMeshFactory extends unreal.editor.UFbxFactory {
   
 }

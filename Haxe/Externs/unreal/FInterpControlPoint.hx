@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/InterpToMovementComponent.h")
-@:uextern extern class FInterpControlPoint {
+@:noCopy @:noEquals @:uextern extern class FInterpControlPoint {
   
   /**
     Is the location relative to the root components initial location

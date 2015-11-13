@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class FRigConfiguration {
+@:noCopy @:noEquals @:uextern extern class FRigConfiguration {
   
   /**
     @todo in the future we can make this to be run-time data

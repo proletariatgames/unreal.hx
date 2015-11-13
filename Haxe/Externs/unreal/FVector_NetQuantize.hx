@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FVector_NetQuantize
   
   0 decimal place of precision.
@@ -24,6 +26,6 @@ package unreal;
   Note: this is the historical UE format for vector net serialization
 **/
 @:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
-@:uextern extern class FVector_NetQuantize extends unreal.FVector {
+@:noCopy @:noEquals @:uextern extern class FVector_NetQuantize extends unreal.FVector {
   
 }

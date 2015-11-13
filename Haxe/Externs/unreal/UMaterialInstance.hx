@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialInstance.h")
 @:uextern extern class UMaterialInstance extends unreal.UMaterialInterface {
   public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;

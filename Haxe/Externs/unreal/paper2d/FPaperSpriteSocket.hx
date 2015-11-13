@@ -15,11 +15,13 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   @TODO: Should have some nice UI and enforce unique names, etc...
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSprite.h")
-@:uextern extern class FPaperSpriteSocket {
+@:noCopy @:noEquals @:uextern extern class FPaperSpriteSocket {
   
   /**
     Name of the socket

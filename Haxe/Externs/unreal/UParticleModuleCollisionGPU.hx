@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollisionGPU.h")
 @:uextern extern class UParticleModuleCollisionGPU extends unreal.UParticleModuleCollisionBase {
   public var CollisionMode : unreal.EParticleCollisionMode;

@@ -13,9 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FActiveGameplayCueContainer extends unreal.FFastArraySerializer {
+@:noCopy @:noEquals @:uextern extern class FActiveGameplayCueContainer extends unreal.FFastArraySerializer {
   public var Owner : unreal.gameplayabilities.UAbilitySystemComponent;
   public var GameplayCues : unreal.TArray<unreal.gameplayabilities.FActiveGameplayCue>;
   

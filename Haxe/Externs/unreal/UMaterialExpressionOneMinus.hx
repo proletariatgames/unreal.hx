@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionOneMinus.h")
 @:uextern extern class UMaterialExpressionOneMinus extends unreal.UMaterialExpression {
   public var Input : unreal.FExpressionInput;

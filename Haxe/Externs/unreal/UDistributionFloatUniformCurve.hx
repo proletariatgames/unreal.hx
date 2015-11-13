@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Distributions/DistributionFloatUniformCurve.h")
 @:uextern extern class UDistributionFloatUniformCurve extends unreal.UDistributionFloat {
   

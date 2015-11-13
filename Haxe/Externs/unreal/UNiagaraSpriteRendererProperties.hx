@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/NiagaraSpriteRendererProperties.h")
-@:uextern extern class UNiagaraSpriteRendererProperties extends unreal.UNiagaraEffectRendererProperties {
+@:noClass @:uextern extern class UNiagaraSpriteRendererProperties extends unreal.UNiagaraEffectRendererProperties {
   public var SubImageInfo : unreal.FVector2D;
   
 }

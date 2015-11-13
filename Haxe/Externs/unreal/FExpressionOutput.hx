@@ -20,6 +20,6 @@ package unreal;
   Struct that represents an expression's output.
 **/
 @:glueCppIncludes("Materials/MaterialExpression.h")
-@:uextern extern class FExpressionOutput {
+@:noCopy @:noEquals @:uextern extern class FExpressionOutput {
   
 }

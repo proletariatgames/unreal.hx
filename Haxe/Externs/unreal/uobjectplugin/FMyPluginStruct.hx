@@ -15,11 +15,13 @@ package unreal.uobjectplugin;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Example UStruct declared in a plugin module
 **/
 @:umodule("UObjectPlugin")
 @:glueCppIncludes("MyPluginObject.h")
-@:uextern extern class FMyPluginStruct {
+@:noCopy @:noEquals @:uextern extern class FMyPluginStruct {
   public var TestString : unreal.FString;
   
 }

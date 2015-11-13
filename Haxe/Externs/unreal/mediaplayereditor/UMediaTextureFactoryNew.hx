@@ -15,6 +15,8 @@ package unreal.mediaplayereditor;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements a factory for UMediaTexture objects.
 **/
 @:umodule("MediaPlayerEditor")

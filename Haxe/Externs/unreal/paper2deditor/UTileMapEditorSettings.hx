@@ -15,11 +15,13 @@ package unreal.paper2deditor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Settings for the Paper2D tile map editor
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileMapEditing/TileMapEditorSettings.h")
-@:uextern extern class UTileMapEditorSettings extends unreal.UObject {
+@:noClass @:uextern extern class UTileMapEditorSettings extends unreal.UObject {
   
   /**
     Should the grid be shown by default when the editor is opened?

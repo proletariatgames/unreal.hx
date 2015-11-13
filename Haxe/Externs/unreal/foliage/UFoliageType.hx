@@ -13,6 +13,12 @@
 **/
 package unreal.foliage;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageType.h")
 @:uextern extern class UFoliageType extends unreal.UObject {

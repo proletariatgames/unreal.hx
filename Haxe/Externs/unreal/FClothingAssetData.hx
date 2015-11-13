@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FClothingAssetData {
+@:noCopy @:noEquals @:uextern extern class FClothingAssetData {
   public var PhysicsProperties : unreal.FClothPhysicsProperties;
   
   /**

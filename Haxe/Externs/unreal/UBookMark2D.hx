@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Simple class to store 2D camera information.
 **/
 @:glueCppIncludes("Engine/BookMark2D.h")
-@:uextern extern class UBookMark2D extends unreal.UObject {
+@:noClass @:uextern extern class UBookMark2D extends unreal.UObject {
   
   /**
     Location of the camera

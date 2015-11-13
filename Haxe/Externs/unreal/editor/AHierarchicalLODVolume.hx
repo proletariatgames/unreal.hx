@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   An invisible volume used to manually define/create a HLOD cluster.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("HierarchicalLODVolume.h")
-@:uextern extern class AHierarchicalLODVolume extends unreal.AVolume {
+@:noClass @:uextern extern class AHierarchicalLODVolume extends unreal.AVolume {
   
 }
