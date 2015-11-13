@@ -279,6 +279,9 @@ class ExternBaker {
       var extra = Context.getType(c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra');
       switch(extra) {
       case TInst(_.get() => ecl,_):
+        if (ecl.meta.has(':glueCppIncludes')) {
+          meta = meta.filter(function (meta) return meta.name != ':glueCppIncludes');
+        }
         meta = meta.concat(ecl.meta.get());
         if (ecl.meta.has(':hasCopy')) {
           meta = meta.filter(function(m) return m.name != ':noCopy');
