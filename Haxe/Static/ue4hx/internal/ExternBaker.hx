@@ -56,10 +56,11 @@ class ExternBaker {
         var dir = cp + '/' + pack.join('/');
         for (file in FileSystem.readDirectory(dir)) {
           if (file.endsWith('.hx')) {
+            var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
             if (file.endsWith('_Extra.hx')) {
+              joinMetas(module, file);
               continue;
             }
-            var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
             if (processed[module])
               continue; // already existed on a classpath with higher precedence
             processed[module] = true;
@@ -111,6 +112,38 @@ class ExternBaker {
     }
     if (hadErrors)
       throw new Error('Extern bake finished with errors',Context.currentPos());
+  }
+
+  private static function joinMetas(extraModule:String, file:String) {
+    switch(Context.follow(Context.getType(extraModule))) {
+    case TInst(_.get() => cextra,_):
+      var base:BaseType = switch(Context.getType(extraModule.substr(0,extraModule.length - '_Extra'.length))) {
+        case TInst(_.get() => cl, _):
+          cl;
+        case TEnum(_.get() => e, _):
+          e;
+        case TAbstract(_.get() => a, _):
+          a;
+        case TType(_.get() => t, _):
+          t;
+        case type:
+          throw new Error('Unsupported type ${type.toString()} for module ${extraModule.substr(0,extraModule.length - '_Extra'.length)}', Context.makePosition({ min:0, max:0, file:file }));
+      };
+      if (cextra.meta.has(':glueCppIncludes')) {
+        base.meta.remove(':glueCppIncludes');
+      }
+      if (cextra.meta.has(':hasCopy')) {
+        base.meta.remove(':noCopy');
+      }
+      if (cextra.meta.has(':hasEquals')) {
+        base.meta.remove(':noEquals');
+      }
+      for (meta in cextra.meta.get()) {
+        base.meta.add(meta.name, meta.params, meta.pos);
+      }
+    case _:
+      throw new Error('Module $extraModule should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
+    }
   }
 
   private var buf:HelperBuf;
@@ -280,16 +313,6 @@ class ExternBaker {
       var extra = Context.getType(extraName);
       switch(extra) {
       case TInst(_.get() => ecl,_):
-        if (ecl.meta.has(':glueCppIncludes')) {
-          meta = meta.filter(function (meta) return meta.name != ':glueCppIncludes');
-          cls.meta.remove(':glueCppIncludes');
-          cls.meta.add(':glueCppIncludes', ecl.meta.extract(':glueCppIncludes')[0].params, ecl.pos);
-          this.thisConv = TypeConv.get(type,c.pos,'unreal.PExternal');
-        }
-        meta = meta.concat(ecl.meta.get());
-        if (ecl.meta.has(':hasCopy')) {
-          meta = meta.filter(function(m) return m.name != ':noCopy');
-        }
         var efields = ecl.fields.get();
         var estatics = ecl.statics.get();
         for (field in efields) {
