@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
 @:uextern extern class UPhysicsConstraintTemplate extends unreal.UObject {
   public var DefaultInstance : unreal.FConstraintInstance;

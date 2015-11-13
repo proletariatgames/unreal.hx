@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/InstancedStaticMeshComponent.h")
-@:uextern extern class FInstancedStaticMeshMappingInfo {
+@:noCopy @:noEquals @:uextern extern class FInstancedStaticMeshMappingInfo {
   
 }

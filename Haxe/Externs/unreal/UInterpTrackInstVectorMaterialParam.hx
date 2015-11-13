@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstVectorMaterialParam.h")
-@:uextern extern class UInterpTrackInstVectorMaterialParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstVectorMaterialParam extends unreal.UInterpTrackInst {
   
   /**
     Track we are an instance of - used in the editor to propagate changes to the track's Materials array immediately.

@@ -15,6 +15,8 @@ package unreal.lightpropagationvolumeruntime;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   BlueprintType to make the object spawnable in blueprint
 **/
 @:umodule("LightPropagationVolumeRuntime")

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Capsule shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FKSphylElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern extern class FKSphylElem extends unreal.FKShapeElem {
   
   /**
     This is of line-segment ie. add Radius to both ends to find total length.

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Directional light settings for Lightmass
 **/
 @:glueCppIncludes("Components/DirectionalLightComponent.h")
-@:uextern extern class FLightmassDirectionalLightSettings extends unreal.FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassDirectionalLightSettings extends unreal.FLightmassLightSettings {
   
   /**
     Angle that the directional light's emissive surface extends relative to a receiver, affects penumbra sizes.

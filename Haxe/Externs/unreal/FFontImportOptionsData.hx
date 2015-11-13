@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Font import options
 **/
 @:glueCppIncludes("Engine/Font.h")
-@:uextern extern class FFontImportOptionsData {
+@:noCopy @:noEquals @:uextern extern class FFontImportOptionsData {
   
   /**
     Shrinks or expands the scan radius used to determine the silhouette of the font edges.

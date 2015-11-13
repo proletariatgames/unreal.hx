@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used for storing one per-instance named parameter for this AudioComponent.
   Certain nodes in the SoundCue may reference parameters by name so they can be adjusted per-instance.
 **/
 @:glueCppIncludes("Components/AudioComponent.h")
-@:uextern extern class FAudioComponentParam {
+@:noCopy @:noEquals @:uextern extern class FAudioComponentParam {
   
   /**
     Value of the parameter when used as a sound wave

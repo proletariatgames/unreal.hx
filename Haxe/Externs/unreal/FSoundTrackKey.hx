@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one sound in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackSound.h")
-@:uextern extern class FSoundTrackKey {
+@:noCopy @:noEquals @:uextern extern class FSoundTrackKey {
   public var Sound : unreal.USoundBase;
   public var Pitch : unreal.Float32;
   public var Volume : unreal.Float32;

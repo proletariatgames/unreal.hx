@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/SceneCaptureComponent.h")
-@:uextern extern class FEngineShowFlagsSetting {
+@:noCopy @:noEquals @:uextern extern class FEngineShowFlagsSetting {
   public var Enabled : Bool;
   public var ShowFlagName : unreal.FString;
   

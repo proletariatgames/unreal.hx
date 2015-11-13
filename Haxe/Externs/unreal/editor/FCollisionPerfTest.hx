@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Private/Tests/CollisionAutomationTests.h")
-@:uextern extern class FCollisionPerfTest {
+@:noCopy @:noEquals @:uextern extern class FCollisionPerfTest {
   public var CreationElements : unreal.FVector;
   public var CreationBounds : unreal.FVector;
   public var ShapeType : unreal.FString;

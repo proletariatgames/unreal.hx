@@ -20,6 +20,6 @@ package unreal;
   Type-safe floating point distribution.
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:uextern extern class FFloatDistribution {
+@:noCopy @:noEquals @:uextern extern class FFloatDistribution {
   
 }

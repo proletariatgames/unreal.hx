@@ -13,8 +13,14 @@
 **/
 package unreal.functionaltesting;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FuncTestRenderingComponent.h")
-@:uextern extern class UFuncTestRenderingComponent extends unreal.UPrimitiveComponent {
+@:noClass @:uextern extern class UFuncTestRenderingComponent extends unreal.UPrimitiveComponent {
   
 }

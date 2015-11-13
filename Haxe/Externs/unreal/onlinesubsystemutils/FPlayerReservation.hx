@@ -15,11 +15,13 @@ package unreal.onlinesubsystemutils;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A single player reservation
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
-@:uextern extern class FPlayerReservation {
+@:noCopy @:noEquals @:uextern extern class FPlayerReservation {
   
   /**
     Elapsed time since player made reservation and was last seen

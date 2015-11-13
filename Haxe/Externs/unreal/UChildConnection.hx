@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Represents a secondary split screen connection that reroutes calls to the parent connection.
 **/
 @:glueCppIncludes("Engine/ChildConnection.h")

@@ -13,9 +13,15 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockAI.h")
-@:uextern extern class UMockAI extends unreal.UObject {
+@:noClass @:uextern extern class UMockAI extends unreal.UObject {
   public var PawnActionComp : unreal.aimodule.UPawnActionsComponent;
   public var PerceptionComp : unreal.aimodule.UAIPerceptionComponent;
   public var BrainComp : unreal.aimodule.UBrainComponent;

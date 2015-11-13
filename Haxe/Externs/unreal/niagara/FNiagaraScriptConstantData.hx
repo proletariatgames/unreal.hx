@@ -13,9 +13,15 @@
 **/
 package unreal.niagara;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:uextern extern class FNiagaraScriptConstantData {
+@:noCopy @:noEquals @:uextern extern class FNiagaraScriptConstantData {
   
   /**
     The set of internal constants for this script. Named New for BC reasons. Once all data is updated beyond VER_UE4_NIAGARA_DATA_OBJECT_DEV_UI_FIX. Get rid of the deprecated consts and rename the New.

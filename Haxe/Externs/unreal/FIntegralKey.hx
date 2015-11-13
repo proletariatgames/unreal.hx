@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   An integral key, which holds the key time and the key value
 **/
 @:glueCppIncludes("Sections/MovieSceneBoolSection.h")
-@:uextern extern class FIntegralKey {
+@:noCopy @:noEquals @:uextern extern class FIntegralKey {
   
   /**
     The keyed integral value

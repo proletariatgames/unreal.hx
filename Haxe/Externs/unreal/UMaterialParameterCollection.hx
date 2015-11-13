@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Asset class that contains a list of parameter names and their default values.
   Any number of materials can reference these parameters and get new values when the parameter values are changed.
 **/

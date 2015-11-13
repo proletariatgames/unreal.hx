@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Cached camera POV info, stored as optimization so we only
   need to do a full camera update once per tick.
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
-@:uextern extern class FCameraCacheEntry {
+@:noCopy @:noEquals @:uextern extern class FCameraCacheEntry {
   
   /**
     Camera POV to cache.

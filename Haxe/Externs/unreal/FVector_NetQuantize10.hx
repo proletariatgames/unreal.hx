@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FVector_NetQuantize10
   
   1 decimal place of precision.
@@ -22,6 +24,6 @@ package unreal;
   Valid range: 2^24 / 10 = +/- 1,677,721.6
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:uextern extern class FVector_NetQuantize10 extends unreal.FVector {
+@:noCopy @:noEquals @:uextern extern class FVector_NetQuantize10 extends unreal.FVector {
   
 }

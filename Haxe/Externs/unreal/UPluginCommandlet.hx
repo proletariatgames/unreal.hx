@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Commandlets/PluginCommandlet.h")
-@:uextern extern class UPluginCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UPluginCommandlet extends unreal.UCommandlet {
   
 }

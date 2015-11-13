@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for defining an external tool
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FExternalToolDefinition {
+@:noCopy @:noEquals @:uextern extern class FExternalToolDefinition {
   
   /**
     If the ScriptExtension is set, look here for the script files.

@@ -13,9 +13,15 @@
 **/
 package unreal.umg;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UMG")
 @:glueCppIncludes("Blueprint/WidgetBlueprintGeneratedClass.h")
-@:uextern extern class FDelegateRuntimeBinding {
+@:noCopy @:noEquals @:uextern extern class FDelegateRuntimeBinding {
   
   /**
     The kind of binding we're performing, are we binding to a property or a function.

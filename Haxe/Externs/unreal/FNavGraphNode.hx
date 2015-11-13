@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavigationGraphNodeComponent.h")
-@:uextern extern class FNavGraphNode {
+@:noCopy @:noEquals @:uextern extern class FNavGraphNode {
   
   /**
     Who's this node referring to? This will most commonly point to an actor or a component

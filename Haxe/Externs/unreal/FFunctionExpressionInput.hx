@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct that stores information about a function input which is needed to maintain connections and implement the function call.
 **/
 @:glueCppIncludes("Materials/MaterialExpressionMaterialFunctionCall.h")
-@:uextern extern class FFunctionExpressionInput {
+@:noCopy @:noEquals @:uextern extern class FFunctionExpressionInput {
   
   /**
     Actual input struct which stores information about how this input is connected in the material.

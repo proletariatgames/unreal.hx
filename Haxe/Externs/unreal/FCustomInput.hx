@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionCustom.h")
-@:uextern extern class FCustomInput {
+@:noCopy @:noEquals @:uextern extern class FCustomInput {
   public var Input : unreal.FExpressionInput;
   public var InputName : unreal.FString;
   

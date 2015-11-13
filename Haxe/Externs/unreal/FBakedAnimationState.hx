@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class FBakedAnimationState {
+@:noCopy @:noEquals @:uextern extern class FBakedAnimationState {
   
   /**
     Indices into the property array for player nodes in the state

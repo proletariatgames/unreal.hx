@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatAnimBPParam.h")
-@:uextern extern class UInterpTrackInstFloatAnimBPParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstFloatAnimBPParam extends unreal.UInterpTrackInst {
   
   /**
     Saved values for restoring state when exiting Matinee.

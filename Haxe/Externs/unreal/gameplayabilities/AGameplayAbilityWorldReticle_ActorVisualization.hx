@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   This is a dummy reticle for internal use by visualization placement tasks. It builds a custom visual model of the visualization being placed.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityWorldReticle_ActorVisualization.h")
-@:uextern extern class AGameplayAbilityWorldReticle_ActorVisualization extends unreal.gameplayabilities.AGameplayAbilityWorldReticle {
+@:noClass @:uextern extern class AGameplayAbilityWorldReticle_ActorVisualization extends unreal.gameplayabilities.AGameplayAbilityWorldReticle {
   public var VisualizationComponents : unreal.TArray<unreal.UActorComponent>;
   
 }

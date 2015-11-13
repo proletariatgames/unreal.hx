@@ -15,11 +15,13 @@ package unreal.umg;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A single object bound to a UMG sequence.
 **/
 @:umodule("UMG")
 @:glueCppIncludes("Animation/WidgetAnimation.h")
-@:uextern extern class FWidgetAnimationBinding {
+@:noCopy @:noEquals @:uextern extern class FWidgetAnimationBinding {
   public var AnimationGuid : unreal.FGuid;
   public var SlotWidgetName : unreal.FName;
   public var WidgetName : unreal.FName;

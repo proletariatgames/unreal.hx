@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\IntVector.h
 **/
 @:glueCppIncludes("CoreUObject.h", "Object.h")
-@:uextern extern class FIntVector {
+@:noCopy @:noEquals @:uextern extern class FIntVector {
   
 }

@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
 @:uextern extern class UTimelineTemplate extends unreal.UObject {
   public var TimelineGuid : unreal.FGuid;

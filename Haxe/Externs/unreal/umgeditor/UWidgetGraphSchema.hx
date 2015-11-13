@@ -13,6 +13,12 @@
 **/
 package unreal.umgeditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetGraphSchema.h")
 @:uextern extern class UWidgetGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {

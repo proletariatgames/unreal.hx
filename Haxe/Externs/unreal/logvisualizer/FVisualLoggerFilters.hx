@@ -13,9 +13,15 @@
 **/
 package unreal.logvisualizer;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("LogVisualizerSettings.h")
-@:uextern extern class FVisualLoggerFilters {
+@:noCopy @:noEquals @:uextern extern class FVisualLoggerFilters {
   public var SelectedClasses : unreal.TArray<unreal.FString>;
   public var Categories : unreal.TArray<unreal.logvisualizer.FCategoryFilter>;
   public var ObjectNameFilter : unreal.FString;

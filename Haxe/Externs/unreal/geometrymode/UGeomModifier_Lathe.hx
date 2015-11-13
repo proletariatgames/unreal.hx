@@ -13,9 +13,15 @@
 **/
 package unreal.geometrymode;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Lathe.h")
-@:uextern extern class UGeomModifier_Lathe extends unreal.geometrymode.UGeomModifier_Edit {
+@:noClass @:uextern extern class UGeomModifier_Lathe extends unreal.geometrymode.UGeomModifier_Edit {
   
   /**
     The axis of rotation to use when creating the brush.  This is automatically determined from the current ortho viewport.

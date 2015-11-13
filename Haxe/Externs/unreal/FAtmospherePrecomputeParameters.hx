@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure storing Data for pre-computation
 **/
 @:glueCppIncludes("Atmosphere/AtmosphericFogComponent.h")
-@:uextern extern class FAtmospherePrecomputeParameters {
+@:noCopy @:noEquals @:uextern extern class FAtmospherePrecomputeParameters {
   
   /**
     Inscatter Texture Width

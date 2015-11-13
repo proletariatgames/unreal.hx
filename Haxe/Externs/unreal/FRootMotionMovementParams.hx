@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Utility struct to accumulate root motion.
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:uextern extern class FRootMotionMovementParams {
+@:noCopy @:noEquals @:uextern extern class FRootMotionMovementParams {
   public var RootMotionTransform : unreal.FTransform;
   public var BlendWeight : unreal.Float32;
   public var bHasRootMotion : Bool;

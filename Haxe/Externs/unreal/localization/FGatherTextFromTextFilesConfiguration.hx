@@ -13,9 +13,15 @@
 **/
 package unreal.localization;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationSettings.h")
-@:uextern extern class FGatherTextFromTextFilesConfiguration {
+@:noCopy @:noEquals @:uextern extern class FGatherTextFromTextFilesConfiguration {
   
   /**
     Text files whose names match these wildcard patterns may be parsed for text to gather.

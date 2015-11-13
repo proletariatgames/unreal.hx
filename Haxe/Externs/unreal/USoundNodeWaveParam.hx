@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Sound node that takes a runtime parameter for the wave to play
 **/
 @:glueCppIncludes("Sound/SoundNodeWaveParam.h")

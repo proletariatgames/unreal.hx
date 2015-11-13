@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Used during asset renaming/duplication to specify class-specific package/group targets.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdEngine.h")
-@:uextern extern class FTemplateMapInfo {
+@:noCopy @:noEquals @:uextern extern class FTemplateMapInfo {
   
   /**
     The object path to the template map

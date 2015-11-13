@@ -13,8 +13,14 @@
 **/
 package unreal.landscapeeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapePlaceholder.h")
-@:uextern extern class ALandscapePlaceholder extends unreal.AActor {
+@:noClass @:uextern extern class ALandscapePlaceholder extends unreal.AActor {
   
 }

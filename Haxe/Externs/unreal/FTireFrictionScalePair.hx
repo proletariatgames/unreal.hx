@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Pairs desired tire friction scale with tire type
 **/
 @:glueCppIncludes("PhysicalMaterials/PhysicalMaterial.h")
-@:uextern extern class FTireFrictionScalePair {
+@:noCopy @:noEquals @:uextern extern class FTireFrictionScalePair {
   
   /**
     Friction scale for this type of tire

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Settings used to reduce a mesh.
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:uextern extern class FMeshReductionSettings {
+@:noCopy @:noEquals @:uextern extern class FMeshReductionSettings {
   public var BaseLODModel : unreal.Int32;
   public var bRecalculateNormals : Bool;
   

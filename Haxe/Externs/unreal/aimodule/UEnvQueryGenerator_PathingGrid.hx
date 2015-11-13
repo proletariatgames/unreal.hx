@@ -15,12 +15,14 @@ package unreal.aimodule;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Navigation grid, generates points on navmesh
   with paths to/from context no further than given limit
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_PathingGrid.h")
-@:uextern extern class UEnvQueryGenerator_PathingGrid extends unreal.aimodule.UEnvQueryGenerator_SimpleGrid {
+@:noClass @:uextern extern class UEnvQueryGenerator_PathingGrid extends unreal.aimodule.UEnvQueryGenerator_SimpleGrid {
   
   /**
     multiplier for max distance between point and context

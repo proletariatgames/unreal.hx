@@ -15,11 +15,13 @@ package unreal.introtutorials;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Per-project tutorial settings
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialSettings.h")
-@:uextern extern class UTutorialSettings extends unreal.UObject {
+@:noClass @:uextern extern class UTutorialSettings extends unreal.UObject {
   
   /**
     Tutorial to start on project startup

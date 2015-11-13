@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Settings to allow designers to override the automatic expose
 **/
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
-@:uextern extern class FExposureSettings {
+@:noCopy @:noEquals @:uextern extern class FExposureSettings {
   
   /**
     true: fixed exposure using the LogOffset value, false: automatic eye adaptation

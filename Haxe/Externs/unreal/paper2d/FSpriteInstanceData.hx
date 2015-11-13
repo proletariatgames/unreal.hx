@@ -13,9 +13,15 @@
 **/
 package unreal.paper2d;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperGroupedSpriteComponent.h")
-@:uextern extern class FSpriteInstanceData {
+@:noCopy @:noEquals @:uextern extern class FSpriteInstanceData {
   public var MaterialIndex : unreal.Int32;
   public var VertexColor : unreal.FColor;
   public var SourceSprite : unreal.paper2d.UPaperSprite;

@@ -13,8 +13,14 @@
 **/
 package unreal.foliageedit;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("FoliageEdit")
 @:glueCppIncludes("Private/FoliageTypeFactory.h")
-@:uextern extern class UFoliageTypeFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UFoliageTypeFactory extends unreal.editor.UFactory {
   
 }

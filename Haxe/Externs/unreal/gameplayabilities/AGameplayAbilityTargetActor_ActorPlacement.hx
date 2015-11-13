@@ -13,9 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_ActorPlacement.h")
-@:uextern extern class AGameplayAbilityTargetActor_ActorPlacement extends unreal.gameplayabilities.AGameplayAbilityTargetActor_GroundTrace {
+@:noClass @:uextern extern class AGameplayAbilityTargetActor_ActorPlacement extends unreal.gameplayabilities.AGameplayAbilityTargetActor_GroundTrace {
   
   /**
     Override Material 0 on our placed actor's meshes with this material for visualization.

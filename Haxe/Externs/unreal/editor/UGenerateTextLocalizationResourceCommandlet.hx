@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGenerateTextLocalizationResourceCommandlet: Localization commandlet that generates a table of FText keys to localized string values.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GenerateTextLocalizationResourceCommandlet.h")
-@:uextern extern class UGenerateTextLocalizationResourceCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGenerateTextLocalizationResourceCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

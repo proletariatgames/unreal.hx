@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   PhysicsAsset contains a set of rigid bodies and constraints that make up a single ragdoll.
   The asset is not limited to human ragdolls, and can be used for any physical simulation using bodies and constraints.
   A SkeletalMesh has a single PhysicsAsset, which allows for easily turning ragdoll physics on or off for many SkeletalMeshComponents

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Rotation/ParticleModuleRotation_Seeded.h")
-@:uextern extern class UParticleModuleRotation_Seeded extends unreal.UParticleModuleRotation {
+@:noClass @:uextern extern class UParticleModuleRotation_Seeded extends unreal.UParticleModuleRotation {
   
   /**
     The random seed(s) to use for looking up values in StartLocation

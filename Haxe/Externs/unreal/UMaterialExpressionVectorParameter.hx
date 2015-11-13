@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionVectorParameter.h")
 @:uextern extern class UMaterialExpressionVectorParameter extends unreal.UMaterialExpressionParameter {
   public var DefaultValue : unreal.FLinearColor;

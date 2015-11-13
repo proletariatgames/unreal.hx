@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct containing information for a particular LOD level, such as materials and info for when to use it.
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FSkeletalMeshLODInfo {
+@:noCopy @:noEquals @:uextern extern class FSkeletalMeshLODInfo {
   
   /**
     Reduction settings to apply when building render data.

@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Simulated network connection for recording and playing back game sessions.
 **/
 @:glueCppIncludes("Engine/DemoNetConnection.h")
-@:uextern extern class UDemoNetConnection extends unreal.UNetConnection {
+@:noClass @:uextern extern class UDemoNetConnection extends unreal.UNetConnection {
   
 }

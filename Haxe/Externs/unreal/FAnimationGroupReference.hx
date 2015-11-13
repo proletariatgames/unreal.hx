@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("AnimGraphNode_SequencePlayer.h")
-@:uextern extern class FAnimationGroupReference {
+@:noCopy @:noEquals @:uextern extern class FAnimationGroupReference {
   
   /**
     The type of membership in the group (potential leader, always follower, etc...)

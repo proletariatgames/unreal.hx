@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A scalar parameter
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollection.h")
-@:uextern extern class FCollectionScalarParameter extends unreal.FCollectionParameterBase {
+@:noCopy @:noEquals @:uextern extern class FCollectionScalarParameter extends unreal.FCollectionParameterBase {
   public var DefaultValue : unreal.Float32;
   
 }

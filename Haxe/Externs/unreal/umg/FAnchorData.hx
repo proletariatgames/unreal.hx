@@ -13,9 +13,15 @@
 **/
 package unreal.umg;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UMG")
 @:glueCppIncludes("Components/CanvasPanelSlot.h")
-@:uextern extern class FAnchorData {
+@:noCopy @:noEquals @:uextern extern class FAnchorData {
   
   /**
     Alignment is the pivot point of the widget.  Starting in the upper left at (0,0),

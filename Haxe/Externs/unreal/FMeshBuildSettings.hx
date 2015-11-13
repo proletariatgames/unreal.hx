@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Settings applied when building a mesh.
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:uextern extern class FMeshBuildSettings {
+@:noCopy @:noEquals @:uextern extern class FMeshBuildSettings {
   public var DistanceFieldReplacementMesh : unreal.UStaticMesh;
   
   /**

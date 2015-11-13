@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used to specify the property name of the component to constrain
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintComponent.h")
-@:uextern extern class FConstrainComponentPropName {
+@:noCopy @:noEquals @:uextern extern class FConstrainComponentPropName {
   
   /**
     Name of property

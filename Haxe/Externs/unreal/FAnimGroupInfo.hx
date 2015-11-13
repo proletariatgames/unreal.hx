@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimBlueprint.h")
-@:uextern extern class FAnimGroupInfo {
+@:noCopy @:noEquals @:uextern extern class FAnimGroupInfo {
   public var Color : unreal.FLinearColor;
   public var Name : unreal.FName;
   

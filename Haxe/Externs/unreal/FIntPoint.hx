@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\IntPoint.h
 **/
 @:glueCppIncludes("Engine/BookMark2D.h")
-@:uextern extern class FIntPoint {
+@:noCopy @:noEquals @:uextern extern class FIntPoint {
   
 }

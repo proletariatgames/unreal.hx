@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Base class for the various platform interface classes.
 **/
 @:glueCppIncludes("Engine/CloudStorageBase.h")
-@:uextern extern class UCloudStorageBase extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern extern class UCloudStorageBase extends unreal.UPlatformInterfaceBase {
   
   /**
     If true, delegate callbacks should be skipped.

@@ -15,16 +15,12 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Waits for the actor to activate another ability
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayEffectRemoved.h")
 @:uextern extern class UAbilityTask_WaitGameplayEffectRemoved extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnGameplayEffectRemoved() : Void;
-  
-  /**
-    Wait until the specified gameplay effect is removed.
-  **/
-  static public function WaitForGameplayEffectRemoved(WorldContextObject : unreal.UObject, Handle : unreal.gameplayabilities.FActiveGameplayEffectHandle) : unreal.gameplayabilities.UAbilityTask_WaitGameplayEffectRemoved;
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the blueprint stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FBuildPromotionBlueprintSettings {
+@:noCopy @:noEquals @:uextern extern class FBuildPromotionBlueprintSettings {
   
   /**
     The mesh to set on the blueprint after the delay *

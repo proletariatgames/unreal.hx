@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic_Seeded.h")
-@:uextern extern class UParticleModuleParameterDynamic_Seeded extends unreal.UParticleModuleParameterDynamic {
+@:noClass @:uextern extern class UParticleModuleParameterDynamic_Seeded extends unreal.UParticleModuleParameterDynamic {
   
   /**
     The random seed(s) to use for looking up values in StartLocation

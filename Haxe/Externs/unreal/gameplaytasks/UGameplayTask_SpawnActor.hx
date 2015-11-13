@@ -15,6 +15,8 @@ package unreal.gameplaytasks;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Convenience task for spawning actors (optionally limiting the spawning to the network authority). If not the net authority, we will not spawn
   and Success will not be called. The nice thing this adds is the ability to modify expose on spawn properties while also implicitly checking
   network role before spawning.
@@ -30,7 +32,5 @@ package unreal.gameplaytasks;
 @:glueCppIncludes("Tasks/GameplayTask_SpawnActor.h")
 @:uextern extern class UGameplayTask_SpawnActor extends unreal.gameplaytasks.UGameplayTask {
   private var ClassToSpawn : unreal.TSubclassOf<unreal.AActor>;
-  public function BeginSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.PRef<unreal.AActor>) : Bool;
-  public function FinishSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.AActor) : Void;
   
 }

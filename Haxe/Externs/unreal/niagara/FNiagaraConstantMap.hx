@@ -15,10 +15,12 @@ package unreal.niagara;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Runtime storage for emitter overridden constants. Only now a USTRUCT still to support BC
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEffect.h")
-@:uextern extern class FNiagaraConstantMap {
+@:noCopy @:noEquals @:uextern extern class FNiagaraConstantMap {
   
 }

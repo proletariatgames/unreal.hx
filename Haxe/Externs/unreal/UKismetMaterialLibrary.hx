@@ -13,32 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Kismet/KismetMaterialLibrary.h")
 @:uextern extern class UKismetMaterialLibrary extends unreal.UBlueprintFunctionLibrary {
-  
-  /**
-    Sets a scalar parameter value on the material collection instance. Logs if ParameterName is invalid.
-  **/
-  static public function SetScalarParameterValue(WorldContextObject : unreal.UObject, Collection : unreal.UMaterialParameterCollection, ParameterName : unreal.FName, ParameterValue : unreal.Float32) : Void;
-  
-  /**
-    Sets a vector parameter value on the material collection instance. Logs if ParameterName is invalid.
-  **/
-  static public function SetVectorParameterValue(WorldContextObject : unreal.UObject, Collection : unreal.UMaterialParameterCollection, ParameterName : unreal.FName, ParameterValue : unreal.Const<unreal.PRef<unreal.FLinearColor>>) : Void;
-  
-  /**
-    Gets a scalar parameter value from the material collection instance. Logs if ParameterName is invalid.
-  **/
-  static public function GetScalarParameterValue(WorldContextObject : unreal.UObject, Collection : unreal.UMaterialParameterCollection, ParameterName : unreal.FName) : unreal.Float32;
-  
-  /**
-    Gets a vector parameter value from the material collection instance. Logs if ParameterName is invalid.
-  **/
-  static public function GetVectorParameterValue(WorldContextObject : unreal.UObject, Collection : unreal.UMaterialParameterCollection, ParameterName : unreal.FName) : unreal.FLinearColor;
-  
-  /**
-    Creates a Dynamic Material Instance which you can modify during gameplay.
-  **/
-  static public function CreateDynamicMaterialInstance(WorldContextObject : unreal.UObject, Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
 }

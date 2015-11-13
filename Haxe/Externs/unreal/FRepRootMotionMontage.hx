@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Replicated data when playing a root motion montage.
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:uextern extern class FRepRootMotionMontage {
+@:noCopy @:noEquals @:uextern extern class FRepRootMotionMontage {
   
   /**
     Whether rotation is relative or absolute.

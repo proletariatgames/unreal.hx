@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure containing information on a SoundMix to activate passively.
 **/
 @:glueCppIncludes("Sound/SoundClass.h")
-@:uextern extern class FPassiveSoundMixModifier {
+@:noCopy @:noEquals @:uextern extern class FPassiveSoundMixModifier {
   
   /**
     Maximum volume level required to activate SoundMix. Above this value the SoundMix will not be active.

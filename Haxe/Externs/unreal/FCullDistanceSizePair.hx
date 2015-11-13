@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper structure containing size and cull distance pair.
 **/
 @:glueCppIncludes("Engine/CullDistanceVolume.h")
-@:uextern extern class FCullDistanceSizePair {
+@:noCopy @:noEquals @:uextern extern class FCullDistanceSizePair {
   
   /**
     Cull distance associated with size.

@@ -15,6 +15,8 @@ package unreal.vectorvm;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Curve object; encapsulates a curve for the VectorVM
 **/
 @:umodule("VectorVM")

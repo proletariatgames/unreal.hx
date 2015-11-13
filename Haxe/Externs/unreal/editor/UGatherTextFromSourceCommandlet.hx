@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGatherTextFromSourceCommandlet: Localization commandlet that collects all text to be localized from the source code.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GatherTextFromSourceCommandlet.h")
-@:uextern extern class UGatherTextFromSourceCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGatherTextFromSourceCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

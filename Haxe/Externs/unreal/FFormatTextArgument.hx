@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Used for formatting text in Blueprints; a helper struct that helps funnel the data to FText::Format
 **/
 @:glueCppIncludes("Engine.h")
-@:uextern extern class FFormatTextArgument {
+@:noCopy @:noEquals @:uextern extern class FFormatTextArgument {
   
 }

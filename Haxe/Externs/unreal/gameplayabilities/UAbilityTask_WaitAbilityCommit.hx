@@ -15,16 +15,12 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Waits for the actor to activate another ability
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitAbilityCommit.h")
 @:uextern extern class UAbilityTask_WaitAbilityCommit extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnAbilityCommit(ActivatedAbility : unreal.gameplayabilities.UGameplayAbility) : Void;
-  
-  /**
-    Wait until a new ability (of the same or different type) is commited. Used to gracefully interrupt abilities in specific ways.
-  **/
-  static public function WaitForAbilityCommit(WorldContextObject : unreal.UObject, WithTag : unreal.gameplaytags.FGameplayTag, WithoutTage : unreal.gameplaytags.FGameplayTag, TriggerOnce : Bool) : unreal.gameplayabilities.UAbilityTask_WaitAbilityCommit;
   
 }

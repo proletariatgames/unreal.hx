@@ -2,7 +2,7 @@ package unreal;
 
 @:glueCppIncludes("IPAddress.h")
 @:uname("FInternetAddr")
-@:uextern @:noCopy extern class FInternetAddr {
+@:uextern @:noCopy @:noEquals extern class FInternetAddr {
 
 	/**
 	 * Sets the ip address from a string ("A.B.C.D")

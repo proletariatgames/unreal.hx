@@ -15,10 +15,12 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   MovieSceneSpawnable describes an object that can be spawned for this MovieScene
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
-@:uextern extern class FMovieSceneSpawnable {
+@:noCopy @:noEquals @:uextern extern class FMovieSceneSpawnable {
   
 }

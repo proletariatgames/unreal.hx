@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information about a particule curve being viewed.
   Property could be an FInterpCurve, a DistributionFloat or a DistributionVector
 **/
 @:glueCppIncludes("Engine/InterpCurveEdSetup.h")
-@:uextern extern class FCurveEdEntry {
+@:noCopy @:noEquals @:uextern extern class FCurveEdEntry {
   public var ClampHigh : unreal.Float32;
   public var ClampLow : unreal.Float32;
   public var bClamp : unreal.Int32;

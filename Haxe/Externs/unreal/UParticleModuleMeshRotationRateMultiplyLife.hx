@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/RotationRate/ParticleModuleMeshRotationRateMultiplyLife.h")
-@:uextern extern class UParticleModuleMeshRotationRateMultiplyLife extends unreal.UParticleModuleRotationRateBase {
+@:noClass @:uextern extern class UParticleModuleMeshRotationRateMultiplyLife extends unreal.UParticleModuleRotationRateBase {
   
   /**
     The scale factor that should be applied to the rotation rate.

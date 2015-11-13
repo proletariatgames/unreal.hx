@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the import workflow stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FBuildPromotionImportWorkflowSettings {
+@:noCopy @:noEquals @:uextern extern class FBuildPromotionImportWorkflowSettings {
   
   /**
     Import settings for any other assets you may want to import

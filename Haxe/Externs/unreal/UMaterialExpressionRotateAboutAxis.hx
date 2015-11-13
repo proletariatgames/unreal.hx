@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionRotateAboutAxis.h")
 @:uextern extern class UMaterialExpressionRotateAboutAxis extends unreal.UMaterialExpression {
   public var Period : unreal.Float32;

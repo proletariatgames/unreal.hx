@@ -15,32 +15,14 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   A collection of utility methods for working with tile map components
   
   @see UPaperTileMap, UPaperTileMapComponent
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("TileMapBlueprintLibrary.h")
-@:uextern extern class UTileMapBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
-  
-  /**
-    Returns the user data name for the specified tile, or NAME_None if there is no user-specified data
-  **/
-  static public function GetTileUserData(Tile : unreal.paper2d.FPaperTileInfo) : unreal.FName;
-  
-  /**
-    Returns the transform for a tile
-  **/
-  static public function GetTileTransform(Tile : unreal.paper2d.FPaperTileInfo) : unreal.FTransform;
-  
-  /**
-    Breaks out the information for a tile
-  **/
-  static public function BreakTile(Tile : unreal.paper2d.FPaperTileInfo, TileIndex : unreal.Int32, TileSet : unreal.PRef<unreal.paper2d.UPaperTileSet>, bFlipH : Bool, bFlipV : Bool, bFlipD : Bool) : Void;
-  
-  /**
-    Creates a tile from the specified information
-  **/
-  static public function MakeTile(TileIndex : unreal.Int32, TileSet : unreal.paper2d.UPaperTileSet, bFlipH : Bool, bFlipV : Bool, bFlipD : Bool) : unreal.paper2d.FPaperTileInfo;
+@:noClass @:uextern extern class UTileMapBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

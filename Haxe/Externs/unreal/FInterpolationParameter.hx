@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:uextern extern class FInterpolationParameter {
+@:noCopy @:noEquals @:uextern extern class FInterpolationParameter {
   
   /**
     Interpolation Type for input, when it gets input, it will use this filter to decide how to get to target.

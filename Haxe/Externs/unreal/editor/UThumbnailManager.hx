@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
-@:uextern extern class UThumbnailManager extends unreal.UObject {
+@:noClass @:uextern extern class UThumbnailManager extends unreal.UObject {
   
   /**
     Holds the name of the thumbnail manager singleton class to instantiate

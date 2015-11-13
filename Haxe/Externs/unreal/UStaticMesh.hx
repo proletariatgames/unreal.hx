@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A StaticMesh is a piece of geometry that consists of a static set of polygons.
   Static Meshes can be translated, rotated, and scaled, but they cannot have their vertices animated in any way. As such, they are more efficient
   to render than other types of geometry such as USkeletalMesh, and they are often the basic building block of levels created in the engine.
@@ -169,11 +171,6 @@ package unreal;
   **/
   public var SourceModels : unreal.TArray<unreal.FStaticMeshSourceModel>;
   #end // WITH_EDITORONLY_DATA
-  
-  /**
-    Returns the bounding box, in local space including bounds extension(s), of the StaticMesh asset
-  **/
-  @:thisConst @:final public function GetBoundingBox() : unreal.FBox;
   // Interface_CollisionDataProvider interface implementation
   // Interface_AssetUserData interface implementation
   

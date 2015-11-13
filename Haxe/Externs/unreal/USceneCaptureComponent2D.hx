@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Used to capture a 'snapshot' of the scene from a single plane and feed it to a render target.
 **/
 @:glueCppIncludes("Components/SceneCaptureComponent2D.h")
@@ -36,10 +38,5 @@ package unreal;
     Camera field of view (in degrees).
   **/
   public var FOVAngle : unreal.Float32;
-  
-  /**
-    Render the scene to the texture
-  **/
-  @:final public function UpdateContent() : Void;
   
 }

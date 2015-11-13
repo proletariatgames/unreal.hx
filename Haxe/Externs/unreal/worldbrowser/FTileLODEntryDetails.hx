@@ -15,13 +15,15 @@ package unreal.worldbrowser;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FTileLODEntryDetails
   
   Helper class to hold tile LOD level description
 **/
 @:umodule("WorldBrowser")
 @:glueCppIncludes("Private/Tiles/WorldTileDetails.h")
-@:uextern extern class FTileLODEntryDetails {
+@:noCopy @:noEquals @:uextern extern class FTileLODEntryDetails {
   public var SimplificationDetails : unreal.FLevelSimplificationDetails;
   
   /**

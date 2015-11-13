@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   struct with all the settings we want in USubsurfaceProfile, separate to make it easer to pass this data around in the engine.
 **/
 @:glueCppIncludes("Engine/SubsurfaceProfile.h")
-@:uextern extern class FSubsurfaceProfileStruct {
+@:noCopy @:noEquals @:uextern extern class FSubsurfaceProfileStruct {
   
   /**
     defines the per-channel falloff of the gradients

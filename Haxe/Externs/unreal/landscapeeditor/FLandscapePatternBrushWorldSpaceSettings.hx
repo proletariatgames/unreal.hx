@@ -13,9 +13,15 @@
 **/
 package unreal.landscapeeditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:uextern extern class FLandscapePatternBrushWorldSpaceSettings {
+@:noCopy @:noEquals @:uextern extern class FLandscapePatternBrushWorldSpaceSettings {
   public var RepeatSize : unreal.Float32;
   
   /**

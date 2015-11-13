@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/SoundMix.h")
-@:uextern extern class FAudioEQEffect {
+@:noCopy @:noEquals @:uextern extern class FAudioEQEffect {
   
   /**
     Low frequency filter gain - 0.0 is silent, 1.0 is full volume.

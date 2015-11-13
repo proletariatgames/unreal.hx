@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineControlPoint.h")
-@:uextern extern class FLandscapeSplineConnection {
+@:noCopy @:noEquals @:uextern extern class FLandscapeSplineConnection {
   
   /**
     Which end of the segment is connected to this control point

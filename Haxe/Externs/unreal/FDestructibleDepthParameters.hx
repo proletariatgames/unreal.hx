@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Properties that may be set for all chunks at a particular depth in the fracture hierarchy.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleDepthParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleDepthParameters {
   
   /**
     Chunks up to the depth DefaultImpactDamageDepth will take impact damage, unless one of the override options (see EImpactDamageOverride) is chosen.

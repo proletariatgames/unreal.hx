@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatMaterialParam.h")
-@:uextern extern class UInterpTrackInstFloatMaterialParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstFloatMaterialParam extends unreal.UInterpTrackInst {
   
   /**
     track we are an instance of - used in the editor to propagate changes to the track's Materials array immediately

@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Section data for each track. Reference of data will be stored in the child class for the way they want
   AnimComposite vs AnimMontage have different requirement for the actual data reference
   This only contains composite section information. (vertical sequences)
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:uextern extern class FCompositeSection extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern extern class FCompositeSection extends unreal.FAnimLinkableElement {
   
   /**
     Should this animation loop.

@@ -13,9 +13,15 @@
 **/
 package unreal.logvisualizer;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("LogVisualizerSettings.h")
-@:uextern extern class FCategoryFilter {
+@:noCopy @:noEquals @:uextern extern class FCategoryFilter {
   public var Enabled : Bool;
   public var LogVerbosity : unreal.Int32;
   public var CategoryName : unreal.FString;

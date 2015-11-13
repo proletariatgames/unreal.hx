@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A Material Function is a collection of material expressions that can be reused in different materials
 **/
 @:glueCppIncludes("Materials/MaterialFunction.h")

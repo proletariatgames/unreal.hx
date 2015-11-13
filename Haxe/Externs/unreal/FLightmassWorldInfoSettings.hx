@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FLightmassWorldInfoSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassWorldInfoSettings {
   
   /**
     Whether to compress lightmap textures.  Disabling lightmap texture compression will reduce artifacts but increase memory and disk size by 4x.

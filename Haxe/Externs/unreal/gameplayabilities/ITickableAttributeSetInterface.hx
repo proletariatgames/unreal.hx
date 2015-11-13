@@ -13,6 +13,12 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("TickableAttributeSetInterface.h")
 @:uextern extern interface ITickableAttributeSetInterface {

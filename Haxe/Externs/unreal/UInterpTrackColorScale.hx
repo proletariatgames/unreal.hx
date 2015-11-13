@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackColorScale.h")
-@:uextern extern class UInterpTrackColorScale extends unreal.UInterpTrackVectorBase {
+@:noClass @:uextern extern class UInterpTrackColorScale extends unreal.UInterpTrackVectorBase {
   
 }

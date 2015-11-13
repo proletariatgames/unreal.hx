@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Info about one note dropped in the map during PIE.
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FDropNoteInfo {
+@:noCopy @:noEquals @:uextern extern class FDropNoteInfo {
   
   /**
     Text to assign to Note actor in edited level.

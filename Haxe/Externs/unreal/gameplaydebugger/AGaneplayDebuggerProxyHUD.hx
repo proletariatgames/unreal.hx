@@ -13,8 +13,14 @@
 **/
 package unreal.gameplaydebugger;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingControllerComponent.h")
-@:uextern extern class AGaneplayDebuggerProxyHUD extends unreal.AHUD {
+@:noClass @:uextern extern class AGaneplayDebuggerProxyHUD extends unreal.AHUD {
   
 }

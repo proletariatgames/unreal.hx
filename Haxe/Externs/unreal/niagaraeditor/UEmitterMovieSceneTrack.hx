@@ -15,6 +15,8 @@ package unreal.niagaraeditor;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Single track containing exactly one UNiagaraMovieSceneSection, representing one emitter
 **/
 @:umodule("NiagaraEditor")

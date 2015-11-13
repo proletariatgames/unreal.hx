@@ -13,6 +13,12 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryBlueprint.h")
 @:uextern extern class UActorFactoryBlueprint extends unreal.editor.UActorFactory {

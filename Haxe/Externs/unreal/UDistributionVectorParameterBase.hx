@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Distributions/DistributionVectorParameterBase.h")
-@:uextern extern class UDistributionVectorParameterBase extends unreal.UDistributionVectorConstant {
+@:noClass @:uextern extern class UDistributionVectorParameterBase extends unreal.UDistributionVectorConstant {
   public var MaxOutput : unreal.FVector;
   public var MinOutput : unreal.FVector;
   public var MaxInput : unreal.FVector;

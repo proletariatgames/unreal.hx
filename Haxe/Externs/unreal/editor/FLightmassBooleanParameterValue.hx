@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Boolean parameter value
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class FLightmassBooleanParameterValue extends unreal.editor.FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern extern class FLightmassBooleanParameterValue extends unreal.editor.FLightmassParameterValue {
   
   /**
     The boolean value to override the parent value with

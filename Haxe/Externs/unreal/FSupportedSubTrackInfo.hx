@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper struct for creating sub tracks supported by this track
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
-@:uextern extern class FSupportedSubTrackInfo {
+@:noCopy @:noEquals @:uextern extern class FSupportedSubTrackInfo {
   
   /**
     Index into the any subtrack group this subtrack belongs to (can be -1 for no group)

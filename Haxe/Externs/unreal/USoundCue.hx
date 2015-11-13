@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   The behavior of audio playback is defined within Sound Cues.
 **/
 @:glueCppIncludes("Sound/SoundCue.h")

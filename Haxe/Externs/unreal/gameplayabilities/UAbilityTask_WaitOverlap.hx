@@ -15,6 +15,8 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Fixme: this is still incomplete and probablyh not what most games want for melee systems.
           -Only actually activates on Blocking hits
           -Uses first PrimitiveComponent instead of being able to specify arbitrary component.
@@ -22,12 +24,5 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitOverlap.h")
 @:uextern extern class UAbilityTask_WaitOverlap extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnOverlapCallback(OtherActor : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, OtherBodyIndex : unreal.Int32, bFromSweep : Bool, SweepResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
-  @:final public function OnHitCallback(OtherActor : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
-  
-  /**
-    Wait until an overlap occurs. This will need to be better fleshed out so we can specify game specific collision requirements
-  **/
-  static public function WaitForOverlap(WorldContextObject : unreal.UObject) : unreal.gameplayabilities.UAbilityTask_WaitOverlap;
   
 }

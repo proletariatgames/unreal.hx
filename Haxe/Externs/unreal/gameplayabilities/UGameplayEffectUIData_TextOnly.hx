@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UI data that contains only text. This is mostly used as an example of a subclass of UGameplayEffectUIData.
   If your game needs only text, this is a reasonable class to use. To include more data, make a custom subclass of UGameplayEffectUIData.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectUIData_TextOnly.h")
-@:uextern extern class UGameplayEffectUIData_TextOnly extends unreal.gameplayabilities.UGameplayEffectUIData {
+@:noClass @:uextern extern class UGameplayEffectUIData_TextOnly extends unreal.gameplayabilities.UGameplayEffectUIData {
   
 }

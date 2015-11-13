@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the asset import / export automation test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FEditorMapPerformanceTestDefinition {
+@:noCopy @:noEquals @:uextern extern class FEditorMapPerformanceTestDefinition {
   
   /**
     This is the length of time in seconds that this test will run for before stopping.

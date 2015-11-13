@@ -13,9 +13,15 @@
 **/
 package unreal.aimodule;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeManager.h")
-@:uextern extern class FBehaviorTreeTemplateInfo {
+@:noCopy @:noEquals @:uextern extern class FBehaviorTreeTemplateInfo {
   
   /**
     initialized template

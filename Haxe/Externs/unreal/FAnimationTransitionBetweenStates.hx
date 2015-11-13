@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This represents a baked transition
 **/
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
+@:noCopy @:noEquals @:uextern extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
   public var LogicType : unreal.ETransitionLogicType;
   public var CustomCurve : unreal.UCurveFloat;
   public var BlendMode : unreal.EAlphaBlendOption;

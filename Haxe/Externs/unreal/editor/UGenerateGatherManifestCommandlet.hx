@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGenerateGatherManifestCommandlet: Generates a localisation manifest; generally used as a gather step.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GenerateGatherManifestCommandlet.h")
-@:uextern extern class UGenerateGatherManifestCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGenerateGatherManifestCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

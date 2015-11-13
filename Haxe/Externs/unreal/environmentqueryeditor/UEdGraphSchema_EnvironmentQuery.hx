@@ -13,6 +13,12 @@
 **/
 package unreal.environmentqueryeditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EdGraphSchema_EnvironmentQuery.h")
 @:uextern extern class UEdGraphSchema_EnvironmentQuery extends unreal.aigraph.UAIGraphSchema {

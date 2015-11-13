@@ -15,11 +15,13 @@ package unreal.onlinesubsystem;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds a name to class name mapping for adding the named interfaces automatically
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("NamedInterfaces.h")
-@:uextern extern class FNamedInterfaceDef {
+@:noCopy @:noEquals @:uextern extern class FNamedInterfaceDef {
   
   /**
     The class to load and create for the named interface

@@ -15,11 +15,13 @@ package unreal.onlinesubsystem;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds a named object interface for dynamically bound interfaces
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("NamedInterfaces.h")
-@:uextern extern class FNamedInterface {
+@:noCopy @:noEquals @:uextern extern class FNamedInterface {
   
   /**
     The object to store at this location

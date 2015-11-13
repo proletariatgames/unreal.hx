@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Velocity/ParticleModuleVelocityBase.h")
-@:uextern extern class UParticleModuleVelocityBase extends unreal.UParticleModule {
+@:noClass @:uextern extern class UParticleModuleVelocityBase extends unreal.UParticleModule {
   
   /**
     If true, then apply the particle system components scale to the velocity value.

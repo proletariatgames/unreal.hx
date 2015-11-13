@@ -13,9 +13,15 @@
 **/
 package unreal.gameprojectgeneration;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
-@:uextern extern class FTemplateFolderRename {
+@:noCopy @:noEquals @:uextern extern class FTemplateFolderRename {
   public var To : unreal.FString;
   public var From : unreal.FString;
   

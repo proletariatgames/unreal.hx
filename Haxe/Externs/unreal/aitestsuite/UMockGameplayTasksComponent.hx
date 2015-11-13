@@ -15,10 +15,12 @@ package unreal.aitestsuite;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   a Testing-time component that is a way to access UGameplayTasksComponent's protected properties
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockGameplayTasks.h")
-@:uextern extern class UMockGameplayTasksComponent extends unreal.gameplaytasks.UGameplayTasksComponent {
+@:noClass @:uextern extern class UMockGameplayTasksComponent extends unreal.gameplaytasks.UGameplayTasksComponent {
   
 }

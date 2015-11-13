@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Container for detailing collision automated test data.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Private/Tests/CollisionAutomationTests.h")
-@:uextern extern class FCollisionTestEntry {
+@:noCopy @:noEquals @:uextern extern class FCollisionTestEntry {
   public var HitResult : unreal.FHitResult;
   public var ShapeType : unreal.FString;
   public var RootShapeAsset : unreal.FString;

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Sound/DialogueSoundWaveProxy.h")
-@:uextern extern class UDialogueSoundWaveProxy extends unreal.USoundBase {
+@:noClass @:uextern extern class UDialogueSoundWaveProxy extends unreal.USoundBase {
   
 }

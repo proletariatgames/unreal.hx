@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionComponentMask.h")
 @:uextern extern class UMaterialExpressionComponentMask extends unreal.UMaterialExpression {
   public var A : Bool;

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   One convex hull, used for simplified collision.
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FKConvexElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern extern class FKConvexElem extends unreal.FKShapeElem {
   
   /**
     Transform of this element

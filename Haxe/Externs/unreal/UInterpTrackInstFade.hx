@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstFade.h")
-@:uextern extern class UInterpTrackInstFade extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstFade extends unreal.UInterpTrackInst {
   
 }

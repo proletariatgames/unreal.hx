@@ -15,11 +15,13 @@ package unreal.pluginbrowser;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   We use this object to display plugin properties using details view.
 **/
 @:umodule("PluginBrowser")
 @:glueCppIncludes("Private/PluginMetadataObject.h")
-@:uextern extern class UPluginMetadataObject extends unreal.UObject {
+@:noClass @:uextern extern class UPluginMetadataObject extends unreal.UObject {
   
   /**
     Marks the plugin as beta in the UI

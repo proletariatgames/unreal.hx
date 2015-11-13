@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct containing triangle sort settings for a particular section
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FTriangleSortSettings {
+@:noCopy @:noEquals @:uextern extern class FTriangleSortSettings {
   public var CustomLeftRightBoneName : unreal.FName;
   public var CustomLeftRightAxis : unreal.ETriangleSortAxis;
   public var TriangleSorting : unreal.ETriangleSortOption;

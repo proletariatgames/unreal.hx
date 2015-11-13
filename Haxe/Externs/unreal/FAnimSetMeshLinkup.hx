@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is a mapping table between each bone in a particular skeletal mesh and the tracks of this animation set.
 **/
 @:glueCppIncludes("Animation/AnimSet.h")
-@:uextern extern class FAnimSetMeshLinkup {
+@:noCopy @:noEquals @:uextern extern class FAnimSetMeshLinkup {
   
   /**
     Mapping table. Size must be same as size of SkelMesh reference skeleton.

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A subtitle localized to a specific language.
 **/
 @:glueCppIncludes("Sound/SoundWave.h")
-@:uextern extern class FLocalizedSubtitle {
+@:noCopy @:noEquals @:uextern extern class FLocalizedSubtitle {
   
   /**
     true if the subtitles should be displayed one line at a time.

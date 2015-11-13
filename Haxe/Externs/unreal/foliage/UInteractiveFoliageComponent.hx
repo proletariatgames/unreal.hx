@@ -13,8 +13,14 @@
 **/
 package unreal.foliage;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Foliage")
 @:glueCppIncludes("Private/InteractiveFoliageComponent.h")
-@:uextern extern class UInteractiveFoliageComponent extends unreal.UStaticMeshComponent {
+@:noClass @:uextern extern class UInteractiveFoliageComponent extends unreal.UStaticMeshComponent {
   
 }

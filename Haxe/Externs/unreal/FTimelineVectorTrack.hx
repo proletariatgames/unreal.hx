@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct that contains one entry for each vector interpolation performed by the timeline
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:uextern extern class FTimelineVectorTrack {
+@:noCopy @:noEquals @:uextern extern class FTimelineVectorTrack {
   
   /**
     Cached vector struct property pointer

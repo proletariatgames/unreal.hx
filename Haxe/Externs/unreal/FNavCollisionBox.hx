@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavCollision.h")
-@:uextern extern class FNavCollisionBox {
+@:noCopy @:noEquals @:uextern extern class FNavCollisionBox {
   public var Extent : unreal.FVector;
   public var Offset : unreal.FVector;
   

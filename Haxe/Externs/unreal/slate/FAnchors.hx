@@ -15,11 +15,13 @@ package unreal.slate;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Describes how a widget is anchored.
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Components/CanvasPanelSlot.h")
-@:uextern extern class FAnchors {
+@:noCopy @:noEquals @:uextern extern class FAnchors {
   
   /**
     Holds the maximum anchors, right + bottom.

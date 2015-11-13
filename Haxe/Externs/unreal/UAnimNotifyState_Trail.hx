@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotifyState_Trail.h")
 @:uextern extern class UAnimNotifyState_Trail extends unreal.UAnimNotifyState {
   #if WITH_EDITORONLY_DATA
@@ -65,6 +71,5 @@ package unreal;
     The particle system to use for this trail.
   **/
   public var PSTemplate : unreal.UParticleSystem;
-  @:thisConst public function OverridePSTemplate(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : unreal.UParticleSystem;
   
 }

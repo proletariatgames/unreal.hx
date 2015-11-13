@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Size/ParticleModuleSizeScaleBySpeed.h")
-@:uextern extern class UParticleModuleSizeScaleBySpeed extends unreal.UParticleModuleSizeBase {
+@:noClass @:uextern extern class UParticleModuleSizeScaleBySpeed extends unreal.UParticleModuleSizeBase {
   
   /**
     The maximum amount by which to scale a particle in each dimension.

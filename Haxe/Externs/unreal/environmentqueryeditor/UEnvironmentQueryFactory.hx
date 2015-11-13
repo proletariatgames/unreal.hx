@@ -13,8 +13,14 @@
 **/
 package unreal.environmentqueryeditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EnvironmentQueryFactory.h")
-@:uextern extern class UEnvironmentQueryFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UEnvironmentQueryFactory extends unreal.editor.UFactory {
   
 }

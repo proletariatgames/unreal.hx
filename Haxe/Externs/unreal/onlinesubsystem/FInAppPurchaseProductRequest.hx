@@ -15,11 +15,13 @@ package unreal.onlinesubsystem;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Micro-transaction request information
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("Interfaces/TurnBasedMatchInterface.h", "NamedInterfaces.h")
-@:uextern extern class FInAppPurchaseProductRequest {
+@:noCopy @:noEquals @:uextern extern class FInAppPurchaseProductRequest {
   
   /**
     Flag to determine whether this is a consumable purchase, or not.

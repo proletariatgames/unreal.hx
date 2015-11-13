@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/TargetPoint.h")
 @:uextern extern class ATargetPoint extends unreal.AActor {
   #if WITH_EDITORONLY_DATA

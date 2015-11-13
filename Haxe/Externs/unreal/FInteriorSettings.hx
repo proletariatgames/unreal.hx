@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct encapsulating settings for interior areas.
 **/
 @:glueCppIncludes("Sound/AudioVolume.h")
-@:uextern extern class FInteriorSettings {
+@:noCopy @:noEquals @:uextern extern class FInteriorSettings {
   
   /**
     The time over which to interpolate from the current LPF to the desired LPF of sounds inside the volume when the player enters the volume

@@ -15,20 +15,12 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Waits for the actor to activate another ability
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitAttributeChange.h")
 @:uextern extern class UAbilityTask_WaitAttributeChange extends unreal.gameplayabilities.UAbilityTask {
-  
-  /**
-    Wait until an attribute changes.
-  **/
-  static public function WaitForAttributeChange(WorldContextObject : unreal.UObject, Attribute : unreal.gameplayabilities.FGameplayAttribute, WithSrcTag : unreal.gameplaytags.FGameplayTag, WithoutSrcTag : unreal.gameplaytags.FGameplayTag, TriggerOnce : Bool) : unreal.gameplayabilities.UAbilityTask_WaitAttributeChange;
-  
-  /**
-    Wait until an attribute changes to pass a given test.
-  **/
-  static public function WaitForAttributeChangeWithComparison(WorldContextObject : unreal.UObject, InAttribute : unreal.gameplayabilities.FGameplayAttribute, InWithTag : unreal.gameplaytags.FGameplayTag, InWithoutTag : unreal.gameplaytags.FGameplayTag, InComparisonType : unreal.gameplayabilities.EWaitAttributeChangeComparison, InComparisonValue : unreal.Float32, TriggerOnce : Bool) : unreal.gameplayabilities.UAbilityTask_WaitAttributeChange;
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds UProperty names and values to customize factory settings
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FImportFactorySettingValues {
+@:noCopy @:noEquals @:uextern extern class FImportFactorySettingValues {
   
   /**
     Value to import for the specified property.

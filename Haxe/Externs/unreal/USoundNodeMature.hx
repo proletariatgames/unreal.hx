@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   This SoundNode uses UEngine::bAllowMatureLanguage to determine whether child nodes
   that have USoundWave::bMature=true should be played.
 **/

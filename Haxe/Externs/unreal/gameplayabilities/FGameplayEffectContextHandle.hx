@@ -15,10 +15,12 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Handle that wraps a FGameplayEffectContext or subclass, to allow it to be polymorphic and replicate properly
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FGameplayEffectContextHandle {
+@:noCopy @:noEquals @:uextern extern class FGameplayEffectContextHandle {
   
 }

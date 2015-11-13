@@ -15,6 +15,8 @@ package unreal.worldbrowser;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UWorldTileDetails
   
   Helper class to hold world tile information
@@ -22,7 +24,7 @@ package unreal.worldbrowser;
 **/
 @:umodule("WorldBrowser")
 @:glueCppIncludes("Private/Tiles/WorldTileDetails.h")
-@:uextern extern class UWorldTileDetails extends unreal.UObject {
+@:noClass @:uextern extern class UWorldTileDetails extends unreal.UObject {
   public var LOD4 : unreal.worldbrowser.FTileLODEntryDetails;
   public var LOD3 : unreal.worldbrowser.FTileLODEntryDetails;
   public var LOD2 : unreal.worldbrowser.FTileLODEntryDetails;

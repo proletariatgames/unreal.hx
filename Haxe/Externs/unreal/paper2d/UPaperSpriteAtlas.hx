@@ -15,6 +15,8 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Groups together a set of sprites that will try to share the same texture atlas (allowing them to be combined into a single draw call)
 **/
 @:umodule("Paper2D")

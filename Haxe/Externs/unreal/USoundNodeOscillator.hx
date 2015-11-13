@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Defines how a sound oscillates
 **/
 @:glueCppIncludes("Sound/SoundNodeOscillator.h")
-@:uextern extern class USoundNodeOscillator extends unreal.USoundNode {
+@:noClass @:uextern extern class USoundNodeOscillator extends unreal.USoundNode {
   
   /**
     A center of 0.5 would oscillate around 0.5.

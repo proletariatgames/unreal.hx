@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure containing configurable properties of a sound class.
 **/
 @:glueCppIncludes("Sound/SoundClass.h")
-@:uextern extern class FSoundClassProperties {
+@:noCopy @:noEquals @:uextern extern class FSoundClassProperties {
   
   /**
     Which output target the sound should be played through

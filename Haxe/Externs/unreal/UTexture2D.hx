@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/Texture2D.h")
 @:uextern extern class UTexture2D extends unreal.UTexture {
   
@@ -67,15 +73,5 @@ package unreal;
     Number of miplevels the texture should have resident.
   **/
   public var RequestedMips : unreal.Int32;
-  
-  /**
-    Gets the X size of the texture, in pixels
-  **/
-  @:thisConst @:final public function Blueprint_GetSizeX() : unreal.Int32;
-  
-  /**
-    Gets the Y size of the texture, in pixels
-  **/
-  @:thisConst @:final public function Blueprint_GetSizeY() : unreal.Int32;
   
 }

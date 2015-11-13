@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements a file server commandlet.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/FileServerCommandlet.h")
-@:uextern extern class UFileServerCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UFileServerCommandlet extends unreal.UCommandlet {
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Data for a single key in this track
 **/
 @:glueCppIncludes("Matinee/InterpTrackParticleReplay.h")
-@:uextern extern class FParticleReplayTrackKey {
+@:noCopy @:noEquals @:uextern extern class FParticleReplayTrackKey {
   
   /**
     Replay clip ID number that identifies the clip we should capture to or playback from

@@ -13,9 +13,15 @@
 **/
 package unreal.paper2deditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("TileMapAssetImportData.h")
-@:uextern extern class FTileSetImportMapping {
+@:noCopy @:noEquals @:uextern extern class FTileSetImportMapping {
   public var SourceName : unreal.FString;
   
 }

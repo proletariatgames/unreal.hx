@@ -13,12 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Curves/CurveVector.h")
 @:uextern extern class UCurveVector extends unreal.UCurveBase {
-  
-  /**
-    Evaluate this float curve at the specified time
-  **/
-  @:thisConst @:final public function GetVectorValue(InTime : unreal.Float32) : unreal.FVector;
   
 }

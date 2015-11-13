@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionSquareRoot.h")
-@:uextern extern class UMaterialExpressionSquareRoot extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionSquareRoot extends unreal.UMaterialExpression {
   public var Input : unreal.FExpressionInput;
   
 }

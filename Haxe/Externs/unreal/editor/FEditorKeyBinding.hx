@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   An editor hotkey binding to a parameterless exec.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdKeyBindings.h")
-@:uextern extern class FEditorKeyBinding {
+@:noCopy @:noEquals @:uextern extern class FEditorKeyBinding {
   public var CommandName : unreal.FName;
   public var Key : unreal.inputcore.FKey;
   public var bShiftDown : Bool;

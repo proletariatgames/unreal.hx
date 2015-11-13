@@ -13,9 +13,15 @@
 **/
 package unreal.paper2deditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/ExtractSprites/PaperExtractSpritesSettings.h")
-@:uextern extern class UPaperExtractSpritesSettings extends unreal.UObject {
+@:noClass @:uextern extern class UPaperExtractSpritesSettings extends unreal.UObject {
   
   /**
     The number to start naming with

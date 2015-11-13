@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Container for describing various types of netdrivers available to the engine
   The engine will try to construct a netdriver of a given type and, failing that,
   the fallback version.
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FNetDriverDefinition {
+@:noCopy @:noEquals @:uextern extern class FNetDriverDefinition {
   
   /**
     Class name of the fallback net driver if the main net driver class fails to initialize

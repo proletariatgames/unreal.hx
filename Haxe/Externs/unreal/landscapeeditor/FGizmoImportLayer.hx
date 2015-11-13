@@ -13,9 +13,15 @@
 **/
 package unreal.landscapeeditor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:uextern extern class FGizmoImportLayer {
+@:noCopy @:noEquals @:uextern extern class FGizmoImportLayer {
   public var bNoImport : Bool;
   public var LayerName : unreal.FString;
   public var LayerFilename : unreal.FString;

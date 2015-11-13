@@ -13,6 +13,12 @@
 **/
 package unreal.blueprintgraph;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_DoOnceMultiInput.h")
 @:uextern extern class UK2Node_DoOnceMultiInput extends unreal.blueprintgraph.UK2Node {

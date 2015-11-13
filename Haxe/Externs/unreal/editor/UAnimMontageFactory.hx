@@ -13,6 +13,12 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/AnimMontageFactory.h")
 @:uextern extern class UAnimMontageFactory extends unreal.editor.UFactory {

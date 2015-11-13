@@ -15,11 +15,13 @@ package unreal.cascade;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Module-to-TypeData mapping helper.
 **/
 @:umodule("Cascade")
 @:glueCppIncludes("CascadeConfiguration.h")
-@:uextern extern class FModuleMenuMapper {
+@:noCopy @:noEquals @:uextern extern class FModuleMenuMapper {
   public var InvalidObjNames : unreal.TArray<unreal.FString>;
   public var ObjName : unreal.FString;
   

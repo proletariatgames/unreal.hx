@@ -15,11 +15,13 @@ package unreal.slatecore;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FAnalogEvent describes a analog key value.
   It is passed to event handlers dealing with analog keys.
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern class FAnalogInputEvent extends unreal.slatecore.FKeyEvent {
+@:noCopy @:noEquals @:uextern extern class FAnalogInputEvent extends unreal.slatecore.FKeyEvent {
   
 }

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Used to create fogging effects such as clouds.
 **/
 @:glueCppIncludes("Atmosphere/AtmosphericFogComponent.h")
@@ -92,71 +94,5 @@ package unreal;
     Global scattering factor.
   **/
   public var SunMultiplier : unreal.Float32;
-  
-  /**
-    Set brightness of the light
-  **/
-  @:final public function SetDefaultBrightness(NewBrightness : unreal.Float32) : Void;
-  
-  /**
-    Set color of the light
-  **/
-  @:final public function SetDefaultLightColor(NewLightColor : unreal.FLinearColor) : Void;
-  
-  /**
-    Set SunMultiplier
-  **/
-  @:final public function SetSunMultiplier(NewSunMultiplier : unreal.Float32) : Void;
-  
-  /**
-    Set FogMultiplier
-  **/
-  @:final public function SetFogMultiplier(NewFogMultiplier : unreal.Float32) : Void;
-  
-  /**
-    Set DensityMultiplier
-  **/
-  @:final public function SetDensityMultiplier(NewDensityMultiplier : unreal.Float32) : Void;
-  
-  /**
-    Set DensityOffset
-  **/
-  @:final public function SetDensityOffset(NewDensityOffset : unreal.Float32) : Void;
-  
-  /**
-    Set DistanceScale
-  **/
-  @:final public function SetDistanceScale(NewDistanceScale : unreal.Float32) : Void;
-  
-  /**
-    Set AltitudeScale
-  **/
-  @:final public function SetAltitudeScale(NewAltitudeScale : unreal.Float32) : Void;
-  
-  /**
-    Set StartDistance
-  **/
-  @:final public function SetStartDistance(NewStartDistance : unreal.Float32) : Void;
-  
-  /**
-    Set DistanceOffset
-  **/
-  @:final public function SetDistanceOffset(NewDistanceOffset : unreal.Float32) : Void;
-  
-  /**
-    Set DisableSunDisk
-  **/
-  @:final public function DisableSunDisk(NewSunDisk : Bool) : Void;
-  
-  /**
-    Set DisableGroundScattering
-  **/
-  @:final public function DisableGroundScattering(NewGroundScattering : Bool) : Void;
-  
-  /**
-    Set PrecomputeParams, only valid in Editor mode
-  **/
-  @:final public function SetPrecomputeParams(DensityHeight : unreal.Float32, MaxScatteringOrder : unreal.Int32, InscatterAltitudeSampleNum : unreal.Int32) : Void;
-  @:final public function StartPrecompute() : Void;
   
 }

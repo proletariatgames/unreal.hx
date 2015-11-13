@@ -13,8 +13,14 @@
 **/
 package unreal.gameplaytagseditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_MultiCompareGameplayTagAssetInterface.h")
-@:uextern extern class UGameplayTagsK2Node_MultiCompareGameplayTagAssetInterface extends unreal.gameplaytagseditor.UGameplayTagsK2Node_MultiCompareBase {
+@:noClass @:uextern extern class UGameplayTagsK2Node_MultiCompareGameplayTagAssetInterface extends unreal.gameplaytagseditor.UGameplayTagsK2Node_MultiCompareBase {
   
 }

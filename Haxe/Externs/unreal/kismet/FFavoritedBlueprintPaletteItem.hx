@@ -15,10 +15,12 @@ package unreal.kismet;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   FFavoritedPaletteItem
 **/
 @:umodule("Kismet")
 @:glueCppIncludes("BlueprintPaletteFavorites.h")
-@:uextern extern class FFavoritedBlueprintPaletteItem {
+@:noCopy @:noEquals @:uextern extern class FFavoritedBlueprintPaletteItem {
   
 }

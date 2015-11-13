@@ -13,8 +13,14 @@
 **/
 package unreal.gameplaytagseditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_LiteralGameplayTag.h")
-@:uextern extern class UGameplayTagsK2Node_LiteralGameplayTag extends unreal.blueprintgraph.UK2Node {
+@:noClass @:uextern extern class UGameplayTagsK2Node_LiteralGameplayTag extends unreal.blueprintgraph.UK2Node {
   
 }

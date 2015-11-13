@@ -15,11 +15,13 @@ package unreal.proceduralmeshcomponent;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   One vertex for the procedural mesh, used for storing data internally
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:uextern extern class FProcMeshVertex {
+@:noCopy @:noEquals @:uextern extern class FProcMeshVertex {
   
   /**
     Vertex texture co-ordinate

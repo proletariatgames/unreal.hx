@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   An exposed value updater
 **/
 @:glueCppIncludes("AnimPreviewInstance.h")
-@:uextern extern class FExposedValueHandler {
+@:noCopy @:noEquals @:uextern extern class FExposedValueHandler {
   
   /**
     The function to call to update associated properties (can be NULL)

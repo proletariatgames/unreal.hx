@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements an Actor for exponential height fog.
 **/
 @:glueCppIncludes("Engine/ExponentialHeightFog.h")
@@ -25,10 +27,5 @@ package unreal;
   **/
   public var bEnabled : Bool;
   public var Component : unreal.UExponentialHeightFogComponent;
-  
-  /**
-    Replication Notification Callbacks
-  **/
-  public function OnRep_bEnabled() : Void;
   
 }

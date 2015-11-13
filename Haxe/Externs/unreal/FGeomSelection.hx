@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Selection information for geometry mode
 **/
 @:glueCppIncludes("Engine/Brush.h")
-@:uextern extern class FGeomSelection {
+@:noCopy @:noEquals @:uextern extern class FGeomSelection {
   
   /**
     Index into the geometry data structures

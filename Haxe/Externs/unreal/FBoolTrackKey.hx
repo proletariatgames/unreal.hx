@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one event in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackBoolProp.h")
-@:uextern extern class FBoolTrackKey {
+@:noCopy @:noEquals @:uextern extern class FBoolTrackKey {
   public var Value : Bool;
   public var Time : unreal.Float32;
   

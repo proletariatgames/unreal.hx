@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Used to describe an element that can be linked to a segment in a montage or sequence.
      Usage:
              Inherit from FAnimLinkableElement and make sure to call LinkMontage or LinkSequence
@@ -26,7 +28,7 @@ package unreal;
              @see FAnimNotifyEvent
 **/
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern extern class FAnimLinkableElement {
   
   /**
     The Animation Sequence that this montage element will link to, when the sequence changes

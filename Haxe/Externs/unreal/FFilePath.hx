@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for file paths that are displayed in the UI.
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FFilePath {
+@:noCopy @:noEquals @:uextern extern class FFilePath {
   
   /**
     The path to the file.

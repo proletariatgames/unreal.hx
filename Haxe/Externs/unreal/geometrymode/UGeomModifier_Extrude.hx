@@ -13,9 +13,15 @@
 **/
 package unreal.geometrymode;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Extrude.h")
-@:uextern extern class UGeomModifier_Extrude extends unreal.geometrymode.UGeomModifier_Edit {
+@:noClass @:uextern extern class UGeomModifier_Extrude extends unreal.geometrymode.UGeomModifier_Edit {
   public var SaveCoordSystem : unreal.Int32;
   public var Segments : unreal.Int32;
   public var Length : unreal.Int32;

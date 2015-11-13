@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure used for holding information for one animation played on the Anim Control track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackAnimControl.h")
-@:uextern extern class FAnimControlTrackKey {
+@:noCopy @:noEquals @:uextern extern class FAnimControlTrackKey {
   
   /**
     Whether to play the animation in reverse or not.

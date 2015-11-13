@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   -> will be exported to EngineDecalClasses.h
 **/
 @:glueCppIncludes("Components/PlaneReflectionCaptureComponent.h")

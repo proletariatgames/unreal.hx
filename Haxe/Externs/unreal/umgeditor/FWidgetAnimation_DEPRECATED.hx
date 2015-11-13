@@ -15,11 +15,13 @@ package unreal.umgeditor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used only for loading old animations
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
-@:uextern extern class FWidgetAnimation_DEPRECATED {
+@:noCopy @:noEquals @:uextern extern class FWidgetAnimation_DEPRECATED {
   public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
   public var MovieScene : unreal.moviescene.UMovieScene;
   

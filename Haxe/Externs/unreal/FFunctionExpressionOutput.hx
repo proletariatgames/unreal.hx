@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct that stores information about a function output which is needed to maintain connections and implement the function call.
 **/
 @:glueCppIncludes("Materials/MaterialExpressionMaterialFunctionCall.h")
-@:uextern extern class FFunctionExpressionOutput {
+@:noCopy @:noEquals @:uextern extern class FFunctionExpressionOutput {
   
   /**
     Actual output struct which stores information about how this output is connected in the material.

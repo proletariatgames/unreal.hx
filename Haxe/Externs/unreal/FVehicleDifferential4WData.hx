@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:uextern extern class FVehicleDifferential4WData {
+@:noCopy @:noEquals @:uextern extern class FVehicleDifferential4WData {
   
   /**
     Maximum allowed ratio of rear-left and rear-right wheel rotation speeds (range: 1..inf, works only with LimitedSlip_4W, LimitedSlip_FrontDrive)

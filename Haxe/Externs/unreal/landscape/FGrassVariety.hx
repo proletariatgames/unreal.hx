@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGrassType.h")
-@:uextern extern class FGrassVariety {
+@:noCopy @:noEquals @:uextern extern class FGrassVariety {
   public var AlignToSurface : Bool;
   public var RandomRotation : Bool;
   

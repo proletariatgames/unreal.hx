@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("CreateSessionCallbackProxy.h")
 @:uextern extern class UCreateSessionCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
-  
-  /**
-    Creates a session with the default online subsystem
-  **/
-  static public function CreateSession(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, PublicConnections : unreal.Int32, bUseLAN : Bool) : unreal.onlinesubsystemutils.UCreateSessionCallbackProxy;
   
 }

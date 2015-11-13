@@ -13,9 +13,15 @@
 **/
 package unreal.functionaltesting;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalAITest.h")
-@:uextern extern class FAITestSpawnInfo {
+@:noCopy @:noEquals @:uextern extern class FAITestSpawnInfo {
   
   /**
     delay between consecutive spawn attempts

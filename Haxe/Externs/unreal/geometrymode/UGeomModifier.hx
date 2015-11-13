@@ -13,9 +13,15 @@
 **/
 package unreal.geometrymode;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier.h")
-@:uextern extern class UGeomModifier extends unreal.UObject {
+@:noClass @:uextern extern class UGeomModifier extends unreal.UObject {
   
   /**
     true if the modifier has been initialized.

@@ -13,9 +13,15 @@
 **/
 package unreal.lightpropagationvolumeruntime;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("LightPropagationVolumeRuntime")
 @:glueCppIncludes("LightPropagationVolumeBlendable.h")
-@:uextern extern class FLightPropagationVolumeSettings {
+@:noCopy @:noEquals @:uextern extern class FLightPropagationVolumeSettings {
   
   /**
     Specular occlusion intensity - higher values provide increased specular occlusion.

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the new project stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FBuildPromotionNewProjectSettings {
+@:noCopy @:noEquals @:uextern extern class FBuildPromotionNewProjectSettings {
   
   /**
     The name of the project *

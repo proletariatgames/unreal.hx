@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Tick function that calls AActor::TickActor
 **/
 @:glueCppIncludes("GameFramework/Actor.h")
-@:uextern extern class FActorTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern extern class FActorTickFunction extends unreal.FTickFunction {
   
 }

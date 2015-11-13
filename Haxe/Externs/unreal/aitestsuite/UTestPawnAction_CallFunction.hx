@@ -13,8 +13,14 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("Actions/TestPawnAction_CallFunction.h")
-@:uextern extern class UTestPawnAction_CallFunction extends unreal.aitestsuite.UTestPawnAction_Log {
+@:noClass @:uextern extern class UTestPawnAction_CallFunction extends unreal.aitestsuite.UTestPawnAction_Log {
   
 }

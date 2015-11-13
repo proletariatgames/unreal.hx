@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/PendingNetGame.h")
-@:uextern extern class UPendingNetGame extends unreal.UObject {
+@:noClass @:uextern extern class UPendingNetGame extends unreal.UObject {
   
   /**
     Demo Net driver created for loading demos, but we need to go through pending net game

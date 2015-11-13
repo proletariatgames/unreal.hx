@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionTime.h")
-@:uextern extern class UMaterialExpressionTime extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionTime extends unreal.UMaterialExpression {
   
   /**
     Period at which to wrap around time

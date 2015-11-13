@@ -15,6 +15,8 @@ package unreal.umg;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Handles manipulation of FMargins in a movie scene
 **/
 @:umodule("UMG")

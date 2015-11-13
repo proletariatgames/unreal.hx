@@ -13,9 +13,15 @@
 **/
 package unreal.sourcecodeaccess;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("SourceCodeAccess")
 @:glueCppIncludes("Private/SourceCodeAccessSettings.h")
-@:uextern extern class USourceCodeAccessSettings extends unreal.UObject {
+@:noClass @:uextern extern class USourceCodeAccessSettings extends unreal.UObject {
   
   /**
     The source code editor we prefer to use.

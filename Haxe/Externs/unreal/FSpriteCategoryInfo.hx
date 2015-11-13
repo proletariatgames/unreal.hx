@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information about the sprite category
 **/
 @:glueCppIncludes("Components/ArrowComponent.h")
-@:uextern extern class FSpriteCategoryInfo {
+@:noCopy @:noEquals @:uextern extern class FSpriteCategoryInfo {
   
   /**
     Sprite category that the component belongs to

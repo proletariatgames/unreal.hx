@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Auto reimport settings for a specific directory
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
-@:uextern extern class FAutoReimportDirectoryConfig {
+@:noCopy @:noEquals @:uextern extern class FAutoReimportDirectoryConfig {
   
   /**
     A set of wildcard filters to apply to this directory

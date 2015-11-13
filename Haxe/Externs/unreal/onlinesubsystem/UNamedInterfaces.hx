@@ -15,10 +15,12 @@ package unreal.onlinesubsystem;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Named interfaces are a registry of UObjects accessible by an FName key that will persist for the lifetime of the process
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("NamedInterfaces.h")
-@:uextern extern class UNamedInterfaces extends unreal.UObject {
+@:noClass @:uextern extern class UNamedInterfaces extends unreal.UObject {
   
 }

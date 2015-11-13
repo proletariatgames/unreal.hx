@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct for holding SetBytCaller data
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FSetByCallerFloat {
+@:noCopy @:noEquals @:uextern extern class FSetByCallerFloat {
   
   /**
     The Name the caller (code or blueprint) will use to set this magnitude by.

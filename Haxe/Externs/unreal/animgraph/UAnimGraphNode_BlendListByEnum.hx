@@ -13,6 +13,12 @@
 **/
 package unreal.animgraph;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_BlendListByEnum.h")
 @:uextern extern class UAnimGraphNode_BlendListByEnum extends unreal.animgraph.UAnimGraphNode_BlendListBase implements unreal.blueprintgraph.INodeDependingOnEnumInterface {

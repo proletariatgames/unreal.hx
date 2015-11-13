@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/MatineeActor.h")
 @:uextern extern class AMatineeActor extends unreal.AActor {
   public var InterpPosition : unreal.Float32;
@@ -159,44 +165,5 @@ package unreal;
     The matinee data used by this actor
   **/
   public var MatineeData : unreal.UInterpData;
-  
-  /**
-    Begin playback of the matinee. Only called in game.
-    Will then advance Position by (PlayRate * Deltatime) each time the matinee is ticked.
-  **/
-  public function Play() : Void;
-  
-  /**
-    Stops playback at the current position
-  **/
-  public function Stop() : Void;
-  
-  /**
-    Similar to play, but the playback will go backwards until the beginning of the sequence is reached.
-  **/
-  public function Reverse() : Void;
-  
-  /**
-    Hold playback at its current position. Calling Pause again will continue playback in its current direction.
-  **/
-  public function Pause() : Void;
-  
-  /**
-    Set the position of the interpolation.
-    @note if the interpolation is not currently active, this function doesn't send any Kismet events
-    @param NewPosition the new position to set the interpolation to
-    @param bJump if true, teleport to the new position (don't trigger any events between the old and new positions, etc)
-  **/
-  @:final public function SetPosition(NewPosition : unreal.Float32, bJump : Bool) : Void;
-  
-  /**
-    Changes the direction of playback (go in reverse if it was going forward, or vice versa)
-  **/
-  public function ChangePlaybackDirection() : Void;
-  
-  /**
-    Change the looping behaviour of this matinee
-  **/
-  public function SetLoopingState(bNewLooping : Bool) : Void;
   
 }

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Defines level bounds
   Updates bounding box automatically based on actors transformation changes or holds fixed user defined bounding box
   Uses only actors where AActor::IsLevelBoundsRelevant() == true

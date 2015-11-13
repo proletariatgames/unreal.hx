@@ -15,11 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A component that spawns an Actor when registered, and destroys it when unregistered.
 **/
 @:glueCppIncludes("Components/ChildActorComponent.h")
 @:uextern extern class UChildActorComponent extends unreal.USceneComponent {
-  @:final public function SetChildActorClass(InClass : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     The actor that we spawned and own

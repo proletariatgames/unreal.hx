@@ -20,6 +20,6 @@ package unreal;
   A date/time value.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDateTime {
+@:noCopy @:noEquals @:uextern extern class FDateTime {
   
 }

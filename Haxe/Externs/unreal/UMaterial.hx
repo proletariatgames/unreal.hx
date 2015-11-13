@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A Material is an asset which can be applied to a mesh to control the visual look of the scene. In general,
   when light from the scene hits the surface, the shading model of the material is used to calculate how
   that light interacts with the surface.

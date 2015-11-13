@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/StaticMeshComponent.h")
-@:uextern extern class FStaticMeshComponentLODInfo {
+@:noCopy @:noEquals @:uextern extern class FStaticMeshComponentLODInfo {
   
   /**
     Vertex data cached at the time this LOD was painted, if any

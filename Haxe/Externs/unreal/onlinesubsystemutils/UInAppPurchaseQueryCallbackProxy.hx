@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("InAppPurchaseQueryCallbackProxy.h")
 @:uextern extern class UInAppPurchaseQueryCallbackProxy extends unreal.UObject {
-  
-  /**
-    Queries a InAppPurchase for an integer value
-  **/
-  static public function CreateProxyObjectForInAppPurchaseQuery(PlayerController : unreal.APlayerController, ProductIdentifiers : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.onlinesubsystemutils.UInAppPurchaseQueryCallbackProxy;
   
 }

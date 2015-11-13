@@ -15,6 +15,8 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Base class for movie scene sections
 **/
 @:umodule("MovieScene")

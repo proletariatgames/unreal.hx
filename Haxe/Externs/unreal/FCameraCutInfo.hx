@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Helper struct for storing the camera world-position for each camera cut in the cinematic.
 **/
 @:glueCppIncludes("Matinee/MatineeActor.h")
-@:uextern extern class FCameraCutInfo {
+@:noCopy @:noEquals @:uextern extern class FCameraCutInfo {
   public var TimeStamp : unreal.Float32;
   public var Location : unreal.FVector;
   

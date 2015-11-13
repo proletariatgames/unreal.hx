@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A sphere generally used for simple collision. Bounds are rendered as lines in the editor.
 **/
 @:glueCppIncludes("Components/DrawSphereComponent.h")

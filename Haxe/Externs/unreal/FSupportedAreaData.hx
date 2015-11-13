@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavigationData.h")
-@:uextern extern class FSupportedAreaData {
+@:noCopy @:noEquals @:uextern extern class FSupportedAreaData {
   public var AreaClass : unreal.UClass;
   public var AreaID : unreal.Int32;
   public var AreaClassName : unreal.FString;

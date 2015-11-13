@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGatherTextCommandlet: One commandlet to rule them all. This commandlet loads a config file and then calls other localization commandlets. Allows localization system to be easily extendable and flexible.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GatherTextCommandlet.h")
-@:uextern extern class UGatherTextCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGatherTextCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Parameters that pertain to chunk damage.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleDamageParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleDamageParameters {
   
   /**
     Controls how much resistance is applied to colliding objects. Weak materials like glass should set this to a low value so that objects will pass right through them during fracture.

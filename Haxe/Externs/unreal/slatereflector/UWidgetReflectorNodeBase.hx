@@ -15,11 +15,13 @@ package unreal.slatereflector;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   A widget reflector node that contains the interface and basic data required by both live and snapshot nodes
 **/
 @:umodule("SlateReflector")
 @:glueCppIncludes("Private/Models/WidgetReflectorNode.h")
-@:uextern extern class UWidgetReflectorNodeBase extends unreal.UObject {
+@:noClass @:uextern extern class UWidgetReflectorNodeBase extends unreal.UObject {
   
   /**
     A tint that is applied to text in order to provide visual hints

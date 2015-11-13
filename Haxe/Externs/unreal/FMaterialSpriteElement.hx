@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Components/MaterialBillboardComponent.h")
-@:uextern extern class FMaterialSpriteElement {
+@:noCopy @:noEquals @:uextern extern class FMaterialSpriteElement {
   
   /**
     A curve that maps distance on the X axis to the sprite size on the Y axis.

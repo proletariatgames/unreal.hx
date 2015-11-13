@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialExpressionCosine.h")
-@:uextern extern class UMaterialExpressionCosine extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionCosine extends unreal.UMaterialExpression {
   public var Period : unreal.Float32;
   public var Input : unreal.FExpressionInput;
   

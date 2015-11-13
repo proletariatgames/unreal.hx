@@ -13,9 +13,15 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockGameplayTasks.h")
-@:uextern extern class UMockGameplayTaskOwner extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
+@:noClass @:uextern extern class UMockGameplayTaskOwner extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
   public var GTComponent : unreal.gameplaytasks.UGameplayTasksComponent;
   // GameplayTaskOwnerInterface interface implementation
   

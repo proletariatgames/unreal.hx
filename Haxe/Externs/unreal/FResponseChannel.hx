@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FResponseChannel {
+@:noCopy @:noEquals @:uextern extern class FResponseChannel {
   public var Response : unreal.ECollisionResponse;
   
   /**

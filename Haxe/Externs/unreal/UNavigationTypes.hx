@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
-@:uextern extern class UNavigationTypes extends unreal.UObject {
+@:noClass @:uextern extern class UNavigationTypes extends unreal.UObject {
   
 }

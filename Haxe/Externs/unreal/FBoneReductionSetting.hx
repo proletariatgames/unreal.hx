@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class FBoneReductionSetting {
+@:noCopy @:noEquals @:uextern extern class FBoneReductionSetting {
   public var BonesToRemove : unreal.TArray<unreal.FName>;
   
 }

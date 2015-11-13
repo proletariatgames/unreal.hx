@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Handles attachment replication to clients. Movement replication will not happen while AttachParent is non-nullptr
 **/
 @:glueCppIncludes("GameFramework/Actor.h")
-@:uextern extern class FRepAttachment {
+@:noCopy @:noEquals @:uextern extern class FRepAttachment {
   public var AttachComponent : unreal.USceneComponent;
   public var AttachSocket : unreal.FName;
   public var RotationOffset : unreal.FRotator;

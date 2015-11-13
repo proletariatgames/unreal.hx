@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/Material.h")
-@:uextern extern class FScalarMaterialInput {
+@:noCopy @:noEquals @:uextern extern class FScalarMaterialInput {
   
 }

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpGroupInstCamera.h")
-@:uextern extern class UInterpGroupInstCamera extends unreal.UInterpGroupInst {
+@:noClass @:uextern extern class UInterpGroupInstCamera extends unreal.UInterpGroupInst {
   
 }

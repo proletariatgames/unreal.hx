@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A parameterless exec command that can be bound to hotkeys and menu items in the editor.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:uextern extern class FEditorCommand {
+@:noCopy @:noEquals @:uextern extern class FEditorCommand {
   public var Description : unreal.FString;
   public var ExecCommand : unreal.FString;
   public var CommandName : unreal.FName;

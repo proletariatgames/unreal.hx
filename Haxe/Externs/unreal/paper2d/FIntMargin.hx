@@ -15,11 +15,13 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Describes the space around a 2D area on an integer grid.
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileSet.h")
-@:uextern extern class FIntMargin {
+@:noCopy @:noEquals @:uextern extern class FIntMargin {
   
   /**
     Holds the margin to the bottom.

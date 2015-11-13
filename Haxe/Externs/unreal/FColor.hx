@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Color.h
 **/
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class FColor {
+@:noCopy @:noEquals @:uextern extern class FColor {
   
 }

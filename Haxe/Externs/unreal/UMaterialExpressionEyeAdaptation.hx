@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Provides access to the EyeAdaptation render target.
 **/
 @:glueCppIncludes("Materials/MaterialExpressionEyeAdaptation.h")
-@:uextern extern class UMaterialExpressionEyeAdaptation extends unreal.UMaterialExpression {
+@:noClass @:uextern extern class UMaterialExpressionEyeAdaptation extends unreal.UMaterialExpression {
   
 }

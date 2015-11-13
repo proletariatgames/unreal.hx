@@ -13,6 +13,12 @@
 **/
 package unreal.niagara;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraActor.h")
 @:uextern extern class ANiagaraActor extends unreal.AActor {

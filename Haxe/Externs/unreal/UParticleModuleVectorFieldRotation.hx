@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldRotation.h")
-@:uextern extern class UParticleModuleVectorFieldRotation extends unreal.UParticleModuleVectorFieldBase {
+@:noClass @:uextern extern class UParticleModuleVectorFieldRotation extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Maximum initial rotation applied to the local vector field.

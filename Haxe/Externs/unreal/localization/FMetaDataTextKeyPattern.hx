@@ -13,9 +13,15 @@
 **/
 package unreal.localization;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationSettings.h")
-@:uextern extern class FMetaDataTextKeyPattern {
+@:noCopy @:noEquals @:uextern extern class FMetaDataTextKeyPattern {
   public var Pattern : unreal.FString;
   
 }

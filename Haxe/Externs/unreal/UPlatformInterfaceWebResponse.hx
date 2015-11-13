@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/PlatformInterfaceWebResponse.h")
 @:uextern extern class UPlatformInterfaceWebResponse extends unreal.UObject {
   
@@ -40,20 +46,5 @@ package unreal;
     This holds the original requested URL
   **/
   public var OriginalURL : unreal.FString;
-  
-  /**
-    @return the number of header/value pairs
-  **/
-  public function GetNumHeaders() : unreal.Int32;
-  
-  /**
-    Retrieve the header and value for the given index of header/value pair
-  **/
-  public function GetHeader(HeaderIndex : unreal.Int32, Header : unreal.PRef<unreal.FString>, Value : unreal.PRef<unreal.FString>) : Void;
-  
-  /**
-    @return the value for the given header (or "" if no matching header)
-  **/
-  public function GetHeaderValue(HeaderName : unreal.FString) : unreal.FString;
   
 }

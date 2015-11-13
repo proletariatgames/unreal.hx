@@ -13,9 +13,15 @@
 **/
 package unreal.blutility;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Blutility")
 @:glueCppIncludes("EditorUtilityBlueprintFactory.h")
-@:uextern extern class UEditorUtilityBlueprintFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UEditorUtilityBlueprintFactory extends unreal.editor.UFactory {
   
   /**
     The parent class of the created blueprint

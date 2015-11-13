@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Editable scalar parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:uextern extern class FScalarParameterValue {
+@:noCopy @:noEquals @:uextern extern class FScalarParameterValue {
   public var ExpressionGUID : unreal.FGuid;
   public var ParameterValue : unreal.Float32;
   public var ParameterName : unreal.FName;

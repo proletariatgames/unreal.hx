@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Private/Tests/CollisionAutomationTests.h")
-@:uextern extern class UCollisionAutomationTestConfigData extends unreal.UObject {
+@:noClass @:uextern extern class UCollisionAutomationTestConfigData extends unreal.UObject {
   public var LineTracePerformanceTests : unreal.TArray<unreal.editor.FCollisionPerfTest>;
   public var LineTraceSingleByChannelTests : unreal.TArray<unreal.editor.FCollisionTestEntry>;
   public var ComponentSweepMultiTests : unreal.TArray<unreal.editor.FCollisionTestEntry>;

@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:uextern extern class UEngineBaseTypes extends unreal.UObject {
+@:noClass @:uextern extern class UEngineBaseTypes extends unreal.UObject {
   
 }

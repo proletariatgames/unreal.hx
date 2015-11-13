@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is a mapping table between bone in a particular skeletal mesh and bone of this skeleton set.
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class FSkeletonToMeshLinkup {
+@:noCopy @:noEquals @:uextern extern class FSkeletonToMeshLinkup {
   
   /**
     Mapping table. Size must be same as size of ref pose (not bone tree).

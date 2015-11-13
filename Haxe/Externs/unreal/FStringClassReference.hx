@@ -20,6 +20,6 @@ package unreal;
   A string class reference
 **/
 @:glueCppIncludes("GameMapsSettings.h")
-@:uextern extern class FStringClassReference extends unreal.FStringAssetReference {
+@:noCopy @:noEquals @:uextern extern class FStringClassReference extends unreal.FStringAssetReference {
   
 }

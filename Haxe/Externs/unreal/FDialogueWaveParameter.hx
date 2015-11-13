@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/SoundNodeDialoguePlayer.h")
-@:uextern extern class FDialogueWaveParameter {
+@:noCopy @:noEquals @:uextern extern class FDialogueWaveParameter {
   
   /**
     The context to use for the dialogue wave.

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/Color/ParticleModuleColor_Seeded.h")
-@:uextern extern class FParticleRandomSeedInfo {
+@:noCopy @:noEquals @:uextern extern class FParticleRandomSeedInfo {
   
   /**
     The random seed values to utilize for the module.

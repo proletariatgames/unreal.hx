@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   UGenerateGatherArchiveCommandlet: Generates a localisation archive; generally used as a gather step.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GenerateGatherArchiveCommandlet.h")
-@:uextern extern class UGenerateGatherArchiveCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern extern class UGenerateGatherArchiveCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

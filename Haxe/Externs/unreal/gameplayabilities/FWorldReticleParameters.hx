@@ -13,9 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor.h")
-@:uextern extern class FWorldReticleParameters {
+@:noCopy @:noEquals @:uextern extern class FWorldReticleParameters {
   public var AOEScale : unreal.FVector;
   
 }

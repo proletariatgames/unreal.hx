@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Private/Commandlets/ChunkDependencyInfo.h")
-@:uextern extern class FChunkDependency {
+@:noCopy @:noEquals @:uextern extern class FChunkDependency {
   public var ParentChunkID : unreal.Int32;
   public var ChunkID : unreal.Int32;
   

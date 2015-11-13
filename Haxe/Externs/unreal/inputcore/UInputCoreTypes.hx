@@ -13,8 +13,14 @@
 **/
 package unreal.inputcore;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("InputCore")
 @:glueCppIncludes("InputCoreTypes.h")
-@:uextern extern class UInputCoreTypes extends unreal.UObject {
+@:noClass @:uextern extern class UInputCoreTypes extends unreal.UObject {
   
 }

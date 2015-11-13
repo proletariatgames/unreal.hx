@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Movement capabilities, determining available movement options for Pawns and used by AI for reachability tests.
 **/
 @:glueCppIncludes("AI/Navigation/NavigationData.h")
-@:uextern extern class FMovementProperties {
+@:noCopy @:noEquals @:uextern extern class FMovementProperties {
   
   /**
     If true, this Pawn is capable of flying.

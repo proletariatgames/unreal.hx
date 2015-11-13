@@ -15,10 +15,12 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Actor Folder UObject. This is used to support undo/redo reliably
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("EditorActorFolders.h")
-@:uextern extern class UEditorActorFolders extends unreal.UObject {
+@:noClass @:uextern extern class UEditorActorFolders extends unreal.UObject {
   
 }

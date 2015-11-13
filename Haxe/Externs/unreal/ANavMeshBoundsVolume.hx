@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("AI/Navigation/NavMeshBoundsVolume.h")
 @:uextern extern class ANavMeshBoundsVolume extends unreal.AVolume {
   public var SupportedAgents : unreal.FNavAgentSelector;

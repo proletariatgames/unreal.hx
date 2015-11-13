@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct indicating a variable in the generated class
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:uextern extern class FBPVariableDescription {
+@:noCopy @:noEquals @:uextern extern class FBPVariableDescription {
   
   /**
     Optional new default value stored as string

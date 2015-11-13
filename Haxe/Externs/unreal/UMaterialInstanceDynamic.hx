@@ -13,53 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialInstanceDynamic.h")
 @:uextern extern class UMaterialInstanceDynamic extends unreal.UMaterialInstance {
-  
-  /**
-    Set a MID scalar (float) parameter value
-  **/
-  @:final public function SetScalarParameterValue(ParameterName : unreal.FName, Value : unreal.Float32) : Void;
-  
-  /**
-    Get the current scalar (float) parameter value from an MID
-  **/
-  @:final public function K2_GetScalarParameterValue(ParameterName : unreal.FName) : unreal.Float32;
-  
-  /**
-    Set an MID texture parameter value
-  **/
-  @:final public function SetTextureParameterValue(ParameterName : unreal.FName, Value : unreal.UTexture) : Void;
-  
-  /**
-    Get the current MID texture parameter value
-  **/
-  @:final public function K2_GetTextureParameterValue(ParameterName : unreal.FName) : unreal.UTexture;
-  
-  /**
-    Set an MID vector parameter value
-  **/
-  @:final public function SetVectorParameterValue(ParameterName : unreal.FName, Value : unreal.FLinearColor) : Void;
-  
-  /**
-    Get the current MID vector parameter value
-  **/
-  @:final public function K2_GetVectorParameterValue(ParameterName : unreal.FName) : unreal.FLinearColor;
-  
-  /**
-    Interpolates the scalar and vector parameters of this material instance based on two other material instances, and an alpha blending factor
-  **/
-  @:final public function K2_InterpolateMaterialInstanceParams(MaterialA : unreal.UMaterialInstance, MaterialB : unreal.UMaterialInstance, Alpha : unreal.Float32) : Void;
-  
-  /**
-    Copies over parameters given a material interface
-  **/
-  @:final public function K2_CopyMaterialInstanceParameters(SourceMaterialToCopyFrom : unreal.UMaterialInterface) : Void;
-  
-  /**
-    Copy parameter values from another material instance. This will copy only
-    parameters explicitly overridden in that material instance!!
-  **/
-  @:final public function CopyParameterOverrides(MaterialInstance : unreal.UMaterialInstance) : Void;
   
 }

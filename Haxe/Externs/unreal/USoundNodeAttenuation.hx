@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Defines how a sound's volume changes based on distance to the listener
 **/
 @:glueCppIncludes("Sound/SoundNodeAttenuation.h")

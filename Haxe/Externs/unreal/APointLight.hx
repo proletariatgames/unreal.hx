@@ -13,14 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/PointLight.h")
 @:uextern extern class APointLight extends unreal.ALight {
   public var PointLightComponent : unreal.UPointLightComponent;
-  
-  /**
-    BEGIN DEPRECATED (use component functions now in level script)
-  **/
-  @:final public function SetRadius(NewRadius : unreal.Float32) : Void;
-  @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
   
 }

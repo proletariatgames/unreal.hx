@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Configurable shortened aliases for GameMode classes.  For convenience when typing urls, for instance.
 **/
 @:glueCppIncludes("GameFramework/GameMode.h")
-@:uextern extern class FGameClassShortName {
+@:noCopy @:noEquals @:uextern extern class FGameClassShortName {
   
   /**
     The class name to use when the alias is specified in a URL

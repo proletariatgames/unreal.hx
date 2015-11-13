@@ -15,11 +15,13 @@ package unreal.paper2d;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Rule for a single section of a terrain material
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainMaterial.h")
-@:uextern extern class FPaperTerrainMaterialRule {
+@:noCopy @:noEquals @:uextern extern class FPaperTerrainMaterialRule {
   
   /**
     Specify a draw order for different materials in a spline. Smaller draw orders are drawn first, negative values are allowed.

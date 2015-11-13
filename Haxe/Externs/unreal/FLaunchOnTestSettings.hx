@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the editor Launch On With Map Iterations test.
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FLaunchOnTestSettings {
+@:noCopy @:noEquals @:uextern extern class FLaunchOnTestSettings {
   
   /**
     This is the device to be used for launch on. Example: WindowsNoEditor, Android, IOS, Linux

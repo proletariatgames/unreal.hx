@@ -15,6 +15,8 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   RuntimeMovieScenePlayer is used to actually "play" a MovieScene asset at runtime.
   
   This class keeps track of playback state and provides functions for manipulating
@@ -23,26 +25,6 @@ package unreal.moviescene;
 @:umodule("MovieScene")
 @:glueCppIncludes("RuntimeMovieScenePlayer.h")
 @:uextern extern class URuntimeMovieScenePlayer extends unreal.UObject implements unreal.IRuntimeMovieScenePlayerInterface {
-  
-  /**
-    Static:  Creates a RuntimeMovieScenePlayer.  This function is designed to be called through the expanded PlayMovieScene
-    Kismet node, and not called directly through visual script.
-    
-    @param Level The level to play this MovieScene in.  This level will "own" the instance of the returned RuntimeMovieScenePlayer.
-    @param MovieSceneBindings The MovieScene to play, along with the bindings to any actors in the level that may be possessed during playback.
-    @return The newly created RuntimeMovieScenePlayer instance for this MovieScene
-  **/
-  static public function CreateRuntimeMovieScenePlayer(Level : unreal.ULevel, InMovieSceneBindings : unreal.moviescene.UMovieSceneBindings) : unreal.moviescene.URuntimeMovieScenePlayer;
-  
-  /**
-    Start playback from the current time cursor position.
-  **/
-  @:final public function Play() : Void;
-  
-  /**
-    Pause playback.
-  **/
-  @:final public function Pause() : Void;
   // RuntimeMovieScenePlayerInterface interface implementation
   
 }

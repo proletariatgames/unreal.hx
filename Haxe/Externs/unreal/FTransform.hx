@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Transform.h
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class FTransform {
+@:noCopy @:noEquals @:uextern extern class FTransform {
   
 }

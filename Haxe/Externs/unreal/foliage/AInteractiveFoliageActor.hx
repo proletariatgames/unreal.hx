@@ -13,6 +13,12 @@
 **/
 package unreal.foliage;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Foliage")
 @:glueCppIncludes("InteractiveFoliageActor.h")
 @:uextern extern class AInteractiveFoliageActor extends unreal.AStaticMeshActor {
@@ -63,10 +69,5 @@ package unreal.foliage;
     Scales forces applied from damage events.
   **/
   public var FoliageDamageImpulseScale : unreal.Float32;
-  
-  /**
-    Called when capsule is touched
-  **/
-  @:final private function CapsuleTouched(Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, OtherBodyIndex : unreal.Int32, bFromSweep : Bool, OverlapInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
 }

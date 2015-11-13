@@ -13,9 +13,15 @@
 **/
 package unreal.matinee;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Matinee")
 @:glueCppIncludes("MatineeOptions.h")
-@:uextern extern class UMatineeOptions extends unreal.UObject {
+@:noClass @:uextern extern class UMatineeOptions extends unreal.UObject {
   
   /**
     Are we currently editing the values of a groups keyframe. This should only be true if the keyframes that are selected belong to the same group.

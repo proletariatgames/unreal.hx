@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventReceiverBase.h")
-@:uextern extern class UParticleModuleEventReceiverBase extends unreal.UParticleModuleEventBase {
+@:noClass @:uextern extern class UParticleModuleEventReceiverBase extends unreal.UParticleModuleEventBase {
   
   /**
     The name of the emitter of interest for generating the event.

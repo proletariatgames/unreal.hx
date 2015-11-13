@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure storing information about one float interpolation track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:uextern extern class FTTFloatTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern extern class FTTFloatTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to define float value over time

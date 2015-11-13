@@ -13,9 +13,15 @@
 **/
 package unreal.destructiblemesheditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("DestructibleMeshEditor")
 @:glueCppIncludes("DestructibleChunkParamsProxy.h")
-@:uextern extern class UDestructibleChunkParamsProxy extends unreal.UObject {
+@:noClass @:uextern extern class UDestructibleChunkParamsProxy extends unreal.UObject {
   public var ChunkParams : unreal.FDestructibleChunkParameters;
   public var ChunkIndex : unreal.Int32;
   public var DestructibleMesh : unreal.UDestructibleMesh;

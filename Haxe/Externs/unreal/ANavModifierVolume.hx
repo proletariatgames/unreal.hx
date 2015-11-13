@@ -15,12 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Allows applying selected AreaClass to navmesh, using Volume's shape
 **/
 @:glueCppIncludes("AI/Navigation/NavModifierVolume.h")
 @:uextern extern class ANavModifierVolume extends unreal.AVolume implements unreal.INavRelevantInterface {
   private var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
-  @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
   // NavRelevantInterface interface implementation
   
 }

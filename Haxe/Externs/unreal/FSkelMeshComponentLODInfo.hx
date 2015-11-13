@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   LOD specific setup for the skeletal mesh component.
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
-@:uextern extern class FSkelMeshComponentLODInfo {
+@:noCopy @:noEquals @:uextern extern class FSkelMeshComponentLODInfo {
   
   /**
     Material corresponds to section. To show/hide each section, use this.

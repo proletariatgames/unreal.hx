@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A category to store a list of commands.
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:uextern extern class FEditorCommandCategory {
+@:noCopy @:noEquals @:uextern extern class FEditorCommandCategory {
   public var Name : unreal.FName;
   public var Parent : unreal.FName;
   

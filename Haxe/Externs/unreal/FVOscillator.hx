@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Defines FVector oscillation.
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
-@:uextern extern class FVOscillator {
+@:noCopy @:noEquals @:uextern extern class FVOscillator {
   
   /**
     Oscillation in the Z axis.

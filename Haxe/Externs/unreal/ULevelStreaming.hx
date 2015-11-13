@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Abstract base class of container object encapsulating data required for streaming and providing
   interface for when a level should be streamed in and out of memory.
 **/
@@ -106,30 +108,5 @@ package unreal;
     Deprecated name of the package containing the level to load. Use WorldAsset or GetWorldAssetPackageFName instead.
   **/
   public var PackageName_DEPRECATED : unreal.FName;
-  
-  /**
-    Returns whether streaming level is visible
-  **/
-  @:thisConst @:final public function IsLevelVisible() : Bool;
-  
-  /**
-    Returns whether streaming level is loaded
-  **/
-  @:thisConst @:final public function IsLevelLoaded() : Bool;
-  
-  /**
-    Returns whether level has streaming state change pending
-  **/
-  @:thisConst @:final public function IsStreamingStatePending() : Bool;
-  
-  /**
-    Creates a new instance of this streaming level with a provided unique instance name
-  **/
-  @:final public function CreateInstance(UniqueInstanceName : unreal.FString) : unreal.ULevelStreaming;
-  
-  /**
-    Returns the Level Script Actor of the level if the level is loaded and valid
-  **/
-  @:final public function GetLevelScriptActor() : unreal.ALevelScriptActor;
   
 }

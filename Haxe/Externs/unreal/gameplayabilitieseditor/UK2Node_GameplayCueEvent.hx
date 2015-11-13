@@ -13,8 +13,14 @@
 **/
 package unreal.gameplayabilitieseditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilitiesEditor")
 @:glueCppIncludes("K2Node_GameplayCueEvent.h")
-@:uextern extern class UK2Node_GameplayCueEvent extends unreal.blueprintgraph.UK2Node_Event {
+@:noClass @:uextern extern class UK2Node_GameplayCueEvent extends unreal.blueprintgraph.UK2Node_Event {
   
 }

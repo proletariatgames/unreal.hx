@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct that contains one entry for an 'event' during the timeline
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:uextern extern class FTimelineEventEntry {
+@:noCopy @:noEquals @:uextern extern class FTimelineEventEntry {
   
   /**
     Time at which event should fire

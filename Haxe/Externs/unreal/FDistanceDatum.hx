@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/SoundNodeDistanceCrossFade.h")
-@:uextern extern class FDistanceDatum {
+@:noCopy @:noEquals @:uextern extern class FDistanceDatum {
   
   /**
     The volume for which this Input should be played.

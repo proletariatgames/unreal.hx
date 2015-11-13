@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Sound/SoundGroups.h")
-@:uextern extern class FSoundGroup {
+@:noCopy @:noEquals @:uextern extern class FSoundGroup {
   
   /**
     Sound duration in seconds below which sounds are entirely expanded to PCM at load time

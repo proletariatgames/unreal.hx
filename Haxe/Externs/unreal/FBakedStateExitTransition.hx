@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class FBakedStateExitTransition {
+@:noCopy @:noEquals @:uextern extern class FBakedStateExitTransition {
   public var PoseEvaluatorLinks : unreal.TArray<unreal.Int32>;
   
   /**

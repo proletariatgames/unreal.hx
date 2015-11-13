@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportTextureFactory.h")
-@:uextern extern class UReimportTextureFactory extends unreal.editor.UTextureFactory {
+@:noClass @:uextern extern class UReimportTextureFactory extends unreal.editor.UTextureFactory {
   public var pOriginalTex : unreal.UTexture;
   
 }

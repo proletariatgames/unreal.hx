@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Base LightmassParameterValue class
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern extern class FLightmassParameterValue {
   
   /**
     If true, override the given parameter with the given settings

@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   TriggerData
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility.h")
-@:uextern extern class FAbilityTriggerData {
+@:noCopy @:noEquals @:uextern extern class FAbilityTriggerData {
   
   /**
     The type of trigger to respond to

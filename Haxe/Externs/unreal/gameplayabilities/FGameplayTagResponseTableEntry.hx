@@ -13,9 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayTagResponseTable.h")
-@:uextern extern class FGameplayTagResponseTableEntry {
+@:noCopy @:noEquals @:uextern extern class FGameplayTagResponseTableEntry {
   
   /**
     Tags that count as "negative" toward to final response count. If the overall count is negative, this ResponseGameplayEffect is applied.

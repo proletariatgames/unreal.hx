@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used to hold effects for destructible damage events
 **/
 @:glueCppIncludes("Components/DestructibleComponent.h")
-@:uextern extern class FFractureEffect {
+@:noCopy @:noEquals @:uextern extern class FFractureEffect {
   
   /**
     Sound cue to play at fracture location.

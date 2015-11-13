@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Layers/Layer.h")
-@:uextern extern class FLayerActorStats {
+@:noCopy @:noEquals @:uextern extern class FLayerActorStats {
   
   /**
     The total number of Actors of Type assigned to the Layer

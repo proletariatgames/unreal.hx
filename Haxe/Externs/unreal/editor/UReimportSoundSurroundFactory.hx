@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportSoundSurroundFactory.h")
-@:uextern extern class UReimportSoundSurroundFactory extends unreal.editor.USoundSurroundFactory {
+@:noClass @:uextern extern class UReimportSoundSurroundFactory extends unreal.editor.USoundSurroundFactory {
   public var ReimportPaths : unreal.TArray<unreal.FString>;
   
 }

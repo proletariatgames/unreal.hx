@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Triggers an animation notify.  Each AnimNotifyEvent contains an AnimNotify object
   which has its Notify method called and passed to the animation.
 **/
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class FAnimNotifyEvent extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern extern class FAnimNotifyEvent extends unreal.FAnimLinkableElement {
   
   /**
     'Track' that the notify exists on, used for visual placement in editor and sorting priority in runtime

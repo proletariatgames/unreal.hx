@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   DefaultPhysicsVolume determines the physical effects an actor will experience if they are not inside any user specified PhysicsVolume
   
   @see APhysicsVolume

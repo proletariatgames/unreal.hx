@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used to define the type of information carried on this pin
 **/
 @:glueCppIncludes("EdGraph/EdGraphPin.h")
-@:uextern extern class FEdGraphPinType {
+@:noCopy @:noEquals @:uextern extern class FEdGraphPinType {
   
   /**
     Whether or not this is a weak reference

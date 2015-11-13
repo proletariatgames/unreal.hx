@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
-@:uextern extern class FLayerBlendInput {
+@:noCopy @:noEquals @:uextern extern class FLayerBlendInput {
   
   /**
     only used if HeightInput is not hooked up

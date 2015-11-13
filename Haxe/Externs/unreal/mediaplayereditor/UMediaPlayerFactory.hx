@@ -15,10 +15,12 @@ package unreal.mediaplayereditor;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Implements a factory for UMediaPlayer objects.
 **/
 @:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Factories/MediaPlayerFactory.h")
-@:uextern extern class UMediaPlayerFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UMediaPlayerFactory extends unreal.editor.UFactory {
   
 }

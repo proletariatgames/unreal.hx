@@ -13,10 +13,15 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/SceneCaptureCube.h")
 @:uextern extern class ASceneCaptureCube extends unreal.ASceneCapture {
   public var DrawFrustum : unreal.UDrawFrustumComponent;
   public var CaptureComponentCube : unreal.USceneCaptureComponentCube;
-  @:final public function OnInterpToggle(bEnable : Bool) : Void;
   
 }

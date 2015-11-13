@@ -15,11 +15,13 @@ package unreal.moviescene;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Editor only data that needs to be saved between sessions for editing but has no runtime purpose
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
-@:uextern extern class FMovieSceneEditorData {
+@:noCopy @:noEquals @:uextern extern class FMovieSceneEditorData {
   
   /**
     List of collapsed sequencer nodes.  We store collapsed instead of expanded so that new nodes with no saved state are expanded by default

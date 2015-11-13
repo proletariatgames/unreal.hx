@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Interpolation data, containing keyframe tracks, event tracks etc.
   This does not contain any  AActor  references or state, so can safely be stored in
   packages, shared between multiple MatineeActors etc.

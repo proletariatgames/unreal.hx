@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/DerivedDataCacheCommandlet.h")
-@:uextern extern class UDerivedDataCacheCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern extern class UDerivedDataCacheCommandlet extends unreal.UCommandlet {
   
 }

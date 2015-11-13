@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:uextern extern class FBlendParameter {
+@:noCopy @:noEquals @:uextern extern class FBlendParameter {
   
   /**
     how many grid for this parameter.

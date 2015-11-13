@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Debug property display functionality to interact with this, use "display", "displayall", "displayclear"
   
   @see UGameViewportClient
@@ -22,7 +24,7 @@ package unreal;
   @see DrawStatsHUD
 **/
 @:glueCppIncludes("Engine/GameViewportClient.h")
-@:uextern extern class FDebugDisplayProperty {
+@:noCopy @:noEquals @:uextern extern class FDebugDisplayProperty {
   
   /**
     if Obj is a class and WithinClass is not nullptr, further limit the display to objects that have an Outer of WithinClass

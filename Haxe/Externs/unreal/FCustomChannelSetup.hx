@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for custom channel setup information.
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")
-@:uextern extern class FCustomChannelSetup {
+@:noCopy @:noEquals @:uextern extern class FCustomChannelSetup {
   
   /**
     Specifies if this is static object. Otherwise it will be dynamic object. This is used for query all objects vs all static objects vs all dynamic objects *

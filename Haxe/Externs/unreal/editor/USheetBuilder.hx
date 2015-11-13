@@ -13,6 +13,12 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Builders/SheetBuilder.h")
 @:uextern extern class USheetBuilder extends unreal.editor.UEditorBrushBuilder {

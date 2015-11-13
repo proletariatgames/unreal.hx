@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Defines a mapping between an action and key
   
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
 @:glueCppIncludes("GameFramework/InputSettings.h")
-@:uextern extern class FInputActionKeyMapping {
+@:noCopy @:noEquals @:uextern extern class FInputActionKeyMapping {
   
   /**
     true if one of the Cmd keys must be down when the KeyEvent is received to be acknowledged

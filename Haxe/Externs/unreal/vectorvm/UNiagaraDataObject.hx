@@ -15,6 +15,8 @@ package unreal.vectorvm;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Vector VM data object; encapsulates buffers, curves and other data in its derivatives
   *  for access by VectorVM kernels;
 **/

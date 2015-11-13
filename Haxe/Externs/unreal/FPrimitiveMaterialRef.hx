@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Reference to a specific material in a PrimitiveComponent.
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatMaterialParam.h")
-@:uextern extern class FPrimitiveMaterialRef {
+@:noCopy @:noEquals @:uextern extern class FPrimitiveMaterialRef {
   public var ElementIndex : unreal.Int32;
   public var Decal : unreal.UDecalComponent;
   public var Primitive : unreal.UPrimitiveComponent;

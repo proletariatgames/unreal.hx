@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Each slot data referenced by Animation Slot
   contains slot name, and animation data
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:uextern extern class FSlotAnimationTrack {
+@:noCopy @:noEquals @:uextern extern class FSlotAnimationTrack {
   public var AnimTrack : unreal.FAnimTrack;
   public var SlotName : unreal.FName;
   

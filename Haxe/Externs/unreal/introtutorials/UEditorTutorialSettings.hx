@@ -15,11 +15,13 @@ package unreal.introtutorials;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Editor-wide tutorial settings
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialSettings.h")
-@:uextern extern class UEditorTutorialSettings extends unreal.UObject {
+@:noClass @:uextern extern class UEditorTutorialSettings extends unreal.UObject {
   
   /**
     Tutorials used in various contexts - e.g. the various asset editors

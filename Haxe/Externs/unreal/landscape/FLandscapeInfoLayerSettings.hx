@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeInfo.h")
-@:uextern extern class FLandscapeInfoLayerSettings {
+@:noCopy @:noEquals @:uextern extern class FLandscapeInfoLayerSettings {
   #if WITH_EDITORONLY_DATA
   public var bValid : Bool;
   public var DebugColorChannel : unreal.Int32;

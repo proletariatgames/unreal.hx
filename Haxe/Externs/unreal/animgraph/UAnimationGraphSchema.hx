@@ -13,6 +13,12 @@
 **/
 package unreal.animgraph;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimationGraphSchema.h")
 @:uextern extern class UAnimationGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {

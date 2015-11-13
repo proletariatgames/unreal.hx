@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("ShowLoginUICallbackProxy.h")
 @:uextern extern class UShowLoginUICallbackProxy extends unreal.UBlueprintAsyncActionBase {
-  
-  /**
-    Shows the login UI for the currently active online subsystem, if the subsystem supports a login UI.
-  **/
-  static public function ShowExternalLoginUI(WorldContextObject : unreal.UObject, InPlayerController : unreal.APlayerController) : unreal.onlinesubsystemutils.UShowLoginUICallbackProxy;
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Remove FBranchingPoint when VER_UE4_MONTAGE_BRANCHING_POINT_REMOVAL is removed.
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:uextern extern class FBranchingPoint extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern extern class FBranchingPoint extends unreal.FAnimLinkableElement {
   
   /**
     An offset from the DisplayTime to the actual time we will trigger the notify, as we cannot always trigger it exactly at the time the user wants

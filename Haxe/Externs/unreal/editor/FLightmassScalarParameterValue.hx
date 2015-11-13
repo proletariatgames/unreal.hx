@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Scalar parameter value
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class FLightmassScalarParameterValue extends unreal.editor.FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern extern class FLightmassScalarParameterValue extends unreal.editor.FLightmassParameterValue {
   
   /**
     The scalar value to override the parent value with

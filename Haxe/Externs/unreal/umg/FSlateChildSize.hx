@@ -15,11 +15,13 @@ package unreal.umg;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A struct exposing size param related properties to UMG.
 **/
 @:umodule("UMG")
 @:glueCppIncludes("Components/HorizontalBoxSlot.h")
-@:uextern extern class FSlateChildSize {
+@:noCopy @:noEquals @:uextern extern class FSlateChildSize {
   
   /**
     The sizing rule of the content.

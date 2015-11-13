@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the particle editor build promotion tests
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FParticleEditorPromotionSettings {
+@:noCopy @:noEquals @:uextern extern class FParticleEditorPromotionSettings {
   
   /**
     Default particle asset to use for tests

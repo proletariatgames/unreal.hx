@@ -13,8 +13,14 @@
 **/
 package unreal.paper2deditor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("PaperSpriteFactory.h")
-@:uextern extern class UPaperSpriteFactory extends unreal.editor.UFactory {
+@:noClass @:uextern extern class UPaperSpriteFactory extends unreal.editor.UFactory {
   
 }

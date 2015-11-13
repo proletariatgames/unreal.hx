@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:uextern extern class FAssetEditorOrbitCameraPosition {
+@:noCopy @:noEquals @:uextern extern class FAssetEditorOrbitCameraPosition {
   
   /**
     The rotation to apply around the orbit point

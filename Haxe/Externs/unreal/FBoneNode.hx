@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Each Bone node in BoneTree
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class FBoneNode {
+@:noCopy @:noEquals @:uextern extern class FBoneNode {
   
   /**
     Retargeting Mode for Translation Component.

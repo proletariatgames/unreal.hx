@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A predefined animation to be played on a camera
 **/
 @:glueCppIncludes("Camera/CameraAnim.h")

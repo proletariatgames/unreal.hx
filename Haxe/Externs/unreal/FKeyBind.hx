@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct containing mappings for legacy method of binding keys to exec commands.
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:uextern extern class FKeyBind {
+@:noCopy @:noEquals @:uextern extern class FKeyBind {
   
   /**
     Whether the command key must not be held when the key event occurs

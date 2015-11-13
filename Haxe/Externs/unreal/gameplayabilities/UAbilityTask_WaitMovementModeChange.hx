@@ -13,14 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitMovementModeChange.h")
 @:uextern extern class UAbilityTask_WaitMovementModeChange extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnMovementModeChange(Character : unreal.ACharacter, PrevMovementMode : unreal.EMovementMode, PreviousCustomMode : unreal.UInt8) : Void;
-  
-  /**
-    Wait until movement mode changes (E.g., landing)
-  **/
-  static public function CreateWaitMovementModeChange(WorldContextObject : unreal.UObject, NewMode : unreal.EMovementMode) : unreal.gameplayabilities.UAbilityTask_WaitMovementModeChange;
   
 }

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
-@:uextern extern class FBeamModifierOptions {
+@:noCopy @:noEquals @:uextern extern class FBeamModifierOptions {
   
   /**
     If true, lock the modifier to the life of the particle.

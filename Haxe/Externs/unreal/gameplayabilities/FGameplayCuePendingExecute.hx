@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure to keep track of pending gameplay cues that haven't been applied yet.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
-@:uextern extern class FGameplayCuePendingExecute {
+@:noCopy @:noEquals @:uextern extern class FGameplayCuePendingExecute {
   
   /**
     Store the full cue parameters or just the effect context depending on type

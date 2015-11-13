@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class FBoneReference {
+@:noCopy @:noEquals @:uextern extern class FBoneReference {
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *

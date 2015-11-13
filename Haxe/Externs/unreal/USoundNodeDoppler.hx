@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Computes doppler pitch shift
 **/
 @:glueCppIncludes("Sound/SoundNodeDoppler.h")
-@:uextern extern class USoundNodeDoppler extends unreal.USoundNode {
+@:noClass @:uextern extern class USoundNodeDoppler extends unreal.USoundNode {
   
   /**
     How much to scale the doppler shift (1.0 is normal).

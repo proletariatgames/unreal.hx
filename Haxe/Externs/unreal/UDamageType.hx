@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A DamageType is intended to define and describe a particular form of damage and to provide an avenue
   for customizing responses to damage from various sources.
   

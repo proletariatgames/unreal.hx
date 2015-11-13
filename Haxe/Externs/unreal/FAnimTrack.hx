@@ -15,12 +15,14 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This is list of anim segments for this track
   For now this is only one TArray, but in the future
   we should define more transition/blending behaviors
 **/
 @:glueCppIncludes("Animation/AnimComposite.h")
-@:uextern extern class FAnimTrack {
+@:noCopy @:noEquals @:uextern extern class FAnimTrack {
   public var AnimSegments : unreal.TArray<unreal.FAnimSegment>;
   
 }

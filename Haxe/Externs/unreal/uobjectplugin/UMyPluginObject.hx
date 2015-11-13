@@ -15,10 +15,12 @@ package unreal.uobjectplugin;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Example of declaring a UObject in a plugin module
 **/
 @:umodule("UObjectPlugin")
 @:glueCppIncludes("MyPluginObject.h")
-@:uextern extern class UMyPluginObject extends unreal.UObject {
+@:noClass @:uextern extern class UMyPluginObject extends unreal.UObject {
   
 }

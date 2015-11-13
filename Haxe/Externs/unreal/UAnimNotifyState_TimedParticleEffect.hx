@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Timed Particle Effect Notify
   Allows a looping particle effect to be played in an animation that will activate
   at the beginning of the notify and deactivate at the end.

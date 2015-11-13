@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   -> will be exported to EngineDecalClasses.h
 **/
 @:glueCppIncludes("Components/SceneCaptureComponent.h")
@@ -34,15 +36,5 @@ package unreal;
     Whether to update the capture's contents every frame.  If disabled, the component will render once on load and then only when moved.
   **/
   public var bCaptureEveryFrame : Bool;
-  
-  /**
-    Adds the component to our list of hidden components.
-  **/
-  @:final public function HideComponent(InComponent : unreal.UPrimitiveComponent) : Void;
-  
-  /**
-    Adds all primitive components in the actor to our list of hidden components.
-  **/
-  @:final public function HideActorComponents(InActor : unreal.AActor) : Void;
   
 }

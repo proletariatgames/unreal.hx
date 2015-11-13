@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Data structure for storing PIE login credentials
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/EditorEngine.h")
-@:uextern extern class FPIELoginInfo {
+@:noCopy @:noEquals @:uextern extern class FPIELoginInfo {
   
   /**
     Credentials of the user logging in (password or auth token)

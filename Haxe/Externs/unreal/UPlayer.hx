@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/Player.h")
-@:uextern extern class UPlayer extends unreal.UObject {
+@:noClass @:uextern extern class UPlayer extends unreal.UObject {
   
   /**
     @todo document

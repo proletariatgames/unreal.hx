@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure for 'parameterized' Lightmass settings
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class FLightmassParameterizedMaterialSettings {
+@:noCopy @:noEquals @:uextern extern class FLightmassParameterizedMaterialSettings {
   
   /**
     Scales the resolution that this material's attributes were exported at.

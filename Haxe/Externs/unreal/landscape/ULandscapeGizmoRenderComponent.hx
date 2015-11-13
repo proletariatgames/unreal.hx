@@ -13,8 +13,14 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGizmoRenderComponent.h")
-@:uextern extern class ULandscapeGizmoRenderComponent extends unreal.UPrimitiveComponent {
+@:noClass @:uextern extern class ULandscapeGizmoRenderComponent extends unreal.UPrimitiveComponent {
   
 }

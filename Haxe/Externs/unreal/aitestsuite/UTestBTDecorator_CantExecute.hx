@@ -13,8 +13,14 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTDecorator_CantExecute.h")
-@:uextern extern class UTestBTDecorator_CantExecute extends unreal.aimodule.UBTDecorator {
+@:noClass @:uextern extern class UTestBTDecorator_CantExecute extends unreal.aimodule.UBTDecorator {
   
 }

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Editable texture parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:uextern extern class FTextureParameterValue {
+@:noCopy @:noEquals @:uextern extern class FTextureParameterValue {
   public var ExpressionGUID : unreal.FGuid;
   public var ParameterValue : unreal.UTexture;
   public var ParameterName : unreal.FName;

@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   PostProcessComponent. Enables Post process controls for blueprints.
      Will use a parent UShapeComponent to provide volume data if available.
 **/

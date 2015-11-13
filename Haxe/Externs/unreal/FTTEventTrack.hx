@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure storing information about one event track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:uextern extern class FTTEventTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern extern class FTTEventTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to store keys

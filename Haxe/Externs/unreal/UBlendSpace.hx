@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Contains a grid of data points with weights from sample points in the space
 **/
 @:glueCppIncludes("Animation/BlendSpace.h")

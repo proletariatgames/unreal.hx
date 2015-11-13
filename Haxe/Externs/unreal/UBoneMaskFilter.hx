@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
 @:uextern extern class UBoneMaskFilter extends unreal.UObject {
   public var BlendPoses : unreal.TArray<unreal.FInputBlendPose>;

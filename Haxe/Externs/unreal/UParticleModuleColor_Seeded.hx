@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Color/ParticleModuleColor_Seeded.h")
-@:uextern extern class UParticleModuleColor_Seeded extends unreal.UParticleModuleColor {
+@:noClass @:uextern extern class UParticleModuleColor_Seeded extends unreal.UParticleModuleColor {
   
   /**
     The random seed(s) to use for looking up values in StartLocation

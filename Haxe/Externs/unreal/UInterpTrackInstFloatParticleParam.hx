@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatParticleParam.h")
-@:uextern extern class UInterpTrackInstFloatParticleParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstFloatParticleParam extends unreal.UInterpTrackInst {
   
   /**
     Saved value for restoring state when exiting Matinee.

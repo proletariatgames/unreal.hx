@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   A ParticleSystem is a complete particle effect that contains any number of ParticleEmitters. By allowing multiple emitters
   in a system, the designer can create elaborate particle effects that are held in a single system. Once created using
   Cascade, a ParticleSystem can then be inserted into a level or created in script.
@@ -229,11 +231,5 @@ package unreal;
   **/
   public var UpdateTime_FPS : unreal.Float32;
   public var SystemUpdateMode : unreal.EParticleSystemUpdateMode;
-  
-  /**
-    Returns true if this system contains an emitter of the pasesd type.
-    @ param TypeData - The emitter type to check for. Must be a child class of UParticleModuleTypeDataBase
-  **/
-  @:final public function ContainsEmitterType(TypeData : unreal.UClass) : Bool;
   
 }

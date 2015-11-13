@@ -13,6 +13,12 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Animation/EditorAnimCompositeSegment.h")
 @:uextern extern class UEditorAnimCompositeSegment extends unreal.editor.UEditorAnimBaseObj {

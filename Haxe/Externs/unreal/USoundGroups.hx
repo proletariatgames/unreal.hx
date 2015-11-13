@@ -15,9 +15,11 @@ package unreal;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   This class is a singleton initialized from the ini
 **/
 @:glueCppIncludes("Sound/SoundGroups.h")
-@:uextern extern class USoundGroups extends unreal.UObject {
+@:noClass @:uextern extern class USoundGroups extends unreal.UObject {
   
 }

@@ -13,8 +13,14 @@
 **/
 package unreal.aitestsuite;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockGameplayTasks.h")
-@:uextern extern class UMockTask_Log extends unreal.gameplaytasks.UGameplayTask {
+@:noClass @:uextern extern class UMockTask_Log extends unreal.gameplaytasks.UGameplayTask {
   
 }

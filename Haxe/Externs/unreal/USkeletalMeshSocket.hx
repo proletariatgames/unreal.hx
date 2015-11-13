@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Engine/SkeletalMeshSocket.h")
 @:uextern extern class USkeletalMeshSocket extends unreal.UObject {
   
@@ -33,11 +39,5 @@ package unreal;
     The Outer of a SkeletalMeshSocket should always be the USkeletalMesh.
   **/
   public var SocketName : unreal.FName;
-  @:thisConst @:final public function GetSocketLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>) : unreal.FVector;
-  
-  /**
-    Sets BoneName, RelativeLocation and RelativeRotation based on closest bone to WorldLocation and WorldNormal
-  **/
-  @:final public function InitializeSocketFromLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>, WorldLocation : unreal.FVector, WorldNormal : unreal.FVector) : Void;
   
 }

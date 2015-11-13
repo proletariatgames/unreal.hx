@@ -13,14 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitVelocityChange.h")
 @:uextern extern class UAbilityTask_WaitVelocityChange extends unreal.gameplayabilities.UAbilityTask {
   private var CachedMovementComponent : unreal.UMovementComponent;
-  
-  /**
-    Wait for the actor's movement component velocity to be of minimum magnitude when projected along given direction
-  **/
-  static public function CreateWaitVelocityChange(WorldContextObject : unreal.UObject, Direction : unreal.FVector, MinimumMagnitude : unreal.Float32) : unreal.gameplayabilities.UAbilityTask_WaitVelocityChange;
   
 }

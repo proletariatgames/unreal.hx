@@ -13,8 +13,14 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportVectorFieldStaticFactory.h")
-@:uextern extern class UReimportVectorFieldStaticFactory extends unreal.editor.UVectorFieldStaticFactory {
+@:noClass @:uextern extern class UReimportVectorFieldStaticFactory extends unreal.editor.UVectorFieldStaticFactory {
   
 }

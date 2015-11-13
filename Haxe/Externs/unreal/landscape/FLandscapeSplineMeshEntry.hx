@@ -13,9 +13,15 @@
 **/
 package unreal.landscape;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
-@:uextern extern class FLandscapeSplineMeshEntry {
+@:noCopy @:noEquals @:uextern extern class FLandscapeSplineMeshEntry {
   
   /**
     Chooses the up axis for the spline mesh orientation

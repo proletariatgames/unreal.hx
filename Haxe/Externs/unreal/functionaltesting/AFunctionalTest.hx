@@ -13,6 +13,12 @@
 **/
 package unreal.functionaltesting;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTest.h")
 @:uextern extern class AFunctionalTest extends unreal.AActor {
@@ -36,25 +42,5 @@ package unreal.functionaltesting;
   public var TimesUpResult : unreal.functionaltesting.EFunctionalTestResult;
   public var Result : unreal.functionaltesting.EFunctionalTestResult;
   public var SpriteComponent : unreal.UBillboardComponent;
-  public function FinishTest(TestResult : unreal.functionaltesting.EFunctionalTestResult, Message : unreal.FString) : Void;
-  public function LogMessage(Message : unreal.FString) : Void;
-  public function SetTimeLimit(NewTimeLimit : unreal.Float32, ResultWhenTimeRunsOut : unreal.functionaltesting.EFunctionalTestResult) : Void;
-  
-  /**
-    Used by debug drawing to gather actors this test is using and point at them on the level to better understand test's setup
-  **/
-  @:thisConst public function DebugGatherRelevantActors() : unreal.TArray<unreal.AActor>;
-  
-  /**
-    retrieves information whether test wants to have another run just after finishing
-  **/
-  @:thisConst public function OnWantsReRunCheck() : Bool;
-  @:thisConst public function OnAdditionalTestFinishedMessageRequest(TestResult : unreal.functionaltesting.EFunctionalTestResult) : unreal.FString;
-  
-  /**
-    ACtors registered this way will be automatically destroyed (by limiting their lifespan)
-        on test finish
-  **/
-  public function RegisterAutoDestroyActor(ActorToAutoDestroy : unreal.AActor) : Void;
   
 }

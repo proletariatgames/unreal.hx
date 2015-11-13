@@ -15,11 +15,13 @@ package unreal.aimodule;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   blackboard entry definition
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BlackboardData.h")
-@:uextern extern class FBlackboardEntry {
+@:noCopy @:noEquals @:uextern extern class FBlackboardEntry {
   
   /**
     if set to true then this field will be synchronized across all instances of this blackboard

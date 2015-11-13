@@ -15,10 +15,12 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds evaluated magnitude from a GameplayEffect modifier
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FModifierSpec {
+@:noCopy @:noEquals @:uextern extern class FModifierSpec {
   
 }

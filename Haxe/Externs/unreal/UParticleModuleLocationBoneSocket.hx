@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
-@:uextern extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
+@:noClass @:uextern extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
   #if WITH_EDITORONLY_DATA
   
   /**

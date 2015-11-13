@@ -13,8 +13,14 @@
 **/
 package unreal.geometrymode;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Optimize.h")
-@:uextern extern class UGeomModifier_Optimize extends unreal.geometrymode.UGeomModifier_Triangulate {
+@:noClass @:uextern extern class UGeomModifier_Optimize extends unreal.geometrymode.UGeomModifier_Triangulate {
   
 }

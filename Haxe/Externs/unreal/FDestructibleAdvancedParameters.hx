@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Parameters that are less-often used.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class FDestructibleAdvancedParameters {
+@:noCopy @:noEquals @:uextern extern class FDestructibleAdvancedParameters {
   
   /**
     Scale factor used to apply an impulse force along the normal of chunk when fractured.  This is used

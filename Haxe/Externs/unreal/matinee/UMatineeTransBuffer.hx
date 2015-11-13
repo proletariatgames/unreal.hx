@@ -15,11 +15,13 @@ package unreal.matinee;
 
 
 /**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
   Special transaction buffer for Matinee undo/redo.
   Will be capped at InMaxMemory.
 **/
 @:umodule("Matinee")
 @:glueCppIncludes("MatineeTransBuffer.h")
-@:uextern extern class UMatineeTransBuffer extends unreal.editor.UTransBuffer {
+@:noClass @:uextern extern class UMatineeTransBuffer extends unreal.editor.UTransBuffer {
   
 }

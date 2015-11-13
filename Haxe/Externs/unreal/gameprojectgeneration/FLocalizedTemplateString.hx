@@ -13,9 +13,15 @@
 **/
 package unreal.gameprojectgeneration;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
-@:uextern extern class FLocalizedTemplateString {
+@:noCopy @:noEquals @:uextern extern class FLocalizedTemplateString {
   public var Text : unreal.FString;
   public var Language : unreal.FString;
   

@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Holds settings for the asset import / export automation test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:uextern extern class FEditorImportExportTestDefinition {
+@:noCopy @:noEquals @:uextern extern class FEditorImportExportTestDefinition {
   
   /**
     Settings for the import factory

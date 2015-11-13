@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   A line of subtitle text and the time at which it should be displayed.
 **/
 @:glueCppIncludes("Sound/SoundWave.h")
-@:uextern extern class FSubtitleCue {
+@:noCopy @:noEquals @:uextern extern class FSubtitleCue {
   
   /**
     The time at which the subtitle is to be displayed, in seconds relative to the beginning of the line.

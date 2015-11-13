@@ -13,6 +13,12 @@
 **/
 package unreal.behaviortreeeditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("EdGraphSchema_BehaviorTree.h")
 @:uextern extern class UEdGraphSchema_BehaviorTree extends unreal.aigraph.UAIGraphSchema {

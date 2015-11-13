@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationConstant.h")
-@:uextern extern class UParticleModuleAccelerationConstant extends unreal.UParticleModuleAccelerationBase {
+@:noClass @:uextern extern class UParticleModuleAccelerationConstant extends unreal.UParticleModuleAccelerationBase {
   
   /**
     Constant acceleration for particles in this system.

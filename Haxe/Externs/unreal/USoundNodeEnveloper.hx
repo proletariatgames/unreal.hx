@@ -15,6 +15,8 @@ package unreal;
 
 
 /**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
   Allows manipulation of volume and pitch over a set time period
 **/
 @:glueCppIncludes("Sound/SoundNodeEnveloper.h")

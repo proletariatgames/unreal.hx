@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorParticle.h")
 @:uextern extern class UParticleModuleAttractorParticle extends unreal.UParticleModuleAttractorBase {
   public var LastSelIndex : unreal.Int32;

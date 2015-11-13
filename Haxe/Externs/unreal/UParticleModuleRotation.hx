@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Rotation/ParticleModuleRotation.h")
 @:uextern extern class UParticleModuleRotation extends unreal.UParticleModuleRotationBase {
   

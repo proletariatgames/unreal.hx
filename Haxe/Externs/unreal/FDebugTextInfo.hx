@@ -15,13 +15,15 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   * Single entry of a debug text item to render.
   *
   * @see AHud
   * @see AddDebugText(), RemoveDebugText() and DrawDebugTextList()
 **/
 @:glueCppIncludes("GameFramework/HUD.h")
-@:uextern extern class FDebugTextInfo {
+@:noCopy @:noEquals @:uextern extern class FDebugTextInfo {
   
   /**
     Scale to apply to font when rendering

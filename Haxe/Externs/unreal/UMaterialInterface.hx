@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Materials/MaterialInterface.h")
 @:uextern extern class UMaterialInterface extends unreal.UObject implements unreal.IBlendableInterface {
   #if WITH_EDITORONLY_DATA
@@ -37,17 +43,6 @@ package unreal;
     SubsurfaceProfile, for Screen Space Subsurface Scattering
   **/
   public var SubsurfaceProfile : unreal.USubsurfaceProfile;
-  
-  /**
-    Walks up parent chain and finds the base Material that this is an instance of.
-  **/
-  @:final public function GetBaseMaterial() : unreal.UMaterial;
-  
-  /**
-    Return a pointer to the physical material used by this material instance.
-    @return The physical material.
-  **/
-  @:thisConst public function GetPhysicalMaterial() : unreal.UPhysicalMaterial;
   // BlendableInterface interface implementation
   
 }

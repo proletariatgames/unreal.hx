@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Default Classes for the Class Picker Dialog
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:uextern extern class FClassPickerDefaults {
+@:noCopy @:noEquals @:uextern extern class FClassPickerDefaults {
   
   /**
     The name of the asset type being created

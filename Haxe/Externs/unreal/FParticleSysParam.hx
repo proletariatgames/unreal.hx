@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct used for a particular named instance parameter for this ParticleSystemComponent.
 **/
 @:glueCppIncludes("Particles/ParticleSystemComponent.h")
-@:uextern extern class FParticleSysParam {
+@:noCopy @:noEquals @:uextern extern class FParticleSysParam {
   public var Material : unreal.UMaterialInterface;
   public var Actor : unreal.AActor;
   public var Color : unreal.FColor;

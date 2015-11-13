@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstToggle.h")
-@:uextern extern class UInterpTrackInstToggle extends unreal.UInterpTrackInst {
+@:noClass @:uextern extern class UInterpTrackInstToggle extends unreal.UInterpTrackInst {
   
   /**
     Cached 'active' state for the toggleable actor before we possessed it; restored when Matinee exits

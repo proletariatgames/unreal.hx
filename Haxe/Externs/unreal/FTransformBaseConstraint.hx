@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This defines what constraint it is defined
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:uextern extern class FTransformBaseConstraint {
+@:noCopy @:noEquals @:uextern extern class FTransformBaseConstraint {
   
   /**
     What transform type *

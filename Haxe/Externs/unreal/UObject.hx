@@ -15,7 +15,7 @@ package unreal;
 
 
 /**
-  WARNING: This types is defined as NoExport by UHT. It will be empty because of it
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
   
 **/

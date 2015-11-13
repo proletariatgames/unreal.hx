@@ -13,6 +13,12 @@
 **/
 package unreal.translationeditor;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/InternationalizationExportSettings.h")
 @:uextern extern class UInternationalizationExportSettings extends unreal.UObject {

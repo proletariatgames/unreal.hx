@@ -13,8 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemDebugHUD.h")
-@:uextern extern class AAbilitySystemDebugHUD extends unreal.AHUD {
+@:noClass @:uextern extern class AAbilitySystemDebugHUD extends unreal.AHUD {
   
 }

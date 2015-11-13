@@ -15,12 +15,14 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Struct representing a float whose magnitude is dictated by a backing attribute and a calculation policy, follows basic form of:
   (Coefficient * (PreMultiplyAdditiveValue + [Eval'd Attribute Value According to Policy])) + PostMultiplyAdditiveValue
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FAttributeBasedFloat {
+@:noCopy @:noEquals @:uextern extern class FAttributeBasedFloat {
   
   /**
     Filter to use on target tags; If specified, only modifiers applied with all of these tags will factor into the calculation

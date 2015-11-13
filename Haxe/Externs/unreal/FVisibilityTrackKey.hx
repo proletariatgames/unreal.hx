@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Information for one toggle in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackVisibility.h")
-@:uextern extern class FVisibilityTrackKey {
+@:noCopy @:noEquals @:uextern extern class FVisibilityTrackKey {
   
   /**
     Condition that must be satisfied for this key event to fire

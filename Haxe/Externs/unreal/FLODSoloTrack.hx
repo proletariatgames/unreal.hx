@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Temporary array for tracking 'solo' emitter mode.
   Entry will be true if emitter was enabled
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
-@:uextern extern class FLODSoloTrack {
+@:noCopy @:noEquals @:uextern extern class FLODSoloTrack {
   public var SoloEnableSetting : unreal.TArray<unreal.UInt8>;
   
 }

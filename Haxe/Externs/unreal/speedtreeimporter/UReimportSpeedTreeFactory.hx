@@ -13,8 +13,14 @@
 **/
 package unreal.speedtreeimporter;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("SpeedTreeImporter")
 @:glueCppIncludes("ReimportSpeedTreeFactory.h")
-@:uextern extern class UReimportSpeedTreeFactory extends unreal.speedtreeimporter.USpeedTreeImportFactory {
+@:noClass @:uextern extern class UReimportSpeedTreeFactory extends unreal.speedtreeimporter.USpeedTreeImportFactory {
   
 }

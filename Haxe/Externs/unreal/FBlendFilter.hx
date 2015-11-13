@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
-@:uextern extern class FBlendFilter {
+@:noCopy @:noEquals @:uextern extern class FBlendFilter {
   
 }

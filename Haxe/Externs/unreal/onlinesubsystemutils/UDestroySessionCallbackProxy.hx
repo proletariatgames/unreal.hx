@@ -13,13 +13,14 @@
 **/
 package unreal.onlinesubsystemutils;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("DestroySessionCallbackProxy.h")
 @:uextern extern class UDestroySessionCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
-  
-  /**
-    Destroys a session previously created by the default online subsystem
-  **/
-  static public function DestroySession(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController) : unreal.onlinesubsystemutils.UDestroySessionCallbackProxy;
   
 }

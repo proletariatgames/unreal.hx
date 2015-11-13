@@ -15,11 +15,13 @@ package unreal.editor;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   This structs properties should be pushed out to categories inside its parent category unless it is in an array
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:uextern extern class FPropertyEditorTestBasicStruct {
+@:noCopy @:noEquals @:uextern extern class FPropertyEditorTestBasicStruct {
   public var InnerStruct : unreal.editor.FPropertyEditorTestSubStruct;
   public var ObjectPropertyInsideAStruct : unreal.UObject;
   public var FloatPropertyInsideAStruct : unreal.Float32;

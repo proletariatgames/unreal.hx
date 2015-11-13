@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationEmitterDirect.h")
-@:uextern extern class UParticleModuleLocationEmitterDirect extends unreal.UParticleModuleLocationBase {
+@:noClass @:uextern extern class UParticleModuleLocationEmitterDirect extends unreal.UParticleModuleLocationBase {
   
   /**
     The name of the emitter to use as a source for the location of the particles.

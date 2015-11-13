@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Rigid body error correction data
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class FRigidBodyErrorCorrection {
+@:noCopy @:noEquals @:uextern extern class FRigidBodyErrorCorrection {
   
   /**
     min squared body speed to perform velocity adjustment

@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Camera/CameraAnim.h")
-@:uextern extern class FWeightedBlendable {
+@:noCopy @:noEquals @:uextern extern class FWeightedBlendable {
   
   /**
     should be of the IBlendableInterface* type but UProperties cannot express that

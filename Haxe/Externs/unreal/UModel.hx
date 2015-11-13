@@ -15,11 +15,13 @@ package unreal;
 
 
 /**
-  WARNING: This types is defined as NoExport by UHT. It will be empty because of it
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
   
 **/
 @:glueCppIncludes("Intrinsic/Model.h")
-@:uextern extern class UModel extends unreal.UObject {
+@:noClass @:uextern extern class UModel extends unreal.UObject {
   
 }

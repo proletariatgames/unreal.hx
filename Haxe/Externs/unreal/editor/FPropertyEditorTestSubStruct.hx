@@ -13,9 +13,15 @@
 **/
 package unreal.editor;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:uextern extern class FPropertyEditorTestSubStruct {
+@:noCopy @:noEquals @:uextern extern class FPropertyEditorTestSubStruct {
   public var CustomizedStructInsideUncustomizedStruct2 : unreal.FStringAssetReference;
   public var CustomizedStructInsideUncustomizedStruct : unreal.FLinearColor;
   public var SecondProperty : unreal.Int32;

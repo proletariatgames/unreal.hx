@@ -13,9 +13,15 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemComponent.h")
-@:uextern extern class FActiveGameplayCue extends unreal.FFastArraySerializerItem {
+@:noCopy @:noEquals @:uextern extern class FActiveGameplayCue extends unreal.FFastArraySerializerItem {
   
   /**
     Has this been predictively removed on the client?

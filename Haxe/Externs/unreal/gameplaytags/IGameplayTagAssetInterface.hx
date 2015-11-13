@@ -13,44 +13,14 @@
 **/
 package unreal.gameplaytags;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagAssetInterface.h")
 @:uextern extern interface IGameplayTagAssetInterface {
-  
-  /**
-    Get any owned gameplay tags on the asset
-    
-    @param OutTags       [OUT] Set of tags on the asset
-  **/
-  @:thisConst public function GetOwnedGameplayTags(TagContainer : unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>) : Void;
-  
-  /**
-    Check if the asset has a gameplay tag that matches against the specified tag (expands to include parents of asset tags)
-    
-    @param TagToCheck    Tag to check for a match
-    
-    @return True if the asset has a gameplay tag that matches, false if not
-  **/
-  @:thisConst public function HasMatchingGameplayTag(TagToCheck : unreal.gameplaytags.FGameplayTag) : Bool;
-  
-  /**
-    Check if the asset has gameplay tags that matches against all of the specified tags (expands to include parents of asset tags)
-    
-    @param TagContainer                  Tag container to check for a match
-    @param bCountEmptyAsMatch    If true, the parameter tag container will count as matching, even if it's empty
-    
-    @return True if the asset has matches all of the gameplay tags
-  **/
-  @:thisConst public function HasAllMatchingGameplayTags(TagContainer : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, bCountEmptyAsMatch : Bool) : Bool;
-  
-  /**
-    Check if the asset has gameplay tags that matches against any of the specified tags (expands to include parents of asset tags)
-    
-    @param TagContainer                  Tag container to check for a match
-    @param bCountEmptyAsMatch    If true, the parameter tag container will count as matching, even if it's empty
-    
-    @return True if the asset has matches any of the gameplay tags
-  **/
-  @:thisConst public function HasAnyMatchingGameplayTags(TagContainer : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, bCountEmptyAsMatch : Bool) : Bool;
   
 }

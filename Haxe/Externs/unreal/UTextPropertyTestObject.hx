@@ -13,7 +13,13 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Tests/TextPropertyTestObject.h")
-@:uextern extern class UTextPropertyTestObject extends unreal.UObject {
+@:noClass @:uextern extern class UTextPropertyTestObject extends unreal.UObject {
   
 }

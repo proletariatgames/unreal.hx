@@ -13,14 +13,14 @@
 **/
 package unreal.gameplayabilities;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayEffectApplied_Self.h")
 @:uextern extern class UAbilityTask_WaitGameplayEffectApplied_Self extends unreal.gameplayabilities.UAbilityTask_WaitGameplayEffectApplied {
-  
-  /**
-    Wait until the owner *receives* a GameplayEffect from a given source (the source may be the owner too!). If TriggerOnce is true, this task will only return one time. Otherwise it will return everytime a GE is applied that meets the requirements over the life of the ability
-    Optional External Owner can be used to run this task on someone else (not the owner of the ability). By default you can leave this empty.
-  **/
-  static public function WaitGameplayEffectAppliedToSelf(WorldContextObject : unreal.UObject, SourceFilter : unreal.Const<unreal.gameplayabilities.FGameplayTargetDataFilterHandle>, SourceTagRequirements : unreal.gameplayabilities.FGameplayTagRequirements, TargetTagRequirements : unreal.gameplayabilities.FGameplayTagRequirements, TriggerOnce : Bool, OptionalExternalOwner : unreal.AActor) : unreal.gameplayabilities.UAbilityTask_WaitGameplayEffectApplied_Self;
   
 }

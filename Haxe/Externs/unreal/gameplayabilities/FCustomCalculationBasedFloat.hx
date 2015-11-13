@@ -15,11 +15,13 @@ package unreal.gameplayabilities;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Structure to encapsulte magnitude that are calculated via custom calculation
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FCustomCalculationBasedFloat {
+@:noCopy @:noEquals @:uextern extern class FCustomCalculationBasedFloat {
   
   /**
     Additive value to the attribute calculation, added in after the coefficient applies

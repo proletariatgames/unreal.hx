@@ -15,10 +15,12 @@ package unreal;
 
 
 /**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
   Debug options for Swarm
 **/
 @:glueCppIncludes("Preferences/LightmassOptionsObject.h")
-@:uextern extern class FSwarmDebugOptions {
+@:noCopy @:noEquals @:uextern extern class FSwarmDebugOptions {
   public var bInitialized : Bool;
   
   /**

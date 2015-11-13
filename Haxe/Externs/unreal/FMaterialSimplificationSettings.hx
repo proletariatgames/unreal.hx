@@ -13,8 +13,14 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
+  
+  
+**/
 @:glueCppIncludes("Engine/Level.h")
-@:uextern extern class FMaterialSimplificationSettings {
+@:noCopy @:noEquals @:uextern extern class FMaterialSimplificationSettings {
   
   /**
     Size of generated specular map

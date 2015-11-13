@@ -13,6 +13,12 @@
 **/
 package unreal;
 
+
+/**
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
+  
+  
+**/
 @:glueCppIncludes("Matinee/InterpTrackInstAnimControl.h")
 @:uextern extern class UInterpTrackInstAnimControl extends unreal.UInterpTrackInst {
   #if WITH_EDITORONLY_DATA
