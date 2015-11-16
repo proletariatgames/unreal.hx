@@ -20,4 +20,5 @@ package unreal;
   public function Empty():Void;
 
   @:uname('new') static function create<T>():PHaxeCreated<TArray<T>>;
+  @:uname('new') static function copyCreate<T>(Other:Const<PRef<TArray<T>>>):PHaxeCreated<TArray<T>>;
 }

@@ -90,6 +90,10 @@ private typedef TArrayImpl<T> = Dynamic;
     return macro unreal.TArrayImpl.create($tParam);
   }
 
+  macro public function copyCreate(self:Expr, ?tParam:Expr) : Expr {
+    return macro unreal.TArrayImpl.copyCreate($tParam, $self);
+  }
+
   macro public function map(eThis:Expr, funct:Expr) : Expr {
     var type = Context.typeof(funct).follow();
     var returnType =  switch(type) {
