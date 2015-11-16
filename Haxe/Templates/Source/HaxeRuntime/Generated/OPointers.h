@@ -27,12 +27,27 @@ class HAXERUNTIME_API PStruct : public ::unreal::helpers::UEPointer {
       return nullptr;
     }
 
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override {
+      err();
+      return nullptr;
+    }
+
     virtual ::unreal::helpers::UEPointer *toSharedRef() override {
       err();
       return nullptr;
     }
 
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override {
+      err();
+      return nullptr;
+    }
+
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override {
+      err();
+      return nullptr;
+    }
+
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override {
       err();
       return nullptr;
     }
@@ -74,11 +89,23 @@ class HAXERUNTIME_API PExternal : public ::unreal::helpers::UEPointer {
       err();
       return nullptr;
     }
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override {
+      err();
+      return nullptr;
+    }
     virtual ::unreal::helpers::UEPointer *toSharedRef() override {
       err();
       return nullptr;
     }
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override {
+      err();
+      return nullptr;
+    }
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override {
+      err();
+      return nullptr;
+    }
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override {
       err();
       return nullptr;
     }
@@ -89,18 +116,18 @@ class HAXERUNTIME_API PExternal : public ::unreal::helpers::UEPointer {
     }
 };
 
-template<typename T>
+template<typename T, ESPMode Mode=ESPMode::Fast>
 class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
   public:
-    TSharedPtr<T> value;
+    TSharedPtr<T,Mode> value;
 
-    inline PSharedPtr(TSharedPtr<T> val) : value(val) {}
+    inline PSharedPtr(TSharedPtr<T,Mode> val) : value(val) {}
 
-    inline static ::unreal::helpers::UEPointer *wrap(TSharedPtr<T> val) {
+    inline static ::unreal::helpers::UEPointer *wrap(TSharedPtr<T,Mode> val) {
       if (!val.IsValid()) {
         return nullptr;
       }
-      return new PSharedPtr<T>(val);
+      return new PSharedPtr<T,Mode>(val);
     }
 
     virtual void *getPointer() override {
@@ -108,38 +135,44 @@ class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
     }
 
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override;
     virtual ::unreal::helpers::UEPointer *toSharedRef() override;
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override;
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override;
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override;
 };
 
-template<typename T>
+template<typename T, ESPMode Mode=ESPMode::Fast>
 class HAXERUNTIME_API PSharedRef : public ::unreal::helpers::UEPointer {
   public:
-    TSharedRef<T> value;
+    TSharedRef<T,Mode> value;
 
-    inline PSharedRef(TSharedRef<T> val) : value(val) {}
+    inline PSharedRef(TSharedRef<T,Mode> val) : value(val) {}
 
     virtual void *getPointer() override {
       return &value.Get();
     }
 
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override;
     virtual ::unreal::helpers::UEPointer *toSharedRef() override;
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override;
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override;
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override;
 };
 
-template<typename T>
+template<typename T, ESPMode Mode=ESPMode::Fast>
 class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
   public:
-    TWeakPtr<T> value;
+    TWeakPtr<T,Mode> value;
 
-    inline PWeakPtr(TWeakPtr<T> val) : value(val) {}
+    inline PWeakPtr(TWeakPtr<T,Mode> val) : value(val) {}
 
-    inline static ::unreal::helpers::UEPointer *wrap(TWeakPtr<T> val) {
+    inline static ::unreal::helpers::UEPointer *wrap(TWeakPtr<T,Mode> val) {
       if (val.IsValid()) {
         return nullptr;
       }
-      return new PSharedPtr<T>(val);
+      return new PSharedPtr<T,Mode>(val);
     }
 
     virtual void *getPointer() override {
@@ -148,8 +181,11 @@ class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
     }
 
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override;
     virtual ::unreal::helpers::UEPointer *toSharedRef() override;
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override;
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override;
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override;
 };
 
 /**
@@ -187,14 +223,27 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
       checkShared();
       return new PSharedPtr<T>( MakeShareable(value) );
     }
+    virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override {
+      checkShared();
+      return new PSharedPtr<T, ESPMode::ThreadSafe>( MakeShareable(value) );
+    }
 
     virtual ::unreal::helpers::UEPointer *toSharedRef() override {
       checkShared();
       return new PSharedRef<T>( TSharedPtr<T>(MakeShareable(value)).ToSharedRef() );
     }
+    virtual ::unreal::helpers::UEPointer *toSharedRefTS() override {
+      checkShared();
+      return new PSharedRef<T, ESPMode::ThreadSafe>( TSharedPtr<T,ESPMode::ThreadSafe>(MakeShareable(value)).ToSharedRef() );
+    }
+
     virtual ::unreal::helpers::UEPointer *toWeakPtr() override {
       checkShared();
       return new PWeakPtr<T>( TSharedPtr<T>(MakeShareable(value)) );
+    }
+    virtual ::unreal::helpers::UEPointer *toWeakPtrTS() override {
+      checkShared();
+      return new PWeakPtr<T, ESPMode::ThreadSafe>( TSharedPtr<T, ESPMode::ThreadSafe>(MakeShareable(value)) );
     }
   private:
     inline void checkShared() {
@@ -207,32 +256,61 @@ class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
     }
 };
 
-template<typename T> ::unreal::helpers::UEPointer *::PSharedPtr<T>::toSharedPtr() {
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toSharedPtr() {
   return this;
 }
-template<typename T> ::unreal::helpers::UEPointer *::PSharedPtr<T>::toSharedRef() {
-  return new PSharedRef<T>(value.ToSharedRef());
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toSharedPtrTS() {
+  return this;
 }
-template<typename T> ::unreal::helpers::UEPointer *::PSharedPtr<T>::toWeakPtr() {
-  return new PWeakPtr<T>(value);
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toSharedRef() {
+  return new PSharedRef<T, M>(value.ToSharedRef());
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toSharedRefTS() {
+  return new PSharedRef<T, M>(value.ToSharedRef());
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toWeakPtr() {
+  return new PWeakPtr<T,M>(value);
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedPtr<T,M>::toWeakPtrTS() {
+  return new PWeakPtr<T,M>(value);
 }
 
-template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toSharedPtr() {
-  return new PSharedPtr<T>(value);
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toSharedPtr() {
+  return new PSharedPtr<T, M>(value);
 }
-template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toSharedRef() {
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toSharedPtrTS() {
+  return new PSharedPtr<T, M>(value);
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toSharedRef() {
   return this;
 }
-template<typename T> ::unreal::helpers::UEPointer *::PSharedRef<T>::toWeakPtr() {
-  return new PWeakPtr<T>(value);
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toSharedRefTS() {
+  return this;
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toWeakPtr() {
+  return new PWeakPtr<T,M>(value);
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PSharedRef<T,M>::toWeakPtrTS() {
+  return new PWeakPtr<T,M>(value);
 }
 
-template<typename T> ::unreal::helpers::UEPointer *::PWeakPtr<T>::toSharedPtr() {
-  return new PSharedPtr<T>(value.Pin());
+
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toSharedPtr() {
+  return new PSharedPtr<T,M>(value.Pin());
 }
-template<typename T> ::unreal::helpers::UEPointer *::PWeakPtr<T>::toSharedRef() {
-  return new PSharedRef<T>(value.Pin().ToSharedRef());
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toSharedPtrTS() {
+  return new PSharedPtr<T,M>(value.Pin());
 }
-template<typename T> ::unreal::helpers::UEPointer *::PWeakPtr<T>::toWeakPtr() {
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toSharedRef() {
+  return new PSharedRef<T,M>(value.Pin().ToSharedRef());
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toSharedRefTS() {
+  return new PSharedRef<T,M>(value.Pin().ToSharedRef());
+}
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toWeakPtr() {
   return this;
 }
+template<typename T, ESPMode M> ::unreal::helpers::UEPointer *::PWeakPtr<T,M>::toWeakPtrTS() {
+  return this;
+}
+

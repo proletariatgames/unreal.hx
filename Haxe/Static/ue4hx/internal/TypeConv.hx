@@ -230,7 +230,10 @@ using StringTools;
       return false;
     switch (ctx.name) {
     case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
-         'unreal.TSharedPtr' | 'unreal.TSharedRef' | 'unreal.TWeakPtr' | 'unreal.PRef':
+         'unreal.TSharedPtr' | 'unreal.TThreadSafeSharedPtr' |
+         'unreal.TSharedRef' | 'unreal.TThreadSafeSharedRef' |
+         'unreal.TWeakPtr' | 'unreal.TThreadSafeWeakPtr' |
+         'unreal.PRef':
       return true;
     case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PExternalDef' | 'ue4hx.internal.PStructDef' |
          'ue4hx.internal.PRefDef':
@@ -656,16 +659,31 @@ using StringTools;
             ret.ueToGlueExpr = 'PSharedPtr<${ueType.getCppType()}>::wrap( % )';
             ret.glueToUeExpr = '( (PSharedPtr<${ueType.getCppType()}> *) %->toSharedPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedPtr<${typeRef}> )';
+          case 'unreal.TThreadSafeSharedPtr':
+            ret.ueType = new TypeRef('TSharedPtr',[ueType, new TypeRef(['ESPMode'], 'ThreadSafe')]);
+            ret.ueToGlueExpr = 'PSharedPtr<${ueType.getCppType()}, ESPMode::ThreadSafe>::wrap( % )';
+            ret.glueToUeExpr = '( (PSharedPtr<${ueType.getCppType()}, ESPMode::ThreadSafe> *) %->toSharedPtrTS() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeSharedPtr<${typeRef}> )';
           case 'unreal.TSharedRef':
             ret.ueType = new TypeRef('TSharedRef',[ueType]);
             ret.ueToGlueExpr = 'new PSharedRef<${ueType.getCppType()}>( % )';
             ret.glueToUeExpr = '( (PSharedRef<${ueType.getCppType()}> *) %->toSharedRef() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TSharedRef<${typeRef}> )';
+          case 'unreal.TThreadSafeSharedRef':
+            ret.ueType = new TypeRef('TSharedRef',[ueType, new TypeRef(['ESPMode'], 'ThreadSafe')]);
+            ret.ueToGlueExpr = 'new PSharedRef<${ueType.getCppType()}, ESPMode::ThreadSafe>( % )';
+            ret.glueToUeExpr = '( (PSharedRef<${ueType.getCppType()}, ESPMode::ThreadSafe> *) %->toSharedRefTS() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeSharedRef<${typeRef}> )';
           case 'unreal.TWeakPtr':
             ret.ueType = new TypeRef('TWeakPtr',[ueType]);
             ret.ueToGlueExpr = 'PWeakPtr<${ueType.getCppType()}>::wrap( % )';
             ret.glueToUeExpr = '( (PWeakPtr<${ueType.getCppType()}> *) %->toWeakPtr() )->value';
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TWeakPtr<${typeRef}> )';
+          case 'unreal.TThreadSafeWeakPtr':
+            ret.ueType = new TypeRef('TWeakPtr',[ueType, new TypeRef(['ESPMode'], 'ThreadSafe')]);
+            ret.ueToGlueExpr = 'PWeakPtr<${ueType.getCppType()}, ESPMode::ThreadSafe>::wrap( % )';
+            ret.glueToUeExpr = '( (PWeakPtr<${ueType.getCppType()}, ESPMode::ThreadSafe> *) %->toWeakPtrTS() )->value';
+            ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeWeakPtr<${typeRef}> )';
           case 'unreal.PRef':
             @:privateAccess ret.ueType.name = 'Reference';
             ret.ueToGlueExpr = 'new PExternal<${ueType.getCppType()}>( &(%) )';

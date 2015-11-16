@@ -12,4 +12,6 @@ extern class UWorld_Extra {
 
   @:thisConst
   public function IsPlayInEditor() : Bool;
+
+  public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 }

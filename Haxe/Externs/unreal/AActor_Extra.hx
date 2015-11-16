@@ -1,6 +1,8 @@
 package unreal;
 
 extern class AActor_Extra {
+  public function PreInitializeComponents() : Void;
+
   public function Tick(DeltaSeconds:Float32) : Void;
 
   public function Reset() : Void;
@@ -22,4 +24,8 @@ extern class AActor_Extra {
   /** Returns this actor's root component. */
   @:thisConst
   public function GetRootComponent() : USceneComponent;
+
+	/** Get the timer instance from the actors world */
+	@:thisConst
+  public function GetWorldTimerManager() : PRef<FTimerManager>;
 }

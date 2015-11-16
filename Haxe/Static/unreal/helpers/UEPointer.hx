@@ -32,8 +32,11 @@ class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : public UEPointer {
 \t\t}
 \t\tvoid *getPointer() { return this->ptr; }
 \t\tUEPointer *toSharedPtr() { return rewrap(this->proxy->toSharedPtr()); }
+\t\tUEPointer *toSharedPtrTS() { return rewrap(this->proxy->toSharedPtrTS()); }
 \t\tUEPointer *toSharedRef() { return rewrap(this->proxy->toSharedRef()); }
+\t\tUEPointer *toSharedRefTS() { return rewrap(this->proxy->toSharedRefTS()); }
 \t\tUEPointer *toWeakPtr() { return rewrap(this->proxy->toWeakPtr()); }
+\t\tUEPointer *toWeakPtrTS() { return rewrap(this->proxy->toWeakPtrTS()); }
 \t\tvirtual UEProxyPointer *rewrap(UEPointer *inPtr) { return new UEProxyPointer(inPtr); }
 ')
 @:uexpose class UEPointer
@@ -56,11 +59,23 @@ class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : public UEPointer {
     return NULL_PTR;
   }
 
+  public function toSharedPtrTS():cpp.RawPointer<UEPointer> {
+    return NULL_PTR;
+  }
+
   public function toSharedRef():cpp.RawPointer<UEPointer> {
     return NULL_PTR;
   }
 
+  public function toSharedRefTS():cpp.RawPointer<UEPointer> {
+    return NULL_PTR;
+  }
+
   public function toWeakPtr():cpp.RawPointer<UEPointer> {
+    return NULL_PTR;
+  }
+
+  public function toWeakPtrTS():cpp.RawPointer<UEPointer> {
     return NULL_PTR;
   }
 }
