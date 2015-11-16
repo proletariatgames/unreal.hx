@@ -589,11 +589,11 @@ class ExternBaker {
             isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
         } else {
-          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copy()');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.buf.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct()');
+          this.buf.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.buf.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
