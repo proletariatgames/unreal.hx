@@ -8,9 +8,15 @@
 #include <utility>
 
 #if __cplusplus > 199711L
+  #define SUPPORTS_C11
+#endif
+
+#ifdef SUPPORTS_C11
   // This is unecessary on the Haxe side
   #include <type_traits>
 #endif
+
+#include "hxcpp.h"
 
 // PtrHelper for objects that are stored on the stack
 template<typename T>
@@ -18,7 +24,7 @@ struct HAXERUNTIME_API PtrHelper_Stack {
   T val;
   PtrHelper_Stack(const T& inVal) : val(inVal) {
   }
-#if __cplusplus > 199711L // disable during Haxe compilation
+#ifdef SUPPORTS_C11
   PtrHelper_Stack(PtrHelper_Stack&& mv) : val(std::move(mv.val)) {
   }
 #endif
@@ -38,7 +44,7 @@ struct HAXERUNTIME_API PtrHelper_Ptr {
   PtrHelper_Ptr(T* inPtr) : ptr(inPtr) {
   }
 
-#if __cplusplus > 199711L // disable during Haxe compilation
+#ifdef SUPPORTS_C11
   PtrHelper_Ptr(PtrHelper_Ptr&& mv) : ptr(mv.ptr) {
   }
 #endif
@@ -63,7 +69,7 @@ struct PtrMaker<T*> {
   typedef PtrHelper_Stack<T*> Type;
 };
 
-#if __cplusplus > 199711L // disable during Haxe compilation
+#ifdef SUPPORTS_C11
   // Enums always passed by-val
   template<typename T>
   struct PtrMaker<T, typename std::enable_if<std::is_enum<T>::value>::type> {
