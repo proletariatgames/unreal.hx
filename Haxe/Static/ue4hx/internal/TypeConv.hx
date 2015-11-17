@@ -391,7 +391,12 @@ using StringTools;
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.haxeType = new TypeRef(['unreal'], 'TSubclassOf', [ofType.haxeType]);
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
-      ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
+      if (ofType.forwardDecls != null) {
+        ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
+      } else {
+        trace(ret.haxeToGlueExpr);
+        trace(ret.glueToHaxeExpr);
+      }
       if (ofType.glueCppIncludes != null) {
         for (inc in ofType.glueCppIncludes)
           ret.glueCppIncludes.push(inc);
@@ -529,7 +534,7 @@ using StringTools;
           glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().rawCast()',
-          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast % )',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%) )',
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
@@ -539,7 +544,7 @@ using StringTools;
         };
         if (ctx.isInterface) {
           ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).getWrapped().rawCast()';
-          ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast % ), ${originalTypeRef})';
+          ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast (%) ), ${originalTypeRef})';
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
           ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
           ret.glueCppIncludes.push('Templates/Casts.h');
