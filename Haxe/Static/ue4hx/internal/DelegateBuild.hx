@@ -78,6 +78,9 @@ class DelegateBuild {
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             return ue4hx.internal.DelayedGlue.getNativeCall("BindUObject", false, obj, fn);
           }
+          public function IsBoundToObject(obj:unreal.UObject) : Bool {
+            return ue4hx.internal.DelayedGlue.getNativeCall("IsBoundToObject", false, obj);
+          }
         }
 
         for (fld in dummy.fields) {
@@ -110,7 +113,7 @@ class DelegateBuild {
           pos: cl.pos
         });
       }
-    case 'MulticastDelegate' | 'DynamicMulticastDelegate':
+    case 'MulticastDelegate' | 'DynamicMulticastDelegate' | 'Event':
       def = macro class {
         public function IsBound():Bool {
           return ue4hx.internal.DelayedGlue.getNativeCall("IsBound", false);
@@ -156,6 +159,9 @@ class DelegateBuild {
           }
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return ue4hx.internal.DelayedGlue.getNativeCall("AddUObject", false, obj, fn);
+          }
+          public function IsBoundToObject(obj:unreal.UObject) : Bool {
+            return ue4hx.internal.DelayedGlue.getNativeCall("IsBoundToObject", false, obj);
           }
           public function Remove(handle:unreal.FDelegateHandle) : Void {
             ue4hx.internal.DelayedGlue.getNativeCall("Remove", false, handle);

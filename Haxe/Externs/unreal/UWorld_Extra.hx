@@ -13,5 +13,11 @@ extern class UWorld_Extra {
   @:thisConst
   public function IsPlayInEditor() : Bool;
 
+  @:thisConst
+  public function GetControllerIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<AController>>;
+
+  @:thisConst
+  public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
+
   public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 }

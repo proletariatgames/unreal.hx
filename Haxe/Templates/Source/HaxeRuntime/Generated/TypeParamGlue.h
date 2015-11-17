@@ -75,6 +75,13 @@ public:
 };
 
 template<typename T>
+class HAXERUNTIME_API TypeParamGluePtr<const T> {
+public:
+  static PtrHelper<const T> haxeToUe(void* haxe);
+  static void* ueToHaxeRef(const T& ue);
+};
+
+template<typename T>
 T& TypeParamGlue<T&>::haxeToUe(void *haxe) {
   // warning: this WILL FAIL with basic types (like int*, float, double) and enums
   // This will only be used like that on delegates - so these kinds of delegates are forbidden to be declared
@@ -106,4 +113,14 @@ const T TypeParamGlue<const T>::haxeToUe(void *haxe) {
 template<typename T>
 void *TypeParamGlue<const T>::ueToHaxe(const T ue) {
   return TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
+}
+
+template<typename T>
+PtrHelper<const T> TypeParamGluePtr<const T>::haxeToUe(void* haxe) {
+  return const_cast<PtrHelper<const T>>(TypeParamGluePtr<T>::haxeToUe(haxe));
+}
+
+template<typename T>
+void* TypeParamGluePtr<const T>::ueToHaxeRef(const T& ue) {
+  return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
 }

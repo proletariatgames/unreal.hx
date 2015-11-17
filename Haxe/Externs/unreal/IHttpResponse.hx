@@ -49,6 +49,9 @@ package unreal;
 @:glueCppIncludes("IHttpResponse.h")
 @:noCopy @:noEquals @:noClass @:uextern extern class IHttpResponse extends IHttpBase
 {
+  @:global @:uname("EHttpResponseCodes::IsOk")
+  static function IsOk(code:Int) : Bool;
+
   function GetResponseCode() : Int;
   function GetContentAsString() : FString;
 }

@@ -12,6 +12,6 @@ package unreal;
   }
 
   @:impl public static function IsValid<T : Wrapper>(self:T):Bool {
-    return self.wrapped.ptr.getPointer() != untyped __cpp__('0');
+    return self != null && self.wrapped.ptr.getPointer() != untyped __cpp__('0');
   }
 }

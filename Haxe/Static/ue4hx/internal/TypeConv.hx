@@ -445,14 +445,14 @@ using StringTools;
       return ret;
     }
 
-    if (name == 'unreal.TWeakObjectPtr') {
+    if (name == 'unreal.TWeakObjectPtr' || name == 'unreal.TAutoWeakObjectPtr') {
       var ofType = TypeConv.get(args[0], pos);
       var ueType = if (ofType.ueType.isPointer())
         ofType.ueType.params[0];
       else
         ofType.ueType;
       var ret = TypeConv.get( Context.follow(type), pos );
-      ret.haxeType = new TypeRef(['unreal'], 'TWeakObjectPtr', [ofType.haxeType]);
+      ret.haxeType = new TypeRef(['unreal'], name.split('.')[1], [ofType.haxeType]);
       ret.glueCppIncludes.push("UObject/WeakObjectPtrTemplates.h");
       ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       if (ofType.glueCppIncludes != null) {
@@ -468,7 +468,7 @@ using StringTools;
         ret.forwardDeclType = Templated(['UObject/WeakObjectPtrTemplates.h']);
       }
 
-      ret.ueType = new TypeRef('TWeakObjectPtr', [ueType]);
+      ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
       ret.ueToGlueExpr = '( %.Get() )';
       return ret;
     }

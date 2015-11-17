@@ -15,7 +15,22 @@ extern class AGameMode_Extra {
   @:global("MatchState")
   public static var Aborted(default,never):Const<PStruct<FName>>;
 
+  // !!FIXME!! Remove these once extern baker automatically generates them
+  public function ChoosePlayerStart_Implementation(player:AController) : AActor;
   @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
+
+  function InitGameState() : Void;
+  function PostLogin(NewPlayer:APlayerController) : Void;
+  function Logout(Exiting:AController) : Void;
+  function SetPlayerDefaults(PlayerPawn:APawn) : Void;
+
+  private function HandleMatchIsWaitingToStart() : Void;
+  private function HandleMatchHasStarted() : Void;
+  private function HandleMatchHasEnded() : Void;
+  private function HandleLeavingMap() : Void;
+  private function HandleMatchAborted() : Void;
+
+  function ShouldSpawnAtStartSpot(player:AController) : Bool;
 
   /*
 	private function InitNewPlayer(NewPlayerController:APlayerController,
