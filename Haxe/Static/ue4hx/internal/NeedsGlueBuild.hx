@@ -118,6 +118,14 @@ class NeedsGlueBuild
           }
         }
         var isUProp = field.meta.hasMeta(':uproperty');
+        if (!isUProp && field.meta.hasMeta(':uexpose')) {
+          switch(field.kind) {
+          case FVar(_) | FProp(_):
+            isUProp = true;
+          case _:
+          }
+        }
+
         var isStatic = field.access != null && field.access.has(AStatic);
         if (isUProp) {
           changed = true;
@@ -135,6 +143,9 @@ class NeedsGlueBuild
                   return value;
                 }
               };
+              if (isStatic) {
+                for (field in dummy.fields) field.access.push(AStatic);
+              }
 
               for (field in dummy.fields) toAdd.push(field);
               field.kind = FProp("get", "set", t, e);
