@@ -58,10 +58,12 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
+  @:typeName
   @:global public static function NewObject<T>():PExternal<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
+  @:typeName
   @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PExternal<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")

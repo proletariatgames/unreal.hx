@@ -58,6 +58,15 @@ class TypeRef
     return this;
   }
 
+  public function withoutPointer():TypeRef {
+    switch [this.pack, this.name] {
+      case [ ['cpp'], 'RawPointer' ]:
+        return params[0].withoutPointer();
+      case _:
+        return this;
+    }
+  }
+
   public function getForwardDecl() {
     if (this.isPointer())
       return params[0].getForwardDecl();
