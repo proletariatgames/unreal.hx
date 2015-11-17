@@ -14,4 +14,13 @@ extern class AGameMode_Extra {
   public static var LeavingMap(default,never):Const<PStruct<FName>>;
   @:global("MatchState")
   public static var Aborted(default,never):Const<PStruct<FName>>;
+
+  @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
+
+  /*
+	private function InitNewPlayer(NewPlayerController:APlayerController,
+                                 UniqueId:Const<PRef<TSharedPtr< Const<FUniqueNetId> >>>,
+                                 Options:Const<PRef<FString>>,
+                                 Portal:Const<PRef<FString>>) : FString;
+  */
 }
