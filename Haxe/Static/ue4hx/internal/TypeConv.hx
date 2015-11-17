@@ -393,9 +393,6 @@ using StringTools;
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
       if (ofType.forwardDecls != null) {
         ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
-      } else {
-        trace(ret.haxeToGlueExpr);
-        trace(ret.glueToHaxeExpr);
       }
       if (ofType.glueCppIncludes != null) {
         for (inc in ofType.glueCppIncludes)
