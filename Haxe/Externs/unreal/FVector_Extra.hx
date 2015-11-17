@@ -16,7 +16,7 @@ extern class FVector_Extra {
   public function GetSafeNormal2D() : PStruct<FVector>;
 
   @:thisConst
-  public function op_Subtraction(other:FVector) : FVector;
+  public function Size() : Float32;
 
   public var X:Float32;
   public var Y:Float32;
