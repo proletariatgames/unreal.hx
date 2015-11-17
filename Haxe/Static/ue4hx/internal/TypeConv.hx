@@ -497,7 +497,8 @@ using StringTools;
     var refName = new TypeRef(typeRef.name);
     if (meta != null && meta.has(':uname')) refName = TypeRef.parseClassName(getMetaString(meta, ':uname'));
     if (typeRef.params.length > 0) {
-      refName = refName.withParams( typeRef.params );
+      var isTypeName = ctx.meta != null && ctx.meta.has(':typeName');
+      refName = refName.withParams( [ for (arg in convArgs) arg.isUObject == true && isTypeName ? arg.ueType.withoutPointer() : arg.ueType ] );
     }
 
     // Handle uenums declared in haxe
@@ -507,10 +508,10 @@ using StringTools;
         ueType: refName,
         haxeGlueType: new TypeRef("Int"),
         glueType: new TypeRef("Int"),
-        glueCppIncludes: ['$refName.h'],
+        glueCppIncludes: ['${refName.name}.h'],
         haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
         glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
-        glueToUeExpr: '( ($refName) % )',
+        glueToUeExpr: '( (${refName.getCppType()}) % )',
         ueToGlueExpr : '( (int) % )',
         args: convArgs,
         isEnum: true,
@@ -583,7 +584,6 @@ using StringTools;
           var myIncludes = cppIncludes.copy();
           declType = ForwardDeclEnum.Templated(myIncludes);
           addMyForward = false;
-          ueType = ueType.withParams([ for (arg in convArgs) arg.ueType ]);
           for (arg in convArgs) {
             if (!arg.isTypeParam) {
               // TArray types can be forward declared, so add an exception here
@@ -696,8 +696,15 @@ using StringTools;
 
         if (typeRef.params.length > 0) {
           ret.glueCppIncludes.push('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
+          var isTypeName = ctx.meta != null && ctx.meta.has(':typeName');
           ret.ueToGlueExpr = 'new ' + typeRef.getGlueHelperType().getCppClass() + '_UE_obj<' +
-            [ for (param in args) TypeConv.get(param, pos).ueType.getCppType() ].join(',') +
+            [ for (param in args) {
+              var conv = TypeConv.get(param, pos);
+              if (isTypeName && conv.isUObject == true)
+                conv.ueType.getCppClass();
+              else
+                conv.ueType.getCppType().toString();
+            }].join(',') +
           '>(' + ret.ueToGlueExpr + ')';
         }
         return ret;
