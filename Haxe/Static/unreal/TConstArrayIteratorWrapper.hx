@@ -8,7 +8,7 @@ private typedef NativeIterator<T> = TIndexedContainerIterator<Const<TArray<T>>,C
   public inline function iterator() return new NativeIteratorWrapper<T>(this);
 }
 
-class NativeIteratorWrapper<T> {
+private class NativeIteratorWrapper<T> {
   var it:NativeIterator<T>;
   public inline function new(it:NativeIterator<T>) {
     this.it = it;
