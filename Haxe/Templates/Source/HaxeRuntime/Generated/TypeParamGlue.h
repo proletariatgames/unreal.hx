@@ -5,39 +5,108 @@
   #define HAXERUNTIME_API
 #endif
 #include <cstdio>
+#include <utility>
+#include <type_traits>
 
-/**
-  This type allows us to call fields that take a pointer/ref to a basic type inside
-  a type parameter context
- **/
+// forward declarations
+enum class ESPMode;
+template<class ObjectType, ESPMode Mode> class TSharedRef;
+template<class ObjectType, ESPMode Mode> class TSharedPtr;
+template<class TClass> class TSubclassOf;
+template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
+template<class T> class TAutoWeakObjectPtr;
+
+// PtrHelper for objects that are stored on the stack
 template<typename T>
-class HAXERUNTIME_API PtrHelper {
-public:
-  T *ptr;
-private:
-  bool isRealPtr;
-  // this will be big enough to hold the value of T if needed
-  unsigned char value[sizeof(T)];
-
-public:
-  // the good case, where we have the actual pointer
-  PtrHelper(T *inPtr) : ptr(inPtr), isRealPtr(true) {
+struct HAXERUNTIME_API PtrHelper_Stack {
+  T val;
+  PtrHelper_Stack(const T& inVal) : val(inVal) {
+  }
+  PtrHelper_Stack(PtrHelper_Stack&& mv) : val(std::move(mv.val)) {
   }
 
-  // make it be a pointer to itself (this should happen only with T being a pointer or a basic type)
-  PtrHelper(T inVal) : ptr( (T *) (void *) &this->value ), isRealPtr(false) {
-    *this->ptr = inVal;
-  }
-
-  // copy constructor
-  PtrHelper(const PtrHelper<T> &val) : ptr(val.ptr), isRealPtr(val.isRealPtr) {
-    if (!val.isRealPtr) {
-      // if not a real pointer, we need to copy the contents of the pointer
-      this->ptr = (T *) (void *) &this->value;
-      *this->ptr = *val.ptr;
-    }
+  T* getPointer() {
+    return &val;
   }
 };
+
+// PtrHelper for objects that are stored by reference
+template<typename T>
+struct HAXERUNTIME_API PtrHelper_Ptr {
+  T* ptr;
+  PtrHelper_Ptr(T* inPtr) : ptr(inPtr) {
+  }
+  PtrHelper_Ptr(PtrHelper_Ptr&& mv) : ptr(mv.ptr) {
+  }
+
+  T* getPointer() {
+    return ptr;
+  }
+};
+
+// Default PtrMaker assumes pass-by-ref
+template<typename T, typename=void>
+struct PtrMaker {
+  typedef PtrHelper_Ptr<T> Type;
+};
+
+// Pointers always passed by-val
+template<typename T>
+struct PtrMaker<T*> {
+  typedef PtrHelper_Stack<T*> Type;
+};
+
+// Enums always passed by-val
+template<typename T>
+struct PtrMaker<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+  typedef PtrHelper_Stack<T> Type;
+};
+
+// Smart pointers are stored on the stack
+template<typename T, ESPMode Mode>
+struct PtrMaker<TSharedPtr<T, Mode>> {
+  typedef PtrHelper_Stack<TSharedPtr<T,Mode>> Type;
+};
+template<typename T, ESPMode Mode>
+struct PtrMaker<TSharedRef<T, Mode>> {
+  typedef PtrHelper_Stack<TSharedRef<T,Mode>> Type;
+};
+template<typename T, typename Base>
+struct PtrMaker<TWeakObjectPtr<T,Base>> {
+  typedef PtrHelper_Stack<TWeakObjectPtr<T,Base>> Type;
+};
+template<typename T>
+struct PtrMaker<TAutoWeakObjectPtr<T>> {
+  typedef PtrHelper_Stack<TAutoWeakObjectPtr<T>> Type;
+};
+
+// TSubclassOf passed by-val
+template<class T>
+struct PtrMaker<TSubclassOf<T>> {
+  typedef PtrHelper_Stack<TSubclassOf<T>> Type;
+};
+
+// Basic types are passed by-val
+#define BASIC_TYPE(TYPE) \
+  template<> \
+  struct PtrMaker<TYPE> { \
+    typedef PtrHelper_Stack<TYPE> Type; \
+  }
+
+BASIC_TYPE(bool);
+BASIC_TYPE(::cpp::UInt32);
+BASIC_TYPE(::cpp::UInt64);
+BASIC_TYPE(::cpp::Int64);
+BASIC_TYPE(::cpp::Float32);
+BASIC_TYPE(::cpp::Float64);
+BASIC_TYPE(::cpp::Int16);
+BASIC_TYPE(::cpp::Int32);
+BASIC_TYPE(::cpp::Int8);
+BASIC_TYPE(::cpp::UInt16);
+BASIC_TYPE(::cpp::UInt8);
+BASIC_TYPE(::cpp::Char);
+
+#undef BASIC_TYPE
 
 template<typename T>
 class HAXERUNTIME_API TypeParamGlue {
@@ -49,7 +118,7 @@ public:
 template<typename T>
 class HAXERUNTIME_API TypeParamGluePtr {
 public:
-  static PtrHelper<T> haxeToUePtr(void *haxe);
+  static typename PtrMaker<T>::Type haxeToUePtr(void *haxe);
   static void *ueToHaxeRef(T& ue);
 };
 
@@ -77,7 +146,7 @@ public:
 template<typename T>
 class HAXERUNTIME_API TypeParamGluePtr<const T> {
 public:
-  static PtrHelper<const T> haxeToUe(void* haxe);
+  static typename PtrMaker<const T>::Type haxeToUe(void* haxe);
   static void* ueToHaxeRef(const T& ue);
 };
 
@@ -116,8 +185,8 @@ void *TypeParamGlue<const T>::ueToHaxe(const T ue) {
 }
 
 template<typename T>
-PtrHelper<const T> TypeParamGluePtr<const T>::haxeToUe(void* haxe) {
-  return const_cast<PtrHelper<const T>>(TypeParamGluePtr<T>::haxeToUe(haxe));
+typename PtrMaker<const T>::Type TypeParamGluePtr<const T>::haxeToUe(void* haxe) {
+  return const_cast<typename PtrMaker<const T>::Type>(TypeParamGluePtr<T>::haxeToUe(haxe));
 }
 
 template<typename T>

@@ -913,8 +913,8 @@ class ExternBaker {
       for (arg in cppArgs) {
         if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
           var prefixedArgName = argPrefix + arg.name;
-          cppBodyVars << 'PtrHelper<${arg.t.ueType.getCppType()}> ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, ctx)};\n\t\t\t';
-          cppArgTypes.push('*(${prefixedArgName}_t.ptr)');
+          cppBodyVars << 'auto ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, ctx)};\n\t\t\t';
+          cppArgTypes.push('*(${prefixedArgName}_t.getPointer())');
         } else {
           cppArgTypes.push(arg.t.glueToUe(argPrefix+doEscapeName(arg.name), ctx));
         }
