@@ -851,15 +851,9 @@ class ExternBaker {
         case 'op_Dereference':
           op = '*';
           '(**(' + self.t.glueToUe(self.name, ctx) + '))';
-        case 'op_Increment':
-          op = '++';
-          '(++(*(' + self.t.glueToUe(self.name, ctx) + ')))';
-        case 'op_Decrement':
-          op = '--';
-          '(--(*(' + self.t.glueToUe(self.name, ctx) + ')))';
-        case 'op_Not':
-          op = '!';
-          '(!(*(' + self.t.glueToUe(self.name, ctx) + ')))';
+        case 'op_Subtraction':
+          op = '-';
+          '(*' + self.t.glueToUe(self.name, ctx) + ')';
         case '.copy':
           retHaxeType = thisConv.haxeType;
           cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.pos, 'unreal.PStruct') }];
@@ -938,10 +932,15 @@ class ExternBaker {
         body += '[' + cppArgTypes[0] + ']';
         if (cppArgs.length == 2)
           body += ' = ' + cppArgTypes[1];
-      } else if (op == '*' || op == '++' || op == '--' || op == '!') {
+      } else if (op == '*') {
         if (cppArgs.length > 0) {
-          throw new Error('Extern Baker: unary operators must take zero arguments', pos);
+          throw new Error('Extern Baker: op_Dereference must take zero arguments', pos);
         }
+      } else if (op == '-') {
+        if (cppArgs.length != 1) {
+          throw new Error('Extern Baker: op_Subtraction takes one argument, but ' + cppArgs.length + ' found', pos);
+        }
+        body += ' - ' cppArgTypes[0];
       } else {
         body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
       }

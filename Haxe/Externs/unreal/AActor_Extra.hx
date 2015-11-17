@@ -38,11 +38,19 @@ extern class AActor_Extra {
   public function GetRootComponent() : USceneComponent;
 
   @:thisConst
+  public function GetActorLocation() : FVector; 
+
+  @:thisConst
+  public function GetActorRotation() : FRotator;
+
+  /** Called immediately before gameplay begins. */
+  public function PreInitializeComponents() : Void;
+
+  // Allow actors to initialize themselves on the C++ side
+  public function PostInitializeComponents() : Void;
   public function GetWorldSettings() : AWorldSettings;
 
 	/** Get the timer instance from the actors world */
 	@:thisConst
   public function GetWorldTimerManager() : PRef<FTimerManager>;
-
-  @:thisConst public function GetActorLocation() : FVector;
 }
