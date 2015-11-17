@@ -199,9 +199,11 @@ class UExtensionBuild {
           headerDef << ' override';
         headerDef << ';\n';
 
-        headerDef << 'public:\n\t\t';
-        headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';\n\t\t';
-        headerDef << 'static _${field.cf.name}_methodPtr_T _get_${field.cf.name}_methodPtr() { return &${nativeUe.getCppClass()}::$name; }\n';
+        if (!field.type.isStatic()) {
+          headerDef << 'public:\n\t\t';
+          headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';\n\t\t';
+          headerDef << 'static _${field.cf.name}_methodPtr_T _get_${field.cf.name}_methodPtr() { return &${nativeUe.getCppClass()}::$name; }\n';
+        }
 
         cppDef << '{\n\t';
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
