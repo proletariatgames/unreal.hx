@@ -5,4 +5,7 @@ extern class APawn_Extra {
 
   /** Tell client that the Pawn is begin restarted. Calls Restart(). */
   public function PawnClientRestart() : Void;
+
+  /** Allows a Pawn to set up custom input bindings. Called upon possession by a PlayerController, using the InputComponent created by CreatePlayerInputComponent(). */
+  private function SetupPlayerInputComponent(inInputComponent:UInputComponent) : Void;
 }
