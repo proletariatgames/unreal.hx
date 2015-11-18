@@ -3,10 +3,10 @@ package unreal;
 import unreal.UObject;
 import unreal.Wrapper;
 
+@:access(unreal.Wrapper)
+@:access(unreal.UObject.wrapped)
 class CoreAPI {
 
-  @:access(unreal.Wrapper.wrapped)
-  @:access(unreal.UObject.wrapped)
   public static function pointerEquals(a:Dynamic, b:Dynamic) : Bool {
     if ((a == null) && (b == null)) {
       return true;
@@ -24,8 +24,6 @@ class CoreAPI {
     return a == b;
   }
 
-  @:access(unreal.Wrapper)
-  @:access(unreal.UObject.wrapped)
   public static function equals(a:Dynamic, b:Dynamic) : Bool {
     if ((a == null) && (b == null)) {
       return true;
@@ -42,5 +40,13 @@ class CoreAPI {
       return uobjectA.wrapped == ubojectB.wrapped;
     }
     return a == b;
+  }
+
+  inline public static function copy<T : Wrapper>(type:T):PHaxeCreated<T> {
+    return cast type._copy();
+  }
+
+  inline public static function copyStruct<T : Wrapper>(type:T):T {
+    return cast type._copyStruct();
   }
 }
