@@ -73,8 +73,8 @@ class UExtensionBuild {
           uprops = [];
 
       for (field in clt.statics.get()) {
-        if (field.meta.has(':uproperty')) {
-          uprops.push(field);
+        if (field.meta.has(':uproperty') || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+          uprops.push({ field:field, isStatic: true });
         } else if (shouldExpose(field)) {
           toExpose[field.name] = getMethodDef(field, Static);
         }
@@ -83,8 +83,8 @@ class UExtensionBuild {
       var nativeMethods = collectNativeMethods(clt),
           haxeMethods = collectHaxeMethods(clt);
       for (field in clt.fields.get()) {
-        if (field.meta.has(':uproperty')) {
-          uprops.push(field);
+        if (field.meta.has(':uproperty') || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+          uprops.push({ field:field, isStatic: false });
 
           // We also need to expose any functions that are used for custom replication conditions
           var repType = MacroHelpers.extractStrings(field.meta, ':ureplicate')[0];
@@ -278,10 +278,13 @@ class UExtensionBuild {
       // add createHaxeWrapper
       {
         var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
+        var cppCode = '';
         var glueHeaderIncs = new Map(),
             glueCppIncs = new Map(),
             headerForwards = new Map();
-        for (uprop in uprops) {
+        for (upropDef in uprops) {
+          var uprop = upropDef.field,
+              isStatic = upropDef.isStatic;
           var uname = getUName(uprop);
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
@@ -292,43 +295,53 @@ class UExtensionBuild {
           // should go away.
           data.add('public:\n\t\t');
 
-          data.add('UPROPERTY(');
-          var first = true;
-          for (meta in uprop.meta.extract(':uproperty')) {
-            if (meta.params != null) {
-              for (param in meta.params) {
-                if (first) first = false; else data.add(', ');
-                data.add(param.toString().replace('[','(').replace(']',')'));
+          if (uprop.meta.has(':uproperty')) {
+            data.add('UPROPERTY(');
+            var first = true;
+            for (meta in uprop.meta.extract(':uproperty')) {
+              if (meta.params != null) {
+                for (param in meta.params) {
+                  if (first) first = false; else data.add(', ');
+                  data.add(param.toString().replace('[','(').replace(']',')'));
+                }
               }
             }
-          }
 
-          if (uprop.meta.has(":ureplicate")) {
-            if (first) first = false; else data.add(', ');
+            if (uprop.meta.has(":ureplicate")) {
+              if (first) first = false; else data.add(', ');
 
-            var fnName = 'onRep_$uname';
-            var replicateFn = clt.fields.get().find(function(fld) {
-              return switch (fld.type) {
-                case TFun(_): fld.name == fnName;
-                default: false;
+              var fnName = 'onRep_$uname';
+              var replicateFn = clt.fields.get().find(function(fld) {
+                return switch (fld.type) {
+                  case TFun(_): fld.name == fnName;
+                  default: false;
+                }
+              });
+
+              if (replicateFn != null) {
+                if (!replicateFn.meta.has(":ufunction")) {
+                  throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
+                }
+                data.add('ReplicatedUsing=$fnName');
+              } else {
+                data.add('Replicated');
               }
-            });
 
-            if (replicateFn != null) {
-              if (!replicateFn.meta.has(":ufunction")) {
-                throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
-              }
-              data.add('ReplicatedUsing=$fnName');
-            } else {
-              data.add('Replicated');
+              var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
+              replicatedProps[uprop] = repType;
+              hasReplicatedProperties = true;
             }
 
-            var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
-            replicatedProps[uprop] = repType;
-            hasReplicatedProperties = true;
+            headerCode += data + ')\n\t\t';
           }
+          if (isStatic) {
+            if (!tconv.isUObject) {
+              throw new Error('Unreal Extension: @:uexpose on static properties must be of a uobject-derived type', uprop.pos);
+            }
 
-          headerCode += data + ')\n\t\t';
+            headerCode += 'static ';
+            cppCode += tconv.ueType.getCppType(null) + ' ' + thisConv.ueType.getCppClass() + '::' + uname + ' = nullptr;\n';
+          }
           headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\n\t\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
           switch (tconv.forwardDeclType) {
@@ -351,7 +364,7 @@ class UExtensionBuild {
         }
 
         // Implement GetLifetimeReplicatedProps
-        var cppCode = 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
+        cppCode += 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
         if (hasReplicatedProperties) {
           var hasCustomReplications = false;
           var customReplications = new Map();

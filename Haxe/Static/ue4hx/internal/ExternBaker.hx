@@ -761,10 +761,6 @@ class ExternBaker {
   }
 
   public function processMethodDef(meth:MethodDef, isInterface:Bool) {
-    // var thisConv = this.thisConv;
-    // if (meth.specialization != null && meth.specialization.mtypes.length > 0) {
-    //   thisConv = TypeConv.get( this.type.applyTypeParameters( meth., meth.specialization.mtypes ), this.pos );
-    // }
     var hasParams = meth.params != null && meth.params.length > 0;
     var ctx = meth.prop != NonProp && !meth.isStatic && !this.thisConv.isUObject ? [ "parent" => "this" ] : null;
     var isStatic = meth.isStatic;
@@ -884,9 +880,10 @@ class ExternBaker {
       params << '>';
       declParams = params;
     } else if (meth.specialization != null && this.params.length == 0) {
+      var useTypeName = meth.meta != null && meth.meta.hasMeta(':typeName');
       params << '<';
       params.mapJoin(meth.specialization.types, function (tconv) return {
-        if (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct')
+        if (useTypeName || (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct'))
           tconv.ueType.getCppClassName();
         else
           tconv.ueType.getCppType().toString();
@@ -904,8 +901,8 @@ class ExternBaker {
       for (arg in cppArgs) {
         if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
           var prefixedArgName = argPrefix + arg.name;
-          cppBodyVars << 'PtrHelper<${arg.t.ueType.getCppType()}> ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, ctx)};\n\t\t\t';
-          cppArgTypes.push('*(${prefixedArgName}_t.ptr)');
+          cppBodyVars << 'auto ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, ctx)};\n\t\t\t';
+          cppArgTypes.push('*(${prefixedArgName}_t.getPointer())');
         } else {
           cppArgTypes.push(arg.t.glueToUe(argPrefix+doEscapeName(arg.name), ctx));
         }
