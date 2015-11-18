@@ -21,4 +21,16 @@ extern class FVector_Extra {
   public var X:Float32;
   public var Y:Float32;
   public var Z:Float32;
+
+  @:global
+  public static var ZeroVector : FVector;
+
+  @:global
+  public static var UpVector : FVector;
+
+  @:global
+  public static var ForwardVector : FVector;  
+
+  @:global
+  public static var RightVector : FVector;  
 }
