@@ -33,6 +33,14 @@ extern class UWorld_Extra {
   public function GetTimeSeconds() : Float32;
 
   /**
+   * Returns the frame delta time in seconds adjusted by e.g. time dilation.
+   *
+   * @return frame delta time in seconds adjusted by e.g. time dilation
+   */
+  @:thisConst
+  public function GetDeltaSeconds() : Float32;
+
+  /**
    *  Trace a ray against the world using a specific channel and return the first blocking hit
    *  @param  OutHit          First blocking hit found
    *  @param  Start           Start location of the ray
