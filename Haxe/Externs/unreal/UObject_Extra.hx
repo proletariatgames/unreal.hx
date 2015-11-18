@@ -37,6 +37,8 @@ extern class UObject_Extra {
    **/
   @:thisConst public function IsPostLoadThreadSafe():Bool;
 
+  public function BeginDestroy() : Void;
+
   /**
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
    **/

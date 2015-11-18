@@ -8,6 +8,14 @@ extern class UGameUserSettings_Extra {
 
   public function SetToDefaults() : Void;
 
+  public function GetFullscreenMode() : EWindowMode;
+  public function GetLastConfirmedFullscreenMode() : EWindowMode;
+  public function SetFullscreenMode(In:EWindowMode) : Void;
+
+  public function GetScreenResolution() : FIntPoint;
+  public function GetLastConfirmedScreenResolution() : FIntPoint;
+  public function SetScreenResolution(Resolution:FIntPoint) : Void;
+
   /**
     Cached for the UI, current state if stored in console variables
    **/

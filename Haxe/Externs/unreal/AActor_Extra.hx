@@ -25,9 +25,14 @@ extern class AActor_Extra {
   @:thisConst
   public function GetRootComponent() : USceneComponent;
 
+  @:thisConst
+  public function GetWorldSettings() : AWorldSettings;
+
 	/** Get the timer instance from the actors world */
 	@:thisConst
   public function GetWorldTimerManager() : PRef<FTimerManager>;
+
+  @:thisConst public function GetActorLocation() : FVector;
 
   public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
 }

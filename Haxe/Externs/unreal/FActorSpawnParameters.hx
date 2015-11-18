@@ -1,6 +1,6 @@
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Engine/World.h")
 @:uextern extern class FActorSpawnParameters
 {
   @:uname("new")
