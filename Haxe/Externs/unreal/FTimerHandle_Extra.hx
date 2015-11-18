@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasEquals
 extern class FTimerHandle_Extra
 {
   @:uname("new")
@@ -7,6 +8,5 @@ extern class FTimerHandle_Extra
 
   @:thisConst function IsValid() : Bool;
   function Invalidate() : Void;
-  function MakeValid() : Void;
   function ToString() : FString;
 }

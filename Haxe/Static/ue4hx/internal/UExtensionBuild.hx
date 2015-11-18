@@ -7,6 +7,7 @@ import haxe.macro.Type;
 
 using Lambda;
 using haxe.macro.Tools;
+using haxe.macro.ExprTools;
 using StringTools;
 
 /**
@@ -511,6 +512,22 @@ class UExtensionBuild {
     headerDef.add('\t\tstatic void *getHaxePointer(void *inUObject) {\n');
       headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
+    var objectInit = new HelperBuf() << 'ObjectInitializer';
+    for (fld in clt.meta.extract(':uoverrideSubobject')) {
+      if (fld.params == null || fld.params.length != 2) {
+        throw new Error(':uoverrideSubobject requires two parameters: the name of the component, and the override type', clt.pos);
+      }
+      var overrideName = switch (fld.params[0].expr) {
+      case EConst(CIdent(s)) | EConst(CString(s)): s;
+      default: throw new Error('@:uoverrideSubobject first parameter should be the name of the component to override', clt.pos);
+      }
+
+      var overrideType = Context.getType(fld.params[1].toString());
+      var overrideTypeConv = TypeConv.get(overrideType, clt.pos, 'unreal.PStruct');
+      overrideTypeConv.getAllCppIncludes(includes);
+      objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>("$overrideName")';
+    }
+
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
     ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper($ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
@@ -521,14 +538,8 @@ class UExtensionBuild {
 
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
-      if (clt.meta.has(':noDefaultConstructor')) {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) {$ctorBody}\n');
-      } else {
-        headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) {$ctorBody}\n');
-      }
-    } else {
-      headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName(ObjectInitializer) {$ctorBody}\n');
     }
+    headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
