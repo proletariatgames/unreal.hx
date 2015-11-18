@@ -33,4 +33,6 @@ extern class AActor_Extra {
   public function GetWorldTimerManager() : PRef<FTimerManager>;
 
   @:thisConst public function GetActorLocation() : FVector;
+
+  public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
 }
