@@ -11,33 +11,35 @@
   #define SUPPORTS_C11
 #endif
 
-#ifdef SUPPORTS_C11
-  // This is unecessary on the Haxe side
-  #include <type_traits>
-#endif
-
 #include "hxcpp.h"
 
-// PtrHelper for objects that are stored on the stack
+template<typename T, typename=void> struct PtrMaker;
+
+#ifdef SUPPORTS_C11
+  #include "TypeParamGlue_UE.h"
+#endif
+
+// Wrapper for objects that are passed by-value.
 template<typename T>
 struct HAXERUNTIME_API PtrHelper_Stack {
   T val;
   PtrHelper_Stack(const T& inVal) : val(inVal) {
   }
 #ifdef SUPPORTS_C11
+  PtrHelper_Stack(T&& inVal) : val(std::move(inVal)) {
+  }
   PtrHelper_Stack(PtrHelper_Stack&& mv) : val(std::move(mv.val)) {
   }
 #endif
   PtrHelper_Stack(const PtrHelper_Stack& rhs) : val(rhs.val) {
   }
 
-
-  T* getPointer() {
+  inline T* getPointer() {
     return &val;
   }
 };
 
-// PtrHelper for objects that are stored by reference
+// Wrapper for objects that are passed by-reference.
 template<typename T>
 struct HAXERUNTIME_API PtrHelper_Ptr {
   T* ptr;
@@ -52,13 +54,13 @@ struct HAXERUNTIME_API PtrHelper_Ptr {
   PtrHelper_Ptr(const PtrHelper_Ptr& rhs) : ptr(rhs.ptr) {
   }
 
-  T* getPointer() {
+  inline T* getPointer() {
     return ptr;
   }
 };
 
 // Default PtrMaker assumes pass-by-ref
-template<typename T, typename=void>
+template<typename T, typename EnumEnabler>
 struct PtrMaker {
   typedef PtrHelper_Ptr<T> Type;
 };
@@ -68,46 +70,6 @@ template<typename T>
 struct PtrMaker<T*> {
   typedef PtrHelper_Stack<T*> Type;
 };
-
-#ifdef SUPPORTS_C11
-  // Enums always passed by-val
-  template<typename T>
-  struct PtrMaker<T, typename std::enable_if<std::is_enum<T>::value>::type> {
-    typedef PtrHelper_Stack<T> Type;
-  };
-
-  // forward declarations for smart pointers
-  enum class ESPMode;
-  template<class ObjectType, ESPMode Mode> class TSharedRef;
-  template<class ObjectType, ESPMode Mode> class TSharedPtr;
-  template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
-  template<class T> class TAutoWeakObjectPtr;
-  template<class TClass> class TSubclassOf;
-
-  // Smart pointers are passed by-val
-  template<typename T, ESPMode Mode>
-  struct PtrMaker<TSharedPtr<T, Mode>> {
-    typedef PtrHelper_Stack<TSharedPtr<T,Mode>> Type;
-  };
-  template<typename T, ESPMode Mode>
-  struct PtrMaker<TSharedRef<T, Mode>> {
-    typedef PtrHelper_Stack<TSharedRef<T,Mode>> Type;
-  };
-  template<typename T, typename Base>
-  struct PtrMaker<TWeakObjectPtr<T,Base>> {
-    typedef PtrHelper_Stack<TWeakObjectPtr<T,Base>> Type;
-  };
-  template<typename T>
-  struct PtrMaker<TAutoWeakObjectPtr<T>> {
-    typedef PtrHelper_Stack<TAutoWeakObjectPtr<T>> Type;
-  };
-
-  // TSubclassOf passed by-val
-  template<class T>
-  struct PtrMaker<TSubclassOf<T>> {
-    typedef PtrHelper_Stack<TSubclassOf<T>> Type;
-  };
-#endif // !hxcpp
 
 // Basic types are passed by-val
 #define BASIC_TYPE(TYPE) \
