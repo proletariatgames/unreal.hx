@@ -513,7 +513,7 @@ class UExtensionBuild {
       headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
-    var useObjInitializer = !clt.meta.has(':noDefaultConstructor');
+    var useObjInitializer = clt.meta.has(':noDefaultConstructor');
     for (fld in clt.meta.extract(':uoverrideSubobject')) {
       useObjInitializer = true;
       if (fld.params == null || fld.params.length != 2) {
