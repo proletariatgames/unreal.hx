@@ -409,6 +409,7 @@ using StringTools;
 
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
       ret.ueToGlueExpr = '( (UClass *) % )';
+      ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     } else if (name == 'unreal.MethodPointer') {
       if (args.length != 2) {
@@ -472,6 +473,7 @@ using StringTools;
 
       ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
       ret.ueToGlueExpr = '( %.Get() )';
+      ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     }
 
