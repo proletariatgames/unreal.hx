@@ -241,8 +241,21 @@ class TypeRef
     newPack.unshift('__pvt');
     var buf = this.getReducedPath();
     buf.add('_TypeParam');
+    var ret = buf.toString();
+    if (ret.length > 50) {
+      var sig = haxe.crypto.Md5.encode(ret).substr(0,6);
+      ret = this.getLastName() + '_TypeParam_' + sig;
+    }
 
-    return new TypeRef(newPack, buf.toString());
+    return new TypeRef(newPack, ret);
+  }
+
+  public function getLastName():String {
+    if (this.params.length == 0) {
+      return this.name;
+    } else {
+      return this.params[0].getLastName();
+    }
   }
 
   public function getReducedPath(?buf:StringBuf):StringBuf {
