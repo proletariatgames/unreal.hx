@@ -80,8 +80,8 @@ struct PtrMaker<T*> {
 
 BASIC_TYPE(bool);
 BASIC_TYPE(::cpp::UInt32);
-BASIC_TYPE(::cpp::UInt64);
-BASIC_TYPE(::cpp::Int64);
+BASIC_TYPE(unsigned long long int);
+BASIC_TYPE(long long int);
 BASIC_TYPE(::cpp::Float32);
 BASIC_TYPE(::cpp::Float64);
 BASIC_TYPE(::cpp::Int16);
