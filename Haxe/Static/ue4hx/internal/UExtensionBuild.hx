@@ -513,7 +513,9 @@ class UExtensionBuild {
       headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
+    var useObjInitializer = !clt.meta.has(':noDefaultConstructor');
     for (fld in clt.meta.extract(':uoverrideSubobject')) {
+      useObjInitializer = true;
       if (fld.params == null || fld.params.length != 2) {
         throw new Error(':uoverrideSubobject requires two parameters: the name of the component, and the override type', clt.pos);
       }
@@ -538,7 +540,7 @@ class UExtensionBuild {
 
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
-      if (clt.meta.has(':noDefaultConstructor')) {
+      if (useObjInitializer) {
         headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
       } else {
         headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) {$ctorBody}\n');
