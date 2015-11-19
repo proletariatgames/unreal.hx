@@ -19,12 +19,14 @@ class CppWriter extends BaseWriter {
     cpp << '#ifdef __clang__\n#pragma clang diagnostic push\n' +
       '#pragma clang diagnostic ignored "-Wdeprecated-declarations"\n' +
       '#endif\n';
+    cpp << '#ifdef _MSVC_VER\n#pragma warning( disable : 4996 )\n#endif\n';
 
     cpp << '\n' <<
       bufContents;
 
     cpp << '#ifdef __clang__\n#pragma clang diagnostic pop\n' +
       '#endif\n';
+    cpp << '#ifdef _MSVC_VER\n#pragma warning( default : 4996 )\n#endif\n';
 
     return cpp.toString();
   }
