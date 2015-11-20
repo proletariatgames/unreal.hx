@@ -21,6 +21,7 @@ class NeedsGlueBuild
     var localClass = Context.getLocalClass(),
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
+    addOperators(localClass.toString(), cls, thisType);
 
     if (Globals.cur.gluesTouched.exists(localClass.toString()))
       return null;
@@ -298,6 +299,89 @@ class NeedsGlueBuild
     }
 
     return null;
+  }
+
+  static function addOperators(name:String, cls:ClassType, thisType:TypeRef) {
+    var startNamespaces = new StringBuf();
+    var endNamespaces = new StringBuf();
+    var getPointer = null;
+    var scls = cls.superClass;
+    while (scls != null) {
+      if (scls.t.toString() == 'unreal.Wrapper') {
+        getPointer = '->ptr->getPointer()';
+        break;
+      } else if (scls.t.toString() == 'unreal.UObject') {
+        getPointer = '';
+        break;
+      } else {
+        scls = scls.t.get().superClass;
+      }
+    }
+    for (ns in cls.pack) {
+      startNamespaces.add('namespace $ns {');
+      endNamespaces.add('} // namespace $ns\n');
+    }
+    var prelude = '';
+    if (name == 'unreal.UObject') {
+      getPointer = '';
+      prelude = '
+       int __Compare(const hx::Object *inRHS) const
+       {
+          const UObject_obj *other = dynamic_cast<const UObject_obj *>(inRHS);
+          if (!other)
+             return -1;
+          return (wrapped == other->wrapped) ? 0 : -1;
+       }
+      ';
+    } else if (name == 'unreal.Wrapper') {
+      getPointer = '->ptr->getPointer()';
+      prelude = '
+       int __Compare(const hx::Object *inRHS) const
+       {
+          const Wrapper_obj *other = dynamic_cast<const Wrapper_obj *>(inRHS);
+          if (!other)
+             return -1;
+          return (const_cast<Wrapper_obj *>(this)->wrapped->ptr->getPointer() == const_cast<Wrapper_obj *>(other)->wrapped->ptr->getPointer()) ? 0 : -1;
+       }
+      ';
+    }
+    if (getPointer != null) {
+      var noParams = thisType.withParams([]);
+      cls.meta.add(':headerClassCode', [macro $v{'
+$prelude
+      }; // class definition
+      $endNamespaces
+        template<>
+        template<typename T>
+        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator==(const T &inTRHS) const {
+          ObjectPtr inRHS(inTRHS.mPtr,false);
+          if (mPtr==inRHS.mPtr) return true;
+          if (!mPtr || !inRHS.mPtr) return false;
+          if (!mPtr->__compare(inRHS.mPtr))
+            return true;
+
+          ${noParams.getCppClass()} obj = inRHS;
+          if (!obj.mPtr) return false;
+          return mPtr->wrapped$getPointer == obj.mPtr->wrapped$getPointer;
+        }
+
+        template<>
+        template<typename T>
+        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator!=(const T &inTRHS) const {
+          ObjectPtr inRHS(inTRHS.mPtr,false);
+          if (mPtr==inRHS.mPtr) return false;
+          if (!mPtr || !inRHS.mPtr) return true;
+          if (!mPtr->__compare(inRHS.mPtr))
+            return false;
+
+          ${noParams.getCppClass()} obj = inRHS;
+          if (!obj.mPtr) return false;
+          return mPtr->wrapped$getPointer != obj.mPtr->wrapped$getPointer;
+        }
+        $startNamespaces
+        namespace dummy {
+      '}], cls.pos);
+    }
   }
 
   static function checkBuildVersionLevel() {
