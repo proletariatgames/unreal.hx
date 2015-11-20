@@ -345,8 +345,8 @@ class NeedsGlueBuild
        }
       ';
     }
+    var noParams = thisType.withParams([]);
     if (getPointer != null) {
-      var noParams = thisType.withParams([]);
       cls.meta.add(':headerClassCode', [macro $v{'
 $prelude
       }; // class definition
@@ -377,6 +377,36 @@ $prelude
           ${noParams.getCppClass()} obj = inRHS;
           if (!obj.mPtr) return false;
           return mPtr->wrapped$getPointer != obj.mPtr->wrapped$getPointer;
+        }
+        $startNamespaces
+        namespace dummy {
+      '}], cls.pos);
+    } else if (cls.isInterface) {
+      cls.meta.add(':headerClassCode', [macro $v{'
+      }; // class definition
+      $endNamespaces
+        template<>
+        template<typename T>
+        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator==(const T &inTRHS) const {
+          ObjectPtr inRHS(inTRHS.mPtr,false);
+          if (mPtr==inRHS.mPtr) return true;
+          if (!mPtr || !inRHS.mPtr) return false;
+          if (!mPtr->__compare(inRHS.mPtr))
+            return true;
+
+          return !mPtr->__GetRealObject()->__Compare(inRHS.mPtr->__GetRealObject());
+        }
+
+        template<>
+        template<typename T>
+        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator!=(const T &inTRHS) const {
+          ObjectPtr inRHS(inTRHS.mPtr,false);
+          if (mPtr==inRHS.mPtr) return false;
+          if (!mPtr || !inRHS.mPtr) return true;
+          if (!mPtr->__compare(inRHS.mPtr))
+            return false;
+
+          return mPtr->__GetRealObject()->__Compare(inRHS.mPtr->__GetRealObject());
         }
         $startNamespaces
         namespace dummy {
