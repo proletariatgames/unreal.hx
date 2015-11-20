@@ -8,7 +8,7 @@ extern class UEngine_Extra {
    */
   public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
 
-  public function OnTravelFailure() : FOnTravelFailure;
+  public function OnTravelFailure() : PRef<FOnTravelFailure>;
 
   public var TravelFailureEvent : FOnTravelFailure;
   /**
