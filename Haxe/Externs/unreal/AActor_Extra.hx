@@ -30,7 +30,6 @@ extern class AActor_Extra {
    */
   public function TakeDamage(DamageAmount:Float32, DamageEvent:Const<PRef<FDamageEvent>>,EventInstigator:AController, DamageCauser:AActor) : Float32;
 
-
   /** Returns this actor's root component. */
   @:thisConst
   public function GetRootComponent() : USceneComponent;
@@ -53,4 +52,28 @@ extern class AActor_Extra {
   public function GetWorldTimerManager() : PRef<FTimerManager>;
 
   public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
+
+  public function TornOff() : Void;
+
+  // TODO glue when we can properly handle const UDamageType& extern.
+  /** called when the actor falls out of the world 'safely' (below KillZ and such) */
+  public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
+
+  /** 
+   * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
+   * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
+   * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
+   *
+   * @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
+   * @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
+   * will be adjusted to indicate force from the other object against this object.
+   */
+  public function NotifyHit(MyComp:UPrimitiveComponent,
+    Other:AActor,
+    OtherComp:UPrimitiveComponent,
+    bSelfMoved:Bool,
+    HitLocation:FVector,
+    HitNormal:FVector,
+    NormalImpulse:FVector,
+    Hit:Const<PRef<FHitResult>>) : Void;
 }
