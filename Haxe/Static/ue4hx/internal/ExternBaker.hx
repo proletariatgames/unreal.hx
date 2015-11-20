@@ -610,6 +610,18 @@ class ExternBaker {
             isFinal: false, isHaxePublic:false, isStatic:false, isOverride: true, isPublic: true
           });
         }
+        // add setFinalizer for debugging purposes
+        this.newline();
+        this.buf.add('override private function setFinalizer() { cpp.vm.Gc.setFinalizer((this : unreal.Wrapper), cpp.Callable.fromStaticFunction(disposeUEPointer)); }');
+        this.newline();
+
+        this.buf.add('@:void @:unreflective static function disposeUEPointer(wrapper:unreal.Wrapper):Void ');
+        this.begin('{');
+        this.buf.add('if (!wrapper.disposed)');
+        this.begin('{');
+        this.buf.add('wrapper.wrapped.destroy();');
+        this.end('}');
+        this.end('}');
       }
 
     for (meth in methods)

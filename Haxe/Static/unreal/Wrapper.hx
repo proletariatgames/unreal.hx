@@ -12,6 +12,10 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   private function new(wrapped:cpp.Pointer<UEPointer>, ?parent:Dynamic) {
     this.wrapped = wrapped;
     this.parent = parent;
+    setFinalizer();
+  }
+
+  private function setFinalizer() {
     cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
   }
 
@@ -76,6 +80,8 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   }
 
   @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
-    wrapper.wrapped.destroy();
+    if (!wrapper.disposed) {
+      wrapper.wrapped.destroy();
+    }
   }
 }
