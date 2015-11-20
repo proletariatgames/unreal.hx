@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <utility>
 
-#if __cplusplus > 199711L
+#if __cplusplus > 199711L || __UNREAL__
   #define SUPPORTS_C11
 #endif
 
@@ -74,14 +74,14 @@ struct PtrMaker<T*> {
 // Basic types are passed by-val
 #define BASIC_TYPE(TYPE) \
   template<> \
-  struct PtrMaker<TYPE> { \
-    typedef PtrHelper_Stack<TYPE> Type; \
+  struct PtrMaker< TYPE > { \
+    typedef PtrHelper_Stack< TYPE > Type; \
   }
 
 BASIC_TYPE(bool);
 BASIC_TYPE(::cpp::UInt32);
-BASIC_TYPE(::cpp::UInt64);
-BASIC_TYPE(::cpp::Int64);
+BASIC_TYPE(unsigned long long int);
+BASIC_TYPE(long long int);
 BASIC_TYPE(::cpp::Float32);
 BASIC_TYPE(::cpp::Float64);
 BASIC_TYPE(::cpp::Int16);

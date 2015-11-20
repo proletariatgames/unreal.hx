@@ -388,6 +388,9 @@ using StringTools;
         ofType.ueType.params[0];
       else
         ofType.ueType;
+      if (ofType.isInterface) {
+        ueType = new TypeRef(ueType.pack, "U" + ueType.name.substr(1), ueType.params);
+      }
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.haxeType = new TypeRef(['unreal'], 'TSubclassOf', [ofType.haxeType]);
       ret.glueCppIncludes.push("UObject/ObjectBase.h");
@@ -409,6 +412,7 @@ using StringTools;
 
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
       ret.ueToGlueExpr = '( (UClass *) % )';
+      ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     } else if (name == 'unreal.MethodPointer') {
       if (args.length != 2) {
@@ -472,6 +476,7 @@ using StringTools;
 
       ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
       ret.ueToGlueExpr = '( %.Get() )';
+      ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     }
 
@@ -546,6 +551,7 @@ using StringTools;
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
           ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
           ret.glueCppIncludes.push('Templates/Casts.h');
+          ret.isInterface = true;
         }
 
         if (modf == 'unreal.PRef') {
@@ -1039,6 +1045,7 @@ typedef TypeConvInfo = {
 
   @:optional public var isTypeParam:Bool;
   @:optional public var isFunction:Bool;
+  @:optional public var isInterface:Bool;
   @:optional public var functionArgs:Array<TypeConvInfo>;
   @:optional public var functionRet:TypeConvInfo;
 

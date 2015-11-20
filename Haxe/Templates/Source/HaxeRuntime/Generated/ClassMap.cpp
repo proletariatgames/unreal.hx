@@ -18,7 +18,7 @@ void *::unreal::helpers::ClassMap_obj::wrap(void *inUObject) {
   if (inUObject == nullptr) return nullptr;
   UObject *obj = (UObject *) inUObject;
   UClass *cls = obj->GetClass();
-  auto map = getClassMap();
+  auto& map = getClassMap();
   while (cls != nullptr) {
     if (cls->HasAllClassFlags(CLASS_Native)) {
       auto it = map.find(cls);
