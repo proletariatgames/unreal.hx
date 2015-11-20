@@ -18,6 +18,7 @@ package unreal;
   public function RemoveAt(Index:Int32, Count:Int32, bAllowShrinking:Bool):Void;
   public function Num():Int;
   public function Empty():Void;
+  public function Reset():Void;
 
   @:uname('new') static function create<T>():PHaxeCreated<TArray<T>>;
   @:uname('new') static function copyCreate<T>(Other:Const<PRef<TArray<T>>>):PHaxeCreated<TArray<T>>;
