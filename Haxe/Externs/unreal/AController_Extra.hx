@@ -8,4 +8,6 @@ extern class AController_Extra {
 
   @:thisConst
   public function GetPawn() : APawn;
+
+  public function ChangeState(newState:FName) : Void;
 }
