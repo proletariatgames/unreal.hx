@@ -10,5 +10,5 @@ extern class FTransform_Extra {
    * @param InScale3D The value to use for the scale component
    */
   @:uname('new') 
-  public function createRotatorTranslation(InRotation:Const<PRef<FRotator>>, const FVector& InTranslation:Const<PRef<FVector>>);
+  public static function createRotatorTranslation(InRotation:Const<PRef<FRotator>>, InTranslation:Const<PRef<FVector>>) : PHaxeCreated<FTransform>;
 }
