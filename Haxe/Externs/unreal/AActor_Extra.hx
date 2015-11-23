@@ -57,7 +57,7 @@ extern class AActor_Extra {
 
   // TODO glue when we can properly handle const UDamageType& extern.
   /** called when the actor falls out of the world 'safely' (below KillZ and such) */
-  public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
+  // public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
 
   /** 
    * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
@@ -76,4 +76,10 @@ extern class AActor_Extra {
     HitNormal:FVector,
     NormalImpulse:FVector,
     Hit:Const<PRef<FHitResult>>) : Void;
+
+  public function GetNetMode() : ENetMode;
+
+  /** Get the local-to-world transform of the RootComponent. Identical to GetTransform(). */
+  @:thisConst
+  public function ActorToWorld() : FTransform;
 }

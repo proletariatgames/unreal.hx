@@ -11,4 +11,7 @@ extern class FTransform_Extra {
    */
   @:uname('new') 
   public static function createRotatorTranslation(InRotation:Const<PRef<FRotator>>, InTranslation:Const<PRef<FVector>>) : PHaxeCreated<FTransform>;
+
+  @:thisConst
+  public function InverseTransformVectorNoScale(v:Const<PRef<FVector>>) : FVector;
 }
