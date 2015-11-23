@@ -931,11 +931,20 @@ class ExternBaker {
       return cppArgTypes;
     }
 
+    // is this an Unreal Ptr type?
+    function isUnrealPtrType(haxeName:String) : Bool {
+      if (haxeName == 'TWeakObjectPtr'
+        || haxeName == 'TAutoWeakObjectPtr') {
+        return true;
+      }
+      return false;
+    }
+
     //
     function genMethodCallArgs(body:String, meth:MethodDef, op:String, glueRet:TypeConv, cppArgs:Array<{ name:String, t:TypeConv }>, cppArgTypes:Array<String>) : String {
       if (meth.prop == StructProp && !isSetter) {
         body = '&' + body;
-      } else if (meth.prop == Prop && !isSetter && meth.ret.isUObject == true && meth.ret.haxeType.name != 'TSubclassOf') {
+      } else if (meth.prop == Prop && !isSetter && meth.ret.isUObject == true && meth.ret.haxeType.name != 'TSubclassOf' && !isUnrealPtrType(meth.ret.haxeType.name)) {
         body = 'const_cast< ${meth.ret.ueType.getCppType()} >( $body )';
       }
 
