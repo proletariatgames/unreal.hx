@@ -68,6 +68,7 @@ class NativeGlueCode
     }
     writer.buf.add('class ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
     writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
+    writer.buf.add('\t\tUEProxyPointer *rewrap(UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 
@@ -112,7 +113,7 @@ class NativeGlueCode
       var ext = '';
       if (cl.meta.has(':ueTemplate')) {
         ext = ' : public ::unreal::helpers::UEProxyPointer ';
-        ctor = '${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ::unreal::helpers::UEProxyPointer(ptr) {}';
+        ctor = '${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ::unreal::helpers::UEProxyPointer(ptr) {}\n';
       }
       writer.buf.add('class ${glueName}_obj $ext{\n\tpublic:\n');
       if (ctor != null)
