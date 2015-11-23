@@ -53,7 +53,7 @@ extern class UWorld_Extra {
   @:thisConst
   public function LineTraceSingleByChannel(OutHit:PRef<FHitResult>,Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
 
-  @:typename public function SpawnActorDeferred<T>(
+  @:typeName public function SpawnActorDeferred<T>(
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
     owner:AActor,
