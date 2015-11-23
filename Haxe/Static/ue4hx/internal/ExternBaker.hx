@@ -718,6 +718,17 @@ class ExternBaker {
       this.newline();
     case FMethod(k):
       switch(Context.follow(field.type)) {
+      case TFun(args,ret) if (field.meta.has(':expr')):
+        this.addDoc(field.doc);
+        this.buf.add( field.isPublic ? 'public function ' : 'private function ' );
+        this.buf.add(field.name);
+        this.buf.add('(');
+        this.buf.mapJoin(args, function(arg) return (arg.opt ? '?' : '') + arg.name + ' : ' + arg.t.toString());
+        this.buf.add(') : ');
+        this.buf.add(ret.toString());
+        var expr = field.meta.extract(':expr')[0].params[0];
+        this.buf.add({ expr:EBlock([expr]), pos:expr.pos }.toString());
+        this.newline();
       case TFun(args,ret):
         var cur = null;
         var args = args;
