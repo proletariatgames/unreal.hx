@@ -270,6 +270,9 @@ class ExternBaker {
 
     var methods = [];
     for (generic in generics) {
+      if (generic.field.meta.has(':expr')) {
+        continue;
+      }
       // exclude the generic base field
       for (impl in generic.impls) {
         impl.meta.remove(':glueCppCode');
@@ -722,10 +725,26 @@ class ExternBaker {
         this.addDoc(field.doc);
         this.buf.add( field.isPublic ? 'public function ' : 'private function ' );
         this.buf.add(field.name);
+        if (field.params.length > 0) {
+          this.buf.add('<');
+          this.buf.mapJoin(field.params, function(p) return p.name);
+          this.buf.add('>');
+        }
+
+        inline function typeToString(t:Type) {
+          try {
+            // this will correctly deal with type params and types that were defined in modules
+            return TypeRef.fromType(t, field.pos).toString();
+          } catch(e:Dynamic) {
+            // unsupported type - like function types
+            return t.toString();
+          }
+        }
+
         this.buf.add('(');
-        this.buf.mapJoin(args, function(arg) return (arg.opt ? '?' : '') + arg.name + ' : ' + arg.t.toString());
+        this.buf.mapJoin(args, function(arg) return (arg.opt ? '?' : '') + arg.name + ' : ' + typeToString(arg.t));
         this.buf.add(') : ');
-        this.buf.add(ret.toString());
+        this.buf.add(typeToString(ret));
         var expr = field.meta.extract(':expr')[0].params[0];
         this.buf.add({ expr:EBlock([expr]), pos:expr.pos }.toString());
         this.newline();
