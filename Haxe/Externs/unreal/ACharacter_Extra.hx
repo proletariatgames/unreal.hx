@@ -14,7 +14,7 @@ extern class ACharacter_Extra {
 
   public function CheckJumpInput(deltaSeconds:Float32) : Void;
 
-  public function CanJumpInternal_Implementation() : Bool;
+  private function CanJumpInternal_Implementation() : Bool;
 
   /** Name of the CharacterMovement component. Use this name if you want to use a different class (with ObjectInitializer.SetDefaultSubobjectClass). */
   public static var CharacterMovementComponentName : FName;
