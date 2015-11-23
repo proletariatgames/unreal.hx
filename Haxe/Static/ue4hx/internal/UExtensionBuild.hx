@@ -203,7 +203,7 @@ class UExtensionBuild {
         if (!field.type.isStatic()) {
           headerDef << 'public:\n\t\t';
           headerDef << 'typedef $ret (${nativeUe.getCppClass()}::*_${field.cf.name}_methodPtr_T)(' << args << (thisConst ? ' const' : '') << ';\n\t\t';
-          headerDef << 'static _${field.cf.name}_methodPtr_T _get_${field.cf.name}_methodPtr() { return &${nativeUe.getCppClass()}::$name; }\n';
+          headerDef << 'static const _${field.cf.name}_methodPtr_T& _get_${field.cf.name}_methodPtr() { static auto Fn = &${nativeUe.getCppClass()}::$name; return Fn; }\n';
         }
 
         cppDef << '{\n\t';
