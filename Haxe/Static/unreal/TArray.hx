@@ -73,6 +73,10 @@ private typedef TArrayImpl<T> = Dynamic;
     return this.Empty();
   }
 
+  public inline function reset() : Void {
+    return this.Reset();
+  }
+
   public function indexOf(obj:T) : Int {
     for(i in 0...length) {
       if (get(i).equals(obj)) {

@@ -6,9 +6,16 @@ extern class AController_Extra {
   @:thisConst
   public function GetCharacter() : ACharacter;
 
-  @:thisConst public function GetPawn() : unreal.APawn;
+  @:thisConst
+  public function GetPawn() : APawn;
 
-  public function ChangeState(NewState:FName) : Void;
+  public function ChangeState(newState:FName) : Void;
 
-	public function GameHasEnded(EndGameFocus:AActor, bIsWinner:Bool) : Void;
+  /**
+   * Called from game mode upon end of the game, used to transition to proper state. 
+   * @param EndGameFocus Actor to set as the view target on end game
+   * @param bIsWinner true if this controller is on winning team
+   */
+  public function GameHasEnded(EndGameFocus:AActor /* = NULL */, bIsWinner:Bool /* = false */) : Void;
+
 }

@@ -11,7 +11,7 @@ import unreal.helpers.HaxeHelpers;
     return FNameImpl.create(str);
   }
 
-  inline static function createInt(name:UnrealName) : unreal.PHaxeCreated<FName> {
+  inline public static function createInt(name:UnrealName) : unreal.PHaxeCreated<FName> {
     return FNameImpl.createFromInt(name);
   }
 
