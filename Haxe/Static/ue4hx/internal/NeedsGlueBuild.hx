@@ -375,7 +375,7 @@ $prelude
             return false;
 
           ${noParams.getCppClass()} obj = inRHS;
-          if (!obj.mPtr) return false;
+          if (!obj.mPtr) return true;
           return mPtr->wrapped$getPointer != obj.mPtr->wrapped$getPointer;
         }
         $startNamespaces
