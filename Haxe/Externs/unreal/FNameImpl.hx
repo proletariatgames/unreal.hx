@@ -8,4 +8,6 @@ package unreal;
   function ToString():FString;
 
   function IsNone():Bool;
+
+  @:expr(return this.ToString().op_Dereference()) public function toString():String;
 }

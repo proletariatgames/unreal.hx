@@ -8,5 +8,7 @@ package unreal;
 
   @:thisConst function IsEmpty() : Bool;
   @:thisConst function ToBool() : Bool;
+
+  @:expr(return this.op_Dereference()) public function toString():String;
 }
 
