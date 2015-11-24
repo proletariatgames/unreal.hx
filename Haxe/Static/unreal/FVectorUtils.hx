@@ -33,7 +33,7 @@ class FVectorUtils {
   }
 
   // Return newly allocated vector that is cross product of a and b.
-  public static function cross(a:unreal.FVector, b:unreal.FVector, ?result:unreal:FVector) : FVector {
+  public static function cross(a:unreal.FVector, b:unreal.FVector, ?result:unreal.FVector) : unreal.FVector {
     if (result == null) {
       result = unreal.FVector.createWithValues(0,0,0);
     }
