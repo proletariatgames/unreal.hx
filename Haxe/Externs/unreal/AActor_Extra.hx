@@ -35,4 +35,6 @@ extern class AActor_Extra {
   @:thisConst public function GetActorLocation() : FVector;
 
   public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
+
+  public static function GetDebugName(actor:Const<AActor>) : FString;
 }
