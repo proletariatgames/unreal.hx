@@ -12,7 +12,7 @@ extern class AActor_Extra {
    * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
    * Destruction is latent. It occurs at the end of the tick.
    * @param bNetForce       [opt] Ignored unless called during play.  Default is false.
-   * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.  
+   * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.
    * returns  true if destroyed or already marked for destruction, false if indestructible.
    */
   public function Destroy(bNetForce:Bool, bShouldModifyLevel:Bool) : Void;
@@ -35,7 +35,7 @@ extern class AActor_Extra {
   public function GetRootComponent() : USceneComponent;
 
   @:thisConst
-  public function GetActorLocation() : FVector; 
+  public function GetActorLocation() : FVector;
 
   @:thisConst
   public function GetActorRotation() : FRotator;
@@ -59,7 +59,7 @@ extern class AActor_Extra {
   /** called when the actor falls out of the world 'safely' (below KillZ and such) */
   // public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;
 
-  /** 
+  /**
    * Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
    * This could happen due to things like Character movement, using Set Location with 'sweep' enabled, or physics simulation.
    * For events when objects overlap (e.g. walking into a trigger) see the 'Overlap' event.
@@ -82,4 +82,6 @@ extern class AActor_Extra {
   /** Get the local-to-world transform of the RootComponent. Identical to GetTransform(). */
   @:thisConst
   public function ActorToWorld() : FTransform;
+
+  public static function GetDebugName(actor:Const<AActor>) : FString;
 }
