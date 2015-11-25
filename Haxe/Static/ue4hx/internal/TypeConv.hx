@@ -513,7 +513,10 @@ using StringTools;
         ueType: refName,
         haxeGlueType: new TypeRef("Int"),
         glueType: new TypeRef("Int"),
+
         glueCppIncludes: ['${refName.name}.h'],
+        glueHeaderIncludes: ['<hxcpp.h>'],
+
         haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
         glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
         glueToUeExpr: '( (${refName.getCppType()}) % )',
