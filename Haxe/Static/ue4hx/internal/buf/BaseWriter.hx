@@ -37,9 +37,8 @@ class BaseWriter {
       buf.add('#include "ParticleHelper.h"\n');
     }
     var incs = [ for (inc in this.includes) inc ];
-    incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return Reflect.compare(v1,v2));
-    for (inc in incs)
-    {
+    incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return 0);
+    for (inc in incs) {
       inc = inc.replace('\\','/');
       buf.add('#include ');
       if (inc.startsWith('\"') || inc.startsWith('<'))
