@@ -1,5 +1,5 @@
 package unreal.umg;
 
-@:glueCppIncludes("Animation/UMGSequencePlayer.h")
+@:glueCppIncludes("UserWidget.h", "Animation/UMGSequencePlayer.h")
 extern class UUMGSequencePlayer_Extra {
 }
