@@ -21,6 +21,19 @@ extern class UWorld_Extra {
 
   public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 
+  /**
+   * Removes the actor from its level's actor list and generally cleans up the engine's internal state.
+   * What this function does not do, but is handled via garbage collection instead, is remove references
+   * to this actor from all other actors, and kill the actor's resources.  This function is set up so that
+   * no problems occur even if the actor is being destroyed inside its recursion stack.
+   *
+   * @param	ThisActor				Actor to remove.
+   * @param	bNetForce				[opt] Ignored unless called during play.  Default is false.
+   * @param	bShouldModifyLevel		[opt] If true, Modify() the level before removing the actor.  Default is true.
+   * @return							true if destroyed or already marked for destruction, false if actor couldn't be destroyed.
+   */
+  public function DestroyActor(actor:AActor, bNetForce:Bool, bShouldModifyLevel:Bool) : Bool;
+
   @:thisConst
   public function GetAuthGameMode() : AGameMode;
 
@@ -47,7 +60,7 @@ extern class UWorld_Extra {
    *  @param  End             End location of the ray
    *  @param  TraceChannel    The 'channel' that this ray is in, used to determine which components to hit
    *  @param  Params          Additional parameters used for the trace
-   *  @param  ResponseParam ResponseContainer to be used for this trace  
+   *  @param  ResponseParam ResponseContainer to be used for this trace
    *  @return TRUE if a blocking hit is found
    */
   @:thisConst

@@ -6,7 +6,7 @@ extern class FVector_Extra {
   @:uname('new') public static function createForceInit(e:EForceInit):PHaxeCreated<FVector>;
 
   /**
-   * Gets a normalized copy of the 2D components of the vector, checking it is safe to do so. Z is set to zero. 
+   * Gets a normalized copy of the 2D components of the vector, checking it is safe to do so. Z is set to zero.
    * Returns zero vector if vector length is too small to normalize.
    *
    * @param Tolerance Minimum squared vector length.
@@ -45,4 +45,6 @@ extern class FVector_Extra {
   public static var ForwardVector (get,never) : Const<FVector>;
 
   public static var RightVector (get,never) : Const<FVector>;
+
+  public function HeadingAngle() : Float32;
 }

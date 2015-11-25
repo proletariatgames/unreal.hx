@@ -10,9 +10,13 @@ extern class AController_Extra {
   public function GetPawn() : APawn;
 
   public function ChangeState(newState:FName) : Void;
+  @:thisConst
+  public function IsInState(state:FName) : Bool;
+  @:thisConst
+  public function GetStateName() : FName;
 
   /**
-   * Called from game mode upon end of the game, used to transition to proper state. 
+   * Called from game mode upon end of the game, used to transition to proper state.
    * @param EndGameFocus Actor to set as the view target on end game
    * @param bIsWinner true if this controller is on winning team
    */

@@ -20,5 +20,6 @@ package unreal;
   function IsTimerPaused(handle:FTimerHandle) : Bool;
   function IsTimerPending(handle:FTimerHandle) : Bool;
   function TimerExists(handle:FTimerHandle) : Bool;
-  @:thisConst function GetTimerElapsed(handle:FTimerHandle) :Float32;
+  @:thisConst function GetTimerElapsed(handle:FTimerHandle) : Float32;
+  @:thisConst function GetTimerRemaining(handle:FTimerHandle) : Float32;
 }
