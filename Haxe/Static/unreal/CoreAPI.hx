@@ -1,12 +1,21 @@
 package unreal;
 
+#if macro
+import haxe.macro.Expr;
+import haxe.macro.Context;
+class UObject {} // trick to avoid triggering build macros
+#else
 import unreal.UObject;
 import unreal.Wrapper;
+#end
 
+#if !macro
 @:access(unreal.Wrapper)
 @:access(unreal.UObject.wrapped)
+#end
 class CoreAPI {
 
+  #if !macro
   public static function equals(a:Dynamic, b:Dynamic) : Bool {
     if ((a == null) && (b == null)) {
       return true;
@@ -34,5 +43,29 @@ class CoreAPI {
 
   inline public static function copyStruct<T : Wrapper>(type:T):T {
     return cast type._copyStruct();
+  }
+  #end // !macro
+
+  /**
+   * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
+   * This is meant as a replacement for Cast<Type> in Unreal C++
+   * Example:
+   *  var actor:AActor = GetOwner();
+   *  var pawn:APawn = actor.as(APawn);
+   *  if (pawn != null) { ... }
+   */
+  public static macro function as<T>(obj:ExprOf<UObject>, cls:ExprOf<Class<T>>) : ExprOf<T> {
+    var clsType = switch (cls.expr) {
+    case EConst(CIdent(className)):
+      Context.toComplexType(Context.getType(className));
+    case _:
+      throw new Error('Expected class', cls.pos);
+    }
+
+    return macro @:pos(Context.currentPos()) {
+      var _o = $obj;
+      var _c:$clsType = _o != null && _o.IsA($cls.StaticClass()) ? cast _o : null;
+      _c;
+    };
   }
 }
