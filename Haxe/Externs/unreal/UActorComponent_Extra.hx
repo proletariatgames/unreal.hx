@@ -10,4 +10,22 @@ extern class UActorComponent_Extra {
    * @param ThisTickFunction - Internal tick function struct that caused this to run
    */
   public function TickComponent(deltaTime:Float32, tickType:ELevelTick, thisTickFunction:PExternal<FActorComponentTickFunction>) : Void;
+
+	/** Used to create any rendering thread information for this component
+	*
+	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+	*/
+  private function CreateRenderState_Concurrent() : Void;
+
+	/** Used to shut down any rendering thread structure for this component
+	*
+	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+	*/
+  private function DestroyRenderState_Concurrent() : Void;
+
+	/** Recreate the render state right away. Generally you always want to call MarkRenderStateDirty instead.
+	*
+	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+	*/
+	public function RecreateRenderState_Concurrent() : Void;
 }

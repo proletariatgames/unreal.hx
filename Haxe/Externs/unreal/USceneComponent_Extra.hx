@@ -7,5 +7,9 @@ extern class USceneComponent_Extra
 	 *   @param bMaintainWorldTransform	If true, update the relative location/rotation of the component to keep its world position the same
 	 */
 	public function AttachTo(InParent:USceneComponent, InSocketName:FName, AttachType:EAttachLocation, bWeldSimulatedBodies:Bool) : Void;
+
+	/** Calculate the bounds of the component. Default behavior is a bounding box/sphere of zero size. */
+  @:thisConst
+	public function CalcBounds(LocalToWorld:Const<PRef<FTransform>>) : FBoxSphereBounds;
 }
 

@@ -2,6 +2,12 @@ package unreal;
 
 extern class FTransform_Extra {
 
+	/**
+	 * Constructor with initialization to the identity transform.
+	 */
+  @:uname('new')
+  public static function create() : PHaxeCreated<FTransform>;
+
   /**
    * Constructor with all components initialized, taking a FRotator as the rotation component
    *
