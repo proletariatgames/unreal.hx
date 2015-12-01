@@ -84,4 +84,14 @@ extern class AActor_Extra {
   public function ActorToWorld() : FTransform;
 
   public static function GetDebugName(actor:Const<AActor>) : FString;
+
+  @:thisConst
+  public function ShouldTickIfViewportsOnly() : Bool;
+
+  #if WITH_EDITOR
+  public function PostEditMove(bFinished:Bool) : Void;
+	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:Const<PExternal<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
+  @:thisConst
+  public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
+  #end
 }

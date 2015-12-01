@@ -17,7 +17,7 @@ using StringTools;
 class HaxeModuleRules extends BaseModuleRules
 {
   private static var disabled:Bool = false;
-  private static var VERSION_LEVEL = 1;
+  private static var VERSION_LEVEL = 2;
 
   override private function config(target:TargetInfo, firstRun:Bool)
   {
@@ -73,16 +73,20 @@ class HaxeModuleRules extends BaseModuleRules
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
         var forceCreateExterns = Sys.getEnv('BAKE_EXTERNS') != null;
+        var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
           '-cp $pluginPath/Haxe/Static',
           '-D use-rtti-doc', // we want the documentation to be persisted
           '-D bake-externs',
           '',
-          '-cpp $gameDir/Haxe/Generated/Externs',
+          '-cpp $gameDir/Haxe/Generated/$externsFolder',
           '--no-output', // don't generate cpp files; just execute our macro
           '--macro ue4hx.internal.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedGameDir/Haxe/Externs"], $forceCreateExterns)'
         ];
+        if (UEBuildConfiguration.bBuildEditor) {
+          bakeArgs.push('-D WITH_EDITOR');
+        }
         trace('baking externs');
         var ret = compileSources('bake-externs', bakeArgs);
 
@@ -105,7 +109,7 @@ class HaxeModuleRules extends BaseModuleRules
 
           var args = [
             'arguments.hxml',
-            '-cp $gameDir/Haxe/Generated/Externs',
+            '-cp $gameDir/Haxe/Generated/$externsFolder',
             '-cp $pluginPath/Haxe/Static',
             '-cp Static',
             '',
@@ -114,11 +118,15 @@ class HaxeModuleRules extends BaseModuleRules
             '-D static_link',
             '-D destination=$outputStatic',
             '-D haxe_runtime_dir=$curSourcePath',
-            '-D bake_dir=$gameDir/Haxe/Generated/Externs',
+            '-D bake_dir=$gameDir/Haxe/Generated/$externsFolder',
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
           ];
+
+          if (UEBuildConfiguration.bBuildEditor) {
+            args.push('-D WITH_EDITOR');
+          }
 
           var debugSymbols = target.Configuration != Shipping;
           if (debugSymbols)

@@ -70,4 +70,11 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
+
+  public function PostEditImport() : Void;
+
+#if WITH_EDITOR
+  public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
+	public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;
+#end // WITH_EDITOR
 }

@@ -10,7 +10,7 @@ using StringTools;
   Per-build globals
  **/
 class Globals {
-  public static var MIN_BUILDTOOL_VERSION_LEVEL = 1;
+  public static var MIN_BUILDTOOL_VERSION_LEVEL = 2;
 
   public static var cur(default,null):Globals = new Globals();
 
