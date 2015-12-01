@@ -4,7 +4,7 @@ Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [
 
 ### Main Features
 - Haxe compiles directly to C++, for high runtime performance.
-- Full access to the entire Unreal C++ API.
+- Full access to the entire Unreal C++ API - including delegates and lambdas.
 - Full support for `UCLASS` creation, subclassing, and Blueprints.
 
 ### Haxe Features
@@ -15,7 +15,11 @@ Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [
 
 ### Setup
 
-TODO
+* Make sure you've got a working `haxe` installation, and have the `hxcpp` and `hxcs` [haxelibs](http://haxe.org/manual/haxelib-using.html) installed
+* Clone this library or add it as a submodule to your Unreal project in the `Plugins/UE4Haxe` directory
+* Port your main `Build.cs` module to `Build.hx` and make sure it extends `HaxeModuleRules`
+* On the `Plugins/UE4Haxe` directory, run `haxe init-plugin.hxml` to make sure your `Build.hx` file was built
+* A new directory, `Haxe`, will be created at the root of your project. Add any class to be compiled to `Haxe/Static`, and you may add new compiler arguments to the `arguments.hxml` file
 
 ### Examples
 
