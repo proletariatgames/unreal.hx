@@ -71,6 +71,9 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
 
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbow:UPackageMap) : PExternal<T>;
+
   public function PostEditImport() : Void;
 
 #if WITH_EDITOR
