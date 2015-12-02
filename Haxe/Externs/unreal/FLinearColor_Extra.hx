@@ -1,6 +1,9 @@
 package unreal;
 
 extern class FLinearColor_Extra {
+
+  public var A : Float32;
+
   @:uname("new")
   public static function create() : PHaxeCreated<FLinearColor>;
 
