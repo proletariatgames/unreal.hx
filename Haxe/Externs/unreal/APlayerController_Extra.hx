@@ -22,4 +22,7 @@ extern class APlayerController_Extra {
 	 * @param A - new actor to set as view target
    */
 	public function SetViewTarget(NewViewTarget:AActor) : Void;
+
+  @:thisConst
+  public function GetLocalPlayer() : PRef<ULocalPlayer>;
 }
