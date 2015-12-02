@@ -55,11 +55,8 @@ using StringTools;
     return expand(this.ueToGlueExpr, expr, ctx);
   }
 
-  public function getAllCppIncludes(map:Map<String, String>) {
-    if (this.glueCppIncludes != null) {
-      for (incl in this.glueCppIncludes)
-        map[incl] = incl;
-    }
+  public function getAllCppIncludes(map:IncludeSet) {
+    map.append( this.glueCppIncludes );
     if (this.args != null) {
       for (arg in this.args) {
         arg.getAllCppIncludes(map);
@@ -67,11 +64,8 @@ using StringTools;
     }
   }
 
-  public function getAllHeaderIncludes(map:Map<String, String>) {
-    if (this.glueHeaderIncludes != null) {
-      for (incl in this.glueHeaderIncludes)
-        map[incl] = incl;
-    }
+  public function getAllHeaderIncludes(map:IncludeSet) {
+    map.append( this.glueHeaderIncludes );
     if (this.args != null) {
       for (arg in this.args) {
         arg.getAllHeaderIncludes(map);
@@ -370,7 +364,7 @@ using StringTools;
         haxeGlueType: voidStar,
         glueType: voidStar,
 
-        glueCppIncludes: ['<LambdaBinding.h>'],
+        glueCppIncludes: IncludeSet.fromUniqueArray(['<LambdaBinding.h>']),
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'unreal.helpers.HaxeHelpers.pointerToDynamic( % )',
         glueToUeExpr: glueToUeExpr.toString(),
@@ -393,21 +387,18 @@ using StringTools;
       }
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.haxeType = new TypeRef(['unreal'], 'TSubclassOf', [ofType.haxeType]);
-      ret.glueCppIncludes.push("UObject/ObjectBase.h");
+      ret.glueCppIncludes.add("UObject/ObjectBase.h");
       if (ofType.forwardDecls != null) {
         ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       }
-      if (ofType.glueCppIncludes != null) {
-        for (inc in ofType.glueCppIncludes)
-          ret.glueCppIncludes.push(inc);
-      }
+      ret.glueCppIncludes.append(ofType.glueCppIncludes);
       switch (ret.forwardDeclType) {
       case null | Never:
         // do nothing; we already are set to never
       case Templated(base):
         ret.forwardDeclType = Templated(base.concat(['UObject/ObjectBase.h']));
       case _:
-        ret.forwardDeclType = Templated(['UObject/ObjectBase.h']);
+        ret.forwardDeclType = Templated(IncludeSet.fromUniqueArray(['UObject/ObjectBase.h']));
       }
 
       ret.ueType = new TypeRef('TSubclassOf', [ueType]);
@@ -445,7 +436,7 @@ using StringTools;
         haxeGlueType: voidStar,
         haxeToGlueExpr: 'untyped (%).rawCast()',
         glueToUeExpr: '(($cppMethodType)%)()',
-        glueCppIncludes: ['<LambdaBinding.h>'],
+        glueCppIncludes: IncludeSet.fromUniqueArray(['<LambdaBinding.h>']),
         isBasic: false,
       };
       return ret;
@@ -459,19 +450,16 @@ using StringTools;
         ofType.ueType;
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.haxeType = new TypeRef(['unreal'], name.split('.')[1], [ofType.haxeType]);
-      ret.glueCppIncludes.push("UObject/WeakObjectPtrTemplates.h");
+      ret.glueCppIncludes.add("UObject/WeakObjectPtrTemplates.h");
       ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
-      if (ofType.glueCppIncludes != null) {
-        for (inc in ofType.glueCppIncludes)
-          ret.glueCppIncludes.push(inc);
-      }
+      ret.glueCppIncludes.append( ofType.glueCppIncludes );
       switch (ret.forwardDeclType) {
       case null | Never:
         // do nothing; we already are set to never
       case Templated(base):
         ret.forwardDeclType = Templated(base.concat(['UObject/WeakObjectPtrTemplates.h']));
       case _:
-        ret.forwardDeclType = Templated(['UObject/WeakObjectPtrTemplates.h']);
+        ret.forwardDeclType = Templated(IncludeSet.fromUniqueArray(['UObject/WeakObjectPtrTemplates.h']));
       }
 
       ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
@@ -514,8 +502,8 @@ using StringTools;
         haxeGlueType: new TypeRef("Int"),
         glueType: new TypeRef("Int"),
 
-        glueCppIncludes: ['${refName.name}.h'],
-        glueHeaderIncludes: ['<hxcpp.h>'],
+        glueCppIncludes: IncludeSet.fromUniqueArray(['${refName.name}.h']),
+        glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
         glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
@@ -537,7 +525,7 @@ using StringTools;
 
           isUObject: true,
 
-          glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
+          glueCppIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes')),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().rawCast()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%) )',
@@ -553,7 +541,7 @@ using StringTools;
           ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast (%) ), ${originalTypeRef})';
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
           ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
-          ret.glueCppIncludes.push('Templates/Casts.h');
+          ret.glueCppIncludes.add('Templates/Casts.h');
           ret.isInterface = true;
         }
 
@@ -571,7 +559,7 @@ using StringTools;
           haxeGlueType: new TypeRef("Int"),
           glueType: new TypeRef("Int"),
 
-          glueCppIncludes: getMetaArray(meta, ':glueCppIncludes'),
+          glueCppIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes')),
           haxeToGlueExpr: conv.getClassPath() + '.unwrap(%)',
           glueToHaxeExpr: conv.getClassPath() + '.wrap(%)',
           glueToUeExpr: '( (${refName.getCppType()}) % )',
@@ -580,10 +568,9 @@ using StringTools;
           isEnum: true,
         };
       } else {
-        var cppIncludes = getMetaArray(meta, ':glueCppIncludes');
-        if (cppIncludes == null) {
+        var cppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
+        if (cppIncludes.length == 0) {
           Context.warning('Unreal Glue Code: glueCppIncludes missing for $typeRef', pos);
-          cppIncludes = [];
         }
         var ueType = refName;
         var forwardDecls = [],
@@ -600,8 +587,7 @@ using StringTools;
               case null | Never:
                 declType = ForwardDeclEnum.Never;
               case Templated(incs):
-                for (inc in incs)
-                  myIncludes.push(inc);
+                myIncludes.append(incs);
               case _:
                 if (arg.forwardDecls == null) {
                   forwardDecls.push(arg.ueType.getForwardDecl());
@@ -631,8 +617,8 @@ using StringTools;
           haxeGlueType: uePointer,
           glueType: uePointer,
 
-          glueCppIncludes: ['<OPointers.h>'].concat(cppIncludes),
-          glueHeaderIncludes:['<unreal/helpers/UEPointer.h>'],
+          glueCppIncludes: cppIncludes.add('<OPointers.h>'),
+          glueHeaderIncludes:IncludeSet.fromUniqueArray(['<unreal/helpers/UEPointer.h>']),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
@@ -704,7 +690,7 @@ using StringTools;
         }
 
         if (typeRef.params.length > 0) {
-          ret.glueCppIncludes.push('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
+          ret.glueCppIncludes.add('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
           var isTypeName = ctx.meta != null && ctx.meta.has(':typeName');
           ret.ueToGlueExpr = 'new ' + typeRef.getGlueHelperType().getCppClass() + '_UE_obj<' +
             [ for (param in args) {
@@ -734,9 +720,8 @@ using StringTools;
     }
 
     if (uextension) {
-      var glueCppIncludes = getMetaArray(meta, ':glueCppIncludes');
-      if (glueCppIncludes == null) glueCppIncludes = [];
-      glueCppIncludes.push('<unreal/helpers/HxcppRuntime.h>');
+      var glueCppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
+      glueCppIncludes.add('<unreal/helpers/HxcppRuntime.h>');
       #if !bake_externs
       var mod = getMetaArray(meta, ':umodule');
       var module = mod == null ? null : mod[0];
@@ -744,7 +729,7 @@ using StringTools;
       if (module != null)
         dir = dir + '/../$module';
 
-      glueCppIncludes.push('$dir/Generated/Public/${refName.withoutPrefix().name}.h');
+      glueCppIncludes.add('$dir/Generated/Public/${refName.withoutPrefix().name}.h');
       #end
       var ret:TypeConvInfo = {
         haxeType: typeRef,
@@ -754,7 +739,7 @@ using StringTools;
 
         isUObject: true,
 
-        glueCppIncludes: glueCppIncludes.concat(['<unreal/helpers/UEPointer.h>']),
+        glueCppIncludes: glueCppIncludes.add('<unreal/helpers/UEPointer.h>'),
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',
@@ -778,7 +763,7 @@ using StringTools;
       return {
         ueType: typeRef,
         haxeType: typeRef,
-        glueHeaderIncludes:['<hxcpp.h>'],
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
         isBasic: true,
         args: convArgs,
       };
@@ -815,7 +800,7 @@ using StringTools;
         glueType: voidStar,
         haxeGlueType: voidStar,
 
-        glueCppIncludes: ['<TypeParamGlue.h>'],
+        glueCppIncludes: IncludeSet.fromUniqueArray(['<TypeParamGlue.h>']),
 
         ueToGlueExpr: 'TypeParamGlue<${ueType.getCppType()}>::ueToHaxe( % )',
         glueToUeExpr: 'TypeParamGlue<${ueType.getCppType()}>::haxeToUe( % )',
@@ -946,8 +931,8 @@ using StringTools;
         haxeGlueType: voidStar,
         glueType: voidStar,
 
-        glueCppIncludes:['Engine.h', '<unreal/helpers/HxcppRuntime.h>'],
-        glueHeaderIncludes:['<hxcpp.h>'],
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<unreal/helpers/HxcppRuntime.h>']),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',
         glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%))',
@@ -960,7 +945,7 @@ using StringTools;
       ueType: TypeRef.parseClassName(basicConvert[key]),
       glueType: TypeRef.parseClassName(key),
       haxeType: TypeRef.parseClassName(key),
-      glueHeaderIncludes:['<hxcpp.h>'],
+      glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       isBasic: true
     }]);
     var ret = new Map();
@@ -1004,12 +989,12 @@ typedef TypeConvInfo = {
     Represents the public includes that can be included in the glue header
     These can only be includes that are safe to be included in both UE4 and hxcpp sides
    **/
-  @:optional public var glueHeaderIncludes:Null<Array<String>>;
+  @:optional public var glueHeaderIncludes:Null<IncludeSet>;
   /**
     Represents the private includes to the glue cpp files. These can be UE4 includes,
     since the CPP file is only compiled by the UE4 side
    **/
-  @:optional public var glueCppIncludes:Null<Array<String>>;
+  @:optional public var glueCppIncludes:Null<IncludeSet>;
 
   /**
     Gets the wrapping expression from UE type to the glue Type
@@ -1077,7 +1062,7 @@ typedef TypeConvCtx = {
 enum ForwardDeclEnum {
   Never;
   AsFunction;
-  Templated(mainIncludes:Array<String>);
+  Templated(mainIncludes:IncludeSet);
   Always;
 }
 

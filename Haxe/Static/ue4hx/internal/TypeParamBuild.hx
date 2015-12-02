@@ -281,7 +281,7 @@ class TypeParamBuild {
       var writer = new ue4hx.internal.buf.CppWriter(path);
       writer.buf.add(NativeGlueCode.prelude);
       writer.include('<${tparam.getClassPath().replace('.','/')}.h>');
-      var incs = new Map();
+      var incs = new IncludeSet();
       this.tconv.getAllCppIncludes(incs);
       this.tconv.getAllHeaderIncludes(incs);
       for (inc in incs)

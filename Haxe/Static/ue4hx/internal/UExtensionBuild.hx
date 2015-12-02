@@ -220,8 +220,8 @@ class UExtensionBuild {
         if (!field.type.isStatic())
           allTypes.push(thisConv);
         allTypes.push(field.ret);
-        var headerIncludes = new Map(),
-            cppIncludes = new Map(),
+        var headerIncludes = new IncludeSet(),
+            cppIncludes = new IncludeSet(),
             headerForwards = new Map();
         for (t in allTypes) {
           if (!t.forwardDeclType.isNever()) {
@@ -266,10 +266,8 @@ class UExtensionBuild {
         { name: ':uextern', params:[], pos:clt.pos },
       ];
 
-      var headerIncludes = ['<unreal/helpers/GcRef.h>'],
-          cppIncludes = ['<' + expose.getClassPath().replace('.','/') + '.h>'];
-      var headerIncludes = [ for (inc in headerIncludes) inc => inc ],
-          cppIncludes = [ for (inc in cppIncludes) inc => inc ];
+      var headerIncludes = IncludeSet.fromUniqueArray(['<unreal/helpers/GcRef.h>']),
+          cppIncludes = IncludeSet.fromUniqueArray(['<' + expose.getClassPath().replace('.','/') + '.h>']);
       var info = addNativeUeClass(nativeUe, clt, headerIncludes, metas);
       metas.push({ name:':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos:clt.pos });
 
@@ -280,8 +278,8 @@ class UExtensionBuild {
       {
         var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var cppCode = '';
-        var glueHeaderIncs = new Map(),
-            glueCppIncs = new Map(),
+        var glueHeaderIncs = new IncludeSet(),
+            glueCppIncs = new IncludeSet(),
             headerForwards = new Map();
         for (upropDef in uprops) {
           var uprop = upropDef.field,
@@ -349,9 +347,7 @@ class UExtensionBuild {
           case null | Never | AsFunction:
             tconv.getAllCppIncludes( glueHeaderIncs );
           case Templated(incs):
-            for (inc in incs) {
-              glueHeaderIncs[inc] = inc;
-            }
+            glueHeaderIncs.append(incs);
             for (fwd in tconv.forwardDecls) {
               headerForwards[fwd] = fwd;
             }
@@ -371,7 +367,7 @@ class UExtensionBuild {
           var customReplications = new Map();
 
           // Needs to be included for DOREPLIFETIME/etc
-          glueCppIncs['UnrealNetwork.h'] = 'UnrealNetwork.h';
+          glueCppIncs.add('UnrealNetwork.h');
 
           cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
           cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
@@ -442,7 +438,7 @@ class UExtensionBuild {
     }
   }
 
-  private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:Map<String, String>, metas:Metadata):{ hasHaxeSuper:Bool } {
+  private static function addNativeUeClass(nativeUe:TypeRef, clt:ClassType, includes:IncludeSet, metas:Metadata):{ hasHaxeSuper:Bool } {
     var typeRef = TypeRef.fromBaseType(clt, clt.pos);
     var extendsAndImplements = [];
     var ueName = nativeUe.getCppClassName(),
@@ -451,7 +447,7 @@ class UExtensionBuild {
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
     var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null)
-      includes['${fileName}.generated.h'] = '${fileName}.generated.h';
+      includes.add('${fileName}.generated.h');
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
@@ -508,7 +504,7 @@ class UExtensionBuild {
 
     headerDef.add('public:\n');
     // include class map
-    includes['ClassMap.h'] = 'ClassMap.h';
+    includes.add('ClassMap.h');
     headerDef.add('\t\tstatic void *getHaxePointer(void *inUObject) {\n');
       headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 

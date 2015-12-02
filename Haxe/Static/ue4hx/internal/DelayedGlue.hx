@@ -284,16 +284,16 @@ class DelayedGlue {
       return;
 
     var glue = this.typeRef.getGlueHelperType();
-    var glueHeaderIncludes = new Map(),
-        glueCppIncludes = new Map();
+    var glueHeaderIncludes = new IncludeSet(),
+        glueCppIncludes = new IncludeSet();
     this.thisConv.getAllCppIncludes(glueCppIncludes);
     this.thisConv.getAllHeaderIncludes(glueHeaderIncludes);
     // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
     // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
-    if (glueHeaderIncludes != null && glueHeaderIncludes.iterator().hasNext())
+    if (glueHeaderIncludes.length > 0)
       cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
-    if (glueCppIncludes != null && glueCppIncludes.iterator().hasNext())
+    if (glueCppIncludes.length > 0)
       cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
     if (!this.shouldContinue())
@@ -366,7 +366,7 @@ class DelayedGlue {
       extendsStr = ': public ' + tconv.ueType.getCppClass();
 
       // we're using the ueType so we'll include the glueCppIncludes
-      var includes = new Map();
+      var includes = new IncludeSet();
       tconv.getAllCppIncludes( includes );
       for (include in includes) {
         writer.include(include);
@@ -749,8 +749,12 @@ class DelayedGlue {
   }
 
   private static function getMetaDefinitions(headerDef:String, cppDef:String, allTypes:Array<TypeConv>, pos:Position):Metadata {
-    var headerIncludes = [ for (t in allTypes) if(t.glueHeaderIncludes != null) for (inc in t.glueHeaderIncludes) inc => inc ];
-    var cppIncludes = [ for (t in allTypes) if(t.glueCppIncludes != null) for (inc in t.glueCppIncludes) inc => inc ];
+    var headerIncludes = new IncludeSet();
+    var cppIncludes = new IncludeSet();
+    for (t in allTypes) {
+      headerIncludes.append(t.glueHeaderIncludes);
+      cppIncludes.append(t.glueCppIncludes);
+    }
 
     var metas:Metadata = [
       { name: ':glueHeaderCode', params:[macro $v{headerDef}], pos: pos },
