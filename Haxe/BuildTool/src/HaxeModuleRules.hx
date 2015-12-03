@@ -36,7 +36,11 @@ class HaxeModuleRules extends BaseModuleRules
       case _:
         'libhaxeruntime.a';
     };
-    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}';
+    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}-${target.Configuration}';
+    if (UEBuildConfiguration.bBuildEditor) {
+      outputDir += '-Editor';
+    }
+
     var outputStatic = '$outputDir/$libName';
     if (!exists(outputDir)) createDirectory(outputDir);
 
@@ -73,6 +77,11 @@ class HaxeModuleRules extends BaseModuleRules
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
         var forceCreateExterns = Sys.getEnv('BAKE_EXTERNS') != null;
+        var forceDce = Sys.getEnv('DCE_FULL') != null;
+        var forceNoDce = Sys.getEnv('NO_DCE') != null;
+        if (forceDce && forceNoDce) {
+          trace('WARNING: Both DCE_FULL and NO_DCE are defined. DCE_FULL will take precedence');
+        }
         var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
@@ -104,7 +113,7 @@ class HaxeModuleRules extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
-          var targetDir = '$gameDir/Intermediate/Haxe/${target.Platform}-${target.Configuration}/Static';
+          var targetDir = '$outputDir/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
           var args = [
@@ -128,9 +137,16 @@ class HaxeModuleRules extends BaseModuleRules
             args.push('-D WITH_EDITOR');
           }
 
+          if (forceDce) {
+            args.push('-dce full');
+          }
+
           var debugSymbols = target.Configuration != Shipping;
-          if (debugSymbols)
+          if (debugSymbols) {
             args.push('-debug');
+          } else if (!forceDce && !forceNoDce) {
+            args.push('-dce full');
+          }
 
           switch (target.Platform) {
           case Win32:

@@ -549,11 +549,11 @@ class ExternBaker {
         this.end('}');
 
         // add the reflectGetWrapped()
-        this.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
+        this.add('@:ifFeature("unreal.helpers.HxcppRuntime.getWrapped") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
         this.begin(' {');
           this.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
         this.end('}');
-        this.add('@:ifFeature("${this.typeRef.getClassPath(true)}") private function reflectGetWrappedRef():cpp.Pointer<Dynamic>');
+        this.add('@:ifFeature("unreal.helpers.HxcppRuntime.getWrappedRef") private function reflectGetWrappedRef():cpp.Pointer<Dynamic>');
         this.begin(' {');
           this.add('return cpp.Pointer.addressOf(this.wrapped).reinterpret();');
         this.end('}');

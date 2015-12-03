@@ -98,6 +98,7 @@ class NeedsGlueBuild
       var methodPtrs = new Map();
       for (field in fields) {
         if (field.access != null && field.access.has(AOverride)) {
+          field.meta.push({ name:':keep', pos:field.pos });
           // TODO: should we check for non-override fields as well? This would
           //       add some overhead for all override fields, which is something I'd like to avoid for now
           //       specially since super calling in other fields doesn't seem particularly useful
@@ -129,6 +130,7 @@ class NeedsGlueBuild
 
         var isStatic = field.access != null && field.access.has(AStatic);
         if (isUProp) {
+          field.meta.push({ name:':keep', pos:field.pos });
           changed = true;
           switch (field.kind) {
             case FVar(t,e) | FProp('default','default',t,e) if (t != null):
@@ -168,6 +170,7 @@ class NeedsGlueBuild
 
         // add the methodPtr accessor for any functions that are exposed/implemented in C++
         if (!isStatic && (field.meta.hasMeta(':ufunction') || field.meta.hasMeta(':uexpose'))) {
+          field.meta.push({ name:':keep', pos:field.pos });
           switch (field.kind) {
           case FFun(_):
             var uname = field.name;
