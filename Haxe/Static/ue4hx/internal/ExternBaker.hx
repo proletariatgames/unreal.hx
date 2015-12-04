@@ -299,7 +299,6 @@ class ExternBaker {
           args.push('this');
         for (arg in methods[nextIndex].args)
           args.push(arg.name);
-        // this.add('@:ifFeature("${typeRef.getClassPath()}.${');
         if (methods[nextIndex].meta == null) methods[nextIndex].meta = [];
         methods[nextIndex].meta.push({ name:':ifFeature', params:[macro $v{'${typeRef.withoutModule().getClassPath()}.${impl.name}'}], pos:impl.pos });
         var call = caller.getCppClass() + '::' + impl.name + '(' + args.join(', ') + ');';

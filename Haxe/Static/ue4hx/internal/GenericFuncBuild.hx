@@ -31,8 +31,16 @@ class GenericFuncBuild {
     buf.add('package ${genericGlue.pack.join(".")};\n\n');
     var glueCode = new ExternBaker(buf).processGenericFunctions(c);
     if (glueCode != null) {
-      cl.meta.add(':cppFileCode', [macro $v{'#include <${caller.getClassPath().replace('.','/')}.h>\n'}], cl.pos);
-      // write file if different
+      var path = caller.getClassPath().replace('.','/') + '.h';
+      cl.meta.add(':cppFileCode', [macro $v{'#include <${path}>\n'}], cl.pos);
+      if (Compiler.getDefine('dce') == 'full') {
+        var output = Compiler.getOutput() + '/include/$path';
+        var path = haxe.io.Path.directory(output);
+        if (!FileSystem.exists(path)) {
+          FileSystem.createDirectory(path);
+        }
+        sys.io.File.saveContent(output, '#pragma once');
+      }
 
       var dir = target + '/' + caller.pack.join('/');
       if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);

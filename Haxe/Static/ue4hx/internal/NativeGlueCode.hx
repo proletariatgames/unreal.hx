@@ -247,13 +247,14 @@ class NativeGlueCode
       if (cl.meta.has(':ueGluePath')) {
         writeGlueCpp(cl);
       }
-      if (cl.meta.has(':uexpose')) {
+      if (!cl.isExtern && cl.meta.has(':uexpose')) {
         // copy the header to the generated folder
         this.touch(path);
         var ref = TypeRef.parseClassName(path);
         var path = path.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
+        if (!FileSystem.exists(headerPath)) continue;
         var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
         var dir = Path.directory(targetPath);
         if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
@@ -307,7 +308,8 @@ class NativeGlueCode
         var typeName = c.toString();
         var cl = c.get();
         if (cl.meta.has(':uexpose')) {
-          cl.meta.add(':keep', [], cl.pos);
+          if (!cl.meta.has(':ifFeature'))
+            cl.meta.add(':keep', [], cl.pos);
           cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
         }
