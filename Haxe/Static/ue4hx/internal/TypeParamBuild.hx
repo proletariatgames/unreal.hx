@@ -161,6 +161,14 @@ class TypeParamBuild {
   }
 
   public function createCpp():Void {
+    var feats = [];
+    function recurse(t:TypeRef) {
+      feats.push(macro $v{'${t.withoutModule().getClassPath()}.*'});
+      for (type in t.params)
+        recurse(type);
+    }
+    recurse(this.tconv.haxeType);
+    var featMeta = { name:':ifFeature', params:feats, pos:this.pos };
     var tparam = this.tconv.ueType.getTypeParamType();
     if (this.tconv.isBasic) {
       // basic types are present on both hxcpp and UE, so
@@ -174,13 +182,13 @@ class TypeParamBuild {
       var glueTypeComplex = glueType.toComplexType(),
           haxeTypeComplex = haxeType.toComplexType();
       var cls = macro class {
-        @:keep public static function haxeToUe(haxe:cpp.RawPointer<cpp.Void>):$haxeTypeComplex {
+        public static function haxeToUe(haxe:cpp.RawPointer<cpp.Void>):$haxeTypeComplex {
           var dyn:Dynamic = unreal.helpers.HaxeHelpers.pointerToDynamic(haxe);
           var real:$glueTypeComplex = dyn;
           return cast real;
         }
 
-        @:keep public static function ueToHaxe(ue:$haxeTypeComplex):cpp.RawPointer<cpp.Void> {
+        public static function ueToHaxe(ue:$haxeTypeComplex):cpp.RawPointer<cpp.Void> {
           var glue:$glueTypeComplex = cast ue;
           var dyn:Dynamic = glue;
           return unreal.helpers.HaxeHelpers.dynamicToPointer(dyn);
@@ -227,6 +235,7 @@ class TypeParamBuild {
           @:cppFileCode($v{cppCode.toString()})
           null
       );
+      cls.meta.push(featMeta);
 
       Context.defineType(cls);
     } else {
@@ -268,9 +277,9 @@ class TypeParamBuild {
       cls.meta = extractMeta(
         macro
           @:uexpose
-          @:keep
           null
       );
+      cls.meta.push(featMeta);
 
       // ue type
       var path = Globals.cur.haxeRuntimeDir + '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';

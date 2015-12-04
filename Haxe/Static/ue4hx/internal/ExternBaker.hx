@@ -262,7 +262,6 @@ class ExternBaker {
 
     if (cl.isInterface) throw new Error('Unreal Glue Code: Templated functions aren\'t supported on interfaces', pos);
     if (generics.length == 0) return null;
-    this.add('@:keep ');
     this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     this.add('@:nativeGen\n');
     this.add('class ');
@@ -300,6 +299,9 @@ class ExternBaker {
           args.push('this');
         for (arg in methods[nextIndex].args)
           args.push(arg.name);
+        // this.add('@:ifFeature("${typeRef.getClassPath()}.${');
+        if (methods[nextIndex].meta == null) methods[nextIndex].meta = [];
+        methods[nextIndex].meta.push({ name:':ifFeature', params:[macro $v{'${typeRef.withoutModule().getClassPath()}.${impl.name}'}], pos:impl.pos });
         var call = caller.getCppClass() + '::' + impl.name + '(' + args.join(', ') + ');';
         if (!methods[nextIndex].ret.haxeType.isVoid())
           call = 'return ' + call;
@@ -485,7 +487,7 @@ class ExternBaker {
                 uname:'StaticClass',
                 doc:'\n\t\tReturns the `UClass` object which describes this class\n\t',
                 args: [],
-                meta: [{ name:':ifFeature', params:[ macro $v{'${this.thisConv.haxeType.getClassPath()}.*'} ], pos:c.pos }],
+                meta: [{ name:':ifFeature', params:[ macro $v{'${this.thisConv.haxeType.withoutModule().getClassPath()}.*'} ], pos:c.pos }],
                 ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
                 flags: Final | Static,
                 pos: c.pos,
