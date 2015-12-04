@@ -485,6 +485,7 @@ class ExternBaker {
                 uname:'StaticClass',
                 doc:'\n\t\tReturns the `UClass` object which describes this class\n\t',
                 args: [],
+                meta: [{ name:':ifFeature', params:[ macro $v{'${this.thisConv.haxeType.getClassPath()}.*'} ], pos:c.pos }],
                 ret: TypeConv.get(Context.getType("unreal.UClass"), pos),
                 flags: Final | Static,
                 pos: c.pos,

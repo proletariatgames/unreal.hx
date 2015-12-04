@@ -237,13 +237,18 @@ class NativeGlueCode
   public function onAfterGenerate() {
     if (Globals.cur.haxeRuntimeDir == null) return;
     var cppTarget:String = haxe.macro.Compiler.getOutput();
-    for (cl in glueTypes) {
+    for (t in glueTypes) {
+      var type = TypeRef.fromBaseType(t, t.pos);
+      var path = type.getClassPath();
+      var cl = switch(Context.getType( path )) {
+        case TInst(c,_): c.get();
+        case _: throw 'assert';
+      };
       if (cl.meta.has(':ueGluePath')) {
         writeGlueCpp(cl);
       }
       if (cl.meta.has(':uexpose')) {
         // copy the header to the generated folder
-        var path = TypeRef.fromBaseType(cl, cl.pos).getClassPath();
         this.touch(path);
         var ref = TypeRef.parseClassName(path);
         var path = path.replace('.','/');
