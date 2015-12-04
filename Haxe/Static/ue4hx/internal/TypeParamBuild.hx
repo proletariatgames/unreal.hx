@@ -162,37 +162,7 @@ class TypeParamBuild {
 
   public function createCpp():Void {
     var feats = [];
-    var needsKeep = false;
-    function recurseType(t:TypeRef) {
-      feats.push(macro $v{'${t.withoutModule().getClassPath()}.*'});
-      if (t.name == 'TSubclassOf') {
-        feats.push(macro $v{"unreal.UClass.*"});
-      } else {
-        for (type in t.params) {
-          recurseType(type);
-        }
-      }
-    }
-    function recurse(t:TypeConv) {
-      if (t.args == null || t.args.length == 0) {
-        if (t.isBasic == true || t.isEnum == true) {
-          needsKeep = true;
-        } else {
-          recurseType(t.haxeType);
-        }
-      } else {
-        recurseType(t.haxeType);
-        for (type in t.args) {
-          recurse(type);
-        }
-      }
-    }
-    recurse(this.tconv);
-    trace(this.tconv.haxeType, [ for (f in feats) f.toString()]);
-    var featMeta = { name:':ifFeature', params:feats, pos:this.pos };
-    if (needsKeep) {
-      featMeta = { name:':keep', params:null, pos:this.pos };
-    }
+    var featMeta = { name:':keep', params:null, pos:this.pos };
     var tparam = this.tconv.ueType.getTypeParamType();
     if (this.tconv.isBasic) {
       // basic types are present on both hxcpp and UE, so
