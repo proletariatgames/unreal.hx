@@ -36,13 +36,18 @@ class TypeParamBuild {
       }
     }
 
+    // if it's built through the genericBuild, use keep
+    var last = Globals.cur.currentFeature;
+    Globals.cur.currentFeature = 'keep';
+    trace('keeping for ${typeToGen.toString()}');
     var tconv = TypeConv.get(typeToGen, pos);
-    ensureTypeConvBuilt(typeToGen, tconv, pos);
+    ensureTypeConvBuilt(typeToGen, tconv, pos, 'keep');
+    Globals.cur.currentFeature = last;
 
     return ret;
   }
 
-  public static function ensureTypeConvBuilt(type:Type, tconv:TypeConv, pos:Position):Void {
+  public static function ensureTypeConvBuilt(type:Type, tconv:TypeConv, pos:Position, feature:String):Void {
     if (!Globals.cur.canCreateTypes) {
       Context.warning("Unreal Glue: Ensuring type parameters are built outside create type context", pos);
     }
@@ -51,6 +56,7 @@ class TypeParamBuild {
     }
 
     var tparam = tconv.ueType.getTypeParamType();
+    Globals.cur.addDep( tparam, feature );
     try {
       Context.getType( tparam.getClassPath() );
     }
@@ -74,8 +80,10 @@ class TypeParamBuild {
     switch(Context.follow(type)) {
     case TInst(c, tl):
       var cl = c.get();
+      var name = TypeRef.fromBaseType(cl, cl.pos).getClassPath(true);
       for (field in cl.fields.get().concat(cl.statics.get())) {
         if (field.meta.has(':needsTypeParamGlue')) {
+          Globals.cur.currentFeature = '$name.${field.name}';
           switch(Context.follow(field.type)) {
           case TFun(args,ret):
             // just make sure they are built so
@@ -88,13 +96,16 @@ class TypeParamBuild {
       }
     case _:
     }
+    Globals.cur.currentFeature = null;
   }
 
-  public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position):Void {
+  public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position, feature:String):Void {
     var applied = [ for (arg in args) arg.haxeType ];
-    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>';
+    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>-' + feature;
     if (Globals.cur.builtParams.exists(built)) return;
     Globals.cur.builtParams[built] = true;
+    var old = Globals.cur.currentFeature;
+    Globals.cur.currentFeature = feature;
     var meta = baseType.meta.extractStrings(':ueDependentTypes');
     var params = [ for (p in baseType.params) p.name ];
     if (args.length != params.length) {
@@ -119,9 +130,11 @@ class TypeParamBuild {
         }
         var type = tref.toComplexType().toType();
         var tconv = TypeConv.get(type, pos);
-        ensureTypeConvBuilt(type, tconv, pos);
+        ensureTypeConvBuilt(type, tconv, pos, feature);
       }
     }
+
+    Globals.cur.currentFeature = old;
   }
 
   public static function isPartial(t:Type, pos:Position):Bool {
@@ -162,7 +175,6 @@ class TypeParamBuild {
 
   public function createCpp():Void {
     var feats = [];
-    var featMeta = { name:':keep', params:null, pos:this.pos };
     var tparam = this.tconv.ueType.getTypeParamType();
     if (this.tconv.isBasic) {
       // basic types are present on both hxcpp and UE, so
@@ -229,7 +241,6 @@ class TypeParamBuild {
           @:cppFileCode($v{cppCode.toString()})
           null
       );
-      cls.meta.push(featMeta);
 
       Context.defineType(cls);
     } else {
@@ -273,7 +284,6 @@ class TypeParamBuild {
           @:uexpose
           null
       );
-      cls.meta.push(featMeta);
 
       // ue type
       var path = Globals.cur.haxeRuntimeDir + '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';

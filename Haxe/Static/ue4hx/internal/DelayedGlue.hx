@@ -24,6 +24,8 @@ class DelayedGlue {
         pos = Context.currentPos();
     var field = cls.findField(fieldName, isStatic);
     if (field == null) throw 'assert';
+    var old = Globals.cur.currentFeature;
+    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
     var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
     var tconv = TypeConv.get(field.type, pos);
@@ -41,6 +43,7 @@ class DelayedGlue {
       tconv.glueToHaxe( glueExpr.toString() + ')', ctx );
     }
 
+    Globals.cur.currentFeature = old;
     return Context.parse(expr, pos);
   }
 
@@ -60,6 +63,8 @@ class DelayedGlue {
       }
       sup = scls.superClass;
     }
+    var old = Globals.cur.currentFeature;
+    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
     var superClass = cls.superClass;
     if (superClass == null)
@@ -90,6 +95,8 @@ class DelayedGlue {
     if (!fret.haxeType.isVoid())
       expr = fret.glueToHaxe(expr, null);
     block.push(Context.parse(expr, pos));
+
+    Globals.cur.currentFeature = old;
     if (block.length == 1)
       return block[0];
     else
@@ -99,6 +106,8 @@ class DelayedGlue {
   macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
     var cls = Context.getLocalClass().get(),
         pos = Context.currentPos();
+    var old = Globals.cur.currentFeature;
+    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
     var field = cls.findField(fieldName, isStatic);
     if (field == null)
@@ -127,6 +136,8 @@ class DelayedGlue {
     if (!fret.haxeType.isVoid())
       expr = fret.glueToHaxe(expr, null);
     block.push(Context.parse(expr, pos));
+
+    Globals.cur.currentFeature = old;
     if (block.length == 1) {
       return block[0];
     } else {
@@ -140,6 +151,8 @@ class DelayedGlue {
     var glue = type.getGlueHelperType();
     var path = glue.getClassPath();
     if (!Globals.cur.builtGlueTypes.exists(path)) {
+      var old = Globals.cur.currentFeature;
+      Globals.cur.currentFeature = 'keep'; // these fields will always be kept
       // This is needed since while building a delayed glue, we may trigger
       // another macro that will try to build the glue once again (since no glue was built yet)
       // We must only build the last build call; all others will be built after this one
@@ -152,6 +165,7 @@ class DelayedGlue {
       }
       Globals.cur.builtGlueTypes[path] = true;
       Globals.cur.buildingGlueTypes[path] = null;
+      Globals.cur.currentFeature = old;
     }
 
     return path;

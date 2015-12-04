@@ -307,6 +307,15 @@ class NativeGlueCode
       case TInst(c,tl):
         var typeName = c.toString();
         var cl = c.get();
+        var feats = Globals.cur.getDeps( typeName );
+        if (feats != null && feats.length > 0) {
+          trace('feats',typeName,feats);
+          if (feats[0] == 'keep') {
+            cl.meta.add(':keep', [], cl.pos);
+          } else {
+            cl.meta.add(':ifFeature', [ for (feat in feats) macro $v{feat} ], cl.pos );
+          }
+        }
         if (cl.meta.has(':uexpose')) {
           if (!cl.meta.has(':ifFeature'))
             cl.meta.add(':keep', [], cl.pos);

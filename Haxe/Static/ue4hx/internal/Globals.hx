@@ -66,7 +66,7 @@ class Globals {
     This determines which type parameter glues need to be built. It gets added whenever
     a TypeConv is created with a type that has type parameters, and is consumed asynchronously
    **/
-  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position }>;
+  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position, feature:String }>;
   /**
     In order to avoid infinite cycles of type parameter glue building, this keeps a list of all
     type parameters that were already built
@@ -78,9 +78,38 @@ class Globals {
    **/
   public var typesThatNeedTParams:Lst<String>;
 
+  /**
+    Tells which is the current feature being built. This is needed to add the needed dependencies
+    to DCE
+   **/
+  public var currentFeature:Null<String>;
+
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
 
+  private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
+
   function new() {
+  }
+
+  public function addDep(tparamClass:TypeRef, feat:String) {
+    var name = tparamClass.getClassPath(true);
+    var deps = this.tparamsDeps[name];
+    if (deps == null) {
+      this.tparamsDeps[name] = deps = new Map();
+    }
+    deps[feat] = true;
+  }
+
+  public function getDeps(className:String) {
+    var deps = tparamsDeps[className];
+    if (deps == null) {
+      return null;
+    }
+    if (deps.exists('keep')) {
+      return ['keep'];
+    }
+
+    return [ for (k in deps.keys()) k ];
   }
 }

@@ -17,7 +17,11 @@ class UExtensionBuild {
   public static function build():Type {
     return switch (Context.getLocalType()) {
       case TInst(_, [typeToGen]):
-        new UExtensionBuild().generate(typeToGen);
+        var old = Globals.cur.currentFeature;
+        Globals.cur.currentFeature = 'keep';
+        var ret = new UExtensionBuild().generate(typeToGen);
+        Globals.cur.currentFeature = old;
+        ret;
       case _:
         throw 'assert';
     }
