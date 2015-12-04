@@ -108,6 +108,22 @@ class CreateGlue {
       }
     }
 
+    for (key in Globals.cur.toDefineTParams.keys()) {
+      var def = Globals.cur.toDefineTParams[key];
+      var feats = Globals.cur.getDeps( key );
+      if (feats != null && feats.length > 0) {
+        if (feats[0] == 'keep') {
+          def.meta.push({ name:':keep', params:[], pos:def.pos });
+        } else {
+          var params = [ for (feat in feats) macro $v{feat} ];
+          for (field in def.fields) {
+            if (field.meta == null) field.meta = [];
+            field.meta.push({ name:':ifFeature', params:params, pos:def.pos });
+          }
+        }
+      }
+      Context.defineType(def);
+    }
     // starting from now, we can't create new types
     Globals.cur.canCreateTypes = false;
     Context.onGenerate( function(gen) { nativeGlue.onGenerate(gen); } );

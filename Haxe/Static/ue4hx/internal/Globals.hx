@@ -84,6 +84,8 @@ class Globals {
    **/
   public var currentFeature:Null<String>;
 
+  public var toDefineTParams:Map<String, TypeDefinition> = new Map();
+
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
 

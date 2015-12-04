@@ -1,6 +1,7 @@
 package ue4hx.internal;
 import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
+import haxe.macro.Compiler;
 import sys.FileSystem;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -57,20 +58,9 @@ class TypeParamBuild {
 
     var tparam = tconv.ueType.getTypeParamType();
     Globals.cur.addDep( tparam, feature );
-    try {
-      Context.getType( tparam.getClassPath() );
-    }
-    catch(e:Dynamic) {
-      var msg = Std.string(e);
-      if (msg.startsWith('Type not found')) {
-        if (!Globals.cur.canCreateTypes) {
-          Context.warning('Unreal Glue: Trying to create type parameters outside create type context ($tparam)', pos);
-        }
-        // type is not built. Build it!
-        new TypeParamBuild(type, tconv, pos).createCpp();
-      } else {
-        neko.Lib.rethrow(e);
-      }
+    if (!Globals.cur.toDefineTParams.exists( tparam.getClassPath() )) {
+      // type is not built. Build it!
+      new TypeParamBuild(type, tconv, pos).createCpp();
     }
   }
 
@@ -101,7 +91,10 @@ class TypeParamBuild {
 
   public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position, feature:String):Void {
     var applied = [ for (arg in args) arg.haxeType ];
-    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>-' + feature;
+    var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>';
+    if (Compiler.getDefine('dce') == 'full') {
+      built += '-' + feature;
+    }
     if (Globals.cur.builtParams.exists(built)) return;
     Globals.cur.builtParams[built] = true;
     var old = Globals.cur.currentFeature;
@@ -242,7 +235,7 @@ class TypeParamBuild {
           null
       );
 
-      Context.defineType(cls);
+      Globals.cur.toDefineTParams[tparam.getClassPath()] = cls;
     } else {
       // we need to generate two classes in here:
       // one @:uexpose with the haxeToGlue / glueToHaxe variants
@@ -336,7 +329,7 @@ class TypeParamBuild {
       }
 
       writer.close(Globals.cur.module);
-      Context.defineType(cls);
+      Globals.cur.toDefineTParams[tparam.getClassPath()] = cls;
     }
   }
 
