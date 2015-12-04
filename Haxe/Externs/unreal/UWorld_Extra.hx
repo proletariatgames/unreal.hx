@@ -55,6 +55,8 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetDeltaSeconds() : Float32;
 
+  public function IsInSeamlessTravel() : Bool;
+
   /**
    *  Trace a ray against the world using a specific channel and return the first blocking hit
    *  @param  OutHit          First blocking hit found
