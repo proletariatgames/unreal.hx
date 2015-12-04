@@ -116,6 +116,7 @@ class CreateGlue {
           def.meta.push({ name:':keep', params:[], pos:def.pos });
         } else {
           var params = [ for (feat in feats) macro $v{feat} ];
+          def.meta.push({ name:':ifFeature', params:params, pos:def.pos });
           for (field in def.fields) {
             if (field.meta == null) field.meta = [];
             field.meta.push({ name:':ifFeature', params:params, pos:def.pos });
