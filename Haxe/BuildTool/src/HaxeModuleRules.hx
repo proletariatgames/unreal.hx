@@ -396,7 +396,8 @@ class HaxeModuleRules extends BaseModuleRules
         {
           while(true)
           {
-            Log.TraceInformation(stdout.readLine());
+            // !!HACK!! Unreal seems to fail for no reason if the log line is too long on OSX
+            Log.TraceInformation(stdout.readLine().substr(0,1024));
           }
         }
         catch(e:Eof) {}
