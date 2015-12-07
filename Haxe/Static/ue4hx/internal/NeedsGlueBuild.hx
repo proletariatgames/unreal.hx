@@ -46,7 +46,9 @@ class NeedsGlueBuild
     while (superCls != null) {
       var scls = superCls.t.get();
       if (scls.meta.has(':ustruct')) {
-        cls.meta.add(':ustruct', [], cls.pos);
+        if (!cls.meta.has(':ustruct')) {
+          cls.meta.add(':ustruct', [], cls.pos);
+        }
         cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
 
         if (!cls.meta.has(':uextern')) {
