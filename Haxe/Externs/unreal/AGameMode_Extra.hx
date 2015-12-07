@@ -28,6 +28,8 @@ extern class AGameMode_Extra {
   function PostSeamlessTravel() : Void;
   function GetSeamlessTravelActorList(bToEntry:Bool, actorList:PRef<TArray<AActor>>) : Void;
 
+  private function SetMatchState(NewState:FName) : Void;
+
 	private function HandleMatchIsWaitingToStart() : Void;
 	private function HandleMatchHasStarted() : Void;
 	private function HandleMatchHasEnded() : Void;
