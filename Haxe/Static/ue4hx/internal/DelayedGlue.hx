@@ -394,7 +394,20 @@ class DelayedGlue {
       targetModule = Globals.cur.module;
     }
 
-    writer.buf.add('USTRUCT()\n');
+    var ustruct = cls.meta.extract(':ustruct')[0];
+    if (ustruct != null) {
+      writer.buf.add('USTRUCT(');
+      if (ustruct.params != null) {
+        var first = true;
+        for (param in ustruct.params) {
+          if (first) first = false; else writer.buf.add(', ');
+          writer.buf.add(param.toString().replace('[','(').replace(']',')'));
+        }
+      }
+      writer.buf.add(')\n');
+    } else {
+      writer.buf.add('USTRUCT()\n');
+    }
     writer.buf.add('struct ${targetModule.toUpperCase()}_API ${uname} $extendsStr\n{\n');
     writer.buf.add('\tGENERATED_USTRUCT_BODY()\n\n');
     for (prop in uprops) {

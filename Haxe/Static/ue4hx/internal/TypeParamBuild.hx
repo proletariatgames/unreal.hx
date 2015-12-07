@@ -40,7 +40,6 @@ class TypeParamBuild {
     // if it's built through the genericBuild, use keep
     var last = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep';
-    trace('keeping for ${typeToGen.toString()}');
     var tconv = TypeConv.get(typeToGen, pos);
     ensureTypeConvBuilt(typeToGen, tconv, pos, 'keep');
     Globals.cur.currentFeature = last;
