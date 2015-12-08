@@ -8,6 +8,7 @@ using unreal.CoreAPI;
 #if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.macro.Type;
 using haxe.macro.Tools;
 
 private typedef TArrayImpl<T> = Dynamic;
@@ -120,6 +121,32 @@ private typedef TArrayImpl<T> = Dynamic;
   public function filterToArray(funct:T->Bool) : Array<T> {
     return [for(i in 0...this.Num()) if (funct(this.get_Item(i))) this.get_Item(i)];
   }
+
+  public function sort(fn:T->T->Int):Void {
+    var arr = toArray();
+    quicksort(arr, 0, arr.length -1, fn);
+  }
+
+  private function quicksort( arr:Array<T>, lo : Int, hi : Int, f : T -> T -> Int ) : Void
+  {
+    var i = lo, j = hi;
+    var p = arr[(i + j) >> 1];
+    while ( i <= j )
+    {
+      while ( i < hi && f(arr[i], p) < 0 ) i++;
+      while ( j > lo && f(arr[j], p) > 0 ) j--;
+      if ( i <= j )
+      {
+        this.Swap(i,j);
+        var t = arr[i];
+        arr[i++] = arr[j];
+        arr[j--] = t;
+      }
+    }
+
+    if( lo < j ) quicksort( arr, lo, j, f );
+    if( i < hi ) quicksort( arr, i, hi, f );
+  }
 #end
 
   macro public static function create(?tParam:Expr) : Expr {
@@ -133,7 +160,12 @@ private typedef TArrayImpl<T> = Dynamic;
   macro public function map(eThis:Expr, funct:Expr) : Expr {
     var type = Context.typeof(funct).follow();
     var returnType =  switch(type) {
-      case TFun(_, ret): ret.toComplexType();
+      case TFun(_, ret):
+        if (isKnownType(ret)) {
+          ret.toComplexType();
+        } else {
+          throw new Error('The return type of the function must be known. Make sure it\'s fully typed', funct.pos);
+        }
       default: throw new Error('funct must be a function', funct.pos);
     }
 
@@ -145,6 +177,53 @@ private typedef TArrayImpl<T> = Dynamic;
       tmp;
     };
   }
+
+  macro public static function fromIterable(params:Array<Expr>) : Expr {
+    var array, tparam;
+    if (params.length == 1) {
+      tparam = null;
+      array = params[0];
+    } else {
+      tparam = params[0];
+      array = params[1];
+    }
+    var createStatement = switch(tparam) {
+      case null | { expr: EConst(CIdent('null')) }:
+        var type = Context.typeof(macro @:pos(array.pos) $array.iterator().next());
+        if (!isKnownType(type)) {
+          throw new Error('The full type of the iterable must be known. Make sure it\'s fully typed', array.pos);
+        }
+        var tparam = type.toComplexType();
+        macro unreal.TArrayImpl.create(new unreal.TypeParam<$tparam>());
+      case _:
+        macro unreal.TArrayImpl.create($tparam);
+    };
+    return macro @:pos(array.pos) {
+      var ret = $createStatement;
+      for (value in $array) {
+        ret.push(value);
+      }
+      ret;
+    }
+  }
+#if macro
+  private static function isKnownType(t:Type):Bool {
+    switch(Context.follow(t)) {
+    case TMono(_):
+      return false;
+    case TAbstract(_.get() => a,tl) if (!a.meta.has(':coreType')):
+#if (haxe_ver >= 3.3)
+      // this is more robust than the 3.2 version, since it will also correctly
+      // follow @:multiType abstracts
+      return isKnownType(t.followWithAbstracts(false));
+#else
+      return isKnownType(a.type.applyTypeParameters(a.params, tl));
+#end
+    case _:
+      return true;
+    }
+  }
+#end
 }
 
 class TArrayIterator<T> {

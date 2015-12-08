@@ -327,10 +327,14 @@ using StringTools;
         #if !bake_externs
           // We need to ensure that all types have TypeParamGlue built in order for LambdaBinder to work
           for (i in 0...fnArgs.length) {
-            TypeParamBuild.ensureTypeConvBuilt(args[i].t, fnArgs[i], pos, Globals.cur.currentFeature);
+            if (!fnArgs[i].hasTypeParams()) {
+              TypeParamBuild.ensureTypeConvBuilt(args[i].t, fnArgs[i], pos, Globals.cur.currentFeature);
+            }
           }
           if (!fnRet.haxeType.isVoid()) {
-            TypeParamBuild.ensureTypeConvBuilt(ret, fnRet, pos, Globals.cur.currentFeature);
+            if (!fnRet.hasTypeParams()) {
+              TypeParamBuild.ensureTypeConvBuilt(ret, fnRet, pos, Globals.cur.currentFeature);
+            }
           }
         #end
       default:

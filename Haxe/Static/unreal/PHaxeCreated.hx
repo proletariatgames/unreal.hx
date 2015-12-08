@@ -11,7 +11,7 @@ package unreal;
   @:extern inline private function new(val)
     this = val;
 
-  @:extern inline private function underlying() {
+  @:extern inline public function underlying() {
     return this;
   }
 
