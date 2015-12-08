@@ -123,11 +123,21 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function sort(fn:T->T->Int):Void {
+    var len = this.Num();
+    if (len == 0) {
+      return;
+    }
     var arr = toArray();
-    quicksort(arr, 0, arr.length -1, fn);
+    var elt = null;
+    var i = 0;
+    while (elt == null && i < len) {
+      elt = arr[i++];
+    }
+    var isRef = Std.is(elt, unreal.Wrapper) || Std.is(elt, unreal.UObject);
+    quicksort(arr, 0, arr.length -1, fn, isRef);
   }
 
-  private function quicksort( arr:Array<T>, lo : Int, hi : Int, f : T -> T -> Int ) : Void
+  private function quicksort( arr:Array<T>, lo : Int, hi : Int, f : T -> T -> Int, isRef:Bool ) : Void
   {
     var i = lo, j = hi;
     var p = arr[(i + j) >> 1];
@@ -138,14 +148,19 @@ private typedef TArrayImpl<T> = Dynamic;
       if ( i <= j )
       {
         this.Swap(i,j);
-        var t = arr[i];
-        arr[i++] = arr[j];
-        arr[j--] = t;
+        if (!isRef) {
+          var t = arr[i];
+          arr[i++] = arr[j];
+          arr[j--] = t;
+        } else {
+          i++;
+          j--;
+        }
       }
     }
 
-    if( lo < j ) quicksort( arr, lo, j, f );
-    if( i < hi ) quicksort( arr, i, hi, f );
+    if( lo < j ) quicksort( arr, lo, j, f, isRef );
+    if( i < hi ) quicksort( arr, i, hi, f, isRef );
   }
 #end
 
