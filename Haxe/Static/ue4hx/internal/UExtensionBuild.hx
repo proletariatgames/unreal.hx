@@ -227,10 +227,22 @@ class UExtensionBuild {
         var headerIncludes = new IncludeSet(),
             cppIncludes = new IncludeSet(),
             headerForwards = new Map();
-        for (t in allTypes) {
+        var i = -1;
+        while (++i < allTypes.length) {
+          var t = allTypes[i];
           if (!t.forwardDeclType.isNever()) {
             for (decl in t.forwardDecls) {
               headerForwards[decl] = decl;
+            }
+            switch(t.forwardDeclType) {
+              case Templated(incs):
+                headerIncludes.append(incs);
+                if (t.args != null) {
+                  for (arg in t.args) {
+                    allTypes.push(arg);
+                  }
+                }
+              case _:
             }
             t.getAllCppIncludes( cppIncludes );
           } else {
@@ -347,20 +359,31 @@ class UExtensionBuild {
           }
           headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\n\t\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
-          switch (tconv.forwardDeclType) {
-          case null | Never | AsFunction:
-            tconv.getAllCppIncludes( glueHeaderIncs );
-          case Templated(incs):
-            glueHeaderIncs.append(incs);
-            for (fwd in tconv.forwardDecls) {
-              headerForwards[fwd] = fwd;
+          var types = [tconv];
+          var i = -1;
+          while (++i < types.length) {
+            var tconv = types[i];
+            switch (tconv.forwardDeclType) {
+            case null | Never | AsFunction:
+              tconv.getAllCppIncludes( glueHeaderIncs );
+            case Templated(incs):
+              glueHeaderIncs.append(incs);
+              for (fwd in tconv.forwardDecls) {
+                headerForwards[fwd] = fwd;
+              }
+              glueCppIncs.append( tconv.glueCppIncludes );
+              if (tconv.args != null) {
+                for (arg in tconv.args) {
+                  types.push(arg);
+                }
+              }
+              tconv.getAllCppIncludes(glueCppIncs);
+            case Always:
+              for (fwd in tconv.forwardDecls) {
+                headerForwards[fwd] = fwd;
+              }
+              tconv.getAllCppIncludes(glueCppIncs);
             }
-            tconv.getAllCppIncludes(glueCppIncs);
-          case Always:
-            for (fwd in tconv.forwardDecls) {
-              headerForwards[fwd] = fwd;
-            }
-            tconv.getAllCppIncludes(glueCppIncs);
           }
         }
 

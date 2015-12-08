@@ -568,7 +568,9 @@ using StringTools;
           isEnum: true,
         };
       } else {
+        // non uobject
         var cppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
+        var headerIncludes = IncludeSet.fromUniqueArray(['<unreal/helpers/UEPointer.h>']);
         if (cppIncludes.length == 0) {
           Context.warning('Unreal Glue Code: glueCppIncludes missing for $typeRef', pos);
         }
@@ -581,6 +583,7 @@ using StringTools;
           declType = ForwardDeclEnum.Templated(myIncludes);
           addMyForward = false;
           for (arg in convArgs) {
+            cppIncludes.append(arg.glueCppIncludes);
             if (!arg.isTypeParam) {
               // TArray types can be forward declared, so add an exception here
               switch (arg.forwardDeclType) {
