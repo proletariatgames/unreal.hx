@@ -133,7 +133,7 @@ private typedef TArrayImpl<T> = Dynamic;
     while (elt == null && i < len) {
       elt = arr[i++];
     }
-    var isRef = Std.is(elt, unreal.Wrapper) || Std.is(elt, unreal.UObject);
+    var isRef = Std.is(elt, unreal.Wrapper);
     quicksort(arr, 0, arr.length -1, fn, isRef);
   }
 
