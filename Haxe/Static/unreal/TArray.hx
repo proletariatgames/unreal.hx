@@ -128,12 +128,8 @@ private typedef TArrayImpl<T> = Dynamic;
       return;
     }
     var arr = toArray();
-    var elt = null;
-    var i = 0;
-    while (elt == null && i < len) {
-      elt = arr[i++];
-    }
-    var isRef = Std.is(elt, unreal.Wrapper);
+
+    var isRef = Std.is(arr[0], unreal.Wrapper); // arr[0] will never be null if the underlying type is a struct
     quicksort(arr, 0, arr.length -1, fn, isRef);
   }
 
