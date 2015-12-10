@@ -47,7 +47,7 @@ class ReflectAPI {
             null;
 #end
           var val = arr[i];
-          if (old == null || !handleInplaceStruct(from, val, newPath)) {
+          if (old == null || !handleInplaceStruct(old, val, newPath)) {
             from[i] = changeType(old, val, newPath);
           }
         }
