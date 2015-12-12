@@ -68,4 +68,105 @@ class CoreAPI {
       _c;
     };
   }
+
+  public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
+    var clsType = switch (cls.expr) {
+    case EConst(CIdent(className)):
+      Context.toComplexType(Context.getType(className));
+    case _:
+      throw new Error('Expected class', cls.pos);
+    }
+
+    return macro @:pos(Context.currentPos()) {
+      var _o = $obj;
+      var _c:$clsType = cast _o.GetComponentByClass($cls.StaticClass());
+      _c;
+    };
+  }
+
+  public static macro function addComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
+    var clsType = switch (cls.expr) {
+    case EConst(CIdent(className)):
+      Context.toComplexType(Context.getType(className));
+    case _:
+      throw new Error('Expected class', cls.pos);
+    }
+
+    return macro @:pos(Context.currentPos()) {
+      var _o = $obj;
+      var _c:$clsType = unreal.UObject.NewObjectByClass(new unreal.TypeParam<$clsType>(), _o, $cls.StaticClass());
+      _c.RegisterComponent();
+      _c;
+    };
+  }
+
+  public static macro function AddDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+    var fnName;
+    var accessor = obj;
+    switch(fn.expr) {
+    case EConst(CIdent(s)):
+      fnName = s;
+    case EField(o,s):
+      fnName = s;
+      accessor = o;
+    default: throw new haxe.macro.Error('Expected identifier', fn.pos);
+    }
+    return macro $self.__Internal_AddDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+  }
+
+  public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+    var fnName;
+    var accessor = obj;
+    switch(fn.expr) {
+    case EConst(CIdent(s)):
+      fnName = s;
+    case EField(o,s):
+      fnName = s;
+      accessor = o;
+    default: throw new haxe.macro.Error('Expected identifier', fn.pos);
+    }
+    return macro $self.__Internal_AddUniqueDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+  }
+
+  public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+    var fnName;
+    var accessor = obj;
+    switch(fn.expr) {
+    case EConst(CIdent(s)):
+      fnName = s;
+    case EField(o,s):
+      fnName = s;
+      accessor = o;
+    default: throw new haxe.macro.Error('Expected identifier', fn.pos);
+    }
+    return macro $self.__Internal_RemoveDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+  }
+
+  public static macro function IsAlreadyBound<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+    var fnName;
+    var accessor = obj;
+    switch(fn.expr) {
+    case EConst(CIdent(s)):
+      fnName = s;
+    case EField(o,s):
+      fnName = s;
+      accessor = o;
+    default: throw new haxe.macro.Error('Expected identifier', fn.pos);
+    }
+    return macro $self.__Internal_IsAlreadyBound($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+  }
+
+  public static macro function BindDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+    var fnName;
+    var accessor = obj;
+    switch(fn.expr) {
+    case EConst(CIdent(s)):
+      fnName = s;
+    case EField(o,s):
+      fnName = s;
+      accessor = o;
+    default: throw new haxe.macro.Error('Expected identifier', fn.pos);
+    }
+    return macro $self.__Internal_BindDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+  }
 }

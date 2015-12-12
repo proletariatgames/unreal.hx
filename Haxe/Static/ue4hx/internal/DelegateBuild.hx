@@ -4,6 +4,7 @@ import haxe.macro.Context;
 import haxe.macro.Type;
 
 using haxe.macro.Tools;
+using Lambda;
 using StringTools;
 
 class DelegateBuild {
@@ -67,10 +68,9 @@ class DelegateBuild {
         def.fields.pop(); // take off GetUObject
       }
 
+      var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
+      var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
       if (type != 'DynamicDelegate') {
-        var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
-        var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
-
         var dummy = macro class {
           public function BindLambda(fn:$lambdaType) : Void {
             return ue4hx.internal.DelayedGlue.getNativeCall("BindLambda", false, fn);
@@ -83,6 +83,15 @@ class DelegateBuild {
           }
         }
 
+        for (fld in dummy.fields) {
+          def.fields.push(fld);
+        }
+      } else {
+        var dummy = macro class {
+          public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
+          }
+        }
         for (fld in dummy.fields) {
           def.fields.push(fld);
         }
@@ -149,10 +158,9 @@ class DelegateBuild {
         pos: cl.pos
       });
 
+      var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
+      var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
       if (type != 'DynamicMulticastDelegate') {
-        var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
-        var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
-
         var dummy = macro class {
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
             return ue4hx.internal.DelayedGlue.getNativeCall("AddLambda", false, fn);
@@ -167,6 +175,25 @@ class DelegateBuild {
             ue4hx.internal.DelayedGlue.getNativeCall("Remove", false, handle);
           }
         };
+
+        for (fld in dummy.fields) {
+          def.fields.push(fld);
+        }
+      } else {
+        var dummy = macro class {
+          public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
+          }
+          public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
+          }
+          public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
+          }
+          public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Bool {
+            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);
+          }
+        }
 
         for (fld in dummy.fields) {
           def.fields.push(fld);

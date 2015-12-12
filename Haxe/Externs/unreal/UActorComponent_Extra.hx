@@ -11,21 +11,53 @@ extern class UActorComponent_Extra {
    */
   public function TickComponent(deltaTime:Float32, tickType:ELevelTick, thisTickFunction:PExternal<FActorComponentTickFunction>) : Void;
 
-	/** Used to create any rendering thread information for this component
-	*
-	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
-	*/
+  /** Used to create any rendering thread information for this component
+  *
+  * **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+  */
   private function CreateRenderState_Concurrent() : Void;
 
-	/** Used to shut down any rendering thread structure for this component
-	*
-	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
-	*/
+  /** Used to shut down any rendering thread structure for this component
+  *
+  * **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+  */
   private function DestroyRenderState_Concurrent() : Void;
 
-	/** Recreate the render state right away. Generally you always want to call MarkRenderStateDirty instead.
-	*
-	* **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
-	*/
-	public function RecreateRenderState_Concurrent() : Void;
+  /** Recreate the render state right away. Generally you always want to call MarkRenderStateDirty instead.
+  *
+  * **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
+  */
+  public function RecreateRenderState_Concurrent() : Void;
+
+  /** See if this component is currently registered */
+  @:thisConv function IsRegistered() : Bool;
+
+  /**
+   * BeginsPlay for the component.  Occurs at level startup. This is before BeginPlay (Actor or Component).
+   * All Components (that want initialization) in the level will be Initialized on load before any
+   * Actor/Component gets BeginPlay.
+   * Requires component to be registered and initialized.
+   */
+  function BeginPlay() : Void;
+
+  /**
+   * Ends gameplay for this component.
+   * Called from AActor::EndPlay only if bHasBegunPlay is true
+   */
+  function EndPlay(reason:EEndPlayReason) : Void;
+
+  /** Register this component, creating any rendering/physics state. Will also adds to outer Actor's Components array, if not already present. */
+  function RegisterComponent() : Void;
+
+  /** Unregister this component, destroying any rendering/physics state. */
+  function UnregisterComponent() : Void;
+
+  /** Unregister the component, remove it from its outer Actor's Components array and mark for pending kill. */
+  function DestroyComponent(bPromoteChildren:Bool) : Void;
+
+  /** Called when a component is created (not loaded) */
+  function OnComponentCreated() : Void;
+
+  /** Called when a component is destroyed */
+  function OnComponentDestroyed() : Void;
 }
