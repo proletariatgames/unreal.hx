@@ -164,6 +164,8 @@ using StringTools;
             name: aref.toString(),
             args: tl,
             meta: at.meta,
+            isEnum: at.meta.has(':enum'),
+            isAbstract: true,
 
             baseType: at,
             isBasic: true,
@@ -499,24 +501,40 @@ using StringTools;
     }
 
     // Handle uenums declared in haxe
-    if (ctx.isEnum && meta != null && meta.has(':uenum') && !meta.has(':uextern')) {
-      var ret:TypeConvInfo = {
-        haxeType: originalTypeRef,
-        ueType: refName,
-        haxeGlueType: new TypeRef("Int"),
-        glueType: new TypeRef("Int"),
+    if (ctx.isEnum && meta != null && (meta.has(':uenum') || (ctx.isAbstract && meta.has(':enum'))) && !meta.has(':uextern')) {
+      if (ctx.isAbstract) {
+        return {
+          haxeType: originalTypeRef,
+          ueType: refName,
+          haxeGlueType: new TypeRef("Int"),
+          glueType: new TypeRef("Int"),
 
-        glueCppIncludes: IncludeSet.fromUniqueArray(['${refName.name}.h']),
-        glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+          glueCppIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes')),
+          glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
-        haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
-        glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
-        glueToUeExpr: '( (${refName.getCppType()}) % )',
-        ueToGlueExpr : '( (int) % )',
-        args: convArgs,
-        isEnum: true,
-      };
-      return ret;
+          glueToUeExpr: '( (${refName.getCppType()}) % )',
+          ueToGlueExpr : '( (int) % )',
+          args: convArgs,
+          isEnum: true,
+        };
+      } else {
+        return {
+          haxeType: originalTypeRef,
+          ueType: refName,
+          haxeGlueType: new TypeRef("Int"),
+          glueType: new TypeRef("Int"),
+
+          glueCppIncludes: IncludeSet.fromUniqueArray(['${refName.name}.h']),
+          glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+
+          haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
+          glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
+          glueToUeExpr: '( (${refName.getCppType()}) % )',
+          ueToGlueExpr : '( (int) % )',
+          args: convArgs,
+          isEnum: true,
+        };
+      }
     }
 
     if (meta != null && (meta.has(':uextern') || meta.has(':ustruct'))) {
@@ -1061,6 +1079,7 @@ typedef TypeConvCtx = {
   ?isUObject:Bool,
   ?isEnum:Bool,
   ?isFunction:Bool,
+  ?isAbstract:Bool,
 
   ?originalType:TypeRef,
   ?isTypeParam:Bool,
