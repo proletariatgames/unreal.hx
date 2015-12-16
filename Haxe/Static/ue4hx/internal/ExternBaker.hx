@@ -556,15 +556,6 @@ class ExternBaker {
           this.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
         this.end('}');
 
-        // add the reflectGetWrapped()
-        this.add('@:ifFeature("unreal.helpers.HxcppRuntime.getWrapped") private function reflectGetWrapped():cpp.Pointer<Dynamic>');
-        this.begin(' {');
-          this.add('return cpp.Pointer.fromRaw(cast this.wrapped);');
-        this.end('}');
-        this.add('@:ifFeature("unreal.helpers.HxcppRuntime.getWrappedRef") private function reflectGetWrappedRef():cpp.Pointer<Dynamic>');
-        this.begin(' {');
-          this.add('return cpp.Pointer.addressOf(this.wrapped).reinterpret();');
-        this.end('}');
       } else if (!c.isInterface && !this.thisConv.isUObject) {
         // add rewrap
         this.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');

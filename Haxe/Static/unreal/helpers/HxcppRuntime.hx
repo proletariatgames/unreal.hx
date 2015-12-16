@@ -19,31 +19,33 @@ private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
   }
 
   public static function getWrapped(ptr:VoidPtr):VoidPtr {
-    var dyn:{ function reflectGetWrapped():cpp.Pointer<Dynamic>; } =
-      toDyn(ptr);
-
-    var ret:cpp.Pointer<Dynamic>;
-    if (dyn == null) {
-      ret = null;
+    var dyn:Dynamic = toDyn(ptr);
+    var ret:VoidPtr = untyped __cpp__('(void *) 0');
+    if (Std.is(dyn, UObject)) {
+      var uobj:UObject = dyn;
+      ret = @:privateAccess uobj.getWrapped().rawCast();
+    } else if (Std.is(dyn, Wrapper)) {
+      var wrapper:Wrapper = dyn;
+      ret = @:privateAccess wrapper.getWrapped().rawCast();
     } else {
-      ret = dyn.reflectGetWrapped();
+      throw 'Unknown object type: $dyn (${Type.getClassName(Type.getClass(dyn))})';
     }
-
-    return ret.rawCast();
+    return ret;
   }
 
   public static function getWrappedRef(ptr:VoidPtr) : VoidPtr {
-    var dyn:{ function reflectGetWrappedRef():cpp.Pointer<Dynamic>; } =
-      toDyn(ptr);
-
-    var ret:cpp.Pointer<Dynamic>;
-    if (dyn == null) {
-      ret = null;
+    var dyn:Dynamic = toDyn(ptr);
+    var ret:VoidPtr = untyped __cpp__('(void *) 0');
+    if (Std.is(dyn, UObject)) {
+      var uobj:UObject = dyn;
+      ret = @:privateAccess uobj.getWrappedAddr().rawCast();
+    } else if (Std.is(dyn, Wrapper)) {
+      var wrapper:Wrapper = dyn;
+      ret = @:privateAccess cpp.Pointer.addressOf(wrapper.wrapped).rawCast();
     } else {
-      ret = dyn.reflectGetWrappedRef();
+      throw 'Unknown object type: $dyn (${Type.getClassName(Type.getClass(dyn))})';
     }
-
-    return ret.rawCast();
+    return ret;
   }
 
   @:native("callFunction")
