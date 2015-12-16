@@ -473,8 +473,14 @@ class UExtensionBuild {
     // this ueGluePath is later added to gluesToGenerate (before defineType is called)
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
     var uclass = clt.meta.extract(':uclass')[0];
-    if (uclass != null)
+    if (uclass != null) {
       includes.add('${fileName}.generated.h');
+    } else {
+      // We might want to add a new metadata to allow these
+      // For now, I don't really see the value of having a non-uclass that extends a uobject
+      // so we'll just fail
+      throw new Error('Unreal Extension: This UObject-derived class does not contain a `@:uclass` metadata', clt.pos);
+    }
 
     var hasHaxeSuper = false;
     if (clt.superClass != null) {
