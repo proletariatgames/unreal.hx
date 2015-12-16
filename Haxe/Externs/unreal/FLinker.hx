@@ -1,6 +1,8 @@
 package unreal;
 
 @:glueCppIncludes('UObject/Linker.h')
+@:noCopy
+@:noEquals
 @:uextern extern class FLinker {
   /**
 
