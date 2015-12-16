@@ -2,6 +2,7 @@ package unreal;
 
 @:glueCppIncludes("Misc/OutputDevice.h")
 @:noCopy
+@:noEquals
 @:uextern extern class FOutputDevice {
   function Flush():Void;
 

@@ -122,6 +122,13 @@ public:
 };
 
 template<typename T>
+class HAXERUNTIME_API TypeParamGlue<const T*> {
+public:
+  static const T* haxeToUe(void *haxe);
+  static void *ueToHaxe(const T* ue);
+};
+
+template<typename T>
 class HAXERUNTIME_API TypeParamGlue<const T> {
 public:
   static const T haxeToUe(void *haxe);
@@ -157,6 +164,16 @@ const T& TypeParamGlue<const T&>::haxeToUe(void *haxe) {
 template<typename T>
 void *TypeParamGlue<const T&>::ueToHaxe(const T& ue) {
   return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
+}
+
+template<typename T>
+const T* TypeParamGlue<const T*>::haxeToUe(void *haxe) {
+  return TypeParamGlue<T*>::haxeToUe(haxe);
+}
+
+template<typename T>
+void *TypeParamGlue<const T*>::ueToHaxe(const T* ue) {
+  return TypeParamGlue<T*>::ueToHaxe(const_cast<T*>(ue));
 }
 
 template<typename T>
