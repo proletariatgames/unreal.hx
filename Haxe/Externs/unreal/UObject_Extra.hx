@@ -49,11 +49,14 @@ extern class UObject_Extra {
   public function GetWorld() : UWorld;
 //#endif
 
- @:thisConst
- public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<PStruct<FLifetimeProperty>>>) : Void;
+  @:thisConst
+  public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<PStruct<FLifetimeProperty>>>) : Void;
 
- public function IsA(uclass:UClass) : Bool;
+  public function IsA(uclass:UClass) : Bool;
 
+  public function GetOutermost():UPackage;
+
+  public function GetOuter():UObject;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
@@ -81,6 +84,9 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbow:UPackageMap) : PExternal<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function CreatePackage(outer:UObject, packageName:TCharStar):UPackage;
 
   public function PostEditImport() : Void;
 
