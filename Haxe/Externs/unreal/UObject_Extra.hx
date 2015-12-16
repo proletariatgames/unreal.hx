@@ -69,6 +69,11 @@ extern class UObject_Extra {
   @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PExternal<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("NewObject")
+  @:typeName
+  @:global public static function NewObjectWithFlags<T>(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PExternal<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")

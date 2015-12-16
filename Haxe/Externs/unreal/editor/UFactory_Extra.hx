@@ -12,23 +12,23 @@ extern class UFactory_Extra {
   /**
     True if this factory can deal with the file sent in.
    **/
-  function FactoryCanImport(filename:PRef<FString>):Bool;
+  function FactoryCanImport(filename:Const<PRef<FString>>):Bool;
 
   /**
     Returns the tooltip text description of this factory
    **/
-  function GetToolTip():FText;
+  @:thisConst function GetToolTip():FText;
 
   /**
     True if the factory can currently create a new object from scratch.
     Override this to return true so you can override `FactoryCreateNew`
    **/
-  function CanCreateNew():Bool;
+  @:thisConst function CanCreateNew():Bool;
 
   /**
     Returns true if this factory should be shown in the New Asset menu (by default calls CanCreateNew).
    **/
-  function ShouldShowInNewMenu():Bool;
+  @:thisConst function ShouldShowInNewMenu():Bool;
 
   static function GetCurrentFilename():FString;
 }

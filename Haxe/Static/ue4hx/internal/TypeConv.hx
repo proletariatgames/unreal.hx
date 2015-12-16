@@ -952,7 +952,7 @@ using StringTools;
       // TCharStar
       {
         haxeType: new TypeRef(['unreal'],'TCharStar'),
-        ueType: new TypeRef('TCHAR*'),
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('TCHAR')]),
         haxeGlueType: voidStar,
         glueType: voidStar,
 
