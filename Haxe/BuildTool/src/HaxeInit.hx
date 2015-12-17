@@ -17,7 +17,7 @@ using StringTools;
 @:native("UnrealBuildTool.Rules.HaxeInit")
 class HaxeInit extends BaseModuleRules
 {
-  override private function config(target:TargetInfo, firstRun:Bool)
+  override private function config(target:TargetInfo, firstRun:Bool, ?config:HaxeModuleConfig)
   {
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     if (firstRun) updateProject();

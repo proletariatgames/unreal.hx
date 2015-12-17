@@ -19,8 +19,9 @@ class HaxeModuleRules extends BaseModuleRules
   private static var disabled:Bool = false;
   private static var VERSION_LEVEL = 2;
 
-  override private function config(target:TargetInfo, firstRun:Bool)
+  override private function config(target:TargetInfo, firstRun:Bool, ?config:HaxeModuleConfig)
   {
+    if (config == null) config = {};
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
@@ -47,7 +48,7 @@ class HaxeModuleRules extends BaseModuleRules
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
     this.bUseRTTI = true;
-    if (!disabled && firstRun)
+    if (!config.disabled && firstRun)
     {
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
@@ -76,9 +77,12 @@ class HaxeModuleRules extends BaseModuleRules
         // Windows paths have '\' which needs to be escaped for macro arguments
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
-        var forceCreateExterns = Sys.getEnv('BAKE_EXTERNS') != null;
-        var forceDce = Sys.getEnv('DCE_FULL') != null;
-        var forceNoDce = Sys.getEnv('NO_DCE') != null;
+        var forceCreateExterns = config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : config.forceBakeExterns;
+        var forceDce = config.forceDce == null ? Sys.getEnv('DCE_FULL') != null : config.forceDce.toLowerCase() == 'full';
+        var forceNoDce = config.forceDce == null ? Sys.getEnv('NO_DCE') != null : config.forceDce.toLowerCase() == 'no';
+        if (config.forceDce != null && !forceDce && !forceNoDce && config.forceDce != 'std') {
+          trace('WARNING: Bad config: "${config.forceDce}" is not a valid dce kind (force,no)');
+        }
         if (forceDce && forceNoDce) {
           trace('WARNING: Both DCE_FULL and NO_DCE are defined. DCE_FULL will take precedence');
         }
@@ -116,11 +120,20 @@ class HaxeModuleRules extends BaseModuleRules
           var targetDir = '$outputDir/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
-          var args = [
+          var cps = [
             'arguments.hxml',
             '-cp $gameDir/Haxe/Generated/$externsFolder',
             '-cp $pluginPath/Haxe/Static',
             '-cp Static',
+          ];
+          if (config.extraStaticClasspaths != null) {
+            for (arg in config.extraStaticClasspaths) {
+              cps.push('-cp $arg');
+              modulePaths.push('"' + arg.replace('\\','/') +'"');
+            }
+          }
+
+          var args = cps.concat([
             '',
             '-main UnrealInit',
             '',
@@ -131,7 +144,7 @@ class HaxeModuleRules extends BaseModuleRules
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
-          ];
+          ]);
 
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
@@ -208,6 +221,8 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (extraArgs != null)
             args = args.concat(extraArgs);
+          if (config.extraCompileArgs != null)
+            args = args.concat(config.extraCompileArgs);
           trace(Sys.getCwd());
           var ret = compileSources(isCrossCompiling ? null : 'build-static', args);
 
@@ -256,7 +271,7 @@ class HaxeModuleRules extends BaseModuleRules
           throw 'Haxe compilation failed';
         }
       }
-    } else if (disabled && firstRun) {
+    } else if (config.disabled && firstRun) {
       var gen = try {
         Path.GetFullPath('$modulePath/../Generated');
       } catch(e:Dynamic) {
@@ -270,7 +285,7 @@ class HaxeModuleRules extends BaseModuleRules
     // this will disable precompiled headers
     // this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
-    if (disabled || !exists(outputStatic))
+    if (config.disabled || !exists(outputStatic))
     {
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {

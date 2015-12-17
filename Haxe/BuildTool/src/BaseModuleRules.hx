@@ -49,7 +49,7 @@ class BaseModuleRules extends ModuleRules
     firstRunMap[curName] = false;
   }
 
-  private function config(target:TargetInfo, firstRun:Bool)
+  private function config(target:TargetInfo, firstRun:Bool, ?config:HaxeModuleConfig)
   {
     throw 'Override me';
   }
