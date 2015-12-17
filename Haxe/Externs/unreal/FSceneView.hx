@@ -4,6 +4,6 @@ package unreal;
 @:uextern @:noCopy @:noEquals extern class FSceneView {
 
   @:thisConst
-  public function WorldToPixel(WorldPoint:FVector, OutPixelLocation:FVector2D) : Bool;
+  public function WorldToPixel(WorldPoint:Const<PRef<FVector>>, OutPixelLocation:PRef<FVector2D>) : Bool;
 
 }
