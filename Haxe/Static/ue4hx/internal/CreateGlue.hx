@@ -15,6 +15,7 @@ class CreateGlue {
   static var hasRun = false;
 
   public static function run(alwaysCompilePaths:Array<String>) {
+    registerMacroCalls();
     Globals.cur.canCreateTypes = true;
     // get all types that need to be compiled recursively
     var toCompile = [];
@@ -24,7 +25,6 @@ class CreateGlue {
     if (toCompile.length == 0)
       toCompile.push('UnrealInit');
 
-    registerMacroCalls();
     Globals.cur.canCreateTypes = true;
 
     var modules = [ for (module in toCompile) Context.getModule(module) ];
@@ -161,10 +161,10 @@ class CreateGlue {
       Context.onMacroContextReused(function() {
         trace('reusing macro context');
         hasRun = false;
+        Globals.reset();
         return true;
       });
     }
-    Globals.reset();
     Globals.cur.setHaxeRuntimeDir();
     haxe.macro.Compiler.include('unreal.helpers');
   }

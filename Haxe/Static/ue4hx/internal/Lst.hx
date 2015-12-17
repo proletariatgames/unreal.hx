@@ -12,4 +12,14 @@ class Lst<T> {
   inline public function add(value:T):Lst<T> {
     return new Lst(value, this);
   }
+
+  public function toString() {
+    var tmp = [];
+    var cur = this;
+    while (cur != null) {
+      tmp.push(cur.value);
+      cur = cur.next;
+    }
+    return tmp.toString();
+  }
 }
