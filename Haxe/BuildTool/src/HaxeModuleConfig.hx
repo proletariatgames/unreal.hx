@@ -16,7 +16,7 @@ typedef HaxeModuleConfig = {
   /**
     Overrides DCE config
    **/
-  ?forceDce:String, /* can be 'full' or 'no' */
+  ?dce:Dce, /* can be 'full' or 'no' */
   /**
     Adds compilation arguments to the build hxml.
     This follows the hxml convention, with each argument representing a line in the hxml.
@@ -28,4 +28,10 @@ typedef HaxeModuleConfig = {
     Every .hx type in this folder will be compiled
    **/
   ?extraStaticClasspaths: Array<String>,
+}
+
+@:enum abstract Dce(String) from String {
+  var DceStd = 'std';
+  var DceFull = 'full';
+  var DceNo = 'no';
 }

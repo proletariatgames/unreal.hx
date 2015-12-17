@@ -19,8 +19,17 @@ class HaxeModuleRules extends BaseModuleRules
   private static var disabled:Bool = false;
   private static var VERSION_LEVEL = 2;
 
-  override private function config(target:TargetInfo, firstRun:Bool, ?config:HaxeModuleConfig)
+  private function getConfig():HaxeModuleConfig {
+    return {
+      disabled: false,
+      forceBakeExterns: Sys.getEnv('BAKE_EXTERNS') != null,
+      dce: Sys.getEnv('DCE_FULL') != null ? DceFull : (Sys.getEnv('NO_DCE') != null ? DceNo : null),
+    };
+  }
+
+  override private function run(target:TargetInfo, firstRun:Bool)
   {
+    var config = getConfig();
     if (config == null) config = {};
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
@@ -78,13 +87,11 @@ class HaxeModuleRules extends BaseModuleRules
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
         var forceCreateExterns = config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : config.forceBakeExterns;
-        var forceDce = config.forceDce == null ? Sys.getEnv('DCE_FULL') != null : config.forceDce.toLowerCase() == 'full';
-        var forceNoDce = config.forceDce == null ? Sys.getEnv('NO_DCE') != null : config.forceDce.toLowerCase() == 'no';
-        if (config.forceDce != null && !forceDce && !forceNoDce && config.forceDce != 'std') {
-          trace('WARNING: Bad config: "${config.forceDce}" is not a valid dce kind (force,no)');
-        }
-        if (forceDce && forceNoDce) {
-          trace('WARNING: Both DCE_FULL and NO_DCE are defined. DCE_FULL will take precedence');
+        var forceDce = config.dce == DceFull;
+        var forceNoDce = config.dce == DceNo;
+
+        if (config.dce != null && !forceDce && !forceNoDce && config.dce != DceStd) {
+          trace('WARNING: Bad config: "${config.dce}" is not a valid dce kind (force,no)');
         }
         var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [

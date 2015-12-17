@@ -45,11 +45,11 @@ class BaseModuleRules extends ModuleRules
     haxeSourcesPath = Path.GetFullPath(gameDir + "/Haxe");
     internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
 
-    config(target, firstRun);
+    run(target, firstRun);
     firstRunMap[curName] = false;
   }
 
-  private function config(target:TargetInfo, firstRun:Bool, ?config:HaxeModuleConfig)
+  private function run(target:TargetInfo, firstRun:Bool)
   {
     throw 'Override me';
   }
