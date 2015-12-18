@@ -12,6 +12,18 @@ class UnrealInit
   static function main()
   {
     haxe.Log.trace = customTrace;
+    var meta = haxe.rtti.Meta.getType(UnrealInit);
+    if (meta != null && meta.initTypes != null) {
+      for (typeName in meta.initTypes) {
+        var type:Dynamic = Type.resolveClass(typeName);
+        if (type == null) {
+          trace('Error', 'Type $typeName was not found (__uinit__)');
+        } else {
+          type.__uinit__();
+        }
+      }
+    }
+
     trace("initializing unreal haxe");
   }
 
