@@ -58,18 +58,18 @@ extern "C" void check_hx_init()
 {
   bool firstInit = true;
   if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
-    while (gDidInit == 1) {
-      // spin while waiting for the initialization to finish
-      FPlatformProcess::Sleep(0.01f);
-    }
-
-    firstInit = false;
     // check if the thread was registered
     if (!GET_TLS_VALUE(tlsDidInit)) {
       SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
     } else {
       return;
     }
+    while (gDidInit == 1) {
+      // spin while waiting for the initialization to finish
+      FPlatformProcess::Sleep(0.01f);
+    }
+
+    firstInit = false;
   } else {
     // main thread needs TLS too
     SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
