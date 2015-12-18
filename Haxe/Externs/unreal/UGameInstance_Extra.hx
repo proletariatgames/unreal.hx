@@ -5,6 +5,9 @@ extern class UGameInstance_Extra {
   @:uexpose
   public function Init() : Void;
 
+  /** virtual function to allow custom GameInstances an opportunity to do cleanup when shutting down */
+  public function Shutdown() : Void;
+
   @:thisConst
   public function GetLocalPlayers() : Const<PRef<TArray<ULocalPlayer>>>;
 }
