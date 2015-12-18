@@ -7,20 +7,19 @@ import unreal.helpers.HxcppRuntime;
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n")
+@:access(unreal.CoreAPI)
 class UnrealInit
 {
+  static var delayedInits:Array<Void->Void>;
+
   static function main()
   {
     haxe.Log.trace = customTrace;
-    var meta = haxe.rtti.Meta.getType(UnrealInit);
-    if (meta != null && meta.initTypes != null) {
-      for (typeName in meta.initTypes) {
-        var type:Dynamic = Type.resolveClass(typeName);
-        if (type == null) {
-          trace('Error', 'Type $typeName was not found (__uinit__)');
-        } else {
-          type.__uinit__();
-        }
+    var delayed = unreal.CoreAPI.delayedInits;
+    unreal.CoreAPI.hasInit = true;
+    if (delayed != null) {
+      for (delayed in delayed) {
+        delayed();
       }
     }
 

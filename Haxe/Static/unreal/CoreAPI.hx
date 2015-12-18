@@ -15,6 +15,24 @@ import unreal.Wrapper;
 #end
 class CoreAPI {
 
+  static var delayedInits:Array<Void->Void>;
+  static var hasInit = false;
+
+  /**
+    Runs function `fn` after hxcpp static initialization but before any other Unreal code has executed
+   **/
+  public static function runAtInit(fn:Void->Void) {
+    if (hasInit) {
+      var msg = 'All `runAtInit` functions should be registered at initialization time (e.g. on `__init__` static functions)';
+      trace('Error', msg);
+      throw msg;
+    } else if (delayedInits == null) {
+      delayedInits = [fn];
+    } else {
+      delayedInits.push(fn);
+    }
+  }
+
   #if !macro
   public static function equals(a:Dynamic, b:Dynamic) : Bool {
     if ((a == null) && (b == null)) {

@@ -37,13 +37,8 @@ class CreateGlue {
           var cl = c.get();
           for (field in cl.fields.get())
             Context.follow(field.type);
-          for (field in cl.statics.get()) {
-            if (field.name == '__uinit__') {
-              uinits.push(c.toString());
-              field.meta.add(':keep', [], field.pos);
-            }
+          for (field in cl.statics.get())
             Context.follow(field.type);
-          }
           var ctor = cl.constructor;
           if (ctor != null)
             Context.follow(ctor.get().type);
@@ -51,14 +46,6 @@ class CreateGlue {
           UEnumBuild.processEnum(type);
         case _:
         }
-      }
-    }
-    if (uinits.length > 0) {
-      switch(Context.getType('UnrealInit')) {
-        case TInst(_.get() => c, _):
-          c.meta.add('initTypes', [ for (uinit in uinits) macro $v{uinit} ], c.pos);
-        case _:
-          throw 'assert';
       }
     }
 
