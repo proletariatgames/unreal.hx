@@ -29,4 +29,10 @@ extern class UEngine_Extra {
    */
   @:thisConst
   public function GetNetMode(World:Const<UWorld>) : ENetMode;
+
+  /**
+    Check to see if this executable is running a commandlet
+   **/
+  @:glueCppIncludes('CoreGlobals.h')
+  @:global static function IsRunningCommandlet():Bool;
 }
