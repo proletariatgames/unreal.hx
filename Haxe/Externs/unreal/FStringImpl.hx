@@ -10,5 +10,5 @@ package unreal;
   @:thisConst function ToBool() : Bool;
 
   @:expr(return this.op_Dereference()) public function toString():String;
-zsh:1: command not found: :git
+}
 
