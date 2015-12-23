@@ -57,12 +57,7 @@ class HaxeModuleRules extends BaseModuleRules
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
     // try to compile haxe if we have Haxe installed
     this.bUseRTTI = true;
-    if (!config.disabled && firstRun)
-    {
-      if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
-        Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
-      }
-
+    if (firstRun) {
       // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
       //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
       //       recently changed how often the build scripts are run - so they don't run if the project
@@ -75,6 +70,13 @@ class HaxeModuleRules extends BaseModuleRules
         thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
         cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
       });
+    }
+
+    if (!config.disabled && firstRun)
+    {
+      if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
+        Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
+      }
 
       // check if haxe compiler / sources are present
       var hasHaxe = call('haxe', ['-version'], false) == 0;
@@ -108,7 +110,8 @@ class HaxeModuleRules extends BaseModuleRules
           bakeArgs.push('-D WITH_EDITOR');
         }
         trace('baking externs');
-        var ret = compileSources('bake-externs', bakeArgs);
+        var ret = compileSources(bakeArgs);
+        this.createHxml('bake-externs', bakeArgs);
 
         // compileSource('bake-externs',
         // get all modules that need to be compiled
@@ -231,7 +234,12 @@ class HaxeModuleRules extends BaseModuleRules
           if (config.extraCompileArgs != null)
             args = args.concat(config.extraCompileArgs);
           trace(Sys.getCwd());
-          var ret = compileSources(isCrossCompiling ? null : 'build-static', args);
+          var ret = compileSources(args);
+          if (!isCrossCompiling) {
+            this.createHxml('build-static', args);
+            var complArgs = ['--cwd $gameDir/Haxe', '--no-output'].concat(args);
+            this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
+          }
 
           if (oldEnvs != null)
             setEnvs(oldEnvs);
@@ -272,10 +280,12 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (ret != 0)
           {
-            throw 'Haxe compilation failed';
+            Log.TraceError('Haxe compilation failed');
+            Sys.exit(10);
           }
         } else {
-          throw 'Haxe compilation failed';
+          Log.TraceError('Haxe compilation failed');
+          Sys.exit(10);
         }
       }
     } else if (config.disabled && firstRun) {
@@ -348,19 +358,20 @@ class HaxeModuleRules extends BaseModuleRules
     return oldEnvs;
   }
 
-  private function compileSources(name:Null<String>, args:Array<String>, ?realOutput:String)
+  private function createHxml(name:String, args:Array<String>) {
+    var hxml = new StringBuf();
+    hxml.add('# this file is here for convenience only (e.g. to make your IDE work or to compile without invoking UE4 Build)\n');
+    hxml.add('# this is not used by the build pipeline, and is recommended to be ignored by your SCM\n');
+    hxml.add('# please change "arguments.hxml" instead\n\n');
+    var i = -1;
+    for (arg in args)
+      hxml.add(arg + '\n');
+    File.saveContent('$gameDir/Haxe/gen-$name.hxml', hxml.toString());
+  }
+
+  private function compileSources(args:Array<String>, ?realOutput:String)
   {
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-    if (name != null) {
-      var hxml = new StringBuf();
-      hxml.add('# this file is here for convenience only (e.g. to make your IDE work or to compile without invoking UE4 Build)\n');
-      hxml.add('# this is not used by the build pipeline, and is recommended to be ignored by your SCM\n');
-      hxml.add('# please change "arguments.hxml" instead\n\n');
-      var i = -1;
-      for (arg in args)
-        hxml.add(arg + '\n');
-      File.saveContent('$gameDir/Haxe/$name.hxml', hxml.toString());
-    }
 
     var cmdArgs = [];
     for (arg in args) {
