@@ -18,6 +18,7 @@ class HaxeModuleRules extends BaseModuleRules
 {
   private static var disabled:Bool = false;
   private static var VERSION_LEVEL = 2;
+  private var config:HaxeModuleConfig;
 
   private function getConfig():HaxeModuleConfig {
     return {
@@ -29,8 +30,8 @@ class HaxeModuleRules extends BaseModuleRules
 
   override private function run(target:TargetInfo, firstRun:Bool)
   {
-    var config = getConfig();
-    if (config == null) config = {};
+    this.config = getConfig();
+    if (this.config == null) this.config = {};
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
@@ -63,17 +64,34 @@ class HaxeModuleRules extends BaseModuleRules
       //       recently changed how often the build scripts are run - so they don't run if the project
       //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
       var buildcs = modulePath;
+      for (file in readDirectory(gameDir)) {
+        if (file.endsWith('.uproject')) {
+          buildcs = '$gameDir/$file';
+          break;
+        }
+      }
       cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
         trace('Touching $buildcs');
         var thisTime = cs.system.DateTime.UtcNow;
         // add one second so they don't end up with the exact same timestamp
         thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
-        cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
+        try {
+          cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
+        } catch(e:Dynamic) {
+          if (buildcs != modulePath) {
+            // the uproject might be write-proteceted because of some
+            trace('Touching $buildcs failed. Touching $modulePath');
+            cs.system.io.File.SetLastWriteTimeUtc(modulePath, thisTime);
+          } else {
+            cs.Lib.rethrow(e);
+          }
+        }
       });
     }
 
-    if (!config.disabled && firstRun)
+    if (!this.config.disabled && firstRun)
     {
+      var teverything = timer('Haxe setup (all compilation times included)');
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
       }
@@ -88,12 +106,12 @@ class HaxeModuleRules extends BaseModuleRules
         // Windows paths have '\' which needs to be escaped for macro arguments
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
-        var forceCreateExterns = config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : config.forceBakeExterns;
-        var forceDce = config.dce == DceFull;
-        var forceNoDce = config.dce == DceNo;
+        var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
+        var forceDce = this.config.dce == DceFull;
+        var forceNoDce = this.config.dce == DceNo;
 
-        if (config.dce != null && !forceDce && !forceNoDce && config.dce != DceStd) {
-          trace('WARNING: Bad config: "${config.dce}" is not a valid dce kind (force,no)');
+        if (this.config.dce != null && !forceDce && !forceNoDce && this.config.dce != DceStd) {
+          trace('WARNING: Bad config: "${this.config.dce}" is not a valid dce kind (force,no)');
         }
         var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
@@ -110,7 +128,9 @@ class HaxeModuleRules extends BaseModuleRules
           bakeArgs.push('-D WITH_EDITOR');
         }
         trace('baking externs');
+        var tbake = timer('bake externs');
         var ret = compileSources(bakeArgs);
+        tbake();
         this.createHxml('bake-externs', bakeArgs);
 
         // compileSource('bake-externs',
@@ -136,8 +156,8 @@ class HaxeModuleRules extends BaseModuleRules
             '-cp $pluginPath/Haxe/Static',
             '-cp Static',
           ];
-          if (config.extraStaticClasspaths != null) {
-            for (arg in config.extraStaticClasspaths) {
+          if (this.config.extraStaticClasspaths != null) {
+            for (arg in this.config.extraStaticClasspaths) {
               cps.push('-cp $arg');
               modulePaths.push('"' + arg.replace('\\','/') +'"');
             }
@@ -231,10 +251,12 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (extraArgs != null)
             args = args.concat(extraArgs);
-          if (config.extraCompileArgs != null)
-            args = args.concat(config.extraCompileArgs);
+          if (this.config.extraCompileArgs != null)
+            args = args.concat(this.config.extraCompileArgs);
           trace(Sys.getCwd());
+          var thaxe = timer('Haxe compilation');
           var ret = compileSources(args);
+          thaxe();
           if (!isCrossCompiling) {
             this.createHxml('build-static', args);
             var complArgs = ['--cwd $gameDir/Haxe', '--no-output'].concat(args);
@@ -288,7 +310,8 @@ class HaxeModuleRules extends BaseModuleRules
           Sys.exit(10);
         }
       }
-    } else if (config.disabled && firstRun) {
+      teverything();
+    } else if (this.config.disabled && firstRun) {
       var gen = try {
         Path.GetFullPath('$modulePath/../Generated');
       } catch(e:Dynamic) {
@@ -302,7 +325,7 @@ class HaxeModuleRules extends BaseModuleRules
     // this will disable precompiled headers
     // this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
-    if (config.disabled || !exists(outputStatic))
+    if (this.config.disabled || !exists(outputStatic))
     {
       Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
     } else {
@@ -392,6 +415,11 @@ class HaxeModuleRules extends BaseModuleRules
       cmdArgs.push(arg);
     }
     cmdArgs = ['--cwd', haxeSourcesPath].concat(cmdArgs);
+    if (!this.config.disableTimers) {
+      cmdArgs.push('--times');
+      cmdArgs.push('-D');
+      cmdArgs.push('macro_times');
+    }
 
     return call('haxe', cmdArgs, true);
   }
@@ -499,6 +527,17 @@ class HaxeModuleRules extends BaseModuleRules
     {
       Log.TraceError('Error while calling haxelib path $name: $e');
       return null;
+    }
+  }
+
+  private function timer(name:String):Void->Void {
+    if (this.config.disableTimers)
+      return function() {};
+    var sw = new cs.system.diagnostics.Stopwatch();
+    sw.Start();
+    return function() {
+      sw.Stop();
+      Log.TraceInformation(' -> $name executed in ${sw.Elapsed}');
     }
   }
 }

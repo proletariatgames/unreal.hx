@@ -28,6 +28,11 @@ typedef HaxeModuleConfig = {
     Every .hx type in this folder will be compiled
    **/
   ?extraStaticClasspaths: Array<String>,
+
+  /**
+    Tells whether timing should be disabled
+   **/
+  ?disableTimers:Bool,
 }
 
 @:enum abstract Dce(String) from String {
