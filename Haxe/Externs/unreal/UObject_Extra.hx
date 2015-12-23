@@ -93,6 +93,8 @@ extern class UObject_Extra {
 
   public function PostEditImport() : Void;
 
+  public function PostDuplicate(bDuplicateForPIE:Bool):Void;
+
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
 	public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;
