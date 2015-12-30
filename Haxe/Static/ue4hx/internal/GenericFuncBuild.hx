@@ -22,7 +22,7 @@ class GenericFuncBuild {
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
 
-    var target = Compiler.getDefine('bake_dir');
+    var target = Context.definedValue('bake_dir');
     if (target == null) {
       Context.warning('Haxe Glue Generic Wrapper: `bake_dir` directive is not set and this code uses generics. Make sure you have the latest build tool. Compilation may fail.', cl.pos);
       return;
@@ -33,7 +33,7 @@ class GenericFuncBuild {
     if (glueCode != null) {
       var path = caller.getClassPath().replace('.','/') + '.h';
       cl.meta.add(':cppFileCode', [macro $v{'#include <${path}>\n'}], cl.pos);
-      if (Compiler.getDefine('dce') == 'full') {
+      if (Context.definedValue('dce') == 'full') {
         var output = Compiler.getOutput() + '/include/$path';
         var path = haxe.io.Path.directory(output);
         if (!FileSystem.exists(path)) {

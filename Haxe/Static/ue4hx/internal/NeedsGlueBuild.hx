@@ -427,7 +427,7 @@ $prelude
     // and error if we don't
     checkedVersion = true;
 
-    var buildVer = haxe.macro.Compiler.getDefine('BUILDTOOL_VERSION_LEVEL');
+    var buildVer = Context.definedValue('BUILDTOOL_VERSION_LEVEL');
     if (buildVer == null || Std.parseInt(buildVer) < Globals.MIN_BUILDTOOL_VERSION_LEVEL) {
       var pos = Context.makePosition({ file: 'UE4Haxe Toolchain', min:0, max:0 });
       Context.fatalError('You have an incompatible build tool build. Please rebuild it by running `haxe init-plugin.hxml` on the plugin directory', pos);

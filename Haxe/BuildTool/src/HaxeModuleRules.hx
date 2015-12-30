@@ -253,7 +253,13 @@ class HaxeModuleRules extends BaseModuleRules
             args = args.concat(extraArgs);
           if (this.config.extraCompileArgs != null)
             args = args.concat(this.config.extraCompileArgs);
-          trace(Sys.getCwd());
+
+          if (Sys.getEnv('HAXE_COMPILATION_SERVER') != null) {
+            args.push('-D IN_COMPILATION_SERVER');
+          } else {
+            args.push('# be sure to add -D IN_COMPILATION_SERVER if compiling with the compilation server');
+          }
+
           var thaxe = timer('Haxe compilation');
           var ret = compileSources(args);
           thaxe();

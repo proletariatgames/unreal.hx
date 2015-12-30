@@ -16,6 +16,8 @@ class CreateGlue {
 
   public static function run(alwaysCompilePaths:Array<String>) {
     registerMacroCalls();
+    Globals.cur.checkOlderCache();
+    Globals.cur.loadTParams();
     Globals.cur.canCreateTypes = true;
     // get all types that need to be compiled recursively
     var toCompile = [];
@@ -24,6 +26,8 @@ class CreateGlue {
     }
     if (toCompile.length == 0)
       toCompile.push('UnrealInit');
+
+    var nativeGlue = new NativeGlueCode();
 
     Globals.cur.canCreateTypes = true;
     var uinits = [];
@@ -51,8 +55,6 @@ class CreateGlue {
 
     // once we get here, we've built everything we need
     var cur = Globals.cur;
-
-    var nativeGlue = new NativeGlueCode();
 
     // main build loop. all build-sensitive types will be continously be built
     // until there's nothing else to be built
@@ -109,6 +111,8 @@ class CreateGlue {
       }
     }
 
+    var toSave = [];
+    var isDceFull = Context.definedValue('dce') == 'full';
     for (key in Globals.cur.toDefineTParams.keys()) {
       var def = Globals.cur.toDefineTParams[key];
       var feats = Globals.cur.getDeps( key );
@@ -126,12 +130,20 @@ class CreateGlue {
       }
       Context.defineType(def);
     }
+
+    Globals.cur.saveTParams();
     // starting from now, we can't create new types
     Globals.cur.canCreateTypes = false;
-    Context.onGenerate( function(gen) { nativeGlue.onGenerate(gen); } );
+    Globals.cur.reserveCacheFile();
+    Context.onGenerate( function(gen) {
+      nativeGlue.onGenerate(gen);
+    });
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
-    Context.onAfterGenerate( function() nativeGlue.onAfterGenerate() );
+    Context.onAfterGenerate( function() {
+      nativeGlue.onAfterGenerate();
+      Globals.cur.setCacheFile();
+    });
   }
 
   private static function getModules(path:String, modules:Array<String>)

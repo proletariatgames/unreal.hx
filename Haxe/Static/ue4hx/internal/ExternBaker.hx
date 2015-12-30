@@ -58,20 +58,23 @@ class ExternBaker {
       var pack = [];
       function traverse() {
         var dir = cp + '/' + pack.join('/');
-        for (file in FileSystem.readDirectory(dir)) {
+        var files = FileSystem.readDirectory(dir);
+        for (file in files) {
           if (file.endsWith('.hx')) {
             var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
             if (file.endsWith('_Extra.hx')) {
               joinMetas(module, file);
               continue;
             }
-            if (processed[module])
+            if (processed.exists(module)) {
               continue; // already existed on a classpath with higher precedence
+            }
             processed[module] = true;
 
             var mtime = FileSystem.stat('$dir/$file').mtime.getTime();
-            if (FileSystem.exists('$dir/${file.substr(0,-3)}_Extra.hx')) {
-              var extramtime = FileSystem.stat('$dir/${file.substr(0,-3)}_Extra.hx').mtime.getTime();
+            var fname = file.substr(0,-3);
+            if (FileSystem.exists('$dir/${fname}_Extra.hx')) {
+              var extramtime = FileSystem.stat('$dir/${fname}_Extra.hx').mtime.getTime();
               if (extramtime > mtime)
                 mtime = extramtime;
             }
@@ -80,7 +83,10 @@ class ExternBaker {
             if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal)
               continue; // already in latest version
             toProcess.push(module);
-          } else if (FileSystem.isDirectory('$dir/$file')) {
+          }
+        }
+        for (file in files) {
+          if (file.indexOf('.') < 0 && FileSystem.isDirectory('$dir/$file')) {
             pack.push(file);
             traverse();
             pack.pop();
@@ -237,6 +243,7 @@ class ExternBaker {
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
     this.glueType = genericGlue;
+    cl.meta.add(':ufiledependency', [macro $v{ genericGlue.getClassPath() }], cl.pos);
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);

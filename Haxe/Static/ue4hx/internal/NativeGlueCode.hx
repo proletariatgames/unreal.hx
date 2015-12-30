@@ -39,7 +39,7 @@ class NativeGlueCode
     this.glueTypes = new Map();
   }
 
-  private function touch(file:String, ?module:String) {
+  public function touch(file:String, ?module:String) {
     if (module == null) module = Globals.cur.module;
     var mod = this.touchedModules[module];
     if (mod == null) this.touchedModules[module] = mod = new Map();
@@ -194,6 +194,13 @@ class NativeGlueCode
     this.touch(gluePath, module);
 
     var cppPath = '$baseDir/$glueName.cpp';
+    if (Globals.cur.hasOlderCache && Context.definedValue('dce') != 'full' && cl.meta.has(':uextern')) {
+      // we only need to update if the source file was changed more recently
+      var sourceFile = Context.getPosInfos(cl.pos).file;
+      if (FileSystem.exists(cppPath) && FileSystem.exists(sourceFile) && FileSystem.stat(cppPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+        return;
+      }
+    }
     var writer = new CppWriter(cppPath);
     writeCpp(cl, writer, gluePath, module);
   }
@@ -225,9 +232,21 @@ class NativeGlueCode
     }
 
     glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
-    var writer = new HeaderWriter(headerPath);
-    writer.dontInclude(headerPath);
-    writeHeader(cl, writer, gluePath, module);
+
+    var shouldGenerate = true;
+    if (Globals.cur.hasOlderCache && cl.meta.has(':uextern')) {
+      // we only need to update if the source file was changed more recently
+      var sourceFile = Context.getPosInfos(cl.pos).file;
+      if (FileSystem.exists(headerPath) && FileSystem.exists(sourceFile) && FileSystem.stat(headerPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+        shouldGenerate = false;
+      }
+    }
+
+    if (shouldGenerate) {
+      var writer = new HeaderWriter(headerPath);
+      writer.dontInclude(headerPath);
+      writeHeader(cl, writer, gluePath, module);
+    }
     if (cl.meta.has(':ueTemplate')) {
       var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');
       writeUEHeader(cl, templWriter, gluePath, module);
@@ -265,8 +284,9 @@ class NativeGlueCode
       }
 
       var dependencies = MacroHelpers.extractStrings(cl.meta, ':ufiledependency');
+      var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
       for (dep in dependencies) {
-        touch(dep);
+        touch(dep, module);
       }
     }
 

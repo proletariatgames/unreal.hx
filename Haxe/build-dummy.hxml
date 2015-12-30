@@ -3,6 +3,7 @@
 -cp Static
 -cp bin/externs
 -cpp bin/dummy
+--no-output
 unreal.UObject
 unreal.AActor
 unreal.helpers.HxcppRuntime

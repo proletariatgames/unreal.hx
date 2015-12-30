@@ -91,7 +91,7 @@ class TypeParamBuild {
   public static function ensureTypesBuilt(baseType:BaseType, args:Array<TypeConv>, pos:Position, feature:String):Void {
     var applied = [ for (arg in args) arg.haxeType ];
     var built = baseType.pack.join('.') + '.' + baseType.name + '<' + [ for (arg in args) arg.haxeType ].join(',') + '>';
-    if (Compiler.getDefine('dce') == 'full') {
+    if (Context.definedValue('dce') == 'full') {
       built += '-' + feature;
     }
     if (Globals.cur.builtParams.exists(built)) return;

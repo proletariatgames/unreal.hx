@@ -3,6 +3,7 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
 import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
 
@@ -89,9 +90,98 @@ class Globals {
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
 
+  public var hasOlderCache:Null<Bool>;
+
   private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
 
   function new() {
+  }
+
+  /**
+    Checks if the latest compilation was using the same defines as this
+   **/
+  public function checkOlderCache() {
+    if (hasOlderCache != null) {
+      var dir = haxeRuntimeDir;
+      if (dir == null) return;
+      if (FileSystem.exists('$dir/Generated/defines.txt')) {
+        var defines = getDefinesString();
+        this.hasOlderCache = File.getContent('$dir/Generated/defines.txt') == defines;
+      } else {
+        this.hasOlderCache = false;
+      }
+    }
+  }
+
+  /**
+    Reserves the cache file to mark we're in a inconsistent state. An error between `reserveCacheFile` and
+    `setCacheFile` will force the next compilation to flush its cache
+   **/
+  public function reserveCacheFile() {
+    var dir = haxeRuntimeDir;
+    if (!FileSystem.exists('$dir/Generated')) {
+      FileSystem.createDirectory('$dir/Generated');
+    }
+    File.saveContent('$dir/Generated/defines.txt', '');
+  }
+
+  /**
+    Sets the cache file to indicate that the last compilation was using our defines
+   **/
+  public function setCacheFile() {
+    var dir = haxeRuntimeDir;
+    if (!FileSystem.exists('$dir/Generated')) {
+      FileSystem.createDirectory('$dir/Generated');
+    }
+    File.saveContent('$dir/Generated/defines.txt', getDefinesString());
+  }
+
+  /**
+    Loads previously saved type parameters
+   **/
+  public function loadTParams() {
+#if IN_COMPILATION_SERVER
+    trace('loading tparams...');
+    switch(Context.getType('UnrealInit')) {
+      case TInst(_.get() => c,_):
+        if (c.meta.has(':savedTParams')) {
+          Globals.cur.toDefineTParams = ue4hx.internal.ser.ExprUnserializer.run( MacroHelpers.extractStrings( c.meta, ':savedTParams' )[0] );
+        }
+      case _:
+        throw 'assert';
+    }
+#end
+  }
+
+  /**
+    Saves type parameters for further compilations
+   **/
+  public function saveTParams() {
+#if IN_COMPILATION_SERVER
+    trace('saving tparams...');
+    switch(Context.getType('UnrealInit')) {
+      case TInst(_.get() => c,_):
+        c.meta.remove(':savedTParams');
+        c.meta.add(':savedTParams', [macro $v{ue4hx.internal.ser.ExprSerializer.run( this.toDefineTParams )}], c.pos);
+      case _:
+        throw 'assert';
+    }
+#end
+  }
+
+  private function getDefinesString():String {
+    var ret = new StringBuf();
+    var defs = Context.getDefines();
+    var sorted = [ for (def in defs.keys()) def ];
+    sorted.sort(Reflect.compare);
+    for (def in sorted) {
+      if (def == "IN_COMPILATION_SERVER") continue;
+      ret.add(def);
+      ret.add(' : ');
+      ret.add(defs[def]);
+      ret.add('\n');
+    };
+    return ret.toString();
   }
 
   public function addDep(tparamClass:TypeRef, feat:String) {
