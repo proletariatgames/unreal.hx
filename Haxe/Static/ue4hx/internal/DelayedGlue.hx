@@ -313,6 +313,7 @@ class DelayedGlue {
     if (!this.shouldContinue())
       return;
 
+    Globals.cur.cachedBuiltTypes.push(glue.getClassPath());
     Context.defineType({
       pack: glue.pack,
       name: glue.name,

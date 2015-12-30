@@ -450,8 +450,8 @@ class UExtensionBuild {
         });
       }
 
-      clt.meta.add(':ufiledependency', [macro $v{expose.getClassPath()}], clt.pos);
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());
+      Globals.cur.cachedBuiltTypes.push(expose.getClassPath());
       Context.defineType({
         pack: expose.pack,
         name: expose.name,
@@ -473,7 +473,6 @@ class UExtensionBuild {
         fileName = nativeUe.withoutPrefix().getCppClassName();
     // this ueGluePath is later added to gluesToGenerate (before defineType is called)
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
-    clt.meta.add(':ufiledependency', [macro $v{fileName}], clt.pos);
     var uclass = clt.meta.extract(':uclass')[0];
     if (uclass != null) {
       includes.add('${fileName}.generated.h');

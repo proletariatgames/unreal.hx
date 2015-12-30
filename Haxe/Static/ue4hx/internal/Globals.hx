@@ -85,6 +85,11 @@ class Globals {
    **/
   public var currentFeature:Null<String>;
 
+  /**
+    List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again
+   **/
+  public var cachedBuiltTypes:Array<String> = [];
+
   public var toDefineTParams:Map<String, TypeDefinition> = new Map();
 
   public var gluesTouched:Map<String,Bool> = new Map();
@@ -101,7 +106,7 @@ class Globals {
     Checks if the latest compilation was using the same defines as this
    **/
   public function checkOlderCache() {
-    if (hasOlderCache != null) {
+    if (hasOlderCache == null) {
       var dir = haxeRuntimeDir;
       if (dir == null) return;
       if (FileSystem.exists('$dir/Generated/defines.txt')) {
@@ -139,13 +144,29 @@ class Globals {
   /**
     Loads previously saved type parameters
    **/
-  public function loadTParams() {
+  public function loadCachedTypes() {
 #if IN_COMPILATION_SERVER
-    trace('loading tparams...');
-    switch(Context.getType('UnrealInit')) {
+    trace('loading cache...');
+    // first we'll create the type if it doesn't exist
+    try {
+      Context.getType('ue4hx.CachedData');
+    } catch(e:Dynamic) {
+      Context.defineType({
+        name:'CachedData',
+        pack:['ue4hx'],
+        pos: Context.currentPos(),
+        kind: TDClass(),
+        fields: []
+      });
+    }
+
+    switch(Context.getType('ue4hx.CachedData')) {
       case TInst(_.get() => c,_):
-        if (c.meta.has(':savedTParams')) {
-          Globals.cur.toDefineTParams = ue4hx.internal.ser.ExprUnserializer.run( MacroHelpers.extractStrings( c.meta, ':savedTParams' )[0] );
+        if (c.meta.has(':savedTypes')) {
+          for (type in MacroHelpers.extractStrings(c.meta, ':savedTypes')) {
+            this.cachedBuiltTypes.push(type);
+            Context.getType(type);
+          }
         }
       case _:
         throw 'assert';
@@ -154,17 +175,19 @@ class Globals {
   }
 
   /**
-    Saves type parameters for further compilations
+    Saves cached types for further compilations
    **/
-  public function saveTParams() {
+  public function saveCachedBuilt() {
 #if IN_COMPILATION_SERVER
-    trace('saving tparams...');
-    switch(Context.getType('UnrealInit')) {
-      case TInst(_.get() => c,_):
-        c.meta.remove(':savedTParams');
-        c.meta.add(':savedTParams', [macro $v{ue4hx.internal.ser.ExprSerializer.run( this.toDefineTParams )}], c.pos);
-      case _:
-        throw 'assert';
+    trace('saving cached types...');
+    if (this.cachedBuiltTypes.length > 0) {
+      switch(Context.getType('ue4hx.CachedData')) {
+        case TInst(_.get() => c,_):
+          c.meta.remove(':savedTypes');
+          c.meta.add(':savedTypes', [for (t in this.cachedBuiltTypes) macro $v{t}], c.pos);
+        case _:
+          throw 'assert';
+      }
     }
 #end
   }

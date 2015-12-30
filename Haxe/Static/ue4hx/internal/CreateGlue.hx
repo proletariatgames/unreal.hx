@@ -17,7 +17,7 @@ class CreateGlue {
   public static function run(alwaysCompilePaths:Array<String>) {
     registerMacroCalls();
     Globals.cur.checkOlderCache();
-    Globals.cur.loadTParams();
+
     Globals.cur.canCreateTypes = true;
     // get all types that need to be compiled recursively
     var toCompile = [];
@@ -111,7 +111,6 @@ class CreateGlue {
       }
     }
 
-    var toSave = [];
     var isDceFull = Context.definedValue('dce') == 'full';
     for (key in Globals.cur.toDefineTParams.keys()) {
       var def = Globals.cur.toDefineTParams[key];
@@ -128,10 +127,13 @@ class CreateGlue {
           }
         }
       }
+      cur.cachedBuiltTypes.push( def.pack.join('.') + '.' + def.name );
       Context.defineType(def);
     }
 
-    Globals.cur.saveTParams();
+    Globals.cur.loadCachedTypes();
+    Globals.cur.saveCachedBuilt();
+
     // starting from now, we can't create new types
     Globals.cur.canCreateTypes = false;
     Globals.cur.reserveCacheFile();

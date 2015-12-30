@@ -58,4 +58,21 @@ class MacroHelpers
     }
     return ret;
   }
+
+  private static var classpaths:Array<String>;
+
+  public static function getPath(filePath:String) {
+    if (classpaths == null) {
+      classpaths = haxe.macro.Context.getClassPath();
+    }
+    if (sys.FileSystem.exists(filePath)) return filePath;
+    for (cp in classpaths) {
+      var path = '$cp/$filePath';
+      if (sys.FileSystem.exists(path)) {
+        return path;
+      }
+    }
+
+    return null;
+  }
 }

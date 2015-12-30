@@ -243,7 +243,6 @@ class ExternBaker {
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
     this.glueType = genericGlue;
-    cl.meta.add(':ufiledependency', [macro $v{ genericGlue.getClassPath() }], cl.pos);
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);

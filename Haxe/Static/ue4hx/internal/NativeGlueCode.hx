@@ -21,6 +21,8 @@ class NativeGlueCode
   private var touchedModules:Map<String,Map<String, Bool>>;
   private var modules:Map<String,Bool>;
 
+  private var stampOutput:String;
+
   public static var prelude =
   "/***************************************************************************************************\n"+
   " * \n"+
@@ -37,6 +39,10 @@ class NativeGlueCode
     this.touchedModules = new Map();
     this.modules = new Map();
     this.glueTypes = new Map();
+    this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps';
+    if (!FileSystem.exists(this.stampOutput)) {
+      FileSystem.createDirectory(this.stampOutput);
+    }
   }
 
   public function touch(file:String, ?module:String) {
@@ -186,23 +192,27 @@ class NativeGlueCode
 
     var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
     var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
+    this.touch(gluePath, module);
+    var stampPath = '$stampOutput/$gluePath.stamp';
+    if (Globals.cur.hasOlderCache && Context.definedValue('dce') != 'full' && cl.meta.has(':uextern')) {
+      // we only need to update if the source file was changed more recently
+      var sourceFile = MacroHelpers.getPath( Context.getPosInfos(cl.pos).file );
+      if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+        return;
+      }
+    }
+
     var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
     var gluePack = gluePath.split('.'),
     glueName = gluePack.pop();
     var baseDir = '$targetDir/Generated/Private/${gluePack.join('/')}';
-    if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
-    this.touch(gluePath, module);
 
     var cppPath = '$baseDir/$glueName.cpp';
-    if (Globals.cur.hasOlderCache && Context.definedValue('dce') != 'full' && cl.meta.has(':uextern')) {
-      // we only need to update if the source file was changed more recently
-      var sourceFile = Context.getPosInfos(cl.pos).file;
-      if (FileSystem.exists(cppPath) && FileSystem.exists(sourceFile) && FileSystem.stat(cppPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
-        return;
-      }
-    }
+
+    if (!FileSystem.exists(baseDir)) FileSystem.createDirectory(baseDir);
     var writer = new CppWriter(cppPath);
     writeCpp(cl, writer, gluePath, module);
+    File.saveContent(stampPath,'');
   }
 
   public function writeGlueHeader(cl:ClassType) {
@@ -233,11 +243,12 @@ class NativeGlueCode
 
     glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
 
-    var shouldGenerate = true;
+    var shouldGenerate = true,
+        stampPath = '$stampOutput/$gluePath.stamp';
     if (Globals.cur.hasOlderCache && cl.meta.has(':uextern')) {
       // we only need to update if the source file was changed more recently
-      var sourceFile = Context.getPosInfos(cl.pos).file;
-      if (FileSystem.exists(headerPath) && FileSystem.exists(sourceFile) && FileSystem.stat(headerPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+      var sourceFile = MacroHelpers.getPath( Context.getPosInfos(cl.pos).file );
+      if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
         shouldGenerate = false;
       }
     }
@@ -250,6 +261,7 @@ class NativeGlueCode
     if (cl.meta.has(':ueTemplate')) {
       var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');
       writeUEHeader(cl, templWriter, gluePath, module);
+      File.saveContent(stampPath,'');
     }
   }
 
@@ -258,8 +270,8 @@ class NativeGlueCode
     var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (t in glueTypes) {
       var type = TypeRef.fromBaseType(t, t.pos);
-      var path = type.getClassPath();
-      var cl = switch(Context.getType( path )) {
+      var cpath = type.getClassPath();
+      var cl = switch(Context.getType( cpath )) {
         case TInst(c,_): c.get();
         case _: throw 'assert';
       };
@@ -268,19 +280,30 @@ class NativeGlueCode
       }
       if (!cl.isExtern && cl.meta.has(':uexpose')) {
         // copy the header to the generated folder
-        this.touch(path);
-        var ref = TypeRef.parseClassName(path);
-        var path = path.replace('.','/');
+        this.touch(cpath);
+        var path = cpath.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
         if (!FileSystem.exists(headerPath)) continue;
         var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
         var dir = Path.directory(targetPath);
-        if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+        var stampPath = '$stampOutput/$cpath.stamp';
+        var shouldCopy = true;
+        if (Globals.cur.hasOlderCache) {
+          var sourceFile = MacroHelpers.getPath(Context.getPosInfos(cl.pos).file);
+          if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+            shouldCopy = false;
+          }
+        }
 
-        var contents = File.getContent(headerPath);
-        if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
-          File.saveContent(targetPath, contents);
+        if (shouldCopy) {
+          if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+
+          var contents = File.getContent(headerPath);
+          if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
+            File.saveContent(targetPath, contents);
+          File.saveContent(stampPath, '');
+        }
       }
 
       var dependencies = MacroHelpers.extractStrings(cl.meta, ':ufiledependency');
@@ -301,16 +324,28 @@ class NativeGlueCode
 
     // clean generated folder
     var touched:Map<String,Bool> = null;
-    function recurse(path:String, packPath:String, ?ext:String) {
+    function recurse(path:String, packPath:String, ?ext:String):Bool {
+      var foundFile = false;
       for (file in FileSystem.readDirectory(path)) {
         if (FileSystem.isDirectory('$path/$file')) {
-          if ( !(packPath == '' && file == 'Data') )
-            recurse('$path/$file', '$packPath$file.');
+          if ( !(packPath == '' && file == 'Data') ) {
+            var found = recurse('$path/$file', '$packPath$file.');
+            foundFile = foundFile || found;
+          }
         } else if ( (ext != null && Path.extension(file) != ext) || !touched.exists(packPath + Path.withoutExtension(file))) {
           trace('Deleting uneeded file $path/$file');
           FileSystem.deleteFile('$path/$file');
+        } else {
+          foundFile = true;
         }
       }
+      if (!foundFile) {
+        try {
+          FileSystem.deleteDirectory(path);
+        }
+        catch (e:Dynamic) {}
+      }
+      return foundFile;
     }
     for (key in this.touchedModules.keys()) {
       touched = this.touchedModules[key];
