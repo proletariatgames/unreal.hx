@@ -257,16 +257,19 @@ class NativeGlueCode
 
     var stampPath = '$stampOutput/$gluePath.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, cl);
+    if (cl.meta.has(':ueTemplate')) {
+      touch(gluePath + "_UE", module);
+    }
 
     if (shouldGenerate) {
       var writer = new HeaderWriter(headerPath);
       writer.dontInclude(headerPath);
       writeHeader(cl, writer, gluePath, module);
-    }
-    if (cl.meta.has(':ueTemplate')) {
-      var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');
-      writeUEHeader(cl, templWriter, gluePath, module);
       File.saveContent(stampPath,'');
+      if (cl.meta.has(':ueTemplate')) {
+        var templWriter = new HeaderWriter('$baseDir/${glueName}_UE.h');
+        writeUEHeader(cl, templWriter, gluePath, module);
+      }
     }
   }
 
