@@ -194,13 +194,8 @@ class NativeGlueCode
     var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
     this.touch(gluePath, module);
     var stampPath = '$stampOutput/$gluePath.stamp';
-    if (Globals.cur.hasOlderCache && Context.definedValue('dce') != 'full' && cl.meta.has(':uextern')) {
-      // we only need to update if the source file was changed more recently
-      var sourceFile = MacroHelpers.getPath( Context.getPosInfos(cl.pos).file );
-      if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
-        return;
-      }
-    }
+    if (!checkShouldGenerate(stampPath, cl))
+      return;
 
     var targetDir = module == null ? Globals.cur.haxeRuntimeDir : Globals.cur.haxeRuntimeDir + '/../$module';
     var gluePack = gluePath.split('.'),
@@ -213,6 +208,22 @@ class NativeGlueCode
     var writer = new CppWriter(cppPath);
     writeCpp(cl, writer, gluePath, module);
     File.saveContent(stampPath,'');
+  }
+
+  private function checkShouldGenerate(stampPath:String, clt:ClassType):Bool {
+    if (Globals.cur.hasOlderCache) {
+      if (clt.meta.has(':wasCompiled')) {
+        return false;
+      }
+      if (clt.meta.has(':uextern')) {
+        // we only need to update if the source file was changed more recently
+        var sourceFile = MacroHelpers.getPath( Context.getPosInfos(clt.pos).file );
+        if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public function writeGlueHeader(cl:ClassType) {
@@ -243,15 +254,9 @@ class NativeGlueCode
 
     glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
 
-    var shouldGenerate = true,
-        stampPath = '$stampOutput/$gluePath.stamp';
-    if (Globals.cur.hasOlderCache && cl.meta.has(':uextern')) {
-      // we only need to update if the source file was changed more recently
-      var sourceFile = MacroHelpers.getPath( Context.getPosInfos(cl.pos).file );
-      if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
-        shouldGenerate = false;
-      }
-    }
+
+    var stampPath = '$stampOutput/$gluePath.stamp',
+        shouldGenerate = checkShouldGenerate(stampPath, cl);
 
     if (shouldGenerate) {
       var writer = new HeaderWriter(headerPath);
@@ -288,13 +293,7 @@ class NativeGlueCode
         var targetPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/$path.h';
         var dir = Path.directory(targetPath);
         var stampPath = '$stampOutput/$cpath.stamp';
-        var shouldCopy = true;
-        if (Globals.cur.hasOlderCache) {
-          var sourceFile = MacroHelpers.getPath(Context.getPosInfos(cl.pos).file);
-          if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
-            shouldCopy = false;
-          }
-        }
+        var shouldCopy = checkShouldGenerate(stampPath, cl);
 
         if (shouldCopy) {
           if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
@@ -362,6 +361,13 @@ class NativeGlueCode
       case TInst(c,tl):
         var typeName = c.toString();
         var cl = c.get();
+        if (cl.meta.has(':alreadyCompiled')) {
+          if (!cl.meta.has(':wasCompiled')) {
+            cl.meta.add(':wasCompiled',[],cl.pos);
+          }
+        } else {
+          cl.meta.add(':alreadyCompiled',[],cl.pos);
+        }
         if (cl.meta.has(':uexpose')) {
           if (!cl.meta.has(':ifFeature'))
             cl.meta.add(':keep', [], cl.pos);
