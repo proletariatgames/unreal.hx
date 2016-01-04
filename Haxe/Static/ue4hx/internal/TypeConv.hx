@@ -378,6 +378,7 @@ using StringTools;
         isFunction: true,
         functionArgs: fnArgs,
         functionRet: fnRet,
+        baseType: baseType,
       };
       return ret;
     }
@@ -394,6 +395,7 @@ using StringTools;
       var ret = TypeConv.get( Context.follow(type), pos );
       ret.haxeType = new TypeRef(['unreal'], 'TSubclassOf', [ofType.haxeType]);
       ret.glueCppIncludes.add("UObject/ObjectBase.h");
+      ret.args = [ofType];
       if (ofType.forwardDecls != null) {
         ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       }
@@ -424,10 +426,11 @@ using StringTools;
         default: throw new Error('MethodPointer expects first param to be a class', pos);
       };
 
+      var retArgs = null;
       switch (args[1]) {
       case TFun(fnArgs, fnRet):
         var fnRet = get(fnRet, pos);
-        var fnArgs = fnArgs.map(function(arg) return get(arg.t, pos));
+        var fnArgs = retArgs = fnArgs.map(function(arg) return get(arg.t, pos));
         cppMethodType << 'MemberFunctionTranslator<$className, ${fnRet.ueType.getCppType()}';
         if (fnArgs.length > 0) cppMethodType << ', ';
         cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
@@ -444,6 +447,9 @@ using StringTools;
         glueToUeExpr: '(($cppMethodType)%)()',
         glueCppIncludes: IncludeSet.fromUniqueArray(['<LambdaBinding.h>']),
         isBasic: false,
+        isMethodPointer: true,
+        baseType: baseType,
+        args: retArgs,
       };
       return ret;
     }
@@ -459,6 +465,7 @@ using StringTools;
       ret.glueCppIncludes.add("UObject/WeakObjectPtrTemplates.h");
       ret.forwardDecls = ret.forwardDecls.concat( ofType.forwardDecls );
       ret.glueCppIncludes.append( ofType.glueCppIncludes );
+      ret.args = [ofType];
       switch (ret.forwardDeclType) {
       case null | Never:
         // do nothing; we already are set to never
@@ -516,6 +523,7 @@ using StringTools;
           ueToGlueExpr : '( (int) % )',
           args: convArgs,
           isEnum: true,
+          baseType: baseType,
         };
       } else {
         return {
@@ -533,6 +541,7 @@ using StringTools;
           ueToGlueExpr : '( (int) % )',
           args: convArgs,
           isEnum: true,
+          baseType: baseType,
         };
       }
     }
@@ -557,6 +566,7 @@ using StringTools;
 
           forwardDeclType: ForwardDeclEnum.Always,
           forwardDecls: [refName.getForwardDecl()],
+          baseType: baseType,
         };
         if (ctx.isInterface) {
           ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).getWrapped().rawCast()';
@@ -588,6 +598,7 @@ using StringTools;
           ueToGlueExpr: '( (int) (${refName.getCppType()}) % )',
           args: convArgs,
           isEnum: true,
+          baseType: baseType,
         };
       } else {
         // non uobject
@@ -653,6 +664,7 @@ using StringTools;
 
           forwardDeclType: declType,
           forwardDecls: forwardDecls,
+          baseType: baseType,
         };
         if (originalTypeRef != typeRef)
           ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : ${originalTypeRef} )';
@@ -748,8 +760,11 @@ using StringTools;
       var glueCppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
       glueCppIncludes.add('<unreal/helpers/HxcppRuntime.h>');
       #if !bake_externs
-      var mod = getMetaArray(meta, ':umodule');
+      var mod = getMetaArray(meta, ':utargetmodule');
       var module = mod == null ? null : mod[0];
+      if (module == null) {
+        module = Globals.cur.haxeTargetModule;
+      }
       var dir = Globals.cur.haxeRuntimeDir;
       if (module != null)
         dir = dir + '/../$module';
@@ -774,6 +789,7 @@ using StringTools;
 
         forwardDeclType: ForwardDeclEnum.Always,
         forwardDecls: [refName.getForwardDecl()],
+        baseType: baseType,
       };
 
       if (modf == 'unreal.PRef') {
@@ -791,6 +807,7 @@ using StringTools;
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
         isBasic: true,
         args: convArgs,
+        baseType: baseType,
       };
 
     if (ctx.isTypeParam) {
@@ -834,6 +851,7 @@ using StringTools;
         args: convArgs,
         isTypeParam: true,
         ownershipModifier: modf,
+        baseType: baseType,
       };
       if (isRef) {
         ret.ueToGlueExpr = 'TypeParamGluePtr<${ueType.getCppType()}>::ueToHaxeRef( % )';
@@ -1058,6 +1076,7 @@ typedef TypeConvInfo = {
 
   @:optional public var isTypeParam:Bool;
   @:optional public var isFunction:Bool;
+  @:optional public var isMethodPointer:Bool;
   @:optional public var isInterface:Bool;
   @:optional public var functionArgs:Array<TypeConvInfo>;
   @:optional public var functionRet:TypeConvInfo;
@@ -1065,6 +1084,8 @@ typedef TypeConvInfo = {
   // forward declaration
   @:optional public var forwardDeclType:ForwardDecl;
   @:optional public var forwardDecls:Array<String>;
+
+  @:optional public var baseType:BaseType;
 }
 
 typedef TypeConvCtx = {

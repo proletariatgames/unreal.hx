@@ -17,20 +17,4 @@ using StringTools;
 @:native("UnrealBuildTool.Rules.HaxeInit")
 class HaxeInit extends BaseModuleRules
 {
-  override private function run(target:TargetInfo, firstRun:Bool)
-  {
-    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
-    if (firstRun) updateProject();
-  }
-
-  /**
-    Adds the HaxeRuntime module to the game project if it isn't there, and updates
-    the template files
-   **/
-  private function updateProject()
-  {
-    var proj = getProjectName();
-    if (proj == null) return; // error state: do not fail; UE4 doesn't like exceptions on build scripts
-    InitPlugin.updateProject(this.gameDir, this.pluginPath, proj);
-  }
 }

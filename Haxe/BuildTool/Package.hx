@@ -28,7 +28,8 @@ class Package
     Compiler.addClassPath(targetDir + '/hx');
     var names = [];
     for (file in buildFiles) {
-      var name = haxe.io.Path.withoutDirectory(file).substr(0,-('Build.hx'.length + 1));
+      var isBuild = file.endsWith('Build.hx');
+      var name = haxe.io.Path.withoutDirectory(file).substr(0,-(isBuild ? ('Build.hx'.length + 1) : ('Target.hx'.length + 1)));
       var className = name.charAt(0).toUpperCase() + name.substr(1);
       names.push({ name:name, className:className });
       var target = file.substr(0,-2) + 'cs';
@@ -42,10 +43,11 @@ class Package
       var t = Context.getType(name.className); // make sure it's compiled
       var isMaster = Context.unify(t, masterT);
       if (isMaster) {
-        if (masterModule == null)
+        if (masterModule == null) {
           masterModule = t;
-        else
+        } else {
           Context.error('More than one HaxeModuleRules module found: $t and $masterModule', Context.currentPos());
+        }
       }
       switch (t) {
       case TInst(cl,_):
@@ -141,8 +143,11 @@ class Package
     for (dir in FileSystem.readDirectory(srcDir)) {
       if (FileSystem.isDirectory('$srcDir/$dir')) {
         for (file in FileSystem.readDirectory('$srcDir/$dir')) {
-          if (file.endsWith('.Build.hx'))
+          if (file.endsWith('.Build.hx')) {
             ret.push('$srcDir/$dir/$file');
+          } else if (file.endsWith('.Target.hx')) {
+            ret.push('$srcDir/$dir/$file');
+          }
         }
       }
     }

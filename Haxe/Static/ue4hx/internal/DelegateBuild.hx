@@ -240,9 +240,12 @@ class DelegateBuild {
       };
       def.fields.push(added.fields[0]);
 
-      var uname = MacroHelpers.extractStrings(cl.meta, ":uname")[0];
-      if (uname == null) uname = cl.name;
-      var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+      if (Globals.cur.haxeTargetModule != null && !cl.meta.has(':uextension')) {
+        cl.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cl.pos);
+        cl.meta.add(':uextension', [], cl.pos);
+      }
+      var info = GlueInfo.fromBaseType(cl);
+      var headerPath = info.getHeaderPath();
       cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
       cl.meta.add(':uhxdelegate', [], cl.pos);
     }

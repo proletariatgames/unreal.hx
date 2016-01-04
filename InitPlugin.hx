@@ -38,17 +38,17 @@ class InitPlugin {
     if (dirs.length == 1)
       return dirs[0];
     else
-      throw 'Multiple modules not supported'; //TODO
+      return null;
   }
 
-  public static function updateProject(gameDir:String, pluginPath:String, projectName:String, fromCommandLine=false) {
+  public static function updateProject(gameDir:String, pluginPath:String, projectName:String, fromCommandLine=false, ?targetModule:String) {
     gameDir = FileSystem.fullPath(gameDir);
     pluginPath = FileSystem.fullPath(pluginPath);
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
     trace('Updating game module...');
-    updateGameModule(gameDir, pluginPath, fromCommandLine);
+    updateGameModule(gameDir, pluginPath, fromCommandLine, targetModule);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
@@ -58,9 +58,12 @@ class InitPlugin {
     checkDir('$gameDir/Haxe/Externs');
   }
 
-  private static function updateGameModule(gameDir:String, pluginPath:String, fromCommandLine:Bool)
+  private static function updateGameModule(gameDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String)
   {
-    var mod = getHaxeModule(gameDir);
+    var mod = targetModule;
+    if (mod == null) {
+      mod = getHaxeModule(gameDir);
+    }
     // update templates that need to be updated
     function recurse(templatePath:String, toPath:String, alsoDelete:Bool)
     {
@@ -103,19 +106,20 @@ class InitPlugin {
       }
     }
 
-    recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime', '$gameDir/Source/$mod', false);
-    recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe', false);
+    if (mod != null) {
+      recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime', '$gameDir/Source/$mod', false);
+      recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe', false);
+    }
     // TODO: take this off once we can decide where the plugin dir will be
-    if (FileSystem.exists('$gameDir/Source/HaxeRuntime'))
+    if (FileSystem.exists('$gameDir/Source/HaxeRuntime')) {
       deleteRecursive('$gameDir/Source/HaxeRuntime', true);
+    }
 
-    handleModuleRules(gameDir, pluginPath, mod, fromCommandLine);
+    handleModuleRules(gameDir, pluginPath, fromCommandLine);
   }
 
-  private static function handleModuleRules(gameDir:String, pluginPath:String, module:String, alsoCompile:Bool) {
-    if (!FileSystem.exists('$gameDir/Source/$module/$module.Build.hx')) {
-      throw 'ERROR: $module.Build.hx does not exist. Please port your old $module.Build.cs to Haxe and re-run init-plugin';
-    }
+  private static function handleModuleRules(gameDir:String, pluginPath:String, alsoCompile:Bool) {
+    var allBuildFiles = [];
     gameDir = gameDir.replace('\\','/');
     pluginPath = pluginPath.replace('\\','/');
     var args = [

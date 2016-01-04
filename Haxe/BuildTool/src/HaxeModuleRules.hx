@@ -19,6 +19,7 @@ class HaxeModuleRules extends BaseModuleRules
   private static var disabled:Bool = false;
   private static var VERSION_LEVEL = 3;
   private var config:HaxeModuleConfig;
+  // private var target
 
   private function getConfig():HaxeModuleConfig {
     return {
@@ -32,6 +33,9 @@ class HaxeModuleRules extends BaseModuleRules
   {
     this.config = getConfig();
     if (this.config == null) this.config = {};
+    var targetModule = std.Type.getClassName(std.Type.getClass(this));
+    // var targetModule = this.config.targetModule != null ? this.config.targetModule : std.Type.getClassName(std.Type.getClass(this));
+    if (firstRun) updateProject(targetModule);
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
@@ -176,6 +180,10 @@ class HaxeModuleRules extends BaseModuleRules
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
           ]);
 
+          if (this.config.targetModule != null) {
+            args.push('-D haxe_target_module=${this.config.targetModule}');
+          }
+
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
           }
@@ -301,7 +309,7 @@ class HaxeModuleRules extends BaseModuleRules
             //       output library file timestamp. However, it's not possible to reliably find
             //       the output file name at this stage
 
-            var dep = Path.GetFullPath('$modulePath/../Generated/HaxeInit.cpp');
+            var dep = Path.GetFullPath('$modulePath/../../$targetModule/Generated/HaxeInit.cpp');
             // touch the file
             File.saveContent(dep, File.getContent(dep));
           }
@@ -339,9 +347,15 @@ class HaxeModuleRules extends BaseModuleRules
 
       // get haxe module dependencies
       var targetPath = Path.GetFullPath('$modulePath/../Generated/Data/modules.txt');
+      var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
       var deps = File.getContent(targetPath).trim().split('\n');
-      if (deps.length != 1 || deps[0] != '')
-        this.PrivateDependencyModuleNames.addRange(deps);
+      if (deps.length != 1 || deps[0] != '') {
+        for (dep in deps) {
+          if (dep != this.config.targetModule && dep != curName) {
+            this.PrivateDependencyModuleNames.Add(dep);
+          }
+        }
+      }
 
       // var hxcppPath = haxelibPath('hxcpp');
       // if (hxcppPath != null)
@@ -375,6 +389,17 @@ class HaxeModuleRules extends BaseModuleRules
         // XboxOne | PS4 | IOS | HTML5
       }
     }
+  }
+
+  /**
+    Adds the HaxeRuntime module to the game project if it isn't there, and updates
+    the template files
+   **/
+  private function updateProject(targetModule:String)
+  {
+    var proj = getProjectName();
+    if (proj == null) throw 'no uproject found!';
+    InitPlugin.updateProject(this.gameDir, this.pluginPath, proj, false, targetModule);
   }
 
   private static function setEnvs(envs:Map<String,String>):Map<String,String> {

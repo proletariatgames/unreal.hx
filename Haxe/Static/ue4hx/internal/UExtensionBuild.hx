@@ -508,6 +508,8 @@ class UExtensionBuild {
 
     var targetModule = MacroHelpers.extractStrings(clt.meta, ':umodule')[0];
     if (targetModule == null)
+      targetModule = Globals.cur.haxeTargetModule;
+    if (targetModule == null)
       targetModule = Globals.cur.module;
 
     var headerDef = new StringBuf(),
@@ -584,9 +586,7 @@ class UExtensionBuild {
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
-    var umodule = clt.meta.extract(':umodule');
-    if (umodule != null && umodule.length > 0)
-      metas.push({ name:':utargetmodule', params:umodule[0].params, pos:umodule[0].pos });
+    metas.push({ name:':utargetmodule', params:[macro $v{targetModule}], pos:clt.pos });
 
     return { hasHaxeSuper: hasHaxeSuper };
   }

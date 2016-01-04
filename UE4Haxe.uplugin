@@ -13,9 +13,5 @@
 	"IsBetaVersion" : true,
 	"Modules" :
 	[
-		{
-			"Name" : "HaxeInit",
-			"Type" : "Runtime"
-		}
 	]
 }

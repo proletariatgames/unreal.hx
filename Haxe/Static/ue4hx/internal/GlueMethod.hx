@@ -193,7 +193,7 @@ class GlueMethod {
     }
 
     for (t in allTypes) {
-      if ( (t.args != null && t.args.length > 0 && !t.hasTypeParams()) || t.isFunction ) {
+      if ( (!t.isMethodPointer && t.args != null && t.args.length > 0 && !t.hasTypeParams()) || t.isFunction ) {
         this.needsTypeParamGlue = true;
         addMeta(':needsTypeParamGlue');
         break;

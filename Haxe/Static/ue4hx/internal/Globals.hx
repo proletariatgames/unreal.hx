@@ -16,14 +16,23 @@ class Globals {
   public static var cur(default,null):Globals = new Globals();
 
   @:isVar public var haxeRuntimeDir(get,null):String;
+  @:isVar public var haxeTargetModule(get,null):String;
   public var module(get,null):String;
 
-  private function get_haxeRuntimeDir() {
-    if (haxeRuntimeDir != null)
-      return haxeRuntimeDir;
+  private var targetModuleSet:Bool = false;
 
-    setHaxeRuntimeDir();
-    return haxeRuntimeDir;
+  private function get_haxeRuntimeDir() {
+    if (this.haxeRuntimeDir == null)
+      this.setHaxeRuntimeDir();
+    return this.haxeRuntimeDir;
+  }
+  inline private function get_haxeTargetModule() {
+    if (this.targetModuleSet) {
+      return haxeTargetModule;
+    } else {
+      setHaxeTargetModule();
+      return haxeTargetModule;
+    }
   }
 
   private function get_module() {
@@ -45,6 +54,11 @@ class Globals {
     {
       haxeRuntimeDir = FileSystem.fullPath(dir).replace('\\','/');
     }
+  }
+
+  public function setHaxeTargetModule() {
+    this.haxeTargetModule = Context.definedValue('haxe_target_module');
+    this.targetModuleSet = true;
   }
 
 

@@ -4,6 +4,7 @@ import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import sys.FileSystem;
 import ue4hx.internal.buf.HeaderWriter;
 
 using Lambda;
@@ -314,13 +315,17 @@ class DelayedGlue {
       return;
 
     Globals.cur.cachedBuiltTypes.push(glue.getClassPath());
+    var meta:Metadata = [
+      { name:':unrealGlue', pos:this.pos },
+    ];
+    if (Globals.cur.haxeTargetModule != null) {
+      meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.haxeTargetModule}], pos:this.pos });
+    }
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
       pos: this.pos,
-      meta: [
-        { name:':unrealGlue', pos:this.pos },
-      ],
+      meta: meta,
       isExtern: true,
       kind: TDClass(),
       fields: this.buildFields,
@@ -329,9 +334,14 @@ class DelayedGlue {
   }
 
   private function writeStructDefinition(cls:ClassType) {
-    var uname = MacroHelpers.extractStrings(cls.meta, ":uname")[0];
-    if (uname == null) uname = cls.name;
-    var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+    if (Globals.cur.haxeTargetModule != null && !cls.meta.has(':uextension')) {
+      cls.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cls.pos);
+      cls.meta.add(':uextension', [], cls.pos);
+    }
+    var info = GlueInfo.fromBaseType(cls);
+    var uname = info.uname.join('.');
+    var headerPath = info.getHeaderPath(true);
+
     var writer = new HeaderWriter(headerPath);
     writer.buf.add(NativeGlueCode.prelude);
 
@@ -430,13 +440,14 @@ class DelayedGlue {
     }
     writer.buf.add('};\n');
 
-    writer.close(Globals.cur.module);
+    writer.close(info.targetModule);
+    cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
   }
 
   private function writeDelegateDefinition(cls:ClassType) {
-    var uname = MacroHelpers.extractStrings(cls.meta, ":uname")[0];
-    if (uname == null) uname = cls.name;
-    var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+    var info = GlueInfo.fromBaseType(cls);
+    var uname = info.uname.join('.');
+    var headerPath = info.getHeaderPath(true);
     var writer = new HeaderWriter(headerPath);
     writer.buf.add(NativeGlueCode.prelude);
 
@@ -518,7 +529,7 @@ class DelayedGlue {
 
     writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
     writer.buf.add('UCLASS() class U${uname}__Dummy : public UObject { GENERATED_BODY() };');
-    writer.close(Globals.cur.module);
+    writer.close(info.targetModule);
     cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
   }
 

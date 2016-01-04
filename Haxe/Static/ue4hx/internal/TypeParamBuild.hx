@@ -193,7 +193,7 @@ class TypeParamBuild {
         }
       };
 
-      var includeLocation = Globals.cur.haxeRuntimeDir.replace('\\','/') + '/Generated/TypeParamGlue.h';
+      var includeLocation = '${Globals.cur.haxeRuntimeDir}/Generated/TypeParamGlue.h';
 
       var cppCode = new HelperBuf();
       var module = Globals.cur.module;
@@ -225,14 +225,15 @@ class TypeParamBuild {
         cppCode << '\treturn PtrMaker<$hxType>::Type($cppName::haxeToUe(haxe));\n}\n\n';
       cppCode << 'template<>\nvoid *TypeParamGluePtr<$hxType>::ueToHaxeRef($hxType& ue) {\n';
         cppCode << '\treturn $cppName::ueToHaxe(ue);\n}\n';
-      cls.name = tparam.name;
-      cls.pack = tparam.pack;
-      cls.meta = extractMeta(
+      var meta = extractMeta(
         macro
           @:nativeGen
           @:cppFileCode($v{cppCode.toString()})
           null
       );
+      cls.name = tparam.name;
+      cls.pack = tparam.pack;
+      cls.meta = meta;
 
       Globals.cur.toDefineTParams[tparam.getClassPath()] = cls;
     } else {
@@ -277,8 +278,17 @@ class TypeParamBuild {
           null
       );
 
+      var path = Globals.cur.haxeRuntimeDir;
+      var targetModule = Globals.cur.module;
+      if (Globals.cur.haxeTargetModule != null && needsTargetModuleSet(tconv)) {
+        trace('target module set!', tparam.name);
+        path += '/../${Globals.cur.haxeTargetModule}';
+        targetModule = Globals.cur.haxeTargetModule;
+        cls.meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.haxeTargetModule}], pos:cls.pos });
+      }
+
       // ue type
-      var path = Globals.cur.haxeRuntimeDir + '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';
+      path += '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';
       var dir = haxe.io.Path.directory(path);
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
@@ -327,9 +337,27 @@ class TypeParamBuild {
           writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( '( ( ' + ueType +' ) ue )', null )} );\n}\n\n');
       }
 
-      writer.close(Globals.cur.module);
+      writer.close(targetModule);
       Globals.cur.toDefineTParams[tparam.getClassPath()] = cls;
     }
+  }
+
+  private static function needsTargetModuleSet(tconv:TypeConv) {
+    if (tconv.baseType != null) {
+      if (tconv.baseType.meta.has(':uextension') || (tconv.isEnum && !tconv.baseType.meta.has(':uextern'))) {
+        return true;
+      } else if (tconv.baseType.meta.has(':umodule') && MacroHelpers.extractStrings(tconv.baseType.meta, ':umodule')[0] == Globals.cur.haxeTargetModule) {
+        return true;
+      }
+    }
+    if (tconv.args != null) {
+      for (arg in tconv.args) {
+        if (needsTargetModuleSet(arg)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static function extractMeta(expr:Expr, ?meta:Metadata):Metadata {

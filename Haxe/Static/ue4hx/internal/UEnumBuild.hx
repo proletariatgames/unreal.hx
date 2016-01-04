@@ -4,6 +4,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import ue4hx.internal.buf.HeaderWriter;
+import sys.FileSystem;
 
 using haxe.macro.Tools;
 using StringTools;
@@ -29,7 +30,22 @@ class UEnumBuild
       // Generate the enum C++ definition
       var uname = MacroHelpers.extractStrings(enumType.meta, ":uname")[0];
       if (uname == null) uname = enumType.name;
-      var headerPath = '${Globals.cur.haxeRuntimeDir}/Generated/Public/${uname.replace('.','/')}.h';
+      var headerDir = Globals.cur.haxeRuntimeDir;
+      var target = MacroHelpers.extractStrings(enumType.meta, ":utargetmodule")[0];
+      if (target == null) {
+        target = Globals.cur.haxeTargetModule;
+      }
+      if (target != null) {
+        headerDir += '/../$target';
+        if (!enumType.meta.has(':utargetmodule')) {
+          enumType.meta.add(':utargetmodule', [macro $v{target}], enumType.pos);
+        }
+      }
+      var headerPath = '$headerDir/Generated/Public/${uname.replace('.','/')}.h';
+      if (!FileSystem.exists('$headerDir/Generated/Public')) {
+        FileSystem.createDirectory('$headerDir/Generated/Public');
+      }
+
       var writer = new HeaderWriter(headerPath);
       writer.include('$uname.generated.h');
 

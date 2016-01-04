@@ -81,6 +81,10 @@ class NeedsGlueBuild
     }
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
+      if (Globals.cur.haxeTargetModule != null) {
+        cls.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cls.pos);
+        cls.meta.add(':uextension', [], cls.pos);
+      }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
         throw new Error('Unreal Glue Extension: Do not extend Unreal types on the global namespace. Use a package', cls.pos);
