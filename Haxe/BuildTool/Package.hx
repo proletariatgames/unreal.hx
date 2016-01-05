@@ -31,6 +31,10 @@ class Package
       var isBuild = file.endsWith('Build.hx');
       var name = haxe.io.Path.withoutDirectory(file).substr(0,-(isBuild ? ('Build.hx'.length + 1) : ('Target.hx'.length + 1)));
       var className = name.charAt(0).toUpperCase() + name.substr(1);
+      if (names.length == 0) {
+        mappedFiles.push({ name:"HaxeExternalModule", target: haxe.io.Path.directory(file) + '/HaxeExternalModule.Build.cs' });
+        names.push({ name:"HaxeExternalModule", className:"HaxeExternalModule" });
+      }
       names.push({ name:name, className:className });
       var target = file.substr(0,-2) + 'cs';
       mappedFiles.push({ name:name, target: target });

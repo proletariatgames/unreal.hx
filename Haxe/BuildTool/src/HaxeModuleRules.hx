@@ -43,7 +43,6 @@ class HaxeModuleRules extends BaseModuleRules
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
 
-
     var libName = switch(target.Platform) {
       case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
         'haxeruntime.lib';
@@ -335,6 +334,11 @@ class HaxeModuleRules extends BaseModuleRules
         InitPlugin.deleteRecursive(gen,true);
     }
 
+    if (this.config.glueTargetModule != null) {
+      this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
+      this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
+    }
+
     // this will disable precompiled headers
     // this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
@@ -355,17 +359,14 @@ class HaxeModuleRules extends BaseModuleRules
           }
         }
       }
-      if (this.config.glueTargetModule != null) {
-        this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
-        this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
-      }
 
       // var hxcppPath = haxelibPath('hxcpp');
       // if (hxcppPath != null)
       //   this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
-      this.PublicAdditionalLibraries.Add(outputStatic);
+      // this.PublicAdditionalLibraries.Add(outputStatic);
+      this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
 
       // FIXME look into why libstdc++ can only be linked with its full path
       if (FileSystem.exists('/usr/lib/libstdc++.dylib'))

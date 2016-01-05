@@ -27,7 +27,7 @@ class GlueModuleRules extends BaseModuleRules
       }
       Sys.exit(11);
     }
-    // this.PrivateDependencyModuleNames.Add(haxeModules[0]);
+    this.PublicDependencyModuleNames.Add(haxeModules[0]);
     // this.CircularlyReferencedDependentModules.Add(haxeModules[0]);
 
     var targetModule = std.Type.getClassName(std.Type.getClass(this));

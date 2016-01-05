@@ -29,20 +29,6 @@
 
 #define HXCPP_CLASS_ATTRIBUTES HAXERUNTIME_API
 
-#ifdef _MSC_VER
-  #if defined(HXCPP_DLL_IMPORT)
-     #define HXCPP_EXTERN_CLASS_ATTRIBUTES __declspec(dllimport)
-  #else
-     #define HXCPP_EXTERN_CLASS_ATTRIBUTES __declspec(dllexport)
-  #endif
-#else
-  #if defined(HXCPP_DLL_EXPORT)
-     #define HXCPP_EXTERN_CLASS_ATTRIBUTES __attribute__((visibility("default")))
-  #else
-     #define HXCPP_EXTERN_CLASS_ATTRIBUTES
-  #endif
-#endif
-
 typedef char HX_CHAR;
 
 #pragma warning(disable:4251)
