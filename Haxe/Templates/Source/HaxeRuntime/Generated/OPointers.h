@@ -1,7 +1,7 @@
 #pragma once
 
 #include <UEPointer.h>
-#include <unreal/helpers/HxcppRuntime.h>
+#include <HxcppRuntime.h>
 #include <Engine.h>
 
 // #if defined(__clang__) || defined(__GNUC__)

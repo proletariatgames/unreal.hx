@@ -758,7 +758,7 @@ using StringTools;
 
     if (uextension) {
       var glueCppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
-      glueCppIncludes.add('<unreal/helpers/HxcppRuntime.h>');
+      glueCppIncludes.add('<HxcppRuntime.h>');
       #if !bake_externs
       var mod = getMetaArray(meta, ':utargetmodule');
       var module = mod == null ? null : mod[0];
@@ -971,7 +971,7 @@ using StringTools;
         haxeGlueType: voidStar,
         glueType: voidStar,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<unreal/helpers/HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
         ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',

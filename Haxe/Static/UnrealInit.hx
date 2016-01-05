@@ -3,7 +3,7 @@ import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.UObject;
 import unreal.AActor;
-import unreal.helpers.HxcppRuntime;
+import unreal.helpers.HxcppRuntimeStatic;
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n")

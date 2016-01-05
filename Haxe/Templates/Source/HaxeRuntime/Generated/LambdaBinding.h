@@ -1,8 +1,8 @@
 #pragma once
 
 #include <OPointers.h>
-#include <unreal/helpers/GcRef.h>
-#include <unreal/helpers/HxcppRuntime.h>
+#include <GcRef.h>
+#include <HxcppRuntime.h>
 #include <TypeParamGlue.h>
 
 // Unreal-compiled

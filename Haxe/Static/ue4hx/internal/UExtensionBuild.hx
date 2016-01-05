@@ -282,7 +282,7 @@ class UExtensionBuild {
         { name: ':uextern', params:[], pos:clt.pos },
       ];
 
-      var headerIncludes = IncludeSet.fromUniqueArray(['<unreal/helpers/GcRef.h>']),
+      var headerIncludes = IncludeSet.fromUniqueArray(['<GcRef.h>']),
           cppIncludes = IncludeSet.fromUniqueArray(['<' + expose.getClassPath().replace('.','/') + '.h>']);
       var info = addNativeUeClass(nativeUe, clt, headerIncludes, metas);
       metas.push({ name:':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos:clt.pos });

@@ -1,10 +1,11 @@
 #pragma once
+#include <hxcpp.h>
 typedef void *(*HaxeWrap)(void *);
 
 namespace unreal {
 namespace helpers {
 
-  class ClassMap_obj {
+  class HXCPP_CLASS_ATTRIBUTES ClassMap_obj {
   public:
     /**
      * Adds a wrapper so that given `inUClass`, the function `wrapper` will be called to wrap it

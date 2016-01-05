@@ -2,7 +2,7 @@ package unreal.helpers;
 
 private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
 
-@:uexpose @:keep class HxcppRuntime
+@:uexpose @:keep class HxcppRuntimeStatic
 {
   @:extern static inline function toDyn(ptr:VoidPtr) return HaxeHelpers.pointerToDynamic(ptr);
   @:extern static inline function toPtr(dyn:Dynamic) return HaxeHelpers.dynamicToPointer(dyn);

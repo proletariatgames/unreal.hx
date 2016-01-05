@@ -381,7 +381,7 @@ class NativeGlueCode
           writeGlueHeader(cl);
         }
         // add only once - we'll select a type that is always compiled
-        if (typeName == 'unreal.helpers.HxcppRuntime' && !cl.meta.has(':buildXml')) {
+        if (typeName == 'unreal.helpers.HxcppRuntimeStatic' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.haxeRuntimeDir;
           if (Globals.cur.glueTargetModule != null) {
             dir += '/../${Globals.cur.glueTargetModule}';
