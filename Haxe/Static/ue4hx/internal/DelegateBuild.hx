@@ -240,9 +240,10 @@ class DelegateBuild {
       };
       def.fields.push(added.fields[0]);
 
-      if (Globals.cur.haxeTargetModule != null && !cl.meta.has(':uextension')) {
-        cl.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cl.pos);
+      if (Globals.cur.glueTargetModule != null && !cl.meta.has(':uextension')) {
+        cl.meta.add(':utargetmodule', [macro $v{Globals.cur.module}], cl.pos);
         cl.meta.add(':uextension', [], cl.pos);
+        cl.meta.add(':umainmodule', [], cl.pos);
       }
       var info = GlueInfo.fromBaseType(cl);
       var headerPath = info.getHeaderPath();

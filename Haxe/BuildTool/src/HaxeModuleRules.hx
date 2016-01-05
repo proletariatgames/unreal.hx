@@ -34,7 +34,6 @@ class HaxeModuleRules extends BaseModuleRules
     this.config = getConfig();
     if (this.config == null) this.config = {};
     var targetModule = std.Type.getClassName(std.Type.getClass(this));
-    // var targetModule = this.config.targetModule != null ? this.config.targetModule : std.Type.getClassName(std.Type.getClass(this));
     if (firstRun) updateProject(targetModule);
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
@@ -180,8 +179,8 @@ class HaxeModuleRules extends BaseModuleRules
             '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
           ]);
 
-          if (this.config.targetModule != null) {
-            args.push('-D haxe_target_module=${this.config.targetModule}');
+          if (this.config.glueTargetModule != null) {
+            args.push('-D glue_target_module=${this.config.glueTargetModule}');
           }
 
           if (UEBuildConfiguration.bBuildEditor) {
@@ -309,7 +308,7 @@ class HaxeModuleRules extends BaseModuleRules
             //       output library file timestamp. However, it's not possible to reliably find
             //       the output file name at this stage
 
-            var dep = Path.GetFullPath('$modulePath/../../$targetModule/Generated/HaxeInit.cpp');
+            var dep = Path.GetFullPath('$modulePath/../Generated/HaxeInit.cpp');
             // touch the file
             File.saveContent(dep, File.getContent(dep));
           }
@@ -346,15 +345,19 @@ class HaxeModuleRules extends BaseModuleRules
       Log.TraceVerbose('Using Haxe');
 
       // get haxe module dependencies
-      var targetPath = Path.GetFullPath('$modulePath/../Generated/Data/modules.txt');
+      var targetPath = Path.GetFullPath('$outputDir/Static/Built/Data/modules.txt');
       var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
       var deps = File.getContent(targetPath).trim().split('\n');
       if (deps.length != 1 || deps[0] != '') {
         for (dep in deps) {
-          if (dep != this.config.targetModule && dep != curName) {
+          if (dep != this.config.glueTargetModule && dep != curName) {
             this.PrivateDependencyModuleNames.Add(dep);
           }
         }
+      }
+      if (this.config.glueTargetModule != null) {
+        this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
+        this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
       }
 
       // var hxcppPath = haxelibPath('hxcpp');

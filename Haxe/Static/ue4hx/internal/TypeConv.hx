@@ -762,9 +762,6 @@ using StringTools;
       #if !bake_externs
       var mod = getMetaArray(meta, ':utargetmodule');
       var module = mod == null ? null : mod[0];
-      if (module == null) {
-        module = Globals.cur.haxeTargetModule;
-      }
       var dir = Globals.cur.haxeRuntimeDir;
       if (module != null)
         dir = dir + '/../$module';

@@ -508,8 +508,6 @@ class UExtensionBuild {
 
     var targetModule = MacroHelpers.extractStrings(clt.meta, ':umodule')[0];
     if (targetModule == null)
-      targetModule = Globals.cur.haxeTargetModule;
-    if (targetModule == null)
       targetModule = Globals.cur.module;
 
     var headerDef = new StringBuf(),

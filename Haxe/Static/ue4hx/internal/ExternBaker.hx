@@ -269,8 +269,8 @@ class ExternBaker {
     if (cl.isInterface) throw new Error('Unreal Glue Code: Templated functions aren\'t supported on interfaces', pos);
     if (generics.length == 0) return null;
     this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
-    if (Globals.cur.haxeTargetModule != null) {
-      this.add('@:utargetmodule("${Globals.cur.haxeTargetModule}") ');
+    if (Globals.cur.glueTargetModule != null) {
+      this.add('@:utargetmodule("${Globals.cur.module}") @:umainmodule ');
     }
     this.add('@:nativeGen\n');
     this.add('class ');

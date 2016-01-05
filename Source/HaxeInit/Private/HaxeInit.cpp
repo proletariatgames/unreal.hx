@@ -7,7 +7,7 @@ class FHaxeInit : public IHaxeInit
 	virtual void ShutdownModule() override;
 };
 
-IMPLEMENT_MODULE( FHaxeInit, HaxeInit )
+// IMPLEMENT_MODULE( FHaxeInit, HaxeInit )
 void FHaxeInit::StartupModule()
 {
   // This module is empty; we only need the build system integration

@@ -28,12 +28,12 @@ class GlueInfo {
     var basePath = Globals.cur.haxeRuntimeDir;
 
     var module = MacroHelpers.extractStrings(base.meta, ':utargetmodule')[0];
-    if (module == null) {
-      if (base.meta.has(':uextension') || MacroHelpers.extractStrings(base.meta, ':umodule')[0] == Globals.cur.haxeTargetModule) {
-        module = Globals.cur.haxeTargetModule;
+    if (module == null && Globals.cur.glueTargetModule != null && !base.meta.has(':umainmodule')) {
+      if (MacroHelpers.extractStrings(base.meta, ':umodule')[0] != Globals.cur.module) {
+        module = Globals.cur.glueTargetModule;
       }
     }
-    if (module == null) {
+    if (module == null || module == Globals.cur.module) {
       module = Globals.cur.module;
     } else {
       basePath += '/../$module';

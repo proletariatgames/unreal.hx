@@ -311,9 +311,9 @@ class NativeGlueCode
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('${Globals.cur.haxeRuntimeDir}/Generated/Data'))
-      FileSystem.createDirectory('${Globals.cur.haxeRuntimeDir}/Generated/Data');
-    var mfile = sys.io.File.write('${Globals.cur.haxeRuntimeDir}/Generated/Data/modules.txt');
+    if (!FileSystem.exists('$cppTarget/Data'))
+      FileSystem.createDirectory('$cppTarget/Data');
+    var mfile = sys.io.File.write('$cppTarget/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }

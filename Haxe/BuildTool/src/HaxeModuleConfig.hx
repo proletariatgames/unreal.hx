@@ -39,12 +39,12 @@ typedef HaxeModuleConfig = {
   ?disableTimers:Bool,
 
   /**
-    Tells which module should the non-glue code be compiled. This allows better iteration times, since
-    small changes will only trigger a recompilation on the `targetModule`.
-    Note that the `targetModule`'s `Build.cs` / `Build.hx` descriptor should not derive from `HaxeModuleRules` -
+    Tells which module should the glue code be compiled. This allows better iteration times, since
+    small changes will only trigger a recompilation on the main module.
+    Note that the `glueTargetModule`'s `Build.cs` / `Build.hx` descriptor should not derive from `HaxeModuleRules` -
     but a reference to this module should be included in the `PublicDependencyModuleNames` array
    **/
-  ?targetModule:String,
+  ?glueTargetModule:String,
 }
 
 @:enum abstract Dce(String) from String {

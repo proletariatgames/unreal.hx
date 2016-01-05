@@ -318,8 +318,9 @@ class DelayedGlue {
     var meta:Metadata = [
       { name:':unrealGlue', pos:this.pos },
     ];
-    if (Globals.cur.haxeTargetModule != null) {
-      meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.haxeTargetModule}], pos:this.pos });
+    if (Globals.cur.glueTargetModule != null) {
+      meta.push({ name:':umainmodule', params:[], pos:this.pos });
+      meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:this.pos });
     }
     Context.defineType({
       pack: glue.pack,
@@ -334,9 +335,10 @@ class DelayedGlue {
   }
 
   private function writeStructDefinition(cls:ClassType) {
-    if (Globals.cur.haxeTargetModule != null && !cls.meta.has(':uextension')) {
-      cls.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cls.pos);
+    if (Globals.cur.glueTargetModule != null && !cls.meta.has(':uextension')) {
+      cls.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], cls.pos);
       cls.meta.add(':uextension', [], cls.pos);
+      cls.meta.add(':umainmodule', [], this.pos);
     }
     var info = GlueInfo.fromBaseType(cls);
     var uname = info.uname.join('.');

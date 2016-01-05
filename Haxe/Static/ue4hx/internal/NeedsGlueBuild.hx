@@ -81,9 +81,9 @@ class NeedsGlueBuild
     }
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
-      if (Globals.cur.haxeTargetModule != null) {
-        cls.meta.add(':utargetmodule', [macro $v{Globals.cur.haxeTargetModule}], cls.pos);
-        cls.meta.add(':uextension', [], cls.pos);
+      cls.meta.add(':uextension', [], cls.pos);
+      if (Globals.cur.glueTargetModule != null) {
+        cls.meta.add(':umainmodule', [], cls.pos);
       }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)

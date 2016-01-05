@@ -280,11 +280,12 @@ class TypeParamBuild {
 
       var path = Globals.cur.haxeRuntimeDir;
       var targetModule = Globals.cur.module;
-      if (Globals.cur.haxeTargetModule != null && needsTargetModuleSet(tconv)) {
-        trace('target module set!', tparam.name);
-        path += '/../${Globals.cur.haxeTargetModule}';
-        targetModule = Globals.cur.haxeTargetModule;
-        cls.meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.haxeTargetModule}], pos:cls.pos });
+      if (Globals.cur.glueTargetModule != null && !needsMainModule(tconv)) {
+        path += '/../${Globals.cur.glueTargetModule}';
+        targetModule = Globals.cur.glueTargetModule;
+        cls.meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:cls.pos });
+      } else {
+        cls.meta.push({ name:':umainmodule', params:[], pos:cls.pos });
       }
 
       // ue type
@@ -342,17 +343,17 @@ class TypeParamBuild {
     }
   }
 
-  private static function needsTargetModuleSet(tconv:TypeConv) {
+  private static function needsMainModule(tconv:TypeConv) {
     if (tconv.baseType != null) {
       if (tconv.baseType.meta.has(':uextension') || (tconv.isEnum && !tconv.baseType.meta.has(':uextern'))) {
         return true;
-      } else if (tconv.baseType.meta.has(':umodule') && MacroHelpers.extractStrings(tconv.baseType.meta, ':umodule')[0] == Globals.cur.haxeTargetModule) {
+      } else if (tconv.baseType.meta.has(':umodule') && MacroHelpers.extractStrings(tconv.baseType.meta, ':umodule')[0] == Globals.cur.module) {
         return true;
       }
     }
     if (tconv.args != null) {
       for (arg in tconv.args) {
-        if (needsTargetModuleSet(arg)) {
+        if (needsMainModule(arg)) {
           return true;
         }
       }

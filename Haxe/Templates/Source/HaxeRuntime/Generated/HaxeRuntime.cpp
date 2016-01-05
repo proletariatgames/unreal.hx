@@ -13,6 +13,8 @@ public:
   }
 };
 
+IMPLEMENT_MODULE( FHaxeRuntime, HaxeRuntime )
+
 void FHaxeRuntime::StartupModule()
 {
   check_hx_init();

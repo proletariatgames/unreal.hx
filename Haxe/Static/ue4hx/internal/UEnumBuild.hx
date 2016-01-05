@@ -33,12 +33,15 @@ class UEnumBuild
       var headerDir = Globals.cur.haxeRuntimeDir;
       var target = MacroHelpers.extractStrings(enumType.meta, ":utargetmodule")[0];
       if (target == null) {
-        target = Globals.cur.haxeTargetModule;
+        target = Globals.cur.module;
       }
       if (target != null) {
         headerDir += '/../$target';
         if (!enumType.meta.has(':utargetmodule')) {
           enumType.meta.add(':utargetmodule', [macro $v{target}], enumType.pos);
+          if (target == Globals.cur.module) {
+            enumType.meta.add(':umainmodule', [], enumType.pos);
+          }
         }
       }
       var headerPath = '$headerDir/Generated/Public/${uname.replace('.','/')}.h';
