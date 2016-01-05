@@ -603,7 +603,7 @@ using StringTools;
       } else {
         // non uobject
         var cppIncludes = IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes'));
-        var headerIncludes = IncludeSet.fromUniqueArray(['<unreal/helpers/UEPointer.h>']);
+        var headerIncludes = IncludeSet.fromUniqueArray(['<UEPointer.h>']);
         if (cppIncludes.length == 0) {
           Context.warning('Unreal Glue Code: glueCppIncludes missing for $typeRef', pos);
         }
@@ -654,7 +654,7 @@ using StringTools;
           glueType: uePointer,
 
           glueCppIncludes: cppIncludes.add('<OPointers.h>'),
-          glueHeaderIncludes:IncludeSet.fromUniqueArray(['<unreal/helpers/UEPointer.h>']),
+          glueHeaderIncludes:IncludeSet.fromUniqueArray(['<UEPointer.h>']),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().get_raw()',
           glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
@@ -776,7 +776,7 @@ using StringTools;
 
         isUObject: true,
 
-        glueCppIncludes: glueCppIncludes.add('<unreal/helpers/UEPointer.h>'),
+        glueCppIncludes: glueCppIncludes.add('<UEPointer.h>'),
 
         haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
         glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : ${typeRef.getClassPath()})',

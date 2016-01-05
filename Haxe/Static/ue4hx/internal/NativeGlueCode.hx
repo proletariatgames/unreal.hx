@@ -117,7 +117,7 @@ class NativeGlueCode
     writer.buf.add(prelude);
 
     if (cl.meta.has(':ueTemplate')) {
-      writer.include('<unreal/helpers/UEPointer.h>');
+      writer.include('<UEPointer.h>');
     }
 
     for (pack in gluePack) {
