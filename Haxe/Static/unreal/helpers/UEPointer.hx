@@ -5,7 +5,7 @@ package unreal.helpers;
   Shared pointers, weak pointers, pointers that are owned by Unreal and pointers that are
   owned by Hxcpp will all derive from this implementation and add the appropriate destructors when needed
  **/
-@:uintrinsic("Generated/UEPointer.h") extern class UEPointer
+@:include("UEPointer.h") extern class UEPointer
 {
   /**
     Gets the underlying pointer to the referenced element.

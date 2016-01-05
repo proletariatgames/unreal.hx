@@ -83,7 +83,7 @@ class NativeGlueCode
     }
     writer.buf.add('class ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
     writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
-    writer.buf.add('\t\tUEProxyPointer *rewrap(UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
+    writer.buf.add('\t\tUEProxyPointer *rewrap(::unreal::helpers::UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 
@@ -381,13 +381,17 @@ class NativeGlueCode
           writeGlueHeader(cl);
         }
         // add only once - we'll select a type that is always compiled
-        // if (typeName == 'unreal.helpers.HxcppRuntime') {
-        //   cl.meta.add(':buildXml', [macro $v{
-        //   '<files id="haxe">
-        //     <compilerflag value="-I${Globals.cur.haxeRuntimeDir}/Generated" />
-        //   </files>'
-        //   }], cl.pos);
-        // }
+        if (typeName == 'unreal.helpers.HxcppRuntime' && !cl.meta.has(':buildXml')) {
+          var dir = Globals.cur.haxeRuntimeDir;
+          if (Globals.cur.glueTargetModule != null) {
+            dir += '/../${Globals.cur.glueTargetModule}';
+          }
+          cl.meta.add(':buildXml', [macro $v{
+          '<files id="haxe">
+            <compilerflag value="-I$dir/Generated/Shared" />
+          </files>'
+          }], cl.pos);
+        }
         if (cl.meta.has(':uintrinsic')) {
           var incPath = MacroHelpers.extractStrings(cl.meta, ':uintrinsic')[0];
           // var targetModule = Globals.cur.haxeTargetModule;

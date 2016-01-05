@@ -3,7 +3,7 @@ import cpp.RawPointer;
 import cpp.Function;
 
 @:native('unreal.helpers.ClassMap')
-@:uintrinsic("Generated/ClassMap.h") extern class ClassMap {
+@:include("ClassMap.h") extern class ClassMap {
   /**
    * Adds a wrapper so that given `inUClass`, the function `wrapper` will be called to wrap it
    **/

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unreal/helpers/UEPointer.h>
+#include <UEPointer.h>
 #include <unreal/helpers/HxcppRuntime.h>
 #include <Engine.h>
 

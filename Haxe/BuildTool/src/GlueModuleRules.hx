@@ -32,6 +32,7 @@ class GlueModuleRules extends BaseModuleRules
     var base = Path.GetFullPath('$modulePath/..');
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
     this.PublicIncludePaths.Add(base + '/Generated');
+    this.PublicIncludePaths.Add(base + '/Generated/Shared');
     this.PublicIncludePaths.Add(base + '/Generated/Public');
 
     var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}-${target.Configuration}';

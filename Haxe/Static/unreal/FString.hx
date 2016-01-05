@@ -22,22 +22,3 @@ package unreal;
   }
 #end
 }
-
-
-// @:uextern
-// @:ueGluePath("unreal.helpers.FString_Glue")
-// @:glueCppIncludes("Engine.h")
-// @:glueHeaderIncludes("<unreal/helpers/UEPointer.h>")
-// class FString_Helper implements ue4hx.internal.NeedsGlue {
-// #if !bake_externs
-//   @:glueHeaderCode('static void* to_string(haxe::helpers::UEPointer* str);')
-//   @:glueCppCode('void* unreal::helpers::FString_Glue_obj::to_string(haxe::helpers::UEPointer* str) {\n\treturn ::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( **((FString*)str->getPointer()) ));\n}');
-//   @:glueCppIncludes('<OPointers.h>', '<unreal/helpers/HxcppRuntime.h>')
-//   @:glueHeaderIncludes('<hxcpp.h>')
-//   public static function toString(str:FStringImpl):String {
-//     @:privateAccess str.wrapped
-//     return cast @:privateAccess FNameImpl.wrap( FName_Glue.from_string(ptr) );
-//   }
-// #end
-// }
-//

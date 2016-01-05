@@ -8,12 +8,12 @@ namespace helpers {
 class HXCPP_CLASS_ATTRIBUTES UEPointer_obj {
 public:
   virtual void *getPointer() = 0;
-  virtual void *toSharedPtr() = 0;
-  virtual void *toSharedPtrTS() = 0;
-  virtual void *toSharedRef() = 0;
-  virtual void *toSharedRefTS() = 0;
-  virtual void *toWeakPtr() = 0;
-  virtual void *toWeakPtrTS() = 0;
+  virtual UEPointer_obj *toSharedPtr() = 0;
+  virtual UEPointer_obj *toSharedPtrTS() = 0;
+  virtual UEPointer_obj *toSharedRef() = 0;
+  virtual UEPointer_obj *toSharedRefTS() = 0;
+  virtual UEPointer_obj *toWeakPtr() = 0;
+  virtual UEPointer_obj *toWeakPtrTS() = 0;
   virtual ~UEPointer_obj() {}
 
   static void *getPointer(UEPointer_obj *ref) {
@@ -54,6 +54,6 @@ public:
 };
 
 
-typedef UEPointer UEPointer_obj;
+typedef UEPointer_obj UEPointer;
 }
 }

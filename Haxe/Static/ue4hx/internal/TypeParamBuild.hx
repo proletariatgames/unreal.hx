@@ -193,7 +193,7 @@ class TypeParamBuild {
         }
       };
 
-      var includeLocation = '${Globals.cur.haxeRuntimeDir}/Generated/TypeParamGlue.h';
+      var includeLocation = 'TypeParamGlue.h';
 
       var cppCode = new HelperBuf();
       var module = Globals.cur.module;
