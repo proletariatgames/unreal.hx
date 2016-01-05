@@ -392,6 +392,9 @@ class NativeGlueCode
           var incPath = MacroHelpers.extractStrings(cl.meta, ':uintrinsic')[0];
           // var targetModule = Globals.cur.haxeTargetModule;
           var targetDir = Globals.cur.haxeRuntimeDir;
+          if (Globals.cur.glueTargetModule != null) {
+            targetDir += '/../${Globals.cur.glueTargetModule}';
+          }
           cl.meta.add(':include', [macro $v{'$targetDir/$incPath'}], cl.pos);
         }
       case TEnum(e, _):

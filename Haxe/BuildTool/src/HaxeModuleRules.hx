@@ -33,10 +33,27 @@ class HaxeModuleRules extends BaseModuleRules
   {
     this.config = getConfig();
     if (this.config == null) this.config = {};
-    var targetModule = std.Type.getClassName(std.Type.getClass(this));
-    if (firstRun) updateProject(targetModule);
-    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     var base = Path.GetFullPath('$modulePath/..');
+    if (firstRun) {
+      var targetModule = std.Type.getClassName(std.Type.getClass(this));
+      if (this.config.glueTargetModule != null) {
+        targetModule = this.config.glueTargetModule;
+      }
+      updateProject(targetModule);
+
+      if (FileSystem.exists('$base/Generated')) {
+        for (file in FileSystem.readDirectory('$base/Generated')) {
+          if (file != 'Private' && file != 'Public') {
+            if (FileSystem.isDirectory('$base/Generated/$file')) {
+              InitPlugin.deleteRecursive('$base/Generated/$file',true);
+            } else {
+              FileSystem.deleteFile('$base/Generated/$file');
+            }
+          }
+        }
+      }
+    }
+    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
     this.PublicIncludePaths.Add(base + '/Generated');
     this.PublicIncludePaths.Add(base + '/Generated/Public');
@@ -307,9 +324,9 @@ class HaxeModuleRules extends BaseModuleRules
             //       output library file timestamp. However, it's not possible to reliably find
             //       the output file name at this stage
 
-            var dep = Path.GetFullPath('$modulePath/../Generated/HaxeInit.cpp');
+            // var dep = Path.GetFullPath('$modulePath/../Generated/HaxeInit.cpp');
             // touch the file
-            File.saveContent(dep, File.getContent(dep));
+            // File.saveContent(dep, File.getContent(dep));
           }
 
           if (ret != 0)
@@ -336,11 +353,8 @@ class HaxeModuleRules extends BaseModuleRules
 
     if (this.config.glueTargetModule != null) {
       this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
-      this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
     }
 
-    // this will disable precompiled headers
-    // this.MinFilesUsingPrecompiledHeaderOverride = -1;
     // add the output static linked library
     if (this.config.disabled || !exists(outputStatic))
     {
@@ -366,7 +380,9 @@ class HaxeModuleRules extends BaseModuleRules
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       // this.PublicAdditionalLibraries.Add(outputStatic);
-      this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+      if (this.config.glueTargetModule == null) {
+        this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+      }
 
       // FIXME look into why libstdc++ can only be linked with its full path
       if (FileSystem.exists('/usr/lib/libstdc++.dylib'))
