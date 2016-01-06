@@ -71,6 +71,7 @@ class NativeGlueCode
 
     touch(gluePath, info.targetModule);
     writer.buf.add(prelude);
+    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES ${info.targetModule.toUpperCase()}_API\n#endif\n');
 
     for (pack in gluePack) {
       writer.buf.add('namespace $pack {\n');
@@ -81,7 +82,7 @@ class NativeGlueCode
       writer.buf.mapJoin(cl.params, function(p) return 'typename ' + p.name);
       writer.buf << '>';
     }
-    writer.buf.add('class ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
+    writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
     writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
     writer.buf.add('\t\tUEProxyPointer *rewrap(::unreal::helpers::UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
@@ -103,6 +104,7 @@ class NativeGlueCode
     for (pack in gluePack) {
       writer.buf.add('}\n');
     }
+    writer.buf.add('#ifdef SCOPED_HXCPP\n#undef SCOPED_HXCPP\n#undef HXCPP_CLASS_ATTRIBUTES\n#endif\n');
     writer.close(info.targetModule);
   }
 
@@ -115,6 +117,7 @@ class NativeGlueCode
     var ctor = null;
 
     writer.buf.add(prelude);
+    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES ${info.targetModule.toUpperCase()}_API\n#endif\n');
 
     if (cl.meta.has(':ueTemplate')) {
       writer.include('<UEPointer.h>');
@@ -129,7 +132,7 @@ class NativeGlueCode
         ext = ' : public ::unreal::helpers::UEProxyPointer ';
         ctor = '${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ::unreal::helpers::UEProxyPointer(ptr) {}\n';
       }
-      writer.buf.add('class ${glueName}_obj $ext{\n\tpublic:\n');
+      writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj $ext{\n\tpublic:\n');
       if (ctor != null)
         writer.buf.add(ctor);
     } else {
@@ -157,6 +160,7 @@ class NativeGlueCode
     for (pack in gluePack) {
       writer.buf.add('}\n');
     }
+    writer.buf.add('#ifdef SCOPED_HXCPP\n#undef SCOPED_HXCPP\n#undef HXCPP_CLASS_ATTRIBUTES\n#endif\n');
     writer.close(info.targetModule);
   }
 

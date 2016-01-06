@@ -353,6 +353,7 @@ class HaxeModuleRules extends BaseModuleRules
 
     if (this.config.glueTargetModule != null) {
       this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
+      this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
     }
 
     // add the output static linked library

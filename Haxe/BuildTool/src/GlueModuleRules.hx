@@ -50,6 +50,8 @@ class GlueModuleRules extends BaseModuleRules
       }
     }
     this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+    this.PrivateDependencyModuleNames.Add(haxeModules[0]);
+    this.Definitions.Add('WITH_HAXE=1');
   }
 
   private function getHaxeModules(target:TargetInfo):Array<String> {
