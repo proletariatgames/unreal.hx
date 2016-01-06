@@ -61,13 +61,13 @@ struct HAXERUNTIME_API PtrHelper_Ptr {
 
 // Default PtrMaker assumes pass-by-ref
 template<typename T, typename EnumEnabler>
-struct PtrMaker {
+struct HAXERUNTIME_API PtrMaker {
   typedef PtrHelper_Ptr<T> Type;
 };
 
 // Pointers always passed by-val
 template<typename T>
-struct PtrMaker<T*> {
+struct HAXERUNTIME_API PtrMaker<T*> {
   typedef PtrHelper_Stack<T*> Type;
 };
 

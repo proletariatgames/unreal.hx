@@ -387,9 +387,9 @@ class NativeGlueCode
         // add only once - we'll select a type that is always compiled
         if (typeName == 'unreal.helpers.HxcppRuntimeStatic' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.haxeRuntimeDir;
-          if (Globals.cur.glueTargetModule != null) {
-            dir += '/../${Globals.cur.glueTargetModule}';
-          }
+          // if (Globals.cur.glueTargetModule != null) {
+          //   dir += '/../${Globals.cur.glueTargetModule}';
+          // }
           cl.meta.add(':buildXml', [macro $v{
           '<files id="haxe">
             <compilerflag value="-I$dir/Generated/Shared" />

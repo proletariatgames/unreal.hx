@@ -36,18 +36,19 @@ class HaxeModuleRules extends BaseModuleRules
     var base = Path.GetFullPath('$modulePath/..');
     if (firstRun) {
       var targetModule = std.Type.getClassName(std.Type.getClass(this));
-      if (this.config.glueTargetModule != null) {
-        targetModule = this.config.glueTargetModule;
-      }
       updateProject(targetModule);
 
-      if (FileSystem.exists('$base/Generated')) {
-        for (file in FileSystem.readDirectory('$base/Generated')) {
-          if (file != 'Private' && file != 'Public') {
-            if (FileSystem.isDirectory('$base/Generated/$file')) {
-              InitPlugin.deleteRecursive('$base/Generated/$file',true);
-            } else {
-              FileSystem.deleteFile('$base/Generated/$file');
+      if (this.config.glueTargetModule != null) {
+        var glueTargetModule = this.config.glueTargetModule;
+        var dir = '$base/../$glueTargetModule/Generated';
+        if (FileSystem.exists(dir)) {
+          for (file in FileSystem.readDirectory(dir)) {
+            if (file != 'Private' && file != 'Public') {
+              if (FileSystem.isDirectory('$dir/$file')) {
+                InitPlugin.deleteRecursive('$dir/$file',true);
+              } else {
+                FileSystem.deleteFile('$dir/$file');
+              }
             }
           }
         }
@@ -56,6 +57,7 @@ class HaxeModuleRules extends BaseModuleRules
     this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
     this.PublicIncludePaths.Add(base + '/Generated');
+    this.PublicIncludePaths.Add(base + '/Generated/Shared');
     this.PublicIncludePaths.Add(base + '/Generated/Public');
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
@@ -353,7 +355,7 @@ class HaxeModuleRules extends BaseModuleRules
 
     if (this.config.glueTargetModule != null) {
       this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
-      this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
+      // this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
     }
 
     // add the output static linked library
@@ -381,9 +383,9 @@ class HaxeModuleRules extends BaseModuleRules
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       // this.PublicAdditionalLibraries.Add(outputStatic);
-      if (this.config.glueTargetModule == null) {
-        this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
-      }
+      // if (this.config.glueTargetModule == null) {
+      this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+      // }
 
       // FIXME look into why libstdc++ can only be linked with its full path
       if (FileSystem.exists('/usr/lib/libstdc++.dylib'))

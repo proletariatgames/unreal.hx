@@ -1,5 +1,6 @@
 package ue4hx.internal;
 import ue4hx.internal.buf.HelperBuf;
+import ue4hx.internal.buf.CodeFormatter;
 import haxe.macro.Context;
 import haxe.macro.Compiler;
 import sys.FileSystem;
@@ -165,9 +166,59 @@ class TypeParamBuild {
     this.type = type;
   }
 
+  /**
+    If we are generating code to another module, we must take care to export our symbols
+    properly.
+   **/
+  private static function createDllExporter(tparam:TypeRef, cppType:String, toGlue:Bool) {
+    var exportHeader = new CodeFormatter(),
+        exportCpp = new CodeFormatter();
+    var module = Globals.cur.module;
+    if (Globals.cur.glueTargetModule != null) {
+      module = Globals.cur.glueTargetModule;
+    }
+
+    var cppName = tparam.getCppClass();
+    for (pack in tparam.pack) {
+      exportHeader << 'namespace $pack {' << new Newline();
+    }
+    var haxeTo = toGlue ? 'haxeToGlue' : 'haxeToUe',
+        toHaxe = toGlue ? 'glueToHaxe' : 'ueToHaxe';
+    exportHeader << 'HXCPP_CLASS_ATTRIBUTES $cppType ${tparam.name}_$haxeTo(void *haxe);' << new Newline();
+    exportHeader << 'HXCPP_CLASS_ATTRIBUTES void *${tparam.name}_$toHaxe($cppType ue);' << new Newline();
+    for (pack in tparam.pack) {
+      exportHeader << '}' << new Newline();
+    }
+
+    // export
+    exportCpp << '$cppType ${tparam.name}_$haxeTo(void *haxe)' << new Begin('{') <<
+      'return $cppName::$haxeTo(haxe);' <<
+    new End('}');
+    exportCpp << 'void *${tparam.name}_$toHaxe($cppType ue)' << new Begin('{') <<
+      'return $cppName::$toHaxe(ue);' <<
+    new End('}');
+    cppName = '${tparam.name}_';
+
+    var writer = new ue4hx.internal.buf.CppWriter(
+      Globals.cur.haxeRuntimeDir + '/../$module/Generated/Private/${tparam.pack.join("/")}/${tparam.name}.cpp'
+    );
+    writer.buf.add(NativeGlueCode.prelude);
+    writer.include('${tparam.pack.join("/")}/${tparam.name}.h');
+    writer.close(module);
+
+    return { header:exportHeader.toString(), cppName:tparam.pack.join('::') + '::' + cppName };
+  }
+
   public function createCpp():Void {
     var feats = [];
     var tparam = this.tconv.ueType.getTypeParamType();
+    var cppName = tparam.getCppClass() + '::';
+
+    var module = Globals.cur.module;
+    if (Globals.cur.glueTargetModule != null) {
+      module = Globals.cur.glueTargetModule;
+    }
+
     if (this.tconv.isBasic) {
       // basic types are present on both hxcpp and UE, so
       // we don't need an intermediate glue type
@@ -196,7 +247,6 @@ class TypeParamBuild {
       var includeLocation = 'TypeParamGlue.h';
 
       var cppCode = new HelperBuf();
-      var module = Globals.cur.module;
       cppCode << '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
       // get the concrete type
       var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
@@ -215,22 +265,34 @@ class TypeParamBuild {
       case _:
       }
 
-      var cppName = tparam.getCppClass();
-
+      var extraMeta:Metadata = null;
+      if (Globals.cur.glueTargetModule != null) {
+        var exp = createDllExporter(tparam, hxType, false);
+        extraMeta = [
+          { name: ':uexpose', pos: pos },
+          { name: ':headerCode', params:[macro $v{exp.header}], pos: pos },
+        ];
+        cppName = exp.cppName;
+      }
       cppCode << 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
-        cppCode << '\treturn $cppName::haxeToUe(haxe);\n}\n\n';
+        cppCode << '\treturn ${cppName}haxeToUe(haxe);\n}\n\n';
       cppCode << 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
-        cppCode << '\treturn $cppName::ueToHaxe(ue);\n}\n';
+        cppCode << '\treturn ${cppName}ueToHaxe(ue);\n}\n';
       cppCode << 'template<>\nPtrMaker<$hxType>::Type TypeParamGluePtr<$hxType>::haxeToUePtr(void *haxe) {\n';
-        cppCode << '\treturn PtrMaker<$hxType>::Type($cppName::haxeToUe(haxe));\n}\n\n';
+        cppCode << '\treturn PtrMaker<$hxType>::Type(${cppName}haxeToUe(haxe));\n}\n\n';
       cppCode << 'template<>\nvoid *TypeParamGluePtr<$hxType>::ueToHaxeRef($hxType& ue) {\n';
-        cppCode << '\treturn $cppName::ueToHaxe(ue);\n}\n';
+        cppCode << '\treturn ${cppName}ueToHaxe(ue);\n}\n';
       var meta = extractMeta(
         macro
           @:nativeGen
           @:cppFileCode($v{cppCode.toString()})
           null
       );
+      if (extraMeta != null) {
+        for (m in extraMeta) {
+          meta.push(m);
+        }
+      }
       cls.name = tparam.name;
       cls.pack = tparam.pack;
       cls.meta = meta;
@@ -277,6 +339,11 @@ class TypeParamBuild {
           @:uexpose
           null
       );
+      if (Globals.cur.glueTargetModule != null) {
+        var exp = createDllExporter(tparam, this.tconv.isEnum ? 'int' : 'void*', true);
+        cls.meta.push({ name: ':headerCode', params:[macro $v{exp.header}], pos: pos });
+        cppName = exp.cppName;
+      }
 
       var path = Globals.cur.haxeRuntimeDir;
       var targetModule = Globals.cur.module;
@@ -300,11 +367,11 @@ class TypeParamBuild {
       var incs = new IncludeSet();
       this.tconv.getAllCppIncludes(incs);
       this.tconv.getAllHeaderIncludes(incs);
-      for (inc in incs)
+      for (inc in incs) {
         writer.include(inc);
+      }
       writer.include('<TypeParamGlue.h>');
       var ueType = this.tconv.ueType.getCppType();
-      var cppName = tparam.getCppClass();
 
       if (this.tconv.glueCppIncludes != null) {
         for (inc in this.tconv.glueCppIncludes)
@@ -313,29 +380,29 @@ class TypeParamBuild {
 
       var glueType = this.tconv.glueType.getCppType();
       writer.buf.add('template<>\n$ueType TypeParamGlue<$ueType>::haxeToUe(void *haxe) {\n');
-        writer.buf.add('\treturn ${this.tconv.glueToUe( '( (' + glueType + ')' +  cppName + '::haxeToGlue(haxe)' + ')', null )};\n}\n\n');
+        writer.buf.add('\treturn ${this.tconv.glueToUe( '( (' + glueType + ')' +  cppName + 'haxeToGlue(haxe)' + ')', null )};\n}\n\n');
       writer.buf.add('template<>\nvoid *TypeParamGlue<$ueType>::ueToHaxe($ueType ue) {\n');
-        writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
+        writer.buf.add('\treturn ${cppName}glueToHaxe( ${this.tconv.ueToGlue( 'ue', null )} );\n}\n\n');
 
       switch (this.tconv.ownershipModifier) {
       case 'unreal.PStruct' | 'ue4hx.internal.PStructRef' if (!this.tconv.isUObject):
         // in this case, we need to generate the get pointer code for glueToHaxePtr
         var pointerConv = TypeConv.get(this.type, this.pos, 'unreal.PExternal');
         writer.buf.add('template<>\nPtrMaker<$ueType>::Type TypeParamGluePtr<$ueType>::haxeToUePtr(void *haxe) {\n');
-          writer.buf.add('\treturn PtrMaker<$ueType>::Type(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');
+          writer.buf.add('\treturn PtrMaker<$ueType>::Type(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + 'haxeToGlue(haxe)' + ')', null)});\n}\n\n');
         writer.buf.add('template<>\nvoid *TypeParamGluePtr<$ueType>::ueToHaxeRef($ueType& ue) {\n');
-          writer.buf.add('\treturn $cppName::glueToHaxe( ${pointerConv.ueToGlue( '&ue', null )} );\n}\n\n');
+          writer.buf.add('\treturn ${cppName}glueToHaxe( ${pointerConv.ueToGlue( '&ue', null )} );\n}\n\n');
       case 'unreal.PStruct' | 'ue4hx.internal.PStructRef':
         var pointerConv = TypeConv.get(this.type, this.pos, 'unreal.PRef');
         writer.buf.add('template<>\nPtrMaker<$ueType>::Type TypeParamGluePtr<$ueType>::haxeToUePtr(void *haxe) {\n');
-          writer.buf.add('\treturn PtrMaker<$ueType>::Type(&(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)}));\n}\n\n');
+          writer.buf.add('\treturn PtrMaker<$ueType>::Type(&(${pointerConv.glueToUe( '( (' + glueType + ')' + cppName + 'haxeToGlue(haxe)' + ')', null)}));\n}\n\n');
         writer.buf.add('template<>\nvoid *TypeParamGluePtr<$ueType>::ueToHaxeRef($ueType& ue) {\n');
-          writer.buf.add('\treturn $cppName::glueToHaxe( ${pointerConv.ueToGlue( 'ue', null )} );\n}\n\n');
+          writer.buf.add('\treturn ${cppName}glueToHaxe( ${pointerConv.ueToGlue( 'ue', null )} );\n}\n\n');
       case _:
         writer.buf.add('template<>\nPtrMaker<$ueType>::Type TypeParamGluePtr<$ueType>::haxeToUePtr(void *haxe) {\n');
-          writer.buf.add('\treturn PtrMaker<$ueType>::Type(${this.tconv.glueToUe( '( (' + glueType + ')' + cppName + '::haxeToGlue(haxe)' + ')', null)});\n}\n\n');
+          writer.buf.add('\treturn PtrMaker<$ueType>::Type(${this.tconv.glueToUe( '( (' + glueType + ')' + cppName + 'haxeToGlue(haxe)' + ')', null)});\n}\n\n');
         writer.buf.add('template<>\nvoid *TypeParamGluePtr<$ueType>::ueToHaxeRef($ueType& ue) {\n');
-          writer.buf.add('\treturn $cppName::glueToHaxe( ${this.tconv.ueToGlue( '( ( ' + ueType +' ) ue )', null )} );\n}\n\n');
+          writer.buf.add('\treturn ${cppName}glueToHaxe( ${this.tconv.ueToGlue( '( ( ' + ueType +' ) ue )', null )} );\n}\n\n');
       }
 
       writer.close(targetModule);
