@@ -11,7 +11,7 @@ using StringTools;
   Per-build globals
  **/
 class Globals {
-  public static var MIN_BUILDTOOL_VERSION_LEVEL = 2;
+  public static var MIN_BUILDTOOL_VERSION_LEVEL = 3;
 
   public static var cur(default,null):Globals = new Globals();
 
@@ -226,5 +226,17 @@ class Globals {
     }
 
     return [ for (k in deps.keys()) k ];
+  }
+
+  public function checkBuildVersionLevel() {
+    // we need this since we might make some breaking changes on the build system
+    // that may need a manual recompilation of BuildTool
+    // this function will check if we are running in a compatible build version level
+    // and error if we don't
+    var buildVer = Context.definedValue('BUILDTOOL_VERSION_LEVEL');
+    if (buildVer == null || Std.parseInt(buildVer) < MIN_BUILDTOOL_VERSION_LEVEL) {
+      var pos = Context.makePosition({ file: 'UE4Haxe Toolchain', min:0, max:0 });
+      Context.fatalError('You have an incompatible build tool build. Please rebuild it by running `haxe init-plugin.hxml` on the plugin directory', pos);
+    }
   }
 }

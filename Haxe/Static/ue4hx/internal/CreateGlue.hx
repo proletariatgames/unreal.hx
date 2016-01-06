@@ -15,6 +15,7 @@ class CreateGlue {
   static var hasRun = false;
 
   public static function run(alwaysCompilePaths:Array<String>) {
+    Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
 

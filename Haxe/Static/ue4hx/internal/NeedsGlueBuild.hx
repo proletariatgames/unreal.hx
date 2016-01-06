@@ -17,8 +17,10 @@ class NeedsGlueBuild
     #end
     if (Context.defined('display')) return null;
     // check version level
-    if (!checkedVersion)
-      checkBuildVersionLevel();
+    if (!checkedVersion) {
+      Globals.cur.checkBuildVersionLevel();
+      checkedVersion = true;
+    }
     var localClass = Context.getLocalClass(),
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
@@ -420,17 +422,4 @@ $prelude
     }
   }
 
-  static function checkBuildVersionLevel() {
-    // we need this since we might make some breaking changes on the build system
-    // that may need a manual recompilation of BuildTool
-    // this function will check if we are running in a compatible build version level
-    // and error if we don't
-    checkedVersion = true;
-
-    var buildVer = Context.definedValue('BUILDTOOL_VERSION_LEVEL');
-    if (buildVer == null || Std.parseInt(buildVer) < Globals.MIN_BUILDTOOL_VERSION_LEVEL) {
-      var pos = Context.makePosition({ file: 'UE4Haxe Toolchain', min:0, max:0 });
-      Context.fatalError('You have an incompatible build tool build. Please rebuild it by running `haxe init-plugin.hxml` on the plugin directory', pos);
-    }
-  }
 }
