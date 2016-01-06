@@ -200,7 +200,7 @@ class TypeParamBuild {
     cppName = '${tparam.name}_';
 
     var writer = new ue4hx.internal.buf.CppWriter(
-      Globals.cur.haxeRuntimeDir + '/../$module/Generated/Private/${tparam.pack.join("/")}/${tparam.name}.cpp'
+      Globals.cur.haxeRuntimeDir + '/Generated/Private/${tparam.pack.join("/")}/${tparam.name}.cpp'
     );
     writer.buf.add(NativeGlueCode.prelude);
     writer.include('${tparam.pack.join("/")}/${tparam.name}.h');
@@ -267,12 +267,12 @@ class TypeParamBuild {
 
       var extraMeta:Metadata = null;
       if (Globals.cur.glueTargetModule != null) {
-        var exp = createDllExporter(tparam, hxType, false);
-        extraMeta = [
-          { name: ':uexpose', pos: pos },
-          { name: ':headerCode', params:[macro $v{exp.header}], pos: pos },
-        ];
-        cppName = exp.cppName;
+        // var exp = createDllExporter(tparam, hxType, false);
+        // extraMeta = [
+        //   { name: ':uexpose', pos: pos },
+        //   { name: ':headerCode', params:[macro $v{exp.header}], pos: pos },
+        // ];
+        // cppName = exp.cppName;
       }
       cppCode << 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
         cppCode << '\treturn ${cppName}haxeToUe(haxe);\n}\n\n';
@@ -347,7 +347,7 @@ class TypeParamBuild {
 
       var path = Globals.cur.haxeRuntimeDir;
       var targetModule = Globals.cur.module;
-      if (Globals.cur.glueTargetModule != null && !needsMainModule(tconv)) {
+      if (Globals.cur.glueTargetModule != null) {
         path += '/../${Globals.cur.glueTargetModule}';
         targetModule = Globals.cur.glueTargetModule;
         cls.meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:cls.pos });
