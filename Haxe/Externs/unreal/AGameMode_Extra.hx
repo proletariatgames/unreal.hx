@@ -19,6 +19,8 @@ extern class AGameMode_Extra {
 	public function ChoosePlayerStart_Implementation(player:AController) : AActor;
 	@:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
 
+	function GetDefaultPawnClassForController_Implementation(inController:unreal.AController) : unreal.UClass;
+
 	function InitGameState() : Void;
 	function PostLogin(NewPlayer:APlayerController) : Void;
 	function Logout(Exiting:AController) : Void;
