@@ -1,6 +1,6 @@
 # Unreal.hx
 
-Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [Haxe](haxe.org) programming language. Haxe is a modern, high-level, type-safe programming language that offers high performance critical for game development.
+Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [Haxe](http://haxe.org/) programming language. Haxe is a modern, high-level, type-safe programming language that offers high performance critical for game development.
 
 ### Main Features
 - Haxe compiles directly to C++, for high runtime performance.
