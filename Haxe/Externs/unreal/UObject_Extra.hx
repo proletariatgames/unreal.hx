@@ -86,7 +86,13 @@ extern class UObject_Extra {
   @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PExternal<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:typeName @:global public static function StaticLoadClass(baseClass:UClass, inOuter:UObject, name:TCharStar, filename:TCharStar /* = null */, loadFlags:Int32 /* = 0 */, sandbox:UPackageMap /* = null */):UClass;
+  @:global public static function FindPackage(inOuter:UObject, packageName:TCharStar):UPackage;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function LoadPackage(inOuter:UPackage, packageLongName:TCharStar, loadFlags:Int):UPackage;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function StaticLoadClass(baseClass:UClass, inOuter:UObject, name:TCharStar, filename:TCharStar /* = null */, loadFlags:Int32 /* = 0 */, sandbox:UPackageMap /* = null */):UClass;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function CreatePackage(outer:UObject, packageName:TCharStar):UPackage;
