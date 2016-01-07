@@ -36,11 +36,15 @@ class HaxeModuleRules extends BaseModuleRules
     var base = Path.GetFullPath('$modulePath/..');
     if (firstRun) {
       var targetModule = std.Type.getClassName(std.Type.getClass(this));
+      if (this.config.glueTargetModule != null) {
+        targetModule = this.config.glueTargetModule;
+      }
       updateProject(targetModule);
 
       if (this.config.glueTargetModule != null) {
-        var glueTargetModule = this.config.glueTargetModule;
-        var dir = '$base/../$glueTargetModule/Generated';
+        // var glueTargetModule = this.config.glueTargetModule;
+        // var dir = '$base/../$glueTargetModule/Generated';
+        var dir = '$base/Generated';
         if (FileSystem.exists(dir)) {
           for (file in FileSystem.readDirectory(dir)) {
             if (file != 'Private' && file != 'Public') {
@@ -355,7 +359,7 @@ class HaxeModuleRules extends BaseModuleRules
 
     if (this.config.glueTargetModule != null) {
       this.PrivateDependencyModuleNames.Add(this.config.glueTargetModule);
-      // this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
+      this.CircularlyReferencedDependentModules.Add(this.config.glueTargetModule);
     }
 
     // add the output static linked library
@@ -383,9 +387,9 @@ class HaxeModuleRules extends BaseModuleRules
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       // this.PublicAdditionalLibraries.Add(outputStatic);
-      // if (this.config.glueTargetModule == null) {
+      if (this.config.glueTargetModule == null) {
       this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
-      // }
+      }
 
       // FIXME look into why libstdc++ can only be linked with its full path
       if (FileSystem.exists('/usr/lib/libstdc++.dylib'))

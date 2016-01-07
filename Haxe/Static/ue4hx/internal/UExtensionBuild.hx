@@ -1,5 +1,8 @@
 package ue4hx.internal;
+import ue4hx.internal.buf.CodeFormatter;
 import ue4hx.internal.buf.HelperBuf;
+import ue4hx.internal.buf.CppWriter;
+import ue4hx.internal.buf.HeaderWriter;
 import ue4hx.internal.TypeConv;
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -131,6 +134,36 @@ class UExtensionBuild {
       }
 
       var buildFields = [];
+      var exportHeader = null,
+          exportCpp = null;
+      var export = null,
+          cppExposeType = expose;
+
+      var glueHeaderIncs = new IncludeSet(),
+          glueCppIncs = new IncludeSet(),
+          headerForwards = new Map();
+      if (Globals.cur.glueTargetModule != null) {
+        export = new TypeRef(expose.pack, expose.name + '_Export');
+        cppExposeType = export;
+        exportHeader = new CodeFormatter();
+        exportCpp = new CodeFormatter();
+        exportHeader <<
+          '#include <hxcpp.h>\n' <<
+          '#include <${expose.getClassPath().replace(".","/")}.h>\n\n';
+        for (pack in export.pack) {
+          exportHeader << 'namespace $pack {\n';
+        }
+        exportHeader << '\nclass HXCPP_CLASS_ATTRIBUTES ${export.name}' << new Begin("{") <<
+          'public:' << new Newline() <<
+          'static void *createHaxeWrapper(void *self);' << new Newline();
+
+        exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
+          'void *${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
+            'return ${expose.getCppClass()}::createHaxeWrapper(self);' <<
+          new End('}');
+        glueCppIncs.add(export.getClassPath().replace(".","/") + ".h");
+      }
+
       for (field in toExpose) {
         var uname = getUName(field.cf);
         var callExpr = if (field.type.isStatic())
@@ -146,6 +179,23 @@ class UExtensionBuild {
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
         if (!field.type.isStatic())
           fnArgs.unshift({ name: 'self', type: thisConv.haxeGlueType.toComplexType() });
+        if (exportHeader != null) {
+          var exportArgs = field.args.copy();
+          if (!field.type.isStatic()) {
+            exportArgs.unshift({ name: 'self', type: thisConv });
+          }
+          var argsDef = new HelperBuf();
+          argsDef.mapJoin(exportArgs, function(arg) return arg.type.glueType.getCppType() + ' ' + arg.name);
+          // field.ret.
+          exportHeader << 'static ${field.ret.glueType.getCppType()} ${field.cf.name}($argsDef);' << new Newline();
+          exportCpp << '${field.ret.glueType.getCppType()} ${export.getCppClass()}::${field.cf.name}($argsDef)' <<
+            new Begin('{') <<
+              (field.ret.haxeType.isVoid() ? '' : 'return ') <<
+              expose.getCppClass() << '::' << field.cf.name << '(';
+          exportCpp.mapJoin(exportArgs, function(arg) return arg.name);
+          exportCpp << ');' <<
+            new End('}') << new Newline();
+        }
         var headerDef = new HelperBuf(),
             cppDef = new HelperBuf();
         var ret = field.ret.ueType.getCppType().toString();
@@ -200,8 +250,9 @@ class UExtensionBuild {
           cppDef << ' const';
         }
 
-        if (field.type == Override)
+        if (field.type == Override) {
           headerDef << ' override';
+        }
         headerDef << ';\n';
 
         if (!field.type.isStatic()) {
@@ -214,7 +265,7 @@ class UExtensionBuild {
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
-        var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
+        var cppBody = cppExposeType.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
@@ -290,13 +341,10 @@ class UExtensionBuild {
       var hasReplicatedProperties = false;
       var replicatedProps = new Map();
 
-      // add createHaxeWrapper
       {
+        // add createHaxeWrapper
         var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var cppCode = '';
-        var glueHeaderIncs = new IncludeSet(),
-            glueCppIncs = new IncludeSet(),
-            headerForwards = new Map();
         for (upropDef in uprops) {
           var uprop = upropDef.field,
               isStatic = upropDef.isStatic;
@@ -387,8 +435,8 @@ class UExtensionBuild {
           }
         }
 
+        cppCode += 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
-        cppCode += 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${expose.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
         if (hasReplicatedProperties) {
           var hasCustomReplications = false;
           var customReplications = new Map();
@@ -448,6 +496,24 @@ class UExtensionBuild {
           meta: metas,
           pos: this.pos
         });
+      }
+
+      if (exportHeader != null) {
+        exportHeader << new End('};');
+        for (pack in export.pack) {
+          exportHeader << '}\n';
+        }
+        var path = Globals.cur.haxeRuntimeDir + '/../${Globals.cur.glueTargetModule}/Generated';
+        var header = new HeaderWriter('$path/Public/${export.getClassPath().replace(".","/")}.h');
+        header.buf.add(exportHeader);
+        header.close(Globals.cur.glueTargetModule);
+        var cpp = new CppWriter('$path/Private/${export.getClassPath().replace(".","/")}.cpp');
+        cpp.buf.add(exportCpp);
+        cpp.close(Globals.cur.glueTargetModule);
+
+        metas.push({ name: ':ufiledependency', params:[
+          macro $v{export.getClassPath() + '@' + Globals.cur.glueTargetModule}
+        ], pos:this.pos });
       }
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());

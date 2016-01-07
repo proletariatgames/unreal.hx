@@ -310,7 +310,13 @@ class NativeGlueCode
       var dependencies = MacroHelpers.extractStrings(cl.meta, ':ufiledependency');
       var module = MacroHelpers.extractStrings(cl.meta, ':utargetmodule')[0];
       for (dep in dependencies) {
-        touch(dep, module);
+        var idx = dep.indexOf('@');
+        if (idx >= 0) {
+          var s = dep.split('@');
+          touch(s[0], s[1]);
+        } else {
+          touch(dep, module);
+        }
       }
     }
 
@@ -387,9 +393,9 @@ class NativeGlueCode
         // add only once - we'll select a type that is always compiled
         if (typeName == 'unreal.helpers.HxcppRuntimeStatic' && !cl.meta.has(':buildXml')) {
           var dir = Globals.cur.haxeRuntimeDir;
-          // if (Globals.cur.glueTargetModule != null) {
-          //   dir += '/../${Globals.cur.glueTargetModule}';
-          // }
+          if (Globals.cur.glueTargetModule != null) {
+            dir += '/../${Globals.cur.glueTargetModule}';
+          }
           cl.meta.add(':buildXml', [macro $v{
           '<files id="haxe">
             <compilerflag value="-I$dir/Generated/Shared" />

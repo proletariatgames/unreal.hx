@@ -1,6 +1,6 @@
 package ue4hx.internal;
-import ue4hx.internal.buf.HelperBuf;
 import ue4hx.internal.buf.CodeFormatter;
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import haxe.macro.Compiler;
 import sys.FileSystem;
@@ -214,10 +214,20 @@ class TypeParamBuild {
     var tparam = this.tconv.ueType.getTypeParamType();
     var cppName = tparam.getCppClass() + '::';
 
-    var module = Globals.cur.module;
-    if (Globals.cur.glueTargetModule != null) {
-      module = Globals.cur.glueTargetModule;
+    var targetModule = Globals.cur.module,
+        isMainModule = true;
+    var path = Globals.cur.haxeRuntimeDir;
+    var addedMetas:Metadata = [];
+    if (Globals.cur.glueTargetModule != null && !needsMainModule(this.tconv)) {
+      targetModule = Globals.cur.glueTargetModule;
+      isMainModule = false;
+      path += '/../$targetModule';
+      addedMetas.push({ name: ':ufiledependency', params:[
+        macro $v{tparam.getClassPath() + '@' + targetModule}
+      ], pos:pos });
     }
+    path += '/Generated/Private/${tparam.getClassPath().replace(".","/")}.cpp';
+    var writer = new ue4hx.internal.buf.CppWriter(path);
 
     if (this.tconv.isBasic) {
       // basic types are present on both hxcpp and UE, so
@@ -265,15 +275,6 @@ class TypeParamBuild {
       case _:
       }
 
-      var extraMeta:Metadata = null;
-      if (Globals.cur.glueTargetModule != null) {
-        // var exp = createDllExporter(tparam, hxType, false);
-        // extraMeta = [
-        //   { name: ':uexpose', pos: pos },
-        //   { name: ':headerCode', params:[macro $v{exp.header}], pos: pos },
-        // ];
-        // cppName = exp.cppName;
-      }
       cppCode << 'template<>\n$hxType TypeParamGlue<$hxType>::haxeToUe(void *haxe) {\n';
         cppCode << '\treturn ${cppName}haxeToUe(haxe);\n}\n\n';
       cppCode << 'template<>\nvoid *TypeParamGlue<$hxType>::ueToHaxe($hxType ue) {\n';
@@ -282,20 +283,21 @@ class TypeParamBuild {
         cppCode << '\treturn PtrMaker<$hxType>::Type(${cppName}haxeToUe(haxe));\n}\n\n';
       cppCode << 'template<>\nvoid *TypeParamGluePtr<$hxType>::ueToHaxeRef($hxType& ue) {\n';
         cppCode << '\treturn ${cppName}ueToHaxe(ue);\n}\n';
+
+      writer.buf.add(cppCode);
+      writer.close(targetModule);
       var meta = extractMeta(
         macro
           @:nativeGen
-          @:cppFileCode($v{cppCode.toString()})
           null
       );
-      if (extraMeta != null) {
-        for (m in extraMeta) {
-          meta.push(m);
-        }
-      }
+
       cls.name = tparam.name;
       cls.pack = tparam.pack;
       cls.meta = meta;
+      for (meta in addedMetas) {
+        cls.meta.push(meta);
+      }
 
       Globals.cur.toDefineTParams[tparam.getClassPath()] = cls;
     } else {
@@ -339,29 +341,10 @@ class TypeParamBuild {
           @:uexpose
           null
       );
-      if (Globals.cur.glueTargetModule != null) {
-        var exp = createDllExporter(tparam, this.tconv.isEnum ? 'int' : 'void*', true);
-        cls.meta.push({ name: ':headerCode', params:[macro $v{exp.header}], pos: pos });
-        cppName = exp.cppName;
+      for (meta in addedMetas) {
+        cls.meta.push(meta);
       }
 
-      var path = Globals.cur.haxeRuntimeDir;
-      var targetModule = Globals.cur.module;
-      if (Globals.cur.glueTargetModule != null) {
-        path += '/../${Globals.cur.glueTargetModule}';
-        targetModule = Globals.cur.glueTargetModule;
-        cls.meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:cls.pos });
-      } else {
-        cls.meta.push({ name:':umainmodule', params:[], pos:cls.pos });
-      }
-
-      // ue type
-      path += '/Generated/Private/' + tparam.getClassPath().replace('.','/') + '.cpp';
-      var dir = haxe.io.Path.directory(path);
-      if (!FileSystem.exists(dir))
-        FileSystem.createDirectory(dir);
-
-      var writer = new ue4hx.internal.buf.CppWriter(path);
       writer.buf.add(NativeGlueCode.prelude);
       writer.include('<${tparam.getClassPath().replace('.','/')}.h>');
       var incs = new IncludeSet();
