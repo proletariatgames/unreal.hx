@@ -41,8 +41,7 @@ class HaxeModuleRules extends BaseModuleRules
       updateProject(targetModule);
 
       if (this.config.glueTargetModule != null) {
-        // var glueTargetModule = this.config.glueTargetModule;
-        // var dir = '$base/../$glueTargetModule/Generated';
+        if (FileSystem.exists(
         var dir = '$base/Generated';
         if (FileSystem.exists(dir)) {
           for (file in FileSystem.readDirectory(dir)) {

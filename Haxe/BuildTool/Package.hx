@@ -27,14 +27,13 @@ class Package
       FileSystem.createDirectory(targetDir + '/hx');
     Compiler.addClassPath(targetDir + '/hx');
     var names = [];
-    for (file in buildFiles) {
+    mappedFiles.push({ name:"HaxeExternalModule", target: buildFiles.targetExternal });
+    names.push({ name:"HaxeExternalModule", className:"HaxeExternalModule" });
+
+    for (file in buildFiles.files) {
       var isBuild = file.endsWith('Build.hx');
       var name = haxe.io.Path.withoutDirectory(file).substr(0,-(isBuild ? ('Build.hx'.length + 1) : ('Target.hx'.length + 1)));
       var className = name.charAt(0).toUpperCase() + name.substr(1);
-      if (names.length == 0) {
-        mappedFiles.push({ name:"HaxeExternalModule", target: haxe.io.Path.directory(file) + '/HaxeExternalModule.Build.cs' });
-        names.push({ name:"HaxeExternalModule", className:"HaxeExternalModule" });
-      }
       names.push({ name:name, className:className });
       var target = file.substr(0,-2) + 'cs';
       mappedFiles.push({ name:name, target: target });
@@ -142,19 +141,32 @@ class Package
     });
   }
 
-  private static function getBuildFiles(srcDir:String) {
-    var ret = [];
+  private static function getBuildFiles(srcDir:String):{ files:Array<String>, targetExternal:String } {
+    var ret = [],
+        dirs = [];
+    var targetExternal = null;
     for (dir in FileSystem.readDirectory(srcDir)) {
       if (FileSystem.isDirectory('$srcDir/$dir')) {
+        dirs.push(dir);
         for (file in FileSystem.readDirectory('$srcDir/$dir')) {
           if (file.endsWith('.Build.hx')) {
             ret.push('$srcDir/$dir/$file');
           } else if (file.endsWith('.Target.hx')) {
             ret.push('$srcDir/$dir/$file');
+          } else if (file == 'HaxeExternalModule.Build.cs') {
+            targetExternal = '$srcDir/$dir/$file';
           }
         }
       }
     }
-    return ret;
+    if (targetExternal == null) {
+      if (ret.length > 0) {
+        targetExternal = haxe.io.Path.directory(ret[0]) + '/HaxeExternalModule.Build.cs';
+      } else {
+        if (dirs.length == 0) throw 'No module in source $srcDir was found!';
+        targetExternal = '$srcDir/${dirs[0]}/HaxeExternalModule.Build.cs';
+      }
+    }
+    return { files:ret, targetExternal:targetExternal };
   }
 }
