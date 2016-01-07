@@ -23,6 +23,9 @@ extern class UActorComponent_Extra {
   */
   private function DestroyRenderState_Concurrent() : Void;
 
+	/** Mark the render state as dirty - will be sent to the render thread at the end of the frame. */
+  public function MarkRenderStateDirty() : Void;
+
   /** Recreate the render state right away. Generally you always want to call MarkRenderStateDirty instead.
   *
   * **Caution**, this is called concurrently on multiple threads (but never the same component concurrently)
