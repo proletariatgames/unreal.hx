@@ -218,14 +218,14 @@ class TypeParamBuild {
         isMainModule = true;
     var path = Globals.cur.haxeRuntimeDir;
     var addedMetas:Metadata = [];
-    if (Globals.cur.glueTargetModule != null && !needsMainModule(this.tconv)) {
+    if (Globals.cur.glueTargetModule != null) {
       targetModule = Globals.cur.glueTargetModule;
       isMainModule = false;
       path += '/../$targetModule';
-      addedMetas.push({ name: ':ufiledependency', params:[
-        macro $v{tparam.getClassPath() + '@' + targetModule}
-      ], pos:pos });
     }
+    addedMetas.push({ name: ':ufiledependency', params:[
+      macro $v{tparam.getClassPath() + '@' + targetModule}
+    ], pos:pos });
     path += '/Generated/Private/${tparam.getClassPath().replace(".","/")}.cpp';
     var writer = new ue4hx.internal.buf.CppWriter(path);
 
@@ -237,6 +237,9 @@ class TypeParamBuild {
         new TypeRef(['cpp'], glueType.name.substr('Fake'.length));
       } else {
         glueType;
+      }
+      if (haxeType.name == 'Int64') {
+        haxeType = new TypeRef(['cpp'], 'Int64');
       }
       var glueTypeComplex = glueType.toComplexType(),
           haxeTypeComplex = haxeType.toComplexType();
@@ -258,6 +261,7 @@ class TypeParamBuild {
 
       var cppCode = new HelperBuf();
       cppCode << '#ifndef TypeParamGlue_h_included__\n#include "$includeLocation"\n#endif\n\n';
+      cppCode << '#include "${tparam.getClassPath().replace(".","/")}.h"\n';
       // get the concrete type
       var hxType = TypeRef.fromType( Context.follow(Context.getType(haxeType.getClassPath())), pos );
       hxType = switch (hxType.pack) {
@@ -288,7 +292,7 @@ class TypeParamBuild {
       writer.close(targetModule);
       var meta = extractMeta(
         macro
-          @:nativeGen
+          @:uexpose
           null
       );
 

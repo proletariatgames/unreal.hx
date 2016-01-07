@@ -54,9 +54,8 @@ static void *get_top_of_stack(void)
 static volatile int32 gDidInit = 0;
 DECLARE_FAST_TLS(tlsDidInit);
 
-HAXERUNTIME_API extern "C" void check_hx_init()
+extern "C" HAXERUNTIME_API void check_hx_init()
 {
-  printf("checking hx init... %d %llx\n", gDidInit, (long long int) &gDidInit);
   bool firstInit = true;
   if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
     // check if the thread was registered

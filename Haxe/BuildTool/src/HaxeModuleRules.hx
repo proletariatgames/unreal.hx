@@ -19,7 +19,6 @@ class HaxeModuleRules extends BaseModuleRules
   private static var disabled:Bool = false;
   private static var VERSION_LEVEL = 3;
   private var config:HaxeModuleConfig;
-  // private var target
 
   private function getConfig():HaxeModuleConfig {
     return {
@@ -88,24 +87,24 @@ class HaxeModuleRules extends BaseModuleRules
       //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
       //       recently changed how often the build scripts are run - so they don't run if the project
       //       seems updated. This breaks Haxe building, since Unreal has no knowledge of Haxe files
-      var buildcs = modulePath;
+      var fileToTouch = modulePath;
       for (file in readDirectory(gameDir)) {
         if (file.endsWith('.uproject')) {
-          buildcs = '$gameDir/$file';
+          fileToTouch = '$gameDir/$file';
           break;
         }
       }
       cs.system.AppDomain.CurrentDomain.add_ProcessExit(function(_,_) {
-        trace('Touching $buildcs');
+        trace('Touching $fileToTouch');
         var thisTime = cs.system.DateTime.UtcNow;
         // add one second so they don't end up with the exact same timestamp
         thisTime = thisTime.Add( cs.system.TimeSpan.FromSeconds(1) );
         try {
-          cs.system.io.File.SetLastWriteTimeUtc(buildcs, thisTime);
+          cs.system.io.File.SetLastWriteTimeUtc(fileToTouch, thisTime);
         } catch(e:Dynamic) {
-          if (buildcs != modulePath) {
+          if (fileToTouch != modulePath) {
             // the uproject might be write-proteceted because of some
-            trace('Touching $buildcs failed. Touching $modulePath');
+            trace('Touching $fileToTouch failed. Touching $modulePath');
             cs.system.io.File.SetLastWriteTimeUtc(modulePath, thisTime);
           } else {
             cs.Lib.rethrow(e);

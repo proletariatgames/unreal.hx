@@ -237,7 +237,6 @@ class NativeGlueCode
     // C++ doesn't like Windows forward slashes
     headerPath = headerPath.replace('\\','/');
 
-    // trace(headerPath,cl.pack,cl.name);
     try {
       switch (Context.follow(Context.getType(gluePath))) {
       case TInst(glueClassRef,_):
