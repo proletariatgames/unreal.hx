@@ -37,6 +37,8 @@ extern class AActor_Extra {
   @:thisConst
   public function GetActorLocation() : FVector;
 
+  public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PExternal<FHitResult>) : Bool;
+
   @:thisConst
   public function GetActorRotation() : FRotator;
 

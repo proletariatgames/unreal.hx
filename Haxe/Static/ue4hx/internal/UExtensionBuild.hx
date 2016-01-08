@@ -164,12 +164,28 @@ class UExtensionBuild {
         glueCppIncs.add(export.getClassPath().replace(".","/") + ".h");
       }
 
+      var isScript = clt.meta.has(':uscript');
+      var scriptBase = null;
+      if (isScript) {
+        trace('found script');
+        scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
+      }
       for (field in toExpose) {
         var uname = getUName(field.cf);
-        var callExpr = if (field.type.isStatic())
-          typeRef.getClassPath() + '.' + field.cf.name + '(';
-        else
-          thisConv.glueToHaxe('self', ctx) + '.' + field.cf.name + '(';
+        var callExpr = null;
+        if (!isScript) {
+          if (field.type.isStatic()) {
+            callExpr = typeRef.getClassPath() + '.' + field.cf.name + '(';
+          } else {
+            callExpr = thisConv.glueToHaxe('self', ctx) + '.' + field.cf.name + '(';
+          }
+        } else {
+          if (field.type.isStatic()) {
+            callExpr = '(cast std.Type.resolveClass("${typeRef.getClassPath(true)}")).' + field.cf.name + '(';
+          } else {
+            callExpr = '( cast (' + scriptBase.glueToHaxe('self', ctx) + ') ).' + field.cf.name + '(';
+          }
+        }
         callExpr += [ for (arg in field.args) arg.type.glueToHaxe(arg.name, ctx) ].join(', ') + ')';
 
         if (!field.ret.haxeType.isVoid())
@@ -484,14 +500,18 @@ class UExtensionBuild {
           // TODO this should work instead of forcing the @:privateAccess
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
+        var createExpr = if (isScript) {
+          'return ' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+        } else {
+          'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx);
+        }
         buildFields.push({
           name: 'createHaxeWrapper',
           access: [APublic, AStatic],
           kind: FFun({
             args: [{ name: 'ueType', type: thisConv.haxeGlueType.toComplexType() }],
             ret: thisConv.glueType.toComplexType(),
-            expr: Context.parse(
-              'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx), this.pos)
+            expr: Context.parse(createExpr, this.pos)
           }),
           meta: metas,
           pos: this.pos

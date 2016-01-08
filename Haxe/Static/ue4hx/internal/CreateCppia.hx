@@ -42,10 +42,6 @@ class CreateCppia {
             if (allStatics[e.module]) {
               e.exclude();
             }
-          case TAbstract(_.get()=>a,_):
-            if (allStatics[a.module]) {
-              a.exclude();
-            }
           case _:
         }
       }
