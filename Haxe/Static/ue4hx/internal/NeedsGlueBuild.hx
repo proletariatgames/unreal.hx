@@ -24,10 +24,11 @@ class NeedsGlueBuild
     var localClass = Context.getLocalClass(),
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
-    addOperators(localClass.toString(), cls, thisType);
 
     if (Globals.cur.gluesTouched.exists(localClass.toString()))
       return null;
+
+    addOperators(localClass.toString(), cls, thisType);
     Globals.cur.gluesTouched[localClass.toString()] = true;
 
     if (cls.meta.has(':ueGluePath')) {

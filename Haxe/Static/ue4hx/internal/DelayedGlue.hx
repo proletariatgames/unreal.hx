@@ -367,6 +367,9 @@ class DelayedGlue {
     var meta:Metadata = [
       { name:':unrealGlue', pos:this.pos },
     ];
+    // unfortunately this is necessary to make sure that our own version with all metadatas is the final one
+    // (see haxe's `encode_meta` source code to understand why this is needed)
+    cls.meta.add(':dummy',[],cls.pos);
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
@@ -488,7 +491,7 @@ class DelayedGlue {
 
     writer.close(info.targetModule);
     if (!cls.meta.has(':ufiledependency')) {
-      cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
+      cls.meta.add(':ufiledependency', [macro $v{uname + '@' + info.targetModule}], cls.pos);
     }
   }
 
