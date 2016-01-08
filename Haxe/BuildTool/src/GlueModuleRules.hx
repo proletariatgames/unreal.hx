@@ -36,10 +36,7 @@ class GlueModuleRules extends BaseModuleRules
     this.PublicIncludePaths.Add(base + '/Generated/Shared');
     this.PublicIncludePaths.Add(base + '/Generated/Public');
 
-    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}-${target.Configuration}';
-    if (UEBuildConfiguration.bBuildEditor) {
-      outputDir += '-Editor';
-    }
+    var outputDir = haxe.io.Path.directory( HaxeModuleRules.getLibLocation(target) );
     var modulesPath = Path.GetFullPath('$outputDir/Static/Built/Data/modules.txt');
     var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
     var deps = File.getContent(modulesPath).trim().split('\n');

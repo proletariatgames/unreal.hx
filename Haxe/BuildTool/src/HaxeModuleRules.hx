@@ -20,12 +20,35 @@ class HaxeModuleRules extends BaseModuleRules
   private static var VERSION_LEVEL = 3;
   private var config:HaxeModuleConfig;
 
+  public function new(target) {
+    super(target);
+    if (this.config == null) {
+      throw "HaxeModuleRules `run` wasn't run. If you are overriding it, make sure to call `super.run`";
+    }
+  }
+
   private function getConfig():HaxeModuleConfig {
     return {
       disabled: false,
       forceBakeExterns: Sys.getEnv('BAKE_EXTERNS') != null,
       dce: Sys.getEnv('DCE_FULL') != null ? DceFull : (Sys.getEnv('NO_DCE') != null ? DceNo : null),
     };
+  }
+
+  public static function getLibLocation(target:TargetInfo) {
+    var gameDir = RulesCompiler.AllGameFolders.ToArray()[0];
+    var libName = switch(target.Platform) {
+      case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
+        'haxeruntime.lib';
+      case _:
+        'libhaxeruntime.a';
+    };
+    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}-${target.Configuration}';
+    if (UEBuildConfiguration.bBuildEditor) {
+      outputDir += '-Editor';
+    }
+
+    return '$outputDir/$libName';
   }
 
   override private function run(target:TargetInfo, firstRun:Bool)
@@ -63,18 +86,8 @@ class HaxeModuleRules extends BaseModuleRules
     if (UEBuildConfiguration.bBuildEditor)
       this.PublicDependencyModuleNames.addRange(['UnrealEd']);
 
-    var libName = switch(target.Platform) {
-      case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
-        'haxeruntime.lib';
-      case _:
-        'libhaxeruntime.a';
-    };
-    var outputDir = gameDir + '/Intermediate/Haxe/${target.Platform}-${target.Configuration}';
-    if (UEBuildConfiguration.bBuildEditor) {
-      outputDir += '-Editor';
-    }
-
-    var outputStatic = '$outputDir/$libName';
+    var outputStatic = getLibLocation(target),
+        outputDir = haxe.io.Path.directory(outputStatic);
     if (!exists(outputDir)) createDirectory(outputDir);
 
     var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
