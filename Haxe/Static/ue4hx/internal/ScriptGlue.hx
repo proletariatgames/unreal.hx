@@ -33,12 +33,12 @@ class ScriptGlue {
     var toBuild = [];
     for (field in cl.fields.get()) {
       if (field.meta.has(':ugluegenerated')) {
-        toBuild.push(collectField(field, false, thisType));
+        toBuild.push(collectField(field, false, thisType, field.meta.extract(':ugluegenerated')[0].params[0]));
       }
     }
     for (field in cl.statics.get()) {
       if (field.meta.has(':ugluegenerated')) {
-        toBuild.push(collectField(field, true, thisType));
+        toBuild.push(collectField(field, true, thisType, field.meta.extract(':ugluegenerated')[0].params[0]));
       }
     }
 
@@ -52,7 +52,7 @@ class ScriptGlue {
     });
   }
 
-  private static function collectField(field:ClassField, isStatic:Bool, thisType:ComplexType):Field {
+  private static function collectField(field:ClassField, isStatic:Bool, thisType:ComplexType, expr:Expr):Field {
     // var args = [ for (arg in field.doc
     switch(Context.follow(field.type)) {
     case TFun(args,ret):
@@ -60,14 +60,6 @@ class ScriptGlue {
       if (!isStatic) {
         fnArgs.unshift({ name:'glue_self', type:thisType });
       }
-      // var texpr = switch(field.expr()) {
-      //   case { expr: TFunction(f) }:
-      //     f.expr;
-      //   case expr:
-      //     expr;
-      // }
-      // var expr = Context.getTypedExpr(texpr);
-      var expr = field.meta.extract(':ugluegenerated')[0].params[0];
       function map(e:Expr) {
         return switch(e.expr) {
         case EConst(CIdent("this")):
@@ -77,6 +69,15 @@ class ScriptGlue {
         }
       }
       expr = expr.map(map);
+      var isVoid = switch(Context.follow(ret)) {
+        case TAbstract(_.get() => { pack:[], name:"Void" }, _):
+          true;
+        case _:
+          false;
+      };
+      if (!isVoid) {
+        expr = macro return $expr;
+      }
 
       return {
         name: field.name,

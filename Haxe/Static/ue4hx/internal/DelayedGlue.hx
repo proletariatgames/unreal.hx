@@ -59,7 +59,11 @@ class DelayedGlue {
     Globals.cur.currentFeature = old;
     var ret = Context.parse(expr, pos);
     if (cls.meta.has(':uscript')) {
-      flagCurrentField(fullName, cls, isStatic, ret);
+      var toFlag = ret;
+      if (isSetter) {
+        toFlag = macro { $ret; value; };
+      }
+      flagCurrentField(fullName, cls, isStatic, toFlag);
     }
     return ret;
   }
@@ -203,7 +207,9 @@ class DelayedGlue {
       if (Globals.cur.buildingGlueTypes[path] == dglue) {
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
         Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(type.getClassPath());
-        Globals.cur.scriptGlues.push(type.getClassPath());
+        if (cls.meta.has(':uscript')) {
+          Globals.cur.scriptGlues.push(type.getClassPath());
+        }
       }
       Globals.cur.builtGlueTypes[path] = true;
       Globals.cur.buildingGlueTypes[path] = null;
@@ -341,9 +347,9 @@ class DelayedGlue {
     // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
     // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
-    if (glueHeaderIncludes.length > 0)
+    if (glueHeaderIncludes.length > 0 && !cls.meta.has(':glueHeaderIncludes'))
       cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
-    if (glueCppIncludes.length > 0)
+    if (glueCppIncludes.length > 0 && !cls.meta.has(':glueCppIncludes'))
       cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
     if (!this.shouldContinue())
@@ -481,7 +487,9 @@ class DelayedGlue {
     writer.buf.add('};\n');
 
     writer.close(info.targetModule);
-    cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
+    if (!cls.meta.has(':ufiledependency')) {
+      cls.meta.add(':ufiledependency', [macro $v{uname}], cls.pos);
+    }
   }
 
   private function writeDelegateDefinition(cls:ClassType) {
@@ -746,8 +754,10 @@ class DelayedGlue {
       { name: ':glueCppCode', params:[macro $v{cppDef}], pos: field.pos },
     ];
 
-    for (meta in metas) {
-      clsField.meta.add(meta.name, meta.params, meta.pos);
+    if (!clsField.meta.has(':glueHeaderCode')) {
+      for (meta in metas) {
+        clsField.meta.add(meta.name, meta.params, meta.pos);
+      }
     }
 
     this.buildFields.push({

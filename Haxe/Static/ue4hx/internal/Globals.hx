@@ -206,8 +206,13 @@ class Globals {
         case TInst(_.get() => c,_):
           if (c.meta.has(':savedTypes')) {
             for (type in MacroHelpers.extractStrings(c.meta, ':savedTypes')) {
-              this.cachedBuiltTypes.push(type);
-              Context.getType(type);
+              try {
+                Context.getType(type);
+                this.cachedBuiltTypes.push(type);
+              }
+              catch(e:Dynamic) {
+                trace('Type $type not found. Perhaps it was deleted?');
+              }
             }
           }
         case _:
