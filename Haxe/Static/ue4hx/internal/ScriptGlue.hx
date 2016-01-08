@@ -77,8 +77,6 @@ class ScriptGlue {
         }
       }
       expr = expr.map(map);
-      trace(field.name);
-      trace(expr.toString());
 
       return {
         name: field.name,

@@ -109,7 +109,7 @@ class DelayedGlue {
     if (Context.defined('cppia')) {
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).fieldName, args), pos: pos };
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
     }
 
     var glueExpr = getGlueType_impl(cls, pos);
@@ -137,7 +137,7 @@ class DelayedGlue {
     if (Context.defined('cppia')) {
       var args = isStatic ? args : [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).fieldName, args), pos: pos };
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
     }
 
     var field = cls.findField(fieldName, isStatic);

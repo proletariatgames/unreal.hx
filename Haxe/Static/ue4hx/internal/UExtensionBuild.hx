@@ -167,8 +167,7 @@ class UExtensionBuild {
       var isScript = clt.meta.has(':uscript');
       var scriptBase = null;
       if (isScript) {
-        trace('found script');
-        scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
+        scriptBase = TypeConv.getScriptableUObject();
       }
       for (field in toExpose) {
         var uname = getUName(field.cf);

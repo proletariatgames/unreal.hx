@@ -240,6 +240,10 @@ using StringTools;
     }
   }
 
+  public static function getScriptableUObject():TypeConv {
+    return scriptableUObject;
+  }
+
   public static function get(type:Type, pos:Position, ?ownershipOverride:String = null, registerTParam=true):TypeConv {
     var ctx = getTypeCtx(type, pos);
     if (ctx.name == 'unreal.Const') {
@@ -995,6 +999,25 @@ using StringTools;
     }
     ret;
   };
+
+  static var scriptableUObject:TypeConvInfo = {
+    haxeType: new TypeRef(['unreal'], 'UObject'),
+    ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('UObject')]),
+    haxeGlueType: voidStar,
+    glueType: voidStar,
+
+    isUObject: true,
+
+    glueCppIncludes: IncludeSet.fromUniqueArray(['Engine.h']),
+
+    haxeToGlueExpr: 'unreal.helpers.HaxeHelpers.dynamicToPointer(%)',
+    glueToHaxeExpr: '( unreal.helpers.HaxeHelpers.pointerToDynamic(%) : unreal.UObject)',
+    ueToGlueExpr: '::unreal::helpers::UEPointer::getGcRef(%)',
+    glueToUeExpr: '((::UObject *) ::unreal::helpers::HxcppRuntime::getWrapped( % ))',
+
+    forwardDeclType: ForwardDeclEnum.Always,
+    forwardDecls: ['class UObject'],
+  }
 }
 
 typedef TypeConvInfo = {
