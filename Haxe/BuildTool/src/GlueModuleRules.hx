@@ -30,6 +30,7 @@ class GlueModuleRules extends BaseModuleRules
 
     var targetModule = std.Type.getClassName(std.Type.getClass(this));
     var base = Path.GetFullPath('$modulePath/..');
+    this.PublicDependencyModuleNames.addRange(['Core','CoreUObject','Engine','InputCore','SlateCore']);
     this.PrivateIncludePaths.Add(base + '/Generated/Private');
     this.PublicIncludePaths.Add(base + '/Generated');
     this.PublicIncludePaths.Add(base + '/Generated/Shared');

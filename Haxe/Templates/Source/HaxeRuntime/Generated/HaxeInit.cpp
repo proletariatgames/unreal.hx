@@ -55,7 +55,7 @@ static void *get_top_of_stack(void)
 static volatile int32 gDidInit = 0;
 DECLARE_FAST_TLS(tlsDidInit);
 
-extern "C" HAXERUNTIME_API void check_hx_init()
+void check_hx_init()
 {
   bool firstInit = true;
   if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
