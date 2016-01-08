@@ -68,7 +68,9 @@ class Globals {
 
 #if !bake_externs
     if (dir == null) {
-      Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
+      if (!Context.defined('cppia')) {
+        Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
+      }
     }
     else
 #end
@@ -119,6 +121,11 @@ class Globals {
     to DCE
    **/
   public var currentFeature:Null<String>;
+
+  /**
+    All script glues to generate
+   **/
+  public var scriptGlues:Array<String> = [];
 
   /**
     List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again

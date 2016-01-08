@@ -127,6 +127,9 @@ class CreateGlue {
       cur.cachedBuiltTypes.push( def.pack.join('.') + '.' + def.name );
       Context.defineType(def);
     }
+    for (type in Globals.cur.scriptGlues) {
+      ScriptGlue.generate(type);
+    }
 
     Globals.cur.loadCachedTypes();
     Globals.cur.saveCachedBuilt();

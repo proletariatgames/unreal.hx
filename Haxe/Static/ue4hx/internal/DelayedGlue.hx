@@ -1,6 +1,6 @@
 package ue4hx.internal;
-import ue4hx.internal.buf.HelperBuf;
 #if macro
+import ue4hx.internal.buf.HelperBuf;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -27,6 +27,18 @@ class DelayedGlue {
     if (field == null) throw 'assert';
     var old = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep'; // these fields will always be kept
+    var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
+    if (Context.defined('cppia')) {
+      var args = [];
+      if (!isStatic) {
+        args.push(macro this);
+      }
+      if (isSetter) {
+        args.push(macro value);
+      }
+      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fullName, args), pos: pos };
+    }
 
     var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
     var tconv = TypeConv.get(field.type, pos);
@@ -45,7 +57,11 @@ class DelayedGlue {
     }
 
     Globals.cur.currentFeature = old;
-    return Context.parse(expr, pos);
+    var ret = Context.parse(expr, pos);
+    if (cls.meta.has(':uscript')) {
+      flagCurrentField(fullName, cls, isStatic, ret);
+    }
+    return ret;
   }
 
   macro public static function getSuperExpr(fieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
@@ -90,6 +106,11 @@ class DelayedGlue {
       macro var $name = $arg;
     } ];
     fargs.unshift({ name:'this', type: TypeConv.get(Context.getLocalType(), pos) });
+    if (Context.defined('cppia')) {
+      var args = [macro this].concat(args);
+      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).fieldName, args), pos: pos };
+    }
 
     var glueExpr = getGlueType_impl(cls, pos);
     var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
@@ -98,10 +119,14 @@ class DelayedGlue {
     block.push(Context.parse(expr, pos));
 
     Globals.cur.currentFeature = old;
-    if (block.length == 1)
-      return block[0];
+    var ret = if (block.length == 1)
+      block[0];
     else
-      return { expr:EBlock(block), pos: pos };
+      { expr:EBlock(block), pos: pos };
+    if (cls.meta.has(':uscript')) {
+      flagCurrentField(fieldName, cls, false, ret);
+    }
+    return ret;
   }
 
   macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
@@ -109,6 +134,11 @@ class DelayedGlue {
         pos = Context.currentPos();
     var old = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep'; // these fields will always be kept
+    if (Context.defined('cppia')) {
+      var args = isStatic ? args : [macro this].concat(args);
+      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).fieldName, args), pos: pos };
+    }
 
     var field = cls.findField(fieldName, isStatic);
     if (field == null)
@@ -139,14 +169,24 @@ class DelayedGlue {
     block.push(Context.parse(expr, pos));
 
     Globals.cur.currentFeature = old;
-    if (block.length == 1) {
-      return block[0];
+    var ret = if (block.length == 1) {
+      block[0];
     } else {
-      return { expr:EBlock(block), pos: pos };
+      { expr:EBlock(block), pos: pos };
+    };
+
+    if (cls.meta.has(':uscript')) {
+      flagCurrentField(fieldName, cls, isStatic, ret);
     }
+    return ret;
   }
 
 #if macro
+  private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr) {
+    var field = cl.findField(meth, isStatic);
+    if (field == null) throw new Error('assert: no field $meth on current class ${cl.name}', Context.currentPos());
+    field.meta.add(':ugluegenerated', [expr], cl.pos);
+  }
   private static function getGlueType_impl(cls:ClassType, pos:Position) {
     var type = TypeRef.fromBaseType(cls, pos);
     var glue = type.getGlueHelperType();
@@ -163,6 +203,7 @@ class DelayedGlue {
       if (Globals.cur.buildingGlueTypes[path] == dglue) {
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
         Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(type.getClassPath());
+        Globals.cur.scriptGlues.push(type.getClassPath());
       }
       Globals.cur.builtGlueTypes[path] = true;
       Globals.cur.buildingGlueTypes[path] = null;
@@ -242,12 +283,6 @@ class DelayedGlue {
       methodPtrs[methodPtr] = null;
     }
 
-    if (cls.meta.has(":uhxdelegate")) {
-      writeDelegateDefinition(cls);
-    } else if (cls.meta.has(":ustruct")) {
-      writeStructDefinition(cls);
-    }
-
     for (field in cls.fields.get()) {
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:false };
@@ -311,6 +346,14 @@ class DelayedGlue {
     if (glueCppIncludes.length > 0)
       cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
+    if (!this.shouldContinue())
+      return;
+
+    if (cls.meta.has(":uhxdelegate")) {
+      writeDelegateDefinition(cls);
+    } else if (cls.meta.has(":ustruct")) {
+      writeStructDefinition(cls);
+    }
     if (!this.shouldContinue())
       return;
 

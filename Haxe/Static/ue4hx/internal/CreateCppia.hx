@@ -27,7 +27,14 @@ class CreateCppia {
       'unreal.Wrapper',
       'haxe.Int64',
       'cpp.Int64',
-      'Date'
+      'Date',
+      'unreal.PHaxeCreated',
+      'unreal.TSharedPtr',
+      'unreal.TSharedRef',
+      'unreal.TWeakPtr',
+      'unreal.TThreadSafeSharedPtr',
+      'unreal.TThreadSafeSharedRef',
+      'unreal.TThreadSafeWeakPtr',
     ];
 
     Context.onGenerate(function(types) {

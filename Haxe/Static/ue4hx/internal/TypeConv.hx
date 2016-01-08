@@ -559,7 +559,7 @@ using StringTools;
           glueCppIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes')),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().rawCast()',
-          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%) )',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cpp.Pointer.fromRaw(cast (%)) )',
           glueToUeExpr: '( (${refName.getCppType()} *) % )',
           ownershipModifier: modf,
           args: convArgs,
@@ -570,7 +570,7 @@ using StringTools;
         };
         if (ctx.isInterface) {
           ret.haxeToGlueExpr = '@:privateAccess (cast % : unreal.UObject).getWrapped().rawCast()';
-          ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cast (%) ), ${originalTypeRef})';
+          ret.glueToHaxeExpr = 'cast(unreal.UObject.wrap( cpp.Pointer.fromRaw(cast (%)) ), ${originalTypeRef})';
           ret.ueToGlueExpr = 'Cast<UObject>( % )';
           ret.glueToUeExpr = 'Cast<${refName.getCppType()}>( (UObject *) % )';
           ret.glueCppIncludes.add('Templates/Casts.h');

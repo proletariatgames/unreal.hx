@@ -228,6 +228,14 @@ class TypeRef
     return new TypeRef(newPack, name + '_Glue');
   }
 
+  public function getScriptGlueType():TypeRef
+  {
+    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
+        name = this.name;
+    newPack.unshift('__pvt');
+    return new TypeRef(newPack, name + '_GlueScript');
+  }
+
   public function getExposeHelperType():TypeRef {
     var newPack = [ for (pack in this.pack) '_hx_' + pack ],
         name = this.name;

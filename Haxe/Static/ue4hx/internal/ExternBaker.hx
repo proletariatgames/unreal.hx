@@ -520,9 +520,9 @@ class ExternBaker {
             this.end('}');
           }
 
-          this.add('@:unreflective public static function wrap(uobject:cpp.RawPointer<cpp.Void>):${this.typeRef.getClassPath()}');
+          this.add('public static function wrap(uobject:cpp.Pointer<Dynamic>):${this.typeRef.getClassPath()}');
           this.begin(' {');
-            this.add('return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(uobject) );');
+            this.add('return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(uobject.rawCast()) );');
           this.end('}');
         }
       } else if (!c.isInterface) {
