@@ -17,6 +17,7 @@ class Globals {
 
   @:isVar public var haxeRuntimeDir(get,null):String;
   @:isVar public var glueTargetModule(get,null):String;
+  @:isVar public var inCompilationServer(get,null):Bool;
   public var module(get,null):String;
 
   private var targetModuleSet:Bool = false;
@@ -33,6 +34,26 @@ class Globals {
       setGlueTargetModule();
       return glueTargetModule;
     }
+  }
+
+  private function get_inCompilationServer() {
+    if (this.inCompilationServer != null) {
+      return this.inCompilationServer;
+    }
+    var target = haxe.macro.Compiler.getOutput() + '/Data/compserver.txt';
+    if (FileSystem.exists(target)) {
+      var ret = File.getContent(target);
+      if (ret == "0") {
+        return this.inCompilationServer = false;
+      } else if (ret == "1") {
+        return this.inCompilationServer = true;
+      } else {
+        trace('Warning: Cannot determine if we are using the compilation server');
+        return this.inCompilationServer = false;
+      }
+    }
+    trace('Warning: Compilation server data file missing. Old build tool?');
+    return this.inCompilationServer = false;
   }
 
   private function get_module() {
@@ -105,12 +126,12 @@ class Globals {
   public var cachedBuiltTypes:Array<String> = [];
 
   public var toDefineTParams:Map<String, TypeDefinition> = new Map();
-
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
-
   public var hasOlderCache:Null<Bool>;
-
+  public var inScriptPass:Bool = false;
+  // only used when cppia is defined
+  public var scriptModules:Map<String, Bool> = new Map();
   private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
 
   function new() {
@@ -159,51 +180,51 @@ class Globals {
     Loads previously saved type parameters
    **/
   public function loadCachedTypes() {
-#if IN_COMPILATION_SERVER
-    trace('loading cache...');
-    // first we'll create the type if it doesn't exist
-    try {
-      Context.getType('ue4hx.CachedData');
-    } catch(e:Dynamic) {
-      Context.defineType({
-        name:'CachedData',
-        pack:['ue4hx'],
-        pos: Context.currentPos(),
-        kind: TDClass(),
-        fields: []
-      });
-    }
+    if (this.inCompilationServer) {
+      trace('loading cache...');
+      // first we'll create the type if it doesn't exist
+      try {
+        Context.getType('ue4hx.CachedData');
+      } catch(e:Dynamic) {
+        Context.defineType({
+          name:'CachedData',
+          pack:['ue4hx'],
+          pos: Context.currentPos(),
+          kind: TDClass(),
+          fields: []
+        });
+      }
 
-    switch(Context.getType('ue4hx.CachedData')) {
-      case TInst(_.get() => c,_):
-        if (c.meta.has(':savedTypes')) {
-          for (type in MacroHelpers.extractStrings(c.meta, ':savedTypes')) {
-            this.cachedBuiltTypes.push(type);
-            Context.getType(type);
+      switch(Context.getType('ue4hx.CachedData')) {
+        case TInst(_.get() => c,_):
+          if (c.meta.has(':savedTypes')) {
+            for (type in MacroHelpers.extractStrings(c.meta, ':savedTypes')) {
+              this.cachedBuiltTypes.push(type);
+              Context.getType(type);
+            }
           }
-        }
-      case _:
-        throw 'assert';
+        case _:
+          throw 'assert';
+      }
     }
-#end
   }
 
   /**
     Saves cached types for further compilations
    **/
   public function saveCachedBuilt() {
-#if IN_COMPILATION_SERVER
-    trace('saving cached types...');
-    if (this.cachedBuiltTypes.length > 0) {
-      switch(Context.getType('ue4hx.CachedData')) {
-        case TInst(_.get() => c,_):
-          c.meta.remove(':savedTypes');
-          c.meta.add(':savedTypes', [for (t in this.cachedBuiltTypes) macro $v{t}], c.pos);
-        case _:
-          throw 'assert';
+    if (this.inCompilationServer) {
+      trace('saving cached types...');
+      if (this.cachedBuiltTypes.length > 0) {
+        switch(Context.getType('ue4hx.CachedData')) {
+          case TInst(_.get() => c,_):
+            c.meta.remove(':savedTypes');
+            c.meta.add(':savedTypes', [for (t in this.cachedBuiltTypes) macro $v{t}], c.pos);
+          case _:
+            throw 'assert';
+        }
       }
     }
-#end
   }
 
   private function getDefinesString():String {

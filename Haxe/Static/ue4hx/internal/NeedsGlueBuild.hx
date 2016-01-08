@@ -43,6 +43,10 @@ class NeedsGlueBuild
     var fields:Array<Field> = Context.getBuildFields(),
         toAdd = [];
 
+    var delayedglue = macro ue4hx.internal.DelayedGlue;
+    if (Context.defined('cppia') && !Globals.cur.scriptModules.exists(cls.module)) {
+      delayedglue = macro cast null;
+    }
     // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
     // and add wrap/create calls
     var superCls = cls.superClass;
@@ -68,7 +72,7 @@ class NeedsGlueBuild
               return wrapped != null ? new $typeThis(wrapped, parent) : null;
             }
             @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
-              return ue4hx.internal.DelayedGlue.getNativeCall("create", true);
+              return $delayedglue.getNativeCall("create", true);
             }
           };
           for (field in added.fields) {
@@ -82,6 +86,9 @@ class NeedsGlueBuild
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       cls.meta.add(':uextension', [], cls.pos);
+      if (Globals.cur.inScriptPass) {
+        cls.meta.add(':uscript', [], cls.pos);
+      }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
         throw new Error('Unreal Glue Extension: Do not extend Unreal types on the global namespace. Use a package', cls.pos);
@@ -95,7 +102,7 @@ class NeedsGlueBuild
 
       // we need to indirectly reference it since the @:genericBuild cannot have its
       // static fields accessed directly
-      var glueRefExpr = macro ue4hx.internal.DelayedGlue.getGlueType();
+      var glueRefExpr = macro $delayedglue.getGlueType();
 
       var changed = false;
       var superCalls = new Map(),
@@ -115,7 +122,7 @@ class NeedsGlueBuild
               case ECall(macro super.$field, args):
                 superCalls[field] = field;
                 var args = [ for (arg in args) map(arg) ];
-                { expr:ECall(macro @:pos(e.pos) ue4hx.internal.DelayedGlue.getSuperExpr, [macro $v{field}].concat(args)), pos:e.pos };
+                { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{field}].concat(args)), pos:e.pos };
               case _:
                 e.map(map);
               }
@@ -145,10 +152,10 @@ class NeedsGlueBuild
                   setter = 'set_' + field.name;
               var dummy = macro class {
                 private function $getter():$t {
-                  return ue4hx.internal.DelayedGlue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false);
+                  return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false);
                 }
                 private function $setter(value:$t):$t {
-                  ue4hx.internal.DelayedGlue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true);
+                  $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true);
                   return value;
                 }
               };
@@ -193,7 +200,7 @@ class NeedsGlueBuild
 
             var dummy = macro class {
               private static function $glueFnName() : cpp.RawPointer<cpp.Void> {
-                return ue4hx.internal.DelayedGlue.getNativeCall($v{glueFnName}, true);
+                return $delayedglue.getNativeCall($v{glueFnName}, true);
               }
             }
             methodPtrs[field.name] = field.name;
@@ -225,7 +232,7 @@ class NeedsGlueBuild
                 nativeCalls[field.name] = field.name;
                 var call = {
                   expr:ECall(
-                    macro @:pos(field.pos) ue4hx.internal.DelayedGlue.getNativeCall,
+                    macro @:pos(field.pos) $delayedglue.getNativeCall,
                     [macro $v{field.name}, macro $v{isStatic}].concat([ for (arg in fn.args) macro $i{arg.name} ])),
                   pos: field.pos
                 };
@@ -268,7 +275,7 @@ class NeedsGlueBuild
       if (!cls.meta.has(':ustruct')) {
         var staticClassDef = macro class {
           public static function StaticClass() : unreal.UClass {
-            return ue4hx.internal.DelayedGlue.getNativeCall('StaticClass', true);
+            return $delayedglue.getNativeCall('StaticClass', true);
           }
         };
 

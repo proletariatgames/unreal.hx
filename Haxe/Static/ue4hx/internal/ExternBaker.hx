@@ -505,7 +505,7 @@ class ExternBaker {
             }
 
             var glueClassGet = glueType.getClassPath() + '.StaticClass()';
-            this.add('static function __init__()');
+            this.add('static function __init__():Void');
             this.begin(' {');
               this.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
               // this.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');

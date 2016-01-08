@@ -35,6 +35,21 @@ class HaxeModuleRules extends BaseModuleRules
     };
   }
 
+  private function shouldCompileCppia(target:TargetInfo) {
+    if (this.config.disableCppia) {
+      return false;
+    }
+    if (!UEBuildConfiguration.bBuildEditor) {
+      // only editor builds will use cppia
+      return false;
+    }
+    if (this.config.dce != null && this.config.dce != DceNo) {
+      trace('DCE enabled: cppia will be disabled');
+      return false;
+    }
+    return true;
+  }
+
   public static function getLibLocation(target:TargetInfo) {
     var gameDir = RulesCompiler.AllGameFolders.ToArray()[0];
     var libName = switch(target.Platform) {
@@ -64,6 +79,7 @@ class HaxeModuleRules extends BaseModuleRules
       updateProject(targetModule);
 
       if (this.config.glueTargetModule != null) {
+        // clean main project if needed
         var dir = '$base/Generated';
         if (FileSystem.exists(dir)) {
           for (file in FileSystem.readDirectory(dir)) {
@@ -90,9 +106,11 @@ class HaxeModuleRules extends BaseModuleRules
         outputDir = haxe.io.Path.directory(outputStatic);
     if (!exists(outputDir)) createDirectory(outputDir);
 
-    var isProduction = false; // TODO: add logic for when making final builds (compile everything as static)
+    var cppiaEnabled = shouldCompileCppia(target);
+    if (cppiaEnabled) {
+      this.config.dce = DceNo;
+    }
     // try to compile haxe if we have Haxe installed
-    this.bUseRTTI = true;
     if (firstRun) {
       // HACK: touch our own .Build.cs file to force Unreal to re-run this build script
       //       sadly there doesn't seem to be any non-hacky way to do this. Unreal seems to have
@@ -142,12 +160,7 @@ class HaxeModuleRules extends BaseModuleRules
         var escapedPluginPath = pluginPath.replace('\\','\\\\');
         var escapedGameDir = gameDir.replace('\\','\\\\');
         var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
-        var forceDce = this.config.dce == DceFull;
-        var forceNoDce = this.config.dce == DceNo;
 
-        if (this.config.dce != null && !forceDce && !forceNoDce && this.config.dce != DceStd) {
-          trace('WARNING: Bad config: "${this.config.dce}" is not a valid dce kind (force,no)');
-        }
         var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
@@ -170,10 +183,21 @@ class HaxeModuleRules extends BaseModuleRules
 
         // compileSource('bake-externs',
         // get all modules that need to be compiled
-        var modulePaths = ['$gameDir/Haxe/Static'];
-        if (isProduction) modulePaths.push('$gameDir/Haxe/Scripts');
-        modulePaths = [ for (path in modulePaths) '"' + path.replace('\\','/') + '"' ]; // windows backslashs
+        var modulePaths = ['$gameDir/Haxe/Static'],
+            scriptPaths = ['$gameDir/Haxe/Scripts'];
+        if (this.config.extraStaticClasspaths != null) {
+          modulePaths = modulePaths.concat(this.config.extraStaticClasspaths);
+        }
+        if (this.config.extraScriptClasspaths != null) {
+          scriptPaths = scriptPaths.concat(this.config.extraScriptClasspaths);
+        }
+        if (!cppiaEnabled) {
+          modulePaths = modulePaths.concat(scriptPaths);
+          scriptPaths = [];
+        }
+
         var curSourcePath = Path.GetFullPath('$modulePath/..');
+        var cps = null;
         // compile static
         if (ret == 0)
         {
@@ -185,17 +209,13 @@ class HaxeModuleRules extends BaseModuleRules
           var targetDir = '$outputDir/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
-          var cps = [
+          cps = [
             'arguments.hxml',
             '-cp $gameDir/Haxe/Generated/$externsFolder',
             '-cp $pluginPath/Haxe/Static',
-            '-cp Static',
           ];
-          if (this.config.extraStaticClasspaths != null) {
-            for (arg in this.config.extraStaticClasspaths) {
-              cps.push('-cp $arg');
-              modulePaths.push('"' + arg.replace('\\','/') +'"');
-            }
+          for (path in modulePaths) {
+            cps.push('-cp $path');
           }
 
           var args = cps.concat([
@@ -208,8 +228,11 @@ class HaxeModuleRules extends BaseModuleRules
             '-D bake_dir=$gameDir/Haxe/Generated/$externsFolder',
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
-            '--macro ue4hx.internal.CreateGlue.run([' +modulePaths.join(', ') +'])',
+            '--macro ue4hx.internal.CreateGlue.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
           ]);
+          if (!FileSystem.exists('$targetDir/Built/Data')) {
+            FileSystem.createDirectory('$targetDir/Built/Data');
+          }
 
           if (this.config.glueTargetModule != null) {
             args.push('-D glue_target_module=${this.config.glueTargetModule}');
@@ -219,14 +242,14 @@ class HaxeModuleRules extends BaseModuleRules
             args.push('-D WITH_EDITOR');
           }
 
-          if (forceDce) {
-            args.push('-dce full');
+          if (this.config.dce != null) {
+            args.push('-dce ${this.config.dce}');
           }
 
           var debugSymbols = target.Configuration != Shipping;
           if (debugSymbols) {
             args.push('-debug');
-          } else if (!forceDce && !forceNoDce) {
+          } else if (this.config.dce == null) {
             args.push('-dce full');
           }
 
@@ -251,8 +274,9 @@ class HaxeModuleRules extends BaseModuleRules
           case _:
           }
 
-          // if (!isProduction)
-          //   args = args.concat(['-D scriptable', '-D dll_export=']);
+          if (cppiaEnabled) {
+            args = args.concat(['-D scriptable', '-D dll_export=', '-D WITH_CPPIA']);
+          }
 
           var isCrossCompiling = false;
           var extraArgs = null,
@@ -294,13 +318,13 @@ class HaxeModuleRules extends BaseModuleRules
             args = args.concat(this.config.extraCompileArgs);
 
           if (Sys.getEnv('HAXE_COMPILATION_SERVER') != null) {
-            args.push('-D IN_COMPILATION_SERVER');
+            File.saveContent('$targetDir/Built/Data/compserver.txt','1');
           } else {
-            args.push('# be sure to add -D IN_COMPILATION_SERVER if compiling with the compilation server');
+            File.saveContent('$targetDir/Built/Data/compserver.txt','0');
           }
 
           var thaxe = timer('Haxe compilation');
-          var ret = compileSources(args);
+          ret = compileSources(args);
           thaxe();
           if (!isCrossCompiling) {
             this.createHxml('build-static', args);
@@ -313,7 +337,6 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (ret == 0 && isCrossCompiling) {
             // somehow -D destination doesn't do anything when cross compiling
-            // if (
             var hxcppDestination = '$targetDir/Built/libUnrealInit';
             if (debugSymbols)
               hxcppDestination += '-debug.a';
@@ -328,31 +351,44 @@ class HaxeModuleRules extends BaseModuleRules
               File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
             }
           }
-          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
-          {
-            // HACK: there seems to be no way to add the .hx files as dependencies
-            //       for this project. The PrerequisiteItems variable from Action is the one
-            //       that keeps track of dependencies - and it cannot be set anywhere. Additionally -
-            //       what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
-            //       linking against.
-            //       This leaves little option but to meddle with actual sources' timestamps.
-            //       It seems that a better least intrusive hack would be to meddle with the
-            //       output library file timestamp. However, it's not possible to reliably find
-            //       the output file name at this stage
-
-            // var dep = Path.GetFullPath('$modulePath/../Generated/HaxeInit.cpp');
-            // touch the file
-            // File.saveContent(dep, File.getContent(dep));
-          }
-
-          if (ret != 0)
-          {
-            Log.TraceError('Haxe compilation failed');
-            Sys.exit(10);
-          }
-        } else {
+        }
+        if (ret != 0)
+        {
           Log.TraceError('Haxe compilation failed');
           Sys.exit(10);
+        }
+        // compile cppia
+        if (cppiaEnabled) {
+          for (module in scriptPaths) {
+            cps.push('-cp $module');
+          }
+
+          var args = cps.concat([
+              '',
+              '-main UnrealCppia',
+              '',
+              '-D cppia',
+              '-cpp $gameDir/Binaries/Haxe/game.cppia',
+              '--macro ue4hx.internal.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
+          ]);
+          if (target.Configuration != Shipping) {
+            args.push('-debug');
+          }
+          if (!FileSystem.exists('$gameDir/Binaries/Haxe')) {
+            FileSystem.createDirectory('$gameDir/Binaries/Haxe');
+          }
+
+          var tcppia = timer('Cppia compilation');
+          var cppiaRet = compileSources(args);
+          tcppia();
+          this.createHxml('build-script', args);
+          var complArgs = ['--cwd $gameDir/Haxe', '--no-output'].concat(args);
+          this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
+          if (cppiaRet != 0) {
+            Log.TraceError('=============================');
+            Log.TraceError('Cppia compilation failed');
+            Log.TraceError('=============================');
+          }
         }
       }
       teverything();
@@ -596,6 +632,10 @@ class HaxeModuleRules extends BaseModuleRules
       Log.TraceError('Error while calling haxelib path $name: $e');
       return null;
     }
+  }
+
+  private static function toMacroDef(arr:Array<String>):String {
+    return '[' + [for (val in arr) '"' + val.replace('\\','/') + '"'].join(', ') + ']';
   }
 
   private function timer(name:String):Void->Void {

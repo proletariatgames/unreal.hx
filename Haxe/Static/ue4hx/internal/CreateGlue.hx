@@ -14,7 +14,7 @@ class CreateGlue {
   static var firstCompilation = true;
   static var hasRun = false;
 
-  public static function run(alwaysCompilePaths:Array<String>) {
+  public static function run(alwaysCompilePaths:Array<String>, ?scriptPaths:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
@@ -35,24 +35,20 @@ class CreateGlue {
 
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
-    for (module in modules) {
-      for (type in module) {
-        switch(Context.follow(type)) {
-        case TInst(c,_):
-          var cl = c.get();
-          for (field in cl.fields.get())
-            Context.follow(field.type);
-          for (field in cl.statics.get())
-            Context.follow(field.type);
-          var ctor = cl.constructor;
-          if (ctor != null)
-            Context.follow(ctor.get().type);
-        case TEnum(_):
-          UEnumBuild.processEnum(type);
-        case _:
-        }
-      }
+    ensureCompiled(modules, false);
+    // make sure cppia classes are compiled as well
+    for (path in scriptPaths) {
+      // we only add classpaths after all static compilation so it is obvious that we cannot
+      // reference script paths from static
+      haxe.macro.Compiler.addClassPath(path);
     }
+    Globals.cur.inScriptPass = true;
+    var toGather = [];
+    for (path in scriptPaths) {
+      getModules(path, toGather);
+    }
+    ensureCompiled([ for (module in toGather) Context.getModule(module) ], true);
+    Globals.cur.inScriptPass = false;
 
     // once we get here, we've built everything we need
     var cur = Globals.cur;
@@ -183,5 +179,36 @@ class CreateGlue {
     }
     Globals.cur.setHaxeRuntimeDir();
     haxe.macro.Compiler.include('unreal.helpers');
+  }
+
+  private static function ensureCompiled(modules:Array<Array<Type>>, scriptPass:Bool) {
+    for (module in modules) {
+      for (type in module) {
+        switch(Context.follow(type)) {
+        case TInst(c,_):
+          var cl = c.get();
+          if (scriptPass) {
+            cl.exclude();
+          }
+          for (field in cl.fields.get())
+            Context.follow(field.type);
+          for (field in cl.statics.get())
+            Context.follow(field.type);
+          var ctor = cl.constructor;
+          if (ctor != null)
+            Context.follow(ctor.get().type);
+        case TEnum(e,_):
+          if (scriptPass) {
+            e.get().exclude();
+          }
+          UEnumBuild.processEnum(type);
+        case TAbstract(a,_):
+          if (scriptPass) {
+            a.get().exclude();
+          }
+        case _:
+        }
+      }
+    }
   }
 }

@@ -1,8 +1,7 @@
 import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
-import unreal.UObject;
-import unreal.AActor;
+import unreal.*;
 import unreal.helpers.HxcppRuntimeStatic;
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
@@ -24,6 +23,18 @@ class UnrealInit
     }
 
     trace("initializing unreal haxe");
+#if (WITH_CPPIA && WITH_EDITOR)
+    // get game path
+    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
+    var target = '$gameDir/Binaries/Haxe/game.cppia';
+    if (sys.FileSystem.exists(target)) {
+      trace('loading cppia');
+      untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+      // add file watcher
+    } else {
+      trace('Warning','No compiled cppia file found at $target');
+    }
+#end
   }
 
   static var oldTrace = haxe.Log.trace;

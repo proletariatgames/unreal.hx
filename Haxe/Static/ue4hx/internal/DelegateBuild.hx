@@ -46,21 +46,25 @@ class DelegateBuild {
       case _:
         false;
     };
+    var delayedglue = macro @:pos(cl.pos) ue4hx.internal.DelayedGlue;
+    if (Context.defined('cppia') && !Globals.cur.scriptModules.exists(cl.module)) {
+      delayedglue = macro cast null;
+    }
 
     var def = null;
     switch(type) {
     case 'Delegate' | 'DynamicDelegate':
       def = macro class {
         public function Unbind():Void {
-          ue4hx.internal.DelayedGlue.getNativeCall("Unbind", false);
+          $delayedglue.getNativeCall("Unbind", false);
         }
 
         public function IsBound():Bool {
-          return ue4hx.internal.DelayedGlue.getNativeCall("IsBound", false);
+          return $delayedglue.getNativeCall("IsBound", false);
         }
 
         public function GetUObject():Null<unreal.UObject> {
-          return ue4hx.internal.DelayedGlue.getNativeCall("GetUObject", false);
+          return $delayedglue.getNativeCall("GetUObject", false);
         }
       }
       if (type == 'DynamicDelegate') {
@@ -73,13 +77,13 @@ class DelegateBuild {
       if (type != 'DynamicDelegate') {
         var dummy = macro class {
           public function BindLambda(fn:$lambdaType) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("BindLambda", false, fn);
+            return $delayedglue.getNativeCall("BindLambda", false, fn);
           }
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("BindUObject", false, obj, fn);
+            return $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
-            return ue4hx.internal.DelayedGlue.getNativeCall("IsBoundToObject", false, obj);
+            return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
         }
 
@@ -89,7 +93,7 @@ class DelegateBuild {
       } else {
         var dummy = macro class {
           public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
+            return $delayedglue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
           }
         }
         for (fld in dummy.fields) {
@@ -104,7 +108,7 @@ class DelegateBuild {
         var idx = 0;
         var expr = {
           expr:ECall(
-            macro ue4hx.internal.DelayedGlue.getNativeCall,
+            macro $delayedglue.getNativeCall,
             [macro $v{name}, macro false].concat([ for (arg in args) macro $i{ 'arg_' + idx++ } ])),
           pos: cl.pos
         };
@@ -125,11 +129,11 @@ class DelegateBuild {
     case 'MulticastDelegate' | 'DynamicMulticastDelegate' | 'Event':
       def = macro class {
         public function IsBound():Bool {
-          return ue4hx.internal.DelayedGlue.getNativeCall("IsBound", false);
+          return $delayedglue.getNativeCall("IsBound", false);
         }
 
         public function Clear():Void {
-          ue4hx.internal.DelayedGlue.getNativeCall("Clear", false);
+          $delayedglue.getNativeCall("Clear", false);
         }
       }
       // There is no Remove for DynamicMulticastDelegate, so pull off that field
@@ -140,7 +144,7 @@ class DelegateBuild {
       var idx = 0;
       var expr = {
         expr:ECall(
-          macro ue4hx.internal.DelayedGlue.getNativeCall,
+          macro $delayedglue.getNativeCall,
           [macro $v{"Broadcast"}, macro false].concat([ for (arg in args) macro $i{ 'arg_' + idx++ } ])),
         pos: cl.pos
       };
@@ -163,16 +167,16 @@ class DelegateBuild {
       if (type != 'DynamicMulticastDelegate') {
         var dummy = macro class {
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
-            return ue4hx.internal.DelayedGlue.getNativeCall("AddLambda", false, fn);
+            return $delayedglue.getNativeCall("AddLambda", false, fn);
           }
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
-            return ue4hx.internal.DelayedGlue.getNativeCall("AddUObject", false, obj, fn);
+            return $delayedglue.getNativeCall("AddUObject", false, obj, fn);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
-            return ue4hx.internal.DelayedGlue.getNativeCall("IsBoundToObject", false, obj);
+            return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
           public function Remove(handle:unreal.FDelegateHandle) : Void {
-            ue4hx.internal.DelayedGlue.getNativeCall("Remove", false, handle);
+            $delayedglue.getNativeCall("Remove", false, handle);
           }
         };
 
@@ -182,16 +186,16 @@ class DelegateBuild {
       } else {
         var dummy = macro class {
           public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
+            return $delayedglue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
           }
           public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
+            return $delayedglue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
           }
           public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
+            return $delayedglue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
           }
           public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Bool {
-            return ue4hx.internal.DelayedGlue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);
+            return $delayedglue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);
           }
         }
 
@@ -210,7 +214,7 @@ class DelegateBuild {
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
       @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
-        return ue4hx.internal.DelayedGlue.getNativeCall("create", true);
+        return $delayedglue.getNativeCall("create", true);
       }
     }
     for (field in added.fields)
@@ -240,14 +244,16 @@ class DelegateBuild {
       };
       def.fields.push(added.fields[0]);
 
-      if (Globals.cur.glueTargetModule != null && !cl.meta.has(':uextension')) {
-        cl.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], cl.pos);
-        cl.meta.add(':uextension', [], cl.pos);
+      if (!Context.defined('cppia')) {
+        if (Globals.cur.glueTargetModule != null && !cl.meta.has(':uextension')) {
+          cl.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], cl.pos);
+          cl.meta.add(':uextension', [], cl.pos);
+        }
+        var info = GlueInfo.fromBaseType(cl, Globals.cur.module);
+        var headerPath = info.getHeaderPath();
+        cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
+        cl.meta.add(':uhxdelegate', [], cl.pos);
       }
-      var info = GlueInfo.fromBaseType(cl, Globals.cur.module);
-      var headerPath = info.getHeaderPath();
-      cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
-      cl.meta.add(':uhxdelegate', [], cl.pos);
     }
 #end
     cl.meta.add(':uextern', [], cl.pos);

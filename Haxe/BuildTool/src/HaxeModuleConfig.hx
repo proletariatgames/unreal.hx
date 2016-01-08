@@ -34,6 +34,12 @@ typedef HaxeModuleConfig = {
   ?extraStaticClasspaths: Array<String>,
 
   /**
+    Adds extra script classpaths to be compiled
+    Every .hx type in this folder will be compiled
+   **/
+  ?extraScriptClasspaths: Array<String>,
+
+  /**
     Tells whether timing should be disabled
    **/
   ?disableTimers:Bool,
@@ -45,6 +51,13 @@ typedef HaxeModuleConfig = {
     but a reference to this module should be included in the `PublicDependencyModuleNames` array
    **/
   ?glueTargetModule:String,
+
+  /**
+    If true, will compile everything as static
+    Be aware that even if this is false, cppia will only be compiled if this is an editor build,
+    and if DCE is either null or set to 'no'
+   **/
+  ?disableCppia:Bool /* = false */,
 }
 
 @:enum abstract Dce(String) from String {

@@ -29,6 +29,9 @@ class TypeParamBuild {
       case _:
         throw 'assert';
     }
+    if (Context.defined('cppia')) {
+      return ret;
+    }
     if (isPartial(typeToGen, pos)) {
       if (allowPartial) {
         return ret;
