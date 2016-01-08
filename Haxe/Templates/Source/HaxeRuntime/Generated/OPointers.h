@@ -10,7 +10,7 @@
 // #endif
 
 template<typename T>
-class HAXERUNTIME_API PStruct : public ::unreal::helpers::UEPointer {
+class PStruct : public ::unreal::helpers::UEPointer {
   public:
     T value;
     inline PStruct(T val) : value(val) {}
@@ -68,7 +68,7 @@ class HAXERUNTIME_API PStruct : public ::unreal::helpers::UEPointer {
   depend on Haxe. This can lead to some unexpected crashes if this pointer outlives its owner
  **/
 template<typename T>
-class HAXERUNTIME_API PExternal : public ::unreal::helpers::UEPointer {
+class PExternal : public ::unreal::helpers::UEPointer {
   public:
     T *value;
 
@@ -117,7 +117,7 @@ class HAXERUNTIME_API PExternal : public ::unreal::helpers::UEPointer {
 };
 
 template<typename T, ESPMode Mode=ESPMode::Fast>
-class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
+class PSharedPtr : public ::unreal::helpers::UEPointer {
   public:
     TSharedPtr<T,Mode> value;
 
@@ -143,7 +143,7 @@ class HAXERUNTIME_API PSharedPtr : public ::unreal::helpers::UEPointer {
 };
 
 template<typename T, ESPMode Mode=ESPMode::Fast>
-class HAXERUNTIME_API PSharedRef : public ::unreal::helpers::UEPointer {
+class PSharedRef : public ::unreal::helpers::UEPointer {
   public:
     TSharedRef<T,Mode> value;
 
@@ -162,7 +162,7 @@ class HAXERUNTIME_API PSharedRef : public ::unreal::helpers::UEPointer {
 };
 
 template<typename T, ESPMode Mode=ESPMode::Fast>
-class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
+class PWeakPtr : public ::unreal::helpers::UEPointer {
   public:
     TWeakPtr<T,Mode> value;
 
@@ -193,7 +193,7 @@ class HAXERUNTIME_API PWeakPtr : public ::unreal::helpers::UEPointer {
   on the C++ side
  **/
 template<typename T>
-class HAXERUNTIME_API PHaxeCreated : public ::unreal::helpers::UEPointer {
+class PHaxeCreated : public ::unreal::helpers::UEPointer {
   public:
     T *value;
     bool isOwner;

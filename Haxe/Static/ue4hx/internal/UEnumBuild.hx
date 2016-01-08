@@ -39,9 +39,6 @@ class UEnumBuild
         headerDir += '/../$target';
         if (!enumType.meta.has(':utargetmodule')) {
           enumType.meta.add(':utargetmodule', [macro $v{target}], enumType.pos);
-          if (target == Globals.cur.module) {
-            enumType.meta.add(':umainmodule', [], enumType.pos);
-          }
         }
       }
       var headerPath = '$headerDir/Generated/Public/${uname.replace('.','/')}.h';

@@ -1,6 +1,6 @@
 #include "HaxeRuntime.h"
+#include "HaxeInit.h"
 #include <GcRef.h>
-extern "C" HAXERUNTIME_API void check_hx_init();
 
 ::unreal::helpers::GcRef::GcRef() {
   check_hx_init();

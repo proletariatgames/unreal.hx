@@ -1,4 +1,5 @@
 #include "HaxeRuntime.h"
+#include "HaxeInit.h"
 #include "Engine.h"
 #include <cstdio>
 

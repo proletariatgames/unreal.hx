@@ -2,7 +2,11 @@
 #define TypeParamGlue_h_included__
 
 #ifndef HAXERUNTIME_API
-  #define HAXERUNTIME_API
+  #ifdef HXCPP_CLASS_ATTRIBUTES
+    #define HAXERUNTIME_API HXCPP_CLASS_ATTRIBUTES
+  #else
+    #define HAXERUNTIME_API
+  #endif
 #endif
 #include <cstdio>
 #include <utility>
@@ -21,7 +25,7 @@ template<typename T, typename=void> struct PtrMaker;
 
 // Wrapper for objects that are passed by-value.
 template<typename T>
-struct HAXERUNTIME_API PtrHelper_Stack {
+struct PtrHelper_Stack {
   T val;
   PtrHelper_Stack(const T& inVal) : val(inVal) {
   }
@@ -41,7 +45,7 @@ struct HAXERUNTIME_API PtrHelper_Stack {
 
 // Wrapper for objects that are passed by-reference.
 template<typename T>
-struct HAXERUNTIME_API PtrHelper_Ptr {
+struct PtrHelper_Ptr {
   T* ptr;
   PtrHelper_Ptr(T* inPtr) : ptr(inPtr) {
   }
@@ -61,13 +65,13 @@ struct HAXERUNTIME_API PtrHelper_Ptr {
 
 // Default PtrMaker assumes pass-by-ref
 template<typename T, typename EnumEnabler>
-struct HAXERUNTIME_API PtrMaker {
+struct PtrMaker {
   typedef PtrHelper_Ptr<T> Type;
 };
 
 // Pointers always passed by-val
 template<typename T>
-struct HAXERUNTIME_API PtrMaker<T*> {
+struct PtrMaker<T*> {
   typedef PtrHelper_Stack<T*> Type;
 };
 
@@ -108,35 +112,35 @@ public:
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGlue<T&> {
+class TypeParamGlue<T&> {
 public:
   static T& haxeToUe(void *haxe);
   static void *ueToHaxe(T& ue);
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGlue<const T&> {
+class TypeParamGlue<const T&> {
 public:
   static const T& haxeToUe(void *haxe);
   static void *ueToHaxe(const T& ue);
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGlue<const T*> {
+class TypeParamGlue<const T*> {
 public:
   static const T* haxeToUe(void *haxe);
   static void *ueToHaxe(const T* ue);
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGlue<const T> {
+class TypeParamGlue<const T> {
 public:
   static const T haxeToUe(void *haxe);
   static void *ueToHaxe(const T ue);
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGluePtr<const T> {
+class TypeParamGluePtr<const T> {
 public:
   static typename PtrMaker<const T>::Type haxeToUe(void* haxe);
   static void* ueToHaxeRef(const T& ue);

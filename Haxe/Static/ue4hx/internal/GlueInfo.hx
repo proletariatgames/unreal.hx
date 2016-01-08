@@ -20,22 +20,22 @@ class GlueInfo {
   private function new() {
   }
 
-  public static function fromBaseType(base:BaseType) {
+  public static function fromBaseType(base:BaseType, ?moduleOverride:String) {
     var uname = MacroHelpers.extractStrings(base.meta, ":uname")[0];
     if (uname == null) {
       uname = base.name;
     }
     var basePath = Globals.cur.haxeRuntimeDir;
 
-    var module = MacroHelpers.extractStrings(base.meta, ':utargetmodule')[0];
-    if (module == null && Globals.cur.glueTargetModule != null && !base.meta.has(':umainmodule')) {
-      if (MacroHelpers.extractStrings(base.meta, ':umodule')[0] != Globals.cur.module) {
+    var module = moduleOverride;
+    if (module == null) {
+      module = MacroHelpers.extractStrings(base.meta, ':utargetmodule')[0];
+    }
+
+    if (module != Globals.cur.module) {
+      if (module == null) {
         module = Globals.cur.glueTargetModule;
       }
-    }
-    if (module == null || module == Globals.cur.module) {
-      module = Globals.cur.module;
-    } else {
       basePath += '/../$module';
     }
 
