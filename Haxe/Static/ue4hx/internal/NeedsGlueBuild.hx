@@ -45,6 +45,7 @@ class NeedsGlueBuild
 
     var delayedglue = macro ue4hx.internal.DelayedGlue;
     if (Context.defined('cppia') && !Globals.cur.scriptModules.exists(cls.module)) {
+      // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
     // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
@@ -122,13 +123,13 @@ class NeedsGlueBuild
               case ECall(macro super.$field, args):
                 superCalls[field] = field;
                 var args = [ for (arg in args) map(arg) ];
+                changed = true;
                 { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{field}].concat(args)), pos:e.pos };
               case _:
                 e.map(map);
               }
             }
             fn.expr = map(fn.expr);
-            changed = true;
           case _:
           }
         }

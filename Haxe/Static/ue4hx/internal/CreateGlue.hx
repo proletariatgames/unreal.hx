@@ -129,6 +129,7 @@ class CreateGlue {
     }
     for (type in Globals.cur.scriptGlues) {
       ScriptGlue.generate(type);
+      Globals.cur.cachedBuiltTypes.push(type);
     }
 
     Globals.cur.loadCachedTypes();

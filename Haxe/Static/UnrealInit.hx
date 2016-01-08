@@ -3,6 +3,11 @@ import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.*;
 import unreal.helpers.HxcppRuntimeStatic;
+#if (WITH_CPPIA && WITH_EDITOR)
+import unreal.FTimerManager;
+import unreal.editor.*;
+import sys.FileSystem;
+#end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
 @:cppFileCode("#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n")
@@ -30,12 +35,33 @@ class UnrealInit
     if (sys.FileSystem.exists(target)) {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+      var stamp = FileSystem.stat(target).mtime.getTime();
       // add file watcher
+      var handle = null;
+      handle = FEditorDelegates.RefreshAllBrowsers.AddLambda(function() {
+        FEditorDelegates.RefreshAllBrowsers.Remove(handle);
+
+        watchHandle = FTimerHandle.create();
+        var delegate = FTimerDelegate.create();
+        delegate.BindLambda(function() {
+          var curStat = .0;
+          if (FileSystem.exists(target) && (curStat = FileSystem.stat(target).mtime.getTime()) > stamp) {
+            trace('reloading cppia...');
+            stamp = curStat;
+            untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+          }
+        });
+        unreal.editor.UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, delegate, 1, true, 0);
+      });
     } else {
       trace('Warning','No compiled cppia file found at $target');
     }
 #end
   }
+#if (WITH_CPPIA && WITH_EDITOR)
+  static var watchHandle:FTimerHandle;
+  static var fn;
+#end
 
   static var oldTrace = haxe.Log.trace;
 

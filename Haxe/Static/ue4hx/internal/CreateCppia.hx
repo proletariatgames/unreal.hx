@@ -7,7 +7,13 @@ import sys.FileSystem;
 using StringTools;
 
 class CreateCppia {
+  static var firstCompilation = true;
+  static var hasRun = false;
+
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>) {
+    Globals.cur.checkBuildVersionLevel();
+    registerMacroCalls();
+
     var statics = [];
     for (path in staticPaths) {
       getModules(path,statics);
@@ -44,6 +50,12 @@ class CreateCppia {
           case TInst(_.get()=>c,_):
             if (allStatics[c.module] || c.meta.has(':uextern')) {
               c.exclude();
+            } else {
+              switch(c.pack) {
+              case ['unreal','helpers']:
+                c.exclude();
+              case _:
+              }
             }
           case TEnum(_.get()=>e,_):
             if (allStatics[e.module]) {
@@ -100,5 +112,21 @@ class CreateCppia {
         }
       }
     }
+  }
+
+  private static function registerMacroCalls() {
+    if (hasRun) return;
+    hasRun = true;
+    if (firstCompilation) {
+      firstCompilation = false;
+      Context.onMacroContextReused(function() {
+        trace('reusing macro context');
+        hasRun = false;
+        Globals.reset();
+        return true;
+      });
+    }
+    Globals.cur.setHaxeRuntimeDir();
+    haxe.macro.Compiler.include('unreal.helpers');
   }
 }
