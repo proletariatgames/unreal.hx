@@ -17,7 +17,7 @@ using StringTools;
 class NativeGlueCode
 {
 
-  private var glueTypes:Map<String, ClassType>;
+  private var glueTypes:Map<String, Ref<ClassType>>;
   private var touchedModules:Map<String,Map<String, Bool>>;
   private var modules:Map<String,Bool>;
   private var infos:Map<String,GlueInfo>;
@@ -249,8 +249,6 @@ class NativeGlueCode
       // the glue type doesn't exist: this happens when extending a UE4 class
     }
 
-    glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
-
     var stampPath = '$stampOutput/$gluePath.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, headerPath, cl);
     if (cl.meta.has(':ueTemplate')) {
@@ -273,12 +271,13 @@ class NativeGlueCode
     if (Globals.cur.haxeRuntimeDir == null) return;
     var cppTarget:String = haxe.macro.Compiler.getOutput();
     for (t in glueTypes) {
-      var type = TypeRef.fromBaseType(t, t.pos);
+      var cl = t.get();
+      var type = TypeRef.fromBaseType(cl, cl.pos);
       var cpath = type.getClassPath();
-      var cl = switch(Context.getType( cpath )) {
-        case TInst(c,_): c.get();
-        case _: throw 'assert';
-      };
+      // var cl = switch(Context.getType( cpath )) {
+      //   case TInst(c,_): c.get();
+      //   case _: throw 'assert';
+      // };
       if (cl.meta.has(':ueGluePath')) {
         writeGlueCpp(cl);
       }
@@ -379,7 +378,7 @@ class NativeGlueCode
           if (!cl.meta.has(':ifFeature'))
             cl.meta.add(':keep', [], cl.pos);
           cl.meta.add(':nativeGen', [], cl.pos);
-          glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = cl;
+          glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
         }
         if (cl.meta.has(':ustruct')) {
           var uname = MacroHelpers.extractStrings(cl.meta, ":uname")[0];
@@ -387,6 +386,7 @@ class NativeGlueCode
           touch(uname);
         }
         if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
+          glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
           writeGlueHeader(cl);
         }
         // add only once - we'll select a type that is always compiled

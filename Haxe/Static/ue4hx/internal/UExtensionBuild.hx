@@ -192,8 +192,17 @@ class UExtensionBuild {
         }
         callExpr += [ for (arg in field.args) arg.type.glueToHaxe(arg.name, ctx) ].join(', ') + ')';
 
-        if (!field.ret.haxeType.isVoid())
-          callExpr = 'return ' + field.ret.haxeToGlue( callExpr , ctx);
+        if (!field.ret.haxeType.isVoid()) {
+          if (isScript) {
+            if (field.ret.isUObject) {
+              callExpr = 'return ' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
+            } else {
+              callExpr = 'return ' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);
+            }
+          } else {
+            callExpr = 'return ' + field.ret.haxeToGlue( callExpr , ctx);
+          }
+        }
 
         var fnArgs:Array<FunctionArg> =
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];

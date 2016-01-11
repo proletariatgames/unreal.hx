@@ -35,7 +35,7 @@ class CreateGlue {
 
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
-    ensureCompiled(modules, false);
+    ensureCompiled(modules);
     // make sure cppia classes are compiled as well
     for (path in scriptPaths) {
       // we only add classpaths after all static compilation so it is obvious that we cannot
@@ -47,7 +47,9 @@ class CreateGlue {
     for (path in scriptPaths) {
       getModules(path, toGather);
     }
-    ensureCompiled([ for (module in toGather) Context.getModule(module) ], true);
+    var toGatherModules = [ for (module in toGather) Context.getModule(module) ];
+    ensureCompiled(toGatherModules);
+
     Globals.cur.inScriptPass = false;
 
     // once we get here, we've built everything we need
@@ -140,11 +142,14 @@ class CreateGlue {
     Globals.cur.reserveCacheFile();
     Context.onGenerate( function(gen) {
       nativeGlue.onGenerate(gen);
+      excludeModules(toGatherModules);
     });
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
     Context.onAfterGenerate( function() {
+      trace('after generate');
       nativeGlue.onAfterGenerate();
+      trace('after generate ok');
       Globals.cur.setCacheFile();
     });
   }
@@ -185,15 +190,46 @@ class CreateGlue {
     haxe.macro.Compiler.include('unreal.helpers');
   }
 
-  private static function ensureCompiled(modules:Array<Array<Type>>, scriptPass:Bool) {
+  private static function excludeModules(modules:Array<Array<Type>>) {
+    var uobj = Context.getType('unreal.UObject'),
+        ustruct = Context.getType('unreal.Wrapper');
+    for (module in modules) {
+      for (type in module) {
+        switch(Context.follow(type)) {
+        case TInst(c,_):
+          var c = c.get();
+          c.meta.remove(':native');
+          if (Context.unify(type, uobj)) {
+            c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
+            c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
+            c.exclude();
+          } else if (Context.unify(type, ustruct)) {
+            Context.warning('There is no benefit in compiling this type as a script; It will be compiled as a Static instead', c.pos);
+            // c.meta.add(':native', [macro $v{'unreal.Wrapper'}], c.pos);
+            // c.meta.add(':include', [macro $v{'unreal/Wrapper.h'}], c.pos);
+          } else {
+            c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
+            c.exclude();
+          }
+        case TEnum(e,_):
+          var e = e.get();
+          e.meta.remove(':native');
+          e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
+          e.exclude();
+        case TAbstract(a,_):
+          a.get().exclude();
+        case _:
+        }
+      }
+    }
+  }
+
+  private static function ensureCompiled(modules:Array<Array<Type>>) {
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          if (scriptPass) {
-            cl.exclude();
-          }
           for (field in cl.fields.get())
             Context.follow(field.type);
           for (field in cl.statics.get())
@@ -202,14 +238,8 @@ class CreateGlue {
           if (ctor != null)
             Context.follow(ctor.get().type);
         case TEnum(e,_):
-          if (scriptPass) {
-            e.get().exclude();
-          }
           UEnumBuild.processEnum(type);
         case TAbstract(a,_):
-          if (scriptPass) {
-            a.get().exclude();
-          }
         case _:
         }
       }

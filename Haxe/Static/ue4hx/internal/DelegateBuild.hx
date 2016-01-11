@@ -77,10 +77,10 @@ class DelegateBuild {
       if (type != 'DynamicDelegate') {
         var dummy = macro class {
           public function BindLambda(fn:$lambdaType) : Void {
-            return $delayedglue.getNativeCall("BindLambda", false, fn);
+            $delayedglue.getNativeCall("BindLambda", false, fn);
           }
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
-            return $delayedglue.getNativeCall("BindUObject", false, obj, fn);
+            $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
@@ -93,7 +93,7 @@ class DelegateBuild {
       } else {
         var dummy = macro class {
           public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return $delayedglue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
+            $delayedglue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
           }
         }
         for (fld in dummy.fields) {
@@ -186,13 +186,13 @@ class DelegateBuild {
       } else {
         var dummy = macro class {
           public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return $delayedglue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
+            $delayedglue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
           }
           public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return $delayedglue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
+            $delayedglue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
           }
           public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
-            return $delayedglue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
+            $delayedglue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
           }
           public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Bool {
             return $delayedglue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);

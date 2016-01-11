@@ -58,6 +58,12 @@ typedef HaxeModuleConfig = {
     and if DCE is either null or set to 'no'
    **/
   ?disableCppia:Bool /* = false */,
+
+  /**
+    Forces all Static folder be compiled as a script (for cppia). This only has an effect if cppia
+    is enabled
+   **/
+  ?noStatic:Bool /* = false */,
 }
 
 @:enum abstract Dce(String) from String {

@@ -109,6 +109,8 @@ class HaxeModuleRules extends BaseModuleRules
     var cppiaEnabled = shouldCompileCppia(target);
     if (cppiaEnabled) {
       this.config.dce = DceNo;
+    } else if (config.noStatic) {
+      Log.TraceWarning('`config.noStatic` is set to true, but cppia is disabled. Everything will still be compiled as static');
     }
     // try to compile haxe if we have Haxe installed
     if (firstRun) {
@@ -190,6 +192,10 @@ class HaxeModuleRules extends BaseModuleRules
         }
         if (this.config.extraScriptClasspaths != null) {
           scriptPaths = scriptPaths.concat(this.config.extraScriptClasspaths);
+        }
+        if (this.config.noStatic) {
+          scriptPaths = modulePaths.concat(scriptPaths);
+          modulePaths = [];
         }
         if (!cppiaEnabled) {
           modulePaths = modulePaths.concat(scriptPaths);

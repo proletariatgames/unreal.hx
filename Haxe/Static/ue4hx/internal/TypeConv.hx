@@ -934,8 +934,8 @@ using StringTools;
         haxeGlueType: new TypeRef(['cpp'],'Int32'),
         glueType: new TypeRef(['cpp'], 'Int32'),
 
-        haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)',
+        haxeToGlueExpr: '(cast (%) : cpp.Int32)',
+        glueToHaxeExpr: '(cast (%) : unreal.FakeUInt32)',
         isBasic: true,
       },
       {
@@ -944,8 +944,8 @@ using StringTools;
         haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
-        haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)',
+        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         isBasic: true,
       },
       {
@@ -954,8 +954,8 @@ using StringTools;
         haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
-        haxeToGlueExpr: 'cast (%)',
-        glueToHaxeExpr: 'cast (%)',
+        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         isBasic: true,
       },
       {
