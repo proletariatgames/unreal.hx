@@ -17,7 +17,7 @@ using StringTools;
 class HaxeModuleRules extends BaseModuleRules
 {
   private static var disabled:Bool = false;
-  private static var VERSION_LEVEL = 3;
+  private static var VERSION_LEVEL = 4;
   private var config:HaxeModuleConfig;
 
   public function new(target) {
