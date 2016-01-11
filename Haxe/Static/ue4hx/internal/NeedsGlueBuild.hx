@@ -130,7 +130,9 @@ class NeedsGlueBuild
                 e.map(map);
               }
             }
-            fn.expr = map(fn.expr);
+            if (!Context.defined('cppia') || Globals.cur.scriptModules.exists(cls.module)) {
+              fn.expr = map(fn.expr);
+            }
           case _:
           }
         }
