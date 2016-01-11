@@ -195,12 +195,12 @@ class UExtensionBuild {
         if (!field.ret.haxeType.isVoid()) {
           if (isScript) {
             if (field.ret.isUObject) {
-              callExpr = 'return ' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
+              callExpr = '' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
             } else {
-              callExpr = 'return ' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);
+              callExpr = '' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);
             }
           } else {
-            callExpr = 'return ' + field.ret.haxeToGlue( callExpr , ctx);
+            callExpr = '' + field.ret.haxeToGlue( callExpr , ctx);
           }
         }
 
@@ -516,9 +516,9 @@ class UExtensionBuild {
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         var createExpr = if (isScript) {
-          'return ' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
         } else {
-          'return ' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx);
+          '' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx);
         }
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -532,9 +532,9 @@ class UExtensionBuild {
           pos: this.pos
         });
         var createEmptyExpr = if (isScript) {
-          'return ' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
         } else {
-          'return ' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
           // 'return ' + thisConv.haxeToGlue('std.Type.createInstance( ${typeRef.getClassPath(true)}, [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
         }
         buildFields.push({
@@ -566,6 +566,50 @@ class UExtensionBuild {
         metas.push({ name: ':ufiledependency', params:[
           macro $v{export.getClassPath() + '@' + Globals.cur.glueTargetModule}
         ], pos:this.pos });
+      }
+
+      for (field in buildFields) {
+        switch(field.kind) {
+        case FFun(fn):
+          var isVoid = fn.ret.match(TPath({ name:'Void' }));
+          var nullExpr = macro untyped __cpp__('0');
+          var nameVal = typeRef.name + '.' + field.name;
+          var oldExpr = fn.expr;
+          var newExpr = null;
+          if (isVoid) {
+            newExpr = macro {
+              if (ue4hx.internal.HaxeCodeDispatcher.shouldWrap()) {
+                try {
+                  $oldExpr;
+                  ue4hx.internal.HaxeCodeDispatcher.endWrap();
+                }
+                catch(e:Dynamic) {
+                  ue4hx.internal.HaxeCodeDispatcher.showError(e, haxe.CallStack.exceptionStack(), $v{nameVal});
+                }
+              } else {
+                $oldExpr;
+              }
+            }
+          } else {
+            newExpr = macro {
+              if (ue4hx.internal.HaxeCodeDispatcher.shouldWrap()) {
+                try {
+                  var ret = $oldExpr;
+                  ue4hx.internal.HaxeCodeDispatcher.endWrap();
+                  return ret;
+                }
+                catch(e:Dynamic) {
+                  ue4hx.internal.HaxeCodeDispatcher.showError(e, haxe.CallStack.exceptionStack(), $v{nameVal});
+                }
+              } else {
+                return $oldExpr;
+              }
+              return $nullExpr;
+            }
+          }
+          fn.expr = newExpr;
+        case _:
+        }
       }
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());
