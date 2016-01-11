@@ -71,7 +71,7 @@ class NativeGlueCode
 
     touch(gluePath, info.targetModule);
     writer.buf.add(prelude);
-    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES ${info.targetModule.toUpperCase()}_API\n#endif\n');
+    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
 
     for (pack in gluePack) {
       writer.buf.add('namespace $pack {\n');
@@ -117,7 +117,7 @@ class NativeGlueCode
     var ctor = null;
 
     writer.buf.add(prelude);
-    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES ${info.targetModule.toUpperCase()}_API\n#endif\n');
+    writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
 
     if (cl.meta.has(':ueTemplate')) {
       writer.include('<UEPointer.h>');

@@ -1,11 +1,12 @@
 #pragma once
 #include <hxcpp.h>
+#include "HaxeShared.h"
 
 namespace unreal {
 namespace helpers {
 
 
-class HXCPP_CLASS_ATTRIBUTES UEPointer_obj {
+class MAY_EXPORT_SYMBOL UEPointer_obj {
 public:
   virtual void *getPointer() = 0;
   virtual UEPointer_obj *toSharedPtr() = 0;
@@ -32,7 +33,7 @@ public:
   }
 };
 
-class HXCPP_CLASS_ATTRIBUTES UEProxyPointer : public UEPointer_obj {
+class MAY_EXPORT_SYMBOL UEProxyPointer : public UEPointer_obj {
 public:
   UEPointer_obj *proxy;
 

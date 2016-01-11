@@ -1,11 +1,11 @@
 #pragma once
 #define TypeParamGlue_h_included__
 
-#ifndef HAXERUNTIME_API
+#ifndef MAY_EXPORT_SYMBOL
   #ifdef HXCPP_CLASS_ATTRIBUTES
-    #define HAXERUNTIME_API HXCPP_CLASS_ATTRIBUTES
+    #define MAY_EXPORT_SYMBOL HXCPP_CLASS_ATTRIBUTES
   #else
-    #define HAXERUNTIME_API
+    #define MAY_EXPORT_SYMBOL
   #endif
 #endif
 #include <cstdio>
@@ -98,14 +98,14 @@ BASIC_TYPE(::cpp::Char);
 #undef BASIC_TYPE
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGlue {
+class MAY_EXPORT_SYMBOL TypeParamGlue {
 public:
   static T haxeToUe(void *haxe);
   static void *ueToHaxe(T ue);
 };
 
 template<typename T>
-class HAXERUNTIME_API TypeParamGluePtr {
+class MAY_EXPORT_SYMBOL TypeParamGluePtr {
 public:
   static typename PtrMaker<T>::Type haxeToUePtr(void *haxe);
   static void *ueToHaxeRef(T& ue);

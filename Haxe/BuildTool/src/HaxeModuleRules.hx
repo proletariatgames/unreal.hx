@@ -440,7 +440,10 @@ class HaxeModuleRules extends BaseModuleRules
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
       // this.PublicAdditionalLibraries.Add(outputStatic);
       if (this.config.glueTargetModule == null) {
-      this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+        this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
+        this.Definitions.Add('MAY_EXPORT_SYMBOL=');
+      } else {
+        this.Definitions.Add('MAY_EXPORT_SYMBOL=${this.config.glueTargetModule.toUpperCase}_API');
       }
 
       // FIXME look into why libstdc++ can only be linked with its full path
