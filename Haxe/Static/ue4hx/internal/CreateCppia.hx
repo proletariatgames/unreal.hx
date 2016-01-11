@@ -85,13 +85,15 @@ class CreateCppia {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>, exclude:Bool) {
+    var ustruct = Context.getType('unreal.Wrapper');
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          if (exclude) {
+          if (exclude || Context.unify(type, ustruct)) {
             cl.exclude();
+            return;
           }
           for (field in cl.fields.get())
             Context.follow(field.type);
