@@ -18,7 +18,6 @@ class CreateCppia {
     for (path in staticPaths) {
       getModules(path,statics);
     }
-    ensureCompiled([ for (module in statics) Context.getModule(module) ], false);
 
     Globals.cur.inScriptPass = true;
     var scripts = [];
@@ -26,7 +25,7 @@ class CreateCppia {
       getModules(path,scripts);
     }
     Globals.cur.scriptModules = [ for (module in scripts) module => true ];
-    ensureCompiled([ for (module in scripts) Context.getModule(module) ], false);
+    ensureCompiled([ for (module in scripts) Context.getModule(module) ]);
     Globals.cur.inScriptPass = false;
 
     var blacklist = [
@@ -84,14 +83,14 @@ class CreateCppia {
     if (FileSystem.exists(path)) recurse(path, '');
   }
 
-  private static function ensureCompiled(modules:Array<Array<Type>>, exclude:Bool) {
+  private static function ensureCompiled(modules:Array<Array<Type>>) {
     var ustruct = Context.getType('unreal.Wrapper');
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          if (exclude || Context.unify(type, ustruct)) {
+          if (Context.unify(type, ustruct)) {
             cl.exclude();
             return;
           }
@@ -102,14 +101,6 @@ class CreateCppia {
           var ctor = cl.constructor;
           if (ctor != null)
             Context.follow(ctor.get().type);
-        case TEnum(e,_):
-          if (exclude) {
-            e.get().exclude();
-          }
-        case TAbstract(a,_):
-          if (exclude) {
-            a.get().exclude();
-          }
         case _:
         }
       }
