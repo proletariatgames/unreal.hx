@@ -147,9 +147,7 @@ class CreateGlue {
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
     Context.onAfterGenerate( function() {
-      trace('after generate');
       nativeGlue.onAfterGenerate();
-      trace('after generate ok');
       Globals.cur.setCacheFile();
     });
   }

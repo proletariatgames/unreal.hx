@@ -36,6 +36,9 @@ class GlueInfo {
       if (module == null) {
         module = Globals.cur.glueTargetModule;
       }
+      if (module == null) {
+        module = Globals.cur.module;
+      }
       basePath += '/../$module';
     }
 
