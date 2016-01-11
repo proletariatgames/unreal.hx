@@ -203,7 +203,7 @@ class NeedsGlueBuild
             var glueFnName = '_get_${field.name}_methodPtr';
 
             var dummy = macro class {
-              private static function $glueFnName() : cpp.RawPointer<cpp.Void> {
+              private static function $glueFnName() : cpp.Pointer<Dynamic> {
                 return $delayedglue.getNativeCall($v{glueFnName}, true);
               }
             }

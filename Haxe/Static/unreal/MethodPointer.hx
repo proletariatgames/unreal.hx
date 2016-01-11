@@ -16,7 +16,7 @@ private typedef FunctionGetter = #if macro Dynamic #else cpp.Pointer<Dynamic> #e
       case FClosure(c, cf) if (c != null):
         var id = '_get_${cf.get().name}_methodPtr';
         var expr = Context.parse(c.c.toString() + '.' + id, method.pos);
-        return macro cast(cpp.Pointer.fromRaw(cast @:privateAccess $expr()) : cpp.Pointer<Dynamic>);
+        return macro new unreal.MethodPointer(@:privateAccess $expr());
       case _:
         throw new Error('Expected member function reference, got $access', method.pos);
       }

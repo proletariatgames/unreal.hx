@@ -968,6 +968,15 @@ using StringTools;
         haxeType: voidStar,
         isBasic: true,
       },
+      {
+        ueType: voidStar,
+        haxeType: new TypeRef(['cpp'],'Pointer', [new TypeRef('Dynamic')]),
+        glueType: voidStar,
+
+        haxeToGlueExpr: '(%).rawCast()',
+        glueToHaxeExpr: 'cpp.Pointer.fromRaw(cast (%))',
+        isBasic: true,
+      },
       // TCharStar
       {
         haxeType: new TypeRef(['unreal'],'TCharStar'),
