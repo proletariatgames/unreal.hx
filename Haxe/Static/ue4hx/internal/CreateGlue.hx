@@ -236,6 +236,10 @@ class CreateGlue {
           if (ctor != null)
             Context.follow(ctor.get().type);
         case TEnum(e,_):
+          var e = e.get();
+          if (Globals.cur.inScriptPass && !e.isExtern) {
+            e.meta.add(':uscript',[],e.pos);
+          }
           UEnumBuild.processEnum(type);
         case TAbstract(a,_):
         case _:

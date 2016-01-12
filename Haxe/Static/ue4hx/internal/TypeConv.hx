@@ -530,6 +530,8 @@ using StringTools;
           baseType: baseType,
         };
       } else {
+        var isScript = meta.has(':uscript') || Globals.cur.scriptModules.exists(baseType.module);
+        var setType = isScript ? ' : Dynamic' : '';
         return {
           haxeType: originalTypeRef,
           ueType: refName,
@@ -539,8 +541,8 @@ using StringTools;
           glueCppIncludes: IncludeSet.fromUniqueArray(['${refName.name}.h']),
           glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
-          haxeToGlueExpr: '{ var temp = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
-          glueToHaxeExpr: 'Type.createEnumIndex($originalTypeRef, %)',
+          haxeToGlueExpr: '{ var temp $setType = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
+          glueToHaxeExpr: isScript ? 'Type.createEnumIndex(Type.resolveEnum("${originalTypeRef.getClassPath(true)}"), %)' : 'Type.createEnumIndex($originalTypeRef, %)',
           glueToUeExpr: '( (${refName.getCppType()}) % )',
           ueToGlueExpr : '( (int) % )',
           args: convArgs,
