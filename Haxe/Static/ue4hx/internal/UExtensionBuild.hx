@@ -194,7 +194,7 @@ class UExtensionBuild {
 
         if (!field.ret.haxeType.isVoid()) {
           if (isScript) {
-            if (field.ret.isUObject) {
+            if (field.ret.isUObject && field.ret.baseType != null && field.ret.baseType.meta.has(':uscript')) {
               callExpr = '' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
             } else {
               callExpr = '' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);

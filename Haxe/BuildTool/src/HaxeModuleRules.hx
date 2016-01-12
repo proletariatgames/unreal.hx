@@ -380,6 +380,9 @@ class HaxeModuleRules extends BaseModuleRules
           if (target.Configuration != Shipping) {
             args.push('-debug');
           }
+          if (UEBuildConfiguration.bBuildEditor) {
+            args.push('-D WITH_EDITOR');
+          }
           if (!FileSystem.exists('$gameDir/Binaries/Haxe')) {
             FileSystem.createDirectory('$gameDir/Binaries/Haxe');
           }
@@ -442,8 +445,6 @@ class HaxeModuleRules extends BaseModuleRules
       if (this.config.glueTargetModule == null) {
         this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
         this.Definitions.Add('MAY_EXPORT_SYMBOL=');
-      } else {
-        this.Definitions.Add('MAY_EXPORT_SYMBOL=${this.config.glueTargetModule.toUpperCase}_API');
       }
 
       // FIXME look into why libstdc++ can only be linked with its full path

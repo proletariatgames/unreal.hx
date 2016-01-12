@@ -49,7 +49,6 @@ class GlueModuleRules extends BaseModuleRules
     }
     this.PrivateDependencyModuleNames.Add('HaxeExternalModule');
     this.PrivateDependencyModuleNames.Add(haxeModules[0]);
-    // this.CircularlyReferencedDependentModules.Add(haxeModules[0]);
     this.Definitions.Add('WITH_HAXE=1');
     this.Definitions.Add('MAY_EXPORT_SYMBOL=${curName.toUpperCase()}_API');
   }

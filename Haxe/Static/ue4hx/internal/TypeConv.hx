@@ -779,6 +779,7 @@ using StringTools;
         glueType: voidStar,
 
         isUObject: true,
+        isUExtension: true,
 
         glueCppIncludes: glueCppIncludes.add('<UEPointer.h>'),
 
@@ -1091,6 +1092,11 @@ typedef TypeConvInfo = {
     Tells whether the type refers to a UObject type
    **/
   @:optional public var isUObject:Bool;
+
+  /**
+    Tells whether the type refers to a Haxe create UObject-derived type
+   **/
+  @:optional public var isUExtension:Bool;
 
   /**
     Tells whether the type is a basic type
