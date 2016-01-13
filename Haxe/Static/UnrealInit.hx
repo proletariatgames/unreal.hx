@@ -21,6 +21,11 @@ class UnrealInit
     haxe.Log.trace = customTrace;
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
+    var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadStatic');
+    if (cls != null) {
+      trace('Setting hot reload types');
+      cls.bindFunctions();
+    }
     if (delayed != null) {
       for (delayed in delayed) {
         delayed();
@@ -49,6 +54,11 @@ class UnrealInit
             trace('reloading cppia...');
             stamp = curStat;
             untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+            var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadScript');
+            if (cls != null) {
+              trace('Setting cppia hot reload types');
+              cls.bindFunctions();
+            }
           }
         });
         unreal.editor.UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, delegate, 1, true, 0);

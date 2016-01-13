@@ -28,6 +28,9 @@ class CreateCppia {
     ensureCompiled([ for (module in scripts) Context.getModule(module) ]);
     Globals.cur.inScriptPass = false;
 
+    // create hot reload helper
+    HotReloadBuild.bindFunctions('HotReloadScript');
+
     var blacklist = [
       'unreal.Wrapper',
       'haxe.Int64',

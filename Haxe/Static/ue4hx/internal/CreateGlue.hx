@@ -134,6 +134,10 @@ class CreateGlue {
       Globals.cur.cachedBuiltTypes.push(type);
     }
 
+    // create hot reload helper
+    if (Context.defined('WITH_CPPIA')) {
+      HotReloadBuild.bindFunctions('HotReloadStatic');
+    }
     Globals.cur.loadCachedTypes();
     Globals.cur.saveCachedBuilt();
 

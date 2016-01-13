@@ -49,42 +49,45 @@ class NeedsGlueBuild
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
-    // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
-    // and add wrap/create calls
-    var superCls = cls.superClass;
-    while (superCls != null) {
-      var scls = superCls.t.get();
-      if (scls.meta.has(':ustruct')) {
-        if (!cls.meta.has(':ustruct')) {
-          cls.meta.add(':ustruct', [], cls.pos);
-        }
-        cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
-
-        if (!cls.meta.has(':uextern')) {
-          var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
-          if (uname == null) uname = cls.name;
-          var structHeaderPath = '$uname.h';
-          cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
-
-          var typeThis:TypePath = {pack:[], name:cls.name};
-          var complexThis = TPath(typeThis);
-          var added = macro class {
-            @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
-              var wrapped = cpp.Pointer.fromRaw(wrapped);
-              return wrapped != null ? new $typeThis(wrapped, parent) : null;
-            }
-            @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
-              return $delayedglue.getNativeCall("create", true);
-            }
-          };
-          for (field in added.fields) {
-            toAdd.push(field);
+    if (!cls.meta.has(':uextern')) {
+      // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
+      // and add wrap/create calls
+      var superCls = cls.superClass;
+      while (superCls != null) {
+        var scls = superCls.t.get();
+        if (scls.meta.has(':ustruct')) {
+          if (!cls.meta.has(':ustruct')) {
+            cls.meta.add(':ustruct', [], cls.pos);
           }
+          cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
+
+          if (!cls.meta.has(':uextern')) {
+            var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
+            if (uname == null) uname = cls.name;
+            var structHeaderPath = '$uname.h';
+            cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
+
+            var typeThis:TypePath = {pack:[], name:cls.name};
+            var complexThis = TPath(typeThis);
+            var added = macro class {
+              @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+                var wrapped = cpp.Pointer.fromRaw(wrapped);
+                return wrapped != null ? new $typeThis(wrapped, parent) : null;
+              }
+              @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
+                return $delayedglue.getNativeCall("create", true);
+              }
+            };
+            for (field in added.fields) {
+              toAdd.push(field);
+            }
+          }
+          break;
         }
-        break;
+        superCls = superCls.t.get().superClass;
       }
-      superCls = superCls.t.get().superClass;
     }
+    var superClass = cls.superClass == null ? null : cls.superClass.t.get();
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
       cls.meta.add(':uextension', [], cls.pos);
@@ -121,11 +124,45 @@ class NeedsGlueBuild
           case FFun(fn) if (fn.expr != null):
             function map(e:Expr) {
               return switch (e.expr) {
-              case ECall(macro super.$field, args):
-                superCalls[field] = field;
+              case ECall(macro super.$sfield, args):
+                superCalls[sfield] = sfield;
                 var args = [ for (arg in args) map(arg) ];
                 changed = true;
-                { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{field}].concat(args)), pos:e.pos };
+                var ret = null;
+                if (field.meta.hasMeta(':hotreload')) {
+                  // regardless if the super points to a haxe superclass or not,
+                  // we will need to be able to call it through a static function
+                  var fn = superClass.findField(sfield, false);
+                  // get function arguments
+                  if (fn == null) {
+                    Context.warning('Field calls super but no super field with name $sfield', e.pos);
+                    hadErrors = true;
+                  } else {
+                    switch(Context.follow(fn.type)) {
+                    case TFun(fnargs,fnret):
+                      var name = field.name + '__supercall_' + cls.name;
+                      var isVoid = fnret.match(TAbstract(_.get() => { name:'Void', pack:[] }, _));
+                      var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}].concat([for (arg in fnargs) macro $v{arg.name}])), pos:e.pos };
+                      toAdd.push({
+                        name: name,
+                        kind: FFun({
+                          args: [ for (arg in fnargs) { name: arg.name, opt: arg.opt, type: arg.t.toComplexType() } ],
+                          ret: fnret.toComplexType(),
+                          expr: isVoid ? expr : macro return $expr,
+                        }),
+                        pos: e.pos
+                      });
+                      ret = { expr:ECall(macro @:pos(e.pos) this.$name, args), pos:e.pos };
+                    case _:
+                      Context.warning('Super cannot be called on non-method members', e.pos);
+                      hadErrors = true;
+                    }
+                  }
+                }
+                if (ret == null) {
+                  ret = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}].concat(args)), pos:e.pos };
+                }
+                ret;
               case _:
                 e.map(map);
               }
@@ -310,6 +347,27 @@ class NeedsGlueBuild
           }
         }
         fields.push(field);
+      }
+
+      if (Context.defined('cppia') || (!Globals.cur.inScriptPass && Context.defined('WITH_CPPIA'))) {
+        for (field in fields) {
+          if (field.meta.hasMeta(':hotreload')) {
+            switch(field.kind) {
+            case FFun(fn) if (fn.params == null || fn.params.length == 0):
+              var name = cls.pack.join('.') + '.' + cls.name + '::' + field.name;
+              var isStatic = field.access != null ? field.access.has(AStatic) : false;
+              var retfn:Function = {
+                args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:cls.name }) }].concat(fn.args),
+                ret: fn.ret,
+                expr: fn.expr
+              };
+              var expr = { expr:EFunction(null, retfn), pos:field.pos};
+              fn.expr = macro ue4hx.internal.HotReloadBuild.build(${expr}, $v{name}, $v{isStatic});
+              changed = true;
+            case _:
+            }
+          }
+        }
       }
 
       if (hadErrors)

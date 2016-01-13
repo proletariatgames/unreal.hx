@@ -132,6 +132,11 @@ class Globals {
    **/
   public var cachedBuiltTypes:Array<String> = [];
 
+  /**
+    All hot reload functions that were gathered during the build
+   **/
+  public var hotReloadFuncs:Map<String, TypedExpr> = new Map();
+
   public var toDefineTParams:Map<String, TypeDefinition> = new Map();
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
