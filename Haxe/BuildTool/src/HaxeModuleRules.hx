@@ -71,11 +71,11 @@ class HaxeModuleRules extends BaseModuleRules
     this.config = getConfig();
     if (this.config == null) this.config = {};
     var base = Path.GetFullPath('$modulePath/..');
+    var targetModule = std.Type.getClassName(std.Type.getClass(this));
+    if (this.config.glueTargetModule != null) {
+      targetModule = this.config.glueTargetModule;
+    }
     if (firstRun) {
-      var targetModule = std.Type.getClassName(std.Type.getClass(this));
-      if (this.config.glueTargetModule != null) {
-        targetModule = this.config.glueTargetModule;
-      }
       updateProject(targetModule);
 
       if (this.config.glueTargetModule != null) {
@@ -356,6 +356,23 @@ class HaxeModuleRules extends BaseModuleRules
             if (shouldCopy) {
               File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
             }
+          }
+          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+          {
+            // HACK: there seems to be no way to add the .hx files as dependencies
+            //       for this project. The PrerequisiteItems variable from Action is the one
+            //       that keeps track of dependencies - and it cannot be set anywhere. Additionally -
+            //       what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
+            //       linking against.
+            //       This leaves little option but to meddle with actual sources' timestamps.
+            //       It seems that a better least intrusive hack would be to meddle with the
+            //       output library file timestamp. However, it's not possible to reliably find
+            //       the output file name at this stage
+
+            var dep = Path.GetFullPath('$gameDir/Source/$targetModule/Generated/HaxeInit.cpp');
+            trace(dep);
+            // touch the file
+            File.saveContent(dep, File.getContent(dep));
           }
         }
         if (ret != 0)

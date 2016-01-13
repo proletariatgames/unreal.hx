@@ -68,7 +68,7 @@ class DelayedGlue {
     return ret;
   }
 
-  macro public static function getSuperExpr(fieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+  macro public static function getSuperExpr(fieldName:String, targetFieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
     var cls = Context.getLocalClass().get(),
         pos = Context.currentPos();
     // make sure that the super field was not already defined in haxe code
@@ -113,7 +113,7 @@ class DelayedGlue {
     if (Context.defined('cppia')) {
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
+      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
     }
 
     var glueExpr = getGlueType_impl(cls, pos);
@@ -128,7 +128,7 @@ class DelayedGlue {
     else
       { expr:EBlock(block), pos: pos };
     if (cls.meta.has(':uscript')) {
-      flagCurrentField(fieldName, cls, false, ret);
+      flagCurrentField(targetFieldName, cls, false, ret);
     }
     return ret;
   }

@@ -4,6 +4,8 @@ import cpp.link.StaticZlib;
 import unreal.*;
 import unreal.helpers.HxcppRuntimeStatic;
 #if (WITH_CPPIA && WITH_EDITOR)
+import unreal.editor.UEditorEngine;
+import unreal.developer.hotreload.IHotReloadModule;
 import unreal.FTimerManager;
 import unreal.editor.*;
 import sys.FileSystem;
@@ -42,36 +44,56 @@ class UnrealInit
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
       var stamp = FileSystem.stat(target).mtime.getTime();
       // add file watcher
-      var handle = null;
-      handle = FEditorDelegates.RefreshAllBrowsers.AddLambda(function() {
-        FEditorDelegates.RefreshAllBrowsers.Remove(handle);
-
-        watchHandle = FTimerHandle.create();
-        var delegate = FTimerDelegate.create();
-        delegate.BindLambda(function() {
-          var curStat = .0;
-          if (FileSystem.exists(target) && (curStat = FileSystem.stat(target).mtime.getTime()) > stamp) {
-            trace('reloading cppia...');
-            stamp = curStat;
-            untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-            var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadScript');
-            if (cls != null) {
-              trace('Setting cppia hot reload types');
-              cls.bindFunctions();
-            }
+      var watchHandle = FTimerHandle.create();
+      var timerDelegate = FTimerDelegate.create();
+      timerDelegate.BindLambda(function() {
+        var curStat = .0;
+        if (FileSystem.exists(target) && (curStat = FileSystem.stat(target).mtime.getTime()) > stamp) {
+          trace('reloading cppia...');
+          stamp = curStat;
+          untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+          var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadScript');
+          if (cls != null) {
+            trace('Setting cppia hot reload types');
+            cls.bindFunctions();
           }
-        });
-        unreal.editor.UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, delegate, 1, true, 0);
+        }
       });
+      var hotReloadHandle = null;
+      var currentlyCompiling = UEditorEngine.GEditor != null;
+      function onHotReload(triggeredAutomatically:Bool) {
+        if (currentlyCompiling) {
+          // if we're currently compiling, the first hot reload is called right after we've loaded
+          currentlyCompiling = false;
+        } else {
+          if (watchHandle != null) {
+            UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
+            watchHandle = null;
+          }
+          if (hotReloadHandle != null) {
+            IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
+            hotReloadHandle = null;
+          }
+        }
+      }
+
+      // add watcher to current editor
+      if (unreal.editor.UEditorEngine.GEditor == null) {
+        var handle = null;
+        handle = FEditorDelegates.RefreshAllBrowsers.AddLambda(function() {
+          FEditorDelegates.RefreshAllBrowsers.Remove(handle);
+          UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+          hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
+        });
+      } else {
+        UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+        hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
+      }
     } else {
       trace('Warning','No compiled cppia file found at $target');
     }
 #end
   }
-#if (WITH_CPPIA && WITH_EDITOR)
-  static var watchHandle:FTimerHandle;
-  static var fn;
-#end
 
   static var oldTrace = haxe.Log.trace;
 

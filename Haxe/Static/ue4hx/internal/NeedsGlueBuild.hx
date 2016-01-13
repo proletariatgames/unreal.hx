@@ -142,7 +142,7 @@ class NeedsGlueBuild
                     case TFun(fnargs,fnret):
                       var name = field.name + '__supercall_' + cls.name;
                       var isVoid = fnret.match(TAbstract(_.get() => { name:'Void', pack:[] }, _));
-                      var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}].concat([for (arg in fnargs) macro $v{arg.name}])), pos:e.pos };
+                      var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{name}].concat([for (arg in fnargs) macro $i{arg.name}])), pos:e.pos };
                       toAdd.push({
                         name: name,
                         kind: FFun({
@@ -160,7 +160,7 @@ class NeedsGlueBuild
                   }
                 }
                 if (ret == null) {
-                  ret = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}].concat(args)), pos:e.pos };
+                  ret = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
                 }
                 ret;
               case _:
