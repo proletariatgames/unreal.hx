@@ -59,13 +59,19 @@ class UnrealInit
           }
         }
       });
-      var hotReloadHandle = null;
-      var currentlyCompiling = UEditorEngine.GEditor != null;
+      var hotReloadHandle = null,
+          onCompHandle = null;
+      var shouldCleanup = false;
+      function onCompilation(_, result:ECompilationResult, _) {
+        shouldCleanup = shouldCleanup || result == Succeeded;
+        if (shouldCleanup && onCompHandle != null) {
+          IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
+          onCompHandle = null;
+        }
+      }
+
       function onHotReload(triggeredAutomatically:Bool) {
-        if (currentlyCompiling) {
-          // if we're currently compiling, the first hot reload is called right after we've loaded
-          currentlyCompiling = false;
-        } else {
+        if (shouldCleanup) {
           if (watchHandle != null) {
             UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
             watchHandle = null;
@@ -84,10 +90,12 @@ class UnrealInit
           FEditorDelegates.RefreshAllBrowsers.Remove(handle);
           UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
           hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
+          onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
         });
       } else {
         UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
         hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
+        onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
       }
     } else {
       trace('Warning','No compiled cppia file found at $target');

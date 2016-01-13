@@ -25,8 +25,7 @@ class CreateGlue {
     for (path in alwaysCompilePaths) {
       getModules(path, toCompile);
     }
-    if (toCompile.length == 0)
-      toCompile.push('UnrealInit');
+    toCompile.push('UnrealInit');
 
     var nativeGlue = new NativeGlueCode();
 
