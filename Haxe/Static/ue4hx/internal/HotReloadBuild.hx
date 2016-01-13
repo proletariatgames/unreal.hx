@@ -8,7 +8,8 @@ using haxe.macro.Tools;
 #end
 
 class HotReloadBuild {
-  macro public static function build(expr:Expr, path:String, isStatic:Bool):Expr {
+  macro public static function build(expr:Expr, cls:String, fn:String, isStatic:Bool):Expr {
+    var path = '$cls::$fn';
     // get typed expr
     if (!isStatic) {
       switch(expr.expr) {
@@ -48,7 +49,7 @@ class HotReloadBuild {
       texpr = map(texpr);
     }
     // store this so it can be later built into HotReload
-    Globals.cur.hotReloadFuncs[path] = texpr;
+    Globals.hotReloadFuncs[cls][fn] = texpr;
     // change all expression to call HotReload with the correct types
     switch(Context.follow(texpr.t)) {
     case TFun(args,ret):
@@ -76,10 +77,19 @@ class HotReloadBuild {
 
   public static function bindFunctions(clname:String) {
     var expr = [];
-    var map = Globals.cur.hotReloadFuncs;
-    for (key in map.keys()) {
-      var texpr = Context.storeTypedExpr(map[key]);
-      expr.push(macro unreal.helpers.HotReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
+    var map = Globals.hotReloadFuncs;
+    for (cls in map.keys()) {
+      try {
+        // test if the type exists first - otherwise it was deleted and we shouldn't add it
+        Context.getType(cls);
+        var curMap = map[cls];
+        for (fn in curMap.keys()) {
+          var key = '$cls::$fn';
+          trace(key);
+          var texpr = Context.storeTypedExpr(curMap[fn]);
+          expr.push(macro unreal.helpers.HotReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
+        }
+      }
     }
 
     var expr = { expr:EBlock(expr), pos: Context.currentPos() };

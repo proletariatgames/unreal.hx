@@ -92,6 +92,12 @@ class Globals {
   public var builtGlueTypes:Map<String,Bool> = new Map();
   public var buildingGlueTypes:Map<String,DelayedGlue> = new Map();
   public var uobject:Type;
+
+  /**
+    All hot reload functions that were gathered during the build
+    This is static so they can survive through compilations
+   **/
+  public static var hotReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
   /**
     Linked list of glue types that need to be generated
    **/
@@ -131,11 +137,6 @@ class Globals {
     List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again
    **/
   public var cachedBuiltTypes:Array<String> = [];
-
-  /**
-    All hot reload functions that were gathered during the build
-   **/
-  public var hotReloadFuncs:Map<String, TypedExpr> = new Map();
 
   public var toDefineTParams:Map<String, TypeDefinition> = new Map();
   public var gluesTouched:Map<String,Bool> = new Map();

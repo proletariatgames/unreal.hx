@@ -349,12 +349,17 @@ class NeedsGlueBuild
         fields.push(field);
       }
 
+      var created = false;
       if (Context.defined('cppia') || (!Globals.cur.inScriptPass && Context.defined('WITH_CPPIA'))) {
         for (field in fields) {
           if (field.meta.hasMeta(':hotreload')) {
             switch(field.kind) {
             case FFun(fn) if (fn.params == null || fn.params.length == 0):
-              var name = cls.pack.join('.') + '.' + cls.name + '::' + field.name;
+              if (!created) {
+                created = true;
+                Globals.hotReloadFuncs[thisType.getClassPath()] = new Map();
+              }
+              var name = thisType.getClassPath() + '::' + field.name;
               var isStatic = field.access != null ? field.access.has(AStatic) : false;
               var retfn:Function = {
                 args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:cls.name }) }].concat(fn.args),
@@ -362,7 +367,7 @@ class NeedsGlueBuild
                 expr: fn.expr
               };
               var expr = { expr:EFunction(null, retfn), pos:field.pos};
-              fn.expr = macro ue4hx.internal.HotReloadBuild.build(${expr}, $v{name}, $v{isStatic});
+              fn.expr = macro ue4hx.internal.HotReloadBuild.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
               changed = true;
             case _:
             }
