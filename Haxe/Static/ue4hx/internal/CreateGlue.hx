@@ -26,6 +26,11 @@ class CreateGlue {
       getModules(path, toCompile);
     }
     toCompile.push('UnrealInit');
+    var scriptModules = [];
+    for (path in scriptPaths) {
+      getModules(path, scriptModules);
+    }
+    Globals.cur.scriptModules = [ for (module in scriptModules) module => true ];
 
     var nativeGlue = new NativeGlueCode();
 
@@ -42,11 +47,7 @@ class CreateGlue {
       haxe.macro.Compiler.addClassPath(path);
     }
     Globals.cur.inScriptPass = true;
-    var toGather = [];
-    for (path in scriptPaths) {
-      getModules(path, toGather);
-    }
-    var toGatherModules = [ for (module in toGather) Context.getModule(module) ];
+    var toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
     ensureCompiled(toGatherModules);
 
     Globals.cur.inScriptPass = false;

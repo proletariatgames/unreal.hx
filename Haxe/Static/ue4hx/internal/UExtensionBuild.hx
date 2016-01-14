@@ -532,9 +532,9 @@ class UExtensionBuild {
           pos: this.pos
         });
         var createEmptyExpr = if (isScript) {
-          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )', ctx);
         } else {
-          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )', ctx);
           // 'return ' + thisConv.haxeToGlue('std.Type.createInstance( ${typeRef.getClassPath(true)}, [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
         }
         buildFields.push({

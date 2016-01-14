@@ -3,6 +3,7 @@ import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.*;
 import unreal.helpers.HxcppRuntimeStatic;
+import ue4hx.internal.HaxeCodeDispatcher;
 #if (WITH_CPPIA && WITH_EDITOR)
 import unreal.editor.UEditorEngine;
 import unreal.developer.hotreload.IHotReloadModule;
@@ -21,6 +22,11 @@ class UnrealInit
   static function main()
   {
     haxe.Log.trace = customTrace;
+    trace("initializing unreal haxe");
+#if (WITH_CPPIA && WITH_EDITOR)
+    addCppiaSupport();
+#end
+
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
     var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadStatic');
@@ -33,11 +39,6 @@ class UnrealInit
         delayed();
       }
     }
-
-    trace("initializing unreal haxe");
-#if (WITH_CPPIA && WITH_EDITOR)
-    addCppiaSupport();
-#end
   }
 
 #if (WITH_CPPIA && WITH_EDITOR)
@@ -128,8 +129,8 @@ class UnrealInit
     } else {
       addWatcher();
     }
-#end
   }
+#end
 
   static var oldTrace = haxe.Log.trace;
 

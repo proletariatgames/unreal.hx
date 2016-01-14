@@ -4,7 +4,7 @@ import haxe.CallStack;
 /**
   This allows us to make all haxe code run inside a try handler so we can have better error messages
  **/
-class HaxeCodeDispatcher {
+@:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
   private static var inDebugger = unreal.FPlatformMisc.IsDebuggerPresent();
 
