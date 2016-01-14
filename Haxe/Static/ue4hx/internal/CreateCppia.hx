@@ -29,7 +29,7 @@ class CreateCppia {
     Globals.cur.inScriptPass = false;
 
     // create hot reload helper
-    HotReloadBuild.bindFunctions('HotReloadScript');
+    LiveReloadBuild.bindFunctions('LiveReloadScript');
 
     var blacklist = [
       'unreal.Wrapper',

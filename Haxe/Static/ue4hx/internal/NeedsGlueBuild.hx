@@ -129,7 +129,7 @@ class NeedsGlueBuild
                 var args = [ for (arg in args) map(arg) ];
                 changed = true;
                 var ret = null;
-                if (field.meta.hasMeta(':hotreload')) {
+                if (field.meta.hasMeta(':live')) {
                   // regardless if the super points to a haxe superclass or not,
                   // we will need to be able to call it through a static function
                   var fn = superClass.findField(sfield, false);
@@ -352,12 +352,12 @@ class NeedsGlueBuild
       var created = false;
       if (Context.defined('cppia') || (!Globals.cur.inScriptPass && Context.defined('WITH_CPPIA'))) {
         for (field in fields) {
-          if (field.meta.hasMeta(':hotreload')) {
+          if (field.meta.hasMeta(':live')) {
             switch(field.kind) {
             case FFun(fn) if (fn.params == null || fn.params.length == 0):
               if (!created) {
                 created = true;
-                Globals.hotReloadFuncs[thisType.getClassPath()] = new Map();
+                Globals.liveReloadFuncs[thisType.getClassPath()] = new Map();
               }
               var name = thisType.getClassPath() + '::' + field.name;
               var isStatic = field.access != null ? field.access.has(AStatic) : false;
@@ -367,7 +367,7 @@ class NeedsGlueBuild
                 expr: fn.expr
               };
               var expr = { expr:EFunction(null, retfn), pos:field.pos};
-              fn.expr = macro ue4hx.internal.HotReloadBuild.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
+              fn.expr = macro ue4hx.internal.LiveReloadBuild.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
               changed = true;
             case _:
             }

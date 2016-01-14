@@ -135,7 +135,7 @@ class CreateGlue {
 
     // create hot reload helper
     if (Context.defined('WITH_CPPIA')) {
-      HotReloadBuild.bindFunctions('HotReloadStatic');
+      LiveReloadBuild.bindFunctions('LiveReloadStatic');
     }
     Globals.cur.loadCachedTypes();
     Globals.cur.saveCachedBuilt();

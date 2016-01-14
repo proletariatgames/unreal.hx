@@ -7,7 +7,7 @@ import haxe.macro.Type;
 using haxe.macro.Tools;
 #end
 
-class HotReloadBuild {
+class LiveReloadBuild {
   macro public static function build(expr:Expr, cls:String, fn:String, isStatic:Bool):Expr {
     var path = '$cls::$fn';
     // get typed expr
@@ -48,17 +48,17 @@ class HotReloadBuild {
       }
       texpr = map(texpr);
     }
-    // store this so it can be later built into HotReload
-    Globals.hotReloadFuncs[cls][fn] = texpr;
-    // change all expression to call HotReload with the correct types
+    // store this so it can be later built into LiveReload
+    Globals.liveReloadFuncs[cls][fn] = texpr;
+    // change all expression to call LiveReload with the correct types
     switch(Context.follow(texpr.t)) {
     case TFun(args,ret):
-      var hotreload = macro unreal.helpers.HotReload.reloadableFuncs[$v{path}];
+      var livereload = macro unreal.helpers.LiveReload.reloadableFuncs[$v{path}];
       var callArgs = args;
       if (!isStatic) {
         args[0].name = 'this';
       }
-      var call = { expr:ECall(hotreload, [ for (arg in args) macro $i{arg.name} ]), pos:texpr.pos };
+      var call = { expr:ECall(livereload, [ for (arg in args) macro $i{arg.name} ]), pos:texpr.pos };
       if (!Context.follow(ret).match(TAbstract(_.get() => { name:'Void', pack:[] },_))) {
         // is not void
         var type = ret.toComplexType();
@@ -77,7 +77,7 @@ class HotReloadBuild {
 
   public static function bindFunctions(clname:String) {
     var expr = [];
-    var map = Globals.hotReloadFuncs;
+    var map = Globals.liveReloadFuncs;
     for (cls in map.keys()) {
       try {
         // test if the type exists first - otherwise it was deleted and we shouldn't add it
@@ -86,7 +86,7 @@ class HotReloadBuild {
         for (fn in curMap.keys()) {
           var key = '$cls::$fn';
           var texpr = Context.storeTypedExpr(curMap[fn]);
-          expr.push(macro unreal.helpers.HotReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
+          expr.push(macro unreal.helpers.LiveReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
         }
       }
     }

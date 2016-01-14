@@ -94,10 +94,10 @@ class Globals {
   public var uobject:Type;
 
   /**
-    All hot reload functions that were gathered during the build
+    All live reload functions that were gathered during the build
     This is static so they can survive through compilations
    **/
-  public static var hotReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
+  public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
   /**
     Linked list of glue types that need to be generated
    **/

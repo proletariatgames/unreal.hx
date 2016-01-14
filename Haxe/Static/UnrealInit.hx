@@ -42,7 +42,7 @@ class UnrealInit
     if (sys.FileSystem.exists(target)) {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-      var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadScript');
+      var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
       if (cls != null) {
         trace('Setting cppia hot reload types');
         cls.bindFunctions();
@@ -57,7 +57,7 @@ class UnrealInit
           trace('reloading cppia...');
           stamp = curStat;
           untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-          var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadScript');
+          var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
           if (cls != null) {
             trace('Setting cppia hot reload types');
             cls.bindFunctions();
