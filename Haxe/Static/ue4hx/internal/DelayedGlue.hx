@@ -23,7 +23,7 @@ class DelayedGlue {
   macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool):haxe.macro.Expr {
     var cls = Context.getLocalClass().get(),
         pos = Context.currentPos();
-    var field = cls.findField(fieldName, isStatic);
+    var field = findField(cls, fieldName, isStatic);
     if (field == null) throw 'assert';
     var old = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep'; // these fields will always be kept
@@ -90,7 +90,7 @@ class DelayedGlue {
     var superClass = cls.superClass;
     if (superClass == null)
       throw new Error('Unreal Glue Generation: Field calls super but no superclass was found', pos);
-    var field = superClass.t.get().findField(fieldName, false);
+    var field = findField(superClass.t.get(), fieldName, false);
     if (field == null)
       throw new Error('Unreal Glue Generation: Field calls super but no field was found on super class', pos);
     var fargs = null, fret = null;
@@ -149,7 +149,7 @@ class DelayedGlue {
       return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
     }
 
-    var field = cls.findField(fieldName, isStatic);
+    var field = findField(cls, fieldName, isStatic);
     if (field == null)
       throw new Error('Unreal Glue Generation: Field calls native but no field was found with that name ($fieldName)', pos);
     var fargs = null, fret = null;
@@ -191,8 +191,26 @@ class DelayedGlue {
   }
 
 #if macro
+  private static function findField(cls:ClassType, field:String, isStatic:Bool, ?cur:ClassField) {
+    var name = cls.pack.join('.') + '.' + cls.name;
+    var fields = Globals.cur.cachedFields[name];
+    if (fields == null) {
+      Globals.cur.cachedFields[name] = fields = new Map();
+    }
+    var f = fields[field];
+    if (f == null) {
+      if (cur != null) {
+        f = cur;
+      } else {
+        f = cls.findField(field, isStatic);
+      }
+      fields[field] = f;
+    }
+    return f;
+  }
+
   private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr) {
-    var field = cl.findField(meth, isStatic);
+    var field = findField(cl, meth, isStatic);
     if (field == null) throw new Error('assert: no field $meth on current class ${cl.name}', Context.currentPos());
     field.meta.add(':ugluegenerated', [expr], cl.pos);
   }
@@ -295,6 +313,7 @@ class DelayedGlue {
     }
 
     for (field in cls.fields.get()) {
+      var field = findField(cls, field.name, false, field);
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:false };
       } else if (superCalls.exists(field.name)) {
@@ -307,6 +326,7 @@ class DelayedGlue {
       }
     }
     for (field in cls.statics.get()) {
+      var field = findField(cls, field.name, true, field);
       if (uprops.exists(field.name)) {
         uprops[field.name] = { cf:field, isStatic:true };
       } else if (nativeCalls.exists(field.name)) {
@@ -375,6 +395,7 @@ class DelayedGlue {
     // unfortunately this is necessary to make sure that our own version with all metadatas is the final one
     // (see haxe's `encode_meta` source code to understand why this is needed)
     cls.meta.add(':dummy',[],cls.pos);
+    Globals.cur.cachedFields[this.cls.pack.join('.') + '.' + this.cls.name] = null;
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
@@ -750,7 +771,7 @@ class DelayedGlue {
     var methodName = '_get_${externName}_methodPtr';
 
     var glue = this.typeRef.getGlueHelperType();
-    var clsField = this.cls.statics.get().find(function (f) return f.name == methodName);
+    var clsField = findField(this.cls, methodName, true);
     if (clsField == null) {
       throw 'assert: can\'t find $methodName';
     }

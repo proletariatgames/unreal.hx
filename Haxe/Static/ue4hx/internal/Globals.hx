@@ -98,6 +98,12 @@ class Globals {
     This is static so they can survive through compilations
    **/
   public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
+
+  /**
+    This cache is needed to ensure we all have the same classfield when adding metadata to them,
+    otherwise some meta might be lost
+   **/
+  public var cachedFields:Map<String, Map<String, ClassField>> = new Map();
   /**
     Linked list of glue types that need to be generated
    **/
