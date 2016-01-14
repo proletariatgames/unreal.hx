@@ -113,7 +113,12 @@ class DelayedGlue {
     if (Context.defined('cppia')) {
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
+      var ret = { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
+      if (!fret.haxeType.isVoid()) {
+        var rtype = fret.haxeType.toComplexType();
+        ret = macro ( $ret : $rtype );
+      }
+      return ret;
     }
 
     var glueExpr = getGlueType_impl(cls, pos);

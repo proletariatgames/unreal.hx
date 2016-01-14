@@ -10,7 +10,7 @@ class CreateCppia {
   static var firstCompilation = true;
   static var hasRun = false;
 
-  public static function run(staticPaths:Array<String>, scriptPaths:Array<String>) {
+  public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
 
@@ -49,6 +49,11 @@ class CreateCppia {
 
     Context.onGenerate(function(types) {
       var allStatics = [ for (s in statics.concat(blacklist)) s => true ];
+      if (excludeModules != null) {
+        for (m in excludeModules) {
+          allStatics[m] = true;
+        }
+      }
       for (type in types) {
         switch(type) {
           case TInst(_.get()=>c,_):

@@ -64,6 +64,11 @@ typedef HaxeModuleConfig = {
     is enabled
    **/
   ?noStatic:Bool /* = false */,
+
+  /**
+    Forces some modules to be excluded from cppia build
+   **/
+  ?cppiaModuleExclude:Array<String>,
 }
 
 @:enum abstract Dce(String) from String {
