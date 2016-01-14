@@ -181,7 +181,6 @@ class CreateGlue {
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
-        trace('reusing macro context');
         hasRun = false;
         Globals.reset();
         return true;

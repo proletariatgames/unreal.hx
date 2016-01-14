@@ -85,7 +85,6 @@ class HotReloadBuild {
         var curMap = map[cls];
         for (fn in curMap.keys()) {
           var key = '$cls::$fn';
-          trace(key);
           var texpr = Context.storeTypedExpr(curMap[fn]);
           expr.push(macro unreal.helpers.HotReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
         }
