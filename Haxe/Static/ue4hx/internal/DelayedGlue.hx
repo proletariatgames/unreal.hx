@@ -395,7 +395,6 @@ class DelayedGlue {
     // unfortunately this is necessary to make sure that our own version with all metadatas is the final one
     // (see haxe's `encode_meta` source code to understand why this is needed)
     cls.meta.add(':dummy',[],cls.pos);
-    Globals.cur.cachedFields[this.cls.pack.join('.') + '.' + this.cls.name] = null;
     Context.defineType({
       pack: glue.pack,
       name: glue.name,
