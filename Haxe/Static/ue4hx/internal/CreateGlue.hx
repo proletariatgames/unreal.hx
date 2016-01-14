@@ -198,6 +198,9 @@ class CreateGlue {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var c = c.get();
+          if (c.meta.has(':ustatic')) {
+            continue;
+          }
           c.meta.remove(':native');
           if (Context.unify(type, uobj)) {
             c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
@@ -216,8 +219,6 @@ class CreateGlue {
           e.meta.remove(':native');
           e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
           e.exclude();
-        case TAbstract(a,_):
-          a.get().exclude();
         case _:
         }
       }

@@ -28,11 +28,24 @@ class HaxeModuleRules extends BaseModuleRules
   }
 
   private function getConfig():HaxeModuleConfig {
-    return {
-      disabled: false,
-      forceBakeExterns: Sys.getEnv('BAKE_EXTERNS') != null,
-      dce: Sys.getEnv('DCE_FULL') != null ? DceFull : (Sys.getEnv('NO_DCE') != null ? DceNo : null),
-    };
+    var base:HaxeModuleConfig = null;
+    if (FileSystem.exists('$gameDir/uhxconfig.local')) {
+      trace('Loading config from $gameDir/uhxconfig.local');
+      base = haxe.Json.parse(File.getContent('$gameDir/uhxconfig.local'));
+    } else {
+      base = {};
+    }
+
+    if (Sys.getEnv('BAKE_EXTERNS') != null) {
+      base.forceBakeExterns = true;
+    }
+    if (Sys.getEnv('DCE_FULL') != null) {
+      base.dce = DceFull;
+    } else if (Sys.getEnv('NO_DCE') != null) {
+      base.dce = DceNo;
+    }
+
+    return base;
   }
 
   private function shouldCompileCppia(target:TargetInfo) {

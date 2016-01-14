@@ -2,6 +2,7 @@ import unrealbuildtool.*;
 import cs.system.io.Path;
 import cs.system.collections.generic.List_1 as Lst;
 import sys.FileSystem.*;
+import sys.FileSystem;
 
 using Helpers;
 using StringTools;
@@ -44,6 +45,13 @@ class BaseModuleRules extends ModuleRules
       gameDir = Path.GetFullPath(haxeInitPath + "/../../../..");
     haxeSourcesPath = Path.GetFullPath(gameDir + "/Haxe");
     internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
+
+    if (FileSystem.exists(modulePath.substr(0,-2) + 'hx')) {
+      if (FileSystem.stat(modulePath).mtime.getTime() < FileSystem.stat(modulePath.substr(0,-2) + 'hx').mtime.getTime()) {
+        Log.TraceError('Your Build.cs file is outdated. Please run `haxe init-plugin.hxml` in the unreal.hx plugin directory');
+        Sys.exit(11);
+      }
+    }
 
     run(target, firstRun);
     firstRunMap[curName] = false;
