@@ -45,6 +45,8 @@ class CreateCppia {
       'unreal.TThreadSafeWeakPtr',
     ];
 
+    addTimestamp();
+
     Context.onGenerate(function(types) {
       var allStatics = [ for (s in statics.concat(blacklist)) s => true ];
       for (type in types) {
@@ -67,6 +69,18 @@ class CreateCppia {
         }
       }
     });
+  }
+
+  private static function addTimestamp() {
+    // adds a class that returns the timestamp of when it was built.
+    // this works around HaxeFoundation/hxcpp#358 by adding logic that determines
+    // whether the newly loaded script has the same timestamp as the older one
+    var stamp = Date.now().getTime();
+    var cls = macro class CppiaCompilation {
+      @:keep public static var timestamp(default,null):Float = $v{stamp};
+    };
+    cls.pack = ['ue4hx','internal'];
+    Context.defineType(cls);
   }
 
   private static function getModules(path:String, modules:Array<String>)

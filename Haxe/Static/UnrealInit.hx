@@ -36,10 +36,19 @@ class UnrealInit
 
     trace("initializing unreal haxe");
 #if (WITH_CPPIA && WITH_EDITOR)
+    addCppiaSupport();
+#end
+  }
+
+#if (WITH_CPPIA && WITH_EDITOR)
+  static function addCppiaSupport() {
     // get game path
     var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
     var target = '$gameDir/Binaries/Haxe/game.cppia';
-    if (sys.FileSystem.exists(target)) {
+    var stamp = .0;
+    var internalStamp = .0;
+
+    function loadCppia() {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
       var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
@@ -47,63 +56,77 @@ class UnrealInit
         trace('Setting cppia hot reload types');
         cls.bindFunctions();
       }
-      var stamp = FileSystem.stat(target).mtime.getTime();
-      // add file watcher
-      var watchHandle = FTimerHandle.create();
-      var timerDelegate = FTimerDelegate.create();
-      timerDelegate.BindLambda(function() {
-        var curStat = .0;
-        if (FileSystem.exists(target) && (curStat = FileSystem.stat(target).mtime.getTime()) > stamp) {
-          trace('reloading cppia...');
-          stamp = curStat;
-          untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-          var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
-          if (cls != null) {
-            trace('Setting cppia hot reload types');
-            cls.bindFunctions();
-          }
+      cls = Type.resolveClass('ue4hx.internal.CppiaCompilation');
+      if (cls != null) {
+        var newStamp:Float = cls.timestamp;
+        if (Math.abs(newStamp - internalStamp) < .1) {
+          trace('Error', 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
+                'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error');
+        } else if (newStamp < internalStamp) {
+          trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
         }
-      });
-      var hotReloadHandle = null,
-          onCompHandle = null;
-      var shouldCleanup = false;
-      function onCompilation(_, result:ECompilationResult, _) {
-        shouldCleanup = shouldCleanup || result == Succeeded;
-        if (shouldCleanup && onCompHandle != null) {
-          IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
-          onCompHandle = null;
-        }
+        internalStamp = newStamp;
       }
+      stamp = FileSystem.stat(target).mtime.getTime();
+    }
 
-      function onHotReload(triggeredAutomatically:Bool) {
-        if (shouldCleanup) {
-          if (watchHandle != null) {
-            UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
-            watchHandle = null;
-          }
-          if (hotReloadHandle != null) {
-            IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
-            hotReloadHandle = null;
-          }
-        }
-      }
-
-      // add watcher to current editor
-      if (unreal.editor.UEditorEngine.GEditor == null) {
-        var handle = null;
-        handle = FEditorDelegates.RefreshAllBrowsers.AddLambda(function() {
-          FEditorDelegates.RefreshAllBrowsers.Remove(handle);
-          UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
-          hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
-          onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
-        });
-      } else {
-        UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
-        hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
-        onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
-      }
+    if (sys.FileSystem.exists(target)) {
+      loadCppia();
     } else {
       trace('Warning','No compiled cppia file found at $target');
+    }
+
+    // add file watcher
+    var watchHandle = FTimerHandle.create();
+    var timerDelegate = FTimerDelegate.create();
+    timerDelegate.BindLambda(function() {
+      if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
+        loadCppia();
+      }
+    });
+
+    var hotReloadHandle = null,
+        onCompHandle = null;
+    var shouldCleanup = false;
+    // when we finish compiling, we check if we should invalidate the current module
+    function onCompilation(_, result:ECompilationResult, _) {
+      shouldCleanup = shouldCleanup || result == Succeeded;
+      if (shouldCleanup && onCompHandle != null) {
+        // invalidate our own handle - we won't need it anymore
+        IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
+        onCompHandle = null;
+      }
+    }
+
+    // if we should invalidate the current module, invalidate all active ahdnles
+    function onHotReload(triggeredAutomatically:Bool) {
+      if (shouldCleanup) {
+        if (watchHandle != null) {
+          UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
+          watchHandle = null;
+        }
+        if (hotReloadHandle != null) {
+          IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
+          hotReloadHandle = null;
+        }
+      }
+    }
+
+    function addWatcher() {
+      UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+      hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
+      onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
+    }
+
+    // add watcher to current editor
+    if (unreal.editor.UEditorEngine.GEditor == null) {
+      var handle = null;
+      handle = FEditorDelegates.RefreshAllBrowsers.AddLambda(function() {
+        FEditorDelegates.RefreshAllBrowsers.Remove(handle);
+        addWatcher();
+      });
+    } else {
+      addWatcher();
     }
 #end
   }
