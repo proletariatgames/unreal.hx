@@ -72,19 +72,8 @@ class CoreAPI {
    *  var pawn:APawn = actor.as(APawn);
    *  if (pawn != null) { ... }
    */
-  public static macro function as<T>(obj:ExprOf<UObject>, cls:ExprOf<Class<T>>) : ExprOf<T> {
-    var clsType = switch (cls.expr) {
-    case EConst(CIdent(className)):
-      Context.toComplexType(Context.getType(className));
-    case _:
-      throw new Error('Expected class', cls.pos);
-    }
-
-    return macro @:pos(Context.currentPos()) {
-      var _o = $obj;
-      var _c:$clsType = _o != null && _o.IsA($cls.StaticClass()) ? cast _o : null;
-      _c;
-    };
+  public static inline function as<T>(obj:UObject, cls:Class<T>) : Null<T> {
+    return Std.is(obj, cls) ? cast obj : null;
   }
 
   public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
