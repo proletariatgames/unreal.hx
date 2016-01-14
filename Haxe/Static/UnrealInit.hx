@@ -29,9 +29,9 @@ class UnrealInit
 
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
-    var cls:Dynamic = Type.resolveClass('ue4hx.internal.HotReloadStatic');
+    var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadStatic');
     if (cls != null) {
-      trace('Setting hot reload types');
+      trace('Setting live reload types');
       cls.bindFunctions();
     }
     if (delayed != null) {
@@ -54,7 +54,7 @@ class UnrealInit
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
       var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
       if (cls != null) {
-        trace('Setting cppia hot reload types');
+        trace('Setting cppia live reload types');
         cls.bindFunctions();
       }
       cls = Type.resolveClass('ue4hx.internal.CppiaCompilation');

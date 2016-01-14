@@ -25,7 +25,23 @@ class CreateCppia {
       getModules(path,scripts);
     }
     Globals.cur.scriptModules = [ for (module in scripts) module => true ];
-    ensureCompiled([ for (module in scripts) Context.getModule(module) ]);
+    var modules = [ for (module in scripts) Context.getModule(module) ];
+    var target = Context.definedValue('ustatic_target');
+    if (target != null && sys.FileSystem.exists('$target/Data/livereload.txt')) {
+      var arr = [];
+      for (type in sys.io.File.getContent('$target/Data/livereload.txt').split('\n')) {
+        try {
+          arr.push(Context.getType(type));
+        }
+        catch(e:Dynamic) {
+          if (!Std.string(e).startsWith("Type not found '" + type)) {
+            throw new Error(Std.string(e), Context.currentPos());
+          }
+        }
+      }
+      modules.push(arr);
+    }
+    ensureCompiled(modules);
     Globals.cur.inScriptPass = false;
 
     // create hot reload helper
@@ -114,7 +130,7 @@ class CreateCppia {
           var cl = c.get();
           if (Context.unify(type, ustruct)) {
             cl.exclude();
-            return;
+            continue;
           }
           for (field in cl.fields.get())
             Context.follow(field.type);

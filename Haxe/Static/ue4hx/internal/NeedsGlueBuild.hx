@@ -350,7 +350,7 @@ class NeedsGlueBuild
       }
 
       var created = false;
-      if (Context.defined('cppia') || (!Globals.cur.inScriptPass && Context.defined('WITH_CPPIA'))) {
+      if (Context.defined('cppia') || Context.defined('WITH_CPPIA')) {
         for (field in fields) {
           if (field.meta.hasMeta(':live')) {
             switch(field.kind) {

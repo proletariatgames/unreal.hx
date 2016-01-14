@@ -137,6 +137,10 @@ class CreateGlue {
     // create hot reload helper
     if (Context.defined('WITH_CPPIA')) {
       LiveReloadBuild.bindFunctions('LiveReloadStatic');
+      var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+      if (lives.length > 0) {
+        sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
+      }
     }
     Globals.cur.loadCachedTypes();
     Globals.cur.saveCachedBuilt();

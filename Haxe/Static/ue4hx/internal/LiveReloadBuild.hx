@@ -78,10 +78,18 @@ class LiveReloadBuild {
   public static function bindFunctions(clname:String) {
     var expr = [];
     var map = Globals.liveReloadFuncs;
+    var toDelete = [];
     for (cls in map.keys()) {
+      var exists = false;
       try {
         // test if the type exists first - otherwise it was deleted and we shouldn't add it
         Context.getType(cls);
+        exists = true;
+      } catch(e:Dynamic) {
+        trace('Type was deleted: $cls');
+        toDelete.push(cls);
+      }
+      if (exists) {
         var curMap = map[cls];
         for (fn in curMap.keys()) {
           var key = '$cls::$fn';
@@ -89,6 +97,9 @@ class LiveReloadBuild {
           expr.push(macro unreal.helpers.LiveReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
         }
       }
+    }
+    for (del in toDelete) {
+      map.remove(del);
     }
 
     var expr = { expr:EBlock(expr), pos: Context.currentPos() };

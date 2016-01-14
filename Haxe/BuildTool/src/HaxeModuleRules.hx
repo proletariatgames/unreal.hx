@@ -404,6 +404,7 @@ class HaxeModuleRules extends BaseModuleRules
               '-main UnrealCppia',
               '',
               '-D cppia',
+              '-D ustatic_target=$targetDir/Built',
               '-cpp $gameDir/Binaries/Haxe/game.cppia',
               '--macro ue4hx.internal.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
           ]);
