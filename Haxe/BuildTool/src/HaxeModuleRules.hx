@@ -217,6 +217,7 @@ class HaxeModuleRules extends BaseModuleRules
 
         var curSourcePath = Path.GetFullPath('$modulePath/..');
         var cps = null;
+        var targetDir = '$outputDir/Static';
         // compile static
         if (ret == 0)
         {
@@ -225,7 +226,6 @@ class HaxeModuleRules extends BaseModuleRules
             curStamp = stat(outputStatic).mtime;
 
           trace('compiling Haxe');
-          var targetDir = '$outputDir/Static';
           if (!exists(targetDir)) createDirectory(targetDir);
 
           cps = [
