@@ -142,8 +142,9 @@ class DelayedGlue {
     glueExpr << ')';
 
     var expr = glueExpr.toString();
-    if (!fret.haxeType.isVoid())
-      expr = fret.glueToHaxe(expr, null);
+    if (!fret.haxeType.isVoid()) {
+      expr = '( ' + fret.glueToHaxe(expr, null) + ' : ${fret.haxeType} )';
+    }
 
     // dummy call to make hxcpp include the correct header if needed
     block.push(Context.parse(glueType.toString() + '.uhx_dummy_field()', pos));
@@ -732,9 +733,6 @@ class DelayedGlue {
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
-    }
-    if (!superField.isPublic) {
-      trace(ret, ret.haxeType);
     }
     var meth = new GlueMethod({
       name: field.name,
