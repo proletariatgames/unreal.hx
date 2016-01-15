@@ -90,7 +90,6 @@ class Globals {
   }
 
   public var builtGlueTypes:Map<String,Bool> = new Map();
-  public var buildingGlueTypes:Map<String,DelayedGlue> = new Map();
   public var uobject:Type;
 
   /**
@@ -143,6 +142,11 @@ class Globals {
     List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again
    **/
   public var cachedBuiltTypes:Array<String> = [];
+
+  /**
+    List of all delays that are to be executed
+   **/
+  public var delays:Lst<Void->Void>;
 
   public var toDefineTParams:Map<String, TypeDefinition> = new Map();
   public var gluesTouched:Map<String,Bool> = new Map();
