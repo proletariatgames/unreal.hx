@@ -656,7 +656,7 @@ class DelayedGlue {
         doc: field.doc,
         meta: null, // this is mostly here to join metadata. We don't need that
         pos: field.pos
-      }, this.type, false);
+      }, this.type);
       gms.push(gm);
     }
     gms[0].headerCode += '\n\t\t' + gms[1].headerCode;
@@ -675,59 +675,22 @@ class DelayedGlue {
     var args = null, ret = null;
     switch( Context.follow(field.type) ) {
       case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, type:TypeConv.get(arg.t, field.pos) } ];
+        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
     }
 
-    var glue = this.typeRef.getGlueHelperType();
-    var externName = field.name;
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
-    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
-    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
-    var thisDef = thisConv.glueType.getCppType() + ' self';
-    if (!isStatic) {
-      headerDef << thisDef;
-      cppDef << thisDef;
-    }
+    var meth = new GlueMethod({
+      name: field.name,
+      uname: uname,
+      args: args,
+      ret: ret,
+      flags: (field.meta.has(':final') ? Final : None) | (isStatic ? Static : None),
+      pos: field.pos
+    }, this.type);
 
-    if (args.length > 0) {
-      var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef << ', ' << argsDef;
-      cppDef << ', ' << argsDef;
-    }
-    headerDef << ');';
-    cppDef << ') {\n\t';
-
-    // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
-    {
-      var cppBody = new HelperBuf();
-      if (uname == "new") {
-        cppBody << "new " << this.thisConv.ueType.getCppClass();
-      } else {
-        if (isStatic)
-          cppBody << this.thisConv.ueType.getCppClass() << '::';
-        else
-          cppBody << this.thisConv.glueToUe('self', null) << '->';
-      }
-      if (uname != "new") {
-        cppBody << uname;
-      }
-      cppBody << '(';
-      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody << ')';
-      if (!ret.haxeType.isVoid())
-        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
-      else
-        cppDef << cppBody << ';\n}';
-    }
-
-    var allTypes = [ for (arg in args) arg.type ];
-    allTypes.push(ret);
-
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    var metas = meth.getFieldMeta();
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
@@ -765,45 +728,24 @@ class DelayedGlue {
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
       case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, type:TypeConv.get(arg.t, field.pos) } ];
+        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
     }
-
-    var glue = this.typeRef.getGlueHelperType();
-    var externName = field.name;
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
-    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
-    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
-    var thisDef = thisConv.glueType.getCppType() + ' self';
-    headerDef << thisDef;
-    cppDef << thisDef;
-
-    if (args.length > 0) {
-      var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef << ', ' << argsDef;
-      cppDef << ', ' << argsDef;
+    if (!superField.isPublic) {
+      trace(ret, ret.haxeType);
     }
-    headerDef << ');';
-    cppDef << ') {\n\t';
+    var meth = new GlueMethod({
+      name: field.name,
+      uname: uname,
+      args: args,
+      ret: ret,
+      flags: Final | ForceNonVirtual | (superField.isPublic ? None : CppPrivate),
+      pos: field.pos
+    }, this.type, null, null, this.firstExternSuper);
 
-    // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
-    {
-      var cppBody = new HelperBuf() << this.thisConv.glueToUe('self', null) << '->' << this.firstExternSuper.ueType.getCppClass() << '::' << uname << '(';
-      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody << ')';
-      if (!ret.haxeType.isVoid())
-        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
-      else
-        cppDef << cppBody << ';\n}';
-    }
-
-    var allTypes = [ for (arg in args) arg.type ];
-    allTypes.push(ret);
-
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    var metas = meth.getFieldMeta();
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }

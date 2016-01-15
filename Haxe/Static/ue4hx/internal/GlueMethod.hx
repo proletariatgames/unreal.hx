@@ -20,6 +20,7 @@ class GlueMethod {
   public var type(default, null):Type;
   public var isTemplatedThis(default, null):Bool;
   public var glueType:TypeRef;
+  public var firstExternSuper:TypeConv;
 
   ///////////////////////
   /// output parameters
@@ -47,18 +48,20 @@ class GlueMethod {
   var templated:Bool;
   var ctx:Map<String, String>;
 
-  public function new(meth:MethodDef, type:Type, ?glueType:TypeRef, ?isTemplatedThis:Bool) {
+  public function new(meth:MethodDef, type:Type, ?glueType:TypeRef, ?isTemplatedThis:Bool, ?firstExternSuper:TypeConv) {
     this.meth = meth;
     this.type = type;
     this.thisConv = TypeConv.get(type,meth.pos,'unreal.PExternal');
+    this.firstExternSuper = firstExternSuper;
+    var thisRef = TypeRef.fromType(type, meth.pos);
     if (glueType == null)
-      glueType = TypeRef.fromType(type, meth.pos).getGlueHelperType();
+      glueType = thisRef.getGlueHelperType();
     this.glueType = glueType;
     this.cppIncludes = new IncludeSet();
     this.headerIncludes = new IncludeSet();
     this.dependentTypes = new Map();
     if (isTemplatedThis == null) {
-      isTemplatedThis = thisConv.haxeType.params.length > 0 && meth.specialization == null;
+      isTemplatedThis = thisRef.params.length > 0 && meth.specialization == null;
     }
     this.isTemplatedThis = isTemplatedThis;
 
@@ -397,9 +400,21 @@ class GlueMethod {
           // local derived class with a static function that lets the wrapper
           // call the protected function.
           // See PROTECTED METHOD CALL comments farther down the code.
-          '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
+          if (meth.flags.hasAny(ForceNonVirtual) && this.firstExternSuper != null) {
+            // if we are calling a virtual type non-virtually, we have to cast the type
+            // to a type it really isn't. But since the call is non-virtual, and the expected type
+            // is not the type we are casting to, this should work correctly
+            var baseClass = this.firstExternSuper.ueType.getCppClass();
+            '( ((_staticcall_${meth.name} *)' + self.t.glueToUe('_s_' + self.name, this.ctx) + ')->$baseClass::' + meth.uname + ')';
+          } else {
+            '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
+          }
         case _ if(meth.flags.hasAny(ForceNonVirtual)):
-          self.t.glueToUe(self.name, this.ctx) + '->' + this.thisConv.ueType.getCppClass() + '::' + meth.uname;
+          var superConv = this.firstExternSuper;
+          if (superConv == null) {
+            superConv = this.thisConv;
+          }
+          self.t.glueToUe(self.name, this.ctx) + '->' + superConv.ueType.getCppClass() + '::' + meth.uname;
         case _:
           self.t.glueToUe(self.name, this.ctx) + '->' + meth.uname;
       }
