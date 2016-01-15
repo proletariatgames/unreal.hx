@@ -268,8 +268,6 @@ class HaxeModuleRules extends BaseModuleRules
           var debugSymbols = target.Configuration != Shipping;
           if (debugSymbols) {
             args.push('-debug');
-          } else if (this.config.dce == null) {
-            args.push('-dce full');
           }
 
           switch (target.Platform) {
