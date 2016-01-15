@@ -143,6 +143,10 @@ class NativeGlueCode
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueHeaderIncludes'))
       writer.include(inc);
 
+    for (extraField in MacroHelpers.extractStrings(cl.meta, ':glueHeaderClass')) {
+      writer.buf.add(extraField);
+    }
+
     for (field in cl.statics.get().concat(cl.fields.get())) {
       if (field.meta.has(':extern')) continue;
       var glueHeaderCode = MacroHelpers.extractStrings(field.meta, ':glueHeaderCode')[0];

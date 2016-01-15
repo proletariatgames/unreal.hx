@@ -61,7 +61,8 @@ class CreateGlue {
       cur.uextensions != null ||
       cur.gluesToGenerate != null ||
       cur.typeParamsToBuild != null ||
-      cur.typesThatNeedTParams != null) {
+      cur.typesThatNeedTParams != null ||
+      cur.delays != null) {
 
       var uextensions = cur.uextensions;
       cur.uextensions = null;
@@ -107,6 +108,13 @@ class CreateGlue {
         var param = params.value;
         params = params.next;
         TypeParamBuild.ensureTypesBuilt( param.base, param.args, param.pos, param.feature );
+      }
+
+      var delays = cur.delays;
+      cur.delays = null;
+      while (delays != null) {
+        delays.value();
+        delays = delays.next;
       }
     }
 

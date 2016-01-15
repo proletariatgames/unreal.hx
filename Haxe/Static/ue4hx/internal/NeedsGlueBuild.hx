@@ -105,10 +105,6 @@ class NeedsGlueBuild
       // change uproperties to call getter/setters
       // warn if constructors are created
 
-      // we need to indirectly reference it since the @:genericBuild cannot have its
-      // static fields accessed directly
-      var glueRefExpr = macro $delayedglue.getGlueType();
-
       var changed = false;
       var superCalls = new Map(),
           uprops = [];

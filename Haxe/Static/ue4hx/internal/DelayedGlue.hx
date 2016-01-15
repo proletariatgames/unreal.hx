@@ -13,15 +13,10 @@ using StringTools;
 #end
 
 class DelayedGlue {
-  macro public static function getGlueType():haxe.macro.Expr {
-    var cls = Context.getLocalClass().get(),
-        pos = Context.currentPos();
-    var ret = getGlueType_impl(cls, pos);
-    return Context.parse(ret, pos);
-  }
 
   macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool):haxe.macro.Expr {
-    var cls = Context.getLocalClass().get(),
+    var clsRef = Context.getLocalClass(),
+        cls = clsRef.get(),
         pos = Context.currentPos();
     var field = findField(cls, fieldName, isStatic);
     if (field == null) throw 'assert';
@@ -42,19 +37,30 @@ class DelayedGlue {
 
     var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
     var tconv = TypeConv.get(field.type, pos);
-    var glueExpr = new HelperBuf() << getGlueType_impl(cls, pos);
-    glueExpr << '.' << (isSetter ? 'set_' : 'get_') << fieldName << '(';
+
+    var glueType = getGlueType(clsRef, pos);
+    var glueExpr = new HelperBuf();
+
+    glueExpr << 'untyped __cpp__("${glueType.getCppClass()}::';
+    glueExpr << (isSetter ? 'set_' : 'get_') << fieldName << '(';
+
+    var args = new HelperBuf();
+    var narg = 0;
     if (!isStatic) {
       var thisConv = TypeConv.get( Context.getLocalType(), pos, "unreal.PExternal");
-      glueExpr << thisConv.haxeToGlue('this', ctx);
-      if (isSetter)
-        glueExpr << ', ';
+      args << ', ' << thisConv.haxeToGlue('this', ctx);
+      glueExpr << '{${narg++}}';
     }
-    var expr = if (isSetter) {
-      (glueExpr << tconv.haxeToGlue('value', ctx)).toString() + ')';
-    } else {
-      tconv.glueToHaxe( glueExpr.toString() + ')', ctx );
+    if (isSetter) {
+      args << ', ' << tconv.haxeToGlue('value', ctx);
+      glueExpr << (narg > 0 ? ', ' : '') << '{${narg++}}';
     }
+
+    glueExpr << ')"' << args << ')';
+
+    // dummy call to make hxcpp include the correct header if needed
+    var expr ='{ $glueType.uhx_dummy_field(); ' +
+      (isSetter ? glueExpr.toString() : tconv.glueToHaxe( glueExpr.toString(), ctx)) + '; }';
 
     Globals.cur.currentFeature = old;
     var ret = Context.parse(expr, pos);
@@ -69,7 +75,8 @@ class DelayedGlue {
   }
 
   macro public static function getSuperExpr(fieldName:String, targetFieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
-    var cls = Context.getLocalClass().get(),
+    var clsRef = Context.getLocalClass(),
+        cls = clsRef.get(),
         pos = Context.currentPos();
     // make sure that the super field was not already defined in haxe code
     var sup = cls.superClass;
@@ -121,10 +128,26 @@ class DelayedGlue {
       return ret;
     }
 
-    var glueExpr = getGlueType_impl(cls, pos);
-    var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
-    if (!fret.haxeType.isVoid())
-      expr = fret.glueToHaxe(expr, null);
+    var glueType = getGlueType(clsRef, pos);
+    var glueExpr = new HelperBuf();
+
+    glueExpr << 'untyped __cpp__("' << glueType.getCppClass() << '::' << fieldName << '(';
+    var idx = 0;
+    glueExpr.mapJoin(fargs, function (_) return '{${idx++}}');
+    glueExpr << ')"';
+    if (fargs.length > 0) {
+      glueExpr << ', ';
+    }
+    glueExpr.mapJoin(fargs, function(arg) return arg.type.haxeToGlue(arg.name, null));
+    glueExpr << ')';
+
+    var expr = glueExpr.toString();
+    if (!fret.haxeType.isVoid()) {
+      expr = '( ' + fret.glueToHaxe(expr, null) + ' : ${fret.haxeType} )';
+    }
+
+    // dummy call to make hxcpp include the correct header if needed
+    block.push(Context.parse(glueType.toString() + '.uhx_dummy_field()', pos));
     block.push(Context.parse(expr, pos));
 
     Globals.cur.currentFeature = old;
@@ -139,7 +162,8 @@ class DelayedGlue {
   }
 
   macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
-    var cls = Context.getLocalClass().get(),
+    var clsRef = Context.getLocalClass(),
+        cls = clsRef.get(),
         pos = Context.currentPos();
     var old = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep'; // these fields will always be kept
@@ -171,10 +195,24 @@ class DelayedGlue {
     if (!isStatic)
       fargs.unshift({ name:'this', type: TypeConv.get(Context.getLocalType(), pos) });
 
-    var glueExpr = getGlueType_impl(cls, pos);
-    var expr = glueExpr + '.' + fieldName + '(' + [ for (arg in fargs) arg.type.haxeToGlue(arg.name, null) ].join(',') + ')';
+    var glueType = getGlueType(clsRef, pos);
+    var glueExpr = new HelperBuf();
+
+    glueExpr << 'untyped __cpp__("' << glueType.getCppClass() << '::' << fieldName << '(';
+    var idx = 0;
+    glueExpr.mapJoin(fargs, function(_) return '{${idx++}}');
+    glueExpr << ')"';
+    if (fargs.length > 0) {
+      glueExpr << ', ';
+    }
+    glueExpr.mapJoin(fargs, function(arg) return arg.type.haxeToGlue(arg.name, null));
+    glueExpr << ')';
+
+    var expr = glueExpr.toString();
     if (!fret.haxeType.isVoid())
       expr = fret.glueToHaxe(expr, null);
+    // dummy call to make hxcpp include the correct header if needed
+    block.push(Context.parse(glueType.toString() + '.uhx_dummy_field()', pos));
     block.push(Context.parse(expr, pos));
 
     Globals.cur.currentFeature = old;
@@ -214,56 +252,74 @@ class DelayedGlue {
     if (field == null) throw new Error('assert: no field $meth on current class ${cl.name}', Context.currentPos());
     field.meta.add(':ugluegenerated', [expr], cl.pos);
   }
-  private static function getGlueType_impl(cls:ClassType, pos:Position) {
+
+  private static function getGlueType(clsRef:Ref<ClassType>, pos:Position) {
+    var cls = clsRef.get();
     var type = TypeRef.fromBaseType(cls, pos);
     var glue = type.getGlueHelperType();
     var path = glue.getClassPath();
     if (!Globals.cur.builtGlueTypes.exists(path)) {
-      var old = Globals.cur.currentFeature;
-      Globals.cur.currentFeature = 'keep'; // these fields will always be kept
-      // This is needed since while building a delayed glue, we may trigger
-      // another macro that will try to build the glue once again (since no glue was built yet)
-      // We must only build the last build call; all others will be built after this one
-      var dglue = new DelayedGlue(cls,pos);
-      Globals.cur.buildingGlueTypes[path] = dglue;
-      dglue.build();
-      if (Globals.cur.buildingGlueTypes[path] == dglue) {
+      // ensure this only runs once
+      Globals.cur.builtGlueTypes[path] = true;
+
+      var meta:Metadata = [
+        { name:':unrealGlue', pos:pos },
+      ];
+      var fields = (macro class {
+        static function uhx_dummy_field():Void;
+      }).fields;
+      Context.defineType({
+        pack: glue.pack,
+        name: glue.name,
+        pos: pos,
+        meta: meta,
+        isExtern: true,
+        kind: TDClass(),
+        fields: fields,
+      });
+
+      var local = Context.getLocalType();
+      // delay the actual processing for after the macro has finished
+      Globals.cur.delays = Globals.cur.delays.add(function() {
+        var old = Globals.cur.currentFeature;
+        Globals.cur.currentFeature = 'keep'; // these fields will always be kept
+
+        var cls = clsRef.get();
+        var dglue = new DelayedGlue(cls,pos,local);
+        dglue.build();
+
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
+        cls.meta.add(':glueHeaderClass', [macro $v{'\t\tstatic void uhx_dummy_field() { }\n'}], cls.pos);
+
         Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(type.getClassPath());
         if (cls.meta.has(':uscript')) {
           Globals.cur.scriptGlues.push(type.getClassPath());
         }
-      }
-      Globals.cur.builtGlueTypes[path] = true;
-      Globals.cur.buildingGlueTypes[path] = null;
-      Globals.cur.currentFeature = old;
+        Globals.cur.currentFeature = old;
+      });
     }
 
-    return path;
+    return glue;
   }
 
   var cls:ClassType;
   var pos:Position;
   var typeRef:TypeRef;
   var thisConv:TypeConv;
-  var buildFields:Array<Field>;
   var firstExternSuper:TypeConv;
   var gluePath:String;
+  var type:Type;
 
-  public function new(cls, pos) {
+  public function new(cls, pos, type) {
     this.cls = cls;
     this.pos = pos;
-  }
-
-  inline private function shouldContinue() {
-    return Globals.cur.buildingGlueTypes[ this.gluePath ] == this;
+    this.type = type;
   }
 
   public function build() {
     var cls = this.cls;
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
-    this.thisConv = TypeConv.get( Context.getLocalType(), this.pos, 'unreal.PExternal' );
-    this.buildFields = [];
+    this.thisConv = TypeConv.get( this.type, this.pos, 'unreal.PExternal' );
     this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
 
     var allSuperFields = new Map();
@@ -287,8 +343,6 @@ class DelayedGlue {
       }
     }
 
-    if (!this.shouldContinue())
-      return;
     // TODO: clean up those references with a better interface
     var uprops = new Map(),
         superCalls = new Map(),
@@ -339,30 +393,19 @@ class DelayedGlue {
       var superField = allSuperFields[scall.name];
       if (superField == null) throw new Error('Unreal Glue Generation: super is called for ' + scall.name + ' but no superclass definition exists', scall.pos);
       this.handleSuperCall(scall, superField);
-      if (!this.shouldContinue())
-        return;
     }
 
     for (ncall in nativeCalls) {
       this.handleNativeCall(ncall.cf, ncall.isStatic);
-      if (!this.shouldContinue())
-        return;
     }
 
     for (uprop in uprops) {
       this.handleProperty(uprop.cf, uprop.isStatic);
-      if (!this.shouldContinue())
-        return;
     }
 
     for (methodPtr in methodPtrs) {
       this.handleMethodPointer(methodPtr);
-      if (!this.shouldContinue())
-        return;
     }
-
-    if (!this.shouldContinue())
-      return;
 
     var glue = this.typeRef.getGlueHelperType();
     var glueHeaderIncludes = new IncludeSet(),
@@ -372,39 +415,20 @@ class DelayedGlue {
     // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
     // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
-    if (glueHeaderIncludes.length > 0 && !cls.meta.has(':glueHeaderIncludes'))
-      cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
-    if (glueCppIncludes.length > 0 && !cls.meta.has(':glueCppIncludes'))
-      cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
-
-    if (!this.shouldContinue())
-      return;
+    cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
+    cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
     if (cls.meta.has(":uhxdelegate")) {
       writeDelegateDefinition(cls);
     } else if (cls.meta.has(":ustruct")) {
       writeStructDefinition(cls);
     }
-    if (!this.shouldContinue())
-      return;
 
     Globals.cur.cachedBuiltTypes.push(glue.getClassPath());
-    var meta:Metadata = [
-      { name:':unrealGlue', pos:this.pos },
-    ];
+
     // unfortunately this is necessary to make sure that our own version with all metadatas is the final one
     // (see haxe's `encode_meta` source code to understand why this is needed)
     cls.meta.add(':dummy',[],cls.pos);
-    Context.defineType({
-      pack: glue.pack,
-      name: glue.name,
-      pos: this.pos,
-      meta: meta,
-      isExtern: true,
-      kind: TDClass(),
-      fields: this.buildFields,
-    });
-    Context.getType(glue.getClassPath());
   }
 
   private function writeStructDefinition(cls:ClassType) {
@@ -613,12 +637,10 @@ class DelayedGlue {
     var type = field.type,
         propTConv = TypeConv.get(type, field.pos);
 
-    var glue = this.typeRef.getGlueHelperType();
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
     var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
     if (uname == null)
       uname = field.name;
+    var gms = [];
     for (mode in ['get','set']) {
       var tconv = propTConv;
       var isStructProp = !propTConv.isUObject && propTConv.ownershipModifier == 'unreal.PStruct';
@@ -626,62 +648,22 @@ class DelayedGlue {
         tconv = TypeConv.get(type, field.pos, 'unreal.PExternal');
       }
 
-      var ret = null;
-      if (mode == 'get') {
-        ret = tconv;
-      } else {
-        ret = TypeConv.get(Context.getType('Void'), field.pos);
-      }
-      headerDef << 'public: static ' << ret.glueType.getCppType() << ' ' << mode << '_' << field.name + '(';
-      cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << mode << '_' << field.name << '(';
-
-      if (!isStatic) {
-        var thisDef = this.thisConv.glueType.getCppType() + ' self';
-        headerDef << thisDef;
-        cppDef << thisDef;
-      }
-
-      if (mode == 'set') {
-        var comma = isStatic ? '' : ', ';
-        headerDef << comma << tconv.glueType.getCppType() << ' value';
-        cppDef << comma << tconv.glueType.getCppType() << ' value';
-      }
-      headerDef << ');\n';
-      cppDef << ') {\n\t';
-
-      var cppBody = new HelperBuf();
-      if (isStatic) {
-        cppBody << this.thisConv.ueType.getCppClass() << '::' << uname;
-      } else {
-        cppBody << this.thisConv.glueToUe('self', null) << '->' << uname;
-      }
-
-      if (mode == 'get')
-        cppDef << 'return ' << tconv.ueToGlue((isStructProp ? '&' : '') + cppBody.toString(), null) << ';\n}\n';
-      else
-        cppDef << cppBody.toString() << ' = ' << tconv.glueToUe('value', null) << ';\n}\n';
-
-      var args:Array<FunctionArg> = if (isStatic)
-        [];
-      else
-        [{ name:'self', type:this.thisConv.haxeGlueType.toComplexType() }];
-      if (mode == 'set')
-        args.push({ name:'value', type:tconv.haxeGlueType.toComplexType() });
-      this.buildFields.push({
+      var gm = new GlueMethod({
         name: mode + '_' + field.name,
-        access: [APublic,AStatic],
-        kind: FFun({
-          args: args,
-          ret: ret.haxeGlueType.toComplexType(),
-          expr: null
-        }),
-        pos:field.pos
-      });
+        uname: uname,
+        args: (mode == 'get' ? [] : [{ name:'value', t:tconv }]),
+        ret: (mode == 'set' ? TypeConv.get(Context.getType('Void'), field.pos) : tconv),
+        flags: Property | Final | HaxePrivate | (isStatic ? Static : None) | (isStructProp ? StructProperty : None),
+        doc: field.doc,
+        meta: null, // this is mostly here to join metadata. We don't need that
+        pos: field.pos
+      }, this.type);
+      gms.push(gm);
     }
-    // add the remaining metadata
-    var allTypes = [this.thisConv, propTConv];
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
-    for (meta in metas) {
+    gms[0].headerCode += '\n\t\t' + gms[1].headerCode;
+    gms[0].cppCode += '\n\t\t' + gms[1].cppCode;
+
+    for (meta in gms[0].getFieldMeta(false)) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
   }
@@ -694,75 +676,25 @@ class DelayedGlue {
     var args = null, ret = null;
     switch( Context.follow(field.type) ) {
       case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, type:TypeConv.get(arg.t, field.pos) } ];
+        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
     }
 
-    var glue = this.typeRef.getGlueHelperType();
-    var externName = field.name;
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
-    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
-    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
-    var thisDef = thisConv.glueType.getCppType() + ' self';
-    if (!isStatic) {
-      headerDef << thisDef;
-      cppDef << thisDef;
-    }
+    var meth = new GlueMethod({
+      name: field.name,
+      uname: uname,
+      args: args,
+      ret: ret,
+      flags: (field.meta.has(':final') ? Final : None) | (isStatic ? Static : None),
+      pos: field.pos
+    }, this.type);
 
-    if (args.length > 0) {
-      var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef << ', ' << argsDef;
-      cppDef << ', ' << argsDef;
-    }
-    headerDef << ');';
-    cppDef << ') {\n\t';
-
-    // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
-    {
-      var cppBody = new HelperBuf();
-      if (uname == "new") {
-        cppBody << "new " << this.thisConv.ueType.getCppClass();
-      } else {
-        if (isStatic)
-          cppBody << this.thisConv.ueType.getCppClass() << '::';
-        else
-          cppBody << this.thisConv.glueToUe('self', null) << '->';
-      }
-      if (uname != "new") {
-        cppBody << uname;
-      }
-      cppBody << '(';
-      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody << ')';
-      if (!ret.haxeType.isVoid())
-        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
-      else
-        cppDef << cppBody << ';\n}';
-    }
-
-    var allTypes = [ for (arg in args) arg.type ];
-    allTypes.push(ret);
-
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    var metas = meth.getFieldMeta();
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
-
-    var selfArg = isStatic ? [] : [{name:'self', type:this.thisConv.haxeGlueType.toComplexType()}];
-
-    this.buildFields.push({
-      name: externName,
-      access: [APublic,AStatic],
-      kind: FFun({
-        args: selfArg.concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
-        ret: ret.haxeGlueType.toComplexType(),
-        expr: null
-      }),
-      pos: field.pos
-    });
   }
 
   private function handleMethodPointer(field:ClassField) {
@@ -787,17 +719,6 @@ class DelayedGlue {
         clsField.meta.add(meta.name, meta.params, meta.pos);
       }
     }
-
-    this.buildFields.push({
-      name: methodName,
-      access: [APublic, AStatic],
-      kind: FFun({
-       args : [],
-       ret : macro :cpp.RawPointer<cpp.Void>,
-       expr :null
-      }),
-      pos: field.pos
-    });
   }
 
   private function handleSuperCall(field:ClassField, superField:ClassField) {
@@ -808,61 +729,24 @@ class DelayedGlue {
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
       case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, type:TypeConv.get(arg.t, field.pos) } ];
+        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
     }
+    var meth = new GlueMethod({
+      name: field.name,
+      uname: uname,
+      args: args,
+      ret: ret,
+      flags: Final | ForceNonVirtual | (superField.isPublic ? None : CppPrivate),
+      pos: field.pos
+    }, this.type, null, null, this.firstExternSuper);
 
-    var glue = this.typeRef.getGlueHelperType();
-    var externName = field.name;
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
-    headerDef << 'static ' << ret.glueType.getCppType() << ' ' << externName << '(';
-    cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << externName << '(';
-    var thisDef = thisConv.glueType.getCppType() + ' self';
-    headerDef << thisDef;
-    cppDef << thisDef;
-
-    if (args.length > 0) {
-      var argsDef = [ for (arg in args) arg.type.glueType.getCppType() + ' ' + arg.name ].join(', ');
-      headerDef << ', ' << argsDef;
-      cppDef << ', ' << argsDef;
-    }
-    headerDef << ');';
-    cppDef << ') {\n\t';
-
-    // CPP signature to call a virtual function non-virtually: ref->::path::to::Type::field(arg1,arg2,...,argn)
-    {
-      var cppBody = new HelperBuf() << this.thisConv.glueToUe('self', null) << '->' << this.firstExternSuper.ueType.getCppClass() << '::' << uname << '(';
-      cppBody.mapJoin(args, function(arg) return arg.type.glueToUe(arg.name, ctx));
-      cppBody << ')';
-      if (!ret.haxeType.isVoid())
-        cppDef << 'return ' << ret.ueToGlue(cppBody.toString(), null) << ';\n}';
-      else
-        cppDef << cppBody << ';\n}';
-    }
-
-    var allTypes = [ for (arg in args) arg.type ];
-    allTypes.push(ret);
-
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
+    var metas = meth.getFieldMeta();
     for (meta in metas) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
-
-    this.buildFields.push({
-      name: externName,
-      access: [APublic,AStatic],
-      kind: FFun({
-        args: [
-            { name: 'self', type: this.thisConv.haxeGlueType.toComplexType() }
-          ].concat([ for (arg in args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ]),
-        ret: ret.haxeGlueType.toComplexType(),
-        expr: null
-      }),
-      pos: field.pos
-    });
   }
 
   private static function getMetaDefinitions(headerDef:String, cppDef:String, allTypes:Array<TypeConv>, pos:Position):Metadata {
