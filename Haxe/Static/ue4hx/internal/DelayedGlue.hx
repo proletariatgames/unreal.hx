@@ -636,12 +636,10 @@ class DelayedGlue {
     var type = field.type,
         propTConv = TypeConv.get(type, field.pos);
 
-    var glue = this.typeRef.getGlueHelperType();
-    var headerDef = new HelperBuf(),
-        cppDef = new HelperBuf();
     var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
     if (uname == null)
       uname = field.name;
+    var gms = [];
     for (mode in ['get','set']) {
       var tconv = propTConv;
       var isStructProp = !propTConv.isUObject && propTConv.ownershipModifier == 'unreal.PStruct';
@@ -649,52 +647,22 @@ class DelayedGlue {
         tconv = TypeConv.get(type, field.pos, 'unreal.PExternal');
       }
 
-      var ret = null;
-      if (mode == 'get') {
-        ret = tconv;
-      } else {
-        ret = TypeConv.get(Context.getType('Void'), field.pos);
-      }
-      headerDef << 'public: static ' << ret.glueType.getCppType() << ' ' << mode << '_' << field.name + '(';
-      cppDef << ret.glueType.getCppType() << ' ' << glue.getCppClass() << '_obj::' << mode << '_' << field.name << '(';
-
-      if (!isStatic) {
-        var thisDef = this.thisConv.glueType.getCppType() + ' self';
-        headerDef << thisDef;
-        cppDef << thisDef;
-      }
-
-      if (mode == 'set') {
-        var comma = isStatic ? '' : ', ';
-        headerDef << comma << tconv.glueType.getCppType() << ' value';
-        cppDef << comma << tconv.glueType.getCppType() << ' value';
-      }
-      headerDef << ');\n';
-      cppDef << ') {\n\t';
-
-      var cppBody = new HelperBuf();
-      if (isStatic) {
-        cppBody << this.thisConv.ueType.getCppClass() << '::' << uname;
-      } else {
-        cppBody << this.thisConv.glueToUe('self', null) << '->' << uname;
-      }
-
-      if (mode == 'get')
-        cppDef << 'return ' << tconv.ueToGlue((isStructProp ? '&' : '') + cppBody.toString(), null) << ';\n}\n';
-      else
-        cppDef << cppBody.toString() << ' = ' << tconv.glueToUe('value', null) << ';\n}\n';
-
-      var args:Array<FunctionArg> = if (isStatic)
-        [];
-      else
-        [{ name:'self', type:this.thisConv.haxeGlueType.toComplexType() }];
-      if (mode == 'set')
-        args.push({ name:'value', type:tconv.haxeGlueType.toComplexType() });
+      var gm = new GlueMethod({
+        name: mode + '_' + field.name,
+        uname: uname,
+        args: (mode == 'get' ? [] : [{ name:'value', t:tconv }]),
+        ret: (mode == 'set' ? TypeConv.get(Context.getType('Void'), field.pos) : tconv),
+        flags: Property | Final | HaxePrivate | (isStatic ? Static : None) | (isStructProp ? StructProperty : None),
+        doc: field.doc,
+        meta: null, // this is mostly here to join metadata. We don't need that
+        pos: field.pos
+      }, this.type, false);
+      gms.push(gm);
     }
-    // add the remaining metadata
-    var allTypes = [this.thisConv, propTConv];
-    var metas = getMetaDefinitions(headerDef.toString(), cppDef.toString(), allTypes, field.pos);
-    for (meta in metas) {
+    gms[0].headerCode += '\n\t\t' + gms[1].headerCode;
+    gms[0].cppCode += '\n\t\t' + gms[1].cppCode;
+
+    for (meta in gms[0].getFieldMeta(false)) {
       field.meta.add(meta.name, meta.params, meta.pos);
     }
   }

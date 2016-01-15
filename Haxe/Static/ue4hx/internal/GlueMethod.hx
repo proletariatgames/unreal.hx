@@ -52,7 +52,7 @@ class GlueMethod {
     this.type = type;
     this.thisConv = TypeConv.get(type,meth.pos,'unreal.PExternal');
     if (glueType == null)
-      glueType = this.thisConv.haxeType.getGlueHelperType();
+      glueType = TypeRef.fromType(type, meth.pos).getGlueHelperType();
     this.glueType = glueType;
     this.cppIncludes = new IncludeSet();
     this.headerIncludes = new IncludeSet();
@@ -416,12 +416,12 @@ class GlueMethod {
     return ident;
   }
 
-  public function getField():{ field:Field, glue:Null<Field> } {
+  public function getFieldMeta(?includeExisting:Bool=false) {
     var meta = null;
-    if (meth.meta == null) {
-      meta = [];
-    } else {
+    if (includeExisting && meth.meta != null) {
       meta = meth.meta.copy();
+    } else {
+      meta = [];
     }
 
     meta.push({ name:':glueCppIncludes', params:[for (inc in this.cppIncludes) macro $v{inc}], pos:meth.pos });
@@ -435,6 +435,12 @@ class GlueMethod {
     if (this.ueHeaderCode != null) {
       meta.push({ name: ':ueHeaderCode', params:[macro $v{this.ueHeaderCode}], pos:meth.pos });
     }
+
+    return meta;
+  }
+
+  public function getField():{ field:Field, glue:Null<Field> } {
+    var meta = getFieldMeta(true);
 
     var glue:Field = null;
     if (!this.templated) {
