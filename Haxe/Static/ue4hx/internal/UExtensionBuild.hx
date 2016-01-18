@@ -531,12 +531,11 @@ class UExtensionBuild {
           meta: metas,
           pos: this.pos
         });
-        var createEmptyExpr = if (isScript) {
-          '' + thisConv.haxeToGlue('std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )', ctx);
-        } else {
-          '' + thisConv.haxeToGlue('std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )', ctx);
-          // 'return ' + thisConv.haxeToGlue('std.Type.createInstance( ${typeRef.getClassPath(true)}, [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
-        }
+        var createEmptyExpr = '{ ' +
+          'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )' + ');' +
+          '@:privateAccess ret.wrapped = ueType;' +
+          '' + thisConv.haxeToGlue('ret', ctx) +';' +
+        '}';
         buildFields.push({
           name: 'createEmptyHaxeWrapper',
           access: [APublic, AStatic],
