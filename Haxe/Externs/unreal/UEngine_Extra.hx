@@ -10,6 +10,8 @@ extern class UEngine_Extra {
 
   public function OnTravelFailure() : PRef<FOnTravelFailure>;
 
+  public function OnNetworkFailure() : PRef<FOnNetworkFailure>;
+
   public var TravelFailureEvent : FOnTravelFailure;
   /**
     Global UEngine
