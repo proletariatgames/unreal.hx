@@ -25,4 +25,8 @@ extern class APlayerController_Extra {
 
   @:thisConst
   public function GetLocalPlayer() : PRef<ULocalPlayer>;
+
+  public function ConsoleCommand(Command:Const<PRef<FString>>, bWriteToLog:Bool) : FString;
+
+  public function AddCheats (bForce:Bool) : Void;
 }

@@ -47,6 +47,8 @@ extern class AGameMode_Extra {
 
   function ShouldSpawnAtStartSpot(player:AController) : Bool;
 
+  function AllowCheats(P:APlayerController) : Bool;
+
   /*
      private function InitNewPlayer(NewPlayerController:APlayerController,
      UniqueId:Const<PRef<TSharedPtr< Const<FUniqueNetId> >>>,
