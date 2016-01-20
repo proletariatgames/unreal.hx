@@ -15,7 +15,6 @@ class NeedsGlueBuild
     #if bake_externs
     return null;
     #end
-    if (Context.defined('display')) return null;
     // check version level
     if (!checkedVersion) {
       Globals.cur.checkBuildVersionLevel();
@@ -45,7 +44,7 @@ class NeedsGlueBuild
         toAdd = [];
 
     var delayedglue = macro ue4hx.internal.DelayedGlue;
-    if (Context.defined('cppia') && !Globals.cur.scriptModules.exists(cls.module)) {
+    if (Context.defined('display') || (Context.defined('cppia') && !Globals.cur.scriptModules.exists(cls.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }

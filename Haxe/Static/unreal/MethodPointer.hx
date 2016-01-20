@@ -9,6 +9,10 @@ private typedef FunctionGetter = #if macro Dynamic #else cpp.Pointer<Dynamic> #e
   @:extern inline public function new(getter:FunctionGetter) this = getter;
 
   public static macro function fromMethod(method:Expr) {
+    if (Context.defined('display')) {
+      return macro null;
+    }
+
     var tmethod = Context.typeExpr(method);
     switch (tmethod.expr) {
     case TField(inst, access):
