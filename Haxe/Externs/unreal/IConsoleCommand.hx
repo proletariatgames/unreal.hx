@@ -1,4 +1,4 @@
 package unreal;
 
 @:glueCppIncludes("IConsoleManager.h")
-@:uextern @:noCopy extern class IConsoleCommand {}
+@:uextern @:noCopy @:noConstruct extern class IConsoleCommand {}
