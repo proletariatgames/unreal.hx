@@ -17,7 +17,7 @@ package unreal;
 /**
   Filtering method for deciding whether to trigger a notify.
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Animation/AnimClassData.h")
 @:uname("ENotifyFilterType.Type")
 @:uextern extern enum ENotifyFilterType {
   

@@ -39,6 +39,11 @@ package unreal.pluginbrowser;
   public var SupportURL : unreal.FString;
   
   /**
+    Marketplace URL string.
+  **/
+  public var MarketplaceURL : unreal.FString;
+  
+  /**
     Documentation URL string.
   **/
   public var DocsURL : unreal.FString;

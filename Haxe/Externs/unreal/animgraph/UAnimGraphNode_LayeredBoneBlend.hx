@@ -22,6 +22,6 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_LayeredBoneBlend.h")
 @:uextern extern class UAnimGraphNode_LayeredBoneBlend extends unreal.animgraph.UAnimGraphNode_BlendListBase {
-  public var Node : unreal.FAnimNode_LayeredBoneBlend;
+  public var Node : unreal.animgraphruntime.FAnimNode_LayeredBoneBlend;
   
 }

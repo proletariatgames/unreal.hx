@@ -44,7 +44,16 @@ package unreal.landscape;
     to determine if we need to re-generate ES2 pixel data.
   **/
   public var MobileDataSourceHash : unreal.FGuid;
+  
+  /**
+    Data texture used for selection mask
+  **/
   public var SelectDataTexture : unreal.UTexture2D;
+  
+  /**
+    List of layers allowed to be painted on this component
+  **/
+  public var LayerWhitelist : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
   
   /**
     LOD level Bias to use when lighting buidling via lightmass, -1 Means automatic LOD calculation based on ForcedLOD + LODBias

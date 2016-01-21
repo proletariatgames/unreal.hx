@@ -22,6 +22,11 @@ package unreal.animgraphruntime;
 @:uextern extern class FAnimNode_Trail extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
+    Base Joint to calculate velocity from. If none, it will use Component's World Transform. .
+  **/
+  public var BaseJoint : unreal.FBoneReference;
+  
+  /**
     Whether 'fake' velocity should be applied in actor or world space.
   **/
   public var bActorSpaceFakeVel : Bool;
@@ -37,14 +42,19 @@ package unreal.animgraphruntime;
   public var StretchLimit : unreal.Float32;
   
   /**
-    How quickly we 'relax' the bones to their animated positions.
-  **/
-  public var TrailRelaxation : unreal.Float32;
-  
-  /**
     Limit the amount that a bone can stretch from its ref-pose length.
   **/
   public var bLimitStretch : Bool;
+  
+  /**
+    How quickly we 'relax' the bones to their animated positions. Time 0 will map to top root joint, time 1 will map to the bottom joint.
+  **/
+  public var TrailRelaxationSpeed : unreal.FRuntimeFloatCurve;
+  
+  /**
+    How quickly we 'relax' the bones to their animated positions. Deprecated. Replaced to TrailRelaxationCurve
+  **/
+  @:deprecated public var TrailRelaxation_DEPRECATED : unreal.Float32;
   
   /**
     Invert the direction specified in ChainBoneAxis.

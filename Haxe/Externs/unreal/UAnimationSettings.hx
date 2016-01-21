@@ -19,15 +19,54 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimationSettings.h")
 @:uextern extern class UAnimationSettings extends unreal.UDeveloperSettings {
+  public var bEnablePerformanceLog : Bool;
+  
+  /**
+    If true, the resampling techniques will be tried
+  **/
   public var bTryIntervalKeyRemoval : Bool;
+  
+  /**
+    If true, the linear key removal techniques will be tried
+  **/
   public var bTryLinearKeyRemovalCompression : Bool;
+  
+  /**
+    If true, the per-track compressor techniques will be tried
+  **/
   public var bTryPerTrackBitwiseCompression : Bool;
+  
+  /**
+    If true, the uniform bitwise techniques will be tried
+  **/
   public var bTryFixedBitwiseCompression : Bool;
+  
+  /**
+    If true and the existing compression error is greater than Alternative Compression Threshold, then Alternative Compression Threshold will be effectively raised to the existing error level
+  **/
   public var bRaiseMaxErrorToExisting : Bool;
+  
+  /**
+    If true, then the animation will be first recompressed with it's current compressor if non-NULL, or with the global default compressor (specified in the engine ini)
+    Also known as "Run Current Default Compressor"
+  **/
   public var bFirstRecompressUsingCurrentOrDefault : Bool;
+  
+  /**
+    If true and the existing compression error is greater than Alternative Compression Threshold, then any compression technique (even one that increases the size) with a lower error will be used until it falls below the threshold
+  **/
   public var bForceBelowThreshold : Bool;
   public var bOnlyCheckForMissingSkeletalMeshes : Bool;
   public var ForceRecompression : Bool;
+  
+  /**
+    The alternate error threshold (0.0 means don't try anything other than the current / default scheme)
+    
+    Determines the current setting for world-space error tolerance in the animation compressor.
+    When requested, animation being compressed will also consider an alternative compression
+    method if the end result of that method produces less error than the AlternativeCompressionThreshold.
+    Also known as "Max End Effector Error"
+  **/
   public var AlternativeCompressionThreshold : unreal.Float32;
   public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
   public var RotationCompressionFormat : unreal.AnimationCompressionFormat;

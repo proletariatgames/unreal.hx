@@ -17,10 +17,10 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  Handles manipulation of audio
+  Handles manipulation of audio.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneAudioTrack.h")
-@:uextern extern class UMovieSceneAudioTrack extends unreal.moviescene.UMovieSceneTrack {
+@:uextern extern class UMovieSceneAudioTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   
 }

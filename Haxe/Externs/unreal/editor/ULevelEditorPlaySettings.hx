@@ -92,7 +92,12 @@ package unreal.editor;
   public var bAutoCompileBlueprintsOnLaunch : Bool;
   
   /**
-    The width of the new view port window in pixels (0 = use the desktop's screen resolution).
+    Which build configuration to use when launching on device.
+  **/
+  public var LaunchConfiguration : unreal.editor.EPlayOnLaunchConfiguration;
+  
+  /**
+    Whether to build the game before launching on device.
   **/
   public var BuildGameBeforeLaunch : unreal.editor.EPlayOnBuildMode;
   

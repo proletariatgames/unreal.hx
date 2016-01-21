@@ -20,6 +20,11 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SplineMeshComponent.h")
 @:uextern extern class USplineMeshComponent extends unreal.UStaticMeshComponent implements unreal.IInterface_CollisionDataProvider {
+  
+  /**
+    Indicates that the mesh needs updating
+  **/
+  public var bMeshDirty : Bool;
   #if WITH_EDITORONLY_DATA
   public var bSelected : Bool;
   #end // WITH_EDITORONLY_DATA
@@ -70,6 +75,11 @@ package unreal;
   public var SplineParams : unreal.FSplineMeshParams;
   
   /**
+    Update the collision and render state on the spline mesh following changes to its geometry
+  **/
+  @:final public function UpdateMesh() : Void;
+  
+  /**
     Get the start position of spline in local space
   **/
   @:thisConst @:final public function GetStartPosition() : unreal.FVector;
@@ -77,7 +87,7 @@ package unreal;
   /**
     Set the start position of spline in local space
   **/
-  @:final public function SetStartPosition(StartPos : unreal.FVector) : Void;
+  @:final public function SetStartPosition(StartPos : unreal.FVector, bUpdateMesh : Bool) : Void;
   
   /**
     Get the start tangent vector of spline in local space
@@ -87,7 +97,7 @@ package unreal;
   /**
     Set the start tangent vector of spline in local space
   **/
-  @:final public function SetStartTangent(StartTangent : unreal.FVector) : Void;
+  @:final public function SetStartTangent(StartTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
   
   /**
     Get the end position of spline in local space
@@ -97,7 +107,7 @@ package unreal;
   /**
     Set the end position of spline in local space
   **/
-  @:final public function SetEndPosition(EndPos : unreal.FVector) : Void;
+  @:final public function SetEndPosition(EndPos : unreal.FVector, bUpdateMesh : Bool) : Void;
   
   /**
     Get the end tangent vector of spline in local space
@@ -107,12 +117,12 @@ package unreal;
   /**
     Set the end tangent vector of spline in local space
   **/
-  @:final public function SetEndTangent(EndTangent : unreal.FVector) : Void;
+  @:final public function SetEndTangent(EndTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
   
   /**
     Set the start and end, position and tangent, all in local space
   **/
-  @:final public function SetStartAndEnd(StartPos : unreal.FVector, StartTangent : unreal.FVector, EndPos : unreal.FVector, EndTangent : unreal.FVector) : Void;
+  @:final public function SetStartAndEnd(StartPos : unreal.FVector, StartTangent : unreal.FVector, EndPos : unreal.FVector, EndTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
   
   /**
     Get the start scaling
@@ -122,7 +132,7 @@ package unreal;
   /**
     Set the start scaling
   **/
-  @:final public function SetStartScale(StartScale : unreal.FVector2D) : Void;
+  @:final public function SetStartScale(StartScale : unreal.FVector2D, bUpdateMesh : Bool) : Void;
   
   /**
     Get the start roll
@@ -132,7 +142,7 @@ package unreal;
   /**
     Set the start roll
   **/
-  @:final public function SetStartRoll(StartRoll : unreal.Float32) : Void;
+  @:final public function SetStartRoll(StartRoll : unreal.Float32, bUpdateMesh : Bool) : Void;
   
   /**
     Get the start offset
@@ -142,7 +152,7 @@ package unreal;
   /**
     Set the start offset
   **/
-  @:final public function SetStartOffset(StartOffset : unreal.FVector2D) : Void;
+  @:final public function SetStartOffset(StartOffset : unreal.FVector2D, bUpdateMesh : Bool) : Void;
   
   /**
     Get the end scaling
@@ -152,7 +162,7 @@ package unreal;
   /**
     Set the end scaling
   **/
-  @:final public function SetEndScale(EndScale : unreal.FVector2D) : Void;
+  @:final public function SetEndScale(EndScale : unreal.FVector2D, bUpdateMesh : Bool) : Void;
   
   /**
     Get the end roll
@@ -162,7 +172,7 @@ package unreal;
   /**
     Set the end roll
   **/
-  @:final public function SetEndRoll(EndRoll : unreal.Float32) : Void;
+  @:final public function SetEndRoll(EndRoll : unreal.Float32, bUpdateMesh : Bool) : Void;
   
   /**
     Get the end offset
@@ -172,7 +182,7 @@ package unreal;
   /**
     Set the end offset
   **/
-  @:final public function SetEndOffset(EndOffset : unreal.FVector2D) : Void;
+  @:final public function SetEndOffset(EndOffset : unreal.FVector2D, bUpdateMesh : Bool) : Void;
   
   /**
     Get the forward axis
@@ -182,7 +192,7 @@ package unreal;
   /**
     Set the forward axis
   **/
-  @:final public function SetForwardAxis(InForwardAxis : unreal.ESplineMeshAxis) : Void;
+  @:final public function SetForwardAxis(InForwardAxis : unreal.ESplineMeshAxis, bUpdateMesh : Bool) : Void;
   
   /**
     Get the spline up direction
@@ -192,7 +202,7 @@ package unreal;
   /**
     Set the spline up direction
   **/
-  @:final public function SetSplineUpDir(InSplineUpDir : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:final public function SetSplineUpDir(InSplineUpDir : unreal.Const<unreal.PRef<unreal.FVector>>, bUpdateMesh : Bool) : Void;
   
   /**
     Get the boundary min
@@ -202,7 +212,7 @@ package unreal;
   /**
     Set the boundary min
   **/
-  @:final public function SetBoundaryMin(InBoundaryMin : unreal.Float32) : Void;
+  @:final public function SetBoundaryMin(InBoundaryMin : unreal.Float32, bUpdateMesh : Bool) : Void;
   
   /**
     Get the boundary max
@@ -212,7 +222,7 @@ package unreal;
   /**
     Set the boundary max
   **/
-  @:final public function SetBoundaryMax(InBoundaryMax : unreal.Float32) : Void;
+  @:final public function SetBoundaryMax(InBoundaryMax : unreal.Float32, bUpdateMesh : Bool) : Void;
   // Interface_CollisionDataProvider interface implementation
   
 }

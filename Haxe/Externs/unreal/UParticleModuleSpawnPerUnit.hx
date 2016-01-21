@@ -15,12 +15,12 @@ package unreal;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
   
 **/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawnPerUnit.h")
-@:noClass @:uextern extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
+@:uextern extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
   
   /**
     If true, ignore the Z-component of the movement

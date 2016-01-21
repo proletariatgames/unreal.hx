@@ -24,6 +24,16 @@ package unreal.aimodule;
   public var TraceData : unreal.aimodule.FEnvTraceData;
   
   /**
+    context offset
+  **/
+  public var CircleCenterZOffset : unreal.aimodule.FAIDataProviderFloatValue;
+  
+  /**
+    ignore tracing into context actors when generating the circle
+  **/
+  public var bIgnoreAnyContextActorsWhenGeneratingCircle : Bool;
+  
+  /**
     context
   **/
   public var CircleCenter : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
@@ -38,6 +48,16 @@ package unreal.aimodule;
     If you generate items on a piece of circle you define direction of Arc cut here
   **/
   public var ArcDirection : unreal.aimodule.FEnvDirection;
+  
+  /**
+    how we are choosing where the points are in the circle
+  **/
+  public var PointOnCircleSpacingMethod : unreal.aimodule.EPointOnCircleSpacingMethod;
+  
+  /**
+    this many items will be generated on a circle
+  **/
+  public var NumberOfPoints : unreal.aimodule.FAIDataProviderIntValue;
   
   /**
     items will be generated on a circle this much apart

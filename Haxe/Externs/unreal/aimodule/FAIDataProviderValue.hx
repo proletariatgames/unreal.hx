@@ -37,9 +37,4 @@ package unreal.aimodule;
   **/
   public var DataBinding : unreal.aimodule.UAIDataProvider;
   
-  /**
-    cached uproperty of provider
-  **/
-  public var CachedProperty : unreal.UProperty;
-  
 }

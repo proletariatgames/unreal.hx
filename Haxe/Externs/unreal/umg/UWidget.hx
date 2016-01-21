@@ -28,11 +28,6 @@ package unreal.umg;
   #if WITH_EDITORONLY_DATA
   
   /**
-    Stores a reference to the asset responsible for this widgets construction.
-  **/
-  public var WidgetGeneratedBy : unreal.UObject;
-  
-  /**
     Stores the design time flag setting if the widget is expanded inside the designer
   **/
   public var bExpandedInDesigner : Bool;

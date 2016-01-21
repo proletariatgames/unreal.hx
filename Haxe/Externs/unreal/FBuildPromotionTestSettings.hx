@@ -33,11 +33,6 @@ package unreal;
   public var NewProjectSettings : unreal.FBuildPromotionNewProjectSettings;
   
   /**
-    Blueprint settings *
-  **/
-  public var BlueprintSettings : unreal.FBuildPromotionBlueprintSettings;
-  
-  /**
     Open assets settings *
   **/
   public var OpenAssets : unreal.FBuildPromotionOpenAssetSettings;

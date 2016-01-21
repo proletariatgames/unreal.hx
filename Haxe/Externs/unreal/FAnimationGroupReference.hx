@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("AnimGraphNode_SequencePlayer.h")
+@:glueCppIncludes("AnimGraphNode_AssetPlayerBase.h")
 @:noCopy @:noEquals @:uextern extern class FAnimationGroupReference {
   
   /**

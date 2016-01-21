@@ -15,7 +15,7 @@ package unreal;
 
 
 /**
-  Enum to indicate extrapolation option.
+  Enumerates extrapolation options.
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
 @:uname("ERichCurveExtrapolation")
@@ -25,5 +25,6 @@ package unreal;
   RCCE_Oscillate;
   RCCE_Linear;
   RCCE_Constant;
+  RCCE_None;
   
 }

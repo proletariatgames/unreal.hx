@@ -17,9 +17,14 @@ package unreal;
 @:uextern extern class UAvoidanceManager extends unreal.UObject {
   
   /**
-    Test against obstacles within given height difference from moving agent
+    Allowable height margin between obstacles and agents. This is over and above the difference in agent heights.
   **/
-  public var TestHeightDifference : unreal.Float32;
+  public var HeightCheckMargin : unreal.Float32;
+  
+  /**
+    Deprecated - use HeightCheckMargin, generally a much smaller value.
+  **/
+  @:deprecated public var TestHeightDifference_DEPRECATED : unreal.Float32;
   
   /**
     Multiply the radius of all STORED avoidance objects by this value to allow a little extra room for avoidance maneuvers.

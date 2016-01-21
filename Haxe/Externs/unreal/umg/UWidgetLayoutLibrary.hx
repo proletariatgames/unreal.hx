@@ -46,6 +46,12 @@ package unreal.umg;
   static public function GetMousePositionScaledByDPI(Player : unreal.APlayerController, LocationX : unreal.Float32, LocationY : unreal.Float32) : Bool;
   
   /**
+    Gets the slot object on the child widget as a Border Slot, allowing you to manipulate layout information.
+    @param Widget The child widget of a border panel.
+  **/
+  static public function SlotAsBorderSlot(Widget : unreal.umg.UWidget) : unreal.umg.UBorderSlot;
+  
+  /**
     Gets the slot object on the child widget as a Canvas Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a canvas panel.
   **/

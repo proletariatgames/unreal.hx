@@ -24,17 +24,17 @@ package unreal.editor;
 @:noCopy @:noEquals @:uextern extern class FAutoReimportDirectoryConfig {
   
   /**
-    A set of wildcard filters to apply to this directory
+    (Optional) Specify a set of wildcards to include or exclude files from this auto-reimporter.
   **/
   public var Wildcards : unreal.TArray<unreal.editor.FAutoReimportWildcard>;
   
   /**
-    Where SourceDirectory points to an ordinary file system path, MountPoint specifies the virtual mounted location to import new files to.
+    (Optional) Specify a virtual mout point (e.g. /Game/) to map this directory to on disk. Doing so allows auto-creation of assets when a source content file is created in this folder (see below).
   **/
   public var MountPoint : unreal.FString;
   
   /**
-    The source directory to monitor. Either an absolute directory on the file system, or a virtual mounted path
+    Path to a virtual package path (eg /Game/ or /MyPlugin/), or absolute paths on disk where your source content files reside.
   **/
   public var SourceDirectory : unreal.FString;
   

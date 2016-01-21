@@ -20,10 +20,7 @@ package unreal.aimodule;
   Linear;
   Square;
   InverseLinear;
-  
-  /**
-    For now...
-  **/
+  SquareRoot;
   Constant;
   
 }

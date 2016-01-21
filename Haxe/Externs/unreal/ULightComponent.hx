@@ -91,6 +91,12 @@ package unreal;
   public var LightFunctionMaterial : unreal.UMaterialInterface;
   
   /**
+    Channels that this light should affect.
+    These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
+  **/
+  public var LightingChannels : unreal.FLightingChannels;
+  
+  /**
     Whether the light should be injected into the Light Propagation Volume
   **/
   public var bAffectDynamicIndirectLighting : Bool;
@@ -125,11 +131,6 @@ package unreal;
     Min roughness effective for this light. Used for softening specular highlights.
   **/
   public var MinRoughness : unreal.Float32;
-  
-  /**
-    Radius of light source shape. Moved to point light
-  **/
-  @:deprecated public var SourceRadius_DEPRECATED : unreal.Float32;
   
   /**
     Shadow map channel which is used to match up with the appropriate static shadowing during a deferred shading pass.

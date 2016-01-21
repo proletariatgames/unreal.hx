@@ -21,11 +21,19 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_RunEQSQuery.h")
 @:uextern extern class UBTTask_RunEQSQuery extends unreal.aimodule.UBTTask_BlackboardBase {
+  public var EQSRequest : unreal.aimodule.FEQSParametrizedQueryExecutionRequest;
+  public var bUseBBKey : Bool;
+  
+  /**
+    blackboard key storing an EQS query template
+  **/
+  public var EQSQueryBlackboardKey : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     determines which item will be stored (All = only first matching)
   **/
   public var RunMode : unreal.aimodule.EEnvQueryRunMode;
+  public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
   
   /**
     optional parameters for query

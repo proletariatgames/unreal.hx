@@ -24,6 +24,11 @@ package unreal.blueprintgraph;
 @:uextern extern class UK2Node_FunctionEntry extends unreal.blueprintgraph.UK2Node_FunctionTerminator {
   
   /**
+    Any extra flags that the function may need
+  **/
+  private var ExtraFlags : unreal.Int32;
+  
+  /**
     Whether or not to enforce const-correctness for const function overrides
   **/
   public var bEnforceConstCorrectness : Bool;
@@ -37,11 +42,6 @@ package unreal.blueprintgraph;
     Function metadata
   **/
   public var MetaData : unreal.blueprintgraph.FKismetUserDeclaredFunctionMetadata;
-  
-  /**
-    Any extra flags that the function may need
-  **/
-  public var ExtraFlags : unreal.Int32;
   
   /**
     If specified, the function that is created for this entry point will have this name.  Otherwise, it will have the function signature's name

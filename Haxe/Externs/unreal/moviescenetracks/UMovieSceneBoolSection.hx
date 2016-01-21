@@ -23,4 +23,9 @@ package unreal.moviescenetracks;
 @:glueCppIncludes("Sections/MovieSceneBoolSection.h")
 @:uextern extern class UMovieSceneBoolSection extends unreal.moviescene.UMovieSceneSection {
   
+  /**
+    The default value to use when no keys are present
+  **/
+  public var DefaultValue : Bool;
+  
 }

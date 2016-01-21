@@ -20,9 +20,9 @@ package unreal.umg;
   for manual layout, but bad when you want to procedurally just generate widgets and place them in a
   container (unless you want absolute layout).
   
-  ● Many Children
-  ● Absolute Layout
-  ● Anchors
+  * Many Children
+  * Absolute Layout
+  * Anchors
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

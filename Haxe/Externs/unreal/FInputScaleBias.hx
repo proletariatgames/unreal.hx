@@ -17,7 +17,7 @@ package unreal;
 /**
   Input scaling struct
 **/
-@:glueCppIncludes("AnimPreviewInstance.h")
+@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
 @:uextern extern class FInputScaleBias {
   public var Bias : unreal.Float32;
   public var Scale : unreal.Float32;

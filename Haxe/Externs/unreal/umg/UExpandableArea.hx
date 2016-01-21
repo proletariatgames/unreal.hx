@@ -19,12 +19,16 @@ package unreal.umg;
   private var BodyContent : unreal.umg.UWidget;
   private var HeaderContent : unreal.umg.UWidget;
   public var AreaPadding : unreal.slatecore.FMargin;
+  public var HeaderPadding : unreal.slatecore.FMargin;
   
   /**
     The maximum height of the area
   **/
   public var MaxHeight : unreal.Float32;
   public var bIsExpanded : Bool;
+  public var BorderColor : unreal.slatecore.FSlateColor;
+  public var BorderBrush : unreal.slatecore.FSlateBrush;
+  public var Style : unreal.slatecore.FExpandableAreaStyle;
   @:thisConst @:final public function GetIsExpanded() : Bool;
   @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
   // NamedSlotInterface interface implementation

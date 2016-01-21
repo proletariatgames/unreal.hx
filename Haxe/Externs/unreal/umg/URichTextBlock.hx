@@ -17,33 +17,13 @@ package unreal.umg;
 /**
   The rich text block
   
-  ● Fancy Text
-  ● No Children
+  * Fancy Text
+  * No Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class URichTextBlock extends unreal.umg.UWidget {
+@:uextern extern class URichTextBlock extends unreal.umg.UTextLayoutWidget {
   private var Decorators : unreal.TArray<unreal.umg.URichTextBlockDecorator>;
-  
-  /**
-    The amount to scale each lines height by.
-  **/
-  private var LineHeightPercentage : unreal.Float32;
-  
-  /**
-    The amount of blank space left around the edges of text area.
-  **/
-  private var Margin : unreal.slatecore.FMargin;
-  
-  /**
-    Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
-  **/
-  private var WrapTextAt : unreal.Float32;
-  
-  /**
-    How the text should be aligned with the margin.
-  **/
-  private var Justification : unreal.slate.ETextJustify;
   
   /**
     The default color for the text.

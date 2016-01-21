@@ -21,7 +21,12 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern extern class FSkeletalMeshOptimizationSettings {
-  public var BonesToRemove : unreal.TArray<unreal.FBoneReference>;
+  
+  /**
+    Maximum number of bones that can be assigned to each vertex.
+  **/
+  public var BaseLOD : unreal.Int32;
+  @:deprecated public var BonesToRemove_DEPRECATED : unreal.TArray<unreal.FBoneReference>;
   
   /**
     Maximum number of bones that can be assigned to each vertex.

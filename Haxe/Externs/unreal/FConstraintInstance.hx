@@ -212,7 +212,7 @@ package unreal;
   public var bLinearLimitSoft : Bool;
   
   /**
-    The limiting extent in world untis of the linear motion for limitied motion axes.
+    The limiting extent in world units of the linear motion for limited motion axes.
   **/
   public var LinearLimitSize : unreal.Float32;
   

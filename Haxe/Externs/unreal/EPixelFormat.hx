@@ -68,7 +68,7 @@ package unreal;
   PF_BC5;
   
   /**
-    SNORM red, green (-1..1).
+    SNORM red, green (-1..1). Not supported on all RHI e.g. Metal
   **/
   PF_V8U8;
   PF_A1;

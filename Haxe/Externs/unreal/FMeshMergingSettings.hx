@@ -25,32 +25,43 @@ package unreal;
   /**
     Merged material texture atlas resolution
   **/
-  public var MergedMaterialAtlasResolution : unreal.Int32;
+  @:deprecated public var MergedMaterialAtlasResolution_DEPRECATED : unreal.Int32;
   
   /**
     Whether to export specular maps for material merging
   **/
-  public var bExportSpecularMap : Bool;
+  @:deprecated public var bExportSpecularMap_DEPRECATED : Bool;
   
   /**
     Whether to export roughness maps for material merging
   **/
-  public var bExportRoughnessMap : Bool;
+  @:deprecated public var bExportRoughnessMap_DEPRECATED : Bool;
   
   /**
     Whether to export metallic maps for material merging
   **/
-  public var bExportMetallicMap : Bool;
+  @:deprecated public var bExportMetallicMap_DEPRECATED : Bool;
   
   /**
     Whether to export normal maps for material merging
   **/
-  public var bExportNormalMap : Bool;
+  @:deprecated public var bExportNormalMap_DEPRECATED : Bool;
+  public var bBakeVertexData : Bool;
+  
+  /**
+    Material simplification
+  **/
+  public var MaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Whether to merge source materials into one flat material
   **/
   public var bMergeMaterials : Bool;
+  
+  /**
+    Whether to merge physics data (collision primitives)
+  **/
+  public var bMergePhysicsData : Bool;
   
   /**
     Whether merged mesh should have pivot at world origin, or at first merged component otherwise
@@ -60,7 +71,7 @@ package unreal;
   /**
     Whether we should import vertex colors into merged mesh
   **/
-  public var bImportVertexColors : Bool;
+  @:deprecated public var bImportVertexColors_DEPRECATED : Bool;
   
   /**
     Target lightmap resolution

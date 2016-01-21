@@ -30,6 +30,11 @@ package unreal.gameplayabilities;
   public var SourceObject : unreal.UObject;
   public var RemovalPolicy : unreal.gameplayabilities.EGameplayEffectGrantedAbilityRemovePolicy;
   public var InputID : unreal.Int32;
+  public var LevelScalableFloat : unreal.gameplayabilities.FScalableFloat;
+  
+  /**
+    Deprecated for LevelScalableFloat
+  **/
   public var Level : unreal.Int32;
   public var Ability : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
   

@@ -24,7 +24,7 @@ package unreal.localization;
 @:noCopy @:noEquals @:uextern extern class FGatherTextFromMetaDataConfiguration {
   
   /**
-    If enable, data that is specified as editor-only may be processed for gathering.
+    If enabled, data that is specified as editor-only may be processed for gathering.
   **/
   public var ShouldGatherFromEditorOnlyData : Bool;
   

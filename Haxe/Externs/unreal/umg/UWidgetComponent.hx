@@ -28,7 +28,8 @@ package unreal.umg;
   @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
   
   /**
-    Sets the widget to use directly.
+    Sets the widget to use directly. This function will keep track of the widget till the next time it's called
+        with either a newer widget or a nullptr
   **/
   @:final public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
   

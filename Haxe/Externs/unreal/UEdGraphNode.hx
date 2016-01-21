@@ -17,9 +17,14 @@ package unreal;
 @:uextern extern class UEdGraphNode extends unreal.UObject {
   
   /**
-    FALSE if the node is a disabled, which eliminates it from being compiled
+    Indicates whether or not the user explicitly set the enabled state
   **/
-  public var bIsNodeEnabled : Bool;
+  public var bUserSetEnabledState : Bool;
+  
+  /**
+    Indicates in what state the node is enabled, which may eliminate it from being compiled
+  **/
+  public var EnabledState : unreal.ENodeEnabledState;
   
   /**
     Enum to indicate if a node has advanced-display-pins, and if they are shown

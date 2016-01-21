@@ -22,6 +22,11 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeLayerInfoObject.h")
 @:uextern extern class ULandscapeLayerInfoObject extends unreal.UObject {
+  
+  /**
+    The color to use for layer usage debug
+  **/
+  public var LayerUsageDebugColor : unreal.FLinearColor;
   #if WITH_EDITORONLY_DATA
   public var bNoWeightBlend : Bool;
   #end // WITH_EDITORONLY_DATA

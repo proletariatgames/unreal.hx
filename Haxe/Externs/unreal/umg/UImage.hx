@@ -17,7 +17,7 @@ package unreal.umg;
 /**
   The image widget allows you to display a Slate Brush, or texture or material in the UI.
   
-  ● No Children
+  * No Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

@@ -140,6 +140,11 @@ package unreal;
   public var D3D11TessellationMode : unreal.EMaterialTessellationMode;
   
   /**
+    Enables high quality reflections in the forward renderer. Enabling this setting reduces the number of samplers available to the material as two more samplers will be used for reflection cubemaps.
+  **/
+  public var bUseHQForwardReflections : Bool;
+  
+  /**
     Use lightmap directionality and per pixel normals. If disabled, lighting from lightmaps will be flat but cheaper.
   **/
   public var bUseLightmapDirectionality : Bool;
@@ -327,6 +332,11 @@ package unreal;
     Number of customized UV inputs to display.  Unconnected customized UV inputs will just pass through the vertex UVs.
   **/
   public var NumCustomizedUVs : unreal.Int32;
+  
+  /**
+    Dither opacity mask. When combined with Temporal AA this can be used as a form of limited translucency which supports all lighting features.
+  **/
+  public var DitherOpacityMask : Bool;
   
   /**
     Whether the material should support a dithered LOD transition when used with the foliage system.

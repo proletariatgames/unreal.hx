@@ -20,6 +20,11 @@ package unreal;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    If this Generated Class has instrumentation
+  **/
+  public var bHasInstrumentation : Bool;
+  
+  /**
     This is a list of event graph call function nodes that are simple (no argument) thunks into the event graph (typically used for animation delegates, etc...)
     It is a deprecated list only used for backwards compatibility prior to VER_UE4_SERIALIZE_BLUEPRINT_EVENTGRAPH_FASTCALLS_IN_UFUNCTION.
   **/

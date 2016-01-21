@@ -63,12 +63,19 @@ package unreal;
   public var ServerConnection : unreal.UNetConnection;
   
   /**
-    @todo document
+    If true, ignore timeouts completely.  Should be used only in development
+  **/
+  public var bNoTimeouts : Bool;
+  
+  /**
+    Amount of time to wait before considering an established connection timed out.
+    Typically shorter than the time to wait on a new connection because this connection
+    should already have been setup and any interruption should be trapped quicker.
   **/
   public var ConnectionTimeout : unreal.Float32;
   
   /**
-    @todo document
+    Amount of time to wait for a new net connection to be established before destroying the connection
   **/
   public var InitialConnectTimeout : unreal.Float32;
   

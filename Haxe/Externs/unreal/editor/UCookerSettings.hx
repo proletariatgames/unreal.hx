@@ -35,6 +35,17 @@ package unreal.editor;
     Quality of 0 means fastest, 4 means best quality
   **/
   public var DefaultPVRTCQuality : unreal.Int32;
+  
+  /**
+    Whether or not to compile Blueprints in development mode when cooking.
+  **/
+  public var bCompileBlueprintsInDevelopmentMode : Bool;
+  
+  /**
+    Enable -iterate for launch on
+  **/
+  public var bIterativeCookingForLaunchOn : Bool;
+  public var bEnableBuildDDCInBackground : Bool;
   public var bEnableCookOnTheSide : Bool;
   
 }

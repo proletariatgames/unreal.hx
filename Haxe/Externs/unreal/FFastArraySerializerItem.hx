@@ -21,6 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("AbilitySystemComponent.h")
 @:noCopy @:noEquals @:uextern extern class FFastArraySerializerItem {
+  public var MostRecentArrayReplicationKey : unreal.Int32;
   public var ReplicationKey : unreal.Int32;
   public var ReplicationID : unreal.Int32;
   

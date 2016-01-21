@@ -63,7 +63,7 @@ package unreal;
   /**
     Module<SINGULAR> used for emitter type "extension".
   **/
-  public var TypeDataModule : unreal.UParticleModule;
+  public var TypeDataModule : unreal.UParticleModuleTypeDataBase;
   
   /**
     An array of particle modules that contain the adjusted data for the LOD level

@@ -39,12 +39,23 @@ package unreal.editor;
     Directories containing .uasset files that should always be cooked regardless of whether they're referenced by anything in your project
     Note: These paths are relative to your project Content directory
   **/
+  public var DirectoriesToNeverCook : unreal.TArray<unreal.FDirectoryPath>;
+  
+  /**
+    Directories containing .uasset files that should always be cooked regardless of whether they're referenced by anything in your project
+    Note: These paths are relative to your project Content directory
+  **/
   public var DirectoriesToAlwaysCook : unreal.TArray<unreal.FDirectoryPath>;
   
   /**
     List of maps to include when no other map list is specified on commandline
   **/
   public var MapsToCook : unreal.TArray<unreal.FFilePath>;
+  
+  /**
+    Skip editor content
+  **/
+  public var bSkipEditorContent : Bool;
   
   /**
     Create compressed cooked packages (decreased deployment size)
@@ -103,6 +114,12 @@ package unreal.editor;
   public var bBuildHttpChunkInstallData : Bool;
   
   /**
+    Normally during chunk generation all dependencies of a package in a chunk will be pulled into that package's chunk.
+    If this is enabled then only hard dependencies are pulled in. Soft dependencies stay in their original chunk.
+  **/
+  public var bChunkHardReferencesOnly : Bool;
+  
+  /**
     If enabled, will generate pak file chunks.  Assets can be assigned to chunks in the editor or via a delegate (See ShooterGameDelegates.cpp).
     Can be used for streaming installs (PS4 Playgo, XboxOne Streaming Install, etc)
   **/
@@ -112,6 +129,11 @@ package unreal.editor;
     If enabled, all content will be put into a single .pak file instead of many individual files (default = enabled).
   **/
   public var UsePakFile : Bool;
+  
+  /**
+    If enabled, then the project's Blueprint assets (including structs and enums) will be intermediately converted into C++ and used in the packaged project (in place of the .uasset files).
+  **/
+  public var bNativizeBlueprintAssets : Bool;
   
   /**
     If enabled, debug files will be included in the packaged game

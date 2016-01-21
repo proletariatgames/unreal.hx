@@ -124,7 +124,7 @@ package unreal.gameplayabilities;
     
     @return Count of the specified source effect
   **/
-  @:final public function GetGameplayEffectCount(SourceGameplayEffect : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, OptionalInstigatorFilterComponent : unreal.gameplayabilities.UAbilitySystemComponent) : unreal.Int32;
+  @:final public function GetGameplayEffectCount(SourceGameplayEffect : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, OptionalInstigatorFilterComponent : unreal.gameplayabilities.UAbilitySystemComponent, bEnforceOnGoingCheck : Bool) : unreal.Int32;
   
   /**
     Updates the level of an already applied gameplay effect. The intention is that this is 'seemless' and doesnt behave like removing/reapplying
@@ -140,7 +140,26 @@ package unreal.gameplayabilities;
   @:final public function K2_ApplyGameplayEffectToTarget(GameplayEffect : unreal.gameplayabilities.UGameplayEffect, Target : unreal.gameplayabilities.UAbilitySystemComponent, Level : unreal.Float32, Context : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   @:final public function BP_ApplyGameplayEffectToSelf(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32, EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   @:final public function K2_ApplyGameplayEffectToSelf(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32, EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  
+  /**
+    Removes all active effects that contain any of the tags in Tags
+  **/
   @:final public function RemoveActiveEffectsWithTags(Tags : unreal.gameplaytags.FGameplayTagContainer) : Void;
+  
+  /**
+    Removes all active effects with captured source tags that contain any of the tags in Tags
+  **/
+  @:final public function RemoveActiveEffectsWithSourceTags(Tags : unreal.gameplaytags.FGameplayTagContainer) : Void;
+  
+  /**
+    Removes all active effects that apply any of the tags in Tags
+  **/
+  @:final public function RemoveActiveEffectsWithAppliedTags(Tags : unreal.gameplaytags.FGameplayTagContainer) : Void;
+  
+  /**
+    Removes all active effects that grant any of the tags in Tags
+  **/
+  @:final public function RemoveActiveEffectsWithGrantedTags(Tags : unreal.gameplaytags.FGameplayTagContainer) : Void;
   
   /**
     Do not call these functions directly, call the wrappers on GameplayCueManager instead
@@ -169,6 +188,8 @@ package unreal.gameplayabilities;
     If bAllowRemoteActivation is true, it will remotely activate local/server abilities, if false it will only try to locally activate the ability
   **/
   @:final public function TryActivateAbilityByClass(InAbilityToActivate : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>, bAllowRemoteActivation : Bool) : Bool;
+  public function ServerPrintDebug_Request() : Void;
+  public function ClientPrintDebug_Response(Strings : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : Void;
   @:final private function OnRep_ActivateAbilities() : Void;
   private function ServerTryActivateAbility(AbilityToActivate : unreal.gameplayabilities.FGameplayAbilitySpecHandle, InputPressed : Bool, PredictionKey : unreal.gameplayabilities.FPredictionKey) : Void;
   private function ServerTryActivateAbilityWithEventData(AbilityToActivate : unreal.gameplayabilities.FGameplayAbilitySpecHandle, InputPressed : Bool, PredictionKey : unreal.gameplayabilities.FPredictionKey, TriggerEventData : unreal.gameplayabilities.FGameplayEventData) : Void;
@@ -221,7 +242,12 @@ package unreal.gameplayabilities;
   public function ServerSetReplicatedEvent(EventType : unreal.gameplayabilities.EAbilityGenericReplicatedEvent, AbilityHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle, AbilityOriginalPredictionKey : unreal.gameplayabilities.FPredictionKey, CurrentPredictionKey : unreal.gameplayabilities.FPredictionKey) : Void;
   
   /**
-    Replicates the Generic Replicated Event to the server.
+    Replicates the Generic Replicated Event to the server with payload.
+  **/
+  public function ServerSetReplicatedEventWithPayload(EventType : unreal.gameplayabilities.EAbilityGenericReplicatedEvent, AbilityHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle, AbilityOriginalPredictionKey : unreal.gameplayabilities.FPredictionKey, CurrentPredictionKey : unreal.gameplayabilities.FPredictionKey, VectorPayload : unreal.FVector_NetQuantize100) : Void;
+  
+  /**
+    Replicates the Generic Replicated Event to the client.
   **/
   public function ClientSetReplicatedEvent(EventType : unreal.gameplayabilities.EAbilityGenericReplicatedEvent, AbilityHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle, AbilityOriginalPredictionKey : unreal.gameplayabilities.FPredictionKey) : Void;
   public function ServerSetReplicatedTargetData(AbilityHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle, AbilityOriginalPredictionKey : unreal.gameplayabilities.FPredictionKey, ReplicatedTargetDataHandle : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, ApplicationTag : unreal.gameplaytags.FGameplayTag, CurrentPredictionKey : unreal.gameplayabilities.FPredictionKey) : Void;

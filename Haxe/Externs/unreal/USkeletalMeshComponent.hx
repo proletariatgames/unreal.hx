@@ -207,6 +207,7 @@ package unreal;
   /**
     The AnimBlueprint class to use. Use 'SetAnimInstanceClass' to change at runtime.
   **/
+  public var AnimClass : unreal.TSubclassOf<unreal.UAnimInstance>;
   public var AnimBlueprintGeneratedClass : unreal.UAnimBlueprintGeneratedClass;
   #if WITH_EDITORONLY_DATA
   
@@ -354,6 +355,33 @@ package unreal;
     Set Angular Drive motors params for all constraint instances
   **/
   @:final public function SetAllMotorsAngularDriveParams(InSpring : unreal.Float32, InDamping : unreal.Float32, InForceLimit : unreal.Float32, bSkipCustomPhysicsType : Bool) : Void;
+  
+  /**
+    Break a constraint off a Gore mesh.
+    
+    @param       Impulse vector of impulse
+    @param       HitLocation     location of the hit
+    @param       InBoneName      Name of bone to break constraint for
+  **/
+  @:final public function BreakConstraint(Impulse : unreal.FVector, HitLocation : unreal.FVector, InBoneName : unreal.FName) : Void;
+  
+  /**
+    Sets the Angular Motion Ranges for a named bone
+    @param InBoneName  Name of bone to adjust constraint ranges for
+    @param Swing1LimitAngle       Size of limit in degrees, 0 means locked, 180 means free
+    @param TwistLimitAngle        Size of limit in degrees, 0 means locked, 180 means free
+    @param Swing2LimitAngle       Size of limit in degrees, 0 means locked, 180 means free
+  **/
+  @:final public function SetAngularLimits(InBoneName : unreal.FName, Swing1LimitAngle : unreal.Float32, TwistLimitAngle : unreal.Float32, Swing2LimitAngle : unreal.Float32) : Void;
+  
+  /**
+    Gets the current Angular state for a named bone constraint
+    @param InBoneName  Name of bone to get constraint ranges for
+    @param Swing1Angle current angular state of the constraint
+    @param TwistAngle  current angular state of the constraint
+    @param Swing2Angle current angular state of the constraint
+  **/
+  @:final public function GetCurrentJointAngles(InBoneName : unreal.FName, Swing1Angle : unreal.Float32, TwistAngle : unreal.Float32, Swing2Angle : unreal.Float32) : Void;
   // Interface_CollisionDataProvider interface implementation
   
 }

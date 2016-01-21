@@ -31,6 +31,21 @@ package unreal.niagara;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    Contains various usage information for this script.
+  **/
+  public var Usage : unreal.niagara.FNiagaraScriptUsageInfo;
+  
+  /**
+    Information about the events this script generates and which variables are written.
+  **/
+  public var EventGenerators : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
+  
+  /**
+    Information about the events this script receives and which variables are accessed.
+  **/
+  public var EventReceivers : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
+  
+  /**
     Attributes used by this script.
   **/
   public var Attributes : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;

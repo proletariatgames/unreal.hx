@@ -22,6 +22,7 @@ package unreal.blueprintgraph;
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_GetClassDefaults.h")
 @:noCopy @:noEquals @:uextern extern class FOptionalPinFromProperty {
+  public var bHasOverridePin : Bool;
   public var CategoryName : unreal.FName;
   public var bPropertyIsCustomized : Bool;
   public var bCanToggleVisibility : Bool;

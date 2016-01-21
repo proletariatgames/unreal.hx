@@ -66,11 +66,6 @@ package unreal;
   public var ViewPitchMin : unreal.Float32;
   
   /**
-    True if camera's orientation should be updated by most recent HMD orientation.
-  **/
-  public var bFollowHmdOrientation : Bool;
-  
-  /**
     True if server will use camera positions replicated from the client instead of calculating them locally.
   **/
   public var bUseClientSideCameraUpdates : Bool;

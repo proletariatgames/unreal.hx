@@ -22,6 +22,6 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_SequenceEvaluator.h")
 @:uextern extern class UAnimGraphNode_SequenceEvaluator extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
-  public var Node : unreal.FAnimNode_SequenceEvaluator;
+  public var Node : unreal.animgraphruntime.FAnimNode_SequenceEvaluator;
   
 }

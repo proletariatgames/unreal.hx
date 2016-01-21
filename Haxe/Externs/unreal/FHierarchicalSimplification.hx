@@ -17,16 +17,6 @@ package unreal;
 @:uextern extern class FHierarchicalSimplification {
   
   /**
-    Merge Mesh Setting if bSimplifyMesh is false
-  **/
-  public var MergeSetting : unreal.FMeshMergingSettings;
-  
-  /**
-    Simplification Setting if bSimplifyMesh is true
-  **/
-  public var ProxySetting : unreal.FMeshProxySettings;
-  
-  /**
     Min number of actors to build LODActor
   **/
   public var MinNumberOfActorsToBuild : unreal.Int32;
@@ -42,9 +32,14 @@ package unreal;
   public var DesiredBoundRadius : unreal.Float32;
   
   /**
-    Draw Distance for this LOD actor to display. Once one of parent displays, it won't draw any of children.
+    Merge Mesh Setting if bSimplifyMesh is false
   **/
-  public var DrawDistance : unreal.Float32;
+  public var MergeSetting : unreal.FMeshMergingSettings;
+  
+  /**
+    Simplification Setting if bSimplifyMesh is true
+  **/
+  public var ProxySetting : unreal.FMeshProxySettings;
   
   /**
     If this is true, it will simplify mesh but it is slower.
@@ -53,5 +48,10 @@ package unreal;
     If you merge material, it will reduce drawcalls.
   **/
   public var bSimplifyMesh : Bool;
+  
+  /**
+    The screen radius an mesh object should reach before swapping to the LOD actor, once one of parent displays, it won't draw any of children.
+  **/
+  public var TransitionScreenSize : unreal.Float32;
   
 }

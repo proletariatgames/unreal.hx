@@ -13,12 +13,6 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("PhysicsEngine/DestructibleActor.h")
 @:uextern extern class ADestructibleActor extends unreal.AActor {
   public var bAffectNavigation : Bool;

@@ -22,9 +22,9 @@ package unreal;
 @:uextern extern enum TextureCompressionSettings {
   
   /**
-    Default (DXT1/5, BC1/5 on DX11)
+    Default (DXT1/5, BC1/3 on DX11)
   **/
-  @DisplayName("Default (DXT1/5, BC1/5 on DX11)")
+  @DisplayName("Default (DXT1/5, BC1/3 on DX11)")
   TC_Default;
   
   /**

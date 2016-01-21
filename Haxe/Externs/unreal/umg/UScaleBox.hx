@@ -19,12 +19,17 @@ package unreal.umg;
   you needed to have a background image scale to fill an area but not become distorted with different aspect ratios, or if you need
   to auto fit some text to an area, this is the control for you.
   
-  ● Single Child
-  ● Aspect Ratio
+  * Single Child
+  * Aspect Ratio
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UScaleBox extends unreal.umg.UContentWidget {
+  
+  /**
+    Optional bool to ignore the inherited scale. Applies inverse scaling to counteract parents before applying the local scale operation.
+  **/
+  public var IgnoreInheritedScale : Bool;
   
   /**
     Optional scale that can be specified by the User. Isn't used if Stretch != EStretch::UserSpecified

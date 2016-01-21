@@ -25,7 +25,7 @@ package unreal.aimodule;
   
   /**
     Indicated sense that takes precedence over other senses when determining sensed actor's location.
-        Should be set to one of the sences configured in SensesConfig, or None.
+        Should be set to one of the senses configured in SensesConfig, or None.
   **/
   private var DominantSense : unreal.TSubclassOf<unreal.aimodule.UAISense>;
   private var SensesConfig : unreal.TArray<unreal.aimodule.UAISenseConfig>;

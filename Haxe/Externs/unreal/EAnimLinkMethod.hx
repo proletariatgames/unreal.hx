@@ -17,7 +17,7 @@ package unreal;
 /**
   Supported types of time for a linked element
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Animation/AnimClassData.h")
 @:uname("EAnimLinkMethod.Type")
 @:uextern extern enum EAnimLinkMethod {
   

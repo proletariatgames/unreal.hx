@@ -16,19 +16,14 @@ package unreal.umg;
 
 /**
   Invalidate
-  ● Single Child
-  ● Caching / Performance
+  * Single Child
+  * Caching / Performance
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UInvalidationBox extends unreal.umg.UContentWidget {
-  
-  /**
-    Caches the locations for child draw elements relative to the invalidation box,
-    this adds extra overhead to drawing them every frame.  However, in cases where
-    the position of the invalidation boxes changes every frame this can be a big savings.
-  **/
-  public var CacheRelativeTransforms : Bool;
   @:final public function InvalidateCache() : Void;
+  @:thisConst @:final public function GetCanCache() : Bool;
+  @:final public function SetCanCache(CanCache : Bool) : Void;
   
 }

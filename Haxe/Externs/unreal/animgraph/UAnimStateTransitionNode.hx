@@ -65,9 +65,14 @@ package unreal.animgraph;
   public var LogicType : unreal.ETransitionLogicType;
   
   /**
-    Try setting the rule automatically based on the player node remaining time and the CrossfadeDuration, ignoring the internal time
+    Try setting the rule automatically based on most relevant player node's remaining time and the CrossfadeDuration of the transition, ignoring the internal time
   **/
   public var bAutomaticRuleBasedOnSequencePlayerInState : Bool;
+  
+  /**
+    The blend profile to use to evaluate this transition per-bone
+  **/
+  public var BlendProfile : unreal.UBlendProfile;
   public var CustomBlendCurve : unreal.UCurveFloat;
   public var BlendMode : unreal.EAlphaBlendOption;
   

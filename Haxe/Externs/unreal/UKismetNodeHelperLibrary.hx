@@ -116,9 +116,16 @@ package unreal;
   
   /**
     @param Enum - Enumeration
-    @param EnumeratorIndex - Input index
+    @param EnumeratorIndex - Input value
     @return - if EnumeratorIndex is valid return EnumeratorIndex, otherwise return MAX value of Enum
   **/
-  static public function GetValidIndex(Enum : unreal.Const<unreal.UEnum>, EnumeratorIndex : unreal.UInt8) : unreal.UInt8;
+  static public function GetValidValue(Enum : unreal.Const<unreal.UEnum>, EnumeratorValue : unreal.UInt8) : unreal.UInt8;
+  
+  /**
+    @param Enum - Enumeration
+    @param EnumeratorIndex - Input index
+    @return - The value of the enumerator, or INDEX_NONE
+  **/
+  static public function GetEnumeratorValueFromIndex(Enum : unreal.Const<unreal.UEnum>, EnumeratorIndex : unreal.UInt8) : unreal.UInt8;
   
 }

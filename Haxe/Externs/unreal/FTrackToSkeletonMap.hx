@@ -25,9 +25,4 @@ package unreal;
   **/
   public var BoneTreeIndex : unreal.Int32;
   
-  /**
-    0 is the current Skeleton (the one above), and N is the Nth parent.
-  **/
-  @:deprecated public var SkeletonIndex_DEPRECATED : unreal.Int32;
-  
 }

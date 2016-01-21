@@ -222,7 +222,7 @@ package unreal.umg;
   **/
   static public function GetAllWidgetsWithInterface(WorldContextObject : unreal.UObject, Interface : unreal.TSubclassOf<unreal.IInterface>, FoundWidgets : unreal.PRef<unreal.TArray<unreal.umg.UUserWidget>>, TopLevelOnly : Bool) : Void;
   static public function GetInputEventFromKeyEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FKeyEvent>>) : unreal.slatecore.FInputEvent;
-  static public function GetInputEventFromAnalogInputEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FAnalogInputEvent>>) : unreal.slatecore.FInputEvent;
+  static public function GetKeyEventFromAnalogInputEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FAnalogInputEvent>>) : unreal.slatecore.FKeyEvent;
   static public function GetInputEventFromCharacterEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FCharacterEvent>>) : unreal.slatecore.FInputEvent;
   static public function GetInputEventFromPointerEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.slatecore.FInputEvent;
   static public function GetInputEventFromControllerEvent(Event : unreal.Const<unreal.PRef<unreal.slatecore.FControllerEvent>>) : unreal.slatecore.FInputEvent;

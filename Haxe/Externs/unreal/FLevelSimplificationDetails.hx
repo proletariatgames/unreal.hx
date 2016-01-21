@@ -37,7 +37,12 @@ package unreal;
   /**
     Landscape material simplification
   **/
-  public var LandscapeMaterial : unreal.FMaterialSimplificationSettings;
+  public var LandscapeMaterialSettings : unreal.FMaterialProxySettings;
+  
+  /**
+    Landscape material simplification
+  **/
+  @:deprecated public var LandscapeMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
   
   /**
     Landscape LOD to use for static mesh generation, when not specified 'Max LODLevel' from landscape actor will be used
@@ -46,9 +51,14 @@ package unreal;
   public var bOverrideLandscapeExportLOD : Bool;
   
   /**
+    Landscape material simplification
+  **/
+  public var StaticMeshMaterialSettings : unreal.FMaterialProxySettings;
+  
+  /**
     Static mesh material simplification
   **/
-  public var StaticMeshMaterial : unreal.FMaterialSimplificationSettings;
+  @:deprecated public var StaticMeshMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
   
   /**
     Percentage of details for static mesh proxy

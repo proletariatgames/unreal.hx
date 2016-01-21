@@ -52,7 +52,8 @@ package unreal;
   public var DemoPlayTimeDilation : unreal.Float32;
   
   /**
-    additional TimeDilation used by Matinee slomo track
+    Additional time dilation used by Matinee (or Sequencer) slomo track.  Transient because this is often
+    temporarily modified by the editor when previewing slow motion effects, yet we don't want it saved or loaded from level packages.
   **/
   public var MatineeTimeDilation : unreal.Float32;
   
@@ -67,6 +68,7 @@ package unreal;
   **/
   public var WorldToMeters : unreal.Float32;
   #if WITH_EDITORONLY_DATA
+  public var NumHLODLevels : unreal.Int32;
   
   /**
     Hierarchical LOD Setup
@@ -222,6 +224,7 @@ package unreal;
     If true, enables CheckStillInWorld checks
   **/
   public var bEnableWorldBoundsChecks : Bool;
+  public function OnRep_WorldGravityZ() : Void;
   // Interface_AssetUserData interface implementation
   
 }

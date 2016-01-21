@@ -24,7 +24,7 @@ package unreal.slatecore;
   the corresponding parent widget.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Private/Models/WidgetReflectorNode.h")
+@:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
 @:uextern extern class FGeometry {
   
 }

@@ -37,6 +37,7 @@ package unreal.editor;
   public var StructWithMultipleInstances2 : unreal.editor.FPropertyEditorTestBasicStruct;
   public var StructWithMultipleInstances1 : unreal.editor.FPropertyEditorTestBasicStruct;
   public var ThisIsBrokenIfItsVisibleInADetailsView : unreal.editor.FPropertyEditorTestBasicStruct;
+  public var StringPasswordProperty : unreal.FString;
   public var ObjectThatCannotBeChanged : unreal.UPrimitiveComponent;
   public var StringThatCannotBeChanged : unreal.FString;
   public var IntThatCannotBeChanged : unreal.Int32;

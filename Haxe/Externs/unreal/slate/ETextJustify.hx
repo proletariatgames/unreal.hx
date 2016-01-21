@@ -17,8 +17,25 @@ package unreal.slate;
 @:glueCppIncludes("UMG.h")
 @:uname("ETextJustify.Type")
 @:uextern extern enum ETextJustify {
+  
+  /**
+    Justify the text logically to the left.
+    When text is flowing left-to-right, this will align text visually to the left.
+    When text is flowing right-to-left, this will align text visually to the right.
+  **/
   Left;
+  
+  /**
+    Justify the text in the center.
+    Text flow direction has no impact on this justification mode.
+  **/
   Center;
+  
+  /**
+    Justify the text logically to the right.
+    When text is flowing left-to-right, this will align text visually to the right.
+    When text is flowing right-to-left, this will align text visually to the left.
+  **/
   Right;
   
 }

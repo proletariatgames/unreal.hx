@@ -17,7 +17,7 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  Particle section, for particle toggling and triggering
+  Particle section, for particle toggling and triggering.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneParticleSection.h")

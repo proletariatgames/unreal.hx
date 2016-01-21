@@ -15,45 +15,9 @@ package unreal;
 
 
 /**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
-  Alpha Blend Type
+  Alpha Blend class that supports different blend options as well as custom curves
 **/
-@:glueCppIncludes("AnimGraphNode_BlendListByBool.h")
-@:noCopy @:noEquals @:uextern extern class FAlphaBlend {
-  
-  /**
-    The current blended value derived from the begin and desired values
-  **/
-  private var BlendedValue : unreal.Float32;
-  
-  /**
-    Time left to reach target
-  **/
-  private var BlendTimeRemaining : unreal.Float32;
-  
-  /**
-    Target to reach
-  **/
-  private var AlphaTarget : unreal.Float32;
-  
-  /**
-    Resulting Alpha value, between 0.f and 1.f
-  **/
-  private var AlphaBlend : unreal.Float32;
-  
-  /**
-    Internal Lerped value for Alpha
-  **/
-  private var AlphaLerp : unreal.Float32;
-  public var CustomCurve : unreal.UCurveFloat;
-  public var BlendTime : unreal.Float32;
-  public var DesiredValue : unreal.Float32;
-  public var BeginValue : unreal.Float32;
-  
-  /**
-    Type of blending used (Linear, Cubic, etc.)
-  **/
-  public var BlendOption : unreal.EAlphaBlendOption;
+@:glueCppIncludes("Animation/AnimMontage.h")
+@:uextern extern class FAlphaBlend {
   
 }

@@ -151,13 +151,13 @@ package unreal;
   static public function GetObjectClass(Object : unreal.Const<unreal.UObject>) : unreal.UClass;
   
   /**
-    Sets the global time dilation
-    @param       TimeDilation    value to set the global time dilation to
+    Gets the current global time dilation.
+    @return Current time dilation.
   **/
   static public function GetGlobalTimeDilation(WorldContextObject : unreal.UObject) : unreal.Float32;
   
   /**
-    Sets the global time dilation
+    Sets the global time dilation.
     @param       TimeDilation    value to set the global time dilation to
   **/
   static public function SetGlobalTimeDilation(WorldContextObject : unreal.UObject, TimeDilation : unreal.Float32) : Void;
@@ -270,28 +270,52 @@ package unreal;
   static public function AreAnyListenersWithinRange(WorldContextObject : unreal.UObject, Location : unreal.FVector, MaximumRange : unreal.Float32) : Bool;
   
   /**
+    Sets a global pitch modulation scalar that will apply to all non-UI sounds
+    
+    * Fire and Forget.
+    * Not Replicated.
+    @param PitchModulation - A pitch modulation value to globally set.
+    @param TimeSec - A time value to linearly interpolate the global modulation pitch over from it's current value.
+  **/
+  static public function SetGlobalPitchModulation(WorldContextObject : unreal.UObject, PitchModulation : unreal.Float32, TimeSec : unreal.Float32) : Void;
+  
+  /**
     Plays a sound directly with no attenuation, perfect for UI sounds.
     
-    ● Fire and Forget.
-    ● Not Replicated.
+    * Fire and Forget.
+    * Not Replicated.
     @param Sound - Sound to play.
     @param VolumeMultiplier - Multiplied with the volume to make the sound louder or softer.
     @param PitchMultiplier - Multiplies the pitch.
+    @param ConcurrencySettings - Override concurrency settings package to play sound with
     @param StartTime - How far in to the sound to begin playback at
   **/
-  static public function PlaySound2D(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32) : Void;
+  static public function PlaySound2D(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, ConcurrencySettings : unreal.USoundConcurrency) : Void;
   
   /**
     Spawns a sound with no attenuation, perfect for UI sounds.
     
-    ● Not Replicated.
+    * Not Replicated.
     @param Sound - Sound to play.
+    @param VolumeMultiplier - Multiplied with the volume to make the sound louder or softer.
+    @param PitchMultiplier - Multiplies the pitch.
+    @param StartTime - How far in to the sound to begin playback at
+    @param ConcurrencySettings - Override concurrency settings package to play sound with
+    @return An audio component to manipulate the spawned sound
+  **/
+  static public function SpawnSound2D(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, ConcurrencySettings : unreal.USoundConcurrency) : unreal.UAudioComponent;
+  
+  /**
+    Creates a sound with no attenuation, perfect for UI sounds. This does NOT play the sound
+    
+    ● Not Replicated.
+    @param Sound - Sound to create.
     @param VolumeMultiplier - Multiplied with the volume to make the sound louder or softer.
     @param PitchMultiplier - Multiplies the pitch.
     @param StartTime - How far in to the sound to begin playback at
     @return An audio component to manipulate the spawned sound
   **/
-  static public function SpawnSound2D(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32) : unreal.UAudioComponent;
+  static public function CreateSound2D(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, ConcurrencySettings : unreal.USoundConcurrency) : unreal.UAudioComponent;
   
   /**
     Plays a sound at the given location. This is a fire and forget sound and does not travel with any actor. Replication is also not handled at this point.
@@ -302,8 +326,9 @@ package unreal;
     @param PitchMultiplier - PitchMultiplier
     @param StartTime - How far in to the sound to begin playback at
     @param AttenuationSettings - Override attenuation settings package to play sound with
+    @param ConcurrencySettings - Override concurrency settings package to play sound with
   **/
-  static public function PlaySoundAtLocation(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation) : Void;
+  static public function PlaySoundAtLocation(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency) : Void;
   
   /**
     Spawns a sound at the given location. This does not travel with any actor. Replication is also not handled at this point.
@@ -314,9 +339,10 @@ package unreal;
     @param PitchMultiplier - PitchMultiplier
     @param StartTime - How far in to the sound to begin playback at
     @param AttenuationSettings - Override attenuation settings package to play sound with
+    @param ConcurrencySettings - Override concurrency settings package to play sound with
     @return An audio component to manipulate the spawned sound
   **/
-  static public function SpawnSoundAtLocation(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation) : unreal.UAudioComponent;
+  static public function SpawnSoundAtLocation(WorldContextObject : unreal.UObject, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency) : unreal.UAudioComponent;
   
   /**
     Plays a sound attached to and following the specified component. This is a fire and forget sound. Replication is also not handled at this point.
@@ -331,15 +357,16 @@ package unreal;
     @param PitchMultiplier - PitchMultiplier
     @param StartTime - How far in to the sound to begin playback at
     @param AttenuationSettings - Override attenuation settings package to play sound with
+    @param ConcurrencySettings - Override concurrency settings package to play sound with
     @return An audio component to manipulate the spawned sound
   **/
-  static public function SpawnSoundAttached(Sound : unreal.USoundBase, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bStopWhenAttachedToDestroyed : Bool, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation) : unreal.UAudioComponent;
+  static public function SpawnSoundAttached(Sound : unreal.USoundBase, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bStopWhenAttachedToDestroyed : Bool, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32, StartTime : unreal.Float32, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency) : unreal.UAudioComponent;
   
   /**
     Plays a dialogue directly with no attenuation, perfect for UI.
     
-    ● Fire and Forget.
-    ● Not Replicated.
+    * Fire and Forget.
+    * Not Replicated.
     @param Dialogue - dialogue to play
     @param Context - context the dialogue is to play in
     @param VolumeMultiplier - Multiplied with the volume to make the sound louder or softer.
@@ -351,7 +378,7 @@ package unreal;
   /**
     Spawns a dialogue with no attenuation, perfect for UI.
     
-    ● Not Replicated.
+    * Not Replicated.
     @param Dialogue - dialogue to play
     @param Context - context the dialogue is to play in
     @param VolumeMultiplier - Multiplied with the volume to make the sound louder or softer.
@@ -537,7 +564,7 @@ package unreal;
   static public function DeleteGameInSlot(SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
   
   /**
-    Returns the frame delta time in seconds adjusted by e.g. time dilation.
+    Returns the frame delta time in seconds, adjusted by time dilation.
   **/
   static public function GetWorldDeltaSeconds(WorldContextObject : unreal.UObject) : unreal.Float32;
   
@@ -580,32 +607,32 @@ package unreal;
   static public function BlueprintSuggestProjectileVelocity(WorldContextObject : unreal.UObject, TossVelocity : unreal.PRef<unreal.FVector>, StartLocation : unreal.FVector, EndLocation : unreal.FVector, LaunchSpeed : unreal.Float32, OverrideGravityZ : unreal.Float32, TraceOption : unreal.ESuggestProjVelocityTraceOption, CollisionRadius : unreal.Float32, bFavorHighArc : Bool, bDrawDebug : Bool) : Bool;
   
   /**
-    Returns world origin current location
+    Returns world origin current location.
   **/
   static public function GetWorldOriginLocation(WorldContextObject : unreal.UObject) : unreal.FIntVector;
   
   /**
-    Requests a new location for a world origin
+    Requests a new location for a world origin.
   **/
   static public function SetWorldOriginLocation(WorldContextObject : unreal.UObject, NewLocation : unreal.FIntVector) : Void;
   
   /**
     Counts how many grass foliage instances overlap a given sphere.
     
-    @param        Mesh                    The static mesh we are interested in counting
-    @param        CenterPosition  The center position of the sphere
+    @param        Mesh                    The static mesh we are interested in counting.
+    @param        CenterPosition  The center position of the sphere.
     @param        Radius                  The radius of the sphere.
     
-    @return number of foliage instances with their mesh set to Mesh that overlap the sphere
+    @return Number of foliage instances with their mesh set to Mesh that overlap the sphere.
   **/
   static public function GrassOverlappingSphereCount(WorldContextObject : unreal.UObject, StaticMesh : unreal.Const<unreal.UStaticMesh>, CenterPosition : unreal.FVector, Radius : unreal.Float32) : unreal.Int32;
   
   /**
-    Transforms the given 2D screen space coordinate into a 3D world-space point and direction
+    Transforms the given 2D screen space coordinate into a 3D world-space point and direction.
     @param Player                        Deproject using this player's view.
-    @param ScreenPosition        2D screen space to deproject
-    @param WorldPosition         (out) Corresponding 3D position in world space
-    @param WorldDirection        (out) World space direction vector away from the camera at the given 2d poiunt
+    @param ScreenPosition        2D screen space to deproject.
+    @param WorldPosition         (out) Corresponding 3D position in world space.
+    @param WorldDirection        (out) World space direction vector away from the camera at the given 2d poiunt.
   **/
   static public function DeprojectScreenToWorld(Player : unreal.APlayerController, ScreenPosition : unreal.Const<unreal.PRef<unreal.FVector2D>>, WorldPosition : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
   

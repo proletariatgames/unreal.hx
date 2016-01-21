@@ -17,6 +17,11 @@ package unreal;
 @:uextern extern class USoundBase extends unreal.UObject {
   
   /**
+    Sound priority (higher value is higher priority) used for concurrency resolution. This priority value is weighted against the final volume of the sound.
+  **/
+  public var Priority : unreal.Float32;
+  
+  /**
     Attenuation settings package for the sound
   **/
   public var AttenuationSettings : unreal.USoundAttenuation;
@@ -29,12 +34,20 @@ package unreal;
   /**
     Maximum number of times this sound can be played concurrently.
   **/
-  public var MaxConcurrentPlayCount : unreal.Int32;
+  @:deprecated public var MaxConcurrentPlayCount_DEPRECATED : unreal.Int32;
+  @:deprecated public var MaxConcurrentResolutionRule_DEPRECATED : unreal.EMaxConcurrentResolutionRule;
   
   /**
-    If we try to play a new version of this sound when at the max concurrent count how should it be resolved.
+    If bOverridePlayback is true, concurrency settings to use.
   **/
-  public var MaxConcurrentResolutionRule : unreal.EMaxConcurrentResolutionRule;
+  public var ConcurrencyOverrides : unreal.FSoundConcurrencySettings;
+  
+  /**
+    If bOverridePlayback is false, the sound concurrency settings to use for this sound.
+  **/
+  public var SoundConcurrencySettings : unreal.USoundConcurrency;
+  public var bIgnoreFocus : Bool;
+  public var bOverrideConcurrency : Bool;
   
   /**
     When "stat sounds -debug" has been specified, draw this sound's attenuation shape when the sound is audible. For debugging purpose only.

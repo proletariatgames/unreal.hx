@@ -80,10 +80,6 @@ package unreal;
   **/
   public function OnRep_Pawn() : Void;
   public function OnRep_PlayerState() : Void;
-  
-  /**
-    @fixme, shouldn't be necessary once general cast support is in.
-  **/
   @:final public function CastToPlayerController() : unreal.APlayerController;
   
   /**

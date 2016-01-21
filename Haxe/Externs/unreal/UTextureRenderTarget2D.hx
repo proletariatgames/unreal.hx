@@ -31,6 +31,11 @@ package unreal;
   public var OverrideFormat : unreal.EPixelFormat;
   
   /**
+    Whether to support Mip maps for this render target texture
+  **/
+  public var bAutoGenerateMips : Bool;
+  
+  /**
     Whether to support storing HDR values, which requires more memory.
   **/
   public var bHDR : Bool;

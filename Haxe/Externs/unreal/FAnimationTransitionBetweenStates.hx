@@ -19,9 +19,10 @@ package unreal;
   
   This represents a baked transition
 **/
-@:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
+@:glueCppIncludes("Animation/AnimClassData.h")
 @:noCopy @:noEquals @:uextern extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
   public var LogicType : unreal.ETransitionLogicType;
+  public var BlendProfile : unreal.UBlendProfile;
   public var CustomCurve : unreal.UCurveFloat;
   public var BlendMode : unreal.EAlphaBlendOption;
   public var InterruptNotify : unreal.Int32;

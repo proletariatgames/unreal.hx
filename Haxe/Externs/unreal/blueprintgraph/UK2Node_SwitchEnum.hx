@@ -26,11 +26,6 @@ package unreal.blueprintgraph;
   /**
     List of the current entries in the enum
   **/
-  public var EnumFriendlyNames : unreal.TArray<unreal.FString>;
-  
-  /**
-    List of the current entries in the enum
-  **/
   public var EnumEntries : unreal.TArray<unreal.FName>;
   
   /**

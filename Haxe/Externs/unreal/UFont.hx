@@ -20,8 +20,8 @@ package unreal;
   A font object, for use by Slate, UMG, and Canvas.
   
   A font can either be:
-    ● Runtime cached - The font contains a series of TTF files that combine to form a composite font. The glyphs are cached on demand when required at runtime.
-    ● Offline cached - The font contains a series of textures containing pre-baked cached glyphs and their associated texture coordinates.
+    * Runtime cached - The font contains a series of TTF files that combine to form a composite font. The glyphs are cached on demand when required at runtime.
+    * Offline cached - The font contains a series of textures containing pre-baked cached glyphs and their associated texture coordinates.
 **/
 @:glueCppIncludes("Engine/Font.h")
 @:uextern extern class UFont extends unreal.UObject implements unreal.slatecore.IFontProviderInterface {

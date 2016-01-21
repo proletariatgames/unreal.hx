@@ -23,5 +23,6 @@ package unreal;
   RCIM_Linear;
   RCIM_Constant;
   RCIM_Cubic;
+  RCIM_None;
   
 }

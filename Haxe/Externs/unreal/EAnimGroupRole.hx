@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_SequencePlayer.h")
+@:glueCppIncludes("AnimGraphNode_AssetPlayerBase.h")
 @:uname("EAnimGroupRole.Type")
 @:uextern extern enum EAnimGroupRole {
   
@@ -31,5 +31,10 @@ package unreal;
     This node will always be a leader (if more than one node is AlwaysLeader, the last one ticked wins).
   **/
   AlwaysLeader;
+  
+  /**
+    This node will be excluded from the sync group while blending in. Once blended in it will be the sync group leader until blended out
+  **/
+  TransitionLeader;
   
 }

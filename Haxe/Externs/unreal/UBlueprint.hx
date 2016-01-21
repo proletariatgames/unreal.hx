@@ -153,6 +153,11 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
+    The mode that will be used when compiling this class.
+  **/
+  public var CompileMode : unreal.EBlueprintCompileMode;
+  
+  /**
     Deprecates the Blueprint, marking the generated class with the CLASS_Deprecated flag
   **/
   public var bDeprecate : Bool;

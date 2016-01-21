@@ -20,7 +20,7 @@ package unreal;
   Triggers an animation notify.  Each AnimNotifyEvent contains an AnimNotify object
   which has its Notify method called and passed to the animation.
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Animation/AnimClassData.h")
 @:noCopy @:noEquals @:uextern extern class FAnimNotifyEvent extends unreal.FAnimLinkableElement {
   
   /**

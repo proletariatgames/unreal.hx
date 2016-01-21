@@ -20,7 +20,7 @@ package unreal.niagara;
   
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraSimulation.h")
+@:glueCppIncludes("NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraConstantBase {
   public var Name : unreal.FName;
   

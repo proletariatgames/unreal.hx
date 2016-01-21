@@ -26,17 +26,7 @@ package unreal;
   **/
   @:deprecated public var bUseControllerViewRotation_DEPRECATED : Bool;
   #if WITH_EDITORONLY_DATA
-  
-  /**
-    The camera mesh to show visually where the camera is placed
-  **/
-  private var ProxyMeshComponent : unreal.UStaticMeshComponent;
   private var CameraMesh : unreal.UStaticMesh;
-  
-  /**
-    The frustum component used to show visually where the camera field of view is
-  **/
-  private var DrawFrustum : unreal.UDrawFrustumComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -59,6 +49,11 @@ package unreal;
     @see APawn::GetViewRotation()
   **/
   public var bUsePawnControlRotation : Bool;
+  
+  /**
+    True if the camera's orientation and position should be locked to the HMD
+  **/
+  public var bLockToHmd : Bool;
   
   /**
     If true, account for the field of view angle when computing which level of detail to use for meshes.
@@ -94,6 +89,15 @@ package unreal;
     The horizontal field of view (in degrees) in perspective mode (ignored in Orthographic mode)
   **/
   public var FieldOfView : unreal.Float32;
+  @:final public function SetFieldOfView(InFieldOfView : unreal.Float32) : Void;
+  @:final public function SetOrthoWidth(InOrthoWidth : unreal.Float32) : Void;
+  @:final public function SetOrthoNearClipPlane(InOrthoNearClipPlane : unreal.Float32) : Void;
+  @:final public function SetOrthoFarClipPlane(InOrthoFarClipPlane : unreal.Float32) : Void;
+  @:final public function SetAspectRatio(InAspectRatio : unreal.Float32) : Void;
+  @:final public function SetConstraintAspectRatio(bInConstrainAspectRatio : Bool) : Void;
+  @:final public function SetUseFieldOfViewForLOD(bInUseFieldOfViewForLOD : Bool) : Void;
+  @:final public function SetProjectionMode(InProjectionMode : unreal.ECameraProjectionMode) : Void;
+  @:final public function SetPostProcessBlendWeight(InPostProcessBlendWeight : unreal.Float32) : Void;
   
   /**
     Returns camera's Point of View.

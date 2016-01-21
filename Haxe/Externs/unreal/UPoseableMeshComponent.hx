@@ -28,5 +28,6 @@ package unreal;
   @:final public function GetBoneRotationByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FRotator;
   @:final public function GetBoneScaleByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FVector;
   @:final public function ResetBoneTransformByName(BoneName : unreal.FName) : Void;
+  @:final public function CopyPoseFromSkeletalComponent(InComponentToCopy : unreal.Const<unreal.USkeletalMeshComponent>) : Void;
   
 }

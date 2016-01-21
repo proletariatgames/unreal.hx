@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for controlling which reference frame a controller is applied in.
 **/
-@:glueCppIncludes("AnimPreviewInstance.h")
+@:glueCppIncludes("AnimGraphNode_CopyBone.h")
 @:uname("EBoneControlSpace")
 @:uextern extern enum EBoneControlSpace {
   

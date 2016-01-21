@@ -19,6 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Camera/CameraActor.h")
 @:uextern extern class ACameraActor extends unreal.AActor {
+  public var SceneComponent : unreal.USceneComponent;
   public var CameraComponent : unreal.UCameraComponent;
   
   /**

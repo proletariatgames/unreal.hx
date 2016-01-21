@@ -14,7 +14,12 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class UAnimBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass {
+@:uextern extern class UAnimBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass implements unreal.IAnimClassInterface {
+  
+  /**
+    Array of sync group names in the order that they are requested during compile
+  **/
+  public var SyncGroupNames : unreal.TArray<unreal.FName>;
   
   /**
     The index of the root node in the animation tree
@@ -35,5 +40,6 @@ package unreal;
     List of state machines present in this blueprint class
   **/
   public var BakedStateMachines : unreal.TArray<unreal.FBakedAnimationStateMachine>;
+  // AnimClassInterface interface implementation
   
 }

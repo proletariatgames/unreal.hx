@@ -21,6 +21,8 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Light/ParticleModuleLight.h")
 @:uextern extern class UParticleModuleLight extends unreal.UParticleModuleLightBase {
+  public var bShadowCastingLights : Bool;
+  public var bHighQualityLights : Bool;
   
   /**
     Provides the light's exponent when inverse squared falloff is disabled.

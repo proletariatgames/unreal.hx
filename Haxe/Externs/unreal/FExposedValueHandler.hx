@@ -15,12 +15,15 @@ package unreal;
 
 
 /**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
   An exposed value updater
 **/
-@:glueCppIncludes("AnimPreviewInstance.h")
-@:noCopy @:noEquals @:uextern extern class FExposedValueHandler {
+@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
+@:uextern extern class FExposedValueHandler {
+  
+  /**
+    Direct data access to property in anim instance
+  **/
+  public var CopyRecords : unreal.TArray<unreal.FExposedValueCopyRecord>;
   
   /**
     The function to call to update associated properties (can be NULL)

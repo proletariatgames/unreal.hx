@@ -23,18 +23,24 @@ package unreal;
   
   /**
     Character cannot step up onto this Component.
+    @DisplayName No
   **/
+  @DisplayName("No")
   ECB_No;
   
   /**
     Character can step up onto this Component.
+    @DisplayName Yes
   **/
+  @DisplayName("Yes")
   ECB_Yes;
   
   /**
     Owning actor determines whether character can step up onto this Component (default true unless overridden in code).
     @see AActor::CanBeBaseForCharacter()
+    @DisplayName (Owner)
   **/
+  @DisplayName("(Owner)")
   ECB_Owner;
   
 }

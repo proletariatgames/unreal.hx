@@ -23,6 +23,11 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FSkeletalMeshLODInfo {
   
   /**
+    This has been removed in editor. We could re-apply this in import time or by mesh reduction utilities
+  **/
+  public var RemovedBones : unreal.TArray<unreal.FName>;
+  
+  /**
     Reduction settings to apply when building render data.
   **/
   public var ReductionSettings : unreal.FSkeletalMeshOptimizationSettings;

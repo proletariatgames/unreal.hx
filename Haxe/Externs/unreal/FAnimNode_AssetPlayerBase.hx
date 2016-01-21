@@ -31,6 +31,16 @@ package unreal;
   private var BlendWeight : unreal.Float32;
   
   /**
+    The role this player can assume within the group (ignored if GroupIndex is INDEX_NONE)
+  **/
+  public var GroupRole : unreal.EAnimGroupRole;
+  
+  /**
+    The group index, assigned at compile time based on the editoronly GroupName (or INDEX_NONE if it is not part of any group)
+  **/
+  public var GroupIndex : unreal.Int32;
+  
+  /**
     If true, "Relevant anim" nodes that look for the highest weighted animation in a state will ignore
     this node
   **/

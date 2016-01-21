@@ -19,6 +19,8 @@ package unreal.aimodule;
   private var SightLimitQueryImportance : unreal.Float32;
   private var MaxQueryImportance : unreal.Float32;
   private var HighImportanceQueryDistanceThreshold : unreal.Float32;
+  private var MaxTimeSlicePerTick : unreal.Float64;
+  private var MinQueriesPerTimeSliceCheck : unreal.Int32;
   private var MaxTracesPerTick : unreal.Int32;
   
 }

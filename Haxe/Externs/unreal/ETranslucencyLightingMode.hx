@@ -20,9 +20,9 @@ package unreal;
   /**
     Lighting will be calculated for a volume, without directionality.  Use this on particle effects like smoke and dust.
     This is the cheapest lighting method, however the material normal is not taken into account.
-    @DisplayName Volumetric Non Directional
+    @DisplayName Volumetric NonDirectional
   **/
-  @DisplayName("Volumetric Non Directional")
+  @DisplayName("Volumetric NonDirectional")
   TLM_VolumetricNonDirectional;
   
   /**
@@ -32,6 +32,22 @@ package unreal;
   **/
   @DisplayName("Volumetric Directional")
   TLM_VolumetricDirectional;
+  
+  /**
+    Same as Volumetric Non Directional, but lighting is only evaluated at vertices so the pixel shader cost is significantly less.
+    Note that lighting still comes from a volume texture, so it is limited in range.  Directional lights become unshadowed in the distance.
+    @DisplayName Volumetric PerVertex NonDirectional
+  **/
+  @DisplayName("Volumetric PerVertex NonDirectional")
+  TLM_VolumetricPerVertexNonDirectional;
+  
+  /**
+    Same as Volumetric Directional, but lighting is only evaluated at vertices so the pixel shader cost is significantly less.
+    Note that lighting still comes from a volume texture, so it is limited in range.  Directional lights become unshadowed in the distance.
+    @DisplayName Volumetric PerVertex Directional
+  **/
+  @DisplayName("Volumetric PerVertex Directional")
+  TLM_VolumetricPerVertexDirectional;
   
   /**
     Lighting will be calculated for a surface. The light in accumulated in a volume so the result is blurry

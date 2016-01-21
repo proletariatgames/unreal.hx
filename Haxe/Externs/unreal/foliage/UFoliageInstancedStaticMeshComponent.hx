@@ -16,5 +16,8 @@ package unreal.foliage;
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageInstancedStaticMeshComponent.h")
 @:uextern extern class UFoliageInstancedStaticMeshComponent extends unreal.UHierarchicalInstancedStaticMeshComponent {
+  #if WITH_EDITORONLY_DATA
+  public var FoliageHiddenEditorViews : unreal.FakeUInt64;
+  #end // WITH_EDITORONLY_DATA
   
 }

@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Engine.h")
 @:noCopy @:noEquals @:uextern extern class FGameNameRedirect {
-  public var NewGameName : unreal.FString;
-  public var OldGameName : unreal.FString;
+  public var NewGameName : unreal.FName;
+  public var OldGameName : unreal.FName;
   
 }

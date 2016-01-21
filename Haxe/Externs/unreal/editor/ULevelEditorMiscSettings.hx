@@ -57,6 +57,11 @@ package unreal.editor;
   public var bNavigationAutoUpdate : Bool;
   
   /**
+    If true, the pivot offset for BSP will be automatically moved to stay centered on its vertices
+  **/
+  public var bAutoMoveBSPPivotOffset : Bool;
+  
+  /**
     If true, BSP will auto-update
   **/
   public var bBSPAutoUpdate : Bool;

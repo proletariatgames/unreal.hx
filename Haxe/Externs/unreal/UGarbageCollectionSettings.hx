@@ -21,6 +21,16 @@ package unreal;
 @:uextern extern class UGarbageCollectionSettings extends unreal.UDeveloperSettings {
   
   /**
+    Maximum number of UObjects that can exist in the editor game. Make sure this can hold enough objects for the editor and commadlets within reasonable limit.
+  **/
+  private var MaxObjectsInEditor : unreal.Int32;
+  
+  /**
+    Maximum number of UObjects that can exist in cooked game. Keep this as small as possible.
+  **/
+  private var MaxObjectsInGame : unreal.Int32;
+  
+  /**
     Size Of Permanent Object Pool (bytes). Works only in cooked builds.
   **/
   private var SizeOfPermanentObjectPool : unreal.Int32;

@@ -13,10 +13,6 @@
 **/
 package unreal.gameplayabilities;
 
-
-/**
-  Type of payload to pass along with this cue.
-**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
 @:uname("EGameplayCuePayloadType")

@@ -56,6 +56,11 @@ package unreal;
   public var EngineTestModules : unreal.TArray<unreal.FString>;
   
   /**
+    Blueprint editor promotion test settings
+  **/
+  public var BlueprintEditorPromotionTest : unreal.FBlueprintEditorPromotionSettings;
+  
+  /**
     Particle editor promotion test settings
   **/
   public var ParticleEditorPromotionTest : unreal.FParticleEditorPromotionSettings;

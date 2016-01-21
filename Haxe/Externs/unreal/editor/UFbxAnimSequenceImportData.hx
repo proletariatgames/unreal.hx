@@ -22,17 +22,17 @@ package unreal.editor;
 @:uextern extern class UFbxAnimSequenceImportData extends unreal.editor.UFbxAssetImportData {
   
   /**
-    Type of asset to import from the FBX file
+    If enabled, this will delete this type of asset from the FBX
   **/
   public var bDeleteExistingMorphTargetCurves : Bool;
   
   /**
-    Type of asset to import from the FBX file
+    If enabled, this will import a curve within the animation
   **/
   public var bPreserveLocalTransform : Bool;
   
   /**
-    Import if custom attribute as a curve within the animation *
+    Import if custom attribute as a curve within the animation
   **/
   public var bImportCustomAttribute : Bool;
   
@@ -47,17 +47,22 @@ package unreal.editor;
   public var bUseDefaultSampleRate : Bool;
   
   /**
-    Type of asset to import from the FBX file
+    Frame range used when Set Range is used in Animation Length
   **/
-  public var EndFrame : unreal.Int32;
+  public var FrameImportRange : unreal.FInt32Interval;
   
   /**
-    Type of asset to import from the FBX file
+    End frame when Set Range is used in Animation Length
   **/
-  public var StartFrame : unreal.Int32;
+  @:deprecated public var EndFrame_DEPRECATED : unreal.Int32;
   
   /**
-    Type of asset to import from the FBX file
+    Start frame when Set Range is used in Animation Length
+  **/
+  @:deprecated public var StartFrame_DEPRECATED : unreal.Int32;
+  
+  /**
+    Which animation range to import. The one defined at Exported, at Animated time or define a range manually
   **/
   public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
   

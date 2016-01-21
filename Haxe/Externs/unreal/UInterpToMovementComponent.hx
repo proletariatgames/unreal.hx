@@ -73,4 +73,14 @@ package unreal;
   **/
   @:final public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
+  /**
+    Reset to start. Sets time to zero and direction to 1.
+  **/
+  @:final public function RestartMovement(InitialDirection : unreal.Float32) : Void;
+  
+  /**
+    Initialise the control points array. Call after adding control points if they are add after begin play .
+  **/
+  @:final public function FinaliseControlPoints() : Void;
+  
 }

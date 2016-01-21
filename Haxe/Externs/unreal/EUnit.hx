@@ -109,6 +109,11 @@ package unreal;
   Years;
   
   /**
+    Arbitrary multiplier
+  **/
+  Multiplier;
+  
+  /**
     Symbolic entry, not specifiable on meta data.
   **/
   Unspecified;

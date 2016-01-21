@@ -79,7 +79,7 @@ package unreal.editor;
   public var bCreatePhysicsAsset : Bool;
   
   /**
-    Skeleton to use for imported asset. When importing a mesh, leaving this as "None" will create a new skeleton. When importing and animation this MUST be specified to import the asset.
+    Skeleton to use for imported asset. When importing a mesh, leaving this as "None" will create a new skeleton. When importing an animation this MUST be specified to import the asset.
   **/
   public var Skeleton : unreal.USkeleton;
   

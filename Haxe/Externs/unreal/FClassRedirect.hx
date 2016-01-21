@@ -22,10 +22,12 @@ package unreal;
 @:glueCppIncludes("Engine/Engine.h")
 @:noCopy @:noEquals @:uextern extern class FClassRedirect {
   public var InstanceOnly : Bool;
-  public var NewSubobjName : unreal.FString;
-  public var OldSubobjName : unreal.FString;
-  public var NewClassName : unreal.FString;
-  public var OldClassName : unreal.FString;
-  public var ObjectName : unreal.FString;
+  public var NewClassPackage : unreal.FName;
+  public var NewClassClass : unreal.FName;
+  public var NewSubobjName : unreal.FName;
+  public var OldSubobjName : unreal.FName;
+  public var NewClassName : unreal.FName;
+  public var OldClassName : unreal.FName;
+  public var ObjectName : unreal.FName;
   
 }

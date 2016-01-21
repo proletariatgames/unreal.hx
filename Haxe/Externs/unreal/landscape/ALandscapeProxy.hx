@@ -54,6 +54,14 @@ package unreal.landscape;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    Whether to bake the landscape material's vertical world position offset into the collision heightfield.
+                  Note: Only z (vertical) offset is supported. XY offsets are ignored.
+                  Does not work with CollisionMipLevel > 0
+                  Does not work with an XY offset map (mesh collision)
+  **/
+  public var bBakeMaterialPositionOffsetIntoCollision : Bool;
+  
+  /**
     Collision profile settings for this landscape
   **/
   public var BodyInstance : unreal.FBodyInstance;

@@ -20,6 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor.h")
 @:uextern extern class AGameplayAbilityTargetActor extends unreal.AActor {
+  public var GenericDelegateBoundASC : unreal.gameplayabilities.UAbilitySystemComponent;
   
   /**
     Draw the debug information (if applicable) for this targeting actor.

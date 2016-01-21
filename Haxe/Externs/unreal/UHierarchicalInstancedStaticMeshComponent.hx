@@ -23,9 +23,19 @@ package unreal;
   public var OcclusionLayerNumNodes : unreal.Int32;
   
   /**
+    Bounds of each individual unbuilt instance, used for LOD calculation
+  **/
+  public var UnbuiltInstanceBoundsList : unreal.TArray<unreal.FBox>;
+  
+  /**
     Bounding box of any unbuilt instances
   **/
   public var UnbuiltInstanceBounds : unreal.FBox;
+  
+  /**
+    Bounding box of any built instances (cached from the ClusterTree)
+  **/
+  public var BuiltInstanceBounds : unreal.FBox;
   
   /**
     The number of instances in the ClusterTree. Subsequent instances will always be rendered.

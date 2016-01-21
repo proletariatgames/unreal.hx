@@ -17,11 +17,16 @@ package unreal.umg;
 /**
   A simple widget that shows a sliding bar with a handle that allows you to control the value between 0..1.
   
-  ● No Children
+  * No Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class USlider extends unreal.umg.UWidget {
+  
+  /**
+    The amount to adjust the value by, when using a controller or keyboard
+  **/
+  public var StepSize : unreal.Float32;
   
   /**
     Whether the handle is interactive or fixed.
@@ -67,5 +72,30 @@ package unreal.umg;
     Sets the current value of the slider.
   **/
   @:final public function SetValue(InValue : unreal.Float32) : Void;
+  
+  /**
+    Sets if the slidable area should be indented to fit the handle
+  **/
+  @:final public function SetIndentHandle(InValue : Bool) : Void;
+  
+  /**
+    Sets the handle to be interactive or fixed
+  **/
+  @:final public function SetLocked(InValue : Bool) : Void;
+  
+  /**
+    Sets the amount to adjust the value by, when using a controller or keyboard
+  **/
+  @:final public function SetStepSize(InValue : unreal.Float32) : Void;
+  
+  /**
+    Sets the color of the slider bar
+  **/
+  @:final public function SetSliderBarColor(InValue : unreal.FLinearColor) : Void;
+  
+  /**
+    Sets the color of the handle bar
+  **/
+  @:final public function SetSliderHandleColor(InValue : unreal.FLinearColor) : Void;
   
 }

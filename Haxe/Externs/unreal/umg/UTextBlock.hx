@@ -17,12 +17,12 @@ package unreal.umg;
 /**
   A simple static text widget.
   
-  ● No Children
-  ● Text
+  * No Children
+  * Text
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UTextBlock extends unreal.umg.UWidget {
+@:uextern extern class UTextBlock extends unreal.umg.UTextLayoutWidget {
   
   /**
     Sets the color and opacity of the text in this text block
@@ -68,34 +68,14 @@ package unreal.umg;
   @:final public function SetJustification(InJustification : unreal.slate.ETextJustify) : Void;
   
   /**
-    The amount to scale each lines height by.
+    If true, it will automatically wrap this text widget with an invalidation panel
   **/
-  public var LineHeightPercentage : unreal.Float32;
-  
-  /**
-    The amount of blank space left around the edges of text area.
-  **/
-  public var Margin : unreal.slatecore.FMargin;
+  public var bWrapWithInvalidationPanel : Bool;
   
   /**
     The minimum desired size for the text
   **/
   public var MinDesiredWidth : unreal.Float32;
-  
-  /**
-    Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
-  **/
-  public var WrapTextAt : unreal.Float32;
-  
-  /**
-    True if we're wrapping text automatically based on the computed horizontal space for this widget
-  **/
-  public var AutoWrapText : Bool;
-  
-  /**
-    How the text should be aligned with the margin.
-  **/
-  public var Justification : unreal.slate.ETextJustify;
   
   /**
     The color of the shadow
@@ -116,6 +96,5 @@ package unreal.umg;
     The color of the text
   **/
   public var ColorAndOpacity : unreal.slatecore.FSlateColor;
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
 }

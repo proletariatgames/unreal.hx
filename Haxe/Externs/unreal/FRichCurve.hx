@@ -21,6 +21,16 @@ package unreal;
 @:uextern extern class FRichCurve extends unreal.FIndexedCurve {
   
   /**
+    Default value
+  **/
+  public var DefaultValue : unreal.Float32;
+  
+  /**
+    Sorted array of keys
+  **/
+  public var Keys : unreal.TArray<unreal.FRichCurveKey>;
+  
+  /**
     Post-infinity extrapolation state
   **/
   public var PostInfinityExtrap : unreal.ERichCurveExtrapolation;

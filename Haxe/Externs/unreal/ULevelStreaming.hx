@@ -105,7 +105,7 @@ package unreal;
   public var PackageNameToLoad : unreal.FName;
   
   /**
-    Deprecated name of the package containing the level to load. Use WorldAsset or GetWorldAssetPackageFName instead.
+    Deprecated name of the package containing the level to load. Use GetWorldAsset() or GetWorldAssetPackageFName() instead.
   **/
   @:deprecated public var PackageName_DEPRECATED : unreal.FName;
   

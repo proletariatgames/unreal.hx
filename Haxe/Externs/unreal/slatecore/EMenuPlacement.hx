@@ -37,6 +37,13 @@ package unreal.slatecore;
   MenuPlacement_CenteredBelowAnchor;
   
   /**
+    Place the menu immediately below the anchor aligned to the right of the content
+    @DisplayName Below Right
+  **/
+  @DisplayName("Below Right")
+  MenuPlacement_BelowRightAnchor;
+  
+  /**
     Place the menu immediately below the anchor and match is width to the anchor's content
     @DisplayName Combo Box
   **/
@@ -72,10 +79,24 @@ package unreal.slatecore;
   MenuPlacement_CenteredAboveAnchor;
   
   /**
+    Place the menu immediately above the anchor aligned to the right of the content
+    @DisplayName Above Right
+  **/
+  @DisplayName("Above Right")
+  MenuPlacement_AboveRightAnchor;
+  
+  /**
     Place the menu to the left of the anchor
     @DisplayName Left
   **/
   @DisplayName("Left")
   MenuPlacement_MenuLeft;
+  
+  /**
+    Place the menu's center on top of the menu anchor's center point
+    @DisplayName Center
+  **/
+  @DisplayName("Center")
+  MenuPlacement_Center;
   
 }

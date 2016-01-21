@@ -24,6 +24,36 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FClothPhysicsProperties {
   
   /**
+    Resistance Multiplier that's applied to within SoftZone amount for all fiber types.  0.0 for a complete deadzone (no force).  At 1.0 the spring response within the softzone is as stiff it is elsewhere.  This parameter also known as scale by Apex internally.
+  **/
+  public var FiberResistance : unreal.Float32;
+  
+  /**
+    Upper (expansion) Limit of SoftZone (relative to rest length).  Applied to all fiber types.   Also referred to as "stretch" range by apex internally.
+  **/
+  public var FiberExpansion : unreal.Float32;
+  
+  /**
+    Lower (compression) Limit of SoftZone (relative to rest length).  Applied for all fiber types.  If both compression and expansion are 1.0 then there is no deadzone.
+  **/
+  public var FiberCompression : unreal.Float32;
+  
+  /**
+    A computation parameter for the Solver.   Along with frame rate this probably specifies the number of solver iterations
+  **/
+  public var SolverFrequency : unreal.Float32;
+  
+  /**
+    Self collision stiffness.  0 off, 1 for on.
+  **/
+  public var SelfCollisionStiffness : unreal.Float32;
+  
+  /**
+    unclear what this actually does.
+  **/
+  public var SelfCollisionSquashScale : unreal.Float32;
+  
+  /**
     Minimal amount of distance particles will keep of each other.
   **/
   public var SelfCollisionThickness : unreal.Float32;
@@ -34,14 +64,34 @@ package unreal;
   public var InertiaBlend : unreal.Float32;
   
   /**
-    Amount of gravity that is applied to the cloth.
+    A mass scaling that is applied to the cloth.   Corresponds to 100X the MotionAdaptation parameter in autodesk plugin.
+  **/
+  public var MassScale : unreal.Float32;
+  
+  /**
+    Gravity multiplier for this cloth.  Also called Density in Autodesk plugin.
   **/
   public var GravityScale : unreal.Float32;
+  
+  /**
+    Frequency for stiffness
+  **/
+  public var StiffnessFrequency : unreal.Float32;
   
   /**
     Drag coefficient n the range [0, 1]
   **/
   public var Drag : unreal.Float32;
+  
+  /**
+    Tether Limit, corresponds to 1.0+StretchLimit parameter on Autodesk plugin.
+  **/
+  public var TetherLimit : unreal.Float32;
+  
+  /**
+    Tether stiffness of the cloth in the range[0, 1].  Equivalent to 1.0-Relax in autodesk plugin.
+  **/
+  public var TetherStiffness : unreal.Float32;
   
   /**
     Spring damping of the cloth in the range[0, 1]
@@ -54,11 +104,6 @@ package unreal;
   public var Friction : unreal.Float32;
   
   /**
-    Make cloth simulation less stretchy. A value smaller than 1 will turn it off.
-  **/
-  public var StretchLimit : unreal.Float32;
-  
-  /**
     Shearing stiffness of the cloth in the range [0, 1].
   **/
   public var ShearResistance : unreal.Float32;
@@ -67,5 +112,15 @@ package unreal;
     Bending stiffness of the cloth in the range [0, 1].
   **/
   public var BendResistance : unreal.Float32;
+  
+  /**
+    Horizontal stiffness of the cloth in the range [0, 1].  usually set to 1.0
+  **/
+  public var HorizontalResistance : unreal.Float32;
+  
+  /**
+    vertical stiffness of the cloth in the range [0, 1].   usually set to 1.0
+  **/
+  public var VerticalResistance : unreal.Float32;
   
 }

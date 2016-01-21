@@ -16,21 +16,30 @@ package unreal.gameplaydebugger;
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingComponent.h")
 @:uextern extern class UGameplayDebuggingComponent extends unreal.UPrimitiveComponent implements unreal.aimodule.IEQSQueryResultSourceInterface {
+  private var ActivationCounter : unreal.UInt8;
   
   /**
     controller related stuff
   **/
   public var TargetActor : unreal.AActor;
+  public var PerceptionShapeElements : unreal.TArray<unreal.FGameplayDebuggerShapeElement>;
+  public var SensingComponentLocation : unreal.FVector;
+  public var DistanceFromSensor : unreal.Float32;
+  public var DistanceFromPlayer : unreal.Float32;
+  
+  /**
+    Start - Perception System
+  **/
+  public var PerceptionLegend : unreal.FString;
   public var bIsUsingAbilities : Bool;
   public var bIsUsingBehaviorTree : Bool;
   public var bIsUsingCharacter : Bool;
   public var bIsUsingPathFollowing : Bool;
-  public var NextPathPointIndex : unreal.Int32;
   
   /**
     End EQS replication data
   **/
-  public var SensingComponentLocation : unreal.FVector;
+  public var NextPathPointIndex : unreal.Int32;
   
   /**
     Begin EQS replication data
@@ -67,10 +76,15 @@ package unreal.gameplaydebugger;
   public var ReplicateViewDataCounters : unreal.TArray<unreal.Int32>;
   public var ShowExtendedInformatiomCounter : unreal.Int32;
   public var DebugComponentClassName : unreal.FString;
+  
+  /**
+    End - Perception System
+  **/
   public function OnCycleDetailsView() : Void;
   public function OnRep_UpdateEQS() : Void;
   public function OnRep_UpdateBlackboard() : Void;
   public function OnRep_UpdateNavmesh() : Void;
+  public function OnRep_ActivationCounter() : Void;
   @:final public function ServerReplicateData(InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
   public function ServerCollectNavmeshData(TargetLocation : unreal.FVector_NetQuantize10) : Void;
   public function ServerDiscardNavmeshData() : Void;

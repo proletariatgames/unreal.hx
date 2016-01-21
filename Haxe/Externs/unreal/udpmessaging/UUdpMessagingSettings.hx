@@ -27,16 +27,22 @@ package unreal.udpmessaging;
     The IP endpoints of remote tunnel nodes.
     
     Use this setting to connect to remote tunnel services.
+    The format is IP_ADDRESS:PORT_NUMBER.
   **/
   public var RemoteTunnelEndpoints : unreal.TArray<unreal.FString>;
   
   /**
     The IP endpoint to send multicast packets to.
+    
+    The format is IP_ADDRESS:PORT_NUMBER.
+    The multicast IP address must be in the range 224.0.0.0 to 239.255.255.255.
   **/
   public var TunnelMulticastEndpoint : unreal.FString;
   
   /**
-    The IP endpoint to listen to and send packets from.
+    The local IP endpoint to listen to and send packets from.
+    
+    The format is IP_ADDRESS:PORT_NUMBER.
   **/
   public var TunnelUnicastEndpoint : unreal.FString;
   
@@ -49,6 +55,7 @@ package unreal.udpmessaging;
     The IP endpoints of static devices.
     
     Use this setting to list devices on other subnets, such as mobile phones on a WiFi network.
+    The format is IP_ADDRESS:PORT_NUMBER.
   **/
   public var StaticEndpoints : unreal.TArray<unreal.FString>;
   
@@ -59,11 +66,18 @@ package unreal.udpmessaging;
   
   /**
     The IP endpoint to send multicast packets to.
+    
+    The format is IP_ADDRESS:PORT_NUMBER.
+    The multicast IP address must be in the range 224.0.0.0 to 239.255.255.255.
   **/
   public var MulticastEndpoint : unreal.FString;
   
   /**
     The IP endpoint to listen to and send packets from.
+    
+    The format is IP_ADDRESS:PORT_NUMBER.
+    0.0.0.0:0 will bind to the default network adapter on Windows
+    and all available network adapters on other operating systems.
   **/
   public var UnicastEndpoint : unreal.FString;
   

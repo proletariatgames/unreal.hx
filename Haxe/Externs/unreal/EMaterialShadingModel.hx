@@ -58,9 +58,27 @@ package unreal;
   MSM_SubsurfaceProfile;
   
   /**
-    Two Sided Foliage
+    Two Sided
   **/
-  @DisplayName("Two Sided Foliage")
+  @DisplayName("Two Sided")
   MSM_TwoSidedFoliage;
+  
+  /**
+    Hair
+  **/
+  @DisplayName("Hair")
+  MSM_Hair;
+  
+  /**
+    Cloth
+  **/
+  @DisplayName("Cloth")
+  MSM_Cloth;
+  
+  /**
+    Eye
+  **/
+  @DisplayName("Eye")
+  MSM_Eye;
   
 }

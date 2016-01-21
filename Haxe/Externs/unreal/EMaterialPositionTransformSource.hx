@@ -18,31 +18,38 @@ package unreal;
 @:uextern extern enum EMaterialPositionTransformSource {
   
   /**
-    Local Space
+    Local space
     @DisplayName Local Space
   **/
   @DisplayName("Local Space")
   TRANSFORMPOSSOURCE_Local;
   
   /**
-    Absolute World Space
+    Absolute world space
     @DisplayName Absolute World Space
   **/
   @DisplayName("Absolute World Space")
   TRANSFORMPOSSOURCE_World;
   
   /**
-    Camera Relative World Space
+    Camera relative world space
     @DisplayName Camera Relative World Space
   **/
   @DisplayName("Camera Relative World Space")
   TRANSFORMPOSSOURCE_TranslatedWorld;
   
   /**
-    View Space
+    View space (differs from camera space in the shadow passes)
     @DisplayName View Space
   **/
   @DisplayName("View Space")
   TRANSFORMPOSSOURCE_View;
+  
+  /**
+    Camera space
+    @DisplayName Camera Space
+  **/
+  @DisplayName("Camera Space")
+  TRANSFORMPOSSOURCE_Camera;
   
 }

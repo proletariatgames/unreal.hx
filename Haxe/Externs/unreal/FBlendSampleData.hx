@@ -19,8 +19,9 @@ package unreal;
   
   Transform definition
 **/
-@:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
+@:glueCppIncludes("AnimGraphNode_BlendSpaceEvaluator.h")
 @:noCopy @:noEquals @:uextern extern class FBlendSampleData {
+  public var PreviousTime : unreal.Float32;
   public var Time : unreal.Float32;
   public var TotalWeight : unreal.Float32;
   public var SampleDataIndex : unreal.Int32;

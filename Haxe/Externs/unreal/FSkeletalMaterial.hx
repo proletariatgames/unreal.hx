@@ -17,7 +17,7 @@ package unreal;
 /**
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
-  Material interface for USkeletalMesh - contains a material and a shadow casting flag
+  
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern extern class FSkeletalMaterial {

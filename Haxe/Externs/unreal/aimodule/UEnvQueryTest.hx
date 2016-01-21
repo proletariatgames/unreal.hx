@@ -18,6 +18,18 @@ package unreal.aimodule;
 @:uextern extern class UEnvQueryTest extends unreal.aimodule.UEnvQueryNode {
   
   /**
+    When set to true enables usage of SweetSpotValue. It's false by default
+  **/
+  public var bDefineSweetSpot : Bool;
+  
+  /**
+    When specified gets used to normalize test's results in such a way that the closer a value is to SweetSpotValue
+        the higher normalized result it will produce. Value farthest from SweetSpotValue will be normalized
+        to 0, and all the other values in between will get normalized linearly with the distance to SweetSpotValue.
+  **/
+  public var SweetSpotValue : unreal.aimodule.FAIDataProviderFloatValue;
+  
+  /**
     The weight (factor) by which to multiply the normalized score after the scoring equation is applied.
   **/
   public var ScoringFactor : unreal.aimodule.FAIDataProviderFloatValue;
@@ -78,6 +90,12 @@ package unreal.aimodule;
     Determines filtering operator when context returns multiple items
   **/
   public var MultipleContextFilterOp : unreal.aimodule.EEnvTestFilterOperator;
+  
+  /**
+    Optional comment or explanation about what this test is for.  Useful when the purpose of tests may not be clear,
+    especially when there are multiple tests of the same type.
+  **/
+  public var TestComment : unreal.FString;
   
   /**
     The purpose of this test.  Should it be used for filtering possible results, scoring them, or both?

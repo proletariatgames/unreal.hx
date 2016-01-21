@@ -15,8 +15,6 @@ package unreal;
 
 
 /**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
   A light component that has parallel rays. Will provide a uniform lighting across any affected surface (eg. The Sun). This will affect all objects in the defined light-mass importance volume.
 **/
 @:glueCppIncludes("Components/DirectionalLightComponent.h")
@@ -39,7 +37,13 @@ package unreal;
   public var LightmassSettings : unreal.FLightmassDirectionalLightSettings;
   
   /**
-    Light source angle in degrees.
+    Determines how far shadows can be cast, in world units.  Larger values increase the shadowing cost.
+  **/
+  public var TraceDistance : unreal.Float32;
+  
+  /**
+    Light source angle in degrees, used for dynamic shadowing methods.
+    Currently only Ray Traced Distance Field shadows and Capsule shadows support area shadows, and therefore make use of LightSourceAngle.
   **/
   public var LightSourceAngle : unreal.Float32;
   
@@ -128,5 +132,14 @@ package unreal;
     Whether to occlude fog and atmosphere inscattering with screenspace blurred occlusion from this light.
   **/
   public var bEnableLightShaftOcclusion : Bool;
+  @:final public function SetDynamicShadowDistanceMovableLight(NewValue : unreal.Float32) : Void;
+  @:final public function SetDynamicShadowDistanceStationaryLight(NewValue : unreal.Float32) : Void;
+  @:final public function SetDynamicShadowCascades(NewValue : unreal.Int32) : Void;
+  @:final public function SetCascadeDistributionExponent(NewValue : unreal.Float32) : Void;
+  @:final public function SetCascadeTransitionFraction(NewValue : unreal.Float32) : Void;
+  @:final public function SetShadowDistanceFadeoutFraction(NewValue : unreal.Float32) : Void;
+  @:final public function SetEnableLightShaftOcclusion(bNewValue : Bool) : Void;
+  @:final public function SetOcclusionMaskDarkness(NewValue : unreal.Float32) : Void;
+  @:final public function SetLightShaftOverrideDirection(NewValue : unreal.FVector) : Void;
   
 }

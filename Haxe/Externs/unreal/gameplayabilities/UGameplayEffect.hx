@@ -29,6 +29,11 @@ package unreal.gameplayabilities;
   public var GrantedAbilities : unreal.TArray<unreal.gameplayabilities.FGameplayAbilitySpecDef>;
   
   /**
+    Policy for how to handle duration expiring on this gameplay effect
+  **/
+  public var StackExpirationPolicy : unreal.gameplayabilities.EGameplayEffectStackingExpirationPolicy;
+  
+  /**
     Policy for how the effect period should be reset (or not) while stacking
   **/
   public var StackPeriodResetPolicy : unreal.gameplayabilities.EGameplayEffectStackingPeriodPolicy;

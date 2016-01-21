@@ -22,19 +22,30 @@ package unreal.editor;
 @:uextern extern class UEditorExperimentalSettings extends unreal.UObject {
   
   /**
+    Enable multithreaded shadow map encoding (decreases time taken to encode shadow maps)
+  **/
+  public var bEnableMultithreadedShadowmapEncoding : Bool;
+  
+  /**
+    Enable multithreaded lightmap encoding (decreases time taken to encode lightmaps)
+  **/
+  public var bEnableMultithreadedLightmapEncoding : Bool;
+  
+  /**
     Enables Metal/High-end mobile rendering path previw on Desktop
   **/
   public var bFeatureLevelES31Preview : Bool;
   
   /**
+    This feature allows you to broadcast to a live streaming service directly from the editor.  This requires you to have a live streaming plugin installed.
+  **/
+  public var bLiveStreamingFromEditor : Bool;
+  
+  /**
     Enables Environment Queries editor
   **/
   public var bEQSEditor : Bool;
-  
-  /**
-    Enable -iterate for launch on
-  **/
-  public var bIterativeCookingForLaunchOn : Bool;
+  public var MultiProcessCooking : unreal.Int32;
   
   /**
     Disable cook in the editor
@@ -57,6 +68,31 @@ package unreal.editor;
   public var bDrawMidpointArrowsInBlueprints : Bool;
   
   /**
+    Enables "Find and Replace All" tool in the MyBlueprint window for variables
+  **/
+  public var bEnableFindAndReplaceReferences : Bool;
+  
+  /**
+    Enables the visual diff tool for anim blueprints. WARNING: changes to the Target Skeleton and Groups will not be detected
+  **/
+  public var bEnableAnimVisualDiff : Bool;
+  
+  /**
+    Enables the visual diff tool for widget blueprints. WARNING: changes to the widget hierarchy will not be detected
+  **/
+  public var bEnableWidgetVisualDiff : Bool;
+  
+  /**
+    The number of samples the blueprint profiler should use to average the current value.
+  **/
+  public var BlueprintProfilerAverageSampleCount : unreal.Int32;
+  
+  /**
+    Enable experimental blueprint performance analysis tools.
+  **/
+  public var bBlueprintPerformanceAnalysisTools : Bool;
+  
+  /**
     Break on Exceptions allows you to trap Access Nones and other exceptional events in Blueprints.
   **/
   public var bBreakOnExceptions : Bool;
@@ -72,14 +108,14 @@ package unreal.editor;
   public var ConsoleForGamepadLabels : unreal.inputcore.EConsoleForGamepadLabels;
   
   /**
+    Device output log window (currently implemented for Android only)
+  **/
+  public var bDeviceOutputLog : Bool;
+  
+  /**
     Allows to use actor merging utilities (Simplygon Proxy LOD, Grouping by Materials)
   **/
   public var bActorMerging : Bool;
-  
-  /**
-    The Messaging Debugger provides a visual utility for debugging the messaging system.
-  **/
-  public var bMessagingDebugger : Bool;
   
   /**
     Enable being able to subclass components in blueprints

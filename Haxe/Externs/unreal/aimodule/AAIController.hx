@@ -25,7 +25,7 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("AIController.h")
-@:uextern extern class AAIController extends unreal.AController implements unreal.aimodule.IAIPerceptionListenerInterface implements unreal.gameplaytasks.IGameplayTaskOwnerInterface implements unreal.aimodule.IGenericTeamAgentInterface {
+@:uextern extern class AAIController extends unreal.AController implements unreal.aimodule.IAIPerceptionListenerInterface implements unreal.gameplaytasks.IGameplayTaskOwnerInterface implements unreal.aimodule.IGenericTeamAgentInterface implements unreal.IVisualLoggerDebugSnapshotInterface {
   private var CachedGameplayTasksComponent : unreal.gameplaytasks.UGameplayTasksComponent;
   
   /**
@@ -65,6 +65,11 @@ package unreal.aimodule;
     Event called when PossessedPawn is possessed by this controller.
   **/
   public function OnPossess(PossessedPawn : unreal.APawn) : Void;
+  
+  /**
+    Gets triggered after given pawn has been unpossesed
+  **/
+  public function OnUnpossess(UnpossessedPawn : unreal.APawn) : Void;
   
   /**
     Makes AI go toward specified Goal actor (destination will be continuously updated)
@@ -168,5 +173,6 @@ package unreal.aimodule;
   // AIPerceptionListenerInterface interface implementation
   // GameplayTaskOwnerInterface interface implementation
   // GenericTeamAgentInterface interface implementation
+  // VisualLoggerDebugSnapshotInterface interface implementation
   
 }

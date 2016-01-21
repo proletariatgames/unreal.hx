@@ -60,11 +60,6 @@ package unreal;
   private var bHasCustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
   
   /**
-    Whether this component can potentially influence navigation
-  **/
-  public var bCanEverAffectNavigation : Bool;
-  
-  /**
     Physics scene information for this component, holds a single rigid body with multiple shapes.
   **/
   public var BodyInstance : unreal.FBodyInstance;
@@ -133,6 +128,19 @@ package unreal;
   public var bHasCachedStaticLighting : Bool;
   
   /**
+    Channels that this component should be in.  Lights with matching channels will affect the component.
+    These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
+  **/
+  public var LightingChannels : unreal.FLightingChannels;
+  
+  /**
+    Whether the whole component should be shadowed as one from stationary lights, which makes shadow receiving much cheaper.
+    When enabled shadowing data comes from the volume lighting samples precomputed by Lightmass, which are very sparse.
+    This is currently only used on stationary directional lights.
+  **/
+  public var bSingleSampleShadowFromStationaryLights : Bool;
+  
+  /**
     Quality of indirect lighting for Movable primitives.  This has a large effect on Indirect Lighting Cache update time.
   **/
   public var IndirectLightingCacheQuality : unreal.EIndirectLightingCacheQuality;
@@ -181,7 +189,8 @@ package unreal;
   public var bCastFarShadow : Bool;
   
   /**
-    When enabled, the component will only cast a shadow on itself and not other components in the world.  This is especially useful for first person weapons, and forces bCastInsetShadow to be enabled.
+    When enabled, the component will only cast a shadow on itself and not other components in the world.
+    This is especially useful for first person weapons, and forces bCastInsetShadow to be enabled.
   **/
   public var bSelfShadowOnly : Bool;
   
@@ -398,6 +407,11 @@ package unreal;
     Returns list of components this component is overlapping.
   **/
   @:thisConst @:final public function GetOverlapInfos() : unreal.Const<unreal.PRef<unreal.TArray<unreal.FOverlapInfo>>>;
+  
+  /**
+    Scale the bounds of this object, used for frustum culling. Useful for features like WorldPositionOffset.
+  **/
+  @:final public function SetBoundsScale(NewBoundsScale : unreal.Float32) : Void;
   
   /**
     Returns the material used by the element at the specified index

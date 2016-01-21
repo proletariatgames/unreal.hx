@@ -24,6 +24,11 @@ package unreal.geometrymode;
 @:noClass @:uextern extern class UGeomModifier extends unreal.UObject {
   
   /**
+    If true, the pivot offset should be updated when the modification ends
+  **/
+  public var bPendingPivotOffsetUpdate : Bool;
+  
+  /**
     true if the modifier has been initialized.
     This is useful for interpreting user input and mouse drags correctly.
   **/

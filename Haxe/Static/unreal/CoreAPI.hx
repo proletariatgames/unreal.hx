@@ -118,7 +118,7 @@ class CoreAPI {
       accessor = o;
     default: throw new haxe.macro.Error('Expected identifier', fn.pos);
     }
-    return macro $self.__Internal_AddDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+    return macro $self.__Internal_AddDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
   public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
@@ -132,7 +132,7 @@ class CoreAPI {
       accessor = o;
     default: throw new haxe.macro.Error('Expected identifier', fn.pos);
     }
-    return macro $self.__Internal_AddUniqueDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+    return macro $self.__Internal_AddUniqueDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
   public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
@@ -146,7 +146,7 @@ class CoreAPI {
       accessor = o;
     default: throw new haxe.macro.Error('Expected identifier', fn.pos);
     }
-    return macro $self.__Internal_RemoveDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+    return macro $self.__Internal_RemoveDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
   public static macro function IsAlreadyBound<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
@@ -160,7 +160,7 @@ class CoreAPI {
       accessor = o;
     default: throw new haxe.macro.Error('Expected identifier', fn.pos);
     }
-    return macro $self.__Internal_IsAlreadyBound($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+    return macro $self.__Internal_IsAlreadyBound($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
   public static macro function BindDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
@@ -174,6 +174,6 @@ class CoreAPI {
       accessor = o;
     default: throw new haxe.macro.Error('Expected identifier', fn.pos);
     }
-    return macro $self.__Internal_BindDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), "::"+$v{fnName});
+    return macro $self.__Internal_BindDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 }

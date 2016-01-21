@@ -26,6 +26,16 @@ package unreal;
   public var WireframeCullThreshold : unreal.Float32;
   
   /**
+    Enable instanced stereo rendering.
+  **/
+  public var bInstancedStereo : Bool;
+  
+  /**
+    Enables not exporting to the GBuffer rendertargets that are not relevant. Changing this setting requires restarting the editor.
+  **/
+  public var bSelectiveBasePassOutputs : Bool;
+  
+  /**
     Enables materials with time-based World Position Offset and/or World Displacement to output accurate velocities. This incurs a performance cost. If this is disabled, those materials will not output velocities. Changing this setting requires restarting the editor.
   **/
   public var bBasePassOutputsVelocity : Bool;
@@ -46,7 +56,7 @@ package unreal;
   public var bEarlyZPassMovable : Bool;
   
   /**
-    Whether to use a depth only pass to initialize Z culling for the base pass. Need to reload the level!
+    Whether to use a depth only pass to initialize Z culling for the base pass. Requires a restart!
   **/
   public var EarlyZPass : unreal.EEarlyZPass;
   
@@ -164,6 +174,13 @@ package unreal;
     Allows occluded meshes to be culled and no rendered.
   **/
   public var bOcclusionCulling : Bool;
+  
+  /**
+    When running in game mode, whether to keep shaders for all quality levels in memory or only those needed for the current quality level.
+    Unchecked: Keep all quality levels in memory allowing a runtime quality level change. (default)
+    Checked: Discard unused quality levels when loading content for the game, saving some memory.
+  **/
+  public var bDiscardUnusedQualityLevels : Bool;
   
   /**
     If this setting is enabled, the same shader will be used for any number of dynamic point lights (up to the maximum specified above) hitting a surface. This is slightly slower but reduces the number of shaders generated. Changing this setting requires restarting the editor.

@@ -21,14 +21,10 @@ package unreal;
 @:uextern extern class FAnimNode_SequencePlayer extends unreal.FAnimNode_AssetPlayerBase {
   
   /**
-    The role this player can assume within the group (ignored if GroupIndex is INDEX_NONE)
+    The start up position, it only applies when reinitialized
+    if you loop, it will still start from 0.f after finishing the round
   **/
-  public var GroupRole : unreal.EAnimGroupRole;
-  
-  /**
-    The group index, assigned at compile time based on the editoronly GroupName (or INDEX_NONE if it is not part of any group)
-  **/
-  public var GroupIndex : unreal.Int32;
+  public var StartPosition : unreal.Float32;
   
   /**
     The play rate multiplier. Can be negative, which will cause the animation to play in reverse.

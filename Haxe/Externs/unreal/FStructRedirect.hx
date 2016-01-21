@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Engine.h")
 @:noCopy @:noEquals @:uextern extern class FStructRedirect {
-  public var NewStructName : unreal.FString;
-  public var OldStructName : unreal.FString;
+  public var NewStructName : unreal.FName;
+  public var OldStructName : unreal.FName;
   
 }

@@ -15,6 +15,11 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimSequence.h")
 @:uextern extern class UAnimSequence extends unreal.UAnimSequenceBase {
+  
+  /**
+    Authored Sync markers
+  **/
+  public var AuthoredSyncMarkers : unreal.TArray<unreal.FAnimSyncMarker>;
   #if WITH_EDITORONLY_DATA
   public var bNeedsRebake : Bool;
   
@@ -54,6 +59,11 @@ package unreal;
     Have we copied root motion settings from an owning montage
   **/
   public var bRootMotionSettingsCopiedFromMontage : Bool;
+  
+  /**
+    Force Root Bone Lock even if Root Motion is not enabled
+  **/
+  public var bForceRootLock : Bool;
   
   /**
     Root Bone will be locked to that position when extracting root motion.*

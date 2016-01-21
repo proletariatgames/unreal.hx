@@ -359,9 +359,14 @@ package unreal;
   @:thisConst public function IsAnySimulatingPhysics() : Bool;
   
   /**
-    Get a pointer to the USceneComponent we are attached to
+    Get the SceneComponent we are attached to.
   **/
   @:thisConst @:final public function GetAttachParent() : unreal.USceneComponent;
+  
+  /**
+    Get the socket we are attached to.
+  **/
+  @:thisConst @:final public function GetAttachSocketName() : unreal.FName;
   
   /**
     Gets all parent components up to and including the root component
@@ -387,7 +392,10 @@ package unreal;
   
   /**
     Attach this component to another scene component, optionally at a named socket. It is valid to call this on components whether or not they have been Registered.
-    @param bMaintainWorldTransform      If true, update the relative location/rotation of the component to keep its world position the same
+    @param  InParent                             Parent to attach to.
+    @param  InSocketName                 Optional socket to attach to on the parent.
+    @param  AttachType                   How to handle transform when attaching (Keep relative offset, keep world position, etc).
+    @param  bWeldSimulatedBodies Whether to weld together simulated physics bodies.
   **/
   @:final public function K2_AttachTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName, AttachType : unreal.EAttachLocation, bWeldSimulatedBodies : Bool) : Void;
   

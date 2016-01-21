@@ -37,6 +37,11 @@ package unreal;
   public var MaxSplitscreensPerConnection : unreal.UInt8;
   
   /**
+    Restrictions on the largest party that can join together
+  **/
+  public var MaxPartySize : unreal.Int32;
+  
+  /**
     Maximum number of players allowed by this server.
   **/
   public var MaxPlayers : unreal.Int32;

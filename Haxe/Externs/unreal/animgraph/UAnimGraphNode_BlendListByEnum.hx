@@ -28,7 +28,7 @@ package unreal.animgraph;
     Name of the enum being switched on
   **/
   private var BoundEnum : unreal.UEnum;
-  public var Node : unreal.FAnimNode_BlendListByEnum;
+  public var Node : unreal.animgraphruntime.FAnimNode_BlendListByEnum;
   // NodeDependingOnEnumInterface interface implementation
   
 }
