@@ -244,14 +244,13 @@ class TypeRef
   }
 
   public function getTypeParamType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
+    var newPack = [ '__pvt', '_hx_tparam' ],
         name = new StringBuf();
-    newPack.unshift('__pvt');
     var buf = this.getReducedPath();
     buf.add('_TypeParam');
     var ret = buf.toString();
     if (ret.length > 50) {
-      var sig = haxe.crypto.Md5.encode(ret).substr(0,6);
+      var sig = haxe.crypto.Md5.encode(ret).substr(0,8);
       ret = this.getLastName() + '_TypeParam_' + sig;
     }
 
@@ -268,6 +267,12 @@ class TypeRef
 
   public function getReducedPath(?buf:StringBuf):StringBuf {
     if (buf == null) buf = new StringBuf();
+    if (this.pack[0] != 'cpp') {
+      for (p in this.pack) {
+        buf.add(p);
+        buf.add('_');
+      }
+    }
     buf.add(this.name);
     if (this.params != null) {
       for (param in this.params) {
