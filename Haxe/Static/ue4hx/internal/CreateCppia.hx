@@ -59,6 +59,8 @@ class CreateCppia {
       'unreal.TThreadSafeSharedPtr',
       'unreal.TThreadSafeSharedRef',
       'unreal.TThreadSafeWeakPtr',
+      'unreal.AnyPtr',
+      'unreal.ReflectAPI',
     ];
 
     addTimestamp();

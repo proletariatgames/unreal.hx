@@ -26,6 +26,7 @@ class CreateGlue {
       getModules(path, toCompile);
     }
     toCompile.push('UnrealInit');
+    toCompile.push('unreal.ReflectAPI');
     var scriptModules = [];
     for (path in scriptPaths) {
       getModules(path, scriptModules);

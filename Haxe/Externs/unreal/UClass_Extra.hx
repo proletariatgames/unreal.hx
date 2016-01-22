@@ -5,7 +5,7 @@ extern class UClass_Extra {
   @:global @:typeName
   public static function FindField<T>(Owner:PExternal<UStruct>, FieldName:PStruct<FName>) : PExternal<T>;
 
-  public function IsChildOf(SomeBase:Const<UStruct>) : Bool ;
-
   @:typeName public function GetDefaultObject<T:UObject>() : PExternal<T>;
+
+  public function HasAllClassFlags(flags:Int32):Bool;
 }

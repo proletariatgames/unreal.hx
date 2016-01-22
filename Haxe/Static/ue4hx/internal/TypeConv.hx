@@ -949,6 +949,7 @@ using StringTools;
 
         haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((uint64) (%))',
         isBasic: true,
       },
       {
@@ -959,6 +960,7 @@ using StringTools;
 
         haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((int64) (%))',
         isBasic: true,
       },
       {
@@ -979,6 +981,27 @@ using StringTools;
         haxeToGlueExpr: '(%).rawCast()',
         glueToHaxeExpr: 'cpp.Pointer.fromRaw(cast (%))',
         isBasic: true,
+      },
+      {
+        ueType: voidStar,
+        haxeType: new TypeRef(['unreal'],'AnyPtr'),
+        glueType: voidStar,
+        haxeGlueType: voidStar,
+
+        haxeToGlueExpr: '(%).rawCast()',
+        glueToHaxeExpr: '( cpp.Pointer.fromRaw(cast (%)) : unreal.AnyPtr )',
+        // isBasic: true,
+      },
+      {
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void const')]),
+        haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
+        glueType: voidStar,
+        haxeGlueType: voidStar,
+
+        haxeToGlueExpr: '(%).rawCast()',
+        glueToHaxeExpr: '( cpp.Pointer.fromRaw(cast (%)) : unreal.AnyPtr )',
+        ueToGlueExpr: '(const_cast<void *>(%))',
+        // isBasic: true,
       },
       // TCharStar
       {
