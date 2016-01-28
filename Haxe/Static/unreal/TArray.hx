@@ -87,6 +87,16 @@ private typedef TArrayImpl<T> = Dynamic;
     return -1;
   }
 
+  public function findIndexOf(fn:T->Bool) : Int {
+    for (i in 0...length) {
+      var el = get(i);
+      if (fn(el)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   public function find(fn:T->Bool) : Null<T> {
     for (i in 0...length) {
       var el = get(i);
