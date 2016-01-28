@@ -169,6 +169,10 @@ class HaxeModuleRules extends BaseModuleRules
 
       if (hasHaxe)
       {
+        var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
+        if (compserver != null) {
+          Sys.putEnv("HAXE_COMPILATION_SERVER", null);
+        }
         // bake glue code externs
 
         // Windows paths have '\' which needs to be escaped for macro arguments
@@ -334,8 +338,9 @@ class HaxeModuleRules extends BaseModuleRules
           if (this.config.extraCompileArgs != null)
             args = args.concat(this.config.extraCompileArgs);
 
-          if (Sys.getEnv('HAXE_COMPILATION_SERVER') != null) {
+          if (compserver != null) {
             File.saveContent('$targetDir/Built/Data/compserver.txt','1');
+            Sys.putEnv("HAXE_COMPILATION_SERVER", compserver);
           } else {
             File.saveContent('$targetDir/Built/Data/compserver.txt','0');
           }
@@ -349,8 +354,12 @@ class HaxeModuleRules extends BaseModuleRules
             this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
           }
 
-          if (oldEnvs != null)
+          if (oldEnvs != null) {
             setEnvs(oldEnvs);
+          }
+          if (compserver != null) {
+            Sys.putEnv("HAXE_COMPILATION_SERVER", null);
+          }
 
           if (ret == 0 && isCrossCompiling) {
             // somehow -D destination doesn't do anything when cross compiling
@@ -381,9 +390,10 @@ class HaxeModuleRules extends BaseModuleRules
             //       the output file name at this stage
 
             var dep = Path.GetFullPath('$gameDir/Source/$targetModule/Generated/HaxeInit.cpp');
-            trace(dep);
+            // trace(dep);
             // touch the file
-            File.saveContent(dep, File.getContent(dep));
+            // it seems we only need this for UE 4.8
+            // File.saveContent(dep, File.getContent(dep));
           }
         }
         if (ret != 0)
