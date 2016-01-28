@@ -13,8 +13,10 @@ using StringTools;
 class CreateGlue {
   static var firstCompilation = true;
   static var hasRun = false;
+  static var lastScriptPaths:Array<String>;
 
   public static function run(alwaysCompilePaths:Array<String>, ?scriptPaths:Array<String>) {
+    lastScriptPaths = scriptPaths;
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
@@ -195,7 +197,16 @@ class CreateGlue {
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
+        trace('macro context reused');
         hasRun = false;
+        // we need to add these classpaths again
+        // otherwise, the compilation server will not find the
+        // source files and request a full recompilation of the script types
+        if (lastScriptPaths != null) {
+          for (path in lastScriptPaths) {
+            haxe.macro.Compiler.addClassPath(path);
+          }
+        }
         Globals.reset();
         return true;
       });
