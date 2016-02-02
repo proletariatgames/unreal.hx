@@ -480,7 +480,10 @@ using StringTools;
       }
 
       ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
-      ret.ueToGlueExpr = '( %.Get() )';
+      if (ret.ueToGlueExpr == null) {
+        ret.ueToGlueExpr = '%';
+      }
+      ret.ueToGlueExpr = ret.ueToGlueExpr.replace('%', '( %.Get() )');
       ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     }
