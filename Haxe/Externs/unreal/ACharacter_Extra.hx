@@ -13,6 +13,7 @@ extern class ACharacter_Extra {
   public function ApplyDamageMomentum(DamageTaken:Float32, DamageEvent:Const<PRef<FDamageEvent>>, PawnInstigator:APawn, DamageCauser:AActor) : Void;
 
   public function CheckJumpInput(deltaSeconds:Float32) : Void;
+  public function ClearJumpInput() : Void;
 
   /**
    * Called upon landing when falling, to perform actions based on the Hit result. Triggers the OnLanded event.
