@@ -58,6 +58,17 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetDeltaSeconds() : Float32;
 
+
+  /**
+   * Jumps the server to new level.  If bAbsolute is true and we are using seemless traveling, we
+   * will do an absolute travel (URL will be flushed).
+   *
+   * @param URL the URL that we are traveling to
+   * @param bAbsolute whether we are using relative or absolute travel
+   * @param bShouldSkipGameNotify whether to notify the clients/game or not
+   */
+  public function ServerTravel(InURL:Const<PRef<FString>>, bAbsolute:Bool=false, bShouldSkipGameNotify:Bool=false) : Void;
+
   public function IsInSeamlessTravel() : Bool;
 
   /**
