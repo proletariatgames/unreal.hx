@@ -17,14 +17,19 @@ import sys.FileSystem;
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
-  static var delayedInits:Array<Void->Void>;
-
   static function main()
   {
     haxe.Log.trace = customTrace;
     trace("initializing unreal haxe");
-#if (WITH_CPPIA && WITH_EDITOR)
-    addCppiaSupport();
+
+#if WITH_EDITOR
+    if (unreal.CoreAPI.hotReloadFns == null) {
+      unreal.CoreAPI.hotReloadFns = [];
+    }
+#end
+
+#if WITH_EDITOR
+    editorSetup();
 #end
 
     var delayed = unreal.CoreAPI.delayedInits;
@@ -41,14 +46,16 @@ class UnrealInit
     }
   }
 
-#if (WITH_CPPIA && WITH_EDITOR)
-  static function addCppiaSupport() {
+#if WITH_EDITOR
+
+  static function editorSetup() {
     // get game path
     var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
     var target = '$gameDir/Binaries/Haxe/game.cppia';
     var stamp = .0;
     var internalStamp = .0;
 
+#if WITH_CPPIA
     function loadCppia() {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
@@ -85,6 +92,7 @@ class UnrealInit
         loadCppia();
       }
     });
+#end
 
     var hotReloadHandle = null,
         onCompHandle = null;
@@ -102,19 +110,28 @@ class UnrealInit
     // if we should invalidate the current module, invalidate all active ahdnles
     function onHotReload(triggeredAutomatically:Bool) {
       if (shouldCleanup) {
+        trace('Hot reload detected');
+#if WITH_CPPIA
         if (watchHandle != null) {
           UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
           watchHandle = null;
         }
+#end
         if (hotReloadHandle != null) {
           IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
           hotReloadHandle = null;
+        }
+
+        for (fn in unreal.CoreAPI.hotReloadFns) {
+          fn();
         }
       }
     }
 
     function addWatcher() {
+#if WITH_CPPIA
       UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+#end
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
       onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
     }

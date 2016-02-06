@@ -28,6 +28,11 @@ extern class UObject_Extra {
   public function GetName() : PStruct<FString>;
 
   /**
+    Rename this object to a unique name.
+   **/
+  public function Rename(newName:TCharStar, newOuter:UObject, flags:Int):Bool;
+
+  /**
     Get the default config filename for the specified UObject
    **/
   @:final public function GetDefaultConfigFilename():PStruct<FString>;

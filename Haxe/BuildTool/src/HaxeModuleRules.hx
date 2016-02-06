@@ -377,7 +377,7 @@ class HaxeModuleRules extends BaseModuleRules
               File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
             }
           }
-          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+          if (ret == 0 && UEBuildConfiguration.bSkipLinkingWhenNothingToCompile && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
             //       for this project. The PrerequisiteItems variable from Action is the one
@@ -393,7 +393,7 @@ class HaxeModuleRules extends BaseModuleRules
             // trace(dep);
             // touch the file
             // it seems we only need this for UE 4.8
-            // File.saveContent(dep, File.getContent(dep));
+            File.saveContent(dep, File.getContent(dep));
           }
         }
         if (ret != 0)

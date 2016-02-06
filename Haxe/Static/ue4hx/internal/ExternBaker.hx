@@ -489,7 +489,7 @@ class ExternBaker {
         uname = uname.substr(1);
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
-        if (!c.isInterface) {
+        if (!c.isInterface && !meta.hasMeta(':global')) {
           if (!meta.hasMeta(':noClass')) {
             if (!methods.exists(function(m) return m.uname == 'StaticClass')) {
               methods.push({
@@ -562,7 +562,7 @@ class ExternBaker {
           this.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
         this.end('}');
 
-      } else if (!c.isInterface && !this.thisConv.isUObject) {
+      } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.isUObject) {
         // add rewrap
         this.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');
         this.begin(' {');
