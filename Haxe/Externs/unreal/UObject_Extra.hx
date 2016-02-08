@@ -45,6 +45,17 @@ extern class UObject_Extra {
   public function BeginDestroy() : Void;
 
   /**
+    Add an object to the root set. This prevents the object and all
+    its descendants from being deleted during garbage collection.
+  **/
+  public function AddToRoot() : Void;
+
+  /**
+    Remove an object from the root set.
+   **/
+  public function RemoveFromRoot() : Void;
+
+  /**
     Do any object-specific cleanup required immediately after loading an object, and immediately after any undo/redo.
    **/
   public function PostLoad():Void;
@@ -104,6 +115,9 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function CreatePackage(outer:UObject, packageName:TCharStar):UPackage;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function MakeUniqueObjectName(outer:UObject, cls:UClass, baseName:FName):FName;
 
   public function PostEditImport() : Void;
 
