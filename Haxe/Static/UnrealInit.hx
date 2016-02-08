@@ -4,7 +4,7 @@ import cpp.link.StaticZlib;
 import unreal.*;
 import unreal.helpers.HxcppRuntimeStatic;
 import ue4hx.internal.HaxeCodeDispatcher;
-#if (WITH_CPPIA && WITH_EDITOR)
+#if WITH_EDITOR
 import unreal.editor.UEditorEngine;
 import unreal.developer.hotreload.IHotReloadModule;
 import unreal.FTimerManager;
@@ -26,9 +26,7 @@ class UnrealInit
     if (unreal.CoreAPI.hotReloadFns == null) {
       unreal.CoreAPI.hotReloadFns = [];
     }
-#end
 
-#if WITH_EDITOR
     editorSetup();
 #end
 

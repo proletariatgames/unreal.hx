@@ -194,6 +194,9 @@ class HaxeModuleRules extends BaseModuleRules
         if (UEBuildConfiguration.bBuildEditor) {
           bakeArgs.push('-D WITH_EDITOR');
         }
+        if (target.Configuration == Shipping) {
+          bakeArgs.push('-D UE_BUILD_SHIPPING');
+        }
         trace('baking externs');
         var tbake = timer('bake externs');
         var ret = compileSources(bakeArgs);
@@ -263,6 +266,9 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
+          }
+          if (target.Configuration == Shipping) {
+            args.push('-D UE_BUILD_SHIPPING');
           }
 
           if (this.config.dce != null) {
@@ -422,6 +428,10 @@ class HaxeModuleRules extends BaseModuleRules
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
           }
+          if (target.Configuration == Shipping) {
+            args.push('-D UE_BUILD_SHIPPING');
+          }
+
           if (!FileSystem.exists('$gameDir/Binaries/Haxe')) {
             FileSystem.createDirectory('$gameDir/Binaries/Haxe');
           }
