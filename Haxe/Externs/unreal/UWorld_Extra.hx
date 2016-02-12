@@ -72,6 +72,11 @@ extern class UWorld_Extra {
   public function IsInSeamlessTravel() : Bool;
 
   /**
+    Returns TimerManager instance for this world.
+   **/
+  public function GetTimerManager() : PRef<FTimerManager>;
+
+  /**
    *  Trace a ray against the world using a specific channel and return the first blocking hit
    *  @param  OutHit          First blocking hit found
    *  @param  Start           Start location of the ray
