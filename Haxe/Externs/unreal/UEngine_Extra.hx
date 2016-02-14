@@ -41,4 +41,6 @@ extern class UEngine_Extra {
    **/
   @:glueCppIncludes('CoreGlobals.h')
   @:global static function IsRunningCommandlet():Bool;
+
+  public function Exec(InWorld:UWorld, Cmd:TCharStar, Out:PRef<FOutputDevice>):Bool;
 }
