@@ -430,7 +430,7 @@ class UExtensionBuild {
 
           var cppType = tconv.ueType.getCppType(null) + '';
           if (tconv.isEnum) {
-            if (tconv.baseType == null || !tconv.baseType.meta.has(':class')) {
+            if (tconv.baseType == null || (!tconv.baseType.meta.has(':class') && tconv.baseType.isExtern)) {
               cppType = 'TEnumAsByte< $cppType >';
             }
             glueCppIncs.add('Engine.h');
