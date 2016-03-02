@@ -527,7 +527,7 @@ using StringTools;
           glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
           glueToUeExpr: '( (${refName.getCppType()}) % )',
-          ueToGlueExpr : '( (int) ($refName.getCppType()) % )',
+          ueToGlueExpr : '( (int) (${refName.getCppType()}) % )',
           args: convArgs,
           isEnum: true,
           baseType: baseType,
