@@ -250,8 +250,10 @@ using StringTools;
       var ret = Reflect.copy(_get(ctx.args[0], pos, ownershipOverride, registerTParam));
       if (ret.ueToGlueExpr != null) {
         ret.ueToGlueExpr = ret.ueToGlueExpr.replace("%", "const_cast<" + ret.ueType.getCppType() + ">( % )");
-        ret.ueType = ret.ueType.withConst(true);
+      } else {
+        ret.ueToGlueExpr = "const_cast<" + ret.ueType.getCppType() + ">( % )";
       }
+      ret.ueType = ret.ueType.withConst(true);
       return ret;
     } else {
       return _get(type, pos, ownershipOverride, registerTParam);
