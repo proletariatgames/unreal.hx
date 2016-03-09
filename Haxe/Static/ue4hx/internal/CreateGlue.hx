@@ -231,7 +231,6 @@ class CreateGlue {
             c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
             c.exclude();
           } else if (Context.unify(type, ustruct)) {
-            Context.warning('There is no benefit in compiling this type as a script; It will be compiled as a Static instead', c.pos);
             // c.meta.add(':native', [macro $v{'unreal.Wrapper'}], c.pos);
             // c.meta.add(':include', [macro $v{'unreal/Wrapper.h'}], c.pos);
           } else {

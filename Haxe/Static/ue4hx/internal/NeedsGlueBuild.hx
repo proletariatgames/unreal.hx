@@ -110,6 +110,9 @@ class NeedsGlueBuild
       var nativeCalls = new Map();
       var methodPtrs = new Map();
       for (field in fields) {
+        if (cls.meta.has(':ustruct') && Globals.cur.inScriptPass && field.kind.match(FFun(_))) {
+          field.meta.push({ name:':live', pos:field.pos });
+        }
         if (field.access != null && field.access.has(AOverride)) {
           field.meta.push({ name:':keep', pos:field.pos });
           // TODO: should we check for non-override fields as well? This would

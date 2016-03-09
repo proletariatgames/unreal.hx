@@ -49,7 +49,11 @@ class LiveReloadBuild {
       texpr = map(texpr);
     }
     // store this so it can be later built into LiveReload
-    Globals.liveReloadFuncs[cls][fn] = texpr;
+    var clst = Context.getLocalClass().get();
+    if (!(clst.meta.has(':uscript') && clst.meta.has(':ustruct') && !Context.defined('cppia') && Context.defined('WITH_CPPIA'))) {
+      // if this is a ustruct, we don't want to set its contents on non-cppia context
+      Globals.liveReloadFuncs[cls][fn] = texpr;
+    }
     // change all expression to call LiveReload with the correct types
     switch(Context.follow(texpr.t)) {
     case TFun(args,ret):
