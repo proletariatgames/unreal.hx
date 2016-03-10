@@ -7,6 +7,10 @@ package unreal;
     return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() ) );
   }
 
+  @:from @:impl public static function fromWrapper<T : Wrapper>(self:T):TThreadSafeSharedPtr<T> {
+    return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtrTS() ) );
+  }
+
   @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
     return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedRef() ) );
   }
