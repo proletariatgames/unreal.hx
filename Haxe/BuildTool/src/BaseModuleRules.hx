@@ -24,6 +24,7 @@ class BaseModuleRules extends ModuleRules
   var gameDir:String;
   var haxeSourcesPath:String;
   var internalHaxeSourcesPath:String;
+  var target:TargetInfo;
 
   public function new(target:TargetInfo)
   {
@@ -54,6 +55,7 @@ class BaseModuleRules extends ModuleRules
       }
     }
 
+    this.target = target;
     run(target, firstRun);
     firstRunMap[curName] = false;
   }

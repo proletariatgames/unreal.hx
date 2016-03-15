@@ -33,6 +33,21 @@ class CoreAPI {
     }
   }
 
+#if WITH_EDITOR
+
+  static var hotReloadFns:Array<Void->Void>;
+  /**
+    Runs function `fn` every time hot reload happens
+   **/
+  public static function onHotReload(fn:Void->Void) {
+    if (hotReloadFns == null) {
+      hotReloadFns = [fn];
+    } else {
+      hotReloadFns.push(fn);
+    }
+  }
+#end
+
   #if !macro
   public static function equals(a:Dynamic, b:Dynamic) : Bool {
     if ((a == null) && (b == null)) {

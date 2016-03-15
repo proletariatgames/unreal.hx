@@ -13,8 +13,10 @@ using StringTools;
 class CreateGlue {
   static var firstCompilation = true;
   static var hasRun = false;
+  static var lastScriptPaths:Array<String>;
 
   public static function run(alwaysCompilePaths:Array<String>, ?scriptPaths:Array<String>) {
+    lastScriptPaths = scriptPaths;
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
@@ -26,6 +28,7 @@ class CreateGlue {
       getModules(path, toCompile);
     }
     toCompile.push('UnrealInit');
+    toCompile.push('unreal.ReflectAPI');
     var scriptModules = [];
     for (path in scriptPaths) {
       getModules(path, scriptModules);
@@ -139,7 +142,6 @@ class CreateGlue {
     }
     for (type in Globals.cur.scriptGlues) {
       ScriptGlue.generate(type);
-      Globals.cur.cachedBuiltTypes.push(type);
     }
 
     // create hot reload helper
@@ -194,7 +196,16 @@ class CreateGlue {
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
+        trace('macro context reused');
         hasRun = false;
+        // we need to add these classpaths again
+        // otherwise, the compilation server will not find the
+        // source files and request a full recompilation of the script types
+        if (lastScriptPaths != null) {
+          for (path in lastScriptPaths) {
+            haxe.macro.Compiler.addClassPath(path);
+          }
+        }
         Globals.reset();
         return true;
       });
@@ -220,7 +231,6 @@ class CreateGlue {
             c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
             c.exclude();
           } else if (Context.unify(type, ustruct)) {
-            Context.warning('There is no benefit in compiling this type as a script; It will be compiled as a Static instead', c.pos);
             // c.meta.add(':native', [macro $v{'unreal.Wrapper'}], c.pos);
             // c.meta.add(':include', [macro $v{'unreal/Wrapper.h'}], c.pos);
           } else {

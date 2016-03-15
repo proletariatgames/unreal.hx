@@ -427,15 +427,23 @@ class UExtensionBuild {
 
             headerCode += data + ')\n\t\t';
           }
+
+          var cppType = tconv.ueType.getCppType(null) + '';
+          if (tconv.isEnum) {
+            if (tconv.baseType == null || (!tconv.baseType.meta.has(':class') && tconv.baseType.meta.has(':uextern'))) {
+              cppType = 'TEnumAsByte< $cppType >';
+            }
+            glueCppIncs.add('Engine.h');
+          }
           if (isStatic) {
             if (!tconv.isUObject) {
               throw new Error('Unreal Extension: @:uexpose on static properties must be of a uobject-derived type', uprop.pos);
             }
 
             headerCode += 'static ';
-            cppCode += tconv.ueType.getCppType(null) + ' ' + thisConv.ueType.getCppClass() + '::' + uname + ' = nullptr;\n';
+            cppCode += cppType + ' ' + thisConv.ueType.getCppClass() + '::' + uname + ' = nullptr;\n';
           }
-          headerCode += tconv.ueType.getCppType(null) + ' ' + uname + ';\n\n\t\t';
+          headerCode += cppType + ' ' + uname + ';\n\n\t\t';
           // we are using cpp includes here since glueCppIncludes represents the includes on the Unreal side
           var types = [tconv];
           var i = -1;

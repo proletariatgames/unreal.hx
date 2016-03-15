@@ -57,6 +57,13 @@ extern class AActor_Extra {
 
   public function TornOff() : Void;
 
+	/**
+	 * Called when an instance of this class is placed (in editor) or spawned.
+	 * @param	Transform			The transform the actor was constructed at.
+	 */
+	public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
+
+
   // TODO glue when we can properly handle const UDamageType& extern.
   /** called when the actor falls out of the world 'safely' (below KillZ and such) */
   // public function FellOutOfWorld(dmgType:Const<PRef<UDamageType>>) : Void;

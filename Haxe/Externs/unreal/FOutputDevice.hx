@@ -4,6 +4,10 @@ package unreal;
 @:noCopy
 @:noEquals
 @:uextern extern class FOutputDevice {
+
+  @:global
+  static var GLog(default, never) : PExternal<FOutputDevice>;
+
   function Flush():Void;
 
   /**

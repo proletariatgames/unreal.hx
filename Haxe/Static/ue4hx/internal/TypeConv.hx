@@ -250,8 +250,10 @@ using StringTools;
       var ret = Reflect.copy(_get(ctx.args[0], pos, ownershipOverride, registerTParam));
       if (ret.ueToGlueExpr != null) {
         ret.ueToGlueExpr = ret.ueToGlueExpr.replace("%", "const_cast<" + ret.ueType.getCppType() + ">( % )");
-        ret.ueType = ret.ueType.withConst(true);
+      } else {
+        ret.ueToGlueExpr = "const_cast<" + ret.ueType.getCppType() + ">( % )";
       }
+      ret.ueType = ret.ueType.withConst(true);
       return ret;
     } else {
       return _get(type, pos, ownershipOverride, registerTParam);
@@ -480,7 +482,10 @@ using StringTools;
       }
 
       ret.ueType = new TypeRef(name.split('.')[1], [ueType]);
-      ret.ueToGlueExpr = '( %.Get() )';
+      if (ret.ueToGlueExpr == null) {
+        ret.ueToGlueExpr = '%';
+      }
+      ret.ueToGlueExpr = ret.ueToGlueExpr.replace('%', '( %.Get() )');
       ret.glueToUeExpr = '( (${ret.ueType.getCppType()}) ' + ret.glueToUeExpr + ' )';
       return ret;
     }
@@ -524,7 +529,7 @@ using StringTools;
           glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
           glueToUeExpr: '( (${refName.getCppType()}) % )',
-          ueToGlueExpr : '( (int) % )',
+          ueToGlueExpr : '( (int) (${refName.getCppType()}) % )',
           args: convArgs,
           isEnum: true,
           baseType: baseType,
@@ -544,7 +549,7 @@ using StringTools;
           haxeToGlueExpr: '{ var temp $setType = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
           glueToHaxeExpr: isScript ? 'Type.createEnumIndex(Type.resolveEnum("${originalTypeRef.getClassPath(true)}"), %)' : 'Type.createEnumIndex($originalTypeRef, %)',
           glueToUeExpr: '( (${refName.getCppType()}) % )',
-          ueToGlueExpr : '( (int) % )',
+          ueToGlueExpr : '( (int) (${refName.getCppType()}) % )',
           args: convArgs,
           isEnum: true,
           baseType: baseType,
@@ -949,6 +954,7 @@ using StringTools;
 
         haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((uint64) (%))',
         isBasic: true,
       },
       {
@@ -959,6 +965,7 @@ using StringTools;
 
         haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((int64) (%))',
         isBasic: true,
       },
       {
@@ -979,6 +986,27 @@ using StringTools;
         haxeToGlueExpr: '(%).rawCast()',
         glueToHaxeExpr: 'cpp.Pointer.fromRaw(cast (%))',
         isBasic: true,
+      },
+      {
+        ueType: voidStar,
+        haxeType: new TypeRef(['unreal'],'AnyPtr'),
+        glueType: voidStar,
+        haxeGlueType: voidStar,
+
+        haxeToGlueExpr: '(%).rawCast()',
+        glueToHaxeExpr: '( cpp.Pointer.fromRaw(cast (%)) : unreal.AnyPtr )',
+        // isBasic: true,
+      },
+      {
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void const')]),
+        haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
+        glueType: voidStar,
+        haxeGlueType: voidStar,
+
+        haxeToGlueExpr: '(%).rawCast()',
+        glueToHaxeExpr: '( cpp.Pointer.fromRaw(cast (%)) : unreal.AnyPtr )',
+        ueToGlueExpr: '(const_cast<void *>(%))',
+        // isBasic: true,
       },
       // TCharStar
       {

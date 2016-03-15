@@ -59,6 +59,8 @@ class CreateCppia {
       'unreal.TThreadSafeSharedPtr',
       'unreal.TThreadSafeSharedRef',
       'unreal.TThreadSafeWeakPtr',
+      'unreal.AnyPtr',
+      'unreal.ReflectAPI',
     ];
 
     addTimestamp();
@@ -151,6 +153,7 @@ class CreateCppia {
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
+        trace('macro context reused');
         hasRun = false;
         Globals.reset();
         return true;

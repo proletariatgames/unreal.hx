@@ -14,4 +14,6 @@ extern class UAnimInstance_Extra {
   @:function
   public function Montage_SetPosition(Montage:UAnimMontage, NewPosition:Float32) : Void;
 
+  public function NativeInitializeAnimation() : Void;
+  public function NativeUpdateAnimation(deltaSeconds:Float32) : Void;
 }

@@ -12,6 +12,10 @@ extern class UEngine_Extra {
 
   public function OnNetworkFailure() : PRef<FOnNetworkFailure>;
 
+  public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PExternal<FWorldContext>;
+
+  public function GetWorldContextFromWorldChecked(InWorld:Const<UWorld>) : PRef<FWorldContext>;
+
   public var TravelFailureEvent : FOnTravelFailure;
   /**
     Global UEngine
@@ -37,4 +41,6 @@ extern class UEngine_Extra {
    **/
   @:glueCppIncludes('CoreGlobals.h')
   @:global static function IsRunningCommandlet():Bool;
+
+  public function Exec(InWorld:UWorld, Cmd:TCharStar, Out:PRef<FOutputDevice>):Bool;
 }

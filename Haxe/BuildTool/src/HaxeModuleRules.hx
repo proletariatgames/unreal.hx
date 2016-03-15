@@ -170,6 +170,10 @@ class HaxeModuleRules extends BaseModuleRules
 
       if (hasHaxe)
       {
+        var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
+        if (compserver != null) {
+          Sys.putEnv("HAXE_COMPILATION_SERVER", null);
+        }
         // bake glue code externs
 
         // Windows paths have '\' which needs to be escaped for macro arguments
@@ -190,6 +194,9 @@ class HaxeModuleRules extends BaseModuleRules
         ];
         if (UEBuildConfiguration.bBuildEditor) {
           bakeArgs.push('-D WITH_EDITOR');
+        }
+        if (target.Configuration == Shipping) {
+          bakeArgs.push('-D UE_BUILD_SHIPPING');
         }
         trace('baking externs');
         var tbake = timer('bake externs');
@@ -260,6 +267,9 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
+          }
+          if (target.Configuration == Shipping) {
+            args.push('-D UE_BUILD_SHIPPING');
           }
 
           if (this.config.dce != null) {
@@ -335,8 +345,9 @@ class HaxeModuleRules extends BaseModuleRules
           if (this.config.extraCompileArgs != null)
             args = args.concat(this.config.extraCompileArgs);
 
-          if (Sys.getEnv('HAXE_COMPILATION_SERVER') != null) {
+          if (compserver != null) {
             File.saveContent('$targetDir/Built/Data/compserver.txt','1');
+            Sys.putEnv("HAXE_COMPILATION_SERVER", compserver);
           } else {
             File.saveContent('$targetDir/Built/Data/compserver.txt','0');
           }
@@ -350,8 +361,12 @@ class HaxeModuleRules extends BaseModuleRules
             this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
           }
 
-          if (oldEnvs != null)
+          if (oldEnvs != null) {
             setEnvs(oldEnvs);
+          }
+          if (compserver != null) {
+            Sys.putEnv("HAXE_COMPILATION_SERVER", null);
+          }
 
           if (ret == 0 && isCrossCompiling) {
             // somehow -D destination doesn't do anything when cross compiling
@@ -369,7 +384,7 @@ class HaxeModuleRules extends BaseModuleRules
               File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
             }
           }
-          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+          if (ret == 0 && UEBuildConfiguration.bSkipLinkingWhenNothingToCompile && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
             //       for this project. The PrerequisiteItems variable from Action is the one
@@ -382,8 +397,9 @@ class HaxeModuleRules extends BaseModuleRules
             //       the output file name at this stage
 
             var dep = Path.GetFullPath('$gameDir/Source/$targetModule/Generated/HaxeInit.cpp');
-            trace(dep);
+            // trace(dep);
             // touch the file
+            // it seems we only need this for UE 4.8
             File.saveContent(dep, File.getContent(dep));
           }
         }
@@ -413,6 +429,10 @@ class HaxeModuleRules extends BaseModuleRules
           if (UEBuildConfiguration.bBuildEditor) {
             args.push('-D WITH_EDITOR');
           }
+          if (target.Configuration == Shipping) {
+            args.push('-D UE_BUILD_SHIPPING');
+          }
+
           if (!FileSystem.exists('$gameDir/Binaries/Haxe')) {
             FileSystem.createDirectory('$gameDir/Binaries/Haxe');
           }

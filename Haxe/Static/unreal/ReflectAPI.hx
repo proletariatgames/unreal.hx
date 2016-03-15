@@ -1,4 +1,5 @@
 package unreal;
+using StringTools;
 
 class ReflectAPI {
   /**
@@ -12,9 +13,24 @@ class ReflectAPI {
     Remarks:
      * `unreal.PExternal`, `unreal.PRef`, `unreal.TSharedPtr/TWeakPtr` are not supported for automatic anonymous types / Array automatic conversion
      * Array of anonymous types to TArray of structs is supported, but the default constructor will not be called in this case. So make sure the struct used supports that
+     * Blueprint-only classes are partially supported. See `bpSetField`
    **/
   public static function extSetField(obj:haxe.extern.EitherType<unreal.Wrapper, unreal.IInterface>, field:String, value:Dynamic) {
     extSetField_rec(obj, field, value, field);
+  }
+
+  /**
+    Sets the `obj` `field` to `value` - while `obj` is a blueprint-only instance.
+    There is only limited support for that right now - only basic types and string are supported
+   **/
+  public static function bpSetField(obj:unreal.IInterface, field:String, value:Dynamic) {
+    var cls = cast(obj, UObject).GetClass();
+    var prop = cls.FindPropertyByName(field);
+    if (prop != null) {
+      bpSetField_rec(AnyPtr.fromUObject(cast obj), prop, value, field);
+    } else {
+      throw 'Field `$field` does not exist on ${cls.GetDesc()}';
+    }
   }
 
   private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
@@ -74,15 +90,195 @@ class ReflectAPI {
     var cls = value == null ? null : Type.getClass(value);
     var old = Reflect.getProperty(obj, field);
     if (old == null || !handleInplaceStruct(old, value, path)) {
-#if debug
       try {
-#end
-      Reflect.setProperty(obj, field, changeType(old, value, path));
-#if debug
+        Reflect.setProperty(obj, field, changeType(old, value, path));
       } catch (e:Dynamic) {
+        if (StringTools.startsWith(Std.string(e), 'Invalid field:')) {
+          if (Std.is(obj, UObject)) {
+            var obj:UObject = obj;
+            var cls = obj.GetClass();
+            if (!cls.HasAllClassFlags(EClassFlags.CLASS_Native)) {
+              var prop = cls.FindPropertyByName(field);
+              if (prop != null) {
+                bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, path);
+                return;
+              }
+            }
+          }
+        }
+#if debug
         throw 'Cannot set field for path `$path` on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
+#else
+        throw 'Cannot set field on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
+#end
       }
+    }
+  }
+
+  private static function bpSetField_rec(obj:AnyPtr, prop:UProperty, value:Dynamic, path:String) {
+    if (prop.ArrayDim > 1) {
+#if debug
+      throw 'Property (${prop.GetName()}) with array dimensions more than 1 is not supported (for $path)';
+#else
+      throw 'Property (${prop.GetName()}) with array dimensions more than 1 is not supported';
 #end
     }
+
+    var objOffset = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+    if (Std.is(prop, UNumericProperty)) {
+      var np:UNumericProperty = cast prop;
+      if (np.IsFloatingPoint()) {
+        np.SetFloatingPointPropertyValue(objOffset, cast value);
+      } else if (Std.is(prop, UInt64Property)) {
+        if (Int64.is(value)) {
+          np.SetIntPropertyValue(objOffset, value);
+        } else {
+          np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
+        }
+      } else if (Std.is(prop, UUInt64Property)) {
+        if (Int64.is(value)) {
+          np.SetUIntPropertyValue(objOffset, value);
+        } else {
+          np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
+        }
+      } else if (Std.is(prop, UUInt32Property)) {
+        np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
+      } else {
+        np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(cast value));
+      }
+    } else if (Std.is(prop, UBoolProperty)) {
+      var prop:UBoolProperty = cast prop;
+      prop.SetPropertyValue(objOffset, value == true);
+    } else if (Std.is(prop, UObjectPropertyBase)) {
+      var prop:UObjectPropertyBase = cast prop;
+      prop.SetObjectPropertyValue(objOffset, value);
+    } else if (Std.is(prop, UNameProperty)) {
+      if (!Std.is(value, FNameImpl)) {
+        value = (cast(value, String) : FName);
+      }
+      var myObj = AnyPtr.fromStruct(value);
+      prop.CopyCompleteValue(objOffset, myObj);
+    } else if (Std.is(prop, UStrProperty)) {
+      if (!Std.is(value, FStringImpl)) {
+        value = (cast(value,String) : FString);
+      }
+      var myObj = AnyPtr.fromStruct(value);
+      prop.CopyCompleteValue(objOffset, myObj);
+    } else if (Std.is(prop, UTextProperty)) {
+      if (!Std.is(value, FTextImpl)) {
+        value = (cast(value,String) : FText);
+      }
+      var myObj = AnyPtr.fromStruct(value);
+      prop.CopyCompleteValue(objOffset, myObj);
+    } else if (Std.is(prop, UStructProperty)) {
+      var prop:UStructProperty = cast prop,
+          struct = prop.Struct;
+      if (Type.getClass(value) == null && value != null && !Reflect.isEnumValue(value) && Reflect.isObject(value)) {
+        // set objects
+        for (field in Reflect.fields(value)) {
+          var newPath =
+#if debug
+            path + '.$field';
+#else
+            null;
+#end
+          var prop = struct.FindPropertyByName(field);
+          if (prop == null) {
+            prop = struct.PropertyLink;
+            while (prop != null) {
+              // strangely, blueprint-only structs have some weird names
+              if (prop.GetName().toString().startsWith(field + '_')) {
+                break;
+              }
+              prop = prop.PropertyLinkNext;
+            }
+          }
+          if (prop == null) {
+            throw 'Field `$field` does not exist on ${struct.GetDesc()}' #if debug + ' ($path)' #end;
+          }
+          bpSetField_rec(objOffset, prop, Reflect.field(value, field), newPath);
+        }
+      } else {
+        throw 'Struct set not supported: ${struct.GetDesc()}';
+      }
+    } else {
+      throw 'Property not supported: $prop';
+    }
+  }
+
+  public static function bpGetField(obj:unreal.IInterface, field:String):Dynamic {
+    var obj:UObject = cast obj;
+    var cls = obj.GetClass();
+    var prop = cls.FindPropertyByName(field);
+    if (prop == null) {
+      throw 'Class ${cls.GetDesc()} does not exist!';
+    }
+
+    var objPtr = AnyPtr.fromUObject(obj) + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+    if (Std.is(prop, UNumericProperty)) {
+      var np:UNumericProperty = cast prop;
+      if (np.IsFloatingPoint()) {
+        return np.GetFloatingPointPropertyValue(objPtr);
+      } else if (Std.is(prop, UInt64Property)) {
+        return np.GetSignedIntPropertyValue(objPtr);
+      } else if (Std.is(prop, UUInt64Property)) {
+        return np.GetUnsignedIntPropertyValue(objPtr);
+      } else if (Std.is(prop, UUInt32Property)) {
+        return Int64.toInt(np.GetUnsignedIntPropertyValue(objPtr));
+      } else {
+        return Int64.toInt(np.GetSignedIntPropertyValue(objPtr));
+      }
+    } else if (Std.is(prop, UBoolProperty)) {
+      var prop:UBoolProperty = cast prop;
+      return prop.GetPropertyValue(objPtr);
+    } else if (Std.is(prop, UObjectPropertyBase)) {
+      var prop:UObjectPropertyBase = cast prop;
+      return prop.GetObjectPropertyValue(objPtr);
+    } else if (Std.is(prop, UNameProperty)) {
+      var value:FName = "";
+      prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
+      return value;
+    } else if (Std.is(prop, UStrProperty)) {
+      var value:FString = "";
+      prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
+      return value;
+    } else if (Std.is(prop, UTextProperty)) {
+      var value:FText = "";
+      prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
+      return value;
+    } else {
+      throw 'Property not supported: $prop (for field $field)';
+    }
+    return null;
+  }
+
+  public static function getBlueprintClass(path:String):UClass {
+    // make sure that the package is loaded already
+    var pack = UObject.FindPackage(null, path);
+    if (pack == null) {
+      pack = UObject.LoadPackage(null, path, 0);
+    }
+    if (pack == null) {
+      trace('Warning', 'Package for path $path could not be loaded!');
+    } else {
+      pack.FullyLoad();
+
+      var arr = TArray.create(new TypeParam<UObject>());
+      UObject.GetObjectsWithOuter(pack, arr, true, RF_NoFlags);
+      for (val in arr) {
+        if (Std.is(val, UBlueprint)) {
+          return (cast val : UBlueprint).GeneratedClass;
+        } else if (Std.is(val, UClass)) {
+          return cast val;
+        }
+      }
+    }
+
+    var obj = UObject.LoadObject(new TypeParam<UBlueprint>(), null, path, null, 0, null);
+    if (obj == null) {
+      trace('Warning', 'The blueprint path $path does not exist!');
+      return null;
+    }
+    return obj.GeneratedClass;
   }
 }

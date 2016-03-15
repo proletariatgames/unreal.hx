@@ -43,6 +43,8 @@ class ScriptGlue {
     }
 
     var scriptGlue = typeref.getScriptGlueType();
+    Globals.cur.cachedBuiltTypes.push(scriptGlue.getClassPath());
+
     Context.defineType({
       pack: scriptGlue.pack,
       name: scriptGlue.name,
