@@ -41,6 +41,11 @@ package unreal;
   public var NonFocusVolumeAttenuation : unreal.Float32;
   
   /**
+    Amount to attenuate sounds that are in focus. Can be overridden at the sound-level.
+  **/
+  public var FocusVolumeAttenuation : unreal.Float32;
+  
+  /**
     Amount to scale the priority of sounds that are not in-focus. Can be used to reduce the priority of sounds that are not in focus.
   **/
   public var NonFocusPriorityScale : unreal.Float32;

@@ -15,16 +15,22 @@ package unreal;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
+  For HMDs that support it, this specifies whether the origin of the tracking universe will be at the floor, or at the user's eye height
 **/
-@:glueCppIncludes("Materials/MaterialExpressionScreenPosition.h")
-@:noClass @:uextern extern class UMaterialExpressionScreenPosition extends unreal.UMaterialExpression {
+@:glueCppIncludes("Kismet/HeadMountedDisplayFunctionLibrary.h")
+@:uname("EHMDTrackingOrigin.Type")
+@:uextern extern enum EHMDTrackingOrigin {
   
   /**
-    View input property to be accessed
+    Floor Level
   **/
-  public var Mapping : unreal.EMaterialExpressionScreenPositionMapping;
+  @DisplayName("Floor Level")
+  Floor;
+  
+  /**
+    Eye Level
+  **/
+  @DisplayName("Eye Level")
+  Eye;
   
 }

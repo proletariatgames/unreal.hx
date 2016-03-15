@@ -17,7 +17,9 @@ package unreal;
 @:uextern extern class FSoundConcurrencySettings {
   
   /**
-    The amount of attenuation to apply to each voice instance in this concurrency group.
+    The amount of attenuation to apply to older voice instances in this concurrency group. This reduces volume of older voices in a concurrency group as new voices play.
+    
+    AppliedVolumeScale = Math.Pow(DuckingScale, VoiceGeneration)
   **/
   public var VolumeScale : unreal.Float32;
   

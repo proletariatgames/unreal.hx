@@ -26,7 +26,7 @@ package unreal;
   public var WireframeCullThreshold : unreal.Float32;
   
   /**
-    Enable instanced stereo rendering.
+    Enable instanced stereo rendering (only available for D3D SM5 or PS4).
   **/
   public var bInstancedStereo : Bool;
   

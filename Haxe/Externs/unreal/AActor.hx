@@ -929,6 +929,12 @@ package unreal;
   @:final public function FlushNetDormancy() : Void;
   
   /**
+    Returns whether this Actor was spawned by a child actor component
+  **/
+  @:thisConst @:final public function IsChildActor() : Bool;
+  @:thisConst @:final public function GetParentComponent() : unreal.UChildActorComponent;
+  
+  /**
     Teleport this actor to a new location. If the actor doesn't fit exactly at the location specified, tries to slightly move it out of walls and such.
     
     @param DestLocation The target destination point

@@ -101,11 +101,6 @@ package unreal;
   public var bAbsoluteLocation : Bool;
   
   /**
-    if true, will call GetCustomLocation instead or returning the location part of ComponentToWorld
-  **/
-  public var bRequiresCustomLocation : Bool;
-  
-  /**
     Optional socket name on AttachParent that we are attached to.
   **/
   public var AttachSocketName : unreal.FName;

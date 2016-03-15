@@ -654,6 +654,12 @@ package unreal;
   @:final public function SetHapticsByValue(Frequency : unreal.Float32, Amplitude : unreal.Float32, Hand : unreal.inputcore.EControllerHand) : Void;
   
   /**
+    Sets the light color of the player's controller
+    @param        Color                                   The color for the light to be
+  **/
+  @:final public function SetControllerLightColor(Color : unreal.FColor) : Void;
+  
+  /**
     Travel to a different map or IP address. Calls the PreClientTravel event before doing anything.
     NOTE: This is implemented as a locally executed wrapper for ClientTravelInternal, to avoid API compatability breakage
     

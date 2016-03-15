@@ -15,11 +15,6 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
 @:uextern extern class UAnimSingleNodeInstance extends unreal.UAnimInstance {
-  
-  /**
-    Random cached values to play each asset *
-  **/
-  public var BlendFilter : unreal.FBlendFilter;
   @:final public function SetLooping(bIsLooping : Bool) : Void;
   @:final public function SetPlayRate(InPlayRate : unreal.Float32) : Void;
   @:final public function SetReverse(bInReverse : Bool) : Void;

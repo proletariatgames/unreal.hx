@@ -13,18 +13,22 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Materials/MaterialExpressionScreenPosition.h")
-@:noClass @:uextern extern class UMaterialExpressionScreenPosition extends unreal.UMaterialExpression {
+@:uname("EMaterialExpressionScreenPositionMapping")
+@:uextern extern enum EMaterialExpressionScreenPositionMapping {
   
   /**
-    View input property to be accessed
+    A UV in the 0..1 range for use with the ScreeTnexture material expression.
+    @DisplayName SceneTextureUV
   **/
-  public var Mapping : unreal.EMaterialExpressionScreenPositionMapping;
+  @DisplayName("SceneTextureUV")
+  MESP_SceneTextureUV;
+  
+  /**
+    A UV in the 0..1 range that maps to the local viewport
+    @DisplayName ViewportUV
+  **/
+  @DisplayName("ViewportUV")
+  MESP_ViewportUV;
   
 }
