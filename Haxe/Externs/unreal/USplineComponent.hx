@@ -90,6 +90,11 @@ package unreal;
   public var SplineInfo : unreal.FInterpCurveVector;
   
   /**
+    Update the spline tangents and SplineReparamTable
+  **/
+  @:final public function UpdateSpline() : Void;
+  
+  /**
     Specify unselected spline component segment color in the editor
   **/
   @:final public function SetUnselectedSplineSegmentColor(SegmentColor : unreal.Const<unreal.PRef<unreal.FLinearColor>>) : Void;
@@ -118,6 +123,16 @@ package unreal;
     Adds a point to the spline
   **/
   @:final public function AddSplinePoint(Position : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  
+  /**
+    Adds a point to the spline at the specified index
+  **/
+  @:final public function AddSplinePointAtIndex(Position : unreal.Const<unreal.PRef<unreal.FVector>>, Index : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  
+  /**
+    Removes point at specified index from the spline
+  **/
+  @:final public function RemoveSplinePoint(Index : unreal.Int32) : Void;
   
   /**
     Adds a world space point to the spline
@@ -398,5 +413,60 @@ package unreal;
     Given a time from 0 to the spline duration, return the spline's scale there.
   **/
   @:thisConst @:final public function GetScaleAtTime(Time : unreal.Float32, bUseConstantVelocity : Bool) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return the input key closest to that location.
+  **/
+  @:thisConst @:final public function FindInputKeyClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.Float32;
+  
+  /**
+    Given a location, in world space, return the point on the curve that is closest to the location.
+  **/
+  @:thisConst @:final public function FindLocationClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Given a location, in world spcae, return a unit direction vector of the spline tangent closest to the location.
+  **/
+  @:thisConst @:final public function FindDirectionClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return the tangent vector of the spline closest to the location.
+  **/
+  @:thisConst @:final public function FindTangentClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return a quaternion corresponding to the spline's rotation closest to the location.
+  **/
+  @:thisConst @:final public function FindQuaternionClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FQuat;
+  
+  /**
+    Given a location, in world space, return rotation corresponding to the spline's rotation closest to the location.
+  **/
+  @:thisConst @:final public function FindRotationClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FRotator;
+  
+  /**
+    Given a location, in world space, return a unit direction vector corresponding to the spline's up vector closest to the location.
+  **/
+  @:thisConst @:final public function FindUpVectorClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return a unit direction vector corresponding to the spline's right vector closest to the location.
+  **/
+  @:thisConst @:final public function FindRightVectorClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return the spline's roll closest to the location, in degrees.
+  **/
+  @:thisConst @:final public function FindRollClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.Float32;
+  
+  /**
+    Given a location, in world space, return the spline's scale closest to the location.
+  **/
+  @:thisConst @:final public function FindScaleClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FVector;
+  
+  /**
+    Given a location, in world space, return an FTransform closest to that location.
+  **/
+  @:thisConst @:final public function FindTransformClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUseScale : Bool) : unreal.FTransform;
   
 }

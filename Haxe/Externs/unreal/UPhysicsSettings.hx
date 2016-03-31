@@ -66,6 +66,11 @@ package unreal;
   public var MaxPhysicsDeltaTime : unreal.Float32;
   
   /**
+    If true CCD will be ignored. This is an optimization when CCD is never used which removes the need for physx to check it internally.
+  **/
+  public var bDisableCCD : Bool;
+  
+  /**
     If true, static meshes will use per poly collision as complex collision by default. If false the default behavior is the same as UseSimpleAsComplex.
   **/
   public var bDefaultHasComplexCollision : Bool;

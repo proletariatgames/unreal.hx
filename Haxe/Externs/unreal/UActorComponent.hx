@@ -38,7 +38,7 @@ package unreal;
   public var bIsActive : Bool;
   
   /**
-    Whether to the component is activated at creation or must be explicitly activated.
+    Whether the component is activated at creation or must be explicitly activated.
   **/
   public var bAutoActivate : Bool;
   
@@ -135,7 +135,7 @@ package unreal;
   /**
     Set this component's tick functions to be enabled or disabled. Only has an effect if the function is registered
     
-    @param       bEnabled - Rather it should be enabled or not
+    @param       bEnabled - Whether it should be enabled or not
   **/
   public function SetComponentTickEnabled(bEnabled : Bool) : Void;
   

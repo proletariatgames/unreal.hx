@@ -17,7 +17,7 @@ package unreal.aimodule;
 @:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
 @:uextern extern class FEnvNamedValue {
   public var Value : unreal.Float32;
-  public var ParamType : unreal.aimodule.EEnvQueryParam;
+  public var ParamType : unreal.aimodule.EAIParamType;
   public var ParamName : unreal.FName;
   
 }

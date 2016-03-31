@@ -23,6 +23,21 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FRepRootMotionMontage {
   
   /**
+    Velocity
+  **/
+  public var LinearVelocity : unreal.FVector_NetQuantize10;
+  
+  /**
+    Acceleration
+  **/
+  public var Acceleration : unreal.FVector_NetQuantize10;
+  
+  /**
+    State of Root Motion Sources on Authority
+  **/
+  public var AuthoritativeRootMotion : unreal.FRootMotionSourceGroup;
+  
+  /**
     Whether rotation is relative or absolute.
   **/
   public var bRelativeRotation : Bool;
@@ -50,7 +65,7 @@ package unreal;
   /**
     Location
   **/
-  public var Location : unreal.FVector_NetQuantize10;
+  public var Location : unreal.FVector_NetQuantize100;
   
   /**
     Track position of Montage
@@ -61,5 +76,10 @@ package unreal;
     AnimMontage providing Root Motion
   **/
   public var AnimMontage : unreal.UAnimMontage;
+  
+  /**
+    Whether this has useful/active data.
+  **/
+  public var bIsActive : Bool;
   
 }

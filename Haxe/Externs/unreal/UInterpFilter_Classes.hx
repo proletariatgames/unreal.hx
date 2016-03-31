@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("h")
+@:glueCppIncludes("Matinee/InterpFilter_Classes.h")
 @:noClass @:uextern extern class UInterpFilter_Classes extends unreal.UInterpFilter {
   #if WITH_EDITORONLY_DATA
   

@@ -50,20 +50,6 @@ package unreal;
   TG_EndPhysics;
   
   /**
-    Any item that needs physics to be complete before being executed.
-    @DisplayName Pre Cloth
-  **/
-  @DisplayName("Pre Cloth")
-  TG_PreCloth;
-  
-  /**
-    Any item that needs to be updated after rigid body simulation is done, but before cloth is simulation is done.
-    @DisplayName Start Cloth
-  **/
-  @DisplayName("Start Cloth")
-  TG_StartCloth;
-  
-  /**
     Any item that needs rigid body and cloth simulation to be complete before being executed.
     @DisplayName Post Physics
   **/
@@ -78,11 +64,11 @@ package unreal;
   TG_PostUpdateWork;
   
   /**
-    Special tick group that ends cloth simulation.
-    @DisplayName End Cloth
+    Catchall for anything demoted to the end.
+    @DisplayName Last Demotable
   **/
-  @DisplayName("End Cloth")
-  TG_EndCloth;
+  @DisplayName("Last Demotable")
+  TG_LastDemotable;
   
   /**
     Special tick group that is not actually a tick group. After every tick group this is repeatedly re-run until there are no more newly spawned items to run.

@@ -58,6 +58,11 @@ package unreal;
   public var ActionMappings : unreal.TArray<unreal.FInputActionKeyMapping>;
   
   /**
+    The default mouse capture mode for the game viewport
+  **/
+  public var DefaultViewportMouseCaptureMode : unreal.EMouseCaptureMode;
+  
+  /**
     If a key is pressed twice in this amount of time it is considered a "double click"
   **/
   public var DoubleClickTime : unreal.Float32;

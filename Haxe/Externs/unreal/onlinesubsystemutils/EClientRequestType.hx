@@ -43,11 +43,6 @@ package unreal.onlinesubsystemutils;
   EmptyServerReservation;
   
   /**
-    Attempt to change an existing session to use a new world
-  **/
-  ChangeWorldRequest;
-  
-  /**
     Simple reconnect (checks for existing reservation)
   **/
   Reconnect;

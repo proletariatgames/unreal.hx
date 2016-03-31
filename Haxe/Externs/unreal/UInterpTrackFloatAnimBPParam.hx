@@ -30,6 +30,7 @@ package unreal;
   /**
     Materials whose parameters we want to change and the references to those materials.
   **/
+  public var AnimClass : unreal.TSubclassOf<unreal.UAnimInstance>;
   public var AnimBlueprintClass : unreal.UAnimBlueprintGeneratedClass;
   
 }

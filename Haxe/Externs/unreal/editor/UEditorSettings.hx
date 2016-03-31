@@ -42,7 +42,7 @@ package unreal.editor;
   /**
     Can the editor report usage analytics (types of assets being spawned, etc...) back to Epic in order for us to improve the editor user experience?  Note: The editor must be restarted for changes to take effect.
   **/
-  public var bEditorAnalyticsEnabled : Bool;
+  @:deprecated public var bEditorAnalyticsEnabled_DEPRECATED : Bool;
   
   /**
     When checked, the most recently loaded project will be auto-loaded at editor startup if no other project was specified on the command line

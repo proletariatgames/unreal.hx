@@ -186,6 +186,11 @@ package unreal.foliage;
   public var IsSelected : Bool;
   
   /**
+    Bitflag to represent in which editor views this foliage mesh is hidden.
+  **/
+  public var HiddenEditorViews : unreal.FakeUInt64;
+  
+  /**
     Force navmesh
   **/
   public var CustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
@@ -194,6 +199,12 @@ package unreal.foliage;
     Custom collision for foliage
   **/
   public var BodyInstance : unreal.FBodyInstance;
+  
+  /**
+    If enabled, foliage will render a pre-pass which allows it to occlude other primitives, and also allows
+    it to correctly receive DBuffer decals. Enabling this setting may have a negative performance impact.
+  **/
+  public var bUseAsOccluder : Bool;
   
   /**
     Overrides the lightmap resolution defined in the static mesh

@@ -21,6 +21,18 @@ package unreal;
 @:uextern extern class UParticleSystemComponent extends unreal.UPrimitiveComponent {
   
   /**
+    Options for how we handle our location when we attach to the AutoAttachParent, if bAutoManageAttachment is true.
+    @see bAutoManageAttachment, EAttachLocation::Type
+  **/
+  public var AutoAttachLocationType : unreal.EAttachLocation;
+  
+  /**
+    Socket we automatically attach to on the AutoAttachParent, if bAutoManageAttachment is true.
+    @see bAutoManageAttachment
+  **/
+  public var AutoAttachSocketName : unreal.FName;
+  
+  /**
     Scales DeltaTime in UParticleSystemComponent::Tick(...)
   **/
   public var CustomTimeDilation : unreal.Float32;
@@ -87,6 +99,22 @@ package unreal;
   public var InstanceParameters : unreal.TArray<unreal.FParticleSysParam>;
   
   /**
+    True if we should automatically attach to AutoAttachParent when activated, and detach from our parent when completed.
+    This overrides any current attachment that may be present at the time of activation (deferring initial attachment until activation, if AutoAttachParent is null).
+    When enabled, detachment occurs regardless of whether AutoAttachParent is assigned, and the relative transform from the time of activation is restored.
+    This also disables attachment on dedicated servers, where we don't actually activate even if bAutoActivate is true.
+    @see AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType
+  **/
+  public var bAutoManageAttachment : Bool;
+  
+  /**
+    If true, this Particle System will be available for recycling after it has completed. Auto-destroyed systems cannot be recycled.
+    Some systems (currently particle trail effects) can recycle components to avoid respawning them to play new effects.
+    This is only an optimization and does not change particle system behavior, aside from not triggering normal component initialization events more than once.
+  **/
+  public var bAllowRecycling : Bool;
+  
+  /**
     whether to update the particle system on dedicated servers
   **/
   public var bUpdateOnDedicatedServer : Bool;
@@ -99,6 +127,15 @@ package unreal;
   public var SkelMeshComponents : unreal.TArray<unreal.USkeletalMeshComponent>;
   public var EmitterMaterials : unreal.TArray<unreal.UMaterialInterface>;
   public var Template : unreal.UParticleSystem;
+  
+  /**
+    Set AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType to the specified parameters. Does not change bAutoManageAttachment; that must be set separately.
+    @param  Parent                       Component to attach to.
+    @param  SocketName           Socket on Parent to attach to.
+    @param  LocationType         Option for how we handle our location when we attach to Parent.
+    @see bAutoManageAttachment, AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType
+  **/
+  @:final public function SetAutoAttachParams(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationType : unreal.EAttachLocation) : Void;
   
   /**
     Set the beam end point

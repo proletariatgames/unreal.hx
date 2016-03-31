@@ -28,7 +28,7 @@ package unreal;
   public var InteriorLPFTime : unreal.Float32;
   
   /**
-    The desired LPF of sounds inside  the volume when the player is outside the volume
+    The desired LPF frequency cutoff in hertz of sounds inside  the volume when the player is outside the volume
   **/
   public var InteriorLPF : unreal.Float32;
   
@@ -48,7 +48,7 @@ package unreal;
   public var ExteriorLPFTime : unreal.Float32;
   
   /**
-    The desired LPF of sounds outside the volume when the player is inside the volume
+    The desired LPF frequency cutoff in hertz of sounds outside the volume when the player is inside the volume
   **/
   public var ExteriorLPF : unreal.Float32;
   

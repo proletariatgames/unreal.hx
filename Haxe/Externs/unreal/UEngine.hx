@@ -71,7 +71,6 @@ package unreal;
     true if the the user cannot modify levels that are read only.
   **/
   public var bLockReadOnlyLevels : Bool;
-  public var MatineeScreenshotOptions : unreal.FMatineeScreenshotOptions;
   public var bEnableVisualLogRecordingOnStart : unreal.FakeUInt32;
   
   /**
@@ -305,6 +304,11 @@ package unreal;
   public var bEnableEditorPSysRealtimeLOD : Bool;
   
   /**
+    Controls whether anim blueprint nodes that access member variables of their class directly should use the optimized path that avoids a thunk to the Blueprint VM
+  **/
+  public var bOptimizeAnimBlueprintMemberVariableAccess : Bool;
+  
+  /**
     Controls whether Blueprint subclasses of actors or components can tick by default.
     
     Blueprints that derive from native C++ classes that have bCanEverTick=true will always be able to tick
@@ -329,9 +333,9 @@ package unreal;
   public var bSubtitlesEnabled : Bool;
   
   /**
-    Can a runtime game/application report anonymous hardware survey statistics (such as display resolution and GPU model) back to Epic?
+    DEPRECATED - Can a runtime game/application report anonymous hardware survey statistics (such as display resolution and GPU model) back to Epic?
   **/
-  public var bHardwareSurveyEnabled : Bool;
+  @:deprecated public var bHardwareSurveyEnabled_DEPRECATED : Bool;
   
   /**
     The distance of the camera's near clipping plane.
@@ -482,19 +486,34 @@ package unreal;
   public var MaxPixelShaderAdditiveComplexityCount : unreal.Float32;
   
   /**
+    The colors used to render LOD coloration.
+  **/
+  public var HLODColorationColors : unreal.TArray<unreal.FLinearColor>;
+  
+  /**
+    The colors used to render LOD coloration.
+  **/
+  public var LODColorationColors : unreal.TArray<unreal.FLinearColor>;
+  
+  /**
     The colors used to render stationary light overlap.
   **/
   public var StationaryLightOverlapColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
+    The colors used to render light complexity.
+  **/
+  public var LightComplexityColors : unreal.TArray<unreal.FLinearColor>;
+  
+  /**
+    The colors used to render quad complexity.
+  **/
+  public var QuadComplexityColors : unreal.TArray<unreal.FLinearColor>;
+  
+  /**
     The colors used to render shader complexity.
   **/
   public var ShaderComplexityColors : unreal.TArray<unreal.FLinearColor>;
-  
-  /**
-    The colors used to render light complexity.
-  **/
-  public var LightComplexityColors : unreal.TArray<unreal.FColor>;
   
   /**
     @todo document
@@ -535,6 +554,7 @@ package unreal;
     @todo document
   **/
   public var ConstraintLimitMaterialName : unreal.FStringAssetReference;
+  public var ConstraintLimitMaterialPrismatic : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialZ : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialY : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialX : unreal.UMaterialInstanceDynamic;
@@ -559,7 +579,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_BlueOnly : unreal.FStringAssetReference;
+  public var VertexColorViewModeMaterialName_BlueOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (blue only)
@@ -569,7 +589,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_GreenOnly : unreal.FStringAssetReference;
+  public var VertexColorViewModeMaterialName_GreenOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (green only)
@@ -579,7 +599,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_RedOnly : unreal.FStringAssetReference;
+  public var VertexColorViewModeMaterialName_RedOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (red only)
@@ -589,7 +609,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_AlphaAsColor : unreal.FStringAssetReference;
+  public var VertexColorViewModeMaterialName_AlphaAsColor : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (alpha channel as color)
@@ -599,7 +619,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_ColorOnly : unreal.FStringAssetReference;
+  public var VertexColorViewModeMaterialName_ColorOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (color only, no alpha)
@@ -609,7 +629,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var VertexColorMaterialName : unreal.FStringAssetReference;
+  public var VertexColorMaterialName : unreal.FString;
   
   /**
     Material that renders vertex color as emmissive.
@@ -629,7 +649,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var ShadedLevelColorationUnlitMaterialName : unreal.FStringAssetReference;
+  public var ShadedLevelColorationUnlitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in unlit view port modes.  Uses shading to show axis directions.
@@ -639,7 +659,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var ShadedLevelColorationLitMaterialName : unreal.FStringAssetReference;
+  public var ShadedLevelColorationLitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in lit view port modes. Uses shading to show axis directions.
@@ -649,7 +669,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var LightingTexelDensityName : unreal.FStringAssetReference;
+  public var LightingTexelDensityName : unreal.FString;
   
   /**
     Material used for visualizing lighting only w/ lightmap texel density.
@@ -659,7 +679,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var LevelColorationUnlitMaterialName : unreal.FStringAssetReference;
+  public var LevelColorationUnlitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in unlit view port modes.
@@ -669,7 +689,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var LevelColorationLitMaterialName : unreal.FStringAssetReference;
+  public var LevelColorationLitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in lit view port modes.
@@ -701,7 +721,7 @@ package unreal;
   /**
     @todo document
   **/
-  public var WireframeMaterialName : unreal.FStringAssetReference;
+  public var WireframeMaterialName : unreal.FString;
   
   /**
     The material used to render wireframe meshes.

@@ -34,4 +34,13 @@ package unreal;
   **/
   public var SubImageIndex : unreal.FRawDistributionFloat;
   
+  /**
+    SubUV animation asset to use.
+    When specified, optimal bounding geometry for each SubUV frame will be used when rendering the sprites for this emitter instead of full quads.
+    This reduction in overdraw can reduce the GPU cost of rendering the emitter by 2x or 3x, depending on how much unused space was in the texture.
+    The bounding geometry is generated off of the texture alpha setup in the SubUV Animation asset, so that has to match what the material is using for opacity, or clipping will occur.
+    When specified, SubImages_Horizontal and SubImages_Vertical will come from the asset instead of the Required Module.
+  **/
+  public var Animation : unreal.USubUVAnimation;
+  
 }

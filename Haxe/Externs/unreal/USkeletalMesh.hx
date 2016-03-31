@@ -53,7 +53,7 @@ package unreal;
   public var SelectedClothingSection : unreal.Int32;
   
   /**
-    The section currently selected in the Editor.
+    The section currently selected in the Editor. Used for highlighting
   **/
   public var SelectedEditorSection : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
@@ -97,6 +97,12 @@ package unreal;
   **/
   public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
+  
+  /**
+    Physics asset whose shapes will be used for shadowing when components have bCastCharacterCapsuleDirectShadow or bCastCharacterCapsuleIndirectShadow enabled.
+    Only spheres and sphyl shapes in the physics asset can be supported.  The more shapes used, the higher the cost of the capsule shadows will be.
+  **/
+  public var ShadowPhysicsAsset : unreal.UPhysicsAsset;
   
   /**
     Physics and collision information used for this USkeletalMesh, set up in PhAT.

@@ -21,6 +21,13 @@ package unreal;
 **/
 @:glueCppIncludes("Sound/SoundMix.h")
 @:uextern extern class USoundMix extends unreal.UObject {
+  #if WITH_EDITORONLY_DATA
+  
+  /**
+    Transient property used to trigger real-time updates of the active EQ filter for editor previewing
+  **/
+  public var bChanged : Bool;
+  #end // WITH_EDITORONLY_DATA
   
   /**
     Time taken in seconds for the mix to fade out.

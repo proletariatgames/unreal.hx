@@ -68,10 +68,30 @@ package unreal;
     to avoid them using distance-based streaming.
   **/
   public var bIgnoreInstanceForTextureStreaming : Bool;
+  
+  /**
+    If true, mesh painting is disallowed on this instance. Set if vertex colors are overridden in a construction script.
+  **/
+  public var bDisallowMeshPaintPerInstance : Bool;
+  
+  /**
+    Allows overriding navigation export behavior per component: full collisions or dynamic obstacle
+  **/
+  public var bForceNavigationObstacle : Bool;
+  
+  /**
+    If true, bForceNavigationObstacle flag will take priority over navigation data stored in StaticMesh
+  **/
+  public var bOverrideNavigationExport : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
-    The section currently selected in the Editor.
+    Index of the section to preview. If set to INDEX_NONE, all section will be rendered. Used for isolating in Static Mesh Tool *
+  **/
+  public var SectionIndexPreview : unreal.Int32;
+  
+  /**
+    The section currently selected in the Editor. Used for highlighting
   **/
   public var SelectedEditorSection : unreal.Int32;
   #end // WITH_EDITORONLY_DATA

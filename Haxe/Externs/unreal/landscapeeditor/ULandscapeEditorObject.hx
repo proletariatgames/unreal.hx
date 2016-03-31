@@ -92,6 +92,11 @@ package unreal.landscapeeditor;
     The landscape layers that will be created. Only layer names referenced in the material assigned above are shown here. Modify the material to add more layers.
   **/
   public var ImportLandscape_Layers : unreal.TArray<unreal.landscapeeditor.FLandscapeImportLayer>;
+  
+  /**
+    Whether the imported alpha maps are to be interpreted as "layered" or "additive" (UE4 uses additive internally)
+  **/
+  public var ImportLandscape_AlphamapType : unreal.landscape.ELandscapeImportAlphamapType;
   public var ImportLandscape_Data : unreal.TArray<unreal.UInt16>;
   public var ImportLandscape_Height : unreal.Int32;
   public var ImportLandscape_Width : unreal.Int32;
@@ -151,6 +156,16 @@ package unreal.landscapeeditor;
     Number of quads per landscape component section
   **/
   public var ResizeLandscape_QuadsPerSection : unreal.Int32;
+  
+  /**
+    Type of mirroring operation to perform e.g. "Minus X To Plus X" copies and flips the -X half of the landscape onto the +X half
+  **/
+  public var MirrorOp : unreal.landscapeeditor.ELandscapeMirrorOperation;
+  
+  /**
+    Location of the mirror plane, defaults to the center of the landscape. Doesn't normally need to be changed!
+  **/
+  public var MirrorPoint : unreal.FVector2D;
   public var GizmoImportLayers : unreal.TArray<unreal.landscapeeditor.FGizmoImportLayer>;
   public var GizmoImportSize : unreal.FIntPoint;
   public var GizmoHeightmapFilenameString : unreal.FString;

@@ -17,7 +17,7 @@ package unreal.umg;
 /**
   The progress bar widget is a simple bar that fills up that can be restyled to fit any number of uses.
   
-  ● No Children
+  * No Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

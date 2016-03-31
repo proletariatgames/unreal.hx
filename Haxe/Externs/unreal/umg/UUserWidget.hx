@@ -377,12 +377,13 @@ package unreal.umg;
     @param InForegroundColor     The foreground color.
   **/
   @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
+  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
   
   /**
     Plays an animation in this widget a specified number of times
     
     @param InAnimation The animation to play
-    @param StartAtTime The time in the animation from which to start playing. For looped animations, this will only affect the first playback of the animation.
+    @param StartAtTime The time in the animation from which to start playing, relative to the start position. For looped animations, this will only affect the first playback of the animation.
     @param NumLoopsToPlay The number of times to loop this animation (0 to loop indefinitely)
     @param PlayMode Specifies the playback mode
   **/
@@ -399,9 +400,25 @@ package unreal.umg;
     Pauses an already running animation in this widget
     
     @param The name of the animation to pause
-    @return the time point the animation was at when it was paused.  Use this as the StartAtTime when you trigger PlayAnimation.
+    @return the time point the animation was at when it was paused, relative to its start position.  Use this as the StartAtTime when you trigger PlayAnimation.
   **/
   @:final public function PauseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
+  
+  /**
+    Gets whether an animation is currently playing on this widget.
+    
+    @param InAnimation The animation to check the playback status of
+    @return True if the animation is currently playing
+  **/
+  @:thisConst @:final public function IsAnimationPlaying(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
+  
+  /**
+    Changes the number of loops to play given a playing animation
+    
+    @param InAnimation The animation that is already playing
+    @param NumLoopsToPlay The number of loops to play. (0 to loop indefinitely)
+  **/
+  @:final public function SetNumLoopsToPlay(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, NumLoopsToPlay : unreal.Int32) : Void;
   
   /**
     Plays a sound through the UI
@@ -409,6 +426,12 @@ package unreal.umg;
     @param The sound to play
   **/
   @:final public function PlaySound(SoundToPlay : unreal.USoundBase) : Void;
+  
+  /**
+    Are we currently playing any animations?
+  **/
+  @:thisConst @:final public function IsPlayingAnimation() : Bool;
+  private var InputComponent : unreal.UInputComponent;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -433,6 +456,8 @@ package unreal.umg;
   **/
   public var DesignTimeSize : unreal.FVector2D;
   #end // WITH_EDITORONLY_DATA
+  public var Priority : unreal.Int32;
+  public var bStopAction : Bool;
   
   /**
     Stores the widgets being assigned to named slots
@@ -457,7 +482,13 @@ package unreal.umg;
   /**
     Setting this flag to true, allows this widget to accept focus when clicked, or when navigated to.
   **/
-  public var bSupportsKeyboardFocus : Bool;
+  public var bIsFocusable : Bool;
+  @:deprecated public var bSupportsKeyboardFocus_DEPRECATED : Bool;
+  
+  /**
+    The padding area around the content.
+  **/
+  public var Padding : unreal.slatecore.FMargin;
   
   /**
     The foreground color of the widget, this is inherited by sub widgets.  Any color property
@@ -469,6 +500,11 @@ package unreal.umg;
     The color and opacity of this widget.  Tints all child widgets.
   **/
   public var ColorAndOpacity : unreal.FLinearColor;
+  @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent) : Void;
+  @:final private function StopListeningForAllInputActions() : Void;
+  @:thisConst @:final private function IsListeningForInputAction(ActionName : unreal.FName) : Bool;
+  @:final private function SetInputActionPriority(NewPriority : unreal.Int32) : Void;
+  @:final private function SetInputActionBlocking(bShouldBlock : Bool) : Void;
   // NamedSlotInterface interface implementation
   
 }

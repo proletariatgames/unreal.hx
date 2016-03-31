@@ -24,5 +24,8 @@ package unreal.sequencer;
 @:noClass @:uextern extern class USequencerSettings extends unreal.UObject {
   private var CurveValueSnapInterval : unreal.Float32;
   private var TimeSnapInterval : unreal.Float32;
+  private var SpawnPosition : unreal.sequencer.ESequencerSpawnPosition;
+  private var KeyInterpolation : unreal.moviescene.EMovieSceneKeyInterpolation;
+  private var AutoKeyMode : unreal.sequencer.EAutoKeyMode;
   
 }

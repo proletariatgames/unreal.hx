@@ -23,6 +23,11 @@ package unreal.aimodule;
 @:uextern extern class UBTDecorator_Loop extends unreal.aimodule.UBTDecorator {
   
   /**
+    timeout (when looping infinitely, when we finish a loop we will check whether we have spent this time looping, if we have we will stop looping). A negative value means loop forever.
+  **/
+  public var InfiniteLoopTimeoutTime : unreal.Float32;
+  
+  /**
     infinite loop
   **/
   public var bInfiniteLoop : Bool;

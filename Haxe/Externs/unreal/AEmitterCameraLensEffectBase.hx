@@ -13,19 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/EmitterCameraLensEffectBase.h")
 @:uextern extern class AEmitterCameraLensEffectBase extends unreal.AEmitter {
-  
-  /**
-    Camera this emitter is attached to, will be notified when emitter is destroyed
-  **/
-  private var BaseCamera : unreal.APlayerCameraManager;
   
   /**
     If an emitter class in this array is currently playing, do not play this effect.
@@ -39,15 +28,20 @@ package unreal;
   public var bAllowMultipleInstances : Bool;
   
   /**
-    How far in front of the camera this emitter should live, assuming an FOV of 80 degrees.
-    Note that the actual distance will be automatically adjusted to account for the actual FOV.
-  **/
-  public var DistFromCamera : unreal.Float32;
-  
-  /**
-    In order to get the particle effect looking correct we need to have a base FOV which we just to move the particle closer/further from the camera *
+    This is the assumed FOV for which the effect was authored. The code will make automatic adjustments to make it look the same at different FOVs
   **/
   public var BaseFOV : unreal.Float32;
+  
+  /**
+    Effect-to-camera transform to allow arbitrary placement of the particle system .
+    Note the X component of the location will be scaled with camera fov to keep the lens effect the same apparent size.
+  **/
+  private var RelativeTransform : unreal.FTransform;
+  
+  /**
+    Camera this emitter is attached to, will be notified when emitter is destroyed
+  **/
+  private var BaseCamera : unreal.APlayerCameraManager;
   
   /**
     The effect to use for non extreme content

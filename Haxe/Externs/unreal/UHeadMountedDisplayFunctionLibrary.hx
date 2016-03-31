@@ -45,14 +45,14 @@ package unreal;
   static public function HasValidTrackingPosition() : Bool;
   
   /**
-    If the HMD has a positional tracking camera, this will return the game-world location of the camera, as well as the parameters for the bounding region of tracking.
-    This allows an in-game representation of the legal positional tracking range.  All values will be zeroed if the camera is not available or the HMD does not support it.
+    If the HMD has a positional sensor, this will return the game-world location of it, as well as the parameters for the bounding region of tracking.
+    This allows an in-game representation of the legal positional tracking range.  All values will be zeroed if the sensor is not available or the HMD does not support it.
     
-    @param CameraOrigin          (out) Origin, in world-space, of the tracking camera
-    @param CameraRotation        (out) Rotation, in world-space, of the tracking camera
-    @param HFOV                          (out) Field-of-view, horizontal, in degrees, of the valid tracking zone of the camera
-    @param VFOV                          (out) Field-of-view, vertical, in degrees, of the valid tracking zone of the camera
-    @param CameraDistance        (out) Nominal distance to camera, in world-space
+    @param CameraOrigin          (out) Origin, in world-space, of the sensor
+    @param CameraRotation        (out) Rotation, in world-space, of the sensor
+    @param HFOV                          (out) Field-of-view, horizontal, in degrees, of the valid tracking zone of the sensor
+    @param VFOV                          (out) Field-of-view, vertical, in degrees, of the valid tracking zone of the sensor
+    @param CameraDistance        (out) Nominal distance to sensor, in world-space
     @param NearPlane                     (out) Near plane distance of the tracking volume, in world-space
     @param FarPlane                      (out) Far plane distance of the tracking volume, in world-space
   **/
@@ -108,5 +108,23 @@ package unreal;
     @return       How many Unreal units correspond to one meter in the real world
   **/
   static public function GetWorldToMetersScale(WorldContext : unreal.UObject) : unreal.Float32;
+  
+  /**
+    Sets current tracking origin type (eye level or floor level).
+  **/
+  static public function SetTrackingOrigin(Origin : unreal.EHMDTrackingOrigin) : Void;
+  
+  /**
+    Returns current tracking origin type (eye level or floor level).
+  **/
+  static public function GetTrackingOrigin() : unreal.EHMDTrackingOrigin;
+  
+  /**
+    Returns current state of VR focus.
+    
+    @param bUseFocus             (out) if set to true, then this App does use VR focus.
+    @param bHasFocus             (out) if set to true, then this App currently has VR focus.
+  **/
+  static public function GetVRFocusState(bUseFocus : Bool, bHasFocus : Bool) : Void;
   
 }

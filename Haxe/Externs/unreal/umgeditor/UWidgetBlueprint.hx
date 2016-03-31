@@ -20,6 +20,7 @@ package unreal.umgeditor;
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
 @:uextern extern class UWidgetBlueprint extends unreal.UBlueprint {
+  #if WITH_EDITORONLY_DATA
   
   /**
     Don't directly modify this property to change the palette category.  The actual value is stored
@@ -35,5 +36,6 @@ package unreal.umgeditor;
     A tree of the widget templates to be created
   **/
   public var WidgetTree : unreal.umg.UWidgetTree;
+  #end // WITH_EDITORONLY_DATA
   
 }

@@ -35,9 +35,15 @@ package unreal;
   public var bWasSimulatingRootMotion : Bool;
   
   /**
-    Root Motion movement params
+    Root Motion movement params. Holds result of anim montage root motion during PerformMovement(), and is overridden
+     during autonomous move playback to force historical root motion for MoveAutonomous() calls
   **/
   public var RootMotionParams : unreal.FRootMotionMovementParams;
+  
+  /**
+    Root Motion Group containing active root motion sources being applied to movement
+  **/
+  public var CurrentRootMotion : unreal.FRootMotionSourceGroup;
   
   /**
     Minimum time between client TimeStamp resets.
@@ -51,7 +57,7 @@ package unreal;
   /**
     Post-physics tick function for this character
   **/
-  public var PreClothComponentTick : unreal.FCharacterMovementComponentPreClothTickFunction;
+  public var PostPhysicsTickFunction : unreal.FCharacterMovementComponentPostPhysicsTickFunction;
   
   /**
     Scale of the total capsule height to use for projection from navmesh to underlying geometry in the downward direction.
@@ -121,7 +127,7 @@ package unreal;
   public var bRequestedMoveUseAcceleration : Bool;
   
   /**
-    If set, component will use RVO avoidance
+    If set, component will use RVO avoidance. This only runs on the server.
   **/
   public var bUseRVOAvoidance : Bool;
   
@@ -182,6 +188,14 @@ package unreal;
     if true, event NotifyJumpApex() to CharacterOwner's controller when at apex of jump.  Is cleared when event is triggered.
   **/
   public var bNotifyApex : Bool;
+  
+  /**
+    True when we should ignore server location difference checks for client error on this movement component
+    This can be useful when character is moving at extreme speeds for a duration and you need it to look
+    smooth on clients. Make sure to disable when done, as this would break this character's server-client
+    movement correction.
+  **/
+  public var bIgnoreClientMovementErrorChecksAndCorrection : Bool;
   
   /**
     True when the networked movement mode has been replicated.
@@ -256,12 +270,27 @@ package unreal;
   public var LedgeCheckThreshold : unreal.Float32;
   
   /**
-    How long to take to smoothly interpolate from the old pawn rotation on the client to the corrected one sent by the server.
+    Smoothing mode for simulated proxies in network game.
+  **/
+  public var NetworkSmoothingMode : unreal.ENetworkSmoothingMode;
+  
+  /**
+    Maximum distance beyond which character is teleported to the new server location without any smoothing.
+  **/
+  public var NetworkNoSmoothUpdateDistance : unreal.Float32;
+  
+  /**
+    Maximum distance character is allowed to lag behind server location when interpolating between updates.
+  **/
+  public var NetworkMaxSmoothUpdateDistance : unreal.Float32;
+  
+  /**
+    How long to take to smoothly interpolate from the old pawn rotation on the client to the corrected one sent by the server. Not used by Linear smoothing.
   **/
   public var NetworkSimulatedSmoothRotationTime : unreal.Float32;
   
   /**
-    How long to take to smoothly interpolate from the old pawn position on the client to the corrected one sent by the server.
+    How long to take to smoothly interpolate from the old pawn position on the client to the corrected one sent by the server. Not used by Linear smoothing.
   **/
   public var NetworkSimulatedSmoothLocationTime : unreal.Float32;
   
@@ -299,6 +328,11 @@ package unreal;
     Accumulated impulse to be added next tick.
   **/
   private var PendingImpulseToApply : unreal.FVector;
+  
+  /**
+    Velocity after last PerformMovement update. Used internally to detect changes in velocity from external sources.
+  **/
+  private var LastUpdateVelocity : unreal.FVector;
   
   /**
     Location after last PerformMovement update. Used internally to detect changes in position from outside character movement to try to validate the current floor.
@@ -463,7 +497,7 @@ package unreal;
   public var bUseControllerDesiredRotation : Bool;
   
   /**
-    Change in rotation per second, used when UseControllerDesiredRotation or OrientRotationToMovement are true.
+    Change in rotation per second, used when UseControllerDesiredRotation or OrientRotationToMovement are true. Set a negative value for infinite rotation rate and instant turns.
   **/
   public var RotationRate : unreal.FRotator;
   
@@ -827,9 +861,14 @@ package unreal;
   public function ClientVeryShortAdjustPosition(TimeStamp : unreal.Float32, NewLoc : unreal.FVector, NewBase : unreal.UPrimitiveComponent, NewBaseBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   
   /**
-    Replicate position correction to client when using root motion for movement.
+    Replicate position correction to client when using root motion for movement. (animation root motion specific)
   **/
   public function ClientAdjustRootMotionPosition(TimeStamp : unreal.Float32, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  
+  /**
+    Replicate root motion source correction to client when using root motion for movement.
+  **/
+  public function ClientAdjustRootMotionSourcePosition(TimeStamp : unreal.Float32, ServerRootMotion : unreal.FRootMotionSourceGroup, bHasAnimRootMotion : Bool, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   // RVOAvoidanceInterface interface implementation
   // NetworkPredictionInterface interface implementation
   

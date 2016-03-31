@@ -14,8 +14,16 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimPreviewInstance.h")
+@:glueCppIncludes("AnimGraphNode_AnimDynamics.h")
 @:uextern extern class FAnimNode_SkeletalControlBase extends unreal.FAnimNode_Base {
+  
+  /**
+    * Max LOD that this node is allowed to run
+    * For example if you have LODThreadhold to be 2, it will run until LOD 2 (based on 0 index)
+    * when the component LOD becomes 3, it will stop update/evaluate
+    * currently transition would be issue and that has to be re-visited
+  **/
+  public var LODThreshold : unreal.Int32;
   public var AlphaScaleBias : unreal.FInputScaleBias;
   
   /**

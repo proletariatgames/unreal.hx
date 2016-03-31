@@ -61,6 +61,10 @@ extern class UActorComponent_Extra {
   /** Called when a component is created (not loaded) */
   function OnComponentCreated() : Void;
 
-  /** Called when a component is destroyed */
-  function OnComponentDestroyed() : Void;
+	/**
+	 * Called when a component is destroyed
+	 *
+	 * @param	bDestroyingHierarchy  - True if the entire component hierarchy is being torn down, allows avoiding expensive operations
+	 */
+  function OnComponentDestroyed(bDestroyingHierarchy:Bool) : Void;
 }

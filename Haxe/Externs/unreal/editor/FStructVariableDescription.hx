@@ -23,6 +23,7 @@ package unreal.editor;
 @:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
 @:noCopy @:noEquals @:uextern extern class FStructVariableDescription {
   public var bEnable3dWidget : Bool;
+  public var bEnableMultiLineText : Bool;
   public var bDontEditoOnInstance : Bool;
   public var ToolTip : unreal.FString;
   

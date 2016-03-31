@@ -22,6 +22,11 @@ package unreal.animgraphruntime;
 @:uextern extern class FAnimNode_CopyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
+    Space to convert transforms into prior to copying components
+  **/
+  public var ControlSpace : unreal.EBoneControlSpace;
+  
+  /**
     If Scale should be copied
   **/
   public var bCopyScale : Bool;

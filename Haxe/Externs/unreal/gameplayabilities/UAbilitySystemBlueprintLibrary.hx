@@ -28,9 +28,14 @@ package unreal.gameplayabilities;
   static public function SendGameplayEventToActor(Actor : unreal.AActor, EventTag : unreal.gameplaytags.FGameplayTag, Payload : unreal.gameplayabilities.FGameplayEventData) : Void;
   
   /**
-    Attribute
+    Returns the value of Attribute from the ability system component belonging to Actor.
   **/
   static public function GetFloatAttribute(Actor : unreal.Const<unreal.AActor>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
+  
+  /**
+    Returns the value of Attribute from the ability system component AbilitySystem.
+  **/
+  static public function GetFloatAttributeFromAbilitySystemComponent(AbilitySystem : unreal.Const<unreal.gameplayabilities.UAbilitySystemComponent>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
   
   /**
     TargetData
@@ -78,6 +83,7 @@ package unreal.gameplayabilities;
   /**
     GameplayEffectContext
   **/
+  static public function EffectContextIsValid(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : Bool;
   static public function EffectContextIsInstigatorLocallyControlled(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : Bool;
   static public function EffectContextGetHitResult(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.FHitResult;
   static public function EffectContextHasHitResult(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : Bool;
@@ -185,8 +191,19 @@ package unreal.gameplayabilities;
   static public function SetStackCountToMax(SpecHandle : unreal.gameplayabilities.FGameplayEffectSpecHandle) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
   
   /**
+    Gets the magnitude of change for an attribute on an APPLIED GameplayEffectSpec.
+  **/
+  static public function GetModifiedAttributeMagnitude(SpecHandle : unreal.gameplayabilities.FGameplayEffectSpecHandle, Attribute : unreal.gameplayabilities.FGameplayAttribute) : unreal.Float32;
+  
+  /**
     Returns current stack count of an active Gameplay Effect. Will return 0 if the GameplayEffect is no longer valid.
   **/
   static public function GetActiveGameplayEffectStackCount(ActiveHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle) : unreal.Int32;
+  
+  /**
+    Returns stack limit count of an active Gameplay Effect. Will return 0 if the GameplayEffect is no longer valid.
+  **/
+  static public function GetActiveGameplayEffectStackLimitCount(ActiveHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle) : unreal.Int32;
+  static public function GetActiveGameplayEffectDebugString(ActiveHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle) : unreal.FString;
   
 }

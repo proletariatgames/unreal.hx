@@ -33,15 +33,16 @@ class BaseModuleRules extends ModuleRules
     var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
     var firstRun = !firstRunMap.exists(curName);
 
-    //TODO: see in which occasion we might have more than one game folder
-    var allGames = cs.Lib.array(RulesCompiler.AllGameFolders.ToArray());
-    if (allGames.length > 1)
+    var allGames:Array<Dynamic> = cs.Lib.array(UProjectInfo.FilterGameProjects(false, null).ToArray())
+                                              .map(function(x) return x.Folder);
+    if (allGames.length > 1) {
       trace("AllGameFolders is returning more than one: ",allGames);
+    }
     modulePath = RulesCompiler.GetModuleFilename(curName);
     var haxeInitPath = RulesCompiler.GetModuleFilename("HaxeInit");
     pluginPath = Path.GetFullPath('$haxeInitPath/../../..');
     thirdPartyPath = Path.GetFullPath(haxeInitPath + "/../../ThirdParty");
-    gameDir = allGames[0];
+    gameDir = allGames[0].ToString();
     if (gameDir == null)
       gameDir = Path.GetFullPath(haxeInitPath + "/../../../..");
     haxeSourcesPath = Path.GetFullPath(gameDir + "/Haxe");

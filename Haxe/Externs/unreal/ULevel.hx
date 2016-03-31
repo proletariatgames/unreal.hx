@@ -30,18 +30,14 @@ package unreal;
     Array of user data stored with the asset
   **/
   private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
+  #if WITH_EDITORONLY_DATA
   
   /**
-    List of RuntimeMovieScenePlayers that are currently active in this level.  We'll keep references to these to keep
-              them around until they're no longer needed.  Also, we'll tick them every frame! // @todo sequencer uobjects: Ideally this is using URuntimeMovieScenePlayer* and not UObject*, but there are DLL/interface issues with that
+    The level color used for visualization. (Show -> Advanced -> Level Coloration)
+    Used only in world composition mode
   **/
-  private var ActiveRuntimeMovieScenePlayers : unreal.TArray<unreal.UObject>;
-  
-  /**
-    Array of all MovieSceneBindings that are used in this level.  These store the relationship between
-              a MovieScene asset and possessed actors in this level.
-  **/
-  private var MovieSceneBindingsArray : unreal.TArray<unreal.UObject>;
+  public var LevelColor : unreal.FLinearColor;
+  #end // WITH_EDITORONLY_DATA
   
   /**
     Whether this level is locked; that is, its actors are read-only

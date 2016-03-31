@@ -19,8 +19,8 @@ package unreal.umg;
   can place any other widget inside a button to make a more complex and
   interesting click-able element in your UI.
   
-  ● Single Child
-  ● Clickable
+  * Single Child
+  * Clickable
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
@@ -60,6 +60,11 @@ package unreal.umg;
     The template style asset, used to seed the mutable instance of the style.
   **/
   @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  
+  /**
+    Sets the color multiplier for the button background
+  **/
+  @:final public function SetStyle(InStyle : unreal.Const<unreal.PRef<unreal.slatecore.FButtonStyle>>) : Void;
   
   /**
     Sets the color multiplier for the button content

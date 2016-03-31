@@ -17,6 +17,7 @@ package unreal.aimodule;
 @:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
 @:uextern extern class UEnvQueryManager extends unreal.UObject {
   static public function RunEQSQuery(WorldContext : unreal.UObject, QueryTemplate : unreal.aimodule.UEnvQuery, Querier : unreal.UObject, RunMode : unreal.aimodule.EEnvQueryRunMode, WrapperClass : unreal.TSubclassOf<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>) : unreal.aimodule.UEnvQueryInstanceBlueprintWrapper;
+  private var GCShieldedWrappers : unreal.TArray<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>;
   
   /**
     local cache of context objects for managing BP based objects

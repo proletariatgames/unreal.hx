@@ -21,7 +21,26 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
 @:noCopy @:noEquals @:uextern extern class FMeshReductionSettings {
+  
+  /**
+    Higher values minimize change to vertex color data.
+  **/
+  public var VertexColorImportance : unreal.EMeshFeatureImportance;
+  
+  /**
+    Higher values generates fewer samples
+  **/
+  public var VisibilityAggressiveness : unreal.EMeshFeatureImportance;
+  public var bCullOccluded : Bool;
+  public var bVisibilityAided : Bool;
+  public var bKeepSymmetry : Bool;
+  public var bGenerateUniqueLightmapUVs : Bool;
   public var BaseLODModel : unreal.Int32;
+  
+  /**
+    UPROPERTY(EditAnywhere, Category = ReductionSettings)
+           bool bActive;
+  **/
   public var bRecalculateNormals : Bool;
   
   /**

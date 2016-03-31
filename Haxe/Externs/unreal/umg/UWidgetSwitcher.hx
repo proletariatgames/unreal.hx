@@ -39,12 +39,12 @@ package unreal.umg;
   /**
     Activates the widget at the specified index.
   **/
-  @:final public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
+  public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
   
   /**
     Activates the widget and makes it the active index.
   **/
-  @:final public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
+  public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
   
   /**
     Get a widget at the provided index

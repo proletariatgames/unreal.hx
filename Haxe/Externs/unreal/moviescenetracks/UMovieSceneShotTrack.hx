@@ -17,10 +17,10 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  Handles manipulation of shot properties in a movie scene
+  Handles manipulation of shot properties in a movie scene.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneShotTrack.h")
-@:uextern extern class UMovieSceneShotTrack extends unreal.moviescenetracks.USubMovieSceneTrack {
+@:uextern extern class UMovieSceneShotTrack extends unreal.moviescene.UMovieSceneTrack {
   
 }

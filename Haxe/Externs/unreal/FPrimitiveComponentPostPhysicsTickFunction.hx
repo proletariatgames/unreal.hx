@@ -18,6 +18,7 @@ package unreal;
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
   Tick function that calls UPrimitiveComponent::PostPhysicsTick
+  //DEPRECATED: This struct has been deprecated. Please use your own tick functions if you need something other than the primary tick function
 **/
 @:glueCppIncludes("Components/PrimitiveComponent.h")
 @:noCopy @:noEquals @:uextern extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {

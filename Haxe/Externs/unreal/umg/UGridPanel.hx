@@ -17,7 +17,7 @@ package unreal.umg;
 /**
   A panel that evenly divides up available space between all of its children.
   
-  ● Many Children
+  * Many Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

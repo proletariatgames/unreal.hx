@@ -24,6 +24,11 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
+    The name of the RowStruct we were using when we were last saved
+  **/
+  public var RowStructName : unreal.FName;
+  
+  /**
     The filename imported to create this object. Relative to this object's package, BaseDir() or absolute
   **/
   @:deprecated public var ImportPath_DEPRECATED : unreal.FString;

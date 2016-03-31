@@ -17,7 +17,7 @@ package unreal;
 /**
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
-  
+  Use FMaterialProxySettings instead
 **/
 @:glueCppIncludes("Engine/Level.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialSimplificationSettings {

@@ -22,9 +22,24 @@ package unreal.gameplayabilities;
 @:uextern extern class UGameplayAbility extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
   
   /**
+    Retrieves the EffectContext of the GameplayEffect that granted this ability. Can only be called on instanced abilities.
+  **/
+  @:thisConst @:final public function GetGrantedByEffectContext() : unreal.gameplayabilities.FGameplayEffectContextHandle;
+  
+  /**
+    Removes the GameplayEffect that granted this ability. Can only be called on instanced abilities.
+  **/
+  @:final public function RemoveGrantedByEffect() : Void;
+  
+  /**
     Active montage being played by this ability
   **/
   private var CurrentMontage : unreal.UAnimMontage;
+  
+  /**
+    Ability Tasks
+  **/
+  private var ActiveTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
   
   /**
     This ability is blocked if the target actor/component has any of these tags
@@ -154,7 +169,7 @@ package unreal.gameplayabilities;
   /**
     Attempts to commit the ability's cooldown only. If BroadcastCommitEvent is true, it will broadcast the commit event that tasks like WaitAbilityCommit are listening for.
   **/
-  public function K2_CommitAbilityCooldown(BroadcastCommitEvent : Bool) : Bool;
+  public function K2_CommitAbilityCooldown(BroadcastCommitEvent : Bool, ForceCooldown : Bool) : Bool;
   
   /**
     Attempts to commit the ability's cost only. If BroadcastCommitEvent is true, it will broadcast the commit event that tasks like WaitAbilityCommit are listening for.
@@ -209,15 +224,15 @@ package unreal.gameplayabilities;
   /**
     Apply Self
   **/
-  @:final private function BP_ApplyGameplayEffectToOwner(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
-  @:final private function K2_ApplyGameplayEffectToOwner(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:final private function BP_ApplyGameplayEffectToOwner(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:final private function K2_ApplyGameplayEffectToOwner(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   @:final private function K2_ApplyGameplayEffectSpecToOwner(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   
   /**
     Apply Target
   **/
-  @:final private function BP_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
-  @:final private function K2_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
+  @:final private function BP_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
+  @:final private function K2_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
   @:final private function K2_ApplyGameplayEffectSpecToTarget(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>, TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
   
   /**
@@ -284,6 +299,7 @@ package unreal.gameplayabilities;
     Sets rather ability block flags are enabled or disabled. Only valid on instanced abilities
   **/
   public function SetShouldBlockOtherAbilities(bShouldBlockAbilities : Bool) : Void;
+  @:thisConst @:final private function GetCooldownTimeRemaining() : unreal.Float32;
   
   /**
     Animation
@@ -307,12 +323,12 @@ package unreal.gameplayabilities;
   /**
     Returns current level of the Ability
   **/
-  @:thisConst @:final private function GetAbilityLevel() : unreal.Int32;
+  @:thisConst @:final public function GetAbilityLevel() : unreal.Int32;
   
   /**
     Retrieves the SourceObject associated with this ability. Can only be called on instanced abilities.
   **/
-  @:thisConst @:final private function GetCurrentSourceObject() : unreal.UObject;
+  @:thisConst @:final public function GetCurrentSourceObject() : unreal.UObject;
   // GameplayTaskOwnerInterface interface implementation
   
 }

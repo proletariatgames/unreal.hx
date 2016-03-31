@@ -17,8 +17,8 @@ package unreal.umg;
 /**
   Allows widgets to be laid out in a flow horizontally.
   
-  ● Many Children
-  ● Flow Horizontal
+  * Many Children
+  * Flow Horizontal
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

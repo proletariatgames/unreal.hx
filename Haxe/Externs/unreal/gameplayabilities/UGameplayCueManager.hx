@@ -20,6 +20,8 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
 @:uextern extern class UGameplayCueManager extends unreal.UDataAsset {
+  private var PreallocationInfo_Internal : unreal.gameplayabilities.FPreallocationInfo;
+  private var PreallocationInfoList_Internal : unreal.TArray<unreal.gameplayabilities.FPreallocationInfo>;
   
   /**
     Number of active gameplay cue send contexts, when it goes to 0 cues are flushed
@@ -30,6 +32,16 @@ package unreal.gameplayabilities;
     List of gameplay cue executes that haven't been processed yet
   **/
   private var PendingExecuteCues : unreal.TArray<unreal.gameplayabilities.FGameplayCuePendingExecute>;
+  
+  /**
+    Classes that we need to preallocate instances for
+  **/
+  private var GameplayCueClassesForPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;
+  
+  /**
+    Hardref to the gameplaycue notify classes we have async loaded
+  **/
+  private var LoadedGameplayCueNotifyClasses : unreal.TArray<unreal.UClass>;
   public var StreamableManager : unreal.FStreamableManager;
   public var GameplayCueNotifyStaticObjectLibrary : unreal.UObjectLibrary;
   public var GameplayCueNotifyActorObjectLibrary : unreal.UObjectLibrary;

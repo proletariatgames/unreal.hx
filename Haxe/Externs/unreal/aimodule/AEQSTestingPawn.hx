@@ -26,6 +26,7 @@ package unreal.aimodule;
   public var EdRenderComp : unreal.aimodule.UEQSRenderingComponent;
   #end // WITH_EDITORONLY_DATA
   public var QueryingMode : unreal.aimodule.EEnvQueryRunMode;
+  public var bTickDuringGame : Bool;
   public var bShouldBeVisibleInGame : Bool;
   public var bReRunQueryOnlyOnFinishedMove : Bool;
   public var bDrawFailedItems : Bool;
@@ -33,6 +34,7 @@ package unreal.aimodule;
   public var HighlightMode : unreal.aimodule.EEnvQueryHightlightMode;
   public var StepToDebugDraw : unreal.Int32;
   public var TimeLimitPerStep : unreal.Float32;
+  public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
   
   /**
     optional parameters for query

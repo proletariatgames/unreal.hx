@@ -23,6 +23,11 @@ package unreal.aimodule;
 @:uextern extern class UBTTask_MoveTo extends unreal.aimodule.UBTTask_BlackboardBase {
   
   /**
+    if move goal in BB changes the move will be redirected to new location
+  **/
+  public var bObserveBlackboardValue : Bool;
+  
+  /**
     if set to true agent's radius will be added to AcceptableRadius for purposes of checking
         if path's end point has been reached. Will result in AI stopping on contact with destination location
   **/
@@ -33,6 +38,13 @@ package unreal.aimodule;
   **/
   public var bAllowPartialPath : Bool;
   public var bAllowStrafe : Bool;
+  
+  /**
+    if task is expected to react to changes to location represented by BB key
+        this property can be used to tweak sensitivity of the mechanism. Value is
+        recommended to be less then AcceptableRadius
+  **/
+  public var ObservedBlackboardValueTolerance : unreal.Float32;
   
   /**
     "None" will result in default filter being used

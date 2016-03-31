@@ -76,29 +76,9 @@ package unreal.editor;
   public var UserEditedPlayWorldURL : unreal.FString;
   
   /**
-    The height resolution that we want to use for the matinee capture
-  **/
-  public var MatineeCaptureResolutionY : unreal.Int32;
-  
-  /**
-    The width resolution that we want to use for the matinee capture
-  **/
-  public var MatineeCaptureResolutionX : unreal.Int32;
-  
-  /**
     When set to anything other than -1, indicates a specific In-Editor viewport index that PIE should use
   **/
   public var PlayInEditorViewportIndex : unreal.Int32;
-  
-  /**
-    Logins available for use when running PIE instances
-  **/
-  public var PIELogins : unreal.TArray<unreal.editor.FPIELoginInfo>;
-  
-  /**
-    Enabled online PIE
-  **/
-  public var bOnlinePIEEnabled : Bool;
   
   /**
     Currently targeted device for mobile previewer.
@@ -119,11 +99,6 @@ package unreal.editor;
     Where did the person want to play? Where to play the game - -1 means in editor, 0 or more is an index into the GConsoleSupportContainer
   **/
   public var PlayWorldDestination : unreal.Int32;
-  
-  /**
-    True to start movie capturing right away when launching the game from the editor on PC platform
-  **/
-  public var bStartMovieCapture : Bool;
   
   /**
     When Simulating In Editor, a pointer to the original (non-simulating) editor world
@@ -283,8 +258,6 @@ package unreal.editor;
     Font used by Canvas-based editors
   **/
   public var EditorFont : unreal.UFont;
-  public var BkgndHi : unreal.UTexture2D;
-  public var Bkgnd : unreal.UTexture2D;
   
   /**
     Textures.

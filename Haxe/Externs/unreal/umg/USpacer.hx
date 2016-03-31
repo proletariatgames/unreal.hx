@@ -17,7 +17,7 @@ package unreal.umg;
 /**
   A spacer widget; it does not have a visual representation, and just provides padding between other widgets.
   
-  ● No Children
+  * No Children
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

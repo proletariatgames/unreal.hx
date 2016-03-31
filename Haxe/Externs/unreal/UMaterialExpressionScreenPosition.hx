@@ -22,4 +22,9 @@ package unreal;
 @:glueCppIncludes("Materials/MaterialExpressionScreenPosition.h")
 @:noClass @:uextern extern class UMaterialExpressionScreenPosition extends unreal.UMaterialExpression {
   
+  /**
+    View input property to be accessed
+  **/
+  public var Mapping : unreal.EMaterialExpressionScreenPositionMapping;
+  
 }

@@ -629,6 +629,37 @@ package unreal;
   @:final public function PlayDynamicForceFeedback(Intensity : unreal.Float32, Duration : unreal.Float32, bAffectsLeftLarge : Bool, bAffectsLeftSmall : Bool, bAffectsRightLarge : Bool, bAffectsRightSmall : Bool, Action : unreal.EDynamicForceFeedbackAction, LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
+    Play a haptic feedback curve on the player's controller
+    @param        HapticEffect                    The haptic effect to play
+    @param        Hand                                    Which hand to play the effect on
+    @param        Scale                                   Scale between 0.0 and 1.0 on the intensity of playback
+  **/
+  @:final public function PlayHapticEffect(HapticEffect : unreal.UHapticFeedbackEffect, Hand : unreal.inputcore.EControllerHand, Scale : unreal.Float32) : Void;
+  
+  /**
+    Stops a playing haptic feedback curve
+    @param        HapticEffect                    The haptic effect to stop
+    @param        Hand                                    Which hand to stop the effect for
+  **/
+  @:final public function StopHapticEffect(Hand : unreal.inputcore.EControllerHand) : Void;
+  
+  /**
+    Sets the value of the haptics for the specified hand directly, using frequency and amplitude.  NOTE:  If a curve is already
+    playing for this hand, it will be cancelled in favour of the specified values.
+    
+    @param        Frequency                               The normalized frequency [0.0, 1.0] to play through the haptics system
+    @param        Amplitude                               The normalized amplitude [0.0, 1.0] to set the haptic feedback to
+    @param        Hand                                    Which hand to play the effect on
+  **/
+  @:final public function SetHapticsByValue(Frequency : unreal.Float32, Amplitude : unreal.Float32, Hand : unreal.inputcore.EControllerHand) : Void;
+  
+  /**
+    Sets the light color of the player's controller
+    @param        Color                                   The color for the light to be
+  **/
+  @:final public function SetControllerLightColor(Color : unreal.FColor) : Void;
+  
+  /**
     Travel to a different map or IP address. Calls the PreClientTravel event before doing anything.
     NOTE: This is implemented as a locally executed wrapper for ClientTravelInternal, to avoid API compatability breakage
     

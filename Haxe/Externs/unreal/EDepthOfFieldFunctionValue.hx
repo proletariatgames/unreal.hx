@@ -13,6 +13,10 @@
 **/
 package unreal;
 
+
+/**
+  Note: The index is used to map the enum to different code in the shader
+**/
 @:glueCppIncludes("Materials/MaterialExpressionDepthOfFieldFunction.h")
 @:uname("EDepthOfFieldFunctionValue")
 @:uextern extern enum EDepthOfFieldFunctionValue {
@@ -31,5 +35,10 @@ package unreal;
     0:in Focus or Near .. 1:Far.
   **/
   TDOF_FarMask;
+  
+  /**
+    in pixels, only works for CircleDOF, use Abs for the actual radius as the sign of the value indicates near out of focus, positive indicates far out of focus
+  **/
+  TDOF_CircleOfConfusionRadius;
   
 }

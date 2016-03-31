@@ -83,6 +83,16 @@ package unreal.editor;
   public var bShowFrameRateAndMemory : Bool;
   
   /**
+    Server IP for the distributed Simplygon server
+  **/
+  public var SimplygonServerIP : unreal.FString;
+  
+  /**
+    When enabled, use SimplygonSwarm Module / server to create proxies
+  **/
+  public var bUseSimplygonSwarm : Bool;
+  
+  /**
     When enabled, Engine Version Number is displayed in the ProjectBadge
   **/
   public var bDisplayEngineVersionInBadge : Bool;

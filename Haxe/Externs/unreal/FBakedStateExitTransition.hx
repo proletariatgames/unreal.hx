@@ -19,19 +19,19 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
+@:glueCppIncludes("Animation/AnimClassData.h")
 @:noCopy @:noEquals @:uextern extern class FBakedStateExitTransition {
   public var PoseEvaluatorLinks : unreal.TArray<unreal.Int32>;
+  
+  /**
+    Automatic Transition Rule based on animation remaining time.
+  **/
+  public var bAutomaticRemainingTimeRule : Bool;
   
   /**
     What the transition rule node needs to return to take this transition (for bidirectional transitions)
   **/
   public var bDesiredTransitionReturnValue : Bool;
-  
-  /**
-    For transitions that go automatically at the end of the sequence, this is the index for the sole sequence player node in the graph
-  **/
-  public var StateSequencePlayerToQueryIndex : unreal.Int32;
   
   /**
     The index into the machine table of transitions

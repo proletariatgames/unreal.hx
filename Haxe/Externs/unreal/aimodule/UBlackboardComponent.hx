@@ -52,8 +52,6 @@ package unreal.aimodule;
   **/
   @:thisConst @:final public function GetRotationFromEntry(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ResultRotation : unreal.PRef<unreal.FRotator>) : Bool;
   @:final public function ClearValue(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
-  @:final public function ClearValueAsVector(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
-  @:final public function ClearValueAsRotator(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
   
   /**
     instanced keys with custom data allocations

@@ -36,38 +36,38 @@ package unreal;
   PPI_SceneDepth;
   
   /**
-    Material diffuse, RGB color (GBuffer)
+    Material diffuse, RGB color (computed from GBuffer)
     @DisplayName DiffuseColor
   **/
   @DisplayName("DiffuseColor")
   PPI_DiffuseColor;
   
   /**
-    Material specular, RGB color (GBuffer)
+    Material specular, RGB color (computed from GBuffer)
     @DisplayName SpecularColor
   **/
   @DisplayName("SpecularColor")
   PPI_SpecularColor;
   
   /**
-    Material subsurface, RGB color (GBuffer)
+    Material subsurface, RGB color (GBuffer, only for some ShadingModels)
     @DisplayName SubsurfaceColor
   **/
   @DisplayName("SubsurfaceColor")
   PPI_SubsurfaceColor;
   
   /**
-    Material base, RGB color (GBuffer)
-    @DisplayName BaseColor
+    Material base, RGB color (GBuffer), can be modified on read by the ShadingModel, consider StoredBasedColor
+    @DisplayName BaseColor (for lighting)
   **/
-  @DisplayName("BaseColor")
+  @DisplayName("BaseColor (for lighting)")
   PPI_BaseColor;
   
   /**
-    Material specular, single channel (GBuffer)
-    @DisplayName Specular
+    Material specular, single channel (GBuffer), can be modified on read by the ShadingModel, consider StoredSpecular
+    @DisplayName Specular (for lighting)
   **/
-  @DisplayName("Specular")
+  @DisplayName("Specular (for lighting)")
   PPI_Specular;
   
   /**
@@ -169,7 +169,7 @@ package unreal;
   PPI_PostProcessInput6;
   
   /**
-    Decal Mask, single bit
+    Decal Mask, single bit (was moved to stencil for better performance, not accessible at the moment)
     @DisplayName Decal Mask
   **/
   @DisplayName("Decal Mask")
@@ -195,5 +195,19 @@ package unreal;
   **/
   @DisplayName("CustomStencil")
   PPI_CustomStencil;
+  
+  /**
+    Material base, RGB color (GBuffer)
+    @DisplayName BaseColor (as stored in GBuffer)
+  **/
+  @DisplayName("BaseColor (as stored in GBuffer)")
+  PPI_StoredBaseColor;
+  
+  /**
+    Material specular, single channel (GBuffer)
+    @DisplayName Specular (as stored in GBuffer)
+  **/
+  @DisplayName("Specular (as stored in GBuffer)")
+  PPI_StoredSpecular;
   
 }

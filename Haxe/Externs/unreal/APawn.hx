@@ -175,6 +175,11 @@ package unreal;
   @:thisConst public function IsLocallyControlled() : Bool;
   
   /**
+    @return true if controlled by a human player (possessed by a PlayerController).
+  **/
+  @:thisConst public function IsPlayerControlled() : Bool;
+  
+  /**
     Return the aim rotation for the Pawn.
     If we have a controller, by default we aim at the player's 'eyes' direction
     that is by default the Pawn rotation for AI, and camera (crosshair) rotation for human players.

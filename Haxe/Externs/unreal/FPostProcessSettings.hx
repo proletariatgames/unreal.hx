@@ -80,6 +80,11 @@ package unreal;
   public var MotionBlurAmount : unreal.Float32;
   
   /**
+    Artificial circular mask to (near) blur content outside the radius, only for GaussianDOF, diameter in percent of screen width, costs performance if the mask is used, keep Feather can Radius on default to keep it off
+  **/
+  public var DepthOfFieldVignetteSize : unreal.Float32;
+  
+  /**
     Artificial distance to allow the skybox to be in focus (e.g. 200000), <=0 to switch the feature off, only for GaussianDOF, can cost performance
   **/
   public var DepthOfFieldSkyFocusDistance : unreal.Float32;
@@ -140,16 +145,6 @@ package unreal;
   public var DepthOfFieldFocalRegion : unreal.Float32;
   
   /**
-    Distance in which the Depth of Field effect should be sharp, in unreal units (cm)
-  **/
-  public var DepthOfFieldFocalDistance : unreal.Float32;
-  
-  /**
-    CircleDOF only: Defines the opening of the camera lens, Aperture is 1/fstop, typical lens go down to f/1.2 (large opening), larger numbers reduce the DOF effect
-  **/
-  public var DepthOfFieldFstop : unreal.Float32;
-  
-  /**
     CircleDOF only: Depth blur radius in pixels at 1920x
   **/
   public var DepthOfFieldDepthBlurRadius : unreal.Float32;
@@ -158,6 +153,16 @@ package unreal;
     CircleDOF only: Depth blur km for 50%
   **/
   public var DepthOfFieldDepthBlurAmount : unreal.Float32;
+  
+  /**
+    Distance in which the Depth of Field effect should be sharp, in unreal units (cm)
+  **/
+  public var DepthOfFieldFocalDistance : unreal.Float32;
+  
+  /**
+    CircleDOF only: Defines the opening of the camera lens, Aperture is 1/fstop, typical lens go down to f/1.2 (large opening), larger numbers reduce the DOF effect
+  **/
+  public var DepthOfFieldFstop : unreal.Float32;
   
   /**
     BokehDOF, Simple gaussian, ...
@@ -352,6 +357,11 @@ package unreal;
   public var AutoExposureLowPercent : unreal.Float32;
   
   /**
+    Luminance computation method
+  **/
+  public var AutoExposureMethod : unreal.EAutoExposureMethod;
+  
+  /**
     The Ambient cubemap (Affects diffuse and specular shading), blends additively which if different from all other settings here
   **/
   public var AmbientCubemap : unreal.UTextureCube;
@@ -522,7 +532,7 @@ package unreal;
   
   /**
     minimum brightness the bloom starts having effect
-    -1:all pixels affect bloom equally (dream effect), 0:all pixels affect bloom brights more, 1(default), >1 brighter
+    -1:all pixels affect bloom equally (physically correct, faster as a threshold pass is omitted), 0:all pixels affect bloom brights more, 1(default), >1 brighter
   **/
   public var BloomThreshold : unreal.Float32;
   
@@ -530,11 +540,6 @@ package unreal;
     Multiplier for all bloom contributions >=0: off, 1(default), >1 brighter
   **/
   public var BloomIntensity : unreal.Float32;
-  
-  /**
-    0..1, Scene chromatic aberration / color fringe (camera imperfection) to simulate an artifact that happens in real-world lens, mostly visible in the image corners.
-  **/
-  public var SceneFringeSaturation : unreal.Float32;
   
   /**
     in percent, Scene chromatic aberration / color fringe (camera imperfection) to simulate an artifact that happens in real-world lens, mostly visible in the image corners.
@@ -578,6 +583,7 @@ package unreal;
   public var bOverride_MotionBlurPerObjectSize : Bool;
   public var bOverride_MotionBlurMax : Bool;
   public var bOverride_MotionBlurAmount : Bool;
+  public var bOverride_DepthOfFieldVignetteSize : Bool;
   public var bOverride_DepthOfFieldSkyFocusDistance : Bool;
   public var bOverride_DepthOfFieldSizeThreshold : Bool;
   public var bOverride_DepthOfFieldColorThreshold : Bool;
@@ -643,6 +649,7 @@ package unreal;
   public var bOverride_AutoExposureMinBrightness : Bool;
   public var bOverride_AutoExposureHighPercent : Bool;
   public var bOverride_AutoExposureLowPercent : Bool;
+  public var bOverride_AutoExposureMethod : Bool;
   public var bOverride_BloomDirtMask : Bool;
   public var bOverride_BloomDirtMaskTint : Bool;
   public var bOverride_BloomDirtMaskIntensity : Bool;
@@ -663,7 +670,6 @@ package unreal;
   public var bOverride_BloomIntensity : Bool;
   public var bOverride_AmbientCubemapIntensity : Bool;
   public var bOverride_AmbientCubemapTint : Bool;
-  public var bOverride_SceneFringeSaturation : Bool;
   public var bOverride_SceneFringeIntensity : Bool;
   public var bOverride_SceneColorTint : Bool;
   public var bOverride_FilmWhiteClip : Bool;

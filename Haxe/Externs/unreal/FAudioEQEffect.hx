@@ -23,38 +23,63 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FAudioEQEffect {
   
   /**
-    Low frequency filter gain - 0.0 is silent, 1.0 is full volume.
+    Bandwidth of band 3. Region is center frequency +/- Bandwidth /2
   **/
-  public var LFGain : unreal.Float32;
+  public var Bandwidth3 : unreal.Float32;
   
   /**
-    Low frequency filter cutoff frequency (Hz)
+    Boost/cut of band 3
   **/
-  public var LFFrequency : unreal.Float32;
+  public var Gain3 : unreal.Float32;
   
   /**
-    Middle (band) frequency filter gain - 0.0 is silent, 1.0 is full volume.
+    Center frequency in Hz for band 3
   **/
-  public var MFGain : unreal.Float32;
+  public var FrequencyCenter3 : unreal.Float32;
   
   /**
-    Middle (band) frequency filter bandwidth frequency (Hz) - Range (0.1 to 2.0).
+    Bandwidth of band 2. Region is center frequency +/- Bandwidth /2
   **/
-  public var MFBandwidth : unreal.Float32;
+  public var Bandwidth2 : unreal.Float32;
   
   /**
-    Middle (band) frequency filter cutoff frequency (Hz).
+    Boost/cut of band 2
   **/
-  public var MFCutoffFrequency : unreal.Float32;
+  public var Gain2 : unreal.Float32;
   
   /**
-    High frequency gain - 0.0 is silent, 1.0 is full volume.
+    Center frequency in Hz for band 2
   **/
-  public var HFGain : unreal.Float32;
+  public var FrequencyCenter2 : unreal.Float32;
   
   /**
-    High frequency filter cutoff frequency (Hz)
+    Bandwidth of band 1. Region is center frequency +/- Bandwidth /2
   **/
-  public var HFFrequency : unreal.Float32;
+  public var Bandwidth1 : unreal.Float32;
+  
+  /**
+    Boost/cut of band 1
+  **/
+  public var Gain1 : unreal.Float32;
+  
+  /**
+    Center frequency in Hz for band 1
+  **/
+  public var FrequencyCenter1 : unreal.Float32;
+  
+  /**
+    Bandwidth of band 0. Region is center frequency +/- Bandwidth /2
+  **/
+  public var Bandwidth0 : unreal.Float32;
+  
+  /**
+    Boost/cut of band 0
+  **/
+  public var Gain0 : unreal.Float32;
+  
+  /**
+    Center frequency in Hz for band 0
+  **/
+  public var FrequencyCenter0 : unreal.Float32;
   
 }

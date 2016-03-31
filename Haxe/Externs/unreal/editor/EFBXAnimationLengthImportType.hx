@@ -18,24 +18,27 @@ package unreal.editor;
   Animation length type when importing
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxAnimSequenceImportData.h")
+@:glueCppIncludes("Factories/FbxSceneImportOptionsAnimation.h")
 @:uname("EFBXAnimationLengthImportType")
 @:uextern extern enum EFBXAnimationLengthImportType {
   
   /**
-    Exported Time
+    This option imports animation frames based on what is defined at the time of export
+    @DisplayName Exported Time
   **/
   @DisplayName("Exported Time")
   FBXALIT_ExportedTime;
   
   /**
-    Animated Time
+    Will import the range of frames that have animation. Can be useful if the exported range is longer than the actual animation in the FBX file
+    @DisplayName Animated Time
   **/
   @DisplayName("Animated Time")
   FBXALIT_AnimatedKey;
   
   /**
-    Set Range
+    This will enable the Start Frame and End Frame properties for you to define the frames of animation to import
+    @DisplayName Set Range
   **/
   @DisplayName("Set Range")
   FBXALIT_SetRange;

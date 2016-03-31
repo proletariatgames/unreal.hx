@@ -28,19 +28,4 @@ package unreal.animgraph;
   **/
   public var MontagePreviewType : unreal.animgraph.EMontagePreviewType;
   
-  /**
-    Shared parameters for previewing blendspace or animsequence *
-  **/
-  public var SkeletalControlAlpha : unreal.Float32;
-  
-  /**
-    Curve modifiers
-  **/
-  public var CurveBoneControllers : unreal.TArray<unreal.animgraphruntime.FAnimNode_ModifyBone>;
-  
-  /**
-    Controllers for individual bones
-  **/
-  public var BoneControllers : unreal.TArray<unreal.animgraphruntime.FAnimNode_ModifyBone>;
-  
 }

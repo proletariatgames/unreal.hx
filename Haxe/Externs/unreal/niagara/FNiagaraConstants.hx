@@ -20,7 +20,7 @@ package unreal.niagara;
   
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraSimulation.h")
+@:glueCppIncludes("NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraConstants {
   public var DataObjectConstants : unreal.TArray<unreal.niagara.FNiagaraConstants_DataObject>;
   public var MatrixConstants : unreal.TArray<unreal.niagara.FNiagaraConstants_Matrix>;

@@ -31,9 +31,4 @@ package unreal;
   **/
   public var MaxDeltaTime : unreal.Float32;
   
-  /**
-    Check to see if we need to start a movie capture (used on the first tick when we want to record a Matinee)
-  **/
-  public var bCheckForMovieCapture : Bool;
-  
 }

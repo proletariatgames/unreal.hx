@@ -27,7 +27,7 @@ package unreal;
   public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
   
   /**
-    This static mesh should replicate movement. Automatically sets the RemoteRole and bReplicateMovement flags. Meant to be edited on placed actors (those other two proeprties are not)
+    This static mesh should replicate movement. Automatically sets the RemoteRole and bReplicateMovement flags. Meant to be edited on placed actors (those other two properties are not)
   **/
   public var bStaticMeshReplicateMovement : Bool;
   public var StaticMeshComponent : unreal.UStaticMeshComponent;

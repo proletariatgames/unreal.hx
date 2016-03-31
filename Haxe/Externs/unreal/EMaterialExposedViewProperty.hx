@@ -19,37 +19,44 @@ package unreal;
   
   /**
     Horizontal and vertical size of the view's buffer in pixels
-    @DisplayName RenderTargetSize
+    @DisplayName Render Target Size
   **/
-  @DisplayName("RenderTargetSize")
+  @DisplayName("Render Target Size")
   MEVP_BufferSize;
   
   /**
     Horizontal and vertical field of view angles in radian
-    @DisplayName FieldOfView
+    @DisplayName Field Of View
   **/
-  @DisplayName("FieldOfView")
+  @DisplayName("Field Of View")
   MEVP_FieldOfView;
   
   /**
     Tan(FieldOfView * 0.5)
-    @DisplayName TanHalfFieldOfView
+    @DisplayName Tan(0.5 * Field Of View)
   **/
-  @DisplayName("TanHalfFieldOfView")
+  @DisplayName("Tan(0.5 * Field Of View)")
   MEVP_TanHalfFieldOfView;
   
   /**
     Horizontal and vertical size of the view in pixels
-    @DisplayName ViewSize
+    @DisplayName View Size
   **/
-  @DisplayName("ViewSize")
+  @DisplayName("View Size")
   MEVP_ViewSize;
   
   /**
-    Absolute world space camera position
-    @DisplayName CameraPosition (Absolute World Space)
+    Absolute world space view position (differs from the camera position in the shadow passes)
+    @DisplayName View Position (Absolute World Space)
   **/
-  @DisplayName("CameraPosition (Absolute World Space)")
+  @DisplayName("View Position (Absolute World Space)")
+  MEVP_WorldSpaceViewPosition;
+  
+  /**
+    Absolute world space camera position
+    @DisplayName Camera Position (Absolute World Space)
+  **/
+  @DisplayName("Camera Position (Absolute World Space)")
   MEVP_WorldSpaceCameraPosition;
   
 }

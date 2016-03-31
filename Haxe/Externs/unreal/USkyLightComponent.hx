@@ -52,6 +52,11 @@ package unreal;
   public var SkyDistanceThreshold : unreal.Float32;
   
   /**
+    Angle to rotate the source cubemap when SourceType is set to SLS_SpecifiedCubemap.
+  **/
+  public var SourceCubemapAngle : unreal.Float32;
+  
+  /**
     Cubemap to use for sky lighting if SourceType is set to SLS_SpecifiedCubemap.
   **/
   public var Cubemap : unreal.UTextureCube;

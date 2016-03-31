@@ -24,8 +24,13 @@ package unreal.moviescene;
 @:noCopy @:noEquals @:uextern extern class FMovieSceneEditorData {
   
   /**
-    List of collapsed sequencer nodes.  We store collapsed instead of expanded so that new nodes with no saved state are expanded by default
+    The last view-range that the user was observing
   **/
-  public var CollapsedSequencerNodes : unreal.TArray<unreal.FString>;
+  public var ViewRange : unreal.FFloatRange;
+  
+  /**
+    User-defined working range in which the entire sequence should reside.
+  **/
+  public var WorkingRange : unreal.FFloatRange;
   
 }

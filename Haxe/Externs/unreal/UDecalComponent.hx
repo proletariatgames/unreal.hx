@@ -22,6 +22,11 @@ package unreal;
 **/
 @:glueCppIncludes("Components/DecalComponent.h")
 @:uextern extern class UDecalComponent extends unreal.USceneComponent {
+  
+  /**
+    Decal size in local space (does not include the component scale), technically redundant but there for convenience
+  **/
+  public var DecalSize : unreal.FVector;
   public var FadeScreenSize : unreal.Float32;
   
   /**

@@ -74,12 +74,19 @@ package unreal;
     Colored according to stationary light overlap.
   **/
   VMI_StationaryLightOverlap;
-  
-  /**
-    VMI_VertexDensity = 15,
-  **/
   VMI_CollisionPawn;
   VMI_CollisionVisibility;
+  VMI_VertexDensities;
+  
+  /**
+    Colored according to the current LOD index.
+  **/
+  VMI_LODColoration;
+  
+  /**
+    Colored according to the quad coverage.
+  **/
+  VMI_QuadComplexity;
   VMI_Max;
   
 }

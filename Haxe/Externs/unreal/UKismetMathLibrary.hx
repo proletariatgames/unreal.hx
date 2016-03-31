@@ -87,6 +87,16 @@ package unreal;
   static public function Subtract_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
   
   /**
+    Returns the minimum value of A and B
+  **/
+  static public function BMin(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
+  
+  /**
+    Returns the maximum value of A and B
+  **/
+  static public function BMax(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
+  
+  /**
     Returns true if A is less than B (A < B)
   **/
   static public function Less_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
@@ -1711,6 +1721,16 @@ package unreal;
     Returns Vector A subtracted by B
   **/
   static public function Subtract_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
+  
+  /**
+    Returns true if vector2D A is equal to vector2D B (A == B) within a specified error tolerance
+  **/
+  static public function EqualEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32) : Bool;
+  
+  /**
+    Returns true if vector2D A is not equal to vector2D B (A != B) within a specified error tolerance
+  **/
+  static public function NotEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32) : Bool;
   
   /**
     Tries to reach Target based on distance from Current position, giving a nice smooth feeling when tracking a position.

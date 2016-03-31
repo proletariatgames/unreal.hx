@@ -42,6 +42,18 @@ package unreal;
   private var CachedLocalBounds : unreal.FBoxSphereBounds;
   
   /**
+    Whether to use the capsule representation (when present) from a skeletal mesh's ShadowPhysicsAsset for shadowing indirect lighting (from lightmaps or skylight).
+  **/
+  public var bCastCapsuleIndirectShadow : Bool;
+  
+  /**
+    Whether to use the capsule representation (when present) from a skeletal mesh's ShadowPhysicsAsset for direct shadowing from lights.
+    This type of shadowing is approximate but handles extremely wide area shadowing well.  The softness of the shadow depends on the light's LightSourceAngle / SourceRadius.
+    This flag will force bCastInsetShadow to be enabled.
+  **/
+  public var bCastCapsuleDirectShadow : Bool;
+  
+  /**
     Editor only. Used for manually selecting the alternate indices for
     TRISORT_CustomLeftRight sections.
   **/
@@ -62,11 +74,6 @@ package unreal;
     Whether or not we can highlight selected sections - this should really only be done in the editor
   **/
   public var bCanHighlightSelectedSections : Bool;
-  
-  /**
-    If true, DistanceFactor for this SkinnedMeshComponent will be added to global chart.
-  **/
-  public var bChartDistanceFactor : Bool;
   
   /**
     This is update frequency flag even when our Owner has not been rendered recently
@@ -198,6 +205,20 @@ package unreal;
     @param       bForceReInit    Force reinitialize
   **/
   public function SetPhysicsAsset(NewPhysicsAsset : unreal.UPhysicsAsset, bForceReInit : Bool) : Void;
+  
+  /**
+    Set MinLodModel of the mesh component
+    
+    @param       InNewMinLOD     Set new MinLodModel that make sure the LOD does not go below of this value. Range from [0, Max Number of LOD - 1]. This will affect in the next tick update.
+  **/
+  @:final public function SetMinLOD(InNewMinLOD : unreal.Int32) : Void;
+  
+  /**
+    Set MinLodModel of the mesh component
+    
+    @param       InNewForcedLOD  Set new ForcedLODModel that forces to set the incoming LOD. Range from [1, Max Number of LOD]. This will affect in the next tick update.
+  **/
+  @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
   
   /**
     Find the index of bone by name. Looks in the current SkeletalMesh being used by this SkeletalMeshComponent.

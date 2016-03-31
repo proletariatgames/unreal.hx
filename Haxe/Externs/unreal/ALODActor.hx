@@ -26,9 +26,44 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
-    Visualization component for rendering the LODActors bounds (cluster bounds)
+    Override screen size value, used when creating the proxy mesh
   **/
-  private var DrawSphereComponent : unreal.UDrawSphereComponent;
+  public var ScreenSize : unreal.Int32;
+  
+  /**
+    Flag whether or not to use the override ScreenSize when creating the proxy mesh
+  **/
+  public var bOverrideScreenSize : Bool;
+  
+  /**
+    Override transition screen size value, determines the screen size / draw distance at which the proxy mesh is visible
+  **/
+  public var TransitionScreenSize : unreal.Float32;
+  
+  /**
+    Flag whether or not to use the override TransitionScreenSize for this proxy mesh
+  **/
+  public var bOverrideTransitionScreenSize : Bool;
+  
+  /**
+    Override Material Settings, used when creating the proxy mesh
+  **/
+  public var MaterialSettings : unreal.FMaterialProxySettings;
+  
+  /**
+    Flag whether or not to use the override MaterialSettings when creating the proxy mesh
+  **/
+  public var bOverrideMaterialMergeSettings : Bool;
+  
+  /**
+    Cached number of triangles contained in the SubActors
+  **/
+  public var NumTrianglesInMergedMesh : unreal.FakeUInt32;
+  
+  /**
+    Cached number of triangles contained in the SubActors
+  **/
+  public var NumTrianglesInSubActors : unreal.FakeUInt32;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -48,7 +83,7 @@ package unreal;
   public var SubActors : unreal.TArray<unreal.AActor>;
   
   /**
-    Category=LODActor, VisibleAnywhere
+    disable display of this component
   **/
   public var StaticMeshComponent : unreal.UStaticMeshComponent;
   

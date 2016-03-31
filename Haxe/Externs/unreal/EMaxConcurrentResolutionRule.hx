@@ -37,4 +37,14 @@ package unreal;
   **/
   StopFarthestThenOldest;
   
+  /**
+    Stop the lowest volume-weighted priority in the group.
+  **/
+  StopLowestPriority;
+  
+  /**
+    Stop the sound that is quietest in the group.
+  **/
+  StopQuietest;
+  
 }

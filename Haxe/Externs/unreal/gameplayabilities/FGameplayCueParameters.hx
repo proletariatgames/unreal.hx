@@ -13,15 +13,11 @@
 **/
 package unreal.gameplayabilities;
 
-
-/**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
-  
-**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayCueParameters {
+@:uextern extern class FGameplayCueParameters {
+  public var Normal : unreal.FVector_NetQuantizeNormal;
+  public var Location : unreal.FVector_NetQuantize10;
   
   /**
     The aggregated target tags taken from the effect spec

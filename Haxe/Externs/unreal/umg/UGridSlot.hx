@@ -73,6 +73,11 @@ package unreal.umg;
     How many columns this slot spans over
   **/
   @:final public function SetColumnSpan(InColumnSpan : unreal.Int32) : Void;
+  
+  /**
+    Sets positive values offset this cell to be hit-tested and drawn on top of others.
+  **/
+  @:final public function SetLayer(InLayer : unreal.Int32) : Void;
   @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
   @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   

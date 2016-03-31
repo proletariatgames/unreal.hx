@@ -21,8 +21,8 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:uname("ELandscapeLayerPaintingRestriction.Type")
-@:uextern extern enum ELandscapeLayerPaintingRestriction {
+@:uname("ELandscapeLayerPaintingRestriction")
+@:class @:uextern extern enum ELandscapeLayerPaintingRestriction {
   
   /**
     No restriction, can paint anywhere (default).
@@ -44,5 +44,12 @@ package unreal.landscape;
   **/
   @DisplayName("Existing Layers Only")
   ExistingOnly;
+  
+  /**
+    Restricts painting to only components that have this layer in their whitelist.
+    @DisplayName Component Whitelist
+  **/
+  @DisplayName("Component Whitelist")
+  UseComponentWhitelist;
   
 }

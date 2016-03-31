@@ -21,21 +21,52 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
 @:noCopy @:noEquals @:uextern extern class FMeshProxySettings {
-  public var bPlaneNegativeHalfspace : Bool;
-  public var AxisIndex : unreal.Int32;
-  public var ClippingLevel : unreal.Float32;
-  public var bUseClippingPlane : Bool;
-  public var MergeDistance : unreal.Int32;
+  @:deprecated public var bBakeVertexData_DEPRECATED : Bool;
   
   /**
-    Angle at which a hard edge is introduced between faces.
+    Set to true to use negative halfspace for model, and reject the positive halfspace
+  **/
+  public var bPlaneNegativeHalfspace : Bool;
+  
+  /**
+    Set the axis index for the ground plane (0:X-Axis, 1:Y-Axis, 2:Z-Axis)
+  **/
+  public var AxisIndex : unreal.Int32;
+  
+  /**
+    Ground plane level
+  **/
+  public var ClippingLevel : unreal.Float32;
+  
+  /**
+    Set to true to cap the mesh with a ground plane
+  **/
+  public var bUseClippingPlane : Bool;
+  
+  /**
+    Whether Simplygon should recalculate normals, otherwise the normals channel will be sampled from the original mesh
+  **/
+  public var bRecalculateNormals : Bool;
+  
+  /**
+    Lightmap resolution
+  **/
+  public var LightMapResolution : unreal.Int32;
+  
+  /**
+    Angle at which a hard edge is introduced between faces
   **/
   public var HardAngleThreshold : unreal.Float32;
   
   /**
-    Should Simplygon recalculate normals for the proxy mesh?
+    Distance at which meshes should be merged together
   **/
-  public var bRecalculateNormals : Bool;
+  public var MergeDistance : unreal.Float32;
+  
+  /**
+    Material simplification
+  **/
+  @:deprecated public var Material_DEPRECATED : unreal.FMaterialSimplificationSettings;
   @:deprecated public var bExportSpecularMap_DEPRECATED : Bool;
   @:deprecated public var bExportRoughnessMap_DEPRECATED : Bool;
   @:deprecated public var bExportMetallicMap_DEPRECATED : Bool;
@@ -46,7 +77,7 @@ package unreal;
   /**
     Material simplification
   **/
-  public var Material : unreal.FMaterialSimplificationSettings;
+  public var MaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Screen size of the resulting proxy mesh in pixel size

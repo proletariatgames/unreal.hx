@@ -18,6 +18,11 @@ package unreal.aimodule;
 @:uextern extern class UEnvQueryGenerator extends unreal.aimodule.UEnvQueryNode {
   
   /**
+    if set, tests will be automatically sorted for best performance before running query
+  **/
+  public var bAutoSortTests : Bool;
+  
+  /**
     type of generated items
   **/
   public var ItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;

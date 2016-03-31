@@ -22,6 +22,16 @@ package unreal.iosruntimesettings;
 @:uextern extern class UIOSRuntimeSettings extends unreal.UObject {
   
   /**
+    Signing certificate to utilize when signing
+  **/
+  public var SigningCertificate : unreal.FString;
+  
+  /**
+    Mobile provision to utilize when signing
+  **/
+  public var MobileProvision : unreal.FString;
+  
+  /**
     Facebook App ID obtained from Facebook's Developer Centre
   **/
   public var FacebookAppID : unreal.FString;
@@ -97,6 +107,26 @@ package unreal.iosruntimesettings;
   public var bSupportsPortraitOrientation : Bool;
   
   /**
+    If checked, the center of the trackpad is 0,0 (center) for the virtual joystick. If unchecked, the location the user taps becomes 0,0
+  **/
+  public var bUseRemoteAbsoluteDpadValues : Bool;
+  
+  /**
+    If checked, the trackpad is a virtual joystick (acts like the left stick of a controller). If unchecked, the trackpad will send touch events
+  **/
+  public var bUseRemoteAsVirtualJoystick : Bool;
+  
+  /**
+    If checked, the Siri Remote can be rotated to landscape view
+  **/
+  public var bAllowRemoteRotation : Bool;
+  
+  /**
+    If checked, the Siri Remote will act as a separate controller Id from any connected controllers. If unchecked, the remote and the first connected controller will share an ID (and control the same player)
+  **/
+  public var bTreatRemoteAsSeparateController : Bool;
+  
+  /**
     The path of the ssh permissions key to be used when connecting to the remote server.
   **/
   public var SSHPrivateKeyOverridePath : unreal.iosruntimesettings.FIOSBuildResourceFilePath;
@@ -125,6 +155,16 @@ package unreal.iosruntimesettings;
     The name or ip address of the remote mac which will be used to build IOS
   **/
   public var RemoteServerName : unreal.FString;
+  
+  /**
+    Any additional linker flags to pass to the linker in shipping builds
+  **/
+  public var AdditionalShippingLinkerFlags : unreal.FString;
+  
+  /**
+    Any additional linker flags to pass to the linker in non-shipping builds
+  **/
+  public var AdditionalLinkerFlags : unreal.FString;
   
   /**
     Enable ArmV7s support?

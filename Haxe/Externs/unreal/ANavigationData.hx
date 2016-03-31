@@ -25,7 +25,11 @@ package unreal;
     serialized area class - ID mapping
   **/
   private var SupportedAreas : unreal.TArray<unreal.FSupportedAreaData>;
-  private var CachedWorld : unreal.UWorld;
+  
+  /**
+    Navigation data versioning.
+  **/
+  private var DataVersion : unreal.FakeUInt32;
   
   /**
     all observed paths will be processed every ObservedPathsTickInterval seconds

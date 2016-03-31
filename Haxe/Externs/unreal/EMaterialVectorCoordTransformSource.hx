@@ -18,31 +18,38 @@ package unreal;
 @:uextern extern enum EMaterialVectorCoordTransformSource {
   
   /**
-    Tangent space
+    Tangent space (relative to the surface)
     @DisplayName Tangent Space
   **/
   @DisplayName("Tangent Space")
   TRANSFORMSOURCE_Tangent;
   
   /**
-    Local space
+    Local space (relative to the rendered object, = object space)
     @DisplayName Local Space
   **/
   @DisplayName("Local Space")
   TRANSFORMSOURCE_Local;
   
   /**
-    World space
+    World space, a unit is 1cm
     @DisplayName World Space
   **/
   @DisplayName("World Space")
   TRANSFORMSOURCE_World;
   
   /**
-    View space
+    View space (relative to the camera/eye, = camera space, differs from camera space in the shadow passes)
     @DisplayName View Space
   **/
   @DisplayName("View Space")
   TRANSFORMSOURCE_View;
+  
+  /**
+    Camera space
+    @DisplayName Camera Space
+  **/
+  @DisplayName("Camera Space")
+  TRANSFORMSOURCE_Camera;
   
 }

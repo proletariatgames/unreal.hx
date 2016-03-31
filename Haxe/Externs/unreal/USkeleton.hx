@@ -26,7 +26,6 @@ package unreal;
 @:glueCppIncludes("Animation/Skeleton.h")
 @:uextern extern class USkeleton extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
-  public var BoneReductionSettingsForLODs : unreal.TArray<unreal.FBoneReductionSetting>;
   
   /**
     Attached assets component for this skeleton
@@ -40,9 +39,14 @@ package unreal;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    List of blend profiles available in this skeleton
+  **/
+  public var BlendProfiles : unreal.TArray<unreal.UBlendProfile>;
+  
+  /**
     Container for smart name mappings
   **/
-  public var SmartNames : unreal.FSmartNameContainer;
+  private var SmartNames : unreal.FSmartNameContainer;
   
   /**
     Array of named socket locations, set up in editor and used as a shortcut instead of specifying

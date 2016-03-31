@@ -22,6 +22,16 @@ package unreal.umg;
 @:uextern extern class UEditableText extends unreal.umg.UWidget {
   
   /**
+    If we're on a platform that requires a virtual keyboard, what kind of keyboard should this widget use?
+  **/
+  public var KeyboardType : unreal.umg.EVirtualKeyboardType;
+  
+  /**
+    Whether the context menu can be opened
+  **/
+  public var AllowContextMenu : Bool;
+  
+  /**
     Whether to select all text when pressing enter to commit changes
   **/
   public var SelectAllTextOnCommit : Bool;

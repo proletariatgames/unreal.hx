@@ -27,7 +27,7 @@ package unreal;
   /**
     Array of named material slots for use by emitters of this system.
     Emitters can use these instead of their own materials by providing the name to the NamedMaterialOverrides property of their required module.
-    These materials can be overriden using CreateNamedDynamicMaterialInstance() on a ParticleSystemComponent.
+    These materials can be overridden using CreateNamedDynamicMaterialInstance() on a ParticleSystemComponent.
   **/
   public var NamedMaterialSlots : unreal.TArray<unreal.FNamedEmitterMaterial>;
   public var SoloTracking : unreal.TArray<unreal.FLODSoloTrack>;
@@ -53,6 +53,16 @@ package unreal;
     Local space position that UVs generated with the ParticleMacroUV material node will be centered on.
   **/
   public var MacroUVPosition : unreal.FVector;
+  
+  /**
+    Minimum duration between ticks; 33=tick at max. 30FPS, 16=60FPS, 8=120FPS
+  **/
+  public var MinTimeBetweenTicks : unreal.FakeUInt32;
+  
+  /**
+    Auto-deactivate system if all emitters are determined to not spawn particles again, regardless of lifetime.
+  **/
+  public var bAutoDeactivate : Bool;
   
   /**
     If true, select the emitter delay from the range

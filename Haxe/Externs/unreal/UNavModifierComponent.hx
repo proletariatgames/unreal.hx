@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("AI/Navigation/NavModifierComponent.h")
-@:noClass @:uextern extern class UNavModifierComponent extends unreal.UNavRelevantComponent {
+@:uextern extern class UNavModifierComponent extends unreal.UNavRelevantComponent {
   
   /**
     box extent used ONLY when owning actor doesn't have collision component

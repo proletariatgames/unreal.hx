@@ -33,6 +33,13 @@ package unreal;
   public var bAutoRegisterUpdatedComponent : Bool;
   
   /**
+    If true, after registration we will add a tick dependency to tick before our owner (if we can both tick).
+    This is important when our tick causes an update in the owner's position, so that when the owner ticks it uses the most recent position without lag.
+    Disabling this can improve performance if both objects tick but the order of ticks doesn't matter.
+  **/
+  public var bTickBeforeOwner : Bool;
+  
+  /**
     If true, whenever the updated component is changed, this component will enable or disable its tick dependent on whether it has something to update.
     This will NOT enable tick at startup if bAutoActivate is false, because presumably you have a good reason for not wanting it to start ticking initially.
   **/

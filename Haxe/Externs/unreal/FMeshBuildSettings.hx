@@ -51,6 +51,11 @@ package unreal;
   public var bUseFullPrecisionUVs : Bool;
   
   /**
+    Required to optimize mesh in mirrored transform. Double index buffer size.
+  **/
+  public var bBuildReversedIndexBuffer : Bool;
+  
+  /**
     Required for PNT tessellation but can be slow. Recommend disabling for larger meshes.
   **/
   public var bBuildAdjacencyBuffer : Bool;

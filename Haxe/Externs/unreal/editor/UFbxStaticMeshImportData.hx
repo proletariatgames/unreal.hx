@@ -33,6 +33,7 @@ package unreal.editor;
   **/
   public var bOneConvexHullPerUCX : Bool;
   public var bGenerateLightmapUVs : Bool;
+  public var bBuildReversedIndexBuffer : Bool;
   
   /**
     Required for PNT tessellation but can be slow. Recommend disabling for larger meshes.
@@ -58,5 +59,10 @@ package unreal.editor;
     For static meshes, enabling this option will combine all meshes in the FBX into a single monolithic mesh in Unreal
   **/
   public var StaticMeshLODGroup : unreal.FName;
+  
+  /**
+    If this option is true the staticmesh absolute transform will be apply to the staticmesh vertices.
+  **/
+  public var bTransformVertexToAbsolute : Bool;
   
 }

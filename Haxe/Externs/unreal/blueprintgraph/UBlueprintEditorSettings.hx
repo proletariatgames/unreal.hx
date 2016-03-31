@@ -38,6 +38,11 @@ package unreal.blueprintgraph;
   public var bShowActionMenuItemSignatures : Bool;
   
   /**
+    If enabled, nodes can be explicitly disabled via context menu when right-clicking on impure nodes in the Blueprint editor. Disabled nodes will not be compiled, but also will not break existing connections.
+  **/
+  public var bAllowExplicitImpureNodeDisabling : Bool;
+  
+  /**
     When enabled, if a blueprint has compiler errors, then the graph will jump and focus on the first node generating an error
   **/
   public var bJumpToNodeErrors : Bool;

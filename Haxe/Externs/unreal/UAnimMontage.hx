@@ -63,6 +63,17 @@ package unreal;
     composite section.
   **/
   public var CompositeSections : unreal.TArray<unreal.FCompositeSection>;
+  public var MarkerData : unreal.FMarkerSyncData;
+  
+  /**
+    wip: until we have UI working
+  **/
+  public var SyncSlotIndex : unreal.Int32;
+  
+  /**
+    If you're using marker based sync for this montage, make sure to add sync group name. For now we only support one group
+  **/
+  public var SyncGroup : unreal.FName;
   
   /**
     Time from Sequence End to trigger blend out.
@@ -70,15 +81,17 @@ package unreal;
     >=0 means using 'SequenceEnd - BlendOutTriggerTime' to trigger blend out.
   **/
   public var BlendOutTriggerTime : unreal.Float32;
+  @:deprecated public var BlendOutTime_DEPRECATED : unreal.Float32;
   
   /**
-    Default blend out time.
+    Blend out option. This is only used when it blends out itself. If it's interrupted by other montages, it will use new montage's BlendIn option to blend out.
   **/
-  public var BlendOutTime : unreal.Float32;
+  public var BlendOut : unreal.FAlphaBlend;
+  @:deprecated public var BlendInTime_DEPRECATED : unreal.Float32;
   
   /**
-    Default blend in time.
+    Blend in option.
   **/
-  public var BlendInTime : unreal.Float32;
+  public var BlendIn : unreal.FAlphaBlend;
   
 }

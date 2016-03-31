@@ -19,27 +19,17 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UMultiLineEditableText extends unreal.umg.UWidget {
+@:uextern extern class UMultiLineEditableText extends unreal.umg.UTextLayoutWidget {
+  
+  /**
+    Whether the context menu can be opened
+  **/
+  public var AllowContextMenu : Bool;
   
   /**
     Font color and opacity (overrides Style)
   **/
   @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
-  
-  /**
-    Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
-  **/
-  public var WrapTextAt : unreal.Float32;
-  
-  /**
-    Whether to wrap text automatically based on the widget's computed horizontal space.
-  **/
-  public var bAutoWrapText : Bool;
-  
-  /**
-    The justification of the text in the multilinebox
-  **/
-  public var Justification : unreal.slate.ETextJustify;
   
   /**
     The style

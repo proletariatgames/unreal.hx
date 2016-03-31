@@ -41,6 +41,15 @@ package unreal;
   public var ClientRootMotionParams : unreal.FRootMotionMovementParams;
   
   /**
+    For LocallyControlled Autonomous clients.
+    During a PerformMovement() after root motion is prepared, we save it off into this and
+    then record it into our SavedMoves.
+    During SavedMove playback we use it as our "Previous Move" SavedRootMotion which includes
+    last received root motion from the Server
+  **/
+  public var SavedRootMotion : unreal.FRootMotionSourceGroup;
+  
+  /**
     The max time the jump key can be held.
     Note that if StopJumping() is not called before the max jump hold time is reached,
     then the character will carry on receiving vertical velocity. Therefore it is usually
@@ -58,11 +67,17 @@ package unreal;
     Disable root motion on the server. When receiving a DualServerMove, where the first move is not root motion and the second is.
   **/
   public var bServerMoveIgnoreRootMotion : Bool;
+  public var bClientCheckEncroachmentOnNetUpdate : Bool;
   
   /**
     Disable simulated gravity (set when character encroaches geometry on client, to keep him from falling through floors)
   **/
   public var bSimGravityDisabled : Bool;
+  
+  /**
+    If server disagrees with root motion state, client has to resimulate root motion from last AckedMove.
+  **/
+  public var bClientResimulateRootMotionSources : Bool;
   
   /**
     If server disagrees with root motion track position, client has to resimulate root motion from last AckedMove.
@@ -118,12 +133,6 @@ package unreal;
     Info about our current movement base (object we are standing on).
   **/
   private var BasedMovement : unreal.FBasedMovementInfo;
-  public var CapsuleComponent : unreal.UCapsuleComponent;
-  public var CharacterMovement : unreal.UCharacterMovementComponent;
-  #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
-  #end // WITH_EDITORONLY_DATA
-  public var Mesh : unreal.USkeletalMeshComponent;
   
   /**
     Rep notify for ReplicatedBasedMovement
@@ -187,7 +196,7 @@ package unreal;
   public function PlayAnimMontage(AnimMontage : unreal.UAnimMontage, InPlayRate : unreal.Float32, StartSectionName : unreal.FName) : unreal.Float32;
   
   /**
-    Stop Animation Montage. If NULL, it will stop what's currently active *
+    Stop Animation Montage. If NULL, it will stop what's currently active. The Blend Out Time is taken from the montage asset that is being stopped. *
   **/
   public function StopAnimMontage(AnimMontage : unreal.UAnimMontage) : Void;
   

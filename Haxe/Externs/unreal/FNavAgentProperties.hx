@@ -21,6 +21,11 @@ package unreal;
 @:uextern extern class FNavAgentProperties extends unreal.FMovementProperties {
   
   /**
+    Type of navigation data used by agent, null means "any"
+  **/
+  public var PreferredNavData : unreal.TSubclassOf<unreal.ANavigationData>;
+  
+  /**
     Scale factor to apply to height of bounds when searching for navmesh to project to when nav walking
   **/
   public var NavWalkingSearchHeightScale : unreal.Float32;

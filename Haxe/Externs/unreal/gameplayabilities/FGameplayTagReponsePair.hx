@@ -24,6 +24,11 @@ package unreal.gameplayabilities;
 @:noCopy @:noEquals @:uextern extern class FGameplayTagReponsePair {
   
   /**
+    The max "count" this response can achieve. This will not prevent counts from being applied, but will be used when calculating the net count of a tag. 0=no cap.
+  **/
+  public var SoftCountCap : unreal.Int32;
+  
+  /**
     The GameplayEffect to apply in reponse to the tag
   **/
   public var ResponseGameplayEffect : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;

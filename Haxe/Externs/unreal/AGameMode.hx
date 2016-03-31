@@ -298,6 +298,10 @@ package unreal;
     @returns Actor chosen as player start (usually a PlayerStart)
   **/
   public function FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
+  
+  /**
+    Calls code to select the best player start for this player to start from.
+  **/
   @:final public function K2_FindPlayerStart(Player : unreal.AController) : unreal.AActor;
   
   /**

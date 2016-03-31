@@ -37,6 +37,11 @@ package unreal;
   static public function GetObjectName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
   
   /**
+    Returns the full path to the specified object.
+  **/
+  static public function GetPathName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
+  
+  /**
     Returns the display name (or actor label), for displaying as a debugging aid.
     Note: In editor builds, this is the actor label.  In non-editor builds, this is the actual object name.  This function should not be used to uniquely identify actors!
     It is not localized and should not be used for display to an end user of a game.
@@ -356,7 +361,7 @@ package unreal;
   static public function SetObjectPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.UObject) : Void;
   
   /**
-    Set an OBJECT property by name
+    Set a CLASS property by name
   **/
   static public function SetClassPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.TSubclassOf<unreal.UObject>) : Void;
   
@@ -630,6 +635,11 @@ package unreal;
   static public function DrawDebugLine(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
+    Draw a debug circle!
+  **/
+  static public function DrawDebugCircle(WorldContextObject : unreal.UObject, Center : unreal.FVector, Radius : unreal.Float32, NumSegments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32, YAxis : unreal.FVector, ZAxis : unreal.FVector, bDrawAxis : Bool) : Void;
+  
+  /**
     Draw a debug point
   **/
   static public function DrawDebugPoint(WorldContextObject : unreal.UObject, Position : unreal.Const<unreal.FVector>, Size : unreal.Float32, PointColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
@@ -743,6 +753,7 @@ package unreal;
     Get the clamped state of r.MaterialQualityLevel, see console variable help (allows for scalability, cannot be used in construction scripts)
     0: low
     1: high
+    2: medium
   **/
   static public function GetRenderingMaterialQualityLevel() : unreal.Int32;
   
@@ -756,6 +767,7 @@ package unreal;
     Opens the specified URL in the platform's web browser of choice
   **/
   static public function LaunchURL(URL : unreal.FString) : Void;
+  static public function CanLaunchURL(URL : unreal.FString) : Bool;
   
   /**
     Deletes all unreferenced objects, keeping only referenced objects (this command will be queued and happen at the end of the frame)
@@ -767,9 +779,15 @@ package unreal;
     Will show an ad banner (iAd on iOS, or AdMob on Android) on the top or bottom of screen, on top of the GL view (doesn't resize the view)
     (iOS and Android only)
     
+    @param AdIdIndex The index of the ID to select for the add to show
     @param bShowOnBottomOfScreen If true, the iAd will be shown at the bottom of the screen, top otherwise
   **/
-  static public function ShowAdBanner(bShowOnBottomOfScreen : Bool) : Void;
+  static public function ShowAdBanner(AdIdIndex : unreal.Int32, bShowOnBottomOfScreen : Bool) : Void;
+  
+  /**
+    Retrieves the total number of Ad IDs that can be selected between
+  **/
+  static public function GetAdIDCount() : unreal.Int32;
   
   /**
     Hides the ad banner (iAd on iOS, or AdMob on Android). Will force close the ad if it's open
@@ -818,6 +836,21 @@ package unreal;
     Returns true if system default handling of volume up and volume down buttons enabled (Android only)
   **/
   static public function GetVolumeButtonsHandledBySystem() : Bool;
+  
+  /**
+    Resets the gamepad to player controller id assignments (Android only)
+  **/
+  static public function ResetGamepadAssignments() : Void;
+  
+  /**
+    * Resets the gamepad assignment to player controller id (Android only)
+  **/
+  static public function ResetGamepadAssignmentToController(ControllerId : unreal.Int32) : Void;
+  
+  /**
+    Returns true if controller id assigned to a gamepad (Android only)
+  **/
+  static public function IsControllerAssignedToGamepad(ControllerId : unreal.Int32) : Bool;
   
   /**
     Sets the state of the transition message rendered by the viewport. (The blue text displayed when the game is paused and so forth.)

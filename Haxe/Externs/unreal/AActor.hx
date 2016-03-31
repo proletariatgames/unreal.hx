@@ -57,16 +57,6 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
-    The scale to apply to any billboard components in editor builds (happens in any WITH_EDITOR build, including non-cooked games).
-  **/
-  public var SpriteScale : unreal.Float32;
-  
-  /**
-    The group this actor is a part of.
-  **/
-  public var GroupActor : unreal.AActor;
-  
-  /**
     If true, prevents the actor from being moved in the editor viewport.
   **/
   public var bLockLocation : Bool;
@@ -85,6 +75,16 @@ package unreal;
     Whether this actor is hidden within the editor viewport.
   **/
   public var bHiddenEd : Bool;
+  
+  /**
+    The scale to apply to any billboard components in editor builds (happens in any WITH_EDITOR build, including non-cooked games).
+  **/
+  public var SpriteScale : unreal.Float32;
+  
+  /**
+    The group this actor is a part of.
+  **/
+  public var GroupActor : unreal.AActor;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -214,14 +214,16 @@ package unreal;
   public var Role : unreal.ENetRole;
   
   /**
-    Used for replicating attachment of this actor's RootComponent to another actor.
-  **/
-  public var AttachmentReplication : unreal.FRepAttachment;
-  
-  /**
     Used for replication of our RootComponent's position and velocity
   **/
   public var ReplicatedMovement : unreal.FRepMovement;
+  
+  /**
+    Whether we allow this Actor to tick before it receives the BeginPlay event.
+    Normally we don't tick actors until after BeginPlay; this setting allows this behavior to be overridden.
+    This Actor must be able to tick for this setting to be relevant.
+  **/
+  public var bAllowTickBeforeBeginPlay : Bool;
   
   /**
     If true, all input on the stack below this actor will not be considered
@@ -311,6 +313,7 @@ package unreal;
     Networking - Server - TearOff this actor to stop replication to clients. Will set bTearOff to true.
   **/
   public function TearOff() : Void;
+  private function OnRep_Owner() : Void;
   
   /**
     Set whether this actor replicates to network clients. When this actor is spawned on the server it will be sent to clients as well.
@@ -473,6 +476,11 @@ package unreal;
     Returns the distance from this Actor to OtherActor.
   **/
   @:thisConst @:final public function GetDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  
+  /**
+    Returns the squared distance from this Actor to OtherActor.
+  **/
+  @:thisConst @:final public function GetSquaredDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the distance from this Actor to OtherActor, ignoring Z.
@@ -921,6 +929,12 @@ package unreal;
   @:final public function FlushNetDormancy() : Void;
   
   /**
+    Returns whether this Actor was spawned by a child actor component
+  **/
+  @:thisConst @:final public function IsChildActor() : Bool;
+  @:thisConst @:final public function GetParentComponent() : unreal.UChildActorComponent;
+  
+  /**
     Teleport this actor to a new location. If the actor doesn't fit exactly at the location specified, tries to slightly move it out of walls and such.
     
     @param DestLocation The target destination point
@@ -928,6 +942,11 @@ package unreal;
     @return true if the actor has been successfully moved, or false if it couldn't fit.
   **/
   @:final public function K2_TeleportTo(DestLocation : unreal.FVector, DestRotation : unreal.FRotator) : Bool;
+  
+  /**
+    Find all Actors which are attached directly to a component in this actor
+  **/
+  @:thisConst public function GetAttachedActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Sets the ticking group for this actor.

@@ -17,12 +17,22 @@ package unreal.umg;
 /**
   Allows the user to type in custom text.  Only permits a single line of text to be entered.
   
-  ● No Children
-  ● Text Entry
+  * No Children
+  * Text Entry
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UEditableTextBox extends unreal.umg.UWidget {
+  
+  /**
+    If we're on a platform that requires a virtual keyboard, what kind of keyboard should this widget use?
+  **/
+  public var KeyboardType : unreal.umg.EVirtualKeyboardType;
+  
+  /**
+    Whether the context menu can be opened
+  **/
+  public var AllowContextMenu : Bool;
   
   /**
     Whether to select all text when pressing enter to commit changes

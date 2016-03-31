@@ -27,6 +27,10 @@ package unreal.aimodule;
   public var BoolValue : Bool;
   public var IntValue : unreal.Int32;
   public var FloatValue : unreal.Float32;
+  
+  /**
+    Arbitrary name this query parameter will be exposed as to outside world (like BT nodes)
+  **/
   public var ParamName : unreal.FName;
   
 }

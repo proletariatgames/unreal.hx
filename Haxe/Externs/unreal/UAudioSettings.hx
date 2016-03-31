@@ -38,6 +38,11 @@ package unreal;
   public var DefaultBaseSoundMix : unreal.FStringAssetReference;
   
   /**
+    The SoundConcurrency assigned to newly created sounds
+  **/
+  public var DefaultSoundConcurrencyName : unreal.FStringAssetReference;
+  
+  /**
     The SoundClass assigned to newly created sounds
   **/
   public var DefaultSoundClassName : unreal.FStringAssetReference;

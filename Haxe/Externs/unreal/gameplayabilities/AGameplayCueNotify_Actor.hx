@@ -38,6 +38,11 @@ package unreal.gameplayabilities;
   public function OnRemove(MyTarget : unreal.AActor, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Bool;
   
   /**
+    How many instances of the gameplay cue to preallocate
+  **/
+  public var NumPreallocatedInstances : unreal.Int32;
+  
+  /**
     Does this cue get a new instance for each source object? For example if two source objects apply a GC to the same source, do we create two of these GameplayCue Notify actors or just one?
     If the notify is simply playing FX or sounds on the source, it should not need unique instances. If this Notify is attaching a beam from the source object to the target, it does need a unique instance per instigator.
   **/

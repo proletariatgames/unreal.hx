@@ -26,7 +26,7 @@ package unreal.logvisualizer;
     A material used to render debug meshes with kind of flat shading, mostly used by Visual Logger tool.
   **/
   private var DebugMeshMaterialFakeLight : unreal.UMaterial;
-  private var PresistentFilters : unreal.logvisualizer.FVisualLoggerFilters;
+  private var PresistentFilters : unreal.logvisualizer.FVisualLoggerFiltersData;
   
   /**
     Whether to dump Navigation Octree on Stop recording or not

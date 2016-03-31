@@ -93,7 +93,7 @@ package unreal.mediaassets;
     Checks whether playback is currently paused.
     
     @return true if playback is paused, false otherwise.
-    @see CanPause, IsPlaying, IsStopped, Pause
+    @see CanPause, IsPlaying, IsReady, Pause
   **/
   @:thisConst @:final public function IsPaused() : Bool;
   
@@ -101,17 +101,17 @@ package unreal.mediaassets;
     Checks whether playback has started.
     
     @return true if playback has started, false otherwise.
-    @see CanPlay, IsPaused, IsStopped, Play
+    @see CanPlay, IsPaused, IsReady, Play
   **/
   @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
-    Checks whether playback has stopped.
+    Checks whether media is ready for playback.
     
-    @return true if playback has stopped, false otherwise.
+    @return true if media is ready, false otherwise.
     @see IsPaused, IsPlaying, Stop
   **/
-  @:thisConst @:final public function IsStopped() : Bool;
+  @:thisConst @:final public function IsReady() : Bool;
   
   /**
     Opens the specified media URL.

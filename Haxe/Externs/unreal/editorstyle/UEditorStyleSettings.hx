@@ -27,6 +27,11 @@ package unreal.editorstyle;
   public var bOpenAssetEditorTabsInNewWindow : Bool;
   
   /**
+    Should warnings and errors in the Output Log during "Play in Editor" be promoted to the message log?
+  **/
+  public var bPromoteOutputLogWarningsDuringPIE : Bool;
+  
+  /**
     The display mode for timestamps in the output log
   **/
   public var LogTimestampMode : unreal.ELogTimes;

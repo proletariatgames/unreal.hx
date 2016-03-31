@@ -15,7 +15,9 @@ package unreal;
 
 
 /**
-  A curve base class which enables key handles to index lookups
+  A curve base class which enables key handles to index lookups.
+  
+  @todo sequencer: Some heavy refactoring can be done here. Much more stuff can go in this base class.
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
 @:uextern extern class FIndexedCurve {

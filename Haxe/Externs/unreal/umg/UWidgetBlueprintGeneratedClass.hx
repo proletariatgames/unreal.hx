@@ -23,6 +23,8 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UWidgetBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass {
+  public var bCanEverPaint : Bool;
+  public var bCanEverTick : Bool;
   public var NamedSlots : unreal.TArray<unreal.FName>;
   public var Animations : unreal.TArray<unreal.umg.UWidgetAnimation>;
   public var Bindings : unreal.TArray<unreal.umg.FDelegateRuntimeBinding>;

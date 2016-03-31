@@ -19,8 +19,8 @@ package unreal.umg;
   'indeterminable.  You can use the checkbox for a classic checkbox, or as a toggle button,
   or as radio buttons.
   
-  ● Single Child
-  ● Toggle
+  * Single Child
+  * Toggle
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

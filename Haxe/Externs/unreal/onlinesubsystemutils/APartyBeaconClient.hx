@@ -36,6 +36,11 @@ package unreal.onlinesubsystemutils;
   public function ClientSendReservationUpdates(NumRemainingReservations : unreal.Int32) : Void;
   
   /**
+    Response from the host session that the reservation is full
+  **/
+  public function ClientSendReservationFull() : Void;
+  
+  /**
     Type of request currently being handled by this client beacon
   **/
   private var RequestType : unreal.onlinesubsystemutils.EClientRequestType;

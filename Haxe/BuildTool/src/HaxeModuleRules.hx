@@ -64,7 +64,8 @@ class HaxeModuleRules extends BaseModuleRules
   }
 
   public static function getLibLocation(target:TargetInfo) {
-    var gameDir = RulesCompiler.AllGameFolders.ToArray()[0];
+    var folder:Dynamic = cs.Lib.array(UProjectInfo.FilterGameProjects(false, null).ToArray())[0].Folder;
+    var gameDir = folder.ToString();
     var libName = switch(target.Platform) {
       case WinRT | Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
         'haxeruntime.lib';
@@ -469,7 +470,7 @@ class HaxeModuleRules extends BaseModuleRules
     // add the output static linked library
     if (this.config.disabled || !exists(outputStatic))
     {
-      Log.TraceWarning('No Haxe compiled sources found: Compiling without Haxe support');
+      Log.TraceWarning('No Haxe compiled sources found in $outputStatic: Compiling without Haxe support');
     } else {
       Log.TraceVerbose('Using Haxe');
 

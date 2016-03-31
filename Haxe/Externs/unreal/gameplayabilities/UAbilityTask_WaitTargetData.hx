@@ -20,6 +20,11 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitTargetData.h")
 @:uextern extern class UAbilityTask_WaitTargetData extends unreal.gameplayabilities.UAbilityTask {
+  
+  /**
+    The TargetActor that we spawned
+  **/
+  private var TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor;
   @:final public function OnTargetDataReplicatedCallback(Data : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, ActivationTag : unreal.gameplaytags.FGameplayTag) : Void;
   @:final public function OnTargetDataReplicatedCancelledCallback() : Void;
   @:final public function OnTargetDataReadyCallback(Data : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : Void;

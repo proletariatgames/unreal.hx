@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
+@:glueCppIncludes("AnimGraphNode_BlendSpaceEvaluator.h")
 @:noCopy @:noEquals @:uextern extern class FBlendFilter {
   
 }

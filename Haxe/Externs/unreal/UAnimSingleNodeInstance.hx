@@ -15,36 +15,6 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
 @:uextern extern class UAnimSingleNodeInstance extends unreal.UAnimInstance {
-  public var bReverse : Bool;
-  public var bPlaying : Bool;
-  public var bLooping : Bool;
-  public var PlayRate : unreal.Float32;
-  
-  /**
-    Shared parameters for previewing blendspace or animsequence *
-  **/
-  public var CurrentTime : unreal.Float32;
-  
-  /**
-    Random cached values to play each asset *
-  **/
-  public var BlendFilter : unreal.FBlendFilter;
-  
-  /**
-    Random cached values to play each asset *
-  **/
-  public var BlendSampleData : unreal.TArray<unreal.FBlendSampleData>;
-  
-  /**
-    Random cached values to play each asset *
-  **/
-  public var BlendSpaceInput : unreal.FVector;
-  public var CurrentVertexAnim : unreal.UVertexAnimation;
-  
-  /**
-    Current Asset being played *
-  **/
-  public var CurrentAsset : unreal.UAnimationAsset;
   @:final public function SetLooping(bIsLooping : Bool) : Void;
   @:final public function SetPlayRate(InPlayRate : unreal.Float32) : Void;
   @:final public function SetReverse(bInReverse : Bool) : Void;

@@ -1,7 +1,7 @@
 package unreal;
 
 @:glueCppIncludes("SlateApplication.h")
-@:uextern extern class FSlateApplication
+@:uextern @:noCopy @:noEquals extern class FSlateApplication
 {
   public static function Get() : PRef<FSlateApplication>;
 

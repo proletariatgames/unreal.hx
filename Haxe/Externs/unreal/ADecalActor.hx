@@ -23,7 +23,11 @@ package unreal;
 @:glueCppIncludes("Engine/DecalActor.h")
 @:uextern extern class ADecalActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var BoxComponent : unreal.UBoxComponent;
+  
+  /**
+    formerly we used this component to draw a box, now we use the DecalComponentVisualizer
+  **/
+  @:deprecated public var BoxComponent_DEPRECATED : unreal.UBoxComponent;
   public var SpriteComponent : unreal.UBillboardComponent;
   public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA

@@ -34,6 +34,11 @@ package unreal.localization;
   public var NativeCultureIndex : unreal.Int32;
   
   /**
+    Settings for import/export of translations.
+  **/
+  public var ExportSettings : unreal.localization.FLocalizationExportingSettings;
+  
+  /**
     Parameters for defining what text is gathered from metadata and how.
   **/
   public var GatherFromMetaData : unreal.localization.FGatherTextFromMetaDataConfiguration;

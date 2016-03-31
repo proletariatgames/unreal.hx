@@ -17,8 +17,8 @@ package unreal.umg;
 /**
   A throbber widget that orients images in a spinning circle.
   
-  ● No Children
-  ● Spinner Progress
+  * No Children
+  * Spinner Progress
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")

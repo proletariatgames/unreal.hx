@@ -21,6 +21,71 @@ package unreal;
 @:uextern extern class FAttenuationSettings {
   
   /**
+    The amount of time in seconds to interpolate to the target OcclusionLowPassFilterFrequency when a sound is occluded.
+  **/
+  public var OcclusionInterpolationTime : unreal.Float32;
+  
+  /**
+    The amount of volume attenuation to apply to sounds which are occluded.
+  **/
+  public var OcclusionVolumeAttenuation : unreal.Float32;
+  
+  /**
+    The low pass filter frequency (in hertz) to apply if the sound playing in this audio component is occluded. This will override the frequency set in LowPassFilterFrequency. A frequency of 0.0 is the device sample rate and will bypass the filter.
+  **/
+  public var OcclusionLowPassFilterFrequency : unreal.Float32;
+  
+  /**
+    Amount to attenuate sounds that are not in focus. Can be overridden at the sound-level.
+  **/
+  public var NonFocusVolumeAttenuation : unreal.Float32;
+  
+  /**
+    Amount to attenuate sounds that are in focus. Can be overridden at the sound-level.
+  **/
+  public var FocusVolumeAttenuation : unreal.Float32;
+  
+  /**
+    Amount to scale the priority of sounds that are not in-focus. Can be used to reduce the priority of sounds that are not in focus.
+  **/
+  public var NonFocusPriorityScale : unreal.Float32;
+  
+  /**
+    Amount to scale the priority of sounds that are in focus. Can be used to boost the priority of sounds that are in focus.
+  **/
+  public var FocusPriorityScale : unreal.Float32;
+  
+  /**
+    Amount to scale the distance calculation of sounds that are not in-focus. Can be used to make in-focus sounds appear to be closer or further away than they actually are.
+  **/
+  public var NonFocusDistanceScale : unreal.Float32;
+  
+  /**
+    Amount to scale the distance calculation of sounds that are in-focus. Can be used to make in-focus sounds appear to be closer or further away than they actually are.
+  **/
+  public var FocusDistanceScale : unreal.Float32;
+  
+  /**
+    Azimuth angle (in degrees) relative to the listener forward vector which defines the non-focus region of sounds. Sounds playing at an angle greater than this will be out of focus.
+  **/
+  public var NonFocusAzimuth : unreal.Float32;
+  
+  /**
+    Azimuth angle (in degrees) relative to the listener forward vector which defines the focus region of sounds. Sounds playing at an angle less than this will be in focus.
+  **/
+  public var FocusAzimuth : unreal.Float32;
+  
+  /**
+    The Frequency in hertz at which to set the LPF when the sound is at LPFRadiusMax.
+  **/
+  public var LPFFrequencyAtMax : unreal.Float32;
+  
+  /**
+    The Frequency in hertz at which to set the LPF when the sound is at LPFRadiusMin. (defaults to bypass)
+  **/
+  public var LPFFrequencyAtMin : unreal.Float32;
+  
+  /**
     The range at which to apply the maximum amount of low pass filter.
   **/
   public var LPFRadiusMax : unreal.Float32;
@@ -57,6 +122,11 @@ package unreal;
   public var SpatializationAlgorithm : unreal.ESoundSpatializationAlgorithm;
   
   /**
+    The distance between left and right stereo channels when stereo assets spatialized.
+  **/
+  public var StereoSpread : unreal.Float32;
+  
+  /**
     At what distance we start treating the sound source as spatialized
   **/
   public var OmniRadius : unreal.Float32;
@@ -77,6 +147,21 @@ package unreal;
     The type of volume versus distance algorithm to use for the attenuation model.
   **/
   public var DistanceAlgorithm : unreal.ESoundDistanceModel;
+  
+  /**
+    Whether or not to enable complex geometry occlusion checks.
+  **/
+  public var bUseComplexCollisionForOcclusion : Bool;
+  
+  /**
+    Whether or not to enable line-of-sight occlusion checking for the sound that plays in this audio component.
+  **/
+  public var bEnableOcclusion : Bool;
+  
+  /**
+    Whether or not listener-focus calculations are enabled for this attenuation.
+  **/
+  public var bEnableListenerFocus : Bool;
   
   /**
     Enable attenuation via low pass filter.
