@@ -23,6 +23,8 @@ extern class FLinearColor_Extra {
 	 */
   static public function LerpUsingHSV(From:Const<PRef<FLinearColor>>, To:Const<PRef<FLinearColor>>, Progress:Float32) : FLinearColor;
 
+  public static function FromSRGBColor(Color:Const<PRef<FColor>>) : FLinearColor;
+
 	/** Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal. */
   @:thisConst
 	public function ToFColor(bSRGB:Bool) : FColor;
