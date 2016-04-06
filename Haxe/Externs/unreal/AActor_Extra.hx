@@ -7,6 +7,8 @@ extern class AActor_Extra {
 
   /** Event when play begins for this actor. */
   public function BeginPlay() : Void;
+  /** Overridable function called whenever this actor is being removed from a level */
+  public function EndPlay(Reason:EEndPlayReason) : Void;
 
   /**
    * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
