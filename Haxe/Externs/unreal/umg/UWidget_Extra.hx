@@ -7,6 +7,4 @@ package unreal.umg;
   @:thisConst
   public function GetCachedWidget() : TSharedPtr<SWidget>;
 
-  private function GetDisplayNameBase() : FText;
-
 }
