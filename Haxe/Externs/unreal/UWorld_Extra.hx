@@ -89,6 +89,21 @@ extern class UWorld_Extra {
   @:thisConst
   public function LineTraceSingleByChannel(OutHit:PRef<FHitResult>,Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
 
+	/**
+	 *  Trace a ray against the world using a specific channel and return overlapping hits and then first blocking hit
+	 *  Results are sorted, so a blocking hit (if found) will be the last element of the array
+	 *  Only the single closest blocking result will be generated, no tests will be done after that
+	 *  @param  OutHits         Array of hits found between ray and the world
+	 *  @param  Start           Start location of the ray
+	 *  @param  End             End location of the ray
+	 *  @param  TraceChannel    The 'channel' that this ray is in, used to determine which components to hit
+	 *  @param  Params          Additional parameters used for the trace
+	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 
+	 *  @return TRUE if OutHits contains any blocking hit entries
+	 */
+  @:thisConst
+  public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+
   @:typeName public function SpawnActorDeferred<T>(
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
