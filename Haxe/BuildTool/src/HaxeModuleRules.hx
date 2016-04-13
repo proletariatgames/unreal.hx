@@ -579,7 +579,7 @@ class HaxeModuleRules extends BaseModuleRules
       cmdArgs.push(arg);
     }
     cmdArgs = ['--cwd', haxeSourcesPath].concat(cmdArgs);
-    if (!this.config.disableTimers) {
+    if (this.config.enableTimers) {
       cmdArgs.push('--times');
       cmdArgs.push('-D');
       cmdArgs.push('macro_times');
@@ -699,7 +699,7 @@ class HaxeModuleRules extends BaseModuleRules
   }
 
   private function timer(name:String):Void->Void {
-    if (this.config.disableTimers)
+    if (!this.config.enableTimers)
       return function() {};
     var sw = new cs.system.diagnostics.Stopwatch();
     sw.Start();

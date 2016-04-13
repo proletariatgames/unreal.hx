@@ -40,9 +40,9 @@ typedef HaxeModuleConfig = {
   ?extraScriptClasspaths: Array<String>,
 
   /**
-    Tells whether timing should be disabled
+    Tells whether timing should be enabled
    **/
-  ?disableTimers:Bool,
+  ?enableTimers:Bool,
 
   /**
     Tells which module should the glue code be compiled. This allows better iteration times, since
