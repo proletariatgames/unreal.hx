@@ -547,7 +547,7 @@ using StringTools;
           glueHeaderIncludes: IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
           haxeToGlueExpr: '{ var temp $setType = %; if (temp == null) { throw "null $originalTypeRef passed to UE"; } Type.enumIndex(temp);}',
-          glueToHaxeExpr: isScript ? 'Type.createEnumIndex(Type.resolveEnum("${originalTypeRef.getClassPath(true)}"), %)' : 'Type.createEnumIndex($originalTypeRef, %)',
+          glueToHaxeExpr: isScript ? 'Type.createEnumIndex(Type.resolveEnum("${originalTypeRef.getClassPath(true)}"), %)' : 'ue4hx.internal.UEnumHelper.createEnumIndex($originalTypeRef, %)',
           glueToUeExpr: '( (${refName.getCppType()}) % )',
           ueToGlueExpr : '( (int) (${refName.getCppType()}) % )',
           args: convArgs,

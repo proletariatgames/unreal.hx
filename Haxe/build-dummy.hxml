@@ -13,3 +13,4 @@ entry.ATestEntryPoint
 -D haxe_runtime_dir=bin
 -D static_link
 -D dump
+-D no-copt
