@@ -23,18 +23,22 @@ class UnrealInit
     trace("initializing unreal haxe");
 
 #if WITH_EDITOR
-    if (unreal.CoreAPI.hotReloadFns == null) {
-      unreal.CoreAPI.hotReloadFns = [];
-    }
+    try {
+      if (unreal.CoreAPI.hotReloadFns == null) {
+        unreal.CoreAPI.hotReloadFns = [];
+      }
 
-    editorSetup();
+      editorSetup();
+    } catch(e:Dynamic) {
+      trace('Error', 'Error while setting up the editor: $e');
+      trace('Error', haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+    }
 #end
 
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
     var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadStatic');
     if (cls != null) {
-      trace('Setting live reload types');
       cls.bindFunctions();
     }
     if (delayed != null) {
