@@ -868,6 +868,18 @@ using StringTools;
       }
       return ret;
     }
+
+    if (ctx.name == 'unreal.ByteArray') {
+      return {
+        ueType: byteArray,
+        haxeType: new TypeRef(['unreal'],'ByteArray'),
+        glueType: byteArray,
+        haxeGlueType: byteArray,
+
+        haxeToGlueExpr: '(%).ptr.get_raw()',
+        glueToHaxeExpr: 'new unreal.ByteArray(cpp.Pointer.fromRaw(%), -1)'
+      }
+    }
     throw new Error('Unreal Glue: Type $name is not supported', pos);
   }
 
@@ -910,6 +922,7 @@ using StringTools;
   }
 
   static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
+  static var byteArray(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'UInt8')]);
   static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
 
   static var basicTypes:Map<String, TypeConvInfo> = {
