@@ -8,6 +8,7 @@ package unreal;
   function ToString():FString;
 
   function IsNone():Bool;
+  function GetComparisonIndex() : Int32;
 
   @:expr(return this.ToString().op_Dereference()) public function toString():String;
 }
