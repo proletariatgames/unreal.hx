@@ -8,4 +8,7 @@ extern class FStreamableManager_Extra {
 
   public function RequestAsyncLoad(TargetsToStream : Const<TArray<FStringAssetReference>>, Callback:Void -> Void, Priority:Int32) : Void;
 
+  @:uname('RequestAsyncLoad')
+  public function RequestAsyncLoad_Single(TargetsToStream : Const<FStringAssetReference>, Callback:Void -> Void, Priority:Int32) : Void;
+
 }
