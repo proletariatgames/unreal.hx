@@ -589,7 +589,7 @@ class ExternBaker {
             name: '_copyStruct',
             uname: '.copyStruct',
             doc: doc,
-            meta:null,
+            meta:[{ name:':uname', params:[macro $v{'.copyStruct'}], pos:c.pos }],
             args:[],
             ret:TypeConv.get(type, c.pos),
             flags: HaxeOverride | HaxePrivate,
@@ -800,6 +800,9 @@ class ExternBaker {
             var x:unreal.PHaxeCreated<$thisType> = complex;
           });
 
+          var meta = field.meta.get().filter(function(v) return v.name != ':uname');
+          if (meta == null) meta = [];
+          meta.push({ name:':uname', params:[macro $v{'.ctor'}], pos:field.pos });
           methods.push({
             name: field.name + 'Struct',
             uname: '.ctor',
@@ -807,6 +810,7 @@ class ExternBaker {
             args: cur.args,
             ret: TypeConv.get(realT, field.pos),
             flags: flags,
+            meta: meta,
             specialization: specialization,
             pos: field.pos,
           });
