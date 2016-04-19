@@ -17,6 +17,10 @@ package unreal;
   @:from inline private static function fromString(str:String):FText {
     return create(str);
   }
+  
+  public static function FromString(str:FString) : FText {
+    return FTextImpl.FromString(str);
+  }
 
   public function toString():String {
     return this.ToString().toString();

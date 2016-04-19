@@ -14,6 +14,10 @@ typedef TObjectIteratorImpl<T> = Dynamic;
   macro public static function create(?tParam:Expr) : Expr {
     return macro unreal.TObjectIteratorImpl.create($tParam);
   }
+
+  macro public static function createStruct(?tParam:Expr) : Expr {
+    return macro unreal.TObjectIteratorImpl.createStruct($tParam);
+  }
 }
 
 private class TObjectIteratorWrapper<T> {
