@@ -303,7 +303,7 @@ class HaxeModuleRules extends BaseModuleRules
           }
 
           if (cppiaEnabled) {
-            args = args.concat(['-D scriptable', '-D dll_export=', '-D WITH_CPPIA']);
+            args = args.concat(['-D scriptable', '-D WITH_CPPIA']);
           }
 
           var isCrossCompiling = false;
