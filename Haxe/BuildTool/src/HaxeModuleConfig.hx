@@ -69,6 +69,11 @@ typedef HaxeModuleConfig = {
     Forces some modules to be excluded from cppia build
    **/
   ?cppiaModuleExclude:Array<String>,
+
+  /**
+    forces the Haxe compilation to not include -debug
+   **/
+  ?noDebug:Bool
 }
 
 @:enum abstract Dce(String) from String {

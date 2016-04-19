@@ -160,6 +160,7 @@ class HaxeModuleRules extends BaseModuleRules
 
     if (!this.config.disabled && firstRun)
     {
+      var debugSymbols = target.Configuration != Shipping && config.noDebug != true;
       var teverything = timer('Haxe setup (all compilation times included)');
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");
@@ -276,7 +277,6 @@ class HaxeModuleRules extends BaseModuleRules
             args.push('-dce ${this.config.dce}');
           }
 
-          var debugSymbols = target.Configuration != Shipping;
           if (debugSymbols) {
             args.push('-debug');
           }
@@ -423,7 +423,7 @@ class HaxeModuleRules extends BaseModuleRules
               '-cpp $gameDir/Binaries/Haxe/game.cppia',
               '--macro ue4hx.internal.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
           ]);
-          if (target.Configuration != Shipping) {
+          if (debugSymbols) {
             args.push('-debug');
           }
           if (UEBuildConfiguration.bBuildEditor) {
