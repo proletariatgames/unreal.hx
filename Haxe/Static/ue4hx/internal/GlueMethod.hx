@@ -248,7 +248,7 @@ class GlueMethod {
       }
     } else {
       var haxeBodyCall = if (this.isTemplatedThis && !isStatic) {
-        '( cast this.wrapped : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
+        '( this.wrapped.reinterpret() : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
       } else {
         '${this.glueType}.${meth.name}';
       };
