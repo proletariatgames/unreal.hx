@@ -591,7 +591,7 @@ class ExternBaker {
             doc: doc,
             meta:null,
             args:[],
-            ret:TypeConv.get(type, c.pos, 'unreal.PStruct'),
+            ret:TypeConv.get(type, c.pos),
             flags: HaxeOverride | HaxePrivate,
             pos: c.pos,
           });
@@ -781,10 +781,12 @@ class ExternBaker {
         });
         if (uname == 'new' && specialization == null) {
           // make sure that the return type is of type PHaxeCreated
-          if (!isHaxeCreated(ret)) {
+          var realT = getHaxeCreated(ret);
+          if (realT == null) {
             Context.warning(
               'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
             hadErrors = true;
+            realT = ret;
           }
           inline function cancelParams(t:Type) {
             return ret.applyTypeParameters(field.params, [for (p in field.params) Context.typeof(macro null)]);
@@ -803,7 +805,7 @@ class ExternBaker {
             uname: '.ctor',
             params: [ for (p in field.params) p.name ],
             args: cur.args,
-            ret: TypeConv.get(ret, field.pos, 'unreal.PStruct'),
+            ret: TypeConv.get(realT, field.pos),
             flags: flags,
             specialization: specialization,
             pos: field.pos,
@@ -831,12 +833,12 @@ class ExternBaker {
     gm.getFieldString( this.buf, this.glue );
   }
 
-  private static function isHaxeCreated(type:Type):Bool {
+  private static function getHaxeCreated(type:Type):Null<Type> {
     while (type != null) {
       switch(type) {
       case TAbstract(aRef, tl):
         if (aRef.toString() == 'unreal.PHaxeCreated')
-          return true;
+          return tl[0];
         var a = aRef.get();
         if (a.meta.has(':coreType'))
             break;
@@ -857,7 +859,7 @@ class ExternBaker {
         type = Context.follow(type, true);
       }
     }
-    return false;
+    return null;
   }
 
   private static function escapeName(name:String) {
