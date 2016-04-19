@@ -10,6 +10,9 @@ extern class AActor_Extra {
   /** Overridable function called whenever this actor is being removed from a level */
   public function EndPlay(Reason:EEndPlayReason) : Void;
 
+	/** Puts actor in dormant networking state */
+	public function SetNetDormancy(NewDormancy:ENetDormancy) : Void;
+
   /**
    * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
    * Destruction is latent. It occurs at the end of the tick.
