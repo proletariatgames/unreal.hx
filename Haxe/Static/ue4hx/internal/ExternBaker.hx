@@ -522,10 +522,10 @@ class ExternBaker {
 
           this.add('public static function wrap(uobject:cpp.Pointer<Dynamic>):${this.typeRef.getClassPath()}');
           this.begin(' {');
-            this.add('return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(uobject.rawCast()) );');
+            this.add('return cast unreal.helpers.ClassWrap.wrap(uobject);');
           this.end('}');
         }
-      } else if (!c.isInterface) {
+      } else if (!c.isInterface) {  // non-uobject
         // add wrap for non-uobject types
         this.add('@:unreflective public static function wrap$params(ptr:');
         this.add(this.thisConv.haxeGlueType.toString());
@@ -561,6 +561,20 @@ class ExternBaker {
         this.begin(' {');
           this.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
         this.end('}');
+
+        if (this.thisConv.isUObject) {
+          this.add('private var serialNumber:Int = 0;');
+          this.newline();
+          this.add('inline private function invalidate():Void');
+          this.begin(' {');
+            this.add('this.wrapped = untyped __cpp__("0");');
+          this.end('}');
+
+          this.add('public function isValid():Bool');
+          this.begin(' {');
+            this.add('return this.wrapped != untyped __cpp__("0");');
+          this.end('}');
+        }
 
       } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.isUObject) {
         // add rewrap

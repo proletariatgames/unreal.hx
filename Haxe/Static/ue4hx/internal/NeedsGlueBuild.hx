@@ -403,7 +403,7 @@ class NeedsGlueBuild
       endNamespaces.add('} // namespace $ns\n');
     }
     var prelude = '';
-    if (name == 'unreal.UObject') {
+    if (name == 'unreal.UObject' && Context.defined('UHX_WRAP_OBJECTS')) {
       getPointer = '';
       prelude = '
        int __Compare(const hx::Object *inRHS) const

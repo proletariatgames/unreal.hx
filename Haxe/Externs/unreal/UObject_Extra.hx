@@ -78,6 +78,9 @@ extern class UObject_Extra {
   @:global public static function IsGarbageCollecting():Bool;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function CollectGarbage(keepFlags:EObjectFlags, performFullPurge:Bool):Void;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
   @:typeName
   @:global public static function NewObject<T>():PExternal<T>;
