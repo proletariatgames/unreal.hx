@@ -10,15 +10,15 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   private var wrapped:cpp.Pointer<UEPointer>;
   private var parent:Dynamic;
 
-  private function new(wrapped:cpp.Pointer<UEPointer>, ?parent:Dynamic) {
+  private function new(wrapped:cpp.Pointer<UEPointer>, typeID:Int=0, ?parent:Dynamic) {
     this.wrapped = wrapped;
     this.parent = parent;
-    setFinalizer();
+    setFinalizer(typeID);
   }
 
-  private function setFinalizer() {
-    if (this.parent == null) {
-      ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this));
+  private function setFinalizer(typeID:Int) {
+    if (this.parent == null && typeID != 0) {
+      ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this), typeID);
     }
     cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
   }
@@ -84,7 +84,7 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
     if (!wrapper.disposed) {
       if (wrapper.parent == null) {
-        ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(wrapper));
+        ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer());
       }
       wrapper.wrapped.destroy();
     }

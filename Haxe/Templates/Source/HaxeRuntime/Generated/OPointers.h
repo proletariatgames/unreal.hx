@@ -75,11 +75,11 @@ class PExternal : public ::unreal::helpers::UEPointer {
 
     inline PExternal(T *val) : value(val) {}
 
-    inline static ::unreal::helpers::UEPointer *wrap(T *val, bool hasParent) {
+    inline static ::unreal::helpers::UEPointer *wrap(T *val, int32 typeID, bool hasParent) {
       if (nullptr == val) {
         return nullptr;
       }
-      if (!hasParent && unreal::helpers::ClassMap_obj::findWrapper(val)) {
+      if (!hasParent && unreal::helpers::ClassMap_obj::findWrapper(val, typeID)) {
         // SUPER GROSS HACK: we return the original pointer instead of a UEPointer here.
         // On the haxe side, the wrap() function will check the ClassMap and detect the existing wrapper
         return reinterpret_cast< ::unreal::helpers::UEPointer* >(val);

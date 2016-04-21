@@ -668,7 +668,7 @@ using StringTools;
           glueHeaderIncludes:IncludeSet.fromUniqueArray(['<UEPointer.h>']),
 
           haxeToGlueExpr: '@:privateAccess %.getWrapped().get_raw()',
-          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), $$parent )',
+          glueToHaxeExpr: typeRef.getClassPath() + '.wrap( cast (%), ${typeRef.getUniqueID()}, $$parent )',
           glueToUeExpr: '( (${ueType.getCppType()} *) (::unreal::helpers::UEPointer::getPointer(%)) )',
           ownershipModifier: modf,
           args: convArgs,
@@ -689,7 +689,7 @@ using StringTools;
         var external = false;
         switch (modf) {
           case 'unreal.PExternal':
-            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( %, $$hasParent )';
+            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( %, ${typeRef.getUniqueID()}, $$hasParent )';
             external = true;
           case 'unreal.PHaxeCreated':
             ret.ueToGlueExpr = 'PHaxeCreated<${ueType.getCppType()}>::wrap( % )';
@@ -733,7 +733,7 @@ using StringTools;
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeWeakPtr<${typeRef}> )';
           case 'unreal.PRef':
             @:privateAccess ret.ueType.name = 'Reference';
-            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( &(%), $$hasParent )';
+            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( &(%), ${typeRef.getUniqueID()}, $$hasParent )';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
             external = true;
           case _:
@@ -756,7 +756,7 @@ using StringTools;
           
           if (external) {
             var expr = (modf == 'unreal.PRef') ? '&(%)' : '%';
-            ret.ueToGlueExpr = '(!$$hasParent && unreal::helpers::ClassMap_obj::findWrapper($expr)) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
+            ret.ueToGlueExpr = '(!$$hasParent && unreal::helpers::ClassMap_obj::findWrapper($expr, ${typeRef.getUniqueID()})) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
           }
         }
         return ret;

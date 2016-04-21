@@ -17,9 +17,9 @@ namespace helpers {
      **/
     static void *wrap(void *inUObject);
     
-    static void* findWrapper(void* inNative);
-    static void registerWrapper(void* inNative, void* inWrapper);
-    static void unregisterWrapper(void* inNative, void* inWrapper);
+    static void* findWrapper(void* inNative, int typeID);
+    static void registerWrapper(void* inNative, void* inWrapper, int typeID);
+    static void unregisterWrapper(void* inNative);
   };
 
 }

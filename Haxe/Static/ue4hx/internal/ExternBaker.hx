@@ -529,7 +529,7 @@ class ExternBaker {
         // add wrap for non-uobject types
         this.add('@:unreflective public static function wrap$params(ptr:');
         this.add(this.thisConv.haxeGlueType.toString());
-        this.add(', ?parent:Dynamic');
+        this.add(', typeID:Int, ?parent:Dynamic');
         this.add('):' + this.thisConv.haxeType);
         this.begin(' {');
           if (!this.thisConv.haxeGlueType.isReflective()) {
@@ -539,11 +539,11 @@ class ExternBaker {
 
           this.add('if (ptr == null) return null;');
           this.newline();
-          this.add('var found:${this.thisConv.haxeType} = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw()));');
+          this.add('var found:${this.thisConv.haxeType} = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw(), typeID));');
           this.begin('if (found != null) {');
           this.add('return found;');
           this.end('}');
-          this.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
+          this.add('return new ${this.typeRef.getClassPath()}(ptr, typeID, parent);');
         this.end('}');
       }
 

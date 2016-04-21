@@ -236,15 +236,16 @@ class DelegateBuild {
 #if !bake_externs
     if (!cl.meta.has(':uextern')) {
       var typeThis:TypePath = {pack:[], name:cl.name};
+      var typeRef = new TypeRef([], cl.name);
       var complexThis = TPath(typeThis);
       var added = macro class {
-        @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
-          var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped));
+        @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, typeID:Int, ?parent:Dynamic):$complexThis {
+          var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
           if (found != null) {
             return found;
           }
           var wrapped = cpp.Pointer.fromRaw(wrapped);
-          return wrapped != null ? new $typeThis(wrapped, parent) : null;
+          return wrapped != null ? new $typeThis(wrapped, typeID, parent) : null;
         }
       };
       def.fields.push(added.fields[0]);

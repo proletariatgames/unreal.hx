@@ -28,6 +28,17 @@ class TypeRef
     this.moduleName = moduleName;
     this.params = params;
   }
+  
+  static var s_uniqueIDMap:Map<Int, String> = new Map();
+  public function getUniqueID() : Int {
+    var name = toString();
+    var crc = haxe.crypto.Crc32.make(haxe.io.Bytes.ofString(name));
+    if (s_uniqueIDMap.exists(crc) && s_uniqueIDMap[crc] != name) {
+      throw 'name collision: $name ${s_uniqueIDMap[crc]}';
+    }
+    s_uniqueIDMap[crc] = name;
+    return crc;
+  }
 
   inline public function withPack(pack:Array<String>):TypeRef {
     return new TypeRef(pack, this.name, this.moduleName, this.params);
