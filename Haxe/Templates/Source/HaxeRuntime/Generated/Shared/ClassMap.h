@@ -16,6 +16,10 @@ namespace helpers {
      * Given `inUObject`, find the best wrapper and return the Haxe wrapper to it
      **/
     static void *wrap(void *inUObject);
+    
+    static void* findWrapper(void* inNative);
+    static void registerWrapper(void* inNative, void* inWrapper);
+    static void unregisterWrapper(void* inNative, void* inWrapper);
   };
 
 }

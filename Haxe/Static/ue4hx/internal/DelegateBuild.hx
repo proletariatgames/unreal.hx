@@ -236,8 +236,13 @@ class DelegateBuild {
 #if !bake_externs
     if (!cl.meta.has(':uextern')) {
       var typeThis:TypePath = {pack:[], name:cl.name};
+      var complexThis = TPath(typeThis);
       var added = macro class {
         @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+          var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped));
+          if (found != null) {
+            return found;
+          }
           var wrapped = cpp.Pointer.fromRaw(wrapped);
           return wrapped != null ? new $typeThis(wrapped, parent) : null;
         }
@@ -251,7 +256,7 @@ class DelegateBuild {
         }
         var info = GlueInfo.fromBaseType(cl, Globals.cur.module);
         var headerPath = info.getHeaderPath();
-        cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
+        cl.meta.add(':glueCppIncludes', [macro $v{headerPath}, macro "<ClassMap.h>"], cl.pos);
         cl.meta.add(':uhxdelegate', [], cl.pos);
       }
     }

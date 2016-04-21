@@ -70,7 +70,7 @@ class UExtensionBuild {
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
-      var ctx = null;
+      var ctx = ["hasParent" => "false"];
       var clt = cl.get();
       this.pos = clt.pos;
       var typeRef = TypeRef.fromBaseType(clt, this.pos),

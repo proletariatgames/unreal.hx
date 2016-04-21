@@ -1,5 +1,6 @@
 package unreal;
 import unreal.helpers.UEPointer;
+import unreal.helpers.ClassMap;
 
 /**
   This is the base wrapper class for all non-UObject wrappers
@@ -16,6 +17,9 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   }
 
   private function setFinalizer() {
+    if (this.parent == null) {
+      ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this));
+    }
     cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
   }
 
@@ -69,18 +73,19 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
 #end
       throw msg;
     }
-    this.disposed = true;
 
     // cancel the finalizer
     cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
-    this.wrapped.destroy();
-
-    // make sure we'll crash with a null reference if trying to use this object
+    disposeUEPointer(this);
+    this.disposed = true;
     this.wrapped = null;
   }
 
   @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
     if (!wrapper.disposed) {
+      if (wrapper.parent == null) {
+        ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(wrapper));
+      }
       wrapper.wrapped.destroy();
     }
   }
