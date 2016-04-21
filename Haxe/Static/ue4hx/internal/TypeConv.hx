@@ -756,7 +756,7 @@ using StringTools;
           
           if (external) {
             var expr = (modf == 'unreal.PRef') ? '&(%)' : '%';
-            ret.ueToGlueExpr = 'unreal::helpers::ClassMap_obj::findWrapper($expr) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
+            ret.ueToGlueExpr = '(!$$hasParent && unreal::helpers::ClassMap_obj::findWrapper($expr)) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
           }
         }
         return ret;

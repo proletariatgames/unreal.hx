@@ -539,9 +539,10 @@ class ExternBaker {
 
           this.add('if (ptr == null) return null;');
           this.newline();
-          this.add('var found = unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw());');
-          this.add('var nil:cpp.RawPointer<cpp.Void> = untyped __cpp__("nullptr");');
-          this.add('if (found != nil) return unreal.helpers.HaxeHelpers.pointerToDynamic(found);');
+          this.add('var found:${this.thisConv.haxeType} = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw()));');
+          this.begin('if (found != null) {');
+          this.add('return found;');
+          this.end('}');
           this.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
         this.end('}');
       }

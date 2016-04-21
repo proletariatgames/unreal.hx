@@ -70,9 +70,10 @@ class NeedsGlueBuild
             var complexThis = TPath(typeThis);
             var added = macro class {
               @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
-                var found = unreal.helpers.ClassMap.findWrapper(cast wrapped);
-                var nil:cpp.RawPointer<cpp.Void> = untyped __cpp__("nullptr");
-                if (found != nil) return unreal.helpers.HaxeHelpers.pointerToDynamic(found);
+                var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped));
+                if (found != null) {
+                  return found;
+                }
                 var wrapped = cpp.Pointer.fromRaw(wrapped);
                 return wrapped != null ? new $typeThis(wrapped, parent) : null;
               }
