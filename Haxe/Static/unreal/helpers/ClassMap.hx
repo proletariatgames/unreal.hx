@@ -13,4 +13,8 @@ import cpp.Function;
    * Given `inUObject`, find the best wrapper and return the Haxe wrapper to it
    **/
   static function wrap(inUObject:RawPointer<cpp.Void>):RawPointer<cpp.Void>;
+
+  static function findWrapper(inNative:RawPointer<cpp.Void>) : RawPointer<cpp.Void>;
+  static function registerWrapper(inNative:RawPointer<cpp.Void>, inWrapper:RawPointer<cpp.Void>) : Void;
+  static function unregisterWrapper(inNative:RawPointer<cpp.Void>, inWrapper:RawPointer<cpp.Void>) : Void;
 }

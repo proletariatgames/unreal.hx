@@ -76,7 +76,7 @@ class GlueMethod {
 
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
-    var ctx = this.ctx = isProp && !isStatic && !this.thisConv.isUObject ? [ "parent" => "this" ] : null;
+    var ctx = this.ctx = isProp && !isStatic && !this.thisConv.isUObject ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
 
     var haxeArgs = this.haxeArgs = meth.args;
     var glueArgs = this.glueArgs = haxeArgs;

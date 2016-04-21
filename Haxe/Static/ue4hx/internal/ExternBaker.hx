@@ -533,12 +533,15 @@ class ExternBaker {
         this.add('):' + this.thisConv.haxeType);
         this.begin(' {');
           if (!this.thisConv.haxeGlueType.isReflective()) {
-            this.add('var ptr = cpp.Pointer.fromRaw(cast ptr);');
+            this.add('var ptr = cpp.Pointer.fromRaw(ptr);');
             this.newline();
           }
 
           this.add('if (ptr == null) return null;');
           this.newline();
+          this.add('var found = unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw());');
+          this.add('var nil:cpp.RawPointer<cpp.Void> = untyped __cpp__("nullptr");');
+          this.add('if (found != nil) return unreal.helpers.HaxeHelpers.pointerToDynamic(found);');
           this.add('return new ${this.typeRef.getClassPath()}(ptr, parent);');
         this.end('}');
       }
@@ -617,18 +620,24 @@ class ExternBaker {
             pos: c.pos,
           });
         }
+        /*
         // add setFinalizer for debugging purposes
         this.newline();
-        this.add('override private function setFinalizer() { cpp.vm.Gc.setFinalizer((this : unreal.Wrapper), cpp.Callable.fromStaticFunction(disposeUEPointer)); }');
+        this.begin('override private function setFinalizer() {');
+        this.add('ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this));');
+        this.add('cpp.vm.Gc.setFinalizer((this : unreal.Wrapper), cpp.Callable.fromStaticFunction(disposeUEPointer));');
+        this.end( }');
         this.newline();
 
         this.add('@:void @:unreflective static function disposeUEPointer(wrapper:unreal.Wrapper):Void ');
         this.begin('{');
         this.add('if (!wrapper.disposed)');
         this.begin('{');
+        this.add('ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(wrapper));');
         this.add('wrapper.wrapped.destroy();');
         this.end('}');
         this.end('}');
+        */
       }
 
     for (meth in methods)

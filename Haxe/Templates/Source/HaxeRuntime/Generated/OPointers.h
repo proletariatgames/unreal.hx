@@ -3,6 +3,7 @@
 #include <UEPointer.h>
 #include <HxcppRuntime.h>
 #include <Engine.h>
+#include <ClassMap.h>
 
 // #if defined(__clang__) || defined(__GNUC__)
 // // if a type has non-virtual destructor, there's not much we can do about it
@@ -74,9 +75,14 @@ class PExternal : public ::unreal::helpers::UEPointer {
 
     inline PExternal(T *val) : value(val) {}
 
-    inline static ::unreal::helpers::UEPointer *wrap(T *val) {
+    inline static ::unreal::helpers::UEPointer *wrap(T *val, bool hasParent) {
       if (nullptr == val) {
         return nullptr;
+      }
+      if (!hasParent && unreal::helpers::ClassMap_obj::findWrapper(val)) {
+        // SUPER GROSS HACK: we return the original pointer instead of a UEPointer here.
+        // On the haxe side, the wrap() function will check the ClassMap and detect the existing wrapper
+        return reinterpret_cast< ::unreal::helpers::UEPointer* >(val);
       }
       return new PExternal<T>(val);
     }

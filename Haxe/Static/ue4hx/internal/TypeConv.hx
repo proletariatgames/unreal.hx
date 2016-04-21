@@ -686,9 +686,11 @@ using StringTools;
           ret.haxeType = TypeRef.parseClassName(modf, [originalTypeRef]);
         }
 
+        var external = false;
         switch (modf) {
           case 'unreal.PExternal':
-            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( % )';
+            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( %, $$hasParent )';
+            external = true;
           case 'unreal.PHaxeCreated':
             ret.ueToGlueExpr = 'PHaxeCreated<${ueType.getCppType()}>::wrap( % )';
             ret.glueToHaxeExpr = '@:privateAccess new unreal.PHaxeCreated(' + ret.glueToHaxeExpr + ')';
@@ -731,14 +733,16 @@ using StringTools;
             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeWeakPtr<${typeRef}> )';
           case 'unreal.PRef':
             @:privateAccess ret.ueType.name = 'Reference';
-            ret.ueToGlueExpr = 'new PExternal<${ueType.getCppType()}>( &(%) )';
+            ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( &(%), $$hasParent )';
             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
+            external = true;
           case _:
             throw 'assert: $modf';
         }
 
         if (typeRef.params.length > 0) {
           ret.glueCppIncludes.add('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
+          ret.glueCppIncludes.add('<ClassMap.h>');
           var isTypeName = ctx.meta != null && ctx.meta.has(':typeName');
           ret.ueToGlueExpr = 'new ' + typeRef.getGlueHelperType().getCppClass() + '_UE_obj<' +
             [ for (param in args) {
@@ -749,6 +753,11 @@ using StringTools;
                 conv.ueType.getCppType().toString();
             }].join(',') +
           '>(' + ret.ueToGlueExpr + ')';
+          
+          if (external) {
+            var expr = (modf == 'unreal.PRef') ? '&(%)' : '%';
+            ret.ueToGlueExpr = 'unreal::helpers::ClassMap_obj::findWrapper($expr) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
+          }
         }
         return ret;
       }

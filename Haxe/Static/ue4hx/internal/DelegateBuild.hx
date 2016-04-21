@@ -238,6 +238,9 @@ class DelegateBuild {
       var typeThis:TypePath = {pack:[], name:cl.name};
       var added = macro class {
         @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, ?parent:Dynamic):$complexThis {
+          var found = unreal.helpers.ClassMap.findWrapper(cast wrapped);
+          var nil:cpp.RawPointer<cpp.Void> = untyped __cpp__("nullptr");
+          if (found != nil) return unreal.helpers.HaxeHelpers.pointerToDynamic(found);
           var wrapped = cpp.Pointer.fromRaw(wrapped);
           return wrapped != null ? new $typeThis(wrapped, parent) : null;
         }
@@ -251,7 +254,7 @@ class DelegateBuild {
         }
         var info = GlueInfo.fromBaseType(cl, Globals.cur.module);
         var headerPath = info.getHeaderPath();
-        cl.meta.add(':glueCppIncludes', [macro $v{headerPath}], cl.pos);
+        cl.meta.add(':glueCppIncludes', [macro $v{headerPath}, macro "<ClassMap.h>"], cl.pos);
         cl.meta.add(':uhxdelegate', [], cl.pos);
       }
     }
