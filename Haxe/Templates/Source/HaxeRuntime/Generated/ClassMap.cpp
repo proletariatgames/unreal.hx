@@ -38,19 +38,34 @@ void *::unreal::helpers::ClassMap_obj::wrap(void *inUObject) {
   return nullptr;
 }
 
+static void* s_lastNativeLookup = nullptr;
+static void* s_lastWrappedLookup = nullptr;
+
 void* ::unreal::helpers::ClassMap_obj::findWrapper(void* inNative) {
+  if (s_lastNativeLookup == inNative && s_lastWrappedLookup) {
+    return s_lastWrappedLookup;
+  }
+  
   auto& wrappers = getWrapperMap();
   auto it = wrappers.find(inNative);
   if (it != wrappers.end()) {
-    return it->second;
+    s_lastNativeLookup = inNative;
+    s_lastWrappedLookup = it->second;
+    return s_lastWrappedLookup;
   }
   return nullptr;
 }
 
 void ::unreal::helpers::ClassMap_obj::registerWrapper(void* inNative, void* inWrapper) {
   getWrapperMap()[inNative] = inWrapper;
+  s_lastNativeLookup = inNative;
+  s_lastWrappedLookup = inWrapper;
 }
 
 void ::unreal::helpers::ClassMap_obj::unregisterWrapper(void* inNative, void* inWrapper) {
   getWrapperMap().erase(inNative);
+  if (s_lastNativeLookup == inNative) {
+    s_lastNativeLookup = nullptr;
+    s_lastWrappedLookup = nullptr;
+  }
 }
