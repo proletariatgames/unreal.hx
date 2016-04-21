@@ -9,7 +9,6 @@ class ClassWrap {
 #if !UHX_WRAP_OBJECTS
   static var wrappers:Map<Int, UObject>;
   static var indexes:Array<Int>;
-  static var objArray:FUObjectArray;
   static var delegateHandle:FDelegateHandle;
   static var nIndex:Int = 0;
 
@@ -17,25 +16,33 @@ class ClassWrap {
     if (nativePtr == null) {
       return null;
     }
+    var rawNative:RawPointer<cpp.Void> = nativePtr.rawCast();
 
     if (wrappers == null) {
       wrappers = new Map();
       indexes = [];
-      objArray = FUObjectArray.GUObjectArray;
       delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
     }
-    var index = __pvt._hx_unreal.FUObjectArray_Glue.ObjectToIndex(@:privateAccess objArray.getWrapped().get_raw(), nativePtr.rawCast());
+    var index = ObjectArrayHelper_Glue.objectToIndex(rawNative);
     var ret = wrappers[index];
     var serial = ObjectArrayHelper_Glue.indexToSerial(index);
     if (ret != null) {
       if (ret.serialNumber == serial) {
+#if debug
+        if (ret.wrapped != rawNative) {
+          throw 'assert: ${cpp.Pointer.fromRaw(cast ret.wrapped)} != ${nativePtr}';
+        }
+#end
         return ret;
       } else {
         ret.invalidate();
       }
     }
 
-    ret = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr.rawCast()) );
+    if (serial == 0) {
+      serial = ObjectArrayHelper_Glue.allocateSerialNumber(index);
+    }
+    ret = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(rawNative) );
     ret.serialNumber = serial;
     wrappers[index] = ret;
     indexes[nIndex++] = index;
@@ -43,7 +50,6 @@ class ClassWrap {
   }
 
   static function onGC() {
-    trace('GC: '+ nIndex);
     var wrappers = wrappers,
         inds = indexes,
         len = nIndex;
@@ -52,17 +58,15 @@ class ClassWrap {
       var index = inds[i],
           obj = wrappers[index];
       var ptr = ObjectArrayHelper_Glue.indexToObject(index);
-      trace(obj);
-      if (ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerial(index) == obj.serialNumber) {
-        trace('object ok');
+      if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerial(index) == obj.serialNumber) {
         inds[nidx++] = index;
       } else {
-        trace('Invalidating object');
-        obj.invalidate();
+        if (obj != null) {
+          obj.invalidate();
+        }
         wrappers.remove(index);
       }
     }
-    trace('GC done');
     nIndex = nidx;
   }
 

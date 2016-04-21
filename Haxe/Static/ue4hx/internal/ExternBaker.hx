@@ -563,7 +563,7 @@ class ExternBaker {
         this.end('}');
 
         if (this.thisConv.isUObject) {
-          this.add('private var serialNumber:Int = 0;');
+          this.add('private var serialNumber:Int = -1;');
           this.newline();
           this.add('inline private function invalidate():Void');
           this.begin(' {');

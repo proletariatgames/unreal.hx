@@ -21,4 +21,20 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   public static function indexToSerial(idx:Int):Int {
     return ObjectArrayHelper_Glue.indexToSerial(idx);
   }
+
+  @:glueHeaderCode('static int objectToIndex(void *obj);')
+  @:glueCppCode('int unreal::helpers::ObjectArrayHelper_Glue_obj::objectToIndex(void *obj) {\n\treturn GUObjectArray.ObjectToIndex((const class UObjectBase *) obj);\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  // @:glueHeaderIncludes('<hxcpp.h>')
+  public static function objectToIndex(obj:cpp.Pointer<Dynamic>):Int {
+    return ObjectArrayHelper_Glue.objectToIndex(obj.rawCast());
+  }
+
+  @:glueHeaderCode('static int allocateSerialNumber(int index);')
+  @:glueCppCode('int unreal::helpers::ObjectArrayHelper_Glue_obj::allocateSerialNumber(int index) {\n\treturn GUObjectArray.AllocateSerialNumber(index);\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  // @:glueHeaderIncludes('<hxcpp.h>')
+  public static function allocateSerialNumber(idx:Int):Int {
+    return ObjectArrayHelper_Glue.allocateSerialNumber(idx);
+  }
 }
