@@ -238,10 +238,12 @@ class DelegateBuild {
       var typeThis:TypePath = {pack:[], name:cl.name};
       var typeRef = new TypeRef([], cl.name);
       var complexThis = TPath(typeThis);
+      var thisExpr = Context.parse(cl.name, cl.pos);
       var added = macro class {
         @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, typeID:Int, ?parent:Dynamic):$complexThis {
-          var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
+          var found:Dynamic = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
           if (found != null) {
+            if (!Std.is(found, $thisExpr)) throw 'Bad wrapper: got ' + Type.getClassName(Type.getClass(found)) + ', expected ' + Std.string($thisExpr);
             return found;
           }
           var wrapped = cpp.Pointer.fromRaw(wrapped);

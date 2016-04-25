@@ -48,7 +48,11 @@ static void* s_lastWrappedLookup = nullptr;
 static int32 s_lastWrappedTypeID = -1;
 
 void* ::unreal::helpers::ClassMap_obj::findWrapper(void* inNative, int32 typeID) {
+  check(IsInGameThread());
   if (s_lastNativeLookup == inNative && s_lastWrappedTypeID == typeID && s_lastWrappedLookup) {
+    if (typeID == 1210865730) {
+      UE_LOG(LogTemp, Warning, TEXT("RETC %x %x"), inNative, s_lastWrappedLookup);
+    }
     return s_lastWrappedLookup;
   }
   
@@ -58,12 +62,24 @@ void* ::unreal::helpers::ClassMap_obj::findWrapper(void* inNative, int32 typeID)
     s_lastNativeLookup = inNative;
     s_lastWrappedTypeID = it->second.typeID;
     s_lastWrappedLookup = it->second.wrapper;
+    if (typeID == 1210865730) {
+      UE_LOG(LogTemp, Warning, TEXT("RETL %x %x"), inNative, s_lastWrappedLookup);
+    }
     return s_lastWrappedLookup;
+  }
+  
+  if (typeID == 1210865730) {
+    UE_LOG(LogTemp, Warning, TEXT("NORET %x"), inNative);
   }
   return nullptr;
 }
 
 void ::unreal::helpers::ClassMap_obj::registerWrapper(void* inNative, void* inWrapper, int32 typeID) {
+  check(IsInGameThread());
+  if (typeID == 1210865730) {
+    UE_LOG(LogTemp, Warning, TEXT("REGISTER %x %x"), inNative, inWrapper);
+  }
+  
   getWrapperMap()[inNative] = {typeID, inWrapper};
   s_lastNativeLookup = inNative;
   s_lastWrappedLookup = inWrapper;
@@ -71,6 +87,13 @@ void ::unreal::helpers::ClassMap_obj::registerWrapper(void* inNative, void* inWr
 }
 
 void ::unreal::helpers::ClassMap_obj::unregisterWrapper(void* inNative) {
+  auto& wrappers = getWrapperMap();
+  auto it = wrappers.find(inNative);
+  if (it != wrappers.end() && it->second.typeID == 1210865730) {
+    UE_LOG(LogTemp, Warning, TEXT("UNREGISTER %x %x"), inNative);
+  }
+
+  check(IsInGameThread());
   getWrapperMap().erase(inNative);
   if (s_lastNativeLookup == inNative) {
     s_lastNativeLookup = nullptr;

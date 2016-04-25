@@ -68,10 +68,12 @@ class NeedsGlueBuild
 
             var typeThis:TypePath = {pack:[], name:cls.name};
             var complexThis = TPath(typeThis);
+            var thisExpr = Context.parse(cls.name, cls.pos);
             var added = macro class {
               @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, typeID:Int, ?parent:Dynamic):$complexThis {
-                var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
+                var found:Dynamic = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
                 if (found != null) {
+                  if (!Std.is(found, $thisExpr)) throw 'bad wrapper: got ' + Type.getClassName(Type.getClass(found)) + ', expected ' + Std.string($thisExpr);
                   return found;
                 }
                 var wrapped = cpp.Pointer.fromRaw(wrapped);
