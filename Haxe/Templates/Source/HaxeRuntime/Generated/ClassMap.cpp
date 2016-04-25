@@ -90,7 +90,7 @@ void ::unreal::helpers::ClassMap_obj::unregisterWrapper(void* inNative) {
   auto& wrappers = getWrapperMap();
   auto it = wrappers.find(inNative);
   if (it != wrappers.end() && it->second.typeID == 1210865730) {
-    UE_LOG(LogTemp, Warning, TEXT("UNREGISTER %x %x"), inNative);
+    UE_LOG(LogTemp, Warning, TEXT("UNREGISTER %x"), inNative);
   }
 
   check(IsInGameThread());
