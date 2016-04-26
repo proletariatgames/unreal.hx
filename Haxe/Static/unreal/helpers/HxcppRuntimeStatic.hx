@@ -18,21 +18,10 @@ private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
     throw str.toString();
   }
 
-  public static function getWrapped(ptr:VoidPtr):VoidPtr {
-    var dyn:Dynamic = toDyn(ptr);
-    var ret:VoidPtr = untyped __cpp__('(void *) 0');
-    if (dyn != null) {
-      if (Std.is(dyn, UObject)) {
-        var uobj:UObject = dyn;
-        ret = @:privateAccess uobj.getWrapped().rawCast();
-      } else if (Std.is(dyn, Wrapper)) {
-        var wrapper:Wrapper = dyn;
-        ret = @:privateAccess wrapper.getWrapped().rawCast();
-      } else {
-        throw 'Unknown object type: $dyn (${Type.getClassName(Type.getClass(dyn))})';
-      }
-    }
-    return ret;
+  @:noStack public static function getWrapped(ptr:VoidPtr):VoidPtr {
+    var dyn:UObject = toDyn(ptr);
+    var nil:VoidPtr = untyped __cpp__('(void *) 0');
+    return dyn != null ? @:privateAccess dyn.getWrapped().rawCast() : nil;
   }
 
   public static function getWrappedRef(ptr:VoidPtr) : VoidPtr {
