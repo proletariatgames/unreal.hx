@@ -541,7 +541,9 @@ class ExternBaker {
           this.newline();
           this.add('var found:Dynamic = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw(), typeID));');
           this.begin('if (found != null) {');
+          #if debug
           this.add('if (!Std.is(found, ${this.typeRef.getClassPath()})) throw \'Bad wrapper: got $${Type.getClassName(Type.getClass(found))}, expected ${this.typeRef.getClassPath()}\';');
+          #end
           this.add('return found;');
           this.end('}');
           this.add('return new ${this.typeRef.getClassPath()}(ptr, typeID, parent);');

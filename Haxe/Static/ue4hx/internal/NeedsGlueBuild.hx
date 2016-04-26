@@ -73,7 +73,9 @@ class NeedsGlueBuild
               @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, typeID:Int, ?parent:Dynamic):$complexThis {
                 var found:Dynamic = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
                 if (found != null) {
+                  #if debug
                   if (!Std.is(found, $thisExpr)) throw 'bad wrapper: got ' + Type.getClassName(Type.getClass(found)) + ', expected ' + Std.string($thisExpr);
+                  #end
                   return found;
                 }
                 var wrapped = cpp.Pointer.fromRaw(wrapped);
