@@ -85,6 +85,16 @@ class NativeGlueCode
     writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
     writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
     writer.buf.add('\t\tUEProxyPointer *rewrap(::unreal::helpers::UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
+    if (cl.params.length > 0) {
+      writer.buf << '\t\ttemplate <typename _NativeType>\n';
+      writer.buf.add('\t\tstatic unreal::helpers::UEPointer* wrap(_NativeType* native, int32 typeID, bool hasParent) {\n');
+      writer.buf.add('\t\t\tif (!hasParent) {\n');
+      writer.buf.add('\t\t\t\tvoid* wrapper = unreal::helpers::ClassMap_obj::checkWrapperCache(native,typeID);\n');
+      writer.buf.add('\t\t\t\tif (wrapper) return reinterpret_cast<unreal::helpers::UEPointer*>(wrapper);\n');
+      writer.buf.add('\t\t\t}\n'); 
+      writer.buf << '\t\t\treturn new ${glueName}_obj(new PExternal<_NativeType>(native));\n';
+      writer.buf.add('\t\t}\n');
+    }
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 

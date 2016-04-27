@@ -19,6 +19,11 @@ static std::unordered_map<void*, WrapperCacheEntry>& getWrapperMap() {
   return wrapperMap;
 }
 
+static std::vector<WrapperCacheEntry>& getRequestedWrappers() {
+  static std::vector<WrapperCacheEntry> requestedWrappers;
+  return requestedWrappers;
+}
+
 bool ::unreal::helpers::ClassMap_obj::addWrapper(void *inUClass, HaxeWrap inWrapper) {
   getClassMap()[(UClass *)inUClass] = inWrapper;
   return true;
@@ -43,46 +48,41 @@ void *::unreal::helpers::ClassMap_obj::wrap(void *inUObject) {
   return nullptr;
 }
 
-static void* s_lastNativeLookup = nullptr;
-static void* s_lastWrappedLookup = nullptr;
-static int32 s_lastWrappedTypeID = -1;
-
-void* ::unreal::helpers::ClassMap_obj::findWrapper(void* inNative, int32 typeID) {
+void* ::unreal::helpers::ClassMap_obj::checkWrapperCache(void* inNative, int32 typeID) {
   check(IsInGameThread());
-  if (s_lastNativeLookup == inNative && s_lastWrappedTypeID == typeID && s_lastWrappedLookup) {
-    return s_lastWrappedLookup;
-  }
   
   auto& wrappers = getWrapperMap();
   auto it = wrappers.find(inNative);
   if (it != wrappers.end() && it->second.typeID == typeID) {
-    s_lastNativeLookup = inNative;
-    s_lastWrappedTypeID = it->second.typeID;
-    s_lastWrappedLookup = it->second.wrapper;
-    return s_lastWrappedLookup;
+	  getRequestedWrappers().push_back(it->second);
+	  return it->second.wrapper;
   }
   
   return nullptr;
 }
 
+bool ::unreal::helpers::ClassMap_obj::checkIsWrapper(void* inPtr, int32 typeID) {
+	auto& requested = getRequestedWrappers();
+  auto ln = requested.size();
+  for (int i = 0; i != ln; ++i) {
+    auto& entry = requested[i];
+    if (entry.wrapper == inPtr && entry.typeID == typeID) {
+      if (i != ln-1) {
+        requested[i] = requested[ln-1];
+      }
+      requested.pop_back();
+      return true;
+    }
+  }
+  return false;
+}
+
 void ::unreal::helpers::ClassMap_obj::registerWrapper(void* inNative, void* inWrapper, int32 typeID) {
   check(IsInGameThread());
-  
   getWrapperMap()[inNative] = {typeID, inWrapper};
-  s_lastNativeLookup = inNative;
-  s_lastWrappedLookup = inWrapper;
-  s_lastWrappedTypeID = typeID;
 }
 
 void ::unreal::helpers::ClassMap_obj::unregisterWrapper(void* inNative) {
-  auto& wrappers = getWrapperMap();
-  auto it = wrappers.find(inNative);
-
   check(IsInGameThread());
   getWrapperMap().erase(inNative);
-  if (s_lastNativeLookup == inNative) {
-    s_lastNativeLookup = nullptr;
-    s_lastWrappedLookup = nullptr;
-    s_lastWrappedTypeID = -1;
-  }
 }

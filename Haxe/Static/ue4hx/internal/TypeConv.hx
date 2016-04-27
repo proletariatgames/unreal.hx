@@ -744,19 +744,24 @@ using StringTools;
           ret.glueCppIncludes.add('<' + typeRef.getGlueHelperType().getClassPath().replace('.','/') + '_UE.h>');
           ret.glueCppIncludes.add('<ClassMap.h>');
           var isTypeName = ctx.meta != null && ctx.meta.has(':typeName');
-          ret.ueToGlueExpr = 'new ' + typeRef.getGlueHelperType().getCppClass() + '_UE_obj<' +
-            [ for (param in args) {
+          
+          var tparamArgs = [ 
+            for (param in args) {
               var conv = TypeConv.get(param, pos);
               if (isTypeName && conv.isUObject == true)
                 conv.ueType.getCppClass();
               else
                 conv.ueType.getCppType().toString();
-            }].join(',') +
-          '>(' + ret.ueToGlueExpr + ')';
+            }
+          ].join(',');
+
+          var glueClass = typeRef.getGlueHelperType().getCppClass() + '_UE_obj<$tparamArgs>';
           
           if (external) {
-            var expr = (modf == 'unreal.PRef') ? '&(%)' : '%';
-            ret.ueToGlueExpr = '(!$$hasParent && unreal::helpers::ClassMap_obj::findWrapper($expr, ${typeRef.getUniqueID()})) ? reinterpret_cast< ::unreal::helpers::UEPointer* >($expr) : (${ret.ueToGlueExpr})'; 
+            var expr = modf == 'unreal.PRef' ? "&(%)" : "%";
+            ret.ueToGlueExpr = '$glueClass::wrap<${ueType.getCppType()}>( $expr, ${typeRef.getUniqueID()}, $$hasParent )';
+          } else {
+            ret.ueToGlueExpr = 'new $glueClass(${ret.ueToGlueExpr})'; 
           }
         }
         return ret;

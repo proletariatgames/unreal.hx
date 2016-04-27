@@ -6,7 +6,6 @@ import unreal.helpers.ClassMap;
   This is the base wrapper class for all non-UObject wrappers
  **/
 class Wrapper implements ue4hx.internal.NeedsGlue {
-  public var disposed(default,null):Bool;
   private var wrapped:cpp.Pointer<UEPointer>;
   private var parent:Dynamic;
 
@@ -24,7 +23,7 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
   }
 
   public function checkPointer() {
-    if (this.disposed) {
+    if (this.wrapped == null) {
       var msg = 'Trying to use an already disposed object (${Type.getClassName(Type.getClass(this))})';
 #if !UE4_POINTER_TESTING
       trace('Error',msg);
@@ -66,7 +65,7 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     in order to avoid the finalizer call overhead
    **/
   public function dispose() {
-    if (this.disposed) {
+    if (this.wrapped == null) {
       var msg = 'Trying to dispose an already disposed object (${Type.getClassName(Type.getClass(this))})';
 #if !UE4_POINTER_TESTING
       trace('Error',msg);
@@ -77,12 +76,11 @@ class Wrapper implements ue4hx.internal.NeedsGlue {
     // cancel the finalizer
     cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
     disposeUEPointer(this);
-    this.disposed = true;
     this.wrapped = null;
   }
 
   @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
-    if (!wrapper.disposed) {
+    if (wrapper.wrapped != null) {
       if (wrapper.parent == null) {
         ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer());
       }

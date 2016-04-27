@@ -14,7 +14,7 @@ import cpp.Function;
    **/
   static function wrap(inUObject:RawPointer<cpp.Void>):RawPointer<cpp.Void>;
 
-  static function findWrapper(inNative:RawPointer<cpp.Void>, typeID:Int32) : RawPointer<cpp.Void>;
+  static function checkIsWrapper(inNative:RawPointer<cpp.Void>, typeID:Int32) : Bool;
   static function registerWrapper(inNative:RawPointer<cpp.Void>, inWrapper:RawPointer<cpp.Void>, typeID:Int32) : Void;
   static function unregisterWrapper(inNative:RawPointer<cpp.Void>) : Void;
 }

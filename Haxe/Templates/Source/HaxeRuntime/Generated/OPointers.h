@@ -22,7 +22,7 @@ class PStruct : public ::unreal::helpers::UEPointer {
 
     virtual ~PStruct() override {
     }
-
+    
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override {
       err();
       return nullptr;
@@ -79,10 +79,14 @@ class PExternal : public ::unreal::helpers::UEPointer {
       if (nullptr == val) {
         return nullptr;
       }
-      if (!hasParent && unreal::helpers::ClassMap_obj::findWrapper(val, typeID)) {
-        // SUPER GROSS HACK: we return the original pointer instead of a UEPointer here.
-        // On the haxe side, the wrap() function will check the ClassMap and detect the existing wrapper
-        return reinterpret_cast< ::unreal::helpers::UEPointer* >(val);
+      
+      if (!hasParent) {
+        void* wrapper = unreal::helpers::ClassMap_obj::checkWrapperCache(val, typeID);
+        if (wrapper) {
+          // SUPER GROSS HACK: we return the cached wrapper directly instead of a UEPointer here.
+          // On the haxe side, the wrap() function will check the ClassMap and detect the existing wrapper
+          return reinterpret_cast< ::unreal::helpers::UEPointer* >(wrapper);
+        }
       }
       return new PExternal<T>(val);
     }
@@ -90,7 +94,7 @@ class PExternal : public ::unreal::helpers::UEPointer {
     virtual void *getPointer() override {
       return value;
     }
-
+    
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override {
       err();
       return nullptr;
@@ -158,7 +162,7 @@ class PSharedRef : public ::unreal::helpers::UEPointer {
     virtual void *getPointer() override {
       return &value.Get();
     }
-
+    
     virtual ::unreal::helpers::UEPointer *toSharedPtr() override;
     virtual ::unreal::helpers::UEPointer *toSharedPtrTS() override;
     virtual ::unreal::helpers::UEPointer *toSharedRef() override;
