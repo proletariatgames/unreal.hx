@@ -1,6 +1,7 @@
 #include "HaxeRuntime.h"
 #include <CoreUObject.h>
 #include <unordered_map>
+#include <vector>
 #include "ClassMap.h"
 
 struct WrapperCacheEntry {
