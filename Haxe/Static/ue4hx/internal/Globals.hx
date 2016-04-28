@@ -99,6 +99,11 @@ class Globals {
   public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
 
   /**
+    A cache of TypeConv objects
+   **/
+  public var typeConvCache:Map<String, TypeConv> = new Map();
+
+  /**
     This cache is needed to ensure we all have the same classfield when adding metadata to them,
     otherwise some meta might be lost
    **/

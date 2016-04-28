@@ -1,4 +1,5 @@
 package unreal.helpers;
+import unreal.Wrapper;
 
 private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
 
@@ -50,6 +51,18 @@ private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
       }
     }
     return ret;
+  }
+
+  public static function createInlinePodWrapper(size:Int) : VariantPtr {
+    return VariantPtr.fromDynamic( InlinePodWrapper.create(size) );
+  }
+
+  public static function createInlineWrapper(size:Int) : VariantPtr {
+    return VariantPtr.fromDynamic( InlineWrapper.create(size) );
+  }
+
+  public static function createPointerWrapper(ptr:cpp.RawPointer<UEPointer>) : VariantPtr {
+    return VariantPtr.fromDynamic( new PointerWrapper(ptr) );
   }
 
   @:native("callFunction")

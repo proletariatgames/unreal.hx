@@ -6,20 +6,38 @@ package unreal;
   /**
     Tells whether this object needs a finalizer. Will be cleared off when `dispose` is called
    **/
-  var NeedsFinalizer = 0x100;
+  // var NeedsFinalizer = 0x100;
 
-  inline public function getOffset():Int {
+  inline public function getPointerOffset():Int {
     return this & 0xFF;
   }
 
-  /**
-    Returns whether this wrapper needs to call `getPointer()`, or if the offset can be used
-   **/
-  inline public function needsFunctionCall():Bool {
-    return getOffset() == 0;
+  inline public function getFinalizerOffset():Int {
+    return (this & 0xFF00) >> 8;
   }
 
-  public static function fromOffset(offset:Int):WrapperFlags {
+  public function addPointerOffset(offset:Int):WrapperFlags {
+    if (offset > 0xff || offset < 0) {
+      throw 'Offset overflow/underflow: $offset';
+    }
+    return (this & ~0xFF) | offset;
+  }
+
+  public function addFinalizerOffset(offset:Int):WrapperFlags {
+    if (offset > 0xff || offset < 0) {
+      throw 'Offset overflow/underflow: $offset';
+    }
+    return (this & ~0xFF00) | (offset << 8);
+  }
+
+  /**
+    Returns whether this wrapper needs to call `getPointer()`, or if the PointerOffset can be used
+   **/
+  inline public function needsFunctionCall():Bool {
+    return getPointerOffset() == 0;
+  }
+
+  public static function fromPointerOffset(offset:Int):WrapperFlags {
     if (offset > 0xff || offset < 0) {
       throw 'Offset overflow/underflow: $offset';
     }
