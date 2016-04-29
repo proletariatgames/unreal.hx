@@ -17,18 +17,22 @@ class TypeRef
   public var name(default,null):String;
   public var params(default,null):Array<TypeRef>;
   public var moduleName(default,null):Null<String>;
-  public var isConst(default,null):Bool = false;
+  public var flags(default, null):TypeFlags;
 
-  public function new(?pack:Array<String>, name:String, ?moduleName:String, ?params:Array<TypeRef>)
+  public function new(?pack:Array<String>, name:String, ?moduleName:String, ?params:Array<TypeRef>, ?flags:TypeFlags)
   {
     if (pack == null) pack = [];
     if (params == null) params = [];
+    if (flags == null) flags = None;
     this.pack = pack;
     this.name = name;
     this.moduleName = moduleName;
     this.params = params;
   }
 
+  inline public function with(?pack:Array<String>, ?name:String, ?moduleName:String, ?params:Array<TypeRef>, ?flags:TypeFlags) {
+    return new TypeRef(pack != null ? pack : this.pack, name != null ? name : this.name, moduleName != null ? moduleName : this.moduleName, params != null ? params : this.params, flags != null ? flags : this.flags);
+  }
   inline public function withPack(pack:Array<String>):TypeRef {
     return new TypeRef(pack, this.name, this.moduleName, this.params);
   }
@@ -37,9 +41,7 @@ class TypeRef
   }
 
   inline public function withConst(setConst:Bool) {
-    var ret = new TypeRef(this.pack, this.name, this.moduleName, params);
-    ret.isConst = setConst;
-    return ret;
+    return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags | Const);
   }
 
   public function withoutPrefix():TypeRef {
@@ -306,10 +308,6 @@ class TypeRef
       buf = new StringBuf();
 
     // TODO implement more complex const handling, since C++ const is a bear
-    if (isConst) {
-      buf.add('const ');
-    }
-
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppType(buf);
@@ -338,6 +336,10 @@ class TypeRef
         }
         buf.add('>');
       }
+    }
+
+    if (flags.hasAny(Const)) {
+      buf.add(' const');
     }
     return buf;
   }
@@ -423,5 +425,26 @@ class TypeRef
     } else {
       return t;
     }
+  }
+}
+
+@:enum abstract TypeFlags(Int) from Int {
+  var None = 0;
+  var Const = 1;
+
+  inline private function t() {
+    return this;
+  }
+
+  @:op(A|B) inline public function add(f:TypeFlags):TypeFlags {
+    return this | f.t();
+  }
+
+  inline public function hasAll(flag:TypeFlags):Bool {
+    return this & flag.t() == flag.t();
+  }
+
+  inline public function hasAny(flag:TypeFlags):Bool {
+    return this & flag.t() != 0;
   }
 }

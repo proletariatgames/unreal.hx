@@ -1173,16 +1173,123 @@ class TypeConv {
   public var glueType(default, null):TypeRef;
   public var haxeGlueType(default, null):TypeRef;
 
-  private function new(data) {
+  private function new(data, ?original) {
     this.data = data;
+    this.haxeType = original;
     consolidate();
   }
 
   private function consolidate() {
+    switch(this.data) {
+      case CBasic(info) | CSpecial(info):
+        if (this.haxeType != null) {
+          this.haxeType = info.haxeType;
+        }
+        this.ueType = info.ueType;
+        this.glueType = info.glueType != null ? info.glueType : info.ueType;
+        this.haxeGlueType = info.haxeGlueType != null ? info.haxeGlueType : info.haxeType;
+      case CUObject(type, info):
+        // OExternal, OInterface, OHaxe, OScriptHaxe
+        if (this.haxeType != null) {
+          this.haxeType = info.haxeType;
+        }
+        this.ueType = info.ueType;
+        // we're using IntPtr for a simple reason: it's reflective - so compatible with cppia
+        // and it's a type that both Unreal and Haxe can see (different from cpp.Pointer)
+        this.glueType = uintPtr;
+        this.haxeGlueType = uintPtr;
+      case CEnum(type, info):
+        // EExternal, EAbstract, EHaxe, EScriptHaxe
+        if (this.haxeType != null) {
+          this.haxeType = info.haxeType;
+        }
+        this.ueType = info.ueType;
+        this.haxeGlueType = this.glueType = int32;
+      case CStruct(type, info, params):
+        // SExternal, SHaxe, SCriptHaxe
+        if (this.haxeType != null) {
+          this.haxeType = info.haxeType;
+        } else if (params != null && params.length > 0) {
+          this.haxeType = info.haxeType.withParams([ for (param in params) param.haxeType ]);
+        } else {
+          this.haxeType = info.haxeType;
+        }
+        this.haxeType = original != null ? original : info.haxeType;
+        if (params != null && params.length > 0) {
+          var ueParams = [ for (param in params) param.ueType ];
+          var name = switch(info.ueType.name) {
+            case 'TThreadSafeSharedPtr':
+              ueParams.push('ESPMode::ThreadSafe');
+              'TSharedPtr';
+            case 'TThreadSafeSharedRef':
+              ueParams.push('ESPMode::ThreadSafe');
+              'TSharedRef';
+            case 'TThreadSafeWeakPtr':
+              ueParams.push('ESPMode::ThreadSafe');
+              'TWeakPtr';
+            case name:
+              name;
+          };
+          this.haxeType = info.ueType.with(name, ueParams);
+        } else {
+          this.ueType = info.ueType;
+        }
+        // we set structs to use VariantPtr because we can use both Haxe's GC'd instances
+        // as non-Haxe GC
+        this.haxeGlueType = this.glueType = variantPtr;
+
+      case CConst(t):
+        if (this.haxeType != null) {
+          this.haxeType = new TypeRef(['unreal'],'Const',[t.haxeType]);
+        }
+        this.ueType = t.ueType.withConst(true);
+        this.haxeGlueType = t.haxeGlueType;
+        this.glueType = t.glueType;
+      case CRef(t):
+        if (this.haxeType != null) {
+          this.haxeType = new TypeRef(['unreal'],'PRef',[t.haxeType]);
+        }
+        this.ueType = new TypeRef(['cpp'],'Reference', [t.ueType]);
+        this.haxeGlueType = t.haxeGlueType;
+        this.glueType = t.glueType;
+      case CPtr(t):
+        if (this.haxeType != null) {
+          this.haxeType = new TypeRef(['unreal'],'PPtr',[t.haxeType]);
+        }
+        this.ueType = new TypeRef(['cpp'], 'RawPointer', [t.ueType]);
+        this.haxeGlueType = t.haxeGlueType;
+        this.glueType = t.glueType;
+      // case CSharedPtr(of, kind, ts):
+      //   var name = switch (kind) {
+      //     case Weak:
+      //       'WeakPtr';
+      //     case Ref:
+      //       'SharedRef';
+      //   };
+      //
+      //   if (this.haxeType != null) {
+      //     this.haxeType = new TypeRef(['unreal'], (ts == ThreadSafe ? 'TThreadSafe' : 'T') + name, [of.haxeType]);
+      //   }
+      //   var args = [of.ueType];
+      //   if (ts == ThreadSafe) {
+      //     args.push(new TypeRef('ESPMode::ThreadSafe'));
+      //   }
+      //   this.ueType = new TypeRef('T$name', args);
+      //   // glue type is always the same as struct
+      //   this.haxeGlueType = this.glueType = variantPtr;
+    }
   }
 
-  inline public static function get(type:Type, pos:Position):TypeConv {
-    return getInfo(type, pos, null);
+  public static function get(type:Type, pos:Position):TypeConv {
+    var cache = Globals.cur.typeConvCache,
+        str = Std.string(type);
+    var ret = cache[str];
+    if (ret != null) {
+      return ret;
+    }
+    ret = getInfo(type, pos, null);
+    cache[str] = ret;
+    return ret;
   }
 
   private static function getInfo(type:Type, pos:Position, original:TypeRef):TypeConv {
@@ -1203,23 +1310,23 @@ class TypeConv {
         if (typeIsUObject(type)) {
           if (!it.meta.has(':uextern')) {
             if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
-              ret = CUObject(OScriptHaxe, ifo);
+              ret = CUObject(OScriptHaxe, info, original);
             } else {
-              ret = CUObject(OHaxe, info);
+              ret = CUObject(OHaxe, info, original);
             }
           } else {
-            ret = CUObject(OExternal, info);
+            ret = CUObject(OExternal, info, original);
           }
         } else if (it.isInterface && it.meta.has(':uextern')) {
-          ret = CUObject(OInterface, info);
+          ret = CUObject(OInterface, info, original);
         } else if (it.meta.has(':uextern')) {
-          ret = CStruct(SExternal, info, [for (param in tl) get(tl, pos)]);
+          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
         } else if (it.meta.has(':ustruct')) {
           var params = [for (param in tl) get(tl, pos)];
           if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
-            ret = CStruct(SScriptHaxe, info, params);
+            ret = CStruct(SScriptHaxe, info, params, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
           } else {
-            ret = CStruct(SHaxe, info, params);
+            ret = CStruct(SHaxe, info, params, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
           }
         } else if (it.kind.match(KTypeParameter(_))) {
           name = null; // don't cache
@@ -1227,7 +1334,7 @@ class TypeConv {
         } else {
           throw new Error('Unreal Glue: Type $iref is not supported', pos);
         }
-        var ret = new TypeConv(ret):
+        var ret = new TypeConv(ret, original):
         if (name != null) {
           cache[name] = ret;
         }
@@ -1244,18 +1351,18 @@ class TypeConv {
             ret = null,
             info = getTypeInfo(it, pos);
         if (e.meta.has(':uextern')) {
-          ret = CEnum(EExternal, info);
+          ret = CEnum(EExternal, info, original);
         } else if (e.meta.has(':uenum')) {
           if (e.meta.has(':uscript') || Globals.cur.scriptModules.exists(e.module)) {
-            ret = CEnum(EScriptHaxe, info);
+            ret = CEnum(EScriptHaxe, info, original);
           } else {
-            ret = CEnum(EHaxe, info);
+            ret = CEnum(EHaxe, info, original);
           }
         } else {
           throw new Error('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
         }
 
-        var ret = new TypeConv(ret):
+        var ret = new TypeConv(ret, original):
         if (name != null) {
           cache[name] = ret;
         }
@@ -1272,12 +1379,12 @@ class TypeConv {
             ret = null,
             info = getTypeInfo(a, pos);
         if (a.meta.has(':uextern')) {
-          ret = CStruct(SExternal, info);
+          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
         } else if (a.meta.has(':ustruct')) {
           if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
-            ret = CStruct(SScriptHaxe, info);
+            ret = CStruct(SScriptHaxe, info, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
           } else {
-            ret = CStruct(SHaxe, info);
+            ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(tl, pos)] : null, original);
           }
         } else if (a.meta.has(':enum')) {
           ret = CEnum(EAbstract, info);
@@ -1291,24 +1398,24 @@ class TypeConv {
           case 'unreal.PPtr':
             name = null;
             ret = CPtr(getInfo(tl[0], pos, original));
-          case 'unreal.TSharedPtr':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original));
-          case 'unreal.TWeakPtr':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original), Weak);
-          case 'unreal.TSharedRef':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original), Ref);
-          case 'unreal.TThreadSafeSharedPtr':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original), ThreadSafe);
-          case 'unreal.TThreadSafeWeakPtr':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original), Weak, ThreadSafe);
-          case 'unreal.TThreadSafeSharedRef':
-            name = null;
-            ret = CSharedPtr(getInfo(tl[0], pos, original), Ref, ThreadSafe);
+          // case 'unreal.TSharedPtr':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original));
+          // case 'unreal.TWeakPtr':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original), Weak);
+          // case 'unreal.TSharedRef':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original), Ref);
+          // case 'unreal.TThreadSafeSharedPtr':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original), ThreadSafe);
+          // case 'unreal.TThreadSafeWeakPtr':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original), Weak, ThreadSafe);
+          // case 'unreal.TThreadSafeSharedRef':
+          //   name = null;
+          //   ret = CSharedPtr(getInfo(tl[0], pos, original), Ref, ThreadSafe);
           case 'unreal.MethodPointer':
             name = null;
             ret = parseMethodPointer(tl, pos);
@@ -1321,7 +1428,7 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret):
+          var ret = new TypeConv(ret, original):
           if (name != null) {
             cache[name] = ret;
           }
@@ -1347,7 +1454,7 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret):
+          var ret = new TypeConv(ret, original):
           if (name != null) {
             cache[name] = ret;
           }
@@ -1359,7 +1466,7 @@ class TypeConv {
         type = f();
 
       case TFun(args, ret):
-        return new TypeConv(CLambda([ for(arg in args) get(arg.t, pos) ], get(ret, pos)));
+        return new TypeConv(CLambda([ for(arg in args) get(arg.t, pos) ], get(ret, pos)), original);
       case t:
         throw new Error('Unreal Type: Invalid type $t', pos);
       }
@@ -1562,7 +1669,9 @@ class TypeConv {
 
   static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
   static var byteArray(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'UInt8')]);
-  static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
+  static var variantPtr(default,null) = new TypeRef(['unreal'],'VariantPtr');
+  static var uintPtr(default,null) = new TypeRef(['unreal'],'UIntPtr');
+  static var int32(default,null) = new TypeRef('Int');
 }
 
 typedef TypeInfo = {
@@ -1613,31 +1722,31 @@ typedef ExtTypeInfo = {
 enum TypeConvData {
   CBasic(info:ExtTypeInfo);
   CSpecial(info:ExtTypeInfo);
-  CUObject(type:UObjectType, info:TypeInfo, ?original:TypeRef);
-  CEnum(type:EnumType, info:TypeInfo, ?original:TypeRef);
-  CStruct(type:StructType, info:TypeInfo, params:Array<TypeConvData>, ?original:TypeRef);
+  CUObject(type:UObjectType, info:TypeInfo);
+  CEnum(type:EnumType, info:TypeInfo);
+  CStruct(type:StructType, info:TypeInfo, ?params:Array<TypeConv>);
 
   /**
     C++ const modifier
    **/
-  CConst(t:TypeConvData);
+  CConst(t:TypeConv);
   /**
     Type was defined as a C++ reference
    **/
-  CRef(conv:TypeConvData);
+  CRef(conv:TypeConv);
   /**
     Type was defined as a C++ pointer
    **/
-  CPtr(conv:TypeConvData);
+  CPtr(conv:TypeConv);
   // TODO - bytearray
-  // CPointer(of:TypeConvData, ?size:Int);
-  /**
-    Type was defined as a shared pointer
-   **/
-  CSharedPtr(of:TypeConvData, ?kind:SharedKind, ?ref:SharedRef, ?ts:SharedTS);
+  // CPointer(of:TypeConv, ?size:Int);
+  // /**
+  //   Type was defined as a shared pointer
+  //  **/
+  // CSharedPtr(of:TypeConv, ?kind:SharedKind, ?ts:SharedTS);
 
-  CLambda(args:Array<TypeConvData>, ret:TypeConvData);
-  CMethodPointer(className:TypeInfo, args:Array<TypeConvData>, ret:TypeConvData);
+  CLambda(args:Array<TypeConv>, ret:TypeConv);
+  CMethodPointer(className:TypeInfo, args:Array<TypeConv>, ret:TypeConv);
   CTypeParam(name:String);
 }
 
@@ -1645,12 +1754,9 @@ enum TypeConvData {
   var ThreadSafe = 1;
 }
 
-@:enum abstract SharedRef(Int) from Int {
-  var Ref = 1;
-}
-
 @:enum abstract SharedKind(Int) from Int {
   var Weak = 1;
+  var Ref = 2;
 }
 
 @:enum abstract UObjectType(Int) from Int {
