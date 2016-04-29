@@ -892,48 +892,6 @@ using StringTools;
 //     throw new Error('Unreal Glue: Type $name is not supported', pos);
 //   }
 //
-//   static function getMetaArray(meta:MetaAccess, name:String):Null<Array<String>>
-//   {
-//     if (meta == null) return null;
-//     var extracted = meta.extract(name);
-//     if (extracted == null || extracted.length == 0)
-//       return null;
-//     var ret = [];
-//     for (entry in extracted) {
-//       if (entry.params != null) {
-//         for (param in entry.params) {
-//           switch(param.expr)
-//           {
-//           case EConst(CString(s) | CIdent(s)):
-//             ret.push(s);
-//           case _:
-//             throw new Error('Unreal Glue: Unexpected non-string expression at meta $name', param.pos);
-//           }
-//         }
-//       }
-//     }
-//
-//     return ret;
-//   }
-//
-//   static function getMetaString(meta:MetaAccess, name:String):Null<String>
-//   {
-//     if (meta == null) return null;
-//     var extracted = meta.extract(name);
-//     if (extracted == null || extracted.length == 0 || extracted[0].params == null)
-//       return null;
-//     switch(extracted[0].params[0].expr) {
-//     case EConst(CString(s) | CIdent(s)):
-//       return s;
-//     case _:
-//       throw new Error('Unreal Glue: Unexpected non-string expression at meta $name', extracted[0].params[0].pos);
-//     }
-//   }
-//
-//   static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
-//   static var byteArray(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'UInt8')]);
-//   static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
-//
 //   static var basicTypes:Map<String, TypeConvInfo> = {
 //     var basicConvert = [
 //       "cpp.Float32" => "float",
@@ -1207,8 +1165,27 @@ using StringTools;
 //   }
 // }
 
-abstract TypeConv(TypeConvData) from TypeConvData {
-  public static function get(type:Type, pos:Position):TypeConv {
+class TypeConv {
+  public var data(default, null):TypeConvData;
+
+  public var haxeType(default, null):TypeRef;
+  public var ueType(default, null):TypeRef;
+  public var glueType(default, null):TypeRef;
+  public var haxeGlueType(default, null):TypeRef;
+
+  private function new(data) {
+    this.data = data;
+    consolidate();
+  }
+
+  private function consolidate() {
+  }
+
+  inline public static function get(type:Type, pos:Position):TypeConv {
+    return getInfo(type, pos, null);
+  }
+
+  private static function getInfo(type:Type, pos:Position, original:TypeRef):TypeConv {
     var cache = Globals.cur.typeConvCache;
     while(true) {
       switch(type) {
@@ -1250,6 +1227,7 @@ abstract TypeConv(TypeConvData) from TypeConvData {
         } else {
           throw new Error('Unreal Glue: Type $iref is not supported', pos);
         }
+        var ret = new TypeConv(ret):
         if (name != null) {
           cache[name] = ret;
         }
@@ -1257,11 +1235,9 @@ abstract TypeConv(TypeConvData) from TypeConvData {
 
       case TEnum(eref, tl):
         var name = eref.toString();
-        if (name != null) {
-          var ret = cache[name];
-          if (ret != null) {
-            return ret;
-          }
+        var ret = cache[name];
+        if (ret != null) {
+          return ret;
         }
 
         var e = eref.get(),
@@ -1279,7 +1255,246 @@ abstract TypeConv(TypeConvData) from TypeConvData {
           throw new Error('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
         }
 
+        var ret = new TypeConv(ret):
+        if (name != null) {
+          cache[name] = ret;
+        }
+        return ret;
+
+      case TAbstract(aref, tl):
+        var name = aref.toString();
+        var ret = cache[name];
+        if (ret != null) {
+          return ret;
+        }
+
+        var a = aref.get(),
+            ret = null,
+            info = getTypeInfo(a, pos);
+        if (a.meta.has(':uextern')) {
+          ret = CStruct(SExternal, info);
+        } else if (a.meta.has(':ustruct')) {
+          if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
+            ret = CStruct(SScriptHaxe, info);
+          } else {
+            ret = CStruct(SHaxe, info);
+          }
+        } else if (a.meta.has(':enum')) {
+          ret = CEnum(EAbstract, info);
+        } else if (a.meta.has(':coreType')) {
+          throw new Error('Unreal Glue: Basic type $name is not supported', pos);
+        } else {
+          switch(name) {
+          case 'unreal.PRef':
+            name = null; // don't cache those types
+            ret = CRef(getInfo(tl[0], pos, original));
+          case 'unreal.PPtr':
+            name = null;
+            ret = CPtr(getInfo(tl[0], pos, original));
+          case 'unreal.TSharedPtr':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original));
+          case 'unreal.TWeakPtr':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original), Weak);
+          case 'unreal.TSharedRef':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original), Ref);
+          case 'unreal.TThreadSafeSharedPtr':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original), ThreadSafe);
+          case 'unreal.TThreadSafeWeakPtr':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original), Weak, ThreadSafe);
+          case 'unreal.TThreadSafeSharedRef':
+            name = null;
+            ret = CSharedPtr(getInfo(tl[0], pos, original), Ref, ThreadSafe);
+          case 'unreal.MethodPointer':
+            name = null;
+            ret = parseMethodPointer(tl, pos);
+          case _:
+            if (original == null) {
+              original = TypeRef.fromBaseType(a, tl, pos);
+            }
+            type = Context.followWithAbstracts(type, true);
+          }
+        }
+
+        if (ret != null) {
+          var ret = new TypeConv(ret):
+          if (name != null) {
+            cache[name] = ret;
+          }
+          return ret;
+        }
+
+      case TType(tref, tl):
+        var name = tref.toString();
+        var ret = cache[name];
+        if (ret != null) {
+          return ret;
+        }
+
+        var t = tref.get();
+        if (t.meta.has(':unrealType')) {
+          switch(name) {
+          case 'unreal.Const':
+            name = null;
+            ret = CConst(getInfo(tl[0], pos, original));
+          case _:
+            throw new Error('Unreal Type: Invalid typedef: $name', pos);
+          }
+        }
+
+        if (ret != null) {
+          var ret = new TypeConv(ret):
+          if (name != null) {
+            cache[name] = ret;
+          }
+          return ret;
+        }
+        type = Context.follow(type, true);
+
+      case TLazy(f):
+        type = f();
+
+      case TFun(args, ret):
+        return new TypeConv(CLambda([ for(arg in args) get(arg.t, pos) ], get(ret, pos)));
+      case t:
+        throw new Error('Unreal Type: Invalid type $t', pos);
       }
+    }
+  }
+
+  private static function parseMethodPointer(types:Array<Type>, pos:Position) {
+    var objType = types[0],
+        fn = types[1];
+    var obj = switch(Context.followWithAbstracts(objType)) {
+      case TInst(c,tl):
+        getInfo(c.get());
+      case t:
+        throw new Error('Unreal Glue: Type $t is invalid as an argument for MethodPointer', pos);
+    };
+    var args, ret;
+    switch(Context.followWithAbstracts(fn)) {
+      case TFun(a,r):
+        args = [ for (arg in a) get(arg.t, pos) ];
+        ret = get(r, pos);
+      case t:
+        throw new Error('Unreal Glue: Type $t is ainvalid as the function argument for MethodPointer', pos);
+    }
+    return CMethodPointer(obj, args, ret);
+  }
+
+  @:allow(ue4hx.internal.Globals) static function addSpecialTypes(to:Map<String, TypeConv>) {
+    // Remember that any type added here must be added as an exception to the C++ templates
+    var basicConvert = [
+      "cpp.Float32" => "float",
+      "cpp.Float64" => "double",
+      "Float" => "double",
+      "cpp.Int16" => "int16",
+      "cpp.Int32" => "int32",
+      "Int" => "int32",
+      "cpp.Int8" => "int8",
+      "cpp.UInt16" => "uint16",
+      "cpp.UInt8" => "uint8"
+    ];
+    var infos:Array<ExtTypeInfo> = [
+      {
+        ueType: new TypeRef('bool'),
+        haxeType: new TypeRef('Bool'),
+      },
+      {
+        ueType: new TypeRef('void'),
+        haxeType: new TypeRef('Void'),
+      },
+      {
+        ueType: new TypeRef('uint32'),
+        haxeType: new TypeRef(['unreal'],'FakeUInt32'),
+        haxeGlueType: new TypeRef(['cpp'],'UInt32'),
+        glueType: new TypeRef(['cpp'], 'UInt32'),
+
+        haxeToGlueExpr: '(cast (%) : cpp.UInt32)',
+        glueToHaxeExpr: '(cast (%) : unreal.FakeUInt32)',
+      },
+      {
+        ueType: new TypeRef('uint64'),
+        haxeType: new TypeRef(['unreal'],'FakeUInt64'),
+        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
+        glueType: new TypeRef(['cpp'], 'Int64'),
+
+        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((uint64) (%))',
+      },
+      {
+        ueType: new TypeRef('int64'),
+        haxeType: new TypeRef(['unreal'],'Int64'),
+        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
+        glueType: new TypeRef(['cpp'], 'Int64'),
+
+        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        glueToHaxeExpr: '(cast (%) : unreal.Int64)',
+        glueToUeExpr: '((int64) (%))',
+      },
+      {
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')]),
+        glueType: new TypeRef(['unreal'],'VariantPtr'),
+        haxeType: new TypeRef(['unreal'],'AnyPtr'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<VariantPtr.h>']),
+
+        ueToGlueExpr: '( ::unreal::VariantPtr_obj::fromRawPtr(%) )',
+        glueToUeExpr: '(%).toPointer()'
+      },
+      {
+        ueType: new TypeRef(['unreal'],'UIntPtr'),
+        haxeType: new TypeRef(['unreal'],'UIntPtr'),
+      },
+      {
+        ueType: new TypeRef(['unreal'],'IntPtr'),
+        haxeType: new TypeRef(['unreal'],'IntPtr'),
+      },
+    ];
+    infos = infos.concat([ for (key in basicConvert.keys()) {
+      ueType: TypeRef.parseClassName(basicConvert[key]),
+      glueType: TypeRef.parseClassName(key),
+      haxeType: TypeRef.parseClassName(key),
+      glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+    }]);
+
+    for (info in infos) {
+      to[info.haxeType.toString()] = new TypeConv(CBasic(info));
+    }
+
+    infos = [
+      // TCharStar
+      {
+        haxeType: new TypeRef(['unreal'],'TCharStar'),
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('TCHAR')]),
+        haxeGlueType: voidStar,
+        glueType: voidStar,
+
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<HxcppRuntime.h>']),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+
+        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',
+        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%))',
+        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
+      },
+      { // TODO - use Pointer instead
+        ueType: byteArray,
+        haxeType: new TypeRef(['unreal'],'ByteArray'),
+        glueType: byteArray,
+        haxeGlueType: byteArray,
+
+        haxeToGlueExpr: '(%).ptr.get_raw()',
+        glueToHaxeExpr: 'new unreal.ByteArray(cpp.Pointer.fromRaw(%), -1)'
+      },
+    ];
+    for (info in infos) {
+      to[info.haxeType.toString()] = new TypeConv(CSpecial(info));
     }
   }
 
@@ -1291,8 +1506,8 @@ abstract TypeConv(TypeConvData) from TypeConvData {
     }
     var ueType = TypeRef.parse(ueName);
     return {
-      haxeClassType: haxeType,
-      ueClassType: ueName,
+      haxeType: haxeType,
+      ueType: ueName,
 
       glueCppIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueCppIncludes')),
       glueHeaderIncludes: IncludeSet.fromUniqueArray(getMetaArray(meta, ':glueHeaderIncludes')),
@@ -1344,18 +1559,22 @@ abstract TypeConv(TypeConvData) from TypeConvData {
       throw new Error('Unreal Glue: Unexpected non-string expression at meta $name', extracted[0].params[0].pos);
     }
   }
+
+  static var voidStar(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'Void')]);
+  static var byteArray(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'UInt8')]);
+  static var uePointer(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['unreal','helpers'],'UEPointer')]);
 }
 
 typedef TypeInfo = {
   /**
     Represents the Haxe-side type
    **/
-  haxeClassType:TypeRef,
+  haxeType:TypeRef,
 
   /**
     Represents the UE-side type (e.g. `FString` on case of FString)
    **/
-  ueClassType:TypeRef,
+  ueType:TypeRef,
 
   /**
     Represents the private includes to the glue cpp files. These can be UE4 includes,
@@ -1387,24 +1606,21 @@ typedef ExtTypeInfo = {
    **/
   ?haxeGlueType:TypeRef,
 
-
+  ?haxeToGlueExpr:String,
+  ?glueToHaxeExpr:String,
 }
 
 enum TypeConvData {
   CBasic(info:ExtTypeInfo);
   CSpecial(info:ExtTypeInfo);
-  CUObject(type:UObjectType, info:TypeInfo);
-  CEnum(type:EnumType, info:TypeInfo);
-  CStruct(type:StructType, info:TypeInfo, params:Array<TypeConvData>);
+  CUObject(type:UObjectType, info:TypeInfo, ?original:TypeRef);
+  CEnum(type:EnumType, info:TypeInfo, ?original:TypeRef);
+  CStruct(type:StructType, info:TypeInfo, params:Array<TypeConvData>, ?original:TypeRef);
 
   /**
     C++ const modifier
    **/
   CConst(t:TypeConvData);
-  /**
-    Type was created with `new` and Haxe should clean it up
-   **/
-  CHaxeCreated(conv:TypeConvData);
   /**
     Type was defined as a C++ reference
    **/
@@ -1412,8 +1628,8 @@ enum TypeConvData {
   /**
     Type was defined as a C++ pointer
    **/
-  CExternal(conv:TypeConvData);
-  // TODO
+  CPtr(conv:TypeConvData);
+  // TODO - bytearray
   // CPointer(of:TypeConvData, ?size:Int);
   /**
     Type was defined as a shared pointer
@@ -1421,7 +1637,7 @@ enum TypeConvData {
   CSharedPtr(of:TypeConvData, ?kind:SharedKind, ?ref:SharedRef, ?ts:SharedTS);
 
   CLambda(args:Array<TypeConvData>, ret:TypeConvData);
-  CMethodPointer(args:Array<TypeConvData>, ret:TypeConvData, className:TypeInfo);
+  CMethodPointer(className:TypeInfo, args:Array<TypeConvData>, ret:TypeConvData);
   CTypeParam(name:String);
 }
 

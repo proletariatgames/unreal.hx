@@ -85,34 +85,3 @@ class InlineWrapper extends Wrapper {
     return 'Inline Wrapper ($name) @ ${getPointer()}';
   }
 }
-
-/**
- **/
-class PointerWrapper extends Wrapper {
-  // var m_info:Pointer<StructInfo>;
-
-  public function new(ptr) {
-    // this.uePointer = ptr;
-  }
-
-#if !cppia
-  inline
-#end
-  override public function getPointer():UIntPtr {
-    // return uePointer.ptr.getPointer();
-  }
-
-  override public function dispose():Void {
-    // if (m_finalizer != null) {
-    //   m_finalizer.call(getPointer());
-    // }
-  }
-}
-
-/**
-  With this wrapper, we can keep a live reference to a shared pointer,
-  while still being able to access their underlying pointer directly
- **/
-class SharedPointerWrapper extends Wrapper {
-  var m_sharedWrapper:Wrapper;
-}

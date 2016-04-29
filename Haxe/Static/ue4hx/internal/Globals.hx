@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.TypeConv;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
@@ -163,6 +164,7 @@ class Globals {
   private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
 
   function new() {
+    TypeConv.addSpecialTypes(this.typeConvCache);
   }
 
   /**

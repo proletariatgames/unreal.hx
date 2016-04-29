@@ -1,12 +1,10 @@
 package unreal;
-import cpp.Pointer;
 
-@:unrealType
 @:forward
-abstract AnyPtr(cpp.Pointer<Dynamic>) from cpp.Pointer<Dynamic> to cpp.Pointer<Dynamic> {
+abstract AnyPtr(VariantPtr) from VariantPtr to VariantPtr {
   @:op(A+B) public function addOffset(offset:Int):AnyPtr {
-    var bytearr:Pointer<UInt8> = this.reinterpret();
-    return bytearr.add(offset).reinterpret();
+    var ptr = this.isObject() ? (this.getDynamic() : Wrapper ).getPointer() : cast this.getIntPtr();
+    return VariantPtr.fromUIntPtr( ptr + offset );
   }
 
 #if !bake_externs
@@ -15,11 +13,11 @@ abstract AnyPtr(cpp.Pointer<Dynamic>) from cpp.Pointer<Dynamic> to cpp.Pointer<D
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {
-    return @:privateAccess obj.getWrapped().reinterpret();
+    return VariantPtr.fromPointer( @:privateAccess obj.getWrapped() );
   }
 
-  public static function fromStruct(obj:Wrapper):AnyPtr {
-    return @:privateAccess cpp.Pointer.fromRaw(cast obj.getWrapped().ptr.getPointer());
+  public static function fromStruct(obj:Struct):AnyPtr {
+    return (obj : VariantPtr);
   }
 
   public static function fromNull():AnyPtr {

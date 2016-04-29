@@ -70,6 +70,5 @@ struct StructInfo {
 };
 
 // template<typename T>
-// kkkkkkkkk
 
 }
