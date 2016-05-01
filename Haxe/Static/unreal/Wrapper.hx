@@ -1,9 +1,10 @@
 package unreal;
 import cpp.Pointer;
+import cpp.RawPointer;
+import unreal.WrapperFlags;
 import unreal.helpers.StructInfo;
 
 class Wrapper {
-  public var flags:WrapperFlags;
 
   public function getPointer():UIntPtr {
     throw 'Not Implemented';
@@ -33,8 +34,6 @@ class InlinePodWrapper extends Wrapper {
 #end
 
   @:final @:nonVirtual private function init() {
-    var offset:UIntPtr = untyped __cpp__('sizeof (*this)');
-    this.flags = WrapperFlags.fromOffset( offset );
   }
 
   override public function getPointer():UIntPtr {
@@ -51,18 +50,30 @@ class InlinePodWrapper extends Wrapper {
     return hx::Object::operator new( (size_t) inSize + inExtra, false, "unreal.InlineWrapper" );
   }
 
-  inline static InlineWrapper create(Int extraSize) {
+  inline static InlineWrapper create(Int extraSize, unreal::UIntPtr info) {
     InlineWrapper_obj *result = new (extraSize) InlineWrapper_obj;
+    result->m_info = (struct StructInfo *) info;
     result->init();
     return result;
   }
 ')
 class InlineWrapper extends Wrapper {
+  var m_flags:WrapperFlags;
   var m_info:Pointer<StructInfo>;
 
   @:final @:nonVirtual private function init() {
-    var offset:UIntPtr = untyped __cpp__('sizeof (*this)');
-    this.flags = WrapperFlags.fromOffset( offset ) | NeedsFinalizer;
+    if (m_info.ptr.destruct != untyped __cpp__('0')) {
+      m_flags = NeedsDestructor;
+      cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
+    }
+  }
+
+  private static function finalize(self:InlineWrapper) {
+    if (self.m_flags.hasAny(NeedsDestructor)) {
+      var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call( untyped __cpp__('(unreal::UIntPtr) (self.mPtr + 1)') );
+      self.m_flags = Disposed;
+    }
   }
 
 #if !cppia
@@ -73,12 +84,17 @@ class InlineWrapper extends Wrapper {
   }
 
   override public function dispose():Void {
-    if (m_finalizer != null) {
-      m_finalizer.call(getPointer());
+    if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
+      var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call( untyped __cpp__('(unreal::UIntPtr) (this + 1)') );
+      cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
+      m_flags = (m_flags & ~NeedsDestructor) | Disposed;
+    } else if (m_flags.hasAny(Disposed)) {
+      throw 'Cannot dispose $this: It was already disposed';
     }
   }
 
-  @:extern public static function create(extraSize:Int):InlineWrapper { return null; }
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
 
   public function toString() {
     var name = m_info.ptr.name.toString();

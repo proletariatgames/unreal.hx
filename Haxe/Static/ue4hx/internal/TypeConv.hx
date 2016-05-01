@@ -1258,11 +1258,11 @@ class TypeConv {
       case CStruct(type, info, params):
         // SExternal, SHaxe, SCriptHaxe
         if (this.haxeType == null) {
-          this.haxeType = info.haxeType;
-        } else if (params != null && params.length > 0) {
-          this.haxeType = info.haxeType.withParams([ for (param in params) param.haxeType ]);
-        } else {
-          this.haxeType = info.haxeType;
+          if (params != null && params.length > 0) {
+            this.haxeType = info.haxeType.withParams([ for (param in params) param.haxeType ]);
+          } else {
+            this.haxeType = info.haxeType;
+          }
         }
         if (params != null && params.length > 0) {
           var ueParams = [ for (param in params) param.ueType ];
@@ -1513,7 +1513,7 @@ class TypeConv {
         '${conv.getClassPath()}.wrap($expr)';
 
       case CStruct(type, info, params):
-        '( cast @:privateAccess ${info.haxeType.getClassPath()}.wrap( $expr ) : $haxeType )';
+        '( @:privateAccess ${info.haxeType.getClassPath()}.fromPointer( $expr ) : $haxeType )';
 
       case CLambda(args,ret):
         '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
@@ -1662,7 +1662,7 @@ class TypeConv {
         var info = getTypeInfo(it, pos);
         if (typeIsUObject(type)) {
           if (ctx.modf != null && ctx.modf.has(Ptr)) {
-            throw new Error('Unreal Glue: PPtr of a UObject is not supported', pos);
+            Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
           if (ctx.isSubclassOf) {
             ret = CUObject(OSubclassOf, ctx.accFlags, info);
@@ -1677,7 +1677,7 @@ class TypeConv {
           }
         } else if (it.isInterface && it.meta.has(':uextern')) {
           if (ctx.modf != null && ctx.modf.has(Ptr)) {
-            throw new Error('Unreal Glue: PPtr of a UObject is not supported', pos);
+            Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
           ret = CUObject(OInterface, ctx.accFlags, info);
         } else if (it.meta.has(':uextern')) {
@@ -1692,7 +1692,7 @@ class TypeConv {
           name = null; // don't cache
           ret = CTypeParam(it.name);
         } else {
-          throw new Error('Unreal Glue: Type $iref is not supported', pos);
+          Context.warning('Unreal Glue: Type $iref is not supported', pos);
         }
         var ret = new TypeConv(ret, ctx.modf, ctx.original);
         if (name != null && ctx.modf == null) {
@@ -1702,7 +1702,7 @@ class TypeConv {
 
       case TEnum(eref, tl):
         if (ctx.modf != null) {
-          throw new Error('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+          Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
         }
         var name = eref.toString();
         var ret = cache[name];
@@ -1726,7 +1726,7 @@ class TypeConv {
             ret = CEnum(EHaxe, info);
           }
         } else {
-          throw new Error('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
+          Context.warning('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
         }
 
         var ret = new TypeConv(ret, ctx.modf, ctx.original);
@@ -1755,16 +1755,16 @@ class TypeConv {
           }
         } else if (a.meta.has(':enum')) {
           if (ctx.modf != null) {
-            throw new Error('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+            Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
           }
           ret = CEnum(EAbstract, info);
         } else if (a.meta.has(':coreType')) {
-          throw new Error('Unreal Glue: Basic type $name is not supported', pos);
+          Context.warning('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
           case 'unreal.MethodPointer':
             if (ctx.modf != null) {
-              throw new Error('Unreal Glue: Const, PPtr or PRef is not directly supported on MethodPointers', pos);
+              Context.warning('Unreal Glue: Const, PPtr or PRef is not directly supported on MethodPointers', pos);
             }
             name = null;
             ret = parseMethodPointer(tl, pos);

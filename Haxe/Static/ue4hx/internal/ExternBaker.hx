@@ -80,8 +80,9 @@ class ExternBaker {
             }
             var destTime = 0.0;
             var dest = '$target/${pack.join('/')}/$file';
-            if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal)
+            if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal) {
               continue; // already in latest version
+            }
             toProcess.push(module);
           }
         }
@@ -365,7 +366,10 @@ class ExternBaker {
     this.dependentTypes = new Map();
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
-    if (!c.isExtern || !c.meta.has(':uextern')) return;
+    if (!c.isExtern) return;
+    if (!c.meta.has(':uextern')) {
+      c.meta.add(':uextern', [], c.pos);
+    }
     this.type = type;
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
@@ -444,30 +448,49 @@ class ExternBaker {
       this.add('private ');
     if (c.isInterface) {
       this.add('interface ');
-    } else {
-      this.add('class ');
     }
-    this.add('${c.name}$params ');
-    var hasSuperClass = true;
-    if (c.superClass != null) {
-      var supRef = TInst(c.superClass.t, c.superClass.params).toString();
-      this.add('extends $supRef ');
-    } else if (c.isInterface) {
-      this.add('extends unreal.IInterface ');
-    } else if (!this.thisConv.data.match(CUObject(_))) {
-      this.add('extends unreal.Wrapper ');
+
+    var isAbstract = false;
+    if (this.thisConv.data.match(CUObject(_))) {
+      this.add('class ');
+      this.add('${c.name}$params ');
+      if (c.superClass != null) {
+        var supRef = TInst(c.superClass.t, c.superClass.params).toString();
+        this.add('extends $supRef ');
+      } else if (c.isInterface) {
+        this.add('extends unreal.IInterface ');
+      } else {
+        this.add('implements unreal.IInterface ');
+      }
     } else {
-      hasSuperClass = false;
-      this.add('implements unreal.IInterface ');
+      isAbstract = true;
+      this.add('abstract ${c.name}$params(');
+      if (c.superClass == null) {
+        this.add('unreal.VariantPtr) ');
+      } else {
+        var supRef = TInst(c.superClass.t, c.superClass.params).toString();
+        this.add('$supRef) ');
+      }
+      var sup = c.superClass;
+      while(sup != null) {
+        var supRef = TInst(sup.t, sup.params).toString();
+        this.add('to $supRef ');
+        sup = sup.t.get().superClass;
+      }
+      this.add('to unreal.VariantPtr ');
     }
 
     for (iface in c.interfaces) {
       var t = TInst(iface.t, iface.params).toString();
       // var ifaceRef = TypeRef.fromBaseType(iface.t.get(), iface.params, c.pos);
-      if (c.isInterface)
-        this.add('extends ');
-      else
-        this.add('implements ');
+      if (isAbstract) {
+        this.add('to ');
+      } else {
+        if (c.isInterface)
+          this.add('extends ');
+        else
+          this.add('implements ');
+      }
       this.add('$t ');
     }
     var methods = [];
@@ -508,7 +531,6 @@ class ExternBaker {
             this.add('static function __init__():Void');
             this.begin(' {');
               this.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
-              // this.add('unreal.helpers.GlueClassMap.classMap.set("${uname}", cast ${c.name}.new);');//this.wrapped);');
             this.end('}');
             this.newline();
 
@@ -527,27 +549,15 @@ class ExternBaker {
         }
       } else if (!c.isInterface) {  // non-uobject
         // add wrap for non-uobject types
-        this.add('@:unreflective public static function wrap$params(ptr:');
+        this.add('@:unreflective public static function fromPointer$params(ptr:');
         this.add(this.thisConv.haxeGlueType.toString());
-        this.add(', typeID:Int, ?parent:Dynamic');
         this.add('):' + this.thisConv.haxeType);
         this.begin(' {');
-          if (!this.thisConv.haxeGlueType.isReflective()) {
-            this.add('var ptr = cpp.Pointer.fromRaw(ptr);');
-            this.newline();
-          }
-
-          this.add('if (ptr == null) return null;');
-          this.newline();
-          this.add('var found:${this.thisConv.haxeType} = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast ptr.get_raw(), typeID));');
-          this.begin('if (found != null) {');
-          this.add('return found;');
-          this.end('}');
-          this.add('return new ${this.typeRef.getClassPath()}(ptr, typeID, parent);');
+          this.add('return cast ptr;');
         this.end('}');
       }
 
-      if (!hasSuperClass) {
+      if (c.superClass == null && !isAbstract) {
         this.newline();
         // add constructor
         this.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
@@ -556,36 +566,22 @@ class ExternBaker {
           this.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
         else
           this.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();\n\t');
-        // This is used only on `unreal.UObject`,`cpp.Pointer<cpp.Void>` will fail if we used `this.thisConv.haxeGlueType.getReflective()`
-        this.add('@:extern inline private function getWrapped():cpp.Pointer<Dynamic>');
-        this.begin(' {');
-          this.add('return this == null ? null : cpp.Pointer.fromRaw(cast this.wrapped);');
-        this.end('}');
-        this.add('@:extern inline private function getWrappedAddr():cpp.Pointer<Dynamic>');
-        this.begin(' {');
-          this.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
-        this.end('}');
 
         if (this.thisConv.data.match(CUObject(_))) {
           this.add('private var serialNumber:Int = -1;');
           this.newline();
           this.add('inline private function invalidate():Void');
           this.begin(' {');
-            this.add('this.wrapped = untyped __cpp__("0");');
+            this.add('this.wrapped = 0;');
           this.end('}');
 
           this.add('public function isValid():Bool');
           this.begin(' {');
-            this.add('return this.wrapped != untyped __cpp__("0");');
+            this.add('return this.wrapped != 0;');
           this.end('}');
         }
 
       } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.data.match(CUObject(_))) {
-        // add rewrap
-        this.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');
-        this.begin(' {');
-          this.add('return new ${this.thisConv.haxeType}(wrapped);');
-        this.end('}');
         if (!meta.hasMeta(':noCopy')) {
           var doc = "\n    Invokes the copy constructor of the referenced C++ class.\n    " +
             "This has some limitations - it won't copy the full inheritance chain of the class if it wasn't typed as the exact class\n    " +
@@ -864,8 +860,9 @@ class ExternBaker {
     while (type != null) {
       switch(type) {
       case TAbstract(aRef, tl):
-        if (aRef.toString() == 'unreal.POwnedPtr')
+        if (aRef.toString() == 'unreal.POwnedPtr') {
           return tl[0];
+        }
         var a = aRef.get();
         if (a.meta.has(':coreType'))
             break;
@@ -904,7 +901,10 @@ class ExternBaker {
 
   private function processEnum(e:EnumType) {
     this.pos = e.pos;
-    if (!e.isExtern || !e.meta.has(':uextern')) return;
+    if (!e.isExtern) return;
+    if (!e.meta.has(':uextern')) {
+      e.meta.add(':uextern', [], e.pos);
+    }
     this.typeRef = TypeRef.fromBaseType(e, e.pos);
     this.glueType = this.typeRef.getGlueHelperType();
 
