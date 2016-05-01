@@ -39,7 +39,6 @@ class TypeRef
   inline public function withParams(params:Array<TypeRef>):TypeRef {
     return new TypeRef(this.pack, this.name, this.moduleName, params);
   }
-
   inline public function withConst(setConst:Bool) {
     return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags | Const);
   }
@@ -287,14 +286,24 @@ class TypeRef
 
   public function isVoid() {
     return switch[ pack, name ] {
-      case [ [], 'Void' ]:
+      case [ [], 'Void' | 'void' ]:
         true;
       case _:
         false;
     }
   }
 
+  public function withoutAnyConst():TypeRef {
+    return new TypeRef(this.pack, this.name, this.moduleName, [ for (param in this.params) param.withoutAnyConst() ], this.flags.without(Const));
+  }
+
   public function toComplexType():ComplexType {
+    if (moduleName == 'Constraints' && params.length > 0 && name == 'Function' && pack[0] == 'haxe') {
+      var args = [ for (arg in params) arg.toComplexType() ],
+          ret = args.pop();
+      return TFunction(args, ret);
+    }
+
     return TPath({
       pack: this.pack,
       name: this.moduleName == null ? this.name : this.moduleName,
@@ -303,17 +312,17 @@ class TypeRef
     });
   }
 
-  public function getCppType(?buf:StringBuf):StringBuf {
+  public function getCppType(?buf:StringBuf, ?ignoreConst=false):StringBuf {
     if (buf == null)
       buf = new StringBuf();
 
     // TODO implement more complex const handling, since C++ const is a bear
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
-      params[0].getCppType(buf);
+      params[0].getCppType(buf, ignoreConst);
       buf.add(' *');
     case [ ['cpp'], 'Reference' ]:
-      params[0].getCppType(buf);
+      params[0].getCppType(buf, ignoreConst);
       buf.add('&');
     case [ ['cpp'], 'ConstCharStar' ]:
       buf.add('const char *');
@@ -332,13 +341,13 @@ class TypeRef
         var first = true;
         for (param in params) {
           if (first) first = false; else buf.add(', ');
-          param.getCppType(buf);
+          param.getCppType(buf, ignoreConst);
         }
         buf.add('>');
       }
     }
 
-    if (flags.hasAny(Const)) {
+    if (!ignoreConst && flags.hasAny(Const)) {
       buf.add(' const');
     }
     return buf;
@@ -418,6 +427,10 @@ class TypeRef
 
   public function toString()
   {
+    if (moduleName == 'Constraints' && params.length > 0 && name == 'Function' && pack[0] == 'haxe') {
+      return params.join('->');
+    }
+
     var t = getClassPath();
     if (params.length > 0)
     {
@@ -446,5 +459,9 @@ class TypeRef
 
   inline public function hasAny(flag:TypeFlags):Bool {
     return this & flag.t() != 0;
+  }
+
+  inline public function without(flags:TypeFlags):TypeFlags {
+    return this & ~(flags.t());
   }
 }

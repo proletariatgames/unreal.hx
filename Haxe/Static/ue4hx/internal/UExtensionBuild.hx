@@ -70,7 +70,7 @@ class UExtensionBuild {
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
-      var ctx = ["hasParent" => "false"];
+      var ctx = new ConvCtx(); //["hasParent" => "false"];
       var clt = cl.get();
       this.pos = clt.pos;
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
@@ -172,7 +172,7 @@ class UExtensionBuild {
       var isScript = clt.meta.has(':uscript');
       var scriptBase = null;
       if (isScript) {
-        scriptBase = TypeConv.getScriptableUObject();
+        scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
       }
       for (field in toExpose) {
         var uname = getUName(field.cf);
@@ -194,7 +194,7 @@ class UExtensionBuild {
 
         if (!field.ret.haxeType.isVoid()) {
           if (isScript) {
-            if (field.ret.isUObject == true && field.ret.baseType != null && field.ret.baseType.meta.has(':uscript')) {
+            if (field.ret.data.match(CUObject(OScriptHaxe,_,_))) {
               callExpr = '' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
             } else {
               callExpr = '' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);
@@ -310,25 +310,7 @@ class UExtensionBuild {
         var i = -1;
         while (++i < allTypes.length) {
           var t = allTypes[i];
-          if (!t.forwardDeclType.isNever()) {
-            for (decl in t.forwardDecls) {
-              headerForwards[decl] = decl;
-            }
-            switch(t.forwardDeclType) {
-              case Templated(incs):
-                headerIncludes.append(incs);
-                if (t.args != null) {
-                  for (arg in t.args) {
-                    allTypes.push(arg);
-                  }
-                }
-              case _:
-            }
-            t.getAllCppIncludes( cppIncludes );
-          } else {
-            // we only care about glue Header includes here since we're using the actual UE type
-            t.getAllCppIncludes( headerIncludes );
-          }
+          t.collectUeIncludes(headerIncludes, headerForwards, cppIncludes);
         }
 
         if (!implementCpp) cppDef = new HelperBuf();
@@ -429,14 +411,12 @@ class UExtensionBuild {
           }
 
           var cppType = tconv.ueType.getCppType(null) + '';
-          if (tconv.isEnum) {
-            if (tconv.baseType == null || (!tconv.baseType.meta.has(':class') && tconv.baseType.meta.has(':uextern'))) {
-              cppType = 'TEnumAsByte< $cppType >';
-            }
+          if (tconv.data.match(CEnum(EExternalClass,_))) {
+            cppType = 'TEnumAsByte< $cppType >';
             glueCppIncs.add('Engine.h');
           }
           if (isStatic) {
-            if (!tconv.isUObject) {
+            if (!tconv.data.match(CUObject(_))) {
               throw new Error('Unreal Extension: @:uexpose on static properties must be of a uobject-derived type', uprop.pos);
             }
 
@@ -449,27 +429,7 @@ class UExtensionBuild {
           var i = -1;
           while (++i < types.length) {
             var tconv = types[i];
-            switch (tconv.forwardDeclType) {
-            case null | Never | AsFunction:
-              tconv.getAllCppIncludes( glueHeaderIncs );
-            case Templated(incs):
-              glueHeaderIncs.append(incs);
-              for (fwd in tconv.forwardDecls) {
-                headerForwards[fwd] = fwd;
-              }
-              glueCppIncs.append( tconv.glueCppIncludes );
-              if (tconv.args != null) {
-                for (arg in tconv.args) {
-                  types.push(arg);
-                }
-              }
-              tconv.getAllCppIncludes(glueCppIncs);
-            case Always:
-              for (fwd in tconv.forwardDecls) {
-                headerForwards[fwd] = fwd;
-              }
-              tconv.getAllCppIncludes(glueCppIncs);
-            }
+            tconv.collectUeIncludes( glueHeaderIncs, headerForwards, glueHeaderIncs );
           }
         }
 
@@ -661,7 +621,7 @@ class UExtensionBuild {
 
       hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
       // we're using the ueType so we'll include the glueCppIncludes
-      tconv.getAllCppIncludes( includes );
+      tconv.collectUeIncludes( includes );
     }
     for (iface in clt.interfaces) {
       var impl = iface.t.get();
@@ -671,7 +631,7 @@ class UExtensionBuild {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
         extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
         // we're using the ueType so we'll include the glueCppIncludes
-        tconv.getAllCppIncludes( includes );
+        tconv.collectUeIncludes( includes );
       }
     }
 
@@ -724,8 +684,8 @@ class UExtensionBuild {
       }
 
       var overrideType = Context.getType(fld.params[1].toString());
-      var overrideTypeConv = TypeConv.get(overrideType, clt.pos, 'unreal.PStruct');
-      overrideTypeConv.getAllCppIncludes(includes);
+      var overrideTypeConv = TypeConv.get(overrideType, clt.pos).getLeaf();
+      overrideTypeConv.collectUeIncludes(includes);
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>("$overrideName")';
     }
 

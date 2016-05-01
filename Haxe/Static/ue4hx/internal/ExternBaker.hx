@@ -246,7 +246,7 @@ class ExternBaker {
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
-    this.thisConv = TypeConv.get(this.type, cl.pos, 'unreal.PExternal');
+    this.thisConv = new TypeConv( CPtr(TypeConv.get(this.type, cl.pos).getLeaf()) );
     var generics = [];
     var isStatic = true;
     for (fields in [cl.statics.get(), cl.fields.get()]) {
@@ -369,7 +369,7 @@ class ExternBaker {
     this.type = type;
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
-    this.thisConv = TypeConv.get(type,c.pos,'unreal.PExternal');
+    this.thisConv = TypeConv.get(type,c.pos); // FIXME? ,'unreal.PExternal');
 
     this.addDoc(c.doc);
     var fields = c.fields.get(),
