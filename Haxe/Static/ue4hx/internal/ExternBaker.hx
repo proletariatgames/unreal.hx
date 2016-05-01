@@ -246,7 +246,7 @@ class ExternBaker {
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
-    this.thisConv = new TypeConv( CPtr(TypeConv.get(this.type, cl.pos).getLeaf()) );
+    this.thisConv = TypeConv.get(this.type, cl.pos);
     var generics = [];
     var isStatic = true;
     for (fields in [cl.statics.get(), cl.fields.get()]) {
@@ -454,7 +454,7 @@ class ExternBaker {
       this.add('extends $supRef ');
     } else if (c.isInterface) {
       this.add('extends unreal.IInterface ');
-    } else if (!this.thisConv.isUObject) {
+    } else if (!this.thisConv.data.match(CUObject(_))) {
       this.add('extends unreal.Wrapper ');
     } else {
       hasSuperClass = false;
@@ -479,7 +479,7 @@ class ExternBaker {
         processField(field,false, null, methods);
       }
 
-      if (this.thisConv.isUObject) {
+      if (this.thisConv.data.match(CUObject(_))) {
         var uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
         case null:
           c.name;
@@ -566,7 +566,7 @@ class ExternBaker {
           this.add('return this == null ? null : cpp.Pointer.addressOf( this.wrapped ).reinterpret();');
         this.end('}');
 
-        if (this.thisConv.isUObject) {
+        if (this.thisConv.data.match(CUObject(_))) {
           this.add('private var serialNumber:Int = -1;');
           this.newline();
           this.add('inline private function invalidate():Void');
@@ -580,7 +580,7 @@ class ExternBaker {
           this.end('}');
         }
 
-      } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.isUObject) {
+      } else if (!c.isInterface && !meta.hasMeta(':global') && !this.thisConv.data.match(CUObject(_))) {
         // add rewrap
         this.add('override public function rewrap(wrapped:cpp.Pointer<unreal.helpers.UEPointer>):${this.thisConv.haxeType}');
         this.begin(' {');
@@ -599,7 +599,7 @@ class ExternBaker {
             doc: doc,
             meta:null,
             args:[],
-            ret:TypeConv.get(type, c.pos, 'unreal.PHaxeCreated'),
+            ret:this.thisConv.withModifiers([Ptr]),
             flags: HaxeOverride | HaxePrivate,
             pos: c.pos,
           });
@@ -609,7 +609,7 @@ class ExternBaker {
             doc: doc,
             meta:[{ name:':uname', params:[macro $v{'.copyStruct'}], pos:c.pos }],
             args:[],
-            ret:TypeConv.get(type, c.pos),
+            ret:this.thisConv,
             flags: HaxeOverride | HaxePrivate,
             pos: c.pos,
           });
@@ -707,12 +707,11 @@ class ExternBaker {
       this.add(field.name);
       this.add('(');
       var flags = Property;
-      var realTConv = switch (tconv.ownershipModifier) {
-        case 'unreal.PStruct':
-          flags = StructProperty;
-          TypeConv.get( field.type, field.pos, 'unreal.PExternal' );
-        case _:
-          tconv;
+      var realTConv = if (tconv.modifiers == null || (!tconv.modifiers.has(Ref) && !tconv.modifiers.has(Ptr))) {
+        flags = StructProperty;
+        tconv.withModifiers([Ptr]);
+      } else {
+        tconv;
       }
       if (!field.isPublic)
         flags |= CppPrivate;

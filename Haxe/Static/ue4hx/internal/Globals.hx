@@ -117,21 +117,6 @@ class Globals {
     Linked list of uobject extensions which need to be exposed
    **/
   public var uextensions:Lst<String>;
-  /**
-    This determines which type parameter glues need to be built. It gets added whenever
-    a TypeConv is created with a type that has type parameters, and is consumed asynchronously
-   **/
-  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position, feature:String }>;
-  /**
-    In order to avoid infinite cycles of type parameter glue building, this keeps a list of all
-    type parameters that were already built
-   **/
-  public var builtParams:Map<String, Bool> = new Map();
-
-  /**
-    Linked list of types that have type parameters
-   **/
-  public var typesThatNeedTParams:Lst<String>;
 
   /**
     Tells which is the current feature being built. This is needed to add the needed dependencies
@@ -154,14 +139,12 @@ class Globals {
    **/
   public var delays:Lst<Void->Void>;
 
-  public var toDefineTParams:Map<String, TypeDefinition> = new Map();
   public var gluesTouched:Map<String,Bool> = new Map();
   public var canCreateTypes:Bool;
   public var hasOlderCache:Null<Bool>;
   public var inScriptPass:Bool = false;
   // only used when cppia is defined
   public var scriptModules:Map<String, Bool> = new Map();
-  private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);
@@ -275,27 +258,6 @@ class Globals {
       ret.add('\n');
     };
     return ret.toString();
-  }
-
-  public function addDep(tparamClass:TypeRef, feat:String) {
-    var name = tparamClass.getClassPath(true);
-    var deps = this.tparamsDeps[name];
-    if (deps == null) {
-      this.tparamsDeps[name] = deps = new Map();
-    }
-    deps[feat] = true;
-  }
-
-  public function getDeps(className:String) {
-    var deps = tparamsDeps[className];
-    if (deps == null) {
-      return null;
-    }
-    if (deps.exists('keep')) {
-      return ['keep'];
-    }
-
-    return [ for (k in deps.keys()) k ];
   }
 
   public function checkBuildVersionLevel() {

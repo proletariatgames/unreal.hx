@@ -46,12 +46,12 @@ class GlueMethod {
   ///////////////////////
   var isGlueStatic:Bool;
   var templated:Bool;
-  var ctx:Map<String, String>;
+  var ctx:ConvCtx;
 
   public function new(meth:MethodDef, type:Type, ?glueType:TypeRef, ?isTemplatedThis:Bool, ?firstExternSuper:TypeConv) {
     this.meth = meth;
     this.type = type;
-    this.thisConv = TypeConv.get(type,meth.pos,'unreal.PExternal');
+    this.thisConv = TypeConv.get(type,meth.pos).withModifiers([Ptr]);
     this.firstExternSuper = firstExternSuper;
     var thisRef = TypeRef.fromType(type, meth.pos);
     if (glueType == null)
@@ -76,7 +76,9 @@ class GlueMethod {
 
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
-    var ctx = this.ctx = isProp && !isStatic && !this.thisConv.isUObject ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
+    // var ctx = this.ctx = isProp && !isStatic && !this.thisConv.data.match(CUObject(_)) ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
+    var ctx = new ConvCtx();
+    this.ctx = ctx;
 
     var haxeArgs = this.haxeArgs = meth.args;
     var glueArgs = this.glueArgs = haxeArgs;
@@ -195,14 +197,6 @@ class GlueMethod {
       meth.meta.push({ name:name, pos:meth.pos });
     }
 
-    for (t in allTypes) {
-      if ( (!t.isMethodPointer && t.args != null && t.args.length > 0 && !t.hasTypeParams()) || t.isFunction ) {
-        this.needsTypeParamGlue = true;
-        addMeta(':needsTypeParamGlue');
-        break;
-      }
-    }
-
     if (!this.templated) {
       if (!isGlueStatic && isTemplatedThis) {
         // in this case, we'll have glueHeader and ueHeaderCode - no cppCode is added
@@ -221,8 +215,8 @@ class GlueMethod {
     }
 
     for (type in allTypes) {
-      type.getAllCppIncludes(cppIncludes);
-      type.getAllHeaderIncludes(headerIncludes);
+      type.collectUeIncludes( cppIncludes );
+      type.collectGlueIncludes( headerIncludes );
     }
 
     if (this.templated) {
@@ -268,20 +262,20 @@ class GlueMethod {
   }
 
   private static function isUObjectPointer(type:TypeConv) {
-    if (!type.isUObject) {
+    if (!type.data.match(CUObject(_))) {
       return false;
     }
     return type.ueType.isPointer();
   }
 
   private function shouldCheckPointer() {
-    return !this.meth.flags.hasAny(Static) && !this.thisConv.isUObject;
+    return !this.meth.flags.hasAny(Static) && !this.thisConv.data.match(CUObject(_));
   }
 
   private function genCppCall(body:String, prefix:String, outVars:HelperBuf) {
     var cppArgTypes = [];
     for (arg in this.cppArgs) {
-      if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
+      if (arg.t.data.match(CTypeParam(_)) && arg.t.hasModifier(Ref)) {
         var prefixedArgName = prefix + arg.name;
         outVars << 'auto ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, this.ctx)};\n\t\t\t';
         cppArgTypes.push('*(${prefixedArgName}_t.getPointer())');
@@ -329,7 +323,7 @@ class GlueMethod {
       var useTypeName = this.meth.meta != null && this.meth.meta.hasMeta(':typeName');
       params << '<';
       params.mapJoin(this.meth.specialization.types, function (tconv) return {
-        if (useTypeName || (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct'))
+        if (useTypeName) // || (tconv.data.match(CUObject(_)))) // FIXME - we don't have PStruct anymore && tconv.ownershipModifier == 'unreal.PStruct'))
           tconv.ueType.getCppClassName();
         else
           tconv.ueType.getCppType().toString();
@@ -372,7 +366,7 @@ class GlueMethod {
           this.op = '[';
           '(*' + self.t.glueToUe(self.name, this.ctx) + ')';
         case '.equals':
-          var thisType = TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct');
+          var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
           'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
@@ -389,11 +383,11 @@ class GlueMethod {
           '(!(*(' + self.t.glueToUe(self.name, this.ctx) + ')))';
         case '.copy':
           this.retHaxeType = this.thisConv.haxeType;
-          this.cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct') }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           'new ' + this.thisConv.ueType.getCppClass();
         case '.copyStruct':
           this.retHaxeType = this.thisConv.haxeType;
-          this.cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct') }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           this.thisConv.ueType.getCppClass();
         case _ if(meth.flags.hasAny(CppPrivate)):
           // For protected external functions we need to use a

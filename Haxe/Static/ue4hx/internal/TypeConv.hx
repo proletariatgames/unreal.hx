@@ -1167,19 +1167,55 @@ using StringTools;
 
 class TypeConv {
   public var data(default, null):TypeConvData;
+  public var modifiers(default, null):Null<Array<Modifier>>;
 
   public var haxeType(default, null):TypeRef;
   public var ueType(default, null):TypeRef;
   public var glueType(default, null):TypeRef;
   public var haxeGlueType(default, null):TypeRef;
 
-  public function new(data, ?original) {
+  private function new(data, ?modifiers, ?original) {
     this.data = data;
     this.haxeType = original;
+    this.modifiers = modifiers;
     consolidate();
   }
 
+  inline public function withModifiers(modifiers) {
+    return new TypeConv(this.data, modifiers);
+  }
+
+  inline public function hasModifier(modf:Modifier) {
+    return this.modifiers != null && this.modifiers.has(modf);
+  }
+
+  public function hasTypeParams():Bool {
+    switch(this.data) {
+      case CStruct(_,_,params):
+        if (params != null) {
+          for (param in params) {
+            if (param.hasTypeParams()) {
+              return true;
+            }
+          }
+        }
+      case CLambda(args,ret) | CMethodPointer(_,args,ret):
+        if (ret.hasTypeParams()) return true;
+        for (param in args) {
+          if (param.hasTypeParams()) {
+            return true;
+          }
+        }
+      case CTypeParam(_):
+        return true;
+
+      case CBasic(_) | CSpecial(_) | CUObject(_) | CEnum(_):
+    }
+    return false;
+  }
+
   private function consolidate() {
+    var originalSet = this.haxeType != null;
     switch(this.data) {
       case CBasic(info) | CSpecial(info):
         if (this.haxeType == null) {
@@ -1251,28 +1287,6 @@ class TypeConv {
         // as non-Haxe GC
         this.haxeGlueType = this.glueType = variantPtr;
 
-      case CConst(t):
-        if (this.haxeType == null) {
-          this.haxeType = new TypeRef(['unreal'],'Const',[t.haxeType]);
-        }
-        this.ueType = t.ueType.withConst(true);
-        this.haxeGlueType = t.haxeGlueType;
-        this.glueType = t.glueType;
-      case CRef(t):
-        if (this.haxeType == null) {
-          this.haxeType = new TypeRef(['unreal'],'PRef',[t.haxeType]);
-        }
-        this.ueType = new TypeRef(['cpp'],'Reference', [t.ueType.withoutPointer()]);
-        this.haxeGlueType = t.haxeGlueType;
-        this.glueType = t.glueType;
-      case CPtr(t):
-        if (this.haxeType == null) {
-          this.haxeType = new TypeRef(['unreal'],'PPtr',[t.haxeType]);
-        }
-        this.ueType = new TypeRef(['cpp'], 'RawPointer', [t.ueType]);
-        this.haxeGlueType = t.haxeGlueType;
-        this.glueType = t.glueType;
-
       case CLambda(fnArgs, fnRet):
         var binderTypeParams = fnArgs.copy();
         if (!fnRet.haxeType.isVoid()) {
@@ -1298,6 +1312,34 @@ class TypeConv {
         this.haxeType = this.ueType = new TypeRef(name);
         this.glueType = this.haxeGlueType = uintPtr;
     }
+
+    var modf = this.modifiers;
+    if (modf != null) {
+      if (modf.has(Ref) && this.data.match(CUObject(_,_,_))) {
+        this.ueType = this.ueType.withoutPointer();
+      }
+
+      var i = modf.length;
+      while (i --> 0) {
+        switch(modf[i]) {
+        case Const:
+          if (!originalSet) {
+            this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
+          }
+          this.ueType = this.ueType.withConst(true);
+        case Ref:
+          if (!originalSet) {
+            this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
+          }
+          this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
+        case Ptr:
+          if (!originalSet) {
+            this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
+          }
+          this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
+        }
+      }
+    }
   }
 
   public function collectGlueIncludes(set:IncludeSet) {
@@ -1312,20 +1354,17 @@ class TypeConv {
     case CStruct(type,info,params):
       set.add('IntPtr.h');
 
-    case CConst(t) | CRef(t) | CPtr(t):
-      t.collectGlueIncludes(set);
-
     case CLambda(_, _):
       set.add('IntPtr.h');
     case CMethodPointer(_,_,_):
       set.add('IntPtr.h');
-    case CTypeParamGlue(_):
+    case CTypeParam(_):
       // no glue includes needed!
     }
   }
 
   public function collectUeIncludes(set:IncludeSet, ?forwardDecls:Map<String, String>, ?cppSet:IncludeSet) {
-    recurseUeIncludes(set, forwardDecls, cppSet, false);
+    recurseUeIncludes(set, forwardDecls, cppSet, this.hasModifier(Ptr) || this.hasModifier(Ref));
   }
 
   private function recurseUeIncludes(set:IncludeSet, forwardDecls:Map<String, String>, cppSet:IncludeSet, inPointer:Bool) {
@@ -1377,11 +1416,6 @@ class TypeConv {
         }
       }
 
-    case CConst(t):
-      t.recurseUeIncludes(set, forwardDecls, cppSet, inPointer);
-    case CRef(t) | CPtr(t):
-      t.recurseUeIncludes(set, forwardDecls, cppSet, true);
-
     case CLambda(args, ret):
       if (forwardDecls == null) {
         set.add('LambdaBinding.h');
@@ -1403,17 +1437,7 @@ class TypeConv {
     }
   }
 
-  public function getLeaf():TypeConv {
-    switch(this.data) {
-    case CConst(t) | CRef(t) | CPtr(t):
-      return t.getLeaf();
-    case _:
-      return this;
-    }
-  }
-
   inline public function haxeToGlue(expr:String, ctx:ConvCtx):String {
-    ctx.modf = None;
     return haxeToGlueRecurse(expr, ctx);
   }
 
@@ -1449,21 +1473,6 @@ class TypeConv {
         // '($expr : unreal.VariantPtr)';
         expr;
 
-      case CConst(t):
-        t.haxeToGlueRecurse(expr, ctx);
-      case CRef(t):
-        if (ctx.modf != None) {
-          Context.warning('Unreal Glue: Type cannot have more than one modifier (PRef and ${ctx.modf.toString()})', ctx.pos);
-        }
-        ctx.modf = Ref;
-        t.haxeToGlueRecurse(expr, ctx);
-      case CPtr(t):
-        if (ctx.modf != None) {
-          Context.warning('Unreal Glue: Type cannot have more than one modifier (PPtr and ${ctx.modf.toString()})', ctx.pos);
-        }
-        ctx.modf = Ptr;
-        t.haxeToGlueRecurse(expr, ctx);
-
       case CLambda(args,ret):
         'unreal.helpers.HaxeHelpers.dynamicToPointer( $expr )';
       case CMethodPointer(cname, args, ret):
@@ -1474,7 +1483,6 @@ class TypeConv {
   }
 
   public function glueToHaxe(expr:String, ctx:ConvCtx):String {
-    ctx.modf = None;
     return glueToHaxeRecurse(expr, ctx);
   }
 
@@ -1507,21 +1515,6 @@ class TypeConv {
       case CStruct(type, info, params):
         '( cast @:privateAccess ${info.haxeType.getClassPath()}.wrap( $expr ) : $haxeType )';
 
-      case CConst(t):
-        t.haxeToGlueRecurse(expr, ctx);
-      case CRef(t):
-        if (ctx.modf != None) {
-          Context.warning('Unreal Glue: Type cannot have more than one modifier (PRef and ${ctx.modf.toString()})', ctx.pos);
-        }
-        ctx.modf = Ref;
-        t.haxeToGlueRecurse(expr, ctx);
-      case CPtr(t):
-        if (ctx.modf != None) {
-          Context.warning('Unreal Glue: Type cannot have more than one modifier (PPtr and ${ctx.modf.toString()})', ctx.pos);
-        }
-        ctx.modf = Ptr;
-        t.haxeToGlueRecurse(expr, ctx);
-
       case CLambda(args,ret):
         '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
       case CMethodPointer(cname, args, ret):
@@ -1532,7 +1525,6 @@ class TypeConv {
   }
 
   public function glueToUe(expr:String, ctx:ConvCtx):String {
-    ctx.modf = None;
     return glueToUeRecurse(expr, ctx);
   }
 
@@ -1564,21 +1556,10 @@ class TypeConv {
 
       case CStruct(type, info, params):
         var ret = '::uhx::WrapHelper<${info.ueType.getCppType()}>::getPointer($expr)';
-        switch(ctx.modf) {
-          case None | Ref:
+        if (this.modifiers == null || this.modifiers.has(Ref)) {
             ret = '*$ret';
-          case Ptr:
         }
         ret;
-
-      case CConst(t):
-        t.glueToHaxeRecurse(expr, ctx);
-      case CRef(t):
-        ctx.modf = Ref;
-        t.glueToHaxeRecurse(expr, ctx);
-      case CPtr(t):
-        ctx.modf = Ptr;
-        t.glueToHaxeRecurse(expr, ctx);
 
       case CLambda(args,ret):
         ueType.getCppType() + '($expr)';
@@ -1595,11 +1576,14 @@ class TypeConv {
   }
 
   public function ueToGlue(expr:String, ctx:ConvCtx):String {
-    ctx.modf = None;
     return ueToGlueRecurse(expr, ctx);
   }
 
   private function ueToGlueRecurse(expr:String, ctx:ConvCtx):String {
+    if (this.hasModifier(Const)) {
+      expr = 'const_cast<${ueType.getCppType(true)}>( $expr )';
+    }
+
     return switch(this.data) {
       case CBasic(info) | CSpecial(info):
         if (info.ueToGlueExpr != null) {
@@ -1627,23 +1611,13 @@ class TypeConv {
         '( (int) (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, info, params):
-        switch(ctx.modf) {
-          case Ref:
-            'unreal::VariantPtr( (void *) &($expr) )';
-          case None:
-            '::uhx::WrapHelper<${info.ueType.getCppType(true)}>::create($expr)';
-          case Ptr:
-            'unreal::VariantPtr( (void *) ($expr) )';
+        if (hasModifier(Ref)) {
+          'unreal::VariantPtr( (void *) &($expr) )';
+        } else if (hasModifier(Ptr)) {
+          'unreal::VariantPtr( (void *) ($expr) )';
+        } else {
+          '::uhx::WrapHelper<${info.ueType.getCppType(true)}>::create($expr)';
         }
-
-      case CConst(t):
-        t.glueToHaxeRecurse('const_cast<${ueType.getCppType(true)}>( $expr )', ctx);
-      case CRef(t):
-        ctx.modf = Ref;
-        t.glueToHaxeRecurse(expr, ctx);
-      case CPtr(t):
-        ctx.modf = Ptr;
-        t.glueToHaxeRecurse(expr, ctx);
 
       case CLambda(args,ret):
         expr;
@@ -1676,13 +1650,20 @@ class TypeConv {
         if (name != null) {
           var ret = cache[name];
           if (ret != null) {
-            return ret;
+            if (ctx.modf == null) {
+              return ret;
+            } else {
+              return new TypeConv(ret.data, ctx.modf, ctx.original);
+            }
           }
         }
         var it = iref.get();
         var ret = null;
         var info = getTypeInfo(it, pos);
         if (typeIsUObject(type)) {
+          if (ctx.modf != null && ctx.modf.has(Ptr)) {
+            throw new Error('Unreal Glue: PPtr of a UObject is not supported', pos);
+          }
           if (ctx.isSubclassOf) {
             ret = CUObject(OSubclassOf, ctx.accFlags, info);
           } else if (!it.meta.has(':uextern')) {
@@ -1695,6 +1676,9 @@ class TypeConv {
             ret = CUObject(OExternal, ctx.accFlags, info);
           }
         } else if (it.isInterface && it.meta.has(':uextern')) {
+          if (ctx.modf != null && ctx.modf.has(Ptr)) {
+            throw new Error('Unreal Glue: PPtr of a UObject is not supported', pos);
+          }
           ret = CUObject(OInterface, ctx.accFlags, info);
         } else if (it.meta.has(':uextern')) {
           ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
@@ -1710,17 +1694,24 @@ class TypeConv {
         } else {
           throw new Error('Unreal Glue: Type $iref is not supported', pos);
         }
-        var ret = new TypeConv(ret, ctx.original);
-        if (name != null) {
+        var ret = new TypeConv(ret, ctx.modf, ctx.original);
+        if (name != null && ctx.modf == null) {
           cache[name] = ret;
         }
         return ret;
 
       case TEnum(eref, tl):
+        if (ctx.modf != null) {
+          throw new Error('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+        }
         var name = eref.toString();
         var ret = cache[name];
         if (ret != null) {
-          return ret;
+          if (ctx.modf == null) {
+            return ret;
+          } else {
+            return new TypeConv(ret.data, ctx.modf, ctx.original);
+          }
         }
 
         var e = eref.get(),
@@ -1738,7 +1729,7 @@ class TypeConv {
           throw new Error('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
         }
 
-        var ret = new TypeConv(ret, ctx.original);
+        var ret = new TypeConv(ret, ctx.modf, ctx.original);
         if (name != null) {
           cache[name] = ret;
         }
@@ -1763,18 +1754,37 @@ class TypeConv {
             ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
           }
         } else if (a.meta.has(':enum')) {
+          if (ctx.modf != null) {
+            throw new Error('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+          }
           ret = CEnum(EAbstract, info);
         } else if (a.meta.has(':coreType')) {
           throw new Error('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
           case 'unreal.PRef':
-            name = null; // don't cache those types
-            ret = CRef(getInfo(tl[0], pos, ctx));
+            if (ctx.modf == null) ctx.modf = [];
+            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
+              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+            }
+            // Const<PRef<>> should actually be PRef<Const<>>
+            if (ctx.modf[ctx.modf.length-1] == Const) {
+              ctx.modf.insert(ctx.modf.length-1, Ref);
+            } else {
+              ctx.modf.push(Ref);
+            }
+            type = tl[0];
           case 'unreal.PPtr':
-            name = null;
-            ret = CPtr(getInfo(tl[0], pos, ctx));
+            if (ctx.modf == null) ctx.modf = [];
+            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
+              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+            }
+            ctx.modf.push(Ptr);
+            type = tl[0];
           case 'unreal.MethodPointer':
+            if (ctx.modf != null) {
+              throw new Error('Unreal Glue: Const, PPtr or PRef is not directly supported on MethodPointers', pos);
+            }
             name = null;
             ret = parseMethodPointer(tl, pos);
           case _:
@@ -1786,8 +1796,8 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret, ctx.original);
-          if (name != null) {
+          var ret = new TypeConv(ret, ctx.modf, ctx.original);
+          if (name != null && ctx.modf == null) {
             cache[name] = ret;
           }
           return ret;
@@ -1805,8 +1815,12 @@ class TypeConv {
         if (t.meta.has(':unrealType')) {
           switch(name) {
           case 'unreal.Const':
-            name = null;
-            ret = CConst(getInfo(tl[0], pos, ctx));
+            if (ctx.modf == null) ctx.modf = [];
+            if (ctx.modf[ctx.modf.length-1] == Const) {
+              Context.warning('Unreal Glue: Invalid Const<Const<>> type', pos);
+            } else {
+              ctx.modf.push(Const);
+            }
           case 'unreal.TWeakObjectPtr':
             if (ctx.accFlags.hasAny(OAutoWeak) || ctx.isSubclassOf) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
@@ -1828,10 +1842,7 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret, ctx.original);
-          if (name != null) {
-            cache[name] = ret;
-          }
+          var ret = new TypeConv(ret, ctx.modf, ctx.original);
           return ret;
         }
         type = Context.follow(type, true);
@@ -1842,18 +1853,13 @@ class TypeConv {
       case TFun(args, ret):
         var tcArgs = [ for(arg in args) get(arg.t, pos) ],
             tcRet = get(ret, pos);
-        var check = tcRet;
-        while (check != null) {
-          switch(tcRet.data) {
-          case CConst(c):
-            check = c;
-          case CRef({ data:CBasic(b) }) if (!b.haxeType.isVoid()):
-            throw new Error('Unreal Glue: Function lambda types that return a reference to a basic type are not supported', pos);
-          case _:
-            break;
-          }
+        if (ctx.modf != null) {
+          throw new Error('Unreal Glue: Const, PPtr or PRef is not directly supported on lambda functions', pos);
         }
-        return new TypeConv(CLambda(tcArgs, tcRet), ctx.original);
+        if (tcRet.hasModifier(Ref) && tcRet.data.match(CBasic(_)) && !tcRet.haxeType.isVoid()) {
+          throw new Error('Unreal Glue: Function lambda types that return a reference to a basic type are not supported', pos);
+        }
+        return new TypeConv(CLambda(tcArgs, tcRet), ctx.modf, ctx.original);
       case t:
         throw new Error('Unreal Type: Invalid type $t', pos);
       }
@@ -2118,18 +2124,6 @@ enum TypeConvData {
   CEnum(type:EnumType, info:TypeInfo);
   CStruct(type:StructType, info:TypeInfo, ?params:Array<TypeConv>);
 
-  /**
-    C++ const modifier
-   **/
-  CConst(t:TypeConv);
-  /**
-    Type was defined as a C++ reference
-   **/
-  CRef(conv:TypeConv);
-  /**
-    Type was defined as a C++ pointer
-   **/
-  CPtr(conv:TypeConv);
   // TODO - bytearray
   // CPointer(of:TypeConv, ?size:Int);
 
@@ -2194,5 +2188,25 @@ enum TypeConvData {
 private typedef InfoCtx = {
   ?original:TypeRef,
   accFlags:UObjectFlags,
-  ?isSubclassOf:Bool
+  ?isSubclassOf:Bool,
+  ?modf:Array<Modifier>
+}
+
+@:enum abstract Modifier(Int) from Int {
+  var Ptr = 1;
+  var Ref = 2;
+  var Const = 3;
+
+  public function toString() {
+    return switch(this) {
+    case Ptr:
+      'PPtr';
+    case Ref:
+      'PRef';
+    case Const:
+      'Const';
+    case _:
+      '?($this)';
+    }
+  }
 }

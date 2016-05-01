@@ -64,8 +64,6 @@ class CreateGlue {
     while (
       cur.uextensions != null ||
       cur.gluesToGenerate != null ||
-      cur.typeParamsToBuild != null ||
-      cur.typesThatNeedTParams != null ||
       cur.delays != null) {
 
       var uextensions = cur.uextensions;
@@ -97,23 +95,6 @@ class CreateGlue {
         }
       }
 
-      var tparams = cur.typesThatNeedTParams;
-      cur.typesThatNeedTParams = null;
-      while (tparams != null) {
-        var param = tparams.value;
-        tparams = tparams.next;
-        var type = Context.getType(param);
-        TypeParamBuild.checkBuiltFields( type );
-      }
-
-      var params = cur.typeParamsToBuild;
-      cur.typeParamsToBuild = null;
-      while (params != null) {
-        var param = params.value;
-        params = params.next;
-        TypeParamBuild.ensureTypesBuilt( param.base, param.args, param.pos, param.feature );
-      }
-
       var delays = cur.delays;
       cur.delays = null;
       while (delays != null) {
@@ -123,24 +104,6 @@ class CreateGlue {
     }
 
     var isDceFull = Context.definedValue('dce') == 'full';
-    for (key in Globals.cur.toDefineTParams.keys()) {
-      var def = Globals.cur.toDefineTParams[key];
-      var feats = Globals.cur.getDeps( key );
-      if (feats != null && feats.length > 0) {
-        if (feats[0] == 'keep') {
-          def.meta.push({ name:':keep', params:[], pos:def.pos });
-        } else {
-          var params = [ for (feat in feats) macro $v{feat} ];
-          def.meta.push({ name:':ifFeature', params:params, pos:def.pos });
-          for (field in def.fields) {
-            if (field.meta == null) field.meta = [];
-            field.meta.push({ name:':ifFeature', params:params, pos:def.pos });
-          }
-        }
-      }
-      cur.cachedBuiltTypes.push( def.pack.join('.') + '.' + def.name );
-      Context.defineType(def);
-    }
     for (type in Globals.cur.scriptGlues) {
       ScriptGlue.generate(type);
     }
