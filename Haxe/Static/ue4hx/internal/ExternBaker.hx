@@ -345,6 +345,14 @@ class ExternBaker {
       this.processClass(type, c.get());
     case TEnum(e,tl):
       this.processEnum(e.get());
+    case TType(t,_):
+      var t2 = Context.follow(type, true);
+      switch(t2) {
+      case TInst(c,tl):
+        this.processClass(type, c.get());
+      case _:
+        Context.warning('Type $type is not supported',t.get().pos);
+      }
     case _:
       var pos = switch(Context.follow(type)) {
       case TInst(c,tl): c.get().pos;
@@ -551,7 +559,7 @@ class ExternBaker {
         }
       } else if (!c.isInterface) {  // non-uobject
         // add wrap for non-uobject types
-        this.add('@:unreflective public static function fromPointer$params(ptr:');
+        this.add('inline public static function fromPointer$params(ptr:');
         this.add(this.thisConv.haxeGlueType.toString());
         this.add('):' + this.thisConv.haxeType);
         this.begin(' {');

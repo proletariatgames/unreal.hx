@@ -481,9 +481,6 @@ class GlueMethod {
       acc.push(AOverride);
     }
     var block = this.haxeCode;
-    if (block != null && Context.defined('UE4_CHECK_POINTER') && this.shouldCheckPointer()) {
-      block = ['this.checkPointer();'].concat(block);
-    }
 
     var args = this.getArgs();
     var expr = block != null ? Context.parse('{' + this.haxeCode.join('\n') + '}', meth.pos) : null;
@@ -574,12 +571,6 @@ class GlueMethod {
       buf << ';';
     } else {
       buf << new Begin(' {');
-        if (this.shouldCheckPointer()) {
-          buf << '#if UE4_CHECK_POINTER'
-            << new Newline() << "this.checkPointer();"
-            << new Newline() << "#end"
-            << new Newline();
-        }
         for (expr in this.haxeCode) {
           buf << expr << new Newline();
         }

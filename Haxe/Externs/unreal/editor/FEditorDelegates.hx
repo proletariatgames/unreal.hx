@@ -37,9 +37,7 @@ import unreal.*;
 }
 
 @:glueCppIncludes('Editor.h')
-@:uname('FEditorDelegates.FOnAssetPreImport')
-@:uextern extern class FOnAssetPreImport extends MulticastDelegate<UFactory->UClass->UObject->Const<PRef<FName>>->Const<TCharStar>->Void> {}
+typedef FOnAssetPreImport = MulticastDelegate<'FEditorDelegates.FOnAssetPreImport', UFactory->UClass->UObject->Const<PRef<FName>>->Const<TCharStar>->Void>;
 
 @:glueCppIncludes('Editor.h')
-@:uname('FEditorDelegates.FOnAssetPostImport')
-@:uextern extern class FOnAssetPostImport extends MulticastDelegate<UFactory->UObject->Void> {}
+typedef FOnAssetPostImport = MulticastDelegate<'FEditorDelegates.FOnAssetPostImport', UFactory->UObject->Void>;

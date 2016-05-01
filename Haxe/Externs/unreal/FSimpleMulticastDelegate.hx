@@ -1,4 +1,4 @@
 package unreal;
 
 @:glueCppIncludes('Delegates/Delegate.h')
-@:uextern extern class FSimpleMulticastDelegate extends MulticastDelegate<Void->Void> {}
+typedef FSimpleMulticastDelegate = MulticastDelegate<'FSimpleMulticastDelegate', Void->Void>;

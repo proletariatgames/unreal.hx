@@ -10,10 +10,10 @@ package unreal;
 }
 
 @:glueCppIncludes("IHttpRequest.h")
-@:uextern extern class FHttpRequestCompleteDelegate extends Delegate<TSharedPtr<IHttpRequest>->TThreadSafeSharedPtr<IHttpResponse>->Bool->Void> {}
+typedef FHttpRequestCompleteDelegate = Delegate<'FHttpRequestCompleteDelegate', TSharedPtr<IHttpRequest>->TThreadSafeSharedPtr<IHttpResponse>->Bool->Void>;
 
 @:glueCppIncludes("IHttpRequest.h")
-@:uextern extern class FHttpRequestProgressDelegate extends Delegate<TSharedPtr<IHttpRequest>->Int->Int->Void> {}
+typedef FHttpRequestProgressDelegate = Delegate<'FHttpRequestProgressDelegate', TSharedPtr<IHttpRequest>->Int->Int->Void>;
 
 @:glueCppIncludes("IHttpRequest.h")
 @:noCopy @:noEquals @:noClass @:uextern extern class IHttpRequest extends IHttpBase
