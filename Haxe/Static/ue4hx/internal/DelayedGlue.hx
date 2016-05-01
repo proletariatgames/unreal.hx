@@ -47,7 +47,7 @@ class DelayedGlue {
     var args = new HelperBuf();
     var narg = 0;
     if (!isStatic) {
-      var thisConv = TypeConv.get( Context.getLocalType(), pos, "unreal.PExternal");
+      var thisConv = TypeConv.get( Context.getLocalType(), pos, "unreal.PPtr");
       args << ', ' << thisConv.haxeToGlue('this', ctx);
       glueExpr << '{${narg++}}';
     }
@@ -319,7 +319,7 @@ class DelayedGlue {
   public function build() {
     var cls = this.cls;
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
-    this.thisConv = TypeConv.get( this.type, this.pos, 'unreal.PExternal' );
+    this.thisConv = TypeConv.get( this.type, this.pos, 'unreal.PPtr' );
     this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
 
     var allSuperFields = new Map();
@@ -645,7 +645,7 @@ class DelayedGlue {
       var tconv = propTConv;
       var isStructProp = !propTConv.isUObject && propTConv.ownershipModifier == 'unreal.PStruct';
       if (isStructProp && mode == 'get') {
-        tconv = TypeConv.get(type, field.pos, 'unreal.PExternal');
+        tconv = TypeConv.get(type, field.pos, 'unreal.PPtr');
       }
 
       var gm = new GlueMethod({

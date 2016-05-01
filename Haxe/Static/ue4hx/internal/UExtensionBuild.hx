@@ -684,7 +684,7 @@ class UExtensionBuild {
       }
 
       var overrideType = Context.getType(fld.params[1].toString());
-      var overrideTypeConv = TypeConv.get(overrideType, clt.pos).getLeaf();
+      var overrideTypeConv = TypeConv.get(overrideType, clt.pos).withModifiers(null);
       overrideTypeConv.collectUeIncludes(includes);
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>("$overrideName")';
     }

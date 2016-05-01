@@ -20,7 +20,7 @@ class ScriptGlue {
 
     var typeref = TypeRef.fromBaseType(cl, cl.pos);
     var tconv = TypeConv.get(type,cl.pos);
-    var thisType = if(tconv.isUObject) {
+    var thisType = if(tconv.data.match(CUObject(_))) {
       macro : unreal.UObject;
     } else {
       macro : unreal.Wrapper;

@@ -26,7 +26,6 @@ class GlueMethod {
   /// output parameters
   ///////////////////////
   public var dependentTypes(default, null):Map<String, String>;
-  public var needsTypeParamGlue(default, null):Bool;
   public var haxeCode:Array<String>;
   public var headerCode:String;
   public var ueHeaderCode:String;

@@ -10,7 +10,7 @@ package unreal;
     return FTextImpl.FromString(str);
   }
 
-  inline public static function asNumber(Val:Float32, Options:Const<PExternal<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
+  inline public static function asNumber(Val:Float32, Options:Const<PPtr<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
     return FTextImpl.AsNumber(Val, Options, TargetCulture);
   }
 

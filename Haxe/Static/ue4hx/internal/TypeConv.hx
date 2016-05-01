@@ -225,13 +225,13 @@ using StringTools;
 //     if (!ctx.isBasic)
 //       return false;
 //     switch (ctx.name) {
-//     case 'unreal.PHaxeCreated' | 'unreal.PExternal' | 'unreal.PStruct' |
+//     case 'unreal.PHaxeCreated' | 'unreal.PPtr' | 'unreal.PStruct' |
 //          'unreal.TSharedPtr' | 'unreal.TThreadSafeSharedPtr' |
 //          'unreal.TSharedRef' | 'unreal.TThreadSafeSharedRef' |
 //          'unreal.TWeakPtr' | 'unreal.TThreadSafeWeakPtr' |
 //          'unreal.PRef':
 //       return true;
-//     case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PExternalDef' | 'ue4hx.internal.PStructDef' |
+//     case 'ue4hx.internal.PHaxeCreatedDef' | 'ue4hx.internal.PPtrDef' | 'ue4hx.internal.PStructDef' |
 //          'ue4hx.internal.PRefDef':
 //       ctx.name = 'unreal.' + ctx.name.split('.').pop().substr(0,-3);
 //       return true;
@@ -297,7 +297,7 @@ using StringTools;
 //     //   if (modf != null) {
 //     //     switch (modf) {
 //     //     // TODO: (we need temp vars to make this work :(
-//     //     // case 'unreal.PExternal' | 'unreal.PHaxeCreated':
+//     //     // case 'unreal.PPtr' | 'unreal.PHaxeCreated':
 //     //     //   info.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
 //     //     //   if (info.ueToGlueExpr != null)
 //     //     //     info.ueToGlueExpr = '&(' + info.ueToGlueExpr + ')';
@@ -688,8 +688,8 @@ using StringTools;
 //
 //         var external = false;
 //         switch (modf) {
-//           case 'unreal.PExternal':
-//             ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( %, ${typeRef.getUniqueID()}, $$hasParent )';
+//           case 'unreal.PPtr':
+//             ret.ueToGlueExpr = 'PPtr<${ueType.getCppType()}>::wrap( %, ${typeRef.getUniqueID()}, $$hasParent )';
 //             external = true;
 //           case 'unreal.PHaxeCreated':
 //             ret.ueToGlueExpr = 'PHaxeCreated<${ueType.getCppType()}>::wrap( % )';
@@ -733,7 +733,7 @@ using StringTools;
 //             ret.glueToHaxeExpr = '( cast ' + ret.glueToHaxeExpr + ' : unreal.TThreadSafeWeakPtr<${typeRef}> )';
 //           case 'unreal.PRef':
 //             @:privateAccess ret.ueType.name = 'Reference';
-//             ret.ueToGlueExpr = 'PExternal<${ueType.getCppType()}>::wrap( &(%), ${typeRef.getUniqueID()}, $$hasParent )';
+//             ret.ueToGlueExpr = 'PPtr<${ueType.getCppType()}>::wrap( &(%), ${typeRef.getUniqueID()}, $$hasParent )';
 //             ret.glueToUeExpr = '*(' + ret.glueToUeExpr + ')';
 //             external = true;
 //           case _:
@@ -840,8 +840,8 @@ using StringTools;
 //           ueType = haxeType;
 //         case 'unreal.PHaxeCreated':
 //           haxeType = new TypeRef(['ue4hx','internal'], 'PHaxeCreatedDef', [haxeType]);
-//         case 'unreal.PExternal':
-//           haxeType = new TypeRef(['ue4hx','internal'], 'PExternalDef', [haxeType]);
+//         case 'unreal.PPtr':
+//           haxeType = new TypeRef(['ue4hx','internal'], 'PPtrDef', [haxeType]);
 //         case 'unreal.PRef':
 //           // we'll use haxeToUePtr
 //           isRef = true;
@@ -1660,7 +1660,11 @@ class TypeConv {
         var it = iref.get();
         var ret = null;
         var info = getTypeInfo(it, pos);
-        if (typeIsUObject(type)) {
+        if (it.kind.match(KTypeParameter(_))) {
+          name = null; // don't cache
+          ctx.original = null;
+          ret = CTypeParam(it.name);
+        } else if (typeIsUObject(type)) {
           if (ctx.modf != null && ctx.modf.has(Ptr)) {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
@@ -1688,9 +1692,6 @@ class TypeConv {
           } else {
             ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
           }
-        } else if (it.kind.match(KTypeParameter(_))) {
-          name = null; // don't cache
-          ret = CTypeParam(it.name);
         } else {
           Context.warning('Unreal Glue: Type $iref is not supported', pos);
         }

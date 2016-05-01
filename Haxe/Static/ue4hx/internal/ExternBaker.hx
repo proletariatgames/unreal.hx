@@ -221,7 +221,6 @@ class ExternBaker {
   private var pos:Position;
   private var params:Array<String>;
   private var dependentTypes:Map<String, String>;
-  private var needsTypeParamGlue:Bool;
   public var hadErrors(default, null):Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
@@ -361,7 +360,6 @@ class ExternBaker {
   }
 
   private function processClass(type:Type, c:ClassType) {
-    this.needsTypeParamGlue = false;
     this.cls = c;
     this.dependentTypes = new Map();
     this.params = [ for (p in c.params) p.name ];
@@ -440,19 +438,23 @@ class ExternBaker {
     var params = params.toString();
 
     this.addMeta(meta);
+    if (c.superClass != null && this.thisConv.data.match(CUObject(_))) {
+      this.add('@:forward ');
+    }
     if (!c.isInterface)
       this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.params.length > 0)
       this.add('@:ueTemplate\n');
     if (c.isPrivate)
       this.add('private ');
-    if (c.isInterface) {
-      this.add('interface ');
-    }
 
     var isAbstract = false;
     if (this.thisConv.data.match(CUObject(_))) {
-      this.add('class ');
+      if (c.isInterface) {
+        this.add('interface ');
+      } else {
+        this.add('class ');
+      }
       this.add('${c.name}$params ');
       if (c.superClass != null) {
         var supRef = TInst(c.superClass.t, c.superClass.params).toString();
@@ -557,7 +559,7 @@ class ExternBaker {
         this.end('}');
       }
 
-      if (c.superClass == null && !isAbstract) {
+      if (c.superClass == null && !isAbstract && !this.thisConv.data.match(CUObject(OInterface,_,_))) {
         this.newline();
         // add constructor
         this.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
@@ -590,44 +592,44 @@ class ExternBaker {
           // copy constructor
           // TODO add params if type has type parameter
           methods.push({
-            name: '_copy',
+            name: 'copy',
             uname: '.copy',
             doc: doc,
             meta:null,
             args:[],
             ret:this.thisConv.withModifiers([Ptr], new TypeRef(['unreal'], 'POwnedPtr', [this.thisConv.haxeType])),
-            flags: HaxeOverride | HaxePrivate,
+            flags: None,
             pos: c.pos,
           });
           methods.push({
-            name: '_copyStruct',
+            name: 'copyStruct',
             uname: '.copyStruct',
             doc: doc,
             meta:[{ name:':uname', params:[macro $v{'.copyStruct'}], pos:c.pos }],
             args:[],
             ret:this.thisConv,
-            flags: HaxeOverride | HaxePrivate,
+            flags: None,
             pos: c.pos,
           });
         } else {
-          this.add('@:deprecated("This type does not support copy constructors") override private function _copy():${this.thisConv.haxeType.toString()}');
+          this.add('@:deprecated("This type does not support copy constructors") private function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
-          this.add('@:deprecated("This type does not support copy constructors") override private function _copyStruct():${this.thisConv.haxeType.toString()}');
+          this.add('@:deprecated("This type does not support copy constructors") private function copyStruct():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
             this.add('return throw "The type ${this.thisConv.haxeType} does not support copy constructors";');
           this.end('}');
         }
         if (!meta.hasMeta(':noEquals')) {
             methods.push({
-            name: '_equals',
+            name: 'equals',
             uname: '.equals',
             doc: null,
             meta:null,
             args:[{name:"other", t:this.thisConv}],
             ret:TypeConv.get(Context.getType("Bool"), c.pos),
-            flags: HaxePrivate | HaxeOverride,
+            flags: None,
             pos: c.pos,
           });
         }
@@ -658,8 +660,6 @@ class ExternBaker {
     // before defining the class, let's go through all types and see if we have any type parameters that are dependent on
     // our current type parameter specifications
     this.addDependentTypes();
-    if (this.needsTypeParamGlue)
-      this.realBuf.add('@:needsTypeParamGlue\n');
     this.realBuf.add(this.buf);
     this.buf = new CodeFormatter();
   }
@@ -846,9 +846,6 @@ class ExternBaker {
       gm.headerCode = null;
       gm.ueHeaderCode = null;
       gm.cppCode = null;
-    }
-    if (gm.needsTypeParamGlue) {
-      this.needsTypeParamGlue = true;
     }
     for (dep in gm.dependentTypes) {
       this.dependentTypes[dep] = dep;
