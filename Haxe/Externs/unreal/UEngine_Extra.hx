@@ -12,7 +12,7 @@ extern class UEngine_Extra {
 
   public function OnNetworkFailure() : PRef<FOnNetworkFailure>;
 
-  public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PExternal<FWorldContext>;
+  public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PPtr<FWorldContext>;
 
   public function GetWorldContextFromWorldChecked(InWorld:Const<UWorld>) : PRef<FWorldContext>;
 

@@ -4,7 +4,7 @@ extern class UWorld_Extra {
   /** Time in seconds since level began play, but is NOT paused when the game is paused, and is NOT dilated/clamped. */
   public var RealTimeSeconds : Float32;
 
-  public var Scene : PExternal<FSceneInterface>;
+  public var Scene : PPtr<FSceneInterface>;
 
   @:thisConst
   public function GetGameState() : AGameState;
@@ -24,7 +24,7 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
 
-  public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
+  public function SpawnActor(cls:UClass, location:Const<PPtr<FVector>>, rotator:Const<PPtr<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 
   /**
    * Removes the actor from its level's actor list and generally cleans up the engine's internal state.
@@ -108,5 +108,5 @@ extern class UWorld_Extra {
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
     owner:AActor,
-    instigator:APawn) : PExternal<T>;
+    instigator:APawn) : PPtr<T>;
 }

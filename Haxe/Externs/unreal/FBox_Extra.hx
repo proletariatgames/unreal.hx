@@ -7,9 +7,9 @@ extern class FBox_Extra
   public var IsValid:UInt8;
 
   @:uname('new')
-  public static function createForceInit(ForceInit:EForceInit) : PHaxeCreated<FBox>;
+  public static function createForceInit(ForceInit:EForceInit) : POwnedPtr<FBox>;
   @:uname('new')
-  public static function createWithValues(Min:Const<PRef<FVector>>, Max:Const<PRef<FVector>>) : PHaxeCreated<FBox>;
+  public static function createWithValues(Min:Const<PRef<FVector>>, Max:Const<PRef<FVector>>) : POwnedPtr<FBox>;
 
   @:thisConst
   public function GetSize() : FVector;

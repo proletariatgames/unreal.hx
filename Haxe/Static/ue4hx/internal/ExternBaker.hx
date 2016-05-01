@@ -599,7 +599,7 @@ class ExternBaker {
             doc: doc,
             meta:null,
             args:[],
-            ret:this.thisConv.withModifiers([Ptr]),
+            ret:this.thisConv.withModifiers([Ptr], new TypeRef(['unreal'], 'POwnedPtr', [this.thisConv.haxeType])),
             flags: HaxeOverride | HaxePrivate,
             pos: c.pos,
           });
@@ -803,11 +803,11 @@ class ExternBaker {
           pos: field.pos,
         });
         if (uname == 'new' && specialization == null) {
-          // make sure that the return type is of type PHaxeCreated
-          var realT = getHaxeCreated(ret);
+          // make sure that the return type is of type POwnedPtr
+          var realT = getOwnedPtr(ret);
           if (realT == null) {
             Context.warning(
-              'The function constructor `${field.name}` should return an `unreal.PHaxeCreated` type. Otherwise, this reference will leak', field.pos);
+              'The function constructor `${field.name}` should return an `unreal.POwnedPtr` type. Otherwise, this reference will leak', field.pos);
             hadErrors = true;
             realT = ret;
           }
@@ -817,10 +817,10 @@ class ExternBaker {
 
           var retComplex = cancelParams(ret).toComplexType();
           var thisType = thisConv.haxeType.withParams([ for (p in thisConv.haxeType.params) new TypeRef('Dynamic') ]).toComplexType();
-          // make sure that the type is exactly PHaxeCreated<MyRetType>
+          // make sure that the type is exactly POwnedPtr<MyRetType>
           Context.typeof(macro @:pos(field.pos) {
             var complex:$retComplex = null;
-            var x:unreal.PHaxeCreated<$thisType> = complex;
+            var x:unreal.POwnedPtr<$thisType> = complex;
           });
 
           var meta = field.meta.get().filter(function(v) return v.name != ':uname');
@@ -860,11 +860,11 @@ class ExternBaker {
     gm.getFieldString( this.buf, this.glue );
   }
 
-  private static function getHaxeCreated(type:Type):Null<Type> {
+  private static function getOwnedPtr(type:Type):Null<Type> {
     while (type != null) {
       switch(type) {
       case TAbstract(aRef, tl):
-        if (aRef.toString() == 'unreal.PHaxeCreated')
+        if (aRef.toString() == 'unreal.POwnedPtr')
           return tl[0];
         var a = aRef.get();
         if (a.meta.has(':coreType'))

@@ -7,5 +7,5 @@ package unreal;
 @:uextern extern class FRotationMatrix extends FMatrix {
 
    @:uname('new')
-   public static function createWithRotator(rot:Const<PRef<FRotator>>) : PHaxeCreated<FRotationMatrix>;
+   public static function createWithRotator(rot:Const<PRef<FRotator>>) : POwnedPtr<FRotationMatrix>;
 }

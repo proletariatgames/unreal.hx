@@ -18,5 +18,5 @@ package unreal;
   // var Settings:FSessionSettings;
 
   @:uname("new")
-  public static function create() : PHaxeCreated<FOnlineSessionSettings>;
+  public static function create() : POwnedPtr<FOnlineSessionSettings>;
 }

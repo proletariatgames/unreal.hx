@@ -9,7 +9,7 @@ extern class UActorComponent_Extra {
    * @param TickType - The kind of tick this is, for example, are we paused, or 'simulating' in the editor
    * @param ThisTickFunction - Internal tick function struct that caused this to run
    */
-  public function TickComponent(deltaTime:Float32, tickType:ELevelTick, thisTickFunction:PExternal<FActorComponentTickFunction>) : Void;
+  public function TickComponent(deltaTime:Float32, tickType:ELevelTick, thisTickFunction:PPtr<FActorComponentTickFunction>) : Void;
 
   /** Used to create any rendering thread information for this component
   *

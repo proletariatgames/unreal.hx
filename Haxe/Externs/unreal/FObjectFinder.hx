@@ -5,9 +5,9 @@ package unreal;
 @:typeName
 @:uextern extern class FObjectFinder<T> {
   @:uname("new")
-  @:typeName static function Find<T>(ObjectToFind:Const<TCharStar>) : PHaxeCreated<FObjectFinder<T>>;
+  @:typeName static function Find<T>(ObjectToFind:Const<TCharStar>) : POwnedPtr<FObjectFinder<T>>;
 
   function Succeeded() : Bool;
-  var Object : PExternal<T>;
+  var Object : PPtr<T>;
 }
 

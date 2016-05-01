@@ -6,8 +6,8 @@ package unreal;
   public var W:Float32;
 
   @:uname('new')
-  public static function createForceInit(ForceInit:EForceInit) : PHaxeCreated<FSphere>;
+  public static function createForceInit(ForceInit:EForceInit) : POwnedPtr<FSphere>;
   @:uname('new')
-  public static function create(InV:FVector, InW:Float32) : PHaxeCreated<FSphere>;
+  public static function create(InV:FVector, InW:Float32) : POwnedPtr<FSphere>;
 }
 

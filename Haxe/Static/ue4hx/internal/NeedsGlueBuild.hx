@@ -77,7 +77,7 @@ class NeedsGlueBuild
                 var wrapped = cpp.Pointer.fromRaw(wrapped);
                 return wrapped != null ? new $typeThis(wrapped, typeID, parent) : null;
               }
-              @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
+              @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
                 return $delayedglue.getNativeCall("create", true);
               }
             };

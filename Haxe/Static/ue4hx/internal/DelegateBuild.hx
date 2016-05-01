@@ -213,7 +213,7 @@ class DelegateBuild {
     });
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
-      @:uname("new") public static function create():unreal.PHaxeCreated<$complexThis> {
+      @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
         return $delayedglue.getNativeCall("create", true);
       }
     }

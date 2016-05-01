@@ -6,7 +6,7 @@ package unreal;
 @:uextern extern class FBlueprintSessionResult {
 
 	@:uname('new')
-	static public function create() : PHaxeCreated<FBlueprintSessionResult>;	
+	static public function create() : POwnedPtr<FBlueprintSessionResult>;	
 
 	public var OnlineResult : FOnlineSessionSearchResult;
 }

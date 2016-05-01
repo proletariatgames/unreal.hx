@@ -52,7 +52,7 @@ class CreateCppia {
       'haxe.Int64',
       'cpp.Int64',
       'Date',
-      'unreal.PHaxeCreated',
+      'unreal.POwnedPtr',
       'unreal.TSharedPtr',
       'unreal.TSharedRef',
       'unreal.TWeakPtr',

@@ -6,7 +6,7 @@ package unreal;
 @:uextern extern class FOutputDevice {
 
   @:global
-  static var GLog(default, never) : PExternal<FOutputDevice>;
+  static var GLog(default, never) : PPtr<FOutputDevice>;
 
   function Flush():Void;
 

@@ -21,6 +21,6 @@ package unreal;
   public function Reset():Void;
   public function Swap(first:Int, second:Int):Void;
 
-  @:uname('new') static function create<T>():PHaxeCreated<TArray<T>>;
-  @:uname('new') static function copyCreate<T>(Other:Const<PRef<TArray<T>>>):PHaxeCreated<TArray<T>>;
+  @:uname('new') static function create<T>():POwnedPtr<TArray<T>>;
+  @:uname('new') static function copyCreate<T>(Other:Const<PRef<TArray<T>>>):POwnedPtr<TArray<T>>;
 }

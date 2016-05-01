@@ -4,5 +4,5 @@ package unreal;
 @:noCopy
 @:noEquals
 @:uextern extern class FOutputDeviceRedirector extends FOutputDevice {
-  public static function Get():PExternal<FOutputDeviceRedirector>;
+  public static function Get():PPtr<FOutputDeviceRedirector>;
 }

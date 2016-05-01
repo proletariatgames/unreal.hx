@@ -42,7 +42,7 @@ extern class AActor_Extra {
   @:thisConst
   public function GetActorLocation() : FVector;
 
-  public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PExternal<FHitResult>) : Bool;
+  public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PPtr<FHitResult>) : Bool;
 
   @:thisConst
   public function GetActorRotation() : FRotator;
@@ -104,7 +104,7 @@ extern class AActor_Extra {
 
   #if WITH_EDITOR
   public function PostEditMove(bFinished:Bool) : Void;
-	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:Const<PExternal<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
+	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:Const<PPtr<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
   @:thisConst
   public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
   #end

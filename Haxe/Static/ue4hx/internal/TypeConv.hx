@@ -1181,8 +1181,8 @@ class TypeConv {
     consolidate();
   }
 
-  inline public function withModifiers(modifiers) {
-    return new TypeConv(this.data, modifiers);
+  inline public function withModifiers(modifiers, ?original) {
+    return new TypeConv(this.data, modifiers, original);
   }
 
   inline public function hasModifier(modf:Modifier) {
@@ -1279,7 +1279,7 @@ class TypeConv {
             case name:
               name;
           };
-          this.haxeType = info.ueType.with(name, ueParams);
+          this.ueType = info.ueType.with(name, ueParams);
         } else {
           this.ueType = info.ueType;
         }
@@ -1307,7 +1307,7 @@ class TypeConv {
       case CMethodPointer(className, fnArgs, fnRet):
         this.ueType = uintPtr;
         this.haxeType = new TypeRef(['cpp'],'Pointer', [new TypeRef([],'Dynamic')]);
-        this.haxeGlueType = uintPtr;
+        this.haxeGlueType = this.glueType = uintPtr;
       case CTypeParam(name):
         this.haxeType = this.ueType = new TypeRef(name);
         this.glueType = this.haxeGlueType = uintPtr;
@@ -1762,25 +1762,6 @@ class TypeConv {
           throw new Error('Unreal Glue: Basic type $name is not supported', pos);
         } else {
           switch(name) {
-          case 'unreal.PRef':
-            if (ctx.modf == null) ctx.modf = [];
-            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
-              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
-            }
-            // Const<PRef<>> should actually be PRef<Const<>>
-            if (ctx.modf[ctx.modf.length-1] == Const) {
-              ctx.modf.insert(ctx.modf.length-1, Ref);
-            } else {
-              ctx.modf.push(Ref);
-            }
-            type = tl[0];
-          case 'unreal.PPtr':
-            if (ctx.modf == null) ctx.modf = [];
-            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
-              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
-            }
-            ctx.modf.push(Ptr);
-            type = tl[0];
           case 'unreal.MethodPointer':
             if (ctx.modf != null) {
               throw new Error('Unreal Glue: Const, PPtr or PRef is not directly supported on MethodPointers', pos);
@@ -1821,6 +1802,23 @@ class TypeConv {
             } else {
               ctx.modf.push(Const);
             }
+          case 'unreal.PRef':
+            if (ctx.modf == null) ctx.modf = [];
+            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
+              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+            }
+            // Const<PRef<>> should actually be PRef<Const<>>
+            if (ctx.modf[ctx.modf.length-1] == Const) {
+              ctx.modf.insert(ctx.modf.length-1, Ref);
+            } else {
+              ctx.modf.push(Ref);
+            }
+          case 'unreal.PPtr':
+            if (ctx.modf == null) ctx.modf = [];
+            if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
+              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+            }
+            ctx.modf.push(Ptr);
           case 'unreal.TWeakObjectPtr':
             if (ctx.accFlags.hasAny(OAutoWeak) || ctx.isSubclassOf) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
@@ -1946,6 +1944,16 @@ class TypeConv {
 
         ueToGlueExpr: '( ::unreal::VariantPtr_obj::fromRawPtr(%) )',
         glueToUeExpr: '(%).toPointer()'
+      },
+      {
+        ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')], Const),
+        glueType: new TypeRef(['unreal'],'VariantPtr'),
+        haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<VariantPtr.h>']),
+
+        ueToGlueExpr: '( ::unreal::VariantPtr_obj::fromRawPtr(const_cast<void *>(%)) )',
+        glueToUeExpr: '(%).toPointer()',
       },
       {
         ueType: new TypeRef(['unreal'],'UIntPtr'),

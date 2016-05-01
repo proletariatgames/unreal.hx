@@ -4,7 +4,7 @@ package unreal;
 @:uextern extern class FActorSpawnParameters
 {
   @:uname("new")
-  public static function create() : PHaxeCreated<FActorSpawnParameters>;
+  public static function create() : POwnedPtr<FActorSpawnParameters>;
 
   public var Name:FName;
   public var Template:AActor;

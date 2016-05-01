@@ -3,17 +3,17 @@ package unreal;
 
 extern class AGameMode_Extra {
   @:global("MatchState")
-  public static var EnteringMap(default,never):Const<PStruct<FName>>;
+  public static var EnteringMap(default,never):Const<FName>;
   @:global("MatchState")
-  public static var WaitingToStart(default,never):Const<PStruct<FName>>;
+  public static var WaitingToStart(default,never):Const<FName>;
   @:global("MatchState")
-  public static var InProgress(default,never):Const<PStruct<FName>>;
+  public static var InProgress(default,never):Const<FName>;
   @:global("MatchState")
-  public static var WaitingPostMatch(default,never):Const<PStruct<FName>>;
+  public static var WaitingPostMatch(default,never):Const<FName>;
   @:global("MatchState")
-  public static var LeavingMap(default,never):Const<PStruct<FName>>;
+  public static var LeavingMap(default,never):Const<FName>;
   @:global("MatchState")
-  public static var Aborted(default,never):Const<PStruct<FName>>;
+  public static var Aborted(default,never):Const<FName>;
 
   // !!FIXME!! Remove these once extern baker automatically generates them
   public function ChoosePlayerStart_Implementation(player:AController) : AActor;

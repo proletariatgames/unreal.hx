@@ -8,7 +8,7 @@ extern class FBoxSphereBounds_Extra
 	 * @param EForceInit Force Init Enum.
 	 */
   @:uname('new')
-  public static function createForceInit(Force:EForceInit) : PHaxeCreated<FBoxSphereBounds>;
+  public static function createForceInit(Force:EForceInit) : POwnedPtr<FBoxSphereBounds>;
 
 	/**
 	 * Creates and initializes a new instance from the specified parameters.
@@ -18,7 +18,7 @@ extern class FBoxSphereBounds_Extra
 	 * @param InSphereRadius radius of the sphere.
 	 */
   @:uname('new')
-  public static function createWithParams(InOrigin:Const<PRef<FVector>>, InBoxExtent:Const<PRef<FVector>>, InSphereRadius:Float32) : PHaxeCreated<FBoxSphereBounds>;
+  public static function createWithParams(InOrigin:Const<PRef<FVector>>, InBoxExtent:Const<PRef<FVector>>, InSphereRadius:Float32) : POwnedPtr<FBoxSphereBounds>;
 
 	/**
 	 * Creates and initializes a new instance the given Box.
@@ -28,14 +28,14 @@ extern class FBoxSphereBounds_Extra
 	 * @param Box The bounding box.
 	 */
   @:uname('new')
-  public static function createWithBox(Box:Const<PRef<FBox>>) : PHaxeCreated<FBoxSphereBounds>;
+  public static function createWithBox(Box:Const<PRef<FBox>>) : POwnedPtr<FBoxSphereBounds>;
 
 
 	/**
 	 * Creates and initializes a new instance for the given sphere.
 	 */
   @:uname('new')
-  public static function createWithSphere(Sphere:Const<PRef<FSphere>>) : PHaxeCreated<FBoxSphereBounds>;
+  public static function createWithSphere(Sphere:Const<PRef<FSphere>>) : POwnedPtr<FBoxSphereBounds>;
 
   @:thisConst
   public function GetBox() : FBox;

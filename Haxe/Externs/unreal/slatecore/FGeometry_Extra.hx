@@ -6,7 +6,7 @@ package unreal.slatecore;
 @:uextern extern class FGeometry_Extra {
 
   @:uname('new')
-  static public function create() : PHaxeCreated<FGeometry>;
+  static public function create() : POwnedPtr<FGeometry>;
 
   @:thisConst
   public function ToString() : FString;

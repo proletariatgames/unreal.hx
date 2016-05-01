@@ -4,7 +4,7 @@ package unreal;
 @:uname("ISocketSubsystem")
 @:uextern @:noCopy @:noEquals extern class ISocketSubsystem {
 
-	static public function Get() : PExternal<ISocketSubsystem>;
+	static public function Get() : PPtr<ISocketSubsystem>;
 	// TODO implement a NAME_None
 	//static public function Get(SubsystemName:Const<PRef<FName>>=NAME_None) : ISocketSubsystem;
 

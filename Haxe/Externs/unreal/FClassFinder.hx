@@ -5,7 +5,7 @@ package unreal;
 @:typeName
 @:uextern extern class FClassFinder<T> {
   @:uname("new")
-  @:typeName static function Find<T>(ClassToFind:Const<TCharStar>) : PHaxeCreated<FClassFinder<T>>;
+  @:typeName static function Find<T>(ClassToFind:Const<TCharStar>) : POwnedPtr<FClassFinder<T>>;
 
   function Succeeded() : Bool;
   var Class : TSubclassOf<T>;

@@ -29,10 +29,10 @@ package unreal;
 
    // Constructors
    @:uname('new')
-   public static function create(bInTraceComplex:Bool) : PHaxeCreated<FCollisionQueryParams>;
+   public static function create(bInTraceComplex:Bool) : POwnedPtr<FCollisionQueryParams>;
 
    @:uname('new')
-   public static function createWithParams(InTraceTag:FName, bInTraceComplex:Bool, InIgnoreActor:Const<AActor>) : PHaxeCreated<FCollisionQueryParams>;
+   public static function createWithParams(InTraceTag:FName, bInTraceComplex:Bool, InIgnoreActor:Const<AActor>) : POwnedPtr<FCollisionQueryParams>;
 
    /** Add an actor for this trace to ignore */
    public function AddIgnoredActor(InIgnoreActor:Const<AActor>) : Void;

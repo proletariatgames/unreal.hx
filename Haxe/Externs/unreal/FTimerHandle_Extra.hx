@@ -4,7 +4,7 @@ package unreal;
 extern class FTimerHandle_Extra
 {
   @:uname("new")
-  static function create() : PHaxeCreated<FTimerHandle>;
+  static function create() : POwnedPtr<FTimerHandle>;
 
   @:thisConst function IsValid() : Bool;
   function Invalidate() : Void;

@@ -28,16 +28,17 @@ class TypeRef
     this.name = name;
     this.moduleName = moduleName;
     this.params = params;
+    this.flags = flags;
   }
 
   inline public function with(?pack:Array<String>, ?name:String, ?moduleName:String, ?params:Array<TypeRef>, ?flags:TypeFlags) {
     return new TypeRef(pack != null ? pack : this.pack, name != null ? name : this.name, moduleName != null ? moduleName : this.moduleName, params != null ? params : this.params, flags != null ? flags : this.flags);
   }
   inline public function withPack(pack:Array<String>):TypeRef {
-    return new TypeRef(pack, this.name, this.moduleName, this.params);
+    return new TypeRef(pack, this.name, this.moduleName, this.params, this.flags);
   }
   inline public function withParams(params:Array<TypeRef>):TypeRef {
-    return new TypeRef(this.pack, this.name, this.moduleName, params);
+    return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags);
   }
   inline public function withConst(setConst:Bool) {
     return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags | Const);
@@ -53,7 +54,7 @@ class TypeRef
     if (this.name.length > 1 && this.name.charAt(1).toUpperCase() == this.name.charAt(1)) {
       switch(name.charCodeAt(0)) {
       case 'U'.code | 'A'.code | 'F'.code | 'T'.code:
-        return new TypeRef(this.pack, this.name.substr(1), this.params);
+        return new TypeRef(this.pack, this.name.substr(1), this.params, this.flags);
       }
     }
     return this;
