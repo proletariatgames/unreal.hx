@@ -7,11 +7,11 @@ import unreal.helpers.HaxeHelpers;
     this = FNameImpl.create(str);
   }
 
-  inline public static function create(str:String):unreal.PHaxeCreated<FName> {
+  inline public static function create(str:String):unreal.POwnedPtr<FName> {
     return FNameImpl.create(str);
   }
 
-  inline public static function createInt(name:UnrealName) : unreal.PHaxeCreated<FName> {
+  inline public static function createInt(name:UnrealName) : unreal.POwnedPtr<FName> {
     return FNameImpl.createFromInt(name);
   }
 

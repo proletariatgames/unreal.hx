@@ -61,10 +61,6 @@ private typedef VoidPtr = cpp.RawPointer<cpp.Void>;
     return VariantPtr.fromDynamic( InlineWrapper.create(size) );
   }
 
-  public static function createPointerWrapper(ptr:cpp.RawPointer<UEPointer>) : VariantPtr {
-    return VariantPtr.fromDynamic( new PointerWrapper(ptr) );
-  }
-
   @:native("callFunction")
   public static function callFunction0(ptr:VoidPtr) : VoidPtr {
     return toPtr( toDyn(ptr)() );

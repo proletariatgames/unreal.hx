@@ -9,7 +9,7 @@ package unreal;
     this = FStringImpl.create(str);
   }
 
-  inline public static function create(str:String):unreal.PHaxeCreated<FString> {
+  inline public static function create(str:String):unreal.POwnedPtr<FString> {
     return FStringImpl.create(str);
   }
 
