@@ -1,7 +1,7 @@
 package unreal;
 
 @:genericBuild(ue4hx.internal.DelegateBuild.build("Delegate"))
-class Delegate<@:const Name, T : haxe.Constraints.Function> {
+class Delegate<Name, T : haxe.Constraints.Function> {
   /**
     Unbinds this delegate.
    **/

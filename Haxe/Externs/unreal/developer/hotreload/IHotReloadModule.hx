@@ -60,10 +60,13 @@ package unreal.developer.hotreload;
 }
 
 @:glueCppIncludes("Misc/HotReloadInterface.h")
-typedef FHotReloadEvent = MulticastDelegate<"IHotReloadInterface.FHotReloadEvent", Bool->Void>;
+@:uname("IHotReloadInterface.FHotReloadEvent")
+typedef FHotReloadEvent = MulticastDelegate<FHotReloadEvent, Bool->Void>;
 
 @:glueCppIncludes("Misc/HotReloadInterface.h")
-typedef FModuleCompilerStartedEvent = MulticastDelegate<"IHotReloadInterface.FModuleCompilerStartedEvent", Bool->Void>;
+@:uname("IHotReloadInterface.FModuleCompilerStartedEvent")
+typedef FModuleCompilerStartedEvent = MulticastDelegate<FModuleCompilerStartedEvent, Bool->Void>;
 
 @:glueCppIncludes("Misc/HotReloadInterface.h")
-typedef FModuleCompilerFinishedEvent = MulticastDelegate<"IHotReloadInterface.FModuleCompilerFinishedEvent", Const<PRef<FString>>->ECompilationResult->Bool->Void>;
+@:uname("IHotReloadInterface.FModuleCompilerFinishedEvent")
+typedef FModuleCompilerFinishedEvent = MulticastDelegate<FModuleCompilerFinishedEvent, Const<PRef<FString>>->ECompilationResult->Bool->Void>;

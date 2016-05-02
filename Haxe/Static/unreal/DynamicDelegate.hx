@@ -7,7 +7,7 @@ package unreal;
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
 @:genericBuild(ue4hx.internal.DelegateBuild.build("DynamicDelegate"))
-class DynamicDelegate<@:const Name, T : haxe.Constraints.Function> {
+class DynamicDelegate<Name, T : haxe.Constraints.Function> {
   // function IsBound():Bool return false;
 
   // added by the compiler:

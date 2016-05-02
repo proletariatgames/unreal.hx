@@ -1,4 +1,5 @@
 package unreal;
 
 @:glueCppIncludes("Engine.h")
-typedef FStreamableDelegate = Delegate<'FStreamableDelegate', Void->Void>;
+@:uname('FStreamableDelegate')
+typedef FStreamableDelegate = Delegate<FStreamableDelegate, Void->Void>;

@@ -19,5 +19,6 @@ import unreal.*;
 #if WITH_EDITOR
 
 @:glueCppIncludes('UObject/UObjectGlobals.h')
-typedef FOnAssetLoaded = MulticastDelegate<'FCoreUObjectDelegates.FOnAssetLoaded', UObject->Void>;
+@:uname('FCoreUObjectDelegates.FOnAssetLoaded')
+typedef FOnAssetLoaded = MulticastDelegate<FOnAssetLoaded, UObject->Void>;
 #end

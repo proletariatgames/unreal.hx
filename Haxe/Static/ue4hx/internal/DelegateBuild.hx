@@ -4,39 +4,29 @@ import haxe.macro.Context;
 import haxe.macro.Type;
 
 using haxe.macro.Tools;
+using ue4hx.internal.MacroHelpers;
 using Lambda;
 using StringTools;
 
 class DelegateBuild {
   public static function build(type:String):Type {
     var pos = Context.currentPos();
-    var name:String, args, ret;
+    var tdef, args, ret;
     switch(Context.follow(Context.getLocalType())) {
-      case TInst(_,[TInst(_.get() => { kind:KExpr({ expr:EConst(CString(s) | CIdent(s)) }) },_), TFun(a,r)]):
-        name = s;
+      case TInst(_,[TType(t,_), TFun(a,r)]):
+        tdef = t.get();
         args = a;
         ret = r;
       case _:
-        throw new Error('Unreal Delegate Build: Invalid format for $type: Name must be an identifier, and a function type must be specified', Context.currentPos());
+        throw new Error('Unreal Delegate Build: Invalid format for $type: Name must be the typedef that defines it, and a function type must be specified', Context.currentPos());
     }
 
-    var ueType = TypeRef.parse(name);
-
-    // try to get the metadata from the typedef
-    var tdef = null;
-    {
-      try {
-        switch(Context.getType(Context.getLocalModule() + '.' + ueType.name)) {
-        case TType(t,args):
-          tdef = t.get();
-        case _:
-        }
-      }
-      catch(e:Dynamic) {
-      }
-      if (tdef == null) {
-        Context.warning('Unreal Delegate: The typedef with path ${Context.getLocalModule()}.${ueType.name} was not found, so no metadata will be used. Please name your tyepdef accordingly', pos);
-      }
+    var tref = TypeRef.fromBaseType(tdef,pos);
+    var ueType = null;
+    if (tdef.meta.has(':uname')) {
+      ueType = TypeRef.parse( tdef.meta.extractStrings(':uname')[0] );
+    } else {
+      ueType = new TypeRef(tref.name);
     }
 
     switch(type) {
@@ -216,14 +206,7 @@ class DelegateBuild {
 
     var complexThis = null;
 
-    if (tdef != null) {
-      complexThis = TypeRef.fromBaseType(tdef, tdef.pos).toComplexType();
-    } else {
-      complexThis = TPath({
-        pack: [],
-        name: ueType.name
-      });
-    }
+    complexThis = tref.toComplexType();
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
       @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
@@ -241,7 +224,10 @@ class DelegateBuild {
       }
     }
 #end
-    var meta:Metadata = tdef == null ? tdef.meta.get() : [];
+    var meta:Metadata = tdef.meta.get();
+    if (!meta.exists(function(meta) return meta.name == ':uname')) {
+      meta.push({ name:':uname', params:[macro $v{ueType.name}], pos:pos });
+    }
     meta.push({ name:':unativecalls', params:[for (field in def.fields) macro $v{field.name}], pos:pos });
     meta.push({ name:':final', params:[], pos:pos });
 
@@ -267,10 +253,8 @@ class DelegateBuild {
     meta.push({ name:':uextern', params:[], pos:pos });
 
 #if bake_externs
-    if (tdef != null) {
-      var path = TypeRef.fromBaseType( tdef, tdef.pos );
-      meta.push({ name:':bake_externs_name_hack', params:[macro $v{path.getClassPath().toString()}], pos:tdef.pos });
-    }
+    var path = TypeRef.fromBaseType( tdef, tdef.pos );
+    meta.push({ name:':bake_externs_name_hack', params:[macro $v{path.getClassPath().toString()}], pos:tdef.pos });
 #end
 
     var ret = def.fields;

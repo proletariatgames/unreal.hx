@@ -1,4 +1,5 @@
 package unreal;
 
 @:glueCppIncludes('Delegates/Delegate.h')
-typedef FSimpleMulticastDelegate = MulticastDelegate<'FSimpleMulticastDelegate', Void->Void>;
+@:uname('FSimpleMulticastDelegate')
+typedef FSimpleMulticastDelegate = MulticastDelegate<FSimpleMulticastDelegate, Void->Void>;

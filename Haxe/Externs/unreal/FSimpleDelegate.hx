@@ -1,4 +1,5 @@
 package unreal;
 
 @:glueCppIncludes('Delegates/Delegate.h')
-typedef FSimpleDelegate = Delegate<'FSimpleDelegate', Void->Void>;
+@:uname('FSimpleDelegate')
+typedef FSimpleDelegate = Delegate<FSimpleDelegate, Void->Void>;

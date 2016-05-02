@@ -11,7 +11,7 @@ package unreal;
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
 @:genericBuild(ue4hx.internal.DelegateBuild.build("MulticastDelegate"))
-class MulticastDelegate<@:const Name, T : haxe.Constraints.Function> {
+class MulticastDelegate<Name, T : haxe.Constraints.Function> {
   /**
     Removes a function from this multi-cast delegate
    **/
