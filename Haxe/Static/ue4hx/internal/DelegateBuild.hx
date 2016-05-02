@@ -18,7 +18,7 @@ class DelegateBuild {
         args = a;
         ret = r;
       case _:
-        throw new Error('Unreal Delegate Build: Invalid format for $type: Name must be the typedef that defines it, and a function type must be specified', Context.currentPos());
+        throw new Error('Unreal Delegate Build: Invalid format for $type: SelfType must be the typedef that defines it, and a function type must be specified', Context.currentPos());
     }
 
     var tref = TypeRef.fromBaseType(tdef,pos);

@@ -10,7 +10,7 @@ package unreal;
   functions.
  **/
 @:genericBuild(ue4hx.internal.DelegateBuild.build("Event"))
-class Event<Name, T : haxe.Constraints.Function> {
+class Event<SelfType, T : haxe.Constraints.Function> {
   /**
     Removes a function from this multi-cast delegate
    **/

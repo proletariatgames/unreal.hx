@@ -1,17 +1,29 @@
 package unreal;
 
 /**
-  Use this type to declare new UStructs and to extend others. It should be declared with a typedef,
-  and the typedef's name must be used as the
+  Use this type to declare new UStructs and to extend others.
+
+  It should be declared with a typedef, and the declaring typedef's path itself must be used as the first argument.
+  As for the second argument, one can pass vars and functions to it, as long as there is no modifiers like `public`,
+  `private` or `static`. Everything will be considered public, and non-static
+
+  You can also use this very same type to extend other types by using a similar syntax, but with the superClass set as
+  second argument
 
   Examples:
   ```
-    typedef FMyStruct = UnrealStruct<"FMyStruct", [{
+    // define a new struct FMyStruct which doesn't extend any other
+    typedef FMyStruct = UnrealStruct<FMyStruct, [{
       @:uproperty var something:Int;
-      @:ufunction function doSomething() {}
-    }]>
+      function doSomething() {}
+    }]>;
+
+    // define a new struct FOtherStruct which extends FSuperStruct
+    typedef FOtherStruct = UnrealStruct<FOtherStruct, FSuperStruct, [{
+      @:uproperty var something:FString;
+    }]>;
   ```
  **/
 @:genericBuild(ue4hx.internal.StructBuild.build())
-class UnrealStruct<@:const Name, Rest> {
+class UnrealStruct<SelfType, Rest> {
 }

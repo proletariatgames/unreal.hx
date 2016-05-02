@@ -45,48 +45,6 @@ class NeedsGlueBuild
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
-    if (!cls.meta.has(':uextern')) {
-      // If this is a USTRUCT definiton, mark it with :ustruct so that DelayedGlue will generated the C++ header for it,
-      // and add wrap/create calls
-      var superCls = cls.superClass;
-      while (superCls != null) {
-        var scls = superCls.t.get();
-        if (scls.meta.has(':ustruct')) {
-          if (!cls.meta.has(':ustruct')) {
-            cls.meta.add(':ustruct', [], cls.pos);
-          }
-          cls.meta.add(':unativecalls', [ macro "create" ], cls.pos);
-
-          if (!cls.meta.has(':uextern')) {
-            var uname = MacroHelpers.extractStrings(cls.meta, ':uname')[0];
-            if (uname == null) uname = cls.name;
-            var structHeaderPath = '$uname.h';
-            cls.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], cls.pos);
-
-            var typeThis:TypePath = {pack:[], name:cls.name};
-            var complexThis = TPath(typeThis);
-            var added = macro class {
-              @:unreflective public static function wrap(wrapped:cpp.RawPointer<unreal.helpers.UEPointer>, typeID:Int, ?parent:Dynamic):$complexThis {
-                var found:$complexThis = unreal.helpers.HaxeHelpers.pointerToDynamic(unreal.helpers.ClassMap.findWrapper(cast wrapped, typeID));
-                if (found != null) {
-                  return found;
-                }
-                var wrapped = cpp.Pointer.fromRaw(wrapped);
-                return wrapped != null ? new $typeThis(wrapped, typeID, parent) : null;
-              }
-              @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
-                return $delayedglue.getNativeCall("create", true);
-              }
-            };
-            for (field in added.fields) {
-              toAdd.push(field);
-            }
-          }
-          break;
-        }
-        superCls = superCls.t.get().superClass;
-      }
-    }
     var superClass = cls.superClass == null ? null : cls.superClass.t.get();
 
     if (!cls.meta.has(':uextern') && localClass.toString() != 'unreal.Wrapper') {
@@ -111,9 +69,6 @@ class NeedsGlueBuild
       var nativeCalls = new Map();
       var methodPtrs = new Map();
       for (field in fields) {
-        if (cls.meta.has(':ustruct') && Globals.cur.inScriptPass && field.kind.match(FFun(_))) {
-          field.meta.push({ name:':live', pos:field.pos });
-        }
         if (field.access != null && field.access.has(AOverride)) {
           field.meta.push({ name:':keep', pos:field.pos });
           // TODO: should we check for non-override fields as well? This would
