@@ -38,6 +38,24 @@ class TypeConv {
     return this.modifiers != null && this.modifiers.has(modf);
   }
 
+  public function isStructByVal() {
+    switch(data) {
+      case CStruct(_):
+        if (modifiers == null)
+          return true;
+        for (modf in modifiers) {
+          switch(modf) {
+            case Ptr | Ref:
+              return false;
+            case Const:
+          }
+        }
+        return true;
+      case _:
+        return false;
+    }
+  }
+
   public function hasTypeParams():Bool {
     switch(this.data) {
       case CStruct(_,_,params):

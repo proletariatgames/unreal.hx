@@ -35,7 +35,8 @@ class DelayedGlue {
       return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fullName, args), pos: pos };
     }
 
-    var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).isUObject ? [ "parent" => "this" ] : null;
+    // var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).data.match(CUObject(_)) ? [ "parent" => "this" ] : null;
+    var ctx = new ConvCtx();
     var tconv = TypeConv.get(field.type, pos);
 
     var glueType = getGlueType(clsRef, pos);
@@ -47,7 +48,7 @@ class DelayedGlue {
     var args = new HelperBuf();
     var narg = 0;
     if (!isStatic) {
-      var thisConv = TypeConv.get( Context.getLocalType(), pos, "unreal.PPtr");
+      var thisConv = TypeConv.get( Context.getLocalType(), pos ).withModifiers([Ptr]);
       args << ', ' << thisConv.haxeToGlue('this', ctx);
       glueExpr << '{${narg++}}';
     }
@@ -319,7 +320,7 @@ class DelayedGlue {
   public function build() {
     var cls = this.cls;
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
-    this.thisConv = TypeConv.get( this.type, this.pos, 'unreal.PPtr' );
+    this.thisConv = TypeConv.get( this.type, this.pos ).withModifiers([Ptr]);
     this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
 
     var allSuperFields = new Map();
@@ -410,8 +411,8 @@ class DelayedGlue {
     var glue = this.typeRef.getGlueHelperType();
     var glueHeaderIncludes = new IncludeSet(),
         glueCppIncludes = new IncludeSet();
-    this.thisConv.getAllCppIncludes(glueCppIncludes);
-    this.thisConv.getAllHeaderIncludes(glueHeaderIncludes);
+    this.thisConv.collectUeIncludes(glueCppIncludes);
+    this.thisConv.collectGlueIncludes(glueHeaderIncludes);
     // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
     // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
@@ -469,18 +470,18 @@ class DelayedGlue {
       }
     }
 
+    var fwds = new Map(),
+        incs = new IncludeSet(),
+        dummyIncs = new IncludeSet();
     for (prop in uprops) {
-      if (!prop.type.forwardDeclType.isNever() && prop.type.forwardDecls != null) {
-        for (fwd in prop.type.forwardDecls) {
-          writer.forwardDeclare(fwd);
-        }
-      } else {
-        if (prop.type.glueCppIncludes != null) {
-          for (include in prop.type.glueCppIncludes) {
-            writer.include(include);
-          }
-        }
-      }
+      prop.type.collectUeIncludes( incs, fwds, dummyIncs );
+    }
+
+    for (fwd in fwds) {
+      writer.forwardDeclare( fwd );
+    }
+    for (inc in incs) {
+      writer.include(inc);
     }
 
     var extendsStr = '';
@@ -490,7 +491,7 @@ class DelayedGlue {
 
       // we're using the ueType so we'll include the glueCppIncludes
       var includes = new IncludeSet();
-      tconv.getAllCppIncludes( includes );
+      tconv.collectUeIncludes( includes );
       for (include in includes) {
         writer.include(include);
       }
@@ -561,18 +562,17 @@ class DelayedGlue {
       throw new Error('Invalid argument for delegate ${cls.interfaces[0].t.get().name}', cls.pos);
     }
 
+    var fwds = new Map(),
+        incs = new IncludeSet(),
+        dummyIncs = new IncludeSet();
     for (arg in args.concat([ret])) {
-      if (!arg.forwardDeclType.isNever() && arg.forwardDecls != null) {
-        for (fwd in arg.forwardDecls) {
-          writer.forwardDeclare(fwd);
-        }
-      } else {
-        if (arg.glueCppIncludes != null) {
-          for (include in arg.glueCppIncludes) {
-            writer.include(include);
-          }
-        }
-      }
+      arg.collectUeIncludes( incs, fwds, dummyIncs );
+    }
+    for (fwd in fwds) {
+      writer.forwardDeclare( fwd );
+    }
+    for (inc in incs) {
+      writer.include(inc);
     }
 
     writer.include('$uname.generated.h');
@@ -643,9 +643,9 @@ class DelayedGlue {
     var gms = [];
     for (mode in ['get','set']) {
       var tconv = propTConv;
-      var isStructProp = !propTConv.isUObject && propTConv.ownershipModifier == 'unreal.PStruct';
+      var isStructProp = propTConv.isStructByVal();
       if (isStructProp && mode == 'get') {
-        tconv = TypeConv.get(type, field.pos, 'unreal.PPtr');
+        tconv = TypeConv.get(type, field.pos).withModifiers([Ptr]);
       }
 
       var gm = new GlueMethod({
@@ -672,7 +672,6 @@ class DelayedGlue {
     var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
     if (uname == null)
       uname = field.name;
-    var ctx = null;
     var args = null, ret = null;
     switch( Context.follow(field.type) ) {
       case TFun(targs, tret):
@@ -725,7 +724,6 @@ class DelayedGlue {
     var uname = MacroHelpers.extractStrings(superField.meta, ':uname')[0];
     if (uname == null)
       uname = superField.name;
-    var ctx = null;
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
       case TFun(targs, tret):
@@ -753,8 +751,8 @@ class DelayedGlue {
     var headerIncludes = new IncludeSet();
     var cppIncludes = new IncludeSet();
     for (t in allTypes) {
-      headerIncludes.append(t.glueHeaderIncludes);
-      cppIncludes.append(t.glueCppIncludes);
+      t.collectGlueIncludes( headerIncludes );
+      t.collectUeIncludes( cppIncludes );
     }
 
     var metas:Metadata = [

@@ -210,7 +210,7 @@ class NeedsGlueBuild
           var glueFnName = '_get_${field.name}_methodPtr';
 
           var dummy = macro class {
-            private static function $glueFnName() : cpp.Pointer<Dynamic> {
+            private static function $glueFnName() : unreal.UIntPtr {
               return $delayedglue.getNativeCall($v{glueFnName}, true);
             }
           }

@@ -429,7 +429,11 @@ class TypeRef
   public function toString()
   {
     if (moduleName == 'Constraints' && params.length > 0 && name == 'Function' && pack[0] == 'haxe') {
-      return params.join('->');
+      if (params.length == 1) {
+        return 'Void->' + params[0];
+      } else {
+        return params.join('->');
+      }
     }
 
     var t = getClassPath();
