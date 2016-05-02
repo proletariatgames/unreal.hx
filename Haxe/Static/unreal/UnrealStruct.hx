@@ -25,5 +25,5 @@ package unreal;
   ```
  **/
 @:genericBuild(ue4hx.internal.StructBuild.build())
-class UnrealStruct<SelfType, Rest> {
+class UnrealStruct<Rest> {
 }

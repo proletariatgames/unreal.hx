@@ -235,7 +235,7 @@ class DelegateBuild {
     var added = macro class {
       inline public static function fromPointer(ptr:unreal.VariantPtr):$complexThis {
         return cast ptr;
-     }
+      }
     };
     def.fields.push(added.fields[0]);
 
