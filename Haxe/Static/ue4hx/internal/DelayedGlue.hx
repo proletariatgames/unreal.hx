@@ -308,9 +308,15 @@ class DelayedGlue {
         dglue.build();
 
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
-        cls.meta.add(':glueHeaderClass', [macro $v{'\t\tstatic void uhx_dummy_field() { }\n'}], cls.pos);
+        cls.meta.add(':glueHeaderClass', [macro $v{'\t\tinline static void uhx_dummy_field() { }\n'}], cls.pos);
 
-        Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(type.getClassPath());
+        var path = switch(cls.kind) {
+          case KAbstractImpl(a):
+            TypeRef.fromBaseType(a.get(), pos).getClassPath();
+          case _:
+            type.getClassPath();
+        }
+        Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(path);
         if (cls.meta.has(':uscript')) {
           Globals.cur.scriptGlues.push(type.getClassPath());
         }

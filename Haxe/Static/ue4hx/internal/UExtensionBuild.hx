@@ -484,9 +484,9 @@ class UExtensionBuild {
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         var createExpr = if (isScript) {
-          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] )', ctx);
         } else {
-          '' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx);
+          '' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) )', ctx);
         }
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -668,8 +668,8 @@ class UExtensionBuild {
     headerDef.add('public:\n');
     // include class map
     includes.add('ClassMap.h');
-    headerDef.add('\t\tstatic void *getHaxePointer(void *inUObject) {\n');
-      headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
+    headerDef.add('\t\tstatic unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject) {\n');
+      headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
     var useObjInitializer = clt.meta.has(':noDefaultConstructor');

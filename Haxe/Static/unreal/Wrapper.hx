@@ -153,9 +153,9 @@ class InlineTemplateWrapper extends TemplateWrapper {
     }
   }
 
-  private static function finalize(self:InlineWrapper) {
+  private static function finalize(self:InlineTemplateWrapper) {
     if (self.m_flags.hasAny(NeedsDestructor)) {
-      var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      var fn = (cast self.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
       fn.call( untyped __cpp__('(unreal::UIntPtr) (self.mPtr + 1)') );
       self.m_flags = Disposed;
     }
@@ -167,7 +167,7 @@ class InlineTemplateWrapper extends TemplateWrapper {
 
   override public function dispose():Void {
     if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
-      var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      var fn = (cast this.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
       fn.call( untyped __cpp__('(unreal::UIntPtr) (this + 1)') );
       cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
@@ -176,10 +176,10 @@ class InlineTemplateWrapper extends TemplateWrapper {
     }
   }
 
-  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineTemplateWrapper { return null; }
 
   override public function toString():String {
-    var name = m_info.ptr.name.toString();
+    var name = info.ptr.name.toString();
     return '[Inline Wrapper ($name) @ ${getPointer()}]';
   }
 }

@@ -27,7 +27,7 @@ class NeedsGlueBuild
     if (Globals.cur.gluesTouched.exists(localClass.toString()))
       return null;
 
-    addOperators(localClass.toString(), cls, thisType);
+    // addOperators(localClass.toString(), cls, thisType);
     Globals.cur.gluesTouched[localClass.toString()] = true;
 
     if (cls.meta.has(':ueGluePath')) {

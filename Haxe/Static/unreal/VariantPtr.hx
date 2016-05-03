@@ -18,9 +18,11 @@ extern class VariantPtr {
   public static function fromUIntPtr(uintPtr:UIntPtr):VariantPtr;
 
 
+#if cpp
   public static function fromPointer<T>(ptr:cpp.Pointer<T>):VariantPtr;
 
   public static function fromRawPtr<T>(ptr:cpp.RawPointer<T>):VariantPtr;
+#end
 
   /**
     Gets its underlying Dynamic object. If it doesn't represent an object, `null` will be returned
@@ -37,5 +39,7 @@ extern class VariantPtr {
    **/
   public function isObject():Bool;
 
+#if cpp
   public function toPointer():cpp.RawPointer<cpp.Void>;
+#end
 }

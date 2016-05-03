@@ -27,7 +27,7 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   @:glueCppIncludes('UObject/UObjectArray.h')
   // @:glueHeaderIncludes('<hxcpp.h>')
   public static function objectToIndex(obj:unreal.UIntPtr):Int {
-    return ObjectArrayHelper_Glue.objectToIndex(obj.rawCast());
+    return ObjectArrayHelper_Glue.objectToIndex(obj);
   }
 
   @:glueHeaderCode('static int allocateSerialNumber(int index);')

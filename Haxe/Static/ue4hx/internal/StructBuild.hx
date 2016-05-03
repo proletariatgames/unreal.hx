@@ -80,9 +80,9 @@ class StructBuild {
     var def = macro class {
     };
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
-    var variantPtr = macro : unreal.VariantPtr,
-        ofType = sup == null ? variantPtr : TypeRef.fromType( sup, tdef.pos ).toComplexType();
-    def.kind = TDAbstract( ofType, null, [variantPtr, ofType]);
+    var structType = macro : unreal.Struct,
+        ofType = sup == null ? structType : TypeRef.fromType( sup, tdef.pos ).toComplexType();
+    def.kind = TDAbstract( ofType, null, [macro : unreal.VariantPtr, structType, ofType]);
     def.fields = fields;
     def.name = target.name;
     def.pack = target.pack;

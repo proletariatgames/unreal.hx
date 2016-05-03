@@ -1,6 +1,6 @@
 package unreal;
 
-@:forward abstract FText(FTextImpl) from FTextImpl to FTextImpl {
+@:forward abstract FText(FTextImpl) from FTextImpl to FTextImpl #if !bake_externs to Struct to VariantPtr #end {
 #if !bake_externs
   inline public function new(str:String) {
     this = FTextImpl.FromString(str);
@@ -17,7 +17,7 @@ package unreal;
   @:from inline private static function fromString(str:String):FText {
     return create(str);
   }
-  
+
   public static function FromString(str:FString) : FText {
     return FTextImpl.FromString(str);
   }

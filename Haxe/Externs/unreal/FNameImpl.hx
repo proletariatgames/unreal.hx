@@ -12,5 +12,5 @@ package unreal;
   function IsNone():Bool;
   function GetComparisonIndex() : Int32;
 
-  @:expr(return this.ToString().op_Dereference()) public function toString():String;
+  @:expr(return ToString().op_Dereference()) public function toString():String;
 }

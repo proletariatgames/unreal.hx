@@ -13,7 +13,7 @@ abstract AnyPtr(VariantPtr) from VariantPtr to VariantPtr {
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {
-    return VariantPtr.fromPointer( @:privateAccess obj.getWrapped() );
+    return VariantPtr.fromPointer( cast @:privateAccess obj.wrapped );
   }
 
   public static function fromStruct(obj:Struct):AnyPtr {

@@ -201,7 +201,7 @@ class TypeConv {
         this.haxeGlueType = this.glueType = uintPtr;
       case CMethodPointer(className, fnArgs, fnRet):
         this.ueType = uintPtr;
-        this.haxeType = new TypeRef(['cpp'],'Pointer', [new TypeRef([],'Dynamic')]);
+        this.haxeType = uintPtr;
         this.haxeGlueType = this.glueType = uintPtr;
       case CTypeParam(name):
         this.haxeType = this.ueType = new TypeRef(name);
@@ -523,14 +523,14 @@ class TypeConv {
     }
   }
 
-  inline public static function get(type:Type, pos:Position):TypeConv {
-    return getInfo(type, pos, { accFlags:ONone });
+  inline public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false):TypeConv {
+    return getInfo(type, pos, { accFlags:ONone }, inTypeParam);
   }
 
-  private static function getInfo(type:Type, pos:Position, ctx:InfoCtx):TypeConv {
+  private static function getInfo(type:Type, pos:Position, ctx:InfoCtx, inTypeParam:Bool):TypeConv {
     var cache = Globals.cur.typeConvCache;
     var o = type;
-    while(true) {
+    while(type != null) {
       switch(type) {
       case TInst(iref, tl):
         var name = tl.length == 0 ? iref.toString() : null;
@@ -572,12 +572,12 @@ class TypeConv {
           }
           ret = CUObject(OInterface, ctx.accFlags, info);
         } else if (it.meta.has(':uextern')) {
-          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
         } else if (it.meta.has(':ustruct')) {
           if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
-            ret = CStruct(SScriptHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+            ret = CStruct(SScriptHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
           } else {
-            ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+            ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
           }
         } else if (it.kind.match(KAbstractImpl(_))) {
           var impl = switch(it.kind) {
@@ -647,12 +647,12 @@ class TypeConv {
             ret = null,
             info = getTypeInfo(a, pos);
         if (a.meta.has(':uextern')) {
-          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+          ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
         } else if (a.meta.has(':ustruct')) {
           if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
-            ret = CStruct(SScriptHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+            ret = CStruct(SScriptHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
           } else {
-            ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
+            ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
           }
         } else if (a.meta.has(':enum')) {
           if (ctx.modf != null) {
@@ -706,20 +706,28 @@ class TypeConv {
           case 'unreal.PRef':
             if (ctx.modf == null) ctx.modf = [];
             if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
-              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
-            }
-            // Const<PRef<>> should actually be PRef<Const<>>
-            if (ctx.modf[ctx.modf.length-1] == Const) {
-              ctx.modf.insert(ctx.modf.length-1, Ref);
+              if (!inTypeParam) {
+                trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+                throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+              }
             } else {
-              ctx.modf.push(Ref);
+              // Const<PRef<>> should actually be PRef<Const<>>
+              if (ctx.modf[ctx.modf.length-1] == Const) {
+                ctx.modf.insert(ctx.modf.length-1, Ref);
+              } else {
+                ctx.modf.push(Ref);
+              }
             }
           case 'unreal.PPtr':
             if (ctx.modf == null) ctx.modf = [];
             if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
-              throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+              if (!inTypeParam) {
+                trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+                throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
+              }
+            } else {
+              ctx.modf.push(Ptr);
             }
-            ctx.modf.push(Ptr);
           case 'unreal.TWeakObjectPtr':
             if (ctx.accFlags.hasAny(OAutoWeak) || ctx.isSubclassOf) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
@@ -759,10 +767,15 @@ class TypeConv {
           throw new Error('Unreal Glue: Function lambda types that return a reference to a basic type are not supported', pos);
         }
         return new TypeConv(CLambda(tcArgs, tcRet), ctx.modf, ctx.original);
+      case TMono(mono):
+        type = mono.get();
+
       case t:
+        trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
         throw new Error('Unreal Type: Invalid type $t', pos);
       }
     }
+    throw new Error('Unreal Type: Invalid type $type', pos);
   }
 
   private static function parseMethodPointer(types:Array<Type>, pos:Position) {

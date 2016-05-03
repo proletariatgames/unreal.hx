@@ -14,7 +14,7 @@ using haxe.macro.Tools;
 private typedef TArrayImpl<T> = Dynamic;
 #end
 
-@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
+@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> #if !bake_externs to unreal.Struct to unreal.VariantPtr #end {
 #if (!bake_externs && !macro)
 
   public var length(get,never):Int;

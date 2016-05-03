@@ -107,7 +107,7 @@ class CoreAPI {
     };
   }
 
-  public static macro function AddDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<Dynamic,T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+  public static macro function AddDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
     var fnName;
     var accessor = obj;
     switch(fn.expr) {
@@ -121,7 +121,7 @@ class CoreAPI {
     return macro $self.__Internal_AddDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
-  public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<Dynamic,T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+  public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
     var fnName;
     var accessor = obj;
     switch(fn.expr) {
@@ -135,7 +135,7 @@ class CoreAPI {
     return macro $self.__Internal_AddUniqueDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
-  public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<Dynamic,T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+  public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
     var fnName;
     var accessor = obj;
     switch(fn.expr) {
@@ -149,7 +149,7 @@ class CoreAPI {
     return macro $self.__Internal_RemoveDynamic($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
-  public static macro function IsAlreadyBound<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicMulticastDelegate<Dynamic,T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+  public static macro function IsAlreadyBound<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
     var fnName;
     var accessor = obj;
     switch(fn.expr) {
@@ -163,7 +163,7 @@ class CoreAPI {
     return macro $self.__Internal_IsAlreadyBound($obj, unreal.MethodPointer.fromMethod($accessor.$fnName), $v{fnName});
   }
 
-  public static macro function BindDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.DynamicDelegate<Dynamic,T>>, obj:Expr, fn:ExprOf<T>) : Expr {
+  public static macro function BindDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicDelegate<T>>, obj:Expr, fn:ExprOf<T>) : Expr {
     var fnName;
     var accessor = obj;
     switch(fn.expr) {

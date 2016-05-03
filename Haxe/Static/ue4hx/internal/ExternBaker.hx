@@ -246,7 +246,7 @@ class ExternBaker {
 
     // this.type = Context.getType(typeRef.getClassPath());
     this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
-    this.thisConv = TypeConv.get(this.type, cl.pos);
+    this.thisConv = TypeConv.get(this.type, cl.pos, true);
     var generics = [];
     var isStatic = true;
     for (fields in [cl.statics.get(), cl.fields.get()]) {
@@ -300,7 +300,7 @@ class ExternBaker {
         this.pos = Context.makePosition(pos);
         impl.pos = this.pos;
 
-        var specializationTypes = [ for (param in tparams) TypeConv.get(param, this.pos) ];
+        var specializationTypes = [ for (param in tparams) TypeConv.get(param, this.pos, true) ];
         var specialization = { types:specializationTypes, genericFunction:generic.field.name, mtypes: tparams };
         var nextIndex = methods.length;
         this.processField(impl, generic.isStatic, specialization, methods);
@@ -446,7 +446,7 @@ class ExternBaker {
     var params = params.toString();
 
     this.addMeta(meta);
-    if (c.superClass != null && this.thisConv.data.match(CUObject(_))) {
+    if (!this.thisConv.data.match(CUObject(_))) {
       this.add('@:forward ');
     }
     if (!c.isInterface)
@@ -476,7 +476,7 @@ class ExternBaker {
       isAbstract = true;
       this.add('abstract ${c.name}$params(');
       if (c.superClass == null) {
-        this.add('unreal.VariantPtr) ');
+        this.add('unreal.Struct) ');
       } else {
         var supRef = TInst(c.superClass.t, c.superClass.params).toString();
         this.add('$supRef) ');
@@ -487,7 +487,7 @@ class ExternBaker {
         this.add('to $supRef ');
         sup = sup.t.get().superClass;
       }
-      this.add('to unreal.VariantPtr ');
+      this.add('to unreal.Struct to unreal.VariantPtr ');
     }
 
     for (iface in c.interfaces) {
@@ -547,7 +547,7 @@ class ExternBaker {
             // add wrap
             this.add('@:unreflective static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
             this.begin(' {');
-              this.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(ptr));');
+              this.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
             this.end('}');
           }
 
@@ -599,7 +599,7 @@ class ExternBaker {
           // copy constructor
           // TODO add params if type has type parameter
           methods.push({
-            name: 'copy',
+            name: 'copyNew',
             uname: '.copy',
             doc: doc,
             meta:null,
@@ -609,10 +609,10 @@ class ExternBaker {
             pos: c.pos,
           });
           methods.push({
-            name: 'copyStruct',
+            name: 'copy',
             uname: '.copyStruct',
             doc: doc,
-            meta:[{ name:':uname', params:[macro $v{'.copyStruct'}], pos:c.pos }],
+            meta:null,
             args:[],
             ret:this.thisConv,
             flags: None,
@@ -800,7 +800,7 @@ class ExternBaker {
           meta:field.meta.get(),
           params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
-          ret: TypeConv.get(ret, field.pos),
+          ret: TypeConv.get(ret, field.pos, specialization != null),
           flags: flags,
           specialization: specialization,
           pos: field.pos,
@@ -834,7 +834,7 @@ class ExternBaker {
             uname: '.ctor',
             params: [ for (p in field.params) p.name ],
             args: cur.args,
-            ret: TypeConv.get(realT, field.pos),
+            ret: TypeConv.get(realT, field.pos, specialization != null),
             flags: flags,
             meta: meta,
             specialization: specialization,

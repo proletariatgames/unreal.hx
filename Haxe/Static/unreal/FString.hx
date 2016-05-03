@@ -3,7 +3,7 @@ package unreal;
 /**
   Represents an Unreal String - will be converted to a normal Haxe String
  **/
-@:forward abstract FString(FStringImpl) from FStringImpl to FStringImpl {
+@:forward abstract FString(FStringImpl) from FStringImpl to FStringImpl #if !bake_externs to Struct to VariantPtr #end {
 #if !bake_externs
   inline public function new(str:String) {
     this = FStringImpl.create(str);

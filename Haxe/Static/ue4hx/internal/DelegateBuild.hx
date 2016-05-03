@@ -11,9 +11,10 @@ using StringTools;
 class DelegateBuild {
   public static function build(type:String):Type {
     var pos = Context.currentPos();
-    var tdef, args, ret;
+    var tdef, args, ret, tfun;
     switch(Context.follow(Context.getLocalType())) {
       case TInst(_,[TType(t,_), TFun(a,r)]):
+        tfun = TFun(a,r);
         tdef = t.get();
         args = a;
         ret = r;
@@ -269,8 +270,10 @@ class DelegateBuild {
     def.kind = TDClass();
     def.isExtern = true;
 #else
-	// TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
-    def.kind = TDAbstract( macro : unreal.VariantPtr, null, [macro : unreal.VariantPtr]);
+    var supName = 'Base$type';
+    var fnArgs = tfun.toComplexType();
+    var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
+    def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
     Context.defineType(def);
     return Context.getType('unreal.delegates.${ueType.name}');

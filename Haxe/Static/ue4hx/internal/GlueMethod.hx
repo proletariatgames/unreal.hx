@@ -50,7 +50,7 @@ class GlueMethod {
   public function new(meth:MethodDef, type:Type, ?glueType:TypeRef, ?isTemplatedThis:Bool, ?firstExternSuper:TypeConv) {
     this.meth = meth;
     this.type = type;
-    this.thisConv = TypeConv.get(type,meth.pos).withModifiers([Ptr]);
+    this.thisConv = TypeConv.get(type,meth.pos,meth.specialization != null).withModifiers([Ptr]);
     this.firstExternSuper = firstExternSuper;
     var thisRef = TypeRef.fromType(type, meth.pos);
     if (glueType == null)
@@ -241,7 +241,7 @@ class GlueMethod {
       }
     } else {
       var haxeBodyCall = if (this.isTemplatedThis && !isStatic) {
-        '( this.wrapped.reinterpret() : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
+        '( null : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
       } else {
         '${this.glueType}.${meth.name}';
       };
@@ -381,11 +381,9 @@ class GlueMethod {
           this.op = '!';
           '(!(*(' + self.t.glueToUe(self.name, this.ctx) + ')))';
         case '.copy':
-          this.retHaxeType = this.thisConv.haxeType;
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           'new ' + this.thisConv.ueType.getCppClass();
         case '.copyStruct':
-          this.retHaxeType = this.thisConv.haxeType;
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           this.thisConv.ueType.getCppClass();
         case _ if(meth.flags.hasAny(CppPrivate)):
@@ -504,7 +502,7 @@ class GlueMethod {
   private function getArgs():Array<MethodArg> {
     var meth = this.meth;
     if (meth.uname == '.equals')
-      return [ { name:this.haxeArgs[0].name, type: new TypeRef(['unreal'], 'Wrapper') } ];
+      return [ { name:this.haxeArgs[0].name, type: this.thisConv.haxeType } ];
     var args:Array<MethodArg> = [ for (arg in this.haxeArgs) { name:arg.name, type: arg.t.haxeType } ];
     if (meth.params != null) {
       var helpers:Array<MethodArg> = [];

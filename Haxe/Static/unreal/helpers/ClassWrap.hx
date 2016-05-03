@@ -1,6 +1,5 @@
 package unreal.helpers;
 import cpp.RawPointer;
-import cpp.Pointer;
 import cpp.Function;
 import unreal.*;
 
@@ -70,7 +69,7 @@ class ClassWrap {
   }
 
 #else
-  inline public static function wrap(nativePtr:Pointer<Dynamic>):UObject {
+  inline public static function wrap(nativePtr:UIntPtr):UObject {
     return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr.rawCast()) );
   }
 #end
