@@ -5,8 +5,10 @@ package unreal;
 @:ustruct
 @:uextern extern class FBlueprintSessionResult {
 
+	@:uname('.ctor')
+	static public function create() : FBlueprintSessionResult;
 	@:uname('new')
-	static public function create() : POwnedPtr<FBlueprintSessionResult>;	
+	static public function createNew() : POwnedPtr<FBlueprintSessionResult>;
 
 	public var OnlineResult : FOnlineSessionSearchResult;
 }

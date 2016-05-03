@@ -4,11 +4,15 @@ extern class FLinearColor_Extra {
 
   public var A : Float32;
 
+  @:uname(".ctor")
+  public static function create() : FLinearColor;
   @:uname("new")
-  public static function create() : POwnedPtr<FLinearColor>;
+  public static function createNew() : POwnedPtr<FLinearColor>;
 
+  @:uname(".ctor")
+  public static function createWithValues(r:Float32,g:Float32,b:Float32,a:Float32) : FLinearColor;
   @:uname("new")
-  public static function createWithValues(r:Float32,g:Float32,b:Float32,a:Float32) : POwnedPtr<FLinearColor>;
+  public static function createNewWithValues(r:Float32,g:Float32,b:Float32,a:Float32) : POwnedPtr<FLinearColor>;
 
 	/**
 	 * Linearly interpolates between two colors by the specified progress amount.  The interpolation is performed in HSV color space

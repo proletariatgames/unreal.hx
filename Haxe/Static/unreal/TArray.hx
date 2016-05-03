@@ -173,9 +173,9 @@ private typedef TArrayImpl<T> = Dynamic;
   macro public static function create(?tParam:Expr) : Expr {
     return macro unreal.TArrayImpl.create($tParam);
   }
-  
-  macro public static function createStruct(?tParam:Expr) : Expr {
-    return macro unreal.TArrayImpl.createStruct($tParam);
+
+  macro public static function createNew(?tParam:Expr) : Expr {
+    return macro unreal.TArrayImpl.createNew($tParam);
   }
 
   macro public function copyCreate(self:Expr, ?tParam:Expr) : Expr {

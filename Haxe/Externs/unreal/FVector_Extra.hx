@@ -1,9 +1,11 @@
 package unreal;
 
 extern class FVector_Extra {
-  @:uname('new') public static function createWithValues(x:Float32, y:Float32, z:Float32):POwnedPtr<FVector>;
+  @:uname('.ctor') public static function createWithValues(x:Float32, y:Float32, z:Float32):FVector;
+  @:uname('new') public static function createNewWithValues(x:Float32, y:Float32, z:Float32):POwnedPtr<FVector>;
 
-  @:uname('new') public static function createForceInit(e:EForceInit):POwnedPtr<FVector>;
+  @:uname('.ctor') public static function createForceInit(e:EForceInit):FVector;
+  @:uname('new') public static function createNewForceInit(e:EForceInit):POwnedPtr<FVector>;
 
   /**
    * Gets a normalized copy of the 2D components of the vector, checking it is safe to do so. Z is set to zero.

@@ -545,14 +545,13 @@ class ExternBaker {
             this.newline();
 
             // add wrap
-            this.add('@:unreflective static function wrapPointer(uobject:cpp.RawPointer<cpp.Void>):cpp.RawPointer<cpp.Void>');
+            this.add('@:unreflective static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
             this.begin(' {');
-              this.add('var ptr:cpp.Pointer<Dynamic> = cpp.Pointer.fromRaw(cast uobject);');
               this.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(ptr));');
             this.end('}');
           }
 
-          this.add('public static function wrap(uobject:cpp.Pointer<Dynamic>):${this.typeRef.getClassPath()}');
+          this.add('inline public static function wrap(uobject:${this.thisConv.haxeGlueType}):${this.typeRef.getClassPath()}');
           this.begin(' {');
             this.add('return cast unreal.helpers.ClassWrap.wrap(uobject);');
           this.end('}');

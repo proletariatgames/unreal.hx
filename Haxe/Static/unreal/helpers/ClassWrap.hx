@@ -12,24 +12,23 @@ class ClassWrap {
   static var delegateHandle:FDelegateHandle;
   static var nIndex:Int = 0;
 
-  public static function wrap(nativePtr:Pointer<Dynamic>):UObject {
+  public static function wrap(nativePtr:UIntPtr):UObject {
     if (nativePtr == null) {
       return null;
     }
-    var rawNative:RawPointer<cpp.Void> = nativePtr.rawCast();
 
     if (wrappers == null) {
       wrappers = new Map();
       indexes = [];
       delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
     }
-    var index = ObjectArrayHelper_Glue.objectToIndex(rawNative);
+    var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
     var ret = wrappers[index];
     var serial = ObjectArrayHelper_Glue.indexToSerial(index);
     if (ret != null) {
       if (ret.serialNumber == serial) {
 #if debug
-        if (ret.wrapped != rawNative) {
+        if (ret.wrapped != nativePtr) {
           throw 'assert: ${cpp.Pointer.fromRaw(cast ret.wrapped)} != ${nativePtr}';
         }
 #end
@@ -42,7 +41,7 @@ class ClassWrap {
     if (serial == 0) {
       serial = ObjectArrayHelper_Glue.allocateSerialNumber(index);
     }
-    ret = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(rawNative) );
+    ret = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr) );
     ret.serialNumber = serial;
     wrappers[index] = ret;
     indexes[nIndex++] = index;

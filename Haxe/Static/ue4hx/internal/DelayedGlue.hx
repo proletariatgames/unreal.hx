@@ -18,7 +18,15 @@ class DelayedGlue {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
-    var field = findField(cls, fieldName, isStatic);
+
+    var abs = switch(cls.kind) {
+      case KAbstractImpl(a):
+        a;
+      case _:
+        null;
+    };
+
+    var field = findField(cls, fieldName, isStatic || abs != null);
     if (field == null) throw 'assert';
     var old = Globals.cur.currentFeature;
     Globals.cur.currentFeature = 'keep'; // these fields will always be kept
@@ -174,7 +182,14 @@ class DelayedGlue {
       return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
     }
 
-    var field = findField(cls, fieldName, isStatic);
+    var abs = switch(cls.kind) {
+      case KAbstractImpl(a):
+        a;
+      case _:
+        null;
+    };
+
+    var field = findField(cls, fieldName, isStatic || abs != null);
     if (field == null)
       throw new Error('Unreal Glue Generation: Field calls native but no field was found with that name ($fieldName)', pos);
     var fargs = null, fret = null;
@@ -182,6 +197,9 @@ class DelayedGlue {
     case TFun(targs,tret):
       var argn = 0;
       // TESTME: add test for super.call(something, super.call(other))
+      if (abs != null && !isStatic) {
+        targs.shift();
+      }
       fargs = [ for (arg in targs) { name:'__unative_arg' + argn++, type:TypeConv.get(arg.t, pos) } ];
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';

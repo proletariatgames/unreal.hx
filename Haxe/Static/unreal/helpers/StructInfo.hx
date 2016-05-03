@@ -55,5 +55,5 @@ import cpp.ConstCharStar;
   /**
    * If the type is templated, this will contain a null-terminated specialized function array
    **/
-  public var memberTable:VoidPtr;
+  public var memberTable:cpp.RawPointer<VoidPtr>;
 }

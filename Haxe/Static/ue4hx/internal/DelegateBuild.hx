@@ -209,8 +209,11 @@ class DelegateBuild {
     complexThis = tref.toComplexType();
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
-      @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
+      @:uname(".ctor") public static function create():$complexThis {
         return $delayedglue.getNativeCall("create", true);
+      }
+      @:uname("new") public static function createNew():unreal.POwnedPtr<$complexThis> {
+        return $delayedglue.getNativeCall("createNew", true);
       }
     }
     for (field in added.fields)
@@ -244,7 +247,7 @@ class DelegateBuild {
         meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:pos });
         meta.push({ name:':uextension', params:[], pos:pos });
       }
-      var info = GlueInfo.fromBaseType(cl, Globals.cur.module);
+      var info = GlueInfo.fromBaseType(tdef, Globals.cur.module);
       var headerPath = info.getHeaderPath();
       meta.push({ name:':glueCppIncludes', params:[macro $v{headerPath}, macro "<ClassMap.h>"], pos:pos });
       meta.push({ name:':uhxdelegate', params:[], pos:pos });

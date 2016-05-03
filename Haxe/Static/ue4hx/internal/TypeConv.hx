@@ -22,6 +22,7 @@ class TypeConv {
   public var ueType(default, null):TypeRef;
   public var glueType(default, null):TypeRef;
   public var haxeGlueType(default, null):TypeRef;
+  private var originalSet(default, null):Bool;
 
   private function new(data, ?modifiers, ?original) {
     this.data = data;
@@ -31,7 +32,34 @@ class TypeConv {
   }
 
   inline public function withModifiers(modifiers, ?original) {
-    return new TypeConv(this.data, modifiers, original);
+    return new TypeConv(this.data, modifiers, original == null ? (originalSet ? wrapType(haxeType, modifiers) : null) : original);
+  }
+
+  private static function wrapType(type:TypeRef, modifiers:Array<Modifier>) {
+    // first take off all current modifiers
+    while (true) {
+      switch(type.name) {
+      case 'PRef' | 'PPtr' | 'Const':
+        type = type.params[0];
+      case _:
+        break;
+      }
+    }
+
+    if (modifiers != null) {
+      var i = modifiers.length;
+      while (i --> 0) {
+        switch(modifiers[i]) {
+        case Const:
+          type = new TypeRef(['unreal'], 'Const', [type]);
+        case Ref:
+          type = new TypeRef(['unreal'], 'PRef', [type]);
+        case Ptr:
+          type = new TypeRef(['unreal'], 'PPtr', [type]);
+        }
+      }
+    }
+    return type;
   }
 
   inline public function hasModifier(modf:Modifier) {
@@ -82,7 +110,7 @@ class TypeConv {
   }
 
   private function consolidate() {
-    var originalSet = this.haxeType != null;
+    this.originalSet = this.haxeType != null;
     switch(this.data) {
       case CBasic(info) | CSpecial(info):
         if (this.haxeType == null) {
@@ -496,28 +524,20 @@ class TypeConv {
   }
 
   inline public static function get(type:Type, pos:Position):TypeConv {
-    // var cache = Globals.cur.typeConvCache,
-    //     str = Std.string(type);
-    // var ret = cache[str];
-    // if (ret != null) {
-    //   return ret;
-    // }
-    // ret = getInfo(type, pos, { accFlags:ONone });
-    // cache[str] = ret;
-    // return ret;
     return getInfo(type, pos, { accFlags:ONone });
   }
 
   private static function getInfo(type:Type, pos:Position, ctx:InfoCtx):TypeConv {
     var cache = Globals.cur.typeConvCache;
+    var o = type;
     while(true) {
       switch(type) {
       case TInst(iref, tl):
         var name = tl.length == 0 ? iref.toString() : null;
         if (name != null) {
           var ret = cache[name];
-          if (ret != null) {
-            if (ctx.modf == null) {
+          if (ret != null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
+            if (ctx.modf == null && ctx.original == null) {
               return ret;
             } else {
               return new TypeConv(ret.data, ctx.modf, ctx.original);
@@ -559,14 +579,27 @@ class TypeConv {
           } else {
             ret = CStruct(SHaxe, info, tl.length > 0 ? [for (param in tl) get(param, pos)] : null);
           }
+        } else if (it.kind.match(KAbstractImpl(_))) {
+          var impl = switch(it.kind) {
+            case KAbstractImpl(a):
+              a;
+            case _:
+              throw 'assert';
+          };
+          var args = [ for (p in impl.get().params) p.t ];
+          type = TAbstract(impl,args);
         } else {
-          Context.warning('Unreal Glue: Type $iref is not supported', pos);
+          trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
+          throw new Error('Unreal Glue: Type $iref is not supported', pos);
         }
-        var ret = new TypeConv(ret, ctx.modf, ctx.original);
-        if (name != null && ctx.modf == null) {
-          cache[name] = ret;
+
+        if (ret != null) {
+          var ret = new TypeConv(ret, ctx.modf, ctx.original);
+          if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
+            cache[name] = ret;
+          }
+          return ret;
         }
-        return ret;
 
       case TEnum(eref, tl):
         if (ctx.modf != null) {
@@ -598,7 +631,7 @@ class TypeConv {
         }
 
         var ret = new TypeConv(ret, ctx.modf, ctx.original);
-        if (name != null) {
+        if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
           cache[name] = ret;
         }
         return ret;
@@ -640,13 +673,13 @@ class TypeConv {
             if (ctx.original == null) {
               ctx.original = TypeRef.fromBaseType(a, tl, pos);
             }
-            type = Context.followWithAbstracts(type, true);
+            type = a.type.applyTypeParameters(a.params, tl);
           }
         }
 
         if (ret != null) {
           var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          if (name != null && ctx.modf == null) {
+          if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
             cache[name] = ret;
           }
           return ret;
@@ -848,8 +881,8 @@ class TypeConv {
       {
         haxeType: new TypeRef(['unreal'],'TCharStar'),
         ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('TCHAR')]),
-        haxeGlueType: voidStar,
-        glueType: voidStar,
+        haxeGlueType: uintPtr,
+        glueType: uintPtr,
 
         glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),

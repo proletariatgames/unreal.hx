@@ -7,15 +7,15 @@ import unreal.helpers.HaxeHelpers;
     this = FNameImpl.create(str);
   }
 
-  inline public static function create(str:String):unreal.POwnedPtr<FName> {
+  inline public static function create(str:String):FName {
     return FNameImpl.create(str);
   }
 
-  inline public static function createInt(name:UnrealName) : unreal.POwnedPtr<FName> {
+  inline public static function createInt(name:UnrealName):FName {
     return FNameImpl.createFromInt(name);
   }
 
-  @:from inline private static function fromName(name:UnrealName) : FName {
+  @:from inline private static function fromName(name:UnrealName):FName {
     return createInt(name);
   }
 

@@ -65,8 +65,11 @@ class StructBuild {
         return cast ptr;
       }
 
-      @:uname("new") public static function create():unreal.POwnedPtr<$complexThis> {
+      @:uname(".ctor") public static function create():$complexThis {
         return $delayedglue.getNativeCall("create", true);
+      }
+      @:uname("new") public static function createNew():unreal.POwnedPtr<$complexThis> {
+        return $delayedglue.getNativeCall("createNew", true);
       }
     };
     for (field in added.fields) {
