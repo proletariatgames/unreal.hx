@@ -8,7 +8,7 @@ package unreal;
 
   static function AsNumber(Val:Float32, Options:Const<PPtr<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl;
 
-  @:expr(return this.ToString().op_Dereference()) public function toString():String;
+  @:expr(return ToString().op_Dereference()) public function toString():String;
 }
 
 

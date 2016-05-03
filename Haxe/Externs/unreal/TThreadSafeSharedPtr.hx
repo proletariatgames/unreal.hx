@@ -1,10 +1,12 @@
 package unreal;
 
-@:unrealType
-@:access(unreal.Wrapper)
-@:forward abstract TSharedPtr<T>(T) to T {
+@:uextern extern class TThreadSafeSharedPtr<T> {
   // @:to @:impl public static function toWeakPtr<T : Wrapper>(self:T):TWeakPtr<T> {
   //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() ) );
+  // }
+  //
+  // @:from @:impl public static function fromWrapper<T : Wrapper>(self:T):TThreadSafeSharedPtr<T> {
+  //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtrTS() ) );
   // }
   //
   // @:impl public static function toSharedRef<T : Wrapper>(self:T):TSharedRef<T> {
@@ -12,6 +14,6 @@ package unreal;
   // }
   //
   // @:impl public static function IsValid<T : Wrapper>(self:T):Bool {
-  //   return self != null && self.wrapped.ptr.getPointer() != untyped __cpp__('0');
+  //   return self.wrapped.ptr.getPointer() != untyped __cpp__('0');
   // }
 }

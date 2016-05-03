@@ -1,7 +1,7 @@
 package unreal;
 
 @:include('IntPtr.h')
-@:coreType @:notNull @:scalar extern abstract IntPtr from Int {
+@:coreType @:scalar extern abstract IntPtr from Int {
 	@:op(A+B) public static function addI(lhs:IntPtr, rhs:Int):IntPtr;
 	@:op(A+B) public static function add(lhs:IntPtr, rhs:IntPtr):IntPtr;
 	@:op(A*B) public static function mulI(lhs:IntPtr, rhs:Int):IntPtr;

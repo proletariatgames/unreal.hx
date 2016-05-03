@@ -17,12 +17,12 @@ import unreal.Wrapper;
     throw str.toString();
   }
 
-  public static function createInlinePodWrapper(size:Int) : VariantPtr {
-    return VariantPtr.fromDynamic( InlinePodWrapper.create(size) );
+  public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
+    return VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
   }
 
-  public static function createInlineWrapper(size:Int) : VariantPtr {
-    return VariantPtr.fromDynamic( InlineWrapper.create(size) );
+  public static function createInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
+    return VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
   }
 
   @:native("callFunction")

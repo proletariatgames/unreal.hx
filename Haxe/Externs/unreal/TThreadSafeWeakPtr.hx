@@ -1,8 +1,6 @@
 package unreal;
 
-@:unrealType
-@:access(unreal.Wrapper)
-@:forward abstract TWeakPtr<T>(T) {
+@:uextern extern class TThreadSafeWeakPtr<T> {
   // @:impl public static function Pin<T : Wrapper>(self:T):TSharedPtr<T> {
   //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtr() ) );
   // }

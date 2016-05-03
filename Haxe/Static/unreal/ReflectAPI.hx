@@ -33,57 +33,62 @@ class ReflectAPI {
     }
   }
 
+//   private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
+//     var cls = to == null ? null : Type.getClass(to);
+//     if (cls == null && to != null && !Reflect.isEnumValue(to) && Reflect.isObject(to)) {
+//       if (Std.is(from, Wrapper)) {
+//         for (field in Reflect.fields(to)) {
+//           var newPath =
+// #if debug
+//             path + '.$field';
+// #else
+//             null;
+// #end
+//           extSetField_rec(from, field, Reflect.field(to, field), newPath);
+//         }
+//         return true;
+//       }
+//     } else if (cls == Array) {
+//       if (Std.is(from, TArrayImpl)) {
+//         var arr:Array<Dynamic> = to,
+//             from:TArray<Dynamic> = from;
+//         from.Empty();
+//         from.AddZeroed(arr.length);
+//         for (i in 0...arr.length) {
+//           var old = from[i];
+//           var newPath =
+// #if debug
+//             path + '[$i]';
+// #else
+//             null;
+// #end
+//           var val = arr[i];
+//           if (old == null || !handleInplaceStruct(old, val, newPath)) {
+//             from[i] = changeType(old, val, newPath);
+//           }
+//         }
+//         return true;
+//       }
+//     }
+//     return false;
+//   }
+
   private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
-    var cls = to == null ? null : Type.getClass(to);
-    if (cls == null && to != null && !Reflect.isEnumValue(to) && Reflect.isObject(to)) {
-      if (Std.is(from, Wrapper)) {
-        for (field in Reflect.fields(to)) {
-          var newPath =
-#if debug
-            path + '.$field';
-#else
-            null;
-#end
-          extSetField_rec(from, field, Reflect.field(to, field), newPath);
-        }
-        return true;
-      }
-    } else if (cls == Array) {
-      if (Std.is(from, TArrayImpl)) {
-        var arr:Array<Dynamic> = to,
-            from:TArray<Dynamic> = from;
-        from.Empty();
-        from.AddZeroed(arr.length);
-        for (i in 0...arr.length) {
-          var old = from[i];
-          var newPath =
-#if debug
-            path + '[$i]';
-#else
-            null;
-#end
-          var val = arr[i];
-          if (old == null || !handleInplaceStruct(old, val, newPath)) {
-            from[i] = changeType(old, val, newPath);
-          }
-        }
-        return true;
-      }
-    }
-    return false;
+    return false; // FIXME
   }
 
   private static function changeType(from:Dynamic, to:Dynamic, path:String):Dynamic {
-    if (Std.is(to, String)) {
-      if (Std.is(from, FStringImpl)) {
-        return new FString(to);
-      } else if (Std.is(from, FNameImpl)) {
-        return new FName(to);
-      } else if (Std.is(from, FTextImpl)) {
-        return new FText(to);
-      }
-    }
-    return to;
+    // if (Std.is(to, String)) {
+    //   if (Std.is(from, FStringImpl)) {
+    //     return new FString(to);
+    //   } else if (Std.is(from, FNameImpl)) {
+    //     return new FName(to);
+    //   } else if (Std.is(from, FTextImpl)) {
+    //     return new FText(to);
+    //   }
+    // }
+    // return to;
+    return to; // FIXME
   }
 
   private static function extSetField_rec(obj:Dynamic, field:String, value:Dynamic, path:String) {
@@ -153,19 +158,19 @@ class ReflectAPI {
       var prop:UObjectPropertyBase = cast prop;
       prop.SetObjectPropertyValue(objOffset, value);
     } else if (Std.is(prop, UNameProperty)) {
-      if (!Std.is(value, FNameImpl)) {
+      if (Std.is(value, String)) {
         value = (cast(value, String) : FName);
       }
       var myObj = AnyPtr.fromStruct(value);
       prop.CopyCompleteValue(objOffset, myObj);
     } else if (Std.is(prop, UStrProperty)) {
-      if (!Std.is(value, FStringImpl)) {
+      if (Std.is(value, String)) {
         value = (cast(value,String) : FString);
       }
       var myObj = AnyPtr.fromStruct(value);
       prop.CopyCompleteValue(objOffset, myObj);
     } else if (Std.is(prop, UTextProperty)) {
-      if (!Std.is(value, FTextImpl)) {
+      if (Std.is(value, String)) {
         value = (cast(value,String) : FText);
       }
       var myObj = AnyPtr.fromStruct(value);

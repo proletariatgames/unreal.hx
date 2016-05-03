@@ -7,9 +7,16 @@ abstract AnyPtr(VariantPtr) from VariantPtr to VariantPtr {
     return VariantPtr.fromUIntPtr( ptr + offset );
   }
 
-#if !bake_externs
+#if (!bake_externs && cpp)
   public function getUObject(at:Int):UObject {
-    return UObject.wrap(at == 0 ? this : this.add(at));
+    var ptr:cpp.Pointer<cpp.UInt8> = this.isObject() ?
+      cpp.Pointer.fromRaw(cast (this.getDynamic() : Wrapper).getPointer()) :
+      cpp.Pointer.fromRaw(this.toPointer()).reinterpret();
+    if (at != 0) {
+      ptr = ptr.add(at);
+    }
+
+    return UObject.wrap(( cast ptr.rawCast() : unreal.UIntPtr ));
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {

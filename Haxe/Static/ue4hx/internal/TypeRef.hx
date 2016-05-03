@@ -224,39 +224,16 @@ class TypeRef
   }
   public function getGlueHelperType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_Glue');
+    return new TypeRef(['uhx','glues'], name + '_Glue');
   }
 
   public function getScriptGlueType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_GlueScript');
+    return new TypeRef(['uhx','glues'], name + '_GlueScript');
   }
 
   public function getExposeHelperType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_Expose');
-  }
-
-  public function getTypeParamType():TypeRef {
-    var newPack = [ '__pvt', '_hx_tparam' ],
-        name = new StringBuf();
-    var buf = this.getReducedPath();
-    buf.add('_TypeParam');
-    var ret = buf.toString();
-    if (ret.length > 50) {
-      var sig = haxe.crypto.Md5.encode(ret).substr(0,8);
-      ret = this.getLastName() + '_TypeParam_' + sig;
-    }
-
-    return new TypeRef(newPack, ret);
+    return new TypeRef(['uhx','expose'], name + '_Expose');
   }
 
   public function getLastName():String {

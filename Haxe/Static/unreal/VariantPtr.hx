@@ -30,9 +30,14 @@ extern class VariantPtr {
   public function getDynamic():Null<Dynamic>;
 
   /**
-    Gets its underlying IntPtr value. This is the same as doing `rawValue >> 1`
+    Gets its underlying IntPtr value
    **/
   public function getIntPtr():IntPtr;
+
+  /**
+    Gets its underlying UIntPtr value
+   **/
+  public function getUIntPtr():UIntPtr;
 
   /**
     Returns whether `this` represents an object or an `IntPtr` value

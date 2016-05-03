@@ -373,13 +373,13 @@ class ExternBaker {
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
     if (!c.isExtern) return;
-    if (!c.meta.has(':uextern')) {
-      c.meta.add(':uextern', [], c.pos);
-    }
     this.type = type;
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
     this.thisConv = TypeConv.get(type,c.pos); // FIXME? ,'unreal.PExternal');
+    if (!c.meta.has(':uextern')) {
+      throw new Error('Extern Baker: Extern class $typeRef is on the extern class path, but is not a @:uextern type', c.pos);
+    }
 
     this.addDoc(c.doc);
     var fields = c.fields.get(),

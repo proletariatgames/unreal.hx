@@ -371,6 +371,14 @@ class NativeGlueCode
       case TInst(c,tl):
         var typeName = c.toString();
         var cl = c.get();
+        switch(cl.kind) {
+        case KAbstractImpl(a):
+          var a = a.get();
+          for (meta in a.meta.get()) {
+            cl.meta.add(meta.name, meta.params, meta.pos);
+          }
+        case _:
+        }
         if (cl.meta.has(':alreadyCompiled')) {
           if (!cl.meta.has(':wasCompiled')) {
             cl.meta.add(':wasCompiled',[],cl.pos);
