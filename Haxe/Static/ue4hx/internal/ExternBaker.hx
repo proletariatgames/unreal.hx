@@ -540,12 +540,14 @@ class ExternBaker {
             var glueClassGet = glueType.getClassPath() + '.StaticClass()';
             this.add('static function __init__():Void');
             this.begin(' {');
-              this.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, cpp.Function.fromStaticFunction(wrapPointer));');
+              this.add('var func = cpp.Function.fromStaticFunction(wrapPointer).toFunction();');
+              this.newline();
+              this.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, func);');
             this.end('}');
             this.newline();
 
             // add wrap
-            this.add('@:unreflective static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
+            this.add('static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
             this.begin(' {');
               this.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
             this.end('}');
@@ -569,7 +571,7 @@ class ExternBaker {
       if (c.superClass == null && !isAbstract && !this.thisConv.data.match(CUObject(OInterface,_,_))) {
         this.newline();
         // add constructor
-        this.add('@:unreflective private var wrapped:${this.thisConv.haxeGlueType};');
+        this.add('private var wrapped:${this.thisConv.haxeGlueType};');
         this.newline();
         if (this.thisConv.haxeGlueType.isReflective())
           this.add('private function new(wrapped) this.wrapped = wrapped;\n\t');

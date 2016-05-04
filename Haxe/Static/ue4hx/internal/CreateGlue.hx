@@ -57,59 +57,61 @@ class CreateGlue {
     Globals.cur.inScriptPass = false;
 
     // once we get here, we've built everything we need
-    var cur = Globals.cur;
 
     // main build loop. all build-sensitive types will be continously be built
     // until there's nothing else to be built
-    while (
-      cur.uextensions != null ||
-      cur.gluesToGenerate != null ||
-      cur.delays != null) {
+    Context.onAfterTyping(function(_) {
+      var cur = Globals.cur;
+      while (
+        cur.uextensions != null ||
+        cur.gluesToGenerate != null ||
+        cur.delays != null) {
 
-      var uextensions = cur.uextensions;
-      cur.uextensions = null;
-      while (uextensions != null) {
-        var uext = uextensions.value;
-        uextensions = uextensions.next;
-        Globals.cur.currentFeature = 'keep';
-        var type = Context.getType(uext);
-        new UExtensionBuild().generate(type);
-      }
-      Globals.cur.currentFeature = null;
+        var uextensions = cur.uextensions;
+        cur.uextensions = null;
+        while (uextensions != null) {
+          var uext = uextensions.value;
+          uextensions = uextensions.next;
+          Globals.cur.currentFeature = 'keep';
+          var type = Context.getType(uext);
+          new UExtensionBuild().generate(type);
+        }
+        Globals.cur.currentFeature = null;
 
-      var glues = cur.gluesToGenerate;
-      cur.gluesToGenerate = null;
-      while (glues != null) {
-        var glue = glues.value;
-        glues = glues.next;
+        var glues = cur.gluesToGenerate;
+        cur.gluesToGenerate = null;
+        while (glues != null) {
+          var glue = glues.value;
+          glues = glues.next;
 
-        var type = Context.getType(glue);
-        switch(type) {
-        case TInst(c,_):
-          var cl = c.get();
-          if (cl.meta.has(':ueHasGenerics')) {
-            new GenericFuncBuild().buildFunctions(c);
+          var type = Context.getType(glue);
+          switch(type) {
+          case TInst(c,_):
+            var cl = c.get();
+            if (cl.meta.has(':ueHasGenerics')) {
+              new GenericFuncBuild().buildFunctions(c);
+            }
+            nativeGlue.writeGlueHeader(cl);
+          case TAbstract(a,_):
+            var a = a.get();
+            var cl = a.impl.get();
+            if (cl.meta.has(':ueHasGenerics')) {
+              new GenericFuncBuild().buildFunctions(a.impl);
+            }
+            nativeGlue.writeGlueHeader(cl);
+          case _:
+            throw 'assert';
           }
-          nativeGlue.writeGlueHeader(cl);
-        case TAbstract(a,_):
-          var a = a.get();
-          var cl = a.impl.get();
-          if (cl.meta.has(':ueHasGenerics')) {
-            new GenericFuncBuild().buildFunctions(a.impl);
-          }
-          nativeGlue.writeGlueHeader(cl);
-        case _:
-          throw 'assert';
+        }
+
+        var delays = cur.delays;
+        cur.delays = null;
+        while (delays != null) {
+          delays.value();
+          delays = delays.next;
         }
       }
-
-      var delays = cur.delays;
-      cur.delays = null;
-      while (delays != null) {
-        delays.value();
-        delays = delays.next;
-      }
-    }
+    });
 
     var isDceFull = Context.definedValue('dce') == 'full';
     for (type in Globals.cur.scriptGlues) {

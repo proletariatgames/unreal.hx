@@ -122,8 +122,10 @@ class TypeRef
           params = tl;
         case TAnonymous(_):
           throw new Error('Unreal Glue: Anonymous type not supported', pos);
-        case TFun(_,_):
-          throw new Error('Unreal Glue: Function type not supported', pos);
+        case TFun(a,r):
+          var all = [ for (arg in a) fromType(arg.t, pos) ];
+          all.push(fromType(r, pos));
+          return new TypeRef(['haxe'],'Function','Constraints',all);
         case TMono(mono):
           t = mono.get();
         case TLazy(lazy):

@@ -245,9 +245,9 @@ class TypeConv {
       // we only use unreal::UIntPtr on the glue code
       set.add('IntPtr.h');
     case CEnum(type, info):
-      set.add('hxcpp.h');
+      set.add('<hxcpp.h>');
     case CStruct(type,info,params):
-      set.add('IntPtr.h');
+      set.add('VariantPtr.h');
 
     case CLambda(_, _):
       set.add('IntPtr.h');
@@ -832,20 +832,18 @@ class TypeConv {
       {
         ueType: new TypeRef('uint64'),
         haxeType: new TypeRef(['unreal'],'FakeUInt64'),
-        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
-        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        haxeToGlueExpr: '(cast (%) : cpp.Int64)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         glueToUeExpr: '((uint64) (%))',
       },
       {
         ueType: new TypeRef('int64'),
         haxeType: new TypeRef(['unreal'],'Int64'),
-        haxeGlueType: new TypeRef(['ue4hx','internal'], 'Int64Glue'),
         glueType: new TypeRef(['cpp'], 'Int64'),
 
-        haxeToGlueExpr: '(cast (%) : ue4hx.internal.Int64Glue)',
+        haxeToGlueExpr: '(cast (%) : cpp.Int64)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         glueToUeExpr: '((int64) (%))',
       },

@@ -1,5 +1,4 @@
 package unreal.helpers;
-import cpp.RawPointer;
 import cpp.Function;
 import unreal.*;
 
@@ -28,7 +27,7 @@ class ClassWrap {
       if (ret.serialNumber == serial) {
 #if debug
         if (ret.wrapped != nativePtr) {
-          throw 'assert: ${cpp.Pointer.fromRaw(cast ret.wrapped)} != ${nativePtr}';
+          throw 'assert: ${ret.wrapped} != ${nativePtr}';
         }
 #end
         return ret;

@@ -21,6 +21,8 @@ public:
   inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
 #ifndef __UNREAL__
   inline VariantPtr(const Dynamic& inRHS) : raw((UIntPtr) inRHS.mPtr) { }
+  inline VariantPtr(const cpp::Variant& inRHS) : raw((UIntPtr) Dynamic(inRHS).mPtr) { }
+  inline VariantPtr(const null& inRHS) : raw(0) { }
 
   inline operator Dynamic() {
     if ((raw & 1) == 0) {
@@ -29,6 +31,10 @@ public:
       return cpp::Pointer<void>((void *) (raw - 1));
     }
   }
+
+  // inline operator cpp::Variant() {
+  //   return cpp::Variant(this->getDynamic());
+  // }
 
   inline Dynamic getDynamic() {
     if ((raw & 1) == 0) {
@@ -42,13 +48,12 @@ public:
   // Allow '->' syntax
   inline VariantPtr *operator->() { return this; }
 
-  inline operator IntPtr() { return (IntPtr) raw; }
   inline IntPtr getIntPtr() { return (IntPtr) raw; }
   inline UIntPtr getUIntPtr() { return (UIntPtr) raw; }
 
   inline bool isObject() { return (raw & 1) == 0; }
 
-  inline operator UIntPtr() { return raw; }
+  // inline operator UIntPtr() { return raw; }
 
   inline void *toPointer() {
     return ((raw & 1) == 1) ? ( (void *) (raw - 1) ) : haxeObjToPointer(raw);

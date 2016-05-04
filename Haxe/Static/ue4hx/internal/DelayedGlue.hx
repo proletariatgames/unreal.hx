@@ -343,6 +343,13 @@ class DelayedGlue {
 
   public function build() {
     var cls = this.cls;
+    var parentAbstract:AbstractType = null;
+    var parent:BaseType = switch(cls.kind) {
+      case KAbstractImpl(a):
+        parentAbstract = a.get();
+      case _:
+        cls;
+    };
     this.typeRef = TypeRef.fromBaseType( cls, this.pos );
     this.thisConv = TypeConv.get( this.type, this.pos ).withModifiers([Ptr]);
     this.gluePath = this.typeRef.getGlueHelperType().getClassPath();
@@ -373,21 +380,21 @@ class DelayedGlue {
         superCalls = new Map(),
         nativeCalls = new Map(),
         methodPtrs = new Map();
-    for (prop in MacroHelpers.extractStrings( cls.meta, ':uproperties' )) {
+    for (prop in MacroHelpers.extractStrings( parent.meta, ':uproperties' )) {
       uprops[prop] = null;
     }
-    for (scall in MacroHelpers.extractStrings( cls.meta, ':usupercalls' )) {
+    for (scall in MacroHelpers.extractStrings( parent.meta, ':usupercalls' )) {
       // if the field was already overriden in a previous Haxe declaration,
       // we should not build the super call
       if (!ignoreSupers.exists(scall))
         superCalls[scall] = null;
     }
-    for (ncall in MacroHelpers.extractStrings( cls.meta, ':unativecalls' )) {
+    for (ncall in MacroHelpers.extractStrings( parent.meta, ':unativecalls' )) {
       if (!ignoreSupers.exists(ncall)) {
         nativeCalls[ncall] = null;
       }
     }
-    for (methodPtr in MacroHelpers.extractStrings( cls.meta, ':umethodptrs' )) {
+    for (methodPtr in MacroHelpers.extractStrings( parent.meta, ':umethodptrs' )) {
       methodPtrs[methodPtr] = null;
     }
 
@@ -440,13 +447,13 @@ class DelayedGlue {
     // var glueHeaderIncludes = this.thisConv.glueHeaderIncludes;
     // var glueCppIncludes = this.thisConv.glueCppIncludes;
 
-    cls.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
-    cls.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
+    parent.meta.add(':glueHeaderIncludes', [ for (inc in glueHeaderIncludes) macro $v{inc} ], this.pos);
+    parent.meta.add(':glueCppIncludes', [ for (inc in glueCppIncludes) macro $v{inc} ], this.pos);
 
-    if (cls.meta.has(":uhxdelegate")) {
-      writeDelegateDefinition(cls);
+    if (parent.meta.has(":uhxdelegate")) {
+      writeDelegateDefinition(parentAbstract);
     } else if (cls.meta.has(":ustruct")) {
-      writeStructDefinition(cls);
+      writeStructDefinition(parentAbstract);
     }
 
     Globals.cur.cachedBuiltTypes.push(glue.getClassPath());
@@ -456,20 +463,52 @@ class DelayedGlue {
     cls.meta.add(':dummy',[],cls.pos);
   }
 
-  private function writeStructDefinition(cls:ClassType) {
-    if (Globals.cur.glueTargetModule != null && !cls.meta.has(':uextension')) {
-      cls.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], cls.pos);
-      cls.meta.add(':uextension', [], cls.pos);
+  private function writeStructDefinition(abs:AbstractType) {
+    if (Globals.cur.glueTargetModule != null && !abs.meta.has(':uextension')) {
+      abs.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], abs.pos);
+      abs.meta.add(':uextension', [], abs.pos);
     }
-    var info = GlueInfo.fromBaseType(cls);
+    var info = GlueInfo.fromBaseType(abs);
     var uname = info.uname.join('.');
     var headerPath = info.getHeaderPath(true);
 
     var writer = new HeaderWriter(headerPath);
     writer.buf.add(NativeGlueCode.prelude);
 
-    var uprops = [];
-    for (field in cls.fields.get()) {
+    var cls = abs.impl.get();
+
+    var uprops = [],
+        supFields = new Map();
+    var tlSup = [ for (param in abs.params) param.t ],
+        aSup = abs;
+    var firstSuper = null,
+        firstSuperTl = null;
+    while (true) {
+      switch(Context.follow(aSup.type.applyTypeParameters(aSup.params, tlSup))) {
+        case TAbstract(a,tl):
+          switch(a.toString()) {
+            case 'unreal.Struct' | 'unreal.VariantPtr':
+              break;
+            case _:
+              tlSup = tl;
+              aSup = a.get();
+              if (firstSuper == null) {
+                firstSuper = a;
+                firstSuperTl = tl;
+              }
+          }
+        case _:
+          break;
+      }
+      for (field in aSup.impl.get().statics.get()) {
+        if (field.meta.has(':impl')) {
+          supFields[field.name] = true;
+        }
+      }
+    }
+
+    for (field in cls.statics.get()) {
+      if (!field.meta.has(':impl')) continue;
       if (field.kind.match(FVar(_))) {
         if (field.meta.has(':uproperty')) {
           uprops.push({field:field, type:TypeConv.get(field.type, field.pos)});
@@ -481,15 +520,10 @@ class DelayedGlue {
           throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
         }
         // we can only override non-extern functions
-        var scls = cls.superClass != null ? cls.superClass.t.get() : null;
-        while (scls != null) {
-          if (scls.fields.get().exists(function(f) return f.name == field.name)) {
-            if (scls.isExtern || scls.meta.has(':uextern')) {
-              throw new Error('Unreal Glue: overriding an extern function in a ustruct is not supported', field.pos);
-            }
-            break;
+        if (supFields[field.name]) {
+          if (aSup.meta.has(':uextern')) {
+            throw new Error('Unreal Glue: overriding an extern function in a ustruct is not supported', field.pos);
           }
-          scls = scls.superClass != null ? scls.superClass.t.get() : null;
         }
       }
     }
@@ -509,8 +543,8 @@ class DelayedGlue {
     }
 
     var extendsStr = '';
-    if (cls.superClass != null && cls.superClass.t.get().name != "UnrealStruct") {
-      var tconv = TypeConv.get( TInst(cls.superClass.t, cls.superClass.params), cls.pos );
+    if (firstSuper != null) {
+      var tconv = TypeConv.get( TAbstract(firstSuper, firstSuperTl), abs.pos );
       extendsStr = ': public ' + tconv.ueType.getCppClass();
 
       // we're using the ueType so we'll include the glueCppIncludes
@@ -523,12 +557,12 @@ class DelayedGlue {
 
     writer.include('$uname.generated.h');
 
-    var targetModule = MacroHelpers.extractStrings(cls.meta, ':umodule')[0];
+    var targetModule = MacroHelpers.extractStrings(abs.meta, ':umodule')[0];
     if (targetModule == null) {
       targetModule = Globals.cur.module;
     }
 
-    var ustruct = cls.meta.extract(':ustruct')[0];
+    var ustruct = abs.meta.extract(':ustruct')[0];
     if (ustruct != null) {
       writer.buf.add('USTRUCT(');
       if (ustruct.params != null) {
@@ -564,26 +598,33 @@ class DelayedGlue {
     writer.buf.add('};\n');
 
     writer.close(info.targetModule);
-    if (!cls.meta.has(':ufiledependency')) {
-      cls.meta.add(':ufiledependency', [macro $v{uname + '@' + info.targetModule}], cls.pos);
+    if (!abs.meta.has(':ufiledependency')) {
+      abs.meta.add(':ufiledependency', [macro $v{uname + '@' + info.targetModule}], abs.pos);
     }
   }
 
-  private function writeDelegateDefinition(cls:ClassType) {
-    var info = GlueInfo.fromBaseType(cls, Globals.cur.module);
+  private function writeDelegateDefinition(abs:AbstractType) {
+    var info = GlueInfo.fromBaseType(abs, Globals.cur.module);
     var uname = info.uname.join('.');
     var headerPath = info.getHeaderPath(true);
     var writer = new HeaderWriter(headerPath);
     writer.buf.add(NativeGlueCode.prelude);
 
-    var fnType = cls.superClass.params[0];
+    var parent = null;
+    var fnType = switch(abs.type) {
+      case TAbstract(a,[fn]):
+        parent = a.get();
+        fn;
+      case _:
+        throw 'assert';
+    }
     var args, ret;
     switch(Context.follow(fnType)) {
     case TFun(a,r):
-      args = [ for (arg in a) TypeConv.get(arg.t, cls.pos) ];
-      ret = TypeConv.get(r, cls.pos);
+      args = [ for (arg in a) TypeConv.get(arg.t, abs.pos) ];
+      ret = TypeConv.get(r, abs.pos);
     case _:
-      throw new Error('Invalid argument for delegate ${cls.interfaces[0].t.get().name}', cls.pos);
+      throw new Error('Invalid argument for delegate ${parent.name}', abs.pos);
     }
 
     var fwds = new Map(),
@@ -600,18 +641,18 @@ class DelayedGlue {
     }
 
     writer.include('$uname.generated.h');
-    var type = cls.superClass.t.get().name;
+    var type = parent.name;
     var isDynamicDelegate = switch(type) {
-      case 'DynamicMulticastDelegate', 'DynamicDelegate': true;
+      case 'BaseDynamicMulticastDelegate', 'BaseDynamicDelegate': true;
       default: false;
     }
 
     var declMacro = switch (type) {
-      case 'Delegate': 'DECLARE_DELEGATE';
-      case 'DynamicDelegate': 'DECLARE_DYNAMIC_DELEGATE';
-      case 'Event': 'DECLARE_EVENT';
-      case 'MulticastDelegate': 'DECLARE_MULTICAST_DELEGATE';
-      case 'DynamicMulticastDelegate': 'DECLARE_DYNAMIC_MULTICAST_DELEGATE';
+      case 'BaseDelegate': 'DECLARE_DELEGATE';
+      case 'BaseDynamicDelegate': 'DECLARE_DYNAMIC_DELEGATE';
+      case 'BaseEvent': 'DECLARE_EVENT';
+      case 'BaseMulticastDelegate': 'DECLARE_MULTICAST_DELEGATE';
+      case 'BaseDynamicMulticastDelegate': 'DECLARE_DYNAMIC_MULTICAST_DELEGATE';
       default: throw 'assert';
     }
 
@@ -625,11 +666,11 @@ class DelayedGlue {
       case 6: "_SixParams";
       case 7: "_SevenParams";
       case 8: "_EightParams";
-      default: throw new Error('Cannot declare a delegate with more than 8 parameters', cls.pos);
+      default: throw new Error('Cannot declare a delegate with more than 8 parameters', abs.pos);
     }
 
     var retStr = ret.haxeType.isVoid() ? "" : "_RetVal";
-    var constStr = cls.meta.has(':thisConst') ? "_Const" : "";
+    var constStr = abs.meta.has(':thisConst') ? "_Const" : "";
 
     // TODO: Support "payload" variables?
 
@@ -640,7 +681,7 @@ class DelayedGlue {
     }
     writer.buf.add(uname);
 
-    var paramNames = MacroHelpers.extractStrings(cls.meta, ':uParamName');
+    var paramNames = MacroHelpers.extractStrings(abs.meta, ':uParamName');
     for (i in 0...args.length) {
       var arg = args[i];
       writer.buf.add(', ${arg.ueType.getCppType()}');
@@ -654,7 +695,7 @@ class DelayedGlue {
     writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
     writer.buf.add('UCLASS() class U${uname}__Dummy : public UObject { GENERATED_BODY() };');
     writer.close(info.targetModule);
-    cls.meta.add(':ufiledependency', [macro $v{uname + "@" + Globals.cur.module}], cls.pos);
+    abs.meta.add(':ufiledependency', [macro $v{uname + "@" + Globals.cur.module}], abs.pos);
   }
 
   private function handleProperty(field:ClassField, isStatic:Bool) {
@@ -693,17 +734,24 @@ class DelayedGlue {
   }
 
   private function handleNativeCall(field:ClassField, isStatic:Bool) {
-    var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
-    if (uname == null)
-      uname = field.name;
-    var args = null, ret = null;
-    switch( Context.follow(field.type) ) {
-      case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
-        ret = TypeConv.get(tret, field.pos);
+    var args, ret = null;
+    switch(Context.follow(field.type)) {
+      case TFun(targs,tret):
+        args = targs;
+        ret = tret;
       case _:
         throw 'assert';
     }
+    if (field.meta.has(':impl')) {
+      isStatic = false;
+      args.shift();
+    }
+    var args = [ for (arg in args) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ],
+        ret = TypeConv.get(ret, field.pos);
+
+    var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
+    if (uname == null)
+      uname = field.name;
 
     var meth = new GlueMethod({
       name: field.name,

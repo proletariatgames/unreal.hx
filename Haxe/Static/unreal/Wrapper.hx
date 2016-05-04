@@ -23,24 +23,16 @@ class Wrapper {
  **/
 #if UHX_EXTRA_DEBUG
 @:headerClassCode('
-  inline void *operator new( size_t inSize, Int inExtra ) {
-    return hx::Object::operator new( (size_t) inSize + inExtra, false, "unreal.InlinePodWrapper" );
-  }
-
-  inline static InlineWrapper create(Int extraSize, unreal::UIntPtr info) {
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
     InlinePodWrapper_obj *result = new (extraSize) InlinePodWrapper_obj;
     result->init();
-    result->m_info = (struct StructInfo *) info;
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     return result;
   }
 ')
 #else
 @:headerClassCode('
-  inline void *operator new( size_t inSize, Int inExtra ) {
-    return hx::Object::operator new( (size_t) inSize + inExtra, false, "unreal.InlinePodWrapper" );
-  }
-
-  inline static InlineWrapper create(Int extraSize, unreal::UIntPtr info) {
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
     InlinePodWrapper_obj *result = new (extraSize) InlinePodWrapper_obj;
     result->init();
     return result;
@@ -73,13 +65,9 @@ class InlinePodWrapper extends Wrapper {
 /**
  **/
 @:headerClassCode('
-  inline void *operator new( size_t inSize, Int inExtra ) {
-    return hx::Object::operator new( (size_t) inSize + inExtra, false, "unreal.InlineWrapper" );
-  }
-
-  inline static InlineWrapper create(Int extraSize, unreal::UIntPtr info) {
+  inline static hx::ObjectPtr< InlineWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
     InlineWrapper_obj *result = new (extraSize) InlineWrapper_obj;
-    result->m_info = (struct StructInfo *) info;
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     result->init();
     return result;
   }
