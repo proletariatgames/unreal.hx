@@ -25,7 +25,6 @@ class GlueMethod {
   ///////////////////////
   /// output parameters
   ///////////////////////
-  public var dependentTypes(default, null):Map<String, String>;
   public var haxeCode:Array<String>;
   public var headerCode:String;
   public var ueHeaderCode:String;
@@ -58,7 +57,6 @@ class GlueMethod {
     this.glueType = glueType;
     this.cppIncludes = new IncludeSet();
     this.headerIncludes = new IncludeSet();
-    this.dependentTypes = new Map();
     if (isTemplatedThis == null) {
       isTemplatedThis = thisRef.params.length > 0 && meth.specialization == null;
     }
@@ -83,7 +81,7 @@ class GlueMethod {
     var glueArgs = this.glueArgs = haxeArgs;
     var isGlueStatic = this.isGlueStatic = !this.isTemplatedThis || isStatic;
 
-    if (!isStatic && !this.isTemplatedThis) {
+    if (!isStatic) {
       // CLEANUP use 'this' directly?
       var name = meth.specialization != null ? 'self' : 'this';
       glueArgs = this.glueArgs = glueArgs.copy();
@@ -171,27 +169,6 @@ class GlueMethod {
     var allTypes = [ for (arg in this.glueArgs) arg.t ];
     allTypes.push(meth.ret);
 
-    // dependent types - this is only used by the extern baker pass
-    // this will add all types that are used by each templated variation of this class
-    if (!this.templated && !isStatic && this.isTemplatedThis) {
-      for (type in allTypes) {
-        if (type.hasTypeParams()) {
-          var tref = type.haxeType;
-          while (tref.name == 'PRef' || tref.name == 'PRefDef') {
-            if (tref.pack.length == 1 && tref.name == 'PRef' && tref.pack[0] == 'unreal') {
-              tref = tref.params[0];
-            } else if (tref.pack.length == 2 && tref.name == 'PRefDef' && tref.pack[0] == 'ue4hx' && tref.pack[1] == 'internal') {
-              tref = tref.params[0];
-            } else {
-              break;
-            }
-          }
-          var str = tref.toString();
-          this.dependentTypes[str] = str;
-        }
-      }
-    }
-
     inline function addMeta(name:String) {
       meth.meta.push({ name:name, pos:meth.pos });
     }
@@ -240,8 +217,10 @@ class GlueMethod {
         this.haxeCode = ['return;'];
       }
     } else {
+      var body = null;
       var haxeBodyCall = if (this.isTemplatedThis && !isStatic) {
-        '( null : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
+        body = 'var thisDataPointer:cpp.ConstPointer<${this.glueType}> =cpp.ConstPointer.fromRaw((@:privateAccess this.getTemplateStruct()).info.ptr.genericImplementation).reinterpret();';
+        'thisDataPointer.ptr.${meth.name}';
       } else {
         '${this.glueType}.${meth.name}';
       };
@@ -256,6 +235,9 @@ class GlueMethod {
         this.haxeCode = ['return ' + meth.ret.glueToHaxe(haxeBody, this.ctx) + ';'];
       } else {
         this.haxeCode = [haxeBody + ';'];
+      }
+      if (body != null) {
+        this.haxeCode.unshift(body);
       }
     }
   }
@@ -460,7 +442,7 @@ class GlueMethod {
         access: acc,
         pos: meth.pos,
         kind: FFun({
-          args: [ for (arg in this.glueArgs) { name:arg.name, type: arg.t.haxeGlueType.toComplexType() } ],
+          args: [ for (arg in this.glueArgs) { name:escapeCpp(arg.name, true), type: arg.t.haxeGlueType.toComplexType() } ],
           ret: this.glueRet.haxeGlueType.toComplexType(),
           expr: null
         })
@@ -541,7 +523,7 @@ class GlueMethod {
       if (this.isGlueStatic)
         st = 'static';
       glue.add('public $st function ${meth.name}(');
-      glue.add([ for (arg in this.glueArgs) escapeCpp(arg.name, this.isGlueStatic) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
+      glue.add([ for (arg in this.glueArgs) escapeCpp(arg.name, this.isGlueStatic || this.isTemplatedThis) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
       glue.add('):' + this.glueRet.haxeGlueType + ';\n');
     }
 

@@ -48,27 +48,39 @@ class DelayedGlue {
     var tconv = TypeConv.get(field.type, pos);
 
     var glueType = getGlueType(clsRef, pos);
-    var glueExpr = new HelperBuf();
+    var glueExpr = new HelperBuf(),
+        glueBlock = new HelperBuf();
+
+    var args = [];
+    var narg = 0;
+    if (!isStatic) {
+      var thisConv = TypeConv.get( Context.getLocalType(), pos ).withModifiers([Ptr]);
+      args.push(narg);
+      glueBlock << 'var tmp${narg++} = ' << thisConv.haxeToGlue('this', ctx) << ';\n';
+    }
+    if (isSetter) {
+      args.push(narg);
+      glueBlock << 'var tmp${narg++} = ' << tconv.haxeToGlue('value', ctx) << ';\n';
+    }
 
     glueExpr << 'untyped __cpp__("${glueType.getCppClass()}::';
     glueExpr << (isSetter ? 'set_' : 'get_') << fieldName << '(';
 
-    var args = new HelperBuf();
-    var narg = 0;
-    if (!isStatic) {
-      var thisConv = TypeConv.get( Context.getLocalType(), pos ).withModifiers([Ptr]);
-      args << ', ' << thisConv.haxeToGlue('this', ctx);
-      glueExpr << '{${narg++}}';
-    }
-    if (isSetter) {
-      args << ', ' << tconv.haxeToGlue('value', ctx);
-      glueExpr << (narg > 0 ? ', ' : '') << '{${narg++}}';
+    glueExpr.mapJoin(args, function(i) return '{$i}');
+
+    glueExpr << ')"';
+    if (args.length != 0) {
+      glueExpr << ', ';
+    } else {
+      glueExpr << ' ';
     }
 
-    glueExpr << ')"' << args << ')';
+    glueExpr.mapJoin(args, function(i) return 'tmp$i');
+    glueExpr << ')';
 
     // dummy call to make hxcpp include the correct header if needed
     var expr ='{ $glueType.uhx_dummy_field(); ' +
+      glueBlock.toString() +
       (isSetter ? glueExpr.toString() : tconv.glueToHaxe( glueExpr.toString(), ctx)) + '; }';
 
     Globals.cur.currentFeature = old;
@@ -139,15 +151,21 @@ class DelayedGlue {
 
     var glueType = getGlueType(clsRef, pos);
     var glueExpr = new HelperBuf();
-
-    glueExpr << 'untyped __cpp__("' << glueType.getCppClass() << '::' << fieldName << '(';
     var idx = 0;
+    for (arg in fargs) {
+      block.push(Context.parse('var tmp${idx++} = ' + arg.type.haxeToGlue(arg.name, null), pos));
+    }
+
+    idx = 0;
+    glueExpr << 'untyped __cpp__("' << glueType.getCppClass() << '::' << fieldName << '(';
     glueExpr.mapJoin(fargs, function (_) return '{${idx++}}');
     glueExpr << ')"';
     if (fargs.length > 0) {
       glueExpr << ', ';
     }
-    glueExpr.mapJoin(fargs, function(arg) return arg.type.haxeToGlue(arg.name, null));
+
+    idx = 0;
+    glueExpr.mapJoin(fargs, function(arg) return 'tmp${idx++}');
     glueExpr << ')';
 
     var expr = glueExpr.toString();
@@ -219,12 +237,17 @@ class DelayedGlue {
 
     glueExpr << 'untyped __cpp__("' << glueType.getCppClass() << '::' << fieldName << '(';
     var idx = 0;
+    for (arg in fargs) {
+      block.push(Context.parse('var tmp${idx++} = ' + arg.type.haxeToGlue(arg.name, null), pos));
+    }
+    idx = 0;
     glueExpr.mapJoin(fargs, function(_) return '{${idx++}}');
     glueExpr << ')"';
     if (fargs.length > 0) {
       glueExpr << ', ';
     }
-    glueExpr.mapJoin(fargs, function(arg) return arg.type.haxeToGlue(arg.name, null));
+    idx = 0;
+    glueExpr.mapJoin(fargs, function(arg) return 'tmp${idx++}');
     glueExpr << ')';
 
     var expr = glueExpr.toString();
@@ -778,8 +801,8 @@ class DelayedGlue {
       throw 'assert: can\'t find $methodName';
     }
 
-    var headerDef = '\n\t\tstatic void* $methodName();';
-    var cppDef = 'void* ${glue.getCppClass()}_obj::$methodName() {\n\treturn (void*)${this.thisConv.ueType.getCppClass()}::_get_${externName}_methodPtr;\n}\n';
+    var headerDef = '\n\t\tstatic unreal::UIntPtr $methodName();';
+    var cppDef = 'unreal::UIntPtr ${glue.getCppClass()}_obj::$methodName() {\n\treturn (unreal::UIntPtr) (void*)${this.thisConv.ueType.getCppClass()}::_get_${externName}_methodPtr;\n}\n';
     var metas:Metadata = [
       { name: ':glueHeaderCode', params:[macro $v{headerDef}], pos: field.pos },
       { name: ':glueCppCode', params:[macro $v{cppDef}], pos: field.pos },

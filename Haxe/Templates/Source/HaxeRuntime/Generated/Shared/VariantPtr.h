@@ -5,6 +5,7 @@
 #ifndef __UNREAL__
 #include <hxcpp.h>
 #include <cpp/Pointer.h>
+// #include <hx/LessThanEq.h>
 #endif
 
 
@@ -19,6 +20,7 @@ public:
   inline VariantPtr(void *inRHS) : raw(((UIntPtr) inRHS) + 1) { }
   inline VariantPtr(IntPtr inRHS) : raw((UIntPtr) inRHS) { }
   inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
+  inline VariantPtr(int inRHS) : raw((UIntPtr) inRHS) { }
 #ifndef __UNREAL__
   inline VariantPtr(const Dynamic& inRHS) : raw((UIntPtr) inRHS.mPtr) { }
   inline VariantPtr(const cpp::Variant& inRHS) : raw((UIntPtr) Dynamic(inRHS).mPtr) { }
@@ -35,6 +37,14 @@ public:
   // inline operator cpp::Variant() {
   //   return cpp::Variant(this->getDynamic());
   // }
+
+  inline bool operator ==(const VariantPtr &other) const {
+    return this->raw == other.raw;
+  }
+
+  inline bool operator ==(const null &other) const {
+    return this->raw == 0;
+  }
 
   inline Dynamic getDynamic() {
     if ((raw & 1) == 0) {
@@ -92,5 +102,28 @@ template<> inline void MarkMember< unreal::VariantPtr >(unreal::VariantPtr &outT
     HX_MARK_OBJECT((hx::Object *) outT.raw);
   }
 }
+
+template <> 
+struct CompareTraits<unreal::VariantPtr>
+{
+   enum { type = (int)CompareAsInt64 };
+
+   inline static int toInt(unreal::VariantPtr inValue) { return (Int) inValue.raw; }
+   inline static double toDouble(unreal::VariantPtr inValue) { return (double) inValue.raw; }
+   inline static cpp::Int64 toInt64(unreal::VariantPtr inValue) { return (cpp::Int64) inValue.raw; }
+   inline static String toString(unreal::VariantPtr inValue) { return inValue.getDynamic(); }
+   inline static hx::Object *toObject(unreal::VariantPtr inValue) { return inValue.getDynamic().mPtr; }
+
+   inline static int getDynamicCompareType(unreal::VariantPtr) { return type; }
+   inline static bool isNull(const unreal::VariantPtr &inValue) { return inValue.raw == 0; }
+};
 }
+
+template<>
+inline unreal::VariantPtr Dynamic::StaticCast() const
+{
+  // Simple reinterpret_cast
+  return unreal::VariantPtr_obj::fromDynamic(this);
+}
+
 #endif

@@ -220,7 +220,6 @@ class ExternBaker {
 
   private var pos:Position;
   private var params:Array<String>;
-  private var dependentTypes:Map<String, String>;
   public var hadErrors(default, null):Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
@@ -234,7 +233,6 @@ class ExternBaker {
 
   public function processGenericFunctions(c:Ref<ClassType>):CodeFormatter {
     var cl = c.get();
-    this.dependentTypes = new Map();
     this.cls = cl;
     this.params = [ for (p in cl.params) p.name ];
     this.glue = new CodeFormatter();
@@ -323,18 +321,9 @@ class ExternBaker {
       this.processMethodDef(meth, false);
     this.end('}');
 
-    this.addDependentTypes();
     this.realBuf.add(this.buf);
     this.buf = new CodeFormatter();
     return this.glue;
-  }
-
-  private function addDependentTypes() {
-    if (this.dependentTypes.iterator().hasNext()) {
-      this.realBuf.add('@:ueDependentTypes(');
-      this.realBuf.mapJoin(this.dependentTypes, function(type) return '"$type"');
-      this.realBuf.add(')\n');
-    }
   }
 
   public function processType(type:Type):CodeFormatter {
@@ -369,7 +358,6 @@ class ExternBaker {
 
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
-    this.dependentTypes = new Map();
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
     if (!c.isExtern) return;
@@ -456,7 +444,8 @@ class ExternBaker {
     if (c.isPrivate)
       this.add('private ');
 
-    var isAbstract = false;
+    var isAbstract = false,
+        isTemplateStruct = false;
     if (this.thisConv.data.match(CUObject(_))) {
       if (c.isInterface) {
         this.add('interface ');
@@ -476,7 +465,12 @@ class ExternBaker {
       isAbstract = true;
       this.add('abstract ${c.name}$params(');
       if (c.superClass == null) {
-        this.add('unreal.Struct) ');
+        if (c.params.length > 0) {
+          this.add('unreal.TemplateStruct) to unreal.TemplateStruct ');
+          isTemplateStruct = true;
+        } else {
+          this.add('unreal.Struct) ');
+        }
       } else {
         var supRef = TInst(c.superClass.t, c.superClass.params).toString();
         this.add('$supRef) ');
@@ -505,6 +499,11 @@ class ExternBaker {
     }
     var methods = [];
     this.begin('{');
+      if (isAbstract && !isTemplateStruct && c.params.length > 0) {
+        // if a templated struct extends a non-templated struct, we need to expose this
+        this.add('@:extern inline private function getTemplateStruct():unreal.Wrapper.TemplateWrapper { return @:privateAccess unreal.TemplateStruct.getTemplateStruct(this); }');
+        this.newline();
+      }
       for (field in statics) {
         processField(field,true, null, methods);
       }
@@ -668,7 +667,6 @@ class ExternBaker {
 
     // before defining the class, let's go through all types and see if we have any type parameters that are dependent on
     // our current type parameter specifications
-    this.addDependentTypes();
     this.realBuf.add(this.buf);
     this.buf = new CodeFormatter();
   }
@@ -855,9 +853,6 @@ class ExternBaker {
       gm.headerCode = null;
       gm.ueHeaderCode = null;
       gm.cppCode = null;
-    }
-    for (dep in gm.dependentTypes) {
-      this.dependentTypes[dep] = dep;
     }
     gm.getFieldString( this.buf, this.glue );
   }

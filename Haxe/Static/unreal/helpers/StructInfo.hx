@@ -50,10 +50,10 @@ import cpp.ConstCharStar;
   /**
    * If the type is templated, will point to a null-terminated array where each element represents a StructInfo of its implementation
    **/
-  public var genericImplementations:VoidPtr;
+  public var genericParams:cpp.RawConstPointer<StructInfo>;
 
   /**
-   * If the type is templated, this will contain a null-terminated specialized function array
+   * If the type is templated, this will contain a pointer to a type that decodes the templated implementations through a series of virtual functions
    **/
-  public var memberTable:cpp.RawPointer<VoidPtr>;
+  public var genericImplementation:VoidPtr;
 }

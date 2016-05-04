@@ -83,8 +83,7 @@ class NativeGlueCode
       writer.buf << '>';
     }
     writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
-    writer.buf.add('\t\t${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ${oldGlueName}_obj(ptr) {}\n');
-    writer.buf.add('\t\tUEProxyPointer *rewrap(::unreal::helpers::UEPointer *inPtr) override { if (inPtr != proxy) return new ${glueName}_obj(inPtr); else return this; }\n');
+    writer.buf.add('\t\t${glueName}_obj() : ${oldGlueName}_obj(ptr) {}\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 
@@ -120,7 +119,7 @@ class NativeGlueCode
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
 
     if (cl.meta.has(':ueTemplate')) {
-      writer.include('<UEPointer.h>');
+      // writer.include('<UEPointer.h>');
     }
 
     for (pack in gluePack) {
@@ -129,8 +128,7 @@ class NativeGlueCode
     if (headerDefs.length == 0) {
       var ext = '';
       if (cl.meta.has(':ueTemplate')) {
-        ext = ' : public ::unreal::helpers::UEProxyPointer ';
-        ctor = '${glueName}_obj(::unreal::helpers::UEPointer *ptr) : ::unreal::helpers::UEProxyPointer(ptr) {}\n';
+        ctor = '${glueName}_obj() {}\n';
       }
       writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj $ext{\n\tpublic:\n');
       if (ctor != null)

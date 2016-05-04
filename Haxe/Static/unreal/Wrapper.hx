@@ -116,6 +116,11 @@ class InlineWrapper extends Wrapper {
 
 class TemplateWrapper extends Wrapper {
   public var info(default, null):Pointer<StructInfo>;
+
+  override public function toString():String {
+    var name = info.ptr.name.toString();
+    return '[Template Wrapper ($name) @ ${getPointer()}]';
+  }
 }
 
 class PointerTemplateWrapper extends TemplateWrapper {
@@ -131,6 +136,14 @@ class PointerTemplateWrapper extends TemplateWrapper {
   }
 }
 
+@:headerClassCode('
+  inline static hx::ObjectPtr< InlineTemplateWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    InlineTemplateWrapper_obj *result = new (extraSize) InlineTemplateWrapper_obj;
+    result->info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    result->init();
+    return result;
+  }
+')
 class InlineTemplateWrapper extends TemplateWrapper {
   var m_flags:WrapperFlags;
 
@@ -165,9 +178,4 @@ class InlineTemplateWrapper extends TemplateWrapper {
   }
 
   @:extern public static function create(extraSize:Int, info:UIntPtr):InlineTemplateWrapper { return null; }
-
-  override public function toString():String {
-    var name = info.ptr.name.toString();
-    return '[Inline Wrapper ($name) @ ${getPointer()}]';
-  }
 }

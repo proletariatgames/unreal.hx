@@ -61,12 +61,12 @@ struct StructInfo {
   /**
    * If the type is templated, will point to a null-terminated array where each element represents a StructInfo of its implementation
    **/
-  const StructInfo *genericImplementations;
+  const StructInfo *genericParams;
 
   /**
-   * If the type is templated, this will contain a null-terminated specialized function array
+   * If the type is templated, this will contain a pointer to a type that decodes the templated implementations through a series of virtual functions
    **/
-  AnyFunction *memberTable;
+  void *genericImplementation;
 };
 
 // template<typename T>
