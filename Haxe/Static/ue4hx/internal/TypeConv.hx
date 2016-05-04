@@ -929,7 +929,7 @@ class TypeConv {
     if (ueName == null) {
       ueName = baseType.name;
     }
-    var ueType = TypeRef.parse(ueName);
+    var ueType = TypeRef.parseClassName(ueName);
     return {
       haxeType: haxeType,
       ueType: ueType,
