@@ -520,12 +520,23 @@ class TypeConv {
         '( (int) (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, info, params):
-        if (hasModifier(Ref)) {
-          'unreal::VariantPtr( (void *) &($expr) )';
-        } else if (hasModifier(Ptr)) {
-          'unreal::VariantPtr( (void *) ($expr) )';
+        if (params != null && params.length > 0) {
+          var helper = '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
+          if (hasModifier(Ref)) {
+            '$helper::fromPointer( &($expr) )';
+          } else if (hasModifier(Ptr)) {
+            '$helper::fromPointer( ($expr) )';
+          } else {
+            '$helper::fromStruct( ($expr) )';
+          }
         } else {
-          '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
+          if (hasModifier(Ref)) {
+            'unreal::VariantPtr( (void *) &($expr) )';
+          } else if (hasModifier(Ptr)) {
+            'unreal::VariantPtr( (void *) ($expr) )';
+          } else {
+            '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
+          }
         }
 
       case CLambda(args,ret):

@@ -11,7 +11,7 @@ class ClassWrap {
   static var nIndex:Int = 0;
 
   public static function wrap(nativePtr:UIntPtr):UObject {
-    if (nativePtr == null) {
+    if (nativePtr == 0) {
       return null;
     }
 
