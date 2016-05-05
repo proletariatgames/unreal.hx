@@ -149,22 +149,23 @@ class UExtensionBuild {
         exportCpp = new CodeFormatter();
         exportHeader <<
           '#include <hxcpp.h>\n' <<
+          '#include "IntPtr.h"\n' <<
           '#include <${expose.getClassPath().replace(".","/")}.h>\n\n';
         for (pack in export.pack) {
           exportHeader << 'namespace $pack {\n';
         }
         exportHeader << '\nclass HXCPP_CLASS_ATTRIBUTES ${export.name}' << new Begin("{") <<
           'public:' << new Newline() <<
-          'static void *createHaxeWrapper(void *self);' << new Newline() <<
-          'static void *createEmptyHaxeWrapper(void *self);' << new Newline();
+          'static unreal::UIntPtr createHaxeWrapper(void *self);' << new Newline() <<
+          'static unreal::UIntPtr createEmptyHaxeWrapper(void *self);' << new Newline();
 
         exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'void *${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
-            'return ${expose.getCppClass()}::createHaxeWrapper(self);' <<
+          'unreal::UIntPtr ${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
+            'return (unreal::UIntPtr) ${expose.getCppClass()}::createHaxeWrapper(self);' <<
           new End('}');
         exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'void *${export.getCppClass()}::createEmptyHaxeWrapper(void *self)' << new Begin('{') <<
-            'return ${expose.getCppClass()}::createEmptyHaxeWrapper(self);' <<
+          'unreal::UIntPtr ${export.getCppClass()}::createEmptyHaxeWrapper(void *self)' << new Begin('{') <<
+            'return (unreal::UIntPtr) ${expose.getCppClass()}::createEmptyHaxeWrapper(self);' <<
           new End('}');
         glueCppIncs.add(export.getClassPath().replace(".","/") + ".h");
       }
@@ -354,8 +355,8 @@ class UExtensionBuild {
 
       {
         // add createHaxeWrapper
-        var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t') +
-          'virtual void *createEmptyHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
+        var headerCode = 'public:\n\t\tvirtual unreal::UIntPtr createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t') +
+          'virtual unreal::UIntPtr createEmptyHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var cppCode = '';
         for (upropDef in uprops) {
           var uprop = upropDef.field,
@@ -433,8 +434,8 @@ class UExtensionBuild {
           }
         }
 
-        cppCode += 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
-        cppCode += 'void *${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((void *) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((unreal::UIntPtr) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
         if (hasReplicatedProperties) {
           var hasCustomReplications = false;
@@ -691,7 +692,7 @@ class UExtensionBuild {
 
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
-    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper($ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
       << 'while (!curClass->HasAllClassFlags(CLASS_Native)) {\n\t\t\t\t'
       << 'curClass = curClass->GetSuperClass();\n\t\t\t}\n\t\t\t'
@@ -708,7 +709,7 @@ class UExtensionBuild {
       headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
     }
     if (!hasHaxeSuper) {
-      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == nullptr) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
+      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
     }
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });

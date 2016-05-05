@@ -24,15 +24,9 @@ enum EImplementationKind {
   PODType = 1,
 
   /**
-   * There is no StructInfo for this type 
-   * TODO see if we need that
-   **/
-  None = 2,
-
-  /**
    * Type needs a custom implementation of StructInfo
    **/
-  Custom = 3,
+  Templated = 2,
 };
 
 /**
@@ -46,23 +40,25 @@ template<typename T> struct TImplementationKind {
 // template<typename T> struct TImplementationKind<const T*> { enum { Value = None }; };
 // template<typename T> struct TImplementationKind<const T* const> { enum { Value = None }; };
 
-// Templated types always need a custom implementation
-template<template<class> class T, class T1> struct TImplementationKind<T<T1>> { enum { Value = Custom }; };
-template<template<class, class> class T, class T1, class T2> struct TImplementationKind<T<T1,T2>> { enum { Value = Custom }; };
-template<template<class, class, class> class T, class T1, class T2, class T3> struct TImplementationKind<T<T1,T2,T3>> { enum { Value = Custom }; };
-template<template<class, class, class, class> class T, class T1, class T2, class T3, class T4> struct TImplementationKind<T<T1,T2,T3,T4>> { enum { Value = Custom }; };
-template<template<class, class, class, class, class> class T, class T1, class T2, class T3, class T4, class T5> struct TImplementationKind<T<T1,T2,T3,T4,T5>> { enum { Value = Custom }; };
-template<template<class, class, class, class, class, class> class T, class T1, class T2, class T3, class T4, class T5, class T6> struct TImplementationKind<T<T1,T2,T3,T4,T5,T6>> { enum { Value = Custom }; };
+// Templated types always need a templated implementation
+template<template<class> class T, class T1> struct TImplementationKind<T<T1>> { enum { Value = Templated }; };
+template<template<class, class> class T, class T1, class T2> struct TImplementationKind<T<T1,T2>> { enum { Value = Templated }; };
+template<template<class, class, class> class T, class T1, class T2, class T3> struct TImplementationKind<T<T1,T2,T3>> { enum { Value = Templated }; };
+template<template<class, class, class, class> class T, class T1, class T2, class T3, class T4> struct TImplementationKind<T<T1,T2,T3,T4>> { enum { Value = Templated }; };
+template<template<class, class, class, class, class> class T, class T1, class T2, class T3, class T4, class T5> struct TImplementationKind<T<T1,T2,T3,T4,T5>> { enum { Value = Templated }; };
+template<template<class, class, class, class, class, class> class T, class T1, class T2, class T3, class T4, class T5, class T6> struct TImplementationKind<T<T1,T2,T3,T4,T5,T6>> { enum { Value = Templated }; };
 
 // default implementation of getting type names. Not very pretty on gcc, but still nice for debugging
 // use ENABLE_DEBUG_TYPENAME to add more readable implementations
 template<typename T>
 struct TypeName
 {
-    inline static const char* Get()
-    {
-        return typeid(T).name();
-    }
+  inline static const char* Get()
+  {
+    // unfortunately we can't use this, because unreal compiles with -fno-rtti
+    // return typeid(T).name();
+    return nullptr;
+  }
 };
 
 // a specialization for each type of those you want to support
@@ -84,21 +80,14 @@ struct TStructData<T, PODType> {
   inline static const StructInfo *getInfo() {
     static StructInfo info = {
       .name = TypeName<T>::Get(),
-      .pointerKind = nullptr,
       .flags = UHXS_POD,
       .size = (unreal::UIntPtr) sizeof(T),
       .initialize = nullptr,
       .destruct = nullptr,
-      .del = &TSelf::doDel,
-      .genericImplementations = nullptr,
-      .memberTable = nullptr
+      .genericParams = nullptr,
+      .genericImplementation = nullptr
     };
     return &info;
-  }
-private:
-  static void doDel(unreal::UIntPtr ptr) {
-    T* realPtr = (T*) ptr;
-    delete realPtr;
   }
 };
 
@@ -111,14 +100,12 @@ struct TStructData<T, NormalType> {
   inline static const StructInfo *getInfo() {
     static StructInfo info = {
       .name = TypeName<T>::Get(),
-      .pointerKind = nullptr,
-      .flags = UHXS_POD,
+      .flags = UHX_None,
       .size = (unreal::UIntPtr) sizeof(T),
       .initialize = (TTraits::WithZeroConstructor ? nullptr : &TSelf::doInit),
       .destruct = (TTraits::WithNoDestructor ? nullptr : &TSelf::doDestruct),
-      .del = &TSelf::doDel,
-      .genericImplementations = nullptr,
-      .memberTable = nullptr
+      .genericParams = nullptr,
+      .genericImplementation = nullptr
     };
     return &info;
   }
@@ -128,12 +115,7 @@ private:
   }
 
   static void doInit(unreal::UIntPtr ptr) {
-    ConstructWithNoInitOrNot((void *)ptr);
-  }
-
-  static void doDel(unreal::UIntPtr ptr) {
-    T* realPtr = (T*) ptr;
-    delete realPtr;
+    ConstructWithNoInitOrNot<T>((void *)ptr);
   }
 };
 
@@ -150,7 +132,6 @@ private:
 //   private: \
 //     inline static StructInfo doGetInfo() { \
 //       StructInfo ret = TStructData<T>::getInfo(); \
-//       ret.pointerKind = #TSharedName "<" #Mode ">"; \
 //       ret.size = (unreal::UIntPtr) sizeof(TSharedName<T>); \
 //       ret.flags |= UHXS_SharedPointer; \
 //       ret.initialize = &TSelf::doInit; \

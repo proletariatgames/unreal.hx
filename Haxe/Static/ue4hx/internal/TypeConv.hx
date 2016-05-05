@@ -123,13 +123,13 @@ class TypeConv {
         // OExternal, OInterface, OHaxe, OScriptHaxe
         if (flags.hasAny(OWeak)) {
           var name = flags.hasAll(OAutoWeak) ? 'TAutoWeakObjectPtr' : 'TWeakObjectPtr';
-          this.ueType = new TypeRef(name, [this.ueType]);
+          this.ueType = new TypeRef(name, [info.ueType]);
           if (this.haxeType == null) {
             this.haxeType = new TypeRef(['unreal'],name,[info.haxeType]);
           }
         } else if (type == OSubclassOf) {
           var name = 'TSubclassOf';
-          this.ueType = new TypeRef(name, [this.ueType]);
+          this.ueType = new TypeRef(name, [info.ueType]);
           if (this.haxeType == null) {
             this.haxeType = new TypeRef(['unreal'],name,[info.haxeType]);
           }
@@ -138,7 +138,9 @@ class TypeConv {
         if (this.haxeType == null) {
           this.haxeType = info.haxeType;
         }
-        this.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
+        if (this.ueType == null) {
+          this.ueType = new TypeRef(['cpp'], 'RawPointer', [info.ueType]);
+        }
         // we're using IntPtr for a simple reason: it's reflective - so compatible with cppia
         // and it's a type that both Unreal and Haxe can see (different from cpp.Pointer)
         this.glueType = uintPtr;
@@ -290,7 +292,10 @@ class TypeConv {
       }
       set.append(info.glueCppIncludes);
     case CStruct(type,info,params):
-      if (inPointer && forwardDecls != null) {
+      set.add('UEWrapper.h');
+
+      // we need to know if it was declared as a class or a struct for this to work
+      if (false && inPointer && forwardDecls != null) {
         var decl = info.ueType.getForwardDecl();
         forwardDecls[decl] = decl;
         cppSet.append(info.glueCppIncludes);
@@ -312,14 +317,13 @@ class TypeConv {
       }
 
     case CLambda(args, ret):
-      if (forwardDecls == null) {
-        set.add('LambdaBinding.h');
-      }
+      set.add('LambdaBinding.h');
       for (arg in args) {
         arg.recurseUeIncludes(set, forwardDecls, cppSet, true /* function arguments can be forward declared */);
       }
       ret.recurseUeIncludes(set, forwardDecls, cppSet, true);
     case CMethodPointer(className, args, ret):
+      set.add('LambdaBinding.h');
       set.append(className.glueCppIncludes);
       for (arg in args) {
         arg.recurseUeIncludes(set, forwardDecls, cppSet, true /* function arguments can be forward declared */);
@@ -434,14 +438,14 @@ class TypeConv {
 
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
-        var ret = '( (${info.ueType} *) $expr )';
+        var ret = '( (${info.ueType.getCppType()} *) $expr )';
         if (type == OInterface) {
           ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
         } else if (type == OSubclassOf) {
-          ret = '( ($ueType) $ret )';
+          ret = '( (${ueType.getCppType()}) (UClass *) $expr )';
         }
         if (flags.hasAny(OWeak | OAutoWeak)) {
-          ret = '( ($ueType) $ret )';
+          ret = '( (${ueType.getCppType()}) $ret )';
         }
         ret;
 
@@ -450,9 +454,12 @@ class TypeConv {
         '( (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, info, params):
-        var ret = '::uhx::WrapHelper<${info.ueType.getCppType()}>::getPointer($expr)';
-        if (this.modifiers == null || this.modifiers.has(Ref)) {
-            ret = '*$ret';
+        var ret =
+          'const_cast<${this.ueType.getCppType(true)}>(' +
+            '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::' +
+            'getPointer($expr))';
+        if (this.modifiers == null || !this.modifiers.has(Ptr)) {
+          ret = '*$ret';
         }
         ret;
 
@@ -460,7 +467,7 @@ class TypeConv {
         ueType.getCppType() + '($expr)';
       case CMethodPointer(className, fnArgs, fnRet):
         var cppMethodType = new HelperBuf();
-        cppMethodType << 'MemberFunctionTranslator<$className, ${fnRet.ueType.getCppType()}';
+        cppMethodType << 'MemberFunctionTranslator<${className.ueType.getCppType()}, ${fnRet.ueType.getCppType()}';
         if (fnArgs.length > 0) cppMethodType << ', ';
         cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
         cppMethodType << '>::Translator';
@@ -475,6 +482,7 @@ class TypeConv {
   }
 
   private function ueToGlueRecurse(expr:String, ctx:ConvCtx):String {
+    var originalExpr = expr;
     if (this.hasModifier(Const)) {
       expr = 'const_cast<${ueType.getCppType(true)}>( $expr )';
     }
@@ -489,17 +497,23 @@ class TypeConv {
 
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
-        var ret = expr;
+        var ret = originalExpr;
         if (flags.hasAny(OWeak | OAutoWeak)) {
-          '( $ret.Get() )';
+          ret = '( $ret.Get() )';
         }
 
+        var const = this.hasModifier(Const) ? 'const' : '';
         if (type == OInterface) {
-          ret = 'Cast<UObject>( $ret )';
+          ret = 'const_cast<UObject *>(Cast<$const UObject>( $ret ))';
         } else if (type == OSubclassOf) {
-          ret = '( (UClass *) $ret )';
+          ret = 'const_cast<UClass *>( ($const UClass *) $ret )';
+        } else {
+          if (const != '') {
+            ret = 'const_cast<UObject *>( (const UObject *) $ret )';
+          }
         }
-        ret;
+
+        '( (unreal::UIntPtr) ($ret) )';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(type, info):
@@ -511,7 +525,10 @@ class TypeConv {
         } else if (hasModifier(Ptr)) {
           'unreal::VariantPtr( (void *) ($expr) )';
         } else {
-          '::uhx::WrapHelper<${info.ueType.getCppType(true)}>::create($expr)';
+          'const_cast<${this.ueType.getCppType(true)}>(' +
+            '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::' +
+            'getPointer($expr))';
+          // '::uhx::StructHelper<${this.ueType.withoutPointer(true).getCppType(true)}>::create($expr)';
         }
 
       case CLambda(args,ret):
@@ -608,7 +625,7 @@ class TypeConv {
         var name = eref.toString();
         var ret = cache[name];
         if (ret != null) {
-          if (ctx.modf == null) {
+          if (ctx.modf == null && ctx.original == null) {
             return ret;
           } else {
             return new TypeConv(ret.data, ctx.modf, ctx.original);
@@ -640,7 +657,11 @@ class TypeConv {
         var name = aref.toString();
         var ret = cache[name];
         if (ret != null) {
-          return ret;
+          if (ctx.modf == null && ctx.original == null) {
+            return ret;
+          } else {
+            return new TypeConv(ret.data, ctx.modf, ctx.original);
+          }
         }
 
         var a = aref.get(),
@@ -689,7 +710,11 @@ class TypeConv {
         var name = tref.toString();
         var ret = cache[name];
         if (ret != null) {
-          return ret;
+          if (ctx.modf == null && ctx.original == null) {
+            return ret;
+          } else {
+            return new TypeConv(ret.data, ctx.modf, ctx.original);
+          }
         }
 
         var ret = null;
@@ -743,6 +768,8 @@ class TypeConv {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
             }
             ctx.isSubclassOf = true;
+            type = tl[0];
+            continue;
           case _:
             throw new Error('Unreal Type: Invalid typedef: $name', pos);
           }
@@ -752,7 +779,7 @@ class TypeConv {
           var ret = new TypeConv(ret, ctx.modf, ctx.original);
           return ret;
         }
-        type = Context.follow(type, true);
+        type = t.type.applyTypeParameters(t.params, tl);
 
       case TLazy(f):
         type = f();
@@ -895,11 +922,11 @@ class TypeConv {
         haxeGlueType: uintPtr,
         glueType: uintPtr,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<unreal/helpers/HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
-        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( % ))',
-        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(%))',
+        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( (const char *) (%) ))',
+        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
         haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
       },

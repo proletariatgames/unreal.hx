@@ -2,7 +2,7 @@ import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.*;
-import unreal.helpers.HxcppRuntimeStatic;
+import unreal.helpers.HxcppRuntime;
 import ue4hx.internal.HaxeCodeDispatcher;
 #if WITH_EDITOR
 import unreal.editor.UEditorEngine;

@@ -268,7 +268,7 @@ class GlueMethod {
     var isStructProp = this.meth.flags.hasAll(StructProperty);
     var isGetter = this.meth.name.startsWith('get_');
     if (isStructProp && isGetter) {
-      body = '&' + body;
+      body = '&($body)';
     } else if (this.meth.flags.hasAny(Property) && isGetter && isUObjectPointer(meth.ret)) {
       body = 'const_cast< ${meth.ret.ueType.getCppType()} >( $body )';
     }

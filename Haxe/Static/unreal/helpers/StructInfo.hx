@@ -42,12 +42,6 @@ import cpp.ConstCharStar;
   public var destruct:VoidPtr;
 
   /**
-   * Deletes target pointer. It's different from `destruct` as it only works with pointers that were created with `new`,
-   * and it frees the underlying pointer as well. Same as `delete ptr`
-   **/
-  public var del:VoidPtr;
-
-  /**
    * If the type is templated, will point to a null-terminated array where each element represents a StructInfo of its implementation
    **/
   public var genericParams:cpp.RawConstPointer<StructInfo>;

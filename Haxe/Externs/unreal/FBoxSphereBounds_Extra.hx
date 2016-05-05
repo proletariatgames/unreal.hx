@@ -20,7 +20,7 @@ extern class FBoxSphereBounds_Extra
 	 * @param InSphereRadius radius of the sphere.
 	 */
   @:uname('.ctor')
-  public static function createWithParams(InOrigin:Const<PRef<FVector>>, InBoxExtent:Const<PRef<FVector>>, InSphereRadius:Float32) : POwnedPtr<FBoxSphereBounds>;
+  public static function createWithParams(InOrigin:Const<PRef<FVector>>, InBoxExtent:Const<PRef<FVector>>, InSphereRadius:Float32) : FBoxSphereBounds;
   @:uname('new')
   public static function createNewWithParams(InOrigin:Const<PRef<FVector>>, InBoxExtent:Const<PRef<FVector>>, InSphereRadius:Float32) : POwnedPtr<FBoxSphereBounds>;
 

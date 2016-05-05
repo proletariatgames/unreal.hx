@@ -710,7 +710,7 @@ class ExternBaker {
       this.add(field.name);
       this.add('(');
       var flags = Property;
-      var realTConv = if (tconv.modifiers == null || (!tconv.modifiers.has(Ref) && !tconv.modifiers.has(Ptr))) {
+      var realTConv = if (tconv.data.match(CStruct(_)) && (tconv.modifiers == null || (!tconv.modifiers.has(Ref) && !tconv.modifiers.has(Ptr)))) {
         flags = StructProperty;
         tconv.withModifiers([Ptr]);
       } else {

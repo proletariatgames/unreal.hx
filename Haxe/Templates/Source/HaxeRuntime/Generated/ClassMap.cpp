@@ -1,7 +1,8 @@
 #include "HaxeRuntime.h"
+#include "IntPtr.h"
+#include "ClassMap.h"
 #include <CoreUObject.h>
 #include <unordered_map>
-#include "ClassMap.h"
 
 static std::unordered_map<UClass *,HaxeWrap>& getClassMap() {
   // lazy instantiation
@@ -15,11 +16,11 @@ bool ::unreal::helpers::ClassMap_obj::addWrapper(unreal::UIntPtr inUClass, HaxeW
 }
 
 unreal::UIntPtr ::unreal::helpers::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
-  if (inUObject == nullptr) return nullptr;  
+  if (inUObject == 0) return 0;  
   UObject *obj = (UObject *) inUObject;
   UClass *cls = obj->GetClass();
   auto& map = getClassMap();
-  while (cls != nullptr) {
+  while (cls != g) {
     if (cls->HasAllClassFlags(CLASS_Native)) {
       auto it = map.find(cls);
       if (it != map.end()) {
@@ -30,5 +31,5 @@ unreal::UIntPtr ::unreal::helpers::ClassMap_obj::wrap(unreal::UIntPtr inUObject)
   }
   UE_LOG(LogTemp,Fatal,TEXT("No haxe wrapper was found for the uobject from class %s nor from any of its superclasses"), *obj->GetClass()->GetName());
   // won't get here
-  return nullptr;
+  return 0;
 }

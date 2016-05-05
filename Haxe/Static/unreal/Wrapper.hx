@@ -60,6 +60,10 @@ class InlinePodWrapper extends Wrapper {
     return '[Unknown POD wrapper: ${getPointer()}]';
 #end
   }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlinePodWrapper_obj))');
+  }
 }
 
 /**
@@ -112,27 +116,34 @@ class InlineWrapper extends Wrapper {
     var name = m_info.ptr.name.toString();
     return '[Inline Wrapper ($name) @ ${getPointer()}]';
   }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlineWrapper_obj))');
+  }
 }
 
 class TemplateWrapper extends Wrapper {
   public var info(default, null):Pointer<StructInfo>;
+  public var pointer(default, null):UIntPtr;
+
+  inline override public function getPointer():UIntPtr {
+    return pointer;
+  }
 
   override public function toString():String {
     var name = info.ptr.name.toString();
     return '[Template Wrapper ($name) @ ${getPointer()}]';
   }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) offsetof(unreal::TemplateWrapper_obj, pointer)');
+  }
 }
 
 class PointerTemplateWrapper extends TemplateWrapper {
-  var m_pointer:UIntPtr;
-
-  public function new(info, ptr) {
-    this.info = info;
-    m_pointer = ptr;
-  }
-
-  override public function getPointer():UIntPtr {
-    return m_pointer;
+  public function new(ptr, info:UIntPtr) {
+    this.pointer = ptr;
+    this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
   }
 }
 
@@ -150,6 +161,7 @@ class InlineTemplateWrapper extends TemplateWrapper {
   @:final @:nonVirtual private function init() {
     if (info.ptr.destruct != untyped __cpp__('0')) {
       m_flags = NeedsDestructor;
+      this.pointer = untyped __cpp__('(unreal::UIntPtr) (this + 1)');
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
     }
   }
@@ -160,10 +172,6 @@ class InlineTemplateWrapper extends TemplateWrapper {
       fn.call( untyped __cpp__('(unreal::UIntPtr) (self.mPtr + 1)') );
       self.m_flags = Disposed;
     }
-  }
-
-  override public function getPointer():UIntPtr {
-    return untyped __cpp__('(unreal::UIntPtr) (this + 1)');
   }
 
   override public function dispose():Void {

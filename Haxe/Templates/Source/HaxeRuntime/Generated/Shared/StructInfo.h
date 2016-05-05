@@ -4,9 +4,10 @@
 namespace uhx {
 
 enum EStructFlags {
+  UHX_None = 0,
   UHXS_Templated = 1,
   UHXS_POD = 2,
-  UHXS_SharedPointer = 4,
+  // UHX_
 };
 
 typedef void (*IntrinsicFunction)(unreal::UIntPtr);
@@ -21,12 +22,6 @@ struct StructInfo {
    * The name of the struct owned by the info
    **/
   const char *name;
-
-  /**
-   * If it's a special pointer type (e.g. TSharedPtr, TSharedRef, etc),
-   * tells the name of that pointer kind. Otherwise, will be null
-   **/
-  const char *pointerKind;
 
   /**
    * Special flags
@@ -49,12 +44,6 @@ struct StructInfo {
    * a destructor, this might be null
    **/
   IntrinsicFunction destruct;
-
-  /**
-   * Deletes target pointer. It's different from `destruct` as it only works with pointers that were created with `new`,
-   * and it frees the underlying pointer as well. Same as `delete ptr`
-   **/
-  IntrinsicFunction del;
 
   // TODO: copy (see Class.h@CopyOrNot)
 

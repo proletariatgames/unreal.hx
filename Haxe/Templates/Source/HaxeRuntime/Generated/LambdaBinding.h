@@ -1,8 +1,8 @@
 #pragma once
 
-#include <OPointers.h>
+#include "IntPtr.h"
 #include <GcRef.h>
-#include <HxcppRuntime.h>
+#include <unreal/helpers/HxcppRuntime.h>
 #include <TypeParamGlue.h>
 
 // Unreal-compiled
@@ -12,12 +12,12 @@ class LambdaBinder
   ::unreal::helpers::GcRef haxeGcRef;
 
 public:
-  LambdaBinder(void* haxeFn) {
+  LambdaBinder(unreal::UIntPtr haxeFn) {
     this->haxeGcRef.set(haxeFn);
   }
   RV operator() (Args... params) const {
     return TypeParamGlue<RV>::haxeToUe(
-      unreal::helpers::HxcppRuntime::callFunction(
+      ::unreal::helpers::HxcppRuntime::callFunction(
         const_cast<LambdaBinder<RV, Args...>*>(this)->haxeGcRef.get(),
         TypeParamGlue<Args>::ueToHaxe(params)...
       )
@@ -31,11 +31,11 @@ class LambdaBinderVoid
   ::unreal::helpers::GcRef haxeGcRef;
 
 public:
-  LambdaBinderVoid(void* haxeFn) {
+  LambdaBinderVoid(unreal::UIntPtr haxeFn) {
     this->haxeGcRef.set(haxeFn);
   }
   void operator() (Args... params) const {
-    unreal::helpers::HxcppRuntime::callFunction(
+    ::unreal::helpers::HxcppRuntime::callFunction(
       const_cast<LambdaBinderVoid<Args...>*>(this)->haxeGcRef.get(),
       TypeParamGlue<Args>::ueToHaxe(params)...
     );

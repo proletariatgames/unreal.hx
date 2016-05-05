@@ -60,9 +60,11 @@ class TypeRef
     return this;
   }
 
-  public function withoutPointer():TypeRef {
+  public function withoutPointer(?andReference:Bool=false):TypeRef {
     switch [this.pack, this.name] {
       case [ ['cpp'], 'RawPointer' ]:
+        return params[0].withoutPointer();
+      case [ ['cpp'], 'Reference' ] if(andReference):
         return params[0].withoutPointer();
       case _:
         return this;

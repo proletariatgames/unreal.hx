@@ -1,6 +1,7 @@
 #pragma once
 #include <hxcpp.h>
 #include <unreal/helpers/GcRefStatic.h>
+#include "IntPtr.h"
 
 namespace unreal {
 namespace helpers {
@@ -11,11 +12,11 @@ public:
   GcRef();
   ~GcRef();
   GcRef(const GcRef& rhs);
-  void set(void *val);
-  void *get();
+  void set(unreal::UIntPtr val);
+  unreal::UIntPtr get();
 
 private:
-  void *ref;
+  unreal::UIntPtr ref;
 };
 
 }

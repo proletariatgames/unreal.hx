@@ -90,7 +90,7 @@ class DelegateBuild {
         }
       } else {
         var dummy = macro class {
-          public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+          public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
             $delayedglue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
           }
         }
@@ -183,16 +183,16 @@ class DelegateBuild {
         }
       } else {
         var dummy = macro class {
-          public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+          public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
             $delayedglue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+          public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
             $delayedglue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Void {
+          public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
             $delayedglue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:TCharStar) : Bool {
+          public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Bool {
             return $delayedglue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);
           }
         }
@@ -265,7 +265,7 @@ class DelegateBuild {
     def.name = ueType.name;
     def.meta = meta;
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
-    def.pack = ['unreal','delegates'];
+    def.pack = ['uhx','delegates'];
 #if bake_externs
     def.kind = TDClass();
     def.isExtern = true;
@@ -276,7 +276,7 @@ class DelegateBuild {
     def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
     Context.defineType(def);
-    return Context.getType('unreal.delegates.${ueType.name}');
+    return Context.getType('uhx.delegates.${ueType.name}');
   }
 
   private static function followWithAbstracts(t:Type):Type {

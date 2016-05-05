@@ -135,21 +135,13 @@ class ReflectAPI {
       if (np.IsFloatingPoint()) {
         np.SetFloatingPointPropertyValue(objOffset, cast value);
       } else if (Std.is(prop, UInt64Property)) {
-        if (Int64.is(value)) {
-          np.SetIntPropertyValue(objOffset, value);
-        } else {
-          np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
-        }
+        np.SetIntPropertyValue(objOffset, value);
       } else if (Std.is(prop, UUInt64Property)) {
-        if (Int64.is(value)) {
-          np.SetUIntPropertyValue(objOffset, value);
-        } else {
-          np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
-        }
+        np.SetUIntPropertyValue(objOffset, value);
       } else if (Std.is(prop, UUInt32Property)) {
-        np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
+        np.SetUIntPropertyValue(objOffset, value);
       } else {
-        np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(cast value));
+        np.SetIntPropertyValue(objOffset, cast value);
       }
     } else if (Std.is(prop, UBoolProperty)) {
       var prop:UBoolProperty = cast prop;
@@ -229,9 +221,9 @@ class ReflectAPI {
       } else if (Std.is(prop, UUInt64Property)) {
         return np.GetUnsignedIntPropertyValue(objPtr);
       } else if (Std.is(prop, UUInt32Property)) {
-        return Int64.toInt(np.GetUnsignedIntPropertyValue(objPtr));
+        return cast np.GetUnsignedIntPropertyValue(objPtr);
       } else {
-        return Int64.toInt(np.GetSignedIntPropertyValue(objPtr));
+        return np.GetSignedIntPropertyValue(objPtr);
       }
     } else if (Std.is(prop, UBoolProperty)) {
       var prop:UBoolProperty = cast prop;

@@ -53,6 +53,8 @@ public:
       return cpp::Pointer<void>((void *) (raw - 1));
     }
   }
+#else
+  inline VariantPtr(const std::nullptr_t& inRHS) : raw(0) { }
 #endif
 
   // Allow '->' syntax
