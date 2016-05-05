@@ -41,7 +41,7 @@ class TypeRef
     return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags);
   }
   inline public function withConst(setConst:Bool) {
-    return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags | Const);
+    return new TypeRef(this.pack, this.name, this.moduleName, params, setConst ? (this.flags | Const) : (this.flags.without(Const)));
   }
 
   public function withoutPrefix():TypeRef {

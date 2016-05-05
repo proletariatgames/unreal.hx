@@ -21,6 +21,6 @@ void ::unreal::helpers::GcRef::set(unreal::UIntPtr val) {
   ::unreal::helpers::GcRefStatic::set(this->ref, val);
 }
 
-unreal::UIntPtr ::unreal::helpers::GcRef::get() {
+unreal::UIntPtr unreal::helpers::GcRef::get() {
   return ::unreal::helpers::GcRefStatic::get(this->ref);
 }

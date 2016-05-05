@@ -119,6 +119,9 @@ class TypeConv {
         this.ueType = info.ueType;
         this.glueType = info.glueType != null ? info.glueType : info.ueType;
         this.haxeGlueType = info.haxeGlueType != null ? info.haxeGlueType : info.haxeType;
+        if (hasModifier(Const) && info.ueType.withoutPointer().name == 'TCHAR') {
+          this.ueType = new TypeRef(['cpp'],'RawPointer', [new TypeRef('TCHAR', Const)]);
+        }
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
         if (flags.hasAny(OWeak)) {
@@ -454,10 +457,7 @@ class TypeConv {
         '( (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, info, params):
-        var ret =
-          'const_cast<${this.ueType.getCppType(true)}>(' +
-            '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::' +
-            'getPointer($expr))';
+        var ret = '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::getPointer($expr)';
         if (this.modifiers == null || !this.modifiers.has(Ptr)) {
           ret = '*$ret';
         }
@@ -483,7 +483,7 @@ class TypeConv {
 
   private function ueToGlueRecurse(expr:String, ctx:ConvCtx):String {
     var originalExpr = expr;
-    if (this.hasModifier(Const)) {
+    if ((hasModifier(Ref) || hasModifier(Ptr)) && hasAnyConst()) {
       expr = 'const_cast<${ueType.getCppType(true)}>( $expr )';
     }
 
@@ -525,10 +525,7 @@ class TypeConv {
         } else if (hasModifier(Ptr)) {
           'unreal::VariantPtr( (void *) ($expr) )';
         } else {
-          'const_cast<${this.ueType.getCppType(true)}>(' +
-            '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::' +
-            'getPointer($expr))';
-          // '::uhx::StructHelper<${this.ueType.withoutPointer(true).getCppType(true)}>::create($expr)';
+          '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
         }
 
       case CLambda(args,ret):
@@ -538,6 +535,27 @@ class TypeConv {
       case CTypeParam(name):
         '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
     }
+  }
+
+  public function hasAnyConst():Bool {
+    if (hasModifier(Const)) {
+      return true;
+    }
+    switch(data) {
+    case CStruct(_,_,params):
+      if (params != null) {
+        for (p in params) {
+          if (p.hasAnyConst()) {
+            return true;
+          }
+        }
+      }
+    case CLambda(args, ret) | CMethodPointer(_, args, ret):
+      for (arg in args) if (arg.hasAnyConst()) return true;
+      if (ret.hasAnyConst()) return true;
+    case _:
+    }
+    return false;
   }
 
   inline public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false):TypeConv {

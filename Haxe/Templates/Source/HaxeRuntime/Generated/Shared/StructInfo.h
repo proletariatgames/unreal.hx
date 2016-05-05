@@ -34,12 +34,6 @@ struct StructInfo {
   unreal::UIntPtr size;
 
   /**
-   * Calls placement new on the target pointer. If the struct is a POD structure, or if it doesn't need
-   * a constructor, this might be null
-   **/
-  IntrinsicFunction initialize;
-
-  /**
    * Calls the destructor on the target pointer. If the struct is a POD structure, or if it doesn't need
    * a destructor, this might be null
    **/

@@ -82,7 +82,6 @@ struct TStructData<T, PODType> {
       .name = TypeName<T>::Get(),
       .flags = UHXS_POD,
       .size = (unreal::UIntPtr) sizeof(T),
-      .initialize = nullptr,
       .destruct = nullptr,
       .genericParams = nullptr,
       .genericImplementation = nullptr
@@ -102,7 +101,6 @@ struct TStructData<T, NormalType> {
       .name = TypeName<T>::Get(),
       .flags = UHX_None,
       .size = (unreal::UIntPtr) sizeof(T),
-      .initialize = (TTraits::WithZeroConstructor ? nullptr : &TSelf::doInit),
       .destruct = (TTraits::WithNoDestructor ? nullptr : &TSelf::doDestruct),
       .genericParams = nullptr,
       .genericImplementation = nullptr
@@ -112,10 +110,6 @@ struct TStructData<T, NormalType> {
 private:
   static void doDestruct(unreal::UIntPtr ptr) {
     ((T*)ptr)->~T();
-  }
-
-  static void doInit(unreal::UIntPtr ptr) {
-    ConstructWithNoInitOrNot<T>((void *)ptr);
   }
 };
 
@@ -134,7 +128,6 @@ private:
 //       StructInfo ret = TStructData<T>::getInfo(); \
 //       ret.size = (unreal::UIntPtr) sizeof(TSharedName<T>); \
 //       ret.flags |= UHXS_SharedPointer; \
-//       ret.initialize = &TSelf::doInit; \
 //       ret.destruct 
 
 }

@@ -7,7 +7,7 @@ import unreal.helpers.ObjectArrayHelper_Glue;
 // @:ueCppDef("DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);\nDEFINE_LOG_CATEGORY(HaxeLog)")
 class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   @:glueHeaderCode('static unreal::UIntPtr indexToObject(int index);')
-  @:glueCppCode('unreal::UIntPtr unreal::helpers::ObjectArrayHelper_Glue_obj::indexToObject(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr) return nullptr;\n\treturn (unreal::UIntPtr) ret->Object;\n}')
+  @:glueCppCode('unreal::UIntPtr unreal::helpers::ObjectArrayHelper_Glue_obj::indexToObject(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr) return 0;\n\treturn (unreal::UIntPtr) ret->Object;\n}')
   @:glueCppIncludes('UObject/UObjectArray.h')
   @:glueHeaderIncludes('IntPtr.h')
   public static function indexToObject(idx:Int):unreal.UIntPtr {
