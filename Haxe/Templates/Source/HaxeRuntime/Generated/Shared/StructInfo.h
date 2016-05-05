@@ -5,8 +5,8 @@ namespace uhx {
 
 enum EStructFlags {
   UHX_None = 0,
-  UHXS_Templated = 1,
-  UHXS_POD = 2,
+  UHX_Templated = 1,
+  UHX_POD = 2,
   // UHX_
 };
 

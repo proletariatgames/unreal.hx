@@ -261,7 +261,7 @@ class GlueMethod {
         outVars << 'auto ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, this.ctx)};\n\t\t\t';
         cppArgTypes.push('*(${prefixedArgName}_t.getPointer())');
       } else {
-        cppArgTypes.push(arg.t.glueToUe(prefix+escapeCpp(arg.name, this.isGlueStatic), this.ctx));
+        cppArgTypes.push(arg.t.glueToUe(prefix+escapeCpp(arg.name, this.isGlueStatic || this.isTemplatedThis), this.ctx));
       }
     }
 
@@ -337,7 +337,7 @@ class GlueMethod {
           }
       }
     } else {
-     var self = if (!isGlueStatic)
+     var self = if (!isGlueStatic && !this.isTemplatedThis)
         { name: 'this', t: this.thisConv };
       else
         { name:escapeCpp(this.glueArgs[0].name, true), t: glueArgs[0].t };
