@@ -296,15 +296,16 @@ class TypeConv {
       set.append(info.glueCppIncludes);
     case CStruct(type,info,params):
       set.add('UEWrapper.h');
+      set.append(info.glueCppIncludes);
 
-      // we need to know if it was declared as a class or a struct for this to work
-      if (false && inPointer && forwardDecls != null) {
-        var decl = info.ueType.getForwardDecl();
-        forwardDecls[decl] = decl;
-        cppSet.append(info.glueCppIncludes);
-      } else {
-        set.append(info.glueCppIncludes);
-      }
+      // // we need to know if it was declared as a class or a struct for this to work
+      // if (inPointer && forwardDecls != null) {
+      //   var decl = info.ueType.getForwardDecl();
+      //   forwardDecls[decl] = decl;
+      //   cppSet.append(info.glueCppIncludes);
+      // } else {
+      //   set.append(info.glueCppIncludes);
+      // }
 
       if (params != null) {
         var ptr = inPointer;
@@ -317,6 +318,9 @@ class TypeConv {
         for (param in params) {
           param.recurseUeIncludes(set, forwardDecls, cppSet, ptr);
         }
+
+        var glue = info.haxeType.getGlueHelperType();
+        set.add(glue.pack.join('/') + (glue.pack.length == 0 ? '' : '/') + glue.name + '_UE.h');
       }
 
     case CLambda(args, ret):

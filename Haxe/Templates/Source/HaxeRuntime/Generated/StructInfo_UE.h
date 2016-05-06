@@ -23,14 +23,11 @@ enum EImplementationKind {
    **/
   PODType = 1,
 
-  /**
-   * Type needs a custom implementation of StructInfo
-   **/
-  Templated = 2,
+  BasicType = 2,
 
-  BasicType = 3,
-
-  EnumType = 4,
+  EnumType = 3,
+  
+  Templated = 4,
 };
 
 /**
@@ -43,9 +40,6 @@ template<class T> struct TImplementationKind {
 // template<class T> struct TImplementationKind<T*> { enum { Value = None }; };
 // template<class T> struct TImplementationKind<const T*> { enum { Value = None }; };
 // template<class T> struct TImplementationKind<const T* const> { enum { Value = None }; };
-
-// Templated types always need a templated implementation
-template<template<class, class...> class T, class First, class... Values> struct TImplementationKind<T<First, Values...>> { enum { Value = Templated }; };
 
 // Basic types
 #define BASICTYPE(name) template<> struct TImplementationKind<name> { enum { Value = BasicType }; };
@@ -108,28 +102,6 @@ struct TStructData<T, PODType> {
 // Normal types
 template<class T>
 struct TStructData<T, NormalType> {
-  typedef TStructOpsTypeTraits<T> TTraits;
-  typedef TStructData<T, NormalType> TSelf;
-
-  inline static const StructInfo *getInfo() {
-    static StructInfo info = {
-      .name = TypeName<T>::Get(),
-      .flags = UHX_None,
-      .size = (unreal::UIntPtr) sizeof(T),
-      .destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::doDestruct),
-      .genericParams = nullptr,
-      .genericImplementation = nullptr
-    };
-    return &info;
-  }
-private:
-  static void doDestruct(unreal::UIntPtr ptr) {
-    ((T*)ptr)->~T();
-  }
-};
-
-template<template<class, class...> class T, class First, class... Values>
-struct TStructData<T<First, Values...>, Templated> {
   typedef TStructOpsTypeTraits<T> TTraits;
   typedef TStructData<T, NormalType> TSelf;
 

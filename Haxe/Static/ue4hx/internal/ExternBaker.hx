@@ -356,6 +356,45 @@ class ExternBaker {
     return glue;
   }
 
+  private function processTemplatedClass(tconv:TypeConv, c:ClassType) {
+    var decl = new CodeFormatter(),
+        impl = new CodeFormatter();
+    var cppType = tconv.ueType.getCppType().toString(),
+        glueName = tconv.haxeType.getGlueHelperType().getCppType() + '_UE_obj';
+    decl << 'namespace uhx {' << new Newline()
+         << 'template<';
+    decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    decl << '> struct TImplementationKind<T*> { enum { Value = Templated }; };' << new Newline()
+         << 'template<';
+    decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    decl << '>' << new Newline();
+    decl << 'struct TStructData<' << cppType << '>' << new Begin('{')
+          << 'typedef TStructOpsTypeTraits<$cppType> TTraits;' << new Newline()
+          << 'typedef TStructData<T, NormalType> TSelf;' << new Newline() << new Newline()
+          << 'static const StructInfo *getInfo();' << new Newline()
+          << 'private:' << new Newline()
+          << 'static void doDestruct(unreal::UIntPtr ptr)' << new Begin('{')
+            << '((${cppType} *)->~${cppType};' << new Newline()
+          << new End('}')
+        << new End('};')
+      << '}' << new Newline();
+    impl << 'template<> ';
+    impl << 'inline const StructInfo *::uhx::TStructData<' << cppType << '>' << new Begin('{')
+          << 'static $glueName glue;' << new Newline()
+          << 'static StructInfo info = ' << new Begin('{')
+            << '.name = TypeName<' << cppType << '>::Get(),' << new Newline()
+            << '.flags = UHX_Templated,' << new Newline()
+            << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
+            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << glueName << '>::value ? nullptr : &TSelf::doDestruct),' << new Newline()
+            << '.genericParams = nullptr,' << new Newline()
+            << '.genericImplementation = &glue' << new Newline()
+          << new End('}')
+          << 'return &info;'
+      << new End('}');
+    c.meta.add(':ueHeaderStart', [macro $v{decl.toString()}], c.pos);
+    c.meta.add(':ueHeaderEnd'  , [macro $v{impl.toString()}], c.pos);
+  }
+
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
     this.params = [ for (p in c.params) p.name ];
@@ -365,6 +404,14 @@ class ExternBaker {
     this.typeRef = TypeRef.fromBaseType(c, c.pos);
     this.glueType = this.typeRef.getGlueHelperType();
     this.thisConv = TypeConv.get(type,c.pos); // FIXME? ,'unreal.PExternal');
+
+    switch(this.thisConv.data) {
+    case CStruct(_,_,params):
+      if (params != null && params.length > 0) {
+        processTemplatedClass(this.thisConv, c);
+      }
+    case _:
+    }
     if (!c.meta.has(':uextern')) {
       throw new Error('Extern Baker: Extern class $typeRef is on the extern class path, but is not a @:uextern type', c.pos);
     }

@@ -72,18 +72,29 @@ class NativeGlueCode
     touch(gluePath, info.targetModule);
     writer.buf.add(prelude);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
+    writer.include('StructInfo_UE.h');
+
+    var data = MacroHelpers.extractStrings(cl.meta, ':ueHeaderStart')[0];
+    if (data != null) {
+      writer.buf.add(data);
+    }
 
     for (pack in gluePack) {
       writer.buf.add('namespace $pack {\n');
     }
 
-    if (cl.params.length > 0) {
+    var base:BaseType = switch(cl.kind) {
+      case KAbstractImpl(a):
+        a.get();
+      case _:
+        cl;
+    };
+    if (base.params.length > 0) {
       writer.buf << 'template <';
-      writer.buf.mapJoin(cl.params, function(p) return 'typename ' + p.name);
+      writer.buf.mapJoin(base.params, function(p) return 'class ' + p.name);
       writer.buf << '>';
     }
     writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
-    writer.buf.add('\t\t${glueName}_obj() : ${oldGlueName}_obj(ptr) {}\n');
     for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
       writer.include(inc);
 
@@ -103,6 +114,11 @@ class NativeGlueCode
     for (pack in gluePack) {
       writer.buf.add('}\n');
     }
+
+    data = MacroHelpers.extractStrings(cl.meta, ':ueHeaderEnd')[0];
+    if (data != null) {
+      writer.buf.add(data);
+    }
     writer.buf.add('#ifdef SCOPED_HXCPP\n#undef SCOPED_HXCPP\n#undef HXCPP_CLASS_ATTRIBUTES\n#endif\n');
     writer.close(info.targetModule);
   }
@@ -113,7 +129,6 @@ class NativeGlueCode
 
     touch(gluePath, info.targetModule);
     var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
-    var ctor = null;
 
     writer.buf.add(prelude);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
@@ -127,12 +142,7 @@ class NativeGlueCode
     }
     if (headerDefs.length == 0) {
       var ext = '';
-      if (cl.meta.has(':ueTemplate')) {
-        ctor = '${glueName}_obj() {}\n';
-      }
       writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj $ext{\n\tpublic:\n');
-      if (ctor != null)
-        writer.buf.add(ctor);
     } else {
       for (headerDef in headerDefs) {
         writer.buf.add(headerDef);
