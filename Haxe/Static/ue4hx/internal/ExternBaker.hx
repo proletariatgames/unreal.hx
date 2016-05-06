@@ -362,9 +362,9 @@ class ExternBaker {
     var cppType = tconv.ueType.getCppType().toString(),
         glueName = tconv.haxeType.getGlueHelperType().getCppType() + '_UE_obj';
     decl << 'namespace uhx {' << new Newline()
-         << 'template<';
-    decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
-    decl << '> struct TImplementationKind<T*> { enum { Value = Templated }; };' << new Newline()
+    //      << 'template<';
+    // decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    // decl << '> struct TImplementationKind<' << cppType << '> { enum { Value = Templated }; };' << new Newline()
          << 'template<';
     decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
     decl << '>' << new Newline();
@@ -378,10 +378,11 @@ class ExternBaker {
           << new End('}')
         << new End('};')
       << '}' << new Newline();
-    impl << 'template<> ';
-    impl << 'inline const StructInfo *::uhx::TStructData<' << cppType << '>' << new Begin('{')
+    impl << 'template<';
+    decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    impl << '> inline const uhx::StructInfo *::uhx::TStructData<' << cppType << '>' << new Begin('{')
           << 'static $glueName glue;' << new Newline()
-          << 'static StructInfo info = ' << new Begin('{')
+          << 'static uhx::StructInfo info = ' << new Begin('{')
             << '.name = TypeName<' << cppType << '>::Get(),' << new Newline()
             << '.flags = UHX_Templated,' << new Newline()
             << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()

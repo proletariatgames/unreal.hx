@@ -28,6 +28,8 @@ enum EImplementationKind {
   EnumType = 3,
   
   Templated = 4,
+
+  UObjectDerived = 5,
 };
 
 /**
@@ -36,10 +38,6 @@ enum EImplementationKind {
 template<class T> struct TImplementationKind {
   enum { Value = TIsPODType<T>::Value ? (std::is_enum<T>::value ? EnumType : PODType) : NormalType };
 };
-
-// template<class T> struct TImplementationKind<T*> { enum { Value = None }; };
-// template<class T> struct TImplementationKind<const T*> { enum { Value = None }; };
-// template<class T> struct TImplementationKind<const T* const> { enum { Value = None }; };
 
 // Basic types
 #define BASICTYPE(name) template<> struct TImplementationKind<name> { enum { Value = BasicType }; };
@@ -76,15 +74,15 @@ struct TypeName
 /**
  * General definition of TStructData, which allows getting a StructInfo type of each type
  **/
-template<class T, int Kind=TImplementationKind<T>::Value>
+template<class T, bool isPod = TIsPODType<T>::Value>
 struct TStructData {
   static const StructInfo *getInfo();
 };
 
 // POD types
 template<class T>
-struct TStructData<T, PODType> {
-  typedef TStructData<T, PODType> TSelf;
+struct TStructData<T, true> {
+  typedef TStructData<T, true> TSelf;
 
   inline static const StructInfo *getInfo() {
     static StructInfo info = {
@@ -101,9 +99,9 @@ struct TStructData<T, PODType> {
 
 // Normal types
 template<class T>
-struct TStructData<T, NormalType> {
+struct TStructData<T, false> {
   typedef TStructOpsTypeTraits<T> TTraits;
-  typedef TStructData<T, NormalType> TSelf;
+  typedef TStructData<T, false> TSelf;
 
   inline static const StructInfo *getInfo() {
     static StructInfo info = {
@@ -120,6 +118,11 @@ private:
   static void doDestruct(unreal::UIntPtr ptr) {
     ((T*)ptr)->~T();
   }
+};
+
+template<class T>
+struct TTemplatedData {
+  static const StructInfo *getInfo();
 };
 
 }

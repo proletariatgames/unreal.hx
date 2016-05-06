@@ -176,6 +176,9 @@ class TypeConv {
             case 'TThreadSafeWeakPtr':
               ueParams.push(new TypeRef('ESPMode::ThreadSafe'));
               'TWeakPtr';
+            case 'TSharedPtr' | 'TSharedRef' | 'TWeakPtr':
+              ueParams.push(new TypeRef('ESPMode::Fast'));
+              info.ueType.name;
             case name:
               name;
           };
@@ -477,7 +480,7 @@ class TypeConv {
         cppMethodType << '>::Translator';
         '(($cppMethodType) $expr)()';
       case CTypeParam(name):
-        '::uhx::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
+        '::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
     }
   }
 
@@ -548,7 +551,7 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name):
-        '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
+        '::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
     }
   }
 

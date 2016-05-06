@@ -7,8 +7,6 @@
   #define HAXERUNTIME_API
 #endif
 
-namespace uhx {
-
 // This file is only included during Unreal Engine compilation - it specifies how various UE types are
 // passed around: by-ref or by-val. Behavior for basic types are specified in TypeParamGlue.h
 
@@ -55,6 +53,5 @@ struct PtrMaker<TSubclassOf<T>> {
   typedef PtrHelper_Stack<TSubclassOf<T>> Type;
 };
 
-}
 
 #endif
