@@ -6,6 +6,8 @@ extern class FStreamableManager_Extra {
   @:uname('new')
   public static function create() : PHaxeCreated<FStreamableManager>;
 
+  public function SynchronousLoad(TargetsToStream : Const<FStringAssetReference>) : UObject;
+
   public function RequestAsyncLoad(TargetsToStream : Const<TArray<FStringAssetReference>>, Callback:Void -> Void, Priority:Int32) : Void;
 
   @:uname('RequestAsyncLoad')
