@@ -28,6 +28,40 @@ import unreal.Wrapper;
     throw str.toString();
   }
 
+
+  public static function boxBool(b:Bool):UIntPtr {
+    return HaxeHelpers.dynamicToPointer(b);
+  }
+
+  public static function boxInt(i:Int):UIntPtr {
+    return HaxeHelpers.dynamicToPointer(i);
+  }
+
+  public static function boxFloat(f:cpp.Float64):UIntPtr {
+    return HaxeHelpers.dynamicToPointer(f);
+  }
+
+  public static function boxInt64(i:cpp.Int64):UIntPtr {
+    return HaxeHelpers.dynamicToPointer(i);
+  }
+
+  public static function unboxBool(ptr:UIntPtr):Bool {
+    return HaxeHelpers.pointerToDynamic(ptr);
+  }
+
+  public static function unboxInt(ptr:UIntPtr):Int {
+    return HaxeHelpers.pointerToDynamic(ptr);
+  }
+
+  public static function unboxFloat(ptr:UIntPtr):cpp.Float64 {
+    return HaxeHelpers.pointerToDynamic(ptr);
+  }
+
+  public static function unboxInt64(ptr:UIntPtr):cpp.Int64 {
+    return HaxeHelpers.pointerToDynamic(ptr);
+  }
+
+
   public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
     return VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
   }
