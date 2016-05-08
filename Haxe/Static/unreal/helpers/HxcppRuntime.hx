@@ -29,6 +29,15 @@ import unreal.Wrapper;
   }
 
 
+  public static function uobjectWrap(uobj:UIntPtr) : UIntPtr {
+    return HaxeHelpers.dynamicToPointer(UObject.wrap(uobj));
+  }
+
+  public static function uobjectUnwrap(uobj:UIntPtr) : UIntPtr {
+    return @:privateAccess (HaxeHelpers.pointerToDynamic(uobj) : UObject).wrapped;
+  }
+
+
   public static function boxBool(b:Bool):UIntPtr {
     return HaxeHelpers.dynamicToPointer(b);
   }
@@ -78,6 +87,7 @@ import unreal.Wrapper;
     return VariantPtr.fromDynamic( new PointerTemplateWrapper(pointer, info) );
   }
 
+
   public static function getTemplateOffset() : UIntPtr {
     return unreal.Wrapper.TemplateWrapper.getOffset();
   }
@@ -89,6 +99,7 @@ import unreal.Wrapper;
   public static function getInlinePodWrapperOffset() : UIntPtr {
     return unreal.Wrapper.InlinePodWrapper.getOffset();
   }
+
 
   public static function callFunction0(ptr:UIntPtr) : UIntPtr {
     return toPtr( toDyn(ptr)() );
