@@ -51,6 +51,4 @@ struct StructInfo {
   void *genericImplementation;
 };
 
-// template<typename T>
-
 }

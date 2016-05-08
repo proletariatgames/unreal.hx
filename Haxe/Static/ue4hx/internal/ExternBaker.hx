@@ -137,7 +137,7 @@ class ExternBaker {
           var dir = target + '/' + glueType.pack.join('/');
           if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
           var file = File.write('$dir/${glueType.name}.hx', false);
-          file.writeString(NativeGlueCode.prelude);
+          file.writeString(ue4hx.internal.buf.BaseWriter.prelude);
           file.writeString('package ${glueType.pack.join('.')};\n' +
             '@:unrealGlue extern class ${glueType.name} {\n');
           file.writeString(glue);
@@ -369,28 +369,29 @@ class ExternBaker {
          << 'template<';
     decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
     decl << '>' << new Newline();
-    decl << 'struct TStructData<' << cppType << '>' << new Begin('{')
+    decl << 'struct TTemplatedData<' << cppType << '>' << new Begin('{')
           << 'typedef TStructOpsTypeTraits<$cppType> TTraits;' << new Newline()
-          << 'typedef TStructData<T, NormalType> TSelf;' << new Newline() << new Newline()
-          << 'static const StructInfo *getInfo();' << new Newline()
+          << 'inline static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
           << 'static void doDestruct(unreal::UIntPtr ptr)' << new Begin('{')
-            << '((${cppType} *)->~${cppType};' << new Newline()
+            << '((${cppType} *) ptr)->~${cppType}();' << new Newline()
           << new End('}')
         << new End('};')
       << '}' << new Newline();
     impl << 'template<';
-    decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
-    impl << '> inline const uhx::StructInfo *::uhx::TStructData<' << cppType << '>' << new Begin('{')
-          << 'static $glueName glue;' << new Newline()
+    impl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    impl << '> const uhx::StructInfo *::uhx::TTemplatedData<' << cppType << '>::getInfo()' << new Begin('{')
+          << 'static $glueName<';
+    impl.foldJoin(c.params, function(param,buf) return buf << param.name);
+    impl << '> glue;' << new Newline()
           << 'static uhx::StructInfo info = ' << new Begin('{')
-            << '.name = TypeName<' << cppType << '>::Get(),' << new Newline()
+            << '.name = "' << tconv.ueType.name << '",' << new Newline()
             << '.flags = UHX_Templated,' << new Newline()
             << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
-            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << glueName << '>::value ? nullptr : &TSelf::doDestruct),' << new Newline()
+            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::doDestruct),' << new Newline()
             << '.genericParams = nullptr,' << new Newline()
             << '.genericImplementation = &glue' << new Newline()
-          << new End('}')
+          << new End('};')
           << 'return &info;'
       << new End('}');
     c.meta.add(':ueHeaderStart', [macro $v{decl.toString()}], c.pos);

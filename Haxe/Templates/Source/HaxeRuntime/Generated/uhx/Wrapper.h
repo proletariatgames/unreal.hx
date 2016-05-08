@@ -47,7 +47,7 @@ struct TemplateHelper {
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
-    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
     T *ptr = (T*) (ret.raw + offset);
     new(ptr) T(inOrigin);
     return ret;
@@ -55,14 +55,14 @@ struct TemplateHelper {
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
-    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
     T *ptr = (T*) (ret.raw + offset);
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
-    return unreal::helpers::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) inOrigin, (unreal::UIntPtr) TStructData<T>::getInfo());
+    return unreal::helpers::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) inOrigin, (unreal::UIntPtr) TTemplatedData<T>::getInfo());
   }
 };
 
@@ -90,19 +90,19 @@ struct PointerOffset<true> {
 template<typename T>
 struct StructHelper<T, false> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<uhx::NormalType>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<false>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<uhx::NormalType>::getVariantOffset());
+    T *ptr = (T*) (ret.raw + PointerOffset<false>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<uhx::NormalType>::getVariantOffset());
+    T *ptr = (T*) (ret.raw + PointerOffset<false>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
@@ -116,19 +116,19 @@ struct StructHelper<T, false> {
 template<typename T>
 struct StructHelper<T, true> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<uhx::PODType>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<true>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<uhx::PODType>::getVariantOffset());
+    T *ptr = (T*) (ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<uhx::PODType>::getVariantOffset());
+    T *ptr = (T*) (ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }

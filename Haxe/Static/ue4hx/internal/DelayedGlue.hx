@@ -496,7 +496,6 @@ class DelayedGlue {
     var headerPath = info.getHeaderPath(true);
 
     var writer = new HeaderWriter(headerPath);
-    writer.buf.add(NativeGlueCode.prelude);
 
     var cls = abs.impl.get();
 
@@ -631,7 +630,6 @@ class DelayedGlue {
     var uname = info.uname.join('.');
     var headerPath = info.getHeaderPath(true);
     var writer = new HeaderWriter(headerPath);
-    writer.buf.add(NativeGlueCode.prelude);
 
     var parent = null;
     var fnType = switch(abs.type) {

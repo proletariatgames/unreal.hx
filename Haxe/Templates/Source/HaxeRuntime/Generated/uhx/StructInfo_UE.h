@@ -12,49 +12,6 @@
 
 namespace uhx {
 
-enum EImplementationKind {
-  /**
-   * The type's StructInfo can be determined by a template
-   **/
-  NormalType = 0,
-
-  /**
-   * The type's StructInfo can be determined by a template, and it is a plain old data type
-   **/
-  PODType = 1,
-
-  BasicType = 2,
-
-  EnumType = 3,
-  
-  Templated = 4,
-
-  UObjectDerived = 5,
-};
-
-/**
- * Trait to determine what implementation of TStructData we need
- **/
-template<class T> struct TImplementationKind {
-  enum { Value = TIsPODType<T>::Value ? (std::is_enum<T>::value ? EnumType : PODType) : NormalType };
-};
-
-// Basic types
-#define BASICTYPE(name) template<> struct TImplementationKind<name> { enum { Value = BasicType }; };
-BASICTYPE(float);
-BASICTYPE(double);
-BASICTYPE(uint8);
-BASICTYPE(uint16);
-BASICTYPE(uint32);
-BASICTYPE(uint64);
-BASICTYPE(int8);
-BASICTYPE(int16);
-BASICTYPE(int32);
-BASICTYPE(int64);
-BASICTYPE(bool);
-
-#undef BASICTYPE
-
 // default implementation of getting type names. Not very pretty on gcc, but still nice for debugging
 // use ENABLE_DEBUG_TYPENAME to add more readable implementations
 template<class T>
@@ -76,6 +33,11 @@ struct TypeName
  **/
 template<class T, bool isPod = TIsPODType<T>::Value>
 struct TStructData {
+  static const StructInfo *getInfo();
+};
+
+template<class T>
+struct TTemplatedData {
   static const StructInfo *getInfo();
 };
 
@@ -118,11 +80,6 @@ private:
   static void doDestruct(unreal::UIntPtr ptr) {
     ((T*)ptr)->~T();
   }
-};
-
-template<class T>
-struct TTemplatedData {
-  static const StructInfo *getInfo();
 };
 
 }

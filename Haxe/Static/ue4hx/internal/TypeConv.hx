@@ -464,7 +464,12 @@ class TypeConv {
         '( (${ueType.getCppType()}) $expr )';
 
       case CStruct(type, info, params):
-        var ret = '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::getPointer($expr)';
+        var ret = null;
+        if (params != null && params.length > 0) {
+          ret = '::uhx::TemplateHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::getPointer($expr)';
+        } else {
+          ret = '::uhx::StructHelper< ${this.ueType.withoutPointer(true).getCppType(true)} >::getPointer($expr)';
+        }
         if (this.modifiers == null || !this.modifiers.has(Ptr)) {
           ret = '*$ret';
         }
@@ -480,7 +485,11 @@ class TypeConv {
         cppMethodType << '>::Translator';
         '(($cppMethodType) $expr)()';
       case CTypeParam(name):
-        '::uhx::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
+        if (this.hasModifier(Ref)) {
+          '::uhx::TypeParamGluePtr<${ueType.withoutPointer(true).getCppType()}>::haxeToUePtr( $expr )';
+        } else {
+          '::uhx::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
+        }
     }
   }
 
@@ -528,7 +537,7 @@ class TypeConv {
 
       case CStruct(type, info, params):
         if (params != null && params.length > 0) {
-          var helper = '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
+          var helper = '::uhx::TemplateHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
           if (hasModifier(Ref)) {
             '$helper::fromPointer( &($expr) )';
           } else if (hasModifier(Ptr)) {
@@ -551,7 +560,11 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name):
-        '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
+        if (this.hasModifier(Ref)) {
+          '::uhx::TypeParamGluePtr<${ueType.withoutPointer(true).getCppType()}>::ueToHaxeRef( $expr )';
+        } else {
+          '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
+        }
     }
   }
 

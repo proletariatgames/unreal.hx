@@ -112,6 +112,7 @@ class GlueMethod {
     var baseGlueHeaderCode = null;
     if (this.isTemplatedThis && !isStatic) {
       baseGlueHeaderCode = 'virtual ' + glueHeaderCode.toString() + ' = 0;';
+      glueHeaderCode << ' override';
     }
 
     this.cppArgs = meth.args;
@@ -349,7 +350,7 @@ class GlueMethod {
         case '.equals':
           var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
-          'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
+          'uhx::TypeTraits::isEq<${thisType.ueType.getCppType()}>';
         case 'op_Dereference':
           this.op = '*';
           '(**(' + self.t.glueToUe(self.name, this.ctx) + '))';

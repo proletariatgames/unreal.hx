@@ -1,5 +1,7 @@
 package unreal;
 
+@:ueTemplateArgs(['typename', T], ['enum class ESPMode'])
+@:ueForwardType('class')
 @:uextern extern class TWeakPtr<T> {
   // @:impl public static function Pin<T : Wrapper>(self:T):TSharedPtr<T> {
   //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtr() ) );

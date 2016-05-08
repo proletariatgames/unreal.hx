@@ -1,38 +1,50 @@
 #pragma once
-#define TypeParamGlue_h_included__
 
-#include "HaxeShared.h"
-#include "IntPtr.h"
-#include <cstdio>
-#include <utility>
+#include <type_traits>
 
-#if __cplusplus > 199711L || __UNREAL__
-  #define SUPPORTS_C11
-#endif
+// This file is only included during Unreal Engine compilation - it specifies how various UE types are
+// passed around: by-ref or by-val. Behavior for basic types are specified in TypeParamGlue.h
 
-#include "hxcpp.h"
-
-namespace uhx { template<typename T, typename=void> struct PtrMaker; }
-
-#ifdef __UNREAL__
-  #include "uhx/TypeParamGlue_UE.h"
-#endif
+enum class ESPMode;
+template<class ObjectType, ESPMode Mode> class TSharedRef;
+template<class ObjectType, ESPMode Mode> class TSharedPtr;
+template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
+template<class T> class TAutoWeakObjectPtr;
+template<class TClass> class TSubclassOf;
 
 namespace uhx {
+
+// Main defintions
+template<typename T, typename=void> struct PtrMaker;
+
+template<typename T>
+class TypeParamGlue {
+public:
+  static T haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(T ue);
+};
+
+template<typename T>
+class TypeParamGluePtr {
+public:
+  static typename PtrMaker<T>::Type haxeToUePtr(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxeRef(T& ue);
+};
+
 
 // Wrapper for objects that are passed by-value.
 template<typename T>
 struct PtrHelper_Stack {
   T val;
-  PtrHelper_Stack(const T& inVal) : val(inVal) {
+  inline PtrHelper_Stack(const T& inVal) : val(inVal) {
   }
 #ifdef SUPPORTS_C11
-  PtrHelper_Stack(T&& inVal) : val(std::move(inVal)) {
+  inline PtrHelper_Stack(T&& inVal) : val(std::move(inVal)) {
   }
-  PtrHelper_Stack(PtrHelper_Stack&& mv) : val(std::move(mv.val)) {
+  inline PtrHelper_Stack(PtrHelper_Stack&& mv) : val(std::move(mv.val)) {
   }
 #endif
-  PtrHelper_Stack(const PtrHelper_Stack& rhs) : val(rhs.val) {
+  inline PtrHelper_Stack(const PtrHelper_Stack& rhs) : val(rhs.val) {
   }
 
   inline T* getPointer() {
@@ -44,15 +56,15 @@ struct PtrHelper_Stack {
 template<typename T>
 struct PtrHelper_Ptr {
   T* ptr;
-  PtrHelper_Ptr(T* inPtr) : ptr(inPtr) {
+  inline PtrHelper_Ptr(T* inPtr) : ptr(inPtr) {
   }
 
 #ifdef SUPPORTS_C11
-  PtrHelper_Ptr(PtrHelper_Ptr&& mv) : ptr(mv.ptr) {
+  inline PtrHelper_Ptr(PtrHelper_Ptr&& mv) : ptr(mv.ptr) {
   }
 #endif
 
-  PtrHelper_Ptr(const PtrHelper_Ptr& rhs) : ptr(rhs.ptr) {
+  inline PtrHelper_Ptr(const PtrHelper_Ptr& rhs) : ptr(rhs.ptr) {
   }
 
   inline T* getPointer() {
@@ -80,33 +92,19 @@ struct PtrMaker<T*> {
   }
 
 BASIC_TYPE(bool);
-BASIC_TYPE(::cpp::UInt32);
-BASIC_TYPE(unsigned long long int);
-BASIC_TYPE(long long int);
-BASIC_TYPE(::cpp::Float32);
-BASIC_TYPE(::cpp::Float64);
-BASIC_TYPE(::cpp::Int16);
-BASIC_TYPE(::cpp::Int32);
-BASIC_TYPE(::cpp::Int8);
-BASIC_TYPE(::cpp::UInt16);
-BASIC_TYPE(::cpp::UInt8);
-BASIC_TYPE(::cpp::Char);
+BASIC_TYPE(uint32);
+BASIC_TYPE(uint64);
+BASIC_TYPE(int64);
+BASIC_TYPE(float);
+BASIC_TYPE(double);
+BASIC_TYPE(int16);
+BASIC_TYPE(int32);
+BASIC_TYPE(int8);
+BASIC_TYPE(uint16);
+BASIC_TYPE(uint8);
+BASIC_TYPE(char);
 
 #undef BASIC_TYPE
-
-template<typename T>
-class MAY_EXPORT_SYMBOL TypeParamGlue {
-public:
-  static T haxeToUe(unreal::UIntPtr haxe);
-  static unreal::UIntPtr ueToHaxe(T ue);
-};
-
-template<typename T>
-class MAY_EXPORT_SYMBOL TypeParamGluePtr {
-public:
-  static typename PtrMaker<T>::Type haxeToUePtr(unreal::UIntPtr haxe);
-  static unreal::UIntPtr ueToHaxeRef(T& ue);
-};
 
 template<typename T>
 class TypeParamGlue<T&> {
@@ -141,6 +139,44 @@ class TypeParamGluePtr<const T> {
 public:
   static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxeRef(const T& ue);
+};
+
+
+
+//////////////////////////////////
+// Forward declarations
+template<typename T> struct PtrHelper_Stack;
+template<typename T> struct PtrHelper_Ptr;
+/////////////////////////////////
+
+// Enums always passed by-val
+template<typename T>
+struct PtrMaker<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+  typedef PtrHelper_Stack<T> Type;
+};
+
+// Smart pointers are passed by-val
+template<typename T, ESPMode Mode>
+struct PtrMaker<TSharedPtr<T, Mode>> {
+  typedef PtrHelper_Stack<TSharedPtr<T,Mode>> Type;
+};
+template<typename T, ESPMode Mode>
+struct PtrMaker<TSharedRef<T, Mode>> {
+  typedef PtrHelper_Stack<TSharedRef<T,Mode>> Type;
+};
+template<typename T, typename Base>
+struct PtrMaker<TWeakObjectPtr<T,Base>> {
+  typedef PtrHelper_Stack<TWeakObjectPtr<T,Base>> Type;
+};
+template<typename T>
+struct PtrMaker<TAutoWeakObjectPtr<T>> {
+  typedef PtrHelper_Stack<TAutoWeakObjectPtr<T>> Type;
+};
+
+// TSubclassOf passed by-val
+template<class T>
+struct PtrMaker<TSubclassOf<T>> {
+  typedef PtrHelper_Stack<TSubclassOf<T>> Type;
 };
 
 }
