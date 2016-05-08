@@ -110,32 +110,82 @@ struct PtrMaker<T*> {
   typedef PtrHelper_Stack<T*> Type;
 };
 
-template<typename T, int Kind>
-struct TypeParamGlue<T&, Kind> {
+template<typename T>
+struct TypeParamGlue<T&, OtherType> {
+  static T& haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(T& ue);
+};
+template<typename T>
+struct TypeParamGlue<T&, EnumType> {
+  static T& haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(T& ue);
+};
+template<typename T>
+struct TypeParamGlue<T&, ObjectType> {
   static T& haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(T& ue);
 };
 
-template<typename T, int Kind>
-struct TypeParamGlue<const T&, Kind> {
+template<typename T>
+struct TypeParamGlue<const T&, OtherType> {
+  static const T& haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T& ue);
+};
+template<typename T>
+struct TypeParamGlue<const T&, EnumType> {
+  static const T& haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T& ue);
+};
+template<typename T>
+struct TypeParamGlue<const T&, ObjectType> {
   static const T& haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T& ue);
 };
 
-template<typename T, int Kind>
-struct TypeParamGlue<const T*, Kind> {
+template<typename T>
+struct TypeParamGlue<const T*, OtherType> {
+  static const T* haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T* ue);
+};
+template<typename T>
+struct TypeParamGlue<const T*, EnumType> {
+  static const T* haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T* ue);
+};
+template<typename T>
+struct TypeParamGlue<const T*, ObjectType> {
   static const T* haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T* ue);
 };
 
-template<typename T, int Kind>
-struct TypeParamGlue<const T, Kind> {
+template<typename T>
+struct TypeParamGlue<const T, OtherType> {
+  static const T haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T ue);
+};
+template<typename T>
+struct TypeParamGlue<const T, EnumType> {
+  static const T haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxe(const T ue);
+};
+template<typename T>
+struct TypeParamGlue<const T, ObjectType> {
   static const T haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T ue);
 };
 
-template<typename T, int Kind>
-struct TypeParamGluePtr<const T, Kind> {
+template<typename T>
+struct TypeParamGluePtr<const T, OtherType> {
+  static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxeRef(const T& ue);
+};
+template<typename T>
+struct TypeParamGluePtr<const T, EnumType> {
+  static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
+  static unreal::UIntPtr ueToHaxeRef(const T& ue);
+};
+template<typename T>
+struct TypeParamGluePtr<const T, ObjectType> {
   static typename PtrMaker<const T>::Type haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxeRef(const T& ue);
 };
