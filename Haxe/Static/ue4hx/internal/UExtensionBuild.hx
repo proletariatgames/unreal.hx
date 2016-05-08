@@ -485,9 +485,9 @@ class UExtensionBuild {
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         var createExpr = if (isScript) {
-          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] )', ctx);
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] ))';
         } else {
-          '' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) )', ctx);
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) ))';
         }
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -503,7 +503,7 @@ class UExtensionBuild {
         var createEmptyExpr = '{ ' +
           'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )' + ');' +
           '@:privateAccess ret.wrapped = ueType;' +
-          '' + thisConv.haxeToGlue('ret', ctx) +';' +
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(ret);' +
         '}';
         buildFields.push({
           name: 'createEmptyHaxeWrapper',

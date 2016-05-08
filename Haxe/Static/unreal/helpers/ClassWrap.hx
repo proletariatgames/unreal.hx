@@ -39,7 +39,8 @@ class ClassWrap {
     if (serial == 0) {
       serial = ObjectArrayHelper_Glue.allocateSerialNumber(index);
     }
-    ret = unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr) );
+    var ptr = unreal.helpers.ClassMap.wrap(nativePtr);
+    ret = unreal.helpers.HaxeHelpers.pointerToDynamic(ptr);
     ret.serialNumber = serial;
     wrappers[index] = ret;
     indexes[nIndex++] = index;

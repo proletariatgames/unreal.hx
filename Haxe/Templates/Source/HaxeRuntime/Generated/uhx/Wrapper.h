@@ -37,7 +37,7 @@ struct TemplateHelper {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
     if ((inPtr.raw & 1) == 0) {
       static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
-      T **ret = (T **) inPtr.raw + offset;
+      T **ret = (T **) (inPtr.raw + offset);
       return *ret;
     } else {
       unreal::helpers::HxcppRuntime::throwString("Invalid templated pointer");
