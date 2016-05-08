@@ -357,6 +357,7 @@ class ExternBaker {
   }
 
   private function processTemplatedClass(tconv:TypeConv, c:ClassType) {
+    trace(tconv.haxeType);
     var decl = new CodeFormatter(),
         impl = new CodeFormatter();
     var cppType = tconv.ueType.getCppType().toString(),

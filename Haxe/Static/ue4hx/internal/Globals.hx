@@ -109,10 +109,12 @@ class Globals {
     otherwise some meta might be lost
    **/
   public var cachedFields:Map<String, Map<String, ClassField>> = new Map();
+
   /**
     Linked list of glue types that need to be generated
    **/
   public var gluesToGenerate:Lst<String>;
+
   /**
     Linked list of uobject extensions which need to be exposed
    **/
@@ -127,7 +129,7 @@ class Globals {
   /**
     All script glues to generate
    **/
-  public var scriptGlues:Array<String> = [];
+  public var scriptGlues:Lst<String>;
 
   /**
     List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again
@@ -139,12 +141,15 @@ class Globals {
    **/
   public var delays:Lst<Void->Void>;
 
+  public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
+
   public var gluesTouched:Map<String,Bool> = new Map();
-  public var canCreateTypes:Bool;
   public var hasOlderCache:Null<Bool>;
   public var inScriptPass:Bool = false;
   // only used when cppia is defined
   public var scriptModules:Map<String, Bool> = new Map();
+
+  private var modulesSeen:Map<String, Array<String>> = new Map();
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);
@@ -163,6 +168,13 @@ class Globals {
       } else {
         this.hasOlderCache = false;
       }
+    }
+  }
+
+  public function markModule(module:String, pack:Array<String>) {
+    if (!modulesSeen.exists(module)) {
+      this.modulesToProcess = this.modulesToProcess.add({ module:module, pack:pack });
+      this.modulesSeen[module] = pack;
     }
   }
 

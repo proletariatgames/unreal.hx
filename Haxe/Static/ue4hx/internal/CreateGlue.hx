@@ -21,7 +21,6 @@ class CreateGlue {
     registerMacroCalls();
     Globals.cur.checkOlderCache();
 
-    Globals.cur.canCreateTypes = true;
     // get all types that need to be compiled recursively
     var toCompile = [];
     for (path in alwaysCompilePaths) {
@@ -38,9 +37,7 @@ class CreateGlue {
 
     var nativeGlue = new NativeGlueCode();
 
-    Globals.cur.canCreateTypes = true;
     var uinits = [];
-
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
     ensureCompiled(modules);
@@ -111,28 +108,34 @@ class CreateGlue {
           delays = delays.next;
         }
       }
+
+      while(cur.scriptGlues != null) {
+        var scriptGlues = cur.scriptGlues;
+        cur.scriptGlues = null;
+        while (scriptGlues != null) {
+          var scriptGlue = scriptGlues.value;
+          scriptGlues = scriptGlues.next;
+          ScriptGlue.generate(scriptGlue);
+        }
+      }
+
+      // create hot reload helper
+      if (Context.defined('WITH_CPPIA')) {
+        LiveReloadBuild.bindFunctions('LiveReloadStatic');
+        var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+        if (lives.length > 0) {
+          sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
+        }
+      }
+
+      Globals.cur.loadCachedTypes();
+      Globals.cur.saveCachedBuilt();
     });
 
-    var isDceFull = Context.definedValue('dce') == 'full';
-    for (type in Globals.cur.scriptGlues) {
-      ScriptGlue.generate(type);
-    }
 
-    // create hot reload helper
-    if (Context.defined('WITH_CPPIA')) {
-      LiveReloadBuild.bindFunctions('LiveReloadStatic');
-      var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
-      if (lives.length > 0) {
-        sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
-      }
-    }
-    Globals.cur.loadCachedTypes();
-    Globals.cur.saveCachedBuilt();
-
-    // starting from now, we can't create new types
-    Globals.cur.canCreateTypes = false;
-    Globals.cur.reserveCacheFile();
     Context.onGenerate( function(gen) {
+      // starting from now, we can't create new types
+      Globals.cur.reserveCacheFile();
       nativeGlue.onGenerate(gen);
       excludeModules(toGatherModules);
     });

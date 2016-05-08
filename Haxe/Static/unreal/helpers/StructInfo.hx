@@ -6,7 +6,7 @@ import cpp.ConstCharStar;
   Shared pointers, weak pointers, pointers that are owned by Unreal and pointers that are
   owned by Hxcpp will all derive from this implementation and add the appropriate destructors when needed
  **/
-@:include("StructInfo.h") @:native("uhx.StructInfo") extern class StructInfo
+@:include("uhx/StructInfo.h") @:native("uhx.StructInfo") extern class StructInfo
 {
   /**
    * The name of the struct owned by the info

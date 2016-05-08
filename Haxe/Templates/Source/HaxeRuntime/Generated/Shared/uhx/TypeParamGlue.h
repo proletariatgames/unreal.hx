@@ -12,11 +12,13 @@
 
 #include "hxcpp.h"
 
-template<typename T, typename=void> struct PtrMaker;
+namespace uhx { template<typename T, typename=void> struct PtrMaker; }
 
 #ifdef __UNREAL__
-  #include "TypeParamGlue_UE.h"
+  #include "uhx/TypeParamGlue_UE.h"
 #endif
+
+namespace uhx {
 
 // Wrapper for objects that are passed by-value.
 template<typename T>
@@ -141,56 +143,58 @@ public:
   static unreal::UIntPtr ueToHaxeRef(const T& ue);
 };
 
+}
+
 template<typename T>
-T& TypeParamGlue<T&>::haxeToUe(unreal::UIntPtr haxe) {
+T& uhx::TypeParamGlue<T&>::haxeToUe(unreal::UIntPtr haxe) {
   // warning: this WILL FAIL with basic types (like int*, float, double) and enums
   // This will only be used like that on delegates - so these kinds of delegates are forbidden to be declared
-  return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+  return *uhx::TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
 }
 
 template<typename T>
-unreal::UIntPtr TypeParamGlue<T&>::ueToHaxe(T& ue) {
-  return TypeParamGluePtr<T>::ueToHaxeRef(ue);
+unreal::UIntPtr uhx::TypeParamGlue<T&>::ueToHaxe(T& ue) {
+  return uhx::TypeParamGluePtr<T>::ueToHaxeRef(ue);
 }
 
 template<typename T>
-const T& TypeParamGlue<const T&>::haxeToUe(unreal::UIntPtr haxe) {
+const T& uhx::TypeParamGlue<const T&>::haxeToUe(unreal::UIntPtr haxe) {
   // warning: this WILL FAIL with basic types (like int*, float, double) and enums
   // This will only be used like that on delegates - so these kinds of delegates are forbidden to be declared
-  return *TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
+  return *uhx::TypeParamGluePtr<T>::haxeToUePtr(haxe).ptr;
 }
 
 template<typename T>
-unreal::UIntPtr TypeParamGlue<const T&>::ueToHaxe(const T& ue) {
-  return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
+unreal::UIntPtr uhx::TypeParamGlue<const T&>::ueToHaxe(const T& ue) {
+  return uhx::TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
 }
 
 template<typename T>
-const T* TypeParamGlue<const T*>::haxeToUe(unreal::UIntPtr haxe) {
-  return TypeParamGlue<T*>::haxeToUe(haxe);
+const T* uhx::TypeParamGlue<const T*>::haxeToUe(unreal::UIntPtr haxe) {
+  return uhx::TypeParamGlue<T*>::haxeToUe(haxe);
 }
 
 template<typename T>
-unreal::UIntPtr TypeParamGlue<const T*>::ueToHaxe(const T* ue) {
-  return TypeParamGlue<T*>::ueToHaxe(const_cast<T*>(ue));
+unreal::UIntPtr uhx::TypeParamGlue<const T*>::ueToHaxe(const T* ue) {
+  return uhx::TypeParamGlue<T*>::ueToHaxe(const_cast<T*>(ue));
 }
 
 template<typename T>
-const T TypeParamGlue<const T>::haxeToUe(unreal::UIntPtr haxe) {
-  return TypeParamGlue<T>::haxeToUe(haxe);
+const T uhx::TypeParamGlue<const T>::haxeToUe(unreal::UIntPtr haxe) {
+  return uhx::TypeParamGlue<T>::haxeToUe(haxe);
 }
 
 template<typename T>
-unreal::UIntPtr TypeParamGlue<const T>::ueToHaxe(const T ue) {
-  return TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
+unreal::UIntPtr uhx::TypeParamGlue<const T>::ueToHaxe(const T ue) {
+  return uhx::TypeParamGlue<T>::ueToHaxe(const_cast<T>(ue));
 }
 
 template<typename T>
-typename PtrMaker<const T>::Type TypeParamGluePtr<const T>::haxeToUe(unreal::UIntPtr haxe) {
-  return const_cast<typename PtrMaker<const T>::Type>(TypeParamGluePtr<T>::haxeToUe(haxe));
+typename uhx::PtrMaker<const T>::Type uhx::TypeParamGluePtr<const T>::haxeToUe(unreal::UIntPtr haxe) {
+  return const_cast<typename uhx::PtrMaker<const T>::Type>(uhx::TypeParamGluePtr<T>::haxeToUe(haxe));
 }
 
 template<typename T>
-unreal::UIntPtr TypeParamGluePtr<const T>::ueToHaxeRef(const T& ue) {
-  return TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
+unreal::UIntPtr uhx::TypeParamGluePtr<const T>::ueToHaxeRef(const T& ue) {
+  return uhx::TypeParamGluePtr<T>::ueToHaxeRef(const_cast<T&>(ue));
 }

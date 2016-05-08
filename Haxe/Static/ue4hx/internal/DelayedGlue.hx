@@ -341,7 +341,7 @@ class DelayedGlue {
         }
         Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(path);
         if (cls.meta.has(':uscript')) {
-          Globals.cur.scriptGlues.push(type.getClassPath());
+          Globals.cur.scriptGlues = Globals.cur.scriptGlues.add(type.getClassPath());
         }
         Globals.cur.currentFeature = old;
       });

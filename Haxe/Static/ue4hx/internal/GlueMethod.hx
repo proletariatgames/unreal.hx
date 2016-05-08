@@ -187,7 +187,7 @@ class GlueMethod {
     var headerIncludes = this.headerIncludes,
         cppIncludes = this.cppIncludes;
     if (meth.uname == '.equals') {
-      cppIncludes.add('<TypeTraits.h>');
+      cppIncludes.add('<uhx/TypeTraits.h>');
     }
 
     for (type in allTypes) {
@@ -349,7 +349,7 @@ class GlueMethod {
         case '.equals':
           var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
-          'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
+          'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
           this.op = '*';
           '(**(' + self.t.glueToUe(self.name, this.ctx) + '))';

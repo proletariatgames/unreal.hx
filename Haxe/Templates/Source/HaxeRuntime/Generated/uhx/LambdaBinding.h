@@ -3,7 +3,9 @@
 #include "IntPtr.h"
 #include <GcRef.h>
 #include <unreal/helpers/HxcppRuntime.h>
-#include <TypeParamGlue.h>
+#include <uhx/TypeParamGlue.h>
+
+namespace uhx {
 
 // Unreal-compiled
 template<typename RV, typename... Args>
@@ -62,4 +64,4 @@ public:
  * }
  */
 
-
+}

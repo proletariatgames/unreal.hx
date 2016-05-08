@@ -72,7 +72,7 @@ class NativeGlueCode
     touch(gluePath, info.targetModule);
     writer.buf.add(prelude);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
-    writer.include('StructInfo_UE.h');
+    writer.include('uhx/StructInfo_UE.h');
 
     var data = MacroHelpers.extractStrings(cl.meta, ':ueHeaderStart')[0];
     if (data != null) {
@@ -181,8 +181,9 @@ class NativeGlueCode
 
     writer.buf.add(prelude);
     writer.include(headerPath);
-    for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes'))
+    for (inc in MacroHelpers.extractStrings(cl.meta, ':glueCppIncludes')) {
       writer.include(inc);
+    }
 
     var cppDefs = MacroHelpers.extractStrings(cl.meta, ':ueCppDef');
     if (cppDefs != null) {

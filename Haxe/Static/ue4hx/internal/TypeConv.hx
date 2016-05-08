@@ -199,7 +199,7 @@ class TypeConv {
         var binderClass = fnRet.haxeType.isVoid()
           ? (binderTypeParams.length > 0 ? 'LambdaBinderVoid' : 'LambdaBinderVoidVoid')
           : 'LambdaBinder';
-        var binderTypeRef = new TypeRef(binderClass, binderTypeParams.map(function(tp) return tp.ueType));
+        var binderTypeRef = new TypeRef(['uhx'], binderClass, binderTypeParams.map(function(tp) return tp.ueType));
         if (this.haxeType == null) {
           var args = [ for (arg in fnArgs) arg.haxeType ];
           args.push(fnRet.haxeType);
@@ -298,7 +298,7 @@ class TypeConv {
       }
       set.append(info.glueCppIncludes);
     case CStruct(type,info,params):
-      set.add('UEWrapper.h');
+      set.add('uhx/Wrapper.h');
       set.append(info.glueCppIncludes);
 
       // // we need to know if it was declared as a class or a struct for this to work
@@ -327,13 +327,13 @@ class TypeConv {
       }
 
     case CLambda(args, ret):
-      set.add('LambdaBinding.h');
+      set.add('uhx/LambdaBinding.h');
       for (arg in args) {
         arg.recurseUeIncludes(set, forwardDecls, cppSet, true /* function arguments can be forward declared */);
       }
       ret.recurseUeIncludes(set, forwardDecls, cppSet, true);
     case CMethodPointer(className, args, ret):
-      set.add('LambdaBinding.h');
+      set.add('uhx/LambdaBinding.h');
       set.append(className.glueCppIncludes);
       for (arg in args) {
         arg.recurseUeIncludes(set, forwardDecls, cppSet, true /* function arguments can be forward declared */);
@@ -341,7 +341,7 @@ class TypeConv {
       ret.recurseUeIncludes(set, forwardDecls, cppSet, true);
     case CTypeParam(name):
       if (forwardDecls == null) {
-        set.add('TypeParamGlue.h');
+        set.add('uhx/TypeParamGlue.h');
       }
     }
   }
@@ -474,13 +474,13 @@ class TypeConv {
         ueType.getCppType() + '($expr)';
       case CMethodPointer(className, fnArgs, fnRet):
         var cppMethodType = new HelperBuf();
-        cppMethodType << 'MemberFunctionTranslator<${className.ueType.getCppType()}, ${fnRet.ueType.getCppType()}';
+        cppMethodType << '::uhx::MemberFunctionTranslator<${className.ueType.getCppType()}, ${fnRet.ueType.getCppType()}';
         if (fnArgs.length > 0) cppMethodType << ', ';
         cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
         cppMethodType << '>::Translator';
         '(($cppMethodType) $expr)()';
       case CTypeParam(name):
-        '::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
+        '::uhx::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
     }
   }
 
@@ -551,7 +551,7 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name):
-        '::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
+        '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
     }
   }
 

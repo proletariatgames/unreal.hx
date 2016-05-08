@@ -4,7 +4,7 @@
 
 // uhx includes
 #include "IntPtr.h"
-#include "StructInfo.h"
+#include "uhx/StructInfo.h"
 
 // unreal includes
 #include "Engine.h"

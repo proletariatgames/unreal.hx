@@ -7,7 +7,6 @@ enum EStructFlags {
   UHX_None = 0,
   UHX_Templated = 1,
   UHX_POD = 2,
-  // UHX_
 };
 
 typedef void (*IntrinsicFunction)(unreal::UIntPtr);

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef TypeParamGlue_UE_h_included__
-#define TypeParamGlue_UE_h_included__
 
 #include <type_traits>
 #ifndef HAXERUNTIME_API
@@ -10,17 +8,19 @@
 // This file is only included during Unreal Engine compilation - it specifies how various UE types are
 // passed around: by-ref or by-val. Behavior for basic types are specified in TypeParamGlue.h
 
-//////////////////////////////////
-// Forward declarations
-template<typename T> struct HAXERUNTIME_API PtrHelper_Stack;
-template<typename T> struct HAXERUNTIME_API PtrHelper_Ptr;
-
 enum class ESPMode;
 template<class ObjectType, ESPMode Mode> class TSharedRef;
 template<class ObjectType, ESPMode Mode> class TSharedPtr;
 template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
+
+namespace uhx {
+
+//////////////////////////////////
+// Forward declarations
+template<typename T> struct HAXERUNTIME_API PtrHelper_Stack;
+template<typename T> struct HAXERUNTIME_API PtrHelper_Ptr;
 /////////////////////////////////
 
 // Enums always passed by-val
@@ -53,5 +53,4 @@ struct PtrMaker<TSubclassOf<T>> {
   typedef PtrHelper_Stack<TSubclassOf<T>> Type;
 };
 
-
-#endif
+}
