@@ -150,7 +150,7 @@ template<>
 inline unreal::VariantPtr Dynamic::StaticCast() const
 {
   // Simple reinterpret_cast
-  return unreal::VariantPtr_obj::fromDynamic(this);
+  return unreal::VariantPtr_obj::fromDynamic(*this);
 }
 
 #endif
