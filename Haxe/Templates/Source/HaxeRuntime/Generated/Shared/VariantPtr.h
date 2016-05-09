@@ -22,8 +22,33 @@ public:
   inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
   inline VariantPtr(int inRHS) : raw((UIntPtr) inRHS) { }
 #ifndef __UNREAL__
-  inline VariantPtr(const Dynamic& inRHS) : raw((UIntPtr) inRHS.mPtr) { }
-  inline VariantPtr(const cpp::Variant& inRHS) : raw((UIntPtr) Dynamic(inRHS).mPtr) { }
+  inline VariantPtr(const Dynamic& inRHS) {
+    if (inRHS.mPtr == 0) {
+      this->raw = 0;
+    } else {
+      void *hnd = inRHS->__GetHandle();
+      if (hnd != 0) {
+        this->raw = ((UIntPtr) hnd) + 1;
+      } else {
+        this->raw = (UIntPtr) inRHS.mPtr;
+      }
+    }
+  }
+
+  inline VariantPtr(const cpp::Variant& inVariant) {
+    Dynamic inRHS = Dynamic(inVariant);
+    if (inRHS.mPtr == 0) {
+      this->raw = 0;
+    } else {
+      void *hnd = inRHS->__GetHandle();
+      if (hnd != 0) {
+        this->raw = ((UIntPtr) hnd) + 1;
+      } else {
+        this->raw = (UIntPtr) inRHS.mPtr;
+      }
+    }
+  }
+
   inline VariantPtr(const null& inRHS) : raw(0) { }
 
   inline operator Dynamic() {
