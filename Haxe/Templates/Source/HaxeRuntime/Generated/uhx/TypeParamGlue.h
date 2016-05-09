@@ -152,11 +152,6 @@ struct TypeParamGlue<const T*, EnumType> {
   static const T* haxeToUe(unreal::UIntPtr haxe);
   static unreal::UIntPtr ueToHaxe(const T* ue);
 };
-template<typename T>
-struct TypeParamGlue<const T*, ObjectType> {
-  static const T* haxeToUe(unreal::UIntPtr haxe);
-  static unreal::UIntPtr ueToHaxe(const T* ue);
-};
 
 template<typename T>
 struct TypeParamGlue<const T, OtherType> {
@@ -232,10 +227,10 @@ struct PtrMaker<TSubclassOf<T>> {
 #define BASIC_TYPE(TYPE,name) \
   template<> struct TypeParamGlue<TYPE, OtherType> { \
     inline static TYPE haxeToUe(unreal::UIntPtr haxe) { \
-      return (TYPE) unreal::helpers::HxcppRuntime::box##name(haxe); \
+      return (TYPE) unreal::helpers::HxcppRuntime::unbox##name(haxe); \
     } \
     inline static unreal::UIntPtr ueToHaxe(TYPE ue) { \
-      return unreal::helpers::HxcppRuntime::unbox##name(ue); \
+      return unreal::helpers::HxcppRuntime::box##name(ue); \
     } \
   }; \
   template<> struct PtrMaker< TYPE > { typedef PtrHelper_Stack< TYPE > Type; }; \
@@ -262,6 +257,30 @@ BASIC_TYPE(float, Float);
 BASIC_TYPE(double, Float);
 
 #undef BASIC_TYPE
+
+// enum types
+template<typename T>
+struct TypeParamGlue<T, EnumType> {
+  inline static T haxeToUe(unreal::UIntPtr haxe) {
+    return uhx::EnumGlue<T>::haxeToUe(haxe);
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(T ue) {
+    return uhx::EnumGlue<T>::ueToHaxe(ue);
+  }
+};
+
+// uobject-derived types
+template<typename T>
+struct TypeParamGlue<T, ObjectType> {
+  inline static T haxeToUe(unreal::UIntPtr haxe) {
+    return (T) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe);
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(T ue) {
+    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) ue);
+  }
+};
 
 // special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf
 template<typename T>
@@ -327,29 +346,6 @@ struct TypeParamGluePtr<TSubclassOf<T>, OtherType> {
   }
 };
 
-// enum types
-template<typename T>
-struct TypeParamGlue<T, EnumType> {
-  inline static T haxeToUe(unreal::UIntPtr haxe) {
-    return uhx::EnumGlue<T>::haxeToUe(haxe);
-  }
-
-  inline static unreal::UIntPtr ueToHaxe(T ue) {
-    return uhx::EnumGlue<T>::ueToHaxe(ue);
-  }
-};
-
-// uobject-derived types
-template<typename T>
-struct TypeParamGlue<T, ObjectType> {
-  inline static T haxeToUe(unreal::UIntPtr haxe) {
-    return (T) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe);
-  }
-
-  inline static unreal::UIntPtr ueToHaxe(T ue) {
-    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) ue);
-  }
-};
 
 // templated types
 template<template<typename, typename...> class T, typename First, typename... Values> 
@@ -476,10 +472,6 @@ template<typename T>
 const T* uhx::TypeParamGlue<const T*, uhx::OtherType>::haxeToUe(unreal::UIntPtr haxe) {
   return uhx::TypeParamGlue<T*>::haxeToUe(haxe);
 }
-template<typename T>
-const T* uhx::TypeParamGlue<const T*, uhx::ObjectType>::haxeToUe(unreal::UIntPtr haxe) {
-  return uhx::TypeParamGlue<T*>::haxeToUe(haxe);
-}
 
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T*, uhx::EnumType>::ueToHaxe(const T* ue) {
@@ -487,10 +479,6 @@ unreal::UIntPtr uhx::TypeParamGlue<const T*, uhx::EnumType>::ueToHaxe(const T* u
 }
 template<typename T>
 unreal::UIntPtr uhx::TypeParamGlue<const T*, uhx::OtherType>::ueToHaxe(const T* ue) {
-  return uhx::TypeParamGlue<T*>::ueToHaxe(const_cast<T*>(ue));
-}
-template<typename T>
-unreal::UIntPtr uhx::TypeParamGlue<const T*, uhx::ObjectType>::ueToHaxe(const T* ue) {
   return uhx::TypeParamGlue<T*>::ueToHaxe(const_cast<T*>(ue));
 }
 
