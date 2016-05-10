@@ -362,9 +362,9 @@ class TypeConv {
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
         if (type == OInterface) {
-          expr = '( cast ($expr) : unreal.UObject )';
+          expr = 'cast $expr';
         }
-        '@:privateAccess $expr.wrapped';
+        'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(EAbstract, info):
@@ -661,7 +661,7 @@ class TypeConv {
 
         if (ret != null) {
           var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
+          if (tl.length == 0 && name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
             cache[name] = ret;
           }
           return ret;
@@ -704,12 +704,14 @@ class TypeConv {
 
       case TAbstract(aref, tl):
         var name = aref.toString();
-        var ret = cache[name];
-        if (ret != null) {
-          if (ctx.modf == null && ctx.original == null) {
-            return ret;
-          } else {
-            return new TypeConv(ret.data, ctx.modf, ctx.original);
+        if (tl.length == 0) {
+          var ret = cache[name];
+          if (ret != null) {
+            if (ctx.modf == null && ctx.original == null) {
+              return ret;
+            } else {
+              return new TypeConv(ret.data, ctx.modf, ctx.original);
+            }
           }
         }
 
@@ -749,7 +751,7 @@ class TypeConv {
 
         if (ret != null) {
           var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
+          if (tl.length != 0 && name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
             cache[name] = ret;
           }
           return ret;

@@ -232,18 +232,25 @@ class ExternBaker {
   }
 
   public function processGenericFunctions(c:Ref<ClassType>):CodeFormatter {
-    var cl = c.get();
+    var cl = c.get(),
+        base:BaseType = null;
+    switch(cl.kind) {
+    case KAbstractImpl(a):
+      base = a.get();
+      this.type = TAbstract(a, [ for (arg in base.params) arg.t ]);
+    case _:
+      base = cl;
+      this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
+    }
     this.cls = cl;
     this.params = [ for (p in cl.params) p.name ];
     this.glue = new CodeFormatter();
-    var typeRef = TypeRef.fromBaseType(cl, cl.pos),
+    var typeRef = TypeRef.fromBaseType(base, base.pos),
         glue = typeRef.getGlueHelperType(),
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
     this.glueType = genericGlue;
 
-    // this.type = Context.getType(typeRef.getClassPath());
-    this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
     this.thisConv = TypeConv.get(this.type, cl.pos, true);
     var generics = [];
     var isStatic = true;
@@ -357,7 +364,6 @@ class ExternBaker {
   }
 
   private function processTemplatedClass(tconv:TypeConv, c:ClassType) {
-    trace(tconv.haxeType);
     var decl = new CodeFormatter(),
         impl = new CodeFormatter();
     var cppType = tconv.ueType.getCppType().toString(),

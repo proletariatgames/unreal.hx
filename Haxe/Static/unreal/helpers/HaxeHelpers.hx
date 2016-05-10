@@ -15,4 +15,12 @@ package unreal.helpers;
     var dyn:Dynamic = untyped __cpp__('Dynamic( (hx::Object *) {0} )', ptr);
     return dyn;
   }
+
+  @:extern inline public static function getUObjectWrapped(uobj:UObject):UIntPtr {
+#if (cpp && !bake_externs)
+    return (uobj == null ? 0 : @:privateAccess uobj.wrapped);
+#else
+    return 0;
+#end
+  }
 }

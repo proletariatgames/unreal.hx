@@ -2,6 +2,7 @@ package unreal;
 
 @:include("VariantPtr.h") @:native("unreal.VariantPtr")
 extern class VariantPtr {
+  var raw(default, null):UIntPtr;
   /**
     Creates a `VariantPtr` from a Haxe object
    **/

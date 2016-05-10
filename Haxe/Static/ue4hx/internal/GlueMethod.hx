@@ -323,9 +323,9 @@ class GlueMethod {
     return if (this.meth.flags.hasAny(Static)) {
       switch (meth.uname) {
         case 'new':
-          'new ' + meth.ret.ueType.getCppClass();
+          'new ' + meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
         case '.ctor':
-          meth.ret.ueType.getCppClass();
+          meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
         case _:
           if (meth.meta.hasMeta(':global')) {
             var namespace = MacroHelpers.extractStringsFromMetadata(meth.meta, ':global')[0];

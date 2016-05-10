@@ -139,7 +139,9 @@ private typedef TArrayImpl<T> = Dynamic;
     }
     var arr = toArray();
 
-    var isRef = Std.is(arr[0], unreal.Wrapper); // arr[0] will never be null if the underlying type is a struct
+    var first = arr[0];
+    // arr[0] will never be null if the underlying type is a struct
+    var isRef = first != null && (Std.is(first, unreal.Wrapper) || untyped __cpp__('{0}->__GetHandle() != 0', first)); // __GetHandle hack to work around Std.is(cpp.Pointer), which doesn't work
     quicksort(arr, 0, arr.length -1, fn, isRef);
   }
 

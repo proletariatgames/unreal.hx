@@ -4,7 +4,7 @@ import cpp.RawPointer;
 import unreal.WrapperFlags;
 import unreal.helpers.StructInfo;
 
-class Wrapper {
+@:keep class Wrapper {
 
   public function getPointer():UIntPtr {
     throw 'Not Implemented';
@@ -39,7 +39,7 @@ class Wrapper {
   }
 ')
 #end
-class InlinePodWrapper extends Wrapper {
+@:keep class InlinePodWrapper extends Wrapper {
 #if UHX_EXTRA_DEBUG
   var m_info:Pointer<StructInfo>;
 #end
@@ -70,13 +70,13 @@ class InlinePodWrapper extends Wrapper {
  **/
 @:headerClassCode('
   inline static hx::ObjectPtr< InlineWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    InlineWrapper_obj *result = new (extraSize) InlineWrapper_obj;
+    InlineWrapper_obj *result = new ( ((extraSize + 7) >> 3) << 3 ) InlineWrapper_obj;
     result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     result->init();
     return result;
   }
 ')
-class InlineWrapper extends Wrapper {
+@:keep class InlineWrapper extends Wrapper {
   var m_flags:WrapperFlags;
   var m_info:Pointer<StructInfo>;
 
@@ -122,7 +122,7 @@ class InlineWrapper extends Wrapper {
   }
 }
 
-class TemplateWrapper extends Wrapper {
+@:keep class TemplateWrapper extends Wrapper {
   public var info(default, null):Pointer<StructInfo>;
   public var pointer(default, null):UIntPtr;
 
@@ -140,7 +140,7 @@ class TemplateWrapper extends Wrapper {
   }
 }
 
-class PointerTemplateWrapper extends TemplateWrapper {
+@:keep class PointerTemplateWrapper extends TemplateWrapper {
   public function new(ptr, info:UIntPtr) {
     this.pointer = ptr;
     this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
@@ -149,19 +149,19 @@ class PointerTemplateWrapper extends TemplateWrapper {
 
 @:headerClassCode('
   inline static hx::ObjectPtr< InlineTemplateWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    InlineTemplateWrapper_obj *result = new (extraSize) InlineTemplateWrapper_obj;
+    InlineTemplateWrapper_obj *result = new ( ((extraSize + 7) >> 3) << 3 ) InlineTemplateWrapper_obj;
     result->info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     result->init();
     return result;
   }
 ')
-class InlineTemplateWrapper extends TemplateWrapper {
+@:keep class InlineTemplateWrapper extends TemplateWrapper {
   var m_flags:WrapperFlags;
 
   @:final @:nonVirtual private function init() {
+    this.pointer = untyped __cpp__('(unreal::UIntPtr) (this + 1)');
     if (info.ptr.destruct != untyped __cpp__('0')) {
       m_flags = NeedsDestructor;
-      this.pointer = untyped __cpp__('(unreal::UIntPtr) (this + 1)');
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
     }
   }

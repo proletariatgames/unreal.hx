@@ -16,8 +16,8 @@ public:
   UIntPtr raw;
 
   inline VariantPtr() : raw(0) { }
-  inline VariantPtr(const void *inRHS) : raw(((UIntPtr) inRHS) + 1) { }
-  inline VariantPtr(void *inRHS) : raw(((UIntPtr) inRHS) + 1) { }
+  inline VariantPtr(const void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) { }
+  inline VariantPtr(void *inRHS) : raw( inRHS == 0 ? 0 : (((UIntPtr) inRHS) + 1) ) { }
   inline VariantPtr(IntPtr inRHS) : raw((UIntPtr) inRHS) { }
   inline VariantPtr(UIntPtr inRHS) : raw(inRHS) { }
   inline VariantPtr(int inRHS) : raw((UIntPtr) inRHS) { }
@@ -51,17 +51,9 @@ public:
 
   inline VariantPtr(const null& inRHS) : raw(0) { }
 
-  inline operator Dynamic() {
-    if ((raw & 1) == 0) {
-      return Dynamic((hx::Object *)raw);
-    } else {
-      return cpp::Pointer<void>((void *) (raw - 1));
-    }
+  inline operator Dynamic() const {
+    return this->getDynamic();
   }
-
-  // inline operator cpp::Variant() {
-  //   return cpp::Variant(this->getDynamic());
-  // }
 
   inline bool operator ==(const VariantPtr &other) const {
     return this->raw == other.raw;
@@ -71,7 +63,7 @@ public:
     return this->raw == 0;
   }
 
-  inline Dynamic getDynamic() {
+  inline Dynamic getDynamic() const {
     if ((raw & 1) == 0) {
       return Dynamic((hx::Object *)raw);
     } else {
@@ -85,18 +77,18 @@ public:
   // Allow '->' syntax
   inline VariantPtr *operator->() { return this; }
 
-  inline IntPtr getIntPtr() { return (IntPtr) raw; }
-  inline UIntPtr getUIntPtr() { return (UIntPtr) raw; }
+  inline IntPtr getIntPtr() const { return (IntPtr) raw; }
+  inline UIntPtr getUIntPtr() const { return (UIntPtr) raw; }
 
-  inline bool isObject() { return (raw & 1) == 0; }
+  inline bool isObject() const { return (raw & 1) == 0; }
 
   // inline operator UIntPtr() { return raw; }
 
-  inline void *toPointer() {
+  inline void *toPointer() const {
     return ((raw & 1) == 1) ? ( (void *) (raw - 1) ) : haxeObjToPointer(raw);
   }
 
-  static void *haxeObjToPointer(UIntPtr raw) {
+  static void *haxeObjToPointer(UIntPtr inRaw) {
     return 0;
   }
 };

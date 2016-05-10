@@ -5,6 +5,7 @@
 #include "uhx/StructInfo_UE.h"
 #include "uhx/EnumGlue.h"
 #include "uhx/Wrapper.h"
+#include "VariantPtr.h"
 #include "Engine.h"
 
 // This file is only included during Unreal Engine compilation - it specifies how various UE types are
@@ -392,7 +393,18 @@ struct TypeParamGluePtr<T, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T& ue) {
-    return StructHelper<T>::fromStruct(ue).raw;
+    return unreal::helpers::HxcppRuntime::boxVariantPtr(StructHelper<T>::fromPointer(&ue));
+  }
+};
+
+template<typename T>
+struct TypeParamGlue<T*, OtherType> {
+  inline static T* haxeToUe(unreal::UIntPtr haxe) {
+    return StructHelper<T>::getPointer(unreal::VariantPtr(haxe));
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(T* ue) {
+    return unreal::helpers::HxcppRuntime::boxVariantPtr(unreal::VariantPtr(ue));
   }
 };
 

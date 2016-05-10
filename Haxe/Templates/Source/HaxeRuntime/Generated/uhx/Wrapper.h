@@ -48,7 +48,7 @@ struct TemplateHelper {
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + offset);
+    T *ptr = *((T**) (ret.raw + offset));
     new(ptr) T(inOrigin);
     return ret;
   }
@@ -56,7 +56,7 @@ struct TemplateHelper {
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + offset);
+    T *ptr = *((T**) (ret.raw + offset));
     new(ptr) T(inOrigin);
     return ret;
   }

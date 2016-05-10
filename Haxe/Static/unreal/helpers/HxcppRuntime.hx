@@ -70,21 +70,49 @@ import unreal.Wrapper;
     return HaxeHelpers.pointerToDynamic(ptr);
   }
 
+  public static function boxVariantPtr(ptr:VariantPtr):UIntPtr {
+    var dyn:Dynamic = ptr;
+    return HaxeHelpers.dynamicToPointer(dyn);
+  }
 
   public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
-    return VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
+    var ret = VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
   }
 
   public static function createInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
-    return VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
+    var ret = VariantPtr.fromDynamic( InlineWrapper.create(size, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
   }
 
   public static function createInlineTemplateWrapper(size:Int, info:UIntPtr) : VariantPtr {
-    return VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
+    var ret = VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
   }
 
   public static function createPointerTemplateWrapper(pointer:UIntPtr, info:UIntPtr) : VariantPtr {
-    return VariantPtr.fromDynamic( new PointerTemplateWrapper(pointer, info) );
+    var ret = VariantPtr.fromDynamic( new PointerTemplateWrapper(pointer, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
   }
 
 

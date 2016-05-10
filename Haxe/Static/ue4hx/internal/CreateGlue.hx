@@ -57,8 +57,19 @@ class CreateGlue {
 
     // main build loop. all build-sensitive types will be continously be built
     // until there's nothing else to be built
-    Context.onAfterTyping(function(_) {
+    Context.onAfterTyping(function(types) {
       var cur = Globals.cur;
+      for (type in types) {
+        switch(type) {
+        case TAbstract(a):
+          var a = a.get();
+          if (a.meta.has(':ueHasGenerics')) {
+            cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
+          }
+        case _:
+        }
+      }
+
       while (
         cur.uextensions != null ||
         cur.gluesToGenerate != null ||
@@ -92,10 +103,12 @@ class CreateGlue {
           case TAbstract(a,_):
             var a = a.get();
             var cl = a.impl.get();
-            if (cl.meta.has(':ueHasGenerics')) {
+            if (a.meta.has(':ueHasGenerics')) {
               new GenericFuncBuild().buildFunctions(a.impl);
             }
-            nativeGlue.writeGlueHeader(cl);
+            if (cl.meta.has(':ueGluePath')) {
+              nativeGlue.writeGlueHeader(cl);
+            }
           case _:
             throw 'assert';
           }

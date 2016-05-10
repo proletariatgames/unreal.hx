@@ -294,7 +294,7 @@ class TypeRef
     });
   }
 
-  public function getCppType(?buf:StringBuf, ?ignoreConst=false):StringBuf {
+  public function getCppType(?buf:StringBuf, ?ignoreConst=false, ?ignoreParams=false):StringBuf {
     if (buf == null)
       buf = new StringBuf();
 
@@ -318,7 +318,7 @@ class TypeRef
         buf.add('::');
       buf.add(this.name);
 
-      if (params.length > 0) {
+      if (params.length > 0 && !ignoreParams) {
         buf.add('<');
         var first = true;
         for (param in params) {
@@ -335,12 +335,12 @@ class TypeRef
     return buf;
   }
 
-  public function getCppClass():String {
+  public function getCppClass(?ignoreParams=false):String {
     return switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppClass();
     case _:
-      this.getCppType(null).toString();
+      this.getCppType(null, false, ignoreParams).toString();
     }
   }
 
