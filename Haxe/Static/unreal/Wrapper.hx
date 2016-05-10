@@ -13,6 +13,10 @@ import unreal.helpers.StructInfo;
   public function dispose():Void {
   }
 
+  public function isDisposed():Bool {
+    return false; // for types that don't need disposing, this will return false even if `dispose` was indeed called
+  }
+
   public function toString():String {
     return '[Unknown Wrapper: ${getPointer()}]';
   }
@@ -99,6 +103,10 @@ import unreal.helpers.StructInfo;
     return untyped __cpp__('(unreal::UIntPtr) (this + 1)');
   }
 
+  override public function isDisposed() {
+    return m_flags.hasAny(Disposed);
+  }
+
   override public function dispose():Void {
     if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
       var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
@@ -107,6 +115,8 @@ import unreal.helpers.StructInfo;
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
     } else if (m_flags.hasAny(Disposed)) {
       throw 'Cannot dispose $this: It was already disposed';
+    } else {
+      m_flags |= Disposed;
     }
   }
 
@@ -174,6 +184,10 @@ import unreal.helpers.StructInfo;
     }
   }
 
+  override public function isDisposed() {
+    return m_flags.hasAny(Disposed);
+  }
+
   override public function dispose():Void {
     if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
       var fn = (cast this.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
@@ -182,6 +196,8 @@ import unreal.helpers.StructInfo;
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
     } else if (m_flags.hasAny(Disposed)) {
       throw 'Cannot dispose $this: It was already disposed';
+    } else {
+      m_flags |= Disposed;
     }
   }
 

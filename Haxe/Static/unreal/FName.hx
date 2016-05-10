@@ -15,11 +15,11 @@ import unreal.helpers.HaxeHelpers;
     return FNameImpl.createFromInt(name);
   }
 
-  @:from inline private static function fromName(name:UnrealName):FName {
+  @:from inline public static function fromName(name:UnrealName):FName {
     return createInt(name);
   }
 
-  @:from inline private static function fromString(str:String):FName {
+  @:from inline public static function fromString(str:String):FName {
     return create(str);
   }
 

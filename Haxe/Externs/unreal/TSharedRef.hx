@@ -1,17 +1,23 @@
 package unreal;
 
-@:ueTemplateArgs(['typename', T], ['enum class ESPMode'])
-@:ueForwardType('class')
+@:glueCppIncludes('Templates/SharedPointer.h')
 @:uextern extern class TSharedRef<T> {
-  // @:to @:impl public static function toWeakPtr<T : Wrapper>(self:T):TWeakPtr<T> {
-  //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toWeakPtr() ) );
-  // }
-  //
-  // @:impl public static function toSharedPtr<T : Wrapper>(self:T):TSharedPtr<T> {
-  //   return cast self.rewrap( cpp.Pointer.fromRaw( self.wrapped.ptr.toSharedPtr() ) );
-  // }
-  //
-  // @:impl public static function IsValid<T : Wrapper>(self:T):Bool {
-  //   return self != null && self.wrapped.ptr.getPointer() != untyped __cpp__('0');
-  // }
+  @:global
+  public static function MakeShareable<T>(ptr:PPtr<T>):TSharedRef<T>;
+
+  /**
+   * Returns a C++ reference to the object this shared reference is referencing
+   *
+   * @return  The object owned by this shared reference
+   */
+  public function Get():PRef<T>;
+
+  /**
+   * Returns true if this is the only shared reference to this object.  Note that there may be
+   * outstanding weak references left.
+   * IMPORTANT: Not necessarily fast!  Should only be used for debugging purposes!
+   *
+   * @return  True if there is only one shared reference to the object, and this is it!
+   */
+  public function IsUnique():Bool;
 }

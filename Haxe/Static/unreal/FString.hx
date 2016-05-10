@@ -13,7 +13,7 @@ package unreal;
     return FStringImpl.create(str);
   }
 
-  @:from inline private static function fromString(str:String):FString {
+  @:from inline public static function fromString(str:String):FString {
     return create(str);
   }
 

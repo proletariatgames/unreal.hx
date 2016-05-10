@@ -656,7 +656,7 @@ class TypeConv {
           type = TAbstract(impl,args);
         } else {
           trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
-          throw new Error('Unreal Glue: Type $iref is not supported', pos);
+          throw new Error('Unreal Glue: Type $o is not supported', pos);
         }
 
         if (ret != null) {
@@ -783,7 +783,6 @@ class TypeConv {
             if (ctx.modf == null) ctx.modf = [];
             if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
               if (!inTypeParam) {
-                trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
                 throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
               }
             } else {
@@ -798,7 +797,6 @@ class TypeConv {
             if (ctx.modf == null) ctx.modf = [];
             if (ctx.modf.has(Ref) || ctx.modf.has(Ptr)) {
               if (!inTypeParam) {
-                trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
                 throw new Error('Unreal Glue: A type cannot be defined with two PRefs or a PRef and a PPtr', pos);
               }
             } else {

@@ -14,7 +14,7 @@ package unreal;
     return FTextImpl.AsNumber(Val, Options, TargetCulture);
   }
 
-  @:from inline private static function fromString(str:String):FText {
+  @:from inline public static function fromString(str:String):FText {
     return create(str);
   }
 

@@ -375,6 +375,33 @@ struct TypeParamGluePtr<T<First, Values...>, OtherType> {
   }
 };
 
+// special case for the types that have constant values. Right now we only need this for shared pointers
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+struct TTemplatedData<T<First, Mode>> {
+  static const StructInfo *getInfo();
+};
+
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+struct TypeParamGlue<T<First, Mode>, OtherType> {
+  inline static T<First, Mode> haxeToUe(unreal::UIntPtr haxe) {
+    return *TemplateHelper<T<First, Mode>>::getPointer(unreal::VariantPtr(haxe));
+  }
+
+  inline static unreal::UIntPtr ueToHaxe(T<First, Mode> ue) {
+    return TemplateHelper<T<First, Mode>>::fromStruct(ue).raw;
+  }
+};
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+struct TypeParamGluePtr<T<First, Mode>, OtherType> {
+  inline static typename PtrMaker<T<First, Mode>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
+    return typename PtrMaker<T<First, Mode>>::Type( TemplateHelper<T<First, Mode>>::getPointer(haxe) );
+  }
+
+  inline static unreal::UIntPtr ueToHaxeRef(T<First, Mode>& ue) {
+    return TemplateHelper<T<First, Mode>>::fromStruct(ue).raw;
+  }
+};
+
 // struct types
 template<typename T>
 struct TypeParamGlue<T, OtherType> {
