@@ -93,6 +93,14 @@ class TypeRef
   }
 
   public static function fromBaseType(ct:BaseType, ?params:Array<Type>, pos:Position):TypeRef {
+    var kind:ClassKind = untyped ct.kind;
+    if (kind != null) {
+      switch(kind) {
+      case KAbstractImpl(a):
+        return fromBaseType(a.get(), params, pos);
+      case _:
+      }
+    }
     var mod = ct.module.split('.').pop();
     var params = (params == null ? [ for (param in ct.params) new TypeRef(param.name) ] : [ for (p in params) fromType(p, pos) ]);
     if (mod != ct.name)
@@ -111,11 +119,15 @@ class TypeRef
           params = tl;
         case TInst(i,tl):
           var it = i.get();
-          base = it;
-          if (it.kind.match(KTypeParameter(_))) {
+          switch(it.kind) {
+          case KAbstractImpl(a):
+            t = TAbstract(a, [ for (param in a.get().params) param.t ]);
+          case KTypeParameter(_):
             return new TypeRef(it.name);
+          case _:
+            base = it;
+            params = tl;
           }
-          params = tl;
         case TEnum(e,tl):
           base = e.get();
           params = tl;

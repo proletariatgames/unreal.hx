@@ -28,13 +28,4 @@ package unreal;
    * references to the object then it will be destroyed.
    */
   public function Reset():Void;
-
-  /**
-   * Returns true if this is the only shared reference to this object.  Note that there may be
-   * outstanding weak references left.
-   * IMPORTANT: Not necessarily fast!  Should only be used for debugging purposes!
-   *
-   * @return  True if there is only one shared reference to the object, and this is it!
-   */
-  public function IsUnique():Bool;
 }

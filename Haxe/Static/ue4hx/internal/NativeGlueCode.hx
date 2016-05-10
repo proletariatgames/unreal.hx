@@ -424,7 +424,7 @@ class NativeGlueCode
         var et = e.get();
         if (et.meta.has(':uenum')) {
           var info = this.getInfo(et);
-          touch(info.uname.join('.'), info.targetModule);
+          touch(info.uname.getClassPath(), info.targetModule);
         }
       case _:
       }

@@ -327,6 +327,11 @@ class DelayedGlue {
         Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
         var cls = clsRef.get();
+        // make sure all fields are built
+        for (field in cls.fields.get().concat(cls.statics.get())) {
+          Context.follow(field.type);
+        }
+        var cls = clsRef.get();
         var dglue = new DelayedGlue(cls,pos,local);
         dglue.build();
 
@@ -409,8 +414,9 @@ class DelayedGlue {
     for (scall in MacroHelpers.extractStrings( parent.meta, ':usupercalls' )) {
       // if the field was already overriden in a previous Haxe declaration,
       // we should not build the super call
-      if (!ignoreSupers.exists(scall))
+      if (!ignoreSupers.exists(scall)) {
         superCalls[scall] = null;
+      }
     }
     for (ncall in MacroHelpers.extractStrings( parent.meta, ':unativecalls' )) {
       if (!ignoreSupers.exists(ncall)) {
@@ -475,7 +481,7 @@ class DelayedGlue {
 
     if (parent.meta.has(":uhxdelegate")) {
       writeDelegateDefinition(parentAbstract);
-    } else if (cls.meta.has(":ustruct")) {
+    } else if (parent.meta.has(":ustruct")) {
       writeStructDefinition(parentAbstract);
     }
 
@@ -492,11 +498,11 @@ class DelayedGlue {
       abs.meta.add(':uextension', [], abs.pos);
     }
     var info = GlueInfo.fromBaseType(abs);
-    var uname = info.uname.join('.');
+    var uname = info.uname.getClassPath(),
+        nameWithout = info.uname.withoutPrefix().getClassPath();
     var headerPath = info.getHeaderPath(true);
 
     var writer = new HeaderWriter(headerPath);
-
     var cls = abs.impl.get();
 
     var uprops = [],
@@ -577,7 +583,7 @@ class DelayedGlue {
       }
     }
 
-    writer.include('$uname.generated.h');
+    writer.include('$nameWithout.generated.h');
 
     var targetModule = MacroHelpers.extractStrings(abs.meta, ':umodule')[0];
     if (targetModule == null) {
@@ -621,13 +627,14 @@ class DelayedGlue {
 
     writer.close(info.targetModule);
     if (!abs.meta.has(':ufiledependency')) {
-      abs.meta.add(':ufiledependency', [macro $v{uname + '@' + info.targetModule}], abs.pos);
+      abs.meta.add(':ufiledependency', [macro $v{nameWithout + '@' + info.targetModule}], abs.pos);
     }
   }
 
   private function writeDelegateDefinition(abs:AbstractType) {
     var info = GlueInfo.fromBaseType(abs, Globals.cur.module);
-    var uname = info.uname.join('.');
+    var uname = info.uname.getClassPath(),
+        nameWithout = info.uname.withoutPrefix().getClassPath();
     var headerPath = info.getHeaderPath(true);
     var writer = new HeaderWriter(headerPath);
 
@@ -661,7 +668,7 @@ class DelayedGlue {
       writer.include(inc);
     }
 
-    writer.include('$uname.generated.h');
+    writer.include('$nameWithout.generated.h');
     var type = parent.name;
     var isDynamicDelegate = switch(type) {
       case 'BaseDynamicMulticastDelegate', 'BaseDynamicDelegate': true;
@@ -716,12 +723,15 @@ class DelayedGlue {
     writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
     writer.buf.add('UCLASS() class U${uname}__Dummy : public UObject { GENERATED_BODY() };');
     writer.close(info.targetModule);
-    abs.meta.add(':ufiledependency', [macro $v{uname + "@" + Globals.cur.module}], abs.pos);
+    abs.meta.add(':ufiledependency', [macro $v{nameWithout + "@" + Globals.cur.module}], abs.pos);
   }
 
   private function handleProperty(field:ClassField, isStatic:Bool) {
     var type = field.type,
         propTConv = TypeConv.get(type, field.pos);
+    if (field.meta.has(':impl')) {
+      isStatic = false;
+    }
 
     var uname = MacroHelpers.extractStrings(field.meta, ':uname')[0];
     if (uname == null)

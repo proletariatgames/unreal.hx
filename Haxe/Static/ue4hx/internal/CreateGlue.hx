@@ -57,92 +57,110 @@ class CreateGlue {
 
     // main build loop. all build-sensitive types will be continously be built
     // until there's nothing else to be built
+    var typesTouched = new Map(),
+        running = false;
     Context.onAfterTyping(function(types) {
-      var cur = Globals.cur;
-      for (type in types) {
-        switch(type) {
-        case TAbstract(a):
-          var a = a.get();
-          if (a.meta.has(':ueHasGenerics')) {
-            cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
+      while (true) {
+        var cur = Globals.cur;
+        for (type in types) {
+          var str = Std.string(type);
+          if (!typesTouched[str]) {
+            typesTouched[str] = true;
+            switch(type) {
+            case TAbstract(a):
+              var a = a.get();
+              if (a.meta.has(':ueHasGenerics')) {
+                cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
+              }
+            case _:
+            }
           }
-        case _:
         }
-      }
-
-      while (
-        cur.uextensions != null ||
-        cur.gluesToGenerate != null ||
-        cur.delays != null) {
-
-        var uextensions = cur.uextensions;
-        cur.uextensions = null;
-        while (uextensions != null) {
-          var uext = uextensions.value;
-          uextensions = uextensions.next;
-          Globals.cur.currentFeature = 'keep';
-          var type = Context.getType(uext);
-          new UExtensionBuild().generate(type);
+        if (running) {
+          return;
         }
-        Globals.cur.currentFeature = null;
+        running = true;
 
-        var glues = cur.gluesToGenerate;
-        cur.gluesToGenerate = null;
-        while (glues != null) {
-          var glue = glues.value;
-          glues = glues.next;
+        while (
+          cur.uextensions != null ||
+          cur.gluesToGenerate != null ||
+          cur.delays != null) {
 
-          var type = Context.getType(glue);
-          switch(type) {
-          case TInst(c,_):
-            var cl = c.get();
-            if (cl.meta.has(':ueHasGenerics')) {
-              new GenericFuncBuild().buildFunctions(c);
-            }
-            nativeGlue.writeGlueHeader(cl);
-          case TAbstract(a,_):
-            var a = a.get();
-            var cl = a.impl.get();
-            if (a.meta.has(':ueHasGenerics')) {
-              new GenericFuncBuild().buildFunctions(a.impl);
-            }
-            if (cl.meta.has(':ueGluePath')) {
+          var uextensions = cur.uextensions;
+          cur.uextensions = null;
+          while (uextensions != null) {
+            var uext = uextensions.value;
+            uextensions = uextensions.next;
+            Globals.cur.currentFeature = 'keep';
+            var type = Context.getType(uext);
+            new UExtensionBuild().generate(type);
+          }
+          Globals.cur.currentFeature = null;
+
+          var glues = cur.gluesToGenerate;
+          cur.gluesToGenerate = null;
+          while (glues != null) {
+            var glue = glues.value;
+            glues = glues.next;
+
+            var type = Context.getType(glue);
+            switch(type) {
+            case TInst(c,_):
+              var cl = c.get();
+              if (cl.meta.has(':ueHasGenerics')) {
+                new GenericFuncBuild().buildFunctions(c);
+              }
               nativeGlue.writeGlueHeader(cl);
+            case TAbstract(a,_):
+              var a = a.get();
+              var cl = a.impl.get();
+              if (a.meta.has(':ueHasGenerics')) {
+                new GenericFuncBuild().buildFunctions(a.impl);
+              }
+              if (cl.meta.has(':ueGluePath')) {
+                nativeGlue.writeGlueHeader(cl);
+              }
+            case _:
+              throw 'assert';
             }
-          case _:
-            throw 'assert';
+          }
+
+          var delays = cur.delays;
+          cur.delays = null;
+          while (delays != null) {
+            delays.value();
+            delays = delays.next;
           }
         }
 
-        var delays = cur.delays;
-        cur.delays = null;
-        while (delays != null) {
-          delays.value();
-          delays = delays.next;
+        while(cur.scriptGlues != null) {
+          var scriptGlues = cur.scriptGlues;
+          cur.scriptGlues = null;
+          while (scriptGlues != null) {
+            var scriptGlue = scriptGlues.value;
+            scriptGlues = scriptGlues.next;
+            ScriptGlue.generate(scriptGlue);
+          }
         }
-      }
 
-      while(cur.scriptGlues != null) {
-        var scriptGlues = cur.scriptGlues;
-        cur.scriptGlues = null;
-        while (scriptGlues != null) {
-          var scriptGlue = scriptGlues.value;
-          scriptGlues = scriptGlues.next;
-          ScriptGlue.generate(scriptGlue);
+        // create hot reload helper
+        if (Context.defined('WITH_CPPIA')) {
+          LiveReloadBuild.bindFunctions('LiveReloadStatic');
+          var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+          if (lives.length > 0) {
+            sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
+          }
         }
-      }
 
-      // create hot reload helper
-      if (Context.defined('WITH_CPPIA')) {
-        LiveReloadBuild.bindFunctions('LiveReloadStatic');
-        var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
-        if (lives.length > 0) {
-          sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
+        if (cur.scriptGlues != null || cur.delays != null || cur.uextensions != null || cur.gluesToGenerate != null) {
+          continue;
         }
-      }
+        running = false;
+        Globals.cur.loadCachedTypes();
+        Globals.cur.saveCachedBuilt();
 
-      Globals.cur.loadCachedTypes();
-      Globals.cur.saveCachedBuilt();
+        return;
+      }
     });
 
 

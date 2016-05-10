@@ -50,7 +50,7 @@ class StructBuild {
       }
     }
 
-    tdef.meta.add(':unativecalls', [ macro "create" ], tdef.pos);
+    tdef.meta.add(':unativecalls', [ macro "create", macro "createNew" ], tdef.pos);
     var structHeaderPath = '${ueType.withoutPrefix().name}.h';
     tdef.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], tdef.pos);
     var target = new TypeRef(['unreal','structs'],tdef.name);

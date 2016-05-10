@@ -119,6 +119,7 @@ class GlueMethod {
     this.retHaxeType = meth.ret.haxeType;
     var glueCppBody = new HelperBuf();
     // get cpp body - might change `cppArgs`, `retHaxeType` and `op`
+    var isCtor = meth.uname == '.ctor' && meth.flags.hasAny(Static);
     glueCppBody << this.getCppBody();
 
     if (this.templated || meth.specialization != null) {
@@ -274,7 +275,9 @@ class GlueMethod {
       body = 'const_cast< ${meth.ret.ueType.getCppType()} >( $body )';
     }
 
-    if (this.meth.flags.hasAny(Property)) {
+    if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
+      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), this.ctx );
+    } else if (this.meth.flags.hasAny(Property)) {
       if (!isGetter) {
         body += ' = ' + cppArgTypes[cppArgTypes.length-1];
       }
@@ -287,7 +290,7 @@ class GlueMethod {
         throw new Error('Unreal Glue: unary operators must take zero arguments', meth.pos);
       }
     } else {
-      body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
+      body += '(' + cppArgTypes.join(', ') + ')';
     }
     if (!this.glueRet.haxeType.isVoid()) {
       body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);

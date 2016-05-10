@@ -27,6 +27,12 @@ struct StructHelper {
   static unreal::VariantPtr fromStruct(T&& inOrigin);
 
   /**
+   * Creates a Haxe wrapper object from the constructor
+   **/
+  template<typename... Args>
+  static unreal::VariantPtr create(Args... params);
+
+  /**
    * Creates a pointer wrapper from the original pointer
    **/
   static unreal::VariantPtr fromPointer(T *inOrigin);
@@ -58,6 +64,15 @@ struct TemplateHelper {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
     T *ptr = *((T**) (ret.raw + offset));
     new(ptr) T(inOrigin);
+    return ret;
+  }
+
+  template<typename... Args>
+  inline static unreal::VariantPtr create(Args... params) {
+    static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineTemplateWrapper((int) sizeof(T), (unreal::UIntPtr) TTemplatedData<T>::getInfo());
+    void *ptr = *((void**) (ret.raw + offset));
+    new(ptr) T(params...);
     return ret;
   }
 
@@ -107,6 +122,14 @@ struct StructHelper<T, false> {
     return ret;
   }
 
+  template<typename... Args>
+  inline static unreal::VariantPtr create(Args... params) {
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    void *ptr = (void*) (ret.raw + PointerOffset<false>::getVariantOffset());
+    new(ptr) T(params...);
+    return ret;
+  }
+
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     // TODO - check inOrigin & 1 == 0
     return unreal::VariantPtr(inOrigin);
@@ -130,6 +153,14 @@ struct StructHelper<T, true> {
     unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
     T *ptr = (T*) (ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(inOrigin);
+    return ret;
+  }
+
+  template<typename... Args>
+  inline static unreal::VariantPtr create(Args... params) {
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    void *ptr = (void*) (ret.raw + PointerOffset<true>::getVariantOffset());
+    new(ptr) T(params...);
     return ret;
   }
 

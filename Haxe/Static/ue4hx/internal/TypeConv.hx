@@ -493,6 +493,23 @@ class TypeConv {
     }
   }
 
+  public function ueToGlueCtor(ctorArgs:String, ctx:ConvCtx) {
+    if (hasModifier(Ref) || hasModifier(Ptr) || hasAnyConst()) {
+      throw new Error('Invalid constructor return type: $haxeType', ctx.pos);
+    }
+    return switch(this.data) {
+      case CStruct(type, info, params):
+        var helper = if (params != null && params.length > 0) {
+          '::uhx::TemplateHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
+        } else {
+          '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
+        };
+        return '$helper::create($ctorArgs)';
+      case _:
+        throw new Error('Invalid constructor return type: $haxeType. Expected struct', ctx.pos);
+    }
+  }
+
   public function ueToGlue(expr:String, ctx:ConvCtx):String {
     return ueToGlueRecurse(expr, ctx);
   }

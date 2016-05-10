@@ -15,7 +15,7 @@ class GlueInfo {
     The base target path - as a default, it is `Globals.cur.haxeRuntimeDir`
    **/
   public var basePath(default,null):String;
-  public var uname(default,null):Array<String>;
+  public var uname(default,null):TypeRef;
 
   private function new() {
   }
@@ -25,6 +25,7 @@ class GlueInfo {
     if (uname == null) {
       uname = base.name;
     }
+    var uname = TypeRef.parseClassName(uname);
     var basePath = Globals.cur.haxeRuntimeDir;
 
     var module = moduleOverride;
@@ -45,45 +46,47 @@ class GlueInfo {
     var ret = new GlueInfo();
     ret.targetModule = module;
     ret.basePath = basePath;
-    ret.uname = uname.split('.');
+    ret.uname = uname;
     return ret;
   }
 
   public function getHeaderPath(?alternatePath:String, ?ensureExists=false):String {
     var cpath = uname;
     if (alternatePath != null) {
-      cpath = alternatePath.split('.');
+      cpath = TypeRef.parseClassName(alternatePath);
+    } else {
+      cpath = cpath.withoutPrefix();
     }
 
     if (ensureExists) {
-      var name = cpath.pop();
-      var dir = '$basePath/Generated/Public/${cpath.join("/")}';
+      var name = cpath.name;
+      var dir = '$basePath/Generated/Public/${cpath.pack.join("/")}';
       if (!FileSystem.exists(dir)) {
         FileSystem.createDirectory(dir);
       }
-      cpath.push(name);
       return '$dir/$name.h';
     } else {
-      return '$basePath/Generated/Public/${cpath.join("/")}.h';
+      return '$basePath/Generated/Public/${cpath.pack.join("/")}/${cpath.name}.h';
     }
   }
 
   public function getCppPath(?alternatePath:String, ?ensureExists=false):String {
     var cpath = uname;
     if (alternatePath != null) {
-      cpath = alternatePath.split('.');
+      cpath = TypeRef.parseClassName(alternatePath);
+    } else {
+      cpath = cpath.withoutPrefix();
     }
 
     if (ensureExists) {
-      var name = cpath.pop();
-      var dir = '$basePath/Generated/Private/${cpath.join("/")}';
+      var name = cpath.name;
+      var dir = '$basePath/Generated/Private/${cpath.pack.join("/")}';
       if (!FileSystem.exists(dir)) {
         FileSystem.createDirectory(dir);
       }
-      cpath.push(name);
       return '$dir/$name.cpp';
     } else {
-      return '$basePath/Generated/Private/${cpath.join("/")}.cpp';
+      return '$basePath/Generated/Private/${cpath.pack.join("/")}/${cpath.name}.cpp';
     }
   }
 }
