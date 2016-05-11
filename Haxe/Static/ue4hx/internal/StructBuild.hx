@@ -89,8 +89,17 @@ class StructBuild {
     def.pack = target.pack;
     def.meta = tdef.meta.get();
 
-    Context.defineType(def);
+    // Context.defineType(def);
+    Context.defineModule('unreal.structs.${tdef.name}',
+        [def],
+        Context.getLocalImports(),
+        [for (val in Context.getLocalUsing()) getUsingPath(val.get()) ] );
+	// public static function defineModule( modulePath : String, types : Array<TypeDefinition>, ?imports: Array<ImportExpr>, ?usings : Array<TypePath> ) : Void {
     return Context.getType('unreal.structs.${tdef.name}');
+  }
+
+  inline static function getUsingPath(cl:ClassType):TypePath {
+    return TypeRef.fromBaseType(cl,cl.pos).toTypePath();
   }
 
   static function exprToFields(expr:Expr):Array<Field> {
@@ -142,6 +151,8 @@ class StructBuild {
           if (name == null) {
             throw new Error('Unreal Struct: Invalid unnamed function. All functions must be named', expr.pos);
           }
+          // fn.ret = expandType(fn.ret);
+          // for (type in
           ret.push({
             name: name,
             access: [APublic],
@@ -156,5 +167,12 @@ class StructBuild {
     }
 
     return ret;
+  }
+
+  private static function expandType(complex:ComplexType):ComplexType {
+    if (complex == null) {
+      return null;
+    }
+    return complex.toType().toComplexType();
   }
 }

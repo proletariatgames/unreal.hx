@@ -15,7 +15,7 @@ class ReflectAPI {
      * Array of anonymous types to TArray of structs is supported, but the default constructor will not be called in this case. So make sure the struct used supports that
      * Blueprint-only classes are partially supported. See `bpSetField`
    **/
-  public static function extSetField(obj:haxe.extern.EitherType<unreal.Wrapper, unreal.IInterface>, field:String, value:Dynamic) {
+  public static function extSetField(obj:IInterface, field:String, value:Dynamic) {
     extSetField_rec(obj, field, value, field);
   }
 
@@ -33,91 +33,22 @@ class ReflectAPI {
     }
   }
 
-//   private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
-//     var cls = to == null ? null : Type.getClass(to);
-//     if (cls == null && to != null && !Reflect.isEnumValue(to) && Reflect.isObject(to)) {
-//       if (Std.is(from, Wrapper)) {
-//         for (field in Reflect.fields(to)) {
-//           var newPath =
-// #if debug
-//             path + '.$field';
-// #else
-//             null;
-// #end
-//           extSetField_rec(from, field, Reflect.field(to, field), newPath);
-//         }
-//         return true;
-//       }
-//     } else if (cls == Array) {
-//       if (Std.is(from, TArrayImpl)) {
-//         var arr:Array<Dynamic> = to,
-//             from:TArray<Dynamic> = from;
-//         from.Empty();
-//         from.AddZeroed(arr.length);
-//         for (i in 0...arr.length) {
-//           var old = from[i];
-//           var newPath =
-// #if debug
-//             path + '[$i]';
-// #else
-//             null;
-// #end
-//           var val = arr[i];
-//           if (old == null || !handleInplaceStruct(old, val, newPath)) {
-//             from[i] = changeType(old, val, newPath);
-//           }
-//         }
-//         return true;
-//       }
-//     }
-//     return false;
-//   }
-
-  private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
-    return false; // FIXME
-  }
-
-  private static function changeType(from:Dynamic, to:Dynamic, path:String):Dynamic {
-    // if (Std.is(to, String)) {
-    //   if (Std.is(from, FStringImpl)) {
-    //     return new FString(to);
-    //   } else if (Std.is(from, FNameImpl)) {
-    //     return new FName(to);
-    //   } else if (Std.is(from, FTextImpl)) {
-    //     return new FText(to);
-    //   }
-    // }
-    // return to;
-    return to; // FIXME
-  }
-
-  private static function extSetField_rec(obj:Dynamic, field:String, value:Dynamic, path:String) {
+  private static function extSetField_rec(obj:IInterface, field:String, value:Dynamic, path:String) {
     var cls = value == null ? null : Type.getClass(value);
-    var old = Reflect.getProperty(obj, field);
-    if (old == null || !handleInplaceStruct(old, value, path)) {
-      try {
-        Reflect.setProperty(obj, field, changeType(old, value, path));
-      } catch (e:Dynamic) {
-        if (StringTools.startsWith(Std.string(e), 'Invalid field:')) {
-          if (Std.is(obj, UObject)) {
-            var obj:UObject = obj;
-            var cls = obj.GetClass();
-            if (!cls.HasAllClassFlags(EClassFlags.CLASS_Native)) {
-              var prop = cls.FindPropertyByName(field);
-              if (prop != null) {
-                bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, path);
-                return;
-              }
-            }
-          }
-        }
-#if debug
-        throw 'Cannot set field for path `$path` on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
-#else
-        throw 'Cannot set field on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
-#end
-      }
+    var obj:UObject = cast obj;
+    var cls = obj.GetClass();
+    var prop = cls.FindPropertyByName(field);
+    trace(field);
+    trace(prop);
+    if (prop != null) {
+      bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, path);
+      return;
     }
+#if debug
+    throw 'Cannot set field for path `$path` on object of type `${Type.getClassName(Type.getClass(obj))}`';
+#else
+    throw 'Cannot set field on object of type `${Type.getClassName(Type.getClass(obj))}`';
+#end
   }
 
   private static function bpSetField_rec(obj:AnyPtr, prop:UProperty, value:Dynamic, path:String) {

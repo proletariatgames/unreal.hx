@@ -42,6 +42,10 @@ template<typename T>
 struct TemplateHelper {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
     if ((inPtr.raw & 1) == 0) {
+      if (inPtr.raw == 0) {
+        return nullptr;
+      }
+
       static unreal::UIntPtr offset = unreal::helpers::HxcppRuntime::getTemplateOffset();
       T **ret = (T **) (inPtr.raw + offset);
       return *ret;
@@ -105,7 +109,7 @@ struct PointerOffset<true> {
 template<typename T>
 struct StructHelper<T, false> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<false>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<false>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
@@ -139,7 +143,7 @@ struct StructHelper<T, false> {
 template<typename T>
 struct StructHelper<T, true> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((T *) (inPtr.raw + PointerOffset<true>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<true>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {

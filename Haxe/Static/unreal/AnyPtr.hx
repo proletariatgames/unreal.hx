@@ -1,39 +1,32 @@
 package unreal;
 
 @:forward
-abstract AnyPtr(VariantPtr) from VariantPtr to VariantPtr {
-  @:op(A+B) public function addOffset(offset:Int):AnyPtr {
-    var ptr = this.isObject() ? (this.getDynamic() : Wrapper ).getPointer() : cast this.getIntPtr();
-    return VariantPtr.fromUIntPtr( ptr + offset );
+abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
+  @:op(A+B) inline public function addOffset(offset:Int):UIntPtr {
+    return this + offset;
   }
 
 #if (!bake_externs && cpp)
   public function getUObject(at:Int):UObject {
-    var ptr:cpp.Pointer<cpp.UInt8>;
-    if (this.isObject()) {
-      var wrap:Wrapper = this.getDynamic(),
-          myPtr:cpp.RawPointer<cpp.UInt8> = untyped __cpp__('(unsigned char *) {0}', wrap.getPointer());
-      ptr = cpp.Pointer.fromRaw(myPtr);
-    } else {
-      ptr = cpp.Pointer.fromRaw(this.toPointer()).reinterpret();
-    }
-    if (at != 0) {
-      ptr = ptr.add(at);
-    }
-
-    return UObject.wrap( untyped __cpp__('( (unreal::UIntPtr) (void *) {0} )', ptr.rawCast()) );
+    var ptr = this + at;
+    return UObject.wrap(ptr);
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {
-    return VariantPtr.fromPointer( untyped __cpp__('(void *) {0}', @:privateAccess obj.wrapped) );
+    return @:privateAccess obj.wrapped;
   }
 
   public static function fromStruct(obj:Struct):AnyPtr {
-    return (obj : VariantPtr);
+    var variantPtr:VariantPtr = cast obj;
+    if (variantPtr.isObject()) {
+      return (variantPtr.getDynamic() : Wrapper).getPointer();
+    } else {
+      return variantPtr.raw - 1;
+    }
   }
 
   public static function fromNull():AnyPtr {
-    return null;
+    return 0;
   }
 #end
 }

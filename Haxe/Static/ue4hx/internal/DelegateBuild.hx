@@ -210,7 +210,8 @@ class DelegateBuild {
     complexThis = tref.toComplexType();
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
-      @:uname(".ctor") public static function create():$complexThis {
+      // we need .ctor.struct because delegates don't work with placement new (this seems to be an Unreal issue)
+      @:uname(".ctor.struct") public static function create():$complexThis {
         return $delayedglue.getNativeCall("create", true);
       }
       @:uname("new") public static function createNew():unreal.POwnedPtr<$complexThis> {

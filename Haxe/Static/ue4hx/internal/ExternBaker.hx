@@ -986,28 +986,49 @@ class ExternBaker {
     this.end('}');
     this.newline();
 
+    var ueName = MacroHelpers.extractStrings(e.meta, ':uname')[0];
+    var isClass = e.meta.has(':class');
+    var uePack = null;
+    if (ueName == null) {
+      ueName = e.name;
+      uePack = e.pack;
+    } else {
+      uePack = ueName.split('.');
+      ueName = uePack.pop();
+    }
+    var ueEnumType = uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName;
+
     this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     this.addMeta(e.meta.get());
+    this.add('@:glueCppIncludes("unreal/helpers/HxcppRuntime.h", "uhx/EnumGlue.h")');
+    this.newline();
+    var fmt = new CodeFormatter();
+    fmt << '@:ueCppDef("';
+    var data = new HelperBuf();
+    data << 'namespace uhx {\n\n';
+    data << 'template<> struct EnumGlue<$ueEnumType> {\n'
+      << '\tstatic $ueEnumType haxeToUe(unreal::UIntPtr haxe) {'
+        << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) );\n}\n\n'
+      << '\tstatic unreal::UIntPtr ueToHaxe($ueEnumType ue) {\n'
+        << '\t\tstatic unreal::UIntPtr array = unreal::helpers::HxcppRuntime::getEnumArray("$ueEnumType");\n'
+        << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue));\n}\n\n'
+        << '};\n';
+    data << '}';
+    fmt.addEscaped(data.toString());
+    fmt << '")';
+    this.add(fmt);
+    this.newline();
     this.add('class ${e.name}_EnumConv ');
     this.begin('{');
       this.add('public static var all = std.Type.allEnums(${this.typeRef});');
       this.newline();
-      var ueName = MacroHelpers.extractStrings(e.meta, ':uname')[0];
-      var isClass = e.meta.has(':class');
-      var uePack = null;
-      if (ueName == null) {
-        ueName = e.name;
-        uePack = e.pack;
-      } else {
-        uePack = ueName.split('.');
-        ueName = uePack.pop();
-      }
+      this.add('static function __init__() { unreal.helpers.EnumMap.set("$ueEnumType", all); }');
+      this.newline();
       var ueCall = isClass ?
         uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :
         uePack.join('::');
       if (ueCall != '')
         ueCall = ueCall + '::';
-      var ueEnumType = uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName;
 
       var ueToHaxe = new HelperBuf() + 'switch(($ueEnumType) value) {\n\t',
           haxeToUe = new HelperBuf() + 'switch(value) {\n\t';
@@ -1053,6 +1074,8 @@ class ExternBaker {
       this.add('public static inline function unwrap(v:${this.typeRef}):Int return haxeToUe(v.getIndex() + 1);');
     this.end('}');
     this.newline();
+    // this.begin('@:native("uhx.enums.${e.name}_Expose") @:uexpose class ${e.name}_Expose {');
+    // this.add('public static function ueToHaxe(value) return ${e.name}_EnumConv.ueToHaxe(K
 
     this.realBuf.add(this.buf);
     this.buf = new CodeFormatter();

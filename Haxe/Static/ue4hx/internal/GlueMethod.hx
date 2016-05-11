@@ -119,7 +119,6 @@ class GlueMethod {
     this.retHaxeType = meth.ret.haxeType;
     var glueCppBody = new HelperBuf();
     // get cpp body - might change `cppArgs`, `retHaxeType` and `op`
-    var isCtor = meth.uname == '.ctor' && meth.flags.hasAny(Static);
     glueCppBody << this.getCppBody();
 
     if (this.templated || meth.specialization != null) {
@@ -276,7 +275,7 @@ class GlueMethod {
     }
 
     if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
-      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), this.ctx );
+      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [ for (arg in cppArgs) arg.t ], this.ctx );
     } else if (this.meth.flags.hasAny(Property)) {
       if (!isGetter) {
         body += ' = ' + cppArgTypes[cppArgTypes.length-1];
@@ -289,6 +288,10 @@ class GlueMethod {
       if (cppArgs.length > 0) {
         throw new Error('Unreal Glue: unary operators must take zero arguments', meth.pos);
       }
+    } else if (meth.uname == '.equals') {
+      // these variables are guaranteed to have this name - see getCppBody
+      outVars << 'if (self.raw == 0 || other.raw == 0) { return self.raw == other.raw; }';
+      body += '(' + cppArgTypes.join(', ') + ')';
     } else {
       body += '(' + cppArgTypes.join(', ') + ')';
     }
@@ -327,7 +330,7 @@ class GlueMethod {
       switch (meth.uname) {
         case 'new':
           'new ' + meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
-        case '.ctor':
+        case '.ctor' | '.ctor.struct':
           meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
         case _:
           if (meth.meta.hasMeta(':global')) {

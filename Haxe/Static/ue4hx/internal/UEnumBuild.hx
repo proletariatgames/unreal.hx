@@ -46,7 +46,21 @@ class UEnumBuild
         FileSystem.createDirectory('$headerDir/Generated/Public');
       }
 
+      var enumExpr = Context.parse(TypeRef.fromBaseType(enumType, enumType.pos).getClassPath(), enumType.pos);
+      var expose = macro class {
+        public static function getArray():unreal.UIntPtr {
+          return unreal.helpers.HaxeHelpers.dynamicToPointer( std.Type.allEnums($enumExpr) );
+        }
+      };
+      expose.meta.push({ name:':uexpose', pos:enumType.pos });
+      expose.name = uname;
+      expose.pack = ['uhx','enums'];
+      Context.defineType(expose);
+
       var writer = new HeaderWriter(headerPath);
+      writer.include('uhx/EnumGlue.h');
+      writer.include('uhx/enums/${uname}.h');
+      writer.include('unreal/helpers/HxcppRuntime.h');
       writer.include('$uname.generated.h');
 
       var uenum = enumType.meta.extract(':uenum')[0];
@@ -83,6 +97,16 @@ class UEnumBuild
       }
 
       writer.buf.add('};\n');
+      writer.buf << 'namespace uhx {\n\n';
+      writer.buf << 'template<> struct EnumGlue<$uname> {\n'
+        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {'
+          << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
+        << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
+          << '\t\tstatic unreal::UIntPtr array = uhx::enums::$uname::getArray();\n'
+          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
+          << '};\n';
+      writer.buf << '}';
+
       writer.close(Globals.cur.module);
 
     default:

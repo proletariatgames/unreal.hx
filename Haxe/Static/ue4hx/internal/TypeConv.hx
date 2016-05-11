@@ -493,7 +493,7 @@ class TypeConv {
     }
   }
 
-  public function ueToGlueCtor(ctorArgs:String, ctx:ConvCtx) {
+  public function ueToGlueCtor(ctorArgs:String, argsTypes:Array<TypeConv>, ctx:ConvCtx) {
     if (hasModifier(Ref) || hasModifier(Ptr) || hasAnyConst()) {
       throw new Error('Invalid constructor return type: $haxeType', ctx.pos);
     }
@@ -504,7 +504,8 @@ class TypeConv {
         } else {
           '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>';
         };
-        return '$helper::create($ctorArgs)';
+        var templ = '<' + [ for (arg in argsTypes) arg.ueType.getCppType() ].join(',') + '>';
+        return '$helper::create$templ($ctorArgs)';
       case _:
         throw new Error('Invalid constructor return type: $haxeType. Expected struct', ctx.pos);
     }
@@ -942,23 +943,19 @@ class TypeConv {
       },
       {
         ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')]),
-        glueType: new TypeRef(['unreal'],'VariantPtr'),
+        glueType: new TypeRef(['unreal'],'UIntPtr'),
         haxeType: new TypeRef(['unreal'],'AnyPtr'),
 
-        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<VariantPtr.h>']),
-
-        ueToGlueExpr: '( ::unreal::VariantPtr_obj::fromRawPtr(%) )',
-        glueToUeExpr: '(%).toPointer()'
+        ueToGlueExpr: '( (unreal::UIntPtr) (%) )',
+        glueToUeExpr: '( (void *) (%) )'
       },
       {
         ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')], Const),
-        glueType: new TypeRef(['unreal'],'VariantPtr'),
+        glueType: new TypeRef(['unreal'],'UIntPtr'),
         haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
 
-        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<VariantPtr.h>']),
-
-        ueToGlueExpr: '( ::unreal::VariantPtr_obj::fromRawPtr(const_cast<void *>(%)) )',
-        glueToUeExpr: '(%).toPointer()',
+        ueToGlueExpr: '( (unreal::UIntPtr) (%) )',
+        glueToUeExpr: '( (void *) (%) )'
       },
       {
         ueType: new TypeRef(['unreal'],'UIntPtr'),

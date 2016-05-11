@@ -298,12 +298,16 @@ class TypeRef
       return TFunction(args, ret);
     }
 
-    return TPath({
+    return TPath(toTypePath());
+  }
+
+  inline public function toTypePath():TypePath {
+    return {
       pack: this.pack,
       name: this.moduleName == null ? this.name : this.moduleName,
       sub: this.moduleName == null ? null : this.name,
       params: [ for (p in params) TPType(p.toComplexType()) ]
-    });
+    };
   }
 
   public function getCppType(?buf:StringBuf, ?ignoreConst=false, ?ignoreParams=false):StringBuf {

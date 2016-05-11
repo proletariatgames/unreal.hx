@@ -37,6 +37,19 @@ import unreal.Wrapper;
     return @:privateAccess (HaxeHelpers.pointerToDynamic(uobj) : UObject).wrapped;
   }
 
+  public static function arrayIndex(array:UIntPtr, index:Int) : UIntPtr {
+    var arr:Array<Dynamic> = HaxeHelpers.pointerToDynamic(array);
+    return HaxeHelpers.dynamicToPointer(arr[index]);
+  }
+
+  public static function enumIndex(e:UIntPtr) : Int {
+    return Type.enumIndex( HaxeHelpers.pointerToDynamic(e) );
+  }
+
+  public static function getEnumArray(name:cpp.ConstCharStar) : UIntPtr {
+    return HaxeHelpers.dynamicToPointer(EnumMap.get(name.toString()));
+  }
+
 
   public static function boxBool(b:Bool):UIntPtr {
     return HaxeHelpers.dynamicToPointer(b);
