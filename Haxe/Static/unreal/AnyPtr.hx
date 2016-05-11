@@ -2,7 +2,7 @@ package unreal;
 
 @:forward
 abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
-  @:op(A+B) inline public function addOffset(offset:Int):UIntPtr {
+  @:op(A+B) inline public function addOffset(offset:Int):AnyPtr {
     return this + offset;
   }
 
@@ -10,6 +10,10 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
   public function getUObject(at:Int):UObject {
     var ptr = this + at;
     return UObject.wrap(ptr);
+  }
+
+  public function getStruct(at:Int):Struct {
+    return cast VariantPtr.fromUIntPtr(this + at + 1);
   }
 
   public static function fromUObject(obj:UObject):AnyPtr {

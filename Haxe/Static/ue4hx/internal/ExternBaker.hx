@@ -881,21 +881,6 @@ class ExternBaker {
             var complex:$retComplex = null;
             var x:unreal.POwnedPtr<$thisType> = complex;
           });
-
-          var meta = field.meta.get().filter(function(v) return v.name != ':uname');
-          if (meta == null) meta = [];
-          meta.push({ name:':uname', params:[macro $v{'.ctor'}], pos:field.pos });
-          methods.push({
-            name: field.name + 'Struct',
-            uname: '.ctor',
-            params: [ for (p in field.params) p.name ],
-            args: cur.args,
-            ret: TypeConv.get(realT, field.pos, specialization != null),
-            flags: flags,
-            meta: meta,
-            specialization: specialization,
-            pos: field.pos,
-          });
         }
       case _: throw 'assert';
       }

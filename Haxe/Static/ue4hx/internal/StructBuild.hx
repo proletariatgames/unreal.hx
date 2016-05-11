@@ -90,9 +90,10 @@ class StructBuild {
     def.meta = tdef.meta.get();
 
     // Context.defineType(def);
+    var curPath = [ for (arg in tdef.module.split('.')) { name:arg, pos:tdef.pos } ];
     Context.defineModule('unreal.structs.${tdef.name}',
         [def],
-        Context.getLocalImports(),
+        Context.getLocalImports().concat([{path:curPath, mode:INormal }]),
         [for (val in Context.getLocalUsing()) getUsingPath(val.get()) ] );
 	// public static function defineModule( modulePath : String, types : Array<TypeDefinition>, ?imports: Array<ImportExpr>, ?usings : Array<TypePath> ) : Void {
     return Context.getType('unreal.structs.${tdef.name}');

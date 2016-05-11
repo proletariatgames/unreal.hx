@@ -621,7 +621,11 @@ class DelayedGlue {
 
       var uname = MacroHelpers.extractStrings(prop.field.meta, ":uname")[0];
       if (uname == null) uname = prop.field.name;
-      writer.buf.add('\t${prop.type.ueType.getCppType(null)} $uname;\n\n');
+      var cppType = prop.type.ueType.getCppType(null) + '';
+      if (prop.type.data.match(CEnum(EExternal,_))) {
+        cppType = 'TEnumAsByte< $cppType >';
+      }
+      writer.buf.add('\t${cppType} $uname;\n\n');
     }
     writer.buf.add('};\n');
 
