@@ -43,6 +43,8 @@ class HaxeModuleRules extends BaseModuleRules
       base.dce = DceFull;
     } else if (Sys.getEnv('NO_DCE') != null) {
       base.dce = DceNo;
+    } else if (target.Configuration == Shipping) {
+      base.dce = DceFull;
     }
 
     return base;
