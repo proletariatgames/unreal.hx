@@ -277,6 +277,7 @@ class DelegateBuild {
     def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
     Globals.cur.hasUnprocessedTypes = true;
+    Globals.cur.cachedBuiltTypes.push('uhx.delegates.${ueType.name}');
     Context.defineType(def);
     return Context.getType('uhx.delegates.${ueType.name}');
   }

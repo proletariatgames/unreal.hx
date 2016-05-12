@@ -853,7 +853,7 @@ class ExternBaker {
           name: field.name,
           uname: specialization == null || uname != field.name ? uname : specialization.genericFunction,
           doc: field.doc,
-          meta:field.meta.get(),
+          meta:specialization != null ? field.meta.get().filter(function(field) return field.name != ':functionCode') : field.meta.get(),
           params: [ for (p in field.params) p.name ],
           args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
           ret: TypeConv.get(ret, field.pos, specialization != null),

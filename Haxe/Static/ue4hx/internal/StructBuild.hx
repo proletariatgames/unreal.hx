@@ -90,6 +90,7 @@ class StructBuild {
     def.meta = tdef.meta.get();
 
     // Context.defineType(def);
+    Globals.cur.cachedBuiltTypes.push(target.getClassPath());
     var curPath = [ for (arg in tdef.module.split('.')) { name:arg, pos:tdef.pos } ];
     Globals.cur.hasUnprocessedTypes = true;
     Context.defineModule('unreal.structs.${tdef.name}',
