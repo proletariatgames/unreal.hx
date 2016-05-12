@@ -115,7 +115,7 @@ class UnrealInit
         trace('Hot reload detected');
 #if WITH_CPPIA
         if (watchHandle != null) {
-          UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
+          UEditorEngine.GEditor.GetTimerManager().Get().ClearTimer(watchHandle);
           watchHandle = null;
         }
 #end
@@ -132,7 +132,7 @@ class UnrealInit
 
     function addWatcher() {
 #if WITH_CPPIA
-      UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+      UEditorEngine.GEditor.GetTimerManager().Get().SetTimer(watchHandle, timerDelegate, 1, true, 0);
 #end
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
       onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);

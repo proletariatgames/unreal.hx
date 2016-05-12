@@ -5,6 +5,7 @@ import haxe.macro.Type;
 import sys.FileSystem;
 
 using StringTools;
+using Lambda;
 
 /**
   This command takes care of compiling all the files in the Static folders and generating the glue code as needed.
@@ -59,7 +60,12 @@ class CreateGlue {
     // until there's nothing else to be built
     var typesTouched = new Map(),
         running = false;
+    var didProcess = false;
     Context.onAfterTyping(function(types) {
+      if (types.exists(function(t) return Std.string(t) == 'TClassDecl(ue4hx.internal.CreateGlue)')) {
+        return; // macro context
+      }
+      Globals.cur.hasUnprocessedTypes = false;
       while (true) {
         var cur = Globals.cur;
         for (type in types) {
@@ -133,9 +139,19 @@ class CreateGlue {
           }
         }
 
-        while(cur.scriptGlues != null) {
-          var scriptGlues = cur.scriptGlues;
-          cur.scriptGlues = null;
+        if (cur.delays != null || cur.uextensions != null || cur.gluesToGenerate != null) {
+          continue;
+        }
+        running = false;
+
+        break;
+      }
+      if (!Globals.cur.hasUnprocessedTypes && !didProcess) {
+        didProcess = true;
+
+        while(Globals.cur.scriptGlues != null) {
+          var scriptGlues = Globals.cur.scriptGlues;
+          Globals.cur.scriptGlues = null;
           while (scriptGlues != null) {
             var scriptGlue = scriptGlues.value;
             scriptGlues = scriptGlues.next;
@@ -151,16 +167,10 @@ class CreateGlue {
             sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
           }
         }
-
-        if (cur.scriptGlues != null || cur.delays != null || cur.uextensions != null || cur.gluesToGenerate != null) {
-          continue;
-        }
-        running = false;
         Globals.cur.loadCachedTypes();
         Globals.cur.saveCachedBuilt();
-
-        return;
       }
+
     });
 
 

@@ -24,6 +24,7 @@ class UEnumHelper {
         }
         cls.pack = en.pack;
         cls.name = en.name + '_FastIndex';
+        Globals.cur.hasUnprocessedTypes = true;
         Context.defineType(cls);
       }
       var expr = Context.parse(helperName + '.all', enumType.pos);

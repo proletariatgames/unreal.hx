@@ -310,6 +310,7 @@ class DelayedGlue {
       var fields = (macro class {
         static function uhx_dummy_field():Void;
       }).fields;
+      Globals.cur.hasUnprocessedTypes = true;
       Context.defineType({
         pack: glue.pack,
         name: glue.name,

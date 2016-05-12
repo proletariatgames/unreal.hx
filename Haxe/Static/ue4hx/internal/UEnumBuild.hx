@@ -55,6 +55,7 @@ class UEnumBuild
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
       expose.name = uname;
       expose.pack = ['uhx','enums'];
+      Globals.cur.hasUnprocessedTypes = true;
       Context.defineType(expose);
 
       var writer = new HeaderWriter(headerPath);

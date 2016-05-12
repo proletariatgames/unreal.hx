@@ -413,7 +413,7 @@ class TypeConv {
         '( ($expr) : ${haxeType} )';
       case CEnum( type = (EScriptHaxe | EHaxe), info):
         if (type == EScriptHaxe)
-          'Type.createEnumIndex(Type.resolveEnum("${this.haxeType.getClassPath(false)}"), $expr)';
+          'Type.createEnumIndex(Type.resolveEnum("${this.haxeType.getClassPath(true)}"), $expr)';
         else
           'ue4hx.internal.UEnumHelper.createEnumIndex(${this.haxeType.getClassPath(false)}, $expr)';
       case CEnum(type, info):

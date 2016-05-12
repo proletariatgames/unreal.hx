@@ -582,6 +582,7 @@ class UExtensionBuild {
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());
       Globals.cur.cachedBuiltTypes.push(expose.getClassPath());
+      Globals.cur.hasUnprocessedTypes = true;
       Context.defineType({
         pack: expose.pack,
         name: expose.name,

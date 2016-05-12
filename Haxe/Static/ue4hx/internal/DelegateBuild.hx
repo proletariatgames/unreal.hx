@@ -276,6 +276,7 @@ class DelegateBuild {
     var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
     def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
+    Globals.cur.hasUnprocessedTypes = true;
     Context.defineType(def);
     return Context.getType('uhx.delegates.${ueType.name}');
   }

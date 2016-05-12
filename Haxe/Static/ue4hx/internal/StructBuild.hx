@@ -91,6 +91,7 @@ class StructBuild {
 
     // Context.defineType(def);
     var curPath = [ for (arg in tdef.module.split('.')) { name:arg, pos:tdef.pos } ];
+    Globals.cur.hasUnprocessedTypes = true;
     Context.defineModule('unreal.structs.${tdef.name}',
         [def],
         Context.getLocalImports().concat([{path:curPath, mode:INormal }]),

@@ -59,6 +59,7 @@ class GenericFuncBuild {
       var glue = 'package ${genericGlue.pack.join('.')};\n\n@:unrealGlue extern class ${genericGlue.name} {\n$glueCode\n}';
       writeIfNeeded('$dir/${genericGlue.name}.hx', glue);
       Globals.cur.cachedBuiltTypes.push(caller.getClassPath());
+      Globals.cur.hasUnprocessedTypes = true;
       Context.getType(caller.getClassPath());
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(caller.getClassPath());

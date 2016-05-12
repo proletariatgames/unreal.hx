@@ -141,6 +141,11 @@ class Globals {
    **/
   public var delays:Lst<Void->Void>;
 
+  /**
+    Tells whether there are types added to the context
+   **/
+  public var hasUnprocessedTypes:Bool = false;
+
   public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
 
   public var gluesTouched:Map<String,Bool> = new Map();

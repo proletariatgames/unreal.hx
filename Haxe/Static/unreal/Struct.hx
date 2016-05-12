@@ -1,7 +1,10 @@
 package unreal;
 
 abstract Struct(VariantPtr) to VariantPtr {
-  inline public function dispose():Void {
+#if !cppia
+  inline
+#end
+  public function dispose():Void {
 #if (!bake_externs && !macro)
     if (this.isObject()) {
       ( this.getDynamic() : unreal.Wrapper ).dispose();
@@ -9,7 +12,10 @@ abstract Struct(VariantPtr) to VariantPtr {
 #end
   }
 
-  inline public function isDisposed():Bool {
+#if !cppia
+  inline
+#end
+  public function isDisposed():Bool {
 #if (!bake_externs && !macro)
     if (this.isObject()) {
       return ( this.getDynamic() : unreal.Wrapper ).isDisposed();

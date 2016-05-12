@@ -114,6 +114,7 @@ class LiveReloadBuild {
     };
     cls.name = clname;
     cls.pack = ['ue4hx','internal'];
+    Globals.cur.hasUnprocessedTypes = true;
     Context.defineType(cls);
   }
 #end
