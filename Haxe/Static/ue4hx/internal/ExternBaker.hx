@@ -249,6 +249,7 @@ class ExternBaker {
         glue = typeRef.getGlueHelperType(),
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
+    var implType = cl.pack.join('.') + (cl.pack.length == 0 ? '' : '.') + cl.name;
     this.glueType = genericGlue;
 
     this.thisConv = TypeConv.get(this.type, cl.pos, true);
@@ -315,7 +316,7 @@ class ExternBaker {
         for (arg in methods[nextIndex].args)
           args.push(arg.name);
         if (methods[nextIndex].meta == null) methods[nextIndex].meta = [];
-        methods[nextIndex].meta.push({ name:':ifFeature', params:[macro $v{'${typeRef.withoutModule().getClassPath()}.${impl.name}'}], pos:impl.pos });
+        methods[nextIndex].meta.push({ name:':ifFeature', params:[macro $v{'${implType}.${impl.name}'}], pos:impl.pos });
         var call = caller.getCppClass() + '::' + impl.name + '(' + args.join(', ') + ');';
         if (!methods[nextIndex].ret.haxeType.isVoid())
           call = 'return ' + call;

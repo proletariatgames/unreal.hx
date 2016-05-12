@@ -5,6 +5,7 @@ import unreal.helpers.ObjectArrayHelper_Glue;
 @:ueGluePath("unreal.helpers.ObjectArrayHelper_Glue")
 @:glueCppIncludes("UObject/UObjectArray.h")
 // @:ueCppDef("DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);\nDEFINE_LOG_CATEGORY(HaxeLog)")
+@:keep
 class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   @:glueHeaderCode('static unreal::UIntPtr indexToObject(int index);')
   @:glueCppCode('unreal::UIntPtr unreal::helpers::ObjectArrayHelper_Glue_obj::indexToObject(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr) return 0;\n\treturn (unreal::UIntPtr) ret->Object;\n}')

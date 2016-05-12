@@ -3,7 +3,7 @@ import cpp.Function;
 import unreal.*;
 
 @:access(unreal.UObject)
-class ClassWrap {
+@:keep class ClassWrap {
 #if !UHX_WRAP_OBJECTS
   static var wrappers:Map<Int, UObject>;
   static var indexes:Array<Int>;
