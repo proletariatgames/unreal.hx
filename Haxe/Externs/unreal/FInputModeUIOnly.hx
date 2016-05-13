@@ -7,7 +7,7 @@ package unreal;
 extern class FInputModeUIOnly extends FInputModeDataBase {
 
   @:uname(".ctor")
-  public static function createStruct() : FInputModeUIOnly;
+  public static function create() : FInputModeUIOnly;
 
   public function SetWidgetToFocus(InWidgetToFocus:TSharedPtr<SWidget>) : FInputModeUIOnly;
 }

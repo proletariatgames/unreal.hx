@@ -301,6 +301,8 @@ class NativeGlueCode
           if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
 
           var contents = File.getContent(headerPath);
+          // take off the self-include
+          contents = contents.replace('#include <$path.h>', '');
           if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
             File.saveContent(targetPath, contents);
           File.saveContent(stampPath, '');
@@ -389,11 +391,6 @@ class NativeGlueCode
             cl.meta.add(':keep', [], cl.pos);
           cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
-        }
-        if (cl.meta.has(':ustruct')) {
-          var uname = MacroHelpers.extractStrings(cl.meta, ":uname")[0];
-          if (uname == null) uname = cl.name;
-          touch(uname);
         }
         if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;

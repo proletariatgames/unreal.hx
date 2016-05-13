@@ -44,6 +44,14 @@ class TypeRef
     return new TypeRef(this.pack, this.name, this.moduleName, params, setConst ? (this.flags | Const) : (this.flags.without(Const)));
   }
 
+  public function leafWithConst(setConst:Bool) {
+    if (this.params.length > 0) {
+      return new TypeRef(pack,name,moduleName,[for (param in this.params) param.leafWithConst(setConst) ],flags);
+    } else {
+      return this.withConst(setConst);
+    }
+  }
+
   public function withoutPrefix():TypeRef {
     switch [this.pack, this.name] {
       case [ ['cpp'], 'RawPointer' ]:

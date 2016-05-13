@@ -56,6 +56,7 @@ class TypeConv {
           type = new TypeRef(['unreal'], 'PRef', [type]);
         case Ptr:
           type = new TypeRef(['unreal'], 'PPtr', [type]);
+        case Marker:
         }
       }
     }
@@ -76,6 +77,7 @@ class TypeConv {
             case Ptr | Ref:
               return false;
             case Const:
+            case Marker:
           }
         }
         return true;
@@ -211,9 +213,23 @@ class TypeConv {
         this.ueType = uintPtr;
         this.haxeType = uintPtr;
         this.haxeGlueType = this.glueType = uintPtr;
-      case CTypeParam(name):
+      case CTypeParam(name, kind):
         this.haxeType = this.ueType = new TypeRef(name);
         this.glueType = this.haxeGlueType = uintPtr;
+        var extra = switch(kind) {
+          case PWeak:
+            'TWeakObjectPtr';
+          case PAutoWeak:
+            'TAutoWeakObjectPtr';
+          case PSubclassOf:
+            'TSubclassOf';
+          case PNone:
+            null;
+        };
+        if (extra != null) {
+          this.haxeType = new TypeRef(['unreal'], extra, [this.haxeType]);
+          this.ueType = new TypeRef(extra, [this.ueType]);
+        }
     }
 
     var modf = this.modifiers;
@@ -222,6 +238,7 @@ class TypeConv {
         this.ueType = this.ueType.withoutPointer();
       }
 
+      var hadMarker = false;
       var i = modf.length;
       while (i --> 0) {
         switch(modf[i]) {
@@ -229,7 +246,11 @@ class TypeConv {
           if (!originalSet) {
             this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
           }
-          this.ueType = this.ueType.withConst(true);
+          if (this.data.match(CUObject(_)) && !hadMarker) {
+            this.ueType = this.ueType.leafWithConst(true);
+          } else {
+            this.ueType = this.ueType.withConst(true);
+          }
         case Ref:
           if (!originalSet) {
             this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
@@ -240,6 +261,8 @@ class TypeConv {
             this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
           }
           this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
+        case Marker:
+          hadMarker = true;
         }
       }
     }
@@ -339,7 +362,14 @@ class TypeConv {
         arg.recurseUeIncludes(set, forwardDecls, cppSet, true /* function arguments can be forward declared */);
       }
       ret.recurseUeIncludes(set, forwardDecls, cppSet, true);
-    case CTypeParam(name):
+    case CTypeParam(name, kind):
+      switch(kind) {
+        case PWeak | PAutoWeak:
+          set.add("UObject/WeakObjectPtrTemplates.h");
+        case PSubclassOf:
+          set.add("UObject/ObjectBase.h");
+        case PNone:
+      }
       if (forwardDecls == null) {
         set.add('uhx/TypeParamGlue.h');
       }
@@ -364,7 +394,11 @@ class TypeConv {
         if (type == OInterface) {
           expr = 'cast $expr';
         }
-        'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
+        if (flags.hasAny(OByRef)) {
+          'unreal.helpers.HaxeHelpers.getUObjectByRef($expr)';
+        } else {
+          'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
+        }
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(EAbstract, info):
@@ -386,7 +420,7 @@ class TypeConv {
         'unreal.helpers.HaxeHelpers.dynamicToPointer( $expr )';
       case CMethodPointer(cname, args, ret):
         expr;
-      case CTypeParam(name):
+      case CTypeParam(name, _):
         'unreal.helpers.HaxeHelpers.dynamicToPointer( $expr )';
     }
   }
@@ -405,6 +439,9 @@ class TypeConv {
         }
 
       case CUObject(type, flags, info):
+        // if (flags.hasAny(OByRef)) {
+        //   expr = 'unreal.helpers.deref($expr)';
+        // }
         // OExternal, OInterface, OHaxe, OScriptHaxe
         '( cast unreal.UObject.wrap($expr) : ${this.haxeType} )';
 
@@ -428,7 +465,7 @@ class TypeConv {
         '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
       case CMethodPointer(cname, args, ret):
         expr;
-      case CTypeParam(name):
+      case CTypeParam(name, _):
         '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
     }
   }
@@ -447,15 +484,20 @@ class TypeConv {
         }
 
       case CUObject(type, flags, info):
+        var extra = flags.hasAny(OByRef) ? '*' : '';
         // OExternal, OInterface, OHaxe, OScriptHaxe
-        var ret = '( (${info.ueType.getCppType()} *) $expr )';
+        var ret = '( (${info.ueType.getCppType()} *$extra) $expr )';
         if (type == OInterface) {
           ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
         } else if (type == OSubclassOf) {
           ret = '( (${ueType.getCppType()}) (UClass *) $expr )';
         }
+        if (flags.hasAny(OByRef)) {
+        }
         if (flags.hasAny(OWeak | OAutoWeak)) {
           ret = '( (${ueType.getCppType()}) $ret )';
+        } else if (hasModifier(Ref)) {
+          ret = '*$ret';
         }
         ret;
 
@@ -484,11 +526,21 @@ class TypeConv {
         cppMethodType.mapJoin(fnArgs, function(arg) return arg.ueType.getCppType().toString());
         cppMethodType << '>::Translator';
         '(($cppMethodType) $expr)()';
-      case CTypeParam(name):
+      case CTypeParam(name, kind):
+        var cppType = (hasModifier(Ref) ? ueType.withoutPointer(true).getCppType() : ueType.getCppType()) + '';
+        switch(kind) {
+          case PNone:
+          case PSubclassOf:
+            cppType = 'TSubclassOf<$cppType>';
+          case PWeak:
+            cppType = 'TWeakObjectPtr<$cppType>';
+          case PAutoWeak:
+            cppType = 'TAutoWeakObjectPtr<$cppType>';
+        }
         if (this.hasModifier(Ref)) {
-          '::uhx::TypeParamGluePtr<${ueType.withoutPointer(true).getCppType()}>::haxeToUePtr( $expr )';
+          '::uhx::TypeParamGluePtr<${cppType}>::haxeToUePtr( $expr )';
         } else {
-          '::uhx::TypeParamGlue<${ueType.getCppType()}>::haxeToUe( $expr )';
+          '::uhx::TypeParamGlue<${cppType}>::haxeToUe( $expr )';
         }
     }
   }
@@ -577,11 +629,21 @@ class TypeConv {
         expr;
       case CMethodPointer(cname, args, ret):
         expr;
-      case CTypeParam(name):
+      case CTypeParam(name,kind):
+        var cppType = (hasModifier(Ref) ? ueType.withoutPointer(true).getCppType() : ueType.getCppType(true)) + '';
+        switch(kind) {
+          case PNone:
+          case PSubclassOf:
+            cppType = 'TSubclassOf<$cppType>';
+          case PWeak:
+            cppType = 'TWeakObjectPtr<$cppType>';
+          case PAutoWeak:
+            cppType = 'TAutoWeakObjectPtr<$cppType>';
+        }
         if (this.hasModifier(Ref)) {
-          '::uhx::TypeParamGluePtr<${ueType.withoutPointer(true).getCppType()}>::ueToHaxeRef( $expr )';
+          '::uhx::TypeParamGluePtr<${cppType}>::ueToHaxeRef( $expr )';
         } else {
-          '::uhx::TypeParamGlue<${ueType.getCppType(true)}>::ueToHaxe( $expr )';
+          '::uhx::TypeParamGlue<${cppType}>::ueToHaxe( $expr )';
         }
     }
   }
@@ -632,9 +694,18 @@ class TypeConv {
         var ret = null;
         var info = getTypeInfo(it, pos);
         if (it.kind.match(KTypeParameter(_))) {
+          var kind = if(ctx.isSubclassOf) {
+            PSubclassOf;
+          } else if(ctx.accFlags.hasAll(OAutoWeak)) {
+            PAutoWeak;
+          } else if (ctx.accFlags.hasAny(OWeak)) {
+            PWeak;
+          } else {
+            PNone;
+          }
           name = null; // don't cache
           ctx.original = null;
-          ret = CTypeParam(it.name);
+          ret = CTypeParam(it.name, kind);
         } else if (typeIsUObject(type)) {
           if (ctx.modf != null && ctx.modf.has(Ptr)) {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
@@ -654,7 +725,7 @@ class TypeConv {
           if (ctx.modf != null && ctx.modf.has(Ptr)) {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
-          ret = CUObject(OInterface, ctx.accFlags, info);
+          ret = CUObject(ctx.isSubclassOf ? OSubclassOf : OInterface, ctx.accFlags, info);
         } else if (it.meta.has(':uextern')) {
           ret = CStruct(SExternal, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
         } else if (it.meta.has(':ustruct')) {
@@ -678,6 +749,19 @@ class TypeConv {
         }
 
         if (ret != null) {
+          if (ctx.modf != null) {
+            switch(ret) {
+            case CUObject(type, flags, info):
+              var markerIdx = ctx.modf.indexOf(Marker);
+              if (markerIdx >= 0 && ctx.modf.indexOf(Ref) > markerIdx) {
+                Context.warning('Unreal Glue: PRef<> ignored because it is inside a TSubclassOf / TWeakObjectPtr', pos);
+              } else if (markerIdx < 0 && ctx.modf.has(Ref) && ctx.modf.has(Ptr)) {
+                ctx.accFlags |= OByRef;
+                ret = CUObject(type, flags | OByRef, info);
+              }
+            case _:
+            }
+          }
           var ret = new TypeConv(ret, ctx.modf, ctx.original);
           if (tl.length == 0 && name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0 && !ctx.isSubclassOf) {
             cache[name] = ret;
@@ -825,17 +909,23 @@ class TypeConv {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
             }
             ctx.accFlags |= OWeak;
+            if (ctx.modf == null) ctx.modf = [];
+            ctx.modf.push(Marker);
           case 'unreal.TAutoWeakObjectPtr':
             if (ctx.accFlags.hasAny(OAutoWeak) || ctx.isSubclassOf) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
             }
             ctx.accFlags |= OAutoWeak;
+            if (ctx.modf == null) ctx.modf = [];
+            ctx.modf.push(Marker);
           case 'unreal.TSubclassOf':
             if (ctx.accFlags.hasAny(OWeak) || ctx.isSubclassOf) {
               Context.warning('Unreal Type: Illogical type (with multiple weak / subclassOf flags', pos);
             }
             ctx.isSubclassOf = true;
             type = tl[0];
+            if (ctx.modf == null) ctx.modf = [];
+            ctx.modf.push(Marker);
             continue;
           case _:
             throw new Error('Unreal Type: Invalid typedef: $name', pos);
@@ -1144,16 +1234,7 @@ enum TypeConvData {
 
   CLambda(args:Array<TypeConv>, ret:TypeConv);
   CMethodPointer(className:TypeInfo, args:Array<TypeConv>, ret:TypeConv);
-  CTypeParam(name:String);
-}
-
-@:enum abstract SharedTS(Int) from Int {
-  var ThreadSafe = 1;
-}
-
-@:enum abstract SharedKind(Int) from Int {
-  var Weak = 1;
-  var Ref = 2;
+  CTypeParam(name:String, kind:TypeParamKind);
 }
 
 @:enum abstract UObjectType(Int) from Int {
@@ -1168,6 +1249,7 @@ enum TypeConvData {
   var ONone = 0;
   var OWeak = 1;
   var OAutoWeak = 3;
+  var OByRef = 4;
 
   inline private function t() {
     return this;
@@ -1184,6 +1266,13 @@ enum TypeConvData {
   inline public function hasAny(flag:UObjectFlags):Bool {
     return this & flag.t() != 0;
   }
+}
+
+@:enum abstract TypeParamKind(Int) from Int {
+  var PNone = 0;
+  var PSubclassOf = 1;
+  var PWeak = 2;
+  var PAutoWeak = 3;
 }
 
 @:enum abstract EnumType(Int) from Int {
@@ -1211,6 +1300,12 @@ private typedef InfoCtx = {
   var Ptr = 1;
   var Ref = 2;
   var Const = 3;
+
+  /**
+    Just a placeholder to separate some cases like
+    Const<TWeakObjectPtr<>> and TWeakObjectPtr<Const<>>
+   **/
+  var Marker = 4;
 
   public function toString() {
     return switch(this) {

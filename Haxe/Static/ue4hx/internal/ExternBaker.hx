@@ -266,7 +266,7 @@ class ExternBaker {
               impls.push(impl);
             }
           }
-          generics.push({ isStatic:isStatic, field: field, impls: impls });
+          generics.push({ isStatic:isStatic && !field.meta.has(':impl'), field: field, impls: impls });
         }
       }
       isStatic = false;
@@ -369,6 +369,7 @@ class ExternBaker {
         impl = new CodeFormatter();
     var cppType = tconv.ueType.getCppType().toString(),
         glueName = tconv.haxeType.getGlueHelperType().getCppType() + '_UE_obj';
+    var className = tconv.ueType.withoutPointer(true).name;
     decl << 'namespace uhx {' << new Newline()
     //      << 'template<';
     // decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
@@ -381,7 +382,7 @@ class ExternBaker {
           << 'inline static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
           << 'static void doDestruct(unreal::UIntPtr ptr)' << new Begin('{')
-            << '((${cppType} *) ptr)->~${cppType}();' << new Newline()
+            << '((${cppType} *) ptr)->~${className}();' << new Newline()
           << new End('}')
         << new End('};')
       << '}' << new Newline();
@@ -843,7 +844,13 @@ class ExternBaker {
         var cur = null;
         var args = args;
         if (specialization != null) {
-          args = args.slice(specialization.types.length);
+          if (field.meta.has(':impl')) {
+            // args = args.copy();
+            // args.splice(1,specialization.types.length);
+            args = args.slice(specialization.types.length + 1);
+          } else {
+            args = args.slice(specialization.types.length);
+          }
         }
         var flags = None;
         if (!field.isPublic)

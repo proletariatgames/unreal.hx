@@ -7,6 +7,6 @@ package unreal;
 extern class FInputModeGameAndUI extends FInputModeDataBase {
 
   @:uname(".ctor")
-  public static function createStruct() : FInputModeGameAndUI;
+  public static function create() : FInputModeGameAndUI;
 
 }

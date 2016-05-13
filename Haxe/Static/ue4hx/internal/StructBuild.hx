@@ -92,10 +92,11 @@ class StructBuild {
     // Context.defineType(def);
     Globals.cur.cachedBuiltTypes.push(target.getClassPath());
     var curPath = [ for (arg in tdef.module.split('.')) { name:arg, pos:tdef.pos } ];
+    var packPath = curPath.slice(0,curPath.length-1);
     Globals.cur.hasUnprocessedTypes = true;
     Context.defineModule('unreal.structs.${tdef.name}',
         [def],
-        Context.getLocalImports().concat([{path:curPath, mode:INormal }]),
+        Context.getLocalImports().concat([{path:curPath, mode:INormal }, {path:packPath, mode:IAll}]),
         [for (val in Context.getLocalUsing()) getUsingPath(val.get()) ] );
 	// public static function defineModule( modulePath : String, types : Array<TypeDefinition>, ?imports: Array<ImportExpr>, ?usings : Array<TypePath> ) : Void {
     return Context.getType('unreal.structs.${tdef.name}');
@@ -141,11 +142,24 @@ class StructBuild {
         }
       }
 
+      var access = [],
+          hasPrivate = false;
+      for (meta in metas) {
+        if (meta.name == ':static') {
+          access.push(AStatic);
+        } else if (meta.name == ':private') {
+          access.push(APrivate);
+          hasPrivate = true;
+        }
+      }
+      if (!hasPrivate) {
+        access.push(APublic);
+      }
       switch(expr.expr) {
         case EVars([v]):
           ret.push({
             name: v.name,
-            access: [APublic],
+            access: access,
             kind: FVar( v.type, v.expr ),
             pos: expr.pos,
             meta: metas
@@ -158,7 +172,7 @@ class StructBuild {
           // for (type in
           ret.push({
             name: name,
-            access: [APublic],
+            access: access,
             kind: FFun( fn ),
             pos: expr.pos,
             meta: metas

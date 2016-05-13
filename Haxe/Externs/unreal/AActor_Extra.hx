@@ -104,7 +104,7 @@ extern class AActor_Extra {
 
   #if WITH_EDITOR
   public function PostEditMove(bFinished:Bool) : Void;
-	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:Const<PPtr<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
+	public function EditorApplyScale(DeltaScale:Const<PRef<FVector>>, PivotLocation:PPtr<Const<FVector>>, bAltDown:Bool, bShiftDown:Bool, bCtrlDown:Bool) : Void;
   @:thisConst
   public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
   #end

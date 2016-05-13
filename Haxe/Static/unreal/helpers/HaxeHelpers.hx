@@ -16,6 +16,15 @@ package unreal.helpers;
     return dyn;
   }
 
+  @:extern inline public static function getUObjectByRef(uobj:UObject):UIntPtr {
+    return VariantPtr.fromPointer(cpp.Pointer.addressOf(@:privateAccess uobj.wrapped)) - 1;
+  }
+
+  public static function deref(ptr:UIntPtr):UIntPtr {
+    var ptr:cpp.Pointer<UIntPtr> = cpp.Pointer.fromRaw(untyped __cpp__('((unreal::UIntPtr) {0})', ptr));
+    return ptr.at(0);
+  }
+
   @:extern inline public static function getUObjectWrapped(uobj:UObject):UIntPtr {
 #if (cpp && !bake_externs)
     return (uobj == null ? 0 : @:privateAccess uobj.wrapped);

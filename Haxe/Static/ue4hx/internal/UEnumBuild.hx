@@ -100,7 +100,7 @@ class UEnumBuild
       writer.buf.add('};\n');
       writer.buf << 'namespace uhx {\n\n';
       writer.buf << 'template<> struct EnumGlue<$uname> {\n'
-        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {'
+        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {\n'
           << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
         << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
           << '\t\tstatic unreal::UIntPtr array = uhx::enums::$uname::getArray();\n'

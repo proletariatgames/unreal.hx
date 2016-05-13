@@ -4,6 +4,6 @@ package unreal;
 @:uextern @:noCopy @:noEquals extern class FSceneViewFamilyContext extends FSceneViewFamily {
 
   @:uname(".ctor")
-  public static function createStruct(CVS:FSceneViewFamily_ConstructionValues) : FSceneViewFamilyContext;
+  public static function create(CVS:FSceneViewFamily_ConstructionValues) : FSceneViewFamilyContext;
 
 }
