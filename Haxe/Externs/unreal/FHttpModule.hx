@@ -9,4 +9,6 @@ package unreal;
 
   @:thisConst
   function IsHttpEnabled() : Bool;
+
+  function GetHttpManager() : PRef<FHttpManager>;
 }
