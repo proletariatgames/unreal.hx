@@ -417,7 +417,7 @@ class ExternBaker {
     this.thisConv = TypeConv.get(type,c.pos); // FIXME? ,'unreal.PExternal');
 
     switch(this.thisConv.data) {
-    case CStruct(_,_,params):
+    case CStruct(_,_,_,params):
       if (params != null && params.length > 0) {
         processTemplatedClass(this.thisConv, c);
       }

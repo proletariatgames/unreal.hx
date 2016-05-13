@@ -291,7 +291,7 @@ struct TypeParamGlue<TWeakObjectPtr<T>, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxe(TWeakObjectPtr<T> ue) {
-    return TypeParamGlue<T*>::ueToHaxe( (T*) ue );
+    return TypeParamGlue<T*>::ueToHaxe( (T*) ue.Get() );
   }
 };
 template<typename T>
@@ -301,7 +301,7 @@ struct TypeParamGluePtr<TWeakObjectPtr<T>, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(TWeakObjectPtr<T>& ue) {
-    return TypeParamGlue<T*>::ueToHaxe( (T*) ue );
+    return TypeParamGlue<T*>::ueToHaxe( (T*) ue.Get() );
   }
 };
 
@@ -312,7 +312,7 @@ struct TypeParamGlue<TAutoWeakObjectPtr<T>, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxe(TAutoWeakObjectPtr<T> ue) {
-    return TypeParamGlue<T*>::ueToHaxe( (T*) ue );
+    return TypeParamGlue<T*>::ueToHaxe( (T*) ue.Get() );
   }
 };
 template<typename T>
@@ -322,7 +322,7 @@ struct TypeParamGluePtr<TAutoWeakObjectPtr<T>, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(TAutoWeakObjectPtr<T>& ue) {
-    return TypeParamGlue<T*>::ueToHaxe( (T*) ue );
+    return TypeParamGlue<T*>::ueToHaxe( (T*) ue.Get() );
   }
 };
 
