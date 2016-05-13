@@ -53,14 +53,14 @@ class UEnumBuild
         }
       };
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
-      expose.name = uname;
+      expose.name = uname + '_GetArray';
       expose.pack = ['uhx','enums'];
       Globals.cur.hasUnprocessedTypes = true;
       Context.defineType(expose);
 
       var writer = new HeaderWriter(headerPath);
       writer.include('uhx/EnumGlue.h');
-      writer.include('uhx/enums/${uname}.h');
+      writer.include('uhx/enums/${uname}_GetArray.h');
       writer.include('unreal/helpers/HxcppRuntime.h');
       writer.include('$uname.generated.h');
 
@@ -103,7 +103,7 @@ class UEnumBuild
         << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {\n'
           << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
         << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
-          << '\t\tstatic unreal::UIntPtr array = uhx::enums::$uname::getArray();\n'
+          << '\t\tstatic unreal::UIntPtr array = uhx::enums::${uname}_GetArray::getArray();\n'
           << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
           << '};\n';
       writer.buf << '}';

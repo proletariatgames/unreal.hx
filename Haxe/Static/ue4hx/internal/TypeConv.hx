@@ -394,11 +394,7 @@ class TypeConv {
         if (type == OInterface) {
           expr = 'cast $expr';
         }
-        if (flags.hasAny(OByRef)) {
-          'unreal.helpers.HaxeHelpers.getUObjectByRef($expr)';
-        } else {
-          'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
-        }
+        'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(EAbstract, info):
@@ -439,9 +435,6 @@ class TypeConv {
         }
 
       case CUObject(type, flags, info):
-        // if (flags.hasAny(OByRef)) {
-        //   expr = 'unreal.helpers.deref($expr)';
-        // }
         // OExternal, OInterface, OHaxe, OScriptHaxe
         '( cast unreal.UObject.wrap($expr) : ${this.haxeType} )';
 
@@ -484,15 +477,12 @@ class TypeConv {
         }
 
       case CUObject(type, flags, info):
-        var extra = flags.hasAny(OByRef) ? '*' : '';
         // OExternal, OInterface, OHaxe, OScriptHaxe
-        var ret = '( (${info.ueType.getCppType()} *$extra) $expr )';
+        var ret = '( (${info.ueType.getCppType()} *) $expr )';
         if (type == OInterface) {
           ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
         } else if (type == OSubclassOf) {
           ret = '( (${ueType.getCppType()}) (UClass *) $expr )';
-        }
-        if (flags.hasAny(OByRef)) {
         }
         if (flags.hasAny(OWeak | OAutoWeak)) {
           ret = '( (${ueType.getCppType()}) $ret )';
@@ -755,9 +745,9 @@ class TypeConv {
               var markerIdx = ctx.modf.indexOf(Marker);
               if (markerIdx >= 0 && ctx.modf.indexOf(Ref) > markerIdx) {
                 Context.warning('Unreal Glue: PRef<> ignored because it is inside a TSubclassOf / TWeakObjectPtr', pos);
-              } else if (markerIdx < 0 && ctx.modf.has(Ref) && ctx.modf.has(Ptr)) {
-                ctx.accFlags |= OByRef;
-                ret = CUObject(type, flags | OByRef, info);
+              } else if (markerIdx < 0 && ctx.modf.has(Ptr) && !inTypeParam) {
+                // TODO add Ptr suggestion once it's ready
+                throw new Error('Unreal Glue: PPtr of UObjects is not supported', pos);
               }
             case _:
             }
@@ -1249,7 +1239,6 @@ enum TypeConvData {
   var ONone = 0;
   var OWeak = 1;
   var OAutoWeak = 3;
-  var OByRef = 4;
 
   inline private function t() {
     return this;

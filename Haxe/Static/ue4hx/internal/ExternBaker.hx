@@ -312,7 +312,7 @@ class ExternBaker {
         this.processField(impl, generic.isStatic, specialization, methods);
         var args = [];
         if (!generic.isStatic)
-          args.push('this');
+          args.push(impl.meta.has(':impl') ? 'this1' : 'this');
         for (arg in methods[nextIndex].args)
           args.push(arg.name);
         if (methods[nextIndex].meta == null) methods[nextIndex].meta = [];

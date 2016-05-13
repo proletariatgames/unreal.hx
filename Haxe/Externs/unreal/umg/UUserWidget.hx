@@ -248,15 +248,6 @@ package unreal.umg;
   public function OnMouseButtonDoubleClick(InMyGeometry : unreal.slatecore.FGeometry, InMouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
 
   /**
-    Called when Slate detects that a widget started to be dragged.
-
-    @param  InMyGeometry  Widget geometry
-    @param  PointerEvent  MouseMove that triggered the drag
-    @param  Operation     The drag operation that was detected.
-  **/
-  public function OnDragDetected(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>, Operation : unreal.PRef<unreal.PPtr<unreal.umg.UDragDropOperation>>) : Void;
-
-  /**
     Called when the user cancels the drag operation, typically when they simply release the mouse button after
     beginning a drag operation, but failing to complete the drag.
 
