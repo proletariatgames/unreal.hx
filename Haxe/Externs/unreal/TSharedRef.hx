@@ -20,4 +20,6 @@ package unreal;
    * @return  True if there is only one shared reference to the object, and this is it!
    */
   public function IsUnique():Bool;
+
+  @:expr(return this != null) public function IsValid():Bool;
 }

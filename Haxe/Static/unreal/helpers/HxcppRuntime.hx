@@ -108,6 +108,26 @@ import unreal.Wrapper;
     return ret;
   }
 
+  public static function createAlignedInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
+    var ret = VariantPtr.fromDynamic( AlignedInlinePodWrapper.create(size, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
+  }
+
+  public static function createAlignedInlineWrapper(size:Int, info:UIntPtr) : VariantPtr {
+    var ret = VariantPtr.fromDynamic( AlignedInlineWrapper.create(size, info) );
+#if debug
+    if (ret.raw & 1 == 1) {
+      throw 'Assertion failed: Hxcpp allocated unaligned structure';
+    }
+#end
+    return ret;
+  }
+
   public static function createInlineTemplateWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlineTemplateWrapper.create(size, info) );
 #if debug

@@ -21,7 +21,9 @@ package unreal;
    *
    * @return  True if the shared pointer is valid and can be dereferenced
    */
-  public function IsValid():Bool;
+  @:expr(return this != null && pvtIsValid()) public function IsValid():Bool;
+
+  @:uname("IsValid") private function pvtIsValid():Bool;
 
   /**
    * Resets this shared pointer, removing a reference to the object.  If there are no other shared

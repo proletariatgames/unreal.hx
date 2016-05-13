@@ -5,11 +5,43 @@
 #include "uhx/StructInfo.h"
 #include "uhx/StructInfo_UE.h"
 #include "unreal/helpers/HxcppRuntime.h"
+#include "HAL/Platform.h"
 #include <utility>
 
 namespace uhx {
 
-template<class T, bool isPod = TIsPODType<T>::Value>
+enum StructKind {
+  SKNormal,
+  SKPOD,
+  SKAlignedPOD
+};
+
+template<class T>
+struct TStructKind { enum { Value = TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal }; };
+
+}
+
+
+#define SET_ALIGNED(decl, name) \
+  decl name; \
+  namespace uhx { template<> struct TStructKind<name> { enum { Value = uhx::SKAlignedPOD }; }; }
+
+SET_ALIGNED(MS_ALIGN(16) struct, FFourBox);
+SET_ALIGNED(MS_ALIGN(16) struct, FSkinMatrix3x4);
+SET_ALIGNED(MS_ALIGN(16) struct, FPlane);
+SET_ALIGNED(MS_ALIGN(16) struct, FQuat);
+SET_ALIGNED(MS_ALIGN(16) struct, FTransform);
+SET_ALIGNED(MS_ALIGN(16) struct, FMatrix);
+SET_ALIGNED(MS_ALIGN(16) struct, FVector4);
+SET_ALIGNED(MS_ALIGN(16) struct, FPerElementConstants);
+SET_ALIGNED(MS_ALIGN(16) struct, FPerFrameConstants);
+
+#undef SET_ALIGNED
+
+
+namespace uhx {
+
+template<class T, int kind = TStructKind<T>::Value>
 struct StructHelper {
   /**
    * Gets the actual pointer, given a VariantPtr
@@ -107,7 +139,7 @@ struct PointerOffset<true> {
 };
 
 template<typename T>
-struct StructHelper<T, false> {
+struct StructHelper<T, uhx::SKNormal> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
     return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<false>::getVariantOffset()));
   }
@@ -141,7 +173,7 @@ struct StructHelper<T, false> {
 };
 
 template<typename T>
-struct StructHelper<T, true> {
+struct StructHelper<T, uhx::SKPOD> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
     return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<true>::getVariantOffset()));
   }
@@ -171,6 +203,45 @@ struct StructHelper<T, true> {
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     // TODO - check inOrigin & 1 == 0
     return unreal::VariantPtr(inOrigin);
+  }
+};
+
+template<typename T>
+struct StructHelper<T, uhx::SKAlignedPOD> {
+  inline static T *getPointer(unreal::VariantPtr inPtr) {
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) ( align(inPtr.raw + PointerOffset<true>::getVariantOffset()) ));
+  }
+
+  inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    new(ptr) T(inOrigin);
+    return ret;
+  }
+
+  inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    new(ptr) T(inOrigin);
+    return ret;
+  }
+
+  template<typename... Args>
+  inline static unreal::VariantPtr create(Args... params) {
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    void *ptr = (void*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    new(ptr) T(params...);
+    return ret;
+  }
+
+  inline static unreal::VariantPtr fromPointer(T *inOrigin) {
+    // TODO - check inOrigin & 1 == 0
+    return unreal::VariantPtr(inOrigin);
+  }
+private:
+
+  inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
+    return ((ptr + 15) >> 4) << 4;
   }
 };
 

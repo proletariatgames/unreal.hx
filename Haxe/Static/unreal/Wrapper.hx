@@ -28,7 +28,7 @@ import unreal.helpers.StructInfo;
 #if UHX_EXTRA_DEBUG
 @:headerClassCode('
   inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    InlinePodWrapper_obj *result = new (extraSize) InlinePodWrapper_obj;
+    InlinePodWrapper_obj *result = new ( ((extraSize + 7) >> 3) << 3 ) InlinePodWrapper_obj;
     result->init();
     result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     return result;
@@ -37,7 +37,7 @@ import unreal.helpers.StructInfo;
 #else
 @:headerClassCode('
   inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    InlinePodWrapper_obj *result = new (extraSize) InlinePodWrapper_obj;
+    InlinePodWrapper_obj *result = new ( ((extraSize + 7) >> 3) << 3 ) InlinePodWrapper_obj;
     result->init();
     return result;
   }
@@ -67,6 +67,48 @@ import unreal.helpers.StructInfo;
 
   public static function getOffset():UIntPtr {
     return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlinePodWrapper_obj))');
+  }
+}
+
+/**
+  Represents a 16-bit aligned pure-old-data inline wrapper
+ **/
+#if UHX_EXTRA_DEBUG
+@:headerClassCode('
+  inline static hx::ObjectPtr< AlignedInlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    AlignedInlinePodWrapper_obj *result = new ( ((extraSize + 15) >> 4) << 4) ) AlignedInlinePodWrapper_obj;
+    result->init();
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    return result;
+  }
+')
+#else
+@:headerClassCode('
+  inline static hx::ObjectPtr< AlignedInlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    AlignedInlinePodWrapper_obj *result = new ( ((extraSize + 15) >> 4) << 4 ) AlignedInlinePodWrapper_obj;
+    result->init();
+    return result;
+  }
+')
+#end
+@:keep class AlignedInlinePodWrapper extends InlinePodWrapper {
+
+  override public function getPointer():UIntPtr {
+    return untyped __cpp__(' (( (((unreal::UIntPtr) (this + 1)) + 15) >> 4) << 4)');
+  }
+
+  @:extern public static function create(extraSize:Int, info:UIntPtr):AlignedInlinePodWrapper { return null; }
+
+  override public function toString():String {
+#if UHX_EXTRA_DEBUG
+    return '[Aligned Inline POD Wrapper ($name) @ ${getPointer()}]';
+#else
+    return '[Aligned Unknown POD wrapper: ${getPointer()}]';
+#end
+  }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::AlignedInlinePodWrapper_obj))');
   }
 }
 
@@ -129,6 +171,22 @@ import unreal.helpers.StructInfo;
 
   public static function getOffset():UIntPtr {
     return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlineWrapper_obj))');
+  }
+}
+
+@:headerClassCode('
+  inline static hx::ObjectPtr< AlignedInlineWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    AlignedInlineWrapper_obj *result = new ( ((extraSize + 15) >> 4) << 4 ) AlignedInlineWrapper_obj;
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    result->init();
+    return result;
+  }
+')
+@:keep class AlignedInlineWrapper extends InlineWrapper {
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+
+  override public function getPointer():UIntPtr {
+    return untyped __cpp__(' (( (((unreal::UIntPtr) (this + 1)) + 15) >> 4) << 4)');
   }
 }
 
