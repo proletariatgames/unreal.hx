@@ -30,6 +30,11 @@ import cpp.ConstCharStar;
   public var size:UIntPtr;
 
   /**
+    The aligment of the type
+   **/
+  public var alignment:UIntPtr;
+
+  /**
    * Calls placement new on the target pointer. If the struct is a POD structure, or if it doesn't need
    * a constructor, this might be null
    **/

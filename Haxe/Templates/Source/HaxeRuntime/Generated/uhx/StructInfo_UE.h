@@ -5,6 +5,7 @@
 // uhx includes
 #include "IntPtr.h"
 #include "uhx/StructInfo.h"
+#include "uhx/TypeTraits.h"
 
 // unreal includes
 #include "Engine.h"
@@ -51,11 +52,17 @@ struct TStructData<T, true> {
       .name = TypeName<T>::Get(),
       .flags = UHX_POD,
       .size = (unreal::UIntPtr) sizeof(T),
+      .alignment = (unreal::UIntPtr) alignof(T),
       .destruct = nullptr,
+      .equals = uhx::TypeTraits::Check::TEqualsExists<T>::Value ? &doEquals : nullptr,
       .genericParams = nullptr,
       .genericImplementation = nullptr
     };
     return &info;
+  }
+
+  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+    return t1 == t2 || uhx::TypeTraits::Equals<T>::isEq( *((T*) t1), *((T*) t2) );
   }
 };
 
@@ -70,7 +77,9 @@ struct TStructData<T, false> {
       .name = TypeName<T>::Get(),
       .flags = UHX_None,
       .size = (unreal::UIntPtr) sizeof(T),
+      .alignment = (unreal::UIntPtr) alignof(T),
       .destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::doDestruct),
+      .equals = uhx::TypeTraits::Check::TEqualsExists<T>::Value ? &doEquals : nullptr,
       .genericParams = nullptr,
       .genericImplementation = nullptr
     };
@@ -79,6 +88,10 @@ struct TStructData<T, false> {
 private:
   static void doDestruct(unreal::UIntPtr ptr) {
     ((T*)ptr)->~T();
+  }
+
+  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+    return t1 == t2 || uhx::TypeTraits::Equals<T>::isEq( *((T*) t1), *((T*) t2) );
   }
 };
 

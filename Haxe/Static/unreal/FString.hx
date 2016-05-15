@@ -20,5 +20,12 @@ package unreal;
   public function toString():String {
     return this.op_Dereference();
   }
+
+  @:op(A==B) inline public function equals(other:FString) : Bool {
+    if (this == null)
+      return other == null;
+    else
+      return this.equals(other);
+  }
 #end
 }

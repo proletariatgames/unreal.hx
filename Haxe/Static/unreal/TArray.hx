@@ -79,8 +79,14 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function indexOf(obj:T) : Int {
+    var len = length;
+    if (len == 0) return -1;
+    var fst = get(0);
+    // if (fst == null || Std.is(fst, ) {
+    // } else {
+    // }
     for(i in 0...length) {
-      if (get(i).equals(obj)) {
+      if (get(i) == (obj)) {
         return i;
       }
     }

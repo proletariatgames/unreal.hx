@@ -31,7 +31,7 @@ import unreal.helpers.HaxeHelpers;
     if (this == null)
       return other == null;
     else
-      return CoreAPI.equals(this, other);
+      return this.equals(other);
   }
 #end
 }

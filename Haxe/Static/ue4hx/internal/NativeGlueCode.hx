@@ -60,6 +60,7 @@ class NativeGlueCode
     touch(gluePath, info.targetModule);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
     writer.include('uhx/StructInfo_UE.h');
+    writer.include('uhx/TypeTraits.h');
 
     var data = MacroHelpers.extractStrings(cl.meta, ':ueHeaderStart')[0];
     if (data != null) {

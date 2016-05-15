@@ -13,31 +13,13 @@ namespace uhx {
 enum StructKind {
   SKNormal,
   SKPOD,
-  SKAlignedPOD
+  SKAligned
 };
 
 template<class T>
-struct TStructKind { enum { Value = TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal }; };
+struct TStructKind { enum { Value = alignof(T) > sizeof(void*) ? uhx::SKAligned : (TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal) }; };
 
 }
-
-
-#define SET_ALIGNED(decl, name) \
-  decl name; \
-  namespace uhx { template<> struct TStructKind<name> { enum { Value = uhx::SKAlignedPOD }; }; }
-
-SET_ALIGNED(MS_ALIGN(16) struct, FFourBox);
-SET_ALIGNED(MS_ALIGN(16) struct, FSkinMatrix3x4);
-SET_ALIGNED(MS_ALIGN(16) struct, FPlane);
-SET_ALIGNED(MS_ALIGN(16) struct, FQuat);
-SET_ALIGNED(MS_ALIGN(16) struct, FTransform);
-SET_ALIGNED(MS_ALIGN(16) struct, FMatrix);
-SET_ALIGNED(MS_ALIGN(16) struct, FVector4);
-SET_ALIGNED(MS_ALIGN(16) struct, FPerElementConstants);
-SET_ALIGNED(MS_ALIGN(16) struct, FPerFrameConstants);
-
-#undef SET_ALIGNED
-
 
 namespace uhx {
 
@@ -207,29 +189,29 @@ struct StructHelper<T, uhx::SKPOD> {
 };
 
 template<typename T>
-struct StructHelper<T, uhx::SKAlignedPOD> {
+struct StructHelper<T, uhx::SKAligned> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) ( align(inPtr.raw + PointerOffset<true>::getVariantOffset()) ));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) ( align(inPtr.raw + getOffset()) ));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
-    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createAlignedInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    T *ptr = (T*) align(ret.raw + getOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
-    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createAlignedInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    T *ptr = (T*) align(ret.raw + getOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   template<typename... Args>
   inline static unreal::VariantPtr create(Args... params) {
-    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    void *ptr = (void*) align(ret.raw + PointerOffset<true>::getVariantOffset());
+    unreal::VariantPtr ret = unreal::helpers::HxcppRuntime::createAlignedInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
+    void *ptr = (void*) align(ret.raw + getOffset());
     new(ptr) T(params...);
     return ret;
   }
@@ -241,8 +223,14 @@ struct StructHelper<T, uhx::SKAlignedPOD> {
 private:
 
   inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
-    return ((ptr + 15) >> 4) << 4;
+    return (ptr + (alignof(T) - 1)) & (~(alignof(T) - 1));
   }
+
+  inline static unreal::UIntPtr getOffset() {
+    static unreal::IntPtr offset = unreal::helpers::HxcppRuntime::getInlineWrapperOffset();
+    return offset;
+  }
+
 };
 
 }

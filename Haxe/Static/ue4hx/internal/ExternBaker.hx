@@ -391,14 +391,19 @@ class ExternBaker {
     impl << '> const uhx::StructInfo *::uhx::TTemplatedData<' << cppType << '>::getInfo()' << new Begin('{')
           << 'static $glueName<';
     impl.foldJoin(c.params, function(param,buf) return buf << param.name);
-    impl << '> glue;' << new Newline()
-          << 'static uhx::StructInfo info = ' << new Begin('{')
+    impl << '> genericImplementation;' << new Newline();
+    impl << 'static const StructInfo * genericParams[${c.params.length + 1}] = { ';
+    impl.foldJoin(c.params, function(param,buf) return buf << 'uhx::TStructData< ' << param.name << ' >::getInfo()');
+    impl << ', nullptr };' << new Newline();
+    impl << 'static uhx::StructInfo info = ' << new Begin('{')
             << '.name = "' << tconv.ueType.name << '",' << new Newline()
             << '.flags = UHX_Templated,' << new Newline()
             << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
+            << '.alignment = (unreal::UIntPtr) alignof(' << cppType << '),' << new Newline()
             << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::doDestruct),' << new Newline()
-            << '.genericParams = nullptr,' << new Newline()
-            << '.genericImplementation = &glue' << new Newline()
+            << '.equals = nullptr,' << new Newline()
+            << '.genericParams = genericParams,' << new Newline()
+            << '.genericImplementation = &genericImplementation' << new Newline()
           << new End('};')
           << 'return &info;'
       << new End('}');

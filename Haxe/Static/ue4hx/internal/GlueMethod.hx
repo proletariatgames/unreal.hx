@@ -357,7 +357,9 @@ class GlueMethod {
         case '.equals':
           var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
-          'uhx::TypeTraits::isEq<${thisType.ueType.getCppType()}>';
+          if (this.meth.meta == null) this.meth.meta = [];
+          this.meth.meta.push({ name:':op', params:[macro A+B], pos:meth.pos});
+          'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
           this.op = '*';
           '(**(' + self.t.glueToUe(self.name, this.ctx) + '))';
