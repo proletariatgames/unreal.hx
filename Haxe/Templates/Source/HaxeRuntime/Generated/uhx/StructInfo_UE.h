@@ -79,14 +79,14 @@ struct TStructData<T, true> {
 
   FORCEINLINE static const StructInfo *getInfo() {
     static StructInfo info = {
-      .name = TypeName<T>::Get(),
-      .flags = UHX_POD,
-      .size = (unreal::UIntPtr) sizeof(T),
-      .alignment = (unreal::UIntPtr) alignof(T),
-      .destruct = nullptr,
-      .equals = (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
-      .genericParams = nullptr,
-      .genericImplementation = nullptr
+      /* .name = */ TypeName<T>::Get(),
+      /* .flags = */ UHX_POD,
+      /* .size = */ (unreal::UIntPtr) sizeof(T),
+      /* .alignment = */ (unreal::UIntPtr) alignof(T),
+      /* .destruct = */ nullptr,
+      /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
+      /* .genericParams = */ nullptr,
+      /* .genericImplementation = */ nullptr
     };
     return &info;
   }
@@ -104,14 +104,14 @@ struct TStructData<T, false> {
 
   FORCEINLINE static const StructInfo *getInfo() {
     static StructInfo info = {
-      .name = TypeName<T>::Get(),
-      .flags = UHX_None,
-      .size = (unreal::UIntPtr) sizeof(T),
-      .alignment = (unreal::UIntPtr) alignof(T),
-      .destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::destruct),
-      .equals = (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
-      .genericParams = nullptr,
-      .genericImplementation = nullptr
+      /* .name = */ TypeName<T>::Get(),
+      /* .flags = */ UHX_None,
+      /* .size = */ (unreal::UIntPtr) sizeof(T),
+      /* .alignment = */ (unreal::UIntPtr) alignof(T),
+      /* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::destruct),
+      /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
+      /* .genericParams = */ nullptr,
+      /* .genericImplementation = */ nullptr
     };
     return &info;
   }

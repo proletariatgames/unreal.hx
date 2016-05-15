@@ -396,14 +396,14 @@ class ExternBaker {
     impl.foldJoin(c.params, function(param,buf) return buf << 'uhx::TAnyData< ' << param.name << ' >::getInfo()');
     impl << ', nullptr };' << new Newline();
     impl << 'static uhx::StructInfo info = ' << new Begin('{')
-            << '.name = "' << tconv.ueType.name << '",' << new Newline()
-            << '.flags = UHX_Templated,' << new Newline()
-            << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
-            << '.alignment = (unreal::UIntPtr) alignof(' << cppType << '),' << new Newline()
-            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
-            << '.equals = nullptr,' << new Newline()
-            << '.genericParams = genericParams,' << new Newline()
-            << '.genericImplementation = &genericImplementation'
+            << '/* .name = */ "' << tconv.ueType.name << '",' << new Newline()
+            << '/* .flags = */ UHX_Templated,' << new Newline()
+            << '/* .size = */ (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
+            << '/* .alignment = */ (unreal::UIntPtr) alignof(' << cppType << '),' << new Newline()
+            << '/* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
+            << '/* .equals = */ nullptr,' << new Newline()
+            << '/* .genericParams = */ genericParams,' << new Newline()
+            << '/* .genericImplementation = */ &genericImplementation'
           << new End('};')
           << 'return &info;'
       << new End('}');
