@@ -25,7 +25,6 @@ template<typename T, bool hasEq = uhx::TypeTraits::Check::TEqualsExists<T>::Valu
 struct Equals {
   inline static bool isEq(T const& t1, T const& t2) {
     bool ret;
-    printf("%d : %d\n", TStructOpsTypeTraits<T>::WithIdentical, TStructOpsTypeTraits<T>::WithIdenticalViaEquality);
     IdenticalOrNot(&t1, &t2, 0, ret);
     return ret;
   }
@@ -41,7 +40,6 @@ struct Equals<T, true> {
 template<template<typename, typename...> class T, typename First, typename... Values> 
 struct Equals<T<First, Values...>, true> {
   inline static bool isEq(T<First, Values...> const& t1, T<First, Values...> const& t2) {
-    printf("not eq\n");
     return false; // don't check equals on type parameters
   }
 };
@@ -49,7 +47,6 @@ struct Equals<T<First, Values...>, true> {
 template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
 struct Equals<T<First, Mode>, true> {
   inline static bool isEq(T<First, Mode> const& t1, T<First, Mode> const& t2) {
-    printf("not eq\n");
     return false; // don't check equals on type parameters
   }
 };
