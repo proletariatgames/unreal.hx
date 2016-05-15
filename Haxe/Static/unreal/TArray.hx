@@ -2,6 +2,7 @@ package unreal;
 
 #if (!bake_externs && !macro)
 import unreal.helpers.HaxeHelpers;
+import unreal.helpers.StructInfo;
 using unreal.CoreAPI;
 #end
 
@@ -81,13 +82,51 @@ private typedef TArrayImpl<T> = Dynamic;
   public function indexOf(obj:T) : Int {
     var len = length;
     if (len == 0) return -1;
-    var fst = get(0);
-    // if (fst == null || Std.is(fst, ) {
-    // } else {
-    // }
-    for(i in 0...length) {
-      if (get(i) == (obj)) {
-        return i;
+
+    var normalCompare = obj == null || Std.is(obj, UObject);
+    if (!normalCompare) {
+      switch(Type.typeof(obj)) {
+      case TNull | TInt | TFloat | TBool | TEnum(_):
+        normalCompare = true;
+      case _:
+      }
+    }
+
+    var compare:cpp.Function<UIntPtr->UIntPtr->Bool, cpp.abi.Abi> = null,
+        size = 0;
+
+    if (!normalCompare) {
+      var thisInfo:cpp.Pointer<cpp.ConstPointer<StructInfo>> = cpp.ConstPointer.fromRaw((@:privateAccess this.getTemplateStruct()).info.ptr.genericParams).reinterpret();
+      if (thisInfo == null) {
+        normalCompare = true;
+      } else {
+        compare = cast thisInfo.at(0).ptr.equals;
+        size = cast thisInfo.at(0).ptr.size;
+        normalCompare = compare == untyped __cpp__('0');
+      }
+    }
+
+    if (normalCompare) {
+      for (i in 0...len) {
+        if (get(i) == obj) {
+          return i;
+        }
+      }
+    } else {
+      var vptr:VariantPtr = cast obj,
+          obj:UIntPtr = 0;
+      if (vptr.isObject()) {
+        obj = vptr.getDynamic().getPointer();
+      } else {
+        obj = vptr.getUIntPtr();
+      }
+
+      var data = this.GetData();
+      for(i in 0...len) {
+        if (compare.call(data, obj)) {
+          return i;
+        }
+        data += size;
       }
     }
     return -1;

@@ -47,9 +47,14 @@ import cpp.ConstCharStar;
   public var destruct:VoidPtr;
 
   /**
+   * Calls the operator equals for the target pointer type
+   **/
+  public var equals:VoidPtr;
+
+  /**
    * If the type is templated, will point to a null-terminated array where each element represents a StructInfo of its implementation
    **/
-  public var genericParams:cpp.RawConstPointer<StructInfo>;
+  public var genericParams:cpp.RawPointer<cpp.RawConstPointer<StructInfo>>;
 
   /**
    * If the type is templated, this will contain a pointer to a type that decodes the templated implementations through a series of virtual functions

@@ -1,4 +1,5 @@
 #pragma once
+enum class ESPMode;
 
 namespace uhx {
 namespace TypeTraits {
@@ -20,9 +21,14 @@ namespace Check {
   };
 }
 
-template<typename T, bool hasOp=uhx::TypeTraits::Check::TEqualsExists<T>::Value>
+template<typename T, bool hasEq = uhx::TypeTraits::Check::TEqualsExists<T>::Value>
 struct Equals {
-  inline static bool isEq(T const& t1, T const& t2);
+  inline static bool isEq(T const& t1, T const& t2) {
+    bool ret;
+    printf("%d : %d\n", TStructOpsTypeTraits<T>::WithIdentical, TStructOpsTypeTraits<T>::WithIdenticalViaEquality);
+    IdenticalOrNot(&t1, &t2, 0, ret);
+    return ret;
+  }
 };
 
 template<typename T>
@@ -32,10 +38,19 @@ struct Equals<T, true> {
   }
 };
 
-template<typename T>
-struct Equals<T, false> {
-  inline static bool isEq(T const& t1, T const& t2) {
-    return false;
+template<template<typename, typename...> class T, typename First, typename... Values> 
+struct Equals<T<First, Values...>, true> {
+  inline static bool isEq(T<First, Values...> const& t1, T<First, Values...> const& t2) {
+    printf("not eq\n");
+    return false; // don't check equals on type parameters
+  }
+};
+
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+struct Equals<T<First, Mode>, true> {
+  inline static bool isEq(T<First, Mode> const& t1, T<First, Mode> const& t2) {
+    printf("not eq\n");
+    return false; // don't check equals on type parameters
   }
 };
 

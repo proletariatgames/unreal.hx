@@ -379,10 +379,10 @@ class ExternBaker {
     decl << '>' << new Newline();
     decl << 'struct TTemplatedData<' << cppType << '>' << new Begin('{')
           << 'typedef TStructOpsTypeTraits<$cppType> TTraits;' << new Newline()
-          << 'inline static const StructInfo *getInfo();' << new Newline()
+          << 'FORCEINLINE static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
-          << 'static void doDestruct(unreal::UIntPtr ptr)' << new Begin('{')
-            << '((${cppType} *) ptr)->~${className}();' << new Newline()
+          << 'static void destruct(unreal::UIntPtr ptr)' << new Begin('{')
+            << 'uhx::TDestruct<' << cppType << '>::doDestruct(ptr);'
           << new End('}')
         << new End('};')
       << '}' << new Newline();
@@ -393,17 +393,17 @@ class ExternBaker {
     impl.foldJoin(c.params, function(param,buf) return buf << param.name);
     impl << '> genericImplementation;' << new Newline();
     impl << 'static const StructInfo * genericParams[${c.params.length + 1}] = { ';
-    impl.foldJoin(c.params, function(param,buf) return buf << 'uhx::TStructData< ' << param.name << ' >::getInfo()');
+    impl.foldJoin(c.params, function(param,buf) return buf << 'uhx::TAnyData< ' << param.name << ' >::getInfo()');
     impl << ', nullptr };' << new Newline();
     impl << 'static uhx::StructInfo info = ' << new Begin('{')
             << '.name = "' << tconv.ueType.name << '",' << new Newline()
             << '.flags = UHX_Templated,' << new Newline()
             << '.size = (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
             << '.alignment = (unreal::UIntPtr) alignof(' << cppType << '),' << new Newline()
-            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::doDestruct),' << new Newline()
+            << '.destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
             << '.equals = nullptr,' << new Newline()
             << '.genericParams = genericParams,' << new Newline()
-            << '.genericImplementation = &genericImplementation' << new Newline()
+            << '.genericImplementation = &genericImplementation'
           << new End('};')
           << 'return &info;'
       << new End('}');

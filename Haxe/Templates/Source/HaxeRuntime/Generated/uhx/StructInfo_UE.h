@@ -10,6 +10,10 @@
 // unreal includes
 #include "Engine.h"
 #include "UObject/Class.h"
+enum class ESPMode;
+template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
+template<class T> class TAutoWeakObjectPtr;
+template<class TClass> class TSubclassOf;
 
 namespace uhx {
 
@@ -18,7 +22,7 @@ namespace uhx {
 template<class T>
 struct TypeName
 {
-  inline static const char* Get()
+  FORCEINLINE static const char* Get()
   {
     // unfortunately we can't use this, because unreal compiles with -fno-rtti
     // return typeid(T).name();
@@ -27,7 +31,7 @@ struct TypeName
 };
 
 // a specialization for each type of those you want to support
-#define ENABLE_DEBUG_TYPENAME(A) namespace uhx { template<> struct TypeName<A> { inline static const char *Get() { return #A; }}; }
+#define ENABLE_DEBUG_TYPENAME(A) namespace uhx { template<> struct TypeName<A> { FORCEINLINE static const char *Get() { return #A; }}; }
 
 /**
  * General definition of TStructData, which allows getting a StructInfo type of each type
@@ -42,19 +46,45 @@ struct TTemplatedData {
   static const StructInfo *getInfo();
 };
 
+template<class T, bool isObject = TIsCastable<T>::Value>
+struct TAnyData {
+  FORCEINLINE static const StructInfo *getInfo();
+};
+
+template<class T, bool destructible = std::is_destructible<T>::value>
+struct TDestruct {
+  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr);
+};
+
+template<class T>
+struct TDestruct<T, true> {
+  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) { 
+    ((T*)ptr)->~T();
+  }
+};
+
+template<class T>
+struct TDestruct<T, false> {
+  FORCEINLINE static void doDestruct(unreal::UIntPtr ptr) { 
+    // we cannot destruct this type
+    check(false);
+  }
+};
+
 // POD types
 template<class T>
 struct TStructData<T, true> {
+  typedef TStructOpsTypeTraits<T> TTraits;
   typedef TStructData<T, true> TSelf;
 
-  inline static const StructInfo *getInfo() {
+  FORCEINLINE static const StructInfo *getInfo() {
     static StructInfo info = {
       .name = TypeName<T>::Get(),
       .flags = UHX_POD,
       .size = (unreal::UIntPtr) sizeof(T),
       .alignment = (unreal::UIntPtr) alignof(T),
       .destruct = nullptr,
-      .equals = uhx::TypeTraits::Check::TEqualsExists<T>::Value ? &doEquals : nullptr,
+      .equals = (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
       .genericParams = nullptr,
       .genericImplementation = nullptr
     };
@@ -72,27 +102,64 @@ struct TStructData<T, false> {
   typedef TStructOpsTypeTraits<T> TTraits;
   typedef TStructData<T, false> TSelf;
 
-  inline static const StructInfo *getInfo() {
+  FORCEINLINE static const StructInfo *getInfo() {
     static StructInfo info = {
       .name = TypeName<T>::Get(),
       .flags = UHX_None,
       .size = (unreal::UIntPtr) sizeof(T),
       .alignment = (unreal::UIntPtr) alignof(T),
-      .destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::doDestruct),
-      .equals = uhx::TypeTraits::Check::TEqualsExists<T>::Value ? &doEquals : nullptr,
+      .destruct = (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::destruct),
+      .equals = (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
       .genericParams = nullptr,
       .genericImplementation = nullptr
     };
     return &info;
   }
 private:
-  static void doDestruct(unreal::UIntPtr ptr) {
-    ((T*)ptr)->~T();
+
+  static void destruct(unreal::UIntPtr ptr) {
+    TDestruct<T>::doDestruct(ptr);
   }
 
   static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
     return t1 == t2 || uhx::TypeTraits::Equals<T>::isEq( *((T*) t1), *((T*) t2) );
   }
 };
+
+template<class T>
+struct TAnyData<T, true> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    return nullptr;
+  }
+};
+
+template<class T>
+struct TAnyData<TWeakObjectPtr<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
+template<class T>
+struct TAnyData<TAutoWeakObjectPtr<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
+template<class T>
+struct TAnyData<TSubclassOf<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
+
+template<template<typename, typename...> class T, typename First, typename... Values> 
+struct TAnyData<T<First, Values...>, false> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    return TTemplatedData<T<First, Values...>>::getInfo();
+  }
+};
+
+template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
+struct TAnyData<T<First, Mode>, false> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    return TTemplatedData<T<First, Mode>>::getInfo();
+  }
+};
+
+template<class T> 
+struct TAnyData<T, false> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    return TStructData<T>::getInfo();
+  }
+};
+
 
 }
