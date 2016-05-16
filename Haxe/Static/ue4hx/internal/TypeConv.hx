@@ -353,12 +353,6 @@ class TypeConv {
 
       if (params != null) {
         var ptr = inPointer;
-        if (!ptr && forwardDecls != null) {
-          if (info.ueType.name == 'TArray') {
-            ptr = true;
-          }
-        }
-
         for (param in params) {
           param.recurseUeIncludes(set, forwardDecls, cppSet, ptr);
         }
