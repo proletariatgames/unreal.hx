@@ -399,7 +399,7 @@ class ExternBaker {
             << '/* .name = */ "' << tconv.ueType.name << '",' << new Newline()
             << '/* .flags = */ UHX_Templated,' << new Newline()
             << '/* .size = */ (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
-            << '/* .alignment = */ (unreal::UIntPtr) alignof(' << cppType << '),' << new Newline()
+            << '/* .alignment = */ (unreal::UIntPtr) uhx::Alignment<' << cppType << '>::get(),' << new Newline()
             << '/* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
             << '/* .equals = */ nullptr,' << new Newline()
             << '/* .genericParams = */ genericParams,' << new Newline()

@@ -10,12 +10,39 @@
 // unreal includes
 #include "Engine.h"
 #include "UObject/Class.h"
+
+#ifdef _MSC_VER
+#define UHX_ALIGNOF(TYPE) _alignof(TYPE)
+#else
+#define UHX_ALIGNOF(TYPE) alignof(TYPE)
+#endif
+
 enum class ESPMode;
 template<class T, class TWeakObjectPtrBase> struct TWeakObjectPtr;
 template<class T> class TAutoWeakObjectPtr;
 template<class TClass> class TSubclassOf;
 
 namespace uhx {
+
+
+template<typename T, bool isAbstract = std::is_abstract<T>::value>
+struct Alignment {
+  inline static size_t get();
+};
+
+template<typename T>
+struct Alignment<T, true> {
+  inline static size_t get() {
+    return sizeof(void*);
+  }
+};
+
+template<typename T>
+struct Alignment<T, false> {
+  inline static size_t get() {
+    return UHX_ALIGNOF(T);
+  }
+};
 
 // default implementation of getting type names. Not very pretty on gcc, but still nice for debugging
 // use ENABLE_DEBUG_TYPENAME to add more readable implementations
@@ -51,7 +78,7 @@ struct TAnyData {
   FORCEINLINE static const StructInfo *getInfo();
 };
 
-template<class T, bool destructible = std::is_destructible<T>::value>
+template<class T, bool destructible = uhx::TypeTraits::Check::TDestructExists<T>::Value>
 struct TDestruct {
   FORCEINLINE static void doDestruct(unreal::UIntPtr ptr);
 };
@@ -82,7 +109,7 @@ struct TStructData<T, true> {
       /* .name = */ TypeName<T>::Get(),
       /* .flags = */ UHX_POD,
       /* .size = */ (unreal::UIntPtr) sizeof(T),
-      /* .alignment = */ (unreal::UIntPtr) alignof(T),
+      /* .alignment = */ (unreal::UIntPtr) Alignment<T>::get(),
       /* .destruct = */ nullptr,
       /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
@@ -92,7 +119,7 @@ struct TStructData<T, true> {
   }
 
   static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
-    return t1 == t2 || uhx::TypeTraits::Equals<T>::isEq( *((T*) t1), *((T*) t2) );
+    return t1 == t2 || uhx::TypeTraits::template Equals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };
 
@@ -107,7 +134,7 @@ struct TStructData<T, false> {
       /* .name = */ TypeName<T>::Get(),
       /* .flags = */ UHX_None,
       /* .size = */ (unreal::UIntPtr) sizeof(T),
-      /* .alignment = */ (unreal::UIntPtr) alignof(T),
+      /* .alignment = */ (unreal::UIntPtr) Alignment<T>::get(),
       /* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::destruct),
       /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
@@ -122,7 +149,7 @@ private:
   }
 
   static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
-    return t1 == t2 || uhx::TypeTraits::Equals<T>::isEq( *((T*) t1), *((T*) t2) );
+    return t1 == t2 || uhx::TypeTraits::template Equals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };
 

@@ -2,10 +2,15 @@
 #include <hxcpp.h>
 #include "IntPtr.h"
 #include "VariantPtr.h"
+
 #include "uhx/StructInfo.h"
 #include "uhx/StructInfo_UE.h"
 #include "unreal/helpers/HxcppRuntime.h"
+
+// #include "Containers/ContainerAllocationPolicies.h"
 #include "HAL/Platform.h"
+
+#include <type_traits>
 #include <utility>
 
 namespace uhx {
@@ -16,8 +21,14 @@ enum StructKind {
   SKAligned
 };
 
+template<class T, bool isAbstract = std::is_abstract<T>::value>
+struct TStructKind { enum { Value = uhx::SKNormal }; };
+
 template<class T>
-struct TStructKind { enum { Value = alignof(T) > sizeof(void*) ? uhx::SKAligned : (TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal) }; };
+struct TStructKind<T, true> { enum { Value = TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal }; };
+
+template<class T>
+struct TStructKind<T, false> { enum { Value = UHX_ALIGNOF(T) > sizeof(void*) ? uhx::SKAligned : (TIsPODType<T>::Value ? uhx::SKPOD : uhx::SKNormal) }; };
 
 }
 
@@ -223,7 +234,7 @@ struct StructHelper<T, uhx::SKAligned> {
 private:
 
   inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
-    return (ptr + (alignof(T) - 1)) & (~(alignof(T) - 1));
+    return (ptr + (UHX_ALIGNOF(T) - 1)) & (~(UHX_ALIGNOF(T) - 1));
   }
 
   inline static unreal::UIntPtr getOffset() {

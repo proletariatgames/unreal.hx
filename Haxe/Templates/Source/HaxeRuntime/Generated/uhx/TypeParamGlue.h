@@ -236,8 +236,8 @@ struct PtrMaker<TSubclassOf<T>> {
   }; \
   template<> struct PtrMaker< TYPE > { typedef PtrHelper_Stack< TYPE > Type; }; \
   template<> struct TypeParamGluePtr< TYPE > { \
-    inline static typename PtrMaker< TYPE >::Type haxeToUePtr(unreal::UIntPtr haxe) { \
-      return typename PtrMaker< TYPE >::Type(TypeParamGlue< TYPE , OtherType>::haxeToUe(haxe)); \
+    inline static PtrMaker< TYPE >::Type haxeToUePtr(unreal::UIntPtr haxe) { \
+      return PtrMaker< TYPE >::Type(TypeParamGlue< TYPE , OtherType>::haxeToUe(haxe)); \
     } \
     inline static unreal::UIntPtr ueToHaxeRef( TYPE & ue) { \
       return TypeParamGlue< TYPE , OtherType>::ueToHaxe(ue); \
