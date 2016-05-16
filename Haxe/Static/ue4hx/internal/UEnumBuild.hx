@@ -41,7 +41,8 @@ class UEnumBuild
           enumType.meta.add(':utargetmodule', [macro $v{target}], enumType.pos);
         }
       }
-      var headerPath = '$headerDir/Generated/Public/${uname.replace('.','/')}.h';
+      var path = '$headerDir/Generated/Public/${uname.replace('.','/')}';
+      var headerPath = '$path.h';
       if (!FileSystem.exists('$headerDir/Generated/Public')) {
         FileSystem.createDirectory('$headerDir/Generated/Public');
       }
@@ -58,7 +59,9 @@ class UEnumBuild
       Globals.cur.hasUnprocessedTypes = true;
       Context.defineType(expose);
 
-      var writer = new HeaderWriter(headerPath);
+      var writer = new HeaderWriter(headerPath),
+          cpp = new CppWriter('$headerDir/Generated/Private/${uname.replace('.','/'}.cpp');
+      cpp.include('${uname.replace('.','/')}.h');
       writer.include('uhx/EnumGlue.h');
       writer.include('uhx/enums/${uname}_GetArray.h');
       writer.include('unreal/helpers/HxcppRuntime.h');
@@ -98,18 +101,24 @@ class UEnumBuild
       }
 
       writer.buf.add('};\n');
-      writer.buf << 'namespace uhx {\n\n';
-      writer.buf << 'template<> struct EnumGlue<$uname> {\n'
-        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {\n'
-          << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
-        << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
-          << '\t\tstatic unreal::UIntPtr array = uhx::enums::${uname}_GetArray::getArray();\n'
-          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
-          << '};\n';
-      writer.buf << '}';
+      cpp.buf << 'namespace uhx {\n\n';
+      cpp.buf << 'template<> struct EnumGlue<$uname> {\n'
+        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe);\n'
+        << '\tstatic unreal::UIntPtr ueToHaxe($uname ue);\n'
+        << '};\n';
+      cpp.buf << '}\n\n'
+        << '$uname uhx::EnumGlue< $uname >::haxeToUe(unreal::UIntPtr haxe) {\n'
+          << '\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n'
+        << 'unreal::UIntPtr ueToHaxe($uname ue) {\n'
+          << '\tstatic unreal::UIntPtr array = uhx::enums::${uname}_GetArray::getArray();\n'
+          << '\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n';
 
       writer.close(Globals.cur.module);
+      cpp.close(Globals.cur.module);
 
+
+    // case TAbstract(a, params):
+    //   var atype = a.get();
     default:
       throw 'assert';
     }

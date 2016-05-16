@@ -810,7 +810,13 @@ class TypeConv {
             ret = null,
             info = getTypeInfo(a, pos);
         var structFlags = (a.meta.has(':typeName') ? STypeName : SNone);
-        if (a.meta.has(':uextern')) {
+        var hasUextern = a.meta.has(':uextern');
+        if (hasUextern && a.meta.has(':enum')) {
+          if (ctx.modf != null) {
+            Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+          }
+          ret = CEnum(EAbstract, info);
+        } else if (hasUextern) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
         } else if (a.meta.has(':ustruct')) {
           if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
@@ -818,11 +824,6 @@ class TypeConv {
           } else {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
           }
-        } else if (a.meta.has(':enum')) {
-          if (ctx.modf != null) {
-            Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
-          }
-          ret = CEnum(EAbstract, info);
         } else if (a.meta.has(':coreType')) {
           Context.warning('Unreal Glue: Basic type $name is not supported', pos);
         } else {

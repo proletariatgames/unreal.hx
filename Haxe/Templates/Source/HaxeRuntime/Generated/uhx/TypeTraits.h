@@ -5,41 +5,26 @@ namespace uhx {
 namespace TypeTraits {
 
 namespace Check {
-  // struct no { };
-
-  // struct AutoConv {
-  //   template<typename T> AutoConv(T const&);
-  // };
-
-  // no operator == (const AutoConv&, const AutoConv&);
-  //
-  // template <typename T>
-  // // *(T*)(0) can be replaced by *new T[1] also
-  // struct TEqualsExists
-  // {
-  //   enum { Value = !std::is_same<decltype(*(T*)(0) == *(T*)(0)), no>::value };
-  // };
-  //
-  // template<typename C> static auto Test(void*)
-  //   -> decltype(size_t(std::declval<C const
 
   template<typename U> static char eqTest(decltype( std::declval<U>() == std::declval<U>() ));
   template<typename U> static int eqTest(...);
-  template<typename T>
-  struct TEqualsExists {
-    enum { Value = sizeof(eqTest<T>(0)) == sizeof(char) };
-  };
 
   template<typename U> static char destructTest(decltype( ~(std::declval<U>()) ));
   template<typename U> static int destructTest(...);
-  template<typename T>
-  struct TDestructExists {
-    enum { Value = sizeof(destructTest<T>(0)) == sizeof(char) };
-  };
 
 }
 
-template<typename T, bool hasEq = uhx::TypeTraits::Check::TEqualsExists<T>::Value>
+template<typename T>
+struct TEqualsExists {
+  enum { Value = sizeof(::uhx::TypeTraits::Check::eqTest<T>(0)) == sizeof(char) };
+};
+
+template<typename T>
+struct TDestructExists {
+  enum { Value = sizeof(::uhx::TypeTraits::Check::destructTest<T>(0)) == sizeof(char) };
+};
+  
+template<typename T, bool hasEq = uhx::TypeTraits::TEqualsExists<T>::Value>
 struct Equals {
   inline static bool isEq(T const& t1, T const& t2) {
     bool ret;

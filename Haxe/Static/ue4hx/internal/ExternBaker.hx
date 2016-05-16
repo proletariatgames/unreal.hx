@@ -1005,13 +1005,15 @@ class ExternBaker {
     var data = new HelperBuf();
     data << 'namespace uhx {\n\n';
     data << 'template<> struct EnumGlue<$ueEnumType> {\n'
-      << '\tstatic $ueEnumType haxeToUe(unreal::UIntPtr haxe) {'
-        << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) );\n}\n\n'
-      << '\tstatic unreal::UIntPtr ueToHaxe($ueEnumType ue) {\n'
-        << '\t\tstatic unreal::UIntPtr array = unreal::helpers::HxcppRuntime::getEnumArray("$ueEnumType");\n'
-        << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue));\n}\n\n'
-        << '};\n';
-    data << '}';
+      << '\tstatic $ueEnumType haxeToUe(unreal::UIntPtr haxe);\n'
+      << '\tstatic unreal::UIntPtr ueToHaxe($ueEnumType ue);\n'
+      << '};\n';
+    data << '}\n\n';
+    data << '$ueEnumType uhx::EnumGlue< $ueEnumType >::haxeToUe(unreal::UIntPtr haxe) {\n'
+          << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) );\n}\n'
+        << 'unreal::UIntPtr uhx::EnumGlue< $ueEnumType >::ueToHaxe($ueEnumType ue) {\n'
+          << '\t\tstatic unreal::UIntPtr array = unreal::helpers::HxcppRuntime::getEnumArray("$ueEnumType");\n'
+          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue));\n}';
     fmt.addEscaped(data.toString());
     fmt << '")';
     this.add(fmt);

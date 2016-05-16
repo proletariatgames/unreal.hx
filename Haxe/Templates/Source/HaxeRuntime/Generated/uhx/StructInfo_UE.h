@@ -78,7 +78,7 @@ struct TAnyData {
   FORCEINLINE static const StructInfo *getInfo();
 };
 
-template<class T, bool destructible = uhx::TypeTraits::Check::TDestructExists<T>::Value>
+template<class T, bool destructible = uhx::TypeTraits::TDestructExists<T>::Value>
 struct TDestruct {
   FORCEINLINE static void doDestruct(unreal::UIntPtr ptr);
 };
@@ -98,6 +98,56 @@ struct TDestruct<T, false> {
   }
 };
 
+////// Equals
+enum EEqualKind {
+  CppEquals,
+  StructEquals,
+  NoEquals,
+};
+
+template<typename T>
+struct TEqualsKind { enum { Value = TStructOpsTypeTraits<T>::WithIdentical || TStructOpsTypeTraits<T>::WithIdenticalViaEquality ? uhx::StructEquals : uhx::NoEquals }; };
+
+#define SET_CPP_EQ(TYPE) \
+  template<> struct TEqualsKind<TYPE> { enum { Value = uhx::CppEquals }; }; 
+SET_CPP_EQ(FName);
+SET_CPP_EQ(FString);
+SET_CPP_EQ(FText);
+
+#undef SET_CPP_EQ
+
+/**
+ * A more conservative approach to equals functions - it only is available if unreal's `WithIdentical` or
+ * `WithIdenticalViaEquality` is defined
+ **/
+template<typename T, int kind = TEqualsKind<T>::Value>
+struct TUnrealEquals {
+  inline static bool isEq(T const& t1, T const& t2);
+};
+
+template<typename T>
+struct TUnrealEquals<T, uhx::StructEquals> {
+  inline static bool isEq(T const& t1, T const& t2) {
+    bool result = false;
+    IdenticalOrNot(&t1, &t2, 0, result);
+    return result;
+  }
+};
+
+template<typename T>
+struct TUnrealEquals<T, uhx::NoEquals> {
+  inline static bool isEq(T const& t1, T const& t2) {
+    return &t1 == &t2;
+  }
+};
+
+template<typename T>
+struct TUnrealEquals<T, uhx::CppEquals> {
+  inline static bool isEq(T const& t1, T const& t2) {
+    return uhx::TypeTraits::Equals<T>::isEq(t1,t2);
+  }
+};
+
 // POD types
 template<class T>
 struct TStructData<T, true> {
@@ -111,7 +161,7 @@ struct TStructData<T, true> {
       /* .size = */ (unreal::UIntPtr) sizeof(T),
       /* .alignment = */ (unreal::UIntPtr) Alignment<T>::get(),
       /* .destruct = */ nullptr,
-      /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
+      /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
       /* .genericImplementation = */ nullptr
     };
@@ -119,7 +169,7 @@ struct TStructData<T, true> {
   }
 
   static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
-    return t1 == t2 || uhx::TypeTraits::template Equals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
+    return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };
 
@@ -136,7 +186,7 @@ struct TStructData<T, false> {
       /* .size = */ (unreal::UIntPtr) sizeof(T),
       /* .alignment = */ (unreal::UIntPtr) Alignment<T>::get(),
       /* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<T>::value ? nullptr : &TSelf::destruct),
-      /* .equals = */ (TTraits::WithIdentical || TTraits::WithIdenticalViaEquality) ? &doEquals : nullptr,
+      /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
       /* .genericParams = */ nullptr,
       /* .genericImplementation = */ nullptr
     };
@@ -149,7 +199,7 @@ private:
   }
 
   static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
-    return t1 == t2 || uhx::TypeTraits::template Equals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
+    return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };
 

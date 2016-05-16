@@ -1,6 +1,6 @@
 package unreal;
 
-@:unrealType
+@:uextern
 @:enum abstract EClassFlags(Int) from Int to Int {
 
   /** @name Base flags */
