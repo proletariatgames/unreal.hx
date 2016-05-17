@@ -46,7 +46,8 @@ class UEnumBuild
         FileSystem.createDirectory('$headerDir/Generated/Public');
       }
 
-      var enumExpr = Context.parse(TypeRef.fromBaseType(enumType, enumType.pos).getClassPath(), enumType.pos);
+      var typeRef = TypeRef.fromBaseType(enumType, enumType.pos);
+      var enumExpr = Context.parse(typeRef.getClassPath(), enumType.pos);
       var expose = macro class {
         public static function getArray():unreal.UIntPtr {
           return unreal.helpers.HaxeHelpers.dynamicToPointer( std.Type.allEnums($enumExpr) );
