@@ -1018,6 +1018,7 @@ class ExternBaker {
     fmt << '")';
     this.add(fmt);
     this.newline();
+    this.add('@:ifFeature("${typeRef.getClassPath(true)}.*") ');
     this.add('class ${e.name}_EnumConv ');
     this.begin('{');
       this.add('public static var all = std.Type.allEnums(${this.typeRef});');

@@ -53,6 +53,7 @@ class UEnumBuild
         }
       };
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
+      expose.meta.push({ name:':ifFeature', params:[macro $v{typeRef.getClassPath(true) + '.*'}], pos:enumType.pos });
       expose.name = uname + '_GetArray';
       expose.pack = ['uhx','enums'];
       Globals.cur.hasUnprocessedTypes = true;
