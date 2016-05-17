@@ -1,6 +1,8 @@
 #pragma once
 #include "IntPtr.h"
+#ifndef HXCPP_H
 #include <hxcpp.h>
+#endif
 typedef unreal::UIntPtr (*HaxeWrap)(unreal::UIntPtr);
 
 namespace unreal {

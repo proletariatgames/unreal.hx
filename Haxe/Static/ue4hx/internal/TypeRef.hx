@@ -322,12 +322,17 @@ class TypeRef
     if (buf == null)
       buf = new StringBuf();
 
+    var handledConst = false;
     // TODO implement more complex const handling, since C++ const is a bear
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppType(buf, ignoreConst);
       buf.add(' *');
     case [ ['cpp'], 'Reference' ]:
+      if (!ignoreConst && flags.hasAny(Const) && !params[0].isPointer()) {
+        handledConst = true;
+        buf.add('const ');
+      }
       params[0].getCppType(buf, ignoreConst);
       buf.add('&');
     case [ ['cpp'], 'ConstCharStar' ]:
@@ -337,6 +342,10 @@ class TypeRef
     case [ [], 'Bool' | 'bool' ]:
       buf.add('bool');
     case _:
+      if (!ignoreConst && flags.hasAny(Const)) {
+        handledConst = true;
+        buf.add('const ');
+      }
       buf.add(this.pack.join('::'));
       if (this.pack.length > 0)
         buf.add('::');
@@ -353,7 +362,7 @@ class TypeRef
       }
     }
 
-    if (!ignoreConst && flags.hasAny(Const)) {
+    if (!handledConst && !ignoreConst && flags.hasAny(Const)) {
       buf.add(' const');
     }
     return buf;

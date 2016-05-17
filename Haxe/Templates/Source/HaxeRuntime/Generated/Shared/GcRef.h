@@ -1,5 +1,7 @@
 #pragma once
+#ifndef HXCPP_H
 #include <hxcpp.h>
+#endif
 #include <unreal/helpers/GcRefStatic.h>
 #include "IntPtr.h"
 

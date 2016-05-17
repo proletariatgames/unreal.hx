@@ -51,13 +51,17 @@ class BaseWriter {
     var incs = [ for (inc in this.includes) inc ];
     incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return 0);
     for (inc in incs) {
-      inc = inc.replace('\\','/');
-      buf.add('#include ');
-      if (inc.startsWith('\"') || inc.startsWith('<'))
-        buf.add(inc);
-      else
-        buf.add('"$inc"');
-      buf.add('\n');
+      if (inc == 'hxcpp.h' || inc == '<hxcpp.h>') {
+        buf.add('#ifndef HXCPP_H\n#include <hxcpp.h>\n#endif\n');
+      } else {
+        inc = inc.replace('\\','/');
+        buf.add('#include ');
+        if (inc.startsWith('\"') || inc.startsWith('<'))
+          buf.add(inc);
+        else
+          buf.add('"$inc"');
+        buf.add('\n');
+      }
     }
   }
 

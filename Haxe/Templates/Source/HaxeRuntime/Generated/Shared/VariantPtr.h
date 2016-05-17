@@ -3,7 +3,9 @@
 #include "IntPtr.h"
 
 #ifndef __UNREAL__
+#ifndef HXCPP_H
 #include <hxcpp.h>
+#endif
 #include <cpp/Pointer.h>
 // #include <hx/LessThanEq.h>
 #endif
