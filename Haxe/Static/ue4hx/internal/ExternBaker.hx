@@ -1053,6 +1053,7 @@ class ExternBaker {
       escapeString('\n\t' +ueToHaxe.toString() + '\n}', this.buf);
       this.add('")');
       this.newline();
+      this.add('@:ifFeature("${typeRef.getClassPath(true)}.*") ');
       this.add('public static function ueToHaxe(value:Int):Int');
       this.begin(' {');
         this.add('return ${this.glueType}.ueToHaxe(value);');
@@ -1065,6 +1066,7 @@ class ExternBaker {
       escapeString('\n\t' +haxeToUe.toString() + '\n}', this.buf);
       this.add('")');
       this.newline();
+      this.add('@:ifFeature("${typeRef.getClassPath(true)}.*") ');
       this.add('public static function haxeToUe(value:Int):Int');
       this.begin(' {');
         this.add('return ${this.glueType}.haxeToUe(value);');
