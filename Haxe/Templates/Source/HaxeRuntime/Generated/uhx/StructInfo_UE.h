@@ -68,6 +68,15 @@ struct TStructData {
   static const StructInfo *getInfo();
 };
 
+/**
+ * The same as TStructData, however does not implement some troublesome features like `destruct`, which
+ * can't be conditionally compiled (see the note on TypeTraits::TDestructExists
+ **/
+template<class T, bool isPod = TIsPODType<T>::Value>
+struct TSimpleStructData {
+  static const StructInfo *getInfo();
+};
+
 template<class T>
 struct TTemplatedData {
   static const StructInfo *getInfo();
@@ -210,6 +219,37 @@ struct TAnyData<T, true> {
   }
 };
 
+// POD types
+template<class T>
+struct TSimpleStructData<T, true> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    return TStructData<T, true>::getInfo();
+  }
+};
+
+// Normal types
+template<class T>
+struct TSimpleStructData<T, false> {
+  FORCEINLINE static const StructInfo *getInfo() {
+    static StructInfo info = {
+      /* .name = */ TypeName<T>::Get(),
+      /* .flags = */ UHX_None,
+      /* .size = */ (unreal::UIntPtr) sizeof(T),
+      /* .alignment = */ (unreal::UIntPtr) Alignment<T>::get(),
+      /* .destruct = */ nullptr,
+      /* .equals = */ (uhx::TEqualsKind<T>::Value != uhx::NoEquals) ? &doEquals : nullptr,
+      /* .genericParams = */ nullptr,
+      /* .genericImplementation = */ nullptr
+    };
+    return &info;
+  }
+private:
+
+  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+    return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
+  }
+};
+
 template<class T>
 struct TAnyData<TWeakObjectPtr<T>, false> { FORCEINLINE static const StructInfo *getInfo() { return nullptr; } };
 template<class T>
@@ -234,7 +274,7 @@ struct TAnyData<T<First, Mode>, false> {
 template<class T> 
 struct TAnyData<T, false> {
   FORCEINLINE static const StructInfo *getInfo() {
-    return TStructData<T>::getInfo();
+    return TSimpleStructData<T>::getInfo();
   }
 };
 

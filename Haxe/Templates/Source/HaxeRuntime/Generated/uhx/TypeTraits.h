@@ -20,6 +20,10 @@ struct TEqualsExists {
   enum { Value = sizeof(::uhx::TypeTraits::Check::eqTest<T>(0)) == sizeof(char) };
 };
 
+/**
+ * Returns true whether a destructor exists. Unfortunately MSVC has a bug which makes this return true even for types that
+ * cannot be accessed, like private destructors. See https://connect.microsoft.com/VisualStudio/feedback/details/811436/vc-is-destructible-doesnt-work
+ **/
 template<typename T>
 struct TDestructExists {
   enum { Value = sizeof(::uhx::TypeTraits::Check::destructTest<T>(0)) == sizeof(char) };
