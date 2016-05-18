@@ -43,6 +43,7 @@ class StructBuild {
     var fields:Array<Field> = exprToFields(expr);
 
     if (Globals.cur.inScriptPass) {
+      tdef.meta.add(':uscript', [], tdef.pos);
       for (field in fields) {
         if (field.kind.match(FFun(_))) {
           field.meta.push({ name:':live', pos:field.pos });
