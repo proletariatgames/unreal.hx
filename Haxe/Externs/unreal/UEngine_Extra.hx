@@ -23,6 +23,9 @@ extern class UEngine_Extra {
   @:uname("GEngine")
   @:global static var GEngine : UEngine;
 
+  @:uname("GWorld")
+  @:global static var GWorld : UWorldProxy;
+
   @:thisConst
   public function UseSound() : Bool;
 
