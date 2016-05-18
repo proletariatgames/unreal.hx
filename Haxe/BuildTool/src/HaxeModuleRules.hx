@@ -311,8 +311,8 @@ class HaxeModuleRules extends BaseModuleRules
           var isCrossCompiling = false;
           var extraArgs = null,
               oldEnvs = null;
-          switch(target.Platform) {
-          case Linux if (Sys.systemName() != "Linux"):
+          switch(Std.string(target.Platform)) {
+          case "Linux" if (Sys.systemName() != "Linux"):
             // cross compiling
             isCrossCompiling = true;
             var crossPath = Sys.getEnv("LINUX_ROOT");
