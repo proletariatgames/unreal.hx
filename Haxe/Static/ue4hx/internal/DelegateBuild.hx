@@ -262,6 +262,7 @@ class DelegateBuild {
     meta.push({ name:':bake_externs_name_hack', params:[macro $v{path.getClassPath().toString()}], pos:tdef.pos });
 #end
 
+    meta.push({ name:':keepInit', params:[], pos:pos });
     var ret = def.fields;
     def.name = ueType.name;
     def.meta = meta;

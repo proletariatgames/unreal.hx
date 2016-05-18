@@ -78,6 +78,7 @@ class StructBuild {
     }
 
 
+    tdef.meta.add(':keep', [], tdef.pos);
     var def = macro class {
     };
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );

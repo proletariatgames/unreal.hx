@@ -121,12 +121,6 @@ class Globals {
   public var uextensions:Lst<String>;
 
   /**
-    Tells which is the current feature being built. This is needed to add the needed dependencies
-    to DCE
-   **/
-  public var currentFeature:Null<String>;
-
-  /**
     All script glues to generate
    **/
   public var scriptGlues:Lst<String>;

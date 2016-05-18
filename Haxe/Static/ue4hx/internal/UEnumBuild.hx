@@ -16,6 +16,7 @@ class UEnumBuild
     switch (type) {
     case TEnum(enumType, params):
       var enumType = enumType.get();
+      enumType.meta.add(':keep', [], enumType.pos);
       if (enumType.meta.has(':uextern') || !enumType.meta.has(':uenum')) {
         return;
       }

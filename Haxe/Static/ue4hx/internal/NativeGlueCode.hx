@@ -186,13 +186,6 @@ class NativeGlueCode
           writer.buf.add('\n');
         }
       }
-      // trace(cl.name);
-      // trace('==========================================');
-      //   for (field in cl.statics.get().concat(cl.fields.get())) {
-      //     trace(field.name, field.meta.has(':extern'));
-      //     var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
-      //     trace(glueCppCode);
-      //   }
     }
 
     for (field in cl.statics.get().concat(cl.fields.get())) {
@@ -219,8 +212,8 @@ class NativeGlueCode
     var stampPath = '$stampOutput/$gluePath.stamp';
     var cppPath = info.getCppPath(gluePath, true);
 
-    if (!checkShouldGenerate(stampPath, cppPath, cl))
-      return;
+    // if (!checkShouldGenerate(stampPath, cppPath, cl))
+    //   return;
 
     var writer = new CppWriter(cppPath);
     writeCpp(cl, writer, gluePath, info);
@@ -286,6 +279,7 @@ class NativeGlueCode
   public function onAfterGenerate() {
     if (Globals.cur.haxeRuntimeDir == null) return;
     var cppTarget:String = haxe.macro.Compiler.getOutput();
+    var isDce = Context.definedValue('dce') == 'full';
     for (t in glueTypes) {
       var cl = t.get();
       var type = TypeRef.fromBaseType(cl, cl.pos);
@@ -294,6 +288,9 @@ class NativeGlueCode
       //   case TInst(c,_): c.get();
       //   case _: throw 'assert';
       // };
+      if (isDce && (cl.isExtern || (!cl.meta.has(':used') && !cl.meta.has(':directlyUsed')))) {
+        continue;
+      }
       if (cl.meta.has(':ueGluePath')) {
         writeGlueCpp(cl);
       }
@@ -349,7 +346,8 @@ class NativeGlueCode
     var touched:Map<String,TouchKind> = null;
     function recurse(path:String, packPath:String, ext:String, kind:TouchKind):Bool {
       var foundFile = false;
-      for (file in FileSystem.readDirectory(path)) {
+      var dir = FileSystem.readDirectory(path);
+      for (file in dir) {
         if (FileSystem.isDirectory('$path/$file')) {
           if ( !(packPath == '' && file == 'Data') ) {
             var found = recurse('$path/$file', '$packPath$file.', ext, kind);
@@ -404,8 +402,9 @@ class NativeGlueCode
           cl.meta.add(':alreadyCompiled',[],cl.pos);
         }
         if (cl.meta.has(':uexpose')) {
-          if (!cl.meta.has(':ifFeature'))
+          if (!cl.meta.has(':ifFeature')) {
             cl.meta.add(':keep', [], cl.pos);
+          }
           cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
         }

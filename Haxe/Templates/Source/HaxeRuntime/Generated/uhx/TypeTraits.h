@@ -9,7 +9,8 @@ namespace Check {
   template<typename U> static char eqTest(decltype( std::declval<U>() == std::declval<U>() ));
   template<typename U> static int eqTest(...);
 
-  template<typename U> static char destructTest(decltype( ~(std::declval<U>()) ));
+  // template<typename U> static char destructTest(decltype( (delete std::declval<U *>(), true) ));
+  template<typename U> static char destructTest(decltype( (std::declval<U *>()->~U(), true) ));
   template<typename U> static int destructTest(...);
 
 }

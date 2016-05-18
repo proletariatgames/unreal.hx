@@ -28,8 +28,6 @@ class DelayedGlue {
 
     var field = findField(cls, fieldName, isStatic || abs != null);
     if (field == null) throw 'assert';
-    var old = Globals.cur.currentFeature;
-    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
     var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
     if (Context.defined('cppia')) {
       var args = [];
@@ -83,7 +81,6 @@ class DelayedGlue {
       glueBlock.toString() +
       (isSetter ? glueExpr.toString() : tconv.glueToHaxe( glueExpr.toString(), ctx)) + '; }';
 
-    Globals.cur.currentFeature = old;
     var ret = Context.parse(expr, pos);
     if (cls.meta.has(':uscript')) {
       var toFlag = ret;
@@ -112,8 +109,6 @@ class DelayedGlue {
       }
       sup = scls.superClass;
     }
-    var old = Globals.cur.currentFeature;
-    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
     var superClass = cls.superClass;
     if (superClass == null)
@@ -177,7 +172,6 @@ class DelayedGlue {
     block.push(Context.parse(glueType.toString() + '.uhx_dummy_field()', pos));
     block.push(Context.parse(expr, pos));
 
-    Globals.cur.currentFeature = old;
     var ret = if (block.length == 1)
       block[0];
     else
@@ -192,8 +186,6 @@ class DelayedGlue {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
-    var old = Globals.cur.currentFeature;
-    Globals.cur.currentFeature = 'keep'; // these fields will always be kept
     if (Context.defined('cppia')) {
       var args = isStatic ? args : [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
@@ -257,7 +249,6 @@ class DelayedGlue {
     block.push(Context.parse(glueType.toString() + '.uhx_dummy_field()', pos));
     block.push(Context.parse(expr, pos));
 
-    Globals.cur.currentFeature = old;
     var ret = if (block.length == 1) {
       block[0];
     } else {
@@ -324,8 +315,6 @@ class DelayedGlue {
       var local = Context.getLocalType();
       // delay the actual processing for after the macro has finished
       Globals.cur.delays = Globals.cur.delays.add(function() {
-        var old = Globals.cur.currentFeature;
-        Globals.cur.currentFeature = 'keep'; // these fields will always be kept
 
         var cls = clsRef.get();
         // make sure all fields are built
@@ -349,7 +338,6 @@ class DelayedGlue {
         if (cls.meta.has(':uscript')) {
           Globals.cur.scriptGlues = Globals.cur.scriptGlues.add(type.getClassPath());
         }
-        Globals.cur.currentFeature = old;
       });
     }
 

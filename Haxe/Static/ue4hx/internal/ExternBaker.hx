@@ -266,6 +266,7 @@ class ExternBaker {
               impls.push(impl);
             }
           }
+          impls.sort(function(cf1, cf2) return Reflect.compare(cf1.name, cf2.name));
           generics.push({ isStatic:isStatic && !field.meta.has(':impl'), field: field, impls: impls });
         }
       }
@@ -280,7 +281,6 @@ class ExternBaker {
     this.add(caller.name);
     this.begin(' {');
 
-    var old = Globals.cur.currentFeature;
     var feat = typeRef.getClassPath(true);
     var methods = [];
     for (generic in generics) {
@@ -289,8 +289,6 @@ class ExternBaker {
       }
       // exclude the generic base field
       for (impl in generic.impls) {
-        Globals.cur.currentFeature = '$feat.${impl.name}';
-        // Globals.cur.currentFeature = 'keep';
         impl.meta.remove(':glueCppCode');
         impl.meta.remove(':glueHeaderCode');
         // poor man's version of mk_mono
@@ -323,7 +321,6 @@ class ExternBaker {
         impl.meta.add(':functionCode', [macro $v{'\t\t' + call}], impl.pos);
       }
     }
-    Globals.cur.currentFeature = old;
 
     for (meth in methods)
       this.processMethodDef(meth, false);

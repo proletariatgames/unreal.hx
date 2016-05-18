@@ -97,11 +97,9 @@ class CreateGlue {
           while (uextensions != null) {
             var uext = uextensions.value;
             uextensions = uextensions.next;
-            Globals.cur.currentFeature = 'keep';
             var type = Context.getType(uext);
             new UExtensionBuild().generate(type);
           }
-          Globals.cur.currentFeature = null;
 
           var glues = cur.gluesToGenerate;
           cur.gluesToGenerate = null;
