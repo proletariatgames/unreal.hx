@@ -18,7 +18,7 @@ class NativeGlueCode
 {
 
   private var glueTypes:Map<String, Ref<ClassType>>;
-  private var touchedModules:Map<String,Map<String, Bool>>;
+  private var touchedModules:Map<String,Map<String, TouchKind>>;
   private var modules:Map<String,Bool>;
   private var infos:Map<String,GlueInfo>;
 
@@ -44,11 +44,17 @@ class NativeGlueCode
     return ret;
   }
 
-  public function touch(file:String, ?module:String) {
+  public function touch(kind:TouchKind, file:String, ?module:String) {
     if (module == null) module = Globals.cur.module;
     var mod = this.touchedModules[module];
     if (mod == null) this.touchedModules[module] = mod = new Map();
-    mod[file] = true;
+    var ret = mod[file];
+    if (ret == null) {
+      ret = kind;
+    } else {
+      ret = ret | kind;
+    }
+    mod[file] = ret;
   }
 
   private function writeUEHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, info:GlueInfo) {
@@ -57,7 +63,7 @@ class NativeGlueCode
     var glueName = oldGlueName + "_UE";
     gluePath += "_UE";
 
-    touch(gluePath, info.targetModule);
+    touch(THeader, gluePath, info.targetModule);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
     writer.include('uhx/StructInfo_UE.h');
     writer.include('uhx/TypeTraits.h');
@@ -115,7 +121,7 @@ class NativeGlueCode
     var gluePack = gluePath.split('.'),
         glueName = gluePack.pop();
 
-    touch(gluePath, info.targetModule);
+    touch(THeader, gluePath, info.targetModule);
     var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
@@ -180,6 +186,13 @@ class NativeGlueCode
           writer.buf.add('\n');
         }
       }
+      // trace(cl.name);
+      // trace('==========================================');
+      //   for (field in cl.statics.get().concat(cl.fields.get())) {
+      //     trace(field.name, field.meta.has(':extern'));
+      //     var glueCppCode = MacroHelpers.extractStrings(field.meta, ':glueCppCode')[0];
+      //     trace(glueCppCode);
+      //   }
     }
 
     for (field in cl.statics.get().concat(cl.fields.get())) {
@@ -202,7 +215,7 @@ class NativeGlueCode
 
     var info = this.getInfo(cl);
     var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
-    this.touch(gluePath, info.targetModule);
+    this.touch(TCpp, gluePath, info.targetModule);
     var stampPath = '$stampOutput/$gluePath.stamp';
     var cppPath = info.getCppPath(gluePath, true);
 
@@ -234,7 +247,7 @@ class NativeGlueCode
   public function writeGlueHeader(cl:ClassType) {
     var gluePath = MacroHelpers.extractStrings(cl.meta, ':ueGluePath')[0];
     var info = this.getInfo(cl);
-    this.touch(gluePath, info.targetModule);
+    this.touch(THeader, gluePath, info.targetModule);
 
     var headerPath = info.getHeaderPath(gluePath,true);
     // C++ doesn't like Windows forward slashes
@@ -255,7 +268,7 @@ class NativeGlueCode
     var stampPath = '$stampOutput/$gluePath.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, headerPath, cl);
     if (cl.meta.has(':ueTemplate')) {
-      touch(gluePath + '_UE', info.targetModule);
+      touch(THeader, gluePath + '_UE', info.targetModule);
     }
 
     if (shouldGenerate) {
@@ -288,7 +301,7 @@ class NativeGlueCode
         var info = this.getInfo(cl);
         var runtimeDir = info.basePath;
         // copy the header to the generated folder
-        this.touch(cpath, info.targetModule);
+        this.touch(THeader, cpath, info.targetModule);
         var path = cpath.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
@@ -316,9 +329,9 @@ class NativeGlueCode
         var idx = dep.indexOf('@');
         if (idx >= 0) {
           var s = dep.split('@');
-          touch(s[0], s[1]);
+          touch(TAll, s[0], s[1]);
         } else {
-          touch(dep, module);
+          touch(TAll, dep, module);
         }
       }
     }
@@ -333,20 +346,23 @@ class NativeGlueCode
     mfile.close();
 
     // clean generated folder
-    var touched:Map<String,Bool> = null;
-    function recurse(path:String, packPath:String, ?ext:String):Bool {
+    var touched:Map<String,TouchKind> = null;
+    function recurse(path:String, packPath:String, ext:String, kind:TouchKind):Bool {
       var foundFile = false;
       for (file in FileSystem.readDirectory(path)) {
         if (FileSystem.isDirectory('$path/$file')) {
           if ( !(packPath == '' && file == 'Data') ) {
-            var found = recurse('$path/$file', '$packPath$file.');
+            var found = recurse('$path/$file', '$packPath$file.', ext, kind);
             foundFile = foundFile || found;
           }
-        } else if ( (ext != null && Path.extension(file) != ext) || !touched.exists(packPath + Path.withoutExtension(file))) {
-          trace('Deleting uneeded file $path/$file');
-          FileSystem.deleteFile('$path/$file');
         } else {
-          foundFile = true;
+          var ret = touched[packPath + Path.withoutExtension(file)];
+          if ( ret == null || !ret.hasAny(kind) || (ext != null && Path.extension(file) != ext) ) {
+            trace('Deleting uneeded file $path/$file');
+            FileSystem.deleteFile('$path/$file');
+          } else {
+            foundFile = true;
+          }
         }
       }
       if (!foundFile) {
@@ -359,8 +375,8 @@ class NativeGlueCode
     }
     for (key in this.touchedModules.keys()) {
       touched = this.touchedModules[key];
-      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Public', '', 'h');
-      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp');
+      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Public', '', 'h', THeader);
+      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp', TCpp);
     }
   }
 
@@ -422,10 +438,36 @@ class NativeGlueCode
         var et = e.get();
         if (et.meta.has(':uenum')) {
           var info = this.getInfo(et);
-          touch(info.uname.getClassPath(), info.targetModule);
+          touch(THeader, info.uname.getClassPath(), info.targetModule);
         }
       case _:
       }
     }
+  }
+}
+
+@:enum abstract TouchKind(Int) from Int {
+  var TCpp = 1;
+  var THeader = 2;
+  var TAll = 3;
+
+  inline private function t() {
+    return this;
+  }
+
+  @:op(A|B) inline public function add(f:TouchKind):TouchKind {
+    return this | f.t();
+  }
+
+  inline public function hasAll(flag:TouchKind):Bool {
+    return this & flag.t() == flag.t();
+  }
+
+  inline public function hasAny(flag:TouchKind):Bool {
+    return this & flag.t() != 0;
+  }
+
+  inline public function without(flags:TouchKind):TouchKind {
+    return this & ~(flags.t());
   }
 }
