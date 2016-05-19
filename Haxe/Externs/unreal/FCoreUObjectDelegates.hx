@@ -14,6 +14,8 @@ import unreal.*;
 
   // Called after garbage collection
   public static var PostGarbageCollect:FSimpleMulticastDelegate;
+
+  public static var PostLoadMap:FSimpleMulticastDelegate;
 }
 
 #if WITH_EDITOR
