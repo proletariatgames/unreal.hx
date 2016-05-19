@@ -1,5 +1,5 @@
 package unreal.umg;
 
-@:glueCppIncludes('Button.h')
+@:glueCppIncludes("UMG.h", "Components/ContentWidget.h", "Components/Button.h")
 @:uname('FOnButtonClickedEvent')
 typedef FOnButtonClickedEvent = DynamicMulticastDelegate<FOnButtonClickedEvent,Void->Void>;
