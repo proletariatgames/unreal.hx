@@ -22,4 +22,7 @@ extern class FStringAssetReference_Extra {
    * Check if this could possibly refer to a real object, or was initialized to NULL
    */
   @:thisConst function IsValid():Bool;
+
+  function ToString():FString;
+
 }

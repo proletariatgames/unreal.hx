@@ -90,8 +90,8 @@ class DelegateBuild {
         }
       } else {
         var dummy = macro class {
-          public function __Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("__Internal_BindDynamic", false, obj, fn, fnName);
+          @:uname("__Internal_BindDynamic") public function Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
+            $delayedglue.getNativeCall("Internal_BindDynamic", false, obj, fn, fnName);
           }
         }
         for (fld in dummy.fields) {
@@ -183,17 +183,17 @@ class DelegateBuild {
         }
       } else {
         var dummy = macro class {
-          public function __Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("__Internal_AddDynamic", false, obj, fn, fnName);
+          @:uname("__Internal_AddDynamic") public function Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
+            $delayedglue.getNativeCall("Internal_AddDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("__Internal_AddUniqueDynamic", false, obj, fn, fnName);
+          @:uname("__Internal_AddUniqueDynamic") public function Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
+            $delayedglue.getNativeCall("Internal_AddUniqueDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("__Internal_RemoveDynamic", false, obj, fn, fnName);
+          @:uname("__Internal_RemoveDynamic") public function Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
+            $delayedglue.getNativeCall("Internal_RemoveDynamic", false, obj, fn, fnName);
           }
-          public function __Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Bool {
-            return $delayedglue.getNativeCall("__Internal_IsAlreadyBound", false, obj, fn, fnName);
+          @:uname("__Internal_IsAlreadyBound") public function Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Bool {
+            return $delayedglue.getNativeCall("Internal_IsAlreadyBound", false, obj, fn, fnName);
           }
         }
 
@@ -262,6 +262,10 @@ class DelegateBuild {
     meta.push({ name:':bake_externs_name_hack', params:[macro $v{path.getClassPath().toString()}], pos:tdef.pos });
 #end
 
+    var supName = 'Base$type';
+    var fnArgs = tfun.toComplexType();
+    var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
+
     meta.push({ name:':keepInit', params:[], pos:pos });
     var ret = def.fields;
     def.name = ueType.name;
@@ -269,12 +273,10 @@ class DelegateBuild {
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
     def.pack = ['uhx','delegates'];
 #if bake_externs
+    meta.push({ name:':udelegate', params:[macro var _:$sup], pos:pos });
     def.kind = TDClass();
     def.isExtern = true;
 #else
-    var supName = 'Base$type';
-    var fnArgs = tfun.toComplexType();
-    var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
     def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
     Globals.cur.hasUnprocessedTypes = true;

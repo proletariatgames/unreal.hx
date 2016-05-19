@@ -102,6 +102,9 @@ extern class UObject_Extra {
   @:global public static function StaticDuplicateObject(sourceObject:UObject, destOuter:UObject, destName:TCharStar):UObject;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:typeName @:global public static function FindObject<T>(outer:UObject, name:TCharStar) : PPtr<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")

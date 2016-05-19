@@ -494,9 +494,6 @@ class ExternBaker {
     var params = params.toString();
 
     this.addMeta(meta);
-    if (!this.thisConv.data.match(CUObject(_))) {
-      this.add('@:forward ');
-    }
     if (!c.isInterface)
       this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.params.length > 0)
@@ -505,7 +502,8 @@ class ExternBaker {
       this.add('private ');
 
     var isAbstract = false,
-        isTemplateStruct = false;
+        isTemplateStruct = false,
+        superStruct = null;
     if (this.thisConv.data.match(CUObject(_))) {
       if (c.isInterface) {
         this.add('interface ');
@@ -523,17 +521,32 @@ class ExternBaker {
       }
     } else {
       isAbstract = true;
+      if (!this.thisConv.data.match(CUObject(_))) {
+        if (c.superClass == null) {
+          this.add('@:forward(dispose,isDisposed) ');
+        } else {
+          this.add('@:forward ');
+        }
+      }
       this.add('abstract ${c.name}$params(');
       if (c.superClass == null) {
-        if (c.params.length > 0) {
-          this.add('unreal.TemplateStruct) to unreal.TemplateStruct ');
-          isTemplateStruct = true;
-        } else {
-          this.add('unreal.Struct) ');
+        switch(c.meta.extract(':udelegate')[0]) {
+        case null:
+          if (c.params.length > 0) {
+            superStruct = new TypeRef(['unreal'], 'TemplateStruct');
+          } else {
+            superStruct = new TypeRef(['unreal'], 'Struct');
+          }
+        case { params: [macro var _:$t], pos:pos }:
+          superStruct = TypeRef.fromType( t.toType(), pos );
+        case e:
+          throw new Error('Bad @:udelegate format: $e', e.pos);
         }
+
+        this.add('$superStruct) to $superStruct ');
       } else {
-        var supRef = TInst(c.superClass.t, c.superClass.params).toString();
-        this.add('$supRef) ');
+        superStruct = TypeRef.fromType( TInst(c.superClass.t, c.superClass.params), c.pos );
+        this.add('$superStruct) ');
       }
       var sup = c.superClass;
       while(sup != null) {
