@@ -13,7 +13,7 @@ import sys.FileSystem;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
-@:cppFileCode("#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n")
+@:cppFileCode("#ifndef environ\n#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n#endif\n")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
