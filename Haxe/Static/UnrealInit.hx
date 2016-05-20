@@ -57,8 +57,8 @@ class UnrealInit
     var stamp = .0;
     var internalStamp = .0;
 
-#if WITH_CPPIA
     var disabled = false;
+#if WITH_CPPIA
     function loadCppia() {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
