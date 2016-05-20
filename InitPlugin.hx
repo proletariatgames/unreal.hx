@@ -119,6 +119,9 @@ class InitPlugin {
   }
 
   private static function handleModuleRules(gameDir:String, pluginPath:String, alsoCompile:Bool) {
+    if (!FileSystem.exists('$gameDir/Haxe')) {
+      FileSystem.createDirectory('$gameDir/Haxe');
+    }
     var allBuildFiles = [];
     gameDir = gameDir.replace('\\','/');
     pluginPath = pluginPath.replace('\\','/');
@@ -137,12 +140,12 @@ class InitPlugin {
       '-D real_position',
       '--macro Package.main("$gameDir/Source", [{ name:"HaxeInit", target:"$pluginPath/Source/HaxeInit/HaxeInit.Build.cs" }])'
     ];
-    sys.io.File.saveContent('$gameDir/Haxe/build-module-rules.hxml', args.join('\n'));
+    sys.io.File.saveContent('$gameDir/Haxe/gen-build-module-rules.hxml', args.join('\n'));
 
     if (alsoCompile) {
       // compile the Haxe build plugin
       trace("Building BuildTool...");
-      var cmd = Sys.command('haxe',['$gameDir/Haxe/build-module-rules.hxml']);
+      var cmd = Sys.command('haxe',['$gameDir/Haxe/gen-build-module-rules.hxml']);
       if (cmd != 0) throw "Haxe BuildTool compilation failed";
     }
   }
