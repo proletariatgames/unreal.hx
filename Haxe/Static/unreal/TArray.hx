@@ -118,7 +118,7 @@ private typedef TArrayImpl<T> = Dynamic;
       if (vptr.isObject()) {
         obj = vptr.getDynamic().getPointer();
       } else {
-        obj = vptr.getUIntPtr();
+        obj = vptr.getUIntPtr() - 1;
       }
 
       var data = this.GetData();
