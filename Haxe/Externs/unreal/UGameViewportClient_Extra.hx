@@ -9,4 +9,9 @@ package unreal;
 
   @:thisConst
   public function GetViewportSize( ViewportSize:FVector2D ) : Void;
+
+  /**
+    Controls suppression of the blue transition text messages
+   **/
+  public function SetSuppressTransitionMessage( suppress:Bool ) : Void;
 }

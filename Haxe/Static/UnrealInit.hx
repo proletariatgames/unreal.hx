@@ -58,6 +58,7 @@ class UnrealInit
     var internalStamp = .0;
 
 #if WITH_CPPIA
+    var disabled = false;
     function loadCppia() {
       trace('loading cppia');
       untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
@@ -91,21 +92,37 @@ class UnrealInit
     var timerDelegate = FTimerDelegate.create();
     timerDelegate.BindLambda(function() {
       if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
-        loadCppia();
+        if (!disabled) {
+          loadCppia();
+        }
       }
     });
 #end
 
     var hotReloadHandle = null,
-        onCompHandle = null;
+        onCompHandle = null,
+        onBeginCompHandle = null;
     var shouldCleanup = false;
+    function onBeginCompilation(_) {
+      trace('begin compilation');
+      disabled = true;
+    }
+
     // when we finish compiling, we check if we should invalidate the current module
     function onCompilation(_, result:ECompilationResult, _) {
       shouldCleanup = shouldCleanup || result == Succeeded;
-      if (shouldCleanup && onCompHandle != null) {
-        // invalidate our own handle - we won't need it anymore
-        IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
-        onCompHandle = null;
+      if (shouldCleanup) {
+        // invalidate our own handles - we won't need it anymore
+        if (onCompHandle != null) {
+          IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
+          onCompHandle = null;
+        }
+        if (onBeginCompHandle != null) {
+          IHotReloadModule.Get().OnModuleCompilerStarted().Remove(onBeginCompHandle);
+          onBeginCompHandle = null;
+        }
+      } else {
+        disabled = false;
       }
     }
 
@@ -136,6 +153,7 @@ class UnrealInit
 #end
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
       onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
+      onBeginCompHandle = IHotReloadModule.Get().OnModuleCompilerStarted().AddLambda(onBeginCompilation);
     }
 
     // add watcher to current editor

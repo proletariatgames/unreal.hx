@@ -8,6 +8,8 @@ extern class UEngine_Extra {
    */
   public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
 
+  public function GetFirstLocalPlayerController(world:UWorld):APlayerController;
+
   public function OnTravelFailure() : PRef<FOnTravelFailure>;
 
   public function OnNetworkFailure() : PRef<FOnNetworkFailure>;

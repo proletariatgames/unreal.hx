@@ -108,4 +108,6 @@ extern class AActor_Extra {
   @:thisConst
   public function GetReferencedContentObjects(Objects:PRef<TArray<UObject>>) : Bool;
   #end
+
+  function TeleportTo(destLocation:Const<PRef<FVector>>, destRotation:Const<PRef<FRotator>>, bIsATest:Bool /* = false */, bNoCheck:Bool /* = false */):Bool;
 }

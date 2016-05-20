@@ -1020,10 +1020,10 @@ class ExternBaker {
       << '};\n';
     data << '}\n\n';
     data << '$ueEnumType uhx::EnumGlue< $ueEnumType >::haxeToUe(unreal::UIntPtr haxe) {\n'
-          << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) );\n}\n'
+          << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) + 1 );\n}\n'
         << 'unreal::UIntPtr uhx::EnumGlue< $ueEnumType >::ueToHaxe($ueEnumType ue) {\n'
           << '\t\tstatic unreal::UIntPtr array = unreal::helpers::HxcppRuntime::getEnumArray("$ueEnumType");\n'
-          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue));\n}';
+          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue) - 1);\n}';
     fmt.addEscaped(data.toString());
     fmt << '")';
     this.add(fmt);
@@ -1031,9 +1031,9 @@ class ExternBaker {
     this.add('@:ifFeature("${typeRef.getClassPath(true)}.*") ');
     this.add('class ${e.name}_EnumConv ');
     this.begin('{');
-      this.add('public static var all = std.Type.allEnums(${this.typeRef});');
+      this.add('public static var all:Array<${e.name}>;');
       this.newline();
-      this.add('static function __init__() { unreal.helpers.EnumMap.set("$ueEnumType", all); }');
+      this.add('static function __init__() { unreal.helpers.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef})); }');
       this.newline();
       var ueCall = isClass ?
         uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :
