@@ -114,15 +114,11 @@ class CreateGlue {
               if (cl.meta.has(':ueHasGenerics')) {
                 new GenericFuncBuild().buildFunctions(c);
               }
-              nativeGlue.writeGlueHeader(cl);
             case TAbstract(a,_):
               var a = a.get();
               var cl = a.impl.get();
               if (a.meta.has(':ueHasGenerics')) {
                 new GenericFuncBuild().buildFunctions(a.impl);
-              }
-              if (cl.meta.has(':ueGluePath')) {
-                nativeGlue.writeGlueHeader(cl);
               }
             case _:
               throw 'assert';

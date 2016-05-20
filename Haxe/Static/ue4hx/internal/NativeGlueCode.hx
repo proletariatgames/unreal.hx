@@ -63,7 +63,7 @@ class NativeGlueCode
     var glueName = oldGlueName + "_UE";
     gluePath += "_UE";
 
-    touch(THeader, gluePath, info.targetModule);
+    // touch(THeader, gluePath, info.targetModule);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
     writer.include('uhx/StructInfo_UE.h');
     writer.include('uhx/TypeTraits.h');
@@ -121,7 +121,7 @@ class NativeGlueCode
     var gluePack = gluePath.split('.'),
         glueName = gluePack.pop();
 
-    touch(THeader, gluePath, info.targetModule);
+    // touch(THeader, gluePath, info.targetModule);
     var headerDefs = MacroHelpers.extractStrings(cl.meta, ':ueHeaderDef');
 
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
@@ -212,8 +212,8 @@ class NativeGlueCode
     var stampPath = '$stampOutput/$gluePath.stamp';
     var cppPath = info.getCppPath(gluePath, true);
 
-    // if (!checkShouldGenerate(stampPath, cppPath, cl))
-    //   return;
+    if (!checkShouldGenerate(stampPath, cppPath, cl))
+      return;
 
     var writer = new CppWriter(cppPath);
     writeCpp(cl, writer, gluePath, info);
@@ -401,6 +401,7 @@ class NativeGlueCode
         } else {
           cl.meta.add(':alreadyCompiled',[],cl.pos);
         }
+        var hadGlue = glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath());
         if (cl.meta.has(':uexpose')) {
           if (!cl.meta.has(':ifFeature')) {
             cl.meta.add(':keep', [], cl.pos);
@@ -408,7 +409,7 @@ class NativeGlueCode
           cl.meta.add(':nativeGen', [], cl.pos);
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
         }
-        if (cl.meta.has(':ueGluePath') && !glueTypes.exists(TypeRef.fromBaseType(cl, cl.pos).getClassPath()) ) {
+        if (cl.meta.has(':ueGluePath') && !hadGlue ) {
           glueTypes[ TypeRef.fromBaseType(cl, cl.pos).getClassPath() ] = c;
           writeGlueHeader(cl);
         }
