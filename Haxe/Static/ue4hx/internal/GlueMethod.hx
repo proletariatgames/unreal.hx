@@ -61,6 +61,13 @@ class GlueMethod {
       isTemplatedThis = thisRef.params.length > 0 && meth.specialization == null;
     }
     this.isTemplatedThis = isTemplatedThis;
+    if (this.meth.name == 'new') {
+      if (this.meth.meta.hasMeta(':uname')) {
+        this.meth.uname = '.ctor';
+      }
+      this.meth.ret = this.thisConv;
+    }
+
 
     this.process();
   }
@@ -542,7 +549,7 @@ class GlueMethod {
     } else {
       buf << 'public ';
     }
-    if (meth.flags.hasAny(Static)) {
+    if (meth.flags.hasAny(Static) && meth.name != 'new') {
       buf << 'static ';
     } else if (meth.flags.hasAny(HaxeOverride)) {
       buf << 'override ';

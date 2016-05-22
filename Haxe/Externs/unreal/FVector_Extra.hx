@@ -1,6 +1,8 @@
 package unreal;
 
 extern class FVector_Extra {
+  public function new(x:Float32, y:Float32, z:Float32);
+
   @:uname('.ctor') public static function createWithValues(x:Float32, y:Float32, z:Float32):FVector;
   @:uname('new') public static function createNewWithValues(x:Float32, y:Float32, z:Float32):POwnedPtr<FVector>;
 
@@ -49,4 +51,32 @@ extern class FVector_Extra {
   public static var RightVector (get,never) : Const<FVector>;
 
   public function HeadingAngle() : Float32;
+
+  public static function DotProduct(A:Const<PRef<FVector>>, B:Const<PRef<FVector>>):Float32;
+
+  @:op(A+B)
+  @:expr(return createWithValues(X + b.X, Y + b.Y, Z + b.Y))
+  public function _add(b:FVector):FVector;
+
+  @:op(A+=B)
+  @:expr(return FVectorUtils.addeq(cast this, b))
+  public function _addeq(b:FVector):FVector;
+
+  @:op(A*B)
+  @:expr(return createWithValues(X * b, Y * b, Z * b))
+  public function _mul(b:Float):FVector;
+
+  @:op(A*=B)
+  @:expr(return FVectorUtils.muleq(cast this, b))
+  public function _muleq(b:Float):FVector;
+
+  @:op(A-B)
+  @:expr(return createWithValues(X - b.X, Y - b.Y, Z - b.Y))
+  public function _sub(b:FVector):FVector;
+
+  @:op(A-=B)
+  @:expr(return FVectorUtils.subeq(cast this, b))
+  public function _subeq(b:FVector):FVector;
+
+  public function IsNearlyZero():Bool;
 }

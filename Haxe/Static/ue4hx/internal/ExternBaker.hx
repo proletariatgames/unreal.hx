@@ -431,7 +431,8 @@ class ExternBaker {
 
     this.addDoc(c.doc);
     var fields = c.fields.get(),
-        statics = c.statics.get();
+        statics = c.statics.get(),
+        ctor = c.constructor == null ? null : c.constructor.get();
     var meta = c.meta.get();
     // process the _Extra type if found
     var extraName = c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra';
@@ -441,6 +442,13 @@ class ExternBaker {
       case TInst(_.get() => ecl,_):
         var efields = ecl.fields.get();
         var estatics = ecl.statics.get();
+        var ector = ecl.constructor == null ? null : ecl.constructor.get();
+        if (ector != null) {
+          if (ctor != null) {
+            Context.warning('Unreal Extern Baker: The constructor already exists on ${c.name}', ector.pos);
+          }
+          ctor = ector;
+        }
         for (field in efields) {
           var oldField = fields.find(function(f) return f.name == field.name);
           if (oldField != null) {
@@ -576,6 +584,9 @@ class ExternBaker {
         // if a templated struct extends a non-templated struct, we need to expose this
         this.add('@:extern inline private function getTemplateStruct():unreal.Wrapper.TemplateWrapper { return @:privateAccess unreal.TemplateStruct.getTemplateStruct(this); }');
         this.newline();
+      }
+      if (ctor != null) {
+        processField(ctor,true, null, methods);
       }
       for (field in statics) {
         processField(field,true, null, methods);
@@ -830,6 +841,7 @@ class ExternBaker {
       switch(Context.follow(field.type)) {
       case TFun(args,ret) if (field.meta.has(':expr')):
         this.addDoc(field.doc);
+        this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));
         this.buf.add( field.isPublic ? 'public function ' : 'private function ' );
         this.buf.add(field.name);
         if (field.params.length > 0) {
@@ -884,7 +896,7 @@ class ExternBaker {
           specialization: specialization,
           pos: field.pos,
         });
-        if (uname == 'new' && specialization == null) {
+        if (uname == 'new' && field.name != 'new' && specialization == null) {
           // make sure that the return type is of type POwnedPtr
           var realT = getOwnedPtr(ret);
           if (realT == null) {
