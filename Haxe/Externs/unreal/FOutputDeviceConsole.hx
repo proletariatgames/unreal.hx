@@ -2,7 +2,7 @@ package unreal;
 
 import unreal.FOutputDevice;
 
-@:glueCppIncludes("Misc/OutputDeviceConsole.h")
+@:glueCppIncludes("Misc/OutputDeviceConsole.h", "CoreGlobals.h")
 @:noCopy
 @:noEquals
 @:uextern extern class FOutputDeviceConsole extends FOutputDevice {
