@@ -4,9 +4,10 @@ package unreal;
 @:noCopy
 @:noEquals
 @:uextern extern class FOutputDevice {
-
-  @:global
-  static var GLog(default, never) : PExternal<FOutputDevice>;
+  /**
+    Global logger, in cpp this is a macro for FOutputDeviceRedirector::Get()
+   **/
+  @:global static var GLog(default, never) : PExternal<FOutputDevice>;
 
   function Flush():Void;
 
