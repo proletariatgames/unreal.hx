@@ -114,7 +114,7 @@ class GlueMethod {
     if (isGlueStatic) {
       glueHeaderCode << 'static ';
     }
-    glueHeaderCode << '${this.glueRet.glueType.getCppType()} ${meth.name}(' << cppArgDecl + ')';
+    glueHeaderCode << '${this.glueRet.glueType.getCppType()} ${escapeGlue(meth.name)}(' << cppArgDecl + ')';
 
     var baseGlueHeaderCode = null;
     if (this.isTemplatedThis && !isStatic) {
@@ -170,7 +170,7 @@ class GlueMethod {
       glueHeaderCode << ';';
       glueCppCode <<
         this.glueRet.glueType.getCppType() <<
-        ' ${this.glueType.getCppType()}_obj::${meth.name}(' << cppArgDecl << ') {' <<
+        ' ${this.glueType.getCppType()}_obj::${escapeGlue(meth.name)}(' << cppArgDecl << ') {' <<
           '\n\t' << glueCppBodyVars << ';\n}';
     }
 
@@ -228,9 +228,9 @@ class GlueMethod {
       var body = null;
       var haxeBodyCall = if (this.isTemplatedThis && !isStatic) {
         body = 'var thisDataPointer:cpp.ConstPointer<${this.glueType}> =cpp.ConstPointer.fromRaw((@:privateAccess this.getTemplateStruct()).info.ptr.genericImplementation).reinterpret();';
-        'thisDataPointer.ptr.${meth.name}';
+        'thisDataPointer.ptr.${escapeGlue(meth.name)}';
       } else {
-        '${this.glueType}.${meth.name}';
+        '${this.glueType}.${escapeGlue(meth.name)}';
       };
 
       var haxeBody =
@@ -421,6 +421,10 @@ class GlueMethod {
     return ident;
   }
 
+  private static function escapeGlue(ident:String) {
+    return ident == 'new' ? 'glueNew' : ident;
+  }
+
   public function getFieldMeta(?includeExisting:Bool=false) {
     var meta = null;
     if (includeExisting && meth.meta != null) {
@@ -455,7 +459,7 @@ class GlueMethod {
         acc.push(AStatic);
 
       glue = {
-        name: meth.name,
+        name: escapeGlue(meth.name),
         access: acc,
         pos: meth.pos,
         kind: FFun({
@@ -472,7 +476,7 @@ class GlueMethod {
     } else {
       acc.push(APublic);
     }
-    if (meth.flags.hasAny(Static)) {
+    if (meth.flags.hasAny(Static) && meth.name != 'new') {
       acc.push(AStatic);
     } else if (meth.flags.hasAny(HaxeOverride)) {
       acc.push(AOverride);
@@ -539,7 +543,7 @@ class GlueMethod {
       var st = '';
       if (this.isGlueStatic)
         st = 'static';
-      glue.add('public $st function ${meth.name}(');
+      glue.add('public $st function ${escapeGlue(meth.name)}(');
       glue.add([ for (arg in this.glueArgs) escapeCpp(arg.name, this.isGlueStatic || this.isTemplatedThis) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
       glue.add('):' + this.glueRet.haxeGlueType + ';\n');
     }
