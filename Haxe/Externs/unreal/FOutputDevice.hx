@@ -4,9 +4,10 @@ package unreal;
 @:noCopy
 @:noEquals
 @:uextern extern class FOutputDevice {
-
-  @:global
-  static var GLog(default, never) : PExternal<FOutputDevice>;
+  /**
+    Global logger, in cpp this is a macro for FOutputDeviceRedirector::Get()
+   **/
+  @:global static var GLog(default, never) : PExternal<FOutputDevice>;
 
   function Flush():Void;
 
@@ -22,8 +23,10 @@ package unreal;
   @:thisConst function CanBeUsedOnAnyThread():Bool;
 
   function Log(str:TCharStar):Void;
-
   @:uname('Log') function LogWithVerbosity(verbosity:ELogVerbosity, str:TCharStar):Void;
-
   @:uname('Log') function LogWithCategory(category:Const<FName>, verbosity:ELogVerbosity, str:TCharStar):Void;
+
+  function Serialize(data:Const<unreal.TCharStar>, verbosity:ELogVerbosity, category:Const<PRef<FName>>):Void;
+  @:uname("Serialize") function SerializeWithTime(
+    data:Const<unreal.TCharStar>, verbosity:ELogVerbosity, category:Const<PRef<FName>>, time:Const<unreal.Float64>):Void;
 }
