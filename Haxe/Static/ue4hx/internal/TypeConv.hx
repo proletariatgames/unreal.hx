@@ -494,10 +494,10 @@ class TypeConv {
         if (type == OInterface && !flags.hasAny(OSubclassOf)) {
           ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
         } else if (flags.hasAny(OSubclassOf)) {
-          ret = '( (${ueType.getCppType()}) (UClass *) $expr )';
+          ret = '( (${ueType.withoutPointer(true).getCppType()}) (UClass *) $expr )';
         }
         if (flags.hasAny(OWeak | OAutoWeak)) {
-          ret = '( (${ueType.getCppType()}) $ret )';
+          ret = '( (${ueType.withoutPointer(true).getCppType()}) $ret )';
         } else if (hasModifier(Ref)) {
           ret = '*$ret';
         }
