@@ -16,6 +16,14 @@ package unreal.helpers;
     return dyn;
   }
 
+  /**
+    Same as `dynamicToPointer`, but is aware of variant pointers, and if `dyn` is a raw pointer, will return the unboxed pointer value instead
+   **/
+  @:ifFeature("unreal.helpers.HaxeHelpers.*") public static function variantToPointer(dyn:Dynamic):unreal.UIntPtr {
+    var variant:VariantPtr = dyn;
+    return untyped __cpp__('(unreal::UIntPtr) {0}.raw',variant);
+  }
+
   @:extern inline public static function getUObjectWrapped(uobj:UObject):UIntPtr {
 #if (cpp && !bake_externs)
     return (uobj == null ? 0 : @:privateAccess uobj.wrapped);

@@ -72,7 +72,7 @@ class NeedsGlueBuild
 
   public static function processType(type:BaseType, findSuperField:Null<String->ClassField>, thisType:TypeRef, fields:Array<Field>):Array<Field> {
     var hadErrors = false,
-        toAdd = [];
+        toAdd:Array<Field> = [];
     var delayedglue = macro ue4hx.internal.DelayedGlue;
     if (Context.defined('display') || (Context.defined('cppia') && !Globals.cur.scriptModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module

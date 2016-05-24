@@ -429,7 +429,7 @@ class TypeConv {
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name, _):
-        'unreal.helpers.HaxeHelpers.dynamicToPointer( $expr )';
+        'unreal.helpers.HaxeHelpers.variantToPointer( $expr )';
     }
   }
 
