@@ -1,4 +1,5 @@
 #include "HaxeRuntime.h"
+#include "IntPtr.h"
 #include "HaxeInit.h"
 #include <GcRef.h>
 
@@ -16,10 +17,10 @@
   this->set(const_cast<GcRef&>(rhs).get());
 }
 
-void ::unreal::helpers::GcRef::set(void *val) {
+void ::unreal::helpers::GcRef::set(unreal::UIntPtr val) {
   ::unreal::helpers::GcRefStatic::set(this->ref, val);
 }
 
-void *::unreal::helpers::GcRef::get() {
+unreal::UIntPtr unreal::helpers::GcRef::get() {
   return ::unreal::helpers::GcRefStatic::get(this->ref);
 }

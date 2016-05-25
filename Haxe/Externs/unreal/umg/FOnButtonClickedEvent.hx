@@ -1,5 +1,5 @@
 package unreal.umg;
 
-@:glueCppIncludes('Button.h')
+@:glueCppIncludes("UMG.h", "Components/ContentWidget.h", "Components/Button.h")
 @:uname('FOnButtonClickedEvent')
-@:uextern extern class FOnButtonClickedEvent extends DynamicMulticastDelegate<Void->Void> {}
+typedef FOnButtonClickedEvent = DynamicMulticastDelegate<FOnButtonClickedEvent,Void->Void>;

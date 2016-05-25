@@ -28,7 +28,7 @@ extern class UProperty_Extra {
   function CopySingleValueToScriptVM(dest:AnyPtr, src:ConstAnyPtr):Void;
   function CopyCompleteValueFromScriptVM(dest:AnyPtr, src:ConstAnyPtr):Void;
 
-  function ContainerPtrToValuePtr<ValueType>(containerPtr:AnyPtr, arrayIndex:Int32):PExternal<ValueType>;
+  function ContainerPtrToValuePtr<ValueType>(containerPtr:AnyPtr, arrayIndex:Int32):PPtr<ValueType>;
 
   /**
     Returns the C++ name of the property, including the _DEPRECATED suffix if the property is deprecated.

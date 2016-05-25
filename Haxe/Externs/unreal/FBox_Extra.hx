@@ -6,10 +6,14 @@ extern class FBox_Extra
   public var Max:FVector;
   public var IsValid:UInt8;
 
+  @:uname('.ctor')
+  public static function createForceInit(ForceInit:EForceInit) : FBox;
   @:uname('new')
-  public static function createForceInit(ForceInit:EForceInit) : PHaxeCreated<FBox>;
+  public static function createNewForceInit(ForceInit:EForceInit) : POwnedPtr<FBox>;
+  @:uname('.ctor')
+  public static function createWithValues(Min:Const<PRef<FVector>>, Max:Const<PRef<FVector>>) : FBox;
   @:uname('new')
-  public static function createWithValues(Min:Const<PRef<FVector>>, Max:Const<PRef<FVector>>) : PHaxeCreated<FBox>;
+  public static function createNewWithValues(Min:Const<PRef<FVector>>, Max:Const<PRef<FVector>>) : POwnedPtr<FBox>;
 
   @:thisConst
   public function GetSize() : FVector;

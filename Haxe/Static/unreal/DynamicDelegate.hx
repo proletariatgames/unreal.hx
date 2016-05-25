@@ -6,8 +6,8 @@ package unreal;
 
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
-@:autoBuild(ue4hx.internal.DelegateBuild.build())
-@:ueNoGlue class DynamicDelegate<T : haxe.Constraints.Function> extends unreal.Wrapper {
+@:genericBuild(ue4hx.internal.DelegateBuild.build("DynamicDelegate"))
+class DynamicDelegate<SelfType, T : haxe.Constraints.Function> {
   // function IsBound():Bool return false;
 
   // added by the compiler:

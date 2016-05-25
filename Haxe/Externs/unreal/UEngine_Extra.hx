@@ -8,11 +8,13 @@ extern class UEngine_Extra {
    */
   public function GetAllLocalPlayerControllers(PlayerList:PRef<TArray<APlayerController>>) : Void;
 
+  public function GetFirstLocalPlayerController(world:UWorld):APlayerController;
+
   public function OnTravelFailure() : PRef<FOnTravelFailure>;
 
   public function OnNetworkFailure() : PRef<FOnNetworkFailure>;
 
-  public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PExternal<FWorldContext>;
+  public function GetWorldContextFromWorld(InWorld:Const<UWorld>) : PPtr<FWorldContext>;
 
   public function GetWorldContextFromWorldChecked(InWorld:Const<UWorld>) : PRef<FWorldContext>;
 
@@ -46,4 +48,6 @@ extern class UEngine_Extra {
   @:global static function IsRunningCommandlet():Bool;
 
   public function Exec(InWorld:UWorld, Cmd:TCharStar, Out:PRef<FOutputDevice>):Bool;
+
+  public function GetWorldFromContextObject(obj:Const<UObject>, bChecked:Bool):UWorld;
 }

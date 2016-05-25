@@ -17,6 +17,8 @@ package unreal;
   var BuildUniqueId:Int32;
   // var Settings:FSessionSettings;
 
+  @:uname(".ctor")
+  public static function create() : FOnlineSessionSettings;
   @:uname("new")
-  public static function create() : PHaxeCreated<FOnlineSessionSettings>;
+  public static function createNew() : POwnedPtr<FOnlineSessionSettings>;
 }

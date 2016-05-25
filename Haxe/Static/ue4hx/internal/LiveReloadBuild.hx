@@ -50,7 +50,13 @@ class LiveReloadBuild {
     }
     // store this so it can be later built into LiveReload
     var clst = Context.getLocalClass().get();
-    if (!(clst.meta.has(':uscript') && clst.meta.has(':ustruct') && !Context.defined('cppia') && Context.defined('WITH_CPPIA'))) {
+    var base:BaseType = clst;
+    switch(clst.kind) {
+    case KAbstractImpl(a):
+      base = a.get();
+    case _:
+    }
+    if (!(base.meta.has(':uscript') && base.meta.has(':ustruct') && !Context.defined('cppia') && Context.defined('WITH_CPPIA'))) {
       // if this is a ustruct, we don't want to set its contents on non-cppia context
       Globals.liveReloadFuncs[cls][fn] = texpr;
     }
@@ -114,6 +120,7 @@ class LiveReloadBuild {
     };
     cls.name = clname;
     cls.pack = ['ue4hx','internal'];
+    Globals.cur.hasUnprocessedTypes = true;
     Context.defineType(cls);
   }
 #end

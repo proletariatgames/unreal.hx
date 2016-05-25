@@ -4,7 +4,7 @@ extern class UWorld_Extra {
   /** Time in seconds since level began play, but is NOT paused when the game is paused, and is NOT dilated/clamped. */
   public var RealTimeSeconds : Float32;
 
-  public var Scene : PExternal<FSceneInterface>;
+  public var Scene : PPtr<FSceneInterface>;
 
   @:thisConst
   public function GetGameState() : AGameState;
@@ -24,7 +24,7 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
 
-  public function SpawnActor(cls:UClass, location:Const<PExternal<FVector>>, rotator:Const<PExternal<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
+  public function SpawnActor(cls:UClass, location:PPtr<Const<FVector>>, rotator:PPtr<Const<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 
   /**
    * Removes the actor from its level's actor list and generally cleans up the engine's internal state.
@@ -98,7 +98,7 @@ extern class UWorld_Extra {
 	 *  @param  End             End location of the ray
 	 *  @param  TraceChannel    The 'channel' that this ray is in, used to determine which components to hit
 	 *  @param  Params          Additional parameters used for the trace
-	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace	 
+	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace
 	 *  @return TRUE if OutHits contains any blocking hit entries
 	 */
   @:thisConst
@@ -108,5 +108,5 @@ extern class UWorld_Extra {
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
     owner:AActor,
-    instigator:APawn) : PExternal<T>;
+    instigator:APawn) : PPtr<T>;
 }

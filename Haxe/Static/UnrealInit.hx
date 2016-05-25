@@ -2,7 +2,7 @@ import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
 import unreal.*;
-import unreal.helpers.HxcppRuntimeStatic;
+import unreal.helpers.HxcppRuntime;
 import ue4hx.internal.HaxeCodeDispatcher;
 #if WITH_EDITOR
 import unreal.editor.UEditorEngine;
@@ -13,7 +13,7 @@ import sys.FileSystem;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
-@:cppFileCode("#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n")
+@:cppFileCode("#ifndef environ\n#ifdef HX_WINDOWS\nextern char **environ = NULL;\n#endif\n#endif\n")
 @:access(unreal.CoreAPI)
 class UnrealInit
 {
@@ -57,6 +57,7 @@ class UnrealInit
     var stamp = .0;
     var internalStamp = .0;
 
+    var disabled = false;
 #if WITH_CPPIA
     function loadCppia() {
       trace('loading cppia');
@@ -91,21 +92,37 @@ class UnrealInit
     var timerDelegate = FTimerDelegate.create();
     timerDelegate.BindLambda(function() {
       if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
-        loadCppia();
+        if (!disabled) {
+          loadCppia();
+        }
       }
     });
 #end
 
     var hotReloadHandle = null,
-        onCompHandle = null;
+        onCompHandle = null,
+        onBeginCompHandle = null;
     var shouldCleanup = false;
+    function onBeginCompilation(_) {
+      trace('begin compilation');
+      disabled = true;
+    }
+
     // when we finish compiling, we check if we should invalidate the current module
     function onCompilation(_, result:ECompilationResult, _) {
       shouldCleanup = shouldCleanup || result == Succeeded;
-      if (shouldCleanup && onCompHandle != null) {
-        // invalidate our own handle - we won't need it anymore
-        IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
-        onCompHandle = null;
+      if (shouldCleanup) {
+        // invalidate our own handles - we won't need it anymore
+        if (onCompHandle != null) {
+          IHotReloadModule.Get().OnModuleCompilerFinished().Remove(onCompHandle);
+          onCompHandle = null;
+        }
+        if (onBeginCompHandle != null) {
+          IHotReloadModule.Get().OnModuleCompilerStarted().Remove(onBeginCompHandle);
+          onBeginCompHandle = null;
+        }
+      } else {
+        disabled = false;
       }
     }
 
@@ -115,7 +132,7 @@ class UnrealInit
         trace('Hot reload detected');
 #if WITH_CPPIA
         if (watchHandle != null) {
-          UEditorEngine.GEditor.GetTimerManager().ClearTimer(watchHandle);
+          UEditorEngine.GEditor.GetTimerManager().Get().ClearTimer(watchHandle);
           watchHandle = null;
         }
 #end
@@ -132,10 +149,11 @@ class UnrealInit
 
     function addWatcher() {
 #if WITH_CPPIA
-      UEditorEngine.GEditor.GetTimerManager().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+      UEditorEngine.GEditor.GetTimerManager().Get().SetTimer(watchHandle, timerDelegate, 1, true, 0);
 #end
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
       onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
+      onBeginCompHandle = IHotReloadModule.Get().OnModuleCompilerStarted().AddLambda(onBeginCompilation);
     }
 
     // add watcher to current editor

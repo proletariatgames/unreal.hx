@@ -10,6 +10,10 @@
 #else
 #endif
 
+// DECLARE_LOG_CATEGORY_EXTERN(HaxeInitLog, Log, All);
+// DEFINE_LOG_CATEGORY(HaxeInitLog);
+DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);
+
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
@@ -89,7 +93,7 @@ void check_hx_init()
   gc_set_top_of_stack((int *)top_of_stack, false);
   if (firstInit) {
     const char *error = hxRunLibrary();
-    if (error) { fprintf(stderr, "Error on Haxe main function: %s", error); }
+    if (error) { UE_LOG(HaxeLog, Fatal, TEXT("Error on Haxe main function: %s"), UTF8_TO_TCHAR(error)); }
   }
 #endif
   gDidInit = 2;

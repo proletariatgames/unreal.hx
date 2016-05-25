@@ -5,7 +5,7 @@ extern class UFactory_Extra {
   /**
     Called when Factory supports target type and `CanCreateNew` returns true
    **/
-  function FactoryCreateNew(inClass:UClass, inParent:UObject, name:FName, flags:EObjectFlags, context:UObject, warn:PExternal<FFeedbackContext>):UObject;
+  function FactoryCreateNew(inClass:UClass, inParent:UObject, name:FName, flags:EObjectFlags, context:UObject, warn:PPtr<FFeedbackContext>):UObject;
 
   //function FactoryCreateBinary - not supported because of `uint8*` - override FactoryCreateNew instead and get the current filename
 

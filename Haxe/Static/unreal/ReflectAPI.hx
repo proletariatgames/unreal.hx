@@ -8,14 +8,14 @@ class ReflectAPI {
      * if `value` is an `Array<>` and `field` denotes an external `TArray<>`, the `TArray` will be populated from the array contents
      * if `value` is an anonymous object and `field` denotes an external C++ struct, the struct's fields will be populated from the anonymous' object fields
      * if `value` is a `String` and `field` denotes an external `FString`, `FText` or `FName`, the `String` will be converted to the target type
-    This function works recursively and is only guaranteed to work with external fields (the ones that are either defined in extern code, or are `@:uproperty` or `@:uexpose` fields)
+    This function works recursively and is only guaranteed to work with external fields (the ones that are either defined in extern code, or are `@:uproperty` or `@:uexpose` fields) of UObject-derived classes
 
     Remarks:
-     * `unreal.PExternal`, `unreal.PRef`, `unreal.TSharedPtr/TWeakPtr` are not supported for automatic anonymous types / Array automatic conversion
+     * `unreal.PPtr`, `unreal.PRef`, `unreal.TSharedPtr/TWeakPtr` are not supported for automatic anonymous types / Array automatic conversion
      * Array of anonymous types to TArray of structs is supported, but the default constructor will not be called in this case. So make sure the struct used supports that
      * Blueprint-only classes are partially supported. See `bpSetField`
    **/
-  public static function extSetField(obj:haxe.extern.EitherType<unreal.Wrapper, unreal.IInterface>, field:String, value:Dynamic) {
+  public static function extSetField(obj:IInterface, field:String, value:Dynamic) {
     extSetField_rec(obj, field, value, field);
   }
 
@@ -33,86 +33,24 @@ class ReflectAPI {
     }
   }
 
-  private static function handleInplaceStruct(from:Dynamic, to:Dynamic, path:String):Bool {
-    var cls = to == null ? null : Type.getClass(to);
-    if (cls == null && to != null && !Reflect.isEnumValue(to) && Reflect.isObject(to)) {
-      if (Std.is(from, Wrapper)) {
-        for (field in Reflect.fields(to)) {
-          var newPath =
-#if debug
-            path + '.$field';
-#else
-            null;
-#end
-          extSetField_rec(from, field, Reflect.field(to, field), newPath);
-        }
-        return true;
-      }
-    } else if (cls == Array) {
-      if (Std.is(from, TArrayImpl)) {
-        var arr:Array<Dynamic> = to,
-            from:TArray<Dynamic> = from;
-        from.Empty();
-        from.AddZeroed(arr.length);
-        for (i in 0...arr.length) {
-          var old = from[i];
-          var newPath =
-#if debug
-            path + '[$i]';
-#else
-            null;
-#end
-          var val = arr[i];
-          if (old == null || !handleInplaceStruct(old, val, newPath)) {
-            from[i] = changeType(old, val, newPath);
-          }
-        }
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private static function changeType(from:Dynamic, to:Dynamic, path:String):Dynamic {
-    if (Std.is(to, String)) {
-      if (Std.is(from, FStringImpl)) {
-        return new FString(to);
-      } else if (Std.is(from, FNameImpl)) {
-        return new FName(to);
-      } else if (Std.is(from, FTextImpl)) {
-        return new FText(to);
-      }
-    }
-    return to;
-  }
-
   private static function extSetField_rec(obj:Dynamic, field:String, value:Dynamic, path:String) {
-    var cls = value == null ? null : Type.getClass(value);
-    var old = Reflect.getProperty(obj, field);
-    if (old == null || !handleInplaceStruct(old, value, path)) {
-      try {
-        Reflect.setProperty(obj, field, changeType(old, value, path));
-      } catch (e:Dynamic) {
-        if (StringTools.startsWith(Std.string(e), 'Invalid field:')) {
-          if (Std.is(obj, UObject)) {
-            var obj:UObject = obj;
-            var cls = obj.GetClass();
-            if (!cls.HasAllClassFlags(EClassFlags.CLASS_Native)) {
-              var prop = cls.FindPropertyByName(field);
-              if (prop != null) {
-                bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, path);
-                return;
-              }
-            }
-          }
-        }
-#if debug
-        throw 'Cannot set field for path `$path` on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
-#else
-        throw 'Cannot set field on object of type `${Type.getClassName(Type.getClass(obj))}`: $e';
-#end
+    if (Std.is(obj, UObject)) {
+      var obj:UObject = obj;
+      var cls = obj.GetClass();
+      var prop = cls.FindPropertyByName(field);
+      if (prop != null) {
+        bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, path);
+        return;
       }
     }
+
+    var old = Reflect.getProperty(obj, field);
+    var ptr:VariantPtr = old;
+    if (!ptr.isObject() || Std.is(old, Wrapper)) {
+      throw 'Cannot set non-uproperty struct field for $field ' + (path == null ? '' : '($path)');
+    }
+
+    Reflect.setProperty(obj, field, value);
   }
 
   private static function bpSetField_rec(obj:AnyPtr, prop:UProperty, value:Dynamic, path:String) {
@@ -127,24 +65,28 @@ class ReflectAPI {
     var objOffset = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
       var np:UNumericProperty = cast prop;
+      var i64:Int64 = 0;
+      if (Std.is(value, Int)) {
+        i64 = cast haxe.Int64.ofInt(value);
+      } else if (Std.is(value, Float)) {
+        i64 = cast haxe.Int64.ofInt(Std.int(value));
+      } else {
+        i64 = value;
+      }
       if (np.IsFloatingPoint()) {
         np.SetFloatingPointPropertyValue(objOffset, cast value);
       } else if (Std.is(prop, UInt64Property)) {
-        if (Int64.is(value)) {
-          np.SetIntPropertyValue(objOffset, value);
-        } else {
-          np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
-        }
+        np.SetIntPropertyValue(objOffset, i64);
       } else if (Std.is(prop, UUInt64Property)) {
-        if (Int64.is(value)) {
-          np.SetUIntPropertyValue(objOffset, value);
-        } else {
-          np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
-        }
+        np.SetUIntPropertyValue(objOffset, i64);
       } else if (Std.is(prop, UUInt32Property)) {
-        np.SetUIntPropertyValue(objOffset, haxe.Int64.ofInt(value));
+        np.SetUIntPropertyValue(objOffset, i64);
       } else {
-        np.SetIntPropertyValue(objOffset, haxe.Int64.ofInt(cast value));
+        var e = np.GetIntPropertyEnum();
+        if (e != null) {
+          i64 = cast haxe.Int64.ofInt(getEnumInt(value));
+        }
+        np.SetIntPropertyValue(objOffset, i64);
       }
     } else if (Std.is(prop, UBoolProperty)) {
       var prop:UBoolProperty = cast prop;
@@ -153,23 +95,53 @@ class ReflectAPI {
       var prop:UObjectPropertyBase = cast prop;
       prop.SetObjectPropertyValue(objOffset, value);
     } else if (Std.is(prop, UNameProperty)) {
-      if (!Std.is(value, FNameImpl)) {
-        value = (cast(value, String) : FName);
+      var val:AnyPtr = 0;
+      if (Std.is(value, String)) {
+        val = AnyPtr.fromStruct(FName.fromString(value));
+      } else {
+        val = AnyPtr.fromStruct(value);
       }
-      var myObj = AnyPtr.fromStruct(value);
-      prop.CopyCompleteValue(objOffset, myObj);
+      prop.CopyCompleteValue(objOffset, val);
     } else if (Std.is(prop, UStrProperty)) {
-      if (!Std.is(value, FStringImpl)) {
-        value = (cast(value,String) : FString);
+      var val:AnyPtr = 0;
+      if (Std.is(value, String)) {
+        val = AnyPtr.fromStruct(FString.fromString(value));
+      } else {
+        val = AnyPtr.fromStruct(value);
       }
-      var myObj = AnyPtr.fromStruct(value);
-      prop.CopyCompleteValue(objOffset, myObj);
+      prop.CopyCompleteValue(objOffset, val);
     } else if (Std.is(prop, UTextProperty)) {
-      if (!Std.is(value, FTextImpl)) {
-        value = (cast(value,String) : FText);
+      var val:AnyPtr = 0;
+      if (Std.is(value, String)) {
+        val = AnyPtr.fromStruct(FText.fromString(value));
+      } else {
+        val = AnyPtr.fromStruct(value);
       }
-      var myObj = AnyPtr.fromStruct(value);
-      prop.CopyCompleteValue(objOffset, myObj);
+      prop.CopyCompleteValue(objOffset, val);
+    } else if (Std.is(prop, UArrayProperty)) {
+      var prop:UArrayProperty = cast prop,
+          inner = prop.Inner;
+      var arr:FScriptArray = cast objOffset.getStruct(0);
+      if (Std.is(value, Array)) {
+        var value:Array<Dynamic> = value;
+        var elementSize = inner.ElementSize;
+        arr.Empty(value.length, elementSize);
+        arr.AddZeroed(value.length, elementSize);
+        var data = arr.GetData();
+        for (i in 0...value.length) {
+          var newPath =
+#if debug
+            path + '[$i]';
+#else
+            null;
+#end
+          bpSetField_rec(data, inner, value[i], newPath);
+          data += inner.ElementSize;
+        }
+      } else {
+        var value:FScriptArray = cast value.getStruct(0);
+        prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
+      }
     } else if (Std.is(prop, UStructProperty)) {
       var prop:UStructProperty = cast prop,
           struct = prop.Struct;
@@ -206,6 +178,24 @@ class ReflectAPI {
     }
   }
 
+  private static function getEnumInt(value:Dynamic):Int {
+    // convert to ue enum value
+    var etype = Type.getEnum(value);
+    if (etype != null) {
+      var ret = Type.enumIndex(value);
+      var name = Type.getEnumName(etype);
+      // check for _EnumConv
+      var conv:Dynamic = Type.resolveClass(name + '_EnumConv');
+      if (conv != null) {
+        return conv.haxeToUe(ret + 1);
+      } else {
+        return ret;
+      }
+    } else {
+      return value;
+    }
+  }
+
   public static function bpGetField(obj:unreal.IInterface, field:String):Dynamic {
     var obj:UObject = cast obj;
     var cls = obj.GetClass();
@@ -224,9 +214,9 @@ class ReflectAPI {
       } else if (Std.is(prop, UUInt64Property)) {
         return np.GetUnsignedIntPropertyValue(objPtr);
       } else if (Std.is(prop, UUInt32Property)) {
-        return Int64.toInt(np.GetUnsignedIntPropertyValue(objPtr));
+        return cast np.GetUnsignedIntPropertyValue(objPtr);
       } else {
-        return Int64.toInt(np.GetSignedIntPropertyValue(objPtr));
+        return np.GetSignedIntPropertyValue(objPtr);
       }
     } else if (Std.is(prop, UBoolProperty)) {
       var prop:UBoolProperty = cast prop;

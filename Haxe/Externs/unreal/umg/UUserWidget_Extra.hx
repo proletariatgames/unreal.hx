@@ -4,7 +4,7 @@ import unreal.slatecore.*;
 
 extern class UUserWidget_Extra {
   @:global @:typeName
-  public static function CreateWidget<T> (OwningPlayer:APlayerController, UserWidgetClass:UClass) : PExternal<T>;
+  public static function CreateWidget<T> (OwningPlayer:APlayerController, UserWidgetClass:UClass) : PPtr<T>;
   private function NativeTick(MyGeometry:Const<PRef<FGeometry>>, InDeltaTime:Float32):Void;
   private function NativeConstruct():Void;
   private function NativeOnMouseEnter(MyGeometry : Const<PRef<FGeometry>>, MouseEvent : Const<PRef<FPointerEvent>>) : Void;

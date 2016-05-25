@@ -3,8 +3,10 @@ package unreal;
 @:glueCppIncludes("Engine/World.h")
 @:uextern extern class FActorSpawnParameters
 {
+  @:uname(".ctor")
+  public static function create() : FActorSpawnParameters;
   @:uname("new")
-  public static function create() : PHaxeCreated<FActorSpawnParameters>;
+  public static function createNew() : POwnedPtr<FActorSpawnParameters>;
 
   public var Name:FName;
   public var Template:AActor;

@@ -7,7 +7,8 @@ package unreal;
   /**
     Global logger, in cpp this is a macro for FOutputDeviceRedirector::Get()
    **/
-  @:global static var GLog(default, never) : PExternal<FOutputDevice>;
+  @:global
+  static var GLog(default, never) : PPtr<FOutputDevice>;
 
   function Flush():Void;
 

@@ -25,8 +25,6 @@ class GlueMethod {
   ///////////////////////
   /// output parameters
   ///////////////////////
-  public var dependentTypes(default, null):Map<String, String>;
-  public var needsTypeParamGlue(default, null):Bool;
   public var haxeCode:Array<String>;
   public var headerCode:String;
   public var ueHeaderCode:String;
@@ -46,12 +44,12 @@ class GlueMethod {
   ///////////////////////
   var isGlueStatic:Bool;
   var templated:Bool;
-  var ctx:Map<String, String>;
+  var ctx:ConvCtx;
 
   public function new(meth:MethodDef, type:Type, ?glueType:TypeRef, ?isTemplatedThis:Bool, ?firstExternSuper:TypeConv) {
     this.meth = meth;
     this.type = type;
-    this.thisConv = TypeConv.get(type,meth.pos,'unreal.PExternal');
+    this.thisConv = TypeConv.get(type,meth.pos,meth.specialization != null).withModifiers([Ptr]);
     this.firstExternSuper = firstExternSuper;
     var thisRef = TypeRef.fromType(type, meth.pos);
     if (glueType == null)
@@ -59,11 +57,17 @@ class GlueMethod {
     this.glueType = glueType;
     this.cppIncludes = new IncludeSet();
     this.headerIncludes = new IncludeSet();
-    this.dependentTypes = new Map();
     if (isTemplatedThis == null) {
       isTemplatedThis = thisRef.params.length > 0 && meth.specialization == null;
     }
     this.isTemplatedThis = isTemplatedThis;
+    if (this.meth.name == 'new') {
+      if (this.meth.meta.hasMeta(':uname')) {
+        this.meth.uname = '.ctor';
+      }
+      this.meth.ret = this.thisConv;
+    }
+
 
     this.process();
   }
@@ -76,13 +80,15 @@ class GlueMethod {
 
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
-    var ctx = this.ctx = isProp && !isStatic && !this.thisConv.isUObject ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
+    // var ctx = this.ctx = isProp && !isStatic && !this.thisConv.data.match(CUObject(_)) ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
+    var ctx = new ConvCtx();
+    this.ctx = ctx;
 
     var haxeArgs = this.haxeArgs = meth.args;
     var glueArgs = this.glueArgs = haxeArgs;
     var isGlueStatic = this.isGlueStatic = !this.isTemplatedThis || isStatic;
 
-    if (!isStatic && !this.isTemplatedThis) {
+    if (!isStatic) {
       // CLEANUP use 'this' directly?
       var name = meth.specialization != null ? 'self' : 'this';
       glueArgs = this.glueArgs = glueArgs.copy();
@@ -108,11 +114,12 @@ class GlueMethod {
     if (isGlueStatic) {
       glueHeaderCode << 'static ';
     }
-    glueHeaderCode << '${this.glueRet.glueType.getCppType()} ${meth.name}(' << cppArgDecl + ')';
+    glueHeaderCode << '${this.glueRet.glueType.getCppType()} ${escapeGlue(meth.name)}(' << cppArgDecl + ')';
 
     var baseGlueHeaderCode = null;
     if (this.isTemplatedThis && !isStatic) {
       baseGlueHeaderCode = 'virtual ' + glueHeaderCode.toString() + ' = 0;';
+      glueHeaderCode << ' override';
     }
 
     this.cppArgs = meth.args;
@@ -163,44 +170,15 @@ class GlueMethod {
       glueHeaderCode << ';';
       glueCppCode <<
         this.glueRet.glueType.getCppType() <<
-        ' ${this.glueType.getCppType()}_obj::${meth.name}(' << cppArgDecl << ') {' <<
+        ' ${this.glueType.getCppType()}_obj::${escapeGlue(meth.name)}(' << cppArgDecl << ') {' <<
           '\n\t' << glueCppBodyVars << ';\n}';
     }
 
     var allTypes = [ for (arg in this.glueArgs) arg.t ];
     allTypes.push(meth.ret);
 
-    // dependent types - this is only used by the extern baker pass
-    // this will add all types that are used by each templated variation of this class
-    if (!this.templated && !isStatic && this.isTemplatedThis) {
-      for (type in allTypes) {
-        if (type.hasTypeParams()) {
-          var tref = type.haxeType;
-          while (tref.name == 'PRef' || tref.name == 'PRefDef') {
-            if (tref.pack.length == 1 && tref.name == 'PRef' && tref.pack[0] == 'unreal') {
-              tref = tref.params[0];
-            } else if (tref.pack.length == 2 && tref.name == 'PRefDef' && tref.pack[0] == 'ue4hx' && tref.pack[1] == 'internal') {
-              tref = tref.params[0];
-            } else {
-              break;
-            }
-          }
-          var str = tref.toString();
-          this.dependentTypes[str] = str;
-        }
-      }
-    }
-
     inline function addMeta(name:String) {
       meth.meta.push({ name:name, pos:meth.pos });
-    }
-
-    for (t in allTypes) {
-      if ( (!t.isMethodPointer && t.args != null && t.args.length > 0 && !t.hasTypeParams()) || t.isFunction ) {
-        this.needsTypeParamGlue = true;
-        addMeta(':needsTypeParamGlue');
-        break;
-      }
     }
 
     if (!this.templated) {
@@ -217,12 +195,12 @@ class GlueMethod {
     var headerIncludes = this.headerIncludes,
         cppIncludes = this.cppIncludes;
     if (meth.uname == '.equals') {
-      cppIncludes.add('<TypeTraits.h>');
+      cppIncludes.add('<uhx/TypeTraits.h>');
     }
 
     for (type in allTypes) {
-      type.getAllCppIncludes(cppIncludes);
-      type.getAllHeaderIncludes(headerIncludes);
+      type.collectUeIncludes( cppIncludes );
+      type.collectGlueIncludes( headerIncludes );
     }
 
     if (this.templated) {
@@ -247,10 +225,12 @@ class GlueMethod {
         this.haxeCode = ['return;'];
       }
     } else {
+      var body = null;
       var haxeBodyCall = if (this.isTemplatedThis && !isStatic) {
-        '( this.wrapped.reinterpret() : cpp.Pointer<${this.glueType}> ).ptr.${meth.name}';
+        body = 'var thisDataPointer:cpp.ConstPointer<${this.glueType}> =cpp.ConstPointer.fromRaw((@:privateAccess this.getTemplateStruct()).info.ptr.genericImplementation).reinterpret();';
+        'thisDataPointer.ptr.${escapeGlue(meth.name)}';
       } else {
-        '${this.glueType}.${meth.name}';
+        '${this.glueType}.${escapeGlue(meth.name)}';
       };
 
       var haxeBody =
@@ -264,41 +244,46 @@ class GlueMethod {
       } else {
         this.haxeCode = [haxeBody + ';'];
       }
+      if (body != null) {
+        this.haxeCode.unshift(body);
+      }
     }
   }
 
   private static function isUObjectPointer(type:TypeConv) {
-    if (!type.isUObject) {
+    if (!type.data.match(CUObject(_))) {
       return false;
     }
     return type.ueType.isPointer();
   }
 
   private function shouldCheckPointer() {
-    return !this.meth.flags.hasAny(Static) && !this.thisConv.isUObject;
+    return !this.meth.flags.hasAny(Static) && !this.thisConv.data.match(CUObject(_));
   }
 
   private function genCppCall(body:String, prefix:String, outVars:HelperBuf) {
     var cppArgTypes = [];
     for (arg in this.cppArgs) {
-      if (arg.t.isTypeParam == true && (arg.t.ownershipModifier == 'unreal.PRef' || arg.t.ownershipModifier == 'ue4hx.internal.PRefDef')) {
+      if (arg.t.data.match(CTypeParam(_)) && arg.t.hasModifier(Ref)) {
         var prefixedArgName = prefix + arg.name;
         outVars << 'auto ${prefixedArgName}_t = ${arg.t.glueToUe(${prefixedArgName}, this.ctx)};\n\t\t\t';
         cppArgTypes.push('*(${prefixedArgName}_t.getPointer())');
       } else {
-        cppArgTypes.push(arg.t.glueToUe(prefix+escapeCpp(arg.name, this.isGlueStatic), this.ctx));
+        cppArgTypes.push(arg.t.glueToUe(prefix+escapeCpp(arg.name, this.isGlueStatic || this.isTemplatedThis), this.ctx));
       }
     }
 
     var isStructProp = this.meth.flags.hasAll(StructProperty);
     var isGetter = this.meth.name.startsWith('get_');
     if (isStructProp && isGetter) {
-      body = '&' + body;
+      body = '&($body)';
     } else if (this.meth.flags.hasAny(Property) && isGetter && isUObjectPointer(meth.ret)) {
       body = 'const_cast< ${meth.ret.ueType.getCppType()} >( $body )';
     }
 
-    if (this.meth.flags.hasAny(Property)) {
+    if (this.meth.uname == '.ctor' && this.meth.flags.hasAny(Static)) {
+      return 'return ' + this.glueRet.ueToGlueCtor( cppArgTypes.join(', '), [ for (arg in cppArgs) arg.t ], this.ctx );
+    } else if (this.meth.flags.hasAny(Property)) {
       if (!isGetter) {
         body += ' = ' + cppArgTypes[cppArgTypes.length-1];
       }
@@ -310,8 +295,13 @@ class GlueMethod {
       if (cppArgs.length > 0) {
         throw new Error('Unreal Glue: unary operators must take zero arguments', meth.pos);
       }
+    } else if (meth.uname == '.equals') {
+      // these variables are guaranteed to have this name - see getCppBody
+      outVars << 'if (self.raw == other.raw) { return true; }';
+      outVars << 'if (self.raw == 0 || other.raw == 0) { return false; }';
+      body += '(' + cppArgTypes.join(', ') + ')';
     } else {
-      body += '(' + [ for (arg in cppArgTypes) arg ].join(', ') + ')';
+      body += '(' + cppArgTypes.join(', ') + ')';
     }
     if (!this.glueRet.haxeType.isVoid()) {
       body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);
@@ -329,7 +319,7 @@ class GlueMethod {
       var useTypeName = this.meth.meta != null && this.meth.meta.hasMeta(':typeName');
       params << '<';
       params.mapJoin(this.meth.specialization.types, function (tconv) return {
-        if (useTypeName || (tconv.isUObject && tconv.ownershipModifier == 'unreal.PStruct'))
+        if (useTypeName) // || (tconv.data.match(CUObject(_)))) // FIXME - we don't have PStruct anymore && tconv.ownershipModifier == 'unreal.PStruct'))
           tconv.ueType.getCppClassName();
         else
           tconv.ueType.getCppType().toString();
@@ -347,9 +337,9 @@ class GlueMethod {
     return if (this.meth.flags.hasAny(Static)) {
       switch (meth.uname) {
         case 'new':
-          'new ' + meth.ret.ueType.getCppClass();
-        case '.ctor':
-          meth.ret.ueType.getCppClass();
+          'new ' + meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
+        case '.ctor' | '.ctor.struct':
+          meth.ret.ueType.getCppClass(true); // parameters will be set by the static call already
         case _:
           if (meth.meta.hasMeta(':global')) {
             var namespace = MacroHelpers.extractStringsFromMetadata(meth.meta, ':global')[0];
@@ -362,7 +352,7 @@ class GlueMethod {
           }
       }
     } else {
-     var self = if (!isGlueStatic)
+     var self = if (!isGlueStatic && !this.isTemplatedThis)
         { name: 'this', t: this.thisConv };
       else
         { name:escapeCpp(this.glueArgs[0].name, true), t: glueArgs[0].t };
@@ -372,9 +362,11 @@ class GlueMethod {
           this.op = '[';
           '(*' + self.t.glueToUe(self.name, this.ctx) + ')';
         case '.equals':
-          var thisType = TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct');
+          var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
-          'TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
+          if (this.meth.meta == null) this.meth.meta = [];
+          this.meth.meta.push({ name:':op', params:[macro A+B], pos:meth.pos});
+          'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
           this.op = '*';
           '(**(' + self.t.glueToUe(self.name, this.ctx) + '))';
@@ -388,12 +380,10 @@ class GlueMethod {
           this.op = '!';
           '(!(*(' + self.t.glueToUe(self.name, this.ctx) + ')))';
         case '.copy':
-          this.retHaxeType = this.thisConv.haxeType;
-          this.cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct') }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           'new ' + this.thisConv.ueType.getCppClass();
         case '.copyStruct':
-          this.retHaxeType = this.thisConv.haxeType;
-          this.cppArgs = [{ name:'this', t:TypeConv.get(this.type, this.meth.pos, 'unreal.PStruct') }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           this.thisConv.ueType.getCppClass();
         case _ if(meth.flags.hasAny(CppPrivate)):
           // For protected external functions we need to use a
@@ -431,6 +421,10 @@ class GlueMethod {
     return ident;
   }
 
+  private static function escapeGlue(ident:String) {
+    return ident == 'new' ? 'glueNew' : ident;
+  }
+
   public function getFieldMeta(?includeExisting:Bool=false) {
     var meta = null;
     if (includeExisting && meth.meta != null) {
@@ -465,11 +459,11 @@ class GlueMethod {
         acc.push(AStatic);
 
       glue = {
-        name: meth.name,
+        name: escapeGlue(meth.name),
         access: acc,
         pos: meth.pos,
         kind: FFun({
-          args: [ for (arg in this.glueArgs) { name:arg.name, type: arg.t.haxeGlueType.toComplexType() } ],
+          args: [ for (arg in this.glueArgs) { name:escapeCpp(arg.name, true), type: arg.t.haxeGlueType.toComplexType() } ],
           ret: this.glueRet.haxeGlueType.toComplexType(),
           expr: null
         })
@@ -482,15 +476,12 @@ class GlueMethod {
     } else {
       acc.push(APublic);
     }
-    if (meth.flags.hasAny(Static)) {
+    if (meth.flags.hasAny(Static) && meth.name != 'new') {
       acc.push(AStatic);
     } else if (meth.flags.hasAny(HaxeOverride)) {
       acc.push(AOverride);
     }
     var block = this.haxeCode;
-    if (block != null && Context.defined('UE4_CHECK_POINTER') && this.shouldCheckPointer()) {
-      block = ['this.checkPointer();'].concat(block);
-    }
 
     var args = this.getArgs();
     var expr = block != null ? Context.parse('{' + this.haxeCode.join('\n') + '}', meth.pos) : null;
@@ -514,7 +505,7 @@ class GlueMethod {
   private function getArgs():Array<MethodArg> {
     var meth = this.meth;
     if (meth.uname == '.equals')
-      return [ { name:this.haxeArgs[0].name, type: new TypeRef(['unreal'], 'Wrapper') } ];
+      return [ { name:this.haxeArgs[0].name, type: this.thisConv.haxeType } ];
     var args:Array<MethodArg> = [ for (arg in this.haxeArgs) { name:arg.name, type: arg.t.haxeType } ];
     if (meth.params != null) {
       var helpers:Array<MethodArg> = [];
@@ -552,8 +543,8 @@ class GlueMethod {
       var st = '';
       if (this.isGlueStatic)
         st = 'static';
-      glue.add('public $st function ${meth.name}(');
-      glue.add([ for (arg in this.glueArgs) escapeCpp(arg.name, this.isGlueStatic) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
+      glue.add('public $st function ${escapeGlue(meth.name)}(');
+      glue.add([ for (arg in this.glueArgs) escapeCpp(arg.name, this.isGlueStatic || this.isTemplatedThis) + ':' + arg.t.haxeGlueType.toString() ].join(', '));
       glue.add('):' + this.glueRet.haxeGlueType + ';\n');
     }
 
@@ -562,7 +553,7 @@ class GlueMethod {
     } else {
       buf << 'public ';
     }
-    if (meth.flags.hasAny(Static)) {
+    if (meth.flags.hasAny(Static) && meth.name != 'new') {
       buf << 'static ';
     } else if (meth.flags.hasAny(HaxeOverride)) {
       buf << 'override ';
@@ -581,12 +572,6 @@ class GlueMethod {
       buf << ';';
     } else {
       buf << new Begin(' {');
-        if (this.shouldCheckPointer()) {
-          buf << '#if UE4_CHECK_POINTER'
-            << new Newline() << "this.checkPointer();"
-            << new Newline() << "#end"
-            << new Newline();
-        }
         for (expr in this.haxeCode) {
           buf << expr << new Newline();
         }

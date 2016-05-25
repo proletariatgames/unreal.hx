@@ -20,10 +20,7 @@ class UExtensionBuild {
   public static function build():Type {
     return switch (Context.getLocalType()) {
       case TInst(_, [typeToGen]):
-        var old = Globals.cur.currentFeature;
-        Globals.cur.currentFeature = 'keep';
         var ret = new UExtensionBuild().generate(typeToGen);
-        Globals.cur.currentFeature = old;
         ret;
       case _:
         throw 'assert';
@@ -70,7 +67,7 @@ class UExtensionBuild {
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
-      var ctx = ["hasParent" => "false"];
+      var ctx = new ConvCtx(); //["hasParent" => "false"];
       var clt = cl.get();
       this.pos = clt.pos;
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
@@ -149,22 +146,23 @@ class UExtensionBuild {
         exportCpp = new CodeFormatter();
         exportHeader <<
           '#include <hxcpp.h>\n' <<
+          '#include "IntPtr.h"\n' <<
           '#include <${expose.getClassPath().replace(".","/")}.h>\n\n';
         for (pack in export.pack) {
           exportHeader << 'namespace $pack {\n';
         }
         exportHeader << '\nclass HXCPP_CLASS_ATTRIBUTES ${export.name}' << new Begin("{") <<
           'public:' << new Newline() <<
-          'static void *createHaxeWrapper(void *self);' << new Newline() <<
-          'static void *createEmptyHaxeWrapper(void *self);' << new Newline();
+          'static unreal::UIntPtr createHaxeWrapper(void *self);' << new Newline() <<
+          'static unreal::UIntPtr createEmptyHaxeWrapper(void *self);' << new Newline();
 
         exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'void *${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
-            'return ${expose.getCppClass()}::createHaxeWrapper(self);' <<
+          'unreal::UIntPtr ${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
+            'return (unreal::UIntPtr) ${expose.getCppClass()}::createHaxeWrapper(self);' <<
           new End('}');
         exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'void *${export.getCppClass()}::createEmptyHaxeWrapper(void *self)' << new Begin('{') <<
-            'return ${expose.getCppClass()}::createEmptyHaxeWrapper(self);' <<
+          'unreal::UIntPtr ${export.getCppClass()}::createEmptyHaxeWrapper(void *self)' << new Begin('{') <<
+            'return (unreal::UIntPtr) ${expose.getCppClass()}::createEmptyHaxeWrapper(self);' <<
           new End('}');
         glueCppIncs.add(export.getClassPath().replace(".","/") + ".h");
       }
@@ -172,7 +170,7 @@ class UExtensionBuild {
       var isScript = clt.meta.has(':uscript');
       var scriptBase = null;
       if (isScript) {
-        scriptBase = TypeConv.getScriptableUObject();
+        scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
       }
       for (field in toExpose) {
         var uname = getUName(field.cf);
@@ -194,7 +192,7 @@ class UExtensionBuild {
 
         if (!field.ret.haxeType.isVoid()) {
           if (isScript) {
-            if (field.ret.isUObject == true && field.ret.baseType != null && field.ret.baseType.meta.has(':uscript')) {
+            if (field.ret.data.match(CUObject(OScriptHaxe,_,_))) {
               callExpr = '' + scriptBase.haxeToGlue( '(cast ($callExpr) : unreal.UObject)' , ctx);
             } else {
               callExpr = '' + field.ret.haxeToGlue( '(cast ($callExpr) : ${field.ret.haxeType})' , ctx);
@@ -310,25 +308,7 @@ class UExtensionBuild {
         var i = -1;
         while (++i < allTypes.length) {
           var t = allTypes[i];
-          if (!t.forwardDeclType.isNever()) {
-            for (decl in t.forwardDecls) {
-              headerForwards[decl] = decl;
-            }
-            switch(t.forwardDeclType) {
-              case Templated(incs):
-                headerIncludes.append(incs);
-                if (t.args != null) {
-                  for (arg in t.args) {
-                    allTypes.push(arg);
-                  }
-                }
-              case _:
-            }
-            t.getAllCppIncludes( cppIncludes );
-          } else {
-            // we only care about glue Header includes here since we're using the actual UE type
-            t.getAllCppIncludes( headerIncludes );
-          }
+          t.collectUeIncludes(headerIncludes, headerForwards, cppIncludes);
         }
 
         if (!implementCpp) cppDef = new HelperBuf();
@@ -372,8 +352,8 @@ class UExtensionBuild {
 
       {
         // add createHaxeWrapper
-        var headerCode = 'public:\n\t\tvirtual void *createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t') +
-          'virtual void *createEmptyHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
+        var headerCode = 'public:\n\t\tvirtual unreal::UIntPtr createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t') +
+          'virtual unreal::UIntPtr createEmptyHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var cppCode = '';
         for (upropDef in uprops) {
           var uprop = upropDef.field,
@@ -429,14 +409,12 @@ class UExtensionBuild {
           }
 
           var cppType = tconv.ueType.getCppType(null) + '';
-          if (tconv.isEnum) {
-            if (tconv.baseType == null || (!tconv.baseType.meta.has(':class') && tconv.baseType.meta.has(':uextern'))) {
-              cppType = 'TEnumAsByte< $cppType >';
-            }
+          if (tconv.data.match(CEnum(EExternal|EAbstract,_))) {
+            cppType = 'TEnumAsByte< $cppType >';
             glueCppIncs.add('Engine.h');
           }
           if (isStatic) {
-            if (!tconv.isUObject) {
+            if (!tconv.data.match(CUObject(_))) {
               throw new Error('Unreal Extension: @:uexpose on static properties must be of a uobject-derived type', uprop.pos);
             }
 
@@ -449,32 +427,12 @@ class UExtensionBuild {
           var i = -1;
           while (++i < types.length) {
             var tconv = types[i];
-            switch (tconv.forwardDeclType) {
-            case null | Never | AsFunction:
-              tconv.getAllCppIncludes( glueHeaderIncs );
-            case Templated(incs):
-              glueHeaderIncs.append(incs);
-              for (fwd in tconv.forwardDecls) {
-                headerForwards[fwd] = fwd;
-              }
-              glueCppIncs.append( tconv.glueCppIncludes );
-              if (tconv.args != null) {
-                for (arg in tconv.args) {
-                  types.push(arg);
-                }
-              }
-              tconv.getAllCppIncludes(glueCppIncs);
-            case Always:
-              for (fwd in tconv.forwardDecls) {
-                headerForwards[fwd] = fwd;
-              }
-              tconv.getAllCppIncludes(glueCppIncs);
-            }
+            tconv.collectUeIncludes( glueHeaderIncs, headerForwards, glueHeaderIncs );
           }
         }
 
-        cppCode += 'void *${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((void *) this);\n}\n';
-        cppCode += 'void *${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((void *) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((unreal::UIntPtr) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
         if (hasReplicatedProperties) {
           var hasCustomReplications = false;
@@ -524,9 +482,9 @@ class UExtensionBuild {
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         var createExpr = if (isScript) {
-          '' + thisConv.haxeToGlue('std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ (cpp.Pointer.fromRaw(cast ueType) : cpp.Pointer<Dynamic>) ] )', ctx);
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] ))';
         } else {
-          '' + thisConv.haxeToGlue('@:privateAccess new ${typeRef.getClassPath()}( cpp.Pointer.fromRaw(cast ueType) )', ctx);
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) ))';
         }
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -542,7 +500,7 @@ class UExtensionBuild {
         var createEmptyExpr = '{ ' +
           'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )' + ');' +
           '@:privateAccess ret.wrapped = ueType;' +
-          '' + thisConv.haxeToGlue('ret', ctx) +';' +
+          'unreal.helpers.HaxeHelpers.dynamicToPointer(ret);' +
         '}';
         buildFields.push({
           name: 'createEmptyHaxeWrapper',
@@ -621,6 +579,7 @@ class UExtensionBuild {
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(expose.getClassPath());
       Globals.cur.cachedBuiltTypes.push(expose.getClassPath());
+      Globals.cur.hasUnprocessedTypes = true;
       Context.defineType({
         pack: expose.pack,
         name: expose.name,
@@ -661,7 +620,7 @@ class UExtensionBuild {
 
       hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
       // we're using the ueType so we'll include the glueCppIncludes
-      tconv.getAllCppIncludes( includes );
+      tconv.collectUeIncludes( includes );
     }
     for (iface in clt.interfaces) {
       var impl = iface.t.get();
@@ -671,7 +630,7 @@ class UExtensionBuild {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
         extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
         // we're using the ueType so we'll include the glueCppIncludes
-        tconv.getAllCppIncludes( includes );
+        tconv.collectUeIncludes( includes );
       }
     }
 
@@ -708,8 +667,8 @@ class UExtensionBuild {
     headerDef.add('public:\n');
     // include class map
     includes.add('ClassMap.h');
-    headerDef.add('\t\tstatic void *getHaxePointer(void *inUObject) {\n');
-      headerDef.add('\t\t\treturn ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
+    headerDef.add('\t\tstatic unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject) {\n');
+      headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
     var useObjInitializer = clt.meta.has(':noDefaultConstructor');
@@ -724,14 +683,14 @@ class UExtensionBuild {
       }
 
       var overrideType = Context.getType(fld.params[1].toString());
-      var overrideTypeConv = TypeConv.get(overrideType, clt.pos, 'unreal.PStruct');
-      overrideTypeConv.getAllCppIncludes(includes);
+      var overrideTypeConv = TypeConv.get(overrideType, clt.pos).withModifiers(null);
+      overrideTypeConv.collectUeIncludes(includes);
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>("$overrideName")';
     }
 
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
-    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper($ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
       << 'while (!curClass->HasAllClassFlags(CLASS_Native)) {\n\t\t\t\t'
       << 'curClass = curClass->GetSuperClass();\n\t\t\t}\n\t\t\t'
@@ -748,7 +707,7 @@ class UExtensionBuild {
       headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
     }
     if (!hasHaxeSuper) {
-      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == nullptr) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
+      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
     }
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });

@@ -1,7 +1,8 @@
 package unreal;
 
 @:glueCppIncludes("TimerManager.h")
-@:uextern extern class FTimerDelegate extends Delegate<Void->Void> {}
+@:uname('FTimerDelegate')
+typedef FTimerDelegate = Delegate<FTimerDelegate, Void->Void>;
 
 @:glueCppIncludes("TimerManager.h")
 @:uextern @:noCopy @:noEquals extern class FTimerManager {

@@ -16,6 +16,7 @@ class UEnumBuild
     switch (type) {
     case TEnum(enumType, params):
       var enumType = enumType.get();
+      enumType.meta.add(':keep', [], enumType.pos);
       if (enumType.meta.has(':uextern') || !enumType.meta.has(':uenum')) {
         return;
       }
@@ -46,7 +47,24 @@ class UEnumBuild
         FileSystem.createDirectory('$headerDir/Generated/Public');
       }
 
+      var typeRef = TypeRef.fromBaseType(enumType, enumType.pos);
+      var enumExpr = Context.parse(typeRef.getClassPath(), enumType.pos);
+      var expose = macro class {
+        public static function getArray():unreal.UIntPtr {
+          return unreal.helpers.HaxeHelpers.dynamicToPointer( std.Type.allEnums($enumExpr) );
+        }
+      };
+      expose.meta.push({ name:':uexpose', pos:enumType.pos });
+      expose.meta.push({ name:':ifFeature', params:[macro $v{typeRef.getClassPath(true) + '.*'}], pos:enumType.pos });
+      expose.name = uname + '_GetArray';
+      expose.pack = ['uhx','enums'];
+      Globals.cur.hasUnprocessedTypes = true;
+      Context.defineType(expose);
+
       var writer = new HeaderWriter(headerPath);
+      writer.include('uhx/EnumGlue.h');
+      writer.include('uhx/enums/${uname}_GetArray.h');
+      writer.include('unreal/helpers/HxcppRuntime.h');
       writer.include('$uname.generated.h');
 
       var uenum = enumType.meta.extract(':uenum')[0];
@@ -83,8 +101,21 @@ class UEnumBuild
       }
 
       writer.buf.add('};\n');
+      writer.buf << 'namespace uhx {\n\n';
+      writer.buf << 'template<> struct EnumGlue<$uname> {\n'
+        << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {\n'
+          << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
+        << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
+          << '\t\tstatic unreal::UIntPtr array = uhx::enums::${uname}_GetArray::getArray();\n'
+          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
+          << '};\n';
+      writer.buf << '}';
+
       writer.close(Globals.cur.module);
 
+
+    // case TAbstract(a, params):
+    //   var atype = a.get();
     default:
       throw 'assert';
     }

@@ -1,6 +1,6 @@
 package unreal;
 
-@:unrealType
+@:uextern
 @:enum abstract EObjectFlags(Int) from Int to Int {
   // Do not add new flags unless they truly belong here. There are alternatives.
   // if you change any the bit of any of the RF_Load flags, then you will need legacy serialization

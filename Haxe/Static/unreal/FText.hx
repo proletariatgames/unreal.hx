@@ -1,6 +1,6 @@
 package unreal;
 
-@:forward abstract FText(FTextImpl) from FTextImpl to FTextImpl {
+@:forward abstract FText(FTextImpl) from FTextImpl to FTextImpl #if !bake_externs to Struct to VariantPtr #end {
 #if !bake_externs
   inline public function new(str:String) {
     this = FTextImpl.FromString(str);
@@ -10,14 +10,14 @@ package unreal;
     return FTextImpl.FromString(str);
   }
 
-  inline public static function asNumber(Val:Float32, Options:Const<PExternal<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
+  inline public static function asNumber(Val:Float32, Options:Const<PPtr<FNumberFormattingOptions>>, TargetCulture:TThreadSafeSharedPtr<FCulture>) : FTextImpl {
     return FTextImpl.AsNumber(Val, Options, TargetCulture);
   }
 
-  @:from inline private static function fromString(str:String):FText {
+  @:from inline public static function fromString(str:String):FText {
     return create(str);
   }
-  
+
   public static function FromString(str:FString) : FText {
     return FTextImpl.FromString(str);
   }

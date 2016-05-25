@@ -1,3 +1,3 @@
 package unreal;
 
-typedef Pointer<T> = cpp.Pointer<T>;
+//TODO - @:buildGeneric

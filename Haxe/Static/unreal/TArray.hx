@@ -2,6 +2,7 @@ package unreal;
 
 #if (!bake_externs && !macro)
 import unreal.helpers.HaxeHelpers;
+import unreal.helpers.StructInfo;
 using unreal.CoreAPI;
 #end
 
@@ -14,7 +15,7 @@ using haxe.macro.Tools;
 private typedef TArrayImpl<T> = Dynamic;
 #end
 
-@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> {
+@:forward abstract TArray<T>(TArrayImpl<T>) from TArrayImpl<T> to TArrayImpl<T> #if !bake_externs to unreal.Struct to unreal.VariantPtr #end {
 #if (!bake_externs && !macro)
 
   public var length(get,never):Int;
@@ -79,9 +80,53 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function indexOf(obj:T) : Int {
-    for(i in 0...length) {
-      if (get(i).equals(obj)) {
-        return i;
+    var len = length;
+    if (len == 0) return -1;
+
+    var normalCompare = obj == null || Std.is(obj, UObject);
+    if (!normalCompare) {
+      switch(Type.typeof(obj)) {
+      case TNull | TInt | TFloat | TBool | TEnum(_):
+        normalCompare = true;
+      case _:
+      }
+    }
+
+    var compare:cpp.Function<UIntPtr->UIntPtr->Bool, cpp.abi.Abi> = null,
+        size = 0;
+
+    if (!normalCompare) {
+      var thisInfo:cpp.Pointer<cpp.ConstPointer<StructInfo>> = cpp.ConstPointer.fromRaw((@:privateAccess this.getTemplateStruct()).info.ptr.genericParams).reinterpret();
+      if (thisInfo == null) {
+        normalCompare = true;
+      } else {
+        compare = cast thisInfo.at(0).ptr.equals;
+        size = cast thisInfo.at(0).ptr.size;
+        normalCompare = compare == untyped __cpp__('0');
+      }
+    }
+
+    if (normalCompare) {
+      for (i in 0...len) {
+        if (get(i) == obj) {
+          return i;
+        }
+      }
+    } else {
+      var vptr:VariantPtr = cast obj,
+          obj:UIntPtr = 0;
+      if (vptr.isObject()) {
+        obj = vptr.getDynamic().getPointer();
+      } else {
+        obj = vptr.getUIntPtr() - 1;
+      }
+
+      var data = this.GetData();
+      for(i in 0...len) {
+        if (compare.call(data, obj)) {
+          return i;
+        }
+        data += size;
       }
     }
     return -1;
@@ -139,7 +184,9 @@ private typedef TArrayImpl<T> = Dynamic;
     }
     var arr = toArray();
 
-    var isRef = Std.is(arr[0], unreal.Wrapper); // arr[0] will never be null if the underlying type is a struct
+    var first = arr[0];
+    // arr[0] will never be null if the underlying type is a struct
+    var isRef = first != null && (Std.is(first, unreal.Wrapper) || untyped __cpp__('{0}->__GetHandle() != 0', first)); // __GetHandle hack to work around Std.is(cpp.Pointer), which doesn't work
     quicksort(arr, 0, arr.length -1, fn, isRef);
   }
 
@@ -173,9 +220,9 @@ private typedef TArrayImpl<T> = Dynamic;
   macro public static function create(?tParam:Expr) : Expr {
     return macro unreal.TArrayImpl.create($tParam);
   }
-  
-  macro public static function createStruct(?tParam:Expr) : Expr {
-    return macro unreal.TArrayImpl.createStruct($tParam);
+
+  macro public static function createNew(?tParam:Expr) : Expr {
+    return macro unreal.TArrayImpl.createNew($tParam);
   }
 
   macro public function copyCreate(self:Expr, ?tParam:Expr) : Expr {

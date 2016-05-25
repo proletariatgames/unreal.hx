@@ -26,18 +26,18 @@ import haxe.io.BytesData;
   }
 
   #if !cppia inline #end public function get(i:Int):Int {
-    return ptr[i];
+    return ptr.at(i);
   }
 
   #if !cppia inline #end public function set(i:Int, v:Int):Void {
-    ptr[i] = v;
+    ptr.setAt(i, v);
   }
 
   public function toBytes():Bytes {
     var ret = Bytes.alloc(this.length),
         ptr = this.ptr;
     for (i in 0...ret.length) {
-      ret.set(i, ptr[i]);
+      ret.set(i, ptr.at(i));
     }
     return ret;
   }

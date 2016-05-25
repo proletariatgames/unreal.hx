@@ -20,12 +20,12 @@ extern class UObject_Extra {
   /**
     A one line description of an object for viewing in the thumbnail view of the generic browser
    **/
-  public function GetDesc():PStruct<FString>;
+  public function GetDesc():FString;
 
   /**
     Returns the name of this object (with no path information) Name of the object.
    **/
-  public function GetName() : PStruct<FString>;
+  public function GetName() : FString;
 
   /**
     Rename this object to a unique name.
@@ -35,7 +35,7 @@ extern class UObject_Extra {
   /**
     Get the default config filename for the specified UObject
    **/
-  @:final public function GetDefaultConfigFilename():PStruct<FString>;
+  @:final public function GetDefaultConfigFilename():FString;
 
   /**
     Called during async load to determine if PostLoad can be called on the loading thread.
@@ -66,7 +66,7 @@ extern class UObject_Extra {
 //#endif
 
   @:thisConst
-  public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<PStruct<FLifetimeProperty>>>) : Void;
+  public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<FLifetimeProperty>>) : Void;
 
   public function IsA(uclass:UClass) : Bool;
 
@@ -83,17 +83,17 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
   @:typeName
-  @:global public static function NewObject<T>():PExternal<T>;
+  @:global public static function NewObject<T>():PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
   @:typeName
-  @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PExternal<T>;
+  @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
   @:typeName
-  @:global public static function NewObjectWithFlags<T>(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PExternal<T>;
+  @:global public static function NewObjectWithFlags<T>(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
@@ -102,10 +102,10 @@ extern class UObject_Extra {
   @:global public static function StaticDuplicateObject(sourceObject:UObject, destOuter:UObject, destName:TCharStar):UObject;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:typeName @:global public static function FindObject<T>(outer:UObject, name:TCharStar) : PExternal<T>;
+  @:typeName @:global public static function FindObject<T>(outer:UObject, name:TCharStar) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PExternal<T>;
+  @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function FindPackage(inOuter:UObject, packageName:TCharStar):UPackage;

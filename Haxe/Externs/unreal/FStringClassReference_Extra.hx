@@ -3,7 +3,8 @@ package unreal;
 @:glueCppIncludes('Misc/StringClassReference.h')
 @:hasCopy @:hasEquals
 extern class FStringClassReference_Extra {
-  @:uname('new') public static function create(pathString:Const<PRef<FString>>):PHaxeCreated<FStringClassReference>;
+  @:uname('.ctor') public static function create(pathString:Const<PRef<FString>>):FStringClassReference;
+  @:uname('new') public static function createNew(pathString:Const<PRef<FString>>):POwnedPtr<FStringClassReference>;
 
   /**
    * Attempts to load the class.

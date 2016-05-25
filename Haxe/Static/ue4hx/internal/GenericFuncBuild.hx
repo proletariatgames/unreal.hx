@@ -16,8 +16,15 @@ class GenericFuncBuild {
   }
 
   public function buildFunctions(c:Ref<ClassType>) {
-    var cl = c.get();
-    var typeRef = TypeRef.fromBaseType(cl, cl.pos),
+    var cl = c.get(),
+        base:BaseType = null;
+    switch(cl.kind) {
+    case KAbstractImpl(a):
+      base = a.get();
+    case _:
+      base = cl;
+    }
+    var typeRef = TypeRef.fromBaseType(base, base.pos),
         glue = typeRef.getGlueHelperType(),
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
@@ -32,7 +39,7 @@ class GenericFuncBuild {
     var glueCode = new ExternBaker(buf).processGenericFunctions(c);
     if (glueCode != null) {
       var path = caller.getClassPath().replace('.','/') + '.h';
-      cl.meta.add(':cppFileCode', [macro $v{'#include <${path}>\n'}], cl.pos);
+      base.meta.add(':cppFileCode', [macro $v{'#include <${path}>\n'}], cl.pos);
       if (Context.definedValue('dce') == 'full') {
         var output = Compiler.getOutput() + '/include/$path';
         var path = haxe.io.Path.directory(output);
@@ -52,6 +59,7 @@ class GenericFuncBuild {
       var glue = 'package ${genericGlue.pack.join('.')};\n\n@:unrealGlue extern class ${genericGlue.name} {\n$glueCode\n}';
       writeIfNeeded('$dir/${genericGlue.name}.hx', glue);
       Globals.cur.cachedBuiltTypes.push(caller.getClassPath());
+      Globals.cur.hasUnprocessedTypes = true;
       Context.getType(caller.getClassPath());
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(caller.getClassPath());

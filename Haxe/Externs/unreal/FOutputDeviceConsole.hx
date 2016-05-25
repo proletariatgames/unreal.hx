@@ -10,7 +10,7 @@ import unreal.FOutputDevice;
     Global console logger singleton
     Note: FWindowsPlatformOutputDevices::GetLogConsole() will make a new instance, so don't call it.
    **/
-  @:global static var GLogConsole(default, never) : PExternal<FOutputDeviceConsole>;
+  @:global static var GLogConsole(default, never) : PPtr<FOutputDeviceConsole>;
 
   /**
     Shows or hides the console window.

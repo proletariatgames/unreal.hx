@@ -1,5 +1,6 @@
 package unreal.slatecore;
 
 extern class FSlateColor_Extra {
-  @:uname("new") static function create(color:Const<PRef<FLinearColor>>):PHaxeCreated<FSlateColor>;
+  @:uname(".ctor") static function create(color:Const<PRef<FLinearColor>>):FSlateColor;
+  @:uname("new") static function createNew(color:Const<PRef<FLinearColor>>):POwnedPtr<FSlateColor>;
 }

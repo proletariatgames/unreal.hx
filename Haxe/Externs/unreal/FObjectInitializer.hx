@@ -5,7 +5,7 @@ package unreal;
   public static function Get() : PRef<FObjectInitializer>;
 
   @:thisConst
-  @:typeName public function CreateDefaultSubobject<T>(Outer:UObject, SubojectName:FName, bTransient:Bool) : PExternal<T>;
+  @:typeName public function CreateDefaultSubobject<T>(Outer:UObject, SubojectName:FName, bTransient:Bool) : PPtr<T>;
 
   @:thisConst
   @:typeName public function SetDefaultSubobjectClass<T>(SubojectName:FName) : Const<PRef<FObjectInitializer>>;

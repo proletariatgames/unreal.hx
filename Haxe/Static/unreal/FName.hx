@@ -1,25 +1,25 @@
 package unreal;
 import unreal.helpers.HaxeHelpers;
 
-@:forward abstract FName(FNameImpl) from FNameImpl to FNameImpl {
+@:forward abstract FName(FNameImpl) from FNameImpl to FNameImpl #if !bake_externs to Struct to VariantPtr #end  {
 #if !bake_externs
   inline public function new(str:String) {
     this = FNameImpl.create(str);
   }
 
-  inline public static function create(str:String):unreal.PHaxeCreated<FName> {
+  inline public static function create(str:String):FName {
     return FNameImpl.create(str);
   }
 
-  inline public static function createInt(name:UnrealName) : unreal.PHaxeCreated<FName> {
+  inline public static function createInt(name:UnrealName):FName {
     return FNameImpl.createFromInt(name);
   }
 
-  @:from inline private static function fromName(name:UnrealName) : FName {
+  @:from inline public static function fromName(name:UnrealName):FName {
     return createInt(name);
   }
 
-  @:from inline private static function fromString(str:String):FName {
+  @:from inline public static function fromString(str:String):FName {
     return create(str);
   }
 
@@ -31,7 +31,7 @@ import unreal.helpers.HaxeHelpers;
     if (this == null)
       return other == null;
     else
-      return CoreAPI.equals(this, other);
+      return this.equals(other);
   }
 #end
 }

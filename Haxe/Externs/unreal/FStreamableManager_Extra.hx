@@ -3,8 +3,10 @@ package unreal;
 @:glueCppIncludes("Engine.h")
 extern class FStreamableManager_Extra {
 
+  @:uname('.ctor')
+  public static function create() : FStreamableManager;
   @:uname('new')
-  public static function create() : PHaxeCreated<FStreamableManager>;
+  public static function createNew() : POwnedPtr<FStreamableManager>;
 
   public function SynchronousLoad(TargetsToStream : Const<FStringAssetReference>) : UObject;
 

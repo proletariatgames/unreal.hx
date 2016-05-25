@@ -52,14 +52,11 @@ class CreateCppia {
       'haxe.Int64',
       'cpp.Int64',
       'Date',
-      'unreal.PHaxeCreated',
-      'unreal.TSharedPtr',
-      'unreal.TSharedRef',
-      'unreal.TWeakPtr',
-      'unreal.TThreadSafeSharedPtr',
-      'unreal.TThreadSafeSharedRef',
-      'unreal.TThreadSafeWeakPtr',
+      'unreal.Struct',
+      'unreal.TemplateStruct',
+      'unreal.POwnedPtr',
       'unreal.AnyPtr',
+      'unreal.TArray',
       'unreal.ReflectAPI',
     ];
 
@@ -88,6 +85,13 @@ class CreateCppia {
             if (allStatics[e.module]) {
               e.exclude();
             }
+          case TAbstract(_.get()=>a,_):
+            if (allStatics[a.module] || a.meta.has(':uextern')) {
+              var impl = a.impl;
+              if (impl != null) {
+                impl.get().exclude();
+              }
+            }
           case _:
         }
       }
@@ -103,6 +107,7 @@ class CreateCppia {
       @:keep public static var timestamp(default,null):Float = $v{stamp};
     };
     cls.pack = ['ue4hx','internal'];
+    Globals.cur.hasUnprocessedTypes = true;
     Context.defineType(cls);
   }
 
@@ -124,16 +129,12 @@ class CreateCppia {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
-    var ustruct = Context.getType('unreal.Wrapper');
+    var ustruct = Context.getType('unreal.Struct');
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
-          if (Context.unify(type, ustruct)) {
-            cl.exclude();
-            continue;
-          }
           for (field in cl.fields.get())
             Context.follow(field.type);
           for (field in cl.statics.get())
@@ -141,6 +142,11 @@ class CreateCppia {
           var ctor = cl.constructor;
           if (ctor != null)
             Context.follow(ctor.get().type);
+        case TAbstract(a,_):
+          if (Context.unify(type, ustruct)) {
+            a.get().impl.get().exclude();
+            continue;
+          }
         case _:
         }
       }

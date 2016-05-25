@@ -5,7 +5,7 @@ package unreal;
  * Someday auto-extern will make this automatic and there will be much rejoicing
  */
 @:glueCppIncludes("Engine.h")
-@:uname("enum ELevelTick")
+@:uname("ELevelTick")
 @:uextern extern enum ELevelTick {
   /** Update the level time only. */
   LEVELTICK_TimeOnly;

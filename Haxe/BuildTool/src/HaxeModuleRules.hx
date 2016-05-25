@@ -43,6 +43,8 @@ class HaxeModuleRules extends BaseModuleRules
       base.dce = DceFull;
     } else if (Sys.getEnv('NO_DCE') != null) {
       base.dce = DceNo;
+    } else if (target.Configuration == Shipping) {
+      base.dce = DceFull;
     }
 
     return base;
@@ -309,8 +311,8 @@ class HaxeModuleRules extends BaseModuleRules
           var isCrossCompiling = false;
           var extraArgs = null,
               oldEnvs = null;
-          switch(target.Platform) {
-          case Linux if (Sys.systemName() != "Linux"):
+          switch(Std.string(target.Platform)) {
+          case "Linux" if (Sys.systemName() != "Linux"):
             // cross compiling
             isCrossCompiling = true;
             var crossPath = Sys.getEnv("LINUX_ROOT");

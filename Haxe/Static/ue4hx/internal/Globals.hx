@@ -1,4 +1,5 @@
 package ue4hx.internal;
+import ue4hx.internal.TypeConv;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
@@ -99,44 +100,30 @@ class Globals {
   public static var liveReloadFuncs:Map<String, Map<String, TypedExpr>> = new Map();
 
   /**
+    A cache of TypeConv objects
+   **/
+  public var typeConvCache:Map<String, TypeConv> = new Map();
+
+  /**
     This cache is needed to ensure we all have the same classfield when adding metadata to them,
     otherwise some meta might be lost
    **/
   public var cachedFields:Map<String, Map<String, ClassField>> = new Map();
+
   /**
     Linked list of glue types that need to be generated
    **/
   public var gluesToGenerate:Lst<String>;
+
   /**
     Linked list of uobject extensions which need to be exposed
    **/
   public var uextensions:Lst<String>;
-  /**
-    This determines which type parameter glues need to be built. It gets added whenever
-    a TypeConv is created with a type that has type parameters, and is consumed asynchronously
-   **/
-  public var typeParamsToBuild:Lst<{ base:BaseType, args:Array<TypeConv>, pos:Position, feature:String }>;
-  /**
-    In order to avoid infinite cycles of type parameter glue building, this keeps a list of all
-    type parameters that were already built
-   **/
-  public var builtParams:Map<String, Bool> = new Map();
-
-  /**
-    Linked list of types that have type parameters
-   **/
-  public var typesThatNeedTParams:Lst<String>;
-
-  /**
-    Tells which is the current feature being built. This is needed to add the needed dependencies
-    to DCE
-   **/
-  public var currentFeature:Null<String>;
 
   /**
     All script glues to generate
    **/
-  public var scriptGlues:Array<String> = [];
+  public var scriptGlues:Lst<String>;
 
   /**
     List of all defined types that can be cached in this build. They will be cached so the compilation server can pick it up again
@@ -148,16 +135,23 @@ class Globals {
    **/
   public var delays:Lst<Void->Void>;
 
-  public var toDefineTParams:Map<String, TypeDefinition> = new Map();
+  /**
+    Tells whether there are types added to the context
+   **/
+  public var hasUnprocessedTypes:Bool = false;
+
+  public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
+
   public var gluesTouched:Map<String,Bool> = new Map();
-  public var canCreateTypes:Bool;
   public var hasOlderCache:Null<Bool>;
   public var inScriptPass:Bool = false;
   // only used when cppia is defined
   public var scriptModules:Map<String, Bool> = new Map();
-  private var tparamsDeps:Map<String, Map<String, Bool>> = new Map();
+
+  private var modulesSeen:Map<String, Array<String>> = new Map();
 
   function new() {
+    TypeConv.addSpecialTypes(this.typeConvCache);
   }
 
   /**
@@ -173,6 +167,13 @@ class Globals {
       } else {
         this.hasOlderCache = false;
       }
+    }
+  }
+
+  public function markModule(module:String, pack:Array<String>) {
+    if (!modulesSeen.exists(module)) {
+      this.modulesToProcess = this.modulesToProcess.add({ module:module, pack:pack });
+      this.modulesSeen[module] = pack;
     }
   }
 
@@ -268,27 +269,6 @@ class Globals {
       ret.add('\n');
     };
     return ret.toString();
-  }
-
-  public function addDep(tparamClass:TypeRef, feat:String) {
-    var name = tparamClass.getClassPath(true);
-    var deps = this.tparamsDeps[name];
-    if (deps == null) {
-      this.tparamsDeps[name] = deps = new Map();
-    }
-    deps[feat] = true;
-  }
-
-  public function getDeps(className:String) {
-    var deps = tparamsDeps[className];
-    if (deps == null) {
-      return null;
-    }
-    if (deps.exists('keep')) {
-      return ['keep'];
-    }
-
-    return [ for (k in deps.keys()) k ];
   }
 
   public function checkBuildVersionLevel() {

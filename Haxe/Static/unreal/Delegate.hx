@@ -1,7 +1,7 @@
 package unreal;
 
-@:autoBuild(ue4hx.internal.DelegateBuild.build())
-@:ueNoGlue class Delegate<T : haxe.Constraints.Function> extends unreal.Wrapper {
+@:genericBuild(ue4hx.internal.DelegateBuild.build("Delegate"))
+class Delegate<SelfType, T : haxe.Constraints.Function> {
   /**
     Unbinds this delegate.
    **/

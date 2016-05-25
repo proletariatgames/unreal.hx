@@ -3,7 +3,8 @@ package unreal;
 @:glueCppIncludes('Misc/StringAssetReference.h')
 @:hasEquals @:hasCopy
 extern class FStringAssetReference_Extra {
-  @:uname('new') public static function create(pathString:FString):PHaxeCreated<FStringAssetReference>;
+  @:uname('.ctor') public static function create(pathString:FString):FStringAssetReference;
+  @:uname('new') public static function createNew(pathString:FString):POwnedPtr<FStringAssetReference>;
 
   /**
    * Attempts to load the asset.

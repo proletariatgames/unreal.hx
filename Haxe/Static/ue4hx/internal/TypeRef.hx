@@ -17,40 +17,39 @@ class TypeRef
   public var name(default,null):String;
   public var params(default,null):Array<TypeRef>;
   public var moduleName(default,null):Null<String>;
-  public var isConst(default,null):Bool = false;
+  public var flags(default, null):TypeFlags;
 
-  public function new(?pack:Array<String>, name:String, ?moduleName:String, ?params:Array<TypeRef>)
+  public function new(?pack:Array<String>, name:String, ?moduleName:String, ?params:Array<TypeRef>, ?flags:TypeFlags)
   {
     if (pack == null) pack = [];
     if (params == null) params = [];
+    if (flags == null) flags = None;
     this.pack = pack;
     this.name = name;
     this.moduleName = moduleName;
     this.params = params;
-  }
-  
-  static var s_uniqueIDMap:Map<Int, String> = new Map();
-  public function getUniqueID() : Int {
-    var name = toString();
-    var crc = haxe.crypto.Crc32.make(haxe.io.Bytes.ofString(name));
-    if (s_uniqueIDMap.exists(crc) && s_uniqueIDMap[crc] != name) {
-      throw 'name collision: $name ${s_uniqueIDMap[crc]}';
-    }
-    s_uniqueIDMap[crc] = name;
-    return crc;
+    this.flags = flags;
   }
 
+  inline public function with(?pack:Array<String>, ?name:String, ?moduleName:String, ?params:Array<TypeRef>, ?flags:TypeFlags) {
+    return new TypeRef(pack != null ? pack : this.pack, name != null ? name : this.name, moduleName != null ? moduleName : this.moduleName, params != null ? params : this.params, flags != null ? flags : this.flags);
+  }
   inline public function withPack(pack:Array<String>):TypeRef {
-    return new TypeRef(pack, this.name, this.moduleName, this.params);
+    return new TypeRef(pack, this.name, this.moduleName, this.params, this.flags);
   }
   inline public function withParams(params:Array<TypeRef>):TypeRef {
-    return new TypeRef(this.pack, this.name, this.moduleName, params);
+    return new TypeRef(this.pack, this.name, this.moduleName, params, this.flags);
+  }
+  inline public function withConst(setConst:Bool) {
+    return new TypeRef(this.pack, this.name, this.moduleName, params, setConst ? (this.flags | Const) : (this.flags.without(Const)));
   }
 
-  inline public function withConst(setConst:Bool) {
-    var ret = new TypeRef(this.pack, this.name, this.moduleName, params);
-    ret.isConst = setConst;
-    return ret;
+  public function leafWithConst(setConst:Bool) {
+    if (this.params.length > 0) {
+      return new TypeRef(pack,name,moduleName,[for (param in this.params) param.leafWithConst(setConst) ],flags);
+    } else {
+      return this.withConst(setConst);
+    }
   }
 
   public function withoutPrefix():TypeRef {
@@ -63,15 +62,17 @@ class TypeRef
     if (this.name.length > 1 && this.name.charAt(1).toUpperCase() == this.name.charAt(1)) {
       switch(name.charCodeAt(0)) {
       case 'U'.code | 'A'.code | 'F'.code | 'T'.code:
-        return new TypeRef(this.pack, this.name.substr(1), this.params);
+        return new TypeRef(this.pack, this.name.substr(1), this.params, this.flags);
       }
     }
     return this;
   }
 
-  public function withoutPointer():TypeRef {
+  public function withoutPointer(?andReference:Bool=false):TypeRef {
     switch [this.pack, this.name] {
       case [ ['cpp'], 'RawPointer' ]:
+        return params[0].withoutPointer();
+      case [ ['cpp'], 'Reference' ] if(andReference):
         return params[0].withoutPointer();
       case _:
         return this;
@@ -100,6 +101,14 @@ class TypeRef
   }
 
   public static function fromBaseType(ct:BaseType, ?params:Array<Type>, pos:Position):TypeRef {
+    var kind:ClassKind = untyped ct.kind;
+    if (kind != null) {
+      switch(kind) {
+      case KAbstractImpl(a):
+        return fromBaseType(a.get(), params, pos);
+      case _:
+      }
+    }
     var mod = ct.module.split('.').pop();
     var params = (params == null ? [ for (param in ct.params) new TypeRef(param.name) ] : [ for (p in params) fromType(p, pos) ]);
     if (mod != ct.name)
@@ -118,11 +127,15 @@ class TypeRef
           params = tl;
         case TInst(i,tl):
           var it = i.get();
-          base = it;
-          if (it.kind.match(KTypeParameter(_))) {
+          switch(it.kind) {
+          case KAbstractImpl(a):
+            t = TAbstract(a, [ for (param in a.get().params) param.t ]);
+          case KTypeParameter(_):
             return new TypeRef(it.name);
+          case _:
+            base = it;
+            params = tl;
           }
-          params = tl;
         case TEnum(e,tl):
           base = e.get();
           params = tl;
@@ -131,8 +144,10 @@ class TypeRef
           params = tl;
         case TAnonymous(_):
           throw new Error('Unreal Glue: Anonymous type not supported', pos);
-        case TFun(_,_):
-          throw new Error('Unreal Glue: Function type not supported', pos);
+        case TFun(a,r):
+          var all = [ for (arg in a) fromType(arg.t, pos) ];
+          all.push(fromType(r, pos));
+          return new TypeRef(['haxe'],'Function','Constraints',all);
         case TMono(mono):
           t = mono.get();
         case TLazy(lazy):
@@ -233,39 +248,16 @@ class TypeRef
   }
   public function getGlueHelperType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_Glue');
+    return new TypeRef(['uhx','glues'], name + '_Glue');
   }
 
   public function getScriptGlueType():TypeRef
   {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_GlueScript');
+    return new TypeRef(['uhx','glues'], name + '_GlueScript');
   }
 
   public function getExposeHelperType():TypeRef {
-    var newPack = [ for (pack in this.pack) '_hx_' + pack ],
-        name = this.name;
-    newPack.unshift('__pvt');
-    return new TypeRef(newPack, name + '_Expose');
-  }
-
-  public function getTypeParamType():TypeRef {
-    var newPack = [ '__pvt', '_hx_tparam' ],
-        name = new StringBuf();
-    var buf = this.getReducedPath();
-    buf.add('_TypeParam');
-    var ret = buf.toString();
-    if (ret.length > 50) {
-      var sig = haxe.crypto.Md5.encode(ret).substr(0,8);
-      ret = this.getLastName() + '_TypeParam_' + sig;
-    }
-
-    return new TypeRef(newPack, ret);
+    return new TypeRef(['uhx','expose'], name + '_Expose');
   }
 
   public function getLastName():String {
@@ -296,37 +288,52 @@ class TypeRef
 
   public function isVoid() {
     return switch[ pack, name ] {
-      case [ [], 'Void' ]:
+      case [ [], 'Void' | 'void' ]:
         true;
       case _:
         false;
     }
   }
 
+  public function withoutAnyConst():TypeRef {
+    return new TypeRef(this.pack, this.name, this.moduleName, [ for (param in this.params) param.withoutAnyConst() ], this.flags.without(Const));
+  }
+
   public function toComplexType():ComplexType {
-    return TPath({
+    if (moduleName == 'Constraints' && params.length > 0 && name == 'Function' && pack[0] == 'haxe') {
+      var args = [ for (arg in params) arg.toComplexType() ],
+          ret = args.pop();
+      return TFunction(args, ret);
+    }
+
+    return TPath(toTypePath());
+  }
+
+  inline public function toTypePath():TypePath {
+    return {
       pack: this.pack,
       name: this.moduleName == null ? this.name : this.moduleName,
       sub: this.moduleName == null ? null : this.name,
       params: [ for (p in params) TPType(p.toComplexType()) ]
-    });
+    };
   }
 
-  public function getCppType(?buf:StringBuf):StringBuf {
+  public function getCppType(?buf:StringBuf, ?ignoreConst=false, ?ignoreParams=false):StringBuf {
     if (buf == null)
       buf = new StringBuf();
 
+    var handledConst = false;
     // TODO implement more complex const handling, since C++ const is a bear
-    if (isConst) {
-      buf.add('const ');
-    }
-
     switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
-      params[0].getCppType(buf);
+      params[0].getCppType(buf, ignoreConst);
       buf.add(' *');
     case [ ['cpp'], 'Reference' ]:
-      params[0].getCppType(buf);
+      if (!ignoreConst && flags.hasAny(Const) && !params[0].isPointer()) {
+        handledConst = true;
+        buf.add('const ');
+      }
+      params[0].getCppType(buf, ignoreConst);
       buf.add('&');
     case [ ['cpp'], 'ConstCharStar' ]:
       buf.add('const char *');
@@ -335,30 +342,38 @@ class TypeRef
     case [ [], 'Bool' | 'bool' ]:
       buf.add('bool');
     case _:
+      if (!ignoreConst && flags.hasAny(Const)) {
+        handledConst = true;
+        buf.add('const ');
+      }
       buf.add(this.pack.join('::'));
       if (this.pack.length > 0)
         buf.add('::');
       buf.add(this.name);
 
-      if (params.length > 0) {
+      if (params.length > 0 && !ignoreParams) {
         buf.add('<');
         var first = true;
         for (param in params) {
           if (first) first = false; else buf.add(', ');
-          param.getCppType(buf);
+          param.getCppType(buf, ignoreConst);
         }
         buf.add('>');
       }
     }
+
+    if (!handledConst && !ignoreConst && flags.hasAny(Const)) {
+      buf.add(' const');
+    }
     return buf;
   }
 
-  public function getCppClass():String {
+  public function getCppClass(?ignoreParams=false):String {
     return switch [this.pack, this.name] {
     case [ ['cpp'], 'RawPointer' ]:
       params[0].getCppClass();
     case _:
-      this.getCppType(null).toString();
+      this.getCppType(null, false, ignoreParams).toString();
     }
   }
 
@@ -427,6 +442,14 @@ class TypeRef
 
   public function toString()
   {
+    if (moduleName == 'Constraints' && params.length > 0 && name == 'Function' && pack[0] == 'haxe') {
+      if (params.length == 1) {
+        return 'Void->' + params[0];
+      } else {
+        return params.join('->');
+      }
+    }
+
     var t = getClassPath();
     if (params.length > 0)
     {
@@ -434,5 +457,30 @@ class TypeRef
     } else {
       return t;
     }
+  }
+}
+
+@:enum abstract TypeFlags(Int) from Int {
+  var None = 0;
+  var Const = 1;
+
+  inline private function t() {
+    return this;
+  }
+
+  @:op(A|B) inline public function add(f:TypeFlags):TypeFlags {
+    return this | f.t();
+  }
+
+  inline public function hasAll(flag:TypeFlags):Bool {
+    return this & flag.t() == flag.t();
+  }
+
+  inline public function hasAny(flag:TypeFlags):Bool {
+    return this & flag.t() != 0;
+  }
+
+  inline public function without(flags:TypeFlags):TypeFlags {
+    return this & ~(flags.t());
   }
 }

@@ -1,90 +1,242 @@
 package unreal;
-import unreal.helpers.UEPointer;
-import unreal.helpers.ClassMap;
+import cpp.Pointer;
+import cpp.RawPointer;
+import unreal.WrapperFlags;
+import unreal.helpers.StructInfo;
+
+@:keep class Wrapper {
+
+  public function getPointer():UIntPtr {
+    throw 'Not Implemented';
+  }
+
+  public function dispose():Void {
+  }
+
+  public function isDisposed():Bool {
+    return false; // for types that don't need disposing, this will return false even if `dispose` was indeed called
+  }
+
+  public function toString():String {
+    return '[Unknown Wrapper: ${getPointer()}]';
+  }
+}
 
 /**
-  This is the base wrapper class for all non-UObject wrappers
+  Represents a pure-old-data inline wrapper
  **/
-class Wrapper implements ue4hx.internal.NeedsGlue {
-  private var wrapped:cpp.Pointer<UEPointer>;
-  private var parent:Dynamic;
-
-  private function new(wrapped:cpp.Pointer<UEPointer>, typeID:Int=0, ?parent:Dynamic) {
-    this.wrapped = wrapped;
-    this.parent = parent;
-    setFinalizer(typeID);
+#if UHX_EXTRA_DEBUG
+@:headerClassCode('
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    Int size = (Int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
+    InlinePodWrapper_obj *result = new (size) InlinePodWrapper_obj;
+    result->init();
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    return result;
   }
-
-  private function setFinalizer(typeID:Int) {
-    if (this.parent == null && typeID != 0) {
-      ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this), typeID);
-    }
-    cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction(disposeUEPointer));
+')
+#else
+@:headerClassCode('
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    Int size = (Int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
+    InlinePodWrapper_obj *result = new (size) InlinePodWrapper_obj;
+    result->init();
+    return result;
   }
-
-  public function checkPointer() {
-    if (this.wrapped == null) {
-      var msg = 'Trying to use an already disposed object (${Type.getClassName(Type.getClass(this))})';
-#if !UE4_POINTER_TESTING
-      trace('Error',msg);
+')
 #end
-      throw msg;
-    }
-  }
-
-  @:extern inline private function getWrapped():cpp.Pointer<UEPointer> {
-    return this == null ? null : this.wrapped;
-  }
-
-  public function rewrap(wrapped:cpp.Pointer<UEPointer>):Wrapper {
-    return new Wrapper(wrapped);
-  }
-
-  inline public static function copy<T:Wrapper>(obj:T):PHaxeCreated<T> {
-    return cast obj._copy();
-  }
-
-  inline public static function copyStruct<T:Wrapper>(obj:T):PHaxeCreated<T> {
-    return cast obj._copyStruct();
-  }
-
-  private function _equals(other:Wrapper) : Bool {
-    throw ('The type ${Type.getClassName(Type.getClass(this))} does not support equals');
-  }
-
-  private function _copy():Wrapper {
-    throw 'The type ${Type.getClassName(Type.getClass(this))} does not support copy constructors';
-  }
-
-  private function _copyStruct():Wrapper {
-    throw 'The type ${Type.getClassName(Type.getClass(this))} does not support copy constructors';
-  }
-
-  /**
-    Releases the wrapped pointer. Call this if the object will not be used anymore
-    in order to avoid the finalizer call overhead
-   **/
-  public function dispose() {
-    if (this.wrapped == null) {
-      var msg = 'Trying to dispose an already disposed object (${Type.getClassName(Type.getClass(this))})';
-#if !UE4_POINTER_TESTING
-      trace('Error',msg);
+@:keep class InlinePodWrapper extends Wrapper {
+#if UHX_EXTRA_DEBUG
+  var m_info:Pointer<StructInfo>;
 #end
-      throw msg;
-    }
 
-    // cancel the finalizer
-    cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
-    disposeUEPointer(this);
-    this.wrapped = null;
+  @:final @:nonVirtual private function init() {
   }
 
-  @:void @:unreflective static function disposeUEPointer(wrapper:Wrapper):Void {
-    if (wrapper.wrapped != null) {
-      if (wrapper.parent == null) {
-        ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer());
-      }
-      wrapper.wrapped.destroy();
+  override public function getPointer():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (this + 1)');
+  }
+
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlinePodWrapper { return null; }
+
+  override public function toString():String {
+#if UHX_EXTRA_DEBUG
+    return '[Inline POD Wrapper ($name) @ ${getPointer()}]';
+#else
+    return '[Unknown POD wrapper: ${getPointer()}]';
+#end
+  }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlinePodWrapper_obj))');
+  }
+}
+
+/**
+ **/
+@:headerClassCode('
+  inline static hx::ObjectPtr< InlineWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
+    Int size =  (Int) ((extraSize + sizeof(void *) - 1) & ~(sizeof(void*) - 1));
+    InlineWrapper_obj *result = new (size) InlineWrapper_obj;
+    result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    result->init();
+    return result;
+  }
+')
+@:keep class InlineWrapper extends Wrapper {
+  var m_flags:WrapperFlags;
+  var m_info:Pointer<StructInfo>;
+
+  @:final @:nonVirtual private function init() {
+    if (m_info.ptr.destruct != untyped __cpp__('0')) {
+      m_flags = NeedsDestructor;
+      cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
     }
   }
+
+  @:analyzer(no_fusion)
+  private static function finalize(self:InlineWrapper) {
+    if (self.m_flags.hasAny(NeedsDestructor)) {
+      var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(self.getPointer());
+      self.m_flags = Disposed;
+    }
+  }
+
+  override public function getPointer():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (this + 1)');
+  }
+
+  override public function isDisposed() {
+    return m_flags.hasAny(Disposed);
+  }
+
+  override public function dispose():Void {
+    if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
+      cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
+      var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(this.getPointer());
+      m_flags = (m_flags & ~NeedsDestructor) | Disposed;
+    } else if (m_flags.hasAny(Disposed)) {
+      throw 'Cannot dispose $this: It was already disposed';
+    } else {
+      m_flags |= Disposed;
+    }
+  }
+
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+
+  override public function toString():String {
+    var name = m_info.ptr.name.toString();
+    return '[Inline Wrapper ($name) @ ${getPointer()}]';
+  }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlineWrapper_obj))');
+  }
+}
+
+/**
+  Represents a special aligned wrapper
+ **/
+@:headerClassCode('
+  inline static hx::ObjectPtr< AlignedInlineWrapper_obj > create(Int extraSize, unreal::UIntPtr rawInfo) {
+    uhx::StructInfo *info = (uhx::StructInfo *) rawInfo;
+    // make sure extraSize is big enough to hold the alignment
+    unreal::UIntPtr align = info->alignment;
+    unreal::UIntPtr dif = align - 2; // the pointer is at least aligned in the power of two
+    // align the final result to (void*) - should be already, but why not
+    extraSize = (extraSize + dif + ( sizeof(void*) - 1 )) & ~( sizeof(void*) - 1 );
+    AlignedInlineWrapper_obj *result = new ((Int) extraSize) AlignedInlineWrapper_obj;
+    result->m_info = cpp::Pointer_obj::fromPointer( info );
+    result->init();
+    return result;
+  }
+')
+@:keep class AlignedInlineWrapper extends InlineWrapper {
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineWrapper { return null; }
+
+  override public function getPointer():UIntPtr {
+    var align = m_info.ptr.alignment - 1;
+    return untyped __cpp__(' ( (((unreal::UIntPtr) (this + 1)) + {0}) & ~((unreal::UIntPtr) {0}))', align);
+  }
+}
+
+@:keep class TemplateWrapper extends Wrapper {
+  public var info(default, null):Pointer<StructInfo>;
+  public var pointer(default, null):UIntPtr;
+
+  inline override public function getPointer():UIntPtr {
+    return pointer;
+  }
+
+  override public function toString():String {
+    var name = info.ptr.name.toString();
+    return '[Template Wrapper ($name) @ ${getPointer()}]';
+  }
+
+  public static function getOffset():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) offsetof(unreal::TemplateWrapper_obj, pointer)');
+  }
+}
+
+@:keep class PointerTemplateWrapper extends TemplateWrapper {
+  public function new(ptr, info:UIntPtr) {
+    this.pointer = ptr;
+    this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
+  }
+}
+
+@:headerClassCode('
+  inline static hx::ObjectPtr< InlineTemplateWrapper_obj > create(Int extraSize, unreal::UIntPtr rawInfo) {
+    uhx::StructInfo *info = (uhx::StructInfo *) rawInfo;
+    unreal::UIntPtr align = info->alignment;
+    // make sure extraSize is big enough to hold the alignment
+    unreal::UIntPtr dif = align - 2; // the pointer is at least aligned in the power of two
+    // align the final result to (void*) - should be already, but why not
+    extraSize = (extraSize + dif + ( sizeof(void*) - 1 )) & ~( sizeof(void*) - 1 );
+    InlineTemplateWrapper_obj *result = new ((Int) extraSize) InlineTemplateWrapper_obj;
+    result->info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    result->pointer = ( ((unreal::UIntPtr) (result + 1)) + align - 1 ) & ~(align -1);
+    result->init();
+    return result;
+  }
+')
+@:keep class InlineTemplateWrapper extends TemplateWrapper {
+  var m_flags:WrapperFlags;
+
+  @:final @:nonVirtual private function init() {
+    if (info.ptr.destruct != untyped __cpp__('0')) {
+      m_flags = NeedsDestructor;
+      cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
+    }
+  }
+
+  @:analyzer(no_fusion)
+  private static function finalize(self:InlineTemplateWrapper) {
+    if (self.m_flags.hasAny(NeedsDestructor)) {
+      var fn = (cast self.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(self.pointer);
+      self.m_flags = Disposed;
+    }
+  }
+
+  override public function isDisposed() {
+    return m_flags.hasAny(Disposed);
+  }
+
+  override public function dispose():Void {
+    if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
+      cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
+      var fn = (cast this.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      fn.call(this.pointer);
+      m_flags = (m_flags & ~NeedsDestructor) | Disposed;
+    } else if (m_flags.hasAny(Disposed)) {
+      throw 'Cannot dispose $this: It was already disposed';
+    } else {
+      m_flags |= Disposed;
+    }
+  }
+
+  @:extern public static function create(extraSize:Int, info:UIntPtr):InlineTemplateWrapper { return null; }
 }

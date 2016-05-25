@@ -22,5 +22,5 @@ import unreal.*;
 
 @:glueCppIncludes('UObject/UObjectGlobals.h')
 @:uname('FCoreUObjectDelegates.FOnAssetLoaded')
-@:uextern extern class FOnAssetLoaded extends MulticastDelegate<UObject->Void> {}
+typedef FOnAssetLoaded = MulticastDelegate<FOnAssetLoaded, UObject->Void>;
 #end
