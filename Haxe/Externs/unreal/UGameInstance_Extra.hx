@@ -10,4 +10,7 @@ extern class UGameInstance_Extra {
 
   @:thisConst
   public function GetLocalPlayers() : Const<PRef<TArray<ULocalPlayer>>>;
+
+  @:thisConst
+  public function GetTimerManager() : PRef<FTimerManager>;
 }
