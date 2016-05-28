@@ -678,14 +678,16 @@ class UExtensionBuild {
         throw new Error(':uoverrideSubobject requires two parameters: the name of the component, and the override type', clt.pos);
       }
       var overrideName = switch (fld.params[0].expr) {
-      case EConst(CIdent(s)) | EConst(CString(s)): s;
+      case EConst(CString(_)): fld.params[0].toString();
+      case EField(_) | EConst(CIdent(_)):
+        fld.params[0].toString().replace('.','::');
       default: throw new Error('@:uoverrideSubobject first parameter should be the name of the component to override', clt.pos);
       }
 
       var overrideType = Context.getType(fld.params[1].toString());
       var overrideTypeConv = TypeConv.get(overrideType, clt.pos).withModifiers(null);
       overrideTypeConv.collectUeIncludes(includes);
-      objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>("$overrideName")';
+      objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>($overrideName)';
     }
 
     var ctorBody = new HelperBuf();
