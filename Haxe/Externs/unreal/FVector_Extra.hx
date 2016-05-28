@@ -1,5 +1,6 @@
 package unreal;
 
+@:hasCopy
 extern class FVector_Extra {
   public function new(x:Float32, y:Float32, z:Float32);
 
@@ -63,12 +64,16 @@ extern class FVector_Extra {
   public function _addeq(b:FVector):FVector;
 
   @:op(A*B)
+  @:expr(return createWithValues(X * b.X, Y * b.Y, Z * b.Y))
+  public function _mul(b:FVector):FVector;
+
+  @:op(A*B)
   @:expr(return createWithValues(X * b, Y * b, Z * b))
-  public function _mul(b:Float):FVector;
+  public function _mulScalar(b:Float):FVector;
 
   @:op(A*=B)
   @:expr(return FVectorUtils.muleq(cast this, b))
-  public function _muleq(b:Float):FVector;
+  public function _mulScalareq(b:Float):FVector;
 
   @:op(A-B)
   @:expr(return createWithValues(X - b.X, Y - b.Y, Z - b.Y))
@@ -79,4 +84,6 @@ extern class FVector_Extra {
   public function _subeq(b:FVector):FVector;
 
   public function IsNearlyZero():Bool;
+
+  public function IsZero():Bool;
 }

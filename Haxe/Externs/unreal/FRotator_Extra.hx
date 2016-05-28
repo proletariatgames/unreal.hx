@@ -20,4 +20,6 @@ extern class FRotator_Extra {
   public var Pitch:Float32;
   public var Yaw:Float32;
   public var Roll:Float32;
+
+  static var ZeroRotator(default, never):FRotator;
 }

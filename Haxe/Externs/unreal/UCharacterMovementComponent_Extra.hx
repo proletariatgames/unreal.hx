@@ -8,7 +8,7 @@ extern class UCharacterMovementComponent_Extra {
    * @return  True if the jump was triggered successfully.
    */
   public function DoJump(bReplayingMoves:Bool) : Bool;
-  
+
 
   /**
    * Checks if new capsule size fits (no encroachment), and call CharacterOwner->OnStartCrouch() if successful.
@@ -26,4 +26,9 @@ extern class UCharacterMovementComponent_Extra {
   /** @return true if the character is allowed to crouch in the current state. By default it is allowed when walking or falling, if CanEverCrouch() is true. */
   @:thisConst
   function CanCrouchInCurrentState() : Bool;
+
+  /**
+    MovementMode string
+   **/
+  function GetMovementName():FString;
 }
