@@ -93,6 +93,15 @@ class DelayedGlue {
   }
 
   macro public static function getSuperExpr(fieldName:String, targetFieldName:String, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+    return getSuperExprImpl(fieldName, targetFieldName, args, false);
+  }
+
+  macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+    return getNativeCallImpl(fieldName, isStatic, args, false);
+  }
+
+#if macro
+  private static function getSuperExprImpl(fieldName:String, targetFieldName:String, args:Array<haxe.macro.Expr>, script:Bool):haxe.macro.Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
@@ -124,6 +133,10 @@ class DelayedGlue {
       fargs = [ for (arg in targs) { name:'__usuper_arg' + argn++, type:TypeConv.get(arg.t, pos) } ];
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
+    }
+    var origArgs = switch(Context.follow(findField(cls, fieldName, false).type)) {
+      case TFun(args,_): args;
+      case _: throw 'assert';
     }
     if (fargs.length != args.length)
       throw new Error('Unreal Glue Generation: super.$fieldName number of arguments differ from super. Expected ${fargs.length}; got ${args.length}', pos);
@@ -176,13 +189,14 @@ class DelayedGlue {
       block[0];
     else
       { expr:EBlock(block), pos: pos };
-    if (cls.meta.has(':uscript')) {
-      flagCurrentField(targetFieldName, cls, false, ret);
+    if (cls.meta.has(':uscript') && !script) {
+      var expr = getSuperExprImpl(fieldName, targetFieldName, [for (arg in origArgs) macro $i{arg.name} ], true);
+      flagCurrentField(targetFieldName, cls, false, expr);
     }
     return ret;
   }
 
-  macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
+  private static function getNativeCallImpl(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>, script:Bool):haxe.macro.Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
@@ -255,13 +269,13 @@ class DelayedGlue {
       { expr:EBlock(block), pos: pos };
     };
 
-    if (cls.meta.has(':uscript')) {
-      flagCurrentField(fieldName, cls, isStatic, ret);
+    if (cls.meta.has(':uscript') && !script) {
+      var expr = getNativeCallImpl(fieldName, isStatic, [for (arg in fargs) macro $i{arg.name} ], true);
+      flagCurrentField(fieldName, cls, isStatic, expr);
     }
     return ret;
   }
 
-#if macro
   private static function findField(cls:ClassType, field:String, isStatic:Bool, ?cur:ClassField) {
     var name = cls.pack.join('.') + '.' + cls.name;
     var fields = Globals.cur.cachedFields[name];
