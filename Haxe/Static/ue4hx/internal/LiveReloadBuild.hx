@@ -69,16 +69,18 @@ class LiveReloadBuild {
         args[0].name = 'this';
       }
       var call = { expr:ECall(livereload, [ for (arg in args) macro $i{arg.name} ]), pos:texpr.pos };
+      var block = null;
       if (!Context.follow(ret).match(TAbstract(_.get() => { name:'Void', pack:[] },_))) {
         // is not void
         var type = ret.toComplexType();
-        return macro {
+        block = macro {
           var ret : $type = $call;
           return ret;
         };
       } else {
-        return call;
-     }
+        block = call;
+      }
+      return block;
     case _:
       throw 'assert'; // error early on
     }
@@ -93,7 +95,14 @@ class LiveReloadBuild {
       var exists = false;
       try {
         // test if the type exists first - otherwise it was deleted and we shouldn't add it
-        Context.getType(cls);
+        switch(Context.follow(Context.getType(cls))) {
+        case TInst(c,_):
+          var c = c.get();
+          if (!Context.defined('cppia') && c.meta.has(':uscript')) {
+            continue;
+          }
+        case _:
+        }
         exists = true;
       } catch(e:Dynamic) {
         trace('Type was deleted: $cls');

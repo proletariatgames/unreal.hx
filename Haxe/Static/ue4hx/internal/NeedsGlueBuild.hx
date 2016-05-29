@@ -99,7 +99,7 @@ class NeedsGlueBuild
               var args = [ for (arg in args) map(arg) ];
               changed = true;
               var ret = null;
-              if (field.meta.hasMeta(':live')) {
+              if (field.meta.hasMeta(':live') && !Globals.cur.inScriptPass && !Context.defined('cppia')) {
                 // regardless if the super points to a haxe superclass or not,
                 // we will need to be able to call it through a static function
                 var fn = findSuperField(sfield);
