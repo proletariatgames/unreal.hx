@@ -109,4 +109,20 @@ extern class UWorld_Extra {
     transform:Const<PRef<FTransform>>,
     owner:AActor,
     instigator:APawn) : PPtr<T>;
+
+  /**
+    Test the collision of a shape at the supplied location using a specific channel, and return if any blocking overlap is found
+   **/
+  function OverlapBlockingTestByChannel(
+      pos:Const<PRef<FVector>>,
+      rot:Const<PRef<FQuat>>,
+      traceChannel:ECollisionChannel,
+      collisionShape:Const<PRef<FCollisionShape>>,
+      params:Const<PRef<FCollisionQueryParams>>,
+      responseParam:Const<PRef<FCollisionResponseParams>>):Bool;
+
+  /**
+    Returns the AWorldSettings actor associated with this world.
+   **/
+  function GetWorldSettings(bCheckStreamingPesistent:Bool, bChecked:Bool):AWorldSettings;
 }

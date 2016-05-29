@@ -56,7 +56,7 @@ extern class FVector_Extra {
   public static function DotProduct(A:Const<PRef<FVector>>, B:Const<PRef<FVector>>):Float32;
 
   @:op(A+B)
-  @:expr(return createWithValues(X + b.X, Y + b.Y, Z + b.Y))
+  @:expr(return createWithValues(X + b.X, Y + b.Y, Z + b.Z))
   public function _add(b:FVector):FVector;
 
   @:op(A+=B)
@@ -64,10 +64,12 @@ extern class FVector_Extra {
   public function _addeq(b:FVector):FVector;
 
   @:op(A*B)
-  @:expr(return createWithValues(X * b.X, Y * b.Y, Z * b.Y))
+  @:commutative
+  @:expr(return createWithValues(X * b.X, Y * b.Y, Z * b.Z))
   public function _mul(b:FVector):FVector;
 
   @:op(A*B)
+  @:commutative
   @:expr(return createWithValues(X * b, Y * b, Z * b))
   public function _mulScalar(b:Float):FVector;
 
@@ -76,7 +78,7 @@ extern class FVector_Extra {
   public function _mulScalareq(b:Float):FVector;
 
   @:op(A-B)
-  @:expr(return createWithValues(X - b.X, Y - b.Y, Z - b.Y))
+  @:expr(return createWithValues(X - b.X, Y - b.Y, Z - b.Z))
   public function _sub(b:FVector):FVector;
 
   @:op(A-=B)
@@ -86,4 +88,7 @@ extern class FVector_Extra {
   public function IsNearlyZero():Bool;
 
   public function IsZero():Bool;
+
+  @:expr(return 'FVector($X,$Y,$Z)')
+  public function toString():String;
 }

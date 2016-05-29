@@ -31,4 +31,12 @@ extern class UCharacterMovementComponent_Extra {
     MovementMode string
    **/
   function GetMovementName():FString;
+  function StartFalling(Iterations:Int, remainingTime:Float32, timeTick:Float32, Delta:Const<PRef<FVector>>, subLoc:  Const<PRef<FVector>>):Void;
+
+  /**
+    Movement update functions should only be called through StartNewPhysics()
+   **/
+  private function PhysWalking(deltaTime:Float32, Iterations:Int32):Void;
+
+  @:thisConst private function ScaleInputAcceleration(InputAcceleration:Const<PRef<FVector>>):FVector;
 }
