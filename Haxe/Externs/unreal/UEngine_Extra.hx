@@ -18,6 +18,8 @@ extern class UEngine_Extra {
 
   public function GetWorldContextFromWorldChecked(InWorld:Const<UWorld>) : PRef<FWorldContext>;
 
+  public function GetMainAudioDevice() : PPtr<FAudioDevice>;
+
   public var TravelFailureEvent : FOnTravelFailure;
   /**
     Global UEngine
