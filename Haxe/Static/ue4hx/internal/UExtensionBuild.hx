@@ -678,7 +678,7 @@ class UExtensionBuild {
         throw new Error(':uoverrideSubobject requires two parameters: the name of the component, and the override type', clt.pos);
       }
       var overrideName = switch (fld.params[0].expr) {
-      case EConst(CString(_)): fld.params[0].toString();
+      case EConst(CString(s)): '"${s.replace("\n","\\n").replace("\t","\\t").replace("'","\\'").replace('"',"\\\"")}"';
       case EField(_) | EConst(CIdent(_)):
         fld.params[0].toString().replace('.','::');
       default: throw new Error('@:uoverrideSubobject first parameter should be the name of the component to override', clt.pos);
