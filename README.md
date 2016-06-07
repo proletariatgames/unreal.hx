@@ -42,6 +42,9 @@ class AMyActor extends AActor {
   
   // override native C++ function
   override function Tick(deltaTime:Float32) : Void {
+    super.Tick(deltaTime); // call super functions
+    trace('Hello, World!'); // all traces are redirected to Unreal's Log
+    trace('Warning', 'Some Warning'); // and it supports Warning, Error and Fatal as well
   }
   
   // tell Unreal to call our Tick function
