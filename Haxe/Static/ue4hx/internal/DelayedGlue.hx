@@ -216,9 +216,11 @@ class DelayedGlue {
     var field = findField(cls, fieldName, isStatic || abs != null);
     if (field == null)
       throw new Error('Unreal Glue Generation: Field calls native but no field was found with that name ($fieldName)', pos);
-    var fargs = null, fret = null;
+    var fargs = null, fret = null,
+        origArgs = null;
     switch(Context.follow(field.type)) {
     case TFun(targs,tret):
+      origArgs = targs;
       var argn = 0;
       // TESTME: add test for super.call(something, super.call(other))
       if (abs != null && !isStatic) {
@@ -228,8 +230,9 @@ class DelayedGlue {
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
     }
-    if (fargs.length != args.length)
-      throw new Error('Unreal Glue Generation: super.$fieldName number of arguments differ from super. Expected ${fargs.length}; got ${args.length}', pos);
+    if (fargs.length != args.length) {
+      throw new Error('Unreal Glue Generation: $fieldName number of call arguments differ from declaration. Expected ${fargs.length}; got ${args.length}', pos);
+    }
     var argn = 0;
     var block = [ for (arg in args) {
       var name = '__unative_arg' + argn++;
@@ -270,7 +273,8 @@ class DelayedGlue {
     };
 
     if (cls.meta.has(':uscript') && !script) {
-      var expr = getNativeCallImpl(fieldName, isStatic, [for (arg in fargs) macro $i{arg.name} ], true);
+      var args = [ for (arg in origArgs) macro $i{arg.name} ];
+      var expr = getNativeCallImpl(fieldName, isStatic, args, true);
       flagCurrentField(fieldName, cls, isStatic, expr);
     }
     return ret;

@@ -58,22 +58,49 @@ class CreateCppia {
       'unreal.AnyPtr',
       'unreal.TArray',
       'unreal.ReflectAPI',
+      'unreal.ByteArray',
+      'unreal.AnyPtr',
+      'unreal.ConstAnyPtr',
     ];
 
     addTimestamp();
 
     Context.onGenerate(function(types) {
-      var allStatics = [ for (s in statics.concat(blacklist)) s => true ];
+      var allStatics = [ for (s in statics.concat(blacklist)) s => true ],
+          incompleteExcludes = null;
       if (excludeModules != null) {
         for (m in excludeModules) {
-          allStatics[m] = true;
+          if (m.endsWith('.*')) {
+            if (incompleteExcludes == null) incompleteExcludes = [];
+            incompleteExcludes.push(m.substr(0,-1));
+          } else {
+            allStatics[m] = true;
+          }
+        }
+      }
+      inline function hasExclude(module:String) {
+        if (allStatics[module]) {
+          return true;
+        } else if (incompleteExcludes != null) {
+          var ret = false;
+          for (exc in incompleteExcludes) {
+            if (module.startsWith(exc)) {
+              ret = true;
+              break;
+            }
+          }
+          return ret;
+        } else {
+          return module.startsWith('cpp.');
         }
       }
       for (type in types) {
         switch(type) {
           case TInst(_.get()=>c,_):
-            if (allStatics[c.module] || c.meta.has(':uextern')) {
-              c.exclude();
+            if (hasExclude(c.module) || c.meta.has(':uextern') || c.meta.has(':coreApi')) {
+              if (c.name != 'UnrealCppia') {
+                c.exclude();
+              }
             } else {
               switch(c.pack) {
               case ['unreal','helpers']:
@@ -82,11 +109,13 @@ class CreateCppia {
               }
             }
           case TEnum(_.get()=>e,_):
-            if (allStatics[e.module]) {
+            if (hasExclude(e.module)) {
               e.exclude();
             }
           case TAbstract(_.get()=>a,_):
-            if (allStatics[a.module] || a.meta.has(':uextern')) {
+            trace(a.meta.has(':uextern'));
+            trace(a.name);
+            if (hasExclude(a.module) || a.meta.has(':uextern') || a.meta.has(':coreApi')) {
               var impl = a.impl;
               if (impl != null) {
                 impl.get().exclude();

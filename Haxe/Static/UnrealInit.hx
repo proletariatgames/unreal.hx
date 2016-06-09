@@ -61,22 +61,26 @@ class UnrealInit
 #if WITH_CPPIA
     function loadCppia() {
       trace('loading cppia');
-      untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-      var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
-      if (cls != null) {
-        trace('Setting cppia live reload types');
-        cls.bindFunctions();
-      }
-      cls = Type.resolveClass('ue4hx.internal.CppiaCompilation');
-      if (cls != null) {
-        var newStamp:Float = cls.timestamp;
-        if (Math.abs(newStamp - internalStamp) < .1) {
-          trace('Error', 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
-                'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error');
-        } else if (newStamp < internalStamp) {
-          trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
+      try {
+        untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+        var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
+        if (cls != null) {
+          trace('Setting cppia live reload types');
+          cls.bindFunctions();
         }
-        internalStamp = newStamp;
+        cls = Type.resolveClass('ue4hx.internal.CppiaCompilation');
+        if (cls != null) {
+          var newStamp:Float = cls.timestamp;
+          if (Math.abs(newStamp - internalStamp) < .1) {
+            trace('Error', 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
+                  'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error');
+          } else if (newStamp < internalStamp) {
+            trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
+          }
+          internalStamp = newStamp;
+        }
+      } catch(e:Dynamic) {
+        trace('Error', 'Error while loading cppia: $e');
       }
       stamp = FileSystem.stat(target).mtime.getTime();
     }
