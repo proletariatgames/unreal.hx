@@ -113,8 +113,6 @@ class CreateCppia {
               e.exclude();
             }
           case TAbstract(_.get()=>a,_):
-            trace(a.meta.has(':uextern'));
-            trace(a.name);
             if (hasExclude(a.module) || a.meta.has(':uextern') || a.meta.has(':coreApi')) {
               var impl = a.impl;
               if (impl != null) {
