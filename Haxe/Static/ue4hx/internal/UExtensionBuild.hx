@@ -401,7 +401,7 @@ class UExtensionBuild {
               }
 
               var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
-              replicatedProps[uprop] = repType;
+              replicatedProps[getUName(uprop)] = repType;
               hasReplicatedProperties = true;
             }
 
@@ -443,9 +443,10 @@ class UExtensionBuild {
 
           cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
           cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
-          for (replicatedProp in replicatedProps.keys()) {
-            var uname = getUName(replicatedProp);
-            var repType = replicatedProps[replicatedProp];
+          var repKeys = [ for (prop in replicatedProps.keys()) prop ];
+          repKeys.sort(Reflect.compare);
+          for (uname in repKeys) {
+            var repType = replicatedProps[uname];
             if (repType == null) {
               cppCode += '\tDOREPLIFETIME(${nativeUe.getCppClass()}, $uname);\n';
             } else {
