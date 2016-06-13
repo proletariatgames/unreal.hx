@@ -22,6 +22,11 @@ extern class APlayerController_Extra {
 	 * @param A - new actor to set as view target
    */
 	public function SetViewTarget(NewViewTarget:AActor, TransitionParams:FViewTargetTransitionParams) : Void;
+	/**
+	 * If bAutoManageActiveCameraTarget is true, then automatically manage the active camera target.
+	 * If there a CameraActor placed in the level with an auto-activate player assigned to it, that will be preferred, otherwise SuggestedTarget will be used.
+	 */
+	public function AutoManageActiveCameraTarget(SuggestedTarget:AActor) : Void;
 
   @:thisConst
   public function GetLocalPlayer() : ULocalPlayer;
