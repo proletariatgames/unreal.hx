@@ -21,7 +21,7 @@ extern class APlayerController_Extra {
 	/** Set the view target
 	 * @param A - new actor to set as view target
    */
-	public function SetViewTarget(NewViewTarget:AActor) : Void;
+	public function SetViewTarget(NewViewTarget:AActor, TransitionParams:FViewTargetTransitionParams) : Void;
 
   @:thisConst
   public function GetLocalPlayer() : ULocalPlayer;
