@@ -177,6 +177,16 @@ private typedef TArrayImpl<T> = Dynamic;
     return [for(i in 0...this.Num()) if (funct(this.get_Item(i))) this.get_Item(i)];
   }
 
+  public function count(fn:T->Bool) : Int {
+    var cnt = 0;
+    for (i in 0...this.Num()) {
+      if (fn(this.get_Item(i))) {
+        ++cnt;
+      }
+    }
+    return cnt;
+  }
+
   public function sort(fn:T->T->Int):Void {
     var len = this.Num();
     if (len == 0) {
@@ -245,6 +255,29 @@ private typedef TArrayImpl<T> = Dynamic;
       var tmp:unreal.TArray<$returnType> = unreal.TArrayImpl.create();
       for (value in $eThis) {
         tmp.Push($funct(value));
+      }
+      tmp;
+    };
+  }
+
+  macro public function filter(eThis:Expr, funct:Expr) : Expr {
+    var type = Context.typeof(funct).follow();
+    var returnType =  switch(type) {
+      case TFun(_, ret):
+        if (isKnownType(ret)) {
+          ret.toComplexType();
+        } else {
+          throw new Error('The return type of the function must be known. Make sure it\'s fully typed', funct.pos);
+        }
+      default: throw new Error('funct must be a function', funct.pos);
+    }
+
+    return macro {
+      var tmp:unreal.TArray<$returnType> = unreal.TArrayImpl.create();
+      for (value in $eThis) {
+        if ($funct(value)) {
+          tmp.Push(value);
+        }
       }
       tmp;
     };
