@@ -32,6 +32,12 @@ extern class UObject_Extra {
    **/
   public function Rename(newName:TCharStar, newOuter:UObject, flags:Int):Bool;
 
+  /** 
+   * Returns the unique ID of the object...these are reused so it is only unique while the object is alive.
+   * Useful as a tag.
+  **/
+  @:thisConst public function GetUniqueID():unreal.FakeUInt32;
+
   /**
     Get the default config filename for the specified UObject
    **/
