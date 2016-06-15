@@ -32,4 +32,10 @@ extern class FLinearColor_Extra {
 	/** Quantizes the linear color and returns the result as a FColor with optional sRGB conversion and quality as goal. */
   @:thisConst
 	public function ToFColor(bSRGB:Bool) : FColor;
+
+  public function ComputeLuminance() : Float32;
+
+  public function Desaturate(Desaturation:Float32) : FLinearColor;
+
+  public static function Dist(V1:Const<PRef<FLinearColor>>, V2:Const<PRef<FLinearColor>>) : Float32;
 }
