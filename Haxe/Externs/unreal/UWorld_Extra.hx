@@ -125,4 +125,7 @@ extern class UWorld_Extra {
     Returns the AWorldSettings actor associated with this world.
    **/
   function GetWorldSettings(bCheckStreamingPesistent:Bool, bChecked:Bool):AWorldSettings;
+
+	/** Gets this world's instance for a given collection. */
+  function GetParameterCollectionInstance(Collection:Const<UMaterialParameterCollection>) : UMaterialParameterCollectionInstance;
 }
