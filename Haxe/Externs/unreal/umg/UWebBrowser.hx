@@ -29,4 +29,5 @@ package unreal.umg;
   public function GetTitleText():FText;
 
   public var OnUrlChanged (get,never):FOnUrlChangedEvent;
+  public var OnLoadUrl (get,never):FOnLoadUrlEvent;
 }
