@@ -7,4 +7,8 @@ package unreal.umg;
   @:thisConst
   public function GetCachedWidget() : TSharedPtr<SWidget>;
 
+  public function SynchronizeProperties() : Void;
+
+  public function AddBinding(DelegateProperty:UDelegateProperty, SourceObject:UObject, BindingPath:Const<PRef<FDynamicPropertyPath>>) : Bool;
+
 }
