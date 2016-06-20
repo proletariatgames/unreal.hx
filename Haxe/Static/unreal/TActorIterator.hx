@@ -15,8 +15,12 @@ typedef TActorIteratorImpl<T> = Dynamic;
     return macro unreal.TActorIteratorImpl.create($tParam, $world);
   }
 
-  macro public static function createStruct(?tParam:Expr, world:Expr) : Expr {
-    return macro unreal.TActorIteratorImpl.createStruct($tParam, $world);
+  macro public static function createForSubclass(?tParam:Expr, world:Expr, cls:Expr) : Expr {
+    return macro unreal.TActorIteratorImpl.createForSubclass($tParam, $world, $cls);
+  }
+
+  macro public static function createNew(?tParam:Expr, world:Expr) : Expr {
+    return macro unreal.TActorIteratorImpl.createNew($tParam, $world);
   }
 }
 
