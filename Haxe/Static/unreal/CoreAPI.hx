@@ -73,11 +73,13 @@ class CoreAPI {
    *  if (pawn != null) { ... }
    */
   public static inline function as<T>(obj:UObject, cls:Class<T>) : Null<T> {
+    var result:T;
     if (Std.is(obj, cls)) {
-      return cast obj;
+      result = cast obj;
     } else {
-      return null;
+      result = null;
     }
+    return result;
   }
 
   public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
