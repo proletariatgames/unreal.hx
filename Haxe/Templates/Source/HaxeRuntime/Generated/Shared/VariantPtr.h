@@ -138,6 +138,13 @@ struct CompareTraits<unreal::VariantPtr>
    inline static int getDynamicCompareType(unreal::VariantPtr) { return type; }
    inline static bool isNull(const unreal::VariantPtr &inValue) { return inValue.raw == 0; }
 };
+
+template<>
+inline EnumBase_obj *EnumBase_obj::_hx_init(int inIndex,const unreal::VariantPtr &inValue)
+{
+   _hx_getFixed()[inIndex] = inValue.getDynamic();
+   return this;
+}
 }
 
 template<>
