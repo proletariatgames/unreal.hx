@@ -9,6 +9,8 @@ extern class FTransform_Extra {
   public static function create() : FTransform;
   @:uname('new')
   public static function createNew() : POwnedPtr<FTransform>;
+  @:uname('.ctor')
+  public static function copyCreate(InTransform:Const<PRef<FTransform>>) : FTransform;
 
   /**
    * Constructor with all components initialized, taking a FRotator as the rotation component
