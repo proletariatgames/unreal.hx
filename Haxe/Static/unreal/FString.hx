@@ -21,6 +21,10 @@ package unreal;
     return this.op_Dereference();
   }
 
+  public function empty(?slack:Int32):Void {
+    this.Empty(slack);
+  }
+
   @:op(A==B) inline public function equals(other:FString) : Bool {
     if (this == null)
       return other == null;

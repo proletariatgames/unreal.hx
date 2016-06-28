@@ -10,6 +10,8 @@ package unreal;
   @:thisConst function IsEmpty() : Bool;
   @:thisConst function ToBool() : Bool;
 
+  function Empty(slack:Int32) : Void;
+
   @:expr(return op_Dereference()) public function toString():String;
 }
 
