@@ -173,6 +173,15 @@ class ExternBaker {
       }
     }
 
+    var cwd = Sys.getCwd();
+    var hxml = '$cwd/baker-arguments.hxml';
+    if (FileSystem.exists(hxml)) {
+      var time = FileSystem.stat(hxml).mtime.getTime();
+      if (time > latest) {
+        latest = time;
+      }
+    }
+
     return latest;
   }
 

@@ -187,6 +187,7 @@ class HaxeModuleRules extends BaseModuleRules
         var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
+          'baker-arguments.hxml',
           '-cp $pluginPath/Haxe/Static',
           '-D use-rtti-doc', // we want the documentation to be persisted
           '-D bake-externs',
