@@ -206,8 +206,9 @@ private typedef TArrayImpl<T> = Dynamic;
     var p = arr[(i + j) >> 1];
     while ( i <= j )
     {
-      while ( i < hi && f(arr[i], p) < 0 ) i++;
-      while ( j > lo && f(arr[j], p) > 0 ) j--;
+      var tmp;
+      while ( i < hi && (tmp = arr[i]) != p && f(tmp, p) < 0 ) i++;
+      while ( j > lo && (tmp = arr[j]) != p && f(tmp, p) > 0 ) j--;
       if ( i <= j )
       {
         this.Swap(i,j);
@@ -222,8 +223,12 @@ private typedef TArrayImpl<T> = Dynamic;
       }
     }
 
-    if( lo < j ) quicksort( arr, lo, j, f, isRef );
-    if( i < hi ) quicksort( arr, i, hi, f, isRef );
+    if( lo < j ) {
+      quicksort( arr, lo, j, f, isRef );
+    }
+    if( i < hi ) {
+      quicksort( arr, i, hi, f, isRef );
+    }
   }
 #end
 
