@@ -50,6 +50,15 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetTimeSeconds() : Float32;
 
+
+	/**
+	* Returns time in seconds since world was brought up for play, does NOT stop when game pauses, NOT dilated/clamped
+	*
+	* @return time in seconds since world was brought up for play
+	*/
+  @:thisConst
+	public function GetRealTimeSeconds() : Float32;
+
   /**
    * Returns the frame delta time in seconds adjusted by e.g. time dilation.
    *
