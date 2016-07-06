@@ -30,7 +30,7 @@ import unreal.Wrapper;
 
 
   public static function uobjectWrap(uobj:UIntPtr) : UIntPtr {
-#if !UE_PROGRAM
+#if !UHX_NO_UOBJECT
     return HaxeHelpers.dynamicToPointer(UObject.wrap(uobj));
 #else
     return throw 'Cannot access uobjects on UE programs';
@@ -38,7 +38,7 @@ import unreal.Wrapper;
   }
 
   public static function uobjectUnwrap(uobj:UIntPtr) : UIntPtr {
-#if !UE_PROGRAM
+#if !UHX_NO_UOBJECT
     return @:privateAccess (HaxeHelpers.pointerToDynamic(uobj) : UObject).wrapped;
 #else
     return throw 'Cannot access uobjects on UE programs';

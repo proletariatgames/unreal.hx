@@ -24,8 +24,8 @@ class NeedsGlueBuild
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
 
-    var isProgram = Context.defined('UE_PROGRAM');
-    if (isProgram) {
+    var disableUObject = Context.defined('UHX_NO_UOBJECT');
+    if (disableUObject) {
       var cur = cls;
       while (cur != null) {
         if (cur.name == 'UObject') {

@@ -21,7 +21,7 @@ class CppWriter extends BaseWriter {
     cpp << '#ifdef _MSVC_VER\n#pragma warning( disable : 4996 )\n#define _CRT_SECURE_NO_WARNINGS 1\n#define _CRT_SECURE_NO_WARNINGS_GLOBALS 1\n#define _CRT_SECURE_NO_DEPRECATE 1\n#endif\n'
       << '#include <$module.h>\n';
 
-    if (!haxe.macro.Context.defined('UE_PROGRAM')) {
+    if (!haxe.macro.Context.defined('UHX_NO_UOBJECT')) {
       cpp << '#include "Engine.h"\n';
     }
 

@@ -28,7 +28,7 @@ class CreateGlue {
       getModules(path, toCompile);
     }
     toCompile.push('UnrealInit');
-    if (!Context.defined('UE_PROGRAM')) {
+    if (!Context.defined('UHX_NO_UOBJECT')) {
       toCompile.push('unreal.ReflectAPI');
       toCompile.push('unreal.ByteArray');
     }

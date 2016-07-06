@@ -215,6 +215,10 @@ class HaxeModuleRules extends BaseModuleRules
         if (Std.is(this, HaxeProgramRules)) {
           bakeArgs.push('-D UE_PROGRAM');
         }
+        if (this.config.disableUObject) {
+          bakeArgs.push('-D UHX_NO_UOBJECT');
+        }
+
         trace('baking externs');
         var tbake = timer('bake externs');
         var ret = compileSources(bakeArgs);
@@ -290,6 +294,9 @@ class HaxeModuleRules extends BaseModuleRules
           }
           if (Std.is(this, HaxeProgramRules)) {
             args.push('-D UE_PROGRAM');
+          }
+          if (this.config.disableUObject) {
+            args.push('-D UHX_NO_UOBJECT');
           }
 
           if (this.config.dce != null) {
@@ -510,6 +517,9 @@ class HaxeModuleRules extends BaseModuleRules
       //   this.PrivateIncludePaths.Add('$hxcppPath/include');
       this.Definitions.Add('WITH_HAXE=1');
       this.Definitions.Add('HXCPP_EXTERN_CLASS_ATTRIBUTES=');
+      if (this.config.disableUObject) {
+        this.Definitions.Add('UHX_NO_UOBJECT=1');
+      }
       // this.PublicAdditionalLibraries.Add(outputStatic);
       if (this.config.glueTargetModule == null) {
         if (!Std.is(this, HaxeProgramRules)) {

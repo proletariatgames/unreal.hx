@@ -1,7 +1,7 @@
 package unreal.helpers;
 import unreal.helpers.ObjectArrayHelper_Glue;
 
-#if !UE_PROGRAM
+#if !UHX_NO_UOBJECT
 @:uextern
 @:ueGluePath("unreal.helpers.ObjectArrayHelper_Glue")
 @:glueCppIncludes("UObject/UObjectArray.h")

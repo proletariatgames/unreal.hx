@@ -73,7 +73,12 @@ typedef HaxeModuleConfig = {
   /**
     forces the Haxe compilation to not include -debug
    **/
-  ?noDebug:Bool
+  ?noDebug:Bool,
+
+  /**
+    Do not compile with UObject support (defines -D UHX_NO_UOBJECT)
+   **/
+  ?disableUObject:Bool,
 }
 
 @:enum abstract Dce(String) from String {

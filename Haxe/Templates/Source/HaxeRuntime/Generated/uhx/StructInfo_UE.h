@@ -10,7 +10,7 @@
 // unreal includes
 #include "Core.h"
 
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 #include "Engine.h"
 #include "UObject/Class.h"
 #endif
@@ -86,7 +86,7 @@ struct TTemplatedData {
   static const StructInfo *getInfo();
 };
 
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 
 template<class T, bool isObject = TIsCastable<T>::Value>
 struct TAnyData {

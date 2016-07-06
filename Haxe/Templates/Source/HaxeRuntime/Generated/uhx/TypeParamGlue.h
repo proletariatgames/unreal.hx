@@ -7,7 +7,7 @@
 #include "uhx/Wrapper.h"
 #include "VariantPtr.h"
 
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 #include "Engine.h"
 
 #endif
@@ -37,7 +37,7 @@ enum EImplementationKind {
 /**
  * Trait to determine what implementation of TStructData we need
  **/
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 template<class T> struct TImplementationKind {
   enum { Value = std::is_enum<T>::value ? EnumType : (TIsCastable<T>::Value ? (TPointerIsConvertibleFromTo<T, const volatile UObject>::Value ? ObjectType : InterfaceType) : OtherType) };
 };
@@ -354,7 +354,7 @@ struct TypeParamGlue<T&, InterfaceType> {
   }
 };
 
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 // special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf
 template<typename T>
 struct TypeParamGlue<TWeakObjectPtr<T>, OtherType> {

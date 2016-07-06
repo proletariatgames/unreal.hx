@@ -12,7 +12,6 @@ class HaxeProgramRules extends HaxeModuleRules {
 
   public function new(target) {
     super(target);
-    this.Definitions.Add('UE_PROGRAM=1');
   }
 
   override private function getHaxeDir() {

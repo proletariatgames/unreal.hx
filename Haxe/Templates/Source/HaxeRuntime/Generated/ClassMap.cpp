@@ -1,5 +1,5 @@
 #include "HaxeRuntime.h"
-#ifndef UE_PROGRAM
+#ifndef UHX_NO_UOBJECT
 
 #include "IntPtr.h"
 #include "ClassMap.h"
