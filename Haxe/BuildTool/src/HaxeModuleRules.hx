@@ -89,6 +89,10 @@ class HaxeModuleRules extends BaseModuleRules
 
   override private function run(target:TargetInfo, firstRun:Bool)
   {
+    if (ProjectFileGenerator.bGenerateProjectFiles) {
+      firstRun = false;
+    }
+
     this.config = getConfig();
     if (this.config == null) this.config = {};
     var base = Path.GetFullPath('$modulePath/..');
