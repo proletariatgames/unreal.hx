@@ -19,7 +19,11 @@ class CppWriter extends BaseWriter {
       '#pragma clang diagnostic ignored "-Wdeprecated-declarations"\n' +
       '#endif\n';
     cpp << '#ifdef _MSVC_VER\n#pragma warning( disable : 4996 )\n#define _CRT_SECURE_NO_WARNINGS 1\n#define _CRT_SECURE_NO_WARNINGS_GLOBALS 1\n#define _CRT_SECURE_NO_DEPRECATE 1\n#endif\n'
-      << '#include <$module.h>\n#include "Engine.h"\n';
+      << '#include <$module.h>\n';
+
+    if (!haxe.macro.Context.defined('UE_PROGRAM')) {
+      cpp << '#include "Engine.h"\n';
+    }
 
     getIncludes(cpp);
 

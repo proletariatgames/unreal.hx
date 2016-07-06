@@ -1,4 +1,6 @@
 #include "HaxeRuntime.h"
+#ifndef UE_PROGRAM
+
 #include "IntPtr.h"
 #include "ClassMap.h"
 #include <CoreUObject.h>
@@ -33,3 +35,5 @@ unreal::UIntPtr unreal::helpers::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
   // won't get here
   return 0;
 }
+
+#endif

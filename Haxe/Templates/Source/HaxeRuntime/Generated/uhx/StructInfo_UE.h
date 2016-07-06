@@ -8,8 +8,12 @@
 #include "uhx/TypeTraits.h"
 
 // unreal includes
+#include "Core.h"
+
+#ifndef UE_PROGRAM
 #include "Engine.h"
 #include "UObject/Class.h"
+#endif
 
 #ifdef _MSC_VER
 #define UHX_ALIGNOF(TYPE) _alignof(TYPE)
@@ -82,10 +86,21 @@ struct TTemplatedData {
   static const StructInfo *getInfo();
 };
 
+#ifndef UE_PROGRAM
+
 template<class T, bool isObject = TIsCastable<T>::Value>
 struct TAnyData {
   FORCEINLINE static const StructInfo *getInfo();
 };
+
+#else
+
+template<class T, bool isObject = false>
+struct TAnyData {
+  FORCEINLINE static const StructInfo *getInfo();
+};
+
+#endif
 
 template<class T, bool destructible = uhx::TypeTraits::TDestructExists<T>::Value>
 struct TDestruct {

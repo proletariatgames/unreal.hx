@@ -4,7 +4,7 @@ import unreal.*;
 
 @:access(unreal.UObject)
 @:keep class ClassWrap {
-#if !UHX_WRAP_OBJECTS
+#if (!UHX_WRAP_OBJECTS && !UE_PROGRAM)
   static var wrappers:Map<Int, UObject>;
   static var indexes:Array<Int>;
   static var delegateHandle:FDelegateHandle;
@@ -69,8 +69,13 @@ import unreal.*;
   }
 
 #else
+
   inline public static function wrap(nativePtr:UIntPtr):UObject {
-    return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr.rawCast()) );
+#if UE_PROGRAM
+    return throw 'Cannot access uobject-derived types inside UE programs';
+#else
+    return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr) );
+#end
   }
 #end
 }

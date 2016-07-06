@@ -14,7 +14,7 @@ class InitPlugin {
     var gameDir = Path.directory(target);
     var pluginPath = Sys.getCwd();
 
-    updateProject(gameDir, pluginPath, new Path(target).file, true);
+    updateProject(gameDir, '$gameDir/Haxe', pluginPath, new Path(target).file, true);
     trace("Project update done.");
   }
 
@@ -41,24 +41,24 @@ class InitPlugin {
       return null;
   }
 
-  public static function updateProject(gameDir:String, pluginPath:String, projectName:String, fromCommandLine=false, ?targetModule:String) {
+  public static function updateProject(gameDir:String, haxeDir:String, pluginPath:String, projectName:String, fromCommandLine=false, ?targetModule:String) {
     gameDir = FileSystem.fullPath(gameDir);
     pluginPath = FileSystem.fullPath(pluginPath);
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
     trace('Updating game module...');
-    updateGameModule(gameDir, pluginPath, fromCommandLine, targetModule);
+    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
     }
-    checkDir('$gameDir/Haxe/Static');
-    checkDir('$gameDir/Haxe/Scripts');
-    checkDir('$gameDir/Haxe/Externs');
+    checkDir('$haxeDir/Static');
+    checkDir('$haxeDir/Scripts');
+    checkDir('$haxeDir/Externs');
   }
 
-  private static function updateGameModule(gameDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String)
+  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String)
   {
     var mod = targetModule;
     if (mod == null) {
@@ -108,7 +108,7 @@ class InitPlugin {
 
     if (mod != null) {
       recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime', '$gameDir/Source/$mod', false);
-      recurse('$pluginPath/Haxe/Templates/Haxe', '$gameDir/Haxe', false);
+      recurse('$pluginPath/Haxe/Templates/Haxe', '$haxeDir', false);
     }
     // TODO: take this off once we can decide where the plugin dir will be
     if (FileSystem.exists('$gameDir/Source/HaxeRuntime')) {

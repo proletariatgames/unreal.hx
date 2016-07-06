@@ -1,10 +1,10 @@
 import cpp.link.StaticStd;
 import cpp.link.StaticRegexp;
 import cpp.link.StaticZlib;
+#if WITH_EDITOR
 import unreal.*;
 import unreal.helpers.HxcppRuntime;
 import ue4hx.internal.HaxeCodeDispatcher;
-#if WITH_EDITOR
 import unreal.editor.UEditorEngine;
 import unreal.developer.hotreload.IHotReloadModule;
 import unreal.FTimerManager;

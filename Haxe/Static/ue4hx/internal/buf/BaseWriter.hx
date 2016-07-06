@@ -32,6 +32,9 @@ class BaseWriter {
   }
 
   public function include(inc:String) {
+    if (inc == 'Engine.h' && haxe.macro.Context.defined('UE_PROGRAM')) {
+      inc = 'Core.h'; // don't include the engine inside a program
+    }
     if (!includeMap.exists(inc)) {
       this.includes.push(inc);
       this.includeMap[inc] = true;

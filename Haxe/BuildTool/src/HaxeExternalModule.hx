@@ -9,7 +9,7 @@ class HaxeExternalModule extends BaseModuleRules {
   override private function run(target:TargetInfo, firstRun:Bool)
   {
     this.Type = External;
-    this.PublicAdditionalLibraries.Add(HaxeModuleRules.getLibLocation(target));
+    this.PublicAdditionalLibraries.Add(HaxeModuleRules.getLibLocation(null, target));
   }
 }
 

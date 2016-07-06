@@ -24,6 +24,28 @@ class NeedsGlueBuild
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
 
+    var isProgram = Context.defined('UE_PROGRAM');
+    if (isProgram) {
+      var cur = cls;
+      while (cur != null) {
+        if (cur.name == 'UObject') {
+          switch(localClass.toString()) {
+          case 'unreal.UObject' | 'unreal.UClass':
+            // don't exclude
+          case _:
+            cls.exclude();
+          }
+          return [];
+        }
+
+        if (cur.superClass != null) {
+          cur = cur.superClass.t.get();
+        } else {
+          break;
+        }
+      }
+    }
+
     if (Globals.cur.gluesTouched.exists(localClass.toString()))
       return null;
 

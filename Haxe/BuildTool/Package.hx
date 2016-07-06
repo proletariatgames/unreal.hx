@@ -40,11 +40,12 @@ class Package
       sys.io.File.copy(file, '$targetDir/hx/$className.hx');
     }
 
-    var masterT = Context.getType('HaxeModuleRules');
+    var masterT = Context.getType('HaxeModuleRules'),
+        program = Context.getType('HaxeProgramRules');
     var masterModule = null;
     for (name in names) {
       var t = Context.getType(name.className); // make sure it's compiled
-      var isMaster = Context.unify(t, masterT);
+      var isMaster = Context.unify(t, masterT) && !Context.unify(t, program);
       if (isMaster) {
         if (masterModule == null) {
           masterModule = t;

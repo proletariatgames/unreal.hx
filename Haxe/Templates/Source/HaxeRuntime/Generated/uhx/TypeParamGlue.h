@@ -6,7 +6,11 @@
 #include "uhx/EnumGlue.h"
 #include "uhx/Wrapper.h"
 #include "VariantPtr.h"
+
+#ifndef UE_PROGRAM
 #include "Engine.h"
+
+#endif
 
 // This file is only included during Unreal Engine compilation - it specifies how various UE types are
 // passed around: by-ref or by-val. Behavior for basic types are specified in TypeParamGlue.h
@@ -33,9 +37,17 @@ enum EImplementationKind {
 /**
  * Trait to determine what implementation of TStructData we need
  **/
+#ifndef UE_PROGRAM
 template<class T> struct TImplementationKind {
   enum { Value = std::is_enum<T>::value ? EnumType : (TIsCastable<T>::Value ? (TPointerIsConvertibleFromTo<T, const volatile UObject>::Value ? ObjectType : InterfaceType) : OtherType) };
 };
+
+#else
+template<class T> struct TImplementationKind {
+  enum { Value = std::is_enum<T>::value ? EnumType : OtherType };
+};
+
+#endif
 
 template<class T> struct TImplementationKind<T*> { enum { Value = TImplementationKind<T>::Value }; };
 template<class T> struct TImplementationKind<T&> { enum { Value = TImplementationKind<T>::Value }; };
@@ -342,6 +354,7 @@ struct TypeParamGlue<T&, InterfaceType> {
   }
 };
 
+#ifndef UE_PROGRAM
 // special types: TWeakObjectPtr, TAutoWeakObjectPtr, TSubclassOf
 template<typename T>
 struct TypeParamGlue<TWeakObjectPtr<T>, OtherType> {
@@ -406,6 +419,7 @@ struct TypeParamGluePtr<TSubclassOf<T>, OtherType> {
   }
 };
 
+#endif
 
 // templated types
 template<template<typename, typename...> class T, typename First, typename... Values> 

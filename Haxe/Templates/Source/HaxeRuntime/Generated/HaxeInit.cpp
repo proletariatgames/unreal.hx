@@ -1,6 +1,6 @@
 #include "HaxeRuntime.h"
 #include "HaxeInit.h"
-#include "Engine.h"
+#include "Core.h"
 #include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE

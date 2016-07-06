@@ -25,7 +25,7 @@ package unreal.helpers;
   }
 
   @:extern inline public static function getUObjectWrapped(uobj:UObject):UIntPtr {
-#if (cpp && !bake_externs)
+#if (cpp && !bake_externs && !UE_PROGRAM)
     return (uobj == null ? 0 : @:privateAccess uobj.wrapped);
 #else
     return 0;

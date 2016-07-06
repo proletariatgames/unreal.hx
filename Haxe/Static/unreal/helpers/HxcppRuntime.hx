@@ -30,11 +30,19 @@ import unreal.Wrapper;
 
 
   public static function uobjectWrap(uobj:UIntPtr) : UIntPtr {
+#if !UE_PROGRAM
     return HaxeHelpers.dynamicToPointer(UObject.wrap(uobj));
+#else
+    return throw 'Cannot access uobjects on UE programs';
+#end
   }
 
   public static function uobjectUnwrap(uobj:UIntPtr) : UIntPtr {
+#if !UE_PROGRAM
     return @:privateAccess (HaxeHelpers.pointerToDynamic(uobj) : UObject).wrapped;
+#else
+    return throw 'Cannot access uobjects on UE programs';
+#end
   }
 
   public static function arrayIndex(array:UIntPtr, index:Int) : UIntPtr {

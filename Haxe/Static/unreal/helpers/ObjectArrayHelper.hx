@@ -1,10 +1,10 @@
 package unreal.helpers;
 import unreal.helpers.ObjectArrayHelper_Glue;
 
+#if !UE_PROGRAM
 @:uextern
 @:ueGluePath("unreal.helpers.ObjectArrayHelper_Glue")
 @:glueCppIncludes("UObject/UObjectArray.h")
-// @:ueCppDef("DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);\nDEFINE_LOG_CATEGORY(HaxeLog)")
 @:keep
 class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   @:glueHeaderCode('static unreal::UIntPtr indexToObject(int index);')
@@ -39,3 +39,4 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
     return ObjectArrayHelper_Glue.allocateSerialNumber(idx);
   }
 }
+#end

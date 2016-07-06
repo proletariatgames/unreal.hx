@@ -22,7 +22,7 @@ class BaseModuleRules extends ModuleRules
   var pluginPath:String;
   var thirdPartyPath:String;
   var gameDir:String;
-  var haxeSourcesPath:String;
+  var haxeDir:String;
   var internalHaxeSourcesPath:String;
   var target:TargetInfo;
 
@@ -45,7 +45,6 @@ class BaseModuleRules extends ModuleRules
     gameDir = allGames[0].ToString();
     if (gameDir == null)
       gameDir = Path.GetFullPath(haxeInitPath + "/../../../..");
-    haxeSourcesPath = Path.GetFullPath(gameDir + "/Haxe");
     internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
 
     if (FileSystem.exists(modulePath.substr(0,-2) + 'hx')) {
@@ -55,9 +54,14 @@ class BaseModuleRules extends ModuleRules
       }
     }
 
+    haxeDir = getHaxeDir();
     this.target = target;
     run(target, firstRun);
     firstRunMap[curName] = false;
+  }
+
+  private function getHaxeDir() {
+    return Path.GetFullPath('$gameDir/Haxe');
   }
 
   private function run(target:TargetInfo, firstRun:Bool)
