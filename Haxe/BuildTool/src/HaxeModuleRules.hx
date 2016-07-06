@@ -173,6 +173,10 @@ class HaxeModuleRules extends BaseModuleRules
     if (!this.config.disabled && firstRun)
     {
       var debugSymbols = target.Configuration != Shipping && config.noDebug != true;
+      if (config.noDebug == false) {
+        debugSymbols = true;
+      }
+
       var teverything = timer('Haxe setup (all compilation times included)');
       if (Sys.systemName() != 'Windows' && Sys.getEnv('PATH').indexOf('/usr/local/bin') < 0) {
         Sys.putEnv('PATH', Sys.getEnv('PATH') + ":/usr/local/bin");

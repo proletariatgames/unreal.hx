@@ -71,7 +71,8 @@ typedef HaxeModuleConfig = {
   ?cppiaModuleExclude:Array<String>,
 
   /**
-    forces the Haxe compilation to not include -debug
+    forces the Haxe compilation to not include -debug. Set explicitly to `false` to force debug mode,
+    even in Shipping
    **/
   ?noDebug:Bool,
 
