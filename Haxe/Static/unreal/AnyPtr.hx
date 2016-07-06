@@ -6,7 +6,7 @@ abstract AnyPtr(UIntPtr) from UIntPtr to UIntPtr {
     return this + offset;
   }
 
-#if (!bake_externs && cpp)
+#if (!bake_externs && cpp && !UHX_NO_UOBJECT)
   public function getUObject(at:Int):UObject {
     var ptr = this + at;
     return UObject.wrap(ptr);
