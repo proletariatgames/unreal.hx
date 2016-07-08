@@ -59,7 +59,7 @@ import haxe.CallStack;
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
     inHaxeCode = false;
 #if !WITH_EDITOR
-    trace('Fatal', 'Haxe run failed');
+    unreal.Log.fatal('Haxe run failed');
     throw 'Error';
 #end
   }

@@ -188,6 +188,8 @@ class UnrealInit
         case "ERROR":
           unreal.Log.error(str + infos.customParams.join(','));
         case "FATAL":
+          unreal.Log.error(str + infos.customParams.join(','));
+          unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
           unreal.Log.fatal(str + infos.customParams.join(','));
         case _:
           unreal.Log.trace(str + v + ',' + infos.customParams.join(','));
