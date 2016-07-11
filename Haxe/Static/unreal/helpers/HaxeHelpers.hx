@@ -31,4 +31,20 @@ package unreal.helpers;
     return 0;
 #end
   }
+
+  @:extern inline public static function checkPointer(struct:Struct, fieldName:String) {
+#if (debug || UHX_CHECK_POINTER)
+    if (struct == null) {
+      throw 'Cannot access field "$fieldName" of null';
+    }
+#end
+  }
+
+  @:extern inline public static function checkObjectPointer(obj:UObject, fieldName:String) {
+#if (cpp && !bake_externs && !UHX_NO_UOBJECT && (debug || UHX_CHECK_POINTER))
+    if (@:privateAccess obj.wrapped == 0) {
+      throw 'Cannot access field "$fieldName" of a garbage collected object. Please check if the object is valid first';
+    }
+#end
+  }
 }

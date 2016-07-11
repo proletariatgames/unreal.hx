@@ -258,7 +258,7 @@ class GlueMethod {
   }
 
   private function shouldCheckPointer() {
-    return !this.meth.flags.hasAny(Static) && !this.thisConv.data.match(CUObject(_));
+    return !this.meth.flags.hasAny(Static);
   }
 
   private function genCppCall(body:String, prefix:String, outVars:HelperBuf) {
@@ -484,7 +484,12 @@ class GlueMethod {
     var block = this.haxeCode;
 
     var args = this.getArgs();
-    var expr = block != null ? Context.parse('{' + this.haxeCode.join('\n') + '}', meth.pos) : null;
+    var code = this.haxeCode.join('\n');
+    if (shouldCheckPointer()) {
+      var checkCompl = this.thisConv.data.match(CUObject(_)) ? 'Object' : '';
+      code = 'unreal.helpers.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");\n' + code;
+    }
+    var expr = block != null ? Context.parse('{' + code + '}', meth.pos) : null;
     var field:Field = {
       name: meth.name,
       doc: meth.doc,
@@ -572,6 +577,13 @@ class GlueMethod {
       buf << ';';
     } else {
       buf << new Begin(' {');
+        if (shouldCheckPointer()) {
+          var checkCompl = this.thisConv.data.match(CUObject(_)) ? 'Object' : '';
+          buf << '#if (debug || UHX_CHECK_POINTER)' << new Newline();
+          buf << 'unreal.helpers.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");' << new Newline();
+          buf << '#end' << new Newline();
+        }
+
         for (expr in this.haxeCode) {
           buf << expr << new Newline();
         }
