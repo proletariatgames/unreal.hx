@@ -15,6 +15,18 @@ package unreal.httpretrysystem;
 
   function OnProcessRequestComplete():PRef<FOnProcessRequestCompleteDelegate>;
   function GetStatus():EStatus;
+
+  function GetVerb() : FString;
+  function SetVerb(Verb:Const<PRef<FString>>) : Void;
+  function SetURL(URL:Const<PRef<FString>>) : Void;
+  function SetContent(ContentPayload:Const<PRef<TArray<UInt8>>>) : Void;
+  function SetContentAsString(ContentString:Const<PRef<FString>>) : Void;
+  function SetHeader(HeaderName:Const<PRef<FString>>, HeaderValue:Const<PRef<FString>>) : Void;
+  function ProcessRequest() : Bool;
+  function CancelRequest() : Void;
+  function GetResponse() : TThreadSafeSharedPtr<IHttpResponse>;
+  function Tick(DeltaSeconds:Float32) : Void;
+  function GetElapsedTime() : Float32;
 }
 
 /**
