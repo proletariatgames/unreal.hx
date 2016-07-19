@@ -68,6 +68,26 @@ class GlueMethod {
       this.meth.ret = this.thisConv;
     }
 
+    if (meth.flags.hasAny(Static) && meth.specialization != null && meth.specialization.types.length > 0) {
+      switch(meth.uname) {
+        case 'new' | '.ctor':
+        case _:
+          switch(thisConv.data) {
+          case CStruct(type,flags,info,params):
+            if (params != null && params.length > 0) {
+              var sParams = meth.specialization.types.slice(0,params.length),
+                  methParams = meth.specialization.types.slice(params.length);
+              this.thisConv = thisConv.withData(CStruct(type,flags,info,sParams));
+              if (methParams.length > 0) {
+                meth.specialization = { types:methParams, genericFunction:meth.specialization.genericFunction };
+              } else {
+                meth.specialization = null;
+              }
+            }
+          case _:
+          }
+      }
+    }
 
     this.process();
   }

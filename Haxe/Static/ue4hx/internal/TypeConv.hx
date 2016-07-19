@@ -35,6 +35,10 @@ class TypeConv {
     return new TypeConv(this.data, modifiers, original == null ? (originalSet ? wrapType(haxeType, modifiers) : null) : original);
   }
 
+  inline public function withData(data:TypeConvData, ?original) {
+    return new TypeConv(data, this.modifiers, original == null ? (originalSet ? wrapType(haxeType, modifiers) : null) : original);
+  }
+
   private static function wrapType(type:TypeRef, modifiers:Array<Modifier>) {
     // first take off all current modifiers
     while (true) {
@@ -529,7 +533,7 @@ class TypeConv {
         cppMethodType << '>::Translator';
         '(($cppMethodType) $expr)()';
       case CTypeParam(name, kind):
-        var cppType = (hasModifier(Ref) ? ueType.withoutPointer(true).getCppType() : ueType.getCppType()) + '';
+        var cppType = (hasModifier(Ref) ? ueType.withoutPointer(true).withConst(false).getCppType() : ueType.getCppType()) + '';
         if (this.hasModifier(Ref)) {
           '::uhx::TypeParamGluePtr<${cppType}>::haxeToUePtr( $expr )';
         } else {
@@ -997,6 +1001,8 @@ class TypeConv {
 
         haxeToGlueExpr: '(cast (%) : cpp.UInt32)',
         glueToHaxeExpr: '(cast (%) : unreal.FakeUInt32)',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       },
       {
         ueType: new TypeRef('uint64'),
@@ -1006,6 +1012,8 @@ class TypeConv {
         haxeToGlueExpr: '(cast (%) : cpp.Int64)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         glueToUeExpr: '((uint64) (%))',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       },
       {
         ueType: new TypeRef('int64'),
@@ -1015,6 +1023,8 @@ class TypeConv {
         haxeToGlueExpr: '(cast (%) : cpp.Int64)',
         glueToHaxeExpr: '(cast (%) : unreal.Int64)',
         glueToUeExpr: '((int64) (%))',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       },
       {
         ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')]),
@@ -1022,7 +1032,9 @@ class TypeConv {
         haxeType: new TypeRef(['unreal'],'AnyPtr'),
 
         ueToGlueExpr: '( (unreal::UIntPtr) (%) )',
-        glueToUeExpr: '( (void *) (%) )'
+        glueToUeExpr: '( (void *) (%) )',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
       {
         ueType: new TypeRef(['cpp'],'RawPointer', [new TypeRef('void')], Const),
@@ -1030,15 +1042,21 @@ class TypeConv {
         haxeType: new TypeRef(['unreal'],'ConstAnyPtr'),
 
         ueToGlueExpr: '( (unreal::UIntPtr) (%) )',
-        glueToUeExpr: '( (void *) (%) )'
+        glueToUeExpr: '( (void *) (%) )',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
       {
         ueType: new TypeRef(['unreal'],'UIntPtr'),
         haxeType: new TypeRef(['unreal'],'UIntPtr'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
       {
         ueType: new TypeRef(['unreal'],'IntPtr'),
         haxeType: new TypeRef(['unreal'],'IntPtr'),
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<IntPtr.h>']),
       },
     ];
     infos = infos.concat([ for (key in basicConvert.keys()) {
@@ -1075,7 +1093,9 @@ class TypeConv {
         haxeGlueType: byteArray,
 
         haxeToGlueExpr: '(%).ptr.get_raw()',
-        glueToHaxeExpr: 'new unreal.ByteArray(cpp.Pointer.fromRaw(%), -1)'
+        glueToHaxeExpr: 'new unreal.ByteArray(cpp.Pointer.fromRaw(%), -1)',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       },
     ];
     for (info in infos) {
