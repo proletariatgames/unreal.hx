@@ -42,6 +42,7 @@ import unreal.*;
     var ptr = unreal.helpers.ClassMap.wrap(nativePtr);
     ret = unreal.helpers.HaxeHelpers.pointerToDynamic(ptr);
     ret.serialNumber = serial;
+    ret.internalIndex = index;
     wrappers[index] = ret;
     indexes[nIndex++] = index;
     return ret;
