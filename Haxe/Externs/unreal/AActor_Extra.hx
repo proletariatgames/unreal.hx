@@ -110,4 +110,11 @@ extern class AActor_Extra {
   #end
 
   function TeleportTo(destLocation:Const<PRef<FVector>>, destRotation:Const<PRef<FRotator>>, bIsATest:Bool /* = false */, bNoCheck:Bool /* = false */):Bool;
+
+	/** Returns true if this actor has begun the destruction process.
+	 *  This is set to true in UWorld::DestroyActor, after the network connection has been closed but before any other shutdown has been performed.
+	 *	@return true if this actor has begun destruction, or if this actor has been destroyed already.
+	 **/
+  @:thisConst
+  function IsPendingKillPending() : Bool;
 }
