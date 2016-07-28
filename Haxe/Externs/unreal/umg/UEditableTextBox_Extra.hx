@@ -6,5 +6,4 @@ extern class UEditableTextBox_Extra {
   function GetText() : FText;
   function SetText(inText:FText) : Void;
   function SetError(inError:FText) : Void;
-  function ClearError() : Void;
 }

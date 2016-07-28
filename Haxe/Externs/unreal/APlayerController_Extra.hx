@@ -38,4 +38,7 @@ extern class APlayerController_Extra {
   public function ClientWasKicked_Implementation(kickReason:Const<PRef<FText>>):Void;
 
   public function FlushPressedKeys() : Void;
+
+  /** @return true if this controller thinks it's able to restart. Called from GameMode::PlayerCanRestart */
+  public function CanRestartPlayer() : Bool;
 }

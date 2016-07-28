@@ -205,7 +205,7 @@ class Globals {
    **/
   public function loadCachedTypes() {
     if (this.inCompilationServer) {
-      trace('loading cache...');
+      // trace('loading cache...');
       // first we'll create the type if it doesn't exist
       try {
         Context.getType('ue4hx.CachedData');
@@ -228,7 +228,7 @@ class Globals {
                 this.cachedBuiltTypes.push(type);
               }
               catch(e:Dynamic) {
-                trace('Type $type not found. Perhaps it was deleted?');
+                // trace('Type $type not found. Perhaps it was deleted?');
               }
             }
           }
@@ -243,7 +243,7 @@ class Globals {
    **/
   public function saveCachedBuilt() {
     if (this.inCompilationServer) {
-      trace('saving cached types...');
+      // trace('saving cached types...');
       if (this.cachedBuiltTypes.length > 0) {
         switch(Context.getType('ue4hx.CachedData')) {
           case TInst(_.get() => c,_):

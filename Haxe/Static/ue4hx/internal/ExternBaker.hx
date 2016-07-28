@@ -673,6 +673,8 @@ class ExternBaker {
         if (this.thisConv.data.match(CUObject(_))) {
           this.add('private var serialNumber:Int = -1;');
           this.newline();
+          this.add('private var internalIndex:Int = -1;');
+          this.newline();
           this.add('inline private function invalidate():Void');
           this.begin(' {');
             this.add('this.wrapped = 0;');
@@ -680,7 +682,7 @@ class ExternBaker {
 
           this.add('public function isValid():Bool');
           this.begin(' {');
-            this.add('return this.wrapped != 0;');
+            this.add('return this.wrapped != 0 && unreal.helpers.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex;');
           this.end('}');
         }
 

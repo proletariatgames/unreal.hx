@@ -210,7 +210,7 @@ class CreateGlue {
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
-        trace('macro context reused');
+        // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
         // otherwise, the compilation server will not find the

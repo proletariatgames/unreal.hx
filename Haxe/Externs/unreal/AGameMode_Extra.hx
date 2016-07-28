@@ -20,7 +20,7 @@ extern class AGameMode_Extra {
   @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
 
   function GetDefaultPawnClassForController_Implementation(inController:unreal.AController) : unreal.UClass;
-
+  function PlayerCanRestart_Implementation(Player : unreal.APlayerController) : Bool;
   function InitGameState() : Void;
   function PostLogin(NewPlayer:APlayerController) : Void;
   // /**
