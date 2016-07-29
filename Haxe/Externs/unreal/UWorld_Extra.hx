@@ -13,6 +13,9 @@ extern class UWorld_Extra {
   public function GetGameInstance() : UGameInstance;
 
   @:thisConst
+  public function GetGameViewport() : UGameViewportClient;
+
+  @:thisConst
   public function IsPlayInEditor() : Bool;
 
   @:thisConst
