@@ -70,6 +70,23 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetDeltaSeconds() : Float32;
 
+	/** Return the URL of this level on the local machine. */
+  @:thisConst
+	function GetLocalURL() : FString;
+
+	// Return the URL of this level, which may possibly
+	// exist on a remote machine.
+  @:thisConst
+	function GetAddressURL() : FString;
+
+	/**
+	 * Returns the name of the current map, taking into account using a dummy persistent world
+	 * and loading levels into it via PrepareMapChange.
+	 *
+	 * @return	name of the current map
+	 */
+   @:thisConst
+	 function GetMapName() : FString;
 
   /**
    * Jumps the server to new level.  If bAbsolute is true and we are using seemless traveling, we

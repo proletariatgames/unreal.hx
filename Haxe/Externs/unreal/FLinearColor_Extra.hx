@@ -2,6 +2,9 @@ package unreal;
 
 extern class FLinearColor_Extra {
 
+  public var R : Float32;
+  public var G : Float32;
+  public var B : Float32;
   public var A : Float32;
 
   @:uname(".ctor")

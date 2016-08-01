@@ -22,4 +22,15 @@ extern class AController_Extra {
    */
   public function GameHasEnded(EndGameFocus:AActor /* = NULL */, bIsWinner:Bool /* = false */) : Void;
 
+	/**
+	 * Returns Player's Point of View
+	 * For the AI this means the Pawn's 'Eyes' ViewPoint
+	 * For a Human player, this means the Camera's ViewPoint
+	 *
+	 * @output	out_Location, view location of player
+	 * @output	out_rotation, view rotation of player
+	*/
+  @:thisConst
+  function GetPlayerViewPoint(out_Location:PRef<FVector>, out_Rotation:PRef<FRotator>) : Void;
+
 }
