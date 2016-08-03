@@ -28,6 +28,8 @@ extern class APlayerController_Extra {
 	 */
 	public function AutoManageActiveCameraTarget(SuggestedTarget:AActor) : Void;
 
+  public function HasClientLoadedCurrentWorld() : Bool;
+
   @:thisConst
   public function GetLocalPlayer() : ULocalPlayer;
 
