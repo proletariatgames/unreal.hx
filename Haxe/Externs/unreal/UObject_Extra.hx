@@ -27,12 +27,24 @@ extern class UObject_Extra {
    **/
   public function GetName() : FString;
 
+	/**
+	 * Returns the fully qualified pathname for this object as well as the name of the class, in the format:
+	 * 'ClassName Outermost[.Outer].Name'.
+	 *
+	 * @param	StopOuter	if specified, indicates that the output string should be relative to this object.  if StopOuter
+	 *						does not exist in this object's Outer chain, the result would be the same as passing NULL.
+	 *
+	 * @note	safe to call on NULL object pointers!
+	 */
+  @:thisConst
+	public function GetFullName( StopOuter:Const<UObject> ) : FString;
+
   /**
     Rename this object to a unique name.
    **/
   public function Rename(newName:TCharStar, newOuter:UObject, flags:Int):Bool;
 
-  /** 
+  /**
    * Returns the unique ID of the object...these are reused so it is only unique while the object is alive.
    * Useful as a tag.
   **/
