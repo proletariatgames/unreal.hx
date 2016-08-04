@@ -680,9 +680,11 @@ class ExternBaker {
             this.add('this.wrapped = 0;');
           this.end('}');
 
-          this.add('public function isValid():Bool');
+          this.add('#if !cppia inline #end public function isValid(threadSafe:Bool=false):Bool');
           this.begin(' {');
-            this.add('return this.wrapped != 0 && unreal.helpers.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex;');
+            this.add('return this.wrapped != 0 '
+                +' && unreal.helpers.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex '
+                +' && (!threadSafe || unreal.helpers.ObjectArrayHelper_Glue.isValid(internalIndex, serialNumber, false));');
           this.end('}');
         }
 

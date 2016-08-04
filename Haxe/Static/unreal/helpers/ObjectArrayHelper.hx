@@ -38,5 +38,18 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   public static function allocateSerialNumber(idx:Int):Int {
     return ObjectArrayHelper_Glue.allocateSerialNumber(idx);
   }
+
+  @:glueHeaderCode('static int isValid(int index, int serial, bool evenIfPendingKill);')
+  @:glueCppCode(
+'int unreal::helpers::ObjectArrayHelper_Glue_obj::isValid(int index, int serial, bool evenIfPendingKill) {
+\tFUObjectItem* ObjectItem = GUObjectArray.IndexToObject(index);
+\tif(!ObjectItem) { return false; }
+\tif(ObjectItem->GetSerialNumber() != serial) { return false; }
+\treturn GUObjectArray.IsValid(ObjectItem, evenIfPendingKill);
+}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  public static function isValid(index:Int, serial:Int, evenIfPendingKill:Bool):Bool {
+    return ObjectArrayHelper_Glue.isValid(index, serial, evenIfPendingKill);
+  }
 }
 #end
