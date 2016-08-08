@@ -15,4 +15,7 @@ extern class APawn_Extra {
 
   /** Allows a Pawn to set up custom input bindings. Called upon possession by a PlayerController, using the InputComponent created by CreatePlayerInputComponent(). */
   private function SetupPlayerInputComponent(inInputComponent:UInputComponent) : Void;
+
+  public function PossessedBy(newController:AController) : Void;
+  public function UnPossessed() : Void;
 }
