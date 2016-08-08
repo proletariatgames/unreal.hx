@@ -40,6 +40,10 @@ package unreal.helpers;
 #end
   }
 
+  public static function nullDeref(name:String) {
+    throw 'Cannot dereference null "$name"';
+  }
+
   @:extern inline public static function checkObjectPointer(obj:UObject, fieldName:String) {
 #if (cpp && !bake_externs && !UHX_NO_UOBJECT && (debug || UHX_CHECK_POINTER))
     if (@:privateAccess obj.wrapped == 0) {

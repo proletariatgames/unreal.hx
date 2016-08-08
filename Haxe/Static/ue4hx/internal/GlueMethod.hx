@@ -252,18 +252,29 @@ class GlueMethod {
       } else {
         '${this.glueType}.${escapeGlue(meth.name)}';
       };
+      this.haxeCode = [];
+      if (this.meth.uname != '.equals') {
+        for (arg in meth.args) {
+          switch(arg.t.data) {
+            case CStruct(_) if(!arg.t.hasModifier(Ref) && !arg.t.hasModifier(Ptr)):
+              haxeCode.push('if (${arg.name} == null) unreal.helpers.HaxeHelpers.nullDeref("${arg.name}");');
+            case _:
+          }
+        }
+      }
 
       var haxeBody =
         '$haxeBodyCall(' +
           [ for (arg in this.glueArgs) arg.t.haxeToGlue(arg.name, this.ctx) ].join(', ') +
         ')';
       if (meth.flags.hasAny(Property) && meth.name.startsWith('set_')) {
-        this.haxeCode = [haxeBody + ';' , 'return value;'];
+        this.haxeCode = this.haxeCode.concat([haxeBody + ';' , 'return value;']);
       } else if (!isVoid) {
-        this.haxeCode = ['return ' + meth.ret.glueToHaxe(haxeBody, this.ctx) + ';'];
+        this.haxeCode = this.haxeCode.concat(['return ' + meth.ret.glueToHaxe(haxeBody, this.ctx) + ';']);
       } else {
-        this.haxeCode = [haxeBody + ';'];
+        this.haxeCode = this.haxeCode.concat([haxeBody + ';']);
       }
+
       if (body != null) {
         this.haxeCode.unshift(body);
       }
@@ -385,7 +396,7 @@ class GlueMethod {
           var thisType = this.thisConv.withModifiers(null);
           this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
           if (this.meth.meta == null) this.meth.meta = [];
-          this.meth.meta.push({ name:':op', params:[macro A+B], pos:meth.pos});
+          // this.meth.meta.push({ name:':op', params:[macro A == B], pos:meth.pos});
           'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
         case 'op_Dereference':
           this.op = '*';
