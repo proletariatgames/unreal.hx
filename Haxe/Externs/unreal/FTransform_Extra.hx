@@ -29,4 +29,6 @@ extern class FTransform_Extra {
 
   @:thisConst
   public function GetLocation() : FVector;
+  @:thisconst
+  public function Rotator() : FRotator;
 }

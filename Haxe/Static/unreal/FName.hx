@@ -27,11 +27,8 @@ import unreal.helpers.HaxeHelpers;
     return this.ToString().toString();
   }
 
-  @:op(A==B) inline public function equals(other:FName) : Bool {
-    if (this == null)
-      return other == null;
-    else
-      return this.equals(other);
+  @:op(A==B) #if !debug inline #end public function equals(other:FName) : Bool {
+    return (this == null) ? other == null : this.equals(other);
   }
 #end
 }
