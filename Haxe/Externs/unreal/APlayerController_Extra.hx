@@ -43,4 +43,6 @@ extern class APlayerController_Extra {
 
   /** @return true if this controller thinks it's able to restart. Called from GameMode::PlayerCanRestart */
   public function CanRestartPlayer() : Bool;
+
+  public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
 }

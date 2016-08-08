@@ -7,6 +7,8 @@ package unreal;
 
   public var EngineShowFlags : FEngineShowFlags;
 
+  public function PostRender(Canvas:UCanvas) : Void;
+
   @:thisConst
   public function GetViewportSize( ViewportSize:FVector2D ) : Void;
 
