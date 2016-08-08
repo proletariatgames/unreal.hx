@@ -58,9 +58,13 @@ import haxe.CallStack;
     }
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
     inHaxeCode = false;
-#if !WITH_EDITOR
+#if WITH_EDITOR
+    var world = unreal.UEngine.GWorld.GetReference();
+    if (world == null || !world.IsPlayInEditor())
+#end
+    {
     unreal.Log.fatal('Haxe run failed');
     throw 'Error';
-#end
+    }
   }
 }
