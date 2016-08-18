@@ -80,6 +80,11 @@ typedef HaxeModuleConfig = {
     Do not compile with UObject support (defines -D UHX_NO_UOBJECT)
    **/
   ?disableUObject:Bool,
+
+  /**
+    Compile with hxcpp debugger support
+   **/
+  ?debugger:Bool
 }
 
 @:enum abstract Dce(String) from String {

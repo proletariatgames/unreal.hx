@@ -22,6 +22,10 @@ class UnrealInit
     haxe.Log.trace = customTrace;
     trace("initializing unreal haxe");
 
+#if (debug && HXCPP_DEBUGGER)
+    new debugger.HaxeRemote(true, "localhost");
+#end
+
 #if WITH_EDITOR
     try {
       if (unreal.CoreAPI.hotReloadFns == null) {

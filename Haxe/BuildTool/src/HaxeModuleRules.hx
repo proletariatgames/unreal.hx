@@ -313,6 +313,10 @@ class HaxeModuleRules extends BaseModuleRules
 
           if (debugSymbols) {
             args.push('-debug');
+            if (this.config.debugger) {
+              args.push('-lib hxcpp-debugger');
+              args.push('-D HXCPP_DEBUGGER');
+            }
           }
 
           switch (target.Platform) {

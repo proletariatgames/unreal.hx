@@ -6,7 +6,7 @@ import haxe.CallStack;
  **/
 @:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
-  private static var inDebugger = unreal.FPlatformMisc.IsDebuggerPresent();
+  private static var inDebugger = #if (debug && HXCPP_DEBUGGER) true; #else unreal.FPlatformMisc.IsDebuggerPresent(); #end
 
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
     if (!inHaxeCode && !inDebugger) {
