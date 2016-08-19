@@ -23,7 +23,9 @@ class UnrealInit
     trace("initializing unreal haxe");
 
 #if (debug && HXCPP_DEBUGGER)
-    new debugger.HaxeRemote(true, "localhost");
+    if (Sys.getEnv("HXCPP_DEBUG") != null) {
+      new debugger.HaxeRemote(true, "localhost");
+    }
 #end
 
 #if WITH_EDITOR
