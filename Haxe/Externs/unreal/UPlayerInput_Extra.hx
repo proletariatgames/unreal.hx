@@ -3,6 +3,11 @@ package unreal;
 extern class UPlayerInput_Extra {
 
   /**
+    This player's version of Action Mappings
+   **/
+  public var ActionMappings : TArray<FInputActionKeyMapping>;
+
+  /**
     This player's version of Axis Mappings
    **/
   public var AxisMappings : TArray<FInputAxisKeyMapping>;
