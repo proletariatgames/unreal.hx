@@ -48,22 +48,6 @@ class CoreAPI {
   }
 #end
 
-  #if !macro
-  // public static function equals(a:Dynamic, b:Dynamic) : Bool {
-  //   if ((a == null) && (b == null)) {
-  //     return true;
-  //   } else if (a == null || b == null) {
-  //     return false;
-  //   } else if (Std.is(a, unreal.UObject) && Std.is(b, UObject)) {
-  //     var uobjectA:UObject = cast a;
-  //     var ubojectB:UObject = cast b;
-  //     return uobjectA.wrapped == ubojectB.wrapped;
-  //   }
-  //   return a == b;
-  // }
-
-  #end // !macro
-
   /**
    * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
    * This is meant as a replacement for Cast<Type> in Unreal C++
@@ -76,10 +60,29 @@ class CoreAPI {
     var result:T;
     if (Std.is(obj, cls)) {
       result = cast obj;
-    } else {
+    } else
+#if cppia
+      // because of live reload, we must test as a string
+      if (slowAsCheck(obj, cls)) {
+        result = cast obj;
+      } else
+#end
+    {
       result = null;
     }
     return result;
+  }
+
+  private static function slowAsCheck(obj:UObject, cls:Class<Dynamic>) {
+    var target = Type.getClassName(cls);
+    var cur:Class<Dynamic> = cast Type.getClass(obj);
+    while(cur != null) {
+      if (Type.getClassName(cur) == target) {
+        return true;
+      }
+      cur = Type.getSuperClass(cur);
+    }
+    return false;
   }
 
   public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
