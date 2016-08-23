@@ -10,6 +10,7 @@ import unreal.developer.hotreload.IHotReloadModule;
 import unreal.FTimerManager;
 import unreal.editor.*;
 import sys.FileSystem;
+import unreal.developer.directorywatcher.*;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
@@ -98,15 +99,7 @@ class UnrealInit
     }
 
     // add file watcher
-    var watchHandle = FTimerHandle.create();
-    var timerDelegate = FTimerDelegate.create();
-    timerDelegate.BindLambda(function() {
-      if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
-        if (!disabled) {
-          loadCppia();
-        }
-      }
-    });
+    var dirWatchHandle:FTickerDelegate = null;
 #end
 
     var hotReloadHandle = null,
@@ -141,9 +134,10 @@ class UnrealInit
       if (shouldCleanup) {
         trace('Hot reload detected');
 #if WITH_CPPIA
-        if (watchHandle != null) {
-          UEditorEngine.GEditor.GetTimerManager().Get().ClearTimer(watchHandle);
-          watchHandle = null;
+        if (dirWatchHandle != null) {
+          dirWatchHandle.Unbind();
+          dirWatchHandle.dispose();
+          dirWatchHandle = null;
         }
 #end
         if (hotReloadHandle != null) {
@@ -157,10 +151,22 @@ class UnrealInit
       }
     }
 
-    function addWatcher() {
 #if WITH_CPPIA
-      UEditorEngine.GEditor.GetTimerManager().Get().SetTimer(watchHandle, timerDelegate, 1, true, 0);
+    var dirWatchHandle = FTickerDelegate.create();
+    dirWatchHandle.BindLambda(function(deltaTime) {
+      if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
+        if (!disabled) {
+          loadCppia();
+        }
+      }
+
+      return true;
+    });
+
+    FTicker.GetCoreTicker().AddTicker(dirWatchHandle, 2);
 #end
+
+    function addWatcher() {
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
       onCompHandle = IHotReloadModule.Get().OnModuleCompilerFinished().AddLambda(onCompilation);
       onBeginCompHandle = IHotReloadModule.Get().OnModuleCompilerStarted().AddLambda(onBeginCompilation);
