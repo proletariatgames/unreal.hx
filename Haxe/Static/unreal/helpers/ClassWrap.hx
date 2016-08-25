@@ -6,6 +6,7 @@ import unreal.*;
 @:keep class ClassWrap {
 #if (!UHX_WRAP_OBJECTS && !UHX_NO_UOBJECT)
   static var wrappers:Map<Int, UObject>;
+  static var wrapperArray:Array<UObject>;
   static var indexes:Array<Int>;
   static var delegateHandle:FDelegateHandle;
   static var nIndex:Int = 0;
@@ -17,11 +18,12 @@ import unreal.*;
 
     if (wrappers == null) {
       wrappers = new Map();
+      wrapperArray = [];
       indexes = [];
       delegateHandle = FCoreUObjectDelegates.PostGarbageCollect.AddLambda(onGC);
     }
     var index = ObjectArrayHelper_Glue.objectToIndex(nativePtr);
-    var ret = wrappers[index];
+    var ret = wrapperArray[index];
     var serial = ObjectArrayHelper_Glue.indexToSerial(index);
     if (ret != null) {
       if (ret.serialNumber == serial) {
@@ -44,18 +46,20 @@ import unreal.*;
     ret.serialNumber = serial;
     ret.internalIndex = index;
     wrappers[index] = ret;
+    wrapperArray[index] = ret;
     indexes[nIndex++] = index;
     return ret;
   }
 
   static function onGC() {
     var wrappers = wrappers,
+        wrapperArray = wrapperArray,
         inds = indexes,
         len = nIndex;
     var nidx = 0;
     for (i in 0...len) {
       var index = inds[i],
-          obj = wrappers[index];
+          obj = wrapperArray[index];
       var ptr = ObjectArrayHelper_Glue.indexToObject(index);
       if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerial(index) == obj.serialNumber) {
         inds[nidx++] = index;
@@ -64,6 +68,7 @@ import unreal.*;
           obj.invalidate();
         }
         wrappers.remove(index);
+        wrapperArray[index] = null;
       }
     }
     nIndex = nidx;
