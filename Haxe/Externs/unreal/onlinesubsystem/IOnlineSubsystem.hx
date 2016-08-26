@@ -10,4 +10,5 @@ import unreal.*;
   public static function Get(subsystemName:FName) : unreal.PPtr<IOnlineSubsystem>;
 	
   public function GetAchievementsInterface() : unreal.TThreadSafeSharedPtr<IOnlineAchievements>;
+  public function GetLeaderboardsInterface() : unreal.TThreadSafeSharedPtr<IOnlineLeaderboards>;
 }
