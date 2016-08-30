@@ -21,4 +21,6 @@ extern class UPlayerInput_Extra {
     Returns whether an Axis Mapping is inverted
    **/
   public function GetInvertAxis(AxisName : FName) : Bool;
+
+  public function AddActionMapping(KeyMapping : Const<PRef<FInputActionKeyMapping>>) : Void;
 }

@@ -35,6 +35,10 @@ extern class UActorComponent_Extra {
   /** See if this component is currently registered */
   @:thisConv function IsRegistered() : Bool;
 
+
+	/** set value of bCanEverAffectNavigation flag and update navigation octree if needed */
+	function SetCanEverAffectNavigation(bRelevant:Bool) : Void;
+
   /**
    * BeginsPlay for the component.  Occurs at level startup. This is before BeginPlay (Actor or Component).
    * All Components (that want initialization) in the level will be Initialized on load before any

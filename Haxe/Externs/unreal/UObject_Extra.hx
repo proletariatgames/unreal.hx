@@ -126,6 +126,11 @@ extern class UObject_Extra {
   @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("GetDefault")
+  @:typeName
+  @:global public static function GetDefault<T>():PPtr<T>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function FindPackage(inOuter:UObject, packageName:TCharStar):UPackage;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")

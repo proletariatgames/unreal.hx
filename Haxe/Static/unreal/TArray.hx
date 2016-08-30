@@ -133,6 +133,7 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function findIndexOf(fn:T->Bool) : Int {
+    var length = this.Num();
     for (i in 0...length) {
       var el = get(i);
       if (fn(el)) {
@@ -143,6 +144,7 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function find(fn:T->Bool) : Null<T> {
+    var length = this.Num();
     for (i in 0...length) {
       var el = get(i);
       if (fn(el)) {
@@ -157,7 +159,8 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function exists(funct:T->Bool) : Bool {
-    for (i in 0...this.Num()) {
+    var len = this.Num();
+    for (i in 0...len) {
       if (funct(this.get_Item(i))) {
         return true;
       }
@@ -166,20 +169,24 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   public function toArray() : Array<T> {
-    return [for(i in 0...this.Num()) this.get_Item(i)];
+    var len = this.Num();
+    return [for(i in 0...len) this.get_Item(i)];
   }
 
   public function mapToArray<A>(funct:T->A) : Array<A> {
-    return [for(i in 0...this.Num()) funct(this.get_Item(i))];
+    var len = this.Num();
+    return [for(i in 0...len) funct(this.get_Item(i))];
   }
 
   public function filterToArray(funct:T->Bool) : Array<T> {
-    return [for(i in 0...this.Num()) if (funct(this.get_Item(i))) this.get_Item(i)];
+    var len = this.Num();
+    return [for(i in 0...len) if (funct(this.get_Item(i))) this.get_Item(i)];
   }
 
   public function count(fn:T->Bool) : Int {
     var cnt = 0;
-    for (i in 0...this.Num()) {
+    var len = this.Num();
+    for (i in 0...len) {
       if (fn(this.get_Item(i))) {
         ++cnt;
       }
@@ -339,13 +346,15 @@ private typedef TArrayImpl<T> = Dynamic;
 class TArrayIterator<T> {
   public var ar:TArray<T>;
   public var idx:Int;
+  public var num:Int;
   public inline function new(ar:TArray<T>) {
     this.ar = ar;
     this.idx = 0;
+    this.num = ar.Num();
   }
 
   public inline function hasNext() : Bool {
-    return this.idx < this.ar.Num();
+    return this.idx < this.num;
   }
 
   public inline function next() : T {

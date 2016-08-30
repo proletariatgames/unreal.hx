@@ -14,4 +14,9 @@ extern class UInputComponent_Extra {
    * Returned reference is only guaranteed to be valid until another axis is bound.
    */
   public function BindAxis(axisName:Const<FName>, object:UObject, func:MethodPointer<UObject,Float32->Void>) : PRef<FInputAxisBinding>;
+
+  /**
+  * Removes all action bindings.
+  */
+  public function ClearActionBindings() : Void;
 }
