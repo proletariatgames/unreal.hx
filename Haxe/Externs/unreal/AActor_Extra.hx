@@ -47,6 +47,9 @@ extern class AActor_Extra {
   @:thisConst
   public function GetActorRotation() : FRotator;
 
+  @:thisConst
+  public function GetActorQuat() : FQuat;
+
   /** Called immediately before gameplay begins. */
   public function PreInitializeComponents() : Void;
 
