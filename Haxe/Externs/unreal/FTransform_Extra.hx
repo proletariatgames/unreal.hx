@@ -1,6 +1,7 @@
 package unreal;
 
 extern class FTransform_Extra {
+  public function new();
 
 	/**
 	 * Constructor with initialization to the identity transform.
@@ -31,4 +32,6 @@ extern class FTransform_Extra {
   public function GetLocation() : FVector;
   @:thisconst
   public function Rotator() : FRotator;
+
+  public static function Multiply(out:PPtr<FTransform>, a:Const<PPtr<FTransform>>, b:Const<PPtr<FTransform>>):Void;
 }

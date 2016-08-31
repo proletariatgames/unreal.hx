@@ -133,6 +133,9 @@ extern class UWorld_Extra {
   @:thisConst
   public function LineTraceMultiByChannel(OutHits:PRef<TArray<FHitResult>>, Start:Const<PRef<FVector>>,End:Const<PRef<FVector>>, TraceChannel:ECollisionChannel, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
 
+  @:thisConst
+  public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
+
   @:typeName public function SpawnActorDeferred<T>(
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
@@ -149,6 +152,28 @@ extern class UWorld_Extra {
       collisionShape:Const<PRef<FCollisionShape>>,
       params:Const<PRef<FCollisionQueryParams>>,
       responseParam:Const<PRef<FCollisionResponseParams>>):Bool;
+
+
+	/**
+	 *  Test the collision of a shape at the supplied location using a specific channel, and determine the set of components that it overlaps
+	 *  @param  OutOverlaps     Array of components found to overlap supplied box
+	 *  @param  Pos             Location of center of shape to test against the world
+	 *  @param  TraceChannel    The 'channel' that this query is in, used to determine which components to hit
+	 *  @param	CollisionShape	CollisionShape - supports Box, Sphere, Capsule
+	 *  @param  Params          Additional parameters used for the trace
+	 * 	@param 	ResponseParam	ResponseContainer to be used for this trace
+	 *  @return TRUE if OutOverlaps contains any blocking results
+	 */
+  @:thisConst
+	function OverlapMultiByChannel(
+    OutOverlaps:PRef<TArray<FOverlapResult>>,
+    Pos:Const<PRef<FVector>>,
+    Rot:Const<PRef<FQuat>>,
+    TraceChannel:ECollisionChannel,
+    CollisionShape:Const<PRef<FCollisionShape>>,
+    Params:Const<PRef<FCollisionQueryParams>>,
+    ResponseParam:Const<PRef<FCollisionResponseParams>>
+  ) : Bool;
 
   /**
     Returns the AWorldSettings actor associated with this world.
