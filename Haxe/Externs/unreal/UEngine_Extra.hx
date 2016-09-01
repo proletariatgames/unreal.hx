@@ -52,4 +52,14 @@ extern class UEngine_Extra {
   public function Exec(InWorld:UWorld, Cmd:TCharStar, Out:PRef<FOutputDevice>):Bool;
 
   public function GetWorldFromContextObject(obj:Const<UObject>, bChecked:Bool):UWorld;
+
+  /** Add a FString to the On-screen debug message system. bNewerOnTop only works with Key == INDEX_NONE */
+  public function AddOnScreenDebugMessage(Key : Int32, TimeToDisplay : Float32, DisplayColor : FColor, DebugMessage : Const<PRef<FString>>):Void;
+
+  /** Retrieve the message for the given key */
+  public function OnScreenDebugMessageExists(Key : FakeUInt64):Bool;
+
+  /** Clear any existing debug messages */
+  public function ClearOnScreenDebugMessages():Void;
+
 }
