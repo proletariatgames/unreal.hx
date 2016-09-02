@@ -12,4 +12,7 @@ package unreal.slatecore;
 
   @:thisConst
   public function ToString() : FString;
+
+  @:thisConst
+  public function GetLocalSize() : Const<PRef<unreal.FVector2D>>;
 }
