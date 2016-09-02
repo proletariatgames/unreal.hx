@@ -27,6 +27,10 @@ class FVectorUtils {
     return a;
   }
 
+  public static inline function distance(a:unreal.FVector,b:unreal.FVector) : Float32 {
+    return Math.sqrt(Math.pow(a.X - b.X, 2) + Math.pow(a.Y - b.Y, 2) + Math.pow(a.Z - b.Z, 2));
+  }
+
   // Return scalar value that is dot product of
   public static inline function dot(a:unreal.FVector,b:unreal.FVector) : Float32 {
     return (a.X*b.X) + (a.Y*b.Y) + (a.Z*b.Z);
