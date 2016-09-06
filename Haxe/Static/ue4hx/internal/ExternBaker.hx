@@ -680,7 +680,7 @@ class ExternBaker {
             this.add('this.wrapped = 0;');
           this.end('}');
 
-          this.add('#if !cppia inline #end public function isValid(threadSafe:Bool=false):Bool');
+          this.add('#if (!cppia && !debug) inline #end public function isValid(threadSafe:Bool=false):Bool');
           this.begin(' {');
             this.add('return this.wrapped != 0 '
                 +' && unreal.helpers.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex '
