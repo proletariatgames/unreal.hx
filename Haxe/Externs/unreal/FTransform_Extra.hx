@@ -34,4 +34,12 @@ extern class FTransform_Extra {
   public function Rotator() : FRotator;
 
   public static function Multiply(out:PPtr<FTransform>, a:Const<PPtr<FTransform>>, b:Const<PPtr<FTransform>>):Void;
+
+	/** Copy translation from another FTransform. */
+	function CopyTranslation(Other:Const<PRef<FTransform>>) : Void;
+	/** Copy scale from another FTransform. */
+	function CopyScale3D(Other:Const<PRef<FTransform>>) : Void;
+	/** Copy rotation from another FTransform. */
+	function CopyRotation(Other:Const<PRef<FTransform>>) : Void;
+
 }
