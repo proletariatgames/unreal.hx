@@ -334,8 +334,21 @@ class GlueMethod {
     } else {
       body += '(' + cppArgTypes.join(', ') + ')';
     }
+    var gcFree = this.meth.meta.hasMeta(':gcFree');
+    if (gcFree) {
+      cppIncludes.add('<unreal/helpers/HxcppRuntime.h>');
+      outVars << '::unreal::helpers::HxcppRuntime::enterGCFreeZone();';
+    }
     if (!this.glueRet.haxeType.isVoid()) {
-      body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);
+      if (gcFree) {
+        outVars << meth.ret.ueType.getCppType() + ' hx_gc_free_ret = $body;';
+        outVars << '::unreal::helpers::HxcppRuntime::exitGCFreeZone();';
+        body = 'return ' + this.glueRet.ueToGlue('hx_gc_free_ret', this.ctx);
+      } else {
+        body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);
+      }
+    } else if (gcFree) {
+      body = '($body, ::unreal::helpers::HxcppRuntime::exitGCFreeZone())';
     }
     return body;
   }

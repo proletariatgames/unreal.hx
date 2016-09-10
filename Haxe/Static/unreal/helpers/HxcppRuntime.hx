@@ -97,6 +97,14 @@ import ue4hx.internal.HaxeCodeDispatcher;
     return HaxeHelpers.dynamicToPointer(dyn);
   }
 
+  public static function enterGCFreeZone() {
+    cpp.vm.Gc.enterGCFreeZone();
+  }
+
+  public static function exitGCFreeZone() {
+    cpp.vm.Gc.exitGCFreeZone();
+  }
+
   public static function createInlinePodWrapper(size:Int, info:UIntPtr) : VariantPtr {
     var ret = VariantPtr.fromDynamic( InlinePodWrapper.create(size, info) );
 #if debug
