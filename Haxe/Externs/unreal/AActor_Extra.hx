@@ -120,4 +120,10 @@ extern class AActor_Extra {
 	 **/
   @:thisConst
   function IsPendingKillPending() : Bool;
+
+	/* Called when this actor becomes the given PlayerController's ViewTarget. Triggers the Blueprint event K2_OnBecomeViewTarget. */
+	function BecomeViewTarget( PC:APlayerController ) : Void;
+
+	/* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
+	function EndViewTarget( PC:APlayerController ) : Void;
 }
