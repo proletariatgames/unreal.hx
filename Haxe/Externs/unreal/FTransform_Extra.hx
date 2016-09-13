@@ -42,4 +42,19 @@ extern class FTransform_Extra {
 	/** Copy rotation from another FTransform. */
 	function CopyRotation(Other:Const<PRef<FTransform>>) : Void;
 
+  /**
+	 * Sets the translation component
+	 * @param NewTranslation The new value for the translation component
+	 */
+	function SetTranslation(NewTranslation:Const<PRef<FVector>>) : Void;
+	/**
+	 * Sets the rotation component
+	 * @param NewRotation The new value for the rotation component
+	 */
+	function SetRotation(NewRotation:Const<PRef<FQuat>>) : Void;
+	/**
+	 * Sets the Scale3D component
+	 * @param NewScale3D The new value for the Scale3D component
+	 */
+	function SetScale3D(NewScale3D:Const<PRef<FVector>>) : Void;
 }
