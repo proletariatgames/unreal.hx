@@ -3,7 +3,7 @@ package unreal.onlinesubsystem;
 import unreal.*;
 
 
-@:glueCppIncludes("OnlineSubsystem.h") @:umodule("OnlineSubsystem")
+@:glueCppIncludes("Online.h") @:umodule("OnlineSubsystem")
 @:uname("IOnlineSubsystem")
 @:noCopy
 @:uextern extern class IOnlineSubsystem {
