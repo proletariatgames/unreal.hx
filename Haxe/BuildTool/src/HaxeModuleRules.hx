@@ -470,6 +470,8 @@ class HaxeModuleRules extends BaseModuleRules
           if (target.Configuration == Shipping) {
             args.push('-D UE_BUILD_SHIPPING');
           }
+          if (config.extraCppiaCompileArgs != null)
+            args = args.concat(config.extraCppiaCompileArgs);
 
           if (!FileSystem.exists('$gameDir/Binaries/Haxe')) {
             FileSystem.createDirectory('$gameDir/Binaries/Haxe');

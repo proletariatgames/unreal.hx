@@ -28,6 +28,13 @@ typedef HaxeModuleConfig = {
   ?extraCompileArgs:Array<String>,
 
   /**
+    Adds compilation arguments to the cppia build hxml.
+    This follows the hxml convention, with each argument representing a line in the hxml.
+    Empty lines and comments are supported
+   **/
+  ?extraCppiaCompileArgs:Array<String>,
+
+  /**
     Adds extra static classpaths to be compiled
     Every .hx type in this folder will be compiled
    **/
