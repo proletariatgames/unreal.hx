@@ -9,8 +9,9 @@ typedef FOnQueryAchievementsCompleteDelegate = unreal.Delegate<FOnQueryAchieveme
 
 
 @:uname("IOnlineAchievements")
+@:glueCppIncludes("OnlineAchievementsInterface.h")
 @:noCopy
 @:uextern extern class IOnlineAchievements {
   public function WriteAchievements( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, writeObject : unreal.TThreadSafeSharedRef<FOnlineAchievementsWrite>) : Void;
-  public function QueryAchievements( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, delegate : FOnQueryAchievementsCompleteDelegate ) : Void;	
+  public function QueryAchievements( playerId : unreal.PRef<unreal.Const<FUniqueNetId>>, delegate : FOnQueryAchievementsCompleteDelegate ) : Void;
 }
