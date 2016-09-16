@@ -13,4 +13,6 @@ import unreal.*;
   public function GetLeaderboardsInterface() : unreal.TThreadSafeSharedPtr<IOnlineLeaderboards>;
   public function GetIdentityInterface() : unreal.TThreadSafeSharedPtr<IOnlineIdentity>;
   public function GetInstanceName() : FName;
+
+  public function GetLanguage() : FString;
 }
