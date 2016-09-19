@@ -61,7 +61,18 @@ extern class AActor_Extra {
 	@:thisConst
   public function GetWorldTimerManager() : PRef<FTimerManager>;
 
+	/**
+	 *	Event when this actor overlaps another actor, for example a player walking into a trigger.
+	 *	For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
+	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+	 */
   public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
+
+	/**
+	 *	Event when an actor no longer overlaps another actor, and they have separated.
+	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+	 */
+	public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
 
   public function TornOff() : Void;
 
