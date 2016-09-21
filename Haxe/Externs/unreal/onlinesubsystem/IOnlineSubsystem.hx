@@ -15,4 +15,5 @@ import unreal.*;
   public function GetInstanceName() : FName;
 
   public function GetLanguage() : FString;
+  public function IsSteamControllerActive() : Bool;
 }
