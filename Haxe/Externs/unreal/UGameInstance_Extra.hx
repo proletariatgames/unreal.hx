@@ -9,6 +9,9 @@ extern class UGameInstance_Extra {
   public function Shutdown() : Void;
 
   @:thisConst
+  public function GetFirstLocalPlayerController() : Const<APlayerController>;
+
+  @:thisConst
   public function GetLocalPlayers() : Const<PRef<TArray<ULocalPlayer>>>;
 
   @:thisConst
