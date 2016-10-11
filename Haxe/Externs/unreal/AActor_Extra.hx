@@ -137,4 +137,10 @@ extern class AActor_Extra {
 
 	/* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
 	function EndViewTarget( PC:APlayerController ) : Void;
+
+  /** Removes a component from the OwnedComponents array of the Actor.
+   *  In general this should not need to be called directly by anything other than UActorComponent functions
+   */
+  public function RemoveOwnedComponent(Component:UActorComponent) : Void;
+
 }
