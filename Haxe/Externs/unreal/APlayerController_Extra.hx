@@ -1,8 +1,16 @@
 package unreal;
 
+import unreal.inputcore.ETouchType;
+import unreal.inputcore.FKey;
+
+
 extern class APlayerController_Extra {
 
   public function InitInputSystem() : Void;
+	public function InputKey(Key:FKey, EventType:EInputEvent, AmountDepressed:Float32, bGamepad:Bool) : Bool;
+	public function InputTouch(Handle:FakeUInt32, Type:ETouchType, TouchLocation:Const<PRef<FVector2D>>, DeviceTimestamp:FDateTime, TouchpadIndex:FakeUInt32) : Bool;
+	public function InputAxis(Key:FKey, Delta:Float32, DeltaTime:Float32, NumSamples:Int32, bGamepad:Bool) : Bool;
+	public function InputMotion(Tilt:Const<PRef<FVector>>, RotationRate:Const<PRef<FVector>>, Gravity:Const<PRef<FVector>>, Acceleration:Const<PRef<FVector>>) : Bool;
 
   public function GetNextViewablePlayer(dir:Int32) : APlayerState;
 
