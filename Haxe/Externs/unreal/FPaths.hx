@@ -291,4 +291,36 @@ package unreal;
    * Converts a relative path name to a fully qualified name relative to the process BaseDir().
    */
   public static function ConvertRelativePathToFull(inPath:Const<PRef<FString>>):FString;
+
+  /**
+   * Combine file paths
+   */
+  @:uname("Combine")
+  public static function CombineTwo(path1:TCharStar, path2:TCharStar):FString;
+
+  /**
+   * Combine file paths
+   */
+  @:uname("Combine")
+  public static function CombineThree(path1:TCharStar, path2:TCharStar, path3:TCharStar):FString;
+
+  /**
+   * Combine file paths
+   */
+  @:uname("Combine")
+  public static function CombineFour(path1:TCharStar, path2:TCharStar, path3:TCharStar, part4:TCharStar):FString;
+
+  /**
+   * Combine file paths
+   */
+  @:uname("Combine")
+  public static function CombineFive(path1:TCharStar, path2:TCharStar, path3:TCharStar, part4:TCharStar, part5:TCharStar):FString;
+
+  /** @return true if this file was found, false otherwise */
+  public static function FileExists(InPath:Const<PRef<FString>>):Bool;
+
+  /** @return true if this directory was found, false otherwise */
+  public static function DirectoryExists(InPath:Const<PRef<FString>>):Bool;
+
+
 }
