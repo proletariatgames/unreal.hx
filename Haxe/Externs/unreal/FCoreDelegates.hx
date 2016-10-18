@@ -11,5 +11,5 @@ import unreal.*;
 #if proletariat
 @:glueCppIncludes('Misc/CallbackDevice.h')
 @:uname('FCoreDelegates.FExternalArgumentsReceived')
-typedef FExternalArgumentsReceived = MulticastDelegate<FExternalArgumentsReceived, Void->Void>;
+typedef FExternalArgumentsReceived = MulticastDelegate<FExternalArgumentsReceived, Const<PRef<FString>>->Void>;
 #end
