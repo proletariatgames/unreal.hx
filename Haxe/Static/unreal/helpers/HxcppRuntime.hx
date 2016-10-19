@@ -40,7 +40,8 @@ import ue4hx.internal.HaxeCodeDispatcher;
 
   public static function uobjectUnwrap(uobj:UIntPtr) : UIntPtr {
 #if !UHX_NO_UOBJECT
-    return @:privateAccess (HaxeHelpers.pointerToDynamic(uobj) : UObject).wrapped;
+    var uobj = (HaxeHelpers.pointerToDynamic(uobj) : UObject);
+    return uobj != null ? @:privateAccess uobj.wrapped : 0;
 #else
     return throw 'Cannot access uobjects on UE programs';
 #end
