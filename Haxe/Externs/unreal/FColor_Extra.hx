@@ -13,6 +13,8 @@ extern class FColor_Extra {
 
   public static function FromHex(HexString:Const<PRef<FString>>) : FColor;
 
+  public function ToHex() : FString;
+
   @:thisConst
   public function ReinterpretAsLinear() : FLinearColor;
 
