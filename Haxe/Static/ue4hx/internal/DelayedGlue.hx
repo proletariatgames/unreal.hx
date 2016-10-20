@@ -507,7 +507,11 @@ class DelayedGlue {
     var info = GlueInfo.fromBaseType(abs);
     var uname = info.uname.getClassPath(),
         nameWithout = info.uname.withoutPrefix().getClassPath();
-    var headerPath = info.getHeaderPath(true);
+    var headerPath = info.getHeaderPath(true),
+        cppPath = info.getCppPath(false);
+    if (sys.FileSystem.exists(cppPath)) {
+      sys.FileSystem.deleteFile(cppPath);
+    }
 
     var writer = new HeaderWriter(headerPath);
     var cls = abs.impl.get();
