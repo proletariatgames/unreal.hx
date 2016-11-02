@@ -29,4 +29,7 @@ extern class UPrimitiveComponent_Extra {
 	 *	Returns if any body in this component is currently awake and simulating.
 	 */
 	function IsAnyRigidBodyAwake():Bool;
+
+	/** Recreate the physics state right way. */
+	function RecreatePhysicsState():Void;
 }
