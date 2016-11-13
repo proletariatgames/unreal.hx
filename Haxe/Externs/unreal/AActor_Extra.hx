@@ -1,6 +1,9 @@
 package unreal;
 
 extern class AActor_Extra {
+  /** Dormancy setting for actor to take itself off of the replication list without being destroyed on clients. */
+  public var NetDormancy:ENetDormancy;
+
   public function Tick(DeltaSeconds:Float32) : Void;
 
   public function Reset() : Void;
