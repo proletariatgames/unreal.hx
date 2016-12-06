@@ -8,4 +8,5 @@ package unreal.internationalization;
 
   public static function Get() : PRef<FInternationalization>;
   public function SetCurrentCulture(Name:PRef<FString>) : Bool;
+  public function GetCurrentCulture() : FCultureRef;
 }
