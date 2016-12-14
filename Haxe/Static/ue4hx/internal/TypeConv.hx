@@ -320,14 +320,16 @@ class TypeConv {
     case CBasic(info) | CSpecial(info):
       set.append(info.glueCppIncludes);
     case CUObject(type, flags, info):
+      var canForwardDecl = true;
       if (flags.hasAny(OWeak)) {
         set.add("UObject/WeakObjectPtrTemplates.h");
       }
       if (flags.hasAny(OSubclassOf)) {
+        canForwardDecl = false;
         set.add("UObject/ObjectBase.h");
       }
 
-      if (forwardDecls != null) {
+      if (forwardDecls != null && canForwardDecl) {
         var decl = info.ueType.getForwardDecl();
         forwardDecls[decl] = decl;
         cppSet.append(info.glueCppIncludes);
