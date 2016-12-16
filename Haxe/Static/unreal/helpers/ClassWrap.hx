@@ -61,7 +61,7 @@ import unreal.*;
       var index = inds[i],
           obj = wrapperArray[index];
       var ptr = ObjectArrayHelper_Glue.indexToObject(index);
-      if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerial(index) == obj.serialNumber) {
+      if (obj != null && ptr == obj.wrapped && ObjectArrayHelper_Glue.indexToSerialPendingKill(index) == obj.serialNumber) {
         inds[nidx++] = index;
       } else {
         if (obj != null) {

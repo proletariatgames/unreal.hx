@@ -23,6 +23,14 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
     return ObjectArrayHelper_Glue.indexToSerial(idx);
   }
 
+  @:glueHeaderCode('static int indexToSerialPendingKill(int index);')
+  @:glueCppCode('int unreal::helpers::ObjectArrayHelper_Glue_obj::indexToSerialPendingKill(int index) {\n\tauto ret = GUObjectArray.IndexToObject(index);\n\tif (ret == nullptr || ret->IsPendingKill() || ret->IsUnreachable()) return 0;\n\treturn ret->SerialNumber;\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  @:glueHeaderIncludes('IntPtr.h')
+  public static function indexToSerialPendingKill(idx:Int):Int {
+    return ObjectArrayHelper_Glue.indexToSerialPendingKill(idx);
+  }
+
   @:glueHeaderCode('static int objectToIndex(unreal::UIntPtr obj);')
   @:glueCppCode('int unreal::helpers::ObjectArrayHelper_Glue_obj::objectToIndex(unreal::UIntPtr obj) {\n\treturn GUObjectArray.ObjectToIndex((const class UObjectBase *) obj);\n}')
   @:glueCppIncludes('UObject/UObjectArray.h')
