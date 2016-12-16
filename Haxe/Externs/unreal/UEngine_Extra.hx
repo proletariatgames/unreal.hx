@@ -30,6 +30,9 @@ extern class UEngine_Extra {
   @:uname("GWorld")
   @:global static var GWorld : UWorldProxy;
 
+  @:uname("GIsRequestingExit")
+  @:global static var GIsRequestingExit : Bool;
+
   @:thisConst
   public function UseSound() : Bool;
 
