@@ -2,7 +2,6 @@ package unreal.onlinesubsystem;
 
 import unreal.*;
 
-
 @:glueCppIncludes("Online.h") @:umodule("OnlineSubsystem")
 @:uname("IOnlineSubsystem")
 @:noCopy
@@ -16,4 +15,7 @@ import unreal.*;
 
   public function GetLanguage() : FString;
   public function IsSteamControllerActive() : Bool;
+
+  @:thisConst
+  public function GetSessionInterface() : TThreadSafeSharedPtr<IOnlineSession>;
 }
