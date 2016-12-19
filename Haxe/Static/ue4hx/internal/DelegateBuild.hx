@@ -268,7 +268,7 @@ class DelegateBuild {
 
     meta.push({ name:':keepInit', params:[], pos:pos });
     var ret = def.fields;
-    def.name = ueType.name;
+    def.name = tref.name;
     def.meta = meta;
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
     def.pack = ['uhx','delegates'];
@@ -280,9 +280,9 @@ class DelegateBuild {
     def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
 #end
     Globals.cur.hasUnprocessedTypes = true;
-    Globals.cur.cachedBuiltTypes.push('uhx.delegates.${ueType.name}');
+    Globals.cur.cachedBuiltTypes.push('uhx.delegates.${tref.name}');
     Context.defineType(def);
-    return Context.getType('uhx.delegates.${ueType.name}');
+    return Context.getType('uhx.delegates.${tref.name}');
   }
 
   private static function followWithAbstracts(t:Type):Type {
