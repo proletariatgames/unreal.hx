@@ -11,5 +11,6 @@ extern class APlayerState_Extra {
     session that the player needs to join/remove from as it is created/leaves
   **/
   public var SessionName : unreal.FName;
-  
+
+  public function OnDeactivated() : Void;
 }
