@@ -53,4 +53,6 @@ extern class APlayerController_Extra {
   public function CanRestartPlayer() : Bool;
 
   public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
+
+  public function CleanupPlayerState() : Void;
 }
