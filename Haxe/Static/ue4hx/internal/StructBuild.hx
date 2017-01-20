@@ -57,7 +57,9 @@ class StructBuild {
     var target = new TypeRef(['unreal','structs'],tdef.name);
 
     var getSuperField = function(v) return null; // TODO: maybe allow super calls on unreal structs' override?
-    tdef.meta.add(':ustruct', [], tdef.pos);
+    if (!tdef.meta.has(":ustruct")) {
+      tdef.meta.add(':ustruct', [], tdef.pos);
+    }
     NeedsGlueBuild.processType(tdef, getSuperField, target, fields);
 
     var typeThis:TypePath = {pack:[], name:tdef.name};
