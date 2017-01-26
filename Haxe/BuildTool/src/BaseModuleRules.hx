@@ -38,7 +38,7 @@ class BaseModuleRules extends ModuleRules
     if (allGames.length > 1) {
       trace("AllGameFolders is returning more than one: ",allGames);
     }
-    modulePath = Path.Combine(ModuleDirectory, "$curName.Build.cs");
+    modulePath = Path.Combine(ModuleDirectory, '$curName.Build.cs');
 
     var haxeInitPath = Path.GetDirectoryName(RulesCompiler.GetFileNameFromType(cs.Lib.toNativeType(HaxeInit)));
     pluginPath = Path.GetFullPath('$haxeInitPath/../..');
