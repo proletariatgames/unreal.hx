@@ -14,7 +14,7 @@
 package unreal.sequencer;
 
 @:umodule("Sequencer")
-@:glueCppIncludes("Private/SequencerSettings.h")
+@:glueCppIncludes("SequencerSettings.h")
 @:uname("ESequencerSpawnPosition")
 @:uextern extern enum ESequencerSpawnPosition {
   

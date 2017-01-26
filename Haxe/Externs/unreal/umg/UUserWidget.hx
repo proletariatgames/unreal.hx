@@ -73,12 +73,6 @@ package unreal.umg;
   @:final public function SetOwningLocalPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
 
   /**
-    Gets the player controller associated with this UI.
-    @return The player controller that owns the UI.
-  **/
-  @:thisConst @:final public function GetOwningPlayer() : unreal.APlayerController;
-
-  /**
     Gets the player pawn associated with this UI.
     @return Gets the owning player pawn that's owned by the player controller assigned to this widget.
   **/
@@ -248,6 +242,15 @@ package unreal.umg;
   public function OnMouseButtonDoubleClick(InMyGeometry : unreal.slatecore.FGeometry, InMouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
 
   /**
+    Called when Slate detects that a widget started to be dragged.
+
+    @param  InMyGeometry  Widget geometry
+    @param  PointerEvent  MouseMove that triggered the drag
+    @param  Operation     The drag operation that was detected.
+  **/
+  // public function OnDragDetected(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>, Operation : unreal.PRef<unreal.umg.UDragDropOperation>) : Void;
+
+  /**
     Called when the user cancels the drag operation, typically when they simply release the mouse button after
     beginning a drag operation, but failing to complete the drag.
 
@@ -376,9 +379,22 @@ package unreal.umg;
     @param InAnimation The animation to play
     @param StartAtTime The time in the animation from which to start playing, relative to the start position. For looped animations, this will only affect the first playback of the animation.
     @param NumLoopsToPlay The number of times to loop this animation (0 to loop indefinitely)
+    @param PlaybackSpeed The speed at which the animation should play
     @param PlayMode Specifies the playback mode
   **/
-  @:final public function PlayAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, StartAtTime : unreal.Float32, NumLoopsToPlay : unreal.Int32, PlayMode : unreal.umg.EUMGSequencePlayMode) : Void;
+  @:final public function PlayAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, StartAtTime : unreal.Float32, NumLoopsToPlay : unreal.Int32, PlayMode : unreal.umg.EUMGSequencePlayMode, PlaybackSpeed : unreal.Float32) : Void;
+
+  /**
+    Plays an animation in this widget a specified number of times stoping at a specified time
+
+    @param InAnimation The animation to play
+    @param StartAtTime The time in the animation from which to start playing, relative to the start position. For looped animations, this will only affect the first playback of the animation.
+    @param EndAtTime The absolute time in the animation where to stop, this is only considered in the last loop.
+    @param NumLoopsToPlay The number of times to loop this animation (0 to loop indefinitely)
+    @param PlaybackSpeed The speed at which the animation should play
+    @param PlayMode Specifies the playback mode
+  **/
+  @:final public function PlayAnimationTo(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, StartAtTime : unreal.Float32, EndAtTime : unreal.Float32, NumLoopsToPlay : unreal.Int32, PlayMode : unreal.umg.EUMGSequencePlayMode, PlaybackSpeed : unreal.Float32) : Void;
 
   /**
     Stops an already running animation in this widget
@@ -396,6 +412,14 @@ package unreal.umg;
   @:final public function PauseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
 
   /**
+    Gets the current time of the animation in this widget
+
+    @param The name of the animation to get the current time for
+    @return the current time of the animation.
+  **/
+  @:thisConst @:final public function GetAnimationCurrentTime(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
+
+  /**
     Gets whether an animation is currently playing on this widget.
 
     @param InAnimation The animation to check the playback status of
@@ -404,12 +428,32 @@ package unreal.umg;
   @:thisConst @:final public function IsAnimationPlaying(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
 
   /**
+    @return True if any animation is currently playing
+  **/
+  @:thisConst @:final public function IsAnyAnimationPlaying() : Bool;
+
+  /**
     Changes the number of loops to play given a playing animation
 
     @param InAnimation The animation that is already playing
     @param NumLoopsToPlay The number of loops to play. (0 to loop indefinitely)
   **/
   @:final public function SetNumLoopsToPlay(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, NumLoopsToPlay : unreal.Int32) : Void;
+
+  /**
+    Changes the playback rate of a playing animation
+
+    @param InAnimation The animation that is already playing
+    @param PlaybackRate Playback rate multiplier (1 is default)
+  **/
+  @:final public function SetPlaybackSpeed(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, PlaybackSpeed : unreal.Float32) : Void;
+
+  /**
+    If an animation is playing, this function will reverse the playback.
+
+    @param InAnimation The playing animation that we want to reverse
+  **/
+  @:final public function ReverseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
 
   /**
     Plays a sound through the UI
@@ -491,8 +535,34 @@ package unreal.umg;
     The color and opacity of this widget.  Tints all child widgets.
   **/
   public var ColorAndOpacity : unreal.FLinearColor;
+
+  /**
+    Removes the binding for a particular action's callback.
+  **/
   @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent) : Void;
+
+  /**
+    Stops listening to all input actions, and unregisters the input component with the player controller.
+  **/
   @:final private function StopListeningForAllInputActions() : Void;
+
+  /**
+    ListenForInputAction will automatically Register an Input Component with the player input system.
+    If you however, want to Pause and Resume, listening for a set of actions, the best way is to use
+    UnregisterInputComponent to pause, and RegisterInputComponent to resume listening.
+  **/
+  @:final private function RegisterInputComponent() : Void;
+
+  /**
+    StopListeningForAllInputActions will automatically Register an Input Component with the player input system.
+    If you however, want to Pause and Resume, listening for a set of actions, the best way is to use
+    UnregisterInputComponent to pause, and RegisterInputComponent to resume listening.
+  **/
+  @:final private function UnregisterInputComponent() : Void;
+
+  /**
+    Checks if the action has a registered callback with the input component.
+  **/
   @:thisConst @:final private function IsListeningForInputAction(ActionName : unreal.FName) : Bool;
   @:final private function SetInputActionPriority(NewPriority : unreal.Int32) : Void;
   @:final private function SetInputActionBlocking(bShouldBlock : Bool) : Void;

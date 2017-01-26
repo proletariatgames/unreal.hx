@@ -37,10 +37,11 @@ package unreal;
     Higher values increase the cost of Distance Field AO exponentially.
   **/
   public var OcclusionMaxDistance : unreal.Float32;
+  public var LowerHemisphereColor : unreal.FLinearColor;
   
   /**
-    Whether all distant lighting from the lower hemisphere should be set to zero.
-    Enabling this is accurate when lighting a scene on a planet,
+    Whether all distant lighting from the lower hemisphere should be set to LowerHemisphereColor.
+    Enabling this is accurate when lighting a scene on a planet where the ground blocks the sky,
     However disabling it can be useful to approximate skylight bounce lighting (eg Movable light).
   **/
   public var bLowerHemisphereIsBlack : Bool;
@@ -50,6 +51,11 @@ package unreal;
     This is also used by reflection captures, so update reflection captures to see the impact.
   **/
   public var SkyDistanceThreshold : unreal.Float32;
+  
+  /**
+    Maximum resolution for the very top processed cubemap mip. Must be a power of 2.
+  **/
+  public var CubemapResolution : unreal.Int32;
   
   /**
     Angle to rotate the source cubemap when SourceType is set to SLS_SpecifiedCubemap.

@@ -19,7 +19,6 @@ package unreal.html5platformeditor;
   
   
 **/
-@:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("HTML5TargetSettings.h")
 @:noCopy @:noEquals @:uextern extern class FHTML5LevelTransitions {
   public var MapTo : unreal.FFilePath;

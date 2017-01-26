@@ -15,6 +15,7 @@ package unreal;
 
 @:glueCppIncludes("AnimGraphNode_ApplyMeshSpaceAdditive.h")
 @:uextern extern class FAnimNode_ApplyMeshSpaceAdditive extends unreal.FAnimNode_Base {
+  public var ActualAlpha : unreal.Float32;
   
   /**
     * Max LOD that this node is allowed to run

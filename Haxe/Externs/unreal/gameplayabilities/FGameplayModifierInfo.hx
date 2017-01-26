@@ -26,6 +26,11 @@ package unreal.gameplayabilities;
   public var SourceTags : unreal.gameplayabilities.FGameplayTagRequirements;
   
   /**
+    Evaluation channel settings of the modifier
+  **/
+  public var EvaluationChannelSettings : unreal.gameplayabilities.FGameplayModEvaluationChannelSettings;
+  
+  /**
     Magnitude of the modifier
   **/
   public var ModifierMagnitude : unreal.gameplayabilities.FGameplayEffectModifierMagnitude;

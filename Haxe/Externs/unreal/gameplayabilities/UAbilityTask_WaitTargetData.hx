@@ -25,10 +25,10 @@ package unreal.gameplayabilities;
     The TargetActor that we spawned
   **/
   private var TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor;
-  @:final public function OnTargetDataReplicatedCallback(Data : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, ActivationTag : unreal.gameplaytags.FGameplayTag) : Void;
+  @:final public function OnTargetDataReplicatedCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, ActivationTag : unreal.gameplaytags.FGameplayTag) : Void;
   @:final public function OnTargetDataReplicatedCancelledCallback() : Void;
-  @:final public function OnTargetDataReadyCallback(Data : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : Void;
-  @:final public function OnTargetDataCancelledCallback(Data : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : Void;
+  @:final public function OnTargetDataReadyCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
+  @:final public function OnTargetDataCancelledCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
   
   /**
     Spawns target actor and waits for it to return valid data or to be canceled.

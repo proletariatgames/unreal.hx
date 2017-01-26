@@ -25,6 +25,12 @@ package unreal.umg;
 @:uextern extern class UMenuAnchor extends unreal.umg.UContentWidget {
   
   /**
+    Does this menu behave like a normal stacked menu? Set it to false to control the menu's lifetime yourself.
+  **/
+  public var UseApplicationMenuStack : Bool;
+  public var ShouldDeferPaintingAfterWindowContent : Bool;
+  
+  /**
     The placement location of the summoned widget.
   **/
   public var Placement : unreal.slatecore.EMenuPlacement;

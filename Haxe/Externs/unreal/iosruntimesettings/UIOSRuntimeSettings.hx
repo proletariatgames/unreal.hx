@@ -167,6 +167,11 @@ package unreal.iosruntimesettings;
   public var AdditionalLinkerFlags : unreal.FString;
   
   /**
+    Enable bitcode compiling?
+  **/
+  public var bShipForBitcode : Bool;
+  
+  /**
     Enable ArmV7s support?
   **/
   public var bShipForArmV7S : Bool;
@@ -195,6 +200,26 @@ package unreal.iosruntimesettings;
     Enable ArmV7 support? (this will be used if all type are unchecked)
   **/
   public var bDevForArmV7 : Bool;
+  
+  /**
+    Enable generation of xcode archive package
+  **/
+  public var bGenerateXCArchive : Bool;
+  
+  /**
+    Enable generation of dSYM bundle
+  **/
+  public var bGeneratedSYMBundle : Bool;
+  
+  /**
+    Enable generation of dSYM file
+  **/
+  public var bGeneratedSYMFile : Bool;
+  
+  /**
+    Remotely compile shaders offline
+  **/
+  public var EnableRemoteShaderCompile : Bool;
   
   /**
     Whether or not to add support for OpenGL ES2 (if this is false, then your game should specify minimum IOS8 version)

@@ -15,8 +15,6 @@ package unreal;
 
 
 /**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
   Used to capture a 'snapshot' of the scene from a single plane and feed it to a render target.
 **/
 @:glueCppIncludes("Components/SceneCaptureComponent2D.h")
@@ -27,16 +25,33 @@ package unreal;
   **/
   public var PostProcessBlendWeight : unreal.Float32;
   public var PostProcessSettings : unreal.FPostProcessSettings;
+  
+  /**
+    When enabled, the scene capture will composite into the render target instead of overwriting its contents.
+  **/
+  public var CompositeMode : unreal.ESceneCaptureCompositeMode;
   public var CaptureSource : unreal.ESceneCaptureSource;
   
   /**
-    Temporary render target that can be used by the editor.
+    Output render target of the scene capture that can be read in materals.
   **/
   public var TextureTarget : unreal.UTextureRenderTarget2D;
+  
+  /**
+    The desired width (in world units) of the orthographic view (ignored in Perspective mode)
+  **/
+  public var OrthoWidth : unreal.Float32;
   
   /**
     Camera field of view (in degrees).
   **/
   public var FOVAngle : unreal.Float32;
+  public var ProjectionType : unreal.ECameraProjectionMode;
+  
+  /**
+    Render the scene to the texture target immediately.
+    This should not be used if bCaptureEveryFrame is enabled, or the scene capture will render redundantly.
+  **/
+  @:final public function CaptureScene() : Void;
   
 }

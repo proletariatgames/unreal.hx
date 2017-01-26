@@ -17,7 +17,7 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  A single byte section
+  A single byte section.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneByteSection.h")

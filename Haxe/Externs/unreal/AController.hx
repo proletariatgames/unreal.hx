@@ -108,9 +108,14 @@ package unreal;
   @:thisConst public function GetDesiredRotation() : unreal.FRotator;
   
   /**
-    returns whether this Controller is a locally controlled PlayerController.
+    Returns whether this Controller is a PlayerController.
   **/
-  @:thisConst public function IsLocalPlayerController() : Bool;
+  @:thisConst @:final public function IsPlayerController() : Bool;
+  
+  /**
+    Returns whether this Controller is a locally controlled PlayerController.
+  **/
+  @:thisConst @:final public function IsLocalPlayerController() : Bool;
   
   /**
     Returns whether this Controller is a local controller.
@@ -134,6 +139,43 @@ package unreal;
     Aborts the move the controller is currently performing
   **/
   public function StopMovement() : Void;
+  
+  /**
+    Locks or unlocks movement input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreMoveInput.
+    @param bNewMoveInput  If true, move input is ignored. If false, input is not ignored.
+  **/
+  public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
+  
+  /**
+    Stops ignoring move input by resetting the ignore move input state.
+  **/
+  public function ResetIgnoreMoveInput() : Void;
+  
+  /**
+    Returns true if movement input is ignored.
+  **/
+  @:thisConst public function IsMoveInputIgnored() : Bool;
+  
+  /**
+    Locks or unlocks look input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreLookInput.
+    @param bNewLookInput  If true, look input is ignored. If false, input is not ignored.
+  **/
+  public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
+  
+  /**
+    Stops ignoring look input by resetting the ignore look input state.
+  **/
+  public function ResetIgnoreLookInput() : Void;
+  
+  /**
+    Returns true if look input is ignored.
+  **/
+  @:thisConst public function IsLookInputIgnored() : Bool;
+  
+  /**
+    Reset move and look input ignore flags.
+  **/
+  public function ResetIgnoreInputFlags() : Void;
   
   /**
     Event when this controller instigates ANY damage

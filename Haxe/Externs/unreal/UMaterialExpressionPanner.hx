@@ -36,6 +36,11 @@ package unreal;
   public var SpeedX : unreal.Float32;
   
   /**
+    Vector2 speed scale, if specified
+  **/
+  public var Speed : unreal.FExpressionInput;
+  
+  /**
     Defaults to Game Time if not specified
   **/
   public var Time : unreal.FExpressionInput;

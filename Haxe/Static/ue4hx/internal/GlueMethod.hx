@@ -430,18 +430,22 @@ class GlueMethod {
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
           this.thisConv.ueType.getCppClass();
         case _ if(meth.flags.hasAny(CppPrivate)):
-          // For protected external functions we need to use a
-          // local derived class with a static function that lets the wrapper
-          // call the protected function.
-          // See PROTECTED METHOD CALL comments farther down the code.
-          if (meth.flags.hasAny(ForceNonVirtual) && this.firstExternSuper != null) {
-            // if we are calling a virtual type non-virtually, we have to cast the type
-            // to a type it really isn't. But since the call is non-virtual, and the expected type
-            // is not the type we are casting to, this should work correctly
-            var baseClass = this.firstExternSuper.ueType.getCppClass();
-            '( ((_staticcall_${meth.name} *)' + self.t.glueToUe('_s_' + self.name, this.ctx) + ')->$baseClass::' + meth.uname + ')';
+          if (meth.flags.hasAny(Property)) {
+            '(((_staticcall_${meth.name}*)(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '))->' + meth.uname + ')';
           } else {
-            '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
+            // For protected external functions we need to use a
+            // local derived class with a static function that lets the wrapper
+            // call the protected function.
+            // See PROTECTED METHOD CALL comments farther down the code.
+            if (meth.flags.hasAny(ForceNonVirtual) && this.firstExternSuper != null) {
+              // if we are calling a virtual type non-virtually, we have to cast the type
+              // to a type it really isn't. But since the call is non-virtual, and the expected type
+              // is not the type we are casting to, this should work correctly
+              var baseClass = this.firstExternSuper.ueType.getCppClass();
+              '( ((_staticcall_${meth.name} *)' + self.t.glueToUe('_s_' + self.name, this.ctx) + ')->$baseClass::' + meth.uname + ')';
+            } else {
+              '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
+            }
           }
         case _ if(meth.flags.hasAny(ForceNonVirtual)):
           var superConv = this.firstExternSuper;

@@ -19,19 +19,22 @@ package unreal.editor;
 @:uextern extern enum EFBXSceneOptionsCreateHierarchyType {
   
   /**
-    Create Level Actors
+    Create an actor for every node in the fbx hierarchy. No reimport of the hierarchy.
+    @DisplayName Create Level Actors
   **/
   @DisplayName("Create Level Actors")
   FBXSOCHT_CreateLevelActors;
   
   /**
-    Create one Actor with Components
+    Create one actor and a component for every node in the fbx hierarchy. No reimport of the hierarchy.
+    @DisplayName Create one Actor with Components
   **/
   @DisplayName("Create one Actor with Components")
   FBXSOCHT_CreateActorComponents;
   
   /**
-    Create one Blueprint asset
+    Create one blueprint and a component for every node in the fbx hierarchy. Hierarchy can be reimport.
+    @DisplayName Create one Blueprint asset
   **/
   @DisplayName("Create one Blueprint asset")
   FBXSOCHT_CreateBlueprint;

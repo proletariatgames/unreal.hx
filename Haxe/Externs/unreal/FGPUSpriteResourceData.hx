@@ -23,6 +23,21 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FGPUSpriteResourceData {
   
   /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_FacingCameraPosition
+  **/
+  public var MaxFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_Square
+  **/
+  public var MinFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
+    If true, removes the HMD view roll (e.g. in VR)
+  **/
+  public var bRemoveHMDRoll : Bool;
+  
+  /**
     Pivot offset in UV space for placing the verts of each particle.
   **/
   public var PivotOffset : unreal.FVector2D;

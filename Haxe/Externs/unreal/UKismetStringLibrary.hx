@@ -87,6 +87,26 @@ package unreal;
   static public function Conv_StringToFloat(InString : unreal.FString) : unreal.Float32;
   
   /**
+    Convert String Back To Vector. IsValid indicates whether or not the string could be successfully converted.
+  **/
+  static public function Conv_StringToVector(InString : unreal.FString, OutConvertedVector : unreal.PRef<unreal.FVector>, OutIsValid : Bool) : Void;
+  
+  /**
+    Convert String Back To Vector2D. IsValid indicates whether or not the string could be successfully converted.
+  **/
+  static public function Conv_StringToVector2D(InString : unreal.FString, OutConvertedVector2D : unreal.PRef<unreal.FVector2D>, OutIsValid : Bool) : Void;
+  
+  /**
+    Convert String Back To Rotator. IsValid indicates whether or not the string could be successfully converted.
+  **/
+  static public function Conv_StringToRotator(InString : unreal.FString, OutConvertedRotator : unreal.PRef<unreal.FRotator>, OutIsValid : Bool) : Void;
+  
+  /**
+    Convert String Back To Color. IsValid indicates whether or not the string could be successfully converted.
+  **/
+  static public function Conv_StringToColor(InString : unreal.FString, OutConvertedColor : unreal.PRef<unreal.FLinearColor>, OutIsValid : Bool) : Void;
+  
+  /**
     Converts a float->string, create a new string in the form AppendTo+Prefix+InFloat+Suffix
     @param AppendTo - An existing string to use as the start of the conversion string
     @param Prefix - A string to use as a prefix, after the AppendTo string
@@ -243,6 +263,16 @@ package unreal;
     @return The index (starting from 0 if bSearchFromEnd is false) of the first occurence of the substring
   **/
   static public function FindSubstring(SearchIn : unreal.FString, Substring : unreal.FString, bUseCase : Bool, bSearchFromEnd : Bool, StartPosition : unreal.Int32) : unreal.Int32;
+  
+  /**
+    Returns whether this string contains the specified substring.
+    
+    @param SubStr                 Find to search for
+    @param SearchCase             Indicates whether the search is case sensitive or not ( defaults to ESearchCase::IgnoreCase )
+    @param SearchDir                      Indicates whether the search starts at the begining or at the end ( defaults to ESearchDir::FromStart )
+    @return                                       Returns whether the string contains the substring
+  **/
+  static public function Contains(SearchIn : unreal.FString, Substring : unreal.FString, bUseCase : Bool, bSearchFromEnd : Bool) : Bool;
   
   /**
     Gets a single character from the string (as an integer)

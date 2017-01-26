@@ -23,6 +23,11 @@ package unreal;
 @:uextern extern class UParticleModuleVectorFieldLocal extends unreal.UParticleModuleVectorFieldBase {
   
   /**
+    Use fix delta time in the simulation?
+  **/
+  public var bUseFixDT : Bool;
+  
+  /**
     Tile vector field in z axis?
   **/
   public var bTileZ : Bool;

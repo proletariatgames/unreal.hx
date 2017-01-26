@@ -13,10 +13,6 @@
 **/
 package unreal.landscapeeditor;
 
-
-/**
-  Temp
-**/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolNoiseMode.Type")

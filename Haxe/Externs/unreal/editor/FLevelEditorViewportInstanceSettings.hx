@@ -22,6 +22,11 @@ package unreal.editor;
 @:uextern extern class FLevelEditorViewportInstanceSettings {
   
   /**
+    When enabled, the full viewport toolbar will be shown. When disabled, a compact toolbar is used.
+  **/
+  public var bShowFullToolbar : Bool;
+  
+  /**
     Whether viewport statistics should be enabled by default.
   **/
   public var EnabledStats : unreal.TArray<unreal.FString>;

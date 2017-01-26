@@ -13,19 +13,20 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
-  
-**/
 @:glueCppIncludes("Sound/DialogueWave.h")
-@:noCopy @:noEquals @:uextern extern class FDialogueContextMapping {
+@:uextern extern class FDialogueContextMapping {
   
   /**
     Cached object for playing the soundwave with subtitle information included.
   **/
   public var Proxy : unreal.UDialogueSoundWaveProxy;
+  
+  /**
+    The format string to use when generating the localization key for this context. This must be unique within the owner dialogue wave.
+    Available format markers:
+      * {ContextHash} - A hash generated from the speaker and target voices.
+  **/
+  public var LocalizationKeyFormat : unreal.FString;
   
   /**
     The soundwave to play for this dialogue.

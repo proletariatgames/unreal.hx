@@ -62,6 +62,16 @@ package unreal.moviescenecapture;
   public var FrameRate : unreal.Int32;
   
   /**
+    How much to zero-pad frame numbers on filenames
+  **/
+  public var ZeroPadFrameNumbers : unreal.UInt8;
+  
+  /**
+    Number of frame handles to include for each shot
+  **/
+  public var HandleFrames : unreal.Int32;
+  
+  /**
     True if frame numbers in the output files should be relative to zero, rather than the actual frame numbers in the originating animation content
   **/
   public var bUseRelativeFrameNumbers : Bool;
@@ -80,13 +90,14 @@ package unreal.moviescenecapture;
     {world}              - The name of the current world
     {quality}    - The image compression quality setting
     {material}   - The material/render pass
+    {shot}       - The name of the level sequence asset shot being played
   **/
   public var OutputFormat : unreal.FString;
   
   /**
     Optional game mode to override the map's default game mode with.  This can be useful if the game's normal mode displays UI elements or loading screens that you don't want captured.
   **/
-  public var GameModeOverride : unreal.TSubclassOf<unreal.AGameMode>;
+  public var GameModeOverride : unreal.TSubclassOf<unreal.AGameModeBase>;
   
   /**
     Whether to save temporary copies of all of the levels before capturing the movie.  This allows you to record movies of temporary work, or work that isn't yet saved, but it will take much longer for capturing to begin.

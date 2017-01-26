@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
 @:uextern extern class UPhysicsConstraintTemplate extends unreal.UObject {
-  public var DefaultInstance : unreal.FConstraintInstance;
+  #if WITH_EDITORONLY_DATA
   @:deprecated public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
   @:deprecated public var bAngularBreakable_DEPRECATED : Bool;
   @:deprecated public var TwistLimitDamping_DEPRECATED : unreal.Float32;
@@ -57,5 +57,12 @@ package unreal;
   @:deprecated public var ConstraintBone2_DEPRECATED : unreal.FName;
   @:deprecated public var ConstraintBone1_DEPRECATED : unreal.FName;
   @:deprecated public var JointName_DEPRECATED : unreal.FName;
+  #end // WITH_EDITORONLY_DATA
+  
+  /**
+    Handles to the constraint profiles applicable to this constraint
+  **/
+  public var ProfileHandles : unreal.TArray<unreal.FPhysicsConstraintProfileHandle>;
+  public var DefaultInstance : unreal.FConstraintInstance;
   
 }

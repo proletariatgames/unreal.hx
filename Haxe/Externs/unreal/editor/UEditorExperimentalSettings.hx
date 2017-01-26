@@ -22,6 +22,31 @@ package unreal.editor;
 @:uextern extern class UEditorExperimentalSettings extends unreal.UObject {
   
   /**
+    Allows editing of potentially unsafe properties during PIE. Advanced use only - use with caution.
+  **/
+  public var bAllowPotentiallyUnsafePropertyEditing : Bool;
+  
+  /**
+    If true, the tutorial window should always appear when the VR Editor is launched.
+  **/
+  public var bAlwaysShowVRTutorial : Bool;
+  
+  /**
+    If true, wearing a Vive or Oculus Rift headset will automatically enter VR Editing mode if Enable VR Editing is true.
+  **/
+  public var bEnableAutoVREditMode : Bool;
+  
+  /**
+    Enables a preview of the Unreal Editor in VR.  This adds a new tool bar button that allows you to toggle into "VR Mode" instantly.  This feature is still in development, but your feedback is appreciated!
+  **/
+  public var bEnableVREditing : Bool;
+  
+  /**
+    Whether to use OpenCL to accelerate convex hull decomposition (uses GPU to decrease time taken to decompose meshes, currently only available on Mac OS X)
+  **/
+  public var bUseOpenCLForConvexHullDecomp : Bool;
+  
+  /**
     Enable multithreaded shadow map encoding (decreases time taken to encode shadow maps)
   **/
   public var bEnableMultithreadedShadowmapEncoding : Bool;
@@ -32,7 +57,17 @@ package unreal.editor;
   public var bEnableMultithreadedLightmapEncoding : Bool;
   
   /**
-    Enables Metal/High-end mobile rendering path previw on Desktop
+    Allow Vulkan Preview
+  **/
+  public var bAllowVulkanPreview : Bool;
+  
+  /**
+    Enable late joining in PIE
+  **/
+  public var bAllowLateJoinInPIE : Bool;
+  
+  /**
+    Enables Metal/High-end mobile rendering path preview on Desktop
   **/
   public var bFeatureLevelES31Preview : Bool;
   
@@ -58,6 +93,11 @@ package unreal.editor;
   public var bContextMenuChunkAssignments : Bool;
   
   /**
+    Whether to show AudioMixer-dependent editor data. Only enable if also running with the -audiomixer.
+  **/
+  public var bShowAudioMixerData : Bool;
+  
+  /**
     Whether to show Audio Streaming options for SoundWaves (disabling will not stop all audio streaming)
   **/
   public var bShowAudioStreamingOptions : Bool;
@@ -71,21 +111,6 @@ package unreal.editor;
     Enables "Find and Replace All" tool in the MyBlueprint window for variables
   **/
   public var bEnableFindAndReplaceReferences : Bool;
-  
-  /**
-    Enables the visual diff tool for anim blueprints. WARNING: changes to the Target Skeleton and Groups will not be detected
-  **/
-  public var bEnableAnimVisualDiff : Bool;
-  
-  /**
-    Enables the visual diff tool for widget blueprints. WARNING: changes to the widget hierarchy will not be detected
-  **/
-  public var bEnableWidgetVisualDiff : Bool;
-  
-  /**
-    The number of samples the blueprint profiler should use to average the current value.
-  **/
-  public var BlueprintProfilerAverageSampleCount : unreal.Int32;
   
   /**
     Enable experimental blueprint performance analysis tools.
@@ -113,19 +138,15 @@ package unreal.editor;
   public var bDeviceOutputLog : Bool;
   
   /**
-    Allows to use actor merging utilities (Simplygon Proxy LOD, Grouping by Materials)
-  **/
-  public var bActorMerging : Bool;
-  
-  /**
     Enable being able to subclass components in blueprints
   **/
   public var bBlueprintableComponents : Bool;
   
   /**
-    Enable Single Layout BP Editor.
+    When enabled, all details panels will be able to have properties marked as favorite that show in a top most category.
+    NOTE: Some customizations are not supported yet
   **/
-  public var bUnifiedBlueprintEditor : Bool;
+  public var bEnableFavoriteSystem : Bool;
   
   /**
     The Blutility shelf holds editor utility Blueprints. Summon from the Workspace menu.

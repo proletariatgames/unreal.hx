@@ -38,18 +38,19 @@ class BaseModuleRules extends ModuleRules
     if (allGames.length > 1) {
       trace("AllGameFolders is returning more than one: ",allGames);
     }
-    modulePath = RulesCompiler.GetModuleFilename(curName);
-    var haxeInitPath = RulesCompiler.GetModuleFilename("HaxeInit");
-    pluginPath = Path.GetFullPath('$haxeInitPath/../../..');
-    thirdPartyPath = Path.GetFullPath(haxeInitPath + "/../../ThirdParty");
+    modulePath = Path.Combine(ModuleDirectory, "$curName.Build.cs");
+
+    var haxeInitPath = Path.GetDirectoryName(RulesCompiler.GetFileNameFromType(cs.Lib.toNativeType(HaxeInit)));
+    pluginPath = Path.GetFullPath('$haxeInitPath/../..');
+    thirdPartyPath = Path.GetFullPath(haxeInitPath + "../ThirdParty");
     gameDir = allGames[0].ToString();
     if (gameDir == null)
-      gameDir = Path.GetFullPath(haxeInitPath + "/../../../..");
-    internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "/../../Haxe");
+      gameDir = Path.GetFullPath(haxeInitPath + "../../..");
+    internalHaxeSourcesPath = Path.GetFullPath(haxeInitPath + "../Haxe");
 
     if (FileSystem.exists(modulePath.substr(0,-2) + 'hx')) {
       if (FileSystem.stat(modulePath).mtime.getTime() < FileSystem.stat(modulePath.substr(0,-2) + 'hx').mtime.getTime()) {
-        Log.TraceError('Your Build.cs file is outdated. Please run `haxe init-plugin.hxml` in the unreal.hx plugin directory');
+        traceError('Your Build.cs file is outdated. Please run `haxe init-plugin.hxml` in the unreal.hx plugin directory');
         Sys.exit(11);
       }
     }
@@ -67,6 +68,22 @@ class BaseModuleRules extends ModuleRules
   private function run(target:TargetInfo, firstRun:Bool)
   {
     throw 'Override me';
+  }
+
+  private function traceError(err:String) {
+    Log.TraceError(err, new cs.NativeArray(0));
+  }
+
+  private function traceWarning(err:String) {
+    Log.TraceWarning(err, new cs.NativeArray(0));
+  }
+
+  private function traceInformation(msg:String) {
+    Log.TraceInformation(msg, new cs.NativeArray(0));
+  }
+
+  private function traceVerbose(msg:String) {
+    Log.TraceVerbose(msg, new cs.NativeArray(0));
   }
 
   private function getProjectName()

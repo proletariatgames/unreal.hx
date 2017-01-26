@@ -91,11 +91,6 @@ package unreal;
   public var NetworkManager : unreal.AGameNetworkManager;
   
   /**
-    The replicated actor which contains game state information that can be accessible to clients
-  **/
-  public var GameState : unreal.AGameState;
-  
-  /**
     Foreground Line Batchers. This can't be Persistent.
   **/
   public var ForegroundLineBatcher : unreal.ULineBatchComponent;

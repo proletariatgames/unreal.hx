@@ -51,4 +51,10 @@ package unreal;
   @DisplayName("Modulate")
   BLEND_Modulate;
   
+  /**
+    AlphaComposite (Premultiplied Alpha)
+  **/
+  @DisplayName("AlphaComposite (Premultiplied Alpha)")
+  BLEND_AlphaComposite;
+  
 }

@@ -22,10 +22,14 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:uextern extern class ALandscapeProxy extends unreal.AActor {
+  
+  /**
+    Flag whether or not this Landscape's surface can be used for culling hidden triangles *
+  **/
+  public var bUseLandscapeForCullingInvisibleHLODVertices : Bool;
   #if WITH_EDITORONLY_DATA
   public var MaxPaintedLayersPerComponent : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
-  public var LODFalloff : unreal.landscape.ELandscapeLODFalloff;
   public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
   
   /**
@@ -56,10 +60,18 @@ package unreal.landscape;
   /**
     Whether to bake the landscape material's vertical world position offset into the collision heightfield.
                   Note: Only z (vertical) offset is supported. XY offsets are ignored.
-                  Does not work with CollisionMipLevel > 0
                   Does not work with an XY offset map (mesh collision)
   **/
   public var bBakeMaterialPositionOffsetIntoCollision : Bool;
+  
+  /**
+    If true, Landscape will generate overlap events when other components are overlapping it (eg Begin Overlap).
+    Both the Landscape and the other component must have this flag enabled for overlap events to occur.
+    
+    @see [Overlap Events](https://docs.unrealengine.com/latest/INT/Engine/Physics/Collision/index.html#overlapandgenerateoverlapevents)
+    @see UpdateOverlaps(), BeginComponentOverlap(), EndComponentOverlap()
+  **/
+  public var bGenerateOverlapEvents : Bool;
   
   /**
     Collision profile settings for this landscape
@@ -70,6 +82,12 @@ package unreal.landscape;
     Thickness of the collision surface, in unreal units
   **/
   public var CollisionThickness : unreal.Float32;
+  
+  /**
+    If set higher than the "Collision Mip Level", this specifies the Landscape LOD to use for "simple collision" tests, otherwise the "Collision Mip Level" is used for both simple and complex collision.
+    Does not work with an XY offset map (mesh collision)
+  **/
+  public var SimpleCollisionMipLevel : unreal.Int32;
   
   /**
     Landscape LOD to use for collision tests. Higher numbers use less memory and process faster, but are much less accurate
@@ -83,7 +101,13 @@ package unreal.landscape;
   #if WITH_EDITORONLY_DATA
   public var bIsMovingToLevel : Bool;
   #end // WITH_EDITORONLY_DATA
-  public var bIsProxy : Bool;
+  
+  /**
+    Whether to use the landscape material's vertical world position offset when calculating static lighting.
+                  Note: Only z (vertical) offset is supported. XY offsets are ignored.
+                  Does not work correctly with an XY offset map (mesh collision)
+  **/
+  public var bUseMaterialPositionOffsetInStaticLighting : Bool;
   
   /**
     Whether this primitive should cast shadows in the far shadow cascades.
@@ -102,6 +126,12 @@ package unreal.landscape;
     Automatically calculate proper value for removing seams
   **/
   public var StaticLightingResolution : unreal.Float32;
+  
+  /**
+    Only used outside of the editor (e.g. in cooked builds)
+    Disables landscape grass processing entirely if no landscape components have landscape grass configured
+  **/
+  public var bHasLandscapeGrass : Bool;
   public var FoliageComponents : unreal.TArray<unreal.UHierarchicalInstancedStaticMeshComponent>;
   
   /**
@@ -113,7 +143,20 @@ package unreal.landscape;
     The array of LandscapeComponent that are used by the landscape
   **/
   public var LandscapeComponents : unreal.TArray<unreal.landscape.ULandscapeComponent>;
-  public var LODDistanceFactor : unreal.Float32;
+  
+  /**
+    Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
+    Extension value in the positive Z axis, positive value increases bound size
+    Note that this can also be overridden per-component when the component is selected with the component select tool
+  **/
+  public var PositiveZBoundsExtension : unreal.Float32;
+  
+  /**
+    Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
+    Extension value in the negative Z axis, positive value increases bound size
+    Note that this can also be overridden per-component when the component is selected with the component select tool
+  **/
+  public var NegativeZBoundsExtension : unreal.Float32;
   
   /**
     Material used to render landscape components with holes. If not set, LandscapeMaterial will be used (blend mode will be overridden to Masked if it is set to Opaque)
@@ -148,18 +191,13 @@ package unreal.landscape;
   **/
   public var ExportLOD : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
+  public var LODFalloff : unreal.landscape.ELandscapeLODFalloff;
+  public var LODDistanceFactor : unreal.Float32;
   
   /**
     Max LOD level to use when rendering, -1 means the max available
   **/
   public var MaxLODLevel : unreal.Int32;
-  #if WITH_EDITORONLY_DATA
-  
-  /**
-    To support legacy landscape section offset modification under world composition mode
-  **/
-  public var bStaticSectionOffset : Bool;
-  #end // WITH_EDITORONLY_DATA
   
   /**
     Offset in quads from global components grid origin (in quads) *

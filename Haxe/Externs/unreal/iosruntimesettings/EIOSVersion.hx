@@ -20,16 +20,12 @@ package unreal.iosruntimesettings;
   
   /**
     iOS 6.1
-    @DisplayName 6.1
   **/
-  @DisplayName("6.1")
   IOS_61;
   
   /**
     iOS 7
-    @DisplayName 7.0
   **/
-  @DisplayName("7.0")
   IOS_7;
   
   /**
@@ -38,5 +34,19 @@ package unreal.iosruntimesettings;
   **/
   @DisplayName("8.0")
   IOS_8;
+  
+  /**
+    iOS 9
+    @DisplayName 9.0
+  **/
+  @DisplayName("9.0")
+  IOS_9;
+  
+  /**
+    iOS 10
+    @DisplayName 10.0
+  **/
+  @DisplayName("10.0")
+  IOS_10;
   
 }

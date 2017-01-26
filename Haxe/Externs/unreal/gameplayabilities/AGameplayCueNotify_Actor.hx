@@ -15,32 +15,34 @@ package unreal.gameplayabilities;
 
 
 /**
-  A self contained handler of a GameplayCue. These are similiar to AnimNotifies in implementation.
-  Instanced GameplayCueNotify which runs arbitrary blueprint code. (TODO: This should be the NON-instanced version!)
-  
-  
-  TODO/Fixme:
-          -Unsure: Leave K2_HandleGameplayCue in as generic function?
-          -OnExecute/Active/Remove are more clear, easy to use. Make it harder to share info between events.
+  An instantiated Actor that acts as a handler of a GameplayCue. Since they are instantiated, they can maintain state and tick/update every frame if necessary.
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueNotify_Actor.h")
 @:uextern extern class AGameplayCueNotify_Actor extends unreal.AActor {
-  public function OnOwnerDestroyed() : Void;
+  public function OnOwnerDestroyed(DestroyedActor : unreal.AActor) : Void;
   
   /**
-    Generic Event Graph event that will get called for every event type
+    Ends the gameplay cue: either destroying it or recycling it. You must call this manually only if you do not use bAutoDestroyOnRemove/AutoDestroyDelay
   **/
-  public function K2_HandleGameplayCue(MyTarget : unreal.AActor, EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Void;
-  public function OnExecute(MyTarget : unreal.AActor, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Bool;
-  public function OnActive(MyTarget : unreal.AActor, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Bool;
-  public function WhileActive(MyTarget : unreal.AActor, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Bool;
-  public function OnRemove(MyTarget : unreal.AActor, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Bool;
+  public function K2_EndGameplayCue() : Void;
   
   /**
     How many instances of the gameplay cue to preallocate
   **/
   public var NumPreallocatedInstances : unreal.Int32;
+  
+  /**
+    Does this cue trigger its WhileActive event if it's already been triggered?
+    This can occur when the associated tag is triggered by multiple sources and there is no unique instancing.
+  **/
+  public var bAllowMultipleWhileActiveEvents : Bool;
+  
+  /**
+    Does this cue trigger its OnActive event if it's already been triggered?
+    This can occur when the associated tag is triggered by multiple sources and there is no unique instancing.
+  **/
+  public var bAllowMultipleOnActiveEvents : Bool;
   
   /**
     Does this cue get a new instance for each source object? For example if two source objects apply a GC to the same source, do we create two of these GameplayCue Notify actors or just one?
@@ -60,19 +62,33 @@ package unreal.gameplayabilities;
   public var IsOverride : Bool;
   
   /**
-    If bAutoDestroyOnRemove is true, the actor will stay alive for this many seconds before being auto destroyed.
+    If true, attach this GameplayCue Actor to the target actor while it is active. Attaching is slightly more expensive than not attaching, so only enable when you need to.
   **/
-  public var AutoDestroyDelay : unreal.Float32;
-  
-  /**
-    We will auto destroy this GameplayCueActor when the OnRemove event fires (after OnRemove is called).
-  **/
-  public var bAutoDestroyOnRemove : Bool;
+  public var bAutoAttachToOwner : Bool;
   
   /**
     Mirrors GameplayCueTag in order to be asset registry searchable
   **/
   public var GameplayCueName : unreal.FName;
   public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
+  
+  /**
+    If bAutoDestroyOnRemove is true, the actor will stay alive for this many seconds before being auto destroyed.
+  **/
+  public var AutoDestroyDelay : unreal.Float32;
+  
+  /**
+    We will auto destroy (recycle) this GameplayCueActor when the OnRemove event fires (after OnRemove is called).
+  **/
+  public var bAutoDestroyOnRemove : Bool;
+  
+  /**
+    Generic Event Graph event that will get called for every event type
+  **/
+  public function K2_HandleGameplayCue(MyTarget : unreal.AActor, EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Void;
+  public function OnExecute(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  public function OnActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  public function WhileActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  public function OnRemove(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
   
 }

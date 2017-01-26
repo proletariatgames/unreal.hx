@@ -25,7 +25,12 @@ package unreal;
   /**
     The strength of the point source.
   **/
-  public var Strength : unreal.UDistributionFloat;
+  public var StrengthRaw : unreal.FRawDistributionFloat;
+  
+  /**
+    The strength of the point source.
+  **/
+  @:deprecated public var Strength_DEPRECATED : unreal.UDistributionFloat;
   
   /**
     The distance at which the influence of the point begins to falloff.

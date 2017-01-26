@@ -49,6 +49,7 @@ package unreal.animgraphruntime;
     Target Location in world space if LookAtBone is empty
   **/
   public var LookAtLocation : unreal.FVector;
+  public var LookAtSocket : unreal.FName;
   
   /**
     Target Bone to look at - you can't use LookAtLocation as alternative as you'll get a delay on bone location if you query directly *

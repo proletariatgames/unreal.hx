@@ -47,7 +47,7 @@ package unreal;
   public var DebugWheelTorque : unreal.Float32;
   
   /**
-    How much force the tire experiences at rest devided by how much force it is experiencing now
+    How much force the tire experiences at rest divided by how much force it is experiencing now
   **/
   public var DebugNormalizedTireLoad : unreal.Float32;
   
@@ -104,7 +104,7 @@ package unreal;
   public var SuspensionMaxRaise : unreal.Float32;
   
   /**
-    Vertical offset from vehicle center of mass where suspension forces are applied
+    Vertical offset from where suspension forces are applied (along Z-axis)
   **/
   public var SuspensionForceOffset : unreal.Float32;
   
@@ -180,8 +180,8 @@ package unreal;
     (if empty, sphere will be added as wheel shape, check bDontCreateShape flag)
   **/
   public var CollisionMesh : unreal.UStaticMesh;
-  @:final public function GetSteerAngle() : unreal.Float32;
-  @:final public function GetRotationAngle() : unreal.Float32;
-  @:final public function GetSuspensionOffset() : unreal.Float32;
+  @:thisConst @:final public function GetSteerAngle() : unreal.Float32;
+  @:thisConst @:final public function GetRotationAngle() : unreal.Float32;
+  @:thisConst @:final public function GetSuspensionOffset() : unreal.Float32;
   
 }

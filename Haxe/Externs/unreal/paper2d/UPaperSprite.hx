@@ -24,7 +24,7 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSprite.h")
-@:uextern extern class UPaperSprite extends unreal.UObject implements unreal.IInterface_CollisionDataProvider {
+@:uextern extern class UPaperSprite extends unreal.UObject implements unreal.IInterface_CollisionDataProvider implements unreal.ISlateTextureAtlasInterface {
   
   /**
     Baked render data (triangle vertices, stored as XY UV tuples)
@@ -103,6 +103,16 @@ package unreal.paper2d;
   private var BakedSourceTexture : unreal.UTexture2D;
   
   /**
+    Dimensions within BakedSourceTexture (in pixels)
+  **/
+  private var BakedSourceDimension : unreal.FVector2D;
+  
+  /**
+    Position within BakedSourceTexture (in pixels)
+  **/
+  private var BakedSourceUV : unreal.FVector2D;
+  
+  /**
     Additional source textures for other slots
   **/
   private var AdditionalSourceTextures : unreal.TArray<unreal.UTexture>;
@@ -111,6 +121,16 @@ package unreal.paper2d;
     The source texture that the sprite comes from
   **/
   private var SourceTexture : unreal.UTexture2D;
+  
+  /**
+    Dimensions within SourceTexture (in pixels)
+  **/
+  private var SourceDimension : unreal.FVector2D;
+  
+  /**
+    Position within SourceTexture (in pixels)
+  **/
+  private var SourceUV : unreal.FVector2D;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -128,22 +148,8 @@ package unreal.paper2d;
     Origin within SourceImage, prior to atlasing
   **/
   private var OriginInSourceImageBeforeTrimming : unreal.FVector2D;
-  
-  /**
-    Position within BakedSourceTexture
-  **/
-  private var BakedSourceUV : unreal.FVector2D;
-  
-  /**
-    Dimensions within SourceTexture (in pixels)
-  **/
-  private var SourceDimension : unreal.FVector2D;
-  
-  /**
-    Position with SourceTexture (in pixels)
-  **/
-  private var SourceUV : unreal.FVector2D;
   #end // WITH_EDITORONLY_DATA
   // Interface_CollisionDataProvider interface implementation
+  // SlateTextureAtlasInterface interface implementation
   
 }

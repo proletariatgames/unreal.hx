@@ -15,17 +15,40 @@ package unreal.sequencer;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
   Serializable options for sequencer.
 **/
 @:umodule("Sequencer")
-@:glueCppIncludes("Private/SequencerSettings.h")
-@:noClass @:uextern extern class USequencerSettings extends unreal.UObject {
-  private var CurveValueSnapInterval : unreal.Float32;
+@:glueCppIncludes("SequencerSettings.h")
+@:uextern extern class USequencerSettings extends unreal.UObject {
+  
+  /**
+    The number of zeros to pad the frame numbers by.
+  **/
+  private var ZeroPadFrames : unreal.UInt8;
+  
+  /**
+    Whether to zoom in on the current position or the current time in the timeline.
+  **/
+  private var ZoomPosition : unreal.sequencer.ESequencerZoomPosition;
+  
+  /**
+    The time snapping interval in the timeline.
+  **/
   private var TimeSnapInterval : unreal.Float32;
+  
+  /**
+    The default location of a spawnable when it is first dragged into the viewport from the content browser.
+  **/
   private var SpawnPosition : unreal.sequencer.ESequencerSpawnPosition;
+  
+  /**
+    The interpolation type for newly created keyframes
+  **/
   private var KeyInterpolation : unreal.moviescene.EMovieSceneKeyInterpolation;
+  
+  /**
+    Enable or disable autokeying.
+  **/
   private var AutoKeyMode : unreal.sequencer.EAutoKeyMode;
   
 }

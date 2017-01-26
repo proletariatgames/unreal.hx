@@ -13,12 +13,6 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotify_PlaySound.h")
 @:uextern extern class UAnimNotify_PlaySound extends unreal.UAnimNotify {
   

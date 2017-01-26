@@ -19,7 +19,7 @@ package unreal;
   
   /**
     Lighting will be calculated for a volume, without directionality.  Use this on particle effects like smoke and dust.
-    This is the cheapest lighting method, however the material normal is not taken into account.
+    This is the cheapest per-pixel lighting method, however the material normal is not taken into account.
     @DisplayName Volumetric NonDirectional
   **/
   @DisplayName("Volumetric NonDirectional")
@@ -50,8 +50,9 @@ package unreal;
   TLM_VolumetricPerVertexDirectional;
   
   /**
-    Lighting will be calculated for a surface. The light in accumulated in a volume so the result is blurry
-    (fixed resolution), limited distance but the per pixel cost is very low. Use this on translucent surfaces like glass and water.
+    Lighting will be calculated for a surface. The light in accumulated in a volume so the result is blurry,
+    limited distance but the per pixel cost is very low. Use this on translucent surfaces like glass and water.
+    Only diffuse lighting is supported.
     @DisplayName Surface TranslucencyVolume
   **/
   @DisplayName("Surface TranslucencyVolume")
@@ -59,11 +60,11 @@ package unreal;
   
   /**
     Lighting will be calculated for a surface. Use this on translucent surfaces like glass and water.
-    Higher quality than Surface but more expensive (loops through point lights with some basic culling, only inverse square, expensive, no shadow support yet)
-    Requires 'r.ForwardLighting' to be 1
-    @DisplayName Surface PerPixel (experimental, limited features)
+    This is implemented with forward shading so specular highlights from local lights are supported, however many deferred-only features are not.
+    This is the most expensive translucency lighting method as each light's contribution is computed per-pixel.
+    @DisplayName Surface ForwardShading
   **/
-  @DisplayName("Surface PerPixel (experimental, limited features)")
+  @DisplayName("Surface ForwardShading")
   TLM_SurfacePerPixelLighting;
   
 }

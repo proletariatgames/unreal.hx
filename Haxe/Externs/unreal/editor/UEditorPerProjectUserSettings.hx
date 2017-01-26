@@ -23,6 +23,11 @@ package unreal.editor;
 @:glueCppIncludes("Editor/EditorPerProjectUserSettings.h")
 @:uextern extern class UEditorPerProjectUserSettings extends unreal.UObject {
   public var MaterialQualityLevel : unreal.Int32;
+  
+  /**
+    Per project user settings for which asset viewer profile should be used
+  **/
+  public var AssetViewerProfileIndex : unreal.Int32;
   public var BlueprintFavorites : unreal.kismet.UBlueprintPaletteFavorites;
   
   /**
@@ -58,9 +63,29 @@ package unreal.editor;
   public var bUseCurvesForDistributions : Bool;
   
   /**
+    If enabled, FBX export level will export collision mesh with UCX_ as a name suffix.
+  **/
+  public var bFbxExportCollisionMesh : Bool;
+  
+  /**
+    This will set the fbx sdk compatibility when exporting to fbx file. The default value is 2013
+  **/
+  public var FbxExportCompatibility : unreal.editor.EFbxExportCompatibility;
+  
+  /**
+    Map skeletal actor motion to the root bone of the skeleton.
+  **/
+  public var bMapSkeletalMotionToRoot : Bool;
+  
+  /**
     If enabled, export level with attachment hierarchy set
   **/
   public var bKeepAttachHierarchy : Bool;
+  
+  /**
+    If enabled, the compile message log window will open if there is a compiler error on Hot Reload
+  **/
+  public var bShowCompilerLogOnCompileError : Bool;
   
   /**
     If enabled, any newly added classes will be automatically compiled and trigger a hot-reload of the module they were added to
@@ -81,6 +106,27 @@ package unreal.editor;
     When enabled, the application frame rate, memory and Unreal object count will be displayed in the main editor UI
   **/
   public var bShowFrameRateAndMemory : Bool;
+  
+  /**
+    Folder in which Simplygon Swarm will store intermediate texture and mesh data that is uploaded to the Swarm
+  **/
+  public var SwarmIntermediateFolder : unreal.FString;
+  public var SwarmMaxUploadChunkSizeInMB : unreal.FakeUInt32;
+  
+  /**
+    Number of concurrent swarm jobs to execute. This is independent of the main job queue.
+  **/
+  public var SwarmNumOfConcurrentJobs : unreal.FakeUInt32;
+  
+  /**
+    Time between JSON net requests for Simplygon Swarm
+  **/
+  public var SimplygonSwarmDelay : unreal.FakeUInt32;
+  
+  /**
+    Enable swarm debugging features. Temp ssf files are not removed. Detailed message printing
+  **/
+  public var bEnableSwarmDebugging : Bool;
   
   /**
     Server IP for the distributed Simplygon server

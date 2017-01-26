@@ -24,7 +24,12 @@ package unreal.localization;
 @:noCopy @:noEquals @:uextern extern class FGatherTextFromPackagesConfiguration {
   
   /**
-    If enable, data that is specified as editor-only may be processed for gathering.
+    Should we ignore the cached text in the package header and perform a full package load instead?
+  **/
+  public var SkipGatherCache : Bool;
+  
+  /**
+    If enabled, data that is specified as editor-only may be processed for gathering.
   **/
   public var ShouldGatherFromEditorOnlyData : Bool;
   

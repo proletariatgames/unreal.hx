@@ -43,6 +43,21 @@ package unreal;
   public var bIsArray : Bool;
   
   /**
+    Whether or not this pin represents a set of (unique) values
+  **/
+  public var bIsSet : Bool;
+  
+  /**
+    Whether or not this pin represents a map of keys to values
+  **/
+  public var bIsMap : Bool;
+  
+  /**
+    Data used to determine value types when bIsMap is true
+  **/
+  public var PinValueType : unreal.FEdGraphTerminalType;
+  
+  /**
     Sub-category member reference
   **/
   public var PinSubCategoryMemberReference : unreal.FSimpleMemberReference;

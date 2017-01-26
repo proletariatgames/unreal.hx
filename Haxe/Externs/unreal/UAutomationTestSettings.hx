@@ -21,6 +21,11 @@ package unreal;
 @:uextern extern class UAutomationTestSettings extends unreal.UObject {
   
   /**
+    The default resolution to take all automation screenshots at.
+  **/
+  public var DefaultScreenshotResolution : unreal.FIntPoint;
+  
+  /**
     The map and device type to be used for the editor Launch On With Map Iterations test.
   **/
   public var LaunchOnSettings : unreal.TArray<unreal.FLaunchOnTestSettings>;

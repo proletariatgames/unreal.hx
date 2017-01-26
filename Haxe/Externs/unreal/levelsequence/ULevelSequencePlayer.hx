@@ -34,15 +34,30 @@ package unreal.levelsequence;
   static public function CreateLevelSequencePlayer(WorldContextObject : unreal.UObject, LevelSequence : unreal.levelsequence.ULevelSequence, Settings : unreal.levelsequence.FLevelSequencePlaybackSettings) : unreal.levelsequence.ULevelSequencePlayer;
   
   /**
-    Start playback from the current time cursor position, using the current play rate.
+    Start playback forwards from the current time cursor position, using the current play rate.
   **/
   @:final public function Play() : Void;
+  
+  /**
+    Reverse playback.
+  **/
+  @:final public function PlayReverse() : Void;
+  
+  /**
+    Changes the direction of playback (go in reverse if it was going forward, or vice versa)
+  **/
+  @:final public function ChangePlaybackDirection() : Void;
   
   /**
     Start playback from the current time cursor position, looping the specified number of times.
     @param NumLoops - The number of loops to play. -1 indicates infinite looping.
   **/
   @:final public function PlayLooping(NumLoops : unreal.Int32) : Void;
+  
+  /**
+    Start playback from the current time cursor position, using the current play rate. Does not update the animation until next tick.
+  **/
+  @:final public function StartPlayingNextTick() : Void;
   
   /**
     Pause playback.
@@ -94,5 +109,15 @@ package unreal.levelsequence;
     @param       NewEndTime              The new ending time for playback.  Must be larger than the start time.
   **/
   @:final public function SetPlaybackRange(NewStartTime : unreal.Float32, NewEndTime : unreal.Float32) : Void;
+  
+  /**
+    Get the offset within the level sequence to start playing
+  **/
+  @:thisConst @:final public function GetPlaybackStart() : unreal.Float32;
+  
+  /**
+    Get the offset within the level sequence to finish playing
+  **/
+  @:thisConst @:final public function GetPlaybackEnd() : unreal.Float32;
   
 }

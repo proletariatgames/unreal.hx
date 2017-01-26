@@ -32,6 +32,13 @@ package unreal;
   static public function EnableHMD(bEnable : Bool) : Bool;
   
   /**
+    Returns the name of the device, so scripts can modify their behaviour appropriately
+    
+    @return      FName specific to the currently active HMD device type.  "None" implies no device, "Unknown" implies a device with no description.
+  **/
+  static public function GetHMDDeviceName() : unreal.FName;
+  
+  /**
     Grabs the current orientation and position for the HMD.  If positional tracking is not available, DevicePosition will be a zero vector
     
     @param DeviceRotation        (out) The device's current rotation
@@ -45,11 +52,34 @@ package unreal;
   static public function HasValidTrackingPosition() : Bool;
   
   /**
+    If the HMD has multiple positional tracking sensors, return a total number of them currently connected.
+  **/
+  static public function GetNumOfTrackingSensors() : unreal.Int32;
+  
+  /**
     If the HMD has a positional sensor, this will return the game-world location of it, as well as the parameters for the bounding region of tracking.
     This allows an in-game representation of the legal positional tracking range.  All values will be zeroed if the sensor is not available or the HMD does not support it.
     
-    @param CameraOrigin          (out) Origin, in world-space, of the sensor
-    @param CameraRotation        (out) Rotation, in world-space, of the sensor
+    @param Index                         (in) Index of the tracking sensor to query
+    @param Origin                        (out) Origin, in world-space, of the sensor
+    @param Rotation                      (out) Rotation, in world-space, of the sensor
+    @param LeftFOV                       (out) Field-of-view, left from center, in degrees, of the valid tracking zone of the sensor
+    @param RightFOV                      (out) Field-of-view, right from center, in degrees, of the valid tracking zone of the sensor
+    @param TopFOV                        (out) Field-of-view, top from center, in degrees, of the valid tracking zone of the sensor
+    @param BottomFOV                     (out) Field-of-view, bottom from center, in degrees, of the valid tracking zone of the sensor
+    @param Distance                      (out) Nominal distance to sensor, in world-space
+    @param NearPlane                     (out) Near plane distance of the tracking volume, in world-space
+    @param FarPlane                      (out) Far plane distance of the tracking volume, in world-space
+    @param IsActive                      (out) True, if the query for the specified sensor succeeded.
+  **/
+  static public function GetTrackingSensorParameters(Origin : unreal.PRef<unreal.FVector>, Rotation : unreal.PRef<unreal.FRotator>, LeftFOV : unreal.Float32, RightFOV : unreal.Float32, TopFOV : unreal.Float32, BottomFOV : unreal.Float32, Distance : unreal.Float32, NearPlane : unreal.Float32, FarPlane : unreal.Float32, IsActive : Bool, Index : unreal.Int32) : Void;
+  
+  /**
+    If the HMD has a positional sensor, this will return the game-world location of it, as well as the parameters for the bounding region of tracking.
+    This allows an in-game representation of the legal positional tracking range.  All values will be zeroed if the sensor is not available or the HMD does not support it.
+    
+    @param Origin                        (out) Origin, in world-space, of the sensor
+    @param Rotation                      (out) Rotation, in world-space, of the sensor
     @param HFOV                          (out) Field-of-view, horizontal, in degrees, of the valid tracking zone of the sensor
     @param VFOV                          (out) Field-of-view, vertical, in degrees, of the valid tracking zone of the sensor
     @param CameraDistance        (out) Nominal distance to sensor, in world-space

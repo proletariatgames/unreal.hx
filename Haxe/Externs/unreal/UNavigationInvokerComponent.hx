@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("AI/Navigation/NavigationInvokerComponent.h")
-@:noClass @:uextern extern class UNavigationInvokerComponent extends unreal.UActorComponent {
+@:uextern extern class UNavigationInvokerComponent extends unreal.UActorComponent {
   private var TileRemovalRadius : unreal.Float32;
   private var TileGenerationRadius : unreal.Float32;
   

@@ -36,6 +36,10 @@ package unreal.umg;
   /**
     The effect to optionally apply to the render target.  We will set the texture sampler based on the name
     set in the @TextureParameter property.
+    
+    If you want to adjust transparency of the final image, make sure you set Blend Mode to AlphaComposite (Pre-Multiplied Alpha)
+    and make sure to multiply the alpha you're apply across the surface to the color and the alpha of the render target, otherwise
+    you won't see the expected color.
   **/
   private var EffectMaterial : unreal.UMaterialInterface;
   

@@ -18,6 +18,11 @@ package unreal.animgraphruntime;
 @:uextern extern class FAnimNode_AnimDynamics extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
+    An external force to apply to all bodies in the simulation when ticked, specified in world space
+  **/
+  public var ExternalForce : unreal.FVector;
+  
+  /**
     Radius to use if CollisionType is set to CustomSphere
   **/
   public var SphereCollisionRadius : unreal.Float32;
@@ -26,7 +31,25 @@ package unreal.animgraphruntime;
     Resolution method for planar limits
   **/
   public var CollisionType : unreal.AnimPhysCollisionType;
+  
+  /**
+    List of available spherical limits for this node
+  **/
+  public var SphericalLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysSphericalLimit>;
+  
+  /**
+    Whether to evaluate spherical limits
+  **/
+  public var bUseSphericalLimits : Bool;
+  
+  /**
+    List of available planar limits for this node
+  **/
   public var PlanarLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysPlanarLimit>;
+  
+  /**
+    Whether to evaluate planar limits
+  **/
   public var bUsePlanarLimit : Bool;
   
   /**
@@ -53,6 +76,22 @@ package unreal.animgraphruntime;
     If true we will perform physics update, otherwise skip - allows visualisation of the initial state of the bodies
   **/
   public var bDoUpdate : Bool;
+  
+  /**
+    Overridden angular bias value
+    Angular bias is essentially a twist reduction for chain forces and defaults to a value to keep chains stability
+    in check. When using single-body systems sometimes angular forces will look like they are "catching-up" with
+    the mesh, if that's the case override this and push it towards 1.0f until it settles correctly
+  **/
+  public var AngularBiasOverride : unreal.Float32;
+  
+  /**
+    If true, the override value will be used for the angular bias for bodies in this node.
+    Angular bias is essentially a twist reduction for chain forces and defaults to a value to keep chains stability
+    in check. When using single-body systems sometimes angular forces will look like they are "catching-up" with
+    the mesh, if that's the case override this and push it towards 1.0f until it settles correctly
+  **/
+  public var bOverrideAngularBias : Bool;
   
   /**
     Overridden angular damping value
@@ -133,5 +172,15 @@ package unreal.animgraphruntime;
     Set to true to use the solver to simulate a connected chain
   **/
   public var bChain : Bool;
+  
+  /**
+    When in BoneRelative sim space, the simulation will use this bone as the origin
+  **/
+  public var RelativeSpaceBone : unreal.FBoneReference;
+  
+  /**
+    The space used to run the simulation
+  **/
+  public var SimulationSpace : unreal.animgraphruntime.AnimPhysSimSpaceType;
   
 }

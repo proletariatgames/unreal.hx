@@ -25,6 +25,11 @@ package unreal;
   /**
     Per-particle drag coefficient. Evaluted using emitter time.
   **/
-  public var DragCoefficient : unreal.UDistributionFloat;
+  public var DragCoefficientRaw : unreal.FRawDistributionFloat;
+  
+  /**
+    Per-particle drag coefficient. Evaluted using emitter time.
+  **/
+  @:deprecated public var DragCoefficient_DEPRECATED : unreal.UDistributionFloat;
   
 }

@@ -20,7 +20,7 @@ package unreal;
   A Color (BGRA).
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Color.h
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("ConsoleSettings.h")
 @:noCopy @:noEquals @:uextern extern class FColor {
   
 }

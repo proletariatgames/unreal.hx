@@ -17,7 +17,7 @@ package unreal;
 /**
   Lighting build quality enumeration
 **/
-@:glueCppIncludes("GameFramework/WorldSettings.h")
+@:glueCppIncludes("Engine/MapBuildDataRegistry.h")
 @:uname("ELightingBuildQuality")
 @:uextern extern enum ELightingBuildQuality {
   Quality_Preview;

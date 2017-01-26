@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTest.h")
+@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_IsAtLocation.h")
 @:uextern extern class FAIDataProviderFloatValue extends unreal.aimodule.FAIDataProviderTypedValue {
   public var DefaultValue : unreal.Float32;
   

@@ -36,6 +36,11 @@ package unreal;
   public var bAutoGenerateMips : Bool;
   
   /**
+    Whether to support GPU sharing of the underlying native texture resource.
+  **/
+  public var bGPUSharedFlag : Bool;
+  
+  /**
     Whether to support storing HDR values, which requires more memory.
   **/
   public var bHDR : Bool;

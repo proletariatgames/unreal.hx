@@ -68,11 +68,11 @@ package unreal;
   public var bDebrisTimeout : Bool;
   
   /**
-    If set, then chunks which overlap the NxScene's static geometry will have environmental support in
+    If set, then chunks which overlap the Scene's static geometry will have environmental support in
     static destructibles.
     
     Note: if both bAssetDefinedSupport and bWorldSupport are set, then chunks must be tagged as
-    "support" chunks AND overlap the NxScene's static geometry in order to be environmentally supported.
+    "support" chunks AND overlap the Scene's static geometry in order to be environmentally supported.
   **/
   public var bWorldSupport : Bool;
   
@@ -81,7 +81,7 @@ package unreal;
     will have environmental support in static destructibles.
     
     Note: if both bAssetDefinedSupport and bWorldSupport are set, then chunks must be tagged as
-    "support" chunks AND overlap the NxScene's static geometry in order to be environmentally supported.
+    "support" chunks AND overlap the Scene's static geometry in order to be environmentally supported.
   **/
   public var bAssetDefinedSupport : Bool;
   

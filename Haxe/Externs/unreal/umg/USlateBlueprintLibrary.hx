@@ -66,5 +66,7 @@ package unreal.umg;
     what you would use.
   **/
   static public function AbsoluteToViewport(WorldContextObject : unreal.UObject, AbsoluteDesktopCoordinate : unreal.FVector2D, PixelPosition : unreal.PRef<unreal.FVector2D>, ViewportPosition : unreal.PRef<unreal.FVector2D>) : Void;
+  static public function ScreenToWidgetLocal(WorldContextObject : unreal.UObject, Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, ScreenPosition : unreal.FVector2D, LocalCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
+  static public function ScreenToWidgetAbsolute(WorldContextObject : unreal.UObject, ScreenPosition : unreal.FVector2D, AbsoluteCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
   
 }

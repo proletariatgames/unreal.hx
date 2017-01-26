@@ -23,12 +23,28 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FKBoxElem extends unreal.FKShapeElem {
   
   /**
-    length (not radius)
+    Extent of the box along the z-axis
   **/
   public var Z : unreal.Float32;
+  
+  /**
+    Extent of the box along the y-axis
+  **/
   public var Y : unreal.Float32;
+  
+  /**
+    Extent of the box along the y-axis
+  **/
   public var X : unreal.Float32;
+  
+  /**
+    Orientation of the box
+  **/
   public var Orientation : unreal.FQuat;
+  
+  /**
+    Position of the box's origin
+  **/
   public var Center : unreal.FVector;
   @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
   

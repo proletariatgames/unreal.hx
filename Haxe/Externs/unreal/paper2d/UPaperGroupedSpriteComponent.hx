@@ -46,7 +46,7 @@ package unreal.paper2d;
   /**
     Update the transform for the instance specified. Instance is given in local space of this component unless bWorldSpace is set.  Returns True on success.
   **/
-  public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool, bMarkRenderStateDirty : Bool) : Bool;
+  public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool, bMarkRenderStateDirty : Bool, bTeleport : Bool) : Bool;
   
   /**
     Update the color for the instance specified. Returns True on success.

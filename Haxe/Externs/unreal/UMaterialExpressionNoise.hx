@@ -23,6 +23,16 @@ package unreal;
 @:noClass @:uextern extern class UMaterialExpressionNoise extends unreal.UMaterialExpression {
   
   /**
+    How many units in each tile (if Tiling is on)
+  **/
+  public var RepeatSize : unreal.FakeUInt32;
+  
+  /**
+    Whether to use tiling noise pattern, useful for baking to seam-free repeating textures
+  **/
+  public var bTiling : Bool;
+  
+  /**
     usually 2 but higher values allow efficient use of few levels
   **/
   public var LevelScale : unreal.Float32;
@@ -30,7 +40,7 @@ package unreal;
   public var OutputMin : unreal.Float32;
   
   /**
-    1 = fast but little detail, .. larger numbers cost more performance, only used for turbulence
+    1 = fast but little detail, .. larger numbers cost more performance
   **/
   public var Levels : unreal.Int32;
   
@@ -45,7 +55,7 @@ package unreal;
   public var NoiseFunction : unreal.ENoiseFunction;
   
   /**
-    0 = fast, allows to pick a different implementation, can affect performance and look
+    Lower numbers are faster and lower quality, higher numbers are slower and higher quality
   **/
   public var Quality : unreal.Int32;
   

@@ -22,8 +22,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeMaterialInstanceConstant.h")
 @:uextern extern class ULandscapeMaterialInstanceConstant extends unreal.UMaterialInstanceConstant {
-  public var DataWeightmapSize : unreal.Int32;
-  public var DataWeightmapIndex : unreal.Int32;
+  public var bDisableTessellation : Bool;
   public var bIsLayerThumbnail : Bool;
   
 }

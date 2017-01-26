@@ -23,6 +23,12 @@ package unreal;
   public var OcclusionLayerNumNodes : unreal.Int32;
   
   /**
+    Enable for detail meshes that don't really affect the game. Disable for anything important.
+    Typically, this will be enabled for small meshes without collision (e.g. grass) and disabled for large meshes with collision (e.g. trees)
+  **/
+  public var bEnableDensityScaling : Bool;
+  
+  /**
     Bounds of each individual unbuilt instance, used for LOD calculation
   **/
   public var UnbuiltInstanceBoundsList : unreal.TArray<unreal.FBox>;

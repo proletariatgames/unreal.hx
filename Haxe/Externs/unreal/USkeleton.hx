@@ -59,4 +59,26 @@ package unreal;
   **/
   public var LinkupCache : unreal.TArray<unreal.FSkeletonToMeshLinkup>;
   
+  /**
+    Array of this skeletons virtual bones. These are new bones are links between two existing bones
+    and are baked into all the skeletons animations
+  **/
+  private var VirtualBones : unreal.TArray<unreal.FVirtualBone>;
+  
+  /**
+    Guid for virtual bones.
+    Separate so that we don't have to dirty the original guid when only changing virtual bones
+  **/
+  private var VirtualBoneGuid : unreal.FGuid;
+  
+  /**
+    Reference skeleton poses in local space
+  **/
+  @:deprecated private var RefLocalPoses_DEPRECATED : unreal.TArray<unreal.FTransform>;
+  
+  /**
+    Skeleton bone tree - each contains name and parent index*
+  **/
+  private var BoneTree : unreal.TArray<unreal.FBoneNode>;
+  
 }

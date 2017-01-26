@@ -76,6 +76,11 @@ package unreal;
   public var bEnableRootMotion : Bool;
   
   /**
+    This defines how values between keys are calculated *
+  **/
+  public var Interpolation : unreal.EAnimInterpolationType;
+  
+  /**
     Base pose to use when retargeting
   **/
   public var RetargetSource : unreal.FName;
@@ -104,45 +109,6 @@ package unreal;
     Additive animation type. *
   **/
   public var AdditiveAnimType : unreal.EAdditiveAnimationType;
-  public var KeyEncodingFormat : unreal.AnimationKeyFormat;
-  
-  /**
-    An array of 2*NumTrack ints, arranged as follows:
-                   if identity, it is offset
-                   if not, it is num of keys
-      [0] Scale0.Offset or NumKeys
-      [1] Scale1.Offset or NumKeys
-    
-    @TODO NOTE: first implementation is offset is [0], numkeys [1]
-      . . .
-  **/
-  public var CompressedScaleOffsets : unreal.FCompressedOffsetData;
-  
-  /**
-    An array of 4*NumTrack ints, arranged as follows: - PerTrack is 2*NumTrack, so this isn't true any more
-      [0] Trans0.Offset
-      [1] Trans0.NumKeys
-      [2] Rot0.Offset
-      [3] Rot0.NumKeys
-      [4] Trans1.Offset
-      . . .
-  **/
-  public var CompressedTrackOffsets : unreal.TArray<unreal.Int32>;
-  
-  /**
-    The compression format that was used to compress rotation tracks.
-  **/
-  public var ScaleCompressionFormat : unreal.AnimationCompressionFormat;
-  
-  /**
-    The compression format that was used to compress rotation tracks.
-  **/
-  public var RotationCompressionFormat : unreal.AnimationCompressionFormat;
-  
-  /**
-    The compression format that was used to compress translation tracks.
-  **/
-  public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -150,38 +116,23 @@ package unreal;
     May be NULL.
   **/
   public var CompressionScheme : unreal.UAnimCompress;
-  #end // WITH_EDITORONLY_DATA
   
   /**
-    Scale data post keyframe reduction.  ScaleData.Num() is zero if keyframe reduction
-    has not yet been applied.
+    This is name of RawAnimationData tracks for editoronly - if we lose skeleton, we'll need relink them
   **/
-  public var ScaleData : unreal.TArray<unreal.FScaleTrack>;
+  private var AnimationTrackNames : unreal.TArray<unreal.FName>;
   
   /**
-    Rotation data post keyframe reduction.  RotationData.Num() is zero if keyframe reduction
-    has not yet been applied.
+    Update this if the contents of RawAnimationData changes;
   **/
-  public var RotationData : unreal.TArray<unreal.FRotationTrack>;
-  
-  /**
-    Translation data post keyframe reduction.  TranslationData.Num() is zero if keyframe reduction
-    has not yet been applied.
-  **/
-  public var TranslationData : unreal.TArray<unreal.FTranslationTrack>;
-  #if WITH_EDITORONLY_DATA
-  
-  /**
-    This is name of tracks for editoronly - if we lose skeleton, we'll need relink them
-  **/
-  public var AnimationTrackNames : unreal.TArray<unreal.FName>;
+  private var RawDataGuid : unreal.FGuid;
   #end // WITH_EDITORONLY_DATA
   
   /**
     In the future, maybe keeping RawAnimSequenceTrack + TrackMap as one would be good idea to avoid inconsistent array size
     TrackToSkeletonMapTable(i) should contains  track mapping data for RawAnimationData(i).
   **/
-  public var TrackToSkeletonMapTable : unreal.TArray<unreal.FTrackToSkeletonMap>;
+  private var TrackToSkeletonMapTable : unreal.TArray<unreal.FTrackToSkeletonMap>;
   
   /**
     Number of raw frames in this sequence (not used by engine - just for informational purposes).

@@ -22,8 +22,52 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGrassType.h")
 @:noCopy @:noEquals @:uextern extern class FGrassVariety {
+  
+  /**
+    Whether the grass instances should receive decals.
+  **/
+  public var bReceivesDecals : Bool;
+  
+  /**
+    Lighting channels that the grass will be assigned. Lights with matching channels will affect the grass.
+    These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
+  **/
+  public var LightingChannels : unreal.FLightingChannels;
+  
+  /**
+    Whether to use the landscape's lightmap when rendering the grass.
+  **/
+  public var bUseLandscapeLightmap : Bool;
+  
+  /**
+    Whether the grass instances should be tilted to the normal of the landscape (true), or always vertical (false)
+  **/
   public var AlignToSurface : Bool;
+  
+  /**
+    Whether the grass instances should be placed at random rotation (true) or all at the same rotation (false)
+  **/
   public var RandomRotation : Bool;
+  
+  /**
+    Specifies the range of scale, from minimum to maximum, to apply to a grass instance's Z Scale property
+  **/
+  public var ScaleZ : unreal.FFloatInterval;
+  
+  /**
+    Specifies the range of scale, from minimum to maximum, to apply to a grass instance's Y Scale property
+  **/
+  public var ScaleY : unreal.FFloatInterval;
+  
+  /**
+    Specifies the range of scale, from minimum to maximum, to apply to a grass instance's X Scale property
+  **/
+  public var ScaleX : unreal.FFloatInterval;
+  
+  /**
+    Specifies grass instance scaling type
+  **/
+  public var Scaling : unreal.landscape.EGrassScaling;
   
   /**
     Specifies the smallest LOD that will be used for this component.

@@ -51,6 +51,11 @@ package unreal;
   @:deprecated public var VolumeWeightedPriorityScale_DEPRECATED : unreal.Float32;
   
   /**
+    Used by the subtitle manager to prioritize subtitles wave instances spawned by this component.
+  **/
+  public var SubtitlePriority : unreal.Float32;
+  
+  /**
     A priority value that is used for sounds that play on this component that scales against final output volume.
   **/
   public var Priority : unreal.Float32;
@@ -79,6 +84,11 @@ package unreal;
     The lower bound to use when randomly determining a pitch multiplier
   **/
   public var PitchModulationMin : unreal.Float32;
+  
+  /**
+    If true, subtitles in the sound data will be ignored.
+  **/
+  public var bSuppressSubtitles : Bool;
   public var bOverridePriority : Bool;
   
   /**
@@ -90,6 +100,11 @@ package unreal;
     Whether or not this sound plays when the game is paused in the UI
   **/
   public var bIsUISound : Bool;
+  
+  /**
+    Whether or not to override the sound's subtitle priority.
+  **/
+  public var bOverrideSubtitlePriority : Bool;
   
   /**
     Should the Attenuation Settings asset be used (false) or should the properties set directly on the component be used for attenuation properties
@@ -168,6 +183,11 @@ package unreal;
     Stop an audio component playing its sound cue, issue any delegates if needed
   **/
   @:final public function Stop() : Void;
+  
+  /**
+    Pause an audio component playing its sound cue, issue any delegates if needed
+  **/
+  @:final public function SetPaused(bPause : Bool) : Void;
   
   /**
     @return true if this component is currently playing a SoundCue.

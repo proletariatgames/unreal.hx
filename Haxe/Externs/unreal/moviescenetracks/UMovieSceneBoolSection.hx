@@ -17,15 +17,15 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  A single bool section
+  A single bool section.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneBoolSection.h")
 @:uextern extern class UMovieSceneBoolSection extends unreal.moviescene.UMovieSceneSection {
   
   /**
-    The default value to use when no keys are present
+    The default value to use when no keys are present - use GetCurve().SetDefaultValue()
   **/
-  public var DefaultValue : Bool;
+  @:deprecated public var DefaultValue_DEPRECATED : Bool;
   
 }

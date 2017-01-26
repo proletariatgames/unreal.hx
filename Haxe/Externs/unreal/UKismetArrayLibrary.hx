@@ -157,4 +157,13 @@ package unreal;
   **/
   static public function SetArrayPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
   
+  /**
+    *Tests if IndexToTest is valid, i.e. greater than or equal to zero, and less than the number of elements in TargetArray.
+    *
+    *@param        TargetArray             Array to use for the IsValidIndex test
+    *@param        IndexToTest             The Index, that we want to test for being valid
+    *@return       True if the Index is Valid, i.e. greater than or equal to zero, and less than the number of elements in TargetArray.
+  **/
+  static public function Array_IsValidIndex(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexToTest : unreal.Int32) : Bool;
+  
 }

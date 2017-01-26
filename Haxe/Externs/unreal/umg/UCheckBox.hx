@@ -27,6 +27,11 @@ package unreal.umg;
 @:uextern extern class UCheckBox extends unreal.umg.UContentWidget {
   
   /**
+    Sometimes a button should only be mouse-clickable and never keyboard focusable.
+  **/
+  public var IsFocusable : Bool;
+  
+  /**
     The color of the background border
   **/
   @:deprecated public var BorderBackgroundColor_DEPRECATED : unreal.slatecore.FSlateColor;

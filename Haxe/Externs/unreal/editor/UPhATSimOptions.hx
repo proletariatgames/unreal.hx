@@ -93,6 +93,11 @@ package unreal.editor;
   public var PokePauseTime : unreal.Float32;
   
   /**
+    Determines whether simulation of root body updates component transform
+  **/
+  public var PhysicsUpdateMode : unreal.EPhysicsTransformUpdateMode;
+  
+  /**
     Lets you manually control the physics/animation
   **/
   public var bUpdateJointsFromAnimation : Bool;

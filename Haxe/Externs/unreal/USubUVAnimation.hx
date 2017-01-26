@@ -28,6 +28,7 @@ package unreal;
     Raising this threshold slightly can reduce overdraw in particles using this animation asset.
   **/
   public var AlphaThreshold : unreal.Float32;
+  public var OpacitySourceMode : unreal.EOpacitySourceMode;
   
   /**
     More bounding vertices results in reduced overdraw, but adds more triangle overhead.

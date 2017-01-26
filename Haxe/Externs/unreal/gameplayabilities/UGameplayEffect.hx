@@ -54,6 +54,11 @@ package unreal.gameplayabilities;
   public var StackingType : unreal.gameplayabilities.EGameplayEffectStackingType;
   
   /**
+    Grants immunity to GameplayEffects that match this query. Queries are more powerful but slightly slower than GrantedApplicationImmunityTags.
+  **/
+  public var GrantedApplicationImmunityQuery : unreal.gameplayabilities.FGameplayEffectQuery;
+  
+  /**
     Grants the owner immunity from these source tags.
   **/
   public var GrantedApplicationImmunityTags : unreal.gameplayabilities.FGameplayTagRequirements;
@@ -109,6 +114,11 @@ package unreal.gameplayabilities;
   public var GameplayCues : unreal.TArray<unreal.gameplayabilities.FGameplayEffectCue>;
   
   /**
+    If true, GameplayCues will only be triggered for the first instance in a stacking GameplayEffect.
+  **/
+  public var bSuppressStackingCues : Bool;
+  
+  /**
     If true, cues will only trigger when GE modifiers succeed being applied (whether through modifiers or executions)
   **/
   public var bRequireModifierSuccessToTriggerCues : Bool;
@@ -147,6 +157,7 @@ package unreal.gameplayabilities;
     other gameplay effects that will be applied to the target of this effect if this effect applies
   **/
   public var TargetEffectClasses : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
+  public var ApplicationRequirements : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffectCustomApplicationRequirement>>;
   
   /**
     Probability that this gameplay effect will be applied to the target actor (0.0 for never, 1.0 for always)

@@ -73,6 +73,7 @@ package unreal;
     If true, then collisions with Pawns will still react, but
     the UsedMaxCollisions count will not be decremented.
     (ie., They don't 'count' as collisions)
+    NOTE: Having this on prevents the code from running in parallel.
   **/
   public var bPawnsDoNotDecrementCount : Bool;
   
@@ -89,11 +90,18 @@ package unreal;
   public var ParticleMass : unreal.FRawDistributionFloat;
   
   /**
+    Any trigger volumes that are hit will be ignored. NOTE: This can be turned off if the TrigerVolume physics object type is not in the CollisionTypes array.
+    Turning this off is strongly recommended as having it on prevents the code from running off the game thread.
+  **/
+  public var bIgnoreTriggerVolumes : Bool;
+  
+  /**
     If true, physic will be applied between a particle and the
     object it collides with.
     This is one-way - particle --> object. The particle does
     not have physics applied to it - it just generates an
     impulse applied to the object it collides with.
+    NOTE: having this on prevents the code from running off the game thread.
   **/
   public var bApplyPhysics : Bool;
   

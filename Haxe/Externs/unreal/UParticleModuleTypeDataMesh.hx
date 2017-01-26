@@ -104,6 +104,8 @@ package unreal;
     deprecated properties for initial orientation
   **/
   @:deprecated public var Pitch_DEPRECATED : unreal.Float32;
+  public var bEnableMotionBlur : Bool;
+  public var bOverrideDefaultMotionBlurSettings : Bool;
   
   /**
     If true, use the emitter material when rendering rather than the one applied

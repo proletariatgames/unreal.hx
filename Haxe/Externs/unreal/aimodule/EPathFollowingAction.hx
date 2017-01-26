@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 
 /**
-  left for now, will be removed soon! please use EPathFollowingStatus instead
+  DEPRECATED, will be removed with GetPathActionType function
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Navigation/PathFollowingComponent.h")

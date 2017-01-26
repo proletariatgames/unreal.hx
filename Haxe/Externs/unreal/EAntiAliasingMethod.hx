@@ -15,9 +15,9 @@ package unreal;
 
 
 /**
-  Used by FPostProcessSettings Anti-aliasings
+  Used by rendering project settings.
 **/
-@:glueCppIncludes("Camera/CameraAnim.h")
+@:glueCppIncludes("Engine/RendererSettings.h")
 @:uname("EAntiAliasingMethod")
 @:uextern extern enum EAntiAliasingMethod {
   
@@ -38,5 +38,12 @@ package unreal;
   **/
   @DisplayName("TemporalAA")
   AAM_TemporalAA;
+  
+  /**
+    Only supported with forward shading.  MSAA sample count is controlled by r.MSAACount.
+    @DisplayName MSAA
+  **/
+  @DisplayName("MSAA")
+  AAM_MSAA;
   
 }

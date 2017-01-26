@@ -49,6 +49,11 @@ package unreal;
   public var EventTracks : unreal.TArray<unreal.FTTEventTrack>;
   
   /**
+    If we want the timeline to ignore global time dilation
+  **/
+  public var bIgnoreTimeDilation : Bool;
+  
+  /**
     Compiler Validated As Wired up
   **/
   public var bValidatedAsWired : Bool;

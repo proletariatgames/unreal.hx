@@ -22,6 +22,5 @@ package unreal;
 @:glueCppIncludes("Materials/MaterialExpressionBreakMaterialAttributes.h")
 @:uextern extern class UMaterialExpressionBreakMaterialAttributes extends unreal.UMaterialExpression {
   public var MaterialAttributes : unreal.FMaterialAttributesInput;
-  public var Struct : unreal.FExpressionInput;
   
 }

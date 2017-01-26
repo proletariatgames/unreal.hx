@@ -105,7 +105,7 @@ package unreal;
     Mass of the body in KG. By default we compute this based on physical material and mass scale.
     @see bOverrideMass to set this directly
   **/
-  public var MassInKg : unreal.Float32;
+  private var MassInKgOverride : unreal.Float32;
   
   /**
     The maximum velocity used to depenetrate this object
@@ -207,10 +207,5 @@ package unreal;
     we have to still load them until resave
   **/
   @:deprecated public var ResponseToChannels_DEPRECATED : unreal.FCollisionResponseContainer;
-  
-  /**
-    Current scale of physics - used to know when and how physics must be rescaled to match current transform of OwnerComponent.
-  **/
-  public var Scale3D : unreal.FVector;
   
 }

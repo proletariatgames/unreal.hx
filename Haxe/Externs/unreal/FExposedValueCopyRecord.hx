@@ -21,7 +21,27 @@ package unreal;
 **/
 @:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
 @:noCopy @:noEquals @:uextern extern class FExposedValueCopyRecord {
+  
+  /**
+    Cached dest property for copying structs
+  **/
+  public var CachedStructDestProperty : unreal.UStructProperty;
+  
+  /**
+    cached dest property for performing boolean operations
+  **/
+  public var CachedBoolDestProperty : unreal.UBoolProperty;
+  
+  /**
+    cached source property for performing boolean operations
+  **/
+  public var CachedBoolSourceProperty : unreal.UBoolProperty;
   public var PostCopyOperation : unreal.EPostCopyOperation;
+  
+  /**
+    Whether or not the anim instance object is the target for the copy instead of a node.
+  **/
+  public var bInstanceIsTarget : Bool;
   public var Size : unreal.Int32;
   public var DestArrayIndex : unreal.Int32;
   public var DestProperty : unreal.UProperty;

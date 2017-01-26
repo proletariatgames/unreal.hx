@@ -172,6 +172,48 @@ package unreal;
   public var PCOwner : unreal.APlayerController;
   
   /**
+    Implementable blueprint hook to allow a PlayerCameraManager subclass to
+    constrain or otherwise modify the camera during free-camera photography.
+    For example, a blueprint may wish to limit the distance from the camera's
+    original point, or forbid the camera from passing through walls.
+    NewCameraLocation contains the proposed new camera location.
+    PreviousCameraLocation contains the camera location in the previous frame.
+    OriginalCameraLocation contains the camera location before the game was put
+    into photography mode.
+    Return ResultCameraLocation as modified according to your constraints.
+  **/
+  public function PhotographyCameraModify(NewCameraLocation : unreal.Const<unreal.FVector>, PreviousCameraLocation : unreal.Const<unreal.FVector>, OriginalCameraLocation : unreal.Const<unreal.FVector>, ResultCameraLocation : unreal.PRef<unreal.FVector>) : Void;
+  
+  /**
+    Event triggered upon entering Photography mode (before pausing, if
+    r.Photography.AutoPause is 1).
+  **/
+  public function OnPhotographySessionStart() : Void;
+  
+  /**
+    Event triggered upon leaving Photography mode (after unpausing, if
+    r.Photography.AutoPause is 1).
+  **/
+  public function OnPhotographySessionEnd() : Void;
+  
+  /**
+    Event triggered upon the start of a multi-part photograph capture (i.e. a
+    stereoscopic or 360-degree shot).  This is an ideal time to turn off
+    rendering effects that tile badly (UI, subtitles, vignette, very aggressive
+    bloom, etc; most of these are automatically disabled when
+    r.Photography.AutoPostprocess is 1).
+  **/
+  public function OnPhotographyMultiPartCaptureStart() : Void;
+  
+  /**
+    Event triggered upon the end of a multi-part photograph capture, when manual
+    free-roaming photographic camera control is about to be returned to the user.
+    Here you may re-enable whatever was turned off within
+    OnPhotographyMultiPartCaptureStart.
+  **/
+  public function OnPhotographyMultiPartCaptureEnd() : Void;
+  
+  /**
     Blueprint hook to allow blueprints to override existing camera behavior or implement custom cameras.
     If this function returns true, we will use the given returned values and skip further calculations to determine
     final camera POV.
@@ -247,17 +289,17 @@ package unreal;
   /**
     Immediately stops the given shake instance and invalidates it.
   **/
-  public function StopCameraShake(ShakeInstance : unreal.UCameraShake) : Void;
+  public function StopCameraShake(ShakeInstance : unreal.UCameraShake, bImmediately : Bool) : Void;
   
   /**
     Stops playing CameraShake of the given class.
   **/
-  public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>) : Void;
+  public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool) : Void;
   
   /**
     Stops all active camera shakes on this camera.
   **/
-  public function StopAllCameraShakes() : Void;
+  public function StopAllCameraShakes(bImmediately : Bool) : Void;
   
   /**
     Does a camera fade to/from a solid color.  Animates automatically.

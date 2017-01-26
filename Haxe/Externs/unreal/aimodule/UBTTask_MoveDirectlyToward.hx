@@ -20,22 +20,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_MoveDirectlyToward.h")
-@:uextern extern class UBTTask_MoveDirectlyToward extends unreal.aimodule.UBTTask_BlackboardBase {
-  
-  /**
-    if set to true agent's radius will be added to AcceptableRadius for purposes of checking
-        if path's end point has been reached. Will result in AI stopping on contact with destination location
-  **/
-  public var bStopOnOverlap : Bool;
-  public var bAllowStrafe : Bool;
+@:uextern extern class UBTTask_MoveDirectlyToward extends unreal.aimodule.UBTTask_MoveTo {
   public var bProjectVectorGoalToNavigation : Bool;
-  
-  /**
-    set to true will result in not updating move destination in
-        case where goal is an Actor that can change
-        his location while task is being performed
-  **/
   public var bDisablePathUpdateOnGoalLocationChange : Bool;
-  public var AcceptableRadius : unreal.Float32;
   
 }

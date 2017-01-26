@@ -68,7 +68,7 @@ package unreal;
   public var RestitutionCombineMode : unreal.EFrictionCombineMode;
   
   /**
-    Restitution or 'bounciness of this surface.
+    Restitution or 'bounciness' of this surface, between 0 (no bounce) and 1 (outgoing velocity is same as incoming).
   **/
   public var Restitution : unreal.Float32;
   

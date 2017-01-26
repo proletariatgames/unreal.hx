@@ -66,9 +66,30 @@ package unreal.proceduralmeshcomponent;
   @:thisConst @:final public function IsMeshSectionVisible(SectionIndex : unreal.Int32) : Bool;
   
   /**
+    Returns number of sections currently created for this component
+  **/
+  @:thisConst @:final public function GetNumSections() : unreal.Int32;
+  
+  /**
+    Add simple collision convex to this component
+  **/
+  @:final public function AddCollisionConvexMesh(ConvexVerts : unreal.TArray<unreal.FVector>) : Void;
+  
+  /**
+    Add simple collision convex to this component
+  **/
+  @:final public function ClearCollisionConvexMeshes() : Void;
+  
+  /**
     Collision data
   **/
   public var ProcMeshBodySetup : unreal.UBodySetup;
+  
+  /**
+    Controls whether the complex (Per poly) geometry should be treated as 'simple' collision.
+    Should be set to false if this component is going to be given simple collision and simulated.
+  **/
+  public var bUseComplexAsSimpleCollision : Bool;
   // Interface_CollisionDataProvider interface implementation
   
 }

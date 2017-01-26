@@ -66,4 +66,14 @@ package unreal;
   **/
   PendingConnectionFailure;
   
+  /**
+    NetGuid mismatch
+  **/
+  NetGuidMismatch;
+  
+  /**
+    Network checksum mismatch
+  **/
+  NetChecksumMismatch;
+  
 }

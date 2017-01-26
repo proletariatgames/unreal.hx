@@ -58,9 +58,9 @@ package unreal;
   MSM_SubsurfaceProfile;
   
   /**
-    Two Sided
+    Two Sided Foliage
   **/
-  @DisplayName("Two Sided")
+  @DisplayName("Two Sided Foliage")
   MSM_TwoSidedFoliage;
   
   /**

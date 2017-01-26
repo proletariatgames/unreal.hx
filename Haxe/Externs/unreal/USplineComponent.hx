@@ -15,7 +15,7 @@ package unreal;
 
 
 /**
-  A spline component is a spline shape which can be used for other purposes (e.g. animating objects). It does not contain rendering capabilities itself (outside the editor)
+  A spline component is a spline shape which can be used for other purposes (e.g. animating objects). It contains debug rendering capabilities.
   @see https://docs.unrealengine.com/latest/INT/Resources/ContentExamples/Blueprint_Splines
 **/
 @:glueCppIncludes("Components/SplineComponent.h")
@@ -33,6 +33,11 @@ package unreal;
   public var bShouldVisualizeScale : Bool;
   
   /**
+    Whether the spline's leave and arrive tangents can be different
+  **/
+  public var bAllowDiscontinuousSpline : Bool;
+  
+  /**
     Color of a selected spline component segment in the editor
   **/
   public var EditorSelectedSplineSegmentColor : unreal.FLinearColor;
@@ -47,6 +52,22 @@ package unreal;
     Default up vector in local space to be used when calculating transforms along the spline
   **/
   public var DefaultUpVector : unreal.FVector;
+  
+  /**
+    If true, the spline will be rendered if the Splines showflag is set.
+  **/
+  public var bDrawDebug : Bool;
+  
+  /**
+    Whether the spline points should be passed to the User Construction Script so they can be further manipulated by it.
+    If false, they will not be visible to it, and it will not be able to influence the per-instance positions set in the editor.
+  **/
+  public var bInputSplinePointsToConstructionScript : Bool;
+  
+  /**
+    Whether the UCS has made changes to the spline points
+  **/
+  public var bModifiedByConstructionScript : Bool;
   
   /**
     Whether the spline has been edited from its default by the spline component visualizer
@@ -68,26 +89,23 @@ package unreal;
   **/
   public var ReparamStepsPerSegment : unreal.Int32;
   @:deprecated public var bAllowSplineEditingPerInstance_DEPRECATED : Bool;
+  @:deprecated public var SplineReparamTable_DEPRECATED : unreal.FInterpCurveFloat;
   
   /**
-    Input, distance along curve, output, parameter that puts you there.
+    Deprecated - please use GetSplinePointsScale() to fetch this FInterpCurve
   **/
-  public var SplineReparamTable : unreal.FInterpCurveFloat;
+  @:deprecated public var SplineScaleInfo_DEPRECATED : unreal.FInterpCurveVector;
   
   /**
-    Spline built from scale data.
+    Deprecated - please use GetSplinePointsRotation() to fetch this FInterpCurve
   **/
-  public var SplineScaleInfo : unreal.FInterpCurveVector;
+  @:deprecated public var SplineRotInfo_DEPRECATED : unreal.FInterpCurveQuat;
   
   /**
-    Spline built from rotation data.
+    Deprecated - please use GetSplinePointsPosition() to fetch this FInterpCurve
   **/
-  public var SplineRotInfo : unreal.FInterpCurveQuat;
-  
-  /**
-    Spline built from position data. //EditAnywhere, Category = Points)
-  **/
-  public var SplineInfo : unreal.FInterpCurveVector;
+  @:deprecated public var SplineInfo_DEPRECATED : unreal.FInterpCurveVector;
+  public var SplineCurves : unreal.FSplineCurves;
   
   /**
     Update the spline tangents and SplineReparamTable
@@ -105,9 +123,19 @@ package unreal;
   @:final public function SetSelectedSplineSegmentColor(SegmentColor : unreal.Const<unreal.PRef<unreal.FLinearColor>>) : Void;
   
   /**
-    Specify whether the spline is a closed loop or not
+    Specify whether this spline should be rendered when the Editor/Game spline show flag is set
   **/
-  @:final public function SetClosedLoop(bInClosedLoop : Bool) : Void;
+  @:final public function SetDrawDebug(bShow : Bool) : Void;
+  
+  /**
+    Specify whether the spline is a closed loop or not. The loop position will be at 1.0 after the last point's input key
+  **/
+  @:final public function SetClosedLoop(bInClosedLoop : Bool, bUpdateSpline : Bool) : Void;
+  
+  /**
+    Specify whether the spline is a closed loop or not, and if so, the input key corresponding to the loop point
+  **/
+  @:final public function SetClosedLoopAtPosition(bInClosedLoop : Bool, Key : unreal.Float32, bUpdateSpline : Bool) : Void;
   
   /**
     Check whether the spline is a closed loop or not
@@ -117,22 +145,32 @@ package unreal;
   /**
     Clears all the points in the spline
   **/
-  @:final public function ClearSplinePoints() : Void;
+  @:final public function ClearSplinePoints(bUpdateSpline : Bool) : Void;
+  
+  /**
+    Adds an FSplinePoint to the spline. This contains its input key, position, tangent, rotation and scale.
+  **/
+  @:final public function AddPoint(Point : unreal.Const<unreal.PRef<unreal.FSplinePoint>>, bUpdateSpline : Bool) : Void;
+  
+  /**
+    Adds an array of FSplinePoints to the spline.
+  **/
+  @:final public function AddPoints(Points : unreal.Const<unreal.PRef<unreal.TArray<unreal.FSplinePoint>>>, bUpdateSpline : Bool) : Void;
   
   /**
     Adds a point to the spline
   **/
-  @:final public function AddSplinePoint(Position : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  @:final public function AddSplinePoint(Position : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
   
   /**
     Adds a point to the spline at the specified index
   **/
-  @:final public function AddSplinePointAtIndex(Position : unreal.Const<unreal.PRef<unreal.FVector>>, Index : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  @:final public function AddSplinePointAtIndex(Position : unreal.Const<unreal.PRef<unreal.FVector>>, Index : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
   
   /**
     Removes point at specified index from the spline
   **/
-  @:final public function RemoveSplinePoint(Index : unreal.Int32) : Void;
+  @:final public function RemoveSplinePoint(Index : unreal.Int32, bUpdateSpline : Bool) : Void;
   
   /**
     Adds a world space point to the spline
@@ -147,7 +185,7 @@ package unreal;
   /**
     Sets the spline to an array of points
   **/
-  @:final public function SetSplinePoints(Points : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  @:final public function SetSplinePoints(Points : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
   
   /**
     Sets the spline to an array of world space points
@@ -162,7 +200,7 @@ package unreal;
   /**
     Move an existing point to a new location
   **/
-  @:final public function SetLocationAtSplinePoint(PointIndex : unreal.Int32, InLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  @:final public function SetLocationAtSplinePoint(PointIndex : unreal.Int32, InLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
   
   /**
     Move an existing point to a new world location
@@ -172,7 +210,17 @@ package unreal;
   /**
     Specify the tangent at a given spline point
   **/
-  @:final public function SetTangentAtSplinePoint(PointIndex : unreal.Int32, InTangent : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : Void;
+  @:final public function SetTangentAtSplinePoint(PointIndex : unreal.Int32, InTangent : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
+  
+  /**
+    Specify the tangents at a given spline point
+  **/
+  @:final public function SetTangentsAtSplinePoint(PointIndex : unreal.Int32, InArriveTangent : unreal.Const<unreal.PRef<unreal.FVector>>, InLeaveTangent : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
+  
+  /**
+    Specify the up vector at a given spline point
+  **/
+  @:final public function SetUpVectorAtSplinePoint(PointIndex : unreal.Int32, InUpVector : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace, bUpdateSpline : Bool) : Void;
   
   /**
     Get the type of a spline point
@@ -182,7 +230,7 @@ package unreal;
   /**
     Specify the type of a spline point
   **/
-  @:final public function SetSplinePointType(PointIndex : unreal.Int32, Type : unreal.ESplinePointType) : Void;
+  @:final public function SetSplinePointType(PointIndex : unreal.Int32, Type : unreal.ESplinePointType, bUpdateSpline : Bool) : Void;
   
   /**
     Get the number of points that make up this spline
@@ -205,14 +253,19 @@ package unreal;
   @:thisConst @:final public function GetDirectionAtSplinePoint(PointIndex : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
   
   /**
-    Get the tangent at spline point
+    Get the tangent at spline point. This fetches the Leave tangent of the point.
   **/
   @:thisConst @:final public function GetTangentAtSplinePoint(PointIndex : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
   
   /**
-    Get the rotation at spline point as a quaternion
+    Get the arrive tangent at spline point
   **/
-  @:thisConst @:final public function GetQuaternionAtSplinePoint(PointIndex : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FQuat;
+  @:thisConst @:final public function GetArriveTangentAtSplinePoint(PointIndex : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
+  
+  /**
+    Get the leave tangent at spline point
+  **/
+  @:thisConst @:final public function GetLeaveTangentAtSplinePoint(PointIndex : unreal.Int32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
   
   /**
     Get the rotation at spline point as a rotator
@@ -310,11 +363,6 @@ package unreal;
   @:thisConst @:final public function GetWorldTangentAtDistanceAlongSpline(Distance : unreal.Float32) : unreal.FVector;
   
   /**
-    Given a distance along the length of this spline, return a quaternion corresponding to the spline's rotation there.
-  **/
-  @:thisConst @:final public function GetQuaternionAtDistanceAlongSpline(Distance : unreal.Float32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FQuat;
-  
-  /**
     Given a distance along the length of this spline, return a rotation corresponding to the spline's rotation there.
   **/
   @:thisConst @:final public function GetRotationAtDistanceAlongSpline(Distance : unreal.Float32, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FRotator;
@@ -375,11 +423,6 @@ package unreal;
   @:thisConst @:final public function GetTangentAtTime(Time : unreal.Float32, CoordinateSpace : unreal.ESplineCoordinateSpace, bUseConstantVelocity : Bool) : unreal.FVector;
   
   /**
-    Given a time from 0 to the spline duration, return a quaternion corresponding to the spline's rotation there.
-  **/
-  @:thisConst @:final public function GetQuaternionAtTime(Time : unreal.Float32, CoordinateSpace : unreal.ESplineCoordinateSpace, bUseConstantVelocity : Bool) : unreal.FQuat;
-  
-  /**
     Given a time from 0 to the spline duration, return a rotation corresponding to the spline's position and direction there.
   **/
   @:thisConst @:final public function GetRotationAtTime(Time : unreal.Float32, CoordinateSpace : unreal.ESplineCoordinateSpace, bUseConstantVelocity : Bool) : unreal.FRotator;
@@ -433,11 +476,6 @@ package unreal;
     Given a location, in world space, return the tangent vector of the spline closest to the location.
   **/
   @:thisConst @:final public function FindTangentClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FVector;
-  
-  /**
-    Given a location, in world space, return a quaternion corresponding to the spline's rotation closest to the location.
-  **/
-  @:thisConst @:final public function FindQuaternionClosestToWorldLocation(WorldLocation : unreal.Const<unreal.PRef<unreal.FVector>>, CoordinateSpace : unreal.ESplineCoordinateSpace) : unreal.FQuat;
   
   /**
     Given a location, in world space, return rotation corresponding to the spline's rotation closest to the location.

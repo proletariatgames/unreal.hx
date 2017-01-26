@@ -15,12 +15,10 @@ package unreal;
 
 
 /**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
   Defines oscillation of a single number.
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
-@:noCopy @:noEquals @:uextern extern class FFOscillator {
+@:uextern extern class FFOscillator {
   
   /**
     Defines how to begin (either at zero, or at a randomized value.

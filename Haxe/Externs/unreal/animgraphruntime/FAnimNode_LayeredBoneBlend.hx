@@ -21,6 +21,7 @@ package unreal.animgraphruntime;
 @:glueCppIncludes("AnimGraphNode_LayeredBoneBlend.h")
 @:uextern extern class FAnimNode_LayeredBoneBlend extends unreal.FAnimNode_Base {
   public var bHasRelevantPoses : Bool;
+  public var bBlendRootMotionBasedOnRootBone : Bool;
   public var CurveBlendOption : unreal.ECurveBlendOption;
   public var bMeshSpaceRotationBlend : Bool;
   public var BlendWeights : unreal.TArray<unreal.Float32>;

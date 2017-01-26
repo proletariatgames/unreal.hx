@@ -47,6 +47,26 @@ package unreal;
   public var Pauser : unreal.APlayerState;
   
   /**
+    Largest possible frametime, not considering dilation. Equiv to 1/SlowestFPS.
+  **/
+  public var MaxUndilatedFrameTime : unreal.Float32;
+  
+  /**
+    Smallest possible frametime, not considering dilation. Equiv to 1/FastestFPS.
+  **/
+  public var MinUndilatedFrameTime : unreal.Float32;
+  
+  /**
+    Highest acceptable global time dilation.
+  **/
+  public var MaxGlobalTimeDilation : unreal.Float32;
+  
+  /**
+    Lowest acceptable global time dilation.
+  **/
+  public var MinGlobalTimeDilation : unreal.Float32;
+  
+  /**
     Additional TimeDilation used to control demo playback speed
   **/
   public var DemoPlayTimeDilation : unreal.Float32;
@@ -95,11 +115,6 @@ package unreal;
     Default reverb settings used by audio volumes.
   **/
   public var DefaultReverbSettings : unreal.FReverbSettings;
-  
-  /**
-    The lighting quality the level was last built with
-  **/
-  public var LevelLightingQuality : unreal.ELightingBuildQuality;
   public var LightmassSettings : unreal.FLightmassWorldInfoSettings;
   
   /**
@@ -133,6 +148,16 @@ package unreal;
   public var bPrecomputeVisibility : Bool;
   
   /**
+    Distance from the camera that the global distance field should cover.
+  **/
+  public var GlobalDistanceFieldViewDistance : unreal.Float32;
+  
+  /**
+    Max occlusion distance used by mesh distance fields, overridden if there is a movable skylight.
+  **/
+  public var DefaultMaxDistanceFieldOcclusionDistance : unreal.Float32;
+  
+  /**
     Default color scale for the level
   **/
   public var DefaultColorScale : unreal.FVector;
@@ -155,14 +180,9 @@ package unreal;
   public var GameNetworkManagerClass : unreal.TSubclassOf<unreal.AGameNetworkManager>;
   
   /**
-    Used for loading appropriate game type if non-specified in URL
-  **/
-  public var DefaultMapPrefixes : unreal.TArray<unreal.FGameModePrefix>;
-  
-  /**
     The default GameMode to use when starting this map in the game. If this value is NULL, the INI setting for default game type is used.
   **/
-  public var DefaultGameMode : unreal.TSubclassOf<unreal.AGameMode>;
+  public var DefaultGameMode : unreal.TSubclassOf<unreal.AGameModeBase>;
   
   /**
     optional level specific collision handler
@@ -210,10 +230,21 @@ package unreal;
   public var bEnableWorldOriginRebasing : Bool;
   
   /**
+    Enables client-side streaming volumes instead of server-side.
+    Expected usage scenario: server has all streaming levels always loaded, clients independently stream levels in/out based on streaming volumes.
+  **/
+  public var bUseClientSideLevelStreamingVolumes : Bool;
+  
+  /**
     Enables tools for composing a tiled world.
     Level has to be saved and all sub-levels removed before enabling this option.
   **/
   public var bEnableWorldComposition : Bool;
+  
+  /**
+    if set to false AI system will not get created. Use it to disable all AI-related activity on a map
+  **/
+  public var bEnableAISystem : Bool;
   
   /**
     if set to false navigation system will not get created (and all navigation functionality won't be accessible)

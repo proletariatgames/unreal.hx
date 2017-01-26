@@ -30,10 +30,5 @@ extern class ACharacter_Extra {
   /** Name of the CharacterMovement component. Use this name if you want to use a different class (with ObjectInitializer.SetDefaultSubobjectClass). */
   public static var CharacterMovementComponentName : FName;
 
-  /**
-    Saved translation offset of mesh.
-   **/
-  public function GetBaseTranslationOffset():Const<PRef<FVector>>;
-
   public function MoveBlockedBy(Impact:Const<PRef<FHitResult>>):Void;
 }

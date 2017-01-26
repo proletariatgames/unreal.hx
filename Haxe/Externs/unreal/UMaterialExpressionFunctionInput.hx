@@ -66,7 +66,7 @@ package unreal;
   public var InputName : unreal.FString;
   
   /**
-    Used for previewing when editing the function, also temporarily used to connect to the outside material when compiling that material.
+    Used for previewing when editing the function, or when bUsePreviewValueAsDefault is enabled.
   **/
   public var Preview : unreal.FExpressionInput;
   

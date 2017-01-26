@@ -33,6 +33,11 @@ package unreal.editor;
   public var bPreserveBorder : Bool;
   
   /**
+    Channel values to compare to when preserving alpha coverage from a mask for mips
+  **/
+  public var AlphaCoverageThresholds : unreal.FVector4;
+  
+  /**
     If enabled, mip-map alpha values will be dithered for smooth transitions
   **/
   public var bDitherMipMapAlpha : Bool;

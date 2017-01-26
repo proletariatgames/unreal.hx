@@ -43,4 +43,11 @@ package unreal.editor;
   @DisplayName("Animation")
   FBXIT_Animation;
   
+  /**
+    Subdivision Surface (Experimental, Early work in progress)
+    @DisplayName SubDSurface
+  **/
+  @DisplayName("SubDSurface")
+  FBXIT_SubDSurface;
+  
 }

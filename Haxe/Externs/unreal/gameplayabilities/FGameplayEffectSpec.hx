@@ -72,14 +72,14 @@ package unreal.gameplayabilities;
   
   /**
     The period in seconds of this effect.
-    Nonperiodic effects should have a period of UGameplayEffect::NO_PERIOD
+    Nonperiodic effects should have a period of FGameplayEffectConstants::NO_PERIOD
   **/
   public var Period : unreal.Float32;
   
   /**
     The duration in seconds of this effect
-    instantaneous effects should have a duration of UGameplayEffect::INSTANT_APPLICATION
-    effects that last forever should have a duration of UGameplayEffect::INFINITE_DURATION
+    instantaneous effects should have a duration of FGameplayEffectConstants::INSTANT_APPLICATION
+    effects that last forever should have a duration of FGameplayEffectConstants::INFINITE_DURATION
   **/
   public var Duration : unreal.Float32;
   

@@ -29,6 +29,12 @@ package unreal.aimodule;
     Behavior tree manager used by game
   **/
   private var BehaviorTreeManager : unreal.aimodule.UBehaviorTreeManager;
+  public var DefaultSightCollisionChannel : unreal.ECollisionChannel;
+  
+  /**
+    if set, GameplayDebuggerPlugin will be loaded on module's startup
+  **/
+  public var bEnableDebuggerPlugin : Bool;
   
   /**
     if enable will make EQS not complaint about using Controllers as queriers. Default behavior (false) will

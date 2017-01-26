@@ -20,6 +20,5 @@ package unreal.niagara;
   Scalar;
   Vector;
   Matrix;
-  Curve;
   
 }

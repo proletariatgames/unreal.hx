@@ -22,6 +22,11 @@ package unreal.slatecore;
 @:uextern extern class FTextBlockStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
+    The brush used to draw an underline under the text (if any)
+  **/
+  public var UnderlineBrush : unreal.slatecore.FSlateBrush;
+  
+  /**
     The shape of highlighted text
   **/
   public var HighlightShape : unreal.slatecore.FSlateBrush;

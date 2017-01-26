@@ -59,9 +59,9 @@ package unreal.editor;
   public var bImportRigidMesh : Bool;
   
   /**
-    Override for the name of the animation to import *
+    Override for the name of the animation to import. By default, it will be the name of FBX *
   **/
-  public var AnimationName : unreal.FString;
+  public var OverrideAnimationName : unreal.FString;
   
   /**
     True to import animations from the FBX File
@@ -94,9 +94,19 @@ package unreal.editor;
   public var bImportMesh : Bool;
   
   /**
+    Whether to import the incoming FBX as a Subdivision Surface (could be made a combo box together with bImportAsSkeletal) (Experimental, Early work in progress)
+  **/
+  public var bImportAsSubDSurface : Bool;
+  
+  /**
     Whether to import the incoming FBX as a skeletal object
   **/
   public var bImportAsSkeletal : Bool;
+  
+  /**
+    Convert the scene from FBX unit to UE4 unit (centimeter).
+  **/
+  public var bConvertSceneUnit : Bool;
   
   /**
     Convert the scene from FBX coordinate system to UE4 coordinate system

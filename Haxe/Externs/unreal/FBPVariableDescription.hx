@@ -31,6 +31,7 @@ package unreal;
     Metadata information for this variable
   **/
   public var MetaDataArray : unreal.TArray<unreal.FBPVariableMetaDataEntry>;
+  public var ReplicationCondition : unreal.ELifetimeCondition;
   public var RepNotifyFunc : unreal.FName;
   
   /**

@@ -13,6 +13,11 @@
 **/
 package unreal;
 
+
+/**
+  Cheat Manager is a central blueprint to implement test and debug code and actions that are not to ship with the game.
+  As the Cheat Manager is not instanced in shipping builds, it is for debugging purposes only
+**/
 @:glueCppIncludes("GameFramework/CheatManager.h")
 @:uextern extern class UCheatManager extends unreal.UObject {
   
@@ -62,9 +67,9 @@ package unreal;
   public function God() : Void;
   
   /**
-    Modify time dilation to change apparent speed of passage of time.  Slomo 0.1 makes everything move very slowly, Slomo 10 makes everything move very fast.
+    Modify time dilation to change apparent speed of passage of time. e.g. "Slomo 0.1" makes everything move very slowly, while "Slomo 10" makes everything move very fast.
   **/
-  public function Slomo(T : unreal.Float32) : Void;
+  public function Slomo(NewTimeDilation : unreal.Float32) : Void;
   
   /**
     Damage the actor you're looking at (sourced from the player).
@@ -188,21 +193,6 @@ package unreal;
   public function TestCollisionDistance() : Void;
   
   /**
-    Spawns a Slate Widget Inspector in game *
-  **/
-  public function WidgetReflector() : Void;
-  
-  /**
-    Spawns a Slate texture atlas visualizer in game
-  **/
-  public function TextureAtlasVisualizer() : Void;
-  
-  /**
-    Spawns a Slate font atlas visualizer in game
-  **/
-  public function FontAtlasVisualizer() : Void;
-  
-  /**
     Builds the navigation mesh (or rebuilds it). *
   **/
   public function RebuildNavigation() : Void;
@@ -216,7 +206,20 @@ package unreal;
     Dump online session information
   **/
   public function DumpOnlineSessionState() : Void;
+  
+  /**
+    Dump known party information
+  **/
   public function DumpPartyState() : Void;
+  
+  /**
+    Dump known chat information
+  **/
+  public function DumpChatState() : Void;
+  
+  /**
+    Dump current state of voice chat
+  **/
   public function DumpVoiceMutingState() : Void;
   
   /**
@@ -261,5 +264,30 @@ package unreal;
     Backwards compatibility exec function for people used to it instead of using InvertAxisKey
   **/
   @:final public function InvertMouse() : Void;
+  
+  /**
+    Executes commands listed in CheatScript.ScriptName ini section of DefaultGame.ini
+  **/
+  @:final public function CheatScript(ScriptName : unreal.FString) : Void;
+  
+  /**
+    BP implementable event for when CheatManager is created to allow any needed initialization.
+  **/
+  public function ReceiveInitCheatManager() : Void;
+  
+  /**
+    This is the End Play event for the CheatManager
+  **/
+  public function ReceiveEndPlay() : Void;
+  
+  /**
+    Switch controller to debug camera without locking gameplay and with locking local player controller input
+  **/
+  private function EnableDebugCamera() : Void;
+  
+  /**
+    Switch controller from debug camera back to normal controller
+  **/
+  private function DisableDebugCamera() : Void;
   
 }

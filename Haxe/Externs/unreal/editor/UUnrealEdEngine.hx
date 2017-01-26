@@ -43,11 +43,6 @@ package unreal.editor;
   public var bNeedWarningForPkgEngineVer : Bool;
   
   /**
-    If we have packages that are pending and we should notify the user that they need to be checked out
-  **/
-  public var bNeedToPromptForCheckout : Bool;
-  
-  /**
     Current target for LOD parenting operations (actors will use this as the replacement)
   **/
   public var CurrentLODParentActor : unreal.AActor;

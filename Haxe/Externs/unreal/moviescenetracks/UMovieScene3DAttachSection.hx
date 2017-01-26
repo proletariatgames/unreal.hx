@@ -28,6 +28,7 @@ package unreal.moviescenetracks;
   public var bConstrainTz : Bool;
   public var bConstrainTy : Bool;
   public var bConstrainTx : Bool;
+  public var AttachComponentName : unreal.FName;
   public var AttachSocketName : unreal.FName;
   
 }

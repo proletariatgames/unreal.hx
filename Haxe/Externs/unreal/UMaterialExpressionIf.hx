@@ -29,6 +29,10 @@ package unreal;
   public var ConstB : unreal.Float32;
   public var EqualsThreshold : unreal.Float32;
   public var ALessThanB : unreal.FExpressionInput;
+  
+  /**
+    Defaults to 'A > B' if not specified
+  **/
   public var AEqualsB : unreal.FExpressionInput;
   public var AGreaterThanB : unreal.FExpressionInput;
   

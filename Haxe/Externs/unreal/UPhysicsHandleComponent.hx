@@ -46,6 +46,9 @@ package unreal;
     Linear damping of the handle spring.
   **/
   public var LinearDamping : unreal.Float32;
+  public var bInterpolateTarget : Bool;
+  public var bSoftLinearConstraint : Bool;
+  public var bSoftAngularConstraint : Bool;
   
   /**
     Component we are currently holding

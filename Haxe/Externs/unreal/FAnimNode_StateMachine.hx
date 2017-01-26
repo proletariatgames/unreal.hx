@@ -31,6 +31,12 @@ package unreal;
   private var CurrentState : unreal.Int32;
   
   /**
+    Skip transition from entry state on first update?
+    default is true, we throw away transition data on first update
+  **/
+  public var bSkipFirstUpdateTransition : Bool;
+  
+  /**
     The maximum number of transitions that can be taken by this machine 'simultaneously' in a single frame
   **/
   public var MaxTransitionsPerFrame : unreal.Int32;

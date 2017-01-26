@@ -21,9 +21,4 @@ package unreal.animgraphruntime;
 @:glueCppIncludes("AnimGraphNode_WheelHandler.h")
 @:uextern extern class FAnimNode_WheelHandler extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
-  /**
-    Current Asset being played *
-  **/
-  public var VehicleSimComponent : unreal.UWheeledVehicleMovementComponent;
-  
 }

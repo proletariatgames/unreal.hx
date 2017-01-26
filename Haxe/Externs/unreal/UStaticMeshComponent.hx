@@ -29,13 +29,24 @@ package unreal;
   **/
   public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
   #if WITH_EDITORONLY_DATA
+  public var bStreamingTextureDataValid : Bool;
   
   /**
     Derived data key of the static mesh, used to determine if an update from the source static mesh is required.
   **/
   public var StaticMeshDerivedDataKey : unreal.FString;
   #end // WITH_EDITORONLY_DATA
-  public var IrrelevantLights : unreal.TArray<unreal.FGuid>;
+  
+  /**
+    Use the collision profile specified in the StaticMesh asset.
+  **/
+  public var bUseDefaultCollision : Bool;
+  
+  /**
+    The list of texture, bounds and scales. As computed in the texture streaming build process.
+  **/
+  public var StreamingTextureData : unreal.TArray<unreal.FStreamingTextureBuildInfo>;
+  @:deprecated public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
   
   /**
     Whether to use subdivisions or just the triangle's vertices.
@@ -84,6 +95,18 @@ package unreal;
   **/
   public var bOverrideNavigationExport : Bool;
   #if WITH_EDITORONLY_DATA
+  
+  /**
+    * The import version of the static mesh when it was assign this is update when:
+    * - The user assign a new staticmesh to the component
+    * - The component is serialize (IsSaving)
+    * - Default value is BeforeImportStaticMeshVersionWasAdded
+    *
+    * If when the component get load (PostLoad) the version of the attach staticmesh is newer
+    * then this value, we will remap the material override because the order of the materials list
+    * in the staticmesh can be changed. Hopefully there is a remap table save in the staticmesh.
+  **/
+  public var StaticMeshImportVersion : unreal.Int32;
   
   /**
     Index of the section to preview. If set to INDEX_NONE, all section will be rendered. Used for isolating in Static Mesh Tool *

@@ -15,8 +15,6 @@ package unreal;
 
 
 /**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
   -> will be exported to EngineDecalClasses.h
 **/
 @:glueCppIncludes("Components/SceneCaptureComponent.h")
@@ -33,8 +31,43 @@ package unreal;
   public var MaxViewDistanceOverride : unreal.Float32;
   
   /**
+    Whether to update the capture's contents on movement.  Disable if you are going to capture manually from blueprint.
+  **/
+  public var bCaptureOnMovement : Bool;
+  
+  /**
     Whether to update the capture's contents every frame.  If disabled, the component will render once on load and then only when moved.
   **/
   public var bCaptureEveryFrame : Bool;
+  
+  /**
+    The only actors to be rendered by this scene capture, if present.
+  **/
+  public var ShowOnlyActors : unreal.TArray<unreal.AActor>;
+  
+  /**
+    The actors to hide in the scene capture.
+  **/
+  public var HiddenActors : unreal.TArray<unreal.AActor>;
+  
+  /**
+    Adds the component to our list of hidden components.
+  **/
+  @:final public function HideComponent(InComponent : unreal.UPrimitiveComponent) : Void;
+  
+  /**
+    Adds all primitive components in the actor to our list of hidden components.
+  **/
+  @:final public function HideActorComponents(InActor : unreal.AActor) : Void;
+  
+  /**
+    Adds the component to our list of show-only components.
+  **/
+  @:final public function ShowOnlyComponent(InComponent : unreal.UPrimitiveComponent) : Void;
+  
+  /**
+    Adds all primitive components in the actor to our list of show-only components.
+  **/
+  @:final public function ShowOnlyActorComponents(InActor : unreal.AActor) : Void;
   
 }

@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Object.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uextern extern class UObject {
   
 }

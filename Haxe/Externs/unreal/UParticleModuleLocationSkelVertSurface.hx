@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationSkelVertSurface.h")
-@:noClass @:uextern extern class UParticleModuleLocationSkelVertSurface extends unreal.UParticleModuleLocationBase {
+@:uextern extern class UParticleModuleLocationSkelVertSurface extends unreal.UParticleModuleLocationBase {
   
   /**
     If true, particles inherit the associated vertex color on spawn. This feature is not supported for GPU particles.

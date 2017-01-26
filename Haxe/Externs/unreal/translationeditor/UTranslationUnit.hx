@@ -54,6 +54,11 @@ package unreal.translationeditor;
   public var Source : unreal.FString;
   
   /**
+    The localization key for this translation
+  **/
+  public var Key : unreal.FString;
+  
+  /**
     The localization namespace for this translation
   **/
   public var Namespace : unreal.FString;

@@ -23,6 +23,16 @@ package unreal;
 @:uextern extern class UParticleEmitter extends unreal.UObject {
   
   /**
+    The significance level required of this emitter's owner for this emitter to be active.
+  **/
+  public var SignificanceLevel : unreal.EParticleSignificanceLevel;
+  
+  /**
+    When true, emitters deemed insignificant will have their tick and render disabled Instantly. When false they will simple stop spawning new particles.
+  **/
+  public var bDisableWhenInsignficant : Bool;
+  
+  /**
     When true, if the current LOD is disabled the emitter will be kept alive. Otherwise, the emitter will be considered complete if the current LOD is disabled.
   **/
   public var bDisabledLODsKeepEmitterAlive : Bool;

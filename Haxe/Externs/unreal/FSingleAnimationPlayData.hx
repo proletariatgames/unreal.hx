@@ -43,13 +43,6 @@ package unreal;
   public var bSavedLooping : Bool;
   
   /**
-    @fixme : until we properly support it I'm commenting out editable property part
-    The default sequence to play on this skeletal mesh
-    EditAnywhere, BlueprintReadWrite, Category=Animation)
-  **/
-  public var VertexAnimToPlay : unreal.UVertexAnimation;
-  
-  /**
     @todo in the future, we should make this one UObject
     and have detail customization to display different things
     The default sequence to play on this skeletal mesh

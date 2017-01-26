@@ -20,5 +20,6 @@ package unreal.aimodule;
   None;
   Navigation;
   Geometry;
+  NavigationOverLedges;
   
 }

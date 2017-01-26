@@ -24,6 +24,12 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
+    Array of active pose watches (pose watch allows us to see the bone pose at a
+    particular point of the anim graph)
+  **/
+  public var PoseWatches : unreal.TArray<unreal.UPoseWatch>;
+  
+  /**
     Array of overrides to asset containing nodes in the parent that have been overridden
   **/
   public var ParentAssetOverrides : unreal.TArray<unreal.FAnimParentNodeAssetOverride>;

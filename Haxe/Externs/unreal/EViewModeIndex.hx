@@ -76,7 +76,6 @@ package unreal;
   VMI_StationaryLightOverlap;
   VMI_CollisionPawn;
   VMI_CollisionVisibility;
-  VMI_VertexDensities;
   
   /**
     Colored according to the current LOD index.
@@ -86,7 +85,37 @@ package unreal;
   /**
     Colored according to the quad coverage.
   **/
-  VMI_QuadComplexity;
+  VMI_QuadOverdraw;
+  
+  /**
+    Visualize the accuracy of the primitive distance computed for texture streaming.
+  **/
+  VMI_PrimitiveDistanceAccuracy;
+  
+  /**
+    Visualize the accuracy of the mesh UV densities computed for texture streaming.
+  **/
+  VMI_MeshUVDensityAccuracy;
+  
+  /**
+    Colored according to shader complexity, including quad overdraw.
+  **/
+  VMI_ShaderComplexityWithQuadOverdraw;
+  
+  /**
+    Colored according to the current HLOD index.
+  **/
+  VMI_HLODColoration;
+  
+  /**
+    Group item for LOD and HLOD coloration
+  **/
+  VMI_GroupLODColoration;
+  
+  /**
+    Visualize the accuracy of the material texture scales used for texture streaming.
+  **/
+  VMI_MaterialTextureScaleAccuracy;
   VMI_Max;
   
 }

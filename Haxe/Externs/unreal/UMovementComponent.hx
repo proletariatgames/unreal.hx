@@ -60,7 +60,7 @@ package unreal;
   /**
     The normal or axis of the plane that constrains movement, if bConstrainToPlane is enabled.
     If for example you wanted to constrain movement to the X-Z plane (so that Y cannot change), the normal would be set to X=0 Y=1 Z=0.
-    This is recalculated whenever PlaneConstraintAxisSetting changes.
+    This is recalculated whenever PlaneConstraintAxisSetting changes. It is normalized once the component is registered with the game world.
     @see bConstrainToPlane, SetPlaneConstraintNormal(), SetPlaneConstraintFromVectors()
   **/
   private var PlaneConstraintNormal : unreal.FVector;

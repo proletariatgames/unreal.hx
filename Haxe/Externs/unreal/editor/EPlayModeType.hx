@@ -34,6 +34,11 @@ package unreal.editor;
   PlayMode_InMobilePreview;
   
   /**
+    Runs a vulkan preview in a new process.
+  **/
+  PlayMode_InVulkanPreview;
+  
+  /**
     Runs in a new process.
   **/
   PlayMode_InNewProcess;

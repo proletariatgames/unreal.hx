@@ -48,16 +48,6 @@ package unreal;
   public var DebugDisplay : unreal.TArray<unreal.FName>;
   
   /**
-    Time since last HUD render.
-  **/
-  public var RenderDelta : unreal.Float32;
-  
-  /**
-    Used to calculate delta time between HUD rendering.
-  **/
-  public var LastHUDRenderTime : unreal.Float32;
-  
-  /**
     Holds a list of Actors that need PostRender() calls.
   **/
   public var PostRenderedActors : unreal.TArray<unreal.AActor>;
@@ -96,13 +86,6 @@ package unreal;
     PlayerController which owns this HUD.
   **/
   public var PlayerOwner : unreal.APlayerController;
-  public var RedColor : unreal.FColor;
-  public var GreenColor : unreal.FColor;
-  
-  /**
-    Pre-defined FColors for convenience.
-  **/
-  public var WhiteColor : unreal.FColor;
   
   /**
     hides or shows HUD
@@ -159,6 +142,7 @@ package unreal;
   
   /**
     Hook to allow blueprints to do custom HUD drawing. @see bSuppressNativeHUD to control HUD drawing in base class.
+    Note:  the canvas resource used for drawing is only valid during this event, it will not be valid if drawing functions are called later (e.g. after a Delay node).
   **/
   public function ReceiveDrawHUD(SizeX : unreal.Int32, SizeY : unreal.Int32) : Void;
   
@@ -211,8 +195,9 @@ package unreal;
     @param EndScreenX            Screen-space X coordinate of end of the line.
     @param EndScreenY            Screen-space Y coordinate of end of the line.
     @param LineColor                     Color to draw line
+    @param LineThickness         Thickness of the line to draw
   **/
-  @:final public function DrawLine(StartScreenX : unreal.Float32, StartScreenY : unreal.Float32, EndScreenX : unreal.Float32, EndScreenY : unreal.Float32, LineColor : unreal.FLinearColor) : Void;
+  @:final public function DrawLine(StartScreenX : unreal.Float32, StartScreenY : unreal.Float32, EndScreenX : unreal.Float32, EndScreenY : unreal.Float32, LineColor : unreal.FLinearColor, LineThickness : unreal.Float32) : Void;
   
   /**
     Draws a colored untextured quad on the HUD.

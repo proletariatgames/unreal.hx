@@ -22,6 +22,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:noCopy @:noEquals @:uextern extern class FWidgetAnimationBinding {
+  public var bIsRootWidget : Bool;
   public var AnimationGuid : unreal.FGuid;
   public var SlotWidgetName : unreal.FName;
   public var WidgetName : unreal.FName;

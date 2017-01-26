@@ -69,6 +69,11 @@ package unreal;
   public var WeldingThreshold : unreal.Float32;
   
   /**
+    The amount of error in pixels allowed for this LOD.
+  **/
+  public var PixelError : unreal.Float32;
+  
+  /**
     The maximum distance in object space by which the reduced mesh may deviate from the original mesh.
   **/
   public var MaxDeviation : unreal.Float32;

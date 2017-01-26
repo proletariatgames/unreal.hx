@@ -38,6 +38,16 @@ package unreal;
   public var RefractionDepthBias : unreal.Float32;
   
   /**
+    Controls how the Refraction input is interpreted and how the refraction offset into scene color is computed for this material.
+  **/
+  public var RefractionMode : unreal.ERefractionMode;
+  
+  /**
+    If this is enabled, the blendable will output alpha
+  **/
+  public var BlendableOutputAlpha : Bool;
+  
+  /**
     If multiple nodes with the same  type are inserted at the same point, this defined order and if they get combined, only used if domain is PostProcess
   **/
   public var BlendablePriority : unreal.Int32;
@@ -140,7 +150,18 @@ package unreal;
   public var D3D11TessellationMode : unreal.EMaterialTessellationMode;
   
   /**
-    Enables high quality reflections in the forward renderer. Enabling this setting reduces the number of samplers available to the material as two more samplers will be used for reflection cubemaps.
+    Reduce roughness based on screen space normal changes.
+  **/
+  public var bNormalCurvatureToRoughness : Bool;
+  
+  /**
+    Enables planar reflection when using the forward renderer or mobile. Enabling this setting reduces the number of samplers available to the material as one more sampler will be used for the planar reflection.
+  **/
+  public var bUsePlanarForwardReflections : Bool;
+  
+  /**
+    * Forward renderer: enables multiple parallax-corrected reflection captures that blend together.
+    * Mobile renderer: blend between nearest 3 reflection captures, but reduces the number of samplers available to the material as two more samplers will be used for reflection cubemaps.
   **/
   public var bUseHQForwardReflections : Bool;
   
@@ -148,6 +169,13 @@ package unreal;
     Use lightmap directionality and per pixel normals. If disabled, lighting from lightmaps will be flat but cheaper.
   **/
   public var bUseLightmapDirectionality : Bool;
+  
+  /**
+    Forces this material to use full (highp) precision in the pixel shader.
+    This is slower than the default (mediump) but can be used to work around precision-related rendering errors.
+    This setting has no effect on older mobile devices that do not support high precision.
+  **/
+  public var bUseFullPrecision : Bool;
   
   /**
     Forces the material to be completely rough. Saves a number of instructions and one sampler.
@@ -197,12 +225,6 @@ package unreal;
   public var bUsedWithMorphTargets : Bool;
   
   /**
-    Indicates that the material and its instances can be use with fluid surfaces
-    This will result in the shaders required to support fluid surfaces being compiled which will increase shader compile time and memory usage.
-  **/
-  public var bUsedWithFluidSurfaces : Bool;
-  
-  /**
     Indicates that the material and its instances can be use with static lighting
     This will result in the shaders required to support static lighting being compiled which will increase shader compile time and memory usage.
   **/
@@ -225,12 +247,6 @@ package unreal;
     This will result in the shaders required to support particle sprites being compiled which will increase shader compile time and memory usage.
   **/
   public var bUsedWithParticleSprites : Bool;
-  
-  /**
-    Indicates that the material and its instances can be use with landscapes
-    This will result in the shaders required to support landscapes being compiled which will increase shader compile time and memory usage.
-  **/
-  public var bUsedWithLandscape : Bool;
   
   /**
     Indicates that the material and its instances can be use with editor compositing
@@ -318,6 +334,11 @@ package unreal;
   public var TranslucentShadowDensityScale : unreal.Float32;
   
   /**
+    Allows a translucenct material to be used with custom depth writing by compiling additional shaders.
+  **/
+  public var AllowTranslucentCustomDepthWrites : Bool;
+  
+  /**
     Useful for artificially increasing the influence of the normal on the lighting result for translucency.
     A value larger than 1 increases the influence of the normal, a value smaller than 1 makes the lighting more ambient.
   **/
@@ -334,12 +355,17 @@ package unreal;
   public var NumCustomizedUVs : unreal.Int32;
   
   /**
+    Whether the material should allow outputting negative emissive color values.  Only allowed on unlit materials.
+  **/
+  public var bAllowNegativeEmissiveColor : Bool;
+  
+  /**
     Dither opacity mask. When combined with Temporal AA this can be used as a form of limited translucency which supports all lighting features.
   **/
   public var DitherOpacityMask : Bool;
   
   /**
-    Whether the material should support a dithered LOD transition when used with the foliage system.
+    Whether the material should support a dithered LOD transition.
   **/
   public var DitheredLODTransition : Bool;
   
@@ -358,6 +384,11 @@ package unreal;
     Only use for small moving features because it will cause aliasing of the background.
   **/
   public var bEnableResponsiveAA : Bool;
+  
+  /**
+    Indicates that the translucent material should not be affected by bloom or DOF. (Note: Depth testing is not available)
+  **/
+  public var bEnableMobileSeparateTranslucency : Bool;
   
   /**
     Indicates that the material should be rendered in the SeparateTranslucency Pass (not affected by DOF, requires bAllowSeparateTranslucency to be set in .ini).

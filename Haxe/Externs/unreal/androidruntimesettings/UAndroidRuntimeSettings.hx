@@ -17,7 +17,6 @@ package unreal.androidruntimesettings;
 /**
   Implements the settings for the Android runtime platform.
 **/
-@:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uextern extern class UAndroidRuntimeSettings extends unreal.UObject {
   
@@ -127,12 +126,22 @@ package unreal.androidruntimesettings;
   public var bEnableGooglePlaySupport : Bool;
   
   /**
-    Enable ES31 support? [CURRENTLY FOR FULL SOURCE GAMES ONLY]
+    Enable Vulkan rendering support?
+  **/
+  public var bSupportsVulkan : Bool;
+  
+  /**
+    Enable ES Deferred shading support? [CURRENTLY FOR FULL SOURCE GAMES ONLY. SUPPORTED BY NVIDIA K-1 AND X-1 ONLY.]
+  **/
+  public var bBuildForESDeferred : Bool;
+  
+  /**
+    Enable ES3.1 support?
   **/
   public var bBuildForES31 : Bool;
   
   /**
-    Enable ES2 support? [CURRENTLY FOR FULL SOURCE GAMES ONLY]
+    Enable ES2 support?
   **/
   public var bBuildForES2 : Bool;
   
@@ -145,6 +154,11 @@ package unreal.androidruntimesettings;
     Enable x86 support? [CURRENTLY FOR FULL SOURCE GAMES ONLY]
   **/
   public var bBuildForX86 : Bool;
+  
+  /**
+    Enable Arm64 support?
+  **/
+  public var bBuildForArm64 : Bool;
   
   /**
     Enable ArmV7 support? (this will be used if all type are unchecked)
@@ -170,6 +184,21 @@ package unreal.androidruntimesettings;
     This is the file that keytool outputs, specified with the -keystore parameter (file should be in <Project>/Build/Android)
   **/
   public var KeyStore : unreal.FString;
+  
+  /**
+    Configure the Android to run in sustained performance with lower max speeds, but no FPS fluctuations due to temperature
+  **/
+  public var bGoogleVRSustainedPerformance : Bool;
+  
+  /**
+    Configure AndroidManifest.xml for Cardboard, Cardboard Advanced, or Daydream deployment. If running in Daydream-only mode, sustained performance and async reprojection are forced.
+  **/
+  public var GoogleVRMode : unreal.androidruntimesettings.EGoogleVRMode;
+  
+  /**
+    Configure AndroidManifest.xml and Resrouces for Daydream
+  **/
+  public var bPackageForDaydream : Bool;
   
   /**
     Removes Oculus Signature Files (osig) from APK if GearVR APK signed for distribution and enables entitlement checker
@@ -220,6 +249,11 @@ package unreal.androidruntimesettings;
   public var bFullScreen : Bool;
   
   /**
+    Level of verbosity to use during packaging with Ant
+  **/
+  public var AntVerbosity : unreal.androidruntimesettings.EAndroidAntVerbosity;
+  
+  /**
     The permitted orientation of the application on the device
   **/
   public var Orientation : unreal.androidruntimesettings.EAndroidScreenOrientation;
@@ -230,9 +264,19 @@ package unreal.androidruntimesettings;
   public var bDisableVerifyOBBOnStartUp : Bool;
   
   /**
+    If checked, both batch (.bat) files and shell script (.command) files will be generated, otherwise only done for the current system (default)
+  **/
+  public var bCreateAllPlatformsInstall : Bool;
+  
+  /**
     Should the data be placed into the .apk file instead of a separate .obb file. Amazon requires this to be enabled, but Google Play Store will not allow .apk files larger than 50MB, so only small games will work with this enabled.
   **/
   public var bPackageDataInsideApk : Bool;
+  
+  /**
+    Preferred install location for the application
+  **/
+  public var InstallLocation : unreal.androidruntimesettings.EAndroidInstallLocation;
   
   /**
     What OS version the app is expected to run on (do not set this lower than 9, set to 19 for GearVR)

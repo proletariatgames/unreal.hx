@@ -39,9 +39,9 @@ package unreal.aimodule;
   Aborted;
   
   /**
-    Aborted and replaced with new request
+    DEPRECATED, use Aborted result instead
   **/
-  Skipped;
+  Skipped_DEPRECATED;
   
   /**
     Request was invalid

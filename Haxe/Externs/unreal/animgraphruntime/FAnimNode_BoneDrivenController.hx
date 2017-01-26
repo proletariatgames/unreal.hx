@@ -77,6 +77,16 @@ package unreal.animgraphruntime;
   public var TargetBone : unreal.FBoneReference;
   
   /**
+    Name of Morph Target to drive using the source attribute
+  **/
+  public var ParameterName : unreal.FName;
+  
+  /**
+    Type of destination to drive, currently either bone or morph target
+  **/
+  public var DestinationMode : unreal.animgraphruntime.EDrivenDestinationMode;
+  
+  /**
     Maximum value to apply to the destination (remapped from the input range)
   **/
   public var RemappedMax : unreal.Float32;

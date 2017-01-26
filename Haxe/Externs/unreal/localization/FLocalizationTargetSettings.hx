@@ -34,7 +34,17 @@ package unreal.localization;
   public var NativeCultureIndex : unreal.Int32;
   
   /**
-    Settings for import/export of translations.
+    Settings for importing dialogue from WAV files.
+  **/
+  public var ImportDialogueSettings : unreal.localization.FLocalizationImportDialogueSettings;
+  
+  /**
+    Settings for compiling translations.
+  **/
+  public var CompileSettings : unreal.localization.FLocalizationCompilationSettings;
+  
+  /**
+    Settings for exporting translations.
   **/
   public var ExportSettings : unreal.localization.FLocalizationExportingSettings;
   

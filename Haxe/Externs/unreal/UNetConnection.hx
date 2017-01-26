@@ -28,6 +28,11 @@ package unreal;
   public var LastReceiveTime : unreal.Float64;
   
   /**
+    Net id of remote player on this connection. Only valid on client connections (server side).
+  **/
+  public var PlayerId : unreal.FUniqueNetIdRepl;
+  
+  /**
     Maximum packet size.
   **/
   public var InternalAck : Bool;

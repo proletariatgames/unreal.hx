@@ -15,17 +15,16 @@ package unreal.geometrycache;
 
 
 /**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
   GeometryCache actor, serves as a place-able actor for GeometryCache objects
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheActor.h")
 @:uextern extern class AGeometryCacheActor extends unreal.AActor {
+  public var GeometryCacheComponent : unreal.geometrycache.UGeometryCacheComponent;
   
   /**
-    End AActor overrides.
+    Returns GeometryCacheComponent subobject *
   **/
-  public var GeometryCacheComponent : unreal.geometrycache.UGeometryCacheComponent;
+  @:thisConst @:final public function GetGeometryCacheComponent() : unreal.geometrycache.UGeometryCacheComponent;
   
 }

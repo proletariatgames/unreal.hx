@@ -21,6 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
 @:noCopy @:noEquals @:uextern extern class FKeyBind {
+  public var bDisabled : Bool;
   
   /**
     Whether the command key must not be held when the key event occurs

@@ -24,6 +24,13 @@ package unreal;
   public var DistanceFieldReplacementMesh : unreal.UStaticMesh;
   
   /**
+    Adding a constant distance effectively shrinks the distance field representation.
+    This is useful for preventing self shadowing aritfacts when doing some minor ambient animation.
+    Thin walls will be affected more severely than large hollow objects, because thin walls don't have a large negative region.
+  **/
+  public var DistanceFieldBias : unreal.Float32;
+  
+  /**
     Whether to generate the distance field treating every triangle hit as a front face.
     When enabled prevents the distance field from being discarded due to the mesh being open, but also lowers Distance Field AO quality.
   **/
@@ -49,6 +56,11 @@ package unreal;
     If true, UVs will be stored at full floating point precision.
   **/
   public var bUseFullPrecisionUVs : Bool;
+  
+  /**
+    If true, Tangents will be stored at 16 bit vs 8 bit precision.
+  **/
+  public var bUseHighPrecisionTangentBasis : Bool;
   
   /**
     Required to optimize mesh in mirrored transform. Double index buffer size.

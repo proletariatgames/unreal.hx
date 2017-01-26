@@ -97,16 +97,15 @@ package unreal;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    If true, will keep geometry data CPU-accessible in cooked builds, rather than uploading to GPU memory and releasing it from CPU memory.
+    This is required if you wish to access StaticMesh geometry data on the CPU at runtime in cooked builds (e.g. to convert StaticMesh to ProceduralMeshComponent)
+  **/
+  public var bAllowCPUAccess : Bool;
+  
+  /**
     Bias multiplier for Light Propagation Volume lighting
   **/
   public var LpvBiasMultiplier : unreal.Float32;
-  
-  /**
-    Allows artists to adjust the distance where textures using UV 0 are streamed in/out.
-    1.0 is the default, whereas a higher value increases the streamed-in resolution.
-    Value can be < 0 (from legcay content, or code changes)
-  **/
-  public var StreamingDistanceMultiplier : unreal.Float32;
   
   /**
     If true, mesh will have NavCollision property with additional data for navmesh generation and usage.
@@ -121,9 +120,11 @@ package unreal;
   @:deprecated public var bStripComplexCollisionForConsole_DEPRECATED : Bool;
   
   /**
-    If true, use a less-conservative method of mip LOD texture factor computation.  Requires mesh to be resaved to take effect as algorithm is applied on save
+    Specifies which mesh LOD to use for complex (per-poly) collision.
+    Sometimes it can be desirable to use a lower poly representation for collision to reduce memory usage, improve performance and behaviour.
+    Collision representation does not change based on distance to camera.
   **/
-  public var bUseMaximumStreamingTexelRatio : Bool;
+  public var LODForCollision : unreal.Int32;
   
   /**
     Physics data.
@@ -139,17 +140,25 @@ package unreal;
     The light map resolution
   **/
   public var LightMapResolution : unreal.Int32;
+  public var LightmapUVDensity : unreal.Float32;
+  public var StaticMaterials : unreal.TArray<unreal.FStaticMaterial>;
   
   /**
     Materials used by this static mesh. Individual sections index in to this array.
   **/
-  public var Materials : unreal.TArray<unreal.UMaterialInterface>;
+  @:deprecated public var Materials_DEPRECATED : unreal.TArray<unreal.UMaterialInterface>;
   
   /**
     Minimum LOD to use for rendering.  This is the default setting for the mesh and can be overridden by component settings.
   **/
   public var MinLOD : unreal.Int32;
   #if WITH_EDITORONLY_DATA
+  public var MaterialRemapIndexPerImportVersion : unreal.TArray<unreal.FMaterialRemapIndex>;
+  
+  /**
+    The last import version
+  **/
+  public var ImportVersion : unreal.Int32;
   
   /**
     If true, the distances at which LODs swap are computed automatically.
@@ -160,11 +169,6 @@ package unreal;
     The LOD group to which this mesh belongs.
   **/
   public var LODGroup : unreal.FName;
-  
-  /**
-    The pixel error allowed when computing auto LOD distances.
-  **/
-  public var AutoLODPixelError : unreal.Float32;
   
   /**
     Imported raw mesh bulk data.

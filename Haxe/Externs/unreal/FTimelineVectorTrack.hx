@@ -33,6 +33,11 @@ package unreal;
   public var VectorPropertyName : unreal.FName;
   
   /**
+    Name of track, usually set in Timeline Editor. Used by SetInterpVectorCurve function.
+  **/
+  public var TrackName : unreal.FName;
+  
+  /**
     Vector curve to be evaluated
   **/
   public var VectorCurve : unreal.UCurveVector;

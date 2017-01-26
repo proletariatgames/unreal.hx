@@ -25,6 +25,13 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FCompositeSection extends unreal.FAnimLinkableElement {
   
   /**
+    Meta data that can be saved with the asset
+    
+    You can query by GetMetaData function
+  **/
+  public var MetaData : unreal.TArray<unreal.UAnimMetaData>;
+  
+  /**
     Should this animation loop.
   **/
   public var NextSectionName : unreal.FName;

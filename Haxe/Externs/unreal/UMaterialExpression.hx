@@ -98,6 +98,11 @@ package unreal;
     GUID to uniquely identify this node, to help the tutorials out
   **/
   public var MaterialExpressionGuid : unreal.FGuid;
+  
+  /**
+    Expression's Graph representation
+  **/
+  public var GraphNode : unreal.UEdGraphNode;
   public var MaterialExpressionEditorY : unreal.Int32;
   public var MaterialExpressionEditorX : unreal.Int32;
   #end // WITH_EDITORONLY_DATA

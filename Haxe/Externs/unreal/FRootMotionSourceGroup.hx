@@ -38,7 +38,7 @@ package unreal;
     the velocity that we added heading into the wall last tick would make you go backwards. With
     this method we override that resulting Velocity due to obstructions
   **/
-  public var LastPreAdditiveVelocity : unreal.FVector;
+  public var LastPreAdditiveVelocity : unreal.FVector_NetQuantize10;
   
   /**
     Whether this group has override root motion sources

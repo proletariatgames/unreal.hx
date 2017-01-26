@@ -37,6 +37,11 @@ package unreal.onlinesubsystemutils;
   private var ReservedHostTeamNum : unreal.Int32;
   
   /**
+    Team assignment method
+  **/
+  private var TeamAssignmentMethod : unreal.FName;
+  
+  /**
     Number of players on each team for balancing
   **/
   private var NumPlayersPerTeam : unreal.Int32;

@@ -88,9 +88,9 @@ package unreal.functionaltesting;
   @:final public function StopCPUProfiling() : Void;
   
   /**
-    Communicates with an external GPU profiler to trigger a GPU trace.
+    Will trigger a GPU trace next time the current test falls below GPU budget.
   **/
-  @:final public function TriggerGPUTrace() : Void;
+  @:final public function TriggerGPUTraceIfRecordFallsBelowBudget() : Void;
   
   /**
     Begins recording stats to a file.

@@ -15,13 +15,13 @@ package unreal.editor;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
   Import data and options used when importing a static mesh from fbx
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSkeletalMeshImportData.h")
-@:noClass @:uextern extern class UFbxSkeletalMeshImportData extends unreal.editor.UFbxMeshImportData {
+@:uextern extern class UFbxSkeletalMeshImportData extends unreal.editor.UFbxMeshImportData {
   
   /**
     If checked, do not filter same vertices. Keep all vertices even if they have exact same properties

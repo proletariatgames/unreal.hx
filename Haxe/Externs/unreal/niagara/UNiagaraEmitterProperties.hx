@@ -30,7 +30,7 @@ package unreal.niagara;
   /**
     Can get rid of the enum and just have users select a class for this directly in the UI?
   **/
-  public var RendererProperties : unreal.UNiagaraEffectRendererProperties;
+  public var RendererProperties : unreal.niagara.UNiagaraEffectRendererProperties;
   public var EndTime : unreal.Float32;
   public var StartTime : unreal.Float32;
   public var RenderModuleType : unreal.niagara.EEmitterRenderModuleType;

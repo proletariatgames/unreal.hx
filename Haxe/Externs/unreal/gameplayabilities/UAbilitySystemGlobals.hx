@@ -20,6 +20,65 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemGlobals.h")
 @:uextern extern class UAbilitySystemGlobals extends unreal.UObject {
+  private var GlobalGameplayCueManager : unreal.gameplayabilities.UGameplayCueManager;
+  private var GlobalAttributeMetaDataTable : unreal.UDataTable;
+  
+  /**
+    Curve tables containing default values for attribute sets, keyed off of Name/Levels
+  **/
+  private var GlobalAttributeDefaultsTables : unreal.TArray<unreal.UCurveTable>;
+  private var GlobalCurveTable : unreal.UCurveTable;
+  private var GameplayTagResponseTable : unreal.gameplayabilities.UGameplayTagReponseTable;
+  
+  /**
+    The class to instantiate as the GameplayTagResponseTable.
+  **/
+  private var GameplayTagResponseTableName : unreal.FStringAssetReference;
+  
+  /**
+    Look in these paths for GameplayCueNotifies
+  **/
+  private var GameplayCueNotifyPaths : unreal.TArray<unreal.FString>;
+  
+  /**
+    Object reference to gameplay cue manager (E.g., reference to a specific blueprint of your GameplayCueManager class. This is not necessary unless you want to have data or blueprints in your gameplay cue manager.
+  **/
+  private var GlobalGameplayCueManagerName : unreal.FStringAssetReference;
+  
+  /**
+    Class reference to gameplay cue manager. Use this if you want to just instantiate a class for your gameplay cue manager without having to create an asset.
+  **/
+  private var GlobalGameplayCueManagerClass : unreal.FStringAssetReference;
+  
+  /**
+    Array of curve table names to use for default values for attribute sets, keyed off of Name/Levels
+  **/
+  private var GlobalAttributeSetDefaultsTableNames : unreal.TArray<unreal.FStringAssetReference>;
+  
+  /**
+    Holds default values for attribute sets, keyed off of Name/Levels. NOTE: Preserved for backwards compatibility, should use the array version below now
+  **/
+  private var GlobalAttributeSetDefaultsTableName : unreal.FStringAssetReference;
+  
+  /**
+    Holds information about the valid attributes' min and max values and stacking rules
+  **/
+  private var GlobalAttributeMetaDataTableName : unreal.FStringAssetReference;
+  
+  /**
+    Name of global curve table to use as the default for scalable floats, etc.
+  **/
+  private var GlobalCurveTableName : unreal.FStringAssetReference;
+  
+  /**
+    The default mod evaluation channel for the game
+  **/
+  private var DefaultGameplayModEvaluationChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
+  
+  /**
+    How many bits to use for "number of tags" in FMinimapReplicationTagCountMap::NetSerialize.
+  **/
+  public var MinimalReplicationTagCountBits : unreal.Int32;
   
   /**
     Failed to activate due to invalid networking settings, this is designer error

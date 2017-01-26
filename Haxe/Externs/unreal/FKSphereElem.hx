@@ -21,7 +21,15 @@ package unreal;
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
 @:noCopy @:noEquals @:uextern extern class FKSphereElem extends unreal.FKShapeElem {
+  
+  /**
+    Radius of the sphere
+  **/
   public var Radius : unreal.Float32;
+  
+  /**
+    Position of the sphere's origin
+  **/
   public var Center : unreal.FVector;
   @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
   

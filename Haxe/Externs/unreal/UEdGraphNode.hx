@@ -32,7 +32,7 @@ package unreal;
   public var AdvancedPinDisplay : unreal.ENodeAdvancedPins;
   
   /**
-    GUID to uniquely identify this node, to facilitate diff'ing versions of this graph
+    GUID to uniquely identify this node, to facilitate diffing versions of this graph
   **/
   public var NodeGuid : unreal.FGuid;
   
@@ -103,6 +103,6 @@ package unreal;
   /**
     List of connector pins
   **/
-  public var Pins : unreal.TArray<unreal.UEdGraphPin>;
+  public var DeprecatedPins : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
   
 }

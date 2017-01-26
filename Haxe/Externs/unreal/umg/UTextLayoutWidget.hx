@@ -33,6 +33,11 @@ package unreal.umg;
   private var Margin : unreal.slatecore.FMargin;
   
   /**
+    The wrapping policy to use.
+  **/
+  private var WrappingPolicy : unreal.slate.ETextWrappingPolicy;
+  
+  /**
     Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
   **/
   private var WrapTextAt : unreal.Float32;

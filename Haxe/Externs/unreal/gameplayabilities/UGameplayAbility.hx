@@ -236,7 +236,7 @@ package unreal.gameplayabilities;
   @:final private function K2_ApplyGameplayEffectSpecToTarget(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>, TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
   
   /**
-    Removes GAmeplayEffects from owner which match the given asset level tags.
+    Removes GameplayEffects from owner which match the given asset level tags.
   **/
   @:final private function BP_RemoveGameplayEffectFromOwnerWithAssetTags(WithAssetTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32) : Void;
   @:final private function BP_RemoveGameplayEffectFromOwnerWithGrantedTags(WithGrantedTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32) : Void;
@@ -299,7 +299,13 @@ package unreal.gameplayabilities;
     Sets rather ability block flags are enabled or disabled. Only valid on instanced abilities
   **/
   public function SetShouldBlockOtherAbilities(bShouldBlockAbilities : Bool) : Void;
-  @:thisConst @:final private function GetCooldownTimeRemaining() : unreal.Float32;
+  @:thisConst @:final public function GetCooldownTimeRemaining() : unreal.Float32;
+  
+  /**
+    Invalidates the current prediction key. This should be used in cases where there is a valid prediction window, but the server is doing logic that only he can do, and afterwards performs an action that the client could predict (had the client been able to run the server-only code prior).
+    This returns instantly and has no other side effects other than clearing the current prediction key.
+  **/
+  @:thisConst @:final public function InvalidateClientPredictionKey() : Void;
   
   /**
     Animation

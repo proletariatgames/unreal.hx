@@ -25,6 +25,11 @@ package unreal;
   /**
     Per-particle drag scale. Evaluted using particle relative time.
   **/
-  public var DragScale : unreal.UDistributionFloat;
+  public var DragScaleRaw : unreal.FRawDistributionFloat;
+  
+  /**
+    Per-particle drag scale. Evaluted using particle relative time.
+  **/
+  @:deprecated public var DragScale_DEPRECATED : unreal.UDistributionFloat;
   
 }

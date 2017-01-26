@@ -20,9 +20,20 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxTextureImportData.h")
 @:uextern extern class UFbxTextureImportData extends unreal.editor.UFbxAssetImportData {
+  public var BaseSpecularTextureName : unreal.FString;
+  public var BaseEmmisiveTextureName : unreal.FString;
+  public var BaseEmissiveColorName : unreal.FString;
+  public var BaseNormalTextureName : unreal.FString;
+  public var BaseDiffuseTextureName : unreal.FString;
+  public var BaseColorName : unreal.FString;
   
   /**
-    If either importing of textures (or materials) is enabled, this option will cause normal map values to be inverted
+    Base material to instance from when importing materials.
+  **/
+  public var BaseMaterialName : unreal.FStringAssetReference;
+  
+  /**
+    If importing textures is enabled, this option will cause normal map Y (Green) values to be inverted
   **/
   public var bInvertNormalMaps : Bool;
   

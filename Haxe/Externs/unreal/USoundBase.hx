@@ -17,6 +17,11 @@ package unreal;
 @:uextern extern class USoundBase extends unreal.UObject {
   
   /**
+    The source effect chain to use for this sound.
+  **/
+  public var SourceEffectChain : unreal.TArray<unreal.USoundEffectSourcePreset>;
+  
+  /**
     Sound priority (higher value is higher priority) used for concurrency resolution. This priority value is weighted against the final volume of the sound.
   **/
   public var Priority : unreal.Float32;
@@ -46,13 +51,26 @@ package unreal;
     If bOverridePlayback is false, the sound concurrency settings to use for this sound.
   **/
   public var SoundConcurrencySettings : unreal.USoundConcurrency;
+  
+  /**
+    Whether or not to ignore focus on this sound.
+  **/
   public var bIgnoreFocus : Bool;
+  
+  /**
+    Whether or not to override the sound concurrency object with local concurrency settings.
+  **/
   public var bOverrideConcurrency : Bool;
   
   /**
     When "stat sounds -debug" has been specified, draw this sound's attenuation shape when the sound is audible. For debugging purpose only.
   **/
   public var bDebug : Bool;
+  
+  /**
+    Sound submix this sound belongs to
+  **/
+  public var SoundSubmixObject : unreal.USoundSubmix;
   
   /**
     Sound class this sound belongs to

@@ -31,7 +31,7 @@ package unreal.umg;
   @:deprecated public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
-    The radius of the circle
+    The radius of the circle. If the throbber is a child of Canvas Panel, the 'Size to Content' option must be enabled in order to set Radius.
   **/
   public var Radius : unreal.Float32;
   

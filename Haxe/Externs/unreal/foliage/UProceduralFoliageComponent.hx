@@ -22,6 +22,31 @@ package unreal.foliage;
     Whether to visualize the tiles used for the foliage spawner simulation
   **/
   public var bShowDebugTiles : Bool;
+  
+  /**
+    Whether to place foliage on other blocking foliage geometry
+  **/
+  public var bAllowFoliage : Bool;
+  
+  /**
+    Whether to place foliage on translucent geometry
+  **/
+  public var bAllowTranslucent : Bool;
+  
+  /**
+    Whether to place foliage on StaticMesh
+  **/
+  public var bAllowStaticMesh : Bool;
+  
+  /**
+    Whether to place foliage on BSP
+  **/
+  public var bAllowBSP : Bool;
+  
+  /**
+    Whether to place foliage on landscape
+  **/
+  public var bAllowLandscape : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**

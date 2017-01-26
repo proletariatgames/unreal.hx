@@ -15,18 +15,17 @@ package unreal;
 
 
 /**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
   Float curve data for one track
 **/
 @:glueCppIncludes("Animation/AnimSequenceBase.h")
-@:noCopy @:noEquals @:uextern extern class FAnimCurveBase {
+@:uextern extern class FAnimCurveBase {
+  public var Name : unreal.FSmartName;
   
   /**
     Last observed name of the curve. We store this so we can recover from situations that
     mean the skeleton doesn't have a mapped name for our UID (such as a user saving the an
     animation but not the skeleton).
   **/
-  public var LastObservedName : unreal.FName;
+  @:deprecated public var LastObservedName_DEPRECATED : unreal.FName;
   
 }

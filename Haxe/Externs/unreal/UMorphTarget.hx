@@ -19,7 +19,12 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/VertexAnim/MorphTarget.h")
-@:uextern extern class UMorphTarget extends unreal.UVertexAnimBase {
+@:glueCppIncludes("Animation/MorphTarget.h")
+@:uextern extern class UMorphTarget extends unreal.UObject {
+  
+  /**
+    USkeletalMesh that this vertex animation works on.
+  **/
+  public var BaseSkelMesh : unreal.USkeletalMesh;
   
 }

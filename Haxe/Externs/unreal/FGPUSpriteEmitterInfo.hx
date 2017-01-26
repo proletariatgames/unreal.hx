@@ -41,6 +41,21 @@ package unreal;
     Dynamic color scale from the ColorOverLife module.
   **/
   public var DynamicColor : unreal.FRawDistributionVector;
+  
+  /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_FacingCameraPosition
+  **/
+  public var MaxFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_Square
+  **/
+  public var MinFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
+    If true, removes the HMD view roll (e.g. in VR)
+  **/
+  public var bRemoveHMDRoll : Bool;
   public var CollisionMode : unreal.EParticleCollisionMode;
   
   /**

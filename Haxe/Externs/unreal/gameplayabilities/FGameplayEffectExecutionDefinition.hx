@@ -23,7 +23,7 @@ package unreal.gameplayabilities;
 @:uextern extern class FGameplayEffectExecutionDefinition {
   
   /**
-    Other Gameplay Effects that will be applied to the target of this execution if the execution is successful
+    Other Gameplay Effects that will be applied to the target of this execution if the execution is successful. Note if no execution class is selected, these will always apply.
   **/
   public var ConditionalGameplayEffectClasses : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
   

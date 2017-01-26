@@ -18,12 +18,12 @@ package unreal;
 @:uextern extern enum EAngularDriveMode {
   
   /**
-    Follows the shortest arc between a pair of anuglar configurations (Ignored if any angular limits/locks are used).
+    Spherical lerp between the current orientation/velocity and the target orientation/velocity. NOTE: This will NOT work if any angular constraints are set to Locked.
   **/
   SLERP;
   
   /**
-    Path is decomposed into twist and swing. Doesn't follow shortest arc and may have gimbal lock. (Works with angular limits/locks.)
+    Path is decomposed into twist (roll constraint) and swing (cone constraint). Doesn't follow shortest arc and may experience gimbal lock. Does work with locked angular constraints.
   **/
   TwistAndSwing;
   

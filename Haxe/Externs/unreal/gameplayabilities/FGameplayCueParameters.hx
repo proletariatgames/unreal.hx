@@ -14,8 +14,18 @@
 package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("GameplayCueManager.h")
+@:glueCppIncludes("AbilitySystemComponent.h")
 @:uextern extern class FGameplayCueParameters {
+  
+  /**
+    If originating from an ability, this will be the level of that ability
+  **/
+  public var AbilityLevel : unreal.Int32;
+  
+  /**
+    If originating from a GameplayEffect, the level of that GameplayEffect
+  **/
+  public var GameplayEffectLevel : unreal.Int32;
   public var Normal : unreal.FVector_NetQuantizeNormal;
   public var Location : unreal.FVector_NetQuantize10;
   
@@ -37,7 +47,7 @@ package unreal.gameplayabilities;
   /**
     The tag name that matched this specific gameplay cue handler
   **/
-  public var MatchedTagName : unreal.FName;
+  public var MatchedTagName : unreal.gameplaytags.FGameplayTag;
   
   /**
     Effect context, contains information about hit result, etc

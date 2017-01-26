@@ -15,12 +15,32 @@ package unreal.editor;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
   
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/DialogueWaveFactory.h")
-@:noClass @:uextern extern class UDialogueWaveFactory extends unreal.editor.UFactory {
+@:uextern extern class UDialogueWaveFactory extends unreal.editor.UFactory {
+  
+  /**
+    An initial target dialogue voices to place in the newly created dialogue wave
+  **/
+  public var InitialTargetVoices : unreal.TArray<unreal.UDialogueVoice>;
+  
+  /**
+    Whether an initial target dialogue voice should be set
+  **/
+  public var HasSetInitialTargetVoice : Bool;
+  
+  /**
+    An initial speaking dialogue voice to place in the newly created dialogue wave
+  **/
+  public var InitialSpeakerVoice : unreal.UDialogueVoice;
+  
+  /**
+    An initial sound wave to place in the newly created dialogue wave
+  **/
+  public var InitialSoundWave : unreal.USoundWave;
   
 }

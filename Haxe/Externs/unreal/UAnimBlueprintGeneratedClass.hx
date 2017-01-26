@@ -22,6 +22,11 @@ package unreal;
   public var SyncGroupNames : unreal.TArray<unreal.FName>;
   
   /**
+    Indices for each of the saved pose nodes that require updating, in the order they need to get updates.
+  **/
+  public var OrderedSavedPoseIndices : unreal.TArray<unreal.Int32>;
+  
+  /**
     The index of the root node in the animation tree
   **/
   public var RootAnimNodeIndex : unreal.Int32;

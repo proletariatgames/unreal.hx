@@ -51,6 +51,39 @@ package unreal;
   public var bIsVisible : Bool;
   
   /**
+    Whether a level transform rotation was applied since the texture streaming builds. Invalidates the precomputed streaming bounds.
+  **/
+  public var bTextureStreamingRotationChanged : Bool;
+  
+  /**
+    Level offset at time when lighting was built
+  **/
+  public var LightBuildLevelOffset : unreal.FIntVector;
+  
+  /**
+    Registry for data from the map build.  This is stored in a separate package from the level to speed up saving / autosaving.
+  **/
+  public var MapBuildData : unreal.UMapBuildDataRegistry;
+  
+  /**
+    Identifies map build data specific to this level, eg lighting volume samples.
+  **/
+  public var LevelBuildDataId : unreal.FGuid;
+  
+  /**
+    Whether the level is a lighting scenario.  Lighting is built separately for each lighting scenario level with all other scenario levels hidden.
+    Only one lighting scenario level should be visible at a time for correct rendering, and lightmaps from that level will be used on the rest of the world.
+    Note: When a lighting scenario level is present, lightmaps for all streaming levels are placed in the scenario's _BuildData package.
+                 This means that lightmaps for those streaming levels will not be streamed with them.
+  **/
+  public var bIsLightingScenario : Bool;
+  
+  /**
+    The Guid of each texture refered by FStreamingTextureBuildInfo::TextureLevelIndex
+  **/
+  public var StreamingTextureGuids : unreal.TArray<unreal.FGuid>;
+  
+  /**
     threes of triangle vertices - AABB filtering friendly. Stored if there's a runtime need to rebuild navigation that accepts BSPs
         as well - it's a lot easier this way than retrieve this data at runtime
   **/
@@ -82,7 +115,22 @@ package unreal;
     The level scripting actor, created by instantiating the class from LevelScriptBlueprint.  This handles all level scripting
   **/
   public var LevelScriptActor : unreal.ALevelScriptActor;
+  
+  /**
+    Num of resources that have changed since the last texture streaming build. Updated in map check.
+  **/
+  public var NumTextureStreamingDirtyResources : unreal.Int32;
+  
+  /**
+    Num of components missing valid texture streaming data. Updated in map check.
+  **/
+  public var NumTextureStreamingUnbuiltComponents : unreal.Int32;
   #if WITH_EDITORONLY_DATA
+  
+  /**
+    The Guid list of all materials and meshes Guid used in the last texture streaming build. Used to know if the streaming data needs rebuild. Only used for the persistent level.
+  **/
+  public var TextureStreamingBuildGuids : unreal.TArray<unreal.FGuid>;
   
   /**
     Reference to the blueprint for level scripting

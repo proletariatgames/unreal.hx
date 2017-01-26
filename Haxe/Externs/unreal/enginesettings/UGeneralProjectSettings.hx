@@ -16,6 +16,25 @@ package unreal.enginesettings;
 @:umodule("EngineSettings")
 @:glueCppIncludes("GeneralProjectSettings.h")
 @:uextern extern class UGeneralProjectSettings extends unreal.UObject {
+  public var bAllowMinimize : Bool;
+  public var bAllowMaximize : Bool;
+  public var bAllowClose : Bool;
+  public var bAllowWindowResize : Bool;
+  
+  /**
+    Should the game attempt to start in VR, regardless of whether -vr was set on the commandline
+  **/
+  public var bStartInVR : Bool;
+  
+  /**
+    Should the game use a borderless Slate window instead of a window with system title bar and border
+  **/
+  public var bUseBorderlessWindow : Bool;
+  
+  /**
+    Should the game's window preserve its aspect ratio when resized by user.
+  **/
+  public var bShouldWindowPreserveAspectRatio : Bool;
   
   /**
     The project's support contact information.

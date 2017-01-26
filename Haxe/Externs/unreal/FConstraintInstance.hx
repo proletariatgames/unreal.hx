@@ -19,241 +19,76 @@ package unreal;
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
 @:uextern extern class FConstraintInstance {
+  #if WITH_EDITORONLY_DATA
+  @:deprecated public var AngularDriveForceLimit_DEPRECATED : unreal.Float32;
+  @:deprecated public var AngularDriveDamping_DEPRECATED : unreal.Float32;
   
   /**
-    Limit to the force the angular drive can apply.
+    Revolutions per second
   **/
-  public var AngularDriveForceLimit : unreal.Float32;
-  
-  /**
-    Damping value to apply to the for angular drive.
-  **/
-  public var AngularDriveDamping : unreal.Float32;
-  
-  /**
-    Spring value to apply to the for angular drive.
-  **/
-  public var AngularDriveSpring : unreal.Float32;
-  
-  /**
-    Target velocity for the angular drive.
-  **/
-  public var AngularVelocityTarget : unreal.FVector;
-  
-  /**
-    Target orientation for the angular drive.
-  **/
-  public var AngularOrientationTarget : unreal.FRotator;
-  
-  /**
-    The way rotation paths are estimated
-  **/
-  public var AngularDriveMode : unreal.EAngularDriveMode;
+  @:deprecated public var AngularDriveSpring_DEPRECATED : unreal.Float32;
+  @:deprecated public var AngularVelocityTarget_DEPRECATED : unreal.FVector;
+  @:deprecated public var AngularOrientationTarget_DEPRECATED : unreal.FRotator;
+  @:deprecated public var AngularDriveMode_DEPRECATED : unreal.EAngularDriveMode;
   @:deprecated public var AngularPositionTarget_DEPRECATED : unreal.FQuat;
-  
-  /**
-    Enables the angular drive towards a target velocity.
-  **/
-  public var bAngularVelocityDrive : Bool;
-  
-  /**
-    Enables the angular drive towards a target orientation.
-  **/
-  public var bAngularOrientationDrive : Bool;
+  @:deprecated public var bAngularVelocityDrive_DEPRECATED : Bool;
+  @:deprecated public var bAngularOrientationDrive_DEPRECATED : Bool;
   @:deprecated public var bAngularSlerpDrive_DEPRECATED : Bool;
   @:deprecated public var bTwistVelocityDrive_DEPRECATED : Bool;
   @:deprecated public var bTwistPositionDrive_DEPRECATED : Bool;
   @:deprecated public var bSwingVelocityDrive_DEPRECATED : Bool;
   @:deprecated public var bSwingPositionDrive_DEPRECATED : Bool;
+  @:deprecated public var LinearDriveForceLimit_DEPRECATED : unreal.Float32;
+  @:deprecated public var LinearDriveDamping_DEPRECATED : unreal.Float32;
+  @:deprecated public var LinearDriveSpring_DEPRECATED : unreal.Float32;
+  @:deprecated public var LinearVelocityTarget_DEPRECATED : unreal.FVector;
+  @:deprecated public var LinearPositionTarget_DEPRECATED : unreal.FVector;
+  @:deprecated public var bLinearVelocityDrive_DEPRECATED : Bool;
+  @:deprecated public var bLinearPositionDrive_DEPRECATED : Bool;
+  @:deprecated public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated public var bAngularBreakable_DEPRECATED : Bool;
+  @:deprecated public var TwistLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated public var TwistLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated public var SwingLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated public var SwingLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated public var Swing2LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated public var TwistLimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated public var Swing1LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated public var bTwistLimitSoft_DEPRECATED : Bool;
+  @:deprecated public var bSwingLimitSoft_DEPRECATED : Bool;
+  @:deprecated public var AngularSwing2Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated public var AngularTwistMotion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated public var AngularSwing1Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated public var LinearBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated public var bLinearBreakable_DEPRECATED : Bool;
+  @:deprecated public var LinearLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated public var LinearLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated public var bLinearLimitSoft_DEPRECATED : Bool;
+  @:deprecated public var LinearLimitSize_DEPRECATED : unreal.Float32;
+  @:deprecated public var LinearZMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated public var LinearYMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated public var LinearXMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated public var ProjectionAngularTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated public var ProjectionLinearTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated public var bEnableProjection_DEPRECATED : Bool;
+  @:deprecated public var bDisableCollision_DEPRECATED : Bool;
+  #end // WITH_EDITORONLY_DATA
   
   /**
-    Limit to the force the linear drive can apply.
+    Constraint Data (properties easily swapped at runtime based on different constraint profiles)
   **/
-  public var LinearDriveForceLimit : unreal.Float32;
+  public var ProfileInstance : unreal.FConstraintProfileProperties;
   
   /**
-    Damping to apply to the for linear drive.
+    If true, linear limits scale using the absolute min of the 3d scale of the owning component
   **/
-  public var LinearDriveDamping : unreal.Float32;
-  
-  /**
-    Spring to apply to the for linear drive.
-  **/
-  public var LinearDriveSpring : unreal.Float32;
-  
-  /**
-    Target velocity the linear drive.
-  **/
-  public var LinearVelocityTarget : unreal.FVector;
-  
-  /**
-    Target position the linear drive. Only the components that are enabled are used.
-  **/
-  public var LinearPositionTarget : unreal.FVector;
-  
-  /**
-    Enables/Disables linear velocity drive.
-  **/
-  public var bLinearVelocityDrive : Bool;
-  
-  /**
-    Enables/Disables linear position drive.
-  **/
-  public var bLinearPositionDrive : Bool;
-  
-  /**
-    Angular force needed to break the joint.
-  **/
-  public var AngularBreakThreshold : unreal.Float32;
-  
-  /**
-    Whether it is possible to break the joint with angular force.
-  **/
-  public var bAngularBreakable : Bool;
+  public var bScaleLinearLimits : Bool;
   
   /**
     Specifies the angular offset between the two frames of reference. By default limit goes from (-Angle, +Angle)
     This allows you to bias the limit for swing1 swing2 and twist.
   **/
   public var AngularRotationOffset : unreal.FRotator;
-  
-  /**
-    Damping of the twist limit constraint if soft limit is used for twist motions.
-  **/
-  public var TwistLimitDamping : unreal.Float32;
-  
-  /**
-    Stiffness of the twist limit constraint if soft limit is used for twist motions.
-  **/
-  public var TwistLimitStiffness : unreal.Float32;
-  
-  /**
-    Damping of the swing limit constraint if soft limit is used for swing motions.
-  **/
-  public var SwingLimitDamping : unreal.Float32;
-  
-  /**
-    Stiffness of the swing limit constraint if soft limit is used for swing motions.
-  **/
-  public var SwingLimitStiffness : unreal.Float32;
-  
-  /**
-    Used if swing motion along the z axis is limited. The limit angle is specified in degrees and should be
-          between 0 and 180.
-  **/
-  public var Swing2LimitAngle : unreal.Float32;
-  
-  /**
-    Used if twist motion along the x axis is limited. The limit angle is specified in degrees and should be
-                  between 0 and 180.
-  **/
-  public var TwistLimitAngle : unreal.Float32;
-  
-  /**
-    Used if swing motion along the y axis is limited. The limit angle is specified in degrees and should be
-                  between 0 and 180.
-  **/
-  public var Swing1LimitAngle : unreal.Float32;
-  
-  /**
-    Whether we want to use soft limits for twist motions instead of hard limits. With enabled
-                  soft limit, a constraint is used instead of hard-capping the motion.
-  **/
-  public var bTwistLimitSoft : Bool;
-  
-  /**
-    Whether we want to use soft limits for swing motions instead of hard limits. With enabled
-                  soft limit, a constraint is used instead of hard-capping the motion.
-  **/
-  public var bSwingLimitSoft : Bool;
-  
-  /**
-    Indicates whether rotation about the Y axis is allowed, blocked, or limited. If limited, the
-                  AngularLimit property will be used to determine the range of motion. See EAngularConstraintMotion.
-  **/
-  public var AngularSwing2Motion : unreal.EAngularConstraintMotion;
-  
-  /**
-    Indicates whether rotation about the the X axis is allowed, blocked, or limited. If limited, the
-                  AngularLimit property will be used to determine the range of motion. See EAngularConstraintMotion.
-  **/
-  public var AngularTwistMotion : unreal.EAngularConstraintMotion;
-  
-  /**
-    Indicates whether rotation about the Z axis is allowed, blocked, or limited. If limited, the
-                  AngularLimit property will be used to determine the range of motion. See EAngularConstraintMotion.
-  **/
-  public var AngularSwing1Motion : unreal.EAngularConstraintMotion;
-  
-  /**
-    Force needed to break the joint.
-  **/
-  public var LinearBreakThreshold : unreal.Float32;
-  
-  /**
-    Defines whether the joint is breakable or not.
-  **/
-  public var bLinearBreakable : Bool;
-  
-  /**
-    Damping of the linear soft limit constraint. Only used, when bLinearLimitSoft is true.
-  **/
-  public var LinearLimitDamping : unreal.Float32;
-  
-  /**
-    Stiffness of the linear soft limit constraint. Only used, when bLinearLimitSoft is true.
-  **/
-  public var LinearLimitStiffness : unreal.Float32;
-  
-  /**
-    Whether we want to use soft limits instead of hard limits. With enabled soft limit, a constraint is used
-                  instead of hard-capping the motion.
-  **/
-  public var bLinearLimitSoft : Bool;
-  
-  /**
-    The limiting extent in world units of the linear motion for limited motion axes.
-  **/
-  public var LinearLimitSize : unreal.Float32;
-  
-  /**
-    Indicates whether linear motion along the z axis is allowed, blocked or limited. If limited, the LinearLimit property will be used
-                  to determine if a motion is allowed. See ELinearConstraintMotion.
-  **/
-  public var LinearZMotion : unreal.ELinearConstraintMotion;
-  
-  /**
-    Indicates whether linear motion along the y axis is allowed, blocked or limited. If limited, the LinearLimit property will be used
-                  to determine if a motion is allowed. See ELinearConstraintMotion.
-  **/
-  public var LinearYMotion : unreal.ELinearConstraintMotion;
-  
-  /**
-    Indicates whether linear motion along the x axis is allowed, blocked or limited. If limited, the LinearLimit property will be used
-                  to determine if a motion is allowed. See ELinearConstraintMotion.
-  **/
-  public var LinearXMotion : unreal.ELinearConstraintMotion;
-  
-  /**
-    Angular tolerance value in world units. If the distance error exceeds this tolarance limit, the body will be projected.
-  **/
-  public var ProjectionAngularTolerance : unreal.Float32;
-  
-  /**
-    Linear tolerance value in world units. If the distance error exceeds this tolarance limit, the body will be projected.
-  **/
-  public var ProjectionLinearTolerance : unreal.Float32;
-  
-  /**
-    If distance error between bodies exceeds 0.1 units, or rotation error exceeds 10 degrees, body will be projected to fix this.
-    For example a chain spinning too fast will have its elements appear detached due to velocity, this will project all bodies so they still appear attached to each other.
-  **/
-  public var bEnableProjection : Bool;
-  
-  /**
-    Disable collision between bodies joined by this constraint.
-  **/
-  public var bDisableCollision : Bool;
   
   /**
     Seconday axis in Body2 reference frame. Orthogonal to PriAxis2.
@@ -301,10 +136,5 @@ package unreal;
     Name of bone that this joint is associated with.
   **/
   public var JointName : unreal.FName;
-  
-  /**
-    The component that created this instance.
-  **/
-  public var OwnerComponent : unreal.USceneComponent;
   
 }

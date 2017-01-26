@@ -97,15 +97,14 @@ package unreal.landscapeeditor;
     Whether the imported alpha maps are to be interpreted as "layered" or "additive" (UE4 uses additive internally)
   **/
   public var ImportLandscape_AlphamapType : unreal.landscape.ELandscapeImportAlphamapType;
-  public var ImportLandscape_Data : unreal.TArray<unreal.UInt16>;
-  public var ImportLandscape_Height : unreal.Int32;
-  public var ImportLandscape_Width : unreal.Int32;
+  public var ImportLandscape_Height : unreal.FakeUInt32;
+  public var ImportLandscape_Width : unreal.FakeUInt32;
   
   /**
     Specify a height map file in 16-bit RAW or PNG format
   **/
   public var ImportLandscape_HeightmapFilename : unreal.FString;
-  public var ImportLandscape_HeightmapError : unreal.landscapeeditor.ELandscapeImportHeightmapError;
+  public var ImportLandscape_HeightmapImportResult : unreal.landscapeeditor.ELandscapeImportResult;
   
   /**
     The scale of the new landscape. This is the distance between each vertex on the landscape, defaulting to 100 units.
@@ -156,6 +155,11 @@ package unreal.landscapeeditor;
     Number of quads per landscape component section
   **/
   public var ResizeLandscape_QuadsPerSection : unreal.Int32;
+  
+  /**
+    Number of vertices either side of the mirror plane to smooth over
+  **/
+  public var MirrorSmoothingWidth : unreal.Int32;
   
   /**
     Type of mirroring operation to perform e.g. "Minus X To Plus X" copies and flips the -X half of the landscape onto the +X half

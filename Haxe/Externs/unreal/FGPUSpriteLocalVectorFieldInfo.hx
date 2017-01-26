@@ -23,6 +23,11 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FGPUSpriteLocalVectorFieldInfo {
   
   /**
+    Use fix delta time in the simulation?
+  **/
+  public var bUseFixDT : Bool;
+  
+  /**
     Tile vector field in z axis?
   **/
   public var bTileZ : Bool;

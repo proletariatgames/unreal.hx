@@ -15,12 +15,18 @@ package unreal.umg;
 
 
 /**
-  Beware! This feature is experimental and may be substantially changed or removed in future releases.
-  A 3D instance of a Widget Blueprint that can be interacted with in the world.
+  The widget component provides a surface in the 3D environment on which to render widgets normally rendered to the screen.
+  Widgets are first rendered to a render target, then that render target is displayed in the world.
+  
+  Material Properties set by this component on whatever material overrides the default.
+  SlateUI [Texture]
+  BackColor [Vector]
+  TintColorAndOpacity [Vector]
+  OpacityFromTexture [Scalar]
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetComponent extends unreal.UPrimitiveComponent {
+@:uextern extern class UWidgetComponent extends unreal.UMeshComponent {
   
   /**
     @return The user widget object displayed by this component
@@ -28,10 +34,20 @@ package unreal.umg;
   @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
   
   /**
+    @return The render target to which the user widget is rendered
+  **/
+  @:thisConst @:final public function GetRenderTarget() : unreal.UTextureRenderTarget2D;
+  
+  /**
+    @return The dynamic material instance used to render the user widget
+  **/
+  @:thisConst @:final public function GetMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  
+  /**
     Sets the widget to use directly. This function will keep track of the widget till the next time it's called
         with either a newer widget or a nullptr
   **/
-  @:final public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
+  public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
   
   /**
     Sets the local player that owns this widget component.  Setting the owning player controls
@@ -56,14 +72,24 @@ package unreal.umg;
   @:final public function SetDrawSize(Size : unreal.FVector2D) : Void;
   
   /**
-    @return The max distance from which a player can interact with this widget
+    Requests that the widget be redrawn.
   **/
-  @:thisConst @:final public function GetMaxInteractionDistance() : unreal.Float32;
+  public function RequestRedraw() : Void;
   
   /**
-    Sets the max distance from which a player can interact with this widget
+    Sets the background color and opacityscale for this widget
   **/
-  @:final public function SetMaxInteractionDistance(Distance : unreal.Float32) : Void;
+  @:final public function SetBackgroundColor(NewBackgroundColor : unreal.Const<unreal.FLinearColor>) : Void;
+  
+  /**
+    ZOrder the layer will be created on, note this only matters on the first time a new layer is created, subsequent additions to the same layer will use the initially defined ZOrder
+  **/
+  private var LayerZOrder : unreal.Int32;
+  
+  /**
+    Layer Name the widget will live on
+  **/
+  private var SharedLayerName : unreal.FName;
   
   /**
     The dynamic instance of the material that the render target is attached to
@@ -116,16 +142,19 @@ package unreal.umg;
   private var Widget : unreal.umg.UUserWidget;
   
   /**
-    When enabled, distorts the UI along a parabola shape giving the UI the appearance
-    that it's on a curved surface in front of the users face.  This only works for UI
-    rendered to a render target.
-  **/
-  private var ParabolaDistortion : unreal.Float32;
-  
-  /**
     The blend mode for the widget.
   **/
   private var BlendMode : unreal.umg.EWidgetBlendMode;
+  
+  /**
+    Sets the amount of opacity from the widget's UI texture to use when rendering the translucent or masked UI to the viewport (0.0-1.0)
+  **/
+  private var OpacityFromTexture : unreal.Float32;
+  
+  /**
+    Tint color and opacity for this component
+  **/
+  private var TintColorAndOpacity : unreal.FLinearColor;
   
   /**
     The background color of the component
@@ -139,14 +168,27 @@ package unreal.umg;
   private var OwnerPlayer : unreal.ULocalPlayer;
   
   /**
-    The maximum distance from which a player can interact with this widget
-  **/
-  private var MaxInteractionDistance : unreal.Float32;
-  
-  /**
     The Alignment/Pivot point that the widget is placed at relative to the position.
   **/
   private var Pivot : unreal.FVector2D;
+  
+  /**
+    The actual draw size, this changes based on DrawSize - or the desired size of the widget if
+    bDrawAtDesiredSize is true.
+  **/
+  private var CurrentDrawSize : unreal.FIntPoint;
+  
+  /**
+    What was the last time we rendered the widget?
+  **/
+  private var LastWidgetRenderTime : unreal.Float32;
+  
+  /**
+    The time in between draws, if 0 - we would redraw every frame.  If 1, we would redraw every second.
+    This will work with bManuallyRedraw as well.  So you can say, manually redraw, but only redraw at this
+    maximum rate.
+  **/
+  private var RedrawTime : unreal.Float32;
   
   /**
     The size of the displayed quad.

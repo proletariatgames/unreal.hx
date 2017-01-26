@@ -38,4 +38,14 @@ package unreal.editor;
   **/
   public var bImportMeshLODs : Bool;
   
+  /**
+    - Experimental - If this option is true the inverse node rotation pivot will be apply to the mesh vertices. The pivot from the DCC will then be the origin of the mesh. Note: "TransformVertexToAbsolute" must be false.
+  **/
+  public var bBakePivotInVertex : Bool;
+  
+  /**
+    If this option is true the node absolute transform (transform, offset and pivot) will be apply to the mesh vertices.
+  **/
+  public var bTransformVertexToAbsolute : Bool;
+  
 }

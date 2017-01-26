@@ -30,7 +30,7 @@ package unreal;
   
   /**
     Scales the distances at which volume lighting samples are placed.  Volume lighting samples are computed by Lightmass and are used for GI on movable components.
-    Using larger scales results in less sample memory usage and reduces Indirect Lighting Cache update times.
+    Using larger scales results in less sample memory usage and reduces Indirect Lighting Cache update times, but less accurate transitions between lighting areas.
   **/
   public var VolumeLightSamplePlacementScale : unreal.Float32;
   
@@ -71,8 +71,9 @@ package unreal;
   
   /**
     Whether to generate textures storing the AO computed by Lightmass.
-    These can be accessed through the PrecomputedAmbientOcclusion material node,
+    These can be accessed through the PrecomputedAOMask material node,
     Which is useful for blending between material layers on environment assets.
+    Be sure to set DirectIlluminationOcclusionFraction and IndirectIlluminationOcclusionFraction to 0 if you only want the PrecomputedAOMask!
   **/
   public var bGenerateAmbientOcclusionMaterialMask : Bool;
   
@@ -113,7 +114,7 @@ package unreal;
     Warning: Setting this higher than 1 will greatly increase build times!
     Can be used to increase the GI solver sample counts in order to get higher quality for levels that need it.
     It can be useful to reduce IndirectLightingSmoothness somewhat (~.75) when increasing quality to get defined indirect shadows.
-    Note that this can't affect compression artifacts or other texture based artifacts.
+    Note that this can't affect compression artifacts, UV seams or other texture based artifacts.
   **/
   public var IndirectLightingQuality : unreal.Float32;
   

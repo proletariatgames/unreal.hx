@@ -106,6 +106,16 @@ package unreal.editor;
   public var EditorWorld : unreal.UWorld;
   
   /**
+    The PlayerStart class used when spawning the player at the current camera location.
+  **/
+  public var PlayFromHerePlayerStartClass : unreal.TSubclassOf<unreal.ANavigationObjectBase>;
+  
+  /**
+    True if we should not display notifications about undo/redo
+  **/
+  public var bSquelchTransactionNotification : Bool;
+  
+  /**
     True if we're Simulating In Editor, as opposed to Playing In Editor.  In this mode, simulation takes place right the level editing environment
   **/
   public var bIsSimulatingInEditor : Bool;
@@ -129,11 +139,6 @@ package unreal.editor;
     True if there is a pending end play map queued
   **/
   public var bRequestEndPlayMapQueued : Bool;
-  
-  /**
-    The PlayerStart class used when spawning the player at the current camera location.
-  **/
-  public var PlayFromHerePlayerStartClass : unreal.TSubclassOf<unreal.ANavigationObjectBase>;
   
   /**
     Allows multipel PIE worlds under a single instance. If false, you can only do multiple UE4 processes for pie networking
@@ -179,11 +184,6 @@ package unreal.editor;
     The name of the file currently being opened in the editor. "" if no file is being opened.
   **/
   public var UserOpenedFile : unreal.FString;
-  
-  /**
-    Actors that are being deleted and should processed in the global re-attach
-  **/
-  public var ActorsForGlobalReregister : unreal.TArray<unreal.AActor>;
   
   /**
     Array of actor factories created at editor startup and used by context menu etc.

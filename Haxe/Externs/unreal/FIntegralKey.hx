@@ -19,7 +19,7 @@ package unreal;
   
   An integral key, which holds the key time and the key value
 **/
-@:glueCppIncludes("Sections/MovieSceneBoolSection.h")
+@:glueCppIncludes("Sections/MovieSceneActorReferenceSection.h")
 @:noCopy @:noEquals @:uextern extern class FIntegralKey {
   
   /**

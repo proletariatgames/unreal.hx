@@ -77,10 +77,20 @@ package unreal;
   public var Volume : unreal.Float32;
   
   /**
+    The priority of the subtitle.
+  **/
+  public var SubtitlePriority : unreal.Float32;
+  
+  /**
     A localized version of the text that is actually spoken phonetically in the audio.
   **/
   public var SpokenText : unreal.FString;
   public var SoundGroup : unreal.ESoundGroup;
+  
+  /**
+    Allows sound to play at 0 volume, otherwise will stop the sound when the sound is silent.
+  **/
+  public var bVirtualizeWhenSilent : Bool;
   
   /**
     If set to true the subtitles display as a sequence of single lines as opposed to multiline.

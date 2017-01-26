@@ -26,8 +26,20 @@ package unreal;
     This is of line-segment ie. add Radius to both ends to find total length.
   **/
   public var Length : unreal.Float32;
+  
+  /**
+    Radius of the capsule
+  **/
   public var Radius : unreal.Float32;
+  
+  /**
+    Orientation of the capsule
+  **/
   public var Orientation : unreal.FQuat;
+  
+  /**
+    Position of the capsule's origin
+  **/
   public var Center : unreal.FVector;
   
   /**

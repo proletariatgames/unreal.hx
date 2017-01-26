@@ -42,4 +42,28 @@ package unreal.landscapeeditor;
   @DisplayName("+Y to -Y")
   PlusYToMinusY;
   
+  /**
+    Rotate -X to +X
+  **/
+  @DisplayName("Rotate -X to +X")
+  RotateMinusXToPlusX;
+  
+  /**
+    Rotate +X to -X
+  **/
+  @DisplayName("Rotate +X to -X")
+  RotatePlusXToMinusX;
+  
+  /**
+    Rotate -Y to +Y
+  **/
+  @DisplayName("Rotate -Y to +Y")
+  RotateMinusYToPlusY;
+  
+  /**
+    Rotate +Y to -Y
+  **/
+  @DisplayName("Rotate +Y to -Y")
+  RotatePlusYToMinusY;
+  
 }

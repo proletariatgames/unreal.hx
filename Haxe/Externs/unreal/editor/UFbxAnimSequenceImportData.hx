@@ -22,14 +22,34 @@ package unreal.editor;
 @:uextern extern class UFbxAnimSequenceImportData extends unreal.editor.UFbxAssetImportData {
   
   /**
+    If enabled, this will import a curve within the animation
+  **/
+  public var bPreserveLocalTransform : Bool;
+  
+  /**
+    When importing custom attribute or morphtarget as curve, do not import if it doens't have any value other than zero. This is to avoid adding extra curves to evaluate
+  **/
+  public var bDoNotImportCurveWithZero : Bool;
+  
+  /**
     If enabled, this will delete this type of asset from the FBX
   **/
   public var bDeleteExistingMorphTargetCurves : Bool;
   
   /**
-    If enabled, this will import a curve within the animation
+    When importing custom attribute as curve, remove redundant keys
   **/
-  public var bPreserveLocalTransform : Bool;
+  public var bRemoveRedundantKeys : Bool;
+  
+  /**
+    Set Material Curve Type for the custom attribute with the following suffixes. This doesn't matter if Set Material Curve Type is true
+  **/
+  public var MaterialCurveSuffixes : unreal.TArray<unreal.FString>;
+  
+  /**
+    Set Material Curve Type for all custom attributes that exists
+  **/
+  public var bSetMaterialDriveParameterOnCustomAttribute : Bool;
   
   /**
     Import if custom attribute as a curve within the animation
@@ -65,5 +85,10 @@ package unreal.editor;
     Which animation range to import. The one defined at Exported, at Animated time or define a range manually
   **/
   public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
+  
+  /**
+    If checked, meshes nested in bone hierarchies will be imported instead of being converted to bones.
+  **/
+  public var bImportMeshesInBoneHierarchy : Bool;
   
 }

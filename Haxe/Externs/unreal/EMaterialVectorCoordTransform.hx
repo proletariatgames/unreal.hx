@@ -52,4 +52,11 @@ package unreal;
   @DisplayName("Camera Space")
   TRANSFORM_Camera;
   
+  /**
+    Particle space
+    @DisplayName Mesh particle space
+  **/
+  @DisplayName("Mesh particle space")
+  TRANSFORM_ParticleWorld;
+  
 }

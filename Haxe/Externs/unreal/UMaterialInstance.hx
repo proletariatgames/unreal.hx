@@ -45,11 +45,6 @@ package unreal;
   public var FontParameterValues : unreal.TArray<unreal.FFontParameterValue>;
   
   /**
-    Unique ID for this material, used for caching during distributed lighting
-  **/
-  public var ParentLightingGuid : unreal.FGuid;
-  
-  /**
     Defines if SubsurfaceProfile from this instance is used or it uses the parent one.
   **/
   public var bOverrideSubsurfaceProfile : Bool;

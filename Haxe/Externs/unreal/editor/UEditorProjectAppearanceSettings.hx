@@ -21,6 +21,10 @@ package unreal.editor;
 @:glueCppIncludes("Settings/EditorProjectSettings.h")
 @:uextern extern class UEditorProjectAppearanceSettings extends unreal.UDeveloperSettings {
   @:deprecated public var DefaultInputUnits_DEPRECATED : unreal.editor.EDefaultLocationUnit;
+  
+  /**
+    Deprecated properties that didn't live very long
+  **/
   @:deprecated public var UnitDisplay_DEPRECATED : unreal.editor.EUnitDisplay;
   
 }

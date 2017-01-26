@@ -35,6 +35,11 @@ package unreal.gameplayabilities;
   public var SourceTagFilter : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
+    Channel to terminate evaluation on when using AttributeEvaluatedUpToChannel calculation type
+  **/
+  public var FinalChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
+  
+  /**
     Calculation policy in regards to the attribute
   **/
   public var AttributeCalculationType : unreal.gameplayabilities.EAttributeBasedFloatCalculationType;

@@ -13,15 +13,9 @@
 **/
 package unreal.landscape;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
-@:noClass @:uextern extern class UMaterialExpressionLandscapeLayerBlend extends unreal.UMaterialExpression {
+@:uextern extern class UMaterialExpressionLandscapeLayerBlend extends unreal.UMaterialExpression {
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.

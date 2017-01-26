@@ -21,27 +21,17 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
 @:noCopy @:noEquals @:uextern extern class FMeshProxySettings {
+  
+  /**
+    Level of detail of the landscape that should be used for the culling
+  **/
+  public var LandscapeCullingPrecision : unreal.ELandscapeCullingPrecision;
+  
+  /**
+    Whether or not to use available landscape geometry to cull away invisible triangles
+  **/
+  public var bUseLandscapeCulling : Bool;
   @:deprecated public var bBakeVertexData_DEPRECATED : Bool;
-  
-  /**
-    Set to true to use negative halfspace for model, and reject the positive halfspace
-  **/
-  public var bPlaneNegativeHalfspace : Bool;
-  
-  /**
-    Set the axis index for the ground plane (0:X-Axis, 1:Y-Axis, 2:Z-Axis)
-  **/
-  public var AxisIndex : unreal.Int32;
-  
-  /**
-    Ground plane level
-  **/
-  public var ClippingLevel : unreal.Float32;
-  
-  /**
-    Set to true to cap the mesh with a ground plane
-  **/
-  public var bUseClippingPlane : Bool;
   
   /**
     Whether Simplygon should recalculate normals, otherwise the normals channel will be sampled from the original mesh
@@ -62,6 +52,11 @@ package unreal;
     Distance at which meshes should be merged together
   **/
   public var MergeDistance : unreal.Float32;
+  
+  /**
+    Determines whether or not the correct LOD models should be calculated given the source meshes and transition size
+  **/
+  public var bCalculateCorrectLODModel : Bool;
   
   /**
     Material simplification

@@ -28,6 +28,11 @@ package unreal.gameplayabilities;
   static public function SendGameplayEventToActor(Actor : unreal.AActor, EventTag : unreal.gameplaytags.FGameplayTag, Payload : unreal.gameplayabilities.FGameplayEventData) : Void;
   
   /**
+    Attribute
+  **/
+  static public function IsValid(Attribute : unreal.gameplayabilities.FGameplayAttribute) : Bool;
+  
+  /**
     Returns the value of Attribute from the ability system component belonging to Actor.
   **/
   static public function GetFloatAttribute(Actor : unreal.Const<unreal.AActor>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
@@ -38,19 +43,49 @@ package unreal.gameplayabilities;
   static public function GetFloatAttributeFromAbilitySystemComponent(AbilitySystem : unreal.Const<unreal.gameplayabilities.UAbilitySystemComponent>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
   
   /**
+    Returns the base value of Attribute from the ability system component belonging to Actor.
+  **/
+  static public function GetFloatAttributeBase(Actor : unreal.Const<unreal.AActor>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
+  
+  /**
+    Returns the base value of Attribute from the ability system component AbilitySystemComponent.
+  **/
+  static public function GetFloatAttributeBaseFromAbilitySystemComponent(AbilitySystemComponent : unreal.Const<unreal.gameplayabilities.UAbilitySystemComponent>, Attribute : unreal.gameplayabilities.FGameplayAttribute, bSuccessfullyFoundAttribute : Bool) : unreal.Float32;
+  
+  /**
+    Returns the value of Attribute from the ability system component AbilitySystem after evaluating it with source and target tags. bSuccess indicates the success or failure of this operation.
+  **/
+  static public function EvaluateAttributeValueWithTags(AbilitySystem : unreal.gameplayabilities.UAbilitySystemComponent, Attribute : unreal.gameplayabilities.FGameplayAttribute, SourceTags : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, TargetTags : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, bSuccess : Bool) : unreal.Float32;
+  
+  /**
+    Returns the value of Attribute from the ability system component AbilitySystem after evaluating it with source and target tags using the passed in base value instead of the real base value. bSuccess indicates the success or failure of this operation.
+  **/
+  static public function EvaluateAttributeValueWithTagsAndBase(AbilitySystem : unreal.gameplayabilities.UAbilitySystemComponent, Attribute : unreal.gameplayabilities.FGameplayAttribute, SourceTags : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, TargetTags : unreal.Const<unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>>, BaseValue : unreal.Float32, bSuccess : Bool) : unreal.Float32;
+  
+  /**
+    Simple equality operator for gameplay attributes
+  **/
+  static public function EqualEqual_GameplayAttributeGameplayAttribute(AttributeA : unreal.gameplayabilities.FGameplayAttribute, AttributeB : unreal.gameplayabilities.FGameplayAttribute) : Bool;
+  
+  /**
+    Simple inequality operator for gameplay attributes
+  **/
+  static public function NotEqual_GameplayAttributeGameplayAttribute(AttributeA : unreal.gameplayabilities.FGameplayAttribute, AttributeB : unreal.gameplayabilities.FGameplayAttribute) : Bool;
+  
+  /**
     TargetData
   **/
-  static public function AppendTargetDataHandle(TargetHandle : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, HandleToAdd : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
+  static public function AppendTargetDataHandle(TargetHandle : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, HandleToAdd : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
   static public function AbilityTargetDataFromLocations(SourceLocation : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo>>, TargetLocation : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo>>) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
-  static public function AbilityTargetDataFromHitResult(HitResult : unreal.FHitResult) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
-  static public function GetDataCountFromTargetData(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.Int32;
+  static public function AbilityTargetDataFromHitResult(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
+  static public function GetDataCountFromTargetData(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : unreal.Int32;
   static public function AbilityTargetDataFromActor(Actor : unreal.AActor) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
-  static public function AbilityTargetDataFromActorArray(ActorArray : unreal.TArray<unreal.AActor>, OneTargetPerHandle : Bool) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
+  static public function AbilityTargetDataFromActorArray(ActorArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OneTargetPerHandle : Bool) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
   
   /**
     Create a new target data handle with filtration performed on the data
   **/
-  static public function FilterTargetData(TargetDataHandle : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, ActorFilterClass : unreal.gameplayabilities.FGameplayTargetDataFilterHandle) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
+  static public function FilterTargetData(TargetDataHandle : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, ActorFilterClass : unreal.gameplayabilities.FGameplayTargetDataFilterHandle) : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle;
   
   /**
     Create a handle for filtering target data, filling out all fields
@@ -61,24 +96,24 @@ package unreal.gameplayabilities;
     Create a spec handle, filling out all fields
   **/
   static public function MakeSpecHandle(InGameplayEffect : unreal.gameplayabilities.UGameplayEffect, InInstigator : unreal.AActor, InEffectCauser : unreal.AActor, InLevel : unreal.Float32) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
-  static public function GetActorsFromTargetData(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : unreal.TArray<unreal.AActor>;
+  static public function GetActorsFromTargetData(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : unreal.TArray<unreal.AActor>;
   
   /**
     Returns true if the given TargetData has the actor passed in targeted
   **/
-  static public function DoesTargetDataContainActor(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32, Actor : unreal.AActor) : Bool;
+  static public function DoesTargetDataContainActor(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32, Actor : unreal.AActor) : Bool;
   
   /**
     Returns true if the given TargetData has at least 1 actor targeted
   **/
-  static public function TargetDataHasActor(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : Bool;
-  static public function TargetDataHasHitResult(HitResult : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : Bool;
-  static public function GetHitResultFromTargetData(HitResult : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : unreal.FHitResult;
-  static public function TargetDataHasOrigin(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : Bool;
-  static public function GetTargetDataOrigin(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : unreal.FTransform;
-  static public function TargetDataHasEndPoint(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : Bool;
-  static public function GetTargetDataEndPoint(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : unreal.FVector;
-  static public function GetTargetDataEndPointTransform(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, Index : unreal.Int32) : unreal.FTransform;
+  static public function TargetDataHasActor(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : Bool;
+  static public function TargetDataHasHitResult(HitResult : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : Bool;
+  static public function GetHitResultFromTargetData(HitResult : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : unreal.FHitResult;
+  static public function TargetDataHasOrigin(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : Bool;
+  static public function GetTargetDataOrigin(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : unreal.FTransform;
+  static public function TargetDataHasEndPoint(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : Bool;
+  static public function GetTargetDataEndPoint(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : unreal.FVector;
+  static public function GetTargetDataEndPointTransform(TargetData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, Index : unreal.Int32) : unreal.FTransform;
   
   /**
     GameplayEffectContext
@@ -87,11 +122,17 @@ package unreal.gameplayabilities;
   static public function EffectContextIsInstigatorLocallyControlled(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : Bool;
   static public function EffectContextGetHitResult(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.FHitResult;
   static public function EffectContextHasHitResult(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : Bool;
+  static public function EffectContextAddHitResult(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle, HitResult : unreal.FHitResult, bReset : Bool) : Void;
   
   /**
     Gets the location the effect originated from
   **/
   static public function EffectContextGetOrigin(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle) : unreal.FVector;
+  
+  /**
+    Sets the location the effect originated from
+  **/
+  static public function EffectContextSetOrigin(EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle, Origin : unreal.FVector) : Void;
   
   /**
     Gets the instigating actor (that holds the ability system component) of the EffectContext
@@ -189,6 +230,11 @@ package unreal.gameplayabilities;
     Sets the GameplayEffectSpec's StackCount to the max stack count defined in the GameplayEffect definition
   **/
   static public function SetStackCountToMax(SpecHandle : unreal.gameplayabilities.FGameplayEffectSpecHandle) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
+  
+  /**
+    Gets the GameplayEffectSpec's effect context handle
+  **/
+  static public function GetEffectContext(SpecHandle : unreal.gameplayabilities.FGameplayEffectSpecHandle) : unreal.gameplayabilities.FGameplayEffectContextHandle;
   
   /**
     Gets the magnitude of change for an attribute on an APPLIED GameplayEffectSpec.

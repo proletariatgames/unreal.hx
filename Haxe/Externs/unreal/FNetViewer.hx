@@ -39,5 +39,6 @@ package unreal;
     The "controlling net object" associated with this view (typically player controller)
   **/
   public var InViewer : unreal.AActor;
+  public var Connection : unreal.UNetConnection;
   
 }

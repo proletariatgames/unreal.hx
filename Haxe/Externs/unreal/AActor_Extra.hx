@@ -146,4 +146,14 @@ extern class AActor_Extra {
    */
   public function RemoveOwnedComponent(Component:UActorComponent) : Void;
 
+	/**
+	* Set the Actor's rotation instantly to the specified rotation.
+	*
+	* @param	NewRotation	The new rotation for the Actor.
+	* @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
+	*						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+	*						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+	* @return	Whether the rotation was successfully set.
+	*/
+  function SetActorRotation(NewRotation:FRotator, Teleport:ETeleportType) : Bool;
 }

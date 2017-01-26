@@ -30,7 +30,7 @@ package unreal;
 @:uextern extern class APlayerController extends unreal.AController {
   
   /**
-    The value of SeamlessTravelCount, upon the last call to GameMode::HandleSeamlessTravelPlayer; used to detect seamless travel
+    The value of SeamlessTravelCount, upon the last call to GameModeBase::HandleSeamlessTravelPlayer; used to detect seamless travel
   **/
   public var LastCompletedSeamlessTravelCount : unreal.UInt16;
   
@@ -66,6 +66,7 @@ package unreal;
   public var DefaultClickTraceChannel : unreal.ECollisionChannel;
   public var CurrentMouseCursor : unreal.EMouseCursor;
   public var DefaultMouseCursor : unreal.EMouseCursor;
+  public var ClickEventKeys : unreal.TArray<unreal.inputcore.FKey>;
   public var bForceFeedbackEnabled : Bool;
   
   /**
@@ -117,7 +118,7 @@ package unreal;
     this is set on the OLD PlayerController when performing a swap over a network connection
     so we know what connection we're waiting on acknowledgment from to finish destroying this PC
     (or when the connection is closed)
-    @see GameMode::SwapPlayerControllers()
+    @see GameModeBase::SwapPlayerControllers()
   **/
   public var PendingSwapConnection : unreal.UNetConnection;
   
@@ -140,7 +141,7 @@ package unreal;
   public var PlayerInput : unreal.UPlayerInput;
   
   /**
-    class of my CheatManager.
+    Class of my CheatManager.  The Cheat Manager is not created in shipping builds
   **/
   public var CheatClass : unreal.TSubclassOf<unreal.UCheatManager>;
   
@@ -173,6 +174,11 @@ package unreal;
     The actors which the camera shouldn't see - e.g. used to hide actors which the camera penetrates
   **/
   public var HiddenActors : unreal.TArray<unreal.AActor>;
+  
+  /**
+    Interp speed for blending remote view rotation for smoother client updates
+  **/
+  public var SmoothTargetViewRotationSpeed : unreal.Float32;
   
   /**
     Used to replicate the view rotation of targets not owned/possessed by this PlayerController.
@@ -270,43 +276,6 @@ package unreal;
     SwitchLevel to the given MapURL.
   **/
   public function SwitchLevel(URL : unreal.FString) : Void;
-  
-  /**
-    Locks or unlocks movement input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreMoveInput.
-    @param bNewMoveInput        If true, move input is ignored. If false, input is not ignored.
-  **/
-  public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
-  
-  /**
-    Stops ignoring move input by resetting the ignore move input state.
-  **/
-  public function ResetIgnoreMoveInput() : Void;
-  
-  /**
-    Returns true if movement input is ignored.
-  **/
-  @:thisConst public function IsMoveInputIgnored() : Bool;
-  
-  /**
-    Locks or unlocks look input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreLookInput.
-    @param bNewLookInput        If true, look input is ignored. If false, input is not ignored.
-  **/
-  public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
-  
-  /**
-    Stops ignoring look input by resetting the ignore look input state.
-  **/
-  public function ResetIgnoreLookInput() : Void;
-  
-  /**
-    Returns true if look input is ignored.
-  **/
-  @:thisConst public function IsLookInputIgnored() : Bool;
-  
-  /**
-    reset move and look input ignore flags to defaults
-  **/
-  public function ResetIgnoreInputFlags() : Void;
   @:thisConst @:final public function GetHitResultUnderCursor(TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   @:thisConst @:final public function GetHitResultUnderCursorByChannel(TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   @:thisConst @:final public function GetHitResultUnderFinger(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
@@ -326,7 +295,12 @@ package unreal;
     Convert a World Space 3D position into a 2D Screen Space position.
     @return true if the world coordinate was successfully projected to the screen.
   **/
-  @:thisConst @:final public function ProjectWorldLocationToScreen(WorldLocation : unreal.FVector, ScreenLocation : unreal.PRef<unreal.FVector2D>) : Bool;
+  @:thisConst @:final public function ProjectWorldLocationToScreen(WorldLocation : unreal.FVector, ScreenLocation : unreal.PRef<unreal.FVector2D>, bPlayerViewportRelative : Bool) : Bool;
+  
+  /**
+    Positions the mouse cursor in screen space, in pixels.
+  **/
+  @:final public function SetMouseLocation(X : unreal.Int32, Y : unreal.Int32) : Void;
   
   /**
     Fire the player's currently selected weapon with the optional firemode.
@@ -597,7 +571,7 @@ package unreal;
   /**
     Stop camera shake on client.
   **/
-  public function ClientStopCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>) : Void;
+  public function ClientStopCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool) : Void;
   
   /**
     Play a force feedback pattern on the player's controller
@@ -634,7 +608,7 @@ package unreal;
     @param        Hand                                    Which hand to play the effect on
     @param        Scale                                   Scale between 0.0 and 1.0 on the intensity of playback
   **/
-  @:final public function PlayHapticEffect(HapticEffect : unreal.UHapticFeedbackEffect, Hand : unreal.inputcore.EControllerHand, Scale : unreal.Float32) : Void;
+  @:final public function PlayHapticEffect(HapticEffect : unreal.UHapticFeedbackEffect_Base, Hand : unreal.inputcore.EControllerHand, Scale : unreal.Float32, bLoop : Bool) : Void;
   
   /**
     Stops a playing haptic feedback curve

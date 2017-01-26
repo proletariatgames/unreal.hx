@@ -35,11 +35,6 @@ extern class UPrimitiveComponent_Extra {
 	 */
 	function RigidBodyIsAwake(BoneName:FName):Bool;
 
-	/**
-	 *	Returns if any body in this component is currently awake and simulating.
-	 */
-	function IsAnyRigidBodyAwake():Bool;
-
 	/** Recreate the physics state right way. */
 	function RecreatePhysicsState():Void;
 }

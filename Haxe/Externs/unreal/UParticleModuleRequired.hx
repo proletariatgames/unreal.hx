@@ -29,11 +29,6 @@ package unreal;
   public var NamedMaterialOverrides : unreal.TArray<unreal.FName>;
   
   /**
-    Controls UV Flipping for this emitter.
-  **/
-  public var UVFlippingMode : unreal.EParticleUVFlipMode;
-  
-  /**
     Ensures that movement generated from the orbit module is applied to velocity-aligned particles
   **/
   public var bOrbitModuleAffectsVelocityAlignment : Bool;
@@ -55,6 +50,30 @@ package unreal;
     Normal generation mode for this emitter LOD.
   **/
   public var EmitterNormalsMode : unreal.EEmitterNormalsMode;
+  
+  /**
+    Alpha channel values larger than the threshold are considered occupied and will be contained in the bounding geometry.
+    Raising this threshold slightly can reduce overdraw in particles using this animation asset.
+  **/
+  public var AlphaThreshold : unreal.Float32;
+  public var OpacitySourceMode : unreal.EOpacitySourceMode;
+  
+  /**
+    More bounding vertices results in reduced overdraw, but adds more triangle overhead.
+    The eight vertex mode is best used when the SubUV texture has a lot of space to cut out that is not captured by the four vertex version,
+    and when the particles using the texture will be few and large.
+  **/
+  public var BoundingMode : unreal.ESubUVBoundingVertexCount;
+  
+  /**
+    Texture to generate bounding geometry from.
+  **/
+  public var CutoutTexture : unreal.UTexture2D;
+  
+  /**
+    Controls UV Flipping for this emitter.
+  **/
+  public var UVFlippingMode : unreal.EParticleUVFlipMode;
   
   /**
     The maximum number of particles to DRAW for this emitter.
@@ -189,6 +208,11 @@ package unreal;
   public var EmitterDuration : unreal.Float32;
   
   /**
+    If true, removes the HMD view roll (e.g. in VR)
+  **/
+  public var bRemoveHMDRoll : Bool;
+  
+  /**
     If true, the EmitterTime for the emitter will be calculated by
     modulating the SecondsSinceCreation by the EmitterDuration. As
     this can lead to issues w/ looping and variable duration, a new
@@ -226,6 +250,16 @@ package unreal;
   public var bUseLocalSpace : Bool;
   
   /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_FacingCameraPosition
+  **/
+  public var MaxFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
+    The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_Square
+  **/
+  public var MinFacingCameraBlendDistance : unreal.Float32;
+  
+  /**
     The screen alignment to utilize for the emitter at this LOD level.
     One of the following:
     PSA_FacingCameraPosition - Faces the camera position, but is not dependent on the camera rotation.
@@ -234,7 +268,8 @@ package unreal;
     PSA_Rectangle           - Non-uniform scale (via SizeX and SizeY) facing the camera
     PSA_Velocity            - Orient the particle towards both the camera and the direction
                                               the particle is moving. Non-uniform scaling is allowed.
-    PSA_TypeSpecific        - Use the alignment method indicated int he type data module.
+    PSA_TypeSpecific        - Use the alignment method indicated in the type data module.
+    PSA_FacingCameraDistanceBlend - Blends between PSA_FacingCameraPosition and PSA_Square over specified distance.
   **/
   public var ScreenAlignment : unreal.EParticleScreenAlignment;
   public var EmitterRotation : unreal.FRotator;

@@ -70,6 +70,12 @@ package unreal;
   public var bShouldBlockOnLoad : Bool;
   
   /**
+    Whether this level only contains static actors that aren't affected by gameplay or replication.
+    If true, the engine can make certain optimizations and will add this level to the StaticLevels collection.
+  **/
+  public var bIsStatic : Bool;
+  
+  /**
     Whether the level should be visible if it is loaded
   **/
   public var bShouldBeVisible : Bool;

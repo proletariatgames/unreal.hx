@@ -55,6 +55,12 @@ package unreal.umg;
   public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
+    The padding area between the slot and the content it contains.
+  **/
+  public var Padding : unreal.slatecore.FMargin;
+  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  
+  /**
     Sets the row index of the slot, this determines what cell the slot is in the panel
   **/
   @:final public function SetRow(InRow : unreal.Int32) : Void;

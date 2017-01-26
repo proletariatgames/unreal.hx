@@ -22,7 +22,7 @@ package unreal.editor;
 @:uextern extern class UEditorLoadingSavingSettings extends unreal.UObject {
   
   /**
-    Specifies the file path to the tool to be used for diff'ing text files
+    Specifies the file path to the tool to be used for diffing text files
   **/
   public var TextDiffToolPath : unreal.FFilePath;
   
@@ -82,10 +82,15 @@ package unreal.editor;
   public var bDeleteSourceFilesWithAssets : Bool;
   
   /**
+    Whether to prompt the user to import detected changes.
+  **/
+  public var bPromptBeforeAutoImporting : Bool;
+  
+  /**
     When enabled, changes to monitored directories since UE4 was closed will be detected on restart.
     (Not recommended when working in collaboration with others using source control).
   **/
-  public var bDetectChangesOnRestart : Bool;
+  public var bDetectChangesOnStartup : Bool;
   
   /**
     When enabled, deleting a source content file will automatically prompt the deletion of any related assets.

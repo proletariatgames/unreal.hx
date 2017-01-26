@@ -21,6 +21,11 @@ package unreal;
 @:uextern extern class UNetworkSettings extends unreal.UDeveloperSettings {
   
   /**
+    If true, origin rebasing is enabled in multiplayer games, meaning that servers and clients can have different local world origins.
+  **/
+  public var bEnableMultiplayerWorldOriginRebasing : Bool;
+  
+  /**
     If true, libcurl authenticates the peer's certificate. Disable to allow self-signed certificates.
   **/
   public var bVerifyPeer : Bool;

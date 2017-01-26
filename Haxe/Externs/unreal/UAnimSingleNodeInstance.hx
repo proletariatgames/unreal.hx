@@ -15,10 +15,16 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
 @:uextern extern class UAnimSingleNodeInstance extends unreal.UAnimInstance {
+  
+  /**
+    Current Asset being played *
+  **/
+  public var CurrentAsset : unreal.UAnimationAsset;
   @:final public function SetLooping(bIsLooping : Bool) : Void;
   @:final public function SetPlayRate(InPlayRate : unreal.Float32) : Void;
   @:final public function SetReverse(bInReverse : Bool) : Void;
   @:final public function SetPosition(InPosition : unreal.Float32, bFireNotifies : Bool) : Void;
+  @:final public function SetPositionWithPreviousTime(InPosition : unreal.Float32, InPreviousTime : unreal.Float32, bFireNotifies : Bool) : Void;
   @:final public function SetBlendSpaceInput(InBlendInput : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   @:final public function SetPlaying(bIsPlaying : Bool) : Void;
   @:final public function GetLength() : unreal.Float32;
@@ -35,8 +41,8 @@ package unreal;
   public function SetAnimationAsset(NewAsset : unreal.UAnimationAsset, bIsLooping : Bool, InPlayRate : unreal.Float32) : Void;
   
   /**
-    Set new vertex animation
+    Set pose value
   **/
-  @:final public function SetVertexAnimation(NewVertexAnim : unreal.UVertexAnimation, bIsLooping : Bool, InPlayRate : unreal.Float32) : Void;
+  @:final public function SetPreviewCurveOverride(PoseName : unreal.Const<unreal.PRef<unreal.FName>>, Value : unreal.Float32, bRemoveIfZero : Bool) : Void;
   
 }

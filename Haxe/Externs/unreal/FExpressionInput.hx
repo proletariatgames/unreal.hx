@@ -17,7 +17,7 @@ package unreal;
 /**
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
-  @warning: FExpressionInput is mirrored in MaterialShared.h and manually "subclassed" in Material.h (FMaterialInput)
+  
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAbs.h")
 @:noCopy @:noEquals @:uextern extern class FExpressionInput {

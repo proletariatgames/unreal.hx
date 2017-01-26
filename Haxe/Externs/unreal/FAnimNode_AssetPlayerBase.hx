@@ -17,7 +17,7 @@ package unreal;
 /**
   Base class for any asset playing anim node
 **/
-@:glueCppIncludes("AnimGraphNode_SequenceEvaluator.h")
+@:glueCppIncludes("AnimGraphNode_PoseByName.h")
 @:uextern extern class FAnimNode_AssetPlayerBase extends unreal.FAnimNode_Base {
   
   /**

@@ -46,7 +46,34 @@ package unreal;
     Whether to export normal maps for material merging
   **/
   @:deprecated public var bExportNormalMap_DEPRECATED : Bool;
-  public var bBakeVertexData : Bool;
+  
+  /**
+    Whether or not to use available landscape geometry to cull away invisible triangles
+  **/
+  public var bUseLandscapeCulling : Bool;
+  
+  /**
+    A given LOD level to export from the source meshes
+  **/
+  public var SpecificLOD : unreal.Int32;
+  @:deprecated public var ExportSpecificLOD_DEPRECATED : unreal.Int32;
+  public var LODSelectionType : unreal.EMeshLODSelectionType;
+  @:deprecated public var bCalculateCorrectLODModel_DEPRECATED : Bool;
+  
+  /**
+    Whether or not to calculate varying output texture sizes according to their importance in the final atlas texture
+  **/
+  public var bUseTextureBinning : Bool;
+  
+  /**
+    Whether or not vertex data such as vertex colours should be used when baking out materials
+  **/
+  public var bUseVertexDataForBakingMaterial : Bool;
+  
+  /**
+    Whether or not vertex data such as vertex colours should be baked into the resulting mesh
+  **/
+  public var bBakeVertexDataToMesh : Bool;
   
   /**
     Material simplification
@@ -77,11 +104,6 @@ package unreal;
     Target lightmap resolution
   **/
   public var TargetLightMapResolution : unreal.Int32;
-  
-  /**
-    Target UV channel in a merged mesh for a lightmap
-  **/
-  public var TargetLightMapUVChannel : unreal.Int32;
   
   /**
     Whether to generate lightmap UVs for a merged mesh

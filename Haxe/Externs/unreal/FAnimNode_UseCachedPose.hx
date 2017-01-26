@@ -17,6 +17,11 @@ package unreal;
 @:uextern extern class FAnimNode_UseCachedPose extends unreal.FAnimNode_Base {
   
   /**
+    Intentionally not exposed, set by AnimBlueprintCompiler
+  **/
+  public var CachePoseName : unreal.FName;
+  
+  /**
     Note: This link is intentionally not public; it's wired up during compilation
   **/
   public var LinkToCachingNode : unreal.FPoseLink;

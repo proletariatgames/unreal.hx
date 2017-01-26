@@ -70,9 +70,4 @@ package unreal.editor;
   **/
   public var StaticMeshLODGroup : unreal.FName;
   
-  /**
-    If this option is true the staticmesh absolute transform will be apply to the staticmesh vertices.
-  **/
-  public var bTransformVertexToAbsolute : Bool;
-  
 }

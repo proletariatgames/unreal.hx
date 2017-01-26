@@ -21,4 +21,9 @@ package unreal.internationalizationsettings;
 @:glueCppIncludes("InternationalizationSettingsModel.h")
 @:uextern extern class UInternationalizationSettingsModel extends unreal.UObject {
   
+  /**
+    Timezone to use for display purposes in FDateTime
+  **/
+  public var DisplayTimezone : unreal.internationalizationsettings.ETimezoneSetting;
+  
 }

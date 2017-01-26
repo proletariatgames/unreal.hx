@@ -36,6 +36,11 @@ package unreal;
   public var OcclusionLowPassFilterFrequency : unreal.Float32;
   
   /**
+    Which trace channel to use for audio occlusion checks.
+  **/
+  public var OcclusionTraceChannel : unreal.ECollisionChannel;
+  
+  /**
     Amount to attenuate sounds that are not in focus. Can be overridden at the sound-level.
   **/
   public var NonFocusVolumeAttenuation : unreal.Float32;

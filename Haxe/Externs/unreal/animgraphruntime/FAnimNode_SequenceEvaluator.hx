@@ -22,6 +22,24 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimGraphNode_SequenceEvaluator.h")
 @:uextern extern class FAnimNode_SequenceEvaluator extends unreal.FAnimNode_AssetPlayerBase {
+  public var bReinitialized : Bool;
+  
+  /**
+    What to do when SequenceEvaluator is reinitialized
+  **/
+  public var ReinitializationBehavior : unreal.animgraphruntime.ESequenceEvalReinit;
+  
+  /**
+    The start up position, it only applies when ReinitializationBehavior == StartPosition. Only used when bTeleportToExplicitTime is false.
+  **/
+  public var StartPosition : unreal.Float32;
+  
+  /**
+    If true, teleport to explicit time, does NOT advance time (does not trigger notifies, does not extract Root Motion, etc.)
+          If false, will advance time (will trigger notifies, extract root motion if applicable, etc.)
+          Note: using a sync group forces advancing time regardless of what this option is set to.
+  **/
+  public var bTeleportToExplicitTime : Bool;
   public var bShouldLoopWhenInSyncGroup : Bool;
   
   /**

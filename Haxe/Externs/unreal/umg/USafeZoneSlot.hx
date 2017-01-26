@@ -25,6 +25,7 @@ package unreal.umg;
   public var Padding : unreal.slatecore.FMargin;
   public var VAlign : unreal.slatecore.EVerticalAlignment;
   public var HAlign : unreal.slatecore.EHorizontalAlignment;
+  public var SafeAreaScale : unreal.slatecore.FMargin;
   public var bIsTitleSafe : Bool;
   
 }

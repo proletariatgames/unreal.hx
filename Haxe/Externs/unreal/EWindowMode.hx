@@ -36,9 +36,4 @@ package unreal;
   **/
   Windowed;
   
-  /**
-    Pseudo-fullscreen mode for devices like HMDs
-  **/
-  WindowedMirror;
-  
 }

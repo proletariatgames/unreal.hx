@@ -15,12 +15,12 @@ package unreal.editor;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
   Factory that creates vector curve assets
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CurveFactory.h")
-@:noClass @:uextern extern class UCurveVectorFactory extends unreal.editor.UCurveFactory {
+@:uextern extern class UCurveVectorFactory extends unreal.editor.UCurveFactory {
   
 }

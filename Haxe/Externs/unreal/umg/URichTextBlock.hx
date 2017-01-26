@@ -28,11 +28,11 @@ package unreal.umg;
   /**
     The default color for the text.
   **/
-  private var Color : unreal.FLinearColor;
+  public var Color : unreal.FLinearColor;
   
   /**
     The default font for the text.
   **/
-  private var Font : unreal.slatecore.FSlateFontInfo;
+  public var Font : unreal.slatecore.FSlateFontInfo;
   
 }

@@ -21,10 +21,28 @@ package unreal;
 @:uextern extern class UParticleSystemComponent extends unreal.UPrimitiveComponent {
   
   /**
+    Options for how we handle our scale when we attach to the AutoAttachParent, if bAutoManageAttachment is true.
+    @see bAutoManageAttachment, EAttachmentRule
+  **/
+  public var AutoAttachScaleRule : unreal.EAttachmentRule;
+  
+  /**
+    Options for how we handle our rotation when we attach to the AutoAttachParent, if bAutoManageAttachment is true.
+    @see bAutoManageAttachment, EAttachmentRule
+  **/
+  public var AutoAttachRotationRule : unreal.EAttachmentRule;
+  
+  /**
     Options for how we handle our location when we attach to the AutoAttachParent, if bAutoManageAttachment is true.
+    @see bAutoManageAttachment, EAttachmentRule
+  **/
+  public var AutoAttachLocationRule : unreal.EAttachmentRule;
+  
+  /**
+    DEPRECATED: Options for how we handle our location when we attach to the AutoAttachParent, if bAutoManageAttachment is true.
     @see bAutoManageAttachment, EAttachLocation::Type
   **/
-  public var AutoAttachLocationType : unreal.EAttachLocation;
+  @:deprecated public var AutoAttachLocationType_DEPRECATED : unreal.EAttachLocation;
   
   /**
     Socket we automatically attach to on the AutoAttachParent, if bAutoManageAttachment is true.
@@ -41,11 +59,6 @@ package unreal;
     Array of replay clips for this particle system component.  These are serialized to disk.  You really should never add anything to this in the editor.  It's exposed so that you can delete clips if you need to, but be careful when doing so!
   **/
   public var ReplayClips : unreal.TArray<unreal.UParticleSystemReplay>;
-  
-  /**
-    The view relevance flags for each LODLevel.
-  **/
-  public var CachedViewRelevanceFlags : unreal.TArray<unreal.FMaterialRelevance>;
   
   /**
     Flag indicating that dynamic updating of render data should NOT occur during Tick.
@@ -99,6 +112,11 @@ package unreal;
   public var InstanceParameters : unreal.TArray<unreal.FParticleSysParam>;
   
   /**
+    The significance this component requires of it's emitters for them to be enabled.
+  **/
+  public var RequiredSignificance : unreal.EParticleSignificanceLevel;
+  
+  /**
     True if we should automatically attach to AutoAttachParent when activated, and detach from our parent when completed.
     This overrides any current attachment that may be present at the time of activation (deferring initial attachment until activation, if AutoAttachParent is null).
     When enabled, detachment occurs regardless of whether AutoAttachParent is assigned, and the relative transform from the time of activation is restored.
@@ -129,13 +147,24 @@ package unreal;
   public var Template : unreal.UParticleSystem;
   
   /**
-    Set AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType to the specified parameters. Does not change bAutoManageAttachment; that must be set separately.
+    DEPRECATED: Set AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType to the specified parameters. Does not change bAutoManageAttachment; that must be set separately.
     @param  Parent                       Component to attach to.
     @param  SocketName           Socket on Parent to attach to.
     @param  LocationType         Option for how we handle our location when we attach to Parent.
     @see bAutoManageAttachment, AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType
   **/
   @:final public function SetAutoAttachParams(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationType : unreal.EAttachLocation) : Void;
+  
+  /**
+    Set AutoAttachParent, AutoAttachSocketName, AutoAttachLocationRule, AutoAttachRotationRule, AutoAttachScaleRule to the specified parameters. Does not change bAutoManageAttachment; that must be set separately.
+    @param  Parent                       Component to attach to.
+    @param  SocketName           Socket on Parent to attach to.
+    @param  LocationRule         Option for how we handle our location when we attach to Parent.
+    @param  RotationRule         Option for how we handle our rotation when we attach to Parent.
+    @param  ScaleRule            Option for how we handle our scale when we attach to Parent.
+    @see bAutoManageAttachment, AutoAttachParent, AutoAttachSocketName, AutoAttachLocationRule, AutoAttachRotationRule, AutoAttachScaleRule
+  **/
+  @:final public function SetAutoAttachmentParameters(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule) : Void;
   
   /**
     Set the beam end point
@@ -198,6 +227,88 @@ package unreal;
     @param  TargetIndex                     Which beam within the emitter to set it on
   **/
   public function SetBeamTargetStrength(EmitterIndex : unreal.Int32, NewTargetStrength : unreal.Float32, TargetIndex : unreal.Int32) : Void;
+  
+  /**
+    Get the beam end point
+    
+    @param  EmitterIndex            The index of the emitter to get the value of
+    
+    @return true            EmitterIndex is valid and End point is set - OutEndPoint is valid
+                    false           EmitterIndex invalid or End point is not set - OutEndPoint is invalid
+  **/
+  @:thisConst public function GetBeamEndPoint(EmitterIndex : unreal.Int32, OutEndPoint : unreal.PRef<unreal.FVector>) : Bool;
+  
+  /**
+    Get the beam source point
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  SourceIndex                     Which beam within the emitter to get
+    @param  OutSourcePoint          Value of source point
+    
+    @return true            EmitterIndex and SourceIndex are valid - OutSourcePoint is valid
+                    false           EmitterIndex or SourceIndex is invalid - OutSourcePoint is invalid
+  **/
+  @:thisConst public function GetBeamSourcePoint(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourcePoint : unreal.PRef<unreal.FVector>) : Bool;
+  
+  /**
+    Get the beam source tangent
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  SourceIndex                     Which beam within the emitter to get
+    @param  OutTangentPoint         Value of source tangent
+    
+    @return true            EmitterIndex and SourceIndex are valid - OutTangentPoint is valid
+                    false           EmitterIndex or SourceIndex is invalid - OutTangentPoint is invalid
+  **/
+  @:thisConst public function GetBeamSourceTangent(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
+  
+  /**
+    Get the beam source strength
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  SourceIndex                     Which beam within the emitter to get
+    @param  OutSourceStrength               Value of source tangent
+    
+    @return true            EmitterIndex and SourceIndex are valid - OutSourceStrength is valid
+                    false           EmitterIndex or SourceIndex is invalid - OutSourceStrength is invalid
+  **/
+  @:thisConst public function GetBeamSourceStrength(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourceStrength : unreal.Float32) : Bool;
+  
+  /**
+    Get the beam target point
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  TargetIndex                     Which beam within the emitter to get
+    @param  OutTargetPoint          Value of target point
+    
+    @return true            EmitterIndex and TargetIndex are valid - OutTargetPoint is valid
+                    false           EmitterIndex or TargetIndex is invalid - OutTargetPoint is invalid
+  **/
+  @:thisConst public function GetBeamTargetPoint(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetPoint : unreal.PRef<unreal.FVector>) : Bool;
+  
+  /**
+    Get the beam target tangent
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  TargetIndex                     Which beam within the emitter to get
+    @param  OutTangentPoint         Value of target tangent
+    
+    @return true            EmitterIndex and TargetIndex are valid - OutTangentPoint is valid
+                    false           EmitterIndex or TargetIndex is invalid - OutTangentPoint is invalid
+  **/
+  @:thisConst public function GetBeamTargetTangent(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
+  
+  /**
+    Get the beam target strength
+    
+    @param  EmitterIndex            The index of the emitter to get
+    @param  TargetIndex                     Which beam within the emitter to get
+    @param  OutTargetStrength       Value of target tangent
+    
+    @return true            EmitterIndex and TargetIndex are valid - OutTargetStrength is valid
+                    false           EmitterIndex or TargetIndex is invalid - OutTargetStrength is invalid
+  **/
+  @:thisConst public function GetBeamTargetStrength(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetStrength : unreal.Float32) : Bool;
   
   /**
     Enables/Disables a sub-emitter

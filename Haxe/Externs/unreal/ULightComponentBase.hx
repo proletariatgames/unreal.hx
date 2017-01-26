@@ -45,11 +45,6 @@ package unreal;
   public var IndirectLightingIntensity : unreal.Float32;
   
   /**
-    The precomputed lighting for that light source is valid. It might become invalid if some properties change (e.g. position, brightness).
-  **/
-  public var bPrecomputedLightingIsValid : Bool;
-  
-  /**
     Whether the light affects translucency or not.  Disabling this can save GPU time when there are many small lights.
   **/
   public var bAffectTranslucentLighting : Bool;

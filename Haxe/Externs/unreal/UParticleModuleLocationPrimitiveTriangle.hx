@@ -13,12 +13,6 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveTriangle.h")
 @:uextern extern class UParticleModuleLocationPrimitiveTriangle extends unreal.UParticleModuleLocationBase {
   public var Thickness : unreal.FRawDistributionFloat;

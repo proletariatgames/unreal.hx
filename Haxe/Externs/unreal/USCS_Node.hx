@@ -72,15 +72,21 @@ package unreal;
     Socket/Bone that Node might attach to
   **/
   public var AttachToName : unreal.FName;
+  public var VariableName : unreal.FName;
   
   /**
-    If non-None, creates a variable in the class and assigns the created blueprint to it
+    Cached data for faster runtime instancing (only used in cooked builds)
   **/
-  public var VariableName : unreal.FName;
+  public var CookedComponentInstancingData : unreal.FBlueprintCookedComponentInstancingData;
   
   /**
     Template for the component to create
   **/
   public var ComponentTemplate : unreal.UActorComponent;
+  
+  /**
+    Component class
+  **/
+  public var ComponentClass : unreal.UClass;
   
 }

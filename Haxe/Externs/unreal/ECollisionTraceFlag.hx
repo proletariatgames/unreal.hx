@@ -18,21 +18,28 @@ package unreal;
 @:uextern extern enum ECollisionTraceFlag {
   
   /**
-    Keep simple/complex separate for each test. This is the default.
-    @DisplayName Default
+    Use project physics settings (DefaultShapeComplexity)
+    @DisplayName Project Default
   **/
-  @DisplayName("Default")
+  @DisplayName("Project Default")
   CTF_UseDefault;
   
   /**
-    Use simple collision for all collision tests.
+    Create both simple and complex shapes. Simple shapes are used for regular scene queries and collision tests. Complex shape (per poly) is used for complex scene queries.
+    @DisplayName Simple And Complex
+  **/
+  @DisplayName("Simple And Complex")
+  CTF_UseSimpleAndComplex;
+  
+  /**
+    Create only simple shapes. Use simple shapes for all scene queries and collision tests.
     @DisplayName Use Simple Collision As Complex
   **/
   @DisplayName("Use Simple Collision As Complex")
   CTF_UseSimpleAsComplex;
   
   /**
-    Use complex collision (per poly) for all collision tests.
+    Create only complex shapes (per poly). Use complex shapes for all scene queries and collision tests. Can be used in simulation for static shapes only (i.e can be collided against but not moved through forces or velocity.)
     @DisplayName Use Complex Collision As Simple
   **/
   @DisplayName("Use Complex Collision As Simple")

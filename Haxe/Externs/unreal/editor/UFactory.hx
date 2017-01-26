@@ -14,12 +14,29 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
+
+/**
+  Base class for all factories
+  An object responsible for creating and importing new objects.
+**/
 @:glueCppIncludes("Factories/Factory.h")
 @:uextern extern class UFactory extends unreal.UObject {
   
   /**
+    For interactive object imports, this value indicates whether the user wants
+    objects to be automatically overwritten (See EAppReturnType), or -1 if the
+    user should be prompted.
+  **/
+  private var OverwriteYesOrNoToAllState : unreal.Int32;
+  
+  /**
+    Data for how to import files via the automated command line importing interface
+  **/
+  public var AutomatedImportData : unreal.editor.UAutomatedAssetImportData;
+  
+  /**
     Determines the order in which factories are tried when importing or reimporting an object.
-                  Factories with higher priority values will go first. Factories with negative priorities will be excluded.
+          Factories with higher priority values will go first. Factories with negative priorities will be excluded.
   **/
   public var ImportPriority : unreal.Int32;
   

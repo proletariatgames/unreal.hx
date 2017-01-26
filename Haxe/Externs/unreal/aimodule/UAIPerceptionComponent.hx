@@ -29,12 +29,7 @@ package unreal.aimodule;
   **/
   private var DominantSense : unreal.TSubclassOf<unreal.aimodule.UAISense>;
   private var SensesConfig : unreal.TArray<unreal.aimodule.UAISenseConfig>;
-  private var PeripheralVisionAngle : unreal.Float32;
-  private var LoseSightRadius : unreal.Float32;
-  private var SightRadius : unreal.Float32;
-  private var LoSHearingRange : unreal.Float32;
-  private var HearingRange : unreal.Float32;
-  @:final public function OnOwnerEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
+  @:final public function OnOwnerEndPlay(Actor : unreal.AActor, EndPlayReason : unreal.EEndPlayReason) : Void;
   
   /**
     Notifies AIPerceptionSystem to update properties for this "stimuli listener"
@@ -47,8 +42,14 @@ package unreal.aimodule;
   @:thisConst @:final public function GetPerceivedHostileActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
-    If SenseToUse is none all actors perceived in any way will get fetched
+    If SenseToUse is none all actors currently perceived in any way will get fetched
   **/
+  @:thisConst @:final public function GetCurrentlyPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  
+  /**
+    If SenseToUse is none all actors ever perceived in any way (and not forgotten yet) will get fetched
+  **/
+  @:thisConst @:final public function GetKnownPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   @:thisConst @:final public function GetPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**

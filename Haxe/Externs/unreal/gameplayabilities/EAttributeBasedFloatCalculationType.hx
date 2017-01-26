@@ -37,4 +37,9 @@ package unreal.gameplayabilities;
   **/
   AttributeBonusMagnitude;
   
+  /**
+    Use a calculated magnitude stopping with the evaluation of the specified "Final Channel"
+  **/
+  AttributeMagnitudeEvaluatedUpToChannel;
+  
 }

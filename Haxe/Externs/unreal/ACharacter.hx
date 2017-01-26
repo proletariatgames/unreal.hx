@@ -50,6 +50,27 @@ package unreal;
   public var SavedRootMotion : unreal.FRootMotionSourceGroup;
   
   /**
+    Tracks whether or not the character was already jumping last frame.
+  **/
+  public var bWasJumping : Bool;
+  
+  /**
+    Tracks the current number of jumps performed.
+    This is incremented in CheckJumpInput, used in CanJump_Implementation, and reset in OnMovementModeChanged.
+    When providing overrides for these methods, it's recommended to either manually
+    increment / reset this value, or call the Super:: method.
+  **/
+  public var JumpCurrentCount : unreal.Int32;
+  
+  /**
+    The max number of jumps the character can perform.
+    Note that if JumpMaxHoldTime is non zero and StopJumping is not called, the player
+    may be able to perform and unlimited number of jumps. Therefore it is usually
+    best to call StopJumping() when jump input has ceased (such as a button up event).
+  **/
+  public var JumpMaxCount : unreal.Int32;
+  
+  /**
     The max time the jump key can be held.
     Note that if StopJumping() is not called before the max jump hold time is reached,
     then the character will carry on receiving vertical velocity. Therefore it is usually
@@ -98,6 +119,7 @@ package unreal;
     When true, player wants to jump
   **/
   public var bPressedJump : Bool;
+  public var bReplayHasRootMotionSources : Bool;
   
   /**
     Set by character movement to specify that this Character is currently crouched.
@@ -115,6 +137,11 @@ package unreal;
   private var ReplicatedMovementMode : unreal.UInt8;
   
   /**
+    CharacterMovement ServerLastTransformUpdateTimeStamp value, replicated to simulated proxies.
+  **/
+  private var ReplicatedServerLastTransformUpdateTimeStamp : unreal.Float32;
+  
+  /**
     Saved rotation offset of mesh.
   **/
   private var BaseRotationOffset : unreal.FQuat;
@@ -123,6 +150,11 @@ package unreal;
     Saved translation offset of mesh.
   **/
   private var BaseTranslationOffset : unreal.FVector;
+  
+  /**
+    Scale to apply to root motion translation on this Character
+  **/
+  private var AnimRootMotionTranslationScale : unreal.Float32;
   
   /**
     Replicated version of relative movement. Read-only on simulated proxies!
@@ -138,6 +170,16 @@ package unreal;
     Rep notify for ReplicatedBasedMovement
   **/
   public function OnRep_ReplicatedBasedMovement() : Void;
+  
+  /**
+    Get the saved translation offset of mesh. This is how much extra offset is applied from the center of the capsule.
+  **/
+  @:thisConst @:final public function GetBaseTranslationOffset() : unreal.FVector;
+  
+  /**
+    Get the saved rotation offset of mesh. This is how much extra rotation is applied from the capsule rotation.
+  **/
+  @:thisConst @:final public function GetBaseRotationOffsetRotator() : unreal.FRotator;
   
   /**
     Handle Crouching replicated from server
@@ -310,5 +352,10 @@ package unreal;
     This means code path for networked root motion is enabled.
   **/
   @:thisConst @:final public function IsPlayingNetworkedRootMotionMontage() : Bool;
+  
+  /**
+    Returns current value of AnimRootMotionScale
+  **/
+  @:thisConst @:final public function GetAnimRootMotionTranslationScale() : unreal.Float32;
   
 }

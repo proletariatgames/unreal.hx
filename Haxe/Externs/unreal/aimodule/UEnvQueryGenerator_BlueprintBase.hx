@@ -16,6 +16,12 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_BlueprintBase.h")
 @:uextern extern class UEnvQueryGenerator_BlueprintBase extends unreal.aimodule.UEnvQueryGenerator {
+  
+  /**
+    @todo this should show up only in the generator's BP, but
+        due to the way EQS editor is generating widgets it's there as well
+        It's a bug and we'll fix it
+  **/
   public var GeneratedItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;
   
   /**

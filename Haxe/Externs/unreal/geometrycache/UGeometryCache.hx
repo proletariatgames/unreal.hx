@@ -26,6 +26,7 @@ package unreal.geometrycache;
     GeometryCache track defining the samples/geometry data for this GeomCache instance
   **/
   public var Tracks : unreal.TArray<unreal.geometrycache.UGeometryCacheTrack>;
+  public var Materials : unreal.TArray<unreal.UMaterialInterface>;
   #if WITH_EDITORONLY_DATA
   
   /**

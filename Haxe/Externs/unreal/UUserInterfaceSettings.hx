@@ -56,6 +56,11 @@ package unreal;
   public var GrabHandCursor : unreal.FStringClassReference;
   
   /**
+    Widget to use when the Hand Cursor is requested.
+  **/
+  public var HandCursor : unreal.FStringClassReference;
+  
+  /**
     Widget to use when the Crosshairs Cursor is requested.
   **/
   public var CrosshairsCursor : unreal.FStringClassReference;

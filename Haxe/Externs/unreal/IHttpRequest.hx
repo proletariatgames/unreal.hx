@@ -6,6 +6,7 @@ package unreal;
   NotStarted;
   Processing;
   Failed;
+  Failed_ConnectionError;
   Succeeded;
 }
 

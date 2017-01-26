@@ -29,6 +29,13 @@ package unreal.onlinesubsystemutils;
   public function ClientReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
   
   /**
+    Response from the host session after making a cancellation request
+    
+    @param ReservationResponse response from server
+  **/
+  public function ClientCancelReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
+  
+  /**
     Response from the host session that the reservation count has changed
     
     @param NumRemainingReservations number of slots remaining until a full session

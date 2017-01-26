@@ -23,11 +23,6 @@ package unreal.gameplayabilities;
 @:uextern extern class FGameplayAbilitySpec extends unreal.FFastArraySerializerItem {
   
   /**
-    Pending removal due to scope lock
-  **/
-  public var PendingRemove : Bool;
-  
-  /**
     Handle to GE that granted us (usually invalid)
   **/
   public var GameplayEffectHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle;
@@ -48,19 +43,24 @@ package unreal.gameplayabilities;
   public var ActivationInfo : unreal.gameplayabilities.FGameplayAbilityActivationInfo;
   
   /**
+    Pending removal due to scope lock
+  **/
+  public var PendingRemove : Bool;
+  
+  /**
     If true, this ability should be removed as soon as it finishes executing
   **/
   public var RemoveAfterActivation : Bool;
   
   /**
-    A count of the number of times this ability has been activated minus the number of times it has been ended. For instanced abilities this will be the number of currently active instances. Can't replicate until prediction accurately handles this.
-  **/
-  public var ActiveCount : unreal.UInt8;
-  
-  /**
     Is input currently pressed. Set to false when input is released
   **/
   public var InputPressed : Bool;
+  
+  /**
+    A count of the number of times this ability has been activated minus the number of times it has been ended. For instanced abilities this will be the number of currently active instances. Can't replicate until prediction accurately handles this.
+  **/
+  public var ActiveCount : unreal.UInt8;
   
   /**
     Object this ability was created from, can be an actor or static object. Useful to bind an ability to a gameplay object

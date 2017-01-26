@@ -9,8 +9,6 @@ package unreal;
   @:final function StatusUpdate(numerator:Int, denominator:Int, statusText:Const<PRef<FText>>):Void;
   @:final function EndSlowTask():Void;
 
-  var Warnings:TArray<FString>;
-  var Errors:TArray<FString>;
   var TreatWarningsAsErrors:Bool;
 
   function YesNof(question:Const<PRef<FText>>):Bool;

@@ -25,6 +25,11 @@ package unreal;
   /**
     Per-particle vector field scale. Evaluated using emitter time.
   **/
-  public var VectorFieldScale : unreal.UDistributionFloat;
+  public var VectorFieldScaleRaw : unreal.FRawDistributionFloat;
+  
+  /**
+    Per-particle vector field scale. Evaluated using emitter time.
+  **/
+  @:deprecated public var VectorFieldScale_DEPRECATED : unreal.UDistributionFloat;
   
 }

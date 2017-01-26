@@ -19,7 +19,6 @@ package unreal.androidruntimesettings;
   
   Holds the game-specific achievement name and corresponding ID from Google Play services.
 **/
-@:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:noCopy @:noEquals @:uextern extern class FGooglePlayAchievementMapping {
   

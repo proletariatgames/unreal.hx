@@ -18,19 +18,19 @@ package unreal.aimodule;
 @:uextern extern class UCrowdFollowingComponent extends unreal.aimodule.UPathFollowingComponent implements unreal.aimodule.ICrowdAgentInterface {
   
   /**
-    Will NOT avoid other agents if they are in one of specified groups, higher priority than GroupsToAvoid
+    DEPRECATED: Will NOT avoid other agents if they are in one of specified groups, higher priority than GroupsToAvoid - use property from CharacterMovementComponent instead
   **/
-  private var GroupsToIgnore : unreal.FNavAvoidanceMask;
+  @:deprecated private var GroupsToIgnore_DEPRECATED : unreal.FNavAvoidanceMask;
   
   /**
-    Will avoid other agents if they are in one of specified groups
+    DEPRECATED: Will avoid other agents if they are in one of specified groups - use property from CharacterMovementComponent instead
   **/
-  private var GroupsToAvoid : unreal.FNavAvoidanceMask;
+  @:deprecated private var GroupsToAvoid_DEPRECATED : unreal.FNavAvoidanceMask;
   
   /**
-    Group mask for this agent
+    DEPRECATED: Group mask for this agent - use property from CharacterMovementComponent instead
   **/
-  private var AvoidanceGroup : unreal.FNavAvoidanceMask;
+  @:deprecated private var AvoidanceGroup_DEPRECATED : unreal.FNavAvoidanceMask;
   private var CharacterMovement : unreal.UCharacterMovementComponent;
   public var CrowdAgentMoveDirection : unreal.FVector;
   

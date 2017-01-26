@@ -112,7 +112,7 @@ package unreal.umg;
   /**
     Sets the current enabled status of the widget
   **/
-  @:final public function SetIsEnabled(bInIsEnabled : Bool) : Void;
+  public function SetIsEnabled(bInIsEnabled : Bool) : Void;
   
   /**
     Sets a custom widget as the tooltip of the widget.
@@ -142,7 +142,7 @@ package unreal.umg;
   /**
     Sets the visibility of the widget.
   **/
-  @:final public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
+  public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
   
   /**
     Sets the forced volatility of the widget.
@@ -229,5 +229,11 @@ package unreal.umg;
     it will also be removed from those containers.
   **/
   public function RemoveFromParent() : Void;
+  
+  /**
+    Gets the player controller associated with this UI.
+    @return The player controller that owns the UI.
+  **/
+  @:thisConst public function GetOwningPlayer() : unreal.APlayerController;
   
 }

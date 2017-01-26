@@ -38,7 +38,7 @@ package unreal.gameplayabilities;
   CustomCalculationClass;
   
   /**
-    This magnitude will be set explicity by that code/blueprint that creates the spec.
+    This magnitude will be set explicitly by the code/blueprint that creates the spec.
   **/
   SetByCaller;
   

@@ -33,6 +33,11 @@ package unreal;
   public var FloatPropertyName : unreal.FName;
   
   /**
+    Name of track, usually set in Timeline Editor. Used by SetInterpFloatCurve function.
+  **/
+  public var TrackName : unreal.FName;
+  
+  /**
     Float curve to be evaluated
   **/
   public var FloatCurve : unreal.UCurveFloat;

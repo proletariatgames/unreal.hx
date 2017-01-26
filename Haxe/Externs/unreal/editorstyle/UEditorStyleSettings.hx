@@ -22,9 +22,9 @@ package unreal.editorstyle;
 @:uextern extern class UEditorStyleSettings extends unreal.UObject {
   
   /**
-    If checked, new asset editor tabs will open in a new window instead of docked in the tab from which they were opened
+    New asset editor tabs will open at the specified location.
   **/
-  public var bOpenAssetEditorTabsInNewWindow : Bool;
+  public var AssetEditorOpenLocation : unreal.editorstyle.EAssetEditorOpenLocation;
   
   /**
     Should warnings and errors in the Output Log during "Play in Editor" be promoted to the message log?
@@ -35,6 +35,46 @@ package unreal.editorstyle;
     The display mode for timestamps in the output log
   **/
   public var LogTimestampMode : unreal.ELogTimes;
+  
+  /**
+    The font size used in the output log
+  **/
+  public var LogFontSize : unreal.Int32;
+  
+  /**
+    When enabled, the Advanced Details will always auto expand.
+  **/
+  public var bShowAllAdvancedDetails : Bool;
+  
+  /**
+    The color used for error log lines
+  **/
+  public var LogErrorColor : unreal.FLinearColor;
+  
+  /**
+    The color used for warning log lines
+  **/
+  public var LogWarningColor : unreal.FLinearColor;
+  
+  /**
+    The color used for normal text in the output log
+  **/
+  public var LogCommandColor : unreal.FLinearColor;
+  
+  /**
+    The color used for normal text in the output log
+  **/
+  public var LogNormalColor : unreal.FLinearColor;
+  
+  /**
+    The color used for the background of selected text in the output log
+  **/
+  public var LogSelectionBackgroundColor : unreal.FLinearColor;
+  
+  /**
+    The color used for the background in the output log
+  **/
+  public var LogBackgroundColor : unreal.FLinearColor;
   
   /**
     When enabled, the Launch menu items will be shown.
@@ -60,6 +100,26 @@ package unreal.editorstyle;
     Enables animated transitions for certain menus and pop-up windows.  Note that animations may be automatically disabled at low frame rates in order to improve responsiveness.
   **/
   public var bEnableWindowAnimations : Bool;
+  
+  /**
+    The color used to represent the center lines in the grid
+  **/
+  public var CenterColor : unreal.FLinearColor;
+  
+  /**
+    The color used to represent ruler lines in the grid
+  **/
+  public var RuleColor : unreal.FLinearColor;
+  
+  /**
+    The color used to represent regular grid lines
+  **/
+  public var RegularColor : unreal.FLinearColor;
+  
+  /**
+    If true the material editor and blueprint editor will show a grid on it's background.
+  **/
+  public var bUseGrid : Bool;
   
   /**
     Whether to use small toolbar icons without labels or not.

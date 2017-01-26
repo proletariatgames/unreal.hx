@@ -13,13 +13,7 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("AI/Navigation/AbstractNavData.h")
-@:noClass @:uextern extern class AAbstractNavData extends unreal.ANavigationData {
+@:uextern extern class AAbstractNavData extends unreal.ANavigationData {
   
 }

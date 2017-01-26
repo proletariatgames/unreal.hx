@@ -19,7 +19,7 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieScenePropertyTrack.h")
-@:uextern extern class UMovieScenePropertyTrack extends unreal.moviescene.UMovieSceneTrack {
+@:uextern extern class UMovieScenePropertyTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   
   /**
     All the sections in this list

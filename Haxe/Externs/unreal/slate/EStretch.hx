@@ -55,6 +55,11 @@ package unreal.slate;
   ScaleToFill;
   
   /**
+    Scales the content according to the size of the safe zone currently applied to the viewport.
+  **/
+  ScaleBySafeZone;
+  
+  /**
     Scales the content by the scale specified by the user.
   **/
   UserSpecified;

@@ -17,11 +17,12 @@ package unreal.materialshaderqualitysettings;
 /**
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
-  // FMaterialQualityOverrides represents the full set of possible material overrides per quality level.
+  FMaterialQualityOverrides represents the full set of possible material overrides per quality level.
 **/
 @:umodule("MaterialShaderQualitySettings")
 @:glueCppIncludes("ShaderPlatformQualitySettings.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialQualityOverrides {
+  public var MobileCSMQuality : unreal.materialshaderqualitysettings.EMobileCSMQuality;
   public var bForceLQReflections : Bool;
   public var bForceDisableLMDirectionality : Bool;
   public var bForceNonMetal : Bool;

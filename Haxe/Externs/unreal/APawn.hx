@@ -152,7 +152,7 @@ package unreal;
     Use SetCanAffectNavigationGeneration to change this value at runtime.
         Note that calling this function at runtime will result in any navigation change only if runtime navigation generation is enabled.
   **/
-  @:final public function SetCanAffectNavigationGeneration(bNewValue : Bool) : Void;
+  @:final public function SetCanAffectNavigationGeneration(bNewValue : Bool, bForceUpdate : Bool) : Void;
   
   /**
     Basically retrieved pawn's location on navmesh

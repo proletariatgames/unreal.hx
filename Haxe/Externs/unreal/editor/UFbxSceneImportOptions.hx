@@ -24,6 +24,11 @@ package unreal.editor;
 @:uextern extern class UFbxSceneImportOptions extends unreal.UObject {
   
   /**
+    If enabled, this option will cause normal map Y (Green) values to be inverted when importing textures
+  **/
+  public var bInvertNormalMaps : Bool;
+  
+  /**
     If enabled, creates LOD models for Unreal skeletal meshes from LODs in the import file; If not enabled, only the base skeletal mesh from the LOD group is imported.
   **/
   public var bImportSkeletalMeshLODs : Bool;
@@ -32,22 +37,32 @@ package unreal.editor;
     If enabled, creates LOD models for Unreal static meshes from LODs in the import file; If not enabled, only the base static mesh from the LOD group is imported.
   **/
   public var bImportStaticMeshLODs : Bool;
+  
+  /**
+    - Experimental - If this option is true the inverse node pivot will be apply to the mesh vertices. The pivot from the DCC will then be the origin of the mesh. This option only work with static meshes.
+  **/
+  public var bBakePivotInVertex : Bool;
+  
+  /**
+    If this option is true the node absolute transform (transform, offset and pivot) will be apply to the mesh vertices.
+  **/
+  public var bTransformVertexToAbsolute : Bool;
   public var ImportUniformScale : unreal.Float32;
   public var ImportRotation : unreal.FRotator;
   public var ImportTranslation : unreal.FVector;
   
   /**
-    Choose if you want to generate the scene hierarchy with normal level actors or one actor with multiple components or one blueprint asset with multiple components.
+    Choose if you want to generate the scene hierarchy with normal level actors, one actor with multiple components, or one blueprint asset with multiple components.
   **/
   public var HierarchyType : unreal.editor.EFBXSceneOptionsCreateHierarchyType;
   
   /**
-    If checked, the mobility of all actors or component will be dynamic. If not it will be static
+    If checked, the mobility of all actors or components will be dynamic. If unchecked, they will be static.
   **/
   public var bImportAsDynamic : Bool;
   
   /**
-    If check, a folders hierarchy will be create under the import asset path. All the create folders will match the actor hierarchy. In case there is more then one actor that link to an asset, the shared asset will be place at the first actor place.
+    If checked, a folder's hierarchy will be created under the import asset path. All the created folders will match the actor hierarchy. In case there is more than one actor that links to an asset, the shared asset will be placed at the first actor's place.
   **/
   public var bCreateContentFolderHierarchy : Bool;
   

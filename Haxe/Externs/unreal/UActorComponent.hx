@@ -27,9 +27,9 @@ package unreal;
   public var CreationMethod : unreal.EComponentCreationMethod;
   
   /**
-    If true, we call the virtual BeginPlay
+    If true, the component will be excluded from non-editor builds
   **/
-  public var bWantsBeginPlay : Bool;
+  public var bIsEditorOnly : Bool;
   public var bEditableWhenInherited : Bool;
   
   /**
@@ -117,7 +117,7 @@ package unreal;
   @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
   
   /**
-    Enable or disable replication. This is the equivelent of RemoteRole for actors (only a bool is required for components)
+    Enable or disable replication. This is the equivalent of RemoteRole for actors (only a bool is required for components)
   **/
   @:final public function SetIsReplicated(ShouldReplicate : Bool) : Void;
   
@@ -143,6 +143,17 @@ package unreal;
     Returns whether this component has tick enabled or not
   **/
   @:thisConst @:final public function IsComponentTickEnabled() : Bool;
+  
+  /**
+    Sets the tick interval for this component's primary tick function. Does not enable the tick interval. Takes effect on next tick.
+    @param TickInterval   The duration between ticks for this component's primary tick function
+  **/
+  @:final public function SetComponentTickInterval(TickInterval : unreal.Float32) : Void;
+  
+  /**
+    Returns whether this component has tick enabled or not
+  **/
+  @:thisConst @:final public function GetComponentTickInterval() : unreal.Float32;
   
   /**
     Unregister and mark for pending kill a component.  This may not be used to destroy a component is owned by an actor other than the one calling the function.

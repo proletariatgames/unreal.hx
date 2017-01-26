@@ -21,8 +21,16 @@ package unreal;
 **/
 @:glueCppIncludes("Components/InstancedStaticMeshComponent.h")
 @:noCopy @:noEquals @:uextern extern class FInstancedStaticMeshInstanceData {
-  public var ShadowmapUVBias : unreal.FVector2D;
-  public var LightmapUVBias : unreal.FVector2D;
+  
+  /**
+    Legacy, this is now stored in FMeshMapBuildData.  Still serialized for backwards compatibility.
+  **/
+  @:deprecated public var ShadowmapUVBias_DEPRECATED : unreal.FVector2D;
+  
+  /**
+    Legacy, this is now stored in FMeshMapBuildData.  Still serialized for backwards compatibility.
+  **/
+  @:deprecated public var LightmapUVBias_DEPRECATED : unreal.FVector2D;
   public var Transform : unreal.FMatrix;
   
 }

@@ -13,12 +13,6 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Animation/AnimMetaData.h")
 @:uextern extern class UAnimMetaData extends unreal.UObject {
   

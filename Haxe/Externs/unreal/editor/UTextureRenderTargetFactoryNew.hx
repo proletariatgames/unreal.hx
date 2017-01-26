@@ -15,13 +15,13 @@ package unreal.editor;
 
 
 /**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
+  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
   
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/TextureRenderTargetFactoryNew.h")
-@:noClass @:uextern extern class UTextureRenderTargetFactoryNew extends unreal.editor.UFactory {
+@:uextern extern class UTextureRenderTargetFactoryNew extends unreal.editor.UFactory {
   
   /**
     Pixel format of the texture render target

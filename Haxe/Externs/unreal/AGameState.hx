@@ -15,30 +15,11 @@ package unreal;
 
 
 /**
-  GameState is replicated and is valid on servers and clients.
+  GameState is a subclass of GameStateBase that behaves like a multiplayer match-based game.
+  It is tied to functionality in GameMode.
 **/
 @:glueCppIncludes("GameFramework/GameState.h")
-@:uextern extern class AGameState extends unreal.AInfo {
-  
-  /**
-    Frequency that the server updates the replicated TimeSeconds from the world. Set to zero to disable periodic updates.
-  **/
-  private var ServerWorldTimeSecondsUpdateFrequency : unreal.Float32;
-  
-  /**
-    The difference from the local world's TimeSeconds and the server world's TimeSeconds.
-  **/
-  private var ServerWorldTimeSecondsDelta : unreal.Float32;
-  
-  /**
-    Server TimeSeconds. Useful for syncing up animation and gameplay.
-  **/
-  private var ReplicatedWorldTimeSeconds : unreal.Float32;
-  
-  /**
-    Array of all PlayerStates, maintained on both server and clients (PlayerStates are always relevant)
-  **/
-  public var PlayerArray : unreal.TArray<unreal.APlayerState>;
+@:uextern extern class AGameState extends unreal.AGameStateBase {
   
   /**
     Elapsed game time since match has started.
@@ -56,31 +37,6 @@ package unreal;
   private var MatchState : unreal.FName;
   
   /**
-    Class used by spectators, assigned by GameMode.
-  **/
-  public var SpectatorClass : unreal.TSubclassOf<unreal.ASpectatorPawn>;
-  
-  /**
-    Instance of the current game mode, exists only on the server. For non-authority clients, this will be NULL.
-  **/
-  public var AuthorityGameMode : unreal.AGameMode;
-  
-  /**
-    Class of the server's game mode, assigned by GameMode.
-  **/
-  public var GameModeClass : unreal.TSubclassOf<unreal.AGameMode>;
-  
-  /**
-    GameMode class notification callback.
-  **/
-  public function OnRep_GameModeClass() : Void;
-  
-  /**
-    Callback when we receive the spectator class
-  **/
-  public function OnRep_SpectatorClass() : Void;
-  
-  /**
     Match state has changed
   **/
   public function OnRep_MatchState() : Void;
@@ -89,15 +45,5 @@ package unreal;
     Gives clients the chance to do something when time gets updates
   **/
   public function OnRep_ElapsedTime() : Void;
-  
-  /**
-    Returns the simulated TimeSeconds on the server
-  **/
-  @:thisConst public function GetServerWorldTimeSeconds() : unreal.Float32;
-  
-  /**
-    Allows clients to calculate ServerWorldTimeSecondsDelta
-  **/
-  private function OnRep_ReplicatedWorldTimeSeconds() : Void;
   
 }

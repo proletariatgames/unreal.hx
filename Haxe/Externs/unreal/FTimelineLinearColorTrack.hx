@@ -33,6 +33,11 @@ package unreal;
   public var LinearColorPropertyName : unreal.FName;
   
   /**
+    Name of track, usually set in Timeline Editor. Used by SetInterpLinearColorCurve function.
+  **/
+  public var TrackName : unreal.FName;
+  
+  /**
     Float curve to be evaluated
   **/
   public var LinearColorCurve : unreal.UCurveLinearColor;

@@ -59,6 +59,7 @@ package unreal;
     show polys from open (orange) and closed (yellow) sets
   **/
   public var bShowNodePool : Bool;
+  public var bDrawDistanceToWall : Bool;
   
   /**
     if set, all steps of A* algorithm will be accessible for debugging

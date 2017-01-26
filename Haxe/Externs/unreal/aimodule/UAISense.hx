@@ -23,10 +23,4 @@ package unreal.aimodule;
   **/
   private var DefaultExpirationAge : unreal.Float32;
   
-  /**
-    Sense name used in debug drawing
-  **/
-  private var DebugName : unreal.FString;
-  private var DebugDrawColor : unreal.FColor;
-  
 }

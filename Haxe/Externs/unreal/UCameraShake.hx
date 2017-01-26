@@ -136,7 +136,8 @@ package unreal;
   
   /**
     Called when the shake is explicitly stopped.
+    @param bImmediatly           If true, shake stops right away regardless of blend out settings. If false, shake may blend out according to its settings.
   **/
-  public function ReceiveStopShake() : Void;
+  public function ReceiveStopShake(bImmediately : Bool) : Void;
   
 }

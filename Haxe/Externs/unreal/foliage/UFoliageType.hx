@@ -24,6 +24,13 @@ package unreal.foliage;
 @:uextern extern class UFoliageType extends unreal.UObject {
   
   /**
+    Whether this foliage type should be affected by the Engine Scalability system's Foliage scalability setting.
+    Enable for detail meshes that don't really affect the game. Disable for anything important.
+    Typically, this will be enabled for small meshes without collision (e.g. grass) and disabled for large meshes with collision (e.g. trees)
+  **/
+  public var bEnableDensityScaling : Bool;
+  
+  /**
     If checked, foliage instances no longer matching the vertex color constraint will be removed by the Reapply too
   **/
   public var ReapplyVertexColorMask : Bool;
@@ -183,12 +190,20 @@ package unreal.foliage;
     The CollisionRadius determines when two instances overlap. When two instances overlap a winner will be picked based on rules and priority.
   **/
   public var CollisionRadius : unreal.Float32;
+  #if WITH_EDITORONLY_DATA
   public var IsSelected : Bool;
   
   /**
     Bitflag to represent in which editor views this foliage mesh is hidden.
   **/
   public var HiddenEditorViews : unreal.FakeUInt64;
+  #end // WITH_EDITORONLY_DATA
+  
+  /**
+    Lighting channels that placed foliage will be assigned. Lights with matching channels will affect the foliage.
+    These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
+  **/
+  public var LightingChannels : unreal.FLightingChannels;
   
   /**
     Force navmesh
@@ -321,6 +336,7 @@ package unreal.foliage;
   
   /**
     Whether foliage instances should have their angle adjusted away from vertical to match the normal of the surface they're painted on
+    If AlignToNormal is enabled and RandomYaw is disabled, the instance will be rotated so that the +X axis points down-slope
   **/
   public var AlignToNormal : Bool;
   
@@ -333,18 +349,18 @@ package unreal.foliage;
     When unchecked, foliage instances will be placed only when the vertex color in the specified channel(s) is above the threshold amount.
     When checked, the vertex color must be less than the threshold amount
   **/
-  public var VertexColorMaskInvert : Bool;
+  @:deprecated public var VertexColorMaskInvert_DEPRECATED : Bool;
   
   /**
     Specifies the threshold value above which the static mesh vertex color value must be, in order for foliage instances to be placed in a specific area
   **/
-  public var VertexColorMaskThreshold : unreal.Float32;
+  @:deprecated public var VertexColorMaskThreshold_DEPRECATED : unreal.Float32;
   
   /**
     When painting on static meshes, foliage instance placement can be limited to areas where the static mesh has values in the selected vertex color channel(s).
     This allows a static mesh to mask out certain areas to prevent foliage from being placed there
   **/
-  public var VertexColorMask : unreal.foliage.FoliageVertexColorMask;
+  @:deprecated public var VertexColorMask_DEPRECATED : unreal.foliage.FoliageVertexColorMask;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a foliage instance's Z Scale property

@@ -15,6 +15,56 @@ package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavLinkDefinition.h")
 @:uextern extern class FNavigationLinkBase {
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag7 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag6 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag5 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag4 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag3 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag2 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag1 : Bool;
+  
+  /**
+    custom flag, check DescribeCustomFlags for details
+  **/
+  public var bCustomFlag0 : Bool;
+  
+  /**
+    If set, link will try to snap to cheapest area in given radius
+  **/
+  public var bSnapToCheapestArea : Bool;
+  
+  /**
+    WITH_EDITORONLY_DATA
+  **/
+  public var bUseSnapHeight : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -47,17 +97,6 @@ package unreal;
     restrict area only to specified agents
   **/
   public var SupportedAgents : unreal.FNavAgentSelector;
-  
-  /**
-    Area type of this link (empty = default)
-  **/
-  public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
-  
-  /**
-    If set, link will try to snap to cheapest area in given radius
-  **/
-  public var bSnapToCheapestArea : Bool;
-  public var bUseSnapHeight : Bool;
   public var SnapHeight : unreal.Float32;
   public var SnapRadius : unreal.Float32;
   public var Direction : unreal.ENavLinkDirection;

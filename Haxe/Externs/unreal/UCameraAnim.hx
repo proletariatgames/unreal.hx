@@ -33,9 +33,15 @@ package unreal;
   public var BasePostProcessSettings : unreal.FPostProcessSettings;
   
   /**
-    The FOV
+    The base FOV that all FOV keys are relative to.
   **/
   public var BaseFOV : unreal.Float32;
+  
+  /**
+    If true, assume all FOV keys are intended be offsets from the start of the animation.
+    If false, assume all FOV keys are authored relative to the current FOV of the camera at the start of the animation.
+  **/
+  public var bRelativeToInitialFOV : Bool;
   
   /**
     If true, assume all transform keys are intended be offsets from the start of the animation. This allows the animation to be authored at any world location and be applied as a delta to the camera.

@@ -19,6 +19,11 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimationSettings.h")
 @:uextern extern class UAnimationSettings extends unreal.UDeveloperSettings {
+  
+  /**
+    If true, animation track data will be stripped from dedicated server cooked data
+  **/
+  public var bStripAnimationDataOnDedicatedServer : Bool;
   public var bEnablePerformanceLog : Bool;
   
   /**

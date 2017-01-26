@@ -21,14 +21,69 @@ package unreal;
 @:uextern extern class URendererSettings extends unreal.UDeveloperSettings {
   
   /**
+    "Skincache allows a compute shader to skin once each vertex, save those results into a new buffer and reuse those calculations when later running the depth, base and velocity passes. This also allows opting into the 'recompute tangents' for skinned mesh instance feature. Disabling will reduce the number of shader permutations required per material. Changing this setting requires restarting the editor."
+  **/
+  public var bSupportSkinCacheShaders : Bool;
+  
+  /**
+    "Atmospheric fog requires permutations of the basepass shaders.  Disabling will reduce the number of shader permutations required per material. Changing this setting requires restarting the editor."
+  **/
+  public var bSupportAtmosphericFog : Bool;
+  
+  /**
+    PointLight WholeSceneShadows requires many vertex and geometry shader permutations for cubemap rendering. Disabling will reduce the number of shader permutations required per material. Changing this setting requires restarting the editor."
+  **/
+  public var bSupportPointLightWholeSceneShadows : Bool;
+  
+  /**
+    "Low quality lightmap requires permutations of the lightmap rendering shaders.  Disabling will reduce the number of shader permutations required per material. Changing this setting requires restarting the editor."
+  **/
+  public var bSupportLowQualityLightmaps : Bool;
+  
+  /**
+    "Stationary skylight requires permutations of the basepass shaders.  Disabling will reduce the number of shader permutations required per material. Changing this setting requires restarting the editor."
+  **/
+  public var bSupportStationarySkylight : Bool;
+  
+  /**
     Screen radius at which wireframe objects are culled. Larger values can improve performance when viewing a scene in wireframe.
   **/
   public var WireframeCullThreshold : unreal.Float32;
   
   /**
+    Enable mobile multi-view rendering (only available on some GearVR Android devices using OpenGL ES 3.1).
+  **/
+  public var bMobileMultiView : Bool;
+  
+  /**
+    Enable multi-view for instanced stereo rendering (only available on the PS4).
+  **/
+  public var bMultiView : Bool;
+  
+  /**
     Enable instanced stereo rendering (only available for D3D SM5 or PS4).
   **/
   public var bInstancedStereo : Bool;
+  
+  /**
+    Whether to use original CPU method (loop per morph then by vertex) or use a GPU-based method on Shader Model 5 hardware.
+  **/
+  public var bUseGPUMorphTargets : Bool;
+  
+  /**
+    Selects which GBuffer format should be used. Affects performance primarily via how much GPU memory bandwidth used.
+  **/
+  public var GBufferFormat : unreal.EGBufferFormat;
+  
+  /**
+    Whether to support the global clip plane needed for planar reflections.  Enabling this increases BasePass triangle cost by ~15% regardless of whether planar reflections are active. Changing this setting requires restarting the editor.
+  **/
+  public var bGlobalClipPlane : Bool;
+  
+  /**
+    When enabled, after changing the material on a Required particle module a Particle Cutout texture will be chosen automatically from the Opacity Mask texture if it exists, if not the Opacity Texture will be used if it exists.
+  **/
+  public var bDefaultParticleCutouts : Bool;
   
   /**
     Enables not exporting to the GBuffer rendertargets that are not relevant. Changing this setting requires restarting the editor.
@@ -46,7 +101,7 @@ package unreal;
   public var ClearSceneMethod : unreal.EClearSceneOptions;
   
   /**
-    Experimental decal feature (see r.DBuffer, ideally combined with 'Movables in early Z-pass' and 'Early Z-pass')
+    Whether to accumulate decal properties to a buffer before the base pass.  DBuffer decals correctly affect lightmap and sky lighting, unlike regular deferred decals.  DBuffer enabled forces a full prepass.  Changing this setting requires restarting the editor.
   **/
   public var bDBuffer : Bool;
   
@@ -56,14 +111,19 @@ package unreal;
   public var bEarlyZPassMovable : Bool;
   
   /**
-    Whether to use a depth only pass to initialize Z culling for the base pass. Requires a restart!
+    Whether to use a depth only pass to initialize Z culling for the base pass.
   **/
   public var EarlyZPass : unreal.EEarlyZPass;
   
   /**
-    What anti-aliasing mode is used by default (postprocess volume/camera/game setting can still override and enable or disable it independently)
+    Whether to use stencil for LOD dither fading.  This saves GPU time in the base pass for materials with dither fading enabled, but forces a full prepass. Changing this setting requires restarting the editor.
   **/
-  public var DefaultFeatureAntiAliasing : unreal.EAntiAliasingMethodUI;
+  public var bStencilForLODDither : Bool;
+  
+  /**
+    What anti-aliasing mode is used by default
+  **/
+  public var DefaultFeatureAntiAliasing : unreal.EAntiAliasingMethod;
   
   /**
     Whether the default for LensFlare is enabled or not (postprocess volume/camera/game setting can still override and enable or disable it independently)
@@ -74,6 +134,11 @@ package unreal;
     Whether the default for MotionBlur is enabled or not (postprocess volume/camera/game setting can still override and enable or disable it independently)
   **/
   public var bDefaultFeatureMotionBlur : Bool;
+  
+  /**
+    The default method for AutoExposure(postprocess volume/camera/game setting can still override and enable or disable it independently)
+  **/
+  public var DefaultFeatureAutoExposure : unreal.EAutoExposureMethodUI;
   
   /**
     Whether the default for AutoExposure is enabled or not (postprocess volume/camera/game setting can still override and enable or disable it independently)
@@ -141,6 +206,31 @@ package unreal;
   public var bAllowStaticLighting : Bool;
   
   /**
+    Causes opaque materials to use per-vertex fogging, which costs less and integrates properly with MSAA.  Only supported with forward shading. Changing this setting requires restarting the editor.
+  **/
+  public var bVertexFoggingForOpaque : Bool;
+  
+  /**
+    Whether to use forward shading on desktop platforms, requires Shader Model 5 hardware.  Forward shading supports MSAA and has lower default cost, but fewer features supported overall.  Materials have to opt-in to more expensive features like high quality reflections.  Changing this setting requires restarting the editor.
+  **/
+  public var bForwardShading : Bool;
+  
+  /**
+    Whether to reduce lightmap mixing with reflection captures for very smooth surfaces.  This is useful to make sure reflection captures match SSR / planar reflections in brightness.
+  **/
+  public var ReflectionEnvironmentLightmapMixBasedOnRoughness : Bool;
+  
+  /**
+    The cubemap resolution for all reflection capture probes. Must be power of 2. Note that for very high values the memory and performance impact may be severe.
+  **/
+  public var ReflectionCaptureResolution : unreal.Int32;
+  
+  /**
+    Use a separate normal map for the bottom layer of a clear coat material. This is a higher quality feature that is expensive.
+  **/
+  public var bClearCoatEnableSecondNormal : Bool;
+  
+  /**
     Whether to use DXT5 for normal maps, otherwise BC5 will be used, which is not supported on all hardware. Changing this setting requires restarting the editor.
   **/
   public var bUseDXT5NormalMaps : Bool;
@@ -181,6 +271,16 @@ package unreal;
     Checked: Discard unused quality levels when loading content for the game, saving some memory.
   **/
   public var bDiscardUnusedQualityLevels : Bool;
+  
+  /**
+    If true, vertex fog will be omitted from all mobile shaders, this can increase shading performance.
+  **/
+  public var bMobileDisableVertexFog : Bool;
+  
+  /**
+    Allow primitives to receive both static and CSM shadows from a stationary light. Disabling will free a mobile texture sampler.
+  **/
+  public var bMobileEnableStaticAndCSMShadowReceivers : Bool;
   
   /**
     If this setting is enabled, the same shader will be used for any number of dynamic point lights (up to the maximum specified above) hitting a surface. This is slightly slower but reduces the number of shaders generated. Changing this setting requires restarting the editor.

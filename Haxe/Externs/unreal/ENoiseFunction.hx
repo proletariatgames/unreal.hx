@@ -18,31 +18,61 @@ package unreal;
 @:uextern extern enum ENoiseFunction {
   
   /**
-    Fast (~94 instructions per level).
-    @DisplayName Simplex
+    High quality for direct use and bumps
+    ~77 instructions per level, 4 texture lookups
+    Cannot tile
+    @DisplayName Simplex - Texture Based
   **/
-  @DisplayName("Simplex")
-  NOISEFUNCTION_Simplex;
+  @DisplayName("Simplex - Texture Based")
+  NOISEFUNCTION_SimplexTex;
   
   /**
-    Fast (~77 instructions per level) but low quality.
-    @DisplayName Perlin
+    High quality for direct use and bumps
+    Non-tiled: ~61 instructions per level, 8 texture lookups
+    Tiling: ~74 instructions per level, 8 texture lookups
+    Even "non-tiled" mode has a repeat of 128. Useful Repeat Size range <= 128
+    Formerly labeled as Perlin noise
+    @DisplayName Gradient - Texture Based
   **/
-  @DisplayName("Perlin")
-  NOISEFUNCTION_Perlin;
+  @DisplayName("Gradient - Texture Based")
+  NOISEFUNCTION_GradientTex;
   
   /**
-    Very slow (~393 instructions per level).
-    @DisplayName Gradient
+    High quality for direct use, BAD for bumps; doesn't work on Mobile
+    ~16 instructions per level, 1 texture lookup
+    Always tiles with a repeat of 16, "Tiling" mode is not an option for Fast Gradient noise
+    @DisplayName Fast Gradient - 3D Texture
   **/
-  @DisplayName("Gradient")
-  NOISEFUNCTION_Gradient;
+  @DisplayName("Fast Gradient - 3D Texture")
+  NOISEFUNCTION_GradientTex3D;
   
   /**
-    Very fast (1 texture lookup, ~33 instructions per level), need to test more on every hardware, requires high quality texture filtering for bump mapping.
-    @DisplayName FastGradient
+    High quality for direct use and bumps
+    Non-tiled: ~80 instructions per level, no textures
+    Tiling: ~143 instructions per level, no textures
+    @DisplayName Gradient - Computational
   **/
-  @DisplayName("FastGradient")
-  NOISEFUNCTION_FastGradient;
+  @DisplayName("Gradient - Computational")
+  NOISEFUNCTION_GradientALU;
+  
+  /**
+    Low quality, but pure computation
+    Non-tiled: ~53 instructions per level, no textures
+    Tiling: ~118 instructions per level, no textures
+    Formerly mis-labeled as Gradient noise
+    @DisplayName Value - Computational
+  **/
+  @DisplayName("Value - Computational")
+  NOISEFUNCTION_ValueALU;
+  
+  /**
+    Also known as Worley or Cellular noise
+    Quality=1 searches 8 cells, Quality=2 searches 16 cells
+    Quality=3 searches 27 cells, Quality=4 searches 32 cells
+    All are about 20 instructions per cell searched
+    @DisplayName Voronoi
+  **/
+  @DisplayName("Voronoi")
+  NOISEFUNCTION_VoronoiALU;
   
 }

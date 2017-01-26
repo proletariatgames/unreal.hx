@@ -14,7 +14,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Private/SequencerSettings.h")
+@:glueCppIncludes("SequencerSettings.h")
 @:uname("EMovieSceneKeyInterpolation")
 @:class @:uextern extern enum EMovieSceneKeyInterpolation {
   

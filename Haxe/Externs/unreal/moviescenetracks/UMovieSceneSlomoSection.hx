@@ -17,7 +17,7 @@ package unreal.moviescenetracks;
 /**
   WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
   
-  A single floating point section
+  A single floating point section.
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneSlomoSection.h")

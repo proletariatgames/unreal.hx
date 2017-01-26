@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationWorldOffset_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleLocationWorldOffset_Seeded extends unreal.UParticleModuleLocationWorldOffset {
+@:uextern extern class UParticleModuleLocationWorldOffset_Seeded extends unreal.UParticleModuleLocationWorldOffset {
   
   /**
     The random seed(s) to use for looking up values in StartLocation

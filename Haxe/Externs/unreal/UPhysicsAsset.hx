@@ -29,22 +29,31 @@ package unreal;
 @:uextern extern class UPhysicsAsset extends unreal.UObject {
   
   /**
+    If true, bodies of the physics asset will be put into the asynchronous physics scene. If false, they will be put into the synchronous physics scene.
+  **/
+  public var bUseAsyncScene : Bool;
+  
+  /**
     Array of RB_ConstraintSetup objects.
     Stores information about a joint between two bodies, such as position relative to each body, joint limits etc.
   **/
   public var ConstraintSetup : unreal.TArray<unreal.UPhysicsConstraintTemplate>;
   
   /**
+    Array of SkeletalBodySetup objects. Stores information about collision shape etc. for each body.
+    Does not include body position - those are taken from mesh.
+  **/
+  public var SkeletalBodySetups : unreal.TArray<unreal.USkeletalBodySetup>;
+  
+  /**
     Index of bodies that are marked bConsiderForBounds
   **/
   public var BoundsBodies : unreal.TArray<unreal.Int32>;
-  
-  /**
-    Array of BodySetup objects. Stores information about collision shape etc. for each body.
-    Does not include body position - those are taken from mesh.
-  **/
-  public var BodySetup : unreal.TArray<unreal.UBodySetup>;
   #if WITH_EDITORONLY_DATA
+  public var CurrentConstraintProfileName : unreal.FName;
+  public var CurrentPhysicalAnimationProfileName : unreal.FName;
+  public var ConstraintProfiles : unreal.TArray<unreal.FName>;
+  public var PhysicalAnimationProfiles : unreal.TArray<unreal.FName>;
   
   /**
     Default skeletal mesh to use when previewing this PhysicsAsset etc.

@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Materials/MaterialExpressionBreakMaterialAttributes.h")
+@:glueCppIncludes("Materials/MaterialExpressionBlendMaterialAttributes.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialAttributesInput extends unreal.FExpressionInput {
   
 }

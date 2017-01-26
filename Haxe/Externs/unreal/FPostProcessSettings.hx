@@ -51,11 +51,6 @@ package unreal;
   public var ScreenSpaceReflectionIntensity : unreal.Float32;
   
   /**
-    TemporalAA, FXAA, ...
-  **/
-  public var AntiAliasingMethod : unreal.EAntiAliasingMethod;
-  
-  /**
     To render with lower or high resolution than it is presented,
     controlled by console variable,
     100:off, needs to be <99 to get upsampling and lower to get performance,
@@ -125,7 +120,8 @@ package unreal;
   public var DepthOfFieldMaxBokehSize : unreal.Float32;
   
   /**
-    BokehDOF only: To amplify the depth of field effect (like aperture)  0=off
+    SM5: BokehDOF only: To amplify the depth of field effect (like aperture)  0=off
+              ES2: Used to blend DoF. 0=off
   **/
   public var DepthOfFieldScale : unreal.Float32;
   
@@ -160,12 +156,22 @@ package unreal;
   public var DepthOfFieldFocalDistance : unreal.Float32;
   
   /**
+    Width of the camera sensor to assume, in mm.
+  **/
+  public var DepthOfFieldSensorWidth : unreal.Float32;
+  
+  /**
     CircleDOF only: Defines the opening of the camera lens, Aperture is 1/fstop, typical lens go down to f/1.2 (large opening), larger numbers reduce the DOF effect
   **/
   public var DepthOfFieldFstop : unreal.Float32;
   
   /**
-    BokehDOF, Simple gaussian, ...
+    Enable HQ Gaussian on high end mobile platforms. (ES3_1)
+  **/
+  public var bMobileHQGaussian : Bool;
+  
+  /**
+    BokehDOF, Simple gaussian, ... Mobile supports Gaussian only.
   **/
   public var DepthOfFieldMethod : unreal.EDepthOfFieldMethod;
   
@@ -567,18 +573,38 @@ package unreal;
   public var FilmShadowTintBlend : unreal.Float32;
   public var FilmShadowTint : unreal.FLinearColor;
   public var FilmWhitePoint : unreal.FLinearColor;
-  public var ColorOffset : unreal.FVector;
-  public var ColorGain : unreal.FVector;
-  public var ColorGamma : unreal.FVector;
-  public var ColorContrast : unreal.FVector;
-  public var ColorSaturation : unreal.FVector;
+  public var ColorCorrectionHighlightsMin : unreal.Float32;
+  public var ColorOffsetHighlights : unreal.FVector4;
+  public var ColorGainHighlights : unreal.FVector4;
+  public var ColorGammaHighlights : unreal.FVector4;
+  public var ColorContrastHighlights : unreal.FVector4;
+  public var ColorSaturationHighlights : unreal.FVector4;
+  public var ColorOffsetMidtones : unreal.FVector4;
+  public var ColorGainMidtones : unreal.FVector4;
+  public var ColorGammaMidtones : unreal.FVector4;
+  public var ColorContrastMidtones : unreal.FVector4;
+  public var ColorSaturationMidtones : unreal.FVector4;
+  public var ColorCorrectionShadowsMax : unreal.Float32;
+  public var ColorOffsetShadows : unreal.FVector4;
+  public var ColorGainShadows : unreal.FVector4;
+  public var ColorGammaShadows : unreal.FVector4;
+  public var ColorContrastShadows : unreal.FVector4;
+  public var ColorSaturationShadows : unreal.FVector4;
+  public var ColorOffset : unreal.FVector4;
+  public var ColorGain : unreal.FVector4;
+  public var ColorGamma : unreal.FVector4;
+  public var ColorContrast : unreal.FVector4;
+  
+  /**
+    Color Correction controls
+  **/
+  public var ColorSaturation : unreal.FVector4;
   public var WhiteTint : unreal.Float32;
   public var WhiteTemp : unreal.Float32;
   public var bOverride_ScreenSpaceReflectionRoughnessScale : Bool;
   public var bOverride_ScreenSpaceReflectionMaxRoughness : Bool;
   public var bOverride_ScreenSpaceReflectionQuality : Bool;
   public var bOverride_ScreenSpaceReflectionIntensity : Bool;
-  public var bOverride_AntiAliasingMethod : Bool;
   public var bOverride_ScreenPercentage : Bool;
   public var bOverride_MotionBlurPerObjectSize : Bool;
   public var bOverride_MotionBlurMax : Bool;
@@ -589,6 +615,7 @@ package unreal;
   public var bOverride_DepthOfFieldColorThreshold : Bool;
   public var bOverride_DepthOfFieldOcclusion : Bool;
   public var bOverride_DepthOfFieldBokehShape : Bool;
+  public var bOverride_MobileHQGaussian : Bool;
   public var bOverride_DepthOfFieldMethod : Bool;
   public var bOverride_DepthOfFieldFarBlurSize : Bool;
   public var bOverride_DepthOfFieldNearBlurSize : Bool;
@@ -599,6 +626,7 @@ package unreal;
   public var bOverride_DepthOfFieldFocalRegion : Bool;
   public var bOverride_DepthOfFieldDepthBlurAmount : Bool;
   public var bOverride_DepthOfFieldDepthBlurRadius : Bool;
+  public var bOverride_DepthOfFieldSensorWidth : Bool;
   public var bOverride_DepthOfFieldFstop : Bool;
   public var bOverride_DepthOfFieldFocalDistance : Bool;
   public var bOverride_ColorGradingLUT : Bool;
@@ -689,10 +717,31 @@ package unreal;
   public var bOverride_FilmChannelMixerRed : Bool;
   public var bOverride_FilmSaturation : Bool;
   public var bOverride_FilmWhitePoint : Bool;
+  public var bOverride_ColorCorrectionHighlightsMin : Bool;
+  public var bOverride_ColorCorrectionShadowsMax : Bool;
+  public var bOverride_ColorOffsetHighlights : Bool;
+  public var bOverride_ColorGainHighlights : Bool;
+  public var bOverride_ColorGammaHighlights : Bool;
+  public var bOverride_ColorContrastHighlights : Bool;
+  public var bOverride_ColorSaturationHighlights : Bool;
+  public var bOverride_ColorOffsetMidtones : Bool;
+  public var bOverride_ColorGainMidtones : Bool;
+  public var bOverride_ColorGammaMidtones : Bool;
+  public var bOverride_ColorContrastMidtones : Bool;
+  public var bOverride_ColorSaturationMidtones : Bool;
+  public var bOverride_ColorOffsetShadows : Bool;
+  public var bOverride_ColorGainShadows : Bool;
+  public var bOverride_ColorGammaShadows : Bool;
+  public var bOverride_ColorContrastShadows : Bool;
+  public var bOverride_ColorSaturationShadows : Bool;
   public var bOverride_ColorOffset : Bool;
   public var bOverride_ColorGain : Bool;
   public var bOverride_ColorGamma : Bool;
   public var bOverride_ColorContrast : Bool;
+  
+  /**
+    Color Correction controls
+  **/
   public var bOverride_ColorSaturation : Bool;
   public var bOverride_WhiteTint : Bool;
   

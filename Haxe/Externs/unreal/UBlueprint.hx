@@ -22,6 +22,11 @@ package unreal;
 @:glueCppIncludes("Engine/Blueprint.h")
 @:uextern extern class UBlueprint extends unreal.UBlueprintCore {
   #if WITH_EDITORONLY_DATA
+  
+  /**
+    If this BP is just a duplicate created for a specific compilation, the reference to original GeneratedClass is needed
+  **/
+  public var OriginalClass : unreal.UClass;
   public var CrcLastCompiledSignature : unreal.FakeUInt32;
   
   /**
@@ -38,7 +43,8 @@ package unreal;
     Information for thumbnail rendering
   **/
   public var ThumbnailInfo : unreal.UThumbnailInfo;
-  public var PinWatches : unreal.TArray<unreal.UEdGraphPin>;
+  public var DeprecatedPinWatches : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
+  public var WatchedPins : unreal.TArray<unreal.FEdGraphPinReference>;
   
   /**
     Persistent debugging options
@@ -173,7 +179,7 @@ package unreal;
   public var bDisplayCompilePIEWarning : Bool;
   
   /**
-    Additional HideCategories. The are added to HideCategories from parent.
+    Additional HideCategories. These are added to HideCategories from parent.
   **/
   public var HideCategories : unreal.TArray<unreal.FString>;
   
@@ -186,6 +192,11 @@ package unreal;
     shows up in the content browser when the blueprint is hovered
   **/
   public var BlueprintDescription : unreal.FString;
+  
+  /**
+    Whether or not this blueprint's class is a abstract class or not.  Should set CLASS_Abstract in the KismetCompiler.
+  **/
+  public var bGenerateAbstractClass : Bool;
   
   /**
     Whether or not this blueprint's class is a const class or not.  Should set CLASS_Const in the KismetCompiler.

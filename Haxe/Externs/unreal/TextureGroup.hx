@@ -207,4 +207,11 @@ package unreal;
   @DisplayName("2D Pixels (unfiltered)")
   TEXTUREGROUP_Pixels2D;
   
+  /**
+    Hierarchical LOD generated textures
+    @DisplayName Hierarchical LOD
+  **/
+  @DisplayName("Hierarchical LOD")
+  TEXTUREGROUP_HierarchicalLOD;
+  
 }

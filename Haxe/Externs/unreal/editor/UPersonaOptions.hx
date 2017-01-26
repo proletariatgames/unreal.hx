@@ -16,9 +16,13 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/PersonaOptions.h")
 @:uextern extern class UPersonaOptions extends unreal.UObject {
+  public var bAllowPreviewMeshCollectionsToSelectFromDifferentSkeletons : Bool;
+  public var bUseInlineSocketEditor : Bool;
+  public var bUseStandaloneAnimationEditors : Bool;
   public var BranchingPointTimingNodeColor : unreal.FLinearColor;
   public var NotifyTimingNodeColor : unreal.FLinearColor;
   public var SectionTimingNodeColor : unreal.FLinearColor;
+  public var DefaultBoneDrawSelection : unreal.FakeUInt32;
   public var DefaultLocalAxesSelection : unreal.FakeUInt32;
   public var ViewFOV : unreal.Float32;
   public var ViewportBackgroundColor : unreal.FLinearColor;
@@ -32,6 +36,7 @@ package unreal.editor;
   public var bMuteAudio : Bool;
   public var bHighlightOrigin : Bool;
   public var bShowGrid : Bool;
+  public var bAutoAlignFloorToMesh : Bool;
   public var bShowSky : Bool;
   public var bShowFloor : Bool;
   

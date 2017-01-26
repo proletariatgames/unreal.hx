@@ -24,6 +24,11 @@ package unreal.blueprintgraph;
 @:uextern extern class UK2Node_Timeline extends unreal.blueprintgraph.UK2Node {
   
   /**
+    If the timeline should ignore global time dilation
+  **/
+  public var bIgnoreTimeDilation : Bool;
+  
+  /**
     If the timeline is set to loop
   **/
   public var bReplicated : Bool;

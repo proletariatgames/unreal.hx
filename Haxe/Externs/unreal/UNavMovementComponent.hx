@@ -26,6 +26,11 @@ package unreal;
   public var MovementState : unreal.FMovementProperties;
   
   /**
+    Braking distance override used with acceleration driven path following (bUseAccelerationForPaths)
+  **/
+  private var FixedPathBrakingDistance : unreal.Float32;
+  
+  /**
     Properties that define how the component can move.
   **/
   public var NavAgentProps : unreal.FNavAgentProperties;

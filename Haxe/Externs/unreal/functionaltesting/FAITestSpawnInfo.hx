@@ -24,6 +24,11 @@ package unreal.functionaltesting;
 @:noCopy @:noEquals @:uextern extern class FAITestSpawnInfo {
   
   /**
+    delay before attempting first spawn
+  **/
+  public var PreSpawnDelay : unreal.Float32;
+  
+  /**
     delay between consecutive spawn attempts
   **/
   public var SpawnDelay : unreal.Float32;

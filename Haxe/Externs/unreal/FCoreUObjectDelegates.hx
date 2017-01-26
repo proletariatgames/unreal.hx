@@ -2,6 +2,10 @@ package unreal;
 import unreal.*;
 
 @:glueCppIncludes('UObject/UObjectGlobals.h')
+@:uname('FCoreUObjectDelegates.FPreLoadMapDelegate')
+typedef FPreLoadMapDelegate = MulticastDelegate<FPreLoadMapDelegate, Const<PRef<FString>>->Void>;
+
+@:glueCppIncludes('UObject/UObjectGlobals.h')
 @:uextern extern class FCoreUObjectDelegates {
 #if WITH_EDITOR
 
@@ -15,7 +19,7 @@ import unreal.*;
   // Called after garbage collection
   public static var PostGarbageCollect:FSimpleMulticastDelegate;
 
-  public static var PreLoadMap:FSimpleMulticastDelegate;
+  public static var PreLoadMap:FPreLoadMapDelegate;
 
   public static var PostLoadMap:FSimpleMulticastDelegate;
 }

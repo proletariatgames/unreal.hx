@@ -23,8 +23,29 @@ package unreal;
 @:uextern extern class UReflectionCaptureComponent extends unreal.USceneComponent {
   
   /**
+    World space offset to apply before capturing.
+  **/
+  public var CaptureOffset : unreal.FVector;
+  
+  /**
     A brightness control to scale the captured scene's reflection intensity.
   **/
   public var Brightness : unreal.Float32;
+  
+  /**
+    Angle to rotate the source cubemap when SourceType is set to SLS_SpecifiedCubemap.
+  **/
+  public var SourceCubemapAngle : unreal.Float32;
+  
+  /**
+    Cubemap to use for reflection if ReflectionSourceType is set to RS_SpecifiedCubemap.
+  **/
+  public var Cubemap : unreal.UTextureCube;
+  
+  /**
+    Indicates where to get the reflection source from.
+  **/
+  public var ReflectionSourceType : unreal.EReflectionSourceType;
+  public var CaptureOffsetComponent : unreal.UBillboardComponent;
   
 }

@@ -18,6 +18,11 @@ package unreal.editor;
 @:uextern extern class UFbxSceneImportFactory extends unreal.editor.UFactory {
   
   /**
+    Pointer on the fbx scene import data, we fill this object to be able to do re import of the scene
+  **/
+  private var ReimportData : unreal.editor.UFbxSceneImportData;
+  
+  /**
     Import data used when importing textures
   **/
   public var TextureImportData : unreal.editor.UFbxTextureImportData;
@@ -36,16 +41,6 @@ package unreal.editor;
     Import data used when importing static meshes
   **/
   public var StaticMeshImportData : unreal.editor.UFbxStaticMeshImportData;
-  
-  /**
-    Import options UI detail when importing fbx scene material
-  **/
-  public var SceneImportOptionsMaterial : unreal.editor.UFbxSceneImportOptionsMaterial;
-  
-  /**
-    Import options UI detail when importing fbx scene animation
-  **/
-  public var SceneImportOptionsAnimation : unreal.editor.UFbxSceneImportOptionsAnimation;
   
   /**
     Import options UI detail when importing fbx scene skeletal mesh

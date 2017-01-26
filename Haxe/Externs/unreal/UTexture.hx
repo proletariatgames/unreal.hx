@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Texture.h")
-@:uextern extern class UTexture extends unreal.UObject {
+@:uextern extern class UTexture extends unreal.UObject implements unreal.IInterface_AssetUserData {
   
   /**
     Texture group this texture belongs to
@@ -36,6 +36,11 @@ package unreal;
     Compression settings to use when building the texture.
   **/
   public var CompressionSettings : unreal.TextureCompressionSettings;
+  
+  /**
+    Array of user data stored with the asset
+  **/
+  private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
   
   /**
     Whether to use the extra cinematic quality mip-levels, when we're forcing mip-levels to be resident.
@@ -135,6 +140,11 @@ package unreal;
   public var bPreserveBorder : Bool;
   
   /**
+    Alpha values per channel to compare to when preserving alpha coverage.
+  **/
+  public var AlphaCoverageThresholds : unreal.FVector4;
+  
+  /**
     When true, the alpha channel of mip-maps and the base image are dithered for smooth LOD transitions.
   **/
   public var bDitherMipMapAlpha : Bool;
@@ -198,5 +208,6 @@ package unreal;
   @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
   public var Source : unreal.FTextureSource;
   #end // WITH_EDITORONLY_DATA
+  // Interface_AssetUserData interface implementation
   
 }

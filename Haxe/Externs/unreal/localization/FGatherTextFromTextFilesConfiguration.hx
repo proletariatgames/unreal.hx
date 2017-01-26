@@ -24,6 +24,11 @@ package unreal.localization;
 @:noCopy @:noEquals @:uextern extern class FGatherTextFromTextFilesConfiguration {
   
   /**
+    If enabled, data that is specified as editor-only may be processed for gathering.
+  **/
+  public var ShouldGatherFromEditorOnlyData : Bool;
+  
+  /**
     Text files whose names match these wildcard patterns may be parsed for text to gather.
   **/
   public var FileExtensions : unreal.TArray<unreal.localization.FGatherTextFileExtension>;

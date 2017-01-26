@@ -15,12 +15,22 @@ package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("Protocols/CompositionGraphCaptureProtocol.h")
-@:uextern extern class UCompositionGraphCaptureSettings extends unreal.UObject {
+@:uextern extern class UCompositionGraphCaptureSettings extends unreal.moviescenecapture.UMovieSceneCaptureProtocolSettings {
   
   /**
     Custom post processing material to use for rendering
   **/
   public var PostProcessingMaterial : unreal.FStringAssetReference;
+  
+  /**
+    The color gamut to use when storing HDR captured data. The gamut depends on whether the bCaptureFramesInHDR option is enabled.
+  **/
+  public var CaptureGamut : unreal.moviescenecapture.EHDRCaptureGamut;
+  
+  /**
+    Compression Quality for HDR Frames (0 for no compression, 1 for default compression which can be slow)
+  **/
+  public var HDRCompressionQuality : unreal.Int32;
   
   /**
     Whether to capture the frames as HDR textures (*.exr format)

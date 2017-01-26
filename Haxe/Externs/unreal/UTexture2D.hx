@@ -45,6 +45,11 @@ package unreal;
   public var bGlobalForceMipLevelsToBeResident : Bool;
   
   /**
+    Ignores the streaming mip bias used to accommodate memory constraints.
+  **/
+  public var bIgnoreStreamingMipBias : Bool;
+  
+  /**
     Override whether to fully stream even if texture hasn't been rendered.
   **/
   public var bForceMiplevelsToBeResident : Bool;
@@ -63,6 +68,16 @@ package unreal;
     keep track of first mip level used for ResourceMem creation
   **/
   public var FirstResourceMemMip : unreal.Int32;
+  
+  /**
+    * Level scope index of this texture. It is used to reduce the amount of lookup to map a texture to its level index.
+    * Useful when building texture streaming data, as well as when filling the texture streamer with precomputed data.
+    * It relates to FStreamingTextureBuildInfo::TextureLevelIndex and also the index in ULevel::StreamingTextureGuids.
+    * Default value of -1, indicates that the texture has an unknown index (not yet processed). At level load time,
+    * -2 is also used to indicate that the texture has been processed but no entry were found in the level table.
+    * After any of these processes, the LevelIndex is reset to INDEX_NONE. Making it ready for the next level task.
+  **/
+  public var LevelIndex : unreal.Int32;
   
   /**
     Number of miplevels currently resident.

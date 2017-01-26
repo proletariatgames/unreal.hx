@@ -23,6 +23,12 @@ package unreal.enginesettings;
   public var GameInstanceClass : unreal.FStringClassReference;
   
   /**
+    If enabled, this will make so that gamepads start being assigned to the second controller ID in local multiplayer games.
+    In PIE sessions with multiple windows, this has the same effect as enabling "Route 1st Gamepad to 2nd Client"
+  **/
+  public var bOffsetPlayerGamepadIds : Bool;
+  
+  /**
     The viewport layout to use if the screen should be split and there are three local players
   **/
   public var ThreePlayerSplitscreenLayout : unreal.enginesettings.EThreePlayerSplitScreenType;
@@ -40,7 +46,7 @@ package unreal.enginesettings;
   /**
     The map loaded when transition from one map to another.
   **/
-  public var TransitionMap : unreal.FString;
+  public var TransitionMap : unreal.FStringAssetReference;
   
   /**
     The default options that will be appended to a map being loaded.
@@ -50,6 +56,6 @@ package unreal.enginesettings;
   /**
     If set, this map will be loaded when the Editor starts up.
   **/
-  public var EditorStartupMap : unreal.FString;
+  public var EditorStartupMap : unreal.FStringAssetReference;
   
 }

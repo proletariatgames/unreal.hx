@@ -55,6 +55,21 @@ package unreal;
   public var MacroUVPosition : unreal.FVector;
   
   /**
+    The maximum level of significance for emitters in this system. Any emitters with a higher significance will be capped at this significance level.
+  **/
+  public var MaxSignificanceLevel : unreal.EParticleSignificanceLevel;
+  
+  /**
+    Time delay between all emitters becoming insignificant and the systems insignificant reaction.
+  **/
+  public var InsignificanceDelay : unreal.Float32;
+  
+  /**
+    The reaction this system takes when all emitters are insignificant.
+  **/
+  public var InsignificantReaction : unreal.EParticleSystemInsignificanceReaction;
+  
+  /**
     Minimum duration between ticks; 33=tick at max. 30FPS, 16=60FPS, 8=120FPS
   **/
   public var MinTimeBetweenTicks : unreal.FakeUInt32;

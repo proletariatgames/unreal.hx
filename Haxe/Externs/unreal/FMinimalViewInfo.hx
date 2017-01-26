@@ -23,6 +23,11 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FMinimalViewInfo {
   
   /**
+    Off-axis / off-center projection offset as proportion of screen dimensions
+  **/
+  public var OffCenterProjectionOffset : unreal.FVector2D;
+  
+  /**
     Post-process settings to use if PostProcessBlendWeight is non-zero.
   **/
   public var PostProcessSettings : unreal.FPostProcessSettings;

@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
-@:noClass @:uextern extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
+@:uextern extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -30,9 +24,20 @@ package unreal;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    When we have no source locations and we need to track bone velocities due to bInheritBoneVelocity, we pre select a set of bones to use each frame. This property determines how big the list is.
+    Too low and the randomness of selection may suffer, too high and memory will be wasted.
+  **/
+  public var NumPreSelectedIndices : unreal.Int32;
+  
+  /**
     The parameter name of the skeletal mesh actor that supplies the SkelMeshComponent for in-game.
   **/
   public var SkelMeshActorParamName : unreal.FName;
+  
+  /**
+    A scale on how much of the bone's velocity a particle will inherit.
+  **/
+  public var InheritVelocityScale : unreal.Float32;
   
   /**
     If true, particles inherit the associated bone velocity when spawned
@@ -58,7 +63,7 @@ package unreal;
   public var SelectionMethod : unreal.ELocationBoneSocketSelectionMethod;
   
   /**
-    The name(s) of the bone/socket(s) to position at
+    The name(s) of the bone/socket(s) to position at. If this is empty, the module will attempt to spawn from all bones or sockets.
   **/
   public var SourceLocations : unreal.TArray<unreal.FLocationBoneSocketInfo>;
   

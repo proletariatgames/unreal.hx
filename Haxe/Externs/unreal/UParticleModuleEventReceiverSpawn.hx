@@ -23,6 +23,17 @@ package unreal;
 @:noClass @:uextern extern class UParticleModuleEventReceiverSpawn extends unreal.UParticleModuleEventReceiverBase {
   
   /**
+    When true, the PhysicalMaterials list is used to ban specified materials for collision events but allow all others.
+    When false, the PhysicalMaterials list is used to allow only specified materials for collision events and ban all others.
+  **/
+  public var bBanPhysicalMaterials : Bool;
+  
+  /**
+    Array of physical materials that can be used to allow or ban a specific set of materials when receiving collision events.
+  **/
+  public var PhysicalMaterials : unreal.TArray<unreal.UPhysicalMaterial>;
+  
+  /**
     If bInheritVelocity is true, scale the velocity with this.
   **/
   public var InheritVelocityScale : unreal.FRawDistributionVector;

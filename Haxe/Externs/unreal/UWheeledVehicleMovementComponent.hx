@@ -18,7 +18,7 @@ package unreal;
   Component to handle the vehicle simulation for an actor.
 **/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent.h")
-@:uextern extern class UWheeledVehicleMovementComponent extends unreal.UPawnMovementComponent implements unreal.IRVOAvoidanceInterface {
+@:uextern extern class UWheeledVehicleMovementComponent extends unreal.UMovementComponent implements unreal.IRVOAvoidanceInterface {
   
   /**
     Rate at which input steering can rise and fall
@@ -74,6 +74,11 @@ package unreal;
     Steering output to physics system. Range -1...1
   **/
   private var SteeringInput : unreal.Float32;
+  
+  /**
+    What the player has the brake set to. Range -1...1
+  **/
+  private var RawBrakeInput : unreal.Float32;
   
   /**
     What the player has the accelerator set to. Range -1...1
@@ -219,6 +224,11 @@ package unreal;
   public var DragArea : unreal.Float32;
   
   /**
+    If true, the brake and reverse controls will behave in a more arcade fashion where holding reverse also functions as brake. For a more realistic approach turn this off
+  **/
+  public var bReverseAsBrake : Bool;
+  
+  /**
     Chassis height used for drag force computation (cm)
   **/
   public var ChassisHeight : unreal.Float32;
@@ -245,9 +255,19 @@ package unreal;
   public var WheelSetups : unreal.TArray<unreal.FWheelSetup>;
   
   /**
+    Supports the old (before 4.14) way of applying spring forces. We used to offset from the vehicle center of mass instead of the spring location center of mass. You should only use this for existing content that hasn't been re-tuned
+  **/
+  public var bDeprecatedSpringOffsetMode : Bool;
+  
+  /**
     Set the user input for the vehicle throttle
   **/
   @:final public function SetThrottleInput(Throttle : unreal.Float32) : Void;
+  
+  /**
+    Set the user input for the vehicle Brake
+  **/
+  @:final public function SetBrakeInput(Brake : unreal.Float32) : Void;
   
   /**
     Set the user input for the vehicle steering
@@ -309,8 +329,11 @@ package unreal;
   **/
   @:thisConst @:final public function GetUseAutoGears() : Bool;
   @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   
   /**
     Change avoidance state and register with RVO manager if necessary

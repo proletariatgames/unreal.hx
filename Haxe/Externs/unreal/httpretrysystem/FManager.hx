@@ -4,11 +4,15 @@ package unreal.httpretrysystem;
 @:uname('FHttpRetrySystem.FManager')
 @:uextern extern class FManager {
   function new(
-      InRetryLimitCountDefault:PRef<TOptionalSetting<FakeUInt32>>, /* = Unused() */
-      InRetryTimeoutRelativeSecondsDefault:PRef<TOptionalSetting<Float64>>, /* = Unused() */
-      InRetryResponseCodesDefault:PRef<TSet<Int32>>
+      InRetryLimitCountDefault:Const<PRef<TOptionalSetting<FakeUInt32>>>, /* = Unused() */
+      InRetryTimeoutRelativeSecondsDefault:Const<PRef<TOptionalSetting<Float64>>> /* = Unused() */
     );
 
+  function CreateRequest(
+    InRetryLimitCountOverride : Const<PRef<TOptionalSetting<FakeUInt32>>>,
+    InRetryTimeoutRelativeSecondsOverride : Const<PRef<TOptionalSetting<Float64>>>,
+    InRetryResponseCodes:Const<PRef<TSet<Int32>>>
+  ) : TSharedRef<FRequest>;
 
   /**
    * Updates the entries in the list of retry requests.
@@ -16,9 +20,6 @@ package unreal.httpretrysystem;
    *
    **/
   function Update():Bool;
-
-  function ProcessRequest(HttpRequest:PRef<TSharedRef<FRequest>>):Bool;
-  function CancelRequest(HttpRequest:PRef<TSharedRef<FRequest>>):Void;
 
   function SetRandomFailureRate(Value:Float32):Void;
 }

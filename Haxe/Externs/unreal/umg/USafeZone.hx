@@ -17,4 +17,24 @@ package unreal.umg;
 @:glueCppIncludes("UMG.h")
 @:uextern extern class USafeZone extends unreal.umg.UContentWidget {
   
+  /**
+    If this safe zone should pad for the bottom side of the screen's safe zone
+  **/
+  public var PadBottom : Bool;
+  
+  /**
+    If this safe zone should pad for the top side of the screen's safe zone
+  **/
+  public var PadTop : Bool;
+  
+  /**
+    If this safe zone should pad for the right side of the screen's safe zone
+  **/
+  public var PadRight : Bool;
+  
+  /**
+    If this safe zone should pad for the left side of the screen's safe zone
+  **/
+  public var PadLeft : Bool;
+  
 }

@@ -57,7 +57,7 @@ package unreal;
   BPTYPE_LevelScript;
   
   /**
-    Blueprint that servers as a container for functions to be used in other blueprints.
+    Blueprint that serves as a container for functions to be used in other blueprints.
     @DisplayName Blueprint Function Library
   **/
   @DisplayName("Blueprint Function Library")

@@ -21,17 +21,17 @@ package unreal;
 @:uextern extern class UInstancedStaticMeshComponent extends unreal.UStaticMeshComponent {
   
   /**
-    The mappings for all the instances of this component
+    The mappings for all the instances of this component.
   **/
   private var CachedMappings : unreal.TArray<unreal.FInstancedStaticMeshMappingInfo>;
   
   /**
-    Number of pending lightmaps still to be calculated (Apply()'d)
+    Number of pending lightmaps still to be calculated (Apply()'d).
   **/
   private var NumPendingLightmaps : unreal.Int32;
   
   /**
-    Serialization of all the InstanceBodies. Helps speed up physics creation time
+    Serialization of all the InstanceBodies. Helps speed up physics creation time.
   **/
   public var PhysicsSerializer : unreal.UPhysicsSerializer;
   
@@ -46,24 +46,24 @@ package unreal;
   public var InstanceReorderTable : unreal.TArray<unreal.Int32>;
   
   /**
-    Distance from camera at which each instance completely fades out
+    Distance from camera at which each instance completely fades out.
   **/
   public var InstanceEndCullDistance : unreal.Int32;
   
   /**
-    Distance from camera at which each instance begins to fade out
+    Distance from camera at which each instance begins to fade out.
   **/
   public var InstanceStartCullDistance : unreal.Int32;
   
   /**
     Value used to seed the random number stream that generates random numbers for each of this mesh's instances.
-                  The random number is stored in a buffer accessible to materials through the PerInstanceRandom expression.  If
-                  this is set to zero (default), it will be populated automatically by the editor
+                  The random number is stored in a buffer accessible to materials through the PerInstanceRandom expression. If
+                  this is set to zero (default), it will be populated automatically by the editor.
   **/
   public var InstancingRandomSeed : unreal.Int32;
   
   /**
-    Array of instances, bulk serialized
+    Array of instances, bulk serialized.
   **/
   public var PerInstanceSMData : unreal.TArray<unreal.FInstancedStaticMeshInstanceData>;
   
@@ -89,22 +89,23 @@ package unreal;
     @param NewInstanceTransform   The new transform
     @param bWorldSpace                    If true, the new transform interpreted as a World Space transform, otherwise it is interpreted as Local Space
     @param bMarkRenderStateDirty  If true, the change should be visible immediately. If you are updating many instances you should only set this to true for the last instance.
+    @param bTeleport                              Whether or not the instance's physics should be moved normally, or teleported (moved instantly, ignoring velocity).
     @return                                               True on success.
   **/
-  public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool, bMarkRenderStateDirty : Bool) : Bool;
+  public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool, bMarkRenderStateDirty : Bool, bTeleport : Bool) : Bool;
   
   /**
-    Remove the instance specified. Returns True on success.
+    Remove the instance specified. Returns True on success. Note that this will leave the array in order, but may shrink it.
   **/
   public function RemoveInstance(InstanceIndex : unreal.Int32) : Bool;
   
   /**
-    Clear all instances being rendered by this component
+    Clear all instances being rendered by this component.
   **/
   public function ClearInstances() : Void;
   
   /**
-    Get the number of instances in this component
+    Get the number of instances in this component.
   **/
   @:thisConst @:final public function GetInstanceCount() : unreal.Int32;
   
@@ -117,5 +118,10 @@ package unreal;
     Returns the instances with instance bounds overlapping the specified sphere. The return value is an array of instance indices.
   **/
   @:thisConst public function GetInstancesOverlappingSphere(Center : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, bSphereInWorldSpace : Bool) : unreal.TArray<unreal.Int32>;
+  
+  /**
+    Returns the instances with instance bounds overlapping the specified box. The return value is an array of instance indices.
+  **/
+  @:thisConst public function GetInstancesOverlappingBox(Box : unreal.Const<unreal.PRef<unreal.FBox>>, bBoxInWorldSpace : Bool) : unreal.TArray<unreal.Int32>;
   
 }

@@ -15,14 +15,12 @@ package unreal;
 
 
 /**
-  WARNING: This type is defined as NoExport by UHT. It will be empty because of it
-  
   Replicated movement data of our RootComponent.
   Struct used for efficient replication as velocity and location are generally replicated together (this saves a repindex)
   and velocity.Z is commonly zero (most position replications are for walking pawns).
 **/
 @:glueCppIncludes("GameFramework/Actor.h")
-@:noCopy @:noEquals @:uextern extern class FRepMovement {
+@:uextern extern class FRepMovement {
   
   /**
     Allows tuning the compression level for replicated rotation. You should only need to change this from the default if you see visual artifacts.

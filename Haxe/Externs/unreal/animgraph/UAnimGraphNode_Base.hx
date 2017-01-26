@@ -23,6 +23,7 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_Base.h")
 @:uextern extern class UAnimGraphNode_Base extends unreal.blueprintgraph.UK2Node {
+  public var BlueprintUsage : unreal.animgraph.EBlueprintUsage;
   public var ShowPinForProperties : unreal.TArray<unreal.blueprintgraph.FOptionalPinFromProperty>;
   
 }

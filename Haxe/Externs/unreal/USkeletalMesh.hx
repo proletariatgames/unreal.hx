@@ -32,6 +32,13 @@ package unreal;
   private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
   
   /**
+    Animation Blueprint class to run as a post process for this mesh.
+    This blueprint will be ran before physics, but after the main
+    anim instance for any skeletal mesh component using this mesh.
+  **/
+  public var PostProcessAnimBlueprint : unreal.TSubclassOf<unreal.UAnimInstance>;
+  
+  /**
     Clothing asset data
   **/
   public var ClothingAssets : unreal.TArray<unreal.FClothingAssetData>;
@@ -58,13 +65,6 @@ package unreal;
   public var SelectedEditorSection : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   public var MorphTargets : unreal.TArray<unreal.UMorphTarget>;
-  
-  /**
-    Allows artists to adjust the distance where textures using UV 0 are streamed in/out.
-    1.0 is the default, whereas a higher value increases the streamed-in resolution.
-    Value can be < 0 (from legcay content, or code changes)
-  **/
-  public var StreamingDistanceMultiplier : unreal.Float32;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -151,7 +151,20 @@ package unreal;
     List of materials applied to this mesh.
   **/
   public var Materials : unreal.TArray<unreal.FSkeletalMaterial>;
-  public var Bounds : unreal.FBoxSphereBounds;
+  
+  /**
+    Bound extension values in addition to imported bound in the negative direction of XYZ,
+        positive value increases bound size and negative value decreases bound size.
+        The final bound would be from [Imported Bound - Negative Bound] to [Imported Bound + Positive Bound].
+  **/
+  private var NegativeBoundsExtension : unreal.FVector;
+  
+  /**
+    Bound extension values in addition to imported bound in the positive direction of XYZ,
+        positive value increases bound size and negative value decreases bound size.
+        The final bound would be from [Imported Bound - Negative Bound] to [Imported Bound + Positive Bound].
+  **/
+  private var PositiveBoundsExtension : unreal.FVector;
   
   /**
     Skeleton of this skeletal mesh *

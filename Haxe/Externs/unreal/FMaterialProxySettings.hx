@@ -21,6 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Level.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialProxySettings {
+  public var MaterialMergeType : unreal.EMaterialMergeType;
   
   /**
     Override opacity map size

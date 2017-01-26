@@ -37,6 +37,33 @@ package unreal.cablecomponent;
   public var CableWidth : unreal.Float32;
   
   /**
+    Scaling applied to world gravity affecting this cable.
+  **/
+  public var CableGravityScale : unreal.Float32;
+  
+  /**
+    Force vector (world space) applied to all particles in cable.
+  **/
+  public var CableForce : unreal.FVector;
+  
+  /**
+    If collision is enabled, control how much sliding friction is applied when cable is in contact.
+  **/
+  public var CollisionFriction : unreal.Float32;
+  
+  /**
+    EXPERIMENTAL. Perform sweeps for each cable particle, each substep, to avoid collisions with the world.
+    Uses the Collision Preset on the component to determine what is collided with.
+    This greatly increases the cost of the cable simulation.
+  **/
+  public var bEnableCollision : Bool;
+  
+  /**
+    Add stiffness constraints to cable.
+  **/
+  public var bEnableStiffness : Bool;
+  
+  /**
     The number of solver iterations controls how 'stiff' the cable is
   **/
   public var SolverIterations : unreal.Int32;
@@ -57,19 +84,36 @@ package unreal.cablecomponent;
   public var CableLength : unreal.Float32;
   
   /**
-    End location of cable, relative to AttachEndTo if specified, otherwise relative to cable component.
+    End location of cable, relative to AttachEndTo (or AttachEndToSocketName) if specified, otherwise relative to cable component.
   **/
   public var EndLocation : unreal.FVector;
   
   /**
-    Actor or Component that the end of the cable should be attached to
+    Socket name on the AttachEndTo component to attach to
+  **/
+  public var AttachEndToSocketName : unreal.FName;
+  
+  /**
+    Actor or Component that the defines the end position of the cable
   **/
   public var AttachEndTo : unreal.FComponentReference;
   
   /**
+    Should we fix the end to something (using AttachEndTo and EndLocation), or leave it free.
+    If false, AttachEndTo and EndLocation are just used for initial location of end of cable
+  **/
+  public var bAttachEnd : Bool;
+  
+  /**
+    Should we fix the start to something, or leave it free.
+    If false, component transform is just used for initial location of start of cable
+  **/
+  public var bAttachStart : Bool;
+  
+  /**
     Attaches the end of the cable to a specific Component within an Actor *
   **/
-  @:final public function SetAttachEndTo(Actor : unreal.AActor, ComponentProperty : unreal.FName) : Void;
+  @:final public function SetAttachEndTo(Actor : unreal.AActor, ComponentProperty : unreal.FName, SocketName : unreal.FName) : Void;
   
   /**
     Gets the Actor that the cable is attached to *
@@ -80,5 +124,10 @@ package unreal.cablecomponent;
     Gets the specific USceneComponent that the cable is attached to *
   **/
   @:thisConst @:final public function GetAttachedComponent() : unreal.USceneComponent;
+  
+  /**
+    Get array of locations of particles (in world space) making up the cable simulation.
+  **/
+  @:thisConst @:final public function GetCableParticleLocations(Locations : unreal.PRef<unreal.TArray<unreal.FVector>>) : Void;
   
 }

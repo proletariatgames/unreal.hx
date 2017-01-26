@@ -36,6 +36,14 @@ package unreal.umg;
   public var bShowEffectWhenDisabled : Bool;
   
   /**
+    Scales the computed desired size of this border and its contents. Useful
+    for making things that slide open without having to hard-code their size.
+    Note: if the parent widget is set up to ignore this widget's desired size,
+    then changing this value will have no effect.
+  **/
+  public var DesiredSizeScale : unreal.FVector2D;
+  
+  /**
     Color and opacity of the actual border image
   **/
   public var BrushColor : unreal.FLinearColor;
@@ -74,5 +82,12 @@ package unreal.umg;
   @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D) : Void;
   @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
   @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
+  
+  /**
+    Sets the DesireSizeScale of this border.
+    
+    @param InScale    The X and Y multipliers for the desired size
+  **/
+  @:final public function SetDesiredSizeScale(InScale : unreal.FVector2D) : Void;
   
 }

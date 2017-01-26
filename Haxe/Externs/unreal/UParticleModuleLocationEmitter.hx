@@ -13,12 +13,6 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationEmitter.h")
 @:uextern extern class UParticleModuleLocationEmitter extends unreal.UParticleModuleLocationBase {
   

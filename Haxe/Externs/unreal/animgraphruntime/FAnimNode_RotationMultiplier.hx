@@ -21,7 +21,7 @@ package unreal.animgraphruntime;
 @:glueCppIncludes("AnimGraphNode_RotationMultiplier.h")
 @:uextern extern class FAnimNode_RotationMultiplier extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   public var bIsAdditive : Bool;
-  public var RotationAxisToRefer : unreal.animgraphruntime.EBoneAxis;
+  public var RotationAxisToRefer : unreal.EBoneAxis;
   
   /**
     To make these to be easily pin-hookable, I'm not making it struct, but each variable
@@ -30,12 +30,12 @@ package unreal.animgraphruntime;
   public var Multiplier : unreal.Float32;
   
   /**
-    Source to get transform from *
+    Source to get transform from
   **/
   public var SourceBone : unreal.FBoneReference;
   
   /**
-    Name of bone to control. This is the main bone chain to modify from. *
+    Name of bone to control. This is the main bone chain to modify from.
   **/
   public var TargetBone : unreal.FBoneReference;
   

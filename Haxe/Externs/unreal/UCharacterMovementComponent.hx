@@ -35,6 +35,11 @@ package unreal;
   public var bWasSimulatingRootMotion : Bool;
   
   /**
+    Velocity extracted from RootMotionParams when there is anim root motion active. Invalid to use when HasAnimRootMotion() returns false.
+  **/
+  public var AnimRootMotionVelocity : unreal.FVector;
+  
+  /**
     Root Motion movement params. Holds result of anim montage root motion during PerformMovement(), and is overridden
      during autonomous move playback to force historical root motion for MoveAutonomous() calls
   **/
@@ -185,7 +190,8 @@ package unreal;
   public var bCheatFlying : Bool;
   
   /**
-    if true, event NotifyJumpApex() to CharacterOwner's controller when at apex of jump.  Is cleared when event is triggered.
+    If true, event NotifyJumpApex() to CharacterOwner's controller when at apex of jump. Is cleared when event is triggered.
+    By default this is off, and if you want the event to fire you typically set it to true when movement mode changes to "Falling" from another mode (see OnMovementModeChanged).
   **/
   public var bNotifyApex : Bool;
   
@@ -285,6 +291,16 @@ package unreal;
   public var NetworkMaxSmoothUpdateDistance : unreal.Float32;
   
   /**
+    Similar setting as NetworkSimulatedSmoothRotationTime but only used on Listen servers.
+  **/
+  public var ListenServerNetworkSimulatedSmoothRotationTime : unreal.Float32;
+  
+  /**
+    Similar setting as NetworkSimulatedSmoothLocationTime but only used on Listen servers.
+  **/
+  public var ListenServerNetworkSimulatedSmoothLocationTime : unreal.Float32;
+  
+  /**
     How long to take to smoothly interpolate from the old pawn rotation on the client to the corrected one sent by the server. Not used by Linear smoothing.
   **/
   public var NetworkSimulatedSmoothRotationTime : unreal.Float32;
@@ -293,6 +309,33 @@ package unreal;
     How long to take to smoothly interpolate from the old pawn position on the client to the corrected one sent by the server. Not used by Linear smoothing.
   **/
   public var NetworkSimulatedSmoothLocationTime : unreal.Float32;
+  
+  /**
+    Max distance we allow simulated proxies to depenetrate when moving out of other Pawns.
+    Typically we don't want a large value, because we receive a server authoritative position that we should not then ignore by pushing them out of the local player.
+    @see MaxDepenetrationWithGeometry, MaxDepenetrationWithGeometryAsProxy, MaxDepenetrationWithPawn
+  **/
+  public var MaxDepenetrationWithPawnAsProxy : unreal.Float32;
+  
+  /**
+    Max distance we are allowed to depenetrate when moving out of other Pawns.
+    @see MaxDepenetrationWithGeometry, MaxDepenetrationWithGeometryAsProxy, MaxDepenetrationWithPawnAsProxy
+  **/
+  public var MaxDepenetrationWithPawn : unreal.Float32;
+  
+  /**
+    Max distance we allow simulated proxies to depenetrate when moving out of anything but Pawns.
+    This is generally more tolerant than with Pawns, because other geometry is either not moving, or is moving predictably with a bit of delay compared to on the server.
+    @see MaxDepenetrationWithGeometry, MaxDepenetrationWithPawn, MaxDepenetrationWithPawnAsProxy
+  **/
+  public var MaxDepenetrationWithGeometryAsProxy : unreal.Float32;
+  
+  /**
+    Max distance we allow simulated proxies to depenetrate when moving out of anything but Pawns.
+    This is generally more tolerant than with Pawns, because other geometry is either not moving, or is moving predictably with a bit of delay compared to on the server.
+    @see MaxDepenetrationWithGeometryAsProxy, MaxDepenetrationWithPawn, MaxDepenetrationWithPawnAsProxy
+  **/
+  public var MaxDepenetrationWithGeometry : unreal.Float32;
   
   /**
     Max number of iterations used for each discrete simulation step.
@@ -330,12 +373,22 @@ package unreal;
   private var PendingImpulseToApply : unreal.FVector;
   
   /**
-    Velocity after last PerformMovement update. Used internally to detect changes in velocity from external sources.
+    Timestamp when location or rotation last changed during an update. Only valid on the server.
+  **/
+  private var ServerLastTransformUpdateTimeStamp : unreal.Float32;
+  
+  /**
+    Velocity after last PerformMovement or SimulateMovement update. Used internally to detect changes in velocity from external sources.
   **/
   private var LastUpdateVelocity : unreal.FVector;
   
   /**
-    Location after last PerformMovement update. Used internally to detect changes in position from outside character movement to try to validate the current floor.
+    Rotation after last PerformMovement or SimulateMovement update.
+  **/
+  private var LastUpdateRotation : unreal.FQuat;
+  
+  /**
+    Location after last PerformMovement or SimulateMovement update. Used internally to detect changes in position from outside character movement to try to validate the current floor.
   **/
   private var LastUpdateLocation : unreal.FVector;
   
@@ -401,6 +454,11 @@ package unreal;
                   scale the force down, it will never apply more force than defined by PushForceFactor.
   **/
   public var bScalePushForceToVelocity : Bool;
+  
+  /**
+    If enabled, the PushForce location is moved using PushForcePointZOffsetFactor. Otherwise simply use the impact point.
+  **/
+  public var bPushForceUsingZOffset : Bool;
   
   /**
     If enabled, the PushForceFactor is applied per kg mass of the affected object.
@@ -492,7 +550,8 @@ package unreal;
   public var bOrientRotationToMovement : Bool;
   
   /**
-    If true, smoothly rotate the Character toward the Controller's desired rotation, using RotationRate as the rate of rotation change. Overridden by OrientRotationToMovement.
+    If true, smoothly rotate the Character toward the Controller's desired rotation (typically Controller->ControlRotation), using RotationRate as the rate of rotation change. Overridden by OrientRotationToMovement.
+    Normally you will want to make sure that other settings are cleared, such as bUseControllerRotationYaw on the Character.
   **/
   public var bUseControllerDesiredRotation : Bool;
   
@@ -682,8 +741,11 @@ package unreal;
   **/
   private var CharacterOwner : unreal.ACharacter;
   @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
+  @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   
   /**
     Change avoidance state and registers in RVO manager if needed
@@ -821,9 +883,31 @@ package unreal;
   @:final public function SetWalkableFloorZ(InWalkableFloorZ : unreal.Float32) : Void;
   
   /**
+    Sweeps a vertical trace to find the floor for the capsule at the given location. Will attempt to perch if ShouldComputePerchResult() returns true for the downward sweep result.
+    No floor will be found if collision is disabled on the capsule!
+    
+    @param CapsuleLocation                Location where the capsule sweep should originate
+    @param FloorResult                    Result of the floor check
+  **/
+  @:thisConst @:final public function K2_FindFloor(CapsuleLocation : unreal.FVector, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
+  
+  /**
+    Compute distance to the floor from bottom sphere of capsule and store the result in FloorResult.
+    This distance is the swept distance of the capsule to the first point impacted by the lower hemisphere, or distance from the bottom of the capsule in the case of a line trace.
+    This function does not care if collision is disabled on the capsule (unlike FindFloor).
+    
+    @param CapsuleLocation                Location where the capsule sweep should originate
+    @param LineDistance                   If non-zero, max distance to test for a simple line check from the capsule base. Used only if the sweep test fails to find a walkable floor, and only returns a valid result if the impact normal is a walkable normal.
+    @param SweepDistance                  If non-zero, max distance to use when sweeping a capsule downwards for the test. MUST be greater than or equal to the line distance.
+    @param SweepRadius                    The radius to use for sweep tests. Should be <= capsule radius.
+    @param FloorResult                    Result of the floor check
+  **/
+  @:thisConst @:final public function K2_ComputeFloorDist(CapsuleLocation : unreal.FVector, LineDistance : unreal.Float32, SweepDistance : unreal.Float32, SweepRadius : unreal.Float32, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
+  
+  /**
     Called when the collision capsule touches another primitive component
   **/
-  private function CapsuleTouched(Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, OtherBodyIndex : unreal.Int32, bFromSweep : Bool, SweepResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  private function CapsuleTouched(OverlappedComp : unreal.UPrimitiveComponent, Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, OtherBodyIndex : unreal.Int32, bFromSweep : Bool, SweepResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Replicated function sent by client to server - contains client movement and view info.

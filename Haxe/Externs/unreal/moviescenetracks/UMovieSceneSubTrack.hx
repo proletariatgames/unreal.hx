@@ -23,4 +23,9 @@ package unreal.moviescenetracks;
 @:glueCppIncludes("Tracks/MovieSceneSubTrack.h")
 @:uextern extern class UMovieSceneSubTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   
+  /**
+    All movie scene sections.
+  **/
+  private var Sections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
+  
 }

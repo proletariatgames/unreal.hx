@@ -15,32 +15,17 @@ package unreal;
 
 
 /**
-  The GameMode defines the game being played. It governs the game rules, scoring, what actors
-  are allowed to exist in this game type, and who may enter the game.
-  
-  It is only instanced on the server and will never exist on the client.
-  
-  A GameMode actor is instantiated when the level is initialized for gameplay in
-  C++ UGameEngine::LoadMap().
-  
-  The class of this GameMode actor is determined by (in order) either the URL ?game=xxx,
-  the GameMode Override value set in the World Settings, or the DefaultGameMode entry set
-  in the game's Project Settings.
-  
-  @see https://docs.unrealengine.com/latest/INT/Gameplay/Framework/GameMode/index.html
+  GameMode is a subclass of GameModeBase that behaves like a multiplayer match-based game.
+  It has default behavior for picking spawn points and match state.
+  If you want a simpler base, inherit from GameModeBase instead.
 **/
 @:glueCppIncludes("GameFramework/GameMode.h")
-@:uextern extern class AGameMode extends unreal.AInfo {
+@:uextern extern class AGameMode extends unreal.AGameModeBase {
   
   /**
     Returns the current match state, this is an accessor to protect the state machine flow
   **/
   @:thisConst @:final public function GetMatchState() : unreal.FName;
-  
-  /**
-    Returns true if the match state is InProgress or later
-  **/
-  @:thisConst public function HasMatchStarted() : Bool;
   
   /**
     Returns true if the match state is InProgress or other gameplay state
@@ -51,11 +36,6 @@ package unreal;
     Returns true if the match state is WaitingPostMatch or later
   **/
   @:thisConst public function HasMatchEnded() : Bool;
-  
-  /**
-    Transitions to WaitingToStart and calls BeginPlay on actors.
-  **/
-  public function StartPlay() : Void;
   
   /**
     Transition from WaitingToStart to InProgress. You can call this manually, will also get called if ReadyToStartMatch returns true
@@ -73,29 +53,9 @@ package unreal;
   public function RestartGame() : Void;
   
   /**
-    Return to main menu, and disconnect any players
-  **/
-  public function ReturnToMainMenuHost() : Void;
-  
-  /**
     Report that a match has failed due to unrecoverable error
   **/
   public function AbortMatch() : Void;
-  
-  /**
-    Implementable event to respond to match state changes
-  **/
-  private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
-  
-  /**
-    @return True if ready to Start Match. Games should override this
-  **/
-  private function ReadyToStartMatch() : Bool;
-  
-  /**
-    @return true if ready to End Match. Games should override this
-  **/
-  private function ReadyToEndMatch() : Bool;
   
   /**
     Time a playerstate will stick around in an inactive state after a player logout
@@ -103,44 +63,9 @@ package unreal;
   private var InactivePlayerStateLifeSpan : unreal.Float32;
   
   /**
-    Handy alternate short names for GameMode classes (e.g. "DM" could be an alias for "MyProject.MyGameModeMP_DM".
-  **/
-  private var GameModeClassAliases : unreal.TArray<unreal.FGameClassShortName>;
-  
-  /**
     PlayerStates of players who have disconnected from the server (saved in case they reconnect)
   **/
   public var InactivePlayerArray : unreal.TArray<unreal.APlayerState>;
-  
-  /**
-    GameState is used to replicate game state relevant properties to all clients.
-  **/
-  public var GameState : unreal.AGameState;
-  
-  /**
-    Class of GameState associated with this GameMode.
-  **/
-  public var GameStateClass : unreal.TSubclassOf<unreal.AGameState>;
-  
-  /**
-    A PlayerState of this class will be associated with every player to replicate relevant player information to all clients.
-  **/
-  public var PlayerStateClass : unreal.TSubclassOf<unreal.APlayerState>;
-  
-  /**
-    The PlayerController class used when spectating a network replay.
-  **/
-  public var ReplaySpectatorPlayerControllerClass : unreal.TSubclassOf<unreal.APlayerController>;
-  
-  /**
-    The pawn class used by the PlayerController for players when spectating.
-  **/
-  public var SpectatorClass : unreal.TSubclassOf<unreal.ASpectatorPawn>;
-  
-  /**
-    The class of PlayerController to spawn for players logging in.
-  **/
-  public var PlayerControllerClass : unreal.TSubclassOf<unreal.APlayerController>;
   
   /**
     Contains strings describing localized game agnostic messages.
@@ -151,11 +76,6 @@ package unreal;
     Number of players that are still traveling from a previous map
   **/
   public var NumTravellingPlayers : unreal.Int32;
-  
-  /**
-    Game Session handles login approval, arbitration, online game interface
-  **/
-  public var GameSession : unreal.AGameSession;
   
   /**
     Minimum time before player can respawn after dying.
@@ -178,145 +98,38 @@ package unreal;
   public var NumSpectators : unreal.Int32;
   
   /**
-    HUD class this game uses.
-  **/
-  public var HUDClass : unreal.TSubclassOf<unreal.AHUD>;
-  
-  /**
-    The default pawn class used by players.
-  **/
-  public var DefaultPawnClass : unreal.TSubclassOf<unreal.APawn>;
-  
-  /**
-    Save options string and parse it when needed
-  **/
-  public var OptionsString : unreal.FString;
-  
-  /**
     Whether the game should immediately start when the first player logs in. Affects the default behavior of ReadyToStartMatch
   **/
   public var bDelayedStart : Bool;
   
   /**
-    Whether players should immediately spawn when logging in, or stay as spectators until they manually spawn
+    What match state we are currently in
   **/
-  public var bStartPlayersAsSpectators : Bool;
+  private var MatchState : unreal.FName;
   
   /**
-    Whether the game is pauseable.
+    Implementable event to respond to match state changes
   **/
-  public var bPauseable : Bool;
+  private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
   
   /**
-    perform map travels using SeamlessTravel() which loads in the background and doesn't disconnect clients
-    @see World::SeamlessTravel()
+    @return True if ready to Start Match. Games should override this
   **/
-  public var bUseSeamlessTravel : Bool;
+  private function ReadyToStartMatch() : Bool;
+  
+  /**
+    @return true if ready to End Match. Games should override this
+  **/
+  private function ReadyToEndMatch() : Bool;
+  
+  /**
+    Exec command to broadcast a string to all players
+  **/
+  public function Say(Msg : unreal.FString) : Void;
   
   /**
     Alters the synthetic bandwidth limit for a running game.
   **/
   public function SetBandwidthLimit(AsyncIOBandwidthLimit : unreal.Float32) : Void;
-  
-  /**
-    Overridable function to determine whether an Actor should have Reset called when the game has Reset called on it.
-    Default implementation returns true
-    @param ActorToReset The actor to make a determination for
-    @return true if ActorToReset should have Reset() called on it while restarting the game,
-                    false if the GameMode will manually reset it or if the actor does not need to be reset
-  **/
-  public function ShouldReset(ActorToReset : unreal.AActor) : Bool;
-  
-  /**
-    Overridable function called when resetting level.
-    Default implementation calls Reset() on all actors except GameMode and Controllers
-  **/
-  public function ResetLevel() : Void;
-  
-  /**
-    Total number of players
-  **/
-  public function GetNumPlayers() : unreal.Int32;
-  
-  /**
-    Notification that a player has successfully logged in, and has been given a player controller
-  **/
-  public function K2_PostLogin(NewPlayer : unreal.APlayerController) : Void;
-  
-  /**
-    @Returns true if NewPlayerController may only join the server as a spectator.
-  **/
-  @:thisConst public function MustSpectate(NewPlayerController : unreal.APlayerController) : Bool;
-  
-  /**
-    returns default pawn class for given controller
-  **/
-  public function GetDefaultPawnClassForController(InController : unreal.AController) : unreal.UClass;
-  
-  /**
-    Called when StartSpot is selected for spawning NewPlayer to allow optional initialization.
-  **/
-  public function InitStartSpot(StartSpot : unreal.AActor, NewPlayer : unreal.AController) : Void;
-  
-  /**
-    @param       NewPlayer - Controller for whom this pawn is spawned
-    @param       StartSpot - PlayerStart at which to spawn pawn
-    @return      a pawn of the default pawn class
-  **/
-  public function SpawnDefaultPawnFor(NewPlayer : unreal.AController, StartSpot : unreal.AActor) : unreal.APawn;
-  
-  /**
-    Implementable event when a Controller with a PlayerState leaves the match.
-  **/
-  public function K2_OnLogout(ExitingController : unreal.AController) : Void;
-  
-  /**
-    Return whether Viewer is allowed to spectate from the point of view of ViewTarget.
-  **/
-  public function CanSpectate(Viewer : unreal.APlayerController, ViewTarget : unreal.APlayerState) : Bool;
-  
-  /**
-    Sets the name for a controller
-    @param Controller    The controller of the player to change the name of
-    @param NewName               The name to set the player to
-    @param bNameChange   Whether the name is changing or if this is the first time it has been set
-  **/
-  public function ChangeName(Controller : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
-  
-  /**
-    Overridable event for GameMode blueprint to respond to a change name call
-    @param Controller    The controller of the player to change the name of
-    @param NewName               The name to set the player to
-    @param bNameChange   Whether the name is changing or if this is the first time it has been set
-  **/
-  public function K2_OnChangeName(Other : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
-  
-  /**
-    Return the 'best' player start for this player to start from.
-    @param Player The AController for whom we are choosing a Player Start
-    @param IncomingName Specifies the tag of a Player Start to use
-    @returns Actor chosen as player start (usually a PlayerStart)
-  **/
-  public function FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
-  
-  /**
-    Calls code to select the best player start for this player to start from.
-  **/
-  @:final public function K2_FindPlayerStart(Player : unreal.AController) : unreal.AActor;
-  
-  /**
-    Return the 'best' player start for this player to start from.
-    Default implementation just returns the first PlayerStart found.
-    @param Player is the controller for whom we are choosing a playerstart
-    @returns AActor chosen as player start (usually a PlayerStart)
-  **/
-  public function ChoosePlayerStart(Player : unreal.AController) : unreal.AActor;
-  
-  /**
-    @return true if it's valid to call RestartPlayer. Will call Player->CanRestartPlayer
-  **/
-  public function PlayerCanRestart(Player : unreal.APlayerController) : Bool;
-  public function K2_OnSwapPlayerControllers(OldPC : unreal.APlayerController, NewPC : unreal.APlayerController) : Void;
-  public function K2_OnRestartPlayer(NewPlayer : unreal.AController) : Void;
   
 }

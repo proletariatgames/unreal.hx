@@ -18,6 +18,6 @@ package unreal;
 @:uextern extern enum ESuggestProjVelocityTraceOption {
   DoNotTrace;
   TraceFullPath;
-  OnlyTraceWhileAsceding;
+  OnlyTraceWhileAscending;
   
 }

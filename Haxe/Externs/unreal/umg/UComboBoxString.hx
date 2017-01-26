@@ -22,6 +22,23 @@ package unreal.umg;
 @:uextern extern class UComboBoxString extends unreal.umg.UWidget {
   
   /**
+    The foreground color to pass through the hierarchy.
+  **/
+  public var ForegroundColor : unreal.slatecore.FSlateColor;
+  
+  /**
+    The default font to use in the combobox, only applies if you're not implementing OnGenerateWidgetEvent
+    to factory each new entry.
+  **/
+  public var Font : unreal.slatecore.FSlateFontInfo;
+  
+  /**
+    When false, directional keys will change the selection. When true, ComboBox
+    must be activated and will only capture arrow input while activated.
+  **/
+  public var EnableGamepadNavigationMode : Bool;
+  
+  /**
     When false, the down arrow is not generated and it is up to the API consumer
     to make their own visual hint that this is a drop down.
   **/
@@ -34,7 +51,12 @@ package unreal.umg;
   public var ContentPadding : unreal.slatecore.FMargin;
   
   /**
-    The style
+    The item row style.
+  **/
+  public var ItemStyle : unreal.slatecore.FTableRowStyle;
+  
+  /**
+    The style.
   **/
   public var WidgetStyle : unreal.slatecore.FComboBoxStyle;
   @:final public function AddOption(Option : unreal.FString) : Void;

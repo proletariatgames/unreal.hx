@@ -1,3 +1,3 @@
 package unreal;
 
-typedef FComponentSleepSignature = DynamicMulticastDelegate<FComponentSleepSignature, FName->Void>;
+typedef FComponentSleepSignature = DynamicMulticastDelegate<FComponentSleepSignature, UPrimitiveComponent->FName->Void>;

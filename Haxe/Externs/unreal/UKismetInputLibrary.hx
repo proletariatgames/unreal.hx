@@ -30,6 +30,14 @@ package unreal;
   static public function EqualEqual_KeyKey(A : unreal.inputcore.FKey, B : unreal.inputcore.FKey) : Bool;
   
   /**
+    Test if the input chords are equal (A == B)
+    @param A - The chord to compare against
+    @param B - The chord to compare
+    @returns True if the chords are equal, false otherwise
+  **/
+  static public function EqualEqual_InputChordInputChord(A : unreal.slate.FInputChord, B : unreal.slate.FInputChord) : Bool;
+  
+  /**
     @returns True if the key is a modifier key: Ctrl, Command, Alt, Shift
   **/
   static public function Key_IsModifierKey(Key : unreal.Const<unreal.PRef<unreal.inputcore.FKey>>) : Bool;

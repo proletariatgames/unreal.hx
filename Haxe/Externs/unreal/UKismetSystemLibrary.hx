@@ -64,6 +64,13 @@ package unreal;
   static public function GetGameName() : unreal.FString;
   
   /**
+    Retrieves the game's platform-specific bundle identifier or package name of the game
+    
+    @return The game's bundle identifier or package name.
+  **/
+  static public function GetGameBundleId() : unreal.FString;
+  
+  /**
     Get the current user name from the OS
   **/
   static public function GetPlatformUserName() : unreal.FString;
@@ -85,6 +92,11 @@ package unreal;
     Returns whether this is running on a dedicated server
   **/
   static public function IsDedicatedServer(WorldContextObject : unreal.UObject) : Bool;
+  
+  /**
+    Returns whether this game instance is stand alone (no networking).
+  **/
+  static public function IsStandalone(WorldContextObject : unreal.UObject) : Bool;
   
   /**
     Returns whether this is a build that is packaged for distribution
@@ -193,9 +205,18 @@ package unreal;
   static public function RetriggerableDelay(WorldContextObject : unreal.UObject, Duration : unreal.Float32, LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
-    Interpolate a component to the specified relative location and rotation over the course of OverTime seconds.
+    * Interpolate a component to the specified relative location and rotation over the course of OverTime seconds.
+    * @param Component                                             Component to interpolate
+    * @param TargetRelativeLocation                Relative target location
+    * @param TargetRelativeRotation                Relative target rotation
+    * @param bEaseOut                                              if true we will ease out (ie end slowly) during interpolation
+    * @param bEaseIn                                               if true we will ease in (ie start slowly) during interpolation
+    * @param OverTime                                              duration of interpolation
+    * @param bForceShortestRotationPath    if true we will always use the shortest path for rotation
+    * @param MoveAction                                    required movement behavior @see EMoveComponentAction
+    * @param LatentInfo                                    The latent action
   **/
-  static public function MoveComponentTo(Component : unreal.USceneComponent, TargetRelativeLocation : unreal.FVector, TargetRelativeRotation : unreal.FRotator, bEaseOut : Bool, bEaseIn : Bool, OverTime : unreal.Float32, MoveAction : unreal.EMoveComponentAction, LatentInfo : unreal.FLatentActionInfo) : Void;
+  static public function MoveComponentTo(Component : unreal.USceneComponent, TargetRelativeLocation : unreal.FVector, TargetRelativeRotation : unreal.FRotator, bEaseOut : Bool, bEaseIn : Bool, OverTime : unreal.Float32, bForceShortestRotationPath : Bool, MoveAction : unreal.EMoveComponentAction, LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Returns whether the timer handle is valid. This does not indicate that there is an active timer that this handle references, but rather that it once referenced a valid timer.
@@ -216,6 +237,12 @@ package unreal;
     @param Handle                The handle of the timer to clear.
   **/
   static public function K2_ClearTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
+  
+  /**
+    Clears a set timer.
+    @param Handle                The handle of the timer to clear.
+  **/
+  static public function K2_ClearAndInvalidateTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.PRef<unreal.FTimerHandle>) : Void;
   
   /**
     Pauses a set timer at its current elapsed time.
@@ -425,7 +452,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  static public function LineTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
   
   /**
     Does a collision trace along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -439,7 +466,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a blocking hit, false otherwise.
   **/
-  static public function LineTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  static public function LineTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns the first blocking hit encountered.
@@ -544,7 +571,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  static public function LineTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
   
   /**
     Does a collision trace along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -558,7 +585,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  static public function LineTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns the first blocking hit encountered.
@@ -647,43 +674,43 @@ package unreal;
   /**
     Draw directional arrow, pointing from LineStart to LineEnd.
   **/
-  static public function DrawDebugArrow(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, ArrowSize : unreal.Float32, LineColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugArrow(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, ArrowSize : unreal.Float32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug box
   **/
-  static public function DrawDebugBox(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Extent : unreal.FVector, LineColor : unreal.FLinearColor, Rotation : unreal.Const<unreal.FRotator>, Duration : unreal.Float32) : Void;
+  static public function DrawDebugBox(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Extent : unreal.FVector, LineColor : unreal.FLinearColor, Rotation : unreal.Const<unreal.FRotator>, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug coordinate system.
   **/
-  static public function DrawDebugCoordinateSystem(WorldContextObject : unreal.UObject, AxisLoc : unreal.Const<unreal.FVector>, AxisRot : unreal.Const<unreal.FRotator>, Scale : unreal.Float32, Duration : unreal.Float32) : Void;
+  static public function DrawDebugCoordinateSystem(WorldContextObject : unreal.UObject, AxisLoc : unreal.Const<unreal.FVector>, AxisRot : unreal.Const<unreal.FRotator>, Scale : unreal.Float32, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug sphere
   **/
-  static public function DrawDebugSphere(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugSphere(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug cylinder
   **/
-  static public function DrawDebugCylinder(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugCylinder(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug cone
   **/
-  static public function DrawDebugCone(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor) : Void;
+  static public function DrawDebugCone(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug cone
     Angles are specified in degrees
   **/
-  static public function DrawDebugConeInDegrees(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugConeInDegrees(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug capsule
   **/
-  static public function DrawDebugCapsule(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, HalfHeight : unreal.Float32, Radius : unreal.Float32, Rotation : unreal.Const<unreal.FRotator>, LineColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugCapsule(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, HalfHeight : unreal.Float32, Radius : unreal.Float32, Rotation : unreal.Const<unreal.FRotator>, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug string at a 3d world location.
@@ -712,7 +739,7 @@ package unreal;
   /**
     Draws a debug frustum.
   **/
-  static public function DrawDebugFrustum(WorldContextObject : unreal.UObject, FrustumTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, FrustumColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  static public function DrawDebugFrustum(WorldContextObject : unreal.UObject, FrustumTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, FrustumColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
   
   /**
     Draw a debug camera shape.
@@ -764,6 +791,24 @@ package unreal;
   static public function GetSupportedFullscreenResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
   
   /**
+    Gets the list of windowed resolutions which are convenient for the current primary display size.
+    @return true if successfully queried the device for available resolutions.
+  **/
+  static public function GetConvenientWindowedResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
+  
+  /**
+    Gets the smallest Y resolution we want to support in the UI, clamped within reasons
+    @return value in pixels
+  **/
+  static public function GetMinYResolutionForUI() : unreal.Int32;
+  
+  /**
+    Gets the smallest Y resolution we want to support in the 3D view, clamped within reasons
+    @return value in pixels
+  **/
+  static public function GetMinYResolutionFor3DView() : unreal.Int32;
+  
+  /**
     Opens the specified URL in the platform's web browser of choice
   **/
   static public function LaunchURL(URL : unreal.FString) : Void;
@@ -779,7 +824,7 @@ package unreal;
     Will show an ad banner (iAd on iOS, or AdMob on Android) on the top or bottom of screen, on top of the GL view (doesn't resize the view)
     (iOS and Android only)
     
-    @param AdIdIndex The index of the ID to select for the add to show
+    @param AdIdIndex The index of the ID to select for the ad to show
     @param bShowOnBottomOfScreen If true, the iAd will be shown at the bottom of the screen, top otherwise
   **/
   static public function ShowAdBanner(AdIdIndex : unreal.Int32, bShowOnBottomOfScreen : Bool) : Void;
@@ -800,6 +845,32 @@ package unreal;
     (iOS and Android only)
   **/
   static public function ForceCloseAdBanner() : Void;
+  
+  /**
+    Will load a fullscreen interstitial AdMob ad. Call this before using ShowInterstitialAd
+    (Android only)
+    
+    @param AdIdIndex The index of the ID to select for the ad to show
+  **/
+  static public function LoadInterstitialAd(AdIdIndex : unreal.Int32) : Void;
+  
+  /**
+    Returns true if the requested interstitial ad is loaded and ready
+    (Android only)
+  **/
+  static public function IsInterstitialAdAvailable() : Bool;
+  
+  /**
+    Returns true if the requested interstitial ad has been successfully requested (false if load request fails)
+    (Android only)
+  **/
+  static public function IsInterstitialAdRequested() : Bool;
+  
+  /**
+    Shows the loaded interstitial ad (loaded with LoadInterstitialAd)
+    (Android only)
+  **/
+  static public function ShowInterstitialAd() : Void;
   
   /**
     Displays the built-in leaderboard GUI (iOS and Android only; this function may be renamed or moved in a future release)
@@ -856,9 +927,9 @@ package unreal;
     Sets the state of the transition message rendered by the viewport. (The blue text displayed when the game is paused and so forth.)
     
     @param WorldContextObject    World context
-    @param State                                 set true to supress transition message
+    @param State                                 set true to suppress transition message
   **/
-  static public function SetSupressViewportTransitionMessage(WorldContextObject : unreal.UObject, bState : Bool) : Void;
+  static public function SetSuppressViewportTransitionMessage(WorldContextObject : unreal.UObject, bState : Bool) : Void;
   
   /**
     Returns an array of the user's preferred languages in order of preference
@@ -883,5 +954,10 @@ package unreal;
     (iOS only)
   **/
   static public function RegisterForRemoteNotifications() : Void;
+  
+  /**
+    Tells the engine what the user is doing for debug, analytics, etc.
+  **/
+  static public function SetUserActivity(UserActivity : unreal.Const<unreal.PRef<unreal.FUserActivity>>) : Void;
   
 }

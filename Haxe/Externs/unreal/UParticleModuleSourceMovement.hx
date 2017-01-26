@@ -13,14 +13,8 @@
 **/
 package unreal;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:glueCppIncludes("Particles/Location/ParticleModuleSourceMovement.h")
-@:noClass @:uextern extern class UParticleModuleSourceMovement extends unreal.UParticleModuleLocationBase {
+@:uextern extern class UParticleModuleSourceMovement extends unreal.UParticleModuleLocationBase {
   
   /**
     The scale factor to apply to the source movement before adding to the particle location.

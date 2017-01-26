@@ -42,6 +42,16 @@ package unreal;
   private var CachedLocalBounds : unreal.FBoxSphereBounds;
   
   /**
+    CPU skinning rendering - only for previewing in Persona and conversion tools
+  **/
+  public var bCPUSkinning : Bool;
+  
+  /**
+    Controls how dark the capsule indirect shadow can be.
+  **/
+  public var CapsuleIndirectShadowMinVisibility : unreal.Float32;
+  
+  /**
     Whether to use the capsule representation (when present) from a skeletal mesh's ShadowPhysicsAsset for shadowing indirect lighting (from lightmaps or skylight).
   **/
   public var bCastCapsuleIndirectShadow : Bool;
@@ -58,12 +68,14 @@ package unreal;
     TRISORT_CustomLeftRight sections.
   **/
   public var CustomSortAlternateIndexMode : unreal.UInt8;
+  #if WITH_EDITORONLY_DATA
   
   /**
     Editor only. Used for visualizing drawing order in Animset Viewer. If < 1.0,
     only the specified fraction of triangles will be rendered
   **/
   public var ProgressiveDrawingFraction : unreal.Float32;
+  #end // WITH_EDITORONLY_DATA
   
   /**
     true if mesh has been recently rendered, false otherwise
@@ -138,22 +150,6 @@ package unreal;
   public var LODInfo : unreal.TArray<unreal.FSkelMeshComponentLODInfo>;
   
   /**
-    High (best) DistanceFactor that was desired for rendering this USkeletalMesh last frame. Represents how big this mesh was in screen space
-  **/
-  public var MaxDistanceFactor : unreal.Float32;
-  
-  /**
-    LOD level from previous frame, so we can detect changes in LOD to recalc required bones.
-  **/
-  public var OldPredictedLODLevel : unreal.Int32;
-  
-  /**
-    Best LOD that was 'predicted' by UpdateSkelPose.
-    This is what bones were updated based on, so we do not allow rendering at a better LOD than this.
-  **/
-  public var PredictedLODLevel : unreal.Int32;
-  
-  /**
     This is the min LOD that this component will use.  (e.g. if set to 2 then only 2+ LOD Models will be used.) This is useful to set on
     meshes which are known to be a certain distance away and still want to have better LODs when zoomed in on them.
   **/
@@ -180,11 +176,6 @@ package unreal;
   **/
   public var ChunkIndexPreview : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
-  
-  /**
-    Array indicating all active vertex animations. This array is updated inside RefreshBoneTransforms based on the Anim Blueprint.
-  **/
-  public var ActiveVertexAnims : unreal.TArray<unreal.FActiveVertexAnim>;
   
   /**
     When true, we will just using the bounds from our MasterPoseComponent.  This is useful for when we have a Mesh Parented
@@ -221,6 +212,11 @@ package unreal;
   @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
   
   /**
+    Returns the number of bones in the skeleton.
+  **/
+  @:thisConst @:final public function GetNumBones() : unreal.Int32;
+  
+  /**
     Find the index of bone by name. Looks in the current SkeletalMesh being used by this SkeletalMeshComponent.
     
     @param BoneName Name of bone to look up
@@ -253,8 +249,9 @@ package unreal;
     Change the SkeletalMesh that is rendered for this Component. Will re-initialize the animation tree etc.
     
     @param NewMesh New mesh to set for this component
+    @param bReinitPose Whether we should keep current pose or reinitialize.
   **/
-  public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh) : Void;
+  public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh, bReinitPose : Bool) : Void;
   
   /**
     Get Parent Bone of the input bone
@@ -305,6 +302,18 @@ package unreal;
     @param OutRotation (out) Transformed rotation
   **/
   @:final public function TransformFromBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  
+  /**
+    finds the closest bone to the given location
+    
+    @param TestLocation the location to test against
+    @param BoneLocation (optional, out) if specified, set to the world space location of the bone that was found, or (0,0,0) if no bone was found
+    @param IgnoreScale (optional) if specified, only bones with scaling larger than the specified factor are considered
+    @param bRequirePhysicsAsset (optional) if true, only bones with physics will be considered
+    
+    @return the name of the bone that was found, or 'None' if no bone was found
+  **/
+  @:thisConst @:final public function FindClosestBone_K2(TestLocation : unreal.FVector, BoneLocation : unreal.PRef<unreal.FVector>, IgnoreScale : unreal.Float32, bRequirePhysicsAsset : Bool) : unreal.FName;
   
   /**
     Hides the specified bone with name.  Currently this just enforces a scale of 0 for the hidden bones.

@@ -58,9 +58,24 @@ package unreal;
   public var ActionMappings : unreal.TArray<unreal.FInputActionKeyMapping>;
   
   /**
+    The default mouse lock state behavior when the viewport acquires capture
+  **/
+  public var DefaultViewportMouseLockMode : unreal.EMouseLockMode;
+  
+  /**
+    The default mouse lock state when the viewport acquires capture
+  **/
+  @:deprecated public var bDefaultViewportMouseLock_DEPRECATED : Bool;
+  
+  /**
     The default mouse capture mode for the game viewport
   **/
   public var DefaultViewportMouseCaptureMode : unreal.EMouseCaptureMode;
+  
+  /**
+    Controls if the viewport will capture the mouse on Launch of the application
+  **/
+  public var bCaptureMouseOnLaunch : Bool;
   
   /**
     If a key is pressed twice in this amount of time it is considered a "double click"
@@ -86,6 +101,7 @@ package unreal;
     Allow mouse to be used for touch
   **/
   public var bUseMouseForTouch : Bool;
+  public var bF11TogglesFullscreen : Bool;
   public var bAltEnterTogglesFullscreen : Bool;
   
   /**

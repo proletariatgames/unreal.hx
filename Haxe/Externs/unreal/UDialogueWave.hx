@@ -30,15 +30,21 @@ package unreal;
   #if WITH_EDITORONLY_DATA
   
   /**
-    Provides contextual information for the sound to the translator - Notes to the voice actor intended to direct their performance.
+    Provides general notes to the voice actor intended to direct their performance, as well as contextual information to the translator.
   **/
   public var VoiceActorDirection : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**
+    A localized version of the subtitle text that should be displayed for this audio. By default this will be the same as the Spoken Text.
+  **/
+  public var SubtitleOverride : unreal.FString;
+  
+  /**
     A localized version of the text that is actually spoken phonetically in the audio.
   **/
   public var SpokenText : unreal.FString;
+  public var bOverride_SubtitleOverride : Bool;
   
   /**
     true if this dialogue is considered to contain mature/adult content.

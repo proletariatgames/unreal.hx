@@ -24,6 +24,12 @@ package unreal;
   public var ActiveAnimNotifyState : unreal.TArray<unreal.FAnimNotifyEvent>;
   
   /**
+    Selecting this option will cause the compiler to emit warnings whenever a call into Blueprint
+    is made from the animation graph. This can help track down optimizations that need to be made.
+  **/
+  public var bWarnAboutBlueprintUsage : Bool;
+  
+  /**
     Whether we can use parallel updates for our animations.
     Conditions affecting this include:
     - Use of BlueprintUpdateAnimation
@@ -88,7 +94,7 @@ package unreal;
   /**
     Play normal animation asset on the slot node by creating a dynamic UAnimMontage. You can only play one asset (whether montage or animsequence) at a time per SlotGroup.
   **/
-  @:final public function PlaySlotAnimationAsDynamicMontage(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, InPlayRate : unreal.Float32, LoopCount : unreal.Int32, BlendOutTriggerTime : unreal.Float32) : unreal.UAnimMontage;
+  @:final public function PlaySlotAnimationAsDynamicMontage(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, InPlayRate : unreal.Float32, LoopCount : unreal.Int32, BlendOutTriggerTime : unreal.Float32, InTimeToStartMontageAt : unreal.Float32) : unreal.UAnimMontage;
   
   /**
     Stops currently playing slot animation slot or all
@@ -98,32 +104,37 @@ package unreal;
   /**
     Return true if it's playing the slot animation
   **/
-  @:final public function IsPlayingSlotAnimation(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName) : Bool;
+  @:thisConst @:final public function IsPlayingSlotAnimation(Asset : unreal.Const<unreal.UAnimSequenceBase>, SlotNodeName : unreal.FName) : Bool;
   
   /**
     Plays an animation montage. Returns the length of the animation montage in seconds. Returns 0.f if failed to play.
   **/
-  @:final public function Montage_Play(MontageToPlay : unreal.UAnimMontage, InPlayRate : unreal.Float32) : unreal.Float32;
+  @:final public function Montage_Play(MontageToPlay : unreal.UAnimMontage, InPlayRate : unreal.Float32, ReturnValueType : unreal.EMontagePlayReturnType, InTimeToStartMontageAt : unreal.Float32) : unreal.Float32;
   
   /**
     Stops the animation montage. If reference is NULL, it will stop ALL active montages.
   **/
-  @:final public function Montage_Stop(InBlendOutTime : unreal.Float32, Montage : unreal.UAnimMontage) : Void;
+  @:final public function Montage_Stop(InBlendOutTime : unreal.Float32, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
-    Pauses the animation montage. If reference is NULL, it will stop ALL active montages.
+    Pauses the animation montage. If reference is NULL, it will pause ALL active montages.
   **/
-  @:final public function Montage_Pause(Montage : unreal.UAnimMontage) : Void;
+  @:final public function Montage_Pause(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  
+  /**
+    Resumes a paused animation montage. If reference is NULL, it will resume ALL active montages.
+  **/
+  @:final public function Montage_Resume(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Makes a montage jump to a named section. If Montage reference is NULL, it will do that to all active montages.
   **/
-  @:final public function Montage_JumpToSection(SectionName : unreal.FName, Montage : unreal.UAnimMontage) : Void;
+  @:final public function Montage_JumpToSection(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Makes a montage jump to the end of a named section. If Montage reference is NULL, it will do that to all active montages.
   **/
-  @:final public function Montage_JumpToSectionsEnd(SectionName : unreal.FName, Montage : unreal.UAnimMontage) : Void;
+  @:final public function Montage_JumpToSectionsEnd(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Relink new next section AFTER SectionNameToChange in run-time
@@ -135,28 +146,33 @@ package unreal;
     @param SectionNameToChange : This should be the name of the Montage Section after which you want to insert a new next section
     @param NextSection   : new next section
   **/
-  @:final public function Montage_SetNextSection(SectionNameToChange : unreal.FName, NextSection : unreal.FName, Montage : unreal.UAnimMontage) : Void;
+  @:final public function Montage_SetNextSection(SectionNameToChange : unreal.FName, NextSection : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Change AnimMontage play rate. NewPlayRate = 1.0 is the default playback rate.
   **/
-  @:final public function Montage_SetPlayRate(Montage : unreal.UAnimMontage, NewPlayRate : unreal.Float32) : Void;
+  @:final public function Montage_SetPlayRate(Montage : unreal.Const<unreal.UAnimMontage>, NewPlayRate : unreal.Float32) : Void;
   
   /**
     Returns true if the animation montage is active. If the Montage reference is NULL, it will return true if any Montage is active.
   **/
-  @:final public function Montage_IsActive(Montage : unreal.UAnimMontage) : Bool;
+  @:thisConst @:final public function Montage_IsActive(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
   
   /**
     Returns true if the animation montage is currently active and playing.
           If reference is NULL, it will return true is ANY montage is currently active and playing.
   **/
-  @:final public function Montage_IsPlaying(Montage : unreal.UAnimMontage) : Bool;
+  @:thisConst @:final public function Montage_IsPlaying(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
   
   /**
     Returns the name of the current animation montage section.
   **/
-  @:final public function Montage_GetCurrentSection(Montage : unreal.UAnimMontage) : unreal.FName;
+  @:thisConst @:final public function Montage_GetCurrentSection(Montage : unreal.Const<unreal.UAnimMontage>) : unreal.FName;
+  
+  /**
+    Set RootMotionMode
+  **/
+  @:final public function SetRootMotionMode(Value : unreal.ERootMotionMode) : Void;
   
   /**
     Gets the length in seconds of the asset referenced in an asset player node
@@ -182,6 +198,11 @@ package unreal;
     Get the time as a fraction of the asset length of an animation in an asset player node
   **/
   @:final public function GetInstanceAssetPlayerTimeFromEndFraction(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  
+  /**
+    Get the blend weight of a specified state machine
+  **/
+  @:final public function GetInstanceMachineWeight(MachineIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the blend weight of a specified state

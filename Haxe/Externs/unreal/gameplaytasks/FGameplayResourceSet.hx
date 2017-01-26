@@ -14,7 +14,7 @@
 package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
-@:glueCppIncludes("GameplayTask.h", "GameplayTaskOwnerInterface.h", "GameplayTaskResource.h", "GameplayTasksComponent.h", "Tasks/GameplayTask_SpawnActor.h", "Tasks/GameplayTask_WaitDelay.h")
+@:glueCppIncludes("GameplayTask.h", "GameplayTaskOwnerInterface.h", "GameplayTaskResource.h", "GameplayTasksComponent.h", "Tasks/GameplayTask_ClaimResource.h", "Tasks/GameplayTask_SpawnActor.h", "Tasks/GameplayTask_WaitDelay.h")
 @:uextern extern class FGameplayResourceSet {
   
 }

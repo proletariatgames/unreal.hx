@@ -88,14 +88,36 @@ package unreal.landscape;
   public var StaticLightingResolution : unreal.Float32;
   
   /**
+    Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
+    Extension value in the positive Z axis, positive value increases bound size
+  **/
+  public var PositiveZBoundsExtension : unreal.Float32;
+  
+  /**
+    Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
+    Extension value in the negative Z axis, positive value increases bound size
+  **/
+  public var NegativeZBoundsExtension : unreal.Float32;
+  
+  /**
+    Heightfield mipmap used to generate simple collision
+  **/
+  public var SimpleCollisionMipLevel : unreal.Int32;
+  
+  /**
     Heightfield mipmap used to generate collision
   **/
   public var CollisionMipLevel : unreal.Int32;
   
   /**
-    INTERNAL: Array of lights that don't apply to the terrain component.
+    Legacy irrelevant lights
   **/
-  public var IrrelevantLights : unreal.TArray<unreal.FGuid>;
+  @:deprecated public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
+  
+  /**
+    Uniquely identifies this component's built map data.
+  **/
+  public var MapBuildDataId : unreal.FGuid;
   
   /**
     Cached local-space bounding box, created at heightmap update time
@@ -136,7 +158,10 @@ package unreal.landscape;
     List of layers, and the weightmap and channel they are stored
   **/
   public var WeightmapLayerAllocations : unreal.TArray<unreal.landscape.FWeightmapLayerAllocationInfo>;
-  public var MaterialInstance : unreal.UMaterialInstanceConstant;
+  public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceConstant>;
+  #if WITH_EDITORONLY_DATA
+  @:deprecated public var MaterialInstance_DEPRECATED : unreal.UMaterialInstanceConstant;
+  #end // WITH_EDITORONLY_DATA
   public var OverrideHoleMaterial : unreal.UMaterialInterface;
   public var OverrideMaterial : unreal.UMaterialInterface;
   

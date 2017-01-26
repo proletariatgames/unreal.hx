@@ -28,6 +28,9 @@ package unreal;
   **/
   public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
   @:thisConst public function GetMaterials() : unreal.TArray<unreal.UMaterialInterface>;
+  @:thisConst public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
+  @:thisConst public function GetMaterialSlotNames() : unreal.TArray<unreal.FName>;
+  @:thisConst public function IsMaterialSlotNameValid(MaterialSlotName : unreal.FName) : Bool;
   
   /**
     Set all occurrences of Scalar Material Parameters with ParameterName in the set of materials of the SkeletalMesh to ParameterValue

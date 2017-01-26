@@ -37,7 +37,7 @@ package unreal;
   public var DetailMode : unreal.EDetailMode;
   
   /**
-    How often this component is allowed to move, used to make various optimizations. Only safe to set in constructor, use SetMobility() during runtime.
+    How often this component is allowed to move, used to make various optimizations. Only safe to set in constructor.
   **/
   public var Mobility : unreal.EComponentMobility;
   @:deprecated public var RelativeTranslation_DEPRECATED : unreal.FVector;
@@ -99,21 +99,6 @@ package unreal;
     If RelativeLocation should be considered relative to the world, rather than the parent
   **/
   public var bAbsoluteLocation : Bool;
-  
-  /**
-    Optional socket name on AttachParent that we are attached to.
-  **/
-  public var AttachSocketName : unreal.FName;
-  
-  /**
-    List of child SceneComponents that are attached to us.
-  **/
-  public var AttachChildren : unreal.TArray<unreal.USceneComponent>;
-  
-  /**
-    What we are currently attached to. If valid, RelativeLocation etc. are used relative to this object
-  **/
-  public var AttachParent : unreal.USceneComponent;
   
   /**
     Set the location of the component relative to its parent
@@ -391,19 +376,36 @@ package unreal;
     @param  InSocketName                 Optional socket to attach to on the parent.
     @param  AttachType                   How to handle transform when attaching (Keep relative offset, keep world position, etc).
     @param  bWeldSimulatedBodies Whether to weld together simulated physics bodies.
+    @return True if attachment is successful (or already attached to requested parent/socket), false if attachment is rejected and there is no change in AttachParent.
   **/
-  @:final public function K2_AttachTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName, AttachType : unreal.EAttachLocation, bWeldSimulatedBodies : Bool) : Void;
+  @:final public function K2_AttachTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName, AttachType : unreal.EAttachLocation, bWeldSimulatedBodies : Bool) : Bool;
+  
+  /**
+    Attach this component to another scene component, optionally at a named socket. It is valid to call this on components whether or not they have been Registered.
+    @param  Parent                                        Parent to attach to.
+    @param  SocketName                            Optional socket to attach to on the parent.
+    @param  LocationRule                          How to handle translation when attaching.
+    @param  RotationRule                          How to handle rotation when attaching.
+    @param  ScaleRule                                     How to handle scale when attaching.
+    @param  bWeldSimulatedBodies          Whether to weld together simulated physics bodies.
+    @return True if attachment is successful (or already attached to requested parent/socket), false if attachment is rejected and there is no change in AttachParent.
+  **/
+  @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, bWeldSimulatedBodies : Bool) : Bool;
   
   /**
     Zeroes out the relative transform of the component, and calls AttachTo(). Useful for attaching directly to a scene component or socket location
   **/
-  @:final public function SnapTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName) : Void;
+  @:final public function SnapTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName) : Bool;
+  public function DetachFromParent(bMaintainWorldPosition : Bool, bCallModify : Bool) : Void;
   
   /**
     Detach this component from whatever it is attached to. Automatically unwelds components that are welded together (See WeldTo)
-    @param bMaintainWorldTransform     If true, update the relative location/rotation of the component to keep its world position the same *
+    @param LocationRule                          How to handle translations when detaching.
+    @param RotationRule                          How to handle rotation when detaching.
+    @param ScaleRule                                     How to handle scales when detaching.
+    @param bCallModify                           If true, call Modify() on the component and the current attach parent component
   **/
-  public function DetachFromParent(bMaintainWorldPosition : Bool, bCallModify : Bool) : Void;
+  @:final public function K2_DetachFromComponent(LocationRule : unreal.EDetachmentRule, RotationRule : unreal.EDetachmentRule, ScaleRule : unreal.EDetachmentRule, bCallModify : Bool) : Void;
   
   /**
     Gets the names of all the sockets on the component.

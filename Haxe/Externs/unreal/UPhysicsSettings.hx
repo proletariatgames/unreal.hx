@@ -71,15 +71,50 @@ package unreal;
   public var bDisableCCD : Bool;
   
   /**
+    If true, physx will not update unreal with any bodies that have moved during the simulation. This should only be used if you have no physx simulation or you are manually updating the unreal data via polling physx.
+  **/
+  public var bDisableActiveActors : Bool;
+  
+  /**
+    If true, store extra information to allow FindCollisionUV to derive UV info from a line trace hit result, using the FindCollisionUV utility
+  **/
+  public var bSupportUVFromHitResults : Bool;
+  
+  /**
+    If true, the internal physx face to UE face mapping will not be generated. This is a memory optimization available if you do not rely on face indices returned by scene queries.
+  **/
+  public var bSuppressFaceRemapTable : Bool;
+  
+  /**
     If true, static meshes will use per poly collision as complex collision by default. If false the default behavior is the same as UseSimpleAsComplex.
   **/
-  public var bDefaultHasComplexCollision : Bool;
+  @:deprecated public var bDefaultHasComplexCollision_DEPRECATED : Bool;
+  
+  /**
+    Determines the default physics shape complexity.
+  **/
+  public var DefaultShapeComplexity : unreal.ECollisionTraceFlag;
   
   /**
     If true, simulate physics for this component on a dedicated server.
     This should be set if simulating physics and replicating with a dedicated server.
   **/
   public var bSimulateSkeletalMeshOnDedicatedServer : Bool;
+  
+  /**
+    Max Contact offset.
+  **/
+  public var MaxContactOffset : unreal.Float32;
+  
+  /**
+    Min Contact offset.
+  **/
+  public var MinContactOffset : unreal.Float32;
+  
+  /**
+    Contact offset multiplier. When creating a physics shape we look at its bounding volume and multiply its minimum value by this multiplier. A bigger number will generate contact points earlier which results in higher stability at the cost of performance.
+  **/
+  public var ContactOffsetMultiplier : unreal.Float32;
   
   /**
     Max velocity which may be used to depenetrate simulated physics objects. 0 means no maximum.
@@ -146,6 +181,11 @@ package unreal;
     Threshold for ragdoll bodies above which they will be added to an aggregate before being added to the scene
   **/
   public var RagdollAggregateThreshold : unreal.Int32;
+  
+  /**
+    Amount of memory to reserve for PhysX simulate(), this is per pxscene and will be rounded up to the next 16K boundary
+  **/
+  public var SimulateScratchMemorySize : unreal.Int32;
   
   /**
     Default fluid friction for Physics Volumes.

@@ -24,6 +24,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class USizeBox extends unreal.umg.UContentWidget {
+  public var MaxAspectRatio : unreal.Float32;
   
   /**
     When specified, will report the MaxDesiredHeight if smaller than the content's desired height.
@@ -54,6 +55,7 @@ package unreal.umg;
     When specified, ignore the content's desired size and report the WidthOverride as the Box's desired width.
   **/
   public var WidthOverride : unreal.Float32;
+  public var bOverride_MaxAspectRatio : Bool;
   public var bOverride_MaxDesiredHeight : Bool;
   public var bOverride_MaxDesiredWidth : Bool;
   public var bOverride_MinDesiredHeight : Bool;
@@ -96,5 +98,7 @@ package unreal.umg;
   **/
   @:final public function SetMaxDesiredHeight(InMaxDesiredHeight : unreal.Float32) : Void;
   @:final public function ClearMaxDesiredHeight() : Void;
+  @:final public function SetMaxAspectRatio(InMaxAspectRatio : unreal.Float32) : Void;
+  @:final public function ClearMaxAspectRatio() : Void;
   
 }

@@ -72,7 +72,7 @@ package unreal;
   public var SubObjects : unreal.TArray<unreal.UObject>;
   
   /**
-    what distance do you want this to show up instead of SubActors
+    The hierarchy level of this actor; the first tier of HLOD is level 1, the second tier is level 2 and so on.
   **/
   public var LODLevel : unreal.Int32;
   

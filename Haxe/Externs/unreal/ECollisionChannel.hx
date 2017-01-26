@@ -16,21 +16,13 @@ package unreal;
 
 /**
   Enum indicating different type of objects for rigid-body collision purposes.
-  NOTE!! Some of these values are used to index into FCollisionResponseContainers and must be kept in sync.
-  @see FCollisionResponseContainer::SetResponse().
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
 @:uname("ECollisionChannel")
 @:uextern extern enum ECollisionChannel {
   
   /**
-    @NOTE!!!! This DisplayName [DISPLAYNAME] SHOULD MATCH suffix of ECC_DISPLAYNAME
-    Otherwise it will mess up collision profile loading
-    If you change this, please also change FCollisionResponseContainers
-    
-    If you add any more TraceQuery="1", you also should change UCollsionProfile::LoadProfileConfig
-    Metadata doesn't work outside of editor, so you'll need to add manually
-    @DisplayName WorldStatic
+    WorldStatic
   **/
   @DisplayName("WorldStatic")
   ECC_WorldStatic;
@@ -78,7 +70,7 @@ package unreal;
   ECC_Destructible;
   
   /**
-    Unspecified Engine Trace Channels
+    Reserved for gizmo collision
   **/
   ECC_EngineTraceChannel1;
   ECC_EngineTraceChannel2;
@@ -86,22 +78,6 @@ package unreal;
   ECC_EngineTraceChannel4;
   ECC_EngineTraceChannel5;
   ECC_EngineTraceChannel6;
-  
-  /**
-    in order to use this custom channels
-    we recommend to define in your local file
-    - i.e. #define COLLISION_WEAPON               ECC_GameTraceChannel1
-    and make sure you customize these it in INI file by
-    
-    in DefaultEngine.ini
-    
-    [/Script/Engine.CollisionProfile]
-    GameTraceChannel1="Weapon"
-    
-    also in the INI file, you can override collision profiles that are defined by simply redefining
-    note that Weapon isn't defined in the BaseEngine.ini file, but "Trigger" is defined in Engine
-    +Profiles=(Name="Trigger",CollisionEnabled=QueryOnly,ObjectTypeName=WorldDynamic, DefaultResponse=ECR_Overlap, CustomResponses=((Channel=Visibility, Response=ECR_Ignore), (Channel=Weapon, Response=ECR_Ignore)))
-  **/
   ECC_GameTraceChannel1;
   ECC_GameTraceChannel2;
   ECC_GameTraceChannel3;
@@ -122,7 +98,7 @@ package unreal;
   ECC_GameTraceChannel18;
   
   /**
-    can't add displaynames because then it will show up in the collision channel option
+    Add only nonserialized/transient flags below // NOTE!!!! THESE ARE BEING DEPRECATED BUT STILL THERE FOR BLUEPRINT. PLEASE DO NOT USE THEM IN CODE
   **/
   ECC_OverlapAll_Deprecated;
   

@@ -15,7 +15,6 @@ package unreal;
 
 @:glueCppIncludes("Kismet/DataTableFunctionLibrary.h")
 @:uextern extern class UDataTableFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
-  //static public function EvaluateCurveTableRow(CurveTable : unreal.UCurveTable, RowName : unreal.FName, InXY : unreal.Float32, OutResult : unreal.PRef<unreal.EEvaluateCurveTableResult>, OutXY : unreal.Float32) : Void;
   static public function GetDataTableRowNames(Table : unreal.UDataTable, OutRowNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
 
   /**

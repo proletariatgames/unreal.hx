@@ -44,14 +44,14 @@ package unreal;
   public var DestructibleImpulse : unreal.Float32;
   
   /**
-    When applying radial impulses, whether to treat as impulse or velocity change.
-  **/
-  public var bRadialDamageVelChange : Bool;
-  
-  /**
     The magnitude of impulse to apply to the Actors damaged by this type.
   **/
   public var DamageImpulse : unreal.Float32;
+  
+  /**
+    When applying radial impulses, whether to treat as impulse or velocity change.
+  **/
+  public var bRadialDamageVelChange : Bool;
   
   /**
     True to scale imparted momentum by the receiving pawn's mass for pawns using character movement

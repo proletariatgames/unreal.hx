@@ -71,6 +71,7 @@ package unreal;
   /**
     Location in world space of the actual contact of the trace shape (box, sphere, ray, etc) with the impacted object.
     Example: for a sphere trace test, this is the point where the surface of the sphere touches the other object.
+    @note: In the case of initial overlap (bStartPenetrating=true), ImpactPoint will be the same as Location because there is no meaningful single impact point to report.
   **/
   public var ImpactPoint : unreal.FVector_NetQuantize;
   
@@ -96,7 +97,7 @@ package unreal;
     Whether the trace started in penetration, i.e. with an initial blocking overlap.
     In the case of penetration, if PenetrationDepth > 0.f, then it will represent the distance along the Normal vector that will result in
     minimal contact between the swept shape and the object that was hit. In this case, ImpactNormal will be the normal opposed to movement at that location
-    (ie, Normal may not equal ImpactNormal).
+    (ie, Normal may not equal ImpactNormal). ImpactPoint will be the same as Location, since there is no single impact point to report.
   **/
   public var bStartPenetrating : Bool;
   

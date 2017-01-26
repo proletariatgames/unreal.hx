@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Kismet/KismetSystemLibrary.h")
+@:glueCppIncludes("Kismet/GameplayStatics.h")
 @:uname("EDrawDebugTrace.Type")
 @:uextern extern enum EDrawDebugTrace {
   None;

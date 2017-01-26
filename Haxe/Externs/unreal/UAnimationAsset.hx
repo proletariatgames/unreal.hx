@@ -20,13 +20,43 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:uextern extern class UAnimationAsset extends unreal.UObject {
+@:uextern extern class UAnimationAsset extends unreal.UObject implements unreal.IInterface_AssetUserData {
   #if WITH_EDITORONLY_DATA
+  
+  /**
+    The default skeletal mesh to use when previewing this asset - this only applies when you open Persona using this asset// @todo: note that this doesn't retarget right now
+  **/
+  public var PreviewPoseAsset : unreal.UPoseAsset;
   
   /**
     Information for thumbnail rendering
   **/
   public var ThumbnailInfo : unreal.UThumbnailInfo;
   #end // WITH_EDITORONLY_DATA
+  
+  /**
+    Array of user data stored with the asset
+  **/
+  private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
+  #if WITH_EDITORONLY_DATA
+  
+  /**
+    Asset mapping table when ParentAsset is set
+  **/
+  private var AssetMappingTable : unreal.UAssetMappingTable;
+  
+  /**
+    note this is transient as they're added as they're loaded
+  **/
+  public var ChildrenAssets : unreal.TArray<unreal.UAnimationAsset>;
+  
+  /**
+    Parent Asset, if set, you won't be able to edit any data in here but just mapping table
+    
+    During cooking, this data will be used to bake out to normal asset
+  **/
+  public var ParentAsset : unreal.UAnimationAsset;
+  #end // WITH_EDITORONLY_DATA
+  // Interface_AssetUserData interface implementation
   
 }

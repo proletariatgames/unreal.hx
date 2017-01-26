@@ -73,6 +73,7 @@ package unreal;
   **/
   static public function GetPathLength(WorldContext : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathLength : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.ENavigationQueryResult;
   static public function IsNavigationBeingBuilt(WorldContext : unreal.UObject) : Bool;
+  static public function IsNavigationBeingBuiltOrLocked(WorldContext : unreal.UObject) : Bool;
   static public function SimpleMoveToActor(Controller : unreal.AController, Goal : unreal.Const<unreal.AActor>) : Void;
   static public function SimpleMoveToLocation(Controller : unreal.AController, Goal : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
@@ -84,7 +85,7 @@ package unreal;
   
   /**
     Finds path instantly, in a FindPath Synchronously. Main advantage over FindPathToLocationSynchronously is that
-        the resulting path with automatically get updated if goal actor moves more then TetherDistance away from last path node
+        the resulting path will automatically get updated if goal actor moves more than TetherDistance away from last path node
         @param PathfindingContext could be one of following: NavigationData (like Navmesh actor), Pawn or Controller. This parameter determines parameters of specific pathfinding query
   **/
   static public function FindPathToActorSynchronously(WorldContext : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, GoalActor : unreal.AActor, TetherDistance : unreal.Float32, PathfindingContext : unreal.AActor, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.UNavigationPath;
@@ -127,7 +128,5 @@ package unreal;
     @todo document
   **/
   @:final public function OnNavigationBoundsUpdated(NavVolume : unreal.ANavMeshBoundsVolume) : Void;
-  static public function GetRandomPointInRadius(WorldContext : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
-  static public function GetRandomPoint(WorldContext : unreal.UObject, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
   
 }

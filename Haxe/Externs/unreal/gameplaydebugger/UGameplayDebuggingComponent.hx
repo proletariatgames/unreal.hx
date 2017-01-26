@@ -22,7 +22,7 @@ package unreal.gameplaydebugger;
     controller related stuff
   **/
   public var TargetActor : unreal.AActor;
-  public var PerceptionShapeElements : unreal.TArray<unreal.FGameplayDebuggerShapeElement>;
+  public var PerceptionShapeElements : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerShapeElement>;
   public var SensingComponentLocation : unreal.FVector;
   public var DistanceFromSensor : unreal.Float32;
   public var DistanceFromPlayer : unreal.Float32;

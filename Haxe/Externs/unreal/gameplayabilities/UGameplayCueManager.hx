@@ -13,14 +13,9 @@
 **/
 package unreal.gameplayabilities;
 
-
-/**
-  A self contained handler of a GameplayCue. These are similar to AnimNotifies in implementation.
-**/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
 @:uextern extern class UGameplayCueManager extends unreal.UDataAsset {
-  private var PreallocationInfo_Internal : unreal.gameplayabilities.FPreallocationInfo;
   private var PreallocationInfoList_Internal : unreal.TArray<unreal.gameplayabilities.FPreallocationInfo>;
   
   /**

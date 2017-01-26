@@ -99,4 +99,11 @@ package unreal.slatecore;
   @DisplayName("Center")
   MenuPlacement_Center;
   
+  /**
+    Place the menu's vertical center on the left side at the menu anchor's vertical center on the right side
+    @DisplayName Right Center, Left Center
+  **/
+  @DisplayName("Right Center, Left Center")
+  MenuPlacement_RightLeftCenter;
+  
 }

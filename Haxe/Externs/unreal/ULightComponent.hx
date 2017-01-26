@@ -115,6 +115,11 @@ package unreal;
   @:deprecated public var InverseSquaredFalloff_DEPRECATED : Bool;
   
   /**
+    Length of screen space ray trace for sharp contact shadows. Zero is disabled.
+  **/
+  public var ContactShadowLength : unreal.Float32;
+  
+  /**
     Amount to sharpen shadow filtering
   **/
   public var ShadowSharpen : unreal.Float32;
@@ -133,15 +138,16 @@ package unreal;
   public var MinRoughness : unreal.Float32;
   
   /**
-    Shadow map channel which is used to match up with the appropriate static shadowing during a deferred shading pass.
-    This is generated during a lighting build.
+    Legacy shadowmap channel from the lighting build, now stored in FLightComponentMapBuildData.
   **/
-  public var ShadowMapChannel : unreal.Int32;
+  @:deprecated public var ShadowMapChannel_DEPRECATED : unreal.Int32;
   
   /**
     false: use white (D65) as illuminant.
   **/
   public var bUseTemperature : Bool;
+  public var MaxDistanceFadeRange : unreal.Float32;
+  public var MaxDrawDistance : unreal.Float32;
   
   /**
     Color temperature in Kelvin of the blackbody illuminant.

@@ -15,8 +15,6 @@ package unreal;
 
 
 /**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
   Used to capture a 'snapshot' of the scene from a 6 planes and feed it to a render target.
 **/
 @:glueCppIncludes("Components/SceneCaptureComponentCube.h")
@@ -26,5 +24,11 @@ package unreal;
     Temporary render target that can be used by the editor.
   **/
   public var TextureTarget : unreal.UTextureRenderTargetCube;
+  
+  /**
+    Render the scene to the texture target immediately.
+    This should not be used if bCaptureEveryFrame is enabled, or the scene capture will render redundantly.
+  **/
+  @:final public function CaptureScene() : Void;
   
 }

@@ -23,5 +23,13 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialInstanceConstant.h")
 @:uextern extern class UMaterialInstanceConstant extends unreal.UMaterialInstance {
+  #if WITH_EDITORONLY_DATA
+  
+  /**
+    Unique ID for this material instance's parameter set
+    Updated on changes in the editor to allow those changes to be detected
+  **/
+  public var ParameterStateId : unreal.FGuid;
+  #end // WITH_EDITORONLY_DATA
   
 }

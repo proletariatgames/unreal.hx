@@ -46,7 +46,7 @@ package unreal;
   /**
     The effect to use for non extreme content
   **/
-  private var PS_CameraEffectNonExtremeContent : unreal.UParticleSystem;
+  @:deprecated private var PS_CameraEffectNonExtremeContent_DEPRECATED : unreal.UParticleSystem;
   
   /**
     Particle System to use

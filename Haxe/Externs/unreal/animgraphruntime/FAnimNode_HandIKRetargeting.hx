@@ -35,7 +35,7 @@ package unreal.animgraphruntime;
   public var IKBonesToMove : unreal.TArray<unreal.FBoneReference>;
   
   /**
-    Bone for Left Hand FK
+    Bone for Left Hand IK
   **/
   public var LeftHandIK : unreal.FBoneReference;
   

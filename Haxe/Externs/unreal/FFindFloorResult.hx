@@ -46,7 +46,8 @@ package unreal;
   public var bWalkableFloor : Bool;
   
   /**
-    True if there was a blocking hit in the floor test.
+    True if there was a blocking hit in the floor test that was NOT in initial penetration.
+    The HitResult can give more info about other circumstances.
   **/
   public var bBlockingHit : Bool;
   

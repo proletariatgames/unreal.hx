@@ -326,7 +326,7 @@ class TypeConv {
       }
       if (flags.hasAny(OSubclassOf)) {
         canForwardDecl = false;
-        set.add("UObject/ObjectBase.h");
+        set.add("CoreUObject.h");
       }
 
       if (forwardDecls != null && canForwardDecl) {
@@ -385,7 +385,7 @@ class TypeConv {
         case PWeak | PAutoWeak:
           set.add("UObject/WeakObjectPtrTemplates.h");
         case PSubclassOf:
-          set.add("UObject/ObjectBase.h");
+          set.add("CoreUObject.h");
         case PNone:
       }
       if (forwardDecls == null) {

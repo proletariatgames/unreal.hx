@@ -13,15 +13,8 @@
 **/
 package unreal.editor;
 
-
-/**
-  WARNING: This type was not defined as DLL export on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
-@:umodule("UnrealEd")
 @:glueCppIncludes("Private/Commandlets/ChunkDependencyInfo.h")
-@:noClass @:uextern extern class UChunkDependencyInfo extends unreal.UObject {
+@:uextern extern class UChunkDependencyInfo extends unreal.UObject {
   public var DependencyArray : unreal.TArray<unreal.editor.FChunkDependency>;
   
 }

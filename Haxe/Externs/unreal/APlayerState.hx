@@ -30,6 +30,11 @@ package unreal;
   public var UniqueId : unreal.FUniqueNetIdRepl;
   
   /**
+    Used to match up InactivePlayerState with rejoining playercontroller.
+  **/
+  public var SavedNetworkAddress : unreal.FString;
+  
+  /**
     This is used for sending game agnostic messages that can be localized
   **/
   public var EngineMessageClass : unreal.TSubclassOf<unreal.ULocalMessage>;
@@ -93,5 +98,19 @@ package unreal;
   public function OnRep_PlayerName() : Void;
   public function OnRep_bIsInactive() : Void;
   public function OnRep_UniqueId() : Void;
+  
+  /**
+    * Can be implemented in Blueprint Child to move more properties from old to new PlayerState when reconnecting
+    *
+    * @param OldPlayerState         Old PlayerState, which we use to fill the new one with
+  **/
+  private function ReceiveOverrideWith(OldPlayerState : unreal.APlayerState) : Void;
+  
+  /**
+    * Can be implemented in Blueprint Child to move more properties from old to new PlayerState when traveling to a new level
+    *
+    * @param NewPlayerState         New PlayerState, which we fill with the current properties
+  **/
+  private function ReceiveCopyProperties(NewPlayerState : unreal.APlayerState) : Void;
   
 }

@@ -21,5 +21,6 @@ package unreal;
   **/
   public var FailsafeExtent : unreal.FVector;
   public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
+  @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
   
 }

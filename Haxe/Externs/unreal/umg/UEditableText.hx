@@ -22,6 +22,11 @@ package unreal.umg;
 @:uextern extern class UEditableText extends unreal.umg.UWidget {
   
   /**
+    Controls how the text within this widget should be shaped.
+  **/
+  public var ShapedTextOptions : unreal.umg.FShapedTextOptions;
+  
+  /**
     If we're on a platform that requires a virtual keyboard, what kind of keyboard should this widget use?
   **/
   public var KeyboardType : unreal.umg.EVirtualKeyboardType;

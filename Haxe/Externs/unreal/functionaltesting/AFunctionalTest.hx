@@ -13,23 +13,19 @@
 **/
 package unreal.functionaltesting;
 
-
-/**
-  WARNING: This type was defined as MinimalAPI on its declaration. Because of that, its properties/methods are inaccessible
-  
-  
-**/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTest.h")
 @:uextern extern class AFunctionalTest extends unreal.AActor {
-  public var bIsEnabled : Bool;
   #if WITH_EDITORONLY_DATA
+  public var TestName : unreal.UTextRenderComponent;
   public var RenderComp : unreal.functionaltesting.UFuncTestRenderingComponent;
   #end // WITH_EDITORONLY_DATA
-  public var Description : unreal.FString;
-  public var RandomNumbersStream : unreal.FRandomStream;
   public var AutoDestroyActors : unreal.TArray<unreal.AActor>;
-  public var ObservationPoint : unreal.AActor;
+  
+  /**
+    If test is limited by time this is the result that will be returned when time runs out
+  **/
+  public var TimesUpResult : unreal.functionaltesting.EFunctionalTestResult;
   
   /**
     Test's time limit. '0' means no limit
@@ -37,10 +33,160 @@ package unreal.functionaltesting;
   public var TimeLimit : unreal.Float32;
   
   /**
-    If test is limited by time this is the result that will be returned when time runs out
+    The Test's time limit for preparation, this is the time it has to return true when checking IsReady(). '0' means no limit.
   **/
-  public var TimesUpResult : unreal.functionaltesting.EFunctionalTestResult;
+  public var PreparationTimeLimit : unreal.Float32;
   public var Result : unreal.functionaltesting.EFunctionalTestResult;
+  private var RandomNumbersStream : unreal.FRandomStream;
+  private var ObservationPoint : unreal.AActor;
+  private var Description : unreal.FString;
   public var SpriteComponent : unreal.UBillboardComponent;
+  
+  /**
+    Assert that a boolean value is true.
+    @param Message       The message to display if the assert fails ("Assertion Failed: 'Message' for context ''")
+  **/
+  @:final public function AssertTrue(Condition : Bool, Message : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that a boolean value is false.
+    @param Message       The message to display if the assert fails ("Assertion Failed: 'Message' for context ''")
+  **/
+  @:final public function AssertFalse(Condition : Bool, Message : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that a UObject is valid
+    @param Message       The message to display if the object is invalid ("Invalid object: 'Message' for context ''")
+  **/
+  @:final public function AssertIsValid(Object : unreal.UObject, Message : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert on a relationship between two integers.
+    @param What  A name to use in the message if the assert fails (What: expected {Actual} to be <ShouldBe> {Expected} for context '')
+  **/
+  @:final public function AssertValue_Int(Actual : unreal.Int32, ShouldBe : unreal.functionaltesting.EComparisonMethod, Expected : unreal.Int32, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert on a relationship between two floats.
+    @param What  A name to use in the message if the assert fails (What: expected {Actual} to be <ShouldBe> {Expected} for context '')
+  **/
+  @:final public function AssertValue_Float(Actual : unreal.Float32, ShouldBe : unreal.functionaltesting.EComparisonMethod, Expected : unreal.Float32, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert on a relationship between two DateTimes.
+    @param What  A name to use in the message if the assert fails (What: expected {Actual} to be <ShouldBe> {Expected} for context '')
+  **/
+  @:final public function AssertValue_DateTime(Actual : unreal.FDateTime, ShouldBe : unreal.functionaltesting.EComparisonMethod, Expected : unreal.FDateTime, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two transforms are (components memberwise - translation, rotation, scale) equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertEqual_Transform(Actual : unreal.Const<unreal.FTransform>, Expected : unreal.Const<unreal.FTransform>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two floats are equal within tolerance between two floats.
+    @param What  A name to use in the message if the assert fails (What: expected {Actual} to be Equal To {Expected} within Tolerance for context '')
+  **/
+  @:final public function AssertEqual_Float(Actual : unreal.Float32, Expected : unreal.Float32, What : unreal.FString, Tolerance : unreal.Float32, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two transforms are (components memberwise - translation, rotation, scale) not equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' not to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertNotEqual_Transform(Actual : unreal.Const<unreal.FTransform>, NotExpected : unreal.Const<unreal.FTransform>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that the component angles of two rotators are all equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertEqual_Rotator(Actual : unreal.Const<unreal.FRotator>, Expected : unreal.Const<unreal.FRotator>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that the component angles of two rotators are all not equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' not to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertNotEqual_Rotator(Actual : unreal.Const<unreal.FRotator>, NotExpected : unreal.Const<unreal.FRotator>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two vectors are (memberwise) equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertEqual_Vector(Actual : unreal.Const<unreal.FVector>, Expected : unreal.Const<unreal.FVector>, What : unreal.FString, Tolerance : unreal.Float32, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two vectors are (memberwise) not equal within a small tolerance.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' not to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertNotEqual_Vector(Actual : unreal.Const<unreal.FVector>, NotExpected : unreal.Const<unreal.FVector>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two Strings are equal.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertEqual_String(Actual : unreal.Const<unreal.FString>, Expected : unreal.Const<unreal.FString>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  
+  /**
+    Assert that two Strings are not equal.
+    @param What  A name to use in the message if the assert fails ("Expected 'What' not to be {Expected} but it was {Actual} for context ''")
+  **/
+  @:final public function AssertNotEqual_String(Actual : unreal.Const<unreal.FString>, NotExpected : unreal.Const<unreal.FString>, What : unreal.FString, ContextObject : unreal.Const<unreal.UObject>) : Void;
+  @:final public function AddWarning(Message : unreal.Const<unreal.FString>) : Void;
+  @:final public function AddError(Message : unreal.Const<unreal.FString>) : Void;
+  public function FinishTest(TestResult : unreal.functionaltesting.EFunctionalTestResult, Message : unreal.FString) : Void;
+  public function LogMessage(Message : unreal.FString) : Void;
+  public function SetTimeLimit(NewTimeLimit : unreal.Float32, ResultWhenTimeRunsOut : unreal.functionaltesting.EFunctionalTestResult) : Void;
+  
+  /**
+    Used by debug drawing to gather actors this test is using and point at them on the level to better understand test's setup
+  **/
+  @:thisConst public function DebugGatherRelevantActors() : unreal.TArray<unreal.AActor>;
+  
+  /**
+    retrieves information whether test wants to have another run just after finishing
+  **/
+  @:thisConst public function OnWantsReRunCheck() : Bool;
+  
+  /**
+    Causes the test to be rerun for a specific named reason.
+  **/
+  @:final public function AddRerun(Reason : unreal.FName) : Void;
+  
+  /**
+    Returns the current re-run reason if we're in a named re-run.
+  **/
+  @:thisConst @:final public function GetCurrentRerunReason() : unreal.FName;
+  @:thisConst public function OnAdditionalTestFinishedMessageRequest(TestResult : unreal.functionaltesting.EFunctionalTestResult) : unreal.FString;
+  
+  /**
+    ACtors registered this way will be automatically destroyed (by limiting their lifespan)
+        on test finish
+  **/
+  public function RegisterAutoDestroyActor(ActorToAutoDestroy : unreal.AActor) : Void;
+  
+  /**
+    AActor interface end
+  **/
+  @:thisConst @:final public function IsRunning() : Bool;
+  @:thisConst @:final public function IsEnabled() : Bool;
+  
+  /**
+    Prepare Test is fired once the test starts up, before the test IsReady() and thus before Start Test is called.
+    So if there's some initial conditions or setup that you might need for your IsReady() check, you might want
+    to do that here.
+  **/
+  private function ReceivePrepareTest() : Void;
+  
+  /**
+    Called once the IsReady() check for the test returns true.  After that happens the test has Officially started,
+    and it will begin receiving Ticks in the blueprint.
+  **/
+  private function ReceiveStartTest() : Void;
+  
+  /**
+    IsReady() is called once per frame after a test is run, until it returns true.  You should use this function to
+    delay Start being called on the test until preconditions are met.
+  **/
+  private function IsReady() : Bool;
   
 }

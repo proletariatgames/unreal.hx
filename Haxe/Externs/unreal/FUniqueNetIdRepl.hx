@@ -23,6 +23,6 @@ package unreal;
   over network RPC and actor replication
 **/
 @:glueCppIncludes("GameFramework/PlayerState.h")
-@:noCopy @:noEquals @:uextern extern class FUniqueNetIdRepl {
+@:noCopy @:noEquals @:uextern extern class FUniqueNetIdRepl extends unreal.FUniqueNetIdWrapper {
   
 }

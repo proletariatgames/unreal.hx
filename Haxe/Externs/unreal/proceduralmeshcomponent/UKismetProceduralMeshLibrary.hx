@@ -42,4 +42,26 @@ package unreal.proceduralmeshcomponent;
   **/
   static public function CreateGridMeshTriangles(NumX : unreal.Int32, NumY : unreal.Int32, bWinding : Bool, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>) : Void;
   
+  /**
+    Grab geometry data from a StaticMesh asset.
+  **/
+  static public function GetSectionFromStaticMesh(InMesh : unreal.UStaticMesh, LODIndex : unreal.Int32, SectionIndex : unreal.Int32, Vertices : unreal.PRef<unreal.TArray<unreal.FVector>>, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, UVs : unreal.PRef<unreal.TArray<unreal.FVector2D>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
+  
+  /**
+    Copy materials from StaticMeshComponent to ProceduralMeshComponent.
+  **/
+  static public function CopyProceduralMeshFromStaticMeshComponent(StaticMeshComponent : unreal.UStaticMeshComponent, LODIndex : unreal.Int32, ProcMeshComponent : unreal.proceduralmeshcomponent.UProceduralMeshComponent, bCreateCollision : Bool) : Void;
+  
+  /**
+    Slice the ProceduralMeshComponent (including simple convex collision) using a plane. Optionally create 'cap' geometry.
+    @param  InProcMesh                              ProceduralMeshComponent to slice
+    @param  PlanePosition                   Point on the plane to use for slicing, in world space
+    @param  PlaneNormal                             Normal of plane used for slicing. Geometry on the positive side of the plane will be kept.
+    @param  bCreateOtherHalf                If true, an additional ProceduralMeshComponent (OutOtherHalfProcMesh) will be created using the other half of the sliced geometry
+    @param  OutOtherHalfProcMesh    If bCreateOtherHalf is set, this is the new component created. Its owner will be the same as the supplied InProcMesh.
+    @param  CapOption                               If and how to create 'cap' geometry on the slicing plane
+    @param  CapMaterial                             If creating a new section for the cap, assign this material to that section
+  **/
+  static public function SliceProceduralMesh(InProcMesh : unreal.proceduralmeshcomponent.UProceduralMeshComponent, PlanePosition : unreal.FVector, PlaneNormal : unreal.FVector, bCreateOtherHalf : Bool, OutOtherHalfProcMesh : unreal.PRef<unreal.proceduralmeshcomponent.UProceduralMeshComponent>, CapOption : unreal.proceduralmeshcomponent.EProcMeshSliceCapOption, CapMaterial : unreal.UMaterialInterface) : Void;
+  
 }

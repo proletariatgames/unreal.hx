@@ -58,6 +58,11 @@ package unreal;
   public var BSPSelectionHighlightIntensity : unreal.Float32;
   
   /**
+    Used to alter the intensity level of the selection highlight on selected mesh sections in mesh editors
+  **/
+  public var SelectionMeshSectionHighlightIntensity : unreal.Float32;
+  
+  /**
     Used to alter the intensity level of the selection highlight on selected objects
   **/
   public var SelectionHighlightIntensity : unreal.Float32;
@@ -77,13 +82,6 @@ package unreal;
     determines whether AI logging should be processed or not
   **/
   public var bDisableAILogging : Bool;
-  
-  /**
-    if set, cook game classes into standalone packages (as defined in [Cooker.MPGameContentCookStandalone]) and load the appropriate
-    one at game time depending on the gametype specified on the URL
-    (the game class should then not be referenced in the maps themselves)
-  **/
-  public var bCookSeparateSharedMPGameContent : Bool;
   
   /**
     If true, then skip drawing map warnings on screen even in non (UE_BUILD_SHIPPING || UE_BUILD_TEST) builds
@@ -109,11 +107,6 @@ package unreal;
     Current display gamma setting
   **/
   public var DisplayGamma : unreal.Float32;
-  
-  /**
-    true if the engine needs to perform a delayed global component reregister (really just for editor)
-  **/
-  public var bHasPendingGlobalReregister : Bool;
   
   /**
     Number of times to tick each client per second
@@ -262,9 +255,9 @@ package unreal;
   public var C_WorldBox : unreal.FColor;
   
   /**
-    Whether or not the LQ lightmaps should be generated during lighting rebuilds.
+    Whether or not the LQ lightmaps should be generated during lighting rebuilds.  This has been moved to r.SupportLowQualityLightmaps.
   **/
-  public var bShouldGenerateLowQualityLightmaps : Bool;
+  @:deprecated public var bShouldGenerateLowQualityLightmaps_DEPRECATED : Bool;
   
   /**
     If bCheckForMultiplePawnsSpawnedInAFrame==true, then we will check to see that no more than this number of pawns are spawned in a frame. *
@@ -486,6 +479,11 @@ package unreal;
   public var MaxPixelShaderAdditiveComplexityCount : unreal.Float32;
   
   /**
+    The colors used for texture streaming accuracy debug view modes.
+  **/
+  public var StreamingAccuracyColors : unreal.TArray<unreal.FLinearColor>;
+  
+  /**
     The colors used to render LOD coloration.
   **/
   public var HLODColorationColors : unreal.TArray<unreal.FLinearColor>;
@@ -549,14 +547,12 @@ package unreal;
     Material that renders a message about lightmap settings being invalid.
   **/
   public var InvalidLightmapSettingsMaterial : unreal.UMaterial;
-  
-  /**
-    @todo document
-  **/
-  public var ConstraintLimitMaterialName : unreal.FStringAssetReference;
   public var ConstraintLimitMaterialPrismatic : unreal.UMaterialInstanceDynamic;
+  public var ConstraintLimitMaterialZAxis : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialZ : unreal.UMaterialInstanceDynamic;
+  public var ConstraintLimitMaterialYAxis : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialY : unreal.UMaterialInstanceDynamic;
+  public var ConstraintLimitMaterialXAxis : unreal.UMaterialInstanceDynamic;
   public var ConstraintLimitMaterialX : unreal.UMaterialInstanceDynamic;
   
   /**
@@ -782,16 +778,6 @@ package unreal;
     Path that levels for play on console will be saved to (relative to FPaths::GameSavedDir())
   **/
   public var PlayOnConsoleSaveDir : unreal.FString;
-  
-  /**
-    The name of the class to use when previewing camera animations.
-  **/
-  public var DefaultPreviewPawnClassName : unreal.FStringClassReference;
-  
-  /**
-    The class to use previewing camera animations.
-  **/
-  public var DefaultPreviewPawnClass : unreal.TSubclassOf<unreal.APawn>;
   
   /**
     Path to the default tire type

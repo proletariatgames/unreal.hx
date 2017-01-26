@@ -38,4 +38,9 @@ package unreal.gameplayabilities;
   **/
   Confirmed;
   
+  /**
+    We tried to activate it, and server told us we couldn't (even though we thought we could)
+  **/
+  Rejected;
+  
 }

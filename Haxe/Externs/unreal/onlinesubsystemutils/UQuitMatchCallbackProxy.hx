@@ -21,6 +21,6 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("QuitMatchCallbackProxy.h")
-@:uextern extern class UQuitMatchCallbackProxy extends unreal.onlinesubsystemutils.UOnlineBlueprintCallProxyBase {
+@:uextern extern class UQuitMatchCallbackProxy extends unreal.UOnlineBlueprintCallProxyBase {
   
 }

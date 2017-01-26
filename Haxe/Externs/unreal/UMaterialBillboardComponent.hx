@@ -19,11 +19,20 @@ package unreal;
 **/
 @:glueCppIncludes("Components/MaterialBillboardComponent.h")
 @:uextern extern class UMaterialBillboardComponent extends unreal.UPrimitiveComponent {
+  
+  /**
+    Current array of material billboard elements
+  **/
   public var Elements : unreal.TArray<unreal.FMaterialSpriteElement>;
+  
+  /**
+    Set all elements of this material billboard component
+  **/
+  @:final public function SetElements(NewElements : unreal.Const<unreal.PRef<unreal.TArray<unreal.FMaterialSpriteElement>>>) : Void;
   
   /**
     Adds an element to the sprite.
   **/
-  public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
+  @:final public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
   
 }

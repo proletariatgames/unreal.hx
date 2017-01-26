@@ -17,7 +17,7 @@ package unreal;
 /**
   An integral curve, which holds the key time and the key value
 **/
-@:glueCppIncludes("Sections/MovieSceneBoolSection.h")
+@:glueCppIncludes("Sections/MovieSceneActorReferenceSection.h")
 @:uextern extern class FIntegralCurve extends unreal.FIndexedCurve {
   
 }

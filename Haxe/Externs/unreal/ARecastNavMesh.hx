@@ -32,6 +32,11 @@ package unreal;
   public var bUseVirtualFilters : Bool;
   
   /**
+    If set, tiles generated without any navmesh data will be marked to distinguish them from not generated / streamed out ones. Defaults to false.
+  **/
+  public var bStoreEmptyTileLayers : Bool;
+  
+  /**
     TODO: switch to disable new code from OffsetFromCorners if necessary - remove it later
   **/
   public var bUseBetterOffsetsFromCorners : Bool;

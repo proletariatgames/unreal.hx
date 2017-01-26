@@ -23,6 +23,11 @@ package unreal;
 @:noCopy @:noEquals @:uextern extern class FBakedAnimationState {
   
   /**
+    Whether or not this state will ALWAYS reset it's state on reentry, regardless of remaining weight
+  **/
+  public var bAlwaysResetOnEntry : Bool;
+  
+  /**
     Indices into the property array for player nodes in the state
   **/
   public var PlayerNodeIndices : unreal.TArray<unreal.Int32>;

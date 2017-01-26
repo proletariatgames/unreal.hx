@@ -24,6 +24,12 @@ package unreal.aimodule;
   public var Center : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
+    If true, the rings of the wheel will be rotated in a spiral pattern.  If false, they will all be at a zero
+    rotation, looking more like the spokes on a wheel.
+  **/
+  public var bUseSpiralPattern : Bool;
+  
+  /**
     If you generate items on a piece of circle you define angle of Arc cut here
   **/
   public var ArcAngle : unreal.aimodule.FAIDataProviderFloatValue;

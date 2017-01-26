@@ -32,6 +32,11 @@ package unreal.slatecore;
   public var TypefaceFontName : unreal.FName;
   
   /**
+    Settings for applying an outline to a font
+  **/
+  public var OutlineSettings : unreal.slatecore.FFontOutlineSettings;
+  
+  /**
     The material to use when rendering this font
   **/
   public var FontMaterial : unreal.UObject;

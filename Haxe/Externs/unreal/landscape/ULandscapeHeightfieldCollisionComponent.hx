@@ -44,6 +44,11 @@ package unreal.landscape;
   public var CollisionQuadFlags : unreal.TArray<unreal.UInt8>;
   
   /**
+    Size of component's "simple collision" in collision quads
+  **/
+  public var SimpleCollisionSizeQuads : unreal.Int32;
+  
+  /**
     Collision scale: (ComponentSizeQuads) / (CollisionSizeQuads)
   **/
   public var CollisionScale : unreal.Float32;

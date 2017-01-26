@@ -47,7 +47,9 @@ package unreal;
   /**
     Particle       - use the particles from a given emitter in the system.
         The name of the emitter should be set in <Source/Target>Name.
+    @DisplayName Particle
   **/
+  @DisplayName("Particle")
   PEB2STM_Particle;
   
   /**

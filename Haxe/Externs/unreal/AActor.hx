@@ -46,7 +46,7 @@ package unreal;
   public var bEnableAutoLODGeneration : Bool;
 
   /**
-    Whether this actor should no be affected by world origin shifting.
+    Whether this actor should not be affected by world origin shifting.
   **/
   public var bIgnoresOriginShifting : Bool;
 
@@ -130,6 +130,11 @@ package unreal;
   public var SpawnCollisionHandlingMethod : unreal.ESpawnActorCollisionHandlingMethod;
 
   /**
+    If true, this actor will generate overlap events when spawned as part of level streaming. You might enable this is in the case where a streaming level loads around an actor and you want overlaps to trigger.
+  **/
+  public var bGenerateOverlapEventsDuringLevelStreaming : Bool;
+
+  /**
     If true, this actor will be replicated to network replays (default is true)
   **/
   public var bRelevantForNetworkReplays : Bool;
@@ -157,11 +162,6 @@ package unreal;
   public var bAutoDestroyWhenFinished : Bool;
 
   /**
-    Used to specify the net driver to replicate on (NAME_None || NAME_GameNetDriver is the default net driver)
-  **/
-  public var NetDriverName : unreal.FName;
-
-  /**
     Last time this actor was updated for replication via NetUpdateTime
     @warning: internal net driver time, not related to WorldSettings.TimeSeconds
   **/
@@ -171,6 +171,11 @@ package unreal;
     Priority for this actor when checking for replication in a low bandwidth or saturated situation, higher priority means it is more likely to replicate
   **/
   public var NetPriority : unreal.Float32;
+
+  /**
+    Used to determine what rate to throttle down to when replicated properties are changing infrequently
+  **/
+  public var MinNetUpdateFrequency : unreal.Float32;
 
   /**
     How often (per second) this actor will be considered for replication, used to determine NetUpdateTime
@@ -217,6 +222,11 @@ package unreal;
     Used for replication of our RootComponent's position and velocity
   **/
   public var ReplicatedMovement : unreal.FRepMovement;
+
+  /**
+    Used to specify the net driver to replicate on (NAME_None || NAME_GameNetDriver is the default net driver)
+  **/
+  private var NetDriverName : unreal.FName;
 
   /**
     Whether we allow this Actor to tick before it receives the BeginPlay event.
@@ -331,12 +341,17 @@ package unreal;
   public function SetReplicateMovement(bInReplicateMovement : Bool) : Void;
 
   /**
+    Returns how much control the remote machine has over this actor.
+  **/
+  @:thisConst @:final public function GetRemoteRole() : unreal.ENetRole;
+
+  /**
     Called on client when updated AttachmentReplication value is received for this actor.
   **/
   public function OnRep_AttachmentReplication() : Void;
 
   /**
-    Called on clients when Instigatolr is replicated.
+    Called on clients when Instigator is replicated.
   **/
   public function OnRep_Instigator() : Void;
 
@@ -442,9 +457,12 @@ package unreal;
     Set the Actor's rotation instantly to the specified rotation.
 
     @param       NewRotation     The new rotation for the Actor.
+    @param       bTeleportPhysics Whether we teleport the physics state (if physics collision is enabled for this object).
+                         If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+                         If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
     @return      Whether the rotation was successfully set.
   **/
-  @:final public function SetActorRotation(NewRotation : unreal.FRotator) : Bool;
+  @:final public function K2_SetActorRotation(NewRotation : unreal.FRotator, bTeleportPhysics : Bool) : Bool;
 
   /**
     Move the actor instantly to the specified location and rotation.
@@ -679,15 +697,35 @@ package unreal;
 
   /**
     Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
-     @param AttachLocationType   Type of attachment, AbsoluteWorld to keep its world position, RelativeOffset to keep the object's relative offset and SnapTo to snap to the new parent.
+     @param AttachLocationType  Type of attachment, AbsoluteWorld to keep its world position, RelativeOffset to keep the object's relative offset and SnapTo to snap to the new parent.
   **/
   @:final public function K2_AttachRootComponentTo(InParent : unreal.USceneComponent, InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation, bWeldSimulatedBodies : Bool) : Void;
+
+  /**
+    Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
+    @param  Parent                                       Parent to attach to.
+    @param  SocketName                           Optional socket to attach to on the parent.
+    @param  AttachmentRules                      How to handle transforms when attaching.
+    @param  bWeldSimulatedBodies         Whether to weld together simulated physics bodies.
+  **/
+  @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, bWeldSimulatedBodies : Bool) : Void;
 
   /**
     Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
      @param AttachLocationType   Type of attachment, AbsoluteWorld to keep its world position, RelativeOffset to keep the object's relative offset and SnapTo to snap to the new parent.
   **/
   @:final public function K2_AttachRootComponentToActor(InParentActor : unreal.AActor, InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation, bWeldSimulatedBodies : Bool) : Void;
+
+  /**
+    Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
+    @param ParentActor                           Actor to attach this actor's RootComponent to
+    @param SocketName                            Socket name to attach to, if any
+    @param LocationRule                          How to handle translation when attaching.
+    @param RotationRule                          How to handle rotation when attaching.
+    @param ScaleRule                                     How to handle scale when attaching.
+    @param bWeldSimulatedBodies          Whether to weld together simulated physics bodies.
+  **/
+  @:final public function K2_AttachToActor(ParentActor : unreal.AActor, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, bWeldSimulatedBodies : Bool) : Void;
 
   /**
     Snap the RootComponent of this Actor to the supplied Actor's root component, optionally at a named socket. It is not valid to call this on components that are not Registered.
@@ -700,6 +738,14 @@ package unreal;
      @param bMaintainWorldTransform     If true, update the relative location/rotation of this component to keep its world position the same
   **/
   @:final public function DetachRootComponentFromParent(bMaintainWorldPosition : Bool) : Void;
+
+  /**
+    Detaches the RootComponent of this Actor from any SceneComponent it is currently attached to.
+    @param  LocationRule                         How to handle translation when detaching.
+    @param  RotationRule                         How to handle rotation when detaching.
+    @param  ScaleRule                            How to handle scale when detaching.
+  **/
+  @:final public function K2_DetachFromActor(LocationRule : unreal.EDetachmentRule, RotationRule : unreal.EDetachmentRule, ScaleRule : unreal.EDetachmentRule) : Void;
 
   /**
     See if this actor contains the supplied tag
@@ -748,6 +794,11 @@ package unreal;
   @:final public function MakeMIDForMaterial(Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
 
   /**
+    The number of seconds (in game time) since this Actor was created, relative to Get Game Time In Seconds.
+  **/
+  @:final public function GetGameTimeSinceCreation() : unreal.Float32;
+
+  /**
     Trigger a noise caused by a given Pawn, at a given location.
     Note that the NoiseInstigator Pawn MUST have a PawnNoiseEmitterComponent for the noise to be detected by a PawnSensingComponent.
     Senders of MakeNoise should have an Instigator if they are not pawns, or pass a NoiseInstigator.
@@ -780,7 +831,7 @@ package unreal;
   /**
     Event when this actor takes POINT damage
   **/
-  public function ReceivePointDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, HitLocation : unreal.FVector, HitNormal : unreal.FVector, HitComponent : unreal.UPrimitiveComponent, BoneName : unreal.FName, ShotFromDirection : unreal.FVector, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor) : Void;
+  public function ReceivePointDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, HitLocation : unreal.FVector, HitNormal : unreal.FVector, HitComponent : unreal.UPrimitiveComponent, BoneName : unreal.FName, ShotFromDirection : unreal.FVector, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
 
   /**
     Event called every frame
@@ -813,12 +864,12 @@ package unreal;
   /**
     Event when this actor is clicked by the mouse when using the clickable interface.
   **/
-  public function ReceiveActorOnClicked() : Void;
+  public function ReceiveActorOnClicked(ButtonPressed : unreal.inputcore.FKey) : Void;
 
   /**
     Event when this actor is under the mouse when left mouse button is released while using the clickable interface.
   **/
-  public function ReceiveActorOnReleased() : Void;
+  public function ReceiveActorOnReleased(ButtonReleased : unreal.inputcore.FKey) : Void;
 
   /**
     Event when this actor is touched when click events are enabled.
@@ -845,7 +896,7 @@ package unreal;
     @param OverlappingActors             [out] Returned list of overlapping actors
     @param ClassFilter                   [optional] If set, only returns actors of this class or subclasses
   **/
-  @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.UClass) : Void;
+  @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
 
   /**
     Returns list of components this actor is overlapping.
@@ -860,6 +911,7 @@ package unreal;
     @note For collisions during physics simulation to generate hit events, 'Simulation Generates Hit Events' must be enabled.
     @note When receiving a hit from another object's movement (bSelfMoved is false), the directions of 'Hit.Normal' and 'Hit.ImpactNormal'
     will be adjusted to indicate force from the other object against this object.
+    @note NormalImpulse will be filled in for physics-simulating bodies, but will be zero for swept-component blocking collisions.
   **/
   public function ReceiveHit(MyComp : unreal.UPrimitiveComponent, Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, bSelfMoved : Bool, HitLocation : unreal.FVector, HitNormal : unreal.FVector, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
 
@@ -890,7 +942,7 @@ package unreal;
   /**
     Set this actor's tick functions to be enabled or disabled. Only has an effect if the function is registered
     This only modifies the tick function on actor itself
-    @param       bEnabled - Rather it should be enabled or not
+    @param       bEnabled        Whether it should be enabled or not
   **/
   @:final public function SetActorTickEnabled(bEnabled : Bool) : Void;
 
@@ -898,6 +950,17 @@ package unreal;
     Returns whether this actor has tick enabled or not
   **/
   @:thisConst @:final public function IsActorTickEnabled() : Bool;
+
+  /**
+    Sets the tick interval of this actor's primary tick function. Will not enable a disabled tick function. Takes effect on next tick.
+    @param TickInterval   The rate at which this actor should be ticking
+  **/
+  @:final public function SetActorTickInterval(TickInterval : unreal.Float32) : Void;
+
+  /**
+    Returns the tick interval of this actor's primary tick function
+  **/
+  @:thisConst @:final public function GetActorTickInterval() : unreal.Float32;
 
   /**
     ReplicatedMovement struct replication event
@@ -908,7 +971,7 @@ package unreal;
     Set the owner of this Actor, used primarily for network replication.
     @param NewOwner      The Actor whom takes over ownership of this Actor
   **/
-  @:final public function SetOwner(NewOwner : unreal.AActor) : Void;
+  public function SetOwner(NewOwner : unreal.AActor) : Void;
 
   /**
     Get the owner of this Actor, used primarily for network replication.
@@ -932,7 +995,13 @@ package unreal;
     Returns whether this Actor was spawned by a child actor component
   **/
   @:thisConst @:final public function IsChildActor() : Bool;
+
+  /**
+    Returns a list of all child actors, including children of children
+  **/
+  @:thisConst @:final public function GetAllChildActors(ChildActors : unreal.PRef<unreal.TArray<unreal.AActor>>, bIncludeDescendants : Bool) : Void;
   @:thisConst @:final public function GetParentComponent() : unreal.UChildActorComponent;
+  @:thisConst @:final public function GetParentActor() : unreal.AActor;
 
   /**
     Teleport this actor to a new location. If the actor doesn't fit exactly at the location specified, tries to slightly move it out of walls and such.
@@ -970,6 +1039,15 @@ package unreal;
   public function K2_OnReset() : Void;
 
   /**
+    Returns true if this actor has been rendered "recently", with a tolerance in seconds to define what "recent" means.
+    e.g.: If a tolerance of 0.1 is used, this function will return true only if the actor was rendered in the last 0.1 seconds of game time.
+
+    @param Tolerance  How many seconds ago the actor last render time can be and still count as having been "recently" rendered.
+    @return Whether this actor was recently rendered.
+  **/
+  @:thisConst @:final public function WasRecentlyRendered(Tolerance : unreal.Float32) : Bool;
+
+  /**
     Force actor to be updated to clients
   **/
   public function ForceNetUpdate() : Void;
@@ -989,11 +1067,11 @@ package unreal;
   /**
     Script exposed version of FindComponentByClass
   **/
-  public function GetComponentByClass(ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.UActorComponent;
+  @:thisConst @:final public function GetComponentByClass(ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.UActorComponent;
 
   /**
     Gets all the components that inherit from the given class.
-                  Currently returns an array of UActorComponent which must be cast to the correct type.
+          Currently returns an array of UActorComponent which must be cast to the correct type.
   **/
   @:thisConst @:final public function GetComponentsByClass(ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.TArray<unreal.UActorComponent>;
 

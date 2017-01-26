@@ -20,19 +20,11 @@ package unreal.mediaassets;
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaTexture.h")
 @:uextern extern class UMediaTexture extends unreal.UTexture {
-  
-  /**
-    The MediaPlayer asset to stream video from.
-  **/
+  private var VideoTrackIndex : unreal.Int32;
   private var MediaPlayer : unreal.mediaassets.UMediaPlayer;
   
   /**
-    The index of the MediaPlayer's video track to render on this texture.
-  **/
-  public var VideoTrackIndex : unreal.Int32;
-  
-  /**
-    The color used to clear the texture if no video data is drawn.
+    The color used to clear the texture if CloseAction is set to Clear (default = black).
   **/
   public var ClearColor : unreal.FLinearColor;
   
@@ -45,12 +37,5 @@ package unreal.mediaassets;
     The addressing mode to use for the X axis.
   **/
   public var AddressX : unreal.TextureAddress;
-  
-  /**
-    Sets the media player asset to be used for this texture.
-    
-    @param InMediaPlayer The asset to set.
-  **/
-  @:final public function SetMediaPlayer(InMediaPlayer : unreal.mediaassets.UMediaPlayer) : Void;
   
 }

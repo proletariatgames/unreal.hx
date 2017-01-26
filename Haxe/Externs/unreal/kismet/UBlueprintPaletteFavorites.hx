@@ -38,7 +38,7 @@ package unreal.kismet;
   /**
     A list of strings that are used to identify specific palette actions.
     This is what gets saved out when the user has customized their own set,
-    and is not updated until PreSave().
+    and is not updated until PreSave(const class ITargetPlatform* TargetPlatform).
   **/
   public var CustomFavorites : unreal.TArray<unreal.FString>;
   

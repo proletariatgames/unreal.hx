@@ -20,6 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
 @:uextern extern class FGameplayEffectSpecForRPC {
+  public var AbilityLevel : unreal.Float32;
   public var Level : unreal.Float32;
   public var AggregatedTargetTags : unreal.gameplaytags.FGameplayTagContainer;
   

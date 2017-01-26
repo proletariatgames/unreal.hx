@@ -22,28 +22,28 @@ package unreal;
 @:uextern extern enum ECollisionEnabled {
   
   /**
-    No collision is enabled for this body.
+    Will not create any representation in the physics engine. Cannot be used for spatial queries (raycasts, sweeps, overlaps) or simulation (rigid body, constraints). Best performance possible (especially for moving objects)
     @DisplayName No Collision
   **/
   @DisplayName("No Collision")
   NoCollision;
   
   /**
-    This body is used only for collision queries (raycasts, sweeps, and overlaps).
+    Only used for spatial queries (raycasts, sweeps, and overlaps). Cannot be used for simulation (rigid body, constraints). Useful for character movement and things that do not need physical simulation. Performance gains by keeping data out of simulation tree.
     @DisplayName Query Only (No Physics Collision)
   **/
   @DisplayName("Query Only (No Physics Collision)")
   QueryOnly;
   
   /**
-    This body is used only for physics collision.
+    Only used only for physics simulation (rigid body, constraints). Cannot be used for spatial queries (raycasts, sweeps, overlaps). Useful for jiggly bits on characters that do not need per bone detection. Performance gains by keeping data out of query tree
     @DisplayName Physics Only (No Query Collision)
   **/
   @DisplayName("Physics Only (No Query Collision)")
   PhysicsOnly;
   
   /**
-    This body interacts with all collision (Query and Physics).
+    Can be used for both spatial queries (raycasts, sweeps, overlaps) and simulation (rigid body, constraints).
     @DisplayName Collision Enabled (Query and Physics)
   **/
   @DisplayName("Collision Enabled (Query and Physics)")

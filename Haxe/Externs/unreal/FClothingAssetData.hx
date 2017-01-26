@@ -21,6 +21,11 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern extern class FClothingAssetData {
+  
+  /**
+    Apex stores only the bones that cloth needs. We need a mapping from apex bone index to UE bone index.
+  **/
+  public var ApexToUnrealBoneMapping : unreal.TArray<unreal.Int32>;
   public var PhysicsProperties : unreal.FClothPhysicsProperties;
   
   /**

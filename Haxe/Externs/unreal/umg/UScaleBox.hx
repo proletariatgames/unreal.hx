@@ -32,18 +32,22 @@ package unreal.umg;
   public var IgnoreInheritedScale : Bool;
   
   /**
-    Optional scale that can be specified by the User. Isn't used if Stretch != EStretch::UserSpecified
+    Optional scale that can be specified by the User. Used only for UserSpecified stretching.
   **/
   public var UserSpecifiedScale : unreal.Float32;
-  
-  /**
-    The stretching rule to apply when content is stretched
-  **/
-  public var Stretch : unreal.slate.EStretch;
   
   /**
     Controls in what direction content can be scaled
   **/
   public var StretchDirection : unreal.slate.EStretchDirection;
+  
+  /**
+    The stretching rule to apply when content is stretched
+  **/
+  public var Stretch : unreal.slate.EStretch;
+  @:final public function SetStretch(InStretch : unreal.slate.EStretch) : Void;
+  @:final public function SetStretchDirection(InStretchDirection : unreal.slate.EStretchDirection) : Void;
+  @:final public function SetUserSpecifiedScale(InUserSpecifiedScale : unreal.Float32) : Void;
+  @:final public function SetIgnoreInheritedScale(bInIgnoreInheritedScale : Bool) : Void;
   
 }
