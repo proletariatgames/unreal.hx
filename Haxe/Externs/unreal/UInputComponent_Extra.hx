@@ -19,4 +19,6 @@ extern class UInputComponent_Extra {
   * Removes all action bindings.
   */
   public function ClearActionBindings() : Void;
+
+  public function GetActionBinding(actionName:Const<FName>) : PPtr<FInputActionBinding>;
 }
