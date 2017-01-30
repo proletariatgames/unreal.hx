@@ -22,4 +22,8 @@ extern class FRotator_Extra {
   public var Roll:Float32;
 
   static var ZeroRotator(default, never):FRotator;
+
+  @:op(A+B)
+  @:expr(return createWithValues(Pitch + b.Pitch, Yaw + b.Yaw, Roll + b.Roll))
+  public function _add(b:FRotator):FRotator;
 }
