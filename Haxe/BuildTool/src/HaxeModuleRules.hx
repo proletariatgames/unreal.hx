@@ -348,7 +348,13 @@ class HaxeModuleRules extends BaseModuleRules
           case "Linux" if (Sys.systemName() != "Linux"):
             // cross compiling
             isCrossCompiling = true;
-            var crossPath = Sys.getEnv("LINUX_ROOT");
+            var crossPath = Sys.getEnv("LINUX_MULTIARCH_ROOT");
+            if (crossPath != null) {
+              crossPath = '$crossPath/x86_64-unknown-linux-gnu';
+            } else {
+              crossPath = Sys.getEnv("LINUX_ROOT");
+            }
+
             if (crossPath != null) {
               traceInformation('Cross compiling using $crossPath');
               extraArgs = [
@@ -674,26 +680,38 @@ class HaxeModuleRules extends BaseModuleRules
       t.Start();
 
       var stderr = proc.stderr;
-      try
-      {
-        while(true)
+      var t2 = new cs.system.threading.Thread(function() {
+        var stderr = proc.stderr;
+        try
         {
-          var ln = stderr.readLine();
-          if (ln.indexOf(': Warning :') >= 0)
+          while(true)
           {
-            traceWarning('HaxeCompiler: $ln');
-          } else if (showErrors) {
-            traceError('HaxeCompiler: $ln');
-          } else {
-            traceInformation('HaxeCompiler: $ln');
+            // !!HACK!! Unreal seems to fail for no reason if the log line is too long on OSX
+            var ln = stderr.readLine().substr(0, 1024);
+            if (ln.indexOf(': Warning :') >= 0)
+            {
+              traceWarning('HaxeCompiler: $ln');
+            } else if (showErrors) {
+              traceError('HaxeCompiler: $ln');
+            } else {
+              traceInformation('HaxeCompiler: $ln');
+            }
           }
         }
-      }
-      catch(e:Eof) {}
+        catch(e:Eof) {}
+      });
+      t2.Start();
 
-      t.Join();
       var code = proc.exitCode();
-      proc.close();
+      // this is a workaround for an hxcpp issue in which the pdb server is created as
+      // a subprocess, and for that reason stdout/stderr don't close when hxcpp exits
+      // a fix to hxcpp will be proposed, but this works around this issue for now
+      if (!t.Join(100)) {
+        t.Abort();
+      }
+      if (!t2.Join(100)) {
+        t2.Abort();
+      }
       return code;
     }
     catch(e:Dynamic)
