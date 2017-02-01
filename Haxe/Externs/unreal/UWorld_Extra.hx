@@ -27,6 +27,10 @@ extern class UWorld_Extra {
   @:thisConst
   public function GetPawnIterator() : TConstArrayIteratorWrapper<TAutoWeakObjectPtr<APawn>>;
 
+  /** Returns a pointer to the physics scene for this world. */
+  @:thisConst
+  public function GetPhysicsScene() : PPtr<FPhysScene>;
+
   public function SpawnActor(cls:UClass, location:PPtr<Const<FVector>>, rotator:PPtr<Const<FRotator>>, spawnParameters:Const<PRef<FActorSpawnParameters>>) : AActor;
 
   /**
