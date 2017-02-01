@@ -146,4 +146,15 @@ extern class AActor_Extra {
    */
   public function RemoveOwnedComponent(Component:UActorComponent) : Void;
 
+  /** Returns whether an actor has been initialized */
+  @:thisConst
+  public function IsActorInitialized() : Bool;
+
+  /** Returns whether an actor is in the process of beginning play */
+  @:thisConst
+  public function IsActorBeginningPlay() : Bool;
+
+  /** Returns whether an actor has had BeginPlay called on it (and not subsequently had EndPlay called) */
+  @:thisConst
+  public function HasActorBegunPlay() : Bool;
 }
