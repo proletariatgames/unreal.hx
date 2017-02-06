@@ -17,6 +17,7 @@ package unreal.packethandler;
 /**
   A UObject alternative for loading HandlerComponents without strict module dependency
 **/
+@:umodule("PacketHandler")
 @:glueCppIncludes("HandlerComponentFactory.h")
 @:uextern extern class UHandlerComponentFactory extends unreal.UObject {
   

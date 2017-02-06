@@ -19,7 +19,7 @@ package unreal;
   
   Settings applied when building a mesh.
 **/
-@:glueCppIncludes("Engine/StaticMesh.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMeshBuildSettings {
   public var DistanceFieldReplacementMesh : unreal.UStaticMesh;
   

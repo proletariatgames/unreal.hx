@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates extrapolation options.
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveExtrapolation")
 @:uextern extern enum ERichCurveExtrapolation {
   RCCE_Cycle;

@@ -14,7 +14,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeEditorObject.h")
+@:glueCppIncludes("LandscapeProxy.h")
 @:uname("ELandscapeImportAlphamapType")
 @:class @:uextern extern enum ELandscapeImportAlphamapType {
   

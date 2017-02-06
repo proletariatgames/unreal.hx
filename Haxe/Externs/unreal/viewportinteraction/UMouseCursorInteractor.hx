@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Viewport interactor for a mouse cursor
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("MouseCursorInteractor.h")
 @:uextern extern class UMouseCursorInteractor extends unreal.viewportinteraction.UViewportInteractor {
   

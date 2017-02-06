@@ -21,7 +21,7 @@ package unreal;
   properties of the  AActor  over time.
   The Outer of an UInterpGroup is an InterpData.
 **/
-@:glueCppIncludes("MatineeOptions.h")
+@:glueCppIncludes("Matinee/InterpGroup.h")
 @:noCopy @:noEquals @:uextern extern class FInterpEdSelKey {
   public var UnsnappedPosition : unreal.Float32;
   public var KeyIndex : unreal.Int32;

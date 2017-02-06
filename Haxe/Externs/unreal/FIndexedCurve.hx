@@ -19,7 +19,7 @@ package unreal;
   
   @todo sequencer: Some heavy refactoring can be done here. Much more stuff can go in this base class.
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/IndexedCurve.h")
 @:uextern extern class FIndexedCurve {
   
   /**

@@ -18,7 +18,7 @@ package unreal.aimodule;
   keep in sync with DescribeLogicOp() in BTCompositeNode.cpp
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/BehaviorTree.h")
+@:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
 @:uname("EBTDecoratorLogic.Type")
 @:uextern extern enum EBTDecoratorLogic {
   Invalid;

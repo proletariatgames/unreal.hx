@@ -19,6 +19,7 @@ package unreal.tcpmessaging;
   
   
 **/
+@:umodule("TcpMessaging")
 @:glueCppIncludes("Private/Settings/TcpMessagingSettings.h")
 @:noClass @:uextern extern class UTcpMessagingSettings extends unreal.UObject {
   

@@ -18,7 +18,7 @@ package unreal.aimodule;
   keep in sync with DescribeNodeResult()
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_BlueprintBase.h")
+@:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
 @:uname("EBTNodeResult.Type")
 @:uextern extern enum EBTNodeResult {
   Succeeded;

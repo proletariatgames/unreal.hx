@@ -17,7 +17,7 @@ package unreal;
 /**
   Angular roll constraint
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
 @:uextern extern class FTwistConstraint extends unreal.FConstraintBaseParams {
   
   /**

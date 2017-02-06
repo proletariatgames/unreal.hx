@@ -13,6 +13,7 @@
 **/
 package unreal.functionaltesting;
 
+@:umodule("FunctionalTesting")
 @:glueCppIncludes("AutomationBlueprintFunctionLibrary.h")
 @:uextern extern class UAutomationBlueprintFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   static public function TakeAutomationScreenshot(WorldContextObject : unreal.UObject, LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.functionaltesting.FAutomationScreenshotOptions) : Void;

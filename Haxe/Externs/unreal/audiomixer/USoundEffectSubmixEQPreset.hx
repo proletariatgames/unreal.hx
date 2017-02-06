@@ -19,6 +19,7 @@ package unreal.audiomixer;
   This code exposes your preset settings and effect class to the editor.
   Do not modify this code!
 **/
+@:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
 @:uextern extern class USoundEffectSubmixEQPreset extends unreal.USoundEffectSourcePreset {
   

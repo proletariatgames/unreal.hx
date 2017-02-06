@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   Simple controller that make a bone to look at the point or another bone
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_LookAt.h")
+@:glueCppIncludes("BoneControllers/AnimNode_LookAt.h")
 @:uextern extern class FAnimNode_LookAt extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   public var bEnableDebug : Bool;
   public var InterpolationTriggerThreashold : unreal.Float32;

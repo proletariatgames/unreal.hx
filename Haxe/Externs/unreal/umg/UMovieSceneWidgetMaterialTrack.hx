@@ -19,6 +19,7 @@ package unreal.umg;
   
   A material track which is specialized for materials which are owned by widget brushes.
 **/
+@:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UMovieSceneWidgetMaterialTrack extends unreal.moviescenetracks.UMovieSceneMaterialTrack {
   

@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   EMPMatchOutcome represents all the possible outcomes for this player in a match
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("EndMatchCallbackProxy.h")
+@:glueCppIncludes("Interfaces/OnlineTurnBasedInterface.h")
 @:uname("EMPMatchOutcome.Outcome")
 @:uextern extern enum EMPMatchOutcome {
   None;

@@ -20,7 +20,7 @@ package unreal;
   Tick function that calls UPrimitiveComponent::PostPhysicsTick
   //DEPRECATED: This struct has been deprecated. Please use your own tick functions if you need something other than the primary tick function
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:noCopy @:noEquals @:uextern extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {
   
 }

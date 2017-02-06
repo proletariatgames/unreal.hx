@@ -19,8 +19,7 @@ package unreal.onlinesubsystem;
   
   Micro-transaction request information
 **/
-@:umodule("OnlineSubsystem")
-@:glueCppIncludes("Interfaces/TurnBasedMatchInterface.h", "NamedInterfaces.h")
+@:glueCppIncludes("Interfaces/OnlineStoreInterface.h")
 @:noCopy @:noEquals @:uextern extern class FInAppPurchaseProductRequest {
   
   /**

@@ -19,8 +19,7 @@ package unreal.niagara;
   
   
 **/
-@:umodule("Niagara")
-@:glueCppIncludes("NiagaraScript.h")
+@:glueCppIncludes("NiagaraScriptConstantData.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraScriptConstantData {
   
   /**

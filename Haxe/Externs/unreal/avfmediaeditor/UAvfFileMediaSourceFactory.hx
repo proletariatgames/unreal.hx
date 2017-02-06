@@ -19,6 +19,7 @@ package unreal.avfmediaeditor;
   
   Implements a factory for UFileMediaSource objects.
 **/
+@:umodule("AvfMediaEditor")
 @:glueCppIncludes("Private/AvfFileMediaSourceFactory.h")
 @:noClass @:uextern extern class UAvfFileMediaSourceFactory extends unreal.editor.UFactory {
   

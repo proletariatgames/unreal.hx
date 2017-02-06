@@ -19,7 +19,7 @@ package unreal;
   
   A line of subtitle text and the time at which it should be displayed.
 **/
-@:glueCppIncludes("Sound/SoundWave.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FSubtitleCue {
   
   /**

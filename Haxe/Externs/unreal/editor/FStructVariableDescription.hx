@@ -19,7 +19,6 @@ package unreal.editor;
   
   
 **/
-@:umodule("UnrealEd")
 @:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
 @:noCopy @:noEquals @:uextern extern class FStructVariableDescription {
   public var bEnable3dWidget : Bool;

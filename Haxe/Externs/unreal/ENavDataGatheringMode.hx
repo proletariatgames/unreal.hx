@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/StaticMeshActor.h")
+@:glueCppIncludes("AI/Navigation/NavigationTypes.h")
 @:uname("ENavDataGatheringMode")
 @:class @:uextern extern enum ENavDataGatheringMode {
   Default;

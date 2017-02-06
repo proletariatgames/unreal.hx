@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   A Slate color can be a directly specified value, or the color can be pulled from a WidgetStyle.
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateColor.h")
 @:uextern extern class FSlateColor {
   
   /**

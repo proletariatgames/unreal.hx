@@ -19,7 +19,6 @@ package unreal.onlinesubsystemutils;
   
   Stores PIE login credentials
 **/
-@:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("Private/OnlinePIESettings.h")
 @:noCopy @:noEquals @:uextern extern class FPIELoginSettingsInternal {
   

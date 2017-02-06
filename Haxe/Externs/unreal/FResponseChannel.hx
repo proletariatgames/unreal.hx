@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FResponseChannel {
   public var Response : unreal.ECollisionResponse;
   

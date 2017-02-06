@@ -18,7 +18,7 @@ package unreal.sequencer;
   Defines auto-key modes.
 **/
 @:umodule("Sequencer")
-@:glueCppIncludes("SequencerSettings.h")
+@:glueCppIncludes("ISequencer.h")
 @:uname("EAutoKeyMode")
 @:class @:uextern extern enum EAutoKeyMode {
   

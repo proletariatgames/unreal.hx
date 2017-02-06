@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an STextBlock
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/TextBlockWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FTextBlockStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

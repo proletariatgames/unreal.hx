@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum indicating different type of objects for rigid-body collision purposes.
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ECollisionChannel")
 @:uextern extern enum ECollisionChannel {
   

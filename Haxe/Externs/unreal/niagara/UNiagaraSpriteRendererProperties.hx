@@ -19,6 +19,7 @@ package unreal.niagara;
   
   
 **/
+@:umodule("Niagara")
 @:glueCppIncludes("NiagaraSpriteRendererProperties.h")
 @:noClass @:uextern extern class UNiagaraSpriteRendererProperties extends unreal.niagara.UNiagaraEffectRendererProperties {
   public var bBVelocityAligned : Bool;

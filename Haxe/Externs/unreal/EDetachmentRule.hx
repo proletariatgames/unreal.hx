@@ -17,7 +17,7 @@ package unreal;
 /**
   Rules for detaching components - needs to be kept synced to EAttachmentRule
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EDetachmentRule")
 @:class @:uextern extern enum EDetachmentRule {
   

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Orientation aspect used to drive interpolation
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_PoseDriver.h")
+@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
 @:uname("EPoseDriverType")
 @:class @:uextern extern enum EPoseDriverType {
   

@@ -17,8 +17,7 @@ package unreal.gameplayabilities;
 /**
   Data about montages that were played locally (all montages in case of server. predictive montages in case of client). Never replicated directly.
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uextern extern class FGameplayAbilityLocalAnimMontage {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Note: Check UMaterialInstance::Serialize if changed!
 **/
-@:glueCppIncludes("Materials/Material.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMaterialShadingModel")
 @:uextern extern enum EMaterialShadingModel {
   

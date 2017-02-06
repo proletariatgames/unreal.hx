@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("UMG.h", "Components/WidgetComponent.h")
 @:uname("EWidgetBlendMode")
 @:class @:uextern extern enum EWidgetBlendMode {
   Opaque;

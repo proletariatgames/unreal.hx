@@ -17,7 +17,7 @@ package unreal;
 /**
   String search dir used in UnrealString.h
 **/
-@:glueCppIncludes("Kismet/KismetStringLibrary.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ESearchDir.Type")
 @:uextern extern enum ESearchDir {
   FromStart;

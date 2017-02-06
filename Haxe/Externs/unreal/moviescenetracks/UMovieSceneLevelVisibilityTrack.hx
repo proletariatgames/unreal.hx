@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   A track for controlling the visibility of streamed levels.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneLevelVisibilityTrack.h")
 @:uextern extern class UMovieSceneLevelVisibilityTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   

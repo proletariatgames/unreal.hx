@@ -19,6 +19,7 @@ package unreal.mobilepatchingutils;
   
   
 **/
+@:umodule("MobilePatchingUtils")
 @:glueCppIncludes("Private/MobilePatchingLibrary.h")
 @:noClass @:uextern extern class UMobilePendingContent extends unreal.mobilepatchingutils.UMobileInstalledContent {
   

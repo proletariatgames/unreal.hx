@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Components/ActorComponent.h")
+@:glueCppIncludes("EdGraph/EdGraphPin.h")
 @:noCopy @:noEquals @:uextern extern class FSimpleMemberReference {
   
   /**

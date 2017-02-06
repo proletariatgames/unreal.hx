@@ -13,6 +13,7 @@
 **/
 package unreal.sequencerecorder;
 
+@:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderSettings.h")
 @:uextern extern class USequenceRecorderSettings extends unreal.UObject {
   

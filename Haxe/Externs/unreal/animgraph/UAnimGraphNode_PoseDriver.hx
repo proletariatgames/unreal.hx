@@ -13,6 +13,7 @@
 **/
 package unreal.animgraph;
 
+@:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_PoseDriver.h")
 @:uextern extern class UAnimGraphNode_PoseDriver extends unreal.animgraph.UAnimGraphNode_PoseHandler {
   public var Node : unreal.animgraphruntime.FAnimNode_PoseDriver;

@@ -20,6 +20,7 @@ package unreal.umg;
   to show as if the mouse were moving on top of it.  You'll then tell the component to simulate key presses,
   like Left Mouse, down and up, to simulate a mouse click.
 **/
+@:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UWidgetInteractionComponent extends unreal.USceneComponent {
   #if WITH_EDITORONLY_DATA

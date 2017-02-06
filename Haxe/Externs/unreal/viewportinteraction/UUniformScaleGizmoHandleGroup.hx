@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Gizmo handle for uniform scaling
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("VIUniformScaleGizmoHandle.h")
 @:uextern extern class UUniformScaleGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   

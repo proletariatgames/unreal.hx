@@ -19,6 +19,7 @@ package unreal.niagaraeditor;
   
   
 **/
+@:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraNodeOp.h")
 @:uextern extern class UNiagaraNodeOp extends unreal.niagaraeditor.UNiagaraNode {
   

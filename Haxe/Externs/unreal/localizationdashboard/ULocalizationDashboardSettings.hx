@@ -19,6 +19,7 @@ package unreal.localizationdashboard;
   
   Currently just a dummy class used for detail customizations
 **/
+@:umodule("LocalizationDashboard")
 @:glueCppIncludes("Private/LocalizationDashboardSettings.h")
 @:noClass @:uextern extern class ULocalizationDashboardSettings extends unreal.UObject {
   

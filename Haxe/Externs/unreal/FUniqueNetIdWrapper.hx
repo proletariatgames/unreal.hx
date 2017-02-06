@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("GameFramework/PlayerState.h")
+@:glueCppIncludes("UObject/CoreOnline.h")
 @:noCopy @:noEquals @:uextern extern class FUniqueNetIdWrapper {
   
 }

@@ -19,6 +19,7 @@ package unreal.sequencerecordersections;
   
   
 **/
+@:umodule("SequenceRecorderSections")
 @:glueCppIncludes("Private/MovieSceneVisibilitySectionRecorderSettings.h")
 @:noClass @:uextern extern class UMovieSceneVisibilitySectionRecorderSettings extends unreal.UObject {
   

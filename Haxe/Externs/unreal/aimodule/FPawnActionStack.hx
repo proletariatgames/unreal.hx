@@ -13,7 +13,6 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnActionsComponent.h")
 @:uextern extern class FPawnActionStack {
   

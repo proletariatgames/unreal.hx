@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   How an ability replicates state/events to everyone on the network.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("Abilities/GameplayAbility.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityReplicationPolicy.Type")
 @:uextern extern enum EGameplayAbilityReplicationPolicy {
   

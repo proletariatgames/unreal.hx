@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Kismet/KismetTextLibrary.h")
 @:uname("ETextGender")
 @:class @:uextern extern enum ETextGender {
   Masculine;

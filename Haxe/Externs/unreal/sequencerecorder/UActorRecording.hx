@@ -19,6 +19,7 @@ package unreal.sequencerecorder;
   
   
 **/
+@:umodule("SequenceRecorder")
 @:glueCppIncludes("Private/ActorRecording.h")
 @:uextern extern class UActorRecording extends unreal.UObject {
   

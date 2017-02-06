@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SCheckBox
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/CheckBoxWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FCheckBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
   @:deprecated public var HoveredSound_DEPRECATED : unreal.FName;
   @:deprecated public var UncheckedSound_DEPRECATED : unreal.FName;

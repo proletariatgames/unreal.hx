@@ -20,7 +20,7 @@ package unreal;
   A rectangular 2D Box.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Box2D.h
 **/
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FBox2D {
   
 }

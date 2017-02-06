@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SProgressBar
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ProgressWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FProgressBarStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

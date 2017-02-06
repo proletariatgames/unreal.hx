@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/PlayerController.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EObjectTypeQuery")
 @:uextern extern enum EObjectTypeQuery {
   ObjectTypeQuery1;

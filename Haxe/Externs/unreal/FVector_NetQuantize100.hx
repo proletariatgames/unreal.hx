@@ -23,7 +23,7 @@ package unreal;
   Up to 30 bits per component.
   Valid range: 2^30 / 100 = +/- 10,737,418.24
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Engine/NetSerialization.h")
 @:noCopy @:noEquals @:uextern extern class FVector_NetQuantize100 extends unreal.FVector {
   
 }

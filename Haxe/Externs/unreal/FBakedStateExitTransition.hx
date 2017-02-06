@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FBakedStateExitTransition {
   public var PoseEvaluatorLinks : unreal.TArray<unreal.Int32>;
   

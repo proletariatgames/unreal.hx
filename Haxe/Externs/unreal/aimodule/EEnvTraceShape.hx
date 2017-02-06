@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_ProjectedPoints.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTraceShape.Type")
 @:uextern extern enum EEnvTraceShape {
   Line;

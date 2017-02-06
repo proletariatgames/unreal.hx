@@ -19,7 +19,7 @@ package unreal;
   
   Base struct for items using Fast TArray Replication
 **/
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("Engine/NetSerialization.h")
 @:noCopy @:noEquals @:uextern extern class FFastArraySerializerItem {
   public var MostRecentArrayReplicationKey : unreal.Int32;
   public var ReplicationKey : unreal.Int32;

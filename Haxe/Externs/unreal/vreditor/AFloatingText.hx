@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Draws 3D text in the world along with targeting line cues
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorFloatingText.h")
 @:noClass @:uextern extern class AFloatingText extends unreal.AActor {
   

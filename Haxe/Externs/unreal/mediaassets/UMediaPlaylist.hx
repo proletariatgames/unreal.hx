@@ -17,6 +17,7 @@ package unreal.mediaassets;
 /**
   Implements a media play list.
 **/
+@:umodule("MediaAssets")
 @:glueCppIncludes("MediaPlaylist.h")
 @:uextern extern class UMediaPlaylist extends unreal.UObject {
   

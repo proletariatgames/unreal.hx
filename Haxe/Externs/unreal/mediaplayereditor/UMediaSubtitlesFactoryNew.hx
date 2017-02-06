@@ -19,6 +19,7 @@ package unreal.mediaplayereditor;
   
   Implements a factory for UMediaSubtitles objects.
 **/
+@:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Factories/MediaSubtitlesFactoryNew.h")
 @:noClass @:uextern extern class UMediaSubtitlesFactoryNew extends unreal.editor.UFactory {
   

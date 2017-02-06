@@ -19,7 +19,6 @@ package unreal.uobjectplugin;
   
   Example UStruct declared in a plugin module
 **/
-@:umodule("UObjectPlugin")
 @:glueCppIncludes("MyPluginObject.h")
 @:noCopy @:noEquals @:uextern extern class FMyPluginStruct {
   public var TestString : unreal.FString;

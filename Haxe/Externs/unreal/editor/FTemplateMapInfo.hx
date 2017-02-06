@@ -19,7 +19,6 @@ package unreal.editor;
   
   Used during asset renaming/duplication to specify class-specific package/group targets.
 **/
-@:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdEngine.h")
 @:noCopy @:noEquals @:uextern extern class FTemplateMapInfo {
   

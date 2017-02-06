@@ -14,7 +14,7 @@
 package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayAbilitySpec.h")
 @:uname("EGameplayAbilityActivationMode.Type")
 @:uextern extern enum EGameplayAbilityActivationMode {
   

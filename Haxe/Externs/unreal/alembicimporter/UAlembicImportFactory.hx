@@ -19,6 +19,7 @@ package unreal.alembicimporter;
   
   
 **/
+@:umodule("AlembicImporter")
 @:glueCppIncludes("AlembicImportFactory.h")
 @:noClass @:uextern extern class UAlembicImportFactory extends unreal.editor.UFactory {
   

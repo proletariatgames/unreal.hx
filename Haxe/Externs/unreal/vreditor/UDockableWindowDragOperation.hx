@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Calculation for dragging a dockable window
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorDockableWindow.h")
 @:noClass @:uextern extern class UDockableWindowDragOperation extends unreal.viewportinteraction.UViewportDragOperation {
   

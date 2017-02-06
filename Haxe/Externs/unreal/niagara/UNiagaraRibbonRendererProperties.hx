@@ -19,6 +19,7 @@ package unreal.niagara;
   
   
 **/
+@:umodule("Niagara")
 @:glueCppIncludes("NiagaraRibbonRendererProperties.h")
 @:noClass @:uextern extern class UNiagaraRibbonRendererProperties extends unreal.niagara.UNiagaraEffectRendererProperties {
   

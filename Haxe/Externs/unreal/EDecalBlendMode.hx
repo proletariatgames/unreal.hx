@@ -105,11 +105,4 @@ package unreal;
   @DisplayName("Volumetric Distance Function (experimental)")
   DBM_Volumetric_DistanceFunction;
   
-  /**
-    Applied after lighting
-    @DisplayName Post Lit
-  **/
-  @DisplayName("Post Lit")
-  DBM_PostLighting;
-  
 }

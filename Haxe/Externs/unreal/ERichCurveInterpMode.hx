@@ -17,7 +17,7 @@ package unreal;
 /**
   Method of interpolation between this key and the next.
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveInterpMode")
 @:uextern extern enum ERichCurveInterpMode {
   RCIM_Linear;

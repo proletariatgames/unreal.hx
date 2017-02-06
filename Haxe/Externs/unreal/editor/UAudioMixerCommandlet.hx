@@ -19,6 +19,7 @@ package unreal.editor;
   
   Commandlet used to test various aspects of audio mixer without loading UI.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/AudioMixerCommandlet.h")
 @:noClass @:uextern extern class UAudioMixerCommandlet extends unreal.UCommandlet {
   

@@ -17,6 +17,7 @@ package unreal.vreditor;
 /**
   VR Editor Mode.  Extends editor viewports with functionality for VR controls and object manipulation
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorMode.h")
 @:uextern extern class UVREditorMode extends unreal.UObject {
   

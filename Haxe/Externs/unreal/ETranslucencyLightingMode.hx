@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/Material.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETranslucencyLightingMode")
 @:uextern extern enum ETranslucencyLightingMode {
   

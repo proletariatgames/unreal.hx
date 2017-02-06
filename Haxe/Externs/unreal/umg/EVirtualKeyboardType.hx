@@ -14,7 +14,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
 @:uname("EVirtualKeyboardType.Type")
 @:uextern extern enum EVirtualKeyboardType {
   Default;

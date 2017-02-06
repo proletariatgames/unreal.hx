@@ -19,7 +19,7 @@ package unreal;
   
   Represents a mapping of key handles to key index that may be serialized
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/KeyHandle.h")
 @:noCopy @:noEquals @:uextern extern class FKeyHandleMap {
   
 }

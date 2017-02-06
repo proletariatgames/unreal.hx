@@ -19,7 +19,7 @@ package unreal;
   
   One convex hull, used for simplified collision.
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/ConvexElem.h")
 @:noCopy @:noEquals @:uextern extern class FKConvexElem extends unreal.FKShapeElem {
   
   /**

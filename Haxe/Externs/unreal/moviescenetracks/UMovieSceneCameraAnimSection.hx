@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCameraAnimSection.h")
 @:uextern extern class UMovieSceneCameraAnimSection extends unreal.moviescene.UMovieSceneSection {
   public var UserDefinedPlaySpace : unreal.FRotator;

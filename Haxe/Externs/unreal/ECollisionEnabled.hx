@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum used to describe what type of collision is enabled on a body.
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ECollisionEnabled.Type")
 @:uextern extern enum ECollisionEnabled {
   

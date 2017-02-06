@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Various ways to interpolate TAlphaBlend.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_LookAt.h")
+@:glueCppIncludes("BoneControllers/AnimNode_LookAt.h")
 @:uname("EInterpolationBlend.Type")
 @:uextern extern enum EInterpolationBlend {
   Linear;

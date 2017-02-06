@@ -21,6 +21,7 @@ package unreal.mediaassets;
   be played in a media player, such as a video file on disk, a video stream on
   the internet, or a web cam attached to or built into the target device.
 **/
+@:umodule("MediaAssets")
 @:glueCppIncludes("MediaSource.h")
 @:uextern extern class UMediaSource extends unreal.UObject {
   

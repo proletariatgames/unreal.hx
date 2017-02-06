@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundNodeDialoguePlayer.h")
+@:glueCppIncludes("Sound/DialogueTypes.h")
 @:uextern extern class FDialogueWaveParameter {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   An exposed value updater
 **/
-@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
+@:glueCppIncludes("Animation/AnimNodeBase.h")
 @:uextern extern class FExposedValueHandler {
   
   /**

@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   Debugging node that displays the current value of a bone in a specific space.
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_ObserveBone.h")
+@:glueCppIncludes("BoneControllers/AnimNode_ObserveBone.h")
 @:uextern extern class FAnimNode_ObserveBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

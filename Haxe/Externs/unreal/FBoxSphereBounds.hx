@@ -20,7 +20,7 @@ package unreal;
   A bounding box and bounding sphere with the same origin.
   The full C++ class is located here : Engine\Source\Runtime\Core\Public\Math\BoxSphereBounds.h
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FBoxSphereBounds {
   
 }

@@ -19,7 +19,7 @@ package unreal;
   
   A set of parameters to describe how to transition between view targets.
 **/
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Camera/PlayerCameraManager.h")
 @:noCopy @:noEquals @:uextern extern class FViewTargetTransitionParams {
   
   /**

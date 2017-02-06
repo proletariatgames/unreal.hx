@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   Defines what type of trigger will activate the ability, paired to a tag
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("Abilities/GameplayAbility.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityTriggerSource.Type")
 @:uextern extern enum EGameplayAbilityTriggerSource {
   

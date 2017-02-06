@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   Enumeration for options of where to capture gameplay attributes from for gameplay effects.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayEffectAttributeCaptureSource")
 @:class @:uextern extern enum EGameplayEffectAttributeCaptureSource {
   

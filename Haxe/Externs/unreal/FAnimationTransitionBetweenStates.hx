@@ -19,7 +19,7 @@ package unreal;
   
   This represents a baked transition
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
   public var LogicType : unreal.ETransitionLogicType;
   public var BlendProfile : unreal.UBlendProfile;

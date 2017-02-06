@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Gizmo handle for stretching/scaling
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("VIStretchGizmoHandle.h")
 @:uextern extern class UStretchGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   

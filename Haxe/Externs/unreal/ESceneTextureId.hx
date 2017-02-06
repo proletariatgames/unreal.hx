@@ -210,16 +210,4 @@ package unreal;
   @DisplayName("Specular (as stored in GBuffer)")
   PPI_StoredSpecular;
   
-  /**
-    CustomDepth2
-  **/
-  @DisplayName("CustomDepth2")
-  PPI_CustomDepth2;
-  
-  /**
-    CustomStencil2
-  **/
-  @DisplayName("CustomStencil2")
-  PPI_CustomStencil2;
-  
 }

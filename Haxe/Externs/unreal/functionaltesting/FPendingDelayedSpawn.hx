@@ -19,7 +19,6 @@ package unreal.functionaltesting;
   
   
 **/
-@:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalAITest.h")
 @:noCopy @:noEquals @:uextern extern class FPendingDelayedSpawn extends unreal.functionaltesting.FAITestSpawnInfo {
   

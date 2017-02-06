@@ -19,7 +19,7 @@ package unreal.sequencerecorder;
   
   
 **/
-@:glueCppIncludes("Private/ActorRecording.h")
+@:glueCppIncludes("ActorRecordingSettings.h")
 @:noCopy @:noEquals @:uextern extern class FActorRecordingSettings {
   
 }

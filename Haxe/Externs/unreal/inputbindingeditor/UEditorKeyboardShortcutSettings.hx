@@ -19,6 +19,7 @@ package unreal.inputbindingeditor;
   
   
 **/
+@:umodule("InputBindingEditor")
 @:glueCppIncludes("Private/EditorKeyboardShortcutSettings.h")
 @:noClass @:uextern extern class UEditorKeyboardShortcutSettings extends unreal.UDeveloperSettings {
   

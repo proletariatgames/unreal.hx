@@ -18,6 +18,7 @@ package unreal.audiomixer;
   USoundEffectSourceFilter
   Class which processes audio streams and uses parameters defined in the preset class.
 **/
+@:umodule("AudioMixer")
 @:glueCppIncludes("SourceEffects/AudioMixerSourceEffectFilter.h")
 @:uextern extern class USourceEffectFilter extends unreal.USoundEffectSource {
   

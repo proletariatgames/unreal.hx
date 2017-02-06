@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Definition for a typeface (a family of fonts)
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Engine/Font.h")
+@:glueCppIncludes("Fonts/CompositeFont.h")
 @:uextern extern class FTypeface {
   
   /**

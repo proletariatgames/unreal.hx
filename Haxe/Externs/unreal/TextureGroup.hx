@@ -23,7 +23,7 @@ package unreal;
   TEXTUREGROUP_Cinematic: should be used for Cinematics which will be baked out
                           and want to have the highest settings
 **/
-@:glueCppIncludes("Engine/Texture.h")
+@:glueCppIncludes("Engine/TextureDefines.h")
 @:uname("TextureGroup")
 @:uextern extern enum TextureGroup {
   

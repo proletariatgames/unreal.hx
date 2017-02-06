@@ -22,10 +22,4 @@ package unreal;
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
 @:noCopy @:noEquals @:uextern extern class FEditorElement {
   
-  /**
-    MAX_VERTICES @fixmeconst
-  **/
-  public var Weights : unreal.Float32;
-  public var Indices : unreal.Int32;
-  
 }

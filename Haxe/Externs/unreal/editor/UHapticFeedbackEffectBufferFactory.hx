@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/HapticFeedbackEffectBufferFactory.h")
 @:noClass @:uextern extern class UHapticFeedbackEffectBufferFactory extends unreal.editor.UFactory {
   

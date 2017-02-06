@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Represents the interactor in the world
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorMotionControllerInteractor.h")
 @:noClass @:uextern extern class UVREditorMotionControllerInteractor extends unreal.vreditor.UVREditorInteractor {
   

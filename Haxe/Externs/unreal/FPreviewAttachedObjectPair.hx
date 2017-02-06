@@ -19,7 +19,7 @@ package unreal;
   
   Preview items that are attached to the skeleton *
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Animation/PreviewAssetAttachComponent.h")
 @:noCopy @:noEquals @:uextern extern class FPreviewAttachedObjectPair {
   
   /**

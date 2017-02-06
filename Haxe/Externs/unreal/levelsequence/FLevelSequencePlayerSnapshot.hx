@@ -19,7 +19,7 @@ package unreal.levelsequence;
   
   Frame snapshot information for a level sequence
 **/
-@:glueCppIncludes("LevelSequenceBurnIn.h")
+@:glueCppIncludes("LevelSequencePlayer.h")
 @:noCopy @:noEquals @:uextern extern class FLevelSequencePlayerSnapshot {
   public var Settings : unreal.levelsequence.FLevelSequenceSnapshotSettings;
   public var CurrentShotLocalTime : unreal.Float32;

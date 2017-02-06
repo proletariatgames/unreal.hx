@@ -19,7 +19,7 @@ package unreal;
   
   this is anim segment that defines what animation and how *
 **/
-@:glueCppIncludes("Animation/AnimComposite.h")
+@:glueCppIncludes("Animation/AnimCompositeBase.h")
 @:noCopy @:noEquals @:uextern extern class FAnimSegment {
   public var LoopingCount : unreal.Int32;
   

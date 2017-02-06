@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EAIParamType")
 @:class @:uextern extern enum EAIParamType {
   Float;

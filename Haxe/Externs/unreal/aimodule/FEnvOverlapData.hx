@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Overlap.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uextern extern class FEnvOverlapData {
   
   /**

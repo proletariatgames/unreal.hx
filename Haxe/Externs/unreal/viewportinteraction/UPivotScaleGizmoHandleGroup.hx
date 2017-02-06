@@ -19,6 +19,7 @@ package unreal.viewportinteraction;
   
   Axis Gizmo handle for scaling
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
 @:noClass @:uextern extern class UPivotScaleGizmoHandleGroup extends unreal.viewportinteraction.UAxisGizmoHandleGroup {
   

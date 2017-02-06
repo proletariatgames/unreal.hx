@@ -17,7 +17,7 @@ package unreal;
 /**
   Smoothing approach used by network interpolation for Characters.
 **/
-@:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ENetworkSmoothingMode")
 @:class @:uextern extern enum ENetworkSmoothingMode {
   

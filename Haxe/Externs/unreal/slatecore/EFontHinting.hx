@@ -14,7 +14,7 @@
 package unreal.slatecore;
 
 @:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/EditableTextBoxWidgetStyle.h")
+@:glueCppIncludes("Fonts/CompositeFont.h")
 @:uname("EFontHinting")
 @:class @:uextern extern enum EFontHinting {
   

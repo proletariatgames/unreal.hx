@@ -17,7 +17,7 @@ package unreal;
 /**
   Burst emissions
 **/
-@:glueCppIncludes("Particles/ParticleModuleRequired.h")
+@:glueCppIncludes("Particles/ParticleEmitter.h")
 @:uname("EParticleBurstMethod")
 @:uextern extern enum EParticleBurstMethod {
   

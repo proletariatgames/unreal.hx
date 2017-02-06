@@ -14,7 +14,7 @@
 package unreal.supersearch;
 
 @:umodule("SuperSearch")
-@:glueCppIncludes("ditor/Private/SuperSearchSettings.h")
+@:glueCppIncludes("SuperSearchModule.h")
 @:uname("ESearchEngine")
 @:class @:uextern extern enum ESearchEngine {
   Google;

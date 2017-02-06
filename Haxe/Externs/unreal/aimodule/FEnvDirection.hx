@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_Donut.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uextern extern class FEnvDirection {
   
   /**

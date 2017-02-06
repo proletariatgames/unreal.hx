@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SScrollBar
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/EditableTextBoxWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FScrollBarStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

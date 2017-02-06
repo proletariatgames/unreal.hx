@@ -22,7 +22,7 @@ package unreal;
   It is also possible that some texture are not referred, and will then fall on fallbacks computation.
   Because each component holds its precomputed data for each texture, this struct is designed to be as compact as possible.
 **/
-@:glueCppIncludes("Components/StaticMeshComponent.h")
+@:glueCppIncludes("Engine/TextureStreamingTypes.h")
 @:noCopy @:noEquals @:uextern extern class FStreamingTextureBuildInfo {
   
   /**

@@ -17,6 +17,7 @@ package unreal.androidruntimesettings;
 /**
   Implements the settings for the Android runtime platform.
 **/
+@:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uextern extern class UAndroidRuntimeSettings extends unreal.UObject {
   

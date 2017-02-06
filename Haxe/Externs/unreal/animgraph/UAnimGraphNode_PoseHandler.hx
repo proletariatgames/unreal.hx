@@ -19,6 +19,7 @@ package unreal.animgraph;
   
   
 **/
+@:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_PoseHandler.h")
 @:uextern extern class UAnimGraphNode_PoseHandler extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
   

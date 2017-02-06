@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/DialogueVoice.h")
+@:glueCppIncludes("Sound/DialogueTypes.h")
 @:uname("EGrammaticalNumber.Type")
 @:uextern extern enum EGrammaticalNumber {
   

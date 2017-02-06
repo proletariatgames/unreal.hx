@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SExpandableArea
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FExpandableAreaStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

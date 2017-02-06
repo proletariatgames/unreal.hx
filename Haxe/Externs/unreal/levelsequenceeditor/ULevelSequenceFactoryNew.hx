@@ -19,6 +19,7 @@ package unreal.levelsequenceeditor;
   
   Implements a factory for ULevelSequence objects.
 **/
+@:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Factories/LevelSequenceFactoryNew.h")
 @:noClass @:uextern extern class ULevelSequenceFactoryNew extends unreal.editor.UFactory {
   

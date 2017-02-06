@@ -19,7 +19,7 @@ package unreal;
   
   One metadata entry for a variable
 **/
-@:glueCppIncludes("Engine/SCS_Node.h")
+@:glueCppIncludes("Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern extern class FBPVariableMetaDataEntry {
   
   /**

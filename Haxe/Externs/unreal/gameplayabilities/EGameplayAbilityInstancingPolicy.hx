@@ -19,7 +19,7 @@ package unreal.gameplayabilities;
   Ability cannot have state. It is probably unsafe for an InstancedPerActor ability to have latent actions, etc.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("Abilities/GameplayAbility.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityInstancingPolicy.Type")
 @:uextern extern enum EGameplayAbilityInstancingPolicy {
   

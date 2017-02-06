@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionTextureSample.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESamplerSourceMode")
 @:uextern extern enum ESamplerSourceMode {
   

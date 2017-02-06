@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   An interactive floating UI panel that can be dragged around
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorDockableWindow.h")
 @:noClass @:uextern extern class AVREditorDockableWindow extends unreal.vreditor.AVREditorFloatingUI implements unreal.viewportinteraction.IViewportInteractableInterface {
   // ViewportInteractableInterface interface implementation

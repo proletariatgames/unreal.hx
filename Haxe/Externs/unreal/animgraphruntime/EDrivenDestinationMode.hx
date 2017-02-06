@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Type of destination value to drive
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BoneDrivenController.h")
+@:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EDrivenDestinationMode")
 @:class @:uextern extern enum EDrivenDestinationMode {
   Bone;

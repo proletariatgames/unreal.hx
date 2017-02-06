@@ -17,7 +17,7 @@ package unreal;
 /**
   One key in a curve of FStrings.
 **/
-@:glueCppIncludes("Sections/MovieSceneStringSection.h")
+@:glueCppIncludes("Curves/StringCurve.h")
 @:uextern extern class FStringCurveKey {
   
   /**

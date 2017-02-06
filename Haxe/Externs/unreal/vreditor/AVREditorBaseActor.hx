@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Represents an actor specifically for VR Editor that has roomspace transformation
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorBaseActor.h")
 @:noClass @:uextern extern class AVREditorBaseActor extends unreal.AActor {
   

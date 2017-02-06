@@ -17,6 +17,7 @@ package unreal.moviescenetools;
 /**
   Settings for the level sequences
 **/
+@:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneToolsProjectSettings.h")
 @:uextern extern class UMovieSceneToolsProjectSettings extends unreal.UObject {
   

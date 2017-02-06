@@ -19,8 +19,7 @@ package unreal.moviescene;
   
   MovieSceneSpawnable describes an object that can be spawned for this MovieScene
 **/
-@:umodule("MovieScene")
-@:glueCppIncludes("MovieScene.h")
+@:glueCppIncludes("MovieSceneSpawnable.h")
 @:noCopy @:noEquals @:uextern extern class FMovieSceneSpawnable {
   #if WITH_EDITORONLY_DATA
   

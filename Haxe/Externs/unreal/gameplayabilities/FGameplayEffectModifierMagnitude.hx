@@ -17,7 +17,6 @@ package unreal.gameplayabilities;
 /**
   Struct representing the magnitude of a gameplay effect modifier, potentially calculated in numerous different ways
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectModifierMagnitude {
   

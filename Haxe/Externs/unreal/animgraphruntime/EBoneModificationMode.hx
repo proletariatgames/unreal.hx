@@ -14,7 +14,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_ModifyBone.h")
+@:glueCppIncludes("BoneControllers/AnimNode_ModifyBone.h")
 @:uname("EBoneModificationMode")
 @:uextern extern enum EBoneModificationMode {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   Implements a curve of FStrings.
 **/
-@:glueCppIncludes("Sections/MovieSceneStringSection.h")
+@:glueCppIncludes("Curves/StringCurve.h")
 @:uextern extern class FStringCurve extends unreal.FIndexedCurve {
   
   /**

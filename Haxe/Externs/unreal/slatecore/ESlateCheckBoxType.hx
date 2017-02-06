@@ -18,7 +18,7 @@ package unreal.slatecore;
   Type of check box
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/CheckBoxWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uname("ESlateCheckBoxType.Type")
 @:uextern extern enum ESlateCheckBoxType {
   

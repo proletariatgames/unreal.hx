@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Animation/AnimTypes.h")
 @:noCopy @:noEquals @:uextern extern class FAnimSyncMarker {
   #if WITH_EDITORONLY_DATA
   

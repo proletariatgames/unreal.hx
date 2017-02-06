@@ -17,7 +17,7 @@ package unreal;
 /**
   One key in a curve of FNames.
 **/
-@:glueCppIncludes("Sections/MovieSceneEventSection.h")
+@:glueCppIncludes("Curves/NameCurve.h")
 @:uextern extern class FNameCurveKey {
   
   /**

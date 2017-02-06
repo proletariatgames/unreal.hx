@@ -13,6 +13,7 @@
 **/
 package unreal.mediaassets;
 
+@:umodule("MediaAssets")
 @:glueCppIncludes("StreamMediaSource.h")
 @:uextern extern class UStreamMediaSource extends unreal.mediaassets.UMediaSource {
   

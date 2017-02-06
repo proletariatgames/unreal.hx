@@ -17,7 +17,7 @@ package unreal;
 /**
   Used by FPostProcessSettings Auto Exposure
 **/
-@:glueCppIncludes("Camera/CameraAnim.h")
+@:glueCppIncludes("Engine/Scene.h")
 @:uname("EAutoExposureMethod")
 @:uextern extern enum EAutoExposureMethod {
   

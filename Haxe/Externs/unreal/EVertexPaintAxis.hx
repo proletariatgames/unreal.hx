@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("MeshVertexPainter/MeshVertexPainterKismetLibrary.h")
+@:glueCppIncludes("MeshVertexPainter/MeshVertexPainter.h")
 @:uname("EVertexPaintAxis")
 @:class @:uextern extern enum EVertexPaintAxis {
   X;

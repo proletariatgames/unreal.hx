@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   A simple radial menu for VR editing, with frequently-used features
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorRadialMenu.h")
 @:noClass @:uextern extern class UVREditorRadialMenu extends unreal.vreditor.UVREditorBaseUserWidget {
   

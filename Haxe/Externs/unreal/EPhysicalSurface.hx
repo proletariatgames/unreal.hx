@@ -17,7 +17,7 @@ package unreal;
 /**
   Types of surfaces in the game.
 **/
-@:glueCppIncludes("PhysicalMaterials/PhysicalMaterial.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EPhysicalSurface")
 @:uextern extern enum EPhysicalSurface {
   

@@ -19,7 +19,7 @@ package unreal;
   
   Base class for raw (baked out) Distribution type
 **/
-@:glueCppIncludes("Particles/ParticleModuleRequired.h")
+@:glueCppIncludes("Distributions/Distribution.h")
 @:noCopy @:noEquals @:uextern extern class FRawDistribution {
   
 }

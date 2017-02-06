@@ -19,7 +19,6 @@ package unreal.cascade;
   
   Module-to-TypeData mapping helper.
 **/
-@:umodule("Cascade")
 @:glueCppIncludes("CascadeConfiguration.h")
 @:noCopy @:noEquals @:uextern extern class FModuleMenuMapper {
   public var InvalidObjNames : unreal.TArray<unreal.FString>;

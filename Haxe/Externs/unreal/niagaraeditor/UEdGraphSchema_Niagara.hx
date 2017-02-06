@@ -13,6 +13,7 @@
 **/
 package unreal.niagaraeditor;
 
+@:umodule("NiagaraEditor")
 @:glueCppIncludes("EdGraphSchema_Niagara.h")
 @:uextern extern class UEdGraphSchema_Niagara extends unreal.UEdGraphSchema {
   public var PC_Matrix : unreal.FString;

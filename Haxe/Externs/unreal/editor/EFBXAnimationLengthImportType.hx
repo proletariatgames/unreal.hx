@@ -18,7 +18,7 @@ package unreal.editor;
   Animation length type when importing
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxSceneImportOptionsSkeletalMesh.h")
+@:glueCppIncludes("Factories/FbxAnimSequenceImportData.h")
 @:uname("EFBXAnimationLengthImportType")
 @:uextern extern enum EFBXAnimationLengthImportType {
   

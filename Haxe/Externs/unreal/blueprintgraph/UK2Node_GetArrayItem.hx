@@ -19,6 +19,7 @@ package unreal.blueprintgraph;
   
   
 **/
+@:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_GetArrayItem.h")
 @:uextern extern class UK2Node_GetArrayItem extends unreal.blueprintgraph.UK2Node {
   

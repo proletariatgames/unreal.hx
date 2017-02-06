@@ -18,7 +18,7 @@ package unreal;
   Define view modes to get specific show flag settings (some on, some off and some are not altered)
   Don't change the order, the ID is serialized with the editor
 **/
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EViewModeIndex")
 @:uextern extern enum EViewModeIndex {
   

@@ -13,6 +13,7 @@
 **/
 package unreal.aigraph;
 
+@:umodule("AIGraph")
 @:glueCppIncludes("AIGraphSchema.h")
 @:uextern extern class UAIGraphSchema extends unreal.UEdGraphSchema {
   

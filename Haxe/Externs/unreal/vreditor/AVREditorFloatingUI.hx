@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Represents an interactive floating UI panel in the VR Editor
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorFloatingUI.h")
 @:noClass @:uextern extern class AVREditorFloatingUI extends unreal.vreditor.AVREditorBaseActor {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   Properties from the base material that can be overridden in material instances.
 **/
-@:glueCppIncludes("Materials/MaterialInstance.h")
+@:glueCppIncludes("Materials/MaterialInstanceBasePropertyOverrides.h")
 @:uextern extern class FMaterialInstanceBasePropertyOverrides {
   
   /**

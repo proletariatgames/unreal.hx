@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAutoReceiveInput.Type")
 @:uextern extern enum EAutoReceiveInput {
   Disabled;

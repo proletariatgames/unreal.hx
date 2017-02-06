@@ -20,8 +20,7 @@ package unreal.slatecore;
   FMotionEvent describes a touch pad action (press, move, lift)
   It is passed to event handlers dealing with touch input.
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
+@:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FMotionEvent extends unreal.slatecore.FInputEvent {
   
 }

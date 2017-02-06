@@ -17,6 +17,7 @@ package unreal.moviescenetracks;
 /**
   A section for use with the movie scene level visibility track, which controls streamed level visibility.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneLevelVisibilitySection.h")
 @:uextern extern class UMovieSceneLevelVisibilitySection extends unreal.moviescene.UMovieSceneSection {
   

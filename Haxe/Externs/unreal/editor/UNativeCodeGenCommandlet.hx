@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/NativeCodeGenCommandlet.h")
 @:noClass @:uextern extern class UNativeCodeGenCommandlet extends unreal.UCommandlet {
   

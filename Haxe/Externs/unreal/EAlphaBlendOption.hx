@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("AlphaBlend.h")
 @:uname("EAlphaBlendOption")
 @:class @:uextern extern enum EAlphaBlendOption {
   

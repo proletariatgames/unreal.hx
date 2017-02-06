@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FBakedAnimationStateMachine {
   
   /**

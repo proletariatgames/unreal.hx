@@ -17,6 +17,7 @@ package unreal.mediaassets;
 /**
   Implements an asset for subtitles that can be attached to media sources.
 **/
+@:umodule("MediaAssets")
 @:glueCppIncludes("MediaSubtitles.h")
 @:uextern extern class UMediaSubtitles extends unreal.UObject {
   

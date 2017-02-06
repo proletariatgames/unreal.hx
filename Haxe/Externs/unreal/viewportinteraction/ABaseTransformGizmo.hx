@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Base class for transform gizmo
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("VIBaseTransformGizmo.h")
 @:uextern extern class ABaseTransformGizmo extends unreal.AActor {
   

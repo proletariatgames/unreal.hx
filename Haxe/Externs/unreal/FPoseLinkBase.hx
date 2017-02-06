@@ -17,7 +17,7 @@ package unreal;
 /**
   A pose link to another node
 **/
-@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
+@:glueCppIncludes("Animation/AnimNodeBase.h")
 @:uextern extern class FPoseLinkBase {
   #if WITH_EDITORONLY_DATA
   

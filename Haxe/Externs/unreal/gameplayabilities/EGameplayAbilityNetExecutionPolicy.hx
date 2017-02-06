@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   How does an ability execute on the network. Does a client "ask and predict", "ask and wait", "don't ask (just do it)"
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("Abilities/GameplayAbility.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityNetExecutionPolicy.Type")
 @:uextern extern enum EGameplayAbilityNetExecutionPolicy {
   

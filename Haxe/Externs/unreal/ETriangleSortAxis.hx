@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum to specify which axis to use for the forward vector when using TRISORT_CustomLeftRight sort mode.
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETriangleSortAxis")
 @:uextern extern enum ETriangleSortAxis {
   TSA_X_Axis;

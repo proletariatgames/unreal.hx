@@ -20,7 +20,7 @@ package unreal;
   * A 4x4 matrix.
   * The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Matrix.h
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMatrix {
   
 }

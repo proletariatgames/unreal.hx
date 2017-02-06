@@ -19,7 +19,6 @@ package unreal.gameplayabilities;
   
   TriggerData
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility.h")
 @:noCopy @:noEquals @:uextern extern class FAbilityTriggerData {
   

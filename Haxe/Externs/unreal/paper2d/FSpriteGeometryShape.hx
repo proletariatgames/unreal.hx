@@ -17,8 +17,7 @@ package unreal.paper2d;
 /**
   A single piece of geometry (e.g., a polygon which may be convex or concave, a box, or a circle)
 **/
-@:umodule("Paper2D")
-@:glueCppIncludes("PaperSprite.h")
+@:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uextern extern class FSpriteGeometryShape {
   
   /**

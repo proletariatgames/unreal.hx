@@ -19,7 +19,6 @@ package unreal.gameprojectgeneration;
   
   
 **/
-@:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
 @:noCopy @:noEquals @:uextern extern class FTemplateReplacement {
   public var bCaseSensitive : Bool;

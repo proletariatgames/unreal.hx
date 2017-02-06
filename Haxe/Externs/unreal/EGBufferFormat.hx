@@ -18,7 +18,7 @@ package unreal;
   * Enumerates available GBufferFormats.
   // When this enum is updated please update CVarGBufferFormat comments
 **/
-@:glueCppIncludes("Engine/RendererSettings.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EGBufferFormat.Type")
 @:uextern extern enum EGBufferFormat {
   

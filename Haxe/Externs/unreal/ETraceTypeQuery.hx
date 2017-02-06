@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/PlayerController.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETraceTypeQuery")
 @:uextern extern enum ETraceTypeQuery {
   TraceTypeQuery1;

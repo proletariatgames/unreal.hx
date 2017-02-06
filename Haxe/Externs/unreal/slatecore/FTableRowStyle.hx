@@ -17,7 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an STableRow
 **/
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FTableRowStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

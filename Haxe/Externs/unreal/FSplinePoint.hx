@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Components/SplineComponent.h")
 @:noCopy @:noEquals @:uextern extern class FSplinePoint {
   public var Type : unreal.ESplinePointType;
   public var Scale : unreal.FVector;

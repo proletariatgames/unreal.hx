@@ -17,9 +17,8 @@ package unreal.gameplayabilities;
 /**
   WARNING: This type is defined as NoExport by UHT. It will be empty because of it
   
-  Structure to encapsulte magnitude that are calculated via custom calculation
+  Structure to encapsulate magnitudes that are calculated via custom calculation
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:noCopy @:noEquals @:uextern extern class FCustomCalculationBasedFloat {
   

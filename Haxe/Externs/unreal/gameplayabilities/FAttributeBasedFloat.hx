@@ -20,7 +20,6 @@ package unreal.gameplayabilities;
   Struct representing a float whose magnitude is dictated by a backing attribute and a calculation policy, follows basic form of:
   (Coefficient * (PreMultiplyAdditiveValue + [Eval'd Attribute Value According to Policy])) + PostMultiplyAdditiveValue
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:noCopy @:noEquals @:uextern extern class FAttributeBasedFloat {
   

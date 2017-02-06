@@ -18,7 +18,7 @@ package unreal.editor;
   Types of primitives for drawing thumbnails of resources.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("ThumbnailRendering/SceneThumbnailInfoWithPrimitive.h")
+@:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
 @:uname("EThumbnailPrimType")
 @:uextern extern enum EThumbnailPrimType {
   TPT_None;

@@ -19,7 +19,7 @@ package unreal;
   
   Per-light settings for Lightmass
 **/
-@:glueCppIncludes("Components/DirectionalLightComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLightmassLightSettings {
   
   /**

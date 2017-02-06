@@ -39,7 +39,6 @@ package unreal.gameplayabilities;
     Uses specified target actor and waits for it to return valid data or to be canceled.
   **/
   static public function WaitTargetDataUsingActor(WorldContextObject : unreal.UObject, TaskInstanceName : unreal.FName, ConfirmationType : unreal.gameplayabilities.EGameplayTargetingConfirmation, TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : unreal.gameplayabilities.UAbilityTask_WaitTargetData;
-  @:final public function BeginSpawningActor(WorldContextObject : unreal.UObject, Class : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityTargetActor>, SpawnedActor : unreal.PRef<unreal.gameplayabilities.AGameplayAbilityTargetActor>) : Bool;
   @:final public function FinishSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : Void;
   
 }

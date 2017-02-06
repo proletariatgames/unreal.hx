@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   Describes what happens when a GameplayEffect, that is granting an active ability, is removed from its owner.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayAbilitySpec.h")
 @:uname("EGameplayEffectGrantedAbilityRemovePolicy")
 @:class @:uextern extern enum EGameplayEffectGrantedAbilityRemovePolicy {
   

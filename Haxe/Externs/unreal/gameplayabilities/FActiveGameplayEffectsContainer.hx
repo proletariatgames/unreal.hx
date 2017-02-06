@@ -32,8 +32,7 @@ package unreal.gameplayabilities;
       {
       }
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FActiveGameplayEffectsContainer extends unreal.FFastArraySerializer {
   
 }

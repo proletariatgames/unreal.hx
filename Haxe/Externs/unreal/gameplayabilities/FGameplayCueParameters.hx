@@ -13,8 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FGameplayCueParameters {
   
   /**

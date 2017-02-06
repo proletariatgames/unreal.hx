@@ -17,7 +17,7 @@ package unreal;
 /**
   Used by FPostProcessSettings Depth of Fields
 **/
-@:glueCppIncludes("Camera/CameraAnim.h")
+@:glueCppIncludes("Engine/Scene.h")
 @:uname("EDepthOfFieldMethod")
 @:uextern extern enum EDepthOfFieldMethod {
   

@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent.h")
+@:glueCppIncludes("AI/Navigation/NavigationAvoidanceTypes.h")
 @:noCopy @:noEquals @:uextern extern class FNavAvoidanceMask {
   public var bGroup31 : Bool;
   public var bGroup30 : Bool;

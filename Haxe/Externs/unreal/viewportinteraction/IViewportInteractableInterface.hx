@@ -19,6 +19,7 @@ package unreal.viewportinteraction;
   
   
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportInteractableInterface.h")
 @:uextern extern interface IViewportInteractableInterface {
   

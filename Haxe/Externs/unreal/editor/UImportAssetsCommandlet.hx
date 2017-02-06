@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ImportAssetsCommandlet.h")
 @:noClass @:uextern extern class UImportAssetsCommandlet extends unreal.UCommandlet {
   

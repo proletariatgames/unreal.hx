@@ -19,6 +19,7 @@ package unreal.pixelinspectormodule;
   
   
 **/
+@:umodule("PixelInspectorModule")
 @:glueCppIncludes("Private/PixelInspectorView.h")
 @:uextern extern class UPixelInspectorView extends unreal.UObject {
   

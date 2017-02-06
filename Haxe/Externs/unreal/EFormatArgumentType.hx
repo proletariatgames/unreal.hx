@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Kismet/KismetTextLibrary.h")
 @:uname("EFormatArgumentType.Type")
 @:uextern extern enum EFormatArgumentType {
   Int;

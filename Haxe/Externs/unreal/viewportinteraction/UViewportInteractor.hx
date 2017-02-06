@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Represents the interactor in the world
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportInteractor.h")
 @:uextern extern class UViewportInteractor extends unreal.UObject {
   

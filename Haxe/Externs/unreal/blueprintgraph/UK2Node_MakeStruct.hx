@@ -23,4 +23,10 @@ package unreal.blueprintgraph;
 @:glueCppIncludes("K2Node_MakeStruct.h")
 @:uextern extern class UK2Node_MakeStruct extends unreal.blueprintgraph.UK2Node_StructMemberSet {
   
+  /**
+    Helper property to handle upgrades from an old system of displaying pins for
+        the override values that properties referenced as a conditional of being set in a struct
+  **/
+  public var bMadeAfterOverridePinRemoval : Bool;
+  
 }

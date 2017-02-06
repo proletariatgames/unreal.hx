@@ -14,7 +14,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_SequenceEvaluator.h")
+@:glueCppIncludes("AnimNodes/AnimNode_SequenceEvaluator.h")
 @:uname("ESequenceEvalReinit.Type")
 @:uextern extern enum ESequenceEvalReinit {
   

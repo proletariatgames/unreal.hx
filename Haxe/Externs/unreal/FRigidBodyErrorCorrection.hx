@@ -19,7 +19,7 @@ package unreal;
   
   Rigid body error correction data
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FRigidBodyErrorCorrection {
   
   /**

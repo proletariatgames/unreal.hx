@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   A specialized WidgetComponent for the VREditor
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorWidgetComponent.h")
 @:noClass @:uextern extern class UVREditorWidgetComponent extends unreal.umg.UWidgetComponent {
   

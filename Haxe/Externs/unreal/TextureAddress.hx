@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Texture2D.h")
+@:glueCppIncludes("Engine/Texture.h")
 @:uname("TextureAddress")
 @:uextern extern enum TextureAddress {
   

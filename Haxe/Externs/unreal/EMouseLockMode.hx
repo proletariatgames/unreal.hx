@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/InputSettings.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EMouseLockMode")
 @:class @:uextern extern enum EMouseLockMode {
   

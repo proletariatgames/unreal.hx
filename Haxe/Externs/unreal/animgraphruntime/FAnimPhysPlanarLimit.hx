@@ -19,8 +19,7 @@ package unreal.animgraphruntime;
   
   
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_AnimDynamics.h")
+@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:noCopy @:noEquals @:uextern extern class FAnimPhysPlanarLimit {
   
   /**

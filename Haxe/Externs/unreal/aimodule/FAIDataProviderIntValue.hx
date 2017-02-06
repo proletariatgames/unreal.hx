@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_Donut.h")
+@:glueCppIncludes("DataProviders/AIDataProvider.h")
 @:uextern extern class FAIDataProviderIntValue extends unreal.aimodule.FAIDataProviderTypedValue {
   public var DefaultValue : unreal.Int32;
   

@@ -19,7 +19,7 @@ package unreal;
   
   Per-object settings for Lightmass
 **/
-@:glueCppIncludes("Lightmass/LightmassPrimitiveSettingsObject.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLightmassPrimitiveSettings {
   
   /**

@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   Blend List by Enum, it changes based on enum input that enters
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BlendListByEnum.h")
+@:glueCppIncludes("AnimNodes/AnimNode_BlendListByEnum.h")
 @:uextern extern class FAnimNode_BlendListByEnum extends unreal.animgraphruntime.FAnimNode_BlendListBase {
   
   /**

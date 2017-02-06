@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   This is the runtime version of a bone driven controller, which maps part of the state from one bone to another (e.g., 2 * source.x -> target.z)
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BoneDrivenController.h")
+@:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uextern extern class FAnimNode_BoneDrivenController extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

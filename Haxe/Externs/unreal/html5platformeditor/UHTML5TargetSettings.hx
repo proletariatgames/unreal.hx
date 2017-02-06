@@ -17,6 +17,7 @@ package unreal.html5platformeditor;
 /**
   Implements the settings for the HTML5 target platform.
 **/
+@:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("HTML5TargetSettings.h")
 @:uextern extern class UHTML5TargetSettings extends unreal.UObject {
   

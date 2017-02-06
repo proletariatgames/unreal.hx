@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   @TODO: Comment
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_AimOffsetLookAt.h")
+@:glueCppIncludes("AnimNodes/AnimNode_BlendSpacePlayer.h")
 @:uextern extern class FAnimNode_BlendSpacePlayer extends unreal.FAnimNode_AssetPlayerBase {
   private var PreviousBlendSpace : unreal.UBlendSpaceBase;
   private var BlendSampleDataCache : unreal.TArray<unreal.FBlendSampleData>;

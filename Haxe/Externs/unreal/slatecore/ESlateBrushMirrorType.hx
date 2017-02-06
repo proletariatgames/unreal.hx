@@ -18,7 +18,7 @@ package unreal.slatecore;
   Possible options for mirroring the brush image
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushMirrorType.Type")
 @:uextern extern enum ESlateBrushMirrorType {
   

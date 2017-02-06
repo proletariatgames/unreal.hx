@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for a physics representation of an object.
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintInstance.h")
 @:uextern extern class FConstraintInstance {
   #if WITH_EDITORONLY_DATA
   @:deprecated public var AngularDriveForceLimit_DEPRECATED : unreal.Float32;

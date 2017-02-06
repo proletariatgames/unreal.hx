@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure containing information about one hit of a trace, such as point of impact and surface normal at that point.
 **/
-@:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uextern extern class FHitResult {
   
   /**

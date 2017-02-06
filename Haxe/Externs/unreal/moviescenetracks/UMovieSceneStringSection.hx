@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   A single string section
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneStringSection.h")
 @:uextern extern class UMovieSceneStringSection extends unreal.moviescene.UMovieSceneSection {
   

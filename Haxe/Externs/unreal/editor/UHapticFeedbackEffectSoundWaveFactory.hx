@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/HapticFeedbackEffectSoundWaveFactory.h")
 @:noClass @:uextern extern class UHapticFeedbackEffectSoundWaveFactory extends unreal.editor.UFactory {
   

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Supported linear axis constraints
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_AnimDynamics.h")
+@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysLinearConstraintType")
 @:class @:uextern extern enum AnimPhysLinearConstraintType {
   Free;

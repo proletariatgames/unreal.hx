@@ -19,7 +19,7 @@ package unreal;
   
   Movement capabilities, determining available movement options for Pawns and used by AI for reachability tests.
 **/
-@:glueCppIncludes("AI/Navigation/NavigationData.h")
+@:glueCppIncludes("AI/Navigation/NavigationTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMovementProperties {
   
   /**

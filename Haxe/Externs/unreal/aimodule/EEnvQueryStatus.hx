@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvQueryStatus.Type")
 @:uextern extern enum EEnvQueryStatus {
   Processing;

@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   VR Editor interaction with the 3D world
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorWorldInteraction.h")
 @:noClass @:uextern extern class UVREditorWorldInteraction extends unreal.UObject {
   

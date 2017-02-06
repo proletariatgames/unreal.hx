@@ -19,7 +19,6 @@ package unreal.lightpropagationvolumeruntime;
   
   
 **/
-@:umodule("LightPropagationVolumeRuntime")
 @:glueCppIncludes("LightPropagationVolumeBlendable.h")
 @:noCopy @:noEquals @:uextern extern class FLightPropagationVolumeSettings {
   

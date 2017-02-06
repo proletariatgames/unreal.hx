@@ -17,7 +17,7 @@ package unreal;
 /**
   Note: This is mirrored in Lightmass, be sure to update the blend mode structure and logic there if this changes. // Note: Check UMaterialInstance::Serialize if changed!!
 **/
-@:glueCppIncludes("Engine/Canvas.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EBlendMode")
 @:uextern extern enum EBlendMode {
   

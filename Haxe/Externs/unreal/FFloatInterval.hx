@@ -19,7 +19,7 @@ package unreal;
   
   A float interval
 **/
-@:glueCppIncludes("FoliageType.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FFloatInterval {
   
 }

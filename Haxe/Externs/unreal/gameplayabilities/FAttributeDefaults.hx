@@ -13,8 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uextern extern class FAttributeDefaults {
   public var DefaultStartingTable : unreal.UDataTable;
   public var Attributes : unreal.TSubclassOf<unreal.gameplayabilities.UAttributeSet>;

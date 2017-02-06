@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("AI/Navigation/AvoidanceManager.h")
 @:noCopy @:noEquals @:uextern extern class FNavAvoidanceData {
   
 }

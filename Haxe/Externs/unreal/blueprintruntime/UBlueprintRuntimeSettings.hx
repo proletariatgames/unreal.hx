@@ -17,6 +17,7 @@ package unreal.blueprintruntime;
 /**
   Implements the settings for the BlueprintRuntime module
 **/
+@:umodule("BlueprintRuntime")
 @:glueCppIncludes("BlueprintRuntimeSettings.h")
 @:uextern extern class UBlueprintRuntimeSettings extends unreal.UObject {
   public var WarningSettings : unreal.TArray<unreal.blueprintruntime.FBlueprintWarningSettings>;

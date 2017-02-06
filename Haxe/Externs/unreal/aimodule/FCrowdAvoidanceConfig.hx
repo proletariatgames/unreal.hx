@@ -43,7 +43,6 @@ package unreal.aimodule;
   
    Check flags in CrowdDebugDrawing namespace (CrowdManager.cpp) for debugging options.
 **/
-@:umodule("AIModule")
 @:glueCppIncludes("Navigation/CrowdManager.h")
 @:uextern extern class FCrowdAvoidanceConfig {
   

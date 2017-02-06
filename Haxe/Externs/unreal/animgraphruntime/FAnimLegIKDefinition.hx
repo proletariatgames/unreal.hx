@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   
   Per foot definitions
 **/
-@:glueCppIncludes("AnimGraphNode_LegIK.h")
+@:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
 @:noCopy @:noEquals @:uextern extern class FAnimLegIKDefinition {
   
   /**

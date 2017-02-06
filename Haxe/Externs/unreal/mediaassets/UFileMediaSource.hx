@@ -13,6 +13,7 @@
 **/
 package unreal.mediaassets;
 
+@:umodule("MediaAssets")
 @:glueCppIncludes("FileMediaSource.h")
 @:uextern extern class UFileMediaSource extends unreal.mediaassets.UMediaSource {
   

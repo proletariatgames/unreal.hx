@@ -53,8 +53,6 @@ package unreal.editor;
     This is a custom tooltip that should be shown
   **/
   public var FloatPropertyWithClampedRange : unreal.Float32;
-  public var StaticArrayOfIntsWithEnumLabels : unreal.Int32;
-  public var StaticArrayOfInts : unreal.Int32;
   public var FixedArrayOfInts : unreal.TArray<unreal.Int32>;
   public var StructPropertyArray : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
   public var ColorPropertyArray : unreal.TArray<unreal.FColor>;

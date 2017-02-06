@@ -19,6 +19,7 @@ package unreal.mergeactors;
   
   Singleton wrapper to allow for using the setting structure in SSettingsView
 **/
+@:umodule("MergeActors")
 @:glueCppIncludes("Private/MeshMergingTool/MeshMergingTool.h")
 @:noClass @:uextern extern class UMeshMergingSettingsObject extends unreal.UObject {
   public var Settings : unreal.FMeshMergingSettings;

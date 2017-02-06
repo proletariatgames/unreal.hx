@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/BlendProfile.h")
+@:glueCppIncludes("BoneContainer.h")
 @:noCopy @:noEquals @:uextern extern class FBoneReference {
   
   /**

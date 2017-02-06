@@ -19,6 +19,7 @@ package unreal.editor;
   
   UExportDialogueScriptCommandlet: Handles exporting localized script sheets for dialogue wave assets.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ExportDialogueScriptCommandlet.h")
 @:noClass @:uextern extern class UExportDialogueScriptCommandlet extends unreal.editor.UGatherTextCommandletBase {
   

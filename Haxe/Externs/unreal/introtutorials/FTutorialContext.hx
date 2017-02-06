@@ -19,7 +19,6 @@ package unreal.introtutorials;
   
   Named context that corresponds to a particular tutorial
 **/
-@:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialSettings.h")
 @:noCopy @:noEquals @:uextern extern class FTutorialContext {
   

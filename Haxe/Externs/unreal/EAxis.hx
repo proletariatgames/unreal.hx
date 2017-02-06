@@ -17,7 +17,7 @@ package unreal;
 /**
   Generic axis enum (mirrored for native use in Axis.h).
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EAxis.Type")
 @:uextern extern enum EAxis {
   None;

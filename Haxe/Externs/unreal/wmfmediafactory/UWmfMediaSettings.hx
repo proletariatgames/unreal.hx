@@ -13,6 +13,7 @@
 **/
 package unreal.wmfmediafactory;
 
+@:umodule("WmfMediaFactory")
 @:glueCppIncludes("WmfMediaSettings.h")
 @:uextern extern class UWmfMediaSettings extends unreal.UObject {
   

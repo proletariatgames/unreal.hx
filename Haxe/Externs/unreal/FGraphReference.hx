@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("K2Node_MacroInstance.h")
+@:glueCppIncludes("EdGraph/EdGraph.h")
 @:uextern extern class FGraphReference {
   
   /**

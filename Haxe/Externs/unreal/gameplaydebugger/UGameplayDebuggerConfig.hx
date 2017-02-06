@@ -13,6 +13,7 @@
 **/
 package unreal.gameplaydebugger;
 
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
 @:uextern extern class UGameplayDebuggerConfig extends unreal.UObject {
   public var Extensions : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerExtensionConfig>;

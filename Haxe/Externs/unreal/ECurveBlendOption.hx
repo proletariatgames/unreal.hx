@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_LayeredBoneBlend.h")
+@:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("ECurveBlendOption.Type")
 @:uextern extern enum ECurveBlendOption {
   

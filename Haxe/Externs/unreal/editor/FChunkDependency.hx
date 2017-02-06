@@ -19,7 +19,6 @@ package unreal.editor;
   
   
 **/
-@:umodule("UnrealEd")
 @:glueCppIncludes("Private/Commandlets/ChunkDependencyInfo.h")
 @:noCopy @:noEquals @:uextern extern class FChunkDependency {
   public var ParentChunkID : unreal.Int32;

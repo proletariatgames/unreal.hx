@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   The transform component (attribute) to read from
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BoneDrivenController.h")
+@:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EComponentType.Type")
 @:uextern extern enum EComponentType {
   None;

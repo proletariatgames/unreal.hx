@@ -17,7 +17,7 @@ package unreal;
 /**
   Defines available strategies for handling the case where an actor is spawned in such a way that it penetrates blocking collision.
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESpawnActorCollisionHandlingMethod")
 @:class @:uextern extern enum ESpawnActorCollisionHandlingMethod {
   

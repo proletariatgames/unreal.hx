@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_AssetPlayerBase.h")
+@:glueCppIncludes("Animation/AnimationAsset.h")
 @:uname("EAnimGroupRole.Type")
 @:uextern extern enum EAnimGroupRole {
   

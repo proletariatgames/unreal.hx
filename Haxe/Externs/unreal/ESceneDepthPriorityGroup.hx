@@ -18,7 +18,7 @@ package unreal;
   A priority for sorting scene elements by depth.
   Elements with higher priority occlude elements with lower priority, disregarding distance.
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESceneDepthPriorityGroup")
 @:uextern extern enum ESceneDepthPriorityGroup {
   

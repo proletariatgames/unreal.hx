@@ -19,7 +19,7 @@ package unreal;
   
   Struct used to hold effects for destructible damage events
 **/
-@:glueCppIncludes("Components/DestructibleComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FFractureEffect {
   
   /**

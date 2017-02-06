@@ -19,7 +19,7 @@ package unreal;
   
   Mesh merging settings
 **/
-@:glueCppIncludes("GameFramework/WorldSettings.h")
+@:glueCppIncludes("Engine/MeshMerging.h")
 @:noCopy @:noEquals @:uextern extern class FMeshMergingSettings {
   
   /**

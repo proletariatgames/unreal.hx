@@ -20,8 +20,7 @@ package unreal.blueprintgraph;
   This structure describes metadata associated with a user declared function or macro
   It will be turned into regular metadata during compilation
 **/
-@:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_Tunnel.h")
+@:glueCppIncludes("K2Node_EditablePinBase.h")
 @:noCopy @:noEquals @:uextern extern class FKismetUserDeclaredFunctionMetadata {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for properties of a physics constraint that can be easily swapped at runtime. This is useful for switching different setups when going from ragdoll to standup for example
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintInstance.h")
 @:uextern extern class FConstraintProfileProperties {
   
   /**

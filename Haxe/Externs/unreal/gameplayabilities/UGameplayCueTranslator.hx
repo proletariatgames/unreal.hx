@@ -22,6 +22,7 @@ package unreal.gameplayabilities;
           1. A set of translation rules. E.g., "I translate GameplayCue.A.B.C into GameplayCue.X.B.C", or rather "I translate A into X". (GetTranslationNameSpawns)
           2. A runtime function to actually do the translation, based on the actors and parameters involved in the gameplay cue event. (GameplayCueToTranslationIndex)
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueTranslator.h")
 @:uextern extern class UGameplayCueTranslator extends unreal.UObject {
   

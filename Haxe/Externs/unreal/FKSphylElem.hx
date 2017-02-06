@@ -19,7 +19,7 @@ package unreal;
   
   Capsule shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/SphylElem.h")
 @:noCopy @:noEquals @:uextern extern class FKSphylElem extends unreal.FKShapeElem {
   
   /**

@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   These are generic, nonpayload carrying events that are replicated between the client and server
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uname("EAbilityGenericReplicatedEvent.Type")
 @:uextern extern enum EAbilityGenericReplicatedEvent {
   

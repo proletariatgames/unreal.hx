@@ -17,7 +17,7 @@ package unreal;
 /**
   A component-space pose link to another node
 **/
-@:glueCppIncludes("AnimGraphNode_ComponentToLocalSpace.h")
+@:glueCppIncludes("Animation/AnimNodeBase.h")
 @:uextern extern class FComponentSpacePoseLink extends unreal.FPoseLinkBase {
   
 }

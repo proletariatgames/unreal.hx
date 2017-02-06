@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Blueprint/AIAsyncTaskBlueprintProxy.h")
+@:glueCppIncludes("Navigation/PathFollowingComponent.h")
 @:uname("EPathFollowingResult.Type")
 @:uextern extern enum EPathFollowingResult {
   

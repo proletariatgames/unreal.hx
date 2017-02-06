@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
+@:glueCppIncludes("Animation/AnimNodeBase.h")
 @:noCopy @:noEquals @:uextern extern class FExposedValueCopyRecord {
   
   /**

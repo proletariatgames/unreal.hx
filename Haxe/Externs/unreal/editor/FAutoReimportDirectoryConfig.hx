@@ -19,7 +19,6 @@ package unreal.editor;
   
   Auto reimport settings for a specific directory
 **/
-@:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
 @:noCopy @:noEquals @:uextern extern class FAutoReimportDirectoryConfig {
   

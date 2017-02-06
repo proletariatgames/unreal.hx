@@ -19,7 +19,7 @@ package unreal;
   
   Information about the sprite category
 **/
-@:glueCppIncludes("Components/ArrowComponent.h")
+@:glueCppIncludes("Components/PrimitiveComponent.h")
 @:noCopy @:noEquals @:uextern extern class FSpriteCategoryInfo {
   
   /**

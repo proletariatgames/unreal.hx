@@ -19,6 +19,7 @@ package unreal.blueprintgraph;
   
   
 **/
+@:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_BitmaskLiteral.h")
 @:uextern extern class UK2Node_BitmaskLiteral extends unreal.blueprintgraph.UK2Node implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
   public var BitflagsEnum : unreal.UEnum;

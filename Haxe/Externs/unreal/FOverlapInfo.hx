@@ -17,7 +17,7 @@ package unreal;
 /**
   Overlap info consisting of the primitive and the body that is overlapping
 **/
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Components/SceneComponent.h")
 @:uextern extern class FOverlapInfo {
   
 }

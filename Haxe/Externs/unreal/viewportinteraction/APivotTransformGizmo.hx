@@ -19,6 +19,7 @@ package unreal.viewportinteraction;
   
   A transform gizmo on the pivot that allows you to interact with selected objects by moving, scaling and rotating.
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
 @:noClass @:uextern extern class APivotTransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
   

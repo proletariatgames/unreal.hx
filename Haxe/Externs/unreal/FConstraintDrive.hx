@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
 @:uextern extern class FConstraintDrive {
   
   /**

@@ -19,7 +19,7 @@ package unreal;
   
   Struct used to specify the property name of the component to constrain
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FConstrainComponentPropName {
   
   /**

@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   VR Editor user interface manager
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorUISystem.h")
 @:noClass @:uextern extern class UVREditorUISystem extends unreal.UObject {
   

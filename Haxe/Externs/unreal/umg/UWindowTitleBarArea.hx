@@ -17,6 +17,7 @@ package unreal.umg;
 /**
   A panel for defining a region of the UI that should allow users to drag the window on desktop platforms.
 **/
+@:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UWindowTitleBarArea extends unreal.umg.UContentWidget {
   

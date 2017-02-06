@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Particles/Acceleration/ParticleModuleAcceleration.h")
+@:glueCppIncludes("Distributions/DistributionVector.h")
 @:noCopy @:noEquals @:uextern extern class FRawDistributionVector extends unreal.FRawDistribution {
   public var Distribution : unreal.UDistributionVector;
   

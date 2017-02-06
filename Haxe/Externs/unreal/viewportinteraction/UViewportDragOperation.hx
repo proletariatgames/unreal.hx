@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Base class for interactable drag calculations
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportDragOperation.h")
 @:uextern extern class UViewportDragOperation extends unreal.UObject {
   

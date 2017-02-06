@@ -17,6 +17,7 @@ package unreal.viewportinteraction;
 /**
   Base class for gizmo handles on axis
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("VIGizmoHandle.h")
 @:uextern extern class UAxisGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   

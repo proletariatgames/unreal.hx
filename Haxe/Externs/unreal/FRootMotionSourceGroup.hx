@@ -17,7 +17,7 @@ package unreal;
 /**
   Group of Root Motion Sources that are applied
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("GameFramework/RootMotionSource.h")
 @:uextern extern class FRootMotionSourceGroup {
   
   /**

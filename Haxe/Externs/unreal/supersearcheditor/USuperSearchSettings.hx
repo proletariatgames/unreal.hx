@@ -19,6 +19,7 @@ package unreal.supersearcheditor;
   
   
 **/
+@:umodule("SuperSearchEditor")
 @:glueCppIncludes("Private/SuperSearchSettings.h")
 @:noClass @:uextern extern class USuperSearchSettings extends unreal.UDeveloperSettings {
   

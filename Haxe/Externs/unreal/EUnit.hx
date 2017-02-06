@@ -17,7 +17,7 @@ package unreal;
 /**
   A set of numerical unit types supported by the engine. Mirrored from UnitConversion.h
 **/
-@:glueCppIncludes("Settings/EditorProjectSettings.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EUnit")
 @:class @:uextern extern enum EUnit {
   

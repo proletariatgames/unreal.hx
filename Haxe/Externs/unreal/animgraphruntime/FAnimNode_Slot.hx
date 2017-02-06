@@ -19,8 +19,7 @@ package unreal.animgraphruntime;
   game code can cause an animation to blend in and be played on the slot temporarily, overriding the
   Source input.
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_Slot.h")
+@:glueCppIncludes("AnimNodes/AnimNode_Slot.h")
 @:uextern extern class FAnimNode_Slot extends unreal.FAnimNode_Base {
   
   /**

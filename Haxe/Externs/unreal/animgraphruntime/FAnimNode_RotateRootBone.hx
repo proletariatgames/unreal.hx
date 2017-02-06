@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   @TODO: Comment
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_RotateRootBone.h")
+@:glueCppIncludes("AnimNodes/AnimNode_RotateRootBone.h")
 @:uextern extern class FAnimNode_RotateRootBone extends unreal.FAnimNode_Base {
   public var MeshToComponent : unreal.FRotator;
   public var Yaw : unreal.Float32;

@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_SaveCachedPose.h")
+@:glueCppIncludes("Animation/AnimNode_SaveCachedPose.h")
 @:uextern extern class FAnimNode_SaveCachedPose extends unreal.FAnimNode_Base {
   public var GlobalWeight : unreal.Float32;
   

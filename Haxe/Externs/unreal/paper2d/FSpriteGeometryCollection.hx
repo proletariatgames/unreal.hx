@@ -13,8 +13,7 @@
 **/
 package unreal.paper2d;
 
-@:umodule("Paper2D")
-@:glueCppIncludes("PaperSprite.h")
+@:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uextern extern class FSpriteGeometryCollection {
   
   /**

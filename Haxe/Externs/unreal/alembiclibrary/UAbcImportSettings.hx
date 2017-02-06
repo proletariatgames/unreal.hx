@@ -17,6 +17,7 @@ package unreal.alembiclibrary;
 /**
   Class that contains all options for importing an alembic file
 **/
+@:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:uextern extern class UAbcImportSettings extends unreal.UObject {
   public var ConversionSettings : unreal.alembiclibrary.FAbcConversionSettings;

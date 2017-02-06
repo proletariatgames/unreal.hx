@@ -23,8 +23,7 @@ package unreal.gameplayabilities;
           -Generally not meant to be subclassed in projects.
           -Passed around by value since the struct is small.
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayAbilitySpec.h")
 @:uextern extern class FGameplayAbilityActivationInfo {
   
   /**

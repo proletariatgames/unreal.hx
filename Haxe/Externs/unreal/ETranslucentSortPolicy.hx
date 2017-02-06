@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates available options for the translucency sort policy.
 **/
-@:glueCppIncludes("Engine/RendererSettings.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETranslucentSortPolicy.Type")
 @:uextern extern enum ETranslucentSortPolicy {
   

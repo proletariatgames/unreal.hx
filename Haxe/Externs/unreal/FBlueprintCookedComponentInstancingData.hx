@@ -17,7 +17,7 @@ package unreal;
 /**
   Cooked data for a Blueprint component template.
 **/
-@:glueCppIncludes("Engine/InheritableComponentHandler.h")
+@:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
 @:uextern extern class FBlueprintCookedComponentInstancingData {
   
   /**

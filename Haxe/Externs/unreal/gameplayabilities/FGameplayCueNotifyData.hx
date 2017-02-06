@@ -19,7 +19,6 @@ package unreal.gameplayabilities;
   
   
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueSet.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayCueNotifyData {
   public var LoadedGameplayCueClass : unreal.UClass;

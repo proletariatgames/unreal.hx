@@ -19,6 +19,7 @@ package unreal.mediaplayereditor;
   
   
 **/
+@:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Shared/MediaPlayerEditorSettings.h")
 @:noClass @:uextern extern class UMediaPlayerEditorSettings extends unreal.UObject {
   

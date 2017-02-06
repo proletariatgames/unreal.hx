@@ -19,8 +19,7 @@ package unreal.slatecore;
   
   Base class for all mouse and keyevents.
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Fonts/FontBulkData.h", "Fonts/FontProviderInterface.h", "Styling/SlateTypes.h", "Styling/SlateWidgetStyleAsset.h", "Styling/SlateWidgetStyleContainerBase.h", "Styling/SlateWidgetStyleContainerInterface.h")
+@:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FInputEvent {
   
 }

@@ -19,6 +19,7 @@ package unreal.animgraph;
   
   
 **/
+@:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_SubInstance.h")
 @:uextern extern class UAnimGraphNode_SubInstance extends unreal.animgraph.UAnimGraphNode_Base {
   public var Node : unreal.FAnimNode_SubInstance;

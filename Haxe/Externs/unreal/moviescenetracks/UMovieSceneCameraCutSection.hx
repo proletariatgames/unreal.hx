@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   Movie CameraCuts are sections on the CameraCuts track, that show what the viewer "sees"
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCameraCutSection.h")
 @:uextern extern class UMovieSceneCameraCutSection extends unreal.moviescene.UMovieSceneSection {
   

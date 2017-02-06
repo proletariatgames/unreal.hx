@@ -19,7 +19,6 @@ package unreal.iosruntimesettings;
   
   IOS Build resource file struct, used to serialize filepaths to the configs for use in the build system,
 **/
-@:umodule("IOSRuntimeSettings")
 @:glueCppIncludes("IOSRuntimeSettings.h")
 @:noCopy @:noEquals @:uextern extern class FIOSBuildResourceFilePath {
   

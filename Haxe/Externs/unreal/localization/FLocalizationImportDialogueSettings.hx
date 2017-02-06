@@ -19,7 +19,7 @@ package unreal.localization;
   
   
 **/
-@:glueCppIncludes("LocalizationSettings.h")
+@:glueCppIncludes("LocalizationTargetTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLocalizationImportDialogueSettings {
   
   /**

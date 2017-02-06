@@ -13,7 +13,6 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Prediction.h")
 @:uextern extern class FAIPredictionEvent {
   public var PredictedActor : unreal.AActor;

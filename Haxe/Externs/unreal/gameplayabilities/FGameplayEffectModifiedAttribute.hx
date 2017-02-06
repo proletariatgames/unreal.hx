@@ -17,8 +17,7 @@ package unreal.gameplayabilities;
 /**
   Saves list of modified attributes, to use for gameplay cues or later processing
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectModifiedAttribute {
   
   /**

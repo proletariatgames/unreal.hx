@@ -19,7 +19,7 @@ package unreal.umg;
   the drag operation.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("UMG.h", "Blueprint/DragDropOperation.h")
 @:uname("EDragPivot")
 @:class @:uextern extern enum EDragPivot {
   MouseDown;

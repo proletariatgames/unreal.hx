@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   The type of modification to make to the destination component(s)
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BoneDrivenController.h")
+@:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EDrivenBoneModificationMode")
 @:class @:uextern extern enum EDrivenBoneModificationMode {
   

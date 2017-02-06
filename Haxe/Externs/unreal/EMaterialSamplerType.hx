@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionTextureBase.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMaterialSamplerType")
 @:uextern extern enum EMaterialSamplerType {
   

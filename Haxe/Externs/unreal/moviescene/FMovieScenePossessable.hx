@@ -19,8 +19,7 @@ package unreal.moviescene;
   
   MovieScenePossessable is a "typed slot" used to allow the MovieScene to control an already-existing object
 **/
-@:umodule("MovieScene")
-@:glueCppIncludes("MovieScene.h")
+@:glueCppIncludes("MovieScenePossessable.h")
 @:noCopy @:noEquals @:uextern extern class FMovieScenePossessable {
   
 }

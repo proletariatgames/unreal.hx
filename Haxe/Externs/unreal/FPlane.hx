@@ -20,7 +20,7 @@ package unreal;
   A plane definition in 3D space.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Plane.h
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FPlane extends unreal.FVector {
   
 }

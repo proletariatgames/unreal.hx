@@ -19,7 +19,7 @@ package unreal;
   
   Type-safe floating point distribution.
 **/
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
+@:glueCppIncludes("Distributions/DistributionFloat.h")
 @:noCopy @:noEquals @:uextern extern class FFloatDistribution {
   
 }

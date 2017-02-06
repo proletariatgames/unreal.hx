@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTest.h")
+@:glueCppIncludes("DataProviders/AIDataProvider.h")
 @:uextern extern class FAIDataProviderBoolValue extends unreal.aimodule.FAIDataProviderTypedValue {
   public var DefaultValue : Bool;
   

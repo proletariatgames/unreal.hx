@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Collision/ParticleModuleCollisionGPU.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EParticleCollisionMode.Type")
 @:uextern extern enum EParticleCollisionMode {
   

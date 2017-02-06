@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("SingleAnimationPlayData.h")
 @:noCopy @:noEquals @:uextern extern class FSingleAnimationPlayData {
   
   /**

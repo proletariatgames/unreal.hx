@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/BlendSpaceBase.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EFilterInterpolationType")
 @:uextern extern enum EFilterInterpolationType {
   BSIT_Average;

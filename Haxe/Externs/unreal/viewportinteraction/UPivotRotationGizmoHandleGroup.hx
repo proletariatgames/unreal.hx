@@ -19,6 +19,7 @@ package unreal.viewportinteraction;
   
   Axis Gizmo handle for rotation
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
 @:noClass @:uextern extern class UPivotRotationGizmoHandleGroup extends unreal.viewportinteraction.UAxisGizmoHandleGroup {
   

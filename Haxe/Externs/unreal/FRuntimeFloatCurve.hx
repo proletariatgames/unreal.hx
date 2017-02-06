@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/CurveFloat.h")
 @:uextern extern class FRuntimeFloatCurve {
   public var ExternalCurve : unreal.UCurveFloat;
   public var EditorCurveData : unreal.FRichCurve;

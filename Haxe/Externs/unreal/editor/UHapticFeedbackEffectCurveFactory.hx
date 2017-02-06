@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/HapticFeedbackEffectCurveFactory.h")
 @:noClass @:uextern extern class UHapticFeedbackEffectCurveFactory extends unreal.editor.UFactory {
   

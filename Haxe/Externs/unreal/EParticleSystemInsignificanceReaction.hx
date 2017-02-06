@@ -17,7 +17,7 @@ package unreal;
 /**
   Determines what a particle system will do when all of it's emitters become insignificant.
 **/
-@:glueCppIncludes("Particles/ParticleSystem.h")
+@:glueCppIncludes("ParticleHelper.h")
 @:uname("EParticleSystemInsignificanceReaction")
 @:class @:uextern extern enum EParticleSystemInsignificanceReaction {
   

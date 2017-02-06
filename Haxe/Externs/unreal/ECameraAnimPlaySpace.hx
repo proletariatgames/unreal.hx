@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Camera/CameraAnimInst.h")
+@:glueCppIncludes("Camera/CameraTypes.h")
 @:uname("ECameraAnimPlaySpace.Type")
 @:uextern extern enum ECameraAnimPlaySpace {
   

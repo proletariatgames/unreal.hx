@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   A track that holds consecutive sub sequences.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneCinematicShotTrack.h")
 @:uextern extern class UMovieSceneCinematicShotTrack extends unreal.moviescenetracks.UMovieSceneSubTrack {
   

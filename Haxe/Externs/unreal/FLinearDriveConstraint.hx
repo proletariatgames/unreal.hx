@@ -17,7 +17,7 @@ package unreal;
 /**
   Linear Drive
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
 @:uextern extern class FLinearDriveConstraint {
   public var bEnablePositionDrive : Bool;
   public var ZDrive : unreal.FConstraintDrive;

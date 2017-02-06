@@ -19,6 +19,7 @@ package unreal.wmfmediaeditor;
   
   Implements a factory for UFileMediaSource objects.
 **/
+@:umodule("WmfMediaEditor")
 @:glueCppIncludes("Private/WmfFileMediaSourceFactory.h")
 @:noClass @:uextern extern class UWmfFileMediaSourceFactory extends unreal.editor.UFactory {
   

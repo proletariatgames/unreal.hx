@@ -17,6 +17,7 @@ package unreal.umgeditor;
 /**
   Implements the settings for the UMG Editor Project Settings
 **/
+@:umodule("UMGEditor")
 @:glueCppIncludes("UMGEditorProjectSettings.h")
 @:uextern extern class UUMGEditorProjectSettings extends unreal.UObject {
   #if WITH_EDITORONLY_DATA

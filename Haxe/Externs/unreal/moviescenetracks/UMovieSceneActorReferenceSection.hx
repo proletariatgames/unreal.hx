@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   A single actor reference point section
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneActorReferenceSection.h")
 @:uextern extern class UMovieSceneActorReferenceSection extends unreal.moviescene.UMovieSceneSection {
   

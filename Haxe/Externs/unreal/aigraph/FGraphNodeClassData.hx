@@ -13,7 +13,7 @@
 **/
 package unreal.aigraph;
 
-@:glueCppIncludes("AIGraphNode.h")
+@:glueCppIncludes("AIGraphTypes.h")
 @:uextern extern class FGraphNodeClassData {
   
 }

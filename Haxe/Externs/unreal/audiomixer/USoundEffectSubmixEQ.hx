@@ -18,6 +18,7 @@ package unreal.audiomixer;
   USoundEffectSubmixEQ
   Class which processes audio streams and uses parameters defined in the preset class.
 **/
+@:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
 @:uextern extern class USoundEffectSubmixEQ extends unreal.USoundEffectSource {
   

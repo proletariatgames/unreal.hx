@@ -13,7 +13,6 @@
 **/
 package unreal.umgeditor;
 
-@:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
 @:uextern extern class FDelegateEditorBinding {
   public var Kind : unreal.umg.EBindingKind;

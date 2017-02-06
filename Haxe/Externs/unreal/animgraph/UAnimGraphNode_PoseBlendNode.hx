@@ -19,6 +19,7 @@ package unreal.animgraph;
   
   
 **/
+@:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_PoseBlendNode.h")
 @:uextern extern class UAnimGraphNode_PoseBlendNode extends unreal.animgraph.UAnimGraphNode_PoseHandler {
   public var Node : unreal.animgraphruntime.FAnimNode_PoseBlendNode;

@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   A transform gizmo that allows you to interact with selected objects by moving, scaling and rotating.
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("Gizmo/VREditorTransformGizmo.h")
 @:noClass @:uextern extern class ATransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
   

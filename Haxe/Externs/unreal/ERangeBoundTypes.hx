@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates the valid types of range bounds.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ERangeBoundTypes.Type")
 @:uextern extern enum ERangeBoundTypes {
   

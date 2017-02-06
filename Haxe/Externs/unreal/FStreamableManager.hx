@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameplayCueManager.h")
+@:glueCppIncludes("Engine/StreamableManager.h")
 @:uextern extern class FStreamableManager {
   
 }

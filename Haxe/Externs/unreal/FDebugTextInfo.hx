@@ -22,7 +22,7 @@ package unreal;
   * @see AHud
   * @see AddDebugText(), RemoveDebugText() and DrawDebugTextList()
 **/
-@:glueCppIncludes("GameFramework/HUD.h")
+@:glueCppIncludes("GameFramework/DebugTextInfo.h")
 @:noCopy @:noEquals @:uextern extern class FDebugTextInfo {
   
   /**

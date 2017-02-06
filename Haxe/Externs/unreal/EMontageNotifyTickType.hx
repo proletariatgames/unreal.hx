@@ -17,7 +17,7 @@ package unreal;
 /**
   Ticking method for AnimNotifies in AnimMontages.
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EMontageNotifyTickType.Type")
 @:uextern extern enum EMontageNotifyTickType {
   

@@ -19,7 +19,6 @@ package unreal.gameplayabilities;
   
   Struct for holding SetBytCaller data
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:noCopy @:noEquals @:uextern extern class FSetByCallerFloat {
   

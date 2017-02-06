@@ -33,6 +33,11 @@ package unreal.blueprintgraph;
   public var bShowDetailedCompileResults : Bool;
   
   /**
+    If enabled, blueprint nodes in the event graph will display with unique names rather than their display name.
+  **/
+  public var bBlueprintNodeUniqueNames : Bool;
+  
+  /**
     If enabled, tooltips on action menu items will show the associated action's signature id (can be used to setup custom favorites menus).
   **/
   public var bShowActionMenuItemSignatures : Bool;
@@ -51,6 +56,7 @@ package unreal.blueprintgraph;
     Determines when to save Blueprints post-compile
   **/
   public var SaveOnCompile : unreal.blueprintgraph.ESaveOnCompile;
+  public var bEnableAdvancedContainers : Bool;
   
   /**
     If set will exclude components added in a Blueprint class Construction Script from the component details view

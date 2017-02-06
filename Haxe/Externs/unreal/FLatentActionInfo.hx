@@ -17,7 +17,7 @@ package unreal;
 /**
   Latent action info
 **/
-@:glueCppIncludes("Engine.h")
+@:glueCppIncludes("Engine/LatentActionManager.h")
 @:uextern extern class FLatentActionInfo {
   
   /**

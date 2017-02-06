@@ -20,7 +20,7 @@ package unreal;
   A linear color.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Color.h
 **/
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLinearColor {
   
 }

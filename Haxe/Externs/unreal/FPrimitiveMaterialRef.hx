@@ -19,7 +19,7 @@ package unreal;
   
   Reference to a specific material in a PrimitiveComponent.
 **/
-@:glueCppIncludes("Matinee/InterpTrackInstFloatMaterialParam.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FPrimitiveMaterialRef {
   public var ElementIndex : unreal.Int32;
   public var Decal : unreal.UDecalComponent;

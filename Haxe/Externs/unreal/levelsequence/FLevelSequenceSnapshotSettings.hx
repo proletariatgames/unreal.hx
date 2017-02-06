@@ -19,7 +19,7 @@ package unreal.levelsequence;
   
   
 **/
-@:glueCppIncludes("LevelSequenceBurnIn.h")
+@:glueCppIncludes("LevelSequencePlayer.h")
 @:noCopy @:noEquals @:uextern extern class FLevelSequenceSnapshotSettings {
   
   /**

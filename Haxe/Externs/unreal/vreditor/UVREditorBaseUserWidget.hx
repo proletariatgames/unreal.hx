@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Base class for all of the VR widgets
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorBaseUserWidget.h")
 @:noClass @:uextern extern class UVREditorBaseUserWidget extends unreal.umg.UUserWidget {
   

@@ -19,6 +19,7 @@ package unreal.niagaraeditor;
   
   
 **/
+@:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraNodeOutput.h")
 @:uextern extern class UNiagaraNodeOutput extends unreal.niagaraeditor.UNiagaraNode {
   public var Outputs : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;

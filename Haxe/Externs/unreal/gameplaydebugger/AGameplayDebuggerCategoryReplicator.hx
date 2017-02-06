@@ -13,6 +13,7 @@
 **/
 package unreal.gameplaydebugger;
 
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerCategoryReplicator.h")
 @:uextern extern class AGameplayDebuggerCategoryReplicator extends unreal.AActor {
   

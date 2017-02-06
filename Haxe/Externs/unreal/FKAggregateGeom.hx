@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for an aggregate of collision shapes
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/AggregateGeom.h")
 @:uextern extern class FKAggregateGeom {
   public var ConvexElems : unreal.TArray<unreal.FKConvexElem>;
   public var SphylElems : unreal.TArray<unreal.FKSphylElem>;

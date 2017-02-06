@@ -19,6 +19,7 @@ package unreal.editor;
   
   UImportDialogueScriptCommandlet: Handles importing localized script sheets to update the translated archive text.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ImportDialogueScriptCommandlet.h")
 @:noClass @:uextern extern class UImportDialogueScriptCommandlet extends unreal.editor.UGatherTextCommandletBase {
   

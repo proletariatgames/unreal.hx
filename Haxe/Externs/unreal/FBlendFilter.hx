@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("AnimGraphNode_AimOffsetLookAt.h")
+@:glueCppIncludes("Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern extern class FBlendFilter {
   
 }

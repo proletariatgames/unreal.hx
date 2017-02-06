@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/WorldSettings.h")
+@:glueCppIncludes("Engine/MeshMerging.h")
 @:uname("ELandscapeCullingPrecision.Type")
 @:uextern extern enum ELandscapeCullingPrecision {
   

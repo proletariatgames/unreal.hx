@@ -17,7 +17,7 @@ package unreal;
 /**
   The method to use in determining the source/target.
 **/
-@:glueCppIncludes("Particles/Beam/ParticleModuleBeamSource.h")
+@:glueCppIncludes("Particles/Beam/ParticleModuleBeamBase.h")
 @:uname("Beam2SourceTargetMethod")
 @:uextern extern enum Beam2SourceTargetMethod {
   

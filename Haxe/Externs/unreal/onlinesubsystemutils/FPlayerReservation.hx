@@ -19,7 +19,6 @@ package unreal.onlinesubsystemutils;
   
   A single player reservation
 **/
-@:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
 @:noCopy @:noEquals @:uextern extern class FPlayerReservation {
   

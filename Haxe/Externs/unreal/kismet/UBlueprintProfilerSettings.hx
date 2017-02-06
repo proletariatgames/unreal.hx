@@ -13,6 +13,7 @@
 **/
 package unreal.kismet;
 
+@:umodule("Kismet")
 @:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
 @:uextern extern class UBlueprintProfilerSettings extends unreal.UObject {
   

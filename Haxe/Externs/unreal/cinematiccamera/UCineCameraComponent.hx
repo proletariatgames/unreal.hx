@@ -17,6 +17,7 @@ package unreal.cinematiccamera;
 /**
   A specialized version of a camera component, geared toward cinematic usage.
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
 @:uextern extern class UCineCameraComponent extends unreal.UCameraComponent {
   

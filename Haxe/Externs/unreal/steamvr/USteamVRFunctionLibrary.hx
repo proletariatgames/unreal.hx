@@ -17,6 +17,7 @@ package unreal.steamvr;
 /**
   SteamVR Extensions Function Library
 **/
+@:umodule("SteamVR")
 @:glueCppIncludes("SteamVRFunctionLibrary.h")
 @:uextern extern class USteamVRFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   

@@ -18,7 +18,7 @@ package unreal.paper2d;
   The type of a shape in a sprite geometry structure
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperSprite.h")
+@:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uname("ESpriteShapeType")
 @:class @:uextern extern enum ESpriteShapeType {
   

@@ -19,7 +19,7 @@ package unreal;
   
   Component which deals with attaching assets
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Animation/PreviewAssetAttachComponent.h")
 @:noCopy @:noEquals @:uextern extern class FPreviewAssetAttachContainer {
   
 }

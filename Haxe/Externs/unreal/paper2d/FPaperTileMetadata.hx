@@ -17,15 +17,8 @@ package unreal.paper2d;
 /**
   Information about a single tile in a tile set
 **/
-@:umodule("Paper2D")
 @:glueCppIncludes("PaperTileSet.h")
 @:uextern extern class FPaperTileMetadata {
-  
-  /**
-    Indexes into the Terrains array of the owning tile set, in counterclockwise order starting from top-left
-    0xFF indicates no membership.
-  **/
-  public var TerrainMembership : unreal.UInt8;
   
   /**
     Collision data for the tile

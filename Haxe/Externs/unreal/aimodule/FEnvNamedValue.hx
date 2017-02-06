@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uextern extern class FEnvNamedValue {
   public var Value : unreal.Float32;
   public var ParamType : unreal.aimodule.EAIParamType;

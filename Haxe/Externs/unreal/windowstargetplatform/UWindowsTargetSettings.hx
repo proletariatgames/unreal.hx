@@ -17,6 +17,7 @@ package unreal.windowstargetplatform;
 /**
   Implements the settings for the Windows target platform.
 **/
+@:umodule("WindowsTargetPlatform")
 @:glueCppIncludes("WindowsTargetSettings.h")
 @:uextern extern class UWindowsTargetSettings extends unreal.UObject {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   A level of significance for a particle system. Used by game code to enable/disable emitters progressively as they move away from the camera or are occluded/off screen.
 **/
-@:glueCppIncludes("Particles/ParticleEmitter.h")
+@:glueCppIncludes("ParticleHelper.h")
 @:uname("EParticleSignificanceLevel")
 @:class @:uextern extern enum EParticleSignificanceLevel {
   

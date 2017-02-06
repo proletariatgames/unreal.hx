@@ -19,6 +19,7 @@ package unreal.editor;
   
   UImportLocalizedDialogueCommandlet: Handles synchronizing localized raw audio files with dialogue and sound wave assets.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ImportLocalizedDialogueCommandlet.h")
 @:noClass @:uextern extern class UImportLocalizedDialogueCommandlet extends unreal.editor.UGatherTextCommandletBase {
   

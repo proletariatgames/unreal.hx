@@ -19,7 +19,6 @@ package unreal.landscape;
   
   
 **/
-@:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:noCopy @:noEquals @:uextern extern class FLandscapeEditorLayerSettings {
   #if WITH_EDITORONLY_DATA

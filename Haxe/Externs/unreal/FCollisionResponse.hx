@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/BodyInstance.h")
 @:uextern extern class FCollisionResponse {
   
 }

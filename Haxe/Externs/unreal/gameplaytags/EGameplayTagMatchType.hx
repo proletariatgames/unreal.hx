@@ -14,7 +14,7 @@
 package unreal.gameplaytags;
 
 @:umodule("GameplayTags")
-@:glueCppIncludes("BlueprintGameplayTagLibrary.h")
+@:glueCppIncludes("GameplayTagContainer.h")
 @:uname("EGameplayTagMatchType.Type")
 @:uextern extern enum EGameplayTagMatchType {
   Explicit;

@@ -19,7 +19,7 @@ package unreal;
   
   Box shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/BoxElem.h")
 @:noCopy @:noEquals @:uextern extern class FKBoxElem extends unreal.FKShapeElem {
   
   /**

@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   Implements a movie scene track that holds a series of strings.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneStringTrack.h")
 @:uextern extern class UMovieSceneStringTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
   

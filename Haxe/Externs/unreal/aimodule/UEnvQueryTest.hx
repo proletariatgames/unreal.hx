@@ -18,16 +18,16 @@ package unreal.aimodule;
 @:uextern extern class UEnvQueryTest extends unreal.aimodule.UEnvQueryNode {
   
   /**
-    When set to true enables usage of SweetSpotValue. It's false by default
+    When set to true enables usage of ReferenceValue. It's false by default
   **/
-  public var bDefineSweetSpot : Bool;
+  public var bDefineReferenceValue : Bool;
   
   /**
-    When specified gets used to normalize test's results in such a way that the closer a value is to SweetSpotValue
-        the higher normalized result it will produce. Value farthest from SweetSpotValue will be normalized
-        to 0, and all the other values in between will get normalized linearly with the distance to SweetSpotValue.
+    When specified gets used to normalize test's results in such a way that the closer a value is to ReferenceValue
+        the higher normalized result it will produce. Value farthest from ReferenceValue will be normalized
+        to 0, and all the other values in between will get normalized linearly with the distance to ReferenceValue.
   **/
-  public var SweetSpotValue : unreal.aimodule.FAIDataProviderFloatValue;
+  public var ReferenceValue : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     The weight (factor) by which to multiply the normalized score after the scoring equation is applied.

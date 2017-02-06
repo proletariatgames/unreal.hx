@@ -17,7 +17,7 @@ package unreal;
 /**
   Distance constraint
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
 @:uextern extern class FLinearConstraint extends unreal.FConstraintBaseParams {
   
   /**

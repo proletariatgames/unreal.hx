@@ -19,6 +19,7 @@ package unreal.mediaassets;
   
   Use this asset to override media sources on a per-platform basis.
 **/
+@:umodule("MediaAssets")
 @:glueCppIncludes("PlatformMediaSource.h")
 @:uextern extern class UPlatformMediaSource extends unreal.mediaassets.UMediaSource {
   

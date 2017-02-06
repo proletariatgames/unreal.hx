@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   What type of location calculation to use when an ability asks for our transform.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("Abilities/GameplayAbilityTargetActor.h")
+@:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uname("EGameplayAbilityTargetingLocationType.Type")
 @:uextern extern enum EGameplayAbilityTargetingLocationType {
   

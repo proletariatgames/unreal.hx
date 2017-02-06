@@ -19,6 +19,7 @@ package unreal.androidmediaeditor;
   
   Implements a factory for UFileMediaSource objects.
 **/
+@:umodule("AndroidMediaEditor")
 @:glueCppIncludes("Private/AndroidFileMediaSourceFactory.h")
 @:noClass @:uextern extern class UAndroidFileMediaSourceFactory extends unreal.editor.UFactory {
   

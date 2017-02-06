@@ -20,7 +20,7 @@ package unreal.landscape;
   code (e.g. LandscapeEdit.h) is in /Engine/ for some reason...
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeEditorObject.h")
+@:glueCppIncludes("LandscapeProxy.h")
 @:uname("ELandscapeLayerPaintingRestriction")
 @:class @:uextern extern enum ELandscapeLayerPaintingRestriction {
   

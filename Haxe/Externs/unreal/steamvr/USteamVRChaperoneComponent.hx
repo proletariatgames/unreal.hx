@@ -19,6 +19,7 @@ package unreal.steamvr;
   
   SteamVR Extensions Function Library
 **/
+@:umodule("SteamVR")
 @:glueCppIncludes("SteamVRChaperoneComponent.h")
 @:uextern extern class USteamVRChaperoneComponent extends unreal.UActorComponent {
   

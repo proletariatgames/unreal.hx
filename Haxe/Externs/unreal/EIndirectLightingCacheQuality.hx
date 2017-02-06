@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EIndirectLightingCacheQuality")
 @:uextern extern enum EIndirectLightingCacheQuality {
   

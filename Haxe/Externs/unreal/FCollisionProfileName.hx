@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Abilities/GameplayAbilityTargetActor_Trace.h")
+@:glueCppIncludes("Engine/CollisionProfile.h")
 @:noCopy @:noEquals @:uextern extern class FCollisionProfileName {
   public var Name : unreal.FName;
   

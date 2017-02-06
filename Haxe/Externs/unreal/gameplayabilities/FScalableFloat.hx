@@ -17,8 +17,7 @@ package unreal.gameplayabilities;
 /**
   Generic numerical value in the form Coeffecient * Curve[Level]
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("AttributeSet.h")
 @:uextern extern class FScalableFloat {
   public var Curve : unreal.FCurveTableRowHandle;
   public var Value : unreal.Float32;

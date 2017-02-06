@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Engine/MaterialMerging.h")
 @:uname("EMaterialMergeType")
 @:uextern extern enum EMaterialMergeType {
   MaterialMergeType_Default;

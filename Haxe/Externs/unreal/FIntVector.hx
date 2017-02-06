@@ -20,7 +20,7 @@ package unreal;
   An integer vector in 3D space.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\IntVector.h
 **/
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FIntVector {
   
 }

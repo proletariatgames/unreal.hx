@@ -17,6 +17,7 @@ package unreal.androidplatformeditor;
 /**
   Implements the settings for the Android SDK setup.
 **/
+@:umodule("AndroidPlatformEditor")
 @:glueCppIncludes("Private/AndroidSDKSettings.h")
 @:uextern extern class UAndroidSDKSettings extends unreal.UObject {
   

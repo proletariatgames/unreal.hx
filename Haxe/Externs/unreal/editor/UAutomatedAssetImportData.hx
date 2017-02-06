@@ -17,6 +17,7 @@ package unreal.editor;
 /**
   Contains data for a group of assets to import
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("AutomatedAssetImportData.h")
 @:uextern extern class UAutomatedAssetImportData extends unreal.UObject {
   

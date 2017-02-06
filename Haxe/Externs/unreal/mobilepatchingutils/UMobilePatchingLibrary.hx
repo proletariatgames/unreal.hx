@@ -19,6 +19,7 @@ package unreal.mobilepatchingutils;
   
   
 **/
+@:umodule("MobilePatchingUtils")
 @:glueCppIncludes("Private/MobilePatchingLibrary.h")
 @:noClass @:uextern extern class UMobilePatchingLibrary extends unreal.UBlueprintFunctionLibrary {
   

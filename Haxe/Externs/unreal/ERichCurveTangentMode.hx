@@ -17,7 +17,7 @@ package unreal;
 /**
   If using RCIM_Cubic, this enum describes how the tangents should be controlled in editor.
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveTangentMode")
 @:uextern extern enum ERichCurveTangentMode {
   RCTM_Auto;

@@ -27,7 +27,7 @@ package unreal;
              we have a secondary link to handle a duration
              @see FAnimNotifyEvent
 **/
-@:glueCppIncludes("Animation/AnimClassData.h")
+@:glueCppIncludes("Animation/AnimLinkableElement.h")
 @:noCopy @:noEquals @:uextern extern class FAnimLinkableElement {
   
   /**

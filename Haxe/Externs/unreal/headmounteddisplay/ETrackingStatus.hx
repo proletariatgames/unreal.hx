@@ -14,7 +14,7 @@
 package unreal.headmounteddisplay;
 
 @:umodule("HeadMountedDisplay")
-@:glueCppIncludes("MotionControllerComponent.h")
+@:glueCppIncludes("IMotionController.h")
 @:uname("ETrackingStatus")
 @:class @:uextern extern enum ETrackingStatus {
   NotTracked;

@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Camera/CameraAnim.h")
+@:glueCppIncludes("Engine/Scene.h")
 @:noCopy @:noEquals @:uextern extern class FWeightedBlendable {
   
   /**

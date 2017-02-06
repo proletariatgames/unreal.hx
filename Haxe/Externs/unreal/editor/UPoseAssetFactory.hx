@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/PoseAssetFactory.h")
 @:uextern extern class UPoseAssetFactory extends unreal.editor.UFactory {
   

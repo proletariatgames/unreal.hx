@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Avatar Actor
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("VREditorAvatarActor.h")
 @:noClass @:uextern extern class AVREditorAvatarActor extends unreal.AActor {
   

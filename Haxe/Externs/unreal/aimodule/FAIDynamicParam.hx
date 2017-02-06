@@ -13,8 +13,7 @@
 **/
 package unreal.aimodule;
 
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
+@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uextern extern class FAIDynamicParam {
   public var BBKey : unreal.aimodule.FBlackboardKeySelector;
   public var Value : unreal.Float32;

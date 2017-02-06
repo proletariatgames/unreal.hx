@@ -17,7 +17,7 @@ package unreal;
 /**
   Types of network failures broadcast from the engine
 **/
-@:glueCppIncludes("Engine/GameInstance.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("ENetworkFailure.Type")
 @:uextern extern enum ENetworkFailure {
   

@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Gizmo handle for rotation
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("Gizmo/VREditorRotationGizmoHandle.h")
 @:noClass @:uextern extern class UVREditorRotationGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   

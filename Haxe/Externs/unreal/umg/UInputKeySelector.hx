@@ -17,6 +17,7 @@ package unreal.umg;
 /**
   A widget for selecting a single key or a single key with a modifier.
 **/
+@:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UInputKeySelector extends unreal.umg.UWidget {
   

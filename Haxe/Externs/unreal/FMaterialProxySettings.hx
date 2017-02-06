@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Engine/MaterialMerging.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialProxySettings {
   public var MaterialMergeType : unreal.EMaterialMergeType;
   

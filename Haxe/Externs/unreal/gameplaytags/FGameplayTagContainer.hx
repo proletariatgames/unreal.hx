@@ -17,7 +17,6 @@ package unreal.gameplaytags;
 /**
   Simple struct for a gameplay tag container
 **/
-@:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
 @:uextern extern class FGameplayTagContainer {
   

@@ -23,8 +23,7 @@ package unreal.gameplayabilities;
   FGameplayEffectSpec is modifiable. We start with initial conditions and modifications be applied to it. In this sense, it is stateful/mutable but it
   is still distinct from an FActiveGameplayEffect which in an applied instance of an FGameplayEffectSpec.
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectSpec {
   public var GrantedAbilitySpecs : unreal.TArray<unreal.gameplayabilities.FGameplayAbilitySpecDef>;
   

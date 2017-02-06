@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Animation/AnimMontage.h")
+@:glueCppIncludes("Animation/AnimTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMarkerSyncData {
   
   /**

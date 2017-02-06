@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   Handles manipulation of CameraCut properties in a movie scene.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneCameraCutTrack.h")
 @:uextern extern class UMovieSceneCameraCutTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   

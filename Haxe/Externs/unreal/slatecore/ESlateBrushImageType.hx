@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates brush image types.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushImageType.Type")
 @:uextern extern enum ESlateBrushImageType {
   

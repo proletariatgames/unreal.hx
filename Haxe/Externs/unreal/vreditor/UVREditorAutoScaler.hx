@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Automatically scales the user when dragging the world and pressing the touchpad
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("Teleporter/VREditorAutoScaler.h")
 @:noClass @:uextern extern class UVREditorAutoScaler extends unreal.UObject {
   

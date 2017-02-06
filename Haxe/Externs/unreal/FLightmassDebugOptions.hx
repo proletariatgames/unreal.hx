@@ -19,7 +19,7 @@ package unreal;
   
   Debug options for Lightmass
 **/
-@:glueCppIncludes("Preferences/LightmassOptionsObject.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLightmassDebugOptions {
   
   /**

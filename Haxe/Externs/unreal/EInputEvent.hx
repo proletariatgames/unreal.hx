@@ -17,7 +17,7 @@ package unreal;
 /**
   EInputEvent
 **/
-@:glueCppIncludes("Engine/InputActionDelegateBinding.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EInputEvent")
 @:uextern extern enum EInputEvent {
   IE_Pressed;

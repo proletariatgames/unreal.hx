@@ -18,7 +18,7 @@ package unreal;
   Structure for RootMotionSource option flags
   (used for convenience instead of having to manually manipulate flag bitfields)
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("GameFramework/RootMotionSource.h")
 @:uextern extern class FRootMotionSourceSettings {
   public var Flags : unreal.UInt8;
   

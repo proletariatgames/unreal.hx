@@ -17,7 +17,7 @@ package unreal;
 /**
   Controls the way that the width scale property affects animation trails.
 **/
-@:glueCppIncludes("Particles/ParticleSystemComponent.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETrailWidthMode")
 @:uextern extern enum ETrailWidthMode {
   

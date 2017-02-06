@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerLocalController.h")
 @:noClass @:uextern extern class UGameplayDebuggerLocalController extends unreal.UObject {
   private var DebugActorCandidate : unreal.AActor;

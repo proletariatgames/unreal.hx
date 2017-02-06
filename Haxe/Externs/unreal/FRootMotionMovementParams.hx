@@ -19,7 +19,7 @@ package unreal;
   
   Utility struct to accumulate root motion.
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern extern class FRootMotionMovementParams {
   public var RootMotionTransform : unreal.FTransform;
   public var BlendWeight : unreal.Float32;

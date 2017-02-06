@@ -18,7 +18,7 @@ package unreal.editor;
   ELevelViewportType
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Editor/UnrealEdTypes.h")
 @:uname("ELevelViewportType")
 @:uextern extern enum ELevelViewportType {
   

@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/LocalPlayer.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAspectRatioAxisConstraint")
 @:uextern extern enum EAspectRatioAxisConstraint {
   

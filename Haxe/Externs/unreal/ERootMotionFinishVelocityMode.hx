@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionMoveToActorForce.h")
+@:glueCppIncludes("GameFramework/RootMotionSource.h")
 @:uname("ERootMotionFinishVelocityMode")
 @:class @:uextern extern enum ERootMotionFinishVelocityMode {
   

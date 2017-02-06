@@ -19,6 +19,7 @@ package unreal.viewportinteraction;
   
   Axis Gizmo handle for plane translation
 **/
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
 @:noClass @:uextern extern class UPivotPlaneTranslationGizmoHandleGroup extends unreal.viewportinteraction.UAxisGizmoHandleGroup {
   

@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/PreviewMeshCollectionFactory.h")
 @:uextern extern class UPreviewMeshCollectionFactory extends unreal.editor.UFactory {
   

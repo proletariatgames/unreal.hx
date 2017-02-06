@@ -13,6 +13,7 @@
 **/
 package unreal.cinematiccamera;
 
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CameraRig_Rail.h")
 @:uextern extern class ACameraRig_Rail extends unreal.AActor {
   

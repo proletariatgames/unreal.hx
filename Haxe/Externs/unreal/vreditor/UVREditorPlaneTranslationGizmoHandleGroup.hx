@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   Gizmo handle for translating on a plane
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("Gizmo/VREditorPlaneTranslationGizmoHandle.h")
 @:noClass @:uextern extern class UVREditorPlaneTranslationGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   

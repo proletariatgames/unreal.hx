@@ -19,6 +19,7 @@ package unreal.moviescenetools;
   
   
 **/
+@:umodule("MovieSceneTools")
 @:glueCppIncludes("Private/MovieSceneToolsUserSettings.h")
 @:noClass @:uextern extern class UMovieSceneUserThumbnailSettings extends unreal.UObject {
   

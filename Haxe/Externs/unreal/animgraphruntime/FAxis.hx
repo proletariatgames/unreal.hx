@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   
   Axis to represent direction
 **/
-@:glueCppIncludes("AnimGraphNode_TwistCorrectiveNode.h")
+@:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
 @:noCopy @:noEquals @:uextern extern class FAxis {
   public var bInLocalSpace : Bool;
   public var Axis : unreal.FVector;

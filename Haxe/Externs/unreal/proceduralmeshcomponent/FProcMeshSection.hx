@@ -19,7 +19,6 @@ package unreal.proceduralmeshcomponent;
   
   One section of the procedural mesh. Each material has its own section.
 **/
-@:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
 @:noCopy @:noEquals @:uextern extern class FProcMeshSection {
   

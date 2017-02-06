@@ -17,6 +17,21 @@ package unreal.aimodule;
 @:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
 @:uextern extern class UEnvQueryManager extends unreal.UObject {
   static public function RunEQSQuery(WorldContext : unreal.UObject, QueryTemplate : unreal.aimodule.UEnvQuery, Querier : unreal.UObject, RunMode : unreal.aimodule.EEnvQueryRunMode, WrapperClass : unreal.TSubclassOf<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>) : unreal.aimodule.UEnvQueryInstanceBlueprintWrapper;
+  
+  /**
+    how often (in seconds) we will warn about the number of queries (allows us to catch multiple occurrences in a session)
+  **/
+  private var QueryCountWarningInterval : unreal.Float64;
+  
+  /**
+    if greater than zero, we will warn once when the number of queries is greater than or equal to this number, and log the queries out
+  **/
+  private var QueryCountWarningThreshold : unreal.Int32;
+  
+  /**
+    how long are we allowed to test per update, in seconds.
+  **/
+  private var MaxAllowedTestingTime : unreal.Float64;
   private var GCShieldedWrappers : unreal.TArray<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>;
   
   /**

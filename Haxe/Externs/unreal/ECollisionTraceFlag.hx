@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("PhysicsEngine/BodySetupEnums.h")
 @:uname("ECollisionTraceFlag")
 @:uextern extern enum ECollisionTraceFlag {
   

@@ -19,8 +19,7 @@ package unreal.buildpatchservices;
   
   A UStruct wrapping SHA1 hash data for serialization
 **/
-@:glueCppIncludes("Private/BuildPatchManifest.h")
+@:glueCppIncludes("Private/BuildPatchChunk.h")
 @:noCopy @:noEquals @:uextern extern class FSHAHashData {
-  public var Hash : unreal.UInt8;
   
 }

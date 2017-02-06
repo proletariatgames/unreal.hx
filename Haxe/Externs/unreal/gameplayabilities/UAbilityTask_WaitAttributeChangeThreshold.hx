@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   Waits for an attribute to match a threshold
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitAttributeChangeThreshold.h")
 @:uextern extern class UAbilityTask_WaitAttributeChangeThreshold extends unreal.gameplayabilities.UAbilityTask {
   

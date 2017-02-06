@@ -17,6 +17,7 @@ package unreal.moviescenetracks;
 /**
   Implements a cinematic shot section.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCinematicShotSection.h")
 @:uextern extern class UMovieSceneCinematicShotSection extends unreal.moviescenetracks.UMovieSceneSubSection {
   

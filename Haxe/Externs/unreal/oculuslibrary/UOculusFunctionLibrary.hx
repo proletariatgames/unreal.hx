@@ -13,6 +13,7 @@
 **/
 package unreal.oculuslibrary;
 
+@:umodule("OculusLibrary")
 @:glueCppIncludes("OculusFunctionLibrary.h")
 @:uextern extern class UOculusFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   

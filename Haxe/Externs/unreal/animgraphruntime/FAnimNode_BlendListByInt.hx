@@ -17,8 +17,7 @@ package unreal.animgraphruntime;
 /**
   Blend list node; has many children
 **/
-@:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimGraphNode_BlendListByInt.h")
+@:glueCppIncludes("AnimNodes/AnimNode_BlendListByInt.h")
 @:uextern extern class FAnimNode_BlendListByInt extends unreal.animgraphruntime.FAnimNode_BlendListBase {
   public var ActiveChildIndex : unreal.Int32;
   

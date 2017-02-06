@@ -17,7 +17,7 @@ package unreal;
 /**
   Determines how the refraction offset should be computed for the material.
 **/
-@:glueCppIncludes("Materials/Material.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ERefractionMode")
 @:uextern extern enum ERefractionMode {
   

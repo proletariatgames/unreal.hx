@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   Handles manipulation of actor reference properties in a movie scene
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneActorReferenceTrack.h")
 @:uextern extern class UMovieSceneActorReferenceTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
   

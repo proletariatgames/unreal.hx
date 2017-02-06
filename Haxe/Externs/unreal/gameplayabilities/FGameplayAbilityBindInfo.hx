@@ -19,7 +19,6 @@ package unreal.gameplayabilities;
   
   Example struct that pairs a enum input command to a GameplayAbilityClass.6
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySet.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayAbilityBindInfo {
   public var GameplayAbilityClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;

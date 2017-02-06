@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("EdGraph/EdGraphPin.h")
 @:uextern extern class FEdGraphPinReference {
   
 }

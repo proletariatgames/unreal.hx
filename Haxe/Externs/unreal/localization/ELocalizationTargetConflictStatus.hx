@@ -14,7 +14,7 @@
 package unreal.localization;
 
 @:umodule("Localization")
-@:glueCppIncludes("LocalizationSettings.h")
+@:glueCppIncludes("LocalizationTargetTypes.h")
 @:uname("ELocalizationTargetConflictStatus")
 @:class @:uextern extern enum ELocalizationTargetConflictStatus {
   

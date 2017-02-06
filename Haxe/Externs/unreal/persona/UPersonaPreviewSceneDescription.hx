@@ -19,6 +19,7 @@ package unreal.persona;
   
   
 **/
+@:umodule("Persona")
 @:glueCppIncludes("Private/PersonaPreviewSceneDescription.h")
 @:noClass @:uextern extern class UPersonaPreviewSceneDescription extends unreal.UObject {
   

@@ -19,7 +19,7 @@ package unreal;
   
   Transform definition
 **/
-@:glueCppIncludes("AnimGraphNode_AimOffsetLookAt.h")
+@:glueCppIncludes("Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern extern class FBlendSampleData {
   public var PreviousTime : unreal.Float32;
   public var Time : unreal.Float32;

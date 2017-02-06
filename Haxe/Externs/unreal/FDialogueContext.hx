@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/DialogueWave.h")
+@:glueCppIncludes("Sound/DialogueTypes.h")
 @:uextern extern class FDialogueContext {
   
   /**

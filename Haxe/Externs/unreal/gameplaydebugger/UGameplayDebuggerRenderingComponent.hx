@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerRenderingComponent.h")
 @:noClass @:uextern extern class UGameplayDebuggerRenderingComponent extends unreal.UPrimitiveComponent {
   

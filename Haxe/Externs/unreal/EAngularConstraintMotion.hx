@@ -17,7 +17,7 @@ package unreal;
 /**
   ANGULAR DOF
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAngularConstraintMotion")
 @:uextern extern enum EAngularConstraintMotion {
   

@@ -13,6 +13,7 @@
 **/
 package unreal.sequencerecorder;
 
+@:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderBlueprintLibrary.h")
 @:uextern extern class USequenceRecorderBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   

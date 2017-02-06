@@ -19,7 +19,6 @@ package unreal.proceduralmeshcomponent;
   
   One vertex for the procedural mesh, used for storing data internally
 **/
-@:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
 @:noCopy @:noEquals @:uextern extern class FProcMeshVertex {
   

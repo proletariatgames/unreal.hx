@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   Valid gameplay modifier evaluation channels; Displayed and renamed via game-specific aliases and options
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemGlobals.h")
+@:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayModEvaluationChannel")
 @:class @:uextern extern enum EGameplayModEvaluationChannel {
   Channel0;

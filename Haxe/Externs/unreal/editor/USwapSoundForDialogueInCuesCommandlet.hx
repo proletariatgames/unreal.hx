@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/SwapSoundForDialogueInCuesCommandlet.h")
 @:noClass @:uextern extern class USwapSoundForDialogueInCuesCommandlet extends unreal.UCommandlet {
   

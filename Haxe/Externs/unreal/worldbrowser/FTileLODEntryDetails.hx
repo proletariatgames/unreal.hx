@@ -21,7 +21,6 @@ package unreal.worldbrowser;
   
   Helper class to hold tile LOD level description
 **/
-@:umodule("WorldBrowser")
 @:glueCppIncludes("Private/Tiles/WorldTileDetails.h")
 @:noCopy @:noEquals @:uextern extern class FTileLODEntryDetails {
   public var SimplificationDetails : unreal.FLevelSimplificationDetails;

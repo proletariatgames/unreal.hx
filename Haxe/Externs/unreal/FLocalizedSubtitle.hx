@@ -19,7 +19,7 @@ package unreal;
   
   A subtitle localized to a specific language.
 **/
-@:glueCppIncludes("Sound/SoundWave.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLocalizedSubtitle {
   
   /**

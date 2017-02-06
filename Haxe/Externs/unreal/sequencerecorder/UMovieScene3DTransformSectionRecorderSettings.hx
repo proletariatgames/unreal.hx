@@ -19,6 +19,7 @@ package unreal.sequencerecorder;
   
   
 **/
+@:umodule("SequenceRecorder")
 @:glueCppIncludes("Private/Sections/MovieScene3DTransformSectionRecorderSettings.h")
 @:noClass @:uextern extern class UMovieScene3DTransformSectionRecorderSettings extends unreal.UObject {
   

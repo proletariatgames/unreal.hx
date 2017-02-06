@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for indicating a set of collision channels that this object will collide with.
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uextern extern class FCollisionResponseContainer {
   
   /**

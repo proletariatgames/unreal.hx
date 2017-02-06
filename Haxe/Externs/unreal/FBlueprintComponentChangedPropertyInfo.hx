@@ -17,7 +17,7 @@ package unreal;
 /**
   A single changed Blueprint component property.
 **/
-@:glueCppIncludes("Engine/InheritableComponentHandler.h")
+@:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
 @:uextern extern class FBlueprintComponentChangedPropertyInfo {
   
   /**

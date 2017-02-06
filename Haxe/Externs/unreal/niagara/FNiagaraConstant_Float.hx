@@ -19,7 +19,7 @@ package unreal.niagara;
   
   
 **/
-@:glueCppIncludes("NiagaraEmitterProperties.h")
+@:glueCppIncludes("NiagaraConstantSet.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraConstant_Float extends unreal.niagara.FNiagaraConstantBase {
   public var Value : unreal.Float32;
   

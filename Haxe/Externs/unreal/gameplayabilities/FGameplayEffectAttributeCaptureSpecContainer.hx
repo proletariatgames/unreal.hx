@@ -17,8 +17,7 @@ package unreal.gameplayabilities;
 /**
   Struct used to handle a collection of captured source and target attributes
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectAttributeCaptureSpecContainer {
   
 }

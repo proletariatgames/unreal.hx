@@ -18,7 +18,6 @@ package unreal.gameplayabilities;
   Struct representing the definition of a custom execution for a gameplay effect.
   Custom executions run special logic from an outside class each time the gameplay effect executes.
 **/
-@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectExecutionDefinition {
   

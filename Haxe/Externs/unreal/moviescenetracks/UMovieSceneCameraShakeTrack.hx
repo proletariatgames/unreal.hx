@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneCameraShakeTrack.h")
 @:uextern extern class UMovieSceneCameraShakeTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   

@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavAreas/NavArea.h")
+@:glueCppIncludes("AI/Navigation/NavigationTypes.h")
 @:uextern extern class FNavAgentSelector {
   public var bSupportsAgent15 : Bool;
   public var bSupportsAgent14 : Bool;

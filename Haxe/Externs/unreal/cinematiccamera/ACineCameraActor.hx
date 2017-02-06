@@ -17,6 +17,7 @@ package unreal.cinematiccamera;
 /**
   A CineCameraActor is a CameraActor specialized to work like a cinematic camera.
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraActor.h")
 @:uextern extern class ACineCameraActor extends unreal.ACameraActor {
   public var LookatTrackingSettings : unreal.cinematiccamera.FCameraLookatTrackingSettings;

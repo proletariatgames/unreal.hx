@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_ApplyAdditive.h")
+@:glueCppIncludes("Animation/AnimNodeBase.h")
 @:uname("EPostCopyOperation")
 @:class @:uextern extern enum EPostCopyOperation {
   None;

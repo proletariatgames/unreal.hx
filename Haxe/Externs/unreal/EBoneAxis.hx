@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for specifying a specific axis of a bone
 **/
-@:glueCppIncludes("AnimGraphNode_PoseDriver.h")
+@:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EBoneAxis")
 @:uextern extern enum EBoneAxis {
   

@@ -19,6 +19,7 @@ package unreal.levelsequenceeditor;
   
   Level Sequence Editor settings.
 **/
+@:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
 @:noClass @:uextern extern class ULevelSequenceEditorSettings extends unreal.UObject {
   

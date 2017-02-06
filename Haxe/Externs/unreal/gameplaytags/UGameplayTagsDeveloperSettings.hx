@@ -13,6 +13,7 @@
 **/
 package unreal.gameplaytags;
 
+@:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagsSettings.h")
 @:uextern extern class UGameplayTagsDeveloperSettings extends unreal.UObject {
   

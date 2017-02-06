@@ -17,6 +17,7 @@ package unreal.levelsequence;
 /**
   Base class for level sequence burn ins
 **/
+@:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceBurnIn.h")
 @:uextern extern class ULevelSequenceBurnIn extends unreal.umg.UUserWidget {
   

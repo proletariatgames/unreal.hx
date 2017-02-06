@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_AnimDynamics.h")
+@:glueCppIncludes("Animation/AnimPhysicsSolver.h")
 @:uname("AnimPhysCollisionType")
 @:class @:uextern extern enum AnimPhysCollisionType {
   

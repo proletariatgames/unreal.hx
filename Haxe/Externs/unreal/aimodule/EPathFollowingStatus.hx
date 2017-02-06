@@ -14,7 +14,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("AIController.h")
+@:glueCppIncludes("Navigation/PathFollowingComponent.h")
 @:uname("EPathFollowingStatus.Type")
 @:uextern extern enum EPathFollowingStatus {
   

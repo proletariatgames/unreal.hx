@@ -19,7 +19,6 @@ package unreal.landscapeeditor;
   
   
 **/
-@:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:noCopy @:noEquals @:uextern extern class FLandscapePatternBrushWorldSpaceSettings {
   public var RepeatSize : unreal.Float32;

@@ -19,9 +19,24 @@ package unreal.blueprintgraph;
   
   
 **/
-@:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_GetClassDefaults.h")
+@:glueCppIncludes("K2Node.h")
 @:noCopy @:noEquals @:uextern extern class FOptionalPinFromProperty {
+  
+  /**
+    TRUE if the override pin is visible
+  **/
+  public var bIsOverridePinVisible : Bool;
+  
+  /**
+    TRUE if the override value should be set through this pin
+  **/
+  public var bIsSetValuePinVisible : Bool;
+  
+  /**
+    TRUE if the override value is enabled for use
+  **/
+  public var bIsOverrideEnabled : Bool;
+  public var bIsMarkedForAdvancedDisplay : Bool;
   public var bHasOverridePin : Bool;
   public var CategoryName : unreal.FName;
   public var bPropertyIsCustomized : Bool;

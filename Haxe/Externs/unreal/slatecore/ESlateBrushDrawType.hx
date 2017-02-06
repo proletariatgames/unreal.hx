@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates ways in which an image can be drawn.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushDrawType.Type")
 @:uextern extern enum ESlateBrushDrawType {
   

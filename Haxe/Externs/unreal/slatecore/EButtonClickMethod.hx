@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates different methods that a button click can be triggered. Normally, DownAndUp is appropriate.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("UMG.h")
+@:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EButtonClickMethod.Type")
 @:uextern extern enum EButtonClickMethod {
   

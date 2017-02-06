@@ -19,8 +19,7 @@ package unreal.gameplayabilities;
   
   
 **/
-@:umodule("GameplayAbilities")
-@:glueCppIncludes("AbilitySystemComponent.h")
+@:glueCppIncludes("GameplayCueInterface.h")
 @:noCopy @:noEquals @:uextern extern class FActiveGameplayCue extends unreal.FFastArraySerializerItem {
   
   /**

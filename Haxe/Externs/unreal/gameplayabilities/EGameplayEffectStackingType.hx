@@ -18,7 +18,7 @@ package unreal.gameplayabilities;
   Enumeration for ways a single GameplayEffect asset can stack.
 **/
 @:umodule("GameplayAbilities")
-@:glueCppIncludes("GameplayEffect.h")
+@:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayEffectStackingType")
 @:class @:uextern extern enum EGameplayEffectStackingType {
   

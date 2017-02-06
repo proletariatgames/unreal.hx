@@ -17,6 +17,7 @@ package unreal.moviescene;
 /**
   Reprents a folder used for organizing objects in tracks in a movie scene.
 **/
+@:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneFolder.h")
 @:uextern extern class UMovieSceneFolder extends unreal.UObject {
   

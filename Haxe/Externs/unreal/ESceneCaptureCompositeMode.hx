@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SceneCaptureComponent2D.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESceneCaptureCompositeMode")
 @:uextern extern enum ESceneCaptureCompositeMode {
   

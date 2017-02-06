@@ -14,7 +14,7 @@
 package unreal.gameplaytags;
 
 @:umodule("GameplayTags")
-@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_CheckGameplayTagsOnActor.h")
+@:glueCppIncludes("GameplayTagContainer.h")
 @:uname("EGameplayContainerMatchType")
 @:class @:uextern extern enum EGameplayContainerMatchType {
   Any;

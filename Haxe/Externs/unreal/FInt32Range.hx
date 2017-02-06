@@ -19,7 +19,7 @@ package unreal;
   
   An int32 range
 **/
-@:glueCppIncludes("Engine/Font.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern extern class FInt32Range {
   
 }

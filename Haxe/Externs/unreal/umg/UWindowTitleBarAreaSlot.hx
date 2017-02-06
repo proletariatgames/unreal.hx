@@ -17,6 +17,7 @@ package unreal.umg;
 /**
   The Slot for the UWindowTitleBarArea
 **/
+@:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern extern class UWindowTitleBarAreaSlot extends unreal.umg.UPanelSlot {
   @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;

@@ -19,7 +19,7 @@ package unreal;
   
   Use FMaterialProxySettings instead
 **/
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Engine/MaterialMerging.h")
 @:noCopy @:noEquals @:uextern extern class FMaterialSimplificationSettings {
   
   /**

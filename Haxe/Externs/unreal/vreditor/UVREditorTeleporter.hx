@@ -19,6 +19,7 @@ package unreal.vreditor;
   
   VR Editor teleport manager
 **/
+@:umodule("VREditor")
 @:glueCppIncludes("Teleporter/VREditorTeleporter.h")
 @:noClass @:uextern extern class UVREditorTeleporter extends unreal.UObject {
   

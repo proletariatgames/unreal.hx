@@ -17,8 +17,7 @@ package unreal.moviescenecapture;
 /**
   Structure representing a capture resolution
 **/
-@:umodule("MovieSceneCapture")
-@:glueCppIncludes("MovieSceneCapture.h")
+@:glueCppIncludes("MovieSceneCaptureSettings.h")
 @:uextern extern class FCaptureResolution {
   public var ResY : unreal.FakeUInt32;
   public var ResX : unreal.FakeUInt32;

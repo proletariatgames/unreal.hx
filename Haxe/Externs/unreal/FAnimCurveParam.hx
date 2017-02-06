@@ -19,7 +19,7 @@ package unreal;
   This gets name, and cached UID and use it when needed
   Also it contains curve types
 **/
-@:glueCppIncludes("AnimGraphNode_TwistCorrectiveNode.h")
+@:glueCppIncludes("Animation/AnimCurveTypes.h")
 @:uextern extern class FAnimCurveParam {
   public var Name : unreal.FName;
   

@@ -19,6 +19,7 @@ package unreal.alembiclibrary;
   
   
 **/
+@:umodule("AlembicLibrary")
 @:glueCppIncludes("Private/AlembicTestCommandlet.h")
 @:noClass @:uextern extern class UAlembicTestCommandlet extends unreal.UCommandlet {
   

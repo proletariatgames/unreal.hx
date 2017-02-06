@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimSequenceBase.h")
+@:glueCppIncludes("Animation/SmartName.h")
 @:uextern extern class FSmartName {
   #if WITH_EDITORONLY_DATA
   public var Guid : unreal.FGuid;

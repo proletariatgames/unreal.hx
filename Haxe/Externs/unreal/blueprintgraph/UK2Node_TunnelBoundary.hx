@@ -13,6 +13,7 @@
 **/
 package unreal.blueprintgraph;
 
+@:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_TunnelBoundary.h")
 @:uextern extern class UK2Node_TunnelBoundary extends unreal.blueprintgraph.UK2Node {
   

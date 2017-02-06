@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AnimGraphNode_UseCachedPose.h")
+@:glueCppIncludes("Animation/AnimNode_UseCachedPose.h")
 @:uextern extern class FAnimNode_UseCachedPose extends unreal.FAnimNode_Base {
   
   /**

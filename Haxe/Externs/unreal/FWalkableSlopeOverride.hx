@@ -19,7 +19,7 @@ package unreal;
   
   Struct allowing control over "walkable" normals, by allowing a restriction or relaxation of what steepness is normally walkable.
 **/
-@:glueCppIncludes("PhysicsEngine/BodySetup.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern extern class FWalkableSlopeOverride {
   
   /**

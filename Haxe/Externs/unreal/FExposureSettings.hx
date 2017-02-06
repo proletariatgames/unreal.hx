@@ -19,7 +19,7 @@ package unreal;
   
   Settings to allow designers to override the automatic expose
 **/
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:noCopy @:noEquals @:uextern extern class FExposureSettings {
   
   /**

@@ -19,7 +19,7 @@ package unreal;
   @warning:     When you update this, you must add an entries to PixelFormat.h, usually just copy the generated section on the header into EPixelFormat
   @warning:     The *Tools DLLs will also need to be recompiled if the ordering is changed, but should not need code changes.
 **/
-@:glueCppIncludes("Engine/Texture2DDynamic.h")
+@:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EPixelFormat")
 @:uextern extern enum EPixelFormat {
   PF_Unknown;

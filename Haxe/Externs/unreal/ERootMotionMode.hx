@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Animation/AnimationAsset.h")
 @:uname("ERootMotionMode.Type")
 @:uextern extern enum ERootMotionMode {
   

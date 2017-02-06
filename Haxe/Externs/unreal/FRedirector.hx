@@ -19,7 +19,7 @@ package unreal;
   We use manually parsing array, but that makes harder to modify from property setting
   So adding this USTRUCT to support it properly
 **/
-@:glueCppIncludes("Engine/CollisionProfile.h")
+@:glueCppIncludes("Engine/EngineTypes.h")
 @:uextern extern class FRedirector {
   
   /**

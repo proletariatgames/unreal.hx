@@ -19,7 +19,6 @@ package unreal.aimodule;
   
   
 **/
-@:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
 @:noCopy @:noEquals @:uextern extern class FBTCompositeChild {
   

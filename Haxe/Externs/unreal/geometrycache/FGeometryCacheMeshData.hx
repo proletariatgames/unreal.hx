@@ -19,8 +19,7 @@ package unreal.geometrycache;
   
   Stores per Track/Mesh data used for rendering
 **/
-@:umodule("GeometryCache")
-@:glueCppIncludes("GeometryCache.h", "GeometryCacheActor.h", "GeometryCacheComponent.h", "GeometryCacheTrack.h", "GeometryCacheTrackFlipbookAnimation.h", "GeometryCacheTrackTransformAnimation.h", "GeometryCacheTrackTransformGroupAnimation.h")
+@:glueCppIncludes("GeometryCacheMeshData.h")
 @:noCopy @:noEquals @:uextern extern class FGeometryCacheMeshData {
   
 }

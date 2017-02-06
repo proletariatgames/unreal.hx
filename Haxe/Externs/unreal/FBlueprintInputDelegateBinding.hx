@@ -13,7 +13,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/InputActionDelegateBinding.h")
+@:glueCppIncludes("Engine/InputDelegateBinding.h")
 @:uextern extern class FBlueprintInputDelegateBinding {
   public var bOverrideParentBinding : Bool;
   public var bExecuteWhenPaused : Bool;

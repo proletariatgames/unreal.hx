@@ -17,6 +17,7 @@ package unreal.cinematiccamera;
 /**
   A simple rig for simulating crane-like camera movements.
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CameraRig_Crane.h")
 @:uextern extern class ACameraRig_Crane extends unreal.AActor {
   

@@ -19,6 +19,7 @@ package unreal.buildpatchservices;
   
   This is the manifest UObject where all manifest data is stored
 **/
+@:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
 @:noClass @:uextern extern class UBuildPatchManifest extends unreal.UObject {
   public var CustomFields : unreal.TArray<unreal.buildpatchservices.FCustomFieldData>;

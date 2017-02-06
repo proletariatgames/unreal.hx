@@ -18,8 +18,7 @@ package unreal.aimodule;
   helper struct for defining types of allowed blackboard entries
   (e.g. only entries holding points and objects derived form actor class)
 **/
-@:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
+@:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
 @:uextern extern class FBlackboardKeySelector {
   
   /**

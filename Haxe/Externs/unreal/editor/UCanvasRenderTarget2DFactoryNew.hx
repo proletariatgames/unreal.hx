@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CanvasRenderTarget2DFactoryNew.h")
 @:noClass @:uextern extern class UCanvasRenderTarget2DFactoryNew extends unreal.editor.UFactory {
   

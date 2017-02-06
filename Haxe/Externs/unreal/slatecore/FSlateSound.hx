@@ -17,8 +17,7 @@ package unreal.slatecore;
 /**
   An intermediary to make UBaseSound available for Slate to play sounds
 **/
-@:umodule("SlateCore")
-@:glueCppIncludes("Framework/Styling/ButtonWidgetStyle.h")
+@:glueCppIncludes("Sound/SlateSound.h")
 @:uextern extern class FSlateSound {
   
   /**

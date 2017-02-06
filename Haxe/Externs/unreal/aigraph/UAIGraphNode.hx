@@ -13,6 +13,7 @@
 **/
 package unreal.aigraph;
 
+@:umodule("AIGraph")
 @:glueCppIncludes("AIGraphNode.h")
 @:uextern extern class UAIGraphNode extends unreal.UEdGraphNode {
   

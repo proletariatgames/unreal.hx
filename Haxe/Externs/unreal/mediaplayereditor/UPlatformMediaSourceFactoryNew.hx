@@ -19,6 +19,7 @@ package unreal.mediaplayereditor;
   
   Implements a factory for UPlatformMediaSource objects.
 **/
+@:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Factories/PlatformMediaSourceFactoryNew.h")
 @:noClass @:uextern extern class UPlatformMediaSourceFactoryNew extends unreal.editor.UFactory {
   

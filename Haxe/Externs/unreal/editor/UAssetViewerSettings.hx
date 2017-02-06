@@ -17,6 +17,7 @@ package unreal.editor;
 /**
   Default asset viewer settings.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("AssetViewerSettings.h")
 @:uextern extern class UAssetViewerSettings extends unreal.UObject {
   

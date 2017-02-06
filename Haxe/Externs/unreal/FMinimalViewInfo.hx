@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Camera/PlayerCameraManager.h")
+@:glueCppIncludes("Camera/CameraTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMinimalViewInfo {
   
   /**
