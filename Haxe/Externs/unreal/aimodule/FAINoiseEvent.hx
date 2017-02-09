@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Hearing.h")
 @:uextern extern class FAINoiseEvent {
   

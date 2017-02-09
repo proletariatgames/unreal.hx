@@ -19,6 +19,7 @@ package unreal.localization;
   
   
 **/
+@:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
 @:noCopy @:noEquals @:uextern extern class FMetaDataTextKeyPattern {
   public var Pattern : unreal.FString;

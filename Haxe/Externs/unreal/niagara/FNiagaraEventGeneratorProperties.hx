@@ -19,6 +19,7 @@ package unreal.niagara;
   
   
 **/
+@:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraEventGeneratorProperties extends unreal.niagara.FNiagaraDataSetProperties {
   

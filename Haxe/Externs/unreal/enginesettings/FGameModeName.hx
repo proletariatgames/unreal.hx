@@ -19,6 +19,7 @@ package unreal.enginesettings;
   
   Helper structure, used to associate GameModes with shortcut names.
 **/
+@:umodule("EngineSettings")
 @:glueCppIncludes("GameMapsSettings.h")
 @:noCopy @:noEquals @:uextern extern class FGameModeName {
   

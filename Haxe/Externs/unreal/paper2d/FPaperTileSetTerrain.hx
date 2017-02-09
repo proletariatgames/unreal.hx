@@ -17,6 +17,7 @@ package unreal.paper2d;
 /**
   Information about a terrain type
 **/
+@:umodule("Paper2D")
 @:glueCppIncludes("PaperTileSet.h")
 @:uextern extern class FPaperTileSetTerrain {
   public var CenterTileIndex : unreal.Int32;

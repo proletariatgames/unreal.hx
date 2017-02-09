@@ -38,6 +38,7 @@ package unreal.gameplayabilities;
           -A special implementation of ::NetSerialize *** which only serializes the prediction key to the predicting client ***
                   -This is important as it allows us to serialize prediction keys in replicated state, knowing that only clients that gave the server the prediction key will actually see them!
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayPrediction.h")
 @:uextern extern class FPredictionKey {
   

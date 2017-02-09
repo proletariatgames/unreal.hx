@@ -19,6 +19,7 @@ package unreal.landscapeeditor;
   
   
 **/
+@:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:noCopy @:noEquals @:uextern extern class FGizmoImportLayer {
   public var bNoImport : Bool;

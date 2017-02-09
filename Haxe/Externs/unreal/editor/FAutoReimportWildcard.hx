@@ -19,6 +19,7 @@ package unreal.editor;
   
   A filter used by the auto reimport manager to explicitly include/exclude files matching the specified wildcard
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
 @:noCopy @:noEquals @:uextern extern class FAutoReimportWildcard {
   

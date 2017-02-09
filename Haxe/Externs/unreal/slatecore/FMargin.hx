@@ -19,6 +19,7 @@ package unreal.slatecore;
   
   Describes the space around a Widget.
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Layout/Margin.h")
 @:noCopy @:noEquals @:uextern extern class FMargin {
   

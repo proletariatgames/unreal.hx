@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayModifierEvaluatedData {
   public var IsValid : Bool;

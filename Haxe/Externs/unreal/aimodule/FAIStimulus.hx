@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionTypes.h")
 @:uextern extern class FAIStimulus {
   public var Tag : unreal.FName;

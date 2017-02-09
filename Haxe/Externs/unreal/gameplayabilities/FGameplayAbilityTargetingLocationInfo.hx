@@ -13,6 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uextern extern class FGameplayAbilityTargetingLocationInfo {
   

@@ -17,6 +17,7 @@ package unreal.animgraphruntime;
 /**
   Simple controller to copy a bone's transform to another one.
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_CopyPoseFromMesh.h")
 @:uextern extern class FAnimNode_CopyPoseFromMesh extends unreal.FAnimNode_Base {
   public var SourceMeshComponent : unreal.USkeletalMeshComponent;

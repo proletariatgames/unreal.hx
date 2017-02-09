@@ -19,6 +19,7 @@ package unreal.editor;
   
   Base LightmassParameterValue class
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
 @:noCopy @:noEquals @:uextern extern class FLightmassParameterValue {
   

@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Struct defining gameplay attribute capture options for gameplay effects
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FGameplayEffectAttributeCaptureDefinition {
   

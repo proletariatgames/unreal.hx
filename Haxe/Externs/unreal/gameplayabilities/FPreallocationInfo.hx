@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   Struct for pooling and preallocating gameplaycuenotify_actor classes. This data is per world and used to track what actors are available to recycle and which classes need to preallocate instances of those actors
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCue_Types.h")
 @:noCopy @:noEquals @:uextern extern class FPreallocationInfo {
   public var ClassesNeedingPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;

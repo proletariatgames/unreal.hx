@@ -19,6 +19,7 @@ package unreal.landscape;
   
   Structure storing Layer Data for import
 **/
+@:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:noCopy @:noEquals @:uextern extern class FLandscapeImportLayerInfo {
   #if WITH_EDITORONLY_DATA

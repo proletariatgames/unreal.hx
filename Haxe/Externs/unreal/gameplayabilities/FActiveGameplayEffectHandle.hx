@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
       For example if a skill needs to create an active effect and then destroy that specific effect that it created, it has to do so
       through a handle. a pointer or index into the active list is not sufficient.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FActiveGameplayEffectHandle {
   

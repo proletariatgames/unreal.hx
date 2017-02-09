@@ -23,6 +23,7 @@ package unreal.gameplayabilities;
           -These are generally passed around as pointers to support polymorphism.
           -Projects can override UAbilitySystemGlobals::AllocAbilityActorInfo to override the default struct type that is created.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uextern extern class FGameplayAbilityActorInfo {
   

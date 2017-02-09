@@ -19,6 +19,7 @@ package unreal.paper2d;
   
   Rule for a single section of a terrain material
 **/
+@:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainMaterial.h")
 @:noCopy @:noEquals @:uextern extern class FPaperTerrainMaterialRule {
   

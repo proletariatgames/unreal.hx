@@ -20,6 +20,7 @@ package unreal.niagara;
   TODO: Event action that spawns other whole effects?
   One that calls a BP exposed delegate?
 **/
+@:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraEventReceiverProperties {
   public var EmitterActions : unreal.TArray<unreal.niagara.UNiagaraEventReceiverEmitterAction>;

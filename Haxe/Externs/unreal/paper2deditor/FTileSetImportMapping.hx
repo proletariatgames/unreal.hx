@@ -19,6 +19,7 @@ package unreal.paper2deditor;
   
   
 **/
+@:umodule("Paper2DEditor")
 @:glueCppIncludes("TileMapAssetImportData.h")
 @:noCopy @:noEquals @:uextern extern class FTileSetImportMapping {
   public var SourceName : unreal.FString;

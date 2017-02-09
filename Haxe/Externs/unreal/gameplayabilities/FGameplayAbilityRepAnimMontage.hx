@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Data about montages that is replicated to simulated clients
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uextern extern class FGameplayAbilityRepAnimMontage {
   public var PredictionKey : unreal.gameplayabilities.FPredictionKey;

@@ -13,6 +13,7 @@
 **/
 package unreal.gameplaytasks;
 
+@:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTask.h")
 @:uextern extern class FGameplayResourceSet {
   

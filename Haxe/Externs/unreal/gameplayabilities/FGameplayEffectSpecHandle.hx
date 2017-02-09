@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Allows blueprints to generate a GameplayEffectSpec once and then reference it by handle, to apply it multiple times/multiple targets.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FGameplayEffectSpecHandle {
   

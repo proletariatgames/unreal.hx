@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingComponent.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayDebuggerShapeElement {
   

@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerPlayerManager.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayDebuggerPlayerData {
   public var Replicator : unreal.gameplaydebugger.AGameplayDebuggerCategoryReplicator;

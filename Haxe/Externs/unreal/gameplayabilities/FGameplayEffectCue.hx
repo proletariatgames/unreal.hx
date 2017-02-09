@@ -21,6 +21,7 @@ package unreal.gameplayabilities;
       This is a cosmetic cue that can be tied to a UGameplayEffect.
    This is essentially a GameplayTag + a Min/Max level range that is used to map the level of a GameplayEffect to a normalized value used by the GameplayCue system.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayEffectCue {
   

@@ -17,6 +17,7 @@ package unreal.animgraphruntime;
 /**
   @TODO: Comment
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_AimOffsetLookAt.h")
 @:uextern extern class FAnimNode_AimOffsetLookAt extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
   public var Alpha : unreal.Float32;

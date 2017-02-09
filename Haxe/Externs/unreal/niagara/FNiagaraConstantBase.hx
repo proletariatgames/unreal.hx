@@ -19,6 +19,7 @@ package unreal.niagara;
   
   
 **/
+@:umodule("Niagara")
 @:glueCppIncludes("NiagaraConstantSet.h")
 @:noCopy @:noEquals @:uextern extern class FNiagaraConstantBase {
   public var Name : unreal.FName;

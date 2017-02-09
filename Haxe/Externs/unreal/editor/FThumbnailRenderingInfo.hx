@@ -22,6 +22,7 @@ package unreal.editor;
   to render the thumbnail, including which object to render via and its
   border color.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
 @:noCopy @:noEquals @:uextern extern class FThumbnailRenderingInfo {
   

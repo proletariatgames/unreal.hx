@@ -19,6 +19,7 @@ package unreal.moviescenecapture;
   
   Structure used to uniquely identify a specific capture protocol
 **/
+@:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCaptureProtocolRegistry.h")
 @:noCopy @:noEquals @:uextern extern class FCaptureProtocolID {
   public var Identifier : unreal.FName;

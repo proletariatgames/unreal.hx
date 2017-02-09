@@ -19,6 +19,7 @@ package unreal.umgeditor;
   
   Struct used only for loading old animations
 **/
+@:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
 @:noCopy @:noEquals @:uextern extern class FWidgetAnimation_DEPRECATED {
   public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;

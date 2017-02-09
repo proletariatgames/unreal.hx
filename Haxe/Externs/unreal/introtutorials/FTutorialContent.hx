@@ -17,6 +17,7 @@ package unreal.introtutorials;
 /**
   Content wrapper
 **/
+@:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uextern extern class FTutorialContent {
   

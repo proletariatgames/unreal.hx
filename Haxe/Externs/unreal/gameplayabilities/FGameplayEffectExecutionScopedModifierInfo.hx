@@ -20,6 +20,7 @@ package unreal.gameplayabilities;
   Struct representing modifier info used exclusively for "scoped" executions that happen instantaneously. These are
   folded into a calculation only for the extent of the calculation and never permanently added to an aggregator.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayEffectExecutionScopedModifierInfo {
   

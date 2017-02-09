@@ -20,6 +20,7 @@ package unreal.blueprintgraph;
   Structure used to automatically convert blueprintcallable functions (that have blueprint parameter) calls (in bp graph)
   into their never versions (with class param instead of blueprint).
 **/
+@:umodule("BlueprintGraph")
 @:glueCppIncludes("EdGraphSchema_K2.h")
 @:noCopy @:noEquals @:uextern extern class FBlueprintCallableFunctionRedirect {
   public var ClassParamName : unreal.FString;

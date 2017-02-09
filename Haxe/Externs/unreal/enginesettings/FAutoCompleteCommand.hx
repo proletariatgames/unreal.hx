@@ -19,6 +19,7 @@ package unreal.enginesettings;
   
   Structure for auto-complete commands and their descriptions.
 **/
+@:umodule("EngineSettings")
 @:glueCppIncludes("ConsoleSettings.h")
 @:noCopy @:noEquals @:uextern extern class FAutoCompleteCommand {
   public var Desc : unreal.FString;

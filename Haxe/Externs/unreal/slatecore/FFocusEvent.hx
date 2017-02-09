@@ -20,6 +20,7 @@ package unreal.slatecore;
   FFocusEvent is used when notifying widgets about keyboard focus changes
   It is passed to event handlers dealing with keyboard focus
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FFocusEvent {
   

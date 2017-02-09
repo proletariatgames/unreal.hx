@@ -19,6 +19,7 @@ package unreal.moviescene;
   
   Editor only data that needs to be saved between sessions for editing but has no runtime purpose
 **/
+@:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
 @:noCopy @:noEquals @:uextern extern class FMovieSceneEditorData {
   

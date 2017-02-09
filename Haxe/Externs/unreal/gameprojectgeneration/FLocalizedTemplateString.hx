@@ -19,6 +19,7 @@ package unreal.gameprojectgeneration;
   
   
 **/
+@:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
 @:noCopy @:noEquals @:uextern extern class FLocalizedTemplateString {
   public var Text : unreal.FString;

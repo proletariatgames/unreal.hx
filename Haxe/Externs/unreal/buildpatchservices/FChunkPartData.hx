@@ -19,6 +19,7 @@ package unreal.buildpatchservices;
   
   A data structure describing the part of a chunk used to construct a file
 **/
+@:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
 @:noCopy @:noEquals @:uextern extern class FChunkPartData {
   

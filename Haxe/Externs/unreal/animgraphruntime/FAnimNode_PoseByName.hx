@@ -19,6 +19,7 @@ package unreal.animgraphruntime;
   Typically the playback position of the animation for this node will represent something other than time, like jump height.
   This node will not trigger any notifies present in the associated sequence.
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseByName.h")
 @:uextern extern class FAnimNode_PoseByName extends unreal.animgraphruntime.FAnimNode_PoseHandler {
   public var PoseWeight : unreal.Float32;

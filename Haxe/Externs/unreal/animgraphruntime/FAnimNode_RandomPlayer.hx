@@ -13,6 +13,7 @@
 **/
 package unreal.animgraphruntime;
 
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_RandomPlayer.h")
 @:uextern extern class FAnimNode_RandomPlayer extends unreal.FAnimNode_Base {
   

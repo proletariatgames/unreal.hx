@@ -19,6 +19,7 @@ package unreal.editor;
   
   A category to store a list of commands.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
 @:noCopy @:noEquals @:uextern extern class FEditorCommandCategory {
   public var Name : unreal.FName;

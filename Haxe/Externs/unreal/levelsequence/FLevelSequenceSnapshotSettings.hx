@@ -19,6 +19,7 @@ package unreal.levelsequence;
   
   
 **/
+@:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequencePlayer.h")
 @:noCopy @:noEquals @:uextern extern class FLevelSequenceSnapshotSettings {
   

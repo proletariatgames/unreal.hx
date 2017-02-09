@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Struct representing parameters for a custom gameplay effect execution. Should not be held onto via reference, used just for the scope of the execution
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectExecutionCalculation.h")
 @:uextern extern class FGameplayEffectCustomExecutionParameters {
   

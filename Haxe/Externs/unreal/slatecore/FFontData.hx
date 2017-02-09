@@ -17,6 +17,7 @@ package unreal.slatecore;
 /**
   Payload data describing an individual font in a typeface.
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
 @:uextern extern class FFontData {
   

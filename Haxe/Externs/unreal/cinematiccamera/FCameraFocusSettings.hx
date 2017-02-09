@@ -19,6 +19,7 @@ package unreal.cinematiccamera;
   
   Settings to control camera focus
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
 @:noCopy @:noEquals @:uextern extern class FCameraFocusSettings {
   

@@ -19,6 +19,7 @@ package unreal.aimodule;
   
   
 **/
+@:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionComponent.h")
 @:noCopy @:noEquals @:uextern extern class FActorPerceptionBlueprintInfo {
   public var bIsHostile : Bool;

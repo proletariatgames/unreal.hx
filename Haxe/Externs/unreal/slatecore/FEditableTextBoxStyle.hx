@@ -17,6 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SEditableTextBox
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FEditableTextBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
   

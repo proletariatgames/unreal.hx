@@ -17,6 +17,7 @@ package unreal.slatecore;
 /**
   Settings for applying an outline to a font
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Fonts/SlateFontInfo.h")
 @:uextern extern class FFontOutlineSettings {
   

@@ -34,6 +34,7 @@ package unreal.gameplaytags;
   Queries are internally represented as a byte stream that is memory-efficient and can be evaluated quickly at runtime.
   Note: these have an extensive details and graph pin customization for editing, so there is no need to expose the internals to Blueprints.
 **/
+@:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
 @:uextern extern class FGameplayTagQuery {
   

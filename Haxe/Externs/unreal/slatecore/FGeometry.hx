@@ -23,6 +23,7 @@ package unreal.slatecore;
   A Geometry's parent is generally thought to be the Geometry of the
   the corresponding parent widget.
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Layout/Geometry.h")
 @:uextern extern class FGeometry {
   

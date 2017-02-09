@@ -19,6 +19,7 @@ package unreal.buildpatchservices;
   
   A data structure that hold a manifests custom field. This is a key value pair of strings
 **/
+@:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
 @:noCopy @:noEquals @:uextern extern class FCustomFieldData {
   public var Value : unreal.FString;

@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   This is data that can be used to create an FGameplayAbilitySpec. Has some data that is only relevant when granted by a GameplayEffect
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayAbilitySpecDef {
   

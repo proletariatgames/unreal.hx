@@ -19,6 +19,7 @@ package unreal.translationeditor;
   
   
 **/
+@:umodule("TranslationEditor")
 @:glueCppIncludes("Private/TranslationUnit.h")
 @:noCopy @:noEquals @:uextern extern class FTranslationContextInfo {
   

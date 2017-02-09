@@ -13,6 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FMinimalReplicationTagCountMap {
   public var Owner : unreal.gameplayabilities.UAbilitySystemComponent;

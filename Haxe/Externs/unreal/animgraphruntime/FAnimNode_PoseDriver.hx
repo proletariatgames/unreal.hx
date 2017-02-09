@@ -17,6 +17,7 @@ package unreal.animgraphruntime;
 /**
   RBF based orientation driver
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
 @:uextern extern class FAnimNode_PoseDriver extends unreal.animgraphruntime.FAnimNode_PoseHandler {
   

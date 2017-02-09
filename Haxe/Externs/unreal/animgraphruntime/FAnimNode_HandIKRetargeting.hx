@@ -20,6 +20,7 @@ package unreal.animgraphruntime;
   based on HandFKWeight. (0 = favor left hand, 1 = favor right hand, 0.5 = equal weight).
   This is used so characters of different proportions can handle the same props.
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_HandIKRetargeting.h")
 @:uextern extern class FAnimNode_HandIKRetargeting extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   

@@ -19,6 +19,7 @@ package unreal.slatecore;
   
   FCharacterEvent describes a keyboard action where the utf-16 code is given.  Used for OnKeyChar messages
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FCharacterEvent extends unreal.slatecore.FInputEvent {
   

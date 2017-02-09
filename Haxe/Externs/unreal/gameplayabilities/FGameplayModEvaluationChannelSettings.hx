@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Struct representing evaluation channel settings for a gameplay modifier
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uextern extern class FGameplayModEvaluationChannelSettings {
   

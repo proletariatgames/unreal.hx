@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   This is a cut down version of the gameplay effect spec used for RPCs.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectSpecForRPC {
   public var AbilityLevel : unreal.Float32;

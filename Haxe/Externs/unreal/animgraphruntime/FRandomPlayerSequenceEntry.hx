@@ -20,6 +20,7 @@ package unreal.animgraphruntime;
   The random player node holds a list of sequences and parameter ranges which will be played continuously
   In a random order. If shuffle mode is enabled then each entry will be played once before repeating any
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_RandomPlayer.h")
 @:noCopy @:noEquals @:uextern extern class FRandomPlayerSequenceEntry {
   

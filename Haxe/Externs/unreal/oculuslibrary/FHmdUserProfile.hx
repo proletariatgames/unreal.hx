@@ -19,6 +19,7 @@ package unreal.oculuslibrary;
   
   
 **/
+@:umodule("OculusLibrary")
 @:glueCppIncludes("OculusFunctionLibrary.h")
 @:noCopy @:noEquals @:uextern extern class FHmdUserProfile {
   public var ExtraFields : unreal.TArray<unreal.oculuslibrary.FHmdUserProfileField>;

@@ -19,6 +19,7 @@ package unreal.editor;
   
   
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
 @:noCopy @:noEquals @:uextern extern class FPropertyEditorTestSubStruct {
   public var CustomizedStructInsideUncustomizedStruct2 : unreal.FStringAssetReference;

@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("DataProviders/AIDataProvider.h")
 @:uextern extern class FAIDataProviderTypedValue extends unreal.aimodule.FAIDataProviderValue {
   

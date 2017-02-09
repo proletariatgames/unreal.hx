@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Struct representing the output of a custom gameplay effect execution.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectExecutionCalculation.h")
 @:uextern extern class FGameplayEffectCustomExecutionOutput {
   

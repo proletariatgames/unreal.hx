@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Team.h")
 @:uextern extern class FAITeamStimulusEvent {
   public var Enemy : unreal.AActor;

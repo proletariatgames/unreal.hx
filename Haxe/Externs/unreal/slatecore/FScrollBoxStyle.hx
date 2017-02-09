@@ -17,6 +17,7 @@ package unreal.slatecore;
 /**
   Represents the appearance of an SScrollBox
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
 @:uextern extern class FScrollBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
   

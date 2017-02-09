@@ -17,6 +17,7 @@ package unreal.gameplayabilities;
 /**
   Every set condition within this query must match in order for the query to match. i.e. individual query elements are ANDed together.
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uextern extern class FGameplayEffectQuery {
   

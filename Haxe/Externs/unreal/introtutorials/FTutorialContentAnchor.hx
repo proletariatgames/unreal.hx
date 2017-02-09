@@ -17,6 +17,7 @@ package unreal.introtutorials;
 /**
   A way of identifying something to be highlighted by a tutorial
 **/
+@:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uextern extern class FTutorialContentAnchor {
   

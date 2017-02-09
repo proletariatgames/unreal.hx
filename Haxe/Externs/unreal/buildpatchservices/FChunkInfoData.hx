@@ -19,6 +19,7 @@ package unreal.buildpatchservices;
   
   A data structure describing a chunk file
 **/
+@:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
 @:noCopy @:noEquals @:uextern extern class FChunkInfoData {
   public var GroupNumber : unreal.UInt8;

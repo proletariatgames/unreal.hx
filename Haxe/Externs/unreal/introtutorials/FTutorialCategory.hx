@@ -17,6 +17,7 @@ package unreal.introtutorials;
 /**
   Category description
 **/
+@:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uextern extern class FTutorialCategory {
   

@@ -19,6 +19,7 @@ package unreal.cinematiccamera;
   
   #note, this struct has a details customization in CameraLensSettingsCustomization.cpp/h
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
 @:noCopy @:noEquals @:uextern extern class FCameraLensSettings {
   

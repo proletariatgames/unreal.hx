@@ -17,6 +17,7 @@ package unreal.introtutorials;
 /**
   A single tutorial stage, containing the optional main content & a number of widgets with content attached
 **/
+@:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uextern extern class FTutorialStage {
   

@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("AITypes.h")
 @:uextern extern class FAIRequestID {
   

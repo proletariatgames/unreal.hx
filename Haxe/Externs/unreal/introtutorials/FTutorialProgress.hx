@@ -19,6 +19,7 @@ package unreal.introtutorials;
   
   Track the progress of an individual tutorial
 **/
+@:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialStateSettings.h")
 @:noCopy @:noEquals @:uextern extern class FTutorialProgress {
   public var bUserDismissed : Bool;

@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerSettings.h")
 @:noCopy @:noEquals @:uextern extern class FGDTCustomViewNames {
   public var GameView5 : unreal.FString;

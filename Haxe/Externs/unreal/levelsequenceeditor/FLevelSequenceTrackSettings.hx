@@ -19,6 +19,7 @@ package unreal.levelsequenceeditor;
   
   
 **/
+@:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
 @:noCopy @:noEquals @:uextern extern class FLevelSequenceTrackSettings {
   

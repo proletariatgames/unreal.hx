@@ -19,6 +19,7 @@ package unreal.landscape;
   
   
 **/
+@:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
 @:noCopy @:noEquals @:uextern extern class FLandscapeSplineMeshEntry {
   

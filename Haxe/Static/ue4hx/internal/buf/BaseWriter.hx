@@ -52,8 +52,18 @@ class BaseWriter {
       buf.add('#include "ParticleHelper.h"\n');
     }
     var incs = [ for (inc in this.includes) inc ];
-    incs.sort(function(v1, v2) if (v1.endsWith('.generated.h')) return 1; else if (v2.endsWith('.generated.h')) return -1; else return 0);
+    var sortedIncs = [];
     for (inc in incs) {
+      if (!inc.endsWith('.generated.h')) {
+        sortedIncs.push(inc);
+      }
+    }
+    for (inc in incs) {
+      if (inc.endsWith('.generated.h')) {
+        sortedIncs.push(inc);
+      }
+    }
+    for (inc in sortedIncs) {
       if (inc == 'hxcpp.h' || inc == '<hxcpp.h>') {
         buf.add('#ifndef HXCPP_H\n#include <hxcpp.h>\n#endif\n');
       } else {

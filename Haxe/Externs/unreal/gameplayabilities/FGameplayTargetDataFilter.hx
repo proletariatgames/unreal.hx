@@ -13,6 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetDataFilter.h")
 @:uextern extern class FGameplayTargetDataFilter {
   

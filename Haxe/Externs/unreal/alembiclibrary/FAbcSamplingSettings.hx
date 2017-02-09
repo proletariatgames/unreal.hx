@@ -19,6 +19,7 @@ package unreal.alembiclibrary;
   
   
 **/
+@:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:noCopy @:noEquals @:uextern extern class FAbcSamplingSettings {
   

@@ -19,6 +19,7 @@ package unreal.blueprintruntime;
   
   
 **/
+@:umodule("BlueprintRuntime")
 @:glueCppIncludes("BlueprintRuntimeSettings.h")
 @:noCopy @:noEquals @:uextern extern class FBlueprintWarningSettings {
   public var WarningBehavior : unreal.blueprintruntime.EBlueprintWarningBehavior;

@@ -17,6 +17,7 @@ package unreal.animgraphruntime;
 /**
   Trail Controller
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_Trail.h")
 @:uextern extern class FAnimNode_Trail extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   

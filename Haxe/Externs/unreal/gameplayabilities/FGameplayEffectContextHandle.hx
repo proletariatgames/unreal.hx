@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   Handle that wraps a FGameplayEffectContext or subclass, to allow it to be polymorphic and replicate properly
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayEffectContextHandle {
   

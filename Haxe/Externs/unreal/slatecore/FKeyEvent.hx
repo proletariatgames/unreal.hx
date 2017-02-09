@@ -20,6 +20,7 @@ package unreal.slatecore;
   FKeyEvent describes a key action (keyboard/controller key/button pressed or released.)
   It is passed to event handlers dealing with key input.
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FKeyEvent extends unreal.slatecore.FInputEvent {
   

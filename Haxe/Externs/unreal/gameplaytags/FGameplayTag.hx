@@ -13,6 +13,7 @@
 **/
 package unreal.gameplaytags;
 
+@:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
 @:uextern extern class FGameplayTag {
   

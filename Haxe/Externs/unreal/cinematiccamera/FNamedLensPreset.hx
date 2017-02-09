@@ -19,6 +19,7 @@ package unreal.cinematiccamera;
   
   A named bundle of lens settings used to implement lens presets.
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
 @:noCopy @:noEquals @:uextern extern class FNamedLensPreset {
   public var LensSettings : unreal.cinematiccamera.FCameraLensSettings;

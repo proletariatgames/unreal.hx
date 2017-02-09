@@ -19,6 +19,7 @@ package unreal.editor;
   
   Container for detailing collision automated test data.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Tests/FbxAutomationCommon.h")
 @:noCopy @:noEquals @:uextern extern class FFbxTestPlanExpectedResult {
   

@@ -19,6 +19,7 @@ package unreal.editor;
   
   Holds information about a screen resolution to be used for playing.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:noCopy @:noEquals @:uextern extern class FPlayScreenResolution {
   

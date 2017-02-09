@@ -19,6 +19,7 @@ package unreal.cinematiccamera;
   
   Settings to control the camera's lookat feature
 **/
+@:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraActor.h")
 @:noCopy @:noEquals @:uextern extern class FCameraLookatTrackingSettings {
   

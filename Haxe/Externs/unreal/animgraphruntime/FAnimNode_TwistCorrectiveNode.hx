@@ -20,6 +20,7 @@ package unreal.animgraphruntime;
   This node can detect the angle and apply morphtarget curve
   This isn't the twist control node for bone twist
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
 @:uextern extern class FAnimNode_TwistCorrectiveNode extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   public var Curve : unreal.FAnimCurveParam;

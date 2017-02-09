@@ -19,6 +19,7 @@ package unreal.paper2d;
   
   
 **/
+@:umodule("Paper2D")
 @:glueCppIncludes("PaperFlipbook.h")
 @:noCopy @:noEquals @:uextern extern class FPaperFlipbookKeyFrame {
   public var FrameRun : unreal.Int32;

@@ -21,6 +21,7 @@ package unreal.oculusrift;
   * EBoundaryType::Boundary_PlayArea) and a device or point in the world.
   * All dimensions, points, and vectors are returned in Unreal world coordinate space.
 **/
+@:umodule("OculusRift")
 @:glueCppIncludes("OculusRiftBoundaryComponent.h")
 @:noCopy @:noEquals @:uextern extern class FBoundaryTestResult {
   

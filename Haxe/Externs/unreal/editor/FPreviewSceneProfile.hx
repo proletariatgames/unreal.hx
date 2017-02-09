@@ -19,6 +19,7 @@ package unreal.editor;
   
   Preview scene profile settings structure.
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("AssetViewerSettings.h")
 @:noCopy @:noEquals @:uextern extern class FPreviewSceneProfile {
   

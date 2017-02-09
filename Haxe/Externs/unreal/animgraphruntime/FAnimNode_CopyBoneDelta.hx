@@ -18,6 +18,7 @@ package unreal.animgraphruntime;
   Simple controller to copy a transform relative to the ref pose to the target bone,
   instead of the copy bone node which copies the absolute transform
 **/
+@:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_CopyBoneDelta.h")
 @:uextern extern class FAnimNode_CopyBoneDelta extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   public var ScaleMultiplier : unreal.Float32;

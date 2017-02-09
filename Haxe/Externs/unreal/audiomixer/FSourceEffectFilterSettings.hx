@@ -19,6 +19,7 @@ package unreal.audiomixer;
   
   
 **/
+@:umodule("AudioMixer")
 @:glueCppIncludes("SourceEffects/AudioMixerSourceEffectFilter.h")
 @:noCopy @:noEquals @:uextern extern class FSourceEffectFilterSettings {
   

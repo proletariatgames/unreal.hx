@@ -19,6 +19,7 @@ package unreal.slatecore;
   
   DEPRECATED 4.6 - Do not use //@Todo slate: Remove this as soon as the 4.6 deprecated API is Removed.
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
 @:noCopy @:noEquals @:uextern extern class FControllerEvent extends unreal.slatecore.FInputEvent {
   

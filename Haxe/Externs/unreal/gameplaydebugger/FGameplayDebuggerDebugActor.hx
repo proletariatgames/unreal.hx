@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerCategoryReplicator.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayDebuggerDebugActor {
   public var SyncCounter : unreal.Int32;

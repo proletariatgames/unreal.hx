@@ -19,6 +19,7 @@ package unreal.audiomixer;
   
   FAudiomixerSourceEffectFilterSettings
 **/
+@:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
 @:noCopy @:noEquals @:uextern extern class FSubmixEffectEQSettings {
   

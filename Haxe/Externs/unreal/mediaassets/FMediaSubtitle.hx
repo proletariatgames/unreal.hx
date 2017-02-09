@@ -19,6 +19,7 @@ package unreal.mediaassets;
   
   
 **/
+@:umodule("MediaAssets")
 @:glueCppIncludes("MediaSubtitles.h")
 @:noCopy @:noEquals @:uextern extern class FMediaSubtitle {
   

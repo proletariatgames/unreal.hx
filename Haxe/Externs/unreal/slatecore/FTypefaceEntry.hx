@@ -17,6 +17,7 @@ package unreal.slatecore;
 /**
   A single entry in a typeface
 **/
+@:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
 @:uextern extern class FTypefaceEntry {
   

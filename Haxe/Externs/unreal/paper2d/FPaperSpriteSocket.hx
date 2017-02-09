@@ -19,6 +19,7 @@ package unreal.paper2d;
   
   @TODO: Should have some nice UI and enforce unique names, etc...
 **/
+@:umodule("Paper2D")
 @:glueCppIncludes("PaperSprite.h")
 @:noCopy @:noEquals @:uextern extern class FPaperSpriteSocket {
   

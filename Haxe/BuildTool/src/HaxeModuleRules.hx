@@ -706,11 +706,24 @@ class HaxeModuleRules extends BaseModuleRules
       // this is a workaround for an hxcpp issue in which the pdb server is created as
       // a subprocess, and for that reason stdout/stderr don't close when hxcpp exits
       // a fix to hxcpp will be proposed, but this works around this issue for now
+      var didAbort = false;
       if (!t.Join(100)) {
         t.Abort();
+        didAbort = true;
       }
       if (!t2.Join(100)) {
         t2.Abort();
+        didAbort = didAbort && true;
+      } else {
+        didAbort = false;
+      }
+
+      if (didAbort) {
+        // hxcpp workaround
+        var pdbServers = cs.system.diagnostics.Process.GetProcessesByName("mspdbsrv");
+        for (i in 0...pdbServers.length) {
+          pdbServers[i].Kill();
+        }
       }
       return code;
     }

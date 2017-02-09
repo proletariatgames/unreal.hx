@@ -19,6 +19,7 @@ package unreal.gameplayabilities;
   
   
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayTagResponseTable.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayTagResponseTableEntry {
   

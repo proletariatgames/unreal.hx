@@ -27,6 +27,7 @@ package unreal.gameplayabilities;
           -Pass by reference in blueprints
           -Polymophism in TargetData structure
 **/
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uextern extern class FGameplayAbilityTargetDataHandle {
   

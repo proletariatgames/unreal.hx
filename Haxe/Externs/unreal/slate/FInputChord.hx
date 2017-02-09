@@ -17,6 +17,7 @@ package unreal.slate;
 /**
   An Input Chord is a key and the modifier keys that are to be held with it.
 **/
+@:umodule("Slate")
 @:glueCppIncludes("Framework/Commands/InputChord.h")
 @:uextern extern class FInputChord {
   

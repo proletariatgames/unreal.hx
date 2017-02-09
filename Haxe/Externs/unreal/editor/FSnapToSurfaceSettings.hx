@@ -17,6 +17,7 @@ package unreal.editor;
 /**
   Settings that control the behavior of the "snap to surface" feature
 **/
+@:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uextern extern class FSnapToSurfaceSettings {
   

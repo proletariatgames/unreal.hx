@@ -19,6 +19,7 @@ package unreal.gameplaydebugger;
   
   
 **/
+@:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
 @:noCopy @:noEquals @:uextern extern class FGameplayDebuggerCategoryConfig {
   public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;

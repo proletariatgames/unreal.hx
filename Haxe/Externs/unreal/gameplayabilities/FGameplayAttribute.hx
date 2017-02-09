@@ -13,6 +13,7 @@
 **/
 package unreal.gameplayabilities;
 
+@:umodule("GameplayAbilities")
 @:glueCppIncludes("AttributeSet.h")
 @:uextern extern class FGameplayAttribute {
   

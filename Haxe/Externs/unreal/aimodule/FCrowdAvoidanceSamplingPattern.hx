@@ -13,6 +13,7 @@
 **/
 package unreal.aimodule;
 
+@:umodule("AIModule")
 @:glueCppIncludes("Navigation/CrowdManager.h")
 @:uextern extern class FCrowdAvoidanceSamplingPattern {
   public var Radii : unreal.TArray<unreal.Float32>;

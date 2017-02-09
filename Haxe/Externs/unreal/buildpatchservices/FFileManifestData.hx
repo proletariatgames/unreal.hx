@@ -19,6 +19,7 @@ package unreal.buildpatchservices;
   
   A data structure that describes a file's construction information
 **/
+@:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
 @:noCopy @:noEquals @:uextern extern class FFileManifestData {
   public var bIsCompressed : Bool;

@@ -19,6 +19,7 @@ package unreal.moviescenetools;
   
   
 **/
+@:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneToolsProjectSettings.h")
 @:noCopy @:noEquals @:uextern extern class FMovieSceneToolsFbxSettings {
   

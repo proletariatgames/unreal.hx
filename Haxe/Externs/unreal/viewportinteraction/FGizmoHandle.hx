@@ -13,6 +13,7 @@
 **/
 package unreal.viewportinteraction;
 
+@:umodule("ViewportInteraction")
 @:glueCppIncludes("VIGizmoHandle.h")
 @:uextern extern class FGizmoHandle {
   

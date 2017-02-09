@@ -19,6 +19,7 @@ package unreal.moviescenetracks;
   
   Structure representing an animated scalar parameter and it's associated animation curve.
 **/
+@:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneParameterSection.h")
 @:noCopy @:noEquals @:uextern extern class FScalarParameterNameAndCurve {
   
