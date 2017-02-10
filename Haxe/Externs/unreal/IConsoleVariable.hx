@@ -9,6 +9,8 @@ package unreal;
   @:thisConst function GetInt() : Int32;
   @:thisConst function GetFloat() : Float32;
   @:thisConst function GetString() : FString;
+
+  @:uname("Set") function SetString(InValue:TCharStar, SetBy:EConsoleVariableFlags):Void;
+  @:uname("Set") function SetInt(InValue:Int32, SetBy:EConsoleVariableFlags):Void;
+  @:uname("Set") function SetFloat(InValue:Float32, SetBy:EConsoleVariableFlags):Void;
 }
-
-
