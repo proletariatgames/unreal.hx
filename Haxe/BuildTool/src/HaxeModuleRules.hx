@@ -550,8 +550,12 @@ class HaxeModuleRules extends BaseModuleRules
       }
 
       // FIXME look into why libstdc++ can only be linked with its full path
-      if (FileSystem.exists('/usr/lib/libstdc++.dylib'))
+      if (FileSystem.exists('/usr/lib/libstdc++.dylib')) {
         this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
+      }
+      if (target.Platform == Linux && !UEBuildConfiguration.bBuildEditor) {
+        this.PublicAdditionalLibraries.Add('stdc++');
+      }
 
       switch(target.Platform)
       {
