@@ -165,7 +165,8 @@ class TypeConv {
           this.haxeType = info.haxeType;
         }
         this.ueType = info.ueType;
-        this.haxeGlueType = this.glueType = int32;
+        this.haxeGlueType = int32Haxe;
+        this.glueType = int32Glue;
       case CStruct(type, flags, info, params):
         // SExternal, SHaxe, SCriptHaxe
         if (this.haxeType == null) {
@@ -981,7 +982,6 @@ class TypeConv {
       "Float" => "double",
       "cpp.Int16" => "int16",
       "cpp.Int32" => "int32",
-      "Int" => "int32",
       "cpp.Int8" => "int8",
       "cpp.UInt16" => "uint16",
       "cpp.UInt8" => "uint8"
@@ -1003,6 +1003,13 @@ class TypeConv {
 
         haxeToGlueExpr: '(cast (%) : cpp.UInt32)',
         glueToHaxeExpr: '(cast (%) : unreal.FakeUInt32)',
+
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+      },
+      {
+        ueType: new TypeRef('int32'),
+        haxeType: new TypeRef('Int'),
+        glueType: new TypeRef('int'),
 
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
       },
@@ -1176,7 +1183,8 @@ class TypeConv {
   static var byteArray(default,null) = new TypeRef(['cpp'],'RawPointer', [new TypeRef(['cpp'],'UInt8')]);
   static var variantPtr(default,null) = new TypeRef(['unreal'],'VariantPtr');
   static var uintPtr(default,null) = new TypeRef(['unreal'],'UIntPtr');
-  static var int32(default,null) = new TypeRef('Int');
+  static var int32Haxe(default,null) = new TypeRef('Int');
+  static var int32Glue(default,null) = new TypeRef('int');
 }
 
 typedef TypeInfo = {

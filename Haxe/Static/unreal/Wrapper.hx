@@ -27,8 +27,8 @@ import unreal.helpers.StructInfo;
  **/
 #if UHX_EXTRA_DEBUG
 @:headerClassCode('
-  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    Int size = (Int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(int extraSize, unreal::UIntPtr info) {
+    int size = (int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
     InlinePodWrapper_obj *result = new (size) InlinePodWrapper_obj;
     result->init();
     result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
@@ -37,8 +37,8 @@ import unreal.helpers.StructInfo;
 ')
 #else
 @:headerClassCode('
-  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    Int size = (Int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
+  inline static hx::ObjectPtr< InlinePodWrapper_obj > create(int extraSize, unreal::UIntPtr info) {
+    int size = (int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
     InlinePodWrapper_obj *result = new (size) InlinePodWrapper_obj;
     result->init();
     return result;
@@ -75,8 +75,8 @@ import unreal.helpers.StructInfo;
 /**
  **/
 @:headerClassCode('
-  inline static hx::ObjectPtr< InlineWrapper_obj > create(Int extraSize, unreal::UIntPtr info) {
-    Int size =  (Int) ((extraSize + sizeof(void *) - 1) & ~(sizeof(void*) - 1));
+  inline static hx::ObjectPtr< InlineWrapper_obj > create(int extraSize, unreal::UIntPtr info) {
+    int size =  (int) ((extraSize + sizeof(void *) - 1) & ~(sizeof(void*) - 1));
     InlineWrapper_obj *result = new (size) InlineWrapper_obj;
     result->m_info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     result->init();
@@ -140,14 +140,14 @@ import unreal.helpers.StructInfo;
   Represents a special aligned wrapper
  **/
 @:headerClassCode('
-  inline static hx::ObjectPtr< AlignedInlineWrapper_obj > create(Int extraSize, unreal::UIntPtr rawInfo) {
+  inline static hx::ObjectPtr< AlignedInlineWrapper_obj > create(int extraSize, unreal::UIntPtr rawInfo) {
     uhx::StructInfo *info = (uhx::StructInfo *) rawInfo;
     // make sure extraSize is big enough to hold the alignment
     unreal::UIntPtr align = info->alignment;
     unreal::UIntPtr dif = align - 2; // the pointer is at least aligned in the power of two
     // align the final result to (void*) - should be already, but why not
     extraSize = (extraSize + dif + ( sizeof(void*) - 1 )) & ~( sizeof(void*) - 1 );
-    AlignedInlineWrapper_obj *result = new ((Int) extraSize) AlignedInlineWrapper_obj;
+    AlignedInlineWrapper_obj *result = new ((int) extraSize) AlignedInlineWrapper_obj;
     result->m_info = cpp::Pointer_obj::fromPointer( info );
     result->init();
     return result;
@@ -188,14 +188,14 @@ import unreal.helpers.StructInfo;
 }
 
 @:headerClassCode('
-  inline static hx::ObjectPtr< InlineTemplateWrapper_obj > create(Int extraSize, unreal::UIntPtr rawInfo) {
+  inline static hx::ObjectPtr< InlineTemplateWrapper_obj > create(int extraSize, unreal::UIntPtr rawInfo) {
     uhx::StructInfo *info = (uhx::StructInfo *) rawInfo;
     unreal::UIntPtr align = info->alignment;
     // make sure extraSize is big enough to hold the alignment
     unreal::UIntPtr dif = align - 2; // the pointer is at least aligned in the power of two
     // align the final result to (void*) - should be already, but why not
     extraSize = (extraSize + dif + ( sizeof(void*) - 1 )) & ~( sizeof(void*) - 1 );
-    InlineTemplateWrapper_obj *result = new ((Int) extraSize) InlineTemplateWrapper_obj;
+    InlineTemplateWrapper_obj *result = new ((int) extraSize) InlineTemplateWrapper_obj;
     result->info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
     result->pointer = ( ((unreal::UIntPtr) (result + 1)) + align - 1 ) & ~(align -1);
     result->init();

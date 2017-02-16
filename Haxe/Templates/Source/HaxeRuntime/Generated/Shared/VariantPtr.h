@@ -129,7 +129,7 @@ struct CompareTraits<unreal::VariantPtr>
 {
    enum { type = (int)CompareAsInt64 };
 
-   inline static int toInt(unreal::VariantPtr inValue) { return (Int) inValue.raw; }
+   inline static int toInt(unreal::VariantPtr inValue) { return (int) inValue.raw; }
    inline static double toDouble(unreal::VariantPtr inValue) { return (double) inValue.raw; }
    inline static cpp::Int64 toInt64(unreal::VariantPtr inValue) { return (cpp::Int64) inValue.raw; }
    inline static String toString(unreal::VariantPtr inValue) { return inValue.getDynamic(); }
