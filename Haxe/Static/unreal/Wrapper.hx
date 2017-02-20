@@ -88,7 +88,7 @@ import unreal.helpers.StructInfo;
   var m_info:Pointer<StructInfo>;
 
   @:final @:nonVirtual private function init() {
-    if (m_info.ptr.destruct != untyped __cpp__('0')) {
+    if (untyped __cpp__("{0}->ptr->destruct != 0", m_info)) {
       m_flags = NeedsDestructor;
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
     }
@@ -206,7 +206,7 @@ import unreal.helpers.StructInfo;
   var m_flags:WrapperFlags;
 
   @:final @:nonVirtual private function init() {
-    if (info.ptr.destruct != untyped __cpp__('0')) {
+    if (untyped __cpp__("{0}->ptr->destruct != 0", info)) {
       m_flags = NeedsDestructor;
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
     }

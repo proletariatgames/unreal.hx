@@ -1,6 +1,3 @@
-import cpp.link.StaticStd;
-import cpp.link.StaticRegexp;
-import cpp.link.StaticZlib;
 #if WITH_EDITOR
 import unreal.*;
 import unreal.helpers.HxcppRuntime;

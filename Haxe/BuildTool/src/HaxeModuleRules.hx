@@ -191,6 +191,7 @@ class HaxeModuleRules extends BaseModuleRules
 
       if (hasHaxe)
       {
+        UEBuildConfiguration.bForceEnableExceptions = true;
         var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
         if (compserver != null) {
           Sys.putEnv("HAXE_COMPILATION_SERVER", null);
@@ -344,6 +345,7 @@ class HaxeModuleRules extends BaseModuleRules
           var isCrossCompiling = false;
           var extraArgs = null,
               oldEnvs = null;
+          Sys.putEnv('ThirdPartyDir', Std.string(UnrealBuildTool.EngineSourceThirdPartyDirectory));
           switch(Std.string(target.Platform)) {
           case "Linux" if (Sys.systemName() != "Linux"):
             // cross compiling
@@ -380,7 +382,14 @@ class HaxeModuleRules extends BaseModuleRules
             } else {
               traceWarning('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
             }
-          case _:
+          case "Linux" if(!UEBuildConfiguration.bBuildEditor):
+            oldEnvs = setEnvs([
+                'CXX' => "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
+            ]);
+          case "Mac":
+            oldEnvs = setEnvs([
+                'CXX' => "clang++ -stdlib=libc++",
+            ]);
           }
 
           if (extraArgs != null)
@@ -547,14 +556,6 @@ class HaxeModuleRules extends BaseModuleRules
           this.PublicAdditionalLibraries.Add(HaxeModuleRules.getLibLocation(curName, target));
         }
         this.Definitions.Add('MAY_EXPORT_SYMBOL=');
-      }
-
-      // FIXME look into why libstdc++ can only be linked with its full path
-      if (FileSystem.exists('/usr/lib/libstdc++.dylib')) {
-        this.PublicAdditionalLibraries.Add('/usr/lib/libstdc++.dylib');
-      }
-      if (target.Platform == Linux && !UEBuildConfiguration.bBuildEditor) {
-        this.PublicAdditionalLibraries.Add('stdc++');
       }
 
       switch(target.Platform)
