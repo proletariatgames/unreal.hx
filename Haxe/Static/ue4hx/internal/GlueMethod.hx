@@ -162,6 +162,17 @@ class GlueMethod {
       // this warning during this code.
       localDerivedClassBody << "\n#if PLATFORM_WINDOWS\n#pragma warning( disable : 4510 4610 )\n#endif // PLATFORM_WINDOWS\n\t";
       localDerivedClassBody << 'class _staticcall_${meth.name} : public ${this.thisConv.ueType.getCppClass()} {\n';
+      localDerivedClassBody << '\ttypedef ${this.meth.ret.ueType.getCppType()} (${this.thisConv.ueType.getCppClass()}::*UHXGLUEFN) (';
+      var first = true;
+      for (arg in this.cppArgs) {
+        if (first) {
+          first = false;
+        } else {
+          localDerivedClassBody << ', ';
+        }
+        localDerivedClassBody << arg.t.ueType.getCppType();
+      }
+      localDerivedClassBody << ');\n';
       var staticCppArgDecl = [ for ( arg in this.glueArgs ) arg.t.glueType.getCppType() + ' ' + '_s_' + escapeCpp(arg.name, true) ].join(', ');
       localDerivedClassBody << '\t\tpublic:\n\t\t\tstatic ${this.glueRet.glueType.getCppType()} static_${meth.name}(${staticCppArgDecl}) {\n\t\t\t\t'
         << staticCppVars
@@ -444,7 +455,7 @@ class GlueMethod {
               var baseClass = this.firstExternSuper.ueType.getCppClass();
               '( ((_staticcall_${meth.name} *)' + self.t.glueToUe('_s_' + self.name, this.ctx) + ')->$baseClass::' + meth.uname + ')';
             } else {
-              '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*(&_staticcall_${meth.name}::' + meth.uname + '))';
+              '(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '->*((UHXGLUEFN) &_staticcall_${meth.name}::' + meth.uname + '))';
             }
           }
         case _ if(meth.flags.hasAny(ForceNonVirtual)):

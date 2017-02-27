@@ -1,0 +1,80 @@
+<xml>
+<!-- MACOS TOOLS -------------------------------------------------->
+
+<set name="HXCPP_USE_LIBTOOL" value="1" />
+<include name="toolchain/gcc-toolchain.xml"/>
+<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.7" if="OBJC_ARC" unless="MACOSX_DEPLOYMENT_TARGET" />
+<setenv name="MACOSX_DEPLOYMENT_TARGET" value="10.7" unless="MACOSX_DEPLOYMENT_TARGET" />
+<path name="${DEVELOPER_DIR}/usr/bin" />
+
+
+<compiler id="darwin" exe="g++">
+  <exe name="xcrun --sdk macosx${MACOSX_VER} clang++" />
+  <flag value="-c"/>
+  <flag value="-fvisibility=hidden"/>
+  <flag value="-stdlib=libc++" />
+  <cppflag value="-frtti"/>
+  <pchflag value="-x" />
+  <pchflag value="c++-header" />
+  <flag value="-Qunused-arguments" if="LEGACY_MACOSX_SDK"/>
+  <flag value="-isysroot" unless="LEGACY_MACOSX_SDK"/>
+  <flag value="${DEVELOPER_DIR}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_VER}.sdk" unless="LEGACY_MACOSX_SDK"/>
+  <flag value="-g" if="debug"/>
+  <flag value="-O2" unless="debug"/>
+  <flag value="-I${HXCPP}/include"/>
+  <flag value="-DHX_MACOS"/>
+  <flag value="-m32" unless="HXCPP_M64"/>
+  <flag value="-m64" if="HXCPP_M64"/>
+  <flag value="-DHXCPP_BIG_ENDIAN" if="HXCPP_BIG_ENDIAN"/>
+  <flag value="-Wno-parentheses" />
+  <flag value="-Wno-null-dereference" />
+  <flag value="-Wno-unused-value" />
+  <flag value="-Wno-format-extra-args" />
+  <cppflag value="-Wno-invalid-offsetof" />
+  <flag value="-Wno-bool-conversion" />
+  <flag value="-fobjc-arc" if="OBJC_ARC" />
+  <flag value="-DOBJC_ARC" if="OBJC_ARC" />
+  <include name="toolchain/common-defines.xml" />
+  <objdir value="obj/darwin${OBJEXT}/" />
+  <outflag value="-o"/>
+  <ext value=".o"/>
+  <getversion value="xcrun --sdk macosx${MACOSX_VER} clang++ -v" />
+</compiler>
+
+<linker id="dll" exe="g++">
+  <exe name="xcrun --sdk macosx${MACOSX_VER} clang++" />
+  <fromfile value="" if="GCC_OLD" />
+  <flag value="-Wl,-bundle,-bundle_loader,${dll_import_link}" if="dll_import_link" />
+  <flag value="-stdlib=libc++" />
+  <flag value="-fpic"/>
+  <flag value="-fPIC"/>
+  <flag value="-dynamiclib"/>
+  <flag value="-m32" unless="HXCPP_M64"/>
+  <flag value="-m64" if="HXCPP_M64"/>
+  <flag value="-framework"/>
+  <flag value="Cocoa"/>
+  <flag value="-isysroot" unless="LEGACY_MACOSX_SDK"/>
+  <flag value="${DEVELOPER_DIR}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_VER}.sdk" unless="LEGACY_MACOSX_SDK"/>
+  <flag value="-fvisibility=hidden"/>
+  <!-- <flag value="-debug" if="debug"/> -->
+  <ext value=".dylib"/>
+  <outflag value="-o "/>
+</linker>
+
+<linker id="exe" exe="g++">
+  <exe name="xcrun --sdk macosx${MACOSX_VER} clang++" />
+  <!-- <flag value="-Wl,-stack_size,0x8000"/> -->
+  <fromfile value="" if="GCC_OLD" />
+  <flag value="-stdlib=libc++" />
+  <flag value="-framework"/>
+  <flag value="Cocoa"/>
+  <flag value="-isysroot" unless="LEGACY_MACOSX_SDK"/>
+  <flag value="${DEVELOPER_DIR}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_VER}.sdk" unless="LEGACY_MACOSX_SDK"/>
+  <!-- <flag value="-debug" if="debug"/> -->
+  <flag value="-m32" unless="HXCPP_M64"/>
+  <flag value="-m64" if="HXCPP_M64"/>
+  <ext value=""/>
+  <outflag value="-o "/>
+</linker>
+
+</xml>

@@ -290,6 +290,12 @@ class HaxeModuleRules extends BaseModuleRules
           if (!FileSystem.exists('$targetDir/Built/Data')) {
             FileSystem.createDirectory('$targetDir/Built/Data');
           }
+          if (!FileSystem.exists('$targetDir/Built/toolchain')) {
+            FileSystem.createDirectory('$targetDir/Built/toolchain');
+          }
+          for (file in FileSystem.readDirectory('$pluginPath/Haxe/BuildTool/toolchain')) {
+            File.saveBytes('$targetDir/Built/toolchain/$file', File.getBytes('$pluginPath/Haxe/BuildTool/toolchain/$file'));
+          }
 
           if (this.config.glueTargetModule != null) {
             args.push('-D glue_target_module=${this.config.glueTargetModule}');
@@ -387,9 +393,9 @@ class HaxeModuleRules extends BaseModuleRules
                 'CXX' => "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
             ]);
           case "Mac":
-            oldEnvs = setEnvs([
-                'CXX' => "clang++ -stdlib=libc++",
-            ]);
+            extraArgs = [
+              '-D toolchain=mac-libc'
+            ];
           }
 
           if (extraArgs != null)

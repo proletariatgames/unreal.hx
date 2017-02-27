@@ -20,5 +20,7 @@ extern class UInputComponent_Extra {
   */
   public function ClearActionBindings() : Void;
 
-  public function GetActionBinding(actionName:Const<FName>) : PPtr<FInputActionBinding>;
+  public function GetActionBinding(BindingIndex:Int) : PRef<FInputActionBinding>;
+
+  public function GetNumActionBindings() : Int32;
 }
