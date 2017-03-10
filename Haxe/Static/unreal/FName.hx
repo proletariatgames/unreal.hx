@@ -30,6 +30,12 @@ import unreal.helpers.HaxeHelpers;
   @:op(A==B) #if !debug inline #end public function equals(other:FName) : Bool {
     return (this == null) ? other == null : this.equals(other);
   }
+
+  @:op(A!=B) #if !debug inline #end public function nonEquals(other:FName) : Bool {
+    return (this == null) ? other != null : !this.equals(other);
+  }
+
+  public static var None : FName = new FName("");
 #end
 }
 
