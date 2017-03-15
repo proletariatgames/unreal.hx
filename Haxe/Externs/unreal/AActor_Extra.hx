@@ -157,4 +157,6 @@ extern class AActor_Extra {
   /** Returns whether an actor has had BeginPlay called on it (and not subsequently had EndPlay called) */
   @:thisConst
   public function HasActorBegunPlay() : Bool;
+
+  public function SetAutonomousProxy(bIsAutonomousProxy:Bool) : Void;
 }
