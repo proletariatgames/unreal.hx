@@ -159,4 +159,7 @@ extern class AActor_Extra {
   public function HasActorBegunPlay() : Bool;
 
   public function SetAutonomousProxy(bIsAutonomousProxy:Bool) : Void;
+
+  @:thisConst
+  public function GetRemoteRole() : ENetRole;
 }
