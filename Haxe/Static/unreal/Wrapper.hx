@@ -90,7 +90,9 @@ import unreal.helpers.StructInfo;
   @:final @:nonVirtual private function init() {
     if (untyped __cpp__("{0}->ptr->destruct != 0", m_info)) {
       m_flags = NeedsDestructor;
+#if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
+#end
     }
   }
 
@@ -113,7 +115,9 @@ import unreal.helpers.StructInfo;
 
   override public function dispose():Void {
     if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
+#if !cppia
       cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
+#end
       var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
       fn.call(this.getPointer());
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
@@ -208,7 +212,9 @@ import unreal.helpers.StructInfo;
   @:final @:nonVirtual private function init() {
     if (untyped __cpp__("{0}->ptr->destruct != 0", info)) {
       m_flags = NeedsDestructor;
+#if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
+#end
     }
   }
 
@@ -227,7 +233,9 @@ import unreal.helpers.StructInfo;
 
   override public function dispose():Void {
     if (m_flags & (Disposed | NeedsDestructor) == NeedsDestructor) {
+#if !cppia
       cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
+#end
       var fn = (cast this.info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
       fn.call(this.pointer);
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;

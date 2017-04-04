@@ -274,9 +274,13 @@ class GlueMethod {
         }
       }
 
+      for (i in 0...this.glueArgs.length) {
+        var arg = this.glueArgs[i];
+        this.haxeCode.push('var uhx_arg_$i:${arg.t.haxeGlueType.toString()} = ${arg.t.haxeToGlue(arg.name, this.ctx)};');
+      }
       var haxeBody =
         '$haxeBodyCall(' +
-          [ for (arg in this.glueArgs) arg.t.haxeToGlue(arg.name, this.ctx) ].join(', ') +
+          [ for (i in 0...this.glueArgs.length) 'uhx_arg_$i' ].join(', ') +
         ')';
       if (meth.flags.hasAny(Property) && meth.name.startsWith('set_')) {
         this.haxeCode = this.haxeCode.concat([haxeBody + ';' , 'return value;']);
