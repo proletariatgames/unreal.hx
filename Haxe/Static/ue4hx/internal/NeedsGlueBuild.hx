@@ -59,7 +59,6 @@ class NeedsGlueBuild
       return null;
     }
 
-    var fields:Array<Field> = Context.getBuildFields();
     var superClass = cls.superClass == null ? null : cls.superClass.t.get();
 
     if (!cls.meta.has(':uextern')) {
@@ -76,6 +75,7 @@ class NeedsGlueBuild
       // non-extern type that derives from UObject:
       // change uproperties to call getter/setters
       // warn if constructors are created
+      var fields:Array<Field> = Context.getBuildFields();
       var ret = processType(cls, function(str) return superClass.findField(str,false), thisType, fields);
       if (ret != null && cls.isInterface) {
         for (field in ret) {

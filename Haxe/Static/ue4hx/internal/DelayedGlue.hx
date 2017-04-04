@@ -25,9 +25,6 @@ class DelayedGlue {
       case _:
         null;
     };
-
-    var field = findField(cls, fieldName, isStatic || abs != null);
-    if (field == null) throw 'assert';
     var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
     if (Context.defined('cppia')) {
       var args = [];
@@ -40,6 +37,9 @@ class DelayedGlue {
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
       return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fullName, args), pos: pos };
     }
+
+    var field = findField(cls, fieldName, isStatic || abs != null);
+    if (field == null) throw 'assert';
 
     // var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).data.match(CUObject(_)) ? [ "parent" => "this" ] : null;
     var ctx = new ConvCtx();
@@ -134,6 +134,17 @@ class DelayedGlue {
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
     }
+    if (Context.defined('cppia')) {
+      var args = [macro this].concat(args);
+      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
+      var ret = { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
+      if (!fret.haxeType.isVoid()) {
+        var rtype = fret.haxeType.toComplexType();
+        ret = macro ( $ret : $rtype );
+      }
+      return ret;
+    }
+
     var origArgs = switch(Context.follow(findField(cls, fieldName, false).type)) {
       case TFun(args,_): args;
       case _: throw 'assert';
@@ -146,16 +157,6 @@ class DelayedGlue {
       macro var $name = $arg;
     } ];
     fargs.unshift({ name:'this', type: TypeConv.get(Context.getLocalType(), pos) });
-    if (Context.defined('cppia')) {
-      var args = [macro this].concat(args);
-      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      var ret = { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
-      if (!fret.haxeType.isVoid()) {
-        var rtype = fret.haxeType.toComplexType();
-        ret = macro ( $ret : $rtype );
-      }
-      return ret;
-    }
 
     var glueType = getGlueType(clsRef, pos);
     var glueExpr = new HelperBuf();
