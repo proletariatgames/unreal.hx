@@ -1,6 +1,4 @@
 package unreal;
 
-// Unfortunately, hxcpp doesn't compile code that uses UInt32 and UInt64
-// While this issue isn't fixed, we'll convert it internally into an Int32
-// Beware of this behaviour
+// this is here for backwards-compatibility: the hxcpp issues with uint64/uint32 were fixed
 @:unrealType typedef FakeUInt32 = cpp.Int32;

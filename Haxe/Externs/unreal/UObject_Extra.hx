@@ -152,6 +152,10 @@ extern class UObject_Extra {
 
   public function PostDuplicate(bDuplicateForPIE:Bool):Void;
 
+  public function FindFunction(inName:FName):UFunction;
+
+  public function ProcessEvent(func:UFunction, params:AnyPtr):Void;
+
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
 	public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;

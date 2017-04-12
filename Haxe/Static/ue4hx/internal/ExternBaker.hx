@@ -665,10 +665,20 @@ class ExternBaker {
         // add constructor
         this.add('private var wrapped:${this.thisConv.haxeGlueType};');
         this.newline();
-        if (this.thisConv.haxeGlueType.isReflective())
-          this.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
-        else
+        if (this.thisConv.haxeGlueType.isReflective()) {
+          this.add('private function new(wrapped)');
+          this.begin(' {');
+            this.add('this.wrapped = wrapped;');
+            this.newline();
+            this.add('if (Reflect.hasField(Type.getClass(this), "_uhx_isHaxeType"))');
+            this.begin(' {');
+              this.add('unreal.helpers.ClassWrap.pushCtor(this);');
+            this.end('}');
+          this.end('}');
+          // this.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
+        } else {
           this.add('private function new(wrapped:${this.thisConv.haxeGlueType.toReflective()}) this.wrapped = wrapped.rawCast();\n\t');
+        }
 
         if (this.thisConv.data.match(CUObject(_))) {
           this.add('private var serialNumber:Int = -1;');

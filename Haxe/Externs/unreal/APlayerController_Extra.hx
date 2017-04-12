@@ -44,7 +44,6 @@ extern class APlayerController_Extra {
   public function ConsoleCommand(Command:Const<PRef<FString>>, bWriteToLog:Bool) : FString;
 
   public function AddCheats (bForce:Bool) : Void;
-  public function ClientWasKicked(kickReason:Const<PRef<FText>>):Void;
   public function ClientWasKicked_Implementation(kickReason:Const<PRef<FText>>):Void;
 
   public function FlushPressedKeys() : Void;

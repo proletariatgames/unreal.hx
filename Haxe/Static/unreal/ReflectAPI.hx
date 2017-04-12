@@ -1,4 +1,6 @@
 package unreal;
+import unreal.Wrapper;
+import unreal.PropertyFlags.*;
 using StringTools;
 
 class ReflectAPI {
@@ -32,6 +34,61 @@ class ReflectAPI {
     } else {
       throw 'Field `$field` does not exist on ${cls.GetDesc()}';
     }
+  }
+
+  public static function callMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
+    var func = obj.FindFunction(funcName);
+    return callUFunction(obj, func, args);
+  }
+
+  public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
+    var params = FMemory.Malloc(func.ParmsSize, 0);
+    FMemory.Memzero(params, func.ParmsSize);
+    var cur:UField = func.Children,
+        i = 0;
+    var defaultExportFlags = EPropertyPortFlags.PPF_Localized;
+    while(cur != null) {
+      var prop:UProperty = cast cur;
+      if (prop == null) {
+        throw 'Unexpected ${Type.getClassName(Type.getClass(cur))} in function\'s type';
+      }
+      if (prop.PropertyFlags & (CPF_Parm|CPF_ReturnParm) != CPF_Parm) {
+        break;
+      }
+      cur = cur.Next;
+
+      if (args == null || i > args.length) {
+        // check default value
+        var defaultProperty = "CPP_Default_" + prop.GetName();
+        var defaultValue = func.GetMetaData(defaultProperty);
+        if (!defaultValue.IsEmpty()) {
+          var result = prop.ImportText(
+              defaultValue.toString(),
+              params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
+              defaultExportFlags, null, FOutputDevice.GWarn);
+          if (result != null) {
+            continue;
+          }
+
+          throw 'Failed to import default cpp property ${prop.GetName()}';
+        } else {
+          throw 'Insufficient number of arguments: Supplied ${args.length}';
+        }
+      }
+
+      bpSetField_rec(params, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
+    }
+
+    obj.ProcessEvent(func, params);
+    var prop:UProperty = cast cur;
+    if (prop != null) {
+      if (prop.PropertyFlags & CPF_ReturnParm != CPF_ReturnParm) {
+        throw 'Bad property flags for return property: ${prop.PropertyFlags}';
+      }
+      return bpGetData(params, prop);
+    }
+
+    return null;
   }
 
   private static function extSetField_rec(obj:Dynamic, field:String, value:Dynamic, path:String) {
@@ -205,7 +262,11 @@ class ReflectAPI {
       throw 'Class ${cls.GetDesc()} does not exist!';
     }
 
-    var objPtr = AnyPtr.fromUObject(obj) + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+    return bpGetData(AnyPtr.fromUObject(obj), prop);
+  }
+
+  private static function bpGetData(obj:AnyPtr, prop:UProperty):Dynamic {
+    var objPtr:AnyPtr = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
       var np:UNumericProperty = cast prop;
       if (np.IsFloatingPoint()) {
@@ -238,7 +299,7 @@ class ReflectAPI {
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else {
-      throw 'Property not supported: $prop (for field $field)';
+      throw 'Property not supported: $prop (for field ${prop.GetName()})';
     }
     return null;
   }

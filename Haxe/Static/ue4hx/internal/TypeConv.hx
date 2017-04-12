@@ -760,8 +760,9 @@ class TypeConv {
         }
 
       case TEnum(eref, tl):
-        if (ctx.modf != null) {
-          Context.warning('Unreal Glue: Const, PPtr or PRef is not supported on enums', pos);
+        if (ctx.modf != null && !(ctx.modf.length == 1 && ctx.modf[0] == Const)) {
+          // Const enums work the same as non-const, so we do support them
+          Context.warning('Unreal Glue: PPtr or PRef is not supported on enums', pos);
         }
         var name = eref.toString();
         var ret = cache[name];
@@ -984,7 +985,9 @@ class TypeConv {
       "cpp.Int32" => "int32",
       "cpp.Int8" => "int8",
       "cpp.UInt16" => "uint16",
-      "cpp.UInt8" => "uint8"
+      "cpp.UInt8" => "uint8",
+      "cpp.UInt32" => "uint32",
+      "cpp.UInt64" => "uint64",
     ];
     var infos:Array<ExtTypeInfo> = [
       {

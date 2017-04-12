@@ -309,9 +309,13 @@ class NeedsGlueBuild
         public static function StaticClass() : unreal.UClass {
           return $delayedglue.getNativeCall('StaticClass', true);
         }
+
+        private static var _uhx_isHaxeType:Bool = true;
       };
 
-      toAdd.push(staticClassDef.fields[0]);
+      for (field in staticClassDef.fields) {
+        toAdd.push(field);
+      }
       nativeCalls.set('StaticClass', 'StaticClass');
     }
 

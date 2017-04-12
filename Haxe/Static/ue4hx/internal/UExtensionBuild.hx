@@ -483,10 +483,22 @@ class UExtensionBuild {
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
         var createExpr = if (isScript) {
-          'unreal.helpers.HaxeHelpers.dynamicToPointer(std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] ))';
+          'std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] )';
         } else {
-          'unreal.helpers.HaxeHelpers.dynamicToPointer(@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) ))';
+          '@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) )';
         }
+        createExpr = '{
+          var ret:unreal.UObject = null;
+          try {
+            ret = cast $createExpr;
+            unreal.helpers.ClassWrap.popCtor(ret);
+          }
+          catch(e:Dynamic) {
+            unreal.helpers.ClassWrap.popCtor(ret);
+            cpp.Lib.rethrow(e);
+          }
+          return unreal.helpers.HaxeHelpers.dynamicToPointer(ret);
+        }';
         buildFields.push({
           name: 'createHaxeWrapper',
           access: [APublic, AStatic],

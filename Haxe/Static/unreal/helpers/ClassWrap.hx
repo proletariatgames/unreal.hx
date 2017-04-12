@@ -11,6 +11,8 @@ import unreal.*;
   static var delegateHandle:FDelegateHandle;
   static var nIndex:Int = 0;
 
+  static var constructingObjects:Array<unreal.UObject> = [];
+
   public static function wrap(nativePtr:UIntPtr):UObject {
     if (nativePtr == 0) {
       return null;
@@ -43,12 +45,40 @@ import unreal.*;
     }
     var ptr = unreal.helpers.ClassMap.wrap(nativePtr);
     ret = unreal.helpers.HaxeHelpers.pointerToDynamic(ptr);
+    if (ret == null) {
+      for (obj in constructingObjects) {
+        if (obj.wrapped == nativePtr) {
+          ret = obj;
+          break;
+        }
+      }
+      if (ret == null) {
+        throw 'Could not find ';
+      }
+    }
     ret.serialNumber = serial;
     ret.internalIndex = index;
     wrappers[index] = ret;
     wrapperArray[index] = ret;
     indexes[nIndex++] = index;
     return ret;
+  }
+
+  public static function pushCtor(obj:UObject) {
+    if (obj == null) {
+      throw 'Pushing a null constructed object';
+    }
+    constructingObjects.push(obj);
+  }
+
+  public static function popCtor(obj:UObject) {
+    var last = constructingObjects.pop();
+    if (last == null) {
+      throw 'Popping a constructor past the last';
+    }
+    if (last != obj) {
+      throw 'Current constructed object $obj is different from last: $last';
+    }
   }
 
   static function onGC() {

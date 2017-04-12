@@ -8,8 +8,4 @@ extern class FHitResult_Extra {
 
   @:uname('new')
   public static function createNewForceInit(init:EForceInit) : POwnedPtr<FHitResult>;
-
-  public var Actor:TWeakObjectPtr<AActor>;
-  public var PhysMaterial:TWeakObjectPtr<UPhysicalMaterial>;
-  public var Component:TWeakObjectPtr<UPrimitiveComponent>;
 }

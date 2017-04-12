@@ -34,4 +34,6 @@ extern class UProperty_Extra {
     Returns the C++ name of the property, including the _DEPRECATED suffix if the property is deprecated.
    **/
   function GetNameCPP():FString;
+
+  function ImportText(buffer:TCharStar, data:AnyPtr, portFlags:Int32, ownerObject:UObject, errorText:PPtr<FOutputDevice>):TCharStar;
 }
