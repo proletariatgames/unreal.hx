@@ -228,8 +228,10 @@ class ReflectAPI {
           }
           bpSetField_rec(objOffset, prop, Reflect.field(value, field), newPath);
         }
-      } else {
-        throw 'Struct set not supported: ${struct.GetDesc()}';
+      } else if (Std.is(value, unreal.Wrapper)) {
+        var wrapperValue:unreal.Wrapper = value;
+        prop.CopyCompleteValue(objOffset, value.getPointer());
+        // throw 'Struct set not supported: ${struct.GetDesc()}';
       }
     } else {
       throw 'Property not supported: $prop';
@@ -298,6 +300,9 @@ class ReflectAPI {
       var value:FText = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
+    } else if (Std.is(prop, UStructProperty)) {
+      // structs are always just pointers, so we can just return them
+      return objPtr.getStruct(0);
     } else {
       throw 'Property not supported: $prop (for field ${prop.GetName()})';
     }

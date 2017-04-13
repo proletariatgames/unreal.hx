@@ -829,10 +829,15 @@ class ExternBaker {
       } else {
         tconv;
       }
-      if (!field.isPublic)
+      if (!field.isPublic) {
         flags |= CppPrivate;
-      if (isStatic)
+      }
+      if (isStatic) {
         flags |= Static;
+      }
+      if (field.meta.has(":uproperty") && cls.meta.has(':uclass')) {
+        flags |= UnrealReflective;
+      }
       switch(read) {
       case AccNormal | AccCall:
         methods.push({
@@ -909,10 +914,15 @@ class ExternBaker {
           }
         }
         var flags = None;
-        if (!field.isPublic)
+        if (!field.isPublic) {
           flags |= HaxePrivate | CppPrivate;
-        if (isStatic)
+        }
+        if (isStatic) {
           flags |= Static;
+        }
+        if (field.meta.has(":ufunction") && cls.meta.has(':uclass')) {
+          flags |= UnrealReflective;
+        }
         methods.push( cur = {
           name: field.name,
           uname: specialization == null || uname != field.name ? uname : specialization.genericFunction,

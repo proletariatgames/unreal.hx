@@ -100,11 +100,36 @@ class GlueMethod {
 
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
-    // var ctx = this.ctx = isProp && !isStatic && !this.thisConv.data.match(CUObject(_)) ? [ "parent" => "this", "hasParent" => "true" ] : ["hasParent" => "false"];
+    var haxeArgs = this.haxeArgs = meth.args;
+    this.retHaxeType = meth.ret.haxeType;
+    if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
+      if (isProp) {
+        var isSetter = meth.name.startsWith('set_');
+        if (isSetter) {
+          this.haxeCode = [
+            'unreal.ReflectAPI.bpSetField(this, "${meth.uname}", ${meth.args[0].name});',
+            'return ${meth.args[0].name};',
+          ];
+        } else {
+          this.haxeCode = [
+            'return unreal.ReflectAPI.bpGetField(this, "${meth.uname}");',
+          ];
+        }
+      } else {
+        var argNames = [ for (arg in meth.args) arg.name ];
+        this.haxeCode = [
+          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", [' + argNames.join(", ") + ']);'
+        ];
+        if (!meth.ret.haxeType.isVoid()) {
+          this.haxeCode[0] = 'return ' + this.haxeCode[0];
+        }
+      }
+      return;
+    }
+
     var ctx = new ConvCtx();
     this.ctx = ctx;
 
-    var haxeArgs = this.haxeArgs = meth.args;
     var glueArgs = this.glueArgs = haxeArgs;
     var isGlueStatic = this.isGlueStatic = !this.isTemplatedThis || isStatic;
 
@@ -143,7 +168,6 @@ class GlueMethod {
     }
 
     this.cppArgs = meth.args;
-    this.retHaxeType = meth.ret.haxeType;
     var glueCppBody = new HelperBuf();
     // get cpp body - might change `cppArgs`, `retHaxeType` and `op`
     glueCppBody << this.getCppBody();
@@ -607,7 +631,7 @@ class GlueMethod {
     buf << meth.meta;
 
     /// glue
-    if (!this.templated) {
+    if (!this.templated && this.glueArgs != null) {
       var st = '';
       if (this.isGlueStatic)
         st = 'static';
@@ -727,6 +751,8 @@ typedef MethodDef = {
   var HaxeOverride = 0x40;
   /** the method is calling a forced non-virtual function (if super call, thisConv should be set to the superclass) **/
   var ForceNonVirtual = 0x80;
+  /** method is a ufunction / uproperty **/
+  var UnrealReflective = 0x100;
 
   inline private function t() {
     return this;

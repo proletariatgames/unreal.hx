@@ -76,7 +76,7 @@ import unreal.*;
     if (last == null) {
       throw 'Popping a constructor past the last';
     }
-    if (last != obj) {
+    if (obj != null && last != obj) {
       throw 'Current constructed object $obj is different from last: $last';
     }
   }
