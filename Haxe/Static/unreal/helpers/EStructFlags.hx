@@ -3,7 +3,8 @@ package unreal.helpers;
 @:enum abstract EStructFlags(Int) from Int {
   var UHXS_Templated = 1;
   var UHXS_POD = 2;
-  var UHXS_SharedPointer = 4;
+  var UHXS_UPROP = 3;
+  // var UHXS_SharedPointer = 4;
 
   @:extern inline private function t():Int {
     return this;

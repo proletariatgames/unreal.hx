@@ -98,6 +98,10 @@ import ue4hx.internal.HaxeCodeDispatcher;
     return HaxeHelpers.dynamicToPointer(dyn);
   }
 
+  public static function unboxVariantPtr(ptr:UIntPtr):VariantPtr {
+    return HaxeHelpers.pointerToDynamic(ptr);
+  }
+
   public static function enterGCFreeZone() {
     cpp.vm.Gc.enterGCFreeZone();
   }
@@ -146,8 +150,8 @@ import ue4hx.internal.HaxeCodeDispatcher;
     return ret;
   }
 
-  public static function createPointerTemplateWrapper(pointer:UIntPtr, info:UIntPtr) : VariantPtr {
-    var ret = VariantPtr.fromDynamic( new PointerTemplateWrapper(pointer, info) );
+  public static function createPointerTemplateWrapper(pointer:UIntPtr, info:UIntPtr, extraSize:Int) : VariantPtr {
+    var ret = VariantPtr.fromDynamic( PointerTemplateWrapper.create(pointer, info, extraSize) );
 #if debug
     if (ret.raw & 1 == 1) {
       throw 'Assertion failed: Hxcpp allocated unaligned structure';
@@ -161,12 +165,38 @@ import ue4hx.internal.HaxeCodeDispatcher;
     return unreal.Wrapper.TemplateWrapper.getOffset();
   }
 
+  public static function getTemplatePointerSize() : UIntPtr {
+    return unreal.Wrapper.PointerTemplateWrapper.getSize();
+  }
+
+  public static function getTemplateSize() : UIntPtr {
+    return unreal.Wrapper.TemplateWrapper.getSize();
+  }
+
+  public static function getAlignedInlineWrapperSize() : UIntPtr {
+    return unreal.Wrapper.AlignedInlineWrapper.getSize();
+  }
+
   public static function getInlineWrapperOffset() : UIntPtr {
     return unreal.Wrapper.InlineWrapper.getOffset();
   }
 
   public static function getInlinePodWrapperOffset() : UIntPtr {
     return unreal.Wrapper.InlinePodWrapper.getOffset();
+  }
+
+  public static function getWrapperPointer(vptr : VariantPtr) : UIntPtr {
+    if (vptr.isObject()) {
+      var wrapper:Wrapper = vptr.getDynamic();
+      return wrapper.getPointer();
+    } else {
+      return vptr.getUIntPtr();
+    }
+  }
+
+  public static function setWrapperStructInfo(wrapper : UIntPtr, info : UIntPtr) : Void {
+    var wrapper:Wrapper = toDyn(wrapper);
+    wrapper.setInfo(info);
   }
 
 

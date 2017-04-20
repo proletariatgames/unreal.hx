@@ -42,11 +42,29 @@ class ReflectAPI {
   }
 
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
-    var params = FMemory.Malloc(func.ParmsSize, 0);
-    FMemory.Memzero(params, func.ParmsSize);
     var cur:UField = func.Children,
+        maxAlignment:Int = 0;
+    while (cur != null) {
+      if (Std.is(cur, UProperty)) {
+        var align = cast(cur, UProperty).GetMinAlignment();
+        if (align > maxAlignment) {
+          maxAlignment = align;
+        }
+      }
+      cur = cur.Next;
+    }
+    var params:AnyPtr = 0;
+    if (func.ParmsSize > 0) {
+      var paramsData = Wrapper.InlinePodWrapper.create(func.ParmsSize + maxAlignment, 0);
+      params = paramsData.getPointer();
+      // re-align it
+      params = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", params, maxAlignment);
+      FMemory.Memzero(params, func.ParmsSize);
+    }
+    var curParam = params;
+    var defaultExportFlags = EPropertyPortFlags.PPF_Localized,
         i = 0;
-    var defaultExportFlags = EPropertyPortFlags.PPF_Localized;
+    cur = func.Children;
     while(cur != null) {
       var prop:UProperty = cast cur;
       if (prop == null) {
@@ -64,7 +82,7 @@ class ReflectAPI {
         if (!defaultValue.IsEmpty()) {
           var result = prop.ImportText(
               defaultValue.toString(),
-              params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
+              curParam + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
               defaultExportFlags, null, FOutputDevice.GWarn);
           if (result != null) {
             continue;
@@ -76,7 +94,8 @@ class ReflectAPI {
         }
       }
 
-      bpSetField_rec(params, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
+      bpSetField_rec(curParam, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
+      // curParam += prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     }
 
     obj.ProcessEvent(func, params);
@@ -197,7 +216,7 @@ class ReflectAPI {
           data += inner.ElementSize;
         }
       } else {
-        var value:FScriptArray = cast value.getStruct(0);
+        // var value:FScriptArray = cast value.getStruct(0);
         prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
       }
     } else if (Std.is(prop, UStructProperty)) {
@@ -271,6 +290,16 @@ class ReflectAPI {
     var objPtr:AnyPtr = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
       var np:UNumericProperty = cast prop;
+      var e = np.GetIntPropertyEnum();
+      if (e != null) {
+        var array = unreal.helpers.EnumMap.get(e.CppType.toString());
+
+        if (array == null) {
+          throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
+        }
+        return array[np.GetSignedIntPropertyValue(objPtr)];
+      }
+
       if (np.IsFloatingPoint()) {
         return np.GetFloatingPointPropertyValue(objPtr);
       } else if (Std.is(prop, UInt64Property)) {
@@ -303,6 +332,8 @@ class ReflectAPI {
     } else if (Std.is(prop, UStructProperty)) {
       // structs are always just pointers, so we can just return them
       return objPtr.getStruct(0);
+    } else if (Std.is(prop, UArrayProperty)) {
+      return unreal.helpers.UnrealReflection.wrapProperty(@:privateAccess prop.wrapped, objPtr);
     } else {
       throw 'Property not supported: $prop (for field ${prop.GetName()})';
     }

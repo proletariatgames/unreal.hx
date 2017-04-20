@@ -60,4 +60,9 @@ import cpp.ConstCharStar;
    * If the type is templated, this will contain a pointer to a type that decodes the templated implementations through a series of virtual functions
    **/
   public var genericImplementation:VoidPtr;
+
+  /**
+   * If this StructInfo was created by a UProperty, the original UProperty pointer can be found here
+   **/
+  public var upropertyObject:VoidPtr;
 }

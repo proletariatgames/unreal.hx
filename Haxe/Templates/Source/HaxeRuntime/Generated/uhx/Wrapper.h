@@ -106,7 +106,7 @@ struct TemplateHelper {
   }
 
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
-    return unreal::helpers::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) inOrigin, (unreal::UIntPtr) TTemplatedData<T>::getInfo());
+    return unreal::helpers::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) inOrigin, (unreal::UIntPtr) TTemplatedData<T>::getInfo(), 0);
   }
 };
 

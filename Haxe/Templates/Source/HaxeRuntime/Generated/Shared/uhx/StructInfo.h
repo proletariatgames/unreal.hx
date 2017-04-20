@@ -7,6 +7,7 @@ enum EStructFlags {
   UHX_None = 0,
   UHX_Templated = 1,
   UHX_POD = 2,
+  UHX_UPROP = 3, // was created through a UProperty type
 };
 
 typedef void (*IntrinsicFunction)(unreal::UIntPtr);
@@ -58,6 +59,18 @@ struct StructInfo {
    * If the type is templated, this will contain a pointer to a type that decodes the templated implementations through a series of virtual functions
    **/
   void *genericImplementation;
+
+  /**
+   * If this StructInfo was created by a UProperty, the original UProperty pointer can be found here
+   **/
+  void *upropertyObject;
 };
+
+#ifndef UHX_NO_UOBJECT
+/**
+ * Creates a StructInfo given a UProperty
+ **/
+StructInfo infoFromUProperty(void *inUPropertyObject);
+#endif
 
 }

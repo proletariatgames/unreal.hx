@@ -17,6 +17,10 @@ import unreal.helpers.StructInfo;
     return false; // for types that don't need disposing, this will return false even if `dispose` was indeed called
   }
 
+  public function setInfo(info:UIntPtr):Void {
+    // do nothing
+  }
+
   public function toString():String {
     return '[Unknown Wrapper: ${getPointer()}]';
   }
@@ -67,6 +71,12 @@ import unreal.helpers.StructInfo;
 #end
   }
 
+#if UHX_EXTRA_DEBUG
+  override public function setInfo(info:UIntPtr):Void {
+    m_info = cpp.Pointer.fromPointer(untyped __cpp__('(uhx::StructInfo *) {0}', info));
+  }
+#end
+
   public static function getOffset():UIntPtr {
     return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::InlinePodWrapper_obj))');
   }
@@ -88,7 +98,14 @@ import unreal.helpers.StructInfo;
   var m_info:Pointer<StructInfo>;
 
   @:final @:nonVirtual private function init() {
-    if (untyped __cpp__("{0}->ptr->destruct != 0", m_info)) {
+    var needsDestructor:Bool = untyped __cpp__("{0}->ptr->destruct != 0", m_info);
+    if (!needsDestructor && untyped __cpp__("{0}->ptr->upropertyObject != 0", m_info)) {
+      var flags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
+      if (flags & PropertyFlags.CPF_NoDestructor == 0) {
+        needsDestructor = true;
+      }
+    }
+    if (needsDestructor) {
       m_flags = NeedsDestructor;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
@@ -99,14 +116,25 @@ import unreal.helpers.StructInfo;
   @:analyzer(no_fusion)
   private static function finalize(self:InlineWrapper) {
     if (self.m_flags.hasAny(NeedsDestructor)) {
-      var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-      fn.call(self.getPointer());
+      if (untyped __cpp__("{0}->ptr->destruct != 0", self.m_info)) {
+        var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+        fn.call(untyped __cpp__('((unreal::UIntPtr) ({0}.mPtr + 1))', self));
+        // fn.call(self.getPointer());
+      // } else if (untyped __cpp__("{0}->ptr->upropertyObject != 0", self.m_info)) {
+      //   uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), untyped __cpp__('((unreal::UIntPtr) ({0}.mPtr + 1))', self));
+      }
+      // var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
+      // fn.call(self.getPointer());
       self.m_flags = Disposed;
     }
   }
 
   override public function getPointer():UIntPtr {
     return untyped __cpp__('(unreal::UIntPtr) (this + 1)');
+  }
+
+  override public function setInfo(info:UIntPtr):Void {
+    m_info = cpp.Pointer.fromPointer(untyped __cpp__('(uhx::StructInfo *) {0}', info));
   }
 
   override public function isDisposed() {
@@ -118,8 +146,7 @@ import unreal.helpers.StructInfo;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, untyped __cpp__('0'));
 #end
-      var fn = (cast this.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-      fn.call(this.getPointer());
+      finalize(this);
       m_flags = (m_flags & ~NeedsDestructor) | Disposed;
     } else if (m_flags.hasAny(Disposed)) {
       throw 'Cannot dispose $this: It was already disposed';
@@ -164,6 +191,10 @@ import unreal.helpers.StructInfo;
     var align = m_info.ptr.alignment - 1;
     return untyped __cpp__(' ( (((unreal::UIntPtr) (this + 1)) + {0}) & ~((unreal::UIntPtr) {0}))', align);
   }
+
+  public static function getSize():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::AlignedInlineWrapper_obj))');
+  }
 }
 
 @:keep class TemplateWrapper extends Wrapper {
@@ -179,15 +210,42 @@ import unreal.helpers.StructInfo;
     return '[Template Wrapper ($name) @ ${getPointer()}]';
   }
 
+  override public function setInfo(info:UIntPtr):Void {
+    this.info = cpp.Pointer.fromPointer(untyped __cpp__('(uhx::StructInfo *) {0}', info));
+  }
+
   public static function getOffset():UIntPtr {
     return untyped __cpp__('(unreal::UIntPtr) offsetof(unreal::TemplateWrapper_obj, pointer)');
   }
+
+  public static function getSize():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::TemplateWrapper_obj))');
+  }
 }
 
+@:headerClassCode('
+  inline static hx::ObjectPtr< PointerTemplateWrapper_obj > create(unreal::UIntPtr ptr, unreal::UIntPtr info, int extraSize) {
+    int size = (int) ((extraSize + sizeof(void*) - 1) & ~(sizeof(void*) - 1));
+    PointerTemplateWrapper_obj *result = new (size) PointerTemplateWrapper_obj;
+    result->init();
+    result->pointer = ptr;
+    result->info = cpp::Pointer_obj::fromPointer( (uhx::StructInfo *) info );
+    return result;
+  }
+')
 @:keep class PointerTemplateWrapper extends TemplateWrapper {
-  public function new(ptr, info:UIntPtr) {
-    this.pointer = ptr;
-    this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
+
+  @:extern public static function create(ptr:UIntPtr, info:UIntPtr, extraSize:Int):PointerTemplateWrapper { return null; }
+  // public function new(ptr, info:UIntPtr) {
+  //   this.pointer = ptr;
+  //   this.info =  untyped __cpp__('(uhx::StructInfo *) {0}', info);
+  // }
+
+  @:final @:nonVirtual private function init() {
+  }
+
+  public static function getSize():UIntPtr {
+    return untyped __cpp__('(unreal::UIntPtr) (sizeof(unreal::PointerTemplateWrapper_obj))');
   }
 }
 
@@ -210,7 +268,7 @@ import unreal.helpers.StructInfo;
   var m_flags:WrapperFlags;
 
   @:final @:nonVirtual private function init() {
-    if (untyped __cpp__("{0}->ptr->destruct != 0", info)) {
+    if (untyped __cpp__("{0}->ptr->destruct != 0", info) || info.ptr.flags == UHXS_UPROP) {
       m_flags = NeedsDestructor;
 #if !cppia
       cpp.vm.Gc.setFinalizer(this, cpp.Callable.fromStaticFunction( finalize ));
