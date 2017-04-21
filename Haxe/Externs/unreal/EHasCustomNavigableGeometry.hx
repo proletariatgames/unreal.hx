@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/PrimitiveComponent.h")
 @:uname("EHasCustomNavigableGeometry.Type")
-@:uextern extern enum EHasCustomNavigableGeometry {
+@:uextern @:uenum extern enum EHasCustomNavigableGeometry {
   
   /**
     Primitive doesn't have custom navigation geometry, if collision is enabled then its convex/trimesh collision will be used for generating the navmesh

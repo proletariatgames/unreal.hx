@@ -21,6 +21,6 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEvents.h")
-@:noClass @:uextern extern class UNiagaraEventReceiverEmitterAction extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UNiagaraEventReceiverEmitterAction extends unreal.UObject {
   
 }

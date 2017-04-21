@@ -20,26 +20,26 @@ package unreal;
   Holds settings for the asset import / export automation test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FEditorImportExportTestDefinition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorImportExportTestDefinition {
   
   /**
     Settings for the import factory
   **/
-  public var FactorySettings : unreal.TArray<unreal.FImportFactorySettingValues>;
+  @:uproperty public var FactorySettings : unreal.TArray<unreal.FImportFactorySettingValues>;
   
   /**
     If true, the export step will be skipped
   **/
-  public var bSkipExport : Bool;
+  @:uproperty public var bSkipExport : Bool;
   
   /**
     The file extension to use when exporting this asset.  Used to find a supporting exporter
   **/
-  public var ExportFileExtension : unreal.FString;
+  @:uproperty public var ExportFileExtension : unreal.FString;
   
   /**
     The file to import
   **/
-  public var ImportFilePath : unreal.FFilePath;
+  @:uproperty public var ImportFilePath : unreal.FFilePath;
   
 }

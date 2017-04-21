@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/InGameAdManager.h")
-@:noClass @:uextern extern class UInGameAdManager extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern @:uclass extern class UInGameAdManager extends unreal.UPlatformInterfaceBase {
   
   /**
     If true, the game will pause when the user clicks on the ad, which could take over the screen
   **/
-  public var bShouldPauseWhileAdOpen : Bool;
+  @:uproperty public var bShouldPauseWhileAdOpen : Bool;
   
 }

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDDY.h")
-@:noClass @:uextern extern class UMaterialExpressionDDY extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDDY extends unreal.UMaterialExpression {
   
   /**
     The value we want to compute ddx/ddy from
   **/
-  public var Value : unreal.FExpressionInput;
+  @:uproperty public var Value : unreal.FExpressionInput;
   
 }

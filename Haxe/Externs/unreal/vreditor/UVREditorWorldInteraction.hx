@@ -21,31 +21,31 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorWorldInteraction.h")
-@:noClass @:uextern extern class UVREditorWorldInteraction extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UVREditorWorldInteraction extends unreal.UObject {
   
   /**
     The material or texture asset we're dragging to place on an object
   **/
-  private var PlacingMaterialOrTextureAsset : unreal.UObject;
+  @:uproperty private var PlacingMaterialOrTextureAsset : unreal.UObject;
   
   /**
     The UI used to drag an asset into the level
   **/
-  private var FloatingUIAssetDraggedFrom : unreal.umg.UWidgetComponent;
+  @:uproperty private var FloatingUIAssetDraggedFrom : unreal.umg.UWidgetComponent;
   
   /**
     Sound for dropping materials and textures
   **/
-  private var DropMaterialOrMaterialSound : unreal.USoundCue;
+  @:uproperty private var DropMaterialOrMaterialSound : unreal.USoundCue;
   
   /**
     The actual ViewportWorldInteraction
   **/
-  private var ViewportWorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
+  @:uproperty private var ViewportWorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
   
   /**
     Owning object
   **/
-  private var Owner : unreal.vreditor.UVREditorMode;
+  @:uproperty private var Owner : unreal.vreditor.UVREditorMode;
   
 }

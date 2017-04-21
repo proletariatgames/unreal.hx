@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimNodeBase.h")
 @:uname("EPostCopyOperation")
-@:class @:uextern extern enum EPostCopyOperation {
+@:class @:uextern @:uenum extern enum EPostCopyOperation {
   None;
   LogicalNegateBool;
   

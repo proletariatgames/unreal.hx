@@ -19,13 +19,13 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheTrackTransformAnimation.h")
-@:uextern extern class UGeometryCacheTrack_TransformAnimation extends unreal.geometrycache.UGeometryCacheTrack {
+@:uextern @:uclass extern class UGeometryCacheTrack_TransformAnimation extends unreal.geometrycache.UGeometryCacheTrack {
   
   /**
     Sets/updates the MeshData for this track
     
     @param NewMeshData - GeometryCacheMeshData instance later used as the rendered mesh
   **/
-  @:final public function SetMesh(NewMeshData : unreal.Const<unreal.PRef<unreal.geometrycache.FGeometryCacheMeshData>>) : Void;
+  @:ufunction @:final public function SetMesh(NewMeshData : unreal.Const<unreal.PRef<unreal.geometrycache.FGeometryCacheMeshData>>) : Void;
   
 }

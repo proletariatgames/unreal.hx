@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GenerateTextLocalizationReportCommandlet.h")
-@:noClass @:uextern extern class UGenerateTextLocalizationReportCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern @:uclass extern class UGenerateTextLocalizationReportCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

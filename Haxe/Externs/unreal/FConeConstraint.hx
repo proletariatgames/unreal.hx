@@ -18,26 +18,26 @@ package unreal;
   Cone constraint
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
-@:uextern extern class FConeConstraint extends unreal.FConstraintBaseParams {
+@:uextern @:ustruct extern class FConeConstraint extends unreal.FConstraintBaseParams {
   
   /**
     Indicates whether the Swing2 limit is used.
   **/
-  public var Swing2Motion : unreal.EAngularConstraintMotion;
+  @:uproperty public var Swing2Motion : unreal.EAngularConstraintMotion;
   
   /**
     Indicates whether the Swing1 limit is used.
   **/
-  public var Swing1Motion : unreal.EAngularConstraintMotion;
+  @:uproperty public var Swing1Motion : unreal.EAngularConstraintMotion;
   
   /**
     Angle of movement along the XZ plane. This defines the second symmetric angle of the cone.
   **/
-  public var Swing2LimitDegrees : unreal.Float32;
+  @:uproperty public var Swing2LimitDegrees : unreal.Float32;
   
   /**
     Angle of movement along the XY plane. This defines the first symmetric angle of the cone.
   **/
-  public var Swing1LimitDegrees : unreal.Float32;
+  @:uproperty public var Swing1LimitDegrees : unreal.Float32;
   
 }

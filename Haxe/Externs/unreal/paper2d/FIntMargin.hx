@@ -21,26 +21,26 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("IntMargin.h")
-@:noCopy @:noEquals @:uextern extern class FIntMargin {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FIntMargin {
   
   /**
     Holds the margin to the bottom.
   **/
-  public var Bottom : unreal.Int32;
+  @:uproperty public var Bottom : unreal.Int32;
   
   /**
     Holds the margin to the right.
   **/
-  public var Right : unreal.Int32;
+  @:uproperty public var Right : unreal.Int32;
   
   /**
     Holds the margin to the top.
   **/
-  public var Top : unreal.Int32;
+  @:uproperty public var Top : unreal.Int32;
   
   /**
     Holds the margin to the left.
   **/
-  public var Left : unreal.Int32;
+  @:uproperty public var Left : unreal.Int32;
   
 }

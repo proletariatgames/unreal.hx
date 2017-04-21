@@ -21,56 +21,56 @@ package unreal.translationeditor;
 **/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/InternationalizationExportSettings.h")
-@:uextern extern class UInternationalizationExportSettings extends unreal.UObject {
+@:uextern @:uclass extern class UInternationalizationExportSettings extends unreal.UObject {
   
   /**
     Whether or not to use culture path
   **/
-  public var bUseCultureDirectory : Bool;
+  @:uproperty public var bUseCultureDirectory : Bool;
   
   /**
     Whether or not to import localization data
   **/
-  public var bImportLoc : Bool;
+  @:uproperty public var bImportLoc : Bool;
   
   /**
     Whether or not to export localization data
   **/
-  public var bExportLoc : Bool;
+  @:uproperty public var bExportLoc : Bool;
   
   /**
     Name of the archive file
   **/
-  public var ArchiveName : unreal.FString;
+  @:uproperty public var ArchiveName : unreal.FString;
   
   /**
     Name of the manifest file
   **/
-  public var ManifestName : unreal.FString;
+  @:uproperty public var ManifestName : unreal.FString;
   
   /**
     Filename for the Portable Object format file
   **/
-  public var PortableObjectName : unreal.FString;
+  @:uproperty public var PortableObjectName : unreal.FString;
   
   /**
     Destination for the localization data
   **/
-  public var DestinationPath : unreal.FString;
+  @:uproperty public var DestinationPath : unreal.FString;
   
   /**
     Source for the localization data
   **/
-  public var SourcePath : unreal.FString;
+  @:uproperty public var SourcePath : unreal.FString;
   
   /**
     The commandlet to run
   **/
-  public var CommandletClass : unreal.FString;
+  @:uproperty public var CommandletClass : unreal.FString;
   
   /**
     Which cultures should be exported
   **/
-  public var CulturesToGenerate : unreal.TArray<unreal.FString>;
+  @:uproperty public var CulturesToGenerate : unreal.TArray<unreal.FString>;
   
 }

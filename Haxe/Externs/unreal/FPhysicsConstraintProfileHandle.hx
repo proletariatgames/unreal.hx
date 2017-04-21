@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FPhysicsConstraintProfileHandle {
-  public var ProfileName : unreal.FName;
-  public var ProfileProperties : unreal.FConstraintProfileProperties;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPhysicsConstraintProfileHandle {
+  @:uproperty public var ProfileName : unreal.FName;
+  @:uproperty public var ProfileProperties : unreal.FConstraintProfileProperties;
   
 }

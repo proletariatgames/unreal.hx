@@ -21,13 +21,13 @@ package unreal;
   Any number of materials can reference these parameters and get new values when the parameter values are changed.
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollection.h")
-@:uextern extern class UMaterialParameterCollection extends unreal.UObject {
-  public var VectorParameters : unreal.TArray<unreal.FCollectionVectorParameter>;
-  public var ScalarParameters : unreal.TArray<unreal.FCollectionScalarParameter>;
+@:uextern @:uclass extern class UMaterialParameterCollection extends unreal.UObject {
+  @:uproperty public var VectorParameters : unreal.TArray<unreal.FCollectionVectorParameter>;
+  @:uproperty public var ScalarParameters : unreal.TArray<unreal.FCollectionScalarParameter>;
   
   /**
     Used by materials using this collection to know when to recompile.
   **/
-  public var StateId : unreal.FGuid;
+  @:uproperty public var StateId : unreal.FGuid;
   
 }

@@ -21,10 +21,10 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperGroupedSpriteComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSpriteInstanceData {
-  public var MaterialIndex : unreal.Int32;
-  public var VertexColor : unreal.FColor;
-  public var SourceSprite : unreal.paper2d.UPaperSprite;
-  public var Transform : unreal.FMatrix;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSpriteInstanceData {
+  @:uproperty public var MaterialIndex : unreal.Int32;
+  @:uproperty public var VertexColor : unreal.FColor;
+  @:uproperty public var SourceSprite : unreal.paper2d.UPaperSprite;
+  @:uproperty public var Transform : unreal.FMatrix;
   
 }

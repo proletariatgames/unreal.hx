@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloatConstantCurve.h")
-@:uextern extern class UDistributionFloatConstantCurve extends unreal.UDistributionFloat {
+@:uextern @:uclass extern class UDistributionFloatConstantCurve extends unreal.UDistributionFloat {
   
   /**
     Keyframe data for how output constant varies over time.
   **/
-  public var ConstantCurve : unreal.FInterpCurveFloat;
+  @:uproperty public var ConstantCurve : unreal.FInterpCurveFloat;
   
 }

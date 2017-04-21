@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SplineComponent.h")
 @:uname("ESplinePointType.Type")
-@:uextern extern enum ESplinePointType {
+@:uextern @:uenum extern enum ESplinePointType {
   Linear;
   Curve;
   Constant;

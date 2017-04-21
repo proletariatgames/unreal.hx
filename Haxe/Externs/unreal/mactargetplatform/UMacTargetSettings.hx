@@ -19,18 +19,18 @@ package unreal.mactargetplatform;
 **/
 @:umodule("MacTargetPlatform")
 @:glueCppIncludes("MacTargetSettings.h")
-@:uextern extern class UMacTargetSettings extends unreal.UObject {
+@:uextern @:uclass extern class UMacTargetSettings extends unreal.UObject {
   
   /**
     The collection of shader formats we want to cache on this platform.
     This is not always the full list of RHI we can support.
   **/
-  public var CachedShaderFormats : unreal.TArray<unreal.FString>;
+  @:uproperty public var CachedShaderFormats : unreal.TArray<unreal.FString>;
   
   /**
     The collection of RHI's we want to support on this platform.
     This is not always the full list of RHI we can support.
   **/
-  public var TargetedRHIs : unreal.TArray<unreal.FString>;
+  @:uproperty public var TargetedRHIs : unreal.TArray<unreal.FString>;
   
 }

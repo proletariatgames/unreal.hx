@@ -21,6 +21,6 @@ package unreal.jsonutilities;
 **/
 @:umodule("JsonUtilities")
 @:glueCppIncludes("JsonObjectWrapper.h")
-@:noClass @:uextern extern class UJsonUtilitiesDummyObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UJsonUtilitiesDummyObject extends unreal.UObject {
   
 }

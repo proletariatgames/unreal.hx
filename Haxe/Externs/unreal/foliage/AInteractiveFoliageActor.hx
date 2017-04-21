@@ -21,53 +21,53 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("InteractiveFoliageActor.h")
-@:uextern extern class AInteractiveFoliageActor extends unreal.AStaticMeshActor {
+@:uextern @:uclass extern class AInteractiveFoliageActor extends unreal.AStaticMeshActor {
   
   /**
     @todo - hook this up     @todo document
   **/
-  public var Mass : unreal.Float32;
+  @:uproperty public var Mass : unreal.Float32;
   
   /**
     Clamps the magnitude of combined forces applied each update.
   **/
-  public var MaxForce : unreal.Float32;
+  @:uproperty public var MaxForce : unreal.Float32;
   
   /**
     Clamps the magnitude of each touch force applied.
   **/
-  public var MaxTouchImpulse : unreal.Float32;
+  @:uproperty public var MaxTouchImpulse : unreal.Float32;
   
   /**
     Clamps the magnitude of each damage force applied.
   **/
-  public var MaxDamageImpulse : unreal.Float32;
+  @:uproperty public var MaxDamageImpulse : unreal.Float32;
   
   /**
     Determines the amount of energy lost by the spring as it oscillates.
     This force is similar to air friction.
   **/
-  public var FoliageDamping : unreal.Float32;
+  @:uproperty public var FoliageDamping : unreal.Float32;
   
   /**
     Same as FoliageStiffness, but the strength of this force increases with the square of the distance to the spring's center.
     This force is used to prevent the spring from extending past a certain point due to touch and damage forces.
   **/
-  public var FoliageStiffnessQuadratic : unreal.Float32;
+  @:uproperty public var FoliageStiffnessQuadratic : unreal.Float32;
   
   /**
     Determines how strong the force that pushes toward the spring's center will be.
   **/
-  public var FoliageStiffness : unreal.Float32;
+  @:uproperty public var FoliageStiffness : unreal.Float32;
   
   /**
     Scales forces applied from touch events.
   **/
-  public var FoliageTouchImpulseScale : unreal.Float32;
+  @:uproperty public var FoliageTouchImpulseScale : unreal.Float32;
   
   /**
     Scales forces applied from damage events.
   **/
-  public var FoliageDamageImpulseScale : unreal.Float32;
+  @:uproperty public var FoliageDamageImpulseScale : unreal.Float32;
   
 }

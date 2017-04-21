@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType_String.h")
-@:uextern extern class UBlackboardKeyType_String extends unreal.aimodule.UBlackboardKeyType {
-  public var StringValue : unreal.FString;
+@:uextern @:uclass extern class UBlackboardKeyType_String extends unreal.aimodule.UBlackboardKeyType {
+  @:uproperty public var StringValue : unreal.FString;
   
 }

@@ -14,95 +14,100 @@
 package unreal;
 
 @:glueCppIncludes("EdGraph/EdGraphNode.h")
-@:uextern extern class UEdGraphNode extends unreal.UObject {
+@:uextern @:uclass extern class UEdGraphNode extends unreal.UObject {
   
   /**
     Indicates whether or not the user explicitly set the enabled state
   **/
-  public var bUserSetEnabledState : Bool;
+  @:uproperty public var bUserSetEnabledState : Bool;
   
   /**
     Indicates in what state the node is enabled, which may eliminate it from being compiled
   **/
-  public var EnabledState : unreal.ENodeEnabledState;
+  @:uproperty public var EnabledState : unreal.ENodeEnabledState;
   
   /**
     Enum to indicate if a node has advanced-display-pins, and if they are shown
   **/
-  public var AdvancedPinDisplay : unreal.ENodeAdvancedPins;
+  @:uproperty public var AdvancedPinDisplay : unreal.ENodeAdvancedPins;
   
   /**
     GUID to uniquely identify this node, to facilitate diffing versions of this graph
   **/
-  public var NodeGuid : unreal.FGuid;
+  @:uproperty public var NodeGuid : unreal.FGuid;
   
   /**
     Error/Warning description
   **/
-  public var ErrorMsg : unreal.FString;
+  @:uproperty public var ErrorMsg : unreal.FString;
   
   /**
     Flag to store node specific compile error/warning
   **/
-  public var ErrorType : unreal.Int32;
+  @:uproperty public var ErrorType : unreal.Int32;
   
   /**
     Comment bubble visibility
   **/
-  public var bCommentBubbleVisible : Bool;
+  @:uproperty public var bCommentBubbleVisible : Bool;
   
   /**
     Comment bubble pinned state
   **/
-  public var bCommentBubblePinned : Bool;
+  @:uproperty public var bCommentBubblePinned : Bool;
   
   /**
     Comment string that is drawn on the node
   **/
-  public var NodeComment : unreal.FString;
+  @:uproperty public var NodeComment : unreal.FString;
   #if WITH_EDITORONLY_DATA
+  
+  /**
+    Note for a node that lingers until saved
+  **/
+  @:uproperty public var NodeUpgradeMessage : unreal.FText;
   
   /**
     If true, this node can be renamed in the editor
   **/
-  public var bCanRenameNode : Bool;
+  @:uproperty public var bCanRenameNode : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Flag to check for compile error/warning
   **/
-  public var bHasCompilerMessage : Bool;
+  @:uproperty public var bHasCompilerMessage : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     If true, this node can be resized and should be drawn with a resize handle
   **/
-  public var bCanResizeNode : Bool;
+  @:uproperty public var bCanResizeNode : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Height of node in the editor; only used when the node can be resized
   **/
-  public var NodeHeight : unreal.Int32;
+  @:uproperty public var NodeHeight : unreal.Int32;
   
   /**
     Width of node in the editor; only used when the node can be resized
   **/
-  public var NodeWidth : unreal.Int32;
+  @:uproperty public var NodeWidth : unreal.Int32;
   
   /**
     Y position of node in the editor
   **/
-  public var NodePosY : unreal.Int32;
+  @:uproperty public var NodePosY : unreal.Int32;
   
   /**
     X position of node in the editor
   **/
-  public var NodePosX : unreal.Int32;
+  @:uproperty public var NodePosX : unreal.Int32;
   
   /**
     List of connector pins
   **/
-  public var DeprecatedPins : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
+  @:uproperty public var DeprecatedPins : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
   
 }

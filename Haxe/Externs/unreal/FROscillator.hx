@@ -20,21 +20,21 @@ package unreal;
   Defines FRotator oscillation.
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
-@:noCopy @:noEquals @:uextern extern class FROscillator {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FROscillator {
   
   /**
     Roll oscillation.
   **/
-  public var Roll : unreal.FFOscillator;
+  @:uproperty public var Roll : unreal.FFOscillator;
   
   /**
     Yaw oscillation.
   **/
-  public var Yaw : unreal.FFOscillator;
+  @:uproperty public var Yaw : unreal.FFOscillator;
   
   /**
     Pitch oscillation.
   **/
-  public var Pitch : unreal.FFOscillator;
+  @:uproperty public var Pitch : unreal.FFOscillator;
   
 }

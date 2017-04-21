@@ -22,21 +22,21 @@ package unreal;
   the fallback version.
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:noCopy @:noEquals @:uextern extern class FNetDriverDefinition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNetDriverDefinition {
   
   /**
     Class name of the fallback net driver if the main net driver class fails to initialize
   **/
-  public var DriverClassNameFallback : unreal.FName;
+  @:uproperty public var DriverClassNameFallback : unreal.FName;
   
   /**
     Class name of primary net driver
   **/
-  public var DriverClassName : unreal.FName;
+  @:uproperty public var DriverClassName : unreal.FName;
   
   /**
     Unique name of this net driver definition
   **/
-  public var DefName : unreal.FName;
+  @:uproperty public var DefName : unreal.FName;
   
 }

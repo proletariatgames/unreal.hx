@@ -21,6 +21,6 @@ package unreal.moviescenecapture;
 **/
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCaptureEnvironment.h")
-@:noClass @:uextern extern class UMovieSceneCaptureEnvironment extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMovieSceneCaptureEnvironment extends unreal.UObject {
   
 }

@@ -24,112 +24,112 @@ package unreal;
   In the editor many Worlds exist: The level being edited, each PIE instance, each editor tool which has an interactive rendered viewport, and many more.
 **/
 @:glueCppIncludes("Engine/World.h")
-@:uextern extern class UWorld extends unreal.UObject {
+@:uextern @:uclass extern class UWorld extends unreal.UObject {
   
   /**
     Keeps track whether actors moved via PostEditMove and therefore constraint syncup should be performed.
   **/
-  public var bAreConstraintsDirty : Bool;
+  @:uproperty public var bAreConstraintsDirty : Bool;
   
   /**
     All levels information from which our world is composed
   **/
-  public var WorldComposition : unreal.UWorldComposition;
+  @:uproperty public var WorldComposition : unreal.UWorldComposition;
   #if WITH_EDITORONLY_DATA
   
   /**
     Saved editor viewport states - one for each view type. Indexed using ELevelViewportType from UnrealEdTypes.h.
   **/
-  public var EditorViews : unreal.TArray<unreal.FLevelViewportInfo>;
+  @:uproperty public var EditorViews : unreal.TArray<unreal.FLevelViewportInfo>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Particle event manager *
   **/
-  public var MyParticleEventManager : unreal.AParticleEventManager;
+  @:uproperty public var MyParticleEventManager : unreal.AParticleEventManager;
   
   /**
     Fake NetDriver for capturing network traffic to record demos
   **/
-  public var DemoNetDriver : unreal.UDemoNetDriver;
+  @:uproperty public var DemoNetDriver : unreal.UDemoNetDriver;
   
   /**
     Pointer to the current level in the queue to be made visible, NULL if none are pending.
   **/
-  public var CurrentLevelPendingVisibility : unreal.ULevel;
+  @:uproperty public var CurrentLevelPendingVisibility : unreal.ULevel;
   
   /**
     Prefix we used to rename streaming levels, non empty in PIE and standalone preview
   **/
-  public var StreamingLevelsPrefix : unreal.FString;
+  @:uproperty public var StreamingLevelsPrefix : unreal.FString;
   
   /**
     Level collection. ULevels are referenced by FName (Package name) to avoid serialized references. Also contains offsets in world units
   **/
-  public var StreamingLevels : unreal.TArray<unreal.ULevelStreaming>;
+  @:uproperty public var StreamingLevels : unreal.TArray<unreal.ULevelStreaming>;
   
   /**
     External modules can have additional data associated with this UWorld.
     This is a list of per module world data objects. These aren't
     loaded/saved by default.
   **/
-  public var PerModuleDataObjects : unreal.TArray<unreal.UObject>;
+  @:uproperty public var PerModuleDataObjects : unreal.TArray<unreal.UObject>;
   
   /**
     Array of any additional objects that need to be referenced by this world, to make sure they aren't GC'd
   **/
-  public var ExtraReferencedObjects : unreal.TArray<unreal.UObject>;
+  @:uproperty public var ExtraReferencedObjects : unreal.TArray<unreal.UObject>;
   
   /**
     Instance of this world's game-specific physics collision handler
   **/
-  public var PhysicsCollisionHandler : unreal.UPhysicsCollisionHandler;
+  @:uproperty public var PhysicsCollisionHandler : unreal.UPhysicsCollisionHandler;
   
   /**
     Instance of this world's game-specific networking management
   **/
-  public var NetworkManager : unreal.AGameNetworkManager;
+  @:uproperty public var NetworkManager : unreal.AGameNetworkManager;
   
   /**
     Foreground Line Batchers. This can't be Persistent.
   **/
-  public var ForegroundLineBatcher : unreal.ULineBatchComponent;
+  @:uproperty public var ForegroundLineBatcher : unreal.ULineBatchComponent;
   
   /**
     Persistent Line Batchers. They don't get flushed every frame.
   **/
-  public var PersistentLineBatcher : unreal.ULineBatchComponent;
+  @:uproperty public var PersistentLineBatcher : unreal.ULineBatchComponent;
   
   /**
     Line Batchers. All lines to be drawn in the world.
   **/
-  public var LineBatcher : unreal.ULineBatchComponent;
+  @:uproperty public var LineBatcher : unreal.ULineBatchComponent;
   
   /**
     The NAME_GameNetDriver game connection(s) for client/server communication
   **/
-  public var NetDriver : unreal.UNetDriver;
+  @:uproperty public var NetDriver : unreal.UNetDriver;
   
   /**
     Persistent level containing the world info, default brush and actors spawned during gameplay among other things
   **/
-  public var PersistentLevel : unreal.ULevel;
+  @:uproperty public var PersistentLevel : unreal.ULevel;
   #if WITH_EDITORONLY_DATA
   
   /**
     Information for thumbnail rendering
   **/
-  public var ThumbnailInfo : unreal.UThumbnailInfo;
+  @:uproperty public var ThumbnailInfo : unreal.UThumbnailInfo;
   
   /**
     Group actors currently "active"
   **/
-  public var ActiveGroupActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var ActiveGroupActors : unreal.TArray<unreal.AActor>;
   
   /**
     List of all the layers referenced by the world's actors
   **/
-  public var Layers : unreal.TArray<unreal.ULayer>;
+  @:uproperty public var Layers : unreal.TArray<unreal.ULayer>;
   #end // WITH_EDITORONLY_DATA
   
 }

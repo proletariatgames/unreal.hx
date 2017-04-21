@@ -21,14 +21,14 @@ package unreal.geometrymode;
 **/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Lathe.h")
-@:noClass @:uextern extern class UGeomModifier_Lathe extends unreal.geometrymode.UGeomModifier_Edit {
+@:noClass @:uextern @:uclass extern class UGeomModifier_Lathe extends unreal.geometrymode.UGeomModifier_Edit {
   
   /**
     The axis of rotation to use when creating the brush.  This is automatically determined from the current ortho viewport.
   **/
-  public var Axis : unreal.EAxis;
-  public var AlignToSide : Bool;
-  public var Segments : unreal.Int32;
-  public var TotalSegments : unreal.Int32;
+  @:uproperty public var Axis : unreal.EAxis;
+  @:uproperty public var AlignToSide : Bool;
+  @:uproperty public var Segments : unreal.Int32;
+  @:uproperty public var TotalSegments : unreal.Int32;
   
 }

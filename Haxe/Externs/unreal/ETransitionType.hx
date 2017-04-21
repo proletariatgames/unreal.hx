@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Engine.h")
 @:uname("ETransitionType")
-@:uextern extern enum ETransitionType {
+@:uextern @:uenum extern enum ETransitionType {
   TT_None;
   TT_Paused;
   TT_Loading;

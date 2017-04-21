@@ -15,31 +15,31 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueManager.h")
-@:uextern extern class UGameplayCueManager extends unreal.UDataAsset {
-  private var PreallocationInfoList_Internal : unreal.TArray<unreal.gameplayabilities.FPreallocationInfo>;
+@:uextern @:uclass extern class UGameplayCueManager extends unreal.UDataAsset {
+  @:uproperty private var PreallocationInfoList_Internal : unreal.TArray<unreal.gameplayabilities.FPreallocationInfo>;
   
   /**
     Number of active gameplay cue send contexts, when it goes to 0 cues are flushed
   **/
-  private var GameplayCueSendContextCount : unreal.Int32;
+  @:uproperty private var GameplayCueSendContextCount : unreal.Int32;
   
   /**
     List of gameplay cue executes that haven't been processed yet
   **/
-  private var PendingExecuteCues : unreal.TArray<unreal.gameplayabilities.FGameplayCuePendingExecute>;
+  @:uproperty private var PendingExecuteCues : unreal.TArray<unreal.gameplayabilities.FGameplayCuePendingExecute>;
   
   /**
     Classes that we need to preallocate instances for
   **/
-  private var GameplayCueClassesForPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;
+  @:uproperty private var GameplayCueClassesForPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;
   
   /**
     Hardref to the gameplaycue notify classes we have async loaded
   **/
-  private var LoadedGameplayCueNotifyClasses : unreal.TArray<unreal.UClass>;
-  public var StreamableManager : unreal.FStreamableManager;
-  public var GameplayCueNotifyStaticObjectLibrary : unreal.UObjectLibrary;
-  public var GameplayCueNotifyActorObjectLibrary : unreal.UObjectLibrary;
-  public var GlobalCueSet : unreal.gameplayabilities.UGameplayCueSet;
+  @:uproperty private var LoadedGameplayCueNotifyClasses : unreal.TArray<unreal.UClass>;
+  @:uproperty public var StreamableManager : unreal.FStreamableManager;
+  @:uproperty public var GameplayCueNotifyStaticObjectLibrary : unreal.UObjectLibrary;
+  @:uproperty public var GameplayCueNotifyActorObjectLibrary : unreal.UObjectLibrary;
+  @:uproperty public var GlobalCueSet : unreal.gameplayabilities.UGameplayCueSet;
   
 }

@@ -21,7 +21,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_LegIK.h")
-@:uextern extern class UAnimGraphNode_LegIK extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_LegIK;
+@:uextern @:uclass extern class UAnimGraphNode_LegIK extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_LegIK;
   
 }

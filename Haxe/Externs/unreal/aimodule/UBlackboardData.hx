@@ -15,23 +15,23 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BlackboardData.h")
-@:uextern extern class UBlackboardData extends unreal.UDataAsset {
+@:uextern @:uclass extern class UBlackboardData extends unreal.UDataAsset {
   
   /**
     blackboard keys
   **/
-  public var Keys : unreal.TArray<unreal.aimodule.FBlackboardEntry>;
+  @:uproperty public var Keys : unreal.TArray<unreal.aimodule.FBlackboardEntry>;
   #if WITH_EDITORONLY_DATA
   
   /**
     all keys inherited from parent chain
   **/
-  public var ParentKeys : unreal.TArray<unreal.aimodule.FBlackboardEntry>;
+  @:uproperty public var ParentKeys : unreal.TArray<unreal.aimodule.FBlackboardEntry>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     parent blackboard (keys can be overridden)
   **/
-  public var Parent : unreal.aimodule.UBlackboardData;
+  @:uproperty public var Parent : unreal.aimodule.UBlackboardData;
   
 }

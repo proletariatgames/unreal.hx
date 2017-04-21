@@ -21,6 +21,6 @@ package unreal;
   //DEPRECATED: This struct has been deprecated. Please use your own tick functions if you need something other than the primary tick function
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:noCopy @:noEquals @:uextern extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPrimitiveComponentPostPhysicsTickFunction extends unreal.FTickFunction {
   
 }

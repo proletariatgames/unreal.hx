@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
 @:uname("EGameplayEffectGrantedAbilityRemovePolicy")
-@:class @:uextern extern enum EGameplayEffectGrantedAbilityRemovePolicy {
+@:class @:uextern @:uenum extern enum EGameplayEffectGrantedAbilityRemovePolicy {
   
   /**
     Active abilities are immediately canceled and the ability is removed.

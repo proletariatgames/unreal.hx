@@ -22,7 +22,7 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequencePlayer.h")
-@:uextern extern class ULevelSequencePlayer extends unreal.UObject {
+@:uextern @:uclass extern class ULevelSequencePlayer extends unreal.UObject {
   
   /**
     Create a new level sequence player.
@@ -31,76 +31,76 @@ package unreal.levelsequence;
     @param LevelSequence The level sequence to play.
     @param Settings The desired playback settings
   **/
-  static public function CreateLevelSequencePlayer(WorldContextObject : unreal.UObject, LevelSequence : unreal.levelsequence.ULevelSequence, Settings : unreal.levelsequence.FLevelSequencePlaybackSettings) : unreal.levelsequence.ULevelSequencePlayer;
+  @:ufunction static public function CreateLevelSequencePlayer(WorldContextObject : unreal.UObject, LevelSequence : unreal.levelsequence.ULevelSequence, Settings : unreal.levelsequence.FLevelSequencePlaybackSettings) : unreal.levelsequence.ULevelSequencePlayer;
   
   /**
     Start playback forwards from the current time cursor position, using the current play rate.
   **/
-  @:final public function Play() : Void;
+  @:ufunction @:final public function Play() : Void;
   
   /**
     Reverse playback.
   **/
-  @:final public function PlayReverse() : Void;
+  @:ufunction @:final public function PlayReverse() : Void;
   
   /**
     Changes the direction of playback (go in reverse if it was going forward, or vice versa)
   **/
-  @:final public function ChangePlaybackDirection() : Void;
+  @:ufunction @:final public function ChangePlaybackDirection() : Void;
   
   /**
     Start playback from the current time cursor position, looping the specified number of times.
     @param NumLoops - The number of loops to play. -1 indicates infinite looping.
   **/
-  @:final public function PlayLooping(NumLoops : unreal.Int32) : Void;
+  @:ufunction @:final public function PlayLooping(NumLoops : unreal.Int32 = -1) : Void;
   
   /**
     Start playback from the current time cursor position, using the current play rate. Does not update the animation until next tick.
   **/
-  @:final public function StartPlayingNextTick() : Void;
+  @:ufunction @:final public function StartPlayingNextTick() : Void;
   
   /**
     Pause playback.
   **/
-  @:final public function Pause() : Void;
+  @:ufunction @:final public function Pause() : Void;
   
   /**
     Stop playback.
   **/
-  @:final public function Stop() : Void;
+  @:ufunction @:final public function Stop() : Void;
   
   /**
     Get the current playback position
   **/
-  @:thisConst @:final public function GetPlaybackPosition() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPlaybackPosition() : unreal.Float32;
   
   /**
     Set the current playback position
     @param NewPlaybackPosition - The new playback position to set.
     If the animation is currently playing, it will continue to do so from the new position
   **/
-  @:final public function SetPlaybackPosition(NewPlaybackPosition : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPlaybackPosition(NewPlaybackPosition : unreal.Float32) : Void;
   
   /**
     Check whether the sequence is actively playing.
   **/
-  @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Get the playback length of the sequence
   **/
-  @:thisConst @:final public function GetLength() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetLength() : unreal.Float32;
   
   /**
     Get the playback rate of this player.
   **/
-  @:thisConst @:final public function GetPlayRate() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPlayRate() : unreal.Float32;
   
   /**
     Set the playback rate of this player. Negative values will play the animation in reverse.
     @param PlayRate - The new rate of playback for the animation.
   **/
-  @:final public function SetPlayRate(PlayRate : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPlayRate(PlayRate : unreal.Float32) : Void;
   
   /**
     Sets the range in time to be played back by this player, overriding the default range stored in the asset
@@ -108,16 +108,16 @@ package unreal.levelsequence;
     @param       NewStartTime    The new starting time for playback
     @param       NewEndTime              The new ending time for playback.  Must be larger than the start time.
   **/
-  @:final public function SetPlaybackRange(NewStartTime : unreal.Float32, NewEndTime : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPlaybackRange(NewStartTime : unreal.Float32, NewEndTime : unreal.Float32) : Void;
   
   /**
     Get the offset within the level sequence to start playing
   **/
-  @:thisConst @:final public function GetPlaybackStart() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPlaybackStart() : unreal.Float32;
   
   /**
     Get the offset within the level sequence to finish playing
   **/
-  @:thisConst @:final public function GetPlaybackEnd() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPlaybackEnd() : unreal.Float32;
   
 }

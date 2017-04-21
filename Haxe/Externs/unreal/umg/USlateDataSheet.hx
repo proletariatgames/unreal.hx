@@ -21,7 +21,7 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USlateDataSheet extends unreal.UObject {
-  private var DataTexture : unreal.UTexture2D;
+@:uextern @:uclass extern class USlateDataSheet extends unreal.UObject {
+  @:uproperty private var DataTexture : unreal.UTexture2D;
   
 }

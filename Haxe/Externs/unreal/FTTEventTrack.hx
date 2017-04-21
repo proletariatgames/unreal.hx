@@ -20,11 +20,11 @@ package unreal;
   Structure storing information about one event track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FTTEventTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTTEventTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to store keys
   **/
-  public var CurveKeys : unreal.UCurveFloat;
+  @:uproperty public var CurveKeys : unreal.UCurveFloat;
   
 }

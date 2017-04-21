@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("VisualLogger/VisualLoggerDebugSnapshotInterface.h")
-@:uextern extern interface IVisualLoggerDebugSnapshotInterface {
+@:uextern @:uclass extern interface IVisualLoggerDebugSnapshotInterface {
   
 }

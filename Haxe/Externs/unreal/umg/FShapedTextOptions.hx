@@ -20,18 +20,18 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/TextWidgetTypes.h")
-@:uextern extern class FShapedTextOptions {
+@:uextern @:ustruct extern class FShapedTextOptions {
   
   /**
     Which text flow direction should the text within this widget use? (unset to use the default returned by GetDefaultTextFlowDirection)
   **/
-  public var TextFlowDirection : unreal.slate.ETextFlowDirection;
+  @:uproperty public var TextFlowDirection : unreal.slate.ETextFlowDirection;
   
   /**
     Which text shaping method should the text within this widget use? (unset to use the default returned by GetDefaultTextShapingMethod)
   **/
-  public var TextShapingMethod : unreal.slatecore.ETextShapingMethod;
-  public var bOverride_TextFlowDirection : Bool;
-  public var bOverride_TextShapingMethod : Bool;
+  @:uproperty public var TextShapingMethod : unreal.slatecore.ETextShapingMethod;
+  @:uproperty public var bOverride_TextFlowDirection : Bool;
+  @:uproperty public var bOverride_TextShapingMethod : Bool;
   
 }

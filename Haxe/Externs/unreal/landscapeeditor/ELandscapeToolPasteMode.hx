@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolPasteMode.Type")
-@:uextern extern enum ELandscapeToolPasteMode {
+@:uextern @:uenum extern enum ELandscapeToolPasteMode {
   
   /**
     Paste may both raise and lower values

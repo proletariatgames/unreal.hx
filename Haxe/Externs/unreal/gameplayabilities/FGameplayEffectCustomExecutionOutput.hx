@@ -19,6 +19,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectExecutionCalculation.h")
-@:uextern extern class FGameplayEffectCustomExecutionOutput {
+@:uextern @:ustruct extern class FGameplayEffectCustomExecutionOutput {
   
 }

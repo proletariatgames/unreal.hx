@@ -21,21 +21,21 @@ package unreal.environmentqueryeditor;
 **/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EnvironmentQueryGraphNode_Test.h")
-@:noClass @:uextern extern class UEnvironmentQueryGraphNode_Test extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
+@:noClass @:uextern @:uclass extern class UEnvironmentQueryGraphNode_Test extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
   
   /**
     toggles test
   **/
-  public var bTestEnabled : Bool;
+  @:uproperty public var bTestEnabled : Bool;
   
   /**
     weight is passed as named param
   **/
-  public var bHasNamedWeight : Bool;
+  @:uproperty public var bHasNamedWeight : Bool;
   
   /**
     weight percent for display
   **/
-  public var TestWeightPct : unreal.Float32;
+  @:uproperty public var TestWeightPct : unreal.Float32;
   
 }

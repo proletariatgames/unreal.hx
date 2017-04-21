@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbitBase.h")
-@:noClass @:uextern extern class UParticleModuleOrbitBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleOrbitBase extends unreal.UParticleModule {
   
   /**
     If true, distribution values will be retrieved using the EmitterTime.
     If false (default), they will be retrieved using the Particle.RelativeTime.
   **/
-  public var bUseEmitterTime : Bool;
+  @:uproperty public var bUseEmitterTime : Bool;
   
 }

@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectCustomApplicationRequirement.h")
-@:uextern extern class UGameplayEffectCustomApplicationRequirement extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayEffectCustomApplicationRequirement extends unreal.UObject {
   
   /**
     Return whether the gameplay effect should be applied or not
   **/
-  @:thisConst public function CanApplyGameplayEffect(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, Spec : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEffectSpec>>, ASC : unreal.gameplayabilities.UAbilitySystemComponent) : Bool;
+  @:ufunction @:thisConst public function CanApplyGameplayEffect(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, Spec : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEffectSpec>>, ASC : unreal.gameplayabilities.UAbilitySystemComponent) : Bool;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EMouseCaptureMode")
-@:class @:uextern extern enum EMouseCaptureMode {
+@:class @:uextern @:uenum extern enum EMouseCaptureMode {
   
   /**
     Do not capture the mouse at all

@@ -21,6 +21,6 @@ package unreal.gamelivestreaming;
 **/
 @:umodule("GameLiveStreaming")
 @:glueCppIncludes("GameLiveStreamingFunctionLibrary.h")
-@:noClass @:uextern extern class UGameLiveStreamingFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
+@:noClass @:uextern @:uclass extern class UGameLiveStreamingFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

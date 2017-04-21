@@ -15,6 +15,6 @@ package unreal.onlinesubsystemutils;
 
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("Private/OnlineEngineInterfaceImpl.h")
-@:uextern extern class UOnlineEngineInterfaceImpl extends unreal.UOnlineEngineInterface {
+@:uextern @:uclass extern class UOnlineEngineInterfaceImpl extends unreal.UOnlineEngineInterface {
   
 }

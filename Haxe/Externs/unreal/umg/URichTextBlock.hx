@@ -22,17 +22,22 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class URichTextBlock extends unreal.umg.UTextLayoutWidget {
-  private var Decorators : unreal.TArray<unreal.umg.URichTextBlockDecorator>;
+@:uextern @:uclass extern class URichTextBlock extends unreal.umg.UTextLayoutWidget {
+  @:uproperty private var Decorators : unreal.TArray<unreal.umg.URichTextBlockDecorator>;
   
   /**
     The default color for the text.
   **/
-  private var Color : unreal.FLinearColor;
+  @:uproperty private var Color : unreal.FLinearColor;
   
   /**
     The default font for the text.
   **/
-  private var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty private var Font : unreal.slatecore.FSlateFontInfo;
+  
+  /**
+    The text to display
+  **/
+  @:uproperty private var Text : unreal.FText;
   
 }

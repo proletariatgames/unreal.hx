@@ -14,48 +14,48 @@
 package unreal;
 
 @:glueCppIncludes("Components/HierarchicalInstancedStaticMeshComponent.h")
-@:uextern extern class UHierarchicalInstancedStaticMeshComponent extends unreal.UInstancedStaticMeshComponent {
-  public var bDisableCollision : Bool;
+@:uextern @:uclass extern class UHierarchicalInstancedStaticMeshComponent extends unreal.UInstancedStaticMeshComponent {
+  @:uproperty public var bDisableCollision : Bool;
   
   /**
     The number of nodes in the occlusion layer
   **/
-  public var OcclusionLayerNumNodes : unreal.Int32;
+  @:uproperty public var OcclusionLayerNumNodes : unreal.Int32;
   
   /**
     Enable for detail meshes that don't really affect the game. Disable for anything important.
     Typically, this will be enabled for small meshes without collision (e.g. grass) and disabled for large meshes with collision (e.g. trees)
   **/
-  public var bEnableDensityScaling : Bool;
+  @:uproperty public var bEnableDensityScaling : Bool;
   
   /**
     Bounds of each individual unbuilt instance, used for LOD calculation
   **/
-  public var UnbuiltInstanceBoundsList : unreal.TArray<unreal.FBox>;
+  @:uproperty public var UnbuiltInstanceBoundsList : unreal.TArray<unreal.FBox>;
   
   /**
     Bounding box of any unbuilt instances
   **/
-  public var UnbuiltInstanceBounds : unreal.FBox;
+  @:uproperty public var UnbuiltInstanceBounds : unreal.FBox;
   
   /**
     Bounding box of any built instances (cached from the ClusterTree)
   **/
-  public var BuiltInstanceBounds : unreal.FBox;
+  @:uproperty public var BuiltInstanceBounds : unreal.FBox;
   
   /**
     The number of instances in the ClusterTree. Subsequent instances will always be rendered.
   **/
-  public var NumBuiltInstances : unreal.Int32;
+  @:uproperty public var NumBuiltInstances : unreal.Int32;
   
   /**
     Table for remaping instances from cluster tree to PerInstanceSMData order
   **/
-  public var SortedInstances : unreal.TArray<unreal.Int32>;
+  @:uproperty public var SortedInstances : unreal.TArray<unreal.Int32>;
   
   /**
     Removes all the instances with indices specified in the InstancesToRemove array. Returns true on success.
   **/
-  @:final public function RemoveInstances(InstancesToRemove : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Bool;
+  @:ufunction @:final public function RemoveInstances(InstancesToRemove : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Bool;
   
 }

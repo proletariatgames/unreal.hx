@@ -16,7 +16,7 @@ package unreal.persona;
 @:umodule("Persona")
 @:glueCppIncludes("Private/PersonaPreviewSceneDescription.h")
 @:uname("EPreviewAnimationMode")
-@:class @:uextern extern enum EPreviewAnimationMode {
+@:class @:uextern @:uenum extern enum EPreviewAnimationMode {
   
   /**
     Animate the preview based on the current editor (e.g. Skeleton = Reference Pose, Animation = Animation, Animation Blueprint = Animation Blueprint)

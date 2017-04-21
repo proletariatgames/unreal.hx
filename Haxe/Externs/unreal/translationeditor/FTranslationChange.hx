@@ -21,26 +21,26 @@ package unreal.translationeditor;
 **/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/TranslationUnit.h")
-@:noCopy @:noEquals @:uextern extern class FTranslationChange {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTranslationChange {
   
   /**
     Translation at time of this change
   **/
-  public var Translation : unreal.FString;
+  @:uproperty public var Translation : unreal.FString;
   
   /**
     Source at time of this change
   **/
-  public var Source : unreal.FString;
+  @:uproperty public var Source : unreal.FString;
   
   /**
     Date of this change //, meta=(DisplayName = "Date & Time"))
   **/
-  public var DateAndTime : unreal.FDateTime;
+  @:uproperty public var DateAndTime : unreal.FDateTime;
   
   /**
     The changelist of this change
   **/
-  public var Version : unreal.FString;
+  @:uproperty public var Version : unreal.FString;
   
 }

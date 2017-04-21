@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ENetworkSmoothingMode")
-@:class @:uextern extern enum ENetworkSmoothingMode {
+@:class @:uextern @:uenum extern enum ENetworkSmoothingMode {
   
   /**
     No smoothing, only change position as network position updates are received.

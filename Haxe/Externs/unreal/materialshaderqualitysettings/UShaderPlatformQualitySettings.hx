@@ -15,6 +15,6 @@ package unreal.materialshaderqualitysettings;
 
 @:umodule("MaterialShaderQualitySettings")
 @:glueCppIncludes("ShaderPlatformQualitySettings.h")
-@:uextern extern class UShaderPlatformQualitySettings extends unreal.UObject {
+@:uextern @:uclass extern class UShaderPlatformQualitySettings extends unreal.UObject {
   
 }

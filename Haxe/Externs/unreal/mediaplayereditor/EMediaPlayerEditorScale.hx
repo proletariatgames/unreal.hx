@@ -20,7 +20,7 @@ package unreal.mediaplayereditor;
 @:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Shared/MediaPlayerEditorSettings.h")
 @:uname("EMediaPlayerEditorScale")
-@:class @:uextern extern enum EMediaPlayerEditorScale {
+@:class @:uextern @:uenum extern enum EMediaPlayerEditorScale {
   
   /**
     Stretch non-uniformly to fill the viewport.

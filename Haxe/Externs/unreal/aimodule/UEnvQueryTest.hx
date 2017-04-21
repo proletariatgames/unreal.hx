@@ -15,96 +15,96 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTest.h")
-@:uextern extern class UEnvQueryTest extends unreal.aimodule.UEnvQueryNode {
+@:uextern @:uclass extern class UEnvQueryTest extends unreal.aimodule.UEnvQueryNode {
   
   /**
     When set to true enables usage of ReferenceValue. It's false by default
   **/
-  public var bDefineReferenceValue : Bool;
+  @:uproperty public var bDefineReferenceValue : Bool;
   
   /**
     When specified gets used to normalize test's results in such a way that the closer a value is to ReferenceValue
         the higher normalized result it will produce. Value farthest from ReferenceValue will be normalized
         to 0, and all the other values in between will get normalized linearly with the distance to ReferenceValue.
   **/
-  public var ReferenceValue : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ReferenceValue : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     The weight (factor) by which to multiply the normalized score after the scoring equation is applied.
   **/
-  public var ScoringFactor : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ScoringFactor : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     Maximum value to use to normalize the raw test value before applying scoring formula.
   **/
-  public var ScoreClampMax : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ScoreClampMax : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     Minimum value to use to normalize the raw test value before applying scoring formula.
   **/
-  public var ScoreClampMin : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ScoreClampMin : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     How should the upper bound for normalization of the raw test value before applying the scoring formula be determined?
               Should it use the highest value found (tested), the upper threshold for filtering, or a separate specified normalization maximum?
   **/
-  public var ClampMaxType : unreal.aimodule.EEnvQueryTestClamping;
+  @:uproperty public var ClampMaxType : unreal.aimodule.EEnvQueryTestClamping;
   
   /**
     How should the lower bound for normalization of the raw test value before applying the scoring formula be determined?
               Should it use the lowest value found (tested), the lower threshold for filtering, or a separate specified normalization minimum?
   **/
-  public var ClampMinType : unreal.aimodule.EEnvQueryTestClamping;
+  @:uproperty public var ClampMinType : unreal.aimodule.EEnvQueryTestClamping;
   
   /**
     The shape of the curve equation to apply to the normalized score before multiplying by factor.
   **/
-  public var ScoringEquation : unreal.aimodule.EEnvTestScoreEquation;
+  @:uproperty public var ScoringEquation : unreal.aimodule.EEnvTestScoreEquation;
   
   /**
     Maximum limit (inclusive) of valid values for the raw test value. Higher values will be discarded as invalid.
   **/
-  public var FloatValueMax : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var FloatValueMax : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     Minimum limit (inclusive) of valid values for the raw test value. Lower values will be discarded as invalid.
   **/
-  public var FloatValueMin : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var FloatValueMin : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     Desired boolean value of the test for scoring to occur or filtering test to pass.
   **/
-  public var BoolValue : unreal.aimodule.FAIDataProviderBoolValue;
+  @:uproperty public var BoolValue : unreal.aimodule.FAIDataProviderBoolValue;
   
   /**
     Does this test filter out results that are below a lower limit, above an upper limit, or both?  Or does it just look for a matching value?
   **/
-  public var FilterType : unreal.aimodule.EEnvTestFilterType;
+  @:uproperty public var FilterType : unreal.aimodule.EEnvTestFilterType;
   
   /**
     Determines scoring operator when context returns multiple items
   **/
-  public var MultipleContextScoreOp : unreal.aimodule.EEnvTestScoreOperator;
+  @:uproperty public var MultipleContextScoreOp : unreal.aimodule.EEnvTestScoreOperator;
   
   /**
     Determines filtering operator when context returns multiple items
   **/
-  public var MultipleContextFilterOp : unreal.aimodule.EEnvTestFilterOperator;
+  @:uproperty public var MultipleContextFilterOp : unreal.aimodule.EEnvTestFilterOperator;
   
   /**
     Optional comment or explanation about what this test is for.  Useful when the purpose of tests may not be clear,
     especially when there are multiple tests of the same type.
   **/
-  public var TestComment : unreal.FString;
+  @:uproperty public var TestComment : unreal.FString;
   
   /**
     The purpose of this test.  Should it be used for filtering possible results, scoring them, or both?
   **/
-  public var TestPurpose : unreal.aimodule.EEnvTestPurpose;
+  @:uproperty public var TestPurpose : unreal.aimodule.EEnvTestPurpose;
   
   /**
     Number of test as defined in data asset
   **/
-  public var TestOrder : unreal.Int32;
+  @:uproperty public var TestOrder : unreal.Int32;
   
 }

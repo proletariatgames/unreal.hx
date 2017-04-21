@@ -21,16 +21,16 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/FlipbookEditor/FlipbookEditorSettings.h")
-@:noClass @:uextern extern class UFlipbookEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UFlipbookEditorSettings extends unreal.UObject {
   
   /**
     Should the grid be shown by default when the editor is opened?
   **/
-  public var bShowGridByDefault : Bool;
+  @:uproperty public var bShowGridByDefault : Bool;
   
   /**
     Background color in the flipbook editor
   **/
-  public var BackgroundColor : unreal.FColor;
+  @:uproperty public var BackgroundColor : unreal.FColor;
   
 }

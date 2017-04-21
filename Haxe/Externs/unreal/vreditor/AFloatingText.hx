@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorFloatingText.h")
-@:noClass @:uextern extern class AFloatingText extends unreal.AActor {
+@:noClass @:uextern @:uclass extern class AFloatingText extends unreal.AActor {
   
 }

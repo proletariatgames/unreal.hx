@@ -21,16 +21,16 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_Slot.h")
-@:uextern extern class FAnimNode_Slot extends unreal.FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_Slot extends unreal.FAnimNode_Base {
   
   /**
     The name of this slot, exposed to gameplay code, etc...
   **/
-  public var SlotName : unreal.FName;
+  @:uproperty public var SlotName : unreal.FName;
   
   /**
     The source input, passed thru to the output unless a montage or slot animation is currently playing
   **/
-  public var Source : unreal.FPoseLink;
+  @:uproperty public var Source : unreal.FPoseLink;
   
 }

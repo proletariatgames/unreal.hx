@@ -21,21 +21,21 @@ package unreal.slateremote;
 **/
 @:umodule("SlateRemote")
 @:glueCppIncludes("Private/Shared/SlateRemoteSettings.h")
-@:noClass @:uextern extern class USlateRemoteSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USlateRemoteSettings extends unreal.UObject {
   
   /**
     The IP endpoint to listen to when the Remote Server runs in a game.
   **/
-  public var GameServerEndpoint : unreal.FString;
+  @:uproperty public var GameServerEndpoint : unreal.FString;
   
   /**
     The IP endpoint to listen to when the Remote Server runs in the Editor.
   **/
-  public var EditorServerEndpoint : unreal.FString;
+  @:uproperty public var EditorServerEndpoint : unreal.FString;
   
   /**
     Whether the Slate Remote server is enabled.
   **/
-  public var EnableRemoteServer : Bool;
+  @:uproperty public var EnableRemoteServer : Bool;
   
 }

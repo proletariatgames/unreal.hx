@@ -21,6 +21,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UMovieSceneWidgetMaterialTrack extends unreal.moviescenetracks.UMovieSceneMaterialTrack {
+@:uextern @:uclass extern class UMovieSceneWidgetMaterialTrack extends unreal.moviescenetracks.UMovieSceneMaterialTrack {
   
 }

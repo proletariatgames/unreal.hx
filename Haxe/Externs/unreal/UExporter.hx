@@ -20,52 +20,52 @@ package unreal;
   
 **/
 @:glueCppIncludes("Exporters/Exporter.h")
-@:uextern extern class UExporter extends unreal.UObject {
+@:uextern @:uclass extern class UExporter extends unreal.UObject {
   
   /**
     If true, this will force the exporter code to create a file-based Ar (this can keep large output files from taking too much memory)
   **/
-  public var bForceFileOperations : Bool;
+  @:uproperty public var bForceFileOperations : Bool;
   
   /**
     If true, this will export only the selected objects
   **/
-  public var bSelectedOnly : Bool;
+  @:uproperty public var bSelectedOnly : Bool;
   
   /**
     If true, this will export the data as text
   **/
-  public var bText : Bool;
+  @:uproperty public var bText : Bool;
   
   /**
     Current indentation of spaces of the exported text
   **/
-  public var TextIndent : unreal.Int32;
+  @:uproperty public var TextIndent : unreal.Int32;
   
   /**
     Index into FormatExtension/FormatDescription of the preferred export format.
   **/
-  public var PreferredFormatIndex : unreal.Int32;
+  @:uproperty public var PreferredFormatIndex : unreal.Int32;
   
   /**
     Descriptiong of the export format
   **/
-  public var FormatDescription : unreal.TArray<unreal.FString>;
+  @:uproperty public var FormatDescription : unreal.TArray<unreal.FString>;
   
   /**
     File extension to use for this exporter
   **/
-  public var FormatExtension : unreal.TArray<unreal.FString>;
+  @:uproperty public var FormatExtension : unreal.TArray<unreal.FString>;
   
   /**
     The root scope of objects to be exported, only used if PPF_ExportsNotFullyQualfied is set
     Objects being exported that are contained within ExportRootScope will use just their name instead of a full path
   **/
-  public var ExportRootScope : unreal.UObject;
+  @:uproperty public var ExportRootScope : unreal.UObject;
   
   /**
     Supported class of this exporter
   **/
-  public var SupportedClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var SupportedClass : unreal.TSubclassOf<unreal.UObject>;
   
 }

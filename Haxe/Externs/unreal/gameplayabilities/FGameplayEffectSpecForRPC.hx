@@ -19,21 +19,21 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectSpecForRPC {
-  public var AbilityLevel : unreal.Float32;
-  public var Level : unreal.Float32;
-  public var AggregatedTargetTags : unreal.gameplaytags.FGameplayTagContainer;
+@:uextern @:ustruct extern class FGameplayEffectSpecForRPC {
+  @:uproperty public var AbilityLevel : unreal.Float32;
+  @:uproperty public var Level : unreal.Float32;
+  @:uproperty public var AggregatedTargetTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This tells us how we got here (who / what applied us)
   **/
-  public var AggregatedSourceTags : unreal.gameplaytags.FGameplayTagContainer;
-  public var EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle;
-  public var ModifiedAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayEffectModifiedAttribute>;
+  @:uproperty public var AggregatedSourceTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var EffectContext : unreal.gameplayabilities.FGameplayEffectContextHandle;
+  @:uproperty public var ModifiedAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayEffectModifiedAttribute>;
   
   /**
     GameplayEfect definition. The static data that this spec points to.
   **/
-  public var Def : unreal.gameplayabilities.UGameplayEffect;
+  @:uproperty public var Def : unreal.gameplayabilities.UGameplayEffect;
   
 }

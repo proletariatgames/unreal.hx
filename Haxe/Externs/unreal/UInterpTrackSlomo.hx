@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackSlomo.h")
-@:noClass @:uextern extern class UInterpTrackSlomo extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern @:uclass extern class UInterpTrackSlomo extends unreal.UInterpTrackFloatBase {
   
 }

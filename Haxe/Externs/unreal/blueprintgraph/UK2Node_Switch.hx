@@ -21,21 +21,21 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Switch.h")
-@:uextern extern class UK2Node_Switch extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_Switch extends unreal.blueprintgraph.UK2Node {
   
   /**
     The class that the function is from.
   **/
-  public var FunctionClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var FunctionClass : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     The function underpining the switch, if required
   **/
-  public var FunctionName : unreal.FName;
+  @:uproperty public var FunctionName : unreal.FName;
   
   /**
     If true switch has a default pin
   **/
-  public var bHasDefaultPin : Bool;
+  @:uproperty public var bHasDefaultPin : Bool;
   
 }

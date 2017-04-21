@@ -21,16 +21,16 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayTagResponseTable.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayTagResponseTableEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagResponseTableEntry {
   
   /**
     Tags that count as "negative" toward to final response count. If the overall count is negative, this ResponseGameplayEffect is applied.
   **/
-  public var Negative : unreal.gameplayabilities.FGameplayTagReponsePair;
+  @:uproperty public var Negative : unreal.gameplayabilities.FGameplayTagReponsePair;
   
   /**
     Tags that count as "positive" toward to final response count. If the overall count is positive, this ResponseGameplayEffect is applied.
   **/
-  public var Positive : unreal.gameplayabilities.FGameplayTagReponsePair;
+  @:uproperty public var Positive : unreal.gameplayabilities.FGameplayTagReponsePair;
   
 }

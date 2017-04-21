@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/PhysicsSettingsEnums.h")
 @:uname("EFrictionCombineMode.Type")
-@:uextern extern enum EFrictionCombineMode {
+@:uextern @:uenum extern enum EFrictionCombineMode {
   
   /**
     Uses the average value of the materials touching: (a+b)/2

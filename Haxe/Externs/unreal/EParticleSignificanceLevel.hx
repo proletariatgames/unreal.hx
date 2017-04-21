@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("ParticleHelper.h")
 @:uname("EParticleSignificanceLevel")
-@:class @:uextern extern enum EParticleSignificanceLevel {
+@:class @:uextern @:uenum extern enum EParticleSignificanceLevel {
   
   /**
     Low significance emitter. Culled first.

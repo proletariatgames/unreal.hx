@@ -16,7 +16,7 @@ package unreal.gameplaydebugger;
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingComponent.h")
 @:uname("EGameplayDebuggerShapeElement")
-@:class @:uextern extern enum EGameplayDebuggerShapeElement {
+@:class @:uextern @:uenum extern enum EGameplayDebuggerShapeElement {
   Invalid;
   String;
   SinglePoint;

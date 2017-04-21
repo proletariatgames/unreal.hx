@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavTestRenderingComponent.h")
-@:noClass @:uextern extern class UNavTestRenderingComponent extends unreal.UPrimitiveComponent {
+@:noClass @:uextern @:uclass extern class UNavTestRenderingComponent extends unreal.UPrimitiveComponent {
   
 }

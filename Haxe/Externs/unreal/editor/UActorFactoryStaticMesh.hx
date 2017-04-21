@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryStaticMesh.h")
-@:uextern extern class UActorFactoryStaticMesh extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryStaticMesh extends unreal.editor.UActorFactory {
   
 }

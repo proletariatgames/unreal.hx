@@ -20,20 +20,20 @@ package unreal;
   Raw Curve data for serialization
 **/
 @:glueCppIncludes("Animation/AnimCurveTypes.h")
-@:noCopy @:noEquals @:uextern extern class FRawCurveTracks {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRawCurveTracks {
   #if WITH_EDITORONLY_DATA
   
   /**
     @note : TransformCurves are used to edit additive animation in editor.
   **/
-  public var TransformCurves : unreal.TArray<unreal.FTransformCurve>;
+  @:uproperty public var TransformCurves : unreal.TArray<unreal.FTransformCurve>;
   
   /**
     @note : Currently VectorCurves are not evaluated or used for anything else but transient data for modifying bone track
                          Note that it doesn't have UPROPERTY tag yet. In the future, we'd like this to be serialized, but not for now
   **/
-  public var VectorCurves : unreal.TArray<unreal.FVectorCurve>;
+  @:uproperty public var VectorCurves : unreal.TArray<unreal.FVectorCurve>;
   #end // WITH_EDITORONLY_DATA
-  public var FloatCurves : unreal.TArray<unreal.FFloatCurve>;
+  @:uproperty public var FloatCurves : unreal.TArray<unreal.FFloatCurve>;
   
 }

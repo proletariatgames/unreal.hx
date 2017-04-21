@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNodeSpaceConversions.h")
-@:uextern extern class FAnimNode_ConvertComponentToLocalSpace extends unreal.FAnimNode_Base {
-  public var ComponentPose : unreal.FComponentSpacePoseLink;
+@:uextern @:ustruct extern class FAnimNode_ConvertComponentToLocalSpace extends unreal.FAnimNode_Base {
+  @:uproperty public var ComponentPose : unreal.FComponentSpacePoseLink;
   
 }

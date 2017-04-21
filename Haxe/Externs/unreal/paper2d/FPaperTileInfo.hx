@@ -21,16 +21,16 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileLayer.h")
-@:noCopy @:noEquals @:uextern extern class FPaperTileInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPaperTileInfo {
   
   /**
     This is the index of the current tile within the tile set
   **/
-  public var PackedTileIndex : unreal.Int32;
+  @:uproperty public var PackedTileIndex : unreal.Int32;
   
   /**
     The tile set that this tile comes from
   **/
-  public var TileSet : unreal.paper2d.UPaperTileSet;
+  @:uproperty public var TileSet : unreal.paper2d.UPaperTileSet;
   
 }

@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FBakedAnimationState {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBakedAnimationState {
   
   /**
     Whether or not this state will ALWAYS reset it's state on reentry, regardless of remaining weight
   **/
-  public var bAlwaysResetOnEntry : Bool;
+  @:uproperty public var bAlwaysResetOnEntry : Bool;
   
   /**
     Indices into the property array for player nodes in the state
   **/
-  public var PlayerNodeIndices : unreal.TArray<unreal.Int32>;
-  public var EntryRuleNodeIndex : unreal.Int32;
-  public var bIsAConduit : Bool;
-  public var FullyBlendedNotify : unreal.Int32;
-  public var EndNotify : unreal.Int32;
-  public var StartNotify : unreal.Int32;
+  @:uproperty public var PlayerNodeIndices : unreal.TArray<unreal.Int32>;
+  @:uproperty public var EntryRuleNodeIndex : unreal.Int32;
+  @:uproperty public var bIsAConduit : Bool;
+  @:uproperty public var FullyBlendedNotify : unreal.Int32;
+  @:uproperty public var EndNotify : unreal.Int32;
+  @:uproperty public var StartNotify : unreal.Int32;
   
   /**
     The root node index (into the AnimNodeProperties array of the UAnimBlueprintGeneratedClass)
   **/
-  public var StateRootNodeIndex : unreal.Int32;
+  @:uproperty public var StateRootNodeIndex : unreal.Int32;
   
   /**
     Set of legal transitions out of this state; already in priority order
   **/
-  public var Transitions : unreal.TArray<unreal.FBakedStateExitTransition>;
+  @:uproperty public var Transitions : unreal.TArray<unreal.FBakedStateExitTransition>;
   
   /**
     The name of this state
   **/
-  public var StateName : unreal.FName;
+  @:uproperty public var StateName : unreal.FName;
   
 }

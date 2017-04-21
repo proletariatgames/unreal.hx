@@ -21,11 +21,11 @@ package unreal;
   and how this texture responds to resizing. e.g. Scale9-stretching? Tiling?
 **/
 @:glueCppIncludes("Slate/SlateBrushAsset.h")
-@:uextern extern class USlateBrushAsset extends unreal.UObject {
+@:uextern @:uclass extern class USlateBrushAsset extends unreal.UObject {
   
   /**
     The slate brush resource describing the texture's behavior.
   **/
-  public var Brush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Brush : unreal.slatecore.FSlateBrush;
   
 }

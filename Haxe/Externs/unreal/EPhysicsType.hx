@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/BodySetupEnums.h")
 @:uname("EPhysicsType")
-@:uextern extern enum EPhysicsType {
+@:uextern @:uenum extern enum EPhysicsType {
   
   /**
     Follow owner.

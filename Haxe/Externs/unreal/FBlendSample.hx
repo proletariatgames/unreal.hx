@@ -20,12 +20,12 @@ package unreal;
   Sample data
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:noCopy @:noEquals @:uextern extern class FBlendSample {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlendSample {
   
   /**
     blend 0->x, blend 1->y, blend 2->z
   **/
-  public var SampleValue : unreal.FVector;
-  public var Animation : unreal.UAnimSequence;
+  @:uproperty public var SampleValue : unreal.FVector;
+  @:uproperty public var Animation : unreal.UAnimSequence;
   
 }

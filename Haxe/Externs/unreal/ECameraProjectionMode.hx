@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Camera/CameraTypes.h")
 @:uname("ECameraProjectionMode.Type")
-@:uextern extern enum ECameraProjectionMode {
+@:uextern @:uenum extern enum ECameraProjectionMode {
   Perspective;
   Orthographic;
   

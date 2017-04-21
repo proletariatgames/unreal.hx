@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_RotateToFaceBBEntry.h")
-@:uextern extern class UBTTask_RotateToFaceBBEntry extends unreal.aimodule.UBTTask_BlackboardBase {
+@:uextern @:uclass extern class UBTTask_RotateToFaceBBEntry extends unreal.aimodule.UBTTask_BlackboardBase {
   
   /**
     Success condition precision in decrees
   **/
-  private var Precision : unreal.Float32;
+  @:uproperty private var Precision : unreal.Float32;
   
 }

@@ -21,11 +21,11 @@ package unreal;
   Just a wrapper for the struct with real data in it.style factory
 **/
 @:glueCppIncludes("Slate/ButtonStyleAsset.h")
-@:uextern extern class UButtonStyleAsset extends unreal.UObject {
+@:uextern @:uclass extern class UButtonStyleAsset extends unreal.UObject {
   
   /**
     The actual data describing the button's appearance.
   **/
-  public var ButtonStyle : unreal.slatecore.FButtonStyle;
+  @:uproperty public var ButtonStyle : unreal.slatecore.FButtonStyle;
   
 }

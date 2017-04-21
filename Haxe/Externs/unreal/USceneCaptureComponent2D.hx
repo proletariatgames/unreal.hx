@@ -18,40 +18,40 @@ package unreal;
   Used to capture a 'snapshot' of the scene from a single plane and feed it to a render target.
 **/
 @:glueCppIncludes("Components/SceneCaptureComponent2D.h")
-@:uextern extern class USceneCaptureComponent2D extends unreal.USceneCaptureComponent {
+@:uextern @:uclass extern class USceneCaptureComponent2D extends unreal.USceneCaptureComponent {
   
   /**
     Range (0.0, 1.0) where 0 indicates no effect, 1 indicates full effect.
   **/
-  public var PostProcessBlendWeight : unreal.Float32;
-  public var PostProcessSettings : unreal.FPostProcessSettings;
+  @:uproperty public var PostProcessBlendWeight : unreal.Float32;
+  @:uproperty public var PostProcessSettings : unreal.FPostProcessSettings;
   
   /**
     When enabled, the scene capture will composite into the render target instead of overwriting its contents.
   **/
-  public var CompositeMode : unreal.ESceneCaptureCompositeMode;
-  public var CaptureSource : unreal.ESceneCaptureSource;
+  @:uproperty public var CompositeMode : unreal.ESceneCaptureCompositeMode;
+  @:uproperty public var CaptureSource : unreal.ESceneCaptureSource;
   
   /**
     Output render target of the scene capture that can be read in materals.
   **/
-  public var TextureTarget : unreal.UTextureRenderTarget2D;
+  @:uproperty public var TextureTarget : unreal.UTextureRenderTarget2D;
   
   /**
     The desired width (in world units) of the orthographic view (ignored in Perspective mode)
   **/
-  public var OrthoWidth : unreal.Float32;
+  @:uproperty public var OrthoWidth : unreal.Float32;
   
   /**
     Camera field of view (in degrees).
   **/
-  public var FOVAngle : unreal.Float32;
-  public var ProjectionType : unreal.ECameraProjectionMode;
+  @:uproperty public var FOVAngle : unreal.Float32;
+  @:uproperty public var ProjectionType : unreal.ECameraProjectionMode;
   
   /**
     Render the scene to the texture target immediately.
     This should not be used if bCaptureEveryFrame is enabled, or the scene capture will render redundantly.
   **/
-  @:final public function CaptureScene() : Void;
+  @:ufunction @:final public function CaptureScene() : Void;
   
 }

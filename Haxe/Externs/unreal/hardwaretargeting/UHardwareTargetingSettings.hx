@@ -19,26 +19,26 @@ package unreal.hardwaretargeting;
 **/
 @:umodule("HardwareTargeting")
 @:glueCppIncludes("HardwareTargetingSettings.h")
-@:uextern extern class UHardwareTargetingSettings extends unreal.UObject {
+@:uextern @:uclass extern class UHardwareTargetingSettings extends unreal.UObject {
   
   /**
     Enum that is set to DefaultGraphicsPerformance when the settings have been successfully applied
   **/
-  public var AppliedDefaultGraphicsPerformance : unreal.hardwaretargeting.EGraphicsPreset;
+  @:uproperty public var AppliedDefaultGraphicsPerformance : unreal.hardwaretargeting.EGraphicsPreset;
   
   /**
     Enum specifying a graphics preset to use for this game
   **/
-  public var DefaultGraphicsPerformance : unreal.hardwaretargeting.EGraphicsPreset;
+  @:uproperty public var DefaultGraphicsPerformance : unreal.hardwaretargeting.EGraphicsPreset;
   
   /**
     Enum that is set to TargetedHardwareClass when the settings have been successfully applied
   **/
-  public var AppliedTargetedHardwareClass : unreal.hardwaretargeting.EHardwareClass;
+  @:uproperty public var AppliedTargetedHardwareClass : unreal.hardwaretargeting.EHardwareClass;
   
   /**
     Enum specifying which class of hardware this game is targeting
   **/
-  public var TargetedHardwareClass : unreal.hardwaretargeting.EHardwareClass;
+  @:uproperty public var TargetedHardwareClass : unreal.hardwaretargeting.EHardwareClass;
   
 }

@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushDrawType.Type")
-@:uextern extern enum ESlateBrushDrawType {
+@:uextern @:uenum extern enum ESlateBrushDrawType {
   
   /**
     Don't do anything

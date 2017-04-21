@@ -15,35 +15,35 @@ package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingReplicator.h")
-@:uextern extern class AGameplayDebuggingReplicator extends unreal.AActor {
-  public var DefaultTexture_Green : unreal.UTexture2D;
-  public var DefaultTexture_Red : unreal.UTexture2D;
-  public var GameView5 : Bool;
-  public var GameView4 : Bool;
-  public var GameView3 : Bool;
-  public var GameView2 : Bool;
-  public var GameView1 : Bool;
-  public var Perception : Bool;
-  public var ActiveEQSIndex : unreal.Int32;
-  public var EnableEQSOnHUD : Bool;
-  public var EQS : Bool;
-  public var BehaviorTree : Bool;
-  public var Basic : Bool;
-  public var OverHead : Bool;
-  public var bAutoActivate : Bool;
-  public var bIsGlobalInWorld : Bool;
-  public var LastSelectedActorToDebug : unreal.AActor;
-  public var LocalPlayerOwner : unreal.APlayerController;
-  public var DebugComponent : unreal.gameplaydebugger.UGameplayDebuggingComponent;
-  public var MaxEQSQueries : unreal.Int32;
-  public var DebugComponentControllerClassName : unreal.FString;
-  public var DebugComponentHUDClassName : unreal.FString;
-  public var DebugComponentClassName : unreal.FString;
-  public function ServerReplicateMessage(Actor : unreal.AActor, InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
-  public function ClientReplicateMessage(Actor : unreal.AActor, InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
-  public function ClientAutoActivate() : Void;
-  public function ClientEnableTargetSelection(bEnable : Bool, Context : unreal.APlayerController) : Void;
-  public function OnRep_AutoActivate() : Void;
-  public function ServerSetActorToDebug(InActor : unreal.AActor) : Void;
+@:uextern @:uclass extern class AGameplayDebuggingReplicator extends unreal.AActor {
+  @:uproperty public var DefaultTexture_Green : unreal.UTexture2D;
+  @:uproperty public var DefaultTexture_Red : unreal.UTexture2D;
+  @:uproperty public var GameView5 : Bool;
+  @:uproperty public var GameView4 : Bool;
+  @:uproperty public var GameView3 : Bool;
+  @:uproperty public var GameView2 : Bool;
+  @:uproperty public var GameView1 : Bool;
+  @:uproperty public var Perception : Bool;
+  @:uproperty public var ActiveEQSIndex : unreal.Int32;
+  @:uproperty public var EnableEQSOnHUD : Bool;
+  @:uproperty public var EQS : Bool;
+  @:uproperty public var BehaviorTree : Bool;
+  @:uproperty public var Basic : Bool;
+  @:uproperty public var OverHead : Bool;
+  @:uproperty public var bAutoActivate : Bool;
+  @:uproperty public var bIsGlobalInWorld : Bool;
+  @:uproperty public var LastSelectedActorToDebug : unreal.AActor;
+  @:uproperty public var LocalPlayerOwner : unreal.APlayerController;
+  @:uproperty public var DebugComponent : unreal.gameplaydebugger.UGameplayDebuggingComponent;
+  @:uproperty public var MaxEQSQueries : unreal.Int32;
+  @:uproperty public var DebugComponentControllerClassName : unreal.FString;
+  @:uproperty public var DebugComponentHUDClassName : unreal.FString;
+  @:uproperty public var DebugComponentClassName : unreal.FString;
+  @:ufunction public function ServerReplicateMessage(Actor : unreal.AActor, InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
+  @:ufunction public function ClientReplicateMessage(Actor : unreal.AActor, InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
+  @:ufunction public function ClientAutoActivate() : Void;
+  @:ufunction public function ClientEnableTargetSelection(bEnable : Bool, Context : unreal.APlayerController) : Void;
+  @:ufunction public function OnRep_AutoActivate() : Void;
+  @:ufunction public function ServerSetActorToDebug(InActor : unreal.AActor) : Void;
   
 }

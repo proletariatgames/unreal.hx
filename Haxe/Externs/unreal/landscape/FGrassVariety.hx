@@ -21,81 +21,81 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGrassType.h")
-@:noCopy @:noEquals @:uextern extern class FGrassVariety {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGrassVariety {
   
   /**
     Whether the grass instances should receive decals.
   **/
-  public var bReceivesDecals : Bool;
+  @:uproperty public var bReceivesDecals : Bool;
   
   /**
     Lighting channels that the grass will be assigned. Lights with matching channels will affect the grass.
     These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
   **/
-  public var LightingChannels : unreal.FLightingChannels;
+  @:uproperty public var LightingChannels : unreal.FLightingChannels;
   
   /**
     Whether to use the landscape's lightmap when rendering the grass.
   **/
-  public var bUseLandscapeLightmap : Bool;
+  @:uproperty public var bUseLandscapeLightmap : Bool;
   
   /**
     Whether the grass instances should be tilted to the normal of the landscape (true), or always vertical (false)
   **/
-  public var AlignToSurface : Bool;
+  @:uproperty public var AlignToSurface : Bool;
   
   /**
     Whether the grass instances should be placed at random rotation (true) or all at the same rotation (false)
   **/
-  public var RandomRotation : Bool;
+  @:uproperty public var RandomRotation : Bool;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a grass instance's Z Scale property
   **/
-  public var ScaleZ : unreal.FFloatInterval;
+  @:uproperty public var ScaleZ : unreal.FFloatInterval;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a grass instance's Y Scale property
   **/
-  public var ScaleY : unreal.FFloatInterval;
+  @:uproperty public var ScaleY : unreal.FFloatInterval;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a grass instance's X Scale property
   **/
-  public var ScaleX : unreal.FFloatInterval;
+  @:uproperty public var ScaleX : unreal.FFloatInterval;
   
   /**
     Specifies grass instance scaling type
   **/
-  public var Scaling : unreal.landscape.EGrassScaling;
+  @:uproperty public var Scaling : unreal.landscape.EGrassScaling;
   
   /**
     Specifies the smallest LOD that will be used for this component.
     If -1 (default), the MinLOD of the static mesh asset will be used instead.
   **/
-  public var MinLOD : unreal.Int32;
+  @:uproperty public var MinLOD : unreal.Int32;
   
   /**
     The distance where instances will have completely faded out when using a PerInstanceFadeAmount material node. 0 disables.
     When the entire cluster is beyond this distance, the cluster is completely culled and not rendered at all.
   **/
-  public var EndCullDistance : unreal.Int32;
+  @:uproperty public var EndCullDistance : unreal.Int32;
   
   /**
     The distance where instances will begin to fade out if using a PerInstanceFadeAmount material node. 0 disables.
   **/
-  public var StartCullDistance : unreal.Int32;
-  public var PlacementJitter : unreal.Float32;
+  @:uproperty public var StartCullDistance : unreal.Int32;
+  @:uproperty public var PlacementJitter : unreal.Float32;
   
   /**
     If true, use a jittered grid sequence for placement, otherwise use a halton sequence.
   **/
-  public var bUseGrid : Bool;
+  @:uproperty public var bUseGrid : Bool;
   
   /**
     Instances per 10 square meters.
   **/
-  public var GrassDensity : unreal.Float32;
-  public var GrassMesh : unreal.UStaticMesh;
+  @:uproperty public var GrassDensity : unreal.Float32;
+  @:uproperty public var GrassMesh : unreal.UStaticMesh;
   
 }

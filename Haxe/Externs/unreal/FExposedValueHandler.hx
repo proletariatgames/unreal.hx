@@ -18,16 +18,16 @@ package unreal;
   An exposed value updater
 **/
 @:glueCppIncludes("Animation/AnimNodeBase.h")
-@:uextern extern class FExposedValueHandler {
+@:uextern @:ustruct extern class FExposedValueHandler {
   
   /**
     Direct data access to property in anim instance
   **/
-  public var CopyRecords : unreal.TArray<unreal.FExposedValueCopyRecord>;
+  @:uproperty public var CopyRecords : unreal.TArray<unreal.FExposedValueCopyRecord>;
   
   /**
     The function to call to update associated properties (can be NULL)
   **/
-  public var BoundFunction : unreal.FName;
+  @:uproperty public var BoundFunction : unreal.FName;
   
 }

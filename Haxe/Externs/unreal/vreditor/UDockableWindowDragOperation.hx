@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorDockableWindow.h")
-@:noClass @:uextern extern class UDockableWindowDragOperation extends unreal.viewportinteraction.UViewportDragOperation {
+@:noClass @:uextern @:uclass extern class UDockableWindowDragOperation extends unreal.viewportinteraction.UViewportDragOperation {
   
 }

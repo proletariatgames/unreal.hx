@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataMesh.h")
 @:uname("EMeshCameraFacingUpAxis")
-@:uextern extern enum EMeshCameraFacingUpAxis {
+@:uextern @:uenum extern enum EMeshCameraFacingUpAxis {
   
   /**
     None

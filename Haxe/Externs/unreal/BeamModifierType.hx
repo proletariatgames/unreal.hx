@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
 @:uname("BeamModifierType")
-@:uextern extern enum BeamModifierType {
+@:uextern @:uenum extern enum BeamModifierType {
   
   /**
     Modify the source of the beam.

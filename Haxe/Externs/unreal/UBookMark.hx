@@ -20,21 +20,21 @@ package unreal;
   A camera position the current level.
 **/
 @:glueCppIncludes("Engine/BookMark.h")
-@:uextern extern class UBookMark extends unreal.UObject {
+@:uextern @:uclass extern class UBookMark extends unreal.UObject {
   
   /**
     Array of levels that are hidden
   **/
-  public var HiddenLevels : unreal.TArray<unreal.FString>;
+  @:uproperty public var HiddenLevels : unreal.TArray<unreal.FString>;
   
   /**
     Camera rotation
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Camera position
   **/
-  public var Location : unreal.FVector;
+  @:uproperty public var Location : unreal.FVector;
   
 }

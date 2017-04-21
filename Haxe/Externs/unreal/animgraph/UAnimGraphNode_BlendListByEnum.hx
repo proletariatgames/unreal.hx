@@ -21,14 +21,14 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_BlendListByEnum.h")
-@:uextern extern class UAnimGraphNode_BlendListByEnum extends unreal.animgraph.UAnimGraphNode_BlendListBase implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
-  private var VisibleEnumEntries : unreal.TArray<unreal.FName>;
+@:uextern @:uclass extern class UAnimGraphNode_BlendListByEnum extends unreal.animgraph.UAnimGraphNode_BlendListBase implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
+  @:uproperty private var VisibleEnumEntries : unreal.TArray<unreal.FName>;
   
   /**
     Name of the enum being switched on
   **/
-  private var BoundEnum : unreal.UEnum;
-  public var Node : unreal.animgraphruntime.FAnimNode_BlendListByEnum;
+  @:uproperty private var BoundEnum : unreal.UEnum;
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_BlendListByEnum;
   // NodeDependingOnEnumInterface interface implementation
   
 }

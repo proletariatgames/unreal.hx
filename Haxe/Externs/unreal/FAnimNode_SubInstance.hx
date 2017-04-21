@@ -14,38 +14,38 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNode_SubInstance.h")
-@:uextern extern class FAnimNode_SubInstance extends unreal.FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_SubInstance extends unreal.FAnimNode_Base {
   
   /**
     List of destination properties to use, 1-1 with Source names above, built by the compiler
   **/
-  public var DestPropertyNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var DestPropertyNames : unreal.TArray<unreal.FName>;
   
   /**
     List of source properties to use, 1-1 with Dest names below, built by the compiler
   **/
-  public var SourcePropertyNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var SourcePropertyNames : unreal.TArray<unreal.FName>;
   
   /**
     List of properties on the sub instance to push to, built from name list when initialised
   **/
-  public var SubInstanceProperties : unreal.TArray<unreal.UProperty>;
+  @:uproperty public var SubInstanceProperties : unreal.TArray<unreal.UProperty>;
   
   /**
     List of properties on the calling instance to push from
   **/
-  public var InstanceProperties : unreal.TArray<unreal.UProperty>;
+  @:uproperty public var InstanceProperties : unreal.TArray<unreal.UProperty>;
   
   /**
     This is the actual instance allocated at runtime that will run
   **/
-  public var InstanceToRun : unreal.UAnimInstance;
-  public var InstanceClass : unreal.TSubclassOf<unreal.UAnimInstance>;
+  @:uproperty public var InstanceToRun : unreal.UAnimInstance;
+  @:uproperty public var InstanceClass : unreal.TSubclassOf<unreal.UAnimInstance>;
   
   /**
     Input pose for the node, intentionally not accessible because if there's no input
     Node in the target class we don't want to show this as a pin
   **/
-  public var InPose : unreal.FPoseLink;
+  @:uproperty public var InPose : unreal.FPoseLink;
   
 }

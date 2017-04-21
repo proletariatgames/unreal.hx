@@ -21,26 +21,26 @@ package unreal.moviescenetools;
 **/
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("Private/MovieSceneToolsUserSettings.h")
-@:noClass @:uextern extern class UMovieSceneUserThumbnailSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMovieSceneUserThumbnailSettings extends unreal.UObject {
   
   /**
     Quality to render the thumbnails with
   **/
-  public var Quality : unreal.moviescenetools.EThumbnailQuality;
+  @:uproperty public var Quality : unreal.moviescenetools.EThumbnailQuality;
   
   /**
     Size at which to draw thumbnails on thumbnail sections
   **/
-  public var ThumbnailSize : unreal.FIntPoint;
+  @:uproperty public var ThumbnailSize : unreal.FIntPoint;
   
   /**
     Whether to draw thumbnails or not
   **/
-  public var bDrawSingleThumbnails : Bool;
+  @:uproperty public var bDrawSingleThumbnails : Bool;
   
   /**
     Whether to draw thumbnails or not
   **/
-  public var bDrawThumbnails : Bool;
+  @:uproperty public var bDrawThumbnails : Bool;
   
 }

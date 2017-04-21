@@ -18,46 +18,46 @@ package unreal;
   Class containing definition of a navigation area
 **/
 @:glueCppIncludes("AI/Navigation/NavAreas/NavArea.h")
-@:uextern extern class UNavArea extends unreal.UObject {
-  public var bSupportsAgent15 : Bool;
-  public var bSupportsAgent14 : Bool;
-  public var bSupportsAgent13 : Bool;
-  public var bSupportsAgent12 : Bool;
-  public var bSupportsAgent11 : Bool;
-  public var bSupportsAgent10 : Bool;
-  public var bSupportsAgent9 : Bool;
-  public var bSupportsAgent8 : Bool;
-  public var bSupportsAgent7 : Bool;
-  public var bSupportsAgent6 : Bool;
-  public var bSupportsAgent5 : Bool;
-  public var bSupportsAgent4 : Bool;
-  public var bSupportsAgent3 : Bool;
-  public var bSupportsAgent2 : Bool;
-  public var bSupportsAgent1 : Bool;
+@:uextern @:uclass extern class UNavArea extends unreal.UObject {
+  @:uproperty public var bSupportsAgent15 : Bool;
+  @:uproperty public var bSupportsAgent14 : Bool;
+  @:uproperty public var bSupportsAgent13 : Bool;
+  @:uproperty public var bSupportsAgent12 : Bool;
+  @:uproperty public var bSupportsAgent11 : Bool;
+  @:uproperty public var bSupportsAgent10 : Bool;
+  @:uproperty public var bSupportsAgent9 : Bool;
+  @:uproperty public var bSupportsAgent8 : Bool;
+  @:uproperty public var bSupportsAgent7 : Bool;
+  @:uproperty public var bSupportsAgent6 : Bool;
+  @:uproperty public var bSupportsAgent5 : Bool;
+  @:uproperty public var bSupportsAgent4 : Bool;
+  @:uproperty public var bSupportsAgent3 : Bool;
+  @:uproperty public var bSupportsAgent2 : Bool;
+  @:uproperty public var bSupportsAgent1 : Bool;
   
   /**
     DEPRECATED AGENT CONFIG
   **/
-  public var bSupportsAgent0 : Bool;
+  @:uproperty public var bSupportsAgent0 : Bool;
   
   /**
     restrict area only to specified agents
   **/
-  public var SupportedAgents : unreal.FNavAgentSelector;
+  @:uproperty public var SupportedAgents : unreal.FNavAgentSelector;
   
   /**
     area color in navigation view
   **/
-  public var DrawColor : unreal.FColor;
+  @:uproperty public var DrawColor : unreal.FColor;
   
   /**
     entering cost
   **/
-  private var FixedAreaEnteringCost : unreal.Float32;
+  @:uproperty private var FixedAreaEnteringCost : unreal.Float32;
   
   /**
     travel cost multiplier for path distance
   **/
-  public var DefaultCost : unreal.Float32;
+  @:uproperty public var DefaultCost : unreal.Float32;
   
 }

@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_Radius.h")
-@:uextern extern class AGameplayAbilityTargetActor_Radius extends unreal.gameplayabilities.AGameplayAbilityTargetActor {
+@:uextern @:uclass extern class AGameplayAbilityTargetActor_Radius extends unreal.gameplayabilities.AGameplayAbilityTargetActor {
   
   /**
     Radius of target acquisition around the ability's start location.
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
 }

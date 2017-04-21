@@ -19,57 +19,57 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorMiscSettings.h")
-@:uextern extern class ULevelEditorMiscSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class ULevelEditorMiscSettings extends unreal.UDeveloperSettings {
   
   /**
     The default level streaming class to use when adding new streaming levels
   **/
-  public var DefaultLevelStreamingClass : unreal.TSubclassOf<unreal.ULevelStreaming>;
+  @:uproperty public var DefaultLevelStreamingClass : unreal.TSubclassOf<unreal.ULevelStreaming>;
   
   /**
     Enables audio feedback for certain operations in Unreal Editor, such as entering and exiting Play mode
   **/
-  public var bEnableEditorSounds : Bool;
+  @:uproperty public var bEnableEditorSounds : Bool;
   
   /**
     Global volume setting for the editor
   **/
-  public var EditorVolumeLevel : unreal.Float32;
+  @:uproperty public var EditorVolumeLevel : unreal.Float32;
   
   /**
     If true audio will be enabled in the editor. Does not affect PIE *
   **/
-  public var bEnableRealTimeAudio : Bool;
+  @:uproperty public var bEnableRealTimeAudio : Bool;
   
   /**
     If checked audio playing in the editor will continue to play even if the editor is in the background
   **/
-  public var bAllowBackgroundAudio : Bool;
+  @:uproperty public var bAllowBackgroundAudio : Bool;
   
   /**
     If enabled, replacing actors will respect the scale of the original actor.  Otherwise, the replaced actors will have a scale of 1.0
   **/
-  public var bReplaceRespectsScale : Bool;
+  @:uproperty public var bReplaceRespectsScale : Bool;
   
   /**
     If true, Navigation will auto-update
   **/
-  public var bNavigationAutoUpdate : Bool;
+  @:uproperty public var bNavigationAutoUpdate : Bool;
   
   /**
     If true, the pivot offset for BSP will be automatically moved to stay centered on its vertices
   **/
-  public var bAutoMoveBSPPivotOffset : Bool;
+  @:uproperty public var bAutoMoveBSPPivotOffset : Bool;
   
   /**
     If true, BSP will auto-update
   **/
-  public var bBSPAutoUpdate : Bool;
+  @:uproperty public var bBSPAutoUpdate : Bool;
   
   /**
     If checked lighting will be automatically applied to the level after a static lighting build is complete.
     Otherwise you will be prompted to apply it
   **/
-  public var bAutoApplyLightingEnable : Bool;
+  @:uproperty public var bAutoApplyLightingEnable : Bool;
   
 }

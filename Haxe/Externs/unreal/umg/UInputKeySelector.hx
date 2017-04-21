@@ -19,46 +19,56 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UInputKeySelector extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UInputKeySelector extends unreal.umg.UWidget {
   
   /**
     input chord representing the selected key, if false modifier keys are ignored.
   **/
-  public var bAllowModifierKeys : Bool;
+  @:uproperty public var bAllowModifierKeys : Bool;
+  
+  /**
+    Sets the text which is displayed while selecting keys.
+  **/
+  @:uproperty public var KeySelectionText : unreal.FText;
   
   /**
     The color of the text used to display the currently selected key.
   **/
-  public var ColorAndOpacity : unreal.FLinearColor;
+  @:uproperty public var ColorAndOpacity : unreal.FLinearColor;
   
   /**
     The amount of blank space around the text used to display the currently selected key.
   **/
-  public var Margin : unreal.slatecore.FMargin;
+  @:uproperty public var Margin : unreal.slatecore.FMargin;
   
   /**
     The font used to display the currently selected key.
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
   /**
     The currently selected key chord.
   **/
-  public var SelectedKey : unreal.slate.FInputChord;
+  @:uproperty public var SelectedKey : unreal.slate.FInputChord;
   
   /**
     Sets the currently selected key.
   **/
-  @:final public function SetSelectedKey(InSelectedKey : unreal.slate.FInputChord) : Void;
+  @:ufunction @:final public function SetSelectedKey(InSelectedKey : unreal.slate.FInputChord) : Void;
+  
+  /**
+    Sets the text which is displayed while selecting keys.
+  **/
+  @:ufunction @:final public function SetKeySelectionText(InKeySelectionText : unreal.FText) : Void;
   
   /**
     Sets whether or not modifier keys are allowed in the selected key.
   **/
-  @:final public function SetAllowModifierKeys(bInAllowModifierKeys : Bool) : Void;
+  @:ufunction @:final public function SetAllowModifierKeys(bInAllowModifierKeys : Bool) : Void;
   
   /**
     Returns true if the widget is currently selecting a key, otherwise returns false.
   **/
-  @:thisConst @:final public function GetIsSelectingKey() : Bool;
+  @:ufunction @:thisConst @:final public function GetIsSelectingKey() : Bool;
   
 }

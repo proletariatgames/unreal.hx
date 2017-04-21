@@ -20,38 +20,38 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UUniformGridSlot extends unreal.umg.UPanelSlot {
+@:uextern @:uclass extern class UUniformGridSlot extends unreal.umg.UPanelSlot {
   
   /**
     The column index of the cell this slot is in
   **/
-  public var Column : unreal.Int32;
+  @:uproperty public var Column : unreal.Int32;
   
   /**
     The row index of the cell this slot is in
   **/
-  public var Row : unreal.Int32;
+  @:uproperty public var Row : unreal.Int32;
   
   /**
     The alignment of the object vertically.
   **/
-  public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   
   /**
     The alignment of the object horizontally.
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     Sets the row index of the slot, this determines what cell the slot is in the panel
   **/
-  @:final public function SetRow(InRow : unreal.Int32) : Void;
+  @:ufunction @:final public function SetRow(InRow : unreal.Int32) : Void;
   
   /**
     Sets the column index of the slot, this determines what cell the slot is in the panel
   **/
-  @:final public function SetColumn(InColumn : unreal.Int32) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction @:final public function SetColumn(InColumn : unreal.Int32) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

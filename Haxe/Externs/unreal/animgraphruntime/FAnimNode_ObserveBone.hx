@@ -19,36 +19,36 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_ObserveBone.h")
-@:uextern extern class FAnimNode_ObserveBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_ObserveBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Scale of the bone being observed.
   **/
-  public var Scale : unreal.FVector;
+  @:uproperty public var Scale : unreal.FVector;
   
   /**
     Rotation of the bone being observed.
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Translation of the bone being observed.
   **/
-  public var Translation : unreal.FVector;
+  @:uproperty public var Translation : unreal.FVector;
   
   /**
     Show the difference from the reference pose?
   **/
-  public var bRelativeToRefPose : Bool;
+  @:uproperty public var bRelativeToRefPose : Bool;
   
   /**
     Reference frame to display the bone transform in.
   **/
-  public var DisplaySpace : unreal.EBoneControlSpace;
+  @:uproperty public var DisplaySpace : unreal.EBoneControlSpace;
   
   /**
     Name of bone to observe.
   **/
-  public var BoneToObserve : unreal.FBoneReference;
+  @:uproperty public var BoneToObserve : unreal.FBoneReference;
   
 }

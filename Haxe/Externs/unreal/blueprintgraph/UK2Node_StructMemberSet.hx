@@ -21,7 +21,7 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_StructMemberSet.h")
-@:uextern extern class UK2Node_StructMemberSet extends unreal.blueprintgraph.UK2Node_StructOperation {
-  public var ShowPinForProperties : unreal.TArray<unreal.blueprintgraph.FOptionalPinFromProperty>;
+@:uextern @:uclass extern class UK2Node_StructMemberSet extends unreal.blueprintgraph.UK2Node_StructOperation {
+  @:uproperty public var ShowPinForProperties : unreal.TArray<unreal.blueprintgraph.FOptionalPinFromProperty>;
   
 }

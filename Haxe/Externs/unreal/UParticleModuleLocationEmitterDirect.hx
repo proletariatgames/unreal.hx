@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationEmitterDirect.h")
-@:uextern extern class UParticleModuleLocationEmitterDirect extends unreal.UParticleModuleLocationBase {
+@:uextern @:uclass extern class UParticleModuleLocationEmitterDirect extends unreal.UParticleModuleLocationBase {
   
   /**
     The name of the emitter to use as a source for the location of the particles.
   **/
-  public var EmitterName : unreal.FName;
+  @:uproperty public var EmitterName : unreal.FName;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/GameUserSettings.h")
 @:uname("EWindowMode.Type")
-@:uextern extern enum EWindowMode {
+@:uextern @:uenum extern enum EWindowMode {
   
   /**
     The window is in true fullscreen mode

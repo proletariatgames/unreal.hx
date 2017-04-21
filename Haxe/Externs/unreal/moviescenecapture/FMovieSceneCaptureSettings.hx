@@ -19,67 +19,67 @@ package unreal.moviescenecapture;
 **/
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCaptureSettings.h")
-@:uextern extern class FMovieSceneCaptureSettings {
+@:uextern @:ustruct extern class FMovieSceneCaptureSettings {
   
   /**
     Whether to show the in-game HUD whilst capturing
   **/
-  public var bShowHUD : Bool;
+  @:uproperty public var bShowHUD : Bool;
   
   /**
     Whether to show the local player whilst capturing
   **/
-  public var bShowPlayer : Bool;
+  @:uproperty public var bShowPlayer : Bool;
   
   /**
     Whether to allow player rotation whilst capturing
   **/
-  public var bAllowTurning : Bool;
+  @:uproperty public var bAllowTurning : Bool;
   
   /**
     Whether to allow player movement whilst capturing
   **/
-  public var bAllowMovement : Bool;
+  @:uproperty public var bAllowMovement : Bool;
   
   /**
     Whether to enable cinematic mode whilst capturing
   **/
-  public var bCinematicMode : Bool;
+  @:uproperty public var bCinematicMode : Bool;
   
   /**
     Whether to texture streaming should be enabled while capturing.  Turning off texture streaming may cause much more memory to be used, but also reduces the chance of blurry textures in your captured video.
   **/
-  public var bEnableTextureStreaming : Bool;
+  @:uproperty public var bEnableTextureStreaming : Bool;
   
   /**
     The resolution at which to capture
   **/
-  public var Resolution : unreal.moviescenecapture.FCaptureResolution;
+  @:uproperty public var Resolution : unreal.moviescenecapture.FCaptureResolution;
   
   /**
     The frame rate at which to capture
   **/
-  public var FrameRate : unreal.Int32;
+  @:uproperty public var FrameRate : unreal.Int32;
   
   /**
     How much to zero-pad frame numbers on filenames
   **/
-  public var ZeroPadFrameNumbers : unreal.UInt8;
+  @:uproperty public var ZeroPadFrameNumbers : unreal.UInt8;
   
   /**
     Number of frame handles to include for each shot
   **/
-  public var HandleFrames : unreal.Int32;
+  @:uproperty public var HandleFrames : unreal.Int32;
   
   /**
     True if frame numbers in the output files should be relative to zero, rather than the actual frame numbers in the originating animation content
   **/
-  public var bUseRelativeFrameNumbers : Bool;
+  @:uproperty public var bUseRelativeFrameNumbers : Bool;
   
   /**
     Whether to overwrite existing files or not
   **/
-  public var bOverwriteExisting : Bool;
+  @:uproperty public var bOverwriteExisting : Bool;
   
   /**
     The format to use for the resulting filename. Extension will be added automatically. Any tokens of the form {token} will be replaced with the corresponding value:
@@ -92,21 +92,21 @@ package unreal.moviescenecapture;
     {material}   - The material/render pass
     {shot}       - The name of the level sequence asset shot being played
   **/
-  public var OutputFormat : unreal.FString;
+  @:uproperty public var OutputFormat : unreal.FString;
   
   /**
     Optional game mode to override the map's default game mode with.  This can be useful if the game's normal mode displays UI elements or loading screens that you don't want captured.
   **/
-  public var GameModeOverride : unreal.TSubclassOf<unreal.AGameModeBase>;
+  @:uproperty public var GameModeOverride : unreal.TSubclassOf<unreal.AGameModeBase>;
   
   /**
     Whether to save temporary copies of all of the levels before capturing the movie.  This allows you to record movies of temporary work, or work that isn't yet saved, but it will take much longer for capturing to begin.
   **/
-  public var bCreateTemporaryCopiesOfLevels : Bool;
+  @:uproperty public var bCreateTemporaryCopiesOfLevels : Bool;
   
   /**
     The directory to output the captured file(s) in
   **/
-  public var OutputDirectory : unreal.FDirectoryPath;
+  @:uproperty public var OutputDirectory : unreal.FDirectoryPath;
   
 }

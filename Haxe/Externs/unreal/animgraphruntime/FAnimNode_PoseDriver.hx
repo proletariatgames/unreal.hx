@@ -19,32 +19,32 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
-@:uextern extern class FAnimNode_PoseDriver extends unreal.animgraphruntime.FAnimNode_PoseHandler {
+@:uextern @:ustruct extern class FAnimNode_PoseDriver extends unreal.animgraphruntime.FAnimNode_PoseHandler {
   
   /**
     Axis to use when Type is SwingOnly
   **/
-  public var TwistAxis : unreal.EBoneAxis;
+  @:uproperty public var TwistAxis : unreal.EBoneAxis;
   
   /**
     Type of orientation for driving parameter
   **/
-  public var Type : unreal.animgraphruntime.EPoseDriverType;
+  @:uproperty public var Type : unreal.animgraphruntime.EPoseDriverType;
   
   /**
     Should we consider the mesh ref pose of SourceBone as a 'neutral' pose (zero curves)
   **/
-  public var bIncludeRefPoseAsNeutralPose : Bool;
+  @:uproperty public var bIncludeRefPoseAsNeutralPose : Bool;
   
   /**
     Scaling of radial basis, applied to max distance between poses
   **/
-  public var RadialScaling : unreal.Float32;
+  @:uproperty public var RadialScaling : unreal.Float32;
   
   /**
     Bone to use for driving parameters based on its orientation
   **/
-  public var SourceBone : unreal.FBoneReference;
-  public var SourcePose : unreal.FPoseLink;
+  @:uproperty public var SourceBone : unreal.FBoneReference;
+  @:uproperty public var SourcePose : unreal.FPoseLink;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/PhysicsSettings.h")
 @:uname("ESettingsLockedAxis.Type")
-@:uextern extern enum ESettingsLockedAxis {
+@:uextern @:uenum extern enum ESettingsLockedAxis {
   
   /**
     No axis is locked.

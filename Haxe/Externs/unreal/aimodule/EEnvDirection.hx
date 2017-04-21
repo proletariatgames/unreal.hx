@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvDirection.Type")
-@:uextern extern enum EEnvDirection {
+@:uextern @:uenum extern enum EEnvDirection {
   
   /**
     Direction from location of one context to another.

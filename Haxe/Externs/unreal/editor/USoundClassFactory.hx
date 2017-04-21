@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SoundClassFactory.h")
-@:uextern extern class USoundClassFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class USoundClassFactory extends unreal.editor.UFactory {
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FInterpCurveQuat {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpCurveQuat {
   
 }

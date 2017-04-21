@@ -21,27 +21,27 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassParameterizedMaterialSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassParameterizedMaterialSettings {
   
   /**
     Scales the resolution that this material's attributes were exported at.
     This is useful for increasing material resolution when details are needed.
   **/
-  public var ExportResolutionScale : unreal.editor.FLightmassScalarParameterValue;
+  @:uproperty public var ExportResolutionScale : unreal.editor.FLightmassScalarParameterValue;
   
   /**
     Scales the diffuse contribution of this material to static lighting.
   **/
-  public var DiffuseBoost : unreal.editor.FLightmassScalarParameterValue;
+  @:uproperty public var DiffuseBoost : unreal.editor.FLightmassScalarParameterValue;
   
   /**
     Scales the emissive contribution of this material to static lighting.
   **/
-  public var EmissiveBoost : unreal.editor.FLightmassScalarParameterValue;
+  @:uproperty public var EmissiveBoost : unreal.editor.FLightmassScalarParameterValue;
   
   /**
     If true, forces translucency to cast static shadows as if the material were masked.
   **/
-  public var CastShadowAsMasked : unreal.editor.FLightmassBooleanParameterValue;
+  @:uproperty public var CastShadowAsMasked : unreal.editor.FLightmassBooleanParameterValue;
   
 }

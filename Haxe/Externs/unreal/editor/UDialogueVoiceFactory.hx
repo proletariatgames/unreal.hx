@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/DialogueVoiceFactory.h")
-@:uextern extern class UDialogueVoiceFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UDialogueVoiceFactory extends unreal.editor.UFactory {
   
 }

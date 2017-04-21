@@ -20,17 +20,17 @@ package unreal;
   Selection information for geometry mode
 **/
 @:glueCppIncludes("Engine/Brush.h")
-@:noCopy @:noEquals @:uextern extern class FGeomSelection {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGeomSelection {
   
   /**
     Index into the geometry data structures
   **/
-  public var SelectionIndex : unreal.Int32;
+  @:uproperty public var SelectionIndex : unreal.Int32;
   
   /**
     EGeometrySelectionType_
   **/
-  public var Index : unreal.Int32;
-  public var Type : unreal.Int32;
+  @:uproperty public var Index : unreal.Int32;
+  @:uproperty public var Type : unreal.Int32;
   
 }

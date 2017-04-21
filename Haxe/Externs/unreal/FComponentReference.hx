@@ -19,16 +19,16 @@ package unreal;
   If just an Actor is specified, will return RootComponent of that Actor.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class FComponentReference {
+@:uextern @:ustruct extern class FComponentReference {
   
   /**
     Name of component property to use
   **/
-  public var ComponentProperty : unreal.FName;
+  @:uproperty public var ComponentProperty : unreal.FName;
   
   /**
     Pointer to a different Actor that owns the Component.
   **/
-  public var OtherActor : unreal.AActor;
+  @:uproperty public var OtherActor : unreal.AActor;
   
 }

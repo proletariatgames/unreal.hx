@@ -15,15 +15,15 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseConfig_Hearing.h")
-@:uextern extern class UAISenseConfig_Hearing extends unreal.aimodule.UAISenseConfig {
-  public var DetectionByAffiliation : unreal.aimodule.FAISenseAffiliationFilter;
+@:uextern @:uclass extern class UAISenseConfig_Hearing extends unreal.aimodule.UAISenseConfig {
+  @:uproperty public var DetectionByAffiliation : unreal.aimodule.FAISenseAffiliationFilter;
   
   /**
     Warning: has significant runtime cost
   **/
-  public var bUseLoSHearing : Bool;
-  public var LoSHearingRange : unreal.Float32;
-  public var HearingRange : unreal.Float32;
-  public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Hearing>;
+  @:uproperty public var bUseLoSHearing : Bool;
+  @:uproperty public var LoSHearingRange : unreal.Float32;
+  @:uproperty public var HearingRange : unreal.Float32;
+  @:uproperty public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Hearing>;
   
 }

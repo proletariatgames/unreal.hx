@@ -21,12 +21,12 @@ package unreal.umgeditor;
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetGraphSchema.h")
-@:uextern extern class UWidgetGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
-  public var DefaultEvaluationHandlerName : unreal.FName;
-  public var NAME_OnEvaluate : unreal.FName;
-  public var NAME_AlwaysAsPin : unreal.FName;
-  public var NAME_PinShownByDefault : unreal.FName;
-  public var NAME_PinHiddenByDefault : unreal.FName;
-  public var NAME_NeverAsPin : unreal.FName;
+@:uextern @:uclass extern class UWidgetGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
+  @:uproperty public var DefaultEvaluationHandlerName : unreal.FName;
+  @:uproperty public var NAME_OnEvaluate : unreal.FName;
+  @:uproperty public var NAME_AlwaysAsPin : unreal.FName;
+  @:uproperty public var NAME_PinShownByDefault : unreal.FName;
+  @:uproperty public var NAME_PinHiddenByDefault : unreal.FName;
+  @:uproperty public var NAME_NeverAsPin : unreal.FName;
   
 }

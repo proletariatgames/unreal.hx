@@ -15,8 +15,8 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class URichTextBlockDecorator extends unreal.UObject {
-  public var RevealedIndex : unreal.Int32;
-  public var bReveal : Bool;
+@:uextern @:uclass extern class URichTextBlockDecorator extends unreal.UObject {
+  @:uproperty public var RevealedIndex : unreal.Int32;
+  @:uproperty public var bReveal : Bool;
   
 }

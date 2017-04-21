@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleSystemComponent.h")
 @:uname("EParticleSysParamType")
-@:uextern extern enum EParticleSysParamType {
+@:uextern @:uenum extern enum EParticleSysParamType {
   
   /**
     None

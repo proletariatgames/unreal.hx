@@ -21,11 +21,11 @@ package unreal;
   ie. point X in the direction you want the thrust in.
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsThrusterComponent.h")
-@:uextern extern class UPhysicsThrusterComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class UPhysicsThrusterComponent extends unreal.USceneComponent {
   
   /**
     Strength of thrust force applied to the base object.
   **/
-  public var ThrustStrength : unreal.Float32;
+  @:uproperty public var ThrustStrength : unreal.Float32;
   
 }

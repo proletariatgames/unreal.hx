@@ -20,6 +20,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilityBlueprint.h")
-@:uextern extern class UGameplayAbilityBlueprint extends unreal.UBlueprint {
+@:uextern @:uclass extern class UGameplayAbilityBlueprint extends unreal.UBlueprint {
   
 }

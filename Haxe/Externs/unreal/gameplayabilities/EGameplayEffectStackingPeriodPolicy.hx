@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EGameplayEffectStackingPeriodPolicy")
-@:class @:uextern extern enum EGameplayEffectStackingPeriodPolicy {
+@:class @:uextern @:uenum extern enum EGameplayEffectStackingPeriodPolicy {
   
   /**
     Any progress toward the next tick of a periodic effect is discarded upon any successful stack application

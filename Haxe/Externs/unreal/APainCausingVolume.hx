@@ -18,41 +18,41 @@ package unreal;
   Volume that causes damage over time to any Actor that overlaps its collision.
 **/
 @:glueCppIncludes("GameFramework/PainCausingVolume.h")
-@:uextern extern class APainCausingVolume extends unreal.APhysicsVolume {
+@:uextern @:uclass extern class APainCausingVolume extends unreal.APhysicsVolume {
   
   /**
     Controller that gets credit for any damage caused by this volume
   **/
-  public var DamageInstigator : unreal.AController;
+  @:uproperty public var DamageInstigator : unreal.AController;
   
   /**
     Checkpointed bPainCausing value
   **/
-  public var BACKUP_bPainCausing : Bool;
+  @:uproperty public var BACKUP_bPainCausing : Bool;
   
   /**
     if bPainCausing, cause pain when something enters the volume in addition to damage each second
   **/
-  public var bEntryPain : Bool;
+  @:uproperty public var bEntryPain : Bool;
   
   /**
     If pain causing, time between damage applications.
   **/
-  public var PainInterval : unreal.Float32;
+  @:uproperty public var PainInterval : unreal.Float32;
   
   /**
     Type of damage done
   **/
-  public var DamageType : unreal.TSubclassOf<unreal.UDamageType>;
+  @:uproperty public var DamageType : unreal.TSubclassOf<unreal.UDamageType>;
   
   /**
     Damage done per second to actors in this volume when bPainCausing=true
   **/
-  public var DamagePerSec : unreal.Float32;
+  @:uproperty public var DamagePerSec : unreal.Float32;
   
   /**
     Whether volume currently causes damage.
   **/
-  public var bPainCausing : Bool;
+  @:uproperty public var bPainCausing : Bool;
   
 }

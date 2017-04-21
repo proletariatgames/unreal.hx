@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayEffectAttributeCaptureSource")
-@:class @:uextern extern enum EGameplayEffectAttributeCaptureSource {
+@:class @:uextern @:uenum extern enum EGameplayEffectAttributeCaptureSource {
   
   /**
     Source (caster) of the gameplay effect.

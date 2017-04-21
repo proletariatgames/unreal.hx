@@ -21,12 +21,12 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetAnimation extends unreal.moviescene.UMovieSceneSequence {
-  public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
+@:uextern @:uclass extern class UWidgetAnimation extends unreal.moviescene.UMovieSceneSequence {
+  @:uproperty public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
   
   /**
     Pointer to the movie scene that controls this animation.
   **/
-  public var MovieScene : unreal.moviescene.UMovieScene;
+  @:uproperty public var MovieScene : unreal.moviescene.UMovieScene;
   
 }

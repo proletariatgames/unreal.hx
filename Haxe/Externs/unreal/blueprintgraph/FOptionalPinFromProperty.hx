@@ -21,29 +21,30 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node.h")
-@:noCopy @:noEquals @:uextern extern class FOptionalPinFromProperty {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FOptionalPinFromProperty {
   
   /**
     TRUE if the override pin is visible
   **/
-  public var bIsOverridePinVisible : Bool;
+  @:uproperty public var bIsOverridePinVisible : Bool;
   
   /**
     TRUE if the override value should be set through this pin
   **/
-  public var bIsSetValuePinVisible : Bool;
+  @:uproperty public var bIsSetValuePinVisible : Bool;
   
   /**
     TRUE if the override value is enabled for use
   **/
-  public var bIsOverrideEnabled : Bool;
-  public var bIsMarkedForAdvancedDisplay : Bool;
-  public var bHasOverridePin : Bool;
-  public var CategoryName : unreal.FName;
-  public var bPropertyIsCustomized : Bool;
-  public var bCanToggleVisibility : Bool;
-  public var bShowPin : Bool;
-  public var PropertyFriendlyName : unreal.FString;
-  public var PropertyName : unreal.FName;
+  @:uproperty public var bIsOverrideEnabled : Bool;
+  @:uproperty public var bIsMarkedForAdvancedDisplay : Bool;
+  @:uproperty public var bHasOverridePin : Bool;
+  @:uproperty public var CategoryName : unreal.FName;
+  @:uproperty public var bPropertyIsCustomized : Bool;
+  @:uproperty public var bCanToggleVisibility : Bool;
+  @:uproperty public var bShowPin : Bool;
+  @:uproperty public var PropertyTooltip : unreal.FText;
+  @:uproperty public var PropertyFriendlyName : unreal.FString;
+  @:uproperty public var PropertyName : unreal.FName;
   
 }

@@ -21,46 +21,53 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainMaterial.h")
-@:noCopy @:noEquals @:uextern extern class FPaperTerrainMaterialRule {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPaperTerrainMaterialRule {
+  #if WITH_EDITORONLY_DATA
+  
+  /**
+    Readable description for the rule (unused anywhere, just for clarity when editing the material)
+  **/
+  @:uproperty public var Description : unreal.FText;
+  #end // WITH_EDITORONLY_DATA
   
   /**
     Specify a draw order for different materials in a spline. Smaller draw orders are drawn first, negative values are allowed.
   **/
-  public var DrawOrder : unreal.Int32;
+  @:uproperty public var DrawOrder : unreal.Int32;
   
   /**
     How much should the collision be lofted from the spline (positive values go out from the spline, negative values go in to the spline)
   **/
-  public var CollisionOffset : unreal.Float32;
+  @:uproperty public var CollisionOffset : unreal.Float32;
   
   /**
     If true, collision is enabled for sections matching this rule
   **/
-  public var bEnableCollision : Bool;
+  @:uproperty public var bEnableCollision : Bool;
   
   /**
     Maximum slope angle (in degrees) to apply this rule
   **/
-  public var MaximumAngle : unreal.Float32;
+  @:uproperty public var MaximumAngle : unreal.Float32;
   
   /**
     Minimum slope angle (in degrees) to apply this rule
   **/
-  public var MinimumAngle : unreal.Float32;
+  @:uproperty public var MinimumAngle : unreal.Float32;
   
   /**
     The sprite to use at the 'right' (closest to spline end) edge of the terrain segment
   **/
-  public var EndCap : unreal.paper2d.UPaperSprite;
+  @:uproperty public var EndCap : unreal.paper2d.UPaperSprite;
   
   /**
     A set of sprites to randomly choose to fill up the interior space between the caps in a terrain segment
   **/
-  public var Body : unreal.TArray<unreal.paper2d.UPaperSprite>;
+  @:uproperty public var Body : unreal.TArray<unreal.paper2d.UPaperSprite>;
   
   /**
     The sprite to use at the 'left' (closest to spline start) edge of the terrain segment
   **/
-  public var StartCap : unreal.paper2d.UPaperSprite;
+  @:uproperty public var StartCap : unreal.paper2d.UPaperSprite;
   
 }

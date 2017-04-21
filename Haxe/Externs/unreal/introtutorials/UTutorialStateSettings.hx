@@ -21,7 +21,7 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialStateSettings.h")
-@:noClass @:uextern extern class UTutorialStateSettings extends unreal.UObject {
-  public var TutorialsProgress : unreal.TArray<unreal.introtutorials.FTutorialProgress>;
+@:noClass @:uextern @:uclass extern class UTutorialStateSettings extends unreal.UObject {
+  @:uproperty public var TutorialsProgress : unreal.TArray<unreal.introtutorials.FTutorialProgress>;
   
 }

@@ -15,29 +15,29 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Blueprint/AIBlueprintHelperLibrary.h")
-@:uextern extern class UAIBlueprintHelperLibrary extends unreal.UBlueprintFunctionLibrary {
-  static public function CreateMoveToProxyObject(WorldContextObject : unreal.UObject, Pawn : unreal.APawn, Destination : unreal.FVector, TargetActor : unreal.AActor, AcceptanceRadius : unreal.Float32, bStopOnOverlap : Bool) : unreal.aimodule.UAIAsyncTaskBlueprintProxy;
-  static public function SendAIMessage(Target : unreal.APawn, Message : unreal.FName, MessageSource : unreal.UObject, bSuccess : Bool) : Void;
-  static public function SpawnAIFromClass(WorldContextObject : unreal.UObject, PawnClass : unreal.TSubclassOf<unreal.APawn>, BehaviorTree : unreal.aimodule.UBehaviorTree, Location : unreal.FVector, Rotation : unreal.FRotator, bNoCollisionFail : Bool) : unreal.APawn;
+@:uextern @:uclass extern class UAIBlueprintHelperLibrary extends unreal.UBlueprintFunctionLibrary {
+  @:ufunction static public function CreateMoveToProxyObject(WorldContextObject : unreal.UObject, Pawn : unreal.APawn, Destination : unreal.FVector, TargetActor : unreal.AActor, AcceptanceRadius : unreal.Float32 = 5.000000, bStopOnOverlap : Bool = false) : unreal.aimodule.UAIAsyncTaskBlueprintProxy;
+  @:ufunction static public function SendAIMessage(Target : unreal.APawn, Message : unreal.FName, MessageSource : unreal.UObject, bSuccess : Bool = true) : Void;
+  @:ufunction static public function SpawnAIFromClass(WorldContextObject : unreal.UObject, PawnClass : unreal.TSubclassOf<unreal.APawn>, BehaviorTree : unreal.aimodule.UBehaviorTree, Location : unreal.FVector, Rotation : unreal.FRotator, bNoCollisionFail : Bool = false) : unreal.APawn;
   
   /**
     The way it works exactly is if the actor passed in is a pawn, then the function retrieves
         pawn's controller cast to AIController. Otherwise the function returns actor cast to AIController.
   **/
-  static public function GetAIController(ControlledActor : unreal.AActor) : unreal.aimodule.AAIController;
-  static public function GetBlackboard(Target : unreal.AActor) : unreal.aimodule.UBlackboardComponent;
+  @:ufunction static public function GetAIController(ControlledActor : unreal.AActor) : unreal.aimodule.AAIController;
+  @:ufunction static public function GetBlackboard(Target : unreal.AActor) : unreal.aimodule.UBlackboardComponent;
   
   /**
     locks indicated AI resources of animated pawn
   **/
-  static public function LockAIResourcesWithAnimation(AnimInstance : unreal.UAnimInstance, bLockMovement : Bool, LockAILogic : Bool) : Void;
+  @:ufunction static public function LockAIResourcesWithAnimation(AnimInstance : unreal.UAnimInstance, bLockMovement : Bool, LockAILogic : Bool) : Void;
   
   /**
     unlocks indicated AI resources of animated pawn. Will unlock only animation-locked resources
   **/
-  static public function UnlockAIResourcesWithAnimation(AnimInstance : unreal.UAnimInstance, bUnlockMovement : Bool, UnlockAILogic : Bool) : Void;
-  static public function IsValidAILocation(Location : unreal.FVector) : Bool;
-  static public function IsValidAIDirection(DirectionVector : unreal.FVector) : Bool;
-  static public function IsValidAIRotation(Rotation : unreal.FRotator) : Bool;
+  @:ufunction static public function UnlockAIResourcesWithAnimation(AnimInstance : unreal.UAnimInstance, bUnlockMovement : Bool, UnlockAILogic : Bool) : Void;
+  @:ufunction static public function IsValidAILocation(Location : unreal.FVector) : Bool;
+  @:ufunction static public function IsValidAIDirection(DirectionVector : unreal.FVector) : Bool;
+  @:ufunction static public function IsValidAIRotation(Rotation : unreal.FRotator) : Bool;
   
 }

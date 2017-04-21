@@ -22,12 +22,12 @@ package unreal;
   +Profiles=(Name=NameOfProfileYouLikeToOverwrite,....)
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")
-@:uextern extern class FCustomProfile {
+@:uextern @:ustruct extern class FCustomProfile {
   
   /**
     Types of objects that this physics objects will collide with.
   **/
-  public var CustomResponses : unreal.TArray<unreal.FResponseChannel>;
-  public var Name : unreal.FName;
+  @:uproperty public var CustomResponses : unreal.TArray<unreal.FResponseChannel>;
+  @:uproperty public var Name : unreal.FName;
   
 }

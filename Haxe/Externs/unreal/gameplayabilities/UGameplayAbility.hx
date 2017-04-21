@@ -19,132 +19,132 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility.h")
-@:uextern extern class UGameplayAbility extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
+@:uextern @:uclass extern class UGameplayAbility extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
   
   /**
     Retrieves the EffectContext of the GameplayEffect that granted this ability. Can only be called on instanced abilities.
   **/
-  @:thisConst @:final public function GetGrantedByEffectContext() : unreal.gameplayabilities.FGameplayEffectContextHandle;
+  @:ufunction @:thisConst @:final public function GetGrantedByEffectContext() : unreal.gameplayabilities.FGameplayEffectContextHandle;
   
   /**
     Removes the GameplayEffect that granted this ability. Can only be called on instanced abilities.
   **/
-  @:final public function RemoveGrantedByEffect() : Void;
+  @:ufunction @:final public function RemoveGrantedByEffect() : Void;
   
   /**
     Active montage being played by this ability
   **/
-  private var CurrentMontage : unreal.UAnimMontage;
+  @:uproperty private var CurrentMontage : unreal.UAnimMontage;
   
   /**
     Ability Tasks
   **/
-  private var ActiveTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
+  @:uproperty private var ActiveTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
   
   /**
     This ability is blocked if the target actor/component has any of these tags
   **/
-  private var TargetBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var TargetBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This ability can only be activated if the target actor/component has all of these tags
   **/
-  private var TargetRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var TargetRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This ability is blocked if the source actor/component has any of these tags
   **/
-  private var SourceBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var SourceBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This ability can only be activated if the source actor/component has all of these tags
   **/
-  private var SourceRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var SourceRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This ability is blocked if the activating actor/component has any of these tags
   **/
-  private var ActivationBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var ActivationBlockedTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     This ability can only be activated if the activating actor/component has all of these tags
   **/
-  private var ActivationRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var ActivationRequiredTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Tags to apply to activating owner while this ability is active
   **/
-  private var ActivationOwnedTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var ActivationOwnedTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Abilities with these tags are blocked while this ability is active
   **/
-  private var BlockAbilitiesWithTag : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var BlockAbilitiesWithTag : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Abilities with these tags are cancelled when this ability is executed
   **/
-  private var CancelAbilitiesWithTag : unreal.gameplaytags.FGameplayTagContainer;
-  private var ConstTagQuery : unreal.gameplaytags.FGameplayTagQuery;
+  @:uproperty private var CancelAbilitiesWithTag : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var ConstTagQuery : unreal.gameplaytags.FGameplayTagQuery;
   
   /**
     Ability exclusion / canceling
   **/
-  private var CancelAbilitiesMatchingTagQuery : unreal.gameplaytags.FGameplayTagQuery;
+  @:uproperty private var CancelAbilitiesMatchingTagQuery : unreal.gameplaytags.FGameplayTagQuery;
   
   /**
     Deprecated. Use CooldownGameplayEffectClass instead
   **/
-  private var CooldownGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
+  @:uproperty private var CooldownGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
   
   /**
     Deprecated? This GameplayEffect represents the cooldown. It will be applied when the ability is committed and the ability cannot be used again until it is expired.
   **/
-  private var CooldownGameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
+  @:uproperty private var CooldownGameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
   
   /**
     Triggers to determine if this ability should execute in response to an event
   **/
-  private var AbilityTriggers : unreal.TArray<unreal.gameplayabilities.FAbilityTriggerData>;
+  @:uproperty private var AbilityTriggers : unreal.TArray<unreal.gameplayabilities.FAbilityTriggerData>;
   
   /**
     Deprecated. Use CostGameplayEffectClass instead
   **/
-  private var CostGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
+  @:uproperty private var CostGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
   
   /**
     This GameplayEffect represents the cost (mana, stamina, etc) of the ability. It will be applied when the ability is committed.
   **/
-  private var CostGameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
-  private var NetExecutionPolicy : unreal.gameplayabilities.EGameplayAbilityNetExecutionPolicy;
-  private var CurrentEventData : unreal.gameplayabilities.FGameplayEventData;
+  @:uproperty private var CostGameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
+  @:uproperty private var NetExecutionPolicy : unreal.gameplayabilities.EGameplayAbilityNetExecutionPolicy;
+  @:uproperty private var CurrentEventData : unreal.gameplayabilities.FGameplayEventData;
   
   /**
     This is information specific to this instance of the ability. E.g, whether it is predicting, authoring, confirmed, etc.
   **/
-  private var CurrentActivationInfo : unreal.gameplayabilities.FGameplayAbilityActivationInfo;
-  private var InstancingPolicy : unreal.gameplayabilities.EGameplayAbilityInstancingPolicy;
-  private var ReplicationPolicy : unreal.gameplayabilities.EGameplayAbilityReplicationPolicy;
+  @:uproperty private var CurrentActivationInfo : unreal.gameplayabilities.FGameplayAbilityActivationInfo;
+  @:uproperty private var InstancingPolicy : unreal.gameplayabilities.EGameplayAbilityInstancingPolicy;
+  @:uproperty private var ReplicationPolicy : unreal.gameplayabilities.EGameplayAbilityReplicationPolicy;
   
   /**
     If true, this ability will always replicate input press/release events to the server.
   **/
-  public var bReplicateInputDirectly : Bool;
+  @:uproperty public var bReplicateInputDirectly : Bool;
   
   /**
     This ability has these tags
   **/
-  public var AbilityTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var AbilityTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Returns true if this ability can be activated right now. Has no side effects
   **/
-  @:thisConst private function K2_ShouldAbilityRespondToEvent(ActorInfo : unreal.gameplayabilities.FGameplayAbilityActorInfo, Payload : unreal.gameplayabilities.FGameplayEventData) : Bool;
+  @:ufunction @:thisConst private function K2_ShouldAbilityRespondToEvent(ActorInfo : unreal.gameplayabilities.FGameplayAbilityActorInfo, Payload : unreal.gameplayabilities.FGameplayEventData) : Bool;
   
   /**
     Returns true if this ability can be activated right now. Has no side effects
   **/
-  @:thisConst private function K2_CanActivateAbility(ActorInfo : unreal.gameplayabilities.FGameplayAbilityActorInfo, RelevantTags : unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>) : Bool;
+  @:ufunction @:thisConst private function K2_CanActivateAbility(ActorInfo : unreal.gameplayabilities.FGameplayAbilityActorInfo, RelevantTags : unreal.PRef<unreal.gameplaytags.FGameplayTagContainer>) : Bool;
   
   /**
     The main function that defines what an ability does.
@@ -156,185 +156,185 @@ package unreal.gameplayabilities;
      In C++, the call to K2_ActivateAbility() may return without CommitAbility or EndAbility having been called. But it is expected that this
      will only occur when latent/async actions are pending. When K2_ActivateAbility logically finishes, then we will expect Commit/End to have been called.
   **/
-  private function K2_ActivateAbility() : Void;
-  private function K2_ActivateAbilityFromEvent(EventData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEventData>>) : Void;
-  private function SendGameplayEvent(EventTag : unreal.gameplaytags.FGameplayTag, Payload : unreal.gameplayabilities.FGameplayEventData) : Void;
+  @:ufunction private function K2_ActivateAbility() : Void;
+  @:ufunction private function K2_ActivateAbilityFromEvent(EventData : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEventData>>) : Void;
+  @:ufunction private function SendGameplayEvent(EventTag : unreal.gameplaytags.FGameplayTag, Payload : unreal.gameplayabilities.FGameplayEventData) : Void;
   
   /**
     Attempts to commit the ability (spend resources, etc). This our last chance to fail.
          -Child classes that override ActivateAbility must call this themselves!
   **/
-  public function K2_CommitAbility() : Bool;
+  @:ufunction public function K2_CommitAbility() : Bool;
   
   /**
     Attempts to commit the ability's cooldown only. If BroadcastCommitEvent is true, it will broadcast the commit event that tasks like WaitAbilityCommit are listening for.
   **/
-  public function K2_CommitAbilityCooldown(BroadcastCommitEvent : Bool, ForceCooldown : Bool) : Bool;
+  @:ufunction public function K2_CommitAbilityCooldown(BroadcastCommitEvent : Bool = false, ForceCooldown : Bool = false) : Bool;
   
   /**
     Attempts to commit the ability's cost only. If BroadcastCommitEvent is true, it will broadcast the commit event that tasks like WaitAbilityCommit are listening for.
   **/
-  public function K2_CommitAbilityCost(BroadcastCommitEvent : Bool) : Bool;
+  @:ufunction public function K2_CommitAbilityCost(BroadcastCommitEvent : Bool = false) : Bool;
   
   /**
     Checks the ability's cooldown, but does not apply it.
   **/
-  public function K2_CheckAbilityCooldown() : Bool;
+  @:ufunction public function K2_CheckAbilityCooldown() : Bool;
   
   /**
     Checks the ability's cost, but does not apply it.
   **/
-  public function K2_CheckAbilityCost() : Bool;
+  @:ufunction public function K2_CheckAbilityCost() : Bool;
   
   /**
     CommitExecute
   **/
-  public function K2_CommitExecute() : Void;
+  @:ufunction public function K2_CommitExecute() : Void;
   
   /**
     Destroys instanced-per-execution abilities. Instance-per-actor abilities should 'reset'. Non instance abilities - what can we do?
   **/
-  @:final private function ConfirmTaskByInstanceName(InstanceName : unreal.FName, bEndTask : Bool) : Void;
+  @:ufunction @:final private function ConfirmTaskByInstanceName(InstanceName : unreal.FName, bEndTask : Bool) : Void;
   
   /**
     Add any task with this instance name to a list to be ended (not canceled) next frame.  See also CancelTaskByInstanceName.
   **/
-  @:final private function EndTaskByInstanceName(InstanceName : unreal.FName) : Void;
+  @:ufunction @:final private function EndTaskByInstanceName(InstanceName : unreal.FName) : Void;
   
   /**
     Add any task with this instance name to a list to be canceled (not ended) next frame.  See also EndTaskByInstanceName.
   **/
-  @:final private function CancelTaskByInstanceName(InstanceName : unreal.FName) : Void;
+  @:ufunction @:final private function CancelTaskByInstanceName(InstanceName : unreal.FName) : Void;
   
   /**
     Ends any active ability state task with the given name. If name is 'None' all active states will be ended (in an arbitrary order).
   **/
-  @:final private function EndAbilityState(OptionalStateNameToEnd : unreal.FName) : Void;
+  @:ufunction @:final private function EndAbilityState(OptionalStateNameToEnd : unreal.FName) : Void;
   
   /**
     Call from kismet to end the ability naturally
   **/
-  private function K2_EndAbility() : Void;
+  @:ufunction private function K2_EndAbility() : Void;
   
   /**
     Kismet event, will be called if an ability ends normally or abnormally
   **/
-  private function K2_OnEndAbility() : Void;
+  @:ufunction private function K2_OnEndAbility() : Void;
   
   /**
     Apply Self
   **/
-  @:final private function BP_ApplyGameplayEffectToOwner(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
-  @:final private function K2_ApplyGameplayEffectToOwner(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
-  @:final private function K2_ApplyGameplayEffectSpecToOwner(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:ufunction @:final private function BP_ApplyGameplayEffectToOwner(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32 = 1, Stacks : unreal.Int32 = 1) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:ufunction @:final private function K2_ApplyGameplayEffectToOwner(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32 = 1, Stacks : unreal.Int32 = 1) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:ufunction @:final private function K2_ApplyGameplayEffectSpecToOwner(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>) : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   
   /**
     Apply Target
   **/
-  @:final private function BP_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
-  @:final private function K2_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32, Stacks : unreal.Int32) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
-  @:final private function K2_ApplyGameplayEffectSpecToTarget(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>, TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
+  @:ufunction @:final private function BP_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32 = 1, Stacks : unreal.Int32 = 1) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
+  @:ufunction @:final private function K2_ApplyGameplayEffectToTarget(TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle, GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, GameplayEffectLevel : unreal.Int32 = 1, Stacks : unreal.Int32 = 1) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
+  @:ufunction @:final private function K2_ApplyGameplayEffectSpecToTarget(EffectSpecHandle : unreal.Const<unreal.gameplayabilities.FGameplayEffectSpecHandle>, TargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.TArray<unreal.gameplayabilities.FActiveGameplayEffectHandle>;
   
   /**
     Removes GameplayEffects from owner which match the given asset level tags.
   **/
-  @:final private function BP_RemoveGameplayEffectFromOwnerWithAssetTags(WithAssetTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32) : Void;
-  @:final private function BP_RemoveGameplayEffectFromOwnerWithGrantedTags(WithGrantedTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32) : Void;
+  @:ufunction @:final private function BP_RemoveGameplayEffectFromOwnerWithAssetTags(WithAssetTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32 = -1) : Void;
+  @:ufunction @:final private function BP_RemoveGameplayEffectFromOwnerWithGrantedTags(WithGrantedTags : unreal.gameplaytags.FGameplayTagContainer, StacksToRemove : unreal.Int32 = -1) : Void;
   
   /**
     GameplayCue
     Abilities can invoke GameplayCues without having to create GameplayEffects
   **/
-  private function K2_ExecuteGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag, Context : unreal.gameplayabilities.FGameplayEffectContextHandle) : Void;
-  private function K2_ExecuteGameplayCueWithParams(GameplayCueTag : unreal.gameplaytags.FGameplayTag, GameplayCueParameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Void;
-  private function K2_AddGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag, Context : unreal.gameplayabilities.FGameplayEffectContextHandle, bRemoveOnAbilityEnd : Bool) : Void;
-  private function K2_RemoveGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag) : Void;
+  @:ufunction private function K2_ExecuteGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag, Context : unreal.gameplayabilities.FGameplayEffectContextHandle) : Void;
+  @:ufunction private function K2_ExecuteGameplayCueWithParams(GameplayCueTag : unreal.gameplaytags.FGameplayTag, GameplayCueParameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Void;
+  @:ufunction private function K2_AddGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag, Context : unreal.gameplayabilities.FGameplayEffectContextHandle, bRemoveOnAbilityEnd : Bool = true) : Void;
+  @:ufunction private function K2_RemoveGameplayCue(GameplayCueTag : unreal.gameplaytags.FGameplayTag) : Void;
   
   /**
     Generates a GameplayEffectContextHandle from our owner and an optional TargetData.
   **/
-  @:thisConst private function GetContextFromOwner(OptionalTargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.gameplayabilities.FGameplayEffectContextHandle;
+  @:ufunction @:thisConst private function GetContextFromOwner(OptionalTargetData : unreal.gameplayabilities.FGameplayAbilityTargetDataHandle) : unreal.gameplayabilities.FGameplayEffectContextHandle;
   
   /**
     Returns the actor info associated with this ability, has cached pointers to useful objects
   **/
-  @:thisConst @:final public function GetActorInfo() : unreal.gameplayabilities.FGameplayAbilityActorInfo;
+  @:ufunction @:thisConst @:final public function GetActorInfo() : unreal.gameplayabilities.FGameplayAbilityActorInfo;
   
   /**
     Returns the actor that owns this ability, which may not have a physical location
   **/
-  @:thisConst @:final public function GetOwningActorFromActorInfo() : unreal.AActor;
+  @:ufunction @:thisConst @:final public function GetOwningActorFromActorInfo() : unreal.AActor;
   
   /**
     Returns the physical actor that is executing this ability. May be null
   **/
-  @:thisConst @:final public function GetAvatarActorFromActorInfo() : unreal.AActor;
+  @:ufunction @:thisConst @:final public function GetAvatarActorFromActorInfo() : unreal.AActor;
   
   /**
     Convenience method for abilities to get skeletal mesh component - useful for aiming abilities
   **/
-  @:thisConst @:final public function GetOwningComponentFromActorInfo() : unreal.USkeletalMeshComponent;
+  @:ufunction @:thisConst @:final public function GetOwningComponentFromActorInfo() : unreal.USkeletalMeshComponent;
   
   /**
     Convenience method for abilities to get outgoing gameplay effect specs (for example, to pass on to projectiles to apply to whoever they hit)
   **/
-  @:thisConst @:final public function MakeOutgoingGameplayEffectSpec(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
+  @:ufunction @:thisConst @:final public function MakeOutgoingGameplayEffectSpec(GameplayEffectClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32 = 1.000000) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
   
   /**
     Convenience method for abilities to get outgoing gameplay effect specs (for example, to pass on to projectiles to apply to whoever they hit)
   **/
-  @:thisConst @:final public function GetOutgoingGameplayEffectSpec(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
+  @:ufunction @:thisConst @:final public function GetOutgoingGameplayEffectSpec(GameplayEffect : unreal.Const<unreal.gameplayabilities.UGameplayEffect>, Level : unreal.Float32 = 1.000000) : unreal.gameplayabilities.FGameplayEffectSpecHandle;
   
   /**
     Returns the currently playing montage for this ability, if any
   **/
-  @:thisConst @:final public function GetCurrentMontage() : unreal.UAnimMontage;
+  @:ufunction @:thisConst @:final public function GetCurrentMontage() : unreal.UAnimMontage;
   
   /**
     Sets whether the ability should ignore cancel requests. Only valid on instanced abilities
   **/
-  public function SetCanBeCanceled(bCanBeCanceled : Bool) : Void;
+  @:ufunction public function SetCanBeCanceled(bCanBeCanceled : Bool) : Void;
   
   /**
     Sets rather ability block flags are enabled or disabled. Only valid on instanced abilities
   **/
-  public function SetShouldBlockOtherAbilities(bShouldBlockAbilities : Bool) : Void;
-  @:thisConst @:final public function GetCooldownTimeRemaining() : unreal.Float32;
+  @:ufunction public function SetShouldBlockOtherAbilities(bShouldBlockAbilities : Bool) : Void;
+  @:ufunction @:thisConst @:final public function GetCooldownTimeRemaining() : unreal.Float32;
   
   /**
     Invalidates the current prediction key. This should be used in cases where there is a valid prediction window, but the server is doing logic that only he can do, and afterwards performs an action that the client could predict (had the client been able to run the server-only code prior).
     This returns instantly and has no other side effects other than clearing the current prediction key.
   **/
-  @:thisConst @:final public function InvalidateClientPredictionKey() : Void;
+  @:ufunction @:thisConst @:final public function InvalidateClientPredictionKey() : Void;
   
   /**
     Animation
   **/
-  @:final private function MontageJumpToSection(SectionName : unreal.FName) : Void;
-  @:final private function MontageSetNextSectionName(FromSectionName : unreal.FName, ToSectionName : unreal.FName) : Void;
+  @:ufunction @:final private function MontageJumpToSection(SectionName : unreal.FName) : Void;
+  @:ufunction @:final private function MontageSetNextSectionName(FromSectionName : unreal.FName, ToSectionName : unreal.FName) : Void;
   
   /**
     Stops the current animation montage.
     
     @param OverrideBlendTime If < 0, will override the BlendOutTime parameter on the AnimMontage instance
   **/
-  @:final private function MontageStop(OverrideBlendOutTime : unreal.Float32) : Void;
+  @:ufunction @:final private function MontageStop(OverrideBlendOutTime : unreal.Float32 = -1.000000) : Void;
   
   /**
     Target Data
   **/
-  @:final private function MakeTargetLocationInfoFromOwnerActor() : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
-  @:final private function MakeTargetLocationInfoFromOwnerSkeletalMeshComponent(SocketName : unreal.FName) : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
+  @:ufunction @:final private function MakeTargetLocationInfoFromOwnerActor() : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
+  @:ufunction @:final private function MakeTargetLocationInfoFromOwnerSkeletalMeshComponent(SocketName : unreal.FName) : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
   
   /**
     Returns current level of the Ability
   **/
-  @:thisConst @:final public function GetAbilityLevel() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetAbilityLevel() : unreal.Int32;
   
   /**
     Retrieves the SourceObject associated with this ability. Can only be called on instanced abilities.
   **/
-  @:thisConst @:final public function GetCurrentSourceObject() : unreal.UObject;
+  @:ufunction @:thisConst @:final public function GetCurrentSourceObject() : unreal.UObject;
   // GameplayTaskOwnerInterface interface implementation
   
 }

@@ -21,17 +21,17 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneParameterSection.h")
-@:noCopy @:noEquals @:uextern extern class FScalarParameterNameAndCurve {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FScalarParameterNameAndCurve {
   
   /**
     The curve which contains the animation data for the scalar parameter.
   **/
-  public var ParameterCurve : unreal.FRichCurve;
-  public var Index : unreal.Int32;
+  @:uproperty public var ParameterCurve : unreal.FRichCurve;
+  @:uproperty public var Index : unreal.Int32;
   
   /**
     The name of the scalar parameter which is being animated.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

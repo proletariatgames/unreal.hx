@@ -19,16 +19,16 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileSet.h")
-@:uextern extern class FPaperTileMetadata {
+@:uextern @:ustruct extern class FPaperTileMetadata {
   
   /**
     Collision data for the tile
   **/
-  public var CollisionData : unreal.paper2d.FSpriteGeometryCollection;
+  @:uproperty public var CollisionData : unreal.paper2d.FSpriteGeometryCollection;
   
   /**
     A tag that can be used for grouping and categorizing (consider using it as the index into a UDataTable asset).
   **/
-  public var UserDataName : unreal.FName;
+  @:uproperty public var UserDataName : unreal.FName;
   
 }

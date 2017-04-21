@@ -25,7 +25,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/TextureDefines.h")
 @:uname("TextureGroup")
-@:uextern extern enum TextureGroup {
+@:uextern @:uenum extern enum TextureGroup {
   
   /**
     World

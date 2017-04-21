@@ -20,11 +20,11 @@ package unreal;
   Struct that contains one entry for an 'event' during the timeline
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FTimelineEventEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTimelineEventEntry {
   
   /**
     Time at which event should fire
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

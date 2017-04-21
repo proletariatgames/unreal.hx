@@ -21,16 +21,16 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FCultureStatistics {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCultureStatistics {
   
   /**
     The estimated number of words that have been localized for this culture.
   **/
-  public var WordCount : unreal.FakeUInt32;
+  @:uproperty public var WordCount : unreal.FakeUInt32;
   
   /**
     The ISO name for this culture.
   **/
-  public var CultureName : unreal.FString;
+  @:uproperty public var CultureName : unreal.FString;
   
 }

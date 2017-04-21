@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UObjectPropertyBase extends unreal.UProperty {
+@:uextern @:uclass extern class UObjectPropertyBase extends unreal.UProperty {
   
 }

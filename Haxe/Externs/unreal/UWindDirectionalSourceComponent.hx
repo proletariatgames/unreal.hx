@@ -18,12 +18,12 @@ package unreal;
   Component that provides a directional wind source. Only affects SpeedTree assets.
 **/
 @:glueCppIncludes("Components/WindDirectionalSourceComponent.h")
-@:uextern extern class UWindDirectionalSourceComponent extends unreal.USceneComponent {
-  public var bPointWind : Bool;
-  public var Radius : unreal.Float32;
-  public var MaxGustAmount : unreal.Float32;
-  public var MinGustAmount : unreal.Float32;
-  public var Speed : unreal.Float32;
-  public var Strength : unreal.Float32;
+@:uextern @:uclass extern class UWindDirectionalSourceComponent extends unreal.USceneComponent {
+  @:uproperty public var bPointWind : Bool;
+  @:uproperty public var Radius : unreal.Float32;
+  @:uproperty public var MaxGustAmount : unreal.Float32;
+  @:uproperty public var MinGustAmount : unreal.Float32;
+  @:uproperty public var Speed : unreal.Float32;
+  @:uproperty public var Strength : unreal.Float32;
   
 }

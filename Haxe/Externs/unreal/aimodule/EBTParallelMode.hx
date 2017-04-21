@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Composites/BTComposite_SimpleParallel.h")
 @:uname("EBTParallelMode.Type")
-@:uextern extern enum EBTParallelMode {
+@:uextern @:uenum extern enum EBTParallelMode {
   
   /**
     When main task finishes, immediately abort background tree.

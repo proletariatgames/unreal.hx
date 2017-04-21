@@ -23,24 +23,24 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FActiveGameplayEffect extends unreal.FFastArraySerializerItem {
+@:uextern @:ustruct extern class FActiveGameplayEffect extends unreal.FFastArraySerializerItem {
   
   /**
     Not sure if this should replicate or not. If replicated, we may have trouble where IsInhibited doesn't appear to change when we do tag checks (because it was previously inhibited, but replication made it inhibited).
   **/
-  public var bIsInhibited : Bool;
-  public var StartWorldTime : unreal.Float32;
+  @:uproperty public var bIsInhibited : Bool;
+  @:uproperty public var StartWorldTime : unreal.Float32;
   
   /**
     Used for handling duration modifications being replicated
   **/
-  public var CachedStartServerWorldTime : unreal.Float32;
+  @:uproperty public var CachedStartServerWorldTime : unreal.Float32;
   
   /**
     Server time this started
   **/
-  public var StartServerWorldTime : unreal.Float32;
-  public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
-  public var Spec : unreal.gameplayabilities.FGameplayEffectSpec;
+  @:uproperty public var StartServerWorldTime : unreal.Float32;
+  @:uproperty public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
+  @:uproperty public var Spec : unreal.gameplayabilities.FGameplayEffectSpec;
   
 }

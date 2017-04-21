@@ -20,21 +20,21 @@ package unreal;
   Container struct for holding options on the data updating for the module.
 **/
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbit.h")
-@:noCopy @:noEquals @:uextern extern class FOrbitOptions {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FOrbitOptions {
   
   /**
     Whether to use emitter time during data retrieval.
   **/
-  public var bUseEmitterTime : Bool;
+  @:uproperty public var bUseEmitterTime : Bool;
   
   /**
     Whether to process the data during updating.
   **/
-  public var bProcessDuringUpdate : Bool;
+  @:uproperty public var bProcessDuringUpdate : Bool;
   
   /**
     Whether to process the data during spawning.
   **/
-  public var bProcessDuringSpawn : Bool;
+  @:uproperty public var bProcessDuringSpawn : Bool;
   
 }

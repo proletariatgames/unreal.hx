@@ -19,64 +19,64 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateBrush.h")
-@:uextern extern class FSlateBrush {
+@:uextern @:ustruct extern class FSlateBrush {
   
   /**
     Optional UV region for an image
     When valid - overrides UV region specified in resource proxy
   **/
-  private var UVRegion : unreal.FBox2D;
+  @:uproperty private var UVRegion : unreal.FBox2D;
   
   /**
     The name of the rendering resource to use
   **/
-  private var ResourceName : unreal.FName;
+  @:uproperty private var ResourceName : unreal.FName;
   
   /**
     The image to render for this brush, can be a UTexture or UMaterialInterface or an object implementing
     the AtlasedTextureInterface.
   **/
-  private var ResourceObject : unreal.UObject;
+  @:uproperty private var ResourceObject : unreal.UObject;
   
   /**
     The type of image
   **/
-  public var ImageType : unreal.slatecore.ESlateBrushImageType;
+  @:uproperty public var ImageType : unreal.slatecore.ESlateBrushImageType;
   
   /**
     How to mirror the image in Image mode.  This is normally only used for dynamic image brushes where the source texture
               comes from a hardware device such as a web camera.
   **/
-  public var Mirroring : unreal.slatecore.ESlateBrushMirrorType;
+  @:uproperty public var Mirroring : unreal.slatecore.ESlateBrushMirrorType;
   
   /**
     How to tile the image in Image mode
   **/
-  public var Tiling : unreal.slatecore.ESlateBrushTileType;
+  @:uproperty public var Tiling : unreal.slatecore.ESlateBrushTileType;
   
   /**
     Tinting applied to the image.
   **/
-  public var TintColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var TintColor : unreal.slatecore.FSlateColor;
   
   /**
     Tinting applied to the image.
   **/
-  @:deprecated public var Tint_DEPRECATED : unreal.FLinearColor;
+  @:deprecated @:uproperty public var Tint_DEPRECATED : unreal.FLinearColor;
   
   /**
     The margin to use in Box and Border modes
   **/
-  public var Margin : unreal.slatecore.FMargin;
+  @:uproperty public var Margin : unreal.slatecore.FMargin;
   
   /**
     How to draw the image
   **/
-  public var DrawAs : unreal.slatecore.ESlateBrushDrawType;
+  @:uproperty public var DrawAs : unreal.slatecore.ESlateBrushDrawType;
   
   /**
     Size of the resource in Slate Units
   **/
-  public var ImageSize : unreal.FVector2D;
+  @:uproperty public var ImageSize : unreal.FVector2D;
   
 }

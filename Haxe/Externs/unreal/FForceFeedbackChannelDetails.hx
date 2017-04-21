@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
-@:noCopy @:noEquals @:uextern extern class FForceFeedbackChannelDetails {
-  public var Curve : unreal.FRuntimeFloatCurve;
-  public var bAffectsRightSmall : Bool;
-  public var bAffectsRightLarge : Bool;
-  public var bAffectsLeftSmall : Bool;
-  public var bAffectsLeftLarge : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FForceFeedbackChannelDetails {
+  @:uproperty public var Curve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var bAffectsRightSmall : Bool;
+  @:uproperty public var bAffectsRightLarge : Bool;
+  @:uproperty public var bAffectsLeftSmall : Bool;
+  @:uproperty public var bAffectsLeftLarge : Bool;
   
 }

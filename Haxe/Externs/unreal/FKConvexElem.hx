@@ -20,21 +20,21 @@ package unreal;
   One convex hull, used for simplified collision.
 **/
 @:glueCppIncludes("PhysicsEngine/ConvexElem.h")
-@:noCopy @:noEquals @:uextern extern class FKConvexElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKConvexElem extends unreal.FKShapeElem {
   
   /**
     Transform of this element
   **/
-  public var Transform : unreal.FTransform;
+  @:uproperty public var Transform : unreal.FTransform;
   
   /**
     Bounding box of this convex hull.
   **/
-  public var ElemBox : unreal.FBox;
+  @:uproperty public var ElemBox : unreal.FBox;
   
   /**
     Array of indices that make up the convex hull.
   **/
-  public var VertexData : unreal.TArray<unreal.FVector>;
+  @:uproperty public var VertexData : unreal.TArray<unreal.FVector>;
   
 }

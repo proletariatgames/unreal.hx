@@ -21,6 +21,6 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
-@:noClass @:uextern extern class UPivotRotationGizmoHandleGroup extends unreal.viewportinteraction.UAxisGizmoHandleGroup {
+@:noClass @:uextern @:uclass extern class UPivotRotationGizmoHandleGroup extends unreal.viewportinteraction.UAxisGizmoHandleGroup {
   
 }

@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uname("EGameplayAbilityTargetingLocationType.Type")
-@:uextern extern enum EGameplayAbilityTargetingLocationType {
+@:uextern @:uenum extern enum EGameplayAbilityTargetingLocationType {
   
   /**
     Literal Transform

@@ -20,26 +20,26 @@ package unreal;
   Struct that contains one entry for each vector interpolation performed by the timeline
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FTimelineFloatTrack {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTimelineFloatTrack {
   
   /**
     Cached float property pointer
   **/
-  public var FloatProperty : unreal.UFloatProperty;
+  @:uproperty public var FloatProperty : unreal.UFloatProperty;
   
   /**
     Name of property that we should update from this curve
   **/
-  public var FloatPropertyName : unreal.FName;
+  @:uproperty public var FloatPropertyName : unreal.FName;
   
   /**
     Name of track, usually set in Timeline Editor. Used by SetInterpFloatCurve function.
   **/
-  public var TrackName : unreal.FName;
+  @:uproperty public var TrackName : unreal.FName;
   
   /**
     Float curve to be evaluated
   **/
-  public var FloatCurve : unreal.UCurveFloat;
+  @:uproperty public var FloatCurve : unreal.UCurveFloat;
   
 }

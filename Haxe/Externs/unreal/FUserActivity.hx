@@ -20,11 +20,11 @@ package unreal;
   The description of a user activity
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FUserActivity {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FUserActivity {
   
   /**
     Describes the user's activity
   **/
-  public var ActionName : unreal.FString;
+  @:uproperty public var ActionName : unreal.FString;
   
 }

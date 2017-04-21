@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("VisualLoggerExtension.h")
-@:uextern extern class UVisualLoggerExtension extends unreal.UObject {
+@:uextern @:uclass extern class UVisualLoggerExtension extends unreal.UObject {
   
 }

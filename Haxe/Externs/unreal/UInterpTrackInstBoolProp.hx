@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstBoolProp.h")
-@:noClass @:uextern extern class UInterpTrackInstBoolProp extends unreal.UInterpTrackInstProperty {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstBoolProp extends unreal.UInterpTrackInstProperty {
   
   /**
     Saved value for restoring state when exiting Matinee.
   **/
-  public var ResetBool : Bool;
+  @:uproperty public var ResetBool : Bool;
   
   /**
     Mask that indicates which bit the boolean property actually uses of the value pointed to by BoolProp.
   **/
-  public var BoolProperty : unreal.UBoolProperty;
+  @:uproperty public var BoolProperty : unreal.UBoolProperty;
   
 }

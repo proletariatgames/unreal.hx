@@ -14,22 +14,22 @@
 package unreal;
 
 @:glueCppIncludes("Engine/IntSerialization.h")
-@:uextern extern class UIntSerialization extends unreal.UObject {
-  public var SignedInt32Variable : unreal.Int32;
+@:uextern @:uclass extern class UIntSerialization extends unreal.UObject {
+  @:uproperty public var SignedInt32Variable : unreal.Int32;
   
   /**
     Existing types
   **/
-  public var UnsignedInt8Variable : unreal.UInt8;
-  public var SignedInt64Variable : unreal.Int64;
-  public var SignedInt16Variable : unreal.Int16;
-  public var SignedInt8Variable : unreal.Int8;
-  public var UnsignedInt64Variable : unreal.FakeUInt64;
-  public var UnsignedInt32Variable : unreal.FakeUInt32;
+  @:uproperty public var UnsignedInt8Variable : unreal.UInt8;
+  @:uproperty public var SignedInt64Variable : unreal.Int64;
+  @:uproperty public var SignedInt16Variable : unreal.Int16;
+  @:uproperty public var SignedInt8Variable : unreal.Int8;
+  @:uproperty public var UnsignedInt64Variable : unreal.FakeUInt64;
+  @:uproperty public var UnsignedInt32Variable : unreal.FakeUInt32;
   
   /**
     New types
   **/
-  public var UnsignedInt16Variable : unreal.UInt16;
+  @:uproperty public var UnsignedInt16Variable : unreal.UInt16;
   
 }

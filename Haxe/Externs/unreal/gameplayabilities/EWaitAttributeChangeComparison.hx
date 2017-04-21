@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitAttributeChange.h")
 @:uname("EWaitAttributeChangeComparison.Type")
-@:uextern extern enum EWaitAttributeChangeComparison {
+@:uextern @:uenum extern enum EWaitAttributeChangeComparison {
   None;
   GreaterThan;
   LessThan;

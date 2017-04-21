@@ -19,8 +19,8 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaSoundWave.h")
-@:uextern extern class UMediaSoundWave extends unreal.USoundWave {
-  private var MediaPlayer : unreal.mediaassets.UMediaPlayer;
-  private var AudioTrackIndex : unreal.Int32;
+@:uextern @:uclass extern class UMediaSoundWave extends unreal.USoundWave {
+  @:uproperty private var MediaPlayer : unreal.mediaassets.UMediaPlayer;
+  @:uproperty private var AudioTrackIndex : unreal.Int32;
   
 }

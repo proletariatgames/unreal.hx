@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAttachmentRule")
-@:class @:uextern extern enum EAttachmentRule {
+@:class @:uextern @:uenum extern enum EAttachmentRule {
   
   /**
     Keeps current relative transform as the relative transform to the new parent.

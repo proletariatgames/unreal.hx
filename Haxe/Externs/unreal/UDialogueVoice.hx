@@ -20,9 +20,9 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/DialogueVoice.h")
-@:uextern extern class UDialogueVoice extends unreal.UObject {
-  public var LocalizationGUID : unreal.FGuid;
-  public var Plurality : unreal.EGrammaticalNumber;
-  public var Gender : unreal.EGrammaticalGender;
+@:uextern @:uclass extern class UDialogueVoice extends unreal.UObject {
+  @:uproperty public var LocalizationGUID : unreal.FGuid;
+  @:uproperty public var Plurality : unreal.EGrammaticalNumber;
+  @:uproperty public var Gender : unreal.EGrammaticalGender;
   
 }

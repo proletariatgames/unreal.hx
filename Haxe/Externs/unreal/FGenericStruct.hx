@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Kismet/KismetSystemLibrary.h")
-@:noCopy @:noEquals @:uextern extern class FGenericStruct {
-  public var Data : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGenericStruct {
+  @:uproperty public var Data : unreal.Int32;
   
 }

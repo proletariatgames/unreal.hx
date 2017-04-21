@@ -20,27 +20,27 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_DoesPathExist.h")
-@:uextern extern class UBTDecorator_DoesPathExist extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_DoesPathExist extends unreal.aimodule.UBTDecorator {
   
   /**
     "None" will result in default filter being used
   **/
-  public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
-  public var PathQueryType : unreal.aimodule.EPathExistanceQueryType;
+  @:uproperty public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty public var PathQueryType : unreal.aimodule.EPathExistanceQueryType;
   
   /**
     deprecated, set value of blackboard key A on initialization
   **/
-  public var bUseSelf : Bool;
+  @:uproperty public var bUseSelf : Bool;
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKeyB : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKeyB : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKeyA : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKeyA : unreal.aimodule.FBlackboardKeySelector;
   
 }

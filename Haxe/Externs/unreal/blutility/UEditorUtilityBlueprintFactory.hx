@@ -21,11 +21,11 @@ package unreal.blutility;
 **/
 @:umodule("Blutility")
 @:glueCppIncludes("EditorUtilityBlueprintFactory.h")
-@:noClass @:uextern extern class UEditorUtilityBlueprintFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UEditorUtilityBlueprintFactory extends unreal.editor.UFactory {
   
   /**
     The parent class of the created blueprint
   **/
-  public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
   
 }

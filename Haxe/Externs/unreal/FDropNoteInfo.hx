@@ -20,21 +20,21 @@ package unreal;
   Info about one note dropped in the map during PIE.
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:noCopy @:noEquals @:uextern extern class FDropNoteInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDropNoteInfo {
   
   /**
     Text to assign to Note actor in edited level.
   **/
-  public var Comment : unreal.FString;
+  @:uproperty public var Comment : unreal.FString;
   
   /**
     Rotation to create Note actor in edited level.
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Location to create Note actor in edited level.
   **/
-  public var Location : unreal.FVector;
+  @:uproperty public var Location : unreal.FVector;
   
 }

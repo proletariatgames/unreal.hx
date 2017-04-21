@@ -16,7 +16,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerCoords.h")
 @:uname("ELandscapeCustomizedCoordType")
-@:uextern extern enum ELandscapeCustomizedCoordType {
+@:uextern @:uenum extern enum ELandscapeCustomizedCoordType {
   
   /**
     Don't use customized UV, just use original UV.

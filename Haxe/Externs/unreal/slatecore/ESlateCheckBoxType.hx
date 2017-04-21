@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
 @:uname("ESlateCheckBoxType.Type")
-@:uextern extern enum ESlateCheckBoxType {
+@:uextern @:uenum extern enum ESlateCheckBoxType {
   
   /**
     Traditional check box with check button and label (or other content)

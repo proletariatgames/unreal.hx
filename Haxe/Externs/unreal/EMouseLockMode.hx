@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EMouseLockMode")
-@:class @:uextern extern enum EMouseLockMode {
+@:class @:uextern @:uenum extern enum EMouseLockMode {
   
   /**
     Do not lock the mouse cursor to the viewport

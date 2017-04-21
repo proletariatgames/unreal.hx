@@ -23,71 +23,71 @@ package unreal;
   * @see AddDebugText(), RemoveDebugText() and DrawDebugTextList()
 **/
 @:glueCppIncludes("GameFramework/DebugTextInfo.h")
-@:noCopy @:noEquals @:uextern extern class FDebugTextInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDebugTextInfo {
   
   /**
     Scale to apply to font when rendering
   **/
-  public var FontScale : unreal.Float32;
+  @:uproperty public var FontScale : unreal.Float32;
   
   /**
     The Font which to display this as.  Will Default to GetSmallFont()*
   **/
-  public var Font : unreal.UFont;
+  @:uproperty public var Font : unreal.UFont;
   
   /**
     When we first spawn store off the original actor location for use with bKeepAttachedToActor
   **/
-  public var OrigActorLocation : unreal.FVector;
+  @:uproperty public var OrigActorLocation : unreal.FVector;
   
   /**
     Whether to draw a shadow for the text
   **/
-  public var bDrawShadow : Bool;
+  @:uproperty public var bDrawShadow : Bool;
   
   /**
     If the actor moves does the text also move with it?
   **/
-  public var bKeepAttachedToActor : Bool;
+  @:uproperty public var bKeepAttachedToActor : Bool;
   
   /**
     whether the offset should be treated as absolute world location of the string
   **/
-  public var bAbsoluteLocation : Bool;
+  @:uproperty public var bAbsoluteLocation : Bool;
   
   /**
     Text color
   **/
-  public var TextColor : unreal.FColor;
+  @:uproperty public var TextColor : unreal.FColor;
   
   /**
     Duration used to lerp desired offset
   **/
-  public var Duration : unreal.Float32;
+  @:uproperty public var Duration : unreal.Float32;
   
   /**
     Time remaining for the debug text, -1.f == infinite
   **/
-  public var TimeRemaining : unreal.Float32;
+  @:uproperty public var TimeRemaining : unreal.Float32;
   
   /**
     Text to display
   **/
-  public var DebugText : unreal.FString;
+  @:uproperty public var DebugText : unreal.FString;
   
   /**
     Desired offset to interpolate to
   **/
-  public var SrcActorDesiredOffset : unreal.FVector;
+  @:uproperty public var SrcActorDesiredOffset : unreal.FVector;
   
   /**
     Offset from SrcActor.Location to apply
   **/
-  public var SrcActorOffset : unreal.FVector;
+  @:uproperty public var SrcActorOffset : unreal.FVector;
   
   /**
     AActor related to text item
   **/
-  public var SrcActor : unreal.AActor;
+  @:uproperty public var SrcActor : unreal.AActor;
   
 }

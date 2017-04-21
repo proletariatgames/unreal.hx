@@ -26,7 +26,7 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UCanvasPanel extends unreal.umg.UPanelWidget {
-  @:final public function AddChildToCanvas(Content : unreal.umg.UWidget) : unreal.umg.UCanvasPanelSlot;
+@:uextern @:uclass extern class UCanvasPanel extends unreal.umg.UPanelWidget {
+  @:ufunction @:final public function AddChildToCanvas(Content : unreal.umg.UWidget) : unreal.umg.UCanvasPanelSlot;
   
 }

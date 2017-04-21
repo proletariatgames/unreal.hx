@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/EditorPerProjectUserSettings.h")
 @:uname("EFbxExportCompatibility")
-@:class @:uextern extern enum EFbxExportCompatibility {
+@:class @:uextern @:uenum extern enum EFbxExportCompatibility {
   FBX_2010;
   FBX_2011;
   FBX_2012;

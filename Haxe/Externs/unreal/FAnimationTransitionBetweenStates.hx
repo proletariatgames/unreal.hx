@@ -20,24 +20,24 @@ package unreal;
   This represents a baked transition
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
-  public var LogicType : unreal.ETransitionLogicType;
-  public var BlendProfile : unreal.UBlendProfile;
-  public var CustomCurve : unreal.UCurveFloat;
-  public var BlendMode : unreal.EAlphaBlendOption;
-  public var InterruptNotify : unreal.Int32;
-  public var EndNotify : unreal.Int32;
-  public var StartNotify : unreal.Int32;
-  public var CrossfadeDuration : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationTransitionBetweenStates extends unreal.FAnimationStateBase {
+  @:uproperty public var LogicType : unreal.ETransitionLogicType;
+  @:uproperty public var BlendProfile : unreal.UBlendProfile;
+  @:uproperty public var CustomCurve : unreal.UCurveFloat;
+  @:uproperty public var BlendMode : unreal.EAlphaBlendOption;
+  @:uproperty public var InterruptNotify : unreal.Int32;
+  @:uproperty public var EndNotify : unreal.Int32;
+  @:uproperty public var StartNotify : unreal.Int32;
+  @:uproperty public var CrossfadeDuration : unreal.Float32;
   
   /**
     Transition-only: State being transitioned to
   **/
-  public var NextState : unreal.Int32;
+  @:uproperty public var NextState : unreal.Int32;
   
   /**
     Transition-only: State being transitioned from
   **/
-  public var PreviousState : unreal.Int32;
+  @:uproperty public var PreviousState : unreal.Int32;
   
 }

@@ -20,16 +20,16 @@ package unreal;
   Configurable properties for control axes.
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:noCopy @:noEquals @:uextern extern class FInputAxisConfigEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInputAxisConfigEntry {
   
   /**
     Properties for the Axis Key
   **/
-  public var AxisProperties : unreal.FInputAxisProperties;
+  @:uproperty public var AxisProperties : unreal.FInputAxisProperties;
   
   /**
     Axis Key these properties apply to
   **/
-  public var AxisKeyName : unreal.FName;
+  @:uproperty public var AxisKeyName : unreal.FName;
   
 }

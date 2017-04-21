@@ -19,45 +19,45 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendSpacePlayer.h")
-@:uextern extern class FAnimNode_BlendSpacePlayer extends unreal.FAnimNode_AssetPlayerBase {
-  private var PreviousBlendSpace : unreal.UBlendSpaceBase;
-  private var BlendSampleDataCache : unreal.TArray<unreal.FBlendSampleData>;
-  private var BlendFilter : unreal.FBlendFilter;
+@:uextern @:ustruct extern class FAnimNode_BlendSpacePlayer extends unreal.FAnimNode_AssetPlayerBase {
+  @:uproperty private var PreviousBlendSpace : unreal.UBlendSpaceBase;
+  @:uproperty private var BlendSampleDataCache : unreal.TArray<unreal.FBlendSampleData>;
+  @:uproperty private var BlendFilter : unreal.FBlendFilter;
   
   /**
     The blendspace asset to play
   **/
-  public var BlendSpace : unreal.UBlendSpaceBase;
+  @:uproperty public var BlendSpace : unreal.UBlendSpaceBase;
   
   /**
     The start up position in [0, 1], it only applies when reinitialized
     if you loop, it will still start from 0.f after finishing the round
   **/
-  public var StartPosition : unreal.Float32;
+  @:uproperty public var StartPosition : unreal.Float32;
   
   /**
     Should the animation continue looping when it reaches the end?
   **/
-  public var bLoop : Bool;
+  @:uproperty public var bLoop : Bool;
   
   /**
     The play rate multiplier. Can be negative, which will cause the animation to play in reverse.
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
   /**
     The Z coordinate to sample in the blendspace
   **/
-  public var Z : unreal.Float32;
+  @:uproperty public var Z : unreal.Float32;
   
   /**
     The Y coordinate to sample in the blendspace
   **/
-  public var Y : unreal.Float32;
+  @:uproperty public var Y : unreal.Float32;
   
   /**
     The X coordinate to sample in the blendspace
   **/
-  public var X : unreal.Float32;
+  @:uproperty public var X : unreal.Float32;
   
 }

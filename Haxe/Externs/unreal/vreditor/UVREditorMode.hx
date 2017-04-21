@@ -19,42 +19,42 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorMode.h")
-@:uextern extern class UVREditorMode extends unreal.UObject {
+@:uextern @:uclass extern class UVREditorMode extends unreal.UObject {
   
   /**
     The right motion controller
   **/
-  private var RightHandInteractor : unreal.vreditor.UVREditorMotionControllerInteractor;
+  @:uproperty private var RightHandInteractor : unreal.vreditor.UVREditorMotionControllerInteractor;
   
   /**
     The right motion controller
   **/
-  private var LeftHandInteractor : unreal.vreditor.UVREditorMotionControllerInteractor;
+  @:uproperty private var LeftHandInteractor : unreal.vreditor.UVREditorMotionControllerInteractor;
   
   /**
     The mouse cursor interactor (currently only available when not in VR)
   **/
-  private var MouseCursorInteractor : unreal.viewportinteraction.UMouseCursorInteractor;
-  private var VRWorldInteractionExtension : unreal.vreditor.UVREditorWorldInteraction;
+  @:uproperty private var MouseCursorInteractor : unreal.viewportinteraction.UMouseCursorInteractor;
+  @:uproperty private var VRWorldInteractionExtension : unreal.vreditor.UVREditorWorldInteraction;
   
   /**
     World interaction manager
   **/
-  private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
+  @:uproperty private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
   
   /**
     Automatic scale system
   **/
-  private var AutoScalerSystem : unreal.vreditor.UVREditorAutoScaler;
+  @:uproperty private var AutoScalerSystem : unreal.vreditor.UVREditorAutoScaler;
   
   /**
     Teleporter system
   **/
-  private var TeleporterSystem : unreal.vreditor.UVREditorTeleporter;
+  @:uproperty private var TeleporterSystem : unreal.vreditor.UVREditorTeleporter;
   
   /**
     VR UI system
   **/
-  private var UISystem : unreal.vreditor.UVREditorUISystem;
+  @:uproperty private var UISystem : unreal.vreditor.UVREditorUISystem;
   
 }

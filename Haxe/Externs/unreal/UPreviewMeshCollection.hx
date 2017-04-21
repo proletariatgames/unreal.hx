@@ -20,12 +20,12 @@ package unreal;
   A simple collection of skeletal meshes used for in-editor preview
 **/
 @:glueCppIncludes("Engine/PreviewMeshCollection.h")
-@:uextern extern class UPreviewMeshCollection extends unreal.UDataAsset {
+@:uextern @:uclass extern class UPreviewMeshCollection extends unreal.UDataAsset {
   
   /**
     The skeletal meshes that this collection contains
   **/
-  public var SkeletalMeshes : unreal.TArray<unreal.FPreviewMeshCollectionEntry>;
-  public var Skeleton : unreal.USkeleton;
+  @:uproperty public var SkeletalMeshes : unreal.TArray<unreal.FPreviewMeshCollectionEntry>;
+  @:uproperty public var Skeleton : unreal.USkeleton;
   
 }

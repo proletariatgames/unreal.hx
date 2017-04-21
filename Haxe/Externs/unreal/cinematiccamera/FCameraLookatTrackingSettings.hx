@@ -21,31 +21,31 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraActor.h")
-@:noCopy @:noEquals @:uextern extern class FCameraLookatTrackingSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraLookatTrackingSettings {
   
   /**
     Offset from actor position to look at. Relative to actor if tracking an actor, relative to world otherwise.
   **/
-  public var RelativeOffset : unreal.FVector;
+  @:uproperty public var RelativeOffset : unreal.FVector;
   
   /**
     If set, camera will track this actor's location
   **/
-  public var ActorToTrack : unreal.AActor;
+  @:uproperty public var ActorToTrack : unreal.AActor;
   
   /**
     Controls degree of smoothing. 0.f for no smoothing, higher numbers for faster/tighter tracking.
   **/
-  public var LookAtTrackingInterpSpeed : unreal.Float32;
+  @:uproperty public var LookAtTrackingInterpSpeed : unreal.Float32;
   
   /**
     True to draw a debug representation of the lookat location
   **/
-  public var bDrawDebugLookAtTrackingPosition : Bool;
+  @:uproperty public var bDrawDebugLookAtTrackingPosition : Bool;
   
   /**
     Interp,
   **/
-  public var bEnableLookAtTracking : Bool;
+  @:uproperty public var bEnableLookAtTracking : Bool;
   
 }

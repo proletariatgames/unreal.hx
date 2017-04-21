@@ -19,32 +19,32 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectModifierMagnitude {
+@:uextern @:ustruct extern class FGameplayEffectModifierMagnitude {
   
   /**
     Magnitude value represented by a SetByCaller magnitude
   **/
-  private var SetByCallerMagnitude : unreal.gameplayabilities.FSetByCallerFloat;
+  @:uproperty private var SetByCallerMagnitude : unreal.gameplayabilities.FSetByCallerFloat;
   
   /**
     Magnitude value represented by a custom calculation class
   **/
-  private var CustomMagnitude : unreal.gameplayabilities.FCustomCalculationBasedFloat;
+  @:uproperty private var CustomMagnitude : unreal.gameplayabilities.FCustomCalculationBasedFloat;
   
   /**
     Magnitude value represented by an attribute-based float
           (Coefficient * (PreMultiplyAdditiveValue + [Eval'd Attribute Value According to Policy])) + PostMultiplyAdditiveValue
   **/
-  private var AttributeBasedMagnitude : unreal.gameplayabilities.FAttributeBasedFloat;
+  @:uproperty private var AttributeBasedMagnitude : unreal.gameplayabilities.FAttributeBasedFloat;
   
   /**
     Magnitude value represented by a scalable float
   **/
-  private var ScalableFloatMagnitude : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty private var ScalableFloatMagnitude : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Type of calculation to perform to derive the magnitude
   **/
-  private var MagnitudeCalculationType : unreal.gameplayabilities.EGameplayEffectMagnitudeCalculation;
+  @:uproperty private var MagnitudeCalculationType : unreal.gameplayabilities.EGameplayEffectMagnitudeCalculation;
   
 }

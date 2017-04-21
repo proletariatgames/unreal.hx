@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTransformPosition.h")
 @:uname("EMaterialPositionTransformSource")
-@:uextern extern enum EMaterialPositionTransformSource {
+@:uextern @:uenum extern enum EMaterialPositionTransformSource {
   
   /**
     Local space

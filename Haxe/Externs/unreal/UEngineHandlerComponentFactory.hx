@@ -20,6 +20,6 @@ package unreal;
   Factory class for loading HandlerComponent's contained within Engine
 **/
 @:glueCppIncludes("PacketHandlers/EngineHandlerComponentFactory.h")
-@:noClass @:uextern extern class UEngineHandlerComponentFactory extends unreal.packethandler.UHandlerComponentFactory {
+@:noClass @:uextern @:uclass extern class UEngineHandlerComponentFactory extends unreal.packethandler.UHandlerComponentFactory {
   
 }

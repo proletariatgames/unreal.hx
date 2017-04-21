@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionParticleRandom.h")
-@:noClass @:uextern extern class UMaterialExpressionParticleRandom extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionParticleRandom extends unreal.UMaterialExpression {
   
 }

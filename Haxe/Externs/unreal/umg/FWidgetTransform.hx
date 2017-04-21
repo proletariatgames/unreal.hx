@@ -21,26 +21,26 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Slate/WidgetTransform.h")
-@:noCopy @:noEquals @:uextern extern class FWidgetTransform {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWidgetTransform {
   
   /**
     The angle in degrees to rotate
   **/
-  public var Angle : unreal.Float32;
+  @:uproperty public var Angle : unreal.Float32;
   
   /**
     The amount to shear the widget in slate units
   **/
-  public var Shear : unreal.FVector2D;
+  @:uproperty public var Shear : unreal.FVector2D;
   
   /**
     The scale to apply to the widget
   **/
-  public var Scale : unreal.FVector2D;
+  @:uproperty public var Scale : unreal.FVector2D;
   
   /**
     The amount to translate the widget in slate units
   **/
-  public var Translation : unreal.FVector2D;
+  @:uproperty public var Translation : unreal.FVector2D;
   
 }

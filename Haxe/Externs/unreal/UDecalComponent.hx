@@ -21,41 +21,41 @@ package unreal;
   @see UDecalActor
 **/
 @:glueCppIncludes("Components/DecalComponent.h")
-@:uextern extern class UDecalComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class UDecalComponent extends unreal.USceneComponent {
   
   /**
     Decal size in local space (does not include the component scale), technically redundant but there for convenience
   **/
-  public var DecalSize : unreal.FVector;
+  @:uproperty public var DecalSize : unreal.FVector;
   
   /**
     Automatically destroys the owning actor after fully fading out.
   **/
-  public var bDestroyOwnerAfterFade : Bool;
+  @:uproperty public var bDestroyOwnerAfterFade : Bool;
   
   /**
     Time in seconds for the decal to fade out. Set fade duration and start delay to 0 to make persistent.
   **/
-  public var FadeDuration : unreal.Float32;
+  @:uproperty public var FadeDuration : unreal.Float32;
   
   /**
     Time in seconds to wait before beginning to fade out the decal. Set fade duration and start delay to 0 to make persistent.
   **/
-  public var FadeStartDelay : unreal.Float32;
-  public var FadeScreenSize : unreal.Float32;
+  @:uproperty public var FadeStartDelay : unreal.Float32;
+  @:uproperty public var FadeScreenSize : unreal.Float32;
   
   /**
     Controls the order in which decal elements are rendered.  Higher values draw later (on top).
     Setting many different sort orders on many different decals prevents sorting by state and can reduce performance.
   **/
-  public var SortOrder : unreal.Int32;
+  @:uproperty public var SortOrder : unreal.Int32;
   
   /**
     Decal material.
   **/
-  public var DecalMaterial : unreal.UMaterialInterface;
-  @:thisConst @:final public function GetFadeStartDelay() : unreal.Float32;
-  @:thisConst @:final public function GetFadeDuration() : unreal.Float32;
+  @:uproperty public var DecalMaterial : unreal.UMaterialInterface;
+  @:ufunction @:thisConst @:final public function GetFadeStartDelay() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetFadeDuration() : unreal.Float32;
   
   /**
     Sets the decal's fade start time, duration and if the owning actor should be destroyed after the decal is fully faded out.
@@ -66,26 +66,26 @@ package unreal;
     @param Duration - Time in second for the decal to fade out.
     @param DestroyOwnerAfterFade - Should the owning actor automatically be destroyed after it is completely faded out.
   **/
-  @:final public function SetFadeOut(StartDelay : unreal.Float32, Duration : unreal.Float32, DestroyOwnerAfterFade : Bool) : Void;
+  @:ufunction @:final public function SetFadeOut(StartDelay : unreal.Float32, Duration : unreal.Float32, DestroyOwnerAfterFade : Bool = true) : Void;
   
   /**
     Sets the sort order for the decal component. Higher values draw later (on top). This will force the decal to reattach
   **/
-  @:final public function SetSortOrder(Value : unreal.Int32) : Void;
+  @:ufunction @:final public function SetSortOrder(Value : unreal.Int32) : Void;
   
   /**
     setting decal material on decal component. This will force the decal to reattach
   **/
-  @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
   
   /**
     Accessor for decal material
   **/
-  @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
+  @:ufunction @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
   
   /**
     Utility to allocate a new Dynamic Material Instance, set its parent to the currently applied material, and assign it
   **/
-  public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
 }

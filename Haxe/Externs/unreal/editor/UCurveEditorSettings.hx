@@ -19,8 +19,8 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("CurveEditorSettings.h")
-@:uextern extern class UCurveEditorSettings extends unreal.UObject {
-  private var TangentVisibility : unreal.editor.ECurveEditorTangentVisibility;
-  private var CurveVisibility : unreal.editor.ECurveEditorCurveVisibility;
+@:uextern @:uclass extern class UCurveEditorSettings extends unreal.UObject {
+  @:uproperty private var TangentVisibility : unreal.editor.ECurveEditorTangentVisibility;
+  @:uproperty private var CurveVisibility : unreal.editor.ECurveEditorCurveVisibility;
   
 }

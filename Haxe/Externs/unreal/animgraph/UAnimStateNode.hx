@@ -21,24 +21,24 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimStateNode.h")
-@:uextern extern class UAnimStateNode extends unreal.animgraph.UAnimStateNodeBase {
+@:uextern @:uclass extern class UAnimStateNode extends unreal.animgraph.UAnimStateNodeBase {
   
   /**
     Whether or not this state will ALWAYS reset it's state on reentry, regardless of remaining weight
   **/
-  public var bAlwaysResetOnEntry : Bool;
-  public var StateFullyBlended : unreal.FAnimNotifyEvent;
-  public var StateLeft : unreal.FAnimNotifyEvent;
-  public var StateEntered : unreal.FAnimNotifyEvent;
+  @:uproperty public var bAlwaysResetOnEntry : Bool;
+  @:uproperty public var StateFullyBlended : unreal.FAnimNotifyEvent;
+  @:uproperty public var StateLeft : unreal.FAnimNotifyEvent;
+  @:uproperty public var StateEntered : unreal.FAnimNotifyEvent;
   
   /**
     The type of the contents of this state
   **/
-  public var StateType : unreal.animgraph.EAnimStateType;
+  @:uproperty public var StateType : unreal.animgraph.EAnimStateType;
   
   /**
     The animation graph for this state
   **/
-  public var BoundGraph : unreal.UEdGraph;
+  @:uproperty public var BoundGraph : unreal.UEdGraph;
   
 }

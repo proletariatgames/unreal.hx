@@ -19,6 +19,6 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainSplineComponent.h")
-@:uextern extern class UPaperTerrainSplineComponent extends unreal.USplineComponent {
+@:uextern @:uclass extern class UPaperTerrainSplineComponent extends unreal.USplineComponent {
   
 }

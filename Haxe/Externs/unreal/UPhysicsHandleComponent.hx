@@ -20,39 +20,39 @@ package unreal;
   Utility object for moving physics objects around.
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsHandleComponent.h")
-@:uextern extern class UPhysicsHandleComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UPhysicsHandleComponent extends unreal.UActorComponent {
   
   /**
     How quickly we interpolate the physics target transform
   **/
-  public var InterpolationSpeed : unreal.Float32;
+  @:uproperty public var InterpolationSpeed : unreal.Float32;
   
   /**
     Angular stiffness of the handle spring
   **/
-  public var AngularStiffness : unreal.Float32;
+  @:uproperty public var AngularStiffness : unreal.Float32;
   
   /**
     Angular stiffness of the handle spring
   **/
-  public var AngularDamping : unreal.Float32;
+  @:uproperty public var AngularDamping : unreal.Float32;
   
   /**
     Linear stiffness of the handle spring
   **/
-  public var LinearStiffness : unreal.Float32;
+  @:uproperty public var LinearStiffness : unreal.Float32;
   
   /**
     Linear damping of the handle spring.
   **/
-  public var LinearDamping : unreal.Float32;
-  public var bInterpolateTarget : Bool;
-  public var bSoftLinearConstraint : Bool;
-  public var bSoftAngularConstraint : Bool;
+  @:uproperty public var LinearDamping : unreal.Float32;
+  @:uproperty public var bInterpolateTarget : Bool;
+  @:uproperty public var bSoftLinearConstraint : Bool;
+  @:uproperty public var bSoftAngularConstraint : Bool;
   
   /**
     Component we are currently holding
   **/
-  public var GrabbedComponent : unreal.UPrimitiveComponent;
+  @:uproperty public var GrabbedComponent : unreal.UPrimitiveComponent;
   
 }

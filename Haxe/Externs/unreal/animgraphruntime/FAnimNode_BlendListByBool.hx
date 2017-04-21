@@ -19,11 +19,11 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendListByBool.h")
-@:uextern extern class FAnimNode_BlendListByBool extends unreal.animgraphruntime.FAnimNode_BlendListBase {
+@:uextern @:ustruct extern class FAnimNode_BlendListByBool extends unreal.animgraphruntime.FAnimNode_BlendListBase {
   
   /**
     Which input should be connected to the output?
   **/
-  public var bActiveValue : Bool;
+  @:uproperty public var bActiveValue : Bool;
   
 }

@@ -21,41 +21,41 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Event.h")
-@:uextern extern class UK2Node_Event extends unreal.blueprintgraph.UK2Node_EditablePinBase {
+@:uextern @:uclass extern class UK2Node_Event extends unreal.blueprintgraph.UK2Node_EditablePinBase {
   
   /**
     Additional function flags to apply to this function
   **/
-  public var FunctionFlags : unreal.FakeUInt32;
+  @:uproperty public var FunctionFlags : unreal.FakeUInt32;
   
   /**
     If this is not an override, allow user to specify a name for the function created by this entry point
   **/
-  public var CustomFunctionName : unreal.FName;
+  @:uproperty public var CustomFunctionName : unreal.FName;
   
   /**
     If true, this event is internal machinery, and should not be marked BlueprintCallable
   **/
-  public var bInternalEvent : Bool;
+  @:uproperty public var bInternalEvent : Bool;
   
   /**
     If true, we are actually overriding this function, not making a new event with a signature that matches
   **/
-  public var bOverrideFunction : Bool;
+  @:uproperty public var bOverrideFunction : Bool;
   
   /**
     Reference for the function this event is linked to
   **/
-  public var EventReference : unreal.FMemberReference;
+  @:uproperty public var EventReference : unreal.FMemberReference;
   
   /**
     Class that the function signature is from.
   **/
-  @:deprecated public var EventSignatureClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
+  @:deprecated @:uproperty public var EventSignatureClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     Name of function signature that this event implements
   **/
-  @:deprecated public var EventSignatureName_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var EventSignatureName_DEPRECATED : unreal.FName;
   
 }

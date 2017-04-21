@@ -18,51 +18,51 @@ package unreal;
   Default animation settings.
 **/
 @:glueCppIncludes("Animation/AnimationSettings.h")
-@:uextern extern class UAnimationSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UAnimationSettings extends unreal.UDeveloperSettings {
   
   /**
     If true, animation track data will be stripped from dedicated server cooked data
   **/
-  public var bStripAnimationDataOnDedicatedServer : Bool;
-  public var bEnablePerformanceLog : Bool;
+  @:uproperty public var bStripAnimationDataOnDedicatedServer : Bool;
+  @:uproperty public var bEnablePerformanceLog : Bool;
   
   /**
     If true, the resampling techniques will be tried
   **/
-  public var bTryIntervalKeyRemoval : Bool;
+  @:uproperty public var bTryIntervalKeyRemoval : Bool;
   
   /**
     If true, the linear key removal techniques will be tried
   **/
-  public var bTryLinearKeyRemovalCompression : Bool;
+  @:uproperty public var bTryLinearKeyRemovalCompression : Bool;
   
   /**
     If true, the per-track compressor techniques will be tried
   **/
-  public var bTryPerTrackBitwiseCompression : Bool;
+  @:uproperty public var bTryPerTrackBitwiseCompression : Bool;
   
   /**
     If true, the uniform bitwise techniques will be tried
   **/
-  public var bTryFixedBitwiseCompression : Bool;
+  @:uproperty public var bTryFixedBitwiseCompression : Bool;
   
   /**
     If true and the existing compression error is greater than Alternative Compression Threshold, then Alternative Compression Threshold will be effectively raised to the existing error level
   **/
-  public var bRaiseMaxErrorToExisting : Bool;
+  @:uproperty public var bRaiseMaxErrorToExisting : Bool;
   
   /**
     If true, then the animation will be first recompressed with it's current compressor if non-NULL, or with the global default compressor (specified in the engine ini)
     Also known as "Run Current Default Compressor"
   **/
-  public var bFirstRecompressUsingCurrentOrDefault : Bool;
+  @:uproperty public var bFirstRecompressUsingCurrentOrDefault : Bool;
   
   /**
     If true and the existing compression error is greater than Alternative Compression Threshold, then any compression technique (even one that increases the size) with a lower error will be used until it falls below the threshold
   **/
-  public var bForceBelowThreshold : Bool;
-  public var bOnlyCheckForMissingSkeletalMeshes : Bool;
-  public var ForceRecompression : Bool;
+  @:uproperty public var bForceBelowThreshold : Bool;
+  @:uproperty public var bOnlyCheckForMissingSkeletalMeshes : Bool;
+  @:uproperty public var ForceRecompression : Bool;
   
   /**
     The alternate error threshold (0.0 means don't try anything other than the current / default scheme)
@@ -72,15 +72,15 @@ package unreal;
     method if the end result of that method produces less error than the AlternativeCompressionThreshold.
     Also known as "Max End Effector Error"
   **/
-  public var AlternativeCompressionThreshold : unreal.Float32;
-  public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
-  public var RotationCompressionFormat : unreal.AnimationCompressionFormat;
-  public var DefaultCompressionAlgorithm : unreal.TSubclassOf<unreal.UAnimCompress>;
-  public var KeyEndEffectorsMatchNameArray : unreal.TArray<unreal.FString>;
+  @:uproperty public var AlternativeCompressionThreshold : unreal.Float32;
+  @:uproperty public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
+  @:uproperty public var RotationCompressionFormat : unreal.AnimationCompressionFormat;
+  @:uproperty public var DefaultCompressionAlgorithm : unreal.TSubclassOf<unreal.UAnimCompress>;
+  @:uproperty public var KeyEndEffectorsMatchNameArray : unreal.TArray<unreal.FString>;
   
   /**
     compression upgrade version
   **/
-  public var CompressCommandletVersion : unreal.Int32;
+  @:uproperty public var CompressCommandletVersion : unreal.Int32;
   
 }

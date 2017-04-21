@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("ECurveBlendOption.Type")
-@:uextern extern enum ECurveBlendOption {
+@:uextern @:uenum extern enum ECurveBlendOption {
   
   /**
     Find Max Weight of curve and use that weight.

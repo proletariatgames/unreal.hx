@@ -20,7 +20,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
 @:uname("EUMGSequencePlayMode.Type")
-@:uextern extern enum EUMGSequencePlayMode {
+@:uextern @:uenum extern enum EUMGSequencePlayMode {
   
   /**
     Animation plays and loops from the beginning to the end.

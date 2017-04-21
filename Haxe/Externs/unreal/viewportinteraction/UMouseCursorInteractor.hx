@@ -19,6 +19,6 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("MouseCursorInteractor.h")
-@:uextern extern class UMouseCursorInteractor extends unreal.viewportinteraction.UViewportInteractor {
+@:uextern @:uclass extern class UMouseCursorInteractor extends unreal.viewportinteraction.UViewportInteractor {
   
 }

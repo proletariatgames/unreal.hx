@@ -21,11 +21,11 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendSpaceEvaluator.h")
-@:uextern extern class FAnimNode_BlendSpaceEvaluator extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
+@:uextern @:ustruct extern class FAnimNode_BlendSpaceEvaluator extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
   
   /**
     Normalized time between [0,1]. The actual length of a blendspace is dynamic based on the coordinate, so it is exposed as a normalized value.
   **/
-  public var NormalizedTime : unreal.Float32;
+  @:uproperty public var NormalizedTime : unreal.Float32;
   
 }

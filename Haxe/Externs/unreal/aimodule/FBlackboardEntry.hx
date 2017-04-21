@@ -21,24 +21,24 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BlackboardData.h")
-@:noCopy @:noEquals @:uextern extern class FBlackboardEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlackboardEntry {
   
   /**
     if set to true then this field will be synchronized across all instances of this blackboard
   **/
-  public var bInstanceSynced : Bool;
+  @:uproperty public var bInstanceSynced : Bool;
   
   /**
     key type and additional properties
   **/
-  public var KeyType : unreal.aimodule.UBlackboardKeyType;
+  @:uproperty public var KeyType : unreal.aimodule.UBlackboardKeyType;
   #if WITH_EDITORONLY_DATA
   
   /**
     Optional description to explain what this blackboard entry does.
   **/
-  public var EntryDescription : unreal.FString;
+  @:uproperty public var EntryDescription : unreal.FString;
   #end // WITH_EDITORONLY_DATA
-  public var EntryName : unreal.FName;
+  @:uproperty public var EntryName : unreal.FName;
   
 }

@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionClearCoatNormalCustomOutput.h")
-@:noClass @:uextern extern class UMaterialExpressionClearCoatNormalCustomOutput extends unreal.UMaterialExpressionCustomOutput {
-  public var Input : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionClearCoatNormalCustomOutput extends unreal.UMaterialExpressionCustomOutput {
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

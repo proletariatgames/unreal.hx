@@ -16,7 +16,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
 @:uname("EFontHinting")
-@:class @:uextern extern enum EFontHinting {
+@:class @:uextern @:uenum extern enum EFontHinting {
   
   /**
     Use the default hinting specified in the font.

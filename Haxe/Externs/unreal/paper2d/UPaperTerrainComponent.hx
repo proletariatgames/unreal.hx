@@ -20,54 +20,54 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainComponent.h")
-@:uextern extern class UPaperTerrainComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UPaperTerrainComponent extends unreal.UPrimitiveComponent {
   
   /**
     Description of collision
   **/
-  private var CachedBodySetup : unreal.UBodySetup;
+  @:uproperty private var CachedBodySetup : unreal.UBodySetup;
   
   /**
     The extrusion thickness of collision geometry when using a 3D collision domain
   **/
-  private var CollisionThickness : unreal.Float32;
+  @:uproperty private var CollisionThickness : unreal.Float32;
   
   /**
     Collision domain (no collision, 2D (experimental), or 3D)
   **/
-  private var SpriteCollisionDomain : unreal.paper2d.ESpriteCollisionMode;
+  @:uproperty private var SpriteCollisionDomain : unreal.paper2d.ESpriteCollisionMode;
   
   /**
     Number of steps per spline segment to place in the reparameterization table
   **/
-  private var ReparamStepsPerSegment : unreal.Int32;
+  @:uproperty private var ReparamStepsPerSegment : unreal.Int32;
   
   /**
     The color of the terrain (passed to the sprite material as a vertex color)
   **/
-  private var TerrainColor : unreal.FLinearColor;
+  @:uproperty private var TerrainColor : unreal.FLinearColor;
   
   /**
     The overlap amount between segments
   **/
-  public var SegmentOverlapAmount : unreal.Float32;
+  @:uproperty public var SegmentOverlapAmount : unreal.Float32;
   
   /**
     Random seed used for choosing which spline meshes to use.
   **/
-  public var RandomSeed : unreal.Int32;
-  public var AssociatedSpline : unreal.paper2d.UPaperTerrainSplineComponent;
-  public var bFilledSpline : Bool;
-  public var bClosedSpline : Bool;
+  @:uproperty public var RandomSeed : unreal.Int32;
+  @:uproperty public var AssociatedSpline : unreal.paper2d.UPaperTerrainSplineComponent;
+  @:uproperty public var bFilledSpline : Bool;
+  @:uproperty public var bClosedSpline : Bool;
   
   /**
     The terrain material to apply to this component (set of rules for which sprites are used on different surfaces or the interior)
   **/
-  public var TerrainMaterial : unreal.paper2d.UPaperTerrainMaterial;
+  @:uproperty public var TerrainMaterial : unreal.paper2d.UPaperTerrainMaterial;
   
   /**
     Set color of the terrain
   **/
-  @:final public function SetTerrainColor(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetTerrainColor(NewColor : unreal.FLinearColor) : Void;
   
 }

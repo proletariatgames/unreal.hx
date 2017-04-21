@@ -15,11 +15,11 @@ package unreal.gameplaytags;
 
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagsSettings.h")
-@:uextern extern class UGameplayTagsDeveloperSettings extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayTagsDeveloperSettings extends unreal.UObject {
   
   /**
     Allows new tags to be saved into their own INI file. This is make merging easier for non technical developers by setting up their own ini file.
   **/
-  public var DeveloperConfigName : unreal.FString;
+  @:uproperty public var DeveloperConfigName : unreal.FString;
   
 }

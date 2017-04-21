@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavLinkTrivial.h")
-@:uextern extern class UNavLinkTrivial extends unreal.UNavLinkDefinition {
+@:uextern @:uclass extern class UNavLinkTrivial extends unreal.UNavLinkDefinition {
   
 }

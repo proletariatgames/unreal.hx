@@ -21,6 +21,6 @@ package unreal.paperspritesheetimporter;
 **/
 @:umodule("PaperSpriteSheetImporter")
 @:glueCppIncludes("Private/PaperSpriteSheetImportFactory.h")
-@:noClass @:uextern extern class UPaperSpriteSheetImportFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UPaperSpriteSheetImportFactory extends unreal.editor.UFactory {
   
 }

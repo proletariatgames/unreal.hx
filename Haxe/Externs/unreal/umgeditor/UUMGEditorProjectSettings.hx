@@ -19,12 +19,12 @@ package unreal.umgeditor;
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("UMGEditorProjectSettings.h")
-@:uextern extern class UUMGEditorProjectSettings extends unreal.UObject {
+@:uextern @:uclass extern class UUMGEditorProjectSettings extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
-  public var WidgetClassesToHide : unreal.TArray<unreal.FStringClassReference>;
-  public var CategoriesToHide : unreal.TArray<unreal.FString>;
-  public var bShowWidgetsFromDeveloperContent : Bool;
-  public var bShowWidgetsFromEngineContent : Bool;
+  @:uproperty public var WidgetClassesToHide : unreal.TArray<unreal.FStringClassReference>;
+  @:uproperty public var CategoriesToHide : unreal.TArray<unreal.FString>;
+  @:uproperty public var bShowWidgetsFromDeveloperContent : Bool;
+  @:uproperty public var bShowWidgetsFromEngineContent : Bool;
   #end // WITH_EDITORONLY_DATA
   
 }

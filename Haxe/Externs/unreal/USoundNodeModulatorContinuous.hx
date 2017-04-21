@@ -20,8 +20,8 @@ package unreal;
   Allows named parameter based manipulation of pitch and volume
 **/
 @:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
-@:noClass @:uextern extern class USoundNodeModulatorContinuous extends unreal.USoundNode {
-  public var VolumeModulationParams : unreal.FModulatorContinuousParams;
-  public var PitchModulationParams : unreal.FModulatorContinuousParams;
+@:noClass @:uextern @:uclass extern class USoundNodeModulatorContinuous extends unreal.USoundNode {
+  @:uproperty public var VolumeModulationParams : unreal.FModulatorContinuousParams;
+  @:uproperty public var PitchModulationParams : unreal.FModulatorContinuousParams;
   
 }

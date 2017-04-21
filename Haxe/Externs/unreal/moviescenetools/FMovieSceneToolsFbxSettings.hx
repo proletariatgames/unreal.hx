@@ -21,16 +21,16 @@ package unreal.moviescenetools;
 **/
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneToolsProjectSettings.h")
-@:noCopy @:noEquals @:uextern extern class FMovieSceneToolsFbxSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneToolsFbxSettings {
   
   /**
     The property track setting to map to
   **/
-  public var PropertyPath : unreal.moviescenetools.FMovieSceneToolsPropertyTrackSettings;
+  @:uproperty public var PropertyPath : unreal.moviescenetools.FMovieSceneToolsPropertyTrackSettings;
   
   /**
     The name of the fbx property
   **/
-  public var FbxPropertyName : unreal.FString;
+  @:uproperty public var FbxPropertyName : unreal.FString;
   
 }

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimCurveTypes.h")
-@:noCopy @:noEquals @:uextern extern class FFloatCurve extends unreal.FAnimCurveBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFloatCurve extends unreal.FAnimCurveBase {
   
   /**
     Curve data for float.
   **/
-  public var FloatCurve : unreal.FRichCurve;
+  @:uproperty public var FloatCurve : unreal.FRichCurve;
   
 }

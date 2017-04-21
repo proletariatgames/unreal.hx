@@ -19,37 +19,37 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UDragDropOperation extends unreal.UObject {
+@:uextern @:uclass extern class UDragDropOperation extends unreal.UObject {
   
   /**
     A percentage offset (-1..+1) from the Pivot location, the percentage is of the desired size of the dragged visual.
   **/
-  public var Offset : unreal.FVector2D;
+  @:uproperty public var Offset : unreal.FVector2D;
   
   /**
     Controls where the drag widget visual will appear when dragged relative to the pointer performing
     the drag operation.
   **/
-  public var Pivot : unreal.umg.EDragPivot;
+  @:uproperty public var Pivot : unreal.umg.EDragPivot;
   
   /**
     The Drag Visual is the widget to display when dragging the item.  Normally people create a new widget to represent the
     temporary drag.
   **/
-  public var DefaultDragVisual : unreal.umg.UWidget;
+  @:uproperty public var DefaultDragVisual : unreal.umg.UWidget;
   
   /**
     The payload of the drag operation.  This can be any UObject that you want to pass along as dragged data.  If you
     were building an inventory screen this would be the UObject representing the item being moved to another slot.
   **/
-  public var Payload : unreal.UObject;
+  @:uproperty public var Payload : unreal.UObject;
   
   /**
     A simple string tag you can optionally use to provide extra metadata about the operation.
   **/
-  public var Tag : unreal.FString;
-  public function Drop(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
-  public function DragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
-  public function Dragged(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:uproperty public var Tag : unreal.FString;
+  @:ufunction public function Drop(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction public function DragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction public function Dragged(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
   
 }

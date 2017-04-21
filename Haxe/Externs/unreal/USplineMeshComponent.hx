@@ -19,210 +19,210 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Resources/ContentExamples/Blueprint_Splines
 **/
 @:glueCppIncludes("Components/SplineMeshComponent.h")
-@:uextern extern class USplineMeshComponent extends unreal.UStaticMeshComponent implements unreal.IInterface_CollisionDataProvider {
+@:uextern @:uclass extern class USplineMeshComponent extends unreal.UStaticMeshComponent implements unreal.IInterface_CollisionDataProvider {
   
   /**
     Indicates that the mesh needs updating
   **/
-  public var bMeshDirty : Bool;
+  @:uproperty public var bMeshDirty : Bool;
   #if WITH_EDITORONLY_DATA
-  public var bSelected : Bool;
+  @:uproperty public var bSelected : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Used to automatically trigger rebuild of collision data
   **/
-  public var CachedMeshBodySetupGuid : unreal.FGuid;
+  @:uproperty public var CachedMeshBodySetupGuid : unreal.FGuid;
   
   /**
     Physics data.
   **/
-  public var BodySetup : unreal.UBodySetup;
+  @:uproperty public var BodySetup : unreal.UBodySetup;
   
   /**
     Maximum coordinate along the spline forward axis which corresponds to end of spline. If set to 0.0, will use bounding box to determine bounds
   **/
-  public var SplineBoundaryMax : unreal.Float32;
+  @:uproperty public var SplineBoundaryMax : unreal.Float32;
   
   /**
     Minimum coordinate along the spline forward axis which corresponds to start of spline. If set to 0.0, will use bounding box to determine bounds
   **/
-  public var SplineBoundaryMin : unreal.Float32;
+  @:uproperty public var SplineBoundaryMin : unreal.Float32;
   
   /**
     Chooses the forward axis for the spline mesh orientation
   **/
-  public var ForwardAxis : unreal.ESplineMeshAxis;
+  @:uproperty public var ForwardAxis : unreal.ESplineMeshAxis;
   
   /**
     If true, will use smooth interpolation (ease in/out) for Scale, Roll, and Offset along this section of spline. If false, uses linear
   **/
-  public var bSmoothInterpRollScale : Bool;
+  @:uproperty public var bSmoothInterpRollScale : Bool;
   
   /**
     If true, spline keys may be edited per instance in the level viewport. Otherwise, the spline should be initialized in the construction script.
   **/
-  public var bAllowSplineEditingPerInstance : Bool;
+  @:uproperty public var bAllowSplineEditingPerInstance : Bool;
   
   /**
     Axis (in component space) that is used to determine X axis for co-ordinates along spline
   **/
-  public var SplineUpDir : unreal.FVector;
+  @:uproperty public var SplineUpDir : unreal.FVector;
   
   /**
     Spline that is used to deform mesh
   **/
-  public var SplineParams : unreal.FSplineMeshParams;
+  @:uproperty public var SplineParams : unreal.FSplineMeshParams;
   
   /**
     Update the collision and render state on the spline mesh following changes to its geometry
   **/
-  @:final public function UpdateMesh() : Void;
+  @:ufunction @:final public function UpdateMesh() : Void;
   
   /**
     Get the start position of spline in local space
   **/
-  @:thisConst @:final public function GetStartPosition() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetStartPosition() : unreal.FVector;
   
   /**
     Set the start position of spline in local space
   **/
-  @:final public function SetStartPosition(StartPos : unreal.FVector, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartPosition(StartPos : unreal.FVector, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the start tangent vector of spline in local space
   **/
-  @:thisConst @:final public function GetStartTangent() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetStartTangent() : unreal.FVector;
   
   /**
     Set the start tangent vector of spline in local space
   **/
-  @:final public function SetStartTangent(StartTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartTangent(StartTangent : unreal.FVector, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the end position of spline in local space
   **/
-  @:thisConst @:final public function GetEndPosition() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetEndPosition() : unreal.FVector;
   
   /**
     Set the end position of spline in local space
   **/
-  @:final public function SetEndPosition(EndPos : unreal.FVector, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetEndPosition(EndPos : unreal.FVector, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the end tangent vector of spline in local space
   **/
-  @:thisConst @:final public function GetEndTangent() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetEndTangent() : unreal.FVector;
   
   /**
     Set the end tangent vector of spline in local space
   **/
-  @:final public function SetEndTangent(EndTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetEndTangent(EndTangent : unreal.FVector, bUpdateMesh : Bool = true) : Void;
   
   /**
     Set the start and end, position and tangent, all in local space
   **/
-  @:final public function SetStartAndEnd(StartPos : unreal.FVector, StartTangent : unreal.FVector, EndPos : unreal.FVector, EndTangent : unreal.FVector, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartAndEnd(StartPos : unreal.FVector, StartTangent : unreal.FVector, EndPos : unreal.FVector, EndTangent : unreal.FVector, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the start scaling
   **/
-  @:thisConst @:final public function GetStartScale() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetStartScale() : unreal.FVector2D;
   
   /**
     Set the start scaling
   **/
-  @:final public function SetStartScale(StartScale : unreal.FVector2D, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartScale(@:opt("(X=1.000,Y=1.000)") StartScale : unreal.FVector2D, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the start roll
   **/
-  @:thisConst @:final public function GetStartRoll() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetStartRoll() : unreal.Float32;
   
   /**
     Set the start roll
   **/
-  @:final public function SetStartRoll(StartRoll : unreal.Float32, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartRoll(StartRoll : unreal.Float32, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the start offset
   **/
-  @:thisConst @:final public function GetStartOffset() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetStartOffset() : unreal.FVector2D;
   
   /**
     Set the start offset
   **/
-  @:final public function SetStartOffset(StartOffset : unreal.FVector2D, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetStartOffset(StartOffset : unreal.FVector2D, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the end scaling
   **/
-  @:thisConst @:final public function GetEndScale() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetEndScale() : unreal.FVector2D;
   
   /**
     Set the end scaling
   **/
-  @:final public function SetEndScale(EndScale : unreal.FVector2D, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetEndScale(@:opt("(X=1.000,Y=1.000)") EndScale : unreal.FVector2D, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the end roll
   **/
-  @:thisConst @:final public function GetEndRoll() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetEndRoll() : unreal.Float32;
   
   /**
     Set the end roll
   **/
-  @:final public function SetEndRoll(EndRoll : unreal.Float32, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetEndRoll(EndRoll : unreal.Float32, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the end offset
   **/
-  @:thisConst @:final public function GetEndOffset() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetEndOffset() : unreal.FVector2D;
   
   /**
     Set the end offset
   **/
-  @:final public function SetEndOffset(EndOffset : unreal.FVector2D, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetEndOffset(EndOffset : unreal.FVector2D, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the forward axis
   **/
-  @:thisConst @:final public function GetForwardAxis() : unreal.ESplineMeshAxis;
+  @:ufunction @:thisConst @:final public function GetForwardAxis() : unreal.ESplineMeshAxis;
   
   /**
     Set the forward axis
   **/
-  @:final public function SetForwardAxis(InForwardAxis : unreal.ESplineMeshAxis, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetForwardAxis(InForwardAxis : unreal.ESplineMeshAxis, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the spline up direction
   **/
-  @:thisConst @:final public function GetSplineUpDir() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetSplineUpDir() : unreal.FVector;
   
   /**
     Set the spline up direction
   **/
-  @:final public function SetSplineUpDir(InSplineUpDir : unreal.Const<unreal.PRef<unreal.FVector>>, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetSplineUpDir(InSplineUpDir : unreal.Const<unreal.PRef<unreal.FVector>>, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the boundary min
   **/
-  @:thisConst @:final public function GetBoundaryMin() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetBoundaryMin() : unreal.Float32;
   
   /**
     Set the boundary min
   **/
-  @:final public function SetBoundaryMin(InBoundaryMin : unreal.Float32, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetBoundaryMin(InBoundaryMin : unreal.Float32, bUpdateMesh : Bool = true) : Void;
   
   /**
     Get the boundary max
   **/
-  @:thisConst @:final public function GetBoundaryMax() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetBoundaryMax() : unreal.Float32;
   
   /**
     Set the boundary max
   **/
-  @:final public function SetBoundaryMax(InBoundaryMax : unreal.Float32, bUpdateMesh : Bool) : Void;
+  @:ufunction @:final public function SetBoundaryMax(InBoundaryMax : unreal.Float32, bUpdateMesh : Bool = true) : Void;
   // Interface_CollisionDataProvider interface implementation
   
 }

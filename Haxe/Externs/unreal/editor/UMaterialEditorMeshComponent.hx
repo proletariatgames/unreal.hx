@@ -15,6 +15,6 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorMeshComponent.h")
-@:uextern extern class UMaterialEditorMeshComponent extends unreal.UStaticMeshComponent {
+@:uextern @:uclass extern class UMaterialEditorMeshComponent extends unreal.UStaticMeshComponent {
   
 }

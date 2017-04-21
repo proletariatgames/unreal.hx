@@ -20,6 +20,6 @@ package unreal;
   A volume that can be added a level in order to remove triangles from source meshes before generating HLOD or merged meshes
 **/
 @:glueCppIncludes("Engine/MeshMergeCullingVolume.h")
-@:uextern extern class AMeshMergeCullingVolume extends unreal.AVolume {
+@:uextern @:uclass extern class AMeshMergeCullingVolume extends unreal.AVolume {
   
 }

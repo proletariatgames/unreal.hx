@@ -21,8 +21,8 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionConstantForce.h")
-@:uextern extern class UAbilityTask_ApplyRootMotionConstantForce extends unreal.gameplayabilities.UAbilityTask {
-  private var MovementComponent : unreal.UCharacterMovementComponent;
+@:uextern @:uclass extern class UAbilityTask_ApplyRootMotionConstantForce extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var MovementComponent : unreal.UCharacterMovementComponent;
   
   /**
     Strength of the force over time
@@ -30,10 +30,10 @@ package unreal.gameplayabilities;
     Curve X is 0 to 1 normalized time if this force has a limited duration (Duration > 0), or
             is in units of seconds if this force has unlimited duration (Duration < 0)
   **/
-  private var StrengthOverTime : unreal.UCurveFloat;
-  private var Duration : unreal.Float32;
-  private var Strength : unreal.Float32;
-  private var WorldDirection : unreal.FVector;
-  private var ForceName : unreal.FName;
+  @:uproperty private var StrengthOverTime : unreal.UCurveFloat;
+  @:uproperty private var Duration : unreal.Float32;
+  @:uproperty private var Strength : unreal.Float32;
+  @:uproperty private var WorldDirection : unreal.FVector;
+  @:uproperty private var ForceName : unreal.FName;
   
 }

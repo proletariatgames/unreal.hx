@@ -21,26 +21,26 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCameraAnimSection.h")
-@:uextern extern class UMovieSceneCameraAnimSection extends unreal.moviescene.UMovieSceneSection {
-  public var UserDefinedPlaySpace : unreal.FRotator;
+@:uextern @:uclass extern class UMovieSceneCameraAnimSection extends unreal.moviescene.UMovieSceneSection {
+  @:uproperty public var UserDefinedPlaySpace : unreal.FRotator;
   
   /**
     UPROPERTY(EditAnywhere, Category = "Camera Anim")
     float Duration;
   **/
-  public var PlaySpace : unreal.ECameraAnimPlaySpace;
-  public var bLooping : Bool;
-  public var BlendOutTime : unreal.Float32;
-  public var BlendInTime : unreal.Float32;
+  @:uproperty public var PlaySpace : unreal.ECameraAnimPlaySpace;
+  @:uproperty public var bLooping : Bool;
+  @:uproperty public var BlendOutTime : unreal.Float32;
+  @:uproperty public var BlendInTime : unreal.Float32;
   
   /**
     Scalar to control intensity of the animation.
   **/
-  public var PlayScale : unreal.Float32;
+  @:uproperty public var PlayScale : unreal.Float32;
   
   /**
     How fast to play back the animation.
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
 }

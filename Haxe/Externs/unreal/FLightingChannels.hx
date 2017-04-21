@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightingChannels {
-  public var bChannel2 : Bool;
-  public var bChannel1 : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightingChannels {
+  @:uproperty public var bChannel2 : Bool;
+  @:uproperty public var bChannel1 : Bool;
   
   /**
     Default channel for all primitives and lights.
   **/
-  public var bChannel0 : Bool;
+  @:uproperty public var bChannel0 : Bool;
   
 }

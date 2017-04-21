@@ -20,31 +20,31 @@ package unreal;
   Holds settings for the editor build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FBuildPromotionTestSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBuildPromotionTestSettings {
   
   /**
     Material to modify for the content browser step *
   **/
-  public var SourceControlMaterial : unreal.FFilePath;
+  @:uproperty public var SourceControlMaterial : unreal.FFilePath;
   
   /**
     New project settings *
   **/
-  public var NewProjectSettings : unreal.FBuildPromotionNewProjectSettings;
+  @:uproperty public var NewProjectSettings : unreal.FBuildPromotionNewProjectSettings;
   
   /**
     Open assets settings *
   **/
-  public var OpenAssets : unreal.FBuildPromotionOpenAssetSettings;
+  @:uproperty public var OpenAssets : unreal.FBuildPromotionOpenAssetSettings;
   
   /**
     Import workflow settings *
   **/
-  public var ImportWorkflow : unreal.FBuildPromotionImportWorkflowSettings;
+  @:uproperty public var ImportWorkflow : unreal.FBuildPromotionImportWorkflowSettings;
   
   /**
     Default static mesh asset to apply materials to *
   **/
-  public var DefaultStaticMeshAsset : unreal.FFilePath;
+  @:uproperty public var DefaultStaticMeshAsset : unreal.FFilePath;
   
 }

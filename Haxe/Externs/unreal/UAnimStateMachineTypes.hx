@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
-@:noClass @:uextern extern class UAnimStateMachineTypes extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UAnimStateMachineTypes extends unreal.UObject {
   
 }

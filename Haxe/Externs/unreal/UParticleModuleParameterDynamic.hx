@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
-@:uextern extern class UParticleModuleParameterDynamic extends unreal.UParticleModuleParameterBase {
-  public var bUsesVelocity : Bool;
+@:uextern @:uclass extern class UParticleModuleParameterDynamic extends unreal.UParticleModuleParameterBase {
+  @:uproperty public var bUsesVelocity : Bool;
   
   /**
     Flags for optimizing update
   **/
-  public var UpdateFlags : unreal.Int32;
+  @:uproperty public var UpdateFlags : unreal.Int32;
   
   /**
     The dynamic parameters this module uses.
   **/
-  public var DynamicParams : unreal.TArray<unreal.FEmitterDynamicParameter>;
+  @:uproperty public var DynamicParams : unreal.TArray<unreal.FEmitterDynamicParameter>;
   
 }

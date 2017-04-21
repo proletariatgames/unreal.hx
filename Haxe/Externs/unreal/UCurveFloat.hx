@@ -14,21 +14,21 @@
 package unreal;
 
 @:glueCppIncludes("Curves/CurveFloat.h")
-@:uextern extern class UCurveFloat extends unreal.UCurveBase {
+@:uextern @:uclass extern class UCurveFloat extends unreal.UCurveBase {
   
   /**
     Flag to represent event curve
   **/
-  public var bIsEventCurve : Bool;
+  @:uproperty public var bIsEventCurve : Bool;
   
   /**
     Keyframe data
   **/
-  public var FloatCurve : unreal.FRichCurve;
+  @:uproperty public var FloatCurve : unreal.FRichCurve;
   
   /**
     Evaluate this float curve at the specified time
   **/
-  @:thisConst @:final public function GetFloatValue(InTime : unreal.Float32) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetFloatValue(InTime : unreal.Float32) : unreal.Float32;
   
 }

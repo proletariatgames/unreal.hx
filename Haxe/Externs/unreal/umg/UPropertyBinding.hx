@@ -15,16 +15,21 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UPropertyBinding extends unreal.UObject {
+@:uextern @:uclass extern class UPropertyBinding extends unreal.UObject {
   
   /**
     Used to determine if a binding already exists on the object and if this binding can be safely removed.
   **/
-  public var DestinationProperty : unreal.FName;
+  @:uproperty public var DestinationProperty : unreal.FName;
   
   /**
     The property path to trace to resolve this binding on the Source Object
   **/
-  public var SourcePath : unreal.umg.FDynamicPropertyPath;
+  @:uproperty public var SourcePath : unreal.umg.FDynamicPropertyPath;
+  
+  /**
+    The source object to use as the initial container to resolve the Source Property Path on.
+  **/
+  @:uproperty public var SourceObject : unreal.TWeakObjectPtr<unreal.UObject>;
   
 }

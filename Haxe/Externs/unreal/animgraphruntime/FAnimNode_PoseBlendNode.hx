@@ -21,7 +21,7 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseBlendNode.h")
-@:uextern extern class FAnimNode_PoseBlendNode extends unreal.animgraphruntime.FAnimNode_PoseHandler {
-  public var SourcePose : unreal.FPoseLink;
+@:uextern @:ustruct extern class FAnimNode_PoseBlendNode extends unreal.animgraphruntime.FAnimNode_PoseHandler {
+  @:uproperty public var SourcePose : unreal.FPoseLink;
   
 }

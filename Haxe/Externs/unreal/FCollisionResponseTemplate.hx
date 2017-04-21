@@ -18,24 +18,24 @@ package unreal;
   Structure for collision response templates.
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")
-@:uextern extern class FCollisionResponseTemplate {
+@:uextern @:ustruct extern class FCollisionResponseTemplate {
   
   /**
     Help message for collision profile *
   **/
-  public var bCanModify : Bool;
+  @:uproperty public var bCanModify : Bool;
   
   /**
     Help message for collision profile *
   **/
-  public var HelpMessage : unreal.FString;
+  @:uproperty public var HelpMessage : unreal.FString;
   
   /**
     Types of objects that this physics objects will collide with.
   **/
-  public var CustomResponses : unreal.TArray<unreal.FResponseChannel>;
-  public var ObjectTypeName : unreal.FName;
-  public var CollisionEnabled : unreal.ECollisionEnabled;
-  public var Name : unreal.FName;
+  @:uproperty public var CustomResponses : unreal.TArray<unreal.FResponseChannel>;
+  @:uproperty public var ObjectTypeName : unreal.FName;
+  @:uproperty public var CollisionEnabled : unreal.ECollisionEnabled;
+  @:uproperty public var Name : unreal.FName;
   
 }

@@ -20,6 +20,6 @@ package unreal;
   Point/spot settings for Lightmass
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassPointLightSettings extends unreal.FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassPointLightSettings extends unreal.FLightmassLightSettings {
   
 }

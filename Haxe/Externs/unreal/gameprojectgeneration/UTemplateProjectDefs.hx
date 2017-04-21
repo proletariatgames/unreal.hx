@@ -21,37 +21,37 @@ package unreal.gameprojectgeneration;
 **/
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
-@:uextern extern class UTemplateProjectDefs extends unreal.UObject {
+@:uextern @:uclass extern class UTemplateProjectDefs extends unreal.UObject {
   
   /**
     Shared feature packs. The files in these packs listed in these structures marked as 'additionalfiles' will be copied on project generation
   **/
-  public var SharedContentPacks : unreal.TArray<unreal.addcontentdialog.FFeaturePackLevelSet>;
+  @:uproperty public var SharedContentPacks : unreal.TArray<unreal.addcontentdialog.FFeaturePackLevelSet>;
   
   /**
     What detail level to edit when editing shared template resources
   **/
-  public var EditDetailLevelPreference : unreal.addcontentdialog.EFeaturePackDetailLevel;
+  @:uproperty public var EditDetailLevelPreference : unreal.addcontentdialog.EFeaturePackDetailLevel;
   
   /**
     Optional list of feature packs to include
   **/
-  public var PacksToInclude : unreal.TArray<unreal.FString>;
+  @:uproperty public var PacksToInclude : unreal.TArray<unreal.FString>;
   
   /**
     Should we allow creation of a project from this template
   **/
-  public var bAllowProjectCreation : Bool;
-  public var AssetTypes : unreal.FString;
-  public var ClassTypes : unreal.FString;
-  public var Category : unreal.FName;
-  public var SortKey : unreal.FString;
-  public var ReplacementsInFiles : unreal.TArray<unreal.gameprojectgeneration.FTemplateReplacement>;
-  public var FilenameReplacements : unreal.TArray<unreal.gameprojectgeneration.FTemplateReplacement>;
-  public var FolderRenames : unreal.TArray<unreal.gameprojectgeneration.FTemplateFolderRename>;
-  public var FilesToIgnore : unreal.TArray<unreal.FString>;
-  public var FoldersToIgnore : unreal.TArray<unreal.FString>;
-  public var LocalizedDescriptions : unreal.TArray<unreal.gameprojectgeneration.FLocalizedTemplateString>;
-  public var LocalizedDisplayNames : unreal.TArray<unreal.gameprojectgeneration.FLocalizedTemplateString>;
+  @:uproperty public var bAllowProjectCreation : Bool;
+  @:uproperty public var AssetTypes : unreal.FString;
+  @:uproperty public var ClassTypes : unreal.FString;
+  @:uproperty public var Category : unreal.FName;
+  @:uproperty public var SortKey : unreal.FString;
+  @:uproperty public var ReplacementsInFiles : unreal.TArray<unreal.gameprojectgeneration.FTemplateReplacement>;
+  @:uproperty public var FilenameReplacements : unreal.TArray<unreal.gameprojectgeneration.FTemplateReplacement>;
+  @:uproperty public var FolderRenames : unreal.TArray<unreal.gameprojectgeneration.FTemplateFolderRename>;
+  @:uproperty public var FilesToIgnore : unreal.TArray<unreal.FString>;
+  @:uproperty public var FoldersToIgnore : unreal.TArray<unreal.FString>;
+  @:uproperty public var LocalizedDescriptions : unreal.TArray<unreal.gameprojectgeneration.FLocalizedTemplateString>;
+  @:uproperty public var LocalizedDisplayNames : unreal.TArray<unreal.gameprojectgeneration.FLocalizedTemplateString>;
   
 }

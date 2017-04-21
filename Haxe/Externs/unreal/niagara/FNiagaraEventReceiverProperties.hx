@@ -22,22 +22,22 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraEventReceiverProperties {
-  public var EmitterActions : unreal.TArray<unreal.niagara.UNiagaraEventReceiverEmitterAction>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEventReceiverProperties {
+  @:uproperty public var EmitterActions : unreal.TArray<unreal.niagara.UNiagaraEventReceiverEmitterAction>;
   
   /**
     The name of the emitter from which the Event Generator is taken.
   **/
-  public var SourceEmitter : unreal.FName;
+  @:uproperty public var SourceEmitter : unreal.FName;
   
   /**
     The name of the EventGenerator to bind to.
   **/
-  public var SourceEventGenerator : unreal.FName;
+  @:uproperty public var SourceEventGenerator : unreal.FName;
   
   /**
     The name of this receiver.
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
 }

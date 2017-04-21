@@ -23,26 +23,26 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayEffectCue {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayEffectCue {
   
   /**
     Tags passed to the gameplay cue handler when this cue is activated
   **/
-  public var GameplayCueTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var GameplayCueTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     The maximum level that this Cue supports
   **/
-  public var MaxLevel : unreal.Float32;
+  @:uproperty public var MaxLevel : unreal.Float32;
   
   /**
     The minimum level that this Cue supports
   **/
-  public var MinLevel : unreal.Float32;
+  @:uproperty public var MinLevel : unreal.Float32;
   
   /**
     The attribute to use as the source for cue magnitude. If none use level
   **/
-  public var MagnitudeAttribute : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var MagnitudeAttribute : unreal.gameplayabilities.FGameplayAttribute;
   
 }

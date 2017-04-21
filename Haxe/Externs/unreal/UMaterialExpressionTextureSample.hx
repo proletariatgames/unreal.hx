@@ -14,17 +14,17 @@
 package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTextureSample.h")
-@:uextern extern class UMaterialExpressionTextureSample extends unreal.UMaterialExpressionTextureBase {
+@:uextern @:uclass extern class UMaterialExpressionTextureSample extends unreal.UMaterialExpressionTextureBase {
   
   /**
     only used if MipValue is not hooked up
   **/
-  public var ConstMipValue : unreal.Int32;
+  @:uproperty public var ConstMipValue : unreal.Int32;
   
   /**
     only used if Coordinates is not hooked up
   **/
-  public var ConstCoordinate : unreal.FakeUInt32;
+  @:uproperty public var ConstCoordinate : unreal.FakeUInt32;
   
   /**
     Controls where the sampler for this texture lookup will come from.
@@ -32,36 +32,36 @@ package unreal;
     Otherwise use one of the global samplers, which will not consume a sampler slot.
     This allows materials to use more than 16 unique textures on SM5 platforms.
   **/
-  public var SamplerSource : unreal.ESamplerSourceMode;
+  @:uproperty public var SamplerSource : unreal.ESamplerSourceMode;
   
   /**
     Defines how the MipValue property is applied to the texture lookup
   **/
-  public var MipValueMode : unreal.ETextureMipValueMode;
+  @:uproperty public var MipValueMode : unreal.ETextureMipValueMode;
   
   /**
     Coordinates derivative over the Y axis
   **/
-  public var CoordinatesDY : unreal.FExpressionInput;
+  @:uproperty public var CoordinatesDY : unreal.FExpressionInput;
   
   /**
     Coordinates derivative over the X axis
   **/
-  public var CoordinatesDX : unreal.FExpressionInput;
+  @:uproperty public var CoordinatesDX : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstMipValue' if not specified
   **/
-  public var MipValue : unreal.FExpressionInput;
+  @:uproperty public var MipValue : unreal.FExpressionInput;
   
   /**
     Defaults to 'Texture' if not specified
   **/
-  public var TextureObject : unreal.FExpressionInput;
+  @:uproperty public var TextureObject : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstCoordinate' if not specified
   **/
-  public var Coordinates : unreal.FExpressionInput;
+  @:uproperty public var Coordinates : unreal.FExpressionInput;
   
 }

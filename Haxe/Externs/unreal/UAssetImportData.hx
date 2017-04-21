@@ -18,23 +18,23 @@ package unreal;
   todo: Make this class better suited to multiple import paths - maybe have FAssetImportInfo use a map rather than array?
 **/
 @:glueCppIncludes("EditorFramework/AssetImportData.h")
-@:uextern extern class UAssetImportData extends unreal.UObject {
+@:uextern @:uclass extern class UAssetImportData extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Source file data describing the files that were used to import this asset.
   **/
-  public var SourceData : unreal.FAssetImportInfo;
+  @:uproperty public var SourceData : unreal.FAssetImportInfo;
   
   /**
     Date/Time-stamp of the file from the last import
   **/
-  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this static mesh. Relative to the object's package, BaseDir() or absolute
   **/
-  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFilePath_DEPRECATED : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -36,4 +36,5 @@ extern class UProperty_Extra {
   function GetNameCPP():FString;
 
   function ImportText(buffer:TCharStar, data:AnyPtr, portFlags:Int32, ownerObject:UObject, errorText:PPtr<FOutputDevice>):TCharStar;
+  function GetMinAlignment():Int32;
 }

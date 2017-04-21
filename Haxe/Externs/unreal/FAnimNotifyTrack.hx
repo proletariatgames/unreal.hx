@@ -20,8 +20,8 @@ package unreal;
   Keyframe position data for one track.  Pos(i) occurs at Time(i).  Pos.Num() always equals Time.Num().
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
-@:noCopy @:noEquals @:uextern extern class FAnimNotifyTrack {
-  public var TrackColor : unreal.FLinearColor;
-  public var TrackName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimNotifyTrack {
+  @:uproperty public var TrackColor : unreal.FLinearColor;
+  @:uproperty public var TrackName : unreal.FName;
   
 }

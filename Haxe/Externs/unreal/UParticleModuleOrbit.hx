@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbit.h")
-@:uextern extern class UParticleModuleOrbit extends unreal.UParticleModuleOrbitBase {
+@:uextern @:uclass extern class UParticleModuleOrbit extends unreal.UParticleModuleOrbitBase {
   
   /**
     The options associated with the RotationRateAmount look-up.
   **/
-  public var RotationRateOptions : unreal.FOrbitOptions;
+  @:uproperty public var RotationRateOptions : unreal.FOrbitOptions;
   
   /**
     The rate (in 'turns') at which to rotate the offset about the particle positon.
@@ -33,12 +33,12 @@ package unreal;
             0.5     = 180 degree rotation
             1.0 = 360 degree rotation
   **/
-  public var RotationRateAmount : unreal.FRawDistributionVector;
+  @:uproperty public var RotationRateAmount : unreal.FRawDistributionVector;
   
   /**
     The options associated with the RotationAmount look-up.
   **/
-  public var RotationOptions : unreal.FOrbitOptions;
+  @:uproperty public var RotationOptions : unreal.FOrbitOptions;
   
   /**
     The amount (in 'turns') to rotate the offset about the particle position.
@@ -46,17 +46,17 @@ package unreal;
             0.5     = 180 degree rotation
             1.0 = 360 degree rotation
   **/
-  public var RotationAmount : unreal.FRawDistributionVector;
+  @:uproperty public var RotationAmount : unreal.FRawDistributionVector;
   
   /**
     The options associated with the OffsetAmount look-up.
   **/
-  public var OffsetOptions : unreal.FOrbitOptions;
+  @:uproperty public var OffsetOptions : unreal.FOrbitOptions;
   
   /**
     The amount to offset the sprite from the particle position.
   **/
-  public var OffsetAmount : unreal.FRawDistributionVector;
+  @:uproperty public var OffsetAmount : unreal.FRawDistributionVector;
   
   /**
     Orbit modules will chain together in the order they appear in the module stack.
@@ -66,6 +66,6 @@ package unreal;
             EOChainMode_Scale       Multiply the values by the previous results
             EOChainMode_Link        'Break' the chain and apply the values from the previous results
   **/
-  public var ChainMode : unreal.EOrbitChainMode;
+  @:uproperty public var ChainMode : unreal.EOrbitChainMode;
   
 }

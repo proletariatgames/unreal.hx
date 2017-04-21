@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PreCullTrianglesVolume.h")
-@:uextern extern class APreCullTrianglesVolume extends unreal.AVolume {
+@:uextern @:uclass extern class APreCullTrianglesVolume extends unreal.AVolume {
   
 }

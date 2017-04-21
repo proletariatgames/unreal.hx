@@ -19,51 +19,51 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor.h")
-@:uextern extern class AGameplayAbilityTargetActor extends unreal.AActor {
-  public var GenericDelegateBoundASC : unreal.gameplayabilities.UAbilitySystemComponent;
+@:uextern @:uclass extern class AGameplayAbilityTargetActor extends unreal.AActor {
+  @:uproperty public var GenericDelegateBoundASC : unreal.gameplayabilities.UAbilitySystemComponent;
   
   /**
     Draw the debug information (if applicable) for this targeting actor.
   **/
-  public var bDebug : Bool;
+  @:uproperty public var bDebug : Bool;
   
   /**
     Using a special class for replication purposes.
   **/
-  public var Filter : unreal.gameplayabilities.FGameplayTargetDataFilterHandle;
+  @:uproperty public var Filter : unreal.gameplayabilities.FGameplayTargetDataFilterHandle;
   
   /**
     Reticle that will appear on top of acquired targets. Reticles will be spawned/despawned as targets are acquired/lost.
   **/
-  public var ReticleClass : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityWorldReticle>;
+  @:uproperty public var ReticleClass : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityWorldReticle>;
   
   /**
     Parameters for world reticle. Usage of these parameters is dependent on the reticle.
   **/
-  public var ReticleParams : unreal.gameplayabilities.FWorldReticleParameters;
-  public var SourceActor : unreal.AActor;
-  public var bDestroyOnConfirmation : Bool;
-  public var OwningAbility : unreal.gameplayabilities.UGameplayAbility;
-  public var MasterPC : unreal.APlayerController;
+  @:uproperty public var ReticleParams : unreal.gameplayabilities.FWorldReticleParameters;
+  @:uproperty public var SourceActor : unreal.AActor;
+  @:uproperty public var bDestroyOnConfirmation : Bool;
+  @:uproperty public var OwningAbility : unreal.gameplayabilities.UGameplayAbility;
+  @:uproperty public var MasterPC : unreal.APlayerController;
   
   /**
     Describes where the targeting action starts, usually the player character or a socket on the player character. //UPROPERTY(BlueprintReadOnly, meta=(ExposeOnSpawn=true), Category=Targeting)
   **/
-  public var StartLocation : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
+  @:uproperty public var StartLocation : unreal.gameplayabilities.FGameplayAbilityTargetingLocationInfo;
   
   /**
     The TargetData this class produces can be entirely generated on the server. We don't require the client to send us full or partial TargetData (possibly just a 'confirm')
   **/
-  public var ShouldProduceTargetDataOnServer : Bool;
+  @:uproperty public var ShouldProduceTargetDataOnServer : Bool;
   
   /**
     Outside code is saying 'stop and just give me what you have.' Returns true if the ability accepts this and can be forgotten.
   **/
-  public function ConfirmTargeting() : Void;
+  @:ufunction public function ConfirmTargeting() : Void;
   
   /**
     Outside code is saying 'stop everything and just forget about it'
   **/
-  public function CancelTargeting() : Void;
+  @:ufunction public function CancelTargeting() : Void;
   
 }

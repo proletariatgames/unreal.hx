@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/SplineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSplineCurves {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSplineCurves {
   
   /**
     Input: distance along curve, output: parameter that puts you there.
   **/
-  public var ReparamTable : unreal.FInterpCurveFloat;
+  @:uproperty public var ReparamTable : unreal.FInterpCurveFloat;
   
   /**
     Spline built from scale data.
   **/
-  public var Scale : unreal.FInterpCurveVector;
+  @:uproperty public var Scale : unreal.FInterpCurveVector;
   
   /**
     Spline built from rotation data.
   **/
-  public var Rotation : unreal.FInterpCurveQuat;
+  @:uproperty public var Rotation : unreal.FInterpCurveQuat;
   
   /**
     Spline built from position data.
   **/
-  public var Position : unreal.FInterpCurveVector;
+  @:uproperty public var Position : unreal.FInterpCurveVector;
   
 }

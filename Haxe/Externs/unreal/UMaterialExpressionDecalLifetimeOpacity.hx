@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDecalLifetimeOpacity.h")
-@:noClass @:uextern extern class UMaterialExpressionDecalLifetimeOpacity extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDecalLifetimeOpacity extends unreal.UMaterialExpression {
   
 }

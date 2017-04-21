@@ -19,16 +19,16 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("TestBeaconClient.h")
-@:uextern extern class ATestBeaconClient extends unreal.onlinesubsystemutils.AOnlineBeaconClient {
+@:uextern @:uclass extern class ATestBeaconClient extends unreal.onlinesubsystemutils.AOnlineBeaconClient {
   
   /**
     Send a ping RPC to the client
   **/
-  public function ClientPing() : Void;
+  @:ufunction public function ClientPing() : Void;
   
   /**
     Send a pong RPC to the host
   **/
-  public function ServerPong() : Void;
+  @:ufunction public function ServerPong() : Void;
   
 }

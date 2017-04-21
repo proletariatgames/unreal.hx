@@ -21,24 +21,24 @@ package unreal;
          delegate signatures); consider renaming to FFieldReference
 **/
 @:glueCppIncludes("Engine/MemberReference.h")
-@:noCopy @:noEquals @:uextern extern class FMemberReference {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMemberReference {
   
   /**
     The Guid of the variable
   **/
-  private var MemberGuid : unreal.FGuid;
+  @:uproperty private var MemberGuid : unreal.FGuid;
   
   /**
     Name of variable
   **/
-  private var MemberName : unreal.FName;
-  private var MemberScope : unreal.FString;
+  @:uproperty private var MemberName : unreal.FName;
+  @:uproperty private var MemberScope : unreal.FString;
   
   /**
     Most often the Class that this member is defined in. Could be a UPackage
     if it is a native delegate signature function (declared globally). Should
     be NULL if bSelfContext is true.
   **/
-  private var MemberParent : unreal.UObject;
+  @:uproperty private var MemberParent : unreal.UObject;
   
 }

@@ -20,31 +20,31 @@ package unreal;
   Elements of data for sound group volume control
 **/
 @:glueCppIncludes("Sound/SoundMix.h")
-@:noCopy @:noEquals @:uextern extern class FSoundClassAdjuster {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSoundClassAdjuster {
   
   /**
     A multiplier applied to VoiceCenterChannelVolume.
   **/
-  public var VoiceCenterChannelVolumeAdjuster : unreal.Float32;
+  @:uproperty public var VoiceCenterChannelVolumeAdjuster : unreal.Float32;
   
   /**
     Set to true to apply this adjuster to all children of the sound class.
   **/
-  public var bApplyToChildren : Bool;
+  @:uproperty public var bApplyToChildren : Bool;
   
   /**
     A multiplier applied to the pitch.
   **/
-  public var PitchAdjuster : unreal.Float32;
+  @:uproperty public var PitchAdjuster : unreal.Float32;
   
   /**
     A multiplier applied to the volume.
   **/
-  public var VolumeAdjuster : unreal.Float32;
+  @:uproperty public var VolumeAdjuster : unreal.Float32;
   
   /**
     The sound class this adjuster affects.
   **/
-  public var SoundClassObject : unreal.USoundClass;
+  @:uproperty public var SoundClassObject : unreal.USoundClass;
   
 }

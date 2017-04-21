@@ -21,52 +21,52 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeHeightfieldCollisionComponent.h")
-@:uextern extern class ULandscapeHeightfieldCollisionComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class ULandscapeHeightfieldCollisionComponent extends unreal.UPrimitiveComponent {
   
   /**
     This is a list of physical materials that is actually used by a cooked HeightField
   **/
-  public var CookedPhysicalMaterials : unreal.TArray<unreal.UPhysicalMaterial>;
+  @:uproperty public var CookedPhysicalMaterials : unreal.TArray<unreal.UPhysicalMaterial>;
   
   /**
     Cached local-space bounding box, created at heightmap update time
   **/
-  public var CachedLocalBox : unreal.FBox;
+  @:uproperty public var CachedLocalBox : unreal.FBox;
   
   /**
     Guid used to share PhysX heightfield objects in the editor
   **/
-  public var HeightfieldGuid : unreal.FGuid;
+  @:uproperty public var HeightfieldGuid : unreal.FGuid;
   
   /**
     The flags for each collision quad. See ECollisionQuadFlags.
   **/
-  public var CollisionQuadFlags : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var CollisionQuadFlags : unreal.TArray<unreal.UInt8>;
   
   /**
     Size of component's "simple collision" in collision quads
   **/
-  public var SimpleCollisionSizeQuads : unreal.Int32;
+  @:uproperty public var SimpleCollisionSizeQuads : unreal.Int32;
   
   /**
     Collision scale: (ComponentSizeQuads) / (CollisionSizeQuads)
   **/
-  public var CollisionScale : unreal.Float32;
+  @:uproperty public var CollisionScale : unreal.Float32;
   
   /**
     Size of component in collision quads
   **/
-  public var CollisionSizeQuads : unreal.Int32;
-  public var SectionBaseY : unreal.Int32;
+  @:uproperty public var CollisionSizeQuads : unreal.Int32;
+  @:uproperty public var SectionBaseY : unreal.Int32;
   
   /**
     Offset of component in landscape quads
   **/
-  public var SectionBaseX : unreal.Int32;
+  @:uproperty public var SectionBaseX : unreal.Int32;
   
   /**
     List of layers painted on this component. Matches the WeightmapLayerAllocations array in the LandscapeComponent.
   **/
-  public var ComponentLayerInfos : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
+  @:uproperty public var ComponentLayerInfos : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
   
 }

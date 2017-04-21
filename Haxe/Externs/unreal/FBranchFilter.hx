@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
-@:noCopy @:noEquals @:uextern extern class FBranchFilter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBranchFilter {
   
   /**
     Blend Depth *
   **/
-  public var BlendDepth : unreal.Int32;
+  @:uproperty public var BlendDepth : unreal.Int32;
   
   /**
     Bone Name to filter *
   **/
-  public var BoneName : unreal.FName;
+  @:uproperty public var BoneName : unreal.FName;
   
 }

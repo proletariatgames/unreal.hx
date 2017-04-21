@@ -19,14 +19,14 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
-@:uextern extern class FGameplayAbilityLocalAnimMontage {
+@:uextern @:ustruct extern class FGameplayAbilityLocalAnimMontage {
   
   /**
     The ability, if any, that instigated this montage
   **/
-  public var AnimatingAbility : unreal.gameplayabilities.UGameplayAbility;
-  public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
-  public var PlayBit : Bool;
-  public var AnimMontage : unreal.UAnimMontage;
+  @:uproperty public var AnimatingAbility : unreal.gameplayabilities.UGameplayAbility;
+  @:uproperty public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
+  @:uproperty public var PlayBit : Bool;
+  @:uproperty public var AnimMontage : unreal.UAnimMontage;
   
 }

@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:uextern extern class FGameplayModEvaluationChannelSettings {
+@:uextern @:ustruct extern class FGameplayModEvaluationChannelSettings {
   
   /**
     Channel the settings would prefer to use, if possible/valid
   **/
-  private var Channel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
+  @:uproperty private var Channel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
   
 }

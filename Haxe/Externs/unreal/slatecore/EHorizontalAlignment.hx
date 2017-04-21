@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EHorizontalAlignment")
-@:uextern extern enum EHorizontalAlignment {
+@:uextern @:uenum extern enum EHorizontalAlignment {
   
   /**
     Fill the entire width.

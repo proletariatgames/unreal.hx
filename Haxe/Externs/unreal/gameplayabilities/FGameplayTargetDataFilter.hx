@@ -15,26 +15,26 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetDataFilter.h")
-@:uextern extern class FGameplayTargetDataFilter {
+@:uextern @:ustruct extern class FGameplayTargetDataFilter {
   
   /**
     Reverses the meaning of the filter, so it will exclude all actors that pass.
   **/
-  public var bReverseFilter : Bool;
+  @:uproperty public var bReverseFilter : Bool;
   
   /**
     Subclass actors must be to pass the filter.
   **/
-  public var RequiredActorClass : unreal.TSubclassOf<unreal.AActor>;
+  @:uproperty public var RequiredActorClass : unreal.TSubclassOf<unreal.AActor>;
   
   /**
     Filter based on whether or not this actor is "self."
   **/
-  public var SelfFilter : unreal.gameplayabilities.ETargetDataFilterSelf;
+  @:uproperty public var SelfFilter : unreal.gameplayabilities.ETargetDataFilterSelf;
   
   /**
     Actor we're comparing against.
   **/
-  public var SelfActor : unreal.AActor;
+  @:uproperty public var SelfActor : unreal.AActor;
   
 }

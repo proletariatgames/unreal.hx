@@ -21,9 +21,9 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayDebuggerExtensionConfig {
-  public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;
-  public var UseExtension : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
-  public var ExtensionName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerExtensionConfig {
+  @:uproperty public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;
+  @:uproperty public var UseExtension : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
+  @:uproperty public var ExtensionName : unreal.FString;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAspectRatioAxisConstraint")
-@:uextern extern enum EAspectRatioAxisConstraint {
+@:uextern @:uenum extern enum EAspectRatioAxisConstraint {
   
   /**
     Maintain Y-Axis FOV

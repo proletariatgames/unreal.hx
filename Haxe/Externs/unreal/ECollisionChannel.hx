@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ECollisionChannel")
-@:uextern extern enum ECollisionChannel {
+@:uextern @:uenum extern enum ECollisionChannel {
   
   /**
     WorldStatic

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackFloatParticleParam.h")
-@:noClass @:uextern extern class UInterpTrackFloatParticleParam extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern @:uclass extern class UInterpTrackFloatParticleParam extends unreal.UInterpTrackFloatBase {
   
   /**
     Name of property in the Emitter which this track mill modify over time.
   **/
-  public var ParamName : unreal.FName;
+  @:uproperty public var ParamName : unreal.FName;
   
 }

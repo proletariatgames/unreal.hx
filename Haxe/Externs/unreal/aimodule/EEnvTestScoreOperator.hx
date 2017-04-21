@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestScoreOperator.Type")
-@:uextern extern enum EEnvTestScoreOperator {
+@:uextern @:uenum extern enum EEnvTestScoreOperator {
   
   /**
     Use average score from all contexts

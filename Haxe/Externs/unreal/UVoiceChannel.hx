@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/VoiceChannel.h")
-@:uextern extern class UVoiceChannel extends unreal.UChannel {
+@:uextern @:uclass extern class UVoiceChannel extends unreal.UChannel {
   
 }

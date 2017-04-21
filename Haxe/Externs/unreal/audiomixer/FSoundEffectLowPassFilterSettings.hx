@@ -19,8 +19,8 @@ package unreal.audiomixer;
 **/
 @:umodule("AudioMixer")
 @:glueCppIncludes("Effects/SoundEffectLowPassFilter.h")
-@:uextern extern class FSoundEffectLowPassFilterSettings {
-  public var Q : unreal.Float32;
-  public var CutoffFrequency : unreal.Float32;
+@:uextern @:ustruct extern class FSoundEffectLowPassFilterSettings {
+  @:uproperty public var Q : unreal.Float32;
+  @:uproperty public var CutoffFrequency : unreal.Float32;
   
 }

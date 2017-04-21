@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Slate/SlateTextureAtlasInterface.h")
-@:uextern extern interface ISlateTextureAtlasInterface {
+@:uextern @:uclass extern interface ISlateTextureAtlasInterface {
   
 }

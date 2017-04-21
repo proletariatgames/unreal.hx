@@ -16,7 +16,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Text/TextLayout.h")
 @:uname("ETextJustify.Type")
-@:uextern extern enum ETextJustify {
+@:uextern @:uenum extern enum ETextJustify {
   
   /**
     Justify the text logically to the left.

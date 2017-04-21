@@ -16,7 +16,7 @@ package unreal.supersearch;
 @:umodule("SuperSearch")
 @:glueCppIncludes("SuperSearchModule.h")
 @:uname("ESearchEngine")
-@:class @:uextern extern enum ESearchEngine {
+@:class @:uextern @:uenum extern enum ESearchEngine {
   Google;
   Bing;
   

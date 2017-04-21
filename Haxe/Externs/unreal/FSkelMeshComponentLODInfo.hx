@@ -20,11 +20,11 @@ package unreal;
   LOD specific setup for the skeletal mesh component.
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSkelMeshComponentLODInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSkelMeshComponentLODInfo {
   
   /**
     Material corresponds to section. To show/hide each section, use this.
   **/
-  public var HiddenMaterials : unreal.TArray<Bool>;
+  @:uproperty public var HiddenMaterials : unreal.TArray<Bool>;
   
 }

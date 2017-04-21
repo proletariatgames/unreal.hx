@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryAnimationAsset.h")
-@:uextern extern class UActorFactoryAnimationAsset extends unreal.editor.UActorFactorySkeletalMesh {
+@:uextern @:uclass extern class UActorFactoryAnimationAsset extends unreal.editor.UActorFactorySkeletalMesh {
   
 }

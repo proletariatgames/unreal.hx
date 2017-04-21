@@ -21,8 +21,8 @@ package unreal.oculuslibrary;
 **/
 @:umodule("OculusLibrary")
 @:glueCppIncludes("OculusFunctionLibrary.h")
-@:noCopy @:noEquals @:uextern extern class FHmdUserProfileField {
-  public var FieldValue : unreal.FString;
-  public var FieldName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FHmdUserProfileField {
+  @:uproperty public var FieldValue : unreal.FString;
+  @:uproperty public var FieldName : unreal.FString;
   
 }

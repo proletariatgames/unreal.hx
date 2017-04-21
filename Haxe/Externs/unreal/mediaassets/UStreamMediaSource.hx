@@ -15,11 +15,11 @@ package unreal.mediaassets;
 
 @:umodule("MediaAssets")
 @:glueCppIncludes("StreamMediaSource.h")
-@:uextern extern class UStreamMediaSource extends unreal.mediaassets.UMediaSource {
+@:uextern @:uclass extern class UStreamMediaSource extends unreal.mediaassets.UMediaSource {
   
   /**
     The URL to the media stream to be played.
   **/
-  public var StreamUrl : unreal.FString;
+  @:uproperty public var StreamUrl : unreal.FString;
   
 }

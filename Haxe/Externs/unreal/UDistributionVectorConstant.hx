@@ -14,17 +14,17 @@
 package unreal;
 
 @:glueCppIncludes("Distributions/DistributionVectorConstant.h")
-@:uextern extern class UDistributionVectorConstant extends unreal.UDistributionVector {
-  public var LockedAxes : unreal.EDistributionVectorLockFlags;
+@:uextern @:uclass extern class UDistributionVectorConstant extends unreal.UDistributionVector {
+  @:uproperty public var LockedAxes : unreal.EDistributionVectorLockFlags;
   
   /**
     If true, X == Y == Z ie. only one degree of freedom. If false, each axis is picked independently.
   **/
-  public var bLockAxes : Bool;
+  @:uproperty public var bLockAxes : Bool;
   
   /**
     This FVector will be returned for all input times.
   **/
-  public var Constant : unreal.FVector;
+  @:uproperty public var Constant : unreal.FVector;
   
 }

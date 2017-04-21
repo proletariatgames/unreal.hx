@@ -20,11 +20,21 @@ package unreal;
   Information about the sprite category
 **/
 @:glueCppIncludes("Components/PrimitiveComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSpriteCategoryInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSpriteCategoryInfo {
+  
+  /**
+    Localized description of the sprite category
+  **/
+  @:uproperty public var Description : unreal.FText;
+  
+  /**
+    Localized name of the sprite category
+  **/
+  @:uproperty public var DisplayName : unreal.FText;
   
   /**
     Sprite category that the component belongs to
   **/
-  public var Category : unreal.FName;
+  @:uproperty public var Category : unreal.FName;
   
 }

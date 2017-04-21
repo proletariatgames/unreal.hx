@@ -14,129 +14,129 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimSequence.h")
-@:uextern extern class UAnimSequence extends unreal.UAnimSequenceBase {
+@:uextern @:uclass extern class UAnimSequence extends unreal.UAnimSequenceBase {
   
   /**
     Authored Sync markers
   **/
-  public var AuthoredSyncMarkers : unreal.TArray<unreal.FAnimSyncMarker>;
+  @:uproperty public var AuthoredSyncMarkers : unreal.TArray<unreal.FAnimSyncMarker>;
   #if WITH_EDITORONLY_DATA
-  public var bNeedsRebake : Bool;
+  @:uproperty public var bNeedsRebake : Bool;
   
   /**
     Date/Time-stamp of the file from the last import
   **/
-  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this skeletal mesh
   **/
-  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFilePath_DEPRECATED : unreal.FString;
   
   /**
     Importing data and options used for this mesh
   **/
-  public var AssetImportData : unreal.UAssetImportData;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   
   /**
     Used to track whether, or not, this sequence was compressed with it's full translation tracks
   **/
-  public var bWasCompressedWithoutTranslations : Bool;
+  @:uproperty public var bWasCompressedWithoutTranslations : Bool;
   
   /**
     Do not attempt to override compression scheme when running CompressAnimations commandlet.
     Some high frequency animations are too sensitive and shouldn't be changed.
   **/
-  public var bDoNotOverrideCompression : Bool;
+  @:uproperty public var bDoNotOverrideCompression : Bool;
   
   /**
     Saved version number with CompressAnimations commandlet. To help with doing it in multiple passes.
   **/
-  public var CompressCommandletVersion : unreal.Int32;
+  @:uproperty public var CompressCommandletVersion : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Have we copied root motion settings from an owning montage
   **/
-  public var bRootMotionSettingsCopiedFromMontage : Bool;
+  @:uproperty public var bRootMotionSettingsCopiedFromMontage : Bool;
   
   /**
     Force Root Bone Lock even if Root Motion is not enabled
   **/
-  public var bForceRootLock : Bool;
+  @:uproperty public var bForceRootLock : Bool;
   
   /**
     Root Bone will be locked to that position when extracting root motion.*
   **/
-  public var RootMotionRootLock : unreal.ERootMotionRootLock;
+  @:uproperty public var RootMotionRootLock : unreal.ERootMotionRootLock;
   
   /**
     If this is on, it will allow extracting of root motion *
   **/
-  public var bEnableRootMotion : Bool;
+  @:uproperty public var bEnableRootMotion : Bool;
   
   /**
     This defines how values between keys are calculated *
   **/
-  public var Interpolation : unreal.EAnimInterpolationType;
+  @:uproperty public var Interpolation : unreal.EAnimInterpolationType;
   
   /**
     Base pose to use when retargeting
   **/
-  public var RetargetSource : unreal.FName;
+  @:uproperty public var RetargetSource : unreal.FName;
   
   /**
     The version of the global encoding package used at the time of import
   **/
-  public var EncodingPkgVersion : unreal.Int32;
+  @:uproperty public var EncodingPkgVersion : unreal.Int32;
   
   /**
     Additve reference frame if RefPoseType == AnimFrame *
   **/
-  public var RefFrameIndex : unreal.Int32;
+  @:uproperty public var RefFrameIndex : unreal.Int32;
   
   /**
     Additive reference animation if it's relevant - i.e. AnimScaled or AnimFrame *
   **/
-  public var RefPoseSeq : unreal.UAnimSequence;
+  @:uproperty public var RefPoseSeq : unreal.UAnimSequence;
   
   /**
     Additive refrerence pose type. Refer above enum type
   **/
-  public var RefPoseType : unreal.EAdditiveBasePoseType;
+  @:uproperty public var RefPoseType : unreal.EAdditiveBasePoseType;
   
   /**
     Additive animation type. *
   **/
-  public var AdditiveAnimType : unreal.EAdditiveAnimationType;
+  @:uproperty public var AdditiveAnimType : unreal.EAdditiveAnimationType;
   #if WITH_EDITORONLY_DATA
   
   /**
     The compression scheme that was most recently used to compress this animation.
     May be NULL.
   **/
-  public var CompressionScheme : unreal.UAnimCompress;
+  @:uproperty public var CompressionScheme : unreal.UAnimCompress;
   
   /**
     This is name of RawAnimationData tracks for editoronly - if we lose skeleton, we'll need relink them
   **/
-  private var AnimationTrackNames : unreal.TArray<unreal.FName>;
+  @:uproperty private var AnimationTrackNames : unreal.TArray<unreal.FName>;
   
   /**
     Update this if the contents of RawAnimationData changes;
   **/
-  private var RawDataGuid : unreal.FGuid;
+  @:uproperty private var RawDataGuid : unreal.FGuid;
   #end // WITH_EDITORONLY_DATA
   
   /**
     In the future, maybe keeping RawAnimSequenceTrack + TrackMap as one would be good idea to avoid inconsistent array size
     TrackToSkeletonMapTable(i) should contains  track mapping data for RawAnimationData(i).
   **/
-  private var TrackToSkeletonMapTable : unreal.TArray<unreal.FTrackToSkeletonMap>;
+  @:uproperty private var TrackToSkeletonMapTable : unreal.TArray<unreal.FTrackToSkeletonMap>;
   
   /**
     Number of raw frames in this sequence (not used by engine - just for informational purposes).
   **/
-  public var NumFrames : unreal.Int32;
+  @:uproperty public var NumFrames : unreal.Int32;
   
 }

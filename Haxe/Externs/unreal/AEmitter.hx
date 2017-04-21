@@ -14,38 +14,38 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Emitter.h")
-@:uextern extern class AEmitter extends unreal.AActor {
+@:uextern @:uclass extern class AEmitter extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
     used to update status of toggleable level placed emitters on clients
   **/
-  public var bCurrentlyActive : Bool;
-  public var bPostUpdateTickGroup : Bool;
-  public var bDestroyOnSystemFinish : Bool;
-  public var ParticleSystemComponent : unreal.UParticleSystemComponent;
-  public function OnParticleSystemFinished(FinishedComponent : unreal.UParticleSystemComponent) : Void;
+  @:uproperty public var bCurrentlyActive : Bool;
+  @:uproperty public var bPostUpdateTickGroup : Bool;
+  @:uproperty public var bDestroyOnSystemFinish : Bool;
+  @:uproperty public var ParticleSystemComponent : unreal.UParticleSystemComponent;
+  @:ufunction public function OnParticleSystemFinished(FinishedComponent : unreal.UParticleSystemComponent) : Void;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_bCurrentlyActive() : Void;
+  @:ufunction public function OnRep_bCurrentlyActive() : Void;
   
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:final public function Activate() : Void;
-  @:final public function Deactivate() : Void;
-  @:final public function ToggleActive() : Void;
-  @:thisConst @:final public function IsActive() : Bool;
-  public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
-  @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
-  @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
-  @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
-  @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
-  @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function Activate() : Void;
+  @:ufunction @:final public function Deactivate() : Void;
+  @:ufunction @:final public function ToggleActive() : Void;
+  @:ufunction @:thisConst @:final public function IsActive() : Bool;
+  @:ufunction public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
+  @:ufunction @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
+  @:ufunction @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
+  @:ufunction @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
+  @:ufunction @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
   
 }

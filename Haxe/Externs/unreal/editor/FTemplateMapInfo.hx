@@ -21,16 +21,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdEngine.h")
-@:noCopy @:noEquals @:uextern extern class FTemplateMapInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTemplateMapInfo {
   
   /**
     The object path to the template map
   **/
-  public var Map : unreal.FString;
+  @:uproperty public var Map : unreal.FString;
   
   /**
     The Texture2D associated with this map template
   **/
-  public var ThumbnailTexture : unreal.UTexture2D;
+  @:uproperty public var ThumbnailTexture : unreal.UTexture2D;
   
 }

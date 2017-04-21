@@ -21,7 +21,8 @@ package unreal.configeditor;
 **/
 @:umodule("ConfigEditor")
 @:glueCppIncludes("ConfigPropertyHelper.h")
-@:uextern extern class UConfigHierarchyPropertyView extends unreal.UObject {
-  public var ConfigFilePropertyObjects : unreal.TArray<unreal.configeditor.UPropertyConfigFileDisplayRow>;
+@:uextern @:uclass extern class UConfigHierarchyPropertyView extends unreal.UObject {
+  @:uproperty public var ConfigFilePropertyObjects : unreal.TArray<unreal.configeditor.UPropertyConfigFileDisplayRow>;
+  @:uproperty public var EditProperty : unreal.TWeakObjectPtr<unreal.UProperty>;
   
 }

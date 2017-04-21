@@ -19,6 +19,6 @@ package unreal.moviescene;
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneFolder.h")
-@:uextern extern class UMovieSceneFolder extends unreal.UObject {
+@:uextern @:uclass extern class UMovieSceneFolder extends unreal.UObject {
   
 }

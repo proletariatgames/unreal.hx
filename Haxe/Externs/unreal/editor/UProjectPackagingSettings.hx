@@ -19,159 +19,159 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/ProjectPackagingSettings.h")
-@:uextern extern class UProjectPackagingSettings extends unreal.UObject {
+@:uextern @:uclass extern class UProjectPackagingSettings extends unreal.UObject {
   
   /**
     Directories containing files that should always be copied when packaging your project, but are not supposed to be part of the .pak file
     This is used to stage additional files that you manually load without using the UFS (Unreal File System) file IO API, eg, third-party libraries that perform their own internal file IO
     Note: These paths are relative to your project Content directory
   **/
-  public var DirectoriesToAlwaysStageAsNonUFS : unreal.TArray<unreal.FDirectoryPath>;
+  @:uproperty public var DirectoriesToAlwaysStageAsNonUFS : unreal.TArray<unreal.FDirectoryPath>;
   
   /**
     Directories containing files that should always be added to the .pak file (if using a .pak file; otherwise they're copied as individual files)
     This is used to stage additional files that you manually load via the UFS (Unreal File System) file IO API
     Note: These paths are relative to your project Content directory
   **/
-  public var DirectoriesToAlwaysStageAsUFS : unreal.TArray<unreal.FDirectoryPath>;
+  @:uproperty public var DirectoriesToAlwaysStageAsUFS : unreal.TArray<unreal.FDirectoryPath>;
   
   /**
     Directories containing .uasset files that should always be cooked regardless of whether they're referenced by anything in your project
     Note: These paths are relative to your project Content directory
   **/
-  public var DirectoriesToNeverCook : unreal.TArray<unreal.FDirectoryPath>;
+  @:uproperty public var DirectoriesToNeverCook : unreal.TArray<unreal.FDirectoryPath>;
   
   /**
     Directories containing .uasset files that should always be cooked regardless of whether they're referenced by anything in your project
     Note: These paths are relative to your project Content directory
   **/
-  public var DirectoriesToAlwaysCook : unreal.TArray<unreal.FDirectoryPath>;
+  @:uproperty public var DirectoriesToAlwaysCook : unreal.TArray<unreal.FDirectoryPath>;
   
   /**
     List of maps to include when no other map list is specified on commandline
   **/
-  public var MapsToCook : unreal.TArray<unreal.FFilePath>;
+  @:uproperty public var MapsToCook : unreal.TArray<unreal.FFilePath>;
   
   /**
     Skip editor content
   **/
-  public var bSkipEditorContent : Bool;
+  @:uproperty public var bSkipEditorContent : Bool;
   
   /**
     Encrypt ini files inside of the pak file
   **/
-  public var bEncryptIniFiles : Bool;
+  @:uproperty public var bEncryptIniFiles : Bool;
   
   /**
     Create compressed cooked packages (decreased deployment size)
   **/
-  public var bCompressed : Bool;
+  @:uproperty public var bCompressed : Bool;
   
   /**
     Cook only maps (this only affects the cookall flag)
   **/
-  public var bCookMapsOnly : Bool;
+  @:uproperty public var bCookMapsOnly : Bool;
   
   /**
     Cook all things in the project content directory
   **/
-  public var bCookAll : Bool;
+  @:uproperty public var bCookAll : Bool;
   
   /**
     Culture to use if no matching culture is found.
   **/
-  public var DefaultCulture : unreal.FString;
+  @:uproperty public var DefaultCulture : unreal.FString;
   
   /**
     Cultures whose data should be cooked, staged, and packaged.
   **/
-  public var CulturesToStage : unreal.TArray<unreal.FString>;
+  @:uproperty public var CulturesToStage : unreal.TArray<unreal.FString>;
   
   /**
     Predefined sets of culture whose internationalization data should be packaged.
   **/
-  public var InternationalizationPreset : unreal.editor.EProjectPackagingInternationalizationPresets;
+  @:uproperty public var InternationalizationPreset : unreal.editor.EProjectPackagingInternationalizationPresets;
   
   /**
     Specifies whether to include the crash reporter in the packaged project.
     This is included by default for Blueprint based projects, but can optionally be disabled.
   **/
-  public var IncludeCrashReporter : Bool;
+  @:uproperty public var IncludeCrashReporter : Bool;
   
   /**
     A directory containing prerequisite packages that should be staged in the executable directory. Can be relative to $(EngineDir) or $(ProjectDir)
   **/
-  public var ApplocalPrerequisitesDirectory : unreal.FDirectoryPath;
+  @:uproperty public var ApplocalPrerequisitesDirectory : unreal.FDirectoryPath;
   
   /**
     Specifies whether to include prerequisites of packaged games, such as redistributable operating system components, whenever possible.
   **/
-  public var IncludePrerequisites : Bool;
+  @:uproperty public var IncludePrerequisites : Bool;
   
   /**
     Version name for HTTP Chunk Install Data.
   **/
-  public var HttpChunkInstallDataVersion : unreal.FString;
+  @:uproperty public var HttpChunkInstallDataVersion : unreal.FString;
   
   /**
     When "Build HTTP Chunk Install Data" is enabled this is the directory where the data will be build to.
   **/
-  public var HttpChunkInstallDataDirectory : unreal.FDirectoryPath;
+  @:uproperty public var HttpChunkInstallDataDirectory : unreal.FDirectoryPath;
   
   /**
     If enabled, will generate data for HTTP Chunk Installer. This data can be hosted on webserver to be installed at runtime. Requires "Generate Chunks" enabled.
   **/
-  public var bBuildHttpChunkInstallData : Bool;
+  @:uproperty public var bBuildHttpChunkInstallData : Bool;
   
   /**
     Normally during chunk generation all dependencies of a package in a chunk will be pulled into that package's chunk.
     If this is enabled then only hard dependencies are pulled in. Soft dependencies stay in their original chunk.
   **/
-  public var bChunkHardReferencesOnly : Bool;
+  @:uproperty public var bChunkHardReferencesOnly : Bool;
   
   /**
     If enabled, will generate pak file chunks.  Assets can be assigned to chunks in the editor or via a delegate (See ShooterGameDelegates.cpp).
     Can be used for streaming installs (PS4 Playgo, XboxOne Streaming Install, etc)
   **/
-  public var bGenerateChunks : Bool;
+  @:uproperty public var bGenerateChunks : Bool;
   
   /**
     If enabled, all content will be put into a single .pak file instead of many individual files (default = enabled).
   **/
-  public var UsePakFile : Bool;
+  @:uproperty public var UsePakFile : Bool;
   
   /**
     If enabled, then the project's Blueprint assets (including structs and enums) will be intermediately converted into C++ and used in the packaged project (in place of the .uasset files).
   **/
-  public var bNativizeBlueprintAssets : Bool;
+  @:uproperty public var bNativizeBlueprintAssets : Bool;
   
   /**
     If enabled, debug files will be included in the packaged game
   **/
-  public var IncludeDebugFiles : Bool;
+  @:uproperty public var IncludeDebugFiles : Bool;
   
   /**
     If enabled, a distribution build will be created and the shipping configuration will be used
     If disabled, a development build will be created
     Distribution builds are for publishing to the App Store
   **/
-  public var ForDistribution : Bool;
+  @:uproperty public var ForDistribution : Bool;
   
   /**
     If enabled, a full rebuild will be enforced each time the project is being packaged.
     If disabled, only modified files will be built, which can improve iteration time.
     Unless you iterate on packaging, we recommend full rebuilds when packaging.
   **/
-  public var FullRebuild : Bool;
+  @:uproperty public var FullRebuild : Bool;
   
   /**
     The directory to which the packaged project will be copied.
   **/
-  public var StagingDirectory : unreal.FDirectoryPath;
+  @:uproperty public var StagingDirectory : unreal.FDirectoryPath;
   
   /**
     The build configuration for which the project is packaged.
   **/
-  public var BuildConfiguration : unreal.editor.EProjectPackagingBuildConfigurations;
+  @:uproperty public var BuildConfiguration : unreal.editor.EProjectPackagingBuildConfigurations;
   
 }

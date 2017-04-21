@@ -21,9 +21,9 @@ package unreal;
   for "manager" type classes that hold settings data about the world, but might need to be an Actor for replication purposes.
 **/
 @:glueCppIncludes("GameFramework/Info.h")
-@:uextern extern class AInfo extends unreal.AActor {
+@:uextern @:uclass extern class AInfo extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
   
 }

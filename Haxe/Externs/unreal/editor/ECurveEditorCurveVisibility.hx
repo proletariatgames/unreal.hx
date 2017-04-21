@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("CurveEditorSettings.h")
 @:uname("ECurveEditorCurveVisibility.Type")
-@:uextern extern enum ECurveEditorCurveVisibility {
+@:uextern @:uenum extern enum ECurveEditorCurveVisibility {
   
   /**
     All curves should be visible.

@@ -21,6 +21,6 @@ package unreal.sequencerecordersections;
 **/
 @:umodule("SequenceRecorderSections")
 @:glueCppIncludes("Private/MovieSceneParticleTrackSectionRecorder.h")
-@:uextern extern class UMovieSceneParticleTrackSectionRecorder extends unreal.UObject {
+@:uextern @:uclass extern class UMovieSceneParticleTrackSectionRecorder extends unreal.UObject {
   
 }

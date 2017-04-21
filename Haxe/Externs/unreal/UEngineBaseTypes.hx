@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:noClass @:uextern extern class UEngineBaseTypes extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UEngineBaseTypes extends unreal.UObject {
   
 }

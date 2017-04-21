@@ -19,76 +19,76 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FTableRowStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FTableRowStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Brush used to provide feedback that a user can drop below the hovered row.
   **/
-  public var DropIndicator_Below : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DropIndicator_Below : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used to provide feedback that a user can drop onto the hovered row.
   **/
-  public var DropIndicator_Onto : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DropIndicator_Onto : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used to provide feedback that a user can drop above the hovered row.
   **/
-  public var DropIndicator_Above : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DropIndicator_Above : unreal.slatecore.FSlateBrush;
   
   /**
     Text color used for the selected row
   **/
-  public var SelectedTextColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var SelectedTextColor : unreal.slatecore.FSlateColor;
   
   /**
     Text color used for all rows
   **/
-  public var TextColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var TextColor : unreal.slatecore.FSlateColor;
   
   /**
     Brush to used when an odd row is in its normal state
   **/
-  public var OddRowBackgroundBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var OddRowBackgroundBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when an odd row is hovered
   **/
-  public var OddRowBackgroundHoveredBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var OddRowBackgroundHoveredBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when an even row is in its normal state
   **/
-  public var EvenRowBackgroundBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var EvenRowBackgroundBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when an even row is hovered
   **/
-  public var EvenRowBackgroundHoveredBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var EvenRowBackgroundHoveredBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when a selected row is inactive
   **/
-  public var InactiveBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var InactiveBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when an selected row is inactive and hovered
   **/
-  public var InactiveHoveredBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var InactiveHoveredBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when a selected row is active
   **/
-  public var ActiveBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var ActiveBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used when a selected row is active and hovered
   **/
-  public var ActiveHoveredBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var ActiveHoveredBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used as a selector when a row is focused
   **/
-  public var SelectorFocusedBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var SelectorFocusedBrush : unreal.slatecore.FSlateBrush;
   
 }

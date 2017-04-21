@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/ActorComponent.h")
 @:uname("EComponentCreationMethod")
-@:class @:uextern extern enum EComponentCreationMethod {
+@:class @:uextern @:uenum extern enum EComponentCreationMethod {
   
   /**
     A component that is part of a native class.

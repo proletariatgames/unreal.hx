@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCue_Types.h")
 @:uname("EGameplayCuePayloadType")
-@:class @:uextern extern enum EGameplayCuePayloadType {
+@:class @:uextern @:uenum extern enum EGameplayCuePayloadType {
   EffectContext;
   CueParameters;
   FromSpec;

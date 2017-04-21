@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackMove.h")
-@:noCopy @:noEquals @:uextern extern class FInterpLookupTrack {
-  public var Points : unreal.TArray<unreal.FInterpLookupPoint>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpLookupTrack {
+  @:uproperty public var Points : unreal.TArray<unreal.FInterpLookupPoint>;
   
 }

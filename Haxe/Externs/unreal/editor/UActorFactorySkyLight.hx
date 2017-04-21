@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactorySkyLight.h")
-@:uextern extern class UActorFactorySkyLight extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactorySkyLight extends unreal.editor.UActorFactory {
   
 }

@@ -22,7 +22,7 @@ package unreal;
   we should define more transition/blending behaviors
 **/
 @:glueCppIncludes("Animation/AnimCompositeBase.h")
-@:noCopy @:noEquals @:uextern extern class FAnimTrack {
-  public var AnimSegments : unreal.TArray<unreal.FAnimSegment>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimTrack {
+  @:uproperty public var AnimSegments : unreal.TArray<unreal.FAnimSegment>;
   
 }

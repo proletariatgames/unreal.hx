@@ -16,7 +16,7 @@ package unreal.moviescenetools;
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("Private/MovieSceneToolsUserSettings.h")
 @:uname("EThumbnailQuality")
-@:class @:uextern extern enum EThumbnailQuality {
+@:class @:uextern @:uenum extern enum EThumbnailQuality {
   Draft;
   Normal;
   Best;

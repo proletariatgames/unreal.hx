@@ -15,16 +15,16 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_GroundTrace.h")
-@:uextern extern class AGameplayAbilityTargetActor_GroundTrace extends unreal.gameplayabilities.AGameplayAbilityTargetActor_Trace {
+@:uextern @:uclass extern class AGameplayAbilityTargetActor_GroundTrace extends unreal.gameplayabilities.AGameplayAbilityTargetActor_Trace {
   
   /**
     Height for a capsule. Implicitly indicates a capsule is desired if this is greater than zero.
   **/
-  public var CollisionHeight : unreal.Float32;
+  @:uproperty public var CollisionHeight : unreal.Float32;
   
   /**
     Radius for a sphere or capsule.
   **/
-  public var CollisionRadius : unreal.Float32;
+  @:uproperty public var CollisionRadius : unreal.Float32;
   
 }

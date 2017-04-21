@@ -20,25 +20,25 @@ package unreal;
   
 **/
 @:glueCppIncludes("VectorField/VectorFieldStatic.h")
-@:uextern extern class UVectorFieldStatic extends unreal.UVectorField {
+@:uextern @:uclass extern class UVectorFieldStatic extends unreal.UVectorField {
   #if WITH_EDITORONLY_DATA
-  public var AssetImportData : unreal.UAssetImportData;
-  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
+  @:deprecated @:uproperty public var SourceFilePath_DEPRECATED : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Size of the vector field volume.
   **/
-  public var SizeZ : unreal.Int32;
+  @:uproperty public var SizeZ : unreal.Int32;
   
   /**
     Size of the vector field volume.
   **/
-  public var SizeY : unreal.Int32;
+  @:uproperty public var SizeY : unreal.Int32;
   
   /**
     Size of the vector field volume.
   **/
-  public var SizeX : unreal.Int32;
+  @:uproperty public var SizeX : unreal.Int32;
   
 }

@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysAngularConstraintType")
-@:class @:uextern extern enum AnimPhysAngularConstraintType {
+@:class @:uextern @:uenum extern enum AnimPhysAngularConstraintType {
   Angular;
   Cone;
   

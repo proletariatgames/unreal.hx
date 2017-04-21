@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Commandlets/PluginCommandlet.h")
-@:noClass @:uextern extern class UPluginCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UPluginCommandlet extends unreal.UCommandlet {
   
 }

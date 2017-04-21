@@ -21,6 +21,6 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
-@:noCopy @:noEquals @:uextern extern class FAnimLegIKData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimLegIKData {
   
 }

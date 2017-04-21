@@ -18,22 +18,22 @@ package unreal;
   Class containing definition of a navigation area
 **/
 @:glueCppIncludes("AI/Navigation/NavAreas/NavAreaMeta_SwitchByAgent.h")
-@:uextern extern class UNavAreaMeta_SwitchByAgent extends unreal.UNavAreaMeta {
-  public var Agent15Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent14Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent13Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent12Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent11Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent10Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent9Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent8Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent7Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent6Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent5Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent4Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent3Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent2Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent1Area : unreal.TSubclassOf<unreal.UNavArea>;
-  public var Agent0Area : unreal.TSubclassOf<unreal.UNavArea>;
+@:uextern @:uclass extern class UNavAreaMeta_SwitchByAgent extends unreal.UNavAreaMeta {
+  @:uproperty public var Agent15Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent14Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent13Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent12Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent11Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent10Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent9Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent8Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent7Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent6Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent5Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent4Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent3Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent2Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent1Area : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var Agent0Area : unreal.TSubclassOf<unreal.UNavArea>;
   
 }

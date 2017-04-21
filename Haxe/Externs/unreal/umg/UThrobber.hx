@@ -19,52 +19,52 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UThrobber extends unreal.umg.UWidget {
-  public var Image : unreal.slatecore.FSlateBrush;
+@:uextern @:uclass extern class UThrobber extends unreal.umg.UWidget {
+  @:uproperty public var Image : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use for each segment of the throbber
   **/
-  @:deprecated public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Should the pieces animate their opacity?
   **/
-  public var bAnimateOpacity : Bool;
+  @:uproperty public var bAnimateOpacity : Bool;
   
   /**
     Should the pieces animate vertically?
   **/
-  public var bAnimateVertically : Bool;
+  @:uproperty public var bAnimateVertically : Bool;
   
   /**
     Should the pieces animate horizontally?
   **/
-  public var bAnimateHorizontally : Bool;
+  @:uproperty public var bAnimateHorizontally : Bool;
   
   /**
     How many pieces there are
   **/
-  public var NumberOfPieces : unreal.Int32;
+  @:uproperty public var NumberOfPieces : unreal.Int32;
   
   /**
     Sets how many pieces there are
   **/
-  @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
+  @:ufunction @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
   
   /**
     Sets whether the pieces animate horizontally.
   **/
-  @:final public function SetAnimateHorizontally(bInAnimateHorizontally : Bool) : Void;
+  @:ufunction @:final public function SetAnimateHorizontally(bInAnimateHorizontally : Bool) : Void;
   
   /**
     Sets whether the pieces animate vertically.
   **/
-  @:final public function SetAnimateVertically(bInAnimateVertically : Bool) : Void;
+  @:ufunction @:final public function SetAnimateVertically(bInAnimateVertically : Bool) : Void;
   
   /**
     Sets whether the pieces animate their opacity.
   **/
-  @:final public function SetAnimateOpacity(bInAnimateOpacity : Bool) : Void;
+  @:ufunction @:final public function SetAnimateOpacity(bInAnimateOpacity : Bool) : Void;
   
 }

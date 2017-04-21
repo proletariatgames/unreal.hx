@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionParticleMotionBlurFade.h")
-@:noClass @:uextern extern class UMaterialExpressionParticleMotionBlurFade extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionParticleMotionBlurFade extends unreal.UMaterialExpression {
   
 }

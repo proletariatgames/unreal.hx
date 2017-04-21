@@ -20,41 +20,41 @@ package unreal;
   Struct to hold information about the "base" object the character is standing on.
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:noCopy @:noEquals @:uextern extern class FBasedMovementInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBasedMovementInfo {
   
   /**
     Whether there is a velocity on the server. Used for forcing replication when velocity goes to zero.
   **/
-  public var bServerHasVelocity : Bool;
+  @:uproperty public var bServerHasVelocity : Bool;
   
   /**
     Whether rotation is relative to the base or absolute. It can only be relative if location is also relative.
   **/
-  public var bRelativeRotation : Bool;
+  @:uproperty public var bRelativeRotation : Bool;
   
   /**
     Whether the server says that there is a base. On clients, the component may not have resolved yet.
   **/
-  public var bServerHasBaseComponent : Bool;
+  @:uproperty public var bServerHasBaseComponent : Bool;
   
   /**
     Rotation: relative to MovementBase if HasRelativeRotation() is true, absolute otherwise.
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Location relative to MovementBase. Only valid if HasRelativeLocation() is true.
   **/
-  public var Location : unreal.FVector_NetQuantize100;
+  @:uproperty public var Location : unreal.FVector_NetQuantize100;
   
   /**
     Bone name on component, for skeletal meshes. NAME_None if not a skeletal mesh or if bone is invalid.
   **/
-  public var BoneName : unreal.FName;
+  @:uproperty public var BoneName : unreal.FName;
   
   /**
     Component we are based on
   **/
-  public var MovementBase : unreal.UPrimitiveComponent;
+  @:uproperty public var MovementBase : unreal.UPrimitiveComponent;
   
 }

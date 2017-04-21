@@ -21,21 +21,21 @@ package unreal.mediaplayereditor;
 **/
 @:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Shared/MediaPlayerEditorSettings.h")
-@:noClass @:uextern extern class UMediaPlayerEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMediaPlayerEditorSettings extends unreal.UObject {
   
   /**
     How the video viewport should be scaled.
   **/
-  public var ViewportScale : unreal.mediaplayereditor.EMediaPlayerEditorScale;
+  @:uproperty public var ViewportScale : unreal.mediaplayereditor.EMediaPlayerEditorScale;
   
   /**
     Whether to display overlay texts.
   **/
-  public var ShowTextOverlays : Bool;
+  @:uproperty public var ShowTextOverlays : Bool;
   
   /**
     The name of the desired native media player to use for playback.
   **/
-  public var DesiredPlayerName : unreal.FName;
+  @:uproperty public var DesiredPlayerName : unreal.FName;
   
 }

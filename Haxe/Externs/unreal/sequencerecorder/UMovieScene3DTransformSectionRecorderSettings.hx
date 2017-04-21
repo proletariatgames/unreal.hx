@@ -21,12 +21,12 @@ package unreal.sequencerecorder;
 **/
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("Private/Sections/MovieScene3DTransformSectionRecorderSettings.h")
-@:noClass @:uextern extern class UMovieScene3DTransformSectionRecorderSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMovieScene3DTransformSectionRecorderSettings extends unreal.UObject {
   
   /**
     Whether to record actor transforms. This can be useful if you want the actors to end up in specific locations after the sequence.
     By default we rely on animations to provide transforms, but this can be changed using the "Record In World Space" animation setting.
   **/
-  public var bRecordTransforms : Bool;
+  @:uproperty public var bRecordTransforms : Bool;
   
 }

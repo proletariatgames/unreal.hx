@@ -14,141 +14,148 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/KismetSystemLibrary.h")
-@:uextern extern class UKismetSystemLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UKismetSystemLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Prints a stack trace to the log, so you can see how a blueprint got to this node
   **/
-  static public function StackTrace() : Void;
+  @:ufunction static public function StackTrace() : Void;
   
   /**
     Return true if the object is usable : non-null and not pending kill
   **/
-  static public function IsValid(Object : unreal.Const<unreal.UObject>) : Bool;
+  @:ufunction static public function IsValid(Object : unreal.Const<unreal.UObject>) : Bool;
   
   /**
     Return true if the class is usable : non-null and not pending kill
   **/
-  static public function IsValidClass(Class : unreal.UClass) : Bool;
+  @:ufunction static public function IsValidClass(Class : unreal.UClass) : Bool;
   
   /**
     Returns the actual object name.
   **/
-  static public function GetObjectName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
+  @:ufunction static public function GetObjectName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
   
   /**
     Returns the full path to the specified object.
   **/
-  static public function GetPathName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
+  @:ufunction static public function GetPathName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
   
   /**
     Returns the display name (or actor label), for displaying as a debugging aid.
     Note: In editor builds, this is the actor label.  In non-editor builds, this is the actual object name.  This function should not be used to uniquely identify actors!
     It is not localized and should not be used for display to an end user of a game.
   **/
-  static public function GetDisplayName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
+  @:ufunction static public function GetDisplayName(Object : unreal.Const<unreal.UObject>) : unreal.FString;
   
   /**
     Returns the display name of a class
   **/
-  static public function GetClassDisplayName(Class : unreal.UClass) : unreal.FString;
+  @:ufunction static public function GetClassDisplayName(Class : unreal.UClass) : unreal.FString;
   
   /**
     Engine build number, for displaying to end users.
   **/
-  static public function GetEngineVersion() : unreal.FString;
+  @:ufunction static public function GetEngineVersion() : unreal.FString;
   
   /**
     Get the name of the current game
   **/
-  static public function GetGameName() : unreal.FString;
+  @:ufunction static public function GetGameName() : unreal.FString;
   
   /**
     Retrieves the game's platform-specific bundle identifier or package name of the game
     
     @return The game's bundle identifier or package name.
   **/
-  static public function GetGameBundleId() : unreal.FString;
+  @:ufunction static public function GetGameBundleId() : unreal.FString;
   
   /**
     Get the current user name from the OS
   **/
-  static public function GetPlatformUserName() : unreal.FString;
-  static public function DoesImplementInterface(TestObject : unreal.UObject, Interface : unreal.TSubclassOf<unreal.IInterface>) : Bool;
+  @:ufunction static public function GetPlatformUserName() : unreal.FString;
+  @:ufunction static public function DoesImplementInterface(TestObject : unreal.UObject, Interface : unreal.TSubclassOf<unreal.IInterface>) : Bool;
   
   /**
     Get the current game time, in seconds. This stops when the game is paused and is affected by slomo.
     
     @param WorldContextObject    World context
   **/
-  static public function GetGameTimeInSeconds(WorldContextObject : unreal.UObject) : unreal.Float32;
+  @:ufunction static public function GetGameTimeInSeconds(WorldContextObject : unreal.UObject) : unreal.Float32;
   
   /**
     Returns whether the world this object is in is the host or not
   **/
-  static public function IsServer(WorldContextObject : unreal.UObject) : Bool;
+  @:ufunction static public function IsServer(WorldContextObject : unreal.UObject) : Bool;
   
   /**
     Returns whether this is running on a dedicated server
   **/
-  static public function IsDedicatedServer(WorldContextObject : unreal.UObject) : Bool;
+  @:ufunction static public function IsDedicatedServer(WorldContextObject : unreal.UObject) : Bool;
   
   /**
     Returns whether this game instance is stand alone (no networking).
   **/
-  static public function IsStandalone(WorldContextObject : unreal.UObject) : Bool;
+  @:ufunction static public function IsStandalone(WorldContextObject : unreal.UObject) : Bool;
   
   /**
     Returns whether this is a build that is packaged for distribution
   **/
-  static public function IsPackagedForDistribution() : Bool;
+  @:ufunction static public function IsPackagedForDistribution() : Bool;
   
   /**
     Returns the platform specific unique device id
   **/
-  static public function GetUniqueDeviceId() : unreal.FString;
+  @:ufunction static public function GetUniqueDeviceId() : unreal.FString;
   
   /**
     Creates a literal integer
     @param       Value   value to set the integer to
     @return      The literal integer
   **/
-  static public function MakeLiteralInt(Value : unreal.Int32) : unreal.Int32;
+  @:ufunction static public function MakeLiteralInt(Value : unreal.Int32) : unreal.Int32;
   
   /**
     Creates a literal float
     @param       Value   value to set the float to
     @return      The literal float
   **/
-  static public function MakeLiteralFloat(Value : unreal.Float32) : unreal.Float32;
+  @:ufunction static public function MakeLiteralFloat(Value : unreal.Float32) : unreal.Float32;
   
   /**
     Creates a literal bool
     @param       Value   value to set the bool to
     @return      The literal bool
   **/
-  static public function MakeLiteralBool(Value : Bool) : Bool;
+  @:ufunction static public function MakeLiteralBool(Value : Bool) : Bool;
   
   /**
     Creates a literal name
     @param       Value   value to set the name to
     @return      The literal name
   **/
-  static public function MakeLiteralName(Value : unreal.FName) : unreal.FName;
+  @:ufunction static public function MakeLiteralName(Value : unreal.FName) : unreal.FName;
   
   /**
     Creates a literal byte
     @param       Value   value to set the byte to
     @return      The literal byte
   **/
-  static public function MakeLiteralByte(Value : unreal.UInt8) : unreal.UInt8;
+  @:ufunction static public function MakeLiteralByte(Value : unreal.UInt8) : unreal.UInt8;
   
   /**
     Creates a literal string
     @param       Value   value to set the string to
     @return      The literal string
   **/
-  static public function MakeLiteralString(Value : unreal.FString) : unreal.FString;
+  @:ufunction static public function MakeLiteralString(Value : unreal.FString) : unreal.FString;
+  
+  /**
+    Creates a literal FText
+    @param       Value   value to set the FText to
+    @return      The literal FText
+  **/
+  @:ufunction static public function MakeLiteralText(Value : unreal.FText) : unreal.FText;
   
   /**
     Prints a string to the log, and optionally, to the screen
@@ -161,7 +168,20 @@ package unreal;
     @param       TextColor               Whether or not to print the output to the console
     @param       Duration                The display duration (if Print to Screen is True). Using negative number will result in loading the duration time from the config.
   **/
-  static public function PrintString(WorldContextObject : unreal.UObject, InString : unreal.FString, bPrintToScreen : Bool, bPrintToLog : Bool, TextColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function PrintString(WorldContextObject : unreal.UObject, @:opt("Hello") InString : unreal.FString, bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
+  
+  /**
+    Prints text to the log, and optionally, to the screen
+    If Print To Log is true, it will be visible in the Output Log window.  Otherwise it will be logged only as 'Verbose', so it generally won't show up.
+    
+    @param       InText                  The text to log out
+    @param       bPrintToScreen  Whether or not to print the output to the screen
+    @param       bPrintToLog             Whether or not to print the output to the log
+    @param       bPrintToConsole Whether or not to print the output to the console
+    @param       TextColor               Whether or not to print the output to the console
+    @param       Duration                The display duration (if Print to Screen is True). Using negative number will result in loading the duration time from the config.
+  **/
+  @:ufunction static public function PrintText(WorldContextObject : unreal.UObject, @:opt("Hello") InText : unreal.Const<unreal.FText>, bPrintToScreen : Bool = true, bPrintToLog : Bool = true, @:opt("(R=0.000000,G=0.660000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 2.000000) : Void;
   
   /**
     Prints a warning string to the log and the screen. Meant to be used as a way to inform the user that they misused the node.
@@ -170,7 +190,12 @@ package unreal;
     
     @param       InString                The string to log out
   **/
-  static public function PrintWarning(InString : unreal.FString) : Void;
+  @:ufunction static public function PrintWarning(InString : unreal.FString) : Void;
+  
+  /**
+    Sets the game window title
+  **/
+  @:ufunction static public function SetWindowTitle(Title : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Executes a console command, optionally on a specific controller
@@ -178,13 +203,13 @@ package unreal;
     @param       Command                 Command to send to the console
     @param       SpecificPlayer  If specified, the console command will be routed through the specified player
   **/
-  static public function ExecuteConsoleCommand(WorldContextObject : unreal.UObject, Command : unreal.FString, SpecificPlayer : unreal.APlayerController) : Void;
+  @:ufunction static public function ExecuteConsoleCommand(WorldContextObject : unreal.UObject, Command : unreal.FString, SpecificPlayer : unreal.APlayerController) : Void;
   
   /**
     Exit the current game
     @param       SpecificPlayer  The specific player to quit the game. If not specified, player 0 will quit.
   **/
-  static public function QuitGame(WorldContextObject : unreal.UObject, SpecificPlayer : unreal.APlayerController, QuitPreference : unreal.EQuitPreference) : Void;
+  @:ufunction static public function QuitGame(WorldContextObject : unreal.UObject, SpecificPlayer : unreal.APlayerController, QuitPreference : unreal.EQuitPreference) : Void;
   
   /**
     Perform a latent action with a delay (specified in seconds).  Calling again while it is counting down will be ignored.
@@ -193,7 +218,7 @@ package unreal;
     @param Duration              length of delay (in seconds).
     @param LatentInfo    The latent action.
   **/
-  static public function Delay(WorldContextObject : unreal.UObject, Duration : unreal.Float32, LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction static public function Delay(WorldContextObject : unreal.UObject, @:bpopt("0.2") Duration : unreal.Float32, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Perform a latent action with a retriggerable delay (specified in seconds).  Calling again while it is counting down will reset the countdown to Duration.
@@ -202,7 +227,7 @@ package unreal;
     @param Duration              length of delay (in seconds).
     @param LatentInfo    The latent action.
   **/
-  static public function RetriggerableDelay(WorldContextObject : unreal.UObject, Duration : unreal.Float32, LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction static public function RetriggerableDelay(WorldContextObject : unreal.UObject, @:bpopt("0.2") Duration : unreal.Float32, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     * Interpolate a component to the specified relative location and rotation over the course of OverTime seconds.
@@ -216,80 +241,80 @@ package unreal;
     * @param MoveAction                                    required movement behavior @see EMoveComponentAction
     * @param LatentInfo                                    The latent action
   **/
-  static public function MoveComponentTo(Component : unreal.USceneComponent, TargetRelativeLocation : unreal.FVector, TargetRelativeRotation : unreal.FRotator, bEaseOut : Bool, bEaseIn : Bool, OverTime : unreal.Float32, bForceShortestRotationPath : Bool, MoveAction : unreal.EMoveComponentAction, LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction static public function MoveComponentTo(Component : unreal.USceneComponent, TargetRelativeLocation : unreal.FVector, TargetRelativeRotation : unreal.FRotator, bEaseOut : Bool, bEaseIn : Bool, @:bpopt("0.2") OverTime : unreal.Float32, bForceShortestRotationPath : Bool, MoveAction : unreal.EMoveComponentAction, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Returns whether the timer handle is valid. This does not indicate that there is an active timer that this handle references, but rather that it once referenced a valid timer.
     @param Handle                The handle of the timer to check validity of.
     @return                              Whether the timer handle is valid.
   **/
-  static public function K2_IsValidTimerHandle(Handle : unreal.FTimerHandle) : Bool;
+  @:ufunction static public function K2_IsValidTimerHandle(Handle : unreal.FTimerHandle) : Bool;
   
   /**
     Returns whether the timer handle is valid. This does not indicate that there is an active timer that this handle references, but rather that it once referenced a valid timer.
     @param Handle                The handle of the timer to check validity of.
     @return                              Return the invalidated timer handle for convenience.
   **/
-  static public function K2_InvalidateTimerHandle(Handle : unreal.PRef<unreal.FTimerHandle>) : unreal.FTimerHandle;
+  @:ufunction static public function K2_InvalidateTimerHandle(Handle : unreal.PRef<unreal.FTimerHandle>) : unreal.FTimerHandle;
   
   /**
     Clears a set timer.
     @param Handle                The handle of the timer to clear.
   **/
-  static public function K2_ClearTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
+  @:ufunction static public function K2_ClearTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
   
   /**
     Clears a set timer.
     @param Handle                The handle of the timer to clear.
   **/
-  static public function K2_ClearAndInvalidateTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.PRef<unreal.FTimerHandle>) : Void;
+  @:ufunction static public function K2_ClearAndInvalidateTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.PRef<unreal.FTimerHandle>) : Void;
   
   /**
     Pauses a set timer at its current elapsed time.
     @param Handle                The handle of the timer to pause.
   **/
-  static public function K2_PauseTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
+  @:ufunction static public function K2_PauseTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
   
   /**
     Resumes a paused timer from its current elapsed time.
     @param Handle                The handle of the timer to unpause.
   **/
-  static public function K2_UnPauseTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
+  @:ufunction static public function K2_UnPauseTimerHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Void;
   
   /**
     Returns true if a timer exists and is active for the given handle, false otherwise.
     @param Handle                The handle of the timer to check whether it is active.
     @return                              True if the timer exists and is active.
   **/
-  static public function K2_IsTimerActiveHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
+  @:ufunction static public function K2_IsTimerActiveHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
   
   /**
     Returns true if a timer exists and is paused for the given handle, false otherwise.
     @param Handle                The handle of the timer to check whether it is paused.
     @return                              True if the timer exists and is paused.
   **/
-  static public function K2_IsTimerPausedHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
+  @:ufunction static public function K2_IsTimerPausedHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
   
   /**
     Returns true is a timer for the given handle exists, false otherwise.
     @param Handle                The handle to check whether it exists.
     @return                              True if the timer exists.
   **/
-  static public function K2_TimerExistsHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
+  @:ufunction static public function K2_TimerExistsHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : Bool;
   
   /**
     Returns elapsed time for the given handle (time since current countdown iteration began).
     @param Handle                The handle of the timer to get the elapsed time of.
     @return                              How long has elapsed since the current iteration of the timer began.
   **/
-  static public function K2_GetTimerElapsedTimeHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : unreal.Float32;
+  @:ufunction static public function K2_GetTimerElapsedTimeHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : unreal.Float32;
   
   /**
     Returns time until the timer will next execute its handle.
     @param Handle                The handle of the timer to time remaining of.
     @return                              How long is remaining in the current iteration of the timer.
   **/
-  static public function K2_GetTimerRemainingTimeHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : unreal.Float32;
+  @:ufunction static public function K2_GetTimerRemainingTimeHandle(WorldContextObject : unreal.UObject, Handle : unreal.FTimerHandle) : unreal.Float32;
   
   /**
     Set a timer to execute delegate. Setting an existing timer will reset that timer with updated parameters.
@@ -299,28 +324,28 @@ package unreal;
     @param bLooping              true to keep executing the delegate every Time seconds, false to execute delegate only once.
     @return                              The timer handle to pass to other timer functions to manipulate this timer.
   **/
-  static public function K2_SetTimer(Object : unreal.UObject, FunctionName : unreal.FString, Time : unreal.Float32, bLooping : Bool) : unreal.FTimerHandle;
+  @:ufunction static public function K2_SetTimer(Object : unreal.UObject, FunctionName : unreal.FString, Time : unreal.Float32, bLooping : Bool) : unreal.FTimerHandle;
   
   /**
     Clears a set timer.
     @param Object                Object that implements the delegate function. Defaults to self (this blueprint)
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
   **/
-  static public function K2_ClearTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
+  @:ufunction static public function K2_ClearTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
   
   /**
     Pauses a set timer at its current elapsed time.
     @param Object                Object that implements the delegate function. Defaults to self (this blueprint)
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
   **/
-  static public function K2_PauseTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
+  @:ufunction static public function K2_PauseTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
   
   /**
     Resumes a paused timer from its current elapsed time.
     @param Object                Object that implements the delegate function. Defaults to self (this blueprint)
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
   **/
-  static public function K2_UnPauseTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
+  @:ufunction static public function K2_UnPauseTimer(Object : unreal.UObject, FunctionName : unreal.FString) : Void;
   
   /**
     Returns true if a timer exists and is active for the given delegate, false otherwise.
@@ -328,7 +353,7 @@ package unreal;
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
     @return                              True if the timer exists and is active.
   **/
-  static public function K2_IsTimerActive(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
+  @:ufunction static public function K2_IsTimerActive(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
   
   /**
     Returns true if a timer exists and is paused for the given delegate, false otherwise.
@@ -336,7 +361,7 @@ package unreal;
     @param FunctionName   Delegate function name. Can be a K2 function or a Custom Event.
     @return                               True if the timer exists and is paused.
   **/
-  static public function K2_IsTimerPaused(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
+  @:ufunction static public function K2_IsTimerPaused(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
   
   /**
     Returns true is a timer for the given delegate exists, false otherwise.
@@ -344,7 +369,7 @@ package unreal;
     @param FunctionName   Delegate function name. Can be a K2 function or a Custom Event.
     @return                               True if the timer exists.
   **/
-  static public function K2_TimerExists(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
+  @:ufunction static public function K2_TimerExists(Object : unreal.UObject, FunctionName : unreal.FString) : Bool;
   
   /**
     Returns elapsed time for the given delegate (time since current countdown iteration began).
@@ -352,7 +377,7 @@ package unreal;
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
     @return                              How long has elapsed since the current iteration of the timer began.
   **/
-  static public function K2_GetTimerElapsedTime(Object : unreal.UObject, FunctionName : unreal.FString) : unreal.Float32;
+  @:ufunction static public function K2_GetTimerElapsedTime(Object : unreal.UObject, FunctionName : unreal.FString) : unreal.Float32;
   
   /**
     Returns time until the timer will next execute its delegate.
@@ -360,85 +385,90 @@ package unreal;
     @param FunctionName  Delegate function name. Can be a K2 function or a Custom Event.
     @return                              How long is remaining in the current iteration of the timer.
   **/
-  static public function K2_GetTimerRemainingTime(Object : unreal.UObject, FunctionName : unreal.FString) : unreal.Float32;
+  @:ufunction static public function K2_GetTimerRemainingTime(Object : unreal.UObject, FunctionName : unreal.FString) : unreal.Float32;
   
   /**
     Set an int32 property by name
   **/
-  static public function SetIntPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Int32) : Void;
+  @:ufunction static public function SetIntPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Int32) : Void;
   
   /**
     Set an uint8 or enum property by name
   **/
-  static public function SetBytePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.UInt8) : Void;
+  @:ufunction static public function SetBytePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.UInt8) : Void;
   
   /**
     Set a float property by name
   **/
-  static public function SetFloatPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Float32) : Void;
+  @:ufunction static public function SetFloatPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Float32) : Void;
   
   /**
     Set a bool property by name
   **/
-  static public function SetBoolPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : Bool) : Void;
+  @:ufunction static public function SetBoolPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : Bool) : Void;
   
   /**
     Set an OBJECT property by name
   **/
-  static public function SetObjectPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.UObject) : Void;
+  @:ufunction static public function SetObjectPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.UObject) : Void;
   
   /**
     Set a CLASS property by name
   **/
-  static public function SetClassPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.TSubclassOf<unreal.UObject>) : Void;
+  @:ufunction static public function SetClassPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.TSubclassOf<unreal.UObject>) : Void;
   
   /**
     Set a NAME property by name
   **/
-  static public function SetNamePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
+  @:ufunction static public function SetNamePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
   
   /**
     Set a STRING property by name
   **/
-  static public function SetStringPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.FString) : Void;
+  @:ufunction static public function SetStringPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.FString) : Void;
+  
+  /**
+    Set a TEXT property by name
+  **/
+  @:ufunction static public function SetTextPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Set a VECTOR property by name
   **/
-  static public function SetVectorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction static public function SetVectorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Set a ROTATOR property by name
   **/
-  static public function SetRotatorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction static public function SetRotatorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Set a LINEAR COLOR property by name
   **/
-  static public function SetLinearColorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FLinearColor>>) : Void;
+  @:ufunction static public function SetLinearColorPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FLinearColor>>) : Void;
   
   /**
     Set a TRANSFORM property by name
   **/
-  static public function SetTransformPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
+  @:ufunction static public function SetTransformPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
   
   /**
     Set a CollisionProfileName property by name
   **/
-  static public function SetCollisionProfileNameProperty(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FCollisionProfileName>>) : Void;
+  @:ufunction static public function SetCollisionProfileNameProperty(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FCollisionProfileName>>) : Void;
   
   /**
     Set a custom structure property by name
   **/
-  static public function SetStructurePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FGenericStruct>>) : Void;
-  static public function SphereOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, SpherePos : unreal.Const<unreal.FVector>, SphereRadius : unreal.Float32, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
-  static public function SphereOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, SpherePos : unreal.Const<unreal.FVector>, SphereRadius : unreal.Float32, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
-  static public function BoxOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, BoxPos : unreal.Const<unreal.FVector>, BoxExtent : unreal.FVector, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
-  static public function BoxOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, BoxPos : unreal.Const<unreal.FVector>, Extent : unreal.FVector, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
-  static public function CapsuleOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, CapsulePos : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
-  static public function CapsuleOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, CapsulePos : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
-  static public function ComponentOverlapActors_DEPRECATED(Component : unreal.UPrimitiveComponent, ComponentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
-  static public function ComponentOverlapComponents_DEPRECATED(Component : unreal.UPrimitiveComponent, ComponentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
+  @:ufunction static public function SetStructurePropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.FGenericStruct>>) : Void;
+  @:ufunction static public function SphereOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, SpherePos : unreal.Const<unreal.FVector>, SphereRadius : unreal.Float32, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
+  @:ufunction static public function SphereOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, SpherePos : unreal.Const<unreal.FVector>, SphereRadius : unreal.Float32, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
+  @:ufunction static public function BoxOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, BoxPos : unreal.Const<unreal.FVector>, BoxExtent : unreal.FVector, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
+  @:ufunction static public function BoxOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, BoxPos : unreal.Const<unreal.FVector>, Extent : unreal.FVector, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
+  @:ufunction static public function CapsuleOverlapActors_DEPRECATED(WorldContextObject : unreal.UObject, CapsulePos : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
+  @:ufunction static public function CapsuleOverlapComponents_DEPRECATED(WorldContextObject : unreal.UObject, CapsulePos : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
+  @:ufunction static public function ComponentOverlapActors_DEPRECATED(Component : unreal.UPrimitiveComponent, ComponentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Filter : unreal.EOverlapFilterOption, ActorClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Bool;
+  @:ufunction static public function ComponentOverlapComponents_DEPRECATED(Component : unreal.UPrimitiveComponent, ComponentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Filter : unreal.EOverlapFilterOption, ComponentClassFilter : unreal.UClass, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, OutComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Bool;
   
   /**
     Does a collision trace along the given line and returns the first blocking hit encountered.
@@ -452,7 +482,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
+  @:ufunction static public function LineTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool, @:opt("(R=1.000000,G=0.000000,B=0.000000,A=1.000000)") TraceColor : unreal.FLinearColor, @:opt("(R=0.000000,G=1.000000,B=0.000000,A=1.000000)") TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32 = 5.000000) : Bool;
   
   /**
     Does a collision trace along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -466,7 +496,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a blocking hit, false otherwise.
   **/
-  static public function LineTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
+  @:ufunction static public function LineTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool, @:opt("(R=1.000000,G=0.000000,B=0.000000,A=1.000000)") TraceColor : unreal.FLinearColor, @:opt("(R=0.000000,G=1.000000,B=0.000000,A=1.000000)") TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32 = 5.000000) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns the first blocking hit encountered.
@@ -480,7 +510,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function SphereTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function SphereTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -495,7 +525,7 @@ package unreal;
     @param OutHits               A list of hits, sorted along the trace from start to finish.  The blocking hit will be the last hit, if there was one.
     @return                              True if there was a blocking hit, false otherwise.
   **/
-  static public function SphereTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function SphereTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a box along the given line and returns the first blocking hit encountered.
@@ -510,7 +540,7 @@ package unreal;
     @param OutHit                 Properties of the trace hit.
     @return                               True if there was a hit, false otherwise.
   **/
-  static public function BoxTraceSingle(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, HalfSize : unreal.Const<unreal.FVector>, Orientation : unreal.Const<unreal.FRotator>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function BoxTraceSingle(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, HalfSize : unreal.Const<unreal.FVector>, Orientation : unreal.Const<unreal.FRotator>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a box along the given line and returns all hits encountered.
@@ -525,7 +555,7 @@ package unreal;
     @param OutHits                A list of hits, sorted along the trace from start to finish. The blocking hit will be the last hit, if there was one.
     @return                               True if there was a blocking hit, false otherwise.
   **/
-  static public function BoxTraceMulti(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, HalfSize : unreal.FVector, Orientation : unreal.Const<unreal.FRotator>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function BoxTraceMulti(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, HalfSize : unreal.FVector, Orientation : unreal.Const<unreal.FRotator>, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a capsule along the given line and returns the first blocking hit encountered.
@@ -541,7 +571,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function CapsuleTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function CapsuleTraceSingle_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a capsule along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -557,7 +587,7 @@ package unreal;
     @param OutHits               A list of hits, sorted along the trace from start to finish.  The blocking hit will be the last hit, if there was one.
     @return                              True if there was a blocking hit, false otherwise.
   **/
-  static public function CapsuleTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function CapsuleTraceMulti_NEW(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Does a collision trace along the given line and returns the first blocking hit encountered.
@@ -571,7 +601,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
+  @:ufunction static public function LineTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool, @:opt("(R=1.000000,G=0.000000,B=0.000000,A=1.000000)") TraceColor : unreal.FLinearColor, @:opt("(R=0.000000,G=1.000000,B=0.000000,A=1.000000)") TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32 = 5.000000) : Bool;
   
   /**
     Does a collision trace along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -585,7 +615,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function LineTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool, TraceColor : unreal.FLinearColor, TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32) : Bool;
+  @:ufunction static public function LineTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool, @:opt("(R=1.000000,G=0.000000,B=0.000000,A=1.000000)") TraceColor : unreal.FLinearColor, @:opt("(R=0.000000,G=1.000000,B=0.000000,A=1.000000)") TraceHitColor : unreal.FLinearColor, DrawTime : unreal.Float32 = 5.000000) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns the first blocking hit encountered.
@@ -599,7 +629,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function SphereTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function SphereTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a sphere along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -614,7 +644,7 @@ package unreal;
     @param OutHits               A list of hits, sorted along the trace from start to finish.  The blocking hit will be the last hit, if there was one.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function SphereTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function SphereTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a capsule along the given line and returns the first blocking hit encountered.
@@ -630,7 +660,7 @@ package unreal;
     @param OutHit                Properties of the trace hit.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function CapsuleTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function CapsuleTraceSingle_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHit : unreal.PRef<unreal.FHitResult>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Sweeps a capsule along the given line and returns all hits encountered up to and including the first blocking hit.
@@ -646,7 +676,7 @@ package unreal;
     @param OutHits               A list of hits, sorted along the trace from start to finish.  The blocking hit will be the last hit, if there was one.
     @return                              True if there was a hit, false otherwise.
   **/
-  static public function CapsuleTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, bIgnoreSelf : Bool) : Bool;
+  @:ufunction static public function CapsuleTraceMulti_DEPRECATED(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, HalfHeight : unreal.Float32, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, OutHits : unreal.PRef<unreal.TArray<unreal.FHitResult>>, @:bpopt("true") bIgnoreSelf : Bool) : Bool;
   
   /**
     Returns an array of unique actors represented by the given list of components.
@@ -654,119 +684,119 @@ package unreal;
     @param ClassFilter           If set, will only return results of this class or subclasses of it.
     @param OutActorList          Start of line segment.
   **/
-  static public function GetActorListFromComponentList(ComponentList : unreal.Const<unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>>, ActorClassFilter : unreal.UClass, OutActorList : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction static public function GetActorListFromComponentList(ComponentList : unreal.Const<unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>>, ActorClassFilter : unreal.UClass, OutActorList : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Draw a debug line
   **/
-  static public function DrawDebugLine(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugLine(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug circle!
   **/
-  static public function DrawDebugCircle(WorldContextObject : unreal.UObject, Center : unreal.FVector, Radius : unreal.Float32, NumSegments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32, YAxis : unreal.FVector, ZAxis : unreal.FVector, bDrawAxis : Bool) : Void;
+  @:ufunction static public function DrawDebugCircle(WorldContextObject : unreal.UObject, Center : unreal.FVector, Radius : unreal.Float32, NumSegments : unreal.Int32 = 12, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000, @:opt("0.000000,1.000000,0.000000") YAxis : unreal.FVector, @:opt("0.000000,0.000000,1.000000") ZAxis : unreal.FVector, bDrawAxis : Bool = false) : Void;
   
   /**
     Draw a debug point
   **/
-  static public function DrawDebugPoint(WorldContextObject : unreal.UObject, Position : unreal.Const<unreal.FVector>, Size : unreal.Float32, PointColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugPoint(WorldContextObject : unreal.UObject, Position : unreal.Const<unreal.FVector>, Size : unreal.Float32, PointColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw directional arrow, pointing from LineStart to LineEnd.
   **/
-  static public function DrawDebugArrow(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, ArrowSize : unreal.Float32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugArrow(WorldContextObject : unreal.UObject, LineStart : unreal.Const<unreal.FVector>, LineEnd : unreal.Const<unreal.FVector>, ArrowSize : unreal.Float32, LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug box
   **/
-  static public function DrawDebugBox(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Extent : unreal.FVector, LineColor : unreal.FLinearColor, Rotation : unreal.Const<unreal.FRotator>, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugBox(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Extent : unreal.FVector, LineColor : unreal.FLinearColor, Rotation : unreal.Const<unreal.FRotator>, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug coordinate system.
   **/
-  static public function DrawDebugCoordinateSystem(WorldContextObject : unreal.UObject, AxisLoc : unreal.Const<unreal.FVector>, AxisRot : unreal.Const<unreal.FRotator>, Scale : unreal.Float32, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugCoordinateSystem(WorldContextObject : unreal.UObject, AxisLoc : unreal.Const<unreal.FVector>, AxisRot : unreal.Const<unreal.FRotator>, Scale : unreal.Float32 = 1.000000, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug sphere
   **/
-  static public function DrawDebugSphere(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugSphere(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, Radius : unreal.Float32 = 100.000000, Segments : unreal.Int32 = 12, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug cylinder
   **/
-  static public function DrawDebugCylinder(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32, Segments : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugCylinder(WorldContextObject : unreal.UObject, Start : unreal.Const<unreal.FVector>, End : unreal.Const<unreal.FVector>, Radius : unreal.Float32 = 100.000000, Segments : unreal.Int32 = 12, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug cone
   **/
-  static public function DrawDebugCone(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugCone(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug cone
     Angles are specified in degrees
   **/
-  static public function DrawDebugConeInDegrees(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32, AngleWidth : unreal.Float32, AngleHeight : unreal.Float32, NumSides : unreal.Int32, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugConeInDegrees(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.FVector>, Direction : unreal.Const<unreal.FVector>, Length : unreal.Float32 = 100.000000, AngleWidth : unreal.Float32 = 45.000000, AngleHeight : unreal.Float32 = 45.000000, NumSides : unreal.Int32 = 12, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug capsule
   **/
-  static public function DrawDebugCapsule(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, HalfHeight : unreal.Float32, Radius : unreal.Float32, Rotation : unreal.Const<unreal.FRotator>, LineColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugCapsule(WorldContextObject : unreal.UObject, Center : unreal.Const<unreal.FVector>, HalfHeight : unreal.Float32, Radius : unreal.Float32, Rotation : unreal.Const<unreal.FRotator>, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") LineColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug string at a 3d world location.
   **/
-  static public function DrawDebugString(WorldContextObject : unreal.UObject, TextLocation : unreal.Const<unreal.FVector>, Text : unreal.FString, TestBaseActor : unreal.AActor, TextColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugString(WorldContextObject : unreal.UObject, TextLocation : unreal.Const<unreal.FVector>, Text : unreal.FString, TestBaseActor : unreal.AActor, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") TextColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
   
   /**
     Removes all debug strings.
     
     @param WorldContext  World context
   **/
-  static public function FlushDebugStrings(WorldContextObject : unreal.UObject) : Void;
+  @:ufunction static public function FlushDebugStrings(WorldContextObject : unreal.UObject) : Void;
   
   /**
     Draws a debug plane.
   **/
-  static public function DrawDebugPlane(WorldContextObject : unreal.UObject, PlaneCoordinates : unreal.Const<unreal.PRef<unreal.FPlane>>, Location : unreal.Const<unreal.FVector>, Size : unreal.Float32, PlaneColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugPlane(WorldContextObject : unreal.UObject, PlaneCoordinates : unreal.Const<unreal.PRef<unreal.FPlane>>, Location : unreal.Const<unreal.FVector>, Size : unreal.Float32, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") PlaneColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
   
   /**
     Flush all persistent debug lines and shapes.
     
     @param WorldContext  World context
   **/
-  static public function FlushPersistentDebugLines(WorldContextObject : unreal.UObject) : Void;
+  @:ufunction static public function FlushPersistentDebugLines(WorldContextObject : unreal.UObject) : Void;
   
   /**
     Draws a debug frustum.
   **/
-  static public function DrawDebugFrustum(WorldContextObject : unreal.UObject, FrustumTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, FrustumColor : unreal.FLinearColor, Duration : unreal.Float32, Thickness : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugFrustum(WorldContextObject : unreal.UObject, FrustumTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") FrustumColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000, Thickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draw a debug camera shape.
   **/
-  static public function DrawDebugCamera(CameraActor : unreal.Const<unreal.ACameraActor>, CameraColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugCamera(CameraActor : unreal.Const<unreal.ACameraActor>, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") CameraColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draws a 2D Histogram of size 'DrawSize' based FDebugFloatHistory struct, using DrawTransform for the position in the world.
   **/
-  static public function DrawDebugFloatHistoryTransform(WorldContextObject : unreal.UObject, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>, DrawTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, DrawSize : unreal.FVector2D, DrawColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
+  @:ufunction static public function DrawDebugFloatHistoryTransform(WorldContextObject : unreal.UObject, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>, DrawTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, DrawSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") DrawColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draws a 2D Histogram of size 'DrawSize' based FDebugFloatHistory struct, using DrawLocation for the location in the world, rotation will face camera of first player.
   **/
-  static public function DrawDebugFloatHistoryLocation(WorldContextObject : unreal.UObject, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>, DrawLocation : unreal.FVector, DrawSize : unreal.FVector2D, DrawColor : unreal.FLinearColor, Duration : unreal.Float32) : Void;
-  static public function AddFloatHistorySample(Value : unreal.Float32, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>) : unreal.FDebugFloatHistory;
+  @:ufunction static public function DrawDebugFloatHistoryLocation(WorldContextObject : unreal.UObject, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>, DrawLocation : unreal.FVector, DrawSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") DrawColor : unreal.FLinearColor, Duration : unreal.Float32 = 0.000000) : Void;
+  @:ufunction static public function AddFloatHistorySample(Value : unreal.Float32, FloatHistory : unreal.Const<unreal.PRef<unreal.FDebugFloatHistory>>) : unreal.FDebugFloatHistory;
   
   /**
     Mark as modified.
   **/
-  static public function CreateCopyForUndoBuffer(ObjectToModify : unreal.UObject) : Void;
+  @:ufunction static public function CreateCopyForUndoBuffer(ObjectToModify : unreal.UObject) : Void;
   
   /**
     Get bounds
   **/
-  static public function GetComponentBounds(Component : unreal.Const<unreal.USceneComponent>, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
-  static public function GetActorBounds(Actor : unreal.Const<unreal.AActor>, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction static public function GetComponentBounds(Component : unreal.Const<unreal.USceneComponent>, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
+  @:ufunction static public function GetActorBounds(Actor : unreal.Const<unreal.AActor>, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Get the clamped state of r.DetailMode, see console variable help (allows for scalability, cannot be used in construction scripts)
@@ -774,7 +804,7 @@ package unreal;
     1: medium, show all object with DetailMode medium or higher
     2: high, show all objects
   **/
-  static public function GetRenderingDetailMode() : unreal.Int32;
+  @:ufunction static public function GetRenderingDetailMode() : unreal.Int32;
   
   /**
     Get the clamped state of r.MaterialQualityLevel, see console variable help (allows for scalability, cannot be used in construction scripts)
@@ -782,43 +812,43 @@ package unreal;
     1: high
     2: medium
   **/
-  static public function GetRenderingMaterialQualityLevel() : unreal.Int32;
+  @:ufunction static public function GetRenderingMaterialQualityLevel() : unreal.Int32;
   
   /**
     Gets the list of support fullscreen resolutions.
     @return true if successfully queried the device for available resolutions.
   **/
-  static public function GetSupportedFullscreenResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
+  @:ufunction static public function GetSupportedFullscreenResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
   
   /**
     Gets the list of windowed resolutions which are convenient for the current primary display size.
     @return true if successfully queried the device for available resolutions.
   **/
-  static public function GetConvenientWindowedResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
+  @:ufunction static public function GetConvenientWindowedResolutions(Resolutions : unreal.PRef<unreal.TArray<unreal.FIntPoint>>) : Bool;
   
   /**
     Gets the smallest Y resolution we want to support in the UI, clamped within reasons
     @return value in pixels
   **/
-  static public function GetMinYResolutionForUI() : unreal.Int32;
+  @:ufunction static public function GetMinYResolutionForUI() : unreal.Int32;
   
   /**
     Gets the smallest Y resolution we want to support in the 3D view, clamped within reasons
     @return value in pixels
   **/
-  static public function GetMinYResolutionFor3DView() : unreal.Int32;
+  @:ufunction static public function GetMinYResolutionFor3DView() : unreal.Int32;
   
   /**
     Opens the specified URL in the platform's web browser of choice
   **/
-  static public function LaunchURL(URL : unreal.FString) : Void;
-  static public function CanLaunchURL(URL : unreal.FString) : Bool;
+  @:ufunction static public function LaunchURL(URL : unreal.FString) : Void;
+  @:ufunction static public function CanLaunchURL(URL : unreal.FString) : Bool;
   
   /**
     Deletes all unreferenced objects, keeping only referenced objects (this command will be queued and happen at the end of the frame)
     Note: This can be a slow operation, and should only be performed where a hitch would be acceptable
   **/
-  static public function CollectGarbage() : Void;
+  @:ufunction static public function CollectGarbage() : Void;
   
   /**
     Will show an ad banner (iAd on iOS, or AdMob on Android) on the top or bottom of screen, on top of the GL view (doesn't resize the view)
@@ -827,24 +857,24 @@ package unreal;
     @param AdIdIndex The index of the ID to select for the ad to show
     @param bShowOnBottomOfScreen If true, the iAd will be shown at the bottom of the screen, top otherwise
   **/
-  static public function ShowAdBanner(AdIdIndex : unreal.Int32, bShowOnBottomOfScreen : Bool) : Void;
+  @:ufunction static public function ShowAdBanner(AdIdIndex : unreal.Int32, bShowOnBottomOfScreen : Bool) : Void;
   
   /**
     Retrieves the total number of Ad IDs that can be selected between
   **/
-  static public function GetAdIDCount() : unreal.Int32;
+  @:ufunction static public function GetAdIDCount() : unreal.Int32;
   
   /**
     Hides the ad banner (iAd on iOS, or AdMob on Android). Will force close the ad if it's open
     (iOS and Android only)
   **/
-  static public function HideAdBanner() : Void;
+  @:ufunction static public function HideAdBanner() : Void;
   
   /**
     Forces closed any displayed ad. Can lead to loss of revenue
     (iOS and Android only)
   **/
-  static public function ForceCloseAdBanner() : Void;
+  @:ufunction static public function ForceCloseAdBanner() : Void;
   
   /**
     Will load a fullscreen interstitial AdMob ad. Call this before using ShowInterstitialAd
@@ -852,76 +882,76 @@ package unreal;
     
     @param AdIdIndex The index of the ID to select for the ad to show
   **/
-  static public function LoadInterstitialAd(AdIdIndex : unreal.Int32) : Void;
+  @:ufunction static public function LoadInterstitialAd(AdIdIndex : unreal.Int32) : Void;
   
   /**
     Returns true if the requested interstitial ad is loaded and ready
     (Android only)
   **/
-  static public function IsInterstitialAdAvailable() : Bool;
+  @:ufunction static public function IsInterstitialAdAvailable() : Bool;
   
   /**
     Returns true if the requested interstitial ad has been successfully requested (false if load request fails)
     (Android only)
   **/
-  static public function IsInterstitialAdRequested() : Bool;
+  @:ufunction static public function IsInterstitialAdRequested() : Bool;
   
   /**
     Shows the loaded interstitial ad (loaded with LoadInterstitialAd)
     (Android only)
   **/
-  static public function ShowInterstitialAd() : Void;
+  @:ufunction static public function ShowInterstitialAd() : Void;
   
   /**
     Displays the built-in leaderboard GUI (iOS and Android only; this function may be renamed or moved in a future release)
   **/
-  static public function ShowPlatformSpecificLeaderboardScreen(CategoryName : unreal.FString) : Void;
+  @:ufunction static public function ShowPlatformSpecificLeaderboardScreen(CategoryName : unreal.FString) : Void;
   
   /**
     Displays the built-in achievements GUI (iOS and Android only; this function may be renamed or moved in a future release)
     
     @param SpecificPlayer Specific player's achievements to show. May not be supported on all platforms. If null, defaults to the player with ControllerId 0
   **/
-  static public function ShowPlatformSpecificAchievementsScreen(SpecificPlayer : unreal.APlayerController) : Void;
+  @:ufunction static public function ShowPlatformSpecificAchievementsScreen(SpecificPlayer : unreal.APlayerController) : Void;
   
   /**
     Returns whether the player is logged in to the currently active online subsystem.
     
     @param Player Specific player's login status to get. May not be supported on all platforms. If null, defaults to the player with ControllerId 0.
   **/
-  static public function IsLoggedIn(SpecificPlayer : unreal.APlayerController) : Bool;
+  @:ufunction static public function IsLoggedIn(SpecificPlayer : unreal.APlayerController) : Bool;
   
   /**
     Allows or inhibits screensaver
     @param       bAllowScreenSaver               If false, don't allow screensaver if possible, otherwise allow default behavior
   **/
-  static public function ControlScreensaver(bAllowScreenSaver : Bool) : Void;
+  @:ufunction static public function ControlScreensaver(bAllowScreenSaver : Bool) : Void;
   
   /**
     Allows or inhibits system default handling of volume up and volume down buttons (Android only)
     @param       bEnabled                                If true, allow Android to handle volume up and down events
   **/
-  static public function SetVolumeButtonsHandledBySystem(bEnabled : Bool) : Void;
+  @:ufunction static public function SetVolumeButtonsHandledBySystem(bEnabled : Bool) : Void;
   
   /**
     Returns true if system default handling of volume up and volume down buttons enabled (Android only)
   **/
-  static public function GetVolumeButtonsHandledBySystem() : Bool;
+  @:ufunction static public function GetVolumeButtonsHandledBySystem() : Bool;
   
   /**
     Resets the gamepad to player controller id assignments (Android only)
   **/
-  static public function ResetGamepadAssignments() : Void;
+  @:ufunction static public function ResetGamepadAssignments() : Void;
   
   /**
     * Resets the gamepad assignment to player controller id (Android only)
   **/
-  static public function ResetGamepadAssignmentToController(ControllerId : unreal.Int32) : Void;
+  @:ufunction static public function ResetGamepadAssignmentToController(ControllerId : unreal.Int32) : Void;
   
   /**
     Returns true if controller id assigned to a gamepad (Android only)
   **/
-  static public function IsControllerAssignedToGamepad(ControllerId : unreal.Int32) : Bool;
+  @:ufunction static public function IsControllerAssignedToGamepad(ControllerId : unreal.Int32) : Bool;
   
   /**
     Sets the state of the transition message rendered by the viewport. (The blue text displayed when the game is paused and so forth.)
@@ -929,35 +959,35 @@ package unreal;
     @param WorldContextObject    World context
     @param State                                 set true to suppress transition message
   **/
-  static public function SetSuppressViewportTransitionMessage(WorldContextObject : unreal.UObject, bState : Bool) : Void;
+  @:ufunction static public function SetSuppressViewportTransitionMessage(WorldContextObject : unreal.UObject, bState : Bool) : Void;
   
   /**
     Returns an array of the user's preferred languages in order of preference
     @return An array of language IDs ordered from most preferred to least
   **/
-  static public function GetPreferredLanguages() : unreal.TArray<unreal.FString>;
+  @:ufunction static public function GetPreferredLanguages() : unreal.TArray<unreal.FString>;
   
   /**
     Returns the currency code associated with the device's locale
     @return the currency code associated with the device's locale
   **/
-  static public function GetLocalCurrencyCode() : unreal.FString;
+  @:ufunction static public function GetLocalCurrencyCode() : unreal.FString;
   
   /**
     Returns the currency symbol associated with the device's locale
     @return the currency symbol associated with the device's locale
   **/
-  static public function GetLocalCurrencySymbol() : unreal.FString;
+  @:ufunction static public function GetLocalCurrencySymbol() : unreal.FString;
   
   /**
     Requests permission to send remote notifications to the user's device.
     (iOS only)
   **/
-  static public function RegisterForRemoteNotifications() : Void;
+  @:ufunction static public function RegisterForRemoteNotifications() : Void;
   
   /**
     Tells the engine what the user is doing for debug, analytics, etc.
   **/
-  static public function SetUserActivity(UserActivity : unreal.Const<unreal.PRef<unreal.FUserActivity>>) : Void;
+  @:ufunction static public function SetUserActivity(UserActivity : unreal.Const<unreal.PRef<unreal.FUserActivity>>) : Void;
   
 }

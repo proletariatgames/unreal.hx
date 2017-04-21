@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
 @:uname("EScreenOrientation.Type")
-@:uextern extern enum EScreenOrientation {
+@:uextern @:uenum extern enum EScreenOrientation {
   
   /**
     The orientation is not known

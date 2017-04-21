@@ -25,16 +25,16 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("DataProviders/AIDataProvider.h")
-@:uextern extern class FAIDataProviderValue {
+@:uextern @:ustruct extern class FAIDataProviderValue {
   
   /**
     name of provider's value property
   **/
-  public var DataField : unreal.FName;
+  @:uproperty public var DataField : unreal.FName;
   
   /**
     (optional) provider for dynamic data binding
   **/
-  public var DataBinding : unreal.aimodule.UAIDataProvider;
+  @:uproperty public var DataBinding : unreal.aimodule.UAIDataProvider;
   
 }

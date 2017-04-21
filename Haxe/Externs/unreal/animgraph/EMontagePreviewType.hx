@@ -20,7 +20,7 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimPreviewInstance.h")
 @:uname("EMontagePreviewType")
-@:uextern extern enum EMontagePreviewType {
+@:uextern @:uenum extern enum EMontagePreviewType {
   
   /**
     Playing montage in usual way.

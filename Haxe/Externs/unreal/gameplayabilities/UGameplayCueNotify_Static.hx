@@ -19,26 +19,26 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueNotify_Static.h")
-@:uextern extern class UGameplayCueNotify_Static extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayCueNotify_Static extends unreal.UObject {
   
   /**
     Generic Event Graph event that will get called for every event type
   **/
-  @:thisConst public function K2_HandleGameplayCue(MyTarget : unreal.AActor, EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Void;
-  @:thisConst public function OnExecute(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
-  @:thisConst public function OnActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
-  @:thisConst public function WhileActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
-  @:thisConst public function OnRemove(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  @:ufunction @:thisConst public function K2_HandleGameplayCue(MyTarget : unreal.AActor, EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Void;
+  @:ufunction @:thisConst public function OnExecute(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  @:ufunction @:thisConst public function OnActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  @:ufunction @:thisConst public function WhileActive(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
+  @:ufunction @:thisConst public function OnRemove(MyTarget : unreal.AActor, Parameters : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayCueParameters>>) : Bool;
   
   /**
     Does this Cue override other cues, or is it called in addition to them? E.g., If this is Damage.Physical.Slash, we wont call Damage.Physical afer we run this cue.
   **/
-  public var IsOverride : Bool;
+  @:uproperty public var IsOverride : Bool;
   
   /**
     Mirrors GameplayCueTag in order to be asset registry searchable
   **/
-  public var GameplayCueName : unreal.FName;
-  public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var GameplayCueName : unreal.FName;
+  @:uproperty public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
   
 }

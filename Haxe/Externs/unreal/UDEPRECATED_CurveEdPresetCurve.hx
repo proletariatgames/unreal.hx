@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Curves/CurveEdPresetCurve.h")
-@:noClass @:uextern extern class UDEPRECATED_CurveEdPresetCurve extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UDEPRECATED_CurveEdPresetCurve extends unreal.UObject {
   
 }

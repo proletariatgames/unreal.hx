@@ -19,16 +19,16 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportInteractor.h")
-@:uextern extern class UViewportInteractor extends unreal.UObject {
+@:uextern @:uclass extern class UViewportInteractor extends unreal.UObject {
   
   /**
     The paired interactor by the world interaction
   **/
-  private var OtherInteractor : unreal.viewportinteraction.UViewportInteractor;
+  @:uproperty private var OtherInteractor : unreal.viewportinteraction.UViewportInteractor;
   
   /**
     The owning world interaction
   **/
-  private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
+  @:uproperty private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
   
 }

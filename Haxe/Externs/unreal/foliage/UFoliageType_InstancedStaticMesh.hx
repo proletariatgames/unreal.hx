@@ -21,18 +21,18 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageType_InstancedStaticMesh.h")
-@:uextern extern class UFoliageType_InstancedStaticMesh extends unreal.foliage.UFoliageType {
+@:uextern @:uclass extern class UFoliageType_InstancedStaticMesh extends unreal.foliage.UFoliageType {
   
   /**
     The component class to use for foliage instances.
     You can make a Blueprint subclass of FoliageInstancedStaticMeshComponent to implement custom behavior and assign that class here.
   **/
-  public var ComponentClass : unreal.TSubclassOf<unreal.foliage.UFoliageInstancedStaticMeshComponent>;
+  @:uproperty public var ComponentClass : unreal.TSubclassOf<unreal.foliage.UFoliageInstancedStaticMeshComponent>;
   
   /**
     Material overrides for foliage instances.
   **/
-  public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
-  public var Mesh : unreal.UStaticMesh;
+  @:uproperty public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var Mesh : unreal.UStaticMesh;
   
 }

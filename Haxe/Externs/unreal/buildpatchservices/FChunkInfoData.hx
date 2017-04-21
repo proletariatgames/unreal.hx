@@ -21,11 +21,11 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
-@:noCopy @:noEquals @:uextern extern class FChunkInfoData {
-  public var GroupNumber : unreal.UInt8;
-  public var FileSize : unreal.Int64;
-  public var ShaHash : unreal.buildpatchservices.FSHAHashData;
-  public var Hash : unreal.FakeUInt64;
-  public var Guid : unreal.FGuid;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FChunkInfoData {
+  @:uproperty public var GroupNumber : unreal.UInt8;
+  @:uproperty public var FileSize : unreal.Int64;
+  @:uproperty public var ShaHash : unreal.buildpatchservices.FSHAHashData;
+  @:uproperty public var Hash : unreal.FakeUInt64;
+  @:uproperty public var Guid : unreal.FGuid;
   
 }

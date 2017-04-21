@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("GameFramework/SpectatorPawnMovement.h")
-@:uextern extern class USpectatorPawnMovement extends unreal.UFloatingPawnMovement {
+@:uextern @:uclass extern class USpectatorPawnMovement extends unreal.UFloatingPawnMovement {
   
   /**
     If true, component moves at full speed no matter the time dilation. Default is false.
   **/
-  public var bIgnoreTimeDilation : Bool;
+  @:uproperty public var bIgnoreTimeDilation : Bool;
   
 }

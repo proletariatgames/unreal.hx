@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/RotationRate/ParticleModuleMeshRotationRate_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleMeshRotationRate_Seeded extends unreal.UParticleModuleMeshRotationRate {
+@:noClass @:uextern @:uclass extern class UParticleModuleMeshRotationRate_Seeded extends unreal.UParticleModuleMeshRotationRate {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

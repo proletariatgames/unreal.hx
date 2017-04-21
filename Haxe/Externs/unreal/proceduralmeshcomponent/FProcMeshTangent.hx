@@ -22,16 +22,16 @@ package unreal.proceduralmeshcomponent;
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FProcMeshTangent {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FProcMeshTangent {
   
   /**
     Bool that indicates whether we should flip the Y tangent when we compute it using cross product
   **/
-  public var bFlipTangentY : Bool;
+  @:uproperty public var bFlipTangentY : Bool;
   
   /**
     Direction of X tangent for this vertex
   **/
-  public var TangentX : unreal.FVector;
+  @:uproperty public var TangentX : unreal.FVector;
   
 }

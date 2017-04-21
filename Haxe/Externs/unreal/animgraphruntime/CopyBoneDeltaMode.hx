@@ -16,7 +16,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_CopyBoneDelta.h")
 @:uname("CopyBoneDeltaMode")
-@:class @:uextern extern enum CopyBoneDeltaMode {
+@:class @:uextern @:uenum extern enum CopyBoneDeltaMode {
   Accumulate;
   Copy;
   

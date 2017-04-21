@@ -15,14 +15,14 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Hearing.h")
-@:uextern extern class UAISense_Hearing extends unreal.aimodule.UAISense {
+@:uextern @:uclass extern class UAISense_Hearing extends unreal.aimodule.UAISense {
   
   /**
     Defaults to 0 to have instant notification. Setting to > 0 will result in delaying
         when AI hears the sound based on the distance from the source
   **/
-  private var SpeedOfSoundSq : unreal.Float32;
-  private var NoiseEvents : unreal.TArray<unreal.aimodule.FAINoiseEvent>;
+  @:uproperty private var SpeedOfSoundSq : unreal.Float32;
+  @:uproperty private var NoiseEvents : unreal.TArray<unreal.aimodule.FAINoiseEvent>;
   
   /**
     Report a noise event.
@@ -33,6 +33,6 @@ package unreal.aimodule;
     @param MaxRange Max range at which the sound can be heard, multiplied by Loudness. Values <= 0 mean no limit (still limited by listener's range however).
     @param Tag Identifier for the event.
   **/
-  static public function ReportNoiseEvent(WorldContext : unreal.UObject, NoiseLocation : unreal.FVector, Loudness : unreal.Float32, Instigator : unreal.AActor, MaxRange : unreal.Float32, Tag : unreal.FName) : Void;
+  @:ufunction static public function ReportNoiseEvent(@:bpopt("WorldContext") WorldContext : unreal.UObject, NoiseLocation : unreal.FVector, Loudness : unreal.Float32 = 1.000000, Instigator : unreal.AActor, MaxRange : unreal.Float32 = 0.000000, Tag : unreal.FName = None) : Void;
   
 }

@@ -21,6 +21,6 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScriptSourceBase.h")
-@:uextern extern class UNiagaraScriptSourceBase extends unreal.UObject {
+@:uextern @:uclass extern class UNiagaraScriptSourceBase extends unreal.UObject {
   
 }

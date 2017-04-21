@@ -16,7 +16,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSpriteAtlas.h")
 @:uname("EPaperSpriteAtlasPadding")
-@:class @:uextern extern enum EPaperSpriteAtlasPadding {
+@:class @:uextern @:uenum extern enum EPaperSpriteAtlasPadding {
   
   /**
     Dilate the texture to pad the atlas.

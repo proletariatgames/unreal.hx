@@ -21,6 +21,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Contexts/EnvQueryContext_Querier.h")
-@:uextern extern class UEnvQueryContext_Querier extends unreal.aimodule.UEnvQueryContext {
+@:uextern @:uclass extern class UEnvQueryContext_Querier extends unreal.aimodule.UEnvQueryContext {
   
 }

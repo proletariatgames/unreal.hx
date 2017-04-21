@@ -18,36 +18,36 @@ package unreal;
   Angular Drive
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
-@:uextern extern class FAngularDriveConstraint {
+@:uextern @:ustruct extern class FAngularDriveConstraint {
   
   /**
     Whether motors use SLERP (spherical lerp) or decompose into a Swing motor (cone constraints) and Twist motor (roll constraints). NOTE: SLERP will NOT work if any of the angular constraints are locked.
   **/
-  public var AngularDriveMode : unreal.EAngularDriveMode;
+  @:uproperty public var AngularDriveMode : unreal.EAngularDriveMode;
   
   /**
     Target angular velocity relative to the body reference frame.
   **/
-  public var AngularVelocityTarget : unreal.FVector;
+  @:uproperty public var AngularVelocityTarget : unreal.FVector;
   
   /**
     Target orientation relative to the the body reference frame.
   **/
-  public var OrientationTarget : unreal.FRotator;
+  @:uproperty public var OrientationTarget : unreal.FRotator;
   
   /**
     Controls the SLERP (spherical lerp) drive between current orientation/velocity and target orientation/velocity. NOTE: This is only available when all three angular limits are either free or limited. Locking any angular limit will turn off the drive implicitly.
   **/
-  public var SlerpDrive : unreal.FConstraintDrive;
+  @:uproperty public var SlerpDrive : unreal.FConstraintDrive;
   
   /**
     Controls the cone constraint drive between current orientation/velocity and target orientation/velocity. This is available as long as there is at least one swing limit set to free or limited.
   **/
-  public var SwingDrive : unreal.FConstraintDrive;
+  @:uproperty public var SwingDrive : unreal.FConstraintDrive;
   
   /**
     Controls the twist (roll) constraint drive between current orientation/velocity and target orientation/velocity. This is available as long as the twist limit is set to free or limited.
   **/
-  public var TwistDrive : unreal.FConstraintDrive;
+  @:uproperty public var TwistDrive : unreal.FConstraintDrive;
   
 }

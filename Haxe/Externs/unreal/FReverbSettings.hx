@@ -20,31 +20,31 @@ package unreal;
   Struct encapsulating settings for reverb effects.
 **/
 @:glueCppIncludes("Sound/AudioVolume.h")
-@:noCopy @:noEquals @:uextern extern class FReverbSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FReverbSettings {
   
   /**
     Time to fade from the current reverb settings into this setting, in seconds.
   **/
-  public var FadeTime : unreal.Float32;
+  @:uproperty public var FadeTime : unreal.Float32;
   
   /**
     Volume level of the reverb affect.
   **/
-  public var Volume : unreal.Float32;
+  @:uproperty public var Volume : unreal.Float32;
   
   /**
     The reverb asset to employ.
   **/
-  public var ReverbEffect : unreal.UReverbEffect;
+  @:uproperty public var ReverbEffect : unreal.UReverbEffect;
   
   /**
     The reverb preset to employ.
   **/
-  @:deprecated public var ReverbType_DEPRECATED : unreal.ReverbPreset;
+  @:deprecated @:uproperty public var ReverbType_DEPRECATED : unreal.ReverbPreset;
   
   /**
     Whether to apply the reverb settings below.
   **/
-  public var bApplyReverb : Bool;
+  @:uproperty public var bApplyReverb : Bool;
   
 }

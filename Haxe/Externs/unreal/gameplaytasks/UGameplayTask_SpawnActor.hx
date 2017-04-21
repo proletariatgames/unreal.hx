@@ -30,7 +30,7 @@ package unreal.gameplaytasks;
 **/
 @:umodule("GameplayTasks")
 @:glueCppIncludes("Tasks/GameplayTask_SpawnActor.h")
-@:uextern extern class UGameplayTask_SpawnActor extends unreal.gameplaytasks.UGameplayTask {
-  private var ClassToSpawn : unreal.TSubclassOf<unreal.AActor>;
+@:uextern @:uclass extern class UGameplayTask_SpawnActor extends unreal.gameplaytasks.UGameplayTask {
+  @:uproperty private var ClassToSpawn : unreal.TSubclassOf<unreal.AActor>;
   
 }

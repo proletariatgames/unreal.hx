@@ -21,6 +21,6 @@ package unreal.paperspritesheetimporter;
 **/
 @:umodule("PaperSpriteSheetImporter")
 @:glueCppIncludes("Private/PaperSpriteSheetReimportFactory.h")
-@:noClass @:uextern extern class UPaperSpriteSheetReimportFactory extends unreal.paperspritesheetimporter.UPaperSpriteSheetImportFactory {
+@:noClass @:uextern @:uclass extern class UPaperSpriteSheetReimportFactory extends unreal.paperspritesheetimporter.UPaperSpriteSheetImportFactory {
   
 }

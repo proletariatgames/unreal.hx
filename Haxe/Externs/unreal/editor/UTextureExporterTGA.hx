@@ -15,6 +15,6 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/TextureExporterTGA.h")
-@:uextern extern class UTextureExporterTGA extends unreal.UExporter {
+@:uextern @:uclass extern class UTextureExporterTGA extends unreal.UExporter {
   
 }

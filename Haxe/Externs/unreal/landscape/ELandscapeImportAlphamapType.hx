@@ -16,7 +16,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:uname("ELandscapeImportAlphamapType")
-@:class @:uextern extern enum ELandscapeImportAlphamapType {
+@:class @:uextern @:uenum extern enum ELandscapeImportAlphamapType {
   
   /**
     Three layers blended 50/30/20 represented as 0.5, 0.3, and 0.2 in the alpha maps

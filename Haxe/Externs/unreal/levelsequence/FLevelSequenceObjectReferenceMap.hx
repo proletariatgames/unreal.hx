@@ -21,6 +21,6 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceObjectReference.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequenceObjectReferenceMap {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceObjectReferenceMap {
   
 }

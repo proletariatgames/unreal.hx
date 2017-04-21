@@ -19,36 +19,36 @@ package unreal.sequencer;
 **/
 @:umodule("Sequencer")
 @:glueCppIncludes("SequencerSettings.h")
-@:uextern extern class USequencerSettings extends unreal.UObject {
+@:uextern @:uclass extern class USequencerSettings extends unreal.UObject {
   
   /**
     The number of zeros to pad the frame numbers by.
   **/
-  private var ZeroPadFrames : unreal.UInt8;
+  @:uproperty private var ZeroPadFrames : unreal.UInt8;
   
   /**
     Whether to zoom in on the current position or the current time in the timeline.
   **/
-  private var ZoomPosition : unreal.sequencer.ESequencerZoomPosition;
+  @:uproperty private var ZoomPosition : unreal.sequencer.ESequencerZoomPosition;
   
   /**
     The time snapping interval in the timeline.
   **/
-  private var TimeSnapInterval : unreal.Float32;
+  @:uproperty private var TimeSnapInterval : unreal.Float32;
   
   /**
     The default location of a spawnable when it is first dragged into the viewport from the content browser.
   **/
-  private var SpawnPosition : unreal.sequencer.ESequencerSpawnPosition;
+  @:uproperty private var SpawnPosition : unreal.sequencer.ESequencerSpawnPosition;
   
   /**
     The interpolation type for newly created keyframes
   **/
-  private var KeyInterpolation : unreal.moviescene.EMovieSceneKeyInterpolation;
+  @:uproperty private var KeyInterpolation : unreal.moviescene.EMovieSceneKeyInterpolation;
   
   /**
     Enable or disable autokeying.
   **/
-  private var AutoKeyMode : unreal.sequencer.EAutoKeyMode;
+  @:uproperty private var AutoKeyMode : unreal.sequencer.EAutoKeyMode;
   
 }

@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstVectorMaterialParam.h")
-@:noClass @:uextern extern class UInterpTrackInstVectorMaterialParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstVectorMaterialParam extends unreal.UInterpTrackInst {
   
   /**
     Track we are an instance of - used in the editor to propagate changes to the track's Materials array immediately.
   **/
-  public var InstancedTrack : unreal.UInterpTrackVectorMaterialParam;
+  @:uproperty public var InstancedTrack : unreal.UInterpTrackVectorMaterialParam;
   
   /**
     Primitive components on which materials have been overridden.
   **/
-  public var PrimitiveMaterialRefs : unreal.TArray<unreal.FPrimitiveMaterialRef>;
+  @:uproperty public var PrimitiveMaterialRefs : unreal.TArray<unreal.FPrimitiveMaterialRef>;
   
   /**
     Saved values for restoring state when exiting Matinee.
   **/
-  public var ResetVectors : unreal.TArray<unreal.FVector>;
+  @:uproperty public var ResetVectors : unreal.TArray<unreal.FVector>;
   
   /**
     MIDs we're using to set the desired parameter.
   **/
-  public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceDynamic>;
+  @:uproperty public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceDynamic>;
   
 }

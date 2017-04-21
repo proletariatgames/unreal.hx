@@ -21,11 +21,11 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLocalizationCompilationSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLocalizationCompilationSettings {
   
   /**
     Should we skip the source check when compiling translations? This will allow translations whose source no longer matches the active source to still be used by the game at runtime.
   **/
-  public var SkipSourceCheck : Bool;
+  @:uproperty public var SkipSourceCheck : Bool;
   
 }

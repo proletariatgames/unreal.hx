@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EParticleCollisionMode.Type")
-@:uextern extern enum EParticleCollisionMode {
+@:uextern @:uenum extern enum EParticleCollisionMode {
   
   /**
     Scene Depth

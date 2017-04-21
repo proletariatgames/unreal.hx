@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/MeshMerging.h")
 @:uname("ELandscapeCullingPrecision.Type")
-@:uextern extern enum ELandscapeCullingPrecision {
+@:uextern @:uenum extern enum ELandscapeCullingPrecision {
   
   /**
     High memory intensity and computation time

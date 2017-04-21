@@ -18,21 +18,21 @@ package unreal;
   Entry for a delegate to assign after a blueprint has been instanced
 **/
 @:glueCppIncludes("Engine/ComponentDelegateBinding.h")
-@:uextern extern class FBlueprintComponentDelegateBinding {
+@:uextern @:ustruct extern class FBlueprintComponentDelegateBinding {
   
   /**
     Name of function that we want to bind to the delegate.
   **/
-  public var FunctionNameToBind : unreal.FName;
+  @:uproperty public var FunctionNameToBind : unreal.FName;
   
   /**
     Name of property on the component that we want to assign to.
   **/
-  public var DelegatePropertyName : unreal.FName;
+  @:uproperty public var DelegatePropertyName : unreal.FName;
   
   /**
     Name of component property that contains delegate we want to assign to.
   **/
-  public var ComponentPropertyName : unreal.FName;
+  @:uproperty public var ComponentPropertyName : unreal.FName;
   
 }

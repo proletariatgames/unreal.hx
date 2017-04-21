@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendListByInt.h")
-@:uextern extern class FAnimNode_BlendListByInt extends unreal.animgraphruntime.FAnimNode_BlendListBase {
-  public var ActiveChildIndex : unreal.Int32;
+@:uextern @:ustruct extern class FAnimNode_BlendListByInt extends unreal.animgraphruntime.FAnimNode_BlendListBase {
+  @:uproperty public var ActiveChildIndex : unreal.Int32;
   
 }

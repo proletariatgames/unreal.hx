@@ -19,13 +19,13 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_Trace.h")
-@:uextern extern class AGameplayAbilityTargetActor_Trace extends unreal.gameplayabilities.AGameplayAbilityTargetActor {
+@:uextern @:uclass extern class AGameplayAbilityTargetActor_Trace extends unreal.gameplayabilities.AGameplayAbilityTargetActor {
   
   /**
     Does the trace affect the aiming pitch
   **/
-  public var bTraceAffectsAimPitch : Bool;
-  public var TraceProfile : unreal.FCollisionProfileName;
-  public var MaxRange : unreal.Float32;
+  @:uproperty public var bTraceAffectsAimPitch : Bool;
+  @:uproperty public var TraceProfile : unreal.FCollisionProfileName;
+  @:uproperty public var MaxRange : unreal.Float32;
   
 }

@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionPower.h")
-@:uextern extern class UMaterialExpressionPower extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionPower extends unreal.UMaterialExpression {
   
   /**
     only used if Exponent is not hooked up
   **/
-  public var ConstExponent : unreal.Float32;
+  @:uproperty public var ConstExponent : unreal.Float32;
   
   /**
     Defaults to 'ConstExponent' if not specified
   **/
-  public var Exponent : unreal.FExpressionInput;
-  public var Base : unreal.FExpressionInput;
+  @:uproperty public var Exponent : unreal.FExpressionInput;
+  @:uproperty public var Base : unreal.FExpressionInput;
   
 }

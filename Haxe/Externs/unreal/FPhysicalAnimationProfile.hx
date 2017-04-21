@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsAsset.h")
-@:noCopy @:noEquals @:uextern extern class FPhysicalAnimationProfile {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPhysicalAnimationProfile {
   
   /**
     Physical animation parameters used to drive animation
   **/
-  public var PhysicalAnimationData : unreal.FPhysicalAnimationData;
+  @:uproperty public var PhysicalAnimationData : unreal.FPhysicalAnimationData;
   
   /**
     Profile name used to identify set of physical animation parameters
   **/
-  public var ProfileName : unreal.FName;
+  @:uproperty public var ProfileName : unreal.FName;
   
 }

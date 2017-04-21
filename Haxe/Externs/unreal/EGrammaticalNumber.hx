@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Sound/DialogueTypes.h")
 @:uname("EGrammaticalNumber.Type")
-@:uextern extern enum EGrammaticalNumber {
+@:uextern @:uenum extern enum EGrammaticalNumber {
   
   /**
     Singular

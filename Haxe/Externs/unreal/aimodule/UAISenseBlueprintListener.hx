@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseBlueprintListener.h")
-@:uextern extern class UAISenseBlueprintListener extends unreal.UUserDefinedStruct {
+@:uextern @:uclass extern class UAISenseBlueprintListener extends unreal.UUserDefinedStruct {
   
 }

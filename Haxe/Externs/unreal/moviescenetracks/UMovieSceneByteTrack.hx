@@ -19,7 +19,7 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneByteTrack.h")
-@:uextern extern class UMovieSceneByteTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
-  private var Enum : unreal.UEnum;
+@:uextern @:uclass extern class UMovieSceneByteTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
+  @:uproperty private var Enum : unreal.UEnum;
   
 }

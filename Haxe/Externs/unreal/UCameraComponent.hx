@@ -19,90 +19,90 @@ package unreal;
   The default behavior for an actor used as the camera view target is to look for an attached camera component and use its location, rotation, and settings.
 **/
 @:glueCppIncludes("Camera/CameraComponent.h")
-@:uextern extern class UCameraComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class UCameraComponent extends unreal.USceneComponent {
   
   /**
     DEPRECATED: use bUsePawnControlRotation instead
   **/
-  @:deprecated public var bUseControllerViewRotation_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bUseControllerViewRotation_DEPRECATED : Bool;
   #if WITH_EDITORONLY_DATA
-  private var CameraMesh : unreal.UStaticMesh;
+  @:uproperty private var CameraMesh : unreal.UStaticMesh;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Post process settings to use for this camera. Don't forget to check the properties you want to override
   **/
-  public var PostProcessSettings : unreal.FPostProcessSettings;
+  @:uproperty public var PostProcessSettings : unreal.FPostProcessSettings;
   
   /**
     Indicates if PostProcessSettings should be used when using this Camera to view through.
   **/
-  public var PostProcessBlendWeight : unreal.Float32;
+  @:uproperty public var PostProcessBlendWeight : unreal.Float32;
   
   /**
     The type of camera
   **/
-  public var ProjectionMode : unreal.ECameraProjectionMode;
+  @:uproperty public var ProjectionMode : unreal.ECameraProjectionMode;
   
   /**
     If this camera component is placed on a pawn, should it use the view/control rotation of the pawn where possible?
     @see APawn::GetViewRotation()
   **/
-  public var bUsePawnControlRotation : Bool;
+  @:uproperty public var bUsePawnControlRotation : Bool;
   
   /**
     True if the camera's orientation and position should be locked to the HMD
   **/
-  public var bLockToHmd : Bool;
+  @:uproperty public var bLockToHmd : Bool;
   
   /**
     If true, account for the field of view angle when computing which level of detail to use for meshes.
   **/
-  public var bUseFieldOfViewForLOD : Bool;
+  @:uproperty public var bUseFieldOfViewForLOD : Bool;
   
   /**
     If bConstrainAspectRatio is true, black bars will be added if the destination view has a different aspect ratio than this camera requested.
   **/
-  public var bConstrainAspectRatio : Bool;
+  @:uproperty public var bConstrainAspectRatio : Bool;
   
   /**
     Aspect Ratio (Width/Height)
   **/
-  public var AspectRatio : unreal.Float32;
+  @:uproperty public var AspectRatio : unreal.Float32;
   
   /**
     The far plane distance of the orthographic view (in world units)
   **/
-  public var OrthoFarClipPlane : unreal.Float32;
+  @:uproperty public var OrthoFarClipPlane : unreal.Float32;
   
   /**
     The near plane distance of the orthographic view (in world units)
   **/
-  public var OrthoNearClipPlane : unreal.Float32;
+  @:uproperty public var OrthoNearClipPlane : unreal.Float32;
   
   /**
     The desired width (in world units) of the orthographic view (ignored in Perspective mode)
   **/
-  public var OrthoWidth : unreal.Float32;
+  @:uproperty public var OrthoWidth : unreal.Float32;
   
   /**
     The horizontal field of view (in degrees) in perspective mode (ignored in Orthographic mode)
   **/
-  public var FieldOfView : unreal.Float32;
-  @:final public function SetFieldOfView(InFieldOfView : unreal.Float32) : Void;
-  @:final public function SetOrthoWidth(InOrthoWidth : unreal.Float32) : Void;
-  @:final public function SetOrthoNearClipPlane(InOrthoNearClipPlane : unreal.Float32) : Void;
-  @:final public function SetOrthoFarClipPlane(InOrthoFarClipPlane : unreal.Float32) : Void;
-  @:final public function SetAspectRatio(InAspectRatio : unreal.Float32) : Void;
-  @:final public function SetConstraintAspectRatio(bInConstrainAspectRatio : Bool) : Void;
-  @:final public function SetUseFieldOfViewForLOD(bInUseFieldOfViewForLOD : Bool) : Void;
-  @:final public function SetProjectionMode(InProjectionMode : unreal.ECameraProjectionMode) : Void;
-  @:final public function SetPostProcessBlendWeight(InPostProcessBlendWeight : unreal.Float32) : Void;
+  @:uproperty public var FieldOfView : unreal.Float32;
+  @:ufunction @:final public function SetFieldOfView(InFieldOfView : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOrthoWidth(InOrthoWidth : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOrthoNearClipPlane(InOrthoNearClipPlane : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOrthoFarClipPlane(InOrthoFarClipPlane : unreal.Float32) : Void;
+  @:ufunction @:final public function SetAspectRatio(InAspectRatio : unreal.Float32) : Void;
+  @:ufunction @:final public function SetConstraintAspectRatio(bInConstrainAspectRatio : Bool) : Void;
+  @:ufunction @:final public function SetUseFieldOfViewForLOD(bInUseFieldOfViewForLOD : Bool) : Void;
+  @:ufunction @:final public function SetProjectionMode(InProjectionMode : unreal.ECameraProjectionMode) : Void;
+  @:ufunction @:final public function SetPostProcessBlendWeight(InPostProcessBlendWeight : unreal.Float32) : Void;
   
   /**
     Returns camera's Point of View.
     Called by Camera class. Subclass and postprocess to add any effects.
   **/
-  public function GetCameraView(DeltaTime : unreal.Float32, DesiredView : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
+  @:ufunction public function GetCameraView(DeltaTime : unreal.Float32, DesiredView : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
   
 }

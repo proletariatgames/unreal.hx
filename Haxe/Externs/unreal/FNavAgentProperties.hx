@@ -18,31 +18,31 @@ package unreal;
   Properties of representation of an 'agent' (or Pawn) used by AI navigation/pathfinding.
 **/
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
-@:uextern extern class FNavAgentProperties extends unreal.FMovementProperties {
+@:uextern @:ustruct extern class FNavAgentProperties extends unreal.FMovementProperties {
   
   /**
     Type of navigation data used by agent, null means "any"
   **/
-  public var PreferredNavData : unreal.TSubclassOf<unreal.ANavigationData>;
+  @:uproperty public var PreferredNavData : unreal.TSubclassOf<unreal.ANavigationData>;
   
   /**
     Scale factor to apply to height of bounds when searching for navmesh to project to when nav walking
   **/
-  public var NavWalkingSearchHeightScale : unreal.Float32;
+  @:uproperty public var NavWalkingSearchHeightScale : unreal.Float32;
   
   /**
     Step height to use, or -1 for default value from navdata's config.
   **/
-  public var AgentStepHeight : unreal.Float32;
+  @:uproperty public var AgentStepHeight : unreal.Float32;
   
   /**
     Total height of the capsule used for navigation/pathfinding.
   **/
-  public var AgentHeight : unreal.Float32;
+  @:uproperty public var AgentHeight : unreal.Float32;
   
   /**
     Radius of the capsule used for navigation/pathfinding.
   **/
-  public var AgentRadius : unreal.Float32;
+  @:uproperty public var AgentRadius : unreal.Float32;
   
 }

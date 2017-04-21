@@ -20,10 +20,10 @@ package unreal;
   Internal state, not accessible to script.
 **/
 @:glueCppIncludes("Engine/BrushBuilder.h")
-@:noCopy @:noEquals @:uextern extern class FBuilderPoly {
-  public var PolyFlags : unreal.Int32;
-  public var ItemName : unreal.FName;
-  public var Direction : unreal.Int32;
-  public var VertexIndices : unreal.TArray<unreal.Int32>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBuilderPoly {
+  @:uproperty public var PolyFlags : unreal.Int32;
+  @:uproperty public var ItemName : unreal.FName;
+  @:uproperty public var Direction : unreal.Int32;
+  @:uproperty public var VertexIndices : unreal.TArray<unreal.Int32>;
   
 }

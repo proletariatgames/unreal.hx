@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
 @:uname("EBTNodeResult.Type")
-@:uextern extern enum EBTNodeResult {
+@:uextern @:uenum extern enum EBTNodeResult {
   Succeeded;
   
   /**

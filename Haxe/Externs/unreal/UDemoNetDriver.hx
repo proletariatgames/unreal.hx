@@ -18,6 +18,6 @@ package unreal;
   Simulated network driver for recording and playing back game sessions.
 **/
 @:glueCppIncludes("Engine/DemoNetDriver.h")
-@:uextern extern class UDemoNetDriver extends unreal.UNetDriver {
+@:uextern @:uclass extern class UDemoNetDriver extends unreal.UNetDriver {
   
 }

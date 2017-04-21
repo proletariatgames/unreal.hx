@@ -20,71 +20,71 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UGridSlot extends unreal.umg.UPanelSlot {
+@:uextern @:uclass extern class UGridSlot extends unreal.umg.UPanelSlot {
   
   /**
     Offset this slot's content by some amount; positive values offset to lower right
   **/
-  public var Nudge : unreal.FVector2D;
+  @:uproperty public var Nudge : unreal.FVector2D;
   
   /**
     Positive values offset this cell to be hit-tested and drawn on top of others. Default is 0; i.e. no offset.
   **/
-  public var Layer : unreal.Int32;
-  public var ColumnSpan : unreal.Int32;
+  @:uproperty public var Layer : unreal.Int32;
+  @:uproperty public var ColumnSpan : unreal.Int32;
   
   /**
     The column index of the cell this slot is in
   **/
-  public var Column : unreal.Int32;
-  public var RowSpan : unreal.Int32;
+  @:uproperty public var Column : unreal.Int32;
+  @:uproperty public var RowSpan : unreal.Int32;
   
   /**
     The row index of the cell this slot is in
   **/
-  public var Row : unreal.Int32;
+  @:uproperty public var Row : unreal.Int32;
   
   /**
     The alignment of the object vertically.
   **/
-  public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   
   /**
     The alignment of the object horizontally.
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     The padding area between the slot and the content it contains.
   **/
-  public var Padding : unreal.slatecore.FMargin;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
   
   /**
     Sets the row index of the slot, this determines what cell the slot is in the panel
   **/
-  @:final public function SetRow(InRow : unreal.Int32) : Void;
+  @:ufunction @:final public function SetRow(InRow : unreal.Int32) : Void;
   
   /**
     How many rows this this slot spans over
   **/
-  @:final public function SetRowSpan(InRowSpan : unreal.Int32) : Void;
+  @:ufunction @:final public function SetRowSpan(InRowSpan : unreal.Int32) : Void;
   
   /**
     Sets the column index of the slot, this determines what cell the slot is in the panel
   **/
-  @:final public function SetColumn(InColumn : unreal.Int32) : Void;
+  @:ufunction @:final public function SetColumn(InColumn : unreal.Int32) : Void;
   
   /**
     How many columns this slot spans over
   **/
-  @:final public function SetColumnSpan(InColumnSpan : unreal.Int32) : Void;
+  @:ufunction @:final public function SetColumnSpan(InColumnSpan : unreal.Int32) : Void;
   
   /**
     Sets positive values offset this cell to be hit-tested and drawn on top of others.
   **/
-  @:final public function SetLayer(InLayer : unreal.Int32) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction @:final public function SetLayer(InLayer : unreal.Int32) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

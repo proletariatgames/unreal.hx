@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("EdGraph/EdGraphPin.h")
 @:uname("EBlueprintPinStyleType")
-@:uextern extern enum EBlueprintPinStyleType {
+@:uextern @:uenum extern enum EBlueprintPinStyleType {
   
   /**
     Circles, Grid, Diamond

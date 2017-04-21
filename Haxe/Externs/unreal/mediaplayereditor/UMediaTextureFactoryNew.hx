@@ -21,6 +21,6 @@ package unreal.mediaplayereditor;
 **/
 @:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Factories/MediaTextureFactoryNew.h")
-@:uextern extern class UMediaTextureFactoryNew extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UMediaTextureFactoryNew extends unreal.editor.UFactory {
   
 }

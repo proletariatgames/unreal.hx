@@ -18,8 +18,8 @@ package unreal;
   Class containing definition of a navigation area
 **/
 @:glueCppIncludes("AI/Navigation/NavLinkDefinition.h")
-@:uextern extern class UNavLinkDefinition extends unreal.UObject {
-  public var SegmentLinks : unreal.TArray<unreal.FNavigationSegmentLink>;
-  public var Links : unreal.TArray<unreal.FNavigationLink>;
+@:uextern @:uclass extern class UNavLinkDefinition extends unreal.UObject {
+  @:uproperty public var SegmentLinks : unreal.TArray<unreal.FNavigationSegmentLink>;
+  @:uproperty public var Links : unreal.TArray<unreal.FNavigationLink>;
   
 }

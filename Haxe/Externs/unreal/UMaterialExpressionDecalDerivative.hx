@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDecalDerivative.h")
-@:noClass @:uextern extern class UMaterialExpressionDecalDerivative extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDecalDerivative extends unreal.UMaterialExpression {
   
 }

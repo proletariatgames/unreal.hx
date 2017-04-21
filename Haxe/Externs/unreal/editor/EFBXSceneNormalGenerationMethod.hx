@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportOptionsStaticMesh.h")
 @:uname("EFBXSceneNormalGenerationMethod.Type")
-@:uextern extern enum EFBXSceneNormalGenerationMethod {
+@:uextern @:uenum extern enum EFBXSceneNormalGenerationMethod {
   
   /**
     Use the legacy built in method to generate normals (faster in some cases)

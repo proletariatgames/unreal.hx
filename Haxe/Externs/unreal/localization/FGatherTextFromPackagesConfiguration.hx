@@ -21,36 +21,36 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FGatherTextFromPackagesConfiguration {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGatherTextFromPackagesConfiguration {
   
   /**
     Should we ignore the cached text in the package header and perform a full package load instead?
   **/
-  public var SkipGatherCache : Bool;
+  @:uproperty public var SkipGatherCache : Bool;
   
   /**
     If enabled, data that is specified as editor-only may be processed for gathering.
   **/
-  public var ShouldGatherFromEditorOnlyData : Bool;
+  @:uproperty public var ShouldGatherFromEditorOnlyData : Bool;
   
   /**
     Packages whose names match these wildcard patterns may be processed for text to gather.
   **/
-  public var FileExtensions : unreal.TArray<unreal.localization.FGatherTextFileExtension>;
+  @:uproperty public var FileExtensions : unreal.TArray<unreal.localization.FGatherTextFileExtension>;
   
   /**
     Packages whose paths match these wildcard patterns will be excluded from gathering.
   **/
-  public var ExcludePathWildcards : unreal.TArray<unreal.localization.FGatherTextExcludePath>;
+  @:uproperty public var ExcludePathWildcards : unreal.TArray<unreal.localization.FGatherTextExcludePath>;
   
   /**
     Packages whose paths match these wildcard patterns, specified relative to the project's root, may be processed for gathering.
   **/
-  public var IncludePathWildcards : unreal.TArray<unreal.localization.FGatherTextIncludePath>;
+  @:uproperty public var IncludePathWildcards : unreal.TArray<unreal.localization.FGatherTextIncludePath>;
   
   /**
     If enabled, text from packages will be gathered according to this configuration.
   **/
-  public var IsEnabled : Bool;
+  @:uproperty public var IsEnabled : Bool;
   
 }

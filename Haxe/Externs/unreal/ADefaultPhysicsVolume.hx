@@ -22,6 +22,6 @@ package unreal;
   @see APhysicsVolume
 **/
 @:glueCppIncludes("GameFramework/DefaultPhysicsVolume.h")
-@:uextern extern class ADefaultPhysicsVolume extends unreal.APhysicsVolume {
+@:uextern @:uclass extern class ADefaultPhysicsVolume extends unreal.APhysicsVolume {
   
 }

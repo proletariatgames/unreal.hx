@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PlaneReflectionCapture.h")
-@:uextern extern class APlaneReflectionCapture extends unreal.AReflectionCapture {
+@:uextern @:uclass extern class APlaneReflectionCapture extends unreal.AReflectionCapture {
   
 }

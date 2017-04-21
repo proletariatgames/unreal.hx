@@ -18,127 +18,137 @@ package unreal;
   Renders text in the world with given font. Contains usual font related attributes such as Scale, Alignment, Color etc.
 **/
 @:glueCppIncludes("Components/TextRenderComponent.h")
-@:uextern extern class UTextRenderComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UTextRenderComponent extends unreal.UPrimitiveComponent {
   
   /**
     Allows text to draw unmodified when using debug visualization modes. *
   **/
-  public var bAlwaysRenderAsText : Bool;
+  @:uproperty public var bAlwaysRenderAsText : Bool;
   
   /**
     Vertical adjustment per character, default is 0.0
   **/
-  public var VertSpacingAdjust : unreal.Float32;
+  @:uproperty public var VertSpacingAdjust : unreal.Float32;
   
   /**
     Horizontal adjustment per character, default is 0.0
   **/
-  public var HorizSpacingAdjust : unreal.Float32;
+  @:uproperty public var HorizSpacingAdjust : unreal.Float32;
   
   /**
     The inverse of the Font's character height.
   **/
-  public var InvDefaultSize : unreal.Float32;
+  @:uproperty public var InvDefaultSize : unreal.Float32;
   
   /**
     Vertical size of the fonts largest character in world units. Transform, XScale and YScale will affect final size.
   **/
-  public var WorldSize : unreal.Float32;
+  @:uproperty public var WorldSize : unreal.Float32;
   
   /**
     Vertical scale, default is 1.0
   **/
-  public var YScale : unreal.Float32;
+  @:uproperty public var YScale : unreal.Float32;
   
   /**
     Horizontal scale, default is 1.0
   **/
-  public var XScale : unreal.Float32;
+  @:uproperty public var XScale : unreal.Float32;
   
   /**
     Color of the text, can be accessed as vertex color
   **/
-  public var TextRenderColor : unreal.FColor;
+  @:uproperty public var TextRenderColor : unreal.FColor;
   
   /**
     Vertical text alignment
   **/
-  public var VerticalAlignment : unreal.EVerticalTextAligment;
+  @:uproperty public var VerticalAlignment : unreal.EVerticalTextAligment;
   
   /**
     Horizontal text alignment
   **/
-  public var HorizontalAlignment : unreal.EHorizTextAligment;
+  @:uproperty public var HorizontalAlignment : unreal.EHorizTextAligment;
   
   /**
     Text font
   **/
-  public var Font : unreal.UFont;
+  @:uproperty public var Font : unreal.UFont;
   
   /**
     Text material
   **/
-  public var TextMaterial : unreal.UMaterialInterface;
-  @:final public function SetText(Value : unreal.FString) : Void;
+  @:uproperty public var TextMaterial : unreal.UMaterialInterface;
+  
+  /**
+    Text content, can be multi line using <br> as line separator
+  **/
+  @:uproperty public var Text : unreal.FText;
+  @:ufunction @:final public function SetText(Value : unreal.FString) : Void;
+  
+  /**
+    Change the text value and signal the primitives to be rebuilt
+  **/
+  @:ufunction @:final public function K2_SetText(Value : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Change the text material and signal the primitives to be rebuilt
   **/
-  @:final public function SetTextMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function SetTextMaterial(Material : unreal.UMaterialInterface) : Void;
   
   /**
     Change the font and signal the primitives to be rebuilt
   **/
-  @:final public function SetFont(Value : unreal.UFont) : Void;
+  @:ufunction @:final public function SetFont(Value : unreal.UFont) : Void;
   
   /**
     Change the horizontal alignment and signal the primitives to be rebuilt
   **/
-  @:final public function SetHorizontalAlignment(Value : unreal.EHorizTextAligment) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(Value : unreal.EHorizTextAligment) : Void;
   
   /**
     Change the vertical alignment and signal the primitives to be rebuilt
   **/
-  @:final public function SetVerticalAlignment(Value : unreal.EVerticalTextAligment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(Value : unreal.EVerticalTextAligment) : Void;
   
   /**
     Change the text render color and signal the primitives to be rebuilt
   **/
-  @:final public function SetTextRenderColor(Value : unreal.FColor) : Void;
+  @:ufunction @:final public function SetTextRenderColor(Value : unreal.FColor) : Void;
   
   /**
     Change the text X scale and signal the primitives to be rebuilt
   **/
-  @:final public function SetXScale(Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetXScale(Value : unreal.Float32) : Void;
   
   /**
     Change the text Y scale and signal the primitives to be rebuilt
   **/
-  @:final public function SetYScale(Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetYScale(Value : unreal.Float32) : Void;
   
   /**
     Change the text horizontal spacing adjustment and signal the primitives to be rebuilt
   **/
-  @:final public function SetHorizSpacingAdjust(Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetHorizSpacingAdjust(Value : unreal.Float32) : Void;
   
   /**
     Change the text vertical spacing adjustment and signal the primitives to be rebuilt
   **/
-  @:final public function SetVertSpacingAdjust(Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetVertSpacingAdjust(Value : unreal.Float32) : Void;
   
   /**
     Change the world size of the text and signal the primitives to be rebuilt
   **/
-  @:final public function SetWorldSize(Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetWorldSize(Value : unreal.Float32) : Void;
   
   /**
     Get local size of text
   **/
-  @:thisConst @:final public function GetTextLocalSize() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetTextLocalSize() : unreal.FVector;
   
   /**
     Get world space size of text
   **/
-  @:thisConst @:final public function GetTextWorldSize() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetTextWorldSize() : unreal.FVector;
   
 }

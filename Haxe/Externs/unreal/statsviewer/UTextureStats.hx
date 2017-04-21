@@ -21,61 +21,71 @@ package unreal.statsviewer;
 **/
 @:umodule("StatsViewer")
 @:glueCppIncludes("TextureStats.h")
-@:uextern extern class UTextureStats extends unreal.UObject {
+@:uextern @:uclass extern class UTextureStats extends unreal.UObject {
   
   /**
     Texture path without the name "package.[group.]"
   **/
-  public var Path : unreal.FString;
+  @:uproperty public var Path : unreal.FString;
   
   /**
     Relative time it was used for rendering the last time
   **/
-  public var LastTimeRendered : unreal.Float32;
+  @:uproperty public var LastTimeRendered : unreal.Float32;
   
   /**
     The number of times the texture is used
   **/
-  public var NumUses : unreal.Int32;
+  @:uproperty public var NumUses : unreal.Int32;
   
   /**
     The memory used when the texture is fully loaded in KB
   **/
-  public var FullyLoadedKB : unreal.Float32;
+  @:uproperty public var FullyLoadedKB : unreal.Float32;
   
   /**
     The memory used currently in KB
   **/
-  public var CurrentKB : unreal.Float32;
+  @:uproperty public var CurrentKB : unreal.Float32;
   
   /**
     LOD Bias for this texture. (Texture LODBias + Texture group)
   **/
-  public var LODBias : unreal.Int32;
+  @:uproperty public var LODBias : unreal.Int32;
   
   /**
     The texture group, TEXTUREGROUP_MAX is not used, e.g. TEXTUREGROUP_World
   **/
-  public var Group : unreal.TextureGroup;
+  @:uproperty public var Group : unreal.TextureGroup;
   
   /**
     The texture format, e.g. PF_DXT1
   **/
-  public var Format : unreal.EPixelFormat;
+  @:uproperty public var Format : unreal.EPixelFormat;
   
   /**
     Current Dimension e.g 256x256
   **/
-  public var CurrentDim : unreal.FVector2D;
+  @:uproperty public var CurrentDim : unreal.FVector2D;
   
   /**
     Max Dimension e.g. 256x256, not including the format
   **/
-  public var MaxDim : unreal.FVector2D;
+  @:uproperty public var MaxDim : unreal.FVector2D;
   
   /**
     Texture type e.g. 2D, 3D, Cube, "" if not known, ...
   **/
-  public var Type : unreal.FString;
+  @:uproperty public var Type : unreal.FString;
+  
+  /**
+    Actor(s) - click to select & zoom Actor(s)
+  **/
+  @:uproperty public var Actors : unreal.TArray<unreal.TWeakObjectPtr<unreal.AActor>>;
+  
+  /**
+    Texture - click to go to asset
+  **/
+  @:uproperty public var Texture : unreal.TWeakObjectPtr<unreal.UTexture>;
   
 }

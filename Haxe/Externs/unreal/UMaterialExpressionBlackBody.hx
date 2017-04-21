@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionBlackBody.h")
-@:noClass @:uextern extern class UMaterialExpressionBlackBody extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionBlackBody extends unreal.UMaterialExpression {
   
   /**
     Temperature
   **/
-  public var Temp : unreal.FExpressionInput;
+  @:uproperty public var Temp : unreal.FExpressionInput;
   
 }

@@ -20,9 +20,9 @@ package unreal;
   Editable vector parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:noCopy @:noEquals @:uextern extern class FVectorParameterValue {
-  public var ExpressionGUID : unreal.FGuid;
-  public var ParameterValue : unreal.FLinearColor;
-  public var ParameterName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVectorParameterValue {
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ParameterValue : unreal.FLinearColor;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

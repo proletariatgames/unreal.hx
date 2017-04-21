@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolNoiseMode.Type")
-@:uextern extern enum ELandscapeToolNoiseMode {
+@:uextern @:uenum extern enum ELandscapeToolNoiseMode {
   
   /**
     Noise will both raise and lower the heightmap

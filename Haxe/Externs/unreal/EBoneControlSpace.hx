@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EBoneControlSpace")
-@:uextern extern enum EBoneControlSpace {
+@:uextern @:uenum extern enum EBoneControlSpace {
   
   /**
     Set absolute position of bone in world space.

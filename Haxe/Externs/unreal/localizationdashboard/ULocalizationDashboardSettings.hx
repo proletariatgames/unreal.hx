@@ -21,6 +21,6 @@ package unreal.localizationdashboard;
 **/
 @:umodule("LocalizationDashboard")
 @:glueCppIncludes("Private/LocalizationDashboardSettings.h")
-@:noClass @:uextern extern class ULocalizationDashboardSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class ULocalizationDashboardSettings extends unreal.UObject {
   
 }

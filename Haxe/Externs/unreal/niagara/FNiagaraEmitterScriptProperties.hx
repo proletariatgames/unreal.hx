@@ -21,10 +21,10 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraEmitterScriptProperties {
-  public var EventGenerators : unreal.TArray<unreal.niagara.FNiagaraEventGeneratorProperties>;
-  public var EventReceivers : unreal.TArray<unreal.niagara.FNiagaraEventReceiverProperties>;
-  public var ExternalConstants : unreal.niagara.FNiagaraConstants;
-  public var Script : unreal.niagara.UNiagaraScript;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEmitterScriptProperties {
+  @:uproperty public var EventGenerators : unreal.TArray<unreal.niagara.FNiagaraEventGeneratorProperties>;
+  @:uproperty public var EventReceivers : unreal.TArray<unreal.niagara.FNiagaraEventReceiverProperties>;
+  @:uproperty public var ExternalConstants : unreal.niagara.FNiagaraConstants;
+  @:uproperty public var Script : unreal.niagara.UNiagaraScript;
   
 }

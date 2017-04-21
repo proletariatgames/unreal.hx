@@ -20,10 +20,10 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/LightmassPortal.h")
-@:uextern extern class ALightmassPortal extends unreal.AActor {
+@:uextern @:uclass extern class ALightmassPortal extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
-  public var PortalComponent : unreal.ULightmassPortalComponent;
+  @:uproperty public var PortalComponent : unreal.ULightmassPortalComponent;
   
 }

@@ -19,6 +19,6 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationSettings.h")
-@:uextern extern class ULocalizationSettings extends unreal.UObject {
+@:uextern @:uclass extern class ULocalizationSettings extends unreal.UObject {
   
 }

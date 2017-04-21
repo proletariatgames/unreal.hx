@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Haptics/HapticFeedbackEffect_Base.h")
-@:uextern extern class UHapticFeedbackEffect_Base extends unreal.UObject {
+@:uextern @:uclass extern class UHapticFeedbackEffect_Base extends unreal.UObject {
   
 }

@@ -22,63 +22,63 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UMenuAnchor extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UMenuAnchor extends unreal.umg.UContentWidget {
   
   /**
     Does this menu behave like a normal stacked menu? Set it to false to control the menu's lifetime yourself.
   **/
-  public var UseApplicationMenuStack : Bool;
-  public var ShouldDeferPaintingAfterWindowContent : Bool;
+  @:uproperty public var UseApplicationMenuStack : Bool;
+  @:uproperty public var ShouldDeferPaintingAfterWindowContent : Bool;
   
   /**
     The placement location of the summoned widget.
   **/
-  public var Placement : unreal.slatecore.EMenuPlacement;
+  @:uproperty public var Placement : unreal.slatecore.EMenuPlacement;
   
   /**
     The widget class to spawn when the menu is required.  Creates the widget freshly each time.
     If you want to customize the creation of the popup, you should bind a function to OnGetMenuContentEvent
     instead.
   **/
-  public var MenuClass : unreal.TSubclassOf<unreal.umg.UUserWidget>;
+  @:uproperty public var MenuClass : unreal.TSubclassOf<unreal.umg.UUserWidget>;
   
   /**
     Toggles the menus open state.
     
     @param bFocusOnOpen  Should we focus the popup as soon as it opens?
   **/
-  @:final public function ToggleOpen(bFocusOnOpen : Bool) : Void;
+  @:ufunction @:final public function ToggleOpen(bFocusOnOpen : Bool) : Void;
   
   /**
     Opens the menu if it is not already open
   **/
-  @:final public function Open(bFocusMenu : Bool) : Void;
+  @:ufunction @:final public function Open(bFocusMenu : Bool) : Void;
   
   /**
     Closes the menu if it is currently open.
   **/
-  @:final public function Close() : Void;
+  @:ufunction @:final public function Close() : Void;
   
   /**
     @return true if the popup is open; false otherwise.
   **/
-  @:thisConst @:final public function IsOpen() : Bool;
+  @:ufunction @:thisConst @:final public function IsOpen() : Bool;
   
   /**
     @return true if we should open the menu due to a click. Sometimes we should not, if
     the same MouseDownEvent that just closed the menu is about to re-open it because it
     happens to land on the button.
   **/
-  @:thisConst @:final public function ShouldOpenDueToClick() : Bool;
+  @:ufunction @:thisConst @:final public function ShouldOpenDueToClick() : Bool;
   
   /**
     @return The current menu position
   **/
-  @:thisConst @:final public function GetMenuPosition() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetMenuPosition() : unreal.FVector2D;
   
   /**
     @return Whether this menu has open submenus
   **/
-  @:thisConst @:final public function HasOpenSubMenus() : Bool;
+  @:ufunction @:thisConst @:final public function HasOpenSubMenus() : Bool;
   
 }

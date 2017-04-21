@@ -15,28 +15,28 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerWeight.h")
-@:uextern extern class UMaterialExpressionLandscapeLayerWeight extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionLandscapeLayerWeight extends unreal.UMaterialExpression {
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
   
   /**
     only used if Base is not hooked up
   **/
-  public var ConstBase : unreal.FVector;
-  public var PreviewWeight : unreal.Float32;
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ConstBase : unreal.FVector;
+  @:uproperty public var PreviewWeight : unreal.Float32;
+  @:uproperty public var ParameterName : unreal.FName;
   
   /**
     Ignored if not specified
   **/
-  public var Layer : unreal.FExpressionInput;
+  @:uproperty public var Layer : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstBase' if not specified
   **/
-  public var Base : unreal.FExpressionInput;
+  @:uproperty public var Base : unreal.FExpressionInput;
   
 }

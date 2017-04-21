@@ -21,7 +21,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_BlendListByInt.h")
-@:uextern extern class UAnimGraphNode_BlendListByInt extends unreal.animgraph.UAnimGraphNode_BlendListBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_BlendListByInt;
+@:uextern @:uclass extern class UAnimGraphNode_BlendListByInt extends unreal.animgraph.UAnimGraphNode_BlendListBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_BlendListByInt;
   
 }

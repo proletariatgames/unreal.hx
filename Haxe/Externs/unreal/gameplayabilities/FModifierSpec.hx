@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FModifierSpec {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FModifierSpec {
   
 }

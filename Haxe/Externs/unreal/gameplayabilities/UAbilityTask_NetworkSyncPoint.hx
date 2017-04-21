@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_NetworkSyncPoint.h")
-@:uextern extern class UAbilityTask_NetworkSyncPoint extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_NetworkSyncPoint extends unreal.gameplayabilities.UAbilityTask {
   
 }

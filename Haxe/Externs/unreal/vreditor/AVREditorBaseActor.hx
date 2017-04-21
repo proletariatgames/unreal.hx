@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorBaseActor.h")
-@:noClass @:uextern extern class AVREditorBaseActor extends unreal.AActor {
+@:noClass @:uextern @:uclass extern class AVREditorBaseActor extends unreal.AActor {
   
 }

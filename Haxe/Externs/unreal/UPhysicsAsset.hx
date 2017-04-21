@@ -26,40 +26,40 @@ package unreal;
   @see USkeletalMesh
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsAsset.h")
-@:uextern extern class UPhysicsAsset extends unreal.UObject {
+@:uextern @:uclass extern class UPhysicsAsset extends unreal.UObject {
   
   /**
     If true, bodies of the physics asset will be put into the asynchronous physics scene. If false, they will be put into the synchronous physics scene.
   **/
-  public var bUseAsyncScene : Bool;
+  @:uproperty public var bUseAsyncScene : Bool;
   
   /**
     Array of RB_ConstraintSetup objects.
     Stores information about a joint between two bodies, such as position relative to each body, joint limits etc.
   **/
-  public var ConstraintSetup : unreal.TArray<unreal.UPhysicsConstraintTemplate>;
+  @:uproperty public var ConstraintSetup : unreal.TArray<unreal.UPhysicsConstraintTemplate>;
   
   /**
     Array of SkeletalBodySetup objects. Stores information about collision shape etc. for each body.
     Does not include body position - those are taken from mesh.
   **/
-  public var SkeletalBodySetups : unreal.TArray<unreal.USkeletalBodySetup>;
+  @:uproperty public var SkeletalBodySetups : unreal.TArray<unreal.USkeletalBodySetup>;
   
   /**
     Index of bodies that are marked bConsiderForBounds
   **/
-  public var BoundsBodies : unreal.TArray<unreal.Int32>;
+  @:uproperty public var BoundsBodies : unreal.TArray<unreal.Int32>;
   #if WITH_EDITORONLY_DATA
-  public var CurrentConstraintProfileName : unreal.FName;
-  public var CurrentPhysicalAnimationProfileName : unreal.FName;
-  public var ConstraintProfiles : unreal.TArray<unreal.FName>;
-  public var PhysicalAnimationProfiles : unreal.TArray<unreal.FName>;
+  @:uproperty public var CurrentConstraintProfileName : unreal.FName;
+  @:uproperty public var CurrentPhysicalAnimationProfileName : unreal.FName;
+  @:uproperty public var ConstraintProfiles : unreal.TArray<unreal.FName>;
+  @:uproperty public var PhysicalAnimationProfiles : unreal.TArray<unreal.FName>;
   
   /**
     Default skeletal mesh to use when previewing this PhysicsAsset etc.
     Is the one that was used as the basis for creating this Asset.
   **/
-  @:deprecated public var DefaultSkelMesh_DEPRECATED : unreal.USkeletalMesh;
+  @:deprecated @:uproperty public var DefaultSkelMesh_DEPRECATED : unreal.USkeletalMesh;
   #end // WITH_EDITORONLY_DATA
   
 }

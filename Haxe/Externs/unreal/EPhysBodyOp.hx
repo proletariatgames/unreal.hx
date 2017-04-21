@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
 @:uname("EPhysBodyOp")
-@:uextern extern enum EPhysBodyOp {
+@:uextern @:uenum extern enum EPhysBodyOp {
   
   /**
     Don't do anything.

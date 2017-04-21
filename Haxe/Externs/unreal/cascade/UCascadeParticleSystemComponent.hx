@@ -21,6 +21,6 @@ package unreal.cascade;
 **/
 @:umodule("Cascade")
 @:glueCppIncludes("CascadeParticleSystemComponent.h")
-@:noClass @:uextern extern class UCascadeParticleSystemComponent extends unreal.UParticleSystemComponent {
+@:noClass @:uextern @:uclass extern class UCascadeParticleSystemComponent extends unreal.UParticleSystemComponent {
   
 }

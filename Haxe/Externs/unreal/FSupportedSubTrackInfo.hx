@@ -20,21 +20,21 @@ package unreal;
   Helper struct for creating sub tracks supported by this track
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
-@:noCopy @:noEquals @:uextern extern class FSupportedSubTrackInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSupportedSubTrackInfo {
   
   /**
     Index into the any subtrack group this subtrack belongs to (can be -1 for no group)
   **/
-  public var GroupIndex : unreal.Int32;
+  @:uproperty public var GroupIndex : unreal.Int32;
   
   /**
     The name of the subtrack
   **/
-  public var SubTrackName : unreal.FString;
+  @:uproperty public var SubTrackName : unreal.FString;
   
   /**
     The sub track class which is supported by this track
   **/
-  public var SupportedClass : unreal.TSubclassOf<unreal.UInterpTrack>;
+  @:uproperty public var SupportedClass : unreal.TSubclassOf<unreal.UInterpTrack>;
   
 }

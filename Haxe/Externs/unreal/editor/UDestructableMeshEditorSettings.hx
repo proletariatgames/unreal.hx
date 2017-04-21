@@ -19,12 +19,12 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/DestructableMeshEditorSettings.h")
-@:uextern extern class UDestructableMeshEditorSettings extends unreal.UObject {
-  public var AnimPreviewDirectionalColor : unreal.FColor;
-  public var AnimPreviewLightingDirection : unreal.FRotator;
-  public var AnimPreviewLightBrightness : unreal.Float32;
-  public var AnimPreviewSkyBrightness : unreal.Float32;
-  public var AnimPreviewSkyColor : unreal.FColor;
-  public var AnimPreviewFloorColor : unreal.FColor;
+@:uextern @:uclass extern class UDestructableMeshEditorSettings extends unreal.UObject {
+  @:uproperty public var AnimPreviewDirectionalColor : unreal.FColor;
+  @:uproperty public var AnimPreviewLightingDirection : unreal.FRotator;
+  @:uproperty public var AnimPreviewLightBrightness : unreal.Float32;
+  @:uproperty public var AnimPreviewSkyBrightness : unreal.Float32;
+  @:uproperty public var AnimPreviewSkyColor : unreal.FColor;
+  @:uproperty public var AnimPreviewFloorColor : unreal.FColor;
   
 }

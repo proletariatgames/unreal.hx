@@ -21,11 +21,11 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:noClass @:uextern extern class USafeZoneSlot extends unreal.umg.UPanelSlot {
-  public var Padding : unreal.slatecore.FMargin;
-  public var VAlign : unreal.slatecore.EVerticalAlignment;
-  public var HAlign : unreal.slatecore.EHorizontalAlignment;
-  public var SafeAreaScale : unreal.slatecore.FMargin;
-  public var bIsTitleSafe : Bool;
+@:noClass @:uextern @:uclass extern class USafeZoneSlot extends unreal.umg.UPanelSlot {
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
+  @:uproperty public var VAlign : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var HAlign : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var SafeAreaScale : unreal.slatecore.FMargin;
+  @:uproperty public var bIsTitleSafe : Bool;
   
 }

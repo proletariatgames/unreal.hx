@@ -15,6 +15,6 @@ package unreal.html5networking;
 
 @:umodule("HTML5Networking")
 @:glueCppIncludes("WebSocketConnection.h")
-@:uextern extern class UWebSocketConnection extends unreal.UNetConnection {
+@:uextern @:uclass extern class UWebSocketConnection extends unreal.UNetConnection {
   
 }

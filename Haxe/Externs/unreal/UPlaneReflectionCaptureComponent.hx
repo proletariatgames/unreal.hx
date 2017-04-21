@@ -20,13 +20,13 @@ package unreal;
   -> will be exported to EngineDecalClasses.h
 **/
 @:glueCppIncludes("Components/PlaneReflectionCaptureComponent.h")
-@:uextern extern class UPlaneReflectionCaptureComponent extends unreal.UReflectionCaptureComponent {
-  public var PreviewCaptureBox : unreal.UBoxComponent;
-  public var PreviewInfluenceRadius : unreal.UDrawSphereComponent;
+@:uextern @:uclass extern class UPlaneReflectionCaptureComponent extends unreal.UReflectionCaptureComponent {
+  @:uproperty public var PreviewCaptureBox : unreal.UBoxComponent;
+  @:uproperty public var PreviewInfluenceRadius : unreal.UDrawSphereComponent;
   
   /**
     Radius of the area that can receive reflections from this capture.
   **/
-  public var InfluenceRadiusScale : unreal.Float32;
+  @:uproperty public var InfluenceRadiusScale : unreal.Float32;
   
 }

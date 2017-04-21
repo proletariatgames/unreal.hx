@@ -21,8 +21,8 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:noCopy @:noEquals @:uextern extern class FEditorParameterGroup {
-  public var Parameters : unreal.TArray<unreal.editor.UDEditorParameterValue>;
-  public var GroupName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorParameterGroup {
+  @:uproperty public var Parameters : unreal.TArray<unreal.editor.UDEditorParameterValue>;
+  @:uproperty public var GroupName : unreal.FName;
   
 }

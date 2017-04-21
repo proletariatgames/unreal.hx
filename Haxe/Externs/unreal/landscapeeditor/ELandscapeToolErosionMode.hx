@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolErosionMode.Type")
-@:uextern extern enum ELandscapeToolErosionMode {
+@:uextern @:uenum extern enum ELandscapeToolErosionMode {
   
   /**
     Apply all erosion effects, both raising and lowering the heightmap

@@ -21,27 +21,27 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneParameterSection.h")
-@:noCopy @:noEquals @:uextern extern class FVectorParameterNameAndCurves {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVectorParameterNameAndCurves {
   
   /**
     The curve which contains the animation data for the z component of the vector parameter.
   **/
-  public var ZCurve : unreal.FRichCurve;
+  @:uproperty public var ZCurve : unreal.FRichCurve;
   
   /**
     The curve which contains the animation data for the y component of the vector parameter.
   **/
-  public var YCurve : unreal.FRichCurve;
+  @:uproperty public var YCurve : unreal.FRichCurve;
   
   /**
     The curve which contains the animation data for the x component of the vector parameter.
   **/
-  public var XCurve : unreal.FRichCurve;
-  public var Index : unreal.Int32;
+  @:uproperty public var XCurve : unreal.FRichCurve;
+  @:uproperty public var Index : unreal.Int32;
   
   /**
     The name of the vector parameter which is being animated.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

@@ -24,111 +24,111 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UCheckBox extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UCheckBox extends unreal.umg.UContentWidget {
   
   /**
     Sometimes a button should only be mouse-clickable and never keyboard focusable.
   **/
-  public var IsFocusable : Bool;
+  @:uproperty public var IsFocusable : Bool;
   
   /**
     The color of the background border
   **/
-  @:deprecated public var BorderBackgroundColor_DEPRECATED : unreal.slatecore.FSlateColor;
+  @:deprecated @:uproperty public var BorderBackgroundColor_DEPRECATED : unreal.slatecore.FSlateColor;
   
   /**
     Spacing between the check box image and its content
   **/
-  @:deprecated public var Padding_DEPRECATED : unreal.slatecore.FMargin;
+  @:deprecated @:uproperty public var Padding_DEPRECATED : unreal.slatecore.FMargin;
   
   /**
     How the content of the toggle button should align within the given space
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     Image to use when the checkbox is in an ambiguous state and pressed
   **/
-  @:deprecated public var UndeterminedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UndeterminedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and hovered
   **/
-  @:deprecated public var UndeterminedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UndeterminedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is in an ambiguous state and hovered
   **/
-  @:deprecated public var UndeterminedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UndeterminedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and pressed
   **/
-  @:deprecated public var CheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var CheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked and hovered
   **/
-  @:deprecated public var CheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var CheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is checked
   **/
-  @:deprecated public var CheckedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var CheckedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked and pressed
   **/
-  @:deprecated public var UncheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UncheckedPressedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked and hovered
   **/
-  @:deprecated public var UncheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UncheckedHoveredImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Image to use when the checkbox is unchecked
   **/
-  @:deprecated public var UncheckedImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var UncheckedImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Style of the check box
   **/
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The checkbox bar style
   **/
-  public var WidgetStyle : unreal.slatecore.FCheckBoxStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FCheckBoxStyle;
   
   /**
     Whether the check box is currently in a checked state
   **/
-  public var CheckedState : unreal.slatecore.ECheckBoxState;
+  @:uproperty public var CheckedState : unreal.slatecore.ECheckBoxState;
   
   /**
     Returns true if this button is currently pressed
   **/
-  @:thisConst @:final public function IsPressed() : Bool;
+  @:ufunction @:thisConst @:final public function IsPressed() : Bool;
   
   /**
     Returns true if the checkbox is currently checked
   **/
-  @:thisConst @:final public function IsChecked() : Bool;
+  @:ufunction @:thisConst @:final public function IsChecked() : Bool;
   
   /**
     @return the full current checked state.
   **/
-  @:thisConst @:final public function GetCheckedState() : unreal.slatecore.ECheckBoxState;
+  @:ufunction @:thisConst @:final public function GetCheckedState() : unreal.slatecore.ECheckBoxState;
   
   /**
     Sets the checked state.
   **/
-  @:final public function SetIsChecked(InIsChecked : Bool) : Void;
+  @:ufunction @:final public function SetIsChecked(InIsChecked : Bool) : Void;
   
   /**
     Sets the checked state.
   **/
-  @:final public function SetCheckedState(InCheckedState : unreal.slatecore.ECheckBoxState) : Void;
+  @:ufunction @:final public function SetCheckedState(InCheckedState : unreal.slatecore.ECheckBoxState) : Void;
   
 }

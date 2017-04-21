@@ -19,16 +19,16 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendListByEnum.h")
-@:uextern extern class FAnimNode_BlendListByEnum extends unreal.animgraphruntime.FAnimNode_BlendListBase {
+@:uextern @:ustruct extern class FAnimNode_BlendListByEnum extends unreal.animgraphruntime.FAnimNode_BlendListBase {
   
   /**
     The currently selected pose (as an enum value)
   **/
-  public var ActiveEnumValue : unreal.UInt8;
+  @:uproperty public var ActiveEnumValue : unreal.UInt8;
   
   /**
     Mapping from enum value to BlendPose index; there will be one entry per entry in the enum; entries out of range always map to pose index 0
   **/
-  public var EnumToPoseIndex : unreal.TArray<unreal.Int32>;
+  @:uproperty public var EnumToPoseIndex : unreal.TArray<unreal.Int32>;
   
 }

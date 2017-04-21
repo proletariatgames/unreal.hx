@@ -21,386 +21,386 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageType.h")
-@:uextern extern class UFoliageType extends unreal.UObject {
+@:uextern @:uclass extern class UFoliageType extends unreal.UObject {
   
   /**
     Whether this foliage type should be affected by the Engine Scalability system's Foliage scalability setting.
     Enable for detail meshes that don't really affect the game. Disable for anything important.
     Typically, this will be enabled for small meshes without collision (e.g. grass) and disabled for large meshes with collision (e.g. trees)
   **/
-  public var bEnableDensityScaling : Bool;
+  @:uproperty public var bEnableDensityScaling : Bool;
   
   /**
     If checked, foliage instances no longer matching the vertex color constraint will be removed by the Reapply too
   **/
-  public var ReapplyVertexColorMask : Bool;
+  @:uproperty public var ReapplyVertexColorMask : Bool;
   
   /**
     If checked, foliage instances will have an overlap test with the world reapplied, and overlapping instances will be removed by the Reapply tool
   **/
-  public var ReapplyCollisionWithWorld : Bool;
+  @:uproperty public var ReapplyCollisionWithWorld : Bool;
   
   /**
     If checked, foliage instances will have their Z offset adjusted by the Reapply tool
   **/
-  public var ReapplyZOffset : Bool;
+  @:uproperty public var ReapplyZOffset : Bool;
   
   /**
     If checked, foliage instances painted on areas that do not have the appropriate landscape layer painted will be removed by the Reapply tool
   **/
-  public var ReapplyLandscapeLayers : Bool;
+  @:uproperty public var ReapplyLandscapeLayers : Bool;
   
   /**
     If checked, foliage instances not meeting the valid Z height condition will be removed by the Reapply tool
   **/
-  public var ReapplyHeight : Bool;
+  @:uproperty public var ReapplyHeight : Bool;
   
   /**
     If checked, foliage instances not meeting the ground slope condition will be removed by the Reapply too
   **/
-  public var ReapplyGroundSlope : Bool;
+  @:uproperty public var ReapplyGroundSlope : Bool;
   
   /**
     If checked, foliage instances will have their pitch adjusted by the Reapply tool
   **/
-  public var ReapplyRandomPitchAngle : Bool;
+  @:uproperty public var ReapplyRandomPitchAngle : Bool;
   
   /**
     If checked, foliage instances will have their Z scale adjusted by the Reapply tool
   **/
-  public var ReapplyScaleZ : Bool;
+  @:uproperty public var ReapplyScaleZ : Bool;
   
   /**
     If checked, foliage instances will have their Y scale adjusted by the Reapply tool
   **/
-  public var ReapplyScaleY : Bool;
+  @:uproperty public var ReapplyScaleY : Bool;
   
   /**
     If checked, foliage instances will have their X scale adjusted by the Reapply tool
   **/
-  public var ReapplyScaleX : Bool;
+  @:uproperty public var ReapplyScaleX : Bool;
   
   /**
     If checked, foliage instances will have their scale adjusted to fit the specified scaling behavior by the Reapply tool
   **/
-  public var ReapplyScaling : Bool;
+  @:uproperty public var ReapplyScaling : Bool;
   
   /**
     If checked, foliage instances will have their yaw adjusted by the Reapply tool
   **/
-  public var ReapplyRandomYaw : Bool;
+  @:uproperty public var ReapplyRandomYaw : Bool;
   
   /**
     If checked, foliage instances will have their normal alignment adjusted by the Reapply tool
   **/
-  public var ReapplyAlignToNormal : Bool;
+  @:uproperty public var ReapplyAlignToNormal : Bool;
   
   /**
     If checked, foliage instances not meeting the new Radius constraint will be removed
   **/
-  public var ReapplyRadius : Bool;
+  @:uproperty public var ReapplyRadius : Bool;
   
   /**
     If checked, the density of foliage instances already placed will be adjusted by the density adjustment factor.
   **/
-  public var ReapplyDensity : Bool;
-  public var ChangeCount : unreal.Int32;
+  @:uproperty public var ReapplyDensity : Bool;
+  @:uproperty public var ChangeCount : unreal.Int32;
   
   /**
     Instance scale factor as a function of normalized age (i.e. Current Age / Max Age).
     X = 0 corresponds to Age = 0, X = 1 corresponds to Age = Max Age.
     Y = 0 corresponds to Min Scale, Y = 1 corresponds to Max Scale.
   **/
-  public var ScaleCurve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var ScaleCurve : unreal.FRuntimeFloatCurve;
   
   /**
     The scale range of this type when being procedurally generated. Configured with the Scale Curve.
   **/
-  public var ProceduralScale : unreal.FFloatInterval;
+  @:uproperty public var ProceduralScale : unreal.FFloatInterval;
   
   /**
     When two instances overlap we must determine which instance to remove.
     The instance with a lower OverlapPriority will be removed.
     In the case where OverlapPriority is the same regular simulation rules apply.
   **/
-  public var OverlapPriority : unreal.Float32;
+  @:uproperty public var OverlapPriority : unreal.Float32;
   
   /**
     Specifies the oldest a seed can be. After reaching this age the instance will still spread seeds, but will not get any older
   **/
-  public var MaxAge : unreal.Float32;
+  @:uproperty public var MaxAge : unreal.Float32;
   
   /**
     Allows a new seed to be older than 0 when created. New seeds will be randomly assigned an age in the range [0,MaxInitialAge]
   **/
-  public var MaxInitialAge : unreal.Float32;
+  @:uproperty public var MaxInitialAge : unreal.Float32;
   
   /**
     Whether new seeds are spawned exclusively in shade. Occurs in a second pass after all types that do not spawn in shade have been simulated.
     Only valid when CanGrowInShade is true.
   **/
-  public var bSpawnsInShade : Bool;
+  @:uproperty public var bSpawnsInShade : Bool;
   
   /**
     If true, seeds of this type will ignore shade radius during overlap tests with other types.
   **/
-  public var bCanGrowInShade : Bool;
+  @:uproperty public var bCanGrowInShade : Bool;
   
   /**
     The seed that determines placement of initial seeds.
   **/
-  public var MaxInitialSeedOffset : unreal.Float32;
+  @:uproperty public var MaxInitialSeedOffset : unreal.Float32;
   
   /**
     The seed that determines placement of initial seeds.
   **/
-  public var DistributionSeed : unreal.Int32;
+  @:uproperty public var DistributionSeed : unreal.Int32;
   
   /**
     The number of seeds an instance will spread in a single step of the simulation.
   **/
-  public var SeedsPerStep : unreal.Int32;
+  @:uproperty public var SeedsPerStep : unreal.Int32;
   
   /**
     Specifies how much seed distance varies from the average. For example, a tree with an AverageSpreadDistance 10 and a SpreadVariance 1 will produce seeds with an average distance of 10cm plus or minus 1cm
   **/
-  public var SpreadVariance : unreal.Float32;
+  @:uproperty public var SpreadVariance : unreal.Float32;
   
   /**
     The average distance between the spreading instance and its seeds. For example, a tree with an AverageSpreadDistance 10 will ensure the average distance between the tree and its seeds is 10cm
   **/
-  public var AverageSpreadDistance : unreal.Float32;
+  @:uproperty public var AverageSpreadDistance : unreal.Float32;
   
   /**
     Specifies the number of seeds to populate along 10 meters. The number is implicitly squared to cover a 10m x 10m area
   **/
-  public var InitialSeedDensity : unreal.Float32;
+  @:uproperty public var InitialSeedDensity : unreal.Float32;
   
   /**
     The number of times we age the species and spread its seeds.
   **/
-  public var NumSteps : unreal.Int32;
+  @:uproperty public var NumSteps : unreal.Int32;
   
   /**
     The ShadeRadius determines when two instances overlap. If an instance can grow in the shade this radius is ignored.
   **/
-  public var ShadeRadius : unreal.Float32;
+  @:uproperty public var ShadeRadius : unreal.Float32;
   
   /**
     The CollisionRadius determines when two instances overlap. When two instances overlap a winner will be picked based on rules and priority.
   **/
-  public var CollisionRadius : unreal.Float32;
+  @:uproperty public var CollisionRadius : unreal.Float32;
   #if WITH_EDITORONLY_DATA
-  public var IsSelected : Bool;
+  @:uproperty public var IsSelected : Bool;
   
   /**
     Bitflag to represent in which editor views this foliage mesh is hidden.
   **/
-  public var HiddenEditorViews : unreal.FakeUInt64;
+  @:uproperty public var HiddenEditorViews : unreal.FakeUInt64;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Lighting channels that placed foliage will be assigned. Lights with matching channels will affect the foliage.
     These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
   **/
-  public var LightingChannels : unreal.FLightingChannels;
+  @:uproperty public var LightingChannels : unreal.FLightingChannels;
   
   /**
     Force navmesh
   **/
-  public var CustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
+  @:uproperty public var CustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
   
   /**
     Custom collision for foliage
   **/
-  public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance : unreal.FBodyInstance;
   
   /**
     If enabled, foliage will render a pre-pass which allows it to occlude other primitives, and also allows
     it to correctly receive DBuffer decals. Enabling this setting may have a negative performance impact.
   **/
-  public var bUseAsOccluder : Bool;
+  @:uproperty public var bUseAsOccluder : Bool;
   
   /**
     Overrides the lightmap resolution defined in the static mesh
   **/
-  public var OverriddenLightMapRes : unreal.Int32;
+  @:uproperty public var OverriddenLightMapRes : unreal.Int32;
   
   /**
     Whether to override the lightmap resolution defined in the static mesh.
   **/
-  public var bOverrideLightMapRes : Bool;
+  @:uproperty public var bOverrideLightMapRes : Bool;
   
   /**
     Whether the foliage receives decals.
   **/
-  public var bReceivesDecals : Bool;
+  @:uproperty public var bReceivesDecals : Bool;
   
   /**
     Whether this foliage should cast dynamic shadows as if it were a two sided material.
   **/
-  public var bCastShadowAsTwoSided : Bool;
+  @:uproperty public var bCastShadowAsTwoSided : Bool;
   
   /**
     Whether the foliage should cast a static shadow from shadow casting lights.  This flag is only used if CastShadow is true.
   **/
-  public var bCastStaticShadow : Bool;
+  @:uproperty public var bCastStaticShadow : Bool;
   
   /**
     Controls whether the foliage should cast shadows in the case of non precomputed shadowing.  This flag is only used if CastShadow is true.
   **/
-  public var bCastDynamicShadow : Bool;
+  @:uproperty public var bCastDynamicShadow : Bool;
   
   /**
     Controls whether the primitive should affect dynamic distance field lighting methods.  This flag is only used if CastShadow is true.
   **/
-  public var bAffectDistanceFieldLighting : Bool;
+  @:uproperty public var bAffectDistanceFieldLighting : Bool;
   
   /**
     Controls whether the foliage should inject light into the Light Propagation Volume.  This flag is only used if CastShadow is true.
   **/
-  public var bAffectDynamicIndirectLighting : Bool;
+  @:uproperty public var bAffectDynamicIndirectLighting : Bool;
   
   /**
     Controls whether the foliage should cast a shadow or not.
   **/
-  public var CastShadow : Bool;
+  @:uproperty public var CastShadow : Bool;
   
   /**
     Deprecated. Now use the Mobility setting to control static/dynamic lighting
   **/
-  @:deprecated public var bEnableStaticLighting_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bEnableStaticLighting_DEPRECATED : Bool;
   
   /**
     The distance where instances will begin to fade out if using a PerInstanceFadeAmount material node. 0 disables.
     When the entire cluster is beyond this distance, the cluster is completely culled and not rendered at all.
   **/
-  public var CullDistance : unreal.FInt32Interval;
+  @:uproperty public var CullDistance : unreal.FInt32Interval;
   
   /**
     Mobility property to apply to foliage components
   **/
-  public var Mobility : unreal.EComponentMobility;
+  @:uproperty public var Mobility : unreal.EComponentMobility;
   
   /**
     X, Y is origin position and Z is radius...
   **/
-  public var LowBoundOriginRadius : unreal.FVector;
-  public var MeshBounds : unreal.FBoxSphereBounds;
+  @:uproperty public var LowBoundOriginRadius : unreal.FVector;
+  @:uproperty public var MeshBounds : unreal.FBoxSphereBounds;
   
   /**
     Specifies the minimum value above which the landscape layer weight value must be, in order for foliage instances to be placed in a specific area
   **/
-  public var MinimumLayerWeight : unreal.Float32;
+  @:uproperty public var MinimumLayerWeight : unreal.Float32;
   
   /**
     The foliage instance's collision bounding box will be scaled by the specified amount before performing the overlap check
   **/
-  public var CollisionScale : unreal.FVector;
+  @:uproperty public var CollisionScale : unreal.FVector;
   
   /**
     If checked, an overlap test with existing world geometry is performed before each instance is placed
   **/
-  public var CollisionWithWorld : Bool;
-  @:deprecated public var LandscapeLayer_DEPRECATED : unreal.FName;
+  @:uproperty public var CollisionWithWorld : Bool;
+  @:deprecated @:uproperty public var LandscapeLayer_DEPRECATED : unreal.FName;
   
   /**
     If a layer name is specified, painting on landscape will limit the foliage to areas of landscape with the specified layer painted
   **/
-  public var LandscapeLayers : unreal.TArray<unreal.FName>;
+  @:uproperty public var LandscapeLayers : unreal.TArray<unreal.FName>;
   
   /**
     The valid altitude range where foliage instances will be placed, specified using minimum and maximum world coordinate Z values
   **/
-  public var Height : unreal.FFloatInterval;
+  @:uproperty public var Height : unreal.FFloatInterval;
   
   /**
     Foliage instances will only be placed on surfaces sloping in the specified angle range from the horizontal
   **/
-  public var GroundSlopeAngle : unreal.FFloatInterval;
+  @:uproperty public var GroundSlopeAngle : unreal.FFloatInterval;
   
   /**
     A random pitch adjustment can be applied to each instance, up to the specified angle in degrees, from the original vertical
   **/
-  public var RandomPitchAngle : unreal.Float32;
+  @:uproperty public var RandomPitchAngle : unreal.Float32;
   
   /**
     If selected, foliage instances will have a random yaw rotation around their vertical axis applied
   **/
-  public var RandomYaw : Bool;
+  @:uproperty public var RandomYaw : Bool;
   
   /**
     The maximum angle in degrees that foliage instances will be adjusted away from the vertical
   **/
-  public var AlignMaxAngle : unreal.Float32;
+  @:uproperty public var AlignMaxAngle : unreal.Float32;
   
   /**
     Whether foliage instances should have their angle adjusted away from vertical to match the normal of the surface they're painted on
     If AlignToNormal is enabled and RandomYaw is disabled, the instance will be rotated so that the +X axis points down-slope
   **/
-  public var AlignToNormal : Bool;
+  @:uproperty public var AlignToNormal : Bool;
   
   /**
     Specifies a range from minimum to maximum of the offset to apply to a foliage instance's Z location
   **/
-  public var ZOffset : unreal.FFloatInterval;
+  @:uproperty public var ZOffset : unreal.FFloatInterval;
   
   /**
     When unchecked, foliage instances will be placed only when the vertex color in the specified channel(s) is above the threshold amount.
     When checked, the vertex color must be less than the threshold amount
   **/
-  @:deprecated public var VertexColorMaskInvert_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var VertexColorMaskInvert_DEPRECATED : Bool;
   
   /**
     Specifies the threshold value above which the static mesh vertex color value must be, in order for foliage instances to be placed in a specific area
   **/
-  @:deprecated public var VertexColorMaskThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var VertexColorMaskThreshold_DEPRECATED : unreal.Float32;
   
   /**
     When painting on static meshes, foliage instance placement can be limited to areas where the static mesh has values in the selected vertex color channel(s).
     This allows a static mesh to mask out certain areas to prevent foliage from being placed there
   **/
-  @:deprecated public var VertexColorMask_DEPRECATED : unreal.foliage.FoliageVertexColorMask;
+  @:deprecated @:uproperty public var VertexColorMask_DEPRECATED : unreal.foliage.FoliageVertexColorMask;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a foliage instance's Z Scale property
   **/
-  public var ScaleZ : unreal.FFloatInterval;
+  @:uproperty public var ScaleZ : unreal.FFloatInterval;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a foliage instance's Y Scale property
   **/
-  public var ScaleY : unreal.FFloatInterval;
+  @:uproperty public var ScaleY : unreal.FFloatInterval;
   
   /**
     Specifies the range of scale, from minimum to maximum, to apply to a foliage instance's X Scale property
   **/
-  public var ScaleX : unreal.FFloatInterval;
+  @:uproperty public var ScaleX : unreal.FFloatInterval;
   
   /**
     Specifies foliage instance scaling behavior when painting.
   **/
-  public var Scaling : unreal.foliage.EFoliageScaling;
+  @:uproperty public var Scaling : unreal.foliage.EFoliageScaling;
   
   /**
     The minimum distance between foliage instances
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
   /**
     The factor by which to adjust the density of instances. Values >1 will increase density while values <1 will decrease it.
   **/
-  public var DensityAdjustmentFactor : unreal.Float32;
+  @:uproperty public var DensityAdjustmentFactor : unreal.Float32;
   
   /**
     Foliage instances will be placed at this density, specified in instances per 1000x1000 unit area
   **/
-  public var Density : unreal.Float32;
+  @:uproperty public var Density : unreal.Float32;
   
   /**
     A GUID that is updated every time the foliage type is modified,
              so foliage placed in the level can detect the FoliageType has changed.
   **/
-  public var UpdateGuid : unreal.FGuid;
+  @:uproperty public var UpdateGuid : unreal.FGuid;
   
 }

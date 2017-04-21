@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Box2D.h
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FBox2D {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBox2D {
   
 }

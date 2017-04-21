@@ -14,35 +14,35 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotifyState_Trail.h")
-@:uextern extern class UAnimNotifyState_Trail extends unreal.UAnimNotifyState {
+@:uextern @:uclass extern class UAnimNotifyState_Trail extends unreal.UAnimNotifyState {
   #if WITH_EDITORONLY_DATA
   
   /**
     If true, render the tessellated path between spawned particles
   **/
-  public var bRenderTessellation : Bool;
+  @:uproperty public var bRenderTessellation : Bool;
   
   /**
     If true, render a line showing the tangent at each spawned particle point along the trail
   **/
-  public var bRenderTangents : Bool;
+  @:uproperty public var bRenderTangents : Bool;
   
   /**
     If true, render stars at each spawned particle point along the trail
   **/
-  public var bRenderSpawnPoints : Bool;
+  @:uproperty public var bRenderSpawnPoints : Bool;
   
   /**
     If true, render the trail geometry (this should typically be on)
   **/
-  public var bRenderGeometry : Bool;
+  @:uproperty public var bRenderGeometry : Bool;
   #end // WITH_EDITORONLY_DATA
-  public var bRecycleSpawnedSystems : Bool;
+  @:uproperty public var bRecycleSpawnedSystems : Bool;
   
   /**
     Name of the curve to drive the width scale.
   **/
-  public var WidthScaleCurve : unreal.FName;
+  @:uproperty public var WidthScaleCurve : unreal.FName;
   
   /**
     Controls the way width scale is applied. In each method a width scale of 1.0 will mean the width is unchanged from the position of the sockets. A width scale of 0.0 will cause a trail of zero width.
@@ -50,22 +50,22 @@ package unreal;
     From First = Trail width is scaled outwards from the position of the first socket.
     From Second = Trail width is scaled outwards from the position of the Second socket.
   **/
-  public var WidthScaleMode : unreal.ETrailWidthMode;
+  @:uproperty public var WidthScaleMode : unreal.ETrailWidthMode;
   
   /**
     Name of the second socket defining this trail.
   **/
-  public var SecondSocketName : unreal.FName;
+  @:uproperty public var SecondSocketName : unreal.FName;
   
   /**
     Name of the first socket defining this trail.
   **/
-  public var FirstSocketName : unreal.FName;
+  @:uproperty public var FirstSocketName : unreal.FName;
   
   /**
     The particle system to use for this trail.
   **/
-  public var PSTemplate : unreal.UParticleSystem;
-  @:thisConst public function OverridePSTemplate(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : unreal.UParticleSystem;
+  @:uproperty public var PSTemplate : unreal.UParticleSystem;
+  @:ufunction @:thisConst public function OverridePSTemplate(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : unreal.UParticleSystem;
   
 }

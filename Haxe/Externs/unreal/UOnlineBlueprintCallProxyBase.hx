@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Net/OnlineBlueprintCallProxyBase.h")
-@:uextern extern class UOnlineBlueprintCallProxyBase extends unreal.UObject {
+@:uextern @:uclass extern class UOnlineBlueprintCallProxyBase extends unreal.UObject {
   
 }

@@ -21,96 +21,106 @@ package unreal.statsviewer;
 **/
 @:umodule("StatsViewer")
 @:glueCppIncludes("PrimitiveStats.h")
-@:uextern extern class UPrimitiveStats extends unreal.UObject {
+@:uextern @:uclass extern class UPrimitiveStats extends unreal.UObject {
   
   /**
     Average radius of bounding sphere of instance in map
   **/
-  public var RadiusAvg : unreal.Float32;
+  @:uproperty public var RadiusAvg : unreal.Float32;
   
   /**
     Maximum radius of bounding sphere of instance in map
   **/
-  public var RadiusMax : unreal.Float32;
+  @:uproperty public var RadiusMax : unreal.Float32;
   
   /**
     Minimum radius of bounding sphere of instance in map
   **/
-  public var RadiusMin : unreal.Float32;
+  @:uproperty public var RadiusMin : unreal.Float32;
   
   /**
     Light/shadow map resolution
   **/
-  public var LMSMResolution : unreal.Float32;
+  @:uproperty public var LMSMResolution : unreal.Float32;
   
   /**
     Light map data in KB
   **/
-  public var LightMapData : unreal.Float32;
+  @:uproperty public var LightMapData : unreal.Float32;
   
   /**
     Avg OL * Sections
   **/
-  public var ObjLightCost : unreal.Float32;
+  @:uproperty public var ObjLightCost : unreal.Float32;
   
   /**
     (Avg OL + Avg LM) / Count
   **/
-  public var LightsTotal : unreal.Float32;
+  @:uproperty public var LightsTotal : unreal.Float32;
   
   /**
     Average number of other lights relevant to each instance
   **/
-  public var LightsOther : unreal.Float32;
+  @:uproperty public var LightsOther : unreal.Float32;
   
   /**
     Average number of lightmap lights relevant to each instance
   **/
-  public var LightsLM : unreal.Int32;
+  @:uproperty public var LightsLM : unreal.Int32;
   
   /**
     Per component vertex color stat for static meshes in KB
   **/
-  public var InstVertexColorMem : unreal.Float32;
+  @:uproperty public var InstVertexColorMem : unreal.Float32;
   
   /**
     Vertex color stat for static and skeletal meshes in KB
   **/
-  public var VertexColorMem : unreal.Float32;
+  @:uproperty public var VertexColorMem : unreal.Float32;
   
   /**
     Resource size in KB
   **/
-  public var ResourceSize : unreal.Float32;
+  @:uproperty public var ResourceSize : unreal.Float32;
   
   /**
     Triangle count of all mesh occurances (Count * Tris)
   **/
-  public var InstTriangles : unreal.Int32;
+  @:uproperty public var InstTriangles : unreal.Int32;
   
   /**
     Triangle count of mesh
   **/
-  public var Triangles : unreal.Int32;
+  @:uproperty public var Triangles : unreal.Int32;
   
   /**
     Instanced section count of mesh
   **/
-  public var InstSections : unreal.Int32;
+  @:uproperty public var InstSections : unreal.Int32;
   
   /**
     Section count of mesh
   **/
-  public var Sections : unreal.Int32;
+  @:uproperty public var Sections : unreal.Int32;
   
   /**
     Number of occurrences in map
   **/
-  public var Count : unreal.Int32;
+  @:uproperty public var Count : unreal.Int32;
   
   /**
     Type name
   **/
-  public var Type : unreal.FString;
+  @:uproperty public var Type : unreal.FString;
+  
+  /**
+    Actor(s) that use the resource - click to select & zoom Actor(s)
+  **/
+  @:uproperty public var Actors : unreal.TArray<unreal.TWeakObjectPtr<unreal.AActor>>;
+  
+  /**
+    Resource (e.g. UStaticMesh, USkeletalMesh, UModelComponent, UTerrainComponent, etc
+  **/
+  @:uproperty public var Object : unreal.TWeakObjectPtr<unreal.UObject>;
   
 }

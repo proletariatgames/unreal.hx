@@ -23,12 +23,12 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_MathExpression.h")
-@:uextern extern class UK2Node_MathExpression extends unreal.blueprintgraph.UK2Node_Composite {
-  public var bMadeAfterRotChange : Bool;
+@:uextern @:uclass extern class UK2Node_MathExpression extends unreal.blueprintgraph.UK2Node_Composite {
+  @:uproperty public var bMadeAfterRotChange : Bool;
   
   /**
     The math expression to evaluate
   **/
-  public var Expression : unreal.FString;
+  @:uproperty public var Expression : unreal.FString;
   
 }

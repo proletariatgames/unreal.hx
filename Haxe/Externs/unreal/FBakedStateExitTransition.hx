@@ -20,32 +20,32 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FBakedStateExitTransition {
-  public var PoseEvaluatorLinks : unreal.TArray<unreal.Int32>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBakedStateExitTransition {
+  @:uproperty public var PoseEvaluatorLinks : unreal.TArray<unreal.Int32>;
   
   /**
     Automatic Transition Rule based on animation remaining time.
   **/
-  public var bAutomaticRemainingTimeRule : Bool;
+  @:uproperty public var bAutomaticRemainingTimeRule : Bool;
   
   /**
     What the transition rule node needs to return to take this transition (for bidirectional transitions)
   **/
-  public var bDesiredTransitionReturnValue : Bool;
+  @:uproperty public var bDesiredTransitionReturnValue : Bool;
   
   /**
     The index into the machine table of transitions
   **/
-  public var TransitionIndex : unreal.Int32;
+  @:uproperty public var TransitionIndex : unreal.Int32;
   
   /**
     The blend graph result node index
   **/
-  public var CustomResultNodeIndex : unreal.Int32;
+  @:uproperty public var CustomResultNodeIndex : unreal.Int32;
   
   /**
     The node property index for this rule
   **/
-  public var CanTakeDelegateIndex : unreal.Int32;
+  @:uproperty public var CanTakeDelegateIndex : unreal.Int32;
   
 }

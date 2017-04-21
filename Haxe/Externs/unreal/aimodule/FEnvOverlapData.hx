@@ -15,46 +15,46 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:uextern extern class FEnvOverlapData {
+@:uextern @:ustruct extern class FEnvOverlapData {
   
   /**
     if set, overlap will run on complex collisions
   **/
-  public var bOverlapComplex : Bool;
+  @:uproperty public var bOverlapComplex : Bool;
   
   /**
     if set, overlap will look only for blocking hits
   **/
-  public var bOnlyBlockingHits : Bool;
+  @:uproperty public var bOnlyBlockingHits : Bool;
   
   /**
     shape used for geometry overlap
   **/
-  public var OverlapShape : unreal.aimodule.EEnvOverlapShape;
+  @:uproperty public var OverlapShape : unreal.aimodule.EEnvOverlapShape;
   
   /**
     geometry trace channel used for overlap
   **/
-  public var OverlapChannel : unreal.ECollisionChannel;
+  @:uproperty public var OverlapChannel : unreal.ECollisionChannel;
   
   /**
     Offset from the item location at which to test the overlap.  For example, you may need to offset vertically to avoid overlaps with flat ground.
   **/
-  public var ShapeOffset : unreal.FVector;
+  @:uproperty public var ShapeOffset : unreal.FVector;
   
   /**
     shape parameter for overlap
   **/
-  public var ExtentZ : unreal.Float32;
+  @:uproperty public var ExtentZ : unreal.Float32;
   
   /**
     shape parameter for overlap
   **/
-  public var ExtentY : unreal.Float32;
+  @:uproperty public var ExtentY : unreal.Float32;
   
   /**
     shape parameter for overlap
   **/
-  public var ExtentX : unreal.Float32;
+  @:uproperty public var ExtentX : unreal.Float32;
   
 }

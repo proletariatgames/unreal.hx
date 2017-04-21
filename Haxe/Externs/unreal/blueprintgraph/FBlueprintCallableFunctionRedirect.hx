@@ -22,11 +22,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("EdGraphSchema_K2.h")
-@:noCopy @:noEquals @:uextern extern class FBlueprintCallableFunctionRedirect {
-  public var ClassParamName : unreal.FString;
-  public var BlueprintParamName : unreal.FString;
-  public var NewFunctionName : unreal.FString;
-  public var OldFunctionName : unreal.FString;
-  public var ClassName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintCallableFunctionRedirect {
+  @:uproperty public var ClassParamName : unreal.FString;
+  @:uproperty public var BlueprintParamName : unreal.FString;
+  @:uproperty public var NewFunctionName : unreal.FString;
+  @:uproperty public var OldFunctionName : unreal.FString;
+  @:uproperty public var ClassName : unreal.FString;
   
 }

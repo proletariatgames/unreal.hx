@@ -21,17 +21,22 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_SwitchEnum.h")
-@:uextern extern class UK2Node_SwitchEnum extends unreal.blueprintgraph.UK2Node_Switch implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
+@:uextern @:uclass extern class UK2Node_SwitchEnum extends unreal.blueprintgraph.UK2Node_Switch implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
   
   /**
     List of the current entries in the enum
   **/
-  public var EnumEntries : unreal.TArray<unreal.FName>;
+  @:uproperty public var EnumFriendlyNames : unreal.TArray<unreal.FText>;
+  
+  /**
+    List of the current entries in the enum
+  **/
+  @:uproperty public var EnumEntries : unreal.TArray<unreal.FName>;
   
   /**
     Name of the enum being switched on
   **/
-  public var Enum : unreal.UEnum;
+  @:uproperty public var Enum : unreal.UEnum;
   // NodeDependingOnEnumInterface interface implementation
   
 }

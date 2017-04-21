@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
 @:uname("EParticleSystemUpdateMode")
-@:uextern extern enum EParticleSystemUpdateMode {
+@:uextern @:uenum extern enum EParticleSystemUpdateMode {
   
   /**
     RealTime       - update via the delta time passed in

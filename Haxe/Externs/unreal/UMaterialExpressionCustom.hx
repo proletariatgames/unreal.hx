@@ -20,10 +20,10 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionCustom.h")
-@:uextern extern class UMaterialExpressionCustom extends unreal.UMaterialExpression {
-  public var Inputs : unreal.TArray<unreal.FCustomInput>;
-  public var Description : unreal.FString;
-  public var OutputType : unreal.ECustomMaterialOutputType;
-  public var Code : unreal.FString;
+@:uextern @:uclass extern class UMaterialExpressionCustom extends unreal.UMaterialExpression {
+  @:uproperty public var Inputs : unreal.TArray<unreal.FCustomInput>;
+  @:uproperty public var Description : unreal.FString;
+  @:uproperty public var OutputType : unreal.ECustomMaterialOutputType;
+  @:uproperty public var Code : unreal.FString;
   
 }

@@ -16,7 +16,7 @@ package unreal.iosruntimesettings;
 @:umodule("IOSRuntimeSettings")
 @:glueCppIncludes("IOSRuntimeSettings.h")
 @:uname("EPowerUsageFrameRateLock")
-@:class @:uextern extern enum EPowerUsageFrameRateLock {
+@:class @:uextern @:uenum extern enum EPowerUsageFrameRateLock {
   
   /**
     Frame rate is not limited.

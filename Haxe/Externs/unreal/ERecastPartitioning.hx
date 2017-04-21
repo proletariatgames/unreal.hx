@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("AI/Navigation/RecastNavMesh.h")
 @:uname("ERecastPartitioning.Type")
-@:uextern extern enum ERecastPartitioning {
+@:uextern @:uenum extern enum ERecastPartitioning {
   Monotone;
   Watershed;
   ChunkyMonotone;

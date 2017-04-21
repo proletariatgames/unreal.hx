@@ -21,31 +21,31 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCue_Types.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayCuePendingExecute {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayCuePendingExecute {
   
   /**
     Store the full cue parameters or just the effect context depending on type
   **/
-  public var CueParameters : unreal.gameplayabilities.FGameplayCueParameters;
+  @:uproperty public var CueParameters : unreal.gameplayabilities.FGameplayCueParameters;
   
   /**
     If this cue is from a spec, here's the copy of that spec
   **/
-  public var FromSpec : unreal.gameplayabilities.FGameplayEffectSpecForRPC;
+  @:uproperty public var FromSpec : unreal.gameplayabilities.FGameplayEffectSpecForRPC;
   
   /**
     What component to send the cue on
   **/
-  public var OwningComponent : unreal.gameplayabilities.UAbilitySystemComponent;
+  @:uproperty public var OwningComponent : unreal.gameplayabilities.UAbilitySystemComponent;
   
   /**
     What type of payload is attached to this cue
   **/
-  public var PayloadType : unreal.gameplayabilities.EGameplayCuePayloadType;
+  @:uproperty public var PayloadType : unreal.gameplayabilities.EGameplayCuePayloadType;
   
   /**
     Prediction key that spawned this cue
   **/
-  public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
+  @:uproperty public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
   
 }

@@ -14,32 +14,32 @@
 package unreal;
 
 @:glueCppIncludes("PhysicsEngine/PhysicalAnimationComponent.h")
-@:uextern extern class UPhysicalAnimationComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UPhysicalAnimationComponent extends unreal.UActorComponent {
   
   /**
     Sets the skeletal mesh we are driving through physical animation. Will erase any existing physical animation data.
   **/
-  @:final public function SetSkeletalMeshComponent(InSkeletalMeshComponent : unreal.USkeletalMeshComponent) : Void;
+  @:ufunction @:final public function SetSkeletalMeshComponent(InSkeletalMeshComponent : unreal.USkeletalMeshComponent) : Void;
   
   /**
     Applies the physical animation settings to the body given.
   **/
-  @:final public function ApplyPhysicalAnimationSettings(BodyName : unreal.FName, PhysicalAnimationData : unreal.Const<unreal.PRef<unreal.FPhysicalAnimationData>>) : Void;
+  @:ufunction @:final public function ApplyPhysicalAnimationSettings(BodyName : unreal.FName, PhysicalAnimationData : unreal.Const<unreal.PRef<unreal.FPhysicalAnimationData>>) : Void;
   
   /**
     Applies the physical animation settings to the body given and all bodies below.
   **/
-  @:final public function ApplyPhysicalAnimationSettingsBelow(BodyName : unreal.FName, PhysicalAnimationData : unreal.Const<unreal.PRef<unreal.FPhysicalAnimationData>>, bIncludeSelf : Bool) : Void;
+  @:ufunction @:final public function ApplyPhysicalAnimationSettingsBelow(BodyName : unreal.FName, PhysicalAnimationData : unreal.Const<unreal.PRef<unreal.FPhysicalAnimationData>>, bIncludeSelf : Bool = true) : Void;
   
   /**
     Updates strength multiplyer and any active motors
   **/
-  @:final public function SetStrengthMultiplyer(InStrengthMultiplyer : unreal.Float32) : Void;
+  @:ufunction @:final public function SetStrengthMultiplyer(InStrengthMultiplyer : unreal.Float32) : Void;
   
   /**
     Muliplies the strength of any active motors. (can blend from 0-1 for example)
   **/
-  public var StrengthMultiplyer : unreal.Float32;
+  @:uproperty public var StrengthMultiplyer : unreal.Float32;
   
   /**
     Applies the physical animation profile to the body given and all bodies below.
@@ -48,6 +48,6 @@ package unreal;
     @param  bIncludeSelf         Whether to include the provided body name in the list of bodies we act on (useful to ignore for cases where a root has multiple children)
     @param  bClearNotFound       If true, bodies without the given profile name will have any existing physical animation settings cleared. If false, bodies without the given profile name are left untouched.
   **/
-  @:final public function ApplyPhysicalAnimationProfileBelow(BodyName : unreal.FName, ProfileName : unreal.FName, bIncludeSelf : Bool, bClearNotFound : Bool) : Void;
+  @:ufunction @:final public function ApplyPhysicalAnimationProfileBelow(BodyName : unreal.FName, ProfileName : unreal.FName, bIncludeSelf : Bool = true, bClearNotFound : Bool = false) : Void;
   
 }

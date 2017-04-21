@@ -21,16 +21,16 @@ package unreal.onlinesubsystem;
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("NamedInterfaces.h")
-@:noCopy @:noEquals @:uextern extern class FNamedInterface {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNamedInterface {
   
   /**
     The object to store at this location
   **/
-  public var InterfaceObject : unreal.UObject;
+  @:uproperty public var InterfaceObject : unreal.UObject;
   
   /**
     The name to bind this object to
   **/
-  public var InterfaceName : unreal.FName;
+  @:uproperty public var InterfaceName : unreal.FName;
   
 }

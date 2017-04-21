@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/MicroTransactionBase.h")
-@:noClass @:uextern extern class UMicroTransactionBase extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern @:uclass extern class UMicroTransactionBase extends unreal.UPlatformInterfaceBase {
   
   /**
     In case of errors, this will describe possible solutions (if there are any)
   **/
-  public var LastErrorSolution : unreal.FString;
+  @:uproperty public var LastErrorSolution : unreal.FString;
   
   /**
     In case of errors, this will describe the most recent error
   **/
-  public var LastError : unreal.FString;
+  @:uproperty public var LastError : unreal.FString;
   
   /**
     The list of products available to purchase, filled out by the time a MTD_PurchaseQueryComplete is fired
   **/
-  public var AvailableProducts : unreal.TArray<unreal.FPurchaseInfo>;
+  @:uproperty public var AvailableProducts : unreal.TArray<unreal.FPurchaseInfo>;
   
 }

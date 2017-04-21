@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeMirrorOperation")
-@:class @:uextern extern enum ELandscapeMirrorOperation {
+@:class @:uextern @:uenum extern enum ELandscapeMirrorOperation {
   
   /**
     -X to +X

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAttachLocation.Type")
-@:uextern extern enum EAttachLocation {
+@:uextern @:uenum extern enum EAttachLocation {
   
   /**
     Keeps current relative transform as the relative transform to the new parent.

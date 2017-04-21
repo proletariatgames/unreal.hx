@@ -20,36 +20,36 @@ package unreal;
   Holds settings for the open assets stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FBuildPromotionOpenAssetSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBuildPromotionOpenAssetSettings {
   
   /**
     The texture asset to open
   **/
-  public var TextureAsset : unreal.FFilePath;
+  @:uproperty public var TextureAsset : unreal.FFilePath;
   
   /**
     The static mesh asset to open
   **/
-  public var StaticMeshAsset : unreal.FFilePath;
+  @:uproperty public var StaticMeshAsset : unreal.FFilePath;
   
   /**
     The skeletal mesh asset to open
   **/
-  public var SkeletalMeshAsset : unreal.FFilePath;
+  @:uproperty public var SkeletalMeshAsset : unreal.FFilePath;
   
   /**
     The particle system asset to open
   **/
-  public var ParticleSystemAsset : unreal.FFilePath;
+  @:uproperty public var ParticleSystemAsset : unreal.FFilePath;
   
   /**
     The material asset to open
   **/
-  public var MaterialAsset : unreal.FFilePath;
+  @:uproperty public var MaterialAsset : unreal.FFilePath;
   
   /**
     The blueprint asset to open
   **/
-  public var BlueprintAsset : unreal.FFilePath;
+  @:uproperty public var BlueprintAsset : unreal.FFilePath;
   
 }

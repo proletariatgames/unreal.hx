@@ -20,7 +20,7 @@ package unreal.onlinesubsystem;
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("Interfaces/OnlineTurnBasedInterface.h")
 @:uname("EMPMatchOutcome.Outcome")
-@:uextern extern enum EMPMatchOutcome {
+@:uextern @:uenum extern enum EMPMatchOutcome {
   None;
   Quit;
   Won;

@@ -20,7 +20,7 @@ package unreal.textureeditor;
 @:umodule("TextureEditor")
 @:glueCppIncludes("TextureEditorSettings.h")
 @:uname("ETextureEditorBackgrounds")
-@:uextern extern enum ETextureEditorBackgrounds {
+@:uextern @:uenum extern enum ETextureEditorBackgrounds {
   
   /**
     Solid Color

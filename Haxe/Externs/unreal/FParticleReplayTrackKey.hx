@@ -20,21 +20,21 @@ package unreal;
   Data for a single key in this track
 **/
 @:glueCppIncludes("Matinee/InterpTrackParticleReplay.h")
-@:noCopy @:noEquals @:uextern extern class FParticleReplayTrackKey {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleReplayTrackKey {
   
   /**
     Replay clip ID number that identifies the clip we should capture to or playback from
   **/
-  public var ClipIDNumber : unreal.Int32;
+  @:uproperty public var ClipIDNumber : unreal.Int32;
   
   /**
     Time length this clip should be captured/played for
   **/
-  public var Duration : unreal.Float32;
+  @:uproperty public var Duration : unreal.Float32;
   
   /**
     Position along timeline
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

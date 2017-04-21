@@ -20,26 +20,26 @@ package unreal;
   Information for one cut in this track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackDirector.h")
-@:noCopy @:noEquals @:uextern extern class FDirectorTrackCut {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDirectorTrackCut {
   
   /**
     Shot number for developer reference
   **/
-  public var ShotNumber : unreal.Int32;
+  @:uproperty public var ShotNumber : unreal.Int32;
   
   /**
     GroupName of UInterpGroup to cut viewpoint to.
   **/
-  public var TargetCamGroup : unreal.FName;
+  @:uproperty public var TargetCamGroup : unreal.FName;
   
   /**
     Time taken to move view to new camera.
   **/
-  public var TransitionTime : unreal.Float32;
+  @:uproperty public var TransitionTime : unreal.Float32;
   
   /**
     Time to perform the cut.
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

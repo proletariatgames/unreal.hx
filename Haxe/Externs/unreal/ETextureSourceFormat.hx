@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/Texture.h")
 @:uname("ETextureSourceFormat")
-@:uextern extern enum ETextureSourceFormat {
+@:uextern @:uenum extern enum ETextureSourceFormat {
   TSF_Invalid;
   TSF_G8;
   TSF_BGRA8;

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstVectorProp.h")
-@:noClass @:uextern extern class UInterpTrackInstVectorProp extends unreal.UInterpTrackInstProperty {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstVectorProp extends unreal.UInterpTrackInstProperty {
   
   /**
     Saved value for restoring state when exiting Matinee.
   **/
-  public var ResetVector : unreal.FVector;
+  @:uproperty public var ResetVector : unreal.FVector;
   
 }

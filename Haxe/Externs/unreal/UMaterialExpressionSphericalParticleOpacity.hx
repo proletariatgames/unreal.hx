@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSphericalParticleOpacity.h")
-@:noClass @:uextern extern class UMaterialExpressionSphericalParticleOpacity extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSphericalParticleOpacity extends unreal.UMaterialExpression {
   
   /**
     Constant density of the particle sphere.  Will be overridden if Density is connected.
   **/
-  public var ConstantDensity : unreal.Float32;
+  @:uproperty public var ConstantDensity : unreal.Float32;
   
   /**
     Defaults to 'ConstantDensity' if not specified
   **/
-  public var Density : unreal.FExpressionInput;
+  @:uproperty public var Density : unreal.FExpressionInput;
   
 }

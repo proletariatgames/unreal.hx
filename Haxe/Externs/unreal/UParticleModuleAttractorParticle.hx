@@ -20,18 +20,18 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorParticle.h")
-@:uextern extern class UParticleModuleAttractorParticle extends unreal.UParticleModuleAttractorBase {
-  public var LastSelIndex : unreal.Int32;
+@:uextern @:uclass extern class UParticleModuleAttractorParticle extends unreal.UParticleModuleAttractorBase {
+  @:uproperty public var LastSelIndex : unreal.Int32;
   
   /**
     Whether the particle should inherit the source veloctiy if it expires.
   **/
-  public var bInheritSourceVel : Bool;
+  @:uproperty public var bInheritSourceVel : Bool;
   
   /**
     Whether the particle should grab a new particle if it's source expires.
   **/
-  public var bRenewSource : Bool;
+  @:uproperty public var bRenewSource : Bool;
   
   /**
     The method to use when selecting an attractor target particle from the emitter.
@@ -39,33 +39,33 @@ package unreal;
     Random          - Randomly select a particle from the source emitter.
     Sequential  - Select a particle using a sequential order.
   **/
-  public var SelectionMethod : unreal.EAttractorParticleSelectionMethod;
+  @:uproperty public var SelectionMethod : unreal.EAttractorParticleSelectionMethod;
   
   /**
     If true, the velocity adjustment will be applied to the base velocity.
   **/
-  public var bAffectBaseVelocity : Bool;
+  @:uproperty public var bAffectBaseVelocity : Bool;
   
   /**
     The strength of the attraction (negative values repel).
     Particle-life relative if StrengthByDistance is false.
   **/
-  public var Strength : unreal.FRawDistributionFloat;
+  @:uproperty public var Strength : unreal.FRawDistributionFloat;
   
   /**
     The strength curve is a function of distance or of time.
   **/
-  public var bStrengthByDistance : Bool;
+  @:uproperty public var bStrengthByDistance : Bool;
   
   /**
     The radial range of the attraction around the source particle.
     Particle-life relative.
   **/
-  public var Range : unreal.FRawDistributionFloat;
+  @:uproperty public var Range : unreal.FRawDistributionFloat;
   
   /**
     The source emitter for attractors
   **/
-  public var EmitterName : unreal.FName;
+  @:uproperty public var EmitterName : unreal.FName;
   
 }

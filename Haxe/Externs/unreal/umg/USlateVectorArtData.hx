@@ -19,6 +19,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USlateVectorArtData extends unreal.UObject {
+@:uextern @:uclass extern class USlateVectorArtData extends unreal.UObject {
   
 }

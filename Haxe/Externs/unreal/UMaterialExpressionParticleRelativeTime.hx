@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionParticleRelativeTime.h")
-@:noClass @:uextern extern class UMaterialExpressionParticleRelativeTime extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionParticleRelativeTime extends unreal.UMaterialExpression {
   
 }

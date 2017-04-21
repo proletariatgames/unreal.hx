@@ -20,16 +20,16 @@ package unreal;
   Base class for the various platform interface classes.
 **/
 @:glueCppIncludes("Engine/CloudStorageBase.h")
-@:noClass @:uextern extern class UCloudStorageBase extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern @:uclass extern class UCloudStorageBase extends unreal.UPlatformInterfaceBase {
   
   /**
     If true, delegate callbacks should be skipped.
   **/
-  public var bSuppressDelegateCalls : Bool;
+  @:uproperty public var bSuppressDelegateCalls : Bool;
   
   /**
     When using local storage (aka "cloud emulation"), this maintains a list of the file paths.
   **/
-  public var LocalCloudFiles : unreal.TArray<unreal.FString>;
+  @:uproperty public var LocalCloudFiles : unreal.TArray<unreal.FString>;
   
 }

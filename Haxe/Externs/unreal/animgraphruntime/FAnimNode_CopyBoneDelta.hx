@@ -20,15 +20,15 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_CopyBoneDelta.h")
-@:uextern extern class FAnimNode_CopyBoneDelta extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
-  public var ScaleMultiplier : unreal.Float32;
-  public var RotationMultiplier : unreal.Float32;
-  public var TranslationMultiplier : unreal.Float32;
-  public var CopyMode : unreal.animgraphruntime.CopyBoneDeltaMode;
-  public var bCopyScale : Bool;
-  public var bCopyRotation : Bool;
-  public var bCopyTranslation : Bool;
-  public var TargetBone : unreal.FBoneReference;
-  public var SourceBone : unreal.FBoneReference;
+@:uextern @:ustruct extern class FAnimNode_CopyBoneDelta extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+  @:uproperty public var ScaleMultiplier : unreal.Float32;
+  @:uproperty public var RotationMultiplier : unreal.Float32;
+  @:uproperty public var TranslationMultiplier : unreal.Float32;
+  @:uproperty public var CopyMode : unreal.animgraphruntime.CopyBoneDeltaMode;
+  @:uproperty public var bCopyScale : Bool;
+  @:uproperty public var bCopyRotation : Bool;
+  @:uproperty public var bCopyTranslation : Bool;
+  @:uproperty public var TargetBone : unreal.FBoneReference;
+  @:uproperty public var SourceBone : unreal.FBoneReference;
   
 }

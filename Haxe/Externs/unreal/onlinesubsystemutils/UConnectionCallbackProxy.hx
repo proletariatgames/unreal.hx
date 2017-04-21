@@ -21,6 +21,6 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("ConnectionCallbackProxy.h")
-@:uextern extern class UConnectionCallbackProxy extends unreal.UOnlineBlueprintCallProxyBase {
+@:uextern @:uclass extern class UConnectionCallbackProxy extends unreal.UOnlineBlueprintCallProxyBase {
   
 }

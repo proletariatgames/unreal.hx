@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
 @:uname("ETrackActiveCondition")
-@:uextern extern enum ETrackActiveCondition {
+@:uextern @:uenum extern enum ETrackActiveCondition {
   
   /**
     Track is always active

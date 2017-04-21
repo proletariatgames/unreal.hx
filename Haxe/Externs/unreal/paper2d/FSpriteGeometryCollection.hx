@@ -15,46 +15,46 @@ package unreal.paper2d;
 
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
-@:uextern extern class FSpriteGeometryCollection {
+@:uextern @:ustruct extern class FSpriteGeometryCollection {
   
   /**
     This is the threshold below which multiple vertices will be merged together when doing shrink-wrapping.  Higher values result in fewer vertices.
   **/
-  public var SimplifyEpsilon : unreal.Float32;
+  @:uproperty public var SimplifyEpsilon : unreal.Float32;
   
   /**
     Amount to detail to consider when shrink-wrapping (range 0..1, 0 = low detail, 1 = high detail)
   **/
-  public var DetailAmount : unreal.Float32;
+  @:uproperty public var DetailAmount : unreal.Float32;
   
   /**
     Alpha threshold for a transparent pixel (range 0..1, anything equal or below this value will be considered unimportant)
   **/
-  public var AlphaThreshold : unreal.Float32;
+  @:uproperty public var AlphaThreshold : unreal.Float32;
   
   /**
     Experimental: Hint to the triangulation routine that extra vertices should be preserved
   **/
-  public var bAvoidVertexMerging : Bool;
+  @:uproperty public var bAvoidVertexMerging : Bool;
   
   /**
     Size of a single subdivision (in pixels) in Y (for Diced mode)
   **/
-  public var PixelsPerSubdivisionY : unreal.Int32;
+  @:uproperty public var PixelsPerSubdivisionY : unreal.Int32;
   
   /**
     Size of a single subdivision (in pixels) in X (for Diced mode)
   **/
-  public var PixelsPerSubdivisionX : unreal.Int32;
+  @:uproperty public var PixelsPerSubdivisionX : unreal.Int32;
   
   /**
     The geometry type (automatic / manual)
   **/
-  public var GeometryType : unreal.paper2d.ESpritePolygonMode;
+  @:uproperty public var GeometryType : unreal.paper2d.ESpritePolygonMode;
   
   /**
     List of shapes
   **/
-  public var Shapes : unreal.TArray<unreal.paper2d.FSpriteGeometryShape>;
+  @:uproperty public var Shapes : unreal.TArray<unreal.paper2d.FSpriteGeometryShape>;
   
 }

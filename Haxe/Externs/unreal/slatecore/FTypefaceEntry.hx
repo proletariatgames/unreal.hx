@@ -19,16 +19,16 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
-@:uextern extern class FTypefaceEntry {
+@:uextern @:ustruct extern class FTypefaceEntry {
   
   /**
     Raw font data for this font
   **/
-  public var Font : unreal.slatecore.FFontData;
+  @:uproperty public var Font : unreal.slatecore.FFontData;
   
   /**
     Name used to identify this font within its typeface
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
 }

@@ -21,11 +21,11 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneBoolSection.h")
-@:uextern extern class UMovieSceneBoolSection extends unreal.moviescene.UMovieSceneSection {
+@:uextern @:uclass extern class UMovieSceneBoolSection extends unreal.moviescene.UMovieSceneSection {
   
   /**
     The default value to use when no keys are present - use GetCurve().SetDefaultValue()
   **/
-  @:deprecated public var DefaultValue_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var DefaultValue_DEPRECATED : Bool;
   
 }

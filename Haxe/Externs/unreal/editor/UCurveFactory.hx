@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CurveFactory.h")
-@:uextern extern class UCurveFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UCurveFactory extends unreal.editor.UFactory {
   
   /**
     The type of blueprint that will be created
   **/
-  public var CurveClass : unreal.TSubclassOf<unreal.UCurveBase>;
+  @:uproperty public var CurveClass : unreal.TSubclassOf<unreal.UCurveBase>;
   
 }

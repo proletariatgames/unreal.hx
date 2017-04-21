@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class UEngineTypes extends unreal.UObject {
+@:uextern @:uclass extern class UEngineTypes extends unreal.UObject {
   
 }

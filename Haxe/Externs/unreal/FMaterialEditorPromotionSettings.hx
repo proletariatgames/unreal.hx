@@ -20,21 +20,21 @@ package unreal;
   Holds settings for the material editor build promotion tests
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialEditorPromotionSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialEditorPromotionSettings {
   
   /**
     Default material asset to apply to static meshes *
   **/
-  public var DefaultNormalTexture : unreal.FFilePath;
+  @:uproperty public var DefaultNormalTexture : unreal.FFilePath;
   
   /**
     Default material asset to apply to static meshes *
   **/
-  public var DefaultDiffuseTexture : unreal.FFilePath;
+  @:uproperty public var DefaultDiffuseTexture : unreal.FFilePath;
   
   /**
     Default material asset to apply to static meshes *
   **/
-  public var DefaultMaterialAsset : unreal.FFilePath;
+  @:uproperty public var DefaultMaterialAsset : unreal.FFilePath;
   
 }

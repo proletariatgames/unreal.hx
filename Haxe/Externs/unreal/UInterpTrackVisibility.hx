@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackVisibility.h")
-@:uextern extern class UInterpTrackVisibility extends unreal.UInterpTrack {
+@:uextern @:uclass extern class UInterpTrackVisibility extends unreal.UInterpTrack {
   
   /**
     If true, events on this track are fired even when jumping forwads through a sequence - for example, skipping a cinematic.
   **/
-  public var bFireEventsWhenJumpingForwards : Bool;
+  @:uproperty public var bFireEventsWhenJumpingForwards : Bool;
   
   /**
     If events should be fired when passed playing the sequence backwards.
   **/
-  public var bFireEventsWhenBackwards : Bool;
+  @:uproperty public var bFireEventsWhenBackwards : Bool;
   
   /**
     If events should be fired when passed playing the sequence forwards.
   **/
-  public var bFireEventsWhenForwards : Bool;
+  @:uproperty public var bFireEventsWhenForwards : Bool;
   
   /**
     Array of events to fire off.
   **/
-  public var VisibilityTrack : unreal.TArray<unreal.FVisibilityTrackKey>;
+  @:uproperty public var VisibilityTrack : unreal.TArray<unreal.FVisibilityTrackKey>;
   
 }

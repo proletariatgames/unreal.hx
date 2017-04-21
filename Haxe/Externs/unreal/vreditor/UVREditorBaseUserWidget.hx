@@ -21,6 +21,11 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorBaseUserWidget.h")
-@:noClass @:uextern extern class UVREditorBaseUserWidget extends unreal.umg.UUserWidget {
+@:noClass @:uextern @:uclass extern class UVREditorBaseUserWidget extends unreal.umg.UUserWidget {
+  
+  /**
+    The UI system that owns this widget
+  **/
+  @:uproperty private var Owner : unreal.TWeakObjectPtr<unreal.vreditor.AVREditorFloatingUI>;
   
 }

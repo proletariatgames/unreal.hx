@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionObjectOrientation.h")
-@:uextern extern class UMaterialExpressionObjectOrientation extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionObjectOrientation extends unreal.UMaterialExpression {
   
 }

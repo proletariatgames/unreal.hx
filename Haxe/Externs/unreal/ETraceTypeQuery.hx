@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETraceTypeQuery")
-@:uextern extern enum ETraceTypeQuery {
+@:uextern @:uenum extern enum ETraceTypeQuery {
   TraceTypeQuery1;
   TraceTypeQuery2;
   TraceTypeQuery3;

@@ -14,15 +14,15 @@
 package unreal;
 
 @:glueCppIncludes("Engine/NavigationObjectBase.h")
-@:uextern extern class ANavigationObjectBase extends unreal.AActor implements unreal.INavAgentInterface {
+@:uextern @:uclass extern class ANavigationObjectBase extends unreal.AActor implements unreal.INavAgentInterface {
   
   /**
     True if this nav point was spawned to be a PIE player start.
   **/
-  public var bIsPIEPlayerStart : Bool;
-  public var BadSprite : unreal.UBillboardComponent;
-  public var GoodSprite : unreal.UBillboardComponent;
-  public var CapsuleComponent : unreal.UCapsuleComponent;
+  @:uproperty public var bIsPIEPlayerStart : Bool;
+  @:uproperty public var BadSprite : unreal.UBillboardComponent;
+  @:uproperty public var GoodSprite : unreal.UBillboardComponent;
+  @:uproperty public var CapsuleComponent : unreal.UCapsuleComponent;
   // NavAgentInterface interface implementation
   
 }

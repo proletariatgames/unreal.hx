@@ -25,12 +25,12 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
-@:uextern extern class FGameplayAbilityActivationInfo {
+@:uextern @:ustruct extern class FGameplayAbilityActivationInfo {
   
   /**
     An ability that runs on multiple game instances can be canceled by a remote instance, but only if that remote instance has already confirmed starting it.
   **/
-  public var bCanBeEndedByOtherInstance : Bool;
-  public var ActivationMode : unreal.gameplayabilities.EGameplayAbilityActivationMode;
+  @:uproperty public var bCanBeEndedByOtherInstance : Bool;
+  @:uproperty public var ActivationMode : unreal.gameplayabilities.EGameplayAbilityActivationMode;
   
 }

@@ -15,11 +15,11 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectExtension_LifestealTest.h")
-@:uextern extern class UGameplayEffectExtension_LifestealTest extends unreal.gameplayabilities.UGameplayEffectExtension {
+@:uextern @:uclass extern class UGameplayEffectExtension_LifestealTest extends unreal.gameplayabilities.UGameplayEffectExtension {
   
   /**
     The GameplayEffect to apply when restoring health to the instigator
   **/
-  public var HealthRestoreGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
+  @:uproperty public var HealthRestoreGameplayEffect : unreal.gameplayabilities.UGameplayEffect;
   
 }

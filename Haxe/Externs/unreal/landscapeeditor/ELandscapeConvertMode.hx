@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeConvertMode.Type")
-@:uextern extern enum ELandscapeConvertMode {
+@:uextern @:uenum extern enum ELandscapeConvertMode {
   
   /**
     Given the new component size, the edges of the landscape will be expanded as necessary until its overall size is a whole number of landscape components.

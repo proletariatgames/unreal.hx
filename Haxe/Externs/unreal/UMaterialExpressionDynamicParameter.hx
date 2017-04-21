@@ -20,14 +20,14 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDynamicParameter.h")
-@:uextern extern class UMaterialExpressionDynamicParameter extends unreal.UMaterialExpression {
-  public var DefaultValue : unreal.FLinearColor;
+@:uextern @:uclass extern class UMaterialExpressionDynamicParameter extends unreal.UMaterialExpression {
+  @:uproperty public var DefaultValue : unreal.FLinearColor;
   
   /**
     The names of the parameters.
     These will show up in Cascade when editing a particle system
     that uses the material it is in...
   **/
-  public var ParamNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var ParamNames : unreal.TArray<unreal.FString>;
   
 }

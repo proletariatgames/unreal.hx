@@ -15,17 +15,17 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryGenerator.h")
-@:uextern extern class UEnvQueryGenerator extends unreal.aimodule.UEnvQueryNode {
+@:uextern @:uclass extern class UEnvQueryGenerator extends unreal.aimodule.UEnvQueryNode {
   
   /**
     if set, tests will be automatically sorted for best performance before running query
   **/
-  public var bAutoSortTests : Bool;
+  @:uproperty public var bAutoSortTests : Bool;
   
   /**
     type of generated items
   **/
-  public var ItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;
-  public var OptionName : unreal.FString;
+  @:uproperty public var ItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;
+  @:uproperty public var OptionName : unreal.FString;
   
 }

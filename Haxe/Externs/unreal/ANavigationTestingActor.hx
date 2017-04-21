@@ -14,74 +14,74 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationTestingActor.h")
-@:uextern extern class ANavigationTestingActor extends unreal.AActor implements unreal.INavAgentInterface implements unreal.INavPathObserverInterface {
-  public var OffsetFromCornersDistance : unreal.Float32;
-  public var ShowStepIndex : unreal.Int32;
+@:uextern @:uclass extern class ANavigationTestingActor extends unreal.AActor implements unreal.INavAgentInterface implements unreal.INavPathObserverInterface {
+  @:uproperty public var OffsetFromCornersDistance : unreal.Float32;
+  @:uproperty public var ShowStepIndex : unreal.Int32;
   
   /**
     "None" will result in default filter being used
   **/
-  public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
-  public var OtherActor : unreal.ANavigationTestingActor;
-  public var PathfindingSteps : unreal.Int32;
-  public var PathCost : unreal.Float32;
+  @:uproperty public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty public var OtherActor : unreal.ANavigationTestingActor;
+  @:uproperty public var PathfindingSteps : unreal.Int32;
+  @:uproperty public var PathCost : unreal.Float32;
   
   /**
     Time in micro seconds
   **/
-  public var PathfindingTime : unreal.Float32;
-  public var bPathSearchOutOfNodes : Bool;
-  public var bPathIsPartial : Bool;
-  public var bPathExist : Bool;
+  @:uproperty public var PathfindingTime : unreal.Float32;
+  @:uproperty public var bPathSearchOutOfNodes : Bool;
+  @:uproperty public var bPathIsPartial : Bool;
+  @:uproperty public var bPathExist : Bool;
   
   /**
     text canvas offset to apply
   **/
-  public var TextCanvasOffset : unreal.FVector2D;
+  @:uproperty public var TextCanvasOffset : unreal.FVector2D;
   
   /**
     determines which cost will be shown
   **/
-  public var CostDisplayMode : unreal.ENavCostDisplay;
-  public var bShouldBeVisibleInGame : Bool;
+  @:uproperty public var CostDisplayMode : unreal.ENavCostDisplay;
+  @:uproperty public var bShouldBeVisibleInGame : Bool;
   
   /**
     show which nodes were modified in current A* step
   **/
-  public var bShowDiffWithPreviousStep : Bool;
+  @:uproperty public var bShowDiffWithPreviousStep : Bool;
   
   /**
     show current best path
   **/
-  public var bShowBestPath : Bool;
+  @:uproperty public var bShowBestPath : Bool;
   
   /**
     show polys from open (orange) and closed (yellow) sets
   **/
-  public var bShowNodePool : Bool;
-  public var bDrawDistanceToWall : Bool;
+  @:uproperty public var bShowNodePool : Bool;
+  @:uproperty public var bDrawDistanceToWall : Bool;
   
   /**
     if set, all steps of A* algorithm will be accessible for debugging
   **/
-  public var bGatherDetailedInfo : Bool;
-  public var bUseHierarchicalPathfinding : Bool;
-  public var bSearchStart : Bool;
-  public var bProjectedLocationValid : Bool;
-  public var ProjectedLocation : unreal.FVector;
-  public var MyNavData : unreal.ANavigationData;
-  public var QueryingExtent : unreal.FVector;
+  @:uproperty public var bGatherDetailedInfo : Bool;
+  @:uproperty public var bUseHierarchicalPathfinding : Bool;
+  @:uproperty public var bSearchStart : Bool;
+  @:uproperty public var bProjectedLocationValid : Bool;
+  @:uproperty public var ProjectedLocation : unreal.FVector;
+  @:uproperty public var MyNavData : unreal.ANavigationData;
+  @:uproperty public var QueryingExtent : unreal.FVector;
   
   /**
     @todo document
   **/
-  public var NavAgentProps : unreal.FNavAgentProperties;
-  public var bActAsNavigationInvoker : Bool;
-  public var InvokerComponent : unreal.UNavigationInvokerComponent;
+  @:uproperty public var NavAgentProps : unreal.FNavAgentProperties;
+  @:uproperty public var bActAsNavigationInvoker : Bool;
+  @:uproperty public var InvokerComponent : unreal.UNavigationInvokerComponent;
   #if WITH_EDITORONLY_DATA
-  public var EdRenderComp : unreal.UNavTestRenderingComponent;
+  @:uproperty public var EdRenderComp : unreal.UNavTestRenderingComponent;
   #end // WITH_EDITORONLY_DATA
-  public var CapsuleComponent : unreal.UCapsuleComponent;
+  @:uproperty public var CapsuleComponent : unreal.UCapsuleComponent;
   // NavAgentInterface interface implementation
   // NavPathObserverInterface interface implementation
   

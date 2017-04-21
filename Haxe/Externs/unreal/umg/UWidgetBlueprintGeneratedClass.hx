@@ -22,16 +22,16 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass {
-  public var bCanEverPaint : Bool;
-  public var bCanEverTick : Bool;
-  public var NamedSlots : unreal.TArray<unreal.FName>;
-  public var Animations : unreal.TArray<unreal.umg.UWidgetAnimation>;
-  public var Bindings : unreal.TArray<unreal.umg.FDelegateRuntimeBinding>;
+@:uextern @:uclass extern class UWidgetBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass {
+  @:uproperty public var bCanEverPaint : Bool;
+  @:uproperty public var bCanEverTick : Bool;
+  @:uproperty public var NamedSlots : unreal.TArray<unreal.FName>;
+  @:uproperty public var Animations : unreal.TArray<unreal.umg.UWidgetAnimation>;
+  @:uproperty public var Bindings : unreal.TArray<unreal.umg.FDelegateRuntimeBinding>;
   
   /**
     A tree of the widget templates to be created
   **/
-  public var WidgetTree : unreal.umg.UWidgetTree;
+  @:uproperty public var WidgetTree : unreal.umg.UWidgetTree;
   
 }

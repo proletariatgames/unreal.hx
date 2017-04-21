@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimPhysicsSolver.h")
 @:uname("AnimPhysCollisionType")
-@:class @:uextern extern enum AnimPhysCollisionType {
+@:class @:uextern @:uenum extern enum AnimPhysCollisionType {
   
   /**
     Only limit the center of mass from crossing planes.

@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputDelegateBinding.h")
-@:uextern extern class UInputDelegateBinding extends unreal.UDynamicBlueprintBinding {
+@:uextern @:uclass extern class UInputDelegateBinding extends unreal.UDynamicBlueprintBinding {
   
 }

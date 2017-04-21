@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/UserInterfaceSettings.h")
 @:uname("EUIScalingRule")
-@:class @:uextern extern enum EUIScalingRule {
+@:class @:uextern @:uenum extern enum EUIScalingRule {
   
   /**
     Evaluates the scale curve based on the shortest side of the viewport.

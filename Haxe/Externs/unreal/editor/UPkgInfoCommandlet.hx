@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/PkgInfoCommandlet.h")
-@:noClass @:uextern extern class UPkgInfoCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UPkgInfoCommandlet extends unreal.UCommandlet {
   
 }

@@ -20,36 +20,36 @@ package unreal;
   Helper structure for displaying the parameter.
 **/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
-@:noCopy @:noEquals @:uextern extern class FEmitterDynamicParameter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEmitterDynamicParameter {
   
   /**
     The distriubtion for the parameter value.
   **/
-  public var ParamValue : unreal.FRawDistributionFloat;
+  @:uproperty public var ParamValue : unreal.FRawDistributionFloat;
   
   /**
     If true, scale the velocity value selected in ValueMethod by the evaluated ParamValue.
   **/
-  public var bScaleVelocityByParamValue : Bool;
+  @:uproperty public var bScaleVelocityByParamValue : Bool;
   
   /**
     Where to get the parameter value from.
   **/
-  public var ValueMethod : unreal.EEmitterDynamicParameterValue;
+  @:uproperty public var ValueMethod : unreal.EEmitterDynamicParameterValue;
   
   /**
     If true, only set the value at spawn time of the particle, otherwise update each frame.
   **/
-  public var bSpawnTimeOnly : Bool;
+  @:uproperty public var bSpawnTimeOnly : Bool;
   
   /**
     If true, use the EmitterTime to retrieve the value, otherwise use Particle RelativeTime.
   **/
-  public var bUseEmitterTime : Bool;
+  @:uproperty public var bUseEmitterTime : Bool;
   
   /**
     The parameter name - from the material DynamicParameter expression. READ-ONLY
   **/
-  public var ParamName : unreal.FName;
+  @:uproperty public var ParamName : unreal.FName;
   
 }

@@ -32,20 +32,20 @@ package unreal;
     geometry to be corrupted.
 **/
 @:glueCppIncludes("Engine/BrushBuilder.h")
-@:uextern extern class UBrushBuilder extends unreal.UObject {
-  private var Layer : unreal.FName;
-  private var Polys : unreal.TArray<unreal.FBuilderPoly>;
-  private var Vertices : unreal.TArray<unreal.FVector>;
+@:uextern @:uclass extern class UBrushBuilder extends unreal.UObject {
+  @:uproperty private var Layer : unreal.FName;
+  @:uproperty private var Polys : unreal.TArray<unreal.FBuilderPoly>;
+  @:uproperty private var Vertices : unreal.TArray<unreal.FVector>;
   
   /**
     If false, disabled the bad param notifications
   **/
-  public var NotifyBadParams : Bool;
+  @:uproperty public var NotifyBadParams : Bool;
   
   /**
     localized FString that will be displayed as the name of this brush builder in the editor
   **/
-  public var ToolTip : unreal.FString;
-  public var BitmapFilename : unreal.FString;
+  @:uproperty public var ToolTip : unreal.FString;
+  @:uproperty public var BitmapFilename : unreal.FString;
   
 }

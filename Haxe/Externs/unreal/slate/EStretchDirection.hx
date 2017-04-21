@@ -16,7 +16,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Widgets/Layout/SScaleBox.h")
 @:uname("EStretchDirection.Type")
-@:uextern extern enum EStretchDirection {
+@:uextern @:uenum extern enum EStretchDirection {
   
   /**
     Will scale the content up or down.

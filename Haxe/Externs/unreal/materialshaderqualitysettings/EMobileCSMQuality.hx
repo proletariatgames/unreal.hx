@@ -16,7 +16,7 @@ package unreal.materialshaderqualitysettings;
 @:umodule("MaterialShaderQualitySettings")
 @:glueCppIncludes("ShaderPlatformQualitySettings.h")
 @:uname("EMobileCSMQuality")
-@:class @:uextern extern enum EMobileCSMQuality {
+@:class @:uextern @:uenum extern enum EMobileCSMQuality {
   
   /**
     // Lowest quality, no filtering.

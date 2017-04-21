@@ -19,16 +19,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorProjectSettings.h")
-@:uextern extern class FMode2DLayer {
+@:uextern @:ustruct extern class FMode2DLayer {
   
   /**
     The amount of depth to apply when snapping to surfaces
   **/
-  public var Depth : unreal.Float32;
+  @:uproperty public var Depth : unreal.Float32;
   
   /**
     Whether snapping to surfaces in the world is enabled
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

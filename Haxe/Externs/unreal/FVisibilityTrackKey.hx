@@ -20,13 +20,13 @@ package unreal;
   Information for one toggle in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackVisibility.h")
-@:noCopy @:noEquals @:uextern extern class FVisibilityTrackKey {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVisibilityTrackKey {
   
   /**
     Condition that must be satisfied for this key event to fire
   **/
-  public var ActiveCondition : unreal.EVisibilityTrackCondition;
-  public var Action : unreal.EVisibilityTrackAction;
-  public var Time : unreal.Float32;
+  @:uproperty public var ActiveCondition : unreal.EVisibilityTrackCondition;
+  @:uproperty public var Action : unreal.EVisibilityTrackAction;
+  @:uproperty public var Time : unreal.Float32;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("HierarchicalLODVolume.h")
-@:uextern extern class AHierarchicalLODVolume extends unreal.AVolume {
+@:uextern @:uclass extern class AHierarchicalLODVolume extends unreal.AVolume {
   
 }

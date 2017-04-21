@@ -24,50 +24,50 @@ package unreal.worldbrowser;
 **/
 @:umodule("WorldBrowser")
 @:glueCppIncludes("Private/Tiles/WorldTileDetails.h")
-@:noClass @:uextern extern class UWorldTileDetails extends unreal.UObject {
-  public var LOD4 : unreal.worldbrowser.FTileLODEntryDetails;
-  public var LOD3 : unreal.worldbrowser.FTileLODEntryDetails;
-  public var LOD2 : unreal.worldbrowser.FTileLODEntryDetails;
-  public var LOD1 : unreal.worldbrowser.FTileLODEntryDetails;
+@:noClass @:uextern @:uclass extern class UWorldTileDetails extends unreal.UObject {
+  @:uproperty public var LOD4 : unreal.worldbrowser.FTileLODEntryDetails;
+  @:uproperty public var LOD3 : unreal.worldbrowser.FTileLODEntryDetails;
+  @:uproperty public var LOD2 : unreal.worldbrowser.FTileLODEntryDetails;
+  @:uproperty public var LOD1 : unreal.worldbrowser.FTileLODEntryDetails;
   
   /**
     LOD entries number
   **/
-  public var NumLOD : unreal.Int32;
+  @:uproperty public var NumLOD : unreal.Int32;
   
   /**
     Whether to hide tile in the world composition tile view
   **/
-  public var bHideInTileView : Bool;
+  @:uproperty public var bHideInTileView : Bool;
   
   /**
     Tile sorting order
   **/
-  public var ZOrder : unreal.Int32;
+  @:uproperty public var ZOrder : unreal.Int32;
   
   /**
     Tile absolute position in the world (readonly)
   **/
-  public var AbsolutePosition : unreal.FIntPoint;
+  @:uproperty public var AbsolutePosition : unreal.FIntPoint;
   
   /**
     Tile position in the world, relative to parent
   **/
-  public var Position : unreal.FIntPoint;
+  @:uproperty public var Position : unreal.FIntPoint;
   
   /**
     Parent tile long package name
   **/
-  public var ParentPackageName : unreal.FName;
+  @:uproperty public var ParentPackageName : unreal.FName;
   
   /**
     Tile long package name (readonly)
   **/
-  public var PackageName : unreal.FName;
+  @:uproperty public var PackageName : unreal.FName;
   
   /**
     Whether this tile properties can be edited via details panel
   **/
-  public var bTileEditable : Bool;
+  @:uproperty public var bTileEditable : Bool;
   
 }

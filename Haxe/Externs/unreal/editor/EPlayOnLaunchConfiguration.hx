@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayOnLaunchConfiguration")
-@:uextern extern enum EPlayOnLaunchConfiguration {
+@:uextern @:uenum extern enum EPlayOnLaunchConfiguration {
   
   /**
     Launch on device with the same build configuration as the editor.

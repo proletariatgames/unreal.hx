@@ -21,22 +21,32 @@ package unreal.geometrymode;
 **/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier.h")
-@:noClass @:uextern extern class UGeomModifier extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UGeomModifier extends unreal.UObject {
   
   /**
     If true, the pivot offset should be updated when the modification ends
   **/
-  public var bPendingPivotOffsetUpdate : Bool;
+  @:uproperty public var bPendingPivotOffsetUpdate : Bool;
   
   /**
     true if the modifier has been initialized.
     This is useful for interpreting user input and mouse drags correctly.
   **/
-  public var bInitialized : Bool;
+  @:uproperty public var bInitialized : Bool;
   
   /**
     If true, this modifier should be displayed as a push button instead of a radio button
   **/
-  public var bPushButton : Bool;
+  @:uproperty public var bPushButton : Bool;
+  
+  /**
+    The tooltip to be displayed for this modifier
+  **/
+  @:uproperty public var Tooltip : unreal.FText;
+  
+  /**
+    A human readable name for this modifier (appears on buttons, menus, etc)
+  **/
+  @:uproperty public var Description : unreal.FText;
   
 }

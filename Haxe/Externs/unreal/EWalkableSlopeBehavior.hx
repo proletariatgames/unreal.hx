@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EWalkableSlopeBehavior")
-@:uextern extern enum EWalkableSlopeBehavior {
+@:uextern @:uenum extern enum EWalkableSlopeBehavior {
   
   /**
     Don't affect the walkable slope. Walkable slope angle will be ignored.

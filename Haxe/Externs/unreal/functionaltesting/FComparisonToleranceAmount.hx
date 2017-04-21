@@ -21,12 +21,12 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("AutomationScreenshotOptions.h")
-@:noCopy @:noEquals @:uextern extern class FComparisonToleranceAmount {
-  public var MaxBrightness : unreal.UInt8;
-  public var MinBrightness : unreal.UInt8;
-  public var Alpha : unreal.UInt8;
-  public var Blue : unreal.UInt8;
-  public var Green : unreal.UInt8;
-  public var Red : unreal.UInt8;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FComparisonToleranceAmount {
+  @:uproperty public var MaxBrightness : unreal.UInt8;
+  @:uproperty public var MinBrightness : unreal.UInt8;
+  @:uproperty public var Alpha : unreal.UInt8;
+  @:uproperty public var Blue : unreal.UInt8;
+  @:uproperty public var Green : unreal.UInt8;
+  @:uproperty public var Red : unreal.UInt8;
   
 }

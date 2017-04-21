@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/RecastNavMeshDataChunk.h")
-@:uextern extern class URecastNavMeshDataChunk extends unreal.UNavigationDataChunk {
+@:uextern @:uclass extern class URecastNavMeshDataChunk extends unreal.UNavigationDataChunk {
   
 }

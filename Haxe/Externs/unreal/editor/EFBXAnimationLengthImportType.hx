@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxAnimSequenceImportData.h")
 @:uname("EFBXAnimationLengthImportType")
-@:uextern extern enum EFBXAnimationLengthImportType {
+@:uextern @:uenum extern enum EFBXAnimationLengthImportType {
   
   /**
     This option imports animation frames based on what is defined at the time of export

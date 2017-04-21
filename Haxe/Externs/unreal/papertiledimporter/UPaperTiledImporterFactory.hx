@@ -21,6 +21,6 @@ package unreal.papertiledimporter;
 **/
 @:umodule("PaperTiledImporter")
 @:glueCppIncludes("PaperTiledImporterFactory.h")
-@:noClass @:uextern extern class UPaperTiledImporterFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UPaperTiledImporterFactory extends unreal.editor.UFactory {
   
 }

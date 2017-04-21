@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimMontage.h")
 @:uname("EAnimNotifyEventType.Type")
-@:uextern extern enum EAnimNotifyEventType {
+@:uextern @:uenum extern enum EAnimNotifyEventType {
   Begin;
   End;
   

@@ -15,6 +15,6 @@ package unreal.levelsequence;
 
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceActor.h")
-@:uextern extern class ULevelSequenceBurnInInitSettings extends unreal.UObject {
+@:uextern @:uclass extern class ULevelSequenceBurnInInitSettings extends unreal.UObject {
   
 }

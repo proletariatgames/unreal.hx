@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseConfig_Damage.h")
-@:uextern extern class UAISenseConfig_Damage extends unreal.aimodule.UAISenseConfig {
-  public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Damage>;
+@:uextern @:uclass extern class UAISenseConfig_Damage extends unreal.aimodule.UAISenseConfig {
+  @:uproperty public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Damage>;
   
 }

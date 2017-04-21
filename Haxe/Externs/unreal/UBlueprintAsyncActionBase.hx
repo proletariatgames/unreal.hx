@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/BlueprintAsyncActionBase.h")
-@:uextern extern class UBlueprintAsyncActionBase extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintAsyncActionBase extends unreal.UObject {
   
   /**
     Called to trigger the action once the delegates have been bound
   **/
-  public function Activate() : Void;
+  @:ufunction public function Activate() : Void;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/AnimSequenceExporterFBX.h")
-@:noClass @:uextern extern class UAnimSequenceExporterFBX extends unreal.UExporter {
+@:noClass @:uextern @:uclass extern class UAnimSequenceExporterFBX extends unreal.UExporter {
   
 }

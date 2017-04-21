@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/PrimitiveComponent.h")
 @:uname("ECanBeCharacterBase")
-@:uextern extern enum ECanBeCharacterBase {
+@:uextern @:uenum extern enum ECanBeCharacterBase {
   
   /**
     Character cannot step up onto this Component.

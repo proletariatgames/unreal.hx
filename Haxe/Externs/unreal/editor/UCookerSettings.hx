@@ -19,48 +19,48 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("CookerSettings.h")
-@:uextern extern class UCookerSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UCookerSettings extends unreal.UDeveloperSettings {
   
   /**
     Quality of 0 means smallest (12x12 block size), 4 means best (4x4 block size)
   **/
-  public var DefaultASTCQualityBySize : unreal.Int32;
+  @:uproperty public var DefaultASTCQualityBySize : unreal.Int32;
   
   /**
     Quality of 0 means fastest, 3 means best quality
   **/
-  public var DefaultASTCQualityBySpeed : unreal.Int32;
+  @:uproperty public var DefaultASTCQualityBySpeed : unreal.Int32;
   
   /**
     Quality of 0 means fastest, 4 means best quality
   **/
-  public var DefaultPVRTCQuality : unreal.Int32;
+  @:uproperty public var DefaultPVRTCQuality : unreal.Int32;
   
   /**
     List of class names to exclude when cooking for dedicated client
   **/
-  public var ClassesExcludedOnDedicatedClient : unreal.TArray<unreal.FString>;
+  @:uproperty public var ClassesExcludedOnDedicatedClient : unreal.TArray<unreal.FString>;
   
   /**
     List of class names to exclude when cooking for dedicated server
   **/
-  public var ClassesExcludedOnDedicatedServer : unreal.TArray<unreal.FString>;
+  @:uproperty public var ClassesExcludedOnDedicatedServer : unreal.TArray<unreal.FString>;
   
   /**
     Whether or not to cook Blueprint Component data for faster instancing at runtime. This assumes that the Component templates do not get modified at runtime.
   **/
-  public var bCookBlueprintComponentTemplateData : Bool;
+  @:uproperty public var bCookBlueprintComponentTemplateData : Bool;
   
   /**
     Whether or not to compile Blueprints in development mode when cooking.
   **/
-  public var bCompileBlueprintsInDevelopmentMode : Bool;
+  @:uproperty public var bCompileBlueprintsInDevelopmentMode : Bool;
   
   /**
     Enable -iterate for launch on
   **/
-  public var bIterativeCookingForLaunchOn : Bool;
-  public var bEnableBuildDDCInBackground : Bool;
-  public var bEnableCookOnTheSide : Bool;
+  @:uproperty public var bIterativeCookingForLaunchOn : Bool;
+  @:uproperty public var bEnableBuildDDCInBackground : Bool;
+  @:uproperty public var bEnableCookOnTheSide : Bool;
   
 }

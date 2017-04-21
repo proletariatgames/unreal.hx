@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EBlendMode")
-@:uextern extern enum EBlendMode {
+@:uextern @:uenum extern enum EBlendMode {
   
   /**
     Opaque

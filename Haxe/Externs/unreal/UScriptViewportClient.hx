@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/ScriptViewportClient.h")
-@:noClass @:uextern extern class UScriptViewportClient extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UScriptViewportClient extends unreal.UObject {
   
 }

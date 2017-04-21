@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocation_Seeded.h")
-@:uextern extern class UParticleModuleLocation_Seeded extends unreal.UParticleModuleLocation {
+@:uextern @:uclass extern class UParticleModuleLocation_Seeded extends unreal.UParticleModuleLocation {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

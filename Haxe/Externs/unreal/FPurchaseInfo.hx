@@ -20,26 +20,26 @@ package unreal;
   Purchase information structure
 **/
 @:glueCppIncludes("Engine/MicroTransactionBase.h")
-@:noCopy @:noEquals @:uextern extern class FPurchaseInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPurchaseInfo {
   
   /**
     Price displayable to the user
   **/
-  public var DisplayPrice : unreal.FString;
+  @:uproperty public var DisplayPrice : unreal.FString;
   
   /**
     Description displayable to the user
   **/
-  public var DisplayDescription : unreal.FString;
+  @:uproperty public var DisplayDescription : unreal.FString;
   
   /**
     Name displayable to the user
   **/
-  public var DisplayName : unreal.FString;
+  @:uproperty public var DisplayName : unreal.FString;
   
   /**
     Unique identifier for the purchase
   **/
-  public var Identifier : unreal.FString;
+  @:uproperty public var Identifier : unreal.FString;
   
 }

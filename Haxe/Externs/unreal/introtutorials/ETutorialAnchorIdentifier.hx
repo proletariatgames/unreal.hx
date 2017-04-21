@@ -20,7 +20,7 @@ package unreal.introtutorials;
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uname("ETutorialAnchorIdentifier.Type")
-@:uextern extern enum ETutorialAnchorIdentifier {
+@:uextern @:uenum extern enum ETutorialAnchorIdentifier {
   
   /**
     No anchor

@@ -21,16 +21,16 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLocalizationExportingSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLocalizationExportingSettings {
   
   /**
     Should source locations be added to PO file entries as comments? Useful if a third party service doesn't expose PO file reference comments, which typically store the source location.
   **/
-  public var ShouldAddSourceLocationsAsComments : Bool;
+  @:uproperty public var ShouldAddSourceLocationsAsComments : Bool;
   
   /**
     Should user comments in existing PO files be persisted after export? Useful if using a third party service that stores editor/translator notes in the PO format's comment fields.
   **/
-  public var ShouldPersistCommentsOnExport : Bool;
+  @:uproperty public var ShouldPersistCommentsOnExport : Bool;
   
 }

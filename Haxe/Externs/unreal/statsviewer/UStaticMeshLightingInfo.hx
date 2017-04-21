@@ -21,61 +21,71 @@ package unreal.statsviewer;
 **/
 @:umodule("StatsViewer")
 @:glueCppIncludes("StaticMeshLightingInfo.h")
-@:uextern extern class UStaticMeshLightingInfo extends unreal.UObject {
+@:uextern @:uclass extern class UStaticMeshLightingInfo extends unreal.UObject {
   
   /**
     Number of lights generating shadow maps on the primitive.
   **/
-  public var ShadowMapLightCount : unreal.Int32;
+  @:uproperty public var ShadowMapLightCount : unreal.Int32;
   
   /**
     Estimated memory usage in KB for shadow map vertex data.
   **/
-  public var VertexShadowMapMemoryUsage : unreal.Float32;
+  @:uproperty public var VertexShadowMapMemoryUsage : unreal.Float32;
   
   /**
     Estimated memory usage in KB for shadow map texel data.
   **/
-  public var TextureShadowMapMemoryUsage : unreal.Float32;
+  @:uproperty public var TextureShadowMapMemoryUsage : unreal.Float32;
   
   /**
     Num lightmap lights
   **/
-  public var LightMapLightCount : unreal.Int32;
+  @:uproperty public var LightMapLightCount : unreal.Int32;
   
   /**
     Estimated memory usage in KB for light map vertex data.
   **/
-  public var VertexLightMapMemoryUsage : unreal.Float32;
+  @:uproperty public var VertexLightMapMemoryUsage : unreal.Float32;
   
   /**
     Estimated memory usage in KB for light map texel data.
   **/
-  public var TextureLightMapMemoryUsage : unreal.Float32;
+  @:uproperty public var TextureLightMapMemoryUsage : unreal.Float32;
   
   /**
     The static lighting resolution the texture mapping was estimated with.
   **/
-  public var StaticLightingResolution : unreal.Int32;
+  @:uproperty public var StaticLightingResolution : unreal.Int32;
   
   /**
     Does the Lightmap have UVs?
   **/
-  public var bHasLightmapTexCoords : Bool;
+  @:uproperty public var bHasLightmapTexCoords : Bool;
   
   /**
     Current mapping type flag - not displayed
   **/
-  public var bTextureMapping : Bool;
+  @:uproperty public var bTextureMapping : Bool;
   
   /**
     Current mapping type string
   **/
-  public var TextureMapping : unreal.FString;
+  @:uproperty public var TextureMapping : unreal.FString;
   
   /**
     Cached version of the level name this object resides in
   **/
-  public var LevelName : unreal.FString;
+  @:uproperty public var LevelName : unreal.FString;
+  
+  /**
+    The source StaticMesh that is related to this info.
+  **/
+  @:uproperty public var StaticMesh : unreal.TWeakObjectPtr<unreal.UStaticMesh>;
+  
+  /**
+    The actor that is related to this error/warning.
+  **/
+  @:uproperty public var StaticMeshActor : unreal.TWeakObjectPtr<unreal.AActor>;
   
 }

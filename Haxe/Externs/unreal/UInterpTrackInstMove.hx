@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstMove.h")
-@:uextern extern class UInterpTrackInstMove extends unreal.UInterpTrackInst {
+@:uextern @:uclass extern class UInterpTrackInstMove extends unreal.UInterpTrackInst {
   
   /**
     Saved rotation. Used in editor for resetting when quitting Matinee.
   **/
-  public var ResetRotation : unreal.FRotator;
+  @:uproperty public var ResetRotation : unreal.FRotator;
   
   /**
     Saved position. Used in editor for resetting when quitting Matinee.
   **/
-  public var ResetLocation : unreal.FVector;
+  @:uproperty public var ResetLocation : unreal.FVector;
   
 }

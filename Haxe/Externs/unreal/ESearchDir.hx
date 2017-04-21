@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ESearchDir.Type")
-@:uextern extern enum ESearchDir {
+@:uextern @:uenum extern enum ESearchDir {
   FromStart;
   FromEnd;
   

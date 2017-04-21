@@ -21,72 +21,72 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLocalizationTargetSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLocalizationTargetSettings {
   
   /**
     Cultures for which the source text is being localized for.
   **/
-  public var SupportedCulturesStatistics : unreal.TArray<unreal.localization.FCultureStatistics>;
+  @:uproperty public var SupportedCulturesStatistics : unreal.TArray<unreal.localization.FCultureStatistics>;
   
   /**
     The index of the native culture among the supported cultures.
   **/
-  public var NativeCultureIndex : unreal.Int32;
+  @:uproperty public var NativeCultureIndex : unreal.Int32;
   
   /**
     Settings for importing dialogue from WAV files.
   **/
-  public var ImportDialogueSettings : unreal.localization.FLocalizationImportDialogueSettings;
+  @:uproperty public var ImportDialogueSettings : unreal.localization.FLocalizationImportDialogueSettings;
   
   /**
     Settings for compiling translations.
   **/
-  public var CompileSettings : unreal.localization.FLocalizationCompilationSettings;
+  @:uproperty public var CompileSettings : unreal.localization.FLocalizationCompilationSettings;
   
   /**
     Settings for exporting translations.
   **/
-  public var ExportSettings : unreal.localization.FLocalizationExportingSettings;
+  @:uproperty public var ExportSettings : unreal.localization.FLocalizationExportingSettings;
   
   /**
     Parameters for defining what text is gathered from metadata and how.
   **/
-  public var GatherFromMetaData : unreal.localization.FGatherTextFromMetaDataConfiguration;
+  @:uproperty public var GatherFromMetaData : unreal.localization.FGatherTextFromMetaDataConfiguration;
   
   /**
     Parameters for defining what text is gathered from packages and how.
   **/
-  public var GatherFromPackages : unreal.localization.FGatherTextFromPackagesConfiguration;
+  @:uproperty public var GatherFromPackages : unreal.localization.FGatherTextFromPackagesConfiguration;
   
   /**
     Parameters for defining what text is gathered from text files and how.
   **/
-  public var GatherFromTextFiles : unreal.localization.FGatherTextFromTextFilesConfiguration;
+  @:uproperty public var GatherFromTextFiles : unreal.localization.FGatherTextFromTextFilesConfiguration;
   
   /**
     The names of modules which must be loaded when gathering text. Use to gather from packages or metadata sourced from a module that isn't the primary game module.
   **/
-  public var RequiredModuleNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var RequiredModuleNames : unreal.TArray<unreal.FString>;
   
   /**
     Text present in these manifests will not be duplicated in this target.
   **/
-  public var AdditionalManifestDependencies : unreal.TArray<unreal.FFilePath>;
+  @:uproperty public var AdditionalManifestDependencies : unreal.TArray<unreal.FFilePath>;
   
   /**
     Text present in these targets will not be duplicated in this target.
   **/
-  public var TargetDependencies : unreal.TArray<unreal.FGuid>;
+  @:uproperty public var TargetDependencies : unreal.TArray<unreal.FGuid>;
   
   /**
     Whether the target has outstanding conflicts that require resolution.
   **/
-  public var ConflictStatus : unreal.localization.ELocalizationTargetConflictStatus;
-  public var Guid : unreal.FGuid;
+  @:uproperty public var ConflictStatus : unreal.localization.ELocalizationTargetConflictStatus;
+  @:uproperty public var Guid : unreal.FGuid;
   
   /**
     Unique name for the target.
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstParticleReplay.h")
-@:noClass @:uextern extern class UInterpTrackInstParticleReplay extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstParticleReplay extends unreal.UInterpTrackInst {
   
   /**
     Position we were in last time we evaluated.
     During UpdateTrack, events between this time and the current time will be processed.
   **/
-  public var LastUpdatePosition : unreal.Float32;
+  @:uproperty public var LastUpdatePosition : unreal.Float32;
   
 }

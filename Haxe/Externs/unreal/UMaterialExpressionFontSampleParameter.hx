@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionFontSampleParameter.h")
-@:uextern extern class UMaterialExpressionFontSampleParameter extends unreal.UMaterialExpressionFontSample {
+@:uextern @:uclass extern class UMaterialExpressionFontSampleParameter extends unreal.UMaterialExpressionFontSample {
   
   /**
     The name of the parameter Group to display in MaterialInstance Editor. Default is None group
   **/
-  public var Group : unreal.FName;
+  @:uproperty public var Group : unreal.FName;
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
   
   /**
     name to be referenced when we want to find and set thsi parameter
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

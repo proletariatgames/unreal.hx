@@ -19,11 +19,11 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
-@:uextern extern class FGameplayTagContainer {
+@:uextern @:ustruct extern class FGameplayTagContainer {
   
   /**
     Array of gameplay tags
   **/
-  private var GameplayTags : unreal.TArray<unreal.gameplaytags.FGameplayTag>;
+  @:uproperty private var GameplayTags : unreal.TArray<unreal.gameplaytags.FGameplayTag>;
   
 }

@@ -20,7 +20,7 @@ package unreal.inputcore;
 @:umodule("InputCore")
 @:glueCppIncludes("InputCoreTypes.h")
 @:uname("ETouchIndex.Type")
-@:uextern extern enum ETouchIndex {
+@:uextern @:uenum extern enum ETouchIndex {
   Touch1;
   Touch2;
   Touch3;

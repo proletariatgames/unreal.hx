@@ -18,123 +18,123 @@ package unreal;
   Container for a physics representation of an object.
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintInstance.h")
-@:uextern extern class FConstraintInstance {
+@:uextern @:ustruct extern class FConstraintInstance {
   #if WITH_EDITORONLY_DATA
-  @:deprecated public var AngularDriveForceLimit_DEPRECATED : unreal.Float32;
-  @:deprecated public var AngularDriveDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularDriveForceLimit_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularDriveDamping_DEPRECATED : unreal.Float32;
   
   /**
     Revolutions per second
   **/
-  @:deprecated public var AngularDriveSpring_DEPRECATED : unreal.Float32;
-  @:deprecated public var AngularVelocityTarget_DEPRECATED : unreal.FVector;
-  @:deprecated public var AngularOrientationTarget_DEPRECATED : unreal.FRotator;
-  @:deprecated public var AngularDriveMode_DEPRECATED : unreal.EAngularDriveMode;
-  @:deprecated public var AngularPositionTarget_DEPRECATED : unreal.FQuat;
-  @:deprecated public var bAngularVelocityDrive_DEPRECATED : Bool;
-  @:deprecated public var bAngularOrientationDrive_DEPRECATED : Bool;
-  @:deprecated public var bAngularSlerpDrive_DEPRECATED : Bool;
-  @:deprecated public var bTwistVelocityDrive_DEPRECATED : Bool;
-  @:deprecated public var bTwistPositionDrive_DEPRECATED : Bool;
-  @:deprecated public var bSwingVelocityDrive_DEPRECATED : Bool;
-  @:deprecated public var bSwingPositionDrive_DEPRECATED : Bool;
-  @:deprecated public var LinearDriveForceLimit_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearDriveDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearDriveSpring_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearVelocityTarget_DEPRECATED : unreal.FVector;
-  @:deprecated public var LinearPositionTarget_DEPRECATED : unreal.FVector;
-  @:deprecated public var bLinearVelocityDrive_DEPRECATED : Bool;
-  @:deprecated public var bLinearPositionDrive_DEPRECATED : Bool;
-  @:deprecated public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
-  @:deprecated public var bAngularBreakable_DEPRECATED : Bool;
-  @:deprecated public var TwistLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var TwistLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var SwingLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var SwingLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var Swing2LimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var TwistLimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var Swing1LimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var bTwistLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var bSwingLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var AngularSwing2Motion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var AngularTwistMotion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var AngularSwing1Motion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var LinearBreakThreshold_DEPRECATED : unreal.Float32;
-  @:deprecated public var bLinearBreakable_DEPRECATED : Bool;
-  @:deprecated public var LinearLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var bLinearLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var LinearLimitSize_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearZMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var LinearYMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var LinearXMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var ProjectionAngularTolerance_DEPRECATED : unreal.Float32;
-  @:deprecated public var ProjectionLinearTolerance_DEPRECATED : unreal.Float32;
-  @:deprecated public var bEnableProjection_DEPRECATED : Bool;
-  @:deprecated public var bDisableCollision_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var AngularDriveSpring_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularVelocityTarget_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var AngularOrientationTarget_DEPRECATED : unreal.FRotator;
+  @:deprecated @:uproperty public var AngularDriveMode_DEPRECATED : unreal.EAngularDriveMode;
+  @:deprecated @:uproperty public var AngularPositionTarget_DEPRECATED : unreal.FQuat;
+  @:deprecated @:uproperty public var bAngularVelocityDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bAngularOrientationDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bAngularSlerpDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bTwistVelocityDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bTwistPositionDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bSwingVelocityDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bSwingPositionDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var LinearDriveForceLimit_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearDriveDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearDriveSpring_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearVelocityTarget_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var LinearPositionTarget_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var bLinearVelocityDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bLinearPositionDrive_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bAngularBreakable_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var TwistLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var TwistLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var SwingLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var SwingLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var Swing2LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var TwistLimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var Swing1LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bTwistLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bSwingLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var AngularSwing2Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var AngularTwistMotion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var AngularSwing1Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var LinearBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bLinearBreakable_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var LinearLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bLinearLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var LinearLimitSize_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearZMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var LinearYMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var LinearXMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var ProjectionAngularTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var ProjectionLinearTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bEnableProjection_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bDisableCollision_DEPRECATED : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Constraint Data (properties easily swapped at runtime based on different constraint profiles)
   **/
-  public var ProfileInstance : unreal.FConstraintProfileProperties;
+  @:uproperty public var ProfileInstance : unreal.FConstraintProfileProperties;
   
   /**
     If true, linear limits scale using the absolute min of the 3d scale of the owning component
   **/
-  public var bScaleLinearLimits : Bool;
+  @:uproperty public var bScaleLinearLimits : Bool;
   
   /**
     Specifies the angular offset between the two frames of reference. By default limit goes from (-Angle, +Angle)
     This allows you to bias the limit for swing1 swing2 and twist.
   **/
-  public var AngularRotationOffset : unreal.FRotator;
+  @:uproperty public var AngularRotationOffset : unreal.FRotator;
   
   /**
     Seconday axis in Body2 reference frame. Orthogonal to PriAxis2.
   **/
-  public var SecAxis2 : unreal.FVector;
+  @:uproperty public var SecAxis2 : unreal.FVector;
   
   /**
     Primary (twist) axis in Body2 reference frame.
   **/
-  public var PriAxis2 : unreal.FVector;
+  @:uproperty public var PriAxis2 : unreal.FVector;
   
   /**
     Location of constraint in Body2 reference frame.
   **/
-  public var Pos2 : unreal.FVector;
+  @:uproperty public var Pos2 : unreal.FVector;
   
   /**
     Seconday axis in Body1 reference frame. Orthogonal to PriAxis1.
   **/
-  public var SecAxis1 : unreal.FVector;
+  @:uproperty public var SecAxis1 : unreal.FVector;
   
   /**
     Primary (twist) axis in Body1 reference frame.
   **/
-  public var PriAxis1 : unreal.FVector;
+  @:uproperty public var PriAxis1 : unreal.FVector;
   
   /**
     Location of constraint in Body1 reference frame.
   **/
-  public var Pos1 : unreal.FVector;
+  @:uproperty public var Pos1 : unreal.FVector;
   
   /**
     Name of second bone (body) that this constraint is connecting.
     This will be the 'parent' bone in a PhysicsAset.
   **/
-  public var ConstraintBone2 : unreal.FName;
+  @:uproperty public var ConstraintBone2 : unreal.FName;
   
   /**
     Name of first bone (body) that this constraint is connecting.
     This will be the 'child' bone in a PhysicsAsset.
   **/
-  public var ConstraintBone1 : unreal.FName;
+  @:uproperty public var ConstraintBone1 : unreal.FName;
   
   /**
     Name of bone that this joint is associated with.
   **/
-  public var JointName : unreal.FName;
+  @:uproperty public var JointName : unreal.FName;
   
 }

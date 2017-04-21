@@ -20,10 +20,10 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SpotLight.h")
-@:uextern extern class ASpotLight extends unreal.ALight {
+@:uextern @:uclass extern class ASpotLight extends unreal.ALight {
   #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
-  public var SpotLightComponent : unreal.USpotLightComponent;
+  @:uproperty public var SpotLightComponent : unreal.USpotLightComponent;
   
 }

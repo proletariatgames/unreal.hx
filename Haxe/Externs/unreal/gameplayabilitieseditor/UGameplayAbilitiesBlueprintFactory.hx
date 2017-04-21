@@ -21,16 +21,16 @@ package unreal.gameplayabilitieseditor;
 **/
 @:umodule("GameplayAbilitiesEditor")
 @:glueCppIncludes("GameplayAbilitiesBlueprintFactory.h")
-@:uextern extern class UGameplayAbilitiesBlueprintFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UGameplayAbilitiesBlueprintFactory extends unreal.editor.UFactory {
   
   /**
     The parent class of the created blueprint
   **/
-  public var ParentClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
+  @:uproperty public var ParentClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
   
   /**
     The type of blueprint that will be created
   **/
-  public var BlueprintType : unreal.EBlueprintType;
+  @:uproperty public var BlueprintType : unreal.EBlueprintType;
   
 }

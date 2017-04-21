@@ -18,16 +18,16 @@ package unreal;
   A sound actor that can be placed in a level
 **/
 @:glueCppIncludes("Sound/AmbientSound.h")
-@:uextern extern class AAmbientSound extends unreal.AActor {
-  public var AudioComponent : unreal.UAudioComponent;
+@:uextern @:uclass extern class AAmbientSound extends unreal.AActor {
+  @:uproperty public var AudioComponent : unreal.UAudioComponent;
   
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:final public function FadeIn(FadeInDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32) : Void;
-  @:final public function FadeOut(FadeOutDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32) : Void;
-  @:final public function AdjustVolume(AdjustVolumeDuration : unreal.Float32, AdjustVolumeLevel : unreal.Float32) : Void;
-  @:final public function Play(StartTime : unreal.Float32) : Void;
-  @:final public function Stop() : Void;
+  @:ufunction @:final public function FadeIn(FadeInDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32 = 1.000000) : Void;
+  @:ufunction @:final public function FadeOut(FadeOutDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32) : Void;
+  @:ufunction @:final public function AdjustVolume(AdjustVolumeDuration : unreal.Float32, AdjustVolumeLevel : unreal.Float32) : Void;
+  @:ufunction @:final public function Play(StartTime : unreal.Float32 = 0.000000) : Void;
+  @:ufunction @:final public function Stop() : Void;
   
 }

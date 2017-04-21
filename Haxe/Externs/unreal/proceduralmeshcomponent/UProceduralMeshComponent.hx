@@ -20,7 +20,7 @@ package unreal.proceduralmeshcomponent;
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:uextern extern class UProceduralMeshComponent extends unreal.UMeshComponent implements unreal.IInterface_CollisionDataProvider {
+@:uextern @:uclass extern class UProceduralMeshComponent extends unreal.UMeshComponent implements unreal.IInterface_CollisionDataProvider {
   
   /**
     Create/replace a section for this procedural mesh component.
@@ -34,7 +34,7 @@ package unreal.proceduralmeshcomponent;
     @param  Tangents                        Optional array of tangent vector for each vertex. If supplied, must be same length as Vertices array.
     @param  bCreateCollision        Indicates whether collision should be created for this section. This adds significant cost.
   **/
-  @:final public function CreateMeshSection(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>, bCreateCollision : Bool) : Void;
+  @:ufunction @:final public function CreateMeshSection(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>, bCreateCollision : Bool) : Void;
   
   /**
     Create/replace a section for this procedural mesh component.
@@ -47,7 +47,7 @@ package unreal.proceduralmeshcomponent;
     @param  Tangents                        Optional array of tangent vector for each vertex. If supplied, must be same length as Vertices array.
     @param  bCreateCollision        Indicates whether collision should be created for this section. This adds significant cost.
   **/
-  @:final public function CreateMeshSection_LinearColor(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>, bCreateCollision : Bool) : Void;
+  @:ufunction @:final public function CreateMeshSection_LinearColor(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>, bCreateCollision : Bool) : Void;
   
   /**
     Updates a section of this procedural mesh component. This is faster than CreateMeshSection, but does not let you change topology. Collision info is also updated.
@@ -58,7 +58,7 @@ package unreal.proceduralmeshcomponent;
     @param  VertexColors            Optional array of colors for each vertex. If supplied, must be same length as Vertices array.
     @param  Tangents                        Optional array of tangent vector for each vertex. If supplied, must be same length as Vertices array.
   **/
-  @:final public function UpdateMeshSection(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>) : Void;
+  @:ufunction @:final public function UpdateMeshSection(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>) : Void;
   
   /**
     Updates a section of this procedural mesh component. This is faster than CreateMeshSection, but does not let you change topology. Collision info is also updated.
@@ -68,53 +68,53 @@ package unreal.proceduralmeshcomponent;
     @param  VertexColors            Optional array of colors for each vertex. If supplied, must be same length as Vertices array.
     @param  Tangents                        Optional array of tangent vector for each vertex. If supplied, must be same length as Vertices array.
   **/
-  @:final public function UpdateMeshSection_LinearColor(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>) : Void;
+  @:ufunction @:final public function UpdateMeshSection_LinearColor(SectionIndex : unreal.Int32, Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Normals : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, UV0 : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>, Tangents : unreal.Const<unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>>) : Void;
   
   /**
     Clear a section of the procedural mesh. Other sections do not change index.
   **/
-  @:final public function ClearMeshSection(SectionIndex : unreal.Int32) : Void;
+  @:ufunction @:final public function ClearMeshSection(SectionIndex : unreal.Int32) : Void;
   
   /**
     Clear all mesh sections and reset to empty state
   **/
-  @:final public function ClearAllMeshSections() : Void;
+  @:ufunction @:final public function ClearAllMeshSections() : Void;
   
   /**
     Control visibility of a particular section
   **/
-  @:final public function SetMeshSectionVisible(SectionIndex : unreal.Int32, bNewVisibility : Bool) : Void;
+  @:ufunction @:final public function SetMeshSectionVisible(SectionIndex : unreal.Int32, bNewVisibility : Bool) : Void;
   
   /**
     Returns whether a particular section is currently visible
   **/
-  @:thisConst @:final public function IsMeshSectionVisible(SectionIndex : unreal.Int32) : Bool;
+  @:ufunction @:thisConst @:final public function IsMeshSectionVisible(SectionIndex : unreal.Int32) : Bool;
   
   /**
     Returns number of sections currently created for this component
   **/
-  @:thisConst @:final public function GetNumSections() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetNumSections() : unreal.Int32;
   
   /**
     Add simple collision convex to this component
   **/
-  @:final public function AddCollisionConvexMesh(ConvexVerts : unreal.TArray<unreal.FVector>) : Void;
+  @:ufunction @:final public function AddCollisionConvexMesh(ConvexVerts : unreal.TArray<unreal.FVector>) : Void;
   
   /**
     Add simple collision convex to this component
   **/
-  @:final public function ClearCollisionConvexMeshes() : Void;
+  @:ufunction @:final public function ClearCollisionConvexMeshes() : Void;
   
   /**
     Collision data
   **/
-  public var ProcMeshBodySetup : unreal.UBodySetup;
+  @:uproperty public var ProcMeshBodySetup : unreal.UBodySetup;
   
   /**
     Controls whether the complex (Per poly) geometry should be treated as 'simple' collision.
     Should be set to false if this component is going to be given simple collision and simulated.
   **/
-  public var bUseComplexAsSimpleCollision : Bool;
+  @:uproperty public var bUseComplexAsSimpleCollision : Bool;
   // Interface_CollisionDataProvider interface implementation
   
 }

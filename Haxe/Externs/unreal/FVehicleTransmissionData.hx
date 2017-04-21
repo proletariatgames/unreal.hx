@@ -20,46 +20,46 @@ package unreal;
   
 **/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:noCopy @:noEquals @:uextern extern class FVehicleTransmissionData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVehicleTransmissionData {
   
   /**
     Strength of clutch (Kgm^2/s)
   **/
-  public var ClutchStrength : unreal.Float32;
+  @:uproperty public var ClutchStrength : unreal.Float32;
   
   /**
     Value of engineRevs/maxEngineRevs that is high enough to increment gear
   **/
-  public var NeutralGearUpRatio : unreal.Float32;
+  @:uproperty public var NeutralGearUpRatio : unreal.Float32;
   
   /**
     Reverse gear ratio
   **/
-  public var ReverseGearRatio : unreal.Float32;
+  @:uproperty public var ReverseGearRatio : unreal.Float32;
   
   /**
     Forward gear ratios (up to 30)
   **/
-  public var ForwardGears : unreal.TArray<unreal.FVehicleGearData>;
+  @:uproperty public var ForwardGears : unreal.TArray<unreal.FVehicleGearData>;
   
   /**
     The final gear ratio multiplies the transmission gear ratios.
   **/
-  public var FinalRatio : unreal.Float32;
+  @:uproperty public var FinalRatio : unreal.Float32;
   
   /**
     Minimum time it takes the automatic transmission to initiate a gear change (seconds)
   **/
-  public var GearAutoBoxLatency : unreal.Float32;
+  @:uproperty public var GearAutoBoxLatency : unreal.Float32;
   
   /**
     Time it takes to switch gears (seconds)
   **/
-  public var GearSwitchTime : unreal.Float32;
+  @:uproperty public var GearSwitchTime : unreal.Float32;
   
   /**
     Whether to use automatic transmission
   **/
-  public var bUseGearAutoBox : Bool;
+  @:uproperty public var bUseGearAutoBox : Bool;
   
 }

@@ -19,7 +19,7 @@ package unreal.umgeditor;
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
-@:uextern extern class UWidgetBlueprint extends unreal.UBlueprint {
+@:uextern @:uclass extern class UWidgetBlueprint extends unreal.UBlueprint {
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -27,15 +27,15 @@ package unreal.umgeditor;
     in the CDO of the UUserWidget, but a copy is stored here so that it's available in the serialized
     Tag data in the asset header for access in the FAssetData.
   **/
-  public var PaletteCategory : unreal.FString;
-  public var Animations : unreal.TArray<unreal.umg.UWidgetAnimation>;
-  @:deprecated public var AnimationData_DEPRECATED : unreal.TArray<unreal.umgeditor.FWidgetAnimation_DEPRECATED>;
-  public var Bindings : unreal.TArray<unreal.umgeditor.FDelegateEditorBinding>;
+  @:uproperty public var PaletteCategory : unreal.FString;
+  @:uproperty public var Animations : unreal.TArray<unreal.umg.UWidgetAnimation>;
+  @:deprecated @:uproperty public var AnimationData_DEPRECATED : unreal.TArray<unreal.umgeditor.FWidgetAnimation_DEPRECATED>;
+  @:uproperty public var Bindings : unreal.TArray<unreal.umgeditor.FDelegateEditorBinding>;
   
   /**
     A tree of the widget templates to be created
   **/
-  public var WidgetTree : unreal.umg.UWidgetTree;
+  @:uproperty public var WidgetTree : unreal.umg.UWidgetTree;
   #end // WITH_EDITORONLY_DATA
   
 }

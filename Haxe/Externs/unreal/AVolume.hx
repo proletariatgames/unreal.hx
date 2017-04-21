@@ -19,6 +19,6 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Engine/Actors/Volumes
 **/
 @:glueCppIncludes("GameFramework/Volume.h")
-@:uextern extern class AVolume extends unreal.ABrush {
+@:uextern @:uclass extern class AVolume extends unreal.ABrush {
   
 }

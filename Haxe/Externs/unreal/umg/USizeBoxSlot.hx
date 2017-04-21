@@ -19,24 +19,24 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USizeBoxSlot extends unreal.umg.UPanelSlot {
+@:uextern @:uclass extern class USizeBoxSlot extends unreal.umg.UPanelSlot {
   
   /**
     The alignment of the object vertically.
   **/
-  public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   
   /**
     The alignment of the object horizontally.
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     The padding area between the slot and the content it contains.
   **/
-  public var Padding : unreal.slatecore.FMargin;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

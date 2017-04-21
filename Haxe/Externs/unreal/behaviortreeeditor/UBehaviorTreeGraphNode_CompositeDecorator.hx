@@ -21,24 +21,24 @@ package unreal.behaviortreeeditor;
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeGraphNode_CompositeDecorator.h")
-@:noClass @:uextern extern class UBehaviorTreeGraphNode_CompositeDecorator extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
-  private var CachedDescription : unreal.FString;
-  private var ParentNodeInstance : unreal.aimodule.UBTCompositeNode;
+@:noClass @:uextern @:uclass extern class UBehaviorTreeGraphNode_CompositeDecorator extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
+  @:uproperty private var CachedDescription : unreal.FString;
+  @:uproperty private var ParentNodeInstance : unreal.aimodule.UBTCompositeNode;
   
   /**
     updated with internal graph changes, set when decorators inside can abort flow
   **/
-  public var bCanAbortFlow : Bool;
+  @:uproperty public var bCanAbortFlow : Bool;
   
   /**
     if set, all logic operations will be shown in description
   **/
-  public var bShowOperations : Bool;
-  public var CompositeName : unreal.FString;
+  @:uproperty public var bShowOperations : Bool;
+  @:uproperty public var CompositeName : unreal.FString;
   
   /**
     The logic graph for this decorator (returning a boolean)
   **/
-  public var BoundGraph : unreal.UEdGraph;
+  @:uproperty public var BoundGraph : unreal.UEdGraph;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESleepFamily")
-@:class @:uextern extern enum ESleepFamily {
+@:class @:uextern @:uenum extern enum ESleepFamily {
   
   /**
     Engine defaults.

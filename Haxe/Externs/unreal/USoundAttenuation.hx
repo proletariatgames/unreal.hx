@@ -20,7 +20,7 @@ package unreal;
   Defines how a sound changes volume with distance to the listener
 **/
 @:glueCppIncludes("Sound/SoundAttenuation.h")
-@:uextern extern class USoundAttenuation extends unreal.UObject {
-  public var Attenuation : unreal.FAttenuationSettings;
+@:uextern @:uclass extern class USoundAttenuation extends unreal.UObject {
+  @:uproperty public var Attenuation : unreal.FAttenuationSettings;
   
 }

@@ -21,31 +21,31 @@ package unreal.proceduralmeshcomponent;
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FProcMeshVertex {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FProcMeshVertex {
   
   /**
     Vertex texture co-ordinate
   **/
-  public var UV0 : unreal.FVector2D;
+  @:uproperty public var UV0 : unreal.FVector2D;
   
   /**
     Vertex color
   **/
-  public var Color : unreal.FColor;
+  @:uproperty public var Color : unreal.FColor;
   
   /**
     Vertex tangent
   **/
-  public var Tangent : unreal.proceduralmeshcomponent.FProcMeshTangent;
+  @:uproperty public var Tangent : unreal.proceduralmeshcomponent.FProcMeshTangent;
   
   /**
     Vertex normal
   **/
-  public var Normal : unreal.FVector;
+  @:uproperty public var Normal : unreal.FVector;
   
   /**
     Vertex position
   **/
-  public var Position : unreal.FVector;
+  @:uproperty public var Position : unreal.FVector;
   
 }

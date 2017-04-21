@@ -20,12 +20,12 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitInputRelease.h")
-@:uextern extern class UAbilityTask_WaitInputRelease extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnReleaseCallback() : Void;
+@:uextern @:uclass extern class UAbilityTask_WaitInputRelease extends unreal.gameplayabilities.UAbilityTask {
+  @:ufunction @:final public function OnReleaseCallback() : Void;
   
   /**
     Wait until the user releases the input button for this ability's activation. Returns time from hitting this node, till release. Will return 0 if input was already released.
   **/
-  static public function WaitInputRelease(WorldContextObject : unreal.UObject, bTestAlreadyReleased : Bool) : unreal.gameplayabilities.UAbilityTask_WaitInputRelease;
+  @:ufunction static public function WaitInputRelease(WorldContextObject : unreal.UObject, bTestAlreadyReleased : Bool = false) : unreal.gameplayabilities.UAbilityTask_WaitInputRelease;
   
 }

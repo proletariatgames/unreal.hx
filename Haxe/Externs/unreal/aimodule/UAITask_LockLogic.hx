@@ -19,6 +19,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Tasks/AITask_LockLogic.h")
-@:uextern extern class UAITask_LockLogic extends unreal.aimodule.UAITask {
+@:uextern @:uclass extern class UAITask_LockLogic extends unreal.aimodule.UAITask {
   
 }

@@ -15,11 +15,11 @@ package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("LevelCapture.h")
-@:uextern extern class ULevelCapture extends unreal.moviescenecapture.UMovieSceneCapture {
+@:uextern @:uclass extern class ULevelCapture extends unreal.moviescenecapture.UMovieSceneCapture {
   
   /**
     Specifies whether the capture should start immediately, or whether it will be invoked externally (through StartMovieCapture/StopMovieCapture exec commands)
   **/
-  public var bAutoStartCapture : Bool;
+  @:uproperty public var bAutoStartCapture : Bool;
   
 }

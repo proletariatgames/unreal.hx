@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETranslucencyLightingMode")
-@:uextern extern enum ETranslucencyLightingMode {
+@:uextern @:uenum extern enum ETranslucencyLightingMode {
   
   /**
     Lighting will be calculated for a volume, without directionality.  Use this on particle effects like smoke and dust.

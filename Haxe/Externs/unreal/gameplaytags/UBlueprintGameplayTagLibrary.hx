@@ -21,6 +21,6 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("BlueprintGameplayTagLibrary.h")
-@:uextern extern class UBlueprintGameplayTagLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UBlueprintGameplayTagLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

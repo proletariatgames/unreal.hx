@@ -18,21 +18,21 @@ package unreal;
   Vehicle-specific wheel setup
 **/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent.h")
-@:uextern extern class FWheelSetup {
+@:uextern @:ustruct extern class FWheelSetup {
   
   /**
     Additional offset to give the wheels for this axle.
   **/
-  public var AdditionalOffset : unreal.FVector;
+  @:uproperty public var AdditionalOffset : unreal.FVector;
   
   /**
     Bone name on mesh to create wheel at
   **/
-  public var BoneName : unreal.FName;
+  @:uproperty public var BoneName : unreal.FName;
   
   /**
     The wheel class to use
   **/
-  public var WheelClass : unreal.TSubclassOf<unreal.UVehicleWheel>;
+  @:uproperty public var WheelClass : unreal.TSubclassOf<unreal.UVehicleWheel>;
   
 }

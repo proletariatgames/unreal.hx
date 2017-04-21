@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Kismet/KismetSystemLibrary.h")
 @:uname("EQuitPreference.Type")
-@:uextern extern enum EQuitPreference {
+@:uextern @:uenum extern enum EQuitPreference {
   
   /**
     Exit the game completely.

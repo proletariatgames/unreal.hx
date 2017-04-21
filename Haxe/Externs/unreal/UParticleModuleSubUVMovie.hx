@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/SubUV/ParticleModuleSubUVMovie.h")
-@:noClass @:uextern extern class UParticleModuleSubUVMovie extends unreal.UParticleModuleSubUV {
+@:noClass @:uextern @:uclass extern class UParticleModuleSubUVMovie extends unreal.UParticleModuleSubUV {
   
   /**
     The starting image index for the SubUV (1 = the first frame).
@@ -28,17 +28,17 @@ package unreal;
     If greater than the last frame, it will clamp to the last one.
     If 0, then randomly selects a starting frame.
   **/
-  public var StartingFrame : unreal.Int32;
+  @:uproperty public var StartingFrame : unreal.Int32;
   
   /**
     The frame rate the SubUV images should be 'flipped' thru at.
   **/
-  public var FrameRate : unreal.FRawDistributionFloat;
+  @:uproperty public var FrameRate : unreal.FRawDistributionFloat;
   
   /**
     If true, use the emitter time to look up the frame rate.
     If false (default), use the particle relative time.
   **/
-  public var bUseEmitterTime : Bool;
+  @:uproperty public var bUseEmitterTime : Bool;
   
 }

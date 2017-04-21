@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetDataFilter.h")
 @:uname("ETargetDataFilterSelf.Type")
-@:uextern extern enum ETargetDataFilterSelf {
+@:uextern @:uenum extern enum ETargetDataFilterSelf {
   
   /**
     Allow self or others

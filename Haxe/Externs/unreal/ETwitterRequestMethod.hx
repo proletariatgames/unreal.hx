@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/TwitterIntegrationBase.h")
 @:uname("ETwitterRequestMethod")
-@:uextern extern enum ETwitterRequestMethod {
+@:uextern @:uenum extern enum ETwitterRequestMethod {
   TRM_Get;
   TRM_Post;
   TRM_Delete;

@@ -20,38 +20,38 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollisionGPU.h")
-@:uextern extern class UParticleModuleCollisionGPU extends unreal.UParticleModuleCollisionBase {
-  public var CollisionMode : unreal.EParticleCollisionMode;
+@:uextern @:uclass extern class UParticleModuleCollisionGPU extends unreal.UParticleModuleCollisionBase {
+  @:uproperty public var CollisionMode : unreal.EParticleCollisionMode;
   
   /**
     How particles respond to a collision event.
   **/
-  public var Response : unreal.EParticleCollisionResponse;
+  @:uproperty public var Response : unreal.EParticleCollisionResponse;
   
   /**
     Bias applied to the collision radius.
   **/
-  public var RadiusBias : unreal.Float32;
+  @:uproperty public var RadiusBias : unreal.Float32;
   
   /**
     Scale applied to the size of the particle to obtain the collision radius.
   **/
-  public var RadiusScale : unreal.Float32;
+  @:uproperty public var RadiusScale : unreal.Float32;
   
   /**
     Friction applied to all particles during a collision or while moving
     along a surface.
   **/
-  public var Friction : unreal.Float32;
+  @:uproperty public var Friction : unreal.Float32;
   
   /**
     Scales the bounciness of the particle over its life.
   **/
-  public var ResilienceScaleOverLife : unreal.FRawDistributionFloat;
+  @:uproperty public var ResilienceScaleOverLife : unreal.FRawDistributionFloat;
   
   /**
     The bounciness of the particle.
   **/
-  public var Resilience : unreal.FRawDistributionFloat;
+  @:uproperty public var Resilience : unreal.FRawDistributionFloat;
   
 }

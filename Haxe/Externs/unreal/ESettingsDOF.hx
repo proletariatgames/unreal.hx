@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/PhysicsSettings.h")
 @:uname("ESettingsDOF.Type")
-@:uextern extern enum ESettingsDOF {
+@:uextern @:uenum extern enum ESettingsDOF {
   
   /**
     Allows for full 3D movement and rotation.

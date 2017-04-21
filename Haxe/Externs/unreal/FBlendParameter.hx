@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:noCopy @:noEquals @:uextern extern class FBlendParameter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlendParameter {
   
   /**
     how many grid for this parameter.
   **/
-  public var GridNum : unreal.Int32;
+  @:uproperty public var GridNum : unreal.Int32;
   
   /**
     Max value for this parameter.
   **/
-  public var Max : unreal.Float32;
+  @:uproperty public var Max : unreal.Float32;
   
   /**
     Min value for this parameter.
   **/
-  public var Min : unreal.Float32;
-  public var DisplayName : unreal.FString;
+  @:uproperty public var Min : unreal.Float32;
+  @:uproperty public var DisplayName : unreal.FString;
   
 }

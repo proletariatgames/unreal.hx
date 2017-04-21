@@ -21,6 +21,6 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("TestPhaseComponent.h")
-@:noClass @:uextern extern class UTestPhaseComponent extends unreal.USceneComponent {
+@:noClass @:uextern @:uclass extern class UTestPhaseComponent extends unreal.USceneComponent {
   
 }

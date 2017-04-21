@@ -20,8 +20,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_MoveDirectlyToward.h")
-@:uextern extern class UBTTask_MoveDirectlyToward extends unreal.aimodule.UBTTask_MoveTo {
-  public var bProjectVectorGoalToNavigation : Bool;
-  public var bDisablePathUpdateOnGoalLocationChange : Bool;
+@:uextern @:uclass extern class UBTTask_MoveDirectlyToward extends unreal.aimodule.UBTTask_MoveTo {
+  @:uproperty public var bProjectVectorGoalToNavigation : Bool;
+  @:uproperty public var bDisablePathUpdateOnGoalLocationChange : Bool;
   
 }

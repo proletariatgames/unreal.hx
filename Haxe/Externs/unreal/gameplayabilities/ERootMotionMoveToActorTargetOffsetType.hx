@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionMoveToActorForce.h")
 @:uname("ERootMotionMoveToActorTargetOffsetType")
-@:class @:uextern extern enum ERootMotionMoveToActorTargetOffsetType {
+@:class @:uextern @:uenum extern enum ERootMotionMoveToActorTargetOffsetType {
   
   /**
     Align target offset vector from target to source, ignoring height difference

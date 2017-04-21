@@ -22,14 +22,14 @@ package unreal;
   predefined material parameters. The parameters are statically defined in the compiled material by a unique name, type and default value.
 **/
 @:glueCppIncludes("Materials/MaterialInstanceConstant.h")
-@:uextern extern class UMaterialInstanceConstant extends unreal.UMaterialInstance {
+@:uextern @:uclass extern class UMaterialInstanceConstant extends unreal.UMaterialInstance {
   #if WITH_EDITORONLY_DATA
   
   /**
     Unique ID for this material instance's parameter set
     Updated on changes in the editor to allow those changes to be detected
   **/
-  public var ParameterStateId : unreal.FGuid;
+  @:uproperty public var ParameterStateId : unreal.FGuid;
   #end // WITH_EDITORONLY_DATA
   
 }

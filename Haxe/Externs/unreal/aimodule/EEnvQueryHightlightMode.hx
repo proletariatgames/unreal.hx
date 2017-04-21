@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
 @:uname("EEnvQueryHightlightMode")
-@:class @:uextern extern enum EEnvQueryHightlightMode {
+@:class @:uextern @:uenum extern enum EEnvQueryHightlightMode {
   All;
   
   /**

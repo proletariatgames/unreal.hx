@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/LevelStreamingPersistent.h")
-@:noClass @:uextern extern class ULevelStreamingPersistent extends unreal.ULevelStreaming {
+@:noClass @:uextern @:uclass extern class ULevelStreamingPersistent extends unreal.ULevelStreaming {
   
 }

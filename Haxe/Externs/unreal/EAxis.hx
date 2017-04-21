@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EAxis.Type")
-@:uextern extern enum EAxis {
+@:uextern @:uenum extern enum EAxis {
   None;
   X;
   Y;

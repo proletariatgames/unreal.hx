@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EFilterInterpolationType")
-@:uextern extern enum EFilterInterpolationType {
+@:uextern @:uenum extern enum EFilterInterpolationType {
   BSIT_Average;
   BSIT_Linear;
   BSIT_Cubic;

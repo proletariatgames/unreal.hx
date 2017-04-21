@@ -21,6 +21,6 @@ package unreal.moviescene;
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScenePossessable.h")
-@:noCopy @:noEquals @:uextern extern class FMovieScenePossessable {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieScenePossessable {
   
 }

@@ -19,26 +19,26 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FComboButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FComboButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Padding to use to add a "menu border" around the drop-down content
   **/
-  public var MenuBorderPadding : unreal.slatecore.FMargin;
+  @:uproperty public var MenuBorderPadding : unreal.slatecore.FMargin;
   
   /**
     Brush to use to add a "menu border" around the drop-down content
   **/
-  public var MenuBorderBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var MenuBorderBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use for the down arrow
   **/
-  public var DownArrowImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DownArrowImage : unreal.slatecore.FSlateBrush;
   
   /**
     The style to use for our SButton
   **/
-  public var ButtonStyle : unreal.slatecore.FButtonStyle;
+  @:uproperty public var ButtonStyle : unreal.slatecore.FButtonStyle;
   
 }

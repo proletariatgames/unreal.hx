@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_ProjectedPoints.h")
-@:uextern extern class UEnvQueryGenerator_ProjectedPoints extends unreal.aimodule.UEnvQueryGenerator {
+@:uextern @:uclass extern class UEnvQueryGenerator_ProjectedPoints extends unreal.aimodule.UEnvQueryGenerator {
   
   /**
     trace params
   **/
-  public var ProjectionData : unreal.aimodule.FEnvTraceData;
+  @:uproperty public var ProjectionData : unreal.aimodule.FEnvTraceData;
   
 }

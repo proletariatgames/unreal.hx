@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EConstraintFrame.Type")
-@:uextern extern enum EConstraintFrame {
+@:uextern @:uenum extern enum EConstraintFrame {
   Frame1;
   Frame2;
   

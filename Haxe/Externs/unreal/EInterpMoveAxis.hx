@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Matinee/InterpTrackMoveAxis.h")
 @:uname("EInterpMoveAxis")
-@:uextern extern enum EInterpMoveAxis {
+@:uextern @:uenum extern enum EInterpMoveAxis {
   AXIS_TranslationX;
   AXIS_TranslationY;
   AXIS_TranslationZ;

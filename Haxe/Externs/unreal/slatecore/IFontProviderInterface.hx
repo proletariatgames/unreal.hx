@@ -21,6 +21,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontProviderInterface.h")
-@:uextern extern interface IFontProviderInterface {
+@:uextern @:uclass extern interface IFontProviderInterface {
   
 }

@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:noCopy @:noEquals @:uextern extern class FAssetEditorOrbitCameraPosition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAssetEditorOrbitCameraPosition {
   
   /**
     The rotation to apply around the orbit point
   **/
-  public var CamOrbitRotation : unreal.FRotator;
+  @:uproperty public var CamOrbitRotation : unreal.FRotator;
   
   /**
     The distance of the camera from the orbit point
   **/
-  public var CamOrbitZoom : unreal.FVector;
+  @:uproperty public var CamOrbitZoom : unreal.FVector;
   
   /**
     The position to orbit the camera around
   **/
-  public var CamOrbitPoint : unreal.FVector;
+  @:uproperty public var CamOrbitPoint : unreal.FVector;
   
   /**
     Whether or not this has been set to a valid value
   **/
-  public var bIsSet : Bool;
+  @:uproperty public var bIsSet : Bool;
   
 }

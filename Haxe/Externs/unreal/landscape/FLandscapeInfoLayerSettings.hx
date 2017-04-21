@@ -21,14 +21,14 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeInfo.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeInfoLayerSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeInfoLayerSettings {
   #if WITH_EDITORONLY_DATA
-  public var bValid : Bool;
-  public var DebugColorChannel : unreal.Int32;
-  public var Owner : unreal.landscape.ALandscapeProxy;
-  public var ThumbnailMIC : unreal.UMaterialInstanceConstant;
+  @:uproperty public var bValid : Bool;
+  @:uproperty public var DebugColorChannel : unreal.Int32;
+  @:uproperty public var Owner : unreal.landscape.ALandscapeProxy;
+  @:uproperty public var ThumbnailMIC : unreal.UMaterialInstanceConstant;
   #end // WITH_EDITORONLY_DATA
-  public var LayerName : unreal.FName;
-  public var LayerInfoObj : unreal.landscape.ULandscapeLayerInfoObject;
+  @:uproperty public var LayerName : unreal.FName;
+  @:uproperty public var LayerInfoObj : unreal.landscape.ULandscapeLayerInfoObject;
   
 }

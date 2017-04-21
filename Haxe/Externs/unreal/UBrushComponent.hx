@@ -22,17 +22,17 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Engine/Actors/Brushes
 **/
 @:glueCppIncludes("Components/BrushComponent.h")
-@:uextern extern class UBrushComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UBrushComponent extends unreal.UPrimitiveComponent {
   
   /**
     Local space translation
   **/
-  @:deprecated public var PrePivot_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var PrePivot_DEPRECATED : unreal.FVector;
   
   /**
     Description of collision
   **/
-  public var BrushBodySetup : unreal.UBodySetup;
-  public var Brush : unreal.UModel;
+  @:uproperty public var BrushBodySetup : unreal.UBodySetup;
+  @:uproperty public var Brush : unreal.UModel;
   
 }

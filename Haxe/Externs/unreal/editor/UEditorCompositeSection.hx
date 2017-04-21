@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Animation/EditorCompositeSection.h")
-@:uextern extern class UEditorCompositeSection extends unreal.editor.UEditorAnimBaseObj {
+@:uextern @:uclass extern class UEditorCompositeSection extends unreal.editor.UEditorAnimBaseObj {
   
   /**
     Default blend in time.
   **/
-  public var CompositeSection : unreal.FCompositeSection;
+  @:uproperty public var CompositeSection : unreal.FCompositeSection;
   
 }

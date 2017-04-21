@@ -21,19 +21,19 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_PlayAnimation.h")
-@:uextern extern class UBTTask_PlayAnimation extends unreal.aimodule.UBTTaskNode {
-  public var CachedSkelMesh : unreal.USkeletalMeshComponent;
-  public var MyOwnerComp : unreal.aimodule.UBehaviorTreeComponent;
+@:uextern @:uclass extern class UBTTask_PlayAnimation extends unreal.aimodule.UBTTaskNode {
+  @:uproperty public var CachedSkelMesh : unreal.USkeletalMeshComponent;
+  @:uproperty public var MyOwnerComp : unreal.aimodule.UBehaviorTreeComponent;
   
   /**
     if true the task will just trigger the animation and instantly finish. Fire and Forget.
   **/
-  public var bNonBlocking : Bool;
-  public var bLooping : Bool;
+  @:uproperty public var bNonBlocking : Bool;
+  @:uproperty public var bLooping : Bool;
   
   /**
     Animation asset to play. Note that it needs to match the skeleton of pawn this BT is controlling
   **/
-  public var AnimationToPlay : unreal.UAnimationAsset;
+  @:uproperty public var AnimationToPlay : unreal.UAnimationAsset;
   
 }

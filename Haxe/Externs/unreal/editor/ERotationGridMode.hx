@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uname("ERotationGridMode")
-@:uextern extern enum ERotationGridMode {
+@:uextern @:uenum extern enum ERotationGridMode {
   
   /**
     Using Divisions of 360 degrees (e.g 360/2. 360/3, 360/4, ... ).

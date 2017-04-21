@@ -20,11 +20,11 @@ package unreal;
   Sound node that takes a runtime parameter for the wave to play
 **/
 @:glueCppIncludes("Sound/SoundNodeWaveParam.h")
-@:uextern extern class USoundNodeWaveParam extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeWaveParam extends unreal.USoundNode {
   
   /**
     The name of the wave parameter to use to look up the SoundWave we should play
   **/
-  public var WaveParameterName : unreal.FName;
+  @:uproperty public var WaveParameterName : unreal.FName;
   
 }

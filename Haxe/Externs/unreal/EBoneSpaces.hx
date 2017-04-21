@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
 @:uname("EBoneSpaces.Type")
-@:uextern extern enum EBoneSpaces {
+@:uextern @:uenum extern enum EBoneSpaces {
   
   /**
     Set absolute position of bone in world space.

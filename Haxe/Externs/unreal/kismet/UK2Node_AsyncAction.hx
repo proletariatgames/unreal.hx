@@ -19,6 +19,6 @@ package unreal.kismet;
 **/
 @:umodule("Kismet")
 @:glueCppIncludes("Nodes/K2Node_AsyncAction.h")
-@:uextern extern class UK2Node_AsyncAction extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
+@:uextern @:uclass extern class UK2Node_AsyncAction extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
   
 }

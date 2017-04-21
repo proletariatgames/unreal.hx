@@ -21,11 +21,11 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraNodeOp.h")
-@:uextern extern class UNiagaraNodeOp extends unreal.niagaraeditor.UNiagaraNode {
+@:uextern @:uclass extern class UNiagaraNodeOp extends unreal.niagaraeditor.UNiagaraNode {
   
   /**
     Name of operation
   **/
-  public var OpName : unreal.FName;
+  @:uproperty public var OpName : unreal.FName;
   
 }

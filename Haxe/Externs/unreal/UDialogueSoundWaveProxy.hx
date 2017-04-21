@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/DialogueSoundWaveProxy.h")
-@:noClass @:uextern extern class UDialogueSoundWaveProxy extends unreal.USoundBase {
+@:noClass @:uextern @:uclass extern class UDialogueSoundWaveProxy extends unreal.USoundBase {
   
 }

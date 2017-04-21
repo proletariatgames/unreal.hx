@@ -20,31 +20,31 @@ package unreal;
   Movement capabilities, determining available movement options for Pawns and used by AI for reachability tests.
 **/
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
-@:noCopy @:noEquals @:uextern extern class FMovementProperties {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovementProperties {
   
   /**
     If true, this Pawn is capable of flying.
   **/
-  public var bCanFly : Bool;
+  @:uproperty public var bCanFly : Bool;
   
   /**
     If true, this Pawn is capable of swimming or moving through fluid volumes.
   **/
-  public var bCanSwim : Bool;
+  @:uproperty public var bCanSwim : Bool;
   
   /**
     If true, this Pawn is capable of walking or moving on the ground.
   **/
-  public var bCanWalk : Bool;
+  @:uproperty public var bCanWalk : Bool;
   
   /**
     If true, this Pawn is capable of jumping.
   **/
-  public var bCanJump : Bool;
+  @:uproperty public var bCanJump : Bool;
   
   /**
     If true, this Pawn is capable of crouching.
   **/
-  public var bCanCrouch : Bool;
+  @:uproperty public var bCanCrouch : Bool;
   
 }

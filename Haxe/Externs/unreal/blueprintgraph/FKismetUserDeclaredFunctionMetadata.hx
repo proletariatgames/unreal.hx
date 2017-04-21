@@ -22,14 +22,17 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_EditablePinBase.h")
-@:noCopy @:noEquals @:uextern extern class FKismetUserDeclaredFunctionMetadata {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKismetUserDeclaredFunctionMetadata {
   
   /**
     Cached value for whether or not the graph has latent functions, positive for TRUE, zero for FALSE, and INDEX_None for undetermined
   **/
-  public var HasLatentFunctions : unreal.Int8;
-  public var bCallInEditor : Bool;
-  public var InstanceTitleColor : unreal.FLinearColor;
-  public var ToolTip : unreal.FString;
+  @:uproperty public var HasLatentFunctions : unreal.Int8;
+  @:uproperty public var bCallInEditor : Bool;
+  @:uproperty public var InstanceTitleColor : unreal.FLinearColor;
+  @:uproperty public var CompactNodeTitle : unreal.FText;
+  @:uproperty public var Keywords : unreal.FText;
+  @:uproperty public var Category : unreal.FText;
+  @:uproperty public var ToolTip : unreal.FString;
   
 }

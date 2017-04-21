@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventBase.h")
-@:noClass @:uextern extern class UParticleModuleEventBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleEventBase extends unreal.UParticleModule {
   
 }

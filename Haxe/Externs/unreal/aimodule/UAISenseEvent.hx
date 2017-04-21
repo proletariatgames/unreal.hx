@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseEvent.h")
-@:uextern extern class UAISenseEvent extends unreal.UObject {
+@:uextern @:uclass extern class UAISenseEvent extends unreal.UObject {
   
 }

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationGraph.h")
-@:noCopy @:noEquals @:uextern extern class FNavGraphNode {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNavGraphNode {
   
   /**
     Who's this node referring to? This will most commonly point to an actor or a component
   **/
-  public var Owner : unreal.UObject;
+  @:uproperty public var Owner : unreal.UObject;
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/RVOAvoidanceInterface.h")
-@:uextern extern interface IRVOAvoidanceInterface {
+@:uextern @:uclass extern interface IRVOAvoidanceInterface {
   
 }

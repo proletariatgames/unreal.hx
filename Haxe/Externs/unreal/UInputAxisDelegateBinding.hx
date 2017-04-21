@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputAxisDelegateBinding.h")
-@:uextern extern class UInputAxisDelegateBinding extends unreal.UInputDelegateBinding {
-  public var InputAxisDelegateBindings : unreal.TArray<unreal.FBlueprintInputAxisDelegateBinding>;
+@:uextern @:uclass extern class UInputAxisDelegateBinding extends unreal.UInputDelegateBinding {
+  @:uproperty public var InputAxisDelegateBindings : unreal.TArray<unreal.FBlueprintInputAxisDelegateBinding>;
   
 }

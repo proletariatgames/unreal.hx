@@ -21,56 +21,56 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperGroupedSpriteComponent.h")
-@:uextern extern class UPaperGroupedSpriteComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class UPaperGroupedSpriteComponent extends unreal.UMeshComponent {
   
   /**
     Array of instances
   **/
-  private var PerInstanceSpriteData : unreal.TArray<unreal.paper2d.FSpriteInstanceData>;
+  @:uproperty private var PerInstanceSpriteData : unreal.TArray<unreal.paper2d.FSpriteInstanceData>;
   
   /**
     Array of materials used by the instances
   **/
-  private var InstanceMaterials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty private var InstanceMaterials : unreal.TArray<unreal.UMaterialInterface>;
   
   /**
     Add an instance to this component. Transform can be given either in the local space of this component or world space.
   **/
-  @:final public function AddInstance(Transform : unreal.Const<unreal.PRef<unreal.FTransform>>, Sprite : unreal.paper2d.UPaperSprite, bWorldSpace : Bool, Color : unreal.FLinearColor) : unreal.Int32;
+  @:ufunction @:final public function AddInstance(Transform : unreal.Const<unreal.PRef<unreal.FTransform>>, Sprite : unreal.paper2d.UPaperSprite, bWorldSpace : Bool = false, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") Color : unreal.FLinearColor) : unreal.Int32;
   
   /**
     Get the transform for the instance specified. Instance is returned in local space of this component unless bWorldSpace is set.  Returns True on success.
   **/
-  @:thisConst @:final public function GetInstanceTransform(InstanceIndex : unreal.Int32, OutInstanceTransform : unreal.PRef<unreal.FTransform>, bWorldSpace : Bool) : Bool;
+  @:ufunction @:thisConst @:final public function GetInstanceTransform(InstanceIndex : unreal.Int32, OutInstanceTransform : unreal.PRef<unreal.FTransform>, bWorldSpace : Bool = false) : Bool;
   
   /**
     Update the transform for the instance specified. Instance is given in local space of this component unless bWorldSpace is set.  Returns True on success.
   **/
-  public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool, bMarkRenderStateDirty : Bool, bTeleport : Bool) : Bool;
+  @:ufunction public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool = false, bMarkRenderStateDirty : Bool = true, bTeleport : Bool = false) : Bool;
   
   /**
     Update the color for the instance specified. Returns True on success.
   **/
-  public function UpdateInstanceColor(InstanceIndex : unreal.Int32, NewInstanceColor : unreal.FLinearColor, bMarkRenderStateDirty : Bool) : Bool;
+  @:ufunction public function UpdateInstanceColor(InstanceIndex : unreal.Int32, NewInstanceColor : unreal.FLinearColor, bMarkRenderStateDirty : Bool = true) : Bool;
   
   /**
     Remove the instance specified. Returns True on success.
   **/
-  public function RemoveInstance(InstanceIndex : unreal.Int32) : Bool;
+  @:ufunction public function RemoveInstance(InstanceIndex : unreal.Int32) : Bool;
   
   /**
     Clear all instances being rendered by this component
   **/
-  public function ClearInstances() : Void;
+  @:ufunction public function ClearInstances() : Void;
   
   /**
     Get the number of instances in this component
   **/
-  @:thisConst @:final public function GetInstanceCount() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetInstanceCount() : unreal.Int32;
   
   /**
     Sort all instances by their world space position along the specified axis
   **/
-  @:final public function SortInstancesAlongAxis(WorldSpaceSortAxis : unreal.FVector) : Void;
+  @:ufunction @:final public function SortInstancesAlongAxis(WorldSpaceSortAxis : unreal.FVector) : Void;
   
 }

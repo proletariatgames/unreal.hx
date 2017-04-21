@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uname("EGameplayTargetingConfirmation.Type")
-@:uextern extern enum EGameplayTargetingConfirmation {
+@:uextern @:uenum extern enum EGameplayTargetingConfirmation {
   Instant;
   
   /**

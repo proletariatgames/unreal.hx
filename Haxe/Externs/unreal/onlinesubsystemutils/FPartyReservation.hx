@@ -19,21 +19,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
-@:uextern extern class FPartyReservation {
+@:uextern @:ustruct extern class FPartyReservation {
   
   /**
     All party members (including party leader) in the reservation
   **/
-  public var PartyMembers : unreal.TArray<unreal.onlinesubsystemutils.FPlayerReservation>;
+  @:uproperty public var PartyMembers : unreal.TArray<unreal.onlinesubsystemutils.FPlayerReservation>;
   
   /**
     Player initiating the request
   **/
-  public var PartyLeader : unreal.FUniqueNetIdRepl;
+  @:uproperty public var PartyLeader : unreal.FUniqueNetIdRepl;
   
   /**
     Team assigned to this party
   **/
-  public var TeamNum : unreal.Int32;
+  @:uproperty public var TeamNum : unreal.Int32;
   
 }

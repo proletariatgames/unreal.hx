@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionVectorParameterBase.h")
-@:noClass @:uextern extern class UDistributionVectorParameterBase extends unreal.UDistributionVectorConstant {
-  public var MaxOutput : unreal.FVector;
-  public var MinOutput : unreal.FVector;
-  public var MaxInput : unreal.FVector;
-  public var MinInput : unreal.FVector;
-  public var ParameterName : unreal.FName;
+@:noClass @:uextern @:uclass extern class UDistributionVectorParameterBase extends unreal.UDistributionVectorConstant {
+  @:uproperty public var MaxOutput : unreal.FVector;
+  @:uproperty public var MinOutput : unreal.FVector;
+  @:uproperty public var MaxInput : unreal.FVector;
+  @:uproperty public var MinInput : unreal.FVector;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

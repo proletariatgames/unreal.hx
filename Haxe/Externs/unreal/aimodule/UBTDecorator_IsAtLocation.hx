@@ -20,18 +20,18 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_IsAtLocation.h")
-@:uextern extern class UBTDecorator_IsAtLocation extends unreal.aimodule.UBTDecorator_BlackboardBase {
+@:uextern @:uclass extern class UBTDecorator_IsAtLocation extends unreal.aimodule.UBTDecorator_BlackboardBase {
   
   /**
     if moving to an actor and this actor is a nav agent, then we will move to their nav agent location
   **/
-  public var bUseNavAgentGoalLocation : Bool;
-  public var bUseParametrizedRadius : Bool;
-  public var ParametrizedAcceptableRadius : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var bUseNavAgentGoalLocation : Bool;
+  @:uproperty public var bUseParametrizedRadius : Bool;
+  @:uproperty public var ParametrizedAcceptableRadius : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     distance threshold to accept as being at location
   **/
-  public var AcceptableRadius : unreal.Float32;
+  @:uproperty public var AcceptableRadius : unreal.Float32;
   
 }

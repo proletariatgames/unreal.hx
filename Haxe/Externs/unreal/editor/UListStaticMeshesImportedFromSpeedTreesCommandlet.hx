@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ListStaticMeshesImportedFromSpeedTreesCommandlet.h")
-@:noClass @:uextern extern class UListStaticMeshesImportedFromSpeedTreesCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UListStaticMeshesImportedFromSpeedTreesCommandlet extends unreal.UCommandlet {
   
 }

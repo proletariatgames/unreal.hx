@@ -19,24 +19,24 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UBorderSlot extends unreal.umg.UPanelSlot {
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+@:uextern @:uclass extern class UBorderSlot extends unreal.umg.UPanelSlot {
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
   /**
     The alignment of the object vertically.
   **/
-  private var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty private var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   
   /**
     The alignment of the object horizontally.
   **/
-  private var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty private var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     The padding area between the slot and the content it contains.
   **/
-  private var Padding : unreal.slatecore.FMargin;
+  @:uproperty private var Padding : unreal.slatecore.FMargin;
   
 }

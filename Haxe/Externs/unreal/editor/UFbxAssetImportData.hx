@@ -19,19 +19,19 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxAssetImportData.h")
-@:uextern extern class UFbxAssetImportData extends unreal.UAssetImportData {
+@:uextern @:uclass extern class UFbxAssetImportData extends unreal.UAssetImportData {
   
   /**
     Use by the reimport factory to answer CanReimport, if true only factory for scene reimport will return true
   **/
-  public var FbxSceneImportDataReference : unreal.editor.UFbxSceneImportData;
+  @:uproperty public var FbxSceneImportDataReference : unreal.editor.UFbxSceneImportData;
   
   /**
     Use by the reimport factory to answer CanReimport, if true only factory for scene reimport will return true
   **/
-  public var bImportAsScene : Bool;
-  public var ImportUniformScale : unreal.Float32;
-  public var ImportRotation : unreal.FRotator;
-  public var ImportTranslation : unreal.FVector;
+  @:uproperty public var bImportAsScene : Bool;
+  @:uproperty public var ImportUniformScale : unreal.Float32;
+  @:uproperty public var ImportRotation : unreal.FRotator;
+  @:uproperty public var ImportTranslation : unreal.FVector;
   
 }

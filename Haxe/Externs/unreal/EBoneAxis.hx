@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EBoneAxis")
-@:uextern extern enum EBoneAxis {
+@:uextern @:uenum extern enum EBoneAxis {
   
   /**
     X Axis

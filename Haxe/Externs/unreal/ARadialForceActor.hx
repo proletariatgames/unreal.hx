@@ -20,10 +20,10 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/RadialForceActor.h")
-@:uextern extern class ARadialForceActor extends unreal.ARigidBodyBase {
+@:uextern @:uclass extern class ARadialForceActor extends unreal.ARigidBodyBase {
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
-  public var ForceComponent : unreal.URadialForceComponent;
+  @:uproperty public var ForceComponent : unreal.URadialForceComponent;
   
 }

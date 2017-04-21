@@ -19,12 +19,12 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheActor.h")
-@:uextern extern class AGeometryCacheActor extends unreal.AActor {
-  public var GeometryCacheComponent : unreal.geometrycache.UGeometryCacheComponent;
+@:uextern @:uclass extern class AGeometryCacheActor extends unreal.AActor {
+  @:uproperty public var GeometryCacheComponent : unreal.geometrycache.UGeometryCacheComponent;
   
   /**
     Returns GeometryCacheComponent subobject *
   **/
-  @:thisConst @:final public function GetGeometryCacheComponent() : unreal.geometrycache.UGeometryCacheComponent;
+  @:ufunction @:thisConst @:final public function GetGeometryCacheComponent() : unreal.geometrycache.UGeometryCacheComponent;
   
 }

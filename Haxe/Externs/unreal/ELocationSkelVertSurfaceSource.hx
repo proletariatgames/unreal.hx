@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationSkelVertSurface.h")
 @:uname("ELocationSkelVertSurfaceSource")
-@:uextern extern enum ELocationSkelVertSurfaceSource {
+@:uextern @:uenum extern enum ELocationSkelVertSurfaceSource {
   
   /**
     Vertices

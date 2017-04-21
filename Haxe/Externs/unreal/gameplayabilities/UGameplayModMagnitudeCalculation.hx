@@ -19,7 +19,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayModMagnitudeCalculation.h")
-@:uextern extern class UGameplayModMagnitudeCalculation extends unreal.gameplayabilities.UGameplayEffectCalculation {
+@:uextern @:uclass extern class UGameplayModMagnitudeCalculation extends unreal.gameplayabilities.UGameplayEffectCalculation {
   
   /**
     Calculate the base magnitude of the gameplay effect modifier, given the specified spec. Note that the owning spec def can still modify this base value
@@ -29,6 +29,6 @@ package unreal.gameplayabilities;
     
     @return Computed magnitude of the modifier
   **/
-  @:thisConst public function CalculateBaseMagnitude(Spec : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEffectSpec>>) : unreal.Float32;
+  @:ufunction @:thisConst public function CalculateBaseMagnitude(Spec : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayEffectSpec>>) : unreal.Float32;
   
 }

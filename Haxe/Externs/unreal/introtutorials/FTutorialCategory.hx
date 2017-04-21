@@ -19,26 +19,36 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
-@:uextern extern class FTutorialCategory {
+@:uextern @:ustruct extern class FTutorialCategory {
   
   /**
     Texture for this tutorial, used when presented to the user in the tutorial browser.
   **/
-  public var Texture : unreal.FStringAssetReference;
+  @:uproperty public var Texture : unreal.FStringAssetReference;
   
   /**
     Icon for this tutorial, used when presented to the user in the tutorial browser. Only used if there isn't a valid texture to use.
   **/
-  public var Icon : unreal.FString;
+  @:uproperty public var Icon : unreal.FString;
+  
+  /**
+    Localized text to use to describe this category
+  **/
+  @:uproperty public var Description : unreal.FText;
   
   /**
     Sort order, used by the tutorial browser - set in editor game-agnostic INI file
   **/
-  public var SortOrder : unreal.Int32;
+  @:uproperty public var SortOrder : unreal.Int32;
+  
+  /**
+    Title of the category
+  **/
+  @:uproperty public var Title : unreal.FText;
   
   /**
     Period-separated category name, e.g. "Editor Quickstart.Level Editor"
   **/
-  public var Identifier : unreal.FString;
+  @:uproperty public var Identifier : unreal.FString;
   
 }

@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:noCopy @:noEquals @:uextern extern class FVehicleGearData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVehicleGearData {
   
   /**
     Value of engineRevs/maxEngineRevs that is high enough to gear up
   **/
-  public var UpRatio : unreal.Float32;
+  @:uproperty public var UpRatio : unreal.Float32;
   
   /**
     Value of engineRevs/maxEngineRevs that is low enough to gear down
   **/
-  public var DownRatio : unreal.Float32;
+  @:uproperty public var DownRatio : unreal.Float32;
   
   /**
     Determines the amount of torque multiplication
   **/
-  public var Ratio : unreal.Float32;
+  @:uproperty public var Ratio : unreal.Float32;
   
 }

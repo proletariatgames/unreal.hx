@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimationAsset.h")
 @:uname("ERootMotionMode.Type")
-@:uextern extern enum ERootMotionMode {
+@:uextern @:uenum extern enum ERootMotionMode {
   
   /**
     Leave root motion in animation.

@@ -21,6 +21,6 @@ package unreal.audiomixer;
 **/
 @:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
-@:uextern extern class USoundEffectSubmixEQPreset extends unreal.USoundEffectSourcePreset {
+@:uextern @:uclass extern class USoundEffectSubmixEQPreset extends unreal.USoundEffectSourcePreset {
   
 }

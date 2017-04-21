@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_CurrentLocation.h")
-@:uextern extern class UEnvQueryGenerator_CurrentLocation extends unreal.aimodule.UEnvQueryGenerator {
+@:uextern @:uclass extern class UEnvQueryGenerator_CurrentLocation extends unreal.aimodule.UEnvQueryGenerator {
   
   /**
     context
   **/
-  private var QueryContext : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty private var QueryContext : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
 }

@@ -19,25 +19,25 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UUniformGridPanel extends unreal.umg.UPanelWidget {
+@:uextern @:uclass extern class UUniformGridPanel extends unreal.umg.UPanelWidget {
   
   /**
     The minimum desired height of the slots
   **/
-  public var MinDesiredSlotHeight : unreal.Float32;
+  @:uproperty public var MinDesiredSlotHeight : unreal.Float32;
   
   /**
     The minimum desired width of the slots
   **/
-  public var MinDesiredSlotWidth : unreal.Float32;
+  @:uproperty public var MinDesiredSlotWidth : unreal.Float32;
   
   /**
     Padding given to each slot
   **/
-  public var SlotPadding : unreal.slatecore.FMargin;
-  @:final public function SetSlotPadding(InSlotPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetMinDesiredSlotWidth(InMinDesiredSlotWidth : unreal.Float32) : Void;
-  @:final public function SetMinDesiredSlotHeight(InMinDesiredSlotHeight : unreal.Float32) : Void;
-  @:final public function AddChildToUniformGrid(Content : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
+  @:uproperty public var SlotPadding : unreal.slatecore.FMargin;
+  @:ufunction @:final public function SetSlotPadding(InSlotPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetMinDesiredSlotWidth(InMinDesiredSlotWidth : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMinDesiredSlotHeight(InMinDesiredSlotHeight : unreal.Float32) : Void;
+  @:ufunction @:final public function AddChildToUniformGrid(Content : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
   
 }

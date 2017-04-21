@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayEffectRemoved.h")
-@:uextern extern class UAbilityTask_WaitGameplayEffectRemoved extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_WaitGameplayEffectRemoved extends unreal.gameplayabilities.UAbilityTask {
   
 }

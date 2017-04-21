@@ -21,19 +21,19 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:noCopy @:noEquals @:uextern extern class FEQSParametrizedQueryExecutionRequest {
-  public var bUseBBKeyForQueryTemplate : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEQSParametrizedQueryExecutionRequest {
+  @:uproperty public var bUseBBKeyForQueryTemplate : Bool;
   
   /**
     determines which item will be stored (All = only first matching)
   **/
-  public var RunMode : unreal.aimodule.EEnvQueryRunMode;
+  @:uproperty public var RunMode : unreal.aimodule.EEnvQueryRunMode;
   
   /**
     blackboard key storing an EQS query template
   **/
-  public var EQSQueryBlackboardKey : unreal.aimodule.FBlackboardKeySelector;
-  public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
-  public var QueryTemplate : unreal.aimodule.UEnvQuery;
+  @:uproperty public var EQSQueryBlackboardKey : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
+  @:uproperty public var QueryTemplate : unreal.aimodule.UEnvQuery;
   
 }

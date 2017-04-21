@@ -20,57 +20,57 @@ package unreal;
   Structure storing Data for pre-computation
 **/
 @:glueCppIncludes("Atmosphere/AtmosphericFogComponent.h")
-@:noCopy @:noEquals @:uextern extern class FAtmospherePrecomputeParameters {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAtmospherePrecomputeParameters {
   
   /**
     Inscatter Texture Width
   **/
-  public var InscatterNuNum : unreal.Int32;
+  @:uproperty public var InscatterNuNum : unreal.Int32;
   
   /**
     Inscatter Texture Width
   **/
-  public var InscatterMuSNum : unreal.Int32;
+  @:uproperty public var InscatterMuSNum : unreal.Int32;
   
   /**
     Inscatter Texture Height
   **/
-  public var InscatterMuNum : unreal.Int32;
+  @:uproperty public var InscatterMuNum : unreal.Int32;
   
   /**
     Number of different altitudes at which to sample inscatter color (size of 3D texture Z dimension)
   **/
-  public var InscatterAltitudeSampleNum : unreal.Int32;
+  @:uproperty public var InscatterAltitudeSampleNum : unreal.Int32;
   
   /**
     Irradiance Texture Height
   **/
-  public var IrradianceTexHeight : unreal.Int32;
+  @:uproperty public var IrradianceTexHeight : unreal.Int32;
   
   /**
     Irradiance Texture Width
   **/
-  public var IrradianceTexWidth : unreal.Int32;
+  @:uproperty public var IrradianceTexWidth : unreal.Int32;
   
   /**
     Transmittance Texture Height
   **/
-  public var TransmittanceTexHeight : unreal.Int32;
+  @:uproperty public var TransmittanceTexHeight : unreal.Int32;
   
   /**
     Transmittance Texture Width
   **/
-  public var TransmittanceTexWidth : unreal.Int32;
+  @:uproperty public var TransmittanceTexWidth : unreal.Int32;
   
   /**
     Maximum scattering order
   **/
-  public var MaxScatteringOrder : unreal.Int32;
-  @:deprecated public var DecayHeight_DEPRECATED : unreal.Float32;
+  @:uproperty public var MaxScatteringOrder : unreal.Int32;
+  @:deprecated @:uproperty public var DecayHeight_DEPRECATED : unreal.Float32;
   
   /**
     Rayleigh scattering density height scale, ranges from [0...1]
   **/
-  public var DensityHeight : unreal.Float32;
+  @:uproperty public var DensityHeight : unreal.Float32;
   
 }

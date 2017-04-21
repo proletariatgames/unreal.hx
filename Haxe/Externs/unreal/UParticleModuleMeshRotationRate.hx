@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/RotationRate/ParticleModuleMeshRotationRate.h")
-@:uextern extern class UParticleModuleMeshRotationRate extends unreal.UParticleModuleRotationRateBase {
+@:uextern @:uclass extern class UParticleModuleMeshRotationRate extends unreal.UParticleModuleRotationRateBase {
   
   /**
     Initial rotation rate, in rotations per second.
     The value is retrieved using the EmitterTime.
   **/
-  public var StartRotationRate : unreal.FRawDistributionVector;
+  @:uproperty public var StartRotationRate : unreal.FRawDistributionVector;
   
 }

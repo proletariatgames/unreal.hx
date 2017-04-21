@@ -21,8 +21,8 @@ package unreal.environmentqueryeditor;
 **/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EnvironmentQueryGraphNode_Root.h")
-@:noClass @:uextern extern class UEnvironmentQueryGraphNode_Root extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
-  public var bHasDebugError : Bool;
-  public var DebugMessages : unreal.TArray<unreal.FString>;
+@:noClass @:uextern @:uclass extern class UEnvironmentQueryGraphNode_Root extends unreal.environmentqueryeditor.UEnvironmentQueryGraphNode {
+  @:uproperty public var bHasDebugError : Bool;
+  @:uproperty public var DebugMessages : unreal.TArray<unreal.FString>;
   
 }

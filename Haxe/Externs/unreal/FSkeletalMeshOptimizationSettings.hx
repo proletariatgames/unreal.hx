@@ -20,73 +20,73 @@ package unreal;
   FSkeletalMeshOptimizationSettings - The settings used to optimize a skeletal mesh LOD.
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:noCopy @:noEquals @:uextern extern class FSkeletalMeshOptimizationSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshOptimizationSettings {
   
   /**
     Maximum number of bones that can be assigned to each vertex.
   **/
-  public var BaseLOD : unreal.Int32;
-  @:deprecated public var BonesToRemove_DEPRECATED : unreal.TArray<unreal.FBoneReference>;
+  @:uproperty public var BaseLOD : unreal.Int32;
+  @:deprecated @:uproperty public var BonesToRemove_DEPRECATED : unreal.TArray<unreal.FBoneReference>;
   
   /**
     Maximum number of bones that can be assigned to each vertex.
   **/
-  public var MaxBonesPerVertex : unreal.Int32;
+  @:uproperty public var MaxBonesPerVertex : unreal.Int32;
   
   /**
     The ratio of bones that will be removed from the mesh
   **/
-  public var BoneReductionRatio : unreal.Float32;
+  @:uproperty public var BoneReductionRatio : unreal.Float32;
   
   /**
     How important skinning quality is.
   **/
-  public var SkinningImportance : unreal.SkeletalMeshOptimizationImportance;
+  @:uproperty public var SkinningImportance : unreal.SkeletalMeshOptimizationImportance;
   
   /**
     How important shading quality is.
   **/
-  public var ShadingImportance : unreal.SkeletalMeshOptimizationImportance;
+  @:uproperty public var ShadingImportance : unreal.SkeletalMeshOptimizationImportance;
   
   /**
     How important texture density is.
   **/
-  public var TextureImportance : unreal.SkeletalMeshOptimizationImportance;
+  @:uproperty public var TextureImportance : unreal.SkeletalMeshOptimizationImportance;
   
   /**
     How important the shape of the geometry is.
   **/
-  public var SilhouetteImportance : unreal.SkeletalMeshOptimizationImportance;
+  @:uproperty public var SilhouetteImportance : unreal.SkeletalMeshOptimizationImportance;
   
   /**
     If the angle between two triangles are above this value, the normals will not be
           smooth over the edge between those two triangles. Set in degrees. This is only used when PreserveNormals is set to false
   **/
-  public var NormalsThreshold : unreal.Float32;
+  @:uproperty public var NormalsThreshold : unreal.Float32;
   
   /**
     Whether Normal smoothing groups should be preserved. If false then NormalsThreshold is used *
   **/
-  public var bRecalcNormals : Bool;
+  @:uproperty public var bRecalcNormals : Bool;
   
   /**
     The welding threshold distance. Vertices under this distance will be welded.
   **/
-  public var WeldingThreshold : unreal.Float32;
+  @:uproperty public var WeldingThreshold : unreal.Float32;
   
   /**
     If ReductionMethod equals SMOT_MaxDeviation this value is the maximum deviation from the base mesh as a percentage of the bounding sphere.
   **/
-  public var MaxDeviationPercentage : unreal.Float32;
+  @:uproperty public var MaxDeviationPercentage : unreal.Float32;
   
   /**
     If ReductionMethod equals SMOT_NumOfTriangles this value is the ratio of triangles [0-1] to remove from the mesh
   **/
-  public var NumOfTrianglesPercentage : unreal.Float32;
+  @:uproperty public var NumOfTrianglesPercentage : unreal.Float32;
   
   /**
     The method to use when optimizing the skeletal mesh LOD
   **/
-  public var ReductionMethod : unreal.SkeletalMeshOptimizationType;
+  @:uproperty public var ReductionMethod : unreal.SkeletalMeshOptimizationType;
   
 }

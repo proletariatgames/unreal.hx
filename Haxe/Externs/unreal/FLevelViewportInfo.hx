@@ -18,26 +18,26 @@ package unreal;
   Saved editor viewport state information
 **/
 @:glueCppIncludes("Engine/World.h")
-@:uextern extern class FLevelViewportInfo {
+@:uextern @:ustruct extern class FLevelViewportInfo {
   
   /**
     Whether camera settings have been systematically changed since the last level viewport update.
   **/
-  public var CamUpdated : Bool;
+  @:uproperty public var CamUpdated : Bool;
   
   /**
     The zoom value  for orthographic mode.
   **/
-  public var CamOrthoZoom : unreal.Float32;
+  @:uproperty public var CamOrthoZoom : unreal.Float32;
   
   /**
     The camera's position within the viewport.
   **/
-  public var CamRotation : unreal.FRotator;
+  @:uproperty public var CamRotation : unreal.FRotator;
   
   /**
     Where the camera is positioned within the viewport.
   **/
-  public var CamPosition : unreal.FVector;
+  @:uproperty public var CamPosition : unreal.FVector;
   
 }

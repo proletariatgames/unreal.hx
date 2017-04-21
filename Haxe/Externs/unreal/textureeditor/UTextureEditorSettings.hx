@@ -19,46 +19,46 @@ package unreal.textureeditor;
 **/
 @:umodule("TextureEditor")
 @:glueCppIncludes("TextureEditorSettings.h")
-@:uextern extern class UTextureEditorSettings extends unreal.UObject {
+@:uextern @:uclass extern class UTextureEditorSettings extends unreal.UObject {
   
   /**
     If true, displays a border around the texture.
   **/
-  public var TextureBorderEnabled : Bool;
+  @:uproperty public var TextureBorderEnabled : Bool;
   
   /**
     Color to use for the texture border, if enabled.
   **/
-  public var TextureBorderColor : unreal.FColor;
+  @:uproperty public var TextureBorderColor : unreal.FColor;
   
   /**
     Whether the texture should scale to fit the view port.
   **/
-  public var FitToViewport : Bool;
+  @:uproperty public var FitToViewport : Bool;
   
   /**
     The size of the checkered background tiles.
   **/
-  public var CheckerSize : unreal.Int32;
+  @:uproperty public var CheckerSize : unreal.Int32;
   
   /**
     The second color of the checkered background.
   **/
-  public var CheckerColorTwo : unreal.FColor;
+  @:uproperty public var CheckerColorTwo : unreal.FColor;
   
   /**
     The first color of the checkered background.
   **/
-  public var CheckerColorOne : unreal.FColor;
+  @:uproperty public var CheckerColorOne : unreal.FColor;
   
   /**
     Background and foreground color used by Texture preview view ports.
   **/
-  public var BackgroundColor : unreal.FColor;
+  @:uproperty public var BackgroundColor : unreal.FColor;
   
   /**
     The type of background to draw in the texture editor view port.
   **/
-  public var Background : unreal.textureeditor.ETextureEditorBackgrounds;
+  @:uproperty public var Background : unreal.textureeditor.ETextureEditorBackgrounds;
   
 }

@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushImageType.Type")
-@:uextern extern enum ESlateBrushImageType {
+@:uextern @:uenum extern enum ESlateBrushImageType {
   
   /**
     No image is loaded.  Color only brushes, transparent brushes etc.

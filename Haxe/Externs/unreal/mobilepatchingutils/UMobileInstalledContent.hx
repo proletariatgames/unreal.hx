@@ -21,6 +21,6 @@ package unreal.mobilepatchingutils;
 **/
 @:umodule("MobilePatchingUtils")
 @:glueCppIncludes("Private/MobilePatchingLibrary.h")
-@:noClass @:uextern extern class UMobileInstalledContent extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMobileInstalledContent extends unreal.UObject {
   
 }

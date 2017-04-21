@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassScalarParameterValue extends unreal.editor.FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassScalarParameterValue extends unreal.editor.FLightmassParameterValue {
   
   /**
     The scalar value to override the parent value with
   **/
-  public var ParameterValue : unreal.Float32;
+  @:uproperty public var ParameterValue : unreal.Float32;
   
 }

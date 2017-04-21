@@ -21,31 +21,31 @@ package unreal.proceduralmeshcomponent;
 **/
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("ProceduralMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FProcMeshSection {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FProcMeshSection {
   
   /**
     Should we display this section
   **/
-  public var bSectionVisible : Bool;
+  @:uproperty public var bSectionVisible : Bool;
   
   /**
     Should we build collision data for triangles in this section
   **/
-  public var bEnableCollision : Bool;
+  @:uproperty public var bEnableCollision : Bool;
   
   /**
     Local bounding box of section
   **/
-  public var SectionLocalBox : unreal.FBox;
+  @:uproperty public var SectionLocalBox : unreal.FBox;
   
   /**
     Index buffer for this section
   **/
-  public var ProcIndexBuffer : unreal.TArray<unreal.Int32>;
+  @:uproperty public var ProcIndexBuffer : unreal.TArray<unreal.Int32>;
   
   /**
     Vertex buffer for this section
   **/
-  public var ProcVertexBuffer : unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshVertex>;
+  @:uproperty public var ProcVertexBuffer : unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshVertex>;
   
 }

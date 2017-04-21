@@ -21,17 +21,17 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_GetInputAxisKeyValue.h")
-@:uextern extern class UK2Node_GetInputAxisKeyValue extends unreal.blueprintgraph.UK2Node_CallFunction {
+@:uextern @:uclass extern class UK2Node_GetInputAxisKeyValue extends unreal.blueprintgraph.UK2Node_CallFunction {
   
   /**
     Should the binding gather input even when the game is paused
   **/
-  public var bExecuteWhenPaused : Bool;
+  @:uproperty public var bExecuteWhenPaused : Bool;
   
   /**
     Prevents actors with lower priority from handling this input
   **/
-  public var bConsumeInput : Bool;
-  public var InputAxisKey : unreal.inputcore.FKey;
+  @:uproperty public var bConsumeInput : Bool;
+  @:uproperty public var InputAxisKey : unreal.inputcore.FKey;
   
 }

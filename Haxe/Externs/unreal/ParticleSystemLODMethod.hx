@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
 @:uname("ParticleSystemLODMethod")
-@:uextern extern enum ParticleSystemLODMethod {
+@:uextern @:uenum extern enum ParticleSystemLODMethod {
   
   /**
     Automatically set the LOD level, checking every LODDistanceCheckTime seconds.

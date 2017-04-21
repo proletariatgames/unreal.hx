@@ -21,8 +21,8 @@ package unreal.gameprojectgeneration;
 **/
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("TemplateProjectDefs.h")
-@:noCopy @:noEquals @:uextern extern class FTemplateFolderRename {
-  public var To : unreal.FString;
-  public var From : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTemplateFolderRename {
+  @:uproperty public var To : unreal.FString;
+  @:uproperty public var From : unreal.FString;
   
 }

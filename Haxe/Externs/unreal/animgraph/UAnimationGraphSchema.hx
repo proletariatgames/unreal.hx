@@ -21,22 +21,22 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimationGraphSchema.h")
-@:uextern extern class UAnimationGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
-  public var DefaultEvaluationHandlerName : unreal.FName;
-  public var NAME_OnEvaluate : unreal.FName;
-  public var NAME_CustomizeProperty : unreal.FName;
-  public var NAME_AlwaysAsPin : unreal.FName;
-  public var NAME_PinShownByDefault : unreal.FName;
-  public var NAME_PinHiddenByDefault : unreal.FName;
+@:uextern @:uclass extern class UAnimationGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
+  @:uproperty public var DefaultEvaluationHandlerName : unreal.FName;
+  @:uproperty public var NAME_OnEvaluate : unreal.FName;
+  @:uproperty public var NAME_CustomizeProperty : unreal.FName;
+  @:uproperty public var NAME_AlwaysAsPin : unreal.FName;
+  @:uproperty public var NAME_PinShownByDefault : unreal.FName;
+  @:uproperty public var NAME_PinHiddenByDefault : unreal.FName;
   
   /**
     PC_Object+PSC_Sequence
   **/
-  public var NAME_NeverAsPin : unreal.FName;
+  @:uproperty public var NAME_NeverAsPin : unreal.FName;
   
   /**
     Common PinNames
   **/
-  public var PN_SequenceName : unreal.FString;
+  @:uproperty public var PN_SequenceName : unreal.FString;
   
 }

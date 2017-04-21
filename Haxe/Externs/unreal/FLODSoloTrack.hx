@@ -21,7 +21,7 @@ package unreal;
   Entry will be true if emitter was enabled
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
-@:noCopy @:noEquals @:uextern extern class FLODSoloTrack {
-  public var SoloEnableSetting : unreal.TArray<unreal.UInt8>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLODSoloTrack {
+  @:uproperty public var SoloEnableSetting : unreal.TArray<unreal.UInt8>;
   
 }

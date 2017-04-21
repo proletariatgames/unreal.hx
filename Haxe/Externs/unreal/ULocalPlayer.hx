@@ -20,26 +20,26 @@ package unreal;
   There may be 0 spawned on servers.
 **/
 @:glueCppIncludes("Engine/LocalPlayer.h")
-@:uextern extern class ULocalPlayer extends unreal.UPlayer {
+@:uextern @:uclass extern class ULocalPlayer extends unreal.UPlayer {
   
   /**
     set when we've sent a split join request
   **/
-  public var bSentSplitJoin : Bool;
+  @:uproperty public var bSentSplitJoin : Bool;
   
   /**
     The class of PlayerController to spawn for players logging in.
   **/
-  public var PendingLevelPlayerControllerClass : unreal.TSubclassOf<unreal.APlayerController>;
+  @:uproperty public var PendingLevelPlayerControllerClass : unreal.TSubclassOf<unreal.APlayerController>;
   
   /**
     How to constrain perspective viewport FOV
   **/
-  public var AspectRatioAxisConstraint : unreal.EAspectRatioAxisConstraint;
+  @:uproperty public var AspectRatioAxisConstraint : unreal.EAspectRatioAxisConstraint;
   
   /**
     The master viewport containing this player's view.
   **/
-  public var ViewportClient : unreal.UGameViewportClient;
+  @:uproperty public var ViewportClient : unreal.UGameViewportClient;
   
 }

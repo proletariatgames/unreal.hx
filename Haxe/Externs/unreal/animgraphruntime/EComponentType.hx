@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EComponentType.Type")
-@:uextern extern enum EComponentType {
+@:uextern @:uenum extern enum EComponentType {
   None;
   TranslationX;
   TranslationY;

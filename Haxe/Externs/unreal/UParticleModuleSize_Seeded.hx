@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Size/ParticleModuleSize_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleSize_Seeded extends unreal.UParticleModuleSize {
+@:noClass @:uextern @:uclass extern class UParticleModuleSize_Seeded extends unreal.UParticleModuleSize {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

@@ -18,51 +18,51 @@ package unreal;
   One key in a rich, editable float curve
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
-@:uextern extern class FRichCurveKey {
+@:uextern @:ustruct extern class FRichCurveKey {
   
   /**
     If RCTWM_WeightedLeave or RCTWM_WeightedBoth, the weight of the right tangent
   **/
-  public var LeaveTangentWeight : unreal.Float32;
+  @:uproperty public var LeaveTangentWeight : unreal.Float32;
   
   /**
     If RCIM_Cubic, the leaving tangent at this key
   **/
-  public var LeaveTangent : unreal.Float32;
+  @:uproperty public var LeaveTangent : unreal.Float32;
   
   /**
     If RCTWM_WeightedArrive or RCTWM_WeightedBoth, the weight of the left tangent
   **/
-  public var ArriveTangentWeight : unreal.Float32;
+  @:uproperty public var ArriveTangentWeight : unreal.Float32;
   
   /**
     If RCIM_Cubic, the arriving tangent at this key
   **/
-  public var ArriveTangent : unreal.Float32;
+  @:uproperty public var ArriveTangent : unreal.Float32;
   
   /**
     Value at this key
   **/
-  public var Value : unreal.Float32;
+  @:uproperty public var Value : unreal.Float32;
   
   /**
     Time at this key
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
   /**
     If either tangent at this key is 'weighted'
   **/
-  public var TangentWeightMode : unreal.ERichCurveTangentWeightMode;
+  @:uproperty public var TangentWeightMode : unreal.ERichCurveTangentWeightMode;
   
   /**
     Mode for tangents at this key
   **/
-  public var TangentMode : unreal.ERichCurveTangentMode;
+  @:uproperty public var TangentMode : unreal.ERichCurveTangentMode;
   
   /**
     Interpolation mode between this key and the next
   **/
-  public var InterpMode : unreal.ERichCurveInterpMode;
+  @:uproperty public var InterpMode : unreal.ERichCurveInterpMode;
   
 }

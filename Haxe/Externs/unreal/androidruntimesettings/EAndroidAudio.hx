@@ -16,7 +16,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EAndroidAudio.Type")
-@:uextern extern enum EAndroidAudio {
+@:uextern @:uenum extern enum EAndroidAudio {
   
   /**
     This option selects the default encoder.

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
 @:uname("EImpactDamageOverride")
-@:uextern extern enum EImpactDamageOverride {
+@:uextern @:uenum extern enum EImpactDamageOverride {
   IDO_None;
   IDO_On;
   IDO_Off;

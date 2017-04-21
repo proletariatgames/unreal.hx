@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EInputConsumeOptions")
-@:uextern extern enum EInputConsumeOptions {
+@:uextern @:uenum extern enum EInputConsumeOptions {
   
   /**
     This component consumes all input and no components lower in the stack are processed.

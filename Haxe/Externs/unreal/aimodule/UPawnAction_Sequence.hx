@@ -15,9 +15,9 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnAction_Sequence.h")
-@:uextern extern class UPawnAction_Sequence extends unreal.aimodule.UPawnAction {
-  public var RecentActionCopy : unreal.aimodule.UPawnAction;
-  public var ChildFailureHandlingMode : unreal.aimodule.EPawnActionFailHandling;
-  public var ActionSequence : unreal.TArray<unreal.aimodule.UPawnAction>;
+@:uextern @:uclass extern class UPawnAction_Sequence extends unreal.aimodule.UPawnAction {
+  @:uproperty public var RecentActionCopy : unreal.aimodule.UPawnAction;
+  @:uproperty public var ChildFailureHandlingMode : unreal.aimodule.EPawnActionFailHandling;
+  @:uproperty public var ActionSequence : unreal.TArray<unreal.aimodule.UPawnAction>;
   
 }

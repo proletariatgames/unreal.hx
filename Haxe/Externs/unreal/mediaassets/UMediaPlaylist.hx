@@ -19,7 +19,7 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaPlaylist.h")
-@:uextern extern class UMediaPlaylist extends unreal.UObject {
+@:uextern @:uclass extern class UMediaPlaylist extends unreal.UObject {
   
   /**
     Add a media source to the play list.
@@ -27,7 +27,7 @@ package unreal.mediaassets;
     @param MediaSource The media source to append.
     @see Insert, RemoveAll, Remove
   **/
-  @:final public function Add(MediaSource : unreal.mediaassets.UMediaSource) : Void;
+  @:ufunction @:final public function Add(MediaSource : unreal.mediaassets.UMediaSource) : Void;
   
   /**
     Get the media source at the specified index.
@@ -36,7 +36,7 @@ package unreal.mediaassets;
     @return The media source, or nullptr if the index doesn't exist.
     @see GetNext, GetRandom
   **/
-  @:final public function Get(Index : unreal.Int32) : unreal.mediaassets.UMediaSource;
+  @:ufunction @:final public function Get(Index : unreal.Int32) : unreal.mediaassets.UMediaSource;
   
   /**
     Get the next media source in the play list.
@@ -45,7 +45,7 @@ package unreal.mediaassets;
     @return The media source after the current one, or nullptr if the list is empty.
     @see , GetPrevious, GetRandom
   **/
-  @:final public function GetNext(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
+  @:ufunction @:final public function GetNext(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
   
   /**
     Get the previous media source in the play list.
@@ -54,7 +54,7 @@ package unreal.mediaassets;
     @return The media source before the current one, or nullptr if the list is empty.
     @see , GetNext, GetRandom
   **/
-  @:final public function GetPrevious(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
+  @:ufunction @:final public function GetPrevious(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
   
   /**
     Get a random media source in the play list.
@@ -63,7 +63,7 @@ package unreal.mediaassets;
     @return The random media source, or nullptr if the list is empty.
     @see Get, GetNext, GetPrevious
   **/
-  @:final public function GetRandom(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
+  @:ufunction @:final public function GetRandom(InOutIndex : unreal.Int32) : unreal.mediaassets.UMediaSource;
   
   /**
     Insert a media source into the play list at the given position.
@@ -72,14 +72,14 @@ package unreal.mediaassets;
     @param Index The index to insert into.
     @see Add, Remove, RemoveAll
   **/
-  @:final public function Insert(MediaSource : unreal.mediaassets.UMediaSource, Index : unreal.Int32) : Void;
+  @:ufunction @:final public function Insert(MediaSource : unreal.mediaassets.UMediaSource, Index : unreal.Int32) : Void;
   
   /**
     Get the number of media sources in the play list.
     
     @return Number of media sources.
   **/
-  @:final public function Num() : unreal.Int32;
+  @:ufunction @:final public function Num() : unreal.Int32;
   
   /**
     Remove all occurrences of the given media source in the play list.
@@ -87,7 +87,7 @@ package unreal.mediaassets;
     @param MediaSource The media source to remove.
     @see Add, Insert, Remove
   **/
-  @:final public function Remove(MediaSource : unreal.mediaassets.UMediaSource) : Void;
+  @:ufunction @:final public function Remove(MediaSource : unreal.mediaassets.UMediaSource) : Void;
   
   /**
     Remove the media source at the specified position.
@@ -95,11 +95,11 @@ package unreal.mediaassets;
     @param Index The index of the media source to remove.
     @see Add, Insert, RemoveAll
   **/
-  @:final public function RemoveAt(Index : unreal.Int32) : Void;
+  @:ufunction @:final public function RemoveAt(Index : unreal.Int32) : Void;
   
   /**
     List of media sources to play.
   **/
-  private var Items : unreal.TArray<unreal.mediaassets.UMediaSource>;
+  @:uproperty private var Items : unreal.TArray<unreal.mediaassets.UMediaSource>;
   
 }

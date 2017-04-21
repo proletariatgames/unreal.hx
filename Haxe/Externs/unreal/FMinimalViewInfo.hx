@@ -20,71 +20,71 @@ package unreal;
   
 **/
 @:glueCppIncludes("Camera/CameraTypes.h")
-@:noCopy @:noEquals @:uextern extern class FMinimalViewInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMinimalViewInfo {
   
   /**
     Off-axis / off-center projection offset as proportion of screen dimensions
   **/
-  public var OffCenterProjectionOffset : unreal.FVector2D;
+  @:uproperty public var OffCenterProjectionOffset : unreal.FVector2D;
   
   /**
     Post-process settings to use if PostProcessBlendWeight is non-zero.
   **/
-  public var PostProcessSettings : unreal.FPostProcessSettings;
+  @:uproperty public var PostProcessSettings : unreal.FPostProcessSettings;
   
   /**
     Indicates if PostProcessSettings should be applied.
   **/
-  public var PostProcessBlendWeight : unreal.Float32;
+  @:uproperty public var PostProcessBlendWeight : unreal.Float32;
   
   /**
     The type of camera
   **/
-  public var ProjectionMode : unreal.ECameraProjectionMode;
+  @:uproperty public var ProjectionMode : unreal.ECameraProjectionMode;
   
   /**
     If true, account for the field of view angle when computing which level of detail to use for meshes.
   **/
-  public var bUseFieldOfViewForLOD : Bool;
+  @:uproperty public var bUseFieldOfViewForLOD : Bool;
   
   /**
     If bConstrainAspectRatio is true, black bars will be added if the destination view has a different aspect ratio than this camera requested.
   **/
-  public var bConstrainAspectRatio : Bool;
+  @:uproperty public var bConstrainAspectRatio : Bool;
   
   /**
     Aspect Ratio (Width/Height); ignored unless bConstrainAspectRatio is true
   **/
-  public var AspectRatio : unreal.Float32;
+  @:uproperty public var AspectRatio : unreal.Float32;
   
   /**
     The far plane distance of the orthographic view (in world units)
   **/
-  public var OrthoFarClipPlane : unreal.Float32;
+  @:uproperty public var OrthoFarClipPlane : unreal.Float32;
   
   /**
     The near plane distance of the orthographic view (in world units)
   **/
-  public var OrthoNearClipPlane : unreal.Float32;
+  @:uproperty public var OrthoNearClipPlane : unreal.Float32;
   
   /**
     The desired width (in world units) of the orthographic view (ignored in Perspective mode)
   **/
-  public var OrthoWidth : unreal.Float32;
+  @:uproperty public var OrthoWidth : unreal.Float32;
   
   /**
     The field of view (in degrees) in perspective mode (ignored in Orthographic mode)
   **/
-  public var FOV : unreal.Float32;
+  @:uproperty public var FOV : unreal.Float32;
   
   /**
     Rotation
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Location
   **/
-  public var Location : unreal.FVector;
+  @:uproperty public var Location : unreal.FVector;
   
 }

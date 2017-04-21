@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/TextureExporterPCX.h")
-@:noClass @:uextern extern class UTextureExporterPCX extends unreal.UExporter {
+@:noClass @:uextern @:uclass extern class UTextureExporterPCX extends unreal.UExporter {
   
 }

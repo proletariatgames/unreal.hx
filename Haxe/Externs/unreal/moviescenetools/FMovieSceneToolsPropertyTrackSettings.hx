@@ -21,16 +21,16 @@ package unreal.moviescenetools;
 **/
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneToolsProjectSettings.h")
-@:noCopy @:noEquals @:uextern extern class FMovieSceneToolsPropertyTrackSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneToolsPropertyTrackSettings {
   
   /**
     Name to the keyed property within the Actor or ActorComponent.
   **/
-  public var PropertyName : unreal.FString;
+  @:uproperty public var PropertyName : unreal.FString;
   
   /**
     Optional ActorComponent tag (when keying a component property).
   **/
-  public var ComponentName : unreal.FString;
+  @:uproperty public var ComponentName : unreal.FString;
   
 }

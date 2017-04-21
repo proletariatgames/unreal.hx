@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SplineComponent.h")
 @:uname("ESplineCoordinateSpace.Type")
-@:uextern extern enum ESplineCoordinateSpace {
+@:uextern @:uenum extern enum ESplineCoordinateSpace {
   Local;
   World;
   

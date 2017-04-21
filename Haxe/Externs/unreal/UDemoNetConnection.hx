@@ -18,6 +18,6 @@ package unreal;
   Simulated network connection for recording and playing back game sessions.
 **/
 @:glueCppIncludes("Engine/DemoNetConnection.h")
-@:uextern extern class UDemoNetConnection extends unreal.UNetConnection {
+@:uextern @:uclass extern class UDemoNetConnection extends unreal.UNetConnection {
   
 }

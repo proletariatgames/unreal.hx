@@ -20,47 +20,47 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataAnimTrail.h")
-@:uextern extern class UParticleModuleTypeDataAnimTrail extends unreal.UParticleModuleTypeDataBase {
+@:uextern @:uclass extern class UParticleModuleTypeDataAnimTrail extends unreal.UParticleModuleTypeDataBase {
   
   /**
     The width step size for tessellation.
     This is the number of world units change in the width required to warrant an additional tessellation point. If 0 then there is no width tessellation.
   **/
-  public var WidthTessellationStepSize : unreal.Float32;
+  @:uproperty public var WidthTessellationStepSize : unreal.Float32;
   
   /**
     The tangent scalar for tessellation.
     This is the degree change in the tangent direction [0...180] required to warrant an additional tessellation point. If 0 then there is no tangent tessellation.
   **/
-  public var TangentTessellationStepSize : unreal.Float32;
+  @:uproperty public var TangentTessellationStepSize : unreal.Float32;
   
   /**
     The distance step size for tessellation.
     # Tessellation Points = TruncToInt((Distance Between Spawned Particles) / DistanceTessellationStepSize)). If 0 then there is no distance tessellation.
   **/
-  public var DistanceTessellationStepSize : unreal.Float32;
+  @:uproperty public var DistanceTessellationStepSize : unreal.Float32;
   
   /**
     The (estimated) covered distance to tile the 2nd UV set at.
     If 0.0, a second UV set will not be passed in.
   **/
-  public var TilingDistance : unreal.Float32;
+  @:uproperty public var TilingDistance : unreal.Float32;
   
   /**
     If true, recalculate tangents every frame to allow velocity/acceleration to be applied
   **/
-  public var bTangentRecalculationEveryFrame : Bool;
+  @:uproperty public var bTangentRecalculationEveryFrame : Bool;
   
   /**
     If true, recalculate the previous tangent when a new particle is spawned
   **/
-  public var bEnablePreviousTangentRecalculation : Bool;
+  @:uproperty public var bEnablePreviousTangentRecalculation : Bool;
   
   /**
     If true, when the system is deactivated, mark trails as dead.
     This means they will still render, but will not have more particles
     added to them, even if the system re-activates...
   **/
-  public var bDeadTrailsOnDeactivate : Bool;
+  @:uproperty public var bDeadTrailsOnDeactivate : Bool;
   
 }

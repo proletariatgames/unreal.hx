@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawn.h")
-@:uextern extern class UParticleModuleSpawn extends unreal.UParticleModuleSpawnBase {
+@:uextern @:uclass extern class UParticleModuleSpawn extends unreal.UParticleModuleSpawnBase {
   
   /**
     If true, the SpawnRate will be scaled by the global CVar r.EmitterSpawnRateScale
   **/
-  public var bApplyGlobalSpawnRateScale : Bool;
+  @:uproperty public var bApplyGlobalSpawnRateScale : Bool;
   
   /**
     Scale all burst entries by this amount.
   **/
-  public var BurstScale : unreal.FRawDistributionFloat;
+  @:uproperty public var BurstScale : unreal.FRawDistributionFloat;
   
   /**
     The array of burst entries.
   **/
-  public var BurstList : unreal.TArray<unreal.FParticleBurst>;
+  @:uproperty public var BurstList : unreal.TArray<unreal.FParticleBurst>;
   
   /**
     The method to utilize when burst-emitting particles.
   **/
-  public var ParticleBurstMethod : unreal.EParticleBurstMethod;
+  @:uproperty public var ParticleBurstMethod : unreal.EParticleBurstMethod;
   
   /**
     The scalar to apply to the rate.
   **/
-  public var RateScale : unreal.FRawDistributionFloat;
+  @:uproperty public var RateScale : unreal.FRawDistributionFloat;
   
   /**
     The rate at which to spawn particles.
   **/
-  public var Rate : unreal.FRawDistributionFloat;
+  @:uproperty public var Rate : unreal.FRawDistributionFloat;
   
 }

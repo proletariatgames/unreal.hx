@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
 @:uname("EViewTargetBlendFunction")
-@:uextern extern enum EViewTargetBlendFunction {
+@:uextern @:uenum extern enum EViewTargetBlendFunction {
   
   /**
     Camera does a simple linear interpolation.

@@ -21,6 +21,6 @@ package unreal.androidmediaeditor;
 **/
 @:umodule("AndroidMediaEditor")
 @:glueCppIncludes("Private/AndroidFileMediaSourceFactory.h")
-@:noClass @:uextern extern class UAndroidFileMediaSourceFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UAndroidFileMediaSourceFactory extends unreal.editor.UFactory {
   
 }

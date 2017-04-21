@@ -19,36 +19,36 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectQuery {
+@:uextern @:ustruct extern class FGameplayEffectQuery {
   
   /**
     Matches on GameplayEffects with this definition
   **/
-  public var EffectDefinition : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
+  @:uproperty public var EffectDefinition : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>;
   
   /**
     Matches on GameplayEffects which come from this source
   **/
-  public var EffectSource : unreal.UObject;
+  @:uproperty public var EffectSource : unreal.UObject;
   
   /**
     Matches on GameplayEffects which modify given attribute.
   **/
-  public var ModifyingAttribute : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var ModifyingAttribute : unreal.gameplayabilities.FGameplayAttribute;
   
   /**
     Query that is matched against tags the source of this GE has
   **/
-  public var SourceTagQuery : unreal.gameplaytags.FGameplayTagQuery;
+  @:uproperty public var SourceTagQuery : unreal.gameplaytags.FGameplayTagQuery;
   
   /**
     Query that is matched against tags this GE has
   **/
-  public var EffectTagQuery : unreal.gameplaytags.FGameplayTagQuery;
+  @:uproperty public var EffectTagQuery : unreal.gameplaytags.FGameplayTagQuery;
   
   /**
     Query that is matched against tags this GE gives
   **/
-  public var OwningTagQuery : unreal.gameplaytags.FGameplayTagQuery;
+  @:uproperty public var OwningTagQuery : unreal.gameplaytags.FGameplayTagQuery;
   
 }

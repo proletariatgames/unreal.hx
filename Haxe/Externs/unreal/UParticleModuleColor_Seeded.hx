@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Color/ParticleModuleColor_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleColor_Seeded extends unreal.UParticleModuleColor {
+@:noClass @:uextern @:uclass extern class UParticleModuleColor_Seeded extends unreal.UParticleModuleColor {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

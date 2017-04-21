@@ -21,16 +21,16 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility.h")
-@:noCopy @:noEquals @:uextern extern class FAbilityTriggerData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbilityTriggerData {
   
   /**
     The type of trigger to respond to
   **/
-  public var TriggerSource : unreal.gameplayabilities.EGameplayAbilityTriggerSource;
+  @:uproperty public var TriggerSource : unreal.gameplayabilities.EGameplayAbilityTriggerSource;
   
   /**
     The tag to respond to
   **/
-  public var TriggerTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var TriggerTag : unreal.gameplaytags.FGameplayTag;
   
 }

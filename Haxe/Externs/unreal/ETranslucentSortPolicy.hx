@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETranslucentSortPolicy.Type")
-@:uextern extern enum ETranslucentSortPolicy {
+@:uextern @:uenum extern enum ETranslucentSortPolicy {
   
   /**
     Sort based on distance from camera centerpoint to bounding sphere centerpoint. (Default, best for 3D games.)

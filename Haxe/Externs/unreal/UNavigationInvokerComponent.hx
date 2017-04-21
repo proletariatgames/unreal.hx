@@ -14,8 +14,8 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationInvokerComponent.h")
-@:uextern extern class UNavigationInvokerComponent extends unreal.UActorComponent {
-  private var TileRemovalRadius : unreal.Float32;
-  private var TileGenerationRadius : unreal.Float32;
+@:uextern @:uclass extern class UNavigationInvokerComponent extends unreal.UActorComponent {
+  @:uproperty private var TileRemovalRadius : unreal.Float32;
+  @:uproperty private var TileGenerationRadius : unreal.Float32;
   
 }

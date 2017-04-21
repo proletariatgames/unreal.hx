@@ -20,6 +20,6 @@ package unreal;
   A date/time value.
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FDateTime {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDateTime {
   
 }

@@ -21,11 +21,11 @@ package unreal.cablecomponent;
 **/
 @:umodule("CableComponent")
 @:glueCppIncludes("CableActor.h")
-@:noClass @:uextern extern class ACableActor extends unreal.AActor {
+@:noClass @:uextern @:uclass extern class ACableActor extends unreal.AActor {
   
   /**
     Cable component that performs simulation and rendering
   **/
-  public var CableComponent : unreal.cablecomponent.UCableComponent;
+  @:uproperty public var CableComponent : unreal.cablecomponent.UCableComponent;
   
 }

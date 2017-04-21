@@ -19,21 +19,21 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
-@:uextern extern class FSnapToSurfaceSettings {
+@:uextern @:ustruct extern class FSnapToSurfaceSettings {
   
   /**
     Whether objects should match the rotation of the surfaces they snap to
   **/
-  public var bSnapRotation : Bool;
+  @:uproperty public var bSnapRotation : Bool;
   
   /**
     The amount of offset to apply when snapping to surfaces
   **/
-  public var SnapOffsetExtent : unreal.Float32;
+  @:uproperty public var SnapOffsetExtent : unreal.Float32;
   
   /**
     Whether snapping to surfaces in the world is enabled
   **/
-  public var bEnabled : Bool;
+  @:uproperty public var bEnabled : Bool;
   
 }

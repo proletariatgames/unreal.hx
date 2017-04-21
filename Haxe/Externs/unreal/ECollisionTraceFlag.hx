@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/BodySetupEnums.h")
 @:uname("ECollisionTraceFlag")
-@:uextern extern enum ECollisionTraceFlag {
+@:uextern @:uenum extern enum ECollisionTraceFlag {
   
   /**
     Use project physics settings (DefaultShapeComplexity)

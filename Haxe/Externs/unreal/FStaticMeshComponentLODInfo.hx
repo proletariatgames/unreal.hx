@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/StaticMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FStaticMeshComponentLODInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStaticMeshComponentLODInfo {
   
   /**
     Vertex data cached at the time this LOD was painted, if any
   **/
-  public var PaintedVertices : unreal.TArray<unreal.FPaintedVertex>;
+  @:uproperty public var PaintedVertices : unreal.TArray<unreal.FPaintedVertex>;
   
 }

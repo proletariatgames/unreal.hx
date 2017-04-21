@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicalMaterials/PhysicalMaterialPropertyBase.h")
-@:uextern extern class UDEPRECATED_PhysicalMaterialPropertyBase extends unreal.UObject {
+@:uextern @:uclass extern class UDEPRECATED_PhysicalMaterialPropertyBase extends unreal.UObject {
   
 }

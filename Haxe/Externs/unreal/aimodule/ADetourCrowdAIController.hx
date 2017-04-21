@@ -21,6 +21,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("DetourCrowdAIController.h")
-@:noClass @:uextern extern class ADetourCrowdAIController extends unreal.aimodule.AAIController {
+@:noClass @:uextern @:uclass extern class ADetourCrowdAIController extends unreal.aimodule.AAIController {
   
 }

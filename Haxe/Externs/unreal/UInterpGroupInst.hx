@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpGroupInst.h")
-@:uextern extern class UInterpGroupInst extends unreal.UObject {
+@:uextern @:uclass extern class UInterpGroupInst extends unreal.UObject {
   
   /**
     Array if InterpTrack instances. TrackInst.Num() == UInterpGroup.InterpTrack.Num() must be true.
   **/
-  public var TrackInst : unreal.TArray<unreal.UInterpTrackInst>;
+  @:uproperty public var TrackInst : unreal.TArray<unreal.UInterpTrackInst>;
   
   /**
     Actor that this Group instance is acting upon.
     NB: that this may be set to NULL at any time as a result of the  AActor  being destroyed.
   **/
-  public var GroupActor : unreal.AActor;
+  @:uproperty public var GroupActor : unreal.AActor;
   
   /**
     UInterpGroup within the InterpData that this is an instance of.
   **/
-  public var Group : unreal.UInterpGroup;
+  @:uproperty public var Group : unreal.UInterpGroup;
   
 }

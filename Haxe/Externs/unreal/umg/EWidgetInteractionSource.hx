@@ -21,7 +21,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/WidgetInteractionComponent.h")
 @:uname("EWidgetInteractionSource")
-@:class @:uextern extern enum EWidgetInteractionSource {
+@:class @:uextern @:uenum extern enum EWidgetInteractionSource {
   
   /**
     Sends traces from the world location and orientation of the interaction component.

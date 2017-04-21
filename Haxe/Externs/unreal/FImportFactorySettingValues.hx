@@ -20,16 +20,16 @@ package unreal;
   Holds UProperty names and values to customize factory settings
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FImportFactorySettingValues {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FImportFactorySettingValues {
   
   /**
     Value to import for the specified property.
   **/
-  public var Value : unreal.FString;
+  @:uproperty public var Value : unreal.FString;
   
   /**
     Name of the property to change.  Nested settings can be modified using "Outer.Property
   **/
-  public var SettingName : unreal.FString;
+  @:uproperty public var SettingName : unreal.FString;
   
 }

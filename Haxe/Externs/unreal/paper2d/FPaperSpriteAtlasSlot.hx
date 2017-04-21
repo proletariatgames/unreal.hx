@@ -21,11 +21,11 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSpriteAtlas.h")
-@:noCopy @:noEquals @:uextern extern class FPaperSpriteAtlasSlot {
-  public var Height : unreal.Int32;
-  public var Width : unreal.Int32;
-  public var Y : unreal.Int32;
-  public var X : unreal.Int32;
-  public var AtlasIndex : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPaperSpriteAtlasSlot {
+  @:uproperty public var Height : unreal.Int32;
+  @:uproperty public var Width : unreal.Int32;
+  @:uproperty public var Y : unreal.Int32;
+  @:uproperty public var X : unreal.Int32;
+  @:uproperty public var AtlasIndex : unreal.Int32;
   
 }

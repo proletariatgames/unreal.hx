@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionAntialiasedTextureMask.h")
 @:uname("ETextureColorChannel")
-@:uextern extern enum ETextureColorChannel {
+@:uextern @:uenum extern enum ETextureColorChannel {
   TCC_Red;
   TCC_Green;
   TCC_Blue;

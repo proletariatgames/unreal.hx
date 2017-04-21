@@ -21,6 +21,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
-@:noCopy @:noEquals @:uextern extern class FEventReply {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEventReply {
   
 }

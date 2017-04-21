@@ -21,16 +21,16 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
-@:noCopy @:noEquals @:uextern extern class FSlateChildSize {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSlateChildSize {
   
   /**
     The sizing rule of the content.
   **/
-  public var SizeRule : unreal.umg.ESlateSizeRule;
+  @:uproperty public var SizeRule : unreal.umg.ESlateSizeRule;
   
   /**
     The parameter of the size rule.
   **/
-  public var Value : unreal.Float32;
+  @:uproperty public var Value : unreal.Float32;
   
 }

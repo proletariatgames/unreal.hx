@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAdd.h")
-@:uextern extern class UMaterialExpressionAdd extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionAdd extends unreal.UMaterialExpression {
   
   /**
     only used if B is not hooked up
   **/
-  public var ConstB : unreal.Float32;
+  @:uproperty public var ConstB : unreal.Float32;
   
   /**
     only used if A is not hooked up
   **/
-  public var ConstA : unreal.Float32;
+  @:uproperty public var ConstA : unreal.Float32;
   
   /**
     Defaults to 'ConstB' if not specified
   **/
-  public var B : unreal.FExpressionInput;
+  @:uproperty public var B : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstA' if not specified
   **/
-  public var A : unreal.FExpressionInput;
+  @:uproperty public var A : unreal.FExpressionInput;
   
 }

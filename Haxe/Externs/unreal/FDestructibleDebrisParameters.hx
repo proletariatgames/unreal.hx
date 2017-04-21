@@ -20,15 +20,15 @@ package unreal;
   Parameters that pertain to chunk debris-level settings.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:noCopy @:noEquals @:uextern extern class FDestructibleDebrisParameters {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleDebrisParameters {
   
   /**
     "Debris chunks" (see debrisDepth, above) will be destroyed if they leave this box.
     The box translates with the destructible actor's initial position, but does not
     rotate or scale.
   **/
-  public var ValidBounds : unreal.FBox;
-  public var DebrisMaxSeparationMax : unreal.Float32;
+  @:uproperty public var ValidBounds : unreal.FBox;
+  @:uproperty public var DebrisMaxSeparationMax : unreal.Float32;
   
   /**
     "Debris chunks" (see debrisDepth, above) will be destroyed if they are separated from
@@ -38,8 +38,8 @@ package unreal;
     If debrisMaxSeparationMax < debrisMaxSeparationMin, the mean of the two is used for both.
     Default debrisMaxSeparationMin = 1.0, debrisMaxSeparationMax = 10.0f.
   **/
-  public var DebrisMaxSeparationMin : unreal.Float32;
-  public var DebrisLifetimeMax : unreal.Float32;
+  @:uproperty public var DebrisMaxSeparationMin : unreal.Float32;
+  @:uproperty public var DebrisLifetimeMax : unreal.Float32;
   
   /**
     "Debris chunks" (see debrisDepth, above) will be destroyed after a time (in seconds)
@@ -49,6 +49,6 @@ package unreal;
     If debrisLifetimeMax < debrisLifetimeMin, the mean of the two is used for both.
     Default debrisLifetimeMin = 1.0, debrisLifetimeMax = 10.0f.
   **/
-  public var DebrisLifetimeMin : unreal.Float32;
+  @:uproperty public var DebrisLifetimeMin : unreal.Float32;
   
 }

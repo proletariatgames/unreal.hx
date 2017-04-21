@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/DerivedDataCacheCommandlet.h")
-@:noClass @:uextern extern class UDerivedDataCacheCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UDerivedDataCacheCommandlet extends unreal.UCommandlet {
   
 }

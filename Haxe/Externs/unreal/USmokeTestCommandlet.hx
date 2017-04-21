@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Commandlets/SmokeTestCommandlet.h")
-@:noClass @:uextern extern class USmokeTestCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class USmokeTestCommandlet extends unreal.UCommandlet {
   
 }

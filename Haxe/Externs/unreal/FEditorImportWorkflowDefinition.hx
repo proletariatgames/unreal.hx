@@ -20,16 +20,16 @@ package unreal;
   Holds settings for the asset import workflow test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FEditorImportWorkflowDefinition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorImportWorkflowDefinition {
   
   /**
     Settings for the import factory
   **/
-  public var FactorySettings : unreal.TArray<unreal.FImportFactorySettingValues>;
+  @:uproperty public var FactorySettings : unreal.TArray<unreal.FImportFactorySettingValues>;
   
   /**
     The file to import
   **/
-  public var ImportFilePath : unreal.FFilePath;
+  @:uproperty public var ImportFilePath : unreal.FFilePath;
   
 }

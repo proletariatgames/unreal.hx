@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/InterpCurveEdSetup.h")
-@:noCopy @:noEquals @:uextern extern class FCurveEdTab {
-  public var ViewEndOutput : unreal.Float32;
-  public var ViewStartOutput : unreal.Float32;
-  public var ViewEndInput : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCurveEdTab {
+  @:uproperty public var ViewEndOutput : unreal.Float32;
+  @:uproperty public var ViewStartOutput : unreal.Float32;
+  @:uproperty public var ViewEndInput : unreal.Float32;
   
   /**
     Remember the view setting for each tab.
   **/
-  public var ViewStartInput : unreal.Float32;
-  public var Curves : unreal.TArray<unreal.FCurveEdEntry>;
-  public var TabName : unreal.FString;
+  @:uproperty public var ViewStartInput : unreal.Float32;
+  @:uproperty public var Curves : unreal.TArray<unreal.FCurveEdEntry>;
+  @:uproperty public var TabName : unreal.FString;
   
 }

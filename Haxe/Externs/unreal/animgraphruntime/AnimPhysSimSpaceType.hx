@@ -16,7 +16,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysSimSpaceType")
-@:class @:uextern extern enum AnimPhysSimSpaceType {
+@:class @:uextern @:uenum extern enum AnimPhysSimSpaceType {
   
   /**
     Sim origin is the location/orientation of the skeletal mesh component.

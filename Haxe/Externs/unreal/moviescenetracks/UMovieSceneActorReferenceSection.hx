@@ -21,6 +21,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneActorReferenceSection.h")
-@:uextern extern class UMovieSceneActorReferenceSection extends unreal.moviescene.UMovieSceneSection {
+@:uextern @:uclass extern class UMovieSceneActorReferenceSection extends unreal.moviescene.UMovieSceneSection {
   
 }

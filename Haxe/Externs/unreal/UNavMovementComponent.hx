@@ -18,56 +18,56 @@ package unreal;
   NavMovementComponent defines base functionality for MovementComponents that move any 'agent' that may be involved in AI pathfinding.
 **/
 @:glueCppIncludes("GameFramework/NavMovementComponent.h")
-@:uextern extern class UNavMovementComponent extends unreal.UMovementComponent {
+@:uextern @:uclass extern class UNavMovementComponent extends unreal.UMovementComponent {
   
   /**
     Expresses runtime state of character's movement. Put all temporal changes to movement properties here
   **/
-  public var MovementState : unreal.FMovementProperties;
+  @:uproperty public var MovementState : unreal.FMovementProperties;
   
   /**
     Braking distance override used with acceleration driven path following (bUseAccelerationForPaths)
   **/
-  private var FixedPathBrakingDistance : unreal.Float32;
+  @:uproperty private var FixedPathBrakingDistance : unreal.Float32;
   
   /**
     Properties that define how the component can move.
   **/
-  public var NavAgentProps : unreal.FNavAgentProperties;
+  @:uproperty public var NavAgentProps : unreal.FNavAgentProperties;
   
   /**
     Stops applying further movement (usually zeros acceleration).
   **/
-  public function StopActiveMovement() : Void;
+  @:ufunction public function StopActiveMovement() : Void;
   
   /**
     Stops movement immediately (reset velocity) but keeps following current path
   **/
-  @:final public function StopMovementKeepPathing() : Void;
+  @:ufunction @:final public function StopMovementKeepPathing() : Void;
   
   /**
     @return true if currently crouching
   **/
-  @:thisConst public function IsCrouching() : Bool;
+  @:ufunction @:thisConst public function IsCrouching() : Bool;
   
   /**
     @return true if currently falling (not flying, in a non-fluid volume, and not on the ground)
   **/
-  @:thisConst public function IsFalling() : Bool;
+  @:ufunction @:thisConst public function IsFalling() : Bool;
   
   /**
     @return true if currently moving on the ground (e.g. walking or driving)
   **/
-  @:thisConst public function IsMovingOnGround() : Bool;
+  @:ufunction @:thisConst public function IsMovingOnGround() : Bool;
   
   /**
     @return true if currently swimming (moving through a fluid volume)
   **/
-  @:thisConst public function IsSwimming() : Bool;
+  @:ufunction @:thisConst public function IsSwimming() : Bool;
   
   /**
     @return true if currently flying (moving through a non-fluid volume without resting on the ground)
   **/
-  @:thisConst public function IsFlying() : Bool;
+  @:ufunction @:thisConst public function IsFlying() : Bool;
   
 }

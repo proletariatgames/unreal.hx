@@ -14,26 +14,26 @@
 package unreal;
 
 @:glueCppIncludes("PhysicsEngine/PhysicsCollisionHandler.h")
-@:uextern extern class UPhysicsCollisionHandler extends unreal.UObject {
+@:uextern @:uclass extern class UPhysicsCollisionHandler extends unreal.UObject {
   
   /**
     Time since last impact sound
   **/
-  public var LastImpactSoundTime : unreal.Float32;
+  @:uproperty public var LastImpactSoundTime : unreal.Float32;
   
   /**
     Sound to play
   **/
-  public var DefaultImpactSound : unreal.USoundBase;
+  @:uproperty public var DefaultImpactSound : unreal.USoundBase;
   
   /**
     Min time between effect/sound being triggered
   **/
-  public var ImpactReFireDelay : unreal.Float32;
+  @:uproperty public var ImpactReFireDelay : unreal.Float32;
   
   /**
     How hard an impact must be to trigger effect/sound
   **/
-  public var ImpactThreshold : unreal.Float32;
+  @:uproperty public var ImpactThreshold : unreal.Float32;
   
 }

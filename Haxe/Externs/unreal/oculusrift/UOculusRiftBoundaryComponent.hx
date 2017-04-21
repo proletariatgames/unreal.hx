@@ -21,6 +21,6 @@ package unreal.oculusrift;
 **/
 @:umodule("OculusRift")
 @:glueCppIncludes("OculusRiftBoundaryComponent.h")
-@:uextern extern class UOculusRiftBoundaryComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UOculusRiftBoundaryComponent extends unreal.UActorComponent {
   
 }

@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorPointGravity.h")
-@:noClass @:uextern extern class UParticleModuleAttractorPointGravity extends unreal.UParticleModuleAttractorBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleAttractorPointGravity extends unreal.UParticleModuleAttractorBase {
   
   /**
     The strength of the point source.
   **/
-  public var StrengthRaw : unreal.FRawDistributionFloat;
+  @:uproperty public var StrengthRaw : unreal.FRawDistributionFloat;
   
   /**
     The strength of the point source.
   **/
-  @:deprecated public var Strength_DEPRECATED : unreal.UDistributionFloat;
+  @:deprecated @:uproperty public var Strength_DEPRECATED : unreal.UDistributionFloat;
   
   /**
     The distance at which the influence of the point begins to falloff.
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
   /**
     The position of the point gravity source.
   **/
-  public var Position : unreal.FVector;
+  @:uproperty public var Position : unreal.FVector;
   
 }

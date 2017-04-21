@@ -45,32 +45,32 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Navigation/CrowdManager.h")
-@:uextern extern class FCrowdAvoidanceConfig {
+@:uextern @:ustruct extern class FCrowdAvoidanceConfig {
   
   /**
     adaptive sampling: number of iterations at best velocity
   **/
-  public var AdaptiveDepth : unreal.UInt8;
+  @:uproperty public var AdaptiveDepth : unreal.UInt8;
   
   /**
     adaptive sampling: number of rings
   **/
-  public var AdaptiveRings : unreal.UInt8;
+  @:uproperty public var AdaptiveRings : unreal.UInt8;
   
   /**
     adaptive sampling: number of divisions per ring
   **/
-  public var AdaptiveDivisions : unreal.UInt8;
+  @:uproperty public var AdaptiveDivisions : unreal.UInt8;
   
   /**
     index in SamplingPatterns array or 0xff for adaptive sampling
   **/
-  public var CustomPatternIdx : unreal.UInt8;
-  public var ImpactTimeRange : unreal.Float32;
-  public var ImpactTimeWeight : unreal.Float32;
-  public var SideBiasWeight : unreal.Float32;
-  public var CurrentVelocityWeight : unreal.Float32;
-  public var DesiredVelocityWeight : unreal.Float32;
-  public var VelocityBias : unreal.Float32;
+  @:uproperty public var CustomPatternIdx : unreal.UInt8;
+  @:uproperty public var ImpactTimeRange : unreal.Float32;
+  @:uproperty public var ImpactTimeWeight : unreal.Float32;
+  @:uproperty public var SideBiasWeight : unreal.Float32;
+  @:uproperty public var CurrentVelocityWeight : unreal.Float32;
+  @:uproperty public var DesiredVelocityWeight : unreal.Float32;
+  @:uproperty public var VelocityBias : unreal.Float32;
   
 }

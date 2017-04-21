@@ -19,52 +19,52 @@ package unreal.html5platformeditor;
 **/
 @:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("HTML5TargetSettings.h")
-@:uextern extern class UHTML5TargetSettings extends unreal.UObject {
+@:uextern @:uclass extern class UHTML5TargetSettings extends unreal.UObject {
   
   /**
     Provide another level of nesting beyond the bucket. Can be left empty, defaults to game name.
   **/
-  public var S3FolderName : unreal.FString;
+  @:uproperty public var S3FolderName : unreal.FString;
   
   /**
     Required
   **/
-  public var S3BucketName : unreal.FString;
+  @:uproperty public var S3BucketName : unreal.FString;
   
   /**
     Required
   **/
-  public var S3SecretAccessKey : unreal.FString;
+  @:uproperty public var S3SecretAccessKey : unreal.FString;
   
   /**
     Required
   **/
-  public var S3KeyID : unreal.FString;
-  public var UploadToS3 : Bool;
+  @:uproperty public var S3KeyID : unreal.FString;
+  @:uproperty public var UploadToS3 : Bool;
   
   /**
     Generate Delta Pak files for these level transitions.
   **/
-  public var LevelTransitions : unreal.TArray<unreal.html5platformeditor.FHTML5LevelTransitions>;
+  @:uproperty public var LevelTransitions : unreal.TArray<unreal.html5platformeditor.FHTML5LevelTransitions>;
   
   /**
     Use a loading level and download maps during transitions.
   **/
-  public var UseAsyncLevelLoading : Bool;
+  @:uproperty public var UseAsyncLevelLoading : Bool;
   
   /**
     Port to use when deploying game from the editor
   **/
-  public var DeployServerPort : unreal.Int32;
+  @:uproperty public var DeployServerPort : unreal.Int32;
   
   /**
     Setting to control HTML5 Heap size
   **/
-  public var HeapSizeShipping : unreal.Int32;
+  @:uproperty public var HeapSizeShipping : unreal.Int32;
   
   /**
     Setting to control HTML5 Heap size (in Development)
   **/
-  public var HeapSizeDevelopment : unreal.Int32;
+  @:uproperty public var HeapSizeDevelopment : unreal.Int32;
   
 }

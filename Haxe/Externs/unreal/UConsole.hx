@@ -18,18 +18,18 @@ package unreal;
   A basic command line console that accepts most commands.
 **/
 @:glueCppIncludes("Engine/Console.h")
-@:uextern extern class UConsole extends unreal.UObject {
+@:uextern @:uclass extern class UConsole extends unreal.UObject {
   
   /**
     Holds the history buffer, order is old to new
   **/
-  public var HistoryBuffer : unreal.TArray<unreal.FString>;
-  public var DefaultTexture_White : unreal.UTexture2D;
-  public var DefaultTexture_Black : unreal.UTexture2D;
+  @:uproperty public var HistoryBuffer : unreal.TArray<unreal.FString>;
+  @:uproperty public var DefaultTexture_White : unreal.UTexture2D;
+  @:uproperty public var DefaultTexture_Black : unreal.UTexture2D;
   
   /**
     The player which the next console command should be executed in the context of.  If nullptr, execute in the viewport.
   **/
-  public var ConsoleTargetPlayer : unreal.ULocalPlayer;
+  @:uproperty public var ConsoleTargetPlayer : unreal.ULocalPlayer;
   
 }

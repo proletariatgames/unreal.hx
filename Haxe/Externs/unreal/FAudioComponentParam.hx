@@ -21,31 +21,31 @@ package unreal;
   Certain nodes in the SoundCue may reference parameters by name so they can be adjusted per-instance.
 **/
 @:glueCppIncludes("Components/AudioComponent.h")
-@:noCopy @:noEquals @:uextern extern class FAudioComponentParam {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAudioComponentParam {
   
   /**
     Value of the parameter when used as a sound wave
   **/
-  public var SoundWaveParam : unreal.USoundWave;
+  @:uproperty public var SoundWaveParam : unreal.USoundWave;
   
   /**
     Value of the parameter when used as an integer
   **/
-  public var IntParam : unreal.Int32;
+  @:uproperty public var IntParam : unreal.Int32;
   
   /**
     Value of the parameter when used as a boolean
   **/
-  public var BoolParam : Bool;
+  @:uproperty public var BoolParam : Bool;
   
   /**
     Value of the parameter when used as a float
   **/
-  public var FloatParam : unreal.Float32;
+  @:uproperty public var FloatParam : unreal.Float32;
   
   /**
     Name of the parameter
   **/
-  public var ParamName : unreal.FName;
+  @:uproperty public var ParamName : unreal.FName;
   
 }

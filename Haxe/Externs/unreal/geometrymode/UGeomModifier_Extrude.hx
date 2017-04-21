@@ -21,9 +21,9 @@ package unreal.geometrymode;
 **/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Extrude.h")
-@:noClass @:uextern extern class UGeomModifier_Extrude extends unreal.geometrymode.UGeomModifier_Edit {
-  public var SaveCoordSystem : unreal.Int32;
-  public var Segments : unreal.Int32;
-  public var Length : unreal.Int32;
+@:noClass @:uextern @:uclass extern class UGeomModifier_Extrude extends unreal.geometrymode.UGeomModifier_Edit {
+  @:uproperty public var SaveCoordSystem : unreal.Int32;
+  @:uproperty public var Segments : unreal.Int32;
+  @:uproperty public var Length : unreal.Int32;
   
 }

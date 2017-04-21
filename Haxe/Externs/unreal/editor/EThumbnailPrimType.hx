@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
 @:uname("EThumbnailPrimType")
-@:uextern extern enum EThumbnailPrimType {
+@:uextern @:uenum extern enum EThumbnailPrimType {
   TPT_None;
   TPT_Sphere;
   TPT_Cube;

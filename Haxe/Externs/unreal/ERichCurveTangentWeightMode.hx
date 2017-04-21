@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveTangentWeightMode")
-@:uextern extern enum ERichCurveTangentWeightMode {
+@:uextern @:uenum extern enum ERichCurveTangentWeightMode {
   RCTWM_WeightedNone;
   RCTWM_WeightedArrive;
   RCTWM_WeightedLeave;

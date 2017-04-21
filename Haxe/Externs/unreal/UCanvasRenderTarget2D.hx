@@ -23,7 +23,7 @@ package unreal;
   garbage collected.
 **/
 @:glueCppIncludes("Engine/CanvasRenderTarget2D.h")
-@:uextern extern class UCanvasRenderTarget2D extends unreal.UTextureRenderTarget2D {
+@:uextern @:uclass extern class UCanvasRenderTarget2D extends unreal.UTextureRenderTarget2D {
   
   /**
     Updates the the canvas render target texture's resource. This is where the render target will create or
@@ -33,7 +33,7 @@ package unreal;
     then the user's update delegate is called.  The canvas is then flushed and the RHI resolves the
     texture to make it available for rendering.
   **/
-  public function UpdateResource() : Void;
+  @:ufunction public function UpdateResource() : Void;
   
   /**
     Creates a new canvas render target and initializes it to the specified dimensions
@@ -45,7 +45,7 @@ package unreal;
     
     @return                                              Returns the instanced render target.
   **/
-  static public function CreateCanvasRenderTarget2D(WorldContextObject : unreal.UObject, CanvasRenderTarget2DClass : unreal.TSubclassOf<unreal.UCanvasRenderTarget2D>, Width : unreal.Int32, Height : unreal.Int32) : unreal.UCanvasRenderTarget2D;
+  @:ufunction static public function CreateCanvasRenderTarget2D(WorldContextObject : unreal.UObject, CanvasRenderTarget2DClass : unreal.TSubclassOf<unreal.UCanvasRenderTarget2D>, Width : unreal.Int32 = 1024, Height : unreal.Int32 = 1024) : unreal.UCanvasRenderTarget2D;
   
   /**
     Allows a Blueprint to implement how this Canvas Render Target 2D should be updated.
@@ -54,7 +54,7 @@ package unreal;
     @param       Width                           Width of the render target.
     @param       Height                          Height of the render target.
   **/
-  public function ReceiveUpdate(Canvas : unreal.UCanvas, Width : unreal.Int32, Height : unreal.Int32) : Void;
+  @:ufunction public function ReceiveUpdate(Canvas : unreal.UCanvas, Width : unreal.Int32, Height : unreal.Int32) : Void;
   
   /**
     Gets a specific render target's size from the global map of canvas render targets.
@@ -62,6 +62,11 @@ package unreal;
     @param       Width   Output variable for the render target's width
     @param       Height  Output variable for the render target's height
   **/
-  @:final public function GetSize(Width : unreal.Int32, Height : unreal.Int32) : Void;
+  @:ufunction @:final public function GetSize(Width : unreal.Int32, Height : unreal.Int32) : Void;
+  
+  /**
+    The world this render target will be used with
+  **/
+  @:uproperty private var World : unreal.TWeakObjectPtr<unreal.UWorld>;
   
 }

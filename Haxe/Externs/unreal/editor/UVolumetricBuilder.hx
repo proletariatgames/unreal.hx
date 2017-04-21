@@ -21,10 +21,10 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Builders/VolumetricBuilder.h")
-@:uextern extern class UVolumetricBuilder extends unreal.editor.UEditorBrushBuilder {
-  public var GroupName : unreal.FName;
-  public var NumSheets : unreal.Int32;
-  public var Radius : unreal.Float32;
-  public var Z : unreal.Float32;
+@:uextern @:uclass extern class UVolumetricBuilder extends unreal.editor.UEditorBrushBuilder {
+  @:uproperty public var GroupName : unreal.FName;
+  @:uproperty public var NumSheets : unreal.Int32;
+  @:uproperty public var Radius : unreal.Float32;
+  @:uproperty public var Z : unreal.Float32;
   
 }

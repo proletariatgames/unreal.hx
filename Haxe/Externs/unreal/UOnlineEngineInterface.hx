@@ -27,6 +27,6 @@ package unreal;
   Adding code here is discouraged, there is probably a better way, talk to the OGS team
 **/
 @:glueCppIncludes("Net/OnlineEngineInterface.h")
-@:uextern extern class UOnlineEngineInterface extends unreal.UObject {
+@:uextern @:uclass extern class UOnlineEngineInterface extends unreal.UObject {
   
 }

@@ -24,92 +24,92 @@ package unreal;
     * Offline cached - The font contains a series of textures containing pre-baked cached glyphs and their associated texture coordinates.
 **/
 @:glueCppIncludes("Engine/Font.h")
-@:uextern extern class UFont extends unreal.UObject implements unreal.slatecore.IFontProviderInterface {
+@:uextern @:uclass extern class UFont extends unreal.UObject implements unreal.slatecore.IFontProviderInterface {
   
   /**
     Embedded composite font data
   **/
-  public var CompositeFont : unreal.slatecore.FCompositeFont;
+  @:uproperty public var CompositeFont : unreal.slatecore.FCompositeFont;
   
   /**
     The default font name to use for legacy Canvas APIs that don't specify a font name
   **/
-  public var LegacyFontName : unreal.FName;
+  @:uproperty public var LegacyFontName : unreal.FName;
   
   /**
     The default size of the font used for legacy Canvas APIs that don't specify a font size
   **/
-  public var LegacyFontSize : unreal.Int32;
+  @:uproperty public var LegacyFontSize : unreal.Int32;
   
   /**
     Scale to apply to the font.
   **/
-  public var ScalingFactor : unreal.Float32;
+  @:uproperty public var ScalingFactor : unreal.Float32;
   
   /**
     The maximum height of a character in this font.  For multi-fonts, this array will contain a maximum
                   character height for each multi-font, otherwise the array will contain only a single element.  This is
                   cached at load-time or creation time, and is never serialized.
   **/
-  public var MaxCharHeight : unreal.TArray<unreal.Int32>;
+  @:uproperty public var MaxCharHeight : unreal.TArray<unreal.Int32>;
   
   /**
     Number of characters in the font, not including multiple instances of the same character (for multi-fonts).
                   This is cached at load-time or creation time, and is never serialized.
   **/
-  public var NumCharacters : unreal.Int32;
+  @:uproperty public var NumCharacters : unreal.Int32;
   
   /**
     Options used when importing this font
   **/
-  public var ImportOptions : unreal.FFontImportOptionsData;
+  @:uproperty public var ImportOptions : unreal.FFontImportOptionsData;
   
   /**
     Default horizontal spacing between characters when rendering text with this font
   **/
-  public var Kerning : unreal.Int32;
+  @:uproperty public var Kerning : unreal.Int32;
   
   /**
     @todo document
   **/
-  public var Leading : unreal.Float32;
+  @:uproperty public var Leading : unreal.Float32;
   
   /**
     @todo document
   **/
-  public var Descent : unreal.Float32;
+  @:uproperty public var Descent : unreal.Float32;
   
   /**
     @todo document
   **/
-  public var Ascent : unreal.Float32;
+  @:uproperty public var Ascent : unreal.Float32;
   
   /**
     Font metrics.
   **/
-  public var EmScale : unreal.Float32;
+  @:uproperty public var EmScale : unreal.Float32;
   
   /**
     True if font is 'remapped'.  That is, the character array is not a direct mapping to unicode values.  Instead,
                   all characters are indexed indirectly through the CharRemap array
   **/
-  public var IsRemapped : unreal.Int32;
+  @:uproperty public var IsRemapped : unreal.Int32;
   
   /**
     Textures that store this font's glyph image data //NOTE: Do not expose this to the editor as it has nasty crash potential
   **/
-  public var Textures : unreal.TArray<unreal.UTexture2D>;
+  @:uproperty public var Textures : unreal.TArray<unreal.UTexture2D>;
   
   /**
     List of characters in the font.  For a MultiFont, this will include all characters in all sub-fonts!  Thus,
                   the number of characters in this array isn't necessary the number of characters available in the font
   **/
-  public var Characters : unreal.TArray<unreal.FFontCharacter>;
+  @:uproperty public var Characters : unreal.TArray<unreal.FFontCharacter>;
   
   /**
     What kind of font caching should we use? This controls which options we see
   **/
-  public var FontCacheType : unreal.EFontCacheType;
+  @:uproperty public var FontCacheType : unreal.EFontCacheType;
   // FontProviderInterface interface implementation
   
 }

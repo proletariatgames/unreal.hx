@@ -20,6 +20,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UNamedSlot extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UNamedSlot extends unreal.umg.UContentWidget {
   
 }

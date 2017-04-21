@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESpawnActorCollisionHandlingMethod")
-@:class @:uextern extern enum ESpawnActorCollisionHandlingMethod {
+@:class @:uextern @:uenum extern enum ESpawnActorCollisionHandlingMethod {
   
   /**
     Fall back to default settings.

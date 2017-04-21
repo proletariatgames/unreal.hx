@@ -22,6 +22,6 @@ package unreal;
   Floats, vectors, and colors are interpolated between keyframes along the timeline.
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:uextern extern class UTimelineComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UTimelineComponent extends unreal.UActorComponent {
   
 }

@@ -20,7 +20,7 @@ package unreal;
   for easier detail customization, needed?
 **/
 @:glueCppIncludes("Engine/Scene.h")
-@:noCopy @:noEquals @:uextern extern class FWeightedBlendables {
-  public var Array : unreal.TArray<unreal.FWeightedBlendable>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWeightedBlendables {
+  @:uproperty public var Array : unreal.TArray<unreal.FWeightedBlendable>;
   
 }

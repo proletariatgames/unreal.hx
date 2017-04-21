@@ -19,16 +19,16 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_BlendListBase.h")
-@:uextern extern class FAnimNode_BlendListBase extends unreal.FAnimNode_Base {
-  private var PerBoneSampleData : unreal.TArray<unreal.FBlendSampleData>;
-  private var LastActiveChildIndex : unreal.Int32;
-  private var RemainingBlendTimes : unreal.TArray<unreal.Float32>;
-  private var BlendWeights : unreal.TArray<unreal.Float32>;
-  public var Blends : unreal.TArray<unreal.FAlphaBlend>;
-  public var BlendProfile : unreal.UBlendProfile;
-  public var CustomBlendCurve : unreal.UCurveFloat;
-  public var BlendType : unreal.EAlphaBlendOption;
-  public var BlendTime : unreal.TArray<unreal.Float32>;
-  public var BlendPose : unreal.TArray<unreal.FPoseLink>;
+@:uextern @:ustruct extern class FAnimNode_BlendListBase extends unreal.FAnimNode_Base {
+  @:uproperty private var PerBoneSampleData : unreal.TArray<unreal.FBlendSampleData>;
+  @:uproperty private var LastActiveChildIndex : unreal.Int32;
+  @:uproperty private var RemainingBlendTimes : unreal.TArray<unreal.Float32>;
+  @:uproperty private var BlendWeights : unreal.TArray<unreal.Float32>;
+  @:uproperty public var Blends : unreal.TArray<unreal.FAlphaBlend>;
+  @:uproperty public var BlendProfile : unreal.UBlendProfile;
+  @:uproperty public var CustomBlendCurve : unreal.UCurveFloat;
+  @:uproperty public var BlendType : unreal.EAlphaBlendOption;
+  @:uproperty public var BlendTime : unreal.TArray<unreal.Float32>;
+  @:uproperty public var BlendPose : unreal.TArray<unreal.FPoseLink>;
   
 }

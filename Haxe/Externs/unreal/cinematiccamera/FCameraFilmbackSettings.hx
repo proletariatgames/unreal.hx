@@ -21,21 +21,21 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
-@:noCopy @:noEquals @:uextern extern class FCameraFilmbackSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraFilmbackSettings {
   
   /**
     Read-only. Computed from Sensor dimensions.
   **/
-  public var SensorAspectRatio : unreal.Float32;
+  @:uproperty public var SensorAspectRatio : unreal.Float32;
   
   /**
     Vertical size of filmback or digital sensor, in mm.
   **/
-  public var SensorHeight : unreal.Float32;
+  @:uproperty public var SensorHeight : unreal.Float32;
   
   /**
     Horizontal size of filmback or digital sensor, in mm.
   **/
-  public var SensorWidth : unreal.Float32;
+  @:uproperty public var SensorWidth : unreal.Float32;
   
 }

@@ -21,9 +21,9 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialStateSettings.h")
-@:noCopy @:noEquals @:uextern extern class FTutorialProgress {
-  public var bUserDismissed : Bool;
-  public var CurrentStage : unreal.Int32;
-  public var Tutorial : unreal.FStringClassReference;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTutorialProgress {
+  @:uproperty public var bUserDismissed : Bool;
+  @:uproperty public var CurrentStage : unreal.Int32;
+  @:uproperty public var Tutorial : unreal.FStringClassReference;
   
 }

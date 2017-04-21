@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EIndirectLightingCacheQuality")
-@:uextern extern enum EIndirectLightingCacheQuality {
+@:uextern @:uenum extern enum EIndirectLightingCacheQuality {
   
   /**
     The indirect lighting cache will be disabled for this object, so no GI from stationary lights on movable objects.

@@ -20,9 +20,9 @@ package unreal;
   Utility struct to accumulate root motion.
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:noCopy @:noEquals @:uextern extern class FRootMotionMovementParams {
-  public var RootMotionTransform : unreal.FTransform;
-  public var BlendWeight : unreal.Float32;
-  public var bHasRootMotion : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRootMotionMovementParams {
+  @:uproperty public var RootMotionTransform : unreal.FTransform;
+  @:uproperty public var BlendWeight : unreal.Float32;
+  @:uproperty public var bHasRootMotion : Bool;
   
 }

@@ -20,28 +20,28 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollision.h")
-@:uextern extern class UParticleModuleCollision extends unreal.UParticleModuleCollisionBase {
+@:uextern @:uclass extern class UParticleModuleCollision extends unreal.UParticleModuleCollisionBase {
   
   /**
     Max distance at which particle collision will occur.
   **/
-  public var MaxCollisionDistance : unreal.Float32;
+  @:uproperty public var MaxCollisionDistance : unreal.Float32;
   
   /**
     If true, then the source actor is ignored in collision checks.
     Defaults to true.
   **/
-  public var bIgnoreSourceActor : Bool;
+  @:uproperty public var bIgnoreSourceActor : Bool;
   
   /**
     If true, Particle collision only if particle system is currently being rendered.
   **/
-  public var bCollideOnlyIfVisible : Bool;
+  @:uproperty public var bCollideOnlyIfVisible : Bool;
   
   /**
     If true, when the World->bDropDetail flag is set, the module will be ignored.
   **/
-  public var bDropDetail : Bool;
+  @:uproperty public var bDropDetail : Bool;
   
   /**
     How long to delay before checking a particle for collisions.
@@ -50,7 +50,7 @@ package unreal;
     set until the particle RelativeTime has surpassed the
     DelayAmount.
   **/
-  public var DelayAmount : unreal.FRawDistributionFloat;
+  @:uproperty public var DelayAmount : unreal.FRawDistributionFloat;
   
   /**
     The fudge factor to use to determine vertical.
@@ -59,7 +59,7 @@ package unreal;
     [1.0-VerticalFudgeFactor..1.0]
     to count as vertical collisions.
   **/
-  public var VerticalFudgeFactor : unreal.Float32;
+  @:uproperty public var VerticalFudgeFactor : unreal.Float32;
   
   /**
     If true, then collisions that do not have a vertical hit
@@ -67,7 +67,7 @@ package unreal;
     not be decremented. (ie., They don't 'count' as collisions)
     Useful for having particles come to rest on floors.
   **/
-  public var bOnlyVerticalNormalsDecrementCount : Bool;
+  @:uproperty public var bOnlyVerticalNormalsDecrementCount : Bool;
   
   /**
     If true, then collisions with Pawns will still react, but
@@ -75,25 +75,25 @@ package unreal;
     (ie., They don't 'count' as collisions)
     NOTE: Having this on prevents the code from running in parallel.
   **/
-  public var bPawnsDoNotDecrementCount : Bool;
+  @:uproperty public var bPawnsDoNotDecrementCount : Bool;
   
   /**
     The directional scalar value - used to scale the bounds to
     'assist' in avoiding inter-penetration or large gaps.
   **/
-  public var DirScalar : unreal.Float32;
+  @:uproperty public var DirScalar : unreal.Float32;
   
   /**
     The mass of the particle - for use when bApplyPhysics is true.
     Value is obtained using the EmitterTime at particle spawn.
   **/
-  public var ParticleMass : unreal.FRawDistributionFloat;
+  @:uproperty public var ParticleMass : unreal.FRawDistributionFloat;
   
   /**
     Any trigger volumes that are hit will be ignored. NOTE: This can be turned off if the TrigerVolume physics object type is not in the CollisionTypes array.
     Turning this off is strongly recommended as having it on prevents the code from running off the game thread.
   **/
-  public var bIgnoreTriggerVolumes : Bool;
+  @:uproperty public var bIgnoreTriggerVolumes : Bool;
   
   /**
     If true, physic will be applied between a particle and the
@@ -103,7 +103,7 @@ package unreal;
     impulse applied to the object it collides with.
     NOTE: having this on prevents the code from running off the game thread.
   **/
-  public var bApplyPhysics : Bool;
+  @:uproperty public var bApplyPhysics : Bool;
   
   /**
     What to do once a particles MaxCollisions is reached.
@@ -121,24 +121,24 @@ package unreal;
     EPCC_FreezeMovement
             Stop all movement, keep updating
   **/
-  public var CollisionCompletionOption : unreal.EParticleCollisionComplete;
+  @:uproperty public var CollisionCompletionOption : unreal.EParticleCollisionComplete;
   
   /**
     The maximum number of collisions a particle can have.
     Value is obtained using the EmitterTime at particle spawn.
   **/
-  public var MaxCollisions : unreal.FRawDistributionFloat;
+  @:uproperty public var MaxCollisions : unreal.FRawDistributionFloat;
   
   /**
     How much to `slow' the rotation of the particle after a collision.
     Value is obtained using the EmitterTime at particle spawn.
   **/
-  public var DampingFactorRotation : unreal.FRawDistributionVector;
+  @:uproperty public var DampingFactorRotation : unreal.FRawDistributionVector;
   
   /**
     How much to `slow' the velocity of the particle after a collision.
     Value is obtained using the EmitterTime at particle spawn.
   **/
-  public var DampingFactor : unreal.FRawDistributionVector;
+  @:uproperty public var DampingFactor : unreal.FRawDistributionVector;
   
 }

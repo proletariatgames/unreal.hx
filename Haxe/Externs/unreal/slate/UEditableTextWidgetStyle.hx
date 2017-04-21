@@ -21,11 +21,11 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/EditableTextWidgetStyle.h")
-@:uextern extern class UEditableTextWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
+@:uextern @:uclass extern class UEditableTextWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
   
   /**
     The actual data describing the button's appearance.
   **/
-  public var EditableTextStyle : unreal.slatecore.FEditableTextStyle;
+  @:uproperty public var EditableTextStyle : unreal.slatecore.FEditableTextStyle;
   
 }

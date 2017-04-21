@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/RotationRate/ParticleModuleRotationRateMultiplyLife.h")
-@:uextern extern class UParticleModuleRotationRateMultiplyLife extends unreal.UParticleModuleRotationRateBase {
+@:uextern @:uclass extern class UParticleModuleRotationRateMultiplyLife extends unreal.UParticleModuleRotationRateBase {
   
   /**
     The scale factor that should be applied to the rotation rate.
     The value is retrieved using the RelativeTime of the particle.
   **/
-  public var LifeMultiplier : unreal.FRawDistributionFloat;
+  @:uproperty public var LifeMultiplier : unreal.FRawDistributionFloat;
   
 }

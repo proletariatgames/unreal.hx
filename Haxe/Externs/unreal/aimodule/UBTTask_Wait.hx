@@ -20,16 +20,16 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_Wait.h")
-@:uextern extern class UBTTask_Wait extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_Wait extends unreal.aimodule.UBTTaskNode {
   
   /**
     allows adding random time to wait time
   **/
-  public var RandomDeviation : unreal.Float32;
+  @:uproperty public var RandomDeviation : unreal.Float32;
   
   /**
     wait time in seconds
   **/
-  public var WaitTime : unreal.Float32;
+  @:uproperty public var WaitTime : unreal.Float32;
   
 }

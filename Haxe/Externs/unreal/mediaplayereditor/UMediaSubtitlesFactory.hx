@@ -21,6 +21,6 @@ package unreal.mediaplayereditor;
 **/
 @:umodule("MediaPlayerEditor")
 @:glueCppIncludes("Private/Factories/MediaSubtitlesFactory.h")
-@:noClass @:uextern extern class UMediaSubtitlesFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UMediaSubtitlesFactory extends unreal.editor.UFactory {
   
 }

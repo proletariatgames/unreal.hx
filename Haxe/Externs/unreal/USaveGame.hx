@@ -23,6 +23,6 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/SaveGame
 **/
 @:glueCppIncludes("GameFramework/SaveGame.h")
-@:uextern extern class USaveGame extends unreal.UObject {
+@:uextern @:uclass extern class USaveGame extends unreal.UObject {
   
 }

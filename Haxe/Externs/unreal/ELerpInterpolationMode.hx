@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/KismetMathLibrary.h")
 @:uname("ELerpInterpolationMode.Type")
-@:uextern extern enum ELerpInterpolationMode {
+@:uextern @:uenum extern enum ELerpInterpolationMode {
   
   /**
     Shortest Path or Quaternion interpolation for the rotation.

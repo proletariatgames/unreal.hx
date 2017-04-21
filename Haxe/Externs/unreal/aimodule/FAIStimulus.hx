@@ -15,12 +15,12 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionTypes.h")
-@:uextern extern class FAIStimulus {
-  public var Tag : unreal.FName;
-  public var ReceiverLocation : unreal.FVector;
-  public var StimulusLocation : unreal.FVector;
-  public var Strength : unreal.Float32;
-  private var ExpirationAge : unreal.Float32;
-  private var Age : unreal.Float32;
+@:uextern @:ustruct extern class FAIStimulus {
+  @:uproperty public var Tag : unreal.FName;
+  @:uproperty public var ReceiverLocation : unreal.FVector;
+  @:uproperty public var StimulusLocation : unreal.FVector;
+  @:uproperty public var Strength : unreal.Float32;
+  @:uproperty private var ExpirationAge : unreal.Float32;
+  @:uproperty private var Age : unreal.Float32;
   
 }

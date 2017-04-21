@@ -15,66 +15,66 @@ package unreal.kismet;
 
 @:umodule("Kismet")
 @:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
-@:uextern extern class UBlueprintProfilerSettings extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintProfilerSettings extends unreal.UObject {
   
   /**
     Custom performance threshold for max timings in ms.
   **/
-  public var CustomMaxPerformanceThreshold : unreal.Float32;
+  @:uproperty public var CustomMaxPerformanceThreshold : unreal.Float32;
   
   /**
     Custom performance threshold for inclusive timings in ms.
   **/
-  public var CustomInclusivePerformanceThreshold : unreal.Float32;
+  @:uproperty public var CustomInclusivePerformanceThreshold : unreal.Float32;
   
   /**
     Custom performance threshold for average timings in ms.
   **/
-  public var CustomAveragePerformanceThreshold : unreal.Float32;
+  @:uproperty public var CustomAveragePerformanceThreshold : unreal.Float32;
   
   /**
     Custom performance threshold for event timings in ms.
   **/
-  public var CustomEventPerformanceThreshold : unreal.Float32;
+  @:uproperty public var CustomEventPerformanceThreshold : unreal.Float32;
   
   /**
     Current heat level metrics type
   **/
-  public var HeatLevelMetricsType : unreal.kismet.EBlueprintProfilerHeatLevelMetricsType;
+  @:uproperty public var HeatLevelMetricsType : unreal.kismet.EBlueprintProfilerHeatLevelMetricsType;
   
   /**
     Current wire heat map display mode
   **/
-  public var WireHeatMapDisplayMode : unreal.kismet.EBlueprintProfilerHeatMapDisplayMode;
+  @:uproperty public var WireHeatMapDisplayMode : unreal.kismet.EBlueprintProfilerHeatMapDisplayMode;
   
   /**
     Current graph node heat map display mode
   **/
-  public var GraphNodeHeatMapDisplayMode : unreal.kismet.EBlueprintProfilerHeatMapDisplayMode;
+  @:uproperty public var GraphNodeHeatMapDisplayMode : unreal.kismet.EBlueprintProfilerHeatMapDisplayMode;
   
   /**
     Display events for parent blueprints
   **/
-  public var bDisplayInheritedEvents : Bool;
+  @:uproperty public var bDisplayInheritedEvents : Bool;
   
   /**
     Display timings from pure nodes
   **/
-  public var bDisplayPure : Bool;
+  @:uproperty public var bDisplayPure : Bool;
   
   /**
     Only Display events that are applicable to the current graph
   **/
-  public var bGraphFilter : Bool;
+  @:uproperty public var bGraphFilter : Bool;
   
   /**
     Restrict the displayed instances to match the blueprint debug filter
   **/
-  public var bScopeToDebugInstance : Bool;
+  @:uproperty public var bScopeToDebugInstance : Bool;
   
   /**
     Display statistics by instance rather than by blueprint
   **/
-  public var bDisplayByInstance : Bool;
+  @:uproperty public var bDisplayByInstance : Bool;
   
 }

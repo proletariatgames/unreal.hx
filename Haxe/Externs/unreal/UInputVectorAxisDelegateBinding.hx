@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputVectorAxisDelegateBinding.h")
-@:uextern extern class UInputVectorAxisDelegateBinding extends unreal.UInputAxisKeyDelegateBinding {
+@:uextern @:uclass extern class UInputVectorAxisDelegateBinding extends unreal.UInputAxisKeyDelegateBinding {
   
 }

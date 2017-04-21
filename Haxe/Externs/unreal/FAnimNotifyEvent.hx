@@ -21,69 +21,69 @@ package unreal;
   which has its Notify method called and passed to the animation.
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
-@:noCopy @:noEquals @:uextern extern class FAnimNotifyEvent extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimNotifyEvent extends unreal.FAnimLinkableElement {
   
   /**
     'Track' that the notify exists on, used for visual placement in editor and sorting priority in runtime
   **/
-  public var TrackIndex : unreal.Int32;
+  @:uproperty public var TrackIndex : unreal.Int32;
   #if WITH_EDITORONLY_DATA
   
   /**
     Color of Notify in editor
   **/
-  public var NotifyColor : unreal.FColor;
+  @:uproperty public var NotifyColor : unreal.FColor;
   #end // WITH_EDITORONLY_DATA
   
   /**
     If disabled this notify will be skipped on dedicated servers
   **/
-  public var bTriggerOnDedicatedServer : Bool;
+  @:uproperty public var bTriggerOnDedicatedServer : Bool;
   
   /**
     LOD to start filtering this notify from.
   **/
-  public var NotifyFilterLOD : unreal.Int32;
+  @:uproperty public var NotifyFilterLOD : unreal.Int32;
   
   /**
     Defines a method for filtering notifies (stopping them triggering) e.g. by looking at the meshes current LOD
   **/
-  public var NotifyFilterType : unreal.ENotifyFilterType;
+  @:uproperty public var NotifyFilterType : unreal.ENotifyFilterType;
   
   /**
     Defines the chance of of this notify triggering, 0 = No Chance, 1 = Always triggers
   **/
-  public var NotifyTriggerChance : unreal.Float32;
-  public var MontageTickType : unreal.EMontageNotifyTickType;
+  @:uproperty public var NotifyTriggerChance : unreal.Float32;
+  @:uproperty public var MontageTickType : unreal.EMontageNotifyTickType;
   
   /**
     If TRUE, this notify has been converted from an old BranchingPoint.
   **/
-  public var bConvertedFromBranchingPoint : Bool;
+  @:uproperty public var bConvertedFromBranchingPoint : Bool;
   
   /**
     Linkable element to use for the end handle representing a notify state duration
   **/
-  public var EndLink : unreal.FAnimLinkableElement;
-  public var Duration : unreal.Float32;
-  public var NotifyStateClass : unreal.UAnimNotifyState;
-  public var Notify : unreal.UAnimNotify;
-  public var NotifyName : unreal.FName;
-  public var TriggerWeightThreshold : unreal.Float32;
+  @:uproperty public var EndLink : unreal.FAnimLinkableElement;
+  @:uproperty public var Duration : unreal.Float32;
+  @:uproperty public var NotifyStateClass : unreal.UAnimNotifyState;
+  @:uproperty public var Notify : unreal.UAnimNotify;
+  @:uproperty public var NotifyName : unreal.FName;
+  @:uproperty public var TriggerWeightThreshold : unreal.Float32;
   
   /**
     An offset similar to TriggerTimeOffset but used for the end scrub handle of a notify state's duration
   **/
-  public var EndTriggerTimeOffset : unreal.Float32;
+  @:uproperty public var EndTriggerTimeOffset : unreal.Float32;
   
   /**
     An offset from the DisplayTime to the actual time we will trigger the notify, as we cannot always trigger it exactly at the time the user wants
   **/
-  public var TriggerTimeOffset : unreal.Float32;
+  @:uproperty public var TriggerTimeOffset : unreal.Float32;
   
   /**
     The user requested time for this notify
   **/
-  @:deprecated public var DisplayTime_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var DisplayTime_DEPRECATED : unreal.Float32;
   
 }

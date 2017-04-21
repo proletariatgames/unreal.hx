@@ -18,30 +18,30 @@ package unreal;
   LOD settings for a single texture group.
 **/
 @:glueCppIncludes("Engine/TextureLODSettings.h")
-@:uextern extern class FTextureLODGroup {
-  public var MipFilter : unreal.FName;
-  public var MinMagFilter : unreal.FName;
-  public var MaxLODSize : unreal.Int32;
-  public var MinLODSize : unreal.Int32;
+@:uextern @:ustruct extern class FTextureLODGroup {
+  @:uproperty public var MipFilter : unreal.FName;
+  @:uproperty public var MinMagFilter : unreal.FName;
+  @:uproperty public var MaxLODSize : unreal.Int32;
+  @:uproperty public var MinLODSize : unreal.Int32;
   
   /**
     Defines how the the mip-map generation works, e.g. sharpening
   **/
-  public var MipGenSettings : unreal.TextureMipGenSettings;
+  @:uproperty public var MipGenSettings : unreal.TextureMipGenSettings;
   
   /**
     Number of mip-levels that can be streamed. -1 means all mips can stream.
   **/
-  public var NumStreamedMips : unreal.Int32;
+  @:uproperty public var NumStreamedMips : unreal.Int32;
   
   /**
     Group LOD bias.
   **/
-  public var LODBias : unreal.Int32;
+  @:uproperty public var LODBias : unreal.Int32;
   
   /**
     Minimum LOD mip count below which the code won't bias.
   **/
-  public var Group : unreal.TextureGroup;
+  @:uproperty public var Group : unreal.TextureGroup;
   
 }

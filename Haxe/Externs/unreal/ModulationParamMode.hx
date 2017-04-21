@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
 @:uname("ModulationParamMode")
-@:uextern extern enum ModulationParamMode {
+@:uextern @:uenum extern enum ModulationParamMode {
   
   /**
     Clamps input value to the range (MinInput, MaxInput) then maps to the range (MinOutput, MaxOutput)

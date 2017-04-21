@@ -21,10 +21,10 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeEditorLayerSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeEditorLayerSettings {
   #if WITH_EDITORONLY_DATA
-  public var ReimportLayerFilePath : unreal.FString;
-  public var LayerInfoObj : unreal.landscape.ULandscapeLayerInfoObject;
+  @:uproperty public var ReimportLayerFilePath : unreal.FString;
+  @:uproperty public var LayerInfoObj : unreal.landscape.ULandscapeLayerInfoObject;
   #end // WITH_EDITORONLY_DATA
   
 }

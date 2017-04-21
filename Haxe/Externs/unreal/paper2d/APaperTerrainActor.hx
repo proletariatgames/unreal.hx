@@ -19,6 +19,6 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainActor.h")
-@:uextern extern class APaperTerrainActor extends unreal.AActor {
+@:uextern @:uclass extern class APaperTerrainActor extends unreal.AActor {
   
 }

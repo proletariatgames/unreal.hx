@@ -21,10 +21,10 @@ package unreal.logvisualizer;
 **/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("LogVisualizerSettings.h")
-@:noCopy @:noEquals @:uextern extern class FVisualLoggerFiltersData {
-  public var SelectedClasses : unreal.TArray<unreal.FString>;
-  public var Categories : unreal.TArray<unreal.logvisualizer.FCategoryFilter>;
-  public var ObjectNameFilter : unreal.FString;
-  public var SearchBoxFilter : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVisualLoggerFiltersData {
+  @:uproperty public var SelectedClasses : unreal.TArray<unreal.FString>;
+  @:uproperty public var Categories : unreal.TArray<unreal.logvisualizer.FCategoryFilter>;
+  @:uproperty public var ObjectNameFilter : unreal.FString;
+  @:uproperty public var SearchBoxFilter : unreal.FString;
   
 }

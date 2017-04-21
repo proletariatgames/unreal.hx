@@ -20,71 +20,71 @@ package unreal;
   
 **/
 @:glueCppIncludes("VectorField/VectorFieldAnimated.h")
-@:uextern extern class UVectorFieldAnimated extends unreal.UVectorField {
+@:uextern @:uclass extern class UVectorFieldAnimated extends unreal.UVectorField {
   
   /**
     The maximum magnitude of noise vectors to apply.
   **/
-  public var NoiseMax : unreal.Float32;
+  @:uproperty public var NoiseMax : unreal.Float32;
   
   /**
     Scale to apply to vectors in the noise field.
   **/
-  public var NoiseScale : unreal.Float32;
+  @:uproperty public var NoiseScale : unreal.Float32;
   
   /**
     A static vector field used to add noise.
   **/
-  public var NoiseField : unreal.UVectorFieldStatic;
+  @:uproperty public var NoiseField : unreal.UVectorFieldStatic;
   
   /**
     Whether or not the simulation should loop.
   **/
-  public var bLoop : Bool;
+  @:uproperty public var bLoop : Bool;
   
   /**
     The rate at which to interpolate between frames.
   **/
-  public var FramesPerSecond : unreal.Float32;
+  @:uproperty public var FramesPerSecond : unreal.Float32;
   
   /**
     The number of frames in the atlas.
   **/
-  public var FrameCount : unreal.Int32;
+  @:uproperty public var FrameCount : unreal.Int32;
   
   /**
     The number of vertical subimages in the texture atlas.
   **/
-  public var SubImagesY : unreal.Int32;
+  @:uproperty public var SubImagesY : unreal.Int32;
   
   /**
     The number of horizontal subimages in the texture atlas.
   **/
-  public var SubImagesX : unreal.Int32;
+  @:uproperty public var SubImagesX : unreal.Int32;
   
   /**
     The size of the volume. Valid sizes: 16, 32, 64.
   **/
-  public var VolumeSizeZ : unreal.Int32;
+  @:uproperty public var VolumeSizeZ : unreal.Int32;
   
   /**
     The size of the volume. Valid sizes: 16, 32, 64.
   **/
-  public var VolumeSizeY : unreal.Int32;
+  @:uproperty public var VolumeSizeY : unreal.Int32;
   
   /**
     The size of the volume. Valid sizes: 16, 32, 64.
   **/
-  public var VolumeSizeX : unreal.Int32;
+  @:uproperty public var VolumeSizeX : unreal.Int32;
   
   /**
     The operation used to construct the vector field.
   **/
-  public var ConstructionOp : unreal.EVectorFieldConstructionOp;
+  @:uproperty public var ConstructionOp : unreal.EVectorFieldConstructionOp;
   
   /**
     The texture from which to create the vector field.
   **/
-  public var Texture : unreal.UTexture2D;
+  @:uproperty public var Texture : unreal.UTexture2D;
   
 }

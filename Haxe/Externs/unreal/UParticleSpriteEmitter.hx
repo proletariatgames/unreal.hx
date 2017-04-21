@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleSpriteEmitter.h")
-@:uextern extern class UParticleSpriteEmitter extends unreal.UParticleEmitter {
+@:uextern @:uclass extern class UParticleSpriteEmitter extends unreal.UParticleEmitter {
   
 }

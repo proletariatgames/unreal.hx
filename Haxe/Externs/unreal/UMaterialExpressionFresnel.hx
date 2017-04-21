@@ -20,32 +20,32 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionFresnel.h")
-@:noClass @:uextern extern class UMaterialExpressionFresnel extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionFresnel extends unreal.UMaterialExpression {
   
   /**
     Defaults to Pixel World Normal if not specified
   **/
-  public var Normal : unreal.FExpressionInput;
+  @:uproperty public var Normal : unreal.FExpressionInput;
   
   /**
     Specifies the fraction of specular reflection when the surfaces is viewed from straight on.
     A value of 1 effectively disables Fresnel.
   **/
-  public var BaseReflectFraction : unreal.Float32;
+  @:uproperty public var BaseReflectFraction : unreal.Float32;
   
   /**
     Defaults to 'BaseReflectFraction' if not specified
   **/
-  public var BaseReflectFractionIn : unreal.FExpressionInput;
+  @:uproperty public var BaseReflectFractionIn : unreal.FExpressionInput;
   
   /**
     The exponent to pass into the pow() function
   **/
-  public var Exponent : unreal.Float32;
+  @:uproperty public var Exponent : unreal.Float32;
   
   /**
     Defaults to 'Exponent' if not specified
   **/
-  public var ExponentIn : unreal.FExpressionInput;
+  @:uproperty public var ExponentIn : unreal.FExpressionInput;
   
 }

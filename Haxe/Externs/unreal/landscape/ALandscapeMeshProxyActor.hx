@@ -21,6 +21,6 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeMeshProxyActor.h")
-@:uextern extern class ALandscapeMeshProxyActor extends unreal.AActor {
+@:uextern @:uclass extern class ALandscapeMeshProxyActor extends unreal.AActor {
   
 }

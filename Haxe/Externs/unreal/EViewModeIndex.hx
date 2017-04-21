@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("EViewModeIndex")
-@:uextern extern enum EViewModeIndex {
+@:uextern @:uenum extern enum EViewModeIndex {
   
   /**
     Wireframe w/ brushes.

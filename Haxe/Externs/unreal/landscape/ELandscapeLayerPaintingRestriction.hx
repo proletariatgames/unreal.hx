@@ -22,7 +22,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:uname("ELandscapeLayerPaintingRestriction")
-@:class @:uextern extern enum ELandscapeLayerPaintingRestriction {
+@:class @:uextern @:uenum extern enum ELandscapeLayerPaintingRestriction {
   
   /**
     No restriction, can paint anywhere (default).

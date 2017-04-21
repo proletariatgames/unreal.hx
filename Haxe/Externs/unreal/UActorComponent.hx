@@ -23,172 +23,172 @@ package unreal;
   @see UPrimitiveComponent
 **/
 @:glueCppIncludes("Components/ActorComponent.h")
-@:uextern extern class UActorComponent extends unreal.UObject implements unreal.IInterface_AssetUserData {
-  public var CreationMethod : unreal.EComponentCreationMethod;
+@:uextern @:uclass extern class UActorComponent extends unreal.UObject implements unreal.IInterface_AssetUserData {
+  @:uproperty public var CreationMethod : unreal.EComponentCreationMethod;
   
   /**
     If true, the component will be excluded from non-editor builds
   **/
-  public var bIsEditorOnly : Bool;
-  public var bEditableWhenInherited : Bool;
+  @:uproperty public var bIsEditorOnly : Bool;
+  @:uproperty public var bEditableWhenInherited : Bool;
   
   /**
     Whether the component is currently active.
   **/
-  public var bIsActive : Bool;
+  @:uproperty public var bIsActive : Bool;
   
   /**
     Whether the component is activated at creation or must be explicitly activated.
   **/
-  public var bAutoActivate : Bool;
+  @:uproperty public var bAutoActivate : Bool;
   
   /**
     True if this component was created as an instance component
   **/
-  @:deprecated public var bInstanceComponent_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bInstanceComponent_DEPRECATED : Bool;
   
   /**
     True if this component was created by a construction script, and will be destroyed by DestroyConstructedComponents
   **/
-  @:deprecated public var bCreatedByConstructionScript_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bCreatedByConstructionScript_DEPRECATED : Bool;
   
   /**
     Array of user data stored with the component
   **/
-  private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
+  @:uproperty private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
   
   /**
     Array of tags that can be used for grouping and categorizing. Can also be accessed from scripting.
   **/
-  public var ComponentTags : unreal.TArray<unreal.FName>;
+  @:uproperty public var ComponentTags : unreal.TArray<unreal.FName>;
   
   /**
     Main tick function for the Actor
   **/
-  public var PrimaryComponentTick : unreal.FActorComponentTickFunction;
+  @:uproperty public var PrimaryComponentTick : unreal.FActorComponentTickFunction;
   
   /**
     Returns whether the component is in the process of being destroyed.
   **/
-  @:thisConst @:final public function IsBeingDestroyed() : Bool;
-  @:final public function OnRep_IsActive() : Void;
+  @:ufunction @:thisConst @:final public function IsBeingDestroyed() : Bool;
+  @:ufunction @:final public function OnRep_IsActive() : Void;
   
   /**
     Follow the Outer chain to get the  AActor  that 'Owns' this component
   **/
-  @:thisConst @:final public function GetOwner() : unreal.AActor;
+  @:ufunction @:thisConst @:final public function GetOwner() : unreal.AActor;
   
   /**
     See if this component contains the supplied tag
   **/
-  @:thisConst @:final public function ComponentHasTag(Tag : unreal.FName) : Bool;
+  @:ufunction @:thisConst @:final public function ComponentHasTag(Tag : unreal.FName) : Bool;
   
   /**
     Activates the SceneComponent
     @param bReset - The value to assign to HiddenGame.
   **/
-  public function Activate(bReset : Bool) : Void;
+  @:ufunction public function Activate(bReset : Bool = false) : Void;
   
   /**
     Deactivates the SceneComponent.
   **/
-  public function Deactivate() : Void;
+  @:ufunction public function Deactivate() : Void;
   
   /**
     Sets whether the component is active or not
     @param bNewActive - The new active state of the component
   **/
-  public function SetActive(bNewActive : Bool, bReset : Bool) : Void;
+  @:ufunction public function SetActive(bNewActive : Bool, bReset : Bool = false) : Void;
   
   /**
     Toggles the active state of the component
   **/
-  public function ToggleActive() : Void;
+  @:ufunction public function ToggleActive() : Void;
   
   /**
     Returns whether the component is active or not
     @return - The active state of the component.
   **/
-  @:thisConst public function IsActive() : Bool;
+  @:ufunction @:thisConst public function IsActive() : Bool;
   
   /**
     Sets whether this component can tick when paused.
   **/
-  @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
+  @:ufunction @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
   
   /**
     Enable or disable replication. This is the equivalent of RemoteRole for actors (only a bool is required for components)
   **/
-  @:final public function SetIsReplicated(ShouldReplicate : Bool) : Void;
+  @:ufunction @:final public function SetIsReplicated(ShouldReplicate : Bool) : Void;
   
   /**
     Blueprint implementable event for when the component is beginning play, called before its Owner's BeginPlay on Actor BeginPlay
     or when the component is dynamically created if the Actor has already BegunPlay.
   **/
-  public function ReceiveBeginPlay() : Void;
+  @:ufunction public function ReceiveBeginPlay() : Void;
   
   /**
     Blueprint implementable event for when the component ends play, generally via destruction or its Actor's EndPlay.
   **/
-  public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
+  @:ufunction public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
   
   /**
     Set this component's tick functions to be enabled or disabled. Only has an effect if the function is registered
     
     @param       bEnabled - Whether it should be enabled or not
   **/
-  public function SetComponentTickEnabled(bEnabled : Bool) : Void;
+  @:ufunction public function SetComponentTickEnabled(bEnabled : Bool) : Void;
   
   /**
     Returns whether this component has tick enabled or not
   **/
-  @:thisConst @:final public function IsComponentTickEnabled() : Bool;
+  @:ufunction @:thisConst @:final public function IsComponentTickEnabled() : Bool;
   
   /**
     Sets the tick interval for this component's primary tick function. Does not enable the tick interval. Takes effect on next tick.
     @param TickInterval   The duration between ticks for this component's primary tick function
   **/
-  @:final public function SetComponentTickInterval(TickInterval : unreal.Float32) : Void;
+  @:ufunction @:final public function SetComponentTickInterval(TickInterval : unreal.Float32) : Void;
   
   /**
     Returns whether this component has tick enabled or not
   **/
-  @:thisConst @:final public function GetComponentTickInterval() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetComponentTickInterval() : unreal.Float32;
   
   /**
     Unregister and mark for pending kill a component.  This may not be used to destroy a component is owned by an actor other than the one calling the function.
   **/
-  @:final public function K2_DestroyComponent(Object : unreal.UObject) : Void;
+  @:ufunction @:final public function K2_DestroyComponent(Object : unreal.UObject) : Void;
   
   /**
     Changes the ticking group for this component
   **/
-  @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
+  @:ufunction @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
   
   /**
     Make this component tick after PrerequisiteActor
   **/
-  public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Make this component tick after PrerequisiteComponent.
   **/
-  public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Remove tick dependency on PrerequisiteActor.
   **/
-  public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Remove tick dependency on PrerequisiteComponent.
   **/
-  public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Event called every frame
   **/
-  public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
   // Interface_AssetUserData interface implementation
   
 }

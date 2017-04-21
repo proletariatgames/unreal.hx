@@ -21,22 +21,22 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageType.h")
-@:noCopy @:noEquals @:uextern extern class FFoliageVertexColorChannelMask {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFoliageVertexColorChannelMask {
   
   /**
     When unchecked, foliage instances will be placed only when the vertex color in the specified channel(s) is above the threshold amount.
     When checked, the vertex color must be less than the threshold amount
   **/
-  public var InvertMask : Bool;
+  @:uproperty public var InvertMask : Bool;
   
   /**
     Specifies the threshold value above which the static mesh vertex color value must be, in order for foliage instances to be placed in a specific area
   **/
-  public var MaskThreshold : unreal.Float32;
+  @:uproperty public var MaskThreshold : unreal.Float32;
   
   /**
     When checked, foliage will be masked from this mesh using this color channel
   **/
-  public var UseMask : Bool;
+  @:uproperty public var UseMask : Bool;
   
 }

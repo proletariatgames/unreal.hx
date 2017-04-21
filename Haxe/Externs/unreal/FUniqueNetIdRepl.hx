@@ -23,6 +23,6 @@ package unreal;
   over network RPC and actor replication
 **/
 @:glueCppIncludes("GameFramework/OnlineReplStructs.h")
-@:noCopy @:noEquals @:uextern extern class FUniqueNetIdRepl extends unreal.FUniqueNetIdWrapper {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FUniqueNetIdRepl extends unreal.FUniqueNetIdWrapper {
   
 }

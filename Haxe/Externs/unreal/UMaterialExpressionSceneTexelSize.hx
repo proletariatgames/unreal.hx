@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSceneTexelSize.h")
-@:noClass @:uextern extern class UMaterialExpressionSceneTexelSize extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSceneTexelSize extends unreal.UMaterialExpression {
   
 }

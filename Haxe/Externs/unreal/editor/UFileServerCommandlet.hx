@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/FileServerCommandlet.h")
-@:noClass @:uextern extern class UFileServerCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UFileServerCommandlet extends unreal.UCommandlet {
   
 }

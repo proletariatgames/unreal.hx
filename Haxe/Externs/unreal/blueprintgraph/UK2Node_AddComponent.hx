@@ -21,12 +21,12 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_AddComponent.h")
-@:uextern extern class UK2Node_AddComponent extends unreal.blueprintgraph.UK2Node_CallFunction {
+@:uextern @:uclass extern class UK2Node_AddComponent extends unreal.blueprintgraph.UK2Node_CallFunction {
   
   /**
     The blueprint name we came from, so we can lookup the template after a paste
   **/
-  public var TemplateBlueprint : unreal.FString;
-  public var bHasExposedVariable : Bool;
+  @:uproperty public var TemplateBlueprint : unreal.FString;
+  @:uproperty public var bHasExposedVariable : Bool;
   
 }

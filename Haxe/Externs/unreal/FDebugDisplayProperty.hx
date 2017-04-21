@@ -24,16 +24,16 @@ package unreal;
   @see DrawStatsHUD
 **/
 @:glueCppIncludes("Engine/DebugDisplayProperty.h")
-@:noCopy @:noEquals @:uextern extern class FDebugDisplayProperty {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDebugDisplayProperty {
   
   /**
     if Obj is a class and WithinClass is not nullptr, further limit the display to objects that have an Outer of WithinClass
   **/
-  public var WithinClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var WithinClass : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     the object whose property to display. If this is a class, all objects of that class are drawn.
   **/
-  public var Obj : unreal.UObject;
+  @:uproperty public var Obj : unreal.UObject;
   
 }

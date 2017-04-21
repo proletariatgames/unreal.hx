@@ -21,16 +21,16 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorFloatingUI.h")
-@:noClass @:uextern extern class AVREditorFloatingUI extends unreal.vreditor.AVREditorBaseActor {
+@:noClass @:uextern @:uclass extern class AVREditorFloatingUI extends unreal.vreditor.AVREditorBaseActor {
   
   /**
     When in a spawned state, this is the widget component to represent the widget
   **/
-  private var WidgetComponent : unreal.vreditor.UVREditorWidgetComponent;
+  @:uproperty private var WidgetComponent : unreal.vreditor.UVREditorWidgetComponent;
   
   /**
     UMG user widget we're drawing, or nullptr if we're drawing a Slate widget
   **/
-  private var UserWidget : unreal.vreditor.UVREditorBaseUserWidget;
+  @:uproperty private var UserWidget : unreal.vreditor.UVREditorBaseUserWidget;
   
 }

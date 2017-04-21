@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionStaticBoolParameter.h")
-@:uextern extern class UMaterialExpressionStaticBoolParameter extends unreal.UMaterialExpressionParameter {
-  public var DefaultValue : Bool;
+@:uextern @:uclass extern class UMaterialExpressionStaticBoolParameter extends unreal.UMaterialExpressionParameter {
+  @:uproperty public var DefaultValue : Bool;
   
 }

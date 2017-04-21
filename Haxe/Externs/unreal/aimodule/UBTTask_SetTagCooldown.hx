@@ -20,21 +20,21 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_SetTagCooldown.h")
-@:uextern extern class UBTTask_SetTagCooldown extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_SetTagCooldown extends unreal.aimodule.UBTTaskNode {
   
   /**
     Value we will add or set to the Cooldown tag when this task runs.
   **/
-  public var CooldownDuration : unreal.Float32;
+  @:uproperty public var CooldownDuration : unreal.Float32;
   
   /**
     True if we are adding to any existing duration, false if we are setting the duration (potentially invalidating an existing end time).
   **/
-  public var bAddToExistingDuration : Bool;
+  @:uproperty public var bAddToExistingDuration : Bool;
   
   /**
     Gameplay tag that will be used for the cooldown.
   **/
-  public var CooldownTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var CooldownTag : unreal.gameplaytags.FGameplayTag;
   
 }

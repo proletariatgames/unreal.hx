@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SkeletalMeshReductionSettings.h")
-@:noCopy @:noEquals @:uextern extern class FSkeletalMeshLODGroupSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshLODGroupSettings {
   
   /**
     The optimization settings to use for the respective LOD level
   **/
-  private var OptimizationSettings : unreal.FSkeletalMeshOptimizationSettings;
+  @:uproperty private var OptimizationSettings : unreal.FSkeletalMeshOptimizationSettings;
   
   /**
     The screen sizes to use for the respective LOD level
   **/
-  private var ScreenSize : unreal.Float32;
+  @:uproperty private var ScreenSize : unreal.Float32;
   
 }

@@ -19,80 +19,80 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheComponent.h")
-@:uextern extern class UGeometryCacheComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class UGeometryCacheComponent extends unreal.UMeshComponent {
   
   /**
     Start playback of GeometryCache
   **/
-  @:final public function Play() : Void;
+  @:ufunction @:final public function Play() : Void;
   
   /**
     Start playback of GeometryCache from the start
   **/
-  @:final public function PlayFromStart() : Void;
+  @:ufunction @:final public function PlayFromStart() : Void;
   
   /**
     Start playback of GeometryCache in reverse
   **/
-  @:final public function PlayReversed() : Void;
+  @:ufunction @:final public function PlayReversed() : Void;
   
   /**
     Start playback of GeometryCache from the end and play in reverse
   **/
-  @:final public function PlayReversedFromEnd() : Void;
+  @:ufunction @:final public function PlayReversedFromEnd() : Void;
   
   /**
     Pause playback of GeometryCache
   **/
-  @:final public function Pause() : Void;
+  @:ufunction @:final public function Pause() : Void;
   
   /**
     Stop playback of GeometryCache
   **/
-  @:final public function Stop() : Void;
+  @:ufunction @:final public function Stop() : Void;
   
   /**
     Get whether this GeometryCache is playing or not.
   **/
-  @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Get whether this GeometryCache is playing in reverse or not.
   **/
-  @:thisConst @:final public function IsPlayingReversed() : Bool;
+  @:ufunction @:thisConst @:final public function IsPlayingReversed() : Bool;
   
   /**
     Get whether this GeometryCache is looping or not.
   **/
-  @:thisConst @:final public function IsLooping() : Bool;
+  @:ufunction @:thisConst @:final public function IsLooping() : Bool;
   
   /**
     Set whether this GeometryCache is looping or not.
   **/
-  @:final public function SetLooping(bNewLooping : Bool) : Void;
+  @:ufunction @:final public function SetLooping(bNewLooping : Bool) : Void;
   
   /**
     Get whether this GeometryCache is playing or not.
   **/
-  @:thisConst @:final public function GetPlaybackSpeed() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPlaybackSpeed() : unreal.Float32;
   
   /**
     Get whether this GeometryCache is playing or not.
   **/
-  @:final public function SetPlaybackSpeed(NewPlaybackSpeed : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPlaybackSpeed(NewPlaybackSpeed : unreal.Float32) : Void;
   
   /**
     Change the Geometry Cache used by this instance.
   **/
-  public function SetGeometryCache(NewGeomCache : unreal.geometrycache.UGeometryCache) : Bool;
-  private var ElapsedTime : unreal.Float32;
-  private var NumTracks : unreal.Int32;
-  private var PlaybackSpeed : unreal.Float32;
-  private var StartTimeOffset : unreal.Float32;
+  @:ufunction public function SetGeometryCache(NewGeomCache : unreal.geometrycache.UGeometryCache) : Bool;
+  @:uproperty private var ElapsedTime : unreal.Float32;
+  @:uproperty private var NumTracks : unreal.Int32;
+  @:uproperty private var PlaybackSpeed : unreal.Float32;
+  @:uproperty private var StartTimeOffset : unreal.Float32;
   
   /**
     Geometry Cache instance referenced by the component
   **/
-  public var GeometryCache : unreal.geometrycache.UGeometryCache;
+  @:uproperty public var GeometryCache : unreal.geometrycache.UGeometryCache;
   
 }

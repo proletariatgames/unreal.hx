@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/AudioMixerCommandlet.h")
-@:noClass @:uextern extern class UAudioMixerCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UAudioMixerCommandlet extends unreal.UCommandlet {
   
 }

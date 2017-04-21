@@ -20,64 +20,64 @@ package unreal;
   Track containing data for moving an actor around over time.
 **/
 @:glueCppIncludes("Matinee/InterpTrackMove.h")
-@:uextern extern class UInterpTrackMove extends unreal.UInterpTrack {
-  public var RotMode : unreal.EInterpTrackMoveRotMode;
+@:uextern @:uclass extern class UInterpTrackMove extends unreal.UInterpTrack {
+  @:uproperty public var RotMode : unreal.EInterpTrackMoveRotMode;
   
   /**
     If true, 3D representation of this track in the 3D viewport is disabled.
   **/
-  public var bHide3DTrack : Bool;
+  @:uproperty public var bHide3DTrack : Bool;
   
   /**
     If false, when this track is displayed on the Curve Editor in Matinee, do not show the Rotation tracks.
   **/
-  public var bShowRotationOnCurveEd : Bool;
+  @:uproperty public var bShowRotationOnCurveEd : Bool;
   
   /**
     If false, when this track is displayed on the Curve Editor in Matinee, do not show the Translation tracks.
   **/
-  public var bShowTranslationOnCurveEd : Bool;
+  @:uproperty public var bShowTranslationOnCurveEd : Bool;
   
   /**
     Disable previewing of this track - will always position  AActor  at Time=0.0. Useful when keyframing an object relative to this group.
   **/
-  public var bDisableMovement : Bool;
+  @:uproperty public var bDisableMovement : Bool;
   
   /**
     In the editor, show a small arrow at each keyframe indicating the rotation at that key.
   **/
-  public var bShowArrowAtKeys : Bool;
+  @:uproperty public var bShowArrowAtKeys : Bool;
   
   /**
     Use a Quaternion linear interpolation between keys.
     This is robust and will find the 'shortest' distance between keys, but does not support ease in/out.
   **/
-  public var bUseQuatInterpolation : Bool;
+  @:uproperty public var bUseQuatInterpolation : Bool;
   
   /**
     Controls the tightness of the curve for the rotation path.
   **/
-  public var AngCurveTension : unreal.Float32;
+  @:uproperty public var AngCurveTension : unreal.Float32;
   
   /**
     Controls the tightness of the curve for the translation path.
   **/
-  public var LinCurveTension : unreal.Float32;
+  @:uproperty public var LinCurveTension : unreal.Float32;
   
   /**
     When using IMR_LookAtGroup, specifies the Group which this track should always point its actor at.
   **/
-  public var LookAtGroupName : unreal.FName;
-  public var LookupTrack : unreal.FInterpLookupTrack;
+  @:uproperty public var LookAtGroupName : unreal.FName;
+  @:uproperty public var LookupTrack : unreal.FInterpLookupTrack;
   
   /**
     Actual rotation keyframe data, stored as Euler angles in degrees, for easy editing on curve.
   **/
-  public var EulerTrack : unreal.FInterpCurveVector;
+  @:uproperty public var EulerTrack : unreal.FInterpCurveVector;
   
   /**
     Actual position keyframe data.
   **/
-  public var PosTrack : unreal.FInterpCurveVector;
+  @:uproperty public var PosTrack : unreal.FInterpCurveVector;
   
 }

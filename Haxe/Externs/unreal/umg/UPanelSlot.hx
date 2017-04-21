@@ -19,8 +19,8 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UPanelSlot extends unreal.umg.UVisual {
-  public var Content : unreal.umg.UWidget;
-  public var Parent : unreal.umg.UPanelWidget;
+@:uextern @:uclass extern class UPanelSlot extends unreal.umg.UVisual {
+  @:uproperty public var Content : unreal.umg.UWidget;
+  @:uproperty public var Parent : unreal.umg.UPanelWidget;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("ENetworkFailure.Type")
-@:uextern extern enum ENetworkFailure {
+@:uextern @:uenum extern enum ENetworkFailure {
   
   /**
     A relevant net driver has already been created for this service

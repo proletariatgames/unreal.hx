@@ -20,57 +20,57 @@ package unreal;
   Struct containing mappings for legacy method of binding keys to exec commands.
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:noCopy @:noEquals @:uextern extern class FKeyBind {
-  public var bDisabled : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKeyBind {
+  @:uproperty public var bDisabled : Bool;
   
   /**
     Whether the command key must not be held when the key event occurs
   **/
-  public var bIgnoreCmd : Bool;
+  @:uproperty public var bIgnoreCmd : Bool;
   
   /**
     Whether the alt key must not be held when the key event occurs
   **/
-  public var bIgnoreAlt : Bool;
+  @:uproperty public var bIgnoreAlt : Bool;
   
   /**
     Whether the shift key must not be held when the key event occurs
   **/
-  public var bIgnoreShift : Bool;
+  @:uproperty public var bIgnoreShift : Bool;
   
   /**
     Whether the control key must not be held when the key event occurs
   **/
-  public var bIgnoreCtrl : Bool;
+  @:uproperty public var bIgnoreCtrl : Bool;
   
   /**
     Whether the command key needs to be held when the key event occurs
   **/
-  public var Cmd : Bool;
+  @:uproperty public var Cmd : Bool;
   
   /**
     Whether the alt key needs to be held when the key event occurs
   **/
-  public var Alt : Bool;
+  @:uproperty public var Alt : Bool;
   
   /**
     Whether the shift key needs to be held when the key event occurs
   **/
-  public var Shift : Bool;
+  @:uproperty public var Shift : Bool;
   
   /**
     Whether the control key needs to be held when the key event occurs
   **/
-  public var Control : Bool;
+  @:uproperty public var Control : Bool;
   
   /**
     The command to execute when the key is pressed/released
   **/
-  public var Command : unreal.FString;
+  @:uproperty public var Command : unreal.FString;
   
   /**
     The key to be bound to the command
   **/
-  public var Key : unreal.inputcore.FKey;
+  @:uproperty public var Key : unreal.inputcore.FKey;
   
 }

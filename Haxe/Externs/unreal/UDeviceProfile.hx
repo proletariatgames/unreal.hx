@@ -14,26 +14,26 @@
 package unreal;
 
 @:glueCppIncludes("DeviceProfiles/DeviceProfile.h")
-@:uextern extern class UDeviceProfile extends unreal.UTextureLODSettings {
+@:uextern @:uclass extern class UDeviceProfile extends unreal.UTextureLODSettings {
   
   /**
     The collection of CVars which is set from this profile
   **/
-  public var CVars : unreal.TArray<unreal.FString>;
+  @:uproperty public var CVars : unreal.TArray<unreal.FString>;
   
   /**
     The parent object of this profile, it is the object matching this DeviceType with the BaseProfileName
   **/
-  public var Parent : unreal.UObject;
+  @:uproperty public var Parent : unreal.UObject;
   
   /**
     The name of the parent profile of this object
   **/
-  public var BaseProfileName : unreal.FString;
+  @:uproperty public var BaseProfileName : unreal.FString;
   
   /**
     The type of this profile, I.e. IOS, Windows, PS4 etc
   **/
-  public var DeviceType : unreal.FString;
+  @:uproperty public var DeviceType : unreal.FString;
   
 }

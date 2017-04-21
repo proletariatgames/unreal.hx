@@ -18,13 +18,13 @@ package unreal;
   A CameraActor is a camera viewpoint that can be placed in a level.
 **/
 @:glueCppIncludes("Camera/CameraActor.h")
-@:uextern extern class ACameraActor extends unreal.AActor {
-  public var SceneComponent : unreal.USceneComponent;
-  public var CameraComponent : unreal.UCameraComponent;
+@:uextern @:uclass extern class ACameraActor extends unreal.AActor {
+  @:uproperty public var SceneComponent : unreal.USceneComponent;
+  @:uproperty public var CameraComponent : unreal.UCameraComponent;
   
   /**
     Returns index of the player for whom we auto-activate, or INDEX_NONE (-1) if disabled.
   **/
-  @:thisConst @:final public function GetAutoActivatePlayerIndex() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetAutoActivatePlayerIndex() : unreal.Int32;
   
 }

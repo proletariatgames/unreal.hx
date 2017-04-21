@@ -16,7 +16,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_ModifyBone.h")
 @:uname("EBoneModificationMode")
-@:uextern extern enum EBoneModificationMode {
+@:uextern @:uenum extern enum EBoneModificationMode {
   
   /**
     The modifier ignores this channel (keeps the existing bone translation, rotation, or scale).

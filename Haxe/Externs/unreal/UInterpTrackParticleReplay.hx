@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackParticleReplay.h")
-@:uextern extern class UInterpTrackParticleReplay extends unreal.UInterpTrack {
+@:uextern @:uclass extern class UInterpTrackParticleReplay extends unreal.UInterpTrack {
   #if WITH_EDITORONLY_DATA
   
   /**
     Current replay fixed time quantum between frames (one over frame rate)
   **/
-  public var FixedTimeStep : unreal.Float32;
+  @:uproperty public var FixedTimeStep : unreal.Float32;
   
   /**
     True in the editor if track should be used to capture replay frames instead of play them back
   **/
-  public var bIsCapturingReplay : Bool;
+  @:uproperty public var bIsCapturingReplay : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Array of keys
   **/
-  public var TrackKeys : unreal.TArray<unreal.FParticleReplayTrackKey>;
+  @:uproperty public var TrackKeys : unreal.TArray<unreal.FParticleReplayTrackKey>;
   
 }

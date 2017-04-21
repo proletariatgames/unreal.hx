@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Sound/AudioVolume.h")
 @:uname("ReverbPreset")
-@:uextern extern enum ReverbPreset {
+@:uextern @:uenum extern enum ReverbPreset {
   REVERB_Default;
   REVERB_Bathroom;
   REVERB_StoneRoom;

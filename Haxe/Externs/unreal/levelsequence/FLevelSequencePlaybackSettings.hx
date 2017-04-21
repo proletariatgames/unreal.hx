@@ -21,16 +21,16 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequencePlayer.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequencePlaybackSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequencePlaybackSettings {
   
   /**
     The rate at which to playback the animation
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
   /**
     Number of times to loop playback. -1 for infinite, else the number of times to loop before stopping
   **/
-  public var LoopCount : unreal.Int32;
+  @:uproperty public var LoopCount : unreal.Int32;
   
 }

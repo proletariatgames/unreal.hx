@@ -20,7 +20,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/Widget.h")
 @:uname("EWidgetDesignFlags.Type")
-@:uextern extern enum EWidgetDesignFlags {
+@:uextern @:uenum extern enum EWidgetDesignFlags {
   None;
   Designing;
   ShowOutline;

@@ -15,93 +15,93 @@ package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
-@:uextern extern class UGameplayDebuggerConfig extends unreal.UObject {
-  public var Extensions : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerExtensionConfig>;
-  public var Categories : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerCategoryConfig>;
+@:uextern @:uclass extern class UGameplayDebuggerConfig extends unreal.UObject {
+  @:uproperty public var Extensions : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerExtensionConfig>;
+  @:uproperty public var Categories : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerCategoryConfig>;
   
   /**
     additional canvas padding: bottom
   **/
-  public var DebugCanvasPaddingBottom : unreal.Float32;
+  @:uproperty public var DebugCanvasPaddingBottom : unreal.Float32;
   
   /**
     additional canvas padding: top
   **/
-  public var DebugCanvasPaddingTop : unreal.Float32;
+  @:uproperty public var DebugCanvasPaddingTop : unreal.Float32;
   
   /**
     additional canvas padding: right
   **/
-  public var DebugCanvasPaddingRight : unreal.Float32;
+  @:uproperty public var DebugCanvasPaddingRight : unreal.Float32;
   
   /**
     additional canvas padding: left
   **/
-  public var DebugCanvasPaddingLeft : unreal.Float32;
+  @:uproperty public var DebugCanvasPaddingLeft : unreal.Float32;
   
   /**
     select category slot 9
   **/
-  public var CategorySlot9 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot9 : unreal.inputcore.FKey;
   
   /**
     select category slot 8
   **/
-  public var CategorySlot8 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot8 : unreal.inputcore.FKey;
   
   /**
     select category slot 7
   **/
-  public var CategorySlot7 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot7 : unreal.inputcore.FKey;
   
   /**
     select category slot 6
   **/
-  public var CategorySlot6 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot6 : unreal.inputcore.FKey;
   
   /**
     select category slot 5
   **/
-  public var CategorySlot5 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot5 : unreal.inputcore.FKey;
   
   /**
     select category slot 4
   **/
-  public var CategorySlot4 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot4 : unreal.inputcore.FKey;
   
   /**
     select category slot 3
   **/
-  public var CategorySlot3 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot3 : unreal.inputcore.FKey;
   
   /**
     select category slot 2
   **/
-  public var CategorySlot2 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot2 : unreal.inputcore.FKey;
   
   /**
     select category slot 1
   **/
-  public var CategorySlot1 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot1 : unreal.inputcore.FKey;
   
   /**
     select category slot 0
   **/
-  public var CategorySlot0 : unreal.inputcore.FKey;
+  @:uproperty public var CategorySlot0 : unreal.inputcore.FKey;
   
   /**
     select previous category row
   **/
-  public var CategoryRowPrevKey : unreal.inputcore.FKey;
+  @:uproperty public var CategoryRowPrevKey : unreal.inputcore.FKey;
   
   /**
     select next category row
   **/
-  public var CategoryRowNextKey : unreal.inputcore.FKey;
+  @:uproperty public var CategoryRowNextKey : unreal.inputcore.FKey;
   
   /**
     key used to activate visual debugger tool
   **/
-  public var ActivationKey : unreal.inputcore.FKey;
+  @:uproperty public var ActivationKey : unreal.inputcore.FKey;
   
 }

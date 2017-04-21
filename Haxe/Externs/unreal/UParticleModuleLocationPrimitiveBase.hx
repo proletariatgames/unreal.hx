@@ -14,56 +14,56 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveBase.h")
-@:uextern extern class UParticleModuleLocationPrimitiveBase extends unreal.UParticleModuleLocationBase {
+@:uextern @:uclass extern class UParticleModuleLocationPrimitiveBase extends unreal.UParticleModuleLocationBase {
   
   /**
     The location of the bounding primitive relative to the position of the emitter.
   **/
-  public var StartLocation : unreal.FRawDistributionVector;
+  @:uproperty public var StartLocation : unreal.FRawDistributionVector;
   
   /**
     The scale applied to the velocity. (Only used if 'Velocity' is checked).
   **/
-  public var VelocityScale : unreal.FRawDistributionFloat;
+  @:uproperty public var VelocityScale : unreal.FRawDistributionFloat;
   
   /**
     Whether the particle should get its velocity from the position within the primitive.
   **/
-  public var Velocity : Bool;
+  @:uproperty public var Velocity : Bool;
   
   /**
     Whether particles will only spawn on the surface of the primitive.
   **/
-  public var SurfaceOnly : Bool;
+  @:uproperty public var SurfaceOnly : Bool;
   
   /**
     Whether the negative Zaxis is valid for spawning.
   **/
-  public var Negative_Z : Bool;
+  @:uproperty public var Negative_Z : Bool;
   
   /**
     Whether the negative Y axis is valid for spawning.
   **/
-  public var Negative_Y : Bool;
+  @:uproperty public var Negative_Y : Bool;
   
   /**
     Whether the negative X axis is valid for spawning.
   **/
-  public var Negative_X : Bool;
+  @:uproperty public var Negative_X : Bool;
   
   /**
     Whether the positive Z axis is valid for spawning.
   **/
-  public var Positive_Z : Bool;
+  @:uproperty public var Positive_Z : Bool;
   
   /**
     Whether the positive Y axis is valid for spawning.
   **/
-  public var Positive_Y : Bool;
+  @:uproperty public var Positive_Y : Bool;
   
   /**
     Whether the positive X axis is valid for spawning.
   **/
-  public var Positive_X : Bool;
+  @:uproperty public var Positive_X : Bool;
   
 }

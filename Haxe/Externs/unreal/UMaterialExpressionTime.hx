@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTime.h")
-@:noClass @:uextern extern class UMaterialExpressionTime extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionTime extends unreal.UMaterialExpression {
   
   /**
     Period at which to wrap around time
   **/
-  public var Period : unreal.Float32;
+  @:uproperty public var Period : unreal.Float32;
   
   /**
     Enables or disables the Period value.
   **/
-  public var bOverride_Period : Bool;
+  @:uproperty public var bOverride_Period : Bool;
   
   /**
     This time continues advancing regardless of whether the game is paused.
   **/
-  public var bIgnorePause : Bool;
+  @:uproperty public var bIgnorePause : Bool;
   
 }

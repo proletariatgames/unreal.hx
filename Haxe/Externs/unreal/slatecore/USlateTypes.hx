@@ -21,6 +21,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:noClass @:uextern extern class USlateTypes extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USlateTypes extends unreal.UObject {
   
 }

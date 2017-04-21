@@ -15,17 +15,17 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeManager.h")
-@:uextern extern class UBehaviorTreeManager extends unreal.UObject {
-  private var ActiveComponents : unreal.TArray<unreal.aimodule.UBehaviorTreeComponent>;
+@:uextern @:uclass extern class UBehaviorTreeManager extends unreal.UObject {
+  @:uproperty private var ActiveComponents : unreal.TArray<unreal.aimodule.UBehaviorTreeComponent>;
   
   /**
     initialized tree templates
   **/
-  private var LoadedTemplates : unreal.TArray<unreal.aimodule.FBehaviorTreeTemplateInfo>;
+  @:uproperty private var LoadedTemplates : unreal.TArray<unreal.aimodule.FBehaviorTreeTemplateInfo>;
   
   /**
     limit for recording execution steps for debugger
   **/
-  public var MaxDebuggerSteps : unreal.Int32;
+  @:uproperty public var MaxDebuggerSteps : unreal.Int32;
   
 }

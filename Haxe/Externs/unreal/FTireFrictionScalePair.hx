@@ -20,16 +20,16 @@ package unreal;
   Pairs desired tire friction scale with tire type
 **/
 @:glueCppIncludes("PhysicalMaterials/PhysicalMaterial.h")
-@:noCopy @:noEquals @:uextern extern class FTireFrictionScalePair {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTireFrictionScalePair {
   
   /**
     Friction scale for this type of tire
   **/
-  public var FrictionScale : unreal.Float32;
+  @:uproperty public var FrictionScale : unreal.Float32;
   
   /**
     Tire type
   **/
-  public var TireType : unreal.UTireType;
+  @:uproperty public var TireType : unreal.UTireType;
   
 }

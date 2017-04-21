@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Font.h")
 @:uname("EFontCacheType")
-@:class @:uextern extern enum EFontCacheType {
+@:class @:uextern @:uenum extern enum EFontCacheType {
   
   /**
     The font is using offline caching (this is how UFont traditionally worked).

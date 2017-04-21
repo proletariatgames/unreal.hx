@@ -15,10 +15,10 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:uextern extern class FAIDynamicParam {
-  public var BBKey : unreal.aimodule.FBlackboardKeySelector;
-  public var Value : unreal.Float32;
-  public var ParamType : unreal.aimodule.EAIParamType;
-  public var ParamName : unreal.FName;
+@:uextern @:ustruct extern class FAIDynamicParam {
+  @:uproperty public var BBKey : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var Value : unreal.Float32;
+  @:uproperty public var ParamType : unreal.aimodule.EAIParamType;
+  @:uproperty public var ParamName : unreal.FName;
   
 }

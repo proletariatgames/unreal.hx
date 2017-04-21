@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("EdGraph/EdGraphNode.h")
 @:uname("EEdGraphPinDirection")
-@:uextern extern enum EEdGraphPinDirection {
+@:uextern @:uenum extern enum EEdGraphPinDirection {
   EGPD_Input;
   EGPD_Output;
   

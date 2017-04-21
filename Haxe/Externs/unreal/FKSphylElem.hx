@@ -20,31 +20,31 @@ package unreal;
   Capsule shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/SphylElem.h")
-@:noCopy @:noEquals @:uextern extern class FKSphylElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKSphylElem extends unreal.FKShapeElem {
   
   /**
     This is of line-segment ie. add Radius to both ends to find total length.
   **/
-  public var Length : unreal.Float32;
+  @:uproperty public var Length : unreal.Float32;
   
   /**
     Radius of the capsule
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
   /**
     Orientation of the capsule
   **/
-  public var Orientation : unreal.FQuat;
+  @:uproperty public var Orientation : unreal.FQuat;
   
   /**
     Position of the capsule's origin
   **/
-  public var Center : unreal.FVector;
+  @:uproperty public var Center : unreal.FVector;
   
   /**
     The transform assumes the sphyl axis points down Z.
   **/
-  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
+  @:deprecated @:uproperty public var TM_DEPRECATED : unreal.FMatrix;
   
 }

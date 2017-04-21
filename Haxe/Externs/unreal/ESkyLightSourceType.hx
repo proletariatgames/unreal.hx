@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/SkyLightComponent.h")
 @:uname("ESkyLightSourceType")
-@:uextern extern enum ESkyLightSourceType {
+@:uextern @:uenum extern enum ESkyLightSourceType {
   
   /**
     Construct the sky light from the captured scene, anything further than SkyDistanceThreshold from the sky light position will be included.

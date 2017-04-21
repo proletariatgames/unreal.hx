@@ -16,7 +16,7 @@ package unreal.internationalizationsettings;
 @:umodule("InternationalizationSettings")
 @:glueCppIncludes("InternationalizationSettingsModel.h")
 @:uname("ETimezoneSetting")
-@:class @:uextern extern enum ETimezoneSetting {
+@:class @:uextern @:uenum extern enum ETimezoneSetting {
   
   /**
     (UTC-12:00) International Date Line West

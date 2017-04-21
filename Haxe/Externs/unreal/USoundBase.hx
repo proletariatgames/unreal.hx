@@ -14,67 +14,67 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundBase.h")
-@:uextern extern class USoundBase extends unreal.UObject {
+@:uextern @:uclass extern class USoundBase extends unreal.UObject {
   
   /**
     The source effect chain to use for this sound.
   **/
-  public var SourceEffectChain : unreal.TArray<unreal.USoundEffectSourcePreset>;
+  @:uproperty public var SourceEffectChain : unreal.TArray<unreal.USoundEffectSourcePreset>;
   
   /**
     Sound priority (higher value is higher priority) used for concurrency resolution. This priority value is weighted against the final volume of the sound.
   **/
-  public var Priority : unreal.Float32;
+  @:uproperty public var Priority : unreal.Float32;
   
   /**
     Attenuation settings package for the sound
   **/
-  public var AttenuationSettings : unreal.USoundAttenuation;
+  @:uproperty public var AttenuationSettings : unreal.USoundAttenuation;
   
   /**
     Duration of sound in seconds.
   **/
-  public var Duration : unreal.Float32;
+  @:uproperty public var Duration : unreal.Float32;
   
   /**
     Maximum number of times this sound can be played concurrently.
   **/
-  @:deprecated public var MaxConcurrentPlayCount_DEPRECATED : unreal.Int32;
-  @:deprecated public var MaxConcurrentResolutionRule_DEPRECATED : unreal.EMaxConcurrentResolutionRule;
+  @:deprecated @:uproperty public var MaxConcurrentPlayCount_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var MaxConcurrentResolutionRule_DEPRECATED : unreal.EMaxConcurrentResolutionRule;
   
   /**
     If bOverridePlayback is true, concurrency settings to use.
   **/
-  public var ConcurrencyOverrides : unreal.FSoundConcurrencySettings;
+  @:uproperty public var ConcurrencyOverrides : unreal.FSoundConcurrencySettings;
   
   /**
     If bOverridePlayback is false, the sound concurrency settings to use for this sound.
   **/
-  public var SoundConcurrencySettings : unreal.USoundConcurrency;
+  @:uproperty public var SoundConcurrencySettings : unreal.USoundConcurrency;
   
   /**
     Whether or not to ignore focus on this sound.
   **/
-  public var bIgnoreFocus : Bool;
+  @:uproperty public var bIgnoreFocus : Bool;
   
   /**
     Whether or not to override the sound concurrency object with local concurrency settings.
   **/
-  public var bOverrideConcurrency : Bool;
+  @:uproperty public var bOverrideConcurrency : Bool;
   
   /**
     When "stat sounds -debug" has been specified, draw this sound's attenuation shape when the sound is audible. For debugging purpose only.
   **/
-  public var bDebug : Bool;
+  @:uproperty public var bDebug : Bool;
   
   /**
     Sound submix this sound belongs to
   **/
-  public var SoundSubmixObject : unreal.USoundSubmix;
+  @:uproperty public var SoundSubmixObject : unreal.USoundSubmix;
   
   /**
     Sound class this sound belongs to
   **/
-  private var SoundClassObject : unreal.USoundClass;
+  @:uproperty private var SoundClassObject : unreal.USoundClass;
   
 }

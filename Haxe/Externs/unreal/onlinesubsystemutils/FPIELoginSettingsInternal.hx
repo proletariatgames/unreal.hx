@@ -21,26 +21,26 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("Private/OnlinePIESettings.h")
-@:noCopy @:noEquals @:uextern extern class FPIELoginSettingsInternal {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPIELoginSettingsInternal {
   
   /**
     Token stored as an array of bytes, encrypted
   **/
-  public var TokenBytes : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var TokenBytes : unreal.TArray<unreal.UInt8>;
   
   /**
     Type of account. Needed to identity the auth method to use (epic, internal, facebook, etc)
   **/
-  public var Type : unreal.FString;
+  @:uproperty public var Type : unreal.FString;
   
   /**
     Credentials of the user logging in (password or auth token)
   **/
-  public var Token : unreal.FString;
+  @:uproperty public var Token : unreal.FString;
   
   /**
     Id of the user logging in (email, display name, facebook id, etc)
   **/
-  public var Id : unreal.FString;
+  @:uproperty public var Id : unreal.FString;
   
 }

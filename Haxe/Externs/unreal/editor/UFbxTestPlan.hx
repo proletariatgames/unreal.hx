@@ -21,36 +21,36 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Tests/FbxAutomationCommon.h")
-@:uextern extern class UFbxTestPlan extends unreal.UObject {
+@:uextern @:uclass extern class UFbxTestPlan extends unreal.UObject {
   
   /**
     Options use for this test plan. No UProperty since it will be serialize to json manually
   **/
-  public var ImportUI : unreal.editor.UFbxImportUI;
+  @:uproperty public var ImportUI : unreal.editor.UFbxImportUI;
   
   /**
     Expected preset type
   **/
-  public var ExpectedResult : unreal.TArray<unreal.editor.FFbxTestPlanExpectedResult>;
+  @:uproperty public var ExpectedResult : unreal.TArray<unreal.editor.FFbxTestPlanExpectedResult>;
   
   /**
     If true the test will delete all assets create in the import folder
   **/
-  public var bDeleteFolderAssets : Bool;
+  @:uproperty public var bDeleteFolderAssets : Bool;
   
   /**
     The LOD index in case the user choose to add or reimport a LOD
   **/
-  public var LodIndex : unreal.Int32;
+  @:uproperty public var LodIndex : unreal.Int32;
   
   /**
     Tell the system what we want to do
   **/
-  public var Action : unreal.editor.EFBXTestPlanActionType;
+  @:uproperty public var Action : unreal.editor.EFBXTestPlanActionType;
   
   /**
     Name of the Test Plan
   **/
-  public var TestPlanName : unreal.FString;
+  @:uproperty public var TestPlanName : unreal.FString;
   
 }

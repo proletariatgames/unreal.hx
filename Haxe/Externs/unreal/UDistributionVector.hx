@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Distributions/DistributionVector.h")
-@:uextern extern class UDistributionVector extends unreal.UDistribution {
+@:uextern @:uclass extern class UDistributionVector extends unreal.UDistribution {
   
   /**
     Set internally when the distribution is updated so that that FRawDistribution can know to update itself
   **/
-  public var bIsDirty : Bool;
+  @:uproperty public var bIsDirty : Bool;
   
   /**
     Can this variable be baked out to a FRawDistribution? Should be true 99% of the time
   **/
-  public var bCanBeBaked : Bool;
+  @:uproperty public var bCanBeBaked : Bool;
   
 }

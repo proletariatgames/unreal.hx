@@ -21,7 +21,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_TwoBoneIK.h")
-@:uextern extern class UAnimGraphNode_TwoBoneIK extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_TwoBoneIK;
+@:uextern @:uclass extern class UAnimGraphNode_TwoBoneIK extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_TwoBoneIK;
   
 }

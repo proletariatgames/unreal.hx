@@ -21,22 +21,22 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
-@:noCopy @:noEquals @:uextern extern class FBTCompositeChild {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBTCompositeChild {
   
   /**
     logic operations for decorators
   **/
-  public var DecoratorOps : unreal.TArray<unreal.aimodule.FBTDecoratorLogic>;
+  @:uproperty public var DecoratorOps : unreal.TArray<unreal.aimodule.FBTDecoratorLogic>;
   
   /**
     execution decorators
   **/
-  public var Decorators : unreal.TArray<unreal.aimodule.UBTDecorator>;
-  public var ChildTask : unreal.aimodule.UBTTaskNode;
+  @:uproperty public var Decorators : unreal.TArray<unreal.aimodule.UBTDecorator>;
+  @:uproperty public var ChildTask : unreal.aimodule.UBTTaskNode;
   
   /**
     child node
   **/
-  public var ChildComposite : unreal.aimodule.UBTCompositeNode;
+  @:uproperty public var ChildComposite : unreal.aimodule.UBTCompositeNode;
   
 }

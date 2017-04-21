@@ -23,15 +23,15 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_MoveToLocation.h")
-@:uextern extern class UAbilityTask_MoveToLocation extends unreal.gameplayabilities.UAbilityTask {
-  private var LerpCurveVector : unreal.UCurveVector;
-  private var LerpCurve : unreal.UCurveFloat;
-  private var DurationOfMovement : unreal.Float32;
+@:uextern @:uclass extern class UAbilityTask_MoveToLocation extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var LerpCurveVector : unreal.UCurveVector;
+  @:uproperty private var LerpCurve : unreal.UCurveFloat;
+  @:uproperty private var DurationOfMovement : unreal.Float32;
   
   /**
     FVector
   **/
-  private var TargetLocation : unreal.FVector;
-  private var StartLocation : unreal.FVector;
+  @:uproperty private var TargetLocation : unreal.FVector;
+  @:uproperty private var StartLocation : unreal.FVector;
   
 }

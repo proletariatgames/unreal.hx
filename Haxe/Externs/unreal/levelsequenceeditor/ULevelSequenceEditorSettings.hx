@@ -21,11 +21,11 @@ package unreal.levelsequenceeditor;
 **/
 @:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
-@:noClass @:uextern extern class ULevelSequenceEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class ULevelSequenceEditorSettings extends unreal.UObject {
   
   /**
     Specifies class properties for which movie scene tracks will be created automatically.
   **/
-  public var TrackSettings : unreal.TArray<unreal.levelsequenceeditor.FLevelSequenceTrackSettings>;
+  @:uproperty public var TrackSettings : unreal.TArray<unreal.levelsequenceeditor.FLevelSequenceTrackSettings>;
   
 }

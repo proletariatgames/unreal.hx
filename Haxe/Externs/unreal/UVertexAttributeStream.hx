@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SubDSurface.h")
-@:uextern extern class UVertexAttributeStream extends unreal.UObject {
+@:uextern @:uclass extern class UVertexAttributeStream extends unreal.UObject {
   
   /**
     e.g. FName(TEXT("Position"))
   **/
-  public var Usage : unreal.FName;
+  @:uproperty public var Usage : unreal.FName;
   
 }

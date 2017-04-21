@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Orientation/ParticleModuleOrientationBase.h")
-@:noClass @:uextern extern class UParticleModuleOrientationBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleOrientationBase extends unreal.UParticleModule {
   
 }

@@ -14,28 +14,28 @@
 package unreal;
 
 @:glueCppIncludes("Sound/DialogueWave.h")
-@:uextern extern class FDialogueContextMapping {
+@:uextern @:ustruct extern class FDialogueContextMapping {
   
   /**
     Cached object for playing the soundwave with subtitle information included.
   **/
-  public var Proxy : unreal.UDialogueSoundWaveProxy;
+  @:uproperty public var Proxy : unreal.UDialogueSoundWaveProxy;
   
   /**
     The format string to use when generating the localization key for this context. This must be unique within the owner dialogue wave.
     Available format markers:
       * {ContextHash} - A hash generated from the speaker and target voices.
   **/
-  public var LocalizationKeyFormat : unreal.FString;
+  @:uproperty public var LocalizationKeyFormat : unreal.FString;
   
   /**
     The soundwave to play for this dialogue.
   **/
-  public var SoundWave : unreal.USoundWave;
+  @:uproperty public var SoundWave : unreal.USoundWave;
   
   /**
     The context of the dialogue.
   **/
-  public var Context : unreal.FDialogueContext;
+  @:uproperty public var Context : unreal.FDialogueContext;
   
 }

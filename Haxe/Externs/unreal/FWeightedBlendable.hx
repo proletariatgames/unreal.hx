@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Scene.h")
-@:noCopy @:noEquals @:uextern extern class FWeightedBlendable {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWeightedBlendable {
   
   /**
     should be of the IBlendableInterface* type but UProperties cannot express that
   **/
-  public var Object : unreal.UObject;
+  @:uproperty public var Object : unreal.UObject;
   
   /**
     0:no effect .. 1:full effect
   **/
-  public var Weight : unreal.Float32;
+  @:uproperty public var Weight : unreal.Float32;
   
 }

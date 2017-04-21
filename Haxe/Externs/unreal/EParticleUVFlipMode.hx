@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/ParticleModuleRequired.h")
 @:uname("EParticleUVFlipMode")
-@:class @:uextern extern enum EParticleUVFlipMode {
+@:class @:uextern @:uenum extern enum EParticleUVFlipMode {
   
   /**
     Flips UV on all particles.

@@ -20,69 +20,69 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleLODLevel.h")
-@:uextern extern class UParticleLODLevel extends unreal.UObject {
-  public var PeakActiveParticles : unreal.Int32;
-  public var ConvertedModules : Bool;
+@:uextern @:uclass extern class UParticleLODLevel extends unreal.UObject {
+  @:uproperty public var PeakActiveParticles : unreal.Int32;
+  @:uproperty public var ConvertedModules : Bool;
   
   /**
     Event receiver modules only!
   **/
-  public var EventReceiverModules : unreal.TArray<unreal.UParticleModuleEventReceiverBase>;
+  @:uproperty public var EventReceiverModules : unreal.TArray<unreal.UParticleModuleEventReceiverBase>;
   
   /**
     OrbitModules
         These are used to do offsets of the sprite from the particle location.
   **/
-  public var OrbitModules : unreal.TArray<unreal.UParticleModuleOrbit>;
+  @:uproperty public var OrbitModules : unreal.TArray<unreal.UParticleModuleOrbit>;
   
   /**
     UpdateModules - These are called when particles are updated.
   **/
-  public var UpdateModules : unreal.TArray<unreal.UParticleModule>;
+  @:uproperty public var UpdateModules : unreal.TArray<unreal.UParticleModule>;
   
   /**
     SpawnModules - These are called when particles are spawned.
   **/
-  public var SpawnModules : unreal.TArray<unreal.UParticleModule>;
+  @:uproperty public var SpawnModules : unreal.TArray<unreal.UParticleModule>;
   
   /**
     SpawningModules - These are called to determine how many particles to spawn.
   **/
-  public var SpawningModules : unreal.TArray<unreal.UParticleModuleSpawnBase>;
+  @:uproperty public var SpawningModules : unreal.TArray<unreal.UParticleModuleSpawnBase>;
   
   /**
     The optional EventGenerator module.
   **/
-  public var EventGenerator : unreal.UParticleModuleEventGenerator;
+  @:uproperty public var EventGenerator : unreal.UParticleModuleEventGenerator;
   
   /**
     The SpawnRate/Burst module - required by all emitters.
   **/
-  public var SpawnModule : unreal.UParticleModuleSpawn;
+  @:uproperty public var SpawnModule : unreal.UParticleModuleSpawn;
   
   /**
     Module<SINGULAR> used for emitter type "extension".
   **/
-  public var TypeDataModule : unreal.UParticleModuleTypeDataBase;
+  @:uproperty public var TypeDataModule : unreal.UParticleModuleTypeDataBase;
   
   /**
     An array of particle modules that contain the adjusted data for the LOD level
   **/
-  public var Modules : unreal.TArray<unreal.UParticleModule>;
+  @:uproperty public var Modules : unreal.TArray<unreal.UParticleModule>;
   
   /**
     The required module for this LOD level
   **/
-  public var RequiredModule : unreal.UParticleModuleRequired;
+  @:uproperty public var RequiredModule : unreal.UParticleModuleRequired;
   
   /**
     True if the LOD level is enabled, meaning it should be updated and rendered.
   **/
-  public var bEnabled : Bool;
+  @:uproperty public var bEnabled : Bool;
   
   /**
     The index value of the LOD level
   **/
-  public var Level : unreal.Int32;
+  @:uproperty public var Level : unreal.Int32;
   
 }

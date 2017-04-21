@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("ENotifyFilterType.Type")
-@:uextern extern enum ENotifyFilterType {
+@:uextern @:uenum extern enum ENotifyFilterType {
   
   /**
     No filtering.

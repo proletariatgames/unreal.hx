@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Kismet/KismetSystemLibrary.h")
 @:uname("EDrawDebugTrace.Type")
-@:uextern extern enum EDrawDebugTrace {
+@:uextern @:uenum extern enum EDrawDebugTrace {
   None;
   ForOneFrame;
   ForDuration;

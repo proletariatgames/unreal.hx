@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EOverlapFilterOption")
-@:uextern extern enum EOverlapFilterOption {
+@:uextern @:uenum extern enum EOverlapFilterOption {
   
   /**
     returns both overlaps with both dynamic and static components

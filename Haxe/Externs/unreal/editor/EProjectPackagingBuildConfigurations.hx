@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/ProjectPackagingSettings.h")
 @:uname("EProjectPackagingBuildConfigurations")
-@:uextern extern enum EProjectPackagingBuildConfigurations {
+@:uextern @:uenum extern enum EProjectPackagingBuildConfigurations {
   
   /**
     Debug configuration.

@@ -19,7 +19,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_TwistCorrectiveNode.h")
-@:uextern extern class UAnimGraphNode_TwistCorrectiveNode extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_TwistCorrectiveNode;
+@:uextern @:uclass extern class UAnimGraphNode_TwistCorrectiveNode extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_TwistCorrectiveNode;
   
 }

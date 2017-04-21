@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
 @:uname("EEmitterDynamicParameterValue")
-@:uextern extern enum EEmitterDynamicParameterValue {
+@:uextern @:uenum extern enum EEmitterDynamicParameterValue {
   
   /**
     UserSet - use the user set values in the distribution (the default)

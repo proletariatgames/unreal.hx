@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdKeyBindings.h")
-@:noClass @:uextern extern class UUnrealEdKeyBindings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UUnrealEdKeyBindings extends unreal.UObject {
   
   /**
     Array of keybindings
   **/
-  public var KeyBindings : unreal.TArray<unreal.editor.FEditorKeyBinding>;
+  @:uproperty public var KeyBindings : unreal.TArray<unreal.editor.FEditorKeyBinding>;
   
 }

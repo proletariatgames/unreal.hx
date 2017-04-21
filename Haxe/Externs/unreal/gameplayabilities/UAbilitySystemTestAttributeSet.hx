@@ -15,38 +15,38 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemTestAttributeSet.h")
-@:uextern extern class UAbilitySystemTestAttributeSet extends unreal.gameplayabilities.UAttributeSet {
-  public var NoStackAttribute : unreal.Float32;
-  public var StackingAttribute2 : unreal.Float32;
-  public var StackingAttribute1 : unreal.Float32;
-  public var Strength : unreal.Float32;
-  public var LifeSteal : unreal.Float32;
-  public var DodgeChance : unreal.Float32;
-  public var ArmorDamageReduction : unreal.Float32;
-  public var CritMultiplier : unreal.Float32;
-  public var CritChance : unreal.Float32;
+@:uextern @:uclass extern class UAbilitySystemTestAttributeSet extends unreal.gameplayabilities.UAttributeSet {
+  @:uproperty public var NoStackAttribute : unreal.Float32;
+  @:uproperty public var StackingAttribute2 : unreal.Float32;
+  @:uproperty public var StackingAttribute1 : unreal.Float32;
+  @:uproperty public var Strength : unreal.Float32;
+  @:uproperty public var LifeSteal : unreal.Float32;
+  @:uproperty public var DodgeChance : unreal.Float32;
+  @:uproperty public var ArmorDamageReduction : unreal.Float32;
+  @:uproperty public var CritMultiplier : unreal.Float32;
+  @:uproperty public var CritChance : unreal.Float32;
   
   /**
     This Attribute is the actual physical damage for this actor. It will power physical based GameplayEffects
   **/
-  public var PhysicalDamage : unreal.Float32;
+  @:uproperty public var PhysicalDamage : unreal.Float32;
   
   /**
     This Attribute is the actual spell damage for this actor. It will power spell based GameplayEffects
   **/
-  public var SpellDamage : unreal.Float32;
+  @:uproperty public var SpellDamage : unreal.Float32;
   
   /**
     This Damage is just used for applying negative health mods. Its not a 'persistent' attribute. // You can't make a GameplayEffect 'powered' by Damage (Its transient)
   **/
-  public var Damage : unreal.Float32;
-  public var MaxMana : unreal.Float32;
-  public var Mana : unreal.Float32;
+  @:uproperty public var Damage : unreal.Float32;
+  @:uproperty public var MaxMana : unreal.Float32;
+  @:uproperty public var Mana : unreal.Float32;
   
   /**
     You can't make a GameplayEffect modify Health Directly (go through)
   **/
-  public var Health : unreal.Float32;
+  @:uproperty public var Health : unreal.Float32;
   
   /**
     NOTE ON MUTABLE:
@@ -54,6 +54,6 @@ package unreal.gameplayabilities;
     Mutable is not required and should never be used on normal attribute sets.
        // You can't make a GameplayEffect modify Health Directly (go through)
   **/
-  public var MaxHealth : unreal.Float32;
+  @:uproperty public var MaxHealth : unreal.Float32;
   
 }

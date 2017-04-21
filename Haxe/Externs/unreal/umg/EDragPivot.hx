@@ -21,7 +21,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Blueprint/DragDropOperation.h")
 @:uname("EDragPivot")
-@:class @:uextern extern enum EDragPivot {
+@:class @:uextern @:uenum extern enum EDragPivot {
   MouseDown;
   TopLeft;
   TopCenter;

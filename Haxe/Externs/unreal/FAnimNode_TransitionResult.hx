@@ -18,7 +18,7 @@ package unreal;
   Root node of a state machine transition graph
 **/
 @:glueCppIncludes("Animation/AnimNode_TransitionResult.h")
-@:uextern extern class FAnimNode_TransitionResult extends unreal.FAnimNode_Base {
-  public var bCanEnterTransition : Bool;
+@:uextern @:ustruct extern class FAnimNode_TransitionResult extends unreal.FAnimNode_Base {
+  @:uproperty public var bCanEnterTransition : Bool;
   
 }

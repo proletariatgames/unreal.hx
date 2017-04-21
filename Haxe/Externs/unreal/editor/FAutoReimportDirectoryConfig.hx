@@ -21,21 +21,21 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAutoReimportDirectoryConfig {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAutoReimportDirectoryConfig {
   
   /**
     (Optional) Specify a set of wildcards to include or exclude files from this auto-reimporter.
   **/
-  public var Wildcards : unreal.TArray<unreal.editor.FAutoReimportWildcard>;
+  @:uproperty public var Wildcards : unreal.TArray<unreal.editor.FAutoReimportWildcard>;
   
   /**
     (Optional) Specify a virtual mout point (e.g. /Game/) to map this directory to on disk. Doing so allows auto-creation of assets when a source content file is created in this folder (see below).
   **/
-  public var MountPoint : unreal.FString;
+  @:uproperty public var MountPoint : unreal.FString;
   
   /**
     Path to a virtual package path (eg /Game/ or /MyPlugin/), or absolute paths on disk where your source content files reside.
   **/
-  public var SourceDirectory : unreal.FString;
+  @:uproperty public var SourceDirectory : unreal.FString;
   
 }

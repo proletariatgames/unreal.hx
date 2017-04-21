@@ -18,92 +18,92 @@ package unreal;
   Container for indicating a set of collision channels that this object will collide with.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class FCollisionResponseContainer {
+@:uextern @:ustruct extern class FCollisionResponseContainer {
   
   /**
     30
   **/
-  public var GameTraceChannel18 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel18 : unreal.ECollisionResponse;
   
   /**
     28
   **/
-  public var GameTraceChannel17 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel17 : unreal.ECollisionResponse;
   
   /**
     28
   **/
-  public var GameTraceChannel16 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel16 : unreal.ECollisionResponse;
   
   /**
     27
   **/
-  public var GameTraceChannel15 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel15 : unreal.ECollisionResponse;
   
   /**
     26
   **/
-  public var GameTraceChannel14 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel14 : unreal.ECollisionResponse;
   
   /**
     25
   **/
-  public var GameTraceChannel13 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel13 : unreal.ECollisionResponse;
   
   /**
     24
   **/
-  public var GameTraceChannel12 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel12 : unreal.ECollisionResponse;
   
   /**
     23
   **/
-  public var GameTraceChannel11 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel11 : unreal.ECollisionResponse;
   
   /**
     22
   **/
-  public var GameTraceChannel10 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel10 : unreal.ECollisionResponse;
   
   /**
     21
   **/
-  public var GameTraceChannel9 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel9 : unreal.ECollisionResponse;
   
   /**
     20
   **/
-  public var GameTraceChannel8 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel8 : unreal.ECollisionResponse;
   
   /**
     19
   **/
-  public var GameTraceChannel7 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel7 : unreal.ECollisionResponse;
   
   /**
     18
   **/
-  public var GameTraceChannel6 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel6 : unreal.ECollisionResponse;
   
   /**
     17
   **/
-  public var GameTraceChannel5 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel5 : unreal.ECollisionResponse;
   
   /**
     16
   **/
-  public var GameTraceChannel4 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel4 : unreal.ECollisionResponse;
   
   /**
     15
   **/
-  public var GameTraceChannel3 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel3 : unreal.ECollisionResponse;
   
   /**
     14
   **/
-  public var GameTraceChannel2 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel2 : unreal.ECollisionResponse;
   
   /**
     in order to use this custom channels
@@ -120,72 +120,72 @@ package unreal;
     note that Weapon isn't defined in the BaseEngine.ini file, but "Trigger" is defined in Engine
     +Profiles=(Name="Trigger",CollisionEnabled=QueryOnly,ObjectTypeName=WorldDynamic, DefaultResponse=ECR_Overlap, CustomResponses=((Channel=Visibility, Response=ECR_Ignore), (Channel=Weapon, Response=ECR_Ignore)))
   **/
-  public var GameTraceChannel1 : unreal.ECollisionResponse;
+  @:uproperty public var GameTraceChannel1 : unreal.ECollisionResponse;
   
   /**
     12
   **/
-  public var EngineTraceChannel6 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel6 : unreal.ECollisionResponse;
   
   /**
     11
   **/
-  public var EngineTraceChannel5 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel5 : unreal.ECollisionResponse;
   
   /**
     10
   **/
-  public var EngineTraceChannel4 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel4 : unreal.ECollisionResponse;
   
   /**
     9
   **/
-  public var EngineTraceChannel3 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel3 : unreal.ECollisionResponse;
   
   /**
     8
   **/
-  public var EngineTraceChannel2 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel2 : unreal.ECollisionResponse;
   
   /**
     Unspecified Engine Trace Channels
   **/
-  public var EngineTraceChannel1 : unreal.ECollisionResponse;
+  @:uproperty public var EngineTraceChannel1 : unreal.ECollisionResponse;
   
   /**
     6
   **/
-  public var Destructible : unreal.ECollisionResponse;
+  @:uproperty public var Destructible : unreal.ECollisionResponse;
   
   /**
     5
   **/
-  public var Vehicle : unreal.ECollisionResponse;
+  @:uproperty public var Vehicle : unreal.ECollisionResponse;
   
   /**
     4
   **/
-  public var PhysicsBody : unreal.ECollisionResponse;
+  @:uproperty public var PhysicsBody : unreal.ECollisionResponse;
   
   /**
     3
   **/
-  public var Camera : unreal.ECollisionResponse;
+  @:uproperty public var Camera : unreal.ECollisionResponse;
   
   /**
     2
   **/
-  public var Visibility : unreal.ECollisionResponse;
+  @:uproperty public var Visibility : unreal.ECollisionResponse;
   
   /**
     1.
   **/
-  public var Pawn : unreal.ECollisionResponse;
+  @:uproperty public var Pawn : unreal.ECollisionResponse;
   
   /**
     0
   **/
-  public var WorldDynamic : unreal.ECollisionResponse;
+  @:uproperty public var WorldDynamic : unreal.ECollisionResponse;
   
   /**
     Reserved Engine Trace Channels
@@ -194,6 +194,6 @@ package unreal;
                           you should make sure it matches with ECollisionChannel (including DisplayName)
                           They has to be mirrored if serialized
   **/
-  public var WorldStatic : unreal.ECollisionResponse;
+  @:uproperty public var WorldStatic : unreal.ECollisionResponse;
   
 }

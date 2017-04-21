@@ -21,16 +21,16 @@ package unreal.sequencerecorder;
 **/
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderSettings.h")
-@:noCopy @:noEquals @:uextern extern class FPropertiesToRecordForClass {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPropertiesToRecordForClass {
   
   /**
     List of properties we want to record for this class
   **/
-  public var Properties : unreal.TArray<unreal.FName>;
+  @:uproperty public var Properties : unreal.TArray<unreal.FName>;
   
   /**
     The class of the object we can record
   **/
-  public var Class : unreal.TSubclassOf<unreal.USceneComponent>;
+  @:uproperty public var Class : unreal.TSubclassOf<unreal.USceneComponent>;
   
 }

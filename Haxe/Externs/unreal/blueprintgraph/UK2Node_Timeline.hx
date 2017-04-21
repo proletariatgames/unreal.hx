@@ -21,36 +21,36 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Timeline.h")
-@:uextern extern class UK2Node_Timeline extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_Timeline extends unreal.blueprintgraph.UK2Node {
   
   /**
     If the timeline should ignore global time dilation
   **/
-  public var bIgnoreTimeDilation : Bool;
+  @:uproperty public var bIgnoreTimeDilation : Bool;
   
   /**
     If the timeline is set to loop
   **/
-  public var bReplicated : Bool;
+  @:uproperty public var bReplicated : Bool;
   
   /**
     If the timeline is set to loop
   **/
-  public var bLoop : Bool;
+  @:uproperty public var bLoop : Bool;
   
   /**
     Unique ID for the template we use, required to indentify the timeline after a paste
   **/
-  public var TimelineGuid : unreal.FGuid;
+  @:uproperty public var TimelineGuid : unreal.FGuid;
   
   /**
     If the timeline is set to autoplay
   **/
-  public var bAutoPlay : Bool;
+  @:uproperty public var bAutoPlay : Bool;
   
   /**
     The name of the timeline. Used to name ONLY the member variable (Component). To obtain the name of timeline template use UTimelineTemplate::TimelineVariableNameToTemplateName
   **/
-  public var TimelineName : unreal.FName;
+  @:uproperty public var TimelineName : unreal.FName;
   
 }

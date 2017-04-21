@@ -21,8 +21,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_GameplayTags.h")
-@:uextern extern class UEnvQueryTest_GameplayTags extends unreal.aimodule.UEnvQueryTest {
-  private var GameplayTags : unreal.gameplaytags.FGameplayTagContainer;
-  private var TagsToMatch : unreal.gameplaytags.EGameplayContainerMatchType;
+@:uextern @:uclass extern class UEnvQueryTest_GameplayTags extends unreal.aimodule.UEnvQueryTest {
+  @:uproperty private var GameplayTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var TagsToMatch : unreal.gameplaytags.EGameplayContainerMatchType;
   
 }

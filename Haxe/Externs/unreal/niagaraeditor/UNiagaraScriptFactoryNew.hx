@@ -21,6 +21,6 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraScriptFactoryNew.h")
-@:noClass @:uextern extern class UNiagaraScriptFactoryNew extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UNiagaraScriptFactoryNew extends unreal.editor.UFactory {
   
 }

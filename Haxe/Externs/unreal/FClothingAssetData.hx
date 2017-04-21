@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:noCopy @:noEquals @:uextern extern class FClothingAssetData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FClothingAssetData {
   
   /**
     Apex stores only the bones that cloth needs. We need a mapping from apex bone index to UE bone index.
   **/
-  public var ApexToUnrealBoneMapping : unreal.TArray<unreal.Int32>;
-  public var PhysicsProperties : unreal.FClothPhysicsProperties;
+  @:uproperty public var ApexToUnrealBoneMapping : unreal.TArray<unreal.Int32>;
+  @:uproperty public var PhysicsProperties : unreal.FClothPhysicsProperties;
   
   /**
     the flag whether cloth physics properties are changed from UE4 editor or not
   **/
-  public var bClothPropertiesChanged : Bool;
-  public var ApexFileName : unreal.FString;
+  @:uproperty public var bClothPropertiesChanged : Bool;
+  @:uproperty public var ApexFileName : unreal.FString;
   
   /**
     User-defined asset name
   **/
-  public var AssetName : unreal.FName;
+  @:uproperty public var AssetName : unreal.FName;
   
 }

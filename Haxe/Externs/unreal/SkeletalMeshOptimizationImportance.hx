@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
 @:uname("SkeletalMeshOptimizationImportance")
-@:uextern extern enum SkeletalMeshOptimizationImportance {
+@:uextern @:uenum extern enum SkeletalMeshOptimizationImportance {
   SMOI_Off;
   SMOI_Lowest;
   SMOI_Low;

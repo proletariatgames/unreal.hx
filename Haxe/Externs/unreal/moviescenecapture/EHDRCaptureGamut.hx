@@ -20,7 +20,7 @@ package unreal.moviescenecapture;
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("Protocols/CompositionGraphCaptureProtocol.h")
 @:uname("EHDRCaptureGamut")
-@:uextern extern enum EHDRCaptureGamut {
+@:uextern @:uenum extern enum EHDRCaptureGamut {
   
   /**
     Rec.709 / sRGB

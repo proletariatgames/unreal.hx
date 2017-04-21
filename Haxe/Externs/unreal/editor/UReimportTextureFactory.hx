@@ -21,7 +21,7 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportTextureFactory.h")
-@:noClass @:uextern extern class UReimportTextureFactory extends unreal.editor.UTextureFactory {
-  public var pOriginalTex : unreal.UTexture;
+@:noClass @:uextern @:uclass extern class UReimportTextureFactory extends unreal.editor.UTextureFactory {
+  @:uproperty public var pOriginalTex : unreal.UTexture;
   
 }

@@ -21,31 +21,31 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileSetEditor/TileSetEditorSettings.h")
-@:noClass @:uextern extern class UTileSetEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTileSetEditorSettings extends unreal.UObject {
   
   /**
     Should we use transparent black or white when filling the texture areas that aren't covered by tiles?
   **/
-  public var bFillWithTransparentBlack : Bool;
+  @:uproperty public var bFillWithTransparentBlack : Bool;
   
   /**
     Should we pad the conditioned texture to the next power of 2?
   **/
-  public var bPadToPowerOf2 : Bool;
+  @:uproperty public var bPadToPowerOf2 : Bool;
   
   /**
     The amount to extrude out from the edge of each tile (in pixels)
   **/
-  public var ExtrusionAmount : unreal.Int32;
+  @:uproperty public var ExtrusionAmount : unreal.Int32;
   
   /**
     Should the grid be shown by default when the editor is opened?
   **/
-  public var bShowGridByDefault : Bool;
+  @:uproperty public var bShowGridByDefault : Bool;
   
   /**
     Default background color for new tile set assets
   **/
-  public var DefaultBackgroundColor : unreal.FColor;
+  @:uproperty public var DefaultBackgroundColor : unreal.FColor;
   
 }

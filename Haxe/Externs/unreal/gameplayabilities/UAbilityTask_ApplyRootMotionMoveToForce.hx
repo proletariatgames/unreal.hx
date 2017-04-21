@@ -21,23 +21,23 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionMoveToForce.h")
-@:uextern extern class UAbilityTask_ApplyRootMotionMoveToForce extends unreal.gameplayabilities.UAbilityTask {
-  private var MovementComponent : unreal.UCharacterMovementComponent;
+@:uextern @:uclass extern class UAbilityTask_ApplyRootMotionMoveToForce extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var MovementComponent : unreal.UCharacterMovementComponent;
   
   /**
     If VelocityOnFinish mode is "SetVelocity", character velocity is set to this value when root motion finishes
   **/
-  private var SetVelocityOnFinish : unreal.FVector;
+  @:uproperty private var SetVelocityOnFinish : unreal.FVector;
   
   /**
     What to do with character's Velocity when root motion finishes
   **/
-  private var VelocityOnFinishMode : unreal.ERootMotionFinishVelocityMode;
-  private var PathOffsetCurve : unreal.UCurveVector;
-  private var NewMovementMode : unreal.EMovementMode;
-  private var Duration : unreal.Float32;
-  private var TargetLocation : unreal.FVector;
-  private var StartLocation : unreal.FVector;
-  private var ForceName : unreal.FName;
+  @:uproperty private var VelocityOnFinishMode : unreal.ERootMotionFinishVelocityMode;
+  @:uproperty private var PathOffsetCurve : unreal.UCurveVector;
+  @:uproperty private var NewMovementMode : unreal.EMovementMode;
+  @:uproperty private var Duration : unreal.Float32;
+  @:uproperty private var TargetLocation : unreal.FVector;
+  @:uproperty private var StartLocation : unreal.FVector;
+  @:uproperty private var ForceName : unreal.FName;
   
 }

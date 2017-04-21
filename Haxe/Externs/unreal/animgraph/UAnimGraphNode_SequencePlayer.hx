@@ -21,7 +21,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_SequencePlayer.h")
-@:uextern extern class UAnimGraphNode_SequencePlayer extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
-  public var Node : unreal.FAnimNode_SequencePlayer;
+@:uextern @:uclass extern class UAnimGraphNode_SequencePlayer extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
+  @:uproperty public var Node : unreal.FAnimNode_SequencePlayer;
   
 }

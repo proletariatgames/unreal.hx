@@ -21,31 +21,36 @@ package unreal.statsviewer;
 **/
 @:umodule("StatsViewer")
 @:glueCppIncludes("LightingBuildInfo.h")
-@:uextern extern class ULightingBuildInfo extends unreal.UObject {
+@:uextern @:uclass extern class ULightingBuildInfo extends unreal.UObject {
   
   /**
     The name of the level this object resides in
   **/
-  public var LevelName : unreal.FString;
+  @:uproperty public var LevelName : unreal.FString;
   
   /**
     The memory consumed by all texels for this object, in KB
   **/
-  public var TotalTexelMemory : unreal.Float32;
+  @:uproperty public var TotalTexelMemory : unreal.Float32;
   
   /**
     The memory consumed by unmapped texels for this object, in KB
   **/
-  public var UnmappedTexelsMemory : unreal.Float32;
+  @:uproperty public var UnmappedTexelsMemory : unreal.Float32;
   
   /**
     The percentage of unmapped texels for this object.
   **/
-  public var UnmappedTexelsPercentage : unreal.Float32;
+  @:uproperty public var UnmappedTexelsPercentage : unreal.Float32;
   
   /**
     The lighting time this object took.
   **/
-  public var LightingTime : unreal.Float32;
+  @:uproperty public var LightingTime : unreal.Float32;
+  
+  /**
+    The actor and/or object that is related to this info.
+  **/
+  @:uproperty public var Object : unreal.TWeakObjectPtr<unreal.UObject>;
   
 }

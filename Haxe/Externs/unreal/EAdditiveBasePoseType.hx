@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimSequence.h")
 @:uname("EAdditiveBasePoseType")
-@:uextern extern enum EAdditiveBasePoseType {
+@:uextern @:uenum extern enum EAdditiveBasePoseType {
   
   /**
     Will be deprecated.

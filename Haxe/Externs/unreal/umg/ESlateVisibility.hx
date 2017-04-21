@@ -20,7 +20,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
 @:uname("ESlateVisibility")
-@:class @:uextern extern enum ESlateVisibility {
+@:class @:uextern @:uenum extern enum ESlateVisibility {
   
   /**
     Default widget visibility - visible and can interactive with the cursor

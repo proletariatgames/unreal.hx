@@ -15,21 +15,21 @@ package unreal.onlinesubsystemutils;
 
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("IpNetDriver.h")
-@:uextern extern class UIpNetDriver extends unreal.UNetDriver {
+@:uextern @:uclass extern class UIpNetDriver extends unreal.UNetDriver {
   
   /**
     Number of ports which will be tried if current one is not available for binding (i.e. if told to bind to port N, will try from N to N+MaxPortCountToTry inclusive)
   **/
-  public var MaxPortCountToTry : unreal.FakeUInt32;
+  @:uproperty public var MaxPortCountToTry : unreal.FakeUInt32;
   
   /**
     Does the game allow clients to remain after receiving ICMP port unreachable errors (handles flakey connections)
   **/
-  public var AllowPlayerPortUnreach : Bool;
+  @:uproperty public var AllowPlayerPortUnreach : Bool;
   
   /**
     Should port unreachable messages be logged
   **/
-  public var LogPortUnreach : Bool;
+  @:uproperty public var LogPortUnreach : Bool;
   
 }

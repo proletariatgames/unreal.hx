@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
-@:uextern extern class FConstraintDrive {
+@:uextern @:ustruct extern class FConstraintDrive {
   
   /**
     Enables/Disables velocity drive (angular velocity if using angular drive)
   **/
-  public var bEnableVelocityDrive : Bool;
+  @:uproperty public var bEnableVelocityDrive : Bool;
   
   /**
     Enables/Disables position drive (orientation if using angular drive)
   **/
-  public var bEnablePositionDrive : Bool;
+  @:uproperty public var bEnablePositionDrive : Bool;
   
   /**
     The force limit of the drive.
   **/
-  public var MaxForce : unreal.Float32;
+  @:uproperty public var MaxForce : unreal.Float32;
   
   /**
     The damping strength of the drive. Force proportional to the velocity error.
   **/
-  public var Damping : unreal.Float32;
+  @:uproperty public var Damping : unreal.Float32;
   
   /**
     The spring strength of the drive. Force proportional to the position error.
   **/
-  public var Stiffness : unreal.Float32;
+  @:uproperty public var Stiffness : unreal.Float32;
   
 }

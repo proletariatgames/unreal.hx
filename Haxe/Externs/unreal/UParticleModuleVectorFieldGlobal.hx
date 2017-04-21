@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldGlobal.h")
-@:noClass @:uextern extern class UParticleModuleVectorFieldGlobal extends unreal.UParticleModuleVectorFieldBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleVectorFieldGlobal extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Global vector field tightness override.
   **/
-  public var GlobalVectorFieldTightness : unreal.Float32;
+  @:uproperty public var GlobalVectorFieldTightness : unreal.Float32;
   
   /**
     Global vector field scale.
   **/
-  public var GlobalVectorFieldScale : unreal.Float32;
+  @:uproperty public var GlobalVectorFieldScale : unreal.Float32;
   
   /**
     Property override value for global vector field tightness.
   **/
-  public var bOverrideGlobalVectorFieldTightness : Bool;
+  @:uproperty public var bOverrideGlobalVectorFieldTightness : Bool;
   
 }

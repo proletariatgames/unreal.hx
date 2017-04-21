@@ -20,43 +20,48 @@ package unreal;
   Struct indicating a variable in the generated class
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:noCopy @:noEquals @:uextern extern class FBPVariableDescription {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBPVariableDescription {
   
   /**
     Optional new default value stored as string
   **/
-  public var DefaultValue : unreal.FString;
+  @:uproperty public var DefaultValue : unreal.FString;
   
   /**
     Metadata information for this variable
   **/
-  public var MetaDataArray : unreal.TArray<unreal.FBPVariableMetaDataEntry>;
-  public var ReplicationCondition : unreal.ELifetimeCondition;
-  public var RepNotifyFunc : unreal.FName;
+  @:uproperty public var MetaDataArray : unreal.TArray<unreal.FBPVariableMetaDataEntry>;
+  @:uproperty public var ReplicationCondition : unreal.ELifetimeCondition;
+  @:uproperty public var RepNotifyFunc : unreal.FName;
   
   /**
     Property flags for this variable - Changed from int32 to uint64
   **/
-  public var PropertyFlags : unreal.FakeUInt64;
+  @:uproperty public var PropertyFlags : unreal.FakeUInt64;
+  
+  /**
+    Category this variable should be in
+  **/
+  @:uproperty public var Category : unreal.FText;
   
   /**
     Friendly name of the variable
   **/
-  public var FriendlyName : unreal.FString;
+  @:uproperty public var FriendlyName : unreal.FString;
   
   /**
     Type of the variable
   **/
-  public var VarType : unreal.FEdGraphPinType;
+  @:uproperty public var VarType : unreal.FEdGraphPinType;
   
   /**
     A Guid that will remain constant even if the VarName changes
   **/
-  public var VarGuid : unreal.FGuid;
+  @:uproperty public var VarGuid : unreal.FGuid;
   
   /**
     Name of the variable
   **/
-  public var VarName : unreal.FName;
+  @:uproperty public var VarName : unreal.FName;
   
 }

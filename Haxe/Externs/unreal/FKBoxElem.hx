@@ -20,32 +20,32 @@ package unreal;
   Box shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/BoxElem.h")
-@:noCopy @:noEquals @:uextern extern class FKBoxElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKBoxElem extends unreal.FKShapeElem {
   
   /**
     Extent of the box along the z-axis
   **/
-  public var Z : unreal.Float32;
+  @:uproperty public var Z : unreal.Float32;
   
   /**
     Extent of the box along the y-axis
   **/
-  public var Y : unreal.Float32;
+  @:uproperty public var Y : unreal.Float32;
   
   /**
     Extent of the box along the y-axis
   **/
-  public var X : unreal.Float32;
+  @:uproperty public var X : unreal.Float32;
   
   /**
     Orientation of the box
   **/
-  public var Orientation : unreal.FQuat;
+  @:uproperty public var Orientation : unreal.FQuat;
   
   /**
     Position of the box's origin
   **/
-  public var Center : unreal.FVector;
-  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
+  @:uproperty public var Center : unreal.FVector;
+  @:deprecated @:uproperty public var TM_DEPRECATED : unreal.FMatrix;
   
 }

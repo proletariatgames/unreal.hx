@@ -14,33 +14,33 @@
 package unreal;
 
 @:glueCppIncludes("Engine/Light.h")
-@:uextern extern class ALight extends unreal.AActor {
+@:uextern @:uclass extern class ALight extends unreal.AActor {
   
   /**
     replicated copy of LightComponent's bEnabled property
   **/
-  public var bEnabled : Bool;
-  public var LightComponent : unreal.ULightComponent;
+  @:uproperty public var bEnabled : Bool;
+  @:uproperty public var LightComponent : unreal.ULightComponent;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_bEnabled() : Void;
+  @:ufunction public function OnRep_bEnabled() : Void;
   
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:final public function SetEnabled(bSetEnabled : Bool) : Void;
-  @:thisConst @:final public function IsEnabled() : Bool;
-  @:final public function ToggleEnabled() : Void;
-  @:final public function SetBrightness(NewBrightness : unreal.Float32) : Void;
-  @:thisConst @:final public function GetBrightness() : unreal.Float32;
-  @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
-  @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
-  @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
-  @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
-  @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
-  @:final public function SetCastShadows(bNewValue : Bool) : Void;
-  @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
+  @:ufunction @:final public function SetEnabled(bSetEnabled : Bool) : Void;
+  @:ufunction @:thisConst @:final public function IsEnabled() : Bool;
+  @:ufunction @:final public function ToggleEnabled() : Void;
+  @:ufunction @:final public function SetBrightness(NewBrightness : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetBrightness() : unreal.Float32;
+  @:ufunction @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
+  @:ufunction @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
+  @:ufunction @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
+  @:ufunction @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
+  @:ufunction @:final public function SetCastShadows(bNewValue : Bool) : Void;
+  @:ufunction @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
   
 }

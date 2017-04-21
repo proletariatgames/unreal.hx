@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/MeshSimplificationSettings.h")
-@:noClass @:uextern extern class UMeshSimplificationSettings extends unreal.UDeveloperSettings {
+@:noClass @:uextern @:uclass extern class UMeshSimplificationSettings extends unreal.UDeveloperSettings {
   
   /**
     Mesh reduction plugin to use when simplifying mesh geometry
   **/
-  public var MeshReductionModuleName : unreal.FName;
+  @:uproperty public var MeshReductionModuleName : unreal.FName;
   
 }

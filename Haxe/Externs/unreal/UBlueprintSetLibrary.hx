@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/BlueprintSetLibrary.h")
-@:uextern extern class UBlueprintSetLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UBlueprintSetLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

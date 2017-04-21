@@ -14,50 +14,50 @@
 package unreal;
 
 @:glueCppIncludes("EdGraph/EdGraph.h")
-@:uextern extern class UEdGraph extends unreal.UObject {
+@:uextern @:uclass extern class UEdGraph extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Guid of interface graph this graph comes from (used for conforming)
   **/
-  public var InterfaceGuid : unreal.FGuid;
+  @:uproperty public var InterfaceGuid : unreal.FGuid;
   
   /**
     Guid for this graph
   **/
-  public var GraphGuid : unreal.FGuid;
+  @:uproperty public var GraphGuid : unreal.FGuid;
   
   /**
     Child graphs that are a part of this graph; the separation is purely visual
   **/
-  public var SubGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var SubGraphs : unreal.TArray<unreal.UEdGraph>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     If true, graph can be renamed; Note: Graph can also be renamed if bAllowDeletion is true currently
   **/
-  public var bAllowRenaming : Bool;
+  @:uproperty public var bAllowRenaming : Bool;
   
   /**
     If true, graph can be deleted from the whatever container it is in. For FunctionGraphs
     this flag is reset to false on load (unless the function is the construction script or
     AnimGraph)
   **/
-  public var bAllowDeletion : Bool;
+  @:uproperty public var bAllowDeletion : Bool;
   
   /**
     If true, graph can be edited by the user
   **/
-  public var bEditable : Bool;
+  @:uproperty public var bEditable : Bool;
   
   /**
     Set of all nodes in this graph
   **/
-  public var Nodes : unreal.TArray<unreal.UEdGraphNode>;
+  @:uproperty public var Nodes : unreal.TArray<unreal.UEdGraphNode>;
   
   /**
     The schema that this graph obeys
   **/
-  public var Schema : unreal.TSubclassOf<unreal.UEdGraphSchema>;
+  @:uproperty public var Schema : unreal.TSubclassOf<unreal.UEdGraphSchema>;
   
 }

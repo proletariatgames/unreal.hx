@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleEmitter.h")
 @:uname("EParticleSubUVInterpMethod")
-@:uextern extern enum EParticleSubUVInterpMethod {
+@:uextern @:uenum extern enum EParticleSubUVInterpMethod {
   
   /**
     None

@@ -21,9 +21,9 @@ package unreal.logvisualizer;
 **/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("LogVisualizerSettings.h")
-@:noCopy @:noEquals @:uextern extern class FCategoryFilter {
-  public var Enabled : Bool;
-  public var LogVerbosity : unreal.Int32;
-  public var CategoryName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCategoryFilter {
+  @:uproperty public var Enabled : Bool;
+  @:uproperty public var LogVerbosity : unreal.Int32;
+  @:uproperty public var CategoryName : unreal.FString;
   
 }

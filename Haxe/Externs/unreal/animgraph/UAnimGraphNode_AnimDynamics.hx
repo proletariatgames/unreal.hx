@@ -21,6 +21,6 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_AnimDynamics.h")
-@:noClass @:uextern extern class UAnimGraphNode_AnimDynamics extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+@:noClass @:uextern @:uclass extern class UAnimGraphNode_AnimDynamics extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
   
 }

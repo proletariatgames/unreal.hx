@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/LightmassPortalComponent.h")
-@:uextern extern class ULightmassPortalComponent extends unreal.USceneComponent {
-  public var PreviewBox : unreal.UBoxComponent;
+@:uextern @:uclass extern class ULightmassPortalComponent extends unreal.USceneComponent {
+  @:uproperty public var PreviewBox : unreal.UBoxComponent;
   
 }

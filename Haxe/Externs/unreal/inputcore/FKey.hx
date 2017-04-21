@@ -15,6 +15,6 @@ package unreal.inputcore;
 
 @:umodule("InputCore")
 @:glueCppIncludes("InputCoreTypes.h")
-@:uextern extern class FKey {
+@:uextern @:ustruct extern class FKey {
   
 }

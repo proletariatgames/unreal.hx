@@ -21,6 +21,6 @@ package unreal.logvisualizer;
 **/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("Private/VisualLoggerRenderingComponent.h")
-@:noClass @:uextern extern class UVisualLoggerRenderingComponent extends unreal.UPrimitiveComponent {
+@:noClass @:uextern @:uclass extern class UVisualLoggerRenderingComponent extends unreal.UPrimitiveComponent {
   
 }

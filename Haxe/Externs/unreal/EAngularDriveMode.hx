@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
 @:uname("EAngularDriveMode.Type")
-@:uextern extern enum EAngularDriveMode {
+@:uextern @:uenum extern enum EAngularDriveMode {
   
   /**
     Spherical lerp between the current orientation/velocity and the target orientation/velocity. NOTE: This will NOT work if any angular constraints are set to Locked.

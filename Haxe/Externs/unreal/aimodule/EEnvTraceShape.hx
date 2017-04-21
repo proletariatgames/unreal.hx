@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTraceShape.Type")
-@:uextern extern enum EEnvTraceShape {
+@:uextern @:uenum extern enum EEnvTraceShape {
   Line;
   Box;
   Sphere;

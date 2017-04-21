@@ -21,21 +21,21 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CanvasRenderTarget2DFactoryNew.h")
-@:noClass @:uextern extern class UCanvasRenderTarget2DFactoryNew extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UCanvasRenderTarget2DFactoryNew extends unreal.editor.UFactory {
   
   /**
     Pixel format of the texture render target
   **/
-  public var Format : unreal.UInt8;
+  @:uproperty public var Format : unreal.UInt8;
   
   /**
     Height of the texture render target
   **/
-  public var Height : unreal.Int32;
+  @:uproperty public var Height : unreal.Int32;
   
   /**
     Width of the texture render target
   **/
-  public var Width : unreal.Int32;
+  @:uproperty public var Width : unreal.Int32;
   
 }

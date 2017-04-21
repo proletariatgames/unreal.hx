@@ -18,244 +18,244 @@ package unreal;
   Actor containing all script accessible world properties.
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class AWorldSettings extends unreal.AInfo implements unreal.IInterface_AssetUserData {
+@:uextern @:uclass extern class AWorldSettings extends unreal.AInfo implements unreal.IInterface_AssetUserData {
   
   /**
     Array of user data stored with the asset
   **/
-  private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
+  @:uproperty private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
   
   /**
     valid only during replication - information about the player(s) being replicated to
     (there could be more than one in the case of a splitscreen client)
   **/
-  public var ReplicationViewers : unreal.TArray<unreal.FNetViewer>;
+  @:uproperty public var ReplicationViewers : unreal.TArray<unreal.FNetViewer>;
   
   /**
     copy of bHighPriorityLoading that is not replicated, for clientside-only loading operations
   **/
-  public var bHighPriorityLoadingLocal : Bool;
+  @:uproperty public var bHighPriorityLoadingLocal : Bool;
   
   /**
     when this flag is set, more time is allocated to background loading (replicated)
   **/
-  public var bHighPriorityLoading : Bool;
+  @:uproperty public var bHighPriorityLoading : Bool;
   
   /**
     If paused, FName of person pausing the game.
   **/
-  public var Pauser : unreal.APlayerState;
+  @:uproperty public var Pauser : unreal.APlayerState;
   
   /**
     Largest possible frametime, not considering dilation. Equiv to 1/SlowestFPS.
   **/
-  public var MaxUndilatedFrameTime : unreal.Float32;
+  @:uproperty public var MaxUndilatedFrameTime : unreal.Float32;
   
   /**
     Smallest possible frametime, not considering dilation. Equiv to 1/FastestFPS.
   **/
-  public var MinUndilatedFrameTime : unreal.Float32;
+  @:uproperty public var MinUndilatedFrameTime : unreal.Float32;
   
   /**
     Highest acceptable global time dilation.
   **/
-  public var MaxGlobalTimeDilation : unreal.Float32;
+  @:uproperty public var MaxGlobalTimeDilation : unreal.Float32;
   
   /**
     Lowest acceptable global time dilation.
   **/
-  public var MinGlobalTimeDilation : unreal.Float32;
+  @:uproperty public var MinGlobalTimeDilation : unreal.Float32;
   
   /**
     Additional TimeDilation used to control demo playback speed
   **/
-  public var DemoPlayTimeDilation : unreal.Float32;
+  @:uproperty public var DemoPlayTimeDilation : unreal.Float32;
   
   /**
     Additional time dilation used by Matinee (or Sequencer) slomo track.  Transient because this is often
     temporarily modified by the editor when previewing slow motion effects, yet we don't want it saved or loaded from level packages.
   **/
-  public var MatineeTimeDilation : unreal.Float32;
+  @:uproperty public var MatineeTimeDilation : unreal.Float32;
   
   /**
     Normally 1 - scales real time passage.
     Warning - most use cases should use GetEffectiveTimeDilation() instead of reading from this directly
   **/
-  public var TimeDilation : unreal.Float32;
+  @:uproperty public var TimeDilation : unreal.Float32;
   
   /**
     scale of 1uu to 1m in real world measurements, for HMD and other physically tracked devices (e.g. 1uu = 1cm would be 100.0)
   **/
-  public var WorldToMeters : unreal.Float32;
+  @:uproperty public var WorldToMeters : unreal.Float32;
   #if WITH_EDITORONLY_DATA
-  public var NumHLODLevels : unreal.Int32;
+  @:uproperty public var NumHLODLevels : unreal.Int32;
   
   /**
     Hierarchical LOD Setup
   **/
-  public var HierarchicalLODSetup : unreal.TArray<unreal.FHierarchicalSimplification>;
+  @:uproperty public var HierarchicalLODSetup : unreal.TArray<unreal.FHierarchicalSimplification>;
   
   /**
     if set to true, hierarchical LODs will be built, which will create hierarchical LODActors
   **/
-  public var bEnableHierarchicalLODSystem : Bool;
+  @:uproperty public var bEnableHierarchicalLODSystem : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Default Base SoundMix.
   **/
-  public var DefaultBaseSoundMix : unreal.USoundMix;
+  @:uproperty public var DefaultBaseSoundMix : unreal.USoundMix;
   
   /**
     Default interior settings used by audio volumes.
   **/
-  public var DefaultAmbientZoneSettings : unreal.FInteriorSettings;
+  @:uproperty public var DefaultAmbientZoneSettings : unreal.FInteriorSettings;
   
   /**
     Default reverb settings used by audio volumes.
   **/
-  public var DefaultReverbSettings : unreal.FReverbSettings;
-  public var LightmassSettings : unreal.FLightmassWorldInfoSettings;
+  @:uproperty public var DefaultReverbSettings : unreal.FReverbSettings;
+  @:uproperty public var LightmassSettings : unreal.FLightmassWorldInfoSettings;
   
   /**
     Whether to force lightmaps and other precomputed lighting to not be created even when the engine thinks they are needed.
     This is useful for improving iteration in levels with fully dynamic lighting and shadowing.
     Note that any lighting and shadowing interactions that are usually precomputed will be lost if this is enabled.
   **/
-  public var bForceNoPrecomputedLighting : Bool;
+  @:uproperty public var bForceNoPrecomputedLighting : Bool;
   
   /**
     Determines how aggressive precomputed visibility should be.
     More aggressive settings cull more objects but also cause more visibility errors like popping.
   **/
-  public var VisibilityAggressiveness : unreal.EVisibilityAggressiveness;
+  @:uproperty public var VisibilityAggressiveness : unreal.EVisibilityAggressiveness;
   
   /**
     World space size of precomputed visibility cells in x and y.
     Smaller sizes produce more effective occlusion culling at the cost of increased runtime memory usage and lighting build times.
   **/
-  public var VisibilityCellSize : unreal.Int32;
+  @:uproperty public var VisibilityCellSize : unreal.Int32;
   
   /**
     Whether to place visibility cells only along camera tracks or only above shadow casting surfaces.
   **/
-  public var bPlaceCellsOnlyAlongCameraTracks : Bool;
+  @:uproperty public var bPlaceCellsOnlyAlongCameraTracks : Bool;
   
   /**
     Whether to place visibility cells inside Precomputed Visibility Volumes and along camera tracks in this level.
     Precomputing visibility reduces rendering thread time at the cost of some runtime memory and somewhat increased lighting build times.
   **/
-  public var bPrecomputeVisibility : Bool;
+  @:uproperty public var bPrecomputeVisibility : Bool;
   
   /**
     Distance from the camera that the global distance field should cover.
   **/
-  public var GlobalDistanceFieldViewDistance : unreal.Float32;
+  @:uproperty public var GlobalDistanceFieldViewDistance : unreal.Float32;
   
   /**
     Max occlusion distance used by mesh distance fields, overridden if there is a movable skylight.
   **/
-  public var DefaultMaxDistanceFieldOcclusionDistance : unreal.Float32;
+  @:uproperty public var DefaultMaxDistanceFieldOcclusionDistance : unreal.Float32;
   
   /**
     Default color scale for the level
   **/
-  public var DefaultColorScale : unreal.FVector;
+  @:uproperty public var DefaultColorScale : unreal.FVector;
   
   /**
     Causes the BSP build to generate as few sections as possible.
     This is useful when you need to reduce draw calls but can reduce texture streaming efficiency and effective lightmap resolution.
     Note - changes require a rebuild to propagate.  Also, be sure to select all surfaces and make sure they all have the same flags to minimize section count.
   **/
-  public var bMinimizeBSPSections : Bool;
+  @:uproperty public var bMinimizeBSPSections : Bool;
   
   /**
     Maximum size of textures for packed light and shadow maps
   **/
-  public var PackedLightAndShadowMapTextureSize : unreal.Int32;
+  @:uproperty public var PackedLightAndShadowMapTextureSize : unreal.Int32;
   
   /**
     Class of GameNetworkManager to spawn for network games
   **/
-  public var GameNetworkManagerClass : unreal.TSubclassOf<unreal.AGameNetworkManager>;
+  @:uproperty public var GameNetworkManagerClass : unreal.TSubclassOf<unreal.AGameNetworkManager>;
   
   /**
     The default GameMode to use when starting this map in the game. If this value is NULL, the INI setting for default game type is used.
   **/
-  public var DefaultGameMode : unreal.TSubclassOf<unreal.AGameModeBase>;
+  @:uproperty public var DefaultGameMode : unreal.TSubclassOf<unreal.AGameModeBase>;
   
   /**
     optional level specific collision handler
   **/
-  public var PhysicsCollisionHandlerClass : unreal.TSubclassOf<unreal.UPhysicsCollisionHandler>;
+  @:uproperty public var PhysicsCollisionHandlerClass : unreal.TSubclassOf<unreal.UPhysicsCollisionHandler>;
   
   /**
     level specific default physics volume
   **/
-  public var DefaultPhysicsVolumeClass : unreal.TSubclassOf<unreal.ADefaultPhysicsVolume>;
+  @:uproperty public var DefaultPhysicsVolumeClass : unreal.TSubclassOf<unreal.ADefaultPhysicsVolume>;
   
   /**
     optional level specific gravity override set by level designer
   **/
-  public var GlobalGravityZ : unreal.Float32;
+  @:uproperty public var GlobalGravityZ : unreal.Float32;
   
   /**
     current gravity actually being used
   **/
-  public var WorldGravityZ : unreal.Float32;
+  @:uproperty public var WorldGravityZ : unreal.Float32;
   
   /**
     The type of damage inflicted when a actor falls below KillZ
   **/
-  public var KillZDamageType : unreal.TSubclassOf<unreal.UDamageType>;
+  @:uproperty public var KillZDamageType : unreal.TSubclassOf<unreal.UDamageType>;
   
   /**
     any actor falling below this level gets destroyed
   **/
-  public var KillZ : unreal.Float32;
+  @:uproperty public var KillZ : unreal.Float32;
   
   /**
     If set to true we will use GlobalGravityZ instead of project setting DefaultGravityZ
   **/
-  public var bGlobalGravitySet : Bool;
+  @:uproperty public var bGlobalGravitySet : Bool;
   
   /**
     if set to true, when we call GetGravityZ we assume WorldGravityZ has already been initialized and skip the lookup of DefaultGravityZ and GlobalGravityZ
   **/
-  public var bWorldGravitySet : Bool;
+  @:uproperty public var bWorldGravitySet : Bool;
   
   /**
     World origin will shift to a camera position when camera goes far away from current origin
   **/
-  public var bEnableWorldOriginRebasing : Bool;
+  @:uproperty public var bEnableWorldOriginRebasing : Bool;
   
   /**
     Enables client-side streaming volumes instead of server-side.
     Expected usage scenario: server has all streaming levels always loaded, clients independently stream levels in/out based on streaming volumes.
   **/
-  public var bUseClientSideLevelStreamingVolumes : Bool;
+  @:uproperty public var bUseClientSideLevelStreamingVolumes : Bool;
   
   /**
     Enables tools for composing a tiled world.
     Level has to be saved and all sub-levels removed before enabling this option.
   **/
-  public var bEnableWorldComposition : Bool;
+  @:uproperty public var bEnableWorldComposition : Bool;
   
   /**
     if set to false AI system will not get created. Use it to disable all AI-related activity on a map
   **/
-  public var bEnableAISystem : Bool;
+  @:uproperty public var bEnableAISystem : Bool;
   
   /**
     if set to false navigation system will not get created (and all navigation functionality won't be accessible)
   **/
-  public var bEnableNavigationSystem : Bool;
+  @:uproperty public var bEnableNavigationSystem : Bool;
   
   /**
     If true, enables CheckStillInWorld checks
   **/
-  public var bEnableWorldBoundsChecks : Bool;
-  public function OnRep_WorldGravityZ() : Void;
+  @:uproperty public var bEnableWorldBoundsChecks : Bool;
+  @:ufunction public function OnRep_WorldGravityZ() : Void;
   // Interface_AssetUserData interface implementation
   
 }

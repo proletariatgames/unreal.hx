@@ -22,69 +22,69 @@ package unreal;
   @see UStaticMesh
 **/
 @:glueCppIncludes("Engine/LODActor.h")
-@:uextern extern class ALODActor extends unreal.AActor {
+@:uextern @:uclass extern class ALODActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
   
   /**
     Override screen size value, used when creating the proxy mesh
   **/
-  public var ScreenSize : unreal.Int32;
+  @:uproperty public var ScreenSize : unreal.Int32;
   
   /**
     Flag whether or not to use the override ScreenSize when creating the proxy mesh
   **/
-  public var bOverrideScreenSize : Bool;
+  @:uproperty public var bOverrideScreenSize : Bool;
   
   /**
     Override transition screen size value, determines the screen size / draw distance at which the proxy mesh is visible
   **/
-  public var TransitionScreenSize : unreal.Float32;
+  @:uproperty public var TransitionScreenSize : unreal.Float32;
   
   /**
     Flag whether or not to use the override TransitionScreenSize for this proxy mesh
   **/
-  public var bOverrideTransitionScreenSize : Bool;
+  @:uproperty public var bOverrideTransitionScreenSize : Bool;
   
   /**
     Override Material Settings, used when creating the proxy mesh
   **/
-  public var MaterialSettings : unreal.FMaterialProxySettings;
+  @:uproperty public var MaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Flag whether or not to use the override MaterialSettings when creating the proxy mesh
   **/
-  public var bOverrideMaterialMergeSettings : Bool;
+  @:uproperty public var bOverrideMaterialMergeSettings : Bool;
   
   /**
     Cached number of triangles contained in the SubActors
   **/
-  public var NumTrianglesInMergedMesh : unreal.FakeUInt32;
+  @:uproperty public var NumTrianglesInMergedMesh : unreal.FakeUInt32;
   
   /**
     Cached number of triangles contained in the SubActors
   **/
-  public var NumTrianglesInSubActors : unreal.FakeUInt32;
+  @:uproperty public var NumTrianglesInSubActors : unreal.FakeUInt32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     assets that were created for this, so that we can delete them
   **/
-  public var SubObjects : unreal.TArray<unreal.UObject>;
+  @:uproperty public var SubObjects : unreal.TArray<unreal.UObject>;
   
   /**
     The hierarchy level of this actor; the first tier of HLOD is level 1, the second tier is level 2 and so on.
   **/
-  public var LODLevel : unreal.Int32;
+  @:uproperty public var LODLevel : unreal.Int32;
   
   /**
     what distance do you want this to show up instead of SubActors
   **/
-  public var LODDrawDistance : unreal.Float32;
-  public var SubActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var LODDrawDistance : unreal.Float32;
+  @:uproperty public var SubActors : unreal.TArray<unreal.AActor>;
   
   /**
     disable display of this component
   **/
-  public var StaticMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty public var StaticMeshComponent : unreal.UStaticMeshComponent;
   
 }

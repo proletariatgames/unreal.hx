@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("ETextCommit.Type")
-@:uextern extern enum ETextCommit {
+@:uextern @:uenum extern enum ETextCommit {
   
   /**
     Losing focus or similar event caused implicit commit

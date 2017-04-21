@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_NetworkSyncPoint.h")
 @:uname("EAbilityTaskNetSyncType")
-@:class @:uextern extern enum EAbilityTaskNetSyncType {
+@:class @:uextern @:uenum extern enum EAbilityTaskNetSyncType {
   
   /**
     Both client and server wait until the other signals

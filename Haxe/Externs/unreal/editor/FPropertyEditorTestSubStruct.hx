@@ -21,10 +21,10 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:noCopy @:noEquals @:uextern extern class FPropertyEditorTestSubStruct {
-  public var CustomizedStructInsideUncustomizedStruct2 : unreal.FStringAssetReference;
-  public var CustomizedStructInsideUncustomizedStruct : unreal.FLinearColor;
-  public var SecondProperty : unreal.Int32;
-  public var FirstProperty : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPropertyEditorTestSubStruct {
+  @:uproperty public var CustomizedStructInsideUncustomizedStruct2 : unreal.FStringAssetReference;
+  @:uproperty public var CustomizedStructInsideUncustomizedStruct : unreal.FLinearColor;
+  @:uproperty public var SecondProperty : unreal.Int32;
+  @:uproperty public var FirstProperty : unreal.Int32;
   
 }

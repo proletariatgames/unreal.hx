@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionConstant4Vector.h")
-@:uextern extern class UMaterialExpressionConstant4Vector extends unreal.UMaterialExpression {
-  public var Constant : unreal.FLinearColor;
+@:uextern @:uclass extern class UMaterialExpressionConstant4Vector extends unreal.UMaterialExpression {
+  @:uproperty public var Constant : unreal.FLinearColor;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ESearchCase.Type")
-@:uextern extern enum ESearchCase {
+@:uextern @:uenum extern enum ESearchCase {
   CaseSensitive;
   IgnoreCase;
   

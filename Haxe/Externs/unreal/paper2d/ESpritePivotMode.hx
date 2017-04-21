@@ -16,7 +16,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uname("ESpritePivotMode.Type")
-@:uextern extern enum ESpritePivotMode {
+@:uextern @:uenum extern enum ESpritePivotMode {
   Top_Left;
   Top_Center;
   Top_Right;

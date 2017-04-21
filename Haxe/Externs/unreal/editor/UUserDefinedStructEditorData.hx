@@ -15,13 +15,13 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
-@:uextern extern class UUserDefinedStructEditorData extends unreal.UObject {
+@:uextern @:uclass extern class UUserDefinedStructEditorData extends unreal.UObject {
   
   /**
     optional super struct
   **/
-  public var NativeBase : unreal.UScriptStruct;
-  public var ToolTip : unreal.FString;
-  public var VariablesDescriptions : unreal.TArray<unreal.editor.FStructVariableDescription>;
+  @:uproperty public var NativeBase : unreal.UScriptStruct;
+  @:uproperty public var ToolTip : unreal.FString;
+  @:uproperty public var VariablesDescriptions : unreal.TArray<unreal.editor.FStructVariableDescription>;
   
 }

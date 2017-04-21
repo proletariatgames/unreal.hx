@@ -21,6 +21,6 @@ package unreal.steamvr;
 **/
 @:umodule("SteamVR")
 @:glueCppIncludes("SteamVRChaperoneComponent.h")
-@:uextern extern class USteamVRChaperoneComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class USteamVRChaperoneComponent extends unreal.UActorComponent {
   
 }

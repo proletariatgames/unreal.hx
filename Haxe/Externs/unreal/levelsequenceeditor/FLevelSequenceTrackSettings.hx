@@ -21,31 +21,31 @@ package unreal.levelsequenceeditor;
 **/
 @:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequenceTrackSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceTrackSettings {
   
   /**
     List of property names for which movie scene tracks will not be created automatically.
   **/
-  public var ExcludeDefaultPropertyTracks : unreal.TArray<unreal.levelsequenceeditor.FLevelSequencePropertyTrackSettings>;
+  @:uproperty public var ExcludeDefaultPropertyTracks : unreal.TArray<unreal.levelsequenceeditor.FLevelSequencePropertyTrackSettings>;
   
   /**
     List of property names for which movie scene tracks will be created automatically.
   **/
-  public var DefaultPropertyTracks : unreal.TArray<unreal.levelsequenceeditor.FLevelSequencePropertyTrackSettings>;
+  @:uproperty public var DefaultPropertyTracks : unreal.TArray<unreal.levelsequenceeditor.FLevelSequencePropertyTrackSettings>;
   
   /**
     List of movie scene track classes not to be added automatically.
   **/
-  public var ExcludeDefaultTracks : unreal.TArray<unreal.FStringClassReference>;
+  @:uproperty public var ExcludeDefaultTracks : unreal.TArray<unreal.FStringClassReference>;
   
   /**
     List of movie scene track classes to be added automatically.
   **/
-  public var DefaultTracks : unreal.TArray<unreal.FStringClassReference>;
+  @:uproperty public var DefaultTracks : unreal.TArray<unreal.FStringClassReference>;
   
   /**
     The Actor class to create movie scene tracks for.
   **/
-  public var MatchingActorClass : unreal.FStringClassReference;
+  @:uproperty public var MatchingActorClass : unreal.FStringClassReference;
   
 }

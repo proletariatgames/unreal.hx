@@ -20,7 +20,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uname("ESpriteShapeType")
-@:class @:uextern extern enum ESpriteShapeType {
+@:class @:uextern @:uenum extern enum ESpriteShapeType {
   
   /**
     Box/Rectangular prism (size defined by BoxSize)

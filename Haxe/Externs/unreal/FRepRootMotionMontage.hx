@@ -20,66 +20,66 @@ package unreal;
   Replicated data when playing a root motion montage.
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:noCopy @:noEquals @:uextern extern class FRepRootMotionMontage {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRepRootMotionMontage {
   
   /**
     Velocity
   **/
-  public var LinearVelocity : unreal.FVector_NetQuantize10;
+  @:uproperty public var LinearVelocity : unreal.FVector_NetQuantize10;
   
   /**
     Acceleration
   **/
-  public var Acceleration : unreal.FVector_NetQuantize10;
+  @:uproperty public var Acceleration : unreal.FVector_NetQuantize10;
   
   /**
     State of Root Motion Sources on Authority
   **/
-  public var AuthoritativeRootMotion : unreal.FRootMotionSourceGroup;
+  @:uproperty public var AuthoritativeRootMotion : unreal.FRootMotionSourceGroup;
   
   /**
     Whether rotation is relative or absolute.
   **/
-  public var bRelativeRotation : Bool;
+  @:uproperty public var bRelativeRotation : Bool;
   
   /**
     Additional replicated flag, if MovementBase can't be resolved on the client. So we don't use wrong data.
   **/
-  public var bRelativePosition : Bool;
+  @:uproperty public var bRelativePosition : Bool;
   
   /**
     Bone on the MovementBase, if a skeletal mesh.
   **/
-  public var MovementBaseBoneName : unreal.FName;
+  @:uproperty public var MovementBaseBoneName : unreal.FName;
   
   /**
     Movement Relative to Base
   **/
-  public var MovementBase : unreal.UPrimitiveComponent;
+  @:uproperty public var MovementBase : unreal.UPrimitiveComponent;
   
   /**
     Rotation
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     Location
   **/
-  public var Location : unreal.FVector_NetQuantize100;
+  @:uproperty public var Location : unreal.FVector_NetQuantize100;
   
   /**
     Track position of Montage
   **/
-  public var Position : unreal.Float32;
+  @:uproperty public var Position : unreal.Float32;
   
   /**
     AnimMontage providing Root Motion
   **/
-  public var AnimMontage : unreal.UAnimMontage;
+  @:uproperty public var AnimMontage : unreal.UAnimMontage;
   
   /**
     Whether this has useful/active data.
   **/
-  public var bIsActive : Bool;
+  @:uproperty public var bIsActive : Bool;
   
 }

@@ -20,66 +20,66 @@ package unreal;
   Data needed for local vector fields.
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:noCopy @:noEquals @:uextern extern class FGPUSpriteLocalVectorFieldInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGPUSpriteLocalVectorFieldInfo {
   
   /**
     Use fix delta time in the simulation?
   **/
-  public var bUseFixDT : Bool;
+  @:uproperty public var bUseFixDT : Bool;
   
   /**
     Tile vector field in z axis?
   **/
-  public var bTileZ : Bool;
+  @:uproperty public var bTileZ : Bool;
   
   /**
     Tile vector field in y axis?
   **/
-  public var bTileY : Bool;
+  @:uproperty public var bTileY : Bool;
   
   /**
     Tile vector field in x axis?
   **/
-  public var bTileX : Bool;
+  @:uproperty public var bTileX : Bool;
   
   /**
     Ignore Components Transform
   **/
-  public var bIgnoreComponentTransform : Bool;
+  @:uproperty public var bIgnoreComponentTransform : Bool;
   
   /**
     Local vector field tightness.
   **/
-  public var Tightness : unreal.Float32;
+  @:uproperty public var Tightness : unreal.Float32;
   
   /**
     Local vector field intensity.
   **/
-  public var Intensity : unreal.Float32;
+  @:uproperty public var Intensity : unreal.Float32;
   
   /**
     Local vector field rotation rate.
   **/
-  public var RotationRate : unreal.FRotator;
+  @:uproperty public var RotationRate : unreal.FRotator;
   
   /**
     Maximum initial rotation.
   **/
-  public var MaxInitialRotation : unreal.FRotator;
+  @:uproperty public var MaxInitialRotation : unreal.FRotator;
   
   /**
     Minimum initial rotation.
   **/
-  public var MinInitialRotation : unreal.FRotator;
+  @:uproperty public var MinInitialRotation : unreal.FRotator;
   
   /**
     Local vector field transform.
   **/
-  public var Transform : unreal.FTransform;
+  @:uproperty public var Transform : unreal.FTransform;
   
   /**
     Local vector field to apply to this emitter.
   **/
-  public var Field : unreal.UVectorField;
+  @:uproperty public var Field : unreal.UVectorField;
   
 }

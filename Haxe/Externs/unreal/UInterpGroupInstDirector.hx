@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpGroupInstDirector.h")
-@:uextern extern class UInterpGroupInstDirector extends unreal.UInterpGroupInst {
+@:uextern @:uclass extern class UInterpGroupInstDirector extends unreal.UInterpGroupInst {
   
 }

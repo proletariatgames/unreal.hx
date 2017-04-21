@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayEffectBlockedImmunity.h")
-@:uextern extern class UAbilityTask_WaitGameplayEffectBlockedImmunity extends unreal.gameplayabilities.UAbilityTask {
-  private var ExternalOwner : unreal.gameplayabilities.UAbilitySystemComponent;
+@:uextern @:uclass extern class UAbilityTask_WaitGameplayEffectBlockedImmunity extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var ExternalOwner : unreal.gameplayabilities.UAbilitySystemComponent;
   
 }

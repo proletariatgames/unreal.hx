@@ -19,23 +19,23 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidget extends unreal.umg.UVisual {
+@:uextern @:uclass extern class UWidget extends unreal.umg.UVisual {
   
   /**
     Native property bindings.
   **/
-  private var NativeBindings : unreal.TArray<unreal.umg.UPropertyBinding>;
+  @:uproperty private var NativeBindings : unreal.TArray<unreal.umg.UPropertyBinding>;
   #if WITH_EDITORONLY_DATA
   
   /**
     Stores the design time flag setting if the widget is expanded inside the designer
   **/
-  public var bExpandedInDesigner : Bool;
+  @:uproperty public var bExpandedInDesigner : Bool;
   
   /**
     Stores the design time flag setting if the widget is hidden inside the designer
   **/
-  public var bHiddenInDesigner : Bool;
+  @:uproperty public var bHiddenInDesigner : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -43,172 +43,182 @@ package unreal.umg;
     navigation rules for this widget in the widget designer.  Those rules determine how navigation transitions
     can occur between widgets.
   **/
-  public var Navigation : unreal.umg.UWidgetNavigation;
+  @:uproperty public var Navigation : unreal.umg.UWidgetNavigation;
   
   /**
     The render transform pivot controls the location about which transforms are applied.
     This value is a normalized coordinate about which things like rotations will occur.
   **/
-  public var RenderTransformPivot : unreal.FVector2D;
+  @:uproperty public var RenderTransformPivot : unreal.FVector2D;
   
   /**
     The render transform of the widget allows for arbitrary 2D transforms to be applied to the widget.
   **/
-  public var RenderTransform : unreal.umg.FWidgetTransform;
+  @:uproperty public var RenderTransform : unreal.umg.FWidgetTransform;
   
   /**
     The cursor to show when the mouse is over the widget
   **/
-  public var Cursor : unreal.EMouseCursor;
-  public var bOverride_Cursor : Bool;
+  @:uproperty public var Cursor : unreal.EMouseCursor;
+  @:uproperty public var bOverride_Cursor : Bool;
   
   /**
     The visibility of the widget
   **/
-  public var Visibility : unreal.umg.ESlateVisibility;
+  @:uproperty public var Visibility : unreal.umg.ESlateVisibility;
   
   /**
     The visibility of the widget
   **/
-  @:deprecated public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
+  @:deprecated @:uproperty public var Visiblity_DEPRECATED : unreal.umg.ESlateVisibility;
   
   /**
     Tooltip widget to show when the user hovers over the widget with the mouse
   **/
-  public var ToolTipWidget : unreal.umg.UWidget;
+  @:uproperty public var ToolTipWidget : unreal.umg.UWidget;
+  
+  /**
+    Tooltip text to show when the user hovers over the widget with the mouse
+  **/
+  @:uproperty public var ToolTipText : unreal.FText;
   
   /**
     Sets whether this widget can be modified interactively by the user
   **/
-  public var bIsEnabled : Bool;
+  @:uproperty public var bIsEnabled : Bool;
   
   /**
     The parent slot of the UWidget.  Allows us to easily inline edit the layout controlling this widget.
   **/
-  public var Slot : unreal.umg.UPanelSlot;
+  @:uproperty public var Slot : unreal.umg.UPanelSlot;
   
   /**
     Flag if the Widget was created from a blueprint
   **/
-  public var bCreatedByConstructionScript : Bool;
+  @:uproperty public var bCreatedByConstructionScript : Bool;
   
   /**
     Allows controls to be exposed as variables in a blueprint.  Not all controls need to be exposed
     as variables, so this allows only the most useful ones to end up being exposed.
   **/
-  public var bIsVariable : Bool;
-  @:final public function SetRenderTransform(InTransform : unreal.umg.FWidgetTransform) : Void;
-  @:final public function SetRenderScale(Scale : unreal.FVector2D) : Void;
-  @:final public function SetRenderShear(Shear : unreal.FVector2D) : Void;
-  @:final public function SetRenderAngle(Angle : unreal.Float32) : Void;
-  @:final public function SetRenderTranslation(Translation : unreal.FVector2D) : Void;
-  @:final public function SetRenderTransformPivot(Pivot : unreal.FVector2D) : Void;
+  @:uproperty public var bIsVariable : Bool;
+  @:ufunction @:final public function SetRenderTransform(InTransform : unreal.umg.FWidgetTransform) : Void;
+  @:ufunction @:final public function SetRenderScale(Scale : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetRenderShear(Shear : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetRenderAngle(Angle : unreal.Float32) : Void;
+  @:ufunction @:final public function SetRenderTranslation(Translation : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetRenderTransformPivot(Pivot : unreal.FVector2D) : Void;
   
   /**
     Gets the current enabled status of the widget
   **/
-  @:thisConst @:final public function GetIsEnabled() : Bool;
+  @:ufunction @:thisConst @:final public function GetIsEnabled() : Bool;
   
   /**
     Sets the current enabled status of the widget
   **/
-  public function SetIsEnabled(bInIsEnabled : Bool) : Void;
+  @:ufunction public function SetIsEnabled(bInIsEnabled : Bool) : Void;
+  
+  /**
+    Sets the tooltip text for the widget.
+  **/
+  @:ufunction @:final public function SetToolTipText(InToolTipText : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Sets a custom widget as the tooltip of the widget.
   **/
-  @:final public function SetToolTip(Widget : unreal.umg.UWidget) : Void;
+  @:ufunction @:final public function SetToolTip(Widget : unreal.umg.UWidget) : Void;
   
   /**
     Sets the cursor to show over the widget.
   **/
-  @:final public function SetCursor(InCursor : unreal.EMouseCursor) : Void;
+  @:ufunction @:final public function SetCursor(InCursor : unreal.EMouseCursor) : Void;
   
   /**
     Resets the cursor to use on the widget, removing any customization for it.
   **/
-  @:final public function ResetCursor() : Void;
+  @:ufunction @:final public function ResetCursor() : Void;
   
   /**
     @return true if the widget is Visible, HitTestInvisible or SelfHitTestInvisible.
   **/
-  @:thisConst @:final public function IsVisible() : Bool;
+  @:ufunction @:thisConst @:final public function IsVisible() : Bool;
   
   /**
     Gets the current visibility of the widget.
   **/
-  @:thisConst @:final public function GetVisibility() : unreal.umg.ESlateVisibility;
+  @:ufunction @:thisConst @:final public function GetVisibility() : unreal.umg.ESlateVisibility;
   
   /**
     Sets the visibility of the widget.
   **/
-  public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
+  @:ufunction public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
   
   /**
     Sets the forced volatility of the widget.
   **/
-  @:final public function ForceVolatile(bForce : Bool) : Void;
+  @:ufunction @:final public function ForceVolatile(bForce : Bool) : Void;
   
   /**
     @return true if the widget is currently being hovered by a pointer device
   **/
-  @:thisConst @:final public function IsHovered() : Bool;
+  @:ufunction @:thisConst @:final public function IsHovered() : Bool;
   
   /**
     Checks to see if this widget currently has the keyboard focus
     
     @return  True if this widget has keyboard focus
   **/
-  @:thisConst @:final public function HasKeyboardFocus() : Bool;
+  @:ufunction @:thisConst @:final public function HasKeyboardFocus() : Bool;
   
   /**
     Checks to see if this widget is the current mouse captor
     @return  True if this widget has captured the mouse
   **/
-  @:thisConst @:final public function HasMouseCapture() : Bool;
+  @:ufunction @:thisConst @:final public function HasMouseCapture() : Bool;
   
   /**
     Sets the focus to this widget.
   **/
-  @:final public function SetKeyboardFocus() : Void;
+  @:ufunction @:final public function SetKeyboardFocus() : Void;
   
   /**
     @return true if this widget is focused by a specific user.
   **/
-  @:thisConst @:final public function HasUserFocus(PlayerController : unreal.APlayerController) : Bool;
+  @:ufunction @:thisConst @:final public function HasUserFocus(PlayerController : unreal.APlayerController) : Bool;
   
   /**
     @return true if this widget is focused by any user.
   **/
-  @:thisConst @:final public function HasAnyUserFocus() : Bool;
+  @:ufunction @:thisConst @:final public function HasAnyUserFocus() : Bool;
   
   /**
     @return true if any descendant widget is focused by any user.
   **/
-  @:thisConst @:final public function HasFocusedDescendants() : Bool;
+  @:ufunction @:thisConst @:final public function HasFocusedDescendants() : Bool;
   
   /**
     @return true if any descendant widget is focused by a specific user.
   **/
-  @:thisConst @:final public function HasUserFocusedDescendants(PlayerController : unreal.APlayerController) : Bool;
+  @:ufunction @:thisConst @:final public function HasUserFocusedDescendants(PlayerController : unreal.APlayerController) : Bool;
   
   /**
     Sets the focus to this widget for a specific user
   **/
-  @:final public function SetUserFocus(PlayerController : unreal.APlayerController) : Void;
+  @:ufunction @:final public function SetUserFocus(PlayerController : unreal.APlayerController) : Void;
   
   /**
     Forces a pre-pass.  A pre-pass caches the desired size of the widget hierarchy owned by this widget.
     One pre-pass is already happens for every widget before Tick occurs.  You only need to perform another
     pre-pass if you are adding child widgets this frame and want them to immediately be visible this frame.
   **/
-  @:final public function ForceLayoutPrepass() : Void;
+  @:ufunction @:final public function ForceLayoutPrepass() : Void;
   
   /**
     Invalidates the widget from the view of a layout caching widget that may own this widget.
     will force the owning widget to redraw and cache children on the next paint pass.
   **/
-  @:final public function InvalidateLayoutAndVolatility() : Void;
+  @:ufunction @:final public function InvalidateLayoutAndVolatility() : Void;
   
   /**
     Gets the widgets desired size.
@@ -217,23 +227,23 @@ package unreal.umg;
     
     @return The widget's desired size
   **/
-  @:thisConst @:final public function GetDesiredSize() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetDesiredSize() : unreal.FVector2D;
   
   /**
     Gets the parent widget
   **/
-  @:thisConst @:final public function GetParent() : unreal.umg.UPanelWidget;
+  @:ufunction @:thisConst @:final public function GetParent() : unreal.umg.UPanelWidget;
   
   /**
     Removes the widget from its parent widget.  If this widget was added to the player's screen or the viewport
     it will also be removed from those containers.
   **/
-  public function RemoveFromParent() : Void;
+  @:ufunction public function RemoveFromParent() : Void;
   
   /**
     Gets the player controller associated with this UI.
     @return The player controller that owns the UI.
   **/
-  @:thisConst public function GetOwningPlayer() : unreal.APlayerController;
+  @:ufunction @:thisConst public function GetOwningPlayer() : unreal.APlayerController;
   
 }

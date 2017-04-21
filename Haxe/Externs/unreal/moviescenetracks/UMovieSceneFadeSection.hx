@@ -21,16 +21,16 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneFadeSection.h")
-@:uextern extern class UMovieSceneFadeSection extends unreal.moviescenetracks.UMovieSceneFloatSection {
+@:uextern @:uclass extern class UMovieSceneFadeSection extends unreal.moviescenetracks.UMovieSceneFloatSection {
   
   /**
     Fade audio.
   **/
-  public var bFadeAudio : Bool;
+  @:uproperty public var bFadeAudio : Bool;
   
   /**
     Fade color.
   **/
-  public var FadeColor : unreal.FLinearColor;
+  @:uproperty public var FadeColor : unreal.FLinearColor;
   
 }

@@ -21,6 +21,6 @@ package unreal.gamelivestreaming;
 **/
 @:umodule("GameLiveStreaming")
 @:glueCppIncludes("QueryLiveStreamsCallbackProxy.h")
-@:noClass @:uextern extern class UQueryLiveStreamsCallbackProxy extends unreal.UOnlineBlueprintCallProxyBase {
+@:noClass @:uextern @:uclass extern class UQueryLiveStreamsCallbackProxy extends unreal.UOnlineBlueprintCallProxyBase {
   
 }

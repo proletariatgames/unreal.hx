@@ -19,11 +19,16 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("AchievementBlueprintLibrary.h")
-@:uextern extern class UAchievementBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UAchievementBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     out
   **/
-  static public function GetCachedAchievementProgress(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Progress : unreal.Float32) : Void;
+  @:ufunction static public function GetCachedAchievementProgress(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Progress : unreal.Float32) : Void;
+  
+  /**
+    out
+  **/
+  @:ufunction static public function GetCachedAchievementDescription(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Title : unreal.PRef<unreal.FText>, LockedDescription : unreal.PRef<unreal.FText>, UnlockedDescription : unreal.PRef<unreal.FText>, bHidden : Bool) : Void;
   
 }

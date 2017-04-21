@@ -23,12 +23,12 @@ package unreal;
   @see ULevel
 **/
 @:glueCppIncludes("Components/ModelComponent.h")
-@:uextern extern class UModelComponent extends unreal.UPrimitiveComponent implements unreal.IInterface_CollisionDataProvider {
+@:uextern @:uclass extern class UModelComponent extends unreal.UPrimitiveComponent implements unreal.IInterface_CollisionDataProvider {
   
   /**
     Description of collision
   **/
-  public var ModelBodySetup : unreal.UBodySetup;
+  @:uproperty public var ModelBodySetup : unreal.UBodySetup;
   // Interface_CollisionDataProvider interface implementation
   
 }

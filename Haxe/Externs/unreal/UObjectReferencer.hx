@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/ObjectReferencer.h")
-@:noClass @:uextern extern class UObjectReferencer extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UObjectReferencer extends unreal.UObject {
   
   /**
     Array of objects being referenced.
   **/
-  public var ReferencedObjects : unreal.TArray<unreal.UObject>;
+  @:uproperty public var ReferencedObjects : unreal.TArray<unreal.UObject>;
   
 }

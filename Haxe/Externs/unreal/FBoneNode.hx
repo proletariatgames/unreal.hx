@@ -20,21 +20,21 @@ package unreal;
   Each Bone node in BoneTree
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:noCopy @:noEquals @:uextern extern class FBoneNode {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBoneNode {
   
   /**
     Retargeting Mode for Translation Component.
   **/
-  public var TranslationRetargetingMode : unreal.EBoneTranslationRetargetingMode;
+  @:uproperty public var TranslationRetargetingMode : unreal.EBoneTranslationRetargetingMode;
   
   /**
     Parent Index. -1 if not used. The root has 0 as its parent. Do not delete the element but set this to -1. If it is revived by other reason, fix up this link.
   **/
-  @:deprecated public var ParentIndex_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var ParentIndex_DEPRECATED : unreal.Int32;
   
   /**
     Name of bone, this is the search criteria to match with mesh bone. This will be NAME_None if deleted.
   **/
-  @:deprecated public var Name_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var Name_DEPRECATED : unreal.FName;
   
 }

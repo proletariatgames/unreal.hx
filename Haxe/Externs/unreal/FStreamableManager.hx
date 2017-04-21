@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/StreamableManager.h")
-@:uextern extern class FStreamableManager {
+@:uextern @:ustruct extern class FStreamableManager {
   
 }

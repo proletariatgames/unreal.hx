@@ -21,11 +21,11 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraEventGeneratorProperties extends unreal.niagara.FNiagaraDataSetProperties {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEventGeneratorProperties extends unreal.niagara.FNiagaraDataSetProperties {
   
   /**
     Max Number of Events that can be generated per frame.
   **/
-  public var MaxEventsPerFrame : unreal.Int32;
+  @:uproperty public var MaxEventsPerFrame : unreal.Int32;
   
 }

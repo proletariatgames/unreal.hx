@@ -21,7 +21,7 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("AnimationCompressionPanel.h")
-@:noClass @:uextern extern class UCompressionHolder extends unreal.UObject {
-  public var Compression : unreal.UAnimCompress;
+@:noClass @:uextern @:uclass extern class UCompressionHolder extends unreal.UObject {
+  @:uproperty public var Compression : unreal.UAnimCompress;
   
 }

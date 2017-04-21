@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ENetRole")
-@:uextern extern enum ENetRole {
+@:uextern @:uenum extern enum ENetRole {
   
   /**
     No role at all.

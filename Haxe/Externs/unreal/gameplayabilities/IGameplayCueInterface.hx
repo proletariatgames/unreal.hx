@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueInterface.h")
-@:uextern extern interface IGameplayCueInterface {
+@:uextern @:uclass extern interface IGameplayCueInterface {
   
 }

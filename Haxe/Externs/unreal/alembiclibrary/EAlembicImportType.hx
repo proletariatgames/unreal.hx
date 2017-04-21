@@ -20,7 +20,7 @@ package unreal.alembiclibrary;
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:uname("EAlembicImportType")
-@:class @:uextern extern enum EAlembicImportType {
+@:class @:uextern @:uenum extern enum EAlembicImportType {
   
   /**
     Imports only the first frame as one or multiple static meshes

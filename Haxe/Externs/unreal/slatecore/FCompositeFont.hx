@@ -15,16 +15,16 @@ package unreal.slatecore;
 
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
-@:uextern extern class FCompositeFont {
+@:uextern @:ustruct extern class FCompositeFont {
   
   /**
     Sub-typefaces to use for a specific set of characters
   **/
-  public var SubTypefaces : unreal.TArray<unreal.slatecore.FCompositeSubFont>;
+  @:uproperty public var SubTypefaces : unreal.TArray<unreal.slatecore.FCompositeSubFont>;
   
   /**
     The default typeface that will be used when not overridden by a sub-typeface
   **/
-  public var DefaultTypeface : unreal.slatecore.FTypeface;
+  @:uproperty public var DefaultTypeface : unreal.slatecore.FTypeface;
   
 }

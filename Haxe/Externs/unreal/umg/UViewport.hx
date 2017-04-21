@@ -15,13 +15,13 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UViewport extends unreal.umg.UContentWidget {
-  public var BackgroundColor : unreal.FLinearColor;
-  @:thisConst @:final public function GetViewportWorld() : unreal.UWorld;
-  @:thisConst @:final public function GetViewLocation() : unreal.FVector;
-  @:final public function SetViewLocation(Location : unreal.FVector) : Void;
-  @:thisConst @:final public function GetViewRotation() : unreal.FRotator;
-  @:final public function SetViewRotation(Rotation : unreal.FRotator) : Void;
-  @:final public function Spawn(ActorClass : unreal.TSubclassOf<unreal.AActor>) : unreal.AActor;
+@:uextern @:uclass extern class UViewport extends unreal.umg.UContentWidget {
+  @:uproperty public var BackgroundColor : unreal.FLinearColor;
+  @:ufunction @:thisConst @:final public function GetViewportWorld() : unreal.UWorld;
+  @:ufunction @:thisConst @:final public function GetViewLocation() : unreal.FVector;
+  @:ufunction @:final public function SetViewLocation(Location : unreal.FVector) : Void;
+  @:ufunction @:thisConst @:final public function GetViewRotation() : unreal.FRotator;
+  @:ufunction @:final public function SetViewRotation(Rotation : unreal.FRotator) : Void;
+  @:ufunction @:final public function Spawn(ActorClass : unreal.TSubclassOf<unreal.AActor>) : unreal.AActor;
   
 }

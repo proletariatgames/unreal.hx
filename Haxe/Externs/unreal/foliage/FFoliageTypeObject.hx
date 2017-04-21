@@ -19,6 +19,6 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageTypeObject.h")
-@:uextern extern class FFoliageTypeObject {
+@:uextern @:ustruct extern class FFoliageTypeObject {
   
 }

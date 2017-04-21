@@ -21,6 +21,6 @@ package unreal.speedtreeimporter;
 **/
 @:umodule("SpeedTreeImporter")
 @:glueCppIncludes("ReimportSpeedTreeFactory.h")
-@:noClass @:uextern extern class UReimportSpeedTreeFactory extends unreal.speedtreeimporter.USpeedTreeImportFactory {
+@:noClass @:uextern @:uclass extern class UReimportSpeedTreeFactory extends unreal.speedtreeimporter.USpeedTreeImportFactory {
   
 }

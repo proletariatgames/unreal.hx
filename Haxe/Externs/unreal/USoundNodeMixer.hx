@@ -20,11 +20,11 @@ package unreal;
   Defines how concurrent sounds are mixed together
 **/
 @:glueCppIncludes("Sound/SoundNodeMixer.h")
-@:uextern extern class USoundNodeMixer extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeMixer extends unreal.USoundNode {
   
   /**
     A volume for each input.  Automatically sized.
   **/
-  public var InputVolume : unreal.TArray<unreal.Float32>;
+  @:uproperty public var InputVolume : unreal.TArray<unreal.Float32>;
   
 }

@@ -21,16 +21,16 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequencePlayer.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequenceSnapshotSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceSnapshotSettings {
   
   /**
     Playback framerate
   **/
-  public var FrameRate : unreal.Float32;
+  @:uproperty public var FrameRate : unreal.Float32;
   
   /**
     Zero pad frames
   **/
-  public var ZeroPadAmount : unreal.UInt8;
+  @:uproperty public var ZeroPadAmount : unreal.UInt8;
   
 }

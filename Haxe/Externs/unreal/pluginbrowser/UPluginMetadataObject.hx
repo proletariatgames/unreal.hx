@@ -21,69 +21,69 @@ package unreal.pluginbrowser;
 **/
 @:umodule("PluginBrowser")
 @:glueCppIncludes("Private/PluginMetadataObject.h")
-@:noClass @:uextern extern class UPluginMetadataObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPluginMetadataObject extends unreal.UObject {
   
   /**
     Marks the plugin as beta in the UI
   **/
-  public var bIsBetaVersion : Bool;
+  @:uproperty public var bIsBetaVersion : Bool;
   
   /**
     Can this plugin contain content?
   **/
-  public var bCanContainContent : Bool;
+  @:uproperty public var bCanContainContent : Bool;
   
   /**
     Support URL/email for this plugin. Email addresses must be prefixed with 'mailto:'
   **/
-  public var SupportURL : unreal.FString;
+  @:uproperty public var SupportURL : unreal.FString;
   
   /**
     Marketplace URL string.
   **/
-  public var MarketplaceURL : unreal.FString;
+  @:uproperty public var MarketplaceURL : unreal.FString;
   
   /**
     Documentation URL string.
   **/
-  public var DocsURL : unreal.FString;
+  @:uproperty public var DocsURL : unreal.FString;
   
   /**
     Hyperlink URL string for the company or individual who created this plugin.  This is optional.
   **/
-  public var CreatedByURL : unreal.FString;
+  @:uproperty public var CreatedByURL : unreal.FString;
   
   /**
     The company or individual who created this plugin.  This is an optional field that may be displayed in the user interface.
   **/
-  public var CreatedBy : unreal.FString;
+  @:uproperty public var CreatedBy : unreal.FString;
   
   /**
     The category that this plugin belongs to
   **/
-  public var Category : unreal.FString;
+  @:uproperty public var Category : unreal.FString;
   
   /**
     Description of the plugin
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
   /**
     Friendly name of the plugin
   **/
-  public var FriendlyName : unreal.FString;
+  @:uproperty public var FriendlyName : unreal.FString;
   
   /**
     Name of the version for this plugin.  This is the front-facing part of the version number.  It doesn't need to match
           the version number numerically, but should be updated when the version number is increased accordingly.
   **/
-  public var VersionName : unreal.FString;
+  @:uproperty public var VersionName : unreal.FString;
   
   /**
     Version number for the plugin.  The version number must increase with every version of the plugin, so that the system
           can determine whether one version of a plugin is newer than another, or to enforce other requirements.  This version
           number is not displayed in front-facing UI.  Use the VersionName for that.
   **/
-  public var Version : unreal.Int32;
+  @:uproperty public var Version : unreal.Int32;
   
 }

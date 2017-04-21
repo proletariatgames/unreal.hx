@@ -22,28 +22,28 @@ package unreal;
   This only contains composite section information. (vertical sequences)
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:noCopy @:noEquals @:uextern extern class FCompositeSection extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCompositeSection extends unreal.FAnimLinkableElement {
   
   /**
     Meta data that can be saved with the asset
     
     You can query by GetMetaData function
   **/
-  public var MetaData : unreal.TArray<unreal.UAnimMetaData>;
+  @:uproperty public var MetaData : unreal.TArray<unreal.UAnimMetaData>;
   
   /**
     Should this animation loop.
   **/
-  public var NextSectionName : unreal.FName;
+  @:uproperty public var NextSectionName : unreal.FName;
   
   /**
     Start Time *
   **/
-  @:deprecated public var StartTime_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var StartTime_DEPRECATED : unreal.Float32;
   
   /**
     Section Name
   **/
-  public var SectionName : unreal.FName;
+  @:uproperty public var SectionName : unreal.FName;
   
 }

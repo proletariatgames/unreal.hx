@@ -19,7 +19,7 @@ package unreal;
   PlayerStates are replicated to all clients, and contain network game relevant information about the player, such as playername, score, etc.
 **/
 @:glueCppIncludes("GameFramework/PlayerState.h")
-@:uextern extern class APlayerState extends unreal.AInfo {
+@:uextern @:uclass extern class APlayerState extends unreal.AInfo {
   
   /**
     The id used by the network to uniquely identify a player.
@@ -27,90 +27,90 @@ package unreal;
     and opaque in meaning (ie it might mean date/time followed by something else).
     It is OK to use and pass around this property, though.
   **/
-  public var UniqueId : unreal.FUniqueNetIdRepl;
+  @:uproperty public var UniqueId : unreal.FUniqueNetIdRepl;
   
   /**
     Used to match up InactivePlayerState with rejoining playercontroller.
   **/
-  public var SavedNetworkAddress : unreal.FString;
+  @:uproperty public var SavedNetworkAddress : unreal.FString;
   
   /**
     This is used for sending game agnostic messages that can be localized
   **/
-  public var EngineMessageClass : unreal.TSubclassOf<unreal.ULocalMessage>;
+  @:uproperty public var EngineMessageClass : unreal.TSubclassOf<unreal.ULocalMessage>;
   
   /**
     Elapsed time on server when this PlayerState was first created.
   **/
-  public var StartTime : unreal.Int32;
+  @:uproperty public var StartTime : unreal.Int32;
   
   /**
     indicates this is a PlayerState from the previous level of a seamless travel,
     waiting for the player to finish the transition before creating a new one
     this is used to avoid preserving the PlayerState in the InactivePlayerArray if the player leaves
   **/
-  public var bFromPreviousLevel : Bool;
+  @:uproperty public var bFromPreviousLevel : Bool;
   
   /**
     Means this PlayerState came from the GameMode's InactivePlayerArray
   **/
-  public var bIsInactive : Bool;
+  @:uproperty public var bIsInactive : Bool;
   
   /**
     True if this PlayerState is associated with an AIController
   **/
-  public var bIsABot : Bool;
+  @:uproperty public var bIsABot : Bool;
   
   /**
     Whether this player can only ever be a spectator
   **/
-  public var bOnlySpectator : Bool;
+  @:uproperty public var bOnlySpectator : Bool;
   
   /**
     Whether this player is currently a spectator
   **/
-  public var bIsSpectator : Bool;
+  @:uproperty public var bIsSpectator : Bool;
   
   /**
     Unique net id number. Actual value varies based on current online subsystem, use it only as a guaranteed unique number per player.
   **/
-  public var PlayerId : unreal.Int32;
+  @:uproperty public var PlayerId : unreal.Int32;
   
   /**
     Player name, or blank if none.
   **/
-  public var PlayerName : unreal.FString;
+  @:uproperty public var PlayerName : unreal.FString;
   
   /**
     Replicated compressed ping for this player (holds ping in msec divided by 4)
   **/
-  public var Ping : unreal.UInt8;
+  @:uproperty public var Ping : unreal.UInt8;
   
   /**
     Player's current score.
   **/
-  public var Score : unreal.Float32;
+  @:uproperty public var Score : unreal.Float32;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_Score() : Void;
-  public function OnRep_PlayerName() : Void;
-  public function OnRep_bIsInactive() : Void;
-  public function OnRep_UniqueId() : Void;
+  @:ufunction public function OnRep_Score() : Void;
+  @:ufunction public function OnRep_PlayerName() : Void;
+  @:ufunction public function OnRep_bIsInactive() : Void;
+  @:ufunction public function OnRep_UniqueId() : Void;
   
   /**
     * Can be implemented in Blueprint Child to move more properties from old to new PlayerState when reconnecting
     *
     * @param OldPlayerState         Old PlayerState, which we use to fill the new one with
   **/
-  private function ReceiveOverrideWith(OldPlayerState : unreal.APlayerState) : Void;
+  @:ufunction private function ReceiveOverrideWith(OldPlayerState : unreal.APlayerState) : Void;
   
   /**
     * Can be implemented in Blueprint Child to move more properties from old to new PlayerState when traveling to a new level
     *
     * @param NewPlayerState         New PlayerState, which we fill with the current properties
   **/
-  private function ReceiveCopyProperties(NewPlayerState : unreal.APlayerState) : Void;
+  @:ufunction private function ReceiveCopyProperties(NewPlayerState : unreal.APlayerState) : Void;
   
 }

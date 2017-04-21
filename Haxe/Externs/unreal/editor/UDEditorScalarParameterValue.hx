@@ -15,7 +15,7 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/DEditorScalarParameterValue.h")
-@:uextern extern class UDEditorScalarParameterValue extends unreal.editor.UDEditorParameterValue {
-  public var ParameterValue : unreal.Float32;
+@:uextern @:uclass extern class UDEditorScalarParameterValue extends unreal.editor.UDEditorParameterValue {
+  @:uproperty public var ParameterValue : unreal.Float32;
   
 }

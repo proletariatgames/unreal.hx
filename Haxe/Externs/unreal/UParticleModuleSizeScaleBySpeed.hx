@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Size/ParticleModuleSizeScaleBySpeed.h")
-@:noClass @:uextern extern class UParticleModuleSizeScaleBySpeed extends unreal.UParticleModuleSizeBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleSizeScaleBySpeed extends unreal.UParticleModuleSizeBase {
   
   /**
     The maximum amount by which to scale a particle in each dimension.
   **/
-  public var MaxScale : unreal.FVector2D;
+  @:uproperty public var MaxScale : unreal.FVector2D;
   
   /**
     By how much speed affects the size of the particle in each dimension.
   **/
-  public var SpeedScale : unreal.FVector2D;
+  @:uproperty public var SpeedScale : unreal.FVector2D;
   
 }

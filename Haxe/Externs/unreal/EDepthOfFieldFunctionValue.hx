@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDepthOfFieldFunction.h")
 @:uname("EDepthOfFieldFunctionValue")
-@:uextern extern enum EDepthOfFieldFunctionValue {
+@:uextern @:uenum extern enum EDepthOfFieldFunctionValue {
   
   /**
     0:in Focus .. 1:Near or Far.

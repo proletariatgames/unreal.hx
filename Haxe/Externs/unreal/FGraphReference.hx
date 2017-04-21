@@ -14,21 +14,21 @@
 package unreal;
 
 @:glueCppIncludes("EdGraph/EdGraph.h")
-@:uextern extern class FGraphReference {
+@:uextern @:ustruct extern class FGraphReference {
   
   /**
     The graph GUID so we can refind it if it has been renamed
   **/
-  private var GraphGuid : unreal.FGuid;
+  @:uproperty private var GraphGuid : unreal.FGuid;
   
   /**
     The blueprint the graph is contained within
   **/
-  private var GraphBlueprint : unreal.UBlueprint;
+  @:uproperty private var GraphBlueprint : unreal.UBlueprint;
   
   /**
     Reference to the actual graph
   **/
-  private var MacroGraph : unreal.UEdGraph;
+  @:uproperty private var MacroGraph : unreal.UEdGraph;
   
 }

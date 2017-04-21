@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Engine/ComponentDelegateBinding.h")
-@:uextern extern class UComponentDelegateBinding extends unreal.UDynamicBlueprintBinding {
-  public var ComponentDelegateBindings : unreal.TArray<unreal.FBlueprintComponentDelegateBinding>;
+@:uextern @:uclass extern class UComponentDelegateBinding extends unreal.UDynamicBlueprintBinding {
+  @:uproperty public var ComponentDelegateBindings : unreal.TArray<unreal.FBlueprintComponentDelegateBinding>;
   
 }

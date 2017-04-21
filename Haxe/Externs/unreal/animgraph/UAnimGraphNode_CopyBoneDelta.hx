@@ -21,7 +21,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_CopyBoneDelta.h")
-@:uextern extern class UAnimGraphNode_CopyBoneDelta extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_CopyBoneDelta;
+@:uextern @:uclass extern class UAnimGraphNode_CopyBoneDelta extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_CopyBoneDelta;
   
 }

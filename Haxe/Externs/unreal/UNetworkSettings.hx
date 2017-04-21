@@ -18,16 +18,16 @@ package unreal;
   Network settings.
 **/
 @:glueCppIncludes("Engine/NetworkSettings.h")
-@:uextern extern class UNetworkSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UNetworkSettings extends unreal.UDeveloperSettings {
   
   /**
     If true, origin rebasing is enabled in multiplayer games, meaning that servers and clients can have different local world origins.
   **/
-  public var bEnableMultiplayerWorldOriginRebasing : Bool;
+  @:uproperty public var bEnableMultiplayerWorldOriginRebasing : Bool;
   
   /**
     If true, libcurl authenticates the peer's certificate. Disable to allow self-signed certificates.
   **/
-  public var bVerifyPeer : Bool;
+  @:uproperty public var bVerifyPeer : Bool;
   
 }

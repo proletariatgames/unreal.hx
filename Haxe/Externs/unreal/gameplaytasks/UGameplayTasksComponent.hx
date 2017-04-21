@@ -19,19 +19,19 @@ package unreal.gameplaytasks;
 **/
 @:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTasksComponent.h")
-@:uextern extern class UGameplayTasksComponent extends unreal.UActorComponent implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
+@:uextern @:uclass extern class UGameplayTasksComponent extends unreal.UActorComponent implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
   
   /**
     Array of currently active UGameplayTask that require ticking
   **/
-  private var TickingTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
-  private var TaskPriorityQueue : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
+  @:uproperty private var TickingTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
+  @:uproperty private var TaskPriorityQueue : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
   
   /**
     Tasks that run on simulated proxies
   **/
-  private var SimulatedTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
-  @:final public function OnRep_SimulatedTasks() : Void;
+  @:uproperty private var SimulatedTasks : unreal.TArray<unreal.gameplaytasks.UGameplayTask>;
+  @:ufunction @:final public function OnRep_SimulatedTasks() : Void;
   // GameplayTaskOwnerInterface interface implementation
   
 }

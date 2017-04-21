@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstProperty.h")
-@:noClass @:uextern extern class UInterpTrackInstProperty extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstProperty extends unreal.UInterpTrackInst {
   
   /**
     Pointer to the UObject instance that is the outer of the color property we are interpolating on, this is used to process the property update callback.
   **/
-  public var PropertyOuterObjectInst : unreal.UObject;
+  @:uproperty public var PropertyOuterObjectInst : unreal.UObject;
   
   /**
     Function to call after updating the value of the color property.
   **/
-  public var InterpProperty : unreal.UProperty;
+  @:uproperty public var InterpProperty : unreal.UProperty;
   
 }

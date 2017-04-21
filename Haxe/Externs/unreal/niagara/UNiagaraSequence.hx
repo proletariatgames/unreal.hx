@@ -21,11 +21,11 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraSequence.h")
-@:uextern extern class UNiagaraSequence extends unreal.moviescene.UMovieSceneSequence {
+@:uextern @:uclass extern class UNiagaraSequence extends unreal.moviescene.UMovieSceneSequence {
   
   /**
     Pointer to the movie scene that controls this sequence.
   **/
-  public var MovieScene : unreal.moviescene.UMovieScene;
+  @:uproperty public var MovieScene : unreal.moviescene.UMovieScene;
   
 }

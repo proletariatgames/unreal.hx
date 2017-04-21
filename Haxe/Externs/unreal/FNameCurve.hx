@@ -18,11 +18,11 @@ package unreal;
   Implements a curve of FNames.
 **/
 @:glueCppIncludes("Curves/NameCurve.h")
-@:uextern extern class FNameCurve extends unreal.FIndexedCurve {
+@:uextern @:ustruct extern class FNameCurve extends unreal.FIndexedCurve {
   
   /**
     Sorted array of keys
   **/
-  public var Keys : unreal.TArray<unreal.FNameCurveKey>;
+  @:uproperty public var Keys : unreal.TArray<unreal.FNameCurveKey>;
   
 }

@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationOverLifetime.h")
-@:uextern extern class UParticleModuleAccelerationOverLifetime extends unreal.UParticleModuleAccelerationBase {
+@:uextern @:uclass extern class UParticleModuleAccelerationOverLifetime extends unreal.UParticleModuleAccelerationBase {
   
   /**
     The acceleration of the particle over its lifetime.
@@ -30,6 +30,6 @@ package unreal;
             velocity += acceleration* DeltaTime
     where DeltaTime is the time passed since the last frame.
   **/
-  public var AccelOverLife : unreal.FRawDistributionVector;
+  @:uproperty public var AccelOverLife : unreal.FRawDistributionVector;
   
 }

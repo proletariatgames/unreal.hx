@@ -20,7 +20,7 @@ package unreal;
   Also it contains curve types
 **/
 @:glueCppIncludes("Animation/AnimCurveTypes.h")
-@:uextern extern class FAnimCurveParam {
-  public var Name : unreal.FName;
+@:uextern @:ustruct extern class FAnimCurveParam {
+  @:uproperty public var Name : unreal.FName;
   
 }

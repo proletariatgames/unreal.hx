@@ -14,32 +14,32 @@
 package unreal;
 
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FHierarchicalSimplification {
+@:uextern @:ustruct extern class FHierarchicalSimplification {
   
   /**
     Min number of actors to build LODActor
   **/
-  public var MinNumberOfActorsToBuild : unreal.Int32;
+  @:uproperty public var MinNumberOfActorsToBuild : unreal.Int32;
   
   /**
     Desired Filling Percentage for clustering - this is not guaranteed but used to calculate filling factor  for auto clustering
   **/
-  public var DesiredFillingPercentage : unreal.Float32;
+  @:uproperty public var DesiredFillingPercentage : unreal.Float32;
   
   /**
     Desired Bounding Radius for clustering - this is not guaranteed but used to calculate filling factor for auto clustering
   **/
-  public var DesiredBoundRadius : unreal.Float32;
+  @:uproperty public var DesiredBoundRadius : unreal.Float32;
   
   /**
     Merge Mesh Setting if bSimplifyMesh is false
   **/
-  public var MergeSetting : unreal.FMeshMergingSettings;
+  @:uproperty public var MergeSetting : unreal.FMeshMergingSettings;
   
   /**
     Simplification Setting if bSimplifyMesh is true
   **/
-  public var ProxySetting : unreal.FMeshProxySettings;
+  @:uproperty public var ProxySetting : unreal.FMeshProxySettings;
   
   /**
     If this is true, it will simplify mesh but it is slower.
@@ -47,11 +47,11 @@ package unreal;
     For example if you build LOD 1, it will use LOD 1 of the mesh to merge actors if exists.
     If you merge material, it will reduce drawcalls.
   **/
-  public var bSimplifyMesh : Bool;
+  @:uproperty public var bSimplifyMesh : Bool;
   
   /**
     The screen radius an mesh object should reach before swapping to the LOD actor, once one of parent displays, it won't draw any of children.
   **/
-  public var TransitionScreenSize : unreal.Float32;
+  @:uproperty public var TransitionScreenSize : unreal.Float32;
   
 }

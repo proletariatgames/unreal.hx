@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAcceleration.h")
-@:uextern extern class UParticleModuleAcceleration extends unreal.UParticleModuleAccelerationBase {
+@:uextern @:uclass extern class UParticleModuleAcceleration extends unreal.UParticleModuleAccelerationBase {
   
   /**
     If true, then apply the particle system components scale
     to the acceleration value.
   **/
-  public var bApplyOwnerScale : Bool;
+  @:uproperty public var bApplyOwnerScale : Bool;
   
   /**
     The initial acceleration of the particle.
@@ -36,6 +36,6 @@ package unreal;
             velocity += acceleration * DeltaTime
     where DeltaTime is the time passed since the last frame.
   **/
-  public var Acceleration : unreal.FRawDistributionVector;
+  @:uproperty public var Acceleration : unreal.FRawDistributionVector;
   
 }

@@ -20,7 +20,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
 @:uname("ESlateSizeRule.Type")
-@:uextern extern enum ESlateSizeRule {
+@:uextern @:uenum extern enum ESlateSizeRule {
   
   /**
     Only requests as much room as it needs based on the widgets desired size.

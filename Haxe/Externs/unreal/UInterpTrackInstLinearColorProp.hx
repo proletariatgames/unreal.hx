@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstLinearColorProp.h")
-@:noClass @:uextern extern class UInterpTrackInstLinearColorProp extends unreal.UInterpTrackInstProperty {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstLinearColorProp extends unreal.UInterpTrackInstProperty {
   
   /**
     Saved value for restoring state when exiting Matinee.
   **/
-  public var ResetColor : unreal.FLinearColor;
+  @:uproperty public var ResetColor : unreal.FLinearColor;
   
 }

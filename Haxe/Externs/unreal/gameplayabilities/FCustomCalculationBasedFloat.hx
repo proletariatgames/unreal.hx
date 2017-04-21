@@ -21,22 +21,22 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FCustomCalculationBasedFloat {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCustomCalculationBasedFloat {
   
   /**
     Additive value to the attribute calculation, added in after the coefficient applies
   **/
-  public var PostMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var PostMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Additive value to the attribute calculation, added in before the coefficient applies
   **/
-  public var PreMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var PreMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Coefficient to the custom calculation
   **/
-  public var Coefficient : unreal.gameplayabilities.FScalableFloat;
-  public var CalculationClassMagnitude : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayModMagnitudeCalculation>;
+  @:uproperty public var Coefficient : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var CalculationClassMagnitude : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayModMagnitudeCalculation>;
   
 }

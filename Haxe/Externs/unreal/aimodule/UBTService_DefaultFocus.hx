@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Services/BTService_DefaultFocus.h")
-@:uextern extern class UBTService_DefaultFocus extends unreal.aimodule.UBTService_BlackboardBase {
+@:uextern @:uclass extern class UBTService_DefaultFocus extends unreal.aimodule.UBTService_BlackboardBase {
   
   /**
     not exposed to users on purpose. Here to make reusing focus-setting mechanics by derived classes possible
   **/
-  private var FocusPriority : unreal.UInt8;
+  @:uproperty private var FocusPriority : unreal.UInt8;
   
 }

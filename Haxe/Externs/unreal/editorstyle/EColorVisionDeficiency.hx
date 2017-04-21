@@ -20,7 +20,7 @@ package unreal.editorstyle;
 @:umodule("EditorStyle")
 @:glueCppIncludes("Classes/EditorStyleSettings.h")
 @:uname("EColorVisionDeficiency")
-@:uextern extern enum EColorVisionDeficiency {
+@:uextern @:uenum extern enum EColorVisionDeficiency {
   
   /**
     Normal Vision

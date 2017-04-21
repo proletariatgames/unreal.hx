@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/Brush.h")
 @:uname("EBrushType")
-@:uextern extern enum EBrushType {
+@:uextern @:uenum extern enum EBrushType {
   
   /**
     Default/builder brush.

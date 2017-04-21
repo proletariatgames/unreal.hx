@@ -20,16 +20,16 @@ package unreal;
   This defines one asset mapping
 **/
 @:glueCppIncludes("Animation/AssetMappingTable.h")
-@:noCopy @:noEquals @:uextern extern class FAssetMapping {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAssetMapping {
   
   /**
     source asset *
   **/
-  public var TargetAsset : unreal.UAnimationAsset;
+  @:uproperty public var TargetAsset : unreal.UAnimationAsset;
   
   /**
     source asset *
   **/
-  public var SourceAsset : unreal.UAnimationAsset;
+  @:uproperty public var SourceAsset : unreal.UAnimationAsset;
   
 }

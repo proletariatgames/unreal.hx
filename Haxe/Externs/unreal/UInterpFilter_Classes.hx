@@ -20,19 +20,19 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpFilter_Classes.h")
-@:noClass @:uextern extern class UInterpFilter_Classes extends unreal.UInterpFilter {
+@:noClass @:uextern @:uclass extern class UInterpFilter_Classes extends unreal.UInterpFilter {
   #if WITH_EDITORONLY_DATA
   
   /**
     List of allowed track classes.  If empty, then all track classes will be included.  Only groups that
                   contain at least one of these types of tracks will be displayed.
   **/
-  public var TrackClasses : unreal.TArray<unreal.TSubclassOf<unreal.UObject>>;
+  @:uproperty public var TrackClasses : unreal.TArray<unreal.TSubclassOf<unreal.UObject>>;
   
   /**
     Which class to filter groups by.
   **/
-  public var ClassToFilterBy : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var ClassToFilterBy : unreal.TSubclassOf<unreal.UObject>;
   #end // WITH_EDITORONLY_DATA
   
 }

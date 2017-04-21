@@ -21,13 +21,13 @@ package unreal.moviescene;
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneSpawnable.h")
-@:noCopy @:noEquals @:uextern extern class FMovieSceneSpawnable {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSpawnable {
   #if WITH_EDITORONLY_DATA
   
   /**
     Deprecated generated class
   **/
-  @:deprecated public var GeneratedClass_DEPRECATED : unreal.UClass;
+  @:deprecated @:uproperty public var GeneratedClass_DEPRECATED : unreal.UClass;
   #end // WITH_EDITORONLY_DATA
   
 }

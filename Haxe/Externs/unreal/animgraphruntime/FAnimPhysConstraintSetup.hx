@@ -21,78 +21,78 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
-@:noCopy @:noEquals @:uextern extern class FAnimPhysConstraintSetup {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimPhysConstraintSetup {
   
   /**
     If all axes are locked we can use 3 linear limits instead of the 6 needed for limited axes
   **/
-  public var bLinearFullyLocked : Bool;
+  @:uproperty public var bLinearFullyLocked : Bool;
   
   /**
     Target direction to face for body1 (in body0 local space)
   **/
-  public var AngularTarget : unreal.FVector;
+  @:uproperty public var AngularTarget : unreal.FVector;
   
   /**
     Axis on body1 to match to the angular target direction.
   **/
-  public var AngularTargetAxis : unreal.AnimPhysTwistAxis;
-  public var AngularLimitsMax : unreal.FVector;
-  public var AngularLimitsMin : unreal.FVector;
+  @:uproperty public var AngularTargetAxis : unreal.AnimPhysTwistAxis;
+  @:uproperty public var AngularLimitsMax : unreal.FVector;
+  @:uproperty public var AngularLimitsMin : unreal.FVector;
   
   /**
     Z-axis limit for angular motion when using the "Angular" constraint type (Set to 0 to lock, or 180 to remain free)
   **/
-  @:deprecated public var AngularZAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularZAngle_DEPRECATED : unreal.Float32;
   
   /**
     Y-axis limit for angular motion when using the "Angular" constraint type (Set to 0 to lock, or 180 to remain free)
   **/
-  @:deprecated public var AngularYAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularYAngle_DEPRECATED : unreal.Float32;
   
   /**
     X-axis limit for angular motion when using the "Angular" constraint type (Set to 0 to lock, or 180 to remain free)
   **/
-  @:deprecated public var AngularXAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var AngularXAngle_DEPRECATED : unreal.Float32;
   
   /**
     Angle to use when constraining using a cone
   **/
-  public var ConeAngle : unreal.Float32;
+  @:uproperty public var ConeAngle : unreal.Float32;
   
   /**
     Axis to consider for twist when constraining angular motion (forward axis)
   **/
-  public var TwistAxis : unreal.AnimPhysTwistAxis;
+  @:uproperty public var TwistAxis : unreal.AnimPhysTwistAxis;
   
   /**
     Method to use when constraining angular motion
   **/
-  public var AngularConstraintType : unreal.animgraphruntime.AnimPhysAngularConstraintType;
+  @:uproperty public var AngularConstraintType : unreal.animgraphruntime.AnimPhysAngularConstraintType;
   
   /**
     Maximum linear movement per-axis (Set zero here and in the min limit to lock)
   **/
-  public var LinearAxesMax : unreal.FVector;
+  @:uproperty public var LinearAxesMax : unreal.FVector;
   
   /**
     Minimum linear movement per-axis (Set zero here and in the max limit to lock)
   **/
-  public var LinearAxesMin : unreal.FVector;
+  @:uproperty public var LinearAxesMin : unreal.FVector;
   
   /**
     Whether to limit the linear Z axis
   **/
-  public var LinearZLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
+  @:uproperty public var LinearZLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
   
   /**
     Whether to limit the linear Y axis
   **/
-  public var LinearYLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
+  @:uproperty public var LinearYLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
   
   /**
     Whether to limit the linear X axis
   **/
-  public var LinearXLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
+  @:uproperty public var LinearXLimitType : unreal.animgraphruntime.AnimPhysLinearConstraintType;
   
 }

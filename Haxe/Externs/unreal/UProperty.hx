@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UProperty extends unreal.UField {
+@:uextern @:uclass extern class UProperty extends unreal.UField {
   
 }

@@ -22,16 +22,16 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
-@:uextern extern class UEditableGameplayTagQuery extends unreal.UObject {
+@:uextern @:uclass extern class UEditableGameplayTagQuery extends unreal.UObject {
   
   /**
     The base expression of this query.
   **/
-  public var RootExpression : unreal.gameplaytags.UEditableGameplayTagQueryExpression;
+  @:uproperty public var RootExpression : unreal.gameplaytags.UEditableGameplayTagQueryExpression;
   
   /**
     User-supplied description, shown in property details. Auto-generated description is shown if not supplied.
   **/
-  public var UserDescription : unreal.FString;
+  @:uproperty public var UserDescription : unreal.FString;
   
 }

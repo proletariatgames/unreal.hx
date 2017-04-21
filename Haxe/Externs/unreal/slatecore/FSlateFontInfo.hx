@@ -19,31 +19,31 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/SlateFontInfo.h")
-@:uextern extern class FSlateFontInfo {
+@:uextern @:ustruct extern class FSlateFontInfo {
   
   /**
     The size of the font
   **/
-  public var Size : unreal.Int32;
+  @:uproperty public var Size : unreal.Int32;
   
   /**
     The name of the font to use from the default typeface (None will use the first entry)
   **/
-  public var TypefaceFontName : unreal.FName;
+  @:uproperty public var TypefaceFontName : unreal.FName;
   
   /**
     Settings for applying an outline to a font
   **/
-  public var OutlineSettings : unreal.slatecore.FFontOutlineSettings;
+  @:uproperty public var OutlineSettings : unreal.slatecore.FFontOutlineSettings;
   
   /**
     The material to use when rendering this font
   **/
-  public var FontMaterial : unreal.UObject;
+  @:uproperty public var FontMaterial : unreal.UObject;
   
   /**
     The font object (valid when used from UMG or a Slate widget style asset)
   **/
-  public var FontObject : unreal.UObject;
+  @:uproperty public var FontObject : unreal.UObject;
   
 }

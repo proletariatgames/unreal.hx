@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
 @:uname("ETimelineLengthMode")
-@:uextern extern enum ETimelineLengthMode {
+@:uextern @:uenum extern enum ETimelineLengthMode {
   TL_TimelineLength;
   TL_LastKeyFrame;
   

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportFbxStaticMeshFactory.h")
-@:uextern extern class UReimportFbxStaticMeshFactory extends unreal.editor.UFbxFactory {
+@:uextern @:uclass extern class UReimportFbxStaticMeshFactory extends unreal.editor.UFbxFactory {
   
 }

@@ -19,42 +19,42 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
-@:uextern extern class FGameplayAbilityRepAnimMontage {
-  public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
+@:uextern @:ustruct extern class FGameplayAbilityRepAnimMontage {
+  @:uproperty public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
   
   /**
     Bit flipped every time a new Montage is played. To trigger replication when the same montage is played again.
   **/
-  public var ForcePlayBit : Bool;
+  @:uproperty public var ForcePlayBit : Bool;
   
   /**
     Bit set when montage has been stopped.
   **/
-  public var IsStopped : Bool;
+  @:uproperty public var IsStopped : Bool;
   
   /**
     NextSectionID
   **/
-  public var NextSectionID : unreal.UInt8;
+  @:uproperty public var NextSectionID : unreal.UInt8;
   
   /**
     Montage current blend time
   **/
-  public var BlendTime : unreal.Float32;
+  @:uproperty public var BlendTime : unreal.Float32;
   
   /**
     Montage position
   **/
-  public var Position : unreal.Float32;
+  @:uproperty public var Position : unreal.Float32;
   
   /**
     Play Rate
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
   /**
     AnimMontage ref
   **/
-  public var AnimMontage : unreal.UAnimMontage;
+  @:uproperty public var AnimMontage : unreal.UAnimMontage;
   
 }

@@ -20,36 +20,36 @@ package unreal;
   Structure for defining an external tool
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FExternalToolDefinition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FExternalToolDefinition {
   
   /**
     If the ScriptExtension is set, look here for the script files.
   **/
-  public var ScriptDirectory : unreal.FDirectoryPath;
+  @:uproperty public var ScriptDirectory : unreal.FDirectoryPath;
   
   /**
     If set, look for scripts with this extension.
   **/
-  public var ScriptExtension : unreal.FString;
+  @:uproperty public var ScriptExtension : unreal.FString;
   
   /**
     The working directory for the new process.
   **/
-  public var WorkingDirectory : unreal.FDirectoryPath;
+  @:uproperty public var WorkingDirectory : unreal.FDirectoryPath;
   
   /**
     The command line options to pass to the executable.
   **/
-  public var CommandLineOptions : unreal.FString;
+  @:uproperty public var CommandLineOptions : unreal.FString;
   
   /**
     The executable to run.
   **/
-  public var ExecutablePath : unreal.FFilePath;
+  @:uproperty public var ExecutablePath : unreal.FFilePath;
   
   /**
     The name of the tool / test.
   **/
-  public var ToolName : unreal.FString;
+  @:uproperty public var ToolName : unreal.FString;
   
 }

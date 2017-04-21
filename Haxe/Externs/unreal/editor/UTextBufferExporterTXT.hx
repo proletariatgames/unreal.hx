@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/TextBufferExporterTXT.h")
-@:noClass @:uextern extern class UTextBufferExporterTXT extends unreal.UExporter {
+@:noClass @:uextern @:uclass extern class UTextBufferExporterTXT extends unreal.UExporter {
   
 }

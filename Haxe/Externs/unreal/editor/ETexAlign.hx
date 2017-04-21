@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("TexAligner/TexAligner.h")
 @:uname("ETexAlign")
-@:uextern extern enum ETexAlign {
+@:uextern @:uenum extern enum ETexAlign {
   
   /**
     When passed to functions it means "use whatever the aligners default is".

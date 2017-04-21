@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackBoolProp.h")
-@:uextern extern class UInterpTrackBoolProp extends unreal.UInterpTrack {
+@:uextern @:uclass extern class UInterpTrackBoolProp extends unreal.UInterpTrack {
   
   /**
     Name of property in Group  AActor  which this track will modify over time.
   **/
-  public var PropertyName : unreal.FName;
+  @:uproperty public var PropertyName : unreal.FName;
   
   /**
     Array of booleans to set.
   **/
-  public var BoolTrack : unreal.TArray<unreal.FBoolTrackKey>;
+  @:uproperty public var BoolTrack : unreal.TArray<unreal.FBoolTrackKey>;
   
 }

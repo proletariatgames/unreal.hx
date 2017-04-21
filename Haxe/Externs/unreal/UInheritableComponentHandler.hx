@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InheritableComponentHandler.h")
-@:uextern extern class UInheritableComponentHandler extends unreal.UObject {
+@:uextern @:uclass extern class UInheritableComponentHandler extends unreal.UObject {
   
 }

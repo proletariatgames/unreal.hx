@@ -21,31 +21,31 @@ package unreal;
    - Handles properly levels repositioning during level loading and saving
 **/
 @:glueCppIncludes("Engine/WorldComposition.h")
-@:uextern extern class UWorldComposition extends unreal.UObject {
+@:uextern @:uclass extern class UWorldComposition extends unreal.UObject {
   
   /**
     Maximum distance to current view point where we should initiate origin rebasing
   **/
-  public var RebaseOriginDistance : unreal.Float32;
+  @:uproperty public var RebaseOriginDistance : unreal.Float32;
   
   /**
     Whether to rebase origin in 3D space, otherwise only on XY plane
   **/
-  public var bRebaseOriginIn3DSpace : Bool;
+  @:uproperty public var bRebaseOriginIn3DSpace : Bool;
   
   /**
     Whether all distance dependent tiles should be loaded and visible during cinematic
   **/
-  public var bLoadAllTilesDuringCinematic : Bool;
+  @:uproperty public var bLoadAllTilesDuringCinematic : Bool;
   
   /**
     Time threshold between tile streaming state changes
   **/
-  public var TilesStreamingTimeThreshold : unreal.Float64;
+  @:uproperty public var TilesStreamingTimeThreshold : unreal.Float64;
   
   /**
     Streaming level objects for each tile
   **/
-  public var TilesStreaming : unreal.TArray<unreal.ULevelStreaming>;
+  @:uproperty public var TilesStreaming : unreal.TArray<unreal.ULevelStreaming>;
   
 }

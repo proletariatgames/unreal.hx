@@ -15,21 +15,21 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USlateBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class USlateBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Absolute coordinates could be either desktop or window space depending on what space the root of the widget hierarchy is in.
     
     @return true if the provided location in absolute coordinates is within the bounds of this geometry.
   **/
-  static public function IsUnderLocation(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, AbsoluteCoordinate : unreal.Const<unreal.PRef<unreal.FVector2D>>) : Bool;
+  @:ufunction static public function IsUnderLocation(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, AbsoluteCoordinate : unreal.Const<unreal.PRef<unreal.FVector2D>>) : Bool;
   
   /**
     Absolute coordinates could be either desktop or window space depending on what space the root of the widget hierarchy is in.
     
     @return Transforms AbsoluteCoordinate into the local space of this Geometry.
   **/
-  static public function AbsoluteToLocal(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, AbsoluteCoordinate : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction static public function AbsoluteToLocal(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, AbsoluteCoordinate : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Translates local coordinates into absolute coordinates
@@ -38,12 +38,12 @@ package unreal.umg;
     
     @return  Absolute coordinates
   **/
-  static public function LocalToAbsolute(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, LocalCoordinate : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction static public function LocalToAbsolute(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, LocalCoordinate : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     @return the size of the geometry in local space.
   **/
-  static public function GetLocalSize(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>) : unreal.FVector2D;
+  @:ufunction static public function GetLocalSize(Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>) : unreal.FVector2D;
   
   /**
     Translates local coordinate of the geometry provided into local viewport coordinates.
@@ -54,7 +54,7 @@ package unreal.umg;
     to add another widget to the viewport at the same position in viewport space as this location, this is
     what you would use.
   **/
-  static public function LocalToViewport(WorldContextObject : unreal.UObject, Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, LocalCoordinate : unreal.FVector2D, PixelPosition : unreal.PRef<unreal.FVector2D>, ViewportPosition : unreal.PRef<unreal.FVector2D>) : Void;
+  @:ufunction static public function LocalToViewport(WorldContextObject : unreal.UObject, Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, LocalCoordinate : unreal.FVector2D, PixelPosition : unreal.PRef<unreal.FVector2D>, ViewportPosition : unreal.PRef<unreal.FVector2D>) : Void;
   
   /**
     Translates absolute coordinate in desktop space of the geometry provided into local viewport coordinates.
@@ -65,8 +65,8 @@ package unreal.umg;
     to add another widget to the viewport at the same position in viewport space as this location, this is
     what you would use.
   **/
-  static public function AbsoluteToViewport(WorldContextObject : unreal.UObject, AbsoluteDesktopCoordinate : unreal.FVector2D, PixelPosition : unreal.PRef<unreal.FVector2D>, ViewportPosition : unreal.PRef<unreal.FVector2D>) : Void;
-  static public function ScreenToWidgetLocal(WorldContextObject : unreal.UObject, Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, ScreenPosition : unreal.FVector2D, LocalCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
-  static public function ScreenToWidgetAbsolute(WorldContextObject : unreal.UObject, ScreenPosition : unreal.FVector2D, AbsoluteCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
+  @:ufunction static public function AbsoluteToViewport(WorldContextObject : unreal.UObject, AbsoluteDesktopCoordinate : unreal.FVector2D, PixelPosition : unreal.PRef<unreal.FVector2D>, ViewportPosition : unreal.PRef<unreal.FVector2D>) : Void;
+  @:ufunction static public function ScreenToWidgetLocal(WorldContextObject : unreal.UObject, Geometry : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>, ScreenPosition : unreal.FVector2D, LocalCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
+  @:ufunction static public function ScreenToWidgetAbsolute(WorldContextObject : unreal.UObject, ScreenPosition : unreal.FVector2D, AbsoluteCoordinate : unreal.PRef<unreal.FVector2D>) : Void;
   
 }

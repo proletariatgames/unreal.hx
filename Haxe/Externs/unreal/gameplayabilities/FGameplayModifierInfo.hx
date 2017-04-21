@@ -21,33 +21,33 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayModifierInfo {
-  public var TargetTags : unreal.gameplayabilities.FGameplayTagRequirements;
-  public var SourceTags : unreal.gameplayabilities.FGameplayTagRequirements;
+@:uextern @:ustruct extern class FGameplayModifierInfo {
+  @:uproperty public var TargetTags : unreal.gameplayabilities.FGameplayTagRequirements;
+  @:uproperty public var SourceTags : unreal.gameplayabilities.FGameplayTagRequirements;
   
   /**
     Evaluation channel settings of the modifier
   **/
-  public var EvaluationChannelSettings : unreal.gameplayabilities.FGameplayModEvaluationChannelSettings;
+  @:uproperty public var EvaluationChannelSettings : unreal.gameplayabilities.FGameplayModEvaluationChannelSettings;
   
   /**
     Magnitude of the modifier
   **/
-  public var ModifierMagnitude : unreal.gameplayabilities.FGameplayEffectModifierMagnitude;
+  @:uproperty public var ModifierMagnitude : unreal.gameplayabilities.FGameplayEffectModifierMagnitude;
   
   /**
     Now "deprecated," though being handled in a custom manner to avoid engine version bump.
   **/
-  public var Magnitude : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var Magnitude : unreal.gameplayabilities.FScalableFloat;
   
   /**
     The numeric operation of this modifier: Override, Add, Multiply, etc
   **/
-  public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
+  @:uproperty public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
   
   /**
     The Attribute we modify or the GE we modify modifies.
   **/
-  public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
   
 }

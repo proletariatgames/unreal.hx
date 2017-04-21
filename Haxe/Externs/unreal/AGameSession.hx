@@ -19,36 +19,36 @@ package unreal;
   A game session exists only the server, while running an online game.
 **/
 @:glueCppIncludes("GameFramework/GameSession.h")
-@:uextern extern class AGameSession extends unreal.AInfo {
+@:uextern @:uclass extern class AGameSession extends unreal.AInfo {
   
   /**
     SessionName local copy from PlayerState class.  should really be define in this class, but need to address replication issues
   **/
-  public var SessionName : unreal.FName;
+  @:uproperty public var SessionName : unreal.FName;
   
   /**
     Is voice enabled always or via a push to talk keybinding
   **/
-  public var bRequiresPushToTalk : Bool;
+  @:uproperty public var bRequiresPushToTalk : Bool;
   
   /**
     Maximum number of splitscreen players to allow from one connection
   **/
-  public var MaxSplitscreensPerConnection : unreal.UInt8;
+  @:uproperty public var MaxSplitscreensPerConnection : unreal.UInt8;
   
   /**
     Restrictions on the largest party that can join together
   **/
-  public var MaxPartySize : unreal.Int32;
+  @:uproperty public var MaxPartySize : unreal.Int32;
   
   /**
     Maximum number of players allowed by this server.
   **/
-  public var MaxPlayers : unreal.Int32;
+  @:uproperty public var MaxPlayers : unreal.Int32;
   
   /**
     Maximum number of spectators allowed by this server.
   **/
-  public var MaxSpectators : unreal.Int32;
+  @:uproperty public var MaxSpectators : unreal.Int32;
   
 }

@@ -21,6 +21,6 @@ package unreal;
   * The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Matrix.h
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FMatrix {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMatrix {
   
 }

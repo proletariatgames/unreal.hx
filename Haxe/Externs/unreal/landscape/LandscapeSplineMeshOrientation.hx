@@ -20,7 +20,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
 @:uname("LandscapeSplineMeshOrientation")
-@:uextern extern enum LandscapeSplineMeshOrientation {
+@:uextern @:uenum extern enum LandscapeSplineMeshOrientation {
   LSMO_XUp;
   LSMO_YUp;
   

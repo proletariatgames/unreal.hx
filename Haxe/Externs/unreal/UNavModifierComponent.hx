@@ -14,13 +14,13 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavModifierComponent.h")
-@:uextern extern class UNavModifierComponent extends unreal.UNavRelevantComponent {
+@:uextern @:uclass extern class UNavModifierComponent extends unreal.UNavRelevantComponent {
   
   /**
     box extent used ONLY when owning actor doesn't have collision component
   **/
-  public var FailsafeExtent : unreal.FVector;
-  public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
-  @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
+  @:uproperty public var FailsafeExtent : unreal.FVector;
+  @:uproperty public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
+  @:ufunction @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
   
 }

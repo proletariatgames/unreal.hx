@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleEmitter.h")
-@:noCopy @:noEquals @:uextern extern class FParticleBurst {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleBurst {
   
   /**
     The time at which to burst them (0..1: emitter lifetime)
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
   /**
     If >= 0, use as a range [CountLow..Count]
   **/
-  public var CountLow : unreal.Int32;
+  @:uproperty public var CountLow : unreal.Int32;
   
   /**
     The number of particles to burst
   **/
-  public var Count : unreal.Int32;
+  @:uproperty public var Count : unreal.Int32;
   
 }

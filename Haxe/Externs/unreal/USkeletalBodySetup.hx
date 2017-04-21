@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsAsset.h")
-@:uextern extern class USkeletalBodySetup extends unreal.UBodySetup {
+@:uextern @:uclass extern class USkeletalBodySetup extends unreal.UBodySetup {
   #if WITH_EDITORONLY_DATA
   
   /**
     dummy place for customization inside phat. Profiles are ordered dynamically and we need a static place for detail customization
   **/
-  public var CurrentPhysicalAnimationProfile : unreal.FPhysicalAnimationProfile;
+  @:uproperty public var CurrentPhysicalAnimationProfile : unreal.FPhysicalAnimationProfile;
   #end // WITH_EDITORONLY_DATA
   
 }

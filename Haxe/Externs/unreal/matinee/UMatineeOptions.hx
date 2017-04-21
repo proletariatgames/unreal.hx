@@ -21,17 +21,17 @@ package unreal.matinee;
 **/
 @:umodule("Matinee")
 @:glueCppIncludes("MatineeOptions.h")
-@:noClass @:uextern extern class UMatineeOptions extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMatineeOptions extends unreal.UObject {
   
   /**
     Are we currently editing the values of a groups keyframe. This should only be true if the keyframes that are selected belong to the same group.
   **/
-  public var bAdjustingGroupKeyframes : Bool;
+  @:uproperty public var bAdjustingGroupKeyframes : Bool;
   
   /**
     Are we currently editing the value of a keyframe. This should only be true if there is one keyframe selected and the time is currently set to it.
   **/
-  public var bAdjustingKeyframe : Bool;
-  public var SelectedKeys : unreal.TArray<unreal.FInterpEdSelKey>;
+  @:uproperty public var bAdjustingKeyframe : Bool;
+  @:uproperty public var SelectedKeys : unreal.TArray<unreal.FInterpEdSelKey>;
   
 }

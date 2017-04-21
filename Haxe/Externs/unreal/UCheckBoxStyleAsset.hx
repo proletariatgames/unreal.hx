@@ -21,11 +21,11 @@ package unreal;
   Just a wrapper for the struct with real data in it.
 **/
 @:glueCppIncludes("Slate/CheckboxStyleAsset.h")
-@:uextern extern class UCheckBoxStyleAsset extends unreal.UObject {
+@:uextern @:uclass extern class UCheckBoxStyleAsset extends unreal.UObject {
   
   /**
     The actual data describing the Check Box's appearance.
   **/
-  public var CheckBoxStyle : unreal.slatecore.FCheckBoxStyle;
+  @:uproperty public var CheckBoxStyle : unreal.slatecore.FCheckBoxStyle;
   
 }

@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/SubUVAnimation.h")
 @:uname("ESubUVBoundingVertexCount")
-@:uextern extern enum ESubUVBoundingVertexCount {
+@:uextern @:uenum extern enum ESubUVBoundingVertexCount {
   BVC_FourVertices;
   BVC_EightVertices;
   

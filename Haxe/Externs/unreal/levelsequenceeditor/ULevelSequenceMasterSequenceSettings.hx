@@ -21,31 +21,31 @@ package unreal.levelsequenceeditor;
 **/
 @:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
-@:noClass @:uextern extern class ULevelSequenceMasterSequenceSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class ULevelSequenceMasterSequenceSettings extends unreal.UObject {
   
   /**
     Array of sub sequence names, each will result in a level sequence asset in the shot.
   **/
-  public var SubSequenceNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var SubSequenceNames : unreal.TArray<unreal.FName>;
   
   /**
     Master sequence number of shots.
   **/
-  public var MasterSequenceNumShots : unreal.FakeUInt32;
+  @:uproperty public var MasterSequenceNumShots : unreal.FakeUInt32;
   
   /**
     Master sequence path.
   **/
-  public var MasterSequenceBasePath : unreal.FDirectoryPath;
+  @:uproperty public var MasterSequenceBasePath : unreal.FDirectoryPath;
   
   /**
     Master sequence suffix.
   **/
-  public var MasterSequenceSuffix : unreal.FString;
+  @:uproperty public var MasterSequenceSuffix : unreal.FString;
   
   /**
     Master sequence name.
   **/
-  public var MasterSequenceName : unreal.FString;
+  @:uproperty public var MasterSequenceName : unreal.FString;
   
 }

@@ -21,7 +21,7 @@ package unreal.mergeactors;
 **/
 @:umodule("MergeActors")
 @:glueCppIncludes("Private/MeshMergingTool/MeshMergingTool.h")
-@:noClass @:uextern extern class UMeshMergingSettingsObject extends unreal.UObject {
-  public var Settings : unreal.FMeshMergingSettings;
+@:noClass @:uextern @:uclass extern class UMeshMergingSettingsObject extends unreal.UObject {
+  @:uproperty public var Settings : unreal.FMeshMergingSettings;
   
 }

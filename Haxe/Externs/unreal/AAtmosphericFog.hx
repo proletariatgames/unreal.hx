@@ -21,10 +21,10 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Engine/Actors/FogEffects/AtmosphericFog/index.html
 **/
 @:glueCppIncludes("Atmosphere/AtmosphericFog.h")
-@:uextern extern class AAtmosphericFog extends unreal.AInfo {
+@:uextern @:uclass extern class AAtmosphericFog extends unreal.AInfo {
   #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
-  public var AtmosphericFogComponent : unreal.UAtmosphericFogComponent;
+  @:uproperty public var AtmosphericFogComponent : unreal.UAtmosphericFogComponent;
   
 }

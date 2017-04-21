@@ -21,7 +21,7 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("Interactables/VREditorButton.h")
-@:noClass @:uextern extern class AVREditorButton extends unreal.vreditor.AVREditorBaseActor implements unreal.viewportinteraction.IViewportInteractableInterface {
+@:noClass @:uextern @:uclass extern class AVREditorButton extends unreal.vreditor.AVREditorBaseActor implements unreal.viewportinteraction.IViewportInteractableInterface {
   // ViewportInteractableInterface interface implementation
   
 }

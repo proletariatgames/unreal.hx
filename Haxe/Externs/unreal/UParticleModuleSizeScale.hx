@@ -20,28 +20,28 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Size/ParticleModuleSizeScale.h")
-@:uextern extern class UParticleModuleSizeScale extends unreal.UParticleModuleSizeBase {
+@:uextern @:uclass extern class UParticleModuleSizeScale extends unreal.UParticleModuleSizeBase {
   
   /**
     Ignored
   **/
-  public var EnableZ : Bool;
+  @:uproperty public var EnableZ : Bool;
   
   /**
     Ignored
   **/
-  public var EnableY : Bool;
+  @:uproperty public var EnableY : Bool;
   
   /**
     Ignored
   **/
-  public var EnableX : Bool;
+  @:uproperty public var EnableX : Bool;
   
   /**
     The amount the BaseSize should be scaled before being used as the size of the particle.
     The value is retrieved using the RelativeTime of the particle during its update.
     NOTE: this module overrides any size adjustments made prior to this module in that frame.
   **/
-  public var SizeScale : unreal.FRawDistributionVector;
+  @:uproperty public var SizeScale : unreal.FRawDistributionVector;
   
 }

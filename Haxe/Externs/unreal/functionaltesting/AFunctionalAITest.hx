@@ -21,10 +21,10 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalAITest.h")
-@:uextern extern class AFunctionalAITest extends unreal.functionaltesting.AFunctionalTest {
-  private var PendingDelayedSpawns : unreal.TArray<unreal.functionaltesting.FPendingDelayedSpawn>;
-  private var SpawnedPawns : unreal.TArray<unreal.APawn>;
-  private var SpawnLocationRandomizationRange : unreal.Float32;
-  private var SpawnSets : unreal.TArray<unreal.functionaltesting.FAITestSpawnSet>;
+@:uextern @:uclass extern class AFunctionalAITest extends unreal.functionaltesting.AFunctionalTest {
+  @:uproperty private var PendingDelayedSpawns : unreal.TArray<unreal.functionaltesting.FPendingDelayedSpawn>;
+  @:uproperty private var SpawnedPawns : unreal.TArray<unreal.APawn>;
+  @:uproperty private var SpawnLocationRandomizationRange : unreal.Float32;
+  @:uproperty private var SpawnSets : unreal.TArray<unreal.functionaltesting.FAITestSpawnSet>;
   
 }

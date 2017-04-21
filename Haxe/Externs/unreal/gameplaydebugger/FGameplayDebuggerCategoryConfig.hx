@@ -21,12 +21,12 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayDebuggerCategoryConfig {
-  public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;
-  public var bOverrideSlotIdx : Bool;
-  public var ActiveInSimulate : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
-  public var ActiveInGame : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
-  public var SlotIdx : unreal.Int32;
-  public var CategoryName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerCategoryConfig {
+  @:uproperty public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;
+  @:uproperty public var bOverrideSlotIdx : Bool;
+  @:uproperty public var ActiveInSimulate : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
+  @:uproperty public var ActiveInGame : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;
+  @:uproperty public var SlotIdx : unreal.Int32;
+  @:uproperty public var CategoryName : unreal.FString;
   
 }

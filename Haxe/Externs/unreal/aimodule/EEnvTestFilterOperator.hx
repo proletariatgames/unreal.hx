@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestFilterOperator.Type")
-@:uextern extern enum EEnvTestFilterOperator {
+@:uextern @:uenum extern enum EEnvTestFilterOperator {
   
   /**
     All contexts must pass condition

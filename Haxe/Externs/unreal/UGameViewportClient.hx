@@ -29,37 +29,37 @@ package unreal;
   @see UGameViewportClient
 **/
 @:glueCppIncludes("Engine/GameViewportClient.h")
-@:uextern extern class UGameViewportClient extends unreal.UScriptViewportClient {
-  private var GameInstance : unreal.UGameInstance;
+@:uextern @:uclass extern class UGameViewportClient extends unreal.UScriptViewportClient {
+  @:uproperty private var GameInstance : unreal.UGameInstance;
   
   /**
     The relative world context for this viewport
   **/
-  private var World : unreal.UWorld;
+  @:uproperty private var World : unreal.UWorld;
   
   /**
     @todo document
   **/
-  public var DebugProperties : unreal.TArray<unreal.FDebugDisplayProperty>;
+  @:uproperty public var DebugProperties : unreal.TArray<unreal.FDebugDisplayProperty>;
   
   /**
     The viewport's console.   Might be null on consoles
   **/
-  public var ViewportConsole : unreal.UConsole;
+  @:uproperty public var ViewportConsole : unreal.UConsole;
   
   /**
     Rotates controller ids among gameplayers, useful for testing splitscreen with only one controller.
   **/
-  public function SSSwapControllers() : Void;
+  @:ufunction public function SSSwapControllers() : Void;
   
   /**
     Exec for toggling the display of the title safe area
   **/
-  public function ShowTitleSafeArea() : Void;
+  @:ufunction public function ShowTitleSafeArea() : Void;
   
   /**
     Sets the player which console commands will be executed in the context of.
   **/
-  public function SetConsoleTarget(PlayerIndex : unreal.Int32) : Void;
+  @:ufunction public function SetConsoleTarget(PlayerIndex : unreal.Int32) : Void;
   
 }

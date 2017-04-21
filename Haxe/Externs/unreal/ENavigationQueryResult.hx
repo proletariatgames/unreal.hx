@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
 @:uname("ENavigationQueryResult.Type")
-@:uextern extern enum ENavigationQueryResult {
+@:uextern @:uenum extern enum ENavigationQueryResult {
   Invalid;
   Error;
   Fail;

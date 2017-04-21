@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportCurveTableFactory.h")
-@:noClass @:uextern extern class UReimportCurveTableFactory extends unreal.editor.UCSVImportFactory {
+@:noClass @:uextern @:uclass extern class UReimportCurveTableFactory extends unreal.editor.UCSVImportFactory {
   
 }

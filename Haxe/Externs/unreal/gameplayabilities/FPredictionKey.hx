@@ -40,31 +40,31 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayPrediction.h")
-@:uextern extern class FPredictionKey {
+@:uextern @:ustruct extern class FPredictionKey {
   
   /**
     True if this was created as a server initiated activation key, used to identify server activations but cannot be used for prediction
   **/
-  public var bIsServerInitiated : Bool;
+  @:uproperty public var bIsServerInitiated : Bool;
   
   /**
     If stale, this key cannot be used for more prediction
   **/
-  public var bIsStale : Bool;
+  @:uproperty public var bIsStale : Bool;
   
   /**
     On the server, what network connection this was serialized on.
   **/
-  public var PredictiveConnection : unreal.UPackageMap;
+  @:uproperty public var PredictiveConnection : unreal.UPackageMap;
   
   /**
     If non 0, the prediction key this was created from
   **/
-  public var Base : unreal.Int16;
+  @:uproperty public var Base : unreal.Int16;
   
   /**
     The unique ID of this prediction key
   **/
-  public var Current : unreal.Int16;
+  @:uproperty public var Current : unreal.Int16;
   
 }

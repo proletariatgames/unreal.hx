@@ -21,10 +21,10 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTTask_Log.h")
-@:noClass @:uextern extern class UTestBTTask_Log extends unreal.aimodule.UBTTaskNode {
-  public var LogResult : unreal.aimodule.EBTNodeResult;
-  public var ExecutionTicks : unreal.Int32;
-  public var LogFinished : unreal.Int32;
-  public var LogIndex : unreal.Int32;
+@:noClass @:uextern @:uclass extern class UTestBTTask_Log extends unreal.aimodule.UBTTaskNode {
+  @:uproperty public var LogResult : unreal.aimodule.EBTNodeResult;
+  @:uproperty public var ExecutionTicks : unreal.Int32;
+  @:uproperty public var LogFinished : unreal.Int32;
+  @:uproperty public var LogIndex : unreal.Int32;
   
 }

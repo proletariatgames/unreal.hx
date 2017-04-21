@@ -21,8 +21,8 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySet.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayAbilityBindInfo {
-  public var GameplayAbilityClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
-  public var Command : unreal.gameplayabilities.EGameplayAbilityInputBinds;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayAbilityBindInfo {
+  @:uproperty public var GameplayAbilityClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
+  @:uproperty public var Command : unreal.gameplayabilities.EGameplayAbilityInputBinds;
   
 }

@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
-@:noCopy @:noEquals @:uextern extern class FBeamModifierOptions {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBeamModifierOptions {
   
   /**
     If true, lock the modifier to the life of the particle.
   **/
-  public var bLock : Bool;
+  @:uproperty public var bLock : Bool;
   
   /**
     If true, scale the associated value by the given value.
   **/
-  public var bScale : Bool;
+  @:uproperty public var bScale : Bool;
   
   /**
     If true, modify the value associated with this grouping.
   **/
-  public var bModify : Bool;
+  @:uproperty public var bModify : Bool;
   
 }

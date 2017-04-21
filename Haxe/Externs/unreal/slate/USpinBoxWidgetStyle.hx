@@ -21,11 +21,11 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/SpinBoxWidgetStyle.h")
-@:uextern extern class USpinBoxWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
+@:uextern @:uclass extern class USpinBoxWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
   
   /**
     The actual data describing the button's appearance.
   **/
-  public var SpinBoxStyle : unreal.slatecore.FSpinBoxStyle;
+  @:uproperty public var SpinBoxStyle : unreal.slatecore.FSpinBoxStyle;
   
 }

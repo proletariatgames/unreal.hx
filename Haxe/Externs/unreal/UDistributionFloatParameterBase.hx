@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloatParameterBase.h")
-@:noClass @:uextern extern class UDistributionFloatParameterBase extends unreal.UDistributionFloatConstant {
+@:noClass @:uextern @:uclass extern class UDistributionFloatParameterBase extends unreal.UDistributionFloatConstant {
   
   /**
     todo document
   **/
-  public var ParamMode : unreal.DistributionParamMode;
+  @:uproperty public var ParamMode : unreal.DistributionParamMode;
   
   /**
     todo document
   **/
-  public var MaxOutput : unreal.Float32;
+  @:uproperty public var MaxOutput : unreal.Float32;
   
   /**
     todo document
   **/
-  public var MinOutput : unreal.Float32;
+  @:uproperty public var MinOutput : unreal.Float32;
   
   /**
     todo document
   **/
-  public var MaxInput : unreal.Float32;
+  @:uproperty public var MaxInput : unreal.Float32;
   
   /**
     todo document
   **/
-  public var MinInput : unreal.Float32;
+  @:uproperty public var MinInput : unreal.Float32;
   
   /**
     todo document
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

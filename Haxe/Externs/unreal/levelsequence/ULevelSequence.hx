@@ -19,11 +19,11 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequence.h")
-@:uextern extern class ULevelSequence extends unreal.moviescene.UMovieSceneSequence {
+@:uextern @:uclass extern class ULevelSequence extends unreal.moviescene.UMovieSceneSequence {
   
   /**
     Pointer to the movie scene that controls this animation.
   **/
-  public var MovieScene : unreal.moviescene.UMovieScene;
+  @:uproperty public var MovieScene : unreal.moviescene.UMovieScene;
   
 }

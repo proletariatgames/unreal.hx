@@ -21,11 +21,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
-@:noCopy @:noEquals @:uextern extern class FEnvQueryInstanceCache {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEnvQueryInstanceCache {
   
   /**
     query template, duplicated in manager's world
   **/
-  public var Template : unreal.aimodule.UEnvQuery;
+  @:uproperty public var Template : unreal.aimodule.UEnvQuery;
   
 }

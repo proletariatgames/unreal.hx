@@ -18,18 +18,18 @@ package unreal;
   A pose link to another node
 **/
 @:glueCppIncludes("Animation/AnimNodeBase.h")
-@:uextern extern class FPoseLinkBase {
+@:uextern @:ustruct extern class FPoseLinkBase {
   #if WITH_EDITORONLY_DATA
   
   /**
     The source link ID, used for debug visualization.
   **/
-  public var SourceLinkID : unreal.Int32;
+  @:uproperty public var SourceLinkID : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Serialized link ID, used to build the non-serialized pointer map.
   **/
-  public var LinkID : unreal.Int32;
+  @:uproperty public var LinkID : unreal.Int32;
   
 }

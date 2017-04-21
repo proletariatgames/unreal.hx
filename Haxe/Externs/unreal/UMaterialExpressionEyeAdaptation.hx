@@ -20,6 +20,6 @@ package unreal;
   Provides access to the EyeAdaptation render target.
 **/
 @:glueCppIncludes("Materials/MaterialExpressionEyeAdaptation.h")
-@:noClass @:uextern extern class UMaterialExpressionEyeAdaptation extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionEyeAdaptation extends unreal.UMaterialExpression {
   
 }

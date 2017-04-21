@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("EColorChannel.Type")
-@:uextern extern enum EColorChannel {
+@:uextern @:uenum extern enum EColorChannel {
   Red;
   Green;
   Blue;

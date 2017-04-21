@@ -20,19 +20,19 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimCurveTypes.h")
-@:noCopy @:noEquals @:uextern extern class FTransformCurve extends unreal.FAnimCurveBase {
-  public var ScaleCurve : unreal.FVectorCurve;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTransformCurve extends unreal.FAnimCurveBase {
+  @:uproperty public var ScaleCurve : unreal.FVectorCurve;
   
   /**
     Rotation curve - right now we use euler because quat also doesn't provide linear interpolation - curve editor can't handle quat interpolation
     If you hit gimbal lock, you should add extra key to fix it. This will cause gimbal lock.
     @TODO: Eventually we'll need FRotationCurve that would contain rotation curve - that will interpolate as slerp or as quaternion
   **/
-  public var RotationCurve : unreal.FVectorCurve;
+  @:uproperty public var RotationCurve : unreal.FVectorCurve;
   
   /**
     Curve data for each transform.
   **/
-  public var TranslationCurve : unreal.FVectorCurve;
+  @:uproperty public var TranslationCurve : unreal.FVectorCurve;
   
 }

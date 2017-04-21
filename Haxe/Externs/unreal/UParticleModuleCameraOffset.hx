@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Camera/ParticleModuleCameraOffset.h")
-@:noClass @:uextern extern class UParticleModuleCameraOffset extends unreal.UParticleModuleCameraBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleCameraOffset extends unreal.UParticleModuleCameraBase {
   
   /**
     How to update the offset for this module.
@@ -28,16 +28,16 @@ package unreal;
     Additive  - Add the offset of this module to the existing offset
     Scalar    - Scale the existing offset by the value of this module
   **/
-  public var UpdateMethod : unreal.EParticleCameraOffsetUpdateMethod;
+  @:uproperty public var UpdateMethod : unreal.EParticleCameraOffsetUpdateMethod;
   
   /**
     If true, the offset will only be processed at spawn time
   **/
-  public var bSpawnTimeOnly : Bool;
+  @:uproperty public var bSpawnTimeOnly : Bool;
   
   /**
     The camera-relative offset to apply to sprite location
   **/
-  public var CameraOffset : unreal.FRawDistributionFloat;
+  @:uproperty public var CameraOffset : unreal.FRawDistributionFloat;
   
 }

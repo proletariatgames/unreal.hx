@@ -20,11 +20,11 @@ package unreal;
   Directional light settings for Lightmass
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassDirectionalLightSettings extends unreal.FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassDirectionalLightSettings extends unreal.FLightmassLightSettings {
   
   /**
     Angle that the directional light's emissive surface extends relative to a receiver, affects penumbra sizes.
   **/
-  public var LightSourceAngle : unreal.Float32;
+  @:uproperty public var LightSourceAngle : unreal.Float32;
   
 }

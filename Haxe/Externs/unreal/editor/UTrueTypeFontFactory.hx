@@ -15,21 +15,21 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/TrueTypeFontFactory.h")
-@:uextern extern class UTrueTypeFontFactory extends unreal.editor.UTextureFactory {
+@:uextern @:uclass extern class UTrueTypeFontFactory extends unreal.editor.UTextureFactory {
   
   /**
     True if a font was selected during the non-legacy creation process
   **/
-  public var bFontSelected : Bool;
+  @:uproperty public var bFontSelected : Bool;
   
   /**
     True when the font dialog was shown for this factory during the non-legacy creation process
   **/
-  public var bPropertiesConfigured : Bool;
+  @:uproperty public var bPropertiesConfigured : Bool;
   
   /**
     Import options for the font
   **/
-  public var ImportOptions : unreal.UFontImportOptions;
+  @:uproperty public var ImportOptions : unreal.UFontImportOptions;
   
 }

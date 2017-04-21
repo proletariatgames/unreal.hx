@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseConfig_Team.h")
-@:uextern extern class UAISenseConfig_Team extends unreal.aimodule.UAISenseConfig {
+@:uextern @:uclass extern class UAISenseConfig_Team extends unreal.aimodule.UAISenseConfig {
   
 }

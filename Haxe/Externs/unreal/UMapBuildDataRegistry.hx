@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/MapBuildDataRegistry.h")
-@:uextern extern class UMapBuildDataRegistry extends unreal.UObject {
+@:uextern @:uclass extern class UMapBuildDataRegistry extends unreal.UObject {
   
   /**
     The lighting quality the level was last built with
   **/
-  public var LevelLightingQuality : unreal.ELightingBuildQuality;
+  @:uproperty public var LevelLightingQuality : unreal.ELightingBuildQuality;
   
 }

@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EPixelFormat")
-@:uextern extern enum EPixelFormat {
+@:uextern @:uenum extern enum EPixelFormat {
   PF_Unknown;
   PF_A32B32G32R32F;
   PF_B8G8R8A8;

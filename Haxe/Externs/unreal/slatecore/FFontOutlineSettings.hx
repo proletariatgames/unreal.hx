@@ -19,27 +19,27 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/SlateFontInfo.h")
-@:uextern extern class FFontOutlineSettings {
+@:uextern @:ustruct extern class FFontOutlineSettings {
   
   /**
     If checked, the outline will be completely translucent where the filled area will be.  This allows for a separate fill alpha value
     The trade off when enabling this is slightly worse quality for completely opaque fills where the inner outline border meets the fill area
   **/
-  public var bSeparateFillAlpha : Bool;
+  @:uproperty public var bSeparateFillAlpha : Bool;
   
   /**
     The color of the outline for any character in this font
   **/
-  public var OutlineColor : unreal.FLinearColor;
+  @:uproperty public var OutlineColor : unreal.FLinearColor;
   
   /**
     Optional material to apply to the outline
   **/
-  public var OutlineMaterial : unreal.UObject;
+  @:uproperty public var OutlineMaterial : unreal.UObject;
   
   /**
     Size of the outline in slate units (at 1.0 font scale this unit is a pixel)
   **/
-  public var OutlineSize : unreal.Int32;
+  @:uproperty public var OutlineSize : unreal.Int32;
   
 }

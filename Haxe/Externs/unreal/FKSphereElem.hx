@@ -20,17 +20,17 @@ package unreal;
   Sphere shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/SphereElem.h")
-@:noCopy @:noEquals @:uextern extern class FKSphereElem extends unreal.FKShapeElem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FKSphereElem extends unreal.FKShapeElem {
   
   /**
     Radius of the sphere
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
   /**
     Position of the sphere's origin
   **/
-  public var Center : unreal.FVector;
-  @:deprecated public var TM_DEPRECATED : unreal.FMatrix;
+  @:uproperty public var Center : unreal.FVector;
+  @:deprecated @:uproperty public var TM_DEPRECATED : unreal.FMatrix;
   
 }

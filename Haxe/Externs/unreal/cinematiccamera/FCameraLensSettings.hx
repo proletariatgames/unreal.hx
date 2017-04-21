@@ -21,31 +21,31 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
-@:noCopy @:noEquals @:uextern extern class FCameraLensSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraLensSettings {
   
   /**
     Shortest distance this lens can focus on.
   **/
-  public var MinimumFocusDistance : unreal.Float32;
+  @:uproperty public var MinimumFocusDistance : unreal.Float32;
   
   /**
     Minimum aperture for this lens (e.g. 2.8 for an f/2.8 lens)
   **/
-  public var MaxFStop : unreal.Float32;
+  @:uproperty public var MaxFStop : unreal.Float32;
   
   /**
     Minimum aperture for this lens (e.g. 2.8 for an f/2.8 lens)
   **/
-  public var MinFStop : unreal.Float32;
+  @:uproperty public var MinFStop : unreal.Float32;
   
   /**
     Maximum focal length for this lens
   **/
-  public var MaxFocalLength : unreal.Float32;
+  @:uproperty public var MaxFocalLength : unreal.Float32;
   
   /**
     Minimum focal length for this lens
   **/
-  public var MinFocalLength : unreal.Float32;
+  @:uproperty public var MinFocalLength : unreal.Float32;
   
 }

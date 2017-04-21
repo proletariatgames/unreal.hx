@@ -24,28 +24,28 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
-@:noCopy @:noEquals @:uextern extern class FThumbnailRenderingInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FThumbnailRenderingInfo {
   
   /**
     The instance of the renderer class
   **/
-  public var Renderer : unreal.editor.UThumbnailRenderer;
+  @:uproperty public var Renderer : unreal.editor.UThumbnailRenderer;
   
   /**
     The name of the class to load when rendering this thumbnail
     NOTE: This is a string to avoid any dependencies of compilation
   **/
-  public var RendererClassName : unreal.FString;
+  @:uproperty public var RendererClassName : unreal.FString;
   
   /**
     This is the class that this entry is for, i.e. the class that
     will be rendered in the thumbnail views
   **/
-  public var ClassNeedingThumbnail : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var ClassNeedingThumbnail : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     The name of the class that this thumbnail is for (so we can lazy bind)
   **/
-  public var ClassNeedingThumbnailName : unreal.FString;
+  @:uproperty public var ClassNeedingThumbnailName : unreal.FString;
   
 }

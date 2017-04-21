@@ -20,35 +20,35 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/DialogueWave.h")
-@:uextern extern class UDialogueWave extends unreal.UObject {
-  public var LocalizationGUID : unreal.FGuid;
+@:uextern @:uclass extern class UDialogueWave extends unreal.UObject {
+  @:uproperty public var LocalizationGUID : unreal.FGuid;
   
   /**
     Mappings between dialogue contexts and associated soundwaves.
   **/
-  public var ContextMappings : unreal.TArray<unreal.FDialogueContextMapping>;
+  @:uproperty public var ContextMappings : unreal.TArray<unreal.FDialogueContextMapping>;
   #if WITH_EDITORONLY_DATA
   
   /**
     Provides general notes to the voice actor intended to direct their performance, as well as contextual information to the translator.
   **/
-  public var VoiceActorDirection : unreal.FString;
+  @:uproperty public var VoiceActorDirection : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**
     A localized version of the subtitle text that should be displayed for this audio. By default this will be the same as the Spoken Text.
   **/
-  public var SubtitleOverride : unreal.FString;
+  @:uproperty public var SubtitleOverride : unreal.FString;
   
   /**
     A localized version of the text that is actually spoken phonetically in the audio.
   **/
-  public var SpokenText : unreal.FString;
-  public var bOverride_SubtitleOverride : Bool;
+  @:uproperty public var SpokenText : unreal.FString;
+  @:uproperty public var bOverride_SubtitleOverride : Bool;
   
   /**
     true if this dialogue is considered to contain mature/adult content.
   **/
-  public var bMature : Bool;
+  @:uproperty public var bMature : Bool;
   
 }

@@ -21,7 +21,7 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockAI_BT.h")
-@:noClass @:uextern extern class UMockAI_BT extends unreal.aitestsuite.UMockAI {
-  public var BTComp : unreal.aimodule.UBehaviorTreeComponent;
+@:noClass @:uextern @:uclass extern class UMockAI_BT extends unreal.aitestsuite.UMockAI {
+  @:uproperty public var BTComp : unreal.aimodule.UBehaviorTreeComponent;
   
 }

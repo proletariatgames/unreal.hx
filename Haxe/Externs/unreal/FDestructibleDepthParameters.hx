@@ -20,11 +20,11 @@ package unreal;
   Properties that may be set for all chunks at a particular depth in the fracture hierarchy.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:noCopy @:noEquals @:uextern extern class FDestructibleDepthParameters {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleDepthParameters {
   
   /**
     Chunks up to the depth DefaultImpactDamageDepth will take impact damage, unless one of the override options (see EImpactDamageOverride) is chosen.
   **/
-  public var ImpactDamageOverride : unreal.EImpactDamageOverride;
+  @:uproperty public var ImpactDamageOverride : unreal.EImpactDamageOverride;
   
 }

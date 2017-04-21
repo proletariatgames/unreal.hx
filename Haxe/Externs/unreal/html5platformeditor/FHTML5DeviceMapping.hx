@@ -21,8 +21,8 @@ package unreal.html5platformeditor;
 **/
 @:umodule("HTML5PlatformEditor")
 @:glueCppIncludes("Private/HTML5SDKSettings.h")
-@:noCopy @:noEquals @:uextern extern class FHTML5DeviceMapping {
-  public var DevicePath : unreal.FFilePath;
-  public var DeviceName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FHTML5DeviceMapping {
+  @:uproperty public var DevicePath : unreal.FFilePath;
+  @:uproperty public var DeviceName : unreal.FString;
   
 }

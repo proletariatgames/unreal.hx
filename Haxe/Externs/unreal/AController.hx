@@ -32,39 +32,39 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Framework/Controller/
 **/
 @:glueCppIncludes("GameFramework/Controller.h")
-@:uextern extern class AController extends unreal.AActor implements unreal.INavAgentInterface {
+@:uextern @:uclass extern class AController extends unreal.AActor implements unreal.INavAgentInterface {
   
   /**
     CONTROLLER STATE PROPERTIES
   **/
-  public var StateName : unreal.FName;
+  @:uproperty public var StateName : unreal.FName;
   
   /**
     The control rotation of the Controller. See GetControlRotation.
   **/
-  private var ControlRotation : unreal.FRotator;
-  public var TransformComponent : unreal.USceneComponent;
+  @:uproperty private var ControlRotation : unreal.FRotator;
+  @:uproperty public var TransformComponent : unreal.USceneComponent;
   
   /**
     PlayerState containing replicated information about the player using this controller (only exists for players, not NPCs).
   **/
-  public var PlayerState : unreal.APlayerState;
+  @:uproperty public var PlayerState : unreal.APlayerState;
   
   /**
     Get the control rotation. This is the full aim rotation, which may be different than a camera orientation (for example in a third person view),
     and may differ from the rotation of the controlled Pawn (which may choose not to visually pitch or roll, for example).
   **/
-  @:thisConst public function GetControlRotation() : unreal.FRotator;
+  @:ufunction @:thisConst public function GetControlRotation() : unreal.FRotator;
   
   /**
     Set the control rotation.
   **/
-  public function SetControlRotation(NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction public function SetControlRotation(NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Set the initial location and rotation of the controller, as well as the control rotation. Typically used when the controller is first created.
   **/
-  public function SetInitialLocationAndRotation(NewLocation : unreal.Const<unreal.PRef<unreal.FVector>>, NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction public function SetInitialLocationAndRotation(NewLocation : unreal.Const<unreal.PRef<unreal.FVector>>, NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Checks line to center and top of other actor
@@ -73,54 +73,54 @@ package unreal;
     @param bAlternateChecks used only in AIController implementation
     @return true if controller's pawn can see Other actor.
   **/
-  @:thisConst public function LineOfSightTo(Other : unreal.Const<unreal.AActor>, ViewPoint : unreal.FVector, bAlternateChecks : Bool) : Bool;
+  @:ufunction @:thisConst public function LineOfSightTo(Other : unreal.Const<unreal.AActor>, ViewPoint : unreal.FVector, bAlternateChecks : Bool = false) : Bool;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_Pawn() : Void;
-  public function OnRep_PlayerState() : Void;
-  @:final public function CastToPlayerController() : unreal.APlayerController;
+  @:ufunction public function OnRep_Pawn() : Void;
+  @:ufunction public function OnRep_PlayerState() : Void;
+  @:ufunction @:final public function CastToPlayerController() : unreal.APlayerController;
   
   /**
     Replicated function to set the pawn location and rotation, allowing server to force (ex. teleports).
   **/
-  public function ClientSetLocation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
+  @:ufunction public function ClientSetLocation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
   
   /**
     Replicated function to set the pawn rotation, allowing the server to force.
   **/
-  public function ClientSetRotation(NewRotation : unreal.FRotator, bResetCamera : Bool) : Void;
+  @:ufunction public function ClientSetRotation(NewRotation : unreal.FRotator, bResetCamera : Bool) : Void;
   
   /**
     Return the Pawn that is currently 'controlled' by this PlayerController
   **/
-  @:thisConst @:final public function K2_GetPawn() : unreal.APawn;
+  @:ufunction @:thisConst @:final public function K2_GetPawn() : unreal.APawn;
   
   /**
     Get the actor the controller is looking at
   **/
-  @:thisConst public function GetViewTarget() : unreal.AActor;
+  @:ufunction @:thisConst public function GetViewTarget() : unreal.AActor;
   
   /**
     Get the desired pawn target rotation
   **/
-  @:thisConst public function GetDesiredRotation() : unreal.FRotator;
+  @:ufunction @:thisConst public function GetDesiredRotation() : unreal.FRotator;
   
   /**
     Returns whether this Controller is a PlayerController.
   **/
-  @:thisConst @:final public function IsPlayerController() : Bool;
+  @:ufunction @:thisConst @:final public function IsPlayerController() : Bool;
   
   /**
     Returns whether this Controller is a locally controlled PlayerController.
   **/
-  @:thisConst @:final public function IsLocalPlayerController() : Bool;
+  @:ufunction @:thisConst @:final public function IsLocalPlayerController() : Bool;
   
   /**
     Returns whether this Controller is a local controller.
   **/
-  @:thisConst public function IsLocalController() : Bool;
+  @:ufunction @:thisConst public function IsLocalController() : Bool;
   
   /**
     Handles attaching this controller to the specified pawn.
@@ -128,59 +128,59 @@ package unreal;
     @param InPawn The Pawn to be possessed.
     @see HasAuthority()
   **/
-  public function Possess(InPawn : unreal.APawn) : Void;
+  @:ufunction public function Possess(InPawn : unreal.APawn) : Void;
   
   /**
     Called to unpossess our pawn for any reason that is not the pawn being destroyed (destruction handled by PawnDestroyed()).
   **/
-  public function UnPossess() : Void;
+  @:ufunction public function UnPossess() : Void;
   
   /**
     Aborts the move the controller is currently performing
   **/
-  public function StopMovement() : Void;
+  @:ufunction public function StopMovement() : Void;
   
   /**
     Locks or unlocks movement input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreMoveInput.
     @param bNewMoveInput  If true, move input is ignored. If false, input is not ignored.
   **/
-  public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
+  @:ufunction public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
   
   /**
     Stops ignoring move input by resetting the ignore move input state.
   **/
-  public function ResetIgnoreMoveInput() : Void;
+  @:ufunction public function ResetIgnoreMoveInput() : Void;
   
   /**
     Returns true if movement input is ignored.
   **/
-  @:thisConst public function IsMoveInputIgnored() : Bool;
+  @:ufunction @:thisConst public function IsMoveInputIgnored() : Bool;
   
   /**
     Locks or unlocks look input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreLookInput.
     @param bNewLookInput  If true, look input is ignored. If false, input is not ignored.
   **/
-  public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
+  @:ufunction public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
   
   /**
     Stops ignoring look input by resetting the ignore look input state.
   **/
-  public function ResetIgnoreLookInput() : Void;
+  @:ufunction public function ResetIgnoreLookInput() : Void;
   
   /**
     Returns true if look input is ignored.
   **/
-  @:thisConst public function IsLookInputIgnored() : Bool;
+  @:ufunction @:thisConst public function IsLookInputIgnored() : Bool;
   
   /**
     Reset move and look input ignore flags.
   **/
-  public function ResetIgnoreInputFlags() : Void;
+  @:ufunction public function ResetIgnoreInputFlags() : Void;
   
   /**
     Event when this controller instigates ANY damage
   **/
-  private function ReceiveInstigatedAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, DamagedActor : unreal.AActor, DamageCauser : unreal.AActor) : Void;
+  @:ufunction private function ReceiveInstigatedAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, DamagedActor : unreal.AActor, DamageCauser : unreal.AActor) : Void;
   // NavAgentInterface interface implementation
   
 }

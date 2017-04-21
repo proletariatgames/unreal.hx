@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("GameFramework/Character.h")
-@:noCopy @:noEquals @:uextern extern class FSimulatedRootMotionReplicatedMove {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSimulatedRootMotionReplicatedMove {
   
   /**
     Root Motion information
   **/
-  public var RootMotion : unreal.FRepRootMotionMontage;
+  @:uproperty public var RootMotion : unreal.FRepRootMotionMontage;
   
   /**
     Local time when move was received on client and saved.
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

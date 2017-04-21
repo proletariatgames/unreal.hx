@@ -16,7 +16,7 @@ package unreal.niagara;
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraCommon.h")
 @:uname("ENiagaraDataType")
-@:class @:uextern extern enum ENiagaraDataType {
+@:class @:uextern @:uenum extern enum ENiagaraDataType {
   Scalar;
   Vector;
   Matrix;

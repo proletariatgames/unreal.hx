@@ -21,8 +21,8 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionJumpForce.h")
-@:uextern extern class UAbilityTask_ApplyRootMotionJumpForce extends unreal.gameplayabilities.UAbilityTask {
-  private var MovementComponent : unreal.UCharacterMovementComponent;
+@:uextern @:uclass extern class UAbilityTask_ApplyRootMotionJumpForce extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var MovementComponent : unreal.UCharacterMovementComponent;
   
   /**
     Maps real time to movement fraction curve to affect the speed of the
@@ -31,13 +31,13 @@ package unreal.gameplayabilities;
     Curve Y is 0 to 1 is what percent of the move should be at a given X
     Default if unset is a 1:1 correspondence
   **/
-  private var TimeMappingCurve : unreal.UCurveFloat;
-  private var PathOffsetCurve : unreal.UCurveVector;
-  private var MinimumLandedTriggerTime : unreal.Float32;
-  private var Duration : unreal.Float32;
-  private var Height : unreal.Float32;
-  private var Distance : unreal.Float32;
-  private var Rotation : unreal.FRotator;
-  private var ForceName : unreal.FName;
+  @:uproperty private var TimeMappingCurve : unreal.UCurveFloat;
+  @:uproperty private var PathOffsetCurve : unreal.UCurveVector;
+  @:uproperty private var MinimumLandedTriggerTime : unreal.Float32;
+  @:uproperty private var Duration : unreal.Float32;
+  @:uproperty private var Height : unreal.Float32;
+  @:uproperty private var Distance : unreal.Float32;
+  @:uproperty private var Rotation : unreal.FRotator;
+  @:uproperty private var ForceName : unreal.FName;
   
 }

@@ -20,6 +20,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectUIData.h")
-@:uextern extern class UGameplayEffectUIData extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayEffectUIData extends unreal.UObject {
   
 }

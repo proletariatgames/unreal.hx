@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollisionBase.h")
 @:uname("EParticleCollisionComplete")
-@:uextern extern enum EParticleCollisionComplete {
+@:uextern @:uenum extern enum EParticleCollisionComplete {
   
   /**
     Kill the particle when MaxCollisions is reached

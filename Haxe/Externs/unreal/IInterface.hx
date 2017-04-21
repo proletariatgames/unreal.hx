@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern interface IInterface {
+@:uextern @:uclass extern interface IInterface {
   
 }

@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Tests/FbxAutomationCommon.h")
 @:uname("EFBXExpectedResultPreset")
-@:uextern extern enum EFBXExpectedResultPreset {
+@:uextern @:uenum extern enum EFBXExpectedResultPreset {
   
   /**
     Data should contain the number of error [int0].

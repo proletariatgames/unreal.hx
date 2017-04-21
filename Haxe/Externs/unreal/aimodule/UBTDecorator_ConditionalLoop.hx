@@ -20,6 +20,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_ConditionalLoop.h")
-@:uextern extern class UBTDecorator_ConditionalLoop extends unreal.aimodule.UBTDecorator_Blackboard {
+@:uextern @:uclass extern class UBTDecorator_ConditionalLoop extends unreal.aimodule.UBTDecorator_Blackboard {
   
 }

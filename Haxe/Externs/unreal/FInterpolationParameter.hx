@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:noCopy @:noEquals @:uextern extern class FInterpolationParameter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpolationParameter {
   
   /**
     Interpolation Type for input, when it gets input, it will use this filter to decide how to get to target.
   **/
-  public var InterpolationType : unreal.EFilterInterpolationType;
+  @:uproperty public var InterpolationType : unreal.EFilterInterpolationType;
   
   /**
     Interpolation Time for input, when it gets input, it will use this time to interpolate to target, used for smoother interpolation.
   **/
-  public var InterpolationTime : unreal.Float32;
+  @:uproperty public var InterpolationTime : unreal.Float32;
   
 }

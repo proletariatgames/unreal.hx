@@ -20,12 +20,12 @@ package unreal;
   @see UMovementComponent
 **/
 @:glueCppIncludes("Components/InterpToMovementComponent.h")
-@:uextern extern class UInterpToMovementComponent extends unreal.UMovementComponent {
+@:uextern @:uclass extern class UInterpToMovementComponent extends unreal.UMovementComponent {
   
   /**
     List of control points to visit.
   **/
-  public var ControlPoints : unreal.TArray<unreal.FInterpControlPoint>;
+  @:uproperty public var ControlPoints : unreal.TArray<unreal.FInterpControlPoint>;
   
   /**
     Max number of iterations used for each discrete simulation step.
@@ -34,7 +34,7 @@ package unreal;
     WARNING: if (MaxSimulationTimeStep * MaxSimulationIterations) is too low for the min framerate, the last simulation step may exceed MaxSimulationTimeStep to complete the simulation.
     @see MaxSimulationTimeStep, bForceSubStepping
   **/
-  public var MaxSimulationIterations : unreal.Int32;
+  @:uproperty public var MaxSimulationIterations : unreal.Int32;
   
   /**
     Max time delta for each discrete simulation step.
@@ -43,7 +43,7 @@ package unreal;
     WARNING: if (MaxSimulationTimeStep * MaxSimulationIterations) is too low for the min framerate, the last simulation step may exceed MaxSimulationTimeStep to complete the simulation.
     @see MaxSimulationIterations, bForceSubStepping
   **/
-  public var MaxSimulationTimeStep : unreal.Float32;
+  @:uproperty public var MaxSimulationTimeStep : unreal.Float32;
   
   /**
     If true, forces sub-stepping to break up movement into discrete smaller steps to improve accuracy of the trajectory.
@@ -51,36 +51,36 @@ package unreal;
     Sub-stepping is automatically enabled when under the effects of gravity or when homing towards a target.
     @see MaxSimulationTimeStep, MaxSimulationIterations
   **/
-  public var bForceSubStepping : Bool;
+  @:uproperty public var bForceSubStepping : Bool;
   
   /**
     Movement behaviour of the component
   **/
-  public var BehaviourType : unreal.EInterpToBehaviourType;
+  @:uproperty public var BehaviourType : unreal.EInterpToBehaviourType;
   
   /**
     If true, will pause movement on impact. If false it will behave as if the end of the movement range was reached based on the BehaviourType.
   **/
-  public var bPauseOnImpact : Bool;
+  @:uproperty public var bPauseOnImpact : Bool;
   
   /**
     How long to take to move from the first point to the last (or vice versa)
   **/
-  public var Duration : unreal.Float32;
+  @:uproperty public var Duration : unreal.Float32;
   
   /**
     Clears the reference to UpdatedComponent, fires stop event, and stops ticking.
   **/
-  @:final public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction @:final public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Reset to start. Sets time to zero and direction to 1.
   **/
-  @:final public function RestartMovement(InitialDirection : unreal.Float32) : Void;
+  @:ufunction @:final public function RestartMovement(InitialDirection : unreal.Float32 = 1.000000) : Void;
   
   /**
     Initialise the control points array. Call after adding control points if they are add after begin play .
   **/
-  @:final public function FinaliseControlPoints() : Void;
+  @:ufunction @:final public function FinaliseControlPoints() : Void;
   
 }

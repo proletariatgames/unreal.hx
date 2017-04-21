@@ -21,11 +21,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitConfirmCancel.h")
-@:uextern extern class UAbilityTask_WaitConfirmCancel extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnConfirmCallback() : Void;
-  @:final public function OnCancelCallback() : Void;
-  @:final public function OnLocalConfirmCallback() : Void;
-  @:final public function OnLocalCancelCallback() : Void;
-  static public function WaitConfirmCancel(WorldContextObject : unreal.UObject) : unreal.gameplayabilities.UAbilityTask_WaitConfirmCancel;
+@:uextern @:uclass extern class UAbilityTask_WaitConfirmCancel extends unreal.gameplayabilities.UAbilityTask {
+  @:ufunction @:final public function OnConfirmCallback() : Void;
+  @:ufunction @:final public function OnCancelCallback() : Void;
+  @:ufunction @:final public function OnLocalConfirmCallback() : Void;
+  @:ufunction @:final public function OnLocalCancelCallback() : Void;
+  @:ufunction static public function WaitConfirmCancel(WorldContextObject : unreal.UObject) : unreal.gameplayabilities.UAbilityTask_WaitConfirmCancel;
   
 }

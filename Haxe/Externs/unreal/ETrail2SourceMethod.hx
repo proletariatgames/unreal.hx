@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/Trail/ParticleModuleTrailSource.h")
 @:uname("ETrail2SourceMethod")
-@:uextern extern enum ETrail2SourceMethod {
+@:uextern @:uenum extern enum ETrail2SourceMethod {
   
   /**
     Default        - use the emitter position.

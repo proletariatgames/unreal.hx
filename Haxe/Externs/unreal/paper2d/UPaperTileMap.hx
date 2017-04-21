@@ -19,104 +19,104 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileMap.h")
-@:uextern extern class UPaperTileMap extends unreal.UObject {
+@:uextern @:uclass extern class UPaperTileMap extends unreal.UObject {
   
   /**
     The naming index to start at when trying to create a new layer
   **/
-  public var LayerNameIndex : unreal.Int32;
+  @:uproperty public var LayerNameIndex : unreal.Int32;
   #if WITH_EDITORONLY_DATA
   
   /**
     The background color displayed in the tile map editor
   **/
-  public var BackgroundColor : unreal.FLinearColor;
+  @:uproperty public var BackgroundColor : unreal.FLinearColor;
   
   /**
     The currently selected layer index
   **/
-  public var SelectedLayerIndex : unreal.Int32;
+  @:uproperty public var SelectedLayerIndex : unreal.Int32;
   
   /**
     Importing data and options used for this tile map
   **/
-  public var AssetImportData : unreal.UAssetImportData;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Baked physics data.
   **/
-  public var BodySetup : unreal.UBodySetup;
+  @:uproperty public var BodySetup : unreal.UBodySetup;
   
   /**
     The vertical height of the sides of the hex cell for a tile.
     Note: This value should already be included as part of the TileHeight, and is purely cosmetic; it only affects how the tile cursor preview is drawn.
   **/
-  public var HexSideLength : unreal.Int32;
+  @:uproperty public var HexSideLength : unreal.Int32;
   
   /**
     Tile map type
   **/
-  public var ProjectionMode : unreal.paper2d.ETileMapProjectionMode;
+  @:uproperty public var ProjectionMode : unreal.paper2d.ETileMapProjectionMode;
   
   /**
     Collision domain (no collision, 2D, or 3D)
   **/
-  private var SpriteCollisionDomain : unreal.paper2d.ESpriteCollisionMode;
+  @:uproperty private var SpriteCollisionDomain : unreal.paper2d.ESpriteCollisionMode;
   
   /**
     The extrusion thickness of collision geometry when using a 3D collision domain
   **/
-  private var CollisionThickness : unreal.Float32;
+  @:uproperty private var CollisionThickness : unreal.Float32;
   
   /**
     The list of layers
   **/
-  public var TileLayers : unreal.TArray<unreal.paper2d.UPaperTileLayer>;
+  @:uproperty public var TileLayers : unreal.TArray<unreal.paper2d.UPaperTileLayer>;
   
   /**
     The material to use on a tile map instance if not overridden
   **/
-  public var Material : unreal.UMaterialInterface;
+  @:uproperty public var Material : unreal.UMaterialInterface;
   
   /**
     The Z-separation between each layer of the tile map
   **/
-  public var SeparationPerLayer : unreal.Float32;
+  @:uproperty public var SeparationPerLayer : unreal.Float32;
   
   /**
     The Z-separation incurred as you travel in Y (not strictly applied, batched tiles will be put at the same Z level)
   **/
-  public var SeparationPerTileY : unreal.Float32;
+  @:uproperty public var SeparationPerTileY : unreal.Float32;
   
   /**
     The Z-separation incurred as you travel in X (not strictly applied, batched tiles will be put at the same Z level)
   **/
-  public var SeparationPerTileX : unreal.Float32;
+  @:uproperty public var SeparationPerTileX : unreal.Float32;
   
   /**
     The scaling factor between pixels and Unreal units (cm) (e.g., 0.64 would make a 64 pixel wide tile take up 100 cm)
   **/
-  public var PixelsPerUnrealUnit : unreal.Float32;
+  @:uproperty public var PixelsPerUnrealUnit : unreal.Float32;
   
   /**
     Height of one tile (in pixels)
   **/
-  public var TileHeight : unreal.Int32;
+  @:uproperty public var TileHeight : unreal.Int32;
   
   /**
     Width of one tile (in pixels)
   **/
-  public var TileWidth : unreal.Int32;
+  @:uproperty public var TileWidth : unreal.Int32;
   
   /**
     Height of map (in tiles)
   **/
-  public var MapHeight : unreal.Int32;
+  @:uproperty public var MapHeight : unreal.Int32;
   
   /**
     Width of map (in tiles)
   **/
-  public var MapWidth : unreal.Int32;
+  @:uproperty public var MapWidth : unreal.Int32;
   
 }

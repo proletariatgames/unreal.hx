@@ -15,46 +15,46 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportFactory.h")
-@:uextern extern class UFbxSceneImportFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UFbxSceneImportFactory extends unreal.editor.UFactory {
   
   /**
     Pointer on the fbx scene import data, we fill this object to be able to do re import of the scene
   **/
-  private var ReimportData : unreal.editor.UFbxSceneImportData;
+  @:uproperty private var ReimportData : unreal.editor.UFbxSceneImportData;
   
   /**
     Import data used when importing textures
   **/
-  public var TextureImportData : unreal.editor.UFbxTextureImportData;
+  @:uproperty public var TextureImportData : unreal.editor.UFbxTextureImportData;
   
   /**
     Import data used when importing animations
   **/
-  public var AnimSequenceImportData : unreal.editor.UFbxAnimSequenceImportData;
+  @:uproperty public var AnimSequenceImportData : unreal.editor.UFbxAnimSequenceImportData;
   
   /**
     Import data used when importing skeletal meshes
   **/
-  public var SkeletalMeshImportData : unreal.editor.UFbxSkeletalMeshImportData;
+  @:uproperty public var SkeletalMeshImportData : unreal.editor.UFbxSkeletalMeshImportData;
   
   /**
     Import data used when importing static meshes
   **/
-  public var StaticMeshImportData : unreal.editor.UFbxStaticMeshImportData;
+  @:uproperty public var StaticMeshImportData : unreal.editor.UFbxStaticMeshImportData;
   
   /**
     Import options UI detail when importing fbx scene skeletal mesh
   **/
-  public var SceneImportOptionsSkeletalMesh : unreal.editor.UFbxSceneImportOptionsSkeletalMesh;
+  @:uproperty public var SceneImportOptionsSkeletalMesh : unreal.editor.UFbxSceneImportOptionsSkeletalMesh;
   
   /**
     Import options UI detail when importing fbx scene static mesh
   **/
-  public var SceneImportOptionsStaticMesh : unreal.editor.UFbxSceneImportOptionsStaticMesh;
+  @:uproperty public var SceneImportOptionsStaticMesh : unreal.editor.UFbxSceneImportOptionsStaticMesh;
   
   /**
     Import options UI detail when importing fbx scene
   **/
-  public var SceneImportOptions : unreal.editor.UFbxSceneImportOptions;
+  @:uproperty public var SceneImportOptions : unreal.editor.UFbxSceneImportOptions;
   
 }

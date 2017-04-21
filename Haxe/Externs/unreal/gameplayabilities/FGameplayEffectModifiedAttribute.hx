@@ -19,16 +19,16 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectModifiedAttribute {
+@:uextern @:ustruct extern class FGameplayEffectModifiedAttribute {
   
   /**
     Total magnitude applied to that attribute
   **/
-  public var TotalMagnitude : unreal.Float32;
+  @:uproperty public var TotalMagnitude : unreal.Float32;
   
   /**
     The attribute that has been modified
   **/
-  public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
   
 }

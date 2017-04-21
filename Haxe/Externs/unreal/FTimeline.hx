@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FTimeline {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTimeline {
   
 }

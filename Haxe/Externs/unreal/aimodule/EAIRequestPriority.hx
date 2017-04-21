@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("AITypes.h")
 @:uname("EAIRequestPriority.Type")
-@:uextern extern enum EAIRequestPriority {
+@:uextern @:uenum extern enum EAIRequestPriority {
   
   /**
     Actions requested by Level Designers by placing AI-hinting elements on the map.

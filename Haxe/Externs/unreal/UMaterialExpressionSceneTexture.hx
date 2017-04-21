@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSceneTexture.h")
-@:noClass @:uextern extern class UMaterialExpressionSceneTexture extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSceneTexture extends unreal.UMaterialExpression {
   
   /**
     Whether to use point sampled texture lookup (default) or using [bi-linear] filtered (can be slower, avoid faceted lock with distortions), some SceneTextures cannot be filtered
   **/
-  public var bFiltered : Bool;
+  @:uproperty public var bFiltered : Bool;
   
   /**
     Clamps texture coordinates to the range 0 to 1. Incurs a performance cost.
   **/
-  public var bClampUVs : Bool;
+  @:uproperty public var bClampUVs : Bool;
   
   /**
     Which scene texture (screen aligned texture) we want to make a lookup into
   **/
-  public var SceneTextureId : unreal.ESceneTextureId;
+  @:uproperty public var SceneTextureId : unreal.ESceneTextureId;
   
   /**
     Ignored if not specified
   **/
-  public var Coordinates : unreal.FExpressionInput;
+  @:uproperty public var Coordinates : unreal.FExpressionInput;
   
 }

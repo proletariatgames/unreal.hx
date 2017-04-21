@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/LightmappedSurfaceCollection.h")
-@:uextern extern class ULightmappedSurfaceCollection extends unreal.UObject {
+@:uextern @:uclass extern class ULightmappedSurfaceCollection extends unreal.UObject {
   
   /**
     An array of the surface indices grouped into a single static lighting mapping.
   **/
-  public var Surfaces : unreal.TArray<unreal.Int32>;
+  @:uproperty public var Surfaces : unreal.TArray<unreal.Int32>;
   
   /**
     The UModel these surfaces come from.
   **/
-  public var SourceModel : unreal.UModel;
+  @:uproperty public var SourceModel : unreal.UModel;
   
 }

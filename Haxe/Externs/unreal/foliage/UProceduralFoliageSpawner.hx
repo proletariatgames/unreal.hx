@@ -15,27 +15,27 @@ package unreal.foliage;
 
 @:umodule("Foliage")
 @:glueCppIncludes("ProceduralFoliageSpawner.h")
-@:uextern extern class UProceduralFoliageSpawner extends unreal.UObject {
+@:uextern @:uclass extern class UProceduralFoliageSpawner extends unreal.UObject {
   
   /**
     Minimum size of the quad tree used during the simulation. Reduce if too many instances are in splittable leaf quads (as warned in the log).
   **/
-  public var MinimumQuadTreeSize : unreal.Float32;
+  @:uproperty public var MinimumQuadTreeSize : unreal.Float32;
   
   /**
     The number of unique tiles to generate. The final simulation is a procedurally determined combination of the various unique tiles.
   **/
-  public var NumUniqueTiles : unreal.Int32;
+  @:uproperty public var NumUniqueTiles : unreal.Int32;
   
   /**
     Length of the tile (in cm) along one axis. The total area of the tile will be TileSize*TileSize.
   **/
-  public var TileSize : unreal.Float32;
+  @:uproperty public var TileSize : unreal.Float32;
   
   /**
     The seed used for generating the randomness of the simulation.
   **/
-  public var RandomSeed : unreal.Int32;
-  @:final public function Simulate(NumSteps : unreal.Int32) : Void;
+  @:uproperty public var RandomSeed : unreal.Int32;
+  @:ufunction @:final public function Simulate(NumSteps : unreal.Int32 = -1) : Void;
   
 }

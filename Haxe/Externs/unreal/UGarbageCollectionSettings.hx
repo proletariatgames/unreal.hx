@@ -18,36 +18,36 @@ package unreal;
   Implements the settings for garbage collection.
 **/
 @:glueCppIncludes("Engine/CoreSettings.h")
-@:uextern extern class UGarbageCollectionSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UGarbageCollectionSettings extends unreal.UDeveloperSettings {
   
   /**
     Maximum number of UObjects that can exist in the editor game. Make sure this can hold enough objects for the editor and commadlets within reasonable limit.
   **/
-  private var MaxObjectsInEditor : unreal.Int32;
+  @:uproperty private var MaxObjectsInEditor : unreal.Int32;
   
   /**
     Maximum number of UObjects that can exist in cooked game. Keep this as small as possible.
   **/
-  private var MaxObjectsInGame : unreal.Int32;
+  @:uproperty private var MaxObjectsInGame : unreal.Int32;
   
   /**
     Size Of Permanent Object Pool (bytes). Works only in cooked builds.
   **/
-  private var SizeOfPermanentObjectPool : unreal.Int32;
+  @:uproperty private var SizeOfPermanentObjectPool : unreal.Int32;
   
   /**
     Maximum Object Count Not Considered By GC. Works only in cooked builds.
   **/
-  private var MaxObjectsNotConsideredByGC : unreal.Int32;
+  @:uproperty private var MaxObjectsNotConsideredByGC : unreal.Int32;
   
   /**
     Maximum number of times GC can be skipped if worker threads are currently modifying UObject state. 0 = never force GC
   **/
-  private var NumRetriesBeforeForcingGC : unreal.Int32;
+  @:uproperty private var NumRetriesBeforeForcingGC : unreal.Int32;
   
   /**
     Time in seconds (game time) we should wait between purging object references to objects that are pending kill.
   **/
-  private var TimeBetweenPurgingPendingKillObjects : unreal.Float32;
+  @:uproperty private var TimeBetweenPurgingPendingKillObjects : unreal.Float32;
   
 }

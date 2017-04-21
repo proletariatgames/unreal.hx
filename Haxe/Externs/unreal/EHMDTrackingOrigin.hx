@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/HeadMountedDisplayFunctionLibrary.h")
 @:uname("EHMDTrackingOrigin.Type")
-@:uextern extern enum EHMDTrackingOrigin {
+@:uextern @:uenum extern enum EHMDTrackingOrigin {
   
   /**
     Floor Level

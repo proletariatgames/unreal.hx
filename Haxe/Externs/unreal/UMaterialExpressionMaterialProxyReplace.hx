@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionMaterialProxyReplace.h")
-@:noClass @:uextern extern class UMaterialExpressionMaterialProxyReplace extends unreal.UMaterialExpression {
-  public var MaterialProxy : unreal.FExpressionInput;
-  public var Realtime : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionMaterialProxyReplace extends unreal.UMaterialExpression {
+  @:uproperty public var MaterialProxy : unreal.FExpressionInput;
+  @:uproperty public var Realtime : unreal.FExpressionInput;
   
 }

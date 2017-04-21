@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EComponentMobility.Type")
-@:uextern extern enum EComponentMobility {
+@:uextern @:uenum extern enum EComponentMobility {
   
   /**
     Static objects cannot be moved or changed in game.

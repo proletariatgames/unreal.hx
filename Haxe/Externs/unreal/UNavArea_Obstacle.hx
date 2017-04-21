@@ -18,6 +18,6 @@ package unreal;
   In general represents a high cost area, that shouldn't be traversed by anyone unless no other path exist.
 **/
 @:glueCppIncludes("AI/Navigation/NavAreas/NavArea_Obstacle.h")
-@:uextern extern class UNavArea_Obstacle extends unreal.UNavArea {
+@:uextern @:uclass extern class UNavArea_Obstacle extends unreal.UNavArea {
   
 }

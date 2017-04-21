@@ -21,16 +21,16 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcStaticMeshSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcStaticMeshSettings {
   
   /**
     This will, if applicable, apply matrix transformations to the meshes before merging
   **/
-  public var bPropagateMatrixTransformations : Bool;
+  @:uproperty public var bPropagateMatrixTransformations : Bool;
   
   /**
     Whether or not to merge the static meshes on import (remember this can cause problems with overlapping UV-sets)
   **/
-  public var bMergeMeshes : Bool;
+  @:uproperty public var bMergeMeshes : Bool;
   
 }

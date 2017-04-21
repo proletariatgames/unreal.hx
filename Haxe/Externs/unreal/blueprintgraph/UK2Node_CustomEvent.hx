@@ -21,11 +21,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_CustomEvent.h")
-@:uextern extern class UK2Node_CustomEvent extends unreal.blueprintgraph.UK2Node_Event {
+@:uextern @:uclass extern class UK2Node_CustomEvent extends unreal.blueprintgraph.UK2Node_Event {
   
   /**
     Specifies that the event can be triggered in Editor
   **/
-  public var bCallInEditor : Bool;
+  @:uproperty public var bCallInEditor : Bool;
   
 }

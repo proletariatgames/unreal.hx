@@ -21,6 +21,6 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Resources/ContentExamples/Reflections/1_3/index.html
 **/
 @:glueCppIncludes("Engine/BoxReflectionCapture.h")
-@:uextern extern class ABoxReflectionCapture extends unreal.AReflectionCapture {
+@:uextern @:uclass extern class ABoxReflectionCapture extends unreal.AReflectionCapture {
   
 }

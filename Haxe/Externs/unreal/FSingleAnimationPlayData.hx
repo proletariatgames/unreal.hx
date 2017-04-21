@@ -20,33 +20,33 @@ package unreal;
   
 **/
 @:glueCppIncludes("SingleAnimationPlayData.h")
-@:noCopy @:noEquals @:uextern extern class FSingleAnimationPlayData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSingleAnimationPlayData {
   
   /**
     Default setting for play rate of SequenceToPlay to play.
   **/
-  public var SavedPlayRate : unreal.Float32;
+  @:uproperty public var SavedPlayRate : unreal.Float32;
   
   /**
     Default setting for position of SequenceToPlay to play.
   **/
-  public var SavedPosition : unreal.Float32;
+  @:uproperty public var SavedPosition : unreal.Float32;
   
   /**
     Default setting for playing for SequenceToPlay. This is not current state of playing.
   **/
-  public var bSavedPlaying : Bool;
+  @:uproperty public var bSavedPlaying : Bool;
   
   /**
     Default setting for looping for SequenceToPlay. This is not current state of looping.
   **/
-  public var bSavedLooping : Bool;
+  @:uproperty public var bSavedLooping : Bool;
   
   /**
     @todo in the future, we should make this one UObject
     and have detail customization to display different things
     The default sequence to play on this skeletal mesh
   **/
-  public var AnimToPlay : unreal.UAnimationAsset;
+  @:uproperty public var AnimToPlay : unreal.UAnimationAsset;
   
 }

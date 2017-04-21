@@ -19,6 +19,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectAttributeCaptureSpecContainer {
+@:uextern @:ustruct extern class FGameplayEffectAttributeCaptureSpecContainer {
   
 }

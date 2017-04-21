@@ -18,11 +18,11 @@ package unreal;
   One convex hull, used for simplified collision.
 **/
 @:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
-@:uextern extern class FConvexElement2D {
+@:uextern @:ustruct extern class FConvexElement2D {
   
   /**
     Vertices that lie on the convex hull
   **/
-  public var VertexData : unreal.TArray<unreal.FVector2D>;
+  @:uproperty public var VertexData : unreal.TArray<unreal.FVector2D>;
   
 }

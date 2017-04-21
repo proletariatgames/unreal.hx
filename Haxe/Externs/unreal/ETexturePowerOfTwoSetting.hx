@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/TextureDefines.h")
 @:uname("ETexturePowerOfTwoSetting.Type")
-@:uextern extern enum ETexturePowerOfTwoSetting {
+@:uextern @:uenum extern enum ETexturePowerOfTwoSetting {
   
   /**
     Do not modify the texture dimensions.

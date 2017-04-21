@@ -19,98 +19,122 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UEditableText extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UEditableText extends unreal.umg.UWidget {
   
   /**
     Controls how the text within this widget should be shaped.
   **/
-  public var ShapedTextOptions : unreal.umg.FShapedTextOptions;
+  @:uproperty public var ShapedTextOptions : unreal.umg.FShapedTextOptions;
   
   /**
     If we're on a platform that requires a virtual keyboard, what kind of keyboard should this widget use?
   **/
-  public var KeyboardType : unreal.umg.EVirtualKeyboardType;
+  @:uproperty public var KeyboardType : unreal.umg.EVirtualKeyboardType;
   
   /**
     Whether the context menu can be opened
   **/
-  public var AllowContextMenu : Bool;
+  @:uproperty public var AllowContextMenu : Bool;
   
   /**
     Whether to select all text when pressing enter to commit changes
   **/
-  public var SelectAllTextOnCommit : Bool;
+  @:uproperty public var SelectAllTextOnCommit : Bool;
   
   /**
     Whether to clear keyboard focus when pressing enter to commit changes
   **/
-  public var ClearKeyboardFocusOnCommit : Bool;
+  @:uproperty public var ClearKeyboardFocusOnCommit : Bool;
   
   /**
     Whether to allow the user to back out of changes when they press the escape key
   **/
-  public var RevertTextOnEscape : Bool;
+  @:uproperty public var RevertTextOnEscape : Bool;
   
   /**
     Whether to select all text when the user clicks to give focus on the widget
   **/
-  public var SelectAllTextWhenFocused : Bool;
+  @:uproperty public var SelectAllTextWhenFocused : Bool;
   
   /**
     Workaround as we lose focus when the auto completion closes.
   **/
-  public var IsCaretMovedWhenGainFocus : Bool;
+  @:uproperty public var IsCaretMovedWhenGainFocus : Bool;
   
   /**
     Minimum width that a text block should be
   **/
-  public var MinimumDesiredWidth : unreal.Float32;
+  @:uproperty public var MinimumDesiredWidth : unreal.Float32;
   
   /**
     Sets whether this text box is for storing a password
   **/
-  public var IsPassword : Bool;
+  @:uproperty public var IsPassword : Bool;
   
   /**
     Sets whether this text box can actually be modified interactively by the user
   **/
-  public var IsReadOnly : Bool;
+  @:uproperty public var IsReadOnly : Bool;
   
   /**
     Text color and opacity (overrides Style)
   **/
-  @:deprecated public var ColorAndOpacity_DEPRECATED : unreal.slatecore.FSlateColor;
+  @:deprecated @:uproperty public var ColorAndOpacity_DEPRECATED : unreal.slatecore.FSlateColor;
   
   /**
     Font color and opacity (overrides Style)
   **/
-  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated @:uproperty public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
   
   /**
     Image brush used for the caret (overrides Style)
   **/
-  @:deprecated public var CaretImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var CaretImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Background image for the composing text (overrides Style)
   **/
-  @:deprecated public var BackgroundImageComposing_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var BackgroundImageComposing_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Background image for the selected text (overrides Style)
   **/
-  @:deprecated public var BackgroundImageSelected_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var BackgroundImageSelected_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Text style
   **/
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The style
   **/
-  public var WidgetStyle : unreal.slatecore.FEditableTextStyle;
-  @:final public function SetIsPassword(InbIsPassword : Bool) : Void;
-  @:final public function SetIsReadOnly(InbIsReadyOnly : Bool) : Void;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FEditableTextStyle;
+  
+  /**
+    Hint text that appears when there is no text in the text box
+  **/
+  @:uproperty public var HintText : unreal.FText;
+  
+  /**
+    The text content for this editable text box widget
+  **/
+  @:uproperty public var Text : unreal.FText;
+  
+  /**
+    Gets the widget text
+    @return The widget text
+  **/
+  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
+  
+  /**
+    Directly sets the widget text.
+    Warning: This will wipe any binding created for the Text property!
+    @param InText The text to assign to the widget
+  **/
+  @:ufunction @:final public function SetText(InText : unreal.FText) : Void;
+  @:ufunction @:final public function SetIsPassword(InbIsPassword : Bool) : Void;
+  @:ufunction @:final public function SetHintText(InHintText : unreal.FText) : Void;
+  @:ufunction @:final public function SetIsReadOnly(InbIsReadyOnly : Bool) : Void;
   
 }

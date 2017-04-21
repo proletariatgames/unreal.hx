@@ -21,11 +21,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Overlap.h")
-@:uextern extern class UEnvQueryTest_Overlap extends unreal.aimodule.UEnvQueryTest {
+@:uextern @:uclass extern class UEnvQueryTest_Overlap extends unreal.aimodule.UEnvQueryTest {
   
   /**
     Overlap data
   **/
-  public var OverlapData : unreal.aimodule.FEnvOverlapData;
+  @:uproperty public var OverlapData : unreal.aimodule.FEnvOverlapData;
   
 }

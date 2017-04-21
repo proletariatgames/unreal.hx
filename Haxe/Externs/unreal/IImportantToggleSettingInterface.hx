@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/ImportantToggleSettingInterface.h")
-@:uextern extern interface IImportantToggleSettingInterface {
+@:uextern @:uclass extern interface IImportantToggleSettingInterface {
   
 }

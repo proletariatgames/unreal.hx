@@ -14,39 +14,39 @@
 package unreal;
 
 @:glueCppIncludes("Camera/CameraAnimInst.h")
-@:uextern extern class UCameraAnimInst extends unreal.UObject {
-  public var PlaySpace : unreal.ECameraAnimPlaySpace;
-  public var MoveInst : unreal.UInterpTrackInstMove;
+@:uextern @:uclass extern class UCameraAnimInst extends unreal.UObject {
+  @:uproperty public var PlaySpace : unreal.ECameraAnimPlaySpace;
+  @:uproperty public var MoveInst : unreal.UInterpTrackInstMove;
   
   /**
     cached movement track from the currently playing anim so we don't have to go find it every frame
   **/
-  public var MoveTrack : unreal.UInterpTrackMove;
+  @:uproperty public var MoveTrack : unreal.UInterpTrackMove;
   
   /**
     Multiplier for playback rate.  1.0 = normal.
   **/
-  public var PlayRate : unreal.Float32;
-  public var InterpGroupInst : unreal.UInterpGroupInst;
+  @:uproperty public var PlayRate : unreal.Float32;
+  @:uproperty public var InterpGroupInst : unreal.UInterpGroupInst;
   
   /**
     which CameraAnim this is an instance of
   **/
-  public var CamAnim : unreal.UCameraAnim;
+  @:uproperty public var CamAnim : unreal.UCameraAnim;
   
   /**
     Stops this instance playing whatever animation it is playing.
   **/
-  @:final public function Stop(bImmediate : Bool) : Void;
+  @:ufunction @:final public function Stop(bImmediate : Bool = false) : Void;
   
   /**
     Changes the running duration of this active anim, while maintaining playback position.
   **/
-  @:final public function SetDuration(NewDuration : unreal.Float32) : Void;
+  @:ufunction @:final public function SetDuration(NewDuration : unreal.Float32) : Void;
   
   /**
     Changes the scale of the animation while playing.
   **/
-  @:final public function SetScale(NewDuration : unreal.Float32) : Void;
+  @:ufunction @:final public function SetScale(NewDuration : unreal.Float32) : Void;
   
 }

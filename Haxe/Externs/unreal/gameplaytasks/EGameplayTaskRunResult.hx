@@ -16,7 +16,7 @@ package unreal.gameplaytasks;
 @:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTasksComponent.h")
 @:uname("EGameplayTaskRunResult")
-@:class @:uextern extern enum EGameplayTaskRunResult {
+@:class @:uextern @:uenum extern enum EGameplayTaskRunResult {
   
   /**
     When tried running a null-task

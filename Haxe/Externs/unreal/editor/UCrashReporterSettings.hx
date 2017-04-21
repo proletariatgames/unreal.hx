@@ -19,21 +19,21 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("CrashReporterSettings.h")
-@:uextern extern class UCrashReporterSettings extends unreal.UObject {
+@:uextern @:uclass extern class UCrashReporterSettings extends unreal.UObject {
   
   /**
     Remote PDB storage (directory path or http/https URL)
   **/
-  public var RemoteStorage : unreal.TArray<unreal.FString>;
+  @:uproperty public var RemoteStorage : unreal.TArray<unreal.FString>;
   
   /**
     Local downstream PDB storage path (used for caching remote .PDB files)
   **/
-  public var DownstreamStorage : unreal.FString;
+  @:uproperty public var DownstreamStorage : unreal.FString;
   
   /**
     Directory for uploading locally built binaries and .PDB files
   **/
-  public var UploadSymbolsPath : unreal.FString;
+  @:uproperty public var UploadSymbolsPath : unreal.FString;
   
 }

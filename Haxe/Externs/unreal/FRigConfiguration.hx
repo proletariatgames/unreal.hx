@@ -20,12 +20,12 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:noCopy @:noEquals @:uextern extern class FRigConfiguration {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRigConfiguration {
   
   /**
     @todo in the future we can make this to be run-time data
   **/
-  public var BoneMappingTable : unreal.TArray<unreal.FNameMapping>;
-  public var Rig : unreal.URig;
+  @:uproperty public var BoneMappingTable : unreal.TArray<unreal.FNameMapping>;
+  @:uproperty public var Rig : unreal.URig;
   
 }

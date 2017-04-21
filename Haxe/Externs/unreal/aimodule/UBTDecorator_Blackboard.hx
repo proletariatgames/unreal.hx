@@ -20,41 +20,41 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_Blackboard.h")
-@:uextern extern class UBTDecorator_Blackboard extends unreal.aimodule.UBTDecorator_BlackboardBase {
+@:uextern @:uclass extern class UBTDecorator_Blackboard extends unreal.aimodule.UBTDecorator_BlackboardBase {
   #if WITH_EDITORONLY_DATA
-  private var TextOperation : unreal.aimodule.ETextKeyOperation;
-  private var ArithmeticOperation : unreal.aimodule.EArithmeticKeyOperation;
-  private var BasicOperation : unreal.aimodule.EBasicKeyOperation;
+  @:uproperty private var TextOperation : unreal.aimodule.ETextKeyOperation;
+  @:uproperty private var ArithmeticOperation : unreal.aimodule.EArithmeticKeyOperation;
+  @:uproperty private var BasicOperation : unreal.aimodule.EBasicKeyOperation;
   #end // WITH_EDITORONLY_DATA
   
   /**
     when observer can try to request abort?
   **/
-  private var NotifyObserver : unreal.aimodule.EBTBlackboardRestart;
+  @:uproperty private var NotifyObserver : unreal.aimodule.EBTBlackboardRestart;
   
   /**
     operation type
   **/
-  private var OperationType : unreal.UInt8;
+  @:uproperty private var OperationType : unreal.UInt8;
   
   /**
     cached description
   **/
-  private var CachedDescription : unreal.FString;
+  @:uproperty private var CachedDescription : unreal.FString;
   
   /**
     value for string operations
   **/
-  private var StringValue : unreal.FString;
+  @:uproperty private var StringValue : unreal.FString;
   
   /**
     value for arithmetic operations
   **/
-  private var FloatValue : unreal.Float32;
+  @:uproperty private var FloatValue : unreal.Float32;
   
   /**
     value for arithmetic operations
   **/
-  private var IntValue : unreal.Int32;
+  @:uproperty private var IntValue : unreal.Int32;
   
 }

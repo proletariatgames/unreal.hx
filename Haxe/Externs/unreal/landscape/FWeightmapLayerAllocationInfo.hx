@@ -21,9 +21,9 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeComponent.h")
-@:noCopy @:noEquals @:uextern extern class FWeightmapLayerAllocationInfo {
-  public var WeightmapTextureChannel : unreal.UInt8;
-  public var WeightmapTextureIndex : unreal.UInt8;
-  public var LayerInfo : unreal.landscape.ULandscapeLayerInfoObject;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWeightmapLayerAllocationInfo {
+  @:uproperty public var WeightmapTextureChannel : unreal.UInt8;
+  @:uproperty public var WeightmapTextureIndex : unreal.UInt8;
+  @:uproperty public var LayerInfo : unreal.landscape.ULandscapeLayerInfoObject;
   
 }

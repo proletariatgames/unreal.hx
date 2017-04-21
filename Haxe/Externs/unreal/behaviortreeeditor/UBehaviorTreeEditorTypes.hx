@@ -21,6 +21,6 @@ package unreal.behaviortreeeditor;
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeEditorTypes.h")
-@:noClass @:uextern extern class UBehaviorTreeEditorTypes extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UBehaviorTreeEditorTypes extends unreal.UObject {
   
 }

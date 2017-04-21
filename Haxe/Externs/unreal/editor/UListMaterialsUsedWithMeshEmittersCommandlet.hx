@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ListMaterialsUsedWithMeshEmittersCommandlet.h")
-@:noClass @:uextern extern class UListMaterialsUsedWithMeshEmittersCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UListMaterialsUsedWithMeshEmittersCommandlet extends unreal.UCommandlet {
   
 }

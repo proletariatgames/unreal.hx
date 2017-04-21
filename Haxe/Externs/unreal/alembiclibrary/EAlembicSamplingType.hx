@@ -16,7 +16,7 @@ package unreal.alembiclibrary;
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:uname("EAlembicSamplingType")
-@:class @:uextern extern enum EAlembicSamplingType {
+@:class @:uextern @:uenum extern enum EAlembicSamplingType {
   
   /**
     Samples the animation according to the imported data (default)

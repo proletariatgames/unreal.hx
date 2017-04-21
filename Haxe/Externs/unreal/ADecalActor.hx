@@ -21,23 +21,23 @@ package unreal;
   @see UDecalComponent
 **/
 @:glueCppIncludes("Engine/DecalActor.h")
-@:uextern extern class ADecalActor extends unreal.AActor {
+@:uextern @:uclass extern class ADecalActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
   
   /**
     formerly we used this component to draw a box, now we use the DecalComponentVisualizer
   **/
-  @:deprecated public var BoxComponent_DEPRECATED : unreal.UBoxComponent;
-  public var SpriteComponent : unreal.UBillboardComponent;
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:deprecated @:uproperty public var BoxComponent_DEPRECATED : unreal.UBoxComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
-  public var Decal : unreal.UDecalComponent;
+  @:uproperty public var Decal : unreal.UDecalComponent;
   
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
-  @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
-  public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
+  @:ufunction public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
 }

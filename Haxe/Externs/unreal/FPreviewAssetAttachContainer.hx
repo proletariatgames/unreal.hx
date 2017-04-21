@@ -20,6 +20,6 @@ package unreal;
   Component which deals with attaching assets
 **/
 @:glueCppIncludes("Animation/PreviewAssetAttachComponent.h")
-@:noCopy @:noEquals @:uextern extern class FPreviewAssetAttachContainer {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPreviewAssetAttachContainer {
   
 }

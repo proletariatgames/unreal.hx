@@ -20,15 +20,15 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PlanarReflection.h")
-@:uextern extern class APlanarReflection extends unreal.ASceneCapture {
-  public var bShowPreviewPlane : Bool;
+@:uextern @:uclass extern class APlanarReflection extends unreal.ASceneCapture {
+  @:uproperty public var bShowPreviewPlane : Bool;
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Planar reflection component.
   **/
-  public var PlanarReflectionComponent : unreal.UPlanarReflectionComponent;
+  @:uproperty public var PlanarReflectionComponent : unreal.UPlanarReflectionComponent;
   
 }

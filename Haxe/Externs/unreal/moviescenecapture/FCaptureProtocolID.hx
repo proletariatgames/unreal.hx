@@ -21,7 +21,7 @@ package unreal.moviescenecapture;
 **/
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCaptureProtocolRegistry.h")
-@:noCopy @:noEquals @:uextern extern class FCaptureProtocolID {
-  public var Identifier : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCaptureProtocolID {
+  @:uproperty public var Identifier : unreal.FName;
   
 }

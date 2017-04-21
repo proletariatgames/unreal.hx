@@ -21,7 +21,7 @@ package unreal.behaviortreeeditor;
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeGraphNode_Root.h")
-@:noClass @:uextern extern class UBehaviorTreeGraphNode_Root extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
-  public var BlackboardAsset : unreal.aimodule.UBlackboardData;
+@:noClass @:uextern @:uclass extern class UBehaviorTreeGraphNode_Root extends unreal.behaviortreeeditor.UBehaviorTreeGraphNode {
+  @:uproperty public var BlackboardAsset : unreal.aimodule.UBlackboardData;
   
 }

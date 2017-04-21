@@ -19,7 +19,7 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaPlayer.h")
-@:uextern extern class UMediaPlayer extends unreal.UObject {
+@:uextern @:uclass extern class UMediaPlayer extends unreal.UObject {
   
   /**
     Check whether media playback can be paused right now.
@@ -29,7 +29,7 @@ package unreal.mediaassets;
     @return true if pausing playback can be paused, false otherwise.
     @see CanPlay, Pause
   **/
-  @:thisConst @:final public function CanPause() : Bool;
+  @:ufunction @:thisConst @:final public function CanPause() : Bool;
   
   /**
     Check whether the specified URL can be played by this player.
@@ -40,14 +40,14 @@ package unreal.mediaassets;
     @param Url The URL to check.
     @see CanPlaySource, DesiredPlayerName
   **/
-  @:final public function CanPlayUrl(Url : unreal.FString) : Bool;
+  @:ufunction @:final public function CanPlayUrl(Url : unreal.FString) : Bool;
   
   /**
     Close the currently open media, if any.
     
     @see OnMediaClosed, OpenPlaylist, OpenPlaylistIndex, OpenSource, OpenUrl, Pause, Play
   **/
-  @:final public function Close() : Void;
+  @:ufunction @:final public function Close() : Void;
   
   /**
     Get the current caption text overlays, if any.
@@ -55,7 +55,7 @@ package unreal.mediaassets;
     @param OutCaptions Will contain the caption text overlays.
     @see GetSubtitles, GetTexts
   **/
-  @:thisConst @:final public function GetCaptions(OutCaptions : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
+  @:ufunction @:thisConst @:final public function GetCaptions(OutCaptions : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
   
   /**
     Get the media's duration.
@@ -63,7 +63,7 @@ package unreal.mediaassets;
     @return A time span representing the duration.
     @see GetTime, Seek
   **/
-  @:thisConst @:final public function GetDuration() : unreal.FTimespan;
+  @:ufunction @:thisConst @:final public function GetDuration() : unreal.FTimespan;
   
   /**
     Get the supported forward playback rates.
@@ -72,7 +72,7 @@ package unreal.mediaassets;
     @return The range of supported rates.
     @see GetReverseRates
   **/
-  @:final public function GetForwardRates(Unthinned : Bool) : unreal.FFloatRange;
+  @:ufunction @:final public function GetForwardRates(Unthinned : Bool = true) : unreal.FFloatRange;
   
   /**
     Get the number of tracks of the given type.
@@ -81,14 +81,14 @@ package unreal.mediaassets;
     @return Number of tracks.
     @see GetSelectedTrack, SelectTrack
   **/
-  @:thisConst @:final public function GetNumTracks(TrackType : unreal.mediaassets.EMediaPlayerTrack) : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetNumTracks(TrackType : unreal.mediaassets.EMediaPlayerTrack) : unreal.Int32;
   
   /**
     Get the name of the current native media player.
     
     @return Player name, or NAME_None if not available.
   **/
-  @:thisConst @:final public function GetPlayerName() : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetPlayerName() : unreal.FName;
   
   /**
     Get the media's current playback rate.
@@ -96,7 +96,7 @@ package unreal.mediaassets;
     @return The playback rate.
     @see SetRate, SupportsRate
   **/
-  @:thisConst @:final public function GetRate() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetRate() : unreal.Float32;
   
   /**
     Get the supported reverse playback rates.
@@ -105,7 +105,7 @@ package unreal.mediaassets;
     @return The range of supported rates.
     @see GetForwardRates
   **/
-  @:final public function GetReverseRates(Unthinned : Bool) : unreal.FFloatRange;
+  @:ufunction @:final public function GetReverseRates(Unthinned : Bool = true) : unreal.FFloatRange;
   
   /**
     Get the index of the currently selected track of the given type.
@@ -114,7 +114,7 @@ package unreal.mediaassets;
     @return The index of the selected track, or INDEX_NONE if no track is active.
     @see GetNumTracks, SelectTrack
   **/
-  @:thisConst @:final public function GetSelectedTrack(TrackType : unreal.mediaassets.EMediaPlayerTrack) : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetSelectedTrack(TrackType : unreal.mediaassets.EMediaPlayerTrack) : unreal.Int32;
   
   /**
     Get the current subtitle text overlays, if any.
@@ -122,7 +122,7 @@ package unreal.mediaassets;
     @param OutSubtitles Will contain the caption text overlays.
     @see GetCaptions, GetTexts
   **/
-  @:thisConst @:final public function GetSubtitles(OutSubtitles : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
+  @:ufunction @:thisConst @:final public function GetSubtitles(OutSubtitles : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
   
   /**
     Get the current generic text overlays, if any.
@@ -130,7 +130,7 @@ package unreal.mediaassets;
     @param OutTexts Will contain the text overlays.
     @see GetCaptions, GetSubtitles
   **/
-  @:thisConst @:final public function GetTexts(OutTexts : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
+  @:ufunction @:thisConst @:final public function GetTexts(OutTexts : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>) : Void;
   
   /**
     Get the media's current playback time.
@@ -138,7 +138,17 @@ package unreal.mediaassets;
     @return Playback time.
     @see GetDuration, Seek
   **/
-  @:thisConst @:final public function GetTime() : unreal.FTimespan;
+  @:ufunction @:thisConst @:final public function GetTime() : unreal.FTimespan;
+  
+  /**
+    Get the human readable name of the specified track.
+    
+    @param TrackType The type of track.
+    @param TrackIndex The index of the track.
+    @return Display name.
+    @see GetNumTracks, GetTrackLanguage
+  **/
+  @:ufunction @:thisConst @:final public function GetTrackDisplayName(TrackType : unreal.mediaassets.EMediaPlayerTrack, TrackIndex : unreal.Int32) : unreal.FText;
   
   /**
     Get the language tag of the specified track.
@@ -148,7 +158,7 @@ package unreal.mediaassets;
     @return Language tag, i.e. "en-US" for English, or "und" for undefined.
     @see GetNumTracks, GetTrackDisplayName
   **/
-  @:thisConst @:final public function GetTrackLanguage(TrackType : unreal.mediaassets.EMediaPlayerTrack, TrackIndex : unreal.Int32) : unreal.FString;
+  @:ufunction @:thisConst @:final public function GetTrackLanguage(TrackType : unreal.mediaassets.EMediaPlayerTrack, TrackIndex : unreal.Int32) : unreal.FString;
   
   /**
     Get the URL of the currently loaded media, if any.
@@ -156,7 +166,7 @@ package unreal.mediaassets;
     @return Media URL, or empty string if no media was loaded.
     @see OpenUrl
   **/
-  @:thisConst @:final public function GetUrl() : unreal.FString;
+  @:ufunction @:thisConst @:final public function GetUrl() : unreal.FString;
   
   /**
     Checks whether playback is looping.
@@ -164,7 +174,7 @@ package unreal.mediaassets;
     @return true if looping, false otherwise.
     @see SetLooping
   **/
-  @:thisConst @:final public function IsLooping() : Bool;
+  @:ufunction @:thisConst @:final public function IsLooping() : Bool;
   
   /**
     Checks whether playback is currently paused.
@@ -172,7 +182,7 @@ package unreal.mediaassets;
     @return true if playback is paused, false otherwise.
     @see CanPause, IsPlaying, IsReady, Pause
   **/
-  @:thisConst @:final public function IsPaused() : Bool;
+  @:ufunction @:thisConst @:final public function IsPaused() : Bool;
   
   /**
     Checks whether playback has started.
@@ -180,7 +190,7 @@ package unreal.mediaassets;
     @return true if playback has started, false otherwise.
     @see CanPlay, IsPaused, IsReady, Play
   **/
-  @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Checks whether the media is currently opening or buffering.
@@ -188,7 +198,7 @@ package unreal.mediaassets;
     @return true if playback is being prepared, false otherwise.
     @see CanPlay, IsPaused, IsReady, Play
   **/
-  @:thisConst @:final public function IsPreparing() : Bool;
+  @:ufunction @:thisConst @:final public function IsPreparing() : Bool;
   
   /**
     Checks whether media is ready for playback.
@@ -199,7 +209,7 @@ package unreal.mediaassets;
     @return true if media is ready, false otherwise.
     @see IsPaused, IsPlaying, Stop
   **/
-  @:thisConst @:final public function IsReady() : Bool;
+  @:ufunction @:thisConst @:final public function IsReady() : Bool;
   
   /**
     Open the next item in the current play list.
@@ -210,7 +220,7 @@ package unreal.mediaassets;
     @return true on success, false otherwise.
     @see Close, OpenUrl, OpenSource, Play, Previous, SetPlaylist
   **/
-  @:final public function Next() : Bool;
+  @:ufunction @:final public function Next() : Bool;
   
   /**
     Opens the specified media file path.
@@ -224,7 +234,7 @@ package unreal.mediaassets;
     @return true if the file path will be opened, false otherwise.
     @see GetUrl, Close, OpenPlaylist, OpenPlaylistIndex, OpenSource, OpenUrl, Reopen
   **/
-  @:final public function OpenFile(FilePath : unreal.FString) : Bool;
+  @:ufunction @:final public function OpenFile(FilePath : unreal.FString) : Bool;
   
   /**
     Open the first media source in the specified play list.
@@ -233,7 +243,7 @@ package unreal.mediaassets;
     @return true if the source will be opened, false otherwise.
     @see Close, OpenFile, OpenPlaylistIndex, OpenSource, OpenUrl, Reopen
   **/
-  @:final public function OpenPlaylist(InPlaylist : unreal.mediaassets.UMediaPlaylist) : Bool;
+  @:ufunction @:final public function OpenPlaylist(InPlaylist : unreal.mediaassets.UMediaPlaylist) : Bool;
   
   /**
     Open a particular media source in the specified play list.
@@ -243,7 +253,7 @@ package unreal.mediaassets;
     @return true if the source will be opened, false otherwise.
     @see Close, OpenFile, OpenPlaylist, OpenSource, OpenUrl, Reopen
   **/
-  @:final public function OpenPlaylistIndex(InPlaylist : unreal.mediaassets.UMediaPlaylist, Index : unreal.Int32) : Bool;
+  @:ufunction @:final public function OpenPlaylistIndex(InPlaylist : unreal.mediaassets.UMediaPlaylist, Index : unreal.Int32) : Bool;
   
   /**
     Open the specified media source.
@@ -257,7 +267,7 @@ package unreal.mediaassets;
     @return true if the source will be opened, false otherwise.
     @see Close, OpenFile, OpenPlaylist, OpenPlaylistIndex, OpenUrl, Reopen
   **/
-  @:final public function OpenSource(MediaSource : unreal.mediaassets.UMediaSource) : Bool;
+  @:ufunction @:final public function OpenSource(MediaSource : unreal.mediaassets.UMediaSource) : Bool;
   
   /**
     Opens the specified media URL.
@@ -271,7 +281,7 @@ package unreal.mediaassets;
     @return true if the URL will be opened, false otherwise.
     @see GetUrl, Close, OpenFile, OpenPlaylist, OpenPlaylistIndex, OpenSource, Reopen
   **/
-  @:final public function OpenUrl(Url : unreal.FString) : Bool;
+  @:ufunction @:final public function OpenUrl(Url : unreal.FString) : Bool;
   
   /**
     Pauses media playback.
@@ -281,7 +291,7 @@ package unreal.mediaassets;
     @return true if playback is being paused, false otherwise.
     @see CanPause, Close, Next, Play, Previous, Rewind, Seek
   **/
-  @:final public function Pause() : Bool;
+  @:ufunction @:final public function Pause() : Bool;
   
   /**
     Starts media playback.
@@ -291,7 +301,7 @@ package unreal.mediaassets;
     @return true if playback is starting, false otherwise.
     @see CanPlay, GetRate, Next, Pause, Previous, SetRate
   **/
-  @:final public function Play() : Bool;
+  @:ufunction @:final public function Play() : Bool;
   
   /**
     Open the previous item in the current play list.
@@ -302,7 +312,7 @@ package unreal.mediaassets;
     @return true on success, false otherwise.
     @see Close, Next, OpenUrl, OpenSource, Play, SetPlaylist
   **/
-  @:final public function Previous() : Bool;
+  @:ufunction @:final public function Previous() : Bool;
   
   /**
     Reopens the currently opened media or play list.
@@ -310,7 +320,7 @@ package unreal.mediaassets;
     @return true if the media will be opened, false otherwise.
     @see Close, Open, OpenFile, OpenPlaylist, OpenPlaylistIndex, OpenSource, OpenUrl
   **/
-  @:final public function Reopen() : Bool;
+  @:ufunction @:final public function Reopen() : Bool;
   
   /**
     Rewinds the media to the beginning.
@@ -320,7 +330,7 @@ package unreal.mediaassets;
     @return true if rewinding, false otherwise.
     @see GetTime, Seek
   **/
-  @:final public function Rewind() : Bool;
+  @:ufunction @:final public function Rewind() : Bool;
   
   /**
     Seeks to the specified playback time.
@@ -329,7 +339,7 @@ package unreal.mediaassets;
     @return true on success, false otherwise.
     @see GetTime, Rewind
   **/
-  @:final public function Seek(InTime : unreal.Const<unreal.PRef<unreal.FTimespan>>) : Bool;
+  @:ufunction @:final public function Seek(InTime : unreal.Const<unreal.PRef<unreal.FTimespan>>) : Bool;
   
   /**
     Select the active track of the given type.
@@ -341,7 +351,7 @@ package unreal.mediaassets;
     @return true if the track was selected, false otherwise.
     @see GetNumTracks, GetSelectedTrack
   **/
-  @:final public function SelectTrack(TrackType : unreal.mediaassets.EMediaPlayerTrack, TrackIndex : unreal.Int32) : Bool;
+  @:ufunction @:final public function SelectTrack(TrackType : unreal.mediaassets.EMediaPlayerTrack, TrackIndex : unreal.Int32) : Bool;
   
   /**
     Enables or disables playback looping.
@@ -350,7 +360,7 @@ package unreal.mediaassets;
     @return true on success, false otherwise.
     @see IsLooping
   **/
-  @:final public function SetLooping(InLooping : Bool) : Bool;
+  @:ufunction @:final public function SetLooping(InLooping : Bool) : Bool;
   
   /**
     Changes the media's playback rate.
@@ -359,7 +369,7 @@ package unreal.mediaassets;
     @return true on success, false otherwise.
     @see GetRate, SupportsRate
   **/
-  @:final public function SetRate(Rate : unreal.Float32) : Bool;
+  @:ufunction @:final public function SetRate(Rate : unreal.Float32) : Bool;
   
   /**
     Assign the given sound wave to the player's audio sink.
@@ -367,7 +377,7 @@ package unreal.mediaassets;
     @param NewSoundWave The sound wave to set.
     @see SetVideoTexture
   **/
-  @:final public function SetSoundWave(NewSoundWave : unreal.mediaassets.UMediaSoundWave) : Void;
+  @:ufunction @:final public function SetSoundWave(NewSoundWave : unreal.mediaassets.UMediaSoundWave) : Void;
   
   /**
     Assign the given texture to the player's video sink.
@@ -375,7 +385,7 @@ package unreal.mediaassets;
     @param NewTexture The texture to set.
     @see SetSoundWave
   **/
-  @:final public function SetVideoTexture(NewTexture : unreal.mediaassets.UMediaTexture) : Void;
+  @:ufunction @:final public function SetVideoTexture(NewTexture : unreal.mediaassets.UMediaTexture) : Void;
   
   /**
     Checks whether the specified playback rate is supported.
@@ -384,7 +394,7 @@ package unreal.mediaassets;
     @param Unthinned Whether no frames should be dropped at the given rate.
     @see SupportsScrubbing, SupportsSeeking
   **/
-  @:thisConst @:final public function SupportsRate(Rate : unreal.Float32, Unthinned : Bool) : Bool;
+  @:ufunction @:thisConst @:final public function SupportsRate(Rate : unreal.Float32, Unthinned : Bool) : Bool;
   
   /**
     Checks whether the currently loaded media supports scrubbing.
@@ -392,7 +402,7 @@ package unreal.mediaassets;
     @return true if scrubbing is supported, false otherwise.
     @see SupportsRate, SupportsSeeking
   **/
-  @:thisConst @:final public function SupportsScrubbing() : Bool;
+  @:ufunction @:thisConst @:final public function SupportsScrubbing() : Bool;
   
   /**
     Checks whether the currently loaded media can jump to a certain position.
@@ -400,41 +410,41 @@ package unreal.mediaassets;
     @return true if seeking is supported, false otherwise.
     @see SupportsRate, SupportsScrubbing
   **/
-  @:thisConst @:final public function SupportsSeeking() : Bool;
+  @:ufunction @:thisConst @:final public function SupportsSeeking() : Bool;
   
   /**
     The media texture to output the video track frames to.
   **/
-  private var VideoTexture : unreal.mediaassets.UMediaTexture;
+  @:uproperty private var VideoTexture : unreal.mediaassets.UMediaTexture;
   
   /**
     The media sound wave to output the audio track samples to.
   **/
-  private var SoundWave : unreal.mediaassets.UMediaSoundWave;
+  @:uproperty private var SoundWave : unreal.mediaassets.UMediaSoundWave;
   
   /**
     The current index of the source in the play list being played.
   **/
-  private var PlaylistIndex : unreal.Int32;
+  @:uproperty private var PlaylistIndex : unreal.Int32;
   
   /**
     The play list to use, if any.
   **/
-  private var Playlist : unreal.mediaassets.UMediaPlaylist;
+  @:uproperty private var Playlist : unreal.mediaassets.UMediaPlaylist;
   
   /**
     Whether playback should shuffle media sources in the play list.
   **/
-  public var Shuffle : Bool;
+  @:uproperty public var Shuffle : Bool;
   
   /**
     Automatically start playback after media opened successfully.
   **/
-  public var PlayOnOpen : Bool;
+  @:uproperty public var PlayOnOpen : Bool;
   
   /**
     Name of the desired native player, if any.
   **/
-  public var DesiredPlayerName : unreal.FName;
+  @:uproperty public var DesiredPlayerName : unreal.FName;
   
 }

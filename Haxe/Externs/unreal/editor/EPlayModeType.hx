@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayModeType")
-@:uextern extern enum EPlayModeType {
+@:uextern @:uenum extern enum EPlayModeType {
   
   /**
     Runs from within the editor.

@@ -18,26 +18,26 @@ package unreal;
   A rich, editable float curve
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
-@:uextern extern class FRichCurve extends unreal.FIndexedCurve {
+@:uextern @:ustruct extern class FRichCurve extends unreal.FIndexedCurve {
   
   /**
     Default value
   **/
-  public var DefaultValue : unreal.Float32;
+  @:uproperty public var DefaultValue : unreal.Float32;
   
   /**
     Sorted array of keys
   **/
-  public var Keys : unreal.TArray<unreal.FRichCurveKey>;
+  @:uproperty public var Keys : unreal.TArray<unreal.FRichCurveKey>;
   
   /**
     Post-infinity extrapolation state
   **/
-  public var PostInfinityExtrap : unreal.ERichCurveExtrapolation;
+  @:uproperty public var PostInfinityExtrap : unreal.ERichCurveExtrapolation;
   
   /**
     Pre-infinity extrapolation state
   **/
-  public var PreInfinityExtrap : unreal.ERichCurveExtrapolation;
+  @:uproperty public var PreInfinityExtrap : unreal.ERichCurveExtrapolation;
   
 }

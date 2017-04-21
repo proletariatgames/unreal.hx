@@ -20,6 +20,6 @@ package unreal;
   An invisible volume used to block other actors.
 **/
 @:glueCppIncludes("Engine/BlockingVolume.h")
-@:uextern extern class ABlockingVolume extends unreal.AVolume {
+@:uextern @:uclass extern class ABlockingVolume extends unreal.AVolume {
   
 }

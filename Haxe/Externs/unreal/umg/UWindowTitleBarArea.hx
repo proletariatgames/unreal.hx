@@ -19,14 +19,14 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWindowTitleBarArea extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UWindowTitleBarArea extends unreal.umg.UContentWidget {
   
   /**
     Should double clicking the title bar area toggle fullscreen instead of maximizing the window.
   **/
-  public var bDoubleClickTogglesFullscreen : Bool;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:uproperty public var bDoubleClickTogglesFullscreen : Bool;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

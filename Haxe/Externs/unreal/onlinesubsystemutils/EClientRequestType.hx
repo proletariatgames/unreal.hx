@@ -20,7 +20,7 @@ package unreal.onlinesubsystemutils;
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconClient.h")
 @:uname("EClientRequestType")
-@:class @:uextern extern enum EClientRequestType {
+@:class @:uextern @:uenum extern enum EClientRequestType {
   
   /**
     None pending

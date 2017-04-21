@@ -21,21 +21,21 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeSplineSegmentConnection {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeSplineSegmentConnection {
   
   /**
     Socket on the control point that we are connected to
   **/
-  public var SocketName : unreal.FName;
+  @:uproperty public var SocketName : unreal.FName;
   
   /**
     Tangent length of the connection
   **/
-  public var TangentLen : unreal.Float32;
+  @:uproperty public var TangentLen : unreal.Float32;
   
   /**
     Control point connected to this end of the segment
   **/
-  public var ControlPoint : unreal.landscape.ULandscapeSplineControlPoint;
+  @:uproperty public var ControlPoint : unreal.landscape.ULandscapeSplineControlPoint;
   
 }

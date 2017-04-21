@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatMaterialParam.h")
-@:noClass @:uextern extern class UInterpTrackInstFloatMaterialParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstFloatMaterialParam extends unreal.UInterpTrackInst {
   
   /**
     track we are an instance of - used in the editor to propagate changes to the track's Materials array immediately
   **/
-  public var InstancedTrack : unreal.UInterpTrackFloatMaterialParam;
+  @:uproperty public var InstancedTrack : unreal.UInterpTrackFloatMaterialParam;
   
   /**
     Primitive components on which materials have been overridden.
   **/
-  public var PrimitiveMaterialRefs : unreal.TArray<unreal.FPrimitiveMaterialRef>;
+  @:uproperty public var PrimitiveMaterialRefs : unreal.TArray<unreal.FPrimitiveMaterialRef>;
   
   /**
     Saved values for restoring state when exiting Matinee.
   **/
-  public var ResetFloats : unreal.TArray<unreal.Float32>;
+  @:uproperty public var ResetFloats : unreal.TArray<unreal.Float32>;
   
   /**
     MIDs we're using to set the desired parameter.
   **/
-  public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceDynamic>;
+  @:uproperty public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceDynamic>;
   
 }

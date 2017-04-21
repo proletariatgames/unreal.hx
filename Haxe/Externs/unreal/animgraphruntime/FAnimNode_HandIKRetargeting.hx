@@ -22,36 +22,36 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_HandIKRetargeting.h")
-@:uextern extern class FAnimNode_HandIKRetargeting extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_HandIKRetargeting extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Which hand to favor. 0.5 is equal weight for both, 1 = right hand, 0 = left hand.
   **/
-  public var HandFKWeight : unreal.Float32;
+  @:uproperty public var HandFKWeight : unreal.Float32;
   
   /**
     IK Bones to move.
   **/
-  public var IKBonesToMove : unreal.TArray<unreal.FBoneReference>;
+  @:uproperty public var IKBonesToMove : unreal.TArray<unreal.FBoneReference>;
   
   /**
     Bone for Left Hand IK
   **/
-  public var LeftHandIK : unreal.FBoneReference;
+  @:uproperty public var LeftHandIK : unreal.FBoneReference;
   
   /**
     Bone for Right Hand IK
   **/
-  public var RightHandIK : unreal.FBoneReference;
+  @:uproperty public var RightHandIK : unreal.FBoneReference;
   
   /**
     Bone for Left Hand FK
   **/
-  public var LeftHandFK : unreal.FBoneReference;
+  @:uproperty public var LeftHandFK : unreal.FBoneReference;
   
   /**
     Bone for Right Hand FK
   **/
-  public var RightHandFK : unreal.FBoneReference;
+  @:uproperty public var RightHandFK : unreal.FBoneReference;
   
 }

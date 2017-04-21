@@ -20,11 +20,11 @@ package unreal;
   Plays child nodes sequentially
 **/
 @:glueCppIncludes("Sound/SoundNodeConcatenator.h")
-@:uextern extern class USoundNodeConcatenator extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeConcatenator extends unreal.USoundNode {
   
   /**
     Volume multiplier for each input.
   **/
-  public var InputVolume : unreal.TArray<unreal.Float32>;
+  @:uproperty public var InputVolume : unreal.TArray<unreal.Float32>;
   
 }

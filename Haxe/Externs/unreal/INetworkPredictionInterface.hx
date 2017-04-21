@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Interfaces/NetworkPredictionInterface.h")
-@:uextern extern interface INetworkPredictionInterface {
+@:uextern @:uclass extern interface INetworkPredictionInterface {
   
 }

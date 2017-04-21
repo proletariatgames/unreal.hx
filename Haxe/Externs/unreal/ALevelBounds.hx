@@ -22,11 +22,11 @@ package unreal;
   Uses only actors where AActor::IsLevelBoundsRelevant() == true
 **/
 @:glueCppIncludes("Engine/LevelBounds.h")
-@:uextern extern class ALevelBounds extends unreal.AActor {
+@:uextern @:uclass extern class ALevelBounds extends unreal.AActor {
   
   /**
     Whether to automatically update actor bounds based on all relevant actors bounds belonging to the same level
   **/
-  public var bAutoUpdateBounds : Bool;
+  @:uproperty public var bAutoUpdateBounds : Bool;
   
 }

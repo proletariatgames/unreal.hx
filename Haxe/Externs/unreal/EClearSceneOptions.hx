@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/RendererSettings.h")
 @:uname("EClearSceneOptions.Type")
-@:uextern extern enum EClearSceneOptions {
+@:uextern @:uenum extern enum EClearSceneOptions {
   
   /**
     This option is fastest but can cause artifacts unless you render to every pixel. Make sure to use a skybox with this option!

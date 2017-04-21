@@ -18,18 +18,18 @@ package unreal;
   Handles game-specific networking management (cheat detection, bandwidth management, etc.).
 **/
 @:glueCppIncludes("GameFramework/GameNetworkManager.h")
-@:uextern extern class AGameNetworkManager extends unreal.AInfo {
+@:uextern @:uclass extern class AGameNetworkManager extends unreal.AInfo {
   
   /**
     If true, actor network relevancy is constrained by whether they are within their NetCullDistanceSquared from the client's view point.
   **/
-  public var bUseDistanceBasedRelevancy : Bool;
+  @:uproperty public var bUseDistanceBasedRelevancy : Bool;
   
   /**
     Whether client moves should be force corrected during time discrepancy resolution, useful for projects that have lenient
     move error tolerance/ClientAuthorativePosition enabled.
   **/
-  public var bMovementTimeDiscrepancyForceCorrectionsDuringResolution : Bool;
+  @:uproperty public var bMovementTimeDiscrepancyForceCorrectionsDuringResolution : Bool;
   
   /**
     Accepted drift in clocks between client and server as a percent per second allowed.
@@ -48,7 +48,7 @@ package unreal;
     was 0.05 (meaning we're not going to actively prevent any cheating below 5% boosts to ensure less false positives for normal players),
     we could still post-process analytics of the game showing that Player X regularly runs at 4% speed boost and take action.
   **/
-  public var MovementTimeDiscrepancyDriftAllowance : unreal.Float32;
+  @:uproperty public var MovementTimeDiscrepancyDriftAllowance : unreal.Float32;
   
   /**
     During time discrepancy resolution, we "pay back" the time discrepancy at this rate for future moves until total error is zero.
@@ -57,137 +57,137 @@ package unreal;
     Lowering from 100% could be used to produce less severe/noticeable corrections, although typically we would want to correct
     the client as quickly as possible.
   **/
-  public var MovementTimeDiscrepancyResolutionRate : unreal.Float32;
+  @:uproperty public var MovementTimeDiscrepancyResolutionRate : unreal.Float32;
   
   /**
     Maximum time client can be behind.
   **/
-  public var MovementTimeDiscrepancyMinTimeMargin : unreal.Float32;
+  @:uproperty public var MovementTimeDiscrepancyMinTimeMargin : unreal.Float32;
   
   /**
     Maximum time client can be ahead before triggering movement time discrepancy detection/resolution (if enabled).
   **/
-  public var MovementTimeDiscrepancyMaxTimeMargin : unreal.Float32;
+  @:uproperty public var MovementTimeDiscrepancyMaxTimeMargin : unreal.Float32;
   
   /**
     Whether movement time discrepancy resolution is enabled (when detected, make client movement "pay back" excessive time discrepancies)
   **/
-  public var bMovementTimeDiscrepancyResolution : Bool;
+  @:uproperty public var bMovementTimeDiscrepancyResolution : Bool;
   
   /**
     Whether movement time discrepancy detection is enabled.
   **/
-  public var bMovementTimeDiscrepancyDetection : Bool;
+  @:uproperty public var bMovementTimeDiscrepancyDetection : Bool;
   
   /**
     Minimum delay between the server sending error corrections to a client, in seconds.
   **/
-  public var ClientErrorUpdateRateLimit : unreal.Float32;
+  @:uproperty public var ClientErrorUpdateRateLimit : unreal.Float32;
   
   /**
     If client update is within MAXPOSITIONERRORSQUARED then he is authorative on his final position
   **/
-  public var ClientAuthorativePosition : Bool;
+  @:uproperty public var ClientAuthorativePosition : Bool;
   
   /**
     MaxMoveDeltaTime is the default maximum time delta of CharacterMovement ServerMoves. Should be less than or equal to MAXCLIENTUPDATEINTERVAL, otherwise server will interfere by forceing position updates
   **/
-  public var MaxMoveDeltaTime : unreal.Float32;
+  @:uproperty public var MaxMoveDeltaTime : unreal.Float32;
   
   /**
     MAXCLIENTUPDATEINTERVAL is the maximum time between movement updates from the client before the server forces an update.
   **/
-  public var MAXCLIENTUPDATEINTERVAL : unreal.Float32;
+  @:uproperty public var MAXCLIENTUPDATEINTERVAL : unreal.Float32;
   
   /**
     CLIENTADJUSTUPDATECOST is the bandwidth cost in bytes of sending a client adjustment update. 180 is greater than the actual cost, but represents a tweaked value reserving enough bandwidth for
           other updates sent to the client.  Increase this value to reduce client adjustment update frequency, or if the amount of data sent in the clientadjustment() call increases
   **/
-  public var CLIENTADJUSTUPDATECOST : unreal.Float32;
+  @:uproperty public var CLIENTADJUSTUPDATECOST : unreal.Float32;
   
   /**
     MAXNEARZEROVELOCITYSQUARED is the square of the max velocity that is considered zero (not corrected) in net play
   **/
-  public var MAXNEARZEROVELOCITYSQUARED : unreal.Float32;
+  @:uproperty public var MAXNEARZEROVELOCITYSQUARED : unreal.Float32;
   
   /**
     MAXPOSITIONERRORSQUARED is the square of the max position error that is accepted (not corrected) in net play
   **/
-  public var MAXPOSITIONERRORSQUARED : unreal.Float32;
+  @:uproperty public var MAXPOSITIONERRORSQUARED : unreal.Float32;
   
   /**
     Average size of replicated move packet (ServerMove() packet size) from player
   **/
-  public var MoveRepSize : unreal.Float32;
+  @:uproperty public var MoveRepSize : unreal.Float32;
   
   /**
     The amount of time to wait before checking a connection for standby issues
   **/
-  public var JoinInProgressStandbyWaitTime : unreal.Float32;
+  @:uproperty public var JoinInProgressStandbyWaitTime : unreal.Float32;
   
   /**
     The percentage of clients with bad ping before triggering the standby code
   **/
-  public var PercentForBadPing : unreal.Float32;
+  @:uproperty public var PercentForBadPing : unreal.Float32;
   
   /**
     The percentage of clients missing TX data before triggering the standby code
   **/
-  public var PercentMissingForTxStandby : unreal.Float32;
+  @:uproperty public var PercentMissingForTxStandby : unreal.Float32;
   
   /**
     The percentage of clients missing RX data before triggering the standby code
   **/
-  public var PercentMissingForRxStandby : unreal.Float32;
+  @:uproperty public var PercentMissingForRxStandby : unreal.Float32;
   
   /**
     The point we determine the server is either delaying packets or has bad upstream
   **/
-  public var BadPingThreshold : unreal.Int32;
+  @:uproperty public var BadPingThreshold : unreal.Int32;
   
   /**
     The amount of time without packets before triggering the cheat code
   **/
-  public var StandbyTxCheatTime : unreal.Float32;
+  @:uproperty public var StandbyTxCheatTime : unreal.Float32;
   
   /**
     The amount of time without packets before triggering the cheat code
   **/
-  public var StandbyRxCheatTime : unreal.Float32;
+  @:uproperty public var StandbyRxCheatTime : unreal.Float32;
   
   /**
     Used to determine whether we've already caught a cheat or not
   **/
-  public var bHasStandbyCheatTriggered : Bool;
+  @:uproperty public var bHasStandbyCheatTriggered : Bool;
   
   /**
     Used to determine if checking for standby cheats should occur
   **/
-  public var bIsStandbyCheckingEnabled : Bool;
+  @:uproperty public var bIsStandbyCheckingEnabled : Bool;
   
   /**
     Maximum bandwidth dynamically set per connection
   **/
-  public var MaxDynamicBandwidth : unreal.Int32;
+  @:uproperty public var MaxDynamicBandwidth : unreal.Int32;
   
   /**
     Minimum bandwidth dynamically set per connection
   **/
-  public var MinDynamicBandwidth : unreal.Int32;
+  @:uproperty public var MinDynamicBandwidth : unreal.Int32;
   
   /**
     Total available bandwidth for listen server, split dynamically across net connections
   **/
-  public var TotalNetBandwidth : unreal.Int32;
+  @:uproperty public var TotalNetBandwidth : unreal.Int32;
   
   /**
     Last time netspeed was updated for server (by client entering or leaving)
   **/
-  public var LastNetSpeedUpdateTime : unreal.Float32;
+  @:uproperty public var LastNetSpeedUpdateTime : unreal.Float32;
   
   /**
     Current adjusted net speed - Used for dynamically managing netspeed for listen servers
   **/
-  public var AdjustedNetSpeed : unreal.Int32;
+  @:uproperty public var AdjustedNetSpeed : unreal.Int32;
   
 }

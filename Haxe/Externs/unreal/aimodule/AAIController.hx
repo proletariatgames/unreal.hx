@@ -25,57 +25,57 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("AIController.h")
-@:uextern extern class AAIController extends unreal.AController implements unreal.aimodule.IAIPerceptionListenerInterface implements unreal.gameplaytasks.IGameplayTaskOwnerInterface implements unreal.aimodule.IGenericTeamAgentInterface implements unreal.IVisualLoggerDebugSnapshotInterface {
-  private var DefaultNavigationFilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
-  private var CachedGameplayTasksComponent : unreal.gameplaytasks.UGameplayTasksComponent;
+@:uextern @:uclass extern class AAIController extends unreal.AController implements unreal.aimodule.IAIPerceptionListenerInterface implements unreal.gameplaytasks.IGameplayTaskOwnerInterface implements unreal.aimodule.IGenericTeamAgentInterface implements unreal.IVisualLoggerDebugSnapshotInterface {
+  @:uproperty private var DefaultNavigationFilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty private var CachedGameplayTasksComponent : unreal.gameplaytasks.UGameplayTasksComponent;
   
   /**
     blackboard
   **/
-  private var Blackboard : unreal.aimodule.UBlackboardComponent;
-  public var ActionsComp : unreal.aimodule.UPawnActionsComponent;
-  public var PerceptionComponent : unreal.aimodule.UAIPerceptionComponent;
+  @:uproperty private var Blackboard : unreal.aimodule.UBlackboardComponent;
+  @:uproperty public var ActionsComp : unreal.aimodule.UPawnActionsComponent;
+  @:uproperty public var PerceptionComponent : unreal.aimodule.UAIPerceptionComponent;
   
   /**
     Component responsible for behaviors.
   **/
-  public var BrainComponent : unreal.aimodule.UBrainComponent;
-  public var PathFollowingComponent : unreal.aimodule.UPathFollowingComponent;
+  @:uproperty public var BrainComponent : unreal.aimodule.UBrainComponent;
+  @:uproperty public var PathFollowingComponent : unreal.aimodule.UPathFollowingComponent;
   
   /**
     Copy Pawn rotation to ControlRotation, if there is no focus point.
   **/
-  public var bSetControlRotationFromPawnOrientation : Bool;
+  @:uproperty public var bSetControlRotationFromPawnOrientation : Bool;
   
   /**
     Specifies if this AI wants its own PlayerState.
   **/
-  public var bWantsPlayerState : Bool;
+  @:uproperty public var bWantsPlayerState : Bool;
   
   /**
     Is strafing allowed during movement?
   **/
-  public var bAllowStrafe : Bool;
+  @:uproperty public var bAllowStrafe : Bool;
   
   /**
     Skip extra line of sight traces to extremities of target being checked.
   **/
-  public var bSkipExtraLOSChecks : Bool;
+  @:uproperty public var bSkipExtraLOSChecks : Bool;
   
   /**
     used for alternating LineOfSight traces
   **/
-  public var bLOSflag : Bool;
+  @:uproperty public var bLOSflag : Bool;
   
   /**
     Event called when PossessedPawn is possessed by this controller.
   **/
-  public function OnPossess(PossessedPawn : unreal.APawn) : Void;
+  @:ufunction public function OnPossess(PossessedPawn : unreal.APawn) : Void;
   
   /**
     Gets triggered after given pawn has been unpossesed
   **/
-  public function OnUnpossess(UnpossessedPawn : unreal.APawn) : Void;
+  @:ufunction public function OnUnpossess(UnpossessedPawn : unreal.APawn) : Void;
   
   /**
     Makes AI go toward specified Goal actor (destination will be continuously updated), aborts any active path following
@@ -87,7 +87,7 @@ package unreal.aimodule;
     @param bAllowPartialPath - use incomplete path when goal can't be reached
         @note AcceptanceRadius has default value or -1 due to Header Parser not being able to recognize UPathFollowingComponent::DefaultAcceptanceRadius
   **/
-  @:final public function MoveToActor(Goal : unreal.AActor, AcceptanceRadius : unreal.Float32, bStopOnOverlap : Bool, bUsePathfinding : Bool, bCanStrafe : Bool, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, bAllowPartialPath : Bool) : unreal.aimodule.EPathFollowingRequestResult;
+  @:ufunction @:final public function MoveToActor(Goal : unreal.AActor, AcceptanceRadius : unreal.Float32 = -1.000000, bStopOnOverlap : Bool = true, bUsePathfinding : Bool = true, bCanStrafe : Bool = true, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, bAllowPartialPath : Bool = true) : unreal.aimodule.EPathFollowingRequestResult;
   
   /**
     Makes AI go toward specified Dest location, aborts any active path following
@@ -100,72 +100,72 @@ package unreal.aimodule;
     @param bAllowPartialPath - use incomplete path when goal can't be reached
         @note AcceptanceRadius has default value or -1 due to Header Parser not being able to recognize UPathFollowingComponent::DefaultAcceptanceRadius
   **/
-  @:final public function MoveToLocation(Dest : unreal.Const<unreal.PRef<unreal.FVector>>, AcceptanceRadius : unreal.Float32, bStopOnOverlap : Bool, bUsePathfinding : Bool, bProjectDestinationToNavigation : Bool, bCanStrafe : Bool, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, bAllowPartialPath : Bool) : unreal.aimodule.EPathFollowingRequestResult;
+  @:ufunction @:final public function MoveToLocation(Dest : unreal.Const<unreal.PRef<unreal.FVector>>, AcceptanceRadius : unreal.Float32 = -1.000000, bStopOnOverlap : Bool = true, bUsePathfinding : Bool = true, bProjectDestinationToNavigation : Bool = false, bCanStrafe : Bool = true, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, bAllowPartialPath : Bool = true) : unreal.aimodule.EPathFollowingRequestResult;
   
   /**
     Returns status of path following
   **/
-  @:thisConst @:final public function GetMoveStatus() : unreal.aimodule.EPathFollowingStatus;
+  @:ufunction @:thisConst @:final public function GetMoveStatus() : unreal.aimodule.EPathFollowingStatus;
   
   /**
     Returns true if the current PathFollowingComponent's path is partial (does not reach desired destination).
   **/
-  @:thisConst @:final public function HasPartialPath() : Bool;
+  @:ufunction @:thisConst @:final public function HasPartialPath() : Bool;
   
   /**
     Returns position of current path segment's end.
   **/
-  @:thisConst @:final public function GetImmediateMoveDestination() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetImmediateMoveDestination() : unreal.FVector;
   
   /**
     Updates state of movement block detection.
   **/
-  @:final public function SetMoveBlockDetection(bEnable : Bool) : Void;
+  @:ufunction @:final public function SetMoveBlockDetection(bEnable : Bool) : Void;
   
   /**
     Starts executing behavior tree.
   **/
-  public function RunBehaviorTree(BTAsset : unreal.aimodule.UBehaviorTree) : Bool;
-  @:final public function ClaimTaskResource(ResourceClass : unreal.TSubclassOf<unreal.gameplaytasks.UGameplayTaskResource>) : Void;
-  @:final public function UnclaimTaskResource(ResourceClass : unreal.TSubclassOf<unreal.gameplaytasks.UGameplayTaskResource>) : Void;
-  private function OnUsingBlackBoard(BlackboardComp : unreal.aimodule.UBlackboardComponent, BlackboardAsset : unreal.aimodule.UBlackboardData) : Void;
+  @:ufunction public function RunBehaviorTree(BTAsset : unreal.aimodule.UBehaviorTree) : Bool;
+  @:ufunction @:final public function ClaimTaskResource(ResourceClass : unreal.TSubclassOf<unreal.gameplaytasks.UGameplayTaskResource>) : Void;
+  @:ufunction @:final public function UnclaimTaskResource(ResourceClass : unreal.TSubclassOf<unreal.gameplaytasks.UGameplayTaskResource>) : Void;
+  @:ufunction private function OnUsingBlackBoard(BlackboardComp : unreal.aimodule.UBlackboardComponent, BlackboardAsset : unreal.aimodule.UBlackboardData) : Void;
   
   /**
     Retrieve the final position that controller should be looking at.
   **/
-  @:thisConst @:final public function GetFocalPoint() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetFocalPoint() : unreal.FVector;
   
   /**
     Retrieve the focal point this controller should focus to on given actor.
   **/
-  @:thisConst public function GetFocalPointOnActor(Actor : unreal.Const<unreal.AActor>) : unreal.FVector;
+  @:ufunction @:thisConst public function GetFocalPointOnActor(Actor : unreal.Const<unreal.AActor>) : unreal.FVector;
   
   /**
     Set the position that controller should be looking at.
   **/
-  @:final public function K2_SetFocalPoint(FP : unreal.FVector) : Void;
+  @:ufunction @:final public function K2_SetFocalPoint(FP : unreal.FVector) : Void;
   
   /**
     Set Focus for actor, will set FocalPoint as a result.
   **/
-  @:final public function K2_SetFocus(NewFocus : unreal.AActor) : Void;
+  @:ufunction @:final public function K2_SetFocus(NewFocus : unreal.AActor) : Void;
   
   /**
     Get the focused actor.
   **/
-  @:thisConst @:final public function GetFocusActor() : unreal.AActor;
+  @:ufunction @:thisConst @:final public function GetFocusActor() : unreal.AActor;
   
   /**
     Clears Focus, will also clear FocalPoint as a result
   **/
-  @:final public function K2_ClearFocus() : Void;
-  public function OnGameplayTaskResourcesClaimed(NewlyClaimed : unreal.gameplaytasks.FGameplayResourceSet, FreshlyReleased : unreal.gameplaytasks.FGameplayResourceSet) : Void;
+  @:ufunction @:final public function K2_ClearFocus() : Void;
+  @:ufunction public function OnGameplayTaskResourcesClaimed(NewlyClaimed : unreal.gameplaytasks.FGameplayResourceSet, FreshlyReleased : unreal.gameplaytasks.FGameplayResourceSet) : Void;
   
   /**
     Returns PathFollowingComponent subobject *
   **/
-  @:thisConst @:final public function GetPathFollowingComponent() : unreal.aimodule.UPathFollowingComponent;
-  @:final public function GetAIPerceptionComponent() : unreal.aimodule.UAIPerceptionComponent;
+  @:ufunction @:thisConst @:final public function GetPathFollowingComponent() : unreal.aimodule.UPathFollowingComponent;
+  @:ufunction @:final public function GetAIPerceptionComponent() : unreal.aimodule.UAIPerceptionComponent;
   // AIPerceptionListenerInterface interface implementation
   // GameplayTaskOwnerInterface interface implementation
   // GenericTeamAgentInterface interface implementation

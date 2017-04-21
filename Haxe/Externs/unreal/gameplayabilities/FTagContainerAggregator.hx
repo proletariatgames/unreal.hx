@@ -15,6 +15,6 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:uextern extern class FTagContainerAggregator {
+@:uextern @:ustruct extern class FTagContainerAggregator {
   
 }

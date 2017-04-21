@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
 @:uname("EBlueprintCompileMode")
-@:class @:uextern extern enum EBlueprintCompileMode {
+@:class @:uextern @:uenum extern enum EBlueprintCompileMode {
   
   /**
     Use the default setting.

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstSlomo.h")
-@:noClass @:uextern extern class UInterpTrackInstSlomo extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstSlomo extends unreal.UInterpTrackInst {
   
   /**
     Backup of initial LevelInfo MatineeTimeDilation setting when interpolation started.
   **/
-  public var OldTimeDilation : unreal.Float32;
+  @:uproperty public var OldTimeDilation : unreal.Float32;
   
 }

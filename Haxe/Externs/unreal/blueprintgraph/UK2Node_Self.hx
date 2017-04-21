@@ -21,6 +21,6 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Self.h")
-@:uextern extern class UK2Node_Self extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_Self extends unreal.blueprintgraph.UK2Node {
   
 }

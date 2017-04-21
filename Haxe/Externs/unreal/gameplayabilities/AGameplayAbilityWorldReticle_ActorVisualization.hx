@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityWorldReticle_ActorVisualization.h")
-@:noClass @:uextern extern class AGameplayAbilityWorldReticle_ActorVisualization extends unreal.gameplayabilities.AGameplayAbilityWorldReticle {
-  public var VisualizationComponents : unreal.TArray<unreal.UActorComponent>;
+@:noClass @:uextern @:uclass extern class AGameplayAbilityWorldReticle_ActorVisualization extends unreal.gameplayabilities.AGameplayAbilityWorldReticle {
+  @:uproperty public var VisualizationComponents : unreal.TArray<unreal.UActorComponent>;
   
 }

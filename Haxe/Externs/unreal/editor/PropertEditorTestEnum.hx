@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
 @:uname("PropertEditorTestEnum")
-@:uextern extern enum PropertEditorTestEnum {
+@:uextern @:uenum extern enum PropertEditorTestEnum {
   
   /**
     This comment should appear above enum 1

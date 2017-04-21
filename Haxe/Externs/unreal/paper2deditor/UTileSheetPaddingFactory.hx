@@ -21,26 +21,26 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileSetEditor/TileSheetPaddingFactory.h")
-@:noClass @:uextern extern class UTileSheetPaddingFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UTileSheetPaddingFactory extends unreal.editor.UFactory {
   
   /**
     Should we use transparent black or white when filling the texture areas that aren't covered by tiles?
   **/
-  public var bFillWithTransparentBlack : Bool;
+  @:uproperty public var bFillWithTransparentBlack : Bool;
   
   /**
     Should we pad the texture to the next power of 2?
   **/
-  public var bPadToPowerOf2 : Bool;
+  @:uproperty public var bPadToPowerOf2 : Bool;
   
   /**
     The amount to extrude out from each tile (in pixels)
   **/
-  public var ExtrusionAmount : unreal.Int32;
+  @:uproperty public var ExtrusionAmount : unreal.Int32;
   
   /**
     Source tile sheet texture
   **/
-  public var SourceTileSet : unreal.paper2d.UPaperTileSet;
+  @:uproperty public var SourceTileSet : unreal.paper2d.UPaperTileSet;
   
 }

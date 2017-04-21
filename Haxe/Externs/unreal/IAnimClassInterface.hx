@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimClassInterface.h")
-@:uextern extern interface IAnimClassInterface {
+@:uextern @:uclass extern interface IAnimClassInterface {
   
 }

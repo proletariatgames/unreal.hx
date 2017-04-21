@@ -21,41 +21,41 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:uextern extern class UPlayerInput extends unreal.UObject {
+@:uextern @:uclass extern class UPlayerInput extends unreal.UObject {
   
   /**
     List of Axis Mappings that have been inverted
   **/
-  public var InvertedAxis : unreal.TArray<unreal.FName>;
+  @:uproperty public var InvertedAxis : unreal.TArray<unreal.FName>;
   
   /**
     Generic bindings of keys to Exec()-compatible strings for development purposes only
   **/
-  public var DebugExecBindings : unreal.TArray<unreal.FKeyBind>;
+  @:uproperty public var DebugExecBindings : unreal.TArray<unreal.FKeyBind>;
   
   /**
     Exec function to change the mouse sensitivity
   **/
-  @:final public function SetMouseSensitivity(Sensitivity : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMouseSensitivity(Sensitivity : unreal.Float32) : Void;
   
   /**
     Exec function to add a debug exec command
   **/
-  @:final public function SetBind(BindName : unreal.FName, Command : unreal.FString) : Void;
+  @:ufunction @:final public function SetBind(BindName : unreal.FName, Command : unreal.FString) : Void;
   
   /**
     Exec function to invert an axis key
   **/
-  @:final public function InvertAxisKey(AxisKey : unreal.Const<unreal.inputcore.FKey>) : Void;
+  @:ufunction @:final public function InvertAxisKey(AxisKey : unreal.Const<unreal.inputcore.FKey>) : Void;
   
   /**
     Exec function to invert an axis mapping
   **/
-  @:final public function InvertAxis(AxisName : unreal.Const<unreal.FName>) : Void;
+  @:ufunction @:final public function InvertAxis(AxisName : unreal.Const<unreal.FName>) : Void;
   
   /**
     Exec function to reset mouse smoothing values
   **/
-  @:final public function ClearSmoothing() : Void;
+  @:ufunction @:final public function ClearSmoothing() : Void;
   
 }

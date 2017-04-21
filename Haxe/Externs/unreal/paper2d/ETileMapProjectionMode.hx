@@ -20,7 +20,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileMap.h")
 @:uname("ETileMapProjectionMode.Type")
-@:uextern extern enum ETileMapProjectionMode {
+@:uextern @:uenum extern enum ETileMapProjectionMode {
   
   /**
     Square tile layout

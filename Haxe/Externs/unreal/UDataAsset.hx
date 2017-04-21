@@ -20,6 +20,6 @@ package unreal;
   Base class for a simple asset containing data.
 **/
 @:glueCppIncludes("Engine/DataAsset.h")
-@:uextern extern class UDataAsset extends unreal.UObject {
+@:uextern @:uclass extern class UDataAsset extends unreal.UObject {
   
 }

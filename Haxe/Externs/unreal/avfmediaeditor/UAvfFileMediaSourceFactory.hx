@@ -21,6 +21,6 @@ package unreal.avfmediaeditor;
 **/
 @:umodule("AvfMediaEditor")
 @:glueCppIncludes("Private/AvfFileMediaSourceFactory.h")
-@:noClass @:uextern extern class UAvfFileMediaSourceFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UAvfFileMediaSourceFactory extends unreal.editor.UFactory {
   
 }

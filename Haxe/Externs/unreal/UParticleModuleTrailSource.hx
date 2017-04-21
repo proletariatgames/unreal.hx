@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Trail/ParticleModuleTrailSource.h")
-@:uextern extern class UParticleModuleTrailSource extends unreal.UParticleModuleTrailBase {
+@:uextern @:uclass extern class UParticleModuleTrailSource extends unreal.UParticleModuleTrailBase {
   
   /**
     Interhit particle rotation - only valid for SourceMethod of PET2SRCM_Particle.
   **/
-  public var bInheritRotation : Bool;
+  @:uproperty public var bInheritRotation : Bool;
   
   /**
     Particle selection method, when using the SourceMethod of Particle.
   **/
-  public var SelectionMethod : unreal.EParticleSourceSelectionMethod;
+  @:uproperty public var SelectionMethod : unreal.EParticleSourceSelectionMethod;
   
   /**
     Default offsets from the source(s).
     If there are < SourceOffsetCount slots, the grabbing of values will simply wrap.
   **/
-  public var SourceOffsetDefaults : unreal.TArray<unreal.FVector>;
+  @:uproperty public var SourceOffsetDefaults : unreal.TArray<unreal.FVector>;
   
   /**
     SourceOffsetCount
@@ -44,26 +44,26 @@ package unreal;
     These must be named
             TrailSourceOffset#
   **/
-  public var SourceOffsetCount : unreal.Int32;
+  @:uproperty public var SourceOffsetCount : unreal.Int32;
   
   /**
     Whether to lock the source to the life of the particle.
   **/
-  public var bLockSourceStength : Bool;
+  @:uproperty public var bLockSourceStength : Bool;
   
   /**
     The strength of the tangent from the source point for each Trail.
   **/
-  public var SourceStrength : unreal.FRawDistributionFloat;
+  @:uproperty public var SourceStrength : unreal.FRawDistributionFloat;
   
   /**
     The name of the source - either the emitter or Actor.
   **/
-  public var SourceName : unreal.FName;
+  @:uproperty public var SourceName : unreal.FName;
   
   /**
     The source method for the trail.
   **/
-  public var SourceMethod : unreal.ETrail2SourceMethod;
+  @:uproperty public var SourceMethod : unreal.ETrail2SourceMethod;
   
 }

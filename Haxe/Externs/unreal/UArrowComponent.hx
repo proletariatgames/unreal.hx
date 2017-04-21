@@ -18,55 +18,55 @@ package unreal;
   A simple arrow rendered using lines. Useful for indicating which way an object is facing.
 **/
 @:glueCppIncludes("Components/ArrowComponent.h")
-@:uextern extern class UArrowComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UArrowComponent extends unreal.UPrimitiveComponent {
   #if WITH_EDITORONLY_DATA
   
   /**
     Whether to use in-editor arrow scaling (i.e. to be affected by the global arrow scale)
   **/
-  public var bUseInEditorScaling : Bool;
+  @:uproperty public var bUseInEditorScaling : Bool;
   
   /**
     If true, this arrow component is attached to a light actor
   **/
-  public var bLightAttachment : Bool;
+  @:uproperty public var bLightAttachment : Bool;
   
   /**
     Sprite category information regarding the arrow component, if being treated as a sprite.
   **/
-  public var SpriteInfo : unreal.FSpriteCategoryInfo;
+  @:uproperty public var SpriteInfo : unreal.FSpriteCategoryInfo;
   
   /**
     Sprite category that the arrow component belongs to, if being treated as a sprite. Value serves as a key into the localization file.
   **/
-  @:deprecated public var SpriteCategoryName_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var SpriteCategoryName_DEPRECATED : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   
   /**
     If true, don't show the arrow when EngineShowFlags.BillboardSprites is disabled.
   **/
-  public var bTreatAsASprite : Bool;
+  @:uproperty public var bTreatAsASprite : Bool;
   
   /**
     The size on screen to limit this arrow to (in screen space)
   **/
-  public var ScreenSize : unreal.Float32;
+  @:uproperty public var ScreenSize : unreal.Float32;
   
   /**
     Set to limit the screen size of this arrow
   **/
-  public var bIsScreenSizeScaled : Bool;
-  public var ArrowSize : unreal.Float32;
-  public var ArrowColor : unreal.FColor;
+  @:uproperty public var bIsScreenSizeScaled : Bool;
+  @:uproperty public var ArrowSize : unreal.Float32;
+  @:uproperty public var ArrowColor : unreal.FColor;
   
   /**
     Updates the arrow's colour, and tells it to refresh
   **/
-  public function SetArrowColor_DEPRECATED(NewColor : unreal.FColor) : Void;
+  @:ufunction public function SetArrowColor_DEPRECATED(NewColor : unreal.FColor) : Void;
   
   /**
     Updates the arrow's colour, and tells it to refresh
   **/
-  public function SetArrowColor_New(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction public function SetArrowColor_New(NewColor : unreal.FLinearColor) : Void;
   
 }

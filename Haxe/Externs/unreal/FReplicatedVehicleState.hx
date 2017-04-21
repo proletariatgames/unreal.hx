@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent.h")
-@:uextern extern class FReplicatedVehicleState {
+@:uextern @:ustruct extern class FReplicatedVehicleState {
   
   /**
     state replication: current gear
   **/
-  public var CurrentGear : unreal.Int32;
+  @:uproperty public var CurrentGear : unreal.Int32;
   
   /**
     input replication: handbrake
   **/
-  public var HandbrakeInput : unreal.Float32;
+  @:uproperty public var HandbrakeInput : unreal.Float32;
   
   /**
     input replication: brake
   **/
-  public var BrakeInput : unreal.Float32;
+  @:uproperty public var BrakeInput : unreal.Float32;
   
   /**
     input replication: throttle
   **/
-  public var ThrottleInput : unreal.Float32;
+  @:uproperty public var ThrottleInput : unreal.Float32;
   
   /**
     input replication: steering
   **/
-  public var SteeringInput : unreal.Float32;
+  @:uproperty public var SteeringInput : unreal.Float32;
   
 }

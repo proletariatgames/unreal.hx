@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("GameFramework/MovementComponent.h")
 @:uname("EPlaneConstraintAxisSetting")
-@:class @:uextern extern enum EPlaneConstraintAxisSetting {
+@:class @:uextern @:uenum extern enum EPlaneConstraintAxisSetting {
   
   /**
     Lock movement to a user-defined axis.

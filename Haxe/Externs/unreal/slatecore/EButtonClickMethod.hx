@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EButtonClickMethod.Type")
-@:uextern extern enum EButtonClickMethod {
+@:uextern @:uenum extern enum EButtonClickMethod {
   
   /**
     User must press the button, then release while over the button to trigger the click.

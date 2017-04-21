@@ -20,12 +20,12 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueNotify_HitImpact.h")
-@:uextern extern class UGameplayCueNotify_HitImpact extends unreal.gameplayabilities.UGameplayCueNotify_Static {
+@:uextern @:uclass extern class UGameplayCueNotify_HitImpact extends unreal.gameplayabilities.UGameplayCueNotify_Static {
   
   /**
     Effects to play for weapon attacks against specific surfaces
   **/
-  public var ParticleSystem : unreal.UParticleSystem;
-  public var Sound : unreal.USoundBase;
+  @:uproperty public var ParticleSystem : unreal.UParticleSystem;
+  @:uproperty public var Sound : unreal.USoundBase;
   
 }

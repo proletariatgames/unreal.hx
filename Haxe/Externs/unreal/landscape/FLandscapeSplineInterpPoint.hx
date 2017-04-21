@@ -21,36 +21,36 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeSplineInterpPoint {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeSplineInterpPoint {
   
   /**
     Start/End Falloff fraction
   **/
-  public var StartEndFalloff : unreal.Float32;
+  @:uproperty public var StartEndFalloff : unreal.Float32;
   
   /**
     Right FalloffPoint
   **/
-  public var FalloffRight : unreal.FVector;
+  @:uproperty public var FalloffRight : unreal.FVector;
   
   /**
     Left Falloff Point
   **/
-  public var FalloffLeft : unreal.FVector;
+  @:uproperty public var FalloffLeft : unreal.FVector;
   
   /**
     Right Point
   **/
-  public var Right : unreal.FVector;
+  @:uproperty public var Right : unreal.FVector;
   
   /**
     Left Point
   **/
-  public var Left : unreal.FVector;
+  @:uproperty public var Left : unreal.FVector;
   
   /**
     Center Point
   **/
-  public var Center : unreal.FVector;
+  @:uproperty public var Center : unreal.FVector;
   
 }

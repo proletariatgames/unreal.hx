@@ -19,16 +19,16 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:uextern extern class FGameplayTagRequirements {
+@:uextern @:ustruct extern class FGameplayTagRequirements {
   
   /**
     None of these tags may be present
   **/
-  public var IgnoreTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var IgnoreTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     All of these tags must be present
   **/
-  public var RequireTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var RequireTags : unreal.gameplaytags.FGameplayTagContainer;
   
 }

@@ -21,17 +21,17 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_ActorsOfClass.h")
-@:noClass @:uextern extern class UEnvQueryGenerator_ActorsOfClass extends unreal.aimodule.UEnvQueryGenerator {
+@:noClass @:uextern @:uclass extern class UEnvQueryGenerator_ActorsOfClass extends unreal.aimodule.UEnvQueryGenerator {
   
   /**
     context
   **/
-  public var SearchCenter : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
-  public var SearchedActorClass : unreal.TSubclassOf<unreal.AActor>;
+  @:uproperty public var SearchCenter : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var SearchedActorClass : unreal.TSubclassOf<unreal.AActor>;
   
   /**
     max distance of path between point and context
   **/
-  public var SearchRadius : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var SearchRadius : unreal.aimodule.FAIDataProviderFloatValue;
   
 }

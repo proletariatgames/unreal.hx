@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/Material.h")
 @:uname("EMaterialDomain")
-@:uextern extern enum EMaterialDomain {
+@:uextern @:uenum extern enum EMaterialDomain {
   
   /**
     The material's attributes describe a 3d surface.

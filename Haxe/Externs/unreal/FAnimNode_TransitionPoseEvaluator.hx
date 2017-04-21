@@ -19,10 +19,10 @@ package unreal;
   Can be set to supply either the animation data from the transition source (From State) or the transition destination (To State).
 **/
 @:glueCppIncludes("Animation/AnimNode_TransitionPoseEvaluator.h")
-@:uextern extern class FAnimNode_TransitionPoseEvaluator extends unreal.FAnimNode_Base {
-  public var CacheFramesRemaining : unreal.Int32;
-  public var FramesToCachePose : unreal.Int32;
-  public var EvaluatorMode : unreal.EEvaluatorMode;
-  public var DataSource : unreal.EEvaluatorDataSource;
+@:uextern @:ustruct extern class FAnimNode_TransitionPoseEvaluator extends unreal.FAnimNode_Base {
+  @:uproperty public var CacheFramesRemaining : unreal.Int32;
+  @:uproperty public var FramesToCachePose : unreal.Int32;
+  @:uproperty public var EvaluatorMode : unreal.EEvaluatorMode;
+  @:uproperty public var DataSource : unreal.EEvaluatorDataSource;
   
 }

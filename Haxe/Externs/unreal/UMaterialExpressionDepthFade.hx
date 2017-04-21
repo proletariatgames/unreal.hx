@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDepthFade.h")
-@:noClass @:uextern extern class UMaterialExpressionDepthFade extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDepthFade extends unreal.UMaterialExpression {
   
   /**
     World space distance over which the fade should take place.  This is used when FadeDistance is unconnected.
   **/
-  public var FadeDistanceDefault : unreal.Float32;
+  @:uproperty public var FadeDistanceDefault : unreal.Float32;
   
   /**
     Opacity which will be scaled by the result of the fade.  This is used when InOpacity is unconnected.
   **/
-  public var OpacityDefault : unreal.Float32;
+  @:uproperty public var OpacityDefault : unreal.Float32;
   
   /**
     Defaults to 'FadeDistanceDefault' if not specified
   **/
-  public var FadeDistance : unreal.FExpressionInput;
+  @:uproperty public var FadeDistance : unreal.FExpressionInput;
   
   /**
     Defaults to 'OpacityDefault' if not specified
   **/
-  public var InOpacity : unreal.FExpressionInput;
+  @:uproperty public var InOpacity : unreal.FExpressionInput;
   
 }

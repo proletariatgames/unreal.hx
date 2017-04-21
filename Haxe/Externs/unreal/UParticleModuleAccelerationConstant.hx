@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationConstant.h")
-@:noClass @:uextern extern class UParticleModuleAccelerationConstant extends unreal.UParticleModuleAccelerationBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleAccelerationConstant extends unreal.UParticleModuleAccelerationBase {
   
   /**
     Constant acceleration for particles in this system.
   **/
-  public var Acceleration : unreal.FVector;
+  @:uproperty public var Acceleration : unreal.FVector;
   
 }

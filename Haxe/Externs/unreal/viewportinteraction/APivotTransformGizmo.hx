@@ -21,6 +21,6 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("Gizmo/VIPivotTransformGizmo.h")
-@:noClass @:uextern extern class APivotTransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
+@:noClass @:uextern @:uclass extern class APivotTransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
   
 }

@@ -14,17 +14,17 @@
 package unreal;
 
 @:glueCppIncludes("Engine/SkyLight.h")
-@:uextern extern class ASkyLight extends unreal.AInfo {
+@:uextern @:uclass extern class ASkyLight extends unreal.AInfo {
   
   /**
     replicated copy of LightComponent's bEnabled property
   **/
-  public var bEnabled : Bool;
-  public var LightComponent : unreal.USkyLightComponent;
+  @:uproperty public var bEnabled : Bool;
+  @:uproperty public var LightComponent : unreal.USkyLightComponent;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_bEnabled() : Void;
+  @:ufunction public function OnRep_bEnabled() : Void;
   
 }

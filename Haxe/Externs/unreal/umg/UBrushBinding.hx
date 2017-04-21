@@ -15,7 +15,7 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UBrushBinding extends unreal.umg.UPropertyBinding {
-  @:thisConst @:final public function GetValue() : unreal.slatecore.FSlateBrush;
+@:uextern @:uclass extern class UBrushBinding extends unreal.umg.UPropertyBinding {
+  @:ufunction @:thisConst @:final public function GetValue() : unreal.slatecore.FSlateBrush;
   
 }

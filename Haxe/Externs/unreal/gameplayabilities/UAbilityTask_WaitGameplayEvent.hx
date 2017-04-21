@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitGameplayEvent.h")
-@:uextern extern class UAbilityTask_WaitGameplayEvent extends unreal.gameplayabilities.UAbilityTask {
-  public var OptionalExternalTarget : unreal.gameplayabilities.UAbilitySystemComponent;
+@:uextern @:uclass extern class UAbilityTask_WaitGameplayEvent extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty public var OptionalExternalTarget : unreal.gameplayabilities.UAbilitySystemComponent;
   
 }

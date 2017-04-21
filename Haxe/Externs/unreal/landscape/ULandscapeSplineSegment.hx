@@ -21,40 +21,40 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
-@:uextern extern class ULandscapeSplineSegment extends unreal.UObject {
+@:uextern @:uclass extern class ULandscapeSplineSegment extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Key for tracking whether this segment has been modified relative to the mesh components stored in other streaming levels
   **/
-  private var ModificationKey : unreal.FGuid;
+  @:uproperty private var ModificationKey : unreal.FGuid;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Spline meshes
   **/
-  private var LocalMeshComponents : unreal.TArray<unreal.USplineMeshComponent>;
+  @:uproperty private var LocalMeshComponents : unreal.TArray<unreal.USplineMeshComponent>;
   
   /**
     Bounds of points
   **/
-  private var Bounds : unreal.FBox;
+  @:uproperty private var Bounds : unreal.FBox;
   
   /**
     Spline points
   **/
-  private var Points : unreal.TArray<unreal.landscape.FLandscapeSplineInterpPoint>;
+  @:uproperty private var Points : unreal.TArray<unreal.landscape.FLandscapeSplineInterpPoint>;
   
   /**
     Actual data for spline.
   **/
-  private var SplineInfo : unreal.FInterpCurveVector;
+  @:uproperty private var SplineInfo : unreal.FInterpCurveVector;
   #if WITH_EDITORONLY_DATA
   
   /**
     Whether spline meshes should be placed in landscape proxy streaming levels (true) or the spline's level (false)
   **/
-  public var bPlaceSplineMeshesInStreamingLevels : Bool;
+  @:uproperty public var bPlaceSplineMeshesInStreamingLevels : Bool;
   
   /**
     Translucent objects with a lower sort priority draw behind objects with a higher priority.
@@ -63,48 +63,48 @@ package unreal.landscape;
     Ignored if the object is not translucent.  The default priority is zero.
     Warning: This should never be set to a non-default value unless you know what you are doing, as it will prevent the renderer from sorting correctly.
   **/
-  public var TranslucencySortPriority : unreal.Int32;
+  @:uproperty public var TranslucencySortPriority : unreal.Int32;
   
   /**
     Max draw distance for all the mesh pieces used in this spline
   **/
-  public var LDMaxDrawDistance : unreal.Float32;
+  @:uproperty public var LDMaxDrawDistance : unreal.Float32;
   
   /**
     Random seed used for choosing which order to use spline meshes. Ignored if only one mesh is set.
   **/
-  public var RandomSeed : unreal.Int32;
+  @:uproperty public var RandomSeed : unreal.Int32;
   
   /**
     Whether the Spline Meshes should cast a shadow.
   **/
-  public var bCastShadow : Bool;
+  @:uproperty public var bCastShadow : Bool;
   
   /**
     Whether to generate collision for the Spline Meshes.
   **/
-  public var bEnableCollision : Bool;
+  @:uproperty public var bEnableCollision : Bool;
   
   /**
     Spline meshes from this list are used in random order along the spline.
   **/
-  public var SplineMeshes : unreal.TArray<unreal.landscape.FLandscapeSplineMeshEntry>;
+  @:uproperty public var SplineMeshes : unreal.TArray<unreal.landscape.FLandscapeSplineMeshEntry>;
   
   /**
     If the spline is below the terrain, whether to lower the terrain down to the level of the spline when applying it to the landscape.
   **/
-  public var bLowerTerrain : Bool;
+  @:uproperty public var bLowerTerrain : Bool;
   
   /**
     If the spline is above the terrain, whether to raise the terrain up to the level of the spline when applying it to the landscape.
   **/
-  public var bRaiseTerrain : Bool;
+  @:uproperty public var bRaiseTerrain : Bool;
   
   /**
     Name of blend layer to paint when applying spline to landscape
     If "none", no layer is painted
   **/
-  public var LayerName : unreal.FName;
+  @:uproperty public var LayerName : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   
 }

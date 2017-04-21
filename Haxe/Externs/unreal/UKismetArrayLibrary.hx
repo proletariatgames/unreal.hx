@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/KismetArrayLibrary.h")
-@:uextern extern class UKismetArrayLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UKismetArrayLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Add item to array
@@ -23,7 +23,7 @@ package unreal;
     @param        NewItem                 The item to add to the array
     @return       The index of the newly added item
   **/
-  static public function Array_Add(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32) : unreal.Int32;
+  @:ufunction static public function Array_Add(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32) : unreal.Int32;
   
   /**
     Add item to array (unique)
@@ -32,14 +32,14 @@ package unreal;
     @param         NewItem                 The item to add to the array
     @return        The index of the newly added item, or INDEX_NONE if the item is already present in the array
   **/
-  static public function Array_AddUnique(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32) : unreal.Int32;
+  @:ufunction static public function Array_AddUnique(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32) : unreal.Int32;
   
   /**
     Shuffle (randomize) the elements of an array
     
     @param        TargetArray             The array to shuffle
   **/
-  static public function Array_Shuffle(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
+  @:ufunction static public function Array_Shuffle(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
   
   /**
     Append an array to another array
@@ -47,7 +47,7 @@ package unreal;
     @param        TargetArray             The array to add the source array to
     @param        SourceArray             The array to add to the target array
   **/
-  static public function Array_Append(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, SourceArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
+  @:ufunction static public function Array_Append(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, SourceArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
   
   /**
     *Insert item at the given index into the array.
@@ -56,7 +56,7 @@ package unreal;
     *@param        NewItem                 The item to insert into the array
     *@param        Index                   The index at which to insert the item into the array
   **/
-  static public function Array_Insert(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32, Index : unreal.Int32) : Void;
+  @:ufunction static public function Array_Insert(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, NewItem : unreal.Int32, Index : unreal.Int32) : Void;
   
   /**
     *Remove item at the given index from the array.
@@ -64,7 +64,7 @@ package unreal;
     *@param        TargetArray             The array to remove from
     *@param        IndexToRemove   The index into the array to remove from
   **/
-  static public function Array_Remove(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexToRemove : unreal.Int32) : Void;
+  @:ufunction static public function Array_Remove(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexToRemove : unreal.Int32) : Void;
   
   /**
     *Remove all instances of item from array.
@@ -73,14 +73,14 @@ package unreal;
     *@param        Item                    The item to remove from the array
     *@return       True if one or more items were removed
   **/
-  static public function Array_RemoveItem(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Item : unreal.Int32) : Bool;
+  @:ufunction static public function Array_RemoveItem(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Item : unreal.Int32) : Bool;
   
   /**
     *Clear an array, removes all content
     *
     *@param        TargetArray             The array to clear
   **/
-  static public function Array_Clear(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
+  @:ufunction static public function Array_Clear(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
   
   /**
     *Resize Array to specified size.
@@ -88,7 +88,7 @@ package unreal;
     *@param        TargetArray             The array to resize
     *@param        Size                    The new size of the array
   **/
-  static public function Array_Resize(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Size : unreal.Int32) : Void;
+  @:ufunction static public function Array_Resize(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Size : unreal.Int32) : Void;
   
   /**
     *Get the number of items in an array
@@ -96,7 +96,7 @@ package unreal;
     *@param        TargetArray             The array to get the length of
     *@return       The length of the array
   **/
-  static public function Array_Length(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : unreal.Int32;
+  @:ufunction static public function Array_Length(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : unreal.Int32;
   
   /**
     *Get the last valid index into an array
@@ -104,7 +104,7 @@ package unreal;
     *@param        TargetArray             The array to perform the operation on
     *@return       The last valid index of the array
   **/
-  static public function Array_LastIndex(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : unreal.Int32;
+  @:ufunction static public function Array_LastIndex(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : unreal.Int32;
   
   /**
     *Given an array and an index, returns the item found at that index
@@ -113,7 +113,7 @@ package unreal;
     *@param        Index                   The index in the array to get an item from
     *@return       The item stored at the index
   **/
-  static public function Array_Get(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Index : unreal.Int32, Item : unreal.Int32) : Void;
+  @:ufunction static public function Array_Get(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Index : unreal.Int32, Item : unreal.Int32) : Void;
   
   /**
     *Given an array and an index, assigns the item to that array element
@@ -123,7 +123,7 @@ package unreal;
     *@param        Item                    The item to assign to the index of the array
     *@param        bSizeToFit              If true, the array will expand if Index is greater than the current size of the array
   **/
-  static public function Array_Set(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Index : unreal.Int32, Item : unreal.Int32, bSizeToFit : Bool) : Void;
+  @:ufunction static public function Array_Set(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, Index : unreal.Int32, Item : unreal.Int32, bSizeToFit : Bool) : Void;
   
   /**
     *Finds the index of the first instance of the item within the array
@@ -132,7 +132,7 @@ package unreal;
     *@param        ItemToFind              The item to look for
     *@return       The index the item was found at, or -1 if not found
   **/
-  static public function Array_Find(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, ItemToFind : unreal.Int32) : unreal.Int32;
+  @:ufunction static public function Array_Find(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, ItemToFind : unreal.Int32) : unreal.Int32;
   
   /**
     *Returns true if the array contains the given item
@@ -141,7 +141,7 @@ package unreal;
     *@param        ItemToFind              The item to look for
     *@return       True if the item was found within the array
   **/
-  static public function Array_Contains(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, ItemToFind : unreal.Int32) : Bool;
+  @:ufunction static public function Array_Contains(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, ItemToFind : unreal.Int32) : Bool;
   
   /**
     *Filter an array based on a Class derived from Actor.
@@ -150,12 +150,12 @@ package unreal;
     *@param        FilterClass             The Actor sub-class type that acts as the filter, only objects derived from it will be returned.
     *@return       An array containing only those objects which are derived from the class specified.
   **/
-  static public function FilterArray(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, FilterClass : unreal.TSubclassOf<unreal.AActor>, FilteredArray : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction static public function FilterArray(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, FilterClass : unreal.TSubclassOf<unreal.AActor>, FilteredArray : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Not exposed to users. Supports setting an array property on an object by name.
   **/
-  static public function SetArrayPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
+  @:ufunction static public function SetArrayPropertyByName(Object : unreal.UObject, PropertyName : unreal.FName, Value : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Void;
   
   /**
     *Tests if IndexToTest is valid, i.e. greater than or equal to zero, and less than the number of elements in TargetArray.
@@ -164,6 +164,6 @@ package unreal;
     *@param        IndexToTest             The Index, that we want to test for being valid
     *@return       True if the Index is Valid, i.e. greater than or equal to zero, and less than the number of elements in TargetArray.
   **/
-  static public function Array_IsValidIndex(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexToTest : unreal.Int32) : Bool;
+  @:ufunction static public function Array_IsValidIndex(TargetArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexToTest : unreal.Int32) : Bool;
   
 }

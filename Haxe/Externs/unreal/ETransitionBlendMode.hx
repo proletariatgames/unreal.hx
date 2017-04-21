@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
 @:uname("ETransitionBlendMode.Type")
-@:uextern extern enum ETransitionBlendMode {
+@:uextern @:uenum extern enum ETransitionBlendMode {
   
   /**
     Linear

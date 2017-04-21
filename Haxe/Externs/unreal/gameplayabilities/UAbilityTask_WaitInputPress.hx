@@ -20,12 +20,12 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitInputPress.h")
-@:uextern extern class UAbilityTask_WaitInputPress extends unreal.gameplayabilities.UAbilityTask {
-  @:final public function OnPressCallback() : Void;
+@:uextern @:uclass extern class UAbilityTask_WaitInputPress extends unreal.gameplayabilities.UAbilityTask {
+  @:ufunction @:final public function OnPressCallback() : Void;
   
   /**
     Wait until the user presses the input button for this ability's activation. Returns time this node spent waiting for the press. Will return 0 if input was already down.
   **/
-  static public function WaitInputPress(WorldContextObject : unreal.UObject, bTestAlreadyPressed : Bool) : unreal.gameplayabilities.UAbilityTask_WaitInputPress;
+  @:ufunction static public function WaitInputPress(WorldContextObject : unreal.UObject, bTestAlreadyPressed : Bool = false) : unreal.gameplayabilities.UAbilityTask_WaitInputPress;
   
 }

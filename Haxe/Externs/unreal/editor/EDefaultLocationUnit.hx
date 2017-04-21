@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorProjectSettings.h")
 @:uname("EDefaultLocationUnit")
-@:class @:uextern extern enum EDefaultLocationUnit {
+@:class @:uextern @:uenum extern enum EDefaultLocationUnit {
   Micrometers;
   Millimeters;
   Centimeters;

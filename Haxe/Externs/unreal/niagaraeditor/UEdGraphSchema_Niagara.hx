@@ -15,13 +15,13 @@ package unreal.niagaraeditor;
 
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("EdGraphSchema_Niagara.h")
-@:uextern extern class UEdGraphSchema_Niagara extends unreal.UEdGraphSchema {
-  public var PC_Matrix : unreal.FString;
-  public var PC_Vector : unreal.FString;
+@:uextern @:uclass extern class UEdGraphSchema_Niagara extends unreal.UEdGraphSchema {
+  @:uproperty public var PC_Matrix : unreal.FString;
+  @:uproperty public var PC_Vector : unreal.FString;
   
   /**
     Allowable PinType.PinCategory values
   **/
-  public var PC_Float : unreal.FString;
+  @:uproperty public var PC_Float : unreal.FString;
   
 }

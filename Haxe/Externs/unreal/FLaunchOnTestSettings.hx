@@ -20,16 +20,16 @@ package unreal;
   Holds settings for the editor Launch On With Map Iterations test.
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FLaunchOnTestSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLaunchOnTestSettings {
   
   /**
     This is the device to be used for launch on. Example: WindowsNoEditor, Android, IOS, Linux
   **/
-  public var DeviceID : unreal.FString;
+  @:uproperty public var DeviceID : unreal.FString;
   
   /**
     Map to be used for the Launch On test *
   **/
-  public var LaunchOnTestmap : unreal.FFilePath;
+  @:uproperty public var LaunchOnTestmap : unreal.FFilePath;
   
 }

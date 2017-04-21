@@ -22,21 +22,21 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:noCopy @:noEquals @:uextern extern class FInputAxisKeyMapping {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInputAxisKeyMapping {
   
   /**
     Multiplier to use for the mapping when accumulating the axis value
   **/
-  public var Scale : unreal.Float32;
+  @:uproperty public var Scale : unreal.Float32;
   
   /**
     Key to bind it to.
   **/
-  public var Key : unreal.inputcore.FKey;
+  @:uproperty public var Key : unreal.inputcore.FKey;
   
   /**
     Friendly name of axis, e.g "MoveForward"
   **/
-  public var AxisName : unreal.FName;
+  @:uproperty public var AxisName : unreal.FName;
   
 }

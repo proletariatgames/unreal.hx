@@ -19,16 +19,21 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("MaterialExpressionSpriteTextureSampler.h")
-@:uextern extern class UMaterialExpressionSpriteTextureSampler extends unreal.UMaterialExpressionTextureSampleParameter2D {
+@:uextern @:uclass extern class UMaterialExpressionSpriteTextureSampler extends unreal.UMaterialExpressionTextureSampleParameter2D {
+  
+  /**
+    Friendly label for the texture slot, displayed in the Sprite Editor if not empty
+  **/
+  @:uproperty public var SlotDisplayName : unreal.FText;
   
   /**
     This is the slot index into the AdditionalSourceTextures array
   **/
-  public var AdditionalSlotIndex : unreal.Int32;
+  @:uproperty public var AdditionalSlotIndex : unreal.Int32;
   
   /**
     Is this a sampler for the default SourceTexture or the AdditionalSourceTextures list?
   **/
-  public var bSampleAdditionalTextures : Bool;
+  @:uproperty public var bSampleAdditionalTextures : Bool;
   
 }

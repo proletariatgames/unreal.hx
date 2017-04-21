@@ -21,8 +21,8 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraNodeReadDataSet.h")
-@:uextern extern class UNiagaraNodeReadDataSet extends unreal.niagaraeditor.UNiagaraNode {
-  public var Variables : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
-  public var DataSet : unreal.niagara.FNiagaraDataSetID;
+@:uextern @:uclass extern class UNiagaraNodeReadDataSet extends unreal.niagaraeditor.UNiagaraNode {
+  @:uproperty public var Variables : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:uproperty public var DataSet : unreal.niagara.FNiagaraDataSetID;
   
 }

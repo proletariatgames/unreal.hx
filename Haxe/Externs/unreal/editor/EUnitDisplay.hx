@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorProjectSettings.h")
 @:uname("EUnitDisplay")
-@:class @:uextern extern enum EUnitDisplay {
+@:class @:uextern @:uenum extern enum EUnitDisplay {
   None;
   Metric;
   Imperial;

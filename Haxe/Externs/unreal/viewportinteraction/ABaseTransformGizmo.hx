@@ -19,31 +19,31 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("VIBaseTransformGizmo.h")
-@:uextern extern class ABaseTransformGizmo extends unreal.AActor {
+@:uextern @:uclass extern class ABaseTransformGizmo extends unreal.AActor {
   
   /**
     Owning object
   **/
-  private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
+  @:uproperty private var WorldInteraction : unreal.viewportinteraction.UViewportWorldInteraction;
   
   /**
     All gizmo components
   **/
-  private var AllHandleGroups : unreal.TArray<unreal.viewportinteraction.UGizmoHandleGroup>;
+  @:uproperty private var AllHandleGroups : unreal.TArray<unreal.viewportinteraction.UGizmoHandleGroup>;
   
   /**
     Gizmo material (translucent)
   **/
-  private var TranslucentGizmoMaterial : unreal.UMaterialInterface;
+  @:uproperty private var TranslucentGizmoMaterial : unreal.UMaterialInterface;
   
   /**
     Gizmo material (opaque)
   **/
-  private var GizmoMaterial : unreal.UMaterialInterface;
+  @:uproperty private var GizmoMaterial : unreal.UMaterialInterface;
   
   /**
     Scene component root of this actor
   **/
-  private var SceneComponent : unreal.USceneComponent;
+  @:uproperty private var SceneComponent : unreal.USceneComponent;
   
 }

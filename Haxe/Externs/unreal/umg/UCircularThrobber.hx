@@ -22,42 +22,42 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UCircularThrobber extends unreal.umg.UWidget {
-  public var Image : unreal.slatecore.FSlateBrush;
+@:uextern @:uclass extern class UCircularThrobber extends unreal.umg.UWidget {
+  @:uproperty public var Image : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use for each segment of the throbber
   **/
-  @:deprecated public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var PieceImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The radius of the circle. If the throbber is a child of Canvas Panel, the 'Size to Content' option must be enabled in order to set Radius.
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
   /**
     The amount of time for a full circle (in seconds)
   **/
-  public var Period : unreal.Float32;
+  @:uproperty public var Period : unreal.Float32;
   
   /**
     How many pieces there are
   **/
-  public var NumberOfPieces : unreal.Int32;
+  @:uproperty public var NumberOfPieces : unreal.Int32;
   
   /**
     Sets how many pieces there are.
   **/
-  @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
+  @:ufunction @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
   
   /**
     Sets the amount of time for a full circle (in seconds).
   **/
-  @:final public function SetPeriod(InPeriod : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPeriod(InPeriod : unreal.Float32) : Void;
   
   /**
     Sets the radius of the circle.
   **/
-  @:final public function SetRadius(InRadius : unreal.Float32) : Void;
+  @:ufunction @:final public function SetRadius(InRadius : unreal.Float32) : Void;
   
 }

@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
 @:uname("EPoseDriverType")
-@:class @:uextern extern enum EPoseDriverType {
+@:class @:uextern @:uenum extern enum EPoseDriverType {
   
   /**
     Consider full rotation for interpolation

@@ -21,9 +21,9 @@ package unreal.configeditor;
 **/
 @:umodule("ConfigEditor")
 @:glueCppIncludes("ConfigPropertyHelper.h")
-@:uextern extern class UPropertyConfigFileDisplayRow extends unreal.UObject {
-  public var bIsFileWritable : Bool;
-  public var ExternalProperty : unreal.UProperty;
-  public var ConfigFileName : unreal.FString;
+@:uextern @:uclass extern class UPropertyConfigFileDisplayRow extends unreal.UObject {
+  @:uproperty public var bIsFileWritable : Bool;
+  @:uproperty public var ExternalProperty : unreal.UProperty;
+  @:uproperty public var ConfigFileName : unreal.FString;
   
 }

@@ -20,27 +20,27 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Kill/ParticleModuleKillHeight.h")
-@:noClass @:uextern extern class UParticleModuleKillHeight extends unreal.UParticleModuleKillBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleKillHeight extends unreal.UParticleModuleKillBase {
   
   /**
     If true, take the particle systems scale into account
   **/
-  public var bApplyPSysScale : Bool;
+  @:uproperty public var bApplyPSysScale : Bool;
   
   /**
     If true, the plane should be considered a floor - ie kill anything BELOW it.
     If false, if is a ceiling - ie kill anything ABOVE it.
   **/
-  public var bFloor : Bool;
+  @:uproperty public var bFloor : Bool;
   
   /**
     If true, the height should be treated as a world-space position.
   **/
-  public var bAbsolute : Bool;
+  @:uproperty public var bAbsolute : Bool;
   
   /**
     The height at which to kill the particle.
   **/
-  public var Height : unreal.FRawDistributionFloat;
+  @:uproperty public var Height : unreal.FRawDistributionFloat;
   
 }

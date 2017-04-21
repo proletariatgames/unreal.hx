@@ -20,31 +20,31 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSpeedTree.h")
-@:uextern extern class UMaterialExpressionSpeedTree extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionSpeedTree extends unreal.UMaterialExpression {
   
   /**
     Support accurate velocities from wind. This will incur extra cost per vertex.
   **/
-  public var bAccurateWindVelocities : Bool;
+  @:uproperty public var bAccurateWindVelocities : Bool;
   
   /**
     The threshold for triangles to be removed from the bilboard mesh when not facing the camera (0 = none pass, 1 = all pass).
   **/
-  public var BillboardThreshold : unreal.Float32;
+  @:uproperty public var BillboardThreshold : unreal.Float32;
   
   /**
     The type of LOD to use
   **/
-  public var LODType : unreal.ESpeedTreeLODType;
+  @:uproperty public var LODType : unreal.ESpeedTreeLODType;
   
   /**
     The type of wind effect used on this tree. This can only go as high as it was in the SpeedTree Modeler, but you can set it to a lower option for lower quality wind and faster rendering.
   **/
-  public var WindType : unreal.ESpeedTreeWindType;
+  @:uproperty public var WindType : unreal.ESpeedTreeWindType;
   
   /**
     The type of SpeedTree geometry on which this material will be used
   **/
-  public var GeometryType : unreal.ESpeedTreeGeometryType;
+  @:uproperty public var GeometryType : unreal.ESpeedTreeGeometryType;
   
 }

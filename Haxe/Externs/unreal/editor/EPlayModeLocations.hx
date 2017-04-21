@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayModeLocations")
-@:uextern extern enum EPlayModeLocations {
+@:uextern @:uenum extern enum EPlayModeLocations {
   
   /**
     Spawns the player at the current camera location.

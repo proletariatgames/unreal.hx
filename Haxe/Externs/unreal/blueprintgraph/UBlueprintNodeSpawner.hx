@@ -22,11 +22,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("BlueprintNodeSpawner.h")
-@:uextern extern class UBlueprintNodeSpawner extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintNodeSpawner extends unreal.UObject {
   
   /**
     Holds the node type that this spawner will instantiate.
   **/
-  public var NodeClass : unreal.TSubclassOf<unreal.UEdGraphNode>;
+  @:uproperty public var NodeClass : unreal.TSubclassOf<unreal.UEdGraphNode>;
   
 }

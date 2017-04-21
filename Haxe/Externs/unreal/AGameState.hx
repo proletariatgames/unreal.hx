@@ -19,31 +19,31 @@ package unreal;
   It is tied to functionality in GameMode.
 **/
 @:glueCppIncludes("GameFramework/GameState.h")
-@:uextern extern class AGameState extends unreal.AGameStateBase {
+@:uextern @:uclass extern class AGameState extends unreal.AGameStateBase {
   
   /**
     Elapsed game time since match has started.
   **/
-  public var ElapsedTime : unreal.Int32;
+  @:uproperty public var ElapsedTime : unreal.Int32;
   
   /**
     Previous map state, used to handle if multiple transitions happen per frame
   **/
-  private var PreviousMatchState : unreal.FName;
+  @:uproperty private var PreviousMatchState : unreal.FName;
   
   /**
     What match state we are currently in
   **/
-  private var MatchState : unreal.FName;
+  @:uproperty private var MatchState : unreal.FName;
   
   /**
     Match state has changed
   **/
-  public function OnRep_MatchState() : Void;
+  @:ufunction public function OnRep_MatchState() : Void;
   
   /**
     Gives clients the chance to do something when time gets updates
   **/
-  public function OnRep_ElapsedTime() : Void;
+  @:ufunction public function OnRep_ElapsedTime() : Void;
   
 }

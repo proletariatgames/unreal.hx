@@ -21,37 +21,37 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Builders/CubeBuilder.h")
-@:uextern extern class UCubeBuilder extends unreal.editor.UEditorBrushBuilder {
+@:uextern @:uclass extern class UCubeBuilder extends unreal.editor.UEditorBrushBuilder {
   
   /**
     Whether extra internal faces should be generated for each cube face
   **/
-  public var Tessellated : Bool;
+  @:uproperty public var Tessellated : Bool;
   
   /**
     Whether this is a hollow or solid cube
   **/
-  public var Hollow : Bool;
-  public var GroupName : unreal.FName;
+  @:uproperty public var Hollow : Bool;
+  @:uproperty public var GroupName : unreal.FName;
   
   /**
     The thickness of the cube wall when hollow
   **/
-  public var WallThickness : unreal.Float32;
+  @:uproperty public var WallThickness : unreal.Float32;
   
   /**
     The size of the cube in the Z dimension
   **/
-  public var Z : unreal.Float32;
+  @:uproperty public var Z : unreal.Float32;
   
   /**
     The size of the cube in the Y dimension
   **/
-  public var Y : unreal.Float32;
+  @:uproperty public var Y : unreal.Float32;
   
   /**
     The size of the cube in the X dimension
   **/
-  public var X : unreal.Float32;
+  @:uproperty public var X : unreal.Float32;
   
 }

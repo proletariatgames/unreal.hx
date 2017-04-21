@@ -21,7 +21,7 @@ package unreal;
   Don't change at runtime. All properties in here are per material - texture like variations need to come from properties that are in the GBuffer.
 **/
 @:glueCppIncludes("Engine/SubsurfaceProfile.h")
-@:uextern extern class USubsurfaceProfile extends unreal.UObject {
-  public var Settings : unreal.FSubsurfaceProfileStruct;
+@:uextern @:uclass extern class USubsurfaceProfile extends unreal.UObject {
+  @:uproperty public var Settings : unreal.FSubsurfaceProfileStruct;
   
 }

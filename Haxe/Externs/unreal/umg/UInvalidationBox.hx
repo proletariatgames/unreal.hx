@@ -21,9 +21,9 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UInvalidationBox extends unreal.umg.UContentWidget {
-  @:final public function InvalidateCache() : Void;
-  @:thisConst @:final public function GetCanCache() : Bool;
-  @:final public function SetCanCache(CanCache : Bool) : Void;
+@:uextern @:uclass extern class UInvalidationBox extends unreal.umg.UContentWidget {
+  @:ufunction @:final public function InvalidateCache() : Void;
+  @:ufunction @:thisConst @:final public function GetCanCache() : Bool;
+  @:ufunction @:final public function SetCanCache(CanCache : Bool) : Void;
   
 }

@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorRadialMenuItem.h")
-@:noClass @:uextern extern class UVREditorRadialMenuItem extends unreal.vreditor.UVREditorBaseUserWidget {
+@:noClass @:uextern @:uclass extern class UVREditorRadialMenuItem extends unreal.vreditor.UVREditorBaseUserWidget {
   
 }

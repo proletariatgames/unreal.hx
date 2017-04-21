@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/InterpToMovementComponent.h")
 @:uname("EInterpToBehaviourType")
-@:class @:uextern extern enum EInterpToBehaviourType {
+@:class @:uextern @:uenum extern enum EInterpToBehaviourType {
   
   /**
     Move to destination and stop

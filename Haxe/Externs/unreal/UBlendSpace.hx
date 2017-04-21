@@ -20,11 +20,11 @@ package unreal;
   Contains a grid of data points with weights from sample points in the space
 **/
 @:glueCppIncludes("Animation/BlendSpace.h")
-@:uextern extern class UBlendSpace extends unreal.UBlendSpaceBase {
+@:uextern @:uclass extern class UBlendSpace extends unreal.UBlendSpaceBase {
   
   /**
     If you have input interpolation, which axis to drive animation speed (scale) - i.e. for locomotion animation, speed axis will drive animation speed (thus scale)*
   **/
-  public var AxisToScaleAnimation : unreal.EBlendSpaceAxis;
+  @:uproperty public var AxisToScaleAnimation : unreal.EBlendSpaceAxis;
   
 }

@@ -19,6 +19,6 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportDragOperation.h")
-@:uextern extern class UViewportDragOperation extends unreal.UObject {
+@:uextern @:uclass extern class UViewportDragOperation extends unreal.UObject {
   
 }

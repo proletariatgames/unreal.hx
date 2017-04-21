@@ -15,19 +15,19 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemTestPawn.h")
-@:uextern extern class AAbilitySystemTestPawn extends unreal.ADefaultPawn implements unreal.gameplayabilities.IGameplayCueInterface implements unreal.gameplayabilities.IAbilitySystemInterface {
-  public var AbilitySystemComponent : unreal.gameplayabilities.UAbilitySystemComponent;
+@:uextern @:uclass extern class AAbilitySystemTestPawn extends unreal.ADefaultPawn implements unreal.gameplayabilities.IGameplayCueInterface implements unreal.gameplayabilities.IAbilitySystemInterface {
+  @:uproperty public var AbilitySystemComponent : unreal.gameplayabilities.UAbilitySystemComponent;
   // GameplayCueInterface interface implementation
   
   /**
     Internal function to map ufunctions directly to gameplaycue tags
   **/
-  public function BlueprintCustomHandler(EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Void;
+  @:ufunction public function BlueprintCustomHandler(EventType : unreal.gameplayabilities.EGameplayCueEvent, Parameters : unreal.gameplayabilities.FGameplayCueParameters) : Void;
   
   /**
     Call from a Cue handler event to continue checking for additional, more generic handlers. Called from the ability system blueprint library
   **/
-  public function ForwardGameplayCueToParent() : Void;
+  @:ufunction public function ForwardGameplayCueToParent() : Void;
   // AbilitySystemInterface interface implementation
   
 }

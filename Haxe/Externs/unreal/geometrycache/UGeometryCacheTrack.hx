@@ -21,6 +21,6 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheTrack.h")
-@:uextern extern class UGeometryCacheTrack extends unreal.UObject {
+@:uextern @:uclass extern class UGeometryCacheTrack extends unreal.UObject {
   
 }

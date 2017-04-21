@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
 @:uname("EMeshComponentUpdateFlag.Type")
-@:uextern extern enum EMeshComponentUpdateFlag {
+@:uextern @:uenum extern enum EMeshComponentUpdateFlag {
   
   /**
     Always Tick and Refresh BoneTransforms whether rendered or not.

@@ -21,80 +21,80 @@ package unreal.lightpropagationvolumeruntime;
 **/
 @:umodule("LightPropagationVolumeRuntime")
 @:glueCppIncludes("LightPropagationVolumeBlendable.h")
-@:noCopy @:noEquals @:uextern extern class FLightPropagationVolumeSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightPropagationVolumeSettings {
   
   /**
     Specular occlusion intensity - higher values provide increased specular occlusion.
   **/
-  public var LPVSpecularOcclusionIntensity : unreal.Float32;
+  @:uproperty public var LPVSpecularOcclusionIntensity : unreal.Float32;
   
   /**
     Diffuse occlusion intensity - higher values provide increased diffuse occlusion.
   **/
-  public var LPVDiffuseOcclusionIntensity : unreal.Float32;
+  @:uproperty public var LPVDiffuseOcclusionIntensity : unreal.Float32;
   
   /**
     Specular occlusion exponent - increase for more contrast. 6 to 9 is recommended
   **/
-  public var LPVSpecularOcclusionExponent : unreal.Float32;
+  @:uproperty public var LPVSpecularOcclusionExponent : unreal.Float32;
   
   /**
     Diffuse occlusion exponent - increase for more contrast. 1 to 2 is recommended
   **/
-  public var LPVDiffuseOcclusionExponent : unreal.Float32;
+  @:uproperty public var LPVDiffuseOcclusionExponent : unreal.Float32;
   
   /**
     Occlusion Radius - 16 is recommended for most scenes
   **/
-  public var LPVDirectionalOcclusionRadius : unreal.Float32;
+  @:uproperty public var LPVDirectionalOcclusionRadius : unreal.Float32;
   
   /**
     Controls the amount of directional occlusion. Requires LPV. Values very close to 1.0 are recommended
   **/
-  public var LPVDirectionalOcclusionIntensity : unreal.Float32;
-  public var LPVEmissiveInjectionIntensity : unreal.Float32;
+  @:uproperty public var LPVDirectionalOcclusionIntensity : unreal.Float32;
+  @:uproperty public var LPVEmissiveInjectionIntensity : unreal.Float32;
   
   /**
     Bias applied to the geometry volume in cell units. Increase to reduce darkening due to secondary occlusion
   **/
-  public var LPVGeometryVolumeBias : unreal.Float32;
+  @:uproperty public var LPVGeometryVolumeBias : unreal.Float32;
   
   /**
     Secondary bounce light strength (bounce light shadows). Set to 0 to disable
   **/
-  public var LPVSecondaryBounceIntensity : unreal.Float32;
+  @:uproperty public var LPVSecondaryBounceIntensity : unreal.Float32;
   
   /**
     Secondary occlusion strength (bounce light shadows). Set to 0 to disable
   **/
-  public var LPVSecondaryOcclusionIntensity : unreal.Float32;
+  @:uproperty public var LPVSecondaryOcclusionIntensity : unreal.Float32;
   
   /**
     The size of the LPV volume, in Unreal units
   **/
-  public var LPVSize : unreal.Float32;
+  @:uproperty public var LPVSize : unreal.Float32;
   
   /**
     Bias applied to light injected into the LPV in cell units. Increase to reduce bleeding through thin walls
   **/
-  public var LPVVplInjectionBias : unreal.Float32;
+  @:uproperty public var LPVVplInjectionBias : unreal.Float32;
   
   /**
     How strong the dynamic GI from the LPV should be. 0.0 is off, 1.0 is the "normal" value, but higher values can be used to boost the effect
   **/
-  public var LPVIntensity : unreal.Float32;
-  public var bOverride_LPVEmissiveInjectionIntensity : Bool;
-  public var bOverride_LPVVplInjectionBias : Bool;
-  public var bOverride_LPVGeometryVolumeBias : Bool;
-  public var bOverride_LPVSecondaryBounceIntensity : Bool;
-  public var bOverride_LPVSecondaryOcclusionIntensity : Bool;
-  public var bOverride_LPVSize : Bool;
-  public var bOverride_LPVSpecularOcclusionIntensity : Bool;
-  public var bOverride_LPVDiffuseOcclusionIntensity : Bool;
-  public var bOverride_LPVSpecularOcclusionExponent : Bool;
-  public var bOverride_LPVDiffuseOcclusionExponent : Bool;
-  public var bOverride_LPVDirectionalOcclusionRadius : Bool;
-  public var bOverride_LPVDirectionalOcclusionIntensity : Bool;
-  public var bOverride_LPVIntensity : Bool;
+  @:uproperty public var LPVIntensity : unreal.Float32;
+  @:uproperty public var bOverride_LPVEmissiveInjectionIntensity : Bool;
+  @:uproperty public var bOverride_LPVVplInjectionBias : Bool;
+  @:uproperty public var bOverride_LPVGeometryVolumeBias : Bool;
+  @:uproperty public var bOverride_LPVSecondaryBounceIntensity : Bool;
+  @:uproperty public var bOverride_LPVSecondaryOcclusionIntensity : Bool;
+  @:uproperty public var bOverride_LPVSize : Bool;
+  @:uproperty public var bOverride_LPVSpecularOcclusionIntensity : Bool;
+  @:uproperty public var bOverride_LPVDiffuseOcclusionIntensity : Bool;
+  @:uproperty public var bOverride_LPVSpecularOcclusionExponent : Bool;
+  @:uproperty public var bOverride_LPVDiffuseOcclusionExponent : Bool;
+  @:uproperty public var bOverride_LPVDirectionalOcclusionRadius : Bool;
+  @:uproperty public var bOverride_LPVDirectionalOcclusionIntensity : Bool;
+  @:uproperty public var bOverride_LPVIntensity : Bool;
   
 }

@@ -20,81 +20,81 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/PawnSensingComponent.h")
-@:uextern extern class UPawnSensingComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UPawnSensingComponent extends unreal.UActorComponent {
   
   /**
     Cosine of limits of peripheral vision. Computed from PeripheralVisionAngle.
   **/
-  private var PeripheralVisionCosine : unreal.Float32;
+  @:uproperty private var PeripheralVisionCosine : unreal.Float32;
   
   /**
     How far to the side AI can see, in degrees. Use SetPeripheralVisionAngle to change the value at runtime.
   **/
-  private var PeripheralVisionAngle : unreal.Float32;
+  @:uproperty private var PeripheralVisionAngle : unreal.Float32;
   
   /**
     If true, we will perform audibility tests and will be notified when a Pawn makes a noise that can be heard. Default: true
     IMPORTANT NOTE: If we can see pawns (bSeePawns is true), and the pawn is visible, noise notifications are not triggered.
   **/
-  public var bHearNoises : Bool;
+  @:uproperty public var bHearNoises : Bool;
   
   /**
     If true, we will perform visibility tests and will trigger notifications when a Pawn is visible. Default: true
   **/
-  public var bSeePawns : Bool;
+  @:uproperty public var bSeePawns : Bool;
   
   /**
     If true, will only sense player-controlled pawns in the world. Default: true
   **/
-  public var bOnlySensePlayers : Bool;
+  @:uproperty public var bOnlySensePlayers : Bool;
   
   /**
     If true, component will perform sensing updates. At runtime change this using SetSensingUpdatesEnabled().
   **/
-  public var bEnableSensingUpdates : Bool;
+  @:uproperty public var bEnableSensingUpdates : Bool;
   
   /**
     Max age of sounds we can hear. Should be greater than SensingInterval, or you might miss hearing some sounds!
   **/
-  public var HearingMaxSoundAge : unreal.Float32;
+  @:uproperty public var HearingMaxSoundAge : unreal.Float32;
   
   /**
     Amount of time between pawn sensing updates. Use SetSensingInterval() to adjust this at runtime. A value <= 0 prevents any updates.
   **/
-  public var SensingInterval : unreal.Float32;
+  @:uproperty public var SensingInterval : unreal.Float32;
   
   /**
     Maximum sight distance.
   **/
-  public var SightRadius : unreal.Float32;
+  @:uproperty public var SightRadius : unreal.Float32;
   
   /**
     Max distance at which a makenoise(1.0) loudness sound can be heard if unoccluded (LOSHearingThreshold should be > HearingThreshold)
   **/
-  public var LOSHearingThreshold : unreal.Float32;
+  @:uproperty public var LOSHearingThreshold : unreal.Float32;
   
   /**
     Max distance at which a makenoise(1.0) loudness sound can be heard, regardless of occlusion
   **/
-  public var HearingThreshold : unreal.Float32;
+  @:uproperty public var HearingThreshold : unreal.Float32;
   
   /**
     Changes the SensingInterval.
     If we are currently waiting for an interval, this can either extend or shorten that interval.
     A value <= 0 prevents any updates.
   **/
-  public function SetSensingInterval(NewSensingInterval : unreal.Float32) : Void;
+  @:ufunction public function SetSensingInterval(NewSensingInterval : unreal.Float32) : Void;
   
   /**
     Enables or disables sensing updates. The timer is reset in either case.
   **/
-  public function SetSensingUpdatesEnabled(bEnabled : Bool) : Void;
+  @:ufunction public function SetSensingUpdatesEnabled(bEnabled : Bool) : Void;
   
   /**
     Sets PeripheralVisionAngle. Calculates PeripheralVisionCosine from PeripheralVisionAngle
   **/
-  public function SetPeripheralVisionAngle(NewPeripheralVisionAngle : unreal.Float32) : Void;
-  @:thisConst @:final public function GetPeripheralVisionAngle() : unreal.Float32;
-  @:thisConst @:final public function GetPeripheralVisionCosine() : unreal.Float32;
+  @:ufunction public function SetPeripheralVisionAngle(NewPeripheralVisionAngle : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetPeripheralVisionAngle() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPeripheralVisionCosine() : unreal.Float32;
   
 }

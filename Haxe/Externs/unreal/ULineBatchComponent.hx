@@ -21,6 +21,6 @@ package unreal;
       This can be useful for debug drawing, but is not very performant for runtime use.
 **/
 @:glueCppIncludes("Components/LineBatchComponent.h")
-@:uextern extern class ULineBatchComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class ULineBatchComponent extends unreal.UPrimitiveComponent {
   
 }

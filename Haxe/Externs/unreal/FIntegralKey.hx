@@ -20,16 +20,16 @@ package unreal;
   An integral key, which holds the key time and the key value
 **/
 @:glueCppIncludes("Curves/IntegralCurve.h")
-@:noCopy @:noEquals @:uextern extern class FIntegralKey {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FIntegralKey {
   
   /**
     The keyed integral value
   **/
-  public var Value : unreal.Int32;
+  @:uproperty public var Value : unreal.Int32;
   
   /**
     The keyed time
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

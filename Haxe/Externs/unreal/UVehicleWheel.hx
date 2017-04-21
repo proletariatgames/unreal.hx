@@ -14,174 +14,174 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/VehicleWheel.h")
-@:uextern extern class UVehicleWheel extends unreal.UObject {
+@:uextern @:uclass extern class UVehicleWheel extends unreal.UObject {
   
   /**
     Current velocity of the wheel center (change in location over time)
   **/
-  public var Velocity : unreal.FVector;
+  @:uproperty public var Velocity : unreal.FVector;
   
   /**
     Worldspace location of this wheel last frame
   **/
-  public var OldLocation : unreal.FVector;
+  @:uproperty public var OldLocation : unreal.FVector;
   
   /**
     Worldspace location of this wheel
   **/
-  public var Location : unreal.FVector;
+  @:uproperty public var Location : unreal.FVector;
   
   /**
     Lateral force the wheel is applying to the chassis
   **/
-  public var DebugLatForce : unreal.Float32;
+  @:uproperty public var DebugLatForce : unreal.Float32;
   
   /**
     Longitudinal force the wheel is applying to the chassis
   **/
-  public var DebugLongForce : unreal.Float32;
+  @:uproperty public var DebugLongForce : unreal.Float32;
   
   /**
     Wheel torque
   **/
-  public var DebugWheelTorque : unreal.Float32;
+  @:uproperty public var DebugWheelTorque : unreal.Float32;
   
   /**
     How much force the tire experiences at rest divided by how much force it is experiencing now
   **/
-  public var DebugNormalizedTireLoad : unreal.Float32;
+  @:uproperty public var DebugNormalizedTireLoad : unreal.Float32;
   
   /**
     Lateral slip experienced by the wheel
   **/
-  public var DebugLatSlip : unreal.Float32;
+  @:uproperty public var DebugLatSlip : unreal.Float32;
   
   /**
     Longitudinal slip experienced by the wheel
   **/
-  public var DebugLongSlip : unreal.Float32;
+  @:uproperty public var DebugLongSlip : unreal.Float32;
   
   /**
     Our index in the vehicle's (and setup's) wheels array
   **/
-  public var WheelIndex : unreal.Int32;
+  @:uproperty public var WheelIndex : unreal.Int32;
   
   /**
     The vehicle that owns us
   **/
-  public var VehicleSim : unreal.UWheeledVehicleMovementComponent;
+  @:uproperty public var VehicleSim : unreal.UWheeledVehicleMovementComponent;
   
   /**
     Max handbrake brake torque for this wheel (Nm). A handbrake should have a stronger brake torque
     than the brake. This will be ignored for wheels that are not affected by the handbrake.
   **/
-  public var MaxHandBrakeTorque : unreal.Float32;
+  @:uproperty public var MaxHandBrakeTorque : unreal.Float32;
   
   /**
     max brake torque for this wheel (Nm)
   **/
-  public var MaxBrakeTorque : unreal.Float32;
+  @:uproperty public var MaxBrakeTorque : unreal.Float32;
   
   /**
     The rate at which energy is dissipated from the spring. Standard cars have values between 0.8 and 1.2.
     values < 1 are more sluggish, values > 1 or more twitchy
   **/
-  public var SuspensionDampingRatio : unreal.Float32;
+  @:uproperty public var SuspensionDampingRatio : unreal.Float32;
   
   /**
     Oscillation frequency of suspension. Standard cars have values between 5 and 10
   **/
-  public var SuspensionNaturalFrequency : unreal.Float32;
+  @:uproperty public var SuspensionNaturalFrequency : unreal.Float32;
   
   /**
     How far the wheel can drop below the resting position
   **/
-  public var SuspensionMaxDrop : unreal.Float32;
+  @:uproperty public var SuspensionMaxDrop : unreal.Float32;
   
   /**
     How far the wheel can go above the resting position
   **/
-  public var SuspensionMaxRaise : unreal.Float32;
+  @:uproperty public var SuspensionMaxRaise : unreal.Float32;
   
   /**
     Vertical offset from where suspension forces are applied (along Z-axis)
   **/
-  public var SuspensionForceOffset : unreal.Float32;
+  @:uproperty public var SuspensionForceOffset : unreal.Float32;
   
   /**
     How much longitudinal stiffness to have given longitudinal slip
   **/
-  public var LongStiffValue : unreal.Float32;
+  @:uproperty public var LongStiffValue : unreal.Float32;
   
   /**
     How much lateral stiffness to have given lateral slip
   **/
-  public var LatStiffValue : unreal.Float32;
+  @:uproperty public var LatStiffValue : unreal.Float32;
   
   /**
     Max normalized tire load at which the tire can deliver no more lateral stiffness no matter how much extra load is applied to the tire.
   **/
-  public var LatStiffMaxLoad : unreal.Float32;
+  @:uproperty public var LatStiffMaxLoad : unreal.Float32;
   
   /**
     Tire type for the wheel. Determines friction
   **/
-  public var TireType : unreal.UTireType;
+  @:uproperty public var TireType : unreal.UTireType;
   
   /**
     Whether handbrake should affect this wheel
   **/
-  public var bAffectedByHandbrake : Bool;
+  @:uproperty public var bAffectedByHandbrake : Bool;
   
   /**
     steer angle in degrees for this wheel
   **/
-  public var SteerAngle : unreal.Float32;
+  @:uproperty public var SteerAngle : unreal.Float32;
   
   /**
     Damping rate for this wheel (Kgm^2/s)
   **/
-  public var DampingRate : unreal.Float32;
+  @:uproperty public var DampingRate : unreal.Float32;
   
   /**
     Mass of this wheel
   **/
-  public var Mass : unreal.Float32;
+  @:uproperty public var Mass : unreal.Float32;
   
   /**
     Width of the wheel
   **/
-  public var ShapeWidth : unreal.Float32;
+  @:uproperty public var ShapeWidth : unreal.Float32;
   
   /**
     Radius of the wheel
   **/
-  public var ShapeRadius : unreal.Float32;
+  @:uproperty public var ShapeRadius : unreal.Float32;
   
   /**
     If BoneName is specified, offset the wheel from the bone's location.
     Otherwise this offsets the wheel from the vehicle's origin.
   **/
-  public var Offset : unreal.FVector;
+  @:uproperty public var Offset : unreal.FVector;
   
   /**
     If true, ShapeRadius and ShapeWidth will be used to automatically scale collision taken from CollisionMesh to match wheel size.
     If false, size of CollisionMesh won't be changed. Use if you want to scale wheels manually.
   **/
-  public var bAutoAdjustCollisionSize : Bool;
+  @:uproperty public var bAutoAdjustCollisionSize : Bool;
   
   /**
     If set, shape won't be created, but mapped from chassis mesh
   **/
-  public var bDontCreateShape : Bool;
+  @:uproperty public var bDontCreateShape : Bool;
   
   /**
     Static mesh with collision setup for wheel, will be used to create wheel shape
     (if empty, sphere will be added as wheel shape, check bDontCreateShape flag)
   **/
-  public var CollisionMesh : unreal.UStaticMesh;
-  @:thisConst @:final public function GetSteerAngle() : unreal.Float32;
-  @:thisConst @:final public function GetRotationAngle() : unreal.Float32;
-  @:thisConst @:final public function GetSuspensionOffset() : unreal.Float32;
+  @:uproperty public var CollisionMesh : unreal.UStaticMesh;
+  @:ufunction @:thisConst @:final public function GetSteerAngle() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetRotationAngle() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetSuspensionOffset() : unreal.Float32;
   
 }

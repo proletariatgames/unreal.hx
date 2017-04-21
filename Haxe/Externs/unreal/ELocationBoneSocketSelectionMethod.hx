@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
 @:uname("ELocationBoneSocketSelectionMethod")
-@:uextern extern enum ELocationBoneSocketSelectionMethod {
+@:uextern @:uenum extern enum ELocationBoneSocketSelectionMethod {
   BONESOCKETSEL_Sequential;
   BONESOCKETSEL_Random;
   

@@ -15,22 +15,22 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Variable.h")
-@:uextern extern class UK2Node_Variable extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_Variable extends unreal.blueprintgraph.UK2Node {
   
   /**
     Name of variable
   **/
-  @:deprecated private var VariableName_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty private var VariableName_DEPRECATED : unreal.FName;
   
   /**
     Class that this variable is defined in. Should be NULL if bSelfContext is true.
   **/
-  @:deprecated private var VariableSourceClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
-  public var SelfContextInfo : unreal.blueprintgraph.ESelfContextInfo;
+  @:deprecated @:uproperty private var VariableSourceClass_DEPRECATED : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var SelfContextInfo : unreal.blueprintgraph.ESelfContextInfo;
   
   /**
     Reference to variable we want to set/get
   **/
-  public var VariableReference : unreal.FMemberReference;
+  @:uproperty public var VariableReference : unreal.FMemberReference;
   
 }

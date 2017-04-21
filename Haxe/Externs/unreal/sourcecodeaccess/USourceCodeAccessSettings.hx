@@ -21,11 +21,11 @@ package unreal.sourcecodeaccess;
 **/
 @:umodule("SourceCodeAccess")
 @:glueCppIncludes("Private/SourceCodeAccessSettings.h")
-@:noClass @:uextern extern class USourceCodeAccessSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USourceCodeAccessSettings extends unreal.UObject {
   
   /**
     The source code editor we prefer to use.
   **/
-  public var PreferredAccessor : unreal.FString;
+  @:uproperty public var PreferredAccessor : unreal.FString;
   
 }

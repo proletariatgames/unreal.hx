@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/KismetSystemLibrary.h")
 @:uname("EMoveComponentAction.Type")
-@:uextern extern enum EMoveComponentAction {
+@:uextern @:uenum extern enum EMoveComponentAction {
   
   /**
     Move to target over specified time.

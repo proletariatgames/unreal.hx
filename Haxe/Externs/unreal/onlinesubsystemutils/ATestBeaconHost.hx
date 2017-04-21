@@ -19,6 +19,6 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("TestBeaconHost.h")
-@:uextern extern class ATestBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeaconHostObject {
+@:uextern @:uclass extern class ATestBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeaconHostObject {
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Sound/SoundClass.h")
 @:uname("EAudioOutputTarget.Type")
-@:uextern extern enum EAudioOutputTarget {
+@:uextern @:uenum extern enum EAudioOutputTarget {
   
   /**
     Sound plays only from speakers.

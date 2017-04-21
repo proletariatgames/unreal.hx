@@ -20,36 +20,36 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UTextLayoutWidget extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UTextLayoutWidget extends unreal.umg.UWidget {
   
   /**
     The amount to scale each lines height by.
   **/
-  private var LineHeightPercentage : unreal.Float32;
+  @:uproperty private var LineHeightPercentage : unreal.Float32;
   
   /**
     The amount of blank space left around the edges of text area.
   **/
-  private var Margin : unreal.slatecore.FMargin;
+  @:uproperty private var Margin : unreal.slatecore.FMargin;
   
   /**
     The wrapping policy to use.
   **/
-  private var WrappingPolicy : unreal.slate.ETextWrappingPolicy;
+  @:uproperty private var WrappingPolicy : unreal.slate.ETextWrappingPolicy;
   
   /**
     Whether text wraps onto a new line when it's length exceeds this width; if this value is zero or negative, no wrapping occurs.
   **/
-  private var WrapTextAt : unreal.Float32;
+  @:uproperty private var WrapTextAt : unreal.Float32;
   
   /**
     How the text should be aligned with the margin.
   **/
-  private var Justification : unreal.slate.ETextJustify;
+  @:uproperty private var Justification : unreal.slate.ETextJustify;
   
   /**
     Controls how the text within this widget should be shaped.
   **/
-  private var ShapedTextOptions : unreal.umg.FShapedTextOptions;
+  @:uproperty private var ShapedTextOptions : unreal.umg.FShapedTextOptions;
   
 }

@@ -27,92 +27,92 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Framework/Controller/PlayerController/
 **/
 @:glueCppIncludes("GameFramework/PlayerController.h")
-@:uextern extern class APlayerController extends unreal.AController {
+@:uextern @:uclass extern class APlayerController extends unreal.AController {
   
   /**
     The value of SeamlessTravelCount, upon the last call to GameModeBase::HandleSeamlessTravelPlayer; used to detect seamless travel
   **/
-  public var LastCompletedSeamlessTravelCount : unreal.UInt16;
+  @:uproperty public var LastCompletedSeamlessTravelCount : unreal.UInt16;
   
   /**
     Counter for this players seamless travels (used along with the below value, to restrict ServerNotifyLoadedWorld)
   **/
-  public var SeamlessTravelCount : unreal.UInt16;
+  @:uproperty public var SeamlessTravelCount : unreal.UInt16;
   
   /**
     The location used internally when there is no pawn or spectator, to know where to spawn the spectator or focus the camera on death.
   **/
-  private var SpawnLocation : unreal.FVector;
+  @:uproperty private var SpawnLocation : unreal.FVector;
   
   /**
     The currently set touch interface
   **/
-  private var CurrentTouchInterface : unreal.UTouchInterface;
+  @:uproperty private var CurrentTouchInterface : unreal.UTouchInterface;
   
   /**
     InputComponent we use when player is in Inactive state.
   **/
-  private var InactiveStateInputComponent : unreal.UInputComponent;
-  public var HitResultTraceDistance : unreal.Float32;
+  @:uproperty private var InactiveStateInputComponent : unreal.UInputComponent;
+  @:uproperty public var HitResultTraceDistance : unreal.Float32;
   
   /**
     Trace channel currently being used for determining what world object was clicked on.
   **/
-  public var CurrentClickTraceChannel : unreal.ECollisionChannel;
+  @:uproperty public var CurrentClickTraceChannel : unreal.ECollisionChannel;
   
   /**
     Default trace channel used for determining what world object was clicked on.
   **/
-  public var DefaultClickTraceChannel : unreal.ECollisionChannel;
-  public var CurrentMouseCursor : unreal.EMouseCursor;
-  public var DefaultMouseCursor : unreal.EMouseCursor;
-  public var ClickEventKeys : unreal.TArray<unreal.inputcore.FKey>;
-  public var bForceFeedbackEnabled : Bool;
+  @:uproperty public var DefaultClickTraceChannel : unreal.ECollisionChannel;
+  @:uproperty public var CurrentMouseCursor : unreal.EMouseCursor;
+  @:uproperty public var DefaultMouseCursor : unreal.EMouseCursor;
+  @:uproperty public var ClickEventKeys : unreal.TArray<unreal.inputcore.FKey>;
+  @:uproperty public var bForceFeedbackEnabled : Bool;
   
   /**
     Whether actor/component touch over events should be generated.
   **/
-  public var bEnableTouchOverEvents : Bool;
+  @:uproperty public var bEnableTouchOverEvents : Bool;
   
   /**
     Whether actor/component mouse over events should be generated.
   **/
-  public var bEnableMouseOverEvents : Bool;
+  @:uproperty public var bEnableMouseOverEvents : Bool;
   
   /**
     Whether actor/component touch events should be generated.
   **/
-  public var bEnableTouchEvents : Bool;
+  @:uproperty public var bEnableTouchEvents : Bool;
   
   /**
     Whether actor/component click events should be generated.
   **/
-  public var bEnableClickEvents : Bool;
+  @:uproperty public var bEnableClickEvents : Bool;
   
   /**
     Whether the mouse cursor should be displayed.
   **/
-  public var bShowMouseCursor : Bool;
+  @:uproperty public var bShowMouseCursor : Bool;
   
   /**
     Roll input speed scaling
   **/
-  public var InputRollScale : unreal.Float32;
+  @:uproperty public var InputRollScale : unreal.Float32;
   
   /**
     Pitch input speed scaling
   **/
-  public var InputPitchScale : unreal.Float32;
+  @:uproperty public var InputPitchScale : unreal.Float32;
   
   /**
     Yaw input speed scaling
   **/
-  public var InputYawScale : unreal.Float32;
+  @:uproperty public var InputYawScale : unreal.Float32;
   
   /**
     The net connection this controller is communicating on, NULL for local players on server
   **/
-  public var NetConnection : unreal.UNetConnection;
+  @:uproperty public var NetConnection : unreal.UNetConnection;
   
   /**
     this is set on the OLD PlayerController when performing a swap over a network connection
@@ -120,204 +120,204 @@ package unreal;
     (or when the connection is closed)
     @see GameModeBase::SwapPlayerControllers()
   **/
-  public var PendingSwapConnection : unreal.UNetConnection;
+  @:uproperty public var PendingSwapConnection : unreal.UNetConnection;
   
   /**
     index identifying players using the same base connection (splitscreen clients)
     Used by netcode to match replicated PlayerControllers to the correct splitscreen viewport and child connection
     replicated via special internal code, not through normal variable replication
   **/
-  public var NetPlayerIndex : unreal.UInt8;
+  @:uproperty public var NetPlayerIndex : unreal.UInt8;
   
   /**
     True if PlayerController is currently waiting for the match to start or to respawn. Only valid in Spectating state.
   **/
-  public var bPlayerIsWaiting : Bool;
-  public var ActiveForceFeedbackEffects : unreal.TArray<unreal.FActiveForceFeedbackEffect>;
+  @:uproperty public var bPlayerIsWaiting : Bool;
+  @:uproperty public var ActiveForceFeedbackEffects : unreal.TArray<unreal.FActiveForceFeedbackEffect>;
   
   /**
     Object that manages player input.
   **/
-  public var PlayerInput : unreal.UPlayerInput;
+  @:uproperty public var PlayerInput : unreal.UPlayerInput;
   
   /**
     Class of my CheatManager.  The Cheat Manager is not created in shipping builds
   **/
-  public var CheatClass : unreal.TSubclassOf<unreal.UCheatManager>;
+  @:uproperty public var CheatClass : unreal.TSubclassOf<unreal.UCheatManager>;
   
   /**
     Object that manages "cheat" commands.  Not instantiated in shipping builds.
   **/
-  public var CheatManager : unreal.UCheatManager;
+  @:uproperty public var CheatManager : unreal.UCheatManager;
   
   /**
     Cap set by server on bandwidth from client to server in bytes/sec (only has impact if >=2600)
   **/
-  public var ClientCap : unreal.Int32;
+  @:uproperty public var ClientCap : unreal.Int32;
   
   /**
     Last rotation synced on the server for a spectator.
   **/
-  public var LastSpectatorSyncRotation : unreal.FRotator;
+  @:uproperty public var LastSpectatorSyncRotation : unreal.FRotator;
   
   /**
     Last location synced on the server for a spectator.
   **/
-  public var LastSpectatorSyncLocation : unreal.FVector;
+  @:uproperty public var LastSpectatorSyncLocation : unreal.FVector;
   
   /**
     Used to make sure the client is kept synchronized when in a spectator state
   **/
-  public var LastSpectatorStateSynchTime : unreal.Float32;
+  @:uproperty public var LastSpectatorStateSynchTime : unreal.Float32;
   
   /**
     The actors which the camera shouldn't see - e.g. used to hide actors which the camera penetrates
   **/
-  public var HiddenActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var HiddenActors : unreal.TArray<unreal.AActor>;
   
   /**
     Interp speed for blending remote view rotation for smoother client updates
   **/
-  public var SmoothTargetViewRotationSpeed : unreal.Float32;
+  @:uproperty public var SmoothTargetViewRotationSpeed : unreal.Float32;
   
   /**
     Used to replicate the view rotation of targets not owned/possessed by this PlayerController.
   **/
-  public var TargetViewRotation : unreal.FRotator;
+  @:uproperty public var TargetViewRotation : unreal.FRotator;
   
   /**
     True to allow this player controller to manage the camera target for you,
     typically by using the possessed pawn as the camera target. Set to false
     if you want to manually control the camera target.
   **/
-  public var bAutoManageActiveCameraTarget : Bool;
+  @:uproperty public var bAutoManageActiveCameraTarget : Bool;
   
   /**
     PlayerCamera class should be set for each game, otherwise Engine.PlayerCameraManager is used
   **/
-  public var PlayerCameraManagerClass : unreal.TSubclassOf<unreal.APlayerCameraManager>;
+  @:uproperty public var PlayerCameraManagerClass : unreal.TSubclassOf<unreal.APlayerCameraManager>;
   
   /**
     Camera manager associated with this Player Controller.
   **/
-  public var PlayerCameraManager : unreal.APlayerCameraManager;
+  @:uproperty public var PlayerCameraManager : unreal.APlayerCameraManager;
   
   /**
     Heads up display associated with this PlayerController.
   **/
-  public var MyHUD : unreal.AHUD;
+  @:uproperty public var MyHUD : unreal.AHUD;
   
   /**
     Director track that's currently possessing this player controller, or none if not possessed.
   **/
-  public var ControllingDirTrackInst : unreal.UInterpTrackInstDirector;
+  @:uproperty public var ControllingDirTrackInst : unreal.UInterpTrackInstDirector;
   
   /**
     Used in net games so client can acknowledge it possessed a specific pawn.
   **/
-  public var AcknowledgedPawn : unreal.APawn;
+  @:uproperty public var AcknowledgedPawn : unreal.APawn;
   
   /**
     UPlayer associated with this PlayerController.  Could be a local player or a net connection.
   **/
-  public var Player : unreal.UPlayer;
+  @:uproperty public var Player : unreal.UPlayer;
   
   /**
     Indicate that the Spectator is waiting to join/respawn.
   **/
-  public function ServerSetSpectatorWaiting(bWaiting : Bool) : Void;
+  @:ufunction public function ServerSetSpectatorWaiting(bWaiting : Bool) : Void;
   
   /**
     Indicate that the Spectator is waiting to join/respawn.
   **/
-  public function ClientSetSpectatorWaiting(bWaiting : Bool) : Void;
+  @:ufunction public function ClientSetSpectatorWaiting(bWaiting : Bool) : Void;
   
   /**
     Enables cheats within the game
   **/
-  public function EnableCheats() : Void;
+  @:ufunction public function EnableCheats() : Void;
   
   /**
     Set the field of view to NewFOV
   **/
-  public function FOV(NewFOV : unreal.Float32) : Void;
+  @:ufunction public function FOV(NewFOV : unreal.Float32) : Void;
   
   /**
     Restarts the current level
   **/
-  public function RestartLevel() : Void;
+  @:ufunction public function RestartLevel() : Void;
   
   /**
     Causes the client to travel to the given URL
   **/
-  public function LocalTravel(URL : unreal.FString) : Void;
+  @:ufunction public function LocalTravel(URL : unreal.FString) : Void;
   
   /**
     Return the client to the main menu gracefully
   **/
-  public function ClientReturnToMainMenu(ReturnReason : unreal.FString) : Void;
+  @:ufunction public function ClientReturnToMainMenu(ReturnReason : unreal.FString) : Void;
   
   /**
     Development RPC for testing object reference replication
   **/
-  public function ClientRepObjRef(Object : unreal.UObject) : Void;
+  @:ufunction public function ClientRepObjRef(Object : unreal.UObject) : Void;
   
   /**
     Command to try to pause the game.
   **/
-  public function Pause() : Void;
+  @:ufunction public function Pause() : Void;
   
   /**
     Trys to set the player's name to the given name.
   **/
-  public function SetName(S : unreal.FString) : Void;
+  @:ufunction public function SetName(S : unreal.FString) : Void;
   
   /**
     SwitchLevel to the given MapURL.
   **/
-  public function SwitchLevel(URL : unreal.FString) : Void;
-  @:thisConst @:final public function GetHitResultUnderCursor(TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
-  @:thisConst @:final public function GetHitResultUnderCursorByChannel(TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
-  @:thisConst @:final public function GetHitResultUnderFinger(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
-  @:thisConst @:final public function GetHitResultUnderFingerByChannel(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ETraceTypeQuery, bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
+  @:ufunction public function SwitchLevel(URL : unreal.FString) : Void;
+  @:ufunction @:thisConst @:final public function GetHitResultUnderCursor(@:bpopt("ECC_Visibility") TraceChannel : unreal.ECollisionChannel, @:bpopt("TRUE") bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
+  @:ufunction @:thisConst @:final public function GetHitResultUnderCursorByChannel(TraceChannel : unreal.ETraceTypeQuery, @:bpopt("TRUE") bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
+  @:ufunction @:thisConst @:final public function GetHitResultUnderFinger(FingerIndex : unreal.inputcore.ETouchIndex, @:bpopt("ECC_Visibility") TraceChannel : unreal.ECollisionChannel, @:bpopt("TRUE") bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
+  @:ufunction @:thisConst @:final public function GetHitResultUnderFingerByChannel(FingerIndex : unreal.inputcore.ETouchIndex, TraceChannel : unreal.ETraceTypeQuery, @:bpopt("TRUE") bTraceComplex : Bool, HitResult : unreal.PRef<unreal.FHitResult>) : Bool;
   
   /**
     Convert current mouse 2D position to World Space 3D position and direction. Returns false if unable to determine value. *
   **/
-  @:thisConst @:final public function DeprojectMousePositionToWorld(WorldLocation : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction @:thisConst @:final public function DeprojectMousePositionToWorld(WorldLocation : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Convert current mouse 2D position to World Space 3D position and direction. Returns false if unable to determine value. *
   **/
-  @:thisConst @:final public function DeprojectScreenPositionToWorld(ScreenX : unreal.Float32, ScreenY : unreal.Float32, WorldLocation : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction @:thisConst @:final public function DeprojectScreenPositionToWorld(ScreenX : unreal.Float32, ScreenY : unreal.Float32, WorldLocation : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Convert a World Space 3D position into a 2D Screen Space position.
     @return true if the world coordinate was successfully projected to the screen.
   **/
-  @:thisConst @:final public function ProjectWorldLocationToScreen(WorldLocation : unreal.FVector, ScreenLocation : unreal.PRef<unreal.FVector2D>, bPlayerViewportRelative : Bool) : Bool;
+  @:ufunction @:thisConst @:final public function ProjectWorldLocationToScreen(WorldLocation : unreal.FVector, ScreenLocation : unreal.PRef<unreal.FVector2D>, bPlayerViewportRelative : Bool = false) : Bool;
   
   /**
     Positions the mouse cursor in screen space, in pixels.
   **/
-  @:final public function SetMouseLocation(X : unreal.Int32, Y : unreal.Int32) : Void;
+  @:ufunction @:final public function SetMouseLocation(X : unreal.Int32, Y : unreal.Int32) : Void;
   
   /**
     Fire the player's currently selected weapon with the optional firemode.
   **/
-  public function StartFire(FireModeNum : unreal.UInt8) : Void;
+  @:ufunction public function StartFire(FireModeNum : unreal.UInt8 = 0) : Void;
   
   /**
     Tell the client to enable or disable voice chat (not muting)
     @param bEnable enable or disable voice chat
   **/
-  public function ClientEnableNetworkVoice(bEnable : Bool) : Void;
+  @:ufunction public function ClientEnableNetworkVoice(bEnable : Bool) : Void;
   
   /**
     Toggle voice chat on and off
     @param bSpeaking enable or disable voice chat
   **/
-  public function ToggleSpeaking(bInSpeaking : Bool) : Void;
+  @:ufunction public function ToggleSpeaking(bInSpeaking : Bool) : Void;
   
   /**
     Tells the client that the server has all the information it needs and that it
@@ -326,96 +326,96 @@ package unreal;
     
     NOTE: This is done as an RPC instead of variable replication because ordering matters
   **/
-  public function ClientVoiceHandshakeComplete() : Void;
+  @:ufunction public function ClientVoiceHandshakeComplete() : Void;
   
   /**
     Tell the server to mute a player for this controller
     @param PlayerId player id to mute
   **/
-  public function ServerMutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
+  @:ufunction public function ServerMutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
   
   /**
     Tell the server to unmute a player for this controller
     @param PlayerId player id to unmute
   **/
-  public function ServerUnmutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
+  @:ufunction public function ServerUnmutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
   
   /**
     Tell the client to mute a player for this controller
     @param PlayerId player id to mute
   **/
-  public function ClientMutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
+  @:ufunction public function ClientMutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
   
   /**
     Tell the client to unmute a player for this controller
     @param PlayerId player id to unmute
   **/
-  public function ClientUnmutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
+  @:ufunction public function ClientUnmutePlayer(PlayerId : unreal.FUniqueNetIdRepl) : Void;
   
   /**
     Console control commands, useful when remote debugging so you can't touch the console the normal way
   **/
-  public function ConsoleKey(Key : unreal.inputcore.FKey) : Void;
+  @:ufunction public function ConsoleKey(Key : unreal.inputcore.FKey) : Void;
   
   /**
     Sends a command to the console to execute if not shipping version
   **/
-  public function SendToConsole(Command : unreal.FString) : Void;
+  @:ufunction public function SendToConsole(Command : unreal.FString) : Void;
   
   /**
     Adds a location to the texture streaming system for the specified duration.
   **/
-  @:final public function ClientAddTextureStreamingLoc(InLoc : unreal.FVector, Duration : unreal.Float32, bOverrideLocation : Bool) : Void;
+  @:ufunction @:final public function ClientAddTextureStreamingLoc(InLoc : unreal.FVector, Duration : unreal.Float32, bOverrideLocation : Bool) : Void;
   
   /**
     Tells client to cancel any pending map change.
   **/
-  public function ClientCancelPendingMapChange() : Void;
+  @:ufunction public function ClientCancelPendingMapChange() : Void;
   
   /**
     Set CurrentNetSpeed to the lower of its current value and Cap.
   **/
-  public function ClientCapBandwidth(Cap : unreal.Int32) : Void;
+  @:ufunction public function ClientCapBandwidth(Cap : unreal.Int32) : Void;
   
   /**
     Actually performs the level transition prepared by PrepareMapChange().
   **/
-  public function ClientCommitMapChange() : Void;
+  @:ufunction public function ClientCommitMapChange() : Void;
   
   /**
     Tells the client to block until all pending level streaming actions are complete
     happens at the end of the tick
     primarily used to force update the client ASAP at join time
   **/
-  @:final public function ClientFlushLevelStreaming() : Void;
+  @:ufunction @:final public function ClientFlushLevelStreaming() : Void;
   
   /**
     Forces GC at the end of the tick on the client
   **/
-  public function ClientForceGarbageCollection() : Void;
+  @:ufunction public function ClientForceGarbageCollection() : Void;
   
   /**
     Replicated function called by GameHasEnded().
     @param       EndGameFocus - actor to view with camera
     @param       bIsWinner - true if this controller is on winning team
   **/
-  public function ClientGameEnded(EndGameFocus : unreal.AActor, bIsWinner : Bool) : Void;
+  @:ufunction public function ClientGameEnded(EndGameFocus : unreal.AActor, bIsWinner : Bool) : Void;
   
   /**
     Server uses this to force client into NewState .
     @Note ALL STATE NAMES NEED TO BE DEFINED IN name table in UnrealNames.h to be correctly replicated (so they are mapped to the same thing on client and server).
   **/
-  public function ClientGotoState(NewState : unreal.FName) : Void;
+  @:ufunction public function ClientGotoState(NewState : unreal.FName) : Void;
   
   /**
     calls IgnoreLookInput on client
   **/
-  public function ClientIgnoreLookInput(bIgnore : Bool) : Void;
+  @:ufunction public function ClientIgnoreLookInput(bIgnore : Bool) : Void;
   
   /**
     calls IgnoreMoveInput on client
   **/
-  public function ClientIgnoreMoveInput(bIgnore : Bool) : Void;
+  @:ufunction public function ClientIgnoreMoveInput(bIgnore : Bool) : Void;
   
   /**
     Outputs a message to HUD
@@ -423,7 +423,7 @@ package unreal;
     @param Type - @todo document
     @param MsgLifeTime - Optional length of time to display 0 = default time
   **/
-  public function ClientMessage(S : unreal.FString, Type : unreal.FName, MsgLifeTime : unreal.Float32) : Void;
+  @:ufunction public function ClientMessage(S : unreal.FString, Type : unreal.FName, MsgLifeTime : unreal.Float32) : Void;
   
   /**
     Play the indicated CameraAnim on this camera.
@@ -437,7 +437,7 @@ package unreal;
     @param Space - Animation play area
     @param CustomPlaySpace - Matrix used when Space = CAPS_UserDefined
   **/
-  public function ClientPlayCameraAnim(AnimToPlay : unreal.UCameraAnim, Scale : unreal.Float32, Rate : unreal.Float32, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, bLoop : Bool, bRandomStartTime : Bool, Space : unreal.ECameraAnimPlaySpace, CustomPlaySpace : unreal.FRotator) : Void;
+  @:ufunction public function ClientPlayCameraAnim(AnimToPlay : unreal.UCameraAnim, Scale : unreal.Float32 = 1.000000, Rate : unreal.Float32 = 1.000000, BlendInTime : unreal.Float32 = 0.000000, BlendOutTime : unreal.Float32 = 0.000000, bLoop : Bool = false, bRandomStartTime : Bool = false, Space : unreal.ECameraAnimPlaySpace = CameraLocal, CustomPlaySpace : unreal.FRotator) : Void;
   
   /**
     Play Camera Shake
@@ -446,7 +446,7 @@ package unreal;
     @param PlaySpace - Which coordinate system to play the shake in (used for CameraAnims within the shake).
     @param UserPlaySpaceRot - Matrix used when PlaySpace = CAPS_UserDefined
   **/
-  public function ClientPlayCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32, PlaySpace : unreal.ECameraAnimPlaySpace, UserPlaySpaceRot : unreal.FRotator) : Void;
+  @:ufunction public function ClientPlayCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32 = 1.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : Void;
   
   /**
     Play sound client-side (so only the client will hear it)
@@ -454,7 +454,7 @@ package unreal;
     @param VolumeMultiplier - Volume multiplier to apply to the sound
     @param PitchMultiplier - Pitch multiplier to apply to the sound
   **/
-  public function ClientPlaySound(Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32) : Void;
+  @:ufunction public function ClientPlaySound(Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32) : Void;
   
   /**
     Play sound client-side at the specified location
@@ -463,7 +463,7 @@ package unreal;
     @param VolumeMultiplier - Volume multiplier to apply to the sound
     @param PitchMultiplier - Pitch multiplier to apply to the sound
   **/
-  public function ClientPlaySoundAtLocation(Sound : unreal.USoundBase, Location : unreal.FVector, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32) : Void;
+  @:ufunction public function ClientPlaySoundAtLocation(Sound : unreal.USoundBase, Location : unreal.FVector, VolumeMultiplier : unreal.Float32, PitchMultiplier : unreal.Float32) : Void;
   
   /**
     Asynchronously loads the given level in preparation for a streaming map transition.
@@ -472,7 +472,7 @@ package unreal;
     @param bFirst - whether this is the first item in the list (so clear the list first)
     @param bLast - whether this is the last item in the list (so start preparing the change after receiving it)
   **/
-  public function ClientPrepareMapChange(LevelName : unreal.FName, bFirst : Bool, bLast : Bool) : Void;
+  @:ufunction public function ClientPrepareMapChange(LevelName : unreal.FName, bFirst : Bool, bLast : Bool) : Void;
   
   /**
     Forces the streaming system to disregard the normal logic for the specified duration and
@@ -482,23 +482,23 @@ package unreal;
     @param bEnableStreaming      - Whether to start (true) or stop (false) streaming
     @param CinematicTextureGroups        - Bitfield indicating which texture groups that use extra high-resolution mips
   **/
-  public function ClientPrestreamTextures(ForcedActor : unreal.AActor, ForceDuration : unreal.Float32, bEnableStreaming : Bool, CinematicTextureGroups : unreal.Int32) : Void;
+  @:ufunction public function ClientPrestreamTextures(ForcedActor : unreal.AActor, ForceDuration : unreal.Float32, bEnableStreaming : Bool, CinematicTextureGroups : unreal.Int32) : Void;
   
   /**
     Tell client to reset the PlayerController
   **/
-  public function ClientReset() : Void;
+  @:ufunction public function ClientReset() : Void;
   
   /**
     Tell client to restart the level
   **/
-  public function ClientRestart(NewPawn : unreal.APawn) : Void;
+  @:ufunction public function ClientRestart(NewPawn : unreal.APawn) : Void;
   
   /**
     Tells the client to block until all pending level streaming actions are complete.
     Happens at the end of the tick primarily used to force update the client ASAP at join time.
   **/
-  public function ClientSetBlockOnAsyncLoading() : Void;
+  @:ufunction public function ClientSetBlockOnAsyncLoading() : Void;
   
   /**
     Tell client to fade camera
@@ -508,18 +508,18 @@ package unreal;
     @Param FadeTime - length of time for fade to occur over
     @Param bFadeAudio - true to apply fading of audio alongside the video
   **/
-  public function ClientSetCameraFade(bEnableFading : Bool, FadeColor : unreal.FColor, FadeAlpha : unreal.FVector2D, FadeTime : unreal.Float32, bFadeAudio : Bool) : Void;
+  @:ufunction public function ClientSetCameraFade(bEnableFading : Bool, FadeColor : unreal.FColor, FadeAlpha : unreal.FVector2D, FadeTime : unreal.Float32, bFadeAudio : Bool) : Void;
   
   /**
     Replicated function to set camera style on client
     @param       NewCamMode, name defining the new camera mode
   **/
-  public function ClientSetCameraMode(NewCamMode : unreal.FName) : Void;
+  @:ufunction public function ClientSetCameraMode(NewCamMode : unreal.FName) : Void;
   
   /**
     Called by the server to synchronize cinematic transitions with the client
   **/
-  public function ClientSetCinematicMode(bInCinematicMode : Bool, bAffectsMovement : Bool, bAffectsTurning : Bool, bAffectsHUD : Bool) : Void;
+  @:ufunction public function ClientSetCinematicMode(bInCinematicMode : Bool, bAffectsMovement : Bool, bAffectsTurning : Bool, bAffectsHUD : Bool) : Void;
   
   /**
     Forces the streaming system to disregard the normal logic for the specified duration and
@@ -529,49 +529,49 @@ package unreal;
     @param ForceDuration - Number of seconds to keep all mip-levels in memory, disregarding the normal priority logic.
     @param CinematicTextureGroups        - Bitfield indicating which texture groups that use extra high-resolution mips
   **/
-  public function ClientSetForceMipLevelsToBeResident(Material : unreal.UMaterialInterface, ForceDuration : unreal.Float32, CinematicTextureGroups : unreal.Int32) : Void;
+  @:ufunction public function ClientSetForceMipLevelsToBeResident(Material : unreal.UMaterialInterface, ForceDuration : unreal.Float32, CinematicTextureGroups : unreal.Int32) : Void;
   
   /**
     Set the client's class of HUD and spawns a new instance of it. If there was already a HUD active, it is destroyed.
   **/
-  public function ClientSetHUD(NewHUDClass : unreal.TSubclassOf<unreal.AHUD>) : Void;
+  @:ufunction public function ClientSetHUD(NewHUDClass : unreal.TSubclassOf<unreal.AHUD>) : Void;
   
   /**
     Helper to get the size of the HUD canvas for this player controller.  Returns 0 if there is no HUD
   **/
-  @:thisConst @:final public function GetViewportSize(SizeX : unreal.Int32, SizeY : unreal.Int32) : Void;
+  @:ufunction @:thisConst @:final public function GetViewportSize(SizeX : unreal.Int32, SizeY : unreal.Int32) : Void;
   
   /**
     Gets the HUD currently being used by this player controller
   **/
-  @:thisConst @:final public function GetHUD() : unreal.AHUD;
+  @:ufunction @:thisConst @:final public function GetHUD() : unreal.AHUD;
   
   /**
     Set the view target
     @param A - new actor to set as view target
     @param TransitionParams - parameters to use for controlling the transition
   **/
-  public function ClientSetViewTarget(A : unreal.AActor, TransitionParams : unreal.FViewTargetTransitionParams) : Void;
+  @:ufunction public function ClientSetViewTarget(A : unreal.AActor, TransitionParams : unreal.FViewTargetTransitionParams) : Void;
   
   /**
     Spawn a camera lens effect (e.g. blood).
   **/
-  public function ClientSpawnCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : Void;
+  @:ufunction public function ClientSpawnCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : Void;
   
   /**
     Removes all Camera Lens Effects.
   **/
-  public function ClientClearCameraLensEffects() : Void;
+  @:ufunction public function ClientClearCameraLensEffects() : Void;
   
   /**
     Stop camera animation on client.
   **/
-  public function ClientStopCameraAnim(AnimToStop : unreal.UCameraAnim) : Void;
+  @:ufunction public function ClientStopCameraAnim(AnimToStop : unreal.UCameraAnim) : Void;
   
   /**
     Stop camera shake on client.
   **/
-  public function ClientStopCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool) : Void;
+  @:ufunction public function ClientStopCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool = true) : Void;
   
   /**
     Play a force feedback pattern on the player's controller
@@ -579,14 +579,14 @@ package unreal;
     @param       bLooping                                Whether the pattern should be played repeatedly or be a single one shot
     @param       Tag                                             A tag that allows stopping of an effect.  If another effect with this Tag is playing, it will be stopped and replaced
   **/
-  public function ClientPlayForceFeedback(ForceFeedbackEffect : unreal.UForceFeedbackEffect, bLooping : Bool, Tag : unreal.FName) : Void;
+  @:ufunction public function ClientPlayForceFeedback(ForceFeedbackEffect : unreal.UForceFeedbackEffect, bLooping : Bool, Tag : unreal.FName) : Void;
   
   /**
     Stops a playing force feedback pattern
     @param       ForceFeedbackEffect             If set only patterns from that effect will be stopped
     @param       Tag                                             If not none only the pattern with this tag will be stopped
   **/
-  public function ClientStopForceFeedback(ForceFeedbackEffect : unreal.UForceFeedbackEffect, Tag : unreal.FName) : Void;
+  @:ufunction public function ClientStopForceFeedback(ForceFeedbackEffect : unreal.UForceFeedbackEffect, Tag : unreal.FName) : Void;
   
   /**
     Latent action that controls the playing of force feedback
@@ -600,7 +600,7 @@ package unreal;
     @param   bAffectsRightLarge          Whether the intensity should be applied to the large right servo
     @param   bAffectsRightSmall          Whether the intensity should be applied to the small right servo
   **/
-  @:final public function PlayDynamicForceFeedback(Intensity : unreal.Float32, Duration : unreal.Float32, bAffectsLeftLarge : Bool, bAffectsLeftSmall : Bool, bAffectsRightLarge : Bool, bAffectsRightSmall : Bool, Action : unreal.EDynamicForceFeedbackAction, LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction @:final public function PlayDynamicForceFeedback(Intensity : unreal.Float32, @:bpopt("-1") Duration : unreal.Float32, @:bpopt("true") bAffectsLeftLarge : Bool, @:bpopt("true") bAffectsLeftSmall : Bool, @:bpopt("true") bAffectsRightLarge : Bool, @:bpopt("true") bAffectsRightSmall : Bool, Action : unreal.EDynamicForceFeedbackAction, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Play a haptic feedback curve on the player's controller
@@ -608,14 +608,14 @@ package unreal;
     @param        Hand                                    Which hand to play the effect on
     @param        Scale                                   Scale between 0.0 and 1.0 on the intensity of playback
   **/
-  @:final public function PlayHapticEffect(HapticEffect : unreal.UHapticFeedbackEffect_Base, Hand : unreal.inputcore.EControllerHand, Scale : unreal.Float32, bLoop : Bool) : Void;
+  @:ufunction @:final public function PlayHapticEffect(HapticEffect : unreal.UHapticFeedbackEffect_Base, Hand : unreal.inputcore.EControllerHand, Scale : unreal.Float32 = 1.000000, bLoop : Bool = false) : Void;
   
   /**
     Stops a playing haptic feedback curve
     @param        HapticEffect                    The haptic effect to stop
     @param        Hand                                    Which hand to stop the effect for
   **/
-  @:final public function StopHapticEffect(Hand : unreal.inputcore.EControllerHand) : Void;
+  @:ufunction @:final public function StopHapticEffect(Hand : unreal.inputcore.EControllerHand) : Void;
   
   /**
     Sets the value of the haptics for the specified hand directly, using frequency and amplitude.  NOTE:  If a curve is already
@@ -625,13 +625,13 @@ package unreal;
     @param        Amplitude                               The normalized amplitude [0.0, 1.0] to set the haptic feedback to
     @param        Hand                                    Which hand to play the effect on
   **/
-  @:final public function SetHapticsByValue(Frequency : unreal.Float32, Amplitude : unreal.Float32, Hand : unreal.inputcore.EControllerHand) : Void;
+  @:ufunction @:final public function SetHapticsByValue(Frequency : unreal.Float32, Amplitude : unreal.Float32, Hand : unreal.inputcore.EControllerHand) : Void;
   
   /**
     Sets the light color of the player's controller
     @param        Color                                   The color for the light to be
   **/
-  @:final public function SetControllerLightColor(Color : unreal.FColor) : Void;
+  @:ufunction @:final public function SetControllerLightColor(Color : unreal.FColor) : Void;
   
   /**
     Travel to a different map or IP address. Calls the PreClientTravel event before doing anything.
@@ -644,7 +644,7 @@ package unreal;
     @param MapPackageGuid        The GUID of the map package to travel to - this is used to find the file when it has been autodownloaded,
                                                          so it is only needed for clients
   **/
-  @:final public function ClientTravel(URL : unreal.FString, TravelType : unreal.ETravelType, bSeamless : Bool, MapPackageGuid : unreal.FGuid) : Void;
+  @:ufunction @:final public function ClientTravel(URL : unreal.FString, TravelType : unreal.ETravelType, bSeamless : Bool, MapPackageGuid : unreal.FGuid) : Void;
   
   /**
     Internal clientside implementation of ClientTravel - use ClientTravel to call this
@@ -656,7 +656,7 @@ package unreal;
     @param MapPackageGuid        The GUID of the map package to travel to - this is used to find the file when it has been autodownloaded,
                                                          so it is only needed for clients
   **/
-  public function ClientTravelInternal(URL : unreal.FString, TravelType : unreal.ETravelType, bSeamless : Bool, MapPackageGuid : unreal.FGuid) : Void;
+  @:ufunction public function ClientTravelInternal(URL : unreal.FString, TravelType : unreal.ETravelType, bSeamless : Bool, MapPackageGuid : unreal.FGuid) : Void;
   
   /**
     Replicated Update streaming status
@@ -666,83 +666,88 @@ package unreal;
     @param bNewShouldBlockOnLoad - Whether we want to force a blocking load
     @param LODIndex                              - Current LOD index for a streaming level
   **/
-  public function ClientUpdateLevelStreamingStatus(PackageName : unreal.FName, bNewShouldBeLoaded : Bool, bNewShouldBeVisible : Bool, bNewShouldBlockOnLoad : Bool, LODIndex : unreal.Int32) : Void;
+  @:ufunction public function ClientUpdateLevelStreamingStatus(PackageName : unreal.FName, bNewShouldBeLoaded : Bool, bNewShouldBeVisible : Bool, bNewShouldBlockOnLoad : Bool, LODIndex : unreal.Int32) : Void;
+  
+  /**
+    Notify client they were kicked from the server
+  **/
+  @:ufunction public function ClientWasKicked(KickReason : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Notify client that the session is starting
   **/
-  public function ClientStartOnlineSession() : Void;
+  @:ufunction public function ClientStartOnlineSession() : Void;
   
   /**
     Notify client that the session is about to start
   **/
-  public function ClientEndOnlineSession() : Void;
+  @:ufunction public function ClientEndOnlineSession() : Void;
   
   /**
     Assign Pawn to player, but avoid calling ClientRestart if we have already accepted this pawn
   **/
-  public function ClientRetryClientRestart(NewPawn : unreal.APawn) : Void;
+  @:ufunction public function ClientRetryClientRestart(NewPawn : unreal.APawn) : Void;
   
   /**
     send client localized message id
   **/
-  public function ClientReceiveLocalizedMessage(Message : unreal.TSubclassOf<unreal.ULocalMessage>, Switch : unreal.Int32, RelatedPlayerState_1 : unreal.APlayerState, RelatedPlayerState_2 : unreal.APlayerState, OptionalObject : unreal.UObject) : Void;
+  @:ufunction public function ClientReceiveLocalizedMessage(Message : unreal.TSubclassOf<unreal.ULocalMessage>, Switch : unreal.Int32, RelatedPlayerState_1 : unreal.APlayerState, RelatedPlayerState_2 : unreal.APlayerState, OptionalObject : unreal.UObject) : Void;
   
   /**
     acknowledge possession of pawn
   **/
-  public function ServerAcknowledgePossession(P : unreal.APawn) : Void;
+  @:ufunction public function ServerAcknowledgePossession(P : unreal.APawn) : Void;
   
   /**
     change mode of camera
   **/
-  public function ServerCamera(NewMode : unreal.FName) : Void;
+  @:ufunction public function ServerCamera(NewMode : unreal.FName) : Void;
   
   /**
     Change name of server
   **/
-  public function ServerChangeName(S : unreal.FString) : Void;
+  @:ufunction public function ServerChangeName(S : unreal.FString) : Void;
   
   /**
     Called to notify the server when the client has loaded a new world via seamless traveling
     @param WorldPackageName the name of the world package that was loaded
   **/
-  @:final public function ServerNotifyLoadedWorld(WorldPackageName : unreal.FName) : Void;
+  @:ufunction @:final public function ServerNotifyLoadedWorld(WorldPackageName : unreal.FName) : Void;
   
   /**
     Replicate pause request to the server
   **/
-  public function ServerPause() : Void;
+  @:ufunction public function ServerPause() : Void;
   
   /**
     Attempts to restart this player, generally called from the client upon respawn request.
   **/
-  public function ServerRestartPlayer() : Void;
+  @:ufunction public function ServerRestartPlayer() : Void;
   
   /**
     When spectating, updates spectator location/rotation and pings the server to make sure spectating should continue.
   **/
-  public function ServerSetSpectatorLocation(NewLoc : unreal.FVector, NewRot : unreal.FRotator) : Void;
+  @:ufunction public function ServerSetSpectatorLocation(NewLoc : unreal.FVector, NewRot : unreal.FRotator) : Void;
   
   /**
     Tells the server to make sure the possessed pawn is in sync with the client.
   **/
-  public function ServerCheckClientPossession() : Void;
+  @:ufunction public function ServerCheckClientPossession() : Void;
   
   /**
     Reliable version of ServerCheckClientPossession to be used when there is no likely danger of spamming the network.
   **/
-  public function ServerCheckClientPossessionReliable() : Void;
+  @:ufunction public function ServerCheckClientPossessionReliable() : Void;
   
   /**
     Notifies the server that the client has ticked gameplay code, and should no longer get the extended "still loading" timeout grace period
   **/
-  public function ServerShortTimeout() : Void;
+  @:ufunction public function ServerShortTimeout() : Void;
   
   /**
     If PlayerCamera.bUseClientSideCameraUpdates is set, client will replicate camera positions to the server. // @TODO - combine pitch/yaw into one int, maybe also send location compressed
   **/
-  public function ServerUpdateCamera(CamLoc : unreal.FVector_NetQuantize, CamPitchAndYaw : unreal.Int32) : Void;
+  @:ufunction public function ServerUpdateCamera(CamLoc : unreal.FVector_NetQuantize, CamPitchAndYaw : unreal.Int32) : Void;
   
   /**
     Called when the client adds/removes a streamed level
@@ -750,126 +755,126 @@ package unreal;
     Actors the client has not initialized
     @param PackageName the name of the package for the level whose status changed
   **/
-  @:final public function ServerUpdateLevelVisibility(PackageName : unreal.FName, bIsVisible : Bool) : Void;
+  @:ufunction @:final public function ServerUpdateLevelVisibility(PackageName : unreal.FName, bIsVisible : Bool) : Void;
   
   /**
     Used by client to request server to confirm current viewtarget (server will respond with ClientSetViewTarget() ).
   **/
-  public function ServerVerifyViewTarget() : Void;
+  @:ufunction public function ServerVerifyViewTarget() : Void;
   
   /**
     Move camera to next player on round ended or spectating
   **/
-  public function ServerViewNextPlayer() : Void;
+  @:ufunction public function ServerViewNextPlayer() : Void;
   
   /**
     Move camera to previous player on round ended or spectating
   **/
-  public function ServerViewPrevPlayer() : Void;
+  @:ufunction public function ServerViewPrevPlayer() : Void;
   
   /**
     Move camera to current user
   **/
-  public function ServerViewSelf(TransitionParams : unreal.FViewTargetTransitionParams) : Void;
+  @:ufunction public function ServerViewSelf(TransitionParams : unreal.FViewTargetTransitionParams) : Void;
   
   /**
     @todo document
   **/
-  public function ClientTeamMessage(SenderPlayerState : unreal.APlayerState, S : unreal.FString, Type : unreal.FName, MsgLifeTime : unreal.Float32) : Void;
+  @:ufunction public function ClientTeamMessage(SenderPlayerState : unreal.APlayerState, S : unreal.FString, Type : unreal.FName, MsgLifeTime : unreal.Float32) : Void;
   
   /**
     Used by UGameplayDebuggingControllerComponent to replicate messages for AI debugging in network games.
   **/
-  public function ServerToggleAILogging() : Void;
+  @:ufunction public function ServerToggleAILogging() : Void;
   
   /**
     Add Pitch (look up) input. This value is multiplied by InputPitchScale.
     @param Val Amount to add to Pitch. This value is multiplied by InputPitchScale.
   **/
-  public function AddPitchInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddPitchInput(Val : unreal.Float32) : Void;
   
   /**
     Add Yaw (turn) input. This value is multiplied by InputYawScale.
     @param Val Amount to add to Yaw. This value is multiplied by InputYawScale.
   **/
-  public function AddYawInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddYawInput(Val : unreal.Float32) : Void;
   
   /**
     Add Roll input. This value is multiplied by InputRollScale.
     @param Val Amount to add to Roll. This value is multiplied by InputRollScale.
   **/
-  public function AddRollInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddRollInput(Val : unreal.Float32) : Void;
   
   /**
     Returns true if the given key/button is pressed on the input of the controller (if present)
   **/
-  @:thisConst @:final public function IsInputKeyDown(Key : unreal.inputcore.FKey) : Bool;
+  @:ufunction @:thisConst @:final public function IsInputKeyDown(Key : unreal.inputcore.FKey) : Bool;
   
   /**
     Returns true if the given key/button was up last frame and down this frame.
   **/
-  @:thisConst @:final public function WasInputKeyJustPressed(Key : unreal.inputcore.FKey) : Bool;
+  @:ufunction @:thisConst @:final public function WasInputKeyJustPressed(Key : unreal.inputcore.FKey) : Bool;
   
   /**
     Returns true if the given key/button was down last frame and up this frame.
   **/
-  @:thisConst @:final public function WasInputKeyJustReleased(Key : unreal.inputcore.FKey) : Bool;
+  @:ufunction @:thisConst @:final public function WasInputKeyJustReleased(Key : unreal.inputcore.FKey) : Bool;
   
   /**
     Returns the analog value for the given key/button.  If analog isn't supported, returns 1 for down and 0 for up.
   **/
-  @:thisConst @:final public function GetInputAnalogKeyState(Key : unreal.inputcore.FKey) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetInputAnalogKeyState(Key : unreal.inputcore.FKey) : unreal.Float32;
   
   /**
     Returns the vector value for the given key/button.
   **/
-  @:thisConst @:final public function GetInputVectorKeyState(Key : unreal.inputcore.FKey) : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetInputVectorKeyState(Key : unreal.inputcore.FKey) : unreal.FVector;
   
   /**
     Retrieves the X and Y screen coordinates of the specified touch key. Returns false if the touch index is not down
   **/
-  @:thisConst @:final public function GetInputTouchState(FingerIndex : unreal.inputcore.ETouchIndex, LocationX : unreal.Float32, LocationY : unreal.Float32, bIsCurrentlyPressed : Bool) : Void;
+  @:ufunction @:thisConst @:final public function GetInputTouchState(FingerIndex : unreal.inputcore.ETouchIndex, LocationX : unreal.Float32, LocationY : unreal.Float32, bIsCurrentlyPressed : Bool) : Void;
   
   /**
     Retrieves the current motion state of the player's input device
   **/
-  @:thisConst @:final public function GetInputMotionState(Tilt : unreal.PRef<unreal.FVector>, RotationRate : unreal.PRef<unreal.FVector>, Gravity : unreal.PRef<unreal.FVector>, Acceleration : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction @:thisConst @:final public function GetInputMotionState(Tilt : unreal.PRef<unreal.FVector>, RotationRate : unreal.PRef<unreal.FVector>, Gravity : unreal.PRef<unreal.FVector>, Acceleration : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Retrieves the X and Y screen coordinates of the mouse cursor. Returns false if there is no associated mouse device
   **/
-  @:thisConst @:final public function GetMousePosition(LocationX : unreal.Float32, LocationY : unreal.Float32) : Bool;
+  @:ufunction @:thisConst @:final public function GetMousePosition(LocationX : unreal.Float32, LocationY : unreal.Float32) : Bool;
   
   /**
     Returns how long the given key/button has been down.  Returns 0 if it's up or it just went down this frame.
   **/
-  @:thisConst @:final public function GetInputKeyTimeDown(Key : unreal.inputcore.FKey) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetInputKeyTimeDown(Key : unreal.inputcore.FKey) : unreal.Float32;
   
   /**
     Retrieves how far the mouse moved this frame.
   **/
-  @:thisConst @:final public function GetInputMouseDelta(DeltaX : unreal.Float32, DeltaY : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetInputMouseDelta(DeltaX : unreal.Float32, DeltaY : unreal.Float32) : Void;
   
   /**
     Retrieves the X and Y displacement of the given analog stick.
   **/
-  @:thisConst @:final public function GetInputAnalogStickState(WhichStick : unreal.EControllerAnalogStick, StickX : unreal.Float32, StickY : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetInputAnalogStickState(WhichStick : unreal.EControllerAnalogStick, StickX : unreal.Float32, StickY : unreal.Float32) : Void;
   
   /**
     Activates a new touch interface for this player controller
   **/
-  public function ActivateTouchInterface(NewTouchInterface : unreal.UTouchInterface) : Void;
+  @:ufunction public function ActivateTouchInterface(NewTouchInterface : unreal.UTouchInterface) : Void;
   
   /**
     Set the virtual joystick visibility.
   **/
-  public function SetVirtualJoystickVisibility(bVisible : Bool) : Void;
+  @:ufunction public function SetVirtualJoystickVisibility(bVisible : Bool) : Void;
   
   /**
     Change Camera mode
     @param       New camera mode to set
   **/
-  public function Camera(NewMode : unreal.FName) : Void;
+  @:ufunction public function Camera(NewMode : unreal.FName) : Void;
   
   /**
     Set the view target blending with variable control
@@ -879,7 +884,7 @@ package unreal;
     @param BlendExp -  Exponent, used by certain blend functions to control the shape of the curve.
     @param bLockOutgoing - If true, lock outgoing viewtarget to last frame's camera position for the remainder of the blend.
   **/
-  public function SetViewTargetWithBlend(NewViewTarget : unreal.AActor, BlendTime : unreal.Float32, BlendFunc : unreal.EViewTargetBlendFunction, BlendExp : unreal.Float32, bLockOutgoing : Bool) : Void;
+  @:ufunction public function SetViewTargetWithBlend(NewViewTarget : unreal.AActor, BlendTime : unreal.Float32 = 0.000000, BlendFunc : unreal.EViewTargetBlendFunction = VTBlend_Linear, BlendExp : unreal.Float32 = 0.000000, bLockOutgoing : Bool = false) : Void;
   
   /**
     Used to override the default positioning of the audio listener
@@ -888,12 +893,12 @@ package unreal;
     @param Location Depending on whether Component is attached this is either an offset from its location or an absolute position
     @param Rotation Depending on whether Component is attached this is either an offset from its rotation or an absolute rotation
   **/
-  @:final public function SetAudioListenerOverride(AttachToComponent : unreal.USceneComponent, Location : unreal.FVector, Rotation : unreal.FRotator) : Void;
+  @:ufunction @:final public function SetAudioListenerOverride(AttachToComponent : unreal.USceneComponent, Location : unreal.FVector, Rotation : unreal.FRotator) : Void;
   
   /**
     Clear any overrides that have been applied to audio listener
   **/
-  @:final public function ClearAudioListenerOverride() : Void;
+  @:ufunction @:final public function ClearAudioListenerOverride() : Void;
   
   /**
     Server/SP only function for changing whether the player is in cinematic mode.  Updates values of various state variables, then replicates the call to the client
@@ -904,17 +909,17 @@ package unreal;
     @param       bAffectsMovement        specify true to disable movement in cinematic mode, enable it when leaving
     @param       bAffectsTurning         specify true to disable turning in cinematic mode or enable it when leaving
   **/
-  public function SetCinematicMode(bInCinematicMode : Bool, bHidePlayer : Bool, bAffectsHUD : Bool, bAffectsMovement : Bool, bAffectsTurning : Bool) : Void;
+  @:ufunction public function SetCinematicMode(bInCinematicMode : Bool, @:bpopt("true") bHidePlayer : Bool, @:bpopt("true") bAffectsHUD : Bool, bAffectsMovement : Bool, bAffectsTurning : Bool) : Void;
   
   /**
     Notify from server that Visual Logger is recording, to show that information on client about possible performance issues
   **/
-  public function OnServerStartedVisualLogger(bIsLogging : Bool) : Void;
+  @:ufunction public function OnServerStartedVisualLogger(bIsLogging : Bool) : Void;
   
   /**
     Get the Pawn used when spectating. NULL when not spectating.
   **/
-  @:thisConst @:final public function GetSpectatorPawn() : unreal.ASpectatorPawn;
+  @:ufunction @:thisConst @:final public function GetSpectatorPawn() : unreal.ASpectatorPawn;
   
   /**
     Returns the location the PlayerController is focused on.
@@ -922,6 +927,6 @@ package unreal;
     If there is a spectator Pawn, returns that Pawn's location.
     Otherwise, returns the PlayerController's spawn location (usually the last known Pawn location after it has died).
   **/
-  @:thisConst public function GetFocalLocation() : unreal.FVector;
+  @:ufunction @:thisConst public function GetFocalLocation() : unreal.FVector;
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Interfaces/Interface_CollisionDataProvider.h")
-@:noClass @:uextern extern interface IInterface_CollisionDataProvider {
+@:noClass @:uextern @:uclass extern interface IInterface_CollisionDataProvider {
   
 }

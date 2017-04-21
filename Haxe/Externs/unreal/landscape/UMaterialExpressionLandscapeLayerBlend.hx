@@ -15,12 +15,12 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
-@:uextern extern class UMaterialExpressionLandscapeLayerBlend extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionLandscapeLayerBlend extends unreal.UMaterialExpression {
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
-  public var Layers : unreal.TArray<unreal.landscape.FLayerBlendInput>;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var Layers : unreal.TArray<unreal.landscape.FLayerBlendInput>;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETriangleSortAxis")
-@:uextern extern enum ETriangleSortAxis {
+@:uextern @:uenum extern enum ETriangleSortAxis {
   TSA_X_Axis;
   TSA_Y_Axis;
   TSA_Z_Axis;

@@ -20,63 +20,63 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/MeshMerging.h")
-@:noCopy @:noEquals @:uextern extern class FMeshProxySettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMeshProxySettings {
   
   /**
     Level of detail of the landscape that should be used for the culling
   **/
-  public var LandscapeCullingPrecision : unreal.ELandscapeCullingPrecision;
+  @:uproperty public var LandscapeCullingPrecision : unreal.ELandscapeCullingPrecision;
   
   /**
     Whether or not to use available landscape geometry to cull away invisible triangles
   **/
-  public var bUseLandscapeCulling : Bool;
-  @:deprecated public var bBakeVertexData_DEPRECATED : Bool;
+  @:uproperty public var bUseLandscapeCulling : Bool;
+  @:deprecated @:uproperty public var bBakeVertexData_DEPRECATED : Bool;
   
   /**
     Whether Simplygon should recalculate normals, otherwise the normals channel will be sampled from the original mesh
   **/
-  public var bRecalculateNormals : Bool;
+  @:uproperty public var bRecalculateNormals : Bool;
   
   /**
     Lightmap resolution
   **/
-  public var LightMapResolution : unreal.Int32;
+  @:uproperty public var LightMapResolution : unreal.Int32;
   
   /**
     Angle at which a hard edge is introduced between faces
   **/
-  public var HardAngleThreshold : unreal.Float32;
+  @:uproperty public var HardAngleThreshold : unreal.Float32;
   
   /**
     Distance at which meshes should be merged together
   **/
-  public var MergeDistance : unreal.Float32;
+  @:uproperty public var MergeDistance : unreal.Float32;
   
   /**
     Determines whether or not the correct LOD models should be calculated given the source meshes and transition size
   **/
-  public var bCalculateCorrectLODModel : Bool;
+  @:uproperty public var bCalculateCorrectLODModel : Bool;
   
   /**
     Material simplification
   **/
-  @:deprecated public var Material_DEPRECATED : unreal.FMaterialSimplificationSettings;
-  @:deprecated public var bExportSpecularMap_DEPRECATED : Bool;
-  @:deprecated public var bExportRoughnessMap_DEPRECATED : Bool;
-  @:deprecated public var bExportMetallicMap_DEPRECATED : Bool;
-  @:deprecated public var bExportNormalMap_DEPRECATED : Bool;
-  @:deprecated public var TextureHeight_DEPRECATED : unreal.Int32;
-  @:deprecated public var TextureWidth_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var Material_DEPRECATED : unreal.FMaterialSimplificationSettings;
+  @:deprecated @:uproperty public var bExportSpecularMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportRoughnessMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportMetallicMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportNormalMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var TextureHeight_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var TextureWidth_DEPRECATED : unreal.Int32;
   
   /**
     Material simplification
   **/
-  public var MaterialSettings : unreal.FMaterialProxySettings;
+  @:uproperty public var MaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Screen size of the resulting proxy mesh in pixel size
   **/
-  public var ScreenSize : unreal.Int32;
+  @:uproperty public var ScreenSize : unreal.Int32;
   
 }

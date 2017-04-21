@@ -21,51 +21,51 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineSegment.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeSplineMeshEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeSplineMeshEntry {
   
   /**
     Chooses the up axis for the spline mesh orientation
   **/
-  public var UpAxis : unreal.ESplineMeshAxis;
+  @:uproperty public var UpAxis : unreal.ESplineMeshAxis;
   
   /**
     Chooses the forward axis for the spline mesh orientation
   **/
-  public var ForwardAxis : unreal.ESplineMeshAxis;
+  @:uproperty public var ForwardAxis : unreal.ESplineMeshAxis;
   
   /**
     Orientation of the spline mesh, X=Up or Y=Up
   **/
-  @:deprecated public var Orientation_DEPRECATED : unreal.landscape.LandscapeSplineMeshOrientation;
+  @:deprecated @:uproperty public var Orientation_DEPRECATED : unreal.landscape.LandscapeSplineMeshOrientation;
   
   /**
     Scale of the spline mesh, (Z=Forwards)
   **/
-  public var Scale : unreal.FVector;
+  @:uproperty public var Scale : unreal.FVector;
   
   /**
     Whether to scale the mesh to fit the width of the spline
   **/
-  public var bScaleToWidth : Bool;
+  @:uproperty public var bScaleToWidth : Bool;
   
   /**
     Tweak to center the mesh correctly on the spline
   **/
-  public var CenterAdjust : unreal.FVector2D;
+  @:uproperty public var CenterAdjust : unreal.FVector2D;
   
   /**
     Whether to automatically center the mesh horizontally on the spline
   **/
-  public var bCenterH : Bool;
+  @:uproperty public var bCenterH : Bool;
   
   /**
     Overrides mesh's materials
   **/
-  public var MaterialOverrides : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var MaterialOverrides : unreal.TArray<unreal.UMaterialInterface>;
   
   /**
     Mesh to use on the spline
   **/
-  public var Mesh : unreal.UStaticMesh;
+  @:uproperty public var Mesh : unreal.UStaticMesh;
   
 }

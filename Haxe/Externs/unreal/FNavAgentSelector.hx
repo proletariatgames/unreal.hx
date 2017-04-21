@@ -14,22 +14,22 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
-@:uextern extern class FNavAgentSelector {
-  public var bSupportsAgent15 : Bool;
-  public var bSupportsAgent14 : Bool;
-  public var bSupportsAgent13 : Bool;
-  public var bSupportsAgent12 : Bool;
-  public var bSupportsAgent11 : Bool;
-  public var bSupportsAgent10 : Bool;
-  public var bSupportsAgent9 : Bool;
-  public var bSupportsAgent8 : Bool;
-  public var bSupportsAgent7 : Bool;
-  public var bSupportsAgent6 : Bool;
-  public var bSupportsAgent5 : Bool;
-  public var bSupportsAgent4 : Bool;
-  public var bSupportsAgent3 : Bool;
-  public var bSupportsAgent2 : Bool;
-  public var bSupportsAgent1 : Bool;
-  public var bSupportsAgent0 : Bool;
+@:uextern @:ustruct extern class FNavAgentSelector {
+  @:uproperty public var bSupportsAgent15 : Bool;
+  @:uproperty public var bSupportsAgent14 : Bool;
+  @:uproperty public var bSupportsAgent13 : Bool;
+  @:uproperty public var bSupportsAgent12 : Bool;
+  @:uproperty public var bSupportsAgent11 : Bool;
+  @:uproperty public var bSupportsAgent10 : Bool;
+  @:uproperty public var bSupportsAgent9 : Bool;
+  @:uproperty public var bSupportsAgent8 : Bool;
+  @:uproperty public var bSupportsAgent7 : Bool;
+  @:uproperty public var bSupportsAgent6 : Bool;
+  @:uproperty public var bSupportsAgent5 : Bool;
+  @:uproperty public var bSupportsAgent4 : Bool;
+  @:uproperty public var bSupportsAgent3 : Bool;
+  @:uproperty public var bSupportsAgent2 : Bool;
+  @:uproperty public var bSupportsAgent1 : Bool;
+  @:uproperty public var bSupportsAgent0 : Bool;
   
 }

@@ -23,17 +23,17 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UBorder extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UBorder extends unreal.umg.UContentWidget {
   
   /**
     Image to use for the border
   **/
-  @:deprecated private var Brush_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty private var Brush_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Whether or not to show the disabled effect when this border is disabled
   **/
-  public var bShowEffectWhenDisabled : Bool;
+  @:uproperty public var bShowEffectWhenDisabled : Bool;
   
   /**
     Scales the computed desired size of this border and its contents. Useful
@@ -41,53 +41,53 @@ package unreal.umg;
     Note: if the parent widget is set up to ignore this widget's desired size,
     then changing this value will have no effect.
   **/
-  public var DesiredSizeScale : unreal.FVector2D;
+  @:uproperty public var DesiredSizeScale : unreal.FVector2D;
   
   /**
     Color and opacity of the actual border image
   **/
-  public var BrushColor : unreal.FLinearColor;
+  @:uproperty public var BrushColor : unreal.FLinearColor;
   
   /**
     Brush to drag as the background
   **/
-  public var Background : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Background : unreal.slatecore.FSlateBrush;
   
   /**
     The alignment of the content vertically.
   **/
-  public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
   
   /**
     The alignment of the content horizontally.
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     The padding area between the slot and the content it contains.
   **/
-  public var Padding : unreal.slatecore.FMargin;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
   
   /**
     Color and opacity multiplier of content in the border
   **/
-  public var ContentColorAndOpacity : unreal.FLinearColor;
-  @:final public function SetContentColorAndOpacity(InContentColorAndOpacity : unreal.FLinearColor) : Void;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
-  @:final public function SetBrushColor(InBrushColor : unreal.FLinearColor) : Void;
-  @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
-  @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
-  @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D) : Void;
-  @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
-  @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ContentColorAndOpacity : unreal.FLinearColor;
+  @:ufunction @:final public function SetContentColorAndOpacity(InContentColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction @:final public function SetBrushColor(InBrushColor : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
+  @:ufunction @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
+  @:ufunction @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D) : Void;
+  @:ufunction @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
   
   /**
     Sets the DesireSizeScale of this border.
     
     @param InScale    The X and Y multipliers for the desired size
   **/
-  @:final public function SetDesiredSizeScale(InScale : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetDesiredSizeScale(InScale : unreal.FVector2D) : Void;
   
 }

@@ -21,7 +21,7 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FMetaDataKeyGatherSpecification {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMetaDataKeyGatherSpecification {
   
   /**
     The pattern which will be formatted to form the localization key for the metadata value gathered as text.
@@ -29,16 +29,16 @@ package unreal.localization;
           {FieldPath} - The fully qualified name of the object upon which the metadata resides.
           {MetaDataValue} - The value associated with the metadata key.
   **/
-  public var TextKeyPattern : unreal.localization.FMetaDataTextKeyPattern;
+  @:uproperty public var TextKeyPattern : unreal.localization.FMetaDataTextKeyPattern;
   
   /**
     The localization namespace in which the gathered text will be output.
   **/
-  public var TextNamespace : unreal.FString;
+  @:uproperty public var TextNamespace : unreal.FString;
   
   /**
     The metadata key for which values will be gathered as text.
   **/
-  public var MetaDataKey : unreal.localization.FMetaDataKeyName;
+  @:uproperty public var MetaDataKey : unreal.localization.FMetaDataKeyName;
   
 }

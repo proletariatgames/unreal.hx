@@ -21,7 +21,7 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
-@:noClass @:uextern extern class UEditableGameplayTagQueryExpression_AllTagsMatch extends unreal.gameplaytags.UEditableGameplayTagQueryExpression {
-  public var Tags : unreal.gameplaytags.FGameplayTagContainer;
+@:noClass @:uextern @:uclass extern class UEditableGameplayTagQueryExpression_AllTagsMatch extends unreal.gameplaytags.UEditableGameplayTagQueryExpression {
+  @:uproperty public var Tags : unreal.gameplaytags.FGameplayTagContainer;
   
 }

@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSquareRoot.h")
-@:noClass @:uextern extern class UMaterialExpressionSquareRoot extends unreal.UMaterialExpression {
-  public var Input : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSquareRoot extends unreal.UMaterialExpression {
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

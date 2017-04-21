@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/KismetMathLibrary.h")
 @:uname("EEasingFunc.Type")
-@:uextern extern enum EEasingFunc {
+@:uextern @:uenum extern enum EEasingFunc {
   
   /**
     Simple linear interpolation.

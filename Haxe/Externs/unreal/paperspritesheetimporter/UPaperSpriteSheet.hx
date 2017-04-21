@@ -21,38 +21,38 @@ package unreal.paperspritesheetimporter;
 **/
 @:umodule("PaperSpriteSheetImporter")
 @:glueCppIncludes("Private/PaperSpriteSheet.h")
-@:noClass @:uextern extern class UPaperSpriteSheet extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPaperSpriteSheet extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Import data for this
   **/
-  public var AssetImportData : unreal.UAssetImportData;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The asset that was created for NormalMapTextureName (if any)
   **/
-  public var NormalMapTexture : unreal.UTexture2D;
+  @:uproperty public var NormalMapTexture : unreal.UTexture2D;
   
   /**
     The name of the normal map texture during import (if any)
   **/
-  public var NormalMapTextureName : unreal.FString;
+  @:uproperty public var NormalMapTextureName : unreal.FString;
   
   /**
     The asset that was created for TextureName
   **/
-  public var Texture : unreal.UTexture2D;
+  @:uproperty public var Texture : unreal.UTexture2D;
   
   /**
     The name of the default or diffuse texture during import
   **/
-  public var TextureName : unreal.FString;
+  @:uproperty public var TextureName : unreal.FString;
   
   /**
     The names of sprites during import
   **/
-  public var SpriteNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var SpriteNames : unreal.TArray<unreal.FString>;
   
 }

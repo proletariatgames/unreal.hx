@@ -15,21 +15,21 @@ package unreal.enginesettings;
 
 @:umodule("EngineSettings")
 @:glueCppIncludes("GameSessionSettings.h")
-@:uextern extern class UGameSessionSettings extends unreal.UObject {
+@:uextern @:uclass extern class UGameSessionSettings extends unreal.UObject {
   
   /**
     Is voice enabled always or via a push to talk key binding.
   **/
-  public var bRequiresPushToTalk : Bool;
+  @:uproperty public var bRequiresPushToTalk : Bool;
   
   /**
     Maximum number of players allowed by this server.
   **/
-  public var MaxPlayers : unreal.Int32;
+  @:uproperty public var MaxPlayers : unreal.Int32;
   
   /**
     Maximum number of spectators allowed by this server.
   **/
-  public var MaxSpectators : unreal.Int32;
+  @:uproperty public var MaxSpectators : unreal.Int32;
   
 }

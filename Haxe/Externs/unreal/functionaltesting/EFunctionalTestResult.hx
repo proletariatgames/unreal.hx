@@ -16,7 +16,7 @@ package unreal.functionaltesting;
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTest.h")
 @:uname("EFunctionalTestResult")
-@:class @:uextern extern enum EFunctionalTestResult {
+@:class @:uextern @:uenum extern enum EFunctionalTestResult {
   
   /**
     When finishing a test if you use Default, you're not explicitly stating if the test passed or failed.

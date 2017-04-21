@@ -15,46 +15,46 @@ package unreal.archvischaracter;
 
 @:umodule("ArchVisCharacter")
 @:glueCppIncludes("ArchVisCharMovementComponent.h")
-@:uextern extern class UArchVisCharMovementComponent extends unreal.UCharacterMovementComponent {
+@:uextern @:uclass extern class UArchVisCharMovementComponent extends unreal.UCharacterMovementComponent {
   
   /**
     How fast the character accelerates.
   **/
-  public var WalkingAcceleration : unreal.Float32;
+  @:uproperty public var WalkingAcceleration : unreal.Float32;
   
   /**
     How fast the character can walk.
   **/
-  public var WalkingSpeed : unreal.Float32;
+  @:uproperty public var WalkingSpeed : unreal.Float32;
   
   /**
     Controls walking deceleration.
   **/
-  public var WalkingFriction : unreal.Float32;
+  @:uproperty public var WalkingFriction : unreal.Float32;
   
   /**
     Controls how far up you can look
   **/
-  public var MaxPitch : unreal.Float32;
+  @:uproperty public var MaxPitch : unreal.Float32;
   
   /**
     Controls how far down you can look
   **/
-  public var MinPitch : unreal.Float32;
+  @:uproperty public var MinPitch : unreal.Float32;
   
   /**
     Fastest possible turn rate
   **/
-  public var MaxRotationalVelocity : unreal.FRotator;
+  @:uproperty public var MaxRotationalVelocity : unreal.FRotator;
   
   /**
     Controls how fast the character's turn rate decelerates to 0 when user stops turning
   **/
-  public var RotationalDeceleration : unreal.FRotator;
+  @:uproperty public var RotationalDeceleration : unreal.FRotator;
   
   /**
     Controls how fast the character's turn rate accelerates when rotating and looking up/down
   **/
-  public var RotationalAcceleration : unreal.FRotator;
+  @:uproperty public var RotationalAcceleration : unreal.FRotator;
   
 }

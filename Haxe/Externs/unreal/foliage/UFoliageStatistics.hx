@@ -15,7 +15,7 @@ package unreal.foliage;
 
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageStatistics.h")
-@:uextern extern class UFoliageStatistics extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UFoliageStatistics extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Counts how many foliage instances overlap a given sphere
@@ -26,13 +26,13 @@ package unreal.foliage;
     
     return number of foliage instances with their mesh set to Mesh that overlap the sphere
   **/
-  static public function FoliageOverlappingSphereCount(WorldContextObject : unreal.UObject, StaticMesh : unreal.Const<unreal.UStaticMesh>, CenterPosition : unreal.FVector, Radius : unreal.Float32) : unreal.Int32;
+  @:ufunction static public function FoliageOverlappingSphereCount(WorldContextObject : unreal.UObject, StaticMesh : unreal.Const<unreal.UStaticMesh>, CenterPosition : unreal.FVector, Radius : unreal.Float32) : unreal.Int32;
   
   /**
     Gets the number of instances overlapping a provided box
     @param StaticMesh Mesh to count
     @param Box Box to overlap
   **/
-  static public function FoliageOverlappingBoxCount(WorldContextObject : unreal.UObject, StaticMesh : unreal.Const<unreal.UStaticMesh>, Box : unreal.FBox) : unreal.Int32;
+  @:ufunction static public function FoliageOverlappingBoxCount(WorldContextObject : unreal.UObject, StaticMesh : unreal.Const<unreal.UStaticMesh>, Box : unreal.FBox) : unreal.Int32;
   
 }

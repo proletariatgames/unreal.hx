@@ -21,6 +21,6 @@ package unreal.moviescene;
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneBinding.h")
-@:noCopy @:noEquals @:uextern extern class FMovieSceneBinding {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneBinding {
   
 }

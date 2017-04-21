@@ -18,26 +18,26 @@ package unreal;
   Latent action info
 **/
 @:glueCppIncludes("Engine/LatentActionManager.h")
-@:uextern extern class FLatentActionInfo {
+@:uextern @:ustruct extern class FLatentActionInfo {
   
   /**
     Object to execute the function on.
   **/
-  public var CallbackTarget : unreal.UObject;
+  @:uproperty public var CallbackTarget : unreal.UObject;
   
   /**
     The function to execute.
   **/
-  public var ExecutionFunction : unreal.FName;
+  @:uproperty public var ExecutionFunction : unreal.FName;
   
   /**
     the UUID for this action
   **/
-  public var UUID : unreal.Int32;
+  @:uproperty public var UUID : unreal.Int32;
   
   /**
     The resume point within the function to execute
   **/
-  public var Linkage : unreal.Int32;
+  @:uproperty public var Linkage : unreal.Int32;
   
 }

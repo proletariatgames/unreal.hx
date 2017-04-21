@@ -18,17 +18,17 @@ package unreal;
   Subdivision Surface Component (Experimental, Early work in progress)
 **/
 @:glueCppIncludes("Components/SubDSurfaceComponent.h")
-@:uextern extern class USubDSurfaceComponent extends unreal.UPrimitiveComponent {
-  public var DisplayMeshComponent : unreal.UStaticMeshComponent;
+@:uextern @:uclass extern class USubDSurfaceComponent extends unreal.UPrimitiveComponent {
+  @:uproperty public var DisplayMeshComponent : unreal.UStaticMeshComponent;
   
   /**
     Refinement Level of the SubD mesh
   **/
-  public var DebugLevel : unreal.Int32;
+  @:uproperty public var DebugLevel : unreal.Int32;
   
   /**
     Change the SubDSurface used by this instance.
   **/
-  public function SetMesh(NewMesh : unreal.USubDSurface) : Bool;
+  @:ufunction public function SetMesh(NewMesh : unreal.USubDSurface) : Bool;
   
 }

@@ -14,8 +14,8 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavLinkDefinition.h")
-@:uextern extern class FNavigationLink extends unreal.FNavigationLinkBase {
-  public var Right : unreal.FVector;
-  public var Left : unreal.FVector;
+@:uextern @:ustruct extern class FNavigationLink extends unreal.FNavigationLinkBase {
+  @:uproperty public var Right : unreal.FVector;
+  @:uproperty public var Left : unreal.FVector;
   
 }

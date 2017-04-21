@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatParticleParam.h")
-@:noClass @:uextern extern class UInterpTrackInstFloatParticleParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstFloatParticleParam extends unreal.UInterpTrackInst {
   
   /**
     Saved value for restoring state when exiting Matinee.
   **/
-  public var ResetFloat : unreal.Float32;
+  @:uproperty public var ResetFloat : unreal.Float32;
   
 }

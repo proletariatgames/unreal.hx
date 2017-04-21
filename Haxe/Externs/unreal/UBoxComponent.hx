@@ -18,28 +18,28 @@ package unreal;
   A box generally used for simple collision. Bounds are rendered as lines in the editor.
 **/
 @:glueCppIncludes("Components/BoxComponent.h")
-@:uextern extern class UBoxComponent extends unreal.UShapeComponent {
+@:uextern @:uclass extern class UBoxComponent extends unreal.UShapeComponent {
   
   /**
     The extents (radii dimensions) of the box *
   **/
-  private var BoxExtent : unreal.FVector;
+  @:uproperty private var BoxExtent : unreal.FVector;
   
   /**
     Change the box extent size. This is the unscaled size, before component scale is applied.
     @param       InBoxExtent: new extent (radius) for the box.
     @param       bUpdateOverlaps: if true and this shape is registered and collides, updates touching array for owner actor.
   **/
-  @:final public function SetBoxExtent(InBoxExtent : unreal.FVector, bUpdateOverlaps : Bool) : Void;
+  @:ufunction @:final public function SetBoxExtent(InBoxExtent : unreal.FVector, bUpdateOverlaps : Bool = true) : Void;
   
   /**
     @return the box extent, scaled by the component scale.
   **/
-  @:thisConst @:final public function GetScaledBoxExtent() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetScaledBoxExtent() : unreal.FVector;
   
   /**
     @return the box extent, ignoring component scale.
   **/
-  @:thisConst @:final public function GetUnscaledBoxExtent() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetUnscaledBoxExtent() : unreal.FVector;
   
 }

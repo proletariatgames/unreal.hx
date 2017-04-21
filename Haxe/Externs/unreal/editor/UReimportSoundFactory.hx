@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportSoundFactory.h")
-@:noClass @:uextern extern class UReimportSoundFactory extends unreal.editor.USoundFactory {
+@:noClass @:uextern @:uclass extern class UReimportSoundFactory extends unreal.editor.USoundFactory {
   
 }

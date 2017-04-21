@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReimportFbxSceneFactory.h")
-@:noClass @:uextern extern class UReimportFbxSceneFactory extends unreal.editor.UFbxSceneImportFactory {
+@:noClass @:uextern @:uclass extern class UReimportFbxSceneFactory extends unreal.editor.UFbxSceneImportFactory {
   
 }

@@ -15,7 +15,7 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("EdGraphSchema_K2.h")
-@:uextern extern class UEdGraphSchema_K2 extends unreal.UEdGraphSchema {
-  public var EditoronlyBPFunctionRedirects : unreal.TArray<unreal.blueprintgraph.FBlueprintCallableFunctionRedirect>;
+@:uextern @:uclass extern class UEdGraphSchema_K2 extends unreal.UEdGraphSchema {
+  @:uproperty public var EditoronlyBPFunctionRedirects : unreal.TArray<unreal.blueprintgraph.FBlueprintCallableFunctionRedirect>;
   
 }

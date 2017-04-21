@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationDragScaleOverLife.h")
-@:uextern extern class UParticleModuleAccelerationDragScaleOverLife extends unreal.UParticleModuleAccelerationBase {
+@:uextern @:uclass extern class UParticleModuleAccelerationDragScaleOverLife extends unreal.UParticleModuleAccelerationBase {
   
   /**
     Per-particle drag scale. Evaluted using particle relative time.
   **/
-  public var DragScaleRaw : unreal.FRawDistributionFloat;
+  @:uproperty public var DragScaleRaw : unreal.FRawDistributionFloat;
   
   /**
     Per-particle drag scale. Evaluted using particle relative time.
   **/
-  @:deprecated public var DragScale_DEPRECATED : unreal.UDistributionFloat;
+  @:deprecated @:uproperty public var DragScale_DEPRECATED : unreal.UDistributionFloat;
   
 }

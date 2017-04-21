@@ -15,7 +15,7 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/DEditorTextureParameterValue.h")
-@:uextern extern class UDEditorTextureParameterValue extends unreal.editor.UDEditorParameterValue {
-  public var ParameterValue : unreal.UTexture;
+@:uextern @:uclass extern class UDEditorTextureParameterValue extends unreal.editor.UDEditorParameterValue {
+  @:uproperty public var ParameterValue : unreal.UTexture;
   
 }

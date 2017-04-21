@@ -21,16 +21,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAutoReimportWildcard {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAutoReimportWildcard {
   
   /**
     When true, files that match this wildcard will be included (if it doesn't fail any other filters), when false, matches will be excluded from the reimporter
   **/
-  public var bInclude : Bool;
+  @:uproperty public var bInclude : Bool;
   
   /**
     The wildcard filter as a string. Files that match this wildcard will be included/excluded according to the bInclude member
   **/
-  public var Wildcard : unreal.FString;
+  @:uproperty public var Wildcard : unreal.FString;
   
 }

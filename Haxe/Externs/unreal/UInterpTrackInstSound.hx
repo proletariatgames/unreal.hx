@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstSound.h")
-@:noClass @:uextern extern class UInterpTrackInstSound extends unreal.UInterpTrackInst {
-  public var PlayAudioComp : unreal.UAudioComponent;
-  public var LastUpdatePosition : unreal.Float32;
+@:noClass @:uextern @:uclass extern class UInterpTrackInstSound extends unreal.UInterpTrackInst {
+  @:uproperty public var PlayAudioComp : unreal.UAudioComponent;
+  @:uproperty public var LastUpdatePosition : unreal.Float32;
   
 }

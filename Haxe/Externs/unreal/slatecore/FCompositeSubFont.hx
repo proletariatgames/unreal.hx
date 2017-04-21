@@ -15,28 +15,28 @@ package unreal.slatecore;
 
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
-@:uextern extern class FCompositeSubFont {
+@:uextern @:ustruct extern class FCompositeSubFont {
   #if WITH_EDITORONLY_DATA
   
   /**
     Name of this sub-font. Only used by the editor UI as a convenience to let you state the purpose of the font family.
   **/
-  public var EditorName : unreal.FName;
+  @:uproperty public var EditorName : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Amount to scale this sub-font so that it better matches the size of the default font
   **/
-  public var ScalingFactor : unreal.Float32;
+  @:uproperty public var ScalingFactor : unreal.Float32;
   
   /**
     Array of character ranges for which this sub-font should be used
   **/
-  public var CharacterRanges : unreal.TArray<unreal.FInt32Range>;
+  @:uproperty public var CharacterRanges : unreal.TArray<unreal.FInt32Range>;
   
   /**
     Typeface data for this sub-font
   **/
-  public var Typeface : unreal.slatecore.FTypeface;
+  @:uproperty public var Typeface : unreal.slatecore.FTypeface;
   
 }

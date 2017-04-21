@@ -19,139 +19,139 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USpinBox extends unreal.umg.UWidget {
+@:uextern @:uclass extern class USpinBox extends unreal.umg.UWidget {
   
   /**
     The maximum allowable value that can be specified using the slider
   **/
-  private var MaxSliderValue : unreal.Float32;
+  @:uproperty private var MaxSliderValue : unreal.Float32;
   
   /**
     The minimum allowable value that can be specified using the slider
   **/
-  private var MinSliderValue : unreal.Float32;
+  @:uproperty private var MinSliderValue : unreal.Float32;
   
   /**
     The maximum allowable value that can be manually entered into the spin box
   **/
-  private var MaxValue : unreal.Float32;
+  @:uproperty private var MaxValue : unreal.Float32;
   
   /**
     The minimum allowable value that can be manually entered into the spin box
   **/
-  private var MinValue : unreal.Float32;
-  public var ForegroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty private var MinValue : unreal.Float32;
+  @:uproperty public var ForegroundColor : unreal.slatecore.FSlateColor;
   
   /**
     Whether to select the text in the spin box when the value is committed
   **/
-  public var SelectAllTextOnCommit : Bool;
+  @:uproperty public var SelectAllTextOnCommit : Bool;
   
   /**
     Whether to remove the keyboard focus from the spin box when the value is committed
   **/
-  public var ClearKeyboardFocusOnCommit : Bool;
+  @:uproperty public var ClearKeyboardFocusOnCommit : Bool;
   
   /**
     The minimum width of the spin box
   **/
-  public var MinDesiredWidth : unreal.Float32;
+  @:uproperty public var MinDesiredWidth : unreal.Float32;
   
   /**
     Font color and opacity (overrides style)
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
   /**
     The exponent by which to increase the delta as the mouse moves. 1 is constant (never increases the delta).
   **/
-  public var SliderExponent : unreal.Float32;
+  @:uproperty public var SliderExponent : unreal.Float32;
   
   /**
     The amount by which to change the spin box value as the slider moves.
   **/
-  public var Delta : unreal.Float32;
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:uproperty public var Delta : unreal.Float32;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The Style
   **/
-  public var WidgetStyle : unreal.slatecore.FSpinBoxStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FSpinBoxStyle;
   
   /**
     Value stored in this spin box
   **/
-  public var Value : unreal.Float32;
+  @:uproperty public var Value : unreal.Float32;
   
   /**
     Get the current value of the spin box.
   **/
-  @:thisConst @:final public function GetValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetValue() : unreal.Float32;
   
   /**
     Set the value of the spin box.
   **/
-  @:final public function SetValue(NewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetValue(NewValue : unreal.Float32) : Void;
   
   /**
     Get the current minimum value that can be manually set in the spin box.
   **/
-  @:thisConst @:final public function GetMinValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetMinValue() : unreal.Float32;
   
   /**
     Set the minimum value that can be manually set in the spin box.
   **/
-  @:final public function SetMinValue(NewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMinValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the minimum value that can be manually set in the spin box.
   **/
-  @:final public function ClearMinValue() : Void;
+  @:ufunction @:final public function ClearMinValue() : Void;
   
   /**
     Get the current maximum value that can be manually set in the spin box.
   **/
-  @:thisConst @:final public function GetMaxValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetMaxValue() : unreal.Float32;
   
   /**
     Set the maximum value that can be manually set in the spin box.
   **/
-  @:final public function SetMaxValue(NewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMaxValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the maximum value that can be manually set in the spin box.
   **/
-  @:final public function ClearMaxValue() : Void;
+  @:ufunction @:final public function ClearMaxValue() : Void;
   
   /**
     Get the current minimum value that can be specified using the slider.
   **/
-  @:thisConst @:final public function GetMinSliderValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetMinSliderValue() : unreal.Float32;
   
   /**
     Set the minimum value that can be specified using the slider.
   **/
-  @:final public function SetMinSliderValue(NewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMinSliderValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the minimum value that can be specified using the slider.
   **/
-  @:final public function ClearMinSliderValue() : Void;
+  @:ufunction @:final public function ClearMinSliderValue() : Void;
   
   /**
     Get the current maximum value that can be specified using the slider.
   **/
-  @:thisConst @:final public function GetMaxSliderValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetMaxSliderValue() : unreal.Float32;
   
   /**
     Set the maximum value that can be specified using the slider.
   **/
-  @:final public function SetMaxSliderValue(NewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMaxSliderValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the maximum value that can be specified using the slider.
   **/
-  @:final public function ClearMaxSliderValue() : Void;
-  @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
+  @:ufunction @:final public function ClearMaxSliderValue() : Void;
+  @:ufunction @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
   
 }

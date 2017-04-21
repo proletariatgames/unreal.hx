@@ -19,16 +19,16 @@ package unreal;
   to tweak the weights of specific bones. The scales are applied to the normal weight for that bone
 **/
 @:glueCppIncludes("Animation/BlendProfile.h")
-@:uextern extern class UBlendProfile extends unreal.UObject {
+@:uextern @:uclass extern class UBlendProfile extends unreal.UObject {
   
   /**
     List of blend scale entries
   **/
-  public var ProfileEntries : unreal.TArray<unreal.FBlendProfileBoneEntry>;
+  @:uproperty public var ProfileEntries : unreal.TArray<unreal.FBlendProfileBoneEntry>;
   
   /**
     The skeleton that owns this profile
   **/
-  public var OwningSkeleton : unreal.USkeleton;
+  @:uproperty public var OwningSkeleton : unreal.USkeleton;
   
 }

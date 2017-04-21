@@ -20,42 +20,42 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleModule.h")
-@:noCopy @:noEquals @:uextern extern class FParticleRandomSeedInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleRandomSeedInfo {
   
   /**
     The random seed values to utilize for the module.
     More than 1 means the instance will randomly select one.
   **/
-  public var RandomSeeds : unreal.TArray<unreal.Int32>;
+  @:uproperty public var RandomSeeds : unreal.TArray<unreal.Int32>;
   
   /**
     If true, then randomly select a seed entry from the RandomSeeds array
   **/
-  public var bRandomlySelectSeedArray : Bool;
+  @:uproperty public var bRandomlySelectSeedArray : Bool;
   
   /**
     If true, then reset the seed upon the emitter looping.
     For looping environmental effects this should likely be set to false to avoid
     a repeating pattern.
   **/
-  public var bResetSeedOnEmitterLooping : Bool;
+  @:uproperty public var bResetSeedOnEmitterLooping : Bool;
   
   /**
     If true, the seed value retrieved from the instance will be an
     index into the array of seeds.
   **/
-  public var bInstanceSeedIsIndex : Bool;
+  @:uproperty public var bInstanceSeedIsIndex : Bool;
   
   /**
     If true, the module will attempt to get the seed from the owner
     instance. If that fails, it will fall back to getting it from
     the RandomSeeds array.
   **/
-  public var bGetSeedFromInstance : Bool;
+  @:uproperty public var bGetSeedFromInstance : Bool;
   
   /**
     The name to expose to the placed instances for setting this seed
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

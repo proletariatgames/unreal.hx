@@ -19,6 +19,6 @@ package unreal.contentbrowser;
 **/
 @:umodule("ContentBrowser")
 @:glueCppIncludes("ContentBrowserFrontEndFilterExtension.h")
-@:uextern extern class UContentBrowserFrontEndFilterExtension extends unreal.UObject {
+@:uextern @:uclass extern class UContentBrowserFrontEndFilterExtension extends unreal.UObject {
   
 }

@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EOrientation")
-@:uextern extern enum EOrientation {
+@:uextern @:uenum extern enum EOrientation {
   
   /**
     Orient horizontally, i.e. left to right.

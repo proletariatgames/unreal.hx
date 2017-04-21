@@ -23,11 +23,11 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBeaconHost.h")
-@:uextern extern class AOnlineBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeacon {
+@:uextern @:uclass extern class AOnlineBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeacon {
   
   /**
     Configured listen port for this beacon host
   **/
-  public var ListenPort : unreal.Int32;
+  @:uproperty public var ListenPort : unreal.Int32;
   
 }

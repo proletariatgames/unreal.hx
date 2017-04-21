@@ -15,11 +15,11 @@ package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("Protocols/ImageSequenceProtocol.h")
-@:uextern extern class UImageCaptureSettings extends unreal.moviescenecapture.UFrameGrabberProtocolSettings {
+@:uextern @:uclass extern class UImageCaptureSettings extends unreal.moviescenecapture.UFrameGrabberProtocolSettings {
   
   /**
     Level of compression to apply to the image, between 1 (worst quality, best compression) and 100 (best quality, worst compression)
   **/
-  public var CompressionQuality : unreal.Int32;
+  @:uproperty public var CompressionQuality : unreal.Int32;
   
 }

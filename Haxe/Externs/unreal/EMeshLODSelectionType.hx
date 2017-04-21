@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/MeshMerging.h")
 @:uname("EMeshLODSelectionType")
-@:class @:uextern extern enum EMeshLODSelectionType {
+@:class @:uextern @:uenum extern enum EMeshLODSelectionType {
   
   /**
     Whether or not to export all of the LODs found in the source meshes

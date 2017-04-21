@@ -20,6 +20,6 @@ package unreal;
   Set up and modify collision settings.
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")
-@:uextern extern class UCollisionProfile extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UCollisionProfile extends unreal.UDeveloperSettings {
   
 }

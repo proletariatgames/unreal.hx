@@ -20,6 +20,6 @@ package unreal;
   A float range bound
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FFloatRangeBound {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFloatRangeBound {
   
 }

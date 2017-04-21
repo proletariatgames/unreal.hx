@@ -15,16 +15,16 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_TunnelBoundary.h")
-@:uextern extern class UK2Node_TunnelBoundary extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_TunnelBoundary extends unreal.blueprintgraph.UK2Node {
   
   /**
     Final exit site
   **/
-  public var FinalExitSite : unreal.FEdGraphPinReference;
+  @:uproperty public var FinalExitSite : unreal.FEdGraphPinReference;
   
   /**
     Base Name
   **/
-  public var BaseName : unreal.FName;
+  @:uproperty public var BaseName : unreal.FName;
   
 }

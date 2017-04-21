@@ -20,24 +20,24 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCache.h")
-@:uextern extern class UGeometryCache extends unreal.UObject implements unreal.IInterface_AssetUserData {
+@:uextern @:uclass extern class UGeometryCache extends unreal.UObject implements unreal.IInterface_AssetUserData {
   
   /**
     GeometryCache track defining the samples/geometry data for this GeomCache instance
   **/
-  public var Tracks : unreal.TArray<unreal.geometrycache.UGeometryCacheTrack>;
-  public var Materials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var Tracks : unreal.TArray<unreal.geometrycache.UGeometryCacheTrack>;
+  @:uproperty public var Materials : unreal.TArray<unreal.UMaterialInterface>;
   #if WITH_EDITORONLY_DATA
   
   /**
     Information for thumbnail rendering
   **/
-  public var ThumbnailInfo : unreal.UThumbnailInfo;
+  @:uproperty public var ThumbnailInfo : unreal.UThumbnailInfo;
   
   /**
     Importing data and options used for this Geometry cache object
   **/
-  public var AssetImportData : unreal.UAssetImportData;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   // Interface_AssetUserData interface implementation
   

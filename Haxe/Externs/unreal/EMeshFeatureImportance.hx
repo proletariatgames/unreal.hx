@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/MeshMerging.h")
 @:uname("EMeshFeatureImportance.Type")
-@:uextern extern enum EMeshFeatureImportance {
+@:uextern @:uenum extern enum EMeshFeatureImportance {
   Off;
   Lowest;
   Low;

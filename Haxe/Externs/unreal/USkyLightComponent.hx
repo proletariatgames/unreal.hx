@@ -14,75 +14,75 @@
 package unreal;
 
 @:glueCppIncludes("Components/SkyLightComponent.h")
-@:uextern extern class USkyLightComponent extends unreal.ULightComponentBase {
-  private var BlendDestinationCubemap : unreal.UTextureCube;
+@:uextern @:uclass extern class USkyLightComponent extends unreal.ULightComponentBase {
+  @:uproperty private var BlendDestinationCubemap : unreal.UTextureCube;
   
   /**
     Tint color on occluded areas, artistic control.
   **/
-  public var OcclusionTint : unreal.FColor;
+  @:uproperty public var OcclusionTint : unreal.FColor;
   
   /**
     Controls the darkest that a fully occluded area can get.
   **/
-  public var MinOcclusion : unreal.Float32;
+  @:uproperty public var MinOcclusion : unreal.Float32;
   
   /**
     Contrast S-curve applied to the computed AO.  A value of 0 means no contrast increase, 1 is a significant contrast increase.
   **/
-  public var Contrast : unreal.Float32;
+  @:uproperty public var Contrast : unreal.Float32;
   
   /**
     Max distance that the occlusion of one point will affect another.
     Higher values increase the cost of Distance Field AO exponentially.
   **/
-  public var OcclusionMaxDistance : unreal.Float32;
-  public var LowerHemisphereColor : unreal.FLinearColor;
+  @:uproperty public var OcclusionMaxDistance : unreal.Float32;
+  @:uproperty public var LowerHemisphereColor : unreal.FLinearColor;
   
   /**
     Whether all distant lighting from the lower hemisphere should be set to LowerHemisphereColor.
     Enabling this is accurate when lighting a scene on a planet where the ground blocks the sky,
     However disabling it can be useful to approximate skylight bounce lighting (eg Movable light).
   **/
-  public var bLowerHemisphereIsBlack : Bool;
+  @:uproperty public var bLowerHemisphereIsBlack : Bool;
   
   /**
     Distance from the sky light at which any geometry should be treated as part of the sky.
     This is also used by reflection captures, so update reflection captures to see the impact.
   **/
-  public var SkyDistanceThreshold : unreal.Float32;
+  @:uproperty public var SkyDistanceThreshold : unreal.Float32;
   
   /**
     Maximum resolution for the very top processed cubemap mip. Must be a power of 2.
   **/
-  public var CubemapResolution : unreal.Int32;
+  @:uproperty public var CubemapResolution : unreal.Int32;
   
   /**
     Angle to rotate the source cubemap when SourceType is set to SLS_SpecifiedCubemap.
   **/
-  public var SourceCubemapAngle : unreal.Float32;
+  @:uproperty public var SourceCubemapAngle : unreal.Float32;
   
   /**
     Cubemap to use for sky lighting if SourceType is set to SLS_SpecifiedCubemap.
   **/
-  public var Cubemap : unreal.UTextureCube;
+  @:uproperty public var Cubemap : unreal.UTextureCube;
   
   /**
     Indicates where to get the light contribution from.
   **/
-  public var SourceType : unreal.ESkyLightSourceType;
-  @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
-  @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
+  @:uproperty public var SourceType : unreal.ESkyLightSourceType;
+  @:ufunction @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
   
   /**
     Set color of the light
   **/
-  @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
   
   /**
     Sets the cubemap used when SourceType is set to SpecifiedCubemap, and causes a skylight update on the next tick.
   **/
-  @:final public function SetCubemap(NewCubemap : unreal.UTextureCube) : Void;
+  @:ufunction @:final public function SetCubemap(NewCubemap : unreal.UTextureCube) : Void;
   
   /**
     Creates sky lighting from a blend between two cubemaps, which is only valid when SourceType is set to SpecifiedCubemap.
@@ -90,15 +90,15 @@ package unreal;
     The caller should continue to update the blend until BlendFraction is 0 or 1 to reduce rendering cost.
     The caller is responsible for avoiding pops due to changing the source or destination.
   **/
-  @:final public function SetCubemapBlend(SourceCubemap : unreal.UTextureCube, DestinationCubemap : unreal.UTextureCube, InBlendFraction : unreal.Float32) : Void;
-  @:final public function SetOcclusionTint(InTint : unreal.Const<unreal.PRef<unreal.FColor>>) : Void;
-  @:final public function SetMinOcclusion(InMinOcclusion : unreal.Float32) : Void;
+  @:ufunction @:final public function SetCubemapBlend(SourceCubemap : unreal.UTextureCube, DestinationCubemap : unreal.UTextureCube, InBlendFraction : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOcclusionTint(InTint : unreal.Const<unreal.PRef<unreal.FColor>>) : Void;
+  @:ufunction @:final public function SetMinOcclusion(InMinOcclusion : unreal.Float32) : Void;
   
   /**
     Recaptures the scene for the skylight.
     This is useful for making sure the sky light is up to date after changing something in the world that it would capture.
     Warning: this is very costly and will definitely cause a hitch.
   **/
-  @:final public function RecaptureSky() : Void;
+  @:ufunction @:final public function RecaptureSky() : Void;
   
 }

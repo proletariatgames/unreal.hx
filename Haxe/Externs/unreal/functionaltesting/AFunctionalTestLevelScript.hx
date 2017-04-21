@@ -15,6 +15,6 @@ package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTestLevelScript.h")
-@:uextern extern class AFunctionalTestLevelScript extends unreal.ALevelScriptActor {
+@:uextern @:uclass extern class AFunctionalTestLevelScript extends unreal.ALevelScriptActor {
   
 }

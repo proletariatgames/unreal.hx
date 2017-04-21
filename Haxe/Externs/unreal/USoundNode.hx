@@ -14,14 +14,14 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundNode.h")
-@:uextern extern class USoundNode extends unreal.UObject {
+@:uextern @:uclass extern class USoundNode extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Node's Graph representation, used to get position.
   **/
-  public var GraphNode : unreal.UEdGraphNode;
+  @:uproperty public var GraphNode : unreal.UEdGraphNode;
   #end // WITH_EDITORONLY_DATA
-  public var ChildNodes : unreal.TArray<unreal.USoundNode>;
+  @:uproperty public var ChildNodes : unreal.TArray<unreal.USoundNode>;
   
 }

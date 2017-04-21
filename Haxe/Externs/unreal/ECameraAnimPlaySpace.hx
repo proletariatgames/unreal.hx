@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Camera/CameraTypes.h")
 @:uname("ECameraAnimPlaySpace.Type")
-@:uextern extern enum ECameraAnimPlaySpace {
+@:uextern @:uenum extern enum ECameraAnimPlaySpace {
   
   /**
     This anim is applied in camera space.

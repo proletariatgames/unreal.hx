@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/LevelStreamingKismet.h")
-@:uextern extern class ULevelStreamingKismet extends unreal.ULevelStreaming {
+@:uextern @:uclass extern class ULevelStreamingKismet extends unreal.ULevelStreaming {
   
   /**
     Whether the level should be visible at startup if it is loaded
   **/
-  public var bInitiallyVisible : Bool;
+  @:uproperty public var bInitiallyVisible : Bool;
   
   /**
     Whether the level should be loaded at startup
   **/
-  public var bInitiallyLoaded : Bool;
+  @:uproperty public var bInitiallyLoaded : Bool;
   
 }

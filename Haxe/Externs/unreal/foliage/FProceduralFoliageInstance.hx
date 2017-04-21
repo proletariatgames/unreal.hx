@@ -15,12 +15,12 @@ package unreal.foliage;
 
 @:umodule("Foliage")
 @:glueCppIncludes("ProceduralFoliageInstance.h")
-@:uextern extern class FProceduralFoliageInstance {
-  public var Type : unreal.foliage.UFoliageType_InstancedStaticMesh;
-  public var Scale : unreal.Float32;
-  public var Age : unreal.Float32;
-  public var Normal : unreal.FVector;
-  public var Rotation : unreal.FQuat;
-  public var Location : unreal.FVector;
+@:uextern @:ustruct extern class FProceduralFoliageInstance {
+  @:uproperty public var Type : unreal.foliage.UFoliageType_InstancedStaticMesh;
+  @:uproperty public var Scale : unreal.Float32;
+  @:uproperty public var Age : unreal.Float32;
+  @:uproperty public var Normal : unreal.FVector;
+  @:uproperty public var Rotation : unreal.FQuat;
+  @:uproperty public var Location : unreal.FVector;
   
 }

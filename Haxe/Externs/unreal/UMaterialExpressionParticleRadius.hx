@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionParticleRadius.h")
-@:noClass @:uextern extern class UMaterialExpressionParticleRadius extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionParticleRadius extends unreal.UMaterialExpression {
   
 }

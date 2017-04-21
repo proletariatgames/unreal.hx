@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType.h")
 @:uname("ETextKeyOperation.Type")
-@:uextern extern enum ETextKeyOperation {
+@:uextern @:uenum extern enum ETextKeyOperation {
   
   /**
     Is Equal To

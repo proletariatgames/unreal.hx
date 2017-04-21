@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamBase.h")
 @:uname("Beam2SourceTargetTangentMethod")
-@:uextern extern enum Beam2SourceTargetTangentMethod {
+@:uextern @:uenum extern enum Beam2SourceTargetTangentMethod {
   
   /**
     Direct - a direct line between source and target.

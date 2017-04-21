@@ -21,7 +21,7 @@ package unreal.audiomixer;
 @:umodule("AudioMixer")
 @:glueCppIncludes("SourceEffects/AudioMixerSourceEffectFilter.h")
 @:uname("ESourceEffectFilter.Type")
-@:uextern extern enum ESourceEffectFilter {
+@:uextern @:uenum extern enum ESourceEffectFilter {
   LowPass;
   HighPass;
   BandPass;

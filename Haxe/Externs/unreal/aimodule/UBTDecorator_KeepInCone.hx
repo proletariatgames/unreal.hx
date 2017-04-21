@@ -20,31 +20,31 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_KeepInCone.h")
-@:uextern extern class UBTDecorator_KeepInCone extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_KeepInCone extends unreal.aimodule.UBTDecorator {
   
   /**
     deprecated, set value of Observed on initialization
   **/
-  public var bUseSelfAsObserved : Bool;
+  @:uproperty public var bUseSelfAsObserved : Bool;
   
   /**
     deprecated, set value of ConeOrigin on initialization
   **/
-  public var bUseSelfAsOrigin : Bool;
+  @:uproperty public var bUseSelfAsOrigin : Bool;
   
   /**
     blackboard key selector
   **/
-  public var Observed : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var Observed : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     blackboard key selector
   **/
-  public var ConeOrigin : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var ConeOrigin : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     max allowed time for execution of underlying node
   **/
-  public var ConeHalfAngle : unreal.Float32;
+  @:uproperty public var ConeHalfAngle : unreal.Float32;
   
 }

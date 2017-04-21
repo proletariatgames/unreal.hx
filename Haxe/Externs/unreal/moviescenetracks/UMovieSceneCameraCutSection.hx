@@ -21,6 +21,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCameraCutSection.h")
-@:uextern extern class UMovieSceneCameraCutSection extends unreal.moviescene.UMovieSceneSection {
+@:uextern @:uclass extern class UMovieSceneCameraCutSection extends unreal.moviescene.UMovieSceneSection {
   
 }

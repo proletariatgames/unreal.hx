@@ -16,7 +16,7 @@ package unreal.gameplaytags;
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
 @:uname("EGameplayContainerMatchType")
-@:class @:uextern extern enum EGameplayContainerMatchType {
+@:class @:uextern @:uenum extern enum EGameplayContainerMatchType {
   Any;
   
   /**

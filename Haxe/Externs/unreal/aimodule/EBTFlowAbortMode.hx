@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
 @:uname("EBTFlowAbortMode.Type")
-@:uextern extern enum EBTFlowAbortMode {
+@:uextern @:uenum extern enum EBTFlowAbortMode {
   
   /**
     Nothing

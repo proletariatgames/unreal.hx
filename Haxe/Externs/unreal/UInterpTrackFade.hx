@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackFade.h")
-@:noClass @:uextern extern class UInterpTrackFade extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern @:uclass extern class UInterpTrackFade extends unreal.UInterpTrackFloatBase {
   
   /**
     Color to fade to.
   **/
-  public var FadeColor : unreal.FLinearColor;
+  @:uproperty public var FadeColor : unreal.FLinearColor;
   
   /**
     True to set master audio volume along with the visual fade.
   **/
-  public var bFadeAudio : Bool;
+  @:uproperty public var bFadeAudio : Bool;
   
   /**
     InterpTrackFade
@@ -38,6 +38,6 @@ package unreal;
     Special float property track that controls camera fading over time.
     Should live in a Director group.
   **/
-  public var bPersistFade : Bool;
+  @:uproperty public var bPersistFade : Bool;
   
 }

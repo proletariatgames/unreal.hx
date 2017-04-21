@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/DiffAssetsCommandlet.h")
-@:noClass @:uextern extern class UDiffAssetsCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UDiffAssetsCommandlet extends unreal.UCommandlet {
   
 }

@@ -20,7 +20,7 @@ package unreal.onlinesubsystemutils;
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBeaconClient.h")
 @:uname("EBeaconConnectionState")
-@:class @:uextern extern enum EBeaconConnectionState {
+@:class @:uextern @:uenum extern enum EBeaconConnectionState {
   Invalid;
   
   /**

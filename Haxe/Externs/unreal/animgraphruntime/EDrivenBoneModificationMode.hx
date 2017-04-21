@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EDrivenBoneModificationMode")
-@:class @:uextern extern enum EDrivenBoneModificationMode {
+@:class @:uextern @:uenum extern enum EDrivenBoneModificationMode {
   
   /**
     Add the driven value to the input component value(s)

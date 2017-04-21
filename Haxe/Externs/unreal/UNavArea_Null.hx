@@ -18,6 +18,6 @@ package unreal;
   In general represents an empty area, that cannot be traversed by anyone. Ever.
 **/
 @:glueCppIncludes("AI/Navigation/NavAreas/NavArea_Null.h")
-@:uextern extern class UNavArea_Null extends unreal.UNavArea {
+@:uextern @:uclass extern class UNavArea_Null extends unreal.UNavArea {
   
 }

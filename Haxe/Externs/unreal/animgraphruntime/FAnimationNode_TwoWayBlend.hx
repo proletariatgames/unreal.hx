@@ -19,10 +19,10 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_TwoWayBlend.h")
-@:uextern extern class FAnimationNode_TwoWayBlend extends unreal.FAnimNode_Base {
-  public var AlphaScaleBias : unreal.FInputScaleBias;
-  public var Alpha : unreal.Float32;
-  public var B : unreal.FPoseLink;
-  public var A : unreal.FPoseLink;
+@:uextern @:ustruct extern class FAnimationNode_TwoWayBlend extends unreal.FAnimNode_Base {
+  @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;
+  @:uproperty public var Alpha : unreal.Float32;
+  @:uproperty public var B : unreal.FPoseLink;
+  @:uproperty public var A : unreal.FPoseLink;
   
 }

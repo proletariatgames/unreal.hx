@@ -20,16 +20,16 @@ package unreal;
   Helper structure containing size and cull distance pair.
 **/
 @:glueCppIncludes("Engine/CullDistanceVolume.h")
-@:noCopy @:noEquals @:uextern extern class FCullDistanceSizePair {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCullDistanceSizePair {
   
   /**
     Cull distance associated with size.
   **/
-  public var CullDistance : unreal.Float32;
+  @:uproperty public var CullDistance : unreal.Float32;
   
   /**
     Size to associate with cull distance.
   **/
-  public var Size : unreal.Float32;
+  @:uproperty public var Size : unreal.Float32;
   
 }

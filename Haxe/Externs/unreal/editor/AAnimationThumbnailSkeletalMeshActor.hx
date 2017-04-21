@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailHelpers.h")
-@:noClass @:uextern extern class AAnimationThumbnailSkeletalMeshActor extends unreal.ASkeletalMeshActor {
+@:noClass @:uextern @:uclass extern class AAnimationThumbnailSkeletalMeshActor extends unreal.ASkeletalMeshActor {
   
 }

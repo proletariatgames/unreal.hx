@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Animation/AnimInstance.h")
 @:uname("EMontagePlayReturnType")
-@:class @:uextern extern enum EMontagePlayReturnType {
+@:class @:uextern @:uenum extern enum EMontagePlayReturnType {
   
   /**
     Return value is the length of the montage (in seconds)

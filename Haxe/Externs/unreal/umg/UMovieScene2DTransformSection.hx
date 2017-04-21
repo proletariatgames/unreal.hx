@@ -21,6 +21,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UMovieScene2DTransformSection extends unreal.moviescene.UMovieSceneSection {
+@:uextern @:uclass extern class UMovieScene2DTransformSection extends unreal.moviescene.UMovieSceneSection {
   
 }

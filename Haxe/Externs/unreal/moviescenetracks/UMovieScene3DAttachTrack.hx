@@ -21,6 +21,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieScene3DAttachTrack.h")
-@:uextern extern class UMovieScene3DAttachTrack extends unreal.moviescenetracks.UMovieScene3DConstraintTrack {
+@:uextern @:uclass extern class UMovieScene3DAttachTrack extends unreal.moviescenetracks.UMovieScene3DConstraintTrack {
   
 }

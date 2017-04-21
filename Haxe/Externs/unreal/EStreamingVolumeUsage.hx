@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/LevelStreamingVolume.h")
 @:uname("EStreamingVolumeUsage")
-@:uextern extern enum EStreamingVolumeUsage {
+@:uextern @:uenum extern enum EStreamingVolumeUsage {
   SVB_Loading;
   SVB_LoadingAndVisibility;
   SVB_VisibilityBlockingOnLoad;

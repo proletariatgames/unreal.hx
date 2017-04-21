@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionWorldPosition.h")
-@:uextern extern class UMaterialExpressionWorldPosition extends unreal.UMaterialExpression {
-  public var WorldPositionShaderOffset : unreal.EWorldPositionIncludedOffsets;
+@:uextern @:uclass extern class UMaterialExpressionWorldPosition extends unreal.UMaterialExpression {
+  @:uproperty public var WorldPositionShaderOffset : unreal.EWorldPositionIncludedOffsets;
   
 }

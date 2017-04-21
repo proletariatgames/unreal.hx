@@ -20,6 +20,6 @@ package unreal;
   An int32 range
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FInt32Range {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInt32Range {
   
 }

@@ -20,27 +20,27 @@ package unreal;
   A set of parameters to describe how to transition between view targets.
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
-@:noCopy @:noEquals @:uextern extern class FViewTargetTransitionParams {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FViewTargetTransitionParams {
   
   /**
     If true, lock outgoing viewtarget to last frame's camera POV for the remainder of the blend.
     This is useful if you plan to teleport the old viewtarget, but don't want to affect the blend.
   **/
-  public var bLockOutgoing : Bool;
+  @:uproperty public var bLockOutgoing : Bool;
   
   /**
     Exponent, used by certain blend functions to control the shape of the curve.
   **/
-  public var BlendExp : unreal.Float32;
+  @:uproperty public var BlendExp : unreal.Float32;
   
   /**
     Function to apply to the blend parameter.
   **/
-  public var BlendFunction : unreal.EViewTargetBlendFunction;
+  @:uproperty public var BlendFunction : unreal.EViewTargetBlendFunction;
   
   /**
     Total duration of blend to pending view target. 0 means no blending.
   **/
-  public var BlendTime : unreal.Float32;
+  @:uproperty public var BlendTime : unreal.Float32;
   
 }

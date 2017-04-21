@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAtmosphericFogColor.h")
-@:noClass @:uextern extern class UMaterialExpressionAtmosphericFogColor extends unreal.UMaterialExpression {
-  public var WorldPosition : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionAtmosphericFogColor extends unreal.UMaterialExpression {
+  @:uproperty public var WorldPosition : unreal.FExpressionInput;
   
 }

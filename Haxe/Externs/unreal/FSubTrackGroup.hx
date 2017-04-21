@@ -20,26 +20,26 @@ package unreal;
   A small structure holding data for grouping subtracks. (For UI drawing purposes)
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
-@:noCopy @:noEquals @:uextern extern class FSubTrackGroup {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSubTrackGroup {
   
   /**
     If this group is selected
   **/
-  public var bIsSelected : Bool;
+  @:uproperty public var bIsSelected : Bool;
   
   /**
     If this group is collapsed
   **/
-  public var bIsCollapsed : Bool;
+  @:uproperty public var bIsCollapsed : Bool;
   
   /**
     Indices to tracks in the parent track subtrack array.
   **/
-  public var TrackIndices : unreal.TArray<unreal.Int32>;
+  @:uproperty public var TrackIndices : unreal.TArray<unreal.Int32>;
   
   /**
     Name of the subtrack  group
   **/
-  public var GroupName : unreal.FString;
+  @:uproperty public var GroupName : unreal.FString;
   
 }

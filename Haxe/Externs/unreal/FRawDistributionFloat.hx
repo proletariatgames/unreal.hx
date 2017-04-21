@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloat.h")
-@:noCopy @:noEquals @:uextern extern class FRawDistributionFloat extends unreal.FRawDistribution {
-  public var Distribution : unreal.UDistributionFloat;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRawDistributionFloat extends unreal.FRawDistribution {
+  @:uproperty public var Distribution : unreal.UDistributionFloat;
   
 }

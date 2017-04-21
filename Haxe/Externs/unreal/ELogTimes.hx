@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ELogTimes.Type")
-@:uextern extern enum ELogTimes {
+@:uextern @:uenum extern enum ELogTimes {
   
   /**
     Do not display log timestamps.

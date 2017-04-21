@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataRibbon.h")
 @:uname("ETrailsRenderAxisOption")
-@:uextern extern enum ETrailsRenderAxisOption {
+@:uextern @:uenum extern enum ETrailsRenderAxisOption {
   
   /**
     Camera Up

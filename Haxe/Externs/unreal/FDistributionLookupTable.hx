@@ -20,6 +20,6 @@ package unreal;
   Lookup table for distributions.
 **/
 @:glueCppIncludes("Distributions/Distribution.h")
-@:noCopy @:noEquals @:uextern extern class FDistributionLookupTable {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDistributionLookupTable {
   
 }

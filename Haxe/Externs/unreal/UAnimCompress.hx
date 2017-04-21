@@ -20,31 +20,31 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimCompress.h")
-@:uextern extern class UAnimCompress extends unreal.UObject {
+@:uextern @:uclass extern class UAnimCompress extends unreal.UObject {
   
   /**
     Format for bitwise compression of scale data.
   **/
-  public var ScaleCompressionFormat : unreal.AnimationCompressionFormat;
+  @:uproperty public var ScaleCompressionFormat : unreal.AnimationCompressionFormat;
   
   /**
     Format for bitwise compression of rotation data.
   **/
-  public var RotationCompressionFormat : unreal.AnimationCompressionFormat;
+  @:uproperty public var RotationCompressionFormat : unreal.AnimationCompressionFormat;
   
   /**
     Format for bitwise compression of translation data.
   **/
-  public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
+  @:uproperty public var TranslationCompressionFormat : unreal.AnimationCompressionFormat;
   
   /**
     Compression algorithms requiring a skeleton should set this value to true.
   **/
-  public var bNeedsSkeleton : Bool;
+  @:uproperty public var bNeedsSkeleton : Bool;
   
   /**
     Name of Compression Scheme used for this asset
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
 }

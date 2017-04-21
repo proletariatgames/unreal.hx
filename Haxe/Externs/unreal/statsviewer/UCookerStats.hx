@@ -23,21 +23,26 @@ package unreal.statsviewer;
 **/
 @:umodule("StatsViewer")
 @:glueCppIncludes("CookerStats.h")
-@:uextern extern class UCookerStats extends unreal.UObject {
+@:uextern @:uclass extern class UCookerStats extends unreal.UObject {
   
   /**
     Asset path without the name "package.[group.]"
   **/
-  public var Path : unreal.FString;
+  @:uproperty public var Path : unreal.FString;
   
   /**
     The size of the assets after cooking.
   **/
-  public var SizeAfter : unreal.Float32;
+  @:uproperty public var SizeAfter : unreal.Float32;
   
   /**
     The size of the assets before cooking.
   **/
-  public var SizeBefore : unreal.Float32;
+  @:uproperty public var SizeBefore : unreal.Float32;
+  
+  /**
+    The assets contained in the file.
+  **/
+  @:uproperty public var Assets : unreal.TArray<unreal.TWeakObjectPtr<unreal.UObject>>;
   
 }

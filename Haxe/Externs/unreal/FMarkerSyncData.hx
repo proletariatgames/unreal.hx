@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
-@:noCopy @:noEquals @:uextern extern class FMarkerSyncData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMarkerSyncData {
   
   /**
     Authored Sync markers
   **/
-  public var AuthoredSyncMarkers : unreal.TArray<unreal.FAnimSyncMarker>;
+  @:uproperty public var AuthoredSyncMarkers : unreal.TArray<unreal.FAnimSyncMarker>;
   
 }

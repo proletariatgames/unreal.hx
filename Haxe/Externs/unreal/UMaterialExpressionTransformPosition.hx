@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTransformPosition.h")
-@:uextern extern class UMaterialExpressionTransformPosition extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionTransformPosition extends unreal.UMaterialExpression {
   
   /**
     type of transform to apply to the input expression
   **/
-  public var TransformType : unreal.EMaterialPositionTransformSource;
+  @:uproperty public var TransformType : unreal.EMaterialPositionTransformSource;
   
   /**
     source format of the position that will be transformed
   **/
-  public var TransformSourceType : unreal.EMaterialPositionTransformSource;
+  @:uproperty public var TransformSourceType : unreal.EMaterialPositionTransformSource;
   
   /**
     input expression for this transform
   **/
-  public var Input : unreal.FExpressionInput;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

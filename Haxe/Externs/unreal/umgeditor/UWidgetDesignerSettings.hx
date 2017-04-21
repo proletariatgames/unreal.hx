@@ -19,14 +19,14 @@ package unreal.umgeditor;
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("Settings/WidgetDesignerSettings.h")
-@:uextern extern class UWidgetDesignerSettings extends unreal.UObject {
-  public var bShowOutlines : Bool;
-  public var bLockToPanelOnDragByDefault : Bool;
-  public var GridSnapSize : unreal.Int32;
+@:uextern @:uclass extern class UWidgetDesignerSettings extends unreal.UObject {
+  @:uproperty public var bShowOutlines : Bool;
+  @:uproperty public var bLockToPanelOnDragByDefault : Bool;
+  @:uproperty public var GridSnapSize : unreal.Int32;
   
   /**
     If enabled, actor positions will snap to the grid.
   **/
-  public var GridSnapEnabled : Bool;
+  @:uproperty public var GridSnapEnabled : Bool;
   
 }

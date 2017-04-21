@@ -14,21 +14,21 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/SimpleWheeledVehicleMovementComponent.h")
-@:uextern extern class USimpleWheeledVehicleMovementComponent extends unreal.UWheeledVehicleMovementComponent {
+@:uextern @:uclass extern class USimpleWheeledVehicleMovementComponent extends unreal.UWheeledVehicleMovementComponent {
   
   /**
     Set the brake torque to be applied to a specific wheel
   **/
-  @:final public function SetBrakeTorque(BrakeTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction @:final public function SetBrakeTorque(BrakeTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
   /**
     Set the drive torque to be applied to a specific wheel
   **/
-  @:final public function SetDriveTorque(DriveTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction @:final public function SetDriveTorque(DriveTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
   /**
     Set the steer angle (in degrees) to be applied to a specific wheel
   **/
-  @:final public function SetSteerAngle(SteerAngle : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction @:final public function SetSteerAngle(SteerAngle : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
 }

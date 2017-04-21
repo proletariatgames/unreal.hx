@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Matinee/InterpTrackMove.h")
 @:uname("EInterpTrackMoveRotMode")
-@:uextern extern enum EInterpTrackMoveRotMode {
+@:uextern @:uenum extern enum EInterpTrackMoveRotMode {
   
   /**
     Should take orientation from the keyframe.

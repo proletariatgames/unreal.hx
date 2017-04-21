@@ -15,11 +15,11 @@ package unreal.html5networking;
 
 @:umodule("HTML5Networking")
 @:glueCppIncludes("WebSocketNetDriver.h")
-@:uextern extern class UWebSocketNetDriver extends unreal.UNetDriver {
+@:uextern @:uclass extern class UWebSocketNetDriver extends unreal.UNetDriver {
   
   /**
     Websocket server port
   **/
-  public var WebSocketPort : unreal.Int32;
+  @:uproperty public var WebSocketPort : unreal.Int32;
   
 }

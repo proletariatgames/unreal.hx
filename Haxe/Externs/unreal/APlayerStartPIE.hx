@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PlayerStartPIE.h")
-@:uextern extern class APlayerStartPIE extends unreal.APlayerStart {
+@:uextern @:uclass extern class APlayerStartPIE extends unreal.APlayerStart {
   
 }

@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Composites/BTComposite_SimpleParallel.h")
-@:uextern extern class UBTComposite_SimpleParallel extends unreal.aimodule.UBTCompositeNode {
+@:uextern @:uclass extern class UBTComposite_SimpleParallel extends unreal.aimodule.UBTCompositeNode {
   
   /**
     how background tree should be handled when main task finishes execution
   **/
-  public var FinishMode : unreal.aimodule.EBTParallelMode;
+  @:uproperty public var FinishMode : unreal.aimodule.EBTParallelMode;
   
 }

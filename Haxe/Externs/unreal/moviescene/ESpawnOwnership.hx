@@ -16,7 +16,7 @@ package unreal.moviescene;
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieSceneSpawnable.h")
 @:uname("ESpawnOwnership")
-@:class @:uextern extern enum ESpawnOwnership {
+@:class @:uextern @:uenum extern enum ESpawnOwnership {
   
   /**
     The object's lifetime is managed by the sequence that spawned it

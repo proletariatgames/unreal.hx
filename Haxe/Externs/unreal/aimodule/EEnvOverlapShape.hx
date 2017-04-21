@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvOverlapShape.Type")
-@:uextern extern enum EEnvOverlapShape {
+@:uextern @:uenum extern enum EEnvOverlapShape {
   Box;
   Sphere;
   Capsule;

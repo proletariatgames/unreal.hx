@@ -21,8 +21,8 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("ScreenshotFunctionalTest.h")
-@:uextern extern class AScreenshotFunctionalTest extends unreal.functionaltesting.AFunctionalTest {
-  private var ScreenshotOptions : unreal.functionaltesting.FAutomationScreenshotOptions;
-  private var ScreenshotCamera : unreal.UCameraComponent;
+@:uextern @:uclass extern class AScreenshotFunctionalTest extends unreal.functionaltesting.AFunctionalTest {
+  @:uproperty private var ScreenshotOptions : unreal.functionaltesting.FAutomationScreenshotOptions;
+  @:uproperty private var ScreenshotCamera : unreal.UCameraComponent;
   
 }

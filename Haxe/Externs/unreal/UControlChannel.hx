@@ -18,6 +18,6 @@ package unreal;
   A channel for exchanging connection control messages.
 **/
 @:glueCppIncludes("Engine/ControlChannel.h")
-@:uextern extern class UControlChannel extends unreal.UChannel {
+@:uextern @:uclass extern class UControlChannel extends unreal.UChannel {
   
 }

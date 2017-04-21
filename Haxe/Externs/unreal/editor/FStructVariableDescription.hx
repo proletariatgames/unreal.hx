@@ -21,27 +21,27 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
-@:noCopy @:noEquals @:uextern extern class FStructVariableDescription {
-  public var bEnable3dWidget : Bool;
-  public var bEnableMultiLineText : Bool;
-  public var bDontEditoOnInstance : Bool;
-  public var ToolTip : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStructVariableDescription {
+  @:uproperty public var bEnable3dWidget : Bool;
+  @:uproperty public var bEnableMultiLineText : Bool;
+  @:uproperty public var bDontEditoOnInstance : Bool;
+  @:uproperty public var ToolTip : unreal.FString;
   
   /**
     CurrentDefaultValue stores the actual default value, after the DefaultValue was changed, and before the struct was recompiled
   **/
-  public var CurrentDefaultValue : unreal.FString;
-  public var bInvalidMember : Bool;
-  public var bIsArray : Bool;
-  public var SubCategory : unreal.FString;
+  @:uproperty public var CurrentDefaultValue : unreal.FString;
+  @:uproperty public var bInvalidMember : Bool;
+  @:uproperty public var bIsArray : Bool;
+  @:uproperty public var SubCategory : unreal.FString;
   
   /**
     TYPE DATA
   **/
-  public var Category : unreal.FString;
-  public var DefaultValue : unreal.FString;
-  public var FriendlyName : unreal.FString;
-  public var VarGuid : unreal.FGuid;
-  public var VarName : unreal.FName;
+  @:uproperty public var Category : unreal.FString;
+  @:uproperty public var DefaultValue : unreal.FString;
+  @:uproperty public var FriendlyName : unreal.FString;
+  @:uproperty public var VarGuid : unreal.FGuid;
+  @:uproperty public var VarName : unreal.FName;
   
 }

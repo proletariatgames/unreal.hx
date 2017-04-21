@@ -21,9 +21,11 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequencePlayer.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequencePlayerSnapshot {
-  public var Settings : unreal.levelsequence.FLevelSequenceSnapshotSettings;
-  public var CurrentShotLocalTime : unreal.Float32;
-  public var MasterTime : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequencePlayerSnapshot {
+  @:uproperty public var Settings : unreal.levelsequence.FLevelSequenceSnapshotSettings;
+  @:uproperty public var CurrentShotLocalTime : unreal.Float32;
+  @:uproperty public var CurrentShotName : unreal.FText;
+  @:uproperty public var MasterTime : unreal.Float32;
+  @:uproperty public var MasterName : unreal.FText;
   
 }

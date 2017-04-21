@@ -15,21 +15,21 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FInheritedTagContainer {
+@:uextern @:ustruct extern class FInheritedTagContainer {
   
   /**
     Tags that should be removed if my parent had them
   **/
-  public var Removed : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var Removed : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Tags that I have in addition to my parent's tags
   **/
-  public var Added : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var Added : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Tags that I inherited and tags that I added minus tags that I removed
   **/
-  public var CombinedTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var CombinedTags : unreal.gameplaytags.FGameplayTagContainer;
   
 }

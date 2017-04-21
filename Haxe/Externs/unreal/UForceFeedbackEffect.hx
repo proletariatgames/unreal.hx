@@ -20,12 +20,12 @@ package unreal;
   A predefined force-feedback effect to be played on a controller
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
-@:uextern extern class UForceFeedbackEffect extends unreal.UObject {
+@:uextern @:uclass extern class UForceFeedbackEffect extends unreal.UObject {
   
   /**
     Duration of force feedback pattern in seconds.
   **/
-  public var Duration : unreal.Float32;
-  public var ChannelDetails : unreal.TArray<unreal.FForceFeedbackChannelDetails>;
+  @:uproperty public var Duration : unreal.Float32;
+  @:uproperty public var ChannelDetails : unreal.TArray<unreal.FForceFeedbackChannelDetails>;
   
 }

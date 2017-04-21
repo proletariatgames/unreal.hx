@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("EdGraphNode_Comment.h")
 @:uname("ECommentBoxMode.Type")
-@:uextern extern enum ECommentBoxMode {
+@:uextern @:uenum extern enum ECommentBoxMode {
   
   /**
     This comment box will move any fully contained nodes when it moves.

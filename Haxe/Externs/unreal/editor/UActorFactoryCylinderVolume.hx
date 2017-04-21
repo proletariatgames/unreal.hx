@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryCylinderVolume.h")
-@:uextern extern class UActorFactoryCylinderVolume extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryCylinderVolume extends unreal.editor.UActorFactory {
   
 }

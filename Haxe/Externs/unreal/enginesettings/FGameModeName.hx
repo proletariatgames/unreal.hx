@@ -21,16 +21,16 @@ package unreal.enginesettings;
 **/
 @:umodule("EngineSettings")
 @:glueCppIncludes("GameMapsSettings.h")
-@:noCopy @:noEquals @:uextern extern class FGameModeName {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameModeName {
   
   /**
     GameMode class to load
   **/
-  public var GameMode : unreal.FStringClassReference;
+  @:uproperty public var GameMode : unreal.FStringClassReference;
   
   /**
     Abbreviation/prefix that can be used as an alias for the class name
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

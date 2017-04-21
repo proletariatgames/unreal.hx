@@ -19,7 +19,7 @@ package unreal.steamvr;
 **/
 @:umodule("SteamVR")
 @:glueCppIncludes("SteamVRFunctionLibrary.h")
-@:uextern extern class USteamVRFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class USteamVRFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Returns an array of the currently tracked device IDs
@@ -27,7 +27,7 @@ package unreal.steamvr;
     @param       DeviceType      Which class of device (e.g. controller, tracking devices) to get Device Ids for
     @param       OutTrackedDeviceIds     (out) Array containing the ID of each device that's currently tracked
   **/
-  static public function GetValidTrackedDeviceIds(DeviceType : unreal.steamvr.ESteamVRTrackedDeviceType, OutTrackedDeviceIds : unreal.PRef<unreal.TArray<unreal.Int32>>) : Void;
+  @:ufunction static public function GetValidTrackedDeviceIds(DeviceType : unreal.steamvr.ESteamVRTrackedDeviceType, OutTrackedDeviceIds : unreal.PRef<unreal.TArray<unreal.Int32>>) : Void;
   
   /**
     Gets the orientation and position (in device space) of the device with the specified ID
@@ -37,7 +37,7 @@ package unreal.steamvr;
     @param       OutOrientation  (out) Current orientation of the device
     @return      True if the specified device id had a valid tracking pose this frame, false otherwise
   **/
-  static public function GetTrackedDevicePositionAndOrientation(DeviceId : unreal.Int32, OutPosition : unreal.PRef<unreal.FVector>, OutOrientation : unreal.PRef<unreal.FRotator>) : Bool;
+  @:ufunction static public function GetTrackedDevicePositionAndOrientation(DeviceId : unreal.Int32, OutPosition : unreal.PRef<unreal.FVector>, OutOrientation : unreal.PRef<unreal.FRotator>) : Bool;
   
   /**
     Given a controller index and a hand, returns the position and orientation of the controller
@@ -48,6 +48,6 @@ package unreal.steamvr;
     @param       OutRotation             (out) Current rotation of the device
     @return      True if the specified controller index has a valid tracked device ID
   **/
-  static public function GetHandPositionAndOrientation(ControllerIndex : unreal.Int32, Hand : unreal.inputcore.EControllerHand, OutPosition : unreal.PRef<unreal.FVector>, OutOrientation : unreal.PRef<unreal.FRotator>) : Bool;
+  @:ufunction static public function GetHandPositionAndOrientation(ControllerIndex : unreal.Int32, Hand : unreal.inputcore.EControllerHand, OutPosition : unreal.PRef<unreal.FVector>, OutOrientation : unreal.PRef<unreal.FRotator>) : Bool;
   
 }

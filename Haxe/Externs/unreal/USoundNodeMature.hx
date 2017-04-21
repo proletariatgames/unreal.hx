@@ -21,6 +21,6 @@ package unreal;
   that have USoundWave::bMature=true should be played.
 **/
 @:glueCppIncludes("Sound/SoundNodeMature.h")
-@:uextern extern class USoundNodeMature extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeMature extends unreal.USoundNode {
   
 }

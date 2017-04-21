@@ -19,19 +19,19 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility_Montage.h")
-@:uextern extern class UGameplayAbility_Montage extends unreal.gameplayabilities.UGameplayAbility {
+@:uextern @:uclass extern class UGameplayAbility_Montage extends unreal.gameplayabilities.UGameplayAbility {
   
   /**
     Deprecated. Use GameplayEffectClassesWhileAnimating instead.
   **/
-  public var GameplayEffectsWhileAnimating : unreal.TArray<unreal.gameplayabilities.UGameplayEffect>;
+  @:uproperty public var GameplayEffectsWhileAnimating : unreal.TArray<unreal.gameplayabilities.UGameplayEffect>;
   
   /**
     GameplayEffects to apply and then remove while the animation is playing
   **/
-  public var GameplayEffectClassesWhileAnimating : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
-  public var SectionName : unreal.FName;
-  public var PlayRate : unreal.Float32;
-  public var MontageToPlay : unreal.UAnimMontage;
+  @:uproperty public var GameplayEffectClassesWhileAnimating : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
+  @:uproperty public var SectionName : unreal.FName;
+  @:uproperty public var PlayRate : unreal.Float32;
+  @:uproperty public var MontageToPlay : unreal.UAnimMontage;
   
 }

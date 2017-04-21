@@ -24,6 +24,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueTranslator.h")
-@:uextern extern class UGameplayCueTranslator extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayCueTranslator extends unreal.UObject {
   
 }

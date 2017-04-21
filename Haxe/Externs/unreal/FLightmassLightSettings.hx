@@ -20,22 +20,22 @@ package unreal;
   Per-light settings for Lightmass
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassLightSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassLightSettings {
   
   /**
     Whether to use area shadows for stationary light precomputed shadowmaps.
     Area shadows get softer the further they are from shadow casters, but require higher lightmap resolution to get the same quality where the shadow is sharp.
   **/
-  public var bUseAreaShadowsForStationaryLight : Bool;
+  @:uproperty public var bUseAreaShadowsForStationaryLight : Bool;
   
   /**
     Controls the falloff of shadow penumbras
   **/
-  public var ShadowExponent : unreal.Float32;
+  @:uproperty public var ShadowExponent : unreal.Float32;
   
   /**
     0 will be completely desaturated, 1 will be unchanged
   **/
-  public var IndirectLightingSaturation : unreal.Float32;
+  @:uproperty public var IndirectLightingSaturation : unreal.Float32;
   
 }

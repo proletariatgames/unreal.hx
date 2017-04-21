@@ -15,34 +15,34 @@ package unreal.aigraph;
 
 @:umodule("AIGraph")
 @:glueCppIncludes("AIGraphNode.h")
-@:uextern extern class UAIGraphNode extends unreal.UEdGraphNode {
+@:uextern @:uclass extern class UAIGraphNode extends unreal.UEdGraphNode {
   
   /**
     error message for node
   **/
-  public var ErrorMessage : unreal.FString;
+  @:uproperty public var ErrorMessage : unreal.FString;
   
   /**
     if set, this node will be always considered as subnode
   **/
-  public var bIsSubNode : Bool;
+  @:uproperty public var bIsSubNode : Bool;
   
   /**
     if set, all modifications (including delete/cut) are disabled
   **/
-  public var bIsReadOnly : Bool;
+  @:uproperty public var bIsReadOnly : Bool;
   
   /**
     subnode index assigned during copy operation to connect nodes again on paste
   **/
-  public var CopySubNodeIndex : unreal.Int32;
-  public var SubNodes : unreal.TArray<unreal.aigraph.UAIGraphNode>;
-  public var ParentNode : unreal.aigraph.UAIGraphNode;
-  public var NodeInstance : unreal.UObject;
+  @:uproperty public var CopySubNodeIndex : unreal.Int32;
+  @:uproperty public var SubNodes : unreal.TArray<unreal.aigraph.UAIGraphNode>;
+  @:uproperty public var ParentNode : unreal.aigraph.UAIGraphNode;
+  @:uproperty public var NodeInstance : unreal.UObject;
   
   /**
     instance class
   **/
-  public var ClassData : unreal.aigraph.FGraphNodeClassData;
+  @:uproperty public var ClassData : unreal.aigraph.FGraphNodeClassData;
   
 }

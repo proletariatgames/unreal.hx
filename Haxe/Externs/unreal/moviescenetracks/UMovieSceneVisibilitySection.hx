@@ -24,6 +24,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneVisibilitySection.h")
-@:uextern extern class UMovieSceneVisibilitySection extends unreal.moviescenetracks.UMovieSceneBoolSection {
+@:uextern @:uclass extern class UMovieSceneVisibilitySection extends unreal.moviescenetracks.UMovieSceneBoolSection {
   
 }

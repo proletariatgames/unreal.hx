@@ -19,6 +19,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateWidgetStyle.h")
-@:uextern extern class FSlateWidgetStyle {
+@:uextern @:ustruct extern class FSlateWidgetStyle {
   
 }

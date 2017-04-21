@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ECollisionEnabled.Type")
-@:uextern extern enum ECollisionEnabled {
+@:uextern @:uenum extern enum ECollisionEnabled {
   
   /**
     Will not create any representation in the physics engine. Cannot be used for spatial queries (raycasts, sweeps, overlaps) or simulation (rigid body, constraints). Best performance possible (especially for moving objects)

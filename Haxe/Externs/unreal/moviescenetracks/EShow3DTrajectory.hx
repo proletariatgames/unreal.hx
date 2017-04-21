@@ -20,7 +20,7 @@ package unreal.moviescenetracks;
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieScene3DTransformSection.h")
 @:uname("EShow3DTrajectory")
-@:class @:uextern extern enum EShow3DTrajectory {
+@:class @:uextern @:uenum extern enum EShow3DTrajectory {
   
   /**
     Only When Selected

@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/SubDSurfaceActor.h")
-@:uextern extern class ASubDSurfaceActor extends unreal.AActor {
+@:uextern @:uclass extern class ASubDSurfaceActor extends unreal.AActor {
   
 }

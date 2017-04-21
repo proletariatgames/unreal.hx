@@ -20,41 +20,41 @@ package unreal;
   Structure used for holding information for one animation played on the Anim Control track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackAnimControl.h")
-@:noCopy @:noEquals @:uextern extern class FAnimControlTrackKey {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimControlTrackKey {
   
   /**
     Whether to play the animation in reverse or not.
   **/
-  public var bReverse : Bool;
+  @:uproperty public var bReverse : Bool;
   
   /**
     Should this animation loop.
   **/
-  public var bLooping : Bool;
+  @:uproperty public var bLooping : Bool;
   
   /**
     Playback speed of this animation.
   **/
-  public var AnimPlayRate : unreal.Float32;
+  @:uproperty public var AnimPlayRate : unreal.Float32;
   
   /**
     Time to end playing the AnimSequence at.
   **/
-  public var AnimEndOffset : unreal.Float32;
+  @:uproperty public var AnimEndOffset : unreal.Float32;
   
   /**
     Time to start playing AnimSequence at.
   **/
-  public var AnimStartOffset : unreal.Float32;
+  @:uproperty public var AnimStartOffset : unreal.Float32;
   
   /**
     Animation Sequence to play
   **/
-  public var AnimSeq : unreal.UAnimSequence;
+  @:uproperty public var AnimSeq : unreal.UAnimSequence;
   
   /**
     Position in the Matinee sequence to start playing this animation.
   **/
-  public var StartTime : unreal.Float32;
+  @:uproperty public var StartTime : unreal.Float32;
   
 }

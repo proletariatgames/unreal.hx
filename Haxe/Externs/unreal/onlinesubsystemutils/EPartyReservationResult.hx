@@ -20,7 +20,7 @@ package unreal.onlinesubsystemutils;
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
 @:uname("EPartyReservationResult.Type")
-@:uextern extern enum EPartyReservationResult {
+@:uextern @:uenum extern enum EPartyReservationResult {
   
   /**
     Empty state.

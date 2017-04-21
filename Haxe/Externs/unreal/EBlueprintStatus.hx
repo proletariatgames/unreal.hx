@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
 @:uname("EBlueprintStatus")
-@:uextern extern enum EBlueprintStatus {
+@:uextern @:uenum extern enum EBlueprintStatus {
   
   /**
     Blueprint is in an unknown state.

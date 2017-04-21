@@ -15,47 +15,47 @@ package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_Fabrik.h")
-@:uextern extern class FAnimNode_Fabrik extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_Fabrik extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Toggle drawing of axes to debug joint rotation
   **/
-  public var bEnableDebugDraw : Bool;
+  @:uproperty public var bEnableDebugDraw : Bool;
   
   /**
     Maximum number of iterations allowed, to control performance.
   **/
-  public var MaxIterations : unreal.Int32;
+  @:uproperty public var MaxIterations : unreal.Int32;
   
   /**
     Tolerance for final tip location delta from EffectorLocation
   **/
-  public var Precision : unreal.Float32;
+  @:uproperty public var Precision : unreal.Float32;
   
   /**
     Name of the root bone
   **/
-  public var RootBone : unreal.FBoneReference;
+  @:uproperty public var RootBone : unreal.FBoneReference;
   
   /**
     Name of tip bone
   **/
-  public var TipBone : unreal.FBoneReference;
-  public var EffectorRotationSource : unreal.EBoneRotationSource;
+  @:uproperty public var TipBone : unreal.FBoneReference;
+  @:uproperty public var EffectorRotationSource : unreal.EBoneRotationSource;
   
   /**
     If EffectorTransformSpace is a bone, this is the bone to use. *
   **/
-  public var EffectorTransformBone : unreal.FBoneReference;
+  @:uproperty public var EffectorTransformBone : unreal.FBoneReference;
   
   /**
     Reference frame of Effector Transform.
   **/
-  public var EffectorTransformSpace : unreal.EBoneControlSpace;
+  @:uproperty public var EffectorTransformSpace : unreal.EBoneControlSpace;
   
   /**
     Coordinates for target location of tip bone - if EffectorLocationSpace is bone, this is the offset from Target Bone to use as target location
   **/
-  public var EffectorTransform : unreal.FTransform;
+  @:uproperty public var EffectorTransform : unreal.FTransform;
   
 }

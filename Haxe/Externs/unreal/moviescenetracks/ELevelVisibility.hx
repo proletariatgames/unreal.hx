@@ -20,7 +20,7 @@ package unreal.moviescenetracks;
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneLevelVisibilitySection.h")
 @:uname("ELevelVisibility")
-@:class @:uextern extern enum ELevelVisibility {
+@:class @:uextern @:uenum extern enum ELevelVisibility {
   
   /**
     The streamed levels should be visible.

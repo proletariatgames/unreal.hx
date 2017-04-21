@@ -22,6 +22,6 @@ package unreal;
           - support to share different animations
 **/
 @:glueCppIncludes("Animation/AssetMappingTable.h")
-@:uextern extern class UAssetMappingTable extends unreal.UObject {
+@:uextern @:uclass extern class UAssetMappingTable extends unreal.UObject {
   
 }

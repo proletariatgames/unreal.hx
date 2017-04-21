@@ -16,7 +16,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_SequenceEvaluator.h")
 @:uname("ESequenceEvalReinit.Type")
-@:uextern extern enum ESequenceEvalReinit {
+@:uextern @:uenum extern enum ESequenceEvalReinit {
   
   /**
     Do not reset InternalTimeAccumulator

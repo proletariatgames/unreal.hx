@@ -21,8 +21,8 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
-@:noCopy @:noEquals @:uextern extern class FAxis {
-  public var bInLocalSpace : Bool;
-  public var Axis : unreal.FVector;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAxis {
+  @:uproperty public var bInLocalSpace : Bool;
+  @:uproperty public var Axis : unreal.FVector;
   
 }

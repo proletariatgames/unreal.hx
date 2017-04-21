@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EShadowMapFlags")
-@:uextern extern enum EShadowMapFlags {
+@:uextern @:uenum extern enum EShadowMapFlags {
   
   /**
     No flags.

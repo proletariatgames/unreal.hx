@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Haptics/HapticFeedbackEffect_SoundWave.h")
-@:uextern extern class UHapticFeedbackEffect_SoundWave extends unreal.UHapticFeedbackEffect_Base {
-  public var SoundWave : unreal.USoundWave;
+@:uextern @:uclass extern class UHapticFeedbackEffect_SoundWave extends unreal.UHapticFeedbackEffect_Base {
+  @:uproperty public var SoundWave : unreal.USoundWave;
   
 }

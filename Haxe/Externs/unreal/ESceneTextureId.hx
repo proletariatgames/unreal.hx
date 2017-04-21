@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSceneTexture.h")
 @:uname("ESceneTextureId")
-@:uextern extern enum ESceneTextureId {
+@:uextern @:uenum extern enum ESceneTextureId {
   
   /**
     Scene color, normal post process passes should use PostProcessInput0

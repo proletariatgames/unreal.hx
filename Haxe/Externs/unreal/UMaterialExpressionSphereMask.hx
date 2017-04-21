@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSphereMask.h")
-@:noClass @:uextern extern class UMaterialExpressionSphereMask extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSphereMask extends unreal.UMaterialExpression {
   
   /**
     in percent 0%=soft .. 100%=hard
   **/
-  public var HardnessPercent : unreal.Float32;
+  @:uproperty public var HardnessPercent : unreal.Float32;
   
   /**
     in the unit that A and B are measured
   **/
-  public var AttenuationRadius : unreal.Float32;
+  @:uproperty public var AttenuationRadius : unreal.Float32;
   
   /**
     Defaults to 'HardnessPercent' if not specified
   **/
-  public var Hardness : unreal.FExpressionInput;
+  @:uproperty public var Hardness : unreal.FExpressionInput;
   
   /**
     Defaults to 'AttenuationRadius' if not specified
   **/
-  public var Radius : unreal.FExpressionInput;
+  @:uproperty public var Radius : unreal.FExpressionInput;
   
   /**
     1 to 4 dimensional vector, should be the same type as A
   **/
-  public var B : unreal.FExpressionInput;
+  @:uproperty public var B : unreal.FExpressionInput;
   
   /**
     1 to 4 dimensional vector, should be the same type as B
   **/
-  public var A : unreal.FExpressionInput;
+  @:uproperty public var A : unreal.FExpressionInput;
   
 }

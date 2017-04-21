@@ -18,24 +18,24 @@ package unreal;
   Defines a curve of interpolated points to evaluate over a given range
 **/
 @:glueCppIncludes("Curves/CurveBase.h")
-@:uextern extern class UCurveBase extends unreal.UObject {
+@:uextern @:uclass extern class UCurveBase extends unreal.UObject {
   
   /**
     Get the time range across all curves
   **/
-  @:thisConst @:final public function GetTimeRange(MinTime : unreal.Float32, MaxTime : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetTimeRange(MinTime : unreal.Float32, MaxTime : unreal.Float32) : Void;
   
   /**
     Get the value range across all curves
   **/
-  @:thisConst @:final public function GetValueRange(MinValue : unreal.Float32, MaxValue : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetValueRange(MinValue : unreal.Float32, MaxValue : unreal.Float32) : Void;
   #if WITH_EDITORONLY_DATA
   
   /**
     The filename imported to create this object. Relative to this object's package, BaseDir() or absolute
   **/
-  @:deprecated public var ImportPath_DEPRECATED : unreal.FString;
-  public var AssetImportData : unreal.UAssetImportData;
+  @:deprecated @:uproperty public var ImportPath_DEPRECATED : unreal.FString;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
 }

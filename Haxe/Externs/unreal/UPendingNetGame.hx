@@ -20,18 +20,18 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PendingNetGame.h")
-@:noClass @:uextern extern class UPendingNetGame extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPendingNetGame extends unreal.UObject {
   
   /**
     Demo Net driver created for loading demos, but we need to go through pending net game
     Transferred to world on successful connection
   **/
-  public var DemoNetDriver : unreal.UDemoNetDriver;
+  @:uproperty public var DemoNetDriver : unreal.UDemoNetDriver;
   
   /**
     Net driver created for contacting the new server
     Transferred to world on successful connection
   **/
-  public var NetDriver : unreal.UNetDriver;
+  @:uproperty public var NetDriver : unreal.UNetDriver;
   
 }

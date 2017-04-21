@@ -19,21 +19,21 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:uextern extern class FGameplayEffectAttributeCaptureDefinition {
+@:uextern @:ustruct extern class FGameplayEffectAttributeCaptureDefinition {
   
   /**
     Whether the attribute should be snapshotted or not
   **/
-  public var bSnapshot : Bool;
+  @:uproperty public var bSnapshot : Bool;
   
   /**
     Source of the gameplay attribute
   **/
-  public var AttributeSource : unreal.gameplayabilities.EGameplayEffectAttributeCaptureSource;
+  @:uproperty public var AttributeSource : unreal.gameplayabilities.EGameplayEffectAttributeCaptureSource;
   
   /**
     Gameplay attribute to capture
   **/
-  public var AttributeToCapture : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var AttributeToCapture : unreal.gameplayabilities.FGameplayAttribute;
   
 }

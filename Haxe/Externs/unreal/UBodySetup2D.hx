@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("PhysicsEngine/BodySetup2D.h")
-@:uextern extern class UBodySetup2D extends unreal.UBodySetup {
-  public var AggGeom2D : unreal.FAggregateGeometry2D;
+@:uextern @:uclass extern class UBodySetup2D extends unreal.UBodySetup {
+  @:uproperty public var AggGeom2D : unreal.FAggregateGeometry2D;
   
 }

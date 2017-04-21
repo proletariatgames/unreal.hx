@@ -19,28 +19,28 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionStimuliSourceComponent.h")
-@:uextern extern class UAIPerceptionStimuliSourceComponent extends unreal.UActorComponent {
-  private var RegisterAsSourceForSenses : unreal.TArray<unreal.TSubclassOf<unreal.aimodule.UAISense>>;
+@:uextern @:uclass extern class UAIPerceptionStimuliSourceComponent extends unreal.UActorComponent {
+  @:uproperty private var RegisterAsSourceForSenses : unreal.TArray<unreal.TSubclassOf<unreal.aimodule.UAISense>>;
   
   /**
     Registers owning actor as source of stimuli for senses specified in RegisterAsSourceForSenses.
         Note that you don't have to do it if bAutoRegisterAsSource == true
   **/
-  @:final public function RegisterWithPerceptionSystem() : Void;
+  @:ufunction @:final public function RegisterWithPerceptionSystem() : Void;
   
   /**
     Registers owning actor as source for specified sense class
   **/
-  @:final public function RegisterForSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
+  @:ufunction @:final public function RegisterForSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
   
   /**
     Unregister owning actor from being a source of sense stimuli
   **/
-  @:final public function UnregisterFromPerceptionSystem() : Void;
+  @:ufunction @:final public function UnregisterFromPerceptionSystem() : Void;
   
   /**
     Unregisters owning actor from sources list of a specified sense class
   **/
-  @:final public function UnregisterFromSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
+  @:ufunction @:final public function UnregisterFromSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
   
 }

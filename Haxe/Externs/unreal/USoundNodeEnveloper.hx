@@ -20,68 +20,68 @@ package unreal;
   Allows manipulation of volume and pitch over a set time period
 **/
 @:glueCppIncludes("Sound/SoundNodeEnveloper.h")
-@:uextern extern class USoundNodeEnveloper extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeEnveloper extends unreal.USoundNode {
   
   /**
     The upper bound of volume (1.0 is no change)
   **/
-  public var VolumeMax : unreal.Float32;
+  @:uproperty public var VolumeMax : unreal.Float32;
   
   /**
     The lower bound of volume (1.0 is no change)
   **/
-  public var VolumeMin : unreal.Float32;
+  @:uproperty public var VolumeMin : unreal.Float32;
   
   /**
     The upper bound of pitch (1.0 is no change)
   **/
-  public var PitchMax : unreal.Float32;
+  @:uproperty public var PitchMax : unreal.Float32;
   
   /**
     The lower bound of pitch (1.0 is no change)
   **/
-  public var PitchMin : unreal.Float32;
+  @:uproperty public var PitchMin : unreal.Float32;
   
   /**
     The distribution defining the pitch envelope.
   **/
-  public var PitchCurve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var PitchCurve : unreal.FRuntimeFloatCurve;
   
   /**
     The distribution defining the volume envelope.
   **/
-  public var VolumeCurve : unreal.FRuntimeFloatCurve;
-  @:deprecated public var PitchInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
-  @:deprecated public var VolumeInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
+  @:uproperty public var VolumeCurve : unreal.FRuntimeFloatCurve;
+  @:deprecated @:uproperty public var PitchInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
+  @:deprecated @:uproperty public var VolumeInterpCurve_DEPRECATED : unreal.UDistributionFloatConstantCurve;
   
   /**
     If enabled, the envelope will loop using the loop settings.
   **/
-  public var bLoop : Bool;
+  @:uproperty public var bLoop : Bool;
   
   /**
     If enabled, the envelope will continue to loop indefenitely regardless of the Loop Count value.
   **/
-  public var bLoopIndefinitely : Bool;
+  @:uproperty public var bLoopIndefinitely : Bool;
   
   /**
     The number of times the envelope should loop if looping is enabled and the envelope is not set to loop indefinitely.
   **/
-  public var LoopCount : unreal.Int32;
+  @:uproperty public var LoopCount : unreal.Int32;
   
   /**
     The time in seconds it takes the evelope to fade out after the last loop is completed.
   **/
-  public var DurationAfterLoop : unreal.Float32;
+  @:uproperty public var DurationAfterLoop : unreal.Float32;
   
   /**
     The time in seconds where the envelope's loop ends.
   **/
-  public var LoopEnd : unreal.Float32;
+  @:uproperty public var LoopEnd : unreal.Float32;
   
   /**
     The time in seconds where the envelope's loop begins.
   **/
-  public var LoopStart : unreal.Float32;
+  @:uproperty public var LoopStart : unreal.Float32;
   
 }

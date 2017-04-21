@@ -20,32 +20,32 @@ package unreal;
   this is anim segment that defines what animation and how *
 **/
 @:glueCppIncludes("Animation/AnimCompositeBase.h")
-@:noCopy @:noEquals @:uextern extern class FAnimSegment {
-  public var LoopingCount : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSegment {
+  @:uproperty public var LoopingCount : unreal.Int32;
   
   /**
     Playback speed of this animation. If you'd like to reverse, set -1
   **/
-  public var AnimPlayRate : unreal.Float32;
+  @:uproperty public var AnimPlayRate : unreal.Float32;
   
   /**
     Time to end playing the AnimSequence at.
   **/
-  public var AnimEndTime : unreal.Float32;
+  @:uproperty public var AnimEndTime : unreal.Float32;
   
   /**
     Time to start playing AnimSequence at.
   **/
-  public var AnimStartTime : unreal.Float32;
+  @:uproperty public var AnimStartTime : unreal.Float32;
   
   /**
     Start Pos within this AnimCompositeBase
   **/
-  public var StartPos : unreal.Float32;
+  @:uproperty public var StartPos : unreal.Float32;
   
   /**
     Anim Reference to play - only allow AnimSequence or AnimComposite *
   **/
-  public var AnimReference : unreal.UAnimSequenceBase;
+  @:uproperty public var AnimReference : unreal.UAnimSequenceBase;
   
 }

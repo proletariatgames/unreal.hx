@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EMouseCursor.Type")
-@:uextern extern enum EMouseCursor {
+@:uextern @:uenum extern enum EMouseCursor {
   
   /**
     Causes no mouse cursor to be visible.

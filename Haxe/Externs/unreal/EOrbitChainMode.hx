@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/Orbit/ParticleModuleOrbit.h")
 @:uname("EOrbitChainMode")
-@:uextern extern enum EOrbitChainMode {
+@:uextern @:uenum extern enum EOrbitChainMode {
   
   /**
     Add the module values to the previous results

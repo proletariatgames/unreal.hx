@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionPreSkinnedPosition.h")
-@:uextern extern class UMaterialExpressionPreSkinnedPosition extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionPreSkinnedPosition extends unreal.UMaterialExpression {
   
 }

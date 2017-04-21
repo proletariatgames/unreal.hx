@@ -19,8 +19,8 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileSet.h")
-@:uextern extern class FPaperTileSetTerrain {
-  public var CenterTileIndex : unreal.Int32;
-  public var TerrainName : unreal.FString;
+@:uextern @:ustruct extern class FPaperTileSetTerrain {
+  @:uproperty public var CenterTileIndex : unreal.Int32;
+  @:uproperty public var TerrainName : unreal.FString;
   
 }

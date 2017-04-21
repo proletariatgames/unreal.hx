@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:noCopy @:noEquals @:uextern extern class FNameMapping {
-  public var BoneName : unreal.FName;
-  public var NodeName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNameMapping {
+  @:uproperty public var BoneName : unreal.FName;
+  @:uproperty public var NodeName : unreal.FName;
   
 }

@@ -19,26 +19,26 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorProjectSettings.h")
-@:uextern extern class ULevelEditor2DSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class ULevelEditor2DSettings extends unreal.UDeveloperSettings {
   
   /**
     Snap layers that are displayed in the viewport toolbar
   **/
-  public var SnapLayers : unreal.TArray<unreal.editor.FMode2DLayer>;
+  @:uproperty public var SnapLayers : unreal.TArray<unreal.editor.FMode2DLayer>;
   
   /**
     Snap axis
   **/
-  public var SnapAxis : unreal.editor.ELevelEditor2DAxis;
+  @:uproperty public var SnapAxis : unreal.editor.ELevelEditor2DAxis;
   
   /**
     If enabled will allow 2D mode
   **/
-  public var bEnableSnapLayers : Bool;
+  @:uproperty public var bEnableSnapLayers : Bool;
   
   /**
     If enabled will allow 2D mode
   **/
-  public var bEnable2DWidget : Bool;
+  @:uproperty public var bEnable2DWidget : Bool;
   
 }

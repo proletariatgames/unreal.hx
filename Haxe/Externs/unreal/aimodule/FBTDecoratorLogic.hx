@@ -21,8 +21,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
-@:noCopy @:noEquals @:uextern extern class FBTDecoratorLogic {
-  public var Number : unreal.UInt16;
-  public var Operation : unreal.aimodule.EBTDecoratorLogic;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBTDecoratorLogic {
+  @:uproperty public var Number : unreal.UInt16;
+  @:uproperty public var Operation : unreal.aimodule.EBTDecoratorLogic;
   
 }

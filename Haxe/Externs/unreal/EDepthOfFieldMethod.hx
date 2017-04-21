@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Scene.h")
 @:uname("EDepthOfFieldMethod")
-@:uextern extern enum EDepthOfFieldMethod {
+@:uextern @:uenum extern enum EDepthOfFieldMethod {
   
   /**
     BokehDOF

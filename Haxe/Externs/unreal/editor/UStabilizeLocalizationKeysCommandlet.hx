@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/StabilizeLocalizationKeys.h")
-@:noClass @:uextern extern class UStabilizeLocalizationKeysCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UStabilizeLocalizationKeysCommandlet extends unreal.UCommandlet {
   
 }

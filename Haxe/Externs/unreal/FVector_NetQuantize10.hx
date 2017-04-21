@@ -24,6 +24,6 @@ package unreal;
   Valid range: 2^24 / 10 = +/- 1,677,721.6
 **/
 @:glueCppIncludes("Engine/NetSerialization.h")
-@:noCopy @:noEquals @:uextern extern class FVector_NetQuantize10 extends unreal.FVector {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVector_NetQuantize10 extends unreal.FVector {
   
 }

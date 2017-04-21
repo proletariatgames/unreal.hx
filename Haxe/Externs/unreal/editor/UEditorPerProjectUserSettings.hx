@@ -21,146 +21,146 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/EditorPerProjectUserSettings.h")
-@:uextern extern class UEditorPerProjectUserSettings extends unreal.UObject {
-  public var MaterialQualityLevel : unreal.Int32;
+@:uextern @:uclass extern class UEditorPerProjectUserSettings extends unreal.UObject {
+  @:uproperty public var MaterialQualityLevel : unreal.Int32;
   
   /**
     Per project user settings for which asset viewer profile should be used
   **/
-  public var AssetViewerProfileIndex : unreal.Int32;
-  public var BlueprintFavorites : unreal.kismet.UBlueprintPaletteFavorites;
+  @:uproperty public var AssetViewerProfileIndex : unreal.Int32;
+  @:uproperty public var BlueprintFavorites : unreal.kismet.UBlueprintPaletteFavorites;
   
   /**
     True if user should be allowed to select translucent objects in perspective viewports
   **/
-  public var bAllowSelectTranslucent : Bool;
+  @:uproperty public var bAllowSelectTranslucent : Bool;
   
   /**
     If this is true, the user will not be asked to fully load a package before saving or before creating a new object
   **/
-  public var bSuppressFullyLoadPrompt : Bool;
+  @:uproperty public var bSuppressFullyLoadPrompt : Bool;
   
   /**
     Controls whether packages which are checked-out are automatically fully loaded at startup
   **/
-  public var bAutoloadCheckedOutPackages : Bool;
+  @:uproperty public var bAutoloadCheckedOutPackages : Bool;
   
   /**
     How fast the SCS viewport camera moves
   **/
-  public var SCSViewportCameraSpeed : unreal.Int32;
-  public var bSCSEditorShowFloor : Bool;
-  public var bSCSEditorShowGrid : Bool;
+  @:uproperty public var SCSViewportCameraSpeed : unreal.Int32;
+  @:uproperty public var bSCSEditorShowFloor : Bool;
+  @:uproperty public var bSCSEditorShowGrid : Bool;
   
   /**
     Controls the minimum value at which the property matrix editor will display a loading bar when pasting values
   **/
-  public var PropertyMatrix_NumberOfPasteOperationsBeforeWarning : unreal.Int32;
+  @:uproperty public var PropertyMatrix_NumberOfPasteOperationsBeforeWarning : unreal.Int32;
   
   /**
     Select to make Distributions use the curves, not the baked lookup tables.
   **/
-  public var bUseCurvesForDistributions : Bool;
+  @:uproperty public var bUseCurvesForDistributions : Bool;
   
   /**
     If enabled, FBX export level will export collision mesh with UCX_ as a name suffix.
   **/
-  public var bFbxExportCollisionMesh : Bool;
+  @:uproperty public var bFbxExportCollisionMesh : Bool;
   
   /**
     This will set the fbx sdk compatibility when exporting to fbx file. The default value is 2013
   **/
-  public var FbxExportCompatibility : unreal.editor.EFbxExportCompatibility;
+  @:uproperty public var FbxExportCompatibility : unreal.editor.EFbxExportCompatibility;
   
   /**
     Map skeletal actor motion to the root bone of the skeleton.
   **/
-  public var bMapSkeletalMotionToRoot : Bool;
+  @:uproperty public var bMapSkeletalMotionToRoot : Bool;
   
   /**
     If enabled, export level with attachment hierarchy set
   **/
-  public var bKeepAttachHierarchy : Bool;
+  @:uproperty public var bKeepAttachHierarchy : Bool;
   
   /**
     If enabled, the compile message log window will open if there is a compiler error on Hot Reload
   **/
-  public var bShowCompilerLogOnCompileError : Bool;
+  @:uproperty public var bShowCompilerLogOnCompileError : Bool;
   
   /**
     If enabled, any newly added classes will be automatically compiled and trigger a hot-reload of the module they were added to
   **/
-  public var bAutomaticallyHotReloadNewClasses : Bool;
+  @:uproperty public var bAutomaticallyHotReloadNewClasses : Bool;
   
   /**
     When turned on, the editor will constantly monitor performance and adjust scalability settings for you when performance drops (disabled in debug)
   **/
-  public var bMonitorEditorPerformance : Bool;
+  @:uproperty public var bMonitorEditorPerformance : Bool;
   
   /**
     Lowers CPU usage when the editor is in the background and not the active application
   **/
-  public var bThrottleCPUWhenNotForeground : Bool;
+  @:uproperty public var bThrottleCPUWhenNotForeground : Bool;
   
   /**
     When enabled, the application frame rate, memory and Unreal object count will be displayed in the main editor UI
   **/
-  public var bShowFrameRateAndMemory : Bool;
+  @:uproperty public var bShowFrameRateAndMemory : Bool;
   
   /**
     Folder in which Simplygon Swarm will store intermediate texture and mesh data that is uploaded to the Swarm
   **/
-  public var SwarmIntermediateFolder : unreal.FString;
-  public var SwarmMaxUploadChunkSizeInMB : unreal.FakeUInt32;
+  @:uproperty public var SwarmIntermediateFolder : unreal.FString;
+  @:uproperty public var SwarmMaxUploadChunkSizeInMB : unreal.FakeUInt32;
   
   /**
     Number of concurrent swarm jobs to execute. This is independent of the main job queue.
   **/
-  public var SwarmNumOfConcurrentJobs : unreal.FakeUInt32;
+  @:uproperty public var SwarmNumOfConcurrentJobs : unreal.FakeUInt32;
   
   /**
     Time between JSON net requests for Simplygon Swarm
   **/
-  public var SimplygonSwarmDelay : unreal.FakeUInt32;
+  @:uproperty public var SimplygonSwarmDelay : unreal.FakeUInt32;
   
   /**
     Enable swarm debugging features. Temp ssf files are not removed. Detailed message printing
   **/
-  public var bEnableSwarmDebugging : Bool;
+  @:uproperty public var bEnableSwarmDebugging : Bool;
   
   /**
     Server IP for the distributed Simplygon server
   **/
-  public var SimplygonServerIP : unreal.FString;
+  @:uproperty public var SimplygonServerIP : unreal.FString;
   
   /**
     When enabled, use SimplygonSwarm Module / server to create proxies
   **/
-  public var bUseSimplygonSwarm : Bool;
+  @:uproperty public var bUseSimplygonSwarm : Bool;
   
   /**
     When enabled, Engine Version Number is displayed in the ProjectBadge
   **/
-  public var bDisplayEngineVersionInBadge : Bool;
+  @:uproperty public var bDisplayEngineVersionInBadge : Bool;
   
   /**
     If enabled, behavior tree debugger will collect its data even when all behavior tree editor windows are closed
   **/
-  public var bAlwaysGatherBehaviorTreeDebuggerData : Bool;
+  @:uproperty public var bAlwaysGatherBehaviorTreeDebuggerData : Bool;
   
   /**
     , Category=DeveloperTools
   **/
-  public var bDisplayActionListItemRefIds : Bool;
+  @:uproperty public var bDisplayActionListItemRefIds : Bool;
   
   /**
     If enabled, tooltips linked to documentation will show the developer the link bound to that UI item
   **/
-  public var bDisplayDocumentationLink : Bool;
+  @:uproperty public var bDisplayDocumentationLink : Bool;
   
   /**
     If enabled, any newly opened UI menus, menu bars, and toolbars will show the developer hooks that would accept extensions
   **/
-  public var bDisplayUIExtensionPoints : Bool;
+  @:uproperty public var bDisplayUIExtensionPoints : Bool;
   
 }

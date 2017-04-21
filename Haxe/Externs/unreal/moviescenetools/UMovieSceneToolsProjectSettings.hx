@@ -19,66 +19,66 @@ package unreal.moviescenetools;
 **/
 @:umodule("MovieSceneTools")
 @:glueCppIncludes("MovieSceneToolsProjectSettings.h")
-@:uextern extern class UMovieSceneToolsProjectSettings extends unreal.UObject {
+@:uextern @:uclass extern class UMovieSceneToolsProjectSettings extends unreal.UObject {
   
   /**
     Mapping between fbx property name and property track path
   **/
-  public var FbxSettings : unreal.TArray<unreal.moviescenetools.FMovieSceneToolsFbxSettings>;
+  @:uproperty public var FbxSettings : unreal.TArray<unreal.moviescenetools.FMovieSceneToolsFbxSettings>;
   
   /**
     A single character separator between the take number and the sub sequence name.
   **/
-  public var SubSequenceSeparator : unreal.FString;
+  @:uproperty public var SubSequenceSeparator : unreal.FString;
   
   /**
     A single character separator between the shot number and the take number.
   **/
-  public var TakeSeparator : unreal.FString;
+  @:uproperty public var TakeSeparator : unreal.FString;
   
   /**
     The first take number.
   **/
-  public var FirstTakeNumber : unreal.FakeUInt32;
+  @:uproperty public var FirstTakeNumber : unreal.FakeUInt32;
   
   /**
     The number of digits for the take number.
   **/
-  public var TakeNumDigits : unreal.FakeUInt32;
+  @:uproperty public var TakeNumDigits : unreal.FakeUInt32;
   
   /**
     The number of digits for the shot number.
   **/
-  public var ShotNumDigits : unreal.FakeUInt32;
+  @:uproperty public var ShotNumDigits : unreal.FakeUInt32;
   
   /**
     The default shot increment.
   **/
-  public var ShotIncrement : unreal.FakeUInt32;
+  @:uproperty public var ShotIncrement : unreal.FakeUInt32;
   
   /**
     The first shot number.
   **/
-  public var FirstShotNumber : unreal.FakeUInt32;
+  @:uproperty public var FirstShotNumber : unreal.FakeUInt32;
   
   /**
     The default prefix for shot names.
   **/
-  public var ShotPrefix : unreal.FString;
+  @:uproperty public var ShotPrefix : unreal.FString;
   
   /**
     The default directory for the shots.
   **/
-  public var ShotDirectory : unreal.FString;
+  @:uproperty public var ShotDirectory : unreal.FString;
   
   /**
     The default duration for new level sequences in seconds.
   **/
-  public var DefaultDuration : unreal.Float32;
+  @:uproperty public var DefaultDuration : unreal.Float32;
   
   /**
     The default start time for new level sequences, in seconds.
   **/
-  public var DefaultStartTime : unreal.Float32;
+  @:uproperty public var DefaultStartTime : unreal.Float32;
   
 }

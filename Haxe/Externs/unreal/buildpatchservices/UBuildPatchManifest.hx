@@ -21,19 +21,19 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
-@:noClass @:uextern extern class UBuildPatchManifest extends unreal.UObject {
-  public var CustomFields : unreal.TArray<unreal.buildpatchservices.FCustomFieldData>;
-  public var ChunkList : unreal.TArray<unreal.buildpatchservices.FChunkInfoData>;
-  public var FileManifestList : unreal.TArray<unreal.buildpatchservices.FFileManifestData>;
-  public var PrereqArgs : unreal.FString;
-  public var PrereqPath : unreal.FString;
-  public var PrereqName : unreal.FString;
-  public var LaunchCommand : unreal.FString;
-  public var LaunchExe : unreal.FString;
-  public var BuildVersion : unreal.FString;
-  public var AppName : unreal.FString;
-  public var AppID : unreal.FakeUInt32;
-  public var bIsFileData : Bool;
-  public var ManifestFileVersion : unreal.UInt8;
+@:noClass @:uextern @:uclass extern class UBuildPatchManifest extends unreal.UObject {
+  @:uproperty public var CustomFields : unreal.TArray<unreal.buildpatchservices.FCustomFieldData>;
+  @:uproperty public var ChunkList : unreal.TArray<unreal.buildpatchservices.FChunkInfoData>;
+  @:uproperty public var FileManifestList : unreal.TArray<unreal.buildpatchservices.FFileManifestData>;
+  @:uproperty public var PrereqArgs : unreal.FString;
+  @:uproperty public var PrereqPath : unreal.FString;
+  @:uproperty public var PrereqName : unreal.FString;
+  @:uproperty public var LaunchCommand : unreal.FString;
+  @:uproperty public var LaunchExe : unreal.FString;
+  @:uproperty public var BuildVersion : unreal.FString;
+  @:uproperty public var AppName : unreal.FString;
+  @:uproperty public var AppID : unreal.FakeUInt32;
+  @:uproperty public var bIsFileData : Bool;
+  @:uproperty public var ManifestFileVersion : unreal.UInt8;
   
 }

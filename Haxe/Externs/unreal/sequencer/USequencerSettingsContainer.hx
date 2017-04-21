@@ -21,6 +21,6 @@ package unreal.sequencer;
 **/
 @:umodule("Sequencer")
 @:glueCppIncludes("SequencerSettings.h")
-@:noClass @:uextern extern class USequencerSettingsContainer extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USequencerSettingsContainer extends unreal.UObject {
   
 }

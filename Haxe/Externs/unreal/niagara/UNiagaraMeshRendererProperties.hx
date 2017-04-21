@@ -21,7 +21,7 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraMeshRendererProperties.h")
-@:noClass @:uextern extern class UNiagaraMeshRendererProperties extends unreal.niagara.UNiagaraEffectRendererProperties {
-  public var ParticleMesh : unreal.UStaticMesh;
+@:noClass @:uextern @:uclass extern class UNiagaraMeshRendererProperties extends unreal.niagara.UNiagaraEffectRendererProperties {
+  @:uproperty public var ParticleMesh : unreal.UStaticMesh;
   
 }

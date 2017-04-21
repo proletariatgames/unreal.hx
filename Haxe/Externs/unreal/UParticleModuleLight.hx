@@ -20,50 +20,50 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Light/ParticleModuleLight.h")
-@:uextern extern class UParticleModuleLight extends unreal.UParticleModuleLightBase {
-  public var bShadowCastingLights : Bool;
-  public var bHighQualityLights : Bool;
+@:uextern @:uclass extern class UParticleModuleLight extends unreal.UParticleModuleLightBase {
+  @:uproperty public var bShadowCastingLights : Bool;
+  @:uproperty public var bHighQualityLights : Bool;
   
   /**
     Provides the light's exponent when inverse squared falloff is disabled.
   **/
-  public var LightExponent : unreal.FRawDistributionFloat;
+  @:uproperty public var LightExponent : unreal.FRawDistributionFloat;
   
   /**
     Scales the particle's radius, to calculate the light's radius.
   **/
-  public var RadiusScale : unreal.FRawDistributionFloat;
+  @:uproperty public var RadiusScale : unreal.FRawDistributionFloat;
   
   /**
     Brightness scale for the light, which can be setup as a curve over the particle's lifetime.
   **/
-  public var BrightnessOverLife : unreal.FRawDistributionFloat;
+  @:uproperty public var BrightnessOverLife : unreal.FRawDistributionFloat;
   
   /**
     Scale that is applied to the particle's color to calculate the light's color, and can be setup as a curve over the particle's lifetime.
   **/
-  public var ColorScaleOverLife : unreal.FRawDistributionVector;
+  @:uproperty public var ColorScaleOverLife : unreal.FRawDistributionVector;
   
   /**
     Fraction of particles in this emitter to create lights on.
   **/
-  public var SpawnFraction : unreal.Float32;
+  @:uproperty public var SpawnFraction : unreal.Float32;
   
   /**
     Will draw wireframe spheres to preview the light radius if enabled.
     Note: this is intended for previewing and the value will not be saved, it will always revert to disabled.
   **/
-  public var bPreviewLightRadius : Bool;
+  @:uproperty public var bPreviewLightRadius : Bool;
   
   /**
     Whether lights from this module should affect translucency.
     Use with caution.  Modules enabling this should only make a few particle lights at most, and the smaller they are, the less they will cost.
   **/
-  public var bAffectsTranslucency : Bool;
+  @:uproperty public var bAffectsTranslucency : Bool;
   
   /**
     Whether to use physically based inverse squared falloff from the light.  If unchecked, the LightExponent distribution will be used instead.
   **/
-  public var bUseInverseSquaredFalloff : Bool;
+  @:uproperty public var bUseInverseSquaredFalloff : Bool;
   
 }

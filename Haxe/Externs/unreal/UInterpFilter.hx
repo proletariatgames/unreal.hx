@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpFilter.h")
-@:noClass @:uextern extern class UInterpFilter extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UInterpFilter extends unreal.UObject {
   
   /**
     Caption for this filter.
   **/
-  public var Caption : unreal.FString;
+  @:uproperty public var Caption : unreal.FString;
   
 }

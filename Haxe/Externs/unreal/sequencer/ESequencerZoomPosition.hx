@@ -16,7 +16,7 @@ package unreal.sequencer;
 @:umodule("Sequencer")
 @:glueCppIncludes("SequencerSettings.h")
 @:uname("ESequencerZoomPosition")
-@:uextern extern enum ESequencerZoomPosition {
+@:uextern @:uenum extern enum ESequencerZoomPosition {
   
   /**
     Current Time.

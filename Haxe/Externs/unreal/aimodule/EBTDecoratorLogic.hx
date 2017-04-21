@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
 @:uname("EBTDecoratorLogic.Type")
-@:uextern extern enum EBTDecoratorLogic {
+@:uextern @:uenum extern enum EBTDecoratorLogic {
   Invalid;
   
   /**

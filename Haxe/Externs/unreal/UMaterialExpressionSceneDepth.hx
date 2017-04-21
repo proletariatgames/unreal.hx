@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSceneDepth.h")
-@:noClass @:uextern extern class UMaterialExpressionSceneDepth extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSceneDepth extends unreal.UMaterialExpression {
   
   /**
     only used if Input is not hooked up
   **/
-  public var ConstInput : unreal.FVector2D;
-  @:deprecated public var Coordinates_DEPRECATED : unreal.FExpressionInput;
+  @:uproperty public var ConstInput : unreal.FVector2D;
+  @:deprecated @:uproperty public var Coordinates_DEPRECATED : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstInput' if not specified
   **/
-  public var Input : unreal.FExpressionInput;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
   /**
     Coordinates - UV coordinates to apply to the scene depth lookup.
     OffsetFraction - An offset to apply to the scene depth lookup in a 2d fraction of the screen.
   **/
-  public var InputMode : unreal.EMaterialSceneAttributeInputMode;
+  @:uproperty public var InputMode : unreal.EMaterialSceneAttributeInputMode;
   
 }

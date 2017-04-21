@@ -20,12 +20,12 @@ package unreal;
   ShapeComponents generate geometry that is used for collision detection but are not rendered, while StaticMeshComponents and SkeletalMeshComponents contain pre-built geometry that is rendered, but can also be used for collision detection.
 **/
 @:glueCppIncludes("Components/PrimitiveComponent.h")
-@:uextern extern class UPrimitiveComponent extends unreal.USceneComponent implements unreal.INavRelevantInterface {
+@:uextern @:uclass extern class UPrimitiveComponent extends unreal.USceneComponent implements unreal.INavRelevantInterface {
   
   /**
     Tick function for physics ticking *
   **/
-  public var PostPhysicsComponentTick : unreal.FPrimitiveComponentPostPhysicsTickFunction;
+  @:uproperty public var PostPhysicsComponentTick : unreal.FPrimitiveComponentPostPhysicsTickFunction;
   
   /**
     Set of components to ignore during component sweeps in MoveComponent().
@@ -34,7 +34,7 @@ package unreal;
     Does not affect movement of this component when simulating physics.
     @see IgnoreComponentWhenMoving()
   **/
-  public var MoveIgnoreComponents : unreal.TArray<unreal.UPrimitiveComponent>;
+  @:uproperty public var MoveIgnoreComponents : unreal.TArray<unreal.UPrimitiveComponent>;
   
   /**
     Set of actors to ignore during component sweeps in MoveComponent().
@@ -43,27 +43,27 @@ package unreal;
     Does not affect movement of this component when simulating physics.
     @see IgnoreActorWhenMoving()
   **/
-  public var MoveIgnoreActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var MoveIgnoreActors : unreal.TArray<unreal.AActor>;
   
   /**
     Determine whether a Character can step up onto this component.
     This controls whether they can try to step up on it when they bump in to it, not whether they can walk on it after landing on it.
     @see FWalkableSlopeOverride
   **/
-  public var CanCharacterStepUpOn : unreal.ECanBeCharacterBase;
-  public var LastRenderTimeOnScreen : unreal.Float32;
+  @:uproperty public var CanCharacterStepUpOn : unreal.ECanBeCharacterBase;
+  @:uproperty public var LastRenderTimeOnScreen : unreal.Float32;
   
   /**
     The value of WorldSettings->TimeSeconds for the frame when this component was last rendered.  This is written
     from the render thread, which is up to a frame behind the game thread, so you should allow this time to
     be at least a frame behind the game thread's world time before you consider the actor non-visible.
   **/
-  public var LastRenderTime : unreal.Float32;
+  @:uproperty public var LastRenderTime : unreal.Float32;
   
   /**
     Last time the component was submitted for rendering (called FScene::AddPrimitive).
   **/
-  public var LastSubmitTime : unreal.Float32;
+  @:uproperty public var LastSubmitTime : unreal.Float32;
   
   /**
     Scales the bounds of the object.
@@ -71,29 +71,29 @@ package unreal;
     Warning: Increasing the bounds of an object will reduce performance and shadow quality!
     Currently only used by StaticMeshComponent and SkeletalMeshComponent.
   **/
-  public var BoundsScale : unreal.Float32;
+  @:uproperty public var BoundsScale : unreal.Float32;
   
   /**
     If true then DoCustomNavigableGeometryExport will be called to collect navigable geometry of this component.
   **/
-  private var bHasCustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
+  @:uproperty private var bHasCustomNavigableGeometry : unreal.EHasCustomNavigableGeometry;
   
   /**
     Physics scene information for this component, holds a single rigid body with multiple shapes.
   **/
-  public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance : unreal.FBodyInstance;
   
   /**
     Multiplier used to scale the Light Propagation Volume light injection bias, to reduce light bleeding.
     Set to 0 for no bias, 1 for default or higher for increased biasing (e.g. for
     thin geometry such as walls)
   **/
-  public var LpvBiasMultiplier : unreal.Float32;
+  @:uproperty public var LpvBiasMultiplier : unreal.Float32;
   
   /**
     Used for precomputed visibility
   **/
-  public var VisibilityId : unreal.Int32;
+  @:uproperty public var VisibilityId : unreal.Int32;
   
   /**
     Translucent objects with a lower sort priority draw behind objects with a higher priority.
@@ -103,244 +103,244 @@ package unreal;
     Warning: This should never be set to a non-default value unless you know what you are doing, as it will prevent the renderer from sorting correctly.
     It is especially problematic on dynamic gameplay effects.
   **/
-  public var TranslucencySortPriority : unreal.Int32;
+  @:uproperty public var TranslucencySortPriority : unreal.Int32;
   
   /**
     Optionally write this 0-255 value to the stencil buffer in CustomDepth pass (Requires project setting or r.CustomDepth == 3)
   **/
-  public var CustomDepthStencilValue : unreal.Int32;
+  @:uproperty public var CustomDepthStencilValue : unreal.Int32;
   
   /**
     If true, this component will be rendered in the CustomDepth pass (usually used for outlines)
   **/
-  public var bRenderCustomDepth : Bool;
+  @:uproperty public var bRenderCustomDepth : Bool;
   
   /**
     Composite the drawing of this component onto the scene after post processing (only applies to editor drawing)
   **/
-  public var bUseEditorCompositing : Bool;
+  @:uproperty public var bUseEditorCompositing : Bool;
   
   /**
     If this is True, this component must always be loaded on servers, even if Hidden and CollisionEnabled is NoCollision
   **/
-  public var AlwaysLoadOnServer : Bool;
+  @:uproperty public var AlwaysLoadOnServer : Bool;
   
   /**
     If this is True, this component must always be loaded on clients, even if Hidden and CollisionEnabled is NoCollision.
   **/
-  public var AlwaysLoadOnClient : Bool;
+  @:uproperty public var AlwaysLoadOnClient : Bool;
   
   /**
     Will ignore radial forces applied to this component.
   **/
-  public var bIgnoreRadialForce : Bool;
+  @:uproperty public var bIgnoreRadialForce : Bool;
   
   /**
     Will ignore radial impulses applied to this component.
   **/
-  public var bIgnoreRadialImpulse : Bool;
+  @:uproperty public var bIgnoreRadialImpulse : Bool;
   
   /**
     Channels that this component should be in.  Lights with matching channels will affect the component.
     These channels only apply to opaque materials, direct lighting, and dynamic lighting and shadowing.
   **/
-  public var LightingChannels : unreal.FLightingChannels;
+  @:uproperty public var LightingChannels : unreal.FLightingChannels;
   
   /**
     Whether the whole component should be shadowed as one from stationary lights, which makes shadow receiving much cheaper.
     When enabled shadowing data comes from the volume lighting samples precomputed by Lightmass, which are very sparse.
     This is currently only used on stationary directional lights.
   **/
-  public var bSingleSampleShadowFromStationaryLights : Bool;
+  @:uproperty public var bSingleSampleShadowFromStationaryLights : Bool;
   
   /**
     Mobile only:
     If enabled this component can receive combined static and CSM shadows from a stationary light. (Enabling will increase shading cost.)
     If disabled this component will only receive static shadows from stationary lights.
   **/
-  public var bReceiveCombinedCSMAndStaticShadowsFromStationaryLights : Bool;
+  @:uproperty public var bReceiveCombinedCSMAndStaticShadowsFromStationaryLights : Bool;
   
   /**
     Quality of indirect lighting for Movable primitives.  This has a large effect on Indirect Lighting Cache update time.
   **/
-  public var IndirectLightingCacheQuality : unreal.EIndirectLightingCacheQuality;
+  @:uproperty public var IndirectLightingCacheQuality : unreal.EIndirectLightingCacheQuality;
   
   /**
     Whether to light this component and any attachments as a group.  This only has effect on the root component of an attachment tree.
     When enabled, attached component shadowing settings like bCastInsetShadow, bCastVolumetricTranslucentShadow, etc, will be ignored.
     This is useful for improving performance when multiple movable components are attached together.
   **/
-  public var bLightAttachmentsAsGroup : Bool;
+  @:uproperty public var bLightAttachmentsAsGroup : Bool;
   
   /**
     Whether to light this primitive as if it were static, including generating lightmaps.
     This only has an effect for component types that can bake lighting, like static mesh components.
     This is useful for moving meshes that don't change significantly.
   **/
-  public var bLightAsIfStatic : Bool;
+  @:uproperty public var bLightAsIfStatic : Bool;
   
   /**
     Whether this primitive should cast dynamic shadows as if it were a two sided material.
   **/
-  public var bCastShadowAsTwoSided : Bool;
+  @:uproperty public var bCastShadowAsTwoSided : Bool;
   
   /**
     If true, the primitive will cast shadows even if bHidden is true.
     Controls whether the primitive should cast shadows when hidden.
     This flag is only used if CastShadow is true.
   **/
-  public var bCastHiddenShadow : Bool;
+  @:uproperty public var bCastHiddenShadow : Bool;
   
   /**
     Whether this component should cast shadows from lights that have bCastShadowsFromCinematicObjectsOnly enabled.
     This is useful for characters in a cinematic with special cinematic lights, where the cost of shadowmap rendering of the environment is undesired.
   **/
-  public var bCastCinematicShadow : Bool;
+  @:uproperty public var bCastCinematicShadow : Bool;
   
   /**
     Whether this component should create a per-object shadow that gives higher effective shadow resolution.
     Useful for cinematic character shadowing. Assumed to be enabled if bSelfShadowOnly is enabled.
   **/
-  public var bCastInsetShadow : Bool;
+  @:uproperty public var bCastInsetShadow : Bool;
   
   /**
     When enabled, the component will be rendering into the far shadow cascades (only for directional lights).
   **/
-  public var bCastFarShadow : Bool;
+  @:uproperty public var bCastFarShadow : Bool;
   
   /**
     When enabled, the component will only cast a shadow on itself and not other components in the world.
     This is especially useful for first person weapons, and forces bCastInsetShadow to be enabled.
   **/
-  public var bSelfShadowOnly : Bool;
+  @:uproperty public var bSelfShadowOnly : Bool;
   
   /**
     Whether the object should cast a volumetric translucent shadow.
     Volumetric translucent shadows are useful for primitives with smoothly changing opacity like particles representing a volume,
     But have artifacts when used on highly opaque surfaces.
   **/
-  public var bCastVolumetricTranslucentShadow : Bool;
+  @:uproperty public var bCastVolumetricTranslucentShadow : Bool;
   
   /**
     Whether the object should cast a static shadow from shadow casting lights.  This flag is only used if CastShadow is true.
   **/
-  public var bCastStaticShadow : Bool;
+  @:uproperty public var bCastStaticShadow : Bool;
   
   /**
     Controls whether the primitive should cast shadows in the case of non precomputed shadowing.  This flag is only used if CastShadow is true. *
   **/
-  public var bCastDynamicShadow : Bool;
+  @:uproperty public var bCastDynamicShadow : Bool;
   
   /**
     Controls whether the primitive should affect dynamic distance field lighting methods.  This flag is only used if CastShadow is true. *
   **/
-  public var bAffectDistanceFieldLighting : Bool;
+  @:uproperty public var bAffectDistanceFieldLighting : Bool;
   
   /**
     Controls whether the primitive should inject light into the Light Propagation Volume.  This flag is only used if CastShadow is true. *
   **/
-  public var bAffectDynamicIndirectLighting : Bool;
+  @:uproperty public var bAffectDynamicIndirectLighting : Bool;
   
   /**
     Controls whether the primitive component should cast a shadow or not.
     
     This flag is ignored (no shadows will be generated) if all materials on this component have an Unlit shading model.
   **/
-  public var CastShadow : Bool;
+  @:uproperty public var CastShadow : Bool;
   
   /**
     If true a hit-proxy will be generated for each instance of instanced static meshes
   **/
-  public var bHasPerInstanceHitProxies : Bool;
+  @:uproperty public var bHasPerInstanceHitProxies : Bool;
   
   /**
     If true, forces mips for textures used by this component to be resident when this component's level is loaded.
   **/
-  public var bForceMipStreaming : Bool;
+  @:uproperty public var bForceMipStreaming : Bool;
   
   /**
     If this is True, this component can be selected in the editor.
   **/
-  public var bSelectable : Bool;
+  @:uproperty public var bSelectable : Bool;
   
   /**
     Whether to render the primitive in the depth only pass.
     This should generally be true for all objects, and let the renderer make decisions about whether to render objects in the depth only pass.
     @todo - if any rendering features rely on a complete depth only pass, this variable needs to go away.
   **/
-  public var bUseAsOccluder : Bool;
+  @:uproperty public var bUseAsOccluder : Bool;
   
   /**
     Treat this primitive as part of the background for occlusion purposes. This can be used as an optimization to reduce the cost of rendering skyboxes, large ground planes that are part of the vista, etc.
   **/
-  public var bTreatAsBackgroundForOcclusion : Bool;
+  @:uproperty public var bTreatAsBackgroundForOcclusion : Bool;
   
   /**
     If this is True, this component will only be visible when the view actor is the component's owner, directly or indirectly.
   **/
-  public var bOnlyOwnerSee : Bool;
+  @:uproperty public var bOnlyOwnerSee : Bool;
   
   /**
     If this is True, this component won't be visible when the view actor is the component's owner, directly or indirectly.
   **/
-  public var bOwnerNoSee : Bool;
+  @:uproperty public var bOwnerNoSee : Bool;
   
   /**
     Whether the primitive receives decals.
   **/
-  public var bReceivesDecals : Bool;
+  @:uproperty public var bReceivesDecals : Bool;
   
   /**
     If true, this component will be rendered in the main pass (z prepass, basepass, transparency)
   **/
-  public var bRenderInMainPass : Bool;
+  @:uproperty public var bRenderInMainPass : Bool;
   
   /**
     If true, this component will be visible in reflection captures.
   **/
-  public var bVisibleInReflectionCaptures : Bool;
+  @:uproperty public var bVisibleInReflectionCaptures : Bool;
   
   /**
     true if the primitive has motion blur velocity meshes
   **/
-  public var bHasMotionBlurVelocityMeshes : Bool;
+  @:uproperty public var bHasMotionBlurVelocityMeshes : Bool;
   
   /**
     Whether to accept cull distance volumes to modify cached cull distance.
   **/
-  public var bAllowCullDistanceVolume : Bool;
+  @:uproperty public var bAllowCullDistanceVolume : Bool;
   
   /**
     True if the primitive should be rendered using ViewOwnerDepthPriorityGroup if viewed by its owner.
   **/
-  public var bUseViewOwnerDepthPriorityGroup : Bool;
+  @:uproperty public var bUseViewOwnerDepthPriorityGroup : Bool;
   
   /**
     If true, component sweeps will return the material in their hit result.
     @see MoveComponent(), FHitResult
   **/
-  public var bReturnMaterialOnMove : Bool;
+  @:uproperty public var bReturnMaterialOnMove : Bool;
   
   /**
     If true, component sweeps with this component should trace against complex collision during movement (for example, each triangle of a mesh).
     If false, collision will be resolved against simple collision bounds instead.
     @see MoveComponent()
   **/
-  public var bTraceComplexOnMove : Bool;
+  @:uproperty public var bTraceComplexOnMove : Bool;
   
   /**
     If true, this component will look for collisions on both physic scenes during movement.
     Only required if the asynchronous physics scene is enabled and has geometry in it, and you wish to test for collisions with objects in that scene.
     @see MoveComponent()
   **/
-  public var bCheckAsyncSceneOnMove : Bool;
+  @:uproperty public var bCheckAsyncSceneOnMove : Bool;
   
   /**
     If true, this component will generate individual overlaps for each overlapping physics body if it is a multi-body component. When false, this component will
     generate only one overlap, regardless of how many physics bodies it has and how many of them are overlapping another component/body. This flag has no
     influence on single body components.
   **/
-  public var bMultiBodyOverlap : Bool;
+  @:uproperty public var bMultiBodyOverlap : Bool;
   
   /**
     If true, this component will generate overlap events when it is overlapping other components (eg Begin Overlap).
@@ -349,174 +349,174 @@ package unreal;
     @see [Overlap Events](https://docs.unrealengine.com/latest/INT/Engine/Physics/Collision/index.html#overlapandgenerateoverlapevents)
     @see UpdateOverlaps(), BeginComponentOverlap(), EndComponentOverlap()
   **/
-  public var bGenerateOverlapEvents : Bool;
+  @:uproperty public var bGenerateOverlapEvents : Bool;
   
   /**
     Indicates if we'd like to create physics state all the time (for collision and simulation).
     If you set this to false, it still will create physics state if collision or simulation activated.
     This can help performance if you'd like to avoid overhead of creating physics state when triggers
   **/
-  public var bAlwaysCreatePhysicsState : Bool;
+  @:uproperty public var bAlwaysCreatePhysicsState : Bool;
   
   /**
     The scene depth priority group to draw the primitive in, if it's being viewed by its owner.
   **/
-  public var ViewOwnerDepthPriorityGroup : unreal.ESceneDepthPriorityGroup;
+  @:uproperty public var ViewOwnerDepthPriorityGroup : unreal.ESceneDepthPriorityGroup;
   
   /**
     The scene depth priority group to draw the primitive in.
   **/
-  public var DepthPriorityGroup : unreal.ESceneDepthPriorityGroup;
+  @:uproperty public var DepthPriorityGroup : unreal.ESceneDepthPriorityGroup;
   
   /**
     The distance to cull this primitive at.
     A CachedMaxDrawDistance of 0 indicates that the primitive should not be culled by distance.
   **/
-  public var CachedMaxDrawDistance : unreal.Float32;
+  @:uproperty public var CachedMaxDrawDistance : unreal.Float32;
   
   /**
     Max draw distance exposed to LDs. The real max draw distance is the min (disregarding 0) of this and volumes affecting this object.
   **/
-  public var LDMaxDrawDistance : unreal.Float32;
+  @:uproperty public var LDMaxDrawDistance : unreal.Float32;
   
   /**
     The minimum distance at which the primitive should be rendered,
     measured in world space units from the center of the primitive's bounding sphere to the camera position.
   **/
-  public var MinDrawDistance : unreal.Float32;
+  @:uproperty public var MinDrawDistance : unreal.Float32;
   
   /**
     Tells this component whether to ignore collision with all components of a specific Actor when this component is moved.
     Components on the other Actor may also need to be told to do the same when they move.
     Does not affect movement of this component when simulating physics.
   **/
-  @:final public function IgnoreActorWhenMoving(Actor : unreal.AActor, bShouldIgnore : Bool) : Void;
+  @:ufunction @:final public function IgnoreActorWhenMoving(Actor : unreal.AActor, bShouldIgnore : Bool) : Void;
   
   /**
     Returns the list of actors we currently ignore when moving.
   **/
-  @:final public function CopyArrayOfMoveIgnoreActors() : unreal.TArray<unreal.AActor>;
+  @:ufunction @:final public function CopyArrayOfMoveIgnoreActors() : unreal.TArray<unreal.AActor>;
   
   /**
     Clear the list of actors we ignore when moving.
   **/
-  @:final public function ClearMoveIgnoreActors() : Void;
+  @:ufunction @:final public function ClearMoveIgnoreActors() : Void;
   
   /**
     Tells this component whether to ignore collision with another component when this component is moved.
     The other components may also need to be told to do the same when they move.
     Does not affect movement of this component when simulating physics.
   **/
-  @:final public function IgnoreComponentWhenMoving(Component : unreal.UPrimitiveComponent, bShouldIgnore : Bool) : Void;
+  @:ufunction @:final public function IgnoreComponentWhenMoving(Component : unreal.UPrimitiveComponent, bShouldIgnore : Bool) : Void;
   
   /**
     Returns the list of actors we currently ignore when moving.
   **/
-  @:final public function CopyArrayOfMoveIgnoreComponents() : unreal.TArray<unreal.UPrimitiveComponent>;
+  @:ufunction @:final public function CopyArrayOfMoveIgnoreComponents() : unreal.TArray<unreal.UPrimitiveComponent>;
   
   /**
     Clear the list of components we ignore when moving.
   **/
-  @:final public function ClearMoveIgnoreComponents() : Void;
+  @:ufunction @:final public function ClearMoveIgnoreComponents() : Void;
   
   /**
     Check whether this component is overlapping another component.
     @param OtherComp Component to test this component against.
     @return Whether this component is overlapping another component.
   **/
-  @:thisConst @:final public function IsOverlappingComponent(OtherComp : unreal.Const<unreal.UPrimitiveComponent>) : Bool;
+  @:ufunction @:thisConst @:final public function IsOverlappingComponent(OtherComp : unreal.Const<unreal.UPrimitiveComponent>) : Bool;
   
   /**
     Check whether this component is overlapping any component of the given Actor.
     @param Other Actor to test this component against.
     @return Whether this component is overlapping any component of the given Actor.
   **/
-  @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
+  @:ufunction @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
   
   /**
     Returns a list of actors that this component is overlapping.
     @param OverlappingActors             [out] Returned list of overlapping actors
     @param ClassFilter                   [optional] If set, only returns actors of this class or subclasses
   **/
-  @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Returns list of components this component is overlapping.
   **/
-  @:thisConst @:final public function GetOverlappingComponents(InOverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
+  @:ufunction @:thisConst @:final public function GetOverlappingComponents(InOverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
   
   /**
     Returns list of components this component is overlapping.
   **/
-  @:thisConst @:final public function GetOverlapInfos() : unreal.Const<unreal.PRef<unreal.TArray<unreal.FOverlapInfo>>>;
+  @:ufunction @:thisConst @:final public function GetOverlapInfos() : unreal.Const<unreal.PRef<unreal.TArray<unreal.FOverlapInfo>>>;
   
   /**
     Scale the bounds of this object, used for frustum culling. Useful for features like WorldPositionOffset.
   **/
-  @:final public function SetBoundsScale(NewBoundsScale : unreal.Float32) : Void;
+  @:ufunction @:final public function SetBoundsScale(NewBoundsScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Returns the material used by the element at the specified index
     @param ElementIndex - The element to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  @:thisConst public function GetMaterial(ElementIndex : unreal.Int32) : unreal.UMaterialInterface;
+  @:ufunction @:thisConst public function GetMaterial(ElementIndex : unreal.Int32) : unreal.UMaterialInterface;
   
   /**
     Changes the material applied to an element of the mesh.
     @param ElementIndex - The element to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  public function SetMaterial(ElementIndex : unreal.Int32, Material : unreal.UMaterialInterface) : Void;
+  @:ufunction public function SetMaterial(ElementIndex : unreal.Int32, Material : unreal.UMaterialInterface) : Void;
   
   /**
     Changes the material applied to an element of the mesh.
     @param MaterialSlotName - The slot name to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  public function SetMaterialByName(MaterialSlotName : unreal.FName, Material : unreal.UMaterialInterface) : Void;
+  @:ufunction public function SetMaterialByName(MaterialSlotName : unreal.FName, Material : unreal.UMaterialInterface) : Void;
   
   /**
     Creates a Dynamic Material Instance for the specified element index.  The parent of the instance is set to the material being replaced.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  public function CreateAndSetMaterialInstanceDynamic(ElementIndex : unreal.Int32) : unreal.UMaterialInstanceDynamic;
+  @:ufunction public function CreateAndSetMaterialInstanceDynamic(ElementIndex : unreal.Int32) : unreal.UMaterialInstanceDynamic;
   
   /**
     Creates a Dynamic Material Instance for the specified element index.  The parent of the instance is set to the material being replaced.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  public function CreateAndSetMaterialInstanceDynamicFromMaterial(ElementIndex : unreal.Int32, Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction public function CreateAndSetMaterialInstanceDynamicFromMaterial(ElementIndex : unreal.Int32, Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     Creates a Dynamic Material Instance for the specified element index, optionally from the supplied material.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  public function CreateDynamicMaterialInstance(ElementIndex : unreal.Int32, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction public function CreateDynamicMaterialInstance(ElementIndex : unreal.Int32, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     Returns the slope override struct for this component.
   **/
-  @:thisConst @:final public function GetWalkableSlopeOverride() : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>;
+  @:ufunction @:thisConst @:final public function GetWalkableSlopeOverride() : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>;
   
   /**
     Sets a new slope override for this component instance.
   **/
-  @:final public function SetWalkableSlopeOverride(NewOverride : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>) : Void;
+  @:ufunction @:final public function SetWalkableSlopeOverride(NewOverride : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>) : Void;
   
   /**
     Sets whether or not a single body should use physics simulation, or should be 'fixed' (kinematic).
     
     @param  bSimulate       New simulation state for single body
   **/
-  public function SetSimulatePhysics(bSimulate : Bool) : Void;
-  public function SetLockedAxis(LockedAxis : unreal.EDOFMode) : Void;
+  @:ufunction public function SetSimulatePhysics(bSimulate : Bool) : Void;
+  @:ufunction public function SetLockedAxis(LockedAxis : unreal.EDOFMode) : Void;
   
   /**
     Sets the constraint mode of the component.
     @param ConstraintMode        The type of constraint to use.
   **/
-  public function SetConstraintMode(ConstraintMode : unreal.EDOFMode) : Void;
+  @:ufunction public function SetConstraintMode(ConstraintMode : unreal.EDOFMode) : Void;
   
   /**
     Add an impulse to a single rigid body. Good for one time instant burst.
@@ -525,7 +525,7 @@ package unreal;
     @param  BoneName        If a SkeletalMeshComponent, name of body to apply impulse to. 'None' indicates root body.
     @param  bVelChange      If true, the Strength is taken as a change in velocity instead of an impulse (ie. mass will have no affect).
   **/
-  public function AddImpulse(Impulse : unreal.FVector, BoneName : unreal.FName, bVelChange : Bool) : Void;
+  @:ufunction public function AddImpulse(Impulse : unreal.FVector, BoneName : unreal.FName = None, bVelChange : Bool = false) : Void;
   
   /**
     Add an angular impulse to a single rigid body. Good for one time instant burst.
@@ -534,7 +534,7 @@ package unreal;
     @param  BoneName        If a SkeletalMeshComponent, name of body to apply angular impulse to. 'None' indicates root body.
     @param  bVelChange      If true, the Strength is taken as a change in angular velocity instead of an impulse (ie. mass will have no affect).
   **/
-  public function AddAngularImpulse(Impulse : unreal.FVector, BoneName : unreal.FName, bVelChange : Bool) : Void;
+  @:ufunction public function AddAngularImpulse(Impulse : unreal.FVector, BoneName : unreal.FName = None, bVelChange : Bool = false) : Void;
   
   /**
     Add an impulse to a single rigid body at a specific location.
@@ -543,7 +543,7 @@ package unreal;
     @param  Location        Point in world space to apply impulse at.
     @param  BoneName        If a SkeletalMeshComponent, name of bone to apply impulse to. 'None' indicates root body.
   **/
-  public function AddImpulseAtLocation(Impulse : unreal.FVector, Location : unreal.FVector, BoneName : unreal.FName) : Void;
+  @:ufunction public function AddImpulseAtLocation(Impulse : unreal.FVector, Location : unreal.FVector, BoneName : unreal.FName = None) : Void;
   
   /**
     Add an impulse to all rigid bodies in this component, radiating out from the specified position.
@@ -554,7 +554,7 @@ package unreal;
     @param Falloff               Allows you to control the strength of the impulse as a function of distance from Origin.
     @param bVelChange    If true, the Strength is taken as a change in velocity instead of an impulse (ie. mass will have no affect).
   **/
-  public function AddRadialImpulse(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bVelChange : Bool) : Void;
+  @:ufunction public function AddRadialImpulse(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bVelChange : Bool = false) : Void;
   
   /**
     Add a force to a single rigid body.
@@ -564,7 +564,7 @@ package unreal;
     @param  BoneName         If a SkeletalMeshComponent, name of body to apply force to. 'None' indicates root body.
     @param  bAccelChange If true, Force is taken as a change in acceleration instead of a physical force (i.e. mass will have no affect).
   **/
-  public function AddForce(Force : unreal.FVector, BoneName : unreal.FName, bAccelChange : Bool) : Void;
+  @:ufunction public function AddForce(Force : unreal.FVector, BoneName : unreal.FName = None, bAccelChange : Bool = false) : Void;
   
   /**
     Add a force to a single rigid body at a particular location.
@@ -574,7 +574,7 @@ package unreal;
     @param Location         Location to apply force, in world space.
     @param BoneName         If a SkeletalMeshComponent, name of body to apply force to. 'None' indicates root body.
   **/
-  public function AddForceAtLocation(Force : unreal.FVector, Location : unreal.FVector, BoneName : unreal.FName) : Void;
+  @:ufunction public function AddForceAtLocation(Force : unreal.FVector, Location : unreal.FVector, BoneName : unreal.FName = None) : Void;
   
   /**
     Add a force to all bodies in this component, originating from the supplied world-space location.
@@ -585,7 +585,7 @@ package unreal;
     @param Falloff              Allows you to control the strength of the force as a function of distance from Origin.
     @param bAccelChange If true, Strength is taken as a change in acceleration instead of a physical force (i.e. mass will have no affect).
   **/
-  public function AddRadialForce(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bAccelChange : Bool) : Void;
+  @:ufunction public function AddRadialForce(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bAccelChange : Bool = false) : Void;
   
   /**
     Add a torque to a single rigid body.
@@ -593,7 +593,7 @@ package unreal;
     @param BoneName         If a SkeletalMeshComponent, name of body to apply torque to. 'None' indicates root body.
     @param bAccelChange If true, Torque is taken as a change in angular acceleration instead of a physical torque (i.e. mass will have no affect).
   **/
-  @:final public function AddTorque(Torque : unreal.FVector, BoneName : unreal.FName, bAccelChange : Bool) : Void;
+  @:ufunction @:final public function AddTorque(Torque : unreal.FVector, BoneName : unreal.FName = None, bAccelChange : Bool = false) : Void;
   
   /**
     Set the linear velocity of a single body.
@@ -603,20 +603,20 @@ package unreal;
     @param bAddToCurrent    If true, NewVel is added to the existing velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify velocity of. 'None' indicates root body.
   **/
-  @:final public function SetPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool, BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function SetPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false, BoneName : unreal.FName = None) : Void;
   
   /**
     Get the linear velocity of a single body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:final public function GetPhysicsLinearVelocity(BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:final public function GetPhysicsLinearVelocity(BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Get the linear velocity of a point on a single body.
     @param Point                    Point is specified in world space.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:final public function GetPhysicsLinearVelocityAtPoint(Point : unreal.FVector, BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:final public function GetPhysicsLinearVelocityAtPoint(Point : unreal.FVector, BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Set the linear velocity of all bodies in this component.
@@ -624,7 +624,7 @@ package unreal;
     @param NewVel                   New linear velocity to apply to physics.
     @param bAddToCurrent    If true, NewVel is added to the existing velocity of the body.
   **/
-  public function SetAllPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool) : Void;
+  @:ufunction public function SetAllPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false) : Void;
   
   /**
     Set the angular velocity of a single body.
@@ -634,7 +634,7 @@ package unreal;
     @param bAddToCurrent    If true, NewAngVel is added to the existing angular velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify angular velocity of. 'None' indicates root body.
   **/
-  @:final public function SetPhysicsAngularVelocity(NewAngVel : unreal.FVector, bAddToCurrent : Bool, BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function SetPhysicsAngularVelocity(NewAngVel : unreal.FVector, bAddToCurrent : Bool = false, BoneName : unreal.FName = None) : Void;
   
   /**
     Set the maximum angular velocity of a single body.
@@ -643,20 +643,20 @@ package unreal;
     @param bAddToCurrent    If true, NewMaxAngVel is added to the existing maximum angular velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify maximum angular velocity of. 'None' indicates root body.
   **/
-  @:final public function SetPhysicsMaxAngularVelocity(NewMaxAngVel : unreal.Float32, bAddToCurrent : Bool, BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function SetPhysicsMaxAngularVelocity(NewMaxAngVel : unreal.Float32, bAddToCurrent : Bool = false, BoneName : unreal.FName = None) : Void;
   
   /**
     Get the angular velocity of a single body, in degrees per second.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:final public function GetPhysicsAngularVelocity(BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:final public function GetPhysicsAngularVelocity(BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Get the center of mass of a single body. In the case of a welded body this will return the center of mass of the entire welded body (including its parent and children)
     Objects that are not simulated return (0,0,0) as they do not have COM
     @param BoneName                 If a SkeletalMeshComponent, name of body to get center of mass of. 'None' indicates root body.
   **/
-  @:final public function GetCenterOfMass(BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:final public function GetCenterOfMass(BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Set the center of mass of a single body. This will offset the physx-calculated center of mass.
@@ -664,50 +664,50 @@ package unreal;
     @param CenterOfMassOffset               User specified offset for the center of mass of this object, from the calculated location.
     @param BoneName                 If a SkeletalMeshComponent, name of body to set center of mass of. 'None' indicates root body.
   **/
-  @:final public function SetCenterOfMass(CenterOfMassOffset : unreal.FVector, BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function SetCenterOfMass(CenterOfMassOffset : unreal.FVector, BoneName : unreal.FName = None) : Void;
   
   /**
     'Wake' physics simulation for a single body.
     @param  BoneName        If a SkeletalMeshComponent, name of body to wake. 'None' indicates root body.
   **/
-  public function WakeRigidBody(BoneName : unreal.FName) : Void;
+  @:ufunction public function WakeRigidBody(BoneName : unreal.FName = None) : Void;
   
   /**
     Force a single body back to sleep.
     @param  BoneName        If a SkeletalMeshComponent, name of body to put to sleep. 'None' indicates root body.
   **/
-  @:final public function PutRigidBodyToSleep(BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function PutRigidBodyToSleep(BoneName : unreal.FName = None) : Void;
   
   /**
     Changes the value of bNotifyRigidBodyCollision
     @param bNewNotifyRigidBodyCollision - The value to assign to bNotifyRigidBodyCollision
   **/
-  public function SetNotifyRigidBodyCollision(bNewNotifyRigidBodyCollision : Bool) : Void;
+  @:ufunction public function SetNotifyRigidBodyCollision(bNewNotifyRigidBodyCollision : Bool) : Void;
   
   /**
     Changes the value of bOwnerNoSee.
   **/
-  @:final public function SetOwnerNoSee(bNewOwnerNoSee : Bool) : Void;
+  @:ufunction @:final public function SetOwnerNoSee(bNewOwnerNoSee : Bool) : Void;
   
   /**
     Changes the value of bOnlyOwnerSee.
   **/
-  @:final public function SetOnlyOwnerSee(bNewOnlyOwnerSee : Bool) : Void;
+  @:ufunction @:final public function SetOnlyOwnerSee(bNewOnlyOwnerSee : Bool) : Void;
   
   /**
     Changes the value of CastShadow.
   **/
-  @:final public function SetCastShadow(NewCastShadow : Bool) : Void;
+  @:ufunction @:final public function SetCastShadow(NewCastShadow : Bool) : Void;
   
   /**
     Changes the value of TranslucentSortPriority.
   **/
-  @:final public function SetTranslucentSortPriority(NewTranslucentSortPriority : unreal.Int32) : Void;
+  @:ufunction @:final public function SetTranslucentSortPriority(NewTranslucentSortPriority : unreal.Int32) : Void;
   
   /**
     Controls what kind of collision is enabled for this body
   **/
-  public function SetCollisionEnabled(NewType : unreal.ECollisionEnabled) : Void;
+  @:ufunction public function SetCollisionEnabled(NewType : unreal.ECollisionEnabled) : Void;
   
   /**
     Set Collision Profile Name
@@ -716,43 +716,43 @@ package unreal;
     
     @param InCollisionProfileName : New Profile Name
   **/
-  public function SetCollisionProfileName(InCollisionProfileName : unreal.FName) : Void;
+  @:ufunction public function SetCollisionProfileName(InCollisionProfileName : unreal.FName) : Void;
   
   /**
     Get the collision profile name
   **/
-  @:final public function GetCollisionProfileName() : unreal.FName;
+  @:ufunction @:final public function GetCollisionProfileName() : unreal.FName;
   
   /**
     Changes the collision channel that this object uses when it moves
     @param      Channel     The new channel for this component to use
   **/
-  @:final public function SetCollisionObjectType(Channel : unreal.ECollisionChannel) : Void;
+  @:ufunction @:final public function SetCollisionObjectType(Channel : unreal.ECollisionChannel) : Void;
   
   /**
     Perform a line trace against a single component
   **/
-  @:final public function K2_LineTraceComponent(TraceStart : unreal.FVector, TraceEnd : unreal.FVector, bTraceComplex : Bool, bShowTrace : Bool, HitLocation : unreal.PRef<unreal.FVector>, HitNormal : unreal.PRef<unreal.FVector>, BoneName : unreal.PRef<unreal.FName>) : Bool;
+  @:ufunction @:final public function K2_LineTraceComponent(TraceStart : unreal.FVector, TraceEnd : unreal.FVector, @:bpopt("true") bTraceComplex : Bool, bShowTrace : Bool, HitLocation : unreal.PRef<unreal.FVector>, HitNormal : unreal.PRef<unreal.FVector>, BoneName : unreal.PRef<unreal.FName>) : Bool;
   
   /**
     Sets the bRenderCustomDepth property and marks the render state dirty.
   **/
-  @:final public function SetRenderCustomDepth(bValue : Bool) : Void;
+  @:ufunction @:final public function SetRenderCustomDepth(bValue : Bool) : Void;
   
   /**
     Sets the CustomDepth stencil value (0 - 255) and marks the render state dirty.
   **/
-  @:final public function SetCustomDepthStencilValue(Value : unreal.Int32) : Void;
+  @:ufunction @:final public function SetCustomDepthStencilValue(Value : unreal.Int32) : Void;
   
   /**
     Sets bRenderInMainPass property and marks the render state dirty.
   **/
-  @:final public function SetRenderInMainPass(bValue : Bool) : Void;
+  @:ufunction @:final public function SetRenderInMainPass(bValue : Bool) : Void;
   
   /**
     @return number of material elements in this primitive
   **/
-  @:thisConst public function GetNumMaterials() : unreal.Int32;
+  @:ufunction @:thisConst public function GetNumMaterials() : unreal.Int32;
   
   /**
     Returns the distance and closest point to the collision surface.
@@ -765,114 +765,114 @@ package unreal;
     @return               Success if returns > 0.f, if returns 0.f, it is either not convex or inside of the point
                                   If returns < 0.f, this primitive does not have collsion
   **/
-  @:thisConst @:final public function GetClosestPointOnCollision(Point : unreal.Const<unreal.PRef<unreal.FVector>>, OutPointOnBody : unreal.PRef<unreal.FVector>, BoneName : unreal.FName) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetClosestPointOnCollision(Point : unreal.Const<unreal.PRef<unreal.FVector>>, OutPointOnBody : unreal.PRef<unreal.FVector>, BoneName : unreal.FName = None) : unreal.Float32;
   
   /**
     Returns the form of collision for this component
   **/
-  @:thisConst public function GetCollisionEnabled() : unreal.ECollisionEnabled;
+  @:ufunction @:thisConst public function GetCollisionEnabled() : unreal.ECollisionEnabled;
   
   /**
     Utility to see if there is any form of collision (query or physics) enabled on this component.
   **/
-  @:thisConst @:final public function K2_IsCollisionEnabled() : Bool;
+  @:ufunction @:thisConst @:final public function K2_IsCollisionEnabled() : Bool;
   
   /**
     Utility to see if there is any query collision enabled on this component.
   **/
-  @:thisConst @:final public function K2_IsQueryCollisionEnabled() : Bool;
+  @:ufunction @:thisConst @:final public function K2_IsQueryCollisionEnabled() : Bool;
   
   /**
     Utility to see if there is any physics collision enabled on this component.
   **/
-  @:thisConst @:final public function K2_IsPhysicsCollisionEnabled() : Bool;
+  @:ufunction @:thisConst @:final public function K2_IsPhysicsCollisionEnabled() : Bool;
   
   /**
     Gets the response type given a specific channel
   **/
-  @:thisConst public function GetCollisionResponseToChannel(Channel : unreal.ECollisionChannel) : unreal.ECollisionResponse;
+  @:ufunction @:thisConst public function GetCollisionResponseToChannel(Channel : unreal.ECollisionChannel) : unreal.ECollisionResponse;
   
   /**
     Gets the collision object type
   **/
-  @:thisConst public function GetCollisionObjectType() : unreal.ECollisionChannel;
+  @:ufunction @:thisConst public function GetCollisionObjectType() : unreal.ECollisionChannel;
   
   /**
     Ensure simulation is running for all bodies in this component.
   **/
-  public function WakeAllRigidBodies() : Void;
+  @:ufunction public function WakeAllRigidBodies() : Void;
   
   /**
     Enables/disables whether this component is affected by gravity. This applies only to components with bSimulatePhysics set to true.
   **/
-  public function SetEnableGravity(bGravityEnabled : Bool) : Void;
+  @:ufunction public function SetEnableGravity(bGravityEnabled : Bool) : Void;
   
   /**
     Returns whether this component is affected by gravity. Returns always false if the component is not simulated.
   **/
-  @:thisConst public function IsGravityEnabled() : Bool;
+  @:ufunction @:thisConst public function IsGravityEnabled() : Bool;
   
   /**
     Sets the linear damping of this component.
   **/
-  public function SetLinearDamping(InDamping : unreal.Float32) : Void;
+  @:ufunction public function SetLinearDamping(InDamping : unreal.Float32) : Void;
   
   /**
     Returns the linear damping of this component.
   **/
-  @:thisConst public function GetLinearDamping() : unreal.Float32;
+  @:ufunction @:thisConst public function GetLinearDamping() : unreal.Float32;
   
   /**
     Sets the angular damping of this component.
   **/
-  public function SetAngularDamping(InDamping : unreal.Float32) : Void;
+  @:ufunction public function SetAngularDamping(InDamping : unreal.Float32) : Void;
   
   /**
     Returns the angular damping of this component.
   **/
-  @:thisConst public function GetAngularDamping() : unreal.Float32;
+  @:ufunction @:thisConst public function GetAngularDamping() : unreal.Float32;
   
   /**
     Change the mass scale used to calculate the mass of a single physics body
   **/
-  public function SetMassScale(BoneName : unreal.FName, InMassScale : unreal.Float32) : Void;
+  @:ufunction public function SetMassScale(BoneName : unreal.FName = None, InMassScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Returns the mass scale used to calculate the mass of a single physics body
   **/
-  @:thisConst public function GetMassScale(BoneName : unreal.FName) : unreal.Float32;
+  @:ufunction @:thisConst public function GetMassScale(BoneName : unreal.FName = None) : unreal.Float32;
   
   /**
     Change the mass scale used fo all bodies in this component
   **/
-  public function SetAllMassScale(InMassScale : unreal.Float32) : Void;
+  @:ufunction public function SetAllMassScale(InMassScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Override the mass (in Kg) of a single physics body.
     Note that in the case where multiple bodies are attached together, the override mass will be set for the entire group.
     Set the Override Mass to false if you want to reset the body's mass to the auto-calculated physx mass.
   **/
-  public function SetMassOverrideInKg(BoneName : unreal.FName, MassInKg : unreal.Float32, bOverrideMass : Bool) : Void;
+  @:ufunction public function SetMassOverrideInKg(BoneName : unreal.FName = None, MassInKg : unreal.Float32 = 1.000000, bOverrideMass : Bool = true) : Void;
   
   /**
     Returns the mass of this component in kg.
   **/
-  @:thisConst public function GetMass() : unreal.Float32;
+  @:ufunction @:thisConst public function GetMass() : unreal.Float32;
   
   /**
     Returns the inertia tensor of this component in kg cm^2. The inertia tensor is in local component space.
   **/
-  @:thisConst public function GetInertiaTensor(BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:thisConst public function GetInertiaTensor(BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Scales the given vector by the world space moment of inertia. Useful for computing the torque needed to rotate an object.
   **/
-  @:thisConst public function ScaleByMomentOfInertia(InputVector : unreal.FVector, BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction @:thisConst public function ScaleByMomentOfInertia(InputVector : unreal.FVector, BoneName : unreal.FName = None) : unreal.FVector;
   
   /**
     Returns if any body in this component is currently awake and simulating.
   **/
-  public function IsAnyRigidBodyAwake() : Bool;
+  @:ufunction public function IsAnyRigidBodyAwake() : Bool;
   
   /**
     Changes a member of the ResponseToChannels container for this PrimitiveComponent.
@@ -880,27 +880,27 @@ package unreal;
     @param       Channel      The channel to change the response of
     @param       NewResponse  What the new response should be to the supplied Channel
   **/
-  public function SetCollisionResponseToChannel(Channel : unreal.ECollisionChannel, NewResponse : unreal.ECollisionResponse) : Void;
+  @:ufunction public function SetCollisionResponseToChannel(Channel : unreal.ECollisionChannel, NewResponse : unreal.ECollisionResponse) : Void;
   
   /**
     Changes all ResponseToChannels container for this PrimitiveComponent. to be NewResponse
     
     @param       NewResponse  What the new response should be to the supplied Channel
   **/
-  public function SetCollisionResponseToAllChannels(NewResponse : unreal.ECollisionResponse) : Void;
+  @:ufunction public function SetCollisionResponseToAllChannels(NewResponse : unreal.ECollisionResponse) : Void;
   
   /**
     Changes the current PhysMaterialOverride for this component.
     Note that if physics is already running on this component, this will _not_ alter its mass/inertia etc,
     it will only change its surface properties like friction.
   **/
-  public function SetPhysMaterialOverride(NewPhysMaterial : unreal.UPhysicalMaterial) : Void;
+  @:ufunction public function SetPhysMaterialOverride(NewPhysMaterial : unreal.UPhysicalMaterial) : Void;
   
   /**
     Changes the value of CullDistance.
     @param NewCullDistance - The value to assign to CullDistance.
   **/
-  @:final public function SetCullDistance(NewCullDistance : unreal.Float32) : Void;
+  @:ufunction @:final public function SetCullDistance(NewCullDistance : unreal.Float32) : Void;
   
   /**
     Return true if the given Pawn can step up onto this component.
@@ -908,7 +908,7 @@ package unreal;
     @param Pawn the Pawn that wants to step onto this component.
     @see CanCharacterStepUpOn
   **/
-  @:thisConst public function CanCharacterStepUp(Pawn : unreal.APawn) : Bool;
+  @:ufunction @:thisConst public function CanCharacterStepUp(Pawn : unreal.APawn) : Bool;
   // NavRelevantInterface interface implementation
   
 }

@@ -19,27 +19,27 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FSliderStyle extends unreal.slatecore.FSlateWidgetStyle {
-  public var BarThickness : unreal.Float32;
+@:uextern @:ustruct extern class FSliderStyle extends unreal.slatecore.FSlateWidgetStyle {
+  @:uproperty public var BarThickness : unreal.Float32;
   
   /**
     Image to use when the slider thumb is in its disabled state
   **/
-  public var DisabledThumbImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DisabledThumbImage : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use when the slider thumb is in its normal state
   **/
-  public var NormalThumbImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var NormalThumbImage : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use when the slider bar is in its disabled state
   **/
-  public var DisabledBarImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var DisabledBarImage : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use when the slider bar is in its normal state
   **/
-  public var NormalBarImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var NormalBarImage : unreal.slatecore.FSlateBrush;
   
 }

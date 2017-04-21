@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavMeshBoundsVolume.h")
-@:uextern extern class ANavMeshBoundsVolume extends unreal.AVolume {
-  public var SupportedAgents : unreal.FNavAgentSelector;
+@:uextern @:uclass extern class ANavMeshBoundsVolume extends unreal.AVolume {
+  @:uproperty public var SupportedAgents : unreal.FNavAgentSelector;
   
 }

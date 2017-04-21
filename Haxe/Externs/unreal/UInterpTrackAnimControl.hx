@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackAnimControl.h")
-@:uextern extern class UInterpTrackAnimControl extends unreal.UInterpTrackFloatBase {
+@:uextern @:uclass extern class UInterpTrackAnimControl extends unreal.UInterpTrackFloatBase {
   
   /**
     Skip all anim notifiers *
   **/
-  public var bSkipAnimNotifiers : Bool;
+  @:uproperty public var bSkipAnimNotifiers : Bool;
   
   /**
     Track of different animations to play and when to start playing them.
   **/
-  public var AnimSeqs : unreal.TArray<unreal.FAnimControlTrackKey>;
+  @:uproperty public var AnimSeqs : unreal.TArray<unreal.FAnimControlTrackKey>;
   
   /**
     Name of slot to use when playing animation. Passed to Actor.
     When multiple tracks use the same slot name, they are each given a different ChannelIndex when SetAnimPosition is called.
   **/
-  public var SlotName : unreal.FName;
+  @:uproperty public var SlotName : unreal.FName;
   
 }

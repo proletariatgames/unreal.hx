@@ -26,7 +26,7 @@ package unreal;
   @see UMovementComponent
 **/
 @:glueCppIncludes("GameFramework/ProjectileMovementComponent.h")
-@:uextern extern class UProjectileMovementComponent extends unreal.UMovementComponent {
+@:uextern @:uclass extern class UProjectileMovementComponent extends unreal.UMovementComponent {
   
   /**
     Max number of iterations used for each discrete simulation step.
@@ -35,7 +35,7 @@ package unreal;
     WARNING: if (MaxSimulationTimeStep * MaxSimulationIterations) is too low for the min framerate, the last simulation step may exceed MaxSimulationTimeStep to complete the simulation.
     @see MaxSimulationTimeStep, bForceSubStepping
   **/
-  public var MaxSimulationIterations : unreal.Int32;
+  @:uproperty public var MaxSimulationIterations : unreal.Int32;
   
   /**
     Max time delta for each discrete simulation step.
@@ -44,19 +44,25 @@ package unreal;
     WARNING: if (MaxSimulationTimeStep * MaxSimulationIterations) is too low for the min framerate, the last simulation step may exceed MaxSimulationTimeStep to complete the simulation.
     @see MaxSimulationIterations, bForceSubStepping
   **/
-  public var MaxSimulationTimeStep : unreal.Float32;
+  @:uproperty public var MaxSimulationTimeStep : unreal.Float32;
+  
+  /**
+    The current target we are homing towards. Can only be set at runtime (when projectile is spawned or updating).
+    @see bIsHomingProjectile
+  **/
+  @:uproperty public var HomingTargetComponent : unreal.TWeakObjectPtr<unreal.USceneComponent>;
   
   /**
     The magnitude of our acceleration towards the homing target. Overall velocity magnitude will still be limited by MaxSpeed.
   **/
-  public var HomingAccelerationMagnitude : unreal.Float32;
+  @:uproperty public var HomingAccelerationMagnitude : unreal.Float32;
   
   /**
     If velocity is below this threshold after a bounce, stops simulating and triggers the OnProjectileStop event.
     Ignored if bShouldBounce is false, in which case the projectile stops simulating on the first impact.
     @see StopSimulating(), OnProjectileStop
   **/
-  public var BounceVelocityStopSimulatingThreshold : unreal.Float32;
+  @:uproperty public var BounceVelocityStopSimulatingThreshold : unreal.Float32;
   
   /**
     Coefficient of friction, affecting the resistance to sliding along a surface.
@@ -65,51 +71,51 @@ package unreal;
     Ignored if bShouldBounce is false.
     @see bBounceAngleAffectsFriction
   **/
-  public var Friction : unreal.Float32;
+  @:uproperty public var Friction : unreal.Float32;
   
   /**
     Percentage of velocity maintained after the bounce in the direction of the normal of impact (coefficient of restitution).
     1.0 = no velocity lost, 0.0 = no bounce. Ignored if bShouldBounce is false.
   **/
-  public var Bounciness : unreal.Float32;
+  @:uproperty public var Bounciness : unreal.Float32;
   
   /**
     Buoyancy of UpdatedComponent in fluid. 0.0=sinks as fast as in air, 1.0=neutral buoyancy
   **/
-  public var Buoyancy : unreal.Float32;
+  @:uproperty public var Buoyancy : unreal.Float32;
   
   /**
     Custom gravity scale for this projectile. Set to 0 for no gravity.
   **/
-  public var ProjectileGravityScale : unreal.Float32;
+  @:uproperty public var ProjectileGravityScale : unreal.Float32;
   
   /**
     Saved HitResult Normal from previous simulation step that resulted in an impact. If PreviousHitTime is 1.0, then the hit was not in the last step.
   **/
-  public var PreviousHitNormal : unreal.FVector;
+  @:uproperty public var PreviousHitNormal : unreal.FVector;
   
   /**
     Saved HitResult Time (0 to 1) from previous simulation step. Equal to 1.0 when there was no impact.
   **/
-  public var PreviousHitTime : unreal.Float32;
+  @:uproperty public var PreviousHitTime : unreal.Float32;
   
   /**
     If true, projectile is sliding / rolling along a surface.
   **/
-  public var bIsSliding : Bool;
+  @:uproperty public var bIsSliding : Bool;
   
   /**
     Controls the effects of friction on velocity parallel to the impact surface when bouncing.
     If true, friction will be modified based on the angle of impact, making friction higher for perpendicular impacts and lower for glancing impacts.
     If false, a bounce will retain a proportion of tangential velocity equal to (1.0 - Friction), acting as a "horizontal restitution".
   **/
-  public var bBounceAngleAffectsFriction : Bool;
+  @:uproperty public var bBounceAngleAffectsFriction : Bool;
   
   /**
     If true, we will accelerate toward our homing target. HomingTargetComponent must be set after the projectile is spawned.
     @see HomingTargetComponent, HomingAccelerationMagnitude
   **/
-  public var bIsHomingProjectile : Bool;
+  @:uproperty public var bIsHomingProjectile : Bool;
   
   /**
     If true, forces sub-stepping to break up movement into discrete smaller steps to improve accuracy of the trajectory.
@@ -117,47 +123,47 @@ package unreal;
     Sub-stepping is automatically enabled when under the effects of gravity or when homing towards a target.
     @see MaxSimulationTimeStep, MaxSimulationIterations
   **/
-  public var bForceSubStepping : Bool;
+  @:uproperty public var bForceSubStepping : Bool;
   
   /**
     If true, the initial Velocity is interpreted as being in local space upon startup.
     @see SetVelocityInLocalSpace()
   **/
-  public var bInitialVelocityInLocalSpace : Bool;
+  @:uproperty public var bInitialVelocityInLocalSpace : Bool;
   
   /**
     If true, simple bounces will be simulated. Set this to false to stop simulating on contact.
   **/
-  public var bShouldBounce : Bool;
+  @:uproperty public var bShouldBounce : Bool;
   
   /**
     If true, this projectile will have its rotation updated each frame to match the direction of its velocity.
   **/
-  public var bRotationFollowsVelocity : Bool;
+  @:uproperty public var bRotationFollowsVelocity : Bool;
   
   /**
     Limit on speed of projectile (0 means no limit).
   **/
-  public var MaxSpeed : unreal.Float32;
+  @:uproperty public var MaxSpeed : unreal.Float32;
   
   /**
     Initial speed of projectile. If greater than zero, this will override the initial Velocity value and instead treat Velocity as a direction.
   **/
-  public var InitialSpeed : unreal.Float32;
+  @:uproperty public var InitialSpeed : unreal.Float32;
   
   /**
     Sets the velocity to the new value, rotated into Actor space.
   **/
-  public function SetVelocityInLocalSpace(NewVelocity : unreal.FVector) : Void;
+  @:ufunction public function SetVelocityInLocalSpace(NewVelocity : unreal.FVector) : Void;
   
   /**
     Clears the reference to UpdatedComponent, fires stop event (OnProjectileStop), and stops ticking (if bAutoUpdateTickRegistration is true).
   **/
-  public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Don't allow velocity magnitude to exceed MaxSpeed, if MaxSpeed is non-zero.
   **/
-  @:thisConst @:final private function LimitVelocity(NewVelocity : unreal.FVector) : unreal.FVector;
+  @:ufunction @:thisConst @:final private function LimitVelocity(NewVelocity : unreal.FVector) : unreal.FVector;
   
 }

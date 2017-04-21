@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SkeletalMeshReductionSettings.h")
-@:uextern extern class USkeletalMeshReductionSettings extends unreal.UObject {
-  private var Settings : unreal.TArray<unreal.FSkeletalMeshLODGroupSettings>;
+@:uextern @:uclass extern class USkeletalMeshReductionSettings extends unreal.UObject {
+  @:uproperty private var Settings : unreal.TArray<unreal.FSkeletalMeshLODGroupSettings>;
   
 }

@@ -36,13 +36,13 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTemplate.h")
-@:noClass @:uextern extern class UGameplayEffectTemplate extends unreal.gameplayabilities.UGameplayEffect {
+@:noClass @:uextern @:uclass extern class UGameplayEffectTemplate extends unreal.gameplayabilities.UGameplayEffect {
   #if WITH_EDITORONLY_DATA
   
   /**
     Names of the properties that should be exposed in the limited/basic view when editing a GameplayEffect based on this template
   **/
-  public var EditableProperties : unreal.TArray<unreal.FString>;
+  @:uproperty public var EditableProperties : unreal.TArray<unreal.FString>;
   #end // WITH_EDITORONLY_DATA
   
 }

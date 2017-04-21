@@ -20,116 +20,116 @@ package unreal;
   If you want a simpler base, inherit from GameModeBase instead.
 **/
 @:glueCppIncludes("GameFramework/GameMode.h")
-@:uextern extern class AGameMode extends unreal.AGameModeBase {
+@:uextern @:uclass extern class AGameMode extends unreal.AGameModeBase {
   
   /**
     Returns the current match state, this is an accessor to protect the state machine flow
   **/
-  @:thisConst @:final public function GetMatchState() : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetMatchState() : unreal.FName;
   
   /**
     Returns true if the match state is InProgress or other gameplay state
   **/
-  @:thisConst public function IsMatchInProgress() : Bool;
+  @:ufunction @:thisConst public function IsMatchInProgress() : Bool;
   
   /**
     Returns true if the match state is WaitingPostMatch or later
   **/
-  @:thisConst public function HasMatchEnded() : Bool;
+  @:ufunction @:thisConst public function HasMatchEnded() : Bool;
   
   /**
     Transition from WaitingToStart to InProgress. You can call this manually, will also get called if ReadyToStartMatch returns true
   **/
-  public function StartMatch() : Void;
+  @:ufunction public function StartMatch() : Void;
   
   /**
     Transition from InProgress to WaitingPostMatch. You can call this manually, will also get called if ReadyToEndMatch returns true
   **/
-  public function EndMatch() : Void;
+  @:ufunction public function EndMatch() : Void;
   
   /**
     Restart the game, by default travel to the current map
   **/
-  public function RestartGame() : Void;
+  @:ufunction public function RestartGame() : Void;
   
   /**
     Report that a match has failed due to unrecoverable error
   **/
-  public function AbortMatch() : Void;
+  @:ufunction public function AbortMatch() : Void;
   
   /**
     Time a playerstate will stick around in an inactive state after a player logout
   **/
-  private var InactivePlayerStateLifeSpan : unreal.Float32;
+  @:uproperty private var InactivePlayerStateLifeSpan : unreal.Float32;
   
   /**
     PlayerStates of players who have disconnected from the server (saved in case they reconnect)
   **/
-  public var InactivePlayerArray : unreal.TArray<unreal.APlayerState>;
+  @:uproperty public var InactivePlayerArray : unreal.TArray<unreal.APlayerState>;
   
   /**
     Contains strings describing localized game agnostic messages.
   **/
-  public var EngineMessageClass : unreal.TSubclassOf<unreal.ULocalMessage>;
+  @:uproperty public var EngineMessageClass : unreal.TSubclassOf<unreal.ULocalMessage>;
   
   /**
     Number of players that are still traveling from a previous map
   **/
-  public var NumTravellingPlayers : unreal.Int32;
+  @:uproperty public var NumTravellingPlayers : unreal.Int32;
   
   /**
     Minimum time before player can respawn after dying.
   **/
-  public var MinRespawnDelay : unreal.Float32;
+  @:uproperty public var MinRespawnDelay : unreal.Float32;
   
   /**
     number of non-human players (AI controlled but participating as a player).
   **/
-  public var NumBots : unreal.Int32;
+  @:uproperty public var NumBots : unreal.Int32;
   
   /**
     Current number of human players.
   **/
-  public var NumPlayers : unreal.Int32;
+  @:uproperty public var NumPlayers : unreal.Int32;
   
   /**
     Current number of spectators.
   **/
-  public var NumSpectators : unreal.Int32;
+  @:uproperty public var NumSpectators : unreal.Int32;
   
   /**
     Whether the game should immediately start when the first player logs in. Affects the default behavior of ReadyToStartMatch
   **/
-  public var bDelayedStart : Bool;
+  @:uproperty public var bDelayedStart : Bool;
   
   /**
     What match state we are currently in
   **/
-  private var MatchState : unreal.FName;
+  @:uproperty private var MatchState : unreal.FName;
   
   /**
     Implementable event to respond to match state changes
   **/
-  private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
+  @:ufunction private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
   
   /**
     @return True if ready to Start Match. Games should override this
   **/
-  private function ReadyToStartMatch() : Bool;
+  @:ufunction private function ReadyToStartMatch() : Bool;
   
   /**
     @return true if ready to End Match. Games should override this
   **/
-  private function ReadyToEndMatch() : Bool;
+  @:ufunction private function ReadyToEndMatch() : Bool;
   
   /**
     Exec command to broadcast a string to all players
   **/
-  public function Say(Msg : unreal.FString) : Void;
+  @:ufunction public function Say(Msg : unreal.FString) : Void;
   
   /**
     Alters the synthetic bandwidth limit for a running game.
   **/
-  public function SetBandwidthLimit(AsyncIOBandwidthLimit : unreal.Float32) : Void;
+  @:ufunction public function SetBandwidthLimit(AsyncIOBandwidthLimit : unreal.Float32) : Void;
   
 }

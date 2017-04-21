@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAutoReceiveInput.Type")
-@:uextern extern enum EAutoReceiveInput {
+@:uextern @:uenum extern enum EAutoReceiveInput {
   Disabled;
   Player0;
   Player1;

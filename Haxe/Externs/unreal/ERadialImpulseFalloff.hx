@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ERadialImpulseFalloff")
-@:uextern extern enum ERadialImpulseFalloff {
+@:uextern @:uenum extern enum ERadialImpulseFalloff {
   
   /**
     Impulse is a constant strength, up to the limit of its range.

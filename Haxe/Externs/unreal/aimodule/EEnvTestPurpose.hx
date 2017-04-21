@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestPurpose.Type")
-@:uextern extern enum EEnvTestPurpose {
+@:uextern @:uenum extern enum EEnvTestPurpose {
   
   /**
     Filter Only

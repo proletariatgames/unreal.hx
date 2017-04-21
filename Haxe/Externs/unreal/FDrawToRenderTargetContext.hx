@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Kismet/KismetRenderingLibrary.h")
-@:noCopy @:noEquals @:uextern extern class FDrawToRenderTargetContext {
-  public var RenderTarget : unreal.UTextureRenderTarget2D;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDrawToRenderTargetContext {
+  @:uproperty public var RenderTarget : unreal.UTextureRenderTarget2D;
   
 }

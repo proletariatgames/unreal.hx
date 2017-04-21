@@ -19,11 +19,11 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_AimOffsetLookAt.h")
-@:uextern extern class FAnimNode_AimOffsetLookAt extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
-  public var Alpha : unreal.Float32;
-  public var SourceSocketName : unreal.FName;
-  public var LookAtLocation : unreal.FVector;
-  public var bIsLODEnabled : Bool;
+@:uextern @:ustruct extern class FAnimNode_AimOffsetLookAt extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
+  @:uproperty public var Alpha : unreal.Float32;
+  @:uproperty public var SourceSocketName : unreal.FName;
+  @:uproperty public var LookAtLocation : unreal.FVector;
+  @:uproperty public var bIsLODEnabled : Bool;
   
   /**
     * Max LOD that this node is allowed to run
@@ -31,7 +31,7 @@ package unreal.animgraphruntime;
     * when the component LOD becomes 3, it will stop update/evaluate
     * currently transition would be issue and that has to be re-visited
   **/
-  public var LODThreshold : unreal.Int32;
-  public var BasePose : unreal.FPoseLink;
+  @:uproperty public var LODThreshold : unreal.Int32;
+  @:uproperty public var BasePose : unreal.FPoseLink;
   
 }

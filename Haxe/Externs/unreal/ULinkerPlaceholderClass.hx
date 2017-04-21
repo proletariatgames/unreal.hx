@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class ULinkerPlaceholderClass extends unreal.UClass {
+@:uextern @:uclass extern class ULinkerPlaceholderClass extends unreal.UClass {
   
 }

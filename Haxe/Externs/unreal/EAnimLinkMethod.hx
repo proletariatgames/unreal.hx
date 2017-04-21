@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimLinkableElement.h")
 @:uname("EAnimLinkMethod.Type")
-@:uextern extern enum EAnimLinkMethod {
+@:uextern @:uenum extern enum EAnimLinkMethod {
   
   /**
     Element stays at a specific time without moving.

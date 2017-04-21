@@ -19,6 +19,6 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_WheelHandler.h")
-@:uextern extern class FAnimNode_WheelHandler extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_WheelHandler extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
 }

@@ -21,6 +21,6 @@ package unreal.environmentqueryeditor;
 **/
 @:umodule("EnvironmentQueryEditor")
 @:glueCppIncludes("EnvironmentQueryFactory.h")
-@:noClass @:uextern extern class UEnvironmentQueryFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UEnvironmentQueryFactory extends unreal.editor.UFactory {
   
 }

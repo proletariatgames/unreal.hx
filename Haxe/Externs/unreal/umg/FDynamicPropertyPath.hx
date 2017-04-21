@@ -15,6 +15,6 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Binding/DynamicPropertyPath.h")
-@:uextern extern class FDynamicPropertyPath {
+@:uextern @:ustruct extern class FDynamicPropertyPath {
   
 }

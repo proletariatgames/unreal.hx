@@ -21,13 +21,13 @@ package unreal.lightpropagationvolumeruntime;
 **/
 @:umodule("LightPropagationVolumeRuntime")
 @:glueCppIncludes("LightPropagationVolumeBlendable.h")
-@:uextern extern class ULightPropagationVolumeBlendable extends unreal.UObject implements unreal.IBlendableInterface {
+@:uextern @:uclass extern class ULightPropagationVolumeBlendable extends unreal.UObject implements unreal.IBlendableInterface {
   
   /**
     0:no effect, 1:full effect
   **/
-  public var BlendWeight : unreal.Float32;
-  public var Settings : unreal.lightpropagationvolumeruntime.FLightPropagationVolumeSettings;
+  @:uproperty public var BlendWeight : unreal.Float32;
+  @:uproperty public var Settings : unreal.lightpropagationvolumeruntime.FLightPropagationVolumeSettings;
   // BlendableInterface interface implementation
   
 }

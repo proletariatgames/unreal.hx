@@ -15,36 +15,36 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerCoords.h")
-@:uextern extern class UMaterialExpressionLandscapeLayerCoords extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionLandscapeLayerCoords extends unreal.UMaterialExpression {
   
   /**
     Offset to apply to the mapping along V.
   **/
-  public var MappingPanV : unreal.Float32;
+  @:uproperty public var MappingPanV : unreal.Float32;
   
   /**
     Offset to apply to the mapping along U.
   **/
-  public var MappingPanU : unreal.Float32;
+  @:uproperty public var MappingPanU : unreal.Float32;
   
   /**
     Rotation to apply to the mapping.
   **/
-  public var MappingRotation : unreal.Float32;
+  @:uproperty public var MappingRotation : unreal.Float32;
   
   /**
     Uniform scale to apply to the mapping.
   **/
-  public var MappingScale : unreal.Float32;
+  @:uproperty public var MappingScale : unreal.Float32;
   
   /**
     Determines the mapping place to use on the terrain.
   **/
-  public var CustomUVType : unreal.landscape.ELandscapeCustomizedCoordType;
+  @:uproperty public var CustomUVType : unreal.landscape.ELandscapeCustomizedCoordType;
   
   /**
     Determines the mapping place to use on the terrain.
   **/
-  public var MappingType : unreal.landscape.ETerrainCoordMappingType;
+  @:uproperty public var MappingType : unreal.landscape.ETerrainCoordMappingType;
   
 }

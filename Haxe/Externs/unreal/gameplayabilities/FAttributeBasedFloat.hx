@@ -22,51 +22,51 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FAttributeBasedFloat {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAttributeBasedFloat {
   
   /**
     Filter to use on target tags; If specified, only modifiers applied with all of these tags will factor into the calculation
   **/
-  public var TargetTagFilter : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var TargetTagFilter : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Filter to use on source tags; If specified, only modifiers applied with all of these tags will factor into the calculation
   **/
-  public var SourceTagFilter : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var SourceTagFilter : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Channel to terminate evaluation on when using AttributeEvaluatedUpToChannel calculation type
   **/
-  public var FinalChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
+  @:uproperty public var FinalChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
   
   /**
     Calculation policy in regards to the attribute
   **/
-  public var AttributeCalculationType : unreal.gameplayabilities.EAttributeBasedFloatCalculationType;
+  @:uproperty public var AttributeCalculationType : unreal.gameplayabilities.EAttributeBasedFloatCalculationType;
   
   /**
     If a curve table entry is specified, the attribute will be used as a lookup into the curve instead of using the attribute directly.
   **/
-  public var AttributeCurve : unreal.FCurveTableRowHandle;
+  @:uproperty public var AttributeCurve : unreal.FCurveTableRowHandle;
   
   /**
     Attribute backing the calculation
   **/
-  public var BackingAttribute : unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition;
+  @:uproperty public var BackingAttribute : unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition;
   
   /**
     Additive value to the attribute calculation, added in after the coefficient applies
   **/
-  public var PostMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var PostMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Additive value to the attribute calculation, added in before the coefficient applies
   **/
-  public var PreMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var PreMultiplyAdditiveValue : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Coefficient to the attribute calculation
   **/
-  public var Coefficient : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var Coefficient : unreal.gameplayabilities.FScalableFloat;
   
 }

@@ -19,37 +19,37 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
-@:uextern extern class FSpriteGeometryShape {
+@:uextern @:ustruct extern class FSpriteGeometryShape {
   
   /**
     For Polygon geometry, this tells us if the winding should be negative (CW) regardless of the order in Vertices
   **/
-  public var bNegativeWinding : Bool;
+  @:uproperty public var bNegativeWinding : Bool;
   
   /**
     Rotation of the shape (in degrees)
   **/
-  public var Rotation : unreal.Float32;
+  @:uproperty public var Rotation : unreal.Float32;
   
   /**
     Center of the box or circle, acts as the pivot point for polygons (but may not be at the center of them)
   **/
-  public var BoxPosition : unreal.FVector2D;
+  @:uproperty public var BoxPosition : unreal.FVector2D;
   
   /**
     Size of the box or major/minor dimensions of the circle
     Note: Only valid when GeometryType is Box or Circle
   **/
-  public var BoxSize : unreal.FVector2D;
+  @:uproperty public var BoxSize : unreal.FVector2D;
   
   /**
     Vertices for the polygon (valid for Box and Polygon, but empty for Circle)
   **/
-  public var Vertices : unreal.TArray<unreal.FVector2D>;
+  @:uproperty public var Vertices : unreal.TArray<unreal.FVector2D>;
   
   /**
     The type of this piece of geometry
   **/
-  public var ShapeType : unreal.paper2d.ESpriteShapeType;
+  @:uproperty public var ShapeType : unreal.paper2d.ESpriteShapeType;
   
 }

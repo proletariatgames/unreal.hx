@@ -21,6 +21,6 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerCategoryReplicator.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayDebuggerNetPack {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerNetPack {
   
 }

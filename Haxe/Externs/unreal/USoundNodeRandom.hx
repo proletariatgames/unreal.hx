@@ -20,25 +20,25 @@ package unreal;
   Selects sounds from a random set
 **/
 @:glueCppIncludes("Sound/SoundNodeRandom.h")
-@:uextern extern class USoundNodeRandom extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeRandom extends unreal.USoundNode {
   #if WITH_EDITORONLY_DATA
   
   /**
     Editor only list of nodes hidden to duplicate behavior of PreselectAtLevelLoad
   **/
-  public var PIEHiddenNodes : unreal.TArray<unreal.Int32>;
+  @:uproperty public var PIEHiddenNodes : unreal.TArray<unreal.Int32>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Counter var so we don't have to count all of the used sounds each time we choose a sound *
   **/
-  public var NumRandomUsed : unreal.Int32;
+  @:uproperty public var NumRandomUsed : unreal.Int32;
   
   /**
     Internal state of which sounds have been played.  This is only used at runtime
     to keep track of which sounds have been played
   **/
-  public var HasBeenUsed : unreal.TArray<Bool>;
+  @:uproperty public var HasBeenUsed : unreal.TArray<Bool>;
   
   /**
     Determines whether or not this SoundNodeRandom should randomize with or without
@@ -51,14 +51,14 @@ package unreal;
     WithReplacement means that a node will be chosen and then placed back into the set.
     So one could play the same sound over and over if the probabilities don't go your way :-)
   **/
-  public var bRandomizeWithoutReplacement : Bool;
+  @:uproperty public var bRandomizeWithoutReplacement : Bool;
   
   /**
     If greater than 0, then upon each level load such a number of inputs will be randomly selected
     and the rest will be removed. This can be used to cut down the memory usage of large randomizing
     cues.
   **/
-  public var PreselectAtLevelLoad : unreal.Int32;
-  public var Weights : unreal.TArray<unreal.Float32>;
+  @:uproperty public var PreselectAtLevelLoad : unreal.Int32;
+  @:uproperty public var Weights : unreal.TArray<unreal.Float32>;
   
 }

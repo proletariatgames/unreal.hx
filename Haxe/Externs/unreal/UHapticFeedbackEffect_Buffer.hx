@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Haptics/HapticFeedbackEffect_Buffer.h")
-@:uextern extern class UHapticFeedbackEffect_Buffer extends unreal.UHapticFeedbackEffect_Base {
-  public var SampleRate : unreal.Int32;
-  public var Amplitudes : unreal.TArray<unreal.UInt8>;
+@:uextern @:uclass extern class UHapticFeedbackEffect_Buffer extends unreal.UHapticFeedbackEffect_Base {
+  @:uproperty public var SampleRate : unreal.Int32;
+  @:uproperty public var Amplitudes : unreal.TArray<unreal.UInt8>;
   
 }

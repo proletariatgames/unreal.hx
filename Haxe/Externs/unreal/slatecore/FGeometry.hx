@@ -25,6 +25,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Layout/Geometry.h")
-@:uextern extern class FGeometry {
+@:uextern @:ustruct extern class FGeometry {
   
 }

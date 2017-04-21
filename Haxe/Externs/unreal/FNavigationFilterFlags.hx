@@ -18,22 +18,22 @@ package unreal;
   Use UNavigationSystem.DescribeFilterFlags() to setup user friendly names of flags
 **/
 @:glueCppIncludes("AI/Navigation/NavFilters/NavigationQueryFilter.h")
-@:uextern extern class FNavigationFilterFlags {
-  public var bNavFlag15 : Bool;
-  public var bNavFlag14 : Bool;
-  public var bNavFlag13 : Bool;
-  public var bNavFlag12 : Bool;
-  public var bNavFlag11 : Bool;
-  public var bNavFlag10 : Bool;
-  public var bNavFlag9 : Bool;
-  public var bNavFlag8 : Bool;
-  public var bNavFlag7 : Bool;
-  public var bNavFlag6 : Bool;
-  public var bNavFlag5 : Bool;
-  public var bNavFlag4 : Bool;
-  public var bNavFlag3 : Bool;
-  public var bNavFlag2 : Bool;
-  public var bNavFlag1 : Bool;
-  public var bNavFlag0 : Bool;
+@:uextern @:ustruct extern class FNavigationFilterFlags {
+  @:uproperty public var bNavFlag15 : Bool;
+  @:uproperty public var bNavFlag14 : Bool;
+  @:uproperty public var bNavFlag13 : Bool;
+  @:uproperty public var bNavFlag12 : Bool;
+  @:uproperty public var bNavFlag11 : Bool;
+  @:uproperty public var bNavFlag10 : Bool;
+  @:uproperty public var bNavFlag9 : Bool;
+  @:uproperty public var bNavFlag8 : Bool;
+  @:uproperty public var bNavFlag7 : Bool;
+  @:uproperty public var bNavFlag6 : Bool;
+  @:uproperty public var bNavFlag5 : Bool;
+  @:uproperty public var bNavFlag4 : Bool;
+  @:uproperty public var bNavFlag3 : Bool;
+  @:uproperty public var bNavFlag2 : Bool;
+  @:uproperty public var bNavFlag1 : Bool;
+  @:uproperty public var bNavFlag0 : Bool;
   
 }

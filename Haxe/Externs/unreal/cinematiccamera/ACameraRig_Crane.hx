@@ -19,31 +19,31 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CameraRig_Crane.h")
-@:uextern extern class ACameraRig_Crane extends unreal.AActor {
+@:uextern @:uclass extern class ACameraRig_Crane extends unreal.AActor {
   
   /**
     Lock the mount yaw so that an attached camera is locked and oriented in the direction of the crane arm
   **/
-  public var bLockMountYaw : Bool;
+  @:uproperty public var bLockMountYaw : Bool;
   
   /**
     Lock the mount pitch so that an attached camera is locked and pitched in the direction of the crane arm
   **/
-  public var bLockMountPitch : Bool;
+  @:uproperty public var bLockMountPitch : Bool;
   
   /**
     Controls the length of the crane arm.
   **/
-  public var CraneArmLength : unreal.Float32;
+  @:uproperty public var CraneArmLength : unreal.Float32;
   
   /**
     Controls the yaw of the crane arm.
   **/
-  public var CraneYaw : unreal.Float32;
+  @:uproperty public var CraneYaw : unreal.Float32;
   
   /**
     Controls the pitch of the crane arm.
   **/
-  public var CranePitch : unreal.Float32;
+  @:uproperty public var CranePitch : unreal.Float32;
   
 }

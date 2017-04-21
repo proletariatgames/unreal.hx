@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTextureProperty.h")
 @:uname("EMaterialExposedTextureProperty")
-@:uextern extern enum EMaterialExposedTextureProperty {
+@:uextern @:uenum extern enum EMaterialExposedTextureProperty {
   
   /**
     The texture's size.

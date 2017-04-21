@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionFunctionInput.h")
 @:uname("EFunctionInputType")
-@:uextern extern enum EFunctionInputType {
+@:uextern @:uenum extern enum EFunctionInputType {
   FunctionInput_Scalar;
   FunctionInput_Vector2;
   FunctionInput_Vector3;

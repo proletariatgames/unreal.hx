@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
 @:uname("ELocationBoneSocketSource")
-@:uextern extern enum ELocationBoneSocketSource {
+@:uextern @:uenum extern enum ELocationBoneSocketSource {
   BONESOCKETSOURCE_Bones;
   BONESOCKETSOURCE_Sockets;
   

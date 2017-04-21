@@ -20,7 +20,7 @@ package unreal;
   Per-chunk authoring data.
 **/
 @:glueCppIncludes("Engine/DestructibleFractureSettings.h")
-@:noCopy @:noEquals @:uextern extern class FDestructibleChunkParameters {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleChunkParameters {
   
   /**
     Defines the chunk to be uncrumbleable.  This means this chunk will not be broken down into fluid mesh particles
@@ -32,25 +32,25 @@ package unreal;
     In this case, the doNotCrumble flag will apply to it.
     Default = false.
   **/
-  public var bDoNotCrumble : Bool;
+  @:uproperty public var bDoNotCrumble : Bool;
   
   /**
     Defines the chunk to be undamageable.  This means this chunk will not fracture, but its children might.
     Default = false.
   **/
-  public var bDoNotDamage : Bool;
+  @:uproperty public var bDoNotDamage : Bool;
   
   /**
     Defines the chunk to be unfractureable.  If this is true, then none of its children will be fractureable.
     Default = false.
   **/
-  public var bDoNotFracture : Bool;
+  @:uproperty public var bDoNotFracture : Bool;
   
   /**
     Defines the chunk to be environmentally supported, if the appropriate NxDestructibleParametersFlag flags
     are set in NxDestructibleParameters.
     Default = false.
   **/
-  public var bIsSupportChunk : Bool;
+  @:uproperty public var bIsSupportChunk : Bool;
   
 }

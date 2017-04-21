@@ -21,11 +21,11 @@ package unreal;
   ie. point X in the direction you want the thrust in.
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsThruster.h")
-@:noClass @:uextern extern class APhysicsThruster extends unreal.ARigidBodyBase {
+@:noClass @:uextern @:uclass extern class APhysicsThruster extends unreal.ARigidBodyBase {
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
-  public var ThrusterComponent : unreal.UPhysicsThrusterComponent;
+  @:uproperty public var ThrusterComponent : unreal.UPhysicsThrusterComponent;
   
 }

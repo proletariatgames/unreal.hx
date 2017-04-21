@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/EndUserSettings.h")
-@:uextern extern class UEndUserSettings extends unreal.UObject implements unreal.IImportantToggleSettingInterface {
+@:uextern @:uclass extern class UEndUserSettings extends unreal.UObject implements unreal.IImportantToggleSettingInterface {
   
   /**
     If enabled, adds user identifying data to the otherwise anonymous reports sent to Epic Games.
   **/
-  public var bAllowUserIdInUsageData : Bool;
+  @:uproperty public var bAllowUserIdInUsageData : Bool;
   
   /**
     Determines whether the engine sends anonymous crash/abnormal-shutdown data about game sessions to Epic Games in order to improve Unreal Engine. Information will never be shared with 3rd parties.
   **/
-  public var bSendMeanTimeBetweenFailureDataToEpic : Bool;
+  @:uproperty public var bSendMeanTimeBetweenFailureDataToEpic : Bool;
   
   /**
     Determines whether the engine sends anonymous usage information about game sessions to Epic Games in order to improve Unreal Engine. Information will never be shared with 3rd parties.
   **/
-  public var bSendAnonymousUsageDataToEpic : Bool;
+  @:uproperty public var bSendAnonymousUsageDataToEpic : Bool;
   // ImportantToggleSettingInterface interface implementation
   
 }

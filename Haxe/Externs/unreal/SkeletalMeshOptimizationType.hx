@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
 @:uname("SkeletalMeshOptimizationType")
-@:uextern extern enum SkeletalMeshOptimizationType {
+@:uextern @:uenum extern enum SkeletalMeshOptimizationType {
   SMOT_NumOfTriangles;
   SMOT_MaxDeviation;
   

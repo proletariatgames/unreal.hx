@@ -20,7 +20,7 @@ package unreal.enginesettings;
 @:umodule("EngineSettings")
 @:glueCppIncludes("GameMapsSettings.h")
 @:uname("ETwoPlayerSplitScreenType.Type")
-@:uextern extern enum ETwoPlayerSplitScreenType {
+@:uextern @:uenum extern enum ETwoPlayerSplitScreenType {
   Horizontal;
   Vertical;
   

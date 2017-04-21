@@ -20,13 +20,13 @@ package unreal;
   This is a mapping table between each bone in a particular skeletal mesh and the tracks of this animation set.
 **/
 @:glueCppIncludes("Animation/AnimSet.h")
-@:noCopy @:noEquals @:uextern extern class FAnimSetMeshLinkup {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSetMeshLinkup {
   
   /**
     Mapping table. Size must be same as size of SkelMesh reference skeleton.
     No index should be more than the number of tracks in this AnimSet.
     -1 indicates no track for this bone - will use reference pose instead.
   **/
-  public var BoneToTrackTable : unreal.TArray<unreal.Int32>;
+  @:uproperty public var BoneToTrackTable : unreal.TArray<unreal.Int32>;
   
 }

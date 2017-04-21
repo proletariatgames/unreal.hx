@@ -21,26 +21,26 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/DialogueWaveFactory.h")
-@:uextern extern class UDialogueWaveFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UDialogueWaveFactory extends unreal.editor.UFactory {
   
   /**
     An initial target dialogue voices to place in the newly created dialogue wave
   **/
-  public var InitialTargetVoices : unreal.TArray<unreal.UDialogueVoice>;
+  @:uproperty public var InitialTargetVoices : unreal.TArray<unreal.UDialogueVoice>;
   
   /**
     Whether an initial target dialogue voice should be set
   **/
-  public var HasSetInitialTargetVoice : Bool;
+  @:uproperty public var HasSetInitialTargetVoice : Bool;
   
   /**
     An initial speaking dialogue voice to place in the newly created dialogue wave
   **/
-  public var InitialSpeakerVoice : unreal.UDialogueVoice;
+  @:uproperty public var InitialSpeakerVoice : unreal.UDialogueVoice;
   
   /**
     An initial sound wave to place in the newly created dialogue wave
   **/
-  public var InitialSoundWave : unreal.USoundWave;
+  @:uproperty public var InitialSoundWave : unreal.USoundWave;
   
 }

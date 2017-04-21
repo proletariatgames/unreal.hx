@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Scene.h")
-@:noClass @:uextern extern class UScene extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UScene extends unreal.UObject {
   
 }

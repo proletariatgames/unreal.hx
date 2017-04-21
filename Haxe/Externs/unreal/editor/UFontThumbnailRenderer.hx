@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/FontThumbnailRenderer.h")
-@:noClass @:uextern extern class UFontThumbnailRenderer extends unreal.editor.UTextureThumbnailRenderer {
+@:noClass @:uextern @:uclass extern class UFontThumbnailRenderer extends unreal.editor.UTextureThumbnailRenderer {
   
 }

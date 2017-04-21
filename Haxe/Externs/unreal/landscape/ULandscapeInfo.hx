@@ -21,14 +21,14 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeInfo.h")
-@:noClass @:uextern extern class ULandscapeInfo extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class ULandscapeInfo extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
-  public var Layers : unreal.TArray<unreal.landscape.FLandscapeInfoLayerSettings>;
+  @:uproperty public var Layers : unreal.TArray<unreal.landscape.FLandscapeInfoLayerSettings>;
   #end // WITH_EDITORONLY_DATA
-  public var DrawScale : unreal.FVector;
-  public var ComponentNumSubsections : unreal.Int32;
-  public var SubsectionSizeQuads : unreal.Int32;
-  public var ComponentSizeQuads : unreal.Int32;
-  public var LandscapeGuid : unreal.FGuid;
+  @:uproperty public var DrawScale : unreal.FVector;
+  @:uproperty public var ComponentNumSubsections : unreal.Int32;
+  @:uproperty public var SubsectionSizeQuads : unreal.Int32;
+  @:uproperty public var ComponentSizeQuads : unreal.Int32;
+  @:uproperty public var LandscapeGuid : unreal.FGuid;
   
 }

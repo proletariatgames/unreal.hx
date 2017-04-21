@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityInstancingPolicy.Type")
-@:uextern extern enum EGameplayAbilityInstancingPolicy {
+@:uextern @:uenum extern enum EGameplayAbilityInstancingPolicy {
   
   /**
     This ability is never instanced. Anything that executes the ability is operating on the CDO.

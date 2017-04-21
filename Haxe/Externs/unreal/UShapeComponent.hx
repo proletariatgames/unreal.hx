@@ -18,36 +18,36 @@ package unreal;
   ShapeComponent is a PrimitiveComponent that is represented by a simple geometrical shape (sphere, capsule, box, etc).
 **/
 @:glueCppIncludes("Components/ShapeComponent.h")
-@:uextern extern class UShapeComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UShapeComponent extends unreal.UPrimitiveComponent {
   
   /**
     Navigation area type (empty = default obstacle)
   **/
-  public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
   
   /**
     If set, shape will be exported for navigation as dynamic modifier instead of using regular collision data
   **/
-  public var bDynamicObstacle : Bool;
+  @:uproperty public var bDynamicObstacle : Bool;
   
   /**
     If true it allows Collision when placing even if collision is not enabled
   **/
-  public var bShouldCollideWhenPlacing : Bool;
+  @:uproperty public var bShouldCollideWhenPlacing : Bool;
   
   /**
     Only show this component if the actor is selected
   **/
-  public var bDrawOnlyIfSelected : Bool;
+  @:uproperty public var bDrawOnlyIfSelected : Bool;
   
   /**
     Description of collision
   **/
-  public var ShapeBodySetup : unreal.UBodySetup;
+  @:uproperty public var ShapeBodySetup : unreal.UBodySetup;
   
   /**
     Color used to draw the shape.
   **/
-  public var ShapeColor : unreal.FColor;
+  @:uproperty public var ShapeColor : unreal.FColor;
   
 }

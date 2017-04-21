@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("Gizmo/VREditorTranslationGizmoHandle.h")
-@:noClass @:uextern extern class UVREditorTranslationGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
+@:noClass @:uextern @:uclass extern class UVREditorTranslationGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   
 }

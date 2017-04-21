@@ -10,6 +10,9 @@ package unreal;
   @:global
   static var GLog(default, never) : PPtr<FOutputDevice>;
 
+  @:global
+  static var GWarn(default, never) : PPtr<FOutputDevice>;
+
   function Flush():Void;
 
   /**

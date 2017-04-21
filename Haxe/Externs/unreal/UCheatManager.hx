@@ -19,275 +19,275 @@ package unreal;
   As the Cheat Manager is not instanced in shipping builds, it is for debugging purposes only
 **/
 @:glueCppIncludes("GameFramework/CheatManager.h")
-@:uextern extern class UCheatManager extends unreal.UObject {
+@:uextern @:uclass extern class UCheatManager extends unreal.UObject {
   
   /**
     Debug camera - used to have independent camera without stopping gameplay
   **/
-  public var DebugCameraControllerClass : unreal.TSubclassOf<unreal.ADebugCameraController>;
+  @:uproperty public var DebugCameraControllerClass : unreal.TSubclassOf<unreal.ADebugCameraController>;
   
   /**
     Debug camera - used to have independent camera without stopping gameplay
   **/
-  public var DebugCameraControllerRef : unreal.ADebugCameraController;
+  @:uproperty public var DebugCameraControllerRef : unreal.ADebugCameraController;
   
   /**
     Pause the game for Delay seconds.
   **/
-  public function FreezeFrame(Delay : unreal.Float32) : Void;
+  @:ufunction public function FreezeFrame(Delay : unreal.Float32) : Void;
   
   /**
     Teleport to surface player is looking at.
   **/
-  public function Teleport() : Void;
+  @:ufunction public function Teleport() : Void;
   
   /**
     Scale the player's size to be F * default size.
   **/
-  public function ChangeSize(F : unreal.Float32) : Void;
+  @:ufunction public function ChangeSize(F : unreal.Float32) : Void;
   
   /**
     Pawn can fly.
   **/
-  public function Fly() : Void;
+  @:ufunction public function Fly() : Void;
   
   /**
     Return to walking movement mode from Fly or Ghost cheat.
   **/
-  public function Walk() : Void;
+  @:ufunction public function Walk() : Void;
   
   /**
     Pawn no longer collides with the world, and can fly
   **/
-  public function Ghost() : Void;
+  @:ufunction public function Ghost() : Void;
   
   /**
     Invulnerability cheat.
   **/
-  public function God() : Void;
+  @:ufunction public function God() : Void;
   
   /**
     Modify time dilation to change apparent speed of passage of time. e.g. "Slomo 0.1" makes everything move very slowly, while "Slomo 10" makes everything move very fast.
   **/
-  public function Slomo(NewTimeDilation : unreal.Float32) : Void;
+  @:ufunction public function Slomo(NewTimeDilation : unreal.Float32) : Void;
   
   /**
     Damage the actor you're looking at (sourced from the player).
   **/
-  @:final public function DamageTarget(DamageAmount : unreal.Float32) : Void;
+  @:ufunction @:final public function DamageTarget(DamageAmount : unreal.Float32) : Void;
   
   /**
     Destroy the actor you're looking at.
   **/
-  public function DestroyTarget() : Void;
+  @:ufunction public function DestroyTarget() : Void;
   
   /**
     Destroy all actors of class aClass
   **/
-  public function DestroyAll(aClass : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction public function DestroyAll(aClass : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Destroy all pawns except for the (pawn) target.  If no (pawn) target is found we don't destroy anything.
   **/
-  @:final public function DestroyAllPawnsExceptTarget() : Void;
+  @:ufunction @:final public function DestroyAllPawnsExceptTarget() : Void;
   
   /**
     Destroys (by calling destroy directly) all non-player pawns of class aClass in the level
   **/
-  public function DestroyPawns(aClass : unreal.TSubclassOf<unreal.APawn>) : Void;
+  @:ufunction public function DestroyPawns(aClass : unreal.TSubclassOf<unreal.APawn>) : Void;
   
   /**
     Load Classname and spawn an actor of that class
   **/
-  public function Summon(ClassName : unreal.FString) : Void;
+  @:ufunction public function Summon(ClassName : unreal.FString) : Void;
   
   /**
     Freeze everything in the level except for players.
   **/
-  public function PlayersOnly() : Void;
+  @:ufunction public function PlayersOnly() : Void;
   
   /**
     Make controlled pawn the viewtarget again.
   **/
-  public function ViewSelf() : Void;
+  @:ufunction public function ViewSelf() : Void;
   
   /**
     View from the point of view of player with PlayerName S.
   **/
-  public function ViewPlayer(S : unreal.FString) : Void;
+  @:ufunction public function ViewPlayer(S : unreal.FString) : Void;
   
   /**
     View from the point of view of AActor with Name ActorName.
   **/
-  public function ViewActor(ActorName : unreal.FName) : Void;
+  @:ufunction public function ViewActor(ActorName : unreal.FName) : Void;
   
   /**
     View from the point of view of an AActor of class DesiredClass.  Each subsequent ViewClass cycles through the list of actors of that class.
   **/
-  public function ViewClass(DesiredClass : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction public function ViewClass(DesiredClass : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Stream in the given level.
   **/
-  public function StreamLevelIn(PackageName : unreal.FName) : Void;
+  @:ufunction public function StreamLevelIn(PackageName : unreal.FName) : Void;
   
   /**
     Load the given level.
   **/
-  public function OnlyLoadLevel(PackageName : unreal.FName) : Void;
+  @:ufunction public function OnlyLoadLevel(PackageName : unreal.FName) : Void;
   
   /**
     Stream out the given level.
   **/
-  public function StreamLevelOut(PackageName : unreal.FName) : Void;
+  @:ufunction public function StreamLevelOut(PackageName : unreal.FName) : Void;
   
   /**
     Toggle between debug camera/player camera without locking gameplay and with locking local player controller input.
   **/
-  public function ToggleDebugCamera() : Void;
+  @:ufunction public function ToggleDebugCamera() : Void;
   
   /**
     toggles AI logging
   **/
-  public function ToggleAILogging() : Void;
-  public function ServerToggleAILogging() : Void;
+  @:ufunction public function ToggleAILogging() : Void;
+  @:ufunction public function ServerToggleAILogging() : Void;
   
   /**
     Toggle capsule trace debugging. Will trace a capsule from current view point and show where it hits the world
   **/
-  public function DebugCapsuleSweep() : Void;
+  @:ufunction public function DebugCapsuleSweep() : Void;
   
   /**
     Change Trace capsule size *
   **/
-  public function DebugCapsuleSweepSize(HalfHeight : unreal.Float32, Radius : unreal.Float32) : Void;
+  @:ufunction public function DebugCapsuleSweepSize(HalfHeight : unreal.Float32, Radius : unreal.Float32) : Void;
   
   /**
     Change Trace Channel *
   **/
-  public function DebugCapsuleSweepChannel(Channel : unreal.ECollisionChannel) : Void;
+  @:ufunction public function DebugCapsuleSweepChannel(Channel : unreal.ECollisionChannel) : Void;
   
   /**
     Change Trace Complex setting *
   **/
-  public function DebugCapsuleSweepComplex(bTraceComplex : Bool) : Void;
+  @:ufunction public function DebugCapsuleSweepComplex(bTraceComplex : Bool) : Void;
   
   /**
     Capture current trace and add to persistent list *
   **/
-  public function DebugCapsuleSweepCapture() : Void;
+  @:ufunction public function DebugCapsuleSweepCapture() : Void;
   
   /**
     Capture current local PC's pawn's location and add to persistent list *
   **/
-  public function DebugCapsuleSweepPawn() : Void;
+  @:ufunction public function DebugCapsuleSweepPawn() : Void;
   
   /**
     Clear persistent list for trace capture *
   **/
-  public function DebugCapsuleSweepClear() : Void;
+  @:ufunction public function DebugCapsuleSweepClear() : Void;
   
   /**
     Test all volumes in the world to the player controller's view location*
   **/
-  public function TestCollisionDistance() : Void;
+  @:ufunction public function TestCollisionDistance() : Void;
   
   /**
     Builds the navigation mesh (or rebuilds it). *
   **/
-  public function RebuildNavigation() : Void;
+  @:ufunction public function RebuildNavigation() : Void;
   
   /**
     Sets navigation drawing distance. Relevant only in non-editor modes. *
   **/
-  @:final public function SetNavDrawDistance(DrawDistance : unreal.Float32) : Void;
+  @:ufunction @:final public function SetNavDrawDistance(DrawDistance : unreal.Float32) : Void;
   
   /**
     Dump online session information
   **/
-  public function DumpOnlineSessionState() : Void;
+  @:ufunction public function DumpOnlineSessionState() : Void;
   
   /**
     Dump known party information
   **/
-  public function DumpPartyState() : Void;
+  @:ufunction public function DumpPartyState() : Void;
   
   /**
     Dump known chat information
   **/
-  public function DumpChatState() : Void;
+  @:ufunction public function DumpChatState() : Void;
   
   /**
     Dump current state of voice chat
   **/
-  public function DumpVoiceMutingState() : Void;
+  @:ufunction public function DumpVoiceMutingState() : Void;
   
   /**
     This will move the player and set their rotation to the passed in values.
     We have this version of the BugIt family as it is easier to type in just raw numbers in the console.
   **/
-  public function BugItGo(X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32, Roll : unreal.Float32) : Void;
+  @:ufunction public function BugItGo(X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32, Roll : unreal.Float32) : Void;
   
   /**
     This function is used to print out the BugIt location.  It prints out copy and paste versions for both IMing someone to type in
     and also a gameinfo ?options version so that you can append it to your launching url and be taken to the correct place.
     Additionally, it will take a screen shot so reporting bugs is a one command action!
   **/
-  public function BugIt(ScreenShotDescription : unreal.FString) : Void;
+  @:ufunction public function BugIt(ScreenShotDescription : unreal.FString) : Void;
   
   /**
     This will create a BugItGo string for us.  Nice for calling form c++ where you just want the string and no Screenshots *
   **/
-  public function BugItStringCreator(ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, GoString : unreal.PRef<unreal.FString>, LocString : unreal.PRef<unreal.FString>) : Void;
+  @:ufunction public function BugItStringCreator(ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, GoString : unreal.PRef<unreal.FString>, LocString : unreal.PRef<unreal.FString>) : Void;
   
   /**
     This will force a flush of the output log to file
   **/
-  public function FlushLog() : Void;
+  @:ufunction public function FlushLog() : Void;
   
   /**
     Logs the current location in bugit format without taking screenshot and further routing.
   **/
-  public function LogLoc() : Void;
+  @:ufunction public function LogLoc() : Void;
   
   /**
     Translate world origin to this player position
   **/
-  @:final public function SetWorldOrigin() : Void;
+  @:ufunction @:final public function SetWorldOrigin() : Void;
   
   /**
     Exec function to return the mouse sensitivity to its default value
   **/
-  @:final public function SetMouseSensitivityToDefault() : Void;
+  @:ufunction @:final public function SetMouseSensitivityToDefault() : Void;
   
   /**
     Backwards compatibility exec function for people used to it instead of using InvertAxisKey
   **/
-  @:final public function InvertMouse() : Void;
+  @:ufunction @:final public function InvertMouse() : Void;
   
   /**
     Executes commands listed in CheatScript.ScriptName ini section of DefaultGame.ini
   **/
-  @:final public function CheatScript(ScriptName : unreal.FString) : Void;
+  @:ufunction @:final public function CheatScript(ScriptName : unreal.FString) : Void;
   
   /**
     BP implementable event for when CheatManager is created to allow any needed initialization.
   **/
-  public function ReceiveInitCheatManager() : Void;
+  @:ufunction public function ReceiveInitCheatManager() : Void;
   
   /**
     This is the End Play event for the CheatManager
   **/
-  public function ReceiveEndPlay() : Void;
+  @:ufunction public function ReceiveEndPlay() : Void;
   
   /**
     Switch controller to debug camera without locking gameplay and with locking local player controller input
   **/
-  private function EnableDebugCamera() : Void;
+  @:ufunction private function EnableDebugCamera() : Void;
   
   /**
     Switch controller from debug camera back to normal controller
   **/
-  private function DisableDebugCamera() : Void;
+  @:ufunction private function DisableDebugCamera() : Void;
   
 }

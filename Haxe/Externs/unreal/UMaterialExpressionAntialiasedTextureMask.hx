@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAntialiasedTextureMask.h")
-@:uextern extern class UMaterialExpressionAntialiasedTextureMask extends unreal.UMaterialExpressionTextureSampleParameter2D {
-  public var Channel : unreal.ETextureColorChannel;
-  public var Threshold : unreal.Float32;
+@:uextern @:uclass extern class UMaterialExpressionAntialiasedTextureMask extends unreal.UMaterialExpressionTextureSampleParameter2D {
+  @:uproperty public var Channel : unreal.ETextureColorChannel;
+  @:uproperty public var Threshold : unreal.Float32;
   
 }

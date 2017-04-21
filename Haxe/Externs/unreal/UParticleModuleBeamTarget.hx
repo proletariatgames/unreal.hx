@@ -20,61 +20,61 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamTarget.h")
-@:uextern extern class UParticleModuleBeamTarget extends unreal.UParticleModuleBeamBase {
+@:uextern @:uclass extern class UParticleModuleBeamTarget extends unreal.UParticleModuleBeamBase {
   
   /**
     Default target-point information to use if the beam method is endpoint.
   **/
-  public var LockRadius : unreal.Float32;
+  @:uproperty public var LockRadius : unreal.Float32;
   
   /**
     Whether to lock the Target to the life of the particle.
   **/
-  public var bLockTargetStength : Bool;
+  @:uproperty public var bLockTargetStength : Bool;
   
   /**
     The strength of the tangent from the Target point for each beam.
   **/
-  public var TargetStrength : unreal.FRawDistributionFloat;
+  @:uproperty public var TargetStrength : unreal.FRawDistributionFloat;
   
   /**
     Whether to lock the Target to the life of the particle.
   **/
-  public var bLockTargetTangent : Bool;
+  @:uproperty public var bLockTargetTangent : Bool;
   
   /**
     The tangent for the Target point for each beam.
   **/
-  public var TargetTangent : unreal.FRawDistributionVector;
+  @:uproperty public var TargetTangent : unreal.FRawDistributionVector;
   
   /**
     The method to use for the Target tangent.
   **/
-  public var TargetTangentMethod : unreal.Beam2SourceTargetTangentMethod;
+  @:uproperty public var TargetTangentMethod : unreal.Beam2SourceTargetTangentMethod;
   
   /**
     Whether to lock the Target to the life of the particle.
   **/
-  public var bLockTarget : Bool;
+  @:uproperty public var bLockTarget : Bool;
   
   /**
     Whether to treat the as an absolute position in world space.
   **/
-  public var bTargetAbsolute : Bool;
+  @:uproperty public var bTargetAbsolute : Bool;
   
   /**
     Default target-point information to use if the beam method is endpoint.
   **/
-  public var Target : unreal.FRawDistributionVector;
+  @:uproperty public var Target : unreal.FRawDistributionVector;
   
   /**
     The target point sources of each beam, when using the end point method.
   **/
-  public var TargetName : unreal.FName;
+  @:uproperty public var TargetName : unreal.FName;
   
   /**
     The method flag.
   **/
-  public var TargetMethod : unreal.Beam2SourceTargetMethod;
+  @:uproperty public var TargetMethod : unreal.Beam2SourceTargetMethod;
   
 }

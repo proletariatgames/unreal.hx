@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveExtrapolation")
-@:uextern extern enum ERichCurveExtrapolation {
+@:uextern @:uenum extern enum ERichCurveExtrapolation {
   RCCE_Cycle;
   RCCE_CycleWithOffset;
   RCCE_Oscillate;

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("BoneContainer.h")
-@:noCopy @:noEquals @:uextern extern class FBoneReference {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBoneReference {
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var BoneName : unreal.FName;
+  @:uproperty public var BoneName : unreal.FName;
   
 }

@@ -15,18 +15,18 @@ package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
-@:uextern extern class FAnimNode_LegIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
-  public var LegsData : unreal.TArray<unreal.animgraphruntime.FAnimLegIKData>;
-  public var LegsDefinition : unreal.TArray<unreal.animgraphruntime.FAnimLegIKDefinition>;
+@:uextern @:ustruct extern class FAnimNode_LegIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+  @:uproperty public var LegsData : unreal.TArray<unreal.animgraphruntime.FAnimLegIKData>;
+  @:uproperty public var LegsDefinition : unreal.TArray<unreal.animgraphruntime.FAnimLegIKDefinition>;
   
   /**
     Max Number of Iterations.
   **/
-  public var MaxIterations : unreal.Int32;
+  @:uproperty public var MaxIterations : unreal.Int32;
   
   /**
     Tolerance for reaching IK Target, in unreal units.
   **/
-  public var ReachPrecision : unreal.Float32;
+  @:uproperty public var ReachPrecision : unreal.Float32;
   
 }

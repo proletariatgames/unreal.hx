@@ -21,15 +21,15 @@ package unreal.phat;
 **/
 @:umodule("PhAT")
 @:glueCppIncludes("PhATEdSkeletalMeshComponent.h")
-@:noClass @:uextern extern class UPhATEdSkeletalMeshComponent extends unreal.USkeletalMeshComponent {
-  public var BoneNoCollisionMaterial : unreal.UMaterialInterface;
-  public var BoneMaterialHit : unreal.UMaterialInterface;
-  public var BoneUnselectedMaterial : unreal.UMaterialInterface;
-  public var BoneSelectedMaterial : unreal.UMaterialInterface;
+@:noClass @:uextern @:uclass extern class UPhATEdSkeletalMeshComponent extends unreal.USkeletalMeshComponent {
+  @:uproperty public var BoneNoCollisionMaterial : unreal.UMaterialInterface;
+  @:uproperty public var BoneMaterialHit : unreal.UMaterialInterface;
+  @:uproperty public var BoneUnselectedMaterial : unreal.UMaterialInterface;
+  @:uproperty public var BoneSelectedMaterial : unreal.UMaterialInterface;
   
   /**
     Materials
   **/
-  public var ElemSelectedMaterial : unreal.UMaterialInterface;
+  @:uproperty public var ElemSelectedMaterial : unreal.UMaterialInterface;
   
 }

@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_CopyPoseFromMesh.h")
-@:uextern extern class FAnimNode_CopyPoseFromMesh extends unreal.FAnimNode_Base {
-  public var SourceMeshComponent : unreal.USkeletalMeshComponent;
+@:uextern @:ustruct extern class FAnimNode_CopyPoseFromMesh extends unreal.FAnimNode_Base {
+  @:uproperty public var SourceMeshComponent : unreal.USkeletalMeshComponent;
   
 }

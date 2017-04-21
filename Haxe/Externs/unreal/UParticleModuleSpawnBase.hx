@@ -20,20 +20,20 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawnBase.h")
-@:noClass @:uextern extern class UParticleModuleSpawnBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleSpawnBase extends unreal.UParticleModule {
   
   /**
     If true, the BurstList of the SpawnModule of the emitter will be processed.
     If mutliple Spawn modules are 'stacked' in an emitter, if ANY of them
     have this set to false, it will not process the SpawnModule BurstList.
   **/
-  public var bProcessBurstList : Bool;
+  @:uproperty public var bProcessBurstList : Bool;
   
   /**
     If true, the SpawnRate of the SpawnModule of the emitter will be processed.
     If mutliple Spawn modules are 'stacked' in an emitter, if ANY of them
     have this set to false, it will not process the SpawnModule SpawnRate.
   **/
-  public var bProcessSpawnRate : Bool;
+  @:uproperty public var bProcessSpawnRate : Bool;
   
 }

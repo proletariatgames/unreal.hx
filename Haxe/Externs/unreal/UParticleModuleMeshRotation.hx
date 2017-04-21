@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Rotation/ParticleModuleMeshRotation.h")
-@:uextern extern class UParticleModuleMeshRotation extends unreal.UParticleModuleRotationBase {
+@:uextern @:uclass extern class UParticleModuleMeshRotation extends unreal.UParticleModuleRotationBase {
   
   /**
     If true, apply the parents rotation as well.
   **/
-  public var bInheritParent : Bool;
+  @:uproperty public var bInheritParent : Bool;
   
   /**
     Initial rotation in ROTATIONS PER SECOND (1 = 360 degrees).
     The value is retrieved using the EmitterTime.
   **/
-  public var StartRotation : unreal.FRawDistributionVector;
+  @:uproperty public var StartRotation : unreal.FRawDistributionVector;
   
 }

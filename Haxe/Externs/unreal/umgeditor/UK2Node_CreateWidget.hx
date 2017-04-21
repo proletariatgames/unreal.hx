@@ -15,6 +15,6 @@ package unreal.umgeditor;
 
 @:umodule("UMGEditor")
 @:glueCppIncludes("Private/Nodes/K2Node_CreateWidget.h")
-@:uextern extern class UK2Node_CreateWidget extends unreal.blueprintgraph.UK2Node_ConstructObjectFromClass {
+@:uextern @:uclass extern class UK2Node_CreateWidget extends unreal.blueprintgraph.UK2Node_ConstructObjectFromClass {
   
 }

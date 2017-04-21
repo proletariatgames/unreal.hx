@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/LightmassPrimitiveSettingsObject.h")
-@:uextern extern class ULightmassPrimitiveSettingsObject extends unreal.UObject {
-  public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
+@:uextern @:uclass extern class ULightmassPrimitiveSettingsObject extends unreal.UObject {
+  @:uproperty public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
   
 }

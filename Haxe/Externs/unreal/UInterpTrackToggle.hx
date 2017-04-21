@@ -20,37 +20,37 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackToggle.h")
-@:uextern extern class UInterpTrackToggle extends unreal.UInterpTrack {
+@:uextern @:uclass extern class UInterpTrackToggle extends unreal.UInterpTrack {
   
   /**
     If true, events on this track are fired even when jumping forwads through a sequence - for example, skipping a cinematic.
   **/
-  public var bFireEventsWhenJumpingForwards : Bool;
+  @:uproperty public var bFireEventsWhenJumpingForwards : Bool;
   
   /**
     If events should be fired when passed playing the sequence backwards.
   **/
-  public var bFireEventsWhenBackwards : Bool;
+  @:uproperty public var bFireEventsWhenBackwards : Bool;
   
   /**
     If events should be fired when passed playing the sequence forwards.
   **/
-  public var bFireEventsWhenForwards : Bool;
+  @:uproperty public var bFireEventsWhenForwards : Bool;
   
   /**
     If true, the track will activate the system w/ the 'Just Attached' flag.
   **/
-  public var bActivateWithJustAttachedFlag : Bool;
+  @:uproperty public var bActivateWithJustAttachedFlag : Bool;
   
   /**
     If true, the track will call ActivateSystem on the emitter each update (the old 'incorrect' behavior).
     If false (the default), the System will only be activated if it was previously inactive.
   **/
-  public var bActivateSystemEachUpdate : Bool;
+  @:uproperty public var bActivateSystemEachUpdate : Bool;
   
   /**
     Array of events to fire off.
   **/
-  public var ToggleTrack : unreal.TArray<unreal.FToggleTrackKey>;
+  @:uproperty public var ToggleTrack : unreal.TArray<unreal.FToggleTrackKey>;
   
 }

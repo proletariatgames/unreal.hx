@@ -19,31 +19,31 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FEditableTextStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FEditableTextStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Image brush used for the caret
   **/
-  public var CaretImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var CaretImage : unreal.slatecore.FSlateBrush;
   
   /**
     Background image for the selected text
   **/
-  public var BackgroundImageComposing : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageComposing : unreal.slatecore.FSlateBrush;
   
   /**
     Background image for the selected text
   **/
-  public var BackgroundImageSelected : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageSelected : unreal.slatecore.FSlateBrush;
   
   /**
     The color and opacity of this text
   **/
-  public var ColorAndOpacity : unreal.slatecore.FSlateColor;
+  @:uproperty public var ColorAndOpacity : unreal.slatecore.FSlateColor;
   
   /**
     Font family and size to be used when displaying this text.
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
 }

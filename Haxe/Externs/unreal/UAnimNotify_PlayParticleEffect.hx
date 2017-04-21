@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotify_PlayParticleEffect.h")
-@:uextern extern class UAnimNotify_PlayParticleEffect extends unreal.UAnimNotify {
+@:uextern @:uclass extern class UAnimNotify_PlayParticleEffect extends unreal.UAnimNotify {
   
   /**
     SocketName to attach to
   **/
-  public var SocketName : unreal.FName;
+  @:uproperty public var SocketName : unreal.FName;
   
   /**
     Should attach to the bone/socket
   **/
-  public var Attached : Bool;
+  @:uproperty public var Attached : Bool;
   
   /**
     Rotation offset from socket
   **/
-  public var RotationOffset : unreal.FRotator;
+  @:uproperty public var RotationOffset : unreal.FRotator;
   
   /**
     Location offset from the socket
   **/
-  public var LocationOffset : unreal.FVector;
+  @:uproperty public var LocationOffset : unreal.FVector;
   
   /**
     Particle System to Spawn
   **/
-  public var PSTemplate : unreal.UParticleSystem;
+  @:uproperty public var PSTemplate : unreal.UParticleSystem;
   
 }

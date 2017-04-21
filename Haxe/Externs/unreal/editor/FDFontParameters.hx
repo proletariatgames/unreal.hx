@@ -15,8 +15,8 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/DEditorFontParameterValue.h")
-@:uextern extern class FDFontParameters {
-  public var FontPage : unreal.Int32;
-  public var FontValue : unreal.UFont;
+@:uextern @:ustruct extern class FDFontParameters {
+  @:uproperty public var FontPage : unreal.Int32;
+  @:uproperty public var FontValue : unreal.UFont;
   
 }

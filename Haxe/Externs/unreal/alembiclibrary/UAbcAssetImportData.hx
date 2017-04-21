@@ -19,6 +19,6 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcAssetImportData.h")
-@:uextern extern class UAbcAssetImportData extends unreal.UAssetImportData {
+@:uextern @:uclass extern class UAbcAssetImportData extends unreal.UAssetImportData {
   
 }

@@ -16,7 +16,7 @@ package unreal.editorstyle;
 @:umodule("EditorStyle")
 @:glueCppIncludes("Classes/EditorStyleSettings.h")
 @:uname("EAssetEditorOpenLocation")
-@:class @:uextern extern enum EAssetEditorOpenLocation {
+@:class @:uextern @:uenum extern enum EAssetEditorOpenLocation {
   
   /**
     Attempts to dock asset editors into either a new window, or the main window if they were docked there.

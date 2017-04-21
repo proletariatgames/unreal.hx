@@ -19,11 +19,11 @@ package unreal;
   the LOD bias of a given group.
 **/
 @:glueCppIncludes("Engine/TextureLODSettings.h")
-@:uextern extern class UTextureLODSettings extends unreal.UObject {
+@:uextern @:uclass extern class UTextureLODSettings extends unreal.UObject {
   
   /**
     Array of LOD settings with entries per group.
   **/
-  public var TextureLODGroups : unreal.TArray<unreal.FTextureLODGroup>;
+  @:uproperty public var TextureLODGroups : unreal.TArray<unreal.FTextureLODGroup>;
   
 }

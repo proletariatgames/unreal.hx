@@ -15,12 +15,12 @@ package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTask.h")
-@:uextern extern class UGameplayTask extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
+@:uextern @:uclass extern class UGameplayTask extends unreal.UObject implements unreal.gameplaytasks.IGameplayTaskOwnerInterface {
   
   /**
     Called to trigger the actual task once the delegates have been set up
   **/
-  @:final public function ReadyForActivation() : Void;
+  @:ufunction @:final public function ReadyForActivation() : Void;
   
   /**
     Called explicitly to end the task (usually by the task itself). Calls OnDestroy.
@@ -28,17 +28,17 @@ package unreal.gameplaytasks;
         If you don't the task will still be in an "active" state while the event receivers may
         assume it's already "finished"
   **/
-  @:final public function EndTask() : Void;
+  @:ufunction @:final public function EndTask() : Void;
   
   /**
     child task instance
   **/
-  private var ChildTask : unreal.gameplaytasks.UGameplayTask;
+  @:uproperty private var ChildTask : unreal.gameplaytasks.UGameplayTask;
   
   /**
     This name allows us to find the task later so that we can end it.
   **/
-  private var InstanceName : unreal.FName;
+  @:uproperty private var InstanceName : unreal.FName;
   // GameplayTaskOwnerInterface interface implementation
   
 }

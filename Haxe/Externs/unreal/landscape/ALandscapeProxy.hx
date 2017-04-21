@@ -21,40 +21,40 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
-@:uextern extern class ALandscapeProxy extends unreal.AActor {
+@:uextern @:uclass extern class ALandscapeProxy extends unreal.AActor {
   
   /**
     Flag whether or not this Landscape's surface can be used for culling hidden triangles *
   **/
-  public var bUseLandscapeForCullingInvisibleHLODVertices : Bool;
+  @:uproperty public var bUseLandscapeForCullingInvisibleHLODVertices : Bool;
   #if WITH_EDITORONLY_DATA
-  public var MaxPaintedLayersPerComponent : unreal.Int32;
+  @:uproperty public var MaxPaintedLayersPerComponent : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
-  public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
+  @:uproperty public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
   
   /**
     Hints navigation system whether this landscape will ever be navigated on. true by default, but make sure to set it to false for faraway, background landscapes
   **/
-  public var bUsedForNavigation : Bool;
+  @:uproperty public var bUsedForNavigation : Bool;
   
   /**
     Number of quads for a subsection of a component. SubsectionSizeQuads+1 must be a power of two.
   **/
-  public var NumSubsections : unreal.Int32;
+  @:uproperty public var NumSubsections : unreal.Int32;
   
   /**
     Total number of quads in each component
   **/
-  public var SubsectionSizeQuads : unreal.Int32;
+  @:uproperty public var SubsectionSizeQuads : unreal.Int32;
   
   /**
     Data set at creation time
   **/
-  public var ComponentSizeQuads : unreal.Int32;
+  @:uproperty public var ComponentSizeQuads : unreal.Int32;
   #if WITH_EDITORONLY_DATA
-  public var EditorLayerSettings : unreal.TArray<unreal.landscape.FLandscapeEditorLayerSettings>;
-  public var ReimportHeightmapFilePath : unreal.FString;
-  @:deprecated public var EditorCachedLayerInfos_DEPRECATED : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
+  @:uproperty public var EditorLayerSettings : unreal.TArray<unreal.landscape.FLandscapeEditorLayerSettings>;
+  @:uproperty public var ReimportHeightmapFilePath : unreal.FString;
+  @:deprecated @:uproperty public var EditorCachedLayerInfos_DEPRECATED : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -62,7 +62,7 @@ package unreal.landscape;
                   Note: Only z (vertical) offset is supported. XY offsets are ignored.
                   Does not work with an XY offset map (mesh collision)
   **/
-  public var bBakeMaterialPositionOffsetIntoCollision : Bool;
+  @:uproperty public var bBakeMaterialPositionOffsetIntoCollision : Bool;
   
   /**
     If true, Landscape will generate overlap events when other components are overlapping it (eg Begin Overlap).
@@ -71,35 +71,35 @@ package unreal.landscape;
     @see [Overlap Events](https://docs.unrealengine.com/latest/INT/Engine/Physics/Collision/index.html#overlapandgenerateoverlapevents)
     @see UpdateOverlaps(), BeginComponentOverlap(), EndComponentOverlap()
   **/
-  public var bGenerateOverlapEvents : Bool;
+  @:uproperty public var bGenerateOverlapEvents : Bool;
   
   /**
     Collision profile settings for this landscape
   **/
-  public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance : unreal.FBodyInstance;
   
   /**
     Thickness of the collision surface, in unreal units
   **/
-  public var CollisionThickness : unreal.Float32;
+  @:uproperty public var CollisionThickness : unreal.Float32;
   
   /**
     If set higher than the "Collision Mip Level", this specifies the Landscape LOD to use for "simple collision" tests, otherwise the "Collision Mip Level" is used for both simple and complex collision.
     Does not work with an XY offset map (mesh collision)
   **/
-  public var SimpleCollisionMipLevel : unreal.Int32;
+  @:uproperty public var SimpleCollisionMipLevel : unreal.Int32;
   
   /**
     Landscape LOD to use for collision tests. Higher numbers use less memory and process faster, but are much less accurate
   **/
-  public var CollisionMipLevel : unreal.Int32;
+  @:uproperty public var CollisionMipLevel : unreal.Int32;
   
   /**
     The Lightmass settings for this object.
   **/
-  public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
+  @:uproperty public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
   #if WITH_EDITORONLY_DATA
-  public var bIsMovingToLevel : Bool;
+  @:uproperty public var bIsMovingToLevel : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -107,107 +107,107 @@ package unreal.landscape;
                   Note: Only z (vertical) offset is supported. XY offsets are ignored.
                   Does not work correctly with an XY offset map (mesh collision)
   **/
-  public var bUseMaterialPositionOffsetInStaticLighting : Bool;
+  @:uproperty public var bUseMaterialPositionOffsetInStaticLighting : Bool;
   
   /**
     Whether this primitive should cast shadows in the far shadow cascades.
   **/
-  public var bCastFarShadow : Bool;
+  @:uproperty public var bCastFarShadow : Bool;
   
   /**
     Whether this primitive should cast dynamic shadows as if it were a two sided material.
   **/
-  public var bCastShadowAsTwoSided : Bool;
-  public var bCastStaticShadow : Bool;
+  @:uproperty public var bCastShadowAsTwoSided : Bool;
+  @:uproperty public var bCastStaticShadow : Bool;
   
   /**
     The resolution to cache lighting at, in texels/quad in one axis
     Total resolution would be changed by StaticLightingResolution*StaticLightingResolution
     Automatically calculate proper value for removing seams
   **/
-  public var StaticLightingResolution : unreal.Float32;
+  @:uproperty public var StaticLightingResolution : unreal.Float32;
   
   /**
     Only used outside of the editor (e.g. in cooked builds)
     Disables landscape grass processing entirely if no landscape components have landscape grass configured
   **/
-  public var bHasLandscapeGrass : Bool;
-  public var FoliageComponents : unreal.TArray<unreal.UHierarchicalInstancedStaticMeshComponent>;
+  @:uproperty public var bHasLandscapeGrass : Bool;
+  @:uproperty public var FoliageComponents : unreal.TArray<unreal.UHierarchicalInstancedStaticMeshComponent>;
   
   /**
     Array of LandscapeHeightfieldCollisionComponent
   **/
-  public var CollisionComponents : unreal.TArray<unreal.landscape.ULandscapeHeightfieldCollisionComponent>;
+  @:uproperty public var CollisionComponents : unreal.TArray<unreal.landscape.ULandscapeHeightfieldCollisionComponent>;
   
   /**
     The array of LandscapeComponent that are used by the landscape
   **/
-  public var LandscapeComponents : unreal.TArray<unreal.landscape.ULandscapeComponent>;
+  @:uproperty public var LandscapeComponents : unreal.TArray<unreal.landscape.ULandscapeComponent>;
   
   /**
     Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
     Extension value in the positive Z axis, positive value increases bound size
     Note that this can also be overridden per-component when the component is selected with the component select tool
   **/
-  public var PositiveZBoundsExtension : unreal.Float32;
+  @:uproperty public var PositiveZBoundsExtension : unreal.Float32;
   
   /**
     Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
     Extension value in the negative Z axis, positive value increases bound size
     Note that this can also be overridden per-component when the component is selected with the component select tool
   **/
-  public var NegativeZBoundsExtension : unreal.Float32;
+  @:uproperty public var NegativeZBoundsExtension : unreal.Float32;
   
   /**
     Material used to render landscape components with holes. If not set, LandscapeMaterial will be used (blend mode will be overridden to Masked if it is set to Opaque)
   **/
-  public var LandscapeHoleMaterial : unreal.UMaterialInterface;
+  @:uproperty public var LandscapeHoleMaterial : unreal.UMaterialInterface;
   
   /**
     Combined material used to render the landscape
   **/
-  public var LandscapeMaterial : unreal.UMaterialInterface;
+  @:uproperty public var LandscapeMaterial : unreal.UMaterialInterface;
   
   /**
     Allows artists to adjust the distance where textures using UV 0 are streamed in/out.
     1.0 is the default, whereas a higher value increases the streamed-in resolution.
     Value can be < 0 (from legcay content, or code changes)
   **/
-  public var StreamingDistanceMultiplier : unreal.Float32;
+  @:uproperty public var StreamingDistanceMultiplier : unreal.Float32;
   
   /**
     Default physical material, used when no per-layer values physical materials
   **/
-  public var DefaultPhysMaterial : unreal.UPhysicalMaterial;
+  @:uproperty public var DefaultPhysMaterial : unreal.UPhysicalMaterial;
   
   /**
     LOD level to use when running lightmass (increase to 1 or 2 for large landscapes to stop lightmass crashing)
   **/
-  public var StaticLightingLOD : unreal.Int32;
+  @:uproperty public var StaticLightingLOD : unreal.Int32;
   #if WITH_EDITORONLY_DATA
   
   /**
     LOD level to use when exporting the landscape to obj or FBX
   **/
-  public var ExportLOD : unreal.Int32;
+  @:uproperty public var ExportLOD : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
-  public var LODFalloff : unreal.landscape.ELandscapeLODFalloff;
-  public var LODDistanceFactor : unreal.Float32;
+  @:uproperty public var LODFalloff : unreal.landscape.ELandscapeLODFalloff;
+  @:uproperty public var LODDistanceFactor : unreal.Float32;
   
   /**
     Max LOD level to use when rendering, -1 means the max available
   **/
-  public var MaxLODLevel : unreal.Int32;
+  @:uproperty public var MaxLODLevel : unreal.Int32;
   
   /**
     Offset in quads from global components grid origin (in quads) *
   **/
-  public var LandscapeSectionOffset : unreal.FIntPoint;
+  @:uproperty public var LandscapeSectionOffset : unreal.FIntPoint;
   
   /**
     Guid for LandscapeEditorInfo *
   **/
-  private var LandscapeGuid : unreal.FGuid;
-  public var SplineComponent : unreal.landscape.ULandscapeSplinesComponent;
+  @:uproperty private var LandscapeGuid : unreal.FGuid;
+  @:uproperty public var SplineComponent : unreal.landscape.ULandscapeSplinesComponent;
   
 }

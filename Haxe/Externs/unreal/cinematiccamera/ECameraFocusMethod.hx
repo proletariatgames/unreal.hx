@@ -20,7 +20,7 @@ package unreal.cinematiccamera;
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
 @:uname("ECameraFocusMethod")
-@:class @:uextern extern enum ECameraFocusMethod {
+@:class @:uextern @:uenum extern enum ECameraFocusMethod {
   None;
   
   /**

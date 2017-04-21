@@ -18,73 +18,73 @@ package unreal;
   Physical materials are used to define the response of a physical object when interacting dynamically with the world.
 **/
 @:glueCppIncludes("PhysicalMaterials/PhysicalMaterial.h")
-@:uextern extern class UPhysicalMaterial extends unreal.UObject {
+@:uextern @:uclass extern class UPhysicalMaterial extends unreal.UObject {
   
   /**
     Tire friction scales for specific types of tires. These values are multiplied against our parents' values.
   **/
-  public var TireFrictionScales : unreal.TArray<unreal.FTireFrictionScalePair>;
+  @:uproperty public var TireFrictionScales : unreal.TArray<unreal.FTireFrictionScalePair>;
   
   /**
     Overall tire friction scalar for every type of tire. This value is multiplied against our parents' values.
   **/
-  public var TireFrictionScale : unreal.Float32;
+  @:uproperty public var TireFrictionScale : unreal.Float32;
   
   /**
     To edit surface type for your project, use ProjectSettings/Physics/PhysicalSurface section
   **/
-  public var SurfaceType : unreal.EPhysicalSurface;
+  @:uproperty public var SurfaceType : unreal.EPhysicalSurface;
   
   /**
     deprecated
   **/
-  public var PhysicalMaterialProperty : unreal.UDEPRECATED_PhysicalMaterialPropertyBase;
+  @:uproperty public var PhysicalMaterialProperty : unreal.UDEPRECATED_PhysicalMaterialPropertyBase;
   
   /**
     How much to scale the damage threshold by on any destructible we are applied to
   **/
-  public var DestructibleDamageThresholdScale : unreal.Float32;
+  @:uproperty public var DestructibleDamageThresholdScale : unreal.Float32;
   
   /**
     Used to adjust the way that mass increases as objects get larger. This is applied to the mass as calculated based on a 'solid' object.
     In actuality, larger objects do not tend to be solid, and become more like 'shells' (e.g. a car is not a solid piece of metal).
     Values are clamped to 1 or less.
   **/
-  public var RaiseMassToPower : unreal.Float32;
+  @:uproperty public var RaiseMassToPower : unreal.Float32;
   
   /**
     Used with the shape of the object to calculate its mass properties. The higher the number, the heavier the object. g per cubic cm.
   **/
-  public var Density : unreal.Float32;
+  @:uproperty public var Density : unreal.Float32;
   
   /**
     If set we will use the RestitutionCombineMode of this material, instead of the RestitutionCombineMode found in the project settings.
   **/
-  public var bOverrideRestitutionCombineMode : Bool;
+  @:uproperty public var bOverrideRestitutionCombineMode : Bool;
   
   /**
     Restitution combine mode, controls how restitution is computed for multiple materials.
   **/
-  public var RestitutionCombineMode : unreal.EFrictionCombineMode;
+  @:uproperty public var RestitutionCombineMode : unreal.EFrictionCombineMode;
   
   /**
     Restitution or 'bounciness' of this surface, between 0 (no bounce) and 1 (outgoing velocity is same as incoming).
   **/
-  public var Restitution : unreal.Float32;
+  @:uproperty public var Restitution : unreal.Float32;
   
   /**
     If set we will use the FrictionCombineMode of this material, instead of the FrictionCombineMode found in the project settings.
   **/
-  public var bOverrideFrictionCombineMode : Bool;
+  @:uproperty public var bOverrideFrictionCombineMode : Bool;
   
   /**
     Friction combine mode, controls how friction is computed for multiple materials.
   **/
-  public var FrictionCombineMode : unreal.EFrictionCombineMode;
+  @:uproperty public var FrictionCombineMode : unreal.EFrictionCombineMode;
   
   /**
     Friction value of surface, controls how easily things can slide on this surface
   **/
-  public var Friction : unreal.Float32;
+  @:uproperty public var Friction : unreal.Float32;
   
 }

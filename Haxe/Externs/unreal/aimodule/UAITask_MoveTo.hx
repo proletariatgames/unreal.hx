@@ -15,12 +15,12 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Tasks/AITask_MoveTo.h")
-@:uextern extern class UAITask_MoveTo extends unreal.aimodule.UAITask {
-  static public function AIMoveTo(Controller : unreal.aimodule.AAIController, GoalLocation : unreal.FVector, GoalActor : unreal.AActor, AcceptanceRadius : unreal.Float32, StopOnOverlap : unreal.aimodule.EAIOptionFlag, AcceptPartialPath : unreal.aimodule.EAIOptionFlag, bUsePathfinding : Bool, bLockAILogic : Bool) : unreal.aimodule.UAITask_MoveTo;
+@:uextern @:uclass extern class UAITask_MoveTo extends unreal.aimodule.UAITask {
+  @:ufunction static public function AIMoveTo(Controller : unreal.aimodule.AAIController, GoalLocation : unreal.FVector, GoalActor : unreal.AActor, AcceptanceRadius : unreal.Float32 = -1.000000, StopOnOverlap : unreal.aimodule.EAIOptionFlag = Default, AcceptPartialPath : unreal.aimodule.EAIOptionFlag = Default, bUsePathfinding : Bool = true, bLockAILogic : Bool = true) : unreal.aimodule.UAITask_MoveTo;
   
   /**
     parameters of move request
   **/
-  private var MoveRequest : unreal.aimodule.FAIMoveRequest;
+  @:uproperty private var MoveRequest : unreal.aimodule.FAIMoveRequest;
   
 }

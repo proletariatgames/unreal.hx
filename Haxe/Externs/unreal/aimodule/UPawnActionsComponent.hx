@@ -15,26 +15,26 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnActionsComponent.h")
-@:uextern extern class UPawnActionsComponent extends unreal.UActorComponent {
-  private var CurrentAction : unreal.aimodule.UPawnAction;
-  private var ActionEvents : unreal.TArray<unreal.aimodule.FPawnActionEvent>;
-  private var ActionStacks : unreal.TArray<unreal.aimodule.FPawnActionStack>;
-  private var ControlledPawn : unreal.APawn;
+@:uextern @:uclass extern class UPawnActionsComponent extends unreal.UActorComponent {
+  @:uproperty private var CurrentAction : unreal.aimodule.UPawnAction;
+  @:uproperty private var ActionEvents : unreal.TArray<unreal.aimodule.FPawnActionEvent>;
+  @:uproperty private var ActionStacks : unreal.TArray<unreal.aimodule.FPawnActionStack>;
+  @:uproperty private var ControlledPawn : unreal.APawn;
   
   /**
     blueprint interface
   **/
-  static public function K2_PerformAction(Pawn : unreal.APawn, Action : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority) : Bool;
-  @:final public function K2_PushAction(NewAction : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority, Instigator : unreal.UObject) : Bool;
+  @:ufunction static public function K2_PerformAction(Pawn : unreal.APawn, Action : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority = HardScript) : Bool;
+  @:ufunction @:final public function K2_PushAction(NewAction : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority, Instigator : unreal.UObject) : Bool;
   
   /**
     Aborts given action instance
   **/
-  @:final public function K2_AbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
+  @:ufunction @:final public function K2_AbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
   
   /**
     Aborts given action instance
   **/
-  @:final public function K2_ForceAbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
+  @:ufunction @:final public function K2_ForceAbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
   
 }

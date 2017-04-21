@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESceneCaptureCompositeMode")
-@:uextern extern enum ESceneCaptureCompositeMode {
+@:uextern @:uenum extern enum ESceneCaptureCompositeMode {
   
   /**
     Overwrite

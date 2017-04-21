@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_BoneDrivenController.h")
 @:uname("EDrivenDestinationMode")
-@:class @:uextern extern enum EDrivenDestinationMode {
+@:class @:uextern @:uenum extern enum EDrivenDestinationMode {
   Bone;
   MorphTarget;
   MaterialParameter;

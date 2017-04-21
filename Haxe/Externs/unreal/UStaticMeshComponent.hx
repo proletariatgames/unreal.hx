@@ -22,78 +22,78 @@ package unreal;
   @see UStaticMesh
 **/
 @:glueCppIncludes("Components/StaticMeshComponent.h")
-@:uextern extern class UStaticMeshComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class UStaticMeshComponent extends unreal.UMeshComponent {
   
   /**
     The Lightmass settings for this object.
   **/
-  public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
+  @:uproperty public var LightmassSettings : unreal.FLightmassPrimitiveSettings;
   #if WITH_EDITORONLY_DATA
-  public var bStreamingTextureDataValid : Bool;
+  @:uproperty public var bStreamingTextureDataValid : Bool;
   
   /**
     Derived data key of the static mesh, used to determine if an update from the source static mesh is required.
   **/
-  public var StaticMeshDerivedDataKey : unreal.FString;
+  @:uproperty public var StaticMeshDerivedDataKey : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Use the collision profile specified in the StaticMesh asset.
   **/
-  public var bUseDefaultCollision : Bool;
+  @:uproperty public var bUseDefaultCollision : Bool;
   
   /**
     The list of texture, bounds and scales. As computed in the texture streaming build process.
   **/
-  public var StreamingTextureData : unreal.TArray<unreal.FStreamingTextureBuildInfo>;
-  @:deprecated public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
+  @:uproperty public var StreamingTextureData : unreal.TArray<unreal.FStreamingTextureBuildInfo>;
+  @:deprecated @:uproperty public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
   
   /**
     Whether to use subdivisions or just the triangle's vertices.
   **/
-  public var bUseSubDivisions : Bool;
+  @:uproperty public var bUseSubDivisions : Bool;
   
   /**
     Subdivision step size for static vertex lighting.
   **/
-  public var SubDivisionStepSize : unreal.Int32;
+  @:uproperty public var SubDivisionStepSize : unreal.Int32;
   
   /**
     Allows adjusting the desired resolution of streaming textures that uses UV 0.  1.0 is the default, whereas a higher value increases the streamed-in resolution.
   **/
-  public var StreamingDistanceMultiplier : unreal.Float32;
+  @:uproperty public var StreamingDistanceMultiplier : unreal.Float32;
   
   /**
     Light map resolution to use on this component, used if bOverrideLightMapRes is true
   **/
-  public var OverriddenLightMapRes : unreal.Int32;
+  @:uproperty public var OverriddenLightMapRes : unreal.Int32;
   
   /**
     Whether to override the lightmap resolution defined in the static mesh.
   **/
-  public var bOverrideLightMapRes : Bool;
+  @:uproperty public var bOverrideLightMapRes : Bool;
   
   /**
     Ignore this instance of this static mesh when calculating streaming information.
     This can be useful when doing things like applying character textures to static geometry,
     to avoid them using distance-based streaming.
   **/
-  public var bIgnoreInstanceForTextureStreaming : Bool;
+  @:uproperty public var bIgnoreInstanceForTextureStreaming : Bool;
   
   /**
     If true, mesh painting is disallowed on this instance. Set if vertex colors are overridden in a construction script.
   **/
-  public var bDisallowMeshPaintPerInstance : Bool;
+  @:uproperty public var bDisallowMeshPaintPerInstance : Bool;
   
   /**
     Allows overriding navigation export behavior per component: full collisions or dynamic obstacle
   **/
-  public var bForceNavigationObstacle : Bool;
+  @:uproperty public var bForceNavigationObstacle : Bool;
   
   /**
     If true, bForceNavigationObstacle flag will take priority over navigation data stored in StaticMesh
   **/
-  public var bOverrideNavigationExport : Bool;
+  @:uproperty public var bOverrideNavigationExport : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -106,61 +106,61 @@ package unreal;
     * then this value, we will remap the material override because the order of the materials list
     * in the staticmesh can be changed. Hopefully there is a remap table save in the staticmesh.
   **/
-  public var StaticMeshImportVersion : unreal.Int32;
+  @:uproperty public var StaticMeshImportVersion : unreal.Int32;
   
   /**
     Index of the section to preview. If set to INDEX_NONE, all section will be rendered. Used for isolating in Static Mesh Tool *
   **/
-  public var SectionIndexPreview : unreal.Int32;
+  @:uproperty public var SectionIndexPreview : unreal.Int32;
   
   /**
     The section currently selected in the Editor. Used for highlighting
   **/
-  public var SelectedEditorSection : unreal.Int32;
+  @:uproperty public var SelectedEditorSection : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Wireframe color to use if bOverrideWireframeColor is true
   **/
-  public var WireframeColorOverride : unreal.FColor;
+  @:uproperty public var WireframeColorOverride : unreal.FColor;
   
   /**
     If true, WireframeColorOverride will be used. If false, color is determined based on mobility and physics simulation settings
   **/
-  public var bOverrideWireframeColor : Bool;
-  public var StaticMesh : unreal.UStaticMesh;
+  @:uproperty public var bOverrideWireframeColor : Bool;
+  @:uproperty public var StaticMesh : unreal.UStaticMesh;
   
   /**
     Specifies the smallest LOD that will be used for this component.
     This is ignored if ForcedLodModel is enabled.
   **/
-  public var MinLOD : unreal.Int32;
+  @:uproperty public var MinLOD : unreal.Int32;
   
   /**
     Whether to override the MinLOD setting of the static mesh asset with the MinLOD of this component.
   **/
-  public var bOverrideMinLOD : Bool;
+  @:uproperty public var bOverrideMinLOD : Bool;
   
   /**
     LOD that was desired for rendering this StaticMeshComponent last frame.
   **/
-  public var PreviousLODLevel : unreal.Int32;
+  @:uproperty public var PreviousLODLevel : unreal.Int32;
   
   /**
     If 0, auto-select LOD level. if >0, force to (ForcedLodModel-1).
   **/
-  public var ForcedLodModel : unreal.Int32;
-  @:final public function OnRep_StaticMesh(OldStaticMesh : unreal.UStaticMesh) : Void;
+  @:uproperty public var ForcedLodModel : unreal.Int32;
+  @:ufunction @:final public function OnRep_StaticMesh(OldStaticMesh : unreal.UStaticMesh) : Void;
   
   /**
     Change the StaticMesh used by this instance.
   **/
-  public function SetStaticMesh(NewMesh : unreal.UStaticMesh) : Bool;
-  @:final public function SetForcedLodModel(NewForcedLodModel : unreal.Int32) : Void;
+  @:ufunction public function SetStaticMesh(NewMesh : unreal.UStaticMesh) : Bool;
+  @:ufunction @:final public function SetForcedLodModel(NewForcedLodModel : unreal.Int32) : Void;
   
   /**
     Get Local bounds
   **/
-  @:thisConst @:final public function GetLocalBounds(Min : unreal.PRef<unreal.FVector>, Max : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction @:thisConst @:final public function GetLocalBounds(Min : unreal.PRef<unreal.FVector>, Max : unreal.PRef<unreal.FVector>) : Void;
   
 }

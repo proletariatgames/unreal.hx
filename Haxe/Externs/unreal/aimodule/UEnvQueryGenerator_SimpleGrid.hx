@@ -21,21 +21,21 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_SimpleGrid.h")
-@:noClass @:uextern extern class UEnvQueryGenerator_SimpleGrid extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
+@:noClass @:uextern @:uclass extern class UEnvQueryGenerator_SimpleGrid extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
   
   /**
     context
   **/
-  public var GenerateAround : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var GenerateAround : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     generation density
   **/
-  public var SpaceBetween : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var SpaceBetween : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     square's extent
   **/
-  public var GridSize : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var GridSize : unreal.aimodule.FAIDataProviderFloatValue;
   
 }

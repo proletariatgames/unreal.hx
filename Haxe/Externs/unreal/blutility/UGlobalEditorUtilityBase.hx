@@ -15,58 +15,58 @@ package unreal.blutility;
 
 @:umodule("Blutility")
 @:glueCppIncludes("GlobalEditorUtilityBase.h")
-@:uextern extern class UGlobalEditorUtilityBase extends unreal.UObject {
+@:uextern @:uclass extern class UGlobalEditorUtilityBase extends unreal.UObject {
   
   /**
     Should this blueprint automatically run OnDefaultActionClicked, or should it open up a details panel to edit properties and/or offer multiple buttons
   **/
-  public var bAutoRunDefaultAction : Bool;
-  public var bDirtiedSelectionSet : Bool;
-  public var HelpText : unreal.FString;
-  @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
+  @:uproperty public var bAutoRunDefaultAction : Bool;
+  @:uproperty public var bDirtiedSelectionSet : Bool;
+  @:uproperty public var HelpText : unreal.FString;
+  @:ufunction @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
   
   /**
     Attempts to find the actor specified by PathToActor in the current editor world
     @param       PathToActor     The path to the actor (e.g. PersistentLevel.PlayerStart)
     @return      A reference to the actor, or none if it wasn't found
   **/
-  @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
+  @:ufunction @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
   
   /**
     The default action called when the blutility is invoked if bAutoRunDefaultAction=true (it is never called otherwise)
   **/
-  public function OnDefaultActionClicked() : Void;
+  @:ufunction public function OnDefaultActionClicked() : Void;
   
   /**
     Calls OnEachSelectedActor for each selected actor
   **/
-  @:final public function ForEachSelectedActor() : Void;
+  @:ufunction @:final public function ForEachSelectedActor() : Void;
   
   /**
     Calls OnEachSelectedAsset for each selected asset
   **/
-  @:final public function ForEachSelectedAsset() : Void;
-  @:final public function GetEditorUserSettings() : unreal.editor.UEditorPerProjectUserSettings;
+  @:ufunction @:final public function ForEachSelectedAsset() : Void;
+  @:ufunction @:final public function GetEditorUserSettings() : unreal.editor.UEditorPerProjectUserSettings;
   
   /**
     Remove all actors from the selection set
   **/
-  @:final public function ClearActorSelectionSet() : Void;
+  @:ufunction @:final public function ClearActorSelectionSet() : Void;
   
   /**
     Selects nothing in the editor (another way to clear the selection)
   **/
-  @:final public function SelectNothing() : Void;
+  @:ufunction @:final public function SelectNothing() : Void;
   
   /**
     Set the selection state for the selected actor
   **/
-  @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
-  @:final public function GetSelectionBounds(Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
+  @:ufunction @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
+  @:ufunction @:final public function GetSelectionBounds(Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
   
   /**
     Renames an asset (cannot move folders)
   **/
-  @:final public function RenameAsset(Asset : unreal.UObject, NewName : unreal.FString) : Void;
+  @:ufunction @:final public function RenameAsset(Asset : unreal.UObject, NewName : unreal.FString) : Void;
   
 }

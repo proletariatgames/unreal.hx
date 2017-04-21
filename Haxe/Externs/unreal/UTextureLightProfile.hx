@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/TextureLightProfile.h")
-@:uextern extern class UTextureLightProfile extends unreal.UTexture2D {
+@:uextern @:uclass extern class UTextureLightProfile extends unreal.UTexture2D {
   
   /**
     Multiplier to map texture value to result to integrate over the sphere to 1.0f
   **/
-  public var TextureMultiplier : unreal.Float32;
+  @:uproperty public var TextureMultiplier : unreal.Float32;
   
   /**
     Light brightness in Lumens, imported from IES profile, <= 0 if the profile is used for masking only. Use with InverseSquareFalloff.
   **/
-  public var Brightness : unreal.Float32;
+  @:uproperty public var Brightness : unreal.Float32;
   
 }

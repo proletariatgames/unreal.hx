@@ -20,24 +20,24 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionRotator.h")
-@:noClass @:uextern extern class UMaterialExpressionRotator extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionRotator extends unreal.UMaterialExpression {
   
   /**
     only used if Coordinate is not hooked up
   **/
-  public var ConstCoordinate : unreal.FakeUInt32;
-  public var Speed : unreal.Float32;
-  public var CenterY : unreal.Float32;
-  public var CenterX : unreal.Float32;
+  @:uproperty public var ConstCoordinate : unreal.FakeUInt32;
+  @:uproperty public var Speed : unreal.Float32;
+  @:uproperty public var CenterY : unreal.Float32;
+  @:uproperty public var CenterX : unreal.Float32;
   
   /**
     Defaults to Game Time if not specified
   **/
-  public var Time : unreal.FExpressionInput;
+  @:uproperty public var Time : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstCoordinate' if not specified
   **/
-  public var Coordinate : unreal.FExpressionInput;
+  @:uproperty public var Coordinate : unreal.FExpressionInput;
   
 }

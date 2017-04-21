@@ -19,26 +19,26 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitTargetData.h")
-@:uextern extern class UAbilityTask_WaitTargetData extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_WaitTargetData extends unreal.gameplayabilities.UAbilityTask {
   
   /**
     The TargetActor that we spawned
   **/
-  private var TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor;
-  @:final public function OnTargetDataReplicatedCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, ActivationTag : unreal.gameplaytags.FGameplayTag) : Void;
-  @:final public function OnTargetDataReplicatedCancelledCallback() : Void;
-  @:final public function OnTargetDataReadyCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
-  @:final public function OnTargetDataCancelledCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
+  @:uproperty private var TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor;
+  @:ufunction @:final public function OnTargetDataReplicatedCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>, ActivationTag : unreal.gameplaytags.FGameplayTag) : Void;
+  @:ufunction @:final public function OnTargetDataReplicatedCancelledCallback() : Void;
+  @:ufunction @:final public function OnTargetDataReadyCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
+  @:ufunction @:final public function OnTargetDataCancelledCallback(Data : unreal.Const<unreal.PRef<unreal.gameplayabilities.FGameplayAbilityTargetDataHandle>>) : Void;
   
   /**
     Spawns target actor and waits for it to return valid data or to be canceled.
   **/
-  static public function WaitTargetData(WorldContextObject : unreal.UObject, TaskInstanceName : unreal.FName, ConfirmationType : unreal.gameplayabilities.EGameplayTargetingConfirmation, Class : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityTargetActor>) : unreal.gameplayabilities.UAbilityTask_WaitTargetData;
+  @:ufunction static public function WaitTargetData(WorldContextObject : unreal.UObject, TaskInstanceName : unreal.FName, ConfirmationType : unreal.gameplayabilities.EGameplayTargetingConfirmation, Class : unreal.TSubclassOf<unreal.gameplayabilities.AGameplayAbilityTargetActor>) : unreal.gameplayabilities.UAbilityTask_WaitTargetData;
   
   /**
     Uses specified target actor and waits for it to return valid data or to be canceled.
   **/
-  static public function WaitTargetDataUsingActor(WorldContextObject : unreal.UObject, TaskInstanceName : unreal.FName, ConfirmationType : unreal.gameplayabilities.EGameplayTargetingConfirmation, TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : unreal.gameplayabilities.UAbilityTask_WaitTargetData;
-  @:final public function FinishSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : Void;
+  @:ufunction static public function WaitTargetDataUsingActor(WorldContextObject : unreal.UObject, TaskInstanceName : unreal.FName, ConfirmationType : unreal.gameplayabilities.EGameplayTargetingConfirmation, TargetActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : unreal.gameplayabilities.UAbilityTask_WaitTargetData;
+  @:ufunction @:final public function FinishSpawningActor(WorldContextObject : unreal.UObject, SpawnedActor : unreal.gameplayabilities.AGameplayAbilityTargetActor) : Void;
   
 }

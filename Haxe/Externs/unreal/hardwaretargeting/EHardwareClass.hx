@@ -20,7 +20,7 @@ package unreal.hardwaretargeting;
 @:umodule("HardwareTargeting")
 @:glueCppIncludes("HardwareTargetingSettings.h")
 @:uname("EHardwareClass.Type")
-@:uextern extern enum EHardwareClass {
+@:uextern @:uenum extern enum EHardwareClass {
   
   /**
     Unspecified, meaning no choice has been made yet

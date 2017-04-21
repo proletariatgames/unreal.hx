@@ -23,12 +23,12 @@ package unreal;
   so that we can blend quickly
 **/
 @:glueCppIncludes("Animation/PoseAsset.h")
-@:uextern extern class FPoseData {
+@:uextern @:ustruct extern class FPoseData {
   
   /**
     # of array match with # of Curves in PoseDataContainer
   **/
-  public var CurveData : unreal.TArray<unreal.Float32>;
+  @:uproperty public var CurveData : unreal.TArray<unreal.Float32>;
   
   /**
     whether or not, the joint contains dirty transform
@@ -36,11 +36,11 @@ package unreal;
     this allows per bone blend
     @todo: convert to bit field?
   **/
-  public var LocalSpacePoseMask : unreal.TArray<Bool>;
+  @:uproperty public var LocalSpacePoseMask : unreal.TArray<Bool>;
   
   /**
     local space pose, # of array match with # of Tracks
   **/
-  public var LocalSpacePose : unreal.TArray<unreal.FTransform>;
+  @:uproperty public var LocalSpacePose : unreal.TArray<unreal.FTransform>;
   
 }

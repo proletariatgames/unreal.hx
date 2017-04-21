@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryPhysicsAsset.h")
-@:uextern extern class UActorFactoryPhysicsAsset extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryPhysicsAsset extends unreal.editor.UActorFactory {
   
 }

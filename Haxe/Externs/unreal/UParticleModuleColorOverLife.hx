@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Color/ParticleModuleColorOverLife.h")
-@:uextern extern class UParticleModuleColorOverLife extends unreal.UParticleModuleColorBase {
+@:uextern @:uclass extern class UParticleModuleColorOverLife extends unreal.UParticleModuleColorBase {
   
   /**
     If true, the alpha value will be clamped to the [0..1] range.
   **/
-  public var bClampAlpha : Bool;
+  @:uproperty public var bClampAlpha : Bool;
   
   /**
     The alpha to apply to the particle, as a function of the particle RelativeTime.
   **/
-  public var AlphaOverLife : unreal.FRawDistributionFloat;
+  @:uproperty public var AlphaOverLife : unreal.FRawDistributionFloat;
   
   /**
     The color to apply to the particle, as a function of the particle RelativeTime.
   **/
-  public var ColorOverLife : unreal.FRawDistributionVector;
+  @:uproperty public var ColorOverLife : unreal.FRawDistributionVector;
   
 }

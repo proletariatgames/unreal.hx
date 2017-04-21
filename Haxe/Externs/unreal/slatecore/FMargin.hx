@@ -21,26 +21,26 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Layout/Margin.h")
-@:noCopy @:noEquals @:uextern extern class FMargin {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMargin {
   
   /**
     Holds the margin to the bottom.
   **/
-  public var Bottom : unreal.Float32;
+  @:uproperty public var Bottom : unreal.Float32;
   
   /**
     Holds the margin to the right.
   **/
-  public var Right : unreal.Float32;
+  @:uproperty public var Right : unreal.Float32;
   
   /**
     Holds the margin to the top.
   **/
-  public var Top : unreal.Float32;
+  @:uproperty public var Top : unreal.Float32;
   
   /**
     Holds the margin to the left.
   **/
-  public var Left : unreal.Float32;
+  @:uproperty public var Left : unreal.Float32;
   
 }

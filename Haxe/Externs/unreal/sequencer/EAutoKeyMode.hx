@@ -20,7 +20,7 @@ package unreal.sequencer;
 @:umodule("Sequencer")
 @:glueCppIncludes("ISequencer.h")
 @:uname("EAutoKeyMode")
-@:class @:uextern extern enum EAutoKeyMode {
+@:class @:uextern @:uenum extern enum EAutoKeyMode {
   
   /**
     Key all properties that change.

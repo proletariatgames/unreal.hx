@@ -19,23 +19,23 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FComboBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
-  @:deprecated public var SelectionChangeSound_DEPRECATED : unreal.FName;
-  @:deprecated public var PressedSound_DEPRECATED : unreal.FName;
+@:uextern @:ustruct extern class FComboBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
+  @:deprecated @:uproperty public var SelectionChangeSound_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var PressedSound_DEPRECATED : unreal.FName;
   
   /**
     The Sound to play when the selection is changed
   **/
-  public var SelectionChangeSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var SelectionChangeSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     The sound the button should play when pressed
   **/
-  public var PressedSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var PressedSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     The style to use for our SComboButton
   **/
-  public var ComboButtonStyle : unreal.slatecore.FComboButtonStyle;
+  @:uproperty public var ComboButtonStyle : unreal.slatecore.FComboButtonStyle;
   
 }

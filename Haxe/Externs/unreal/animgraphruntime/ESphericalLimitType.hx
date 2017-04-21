@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("ESphericalLimitType")
-@:class @:uextern extern enum ESphericalLimitType {
+@:class @:uextern @:uenum extern enum ESphericalLimitType {
   Inner;
   Outer;
   

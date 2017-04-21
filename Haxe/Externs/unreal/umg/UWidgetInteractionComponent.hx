@@ -22,49 +22,49 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetInteractionComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class UWidgetInteractionComponent extends unreal.USceneComponent {
   #if WITH_EDITORONLY_DATA
   
   /**
     The arrow component we show at editor time.
   **/
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The last hit result we used.
   **/
-  private var LastHitResult : unreal.FHitResult;
+  @:uproperty private var LastHitResult : unreal.FHitResult;
   
   /**
     The widget component we're currently hovering over.
   **/
-  private var HoveredWidgetComponent : unreal.umg.UWidgetComponent;
+  @:uproperty private var HoveredWidgetComponent : unreal.umg.UWidgetComponent;
   
   /**
     The last 2D location on the widget component that was hit.
   **/
-  private var LastLocalHitLocation : unreal.FVector2D;
+  @:uproperty private var LastLocalHitLocation : unreal.FVector2D;
   
   /**
     The 2D location on the widget component that was hit.
   **/
-  private var LocalHitLocation : unreal.FVector2D;
+  @:uproperty private var LocalHitLocation : unreal.FVector2D;
   
   /**
     Stores the custom hit result set by the player.
   **/
-  private var CustomHitResult : unreal.FHitResult;
+  @:uproperty private var CustomHitResult : unreal.FHitResult;
   
   /**
     Determines the color of the debug lines.
   **/
-  public var DebugColor : unreal.FLinearColor;
+  @:uproperty public var DebugColor : unreal.FLinearColor;
   
   /**
     Shows some debugging lines and a hit sphere to help you debug interactions.
   **/
-  public var bShowDebug : Bool;
+  @:uproperty public var bShowDebug : Bool;
   
   /**
     Should the interaction component perform hit testing (Automatic or Custom) and attempt to
@@ -72,115 +72,115 @@ package unreal.umg;
     if the virtual keyboard was separate from the virtual pointer device and used a second interaction
     component.
   **/
-  public var bEnableHitTesting : Bool;
+  @:uproperty public var bEnableHitTesting : Bool;
   
   /**
     Should we project from the world location of the component?  If you set this to false, you'll
     need to call SetCustomHitResult(), and provide the result of a custom hit test form whatever
     location you wish.
   **/
-  public var InteractionSource : unreal.umg.EWidgetInteractionSource;
+  @:uproperty public var InteractionSource : unreal.umg.EWidgetInteractionSource;
   
   /**
     The distance in game units the component should be able to interact with a widget component.
   **/
-  public var InteractionDistance : unreal.Float32;
+  @:uproperty public var InteractionDistance : unreal.Float32;
   
   /**
     The trace channel to use when tracing for widget components in the world.
   **/
-  public var TraceChannel : unreal.ECollisionChannel;
+  @:uproperty public var TraceChannel : unreal.ECollisionChannel;
   
   /**
     Each user virtual controller or virtual finger tips being simulated should use a different pointer index.
   **/
-  public var PointerIndex : unreal.Float32;
+  @:uproperty public var PointerIndex : unreal.Float32;
   
   /**
     Represents the Virtual User Index.  Each virtual user should be represented by a different
     index number, this will maintain separate capture and focus states for them.  Each
     controller or finger-tip should get a unique PointerIndex.
   **/
-  public var VirtualUserIndex : unreal.Int32;
+  @:uproperty public var VirtualUserIndex : unreal.Int32;
   
   /**
     Presses a key as if the mouse/pointer were the source of it.  Normally you would just use
     Left/Right mouse button for the Key.  However - advanced uses could also be imagined where you
     send other keys to signal widgets to take special actions if they're under the cursor.
   **/
-  public function PressPointerKey(Key : unreal.inputcore.FKey) : Void;
+  @:ufunction public function PressPointerKey(Key : unreal.inputcore.FKey) : Void;
   
   /**
     Releases a key as if the mouse/pointer were the source of it.  Normally you would just use
     Left/Right mouse button for the Key.  However - advanced uses could also be imagined where you
     send other keys to signal widgets to take special actions if they're under the cursor.
   **/
-  public function ReleasePointerKey(Key : unreal.inputcore.FKey) : Void;
+  @:ufunction public function ReleasePointerKey(Key : unreal.inputcore.FKey) : Void;
   
   /**
     Press a key as if it had come from the keyboard.  Avoid using this for 'a-z|A-Z', things like
     the Editable Textbox in Slate expect OnKeyChar to be called to signal a specific character being
     send to the widget.  So for those cases you should use SendKeyChar.
   **/
-  public function PressKey(Key : unreal.inputcore.FKey, bRepeat : Bool) : Bool;
+  @:ufunction public function PressKey(Key : unreal.inputcore.FKey, bRepeat : Bool = false) : Bool;
   
   /**
     Releases a key as if it had been released by the keyboard.
   **/
-  public function ReleaseKey(Key : unreal.inputcore.FKey) : Bool;
+  @:ufunction public function ReleaseKey(Key : unreal.inputcore.FKey) : Bool;
   
   /**
     Does both the press and release of a simulated keyboard key.
   **/
-  public function PressAndReleaseKey(Key : unreal.inputcore.FKey) : Bool;
+  @:ufunction public function PressAndReleaseKey(Key : unreal.inputcore.FKey) : Bool;
   
   /**
     Transmits a list of characters to a widget by simulating a OnKeyChar event for each key listed in
     the string.
   **/
-  public function SendKeyChar(Characters : unreal.FString, bRepeat : Bool) : Bool;
+  @:ufunction public function SendKeyChar(Characters : unreal.FString, bRepeat : Bool = false) : Bool;
   
   /**
     Sends a scroll wheel event to the widget under the last hit result.
   **/
-  public function ScrollWheel(ScrollDelta : unreal.Float32) : Void;
+  @:ufunction public function ScrollWheel(ScrollDelta : unreal.Float32) : Void;
   
   /**
     Get the currently hovered widget component.
   **/
-  @:thisConst @:final public function GetHoveredWidgetComponent() : unreal.umg.UWidgetComponent;
+  @:ufunction @:thisConst @:final public function GetHoveredWidgetComponent() : unreal.umg.UWidgetComponent;
   
   /**
     Returns true if a widget under the hit result is interactive.  e.g. Slate widgets
     that return true for IsInteractable().
   **/
-  @:thisConst @:final public function IsOverInteractableWidget() : Bool;
+  @:ufunction @:thisConst @:final public function IsOverInteractableWidget() : Bool;
   
   /**
     Returns true if a widget under the hit result is focusable.  e.g. Slate widgets that
     return true for SupportsKeyboardFocus().
   **/
-  @:thisConst @:final public function IsOverFocusableWidget() : Bool;
+  @:ufunction @:thisConst @:final public function IsOverFocusableWidget() : Bool;
   
   /**
     Returns true if a widget under the hit result is has a visibility that makes it hit test
     visible.  e.g. Slate widgets that return true for GetVisibility().IsHitTestVisible().
   **/
-  @:thisConst @:final public function IsOverHitTestVisibleWidget() : Bool;
+  @:ufunction @:thisConst @:final public function IsOverHitTestVisibleWidget() : Bool;
   
   /**
     Gets the last hit result generated by the component.  Returns the custom hit result if that was set.
   **/
-  @:thisConst @:final public function GetLastHitResult() : unreal.Const<unreal.PRef<unreal.FHitResult>>;
+  @:ufunction @:thisConst @:final public function GetLastHitResult() : unreal.Const<unreal.PRef<unreal.FHitResult>>;
   
   /**
     Gets the last hit location on the widget in 2D, local pixel units of the render target.
   **/
-  @:thisConst @:final public function Get2DHitLocation() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function Get2DHitLocation() : unreal.FVector2D;
   
   /**
     Set custom hit result.  This is only taken into account if InteractionSource is set to EWidgetInteractionSource::Custom.
   **/
-  @:final public function SetCustomHitResult(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction @:final public function SetCustomHitResult(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
 }

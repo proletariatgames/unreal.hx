@@ -18,10 +18,10 @@ package unreal;
   Container for an aggregate of collision shapes
 **/
 @:glueCppIncludes("PhysicsEngine/AggregateGeom.h")
-@:uextern extern class FKAggregateGeom {
-  public var ConvexElems : unreal.TArray<unreal.FKConvexElem>;
-  public var SphylElems : unreal.TArray<unreal.FKSphylElem>;
-  public var BoxElems : unreal.TArray<unreal.FKBoxElem>;
-  public var SphereElems : unreal.TArray<unreal.FKSphereElem>;
+@:uextern @:ustruct extern class FKAggregateGeom {
+  @:uproperty public var ConvexElems : unreal.TArray<unreal.FKConvexElem>;
+  @:uproperty public var SphylElems : unreal.TArray<unreal.FKSphylElem>;
+  @:uproperty public var BoxElems : unreal.TArray<unreal.FKBoxElem>;
+  @:uproperty public var SphereElems : unreal.TArray<unreal.FKSphereElem>;
   
 }

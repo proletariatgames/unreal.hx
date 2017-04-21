@@ -21,6 +21,6 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("LeaderboardQueryCallbackProxy.h")
-@:uextern extern class ULeaderboardQueryCallbackProxy extends unreal.UObject {
+@:uextern @:uclass extern class ULeaderboardQueryCallbackProxy extends unreal.UObject {
   
 }

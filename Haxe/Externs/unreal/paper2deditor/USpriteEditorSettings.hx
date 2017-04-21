@@ -21,16 +21,16 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/SpriteEditor/SpriteEditorSettings.h")
-@:noClass @:uextern extern class USpriteEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USpriteEditorSettings extends unreal.UObject {
   
   /**
     Should the grid be shown by default when the editor is opened?
   **/
-  public var bShowGridByDefault : Bool;
+  @:uproperty public var bShowGridByDefault : Bool;
   
   /**
     Background color in the sprite editor
   **/
-  public var BackgroundColor : unreal.FColor;
+  @:uproperty public var BackgroundColor : unreal.FColor;
   
 }

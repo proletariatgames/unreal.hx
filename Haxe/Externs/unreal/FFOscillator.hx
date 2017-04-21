@@ -18,21 +18,21 @@ package unreal;
   Defines oscillation of a single number.
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
-@:uextern extern class FFOscillator {
+@:uextern @:ustruct extern class FFOscillator {
   
   /**
     Defines how to begin (either at zero, or at a randomized value.
   **/
-  public var InitialOffset : unreal.EInitialOscillatorOffset;
+  @:uproperty public var InitialOffset : unreal.EInitialOscillatorOffset;
   
   /**
     Frequency of the sinusoidal oscillation.
   **/
-  public var Frequency : unreal.Float32;
+  @:uproperty public var Frequency : unreal.Float32;
   
   /**
     Amplitude of the sinusoidal oscillation.
   **/
-  public var Amplitude : unreal.Float32;
+  @:uproperty public var Amplitude : unreal.Float32;
   
 }

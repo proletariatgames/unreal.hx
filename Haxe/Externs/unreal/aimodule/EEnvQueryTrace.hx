@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvQueryTrace.Type")
-@:uextern extern enum EEnvQueryTrace {
+@:uextern @:uenum extern enum EEnvQueryTrace {
   None;
   Navigation;
   Geometry;

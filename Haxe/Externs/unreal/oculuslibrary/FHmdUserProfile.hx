@@ -21,37 +21,37 @@ package unreal.oculuslibrary;
 **/
 @:umodule("OculusLibrary")
 @:glueCppIncludes("OculusFunctionLibrary.h")
-@:noCopy @:noEquals @:uextern extern class FHmdUserProfile {
-  public var ExtraFields : unreal.TArray<unreal.oculuslibrary.FHmdUserProfileField>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FHmdUserProfile {
+  @:uproperty public var ExtraFields : unreal.TArray<unreal.oculuslibrary.FHmdUserProfileField>;
   
   /**
     Neck-to-eye distance, in meters. X - horizontal, Y - vertical.
   **/
-  public var NeckToEyeDistance : unreal.FVector2D;
+  @:uproperty public var NeckToEyeDistance : unreal.FVector2D;
   
   /**
     Interpupillary distance of the player, in meters
   **/
-  public var IPD : unreal.Float32;
+  @:uproperty public var IPD : unreal.Float32;
   
   /**
     Height of the player, in meters
   **/
-  public var EyeHeight : unreal.Float32;
+  @:uproperty public var EyeHeight : unreal.Float32;
   
   /**
     Height of the player, in meters
   **/
-  public var PlayerHeight : unreal.Float32;
+  @:uproperty public var PlayerHeight : unreal.Float32;
   
   /**
     Gender of the user ("male", "female", etc).
   **/
-  public var Gender : unreal.FString;
+  @:uproperty public var Gender : unreal.FString;
   
   /**
     Name of the user's profile.
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

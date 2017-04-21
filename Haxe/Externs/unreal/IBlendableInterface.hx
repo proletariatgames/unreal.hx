@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/BlendableInterface.h")
-@:uextern extern interface IBlendableInterface {
+@:uextern @:uclass extern interface IBlendableInterface {
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SceneComponent.h")
 @:uname("ERelativeTransformSpace")
-@:uextern extern enum ERelativeTransformSpace {
+@:uextern @:uenum extern enum ERelativeTransformSpace {
   
   /**
     World space transform.

@@ -20,16 +20,16 @@ package unreal;
   Base struct for collection parameters
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollection.h")
-@:noCopy @:noEquals @:uextern extern class FCollectionParameterBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCollectionParameterBase {
   
   /**
     Uniquely identifies the parameter, used for fixing up materials that reference this parameter when renaming.
   **/
-  public var Id : unreal.FGuid;
+  @:uproperty public var Id : unreal.FGuid;
   
   /**
     The name of the parameter.  Changing this name will break any blueprints that reference the parameter.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

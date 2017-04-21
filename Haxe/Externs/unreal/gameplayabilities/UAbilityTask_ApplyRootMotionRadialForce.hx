@@ -21,9 +21,9 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionRadialForce.h")
-@:uextern extern class UAbilityTask_ApplyRootMotionRadialForce extends unreal.gameplayabilities.UAbilityTask {
-  private var MovementComponent : unreal.UCharacterMovementComponent;
-  private var FixedWorldDirection : unreal.FRotator;
+@:uextern @:uclass extern class UAbilityTask_ApplyRootMotionRadialForce extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var MovementComponent : unreal.UCharacterMovementComponent;
+  @:uproperty private var FixedWorldDirection : unreal.FRotator;
   
   /**
     Strength of the force over time
@@ -31,19 +31,19 @@ package unreal.gameplayabilities;
     Curve X is 0 to 1 normalized time if this force has a limited duration (Duration > 0), or
             is in units of seconds if this force has unlimited duration (Duration < 0)
   **/
-  private var StrengthOverTime : unreal.UCurveFloat;
+  @:uproperty private var StrengthOverTime : unreal.UCurveFloat;
   
   /**
     Strength of the force over distance to Location
     Curve Y is 0 to 1 which is percent of full Strength parameter to apply
     Curve X is 0 to 1 normalized distance (0 = 0cm, 1 = what Strength % at Radius units out)
   **/
-  private var StrengthDistanceFalloff : unreal.UCurveFloat;
-  private var Radius : unreal.Float32;
-  private var Duration : unreal.Float32;
-  private var Strength : unreal.Float32;
-  private var LocationActor : unreal.AActor;
-  private var Location : unreal.FVector;
-  private var ForceName : unreal.FName;
+  @:uproperty private var StrengthDistanceFalloff : unreal.UCurveFloat;
+  @:uproperty private var Radius : unreal.Float32;
+  @:uproperty private var Duration : unreal.Float32;
+  @:uproperty private var Strength : unreal.Float32;
+  @:uproperty private var LocationActor : unreal.AActor;
+  @:uproperty private var Location : unreal.FVector;
+  @:uproperty private var ForceName : unreal.FName;
   
 }

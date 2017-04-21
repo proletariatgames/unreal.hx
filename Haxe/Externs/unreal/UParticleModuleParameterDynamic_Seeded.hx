@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleParameterDynamic_Seeded extends unreal.UParticleModuleParameterDynamic {
+@:noClass @:uextern @:uclass extern class UParticleModuleParameterDynamic_Seeded extends unreal.UParticleModuleParameterDynamic {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

@@ -21,21 +21,21 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
-@:noCopy @:noEquals @:uextern extern class FChunkPartData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FChunkPartData {
   
   /**
     The size of this part
   **/
-  public var Size : unreal.FakeUInt32;
+  @:uproperty public var Size : unreal.FakeUInt32;
   
   /**
     The offset of the first byte into the chunk
   **/
-  public var Offset : unreal.FakeUInt32;
+  @:uproperty public var Offset : unreal.FakeUInt32;
   
   /**
     The GUID of the chunk containing this part
   **/
-  public var Guid : unreal.FGuid;
+  @:uproperty public var Guid : unreal.FGuid;
   
 }

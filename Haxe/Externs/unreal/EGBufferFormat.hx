@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EGBufferFormat.Type")
-@:uextern extern enum EGBufferFormat {
+@:uextern @:uenum extern enum EGBufferFormat {
   
   /**
     Forces all GBuffers to 8 bits per channel. Intended as profiling for best performance.

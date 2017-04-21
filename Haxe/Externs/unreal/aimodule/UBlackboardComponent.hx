@@ -15,57 +15,57 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BlackboardComponent.h")
-@:uextern extern class UBlackboardComponent extends unreal.UActorComponent {
-  @:thisConst @:final public function GetValueAsObject(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UObject;
-  @:thisConst @:final public function GetValueAsClass(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UClass;
-  @:thisConst @:final public function GetValueAsEnum(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UInt8;
-  @:thisConst @:final public function GetValueAsInt(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.Int32;
-  @:thisConst @:final public function GetValueAsFloat(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.Float32;
-  @:thisConst @:final public function GetValueAsBool(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Bool;
-  @:thisConst @:final public function GetValueAsString(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FString;
-  @:thisConst @:final public function GetValueAsName(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FName;
-  @:thisConst @:final public function GetValueAsVector(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FVector;
-  @:thisConst @:final public function GetValueAsRotator(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FRotator;
-  @:final public function SetValueAsObject(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ObjectValue : unreal.UObject) : Void;
-  @:final public function SetValueAsClass(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ClassValue : unreal.UClass) : Void;
-  @:final public function SetValueAsEnum(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, EnumValue : unreal.UInt8) : Void;
-  @:final public function SetValueAsInt(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, IntValue : unreal.Int32) : Void;
-  @:final public function SetValueAsFloat(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, FloatValue : unreal.Float32) : Void;
-  @:final public function SetValueAsBool(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, BoolValue : Bool) : Void;
-  @:final public function SetValueAsString(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, StringValue : unreal.FString) : Void;
-  @:final public function SetValueAsName(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, NameValue : unreal.FName) : Void;
-  @:final public function SetValueAsVector(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, VectorValue : unreal.FVector) : Void;
-  @:final public function SetValueAsRotator(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, VectorValue : unreal.FRotator) : Void;
+@:uextern @:uclass extern class UBlackboardComponent extends unreal.UActorComponent {
+  @:ufunction @:thisConst @:final public function GetValueAsObject(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UObject;
+  @:ufunction @:thisConst @:final public function GetValueAsClass(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UClass;
+  @:ufunction @:thisConst @:final public function GetValueAsEnum(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.UInt8;
+  @:ufunction @:thisConst @:final public function GetValueAsInt(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetValueAsFloat(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetValueAsBool(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Bool;
+  @:ufunction @:thisConst @:final public function GetValueAsString(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FString;
+  @:ufunction @:thisConst @:final public function GetValueAsName(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetValueAsVector(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetValueAsRotator(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FRotator;
+  @:ufunction @:final public function SetValueAsObject(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ObjectValue : unreal.UObject) : Void;
+  @:ufunction @:final public function SetValueAsClass(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ClassValue : unreal.UClass) : Void;
+  @:ufunction @:final public function SetValueAsEnum(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, EnumValue : unreal.UInt8) : Void;
+  @:ufunction @:final public function SetValueAsInt(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, IntValue : unreal.Int32) : Void;
+  @:ufunction @:final public function SetValueAsFloat(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, FloatValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetValueAsBool(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, BoolValue : Bool) : Void;
+  @:ufunction @:final public function SetValueAsString(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, StringValue : unreal.FString) : Void;
+  @:ufunction @:final public function SetValueAsName(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, NameValue : unreal.FName) : Void;
+  @:ufunction @:final public function SetValueAsVector(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, VectorValue : unreal.FVector) : Void;
+  @:ufunction @:final public function SetValueAsRotator(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, VectorValue : unreal.FRotator) : Void;
   
   /**
     If the vector value has been set (and not cleared), this function returns true (indicating that the value should be valid).  If it's not set, the vector value is invalid and this function will return false.  (Also returns false if the key specified does not hold a vector.)
   **/
-  @:thisConst @:final public function IsVectorValueSet(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Bool;
+  @:ufunction @:thisConst @:final public function IsVectorValueSet(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Bool;
   
   /**
     return false if call failed (most probably no such entry in BB)
   **/
-  @:thisConst @:final public function GetLocationFromEntry(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ResultLocation : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction @:thisConst @:final public function GetLocationFromEntry(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ResultLocation : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     return false if call failed (most probably no such entry in BB)
   **/
-  @:thisConst @:final public function GetRotationFromEntry(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ResultRotation : unreal.PRef<unreal.FRotator>) : Bool;
-  @:final public function ClearValue(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
+  @:ufunction @:thisConst @:final public function GetRotationFromEntry(KeyName : unreal.Const<unreal.PRef<unreal.FName>>, ResultRotation : unreal.PRef<unreal.FRotator>) : Bool;
+  @:ufunction @:final public function ClearValue(KeyName : unreal.Const<unreal.PRef<unreal.FName>>) : Void;
   
   /**
     instanced keys with custom data allocations
   **/
-  private var KeyInstances : unreal.TArray<unreal.aimodule.UBlackboardKeyType>;
+  @:uproperty private var KeyInstances : unreal.TArray<unreal.aimodule.UBlackboardKeyType>;
   
   /**
     data asset defining entries
   **/
-  private var BlackboardAsset : unreal.aimodule.UBlackboardData;
+  @:uproperty private var BlackboardAsset : unreal.aimodule.UBlackboardData;
   
   /**
     cached behavior tree component
   **/
-  private var BrainComp : unreal.aimodule.UBrainComponent;
+  @:uproperty private var BrainComp : unreal.aimodule.UBrainComponent;
   
 }

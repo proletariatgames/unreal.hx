@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("Teleporter/VREditorAutoScaler.h")
-@:noClass @:uextern extern class UVREditorAutoScaler extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UVREditorAutoScaler extends unreal.UObject {
   
 }

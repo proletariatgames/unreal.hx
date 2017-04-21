@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ERefractionMode")
-@:uextern extern enum ERefractionMode {
+@:uextern @:uenum extern enum ERefractionMode {
   
   /**
     Refraction is computed based on the camera vector entering a medium whose index of refraction is defined by the Refraction material input.

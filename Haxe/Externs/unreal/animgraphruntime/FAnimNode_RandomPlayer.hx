@@ -15,18 +15,18 @@ package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_RandomPlayer.h")
-@:uextern extern class FAnimNode_RandomPlayer extends unreal.FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_RandomPlayer extends unreal.FAnimNode_Base {
   
   /**
     List of sequences to randomly step through
   **/
-  public var Entries : unreal.TArray<unreal.animgraphruntime.FRandomPlayerSequenceEntry>;
+  @:uproperty public var Entries : unreal.TArray<unreal.animgraphruntime.FRandomPlayerSequenceEntry>;
   
   /**
     When shuffle mode is active we will never loop a sequence beyond MaxLoopCount
     without visiting each sequence in turn (no repeats). Enabling this will ignore
     ChanceToPlay for each entry
   **/
-  public var bShuffleMode : Bool;
+  @:uproperty public var bShuffleMode : Bool;
   
 }

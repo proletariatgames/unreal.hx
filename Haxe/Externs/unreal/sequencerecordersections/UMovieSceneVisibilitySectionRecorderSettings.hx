@@ -21,11 +21,11 @@ package unreal.sequencerecordersections;
 **/
 @:umodule("SequenceRecorderSections")
 @:glueCppIncludes("Private/MovieSceneVisibilitySectionRecorderSettings.h")
-@:noClass @:uextern extern class UMovieSceneVisibilitySectionRecorderSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMovieSceneVisibilitySectionRecorderSettings extends unreal.UObject {
   
   /**
     Whether to record actor visibility.
   **/
-  public var bRecordVisibility : Bool;
+  @:uproperty public var bRecordVisibility : Bool;
   
 }

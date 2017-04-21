@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("ParticleHelper.h")
 @:uname("EParticleSystemInsignificanceReaction")
-@:class @:uextern extern enum EParticleSystemInsignificanceReaction {
+@:class @:uextern @:uenum extern enum EParticleSystemInsignificanceReaction {
   
   /**
     Looping systems will DisableTick. Non-looping systems will Complete.

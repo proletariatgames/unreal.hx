@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UTextBuffer extends unreal.UObject {
+@:uextern @:uclass extern class UTextBuffer extends unreal.UObject {
   
 }

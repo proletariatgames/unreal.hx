@@ -15,6 +15,6 @@ package unreal.gameplaytags;
 
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagContainer.h")
-@:uextern extern class UEditableGameplayTagQueryExpression extends unreal.UObject {
+@:uextern @:uclass extern class UEditableGameplayTagQueryExpression extends unreal.UObject {
   
 }

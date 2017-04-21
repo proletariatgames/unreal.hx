@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/Texture.h")
 @:uname("TextureFilter")
-@:uextern extern enum TextureFilter {
+@:uextern @:uenum extern enum TextureFilter {
   
   /**
     Nearest

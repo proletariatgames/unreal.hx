@@ -19,22 +19,22 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("TurnBasedBlueprintLibrary.h")
-@:uextern extern class UTurnBasedBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UTurnBasedBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     out
   **/
-  static public function GetIsMyTurn(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, bIsMyTurn : Bool) : Void;
+  @:ufunction static public function GetIsMyTurn(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, bIsMyTurn : Bool) : Void;
   
   /**
     out
   **/
-  static public function GetMyPlayerIndex(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32) : Void;
-  static public function RegisterTurnBasedMatchInterfaceObject(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, Object : unreal.UObject) : Void;
+  @:ufunction static public function GetMyPlayerIndex(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32) : Void;
+  @:ufunction static public function RegisterTurnBasedMatchInterfaceObject(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, Object : unreal.UObject) : Void;
   
   /**
     out
   **/
-  static public function GetPlayerDisplayName(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32, PlayerDisplayName : unreal.PRef<unreal.FString>) : Void;
+  @:ufunction static public function GetPlayerDisplayName(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32, PlayerDisplayName : unreal.PRef<unreal.FString>) : Void;
   
 }

@@ -14,44 +14,44 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/RecastNavMesh.h")
-@:uextern extern class ARecastNavMesh extends unreal.ANavigationData {
+@:uextern @:uclass extern class ARecastNavMesh extends unreal.ANavigationData {
   
   /**
     Value added to each search height to compensate for error between navmesh polys and walkable geometry
   **/
-  public var VerticalDeviationFromGroundCompensation : unreal.Float32;
+  @:uproperty public var VerticalDeviationFromGroundCompensation : unreal.Float32;
   
   /**
     Euclidean distance heuristic scale used while pathfinding
   **/
-  public var HeuristicScale : unreal.Float32;
+  @:uproperty public var HeuristicScale : unreal.Float32;
   
   /**
     Indicates whether default navigation filters will use virtual functions. Defaults to true.
   **/
-  public var bUseVirtualFilters : Bool;
+  @:uproperty public var bUseVirtualFilters : Bool;
   
   /**
     If set, tiles generated without any navmesh data will be marked to distinguish them from not generated / streamed out ones. Defaults to false.
   **/
-  public var bStoreEmptyTileLayers : Bool;
+  @:uproperty public var bStoreEmptyTileLayers : Bool;
   
   /**
     TODO: switch to disable new code from OffsetFromCorners if necessary - remove it later
   **/
-  public var bUseBetterOffsetsFromCorners : Bool;
-  public var bDoFullyAsyncNavDataGathering : Bool;
+  @:uproperty public var bUseBetterOffsetsFromCorners : Bool;
+  @:uproperty public var bDoFullyAsyncNavDataGathering : Bool;
   
   /**
     mark areas with insufficient free height above instead of cutting them out
   **/
-  public var bMarkLowHeightAreas : Bool;
+  @:uproperty public var bMarkLowHeightAreas : Bool;
   
   /**
     controls whether voxel filterring will be applied (via FRecastTileGenerator::ApplyVoxelFilter).
         Results in generated navemesh better fitting navigation bounds, but hits (a bit) generation performance
   **/
-  public var bPerformVoxelFiltering : Bool;
+  @:uproperty public var bPerformVoxelFiltering : Bool;
   
   /**
     Controls whether Navigation Areas will be sorted by cost before application
@@ -60,46 +60,46 @@ package unreal;
         as well. Setting it to true will result in having area sorted by cost,
         but it will also increase navmesh generation cost a bit
   **/
-  public var bSortNavigationAreasByCost : Bool;
+  @:uproperty public var bSortNavigationAreasByCost : Bool;
   
   /**
     number of chunk splits (along single axis) used for layer's partitioning: ChunkyMonotone
   **/
-  public var LayerChunkSplits : unreal.Int32;
+  @:uproperty public var LayerChunkSplits : unreal.Int32;
   
   /**
     number of chunk splits (along single axis) used for region's partitioning: ChunkyMonotone
   **/
-  public var RegionChunkSplits : unreal.Int32;
+  @:uproperty public var RegionChunkSplits : unreal.Int32;
   
   /**
     partitioning method for creating tile layers
   **/
-  public var LayerPartitioning : unreal.ERecastPartitioning;
+  @:uproperty public var LayerPartitioning : unreal.ERecastPartitioning;
   
   /**
     partitioning method for creating navmesh polys
   **/
-  public var RegionPartitioning : unreal.ERecastPartitioning;
+  @:uproperty public var RegionPartitioning : unreal.ERecastPartitioning;
   
   /**
     specifes default limit to A* nodes used when performing hierarchical navigation queries.
   **/
-  public var DefaultMaxHierarchicalSearchNodes : unreal.Float32;
+  @:uproperty public var DefaultMaxHierarchicalSearchNodes : unreal.Float32;
   
   /**
     specifes default limit to A* nodes used when performing navigation queries.
         Can be overridden by passing custom FNavigationQueryFilter
   **/
-  public var DefaultMaxSearchNodes : unreal.Float32;
+  @:uproperty public var DefaultMaxSearchNodes : unreal.Float32;
   
   /**
     navmesh draw distance in game (always visible in editor)
   **/
-  public var DefaultDrawDistance : unreal.Float32;
-  public var PolyRefSaltBits : unreal.Int32;
-  public var PolyRefNavPolyBits : unreal.Int32;
-  public var PolyRefTileBits : unreal.Int32;
+  @:uproperty public var DefaultDrawDistance : unreal.Float32;
+  @:uproperty public var PolyRefSaltBits : unreal.Int32;
+  @:uproperty public var PolyRefNavPolyBits : unreal.Int32;
+  @:uproperty public var PolyRefTileBits : unreal.Int32;
   
   /**
     Absolute hard limit to number of navmesh tiles. Be very, very careful while modifying it while
@@ -107,113 +107,113 @@ package unreal;
         allocated up front (subject to change, but that's where it's at now)
         @note TileNumberHardLimit is always rounded up to the closest power of 2
   **/
-  public var TileNumberHardLimit : unreal.Int32;
-  public var MaxSimultaneousTileGenerationJobsCount : unreal.Int32;
+  @:uproperty public var TileNumberHardLimit : unreal.Int32;
+  @:uproperty public var MaxSimultaneousTileGenerationJobsCount : unreal.Int32;
   
   /**
     How much navigable shapes can get simplified - the higher the value the more freedom
   **/
-  public var MaxSimplificationError : unreal.Float32;
+  @:uproperty public var MaxSimplificationError : unreal.Float32;
   
   /**
     The size limit of regions to be merged with bigger regions (watershed partitioning only)
   **/
-  public var MergeRegionSize : unreal.Float32;
+  @:uproperty public var MergeRegionSize : unreal.Float32;
   
   /**
     The minimum dimension of area. Areas smaller than this will be discarded
   **/
-  public var MinRegionArea : unreal.Float32;
-  public var AgentMaxStepHeight : unreal.Float32;
+  @:uproperty public var MinRegionArea : unreal.Float32;
+  @:uproperty public var AgentMaxStepHeight : unreal.Float32;
   
   /**
     The maximum slope (angle) that the agent can move on.
   **/
-  public var AgentMaxSlope : unreal.Float32;
+  @:uproperty public var AgentMaxSlope : unreal.Float32;
   
   /**
     Size of the tallest agent that will path with this navmesh.
   **/
-  public var AgentMaxHeight : unreal.Float32;
-  public var AgentHeight : unreal.Float32;
+  @:uproperty public var AgentMaxHeight : unreal.Float32;
+  @:uproperty public var AgentHeight : unreal.Float32;
   
   /**
     Radius of smallest agent to traverse this navmesh
   **/
-  public var AgentRadius : unreal.Float32;
+  @:uproperty public var AgentRadius : unreal.Float32;
   
   /**
     vertical size of voxelization cell
   **/
-  public var CellHeight : unreal.Float32;
+  @:uproperty public var CellHeight : unreal.Float32;
   
   /**
     horizontal size of voxelization cell
   **/
-  public var CellSize : unreal.Float32;
+  @:uproperty public var CellSize : unreal.Float32;
   
   /**
     size of single tile, expressed in uu
   **/
-  public var TileSizeUU : unreal.Float32;
+  @:uproperty public var TileSizeUU : unreal.Float32;
   
   /**
     maximum number of tiles NavMesh can hold
   **/
-  public var TilePoolSize : unreal.Int32;
+  @:uproperty public var TilePoolSize : unreal.Int32;
   
   /**
     if true, the NavMesh will allocate fixed size pool for tiles, should be enabled to support streaming
   **/
-  public var bFixedTilePoolSize : Bool;
+  @:uproperty public var bFixedTilePoolSize : Bool;
   
   /**
     vertical offset added to navmesh's debug representation for better readability
   **/
-  public var DrawOffset : unreal.Float32;
-  public var bDrawNavMesh : Bool;
-  public var bDistinctlyDrawTilesBeingBuilt : Bool;
+  @:uproperty public var DrawOffset : unreal.Float32;
+  @:uproperty public var bDrawNavMesh : Bool;
+  @:uproperty public var bDistinctlyDrawTilesBeingBuilt : Bool;
   
   /**
     should we draw edges of every navmesh's triangle
   **/
-  public var bDrawOctree : Bool;
-  public var bDrawClusters : Bool;
-  public var bDrawFailedNavLinks : Bool;
-  public var bDrawNavLinks : Bool;
-  public var bDrawLabelsOnPathNodes : Bool;
-  public var bDrawDefaultPolygonCost : Bool;
-  public var bDrawPolygonLabels : Bool;
-  public var bDrawTileLabels : Bool;
+  @:uproperty public var bDrawOctree : Bool;
+  @:uproperty public var bDrawClusters : Bool;
+  @:uproperty public var bDrawFailedNavLinks : Bool;
+  @:uproperty public var bDrawNavLinks : Bool;
+  @:uproperty public var bDrawLabelsOnPathNodes : Bool;
+  @:uproperty public var bDrawDefaultPolygonCost : Bool;
+  @:uproperty public var bDrawPolygonLabels : Bool;
+  @:uproperty public var bDrawTileLabels : Bool;
   
   /**
     Draw input geometry passed to the navmesh generator.  Recommend disabling other geometry rendering via viewport showflags in editor.
   **/
-  public var bDrawPathCollidingGeometry : Bool;
+  @:uproperty public var bDrawPathCollidingGeometry : Bool;
   
   /**
     should we draw the tile boundaries
   **/
-  public var bDrawTileBounds : Bool;
+  @:uproperty public var bDrawTileBounds : Bool;
   
   /**
     should we draw border-edges
   **/
-  public var bDrawNavMeshEdges : Bool;
+  @:uproperty public var bDrawNavMeshEdges : Bool;
   
   /**
     if disabled skips filling drawn navmesh polygons
   **/
-  public var bDrawFilledPolys : Bool;
+  @:uproperty public var bDrawFilledPolys : Bool;
   
   /**
     should we draw edges of every poly (i.e. not only border-edges)
   **/
-  public var bDrawPolyEdges : Bool;
+  @:uproperty public var bDrawPolyEdges : Bool;
   
   /**
     should we draw edges of every navmesh's triangle
   **/
-  public var bDrawTriangleEdges : Bool;
+  @:uproperty public var bDrawTriangleEdges : Bool;
   
 }

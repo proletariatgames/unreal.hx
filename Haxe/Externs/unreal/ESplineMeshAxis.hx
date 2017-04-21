@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/SplineMeshComponent.h")
 @:uname("ESplineMeshAxis.Type")
-@:uextern extern enum ESplineMeshAxis {
+@:uextern @:uenum extern enum ESplineMeshAxis {
   X;
   Y;
   Z;

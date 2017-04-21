@@ -20,21 +20,21 @@ package unreal;
   Defines FVector oscillation.
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
-@:noCopy @:noEquals @:uextern extern class FVOscillator {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVOscillator {
   
   /**
     Oscillation in the Z axis.
   **/
-  public var Z : unreal.FFOscillator;
+  @:uproperty public var Z : unreal.FFOscillator;
   
   /**
     Oscillation in the Y axis.
   **/
-  public var Y : unreal.FFOscillator;
+  @:uproperty public var Y : unreal.FFOscillator;
   
   /**
     Oscillation in the X axis.
   **/
-  public var X : unreal.FFOscillator;
+  @:uproperty public var X : unreal.FFOscillator;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/StereoLayerComponent.h")
 @:uname("EStereoLayerShape")
-@:uextern extern enum EStereoLayerShape {
+@:uextern @:uenum extern enum EStereoLayerShape {
   
   /**
     Quad layer

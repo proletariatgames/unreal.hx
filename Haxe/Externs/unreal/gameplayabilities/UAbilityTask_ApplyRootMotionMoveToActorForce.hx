@@ -21,20 +21,20 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_ApplyRootMotionMoveToActorForce.h")
-@:uextern extern class UAbilityTask_ApplyRootMotionMoveToActorForce extends unreal.gameplayabilities.UAbilityTask {
-  private var MovementComponent : unreal.UCharacterMovementComponent;
+@:uextern @:uclass extern class UAbilityTask_ApplyRootMotionMoveToActorForce extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var MovementComponent : unreal.UCharacterMovementComponent;
   
   /**
     If VelocityOnFinish mode is "SetVelocity", character velocity is set to this value when root motion finishes
   **/
-  private var SetVelocityOnFinish : unreal.FVector;
+  @:uproperty private var SetVelocityOnFinish : unreal.FVector;
   
   /**
     What to do with character's Velocity when root motion finishes
   **/
-  private var VelocityOnFinishMode : unreal.ERootMotionFinishVelocityMode;
-  private var TargetLerpSpeedVerticalCurve : unreal.UCurveFloat;
-  private var TargetLerpSpeedHorizontalCurve : unreal.UCurveFloat;
+  @:uproperty private var VelocityOnFinishMode : unreal.ERootMotionFinishVelocityMode;
+  @:uproperty private var TargetLerpSpeedVerticalCurve : unreal.UCurveFloat;
+  @:uproperty private var TargetLerpSpeedHorizontalCurve : unreal.UCurveFloat;
   
   /**
     Maps real time to movement fraction curve to affect the speed of the
@@ -43,15 +43,15 @@ package unreal.gameplayabilities;
     Curve Y is 0 to 1 is what percent of the move should be at a given X
     Default if unset is a 1:1 correspondence
   **/
-  private var TimeMappingCurve : unreal.UCurveFloat;
-  private var PathOffsetCurve : unreal.UCurveVector;
-  private var NewMovementMode : unreal.EMovementMode;
-  private var Duration : unreal.Float32;
-  private var OffsetAlignment : unreal.gameplayabilities.ERootMotionMoveToActorTargetOffsetType;
-  private var TargetLocationOffset : unreal.FVector;
-  private var TargetActor : unreal.AActor;
-  private var TargetLocation : unreal.FVector;
-  private var StartLocation : unreal.FVector;
-  private var ForceName : unreal.FName;
+  @:uproperty private var TimeMappingCurve : unreal.UCurveFloat;
+  @:uproperty private var PathOffsetCurve : unreal.UCurveVector;
+  @:uproperty private var NewMovementMode : unreal.EMovementMode;
+  @:uproperty private var Duration : unreal.Float32;
+  @:uproperty private var OffsetAlignment : unreal.gameplayabilities.ERootMotionMoveToActorTargetOffsetType;
+  @:uproperty private var TargetLocationOffset : unreal.FVector;
+  @:uproperty private var TargetActor : unreal.AActor;
+  @:uproperty private var TargetLocation : unreal.FVector;
+  @:uproperty private var StartLocation : unreal.FVector;
+  @:uproperty private var ForceName : unreal.FName;
   
 }

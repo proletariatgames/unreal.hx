@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdKeyBindings.h")
-@:noCopy @:noEquals @:uextern extern class FEditorKeyBinding {
-  public var CommandName : unreal.FName;
-  public var Key : unreal.inputcore.FKey;
-  public var bShiftDown : Bool;
-  public var bAltDown : Bool;
-  public var bCtrlDown : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorKeyBinding {
+  @:uproperty public var CommandName : unreal.FName;
+  @:uproperty public var Key : unreal.inputcore.FKey;
+  @:uproperty public var bShiftDown : Bool;
+  @:uproperty public var bAltDown : Bool;
+  @:uproperty public var bCtrlDown : Bool;
   
 }

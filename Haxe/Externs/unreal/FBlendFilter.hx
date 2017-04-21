@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:noCopy @:noEquals @:uextern extern class FBlendFilter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlendFilter {
   
 }

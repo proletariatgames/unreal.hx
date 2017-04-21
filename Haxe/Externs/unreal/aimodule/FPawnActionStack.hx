@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnActionsComponent.h")
-@:uextern extern class FPawnActionStack {
+@:uextern @:ustruct extern class FPawnActionStack {
   
 }

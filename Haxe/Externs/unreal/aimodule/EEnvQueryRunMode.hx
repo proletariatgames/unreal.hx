@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvQueryRunMode.Type")
-@:uextern extern enum EEnvQueryRunMode {
+@:uextern @:uenum extern enum EEnvQueryRunMode {
   
   /**
     Pick first item with the best score

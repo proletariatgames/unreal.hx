@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimCompress_BitwiseCompressOnly.h")
-@:uextern extern class UAnimCompress_BitwiseCompressOnly extends unreal.UAnimCompress {
+@:uextern @:uclass extern class UAnimCompress_BitwiseCompressOnly extends unreal.UAnimCompress {
   
 }

@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionCollectionParameter.h")
-@:uextern extern class UMaterialExpressionCollectionParameter extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionCollectionParameter extends unreal.UMaterialExpression {
   
   /**
     Id that is set from the name, and used to handle renaming of collection parameters.
   **/
-  public var ParameterId : unreal.FGuid;
+  @:uproperty public var ParameterId : unreal.FGuid;
   
   /**
     Name of the parameter being referenced.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
   /**
     The Parameter Collection to use.
   **/
-  public var Collection : unreal.UMaterialParameterCollection;
+  @:uproperty public var Collection : unreal.UMaterialParameterCollection;
   
 }

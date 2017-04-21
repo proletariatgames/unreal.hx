@@ -21,6 +21,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieScene3DTransformTrack.h")
-@:uextern extern class UMovieScene3DTransformTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
+@:uextern @:uclass extern class UMovieScene3DTransformTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
   
 }

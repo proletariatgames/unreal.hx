@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FTTTrackBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTTTrackBase {
   
   /**
     Flag to identify internal/external curve
   **/
-  public var bIsExternalCurve : Bool;
+  @:uproperty public var bIsExternalCurve : Bool;
   
   /**
     Name of this track
   **/
-  public var TrackName : unreal.FName;
+  @:uproperty public var TrackName : unreal.FName;
   
 }

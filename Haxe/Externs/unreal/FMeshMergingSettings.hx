@@ -20,94 +20,94 @@ package unreal;
   Mesh merging settings
 **/
 @:glueCppIncludes("Engine/MeshMerging.h")
-@:noCopy @:noEquals @:uextern extern class FMeshMergingSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMeshMergingSettings {
   
   /**
     Merged material texture atlas resolution
   **/
-  @:deprecated public var MergedMaterialAtlasResolution_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var MergedMaterialAtlasResolution_DEPRECATED : unreal.Int32;
   
   /**
     Whether to export specular maps for material merging
   **/
-  @:deprecated public var bExportSpecularMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportSpecularMap_DEPRECATED : Bool;
   
   /**
     Whether to export roughness maps for material merging
   **/
-  @:deprecated public var bExportRoughnessMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportRoughnessMap_DEPRECATED : Bool;
   
   /**
     Whether to export metallic maps for material merging
   **/
-  @:deprecated public var bExportMetallicMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportMetallicMap_DEPRECATED : Bool;
   
   /**
     Whether to export normal maps for material merging
   **/
-  @:deprecated public var bExportNormalMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bExportNormalMap_DEPRECATED : Bool;
   
   /**
     Whether or not to use available landscape geometry to cull away invisible triangles
   **/
-  public var bUseLandscapeCulling : Bool;
+  @:uproperty public var bUseLandscapeCulling : Bool;
   
   /**
     A given LOD level to export from the source meshes
   **/
-  public var SpecificLOD : unreal.Int32;
-  @:deprecated public var ExportSpecificLOD_DEPRECATED : unreal.Int32;
-  public var LODSelectionType : unreal.EMeshLODSelectionType;
-  @:deprecated public var bCalculateCorrectLODModel_DEPRECATED : Bool;
+  @:uproperty public var SpecificLOD : unreal.Int32;
+  @:deprecated @:uproperty public var ExportSpecificLOD_DEPRECATED : unreal.Int32;
+  @:uproperty public var LODSelectionType : unreal.EMeshLODSelectionType;
+  @:deprecated @:uproperty public var bCalculateCorrectLODModel_DEPRECATED : Bool;
   
   /**
     Whether or not to calculate varying output texture sizes according to their importance in the final atlas texture
   **/
-  public var bUseTextureBinning : Bool;
+  @:uproperty public var bUseTextureBinning : Bool;
   
   /**
     Whether or not vertex data such as vertex colours should be used when baking out materials
   **/
-  public var bUseVertexDataForBakingMaterial : Bool;
+  @:uproperty public var bUseVertexDataForBakingMaterial : Bool;
   
   /**
     Whether or not vertex data such as vertex colours should be baked into the resulting mesh
   **/
-  public var bBakeVertexDataToMesh : Bool;
+  @:uproperty public var bBakeVertexDataToMesh : Bool;
   
   /**
     Material simplification
   **/
-  public var MaterialSettings : unreal.FMaterialProxySettings;
+  @:uproperty public var MaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Whether to merge source materials into one flat material
   **/
-  public var bMergeMaterials : Bool;
+  @:uproperty public var bMergeMaterials : Bool;
   
   /**
     Whether to merge physics data (collision primitives)
   **/
-  public var bMergePhysicsData : Bool;
+  @:uproperty public var bMergePhysicsData : Bool;
   
   /**
     Whether merged mesh should have pivot at world origin, or at first merged component otherwise
   **/
-  public var bPivotPointAtZero : Bool;
+  @:uproperty public var bPivotPointAtZero : Bool;
   
   /**
     Whether we should import vertex colors into merged mesh
   **/
-  @:deprecated public var bImportVertexColors_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bImportVertexColors_DEPRECATED : Bool;
   
   /**
     Target lightmap resolution
   **/
-  public var TargetLightMapResolution : unreal.Int32;
+  @:uproperty public var TargetLightMapResolution : unreal.Int32;
   
   /**
     Whether to generate lightmap UVs for a merged mesh
   **/
-  public var bGenerateLightMapUV : Bool;
+  @:uproperty public var bGenerateLightMapUV : Bool;
   
 }

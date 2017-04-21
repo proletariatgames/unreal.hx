@@ -21,31 +21,31 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcConversionSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcConversionSettings {
   
   /**
     Rotation in Euler angles that should be applied
   **/
-  public var Rotation : unreal.FVector;
+  @:uproperty public var Rotation : unreal.FVector;
   
   /**
     Scale value that should be applied
   **/
-  public var Scale : unreal.FVector;
+  @:uproperty public var Scale : unreal.FVector;
   
   /**
     Flag whether or not to flip the V channel in the Texture Coordinates
   **/
-  public var bFlipV : Bool;
+  @:uproperty public var bFlipV : Bool;
   
   /**
     Flag whether or not to flip the U channel in the Texture Coordinates
   **/
-  public var bFlipU : Bool;
+  @:uproperty public var bFlipU : Bool;
   
   /**
     Currently preset that should be applied
   **/
-  public var Preset : unreal.alembiclibrary.EAbcConversionPreset;
+  @:uproperty public var Preset : unreal.alembiclibrary.EAbcConversionPreset;
   
 }

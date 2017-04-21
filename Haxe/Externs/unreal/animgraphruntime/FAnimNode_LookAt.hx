@@ -19,46 +19,46 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_LookAt.h")
-@:uextern extern class FAnimNode_LookAt extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
-  public var bEnableDebug : Bool;
-  public var InterpolationTriggerThreashold : unreal.Float32;
-  public var InterpolationTime : unreal.Float32;
-  public var InterpolationType : unreal.animgraphruntime.EInterpolationBlend;
+@:uextern @:ustruct extern class FAnimNode_LookAt extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+  @:uproperty public var bEnableDebug : Bool;
+  @:uproperty public var InterpolationTriggerThreashold : unreal.Float32;
+  @:uproperty public var InterpolationTime : unreal.Float32;
+  @:uproperty public var InterpolationType : unreal.animgraphruntime.EInterpolationBlend;
   
   /**
     Look at Clamp value in degree - if you're look at axis is Z, only X, Y degree of clamp will be used
   **/
-  public var LookAtClamp : unreal.Float32;
+  @:uproperty public var LookAtClamp : unreal.Float32;
   
   /**
     Look up axis in local space
   **/
-  public var LookUpAxis : unreal.animgraphruntime.EAxisOption;
+  @:uproperty public var LookUpAxis : unreal.animgraphruntime.EAxisOption;
   
   /**
     Whether or not to use Look up axis
   **/
-  public var bUseLookUpAxis : Bool;
+  @:uproperty public var bUseLookUpAxis : Bool;
   
   /**
     Look at axis, which axis to align to look at point
   **/
-  public var LookAtAxis : unreal.animgraphruntime.EAxisOption;
+  @:uproperty public var LookAtAxis : unreal.animgraphruntime.EAxisOption;
   
   /**
     Target Location in world space if LookAtBone is empty
   **/
-  public var LookAtLocation : unreal.FVector;
-  public var LookAtSocket : unreal.FName;
+  @:uproperty public var LookAtLocation : unreal.FVector;
+  @:uproperty public var LookAtSocket : unreal.FName;
   
   /**
     Target Bone to look at - you can't use LookAtLocation as alternative as you'll get a delay on bone location if you query directly *
   **/
-  public var LookAtBone : unreal.FBoneReference;
+  @:uproperty public var LookAtBone : unreal.FBoneReference;
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var BoneToModify : unreal.FBoneReference;
+  @:uproperty public var BoneToModify : unreal.FBoneReference;
   
 }

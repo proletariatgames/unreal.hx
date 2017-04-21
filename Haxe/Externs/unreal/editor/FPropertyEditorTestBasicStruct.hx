@@ -21,10 +21,10 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:noCopy @:noEquals @:uextern extern class FPropertyEditorTestBasicStruct {
-  public var InnerStruct : unreal.editor.FPropertyEditorTestSubStruct;
-  public var ObjectPropertyInsideAStruct : unreal.UObject;
-  public var FloatPropertyInsideAStruct : unreal.Float32;
-  public var IntPropertyInsideAStruct : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPropertyEditorTestBasicStruct {
+  @:uproperty public var InnerStruct : unreal.editor.FPropertyEditorTestSubStruct;
+  @:uproperty public var ObjectPropertyInsideAStruct : unreal.UObject;
+  @:uproperty public var FloatPropertyInsideAStruct : unreal.Float32;
+  @:uproperty public var IntPropertyInsideAStruct : unreal.Int32;
   
 }

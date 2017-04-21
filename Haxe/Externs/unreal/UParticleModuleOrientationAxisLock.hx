@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Orientation/ParticleModuleOrientationAxisLock.h")
-@:uextern extern class UParticleModuleOrientationAxisLock extends unreal.UParticleModuleOrientationBase {
+@:uextern @:uclass extern class UParticleModuleOrientationAxisLock extends unreal.UParticleModuleOrientationBase {
   
   /**
     The lock axis flag setting.
@@ -36,6 +36,6 @@ package unreal;
             EPAL_ROTATE_Y           Lock the sprite rotation on the Y-axis.
             EPAL_ROTATE_Z           Lock the sprite rotation on the Z-axis.
   **/
-  public var LockAxisFlags : unreal.EParticleAxisLock;
+  @:uproperty public var LockAxisFlags : unreal.EParticleAxisLock;
   
 }

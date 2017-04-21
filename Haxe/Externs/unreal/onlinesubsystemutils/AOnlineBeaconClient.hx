@@ -23,21 +23,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBeaconClient.h")
-@:uextern extern class AOnlineBeaconClient extends unreal.onlinesubsystemutils.AOnlineBeacon {
+@:uextern @:uclass extern class AOnlineBeaconClient extends unreal.onlinesubsystemutils.AOnlineBeacon {
   
   /**
     State of the connection
   **/
-  private var ConnectionState : unreal.onlinesubsystemutils.EBeaconConnectionState;
+  @:uproperty private var ConnectionState : unreal.onlinesubsystemutils.EBeaconConnectionState;
   
   /**
     Network connection associated with this beacon client instance
   **/
-  private var BeaconConnection : unreal.UNetConnection;
+  @:uproperty private var BeaconConnection : unreal.UNetConnection;
   
   /**
     Owning beacon host of this beacon actor (server only)
   **/
-  private var BeaconOwner : unreal.onlinesubsystemutils.AOnlineBeaconHostObject;
+  @:uproperty private var BeaconOwner : unreal.onlinesubsystemutils.AOnlineBeaconHostObject;
   
 }

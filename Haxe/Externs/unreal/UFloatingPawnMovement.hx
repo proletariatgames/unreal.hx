@@ -22,28 +22,28 @@ package unreal;
   During swept (non-teleporting) movement only collision of UpdatedComponent is considered, attached components will teleport to the end location ignoring collision.
 **/
 @:glueCppIncludes("GameFramework/FloatingPawnMovement.h")
-@:uextern extern class UFloatingPawnMovement extends unreal.UPawnMovementComponent {
+@:uextern @:uclass extern class UFloatingPawnMovement extends unreal.UPawnMovementComponent {
   
   /**
     Setting affecting extra force applied when changing direction, making turns have less drift and become more responsive.
     Velocity magnitude is not allowed to increase, that only happens due to normal acceleration. It may decrease with large direction changes.
     Larger values apply extra force to reach the target direction more quickly, while a zero value disables any extra turn force.
   **/
-  public var TurningBoost : unreal.Float32;
+  @:uproperty public var TurningBoost : unreal.Float32;
   
   /**
     Deceleration applied when there is no input (rate of change of velocity)
   **/
-  public var Deceleration : unreal.Float32;
+  @:uproperty public var Deceleration : unreal.Float32;
   
   /**
     Acceleration applied by input (rate of change of velocity)
   **/
-  public var Acceleration : unreal.Float32;
+  @:uproperty public var Acceleration : unreal.Float32;
   
   /**
     Maximum velocity magnitude allowed for the controlled Pawn.
   **/
-  public var MaxSpeed : unreal.Float32;
+  @:uproperty public var MaxSpeed : unreal.Float32;
   
 }

@@ -21,16 +21,16 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetActor_ActorPlacement.h")
-@:noClass @:uextern extern class AGameplayAbilityTargetActor_ActorPlacement extends unreal.gameplayabilities.AGameplayAbilityTargetActor_GroundTrace {
+@:noClass @:uextern @:uclass extern class AGameplayAbilityTargetActor_ActorPlacement extends unreal.gameplayabilities.AGameplayAbilityTargetActor_GroundTrace {
   
   /**
     Override Material 0 on our placed actor's meshes with this material for visualization.
   **/
-  public var PlacedActorMaterial : unreal.UMaterialInterface;
+  @:uproperty public var PlacedActorMaterial : unreal.UMaterialInterface;
   
   /**
     Actor we intend to place.
   **/
-  public var PlacedActorClass : unreal.UClass;
+  @:uproperty public var PlacedActorClass : unreal.UClass;
   
 }

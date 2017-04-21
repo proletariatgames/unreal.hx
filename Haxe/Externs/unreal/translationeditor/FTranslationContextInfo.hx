@@ -21,21 +21,21 @@ package unreal.translationeditor;
 **/
 @:umodule("TranslationEditor")
 @:glueCppIncludes("Private/TranslationUnit.h")
-@:noCopy @:noEquals @:uextern extern class FTranslationContextInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTranslationContextInfo {
   
   /**
     List of previous versions of the source text for this context
   **/
-  public var Changes : unreal.TArray<unreal.translationeditor.FTranslationChange>;
+  @:uproperty public var Changes : unreal.TArray<unreal.translationeditor.FTranslationChange>;
   
   /**
     What file and line this translation is from
   **/
-  public var Context : unreal.FString;
+  @:uproperty public var Context : unreal.FString;
   
   /**
     The key specified in LOCTEXT
   **/
-  public var Key : unreal.FString;
+  @:uproperty public var Key : unreal.FString;
   
 }

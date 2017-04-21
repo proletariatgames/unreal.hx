@@ -15,46 +15,46 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
-@:uextern extern class UMaterialEditorInstanceConstant extends unreal.UObject {
+@:uextern @:uclass extern class UMaterialEditorInstanceConstant extends unreal.UObject {
   
   /**
     Should we use old style typed arrays for unassigned parameters instead of a None group (new style)?
   **/
-  public var bUseOldStyleMICEditorGroups : Bool;
+  @:uproperty public var bUseOldStyleMICEditorGroups : Bool;
   
   /**
     The Lightmass override settings for this object.
   **/
-  public var LightmassSettings : unreal.editor.FLightmassParameterizedMaterialSettings;
-  public var VisibleExpressions : unreal.TArray<unreal.FGuid>;
-  public var SourceInstance : unreal.UMaterialInstanceConstant;
-  public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
-  @:deprecated public var bOverrideBaseProperties_DEPRECATED : Bool;
+  @:uproperty public var LightmassSettings : unreal.editor.FLightmassParameterizedMaterialSettings;
+  @:uproperty public var VisibleExpressions : unreal.TArray<unreal.FGuid>;
+  @:uproperty public var SourceInstance : unreal.UMaterialInstanceConstant;
+  @:uproperty public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
+  @:deprecated @:uproperty public var bOverrideBaseProperties_DEPRECATED : Bool;
   
   /**
     Defines if SubsurfaceProfile from tis instance is used or it uses the parent one.
   **/
-  public var bOverrideSubsurfaceProfile : Bool;
+  @:uproperty public var bOverrideSubsurfaceProfile : Bool;
   
   /**
     SubsurfaceProfile, for Screen Space Subsurface Scattering
   **/
-  public var SubsurfaceProfile : unreal.USubsurfaceProfile;
+  @:uproperty public var SubsurfaceProfile : unreal.USubsurfaceProfile;
   
   /**
     This is the refraction depth bias, larger values offset distortion to prevent closer objects from rendering into the distorted surface at acute viewing angles but increases the disconnect between surface and where the refraction starts.
   **/
-  public var RefractionDepthBias : unreal.Float32;
-  public var ParameterGroups : unreal.TArray<unreal.editor.FEditorParameterGroup>;
+  @:uproperty public var RefractionDepthBias : unreal.Float32;
+  @:uproperty public var ParameterGroups : unreal.TArray<unreal.editor.FEditorParameterGroup>;
   
   /**
     since the Parent may point across levels and the property editor needs to import this text, it must be marked lazy so it doesn't set itself to NULL in FindImportedObject
   **/
-  public var Parent : unreal.UMaterialInterface;
+  @:uproperty public var Parent : unreal.UMaterialInterface;
   
   /**
     Physical material to use for this graphics material. Used for sounds, effects etc.
   **/
-  public var PhysMaterial : unreal.UPhysicalMaterial;
+  @:uproperty public var PhysMaterial : unreal.UPhysicalMaterial;
   
 }

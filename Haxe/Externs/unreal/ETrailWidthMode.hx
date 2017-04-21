@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETrailWidthMode")
-@:uextern extern enum ETrailWidthMode {
+@:uextern @:uenum extern enum ETrailWidthMode {
   
   /**
     From Centre

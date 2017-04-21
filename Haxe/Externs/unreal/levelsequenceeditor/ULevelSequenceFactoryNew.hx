@@ -21,6 +21,6 @@ package unreal.levelsequenceeditor;
 **/
 @:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Factories/LevelSequenceFactoryNew.h")
-@:noClass @:uextern extern class ULevelSequenceFactoryNew extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class ULevelSequenceFactoryNew extends unreal.editor.UFactory {
   
 }

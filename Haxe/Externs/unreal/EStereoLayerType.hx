@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/StereoLayerComponent.h")
 @:uname("EStereoLayerType")
-@:uextern extern enum EStereoLayerType {
+@:uextern @:uenum extern enum EStereoLayerType {
   
   /**
     Location within the world

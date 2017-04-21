@@ -21,9 +21,9 @@ package unreal;
         They create stopping points when the Montage is being ticked to dispatch events.
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:noCopy @:noEquals @:uextern extern class FBranchingPointMarker {
-  public var NotifyEventType : unreal.EAnimNotifyEventType;
-  public var TriggerTime : unreal.Float32;
-  public var NotifyIndex : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBranchingPointMarker {
+  @:uproperty public var NotifyEventType : unreal.EAnimNotifyEventType;
+  @:uproperty public var TriggerTime : unreal.Float32;
+  @:uproperty public var NotifyIndex : unreal.Int32;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
 @:uname("EBlendSpaceAxis")
-@:uextern extern enum EBlendSpaceAxis {
+@:uextern @:uenum extern enum EBlendSpaceAxis {
   BSA_None;
   BSA_X;
   BSA_Y;

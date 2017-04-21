@@ -15,20 +15,20 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UScrollBar extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UScrollBar extends unreal.umg.UWidget {
   
   /**
     The thickness of the scrollbar thumb
   **/
-  public var Thickness : unreal.FVector2D;
-  public var Orientation : unreal.slatecore.EOrientation;
-  public var bAlwaysShowScrollbar : Bool;
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:uproperty public var Thickness : unreal.FVector2D;
+  @:uproperty public var Orientation : unreal.slatecore.EOrientation;
+  @:uproperty public var bAlwaysShowScrollbar : Bool;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     Style of the scrollbar
   **/
-  public var WidgetStyle : unreal.slatecore.FScrollBarStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FScrollBarStyle;
   
   /**
     Set the offset and size of the track's thumb.
@@ -38,6 +38,6 @@ package unreal.umg;
     @param InOffsetFraction     Offset of the thumbnail from the top as a fraction of the total available scroll space.
     @param InThumbSizeFraction  Size of thumbnail as a fraction of the total available scroll space.
   **/
-  @:final public function SetState(InOffsetFraction : unreal.Float32, InThumbSizeFraction : unreal.Float32) : Void;
+  @:ufunction @:final public function SetState(InOffsetFraction : unreal.Float32, InThumbSizeFraction : unreal.Float32) : Void;
   
 }

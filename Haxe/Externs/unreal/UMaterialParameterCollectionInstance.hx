@@ -19,16 +19,16 @@ package unreal;
   Instances of this class are always transient.
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollectionInstance.h")
-@:uextern extern class UMaterialParameterCollectionInstance extends unreal.UObject {
+@:uextern @:uclass extern class UMaterialParameterCollectionInstance extends unreal.UObject {
   
   /**
     World that owns this instance.
   **/
-  private var World : unreal.UWorld;
+  @:uproperty private var World : unreal.UWorld;
   
   /**
     Collection resource this instance is based off of.
   **/
-  private var Collection : unreal.UMaterialParameterCollection;
+  @:uproperty private var Collection : unreal.UMaterialParameterCollection;
   
 }

@@ -21,6 +21,6 @@ package unreal.landscapeeditor;
 **/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("ActorFactoryLandscape.h")
-@:uextern extern class UActorFactoryLandscape extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryLandscape extends unreal.editor.UActorFactory {
   
 }

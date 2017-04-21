@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Animation/EditorNotifyObject.h")
-@:uextern extern class UEditorNotifyObject extends unreal.editor.UEditorAnimBaseObj {
+@:uextern @:uclass extern class UEditorNotifyObject extends unreal.editor.UEditorAnimBaseObj {
   
   /**
     The notify event to modify
   **/
-  public var Event : unreal.FAnimNotifyEvent;
+  @:uproperty public var Event : unreal.FAnimNotifyEvent;
   
 }

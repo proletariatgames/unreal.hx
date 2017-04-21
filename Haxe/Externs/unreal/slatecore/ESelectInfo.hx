@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("ESelectInfo.Type")
-@:uextern extern enum ESelectInfo {
+@:uextern @:uenum extern enum ESelectInfo {
   
   /**
     User selected via a key press

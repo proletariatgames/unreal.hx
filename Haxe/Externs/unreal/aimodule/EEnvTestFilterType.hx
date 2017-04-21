@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestFilterType.Type")
-@:uextern extern enum EEnvTestFilterType {
+@:uextern @:uenum extern enum EEnvTestFilterType {
   
   /**
     For numeric tests.

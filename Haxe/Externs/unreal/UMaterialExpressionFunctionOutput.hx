@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionFunctionOutput.h")
-@:uextern extern class UMaterialExpressionFunctionOutput extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionFunctionOutput extends unreal.UMaterialExpression {
   
   /**
     Id of this input, used to maintain references through name changes.
   **/
-  public var Id : unreal.FGuid;
+  @:uproperty public var Id : unreal.FGuid;
   
   /**
     Whether this output was previewed the last time this function was edited.
   **/
-  public var bLastPreviewed : Bool;
+  @:uproperty public var bLastPreviewed : Bool;
   
   /**
     Stores the expression in the material function connected to this output.
   **/
-  public var A : unreal.FExpressionInput;
+  @:uproperty public var A : unreal.FExpressionInput;
   
   /**
     Controls where the output is displayed relative to the other outputs.
   **/
-  public var SortPriority : unreal.Int32;
+  @:uproperty public var SortPriority : unreal.Int32;
   
   /**
     The output's description, which will be used as a tooltip on the connector in function call expressions that use this function.
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
   /**
     The output's name, which will be drawn on the connector in function call expressions that use this function.
   **/
-  public var OutputName : unreal.FString;
+  @:uproperty public var OutputName : unreal.FString;
   
 }

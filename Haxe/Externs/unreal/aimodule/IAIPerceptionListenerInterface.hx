@@ -15,6 +15,6 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionListenerInterface.h")
-@:uextern extern interface IAIPerceptionListenerInterface {
+@:uextern @:uclass extern interface IAIPerceptionListenerInterface {
   
 }

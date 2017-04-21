@@ -16,7 +16,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Input/NavigationReply.h")
 @:uname("EUINavigationRule")
-@:class @:uextern extern enum EUINavigationRule {
+@:class @:uextern @:uenum extern enum EUINavigationRule {
   
   /**
     Allow the movement to continue in that direction, seeking the next navigable widget automatically.

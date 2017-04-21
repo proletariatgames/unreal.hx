@@ -20,49 +20,49 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsConstraintTemplate.h")
-@:uextern extern class UPhysicsConstraintTemplate extends unreal.UObject {
+@:uextern @:uclass extern class UPhysicsConstraintTemplate extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
-  @:deprecated public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
-  @:deprecated public var bAngularBreakable_DEPRECATED : Bool;
-  @:deprecated public var TwistLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var TwistLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var SwingLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var SwingLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var TwistLimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var Swing2LimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var Swing1LimitAngle_DEPRECATED : unreal.Float32;
-  @:deprecated public var bTwistLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var bSwingLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var AngularTwistMotion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var AngularSwing2Motion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var AngularSwing1Motion_DEPRECATED : unreal.EAngularConstraintMotion;
-  @:deprecated public var LinearBreakThreshold_DEPRECATED : unreal.Float32;
-  @:deprecated public var bLinearBreakable_DEPRECATED : Bool;
-  @:deprecated public var LinearLimitDamping_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearLimitStiffness_DEPRECATED : unreal.Float32;
-  @:deprecated public var bLinearLimitSoft_DEPRECATED : Bool;
-  @:deprecated public var LinearLimitSize_DEPRECATED : unreal.Float32;
-  @:deprecated public var LinearZMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var LinearYMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var LinearXMotion_DEPRECATED : unreal.ELinearConstraintMotion;
-  @:deprecated public var ProjectionAngularTolerance_DEPRECATED : unreal.Float32;
-  @:deprecated public var ProjectionLinearTolerance_DEPRECATED : unreal.Float32;
-  @:deprecated public var bEnableProjection_DEPRECATED : Bool;
-  @:deprecated public var SecAxis2_DEPRECATED : unreal.FVector;
-  @:deprecated public var PriAxis2_DEPRECATED : unreal.FVector;
-  @:deprecated public var Pos2_DEPRECATED : unreal.FVector;
-  @:deprecated public var SecAxis1_DEPRECATED : unreal.FVector;
-  @:deprecated public var PriAxis1_DEPRECATED : unreal.FVector;
-  @:deprecated public var Pos1_DEPRECATED : unreal.FVector;
-  @:deprecated public var ConstraintBone2_DEPRECATED : unreal.FName;
-  @:deprecated public var ConstraintBone1_DEPRECATED : unreal.FName;
-  @:deprecated public var JointName_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var AngularBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bAngularBreakable_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var TwistLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var TwistLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var SwingLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var SwingLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var TwistLimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var Swing2LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var Swing1LimitAngle_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bTwistLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bSwingLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var AngularTwistMotion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var AngularSwing2Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var AngularSwing1Motion_DEPRECATED : unreal.EAngularConstraintMotion;
+  @:deprecated @:uproperty public var LinearBreakThreshold_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bLinearBreakable_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var LinearLimitDamping_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearLimitStiffness_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bLinearLimitSoft_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var LinearLimitSize_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var LinearZMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var LinearYMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var LinearXMotion_DEPRECATED : unreal.ELinearConstraintMotion;
+  @:deprecated @:uproperty public var ProjectionAngularTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var ProjectionLinearTolerance_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var bEnableProjection_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var SecAxis2_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var PriAxis2_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var Pos2_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var SecAxis1_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var PriAxis1_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var Pos1_DEPRECATED : unreal.FVector;
+  @:deprecated @:uproperty public var ConstraintBone2_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var ConstraintBone1_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var JointName_DEPRECATED : unreal.FName;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Handles to the constraint profiles applicable to this constraint
   **/
-  public var ProfileHandles : unreal.TArray<unreal.FPhysicsConstraintProfileHandle>;
-  public var DefaultInstance : unreal.FConstraintInstance;
+  @:uproperty public var ProfileHandles : unreal.TArray<unreal.FPhysicsConstraintProfileHandle>;
+  @:uproperty public var DefaultInstance : unreal.FConstraintInstance;
   
 }

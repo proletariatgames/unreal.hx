@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionSine.h")
-@:noClass @:uextern extern class UMaterialExpressionSine extends unreal.UMaterialExpression {
-  public var Period : unreal.Float32;
-  public var Input : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionSine extends unreal.UMaterialExpression {
+  @:uproperty public var Period : unreal.Float32;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

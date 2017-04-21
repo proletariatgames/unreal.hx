@@ -21,86 +21,86 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USlider extends unreal.umg.UWidget {
+@:uextern @:uclass extern class USlider extends unreal.umg.UWidget {
   
   /**
     Should the slider be focusable?
   **/
-  public var IsFocusable : Bool;
+  @:uproperty public var IsFocusable : Bool;
   
   /**
     The amount to adjust the value by, when using a controller or keyboard
   **/
-  public var StepSize : unreal.Float32;
+  @:uproperty public var StepSize : unreal.Float32;
   
   /**
     Whether the handle is interactive or fixed.
   **/
-  public var Locked : Bool;
+  @:uproperty public var Locked : Bool;
   
   /**
     Whether the slidable area should be indented to fit the handle.
   **/
-  public var IndentHandle : Bool;
+  @:uproperty public var IndentHandle : Bool;
   
   /**
     The color to draw the slider handle in.
   **/
-  public var SliderHandleColor : unreal.FLinearColor;
+  @:uproperty public var SliderHandleColor : unreal.FLinearColor;
   
   /**
     The color to draw the slider bar in.
   **/
-  public var SliderBarColor : unreal.FLinearColor;
+  @:uproperty public var SliderBarColor : unreal.FLinearColor;
   
   /**
     The slider's orientation.
   **/
-  public var Orientation : unreal.slatecore.EOrientation;
+  @:uproperty public var Orientation : unreal.slatecore.EOrientation;
   
   /**
     The progress bar style
   **/
-  public var WidgetStyle : unreal.slatecore.FSliderStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FSliderStyle;
   
   /**
     The volume value to display.
   **/
-  public var Value : unreal.Float32;
+  @:uproperty public var Value : unreal.Float32;
   
   /**
     Gets the current value of the slider.
   **/
-  @:thisConst @:final public function GetValue() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetValue() : unreal.Float32;
   
   /**
     Sets the current value of the slider.
   **/
-  @:final public function SetValue(InValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetValue(InValue : unreal.Float32) : Void;
   
   /**
     Sets if the slidable area should be indented to fit the handle
   **/
-  @:final public function SetIndentHandle(InValue : Bool) : Void;
+  @:ufunction @:final public function SetIndentHandle(InValue : Bool) : Void;
   
   /**
     Sets the handle to be interactive or fixed
   **/
-  @:final public function SetLocked(InValue : Bool) : Void;
+  @:ufunction @:final public function SetLocked(InValue : Bool) : Void;
   
   /**
     Sets the amount to adjust the value by, when using a controller or keyboard
   **/
-  @:final public function SetStepSize(InValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetStepSize(InValue : unreal.Float32) : Void;
   
   /**
     Sets the color of the slider bar
   **/
-  @:final public function SetSliderBarColor(InValue : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetSliderBarColor(InValue : unreal.FLinearColor) : Void;
   
   /**
     Sets the color of the handle bar
   **/
-  @:final public function SetSliderHandleColor(InValue : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetSliderHandleColor(InValue : unreal.FLinearColor) : Void;
   
 }

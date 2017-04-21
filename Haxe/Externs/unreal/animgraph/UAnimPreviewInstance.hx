@@ -20,12 +20,12 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimPreviewInstance.h")
-@:uextern extern class UAnimPreviewInstance extends unreal.UAnimSingleNodeInstance {
-  public var MontagePreviewStartSectionIdx : unreal.Int32;
+@:uextern @:uclass extern class UAnimPreviewInstance extends unreal.UAnimSingleNodeInstance {
+  @:uproperty public var MontagePreviewStartSectionIdx : unreal.Int32;
   
   /**
     Shared parameters for previewing blendspace or animsequence *
   **/
-  public var MontagePreviewType : unreal.animgraph.EMontagePreviewType;
+  @:uproperty public var MontagePreviewType : unreal.animgraph.EMontagePreviewType;
   
 }

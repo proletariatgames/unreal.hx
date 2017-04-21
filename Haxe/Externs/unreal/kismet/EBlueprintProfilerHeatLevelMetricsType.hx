@@ -20,7 +20,7 @@ package unreal.kismet;
 @:umodule("Kismet")
 @:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
 @:uname("EBlueprintProfilerHeatLevelMetricsType")
-@:class @:uextern extern enum EBlueprintProfilerHeatLevelMetricsType {
+@:class @:uextern @:uenum extern enum EBlueprintProfilerHeatLevelMetricsType {
   ClassRelative;
   FrameRelative;
   CustomThresholds;

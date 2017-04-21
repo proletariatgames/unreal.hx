@@ -21,6 +21,6 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeStreamingProxy.h")
-@:uextern extern class ALandscapeStreamingProxy extends unreal.landscape.ALandscapeProxy {
+@:uextern @:uclass extern class ALandscapeStreamingProxy extends unreal.landscape.ALandscapeProxy {
   
 }

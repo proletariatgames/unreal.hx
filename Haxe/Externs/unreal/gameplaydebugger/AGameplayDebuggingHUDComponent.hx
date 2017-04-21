@@ -15,12 +15,12 @@ package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingHUDComponent.h")
-@:uextern extern class AGameplayDebuggingHUDComponent extends unreal.AActor {
-  private var PlayerOwner : unreal.APlayerController;
-  private var Canvas : unreal.UCanvas;
-  public var DebugInfoStartY : unreal.Float32;
-  public var DebugInfoStartX : unreal.Float32;
-  public var MenuStartY : unreal.Float32;
-  public var MenuStartX : unreal.Float32;
+@:uextern @:uclass extern class AGameplayDebuggingHUDComponent extends unreal.AActor {
+  @:uproperty private var PlayerOwner : unreal.APlayerController;
+  @:uproperty private var Canvas : unreal.UCanvas;
+  @:uproperty public var DebugInfoStartY : unreal.Float32;
+  @:uproperty public var DebugInfoStartX : unreal.Float32;
+  @:uproperty public var MenuStartY : unreal.Float32;
+  @:uproperty public var MenuStartX : unreal.Float32;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/LevelExporterT3D.h")
-@:noClass @:uextern extern class ULevelExporterT3D extends unreal.UExporter {
+@:noClass @:uextern @:uclass extern class ULevelExporterT3D extends unreal.UExporter {
   
 }

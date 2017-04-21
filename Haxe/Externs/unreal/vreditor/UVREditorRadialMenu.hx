@@ -21,16 +21,16 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorRadialMenu.h")
-@:noClass @:uextern extern class UVREditorRadialMenu extends unreal.vreditor.UVREditorBaseUserWidget {
+@:noClass @:uextern @:uclass extern class UVREditorRadialMenu extends unreal.vreditor.UVREditorBaseUserWidget {
   
   /**
     Current angle of the trackpad position (-180 to 180) to visualize in UMG
   **/
-  public var TrackpadAngle : unreal.Float32;
+  @:uproperty public var TrackpadAngle : unreal.Float32;
   
   /**
     Current position of the trackpad to render line in UMG
   **/
-  public var TrackpadPosition : unreal.FVector2D;
+  @:uproperty public var TrackpadPosition : unreal.FVector2D;
   
 }

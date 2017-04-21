@@ -21,9 +21,9 @@ package unreal.custommeshcomponent;
 **/
 @:umodule("CustomMeshComponent")
 @:glueCppIncludes("CustomMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FCustomMeshTriangle {
-  public var Vertex2 : unreal.FVector;
-  public var Vertex1 : unreal.FVector;
-  public var Vertex0 : unreal.FVector;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCustomMeshTriangle {
+  @:uproperty public var Vertex2 : unreal.FVector;
+  @:uproperty public var Vertex1 : unreal.FVector;
+  @:uproperty public var Vertex0 : unreal.FVector;
   
 }

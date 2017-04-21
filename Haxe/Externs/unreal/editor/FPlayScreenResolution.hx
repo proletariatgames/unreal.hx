@@ -21,26 +21,26 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
-@:noCopy @:noEquals @:uextern extern class FPlayScreenResolution {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPlayScreenResolution {
   
   /**
     The screen resolution's aspect ratio (as a string).
   **/
-  public var AspectRatio : unreal.FString;
+  @:uproperty public var AspectRatio : unreal.FString;
   
   /**
     The screen resolution's height (in pixels).
   **/
-  public var Height : unreal.Int32;
+  @:uproperty public var Height : unreal.Int32;
   
   /**
     The screen resolution's width (in pixels).
   **/
-  public var Width : unreal.Int32;
+  @:uproperty public var Width : unreal.Int32;
   
   /**
     FText
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
 }

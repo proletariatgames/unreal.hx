@@ -23,6 +23,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitOverlap.h")
-@:uextern extern class UAbilityTask_WaitOverlap extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_WaitOverlap extends unreal.gameplayabilities.UAbilityTask {
   
 }

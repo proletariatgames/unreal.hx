@@ -15,11 +15,11 @@ package unreal.umgeditor;
 
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
-@:uextern extern class FEditorPropertyPath {
+@:uextern @:ustruct extern class FEditorPropertyPath {
   
   /**
     The path of properties.
   **/
-  public var Segments : unreal.TArray<unreal.umgeditor.FEditorPropertyPathSegment>;
+  @:uproperty public var Segments : unreal.TArray<unreal.umgeditor.FEditorPropertyPathSegment>;
   
 }

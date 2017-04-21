@@ -16,7 +16,7 @@ package unreal.windowstargetplatform;
 @:umodule("WindowsTargetPlatform")
 @:glueCppIncludes("WindowsTargetSettings.h")
 @:uname("ECompilerVersion")
-@:class @:uextern extern enum ECompilerVersion {
+@:class @:uextern @:uenum extern enum ECompilerVersion {
   Default;
   
   /**

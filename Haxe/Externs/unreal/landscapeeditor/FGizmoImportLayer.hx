@@ -21,9 +21,9 @@ package unreal.landscapeeditor;
 **/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:noCopy @:noEquals @:uextern extern class FGizmoImportLayer {
-  public var bNoImport : Bool;
-  public var LayerName : unreal.FString;
-  public var LayerFilename : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGizmoImportLayer {
+  @:uproperty public var bNoImport : Bool;
+  @:uproperty public var LayerName : unreal.FString;
+  @:uproperty public var LayerFilename : unreal.FString;
   
 }

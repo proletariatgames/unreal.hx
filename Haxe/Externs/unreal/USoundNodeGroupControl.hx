@@ -21,11 +21,11 @@ package unreal;
   Any time a new sound is played, the first group that has an available slot will be chosen
 **/
 @:glueCppIncludes("Sound/SoundNodeGroupControl.h")
-@:uextern extern class USoundNodeGroupControl extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeGroupControl extends unreal.USoundNode {
   
   /**
     How many active sounds are allowed for each group
   **/
-  public var GroupSizes : unreal.TArray<unreal.Int32>;
+  @:uproperty public var GroupSizes : unreal.TArray<unreal.Int32>;
   
 }

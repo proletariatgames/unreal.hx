@@ -25,92 +25,92 @@ package unreal;
   @see FBodyInstance
 **/
 @:glueCppIncludes("PhysicsEngine/BodySetup.h")
-@:uextern extern class UBodySetup extends unreal.UObject {
+@:uextern @:uclass extern class UBodySetup extends unreal.UObject {
   
   /**
     Build scale for this body setup (static mesh settings define this value)
   **/
-  public var BuildScale3D : unreal.FVector;
-  @:deprecated public var BuildScale_DEPRECATED : unreal.Float32;
+  @:uproperty public var BuildScale3D : unreal.FVector;
+  @:deprecated @:uproperty public var BuildScale_DEPRECATED : unreal.Float32;
   
   /**
     Custom walkable slope setting for this body.
   **/
-  public var WalkableSlopeOverride : unreal.FWalkableSlopeOverride;
+  @:uproperty public var WalkableSlopeOverride : unreal.FWalkableSlopeOverride;
   
   /**
     Default properties of the body instance, copied into objects on instantiation, was URB_BodyInstance
   **/
-  public var DefaultInstance : unreal.FBodyInstance;
+  @:uproperty public var DefaultInstance : unreal.FBodyInstance;
   
   /**
     Collision Trace behavior - by default, it will keep simple(convex)/complex(per-poly) separate *
   **/
-  public var CollisionTraceFlag : unreal.ECollisionTraceFlag;
+  @:uproperty public var CollisionTraceFlag : unreal.ECollisionTraceFlag;
   
   /**
     Collision Type for this body. This eventually changes response to collision to others *
   **/
-  public var CollisionReponse : unreal.EBodyCollisionResponse;
+  @:uproperty public var CollisionReponse : unreal.EBodyCollisionResponse;
   
   /**
     Physical material to use for simple collision on this body. Encodes information about density, friction etc.
   **/
-  public var PhysMaterial : unreal.UPhysicalMaterial;
+  @:uproperty public var PhysMaterial : unreal.UPhysicalMaterial;
   
   /**
     Should we generate data necessary to support collision on mirrored versions of this mesh.
     This halves the collision data size for this mesh, but disables collision on mirrored instances of the body.
   **/
-  public var bGenerateMirroredCollision : Bool;
+  @:uproperty public var bGenerateMirroredCollision : Bool;
   
   /**
     Whether the cooked data is shared by multiple body setups. This is needed for per poly collision case where we don't want to duplicate cooked data, but still need multiple body setups for in place geometry changes
   **/
-  public var bSharedCookedData : Bool;
+  @:uproperty public var bSharedCookedData : Bool;
   
   /**
     Should we generate data necessary to support collision on normal (non-mirrored) versions of this body.
   **/
-  public var bGenerateNonMirroredCollision : Bool;
+  @:uproperty public var bGenerateNonMirroredCollision : Bool;
   
   /**
     If true, the physics triangle mesh will use double sided faces when doing scene queries.
     This is useful for planes and single sided meshes that need traces to work on both sides.
   **/
-  public var bDoubleSidedGeometry : Bool;
+  @:uproperty public var bDoubleSidedGeometry : Bool;
   
   /**
     If true, the physics of this mesh (only affects static meshes) will always contain ALL elements from the mesh - not just the ones enabled for collision.
     This is useful for forcing high detail collisions using the entire render mesh.
   **/
-  public var bMeshCollideAll : Bool;
+  @:uproperty public var bMeshCollideAll : Bool;
   
   /**
     Should this BodySetup be considered for the bounding box of the PhysicsAsset (and hence SkeletalMeshComponent).
     There is a speed improvement from having less BodySetups processed each frame when updating the bounds.
   **/
-  public var bConsiderForBounds : Bool;
+  @:uproperty public var bConsiderForBounds : Bool;
   
   /**
     If true (and bEnableFullAnimWeightBodies in SkelMeshComp is true), the physics of this bone will always be blended into the skeletal mesh, regardless of what PhysicsWeight of the SkelMeshComp is.
     This is useful for bones that should always be physics, even when blending physics in and out for hit reactions (eg cloth or pony-tails).
   **/
-  @:deprecated public var bAlwaysFullAnimWeight_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bAlwaysFullAnimWeight_DEPRECATED : Bool;
   
   /**
     If Unfixed it will use physics. If fixed, it will use kinematic. Default will inherit from OwnerComponent's behavior.
   **/
-  public var PhysicsType : unreal.EPhysicsType;
+  @:uproperty public var PhysicsType : unreal.EPhysicsType;
   
   /**
     Used in the PhysicsAsset case. Associates this Body with Bone in a skeletal mesh.
   **/
-  public var BoneName : unreal.FName;
+  @:uproperty public var BoneName : unreal.FName;
   
   /**
     Simplified collision representation of this
   **/
-  public var AggGeom : unreal.FKAggregateGeom;
+  @:uproperty public var AggGeom : unreal.FKAggregateGeom;
   
 }

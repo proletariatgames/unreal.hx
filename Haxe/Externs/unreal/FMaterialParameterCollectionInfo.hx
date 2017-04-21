@@ -20,16 +20,16 @@ package unreal;
   Stores information about a parameter collection that this material references, used to know when the material needs to be recompiled.
 **/
 @:glueCppIncludes("Materials/Material.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialParameterCollectionInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialParameterCollectionInfo {
   
   /**
     The collection which this material has a dependency on.
   **/
-  public var ParameterCollection : unreal.UMaterialParameterCollection;
+  @:uproperty public var ParameterCollection : unreal.UMaterialParameterCollection;
   
   /**
     Id that the collection had when this material was last compiled.
   **/
-  public var StateId : unreal.FGuid;
+  @:uproperty public var StateId : unreal.FGuid;
   
 }

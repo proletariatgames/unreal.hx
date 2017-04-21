@@ -21,7 +21,7 @@ package unreal.uobjectplugin;
 **/
 @:umodule("UObjectPlugin")
 @:glueCppIncludes("MyPluginObject.h")
-@:noCopy @:noEquals @:uextern extern class FMyPluginStruct {
-  public var TestString : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMyPluginStruct {
+  @:uproperty public var TestString : unreal.FString;
   
 }

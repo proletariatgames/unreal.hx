@@ -21,46 +21,46 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_InputKey.h")
-@:uextern extern class UK2Node_InputKey extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_InputKey extends unreal.blueprintgraph.UK2Node {
   
   /**
     Does this binding require the windows key on PC or the control key on Mac to be held
   **/
-  public var bCommand : Bool;
+  @:uproperty public var bCommand : Bool;
   
   /**
     Does this binding require the shift key to be held
   **/
-  public var bShift : Bool;
+  @:uproperty public var bShift : Bool;
   
   /**
     Does this binding require the alt key to be held
   **/
-  public var bAlt : Bool;
+  @:uproperty public var bAlt : Bool;
   
   /**
     Does this binding require the control key on PC or the command key on Mac to be held
   **/
-  public var bControl : Bool;
+  @:uproperty public var bControl : Bool;
   
   /**
     Should any bindings to this event in parent classes be removed
   **/
-  public var bOverrideParentBinding : Bool;
+  @:uproperty public var bOverrideParentBinding : Bool;
   
   /**
     Should the binding execute even when the game is paused
   **/
-  public var bExecuteWhenPaused : Bool;
+  @:uproperty public var bExecuteWhenPaused : Bool;
   
   /**
     Prevents actors with lower priority from handling this input
   **/
-  public var bConsumeInput : Bool;
+  @:uproperty public var bConsumeInput : Bool;
   
   /**
     The key that is bound
   **/
-  public var InputKey : unreal.inputcore.FKey;
+  @:uproperty public var InputKey : unreal.inputcore.FKey;
   
 }

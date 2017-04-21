@@ -16,7 +16,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EGoogleVRMode.Type")
-@:uextern extern enum EGoogleVRMode {
+@:uextern @:uenum extern enum EGoogleVRMode {
   
   /**
     Configure GoogleVR to run in Cardboard-only mode.

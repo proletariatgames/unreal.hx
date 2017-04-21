@@ -22,7 +22,7 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEffectRendererProperties.h")
-@:uextern extern class UNiagaraEffectRendererProperties extends unreal.UObject {
-  public var dummy : unreal.FName;
+@:uextern @:uclass extern class UNiagaraEffectRendererProperties extends unreal.UObject {
+  @:uproperty public var dummy : unreal.FName;
   
 }

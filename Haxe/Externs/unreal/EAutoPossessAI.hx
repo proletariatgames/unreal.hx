@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAutoPossessAI")
-@:class @:uextern extern enum EAutoPossessAI {
+@:class @:uextern @:uenum extern enum EAutoPossessAI {
   
   /**
     Feature is disabled (do not automatically possess AI).

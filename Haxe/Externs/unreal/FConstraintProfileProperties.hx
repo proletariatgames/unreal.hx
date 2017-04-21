@@ -18,52 +18,52 @@ package unreal;
   Container for properties of a physics constraint that can be easily swapped at runtime. This is useful for switching different setups when going from ragdoll to standup for example
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintInstance.h")
-@:uextern extern class FConstraintProfileProperties {
+@:uextern @:ustruct extern class FConstraintProfileProperties {
   
   /**
     Whether it is possible to break the joint with linear force.
   **/
-  public var bLinearBreakable : Bool;
+  @:uproperty public var bLinearBreakable : Bool;
   
   /**
     Whether it is possible to break the joint with angular force.
   **/
-  public var bAngularBreakable : Bool;
+  @:uproperty public var bAngularBreakable : Bool;
   
   /**
     If distance error between bodies exceeds 0.1 units, or rotation error exceeds 10 degrees, body will be projected to fix this.
     For example a chain spinning too fast will have its elements appear detached due to velocity, this will project all bodies so they still appear attached to each other.
   **/
-  public var bEnableProjection : Bool;
+  @:uproperty public var bEnableProjection : Bool;
   
   /**
     Disable collision between bodies joined by this constraint.
   **/
-  public var bDisableCollision : Bool;
-  public var AngularDrive : unreal.FAngularDriveConstraint;
-  public var LinearDrive : unreal.FLinearDriveConstraint;
-  public var TwistLimit : unreal.FTwistConstraint;
-  public var ConeLimit : unreal.FConeConstraint;
-  public var LinearLimit : unreal.FLinearConstraint;
+  @:uproperty public var bDisableCollision : Bool;
+  @:uproperty public var AngularDrive : unreal.FAngularDriveConstraint;
+  @:uproperty public var LinearDrive : unreal.FLinearDriveConstraint;
+  @:uproperty public var TwistLimit : unreal.FTwistConstraint;
+  @:uproperty public var ConeLimit : unreal.FConeConstraint;
+  @:uproperty public var LinearLimit : unreal.FLinearConstraint;
   
   /**
     Torque needed to break the joint.
   **/
-  public var AngularBreakThreshold : unreal.Float32;
+  @:uproperty public var AngularBreakThreshold : unreal.Float32;
   
   /**
     Force needed to break the distance constraint.
   **/
-  public var LinearBreakThreshold : unreal.Float32;
+  @:uproperty public var LinearBreakThreshold : unreal.Float32;
   
   /**
     Angular tolerance value in world units. If the distance error exceeds this tolerence limit, the body will be projected.
   **/
-  public var ProjectionAngularTolerance : unreal.Float32;
+  @:uproperty public var ProjectionAngularTolerance : unreal.Float32;
   
   /**
     Linear tolerance value in world units. If the distance error exceeds this tolerence limit, the body will be projected.
   **/
-  public var ProjectionLinearTolerance : unreal.Float32;
+  @:uproperty public var ProjectionLinearTolerance : unreal.Float32;
   
 }

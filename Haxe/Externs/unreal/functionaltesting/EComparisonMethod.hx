@@ -16,7 +16,7 @@ package unreal.functionaltesting;
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTest.h")
 @:uname("EComparisonMethod")
-@:class @:uextern extern enum EComparisonMethod {
+@:class @:uextern @:uenum extern enum EComparisonMethod {
   Equal_To;
   Not_Equal_To;
   Greater_Than_Or_Equal_To;

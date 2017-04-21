@@ -18,9 +18,17 @@ package unreal;
   An Enumeration is a list of named values.
 **/
 @:glueCppIncludes("Engine/UserDefinedEnum.h")
-@:uextern extern class UUserDefinedEnum extends unreal.UEnum {
+@:uextern @:uclass extern class UUserDefinedEnum extends unreal.UEnum {
+  
+  /**
+    Names stored in "DisplayName" meta data. They are duplicated here,
+    so functions like UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName can use them
+    outside the editor. (When meta data are not loaded).
+    To sync DisplayNames with meta-data use FEnumEditorUtils::EnsureAllDisplayNamesExist.
+  **/
+  @:uproperty public var DisplayNames : unreal.TArray<unreal.FText>;
   #if WITH_EDITORONLY_DATA
-  public var UniqueNameIndex : unreal.FakeUInt32;
+  @:uproperty public var UniqueNameIndex : unreal.FakeUInt32;
   #end // WITH_EDITORONLY_DATA
   
 }

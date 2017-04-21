@@ -19,11 +19,11 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
-@:uextern extern class FTypeface {
+@:uextern @:ustruct extern class FTypeface {
   
   /**
     The fonts contained within this family
   **/
-  public var Fonts : unreal.TArray<unreal.slatecore.FTypefaceEntry>;
+  @:uproperty public var Fonts : unreal.TArray<unreal.slatecore.FTypefaceEntry>;
   
 }

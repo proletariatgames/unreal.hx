@@ -20,94 +20,94 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/MaterialMerging.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialProxySettings {
-  public var MaterialMergeType : unreal.EMaterialMergeType;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialProxySettings {
+  @:uproperty public var MaterialMergeType : unreal.EMaterialMergeType;
   
   /**
     Override opacity map size
   **/
-  public var OpacityTextureSize : unreal.FIntPoint;
+  @:uproperty public var OpacityTextureSize : unreal.FIntPoint;
   
   /**
     Override emissive map size
   **/
-  public var EmissiveTextureSize : unreal.FIntPoint;
+  @:uproperty public var EmissiveTextureSize : unreal.FIntPoint;
   
   /**
     Override specular map size
   **/
-  public var SpecularTextureSize : unreal.FIntPoint;
+  @:uproperty public var SpecularTextureSize : unreal.FIntPoint;
   
   /**
     Override roughness map size
   **/
-  public var RoughnessTextureSize : unreal.FIntPoint;
+  @:uproperty public var RoughnessTextureSize : unreal.FIntPoint;
   
   /**
     Override metallic map size
   **/
-  public var MetallicTextureSize : unreal.FIntPoint;
+  @:uproperty public var MetallicTextureSize : unreal.FIntPoint;
   
   /**
     Override normal map size
   **/
-  public var NormalTextureSize : unreal.FIntPoint;
+  @:uproperty public var NormalTextureSize : unreal.FIntPoint;
   
   /**
     Override diffuse map size
   **/
-  public var DiffuseTextureSize : unreal.FIntPoint;
+  @:uproperty public var DiffuseTextureSize : unreal.FIntPoint;
   
   /**
     Whether to generate opacity map
   **/
-  public var bOpacityMap : Bool;
+  @:uproperty public var bOpacityMap : Bool;
   
   /**
     Whether to generate emissive map
   **/
-  public var bEmissiveMap : Bool;
+  @:uproperty public var bEmissiveMap : Bool;
   
   /**
     Specular constant
   **/
-  public var SpecularConstant : unreal.Float32;
+  @:uproperty public var SpecularConstant : unreal.Float32;
   
   /**
     Whether to generate specular map
   **/
-  public var bSpecularMap : Bool;
+  @:uproperty public var bSpecularMap : Bool;
   
   /**
     Roughness constant
   **/
-  public var RoughnessConstant : unreal.Float32;
+  @:uproperty public var RoughnessConstant : unreal.Float32;
   
   /**
     Whether to generate roughness map
   **/
-  public var bRoughnessMap : Bool;
+  @:uproperty public var bRoughnessMap : Bool;
   
   /**
     Metallic constant
   **/
-  public var MetallicConstant : unreal.Float32;
+  @:uproperty public var MetallicConstant : unreal.Float32;
   
   /**
     Whether to generate metallic map
   **/
-  public var bMetallicMap : Bool;
+  @:uproperty public var bMetallicMap : Bool;
   
   /**
     Whether to generate normal map
   **/
-  public var bNormalMap : Bool;
-  public var GutterSpace : unreal.Float32;
-  public var TextureSizingType : unreal.ETextureSizingType;
+  @:uproperty public var bNormalMap : Bool;
+  @:uproperty public var GutterSpace : unreal.Float32;
+  @:uproperty public var TextureSizingType : unreal.ETextureSizingType;
   
   /**
     Size of generated BaseColor map
   **/
-  public var TextureSize : unreal.FIntPoint;
+  @:uproperty public var TextureSize : unreal.FIntPoint;
   
 }

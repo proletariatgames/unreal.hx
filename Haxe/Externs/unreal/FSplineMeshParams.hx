@@ -21,56 +21,56 @@ package unreal;
   Also used by Lightmass, so be sure to update Lightmass::FSplineMeshParams and the static lighting code if this changes!
 **/
 @:glueCppIncludes("Components/SplineMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSplineMeshParams {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSplineMeshParams {
   
   /**
     Ending offset of the mesh from the spline, in component space.
   **/
-  public var EndOffset : unreal.FVector2D;
+  @:uproperty public var EndOffset : unreal.FVector2D;
   
   /**
     Roll around spline applied at end.
   **/
-  public var EndRoll : unreal.Float32;
+  @:uproperty public var EndRoll : unreal.Float32;
   
   /**
     X and Y scale applied to mesh at end of spline.
   **/
-  public var EndScale : unreal.FVector2D;
+  @:uproperty public var EndScale : unreal.FVector2D;
   
   /**
     End tangent of spline, in component space.
   **/
-  public var EndTangent : unreal.FVector;
+  @:uproperty public var EndTangent : unreal.FVector;
   
   /**
     End location of spline, in component space.
   **/
-  public var EndPos : unreal.FVector;
+  @:uproperty public var EndPos : unreal.FVector;
   
   /**
     Starting offset of the mesh from the spline, in component space.
   **/
-  public var StartOffset : unreal.FVector2D;
+  @:uproperty public var StartOffset : unreal.FVector2D;
   
   /**
     Roll around spline applied at start
   **/
-  public var StartRoll : unreal.Float32;
+  @:uproperty public var StartRoll : unreal.Float32;
   
   /**
     X and Y scale applied to mesh at start of spline.
   **/
-  public var StartScale : unreal.FVector2D;
+  @:uproperty public var StartScale : unreal.FVector2D;
   
   /**
     Start tangent of spline, in component space.
   **/
-  public var StartTangent : unreal.FVector;
+  @:uproperty public var StartTangent : unreal.FVector;
   
   /**
     Start location of spline, in component space.
   **/
-  public var StartPos : unreal.FVector;
+  @:uproperty public var StartPos : unreal.FVector;
   
 }

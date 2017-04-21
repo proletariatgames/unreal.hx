@@ -20,11 +20,11 @@ package unreal;
   Structure for directory paths that are displayed in the UI.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FDirectoryPath {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDirectoryPath {
   
   /**
     The path to the directory.
   **/
-  public var Path : unreal.FString;
+  @:uproperty public var Path : unreal.FString;
   
 }

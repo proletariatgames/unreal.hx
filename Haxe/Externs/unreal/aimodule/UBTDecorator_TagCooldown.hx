@@ -20,26 +20,26 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_TagCooldown.h")
-@:uextern extern class UBTDecorator_TagCooldown extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_TagCooldown extends unreal.aimodule.UBTDecorator {
   
   /**
     Whether or not we are adding/setting to the cooldown tag's value when the decorator deactivates.
   **/
-  public var bActivatesCooldown : Bool;
+  @:uproperty public var bActivatesCooldown : Bool;
   
   /**
     True if we are adding to any existing duration, false if we are setting the duration (potentially invalidating an existing end time).
   **/
-  public var bAddToExistingDuration : Bool;
+  @:uproperty public var bAddToExistingDuration : Bool;
   
   /**
     Value we will add or set to the Cooldown tag when this node is deactivated.
   **/
-  public var CooldownDuration : unreal.Float32;
+  @:uproperty public var CooldownDuration : unreal.Float32;
   
   /**
     Gameplay tag that will be used for the cooldown.
   **/
-  public var CooldownTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var CooldownTag : unreal.gameplaytags.FGameplayTag;
   
 }

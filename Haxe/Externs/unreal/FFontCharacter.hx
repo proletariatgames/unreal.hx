@@ -20,12 +20,12 @@ package unreal;
   This struct is serialized using native serialization so any changes to it require a package version bump.
 **/
 @:glueCppIncludes("Engine/Font.h")
-@:noCopy @:noEquals @:uextern extern class FFontCharacter {
-  public var VerticalOffset : unreal.Int32;
-  public var TextureIndex : unreal.UInt8;
-  public var VSize : unreal.Int32;
-  public var USize : unreal.Int32;
-  public var StartV : unreal.Int32;
-  public var StartU : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFontCharacter {
+  @:uproperty public var VerticalOffset : unreal.Int32;
+  @:uproperty public var TextureIndex : unreal.UInt8;
+  @:uproperty public var VSize : unreal.Int32;
+  @:uproperty public var USize : unreal.Int32;
+  @:uproperty public var StartV : unreal.Int32;
+  @:uproperty public var StartU : unreal.Int32;
   
 }

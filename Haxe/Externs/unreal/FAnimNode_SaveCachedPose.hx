@@ -14,13 +14,13 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNode_SaveCachedPose.h")
-@:uextern extern class FAnimNode_SaveCachedPose extends unreal.FAnimNode_Base {
-  public var GlobalWeight : unreal.Float32;
+@:uextern @:ustruct extern class FAnimNode_SaveCachedPose extends unreal.FAnimNode_Base {
+  @:uproperty public var GlobalWeight : unreal.Float32;
   
   /**
     Intentionally not exposed, set by AnimBlueprintCompiler
   **/
-  public var CachePoseName : unreal.FName;
-  public var Pose : unreal.FPoseLink;
+  @:uproperty public var CachePoseName : unreal.FName;
+  @:uproperty public var Pose : unreal.FPoseLink;
   
 }

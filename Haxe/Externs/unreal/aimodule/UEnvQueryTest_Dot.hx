@@ -21,17 +21,17 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Dot.h")
-@:uextern extern class UEnvQueryTest_Dot extends unreal.aimodule.UEnvQueryTest {
-  private var TestMode : unreal.aimodule.EEnvTestDot;
+@:uextern @:uclass extern class UEnvQueryTest_Dot extends unreal.aimodule.UEnvQueryTest {
+  @:uproperty private var TestMode : unreal.aimodule.EEnvTestDot;
   
   /**
     defines direction of second line used by test
   **/
-  private var LineB : unreal.aimodule.FEnvDirection;
+  @:uproperty private var LineB : unreal.aimodule.FEnvDirection;
   
   /**
     defines direction of first line used by test
   **/
-  private var LineA : unreal.aimodule.FEnvDirection;
+  @:uproperty private var LineA : unreal.aimodule.FEnvDirection;
   
 }

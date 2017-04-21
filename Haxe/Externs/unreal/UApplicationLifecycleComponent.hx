@@ -18,6 +18,6 @@ package unreal;
   Component to handle receiving notifications from the OS about application state (activated, suspended, termination, etc).
 **/
 @:glueCppIncludes("Components/ApplicationLifecycleComponent.h")
-@:uextern extern class UApplicationLifecycleComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UApplicationLifecycleComponent extends unreal.UActorComponent {
   
 }

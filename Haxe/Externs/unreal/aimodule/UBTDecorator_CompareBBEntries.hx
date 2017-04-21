@@ -20,21 +20,21 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_CompareBBEntries.h")
-@:uextern extern class UBTDecorator_CompareBBEntries extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_CompareBBEntries extends unreal.aimodule.UBTDecorator {
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKeyB : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKeyB : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKeyA : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKeyA : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     operation type
   **/
-  private var Operator : unreal.aimodule.EBlackBoardEntryComparison;
+  @:uproperty private var Operator : unreal.aimodule.EBlackBoardEntryComparison;
   
 }

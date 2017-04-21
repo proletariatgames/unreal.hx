@@ -15,81 +15,81 @@ package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingComponent.h")
-@:uextern extern class UGameplayDebuggingComponent extends unreal.UPrimitiveComponent implements unreal.aimodule.IEQSQueryResultSourceInterface {
-  private var ActivationCounter : unreal.UInt8;
+@:uextern @:uclass extern class UGameplayDebuggingComponent extends unreal.UPrimitiveComponent implements unreal.aimodule.IEQSQueryResultSourceInterface {
+  @:uproperty private var ActivationCounter : unreal.UInt8;
   
   /**
     controller related stuff
   **/
-  public var TargetActor : unreal.AActor;
-  public var PerceptionShapeElements : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerShapeElement>;
-  public var SensingComponentLocation : unreal.FVector;
-  public var DistanceFromSensor : unreal.Float32;
-  public var DistanceFromPlayer : unreal.Float32;
+  @:uproperty public var TargetActor : unreal.AActor;
+  @:uproperty public var PerceptionShapeElements : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerShapeElement>;
+  @:uproperty public var SensingComponentLocation : unreal.FVector;
+  @:uproperty public var DistanceFromSensor : unreal.Float32;
+  @:uproperty public var DistanceFromPlayer : unreal.Float32;
   
   /**
     Start - Perception System
   **/
-  public var PerceptionLegend : unreal.FString;
-  public var bIsUsingAbilities : Bool;
-  public var bIsUsingBehaviorTree : Bool;
-  public var bIsUsingCharacter : Bool;
-  public var bIsUsingPathFollowing : Bool;
+  @:uproperty public var PerceptionLegend : unreal.FString;
+  @:uproperty public var bIsUsingAbilities : Bool;
+  @:uproperty public var bIsUsingBehaviorTree : Bool;
+  @:uproperty public var bIsUsingCharacter : Bool;
+  @:uproperty public var bIsUsingPathFollowing : Bool;
   
   /**
     End EQS replication data
   **/
-  public var NextPathPointIndex : unreal.Int32;
+  @:uproperty public var NextPathPointIndex : unreal.Int32;
   
   /**
     Begin EQS replication data
   **/
-  public var EQSRepData : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var EQSRepData : unreal.TArray<unreal.UInt8>;
   
   /**
     End path replication data
   **/
-  public var NavmeshRepData : unreal.TArray<unreal.UInt8>;
-  public var PathCorridorData : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var NavmeshRepData : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var PathCorridorData : unreal.TArray<unreal.UInt8>;
   
   /**
     Begin path replication data
   **/
-  public var PathPoints : unreal.TArray<unreal.FVector>;
-  public var BlackboardRepData : unreal.TArray<unreal.UInt8>;
-  public var BrainComponentString : unreal.FString;
-  public var BrainComponentName : unreal.FString;
-  public var MontageInfo : unreal.FString;
-  public var AbilityInfo : unreal.FString;
-  public var NavDataInfo : unreal.FString;
-  public var GameplayTasksState : unreal.FString;
-  public var CurrentAIAssets : unreal.FString;
-  public var CurrentAIState : unreal.FString;
-  public var CurrentAITask : unreal.FString;
-  public var PathFollowingInfo : unreal.FString;
-  public var MovementModeInfo : unreal.FString;
-  public var MovementBaseInfo : unreal.FString;
-  public var DebugIcon : unreal.FString;
-  public var PawnClass : unreal.FString;
-  public var PawnName : unreal.FString;
-  public var ControllerName : unreal.FString;
-  public var ReplicateViewDataCounters : unreal.TArray<unreal.Int32>;
-  public var ShowExtendedInformatiomCounter : unreal.Int32;
-  public var DebugComponentClassName : unreal.FString;
+  @:uproperty public var PathPoints : unreal.TArray<unreal.FVector>;
+  @:uproperty public var BlackboardRepData : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var BrainComponentString : unreal.FString;
+  @:uproperty public var BrainComponentName : unreal.FString;
+  @:uproperty public var MontageInfo : unreal.FString;
+  @:uproperty public var AbilityInfo : unreal.FString;
+  @:uproperty public var NavDataInfo : unreal.FString;
+  @:uproperty public var GameplayTasksState : unreal.FString;
+  @:uproperty public var CurrentAIAssets : unreal.FString;
+  @:uproperty public var CurrentAIState : unreal.FString;
+  @:uproperty public var CurrentAITask : unreal.FString;
+  @:uproperty public var PathFollowingInfo : unreal.FString;
+  @:uproperty public var MovementModeInfo : unreal.FString;
+  @:uproperty public var MovementBaseInfo : unreal.FString;
+  @:uproperty public var DebugIcon : unreal.FString;
+  @:uproperty public var PawnClass : unreal.FString;
+  @:uproperty public var PawnName : unreal.FString;
+  @:uproperty public var ControllerName : unreal.FString;
+  @:uproperty public var ReplicateViewDataCounters : unreal.TArray<unreal.Int32>;
+  @:uproperty public var ShowExtendedInformatiomCounter : unreal.Int32;
+  @:uproperty public var DebugComponentClassName : unreal.FString;
   
   /**
     End - Perception System
   **/
-  public function OnCycleDetailsView() : Void;
-  public function OnRep_UpdateEQS() : Void;
-  public function OnRep_UpdateBlackboard() : Void;
-  public function OnRep_UpdateNavmesh() : Void;
-  public function OnRep_ActivationCounter() : Void;
-  @:final public function ServerReplicateData(InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
-  public function ServerCollectNavmeshData(TargetLocation : unreal.FVector_NetQuantize10) : Void;
-  public function ServerDiscardNavmeshData() : Void;
-  public function OnRep_PathCorridorData() : Void;
-  public function ClientEnableTargetSelection(bEnable : Bool) : Void;
+  @:ufunction public function OnCycleDetailsView() : Void;
+  @:ufunction public function OnRep_UpdateEQS() : Void;
+  @:ufunction public function OnRep_UpdateBlackboard() : Void;
+  @:ufunction public function OnRep_UpdateNavmesh() : Void;
+  @:ufunction public function OnRep_ActivationCounter() : Void;
+  @:ufunction @:final public function ServerReplicateData(InMessage : unreal.FakeUInt32, DataView : unreal.FakeUInt32) : Void;
+  @:ufunction public function ServerCollectNavmeshData(TargetLocation : unreal.FVector_NetQuantize10) : Void;
+  @:ufunction public function ServerDiscardNavmeshData() : Void;
+  @:ufunction public function OnRep_PathCorridorData() : Void;
+  @:ufunction public function ClientEnableTargetSelection(bEnable : Bool) : Void;
   // EQSQueryResultSourceInterface interface implementation
   
 }

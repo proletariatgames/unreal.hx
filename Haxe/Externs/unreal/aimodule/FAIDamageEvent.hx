@@ -15,34 +15,34 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Damage.h")
-@:uextern extern class FAIDamageEvent {
+@:uextern @:ustruct extern class FAIDamageEvent {
   
   /**
     Actor that instigated damage. Can be None
   **/
-  public var Instigator : unreal.AActor;
+  @:uproperty public var Instigator : unreal.AActor;
   
   /**
     Damaged actor
   **/
-  public var DamagedActor : unreal.AActor;
+  @:uproperty public var DamagedActor : unreal.AActor;
   
   /**
     Event's additional spatial information
         @TODO document
   **/
-  public var HitLocation : unreal.FVector;
+  @:uproperty public var HitLocation : unreal.FVector;
   
   /**
     Event's "Location", or what will be later treated as the perceived location for this sense.
         If not set, HitLocation will be used, if that is unset too DamagedActor's location
   **/
-  public var Location : unreal.FVector;
+  @:uproperty public var Location : unreal.FVector;
   
   /**
     Damage taken by DamagedActor.
         @Note 0-damage events do not get ignored
   **/
-  public var Amount : unreal.Float32;
+  @:uproperty public var Amount : unreal.Float32;
   
 }

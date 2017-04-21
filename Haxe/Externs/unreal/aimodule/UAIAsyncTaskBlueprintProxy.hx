@@ -21,6 +21,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Blueprint/AIAsyncTaskBlueprintProxy.h")
-@:uextern extern class UAIAsyncTaskBlueprintProxy extends unreal.UObject {
+@:uextern @:uclass extern class UAIAsyncTaskBlueprintProxy extends unreal.UObject {
   
 }

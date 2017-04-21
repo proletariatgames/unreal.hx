@@ -20,31 +20,31 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/PlatformInterfaceWebResponse.h")
-@:uextern extern class UPlatformInterfaceWebResponse extends unreal.UObject {
+@:uextern @:uclass extern class UPlatformInterfaceWebResponse extends unreal.UObject {
   
   /**
     For non-string results, this is the response
   **/
-  public var BinaryResponse : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var BinaryResponse : unreal.TArray<unreal.UInt8>;
   
   /**
     For string results, this is the response
   **/
-  public var StringResponse : unreal.FString;
+  @:uproperty public var StringResponse : unreal.FString;
   
   /**
     A user-specified tag specified with the request
   **/
-  public var Tag : unreal.Int32;
+  @:uproperty public var Tag : unreal.Int32;
   
   /**
     Result code from the response (200=OK, 404=Not Found, etc)
   **/
-  public var ResponseCode : unreal.Int32;
+  @:uproperty public var ResponseCode : unreal.Int32;
   
   /**
     This holds the original requested URL
   **/
-  public var OriginalURL : unreal.FString;
+  @:uproperty public var OriginalURL : unreal.FString;
   
 }

@@ -14,8 +14,8 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputAxisKeyDelegateBinding.h")
-@:uextern extern class FBlueprintInputAxisKeyDelegateBinding extends unreal.FBlueprintInputDelegateBinding {
-  public var FunctionNameToBind : unreal.FName;
-  public var AxisKey : unreal.inputcore.FKey;
+@:uextern @:ustruct extern class FBlueprintInputAxisKeyDelegateBinding extends unreal.FBlueprintInputDelegateBinding {
+  @:uproperty public var FunctionNameToBind : unreal.FName;
+  @:uproperty public var AxisKey : unreal.inputcore.FKey;
   
 }

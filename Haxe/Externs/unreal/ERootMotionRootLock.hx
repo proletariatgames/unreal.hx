@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
 @:uname("ERootMotionRootLock.Type")
-@:uextern extern enum ERootMotionRootLock {
+@:uextern @:uenum extern enum ERootMotionRootLock {
   
   /**
     Use reference pose root bone position.

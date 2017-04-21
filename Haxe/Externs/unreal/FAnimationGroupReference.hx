@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:noCopy @:noEquals @:uextern extern class FAnimationGroupReference {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationGroupReference {
   
   /**
     The type of membership in the group (potential leader, always follower, etc...)
   **/
-  public var GroupRole : unreal.EAnimGroupRole;
+  @:uproperty public var GroupRole : unreal.EAnimGroupRole;
   
   /**
     The name of the group
   **/
-  public var GroupName : unreal.FName;
+  @:uproperty public var GroupName : unreal.FName;
   
 }

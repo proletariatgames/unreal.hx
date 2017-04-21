@@ -20,7 +20,7 @@ package unreal;
   @see APawn
 **/
 @:glueCppIncludes("GameFramework/PawnMovementComponent.h")
-@:uextern extern class UPawnMovementComponent extends unreal.UNavMovementComponent {
+@:uextern @:uclass extern class UPawnMovementComponent extends unreal.UNavMovementComponent {
   
   /**
     Adds the given vector to the accumulated input in world space. Input vectors are usually between 0 and 1 in magnitude.
@@ -31,7 +31,7 @@ package unreal;
     @param bForce                        If true always add the input, ignoring the result of IsMoveInputIgnored().
     @see APawn::AddMovementInput()
   **/
-  public function AddInputVector(WorldVector : unreal.FVector, bForce : Bool) : Void;
+  @:ufunction public function AddInputVector(WorldVector : unreal.FVector, bForce : Bool = false) : Void;
   
   /**
     Return the pending input vector in world space. This is the most up-to-date value of the input vector, pending ConsumeMovementInputVector() which clears it.
@@ -39,7 +39,7 @@ package unreal;
     @return The pending input vector in world space.
     @see AddInputVector(), ConsumeInputVector(), GetLastInputVector()
   **/
-  @:thisConst @:final public function GetPendingInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetPendingInputVector() : unreal.FVector;
   
   /**
     Return the last input vector in world space that was processed by ConsumeInputVector(), which is usually done by the Pawn or PawnMovementComponent.
@@ -47,7 +47,7 @@ package unreal;
     @return The last input vector in world space that was processed by ConsumeInputVector().
     @see AddInputVector(), ConsumeInputVector(), GetPendingInputVector()
   **/
-  @:thisConst @:final public function GetLastInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetLastInputVector() : unreal.FVector;
   
   /**
     Returns the pending input vector and resets it to zero.
@@ -55,26 +55,26 @@ package unreal;
            * Copies the pending input vector to the saved input vector (GetLastMovementInputVector()).
            * @return The pending input vector.
   **/
-  public function ConsumeInputVector() : unreal.FVector;
+  @:ufunction public function ConsumeInputVector() : unreal.FVector;
   
   /**
     Helper to see if move input is ignored. If there is no Pawn or UpdatedComponent, returns true, otherwise defers to the Pawn's implementation of IsMoveInputIgnored().
   **/
-  @:thisConst public function IsMoveInputIgnored() : Bool;
+  @:ufunction @:thisConst public function IsMoveInputIgnored() : Bool;
   
   /**
     Return the Pawn that owns UpdatedComponent.
   **/
-  @:thisConst @:final public function GetPawnOwner() : unreal.APawn;
+  @:ufunction @:thisConst @:final public function GetPawnOwner() : unreal.APawn;
   
   /**
     Pawn that owns this component.
   **/
-  private var PawnOwner : unreal.APawn;
+  @:uproperty private var PawnOwner : unreal.APawn;
   
   /**
     (Deprecated) Return the input vector in world space.
   **/
-  @:thisConst @:final public function K2_GetInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function K2_GetInputVector() : unreal.FVector;
   
 }

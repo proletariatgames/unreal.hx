@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportOptionsStaticMesh.h")
 @:uname("EFbxSceneVertexColorImportOption.Type")
-@:uextern extern enum EFbxSceneVertexColorImportOption {
+@:uextern @:uenum extern enum EFbxSceneVertexColorImportOption {
   
   /**
     Import the static mesh using the vertex colors from the FBX file.

@@ -23,38 +23,38 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_BlueprintBase.h")
-@:uextern extern class UBTTask_BlueprintBase extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_BlueprintBase extends unreal.aimodule.UBTTaskNode {
   
   /**
     Cached actor owner of BehaviorTreeComponent.
   **/
-  private var ActorOwner : unreal.AActor;
+  @:uproperty private var ActorOwner : unreal.AActor;
   
   /**
     Cached AIController owner of BehaviorTreeComponent.
   **/
-  private var AIOwner : unreal.aimodule.AAIController;
+  @:uproperty private var AIOwner : unreal.aimodule.AAIController;
   
   /**
     entry point, task will stay active until FinishExecute is called.
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecute(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveExecute(OwnerActor : unreal.AActor) : Void;
   
   /**
     if blueprint graph contains this event, task will stay active until FinishAbort is called
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveAbort(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveAbort(OwnerActor : unreal.AActor) : Void;
   
   /**
     tick function
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     Alternative AI version of ReceiveExecute
@@ -62,7 +62,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecuteAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveExecuteAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveAbort
@@ -70,7 +70,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveAbortAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveAbortAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of tick function.
@@ -78,36 +78,36 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     finishes task execution with Success or Fail result
   **/
-  @:final private function FinishExecute(bSuccess : Bool) : Void;
+  @:ufunction @:final private function FinishExecute(bSuccess : Bool) : Void;
   
   /**
     aborts task execution
   **/
-  @:final private function FinishAbort() : Void;
+  @:ufunction @:final private function FinishAbort() : Void;
   
   /**
     task execution will be finished (with result 'Success') after receiving specified message
   **/
-  @:final private function SetFinishOnMessage(MessageName : unreal.FName) : Void;
+  @:ufunction @:final private function SetFinishOnMessage(MessageName : unreal.FName) : Void;
   
   /**
     task execution will be finished (with result 'Success') after receiving specified message with indicated ID
   **/
-  @:final private function SetFinishOnMessageWithId(MessageName : unreal.FName, RequestID : unreal.Int32) : Void;
+  @:ufunction @:final private function SetFinishOnMessageWithId(MessageName : unreal.FName, RequestID : unreal.Int32 = -1) : Void;
   
   /**
     check if task is currently being executed
   **/
-  @:thisConst @:final private function IsTaskExecuting() : Bool;
+  @:ufunction @:thisConst @:final private function IsTaskExecuting() : Bool;
   
   /**
     check if task is currently being aborted
   **/
-  @:thisConst @:final private function IsTaskAborting() : Bool;
+  @:ufunction @:thisConst @:final private function IsTaskAborting() : Bool;
   
 }

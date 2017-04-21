@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("EditorActorFolders.h")
-@:noClass @:uextern extern class UEditorActorFolders extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UEditorActorFolders extends unreal.UObject {
   
 }

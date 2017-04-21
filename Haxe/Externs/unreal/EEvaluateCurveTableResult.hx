@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/DataTableFunctionLibrary.h")
 @:uname("EEvaluateCurveTableResult.Type")
-@:uextern extern enum EEvaluateCurveTableResult {
+@:uextern @:uenum extern enum EEvaluateCurveTableResult {
   
   /**
     Found the row successfully.

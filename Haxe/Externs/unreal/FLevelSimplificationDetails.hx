@@ -14,60 +14,60 @@
 package unreal;
 
 @:glueCppIncludes("Engine/Level.h")
-@:uextern extern class FLevelSimplificationDetails {
-  @:deprecated public var bGenerateLandscapeSpecularMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateLandscapeRoughnessMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateLandscapeMetallicMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateLandscapeNormalMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateMeshSpecularMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateMeshRoughnessMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateMeshMetallicMap_DEPRECATED : Bool;
-  @:deprecated public var bGenerateMeshNormalMap_DEPRECATED : Bool;
+@:uextern @:ustruct extern class FLevelSimplificationDetails {
+  @:deprecated @:uproperty public var bGenerateLandscapeSpecularMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateLandscapeRoughnessMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateLandscapeMetallicMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateLandscapeNormalMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateMeshSpecularMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateMeshRoughnessMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateMeshMetallicMap_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bGenerateMeshNormalMap_DEPRECATED : Bool;
   
   /**
     Whether to bake grass into landscape static mesh texture
   **/
-  public var bBakeGrassToLandscape : Bool;
+  @:uproperty public var bBakeGrassToLandscape : Bool;
   
   /**
     Whether to bake foliage into landscape static mesh texture
   **/
-  public var bBakeFoliageToLandscape : Bool;
+  @:uproperty public var bBakeFoliageToLandscape : Bool;
   
   /**
     Landscape material simplification
   **/
-  public var LandscapeMaterialSettings : unreal.FMaterialProxySettings;
+  @:uproperty public var LandscapeMaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Landscape material simplification
   **/
-  @:deprecated public var LandscapeMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
+  @:deprecated @:uproperty public var LandscapeMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
   
   /**
     Landscape LOD to use for static mesh generation, when not specified 'Max LODLevel' from landscape actor will be used
   **/
-  public var LandscapeExportLOD : unreal.Int32;
-  public var bOverrideLandscapeExportLOD : Bool;
+  @:uproperty public var LandscapeExportLOD : unreal.Int32;
+  @:uproperty public var bOverrideLandscapeExportLOD : Bool;
   
   /**
     Landscape material simplification
   **/
-  public var StaticMeshMaterialSettings : unreal.FMaterialProxySettings;
+  @:uproperty public var StaticMeshMaterialSettings : unreal.FMaterialProxySettings;
   
   /**
     Static mesh material simplification
   **/
-  @:deprecated public var StaticMeshMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
+  @:deprecated @:uproperty public var StaticMeshMaterial_DEPRECATED : unreal.FMaterialSimplificationSettings;
   
   /**
     Percentage of details for static mesh proxy
   **/
-  public var DetailsPercentage : unreal.Float32;
+  @:uproperty public var DetailsPercentage : unreal.Float32;
   
   /**
     Whether to create separate packages for each generated asset. All in map package otherwise
   **/
-  public var bCreatePackagePerAsset : Bool;
+  @:uproperty public var bCreatePackagePerAsset : Bool;
   
 }

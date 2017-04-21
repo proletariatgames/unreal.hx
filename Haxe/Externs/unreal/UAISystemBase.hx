@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("AI/AISystemBase.h")
-@:uextern extern class UAISystemBase extends unreal.UObject {
+@:uextern @:uclass extern class UAISystemBase extends unreal.UObject {
   
 }

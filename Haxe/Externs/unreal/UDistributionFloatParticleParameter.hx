@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloatParticleParameter.h")
-@:uextern extern class UDistributionFloatParticleParameter extends unreal.UDistributionFloatParameterBase {
+@:uextern @:uclass extern class UDistributionFloatParticleParameter extends unreal.UDistributionFloatParameterBase {
   
 }

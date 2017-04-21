@@ -20,10 +20,10 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/TargetPoint.h")
-@:uextern extern class ATargetPoint extends unreal.AActor {
+@:uextern @:uclass extern class ATargetPoint extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
   
 }

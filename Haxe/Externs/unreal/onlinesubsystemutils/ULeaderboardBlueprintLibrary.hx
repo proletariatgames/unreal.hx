@@ -19,11 +19,11 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("LeaderboardBlueprintLibrary.h")
-@:uextern extern class ULeaderboardBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class ULeaderboardBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Writes an integer value to the specified leaderboard
   **/
-  static public function WriteLeaderboardInteger(PlayerController : unreal.APlayerController, StatName : unreal.FName, StatValue : unreal.Int32) : Bool;
+  @:ufunction static public function WriteLeaderboardInteger(PlayerController : unreal.APlayerController, StatName : unreal.FName, StatValue : unreal.Int32) : Bool;
   
 }

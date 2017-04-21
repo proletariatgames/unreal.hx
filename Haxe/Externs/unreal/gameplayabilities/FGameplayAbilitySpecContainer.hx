@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
-@:uextern extern class FGameplayAbilitySpecContainer extends unreal.FFastArraySerializer {
+@:uextern @:ustruct extern class FGameplayAbilitySpecContainer extends unreal.FFastArraySerializer {
   
   /**
     List of activatable abilities
   **/
-  public var Items : unreal.TArray<unreal.gameplayabilities.FGameplayAbilitySpec>;
+  @:uproperty public var Items : unreal.TArray<unreal.gameplayabilities.FGameplayAbilitySpec>;
   
 }

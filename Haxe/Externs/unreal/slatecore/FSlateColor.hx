@@ -19,16 +19,16 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateColor.h")
-@:uextern extern class FSlateColor {
+@:uextern @:ustruct extern class FSlateColor {
   
   /**
     The rule for which color to pick.
   **/
-  private var ColorUseRule : unreal.slatecore.ESlateColorStylingMode;
+  @:uproperty private var ColorUseRule : unreal.slatecore.ESlateColorStylingMode;
   
   /**
     The current specified color; only meaningful when ColorToUse == UseColor_Specified.
   **/
-  private var SpecifiedColor : unreal.FLinearColor;
+  @:uproperty private var SpecifiedColor : unreal.FLinearColor;
   
 }

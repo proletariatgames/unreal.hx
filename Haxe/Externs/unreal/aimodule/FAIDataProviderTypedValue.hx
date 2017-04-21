@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("DataProviders/AIDataProvider.h")
-@:uextern extern class FAIDataProviderTypedValue extends unreal.aimodule.FAIDataProviderValue {
+@:uextern @:ustruct extern class FAIDataProviderTypedValue extends unreal.aimodule.FAIDataProviderValue {
   
   /**
     type of value
   **/
-  public var PropertyType : unreal.TSubclassOf<unreal.UProperty>;
+  @:uproperty public var PropertyType : unreal.TSubclassOf<unreal.UProperty>;
   
 }

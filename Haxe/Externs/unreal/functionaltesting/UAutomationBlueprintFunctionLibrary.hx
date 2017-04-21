@@ -15,16 +15,16 @@ package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("AutomationBlueprintFunctionLibrary.h")
-@:uextern extern class UAutomationBlueprintFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
-  static public function TakeAutomationScreenshot(WorldContextObject : unreal.UObject, LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.functionaltesting.FAutomationScreenshotOptions) : Void;
-  static public function TakeAutomationScreenshotAtCamera(WorldContextObject : unreal.UObject, LatentInfo : unreal.FLatentActionInfo, Camera : unreal.ACameraActor, NameOverride : unreal.FString, Options : unreal.functionaltesting.FAutomationScreenshotOptions) : Void;
+@:uextern @:uclass extern class UAutomationBlueprintFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
+  @:ufunction static public function TakeAutomationScreenshot(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, @:bpopt("") Name : unreal.FString, Options : unreal.functionaltesting.FAutomationScreenshotOptions) : Void;
+  @:ufunction static public function TakeAutomationScreenshotAtCamera(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Camera : unreal.ACameraActor, @:bpopt("") NameOverride : unreal.FString, Options : unreal.functionaltesting.FAutomationScreenshotOptions) : Void;
   
   /**
     UFUNCTION(BlueprintCallable, Category = "Automation|Performance")
     static void EndPerformanceCapture();
   **/
-  static public function AreAutomatedTestsRunning() : Bool;
-  static public function GetDefaultScreenshotOptionsForGameplay(Tolerance : unreal.functionaltesting.EComparisonTolerance) : unreal.functionaltesting.FAutomationScreenshotOptions;
-  static public function GetDefaultScreenshotOptionsForRendering(Tolerance : unreal.functionaltesting.EComparisonTolerance) : unreal.functionaltesting.FAutomationScreenshotOptions;
+  @:ufunction static public function AreAutomatedTestsRunning() : Bool;
+  @:ufunction static public function GetDefaultScreenshotOptionsForGameplay(Tolerance : unreal.functionaltesting.EComparisonTolerance = Low) : unreal.functionaltesting.FAutomationScreenshotOptions;
+  @:ufunction static public function GetDefaultScreenshotOptionsForRendering(Tolerance : unreal.functionaltesting.EComparisonTolerance = Low) : unreal.functionaltesting.FAutomationScreenshotOptions;
   
 }

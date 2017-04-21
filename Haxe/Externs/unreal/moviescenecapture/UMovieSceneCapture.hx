@@ -19,42 +19,42 @@ package unreal.moviescenecapture;
 **/
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCapture.h")
-@:uextern extern class UMovieSceneCapture extends unreal.UObject implements unreal.moviescenecapture.IMovieSceneCaptureInterface {
+@:uextern @:uclass extern class UMovieSceneCapture extends unreal.UObject implements unreal.moviescenecapture.IMovieSceneCaptureInterface {
   
   /**
     Command line arguments inherited from this process
   **/
-  public var InheritedCommandLineArguments : unreal.FString;
+  @:uproperty public var InheritedCommandLineArguments : unreal.FString;
   
   /**
     Additional command line arguments to pass to the external process when capturing
   **/
-  public var AdditionalCommandLineArguments : unreal.FString;
+  @:uproperty public var AdditionalCommandLineArguments : unreal.FString;
   
   /**
     When enabled, the editor will shutdown when the capture starts
   **/
-  public var bCloseEditorWhenCaptureStarts : Bool;
+  @:uproperty public var bCloseEditorWhenCaptureStarts : Bool;
   
   /**
     Whether to capture the movie in a separate process or not
   **/
-  public var bUseSeparateProcess : Bool;
+  @:uproperty public var bUseSeparateProcess : Bool;
   
   /**
     Settings that define how to capture
   **/
-  public var Settings : unreal.moviescenecapture.FMovieSceneCaptureSettings;
+  @:uproperty public var Settings : unreal.moviescenecapture.FMovieSceneCaptureSettings;
   
   /**
     Settings specific to the capture protocol
   **/
-  public var ProtocolSettings : unreal.moviescenecapture.UMovieSceneCaptureProtocolSettings;
+  @:uproperty public var ProtocolSettings : unreal.moviescenecapture.UMovieSceneCaptureProtocolSettings;
   
   /**
     The type of capture protocol to use
   **/
-  public var CaptureType : unreal.moviescenecapture.FCaptureProtocolID;
+  @:uproperty public var CaptureType : unreal.moviescenecapture.FCaptureProtocolID;
   // MovieSceneCaptureInterface interface implementation
   
 }

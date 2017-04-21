@@ -20,9 +20,9 @@ package unreal;
   Editable texture parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:noCopy @:noEquals @:uextern extern class FTextureParameterValue {
-  public var ExpressionGUID : unreal.FGuid;
-  public var ParameterValue : unreal.UTexture;
-  public var ParameterName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTextureParameterValue {
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ParameterValue : unreal.UTexture;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

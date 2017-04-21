@@ -14,12 +14,13 @@
 package unreal;
 
 @:glueCppIncludes("Sound/AudioSettings.h")
-@:uextern extern class FAudioQualitySettings {
+@:uextern @:ustruct extern class FAudioQualitySettings {
   
   /**
     The number of audio channels that can be used at once
     NOTE: Some platforms may cap this value to a lower setting regardless of what the settings request
   **/
-  public var MaxChannels : unreal.Int32;
+  @:uproperty public var MaxChannels : unreal.Int32;
+  @:uproperty public var DisplayName : unreal.FText;
   
 }

@@ -21,46 +21,46 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorMotionControllerInteractor.h")
-@:noClass @:uextern extern class UVREditorMotionControllerInteractor extends unreal.vreditor.UVREditorInteractor {
+@:noClass @:uextern @:uclass extern class UVREditorMotionControllerInteractor extends unreal.vreditor.UVREditorInteractor {
   
   /**
     MID for hand mesh
   **/
-  private var HandMeshMID : unreal.UMaterialInstanceDynamic;
+  @:uproperty private var HandMeshMID : unreal.UMaterialInstanceDynamic;
   
   /**
     Hover point light
   **/
-  private var HoverPointLightComponent : unreal.UPointLightComponent;
+  @:uproperty private var HoverPointLightComponent : unreal.UPointLightComponent;
   
   /**
     Hover impact indicator mesh
   **/
-  private var HoverMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty private var HoverMeshComponent : unreal.UStaticMeshComponent;
   
   /**
     MID for laser pointer material (translucent parts)
   **/
-  private var TranslucentLaserPointerMID : unreal.UMaterialInstanceDynamic;
+  @:uproperty private var TranslucentLaserPointerMID : unreal.UMaterialInstanceDynamic;
   
   /**
     MID for laser pointer material (opaque parts)
   **/
-  private var LaserPointerMID : unreal.UMaterialInstanceDynamic;
+  @:uproperty private var LaserPointerMID : unreal.UMaterialInstanceDynamic;
   
   /**
     Mesh for this hand's laser pointer
   **/
-  private var LaserPointerMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty private var LaserPointerMeshComponent : unreal.UStaticMeshComponent;
   
   /**
     Mesh for this hand
   **/
-  private var HandMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty private var HandMeshComponent : unreal.UStaticMeshComponent;
   
   /**
     Motion controller component which handles late-frame transform updates of all parented sub-components
   **/
-  private var MotionControllerComponent : unreal.headmounteddisplay.UMotionControllerComponent;
+  @:uproperty private var MotionControllerComponent : unreal.headmounteddisplay.UMotionControllerComponent;
   
 }

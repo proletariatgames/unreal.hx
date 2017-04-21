@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UObjectRedirector extends unreal.UObject {
+@:uextern @:uclass extern class UObjectRedirector extends unreal.UObject {
   
 }

@@ -19,17 +19,17 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:uextern extern class UAbcImportSettings extends unreal.UObject {
-  public var ConversionSettings : unreal.alembiclibrary.FAbcConversionSettings;
-  public var StaticMeshSettings : unreal.alembiclibrary.FAbcStaticMeshSettings;
-  public var MaterialSettings : unreal.alembiclibrary.FAbcMaterialSettings;
-  public var CompressionSettings : unreal.alembiclibrary.FAbcCompressionSettings;
-  public var NormalGenerationSettings : unreal.alembiclibrary.FAbcNormalGenerationSettings;
-  public var SamplingSettings : unreal.alembiclibrary.FAbcSamplingSettings;
+@:uextern @:uclass extern class UAbcImportSettings extends unreal.UObject {
+  @:uproperty public var ConversionSettings : unreal.alembiclibrary.FAbcConversionSettings;
+  @:uproperty public var StaticMeshSettings : unreal.alembiclibrary.FAbcStaticMeshSettings;
+  @:uproperty public var MaterialSettings : unreal.alembiclibrary.FAbcMaterialSettings;
+  @:uproperty public var CompressionSettings : unreal.alembiclibrary.FAbcCompressionSettings;
+  @:uproperty public var NormalGenerationSettings : unreal.alembiclibrary.FAbcNormalGenerationSettings;
+  @:uproperty public var SamplingSettings : unreal.alembiclibrary.FAbcSamplingSettings;
   
   /**
     Type of asset to import from Alembic file
   **/
-  public var ImportType : unreal.alembiclibrary.EAlembicImportType;
+  @:uproperty public var ImportType : unreal.alembiclibrary.EAlembicImportType;
   
 }

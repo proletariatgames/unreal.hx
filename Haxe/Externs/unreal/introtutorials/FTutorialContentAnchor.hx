@@ -19,42 +19,42 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
-@:uextern extern class FTutorialContentAnchor {
+@:uextern @:ustruct extern class FTutorialContentAnchor {
   
   /**
     Name of the outer object - should be the blueprint that 'owns' the node
   **/
-  public var OuterName : unreal.FString;
+  @:uproperty public var OuterName : unreal.FString;
   
   /**
     The GUID string
   **/
-  public var GUIDString : unreal.FString;
+  @:uproperty public var GUIDString : unreal.FString;
   
   /**
     User friendly name to display in the dialog
   **/
-  public var FriendlyName : unreal.FString;
+  @:uproperty public var FriendlyName : unreal.FString;
   
   /**
     Tab on which to focus (EG 'My Blueprint' tab).
   **/
-  public var TabToFocusOrOpen : unreal.FString;
+  @:uproperty public var TabToFocusOrOpen : unreal.FString;
   
   /**
     Whether to draw an animated highlight around the widget
   **/
-  public var bDrawHighlight : Bool;
+  @:uproperty public var bDrawHighlight : Bool;
   
   /**
     If reference is an asset, we use this to resolve it
   **/
-  public var Asset : unreal.FStringAssetReference;
+  @:uproperty public var Asset : unreal.FStringAssetReference;
   
   /**
     If widget is in a wrapper widget, this is the wrapper widget name
   **/
-  public var WrapperIdentifier : unreal.FName;
-  public var Type : unreal.introtutorials.ETutorialAnchorIdentifier;
+  @:uproperty public var WrapperIdentifier : unreal.FName;
+  @:uproperty public var Type : unreal.introtutorials.ETutorialAnchorIdentifier;
   
 }

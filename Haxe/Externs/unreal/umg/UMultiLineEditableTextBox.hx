@@ -19,42 +19,55 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UMultiLineEditableTextBox extends unreal.umg.UTextLayoutWidget {
+@:uextern @:uclass extern class UMultiLineEditableTextBox extends unreal.umg.UTextLayoutWidget {
   
   /**
     Text color and opacity when read-only (overrides Style)
   **/
-  @:deprecated public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated @:uproperty public var ReadOnlyForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     The color of the background/border around the editable text (overrides Style)
   **/
-  @:deprecated public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated @:uproperty public var BackgroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Text color and opacity (overrides Style)
   **/
-  @:deprecated public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
+  @:deprecated @:uproperty public var ForegroundColor_DEPRECATED : unreal.FLinearColor;
   
   /**
     Font color and opacity (overrides Style)
   **/
-  @:deprecated public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated @:uproperty public var Font_DEPRECATED : unreal.slatecore.FSlateFontInfo;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     Whether the context menu can be opened
   **/
-  public var AllowContextMenu : Bool;
+  @:uproperty public var AllowContextMenu : Bool;
   
   /**
     The text style
   **/
-  public var TextStyle : unreal.slatecore.FTextBlockStyle;
+  @:uproperty public var TextStyle : unreal.slatecore.FTextBlockStyle;
   
   /**
     The style
   **/
-  public var WidgetStyle : unreal.slatecore.FEditableTextBoxStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FEditableTextBoxStyle;
+  
+  /**
+    Hint text that appears when there is no text in the text box
+  **/
+  @:uproperty public var HintText : unreal.FText;
+  
+  /**
+    The text content for this editable text box widget
+  **/
+  @:uproperty public var Text : unreal.FText;
+  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
+  @:ufunction @:final public function SetText(InText : unreal.FText) : Void;
+  @:ufunction @:final public function SetError(InError : unreal.FText) : Void;
   
 }

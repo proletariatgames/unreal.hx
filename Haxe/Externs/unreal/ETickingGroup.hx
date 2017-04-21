@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("ETickingGroup")
-@:uextern extern enum ETickingGroup {
+@:uextern @:uenum extern enum ETickingGroup {
   
   /**
     Any item that needs to be executed before physics simulation starts.

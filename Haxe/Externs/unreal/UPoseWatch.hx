@@ -14,12 +14,12 @@
 package unreal;
 
 @:glueCppIncludes("Engine/PoseWatch.h")
-@:uextern extern class UPoseWatch extends unreal.UObject {
-  public var PoseWatchColour : unreal.FColor;
+@:uextern @:uclass extern class UPoseWatch extends unreal.UObject {
+  @:uproperty public var PoseWatchColour : unreal.FColor;
   
   /**
     Node that we are trying to watch
   **/
-  public var Node : unreal.UEdGraphNode;
+  @:uproperty public var Node : unreal.UEdGraphNode;
   
 }

@@ -14,12 +14,12 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleSourceMovement.h")
-@:uextern extern class UParticleModuleSourceMovement extends unreal.UParticleModuleLocationBase {
+@:uextern @:uclass extern class UParticleModuleSourceMovement extends unreal.UParticleModuleLocationBase {
   
   /**
     The scale factor to apply to the source movement before adding to the particle location.
     The value is looked up using the particles RELATIVE time [0..1].
   **/
-  public var SourceMovementScale : unreal.FRawDistributionVector;
+  @:uproperty public var SourceMovementScale : unreal.FRawDistributionVector;
   
 }

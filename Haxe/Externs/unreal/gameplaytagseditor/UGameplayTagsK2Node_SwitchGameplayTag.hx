@@ -21,13 +21,13 @@ package unreal.gameplaytagseditor;
 **/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_SwitchGameplayTag.h")
-@:uextern extern class UGameplayTagsK2Node_SwitchGameplayTag extends unreal.blueprintgraph.UK2Node_Switch {
+@:uextern @:uclass extern class UGameplayTagsK2Node_SwitchGameplayTag extends unreal.blueprintgraph.UK2Node_Switch {
   
   /**
     UPROPERTY(EditAnywhere, Category = PinOptions)
     bool UseInputsOnGraph;
   **/
-  public var PinNames : unreal.TArray<unreal.FName>;
-  public var PinTags : unreal.TArray<unreal.gameplaytags.FGameplayTag>;
+  @:uproperty public var PinNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var PinTags : unreal.TArray<unreal.gameplaytags.FGameplayTag>;
   
 }

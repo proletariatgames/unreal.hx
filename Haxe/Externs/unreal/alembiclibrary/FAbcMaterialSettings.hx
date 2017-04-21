@@ -21,11 +21,11 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcMaterialSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcMaterialSettings {
   
   /**
     Whether or not to create materials according to found Face Set names (will not work without face sets)
   **/
-  public var bCreateMaterials : Bool;
+  @:uproperty public var bCreateMaterials : Bool;
   
 }

@@ -21,6 +21,6 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_BlendSpaceBase.h")
-@:uextern extern class UAnimGraphNode_BlendSpaceBase extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
+@:uextern @:uclass extern class UAnimGraphNode_BlendSpaceBase extends unreal.animgraph.UAnimGraphNode_AssetPlayerBase {
   
 }

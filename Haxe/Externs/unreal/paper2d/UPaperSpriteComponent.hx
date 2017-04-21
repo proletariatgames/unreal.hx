@@ -24,36 +24,36 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSpriteComponent.h")
-@:uextern extern class UPaperSpriteComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class UPaperSpriteComponent extends unreal.UMeshComponent {
   
   /**
     The color of the sprite (passed to the sprite material as a vertex color)
   **/
-  private var SpriteColor : unreal.FLinearColor;
+  @:uproperty private var SpriteColor : unreal.FLinearColor;
   
   /**
     DEPRECATED in 4.4: The material override for this sprite component (if any); replaced by the Materials array inherited from UMeshComponent
   **/
-  @:deprecated private var MaterialOverride_DEPRECATED : unreal.UMaterialInterface;
+  @:deprecated @:uproperty private var MaterialOverride_DEPRECATED : unreal.UMaterialInterface;
   
   /**
     The sprite asset used by this component
   **/
-  private var SourceSprite : unreal.paper2d.UPaperSprite;
+  @:uproperty private var SourceSprite : unreal.paper2d.UPaperSprite;
   
   /**
     Change the PaperSprite used by this instance.
   **/
-  public function SetSprite(NewSprite : unreal.paper2d.UPaperSprite) : Bool;
+  @:ufunction public function SetSprite(NewSprite : unreal.paper2d.UPaperSprite) : Bool;
   
   /**
     Gets the PaperSprite used by this instance.
   **/
-  public function GetSprite() : unreal.paper2d.UPaperSprite;
+  @:ufunction public function GetSprite() : unreal.paper2d.UPaperSprite;
   
   /**
     Set color of the sprite
   **/
-  @:final public function SetSpriteColor(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetSpriteColor(NewColor : unreal.FLinearColor) : Void;
   
 }

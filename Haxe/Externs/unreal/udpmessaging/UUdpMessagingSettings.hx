@@ -21,7 +21,7 @@ package unreal.udpmessaging;
 **/
 @:umodule("UdpMessaging")
 @:glueCppIncludes("Private/Shared/UdpMessagingSettings.h")
-@:noClass @:uextern extern class UUdpMessagingSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UUdpMessagingSettings extends unreal.UObject {
   
   /**
     The IP endpoints of remote tunnel nodes.
@@ -29,7 +29,7 @@ package unreal.udpmessaging;
     Use this setting to connect to remote tunnel services.
     The format is IP_ADDRESS:PORT_NUMBER.
   **/
-  public var RemoteTunnelEndpoints : unreal.TArray<unreal.FString>;
+  @:uproperty public var RemoteTunnelEndpoints : unreal.TArray<unreal.FString>;
   
   /**
     The IP endpoint to send multicast packets to.
@@ -37,19 +37,19 @@ package unreal.udpmessaging;
     The format is IP_ADDRESS:PORT_NUMBER.
     The multicast IP address must be in the range 224.0.0.0 to 239.255.255.255.
   **/
-  public var TunnelMulticastEndpoint : unreal.FString;
+  @:uproperty public var TunnelMulticastEndpoint : unreal.FString;
   
   /**
     The local IP endpoint to listen to and send packets from.
     
     The format is IP_ADDRESS:PORT_NUMBER.
   **/
-  public var TunnelUnicastEndpoint : unreal.FString;
+  @:uproperty public var TunnelUnicastEndpoint : unreal.FString;
   
   /**
     Whether the UDP tunnel is enabled.
   **/
-  public var EnableTunnel : Bool;
+  @:uproperty public var EnableTunnel : Bool;
   
   /**
     The IP endpoints of static devices.
@@ -57,12 +57,12 @@ package unreal.udpmessaging;
     Use this setting to list devices on other subnets, such as mobile phones on a WiFi network.
     The format is IP_ADDRESS:PORT_NUMBER.
   **/
-  public var StaticEndpoints : unreal.TArray<unreal.FString>;
+  @:uproperty public var StaticEndpoints : unreal.TArray<unreal.FString>;
   
   /**
     The time-to-live (TTL) for sent multicast packets.
   **/
-  public var MulticastTimeToLive : unreal.UInt8;
+  @:uproperty public var MulticastTimeToLive : unreal.UInt8;
   
   /**
     The IP endpoint to send multicast packets to.
@@ -70,7 +70,7 @@ package unreal.udpmessaging;
     The format is IP_ADDRESS:PORT_NUMBER.
     The multicast IP address must be in the range 224.0.0.0 to 239.255.255.255.
   **/
-  public var MulticastEndpoint : unreal.FString;
+  @:uproperty public var MulticastEndpoint : unreal.FString;
   
   /**
     The IP endpoint to listen to and send packets from.
@@ -79,11 +79,11 @@ package unreal.udpmessaging;
     0.0.0.0:0 will bind to the default network adapter on Windows,
     and all available network adapters on other operating systems.
   **/
-  public var UnicastEndpoint : unreal.FString;
+  @:uproperty public var UnicastEndpoint : unreal.FString;
   
   /**
     Whether the UDP transport channel is enabled.
   **/
-  public var EnableTransport : Bool;
+  @:uproperty public var EnableTransport : Bool;
   
 }

@@ -18,16 +18,16 @@ package unreal;
   One key in a curve of FStrings.
 **/
 @:glueCppIncludes("Curves/StringCurve.h")
-@:uextern extern class FStringCurveKey {
+@:uextern @:ustruct extern class FStringCurveKey {
   
   /**
     Value at this key
   **/
-  public var Value : unreal.FString;
+  @:uproperty public var Value : unreal.FString;
   
   /**
     Time at this key
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

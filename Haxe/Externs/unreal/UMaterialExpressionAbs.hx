@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAbs.h")
-@:noClass @:uextern extern class UMaterialExpressionAbs extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionAbs extends unreal.UMaterialExpression {
   
   /**
     Link to the input expression to be evaluated
   **/
-  public var Input : unreal.FExpressionInput;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

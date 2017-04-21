@@ -18,66 +18,66 @@ package unreal;
   User Interface settings that control Slate and UMG.
 **/
 @:glueCppIncludes("Engine/UserInterfaceSettings.h")
-@:uextern extern class UUserInterfaceSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UUserInterfaceSettings extends unreal.UDeveloperSettings {
   
   /**
     Controls how the UI is scaled at different resolutions based on the DPI Scale Rule
   **/
-  public var UIScaleCurve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var UIScaleCurve : unreal.FRuntimeFloatCurve;
   
   /**
     Set DPI Scale Rule to Custom, and this class will be used instead of any of the built-in rules.
   **/
-  public var CustomScalingRuleClass : unreal.FStringClassReference;
+  @:uproperty public var CustomScalingRuleClass : unreal.FStringClassReference;
   
   /**
     The rule used when trying to decide what scale to apply.
   **/
-  public var UIScaleRule : unreal.EUIScalingRule;
+  @:uproperty public var UIScaleRule : unreal.EUIScalingRule;
   
   /**
     An optional application scale to apply on top of the custom scaling rules.  So if you want to expose a property in your game title, you can modify this underlying value to scale the entire UI.
   **/
-  public var ApplicationScale : unreal.Float32;
+  @:uproperty public var ApplicationScale : unreal.Float32;
   
   /**
     Widget to use when the SlashedCircle Cursor is requested.
   **/
-  public var SlashedCircleCursor : unreal.FStringClassReference;
+  @:uproperty public var SlashedCircleCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the GrabHandClosed Cursor is requested.
   **/
-  public var GrabHandClosedCursor : unreal.FStringClassReference;
+  @:uproperty public var GrabHandClosedCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the GrabHand Cursor is requested.
   **/
-  public var GrabHandCursor : unreal.FStringClassReference;
+  @:uproperty public var GrabHandCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the Hand Cursor is requested.
   **/
-  public var HandCursor : unreal.FStringClassReference;
+  @:uproperty public var HandCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the Crosshairs Cursor is requested.
   **/
-  public var CrosshairsCursor : unreal.FStringClassReference;
+  @:uproperty public var CrosshairsCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the TextEditBeam Cursor is requested.
   **/
-  public var TextEditBeamCursor : unreal.FStringClassReference;
+  @:uproperty public var TextEditBeamCursor : unreal.FStringClassReference;
   
   /**
     Widget to use when the Default Cursor is requested.
   **/
-  public var DefaultCursor : unreal.FStringClassReference;
+  @:uproperty public var DefaultCursor : unreal.FStringClassReference;
   
   /**
     Rule to determine if we should render the Focus Brush for widgets that have user focus.
   **/
-  public var RenderFocusRule : unreal.ERenderFocusRule;
+  @:uproperty public var RenderFocusRule : unreal.ERenderFocusRule;
   
 }

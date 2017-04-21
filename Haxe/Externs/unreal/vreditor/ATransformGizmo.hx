@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("Gizmo/VREditorTransformGizmo.h")
-@:noClass @:uextern extern class ATransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
+@:noClass @:uextern @:uclass extern class ATransformGizmo extends unreal.viewportinteraction.ABaseTransformGizmo {
   
 }

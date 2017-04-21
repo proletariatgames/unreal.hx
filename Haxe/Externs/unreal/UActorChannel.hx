@@ -45,11 +45,11 @@ package unreal;
               |----------------------|---------------------------------------------------------------------------|
 **/
 @:glueCppIncludes("Engine/ActorChannel.h")
-@:uextern extern class UActorChannel extends unreal.UChannel {
+@:uextern @:uclass extern class UActorChannel extends unreal.UChannel {
   
   /**
     Variables.
   **/
-  public var Actor : unreal.AActor;
+  @:uproperty public var Actor : unreal.AActor;
   
 }

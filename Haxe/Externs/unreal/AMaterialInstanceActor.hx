@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialInstanceActor.h")
-@:uextern extern class AMaterialInstanceActor extends unreal.AActor {
+@:uextern @:uclass extern class AMaterialInstanceActor extends unreal.AActor {
   
   /**
     Pointer to actors that we want to control paramters of using Matinee.
   **/
-  public var TargetActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var TargetActors : unreal.TArray<unreal.AActor>;
   
 }

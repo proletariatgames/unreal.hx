@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayEffectStackingType")
-@:class @:uextern extern enum EGameplayEffectStackingType {
+@:class @:uextern @:uenum extern enum EGameplayEffectStackingType {
   
   /**
     No stacking. Multiple applications of this GameplayEffect are treated as separate instances.

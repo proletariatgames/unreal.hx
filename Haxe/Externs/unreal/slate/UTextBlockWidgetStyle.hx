@@ -21,11 +21,11 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/TextBlockWidgetStyle.h")
-@:uextern extern class UTextBlockWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
+@:uextern @:uclass extern class UTextBlockWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
   
   /**
     The actual data describing the button's appearance.
   **/
-  public var TextBlockStyle : unreal.slatecore.FTextBlockStyle;
+  @:uproperty public var TextBlockStyle : unreal.slatecore.FTextBlockStyle;
   
 }

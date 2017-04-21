@@ -21,6 +21,6 @@ package unreal.onlinesubsystem;
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("NamedInterfaces.h")
-@:noClass @:uextern extern class UNamedInterfaces extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UNamedInterfaces extends unreal.UObject {
   
 }

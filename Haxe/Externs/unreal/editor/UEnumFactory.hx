@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/EnumFactory.h")
-@:uextern extern class UEnumFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UEnumFactory extends unreal.editor.UFactory {
   
 }

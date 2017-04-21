@@ -21,62 +21,62 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UProgressBar extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UProgressBar extends unreal.umg.UWidget {
   
   /**
     Fill Color and Opacity
   **/
-  public var FillColorAndOpacity : unreal.FLinearColor;
-  public var bIsMarquee : Bool;
+  @:uproperty public var FillColorAndOpacity : unreal.FLinearColor;
+  @:uproperty public var bIsMarquee : Bool;
   
   /**
     Defines if this progress bar fills Left to right or right to left
   **/
-  public var BarFillType : unreal.slate.EProgressBarFillType;
+  @:uproperty public var BarFillType : unreal.slate.EProgressBarFillType;
   
   /**
     Used to determine the fill position of the progress bar ranging 0..1
   **/
-  public var Percent : unreal.Float32;
+  @:uproperty public var Percent : unreal.Float32;
   
   /**
     The brush to use as the marquee image
   **/
-  @:deprecated public var MarqueeImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var MarqueeImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The brush to use as the fill image
   **/
-  @:deprecated public var FillImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var FillImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     The brush to use as the background of the progress bar
   **/
-  @:deprecated public var BackgroundImage_DEPRECATED : unreal.USlateBrushAsset;
+  @:deprecated @:uproperty public var BackgroundImage_DEPRECATED : unreal.USlateBrushAsset;
   
   /**
     Style used for the progress bar
   **/
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The progress bar style
   **/
-  public var WidgetStyle : unreal.slatecore.FProgressBarStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FProgressBarStyle;
   
   /**
     Sets the current value of the ProgressBar.
   **/
-  @:final public function SetPercent(InPercent : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPercent(InPercent : unreal.Float32) : Void;
   
   /**
     Sets the fill color of the progress bar.
   **/
-  @:final public function SetFillColorAndOpacity(InColor : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetFillColorAndOpacity(InColor : unreal.FLinearColor) : Void;
   
   /**
     Sets the progress bar to show as a marquee.
   **/
-  @:final public function SetIsMarquee(InbIsMarquee : Bool) : Void;
+  @:ufunction @:final public function SetIsMarquee(InbIsMarquee : Bool) : Void;
   
 }

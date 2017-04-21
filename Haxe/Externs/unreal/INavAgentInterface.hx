@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavAgentInterface.h")
-@:uextern extern interface INavAgentInterface {
+@:uextern @:uclass extern interface INavAgentInterface {
   
 }

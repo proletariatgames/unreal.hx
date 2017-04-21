@@ -21,26 +21,26 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EQSTestingPawn.h")
-@:uextern extern class AEQSTestingPawn extends unreal.ACharacter implements unreal.aimodule.IEQSQueryResultSourceInterface {
+@:uextern @:uclass extern class AEQSTestingPawn extends unreal.ACharacter implements unreal.aimodule.IEQSQueryResultSourceInterface {
   #if WITH_EDITORONLY_DATA
-  public var EdRenderComp : unreal.aimodule.UEQSRenderingComponent;
+  @:uproperty public var EdRenderComp : unreal.aimodule.UEQSRenderingComponent;
   #end // WITH_EDITORONLY_DATA
-  public var QueryingMode : unreal.aimodule.EEnvQueryRunMode;
-  public var bTickDuringGame : Bool;
-  public var bShouldBeVisibleInGame : Bool;
-  public var bReRunQueryOnlyOnFinishedMove : Bool;
-  public var bDrawFailedItems : Bool;
-  public var bDrawLabels : Bool;
-  public var HighlightMode : unreal.aimodule.EEnvQueryHightlightMode;
-  public var StepToDebugDraw : unreal.Int32;
-  public var TimeLimitPerStep : unreal.Float32;
-  public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
+  @:uproperty public var QueryingMode : unreal.aimodule.EEnvQueryRunMode;
+  @:uproperty public var bTickDuringGame : Bool;
+  @:uproperty public var bShouldBeVisibleInGame : Bool;
+  @:uproperty public var bReRunQueryOnlyOnFinishedMove : Bool;
+  @:uproperty public var bDrawFailedItems : Bool;
+  @:uproperty public var bDrawLabels : Bool;
+  @:uproperty public var HighlightMode : unreal.aimodule.EEnvQueryHightlightMode;
+  @:uproperty public var StepToDebugDraw : unreal.Int32;
+  @:uproperty public var TimeLimitPerStep : unreal.Float32;
+  @:uproperty public var QueryConfig : unreal.TArray<unreal.aimodule.FAIDynamicParam>;
   
   /**
     optional parameters for query
   **/
-  public var QueryParams : unreal.TArray<unreal.aimodule.FEnvNamedValue>;
-  public var QueryTemplate : unreal.aimodule.UEnvQuery;
+  @:uproperty public var QueryParams : unreal.TArray<unreal.aimodule.FEnvNamedValue>;
+  @:uproperty public var QueryTemplate : unreal.aimodule.UEnvQuery;
   // EQSQueryResultSourceInterface interface implementation
   
 }

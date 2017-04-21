@@ -21,6 +21,6 @@ package unreal.uobjectplugin;
 **/
 @:umodule("UObjectPlugin")
 @:glueCppIncludes("MyPluginObject.h")
-@:noClass @:uextern extern class UMyPluginObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UMyPluginObject extends unreal.UObject {
   
 }

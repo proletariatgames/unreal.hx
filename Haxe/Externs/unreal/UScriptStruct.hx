@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UScriptStruct extends unreal.UStruct {
+@:uextern @:uclass extern class UScriptStruct extends unreal.UStruct {
   
 }

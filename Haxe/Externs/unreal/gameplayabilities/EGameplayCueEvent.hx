@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayCueEvent.Type")
-@:uextern extern enum EGameplayCueEvent {
+@:uextern @:uenum extern enum EGameplayCueEvent {
   OnActive;
   
   /**

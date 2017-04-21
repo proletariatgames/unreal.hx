@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent.h")
-@:uextern extern class FVehicleInputRate {
+@:uextern @:ustruct extern class FVehicleInputRate {
   
   /**
     Rate at which the input value falls
   **/
-  public var FallRate : unreal.Float32;
+  @:uproperty public var FallRate : unreal.Float32;
   
   /**
     Rate at which the input value rises
   **/
-  public var RiseRate : unreal.Float32;
+  @:uproperty public var RiseRate : unreal.Float32;
   
 }

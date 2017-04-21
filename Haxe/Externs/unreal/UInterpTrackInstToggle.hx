@@ -20,18 +20,18 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstToggle.h")
-@:noClass @:uextern extern class UInterpTrackInstToggle extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstToggle extends unreal.UInterpTrackInst {
   
   /**
     Cached 'active' state for the toggleable actor before we possessed it; restored when Matinee exits
   **/
-  public var bSavedActiveState : Bool;
+  @:uproperty public var bSavedActiveState : Bool;
   
   /**
     Position we were in last time we evaluated.
     During UpdateTrack, toggles between this time and the current time will be processed.
   **/
-  public var LastUpdatePosition : unreal.Float32;
-  public var Action : unreal.ETrackToggleAction;
+  @:uproperty public var LastUpdatePosition : unreal.Float32;
+  @:uproperty public var Action : unreal.ETrackToggleAction;
   
 }

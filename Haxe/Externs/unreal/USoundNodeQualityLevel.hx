@@ -21,6 +21,6 @@ package unreal;
   and at runtime will only load in to memory sound waves connected to the branch that will be selected
 **/
 @:glueCppIncludes("Sound/SoundNodeQualityLevel.h")
-@:uextern extern class USoundNodeQualityLevel extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeQualityLevel extends unreal.USoundNode {
   
 }

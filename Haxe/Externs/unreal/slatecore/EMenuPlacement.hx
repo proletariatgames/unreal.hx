@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EMenuPlacement")
-@:uextern extern enum EMenuPlacement {
+@:uextern @:uenum extern enum EMenuPlacement {
   
   /**
     Place the menu immediately below the anchor

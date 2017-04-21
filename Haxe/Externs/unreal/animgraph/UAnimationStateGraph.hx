@@ -21,11 +21,11 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimationStateGraph.h")
-@:uextern extern class UAnimationStateGraph extends unreal.animgraph.UAnimationGraph {
+@:uextern @:uclass extern class UAnimationStateGraph extends unreal.animgraph.UAnimationGraph {
   
   /**
     Result node within the state's animation graph
   **/
-  public var MyResultNode : unreal.animgraph.UAnimGraphNode_StateResult;
+  @:uproperty public var MyResultNode : unreal.animgraph.UAnimGraphNode_StateResult;
   
 }

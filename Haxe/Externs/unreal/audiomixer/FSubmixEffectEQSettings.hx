@@ -21,6 +21,6 @@ package unreal.audiomixer;
 **/
 @:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
-@:noCopy @:noEquals @:uextern extern class FSubmixEffectEQSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSubmixEffectEQSettings {
   
 }

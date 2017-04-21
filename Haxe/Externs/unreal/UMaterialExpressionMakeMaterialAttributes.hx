@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionMakeMaterialAttributes.h")
-@:uextern extern class UMaterialExpressionMakeMaterialAttributes extends unreal.UMaterialExpression {
-  public var PixelDepthOffset : unreal.FExpressionInput;
-  public var Refraction : unreal.FExpressionInput;
-  public var AmbientOcclusion : unreal.FExpressionInput;
-  public var ClearCoatRoughness : unreal.FExpressionInput;
-  public var ClearCoat : unreal.FExpressionInput;
-  public var SubsurfaceColor : unreal.FExpressionInput;
-  public var TessellationMultiplier : unreal.FExpressionInput;
-  public var WorldDisplacement : unreal.FExpressionInput;
-  public var WorldPositionOffset : unreal.FExpressionInput;
-  public var Normal : unreal.FExpressionInput;
-  public var OpacityMask : unreal.FExpressionInput;
-  public var Opacity : unreal.FExpressionInput;
-  public var EmissiveColor : unreal.FExpressionInput;
-  public var Roughness : unreal.FExpressionInput;
-  public var Specular : unreal.FExpressionInput;
-  public var Metallic : unreal.FExpressionInput;
-  public var BaseColor : unreal.FExpressionInput;
+@:uextern @:uclass extern class UMaterialExpressionMakeMaterialAttributes extends unreal.UMaterialExpression {
+  @:uproperty public var PixelDepthOffset : unreal.FExpressionInput;
+  @:uproperty public var Refraction : unreal.FExpressionInput;
+  @:uproperty public var AmbientOcclusion : unreal.FExpressionInput;
+  @:uproperty public var ClearCoatRoughness : unreal.FExpressionInput;
+  @:uproperty public var ClearCoat : unreal.FExpressionInput;
+  @:uproperty public var SubsurfaceColor : unreal.FExpressionInput;
+  @:uproperty public var TessellationMultiplier : unreal.FExpressionInput;
+  @:uproperty public var WorldDisplacement : unreal.FExpressionInput;
+  @:uproperty public var WorldPositionOffset : unreal.FExpressionInput;
+  @:uproperty public var Normal : unreal.FExpressionInput;
+  @:uproperty public var OpacityMask : unreal.FExpressionInput;
+  @:uproperty public var Opacity : unreal.FExpressionInput;
+  @:uproperty public var EmissiveColor : unreal.FExpressionInput;
+  @:uproperty public var Roughness : unreal.FExpressionInput;
+  @:uproperty public var Specular : unreal.FExpressionInput;
+  @:uproperty public var Metallic : unreal.FExpressionInput;
+  @:uproperty public var BaseColor : unreal.FExpressionInput;
   
 }

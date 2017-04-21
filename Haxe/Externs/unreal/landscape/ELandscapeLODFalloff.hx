@@ -16,7 +16,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeProxy.h")
 @:uname("ELandscapeLODFalloff.Type")
-@:uextern extern enum ELandscapeLODFalloff {
+@:uextern @:uenum extern enum ELandscapeLODFalloff {
   
   /**
     Default mode.

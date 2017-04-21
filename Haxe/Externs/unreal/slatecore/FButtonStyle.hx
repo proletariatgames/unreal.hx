@@ -19,51 +19,51 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
-  @:deprecated public var HoveredSound_DEPRECATED : unreal.FName;
-  @:deprecated public var PressedSound_DEPRECATED : unreal.FName;
+@:uextern @:ustruct extern class FButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
+  @:deprecated @:uproperty public var HoveredSound_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var PressedSound_DEPRECATED : unreal.FName;
   
   /**
     The sound the button should play when initially hovered over
   **/
-  public var HoveredSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var HoveredSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     The sound the button should play when pressed
   **/
-  public var PressedSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var PressedSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     Same as NormalPadding but used when the button is pressed. Allows for moving the content to match
     any "movement" in the button's border image.
   **/
-  public var PressedPadding : unreal.slatecore.FMargin;
+  @:uproperty public var PressedPadding : unreal.slatecore.FMargin;
   
   /**
     Padding that accounts for the border in the button's background image.
     When this is applied, the content of the button should appear flush
     with the button's border. Use this padding when the button is not pressed.
   **/
-  public var NormalPadding : unreal.slatecore.FMargin;
+  @:uproperty public var NormalPadding : unreal.slatecore.FMargin;
   
   /**
     Button appearance when disabled, by default this is set to an invalid resource when that is the case default disabled drawing is used.
   **/
-  public var Disabled : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Disabled : unreal.slatecore.FSlateBrush;
   
   /**
     Button appearance when pressed
   **/
-  public var Pressed : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Pressed : unreal.slatecore.FSlateBrush;
   
   /**
     Button appearance when hovered
   **/
-  public var Hovered : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Hovered : unreal.slatecore.FSlateBrush;
   
   /**
     Button appearance when the button is not hovered or pressed
   **/
-  public var Normal : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Normal : unreal.slatecore.FSlateBrush;
   
 }

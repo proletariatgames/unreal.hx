@@ -22,151 +22,151 @@ package unreal;
   Cascade, a ParticleSystem can then be inserted into a level or created in script.
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
-@:uextern extern class UParticleSystem extends unreal.UObject {
+@:uextern @:uclass extern class UParticleSystem extends unreal.UObject {
   
   /**
     Array of named material slots for use by emitters of this system.
     Emitters can use these instead of their own materials by providing the name to the NamedMaterialOverrides property of their required module.
     These materials can be overridden using CreateNamedDynamicMaterialInstance() on a ParticleSystemComponent.
   **/
-  public var NamedMaterialSlots : unreal.TArray<unreal.FNamedEmitterMaterial>;
-  public var SoloTracking : unreal.TArray<unreal.FLODSoloTrack>;
+  @:uproperty public var NamedMaterialSlots : unreal.TArray<unreal.FNamedEmitterMaterial>;
+  @:uproperty public var SoloTracking : unreal.TArray<unreal.FLODSoloTrack>;
   
   /**
     The occlusion bounds to use if OcclusionBoundsMethod is set to EPSOBM_CustomBounds
   **/
-  public var CustomOcclusionBounds : unreal.FBox;
+  @:uproperty public var CustomOcclusionBounds : unreal.FBox;
   
   /**
     Which occlusion bounds method to use for this particle system.
     EPSOBM_None - Don't determine occlusion for this system.
     EPSOBM_ParticleBounds - Use the bounds of the component when determining occlusion.
   **/
-  public var OcclusionBoundsMethod : unreal.EParticleSystemOcclusionBoundsMethod;
+  @:uproperty public var OcclusionBoundsMethod : unreal.EParticleSystemOcclusionBoundsMethod;
   
   /**
     World space radius that UVs generated with the ParticleMacroUV material node will tile based on.
   **/
-  public var MacroUVRadius : unreal.Float32;
+  @:uproperty public var MacroUVRadius : unreal.Float32;
   
   /**
     Local space position that UVs generated with the ParticleMacroUV material node will be centered on.
   **/
-  public var MacroUVPosition : unreal.FVector;
+  @:uproperty public var MacroUVPosition : unreal.FVector;
   
   /**
     The maximum level of significance for emitters in this system. Any emitters with a higher significance will be capped at this significance level.
   **/
-  public var MaxSignificanceLevel : unreal.EParticleSignificanceLevel;
+  @:uproperty public var MaxSignificanceLevel : unreal.EParticleSignificanceLevel;
   
   /**
     Time delay between all emitters becoming insignificant and the systems insignificant reaction.
   **/
-  public var InsignificanceDelay : unreal.Float32;
+  @:uproperty public var InsignificanceDelay : unreal.Float32;
   
   /**
     The reaction this system takes when all emitters are insignificant.
   **/
-  public var InsignificantReaction : unreal.EParticleSystemInsignificanceReaction;
+  @:uproperty public var InsignificantReaction : unreal.EParticleSystemInsignificanceReaction;
   
   /**
     Minimum duration between ticks; 33=tick at max. 30FPS, 16=60FPS, 8=120FPS
   **/
-  public var MinTimeBetweenTicks : unreal.FakeUInt32;
+  @:uproperty public var MinTimeBetweenTicks : unreal.FakeUInt32;
   
   /**
     Auto-deactivate system if all emitters are determined to not spawn particles again, regardless of lifetime.
   **/
-  public var bAutoDeactivate : Bool;
+  @:uproperty public var bAutoDeactivate : Bool;
   
   /**
     If true, select the emitter delay from the range
             [DelayLow..Delay]
   **/
-  public var bUseDelayRange : Bool;
+  @:uproperty public var bUseDelayRange : Bool;
   
   /**
     The low end of the emitter delay if using a range.
   **/
-  public var DelayLow : unreal.Float32;
+  @:uproperty public var DelayLow : unreal.Float32;
   
   /**
     How long this Particle system should delay when ActivateSystem is called on it.
   **/
-  public var Delay : unreal.Float32;
+  @:uproperty public var Delay : unreal.Float32;
   #if WITH_EDITORONLY_DATA
   
   /**
     Internal: The PSys thumbnail image
   **/
-  public var ThumbnailImage : unreal.UTexture2D;
+  @:uproperty public var ThumbnailImage : unreal.UTexture2D;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Internal: Indicates the PSys thumbnail image is out of date
   **/
-  public var ThumbnailImageOutOfDate : Bool;
+  @:uproperty public var ThumbnailImageOutOfDate : Bool;
   
   /**
     Inidicates the old 'real-time' thumbnail rendering should be used
   **/
-  public var bUseRealtimeThumbnail : Bool;
+  @:uproperty public var bUseRealtimeThumbnail : Bool;
   
   /**
     Set during load time to indicate that physics is used...
   **/
-  public var bHasPhysics : Bool;
+  @:uproperty public var bHasPhysics : Bool;
   
   /**
     EDITOR ONLY: Indicates that Cascade would like to have the PeakActiveParticles count reset
   **/
-  public var bShouldResetPeakCounts : Bool;
+  @:uproperty public var bShouldResetPeakCounts : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     The background color to display in Cascade
   **/
-  public var BackgroundColor : unreal.FColor;
-  public var FloorScale3D : unreal.FVector;
-  public var FloorScale : unreal.Float32;
-  public var FloorRotation : unreal.FRotator;
-  public var FloorPosition : unreal.FVector;
+  @:uproperty public var BackgroundColor : unreal.FColor;
+  @:uproperty public var FloorScale3D : unreal.FVector;
+  @:uproperty public var FloorScale : unreal.Float32;
+  @:uproperty public var FloorRotation : unreal.FRotator;
+  @:uproperty public var FloorPosition : unreal.FVector;
   
   /**
     Cascade 'floor' mesh information.
   **/
-  public var FloorMesh : unreal.FString;
+  @:uproperty public var FloorMesh : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Number of seconds of emitter not being rendered that need to pass before it
     no longer gets ticked/ becomes inactive.
   **/
-  public var SecondsBeforeInactive : unreal.Float32;
+  @:uproperty public var SecondsBeforeInactive : unreal.Float32;
   
   /**
     Fixed relative bounding box for particle system.
   **/
-  public var FixedRelativeBoundingBox : unreal.FBox;
+  @:uproperty public var FixedRelativeBoundingBox : unreal.FBox;
   
   /**
     Whether to use the fixed relative bounding box or calculate it every frame.
   **/
-  public var bUseFixedRelativeBoundingBox : Bool;
-  public var LODSettings : unreal.TArray<unreal.FParticleSystemLOD>;
+  @:uproperty public var bUseFixedRelativeBoundingBox : Bool;
+  @:uproperty public var LODSettings : unreal.TArray<unreal.FParticleSystemLOD>;
   
   /**
     Internal value that tracks the regenerate LOD levels preference.
     If true, when autoregenerating LOD levels in code, the low level will
     be a duplicate of the high.
   **/
-  public var bRegenerateLODDuplicate : Bool;
+  @:uproperty public var bRegenerateLODDuplicate : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     LOD setting for intepolation (set by Cascade) Range [0..100]
   **/
-  public var EditorLODSetting : unreal.Int32;
+  @:uproperty public var EditorLODSetting : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -182,7 +182,7 @@ package unreal;
                                                                              [2500.0 ..   4999.9] from the camera, LOD level 1 will be used.
                                                                              [5000.0 .. INFINITY] from the camera, LOD level 2 will be used.
   **/
-  public var LODDistances : unreal.TArray<unreal.Float32>;
+  @:uproperty public var LODDistances : unreal.TArray<unreal.Float32>;
   
   /**
     The method of LOD level determination to utilize for this particle system
@@ -190,71 +190,71 @@ package unreal;
     PARTICLESYSTEMLODMETHOD_DirectSet - LOD level is directly set by the game code.
     PARTICLESYSTEMLODMETHOD_ActivateAutomatic - LOD level is determined at Activation time, then left alone unless directly set by game code.
   **/
-  public var LODMethod : unreal.ParticleSystemLODMethod;
+  @:uproperty public var LODMethod : unreal.ParticleSystemLODMethod;
   
   /**
     How often (in seconds) the system should perform the LOD distance check.
   **/
-  public var LODDistanceCheckTime : unreal.Float32;
+  @:uproperty public var LODDistanceCheckTime : unreal.Float32;
   
   /**
     If true, the system's Z axis will be oriented toward the camera
   **/
-  public var bOrientZAxisTowardCamera : Bool;
+  @:uproperty public var bOrientZAxisTowardCamera : Bool;
   
   /**
     Used for curve editor to remember curve-editing setup.
   **/
-  public var CurveEdSetup : unreal.UInterpCurveEdSetup;
+  @:uproperty public var CurveEdSetup : unreal.UInterpCurveEdSetup;
   #if WITH_EDITORONLY_DATA
   
   /**
     The time to warm-up the system for the thumbnail image
   **/
-  public var ThumbnailWarmup : unreal.Float32;
+  @:uproperty public var ThumbnailWarmup : unreal.Float32;
   
   /**
     The distance to place the system when rendering the thumbnail image
   **/
-  public var ThumbnailDistance : unreal.Float32;
+  @:uproperty public var ThumbnailDistance : unreal.Float32;
   
   /**
     The angle to use when rendering the thumbnail image
   **/
-  public var ThumbnailAngle : unreal.FRotator;
+  @:uproperty public var ThumbnailAngle : unreal.FRotator;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The component used to preview the particle system in Cascade
   **/
-  public var PreviewComponent : unreal.UParticleSystemComponent;
+  @:uproperty public var PreviewComponent : unreal.UParticleSystemComponent;
   
   /**
     Emitters       - internal - the array of emitters in the system
   **/
-  public var Emitters : unreal.TArray<unreal.UParticleEmitter>;
+  @:uproperty public var Emitters : unreal.TArray<unreal.UParticleEmitter>;
   
   /**
     WarmupTickRate - the time step for each tick during warm up.
            Increasing this improves performance. Decreasing, improves accuracy.
            Set to 0 to use the default tick time.
   **/
-  public var WarmupTickRate : unreal.Float32;
+  @:uproperty public var WarmupTickRate : unreal.Float32;
   
   /**
     WarmupTime     - the time to warm-up the particle system when first rendered
   **/
-  public var WarmupTime : unreal.Float32;
+  @:uproperty public var WarmupTime : unreal.Float32;
   
   /**
     UpdateTime_Delta       - internal
   **/
-  public var UpdateTime_Delta : unreal.Float32;
+  @:uproperty public var UpdateTime_Delta : unreal.Float32;
   
   /**
     UpdateTime_FPS - the frame per second to update at in FixedTime mode
   **/
-  public var UpdateTime_FPS : unreal.Float32;
-  public var SystemUpdateMode : unreal.EParticleSystemUpdateMode;
+  @:uproperty public var UpdateTime_FPS : unreal.Float32;
+  @:uproperty public var SystemUpdateMode : unreal.EParticleSystemUpdateMode;
   
 }

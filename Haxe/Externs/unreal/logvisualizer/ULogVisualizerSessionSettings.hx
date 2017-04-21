@@ -15,11 +15,11 @@ package unreal.logvisualizer;
 
 @:umodule("LogVisualizer")
 @:glueCppIncludes("LogVisualizerSessionSettings.h")
-@:uextern extern class ULogVisualizerSessionSettings extends unreal.UObject {
+@:uextern @:uclass extern class ULogVisualizerSessionSettings extends unreal.UObject {
   
   /**
     Whether to show trivial logs, i.e. the ones with only one entry.
   **/
-  public var bEnableGraphsVisualization : Bool;
+  @:uproperty public var bEnableGraphsVisualization : Bool;
   
 }

@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationDrag.h")
-@:uextern extern class UParticleModuleAccelerationDrag extends unreal.UParticleModuleAccelerationBase {
+@:uextern @:uclass extern class UParticleModuleAccelerationDrag extends unreal.UParticleModuleAccelerationBase {
   
   /**
     Per-particle drag coefficient. Evaluted using emitter time.
   **/
-  public var DragCoefficientRaw : unreal.FRawDistributionFloat;
+  @:uproperty public var DragCoefficientRaw : unreal.FRawDistributionFloat;
   
   /**
     Per-particle drag coefficient. Evaluted using emitter time.
   **/
-  @:deprecated public var DragCoefficient_DEPRECATED : unreal.UDistributionFloat;
+  @:deprecated @:uproperty public var DragCoefficient_DEPRECATED : unreal.UDistributionFloat;
   
 }

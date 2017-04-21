@@ -15,11 +15,11 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/BlueprintFactory.h")
-@:uextern extern class UBlueprintFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UBlueprintFactory extends unreal.editor.UFactory {
   
   /**
     The parent class of the created blueprint
   **/
-  public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
   
 }

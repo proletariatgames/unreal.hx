@@ -20,51 +20,51 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventGenerator.h")
-@:noCopy @:noEquals @:uextern extern class FParticleEvent_GenerateInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleEvent_GenerateInfo {
   
   /**
     The events we want to fire off when this event has been generated
   **/
-  public var ParticleModuleEventsToSendToGame : unreal.TArray<unreal.UParticleModuleEventSendToGame>;
+  @:uproperty public var ParticleModuleEventsToSendToGame : unreal.TArray<unreal.UParticleModuleEventSendToGame>;
   
   /**
     Should the event tag with a custom name? Leave blank for the default.
   **/
-  public var CustomName : unreal.FName;
+  @:uproperty public var CustomName : unreal.FName;
   
   /**
     Use the orbit offset when computing the position at which the event occurred.
   **/
-  public var bUseOrbitOffset : Bool;
+  @:uproperty public var bUseOrbitOffset : Bool;
   
   /**
     Use the impact FVector not the hit normal (collision only).
   **/
-  public var UseReflectedImpactVector : Bool;
+  @:uproperty public var UseReflectedImpactVector : Bool;
   
   /**
     Only fire the last time (collision only).
   **/
-  public var LastTimeOnly : Bool;
+  @:uproperty public var LastTimeOnly : Bool;
   
   /**
     Only fire the first time (collision only).
   **/
-  public var FirstTimeOnly : Bool;
+  @:uproperty public var FirstTimeOnly : Bool;
   
   /**
     Only fire the first time (collision only).
   **/
-  public var ParticleFrequency : unreal.Int32;
+  @:uproperty public var ParticleFrequency : unreal.Int32;
   
   /**
     How often to trigger the event (<= 1 means EVERY time).
   **/
-  public var Frequency : unreal.Int32;
+  @:uproperty public var Frequency : unreal.Int32;
   
   /**
     The type of event.
   **/
-  public var Type : unreal.EParticleEventType;
+  @:uproperty public var Type : unreal.EParticleEventType;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/GatherTextFromAssetsCommandlet.h")
-@:noClass @:uextern extern class UGatherTextFromAssetsCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern @:uclass extern class UGatherTextFromAssetsCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

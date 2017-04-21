@@ -16,7 +16,7 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimStateNode.h")
 @:uname("EAnimStateType")
-@:uextern extern enum EAnimStateType {
+@:uextern @:uenum extern enum EAnimStateType {
   
   /**
     Single animation

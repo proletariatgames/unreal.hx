@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDesaturation.h")
-@:noClass @:uextern extern class UMaterialExpressionDesaturation extends unreal.UMaterialExpression {
-  public var LuminanceFactors : unreal.FLinearColor;
-  public var Fraction : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDesaturation extends unreal.UMaterialExpression {
+  @:uproperty public var LuminanceFactors : unreal.FLinearColor;
+  @:uproperty public var Fraction : unreal.FExpressionInput;
   
   /**
     Outputs: Lerp(Input,dot(Input,LuminanceFactors)),Fraction)
   **/
-  public var Input : unreal.FExpressionInput;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

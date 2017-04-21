@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayNetMode")
-@:uextern extern enum EPlayNetMode {
+@:uextern @:uenum extern enum EPlayNetMode {
   
   /**
     Play Offline

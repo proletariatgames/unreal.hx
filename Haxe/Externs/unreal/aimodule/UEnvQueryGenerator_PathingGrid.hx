@@ -22,21 +22,21 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_PathingGrid.h")
-@:noClass @:uextern extern class UEnvQueryGenerator_PathingGrid extends unreal.aimodule.UEnvQueryGenerator_SimpleGrid {
+@:noClass @:uextern @:uclass extern class UEnvQueryGenerator_PathingGrid extends unreal.aimodule.UEnvQueryGenerator_SimpleGrid {
   
   /**
     multiplier for max distance between point and context
   **/
-  public var ScanRangeMultiplier : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ScanRangeMultiplier : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     navigation filter to use in pathfinding
   **/
-  public var NavigationFilter : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty public var NavigationFilter : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
   
   /**
     pathfinding direction
   **/
-  public var PathToItem : unreal.aimodule.FAIDataProviderBoolValue;
+  @:uproperty public var PathToItem : unreal.aimodule.FAIDataProviderBoolValue;
   
 }

@@ -22,8 +22,8 @@ package unreal;
   There needs to be the same amount of elements in this array as there are keyframes.
 **/
 @:glueCppIncludes("Matinee/InterpTrackMove.h")
-@:noCopy @:noEquals @:uextern extern class FInterpLookupPoint {
-  public var Time : unreal.Float32;
-  public var GroupName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpLookupPoint {
+  @:uproperty public var Time : unreal.Float32;
+  @:uproperty public var GroupName : unreal.FName;
   
 }

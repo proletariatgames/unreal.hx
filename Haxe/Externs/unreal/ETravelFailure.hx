@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("ETravelFailure.Type")
-@:uextern extern enum ETravelFailure {
+@:uextern @:uenum extern enum ETravelFailure {
   
   /**
     No level found in the loaded package

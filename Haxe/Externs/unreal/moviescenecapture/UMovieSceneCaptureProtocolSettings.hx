@@ -15,6 +15,6 @@ package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("MovieSceneCaptureProtocolSettings.h")
-@:uextern extern class UMovieSceneCaptureProtocolSettings extends unreal.UObject {
+@:uextern @:uclass extern class UMovieSceneCaptureProtocolSettings extends unreal.UObject {
   
 }

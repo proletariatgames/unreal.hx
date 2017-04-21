@@ -21,6 +21,6 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchChunk.h")
-@:noCopy @:noEquals @:uextern extern class FSHAHashData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSHAHashData {
   
 }

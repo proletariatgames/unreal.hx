@@ -21,8 +21,8 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:noCopy @:noEquals @:uextern extern class FEditorCommandCategory {
-  public var Name : unreal.FName;
-  public var Parent : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorCommandCategory {
+  @:uproperty public var Name : unreal.FName;
+  @:uproperty public var Parent : unreal.FName;
   
 }

@@ -21,24 +21,24 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraNodeInput.h")
-@:uextern extern class UNiagaraNodeInput extends unreal.niagaraeditor.UNiagaraNode {
+@:uextern @:uclass extern class UNiagaraNodeInput extends unreal.niagaraeditor.UNiagaraNode {
   
   /**
     When true, and this input is a constant, the input is exposed to the effect editor.
   **/
-  public var bExposeWhenConstant : Bool;
+  @:uproperty public var bExposeWhenConstant : Bool;
   
   /**
     Allows code to explicitly disable exposing of certain inputs e.g. system constants such as Delta Time.
   **/
-  public var bCanBeExposed : Bool;
-  public var MatrixDefault : unreal.FMatrix;
-  public var VectorDefault : unreal.FVector4;
+  @:uproperty public var bCanBeExposed : Bool;
+  @:uproperty public var MatrixDefault : unreal.FMatrix;
+  @:uproperty public var VectorDefault : unreal.FVector4;
   
   /**
     TODO: Customize the details for this and hide these when they're not relevant.
   **/
-  public var FloatDefault : unreal.Float32;
-  public var Input : unreal.niagara.FNiagaraVariableInfo;
+  @:uproperty public var FloatDefault : unreal.Float32;
+  @:uproperty public var Input : unreal.niagara.FNiagaraVariableInfo;
   
 }

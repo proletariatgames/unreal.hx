@@ -20,32 +20,32 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/SoundNodeDistanceCrossFade.h")
-@:noCopy @:noEquals @:uextern extern class FDistanceDatum {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDistanceDatum {
   
   /**
     The volume for which this Input should be played.
   **/
-  public var Volume : unreal.Float32;
+  @:uproperty public var Volume : unreal.Float32;
   
   /**
     The distance at which this sound is no longer audible.
   **/
-  public var FadeOutDistanceEnd : unreal.Float32;
+  @:uproperty public var FadeOutDistanceEnd : unreal.Float32;
   
   /**
     The distance at which this sound starts fading out.
   **/
-  public var FadeOutDistanceStart : unreal.Float32;
+  @:uproperty public var FadeOutDistanceStart : unreal.Float32;
   
   /**
     The distance at which this sound has faded in completely.
   **/
-  public var FadeInDistanceEnd : unreal.Float32;
+  @:uproperty public var FadeInDistanceEnd : unreal.Float32;
   
   /**
     The FadeInDistance at which to start hearing this sound.
            * If you want to hear the sound up close then setting this to 0 might be a good option.
   **/
-  public var FadeInDistanceStart : unreal.Float32;
+  @:uproperty public var FadeInDistanceStart : unreal.Float32;
   
 }

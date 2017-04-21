@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationDataChunk.h")
-@:uextern extern class UNavigationDataChunk extends unreal.UObject {
+@:uextern @:uclass extern class UNavigationDataChunk extends unreal.UObject {
   
   /**
     Name of NavigationData actor that owns this chunk
   **/
-  public var NavigationDataName : unreal.FName;
+  @:uproperty public var NavigationDataName : unreal.FName;
   
 }

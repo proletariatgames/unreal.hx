@@ -15,11 +15,11 @@ package unreal.animgraph;
 
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_StateMachineBase.h")
-@:uextern extern class UAnimGraphNode_StateMachineBase extends unreal.animgraph.UAnimGraphNode_Base {
+@:uextern @:uclass extern class UAnimGraphNode_StateMachineBase extends unreal.animgraph.UAnimGraphNode_Base {
   
   /**
     Editor state machine representation
   **/
-  public var EditorStateMachineGraph : unreal.animgraph.UAnimationStateMachineGraph;
+  @:uproperty public var EditorStateMachineGraph : unreal.animgraph.UAnimationStateMachineGraph;
   
 }

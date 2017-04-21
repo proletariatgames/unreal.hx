@@ -19,7 +19,7 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_BoneDrivenController.h")
-@:uextern extern class UAnimGraphNode_BoneDrivenController extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
-  public var Node : unreal.animgraphruntime.FAnimNode_BoneDrivenController;
+@:uextern @:uclass extern class UAnimGraphNode_BoneDrivenController extends unreal.animgraph.UAnimGraphNode_SkeletalControlBase {
+  @:uproperty public var Node : unreal.animgraphruntime.FAnimNode_BoneDrivenController;
   
 }

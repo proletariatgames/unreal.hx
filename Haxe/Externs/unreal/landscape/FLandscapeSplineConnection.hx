@@ -21,16 +21,16 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeSplineControlPoint.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapeSplineConnection {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeSplineConnection {
   
   /**
     Which end of the segment is connected to this control point
   **/
-  public var End : Bool;
+  @:uproperty public var End : Bool;
   
   /**
     Segment connected to this control point
   **/
-  public var Segment : unreal.landscape.ULandscapeSplineSegment;
+  @:uproperty public var Segment : unreal.landscape.ULandscapeSplineSegment;
   
 }

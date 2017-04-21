@@ -20,19 +20,19 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionBlendMaterialAttributes.h")
-@:uextern extern class UMaterialExpressionBlendMaterialAttributes extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionBlendMaterialAttributes extends unreal.UMaterialExpression {
   
   /**
     Optionally skip blending attributes of this type.
   **/
-  public var VertexAttributeBlendType : unreal.EMaterialAttributeBlend;
+  @:uproperty public var VertexAttributeBlendType : unreal.EMaterialAttributeBlend;
   
   /**
     Optionally skip blending attributes of this type.
   **/
-  public var PixelAttributeBlendType : unreal.EMaterialAttributeBlend;
-  public var Alpha : unreal.FExpressionInput;
-  public var B : unreal.FMaterialAttributesInput;
-  public var A : unreal.FMaterialAttributesInput;
+  @:uproperty public var PixelAttributeBlendType : unreal.EMaterialAttributeBlend;
+  @:uproperty public var Alpha : unreal.FExpressionInput;
+  @:uproperty public var B : unreal.FMaterialAttributesInput;
+  @:uproperty public var A : unreal.FMaterialAttributesInput;
   
 }

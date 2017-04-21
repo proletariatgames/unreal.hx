@@ -15,17 +15,17 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType_Enum.h")
-@:uextern extern class UBlackboardKeyType_Enum extends unreal.aimodule.UBlackboardKeyType {
+@:uextern @:uclass extern class UBlackboardKeyType_Enum extends unreal.aimodule.UBlackboardKeyType {
   
   /**
     set when EnumName override is valid and active
   **/
-  public var bIsEnumNameValid : Bool;
+  @:uproperty public var bIsEnumNameValid : Bool;
   
   /**
     name of enum defined in c++ code, will take priority over asset from EnumType property
   **/
-  public var EnumName : unreal.FString;
-  public var EnumType : unreal.UEnum;
+  @:uproperty public var EnumName : unreal.FString;
+  @:uproperty public var EnumType : unreal.UEnum;
   
 }

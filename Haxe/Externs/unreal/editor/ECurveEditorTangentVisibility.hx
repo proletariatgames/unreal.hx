@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("CurveEditorSettings.h")
 @:uname("ECurveEditorTangentVisibility.Type")
-@:uextern extern enum ECurveEditorTangentVisibility {
+@:uextern @:uenum extern enum ECurveEditorTangentVisibility {
   
   /**
     All tangents should be visible.

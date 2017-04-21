@@ -16,7 +16,7 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_Base.h")
 @:uname("EBlueprintUsage")
-@:class @:uextern extern enum EBlueprintUsage {
+@:class @:uextern @:uenum extern enum EBlueprintUsage {
   NoProperties;
   DoesNotUseBlueprint;
   UsesBlueprint;

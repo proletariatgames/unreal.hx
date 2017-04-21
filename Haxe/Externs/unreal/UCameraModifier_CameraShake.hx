@@ -19,16 +19,16 @@ package unreal;
   the owning camera.
 **/
 @:glueCppIncludes("Camera/CameraModifier_CameraShake.h")
-@:uextern extern class UCameraModifier_CameraShake extends unreal.UCameraModifier {
+@:uextern @:uclass extern class UCameraModifier_CameraShake extends unreal.UCameraModifier {
   
   /**
     Scaling factor applied to all camera shakes in when in splitscreen mode. Normally used to reduce shaking, since shakes feel more intense in a smaller viewport.
   **/
-  private var SplitScreenShakeScale : unreal.Float32;
+  @:uproperty private var SplitScreenShakeScale : unreal.Float32;
   
   /**
     List of active CameraShake instances
   **/
-  public var ActiveShakes : unreal.TArray<unreal.UCameraShake>;
+  @:uproperty public var ActiveShakes : unreal.TArray<unreal.UCameraShake>;
   
 }

@@ -21,11 +21,11 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_AssetPlayerBase.h")
-@:uextern extern class UAnimGraphNode_AssetPlayerBase extends unreal.animgraph.UAnimGraphNode_Base {
+@:uextern @:uclass extern class UAnimGraphNode_AssetPlayerBase extends unreal.animgraph.UAnimGraphNode_Base {
   
   /**
     Sync group settings for this player.  Sync groups keep related animations with different lengths synchronized.
   **/
-  public var SyncGroup : unreal.FAnimationGroupReference;
+  @:uproperty public var SyncGroup : unreal.FAnimationGroupReference;
   
 }

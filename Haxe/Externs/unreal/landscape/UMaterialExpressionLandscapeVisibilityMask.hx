@@ -15,11 +15,11 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeVisibilityMask.h")
-@:uextern extern class UMaterialExpressionLandscapeVisibilityMask extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionLandscapeVisibilityMask extends unreal.UMaterialExpression {
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
   
 }

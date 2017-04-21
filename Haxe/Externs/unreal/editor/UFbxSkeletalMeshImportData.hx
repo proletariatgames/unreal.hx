@@ -21,36 +21,36 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSkeletalMeshImportData.h")
-@:uextern extern class UFbxSkeletalMeshImportData extends unreal.editor.UFbxMeshImportData {
+@:uextern @:uclass extern class UFbxSkeletalMeshImportData extends unreal.editor.UFbxMeshImportData {
   
   /**
     If checked, do not filter same vertices. Keep all vertices even if they have exact same properties
   **/
-  public var bKeepOverlappingVertices : Bool;
+  @:uproperty public var bKeepOverlappingVertices : Bool;
   
   /**
     If enabled, creates Unreal morph objects for the imported meshes
   **/
-  public var bImportMorphTargets : Bool;
+  @:uproperty public var bImportMorphTargets : Bool;
   
   /**
     If checked, meshes nested in bone hierarchies will be imported instead of being converted to bones.
   **/
-  public var bImportMeshesInBoneHierarchy : Bool;
+  @:uproperty public var bImportMeshesInBoneHierarchy : Bool;
   
   /**
     If checked, triangles with non-matching smoothing groups will be physically split.
   **/
-  public var bPreserveSmoothingGroups : Bool;
+  @:uproperty public var bPreserveSmoothingGroups : Bool;
   
   /**
     Enable this option to use frame 0 as reference pose
   **/
-  public var bUseT0AsRefPose : Bool;
+  @:uproperty public var bUseT0AsRefPose : Bool;
   
   /**
     If enabled, update the Skeleton (of the mesh being imported)'s reference pose.
   **/
-  public var bUpdateSkeletonReferencePose : Bool;
+  @:uproperty public var bUpdateSkeletonReferencePose : Bool;
   
 }

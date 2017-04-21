@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
 @:uname("EGameplayAbilityActivationMode.Type")
-@:uextern extern enum EGameplayAbilityActivationMode {
+@:uextern @:uenum extern enum EGameplayAbilityActivationMode {
   
   /**
     We are the authority activating this ability

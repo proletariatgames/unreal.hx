@@ -14,35 +14,35 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
-@:uextern extern class UAnimSingleNodeInstance extends unreal.UAnimInstance {
+@:uextern @:uclass extern class UAnimSingleNodeInstance extends unreal.UAnimInstance {
   
   /**
     Current Asset being played *
   **/
-  public var CurrentAsset : unreal.UAnimationAsset;
-  @:final public function SetLooping(bIsLooping : Bool) : Void;
-  @:final public function SetPlayRate(InPlayRate : unreal.Float32) : Void;
-  @:final public function SetReverse(bInReverse : Bool) : Void;
-  @:final public function SetPosition(InPosition : unreal.Float32, bFireNotifies : Bool) : Void;
-  @:final public function SetPositionWithPreviousTime(InPosition : unreal.Float32, InPreviousTime : unreal.Float32, bFireNotifies : Bool) : Void;
-  @:final public function SetBlendSpaceInput(InBlendInput : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
-  @:final public function SetPlaying(bIsPlaying : Bool) : Void;
-  @:final public function GetLength() : unreal.Float32;
+  @:uproperty public var CurrentAsset : unreal.UAnimationAsset;
+  @:ufunction @:final public function SetLooping(bIsLooping : Bool) : Void;
+  @:ufunction @:final public function SetPlayRate(InPlayRate : unreal.Float32) : Void;
+  @:ufunction @:final public function SetReverse(bInReverse : Bool) : Void;
+  @:ufunction @:final public function SetPosition(InPosition : unreal.Float32, bFireNotifies : Bool = true) : Void;
+  @:ufunction @:final public function SetPositionWithPreviousTime(InPosition : unreal.Float32, InPreviousTime : unreal.Float32, bFireNotifies : Bool = true) : Void;
+  @:ufunction @:final public function SetBlendSpaceInput(InBlendInput : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction @:final public function SetPlaying(bIsPlaying : Bool) : Void;
+  @:ufunction @:final public function GetLength() : unreal.Float32;
   
   /**
     For AnimSequence specific *
   **/
-  @:final public function PlayAnim(bIsLooping : Bool, InPlayRate : unreal.Float32, InStartPosition : unreal.Float32) : Void;
-  @:final public function StopAnim() : Void;
+  @:ufunction @:final public function PlayAnim(bIsLooping : Bool = false, InPlayRate : unreal.Float32 = 1.000000, InStartPosition : unreal.Float32 = 0.000000) : Void;
+  @:ufunction @:final public function StopAnim() : Void;
   
   /**
     Set New Asset - calls InitializeAnimation, for now we need MeshComponent *
   **/
-  public function SetAnimationAsset(NewAsset : unreal.UAnimationAsset, bIsLooping : Bool, InPlayRate : unreal.Float32) : Void;
+  @:ufunction public function SetAnimationAsset(NewAsset : unreal.UAnimationAsset, bIsLooping : Bool = true, InPlayRate : unreal.Float32 = 1.000000) : Void;
   
   /**
     Set pose value
   **/
-  @:final public function SetPreviewCurveOverride(PoseName : unreal.Const<unreal.PRef<unreal.FName>>, Value : unreal.Float32, bRemoveIfZero : Bool) : Void;
+  @:ufunction @:final public function SetPreviewCurveOverride(PoseName : unreal.Const<unreal.PRef<unreal.FName>>, Value : unreal.Float32, bRemoveIfZero : Bool) : Void;
   
 }

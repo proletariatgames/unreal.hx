@@ -20,66 +20,66 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/SoundMix.h")
-@:noCopy @:noEquals @:uextern extern class FAudioEQEffect {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAudioEQEffect {
   
   /**
     Bandwidth of band 3. Region is center frequency +/- Bandwidth /2
   **/
-  public var Bandwidth3 : unreal.Float32;
+  @:uproperty public var Bandwidth3 : unreal.Float32;
   
   /**
     Boost/cut of band 3
   **/
-  public var Gain3 : unreal.Float32;
+  @:uproperty public var Gain3 : unreal.Float32;
   
   /**
     Center frequency in Hz for band 3
   **/
-  public var FrequencyCenter3 : unreal.Float32;
+  @:uproperty public var FrequencyCenter3 : unreal.Float32;
   
   /**
     Bandwidth of band 2. Region is center frequency +/- Bandwidth /2
   **/
-  public var Bandwidth2 : unreal.Float32;
+  @:uproperty public var Bandwidth2 : unreal.Float32;
   
   /**
     Boost/cut of band 2
   **/
-  public var Gain2 : unreal.Float32;
+  @:uproperty public var Gain2 : unreal.Float32;
   
   /**
     Center frequency in Hz for band 2
   **/
-  public var FrequencyCenter2 : unreal.Float32;
+  @:uproperty public var FrequencyCenter2 : unreal.Float32;
   
   /**
     Bandwidth of band 1. Region is center frequency +/- Bandwidth /2
   **/
-  public var Bandwidth1 : unreal.Float32;
+  @:uproperty public var Bandwidth1 : unreal.Float32;
   
   /**
     Boost/cut of band 1
   **/
-  public var Gain1 : unreal.Float32;
+  @:uproperty public var Gain1 : unreal.Float32;
   
   /**
     Center frequency in Hz for band 1
   **/
-  public var FrequencyCenter1 : unreal.Float32;
+  @:uproperty public var FrequencyCenter1 : unreal.Float32;
   
   /**
     Bandwidth of band 0. Region is center frequency +/- Bandwidth /2
   **/
-  public var Bandwidth0 : unreal.Float32;
+  @:uproperty public var Bandwidth0 : unreal.Float32;
   
   /**
     Boost/cut of band 0
   **/
-  public var Gain0 : unreal.Float32;
+  @:uproperty public var Gain0 : unreal.Float32;
   
   /**
     Center frequency in Hz for band 0
   **/
-  public var FrequencyCenter0 : unreal.Float32;
+  @:uproperty public var FrequencyCenter0 : unreal.Float32;
   
 }

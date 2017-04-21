@@ -33,143 +33,143 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Framework/Camera/
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
-@:uextern extern class APlayerCameraManager extends unreal.AActor {
+@:uextern @:uclass extern class APlayerCameraManager extends unreal.AActor {
   
   /**
     Maximum view roll, in degrees.
   **/
-  public var ViewRollMax : unreal.Float32;
+  @:uproperty public var ViewRollMax : unreal.Float32;
   
   /**
     Minimum view roll, in degrees.
   **/
-  public var ViewRollMin : unreal.Float32;
+  @:uproperty public var ViewRollMin : unreal.Float32;
   
   /**
     Maximum view yaw, in degrees.
   **/
-  public var ViewYawMax : unreal.Float32;
+  @:uproperty public var ViewYawMax : unreal.Float32;
   
   /**
     Minimum view yaw, in degrees.
   **/
-  public var ViewYawMin : unreal.Float32;
+  @:uproperty public var ViewYawMin : unreal.Float32;
   
   /**
     Maximum view pitch, in degrees.
   **/
-  public var ViewPitchMax : unreal.Float32;
+  @:uproperty public var ViewPitchMax : unreal.Float32;
   
   /**
     Minimum view pitch, in degrees.
   **/
-  public var ViewPitchMin : unreal.Float32;
+  @:uproperty public var ViewPitchMin : unreal.Float32;
   
   /**
     True if server will use camera positions replicated from the client instead of calculating them locally.
   **/
-  public var bUseClientSideCameraUpdates : Bool;
+  @:uproperty public var bUseClientSideCameraUpdates : Bool;
   
   /**
     True when this camera should use an orthographic perspective instead of FOV
   **/
-  public var bIsOrthographic : Bool;
+  @:uproperty public var bIsOrthographic : Bool;
   
   /**
     Internal. Receives the output of individual camera animations.
   **/
-  private var AnimCameraActor : unreal.ACameraActor;
+  @:uproperty private var AnimCameraActor : unreal.ACameraActor;
   
   /**
     Array of camera anim instances that are not playing and available to be used.
   **/
-  private var FreeAnims : unreal.TArray<unreal.UCameraAnimInst>;
+  @:uproperty private var FreeAnims : unreal.TArray<unreal.UCameraAnimInst>;
   
   /**
     Array of camera anim instances that are currently playing and in-use
   **/
-  public var ActiveAnims : unreal.TArray<unreal.UCameraAnimInst>;
+  @:uproperty public var ActiveAnims : unreal.TArray<unreal.UCameraAnimInst>;
   
   /**
     Internal list of active post process effects. Parallel array to PostProcessBlendCacheWeights.
   **/
-  private var PostProcessBlendCache : unreal.TArray<unreal.FPostProcessSettings>;
+  @:uproperty private var PostProcessBlendCache : unreal.TArray<unreal.FPostProcessSettings>;
   
   /**
     Cached ref to modifier for code-driven screen shakes
   **/
-  private var CachedCameraShakeMod : unreal.UCameraModifier_CameraShake;
+  @:uproperty private var CachedCameraShakeMod : unreal.UCameraModifier_CameraShake;
   
   /**
     CameraBlood emitter attached to this camera
   **/
-  private var CameraLensEffects : unreal.TArray<unreal.AEmitterCameraLensEffectBase>;
+  @:uproperty private var CameraLensEffects : unreal.TArray<unreal.AEmitterCameraLensEffectBase>;
   
   /**
     Offset to view target (used in certain CameraStyles)
   **/
-  public var ViewTargetOffset : unreal.FVector;
+  @:uproperty public var ViewTargetOffset : unreal.FVector;
   
   /**
     Offset to Z free camera position (used in certain CameraStyles)
   **/
-  public var FreeCamOffset : unreal.FVector;
+  @:uproperty public var FreeCamOffset : unreal.FVector;
   
   /**
     Distance to place free camera from view target (used in certain CameraStyles)
   **/
-  public var FreeCamDistance : unreal.Float32;
+  @:uproperty public var FreeCamDistance : unreal.Float32;
   
   /**
     List of modifiers to create by default for this camera
   **/
-  public var DefaultModifiers : unreal.TArray<unreal.TSubclassOf<unreal.UCameraModifier>>;
+  @:uproperty public var DefaultModifiers : unreal.TArray<unreal.TSubclassOf<unreal.UCameraModifier>>;
   
   /**
     List of active camera modifier instances that have a chance to update the final camera POV
   **/
-  private var ModifierList : unreal.TArray<unreal.UCameraModifier>;
+  @:uproperty private var ModifierList : unreal.TArray<unreal.UCameraModifier>;
   
   /**
     Pending view target for blending
   **/
-  public var PendingViewTarget : unreal.FTViewTarget;
+  @:uproperty public var PendingViewTarget : unreal.FTViewTarget;
   
   /**
     Current ViewTarget
   **/
-  public var ViewTarget : unreal.FTViewTarget;
+  @:uproperty public var ViewTarget : unreal.FTViewTarget;
   
   /**
     Cached camera properties, one frame old.
   **/
-  public var LastFrameCameraCache : unreal.FCameraCacheEntry;
+  @:uproperty public var LastFrameCameraCache : unreal.FCameraCacheEntry;
   
   /**
     Cached camera properties.
   **/
-  public var CameraCache : unreal.FCameraCacheEntry;
+  @:uproperty public var CameraCache : unreal.FCameraCacheEntry;
   
   /**
     Default aspect ratio
   **/
-  public var DefaultAspectRatio : unreal.Float32;
+  @:uproperty public var DefaultAspectRatio : unreal.Float32;
   
   /**
     The default desired width (in world units) of the orthographic view (ignored in Perspective mode)
   **/
-  public var DefaultOrthoWidth : unreal.Float32;
+  @:uproperty public var DefaultOrthoWidth : unreal.Float32;
   
   /**
     FOV to use by default.
   **/
-  public var DefaultFOV : unreal.Float32;
-  public var TransformComponent : unreal.USceneComponent;
+  @:uproperty public var DefaultFOV : unreal.Float32;
+  @:uproperty public var TransformComponent : unreal.USceneComponent;
   
   /**
     PlayerController that owns this Camera actor
   **/
-  public var PCOwner : unreal.APlayerController;
+  @:uproperty public var PCOwner : unreal.APlayerController;
   
   /**
     Implementable blueprint hook to allow a PlayerCameraManager subclass to
@@ -182,19 +182,19 @@ package unreal;
     into photography mode.
     Return ResultCameraLocation as modified according to your constraints.
   **/
-  public function PhotographyCameraModify(NewCameraLocation : unreal.Const<unreal.FVector>, PreviousCameraLocation : unreal.Const<unreal.FVector>, OriginalCameraLocation : unreal.Const<unreal.FVector>, ResultCameraLocation : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction public function PhotographyCameraModify(NewCameraLocation : unreal.Const<unreal.FVector>, PreviousCameraLocation : unreal.Const<unreal.FVector>, OriginalCameraLocation : unreal.Const<unreal.FVector>, ResultCameraLocation : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Event triggered upon entering Photography mode (before pausing, if
     r.Photography.AutoPause is 1).
   **/
-  public function OnPhotographySessionStart() : Void;
+  @:ufunction public function OnPhotographySessionStart() : Void;
   
   /**
     Event triggered upon leaving Photography mode (after unpausing, if
     r.Photography.AutoPause is 1).
   **/
-  public function OnPhotographySessionEnd() : Void;
+  @:ufunction public function OnPhotographySessionEnd() : Void;
   
   /**
     Event triggered upon the start of a multi-part photograph capture (i.e. a
@@ -203,7 +203,7 @@ package unreal;
     bloom, etc; most of these are automatically disabled when
     r.Photography.AutoPostprocess is 1).
   **/
-  public function OnPhotographyMultiPartCaptureStart() : Void;
+  @:ufunction public function OnPhotographyMultiPartCaptureStart() : Void;
   
   /**
     Event triggered upon the end of a multi-part photograph capture, when manual
@@ -211,71 +211,71 @@ package unreal;
     Here you may re-enable whatever was turned off within
     OnPhotographyMultiPartCaptureStart.
   **/
-  public function OnPhotographyMultiPartCaptureEnd() : Void;
+  @:ufunction public function OnPhotographyMultiPartCaptureEnd() : Void;
   
   /**
     Blueprint hook to allow blueprints to override existing camera behavior or implement custom cameras.
     If this function returns true, we will use the given returned values and skip further calculations to determine
     final camera POV.
   **/
-  public function BlueprintUpdateCamera(CameraTarget : unreal.AActor, NewCameraLocation : unreal.PRef<unreal.FVector>, NewCameraRotation : unreal.PRef<unreal.FRotator>, NewCameraFOV : unreal.Float32) : Bool;
+  @:ufunction public function BlueprintUpdateCamera(CameraTarget : unreal.AActor, NewCameraLocation : unreal.PRef<unreal.FVector>, NewCameraRotation : unreal.PRef<unreal.FRotator>, NewCameraFOV : unreal.Float32) : Bool;
   
   /**
     Returns the PlayerController that owns this camera.
   **/
-  @:thisConst public function GetOwningPlayerController() : unreal.APlayerController;
+  @:ufunction @:thisConst public function GetOwningPlayerController() : unreal.APlayerController;
   
   /**
     Creates and initializes a new camera modifier of the specified class.
     @param ModifierClass - The class of camera modifier to create.
     @return Returns the newly created camera modifier.
   **/
-  public function AddNewCameraModifier(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
+  @:ufunction public function AddNewCameraModifier(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
   
   /**
     Returns camera modifier for this camera of the given class, if it exists.
     Exact class match only. If there are multiple modifiers of the same class, the first one is returned.
   **/
-  public function FindCameraModifierByClass(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
+  @:ufunction public function FindCameraModifierByClass(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
   
   /**
     Removes the given camera modifier from this camera (if it's on the camera in the first place) and discards it.
     @return True if successfully removed, false otherwise.
   **/
-  public function RemoveCameraModifier(ModifierToRemove : unreal.UCameraModifier) : Bool;
+  @:ufunction public function RemoveCameraModifier(ModifierToRemove : unreal.UCameraModifier) : Bool;
   
   /**
     @return Returns the camera's current full FOV angle, in degrees.
   **/
-  @:thisConst public function GetFOVAngle() : unreal.Float32;
+  @:ufunction @:thisConst public function GetFOVAngle() : unreal.Float32;
   
   /**
     @return Returns camera's current rotation.
   **/
-  @:thisConst @:final public function GetCameraRotation() : unreal.FRotator;
+  @:ufunction @:thisConst @:final public function GetCameraRotation() : unreal.FRotator;
   
   /**
     @return Returns camera's current location.
   **/
-  @:thisConst @:final public function GetCameraLocation() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetCameraLocation() : unreal.FVector;
   
   /**
     Creates a camera lens effect of the given class on this camera.
     @param LensEffectEmitterClass - Class of lens effect emitter to create.
     @return Returns the new emitter actor.
   **/
-  public function AddCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : unreal.AEmitterCameraLensEffectBase;
+  @:ufunction public function AddCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : unreal.AEmitterCameraLensEffectBase;
   
   /**
     Removes the given lens effect from the camera.
     @param Emitter - the emitter actor to remove from the camera
   **/
-  public function RemoveCameraLensEffect(Emitter : unreal.AEmitterCameraLensEffectBase) : Void;
+  @:ufunction public function RemoveCameraLensEffect(Emitter : unreal.AEmitterCameraLensEffectBase) : Void;
   
   /**
     Removes all camera lens effects.
   **/
-  public function ClearCameraLensEffects() : Void;
+  @:ufunction public function ClearCameraLensEffects() : Void;
   
   /**
     Plays a camera shake on this camera.
@@ -284,22 +284,22 @@ package unreal;
     @param PlaySpace - Which coordinate system to play the shake in (affects oscillations and camera anims)
     @param UserPlaySpaceRot - Coordinate system to play shake when PlaySpace == CAPS_UserDefined.
   **/
-  public function PlayCameraShake(ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32, PlaySpace : unreal.ECameraAnimPlaySpace, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraShake;
+  @:ufunction public function PlayCameraShake(ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32 = 1.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraShake;
   
   /**
     Immediately stops the given shake instance and invalidates it.
   **/
-  public function StopCameraShake(ShakeInstance : unreal.UCameraShake, bImmediately : Bool) : Void;
+  @:ufunction public function StopCameraShake(ShakeInstance : unreal.UCameraShake, bImmediately : Bool = true) : Void;
   
   /**
     Stops playing CameraShake of the given class.
   **/
-  public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool) : Void;
+  @:ufunction public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool = true) : Void;
   
   /**
     Stops all active camera shakes on this camera.
   **/
-  public function StopAllCameraShakes(bImmediately : Bool) : Void;
+  @:ufunction public function StopAllCameraShakes(bImmediately : Bool = true) : Void;
   
   /**
     Does a camera fade to/from a solid color.  Animates automatically.
@@ -310,18 +310,18 @@ package unreal;
     @param bShouldFadeAudio - True to fade audio volume along with the alpha of the solid color.
     @param bHoldWhenFinished - True for fade to hold at the ToAlpha until explicitly stopped (e.g. with StopCameraFade)
   **/
-  public function StartCameraFade(FromAlpha : unreal.Float32, ToAlpha : unreal.Float32, Duration : unreal.Float32, Color : unreal.FLinearColor, bShouldFadeAudio : Bool, bHoldWhenFinished : Bool) : Void;
+  @:ufunction public function StartCameraFade(FromAlpha : unreal.Float32, ToAlpha : unreal.Float32, Duration : unreal.Float32, Color : unreal.FLinearColor, bShouldFadeAudio : Bool = false, bHoldWhenFinished : Bool = false) : Void;
   
   /**
     Stops camera fading.
   **/
-  public function StopCameraFade() : Void;
+  @:ufunction public function StopCameraFade() : Void;
   
   /**
     Turns on camera fading at the given opacity. Does not auto-animate, allowing user to animate themselves.
     Call StopCameraFade to turn fading back off.
   **/
-  public function SetManualCameraFade(InFadeAmount : unreal.Float32, Color : unreal.FLinearColor, bInFadeAudio : Bool) : Void;
+  @:ufunction public function SetManualCameraFade(InFadeAmount : unreal.Float32, Color : unreal.FLinearColor, bInFadeAudio : Bool) : Void;
   
   /**
     Play the indicated CameraAnim on this camera.
@@ -338,24 +338,24 @@ package unreal;
     @param UserPlaySpaceRot  Custom play space, used when PlaySpace is UserDefined.
     @return The CameraAnim instance, which can be stored to manipulate/stop the anim after the fact.
   **/
-  public function PlayCameraAnim(Anim : unreal.UCameraAnim, Rate : unreal.Float32, Scale : unreal.Float32, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, bLoop : Bool, bRandomStartTime : Bool, Duration : unreal.Float32, PlaySpace : unreal.ECameraAnimPlaySpace, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraAnimInst;
+  @:ufunction public function PlayCameraAnim(Anim : unreal.UCameraAnim, Rate : unreal.Float32 = 1.000000, Scale : unreal.Float32 = 1.000000, BlendInTime : unreal.Float32 = 0.000000, BlendOutTime : unreal.Float32 = 0.000000, bLoop : Bool = false, bRandomStartTime : Bool = false, Duration : unreal.Float32 = 0.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraAnimInst;
   
   /**
     Stop playing all instances of the indicated CameraAnim.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  public function StopAllInstancesOfCameraAnim(Anim : unreal.UCameraAnim, bImmediate : Bool) : Void;
+  @:ufunction public function StopAllInstancesOfCameraAnim(Anim : unreal.UCameraAnim, bImmediate : Bool = false) : Void;
   
   /**
     Stops the given CameraAnimInst from playing.  The given pointer should be considered invalid after this.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  public function StopCameraAnimInst(AnimInst : unreal.UCameraAnimInst, bImmediate : Bool) : Void;
+  @:ufunction public function StopCameraAnimInst(AnimInst : unreal.UCameraAnimInst, bImmediate : Bool = false) : Void;
   
   /**
     Stop playing all CameraAnims on this CameraManager.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  public function StopAllCameraAnims(bImmediate : Bool) : Void;
+  @:ufunction public function StopAllCameraAnims(bImmediate : Bool = false) : Void;
   
 }

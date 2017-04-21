@@ -21,36 +21,36 @@ package unreal.geometrymode;
 **/
 @:umodule("GeometryMode")
 @:glueCppIncludes("GeomModifier_Pen.h")
-@:noClass @:uextern extern class UGeomModifier_Pen extends unreal.geometrymode.UGeomModifier_Edit {
+@:noClass @:uextern @:uclass extern class UGeomModifier_Pen extends unreal.geometrymode.UGeomModifier_Edit {
   
   /**
     The mouse position, in world space, where the user currently is hovering (snapped to grid if that setting is enabled).
   **/
-  public var MouseWorldSpacePos : unreal.FVector;
+  @:uproperty public var MouseWorldSpacePos : unreal.FVector;
   
   /**
     The vertices that the user has dropped down in the world so far.
   **/
-  public var ShapeVertices : unreal.TArray<unreal.FVector>;
+  @:uproperty public var ShapeVertices : unreal.TArray<unreal.FVector>;
   
   /**
     How far to extrude the newly created brush if bAutoExtrude is set to true.
   **/
-  public var ExtrudeDepth : unreal.Int32;
+  @:uproperty public var ExtrudeDepth : unreal.Int32;
   
   /**
     If true, the resulting shape will be turned into an ABrushShape actor.
   **/
-  public var bCreateBrushShape : Bool;
+  @:uproperty public var bCreateBrushShape : Bool;
   
   /**
     If true, the tool will try and optimize the resulting triangles into convex polygons before creating the brush.
   **/
-  public var bCreateConvexPolygons : Bool;
+  @:uproperty public var bCreateConvexPolygons : Bool;
   
   /**
     If true, the shape will be automatically extruded into a brush upon completion.
   **/
-  public var bAutoExtrude : Bool;
+  @:uproperty public var bAutoExtrude : Bool;
   
 }

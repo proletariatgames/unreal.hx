@@ -20,12 +20,12 @@ package unreal;
   Implements an Actor for exponential height fog.
 **/
 @:glueCppIncludes("Engine/ExponentialHeightFog.h")
-@:uextern extern class AExponentialHeightFog extends unreal.AInfo {
+@:uextern @:uclass extern class AExponentialHeightFog extends unreal.AInfo {
   
   /**
     replicated copy of ExponentialHeightFogComponent's bEnabled property
   **/
-  public var bEnabled : Bool;
-  public var Component : unreal.UExponentialHeightFogComponent;
+  @:uproperty public var bEnabled : Bool;
+  @:uproperty public var Component : unreal.UExponentialHeightFogComponent;
   
 }

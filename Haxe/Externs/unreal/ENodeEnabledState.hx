@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("EdGraph/EdGraphNode.h")
 @:uname("ENodeEnabledState")
-@:class @:uextern extern enum ENodeEnabledState {
+@:class @:uextern @:uenum extern enum ENodeEnabledState {
   
   /**
     Node is enabled.

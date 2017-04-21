@@ -20,7 +20,7 @@ package unreal.enginesettings;
 @:umodule("EngineSettings")
 @:glueCppIncludes("GameMapsSettings.h")
 @:uname("EThreePlayerSplitScreenType.Type")
-@:uextern extern enum EThreePlayerSplitScreenType {
+@:uextern @:uenum extern enum EThreePlayerSplitScreenType {
   FavorTop;
   FavorBottom;
   

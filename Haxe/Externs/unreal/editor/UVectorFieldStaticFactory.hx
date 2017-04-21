@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/VectorFieldStaticFactory.h")
-@:noClass @:uextern extern class UVectorFieldStaticFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UVectorFieldStaticFactory extends unreal.editor.UFactory {
   
 }

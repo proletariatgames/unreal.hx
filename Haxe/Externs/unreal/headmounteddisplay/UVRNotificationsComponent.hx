@@ -15,6 +15,6 @@ package unreal.headmounteddisplay;
 
 @:umodule("HeadMountedDisplay")
 @:glueCppIncludes("VRNotificationsComponent.h")
-@:uextern extern class UVRNotificationsComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UVRNotificationsComponent extends unreal.UActorComponent {
   
 }

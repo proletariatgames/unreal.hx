@@ -21,14 +21,14 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieScene3DAttachSection.h")
-@:uextern extern class UMovieScene3DAttachSection extends unreal.moviescenetracks.UMovieScene3DConstraintSection {
-  public var bConstrainRz : Bool;
-  public var bConstrainRy : Bool;
-  public var bConstrainRx : Bool;
-  public var bConstrainTz : Bool;
-  public var bConstrainTy : Bool;
-  public var bConstrainTx : Bool;
-  public var AttachComponentName : unreal.FName;
-  public var AttachSocketName : unreal.FName;
+@:uextern @:uclass extern class UMovieScene3DAttachSection extends unreal.moviescenetracks.UMovieScene3DConstraintSection {
+  @:uproperty public var bConstrainRz : Bool;
+  @:uproperty public var bConstrainRy : Bool;
+  @:uproperty public var bConstrainRx : Bool;
+  @:uproperty public var bConstrainTz : Bool;
+  @:uproperty public var bConstrainTy : Bool;
+  @:uproperty public var bConstrainTx : Bool;
+  @:uproperty public var AttachComponentName : unreal.FName;
+  @:uproperty public var AttachSocketName : unreal.FName;
   
 }

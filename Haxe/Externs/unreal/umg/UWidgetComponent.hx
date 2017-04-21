@@ -26,183 +26,183 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class UWidgetComponent extends unreal.UMeshComponent {
   
   /**
     @return The user widget object displayed by this component
   **/
-  @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
+  @:ufunction @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
   
   /**
     @return The render target to which the user widget is rendered
   **/
-  @:thisConst @:final public function GetRenderTarget() : unreal.UTextureRenderTarget2D;
+  @:ufunction @:thisConst @:final public function GetRenderTarget() : unreal.UTextureRenderTarget2D;
   
   /**
     @return The dynamic material instance used to render the user widget
   **/
-  @:thisConst @:final public function GetMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction @:thisConst @:final public function GetMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
   /**
     Sets the widget to use directly. This function will keep track of the widget till the next time it's called
         with either a newer widget or a nullptr
   **/
-  public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
+  @:ufunction public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
   
   /**
     Sets the local player that owns this widget component.  Setting the owning player controls
     which player's viewport the widget appears on in a split screen scenario.  Additionally it
     forwards the owning player to the actual UserWidget that is spawned.
   **/
-  @:final public function SetOwnerPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
+  @:ufunction @:final public function SetOwnerPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
   
   /**
     Gets the local player that owns this widget component.
   **/
-  @:thisConst @:final public function GetOwnerPlayer() : unreal.ULocalPlayer;
+  @:ufunction @:thisConst @:final public function GetOwnerPlayer() : unreal.ULocalPlayer;
   
   /**
     @return The draw size of the quad in the world
   **/
-  @:thisConst @:final public function GetDrawSize() : unreal.FVector2D;
+  @:ufunction @:thisConst @:final public function GetDrawSize() : unreal.FVector2D;
   
   /**
     Sets the draw size of the quad in the world
   **/
-  @:final public function SetDrawSize(Size : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetDrawSize(Size : unreal.FVector2D) : Void;
   
   /**
     Requests that the widget be redrawn.
   **/
-  public function RequestRedraw() : Void;
+  @:ufunction public function RequestRedraw() : Void;
   
   /**
     Sets the background color and opacityscale for this widget
   **/
-  @:final public function SetBackgroundColor(NewBackgroundColor : unreal.Const<unreal.FLinearColor>) : Void;
+  @:ufunction @:final public function SetBackgroundColor(NewBackgroundColor : unreal.Const<unreal.FLinearColor>) : Void;
   
   /**
     ZOrder the layer will be created on, note this only matters on the first time a new layer is created, subsequent additions to the same layer will use the initially defined ZOrder
   **/
-  private var LayerZOrder : unreal.Int32;
+  @:uproperty private var LayerZOrder : unreal.Int32;
   
   /**
     Layer Name the widget will live on
   **/
-  private var SharedLayerName : unreal.FName;
+  @:uproperty private var SharedLayerName : unreal.FName;
   
   /**
     The dynamic instance of the material that the render target is attached to
   **/
-  private var MaterialInstance : unreal.UMaterialInstanceDynamic;
+  @:uproperty private var MaterialInstance : unreal.UMaterialInstanceDynamic;
   
   /**
     The target to which the user widget is rendered
   **/
-  private var RenderTarget : unreal.UTextureRenderTarget2D;
+  @:uproperty private var RenderTarget : unreal.UTextureRenderTarget2D;
   
   /**
     The material instance for masked, one-sided widget components.
   **/
-  private var MaskedMaterial_OneSided : unreal.UMaterialInterface;
+  @:uproperty private var MaskedMaterial_OneSided : unreal.UMaterialInterface;
   
   /**
     The material instance for masked widget components.
   **/
-  private var MaskedMaterial : unreal.UMaterialInterface;
+  @:uproperty private var MaskedMaterial : unreal.UMaterialInterface;
   
   /**
     The material instance for opaque, one-sided widget components
   **/
-  private var OpaqueMaterial_OneSided : unreal.UMaterialInterface;
+  @:uproperty private var OpaqueMaterial_OneSided : unreal.UMaterialInterface;
   
   /**
     The material instance for opaque widget components
   **/
-  private var OpaqueMaterial : unreal.UMaterialInterface;
+  @:uproperty private var OpaqueMaterial : unreal.UMaterialInterface;
   
   /**
     The material instance for translucent, one-sided widget components
   **/
-  private var TranslucentMaterial_OneSided : unreal.UMaterialInterface;
+  @:uproperty private var TranslucentMaterial_OneSided : unreal.UMaterialInterface;
   
   /**
     The material instance for translucent widget components
   **/
-  private var TranslucentMaterial : unreal.UMaterialInterface;
+  @:uproperty private var TranslucentMaterial : unreal.UMaterialInterface;
   
   /**
     The body setup of the displayed quad
   **/
-  private var BodySetup : unreal.UBodySetup;
+  @:uproperty private var BodySetup : unreal.UBodySetup;
   
   /**
     The User Widget object displayed and managed by this component
   **/
-  private var Widget : unreal.umg.UUserWidget;
+  @:uproperty private var Widget : unreal.umg.UUserWidget;
   
   /**
     The blend mode for the widget.
   **/
-  private var BlendMode : unreal.umg.EWidgetBlendMode;
+  @:uproperty private var BlendMode : unreal.umg.EWidgetBlendMode;
   
   /**
     Sets the amount of opacity from the widget's UI texture to use when rendering the translucent or masked UI to the viewport (0.0-1.0)
   **/
-  private var OpacityFromTexture : unreal.Float32;
+  @:uproperty private var OpacityFromTexture : unreal.Float32;
   
   /**
     Tint color and opacity for this component
   **/
-  private var TintColorAndOpacity : unreal.FLinearColor;
+  @:uproperty private var TintColorAndOpacity : unreal.FLinearColor;
   
   /**
     The background color of the component
   **/
-  private var BackgroundColor : unreal.FLinearColor;
+  @:uproperty private var BackgroundColor : unreal.FLinearColor;
   
   /**
     The owner player for a widget component, if this widget is drawn on the screen, this controls
     what player's screen it appears on for split screen, if not set, users player 0.
   **/
-  private var OwnerPlayer : unreal.ULocalPlayer;
+  @:uproperty private var OwnerPlayer : unreal.ULocalPlayer;
   
   /**
     The Alignment/Pivot point that the widget is placed at relative to the position.
   **/
-  private var Pivot : unreal.FVector2D;
+  @:uproperty private var Pivot : unreal.FVector2D;
   
   /**
     The actual draw size, this changes based on DrawSize - or the desired size of the widget if
     bDrawAtDesiredSize is true.
   **/
-  private var CurrentDrawSize : unreal.FIntPoint;
+  @:uproperty private var CurrentDrawSize : unreal.FIntPoint;
   
   /**
     What was the last time we rendered the widget?
   **/
-  private var LastWidgetRenderTime : unreal.Float32;
+  @:uproperty private var LastWidgetRenderTime : unreal.Float32;
   
   /**
     The time in between draws, if 0 - we would redraw every frame.  If 1, we would redraw every second.
     This will work with bManuallyRedraw as well.  So you can say, manually redraw, but only redraw at this
     maximum rate.
   **/
-  private var RedrawTime : unreal.Float32;
+  @:uproperty private var RedrawTime : unreal.Float32;
   
   /**
     The size of the displayed quad.
   **/
-  private var DrawSize : unreal.FIntPoint;
+  @:uproperty private var DrawSize : unreal.FIntPoint;
   
   /**
     The class of User Widget to create and display an instance of
   **/
-  private var WidgetClass : unreal.TSubclassOf<unreal.umg.UUserWidget>;
+  @:uproperty private var WidgetClass : unreal.TSubclassOf<unreal.umg.UUserWidget>;
   
   /**
     The coordinate space in which to render the widget
   **/
-  private var Space : unreal.umg.EWidgetSpace;
+  @:uproperty private var Space : unreal.umg.EWidgetSpace;
   
 }

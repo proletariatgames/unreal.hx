@@ -15,67 +15,67 @@ package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
-@:uextern extern class FAnimNode_AnimDynamics extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_AnimDynamics extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     An external force to apply to all bodies in the simulation when ticked, specified in world space
   **/
-  public var ExternalForce : unreal.FVector;
+  @:uproperty public var ExternalForce : unreal.FVector;
   
   /**
     Radius to use if CollisionType is set to CustomSphere
   **/
-  public var SphereCollisionRadius : unreal.Float32;
+  @:uproperty public var SphereCollisionRadius : unreal.Float32;
   
   /**
     Resolution method for planar limits
   **/
-  public var CollisionType : unreal.AnimPhysCollisionType;
+  @:uproperty public var CollisionType : unreal.AnimPhysCollisionType;
   
   /**
     List of available spherical limits for this node
   **/
-  public var SphericalLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysSphericalLimit>;
+  @:uproperty public var SphericalLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysSphericalLimit>;
   
   /**
     Whether to evaluate spherical limits
   **/
-  public var bUseSphericalLimits : Bool;
+  @:uproperty public var bUseSphericalLimits : Bool;
   
   /**
     List of available planar limits for this node
   **/
-  public var PlanarLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysPlanarLimit>;
+  @:uproperty public var PlanarLimits : unreal.TArray<unreal.animgraphruntime.FAnimPhysPlanarLimit>;
   
   /**
     Whether to evaluate planar limits
   **/
-  public var bUsePlanarLimit : Bool;
+  @:uproperty public var bUsePlanarLimit : Bool;
   
   /**
     Data describing the constraints we will apply to the body
   **/
-  public var ConstraintSetup : unreal.animgraphruntime.FAnimPhysConstraintSetup;
+  @:uproperty public var ConstraintSetup : unreal.animgraphruntime.FAnimPhysConstraintSetup;
   
   /**
     Number of update passes on the linear and angular limits after we solve the position of the bodies, recommended to be around a quarter of NumSolverIterationsPreUpdate
   **/
-  public var NumSolverIterationsPostUpdate : unreal.Int32;
+  @:uproperty public var NumSolverIterationsPostUpdate : unreal.Int32;
   
   /**
     Number of update passes on the linear and angular limits before we solve the position of the bodies recommended to be four times the value of NumSolverIterationsPostUpdate
   **/
-  public var NumSolverIterationsPreUpdate : unreal.Int32;
+  @:uproperty public var NumSolverIterationsPreUpdate : unreal.Int32;
   
   /**
     If true we will perform bone transform evaluation, otherwise skip - allows visualisation of the initial anim state compared to the physics sim
   **/
-  public var bDoEval : Bool;
+  @:uproperty public var bDoEval : Bool;
   
   /**
     If true we will perform physics update, otherwise skip - allows visualisation of the initial state of the bodies
   **/
-  public var bDoUpdate : Bool;
+  @:uproperty public var bDoUpdate : Bool;
   
   /**
     Overridden angular bias value
@@ -83,7 +83,7 @@ package unreal.animgraphruntime;
     in check. When using single-body systems sometimes angular forces will look like they are "catching-up" with
     the mesh, if that's the case override this and push it towards 1.0f until it settles correctly
   **/
-  public var AngularBiasOverride : unreal.Float32;
+  @:uproperty public var AngularBiasOverride : unreal.Float32;
   
   /**
     If true, the override value will be used for the angular bias for bodies in this node.
@@ -91,96 +91,96 @@ package unreal.animgraphruntime;
     in check. When using single-body systems sometimes angular forces will look like they are "catching-up" with
     the mesh, if that's the case override this and push it towards 1.0f until it settles correctly
   **/
-  public var bOverrideAngularBias : Bool;
+  @:uproperty public var bOverrideAngularBias : Bool;
   
   /**
     Overridden angular damping value
   **/
-  public var AngularDampingOverride : unreal.Float32;
+  @:uproperty public var AngularDampingOverride : unreal.Float32;
   
   /**
     If true, the override value will be used for angular damping
   **/
-  public var bOverrideAngularDamping : Bool;
+  @:uproperty public var bOverrideAngularDamping : Bool;
   
   /**
     Overridden linear damping value
   **/
-  public var LinearDampingOverride : unreal.Float32;
+  @:uproperty public var LinearDampingOverride : unreal.Float32;
   
   /**
     If true, the override value will be used for linear damping
   **/
-  public var bOverrideLinearDamping : Bool;
+  @:uproperty public var bOverrideLinearDamping : Bool;
   
   /**
     Scale to apply to calculated wind velocities in the solver
   **/
-  public var WindScale : unreal.Float32;
+  @:uproperty public var WindScale : unreal.Float32;
   
   /**
     Whether or not wind is enabled for the bodies in this simulation
   **/
-  public var bEnableWind : Bool;
+  @:uproperty public var bEnableWind : Bool;
   
   /**
     Spring constant to use when calculating angular springs, higher values mean a stronger spring
   **/
-  public var AngularSpringConstant : unreal.Float32;
+  @:uproperty public var AngularSpringConstant : unreal.Float32;
   
   /**
     Spring constant to use when calculating linear springs, higher values mean a stronger spring.
   **/
-  public var LinearSpringConstant : unreal.Float32;
+  @:uproperty public var LinearSpringConstant : unreal.Float32;
   
   /**
     If true the body will attempt to align itself with the specified angular target
   **/
-  public var bAngularSpring : Bool;
+  @:uproperty public var bAngularSpring : Bool;
   
   /**
     If true the body will attempt to spring back to its initial position
   **/
-  public var bLinearSpring : Bool;
+  @:uproperty public var bLinearSpring : Bool;
   
   /**
     Scale for gravity, higher values increase forces due to gravity
   **/
-  public var GravityScale : unreal.Float32;
+  @:uproperty public var GravityScale : unreal.Float32;
   
   /**
     Vector relative to the body being simulated to attach the constraint to
   **/
-  public var LocalJointOffset : unreal.FVector;
+  @:uproperty public var LocalJointOffset : unreal.FVector;
   
   /**
     Extents of the box to use for simulation
   **/
-  public var BoxExtents : unreal.FVector;
+  @:uproperty public var BoxExtents : unreal.FVector;
   
   /**
     If bChain is true this is the bottom of the chain, otherwise ignored
   **/
-  public var ChainEnd : unreal.FBoneReference;
+  @:uproperty public var ChainEnd : unreal.FBoneReference;
   
   /**
     The bone to attach the physics body to, if bChain is true this is the top of the chain
   **/
-  public var BoundBone : unreal.FBoneReference;
+  @:uproperty public var BoundBone : unreal.FBoneReference;
   
   /**
     Set to true to use the solver to simulate a connected chain
   **/
-  public var bChain : Bool;
+  @:uproperty public var bChain : Bool;
   
   /**
     When in BoneRelative sim space, the simulation will use this bone as the origin
   **/
-  public var RelativeSpaceBone : unreal.FBoneReference;
+  @:uproperty public var RelativeSpaceBone : unreal.FBoneReference;
   
   /**
     The space used to run the simulation
   **/
-  public var SimulationSpace : unreal.animgraphruntime.AnimPhysSimSpaceType;
+  @:uproperty public var SimulationSpace : unreal.animgraphruntime.AnimPhysSimSpaceType;
   
 }

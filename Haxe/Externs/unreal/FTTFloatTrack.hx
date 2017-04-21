@@ -20,11 +20,11 @@ package unreal;
   Structure storing information about one float interpolation track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FTTFloatTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTTFloatTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to define float value over time
   **/
-  public var CurveFloat : unreal.UCurveFloat;
+  @:uproperty public var CurveFloat : unreal.UCurveFloat;
   
 }

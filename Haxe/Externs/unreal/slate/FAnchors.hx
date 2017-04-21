@@ -21,16 +21,16 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Widgets/Layout/Anchors.h")
-@:noCopy @:noEquals @:uextern extern class FAnchors {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnchors {
   
   /**
     Holds the maximum anchors, right + bottom.
   **/
-  public var Maximum : unreal.FVector2D;
+  @:uproperty public var Maximum : unreal.FVector2D;
   
   /**
     Holds the minimum anchors, left + top.
   **/
-  public var Minimum : unreal.FVector2D;
+  @:uproperty public var Minimum : unreal.FVector2D;
   
 }

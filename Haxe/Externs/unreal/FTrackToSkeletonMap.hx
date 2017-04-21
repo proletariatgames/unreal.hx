@@ -18,11 +18,11 @@ package unreal;
   @note We have a plan to support skeletal hierarchy. When that happens, we'd like to keep skeleton indexing.
 **/
 @:glueCppIncludes("Animation/AnimSequence.h")
-@:uextern extern class FTrackToSkeletonMap {
+@:uextern @:ustruct extern class FTrackToSkeletonMap {
   
   /**
     Index of Skeleton.BoneTree this Track belongs to.
   **/
-  public var BoneTreeIndex : unreal.Int32;
+  @:uproperty public var BoneTreeIndex : unreal.Int32;
   
 }

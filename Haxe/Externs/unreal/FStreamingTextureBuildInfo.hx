@@ -23,27 +23,27 @@ package unreal;
   Because each component holds its precomputed data for each texture, this struct is designed to be as compact as possible.
 **/
 @:glueCppIncludes("Engine/TextureStreamingTypes.h")
-@:noCopy @:noEquals @:uextern extern class FStreamingTextureBuildInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStreamingTextureBuildInfo {
   
   /**
     The texel factor for this texture. This represent the world size a texture square holding with unit UVs.
     This value is a combination of the TexelFactor from the mesh and also the material scale.
     It does not take into consideration StreamingDistanceMultiplier, or texture group scale.
   **/
-  public var TexelFactor : unreal.Float32;
+  @:uproperty public var TexelFactor : unreal.Float32;
   
   /**
     The level scope identifier of the texture. When building the texture streaming data, each level holds a list of all referred texture Guids.
     This is required to prevent loading textures on platforms which would not require the texture to be loaded, and is a consequence of the texture
     streaming build not being platform specific (the same streaming data is build for every platform target). Could also apply to quality level.
   **/
-  public var TextureLevelIndex : unreal.Int32;
+  @:uproperty public var TextureLevelIndex : unreal.Int32;
   
   /**
     The relative bounding box for this entry. The relative bounds is a bound equal or smaller than the component bounds and represent
     the merged LOD section bounds of all LOD section referencing the given texture. When the level transform is modified following
     a call to ApplyLevelTransform, this relative bound becomes deprecated as it was computed from the transform at build time.
   **/
-  public var PackedRelativeBox : unreal.FakeUInt32;
+  @:uproperty public var PackedRelativeBox : unreal.FakeUInt32;
   
 }

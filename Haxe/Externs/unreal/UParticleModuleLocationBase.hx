@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBase.h")
-@:uextern extern class UParticleModuleLocationBase extends unreal.UParticleModule {
+@:uextern @:uclass extern class UParticleModuleLocationBase extends unreal.UParticleModule {
   
 }

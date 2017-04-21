@@ -21,6 +21,6 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraGraph.h")
-@:uextern extern class UNiagaraGraph extends unreal.UEdGraph {
+@:uextern @:uclass extern class UNiagaraGraph extends unreal.UEdGraph {
   
 }

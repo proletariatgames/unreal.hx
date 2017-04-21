@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SimpleConstructionScript.h")
-@:uextern extern class USimpleConstructionScript extends unreal.UObject {
+@:uextern @:uclass extern class USimpleConstructionScript extends unreal.UObject {
   
 }

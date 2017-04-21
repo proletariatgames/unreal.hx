@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESceneDepthPriorityGroup")
-@:uextern extern enum ESceneDepthPriorityGroup {
+@:uextern @:uenum extern enum ESceneDepthPriorityGroup {
   
   /**
     World scene DPG.

@@ -22,38 +22,38 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
-@:uextern extern class FAnimNode_TwistCorrectiveNode extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
-  public var Curve : unreal.FAnimCurveParam;
+@:uextern @:ustruct extern class FAnimNode_TwistCorrectiveNode extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+  @:uproperty public var Curve : unreal.FAnimCurveParam;
   
   /**
     Maximum value to apply to the destination (remapped from the input range)
   **/
-  public var RemappedMax : unreal.Float32;
+  @:uproperty public var RemappedMax : unreal.Float32;
   
   /**
     Minimum value to apply to the destination (remapped from the input range)
   **/
-  public var RemappedMin : unreal.Float32;
+  @:uproperty public var RemappedMin : unreal.Float32;
   
   /**
     Maximum limit of the input value (mapped to RemappedMax, only used when limiting the source range)
     We can't go more than 180 right now because this is dot product driver
   **/
-  public var RangeMax : unreal.Float32;
+  @:uproperty public var RangeMax : unreal.Float32;
   
   /**
     Normal of the Plane that we'd like to calculate angle calculation from in BaseFrame. Please note we're looking for Normal Axis
   **/
-  public var TwistPlaneNormalAxis : unreal.animgraphruntime.FAxis;
+  @:uproperty public var TwistPlaneNormalAxis : unreal.animgraphruntime.FAxis;
   
   /**
     Transform component to use as input
   **/
-  public var TwistFrame : unreal.animgraphruntime.FReferenceBoneFrame;
+  @:uproperty public var TwistFrame : unreal.animgraphruntime.FReferenceBoneFrame;
   
   /**
     Base Frame of the reference for the twist node
   **/
-  public var BaseFrame : unreal.animgraphruntime.FReferenceBoneFrame;
+  @:uproperty public var BaseFrame : unreal.animgraphruntime.FReferenceBoneFrame;
   
 }

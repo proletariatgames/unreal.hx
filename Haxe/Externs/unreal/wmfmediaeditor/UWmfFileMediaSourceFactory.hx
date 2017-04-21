@@ -21,6 +21,6 @@ package unreal.wmfmediaeditor;
 **/
 @:umodule("WmfMediaEditor")
 @:glueCppIncludes("Private/WmfFileMediaSourceFactory.h")
-@:noClass @:uextern extern class UWmfFileMediaSourceFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UWmfFileMediaSourceFactory extends unreal.editor.UFactory {
   
 }

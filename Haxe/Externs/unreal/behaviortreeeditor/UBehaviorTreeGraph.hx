@@ -21,12 +21,12 @@ package unreal.behaviortreeeditor;
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeGraph.h")
-@:noClass @:uextern extern class UBehaviorTreeGraph extends unreal.aigraph.UAIGraph {
-  public var bIsUsingModCounter : Bool;
+@:noClass @:uextern @:uclass extern class UBehaviorTreeGraph extends unreal.aigraph.UAIGraph {
+  @:uproperty public var bIsUsingModCounter : Bool;
   
   /**
     increased with every graph rebuild, used to refresh data from subtrees
   **/
-  public var ModCounter : unreal.Int32;
+  @:uproperty public var ModCounter : unreal.Int32;
   
 }

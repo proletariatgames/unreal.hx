@@ -15,9 +15,9 @@ package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("Protocols/VideoCaptureProtocol.h")
-@:uextern extern class UVideoCaptureSettings extends unreal.moviescenecapture.UFrameGrabberProtocolSettings {
-  public var VideoCodec : unreal.FString;
-  public var CompressionQuality : unreal.Float32;
-  public var bUseCompression : Bool;
+@:uextern @:uclass extern class UVideoCaptureSettings extends unreal.moviescenecapture.UFrameGrabberProtocolSettings {
+  @:uproperty public var VideoCodec : unreal.FString;
+  @:uproperty public var CompressionQuality : unreal.Float32;
+  @:uproperty public var bUseCompression : Bool;
   
 }

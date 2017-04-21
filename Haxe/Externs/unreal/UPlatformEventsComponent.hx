@@ -18,7 +18,7 @@ package unreal;
   Component to handle receiving notifications from the OS about platform events.
 **/
 @:glueCppIncludes("Components/PlatformEventsComponent.h")
-@:uextern extern class UPlatformEventsComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UPlatformEventsComponent extends unreal.UActorComponent {
   
   /**
     Check whether a convertible laptop is laptop mode.
@@ -26,7 +26,7 @@ package unreal;
     @return true if in laptop mode, false otherwise or if not a convertible laptop.
     @see IsInTabletMode, SupportsConvertibleLaptops
   **/
-  @:final public function IsInLaptopMode() : Bool;
+  @:ufunction @:final public function IsInLaptopMode() : Bool;
   
   /**
     Check whether a convertible laptop is laptop mode.
@@ -34,7 +34,7 @@ package unreal;
     @return true if in tablet mode, false otherwise or if not a convertible laptop.
     @see IsInLaptopMode, SupportsConvertibleLaptops
   **/
-  @:final public function IsInTabletMode() : Bool;
+  @:ufunction @:final public function IsInTabletMode() : Bool;
   
   /**
     Check whether the platform supports convertible laptops.
@@ -46,6 +46,6 @@ package unreal;
     @return true for convertible laptop platforms, false otherwise.
     @see IsInLaptopMode, IsInTabletMode
   **/
-  @:final public function SupportsConvertibleLaptops() : Bool;
+  @:ufunction @:final public function SupportsConvertibleLaptops() : Bool;
   
 }

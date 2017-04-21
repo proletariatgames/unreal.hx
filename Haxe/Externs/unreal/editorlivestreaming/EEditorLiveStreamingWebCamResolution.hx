@@ -20,7 +20,7 @@ package unreal.editorlivestreaming;
 @:umodule("EditorLiveStreaming")
 @:glueCppIncludes("EditorLiveStreamingSettings.h")
 @:uname("EEditorLiveStreamingWebCamResolution.Type")
-@:uextern extern enum EEditorLiveStreamingWebCamResolution {
+@:uextern @:uenum extern enum EEditorLiveStreamingWebCamResolution {
   
   /**
     320 x 240 (4:3)

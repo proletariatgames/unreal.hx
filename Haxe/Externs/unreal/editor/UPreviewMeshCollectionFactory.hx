@@ -21,6 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/PreviewMeshCollectionFactory.h")
-@:uextern extern class UPreviewMeshCollectionFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UPreviewMeshCollectionFactory extends unreal.editor.UFactory {
+  
+  /**
+    The current skeleton we are creating collections for
+  **/
+  @:uproperty public var CurrentSkeleton : unreal.TWeakObjectPtr<unreal.USkeleton>;
   
 }

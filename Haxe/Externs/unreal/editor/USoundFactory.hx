@@ -21,36 +21,36 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SoundFactory.h")
-@:uextern extern class USoundFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class USoundFactory extends unreal.editor.UFactory {
   
   /**
     If not empty, generated SoundCues will be placed in PackageCuePackageSuffix, but only if bAutoCreateCue is true
   **/
-  public var CuePackageSuffix : unreal.FString;
+  @:uproperty public var CuePackageSuffix : unreal.FString;
   
   /**
     The volume of the created sound cue
   **/
-  public var CueVolume : unreal.Float32;
+  @:uproperty public var CueVolume : unreal.Float32;
   
   /**
     If enabled, the created sound cue will include a modulator node
   **/
-  public var bIncludeModulatorNode : Bool;
+  @:uproperty public var bIncludeModulatorNode : Bool;
   
   /**
     If enabled, the created sound cue will include a looping node
   **/
-  public var bIncludeLoopingNode : Bool;
+  @:uproperty public var bIncludeLoopingNode : Bool;
   
   /**
     If enabled, the created sound cue will include a attenuation node
   **/
-  public var bIncludeAttenuationNode : Bool;
+  @:uproperty public var bIncludeAttenuationNode : Bool;
   
   /**
     If enabled, a sound cue will automatically be created for the sound
   **/
-  public var bAutoCreateCue : Bool;
+  @:uproperty public var bAutoCreateCue : Bool;
   
 }

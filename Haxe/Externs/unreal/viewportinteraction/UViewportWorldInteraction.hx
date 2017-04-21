@@ -15,7 +15,7 @@ package unreal.viewportinteraction;
 
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("ViewportWorldInteraction.h")
-@:uextern extern class UViewportWorldInteraction extends unreal.UObject implements unreal.viewportinteraction.IViewportWorldInteractionInterface {
+@:uextern @:uclass extern class UViewportWorldInteraction extends unreal.UObject implements unreal.viewportinteraction.IViewportWorldInteractionInterface {
   // ViewportWorldInteractionInterface interface implementation
   
 }

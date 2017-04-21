@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CurveImportFactory.h")
-@:noClass @:uextern extern class UCurveImportFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UCurveImportFactory extends unreal.editor.UFactory {
   
 }

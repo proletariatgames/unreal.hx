@@ -20,71 +20,71 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
-@:uextern extern class FGameplayAbilitySpec extends unreal.FFastArraySerializerItem {
+@:uextern @:ustruct extern class FGameplayAbilitySpec extends unreal.FFastArraySerializerItem {
   
   /**
     Handle to GE that granted us (usually invalid)
   **/
-  public var GameplayEffectHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:uproperty public var GameplayEffectHandle : unreal.gameplayabilities.FActiveGameplayEffectHandle;
   
   /**
     Replicated instances of this ability..
   **/
-  public var ReplicatedInstances : unreal.TArray<unreal.gameplayabilities.UGameplayAbility>;
+  @:uproperty public var ReplicatedInstances : unreal.TArray<unreal.gameplayabilities.UGameplayAbility>;
   
   /**
     Non replicating instances of this ability.
   **/
-  public var NonReplicatedInstances : unreal.TArray<unreal.gameplayabilities.UGameplayAbility>;
+  @:uproperty public var NonReplicatedInstances : unreal.TArray<unreal.gameplayabilities.UGameplayAbility>;
   
   /**
     Activation state of this ability. This is not replicated since it needs to be overwritten locally on clients during prediction.
   **/
-  public var ActivationInfo : unreal.gameplayabilities.FGameplayAbilityActivationInfo;
+  @:uproperty public var ActivationInfo : unreal.gameplayabilities.FGameplayAbilityActivationInfo;
   
   /**
     Pending removal due to scope lock
   **/
-  public var PendingRemove : Bool;
+  @:uproperty public var PendingRemove : Bool;
   
   /**
     If true, this ability should be removed as soon as it finishes executing
   **/
-  public var RemoveAfterActivation : Bool;
+  @:uproperty public var RemoveAfterActivation : Bool;
   
   /**
     Is input currently pressed. Set to false when input is released
   **/
-  public var InputPressed : Bool;
+  @:uproperty public var InputPressed : Bool;
   
   /**
     A count of the number of times this ability has been activated minus the number of times it has been ended. For instanced abilities this will be the number of currently active instances. Can't replicate until prediction accurately handles this.
   **/
-  public var ActiveCount : unreal.UInt8;
+  @:uproperty public var ActiveCount : unreal.UInt8;
   
   /**
     Object this ability was created from, can be an actor or static object. Useful to bind an ability to a gameplay object
   **/
-  public var SourceObject : unreal.UObject;
+  @:uproperty public var SourceObject : unreal.UObject;
   
   /**
     InputID, if bound
   **/
-  public var InputID : unreal.Int32;
+  @:uproperty public var InputID : unreal.Int32;
   
   /**
     Level of Ability
   **/
-  public var Level : unreal.Int32;
+  @:uproperty public var Level : unreal.Int32;
   
   /**
     Ability of the spec (Always the CDO. This should be const but too many things modify it currently)
   **/
-  public var Ability : unreal.gameplayabilities.UGameplayAbility;
+  @:uproperty public var Ability : unreal.gameplayabilities.UGameplayAbility;
   
   /**
     Handle for outside sources to refer to this spec by
   **/
-  public var Handle : unreal.gameplayabilities.FGameplayAbilitySpecHandle;
+  @:uproperty public var Handle : unreal.gameplayabilities.FGameplayAbilitySpecHandle;
   
 }

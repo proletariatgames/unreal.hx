@@ -21,31 +21,31 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxMeshImportData.h")
-@:noClass @:uextern extern class UFbxMeshImportData extends unreal.editor.UFbxAssetImportData {
+@:noClass @:uextern @:uclass extern class UFbxMeshImportData extends unreal.editor.UFbxAssetImportData {
   
   /**
     Use the MikkTSpace tangent space generator for generating normals and tangents on the mesh
   **/
-  public var NormalGenerationMethod : unreal.editor.EFBXNormalGenerationMethod;
+  @:uproperty public var NormalGenerationMethod : unreal.editor.EFBXNormalGenerationMethod;
   
   /**
     Enabling this option will read the tangents(tangent,binormal,normal) from FBX file instead of generating them automatically.
   **/
-  public var NormalImportMethod : unreal.editor.EFBXNormalImportMethod;
+  @:uproperty public var NormalImportMethod : unreal.editor.EFBXNormalImportMethod;
   
   /**
     If enabled, creates LOD models for Unreal meshes from LODs in the import file; If not enabled, only the base mesh from the LOD group is imported
   **/
-  public var bImportMeshLODs : Bool;
+  @:uproperty public var bImportMeshLODs : Bool;
   
   /**
     - Experimental - If this option is true the inverse node rotation pivot will be apply to the mesh vertices. The pivot from the DCC will then be the origin of the mesh. Note: "TransformVertexToAbsolute" must be false.
   **/
-  public var bBakePivotInVertex : Bool;
+  @:uproperty public var bBakePivotInVertex : Bool;
   
   /**
     If this option is true the node absolute transform (transform, offset and pivot) will be apply to the mesh vertices.
   **/
-  public var bTransformVertexToAbsolute : Bool;
+  @:uproperty public var bTransformVertexToAbsolute : Bool;
   
 }

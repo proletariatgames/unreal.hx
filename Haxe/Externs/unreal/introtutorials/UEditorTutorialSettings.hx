@@ -21,26 +21,26 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialSettings.h")
-@:noClass @:uextern extern class UEditorTutorialSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UEditorTutorialSettings extends unreal.UObject {
   
   /**
     Tutorials used in various contexts - e.g. the various asset editors
   **/
-  public var TutorialContexts : unreal.TArray<unreal.introtutorials.FTutorialContext>;
+  @:uproperty public var TutorialContexts : unreal.TArray<unreal.introtutorials.FTutorialContext>;
   
   /**
     Tutorial to start on Editor startup
   **/
-  public var StartupTutorial : unreal.FStringClassReference;
+  @:uproperty public var StartupTutorial : unreal.FStringClassReference;
   
   /**
     Categories for tutorials
   **/
-  public var Categories : unreal.TArray<unreal.introtutorials.FTutorialCategory>;
+  @:uproperty public var Categories : unreal.TArray<unreal.introtutorials.FTutorialCategory>;
   
   /**
     Disable the pulsing alert that indicates a new tutorial is available.
   **/
-  public var bDisableAllTutorialAlerts : Bool;
+  @:uproperty public var bDisableAllTutorialAlerts : Bool;
   
 }

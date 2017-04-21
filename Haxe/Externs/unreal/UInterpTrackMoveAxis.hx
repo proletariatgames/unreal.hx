@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackMoveAxis.h")
-@:uextern extern class UInterpTrackMoveAxis extends unreal.UInterpTrackFloatBase {
+@:uextern @:uclass extern class UInterpTrackMoveAxis extends unreal.UInterpTrackFloatBase {
   
   /**
     Lookup track to use when looking at different groups for transform information
   **/
-  public var LookupTrack : unreal.FInterpLookupTrack;
+  @:uproperty public var LookupTrack : unreal.FInterpLookupTrack;
   
   /**
     The axis which this track will use when transforming an actor
   **/
-  public var MoveAxis : unreal.EInterpMoveAxis;
+  @:uproperty public var MoveAxis : unreal.EInterpMoveAxis;
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/LightmassImportanceVolume.h")
-@:uextern extern class ALightmassImportanceVolume extends unreal.AVolume {
+@:uextern @:uclass extern class ALightmassImportanceVolume extends unreal.AVolume {
   
 }

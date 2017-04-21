@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EUnit")
-@:class @:uextern extern enum EUnit {
+@:class @:uextern @:uenum extern enum EUnit {
   
   /**
     Scalar distance/length unit.

@@ -26,11 +26,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_RunBehavior.h")
-@:uextern extern class UBTTask_RunBehavior extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_RunBehavior extends unreal.aimodule.UBTTaskNode {
   
   /**
     behavior to run
   **/
-  private var BehaviorAsset : unreal.aimodule.UBehaviorTree;
+  @:uproperty private var BehaviorAsset : unreal.aimodule.UBehaviorTree;
   
 }

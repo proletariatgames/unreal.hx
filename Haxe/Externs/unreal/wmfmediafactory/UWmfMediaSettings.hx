@@ -15,12 +15,12 @@ package unreal.wmfmediafactory;
 
 @:umodule("WmfMediaFactory")
 @:glueCppIncludes("WmfMediaSettings.h")
-@:uextern extern class UWmfMediaSettings extends unreal.UObject {
+@:uextern @:uclass extern class UWmfMediaSettings extends unreal.UObject {
   
   /**
     Play audio tracks via the operating system's native sound mixer.
   **/
-  public var NativeAudioOut : Bool;
+  @:uproperty public var NativeAudioOut : Bool;
   
   /**
     Whether to allow the loading of media that uses non-standard codecs.
@@ -30,6 +30,6 @@ package unreal.wmfmediafactory;
     the user to install additional codec packs. Enable this option to skip
     this check and allow the usage of non-standard codecs.
   **/
-  public var AllowNonStandardCodecs : Bool;
+  @:uproperty public var AllowNonStandardCodecs : Bool;
   
 }

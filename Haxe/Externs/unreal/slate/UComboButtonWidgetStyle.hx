@@ -21,11 +21,11 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/ComboButtonWidgetStyle.h")
-@:uextern extern class UComboButtonWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
+@:uextern @:uclass extern class UComboButtonWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
   
   /**
     The actual data describing the combo button's appearance.
   **/
-  public var ComboButtonStyle : unreal.slatecore.FComboButtonStyle;
+  @:uproperty public var ComboButtonStyle : unreal.slatecore.FComboButtonStyle;
   
 }

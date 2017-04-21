@@ -14,9 +14,9 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputDelegateBinding.h")
-@:uextern extern class FBlueprintInputDelegateBinding {
-  public var bOverrideParentBinding : Bool;
-  public var bExecuteWhenPaused : Bool;
-  public var bConsumeInput : Bool;
+@:uextern @:ustruct extern class FBlueprintInputDelegateBinding {
+  @:uproperty public var bOverrideParentBinding : Bool;
+  @:uproperty public var bExecuteWhenPaused : Bool;
+  @:uproperty public var bConsumeInput : Bool;
   
 }

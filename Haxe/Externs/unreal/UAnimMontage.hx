@@ -26,78 +26,78 @@ package unreal;
   * If it does, please add the copy in the function RefreshParentAssetData
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:uextern extern class UAnimMontage extends unreal.UAnimCompositeBase {
+@:uextern @:uclass extern class UAnimMontage extends unreal.UAnimCompositeBase {
   
   /**
     Keep track of which AnimNotify_State are marked as BranchingPoints, so we can update their state when the Montage is ticked
   **/
-  public var BranchingPointStateNotifyIndices : unreal.TArray<unreal.Int32>;
+  @:uproperty public var BranchingPointStateNotifyIndices : unreal.TArray<unreal.Int32>;
   #if WITH_EDITORONLY_DATA
   
   /**
     Preview Base pose for additive BlendSpace *
   **/
-  public var PreviewBasePose : unreal.UAnimSequence;
+  @:uproperty public var PreviewBasePose : unreal.UAnimSequence;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Root Bone will be locked to that position when extracting root motion. DEPRECATED in 4.5 root motion is controlled by anim sequences *
   **/
-  public var RootMotionRootLock : unreal.ERootMotionRootLock;
+  @:uproperty public var RootMotionRootLock : unreal.ERootMotionRootLock;
   
   /**
     If this is on, it will allow extracting root motion rotation. DEPRECATED in 4.5 root motion is controlled by anim sequences *
   **/
-  public var bEnableRootMotionRotation : Bool;
+  @:uproperty public var bEnableRootMotionRotation : Bool;
   
   /**
     If this is on, it will allow extracting root motion translation. DEPRECATED in 4.5 root motion is controlled by anim sequences *
   **/
-  public var bEnableRootMotionTranslation : Bool;
+  @:uproperty public var bEnableRootMotionTranslation : Bool;
   
   /**
     Remove this when VER_UE4_MONTAGE_BRANCHING_POINT_REMOVAL is removed.
   **/
-  @:deprecated public var BranchingPoints_DEPRECATED : unreal.TArray<unreal.FBranchingPoint>;
+  @:deprecated @:uproperty public var BranchingPoints_DEPRECATED : unreal.TArray<unreal.FBranchingPoint>;
   
   /**
     slot data, each slot contains anim track
   **/
-  public var SlotAnimTracks : unreal.TArray<unreal.FSlotAnimationTrack>;
+  @:uproperty public var SlotAnimTracks : unreal.TArray<unreal.FSlotAnimationTrack>;
   
   /**
     composite section.
   **/
-  public var CompositeSections : unreal.TArray<unreal.FCompositeSection>;
-  public var MarkerData : unreal.FMarkerSyncData;
+  @:uproperty public var CompositeSections : unreal.TArray<unreal.FCompositeSection>;
+  @:uproperty public var MarkerData : unreal.FMarkerSyncData;
   
   /**
     wip: until we have UI working
   **/
-  public var SyncSlotIndex : unreal.Int32;
+  @:uproperty public var SyncSlotIndex : unreal.Int32;
   
   /**
     If you're using marker based sync for this montage, make sure to add sync group name. For now we only support one group
   **/
-  public var SyncGroup : unreal.FName;
+  @:uproperty public var SyncGroup : unreal.FName;
   
   /**
     Time from Sequence End to trigger blend out.
     <0 means using BlendOutTime, so BlendOut finishes as Montage ends.
     >=0 means using 'SequenceEnd - BlendOutTriggerTime' to trigger blend out.
   **/
-  public var BlendOutTriggerTime : unreal.Float32;
-  @:deprecated public var BlendOutTime_DEPRECATED : unreal.Float32;
+  @:uproperty public var BlendOutTriggerTime : unreal.Float32;
+  @:deprecated @:uproperty public var BlendOutTime_DEPRECATED : unreal.Float32;
   
   /**
     Blend out option. This is only used when it blends out itself. If it's interrupted by other montages, it will use new montage's BlendIn option to blend out.
   **/
-  public var BlendOut : unreal.FAlphaBlend;
-  @:deprecated public var BlendInTime_DEPRECATED : unreal.Float32;
+  @:uproperty public var BlendOut : unreal.FAlphaBlend;
+  @:deprecated @:uproperty public var BlendInTime_DEPRECATED : unreal.Float32;
   
   /**
     Blend in option.
   **/
-  public var BlendIn : unreal.FAlphaBlend;
+  @:uproperty public var BlendIn : unreal.FAlphaBlend;
   
 }

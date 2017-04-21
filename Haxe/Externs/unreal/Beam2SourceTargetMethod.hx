@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamBase.h")
 @:uname("Beam2SourceTargetMethod")
-@:uextern extern enum Beam2SourceTargetMethod {
+@:uextern @:uenum extern enum Beam2SourceTargetMethod {
   
   /**
     Default        - use the distribution.

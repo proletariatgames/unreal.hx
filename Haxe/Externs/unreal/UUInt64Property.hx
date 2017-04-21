@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UUInt64Property extends unreal.UNumericProperty {
+@:uextern @:uclass extern class UUInt64Property extends unreal.UNumericProperty {
   
 }

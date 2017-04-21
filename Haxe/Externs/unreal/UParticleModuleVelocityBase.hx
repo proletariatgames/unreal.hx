@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Velocity/ParticleModuleVelocityBase.h")
-@:noClass @:uextern extern class UParticleModuleVelocityBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleVelocityBase extends unreal.UParticleModule {
   
   /**
     If true, then apply the particle system components scale to the velocity value.
   **/
-  public var bApplyOwnerScale : Bool;
+  @:uproperty public var bApplyOwnerScale : Bool;
   
   /**
     If true, then treat the velocity as world-space defined.
     NOTE: LocalSpace emitters that are moving will see strange results...
   **/
-  public var bInWorldSpace : Bool;
+  @:uproperty public var bInWorldSpace : Bool;
   
 }

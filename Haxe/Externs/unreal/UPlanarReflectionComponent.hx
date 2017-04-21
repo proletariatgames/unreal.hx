@@ -20,63 +20,63 @@ package unreal;
   UPlanarReflectionComponent
 **/
 @:glueCppIncludes("Components/PlanarReflectionComponent.h")
-@:uextern extern class UPlanarReflectionComponent extends unreal.USceneCaptureComponent {
+@:uextern @:uclass extern class UPlanarReflectionComponent extends unreal.USceneCaptureComponent {
   
   /**
     Whether to render the scene as two-sided, which can be useful to hide artifacts where normal distortion would read 'under' an object that has been clipped by the reflection plane.
     With this setting enabled, the backfaces of a mesh would be displayed in the clipped region instead of the background which is potentially a bright sky.
     Be sure to add the water plane to HiddenActors if enabling this, as the water plane will now block the reflection.
   **/
-  public var bRenderSceneTwoSided : Bool;
+  @:uproperty public var bRenderSceneTwoSided : Bool;
   
   /**
     Receiving pixels whose normal is at this angle from the reflection plane will have completely faded out the planar reflection.
   **/
-  public var AngleFromPlaneFadeEnd : unreal.Float32;
+  @:uproperty public var AngleFromPlaneFadeEnd : unreal.Float32;
   
   /**
     Receiving pixels whose normal is at this angle from the reflection plane will begin to fade out the planar reflection.
   **/
-  public var AngleFromPlaneFadeStart : unreal.Float32;
+  @:uproperty public var AngleFromPlaneFadeStart : unreal.Float32;
   
   /**
     Receiving pixels at this distance from the reflection plane will have completely faded out the planar reflection.
   **/
-  public var DistanceFromPlaneFadeoutEnd : unreal.Float32;
+  @:uproperty public var DistanceFromPlaneFadeoutEnd : unreal.Float32;
   
   /**
     Receiving pixels at this distance from the reflection plane will begin to fade out the planar reflection.
   **/
-  public var DistanceFromPlaneFadeoutStart : unreal.Float32;
-  @:deprecated public var DistanceFromPlaneFadeEnd_DEPRECATED : unreal.Float32;
-  @:deprecated public var DistanceFromPlaneFadeStart_DEPRECATED : unreal.Float32;
+  @:uproperty public var DistanceFromPlaneFadeoutStart : unreal.Float32;
+  @:deprecated @:uproperty public var DistanceFromPlaneFadeEnd_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var DistanceFromPlaneFadeStart_DEPRECATED : unreal.Float32;
   
   /**
     Additional FOV used when rendering to the reflection texture.
     This is useful when normal distortion is causing reads outside the reflection texture.
     Larger values increase rendering thread and GPU cost, as more objects and triangles have to be rendered into the planar reflection.
   **/
-  public var ExtraFOV : unreal.Float32;
+  @:uproperty public var ExtraFOV : unreal.Float32;
   
   /**
     Downsample percent, can be used to reduce GPU time rendering the planar reflection.
   **/
-  public var ScreenPercentage : unreal.Int32;
+  @:uproperty public var ScreenPercentage : unreal.Int32;
   
   /**
     The distance at which the prefilter roughness value will be achieved.
   **/
-  public var PrefilterRoughnessDistance : unreal.Float32;
+  @:uproperty public var PrefilterRoughnessDistance : unreal.Float32;
   
   /**
     The roughness value to prefilter the planar reflection texture with, useful for hiding low resolution.  Larger values have larger GPU cost.
   **/
-  public var PrefilterRoughness : unreal.Float32;
+  @:uproperty public var PrefilterRoughness : unreal.Float32;
   
   /**
     Controls the strength of normals when distorting the planar reflection.
   **/
-  public var NormalDistortionStrength : unreal.Float32;
-  public var PreviewBox : unreal.UBoxComponent;
+  @:uproperty public var NormalDistortionStrength : unreal.Float32;
+  @:uproperty public var PreviewBox : unreal.UBoxComponent;
   
 }

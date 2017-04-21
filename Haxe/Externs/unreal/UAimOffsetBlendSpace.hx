@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AimOffsetBlendSpace.h")
-@:uextern extern class UAimOffsetBlendSpace extends unreal.UBlendSpace {
+@:uextern @:uclass extern class UAimOffsetBlendSpace extends unreal.UBlendSpace {
   
 }

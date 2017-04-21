@@ -15,71 +15,71 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdEngine.h")
-@:uextern extern class UUnrealEdEngine extends unreal.editor.UEditorEngine {
+@:uextern @:uclass extern class UUnrealEdEngine extends unreal.editor.UEditorEngine {
   
   /**
     Cooker server incase we want to cook ont he side while editing...
   **/
-  public var CookServer : unreal.editor.UCookOnTheFlyServer;
+  @:uproperty public var CookServer : unreal.editor.UCookOnTheFlyServer;
   
   /**
     List of info for all known template maps
   **/
-  public var TemplateMapInfos : unreal.TArray<unreal.editor.FTemplateMapInfo>;
+  @:uproperty public var TemplateMapInfos : unreal.TArray<unreal.editor.FTemplateMapInfo>;
   
   /**
     Array of sorted, localized editor sprite categories
   **/
-  @:deprecated public var SortedSpriteCategories_DEPRECATED : unreal.TArray<unreal.FString>;
+  @:deprecated @:uproperty public var SortedSpriteCategories_DEPRECATED : unreal.TArray<unreal.FString>;
   
   /**
     Whether the user needs to be prompted about a package being saved when the user does not have permission to write the file
   **/
-  public var bNeedWarningForWritePermission : Bool;
+  @:uproperty public var bNeedWarningForWritePermission : Bool;
   
   /**
     Whether the user needs to be prompted about a package being saved with an engine version newer than the current one or not
   **/
-  public var bNeedWarningForPkgEngineVer : Bool;
+  @:uproperty public var bNeedWarningForPkgEngineVer : Bool;
   
   /**
     Current target for LOD parenting operations (actors will use this as the replacement)
   **/
-  public var CurrentLODParentActor : unreal.AActor;
+  @:uproperty public var CurrentLODParentActor : unreal.AActor;
   
   /**
     Array of packages to be fully loaded at Editor startup.
   **/
-  public var PackagesToBeFullyLoadedAtStartup : unreal.TArray<unreal.FString>;
+  @:uproperty public var PackagesToBeFullyLoadedAtStartup : unreal.TArray<unreal.FString>;
   
   /**
     Global list of instanced animation compression algorithms.
   **/
-  public var AnimationCompressionAlgorithms : unreal.TArray<unreal.UAnimCompress>;
+  @:uproperty public var AnimationCompressionAlgorithms : unreal.TArray<unreal.UAnimCompress>;
   
   /**
     A buffer for implementing sound cue nodes copy/paste.
   **/
-  public var SoundCueCopyPasteBuffer : unreal.USoundCue;
+  @:uproperty public var SoundCueCopyPasteBuffer : unreal.USoundCue;
   
   /**
     A buffer for implementing matinee track/group copy/paste.
   **/
-  public var MatineeCopyPasteBuffer : unreal.TArray<unreal.UObject>;
+  @:uproperty public var MatineeCopyPasteBuffer : unreal.TArray<unreal.UObject>;
   
   /**
     A buffer for implementing material expression copy/paste.
   **/
-  public var MaterialCopyPasteBuffer : unreal.UMaterial;
+  @:uproperty public var MaterialCopyPasteBuffer : unreal.UMaterial;
   
   /**
     Manager responsible for configuring auto reimport
   **/
-  public var AutoReimportManager : unreal.editor.UAutoReimportManager;
+  @:uproperty public var AutoReimportManager : unreal.editor.UAutoReimportManager;
   
   /**
     Global instance of the editor options class.
   **/
-  public var EditorOptionsInst : unreal.editor.UUnrealEdOptions;
+  @:uproperty public var EditorOptionsInst : unreal.editor.UUnrealEdOptions;
   
 }

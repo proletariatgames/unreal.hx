@@ -18,16 +18,16 @@ package unreal;
   Implements a curve of FStrings.
 **/
 @:glueCppIncludes("Curves/StringCurve.h")
-@:uextern extern class FStringCurve extends unreal.FIndexedCurve {
+@:uextern @:ustruct extern class FStringCurve extends unreal.FIndexedCurve {
   
   /**
     Sorted array of keys
   **/
-  public var Keys : unreal.TArray<unreal.FStringCurveKey>;
+  @:uproperty public var Keys : unreal.TArray<unreal.FStringCurveKey>;
   
   /**
     Default value
   **/
-  public var DefaultValue : unreal.FString;
+  @:uproperty public var DefaultValue : unreal.FString;
   
 }

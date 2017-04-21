@@ -23,16 +23,16 @@ package unreal;
   use the Looping flag on the Wave Player node for that sound.
 **/
 @:glueCppIncludes("Sound/SoundNodeLooping.h")
-@:uextern extern class USoundNodeLooping extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeLooping extends unreal.USoundNode {
   
   /**
     If enabled, the node will continue to loop indefinitely regardless of the Loop Count value.
   **/
-  public var bLoopIndefinitely : Bool;
+  @:uproperty public var bLoopIndefinitely : Bool;
   
   /**
     The amount of times to loop
   **/
-  public var LoopCount : unreal.Int32;
+  @:uproperty public var LoopCount : unreal.Int32;
   
 }

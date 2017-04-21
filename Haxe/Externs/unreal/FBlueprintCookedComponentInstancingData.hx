@@ -18,16 +18,16 @@ package unreal;
   Cooked data for a Blueprint component template.
 **/
 @:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
-@:uextern extern class FBlueprintCookedComponentInstancingData {
+@:uextern @:ustruct extern class FBlueprintCookedComponentInstancingData {
   
   /**
     List of property info records with values that differ between the template and the component class CDO. This list will be generated at cook time.
   **/
-  public var ChangedPropertyList : unreal.TArray<unreal.FBlueprintComponentChangedPropertyInfo>;
+  @:uproperty public var ChangedPropertyList : unreal.TArray<unreal.FBlueprintComponentChangedPropertyInfo>;
   
   /**
     Flag indicating whether or not this contains valid cooked data. Note that an empty changed property list can also be a valid template data context.
   **/
-  public var bIsValid : Bool;
+  @:uproperty public var bIsValid : Bool;
   
 }

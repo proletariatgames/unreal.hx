@@ -21,16 +21,16 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeManager.h")
-@:noCopy @:noEquals @:uextern extern class FBehaviorTreeTemplateInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBehaviorTreeTemplateInfo {
   
   /**
     initialized template
   **/
-  public var Template : unreal.aimodule.UBTCompositeNode;
+  @:uproperty public var Template : unreal.aimodule.UBTCompositeNode;
   
   /**
     behavior tree asset
   **/
-  public var Asset : unreal.aimodule.UBehaviorTree;
+  @:uproperty public var Asset : unreal.aimodule.UBehaviorTree;
   
 }

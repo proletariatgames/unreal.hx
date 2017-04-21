@@ -14,19 +14,19 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotify.h")
-@:uextern extern class UAnimNotify extends unreal.UObject {
+@:uextern @:uclass extern class UAnimNotify extends unreal.UObject {
   
   /**
     Implementable event to get a custom name for the notify
   **/
-  @:thisConst public function GetNotifyName() : unreal.FString;
-  @:thisConst public function Received_Notify(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : Bool;
+  @:ufunction @:thisConst public function GetNotifyName() : unreal.FString;
+  @:ufunction @:thisConst public function Received_Notify(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     Color of Notify in editor
   **/
-  public var NotifyColor : unreal.FColor;
+  @:uproperty public var NotifyColor : unreal.FColor;
   #end // WITH_EDITORONLY_DATA
   
 }

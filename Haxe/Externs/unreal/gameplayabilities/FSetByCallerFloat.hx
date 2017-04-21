@@ -21,11 +21,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FSetByCallerFloat {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSetByCallerFloat {
   
   /**
     The Name the caller (code or blueprint) will use to set this magnitude by.
   **/
-  public var DataName : unreal.FName;
+  @:uproperty public var DataName : unreal.FName;
   
 }

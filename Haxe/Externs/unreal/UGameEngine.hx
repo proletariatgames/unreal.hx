@@ -18,17 +18,17 @@ package unreal;
   Engine that manages core systems that enable a game.
 **/
 @:glueCppIncludes("Engine/GameEngine.h")
-@:uextern extern class UGameEngine extends unreal.UEngine {
-  public var GameInstance : unreal.UGameInstance;
+@:uextern @:uclass extern class UGameEngine extends unreal.UEngine {
+  @:uproperty public var GameInstance : unreal.UGameInstance;
   
   /**
     Maximium time (in seconds) between the flushes of the logs on the server (best effort). If 0, this will happen every tick.
   **/
-  public var ServerFlushLogInterval : unreal.Float32;
+  @:uproperty public var ServerFlushLogInterval : unreal.Float32;
   
   /**
     Maximium delta time the engine uses to populate FApp::DeltaTime. If 0, unbound.
   **/
-  public var MaxDeltaTime : unreal.Float32;
+  @:uproperty public var MaxDeltaTime : unreal.Float32;
   
 }

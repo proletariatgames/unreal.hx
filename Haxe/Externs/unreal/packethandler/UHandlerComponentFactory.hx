@@ -19,6 +19,6 @@ package unreal.packethandler;
 **/
 @:umodule("PacketHandler")
 @:glueCppIncludes("HandlerComponentFactory.h")
-@:uextern extern class UHandlerComponentFactory extends unreal.UObject {
+@:uextern @:uclass extern class UHandlerComponentFactory extends unreal.UObject {
   
 }

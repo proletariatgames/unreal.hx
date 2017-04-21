@@ -24,89 +24,89 @@ package unreal;
   @see FDebugTextInfo
 **/
 @:glueCppIncludes("GameFramework/HUD.h")
-@:uextern extern class AHUD extends unreal.AActor {
-  private var DebugTextList : unreal.TArray<unreal.FDebugTextInfo>;
+@:uextern @:uclass extern class AHUD extends unreal.AActor {
+  @:uproperty private var DebugTextList : unreal.TArray<unreal.FDebugTextInfo>;
   
   /**
     'Foreground' debug canvas, will draw in front of Slate UI.
   **/
-  private var DebugCanvas : unreal.UCanvas;
+  @:uproperty private var DebugCanvas : unreal.UCanvas;
   
   /**
     Canvas to Draw HUD on.  Only valid during PostRender() event.
   **/
-  private var Canvas : unreal.UCanvas;
+  @:uproperty private var Canvas : unreal.UCanvas;
   
   /**
     Array of names specifying what subsets of debug info to display for viewtarget actor.
   **/
-  public var ToggledDebugCategories : unreal.TArray<unreal.FName>;
+  @:uproperty public var ToggledDebugCategories : unreal.TArray<unreal.FName>;
   
   /**
     Array of names specifying what debug info to display for viewtarget actor.
   **/
-  public var DebugDisplay : unreal.TArray<unreal.FName>;
+  @:uproperty public var DebugDisplay : unreal.TArray<unreal.FName>;
   
   /**
     Holds a list of Actors that need PostRender() calls.
   **/
-  public var PostRenderedActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var PostRenderedActors : unreal.TArray<unreal.AActor>;
   
   /**
     Put shadow on debug strings
   **/
-  public var bEnableDebugTextShadow : Bool;
+  @:uproperty public var bEnableDebugTextShadow : Bool;
   
   /**
     If true, render actor overlays.
   **/
-  public var bShowOverlays : Bool;
+  @:uproperty public var bShowOverlays : Bool;
   
   /**
     If true, show hitbox debugging info.
   **/
-  public var bShowHitBoxDebugInfo : Bool;
+  @:uproperty public var bShowHitBoxDebugInfo : Bool;
   
   /**
     If true, current ViewTarget shows debug information using its DisplayDebug().
   **/
-  public var bShowDebugInfo : Bool;
+  @:uproperty public var bShowDebugInfo : Bool;
   
   /**
     Whether or not the HUD should be drawn.
   **/
-  public var bShowHUD : Bool;
+  @:uproperty public var bShowHUD : Bool;
   
   /**
     Tells whether the game was paused due to lost focus
   **/
-  public var bLostFocusPaused : Bool;
+  @:uproperty public var bLostFocusPaused : Bool;
   
   /**
     PlayerController which owns this HUD.
   **/
-  public var PlayerOwner : unreal.APlayerController;
+  @:uproperty public var PlayerOwner : unreal.APlayerController;
   
   /**
     hides or shows HUD
   **/
-  public function ShowHUD() : Void;
+  @:ufunction public function ShowHUD() : Void;
   
   /**
     Toggles displaying properties of player's current ViewTarget
     DebugType input values supported by base engine include "AI", "physics", "net", "camera", and "collision"
   **/
-  public function ShowDebug(DebugType : unreal.FName) : Void;
+  @:ufunction public function ShowDebug(DebugType : unreal.FName = None) : Void;
   
   /**
     Toggles sub categories of show debug to customize display
   **/
-  @:final public function ShowDebugToggleSubCategory(Category : unreal.FName) : Void;
+  @:ufunction @:final public function ShowDebugToggleSubCategory(Category : unreal.FName) : Void;
   
   /**
     Toggles 'ShowDebug' from showing debug info between reticle target actor (of subclass <DesiredClass>) and camera view target
   **/
-  @:final public function ShowDebugForReticleTargetToggle(DesiredClass : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction @:final public function ShowDebugForReticleTargetToggle(DesiredClass : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Add debug text for a specific actor to be displayed via DrawDebugTextList().  If the debug text is invalid then it will
@@ -125,12 +125,12 @@ package unreal;
     @param FontScale                     scale
     @param bDrawShadow                   Draw shadow on this string
   **/
-  @:final public function AddDebugText(DebugText : unreal.FString, SrcActor : unreal.AActor, Duration : unreal.Float32, Offset : unreal.FVector, DesiredOffset : unreal.FVector, TextColor : unreal.FColor, bSkipOverwriteCheck : Bool, bAbsoluteLocation : Bool, bKeepAttachedToActor : Bool, InFont : unreal.UFont, FontScale : unreal.Float32, bDrawShadow : Bool) : Void;
+  @:ufunction @:final public function AddDebugText(DebugText : unreal.FString, SrcActor : unreal.AActor, Duration : unreal.Float32, Offset : unreal.FVector, DesiredOffset : unreal.FVector, TextColor : unreal.FColor, bSkipOverwriteCheck : Bool, bAbsoluteLocation : Bool, bKeepAttachedToActor : Bool, InFont : unreal.UFont, FontScale : unreal.Float32, bDrawShadow : Bool) : Void;
   
   /**
     Remove all debug strings added via AddDebugText
   **/
-  @:final public function RemoveAllDebugStrings() : Void;
+  @:ufunction @:final public function RemoveAllDebugStrings() : Void;
   
   /**
     Remove debug strings for the given actor
@@ -138,33 +138,33 @@ package unreal;
     @param       SrcActor                        Actor whose string you wish to remove
     @param       bLeaveDurationText      when true text that has a finite duration will be removed, otherwise all will be removed for given actor
   **/
-  @:final public function RemoveDebugText(SrcActor : unreal.AActor, bLeaveDurationText : Bool) : Void;
+  @:ufunction @:final public function RemoveDebugText(SrcActor : unreal.AActor, bLeaveDurationText : Bool) : Void;
   
   /**
     Hook to allow blueprints to do custom HUD drawing. @see bSuppressNativeHUD to control HUD drawing in base class.
     Note:  the canvas resource used for drawing is only valid during this event, it will not be valid if drawing functions are called later (e.g. after a Delay node).
   **/
-  public function ReceiveDrawHUD(SizeX : unreal.Int32, SizeY : unreal.Int32) : Void;
+  @:ufunction public function ReceiveDrawHUD(SizeX : unreal.Int32, SizeY : unreal.Int32) : Void;
   
   /**
     Called when a hit box is clicked on. Provides the name associated with that box.
   **/
-  public function ReceiveHitBoxClick(BoxName : unreal.Const<unreal.FName>) : Void;
+  @:ufunction public function ReceiveHitBoxClick(BoxName : unreal.Const<unreal.FName>) : Void;
   
   /**
     Called when a hit box is unclicked. Provides the name associated with that box.
   **/
-  public function ReceiveHitBoxRelease(BoxName : unreal.Const<unreal.FName>) : Void;
+  @:ufunction public function ReceiveHitBoxRelease(BoxName : unreal.Const<unreal.FName>) : Void;
   
   /**
     Called when a hit box is moused over.
   **/
-  public function ReceiveHitBoxBeginCursorOver(BoxName : unreal.Const<unreal.FName>) : Void;
+  @:ufunction public function ReceiveHitBoxBeginCursorOver(BoxName : unreal.Const<unreal.FName>) : Void;
   
   /**
     Called when a hit box no longer has the mouse over it.
   **/
-  public function ReceiveHitBoxEndCursorOver(BoxName : unreal.Const<unreal.FName>) : Void;
+  @:ufunction public function ReceiveHitBoxEndCursorOver(BoxName : unreal.Const<unreal.FName>) : Void;
   
   /**
     Returns the width and height of a string.
@@ -174,7 +174,7 @@ package unreal;
     @param Font                          Font to draw text.  If NULL, default font is chosen.
     @param Scale                         Scale multiplier to control size of the text.
   **/
-  @:thisConst @:final public function GetTextSize(Text : unreal.FString, OutWidth : unreal.Float32, OutHeight : unreal.Float32, Font : unreal.UFont, Scale : unreal.Float32) : Void;
+  @:ufunction @:thisConst @:final public function GetTextSize(Text : unreal.FString, OutWidth : unreal.Float32, OutHeight : unreal.Float32, Font : unreal.UFont, Scale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Draws a string on the HUD.
@@ -186,7 +186,7 @@ package unreal;
     @param Scale                         Scale multiplier to control size of the text.
     @param bScalePosition        Whether the "Scale" parameter should also scale the position of this draw call.
   **/
-  @:final public function DrawText(Text : unreal.FString, TextColor : unreal.FLinearColor, ScreenX : unreal.Float32, ScreenY : unreal.Float32, Font : unreal.UFont, Scale : unreal.Float32, bScalePosition : Bool) : Void;
+  @:ufunction @:final public function DrawText(Text : unreal.FString, @:bpopt("(R=0,G=0,B=0,A=1)") TextColor : unreal.FLinearColor, ScreenX : unreal.Float32, ScreenY : unreal.Float32, Font : unreal.UFont, Scale : unreal.Float32 = 1.000000, bScalePosition : Bool = false) : Void;
   
   /**
     Draws a 2D line on the HUD.
@@ -197,7 +197,7 @@ package unreal;
     @param LineColor                     Color to draw line
     @param LineThickness         Thickness of the line to draw
   **/
-  @:final public function DrawLine(StartScreenX : unreal.Float32, StartScreenY : unreal.Float32, EndScreenX : unreal.Float32, EndScreenY : unreal.Float32, LineColor : unreal.FLinearColor, LineThickness : unreal.Float32) : Void;
+  @:ufunction @:final public function DrawLine(StartScreenX : unreal.Float32, StartScreenY : unreal.Float32, EndScreenX : unreal.Float32, EndScreenY : unreal.Float32, @:bpopt("(R=0,G=0,B=0,A=1)") LineColor : unreal.FLinearColor, LineThickness : unreal.Float32 = 0.000000) : Void;
   
   /**
     Draws a colored untextured quad on the HUD.
@@ -207,7 +207,7 @@ package unreal;
     @param ScreenW                       Screen-space width of the quad (in pixels).
     @param ScreenH                       Screen-space height of the quad (in pixels).
   **/
-  @:final public function DrawRect(RectColor : unreal.FLinearColor, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32) : Void;
+  @:ufunction @:final public function DrawRect(@:bpopt("(R=0,G=0,B=0,A=1)") RectColor : unreal.FLinearColor, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32) : Void;
   
   /**
     Draws a textured quad on the HUD.
@@ -227,7 +227,7 @@ package unreal;
     @param Rotation                      Amount to rotate this quad
     @param RotPivot                      Location (as proportion of quad, 0-1) to rotate about
   **/
-  @:final public function DrawTexture(Texture : unreal.UTexture, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, TextureU : unreal.Float32, TextureV : unreal.Float32, TextureUWidth : unreal.Float32, TextureVHeight : unreal.Float32, TintColor : unreal.FLinearColor, BlendMode : unreal.EBlendMode, Scale : unreal.Float32, bScalePosition : Bool, Rotation : unreal.Float32, RotPivot : unreal.FVector2D) : Void;
+  @:ufunction @:final public function DrawTexture(Texture : unreal.UTexture, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, TextureU : unreal.Float32, TextureV : unreal.Float32, TextureUWidth : unreal.Float32, TextureVHeight : unreal.Float32, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") TintColor : unreal.FLinearColor, BlendMode : unreal.EBlendMode = BLEND_Translucent, Scale : unreal.Float32 = 1.000000, bScalePosition : Bool = false, Rotation : unreal.Float32 = 0.000000, RotPivot : unreal.FVector2D) : Void;
   
   /**
     Draws a textured quad on the HUD. Assumes 1:1 texel density.
@@ -237,7 +237,7 @@ package unreal;
     @param Scale                         Scale multiplier to control size of the text.
     @param bScalePosition        Whether the "Scale" parameter should also scale the position of this draw call.
   **/
-  @:final public function DrawTextureSimple(Texture : unreal.UTexture, ScreenX : unreal.Float32, ScreenY : unreal.Float32, Scale : unreal.Float32, bScalePosition : Bool) : Void;
+  @:ufunction @:final public function DrawTextureSimple(Texture : unreal.UTexture, ScreenX : unreal.Float32, ScreenY : unreal.Float32, Scale : unreal.Float32 = 1.000000, bScalePosition : Bool = false) : Void;
   
   /**
     Draws a material-textured quad on the HUD.
@@ -255,7 +255,7 @@ package unreal;
     @param Rotation                      Amount to rotate this quad
     @param RotPivot                      Location (as proportion of quad, 0-1) to rotate about
   **/
-  @:final public function DrawMaterial(Material : unreal.UMaterialInterface, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, MaterialU : unreal.Float32, MaterialV : unreal.Float32, MaterialUWidth : unreal.Float32, MaterialVHeight : unreal.Float32, Scale : unreal.Float32, bScalePosition : Bool, Rotation : unreal.Float32, RotPivot : unreal.FVector2D) : Void;
+  @:ufunction @:final public function DrawMaterial(Material : unreal.UMaterialInterface, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, MaterialU : unreal.Float32, MaterialV : unreal.Float32, MaterialUWidth : unreal.Float32, MaterialVHeight : unreal.Float32, Scale : unreal.Float32 = 1.000000, bScalePosition : Bool = false, Rotation : unreal.Float32 = 0.000000, RotPivot : unreal.FVector2D) : Void;
   
   /**
     Draws a material-textured quad on the HUD.  Assumes UVs such that the entire material is shown.
@@ -267,18 +267,18 @@ package unreal;
     @param Scale                         Amount to scale the entire texture (horizontally and vertically)
     @param bScalePosition        Whether the "Scale" parameter should also scale the position of this draw call.
   **/
-  @:final public function DrawMaterialSimple(Material : unreal.UMaterialInterface, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, Scale : unreal.Float32, bScalePosition : Bool) : Void;
-  @:final public function DrawMaterialTriangle(Material : unreal.UMaterialInterface, V0_Pos : unreal.FVector2D, V1_Pos : unreal.FVector2D, V2_Pos : unreal.FVector2D, V0_UV : unreal.FVector2D, V1_UV : unreal.FVector2D, V2_UV : unreal.FVector2D, V0_Color : unreal.FLinearColor, V1_Color : unreal.FLinearColor, V2_Color : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function DrawMaterialSimple(Material : unreal.UMaterialInterface, ScreenX : unreal.Float32, ScreenY : unreal.Float32, ScreenW : unreal.Float32, ScreenH : unreal.Float32, Scale : unreal.Float32 = 1.000000, bScalePosition : Bool = false) : Void;
+  @:ufunction @:final public function DrawMaterialTriangle(Material : unreal.UMaterialInterface, V0_Pos : unreal.FVector2D, V1_Pos : unreal.FVector2D, V2_Pos : unreal.FVector2D, V0_UV : unreal.FVector2D, V1_UV : unreal.FVector2D, V2_UV : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") V0_Color : unreal.FLinearColor, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") V1_Color : unreal.FLinearColor, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") V2_Color : unreal.FLinearColor) : Void;
   
   /**
     Transforms a 3D world-space vector into 2D screen coordinates
   **/
-  @:thisConst @:final public function Project(Location : unreal.FVector) : unreal.FVector;
+  @:ufunction @:thisConst @:final public function Project(Location : unreal.FVector) : unreal.FVector;
   
   /**
     Transforms a 2D screen location into a 3D location and direction
   **/
-  @:thisConst @:final public function Deproject(ScreenX : unreal.Float32, ScreenY : unreal.Float32, WorldPosition : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction @:thisConst @:final public function Deproject(ScreenX : unreal.Float32, ScreenY : unreal.Float32, WorldPosition : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Returns the array of actors inside a selection rectangle, with a class filter.
@@ -295,7 +295,7 @@ package unreal;
     @param bIncludeNonCollidingComponents        Whether to include even non-colliding components of the actor when determining its bounds
     @param bActorMustBeFullyEnclosed     The Selection rule: whether the selection box can partially intersect Actor, or must fully enclose the Actor.
   **/
-  @:final public function GetActorsInSelectionRectangle(ClassFilter : unreal.TSubclassOf<unreal.AActor>, FirstPoint : unreal.Const<unreal.PRef<unreal.FVector2D>>, SecondPoint : unreal.Const<unreal.PRef<unreal.FVector2D>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>, bIncludeNonCollidingComponents : Bool, bActorMustBeFullyEnclosed : Bool) : Void;
+  @:ufunction @:final public function GetActorsInSelectionRectangle(ClassFilter : unreal.TSubclassOf<unreal.AActor>, FirstPoint : unreal.Const<unreal.PRef<unreal.FVector2D>>, SecondPoint : unreal.Const<unreal.PRef<unreal.FVector2D>>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>, bIncludeNonCollidingComponents : Bool = true, bActorMustBeFullyEnclosed : Bool = false) : Void;
   
   /**
     Add a hitbox to the hud
@@ -305,16 +305,16 @@ package unreal;
     @param bConsumesInput        Whether click processing should continue if this hit box is clicked.
     @param Priority                      The priority of the box used for layering. Larger values are considered first.  Equal values are considered in the order they were added.
   **/
-  @:final public function AddHitBox(Position : unreal.FVector2D, Size : unreal.FVector2D, InName : unreal.FName, bConsumesInput : Bool, Priority : unreal.Int32) : Void;
+  @:ufunction @:final public function AddHitBox(Position : unreal.FVector2D, Size : unreal.FVector2D, InName : unreal.FName, bConsumesInput : Bool, Priority : unreal.Int32 = 0) : Void;
   
   /**
     Returns the PlayerController for this HUD's player.
   **/
-  @:thisConst @:final private function GetOwningPlayerController() : unreal.APlayerController;
+  @:ufunction @:thisConst @:final private function GetOwningPlayerController() : unreal.APlayerController;
   
   /**
     Returns the Pawn for this HUD's player.
   **/
-  @:thisConst @:final private function GetOwningPawn() : unreal.APawn;
+  @:ufunction @:thisConst @:final private function GetOwningPawn() : unreal.APawn;
   
 }

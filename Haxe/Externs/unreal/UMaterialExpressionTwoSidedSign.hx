@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTwoSidedSign.h")
-@:uextern extern class UMaterialExpressionTwoSidedSign extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionTwoSidedSign extends unreal.UMaterialExpression {
   
 }

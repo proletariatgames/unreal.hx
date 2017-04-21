@@ -21,8 +21,8 @@ package unreal.cascade;
 **/
 @:umodule("Cascade")
 @:glueCppIncludes("CascadeConfiguration.h")
-@:noCopy @:noEquals @:uextern extern class FModuleMenuMapper {
-  public var InvalidObjNames : unreal.TArray<unreal.FString>;
-  public var ObjName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FModuleMenuMapper {
+  @:uproperty public var InvalidObjNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var ObjName : unreal.FString;
   
 }

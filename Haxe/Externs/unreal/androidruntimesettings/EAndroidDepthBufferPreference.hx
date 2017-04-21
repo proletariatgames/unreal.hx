@@ -20,7 +20,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EAndroidDepthBufferPreference.Type")
-@:uextern extern enum EAndroidDepthBufferPreference {
+@:uextern @:uenum extern enum EAndroidDepthBufferPreference {
   
   /**
     Default

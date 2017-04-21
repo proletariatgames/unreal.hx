@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimNode_TransitionPoseEvaluator.h")
 @:uname("EEvaluatorMode.Mode")
-@:uextern extern enum EEvaluatorMode {
+@:uextern @:uenum extern enum EEvaluatorMode {
   
   /**
     DataSource is ticked and evaluated every frame.

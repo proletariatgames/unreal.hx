@@ -20,114 +20,114 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleModuleRequired.h")
-@:uextern extern class UParticleModuleRequired extends unreal.UParticleModule {
+@:uextern @:uclass extern class UParticleModuleRequired extends unreal.UParticleModule {
   
   /**
     Named material overrides for this emitter.
     Overrides this emitter's material(s) with those in the correspondingly named slot(s) of the owning system.
   **/
-  public var NamedMaterialOverrides : unreal.TArray<unreal.FName>;
+  @:uproperty public var NamedMaterialOverrides : unreal.TArray<unreal.FName>;
   
   /**
     Ensures that movement generated from the orbit module is applied to velocity-aligned particles
   **/
-  public var bOrbitModuleAffectsVelocityAlignment : Bool;
+  @:uproperty public var bOrbitModuleAffectsVelocityAlignment : Bool;
   
   /**
     When EmitterNormalsMode is ENM_Cylindrical,
     particle normals are created to face away from the cylinder going through NormalsSphereCenter in the direction NormalsCylinderDirection.
     NormalsCylinderDirection is in local space.
   **/
-  public var NormalsCylinderDirection : unreal.FVector;
+  @:uproperty public var NormalsCylinderDirection : unreal.FVector;
   
   /**
     When EmitterNormalsMode is ENM_Spherical, particle normals are created to face away from NormalsSphereCenter.
     NormalsSphereCenter is in local space.
   **/
-  public var NormalsSphereCenter : unreal.FVector;
+  @:uproperty public var NormalsSphereCenter : unreal.FVector;
   
   /**
     Normal generation mode for this emitter LOD.
   **/
-  public var EmitterNormalsMode : unreal.EEmitterNormalsMode;
+  @:uproperty public var EmitterNormalsMode : unreal.EEmitterNormalsMode;
   
   /**
     Alpha channel values larger than the threshold are considered occupied and will be contained in the bounding geometry.
     Raising this threshold slightly can reduce overdraw in particles using this animation asset.
   **/
-  public var AlphaThreshold : unreal.Float32;
-  public var OpacitySourceMode : unreal.EOpacitySourceMode;
+  @:uproperty public var AlphaThreshold : unreal.Float32;
+  @:uproperty public var OpacitySourceMode : unreal.EOpacitySourceMode;
   
   /**
     More bounding vertices results in reduced overdraw, but adds more triangle overhead.
     The eight vertex mode is best used when the SubUV texture has a lot of space to cut out that is not captured by the four vertex version,
     and when the particles using the texture will be few and large.
   **/
-  public var BoundingMode : unreal.ESubUVBoundingVertexCount;
+  @:uproperty public var BoundingMode : unreal.ESubUVBoundingVertexCount;
   
   /**
     Texture to generate bounding geometry from.
   **/
-  public var CutoutTexture : unreal.UTexture2D;
+  @:uproperty public var CutoutTexture : unreal.UTexture2D;
   
   /**
     Controls UV Flipping for this emitter.
   **/
-  public var UVFlippingMode : unreal.EParticleUVFlipMode;
+  @:uproperty public var UVFlippingMode : unreal.EParticleUVFlipMode;
   
   /**
     The maximum number of particles to DRAW for this emitter.
     If set to 0, it will use whatever number are present.
   **/
-  public var MaxDrawCount : unreal.Int32;
+  @:uproperty public var MaxDrawCount : unreal.Int32;
   
   /**
     If true, use the MaxDrawCount to limit the number of particles rendered.
     NOTE: This does not limit the number spawned/updated, only what is drawn.
   **/
-  public var bUseMaxDrawCount : Bool;
+  @:uproperty public var bUseMaxDrawCount : Bool;
   
   /**
     World space radius that UVs generated with the ParticleMacroUV material node will tile based on.
   **/
-  public var MacroUVRadius : unreal.Float32;
+  @:uproperty public var MacroUVRadius : unreal.Float32;
   
   /**
     Local space position that UVs generated with the ParticleMacroUV material node will be centered on.
   **/
-  public var MacroUVPosition : unreal.FVector;
+  @:uproperty public var MacroUVPosition : unreal.FVector;
   
   /**
     Override the system MacroUV settings
   **/
-  public var bOverrideSystemMacroUV : Bool;
+  @:uproperty public var bOverrideSystemMacroUV : Bool;
   
   /**
     The number of times to change a random image over the life of the particle.
   **/
-  public var RandomImageChanges : unreal.Int32;
+  @:uproperty public var RandomImageChanges : unreal.Int32;
   
   /**
     The amount of time (particle-relative, 0.0 to 1.0) to 'lock' on a random sub image
         0.0 = change every frame
     1.0 = select a random image at spawn and hold for the life of the particle
   **/
-  public var RandomImageTime : unreal.Float32;
+  @:uproperty public var RandomImageTime : unreal.Float32;
   
   /**
     Whether to scale the UV or not - ie, the model wasn't setup with sub uvs
   **/
-  public var bScaleUV : Bool;
+  @:uproperty public var bScaleUV : Bool;
   
   /**
     The number of sub-images vertically in the texture
   **/
-  public var SubImages_Vertical : unreal.Int32;
+  @:uproperty public var SubImages_Vertical : unreal.Int32;
   
   /**
     The number of sub-images horizontally in the texture
   **/
-  public var SubImages_Horizontal : unreal.Int32;
+  @:uproperty public var SubImages_Horizontal : unreal.Int32;
   
   /**
     The interpolation method to used for the SubUV image selection.
@@ -142,75 +142,75 @@ package unreal;
     PSUVIM_Random_Blend     - Pick the next image at random, blending between the current
                                               and the next
   **/
-  public var InterpolationMethod : unreal.EParticleSubUVInterpMethod;
+  @:uproperty public var InterpolationMethod : unreal.EParticleSubUVInterpMethod;
   
   /**
     If true, the emitter will be delayed only on the first loop.
   **/
-  public var bDelayFirstLoopOnly : Bool;
+  @:uproperty public var bDelayFirstLoopOnly : Bool;
   
   /**
     If true, select the emitter delay from the range
             [EmitterDelayLow..EmitterDelay]
   **/
-  public var bEmitterDelayUseRange : Bool;
+  @:uproperty public var bEmitterDelayUseRange : Bool;
   
   /**
     The low end of the emitter delay if using a range.
   **/
-  public var EmitterDelayLow : unreal.Float32;
+  @:uproperty public var EmitterDelayLow : unreal.Float32;
   
   /**
     Indicates the time (in seconds) that this emitter should be delayed in the particle system.
   **/
-  public var EmitterDelay : unreal.Float32;
+  @:uproperty public var EmitterDelay : unreal.Float32;
   
   /**
     The array of burst entries.
   **/
-  public var BurstList : unreal.TArray<unreal.FParticleBurst>;
+  @:uproperty public var BurstList : unreal.TArray<unreal.FParticleBurst>;
   
   /**
     The method to utilize when burst-emitting particles
   **/
-  public var ParticleBurstMethod : unreal.EParticleBurstMethod;
+  @:uproperty public var ParticleBurstMethod : unreal.EParticleBurstMethod;
   
   /**
     The rate at which to spawn particles
   **/
-  public var SpawnRate : unreal.FRawDistributionFloat;
+  @:uproperty public var SpawnRate : unreal.FRawDistributionFloat;
   
   /**
     The number of times to loop the emitter.
         0 indicates loop continuously
   **/
-  public var EmitterLoops : unreal.Int32;
+  @:uproperty public var EmitterLoops : unreal.Int32;
   
   /**
     If true, recalculate the emitter duration on each loop.
   **/
-  public var bDurationRecalcEachLoop : Bool;
+  @:uproperty public var bDurationRecalcEachLoop : Bool;
   
   /**
     If true, select the emitter duration from the range
             [EmitterDurationLow..EmitterDuration]
   **/
-  public var bEmitterDurationUseRange : Bool;
+  @:uproperty public var bEmitterDurationUseRange : Bool;
   
   /**
     The low end of the emitter duration if using a range.
   **/
-  public var EmitterDurationLow : unreal.Float32;
+  @:uproperty public var EmitterDurationLow : unreal.Float32;
   
   /**
     How long, in seconds, the emitter will run before looping.
   **/
-  public var EmitterDuration : unreal.Float32;
+  @:uproperty public var EmitterDuration : unreal.Float32;
   
   /**
     If true, removes the HMD view roll (e.g. in VR)
   **/
-  public var bRemoveHMDRoll : Bool;
+  @:uproperty public var bRemoveHMDRoll : Bool;
   
   /**
     If true, the EmitterTime for the emitter will be calculated by
@@ -222,7 +222,7 @@ package unreal;
     loops, it adjusts the EmitterTime by the current EmitterDuration
     resulting in proper looping/delay behavior.
   **/
-  public var bUseLegacyEmitterTime : Bool;
+  @:uproperty public var bUseLegacyEmitterTime : Bool;
   
   /**
     The sorting mode to use for this emitter.
@@ -232,32 +232,32 @@ package unreal;
     PSORTMODE_Age_OldestFirst       - Sort by age, oldest drawn first.
     PSORTMODE_Age_NewestFirst       - Sort by age, newest drawn first.
   **/
-  public var SortMode : unreal.EParticleSortMode;
+  @:uproperty public var SortMode : unreal.EParticleSortMode;
   
   /**
     If true, kill the emitter when it completes
   **/
-  public var bKillOnCompleted : Bool;
+  @:uproperty public var bKillOnCompleted : Bool;
   
   /**
     If true, kill the emitter when the particle system is deactivated
   **/
-  public var bKillOnDeactivate : Bool;
+  @:uproperty public var bKillOnDeactivate : Bool;
   
   /**
     If true, update the emitter in local space
   **/
-  public var bUseLocalSpace : Bool;
+  @:uproperty public var bUseLocalSpace : Bool;
   
   /**
     The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_FacingCameraPosition
   **/
-  public var MaxFacingCameraBlendDistance : unreal.Float32;
+  @:uproperty public var MaxFacingCameraBlendDistance : unreal.Float32;
   
   /**
     The distance at which PSA_FacingCameraDistanceBlend    is fully PSA_Square
   **/
-  public var MinFacingCameraBlendDistance : unreal.Float32;
+  @:uproperty public var MinFacingCameraBlendDistance : unreal.Float32;
   
   /**
     The screen alignment to utilize for the emitter at this LOD level.
@@ -271,13 +271,13 @@ package unreal;
     PSA_TypeSpecific        - Use the alignment method indicated in the type data module.
     PSA_FacingCameraDistanceBlend - Blends between PSA_FacingCameraPosition and PSA_Square over specified distance.
   **/
-  public var ScreenAlignment : unreal.EParticleScreenAlignment;
-  public var EmitterRotation : unreal.FRotator;
-  public var EmitterOrigin : unreal.FVector;
+  @:uproperty public var ScreenAlignment : unreal.EParticleScreenAlignment;
+  @:uproperty public var EmitterRotation : unreal.FRotator;
+  @:uproperty public var EmitterOrigin : unreal.FVector;
   
   /**
     The material to utilize for the emitter at this LOD level.
   **/
-  public var Material : unreal.UMaterialInterface;
+  @:uproperty public var Material : unreal.UMaterialInterface;
   
 }

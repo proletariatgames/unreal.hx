@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/StaticMeshThumbnailRenderer.h")
-@:uextern extern class UStaticMeshThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
+@:uextern @:uclass extern class UStaticMeshThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
   
 }

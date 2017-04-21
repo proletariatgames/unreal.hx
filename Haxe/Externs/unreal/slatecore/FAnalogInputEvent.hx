@@ -22,6 +22,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
-@:noCopy @:noEquals @:uextern extern class FAnalogInputEvent extends unreal.slatecore.FKeyEvent {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnalogInputEvent extends unreal.slatecore.FKeyEvent {
   
 }

@@ -15,58 +15,58 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_OnCircle.h")
-@:uextern extern class UEnvQueryGenerator_OnCircle extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
-  public var bDefineArc : Bool;
+@:uextern @:uclass extern class UEnvQueryGenerator_OnCircle extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
+  @:uproperty public var bDefineArc : Bool;
   
   /**
     horizontal trace for nearest obstacle
   **/
-  public var TraceData : unreal.aimodule.FEnvTraceData;
+  @:uproperty public var TraceData : unreal.aimodule.FEnvTraceData;
   
   /**
     context offset
   **/
-  public var CircleCenterZOffset : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var CircleCenterZOffset : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     ignore tracing into context actors when generating the circle
   **/
-  public var bIgnoreAnyContextActorsWhenGeneratingCircle : Bool;
+  @:uproperty public var bIgnoreAnyContextActorsWhenGeneratingCircle : Bool;
   
   /**
     context
   **/
-  public var CircleCenter : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
-  public var AngleRadians : unreal.Float32;
+  @:uproperty public var CircleCenter : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var AngleRadians : unreal.Float32;
   
   /**
     If you generate items on a piece of circle you define angle of Arc cut here
   **/
-  public var ArcAngle : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ArcAngle : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     If you generate items on a piece of circle you define direction of Arc cut here
   **/
-  public var ArcDirection : unreal.aimodule.FEnvDirection;
+  @:uproperty public var ArcDirection : unreal.aimodule.FEnvDirection;
   
   /**
     how we are choosing where the points are in the circle
   **/
-  public var PointOnCircleSpacingMethod : unreal.aimodule.EPointOnCircleSpacingMethod;
+  @:uproperty public var PointOnCircleSpacingMethod : unreal.aimodule.EPointOnCircleSpacingMethod;
   
   /**
     this many items will be generated on a circle
   **/
-  public var NumberOfPoints : unreal.aimodule.FAIDataProviderIntValue;
+  @:uproperty public var NumberOfPoints : unreal.aimodule.FAIDataProviderIntValue;
   
   /**
     items will be generated on a circle this much apart
   **/
-  public var SpaceBetween : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var SpaceBetween : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     max distance of path between point and context
   **/
-  public var CircleRadius : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var CircleRadius : unreal.aimodule.FAIDataProviderFloatValue;
   
 }

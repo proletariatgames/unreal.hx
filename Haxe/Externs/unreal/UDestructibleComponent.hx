@@ -20,46 +20,46 @@ package unreal;
   The USkeletalMesh pointer in the base class (SkinnedMeshComponent) MUST be a DestructibleMesh
 **/
 @:glueCppIncludes("Components/DestructibleComponent.h")
-@:uextern extern class UDestructibleComponent extends unreal.USkinnedMeshComponent {
+@:uextern @:uclass extern class UDestructibleComponent extends unreal.USkinnedMeshComponent {
   #if WITH_EDITORONLY_DATA
   
   /**
     Provide a blueprint interface for setting the destructible mesh
   **/
-  public var DestructibleMesh : unreal.UDestructibleMesh;
+  @:uproperty public var DestructibleMesh : unreal.UDestructibleMesh;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The minimum size required to treat chunks as Large.
   **/
-  public var LargeChunkThreshold : unreal.Float32;
+  @:uproperty public var LargeChunkThreshold : unreal.Float32;
   
   /**
     Enable "hard sleeping" for destruction-generated PxActors.  This means that they turn kinematic
     when they sleep, but can be made dynamic again by application of enough damage.
   **/
-  public var bEnableHardSleeping : Bool;
+  @:uproperty public var bEnableHardSleeping : Bool;
   
   /**
     Fracture effects for each fracture level. Used only if Fracture Effect Override is set.
   **/
-  public var FractureEffects : unreal.TArray<unreal.FFractureEffect>;
+  @:uproperty public var FractureEffects : unreal.TArray<unreal.FFractureEffect>;
   
   /**
     If set, use this actor's fracture effects instead of the asset's fracture effects.
   **/
-  public var bFractureEffectOverride : Bool;
+  @:uproperty public var bFractureEffectOverride : Bool;
   
   /**
     Take damage
   **/
-  @:final public function ApplyDamage(DamageAmount : unreal.Float32, HitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseDir : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseStrength : unreal.Float32) : Void;
+  @:ufunction @:final public function ApplyDamage(DamageAmount : unreal.Float32, HitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseDir : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseStrength : unreal.Float32) : Void;
   
   /**
     Take radius damage
   **/
-  @:final public function ApplyRadiusDamage(BaseDamage : unreal.Float32, HurtOrigin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, ImpulseStrength : unreal.Float32, bFullDamage : Bool) : Void;
-  @:final public function SetDestructibleMesh(NewMesh : unreal.UDestructibleMesh) : Void;
-  @:final public function GetDestructibleMesh() : unreal.UDestructibleMesh;
+  @:ufunction @:final public function ApplyRadiusDamage(BaseDamage : unreal.Float32, HurtOrigin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, ImpulseStrength : unreal.Float32, bFullDamage : Bool) : Void;
+  @:ufunction @:final public function SetDestructibleMesh(NewMesh : unreal.UDestructibleMesh) : Void;
+  @:ufunction @:final public function GetDestructibleMesh() : unreal.UDestructibleMesh;
   
 }

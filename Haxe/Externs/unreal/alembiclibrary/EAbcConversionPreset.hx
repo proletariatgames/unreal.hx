@@ -20,7 +20,7 @@ package unreal.alembiclibrary;
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:uname("EAbcConversionPreset")
-@:class @:uextern extern enum EAbcConversionPreset {
+@:class @:uextern @:uenum extern enum EAbcConversionPreset {
   
   /**
     Imports only the first frame as one or multiple static meshes

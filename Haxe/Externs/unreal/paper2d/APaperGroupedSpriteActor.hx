@@ -22,6 +22,6 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperGroupedSpriteActor.h")
-@:uextern extern class APaperGroupedSpriteActor extends unreal.AActor {
+@:uextern @:uclass extern class APaperGroupedSpriteActor extends unreal.AActor {
   
 }

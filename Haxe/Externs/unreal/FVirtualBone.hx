@@ -20,9 +20,9 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:noCopy @:noEquals @:uextern extern class FVirtualBone {
-  public var VirtualBoneName : unreal.FName;
-  public var TargetBoneName : unreal.FName;
-  public var SourceBoneName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVirtualBone {
+  @:uproperty public var VirtualBoneName : unreal.FName;
+  @:uproperty public var TargetBoneName : unreal.FName;
+  @:uproperty public var SourceBoneName : unreal.FName;
   
 }

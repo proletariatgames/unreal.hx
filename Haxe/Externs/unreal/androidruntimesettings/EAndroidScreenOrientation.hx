@@ -20,7 +20,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EAndroidScreenOrientation.Type")
-@:uextern extern enum EAndroidScreenOrientation {
+@:uextern @:uenum extern enum EAndroidScreenOrientation {
   
   /**
     Portrait orientation (the display is taller than it is wide).

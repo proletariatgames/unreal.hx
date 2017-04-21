@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("DataProviders/AIDataProvider.h")
-@:uextern extern class FAIDataProviderFloatValue extends unreal.aimodule.FAIDataProviderTypedValue {
-  public var DefaultValue : unreal.Float32;
+@:uextern @:ustruct extern class FAIDataProviderFloatValue extends unreal.aimodule.FAIDataProviderTypedValue {
+  @:uproperty public var DefaultValue : unreal.Float32;
   
 }

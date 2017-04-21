@@ -15,26 +15,26 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:uextern extern class FEnvDirection {
+@:uextern @:ustruct extern class FEnvDirection {
   
   /**
     defines direction of second line used by test
   **/
-  public var DirMode : unreal.aimodule.EEnvDirection;
+  @:uproperty public var DirMode : unreal.aimodule.EEnvDirection;
   
   /**
     line A: direction context
   **/
-  public var Rotation : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var Rotation : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     line A: finish context
   **/
-  public var LineTo : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var LineTo : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     line A: start context
   **/
-  public var LineFrom : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var LineFrom : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
 }

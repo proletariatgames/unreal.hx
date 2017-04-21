@@ -21,11 +21,11 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Styling/CheckBoxWidgetStyle.h")
-@:uextern extern class UCheckBoxWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
+@:uextern @:uclass extern class UCheckBoxWidgetStyle extends unreal.slatecore.USlateWidgetStyleContainerBase {
   
   /**
     The actual data describing the button's appearance.
   **/
-  public var CheckBoxStyle : unreal.slatecore.FCheckBoxStyle;
+  @:uproperty public var CheckBoxStyle : unreal.slatecore.FCheckBoxStyle;
   
 }

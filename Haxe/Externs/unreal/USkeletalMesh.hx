@@ -24,152 +24,152 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Engine/Content/Types/SkeletalMeshes/
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:uextern extern class USkeletalMesh extends unreal.UObject implements unreal.IInterface_CollisionDataProvider implements unreal.IInterface_AssetUserData {
+@:uextern @:uclass extern class USkeletalMesh extends unreal.UObject implements unreal.IInterface_CollisionDataProvider implements unreal.IInterface_AssetUserData {
   
   /**
     Array of user data stored with the asset
   **/
-  private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
+  @:uproperty private var AssetUserData : unreal.TArray<unreal.UAssetUserData>;
   
   /**
     Animation Blueprint class to run as a post process for this mesh.
     This blueprint will be ran before physics, but after the main
     anim instance for any skeletal mesh component using this mesh.
   **/
-  public var PostProcessAnimBlueprint : unreal.TSubclassOf<unreal.UAnimInstance>;
+  @:uproperty public var PostProcessAnimBlueprint : unreal.TSubclassOf<unreal.UAnimInstance>;
   
   /**
     Clothing asset data
   **/
-  public var ClothingAssets : unreal.TArray<unreal.FClothingAssetData>;
+  @:uproperty public var ClothingAssets : unreal.TArray<unreal.FClothingAssetData>;
   #if WITH_EDITORONLY_DATA
   
   /**
     This is buffer that saves pose that is used by retargeting
   **/
-  public var RetargetBasePose : unreal.TArray<unreal.FTransform>;
+  @:uproperty public var RetargetBasePose : unreal.TArray<unreal.FTransform>;
   
   /**
     Height offset for the floor mesh in the editor
   **/
-  public var FloorOffset : unreal.Float32;
+  @:uproperty public var FloorOffset : unreal.Float32;
   
   /**
     The section currently selected for clothing. need to remember this index for reimporting cloth
   **/
-  public var SelectedClothingSection : unreal.Int32;
+  @:uproperty public var SelectedClothingSection : unreal.Int32;
   
   /**
     The section currently selected in the Editor. Used for highlighting
   **/
-  public var SelectedEditorSection : unreal.Int32;
+  @:uproperty public var SelectedEditorSection : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
-  public var MorphTargets : unreal.TArray<unreal.UMorphTarget>;
+  @:uproperty public var MorphTargets : unreal.TArray<unreal.UMorphTarget>;
   #if WITH_EDITORONLY_DATA
   
   /**
     Attached assets component for this mesh
   **/
-  public var PreviewAttachedAssetContainer : unreal.FPreviewAssetAttachContainer;
+  @:uproperty public var PreviewAttachedAssetContainer : unreal.FPreviewAssetAttachContainer;
   
   /**
     Optimization settings used to simplify LODs of this mesh.
   **/
-  public var OptimizationSettings : unreal.TArray<unreal.FSkeletalMeshOptimizationSettings>;
+  @:uproperty public var OptimizationSettings : unreal.TArray<unreal.FSkeletalMeshOptimizationSettings>;
   
   /**
     Information for thumbnail rendering
   **/
-  public var ThumbnailInfo : unreal.UThumbnailInfo;
+  @:uproperty public var ThumbnailInfo : unreal.UThumbnailInfo;
   
   /**
     Date/Time-stamp of the file from the last import
   **/
-  @:deprecated public var SourceFileTimestamp_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFileTimestamp_DEPRECATED : unreal.FString;
   
   /**
     Path to the resource used to construct this skeletal mesh
   **/
-  @:deprecated public var SourceFilePath_DEPRECATED : unreal.FString;
+  @:deprecated @:uproperty public var SourceFilePath_DEPRECATED : unreal.FString;
   
   /**
     Importing data and options used for this mesh
   **/
-  public var AssetImportData : unreal.UAssetImportData;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Physics asset whose shapes will be used for shadowing when components have bCastCharacterCapsuleDirectShadow or bCastCharacterCapsuleIndirectShadow enabled.
     Only spheres and sphyl shapes in the physics asset can be supported.  The more shapes used, the higher the cost of the capsule shadows will be.
   **/
-  public var ShadowPhysicsAsset : unreal.UPhysicsAsset;
+  @:uproperty public var ShadowPhysicsAsset : unreal.UPhysicsAsset;
   
   /**
     Physics and collision information used for this USkeletalMesh, set up in PhAT.
     This is used for per-bone hit detection, accurate bounding box calculation and ragdoll physics for example.
   **/
-  public var PhysicsAsset : unreal.UPhysicsAsset;
+  @:uproperty public var PhysicsAsset : unreal.UPhysicsAsset;
   
   /**
     Physics data for the per poly collision case. In 99% of cases you will not need this and are better off using simple ragdoll collision (physics asset)
   **/
-  public var BodySetup : unreal.UBodySetup;
+  @:uproperty public var BodySetup : unreal.UBodySetup;
   
   /**
     Uses skinned data for collision data. Per poly collision cannot be used for simulation, in most cases you are better off using the physics asset
   **/
-  public var bEnablePerPolyCollision : Bool;
+  @:uproperty public var bEnablePerPolyCollision : Bool;
   
   /**
     Whether or not the mesh has vertex colors
   **/
-  public var bHasVertexColors : Bool;
+  @:uproperty public var bHasVertexColors : Bool;
   
   /**
     true if this mesh has ever been simplified with Simplygon.
   **/
-  public var bHasBeenSimplified : Bool;
+  @:uproperty public var bHasBeenSimplified : Bool;
   
   /**
     If true, use 32 bit UVs. If false, use 16 bit UVs to save memory
   **/
-  public var bUseFullPrecisionUVs : Bool;
+  @:uproperty public var bUseFullPrecisionUVs : Bool;
   
   /**
     Struct containing information for each LOD level, such as materials to use, and when use the LOD.
   **/
-  public var LODInfo : unreal.TArray<unreal.FSkeletalMeshLODInfo>;
-  public var SkelMirrorFlipAxis : unreal.EAxis;
-  public var SkelMirrorAxis : unreal.EAxis;
+  @:uproperty public var LODInfo : unreal.TArray<unreal.FSkeletalMeshLODInfo>;
+  @:uproperty public var SkelMirrorFlipAxis : unreal.EAxis;
+  @:uproperty public var SkelMirrorAxis : unreal.EAxis;
   
   /**
     List of bones that should be mirrored.
   **/
-  public var SkelMirrorTable : unreal.TArray<unreal.FBoneMirrorInfo>;
+  @:uproperty public var SkelMirrorTable : unreal.TArray<unreal.FBoneMirrorInfo>;
   
   /**
     List of materials applied to this mesh.
   **/
-  public var Materials : unreal.TArray<unreal.FSkeletalMaterial>;
+  @:uproperty public var Materials : unreal.TArray<unreal.FSkeletalMaterial>;
   
   /**
     Bound extension values in addition to imported bound in the negative direction of XYZ,
         positive value increases bound size and negative value decreases bound size.
         The final bound would be from [Imported Bound - Negative Bound] to [Imported Bound + Positive Bound].
   **/
-  private var NegativeBoundsExtension : unreal.FVector;
+  @:uproperty private var NegativeBoundsExtension : unreal.FVector;
   
   /**
     Bound extension values in addition to imported bound in the positive direction of XYZ,
         positive value increases bound size and negative value decreases bound size.
         The final bound would be from [Imported Bound - Negative Bound] to [Imported Bound + Positive Bound].
   **/
-  private var PositiveBoundsExtension : unreal.FVector;
+  @:uproperty private var PositiveBoundsExtension : unreal.FVector;
   
   /**
     Skeleton of this skeletal mesh *
   **/
-  public var Skeleton : unreal.USkeleton;
+  @:uproperty public var Skeleton : unreal.USkeleton;
   // Interface_CollisionDataProvider interface implementation
   // Interface_AssetUserData interface implementation
   

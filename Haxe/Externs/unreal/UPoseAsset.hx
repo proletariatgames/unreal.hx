@@ -20,14 +20,14 @@ package unreal;
   * Pose Asset that can be blended by weight of curves
 **/
 @:glueCppIncludes("Animation/PoseAsset.h")
-@:uextern extern class UPoseAsset extends unreal.UAnimationAsset {
+@:uextern @:uclass extern class UPoseAsset extends unreal.UAnimationAsset {
   #if WITH_EDITORONLY_DATA
-  public var SourceAnimation : unreal.UAnimSequence;
+  @:uproperty public var SourceAnimation : unreal.UAnimSequence;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Base pose to use when retargeting
   **/
-  public var RetargetSource : unreal.FName;
+  @:uproperty public var RetargetSource : unreal.FName;
   
 }

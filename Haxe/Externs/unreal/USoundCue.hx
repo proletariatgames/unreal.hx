@@ -20,31 +20,31 @@ package unreal;
   The behavior of audio playback is defined within Sound Cues.
 **/
 @:glueCppIncludes("Sound/SoundCue.h")
-@:uextern extern class USoundCue extends unreal.USoundBase {
+@:uextern @:uclass extern class USoundCue extends unreal.USoundBase {
   #if WITH_EDITORONLY_DATA
-  public var SoundCueGraph : unreal.UEdGraph;
-  public var AllNodes : unreal.TArray<unreal.USoundNode>;
+  @:uproperty public var SoundCueGraph : unreal.UEdGraph;
+  @:uproperty public var AllNodes : unreal.TArray<unreal.USoundNode>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Attenuation settings to use if Override Attenuation is set to true
   **/
-  public var AttenuationOverrides : unreal.FAttenuationSettings;
+  @:uproperty public var AttenuationOverrides : unreal.FAttenuationSettings;
   
   /**
     Pitch multiplier for the Sound Cue
   **/
-  public var PitchMultiplier : unreal.Float32;
+  @:uproperty public var PitchMultiplier : unreal.Float32;
   
   /**
     Volume multiplier for the Sound Cue
   **/
-  public var VolumeMultiplier : unreal.Float32;
-  public var FirstNode : unreal.USoundNode;
+  @:uproperty public var VolumeMultiplier : unreal.Float32;
+  @:uproperty public var FirstNode : unreal.USoundNode;
   
   /**
     Indicates whether attenuation should use the Attenuation Overrides or the Attenuation Settings asset
   **/
-  public var bOverrideAttenuation : Bool;
+  @:uproperty public var bOverrideAttenuation : Bool;
   
 }

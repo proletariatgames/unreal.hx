@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("EInterpCurveMode")
-@:uextern extern enum EInterpCurveMode {
+@:uextern @:uenum extern enum EInterpCurveMode {
   
   /**
     Linear

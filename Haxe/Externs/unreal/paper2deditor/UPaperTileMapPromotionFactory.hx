@@ -21,11 +21,11 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("PaperTileMapPromotionFactory.h")
-@:noClass @:uextern extern class UPaperTileMapPromotionFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UPaperTileMapPromotionFactory extends unreal.editor.UFactory {
   
   /**
     Object being promoted to an asset
   **/
-  public var AssetToRename : unreal.paper2d.UPaperTileMap;
+  @:uproperty public var AssetToRename : unreal.paper2d.UPaperTileMap;
   
 }

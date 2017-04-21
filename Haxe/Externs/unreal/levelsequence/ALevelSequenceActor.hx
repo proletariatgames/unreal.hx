@@ -19,12 +19,12 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceActor.h")
-@:uextern extern class ALevelSequenceActor extends unreal.AActor {
-  public var BurnInOptions : unreal.levelsequence.ULevelSequenceBurnInOptions;
-  public var LevelSequence : unreal.FStringAssetReference;
-  public var SequencePlayer : unreal.levelsequence.ULevelSequencePlayer;
-  public var PlaybackSettings : unreal.levelsequence.FLevelSequencePlaybackSettings;
-  public var bAutoPlay : Bool;
+@:uextern @:uclass extern class ALevelSequenceActor extends unreal.AActor {
+  @:uproperty public var BurnInOptions : unreal.levelsequence.ULevelSequenceBurnInOptions;
+  @:uproperty public var LevelSequence : unreal.FStringAssetReference;
+  @:uproperty public var SequencePlayer : unreal.levelsequence.ULevelSequencePlayer;
+  @:uproperty public var PlaybackSettings : unreal.levelsequence.FLevelSequencePlaybackSettings;
+  @:uproperty public var bAutoPlay : Bool;
   
   /**
     Get the level sequence being played by this actor.
@@ -33,7 +33,7 @@ package unreal.levelsequence;
     @return Level sequence, or nullptr if not assigned or if it cannot be loaded.
     @see SetSequence
   **/
-  @:thisConst @:final public function GetSequence(Load : Bool) : unreal.levelsequence.ULevelSequence;
+  @:ufunction @:thisConst @:final public function GetSequence(Load : Bool = false) : unreal.levelsequence.ULevelSequence;
   
   /**
     Set the level sequence being played by this actor.
@@ -41,6 +41,6 @@ package unreal.levelsequence;
     @param InSequence The sequence object to set.
     @see GetSequence
   **/
-  @:final public function SetSequence(InSequence : unreal.levelsequence.ULevelSequence) : Void;
+  @:ufunction @:final public function SetSequence(InSequence : unreal.levelsequence.ULevelSequence) : Void;
   
 }

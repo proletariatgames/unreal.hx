@@ -21,35 +21,35 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_SequenceEvaluator.h")
-@:uextern extern class FAnimNode_SequenceEvaluator extends unreal.FAnimNode_AssetPlayerBase {
-  public var bReinitialized : Bool;
+@:uextern @:ustruct extern class FAnimNode_SequenceEvaluator extends unreal.FAnimNode_AssetPlayerBase {
+  @:uproperty public var bReinitialized : Bool;
   
   /**
     What to do when SequenceEvaluator is reinitialized
   **/
-  public var ReinitializationBehavior : unreal.animgraphruntime.ESequenceEvalReinit;
+  @:uproperty public var ReinitializationBehavior : unreal.animgraphruntime.ESequenceEvalReinit;
   
   /**
     The start up position, it only applies when ReinitializationBehavior == StartPosition. Only used when bTeleportToExplicitTime is false.
   **/
-  public var StartPosition : unreal.Float32;
+  @:uproperty public var StartPosition : unreal.Float32;
   
   /**
     If true, teleport to explicit time, does NOT advance time (does not trigger notifies, does not extract Root Motion, etc.)
           If false, will advance time (will trigger notifies, extract root motion if applicable, etc.)
           Note: using a sync group forces advancing time regardless of what this option is set to.
   **/
-  public var bTeleportToExplicitTime : Bool;
-  public var bShouldLoopWhenInSyncGroup : Bool;
+  @:uproperty public var bTeleportToExplicitTime : Bool;
+  @:uproperty public var bShouldLoopWhenInSyncGroup : Bool;
   
   /**
     The time at which to evaluate the associated sequence
   **/
-  public var ExplicitTime : unreal.Float32;
+  @:uproperty public var ExplicitTime : unreal.Float32;
   
   /**
     The animation sequence asset to evaluate
   **/
-  public var Sequence : unreal.UAnimSequenceBase;
+  @:uproperty public var Sequence : unreal.UAnimSequenceBase;
   
 }

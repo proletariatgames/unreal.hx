@@ -14,8 +14,8 @@
 package unreal;
 
 @:glueCppIncludes("PhysicsEngine/DestructibleActor.h")
-@:uextern extern class ADestructibleActor extends unreal.AActor {
-  public var bAffectNavigation : Bool;
-  public var DestructibleComponent : unreal.UDestructibleComponent;
+@:uextern @:uclass extern class ADestructibleActor extends unreal.AActor {
+  @:uproperty public var bAffectNavigation : Bool;
+  @:uproperty public var DestructibleComponent : unreal.UDestructibleComponent;
   
 }

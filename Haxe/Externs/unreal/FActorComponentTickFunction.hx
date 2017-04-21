@@ -20,6 +20,6 @@ package unreal;
   Tick function that calls UActorComponent::ConditionalTick
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:noCopy @:noEquals @:uextern extern class FActorComponentTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FActorComponentTickFunction extends unreal.FTickFunction {
   
 }

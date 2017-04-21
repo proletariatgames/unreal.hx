@@ -18,26 +18,26 @@ package unreal;
   Box shape used for collision
 **/
 @:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
-@:uextern extern class FBoxElement2D {
+@:uextern @:ustruct extern class FBoxElement2D {
   
   /**
     Rotation of the box (in degrees)
   **/
-  public var Angle : unreal.Float32;
+  @:uproperty public var Angle : unreal.Float32;
   
   /**
     Height of the box
   **/
-  public var Height : unreal.Float32;
+  @:uproperty public var Height : unreal.Float32;
   
   /**
     Width of the box
   **/
-  public var Width : unreal.Float32;
+  @:uproperty public var Width : unreal.Float32;
   
   /**
     Center of the box
   **/
-  public var Center : unreal.FVector2D;
+  @:uproperty public var Center : unreal.FVector2D;
   
 }

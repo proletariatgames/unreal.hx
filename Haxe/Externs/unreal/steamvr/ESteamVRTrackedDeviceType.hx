@@ -20,7 +20,7 @@ package unreal.steamvr;
 @:umodule("SteamVR")
 @:glueCppIncludes("SteamVRFunctionLibrary.h")
 @:uname("ESteamVRTrackedDeviceType")
-@:class @:uextern extern enum ESteamVRTrackedDeviceType {
+@:class @:uextern @:uenum extern enum ESteamVRTrackedDeviceType {
   
   /**
     Represents a Steam VR Controller

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/RendererSettings.h")
 @:uname("ECustomDepthStencil.Type")
-@:uextern extern enum ECustomDepthStencil {
+@:uextern @:uenum extern enum ECustomDepthStencil {
   Disabled;
   
   /**

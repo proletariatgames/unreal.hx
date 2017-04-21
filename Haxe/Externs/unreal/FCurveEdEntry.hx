@@ -21,15 +21,15 @@ package unreal;
   Property could be an FInterpCurve, a DistributionFloat or a DistributionVector
 **/
 @:glueCppIncludes("Engine/InterpCurveEdSetup.h")
-@:noCopy @:noEquals @:uextern extern class FCurveEdEntry {
-  public var ClampHigh : unreal.Float32;
-  public var ClampLow : unreal.Float32;
-  public var bClamp : unreal.Int32;
-  public var bFloatingPointColorCurve : unreal.Int32;
-  public var bColorCurve : unreal.Int32;
-  public var bHideCurve : unreal.Int32;
-  public var CurveName : unreal.FString;
-  public var CurveColor : unreal.FColor;
-  public var CurveObject : unreal.UObject;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCurveEdEntry {
+  @:uproperty public var ClampHigh : unreal.Float32;
+  @:uproperty public var ClampLow : unreal.Float32;
+  @:uproperty public var bClamp : unreal.Int32;
+  @:uproperty public var bFloatingPointColorCurve : unreal.Int32;
+  @:uproperty public var bColorCurve : unreal.Int32;
+  @:uproperty public var bHideCurve : unreal.Int32;
+  @:uproperty public var CurveName : unreal.FString;
+  @:uproperty public var CurveColor : unreal.FColor;
+  @:uproperty public var CurveObject : unreal.UObject;
   
 }

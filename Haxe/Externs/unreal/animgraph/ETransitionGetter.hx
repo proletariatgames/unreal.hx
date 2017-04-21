@@ -16,7 +16,7 @@ package unreal.animgraph;
 @:umodule("AnimGraph")
 @:glueCppIncludes("K2Node_TransitionRuleGetter.h")
 @:uname("ETransitionGetter.Type")
-@:uextern extern enum ETransitionGetter {
+@:uextern @:uenum extern enum ETransitionGetter {
   AnimationAsset_GetCurrentTime;
   AnimationAsset_GetLength;
   AnimationAsset_GetCurrentTimeFraction;

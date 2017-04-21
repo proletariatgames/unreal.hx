@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventReceiverBase.h")
-@:noClass @:uextern extern class UParticleModuleEventReceiverBase extends unreal.UParticleModuleEventBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleEventReceiverBase extends unreal.UParticleModuleEventBase {
   
   /**
     The name of the emitter of interest for generating the event.
   **/
-  public var EventName : unreal.FName;
+  @:uproperty public var EventName : unreal.FName;
   
   /**
     The type of event that will generate the kill.
   **/
-  public var EventGeneratorType : unreal.EParticleEventType;
+  @:uproperty public var EventGeneratorType : unreal.EParticleEventType;
   
 }

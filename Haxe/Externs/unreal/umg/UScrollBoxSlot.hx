@@ -19,18 +19,18 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UScrollBoxSlot extends unreal.umg.UPanelSlot {
+@:uextern @:uclass extern class UScrollBoxSlot extends unreal.umg.UPanelSlot {
   
   /**
     The alignment of the object horizontally.
   **/
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     The padding area between the slot and the content it contains.
   **/
-  public var Padding : unreal.slatecore.FMargin;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
   
 }

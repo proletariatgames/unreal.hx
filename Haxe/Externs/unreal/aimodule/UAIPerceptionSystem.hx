@@ -19,13 +19,13 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionSystem.h")
-@:uextern extern class UAIPerceptionSystem extends unreal.UObject {
-  private var PerceptionAgingRate : unreal.Float32;
-  private var Senses : unreal.TArray<unreal.aimodule.UAISense>;
-  @:final public function ReportEvent(PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
-  static public function ReportPerceptionEvent(WorldContext : unreal.UObject, PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
-  static public function RegisterPerceptionStimuliSource(WorldContext : unreal.UObject, Sense : unreal.TSubclassOf<unreal.aimodule.UAISense>, Target : unreal.AActor) : Bool;
-  static public function GetSenseClassForStimulus(WorldContext : unreal.UObject, Stimulus : unreal.Const<unreal.PRef<unreal.aimodule.FAIStimulus>>) : unreal.TSubclassOf<unreal.aimodule.UAISense>;
-  @:final private function OnPerceptionStimuliSourceEndPlay(Actor : unreal.AActor, EndPlayReason : unreal.EEndPlayReason) : Void;
+@:uextern @:uclass extern class UAIPerceptionSystem extends unreal.UObject {
+  @:uproperty private var PerceptionAgingRate : unreal.Float32;
+  @:uproperty private var Senses : unreal.TArray<unreal.aimodule.UAISense>;
+  @:ufunction @:final public function ReportEvent(PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
+  @:ufunction static public function ReportPerceptionEvent(@:bpopt("WorldContext") WorldContext : unreal.UObject, PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
+  @:ufunction static public function RegisterPerceptionStimuliSource(@:bpopt("WorldContext") WorldContext : unreal.UObject, Sense : unreal.TSubclassOf<unreal.aimodule.UAISense>, Target : unreal.AActor) : Bool;
+  @:ufunction static public function GetSenseClassForStimulus(@:bpopt("WorldContext") WorldContext : unreal.UObject, Stimulus : unreal.Const<unreal.PRef<unreal.aimodule.FAIStimulus>>) : unreal.TSubclassOf<unreal.aimodule.UAISense>;
+  @:ufunction @:final private function OnPerceptionStimuliSourceEndPlay(Actor : unreal.AActor, EndPlayReason : unreal.EEndPlayReason) : Void;
   
 }

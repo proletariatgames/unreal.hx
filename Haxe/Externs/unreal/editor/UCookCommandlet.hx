@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/CookCommandlet.h")
-@:noClass @:uextern extern class UCookCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UCookCommandlet extends unreal.UCommandlet {
   
   /**
     List of asset types that will force GC after loading them during cook
   **/
-  public var FullGCAssetClassNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var FullGCAssetClassNames : unreal.TArray<unreal.FString>;
   
 }

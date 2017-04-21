@@ -19,21 +19,26 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
-@:uextern extern class FTutorialContent {
+@:uextern @:ustruct extern class FTutorialContent {
+  
+  /**
+    Localized text to use with this content
+  **/
+  @:uproperty public var Text : unreal.FText;
   
   /**
     Excerpt name for UDN excerpt
   **/
-  public var ExcerptName : unreal.FString;
+  @:uproperty public var ExcerptName : unreal.FString;
   
   /**
     Content reference string, path etc.
   **/
-  public var Content : unreal.FString;
+  @:uproperty public var Content : unreal.FString;
   
   /**
     The type of this content
   **/
-  public var Type : unreal.introtutorials.ETutorialContent;
+  @:uproperty public var Type : unreal.introtutorials.ETutorialContent;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Matinee/InterpTrackVisibility.h")
 @:uname("EVisibilityTrackCondition")
-@:uextern extern enum EVisibilityTrackCondition {
+@:uextern @:uenum extern enum EVisibilityTrackCondition {
   
   /**
     Always play this event

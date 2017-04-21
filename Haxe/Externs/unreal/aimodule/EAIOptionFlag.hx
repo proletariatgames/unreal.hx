@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("AITypes.h")
 @:uname("EAIOptionFlag.Type")
-@:uextern extern enum EAIOptionFlag {
+@:uextern @:uenum extern enum EAIOptionFlag {
   Default;
   
   /**

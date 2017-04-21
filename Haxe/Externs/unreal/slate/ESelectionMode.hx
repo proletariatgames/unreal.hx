@@ -16,7 +16,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Views/ITypedTableView.h")
 @:uname("ESelectionMode.Type")
-@:uextern extern enum ESelectionMode {
+@:uextern @:uenum extern enum ESelectionMode {
   
   /**
     Nothing can be selected and there is no hover cue for selection.  You can still handle mouse button events though.

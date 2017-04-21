@@ -21,7 +21,7 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraConstantSet.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraConstant_Vector extends unreal.niagara.FNiagaraConstantBase {
-  public var Value : unreal.FVector4;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraConstant_Vector extends unreal.niagara.FNiagaraConstantBase {
+  @:uproperty public var Value : unreal.FVector4;
   
 }

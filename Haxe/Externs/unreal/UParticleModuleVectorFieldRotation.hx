@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldRotation.h")
-@:noClass @:uextern extern class UParticleModuleVectorFieldRotation extends unreal.UParticleModuleVectorFieldBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleVectorFieldRotation extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Maximum initial rotation applied to the local vector field.
   **/
-  public var MaxInitialRotation : unreal.FVector;
+  @:uproperty public var MaxInitialRotation : unreal.FVector;
   
   /**
     Minimum initial rotation applied to the local vector field.
   **/
-  public var MinInitialRotation : unreal.FVector;
+  @:uproperty public var MinInitialRotation : unreal.FVector;
   
 }

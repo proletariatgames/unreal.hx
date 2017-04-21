@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uname("EScrollGestureDirection")
-@:class @:uextern extern enum EScrollGestureDirection {
+@:class @:uextern @:uenum extern enum EScrollGestureDirection {
   
   /**
     Use system setting

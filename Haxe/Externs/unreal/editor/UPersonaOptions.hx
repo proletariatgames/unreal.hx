@@ -15,29 +15,29 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/PersonaOptions.h")
-@:uextern extern class UPersonaOptions extends unreal.UObject {
-  public var bAllowPreviewMeshCollectionsToSelectFromDifferentSkeletons : Bool;
-  public var bUseInlineSocketEditor : Bool;
-  public var bUseStandaloneAnimationEditors : Bool;
-  public var BranchingPointTimingNodeColor : unreal.FLinearColor;
-  public var NotifyTimingNodeColor : unreal.FLinearColor;
-  public var SectionTimingNodeColor : unreal.FLinearColor;
-  public var DefaultBoneDrawSelection : unreal.FakeUInt32;
-  public var DefaultLocalAxesSelection : unreal.FakeUInt32;
-  public var ViewFOV : unreal.Float32;
-  public var ViewportBackgroundColor : unreal.FLinearColor;
-  public var ViewModeIndex : unreal.EViewModeIndex;
-  public var GridSize : unreal.Int32;
+@:uextern @:uclass extern class UPersonaOptions extends unreal.UObject {
+  @:uproperty public var bAllowPreviewMeshCollectionsToSelectFromDifferentSkeletons : Bool;
+  @:uproperty public var bUseInlineSocketEditor : Bool;
+  @:uproperty public var bUseStandaloneAnimationEditors : Bool;
+  @:uproperty public var BranchingPointTimingNodeColor : unreal.FLinearColor;
+  @:uproperty public var NotifyTimingNodeColor : unreal.FLinearColor;
+  @:uproperty public var SectionTimingNodeColor : unreal.FLinearColor;
+  @:uproperty public var DefaultBoneDrawSelection : unreal.FakeUInt32;
+  @:uproperty public var DefaultLocalAxesSelection : unreal.FakeUInt32;
+  @:uproperty public var ViewFOV : unreal.Float32;
+  @:uproperty public var ViewportBackgroundColor : unreal.FLinearColor;
+  @:uproperty public var ViewModeIndex : unreal.EViewModeIndex;
+  @:uproperty public var GridSize : unreal.Int32;
   
   /**
     currently Stats can have None, Basic and Detailed. Please refer to EDisplayInfoMode.
   **/
-  public var ShowMeshStats : unreal.Int32;
-  public var bMuteAudio : Bool;
-  public var bHighlightOrigin : Bool;
-  public var bShowGrid : Bool;
-  public var bAutoAlignFloorToMesh : Bool;
-  public var bShowSky : Bool;
-  public var bShowFloor : Bool;
+  @:uproperty public var ShowMeshStats : unreal.Int32;
+  @:uproperty public var bMuteAudio : Bool;
+  @:uproperty public var bHighlightOrigin : Bool;
+  @:uproperty public var bShowGrid : Bool;
+  @:uproperty public var bAutoAlignFloorToMesh : Bool;
+  @:uproperty public var bShowSky : Bool;
+  @:uproperty public var bShowFloor : Bool;
   
 }

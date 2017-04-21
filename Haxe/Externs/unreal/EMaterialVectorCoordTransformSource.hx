@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTransform.h")
 @:uname("EMaterialVectorCoordTransformSource")
-@:uextern extern enum EMaterialVectorCoordTransformSource {
+@:uextern @:uenum extern enum EMaterialVectorCoordTransformSource {
   
   /**
     Tangent space (relative to the surface)

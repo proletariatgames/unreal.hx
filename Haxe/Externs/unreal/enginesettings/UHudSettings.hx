@@ -15,16 +15,16 @@ package unreal.enginesettings;
 
 @:umodule("EngineSettings")
 @:glueCppIncludes("HudSettings.h")
-@:uextern extern class UHudSettings extends unreal.UObject {
+@:uextern @:uclass extern class UHudSettings extends unreal.UObject {
   
   /**
     Collection of names specifying what debug info to display for ViewTarget actor.
   **/
-  public var DebugDisplay : unreal.TArray<unreal.FName>;
+  @:uproperty public var DebugDisplay : unreal.TArray<unreal.FName>;
   
   /**
     Whether the HUD is visible at all.
   **/
-  public var bShowHUD : Bool;
+  @:uproperty public var bShowHUD : Bool;
   
 }

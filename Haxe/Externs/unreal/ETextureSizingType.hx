@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/MaterialMerging.h")
 @:uname("ETextureSizingType")
-@:uextern extern enum ETextureSizingType {
+@:uextern @:uenum extern enum ETextureSizingType {
   
   /**
     Use TextureSize for all material properties

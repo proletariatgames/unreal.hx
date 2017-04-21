@@ -29,64 +29,64 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_BlueprintBase.h")
-@:uextern extern class UBTDecorator_BlueprintBase extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_BlueprintBase extends unreal.aimodule.UBTDecorator {
   
   /**
     blackboard key names that should be observed
   **/
-  private var ObservedKeyNames : unreal.TArray<unreal.FName>;
+  @:uproperty private var ObservedKeyNames : unreal.TArray<unreal.FName>;
   
   /**
     Cached AIController owner of BehaviorTreeComponent.
   **/
-  private var ActorOwner : unreal.AActor;
+  @:uproperty private var ActorOwner : unreal.AActor;
   
   /**
     Cached AIController owner of BehaviorTreeComponent.
   **/
-  private var AIOwner : unreal.aimodule.AAIController;
+  @:uproperty private var AIOwner : unreal.aimodule.AAIController;
   
   /**
     tick function
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     called on execution of underlying node
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecutionStart(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveExecutionStart(OwnerActor : unreal.AActor) : Void;
   
   /**
     called when execution of underlying node is finished
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecutionFinish(OwnerActor : unreal.AActor, NodeResult : unreal.aimodule.EBTNodeResult) : Void;
+  @:ufunction private function ReceiveExecutionFinish(OwnerActor : unreal.AActor, NodeResult : unreal.aimodule.EBTNodeResult) : Void;
   
   /**
     called when observer is activated (flow controller)
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveObserverActivated(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveObserverActivated(OwnerActor : unreal.AActor) : Void;
   
   /**
     called when observer is deactivated (flow controller)
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveObserverDeactivated(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveObserverDeactivated(OwnerActor : unreal.AActor) : Void;
   
   /**
     called when testing if underlying node can be executed, must call FinishConditionCheck
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function PerformConditionCheck(OwnerActor : unreal.AActor) : Bool;
+  @:ufunction private function PerformConditionCheck(OwnerActor : unreal.AActor) : Bool;
   
   /**
     Alternative AI version of ReceiveTick
@@ -94,7 +94,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     Alternative AI version of ReceiveExecutionStart
@@ -102,7 +102,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecutionStartAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveExecutionStartAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveExecutionFinish
@@ -110,7 +110,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveExecutionFinishAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, NodeResult : unreal.aimodule.EBTNodeResult) : Void;
+  @:ufunction private function ReceiveExecutionFinishAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, NodeResult : unreal.aimodule.EBTNodeResult) : Void;
   
   /**
     Alternative AI version of ReceiveObserverActivated
@@ -118,7 +118,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveObserverActivatedAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveObserverActivatedAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveObserverDeactivated
@@ -126,7 +126,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveObserverDeactivatedAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveObserverDeactivatedAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveConditionCheck
@@ -134,18 +134,18 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function PerformConditionCheckAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Bool;
+  @:ufunction private function PerformConditionCheckAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Bool;
   
   /**
     check if decorator is part of currently active branch
   **/
-  @:thisConst @:final private function IsDecoratorExecutionActive() : Bool;
+  @:ufunction @:thisConst @:final private function IsDecoratorExecutionActive() : Bool;
   
   /**
     check if decorator's observer is currently active
   **/
-  @:thisConst @:final private function IsDecoratorObserverActive() : Bool;
-  @:final private function FinishConditionCheck(bAllowExecution : Bool) : Void;
-  private function ReceiveConditionCheck(OwnerActor : unreal.AActor) : Void;
+  @:ufunction @:thisConst @:final private function IsDecoratorObserverActive() : Bool;
+  @:ufunction @:final private function FinishConditionCheck(bAllowExecution : Bool) : Void;
+  @:ufunction private function ReceiveConditionCheck(OwnerActor : unreal.AActor) : Void;
   
 }

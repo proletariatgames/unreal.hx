@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportOptionsStaticMesh.h")
 @:uname("EFBXSceneNormalImportMethod")
-@:uextern extern enum EFBXSceneNormalImportMethod {
+@:uextern @:uenum extern enum EFBXSceneNormalImportMethod {
   
   /**
     Compute Normals

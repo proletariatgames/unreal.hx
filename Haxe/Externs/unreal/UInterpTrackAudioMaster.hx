@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackAudioMaster.h")
-@:uextern extern class UInterpTrackAudioMaster extends unreal.UInterpTrackVectorBase {
+@:uextern @:uclass extern class UInterpTrackAudioMaster extends unreal.UInterpTrackVectorBase {
   
 }

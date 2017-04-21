@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Scene.h")
 @:uname("EAutoExposureMethod")
-@:uextern extern enum EAutoExposureMethod {
+@:uextern @:uenum extern enum EAutoExposureMethod {
   
   /**
     Not supported on mobile, requires compute shader to construct 64 bin histogram

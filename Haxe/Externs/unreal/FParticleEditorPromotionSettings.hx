@@ -20,11 +20,11 @@ package unreal;
   Holds settings for the particle editor build promotion tests
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FParticleEditorPromotionSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleEditorPromotionSettings {
   
   /**
     Default particle asset to use for tests
   **/
-  public var DefaultParticleAsset : unreal.FFilePath;
+  @:uproperty public var DefaultParticleAsset : unreal.FFilePath;
   
 }

@@ -21,16 +21,16 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScriptConstantData.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraScriptConstantData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraScriptConstantData {
   
   /**
     The set of internal constants for this script. Named New for BC reasons. Once all data is updated beyond VER_UE4_NIAGARA_DATA_OBJECT_DEV_UI_FIX. Get rid of the deprecated consts and rename the New.
   **/
-  public var InternalConstantsNew : unreal.niagara.FNiagaraConstants;
+  @:uproperty public var InternalConstantsNew : unreal.niagara.FNiagaraConstants;
   
   /**
     Constants driven by the system. Named New for BC reasons. Once all data is updated beyond VER_UE4_NIAGARA_DATA_OBJECT_DEV_UI_FIX. Get rid of the deprecated consts and rename the New.
   **/
-  public var ExternalConstantsNew : unreal.niagara.FNiagaraConstants;
+  @:uproperty public var ExternalConstantsNew : unreal.niagara.FNiagaraConstants;
   
 }

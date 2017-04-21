@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Curves/CurveLinearColor.h")
-@:uextern extern class UCurveLinearColor extends unreal.UCurveBase {
-  @:thisConst public function GetLinearColorValue(InTime : unreal.Float32) : unreal.FLinearColor;
+@:uextern @:uclass extern class UCurveLinearColor extends unreal.UCurveBase {
+  @:ufunction @:thisConst public function GetLinearColorValue(InTime : unreal.Float32) : unreal.FLinearColor;
   
 }

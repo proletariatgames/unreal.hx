@@ -21,26 +21,26 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/EditorTutorialSettings.h")
-@:noCopy @:noEquals @:uextern extern class FTutorialContext {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTutorialContext {
   
   /**
     The tutorial to use in this context when the user chooses to launch
   **/
-  public var LaunchTutorial : unreal.FStringClassReference;
+  @:uproperty public var LaunchTutorial : unreal.FStringClassReference;
   
   /**
     The tutorial to use in this context to let the user know there is a tutorial available
   **/
-  public var AttractTutorial : unreal.FStringClassReference;
+  @:uproperty public var AttractTutorial : unreal.FStringClassReference;
   
   /**
     The filter string to apply to the tutorials browser when launched from this context
   **/
-  public var BrowserFilter : unreal.FString;
+  @:uproperty public var BrowserFilter : unreal.FString;
   
   /**
     The context that this tutorial is used in
   **/
-  public var Context : unreal.FName;
+  @:uproperty public var Context : unreal.FName;
   
 }

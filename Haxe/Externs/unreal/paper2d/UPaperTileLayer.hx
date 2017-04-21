@@ -19,6 +19,11 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTileLayer.h")
-@:uextern extern class UPaperTileLayer extends unreal.UObject {
+@:uextern @:uclass extern class UPaperTileLayer extends unreal.UObject {
+  
+  /**
+    Name of the layer
+  **/
+  @:uproperty public var LayerName : unreal.FText;
   
 }

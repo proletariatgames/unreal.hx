@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EGameplayEffectMagnitudeCalculation")
-@:class @:uextern extern enum EGameplayEffectMagnitudeCalculation {
+@:class @:uextern @:uenum extern enum EGameplayEffectMagnitudeCalculation {
   
   /**
     Use a simple, scalable float for the calculation.

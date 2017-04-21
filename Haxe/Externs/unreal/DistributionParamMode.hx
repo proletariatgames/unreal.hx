@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Distributions/Distribution.h")
 @:uname("DistributionParamMode")
-@:uextern extern enum DistributionParamMode {
+@:uextern @:uenum extern enum DistributionParamMode {
   DPM_Normal;
   DPM_Abs;
   DPM_Direct;

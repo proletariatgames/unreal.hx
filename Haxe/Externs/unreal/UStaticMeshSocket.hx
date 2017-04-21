@@ -20,14 +20,14 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/StaticMeshSocket.h")
-@:uextern extern class UStaticMeshSocket extends unreal.UObject {
+@:uextern @:uclass extern class UStaticMeshSocket extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
-  public var PreviewStaticMesh : unreal.UStaticMesh;
+  @:uproperty public var PreviewStaticMesh : unreal.UStaticMesh;
   #end // WITH_EDITORONLY_DATA
-  public var Tag : unreal.FString;
-  public var RelativeScale : unreal.FVector;
-  public var RelativeRotation : unreal.FRotator;
-  public var RelativeLocation : unreal.FVector;
+  @:uproperty public var Tag : unreal.FString;
+  @:uproperty public var RelativeScale : unreal.FVector;
+  @:uproperty public var RelativeRotation : unreal.FRotator;
+  @:uproperty public var RelativeLocation : unreal.FVector;
   
   /**
     Defines a named attachment location on the UStaticMesh.
@@ -35,6 +35,6 @@ package unreal;
     everything explicitly to AttachComponent in the StaticMeshComponent.
     The Outer of a StaticMeshSocket should always be the UStaticMesh.
   **/
-  public var SocketName : unreal.FName;
+  @:uproperty public var SocketName : unreal.FName;
   
 }

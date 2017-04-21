@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/SoundConcurrency.h")
-@:uextern extern class USoundConcurrency extends unreal.UObject {
-  public var Concurrency : unreal.FSoundConcurrencySettings;
+@:uextern @:uclass extern class USoundConcurrency extends unreal.UObject {
+  @:uproperty public var Concurrency : unreal.FSoundConcurrencySettings;
   
 }

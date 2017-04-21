@@ -19,11 +19,11 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UComboBox extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UComboBox extends unreal.umg.UWidget {
   
   /**
     The list of items to be displayed on the combobox.
   **/
-  public var Items : unreal.TArray<unreal.UObject>;
+  @:uproperty public var Items : unreal.TArray<unreal.UObject>;
   
 }

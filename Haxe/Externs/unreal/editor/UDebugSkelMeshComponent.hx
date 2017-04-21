@@ -21,114 +21,114 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Animation/DebugSkelMeshComponent.h")
-@:uextern extern class UDebugSkelMeshComponent extends unreal.USkeletalMeshComponent {
+@:uextern @:uclass extern class UDebugSkelMeshComponent extends unreal.USkeletalMeshComponent {
   
   /**
     Does this component use in game bounds or does it use bounds calculated from bones
   **/
-  public var bIsUsingInGameBounds : Bool;
-  public var SavedAnimScriptInstance : unreal.UAnimInstance;
-  public var PreviewInstance : unreal.animgraph.UAnimPreviewInstance;
+  @:uproperty public var bIsUsingInGameBounds : Bool;
+  @:uproperty public var SavedAnimScriptInstance : unreal.UAnimInstance;
+  @:uproperty public var PreviewInstance : unreal.animgraph.UAnimPreviewInstance;
   
   /**
     Array of materials to restore when not rendering blend weights
   **/
-  public var SkelMaterials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var SkelMaterials : unreal.TArray<unreal.UMaterialInterface>;
   
   /**
     Array of morphtargets to render verts for
   **/
-  public var MorphTargetOfInterests : unreal.TArray<unreal.UMorphTarget>;
+  @:uproperty public var MorphTargetOfInterests : unreal.TArray<unreal.UMorphTarget>;
   
   /**
     Array of bones to render bone weights for
   **/
-  public var BonesOfInterest : unreal.TArray<unreal.Int32>;
-  public var bPreviewRootMotion : Bool;
+  @:uproperty public var BonesOfInterest : unreal.TArray<unreal.Int32>;
+  @:uproperty public var bPreviewRootMotion : Bool;
   
   /**
     Display Bound *
   **/
-  public var bDisplayBound : Bool;
+  @:uproperty public var bDisplayBound : Bool;
   
   /**
     Display source animation pose
   **/
-  public var bDisplaySourceAnimation : Bool;
+  @:uproperty public var bDisplaySourceAnimation : Bool;
   
   /**
     Display baked animation pose
   **/
-  public var bDisplayBakedAnimation : Bool;
+  @:uproperty public var bDisplayBakedAnimation : Bool;
   
   /**
     Display additive base bone transform
   **/
-  public var bDisplayAdditiveBasePose : Bool;
+  @:uproperty public var bDisplayAdditiveBasePose : Bool;
   
   /**
     Display non retargeted animation pose
   **/
-  public var bDisplayNonRetargetedPose : Bool;
+  @:uproperty public var bDisplayNonRetargetedPose : Bool;
   
   /**
     Display raw animation bone transform
   **/
-  public var bDisplayRawAnimation : Bool;
+  @:uproperty public var bDisplayRawAnimation : Bool;
   
   /**
     Mesh sockets visible?
   **/
-  public var bMeshSocketsVisible : Bool;
+  @:uproperty public var bMeshSocketsVisible : Bool;
   
   /**
     Skeleton sockets visible?
   **/
-  public var bSkeletonSocketsVisible : Bool;
+  @:uproperty public var bSkeletonSocketsVisible : Bool;
   
   /**
     Socket hit points viewing
   **/
-  public var bDrawSockets : Bool;
+  @:uproperty public var bDrawSockets : Bool;
   
   /**
     Vertex binormal viewing
   **/
-  public var bDrawBinormals : Bool;
+  @:uproperty public var bDrawBinormals : Bool;
   
   /**
     Vertex tangent viewing
   **/
-  public var bDrawTangents : Bool;
+  @:uproperty public var bDrawTangents : Bool;
   
   /**
     Vertex normal viewing
   **/
-  public var bDrawNormals : Bool;
+  @:uproperty public var bDrawNormals : Bool;
   
   /**
     Morphtarget viewing
   **/
-  public var bDrawMorphTargetVerts : Bool;
+  @:uproperty public var bDrawMorphTargetVerts : Bool;
   
   /**
     Bone influences viewing
   **/
-  public var bDrawBoneInfluences : Bool;
+  @:uproperty public var bDrawBoneInfluences : Bool;
   
   /**
     If true then the bone names associated with the skeletal mesh are displayed
   **/
-  public var bShowBoneNames : Bool;
+  @:uproperty public var bShowBoneNames : Bool;
   
   /**
     If true then the skeletal mesh associated with the component is drawn.
   **/
-  public var bDrawMesh : Bool;
+  @:uproperty public var bDrawMesh : Bool;
   
   /**
     If true, render a wireframe skeleton of the mesh animated with the raw (uncompressed) animation data.
   **/
-  public var bRenderRawSkeleton : Bool;
+  @:uproperty public var bRenderRawSkeleton : Bool;
   
 }

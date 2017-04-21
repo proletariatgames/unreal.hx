@@ -20,38 +20,38 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationAvoidanceTypes.h")
-@:noCopy @:noEquals @:uextern extern class FNavAvoidanceMask {
-  public var bGroup31 : Bool;
-  public var bGroup30 : Bool;
-  public var bGroup29 : Bool;
-  public var bGroup28 : Bool;
-  public var bGroup27 : Bool;
-  public var bGroup26 : Bool;
-  public var bGroup25 : Bool;
-  public var bGroup24 : Bool;
-  public var bGroup23 : Bool;
-  public var bGroup22 : Bool;
-  public var bGroup21 : Bool;
-  public var bGroup20 : Bool;
-  public var bGroup19 : Bool;
-  public var bGroup18 : Bool;
-  public var bGroup17 : Bool;
-  public var bGroup16 : Bool;
-  public var bGroup15 : Bool;
-  public var bGroup14 : Bool;
-  public var bGroup13 : Bool;
-  public var bGroup12 : Bool;
-  public var bGroup11 : Bool;
-  public var bGroup10 : Bool;
-  public var bGroup9 : Bool;
-  public var bGroup8 : Bool;
-  public var bGroup7 : Bool;
-  public var bGroup6 : Bool;
-  public var bGroup5 : Bool;
-  public var bGroup4 : Bool;
-  public var bGroup3 : Bool;
-  public var bGroup2 : Bool;
-  public var bGroup1 : Bool;
-  public var bGroup0 : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNavAvoidanceMask {
+  @:uproperty public var bGroup31 : Bool;
+  @:uproperty public var bGroup30 : Bool;
+  @:uproperty public var bGroup29 : Bool;
+  @:uproperty public var bGroup28 : Bool;
+  @:uproperty public var bGroup27 : Bool;
+  @:uproperty public var bGroup26 : Bool;
+  @:uproperty public var bGroup25 : Bool;
+  @:uproperty public var bGroup24 : Bool;
+  @:uproperty public var bGroup23 : Bool;
+  @:uproperty public var bGroup22 : Bool;
+  @:uproperty public var bGroup21 : Bool;
+  @:uproperty public var bGroup20 : Bool;
+  @:uproperty public var bGroup19 : Bool;
+  @:uproperty public var bGroup18 : Bool;
+  @:uproperty public var bGroup17 : Bool;
+  @:uproperty public var bGroup16 : Bool;
+  @:uproperty public var bGroup15 : Bool;
+  @:uproperty public var bGroup14 : Bool;
+  @:uproperty public var bGroup13 : Bool;
+  @:uproperty public var bGroup12 : Bool;
+  @:uproperty public var bGroup11 : Bool;
+  @:uproperty public var bGroup10 : Bool;
+  @:uproperty public var bGroup9 : Bool;
+  @:uproperty public var bGroup8 : Bool;
+  @:uproperty public var bGroup7 : Bool;
+  @:uproperty public var bGroup6 : Bool;
+  @:uproperty public var bGroup5 : Bool;
+  @:uproperty public var bGroup4 : Bool;
+  @:uproperty public var bGroup3 : Bool;
+  @:uproperty public var bGroup2 : Bool;
+  @:uproperty public var bGroup1 : Bool;
+  @:uproperty public var bGroup0 : Bool;
   
 }

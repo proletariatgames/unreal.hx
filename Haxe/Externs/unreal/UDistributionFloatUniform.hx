@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionFloatUniform.h")
-@:uextern extern class UDistributionFloatUniform extends unreal.UDistributionFloat {
+@:uextern @:uclass extern class UDistributionFloatUniform extends unreal.UDistributionFloat {
   
   /**
     High end of output float distribution.
   **/
-  public var Max : unreal.Float32;
+  @:uproperty public var Max : unreal.Float32;
   
   /**
     Low end of output float distribution.
   **/
-  public var Min : unreal.Float32;
+  @:uproperty public var Min : unreal.Float32;
   
 }

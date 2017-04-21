@@ -21,26 +21,26 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("EdGraphNode_Comment.h")
-@:uextern extern class UEdGraphNode_Comment extends unreal.UEdGraphNode {
+@:uextern @:uclass extern class UEdGraphNode_Comment extends unreal.UEdGraphNode {
   
   /**
     comment Depth
   **/
-  public var CommentDepth : unreal.Int32;
+  @:uproperty public var CommentDepth : unreal.Int32;
   
   /**
     Whether the comment should move any fully enclosed nodes around when it is moved
   **/
-  public var MoveMode : unreal.editor.ECommentBoxMode;
+  @:uproperty public var MoveMode : unreal.editor.ECommentBoxMode;
   
   /**
     Whether to use Comment Color to color the background of the comment bubble shown when zoomed out.
   **/
-  public var bColorCommentBubble : Bool;
+  @:uproperty public var bColorCommentBubble : Bool;
   
   /**
     Color to style comment with
   **/
-  public var CommentColor : unreal.FLinearColor;
+  @:uproperty public var CommentColor : unreal.FLinearColor;
   
 }

@@ -23,17 +23,17 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWrapBox extends unreal.umg.UPanelWidget {
+@:uextern @:uclass extern class UWrapBox extends unreal.umg.UPanelWidget {
   
   /**
     The inner slot padding goes between slots sharing borders
   **/
-  public var InnerSlotPadding : unreal.FVector2D;
+  @:uproperty public var InnerSlotPadding : unreal.FVector2D;
   
   /**
     Sets the inner slot padding goes between slots sharing borders
   **/
-  @:final public function SetInnerSlotPadding(InPadding : unreal.FVector2D) : Void;
-  @:final public function AddChildWrapBox(Content : unreal.umg.UWidget) : unreal.umg.UWrapBoxSlot;
+  @:ufunction @:final public function SetInnerSlotPadding(InPadding : unreal.FVector2D) : Void;
+  @:ufunction @:final public function AddChildWrapBox(Content : unreal.umg.UWidget) : unreal.umg.UWrapBoxSlot;
   
 }

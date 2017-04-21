@@ -19,6 +19,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorMiscSettings.h")
-@:uextern extern class UEditorMiscSettings extends unreal.UObject {
+@:uextern @:uclass extern class UEditorMiscSettings extends unreal.UObject {
   
 }

@@ -19,66 +19,66 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FEditableTextBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FEditableTextBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Style used for the scrollbars
   **/
-  public var ScrollBarStyle : unreal.slatecore.FScrollBarStyle;
+  @:uproperty public var ScrollBarStyle : unreal.slatecore.FScrollBarStyle;
   
   /**
     Padding around the vertical scrollbar
   **/
-  public var VScrollBarPadding : unreal.slatecore.FMargin;
+  @:uproperty public var VScrollBarPadding : unreal.slatecore.FMargin;
   
   /**
     Padding around the horizontal scrollbar
   **/
-  public var HScrollBarPadding : unreal.slatecore.FMargin;
+  @:uproperty public var HScrollBarPadding : unreal.slatecore.FMargin;
   
   /**
     The read-only foreground color of text in read-only mode.
   **/
-  public var ReadOnlyForegroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var ReadOnlyForegroundColor : unreal.slatecore.FSlateColor;
   
   /**
     The background color applied to the active background image
   **/
-  public var BackgroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var BackgroundColor : unreal.slatecore.FSlateColor;
   
   /**
     The foreground color of text.
   **/
-  public var ForegroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var ForegroundColor : unreal.slatecore.FSlateColor;
   
   /**
     Font family and size to be used when displaying this text.
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
   /**
     Padding
   **/
-  public var Padding : unreal.slatecore.FMargin;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
   
   /**
     Border background image when the box is read-only
   **/
-  public var BackgroundImageReadOnly : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageReadOnly : unreal.slatecore.FSlateBrush;
   
   /**
     Border background image when the box is focused
   **/
-  public var BackgroundImageFocused : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageFocused : unreal.slatecore.FSlateBrush;
   
   /**
     Border background image when the box is hovered
   **/
-  public var BackgroundImageHovered : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageHovered : unreal.slatecore.FSlateBrush;
   
   /**
     Border background image when the box is not hovered or focused
   **/
-  public var BackgroundImageNormal : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImageNormal : unreal.slatecore.FSlateBrush;
   
 }

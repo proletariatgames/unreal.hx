@@ -19,89 +19,89 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FCheckBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
-  @:deprecated public var HoveredSound_DEPRECATED : unreal.FName;
-  @:deprecated public var UncheckedSound_DEPRECATED : unreal.FName;
-  @:deprecated public var CheckedSound_DEPRECATED : unreal.FName;
+@:uextern @:ustruct extern class FCheckBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
+  @:deprecated @:uproperty public var HoveredSound_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var UncheckedSound_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var CheckedSound_DEPRECATED : unreal.FName;
   
   /**
     The sound the check box should play when initially hovered over
   **/
-  public var HoveredSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var HoveredSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     The sound the check box should play when unchecked
   **/
-  public var UncheckedSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var UncheckedSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     The sound the check box should play when checked
   **/
-  public var CheckedSlateSound : unreal.slatecore.FSlateSound;
+  @:uproperty public var CheckedSlateSound : unreal.slatecore.FSlateSound;
   
   /**
     BorderBackgroundColor refers to the actual color and opacity of the supplied border image on toggle buttons
   **/
-  public var BorderBackgroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var BorderBackgroundColor : unreal.slatecore.FSlateColor;
   
   /**
     The foreground color
   **/
-  public var ForegroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var ForegroundColor : unreal.slatecore.FSlateColor;
   
   /**
     Padding
   **/
-  public var Padding : unreal.slatecore.FMargin;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
   
   /**
     CheckBox appearance when CheckBox is undetermined and pressed
   **/
-  public var UndeterminedPressedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UndeterminedPressedImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when CheckBox is undetermined and hovered
   **/
-  public var UndeterminedHoveredImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UndeterminedHoveredImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when the CheckBox is undetermined
   **/
-  public var UndeterminedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UndeterminedImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when checked and pressed
   **/
-  public var CheckedPressedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var CheckedPressedImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when checked and hovered
   **/
-  public var CheckedHoveredImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var CheckedHoveredImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when the CheckBox is checked
   **/
-  public var CheckedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var CheckedImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when the CheckBox is unchecked and hovered
   **/
-  public var UncheckedPressedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UncheckedPressedImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when the CheckBox is unchecked and hovered
   **/
-  public var UncheckedHoveredImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UncheckedHoveredImage : unreal.slatecore.FSlateBrush;
   
   /**
     CheckBox appearance when the CheckBox is unchecked (normal)
   **/
-  public var UncheckedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UncheckedImage : unreal.slatecore.FSlateBrush;
   
   /**
     The visual type of the checkbox
   **/
-  public var CheckBoxType : unreal.slatecore.ESlateCheckBoxType;
+  @:uproperty public var CheckBoxType : unreal.slatecore.ESlateCheckBoxType;
   
 }

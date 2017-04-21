@@ -15,7 +15,7 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeGrassOutput.h")
-@:uextern extern class UMaterialExpressionLandscapeGrassOutput extends unreal.UMaterialExpressionCustomOutput {
-  public var GrassTypes : unreal.TArray<unreal.landscape.FGrassInput>;
+@:uextern @:uclass extern class UMaterialExpressionLandscapeGrassOutput extends unreal.UMaterialExpressionCustomOutput {
+  @:uproperty public var GrassTypes : unreal.TArray<unreal.landscape.FGrassInput>;
   
 }

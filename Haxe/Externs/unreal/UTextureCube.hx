@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/TextureCube.h")
-@:uextern extern class UTextureCube extends unreal.UTexture {
+@:uextern @:uclass extern class UTextureCube extends unreal.UTexture {
   
 }

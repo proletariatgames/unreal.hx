@@ -15,12 +15,12 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Damage.h")
-@:uextern extern class UAISense_Damage extends unreal.aimodule.UAISense {
-  public var RegisteredEvents : unreal.TArray<unreal.aimodule.FAIDamageEvent>;
+@:uextern @:uclass extern class UAISense_Damage extends unreal.aimodule.UAISense {
+  @:uproperty public var RegisteredEvents : unreal.TArray<unreal.aimodule.FAIDamageEvent>;
   
   /**
     EventLocation will be reported as Instigator's location at the moment of event happening
   **/
-  static public function ReportDamageEvent(WorldContext : unreal.UObject, DamagedActor : unreal.AActor, Instigator : unreal.AActor, DamageAmount : unreal.Float32, EventLocation : unreal.FVector, HitLocation : unreal.FVector) : Void;
+  @:ufunction static public function ReportDamageEvent(@:bpopt("WorldContext") WorldContext : unreal.UObject, DamagedActor : unreal.AActor, Instigator : unreal.AActor, DamageAmount : unreal.Float32, EventLocation : unreal.FVector, HitLocation : unreal.FVector) : Void;
   
 }

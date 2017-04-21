@@ -19,7 +19,7 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnAction_Wait.h")
-@:uextern extern class UPawnAction_Wait extends unreal.aimodule.UPawnAction {
-  public var TimeToWait : unreal.Float32;
+@:uextern @:uclass extern class UPawnAction_Wait extends unreal.aimodule.UPawnAction {
+  @:uproperty public var TimeToWait : unreal.Float32;
   
 }

@@ -19,23 +19,23 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaTexture.h")
-@:uextern extern class UMediaTexture extends unreal.UTexture {
-  private var VideoTrackIndex : unreal.Int32;
-  private var MediaPlayer : unreal.mediaassets.UMediaPlayer;
+@:uextern @:uclass extern class UMediaTexture extends unreal.UTexture {
+  @:uproperty private var VideoTrackIndex : unreal.Int32;
+  @:uproperty private var MediaPlayer : unreal.mediaassets.UMediaPlayer;
   
   /**
     The color used to clear the texture if CloseAction is set to Clear (default = black).
   **/
-  public var ClearColor : unreal.FLinearColor;
+  @:uproperty public var ClearColor : unreal.FLinearColor;
   
   /**
     The addressing mode to use for the Y axis.
   **/
-  public var AddressY : unreal.TextureAddress;
+  @:uproperty public var AddressY : unreal.TextureAddress;
   
   /**
     The addressing mode to use for the X axis.
   **/
-  public var AddressX : unreal.TextureAddress;
+  @:uproperty public var AddressX : unreal.TextureAddress;
   
 }

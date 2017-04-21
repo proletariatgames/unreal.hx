@@ -20,21 +20,21 @@ package unreal;
   Holds settings for the blueprint editor build promotion tests
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FBlueprintEditorPromotionSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintEditorPromotionSettings {
   
   /**
     Default particle asset to use for tests
   **/
-  public var DefaultParticleAsset : unreal.FFilePath;
+  @:uproperty public var DefaultParticleAsset : unreal.FFilePath;
   
   /**
     The mesh to set on the blueprint after the delay *
   **/
-  public var SecondMeshPath : unreal.FFilePath;
+  @:uproperty public var SecondMeshPath : unreal.FFilePath;
   
   /**
     The starting mesh for the blueprint *
   **/
-  public var FirstMeshPath : unreal.FFilePath;
+  @:uproperty public var FirstMeshPath : unreal.FFilePath;
   
 }

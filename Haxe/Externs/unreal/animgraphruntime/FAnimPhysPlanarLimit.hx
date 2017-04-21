@@ -21,17 +21,17 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
-@:noCopy @:noEquals @:uextern extern class FAnimPhysPlanarLimit {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimPhysPlanarLimit {
   
   /**
     Transform of the plane, this is either in component-space if no DrivinBone is specified
     or in bone-space if a driving bone is present.
   **/
-  public var PlaneTransform : unreal.FTransform;
+  @:uproperty public var PlaneTransform : unreal.FTransform;
   
   /**
     When using a driving bone, the plane transform will be relative to the bone transform
   **/
-  public var DrivingBone : unreal.FBoneReference;
+  @:uproperty public var DrivingBone : unreal.FBoneReference;
   
 }

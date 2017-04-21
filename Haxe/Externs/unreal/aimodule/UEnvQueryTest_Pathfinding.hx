@@ -21,31 +21,31 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Pathfinding.h")
-@:noClass @:uextern extern class UEnvQueryTest_Pathfinding extends unreal.aimodule.UEnvQueryTest {
+@:noClass @:uextern @:uclass extern class UEnvQueryTest_Pathfinding extends unreal.aimodule.UEnvQueryTest {
   
   /**
     navigation filter to use in pathfinding
   **/
-  public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty public var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
   
   /**
     if set, items with failed path will be invalidated (PathCost, PathLength)
   **/
-  public var SkipUnreachable : unreal.aimodule.FAIDataProviderBoolValue;
+  @:uproperty public var SkipUnreachable : unreal.aimodule.FAIDataProviderBoolValue;
   
   /**
     pathfinding direction
   **/
-  public var PathFromContext : unreal.aimodule.FAIDataProviderBoolValue;
+  @:uproperty public var PathFromContext : unreal.aimodule.FAIDataProviderBoolValue;
   
   /**
     context: other end of pathfinding test
   **/
-  public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     testing mode
   **/
-  public var TestMode : unreal.aimodule.EEnvTestPathfinding;
+  @:uproperty public var TestMode : unreal.aimodule.EEnvTestPathfinding;
   
 }

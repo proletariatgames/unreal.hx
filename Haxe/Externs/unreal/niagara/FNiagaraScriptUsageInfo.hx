@@ -21,11 +21,11 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraScriptUsageInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraScriptUsageInfo {
   
   /**
     If true, this script reads attribute data.
   **/
-  public var bReadsAttriubteData : Bool;
+  @:uproperty public var bReadsAttriubteData : Bool;
   
 }

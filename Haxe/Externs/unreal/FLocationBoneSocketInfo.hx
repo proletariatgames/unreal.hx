@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
-@:noCopy @:noEquals @:uextern extern class FLocationBoneSocketInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLocationBoneSocketInfo {
   
   /**
     The offset from the bone/socket to use
   **/
-  public var Offset : unreal.FVector;
+  @:uproperty public var Offset : unreal.FVector;
   
   /**
     The name of the bone/socket on the skeletal mesh
   **/
-  public var BoneSocketName : unreal.FName;
+  @:uproperty public var BoneSocketName : unreal.FName;
   
 }

@@ -21,29 +21,29 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialGraph/MaterialGraphSchema.h")
-@:uextern extern class UMaterialGraphSchema extends unreal.UEdGraphSchema {
-  public var AlphaPinColor : unreal.FLinearColor;
-  public var InactivePinColor : unreal.FLinearColor;
+@:uextern @:uclass extern class UMaterialGraphSchema extends unreal.UEdGraphSchema {
+  @:uproperty public var AlphaPinColor : unreal.FLinearColor;
+  @:uproperty public var InactivePinColor : unreal.FLinearColor;
   
   /**
     Color of certain pins/connections
   **/
-  public var ActivePinColor : unreal.FLinearColor;
-  public var PSC_Alpha : unreal.FString;
-  public var PSC_Blue : unreal.FString;
-  public var PSC_Green : unreal.FString;
+  @:uproperty public var ActivePinColor : unreal.FLinearColor;
+  @:uproperty public var PSC_Alpha : unreal.FString;
+  @:uproperty public var PSC_Blue : unreal.FString;
+  @:uproperty public var PSC_Green : unreal.FString;
   
   /**
     Common PinType.PinSubCategory values
   **/
-  public var PSC_Red : unreal.FString;
-  public var PC_MaterialInput : unreal.FString;
-  public var PC_Optional : unreal.FString;
-  public var PC_Required : unreal.FString;
+  @:uproperty public var PSC_Red : unreal.FString;
+  @:uproperty public var PC_MaterialInput : unreal.FString;
+  @:uproperty public var PC_Optional : unreal.FString;
+  @:uproperty public var PC_Required : unreal.FString;
   
   /**
     Allowable PinType.PinCategory values
   **/
-  public var PC_Mask : unreal.FString;
+  @:uproperty public var PC_Mask : unreal.FString;
   
 }

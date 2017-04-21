@@ -19,11 +19,11 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorInteractor.h")
-@:uextern extern class UVREditorInteractor extends unreal.viewportinteraction.UViewportInteractor {
+@:uextern @:uclass extern class UVREditorInteractor extends unreal.viewportinteraction.UViewportInteractor {
   
   /**
     The mode that owns this interactor
   **/
-  private var VRMode : unreal.vreditor.UVREditorMode;
+  @:uproperty private var VRMode : unreal.vreditor.UVREditorMode;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/BlendableInterface.h")
 @:uname("EBlendableLocation")
-@:uextern extern enum EBlendableLocation {
+@:uextern @:uenum extern enum EBlendableLocation {
   
   /**
     Input0:former pass color, Input1:SeparateTranslucency.

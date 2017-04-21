@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassBooleanParameterValue extends unreal.editor.FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassBooleanParameterValue extends unreal.editor.FLightmassParameterValue {
   
   /**
     The boolean value to override the parent value with
   **/
-  public var ParameterValue : Bool;
+  @:uproperty public var ParameterValue : Bool;
   
 }

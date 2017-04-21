@@ -20,35 +20,35 @@ package unreal;
   and velocity.Z is commonly zero (most position replications are for walking pawns).
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class FRepMovement {
+@:uextern @:ustruct extern class FRepMovement {
   
   /**
     Allows tuning the compression level for replicated rotation. You should only need to change this from the default if you see visual artifacts.
   **/
-  public var RotationQuantizationLevel : unreal.ERotatorQuantization;
+  @:uproperty public var RotationQuantizationLevel : unreal.ERotatorQuantization;
   
   /**
     Allows tuning the compression level for the replicated velocity vectors. You should only need to change this from the default if you see visual artifacts.
   **/
-  public var VelocityQuantizationLevel : unreal.EVectorQuantization;
+  @:uproperty public var VelocityQuantizationLevel : unreal.EVectorQuantization;
   
   /**
     Allows tuning the compression level for the replicated location vector. You should only need to change this from the default if you see visual artifacts.
   **/
-  public var LocationQuantizationLevel : unreal.EVectorQuantization;
+  @:uproperty public var LocationQuantizationLevel : unreal.EVectorQuantization;
   
   /**
     If set, additional physic data (angular velocity) will be replicated.
   **/
-  public var bRepPhysics : Bool;
+  @:uproperty public var bRepPhysics : Bool;
   
   /**
     If set, RootComponent should be sleeping.
   **/
-  public var bSimulatedPhysicSleep : Bool;
-  public var Rotation : unreal.FRotator;
-  public var Location : unreal.FVector;
-  public var AngularVelocity : unreal.FVector;
-  public var LinearVelocity : unreal.FVector;
+  @:uproperty public var bSimulatedPhysicSleep : Bool;
+  @:uproperty public var Rotation : unreal.FRotator;
+  @:uproperty public var Location : unreal.FVector;
+  @:uproperty public var AngularVelocity : unreal.FVector;
+  @:uproperty public var LinearVelocity : unreal.FVector;
   
 }

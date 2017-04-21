@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/Rig.h")
 @:uname("EConstraintTransform.Type")
-@:uextern extern enum EConstraintTransform {
+@:uextern @:uenum extern enum EConstraintTransform {
   
   /**
     Absolute value.

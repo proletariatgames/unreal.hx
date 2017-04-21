@@ -22,70 +22,70 @@ package unreal;
   in DefaultPawn.cpp for the camera controls.
 **/
 @:glueCppIncludes("Engine/DebugCameraController.h")
-@:uextern extern class ADebugCameraController extends unreal.APlayerController {
+@:uextern @:uclass extern class ADebugCameraController extends unreal.APlayerController {
   
   /**
     Initial deceleration of the spectator pawn when we start possession.
   **/
-  public var InitialDecel : unreal.Float32;
+  @:uproperty public var InitialDecel : unreal.Float32;
   
   /**
     Initial acceleration of the spectator pawn when we start possession.
   **/
-  public var InitialAccel : unreal.Float32;
+  @:uproperty public var InitialAccel : unreal.Float32;
   
   /**
     Initial max speed of the spectator pawn when we start possession.
   **/
-  public var InitialMaxSpeed : unreal.Float32;
+  @:uproperty public var InitialMaxSpeed : unreal.Float32;
   
   /**
     Allows control over the speed of the spectator pawn. This scales the speed based on the InitialMaxSpeed. Use Set Pawn Movement Speed Scale during runtime
   **/
-  public var SpeedScale : unreal.Float32;
+  @:uproperty public var SpeedScale : unreal.Float32;
   
   /**
     @todo document
   **/
-  public var DrawFrustum : unreal.UDrawFrustumComponent;
+  @:uproperty public var DrawFrustum : unreal.UDrawFrustumComponent;
   
   /**
     @todo document
   **/
-  public var bIsFrozenRendering : Bool;
+  @:uproperty public var bIsFrozenRendering : Bool;
   
   /**
     Whether to show information about the selected actor on the debug camera HUD.
   **/
-  public var bShowSelectedInfo : Bool;
+  @:uproperty public var bShowSelectedInfo : Bool;
   
   /**
     @todo document
   **/
-  public function ShowDebugSelectedInfo() : Void;
+  @:ufunction public function ShowDebugSelectedInfo() : Void;
   
   /**
     Toggles the display of debug info and input commands for the Debug Camera.
   **/
-  @:final public function ToggleDisplay() : Void;
-  @:thisConst @:final public function GetSelectedActor() : unreal.AActor;
+  @:ufunction @:final public function ToggleDisplay() : Void;
+  @:ufunction @:thisConst @:final public function GetSelectedActor() : unreal.AActor;
   
   /**
     Sets the pawn movement speed scale.
   **/
-  @:final public function SetPawnMovementSpeedScale(NewSpeedScale : unreal.Float32) : Void;
+  @:ufunction @:final public function SetPawnMovementSpeedScale(NewSpeedScale : unreal.Float32) : Void;
   
   /**
     Function called on activation of debug camera controller.
     @param OriginalPC The active player controller before this debug camera controller was possessed by the player.
   **/
-  public function ReceiveOnActivate(OriginalPC : unreal.APlayerController) : Void;
+  @:ufunction public function ReceiveOnActivate(OriginalPC : unreal.APlayerController) : Void;
   
   /**
     Function called on deactivation of debug camera controller.
     @param RestoredPC The Player Controller that the player input is being returned to.
   **/
-  public function ReceiveOnDeactivate(RestoredPC : unreal.APlayerController) : Void;
+  @:ufunction public function ReceiveOnDeactivate(RestoredPC : unreal.APlayerController) : Void;
   
   /**
     Called when an actor has been selected with the primary key (e.g. left mouse button).
@@ -95,6 +95,6 @@ package unreal;
     @param SelectHitLocation The exact world-space location where the selection trace hit the New Selected Actor.
     @param SelectHitNormal The world-space surface normal of the New Selected Actor at the hit location.
   **/
-  private function ReceiveOnActorSelected(NewSelectedActor : unreal.AActor, SelectHitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, SelectHitNormal : unreal.Const<unreal.PRef<unreal.FVector>>, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction private function ReceiveOnActorSelected(NewSelectedActor : unreal.AActor, SelectHitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, SelectHitNormal : unreal.Const<unreal.PRef<unreal.FVector>>, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
 }

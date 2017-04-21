@@ -15,28 +15,28 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseConfig_Sight.h")
-@:uextern extern class UAISenseConfig_Sight extends unreal.aimodule.UAISenseConfig {
+@:uextern @:uclass extern class UAISenseConfig_Sight extends unreal.aimodule.UAISenseConfig {
   
   /**
     If not an InvalidRange (which is the default), we will always be able to see the target that has already been seen if they are within this range of their last seen location.
   **/
-  public var AutoSuccessRangeFromLastSeenLocation : unreal.Float32;
-  public var DetectionByAffiliation : unreal.aimodule.FAISenseAffiliationFilter;
+  @:uproperty public var AutoSuccessRangeFromLastSeenLocation : unreal.Float32;
+  @:uproperty public var DetectionByAffiliation : unreal.aimodule.FAISenseAffiliationFilter;
   
   /**
     How far to the side AI can see, in degrees. Use SetPeripheralVisionAngle to change the value at runtime.
   **/
-  public var PeripheralVisionAngleDegrees : unreal.Float32;
+  @:uproperty public var PeripheralVisionAngleDegrees : unreal.Float32;
   
   /**
     Maximum sight distance to see target that has been already seen.
   **/
-  public var LoseSightRadius : unreal.Float32;
+  @:uproperty public var LoseSightRadius : unreal.Float32;
   
   /**
     Maximum sight distance to notice a target.
   **/
-  public var SightRadius : unreal.Float32;
-  public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Sight>;
+  @:uproperty public var SightRadius : unreal.Float32;
+  @:uproperty public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Sight>;
   
 }

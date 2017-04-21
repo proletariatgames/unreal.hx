@@ -21,31 +21,31 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FGatherTextFromMetaDataConfiguration {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGatherTextFromMetaDataConfiguration {
   
   /**
     If enabled, data that is specified as editor-only may be processed for gathering.
   **/
-  public var ShouldGatherFromEditorOnlyData : Bool;
+  @:uproperty public var ShouldGatherFromEditorOnlyData : Bool;
   
   /**
     Specifications for how to gather text from specific metadata keys.
   **/
-  public var KeySpecifications : unreal.TArray<unreal.localization.FMetaDataKeyGatherSpecification>;
+  @:uproperty public var KeySpecifications : unreal.TArray<unreal.localization.FMetaDataKeyGatherSpecification>;
   
   /**
     Metadata from source files whose paths match these wildcard patterns will be excluded from gathering.
   **/
-  public var ExcludePathWildcards : unreal.TArray<unreal.localization.FGatherTextExcludePath>;
+  @:uproperty public var ExcludePathWildcards : unreal.TArray<unreal.localization.FGatherTextExcludePath>;
   
   /**
     Metadata from source files whose paths match these wildcard patterns, specified relative to the project's root, may be processed for gathering.
   **/
-  public var IncludePathWildcards : unreal.TArray<unreal.localization.FGatherTextIncludePath>;
+  @:uproperty public var IncludePathWildcards : unreal.TArray<unreal.localization.FGatherTextIncludePath>;
   
   /**
     If enabled, metadata will be gathered according to this configuration.
   **/
-  public var IsEnabled : Bool;
+  @:uproperty public var IsEnabled : Bool;
   
 }

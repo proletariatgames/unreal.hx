@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/UserInterfaceSettings.h")
 @:uname("ERenderFocusRule")
-@:class @:uextern extern enum ERenderFocusRule {
+@:class @:uextern @:uenum extern enum ERenderFocusRule {
   
   /**
     Focus Brush will always be rendered for widgets that have user focus.

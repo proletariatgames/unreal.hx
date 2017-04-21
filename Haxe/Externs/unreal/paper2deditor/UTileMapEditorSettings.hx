@@ -21,16 +21,16 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/TileMapEditing/TileMapEditorSettings.h")
-@:noClass @:uextern extern class UTileMapEditorSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTileMapEditorSettings extends unreal.UObject {
   
   /**
     Should the grid be shown by default when the editor is opened?
   **/
-  public var bShowGridByDefault : Bool;
+  @:uproperty public var bShowGridByDefault : Bool;
   
   /**
     Default background color for new tile map assets
   **/
-  public var DefaultBackgroundColor : unreal.FColor;
+  @:uproperty public var DefaultBackgroundColor : unreal.FColor;
   
 }

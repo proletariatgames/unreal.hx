@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackFloatMaterialParam.h")
-@:noClass @:uextern extern class UInterpTrackFloatMaterialParam extends unreal.UInterpTrackFloatBase {
+@:noClass @:uextern @:uclass extern class UInterpTrackFloatMaterialParam extends unreal.UInterpTrackFloatBase {
   
   /**
     Name of parameter in the MaterialInstance which this track will modify over time.
   **/
-  public var ParamName : unreal.FName;
+  @:uproperty public var ParamName : unreal.FName;
   
   /**
     Materials whose parameters we want to change and the references to those materials.
   **/
-  public var TargetMaterials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var TargetMaterials : unreal.TArray<unreal.UMaterialInterface>;
   
 }

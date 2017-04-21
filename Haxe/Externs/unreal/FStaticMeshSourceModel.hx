@@ -20,22 +20,22 @@ package unreal;
   Source model from which a renderable static mesh is built.
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:noCopy @:noEquals @:uextern extern class FStaticMeshSourceModel {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStaticMeshSourceModel {
   
   /**
     ScreenSize to display this LOD
   **/
-  public var ScreenSize : unreal.Float32;
-  @:deprecated public var LODDistance_DEPRECATED : unreal.Float32;
+  @:uproperty public var ScreenSize : unreal.Float32;
+  @:deprecated @:uproperty public var LODDistance_DEPRECATED : unreal.Float32;
   
   /**
     Reduction settings to apply when building render data.
   **/
-  public var ReductionSettings : unreal.FMeshReductionSettings;
+  @:uproperty public var ReductionSettings : unreal.FMeshReductionSettings;
   
   /**
     Settings applied when building the mesh.
   **/
-  public var BuildSettings : unreal.FMeshBuildSettings;
+  @:uproperty public var BuildSettings : unreal.FMeshBuildSettings;
   
 }

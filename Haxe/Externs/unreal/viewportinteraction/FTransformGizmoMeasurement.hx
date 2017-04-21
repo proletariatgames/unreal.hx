@@ -21,11 +21,11 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("VIBaseTransformGizmo.h")
-@:noCopy @:noEquals @:uextern extern class FTransformGizmoMeasurement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTransformGizmoMeasurement {
   
   /**
     The text that displays the actual measurement and units
   **/
-  public var MeasurementText : unreal.UTextRenderComponent;
+  @:uproperty public var MeasurementText : unreal.UTextRenderComponent;
   
 }

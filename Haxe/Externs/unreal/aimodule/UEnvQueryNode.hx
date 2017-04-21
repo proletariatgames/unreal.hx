@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryNode.h")
-@:uextern extern class UEnvQueryNode extends unreal.UObject {
+@:uextern @:uclass extern class UEnvQueryNode extends unreal.UObject {
   
   /**
     Versioning for updating deprecated properties
   **/
-  public var VerNum : unreal.Int32;
+  @:uproperty public var VerNum : unreal.Int32;
   
 }

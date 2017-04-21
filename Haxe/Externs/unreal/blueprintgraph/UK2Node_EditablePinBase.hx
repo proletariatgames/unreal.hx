@@ -21,11 +21,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_EditablePinBase.h")
-@:uextern extern class UK2Node_EditablePinBase extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_EditablePinBase extends unreal.blueprintgraph.UK2Node {
   
   /**
     Whether or not this entry node should be user-editable with the function editor
   **/
-  public var bIsEditable : Bool;
+  @:uproperty public var bIsEditable : Bool;
   
 }

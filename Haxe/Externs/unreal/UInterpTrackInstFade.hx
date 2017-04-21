@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstFade.h")
-@:noClass @:uextern extern class UInterpTrackInstFade extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstFade extends unreal.UInterpTrackInst {
   
 }

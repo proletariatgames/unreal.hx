@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataBeam2.h")
 @:uname("EBeamTaperMethod")
-@:uextern extern enum EBeamTaperMethod {
+@:uextern @:uenum extern enum EBeamTaperMethod {
   
   /**
     None

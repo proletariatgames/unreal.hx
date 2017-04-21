@@ -20,11 +20,11 @@ package unreal;
   Selects a child node based on the value of a integer parameter
 **/
 @:glueCppIncludes("Sound/SoundNodeSwitch.h")
-@:uextern extern class USoundNodeSwitch extends unreal.USoundNode {
+@:uextern @:uclass extern class USoundNodeSwitch extends unreal.USoundNode {
   
   /**
     The name of the integer parameter to use to determine which branch we should take
   **/
-  public var IntParameterName : unreal.FName;
+  @:uproperty public var IntParameterName : unreal.FName;
   
 }

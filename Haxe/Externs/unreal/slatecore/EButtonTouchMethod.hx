@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Types/SlateEnums.h")
 @:uname("EButtonTouchMethod.Type")
-@:uextern extern enum EButtonTouchMethod {
+@:uextern @:uenum extern enum EButtonTouchMethod {
   
   /**
     Most buttons behave this way.

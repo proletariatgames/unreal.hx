@@ -23,6 +23,6 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("TileMapBlueprintLibrary.h")
-@:noClass @:uextern extern class UTileMapBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
+@:noClass @:uextern @:uclass extern class UTileMapBlueprintLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
 @:uname("EBoneTranslationRetargetingMode.Type")
-@:uextern extern enum EBoneTranslationRetargetingMode {
+@:uextern @:uenum extern enum EBoneTranslationRetargetingMode {
   
   /**
     Use translation from animation data.

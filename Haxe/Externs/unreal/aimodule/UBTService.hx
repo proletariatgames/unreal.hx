@@ -39,16 +39,16 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTService.h")
-@:uextern extern class UBTService extends unreal.aimodule.UBTAuxiliaryNode {
+@:uextern @:uclass extern class UBTService extends unreal.aimodule.UBTAuxiliaryNode {
   
   /**
     adds random range to service's Interval
   **/
-  private var RandomDeviation : unreal.Float32;
+  @:uproperty private var RandomDeviation : unreal.Float32;
   
   /**
     defines time span between subsequent ticks of the service
   **/
-  private var Interval : unreal.Float32;
+  @:uproperty private var Interval : unreal.Float32;
   
 }

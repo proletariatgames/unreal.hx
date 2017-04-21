@@ -19,51 +19,51 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
-@:uextern extern class UPartyBeaconState extends unreal.UObject {
+@:uextern @:uclass extern class UPartyBeaconState extends unreal.UObject {
   
   /**
     Current reservations in the system
   **/
-  private var Reservations : unreal.TArray<unreal.onlinesubsystemutils.FPartyReservation>;
+  @:uproperty private var Reservations : unreal.TArray<unreal.onlinesubsystemutils.FPartyReservation>;
   
   /**
     Team that everyone is forced to in single team games
   **/
-  private var ForceTeamNum : unreal.Int32;
+  @:uproperty private var ForceTeamNum : unreal.Int32;
   
   /**
     Team that the host has been assigned to
   **/
-  private var ReservedHostTeamNum : unreal.Int32;
+  @:uproperty private var ReservedHostTeamNum : unreal.Int32;
   
   /**
     Team assignment method
   **/
-  private var TeamAssignmentMethod : unreal.FName;
+  @:uproperty private var TeamAssignmentMethod : unreal.FName;
   
   /**
     Number of players on each team for balancing
   **/
-  private var NumPlayersPerTeam : unreal.Int32;
+  @:uproperty private var NumPlayersPerTeam : unreal.Int32;
   
   /**
     Number of teams in the game
   **/
-  private var NumTeams : unreal.Int32;
+  @:uproperty private var NumTeams : unreal.Int32;
   
   /**
     Maximum allowed reservations
   **/
-  private var MaxReservations : unreal.Int32;
+  @:uproperty private var MaxReservations : unreal.Int32;
   
   /**
     Number of currently consumed reservations
   **/
-  private var NumConsumedReservations : unreal.Int32;
+  @:uproperty private var NumConsumedReservations : unreal.Int32;
   
   /**
     Session tied to the beacon
   **/
-  private var SessionName : unreal.FName;
+  @:uproperty private var SessionName : unreal.FName;
   
 }

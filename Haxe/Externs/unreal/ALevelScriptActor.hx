@@ -29,12 +29,12 @@ package unreal;
   @see UBlueprint
 **/
 @:glueCppIncludes("Engine/LevelScriptActor.h")
-@:uextern extern class ALevelScriptActor extends unreal.AActor {
+@:uextern @:uclass extern class ALevelScriptActor extends unreal.AActor {
   
   /**
     Tries to find an event named "EventName" on all other levels, and calls it
   **/
-  public function RemoteEvent(EventName : unreal.FName) : Bool;
+  @:ufunction public function RemoteEvent(EventName : unreal.FName) : Bool;
   
   /**
     Sets the cinematic mode on all PlayerControllers
@@ -45,12 +45,12 @@ package unreal;
     @param       bAffectsMovement        specify true to disable movement in cinematic mode, enable it when leaving
     @param       bAffectsTurning         specify true to disable turning in cinematic mode or enable it when leaving
   **/
-  public function SetCinematicMode(bCinematicMode : Bool, bHidePlayer : Bool, bAffectsHUD : Bool, bAffectsMovement : Bool, bAffectsTurning : Bool) : Void;
+  @:ufunction public function SetCinematicMode(bCinematicMode : Bool, bHidePlayer : Bool = true, bAffectsHUD : Bool = true, bAffectsMovement : Bool = false, bAffectsTurning : Bool = false) : Void;
   
   /**
     @todo document
   **/
-  public function LevelReset() : Void;
+  @:ufunction public function LevelReset() : Void;
   
   /**
     Event called on world origin location changes
@@ -58,6 +58,6 @@ package unreal;
     @param       OldOriginLocation       Previous world origin location
     @param       NewOriginLocation       New world origin location
   **/
-  public function WorldOriginLocationChanged(OldOriginLocation : unreal.FIntVector, NewOriginLocation : unreal.FIntVector) : Void;
+  @:ufunction public function WorldOriginLocationChanged(OldOriginLocation : unreal.FIntVector, NewOriginLocation : unreal.FIntVector) : Void;
   
 }

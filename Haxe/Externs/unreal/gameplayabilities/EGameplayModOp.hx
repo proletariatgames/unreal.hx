@@ -16,7 +16,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayModOp.Type")
-@:uextern extern enum EGameplayModOp {
+@:uextern @:uenum extern enum EGameplayModOp {
   
   /**
     Numeric.

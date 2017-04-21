@@ -22,6 +22,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/InternationalizationConditioningCommandlet.h")
-@:noClass @:uextern extern class UInternationalizationConditioningCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern @:uclass extern class UInternationalizationConditioningCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

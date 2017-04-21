@@ -20,6 +20,6 @@ package unreal;
   A string asset reference
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FStringAssetReference {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStringAssetReference {
   
 }

@@ -21,35 +21,35 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
-@:noClass @:uextern extern class UThumbnailManager extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UThumbnailManager extends unreal.UObject {
   
   /**
     Holds the name of the thumbnail manager singleton class to instantiate
   **/
-  private var ThumbnailManagerClassName : unreal.FString;
-  public var CheckerboardTexture : unreal.UTexture2D;
-  public var AmbientCubemap : unreal.UTextureCube;
-  public var FloorPlaneMaterial : unreal.UMaterial;
-  public var EditorSkySphere : unreal.UStaticMesh;
-  public var EditorPlane : unreal.UStaticMesh;
-  public var EditorCylinder : unreal.UStaticMesh;
-  public var EditorSphere : unreal.UStaticMesh;
+  @:uproperty private var ThumbnailManagerClassName : unreal.FString;
+  @:uproperty public var CheckerboardTexture : unreal.UTexture2D;
+  @:uproperty public var AmbientCubemap : unreal.UTextureCube;
+  @:uproperty public var FloorPlaneMaterial : unreal.UMaterial;
+  @:uproperty public var EditorSkySphere : unreal.UStaticMesh;
+  @:uproperty public var EditorPlane : unreal.UStaticMesh;
+  @:uproperty public var EditorCylinder : unreal.UStaticMesh;
+  @:uproperty public var EditorSphere : unreal.UStaticMesh;
   
   /**
     All these meshes/materials/textures are preloaded via default properties
   **/
-  public var EditorCube : unreal.UStaticMesh;
+  @:uproperty public var EditorCube : unreal.UStaticMesh;
   
   /**
     The render info to share across all object types when the object doesn't
     support rendering of thumbnails
   **/
-  public var NotSupported : unreal.editor.FThumbnailRenderingInfo;
+  @:uproperty public var NotSupported : unreal.editor.FThumbnailRenderingInfo;
   
   /**
     The array of thumbnail rendering information entries. Each type that supports
     thumbnail rendering has an entry in here.
   **/
-  private var RenderableThumbnailTypes : unreal.TArray<unreal.editor.FThumbnailRenderingInfo>;
+  @:uproperty private var RenderableThumbnailTypes : unreal.TArray<unreal.editor.FThumbnailRenderingInfo>;
   
 }

@@ -20,6 +20,6 @@ package unreal.audiomixer;
 **/
 @:umodule("AudioMixer")
 @:glueCppIncludes("SourceEffects/AudioMixerSourceEffectFilter.h")
-@:uextern extern class USourceEffectFilter extends unreal.USoundEffectSource {
+@:uextern @:uclass extern class USourceEffectFilter extends unreal.USoundEffectSource {
   
 }

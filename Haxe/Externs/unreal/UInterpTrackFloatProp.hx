@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackFloatProp.h")
-@:uextern extern class UInterpTrackFloatProp extends unreal.UInterpTrackFloatBase {
+@:uextern @:uclass extern class UInterpTrackFloatProp extends unreal.UInterpTrackFloatBase {
   
   /**
     Name of property in Group  AActor  which this track mill modify over time.
   **/
-  public var PropertyName : unreal.FName;
+  @:uproperty public var PropertyName : unreal.FName;
   
 }

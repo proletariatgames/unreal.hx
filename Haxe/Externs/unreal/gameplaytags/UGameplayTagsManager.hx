@@ -19,7 +19,7 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagsManager.h")
-@:uextern extern class UGameplayTagsManager extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayTagsManager extends unreal.UObject {
   
   /**
     Gets the FGameplayTag that corresponds to the TagName
@@ -30,6 +30,6 @@ package unreal.gameplaytags;
     
     @return Will return the corresponding FGameplayTag or an empty one if not found.
   **/
-  @:thisConst @:final public function RequestGameplayTag(TagName : unreal.FName, ErrorIfNotFound : Bool) : unreal.gameplaytags.FGameplayTag;
+  @:ufunction @:thisConst @:final public function RequestGameplayTag(TagName : unreal.FName, ErrorIfNotFound : Bool = true) : unreal.gameplaytags.FGameplayTag;
   
 }

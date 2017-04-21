@@ -21,35 +21,35 @@ package unreal;
   Particle emitters with a SubUV module which use this asset leverage the optimal bounding geometry to reduce overdraw.
 **/
 @:glueCppIncludes("Particles/SubUVAnimation.h")
-@:uextern extern class USubUVAnimation extends unreal.UObject {
+@:uextern @:uclass extern class USubUVAnimation extends unreal.UObject {
   
   /**
     Alpha channel values larger than the threshold are considered occupied and will be contained in the bounding geometry.
     Raising this threshold slightly can reduce overdraw in particles using this animation asset.
   **/
-  public var AlphaThreshold : unreal.Float32;
-  public var OpacitySourceMode : unreal.EOpacitySourceMode;
+  @:uproperty public var AlphaThreshold : unreal.Float32;
+  @:uproperty public var OpacitySourceMode : unreal.EOpacitySourceMode;
   
   /**
     More bounding vertices results in reduced overdraw, but adds more triangle overhead.
     The eight vertex mode is best used when the SubUV texture has a lot of space to cut out that is not captured by the four vertex version,
     and when the particles using the texture will be few and large.
   **/
-  public var BoundingMode : unreal.ESubUVBoundingVertexCount;
+  @:uproperty public var BoundingMode : unreal.ESubUVBoundingVertexCount;
   
   /**
     The number of sub-images vertically in the texture
   **/
-  public var SubImages_Vertical : unreal.Int32;
+  @:uproperty public var SubImages_Vertical : unreal.Int32;
   
   /**
     The number of sub-images horizontally in the texture
   **/
-  public var SubImages_Horizontal : unreal.Int32;
+  @:uproperty public var SubImages_Horizontal : unreal.Int32;
   
   /**
     Texture to generate bounding geometry from.
   **/
-  public var SubUVTexture : unreal.UTexture2D;
+  @:uproperty public var SubUVTexture : unreal.UTexture2D;
   
 }

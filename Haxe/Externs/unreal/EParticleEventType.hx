@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleSystemComponent.h")
 @:uname("EParticleEventType")
-@:uextern extern enum EParticleEventType {
+@:uextern @:uenum extern enum EParticleEventType {
   
   /**
     Any - allow any event

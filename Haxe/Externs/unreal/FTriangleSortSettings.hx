@@ -20,9 +20,9 @@ package unreal;
   Struct containing triangle sort settings for a particular section
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:noCopy @:noEquals @:uextern extern class FTriangleSortSettings {
-  public var CustomLeftRightBoneName : unreal.FName;
-  public var CustomLeftRightAxis : unreal.ETriangleSortAxis;
-  public var TriangleSorting : unreal.ETriangleSortOption;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTriangleSortSettings {
+  @:uproperty public var CustomLeftRightBoneName : unreal.FName;
+  @:uproperty public var CustomLeftRightAxis : unreal.ETriangleSortAxis;
+  @:uproperty public var TriangleSorting : unreal.ETriangleSortOption;
   
 }

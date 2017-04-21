@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMaterialShadingModel")
-@:uextern extern enum EMaterialShadingModel {
+@:uextern @:uenum extern enum EMaterialShadingModel {
   
   /**
     Unlit

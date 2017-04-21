@@ -14,48 +14,48 @@
 package unreal;
 
 @:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
-@:uextern extern class UBlueprintGeneratedClass extends unreal.UClass {
+@:uextern @:uclass extern class UBlueprintGeneratedClass extends unreal.UClass {
   #if WITH_EDITORONLY_DATA
-  public var OverridenArchetypeForCDO : unreal.UObject;
+  @:uproperty public var OverridenArchetypeForCDO : unreal.UObject;
   #end // WITH_EDITORONLY_DATA
   
   /**
     If this Generated Class has instrumentation
   **/
-  public var bHasInstrumentation : Bool;
+  @:uproperty public var bHasInstrumentation : Bool;
   
   /**
     This is a list of event graph call function nodes that are simple (no argument) thunks into the event graph (typically used for animation delegates, etc...)
     It is a deprecated list only used for backwards compatibility prior to VER_UE4_SERIALIZE_BLUEPRINT_EVENTGRAPH_FASTCALLS_IN_UFUNCTION.
   **/
-  @:deprecated public var FastCallPairs_DEPRECATED : unreal.TArray<unreal.FEventGraphFastCallPair>;
-  public var UberGraphFunction : unreal.UFunction;
-  public var UberGraphFramePointerProperty : unreal.UStructProperty;
+  @:deprecated @:uproperty public var FastCallPairs_DEPRECATED : unreal.TArray<unreal.FEventGraphFastCallPair>;
+  @:uproperty public var UberGraphFunction : unreal.UFunction;
+  @:uproperty public var UberGraphFramePointerProperty : unreal.UStructProperty;
   
   /**
     Stores data to override (in children classes) components (created by SCS) from parent classes
   **/
-  public var InheritableComponentHandler : unreal.UInheritableComponentHandler;
+  @:uproperty public var InheritableComponentHandler : unreal.UInheritableComponentHandler;
   
   /**
     'Simple' construction script - graph of components to instance
   **/
-  public var SimpleConstructionScript : unreal.USimpleConstructionScript;
+  @:uproperty public var SimpleConstructionScript : unreal.USimpleConstructionScript;
   
   /**
     Array of templates for timelines that should be created
   **/
-  public var Timelines : unreal.TArray<unreal.UTimelineTemplate>;
+  @:uproperty public var Timelines : unreal.TArray<unreal.UTimelineTemplate>;
   
   /**
     Array of component template objects, used by AddComponent function
   **/
-  public var ComponentTemplates : unreal.TArray<unreal.UActorComponent>;
+  @:uproperty public var ComponentTemplates : unreal.TArray<unreal.UActorComponent>;
   
   /**
     Array of objects containing information for dynamically binding delegates to functions in this blueprint
   **/
-  public var DynamicBindingObjects : unreal.TArray<unreal.UDynamicBlueprintBinding>;
-  public var NumReplicatedProperties : unreal.Int32;
+  @:uproperty public var DynamicBindingObjects : unreal.TArray<unreal.UDynamicBlueprintBinding>;
+  @:uproperty public var NumReplicatedProperties : unreal.Int32;
   
 }

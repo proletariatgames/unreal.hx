@@ -20,8 +20,8 @@ package unreal;
   Information for one toggle in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackToggle.h")
-@:noCopy @:noEquals @:uextern extern class FToggleTrackKey {
-  public var ToggleAction : unreal.ETrackToggleAction;
-  public var Time : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FToggleTrackKey {
+  @:uproperty public var ToggleAction : unreal.ETrackToggleAction;
+  @:uproperty public var Time : unreal.Float32;
   
 }

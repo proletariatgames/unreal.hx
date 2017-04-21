@@ -22,11 +22,11 @@ package unreal;
     Create a class derived from UAnimGraphNode_Base, containing an instance of your runtime node as a member - this is your visual/editor-only node
 **/
 @:glueCppIncludes("Animation/AnimNodeBase.h")
-@:uextern extern class FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_Base {
   
   /**
     The default handler for graph-exposed inputs
   **/
-  public var EvaluateGraphExposedInputs : unreal.FExposedValueHandler;
+  @:uproperty public var EvaluateGraphExposedInputs : unreal.FExposedValueHandler;
   
 }

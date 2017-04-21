@@ -14,8 +14,8 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNode_ApplyMeshSpaceAdditive.h")
-@:uextern extern class FAnimNode_ApplyMeshSpaceAdditive extends unreal.FAnimNode_Base {
-  public var ActualAlpha : unreal.Float32;
+@:uextern @:ustruct extern class FAnimNode_ApplyMeshSpaceAdditive extends unreal.FAnimNode_Base {
+  @:uproperty public var ActualAlpha : unreal.Float32;
   
   /**
     * Max LOD that this node is allowed to run
@@ -23,10 +23,10 @@ package unreal;
     * when the component LOD becomes 3, it will stop update/evaluate
     * currently transition would be issue and that has to be re-visited
   **/
-  public var LODThreshold : unreal.Int32;
-  public var AlphaScaleBias : unreal.FInputScaleBias;
-  public var Alpha : unreal.Float32;
-  public var Additive : unreal.FPoseLink;
-  public var Base : unreal.FPoseLink;
+  @:uproperty public var LODThreshold : unreal.Int32;
+  @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;
+  @:uproperty public var Alpha : unreal.Float32;
+  @:uproperty public var Additive : unreal.FPoseLink;
+  @:uproperty public var Base : unreal.FPoseLink;
   
 }

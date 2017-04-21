@@ -20,16 +20,16 @@ package unreal;
   Simple class to store 2D camera information.
 **/
 @:glueCppIncludes("Engine/BookMark2D.h")
-@:noClass @:uextern extern class UBookMark2D extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UBookMark2D extends unreal.UObject {
   
   /**
     Location of the camera
   **/
-  public var Location : unreal.FIntPoint;
+  @:uproperty public var Location : unreal.FIntPoint;
   
   /**
     Zoom of the camera
   **/
-  public var Zoom2D : unreal.Float32;
+  @:uproperty public var Zoom2D : unreal.Float32;
   
 }

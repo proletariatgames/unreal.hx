@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackVectorProp.h")
-@:uextern extern class UInterpTrackVectorProp extends unreal.UInterpTrackVectorBase {
+@:uextern @:uclass extern class UInterpTrackVectorProp extends unreal.UInterpTrackVectorBase {
   
   /**
     Name of property in Group  AActor  which this track mill modify over time.
   **/
-  public var PropertyName : unreal.FName;
+  @:uproperty public var PropertyName : unreal.FName;
   
 }

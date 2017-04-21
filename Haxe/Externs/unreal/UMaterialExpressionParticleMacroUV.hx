@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionParticleMacroUV.h")
-@:noClass @:uextern extern class UMaterialExpressionParticleMacroUV extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionParticleMacroUV extends unreal.UMaterialExpression {
   
 }

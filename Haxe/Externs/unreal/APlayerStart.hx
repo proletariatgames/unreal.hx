@@ -20,14 +20,14 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Engine/Actors/PlayerStart/
 **/
 @:glueCppIncludes("GameFramework/PlayerStart.h")
-@:uextern extern class APlayerStart extends unreal.ANavigationObjectBase {
+@:uextern @:uclass extern class APlayerStart extends unreal.ANavigationObjectBase {
   #if WITH_EDITORONLY_DATA
-  public var ArrowComponent : unreal.UArrowComponent;
+  @:uproperty public var ArrowComponent : unreal.UArrowComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Used when searching for which playerstart to use.
   **/
-  public var PlayerStartTag : unreal.FName;
+  @:uproperty public var PlayerStartTag : unreal.FName;
   
 }

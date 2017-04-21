@@ -15,51 +15,51 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
-@:uextern extern class FGameplayEventData {
+@:uextern @:ustruct extern class FGameplayEventData {
   
   /**
     The magnitude of the triggering event
   **/
-  public var EventMagnitude : unreal.Float32;
+  @:uproperty public var EventMagnitude : unreal.Float32;
   
   /**
     Tags that the target has
   **/
-  public var TargetTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var TargetTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Tags that the instigator has
   **/
-  public var InstigatorTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var InstigatorTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Polymorphic context information
   **/
-  public var ContextHandle : unreal.gameplayabilities.FGameplayEffectContextHandle;
+  @:uproperty public var ContextHandle : unreal.gameplayabilities.FGameplayEffectContextHandle;
   
   /**
     A second optional ability-specific object to be passed though the event
   **/
-  public var OptionalObject2 : unreal.UObject;
+  @:uproperty public var OptionalObject2 : unreal.UObject;
   
   /**
     An optional ability-specific object to be passed though the event
   **/
-  public var OptionalObject : unreal.UObject;
+  @:uproperty public var OptionalObject : unreal.UObject;
   
   /**
     The target of the event
   **/
-  public var Target : unreal.AActor;
+  @:uproperty public var Target : unreal.AActor;
   
   /**
     The instigator of the event
   **/
-  public var Instigator : unreal.AActor;
+  @:uproperty public var Instigator : unreal.AActor;
   
   /**
     Tag of the event that triggered this
   **/
-  public var EventTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var EventTag : unreal.gameplaytags.FGameplayTag;
   
 }

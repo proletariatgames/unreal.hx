@@ -21,16 +21,16 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneSpawnTrack.h")
-@:uextern extern class UMovieSceneSpawnTrack extends unreal.moviescene.UMovieSceneTrack {
+@:uextern @:uclass extern class UMovieSceneSpawnTrack extends unreal.moviescene.UMovieSceneTrack {
   
   /**
     The guid relating to the object we are to spawn and destroy
   **/
-  private var ObjectGuid : unreal.FGuid;
+  @:uproperty private var ObjectGuid : unreal.FGuid;
   
   /**
     All the sections in this track
   **/
-  private var Sections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
+  @:uproperty private var Sections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
   
 }

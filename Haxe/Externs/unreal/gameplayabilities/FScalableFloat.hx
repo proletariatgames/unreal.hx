@@ -19,8 +19,8 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AttributeSet.h")
-@:uextern extern class FScalableFloat {
-  public var Curve : unreal.FCurveTableRowHandle;
-  public var Value : unreal.Float32;
+@:uextern @:ustruct extern class FScalableFloat {
+  @:uproperty public var Curve : unreal.FCurveTableRowHandle;
+  @:uproperty public var Value : unreal.Float32;
   
 }

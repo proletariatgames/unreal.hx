@@ -21,9 +21,9 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTTask_SetValue.h")
-@:noClass @:uextern extern class UTestBTTask_SetValue extends unreal.aimodule.UBTTaskNode {
-  public var TaskResult : unreal.aimodule.EBTNodeResult;
-  public var Value : unreal.Int32;
-  public var KeyName : unreal.FName;
+@:noClass @:uextern @:uclass extern class UTestBTTask_SetValue extends unreal.aimodule.UBTTaskNode {
+  @:uproperty public var TaskResult : unreal.aimodule.EBTNodeResult;
+  @:uproperty public var Value : unreal.Int32;
+  @:uproperty public var KeyName : unreal.FName;
   
 }

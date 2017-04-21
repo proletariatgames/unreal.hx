@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvQueryTestClamping.Type")
-@:uextern extern enum EEnvQueryTestClamping {
+@:uextern @:uenum extern enum EEnvQueryTestClamping {
   None;
   
   /**

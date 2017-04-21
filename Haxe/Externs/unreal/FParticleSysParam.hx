@@ -20,14 +20,14 @@ package unreal;
   Struct used for a particular named instance parameter for this ParticleSystemComponent.
 **/
 @:glueCppIncludes("Particles/ParticleSystemComponent.h")
-@:noCopy @:noEquals @:uextern extern class FParticleSysParam {
-  public var Material : unreal.UMaterialInterface;
-  public var Actor : unreal.AActor;
-  public var Color : unreal.FColor;
-  public var Vector_Low : unreal.FVector;
-  public var Vector : unreal.FVector;
-  public var Scalar_Low : unreal.Float32;
-  public var Scalar : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FParticleSysParam {
+  @:uproperty public var Material : unreal.UMaterialInterface;
+  @:uproperty public var Actor : unreal.AActor;
+  @:uproperty public var Color : unreal.FColor;
+  @:uproperty public var Vector_Low : unreal.FVector;
+  @:uproperty public var Vector : unreal.FVector;
+  @:uproperty public var Scalar_Low : unreal.Float32;
+  @:uproperty public var Scalar : unreal.Float32;
   
   /**
     The type of parameters
@@ -40,11 +40,11 @@ package unreal;
     PSPT_Actor      - Use the actor value
     PSPT_Material   - Use the material value
   **/
-  public var ParamType : unreal.EParticleSysParamType;
+  @:uproperty public var ParamType : unreal.EParticleSysParamType;
   
   /**
     The name of the parameter
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
 }

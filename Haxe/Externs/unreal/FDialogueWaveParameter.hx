@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Sound/DialogueTypes.h")
-@:uextern extern class FDialogueWaveParameter {
+@:uextern @:ustruct extern class FDialogueWaveParameter {
   
   /**
     The context to use for the dialogue wave.
   **/
-  public var Context : unreal.FDialogueContext;
+  @:uproperty public var Context : unreal.FDialogueContext;
   
   /**
     The dialogue wave to play.
   **/
-  public var DialogueWave : unreal.UDialogueWave;
+  @:uproperty public var DialogueWave : unreal.UDialogueWave;
   
 }

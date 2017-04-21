@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/DistributionVectorParticleParameter.h")
-@:uextern extern class UDistributionVectorParticleParameter extends unreal.UDistributionVectorParameterBase {
+@:uextern @:uclass extern class UDistributionVectorParticleParameter extends unreal.UDistributionVectorParameterBase {
   
 }

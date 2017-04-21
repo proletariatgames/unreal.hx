@@ -20,14 +20,14 @@ package unreal;
   Imported spreadsheet table as curves.
 **/
 @:glueCppIncludes("Engine/CurveTable.h")
-@:uextern extern class UCurveTable extends unreal.UObject {
+@:uextern @:uclass extern class UCurveTable extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     The filename imported to create this object. Relative to this object's package, BaseDir() or absolute
   **/
-  @:deprecated public var ImportPath_DEPRECATED : unreal.FString;
-  public var AssetImportData : unreal.UAssetImportData;
+  @:deprecated @:uproperty public var ImportPath_DEPRECATED : unreal.FString;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -20,16 +20,16 @@ package unreal;
   Struct allowing control over "walkable" normals, by allowing a restriction or relaxation of what steepness is normally walkable.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FWalkableSlopeOverride {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWalkableSlopeOverride {
   
   /**
     Override walkable slope, applying the rules of the Walkable Slope Behavior.
   **/
-  public var WalkableSlopeAngle : unreal.Float32;
+  @:uproperty public var WalkableSlopeAngle : unreal.Float32;
   
   /**
     Behavior of this surface (whether we affect the walkable slope).
   **/
-  public var WalkableSlopeBehavior : unreal.EWalkableSlopeBehavior;
+  @:uproperty public var WalkableSlopeBehavior : unreal.EWalkableSlopeBehavior;
   
 }

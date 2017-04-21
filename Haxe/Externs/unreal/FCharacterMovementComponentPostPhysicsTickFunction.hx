@@ -20,6 +20,6 @@ package unreal;
   Tick function that calls UCharacterMovementComponent::PostPhysicsTickComponent
 **/
 @:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
-@:noCopy @:noEquals @:uextern extern class FCharacterMovementComponentPostPhysicsTickFunction extends unreal.FTickFunction {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCharacterMovementComponentPostPhysicsTickFunction extends unreal.FTickFunction {
   
 }

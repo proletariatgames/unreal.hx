@@ -15,7 +15,7 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UBoolBinding extends unreal.umg.UPropertyBinding {
-  @:thisConst @:final public function GetValue() : Bool;
+@:uextern @:uclass extern class UBoolBinding extends unreal.umg.UPropertyBinding {
+  @:ufunction @:thisConst @:final public function GetValue() : Bool;
   
 }

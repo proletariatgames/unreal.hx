@@ -20,63 +20,63 @@ package unreal;
      ie. point X in the direction you want generate spring.
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicsSpringComponent.h")
-@:uextern extern class UPhysicsSpringComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class UPhysicsSpringComponent extends unreal.USceneComponent {
   
   /**
     The current compression of the spring. A spring at rest will have SpringCompression 0.
   **/
-  public var SpringCompression : unreal.Float32;
+  @:uproperty public var SpringCompression : unreal.Float32;
   
   /**
     If true, the spring will ignore all components in its own actor
   **/
-  public var bIgnoreSelf : Bool;
+  @:uproperty public var bIgnoreSelf : Bool;
   
   /**
     Strength of thrust force applied to the base object.
   **/
-  public var SpringChannel : unreal.ECollisionChannel;
+  @:uproperty public var SpringChannel : unreal.ECollisionChannel;
   
   /**
     Determines the radius of the spring.
   **/
-  public var SpringRadius : unreal.Float32;
+  @:uproperty public var SpringRadius : unreal.Float32;
   
   /**
     Determines how long the spring will be along the X-axis at rest. The spring will apply 0 force on a body when it's at rest.
   **/
-  public var SpringLengthAtRest : unreal.Float32;
+  @:uproperty public var SpringLengthAtRest : unreal.Float32;
   
   /**
     Specifies how quickly the spring can absorb energy of a body. The higher the damping the less oscillation
   **/
-  public var SpringDamping : unreal.Float32;
+  @:uproperty public var SpringDamping : unreal.Float32;
   
   /**
     Specifies how much strength the spring has. The higher the SpringStiffness the more force the spring can push on a body with.
   **/
-  public var SpringStiffness : unreal.Float32;
+  @:uproperty public var SpringStiffness : unreal.Float32;
   
   /**
     Returns the spring compression as a normalized scalar along spring direction.
     0 implies spring is at rest
     1 implies fully compressed
   **/
-  @:thisConst @:final public function GetNormalizedCompressionScalar() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetNormalizedCompressionScalar() : unreal.Float32;
   
   /**
     Returns the spring resting point in world space.
   **/
-  @:thisConst @:final public function GetSpringRestingPoint() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetSpringRestingPoint() : unreal.FVector;
   
   /**
     Returns the spring current end point in world space.
   **/
-  @:thisConst @:final public function GetSpringCurrentEndPoint() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetSpringCurrentEndPoint() : unreal.FVector;
   
   /**
     Returns the spring direction from start to resting point
   **/
-  @:thisConst @:final public function GetSpringDirection() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetSpringDirection() : unreal.FVector;
   
 }

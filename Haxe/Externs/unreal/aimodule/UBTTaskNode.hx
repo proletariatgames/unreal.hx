@@ -29,11 +29,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTTaskNode.h")
-@:uextern extern class UBTTaskNode extends unreal.aimodule.UBTNode {
+@:uextern @:uclass extern class UBTTaskNode extends unreal.aimodule.UBTNode {
   
   /**
     service nodes
   **/
-  public var Services : unreal.TArray<unreal.aimodule.UBTService>;
+  @:uproperty public var Services : unreal.TArray<unreal.aimodule.UBTService>;
   
 }

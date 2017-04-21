@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("MeshVertexPainter/MeshVertexPainterKismetLibrary.h")
-@:uextern extern class UMeshVertexPainterKismetLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UMeshVertexPainterKismetLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

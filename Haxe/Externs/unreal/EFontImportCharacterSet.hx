@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/FontImportOptions.h")
 @:uname("EFontImportCharacterSet")
-@:uextern extern enum EFontImportCharacterSet {
+@:uextern @:uenum extern enum EFontImportCharacterSet {
   FontICS_Default;
   FontICS_Ansi;
   FontICS_Symbol;

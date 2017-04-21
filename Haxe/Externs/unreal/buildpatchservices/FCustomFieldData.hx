@@ -21,8 +21,8 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
-@:noCopy @:noEquals @:uextern extern class FCustomFieldData {
-  public var Value : unreal.FString;
-  public var Key : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCustomFieldData {
+  @:uproperty public var Value : unreal.FString;
+  @:uproperty public var Key : unreal.FString;
   
 }

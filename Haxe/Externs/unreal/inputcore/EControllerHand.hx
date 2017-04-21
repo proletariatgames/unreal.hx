@@ -20,7 +20,7 @@ package unreal.inputcore;
 @:umodule("InputCore")
 @:glueCppIncludes("InputCoreTypes.h")
 @:uname("EControllerHand")
-@:class @:uextern extern enum EControllerHand {
+@:class @:uextern @:uenum extern enum EControllerHand {
   Left;
   Right;
   Pad;

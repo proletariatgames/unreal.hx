@@ -19,21 +19,21 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FProgressBarStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FProgressBarStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Image to use for marquee mode
   **/
-  public var MarqueeImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var MarqueeImage : unreal.slatecore.FSlateBrush;
   
   /**
     Foreground image to use for the progress bar
   **/
-  public var FillImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var FillImage : unreal.slatecore.FSlateBrush;
   
   /**
     Background image to use for the progress bar
   **/
-  public var BackgroundImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BackgroundImage : unreal.slatecore.FSlateBrush;
   
 }

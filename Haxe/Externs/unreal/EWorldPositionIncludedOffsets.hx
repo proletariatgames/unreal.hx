@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionWorldPosition.h")
 @:uname("EWorldPositionIncludedOffsets")
-@:uextern extern enum EWorldPositionIncludedOffsets {
+@:uextern @:uenum extern enum EWorldPositionIncludedOffsets {
   
   /**
     Absolute world position with all material shader offsets applied

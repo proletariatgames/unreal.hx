@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstFloatAnimBPParam.h")
-@:noClass @:uextern extern class UInterpTrackInstFloatAnimBPParam extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstFloatAnimBPParam extends unreal.UInterpTrackInst {
   
   /**
     Saved values for restoring state when exiting Matinee.
   **/
-  public var ResetFloat : unreal.Float32;
+  @:uproperty public var ResetFloat : unreal.Float32;
   
   /**
     MIDs we're using to set the desired parameter.
   **/
-  public var AnimScriptInstance : unreal.UAnimInstance;
+  @:uproperty public var AnimScriptInstance : unreal.UAnimInstance;
   
 }

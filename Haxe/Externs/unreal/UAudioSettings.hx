@@ -18,7 +18,7 @@ package unreal;
   Audio settings.
 **/
 @:glueCppIncludes("Sound/AudioSettings.h")
-@:uextern extern class UAudioSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UAudioSettings extends unreal.UDeveloperSettings {
   
   /**
     The format string to use when generating the filename for contexts within dialogue waves. This must generate unique names for your project.
@@ -29,43 +29,43 @@ package unreal;
       * {ContextId}    - The ID of the context. Guaranteed to be unique within its dialogue wave. Not guaranteed to be stable against changes to the context.
       * {ContextIndex} - The index of the context within its parent dialogue wave. Guaranteed to be unique within its dialogue wave. Not guaranteed to be stable against contexts being removed.
   **/
-  public var DialogueFilenameFormat : unreal.FString;
+  @:uproperty public var DialogueFilenameFormat : unreal.FString;
   
   /**
     Allows sounds to play at 0 volume.
   **/
-  public var bAllowVirtualizedSounds : Bool;
-  public var QualityLevels : unreal.TArray<unreal.FAudioQualitySettings>;
+  @:uproperty public var bAllowVirtualizedSounds : Bool;
+  @:uproperty public var QualityLevels : unreal.TArray<unreal.FAudioQualitySettings>;
   
   /**
     How many streaming sounds can be played at the same time (if more are played they will be sorted by priority)
   **/
-  public var MaximumConcurrentStreams : unreal.Int32;
-  public var LowPassFilterResonance : unreal.Float32;
+  @:uproperty public var MaximumConcurrentStreams : unreal.Int32;
+  @:uproperty public var LowPassFilterResonance : unreal.Float32;
   
   /**
     Sound class to be used for the VOIP audio component
   **/
-  public var VoiPSoundClass : unreal.FStringAssetReference;
+  @:uproperty public var VoiPSoundClass : unreal.FStringAssetReference;
   
   /**
     The SoundMix to use as base when no other system has specified a Base SoundMix
   **/
-  public var DefaultBaseSoundMix : unreal.FStringAssetReference;
+  @:uproperty public var DefaultBaseSoundMix : unreal.FStringAssetReference;
   
   /**
     The SoundSubmix assigned to newly created sounds
   **/
-  public var DefaultSoundSubmixName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultSoundSubmixName : unreal.FStringAssetReference;
   
   /**
     The SoundConcurrency assigned to newly created sounds
   **/
-  public var DefaultSoundConcurrencyName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultSoundConcurrencyName : unreal.FStringAssetReference;
   
   /**
     The SoundClass assigned to newly created sounds
   **/
-  public var DefaultSoundClassName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultSoundClassName : unreal.FStringAssetReference;
   
 }

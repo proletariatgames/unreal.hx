@@ -20,9 +20,9 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationData.h")
-@:noCopy @:noEquals @:uextern extern class FSupportedAreaData {
-  public var AreaClass : unreal.UClass;
-  public var AreaID : unreal.Int32;
-  public var AreaClassName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSupportedAreaData {
+  @:uproperty public var AreaClass : unreal.UClass;
+  @:uproperty public var AreaID : unreal.Int32;
+  @:uproperty public var AreaClassName : unreal.FString;
   
 }

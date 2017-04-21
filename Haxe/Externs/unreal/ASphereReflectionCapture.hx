@@ -21,7 +21,7 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Resources/ContentExamples/Reflections/1_4
 **/
 @:glueCppIncludes("Engine/SphereReflectionCapture.h")
-@:uextern extern class ASphereReflectionCapture extends unreal.AReflectionCapture {
-  public var DrawCaptureRadius : unreal.UDrawSphereComponent;
+@:uextern @:uclass extern class ASphereReflectionCapture extends unreal.AReflectionCapture {
+  @:uproperty public var DrawCaptureRadius : unreal.UDrawSphereComponent;
   
 }

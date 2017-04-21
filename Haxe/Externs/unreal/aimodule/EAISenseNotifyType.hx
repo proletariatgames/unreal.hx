@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AIPerceptionTypes.h")
 @:uname("EAISenseNotifyType")
-@:class @:uextern extern enum EAISenseNotifyType {
+@:class @:uextern @:uenum extern enum EAISenseNotifyType {
   
   /**
     Continuous update whenever target is perceived.

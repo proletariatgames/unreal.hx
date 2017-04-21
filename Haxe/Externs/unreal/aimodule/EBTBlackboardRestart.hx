@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_Blackboard.h")
 @:uname("EBTBlackboardRestart.Type")
-@:uextern extern enum EBTBlackboardRestart {
+@:uextern @:uenum extern enum EBTBlackboardRestart {
   
   /**
     Restart on every change of observed blackboard value

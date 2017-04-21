@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_PlaySound.h")
-@:uextern extern class UBTTask_PlaySound extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_PlaySound extends unreal.aimodule.UBTTaskNode {
   
   /**
     CUE to play
   **/
-  public var SoundToPlay : unreal.USoundCue;
+  @:uproperty public var SoundToPlay : unreal.USoundCue;
   
 }

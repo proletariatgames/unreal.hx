@@ -18,20 +18,20 @@ package unreal;
   Linear Drive
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
-@:uextern extern class FLinearDriveConstraint {
-  public var bEnablePositionDrive : Bool;
-  public var ZDrive : unreal.FConstraintDrive;
-  public var YDrive : unreal.FConstraintDrive;
-  public var XDrive : unreal.FConstraintDrive;
+@:uextern @:ustruct extern class FLinearDriveConstraint {
+  @:uproperty public var bEnablePositionDrive : Bool;
+  @:uproperty public var ZDrive : unreal.FConstraintDrive;
+  @:uproperty public var YDrive : unreal.FConstraintDrive;
+  @:uproperty public var XDrive : unreal.FConstraintDrive;
   
   /**
     Target velocity the linear drive.
   **/
-  public var VelocityTarget : unreal.FVector;
+  @:uproperty public var VelocityTarget : unreal.FVector;
   
   /**
     Target position the linear drive.
   **/
-  public var PositionTarget : unreal.FVector;
+  @:uproperty public var PositionTarget : unreal.FVector;
   
 }

@@ -21,6 +21,6 @@ package unreal;
   arrays of structs of arrays are okay.
 **/
 @:glueCppIncludes("Engine/PlatformInterfaceBase.h")
-@:noCopy @:noEquals @:uextern extern class FDelegateArray {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDelegateArray {
   
 }

@@ -20,6 +20,6 @@ package unreal;
   Unique handle that can be used to distinguish timers that have identical delegates.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FTimerHandle {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTimerHandle {
   
 }

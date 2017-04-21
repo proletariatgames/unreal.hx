@@ -15,56 +15,56 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/MaterialEditorOptions.h")
-@:uextern extern class UMaterialEditorOptions extends unreal.UObject {
+@:uextern @:uclass extern class UMaterialEditorOptions extends unreal.UObject {
   
   /**
     The users favorite material expressions.
   **/
-  public var FavoriteExpressions : unreal.TArray<unreal.FString>;
+  @:uproperty public var FavoriteExpressions : unreal.TArray<unreal.FString>;
   
   /**
     If true, show mobile statis and errors.
   **/
-  public var bShowMobileStats : Bool;
+  @:uproperty public var bShowMobileStats : Bool;
   
   /**
     If false, use expression categorized menus.
   **/
-  public var bUseUnsortedMenus : Bool;
+  @:uproperty public var bUseUnsortedMenus : Bool;
   
   /**
     If true, always refresh all expression previews.
   **/
-  public var bAlwaysRefreshAllPreviews : Bool;
+  @:uproperty public var bAlwaysRefreshAllPreviews : Bool;
   
   /**
     If true, always refresh the material preview.
   **/
-  public var bLivePreviewUpdate : Bool;
+  @:uproperty public var bLivePreviewUpdate : Bool;
   
   /**
     If true, the linked object viewport updates in realtime.
   **/
-  public var bRealtimeExpressionViewport : Bool;
+  @:uproperty public var bRealtimeExpressionViewport : Bool;
   
   /**
     If true, the 3D material preview viewport updates in realtime.
   **/
-  public var bRealtimeMaterialViewport : Bool;
+  @:uproperty public var bRealtimeMaterialViewport : Bool;
   
   /**
     If true, don't render connectors that are not connected to anything.
   **/
-  public var bHideUnusedConnectors : Bool;
+  @:uproperty public var bHideUnusedConnectors : Bool;
   
   /**
     If true, render background object in the preview scene.
   **/
-  public var bShowBackground : Bool;
+  @:uproperty public var bShowBackground : Bool;
   
   /**
     If true, render grid the preview scene.
   **/
-  public var bShowGrid : Bool;
+  @:uproperty public var bShowGrid : Bool;
   
 }

@@ -20,6 +20,6 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
-@:uextern extern class FPaintContext {
+@:uextern @:ustruct extern class FPaintContext {
   
 }

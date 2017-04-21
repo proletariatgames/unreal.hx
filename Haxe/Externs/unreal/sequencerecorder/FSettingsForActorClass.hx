@@ -21,16 +21,16 @@ package unreal.sequencerecorder;
 **/
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderSettings.h")
-@:noCopy @:noEquals @:uextern extern class FSettingsForActorClass {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSettingsForActorClass {
   
   /**
     Whether to record to 'possessable' (i.e. level-owned) or 'spawnable' (i.e. sequence-owned) actors.
   **/
-  public var bRecordToPossessable : Bool;
+  @:uproperty public var bRecordToPossessable : Bool;
   
   /**
     The class of the actor we want to record
   **/
-  public var Class : unreal.TSubclassOf<unreal.AActor>;
+  @:uproperty public var Class : unreal.TSubclassOf<unreal.AActor>;
   
 }

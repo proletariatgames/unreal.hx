@@ -20,11 +20,11 @@ package unreal;
   Structure storing information about one color interpolation track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FTTLinearColorTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTTLinearColorTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to define color value over time
   **/
-  public var CurveLinearColor : unreal.UCurveLinearColor;
+  @:uproperty public var CurveLinearColor : unreal.UCurveLinearColor;
   
 }

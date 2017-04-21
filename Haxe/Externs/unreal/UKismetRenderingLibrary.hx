@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Kismet/KismetRenderingLibrary.h")
-@:uextern extern class UKismetRenderingLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UKismetRenderingLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

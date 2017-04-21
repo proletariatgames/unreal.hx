@@ -15,22 +15,22 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UHorizontalBoxSlot extends unreal.umg.UPanelSlot {
-  public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
-  public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
+@:uextern @:uclass extern class UHorizontalBoxSlot extends unreal.umg.UPanelSlot {
+  @:uproperty public var VerticalAlignment : unreal.slatecore.EVerticalAlignment;
+  @:uproperty public var HorizontalAlignment : unreal.slatecore.EHorizontalAlignment;
   
   /**
     How much space this slot should occupy in the direction of the panel.
   **/
-  public var Size : unreal.umg.FSlateChildSize;
+  @:uproperty public var Size : unreal.umg.FSlateChildSize;
   
   /**
     The amount of padding between the slots parent and the content.
   **/
-  public var Padding : unreal.slatecore.FMargin;
-  @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:final public function SetSize(InSize : unreal.umg.FSlateChildSize) : Void;
-  @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:uproperty public var Padding : unreal.slatecore.FMargin;
+  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction @:final public function SetSize(InSize : unreal.umg.FSlateChildSize) : Void;
+  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

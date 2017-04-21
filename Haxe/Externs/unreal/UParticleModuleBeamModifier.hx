@@ -20,46 +20,46 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
-@:noClass @:uextern extern class UParticleModuleBeamModifier extends unreal.UParticleModuleBeamBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleBeamModifier extends unreal.UParticleModuleBeamBase {
   
   /**
     The value to use when modifying the Strength.
   **/
-  public var Strength : unreal.FRawDistributionFloat;
+  @:uproperty public var Strength : unreal.FRawDistributionFloat;
   
   /**
     The options associated with the Strength.
   **/
-  public var StrengthOptions : unreal.FBeamModifierOptions;
+  @:uproperty public var StrengthOptions : unreal.FBeamModifierOptions;
   
   /**
     If true, don't transform the tangent modifier into the tangent basis.
   **/
-  public var bAbsoluteTangent : Bool;
+  @:uproperty public var bAbsoluteTangent : Bool;
   
   /**
     The value to use when modifying the Tangent.
   **/
-  public var Tangent : unreal.FRawDistributionVector;
+  @:uproperty public var Tangent : unreal.FRawDistributionVector;
   
   /**
     The options associated with the Tangent.
   **/
-  public var TangentOptions : unreal.FBeamModifierOptions;
+  @:uproperty public var TangentOptions : unreal.FBeamModifierOptions;
   
   /**
     The value to use when modifying the position.
   **/
-  public var Position : unreal.FRawDistributionVector;
+  @:uproperty public var Position : unreal.FRawDistributionVector;
   
   /**
     The options associated with the position.
   **/
-  public var PositionOptions : unreal.FBeamModifierOptions;
+  @:uproperty public var PositionOptions : unreal.FBeamModifierOptions;
   
   /**
     Whether this module modifies the Source or the Target.
   **/
-  public var ModifierType : unreal.BeamModifierType;
+  @:uproperty public var ModifierType : unreal.BeamModifierType;
   
 }

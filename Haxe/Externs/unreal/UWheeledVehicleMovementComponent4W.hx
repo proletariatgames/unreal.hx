@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/WheeledVehicleMovementComponent4W.h")
-@:uextern extern class UWheeledVehicleMovementComponent4W extends unreal.UWheeledVehicleMovementComponent {
+@:uextern @:uclass extern class UWheeledVehicleMovementComponent4W extends unreal.UWheeledVehicleMovementComponent {
   
   /**
     Accuracy of Ackermann steer calculation (range: 0..1)
   **/
-  public var AckermannAccuracy : unreal.Float32;
+  @:uproperty public var AckermannAccuracy : unreal.Float32;
   
   /**
     Maximum steering versus forward speed (km/h)
   **/
-  public var SteeringCurve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var SteeringCurve : unreal.FRuntimeFloatCurve;
   
   /**
     Transmission data
   **/
-  public var TransmissionSetup : unreal.FVehicleTransmissionData;
+  @:uproperty public var TransmissionSetup : unreal.FVehicleTransmissionData;
   
   /**
     Differential
   **/
-  public var DifferentialSetup : unreal.FVehicleDifferential4WData;
+  @:uproperty public var DifferentialSetup : unreal.FVehicleDifferential4WData;
   
   /**
     Engine
   **/
-  public var EngineSetup : unreal.FVehicleEngineData;
+  @:uproperty public var EngineSetup : unreal.FVehicleEngineData;
   
 }

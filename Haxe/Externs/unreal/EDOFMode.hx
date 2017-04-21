@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/BodyInstance.h")
 @:uname("EDOFMode.Type")
-@:uextern extern enum EDOFMode {
+@:uextern @:uenum extern enum EDOFMode {
   
   /**
     Inherits the degrees of freedom from the project settings.

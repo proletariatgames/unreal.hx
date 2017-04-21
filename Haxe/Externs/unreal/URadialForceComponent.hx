@@ -20,41 +20,41 @@ package unreal;
   Used to emit a radial force or impulse that can affect physics objects and or destructible objects.
 **/
 @:glueCppIncludes("PhysicsEngine/RadialForceComponent.h")
-@:uextern extern class URadialForceComponent extends unreal.USceneComponent {
+@:uextern @:uclass extern class URadialForceComponent extends unreal.USceneComponent {
   
   /**
     If > 0.f, will cause damage to destructible meshes as well
   **/
-  public var DestructibleDamage : unreal.Float32;
+  @:uproperty public var DestructibleDamage : unreal.Float32;
   
   /**
     How strong the force should be
   **/
-  public var ForceStrength : unreal.Float32;
+  @:uproperty public var ForceStrength : unreal.Float32;
   
   /**
     If true, do not apply force/impulse to any physics objects that are part of the Actor that owns this component.
   **/
-  public var bIgnoreOwningActor : Bool;
+  @:uproperty public var bIgnoreOwningActor : Bool;
   
   /**
     If true, the impulse will ignore mass of objects and will always result in a fixed velocity change
   **/
-  public var bImpulseVelChange : Bool;
+  @:uproperty public var bImpulseVelChange : Bool;
   
   /**
     How strong the impulse should be
   **/
-  public var ImpulseStrength : unreal.Float32;
+  @:uproperty public var ImpulseStrength : unreal.Float32;
   
   /**
     How the force or impulse should fall off as object are further away from the center
   **/
-  public var Falloff : unreal.ERadialImpulseFalloff;
+  @:uproperty public var Falloff : unreal.ERadialImpulseFalloff;
   
   /**
     The radius to apply the force or impulse in
   **/
-  public var Radius : unreal.Float32;
+  @:uproperty public var Radius : unreal.Float32;
   
 }

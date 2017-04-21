@@ -21,12 +21,12 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperTerrainMaterial.h")
-@:uextern extern class UPaperTerrainMaterial extends unreal.UDataAsset {
+@:uextern @:uclass extern class UPaperTerrainMaterial extends unreal.UDataAsset {
   
   /**
     The sprite to use for an interior region fill
   **/
-  public var InteriorFill : unreal.paper2d.UPaperSprite;
-  public var Rules : unreal.TArray<unreal.paper2d.FPaperTerrainMaterialRule>;
+  @:uproperty public var InteriorFill : unreal.paper2d.UPaperSprite;
+  @:uproperty public var Rules : unreal.TArray<unreal.paper2d.FPaperTerrainMaterialRule>;
   
 }

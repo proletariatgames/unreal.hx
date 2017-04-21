@@ -20,46 +20,46 @@ package unreal;
   Parameters that pertain to chunk damage.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:noCopy @:noEquals @:uextern extern class FDestructibleDamageParameters {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleDamageParameters {
   
   /**
     Controls how much resistance is applied to colliding objects. Weak materials like glass should set this to a low value so that objects will pass right through them during fracture.
     @see DepthParameters for per level control of ImpactResistance
   **/
-  public var ImpactResistance : unreal.Float32;
+  @:uproperty public var ImpactResistance : unreal.Float32;
   
   /**
     By default, objects that collide with destructibles will bounce back. Custom resistance allows for finer control of how much a destructible "pushes back" against a colliding object.
     @see ImpactResistance
   **/
-  public var bCustomImpactResistance : Bool;
+  @:uproperty public var bCustomImpactResistance : Bool;
   
   /**
     Max depth level where impact damage is enabled. @see DepthParameters for per level control of ImpactDamage
     If negative, impact damage is disabled
   **/
-  public var DefaultImpactDamageDepth : unreal.Int32;
+  @:uproperty public var DefaultImpactDamageDepth : unreal.Int32;
   
   /**
     Controls how much damage is applied upon collision. Damage = ImpactDamage * ImpactForce.
     @see DepthParameters for per level control of ImpactDamage
   **/
-  public var ImpactDamage : unreal.Float32;
+  @:uproperty public var ImpactDamage : unreal.Float32;
   
   /**
     Whether to apply damage to destructible when colliding with an object.
     @see ImpactDamage
   **/
-  public var bEnableImpactDamage : Bool;
+  @:uproperty public var bEnableImpactDamage : Bool;
   
   /**
     Controls how easily damage spreads. DamageRadius = Damage*DamageSpread. All chunks within DamageRadius will take damage. Full damage is taken at zero distance, and zero damage at the DamageRadius.
   **/
-  public var DamageSpread : unreal.Float32;
+  @:uproperty public var DamageSpread : unreal.Float32;
   
   /**
     The damage amount which will cause a chunk to fracture (break free).
   **/
-  public var DamageThreshold : unreal.Float32;
+  @:uproperty public var DamageThreshold : unreal.Float32;
   
 }

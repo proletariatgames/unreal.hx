@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
 @:uname("EGameplayModEvaluationChannel")
-@:class @:uextern extern enum EGameplayModEvaluationChannel {
+@:class @:uextern @:uenum extern enum EGameplayModEvaluationChannel {
   Channel0;
   Channel1;
   Channel2;

@@ -21,6 +21,6 @@ package unreal.inputcore;
 **/
 @:umodule("InputCore")
 @:glueCppIncludes("InputCoreTypes.h")
-@:noClass @:uextern extern class UInputCoreTypes extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UInputCoreTypes extends unreal.UObject {
   
 }

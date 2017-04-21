@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassParameterValue {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassParameterValue {
   
   /**
     If true, override the given parameter with the given settings
   **/
-  public var bOverride : Bool;
+  @:uproperty public var bOverride : Bool;
   
 }

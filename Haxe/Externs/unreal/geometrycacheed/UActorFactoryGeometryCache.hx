@@ -21,6 +21,6 @@ package unreal.geometrycacheed;
 **/
 @:umodule("GeometryCacheEd")
 @:glueCppIncludes("ActorFactoryGeometryCache.h")
-@:uextern extern class UActorFactoryGeometryCache extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryGeometryCache extends unreal.editor.UActorFactory {
   
 }

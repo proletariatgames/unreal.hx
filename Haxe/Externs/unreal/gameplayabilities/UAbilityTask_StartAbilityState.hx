@@ -32,6 +32,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_StartAbilityState.h")
-@:uextern extern class UAbilityTask_StartAbilityState extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_StartAbilityState extends unreal.gameplayabilities.UAbilityTask {
   
 }

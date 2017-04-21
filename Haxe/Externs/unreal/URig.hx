@@ -22,6 +22,6 @@ package unreal;
           - support to share different animations
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:uextern extern class URig extends unreal.UObject {
+@:uextern @:uclass extern class URig extends unreal.UObject {
   
 }

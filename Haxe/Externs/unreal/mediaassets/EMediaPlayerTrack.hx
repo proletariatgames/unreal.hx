@@ -22,7 +22,7 @@ package unreal.mediaassets;
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaPlayer.h")
 @:uname("EMediaPlayerTrack")
-@:class @:uextern extern enum EMediaPlayerTrack {
+@:class @:uextern @:uenum extern enum EMediaPlayerTrack {
   
   /**
     Audio track.

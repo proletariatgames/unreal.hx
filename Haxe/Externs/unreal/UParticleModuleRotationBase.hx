@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Rotation/ParticleModuleRotationBase.h")
-@:noClass @:uextern extern class UParticleModuleRotationBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleRotationBase extends unreal.UParticleModule {
   
 }

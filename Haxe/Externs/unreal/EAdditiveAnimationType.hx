@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EAdditiveAnimationType")
-@:uextern extern enum EAdditiveAnimationType {
+@:uextern @:uenum extern enum EAdditiveAnimationType {
   
   /**
     No additive.

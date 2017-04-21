@@ -21,19 +21,19 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayModifierEvaluatedData {
-  public var IsValid : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayModifierEvaluatedData {
+  @:uproperty public var IsValid : Bool;
   
   /**
     Handle of the active gameplay effect that originated us. Will be invalid in many cases
   **/
-  public var Handle : unreal.gameplayabilities.FActiveGameplayEffectHandle;
-  public var Magnitude : unreal.Float32;
+  @:uproperty public var Handle : unreal.gameplayabilities.FActiveGameplayEffectHandle;
+  @:uproperty public var Magnitude : unreal.Float32;
   
   /**
     The numeric operation of this modifier: Override, Add, Multiply, etc
   **/
-  public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
-  public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
+  @:uproperty public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
+  @:uproperty public var Attribute : unreal.gameplayabilities.FGameplayAttribute;
   
 }

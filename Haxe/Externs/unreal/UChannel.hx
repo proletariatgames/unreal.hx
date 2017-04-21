@@ -18,7 +18,7 @@ package unreal;
   Base class of communication channels.
 **/
 @:glueCppIncludes("Engine/Channel.h")
-@:uextern extern class UChannel extends unreal.UObject {
-  public var Connection : unreal.UNetConnection;
+@:uextern @:uclass extern class UChannel extends unreal.UObject {
+  @:uproperty public var Connection : unreal.UNetConnection;
   
 }

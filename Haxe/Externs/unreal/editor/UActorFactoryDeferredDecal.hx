@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryDeferredDecal.h")
-@:uextern extern class UActorFactoryDeferredDecal extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryDeferredDecal extends unreal.editor.UActorFactory {
   
 }

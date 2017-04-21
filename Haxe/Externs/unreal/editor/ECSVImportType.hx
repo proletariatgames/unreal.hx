@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/CSVImportFactory.h")
 @:uname("ECSVImportType")
-@:class @:uextern extern enum ECSVImportType {
+@:class @:uextern @:uenum extern enum ECSVImportType {
   
   /**
     Import as UDataTable

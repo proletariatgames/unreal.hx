@@ -20,7 +20,7 @@ package unreal.oculusrift;
 @:umodule("OculusRift")
 @:glueCppIncludes("OculusRiftBoundaryComponent.h")
 @:uname("ETrackedDeviceType")
-@:class @:uextern extern enum ETrackedDeviceType {
+@:class @:uextern @:uenum extern enum ETrackedDeviceType {
   
   /**
     No Devices

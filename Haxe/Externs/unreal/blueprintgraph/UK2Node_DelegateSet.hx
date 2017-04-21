@@ -21,16 +21,16 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_DelegateSet.h")
-@:uextern extern class UK2Node_DelegateSet extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_DelegateSet extends unreal.blueprintgraph.UK2Node {
   
   /**
     Class that the delegate property is defined in
   **/
-  public var DelegatePropertyClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var DelegatePropertyClass : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     Delegate property name that this event is associated with on the target
   **/
-  public var DelegatePropertyName : unreal.FName;
+  @:uproperty public var DelegatePropertyName : unreal.FName;
   
 }

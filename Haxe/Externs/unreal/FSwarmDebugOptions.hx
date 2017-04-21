@@ -20,19 +20,19 @@ package unreal;
   Debug options for Swarm
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FSwarmDebugOptions {
-  public var bInitialized : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSwarmDebugOptions {
+  @:uproperty public var bInitialized : Bool;
   
   /**
     If true, Swarm will force content to re-export rather than using the cached version.
     If false, Swarm will attempt to use the cached version.
   **/
-  public var bForceContentExport : Bool;
+  @:uproperty public var bForceContentExport : Bool;
   
   /**
     If true, Swarm will distribute jobs.
     If false, only the local machine will execute the jobs.
   **/
-  public var bDistributionEnabled : Bool;
+  @:uproperty public var bDistributionEnabled : Bool;
   
 }

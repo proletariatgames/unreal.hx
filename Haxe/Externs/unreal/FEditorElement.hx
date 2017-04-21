@@ -20,6 +20,6 @@ package unreal;
   Each elements in the grid
 **/
 @:glueCppIncludes("Animation/BlendSpaceBase.h")
-@:noCopy @:noEquals @:uextern extern class FEditorElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorElement {
   
 }

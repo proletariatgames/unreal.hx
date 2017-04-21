@@ -22,21 +22,21 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UTextBlock extends unreal.umg.UTextLayoutWidget {
+@:uextern @:uclass extern class UTextBlock extends unreal.umg.UTextLayoutWidget {
   
   /**
     Sets the color and opacity of the text in this text block
     
     @param InColorAndOpacity             The new text color and opacity
   **/
-  @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.slatecore.FSlateColor) : Void;
+  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.slatecore.FSlateColor) : Void;
   
   /**
     Sets the opacity of the text in this text block
     
     @param InOpacity              The new text opacity
   **/
-  @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
   
   /**
     Sets the color and opacity of the text drop shadow
@@ -44,57 +44,75 @@ package unreal.umg;
     
     @param InShadowColorAndOpacity               The new drop shadow color and opacity
   **/
-  @:final public function SetShadowColorAndOpacity(InShadowColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetShadowColorAndOpacity(InShadowColorAndOpacity : unreal.FLinearColor) : Void;
   
   /**
     Sets the offset that the text drop shadow should be drawn at
     
     @param InShadowOffset                The new offset
   **/
-  @:final public function SetShadowOffset(InShadowOffset : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetShadowOffset(InShadowOffset : unreal.FVector2D) : Void;
   
   /**
     Dynamically set the font info for this text block
     
     @param InFontInfo THe new font info
   **/
-  @:final public function SetFont(InFontInfo : unreal.slatecore.FSlateFontInfo) : Void;
+  @:ufunction @:final public function SetFont(InFontInfo : unreal.slatecore.FSlateFontInfo) : Void;
   
   /**
     Set the text justification for this text block
     
     @param Justification new justification
   **/
-  @:final public function SetJustification(InJustification : unreal.slate.ETextJustify) : Void;
+  @:ufunction @:final public function SetJustification(InJustification : unreal.slate.ETextJustify) : Void;
   
   /**
     If true, it will automatically wrap this text widget with an invalidation panel
   **/
-  public var bWrapWithInvalidationPanel : Bool;
+  @:uproperty public var bWrapWithInvalidationPanel : Bool;
   
   /**
     The minimum desired size for the text
   **/
-  public var MinDesiredWidth : unreal.Float32;
+  @:uproperty public var MinDesiredWidth : unreal.Float32;
   
   /**
     The color of the shadow
   **/
-  public var ShadowColorAndOpacity : unreal.FLinearColor;
+  @:uproperty public var ShadowColorAndOpacity : unreal.FLinearColor;
   
   /**
     The direction the shadow is cast
   **/
-  public var ShadowOffset : unreal.FVector2D;
+  @:uproperty public var ShadowOffset : unreal.FVector2D;
   
   /**
     The font to render the text with
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
   /**
     The color of the text
   **/
-  public var ColorAndOpacity : unreal.slatecore.FSlateColor;
+  @:uproperty public var ColorAndOpacity : unreal.slatecore.FSlateColor;
+  
+  /**
+    The text to display
+  **/
+  @:uproperty public var Text : unreal.FText;
+  
+  /**
+    Gets the widget text
+    @return The widget text
+  **/
+  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
+  
+  /**
+    Directly sets the widget text.
+    Warning: This will wipe any binding created for the Text property!
+    @param InText The text to assign to the widget
+  **/
+  @:ufunction @:final public function SetText(InText : unreal.FText) : Void;
   
 }

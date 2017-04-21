@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundEffectPreset.h")
-@:uextern extern class USoundEffectPreset extends unreal.UObject {
+@:uextern @:uclass extern class USoundEffectPreset extends unreal.UObject {
   
 }

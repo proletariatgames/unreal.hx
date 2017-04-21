@@ -19,16 +19,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
-@:uextern extern class FLevelEditorViewportInstanceSettingsKeyValuePair {
+@:uextern @:ustruct extern class FLevelEditorViewportInstanceSettingsKeyValuePair {
   
   /**
     Settings for this config.
   **/
-  public var ConfigSettings : unreal.editor.FLevelEditorViewportInstanceSettings;
+  @:uproperty public var ConfigSettings : unreal.editor.FLevelEditorViewportInstanceSettings;
   
   /**
     Name identifying this config.
   **/
-  public var ConfigName : unreal.FString;
+  @:uproperty public var ConfigName : unreal.FString;
   
 }

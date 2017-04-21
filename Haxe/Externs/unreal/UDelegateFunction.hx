@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UDelegateFunction extends unreal.UFunction {
+@:uextern @:uclass extern class UDelegateFunction extends unreal.UFunction {
   
 }

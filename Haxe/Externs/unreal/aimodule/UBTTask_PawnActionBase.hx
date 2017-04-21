@@ -24,6 +24,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_PawnActionBase.h")
-@:uextern extern class UBTTask_PawnActionBase extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_PawnActionBase extends unreal.aimodule.UBTTaskNode {
   
 }

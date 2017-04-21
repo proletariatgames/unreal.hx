@@ -18,18 +18,18 @@ package unreal;
   Group of Root Motion Sources that are applied
 **/
 @:glueCppIncludes("GameFramework/RootMotionSource.h")
-@:uextern extern class FRootMotionSourceGroup {
+@:uextern @:ustruct extern class FRootMotionSourceGroup {
   
   /**
     Aggregate Settings of the last group of accumulated sources
   **/
-  public var LastAccumulatedSettings : unreal.FRootMotionSourceSettings;
+  @:uproperty public var LastAccumulatedSettings : unreal.FRootMotionSourceSettings;
   
   /**
     True when we had additive velocity applied last tick, checked to know if we should restore
     LastPreAdditiveVelocity before a Velocity computation
   **/
-  public var bIsAdditiveVelocityApplied : Bool;
+  @:uproperty public var bIsAdditiveVelocityApplied : Bool;
   
   /**
     Saved off pre-additive-applied Velocity, used for being able to reliably add/remove additive
@@ -38,16 +38,16 @@ package unreal;
     the velocity that we added heading into the wall last tick would make you go backwards. With
     this method we override that resulting Velocity due to obstructions
   **/
-  public var LastPreAdditiveVelocity : unreal.FVector_NetQuantize10;
+  @:uproperty public var LastPreAdditiveVelocity : unreal.FVector_NetQuantize10;
   
   /**
     Whether this group has override root motion sources
   **/
-  public var bHasOverrideSources : Bool;
+  @:uproperty public var bHasOverrideSources : Bool;
   
   /**
     Whether this group has additive root motion sources
   **/
-  public var bHasAdditiveSources : Bool;
+  @:uproperty public var bHasAdditiveSources : Bool;
   
 }

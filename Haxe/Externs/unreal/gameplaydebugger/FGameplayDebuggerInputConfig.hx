@@ -21,12 +21,12 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerConfig.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayDebuggerInputConfig {
-  public var bModCmd : Bool;
-  public var bModAlt : Bool;
-  public var bModCtrl : Bool;
-  public var bModShift : Bool;
-  public var Key : unreal.inputcore.FKey;
-  public var ConfigName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerInputConfig {
+  @:uproperty public var bModCmd : Bool;
+  @:uproperty public var bModAlt : Bool;
+  @:uproperty public var bModCtrl : Bool;
+  @:uproperty public var bModShift : Bool;
+  @:uproperty public var Key : unreal.inputcore.FKey;
+  @:uproperty public var ConfigName : unreal.FString;
   
 }

@@ -20,11 +20,11 @@ package unreal;
   Structure storing information about one vector interpolation track
 **/
 @:glueCppIncludes("Engine/TimelineTemplate.h")
-@:noCopy @:noEquals @:uextern extern class FTTVectorTrack extends unreal.FTTTrackBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTTVectorTrack extends unreal.FTTTrackBase {
   
   /**
     Curve object used to define vector value over time
   **/
-  public var CurveVector : unreal.UCurveVector;
+  @:uproperty public var CurveVector : unreal.UCurveVector;
   
 }

@@ -21,7 +21,7 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorDockableWindow.h")
-@:noClass @:uextern extern class AVREditorDockableWindow extends unreal.vreditor.AVREditorFloatingUI implements unreal.viewportinteraction.IViewportInteractableInterface {
+@:noClass @:uextern @:uclass extern class AVREditorDockableWindow extends unreal.vreditor.AVREditorFloatingUI implements unreal.viewportinteraction.IViewportInteractableInterface {
   // ViewportInteractableInterface interface implementation
   
 }

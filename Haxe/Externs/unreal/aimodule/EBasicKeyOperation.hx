@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType.h")
 @:uname("EBasicKeyOperation.Type")
-@:uextern extern enum EBasicKeyOperation {
+@:uextern @:uenum extern enum EBasicKeyOperation {
   
   /**
     Is Set

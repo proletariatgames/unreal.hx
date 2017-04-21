@@ -23,31 +23,31 @@ package unreal.oculusrift;
 **/
 @:umodule("OculusRift")
 @:glueCppIncludes("OculusRiftBoundaryComponent.h")
-@:noCopy @:noEquals @:uextern extern class FBoundaryTestResult {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBoundaryTestResult {
   
   /**
     Normal of closest point
   **/
-  public var ClosestPointNormal : unreal.FVector;
+  @:uproperty public var ClosestPointNormal : unreal.FVector;
   
   /**
     Closest point on surface corresponding to specified boundary
   **/
-  public var ClosestPoint : unreal.FVector;
+  @:uproperty public var ClosestPoint : unreal.FVector;
   
   /**
     Distance of device/point to surface of boundary specified by BoundaryType
   **/
-  public var ClosestDistance : unreal.Float32;
+  @:uproperty public var ClosestDistance : unreal.Float32;
   
   /**
     Device type triggering boundary (ETrackedDeviceType::None if BoundaryTestResult corresponds to a point rather than a device)
   **/
-  public var DeviceType : unreal.oculusrift.ETrackedDeviceType;
+  @:uproperty public var DeviceType : unreal.oculusrift.ETrackedDeviceType;
   
   /**
     Is there a triggering interaction between the device/point and specified boundary?
   **/
-  public var IsTriggering : Bool;
+  @:uproperty public var IsTriggering : Bool;
   
 }

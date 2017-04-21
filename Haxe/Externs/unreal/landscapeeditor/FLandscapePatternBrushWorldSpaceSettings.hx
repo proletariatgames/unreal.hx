@@ -21,15 +21,15 @@ package unreal.landscapeeditor;
 **/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:noCopy @:noEquals @:uextern extern class FLandscapePatternBrushWorldSpaceSettings {
-  public var RepeatSize : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapePatternBrushWorldSpaceSettings {
+  @:uproperty public var RepeatSize : unreal.Float32;
   
   /**
     if true, the texture used for the pattern is centered on the PatternOrigin.
     if false, the corner of the texture is placed at the PatternOrigin
   **/
-  public var bCenterTextureOnOrigin : Bool;
-  public var Rotation : unreal.Float32;
-  public var Origin : unreal.FVector2D;
+  @:uproperty public var bCenterTextureOnOrigin : Bool;
+  @:uproperty public var Rotation : unreal.Float32;
+  @:uproperty public var Origin : unreal.FVector2D;
   
 }

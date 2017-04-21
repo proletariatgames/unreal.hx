@@ -19,41 +19,41 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityWorldReticle.h")
-@:uextern extern class AGameplayAbilityWorldReticle extends unreal.AActor {
+@:uextern @:uclass extern class AGameplayAbilityWorldReticle extends unreal.AActor {
   
   /**
     Called whenever bIsTargetValid changes value.
   **/
-  public function OnValidTargetChanged(bNewValue : Bool) : Void;
+  @:ufunction public function OnValidTargetChanged(bNewValue : Bool) : Void;
   
   /**
     Called whenever bIsTargetAnActor changes value.
   **/
-  public function OnTargetingAnActor(bNewValue : Bool) : Void;
-  public function OnParametersInitialized() : Void;
-  public function SetReticleMaterialParamFloat(ParamName : unreal.FName, value : unreal.Float32) : Void;
-  public function SetReticleMaterialParamVector(ParamName : unreal.FName, value : unreal.FVector) : Void;
-  @:final public function FaceTowardSource(bFaceIn2D : Bool) : Void;
+  @:ufunction public function OnTargetingAnActor(bNewValue : Bool) : Void;
+  @:ufunction public function OnParametersInitialized() : Void;
+  @:ufunction public function SetReticleMaterialParamFloat(ParamName : unreal.FName, value : unreal.Float32) : Void;
+  @:ufunction public function SetReticleMaterialParamVector(ParamName : unreal.FName, value : unreal.FVector) : Void;
+  @:ufunction @:final public function FaceTowardSource(bFaceIn2D : Bool) : Void;
   
   /**
     In the future, we may want to grab things like sockets off of this.
   **/
-  private var TargetingActor : unreal.AActor;
+  @:uproperty private var TargetingActor : unreal.AActor;
   
   /**
     This is used in the process of determining whether we should replicate to a specific client.
   **/
-  private var MasterPC : unreal.APlayerController;
+  @:uproperty private var MasterPC : unreal.APlayerController;
   
   /**
     If the target is an actor snap to it's location
   **/
-  public var bSnapToTargetedActor : Bool;
+  @:uproperty public var bSnapToTargetedActor : Bool;
   
   /**
     Makes the reticle's default owner-facing behavior operate in 2D (flat) instead of 3D (pitched). Defaults to true.
   **/
-  public var bFaceOwnerFlat : Bool;
-  public var Parameters : unreal.gameplayabilities.FWorldReticleParameters;
+  @:uproperty public var bFaceOwnerFlat : Bool;
+  @:uproperty public var Parameters : unreal.gameplayabilities.FWorldReticleParameters;
   
 }

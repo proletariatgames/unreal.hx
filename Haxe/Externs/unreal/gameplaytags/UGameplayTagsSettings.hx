@@ -29,13 +29,13 @@ package unreal.gameplaytags;
 **/
 @:umodule("GameplayTags")
 @:glueCppIncludes("GameplayTagsSettings.h")
-@:uextern extern class UGameplayTagsSettings extends unreal.UObject {
-  public var NetIndexFirstBitSegment : unreal.Int32;
+@:uextern @:uclass extern class UGameplayTagsSettings extends unreal.UObject {
+  @:uproperty public var NetIndexFirstBitSegment : unreal.Int32;
   
   /**
     List of tags most frequently replicated
   **/
-  public var CommonlyReplicatedTags : unreal.TArray<unreal.FString>;
-  public var GameplayTags : unreal.TArray<unreal.FString>;
+  @:uproperty public var CommonlyReplicatedTags : unreal.TArray<unreal.FString>;
+  @:uproperty public var GameplayTags : unreal.TArray<unreal.FString>;
   
 }

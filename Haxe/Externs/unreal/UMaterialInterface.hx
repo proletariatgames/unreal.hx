@@ -20,29 +20,29 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialInterface.h")
-@:uextern extern class UMaterialInterface extends unreal.UObject implements unreal.IBlendableInterface {
+@:uextern @:uclass extern class UMaterialInterface extends unreal.UObject implements unreal.IBlendableInterface {
   #if WITH_EDITORONLY_DATA
   
   /**
     Information for thumbnail rendering
   **/
-  public var ThumbnailInfo : unreal.UThumbnailInfo;
+  @:uproperty public var ThumbnailInfo : unreal.UThumbnailInfo;
   
   /**
     The mesh used by the material editor to preview the material.
   **/
-  public var PreviewMesh : unreal.FStringAssetReference;
+  @:uproperty public var PreviewMesh : unreal.FStringAssetReference;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The Lightmass settings for this object.
   **/
-  private var LightmassSettings : unreal.FLightmassMaterialInterfaceSettings;
+  @:uproperty private var LightmassSettings : unreal.FLightmassMaterialInterfaceSettings;
   
   /**
     SubsurfaceProfile, for Screen Space Subsurface Scattering
   **/
-  public var SubsurfaceProfile : unreal.USubsurfaceProfile;
+  @:uproperty public var SubsurfaceProfile : unreal.USubsurfaceProfile;
   // BlendableInterface interface implementation
   
 }

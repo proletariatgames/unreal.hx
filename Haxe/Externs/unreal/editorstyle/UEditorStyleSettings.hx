@@ -19,136 +19,136 @@ package unreal.editorstyle;
 **/
 @:umodule("EditorStyle")
 @:glueCppIncludes("Classes/EditorStyleSettings.h")
-@:uextern extern class UEditorStyleSettings extends unreal.UObject {
+@:uextern @:uclass extern class UEditorStyleSettings extends unreal.UObject {
   
   /**
     New asset editor tabs will open at the specified location.
   **/
-  public var AssetEditorOpenLocation : unreal.editorstyle.EAssetEditorOpenLocation;
+  @:uproperty public var AssetEditorOpenLocation : unreal.editorstyle.EAssetEditorOpenLocation;
   
   /**
     Should warnings and errors in the Output Log during "Play in Editor" be promoted to the message log?
   **/
-  public var bPromoteOutputLogWarningsDuringPIE : Bool;
+  @:uproperty public var bPromoteOutputLogWarningsDuringPIE : Bool;
   
   /**
     The display mode for timestamps in the output log
   **/
-  public var LogTimestampMode : unreal.ELogTimes;
+  @:uproperty public var LogTimestampMode : unreal.ELogTimes;
   
   /**
     The font size used in the output log
   **/
-  public var LogFontSize : unreal.Int32;
+  @:uproperty public var LogFontSize : unreal.Int32;
   
   /**
     When enabled, the Advanced Details will always auto expand.
   **/
-  public var bShowAllAdvancedDetails : Bool;
+  @:uproperty public var bShowAllAdvancedDetails : Bool;
   
   /**
     The color used for error log lines
   **/
-  public var LogErrorColor : unreal.FLinearColor;
+  @:uproperty public var LogErrorColor : unreal.FLinearColor;
   
   /**
     The color used for warning log lines
   **/
-  public var LogWarningColor : unreal.FLinearColor;
+  @:uproperty public var LogWarningColor : unreal.FLinearColor;
   
   /**
     The color used for normal text in the output log
   **/
-  public var LogCommandColor : unreal.FLinearColor;
+  @:uproperty public var LogCommandColor : unreal.FLinearColor;
   
   /**
     The color used for normal text in the output log
   **/
-  public var LogNormalColor : unreal.FLinearColor;
+  @:uproperty public var LogNormalColor : unreal.FLinearColor;
   
   /**
     The color used for the background of selected text in the output log
   **/
-  public var LogSelectionBackgroundColor : unreal.FLinearColor;
+  @:uproperty public var LogSelectionBackgroundColor : unreal.FLinearColor;
   
   /**
     The color used for the background in the output log
   **/
-  public var LogBackgroundColor : unreal.FLinearColor;
+  @:uproperty public var LogBackgroundColor : unreal.FLinearColor;
   
   /**
     When enabled, the Launch menu items will be shown.
   **/
-  public var bShowLaunchMenus : Bool;
+  @:uproperty public var bShowLaunchMenus : Bool;
   
   /**
     When enabled, the Editor Preferences and Project Settings menu items in the main menu will be expanded with sub-menus for each settings section.
   **/
-  public var bShowProjectMenus : Bool;
+  @:uproperty public var bShowProjectMenus : Bool;
   
   /**
     When enabled, the Editor Preferences and Project Settings menu items in the main menu will be expanded with sub-menus for each settings section.
   **/
-  public var bExpandConfigurationMenus : Bool;
+  @:uproperty public var bExpandConfigurationMenus : Bool;
   
   /**
     When enabled, the C++ names for properties and functions will be displayed in a format that is easier to read
   **/
-  public var bShowFriendlyNames : Bool;
+  @:uproperty public var bShowFriendlyNames : Bool;
   
   /**
     Enables animated transitions for certain menus and pop-up windows.  Note that animations may be automatically disabled at low frame rates in order to improve responsiveness.
   **/
-  public var bEnableWindowAnimations : Bool;
+  @:uproperty public var bEnableWindowAnimations : Bool;
   
   /**
     The color used to represent the center lines in the grid
   **/
-  public var CenterColor : unreal.FLinearColor;
+  @:uproperty public var CenterColor : unreal.FLinearColor;
   
   /**
     The color used to represent ruler lines in the grid
   **/
-  public var RuleColor : unreal.FLinearColor;
+  @:uproperty public var RuleColor : unreal.FLinearColor;
   
   /**
     The color used to represent regular grid lines
   **/
-  public var RegularColor : unreal.FLinearColor;
+  @:uproperty public var RegularColor : unreal.FLinearColor;
   
   /**
     If true the material editor and blueprint editor will show a grid on it's background.
   **/
-  public var bUseGrid : Bool;
+  @:uproperty public var bUseGrid : Bool;
   
   /**
     Whether to use small toolbar icons without labels or not.
   **/
-  public var bUseSmallToolBarIcons : Bool;
+  @:uproperty public var bUseSmallToolBarIcons : Bool;
   
   /**
     Applies a color vision deficiency filter to the entire editor
   **/
-  public var ColorVisionDeficiencyPreviewType : unreal.editorstyle.EColorVisionDeficiency;
+  @:uproperty public var ColorVisionDeficiencyPreviewType : unreal.editorstyle.EColorVisionDeficiency;
   
   /**
     The color used to represent keyboard input selection focus
   **/
-  public var KeyboardFocusColor : unreal.FLinearColor;
+  @:uproperty public var KeyboardFocusColor : unreal.FLinearColor;
   
   /**
     The color used to represent selected items that are currently inactive
   **/
-  public var InactiveSelectionColor : unreal.FLinearColor;
+  @:uproperty public var InactiveSelectionColor : unreal.FLinearColor;
   
   /**
     The color used to represent a pressed item
   **/
-  public var PressedSelectionColor : unreal.FLinearColor;
+  @:uproperty public var PressedSelectionColor : unreal.FLinearColor;
   
   /**
     The color used to represent selection
   **/
-  public var SelectionColor : unreal.FLinearColor;
+  @:uproperty public var SelectionColor : unreal.FLinearColor;
   
 }

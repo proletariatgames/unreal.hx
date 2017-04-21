@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushTileType.Type")
-@:uextern extern enum ESlateBrushTileType {
+@:uextern @:uenum extern enum ESlateBrushTileType {
   
   /**
     Just stretch

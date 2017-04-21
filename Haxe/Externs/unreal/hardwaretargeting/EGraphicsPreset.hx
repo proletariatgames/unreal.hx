@@ -20,7 +20,7 @@ package unreal.hardwaretargeting;
 @:umodule("HardwareTargeting")
 @:glueCppIncludes("HardwareTargetingSettings.h")
 @:uname("EGraphicsPreset.Type")
-@:uextern extern enum EGraphicsPreset {
+@:uextern @:uenum extern enum EGraphicsPreset {
   
   /**
     Unspecified, meaning no choice has been made yet

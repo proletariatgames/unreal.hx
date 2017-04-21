@@ -21,6 +21,6 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("Private/NiagaraSequencer.h")
-@:noClass @:uextern extern class UNiagaraMovieSceneSection extends unreal.moviescene.UMovieSceneSection {
+@:noClass @:uextern @:uclass extern class UNiagaraMovieSceneSection extends unreal.moviescene.UMovieSceneSection {
   
 }

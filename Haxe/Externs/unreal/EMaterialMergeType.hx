@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/MaterialMerging.h")
 @:uname("EMaterialMergeType")
-@:uextern extern enum EMaterialMergeType {
+@:uextern @:uenum extern enum EMaterialMergeType {
   MaterialMergeType_Default;
   MaterialMergeType_Simplygon;
   

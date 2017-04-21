@@ -20,11 +20,11 @@ package unreal;
   This defines what constraint it is defined
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:noCopy @:noEquals @:uextern extern class FTransformBaseConstraint {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTransformBaseConstraint {
   
   /**
     What transform type *
   **/
-  public var TransformConstraints : unreal.TArray<unreal.FRigTransformConstraint>;
+  @:uproperty public var TransformConstraints : unreal.TArray<unreal.FRigTransformConstraint>;
   
 }

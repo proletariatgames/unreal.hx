@@ -20,18 +20,18 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnAction.h")
-@:uextern extern class UPawnAction extends unreal.UObject {
+@:uextern @:uclass extern class UPawnAction extends unreal.UObject {
   
   /**
     @Note: THIS IS HERE _ONLY_ BECAUSE OF THE WAY AI MESSAGING IS CURRENTLY IMPLEMENTED. WILL GO AWAY!
   **/
-  private var BrainComp : unreal.aimodule.UBrainComponent;
+  @:uproperty private var BrainComp : unreal.aimodule.UBrainComponent;
   
   /**
     Blueprint interface
   **/
-  @:final public function GetActionPriority() : unreal.aimodule.EAIRequestPriority;
-  static public function CreateActionInstance(WorldContextObject : unreal.UObject, ActionClass : unreal.TSubclassOf<unreal.aimodule.UPawnAction>) : unreal.aimodule.UPawnAction;
-  private function Finish(WithResult : unreal.aimodule.EPawnActionResult) : Void;
+  @:ufunction @:final public function GetActionPriority() : unreal.aimodule.EAIRequestPriority;
+  @:ufunction static public function CreateActionInstance(WorldContextObject : unreal.UObject, ActionClass : unreal.TSubclassOf<unreal.aimodule.UPawnAction>) : unreal.aimodule.UPawnAction;
+  @:ufunction private function Finish(WithResult : unreal.aimodule.EPawnActionResult) : Void;
   
 }

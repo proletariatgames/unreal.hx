@@ -24,61 +24,61 @@ package unreal;
           - Mirror table
 **/
 @:glueCppIncludes("Animation/Skeleton.h")
-@:uextern extern class USkeleton extends unreal.UObject {
+@:uextern @:uclass extern class USkeleton extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     Attached assets component for this skeleton
   **/
-  public var PreviewAttachedAssetContainer : unreal.FPreviewAssetAttachContainer;
+  @:uproperty public var PreviewAttachedAssetContainer : unreal.FPreviewAssetAttachContainer;
   
   /**
     AnimNotifiers that has been created. Right now there is no delete step for this, but in the future we'll supply delete*
   **/
-  public var AnimationNotifies : unreal.TArray<unreal.FName>;
+  @:uproperty public var AnimationNotifies : unreal.TArray<unreal.FName>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     List of blend profiles available in this skeleton
   **/
-  public var BlendProfiles : unreal.TArray<unreal.UBlendProfile>;
+  @:uproperty public var BlendProfiles : unreal.TArray<unreal.UBlendProfile>;
   
   /**
     Container for smart name mappings
   **/
-  private var SmartNames : unreal.FSmartNameContainer;
+  @:uproperty private var SmartNames : unreal.FSmartNameContainer;
   
   /**
     Array of named socket locations, set up in editor and used as a shortcut instead of specifying
     everything explicitly to AttachComponent in the SkeletalMeshComponent.
   **/
-  public var Sockets : unreal.TArray<unreal.USkeletalMeshSocket>;
+  @:uproperty public var Sockets : unreal.TArray<unreal.USkeletalMeshSocket>;
   
   /**
     Non-serialised cache of linkups between different skeletal meshes and this Skeleton.
   **/
-  public var LinkupCache : unreal.TArray<unreal.FSkeletonToMeshLinkup>;
+  @:uproperty public var LinkupCache : unreal.TArray<unreal.FSkeletonToMeshLinkup>;
   
   /**
     Array of this skeletons virtual bones. These are new bones are links between two existing bones
     and are baked into all the skeletons animations
   **/
-  private var VirtualBones : unreal.TArray<unreal.FVirtualBone>;
+  @:uproperty private var VirtualBones : unreal.TArray<unreal.FVirtualBone>;
   
   /**
     Guid for virtual bones.
     Separate so that we don't have to dirty the original guid when only changing virtual bones
   **/
-  private var VirtualBoneGuid : unreal.FGuid;
+  @:uproperty private var VirtualBoneGuid : unreal.FGuid;
   
   /**
     Reference skeleton poses in local space
   **/
-  @:deprecated private var RefLocalPoses_DEPRECATED : unreal.TArray<unreal.FTransform>;
+  @:deprecated @:uproperty private var RefLocalPoses_DEPRECATED : unreal.TArray<unreal.FTransform>;
   
   /**
     Skeleton bone tree - each contains name and parent index*
   **/
-  private var BoneTree : unreal.TArray<unreal.FBoneNode>;
+  @:uproperty private var BoneTree : unreal.TArray<unreal.FBoneNode>;
   
 }

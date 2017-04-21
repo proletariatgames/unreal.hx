@@ -18,6 +18,6 @@ package unreal;
   Derived class for source effects.
 **/
 @:glueCppIncludes("Sound/SoundEffectSource.h")
-@:uextern extern class USoundEffectSourcePreset extends unreal.USoundEffectPreset {
+@:uextern @:uclass extern class USoundEffectSourcePreset extends unreal.USoundEffectPreset {
   
 }

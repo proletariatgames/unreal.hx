@@ -18,46 +18,46 @@ package unreal;
   Rendering settings.
 **/
 @:glueCppIncludes("Engine/CoreSettings.h")
-@:uextern extern class UStreamingSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class UStreamingSettings extends unreal.UDeveloperSettings {
   
   /**
     Batching granularity used to register actor components during level streaming.
   **/
-  private var LevelStreamingComponentsRegistrationGranularity : unreal.Int32;
+  @:uproperty private var LevelStreamingComponentsRegistrationGranularity : unreal.Int32;
   
   /**
     Maximum allowed time to spend for actor registration steps during level streaming (ms per frame).
   **/
-  private var LevelStreamingActorsUpdateTimeLimit : unreal.Float32;
+  @:uproperty private var LevelStreamingActorsUpdateTimeLimit : unreal.Float32;
   
   /**
     Additional time to spend asynchronous loading during a high priority load.
   **/
-  private var PriorityAsyncLoadingExtraTime : unreal.Float32;
+  @:uproperty private var PriorityAsyncLoadingExtraTime : unreal.Float32;
   
   /**
     Maximum amount of time to spend doing asynchronous loading (ms per frame).
   **/
-  private var AsyncLoadingTimeLimit : unreal.Float32;
+  @:uproperty private var AsyncLoadingTimeLimit : unreal.Float32;
   
   /**
     Constrain bandwidth if wanted. Value is in MByte/ sec.
   **/
-  private var AsyncIOBandwidthLimit : unreal.Float32;
+  @:uproperty private var AsyncIOBandwidthLimit : unreal.Float32;
   
   /**
     Minimum time the time limit exceeded warning will be triggered by.
   **/
-  private var MinBulkDataSizeForAsyncLoading : unreal.Int32;
+  @:uproperty private var MinBulkDataSizeForAsyncLoading : unreal.Int32;
   
   /**
     Minimum time the time limit exceeded warning will be triggered by.
   **/
-  private var TimeLimitExceededMinTime : unreal.Float32;
+  @:uproperty private var TimeLimitExceededMinTime : unreal.Float32;
   
   /**
     Multiplier for time limit exceeded warning time threshold.
   **/
-  private var TimeLimitExceededMultiplier : unreal.Float32;
+  @:uproperty private var TimeLimitExceededMultiplier : unreal.Float32;
   
 }

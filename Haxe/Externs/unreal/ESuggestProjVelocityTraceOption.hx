@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Kismet/GameplayStatics.h")
 @:uname("ESuggestProjVelocityTraceOption.Type")
-@:uextern extern enum ESuggestProjVelocityTraceOption {
+@:uextern @:uenum extern enum ESuggestProjVelocityTraceOption {
   DoNotTrace;
   TraceFullPath;
   OnlyTraceWhileAscending;

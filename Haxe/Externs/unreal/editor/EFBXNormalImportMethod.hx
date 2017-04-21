@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxMeshImportData.h")
 @:uname("EFBXNormalImportMethod")
-@:uextern extern enum EFBXNormalImportMethod {
+@:uextern @:uenum extern enum EFBXNormalImportMethod {
   
   /**
     Compute Normals

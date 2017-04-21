@@ -21,17 +21,17 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_FunctionTerminator.h")
-@:uextern extern class UK2Node_FunctionTerminator extends unreal.blueprintgraph.UK2Node_EditablePinBase {
+@:uextern @:uclass extern class UK2Node_FunctionTerminator extends unreal.blueprintgraph.UK2Node_EditablePinBase {
   
   /**
     The name of the signature function.
   **/
-  public var SignatureName : unreal.FName;
+  @:uproperty public var SignatureName : unreal.FName;
   
   /**
     The source class that defines the signature, if it is getting that from elsewhere (e.g. interface, base class etc).
     If NULL, this is a newly created function.
   **/
-  public var SignatureClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var SignatureClass : unreal.TSubclassOf<unreal.UObject>;
   
 }

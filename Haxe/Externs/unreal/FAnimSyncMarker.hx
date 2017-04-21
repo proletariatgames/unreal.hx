@@ -20,23 +20,23 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
-@:noCopy @:noEquals @:uextern extern class FAnimSyncMarker {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSyncMarker {
   #if WITH_EDITORONLY_DATA
   
   /**
     The editor track this marker sits on
   **/
-  public var TrackIndex : unreal.Int32;
+  @:uproperty public var TrackIndex : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Time in seconds of this marker
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
   /**
     The name of this marker
   **/
-  public var MarkerName : unreal.FName;
+  @:uproperty public var MarkerName : unreal.FName;
   
 }

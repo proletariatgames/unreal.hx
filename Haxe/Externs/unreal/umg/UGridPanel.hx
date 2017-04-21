@@ -21,17 +21,17 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UGridPanel extends unreal.umg.UPanelWidget {
+@:uextern @:uclass extern class UGridPanel extends unreal.umg.UPanelWidget {
   
   /**
     The row fill rules
   **/
-  public var RowFill : unreal.TArray<unreal.Float32>;
+  @:uproperty public var RowFill : unreal.TArray<unreal.Float32>;
   
   /**
     The column fill rules
   **/
-  public var ColumnFill : unreal.TArray<unreal.Float32>;
-  @:final public function AddChildToGrid(Content : unreal.umg.UWidget) : unreal.umg.UGridSlot;
+  @:uproperty public var ColumnFill : unreal.TArray<unreal.Float32>;
+  @:ufunction @:final public function AddChildToGrid(Content : unreal.umg.UWidget) : unreal.umg.UGridSlot;
   
 }

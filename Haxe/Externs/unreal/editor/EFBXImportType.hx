@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxImportUI.h")
 @:uname("EFBXImportType")
-@:uextern extern enum EFBXImportType {
+@:uextern @:uenum extern enum EFBXImportType {
   
   /**
     Select Static Mesh if you'd like to import static mesh.

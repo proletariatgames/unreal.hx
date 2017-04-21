@@ -21,11 +21,11 @@ package unreal.sequencerecorder;
 **/
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderActorFilter.h")
-@:noCopy @:noEquals @:uextern extern class FSequenceRecorderActorFilter {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSequenceRecorderActorFilter {
   
   /**
     Actor classes to accept for recording
   **/
-  public var ActorClassesToRecord : unreal.TArray<unreal.TSubclassOf<unreal.AActor>>;
+  @:uproperty public var ActorClassesToRecord : unreal.TArray<unreal.TSubclassOf<unreal.AActor>>;
   
 }

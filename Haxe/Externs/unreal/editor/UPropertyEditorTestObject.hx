@@ -21,82 +21,85 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/PropertyEditorTestObject.h")
-@:noClass @:uextern extern class UPropertyEditorTestObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPropertyEditorTestObject extends unreal.UObject {
   
   /**
     Allows either an object that's derived from UTexture or IBlendableInterface, to ensure that Object Property handles know how to
     filter for AllowedClasses correctly.
   **/
-  public var TextureOrBlendableInterface : unreal.UObject;
-  public var OnlyActorsAllowed : unreal.AActor;
-  public var AnyMaterialInterface : unreal.UMaterialInterface;
-  public var StaticMeshProp : unreal.UStaticMesh;
-  public var TextureProp : unreal.UTexture;
-  public var ArrayOfEditInlineNewSMCs : unreal.TArray<unreal.UStaticMeshComponent>;
-  public var EditInlineNewStaticMeshComponent : unreal.UStaticMeshComponent;
-  public var ArrayOfStructs : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
-  public var AssetReferenceCustomStructWithEditCondition : unreal.FStringAssetReference;
-  public var SimplePropertyWithEditCondition : unreal.Int32;
-  public var bEditCondition : Bool;
-  public var AssetReferenceCustomStructWithThumbnail : unreal.FStringAssetReference;
-  public var AssetReferenceCustomStruct : unreal.FStringAssetReference;
-  public var StructWithMultipleInstances2 : unreal.editor.FPropertyEditorTestBasicStruct;
-  public var StructWithMultipleInstances1 : unreal.editor.FPropertyEditorTestBasicStruct;
-  public var ThisIsBrokenIfItsVisibleInADetailsView : unreal.editor.FPropertyEditorTestBasicStruct;
-  public var StringPasswordProperty : unreal.FString;
-  public var ObjectThatCannotBeChanged : unreal.UPrimitiveComponent;
-  public var StringThatCannotBeChanged : unreal.FString;
-  public var IntThatCannotBeChanged : unreal.Int32;
-  public var IntPropertyWithClampedRange : unreal.Int32;
+  @:uproperty public var TextureOrBlendableInterface : unreal.UObject;
+  @:uproperty public var OnlyActorsAllowed : unreal.AActor;
+  @:uproperty public var AnyMaterialInterface : unreal.UMaterialInterface;
+  @:uproperty public var StaticMeshProp : unreal.UStaticMesh;
+  @:uproperty public var TextureProp : unreal.UTexture;
+  @:uproperty public var ArrayOfEditInlineNewSMCs : unreal.TArray<unreal.UStaticMeshComponent>;
+  @:uproperty public var EditInlineNewStaticMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty public var ArrayOfStructs : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
+  @:uproperty public var AssetReferenceCustomStructWithEditCondition : unreal.FStringAssetReference;
+  @:uproperty public var SimplePropertyWithEditCondition : unreal.Int32;
+  @:uproperty public var bEditCondition : Bool;
+  @:uproperty public var AssetReferenceCustomStructWithThumbnail : unreal.FStringAssetReference;
+  @:uproperty public var AssetReferenceCustomStruct : unreal.FStringAssetReference;
+  @:uproperty public var StructWithMultipleInstances2 : unreal.editor.FPropertyEditorTestBasicStruct;
+  @:uproperty public var StructWithMultipleInstances1 : unreal.editor.FPropertyEditorTestBasicStruct;
+  @:uproperty public var ThisIsBrokenIfItsVisibleInADetailsView : unreal.editor.FPropertyEditorTestBasicStruct;
+  @:uproperty public var TextPasswordProperty : unreal.FText;
+  @:uproperty public var StringPasswordProperty : unreal.FString;
+  @:uproperty public var ObjectThatCannotBeChanged : unreal.UPrimitiveComponent;
+  @:uproperty public var StringThatCannotBeChanged : unreal.FString;
+  @:uproperty public var IntThatCannotBeChanged : unreal.Int32;
+  @:uproperty public var IntPropertyWithClampedRange : unreal.Int32;
   
   /**
     This is a custom tooltip that should be shown
   **/
-  public var FloatPropertyWithClampedRange : unreal.Float32;
-  public var FixedArrayOfInts : unreal.TArray<unreal.Int32>;
-  public var StructPropertyArray : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
-  public var ColorPropertyArray : unreal.TArray<unreal.FColor>;
-  public var LinearColorPropertyArray : unreal.TArray<unreal.FLinearColor>;
-  public var ActorPropertyArray : unreal.TArray<unreal.AActor>;
-  public var ObjectPropertyArray : unreal.TArray<unreal.UObject>;
-  public var RotatorPropertyArray : unreal.TArray<unreal.FRotator>;
-  public var Vector4PropertyArray : unreal.TArray<unreal.FVector4>;
-  public var Vector2PropertyArray : unreal.TArray<unreal.FVector2D>;
-  public var Vector3PropertyArray : unreal.TArray<unreal.FVector>;
-  public var StringPropertyArray : unreal.TArray<unreal.FString>;
-  public var BoolPropertyArray : unreal.TArray<Bool>;
-  public var NamePropertyArray : unreal.TArray<unreal.FName>;
-  public var FloatPropertyArray : unreal.TArray<unreal.Float32>;
+  @:uproperty public var FloatPropertyWithClampedRange : unreal.Float32;
+  @:uproperty public var FixedArrayOfInts : unreal.TArray<unreal.Int32>;
+  @:uproperty public var StructPropertyArray : unreal.TArray<unreal.editor.FPropertyEditorTestBasicStruct>;
+  @:uproperty public var ColorPropertyArray : unreal.TArray<unreal.FColor>;
+  @:uproperty public var LinearColorPropertyArray : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var ActorPropertyArray : unreal.TArray<unreal.AActor>;
+  @:uproperty public var ObjectPropertyArray : unreal.TArray<unreal.UObject>;
+  @:uproperty public var RotatorPropertyArray : unreal.TArray<unreal.FRotator>;
+  @:uproperty public var Vector4PropertyArray : unreal.TArray<unreal.FVector4>;
+  @:uproperty public var Vector2PropertyArray : unreal.TArray<unreal.FVector2D>;
+  @:uproperty public var Vector3PropertyArray : unreal.TArray<unreal.FVector>;
+  @:uproperty public var TextPropertyArray : unreal.TArray<unreal.FText>;
+  @:uproperty public var StringPropertyArray : unreal.TArray<unreal.FString>;
+  @:uproperty public var BoolPropertyArray : unreal.TArray<Bool>;
+  @:uproperty public var NamePropertyArray : unreal.TArray<unreal.FName>;
+  @:uproperty public var FloatPropertyArray : unreal.TArray<unreal.Float32>;
   
   /**
     Byte
   **/
-  public var BytePropertyArray : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var BytePropertyArray : unreal.TArray<unreal.UInt8>;
   
   /**
     Integer
   **/
-  public var IntProperty32Array : unreal.TArray<unreal.Int32>;
-  public var EnumProperty : unreal.editor.PropertEditorTestEnum;
-  public var ColorProperty : unreal.FColor;
-  public var LinearColorProperty : unreal.FLinearColor;
-  public var ClassProperty : unreal.UClass;
-  public var ObjectProperty : unreal.UObject;
-  public var RotatorProperty : unreal.FRotator;
-  public var Vector4Property : unreal.FVector4;
-  public var Vector2Property : unreal.FVector2D;
-  public var Vector3Property : unreal.FVector;
-  public var StringProperty : unreal.FString;
-  public var BoolProperty : Bool;
-  public var NameProperty : unreal.FName;
-  public var FloatProperty : unreal.Float32;
-  public var UnsignedInt64Property : unreal.FakeUInt64;
-  public var UnsignedInt32Property : unreal.FakeUInt32;
-  public var UnsignedInt16Property : unreal.UInt16;
-  public var ByteProperty : unreal.UInt8;
-  public var Int64Property : unreal.Int64;
-  public var Int32Property : unreal.Int32;
-  public var Int16roperty : unreal.Int16;
-  public var Int8Property : unreal.Int8;
+  @:uproperty public var IntProperty32Array : unreal.TArray<unreal.Int32>;
+  @:uproperty public var EnumProperty : unreal.editor.PropertEditorTestEnum;
+  @:uproperty public var ColorProperty : unreal.FColor;
+  @:uproperty public var LinearColorProperty : unreal.FLinearColor;
+  @:uproperty public var ClassProperty : unreal.UClass;
+  @:uproperty public var ObjectProperty : unreal.UObject;
+  @:uproperty public var RotatorProperty : unreal.FRotator;
+  @:uproperty public var Vector4Property : unreal.FVector4;
+  @:uproperty public var Vector2Property : unreal.FVector2D;
+  @:uproperty public var Vector3Property : unreal.FVector;
+  @:uproperty public var TextProperty : unreal.FText;
+  @:uproperty public var StringProperty : unreal.FString;
+  @:uproperty public var BoolProperty : Bool;
+  @:uproperty public var NameProperty : unreal.FName;
+  @:uproperty public var FloatProperty : unreal.Float32;
+  @:uproperty public var UnsignedInt64Property : unreal.FakeUInt64;
+  @:uproperty public var UnsignedInt32Property : unreal.FakeUInt32;
+  @:uproperty public var UnsignedInt16Property : unreal.UInt16;
+  @:uproperty public var ByteProperty : unreal.UInt8;
+  @:uproperty public var Int64Property : unreal.Int64;
+  @:uproperty public var Int32Property : unreal.Int32;
+  @:uproperty public var Int16roperty : unreal.Int16;
+  @:uproperty public var Int8Property : unreal.Int8;
   
 }

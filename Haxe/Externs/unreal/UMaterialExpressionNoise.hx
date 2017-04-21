@@ -20,58 +20,58 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionNoise.h")
-@:noClass @:uextern extern class UMaterialExpressionNoise extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionNoise extends unreal.UMaterialExpression {
   
   /**
     How many units in each tile (if Tiling is on)
   **/
-  public var RepeatSize : unreal.FakeUInt32;
+  @:uproperty public var RepeatSize : unreal.FakeUInt32;
   
   /**
     Whether to use tiling noise pattern, useful for baking to seam-free repeating textures
   **/
-  public var bTiling : Bool;
+  @:uproperty public var bTiling : Bool;
   
   /**
     usually 2 but higher values allow efficient use of few levels
   **/
-  public var LevelScale : unreal.Float32;
-  public var OutputMax : unreal.Float32;
-  public var OutputMin : unreal.Float32;
+  @:uproperty public var LevelScale : unreal.Float32;
+  @:uproperty public var OutputMax : unreal.Float32;
+  @:uproperty public var OutputMin : unreal.Float32;
   
   /**
     1 = fast but little detail, .. larger numbers cost more performance
   **/
-  public var Levels : unreal.Int32;
+  @:uproperty public var Levels : unreal.Int32;
   
   /**
     How multiple frequencies are getting combined
   **/
-  public var bTurbulence : Bool;
+  @:uproperty public var bTurbulence : Bool;
   
   /**
     Noise function, affects performance and look
   **/
-  public var NoiseFunction : unreal.ENoiseFunction;
+  @:uproperty public var NoiseFunction : unreal.ENoiseFunction;
   
   /**
     Lower numbers are faster and lower quality, higher numbers are slower and higher quality
   **/
-  public var Quality : unreal.Int32;
+  @:uproperty public var Quality : unreal.Int32;
   
   /**
     can also be done with a multiply on the Position
   **/
-  public var Scale : unreal.Float32;
+  @:uproperty public var Scale : unreal.Float32;
   
   /**
     scalar, to clamp the Levels at pixel level, can be computed like this: max(length(ddx(Position)), length(ddy(Position))
   **/
-  public var FilterWidth : unreal.FExpressionInput;
+  @:uproperty public var FilterWidth : unreal.FExpressionInput;
   
   /**
     2 to 3 dimensional vector
   **/
-  public var Position : unreal.FExpressionInput;
+  @:uproperty public var Position : unreal.FExpressionInput;
   
 }

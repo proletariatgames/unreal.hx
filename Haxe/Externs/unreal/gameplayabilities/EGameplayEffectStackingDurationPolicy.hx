@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EGameplayEffectStackingDurationPolicy")
-@:class @:uextern extern enum EGameplayEffectStackingDurationPolicy {
+@:class @:uextern @:uenum extern enum EGameplayEffectStackingDurationPolicy {
   
   /**
     The duration of the effect will be refreshed from any successful stack application

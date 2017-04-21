@@ -21,36 +21,36 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/ExtractSprites/PaperExtractSpritesSettings.h")
-@:noClass @:uextern extern class UPaperExtractSpritesSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPaperExtractSpritesSettings extends unreal.UObject {
   
   /**
     The number to start naming with
   **/
-  public var NamingStartIndex : unreal.Int32;
+  @:uproperty public var NamingStartIndex : unreal.Int32;
   
   /**
     The name of the sprite that will be created. {0} will get replaced by the sprite number.
   **/
-  public var NamingTemplate : unreal.FString;
+  @:uproperty public var NamingTemplate : unreal.FString;
   
   /**
     The viewport background color
   **/
-  public var BackgroundColor : unreal.FLinearColor;
+  @:uproperty public var BackgroundColor : unreal.FLinearColor;
   
   /**
     Apply a tint to the texture in the viewport to improve outline visibility in this editor
   **/
-  public var ViewportTextureTint : unreal.FLinearColor;
+  @:uproperty public var ViewportTextureTint : unreal.FLinearColor;
   
   /**
     The color of the sprite boundary outlines
   **/
-  public var OutlineColor : unreal.FLinearColor;
+  @:uproperty public var OutlineColor : unreal.FLinearColor;
   
   /**
     Sprite extract mode
   **/
-  public var SpriteExtractMode : unreal.paper2deditor.ESpriteExtractMode;
+  @:uproperty public var SpriteExtractMode : unreal.paper2deditor.ESpriteExtractMode;
   
 }

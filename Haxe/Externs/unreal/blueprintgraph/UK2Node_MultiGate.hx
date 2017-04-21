@@ -21,11 +21,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_MultiGate.h")
-@:uextern extern class UK2Node_MultiGate extends unreal.blueprintgraph.UK2Node_ExecutionSequence {
+@:uextern @:uclass extern class UK2Node_MultiGate extends unreal.blueprintgraph.UK2Node_ExecutionSequence {
   
   /**
     Reference to the integer that contains
   **/
-  public var DataNode : unreal.blueprintgraph.UK2Node_TemporaryVariable;
+  @:uproperty public var DataNode : unreal.blueprintgraph.UK2Node_TemporaryVariable;
   
 }

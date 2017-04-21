@@ -21,11 +21,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("BlueprintFieldNodeSpawner.h")
-@:uextern extern class UBlueprintFieldNodeSpawner extends unreal.blueprintgraph.UBlueprintNodeSpawner {
+@:uextern @:uclass extern class UBlueprintFieldNodeSpawner extends unreal.blueprintgraph.UBlueprintNodeSpawner {
   
   /**
     The field to configure new nodes with.
   **/
-  private var Field : unreal.UField;
+  @:uproperty private var Field : unreal.UField;
   
 }

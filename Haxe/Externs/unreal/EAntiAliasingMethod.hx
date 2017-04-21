@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Scene.h")
 @:uname("EAntiAliasingMethod")
-@:uextern extern enum EAntiAliasingMethod {
+@:uextern @:uenum extern enum EAntiAliasingMethod {
   
   /**
     None

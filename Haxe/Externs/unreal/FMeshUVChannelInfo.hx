@@ -20,12 +20,12 @@ package unreal;
   The world size for each texcoord mapping. Used by the texture streaming.
 **/
 @:glueCppIncludes("Components.h")
-@:noCopy @:noEquals @:uextern extern class FMeshUVChannelInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMeshUVChannelInfo {
   
   /**
     Whether this values was set manually or is auto generated.
   **/
-  public var bOverrideDensities : Bool;
-  public var bInitialized : Bool;
+  @:uproperty public var bOverrideDensities : Bool;
+  @:uproperty public var bInitialized : Bool;
   
 }

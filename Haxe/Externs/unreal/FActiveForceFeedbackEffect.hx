@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
-@:noCopy @:noEquals @:uextern extern class FActiveForceFeedbackEffect {
-  public var ForceFeedbackEffect : unreal.UForceFeedbackEffect;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FActiveForceFeedbackEffect {
+  @:uproperty public var ForceFeedbackEffect : unreal.UForceFeedbackEffect;
   
 }

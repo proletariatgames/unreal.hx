@@ -20,19 +20,19 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamNoise.h")
-@:uextern extern class UParticleModuleBeamNoise extends unreal.UParticleModuleBeamBase {
+@:uextern @:uclass extern class UParticleModuleBeamNoise extends unreal.UParticleModuleBeamBase {
   
   /**
     The scale factor to apply to noise range.
     The lookup value is determined by dividing the number of noise points present by the
     maximum number of noise points (Frequency).
   **/
-  public var NoiseScale : unreal.FRawDistributionFloat;
+  @:uproperty public var NoiseScale : unreal.FRawDistributionFloat;
   
   /**
     If true, apply the noise scale to the beam.
   **/
-  public var bApplyNoiseScale : Bool;
+  @:uproperty public var bApplyNoiseScale : Bool;
   
   /**
     The distance at which to deposit noise points.
@@ -40,94 +40,94 @@ package unreal;
     If not, distribute noise points at the given distance, up to the static Frequency value.
     At that point, evenly distribute them along the beam.
   **/
-  public var FrequencyDistance : unreal.Float32;
+  @:uproperty public var FrequencyDistance : unreal.Float32;
   
   /**
     Whether to apply noise to the target point (or end of line in distance mode...)
     If true, the beam could potentially 'leave' the target...
   **/
-  public var bTargetNoise : Bool;
+  @:uproperty public var bTargetNoise : Bool;
   
   /**
     The amount of tessellation between noise points.
   **/
-  public var NoiseTessellation : unreal.Int32;
+  @:uproperty public var NoiseTessellation : unreal.Int32;
   
   /**
     The strength of noise tangents, if enabled.
   **/
-  public var NoiseTangentStrength : unreal.FRawDistributionFloat;
+  @:uproperty public var NoiseTangentStrength : unreal.FRawDistributionFloat;
   
   /**
     If true, calculate tangents at each noise point.
   **/
-  public var bUseNoiseTangents : Bool;
+  @:uproperty public var bUseNoiseTangents : Bool;
   
   /**
     The tension to apply to the tessellated noise line.
   **/
-  public var NoiseTension : unreal.Float32;
+  @:uproperty public var NoiseTension : unreal.Float32;
   
   /**
     How long the  noise points should be locked - 0.0 indicates forever.
   **/
-  public var NoiseLockTime : unreal.Float32;
+  @:uproperty public var NoiseLockTime : unreal.Float32;
   
   /**
     Whether the noise points should be oscillate.
   **/
-  public var bOscillate : Bool;
+  @:uproperty public var bOscillate : Bool;
   
   /**
     INTERNAL - Whether the noise points should be locked.
   **/
-  public var bNoiseLock : Bool;
+  @:uproperty public var bNoiseLock : Bool;
   
   /**
     Default target-point information to use if the beam method is endpoint.
   **/
-  public var NoiseLockRadius : unreal.Float32;
+  @:uproperty public var NoiseLockRadius : unreal.Float32;
   
   /**
     Whether the noise movement should be smooth or 'jerky'.
   **/
-  public var bSmooth : Bool;
+  @:uproperty public var bSmooth : Bool;
   
   /**
     The speed with which to move each noise point.
   **/
-  public var NoiseSpeed : unreal.FRawDistributionVector;
+  @:uproperty public var NoiseSpeed : unreal.FRawDistributionVector;
   
   /**
     If true,  the NoiseRangeScale will be grabbed based on the emitter time.
     If false, the NoiseRangeScale will be grabbed based on the particle time.
   **/
-  public var bNRScaleEmitterTime : Bool;
+  @:uproperty public var bNRScaleEmitterTime : Bool;
   
   /**
     A scale factor that will be applied to the noise range.
   **/
-  public var NoiseRangeScale : unreal.FRawDistributionFloat;
+  @:uproperty public var NoiseRangeScale : unreal.FRawDistributionFloat;
   
   /**
     The noise point ranges.
   **/
-  public var NoiseRange : unreal.FRawDistributionVector;
+  @:uproperty public var NoiseRange : unreal.FRawDistributionVector;
   
   /**
     If not 0, then the frequency will select a random value in the range
             [Frequency_LowRange..Frequency]
   **/
-  public var Frequency_LowRange : unreal.Int32;
+  @:uproperty public var Frequency_LowRange : unreal.Int32;
   
   /**
     The frequency of noise points.
   **/
-  public var Frequency : unreal.Int32;
+  @:uproperty public var Frequency : unreal.Int32;
   
   /**
     Is low frequency noise enabled.
   **/
-  public var bLowFreq_Enabled : Bool;
+  @:uproperty public var bLowFreq_Enabled : Bool;
   
 }

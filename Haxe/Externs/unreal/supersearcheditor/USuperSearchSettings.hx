@@ -21,11 +21,11 @@ package unreal.supersearcheditor;
 **/
 @:umodule("SuperSearchEditor")
 @:glueCppIncludes("Private/SuperSearchSettings.h")
-@:noClass @:uextern extern class USuperSearchSettings extends unreal.UDeveloperSettings {
+@:noClass @:uextern @:uclass extern class USuperSearchSettings extends unreal.UDeveloperSettings {
   
   /**
     Set the search engine to use in the editor for looking up questions in the community.
   **/
-  public var SearchEngine : unreal.supersearch.ESearchEngine;
+  @:uproperty public var SearchEngine : unreal.supersearch.ESearchEngine;
   
 }

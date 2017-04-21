@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SubUVAnimationFactory.h")
-@:uextern extern class USubUVAnimationFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class USubUVAnimationFactory extends unreal.editor.UFactory {
   
   /**
     An initial texture to use
   **/
-  public var InitialTexture : unreal.UTexture2D;
+  @:uproperty public var InitialTexture : unreal.UTexture2D;
   
 }

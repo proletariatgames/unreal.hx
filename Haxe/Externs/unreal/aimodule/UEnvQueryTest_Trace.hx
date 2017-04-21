@@ -21,31 +21,31 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Trace.h")
-@:uextern extern class UEnvQueryTest_Trace extends unreal.aimodule.UEnvQueryTest {
+@:uextern @:uclass extern class UEnvQueryTest_Trace extends unreal.aimodule.UEnvQueryTest {
   
   /**
     context: other end of trace test
   **/
-  public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     Z offset from querier
   **/
-  public var ContextHeightOffset : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ContextHeightOffset : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     Z offset from item
   **/
-  public var ItemHeightOffset : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ItemHeightOffset : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     trace direction
   **/
-  public var TraceFromContext : unreal.aimodule.FAIDataProviderBoolValue;
+  @:uproperty public var TraceFromContext : unreal.aimodule.FAIDataProviderBoolValue;
   
   /**
     trace data
   **/
-  public var TraceData : unreal.aimodule.FEnvTraceData;
+  @:uproperty public var TraceData : unreal.aimodule.FEnvTraceData;
   
 }

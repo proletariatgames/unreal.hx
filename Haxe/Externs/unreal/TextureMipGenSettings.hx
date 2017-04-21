@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/TextureDefines.h")
 @:uname("TextureMipGenSettings")
-@:uextern extern enum TextureMipGenSettings {
+@:uextern @:uenum extern enum TextureMipGenSettings {
   
   /**
     Default for the "texture".

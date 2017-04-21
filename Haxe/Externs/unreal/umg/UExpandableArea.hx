@@ -15,22 +15,22 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UExpandableArea extends unreal.umg.UWidget implements unreal.umg.INamedSlotInterface {
-  private var BodyContent : unreal.umg.UWidget;
-  private var HeaderContent : unreal.umg.UWidget;
-  public var AreaPadding : unreal.slatecore.FMargin;
-  public var HeaderPadding : unreal.slatecore.FMargin;
+@:uextern @:uclass extern class UExpandableArea extends unreal.umg.UWidget implements unreal.umg.INamedSlotInterface {
+  @:uproperty private var BodyContent : unreal.umg.UWidget;
+  @:uproperty private var HeaderContent : unreal.umg.UWidget;
+  @:uproperty public var AreaPadding : unreal.slatecore.FMargin;
+  @:uproperty public var HeaderPadding : unreal.slatecore.FMargin;
   
   /**
     The maximum height of the area
   **/
-  public var MaxHeight : unreal.Float32;
-  public var bIsExpanded : Bool;
-  public var BorderColor : unreal.slatecore.FSlateColor;
-  public var BorderBrush : unreal.slatecore.FSlateBrush;
-  public var Style : unreal.slatecore.FExpandableAreaStyle;
-  @:thisConst @:final public function GetIsExpanded() : Bool;
-  @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
+  @:uproperty public var MaxHeight : unreal.Float32;
+  @:uproperty public var bIsExpanded : Bool;
+  @:uproperty public var BorderColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var BorderBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Style : unreal.slatecore.FExpandableAreaStyle;
+  @:ufunction @:thisConst @:final public function GetIsExpanded() : Bool;
+  @:ufunction @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
   // NamedSlotInterface interface implementation
   
 }

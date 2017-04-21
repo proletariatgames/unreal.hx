@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Distance.h")
 @:uname("EEnvTestDistance.Type")
-@:uextern extern enum EEnvTestDistance {
+@:uextern @:uenum extern enum EEnvTestDistance {
   Distance3D;
   Distance2D;
   DistanceZ;

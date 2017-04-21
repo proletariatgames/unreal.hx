@@ -15,15 +15,15 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BrainComponent.h")
-@:uextern extern class UBrainComponent extends unreal.UActorComponent implements unreal.aimodule.IAIResourceInterface {
-  private var AIOwner : unreal.aimodule.AAIController;
+@:uextern @:uclass extern class UBrainComponent extends unreal.UActorComponent implements unreal.aimodule.IAIResourceInterface {
+  @:uproperty private var AIOwner : unreal.aimodule.AAIController;
   
   /**
     blackboard component
   **/
-  private var BlackboardComp : unreal.aimodule.UBlackboardComponent;
-  public function RestartLogic() : Void;
-  public function StopLogic(Reason : unreal.FString) : Void;
+  @:uproperty private var BlackboardComp : unreal.aimodule.UBlackboardComponent;
+  @:ufunction public function RestartLogic() : Void;
+  @:ufunction public function StopLogic(Reason : unreal.FString) : Void;
   // AIResourceInterface interface implementation
   
 }

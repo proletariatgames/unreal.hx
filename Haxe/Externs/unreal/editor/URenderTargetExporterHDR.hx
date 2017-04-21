@@ -15,6 +15,6 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/RenderTargetExporterHDR.h")
-@:uextern extern class URenderTargetExporterHDR extends unreal.UExporter {
+@:uextern @:uclass extern class URenderTargetExporterHDR extends unreal.UExporter {
   
 }

@@ -21,22 +21,22 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalAITest.h")
-@:noCopy @:noEquals @:uextern extern class FAITestSpawnSet {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAITestSpawnSet {
   
   /**
     location used for spawning if spawn info doesn't define one
   **/
-  public var FallbackSpawnLocation : unreal.AActor;
-  public var bEnabled : Bool;
+  @:uproperty public var FallbackSpawnLocation : unreal.AActor;
+  @:uproperty public var bEnabled : Bool;
   
   /**
     give the set a name to help identify it if need be
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
   /**
     what to spawn
   **/
-  public var SpawnInfoContainer : unreal.TArray<unreal.functionaltesting.FAITestSpawnInfo>;
+  @:uproperty public var SpawnInfoContainer : unreal.TArray<unreal.functionaltesting.FAITestSpawnInfo>;
   
 }

@@ -15,41 +15,41 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_CallFunction.h")
-@:uextern extern class UK2Node_CallFunction extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_CallFunction extends unreal.blueprintgraph.UK2Node {
   
   /**
     The function to call
   **/
-  public var FunctionReference : unreal.FMemberReference;
+  @:uproperty public var FunctionReference : unreal.FMemberReference;
   
   /**
     Indicates that this is a 'bead' function with no fixed location; it is drawn between the nodes that it is wired to
   **/
-  public var bIsBeadFunction : Bool;
+  @:uproperty public var bIsBeadFunction : Bool;
   
   /**
     Indicates that this is a call to a final / superclass's function
   **/
-  public var bIsFinalFunction : Bool;
+  @:uproperty public var bIsFinalFunction : Bool;
   
   /**
     Indicates that this is a call to an interface function
   **/
-  public var bIsInterfaceCall : Bool;
+  @:uproperty public var bIsInterfaceCall : Bool;
   
   /**
     Indicates that during compile we want to create multiple exec pins from an enum param
   **/
-  public var bWantsEnumToExecExpansion : Bool;
+  @:uproperty public var bWantsEnumToExecExpansion : Bool;
   
   /**
     Indicates that this is a call to a const function
   **/
-  public var bIsConstFunc : Bool;
+  @:uproperty public var bIsConstFunc : Bool;
   
   /**
     Indicates that this is a call to a pure function
   **/
-  public var bIsPureFunc : Bool;
+  @:uproperty public var bIsPureFunc : Bool;
   
 }

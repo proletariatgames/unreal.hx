@@ -20,21 +20,26 @@ package unreal;
   Class that holds a library of Objects
 **/
 @:glueCppIncludes("Engine/ObjectLibrary.h")
-@:uextern extern class UObjectLibrary extends unreal.UObject {
+@:uextern @:uclass extern class UObjectLibrary extends unreal.UObject {
+  
+  /**
+    Weak pointers to objects
+  **/
+  @:uproperty private var WeakObjects : unreal.TArray<unreal.TWeakObjectPtr<unreal.UObject>>;
   
   /**
     List of Objects in library
   **/
-  private var Objects : unreal.TArray<unreal.UObject>;
+  @:uproperty private var Objects : unreal.TArray<unreal.UObject>;
   
   /**
     True if this library holds blueprint classes, false if it holds other objects
   **/
-  public var bHasBlueprintClasses : Bool;
+  @:uproperty public var bHasBlueprintClasses : Bool;
   
   /**
     Class that Objects must be of. If ContainsBlueprints is true, this is the native class that the blueprints are instances of and not UClass
   **/
-  public var ObjectBaseClass : unreal.UClass;
+  @:uproperty public var ObjectBaseClass : unreal.UClass;
   
 }

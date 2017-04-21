@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Tests/FbxAutomationCommon.h")
 @:uname("EFBXTestPlanActionType")
-@:uextern extern enum EFBXTestPlanActionType {
+@:uextern @:uenum extern enum EFBXTestPlanActionType {
   Import;
   Reimport;
   AddLOD;

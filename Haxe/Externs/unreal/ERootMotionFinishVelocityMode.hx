@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("GameFramework/RootMotionSource.h")
 @:uname("ERootMotionFinishVelocityMode")
-@:class @:uextern extern enum ERootMotionFinishVelocityMode {
+@:class @:uextern @:uenum extern enum ERootMotionFinishVelocityMode {
   
   /**
     Maintain the last velocity root motion gave to the character

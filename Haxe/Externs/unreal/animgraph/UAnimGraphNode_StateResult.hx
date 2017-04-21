@@ -21,6 +21,6 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_StateResult.h")
-@:uextern extern class UAnimGraphNode_StateResult extends unreal.animgraph.UAnimGraphNode_Root {
+@:uextern @:uclass extern class UAnimGraphNode_StateResult extends unreal.animgraph.UAnimGraphNode_Root {
   
 }

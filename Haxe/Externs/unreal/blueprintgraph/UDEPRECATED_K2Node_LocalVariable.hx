@@ -21,11 +21,16 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_LocalVariable.h")
-@:uextern extern class UDEPRECATED_K2Node_LocalVariable extends unreal.blueprintgraph.UK2Node_TemporaryVariable {
+@:uextern @:uclass extern class UDEPRECATED_K2Node_LocalVariable extends unreal.blueprintgraph.UK2Node_TemporaryVariable {
+  
+  /**
+    The local variable's assigned tooltip
+  **/
+  @:uproperty public var VariableTooltip : unreal.FText;
   
   /**
     If this is not an override, allow user to specify a name for the function created by this entry point
   **/
-  public var CustomVariableName : unreal.FName;
+  @:uproperty public var CustomVariableName : unreal.FName;
   
 }

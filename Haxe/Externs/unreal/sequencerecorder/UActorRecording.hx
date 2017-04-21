@@ -21,22 +21,27 @@ package unreal.sequencerecorder;
 **/
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("Private/ActorRecording.h")
-@:uextern extern class UActorRecording extends unreal.UObject {
+@:uextern @:uclass extern class UActorRecording extends unreal.UObject {
   
   /**
     Whether to record to 'possessable' (i.e. level-owned) or 'spawnable' (i.e. sequence-owned) actors. Defaults to the global setting.
   **/
-  public var bRecordToPossessable : Bool;
+  @:uproperty public var bRecordToPossessable : Bool;
   
   /**
     The settings to apply to this actor's animation
   **/
-  public var AnimationSettings : unreal.FAnimationRecordingSettings;
+  @:uproperty public var AnimationSettings : unreal.FAnimationRecordingSettings;
+  
+  /**
+    The target animation we want to record to
+  **/
+  @:uproperty public var TargetAnimation : unreal.TWeakObjectPtr<unreal.UAnimSequence>;
   
   /**
     Whether we should specify the target animation or auto-create it
   **/
-  public var bSpecifyTargetAnimation : Bool;
-  public var ActorSettings : unreal.sequencerecorder.FActorRecordingSettings;
+  @:uproperty public var bSpecifyTargetAnimation : Bool;
+  @:uproperty public var ActorSettings : unreal.sequencerecorder.FActorRecordingSettings;
   
 }

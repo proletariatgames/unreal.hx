@@ -16,7 +16,7 @@ package unreal.paper2deditor;
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("Private/ExtractSprites/PaperExtractSpritesSettings.h")
 @:uname("ESpriteExtractMode")
-@:class @:uextern extern enum ESpriteExtractMode {
+@:class @:uextern @:uenum extern enum ESpriteExtractMode {
   
   /**
     Automatically extract sprites by detecting using alpha

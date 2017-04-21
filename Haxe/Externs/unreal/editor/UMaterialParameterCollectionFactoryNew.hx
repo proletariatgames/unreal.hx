@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/MaterialParameterCollectionFactoryNew.h")
-@:uextern extern class UMaterialParameterCollectionFactoryNew extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UMaterialParameterCollectionFactoryNew extends unreal.editor.UFactory {
   
 }

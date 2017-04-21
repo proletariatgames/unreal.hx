@@ -19,25 +19,25 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UTileView extends unreal.umg.UTableViewBase {
-  public var SelectionMode : unreal.slate.ESelectionMode;
-  public var Items : unreal.TArray<unreal.UObject>;
-  public var ItemHeight : unreal.Float32;
-  public var ItemWidth : unreal.Float32;
+@:uextern @:uclass extern class UTileView extends unreal.umg.UTableViewBase {
+  @:uproperty public var SelectionMode : unreal.slate.ESelectionMode;
+  @:uproperty public var Items : unreal.TArray<unreal.UObject>;
+  @:uproperty public var ItemHeight : unreal.Float32;
+  @:uproperty public var ItemWidth : unreal.Float32;
   
   /**
     Set item width
   **/
-  @:final public function SetItemWidth(Width : unreal.Float32) : Void;
+  @:ufunction @:final public function SetItemWidth(Width : unreal.Float32) : Void;
   
   /**
     Set item height
   **/
-  @:final public function SetItemHeight(Height : unreal.Float32) : Void;
+  @:ufunction @:final public function SetItemHeight(Height : unreal.Float32) : Void;
   
   /**
     Refreshes the list
   **/
-  @:final public function RequestListRefresh() : Void;
+  @:ufunction @:final public function RequestListRefresh() : Void;
   
 }

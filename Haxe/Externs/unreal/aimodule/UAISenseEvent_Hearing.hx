@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseEvent_Hearing.h")
-@:uextern extern class UAISenseEvent_Hearing extends unreal.aimodule.UAISenseEvent {
-  private var Event : unreal.aimodule.FAINoiseEvent;
+@:uextern @:uclass extern class UAISenseEvent_Hearing extends unreal.aimodule.UAISenseEvent {
+  @:uproperty private var Event : unreal.aimodule.FAINoiseEvent;
   
 }

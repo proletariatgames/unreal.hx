@@ -14,43 +14,43 @@
 package unreal;
 
 @:glueCppIncludes("Particles/EmitterCameraLensEffectBase.h")
-@:uextern extern class AEmitterCameraLensEffectBase extends unreal.AEmitter {
+@:uextern @:uclass extern class AEmitterCameraLensEffectBase extends unreal.AEmitter {
   
   /**
     If an emitter class in this array is currently playing, do not play this effect.
     Useful for preventing multiple similar or expensive camera effects from playing simultaneously.
   **/
-  public var EmittersToTreatAsSame : unreal.TArray<unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>>;
+  @:uproperty public var EmittersToTreatAsSame : unreal.TArray<unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>>;
   
   /**
     true if multiple instances of this emitter can exist simultaneously, false otherwise.
   **/
-  public var bAllowMultipleInstances : Bool;
+  @:uproperty public var bAllowMultipleInstances : Bool;
   
   /**
     This is the assumed FOV for which the effect was authored. The code will make automatic adjustments to make it look the same at different FOVs
   **/
-  public var BaseFOV : unreal.Float32;
+  @:uproperty public var BaseFOV : unreal.Float32;
   
   /**
     Effect-to-camera transform to allow arbitrary placement of the particle system .
     Note the X component of the location will be scaled with camera fov to keep the lens effect the same apparent size.
   **/
-  private var RelativeTransform : unreal.FTransform;
+  @:uproperty private var RelativeTransform : unreal.FTransform;
   
   /**
     Camera this emitter is attached to, will be notified when emitter is destroyed
   **/
-  private var BaseCamera : unreal.APlayerCameraManager;
+  @:uproperty private var BaseCamera : unreal.APlayerCameraManager;
   
   /**
     The effect to use for non extreme content
   **/
-  @:deprecated private var PS_CameraEffectNonExtremeContent_DEPRECATED : unreal.UParticleSystem;
+  @:deprecated @:uproperty private var PS_CameraEffectNonExtremeContent_DEPRECATED : unreal.UParticleSystem;
   
   /**
     Particle System to use
   **/
-  private var PS_CameraEffect : unreal.UParticleSystem;
+  @:uproperty private var PS_CameraEffect : unreal.UParticleSystem;
   
 }

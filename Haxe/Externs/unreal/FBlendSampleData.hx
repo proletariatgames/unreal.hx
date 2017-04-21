@@ -20,11 +20,11 @@ package unreal;
   Transform definition
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:noCopy @:noEquals @:uextern extern class FBlendSampleData {
-  public var PreviousTime : unreal.Float32;
-  public var Time : unreal.Float32;
-  public var TotalWeight : unreal.Float32;
-  public var Animation : unreal.UAnimSequence;
-  public var SampleDataIndex : unreal.Int32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBlendSampleData {
+  @:uproperty public var PreviousTime : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
+  @:uproperty public var TotalWeight : unreal.Float32;
+  @:uproperty public var Animation : unreal.UAnimSequence;
+  @:uproperty public var SampleDataIndex : unreal.Int32;
   
 }

@@ -21,6 +21,6 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_CallDataTableFunction.h")
-@:uextern extern class UK2Node_CallDataTableFunction extends unreal.blueprintgraph.UK2Node_CallFunction {
+@:uextern @:uclass extern class UK2Node_CallDataTableFunction extends unreal.blueprintgraph.UK2Node_CallFunction {
   
 }

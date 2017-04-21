@@ -22,7 +22,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateColor.h")
 @:uname("ESlateColorStylingMode.Type")
-@:uextern extern enum ESlateColorStylingMode {
+@:uextern @:uenum extern enum ESlateColorStylingMode {
   
   /**
     Color value is stored in this Slate color.

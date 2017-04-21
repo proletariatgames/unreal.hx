@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/SkeletalMeshComponent.h")
 @:uname("EPhysicsTransformUpdateMode.Type")
-@:uextern extern enum EPhysicsTransformUpdateMode {
+@:uextern @:uenum extern enum EPhysicsTransformUpdateMode {
   SimulationUpatesComponentTransform;
   ComponentTransformIsKinematic;
   

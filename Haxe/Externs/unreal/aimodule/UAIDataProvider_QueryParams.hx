@@ -23,14 +23,14 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("DataProviders/AIDataProvider_QueryParams.h")
-@:uextern extern class UAIDataProvider_QueryParams extends unreal.aimodule.UAIDataProvider {
-  public var BoolValue : Bool;
-  public var IntValue : unreal.Int32;
-  public var FloatValue : unreal.Float32;
+@:uextern @:uclass extern class UAIDataProvider_QueryParams extends unreal.aimodule.UAIDataProvider {
+  @:uproperty public var BoolValue : Bool;
+  @:uproperty public var IntValue : unreal.Int32;
+  @:uproperty public var FloatValue : unreal.Float32;
   
   /**
     Arbitrary name this query parameter will be exposed as to outside world (like BT nodes)
   **/
-  public var ParamName : unreal.FName;
+  @:uproperty public var ParamName : unreal.FName;
   
 }

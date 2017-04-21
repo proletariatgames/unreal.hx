@@ -20,24 +20,24 @@ package unreal;
   Imported spreadsheet table.
 **/
 @:glueCppIncludes("Engine/DataTable.h")
-@:uextern extern class UDataTable extends unreal.UObject {
+@:uextern @:uclass extern class UDataTable extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     The name of the RowStruct we were using when we were last saved
   **/
-  public var RowStructName : unreal.FName;
+  @:uproperty public var RowStructName : unreal.FName;
   
   /**
     The filename imported to create this object. Relative to this object's package, BaseDir() or absolute
   **/
-  @:deprecated public var ImportPath_DEPRECATED : unreal.FString;
-  public var AssetImportData : unreal.UAssetImportData;
+  @:deprecated @:uproperty public var ImportPath_DEPRECATED : unreal.FString;
+  @:uproperty public var AssetImportData : unreal.UAssetImportData;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Structure to use for each row of the table, must inherit from FTableRowBase
   **/
-  public var RowStruct : unreal.UScriptStruct;
+  @:uproperty public var RowStruct : unreal.UScriptStruct;
   
 }

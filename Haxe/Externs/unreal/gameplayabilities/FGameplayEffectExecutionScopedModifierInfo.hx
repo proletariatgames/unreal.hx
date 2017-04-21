@@ -22,36 +22,36 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayEffectExecutionScopedModifierInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayEffectExecutionScopedModifierInfo {
   
   /**
     Target tag requirements for the modifier to apply
   **/
-  public var TargetTags : unreal.gameplayabilities.FGameplayTagRequirements;
+  @:uproperty public var TargetTags : unreal.gameplayabilities.FGameplayTagRequirements;
   
   /**
     Source tag requirements for the modifier to apply
   **/
-  public var SourceTags : unreal.gameplayabilities.FGameplayTagRequirements;
+  @:uproperty public var SourceTags : unreal.gameplayabilities.FGameplayTagRequirements;
   
   /**
     Evaluation channel settings of the scoped modifier
   **/
-  public var EvaluationChannelSettings : unreal.gameplayabilities.FGameplayModEvaluationChannelSettings;
+  @:uproperty public var EvaluationChannelSettings : unreal.gameplayabilities.FGameplayModEvaluationChannelSettings;
   
   /**
     Magnitude of the scoped modifier
   **/
-  public var ModifierMagnitude : unreal.gameplayabilities.FGameplayEffectModifierMagnitude;
+  @:uproperty public var ModifierMagnitude : unreal.gameplayabilities.FGameplayEffectModifierMagnitude;
   
   /**
     Modifier operation to perform
   **/
-  public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
+  @:uproperty public var ModifierOp : unreal.gameplayabilities.EGameplayModOp;
   
   /**
     Backing attribute that the scoped modifier is for
   **/
-  public var CapturedAttribute : unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition;
+  @:uproperty public var CapturedAttribute : unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition;
   
 }

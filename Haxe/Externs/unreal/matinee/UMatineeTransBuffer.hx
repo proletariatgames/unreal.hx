@@ -22,6 +22,6 @@ package unreal.matinee;
 **/
 @:umodule("Matinee")
 @:glueCppIncludes("MatineeTransBuffer.h")
-@:noClass @:uextern extern class UMatineeTransBuffer extends unreal.editor.UTransBuffer {
+@:noClass @:uextern @:uclass extern class UMatineeTransBuffer extends unreal.editor.UTransBuffer {
   
 }

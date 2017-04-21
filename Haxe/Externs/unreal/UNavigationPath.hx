@@ -18,24 +18,24 @@ package unreal;
   UObject wrapper for FNavigationPath
 **/
 @:glueCppIncludes("AI/Navigation/NavigationPath.h")
-@:uextern extern class UNavigationPath extends unreal.UObject {
-  public var RecalculateOnInvalidation : unreal.ENavigationOptionFlag;
-  public var PathPoints : unreal.TArray<unreal.FVector>;
+@:uextern @:uclass extern class UNavigationPath extends unreal.UObject {
+  @:uproperty public var RecalculateOnInvalidation : unreal.ENavigationOptionFlag;
+  @:uproperty public var PathPoints : unreal.TArray<unreal.FVector>;
   
   /**
     UObject end
   **/
-  @:thisConst @:final public function GetDebugString() : unreal.FString;
-  @:final public function EnableDebugDrawing(bShouldDrawDebugData : Bool, PathColor : unreal.FLinearColor) : Void;
+  @:ufunction @:thisConst @:final public function GetDebugString() : unreal.FString;
+  @:ufunction @:final public function EnableDebugDrawing(bShouldDrawDebugData : Bool, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") PathColor : unreal.FLinearColor) : Void;
   
   /**
     if enabled path will request recalculation if it gets invalidated due to a change to underlying navigation
   **/
-  @:final public function EnableRecalculationOnInvalidation(DoRecalculation : unreal.ENavigationOptionFlag) : Void;
-  @:thisConst @:final public function GetPathLength() : unreal.Float32;
-  @:thisConst @:final public function GetPathCost() : unreal.Float32;
-  @:thisConst @:final public function IsPartial() : Bool;
-  @:thisConst @:final public function IsValid() : Bool;
-  @:thisConst @:final public function IsStringPulled() : Bool;
+  @:ufunction @:final public function EnableRecalculationOnInvalidation(DoRecalculation : unreal.ENavigationOptionFlag) : Void;
+  @:ufunction @:thisConst @:final public function GetPathLength() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetPathCost() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function IsPartial() : Bool;
+  @:ufunction @:thisConst @:final public function IsValid() : Bool;
+  @:ufunction @:thisConst @:final public function IsStringPulled() : Bool;
   
 }

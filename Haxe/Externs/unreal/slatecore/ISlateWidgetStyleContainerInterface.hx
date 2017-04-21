@@ -15,6 +15,6 @@ package unreal.slatecore;
 
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateWidgetStyleContainerInterface.h")
-@:uextern extern interface ISlateWidgetStyleContainerInterface {
+@:uextern @:uclass extern interface ISlateWidgetStyleContainerInterface {
   
 }

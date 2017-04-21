@@ -20,16 +20,16 @@ package unreal;
   Struct containing information about what interfaces are implemented in this blueprint
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:noCopy @:noEquals @:uextern extern class FBPInterfaceDescription {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBPInterfaceDescription {
   
   /**
     References to the graphs associated with the required functions for this interface
   **/
-  public var Graphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var Graphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Reference to the interface class we're adding to this blueprint
   **/
-  public var Interface : unreal.TSubclassOf<unreal.IInterface>;
+  @:uproperty public var Interface : unreal.TSubclassOf<unreal.IInterface>;
   
 }

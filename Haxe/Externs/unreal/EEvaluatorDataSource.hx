@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimNode_TransitionPoseEvaluator.h")
 @:uname("EEvaluatorDataSource.Type")
-@:uextern extern enum EEvaluatorDataSource {
+@:uextern @:uenum extern enum EEvaluatorDataSource {
   
   /**
     Source Pose

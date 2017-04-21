@@ -14,28 +14,28 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavFilters/NavigationQueryFilter.h")
-@:uextern extern class FNavigationFilterArea {
-  public var bOverrideEnteringCost : Bool;
-  public var bOverrideTravelCost : Bool;
+@:uextern @:ustruct extern class FNavigationFilterArea {
+  @:uproperty public var bOverrideEnteringCost : Bool;
+  @:uproperty public var bOverrideTravelCost : Bool;
   
   /**
     mark as excluded
   **/
-  public var bIsExcluded : Bool;
+  @:uproperty public var bIsExcluded : Bool;
   
   /**
     override for entering cost
   **/
-  public var EnteringCostOverride : unreal.Float32;
+  @:uproperty public var EnteringCostOverride : unreal.Float32;
   
   /**
     override for travel cost
   **/
-  public var TravelCostOverride : unreal.Float32;
+  @:uproperty public var TravelCostOverride : unreal.Float32;
   
   /**
     navigation area class
   **/
-  public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
   
 }

@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavCollision.h")
-@:uextern extern class UNavCollision extends unreal.UObject {
+@:uextern @:uclass extern class UNavCollision extends unreal.UObject {
   
   /**
     If set, convex collisions will be exported offline for faster runtime navmesh building (increases memory usage)
   **/
-  public var bGatherConvexGeometry : Bool;
+  @:uproperty public var bGatherConvexGeometry : Bool;
   
   /**
     If set, mesh will be used as dynamic obstacle (don't create navmesh on top, much faster adding/removing)
   **/
-  public var bIsDynamicObstacle : Bool;
+  @:uproperty public var bIsDynamicObstacle : Bool;
   
   /**
     navigation area type (empty = default obstacle)
   **/
-  public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
+  @:uproperty public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
   
   /**
     list of nav collision boxes
   **/
-  public var BoxCollision : unreal.TArray<unreal.FNavCollisionBox>;
+  @:uproperty public var BoxCollision : unreal.TArray<unreal.FNavCollisionBox>;
   
   /**
     list of nav collision cylinders
   **/
-  public var CylinderCollision : unreal.TArray<unreal.FNavCollisionCylinder>;
+  @:uproperty public var CylinderCollision : unreal.TArray<unreal.FNavCollisionCylinder>;
   
 }

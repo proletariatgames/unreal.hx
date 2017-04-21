@@ -21,16 +21,16 @@ package unreal.moviescene;
 **/
 @:umodule("MovieScene")
 @:glueCppIncludes("MovieScene.h")
-@:noCopy @:noEquals @:uextern extern class FMovieSceneEditorData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEditorData {
   
   /**
     The last view-range that the user was observing
   **/
-  public var ViewRange : unreal.FFloatRange;
+  @:uproperty public var ViewRange : unreal.FFloatRange;
   
   /**
     User-defined working range in which the entire sequence should reside.
   **/
-  public var WorkingRange : unreal.FFloatRange;
+  @:uproperty public var WorkingRange : unreal.FFloatRange;
   
 }

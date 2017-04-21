@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateBrush.h")
 @:uname("ESlateBrushMirrorType.Type")
-@:uextern extern enum ESlateBrushMirrorType {
+@:uextern @:uenum extern enum ESlateBrushMirrorType {
   
   /**
     Don't mirror anything, just draw the texture as it is.

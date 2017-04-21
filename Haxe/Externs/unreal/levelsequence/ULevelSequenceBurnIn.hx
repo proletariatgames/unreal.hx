@@ -19,26 +19,26 @@ package unreal.levelsequence;
 **/
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceBurnIn.h")
-@:uextern extern class ULevelSequenceBurnIn extends unreal.umg.UUserWidget {
+@:uextern @:uclass extern class ULevelSequenceBurnIn extends unreal.umg.UUserWidget {
   
   /**
     Called when this burn in is receiving its settings
   **/
-  public function SetSettings(InSettings : unreal.UObject) : Void;
+  @:ufunction public function SetSettings(InSettings : unreal.UObject) : Void;
   
   /**
     Get the settings class to use for this burn in
   **/
-  @:thisConst public function GetSettingsClass() : unreal.TSubclassOf<unreal.levelsequence.ULevelSequenceBurnInInitSettings>;
+  @:ufunction @:thisConst public function GetSettingsClass() : unreal.TSubclassOf<unreal.levelsequence.ULevelSequenceBurnInInitSettings>;
   
   /**
     The actor to get our burn in frames from
   **/
-  private var LevelSequenceActor : unreal.levelsequence.ALevelSequenceActor;
+  @:uproperty private var LevelSequenceActor : unreal.levelsequence.ALevelSequenceActor;
   
   /**
     Snapshot of frame information.
   **/
-  private var FrameInformation : unreal.levelsequence.FLevelSequencePlayerSnapshot;
+  @:uproperty private var FrameInformation : unreal.levelsequence.FLevelSequencePlayerSnapshot;
   
 }

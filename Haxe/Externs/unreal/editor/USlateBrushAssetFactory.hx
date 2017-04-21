@@ -21,11 +21,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/SlateBrushAssetFactory.h")
-@:uextern extern class USlateBrushAssetFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class USlateBrushAssetFactory extends unreal.editor.UFactory {
   
   /**
     An initial texture to assign to the newly created slate brush
   **/
-  public var InitialTexture : unreal.UTexture2D;
+  @:uproperty public var InitialTexture : unreal.UTexture2D;
   
 }

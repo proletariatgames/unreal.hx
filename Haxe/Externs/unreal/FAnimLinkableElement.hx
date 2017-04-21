@@ -28,52 +28,52 @@ package unreal;
              @see FAnimNotifyEvent
 **/
 @:glueCppIncludes("Animation/AnimLinkableElement.h")
-@:noCopy @:noEquals @:uextern extern class FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimLinkableElement {
   
   /**
     The Animation Sequence that this montage element will link to, when the sequence changes
     in either length or rate; the element will correctly place itself in relation to the sequence
   **/
-  private var LinkedSequence : unreal.UAnimSequenceBase;
+  @:uproperty private var LinkedSequence : unreal.UAnimSequenceBase;
   
   /**
     The time of this montage. This will differ depending upon the method we are using to link the time for this element
   **/
-  private var LinkValue : unreal.Float32;
+  @:uproperty private var LinkValue : unreal.Float32;
   
   /**
     The absolute length of our currently linked segment
   **/
-  private var SegmentLength : unreal.Float32;
+  @:uproperty private var SegmentLength : unreal.Float32;
   
   /**
     The absolute time in the montage that our currently linked segment begins
   **/
-  private var SegmentBeginTime : unreal.Float32;
+  @:uproperty private var SegmentBeginTime : unreal.Float32;
   
   /**
     Cached link method used to transform the time when LinkMethod changes, always relates to the currently stored time
   **/
-  private var CachedLinkMethod : unreal.EAnimLinkMethod;
+  @:uproperty private var CachedLinkMethod : unreal.EAnimLinkMethod;
   
   /**
     The method we are using to calculate our times
   **/
-  private var LinkMethod : unreal.EAnimLinkMethod;
+  @:uproperty private var LinkMethod : unreal.EAnimLinkMethod;
   
   /**
     The index of the segment we are linked to within the slot we are using
   **/
-  private var SegmentIndex : unreal.Int32;
+  @:uproperty private var SegmentIndex : unreal.Int32;
   
   /**
     The slot index we are currently using within LinkedMontage
   **/
-  private var SlotIndex : unreal.Int32;
+  @:uproperty private var SlotIndex : unreal.Int32;
   
   /**
     The montage that this element is currently linked to
   **/
-  private var LinkedMontage : unreal.UAnimMontage;
+  @:uproperty private var LinkedMontage : unreal.UAnimMontage;
   
 }

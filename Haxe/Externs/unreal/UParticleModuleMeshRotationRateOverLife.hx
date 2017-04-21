@@ -20,18 +20,18 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/RotationRate/ParticleModuleMeshRotationRateOverLife.h")
-@:noClass @:uextern extern class UParticleModuleMeshRotationRateOverLife extends unreal.UParticleModuleRotationRateBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleMeshRotationRateOverLife extends unreal.UParticleModuleRotationRateBase {
   
   /**
     If true, scale the current rotation rate by the value retrieved.
     Otherwise, set the rotation rate to the value retrieved.
   **/
-  public var bScaleRotRate : Bool;
+  @:uproperty public var bScaleRotRate : Bool;
   
   /**
     The rotation rate desired.
     The value is retrieved using the RelativeTime of the particle.
   **/
-  public var RotRate : unreal.FRawDistributionVector;
+  @:uproperty public var RotRate : unreal.FRawDistributionVector;
   
 }

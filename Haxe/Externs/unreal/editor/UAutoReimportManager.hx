@@ -19,6 +19,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("AutoReimport/AutoReimportManager.h")
-@:uextern extern class UAutoReimportManager extends unreal.UObject {
+@:uextern @:uclass extern class UAutoReimportManager extends unreal.UObject {
   
 }

@@ -21,31 +21,31 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Tests/FbxAutomationCommon.h")
-@:noCopy @:noEquals @:uextern extern class FFbxTestPlanExpectedResult {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFbxTestPlanExpectedResult {
   
   /**
     Expected preset data: string
   **/
-  public var ExpectedPresetsDataString : unreal.TArray<unreal.FString>;
+  @:uproperty public var ExpectedPresetsDataString : unreal.TArray<unreal.FString>;
   
   /**
     Expected preset data: double
   **/
-  public var ExpectedPresetsDataDouble : unreal.TArray<unreal.Float64>;
+  @:uproperty public var ExpectedPresetsDataDouble : unreal.TArray<unreal.Float64>;
   
   /**
     Expected preset data: double
   **/
-  public var ExpectedPresetsDataFloat : unreal.TArray<unreal.Float32>;
+  @:uproperty public var ExpectedPresetsDataFloat : unreal.TArray<unreal.Float32>;
   
   /**
     Expected preset data: integer
   **/
-  public var ExpectedPresetsDataInteger : unreal.TArray<unreal.Int32>;
+  @:uproperty public var ExpectedPresetsDataInteger : unreal.TArray<unreal.Int32>;
   
   /**
     Expected preset type
   **/
-  public var ExpectedPresetsType : unreal.editor.EFBXExpectedResultPreset;
+  @:uproperty public var ExpectedPresetsType : unreal.editor.EFBXExpectedResultPreset;
   
 }

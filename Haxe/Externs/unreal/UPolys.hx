@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Polys.h")
-@:uextern extern class UPolys extends unreal.UObject {
+@:uextern @:uclass extern class UPolys extends unreal.UObject {
   
 }

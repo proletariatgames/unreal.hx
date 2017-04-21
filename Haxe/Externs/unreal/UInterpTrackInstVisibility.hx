@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrackInstVisibility.h")
-@:noClass @:uextern extern class UInterpTrackInstVisibility extends unreal.UInterpTrackInst {
+@:noClass @:uextern @:uclass extern class UInterpTrackInstVisibility extends unreal.UInterpTrackInst {
   
   /**
     Position we were in last time we evaluated.
     During UpdateTrack, events between this time and the current time will be processed.
   **/
-  public var LastUpdatePosition : unreal.Float32;
-  public var Action : unreal.EVisibilityTrackAction;
+  @:uproperty public var LastUpdatePosition : unreal.Float32;
+  @:uproperty public var Action : unreal.EVisibilityTrackAction;
   
 }

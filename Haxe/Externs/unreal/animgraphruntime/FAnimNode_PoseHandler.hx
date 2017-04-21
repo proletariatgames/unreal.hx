@@ -21,11 +21,11 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseHandler.h")
-@:uextern extern class FAnimNode_PoseHandler extends unreal.FAnimNode_AssetPlayerBase {
+@:uextern @:ustruct extern class FAnimNode_PoseHandler extends unreal.FAnimNode_AssetPlayerBase {
   
   /**
     The animation sequence asset to evaluate
   **/
-  public var PoseAsset : unreal.UPoseAsset;
+  @:uproperty public var PoseAsset : unreal.UPoseAsset;
   
 }

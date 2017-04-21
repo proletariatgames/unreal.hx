@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimCurveTypes.h")
-@:noCopy @:noEquals @:uextern extern class FVectorCurve extends unreal.FAnimCurveBase {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FVectorCurve extends unreal.FAnimCurveBase {
   
 }

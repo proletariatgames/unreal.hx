@@ -16,7 +16,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Widgets/Layout/SScaleBox.h")
 @:uname("EStretch.Type")
-@:uextern extern enum EStretch {
+@:uextern @:uenum extern enum EStretch {
   
   /**
     Does not scale the content.

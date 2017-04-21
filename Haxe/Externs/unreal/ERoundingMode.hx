@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Kismet/KismetTextLibrary.h")
 @:uname("ERoundingMode")
-@:uextern extern enum ERoundingMode {
+@:uextern @:uenum extern enum ERoundingMode {
   
   /**
     Rounds to the nearest place, equidistant ties go to the value which is closest to an even value: 1.5 becomes 2, 0.5 becomes 0

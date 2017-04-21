@@ -15,12 +15,12 @@ package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
 @:glueCppIncludes("GameplayTaskResource.h")
-@:uextern extern class UGameplayTaskResource extends unreal.UObject {
-  public var bManuallySetID : Bool;
+@:uextern @:uclass extern class UGameplayTaskResource extends unreal.UObject {
+  @:uproperty public var bManuallySetID : Bool;
   
   /**
     Overrides AutoResourceID. -1 means auto ID will be applied
   **/
-  private var ManualResourceID : unreal.Int32;
+  @:uproperty private var ManualResourceID : unreal.Int32;
   
 }

@@ -18,23 +18,23 @@ package unreal;
   A spot light component emits a directional cone shaped light (Eg a Torch).
 **/
 @:glueCppIncludes("Components/SpotLightComponent.h")
-@:uextern extern class USpotLightComponent extends unreal.UPointLightComponent {
+@:uextern @:uclass extern class USpotLightComponent extends unreal.UPointLightComponent {
   
   /**
     EditAnywhere, BlueprintReadOnly, Category=LightShaft, meta=(UIMin = "1.0", UIMax = "180.0")
   **/
-  public var LightShaftConeAngle : unreal.Float32;
+  @:uproperty public var LightShaftConeAngle : unreal.Float32;
   
   /**
     Degrees.
   **/
-  public var OuterConeAngle : unreal.Float32;
+  @:uproperty public var OuterConeAngle : unreal.Float32;
   
   /**
     Degrees.
   **/
-  public var InnerConeAngle : unreal.Float32;
-  @:final public function SetInnerConeAngle(NewInnerConeAngle : unreal.Float32) : Void;
-  @:final public function SetOuterConeAngle(NewOuterConeAngle : unreal.Float32) : Void;
+  @:uproperty public var InnerConeAngle : unreal.Float32;
+  @:ufunction @:final public function SetInnerConeAngle(NewInnerConeAngle : unreal.Float32) : Void;
+  @:ufunction @:final public function SetOuterConeAngle(NewOuterConeAngle : unreal.Float32) : Void;
   
 }

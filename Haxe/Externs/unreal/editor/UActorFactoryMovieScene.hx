@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Private/Factories/ActorFactoryMovieScene.h")
-@:noClass @:uextern extern class UActorFactoryMovieScene extends unreal.editor.UActorFactory {
+@:noClass @:uextern @:uclass extern class UActorFactoryMovieScene extends unreal.editor.UActorFactory {
   
 }

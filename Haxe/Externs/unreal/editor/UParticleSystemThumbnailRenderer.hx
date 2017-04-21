@@ -21,8 +21,8 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/ParticleSystemThumbnailRenderer.h")
-@:noClass @:uextern extern class UParticleSystemThumbnailRenderer extends unreal.editor.UTextureThumbnailRenderer {
-  public var OutOfDate : unreal.UTexture2D;
-  public var NoImage : unreal.UTexture2D;
+@:noClass @:uextern @:uclass extern class UParticleSystemThumbnailRenderer extends unreal.editor.UTextureThumbnailRenderer {
+  @:uproperty public var OutOfDate : unreal.UTexture2D;
+  @:uproperty public var NoImage : unreal.UTexture2D;
   
 }

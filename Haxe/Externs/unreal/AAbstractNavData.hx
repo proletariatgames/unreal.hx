@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/AbstractNavData.h")
-@:uextern extern class AAbstractNavData extends unreal.ANavigationData {
+@:uextern @:uclass extern class AAbstractNavData extends unreal.ANavigationData {
   
 }

@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitVelocityChange.h")
-@:uextern extern class UAbilityTask_WaitVelocityChange extends unreal.gameplayabilities.UAbilityTask {
-  private var CachedMovementComponent : unreal.UMovementComponent;
+@:uextern @:uclass extern class UAbilityTask_WaitVelocityChange extends unreal.gameplayabilities.UAbilityTask {
+  @:uproperty private var CachedMovementComponent : unreal.UMovementComponent;
   
 }

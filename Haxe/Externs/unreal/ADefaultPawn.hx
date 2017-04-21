@@ -19,56 +19,56 @@ package unreal;
   @see UFloatingPawnMovement
 **/
 @:glueCppIncludes("GameFramework/DefaultPawn.h")
-@:uextern extern class ADefaultPawn extends unreal.APawn {
+@:uextern @:uclass extern class ADefaultPawn extends unreal.APawn {
   
   /**
     Input callback to move forward in local space (or backward if Val is negative).
     @param Val Amount of movement in the forward direction (or backward if negative).
     @see APawn::AddMovementInput()
   **/
-  public function MoveForward(Val : unreal.Float32) : Void;
+  @:ufunction public function MoveForward(Val : unreal.Float32) : Void;
   
   /**
     Input callback to strafe right in local space (or left if Val is negative).
     @param Val Amount of movement in the right direction (or left if negative).
     @see APawn::AddMovementInput()
   **/
-  public function MoveRight(Val : unreal.Float32) : Void;
+  @:ufunction public function MoveRight(Val : unreal.Float32) : Void;
   
   /**
     Input callback to move up in world space (or down if Val is negative).
     @param Val Amount of movement in the world up direction (or down if negative).
     @see APawn::AddMovementInput()
   **/
-  public function MoveUp_World(Val : unreal.Float32) : Void;
+  @:ufunction public function MoveUp_World(Val : unreal.Float32) : Void;
   
   /**
     Called via input to turn at a given rate.
     @param Rate  This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
   **/
-  @:final public function TurnAtRate(Rate : unreal.Float32) : Void;
+  @:ufunction @:final public function TurnAtRate(Rate : unreal.Float32) : Void;
   
   /**
     Called via input to look up at a given rate (or down if Rate is negative).
     @param Rate   This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
   **/
-  @:final public function LookUpAtRate(Rate : unreal.Float32) : Void;
+  @:ufunction @:final public function LookUpAtRate(Rate : unreal.Float32) : Void;
   
   /**
     If true, adds default input bindings for movement and camera look.
   **/
-  public var bAddDefaultMovementBindings : Bool;
-  public var MeshComponent : unreal.UStaticMeshComponent;
-  public var CollisionComponent : unreal.USphereComponent;
+  @:uproperty public var bAddDefaultMovementBindings : Bool;
+  @:uproperty public var MeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty public var CollisionComponent : unreal.USphereComponent;
   
   /**
     Base lookup rate, in deg/sec. Other scaling may affect final lookup rate.
   **/
-  public var BaseLookUpRate : unreal.Float32;
+  @:uproperty public var BaseLookUpRate : unreal.Float32;
   
   /**
     Base turn rate, in deg/sec. Other scaling may affect final turn rate.
   **/
-  public var BaseTurnRate : unreal.Float32;
+  @:uproperty public var BaseTurnRate : unreal.Float32;
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Interfaces/Interface_AssetUserData.h")
-@:uextern extern interface IInterface_AssetUserData {
+@:uextern @:uclass extern interface IInterface_AssetUserData {
   
 }

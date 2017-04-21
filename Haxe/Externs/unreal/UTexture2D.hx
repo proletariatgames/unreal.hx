@@ -20,54 +20,54 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Texture2D.h")
-@:uextern extern class UTexture2D extends unreal.UTexture {
+@:uextern @:uclass extern class UTexture2D extends unreal.UTexture {
   
   /**
     The addressing mode to use for the Y axis.
   **/
-  public var AddressY : unreal.TextureAddress;
+  @:uproperty public var AddressY : unreal.TextureAddress;
   
   /**
     The addressing mode to use for the X axis.
   **/
-  public var AddressX : unreal.TextureAddress;
+  @:uproperty public var AddressX : unreal.TextureAddress;
   #if WITH_EDITORONLY_DATA
   
   /**
     Whether the texture has been painted in the editor.
   **/
-  public var bHasBeenPaintedInEditor : Bool;
+  @:uproperty public var bHasBeenPaintedInEditor : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Global and serialized version of ForceMiplevelsToBeResident.
   **/
-  public var bGlobalForceMipLevelsToBeResident : Bool;
+  @:uproperty public var bGlobalForceMipLevelsToBeResident : Bool;
   
   /**
     Ignores the streaming mip bias used to accommodate memory constraints.
   **/
-  public var bIgnoreStreamingMipBias : Bool;
+  @:uproperty public var bIgnoreStreamingMipBias : Bool;
   
   /**
     Override whether to fully stream even if texture hasn't been rendered.
   **/
-  public var bForceMiplevelsToBeResident : Bool;
+  @:uproperty public var bForceMiplevelsToBeResident : Bool;
   
   /**
     Whether the current texture mip change request is pending cancellation.
   **/
-  public var bHasCancelationPending : Bool;
+  @:uproperty public var bHasCancelationPending : Bool;
   
   /**
     Whether the texture is currently streamable or not.
   **/
-  public var bIsStreamable : Bool;
+  @:uproperty public var bIsStreamable : Bool;
   
   /**
     keep track of first mip level used for ResourceMem creation
   **/
-  public var FirstResourceMemMip : unreal.Int32;
+  @:uproperty public var FirstResourceMemMip : unreal.Int32;
   
   /**
     * Level scope index of this texture. It is used to reduce the amount of lookup to map a texture to its level index.
@@ -77,16 +77,16 @@ package unreal;
     * -2 is also used to indicate that the texture has been processed but no entry were found in the level table.
     * After any of these processes, the LevelIndex is reset to INDEX_NONE. Making it ready for the next level task.
   **/
-  public var LevelIndex : unreal.Int32;
+  @:uproperty public var LevelIndex : unreal.Int32;
   
   /**
     Number of miplevels currently resident.
   **/
-  public var ResidentMips : unreal.Int32;
+  @:uproperty public var ResidentMips : unreal.Int32;
   
   /**
     Number of miplevels the texture should have resident.
   **/
-  public var RequestedMips : unreal.Int32;
+  @:uproperty public var RequestedMips : unreal.Int32;
   
 }

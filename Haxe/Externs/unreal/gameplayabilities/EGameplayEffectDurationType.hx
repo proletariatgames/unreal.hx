@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EGameplayEffectDurationType")
-@:class @:uextern extern enum EGameplayEffectDurationType {
+@:class @:uextern @:uenum extern enum EGameplayEffectDurationType {
   
   /**
     This effect applies instantly

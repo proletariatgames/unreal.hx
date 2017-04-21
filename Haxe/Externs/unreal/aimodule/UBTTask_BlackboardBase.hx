@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_BlackboardBase.h")
-@:uextern extern class UBTTask_BlackboardBase extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_BlackboardBase extends unreal.aimodule.UBTTaskNode {
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKey : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKey : unreal.aimodule.FBlackboardKeySelector;
   
 }

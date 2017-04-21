@@ -15,12 +15,12 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Sight.h")
-@:uextern extern class UAISense_Sight extends unreal.aimodule.UAISense {
-  private var SightLimitQueryImportance : unreal.Float32;
-  private var MaxQueryImportance : unreal.Float32;
-  private var HighImportanceQueryDistanceThreshold : unreal.Float32;
-  private var MaxTimeSlicePerTick : unreal.Float64;
-  private var MinQueriesPerTimeSliceCheck : unreal.Int32;
-  private var MaxTracesPerTick : unreal.Int32;
+@:uextern @:uclass extern class UAISense_Sight extends unreal.aimodule.UAISense {
+  @:uproperty private var SightLimitQueryImportance : unreal.Float32;
+  @:uproperty private var MaxQueryImportance : unreal.Float32;
+  @:uproperty private var HighImportanceQueryDistanceThreshold : unreal.Float32;
+  @:uproperty private var MaxTimeSlicePerTick : unreal.Float64;
+  @:uproperty private var MinQueriesPerTimeSliceCheck : unreal.Int32;
+  @:uproperty private var MaxTracesPerTick : unreal.Int32;
   
 }

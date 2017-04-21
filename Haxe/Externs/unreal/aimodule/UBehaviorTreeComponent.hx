@@ -15,26 +15,26 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeComponent.h")
-@:uextern extern class UBehaviorTreeComponent extends unreal.aimodule.UBrainComponent {
+@:uextern @:uclass extern class UBehaviorTreeComponent extends unreal.aimodule.UBrainComponent {
   
   /**
     @return the cooldown tag end time, 0.0f if CooldownTag is not found
   **/
-  @:thisConst @:final public function GetTagCooldownEndTime(CooldownTag : unreal.gameplaytags.FGameplayTag) : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetTagCooldownEndTime(CooldownTag : unreal.gameplaytags.FGameplayTag) : unreal.Float32;
   
   /**
     add to the cooldown tag's duration
   **/
-  @:final public function AddCooldownTagDuration(CooldownTag : unreal.gameplaytags.FGameplayTag, CooldownDuration : unreal.Float32, bAddToExistingDuration : Bool) : Void;
+  @:ufunction @:final public function AddCooldownTagDuration(CooldownTag : unreal.gameplaytags.FGameplayTag, CooldownDuration : unreal.Float32, bAddToExistingDuration : Bool) : Void;
   
   /**
     assign subtree to RunBehaviorDynamic task specified by tag
   **/
-  public function SetDynamicSubtree(InjectTag : unreal.gameplaytags.FGameplayTag, BehaviorAsset : unreal.aimodule.UBehaviorTree) : Void;
+  @:ufunction public function SetDynamicSubtree(InjectTag : unreal.gameplaytags.FGameplayTag, BehaviorAsset : unreal.aimodule.UBehaviorTree) : Void;
   
   /**
     instanced nodes
   **/
-  private var NodeInstances : unreal.TArray<unreal.aimodule.UBTNode>;
+  @:uproperty private var NodeInstances : unreal.TArray<unreal.aimodule.UBTNode>;
   
 }

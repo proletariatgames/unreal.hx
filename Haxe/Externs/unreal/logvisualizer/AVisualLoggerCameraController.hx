@@ -21,7 +21,7 @@ package unreal.logvisualizer;
 **/
 @:umodule("LogVisualizer")
 @:glueCppIncludes("Private/VisualLoggerCameraController.h")
-@:noClass @:uextern extern class AVisualLoggerCameraController extends unreal.ADebugCameraController {
-  public var PickedActor : unreal.AActor;
+@:noClass @:uextern @:uclass extern class AVisualLoggerCameraController extends unreal.ADebugCameraController {
+  @:uproperty public var PickedActor : unreal.AActor;
   
 }

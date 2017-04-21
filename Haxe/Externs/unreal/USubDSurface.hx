@@ -20,27 +20,27 @@ package unreal;
   Subdivision Surface Asset (Experimental, Early work in progress)
 **/
 @:glueCppIncludes("Engine/SubDSurface.h")
-@:uextern extern class USubDSurface extends unreal.UObject {
+@:uextern @:uclass extern class USubDSurface extends unreal.UObject {
   
   /**
     Materials used by this mesh. Individual sections index in to this array.
   **/
-  public var Materials : unreal.TArray<unreal.UMaterialInterface>;
+  @:uproperty public var Materials : unreal.TArray<unreal.UMaterialInterface>;
   
   /**
     various streams e.g "Position"
   **/
-  public var VertexAttributeStreams : unreal.TArray<unreal.UVertexAttributeStream>;
+  @:uproperty public var VertexAttributeStreams : unreal.TArray<unreal.UVertexAttributeStream>;
   
   /**
     becomes TopologyDescriptor::vertIndicesPerFace e.g. two triangles: 0,1,2, 2,3,0
   **/
-  public var IndicesPerFace : unreal.TArray<unreal.FakeUInt32>;
+  @:uproperty public var IndicesPerFace : unreal.TArray<unreal.FakeUInt32>;
   
   /**
     becomes TopologyDescriptor::numVertsPerFace, TopologyDescriptor::numFaces = .Num()
     32bit for OpenSubDiv TopologyDescriptor but it could be limited to 4 bits
   **/
-  public var VertexCountPerFace : unreal.TArray<unreal.FakeUInt32>;
+  @:uproperty public var VertexCountPerFace : unreal.TArray<unreal.FakeUInt32>;
   
 }

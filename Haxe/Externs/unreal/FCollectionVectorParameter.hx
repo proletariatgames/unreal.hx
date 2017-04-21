@@ -20,7 +20,7 @@ package unreal;
   A vector parameter
 **/
 @:glueCppIncludes("Materials/MaterialParameterCollection.h")
-@:noCopy @:noEquals @:uextern extern class FCollectionVectorParameter extends unreal.FCollectionParameterBase {
-  public var DefaultValue : unreal.FLinearColor;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCollectionVectorParameter extends unreal.FCollectionParameterBase {
+  @:uproperty public var DefaultValue : unreal.FLinearColor;
   
 }

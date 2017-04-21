@@ -15,16 +15,16 @@ package unreal.gameplayabilities;
 
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectExtension.h")
-@:uextern extern class UGameplayEffectExtension extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayEffectExtension extends unreal.UObject {
   
   /**
     Attributes on the target that are relevant to calculating modifications using this extension
   **/
-  public var RelevantTargetAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayAttribute>;
+  @:uproperty public var RelevantTargetAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayAttribute>;
   
   /**
     Attributes on the source instigator that are relevant to calculating modifications using this extension
   **/
-  public var RelevantSourceAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayAttribute>;
+  @:uproperty public var RelevantSourceAttributes : unreal.TArray<unreal.gameplayabilities.FGameplayAttribute>;
   
 }

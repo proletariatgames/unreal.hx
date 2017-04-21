@@ -21,6 +21,6 @@ package unreal.functionaltesting;
 **/
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTestingManager.h")
-@:uextern extern class APhasedAutomationActorBase extends unreal.AActor {
+@:uextern @:uclass extern class APhasedAutomationActorBase extends unreal.AActor {
   
 }

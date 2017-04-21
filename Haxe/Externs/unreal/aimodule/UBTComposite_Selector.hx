@@ -21,6 +21,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Composites/BTComposite_Selector.h")
-@:uextern extern class UBTComposite_Selector extends unreal.aimodule.UBTCompositeNode {
+@:uextern @:uclass extern class UBTComposite_Selector extends unreal.aimodule.UBTCompositeNode {
   
 }

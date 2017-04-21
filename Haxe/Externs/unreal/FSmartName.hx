@@ -14,14 +14,14 @@
 package unreal;
 
 @:glueCppIncludes("Animation/SmartName.h")
-@:uextern extern class FSmartName {
+@:uextern @:ustruct extern class FSmartName {
   #if WITH_EDITORONLY_DATA
-  public var Guid : unreal.FGuid;
+  @:uproperty public var Guid : unreal.FGuid;
   #end // WITH_EDITORONLY_DATA
   
   /**
     name
   **/
-  public var DisplayName : unreal.FName;
+  @:uproperty public var DisplayName : unreal.FName;
   
 }

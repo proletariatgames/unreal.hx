@@ -20,66 +20,66 @@ package unreal;
   Use FMaterialProxySettings instead
 **/
 @:glueCppIncludes("Engine/MaterialMerging.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialSimplificationSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialSimplificationSettings {
   
   /**
     Size of generated specular map
   **/
-  public var SpecularMapSize : unreal.FIntPoint;
+  @:uproperty public var SpecularMapSize : unreal.FIntPoint;
   
   /**
     Whether to generate specular map
   **/
-  public var bSpecularMap : Bool;
+  @:uproperty public var bSpecularMap : Bool;
   
   /**
     Specular constant
   **/
-  public var SpecularConstant : unreal.Float32;
+  @:uproperty public var SpecularConstant : unreal.Float32;
   
   /**
     Size of generated roughness map
   **/
-  public var RoughnessMapSize : unreal.FIntPoint;
+  @:uproperty public var RoughnessMapSize : unreal.FIntPoint;
   
   /**
     Whether to generate roughness map
   **/
-  public var bRoughnessMap : Bool;
+  @:uproperty public var bRoughnessMap : Bool;
   
   /**
     Roughness constant
   **/
-  public var RoughnessConstant : unreal.Float32;
+  @:uproperty public var RoughnessConstant : unreal.Float32;
   
   /**
     Size of generated metallic map
   **/
-  public var MetallicMapSize : unreal.FIntPoint;
+  @:uproperty public var MetallicMapSize : unreal.FIntPoint;
   
   /**
     Whether to generate metallic map
   **/
-  public var bMetallicMap : Bool;
+  @:uproperty public var bMetallicMap : Bool;
   
   /**
     Metallic constant
   **/
-  public var MetallicConstant : unreal.Float32;
+  @:uproperty public var MetallicConstant : unreal.Float32;
   
   /**
     Size of generated specular map
   **/
-  public var NormalMapSize : unreal.FIntPoint;
+  @:uproperty public var NormalMapSize : unreal.FIntPoint;
   
   /**
     Whether to generate normal map
   **/
-  public var bNormalMap : Bool;
+  @:uproperty public var bNormalMap : Bool;
   
   /**
     Size of generated BaseColor map
   **/
-  public var BaseColorMapSize : unreal.FIntPoint;
+  @:uproperty public var BaseColorMapSize : unreal.FIntPoint;
   
 }

@@ -21,9 +21,9 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueSet.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayCueNotifyData {
-  public var LoadedGameplayCueClass : unreal.UClass;
-  public var GameplayCueNotifyObj : unreal.FStringAssetReference;
-  public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayCueNotifyData {
+  @:uproperty public var LoadedGameplayCueClass : unreal.UClass;
+  @:uproperty public var GameplayCueNotifyObj : unreal.FStringAssetReference;
+  @:uproperty public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
   
 }

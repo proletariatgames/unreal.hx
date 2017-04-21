@@ -20,56 +20,56 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Beam/ParticleModuleBeamSource.h")
-@:uextern extern class UParticleModuleBeamSource extends unreal.UParticleModuleBeamBase {
+@:uextern @:uclass extern class UParticleModuleBeamSource extends unreal.UParticleModuleBeamBase {
   
   /**
     Whether to lock the source to the life of the particle.
   **/
-  public var bLockSourceStength : Bool;
+  @:uproperty public var bLockSourceStength : Bool;
   
   /**
     The strength of the tangent from the source point for each beam.
   **/
-  public var SourceStrength : unreal.FRawDistributionFloat;
+  @:uproperty public var SourceStrength : unreal.FRawDistributionFloat;
   
   /**
     Whether to lock the source to the life of the particle.
   **/
-  public var bLockSourceTangent : Bool;
+  @:uproperty public var bLockSourceTangent : Bool;
   
   /**
     The tangent for the source point for each beam.
   **/
-  public var SourceTangent : unreal.FRawDistributionVector;
+  @:uproperty public var SourceTangent : unreal.FRawDistributionVector;
   
   /**
     The method to use for the source tangent.
   **/
-  public var SourceTangentMethod : unreal.Beam2SourceTargetTangentMethod;
+  @:uproperty public var SourceTangentMethod : unreal.Beam2SourceTargetTangentMethod;
   
   /**
     Whether to lock the source to the life of the particle.
   **/
-  public var bLockSource : Bool;
+  @:uproperty public var bLockSource : Bool;
   
   /**
     Default source-point to use.
   **/
-  public var Source : unreal.FRawDistributionVector;
+  @:uproperty public var Source : unreal.FRawDistributionVector;
   
   /**
     Whether to treat the as an absolute position in world space.
   **/
-  public var bSourceAbsolute : Bool;
+  @:uproperty public var bSourceAbsolute : Bool;
   
   /**
     The strength of the tangent from the source point for each beam.
   **/
-  public var SourceName : unreal.FName;
+  @:uproperty public var SourceName : unreal.FName;
   
   /**
     The method flag.
   **/
-  public var SourceMethod : unreal.Beam2SourceTargetMethod;
+  @:uproperty public var SourceMethod : unreal.Beam2SourceTargetMethod;
   
 }

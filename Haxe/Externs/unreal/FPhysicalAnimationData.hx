@@ -18,46 +18,46 @@ package unreal;
   Stores info on the type of motor that will be used for a given bone
 **/
 @:glueCppIncludes("PhysicsEngine/PhysicalAnimationComponent.h")
-@:uextern extern class FPhysicalAnimationData {
+@:uextern @:ustruct extern class FPhysicalAnimationData {
   
   /**
     The max force used to correct angular errors
   **/
-  public var MaxAngularForce : unreal.Float32;
+  @:uproperty public var MaxAngularForce : unreal.Float32;
   
   /**
     The max force used to correct linear errors
   **/
-  public var MaxLinearForce : unreal.Float32;
+  @:uproperty public var MaxLinearForce : unreal.Float32;
   
   /**
     The strength used to correct linear velocity error. Only used for non-local simulation
   **/
-  public var VelocityStrength : unreal.Float32;
+  @:uproperty public var VelocityStrength : unreal.Float32;
   
   /**
     The strength used to correct linear position error. Only used for non-local simulation
   **/
-  public var PositionStrength : unreal.Float32;
+  @:uproperty public var PositionStrength : unreal.Float32;
   
   /**
     The strength used to correct angular velocity error
   **/
-  public var AngularVelocityStrength : unreal.Float32;
+  @:uproperty public var AngularVelocityStrength : unreal.Float32;
   
   /**
     The strength used to correct orientation error
   **/
-  public var OrientationStrength : unreal.Float32;
+  @:uproperty public var OrientationStrength : unreal.Float32;
   
   /**
     Whether the drive targets are in world space or local
   **/
-  public var bIsLocalSimulation : Bool;
+  @:uproperty public var bIsLocalSimulation : Bool;
   
   /**
     The body we will be driving. We specifically hide this from users since they provide the body name and bodies below in the component API.
   **/
-  public var BodyName : unreal.FName;
+  @:uproperty public var BodyName : unreal.FName;
   
 }

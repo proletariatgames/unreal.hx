@@ -29,6 +29,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
-@:uextern extern class FGameplayAbilityTargetDataHandle {
+@:uextern @:ustruct extern class FGameplayAbilityTargetDataHandle {
   
 }

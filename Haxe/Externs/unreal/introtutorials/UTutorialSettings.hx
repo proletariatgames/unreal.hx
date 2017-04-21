@@ -21,16 +21,16 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("Private/TutorialSettings.h")
-@:noClass @:uextern extern class UTutorialSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTutorialSettings extends unreal.UObject {
   
   /**
     Tutorial to start on project startup
   **/
-  public var StartupTutorial : unreal.FStringClassReference;
+  @:uproperty public var StartupTutorial : unreal.FStringClassReference;
   
   /**
     Categories for tutorials
   **/
-  public var Categories : unreal.TArray<unreal.introtutorials.FTutorialCategory>;
+  @:uproperty public var Categories : unreal.TArray<unreal.introtutorials.FTutorialCategory>;
   
 }

@@ -21,7 +21,7 @@ package unreal.localization;
 **/
 @:umodule("Localization")
 @:glueCppIncludes("LocalizationTargetTypes.h")
-@:noCopy @:noEquals @:uextern extern class FGatherTextSearchDirectory {
-  public var Path : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGatherTextSearchDirectory {
+  @:uproperty public var Path : unreal.FString;
   
 }

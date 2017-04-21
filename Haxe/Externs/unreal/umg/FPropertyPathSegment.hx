@@ -19,16 +19,16 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Binding/DynamicPropertyPath.h")
-@:uextern extern class FPropertyPathSegment {
+@:uextern @:ustruct extern class FPropertyPathSegment {
   
   /**
     The optional array index.
   **/
-  public var ArrayIndex : unreal.Int32;
+  @:uproperty public var ArrayIndex : unreal.Int32;
   
   /**
     The sub-component of the property path, a single value between .'s of the path
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
 }

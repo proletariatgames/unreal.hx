@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Color.h
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLinearColor {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLinearColor {
   
 }

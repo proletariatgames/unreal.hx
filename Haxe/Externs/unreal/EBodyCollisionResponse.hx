@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("PhysicsEngine/BodySetupEnums.h")
 @:uname("EBodyCollisionResponse.Type")
-@:uextern extern enum EBodyCollisionResponse {
+@:uextern @:uenum extern enum EBodyCollisionResponse {
   
   /**
     Enabled

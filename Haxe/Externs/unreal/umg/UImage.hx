@@ -21,28 +21,28 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UImage extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UImage extends unreal.umg.UWidget {
   
   /**
     Color and opacity
   **/
-  public var ColorAndOpacity : unreal.FLinearColor;
+  @:uproperty public var ColorAndOpacity : unreal.FLinearColor;
   
   /**
     Image to draw
   **/
-  public var Brush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var Brush : unreal.slatecore.FSlateBrush;
   
   /**
     Image to draw
   **/
-  @:deprecated public var Image_DEPRECATED : unreal.USlateBrushAsset;
-  @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
-  @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
-  @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
-  @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
-  @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D, bMatchSize : Bool) : Void;
-  @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
-  @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
+  @:deprecated @:uproperty public var Image_DEPRECATED : unreal.USlateBrushAsset;
+  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
+  @:ufunction @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
+  @:ufunction @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
+  @:ufunction @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D, bMatchSize : Bool = false) : Void;
+  @:ufunction @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
   
 }

@@ -21,7 +21,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCue_Types.h")
-@:noCopy @:noEquals @:uextern extern class FPreallocationInfo {
-  public var ClassesNeedingPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPreallocationInfo {
+  @:uproperty public var ClassesNeedingPreallocation : unreal.TArray<unreal.gameplayabilities.AGameplayCueNotify_Actor>;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataMesh.h")
 @:uname("EMeshScreenAlignment")
-@:uextern extern enum EMeshScreenAlignment {
+@:uextern @:uenum extern enum EMeshScreenAlignment {
   
   /**
     Face Camera With Roll

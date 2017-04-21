@@ -20,41 +20,41 @@ package unreal;
   Rigid body error correction data
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FRigidBodyErrorCorrection {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRigidBodyErrorCorrection {
   
   /**
     min squared body speed to perform velocity adjustment
   **/
-  public var BodySpeedThresholdSq : unreal.Float32;
+  @:uproperty public var BodySpeedThresholdSq : unreal.Float32;
   
   /**
     inverted duration after which angular velocity adjustment will fix error
   **/
-  public var AngularRecipFixTime : unreal.Float32;
+  @:uproperty public var AngularRecipFixTime : unreal.Float32;
   
   /**
     strength of snapping to desired angular velocity
   **/
-  public var AngularInterpAlpha : unreal.Float32;
+  @:uproperty public var AngularInterpAlpha : unreal.Float32;
   
   /**
     max squared angle difference (in radians) to perform velocity adjustment
   **/
-  public var AngularDeltaThreshold : unreal.Float32;
+  @:uproperty public var AngularDeltaThreshold : unreal.Float32;
   
   /**
     inverted duration after which linear velocity adjustment will fix error
   **/
-  public var LinearRecipFixTime : unreal.Float32;
+  @:uproperty public var LinearRecipFixTime : unreal.Float32;
   
   /**
     strength of snapping to desired linear velocity
   **/
-  public var LinearInterpAlpha : unreal.Float32;
+  @:uproperty public var LinearInterpAlpha : unreal.Float32;
   
   /**
     max squared position difference to perform velocity adjustment
   **/
-  public var LinearDeltaThresholdSq : unreal.Float32;
+  @:uproperty public var LinearDeltaThresholdSq : unreal.Float32;
   
 }

@@ -20,47 +20,47 @@ package unreal;
   UMaterial interface settings for Lightmass
 **/
 @:glueCppIncludes("Materials/MaterialInterface.h")
-@:noCopy @:noEquals @:uextern extern class FLightmassMaterialInterfaceSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassMaterialInterfaceSettings {
   
   /**
     If true, override the export resolution scale setting of the parent material.
   **/
-  public var bOverrideExportResolutionScale : Bool;
+  @:uproperty public var bOverrideExportResolutionScale : Bool;
   
   /**
     If true, override the diffuse boost setting of the parent material.
   **/
-  public var bOverrideDiffuseBoost : Bool;
+  @:uproperty public var bOverrideDiffuseBoost : Bool;
   
   /**
     If true, override the emissive boost setting of the parent material.
   **/
-  public var bOverrideEmissiveBoost : Bool;
+  @:uproperty public var bOverrideEmissiveBoost : Bool;
   
   /**
     If true, override the bCastShadowAsMasked setting of the parent material.
   **/
-  public var bOverrideCastShadowAsMasked : Bool;
+  @:uproperty public var bOverrideCastShadowAsMasked : Bool;
   
   /**
     Scales the resolution that this material's attributes were exported at.
     This is useful for increasing material resolution when details are needed.
   **/
-  public var ExportResolutionScale : unreal.Float32;
+  @:uproperty public var ExportResolutionScale : unreal.Float32;
   
   /**
     Scales the diffuse contribution of this material to static lighting.
   **/
-  public var DiffuseBoost : unreal.Float32;
+  @:uproperty public var DiffuseBoost : unreal.Float32;
   
   /**
     Scales the emissive contribution of this material to static lighting.
   **/
-  public var EmissiveBoost : unreal.Float32;
+  @:uproperty public var EmissiveBoost : unreal.Float32;
   
   /**
     If true, forces translucency to cast static shadows as if the material were masked.
   **/
-  public var bCastShadowAsMasked : Bool;
+  @:uproperty public var bCastShadowAsMasked : Bool;
   
 }

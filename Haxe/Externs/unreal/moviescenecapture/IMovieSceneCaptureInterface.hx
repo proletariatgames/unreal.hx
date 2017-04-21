@@ -21,6 +21,6 @@ package unreal.moviescenecapture;
 **/
 @:umodule("MovieSceneCapture")
 @:glueCppIncludes("IMovieSceneCapture.h")
-@:uextern extern interface IMovieSceneCaptureInterface {
+@:uextern @:uclass extern interface IMovieSceneCaptureInterface {
   
 }

@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Haptics/HapticFeedbackEffect_Curve.h")
-@:uextern extern class UHapticFeedbackEffect_Curve extends unreal.UHapticFeedbackEffect_Base {
-  public var HapticDetails : unreal.FHapticFeedbackDetails_Curve;
+@:uextern @:uclass extern class UHapticFeedbackEffect_Curve extends unreal.UHapticFeedbackEffect_Base {
+  @:uproperty public var HapticDetails : unreal.FHapticFeedbackDetails_Curve;
   
 }

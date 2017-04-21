@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:noCopy @:noEquals @:uextern extern class FRigTransformConstraint {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRigTransformConstraint {
   
   /**
     EditAnywhere, Category="FTransformBaseConstraint"
   **/
-  public var Weight : unreal.Float32;
+  @:uproperty public var Weight : unreal.Float32;
   
   /**
     Parent space that are define *
   **/
-  public var ParentSpace : unreal.FName;
+  @:uproperty public var ParentSpace : unreal.FName;
   
   /**
     EditAnywhere, Category="FTransformBaseConstraint"
   **/
-  public var TranformType : unreal.EConstraintTransform;
+  @:uproperty public var TranformType : unreal.EConstraintTransform;
   
 }

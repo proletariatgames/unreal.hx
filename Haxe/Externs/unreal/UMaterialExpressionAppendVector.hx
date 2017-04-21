@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionAppendVector.h")
-@:noClass @:uextern extern class UMaterialExpressionAppendVector extends unreal.UMaterialExpression {
-  public var B : unreal.FExpressionInput;
-  public var A : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionAppendVector extends unreal.UMaterialExpression {
+  @:uproperty public var B : unreal.FExpressionInput;
+  @:uproperty public var A : unreal.FExpressionInput;
   
 }

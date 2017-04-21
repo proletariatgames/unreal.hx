@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Modules/Location/ParticleModulePivotOffset.h")
-@:uextern extern class UParticleModulePivotOffset extends unreal.UParticleModuleLocationBase {
+@:uextern @:uclass extern class UParticleModulePivotOffset extends unreal.UParticleModuleLocationBase {
   
   /**
     Offset applied in UV space to the particle vertex positions. Defaults to (0.5,0.5) putting the pivot in the centre of the partilce.
   **/
-  public var PivotOffset : unreal.FVector2D;
+  @:uproperty public var PivotOffset : unreal.FVector2D;
   
 }

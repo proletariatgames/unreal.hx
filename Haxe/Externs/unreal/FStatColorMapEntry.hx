@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:noCopy @:noEquals @:uextern extern class FStatColorMapEntry {
-  public var Out : unreal.FColor;
-  public var In : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FStatColorMapEntry {
+  @:uproperty public var Out : unreal.FColor;
+  @:uproperty public var In : unreal.Float32;
   
 }

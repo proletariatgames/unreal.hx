@@ -20,31 +20,31 @@ package unreal;
   Structure for custom channel setup information.
 **/
 @:glueCppIncludes("Engine/CollisionProfile.h")
-@:noCopy @:noEquals @:uextern extern class FCustomChannelSetup {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCustomChannelSetup {
   
   /**
     Specifies if this is static object. Otherwise it will be dynamic object. This is used for query all objects vs all static objects vs all dynamic objects *
   **/
-  public var bStaticObject : Bool;
+  @:uproperty public var bStaticObject : Bool;
   
   /**
     Sets meta data TraceType="1" for the enum entry if true. Otherwise, this channel will be treated as object query channel, so you can query object types*
   **/
-  public var bTraceType : Bool;
+  @:uproperty public var bTraceType : Bool;
   
   /**
     Default Response for the channel
   **/
-  public var DefaultResponse : unreal.ECollisionResponse;
+  @:uproperty public var DefaultResponse : unreal.ECollisionResponse;
   
   /**
     Name of channel you'd like to show up *
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
   /**
     Which channel you'd like to customize *
   **/
-  public var Channel : unreal.ECollisionChannel;
+  @:uproperty public var Channel : unreal.ECollisionChannel;
   
 }

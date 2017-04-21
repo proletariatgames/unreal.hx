@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/UnrealEdTypes.h")
 @:uname("ELevelViewportType")
-@:uextern extern enum ELevelViewportType {
+@:uextern @:uenum extern enum ELevelViewportType {
   
   /**
     Top

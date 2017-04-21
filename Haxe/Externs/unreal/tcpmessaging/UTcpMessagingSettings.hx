@@ -21,13 +21,13 @@ package unreal.tcpmessaging;
 **/
 @:umodule("TcpMessaging")
 @:glueCppIncludes("Private/Settings/TcpMessagingSettings.h")
-@:noClass @:uextern extern class UTcpMessagingSettings extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTcpMessagingSettings extends unreal.UObject {
   
   /**
     Delay time between attempts to re-establish outgoing connections that become disconnected or fail to connect
     0 disables reconnection
   **/
-  public var ConnectionRetryDelay : unreal.Int32;
+  @:uproperty public var ConnectionRetryDelay : unreal.Int32;
   
   /**
     The IP endpoints to try to establish outgoing connection to.
@@ -35,18 +35,18 @@ package unreal.tcpmessaging;
     Use this setting to connect to a remote peer.
     The format is IP_ADDRESS:PORT_NUMBER.
   **/
-  public var ConnectToEndpoints : unreal.TArray<unreal.FString>;
+  @:uproperty public var ConnectToEndpoints : unreal.TArray<unreal.FString>;
   
   /**
     The IP endpoint to listen for incoming connections.
     
     The format is IP_ADDRESS:PORT_NUMBER or blank to disable listening.
   **/
-  public var ListenEndpoint : unreal.FString;
+  @:uproperty public var ListenEndpoint : unreal.FString;
   
   /**
     Whether the TCP transport channel is enabled
   **/
-  public var EnableTransport : Bool;
+  @:uproperty public var EnableTransport : Bool;
   
 }

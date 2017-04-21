@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Engine/RendererSettings.h")
-@:uextern extern class URendererOverrideSettings extends unreal.UDeveloperSettings {
+@:uextern @:uclass extern class URendererOverrideSettings extends unreal.UDeveloperSettings {
   
   /**
     "Enabling will locally override all ShaderPermutationReduction settings from the Renderer section to be enabled.  Saved to local user config only.."
   **/
-  public var bSupportAllShaderPermutations : Bool;
+  @:uproperty public var bSupportAllShaderPermutations : Bool;
   
 }

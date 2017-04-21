@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SceneComponent.h")
 @:uname("EDetailMode")
-@:uextern extern enum EDetailMode {
+@:uextern @:uenum extern enum EDetailMode {
   
   /**
     Low

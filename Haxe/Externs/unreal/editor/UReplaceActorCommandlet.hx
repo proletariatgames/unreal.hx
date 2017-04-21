@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ReplaceActorCommandlet.h")
-@:noClass @:uextern extern class UReplaceActorCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UReplaceActorCommandlet extends unreal.UCommandlet {
   
 }

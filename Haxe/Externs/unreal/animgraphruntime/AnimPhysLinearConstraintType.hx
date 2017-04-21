@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysLinearConstraintType")
-@:class @:uextern extern enum AnimPhysLinearConstraintType {
+@:class @:uextern @:uenum extern enum AnimPhysLinearConstraintType {
   Free;
   Limited;
   

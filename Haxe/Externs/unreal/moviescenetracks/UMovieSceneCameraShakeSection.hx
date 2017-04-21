@@ -21,18 +21,18 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneCameraShakeSection.h")
-@:uextern extern class UMovieSceneCameraShakeSection extends unreal.moviescene.UMovieSceneSection {
-  public var UserDefinedPlaySpace : unreal.FRotator;
-  public var PlaySpace : unreal.ECameraAnimPlaySpace;
+@:uextern @:uclass extern class UMovieSceneCameraShakeSection extends unreal.moviescene.UMovieSceneSection {
+  @:uproperty public var UserDefinedPlaySpace : unreal.FRotator;
+  @:uproperty public var PlaySpace : unreal.ECameraAnimPlaySpace;
   
   /**
     Scalar that affects shake intensity
   **/
-  public var PlayScale : unreal.Float32;
+  @:uproperty public var PlayScale : unreal.Float32;
   
   /**
     Class of the camera shake to play
   **/
-  public var ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>;
+  @:uproperty public var ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>;
   
 }

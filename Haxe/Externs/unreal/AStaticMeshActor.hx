@@ -23,13 +23,13 @@ package unreal;
   @see UStaticMesh
 **/
 @:glueCppIncludes("Engine/StaticMeshActor.h")
-@:uextern extern class AStaticMeshActor extends unreal.AActor {
-  public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
+@:uextern @:uclass extern class AStaticMeshActor extends unreal.AActor {
+  @:uproperty public var NavigationGeometryGatheringMode : unreal.ENavDataGatheringMode;
   
   /**
     This static mesh should replicate movement. Automatically sets the RemoteRole and bReplicateMovement flags. Meant to be edited on placed actors (those other two properties are not)
   **/
-  public var bStaticMeshReplicateMovement : Bool;
-  public var StaticMeshComponent : unreal.UStaticMeshComponent;
+  @:uproperty public var bStaticMeshReplicateMovement : Bool;
+  @:uproperty public var StaticMeshComponent : unreal.UStaticMeshComponent;
   
 }

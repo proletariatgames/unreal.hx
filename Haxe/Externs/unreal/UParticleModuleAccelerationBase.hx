@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Acceleration/ParticleModuleAccelerationBase.h")
-@:noClass @:uextern extern class UParticleModuleAccelerationBase extends unreal.UParticleModule {
+@:noClass @:uextern @:uclass extern class UParticleModuleAccelerationBase extends unreal.UParticleModule {
   
   /**
     If true, then treat the acceleration as world-space
   **/
-  public var bAlwaysInWorldSpace : Bool;
+  @:uproperty public var bAlwaysInWorldSpace : Bool;
   
 }

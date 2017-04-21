@@ -19,61 +19,61 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UScrollBox extends unreal.umg.UPanelWidget {
-  public var AlwaysShowScrollbar : Bool;
-  public var ScrollbarThickness : unreal.FVector2D;
+@:uextern @:uclass extern class UScrollBox extends unreal.umg.UPanelWidget {
+  @:uproperty public var AlwaysShowScrollbar : Bool;
+  @:uproperty public var ScrollbarThickness : unreal.FVector2D;
   
   /**
     Enable to always consume mouse wheel event, even when scrolling is not possible
   **/
-  public var ConsumeMouseWheel : unreal.slatecore.EConsumeMouseWheel;
+  @:uproperty public var ConsumeMouseWheel : unreal.slatecore.EConsumeMouseWheel;
   
   /**
     Visibility
   **/
-  public var ScrollBarVisibility : unreal.umg.ESlateVisibility;
+  @:uproperty public var ScrollBarVisibility : unreal.umg.ESlateVisibility;
   
   /**
     The orientation of the scrolling and stacking in the box.
   **/
-  public var Orientation : unreal.slatecore.EOrientation;
-  @:deprecated public var BarStyle_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
-  @:deprecated public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:uproperty public var Orientation : unreal.slatecore.EOrientation;
+  @:deprecated @:uproperty public var BarStyle_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
+  @:deprecated @:uproperty public var Style_DEPRECATED : unreal.slatecore.USlateWidgetStyleAsset;
   
   /**
     The bar style
   **/
-  public var WidgetBarStyle : unreal.slatecore.FScrollBarStyle;
+  @:uproperty public var WidgetBarStyle : unreal.slatecore.FScrollBarStyle;
   
   /**
     The style
   **/
-  public var WidgetStyle : unreal.slatecore.FScrollBoxStyle;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FScrollBoxStyle;
   
   /**
     Updates the scroll offset of the scrollbox.
     @param NewScrollOffset is in Slate Units.
   **/
-  @:final public function SetScrollOffset(NewScrollOffset : unreal.Float32) : Void;
+  @:ufunction @:final public function SetScrollOffset(NewScrollOffset : unreal.Float32) : Void;
   
   /**
     Gets the scroll offset of the scrollbox in Slate Units.
   **/
-  @:thisConst @:final public function GetScrollOffset() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetScrollOffset() : unreal.Float32;
   
   /**
     Scrolls the ScrollBox to the top instantly
   **/
-  @:final public function ScrollToStart() : Void;
+  @:ufunction @:final public function ScrollToStart() : Void;
   
   /**
     Scrolls the ScrollBox to the bottom instantly during the next layout pass.
   **/
-  @:final public function ScrollToEnd() : Void;
+  @:ufunction @:final public function ScrollToEnd() : Void;
   
   /**
     Scrolls the ScrollBox to the widget during the next layout pass.
   **/
-  @:final public function ScrollWidgetIntoView(WidgetToFind : unreal.umg.UWidget, AnimateScroll : Bool) : Void;
+  @:ufunction @:final public function ScrollWidgetIntoView(WidgetToFind : unreal.umg.UWidget, AnimateScroll : Bool = true) : Void;
   
 }

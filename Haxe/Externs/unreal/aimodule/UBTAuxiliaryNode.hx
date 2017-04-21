@@ -28,6 +28,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTAuxiliaryNode.h")
-@:uextern extern class UBTAuxiliaryNode extends unreal.aimodule.UBTNode {
+@:uextern @:uclass extern class UBTAuxiliaryNode extends unreal.aimodule.UBTNode {
   
 }

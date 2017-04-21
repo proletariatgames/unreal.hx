@@ -20,10 +20,10 @@ package unreal;
   Information for one sound in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackSound.h")
-@:noCopy @:noEquals @:uextern extern class FSoundTrackKey {
-  public var Sound : unreal.USoundBase;
-  public var Pitch : unreal.Float32;
-  public var Volume : unreal.Float32;
-  public var Time : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSoundTrackKey {
+  @:uproperty public var Sound : unreal.USoundBase;
+  @:uproperty public var Pitch : unreal.Float32;
+  @:uproperty public var Volume : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

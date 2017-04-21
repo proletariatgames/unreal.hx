@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTextureProperty.h")
-@:uextern extern class UMaterialExpressionTextureProperty extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionTextureProperty extends unreal.UMaterialExpression {
   
   /**
     Texture property to be accessed
   **/
-  public var Property : unreal.EMaterialExposedTextureProperty;
+  @:uproperty public var Property : unreal.EMaterialExposedTextureProperty;
   
   /**
     Texture Object to access the property from.
   **/
-  public var TextureObject : unreal.FExpressionInput;
+  @:uproperty public var TextureObject : unreal.FExpressionInput;
   
 }

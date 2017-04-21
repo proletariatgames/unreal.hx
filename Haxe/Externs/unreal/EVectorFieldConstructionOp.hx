@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("VectorField/VectorFieldAnimated.h")
 @:uname("EVectorFieldConstructionOp")
-@:uextern extern enum EVectorFieldConstructionOp {
+@:uextern @:uenum extern enum EVectorFieldConstructionOp {
   
   /**
     Extrude

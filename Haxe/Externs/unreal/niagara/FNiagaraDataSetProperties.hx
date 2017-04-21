@@ -21,8 +21,8 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:noCopy @:noEquals @:uextern extern class FNiagaraDataSetProperties {
-  public var Variables : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
-  public var ID : unreal.niagara.FNiagaraDataSetID;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraDataSetProperties {
+  @:uproperty public var Variables : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:uproperty public var ID : unreal.niagara.FNiagaraDataSetID;
   
 }

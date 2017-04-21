@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionObjectBounds.h")
-@:noClass @:uextern extern class UMaterialExpressionObjectBounds extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionObjectBounds extends unreal.UMaterialExpression {
   
 }

@@ -21,44 +21,44 @@ package unreal;
   Running in PIE (play-in-editor) will generate one of these per PIE instance.
 **/
 @:glueCppIncludes("Engine/GameInstance.h")
-@:uextern extern class UGameInstance extends unreal.UObject {
+@:uextern @:uclass extern class UGameInstance extends unreal.UObject {
   
   /**
     Class to manage online services
   **/
-  private var OnlineSession : unreal.UOnlineSession;
-  private var LocalPlayers : unreal.TArray<unreal.ULocalPlayer>;
+  @:uproperty private var OnlineSession : unreal.UOnlineSession;
+  @:uproperty private var LocalPlayers : unreal.TArray<unreal.ULocalPlayer>;
   
   /**
     Opportunity for blueprints to handle the game instance being initialized.
   **/
-  public function ReceiveInit() : Void;
+  @:ufunction public function ReceiveInit() : Void;
   
   /**
     Opportunity for blueprints to handle the game instance being shutdown.
   **/
-  public function ReceiveShutdown() : Void;
+  @:ufunction public function ReceiveShutdown() : Void;
   
   /**
     Opportunity for blueprints to handle network errors.
   **/
-  public function HandleNetworkError(FailureType : unreal.ENetworkFailure, bIsServer : Bool) : Void;
+  @:ufunction public function HandleNetworkError(FailureType : unreal.ENetworkFailure, bIsServer : Bool) : Void;
   
   /**
     Opportunity for blueprints to handle travel errors.
   **/
-  public function HandleTravelError(FailureType : unreal.ETravelFailure) : Void;
+  @:ufunction public function HandleTravelError(FailureType : unreal.ETravelFailure) : Void;
   
   /**
     Debug console command to create a player.
     @param ControllerId - The controller ID the player should accept input from.
   **/
-  public function DebugCreatePlayer(ControllerId : unreal.Int32) : Void;
+  @:ufunction public function DebugCreatePlayer(ControllerId : unreal.Int32) : Void;
   
   /**
     Debug console command to remove the player with a given controller ID.
     @param ControllerId - The controller ID to search for.
   **/
-  public function DebugRemovePlayer(ControllerId : unreal.Int32) : Void;
+  @:ufunction public function DebugRemovePlayer(ControllerId : unreal.Int32) : Void;
   
 }

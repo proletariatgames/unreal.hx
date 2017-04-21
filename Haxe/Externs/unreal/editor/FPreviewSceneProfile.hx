@@ -21,71 +21,71 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("AssetViewerSettings.h")
-@:noCopy @:noEquals @:uextern extern class FPreviewSceneProfile {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPreviewSceneProfile {
   
   /**
     Rotation for directional light
   **/
-  public var DirectionalLightRotation : unreal.FRotator;
+  @:uproperty public var DirectionalLightRotation : unreal.FRotator;
   
   /**
     Speed at which the sky rotates when rotating is toggled
   **/
-  public var RotationSpeed : unreal.Float32;
+  @:uproperty public var RotationSpeed : unreal.Float32;
   
   /**
     Current rotation value of the sky in degrees (0 - 360)
   **/
-  public var LightingRigRotation : unreal.Float32;
+  @:uproperty public var LightingRigRotation : unreal.Float32;
   
   /**
     Whether or not the Post Processing should influence the scene
   **/
-  public var bPostProcessingEnabled : Bool;
+  @:uproperty public var bPostProcessingEnabled : Bool;
   
   /**
     Manual set post processing settings
   **/
-  public var PostProcessingSettings : unreal.FPostProcessSettings;
+  @:uproperty public var PostProcessingSettings : unreal.FPostProcessSettings;
   
   /**
     Storing path to environment cube to prevent it from getting cooked
   **/
-  public var EnvironmentCubeMapPath : unreal.FString;
+  @:uproperty public var EnvironmentCubeMapPath : unreal.FString;
   
   /**
     Toggle visibility of the floor mesh
   **/
-  public var bShowFloor : Bool;
+  @:uproperty public var bShowFloor : Bool;
   
   /**
     Toggle visibility of the environment sphere
   **/
-  public var bShowEnvironment : Bool;
+  @:uproperty public var bShowEnvironment : Bool;
   
   /**
     Toggle rotating of the sky and directional lighting, press K and drag for manual rotating of Sky and L for Directional lighting
   **/
-  public var bRotateLightingRig : Bool;
+  @:uproperty public var bRotateLightingRig : Bool;
   
   /**
     Manually set the sky light intensity (0.0 - 20.0)
   **/
-  public var SkyLightIntensity : unreal.Float32;
+  @:uproperty public var SkyLightIntensity : unreal.Float32;
   
   /**
     Manually set the directional light colour
   **/
-  public var DirectionalLightColor : unreal.FLinearColor;
+  @:uproperty public var DirectionalLightColor : unreal.FLinearColor;
   
   /**
     Manually set the directional light intensity (0.0 - 20.0)
   **/
-  public var DirectionalLightIntensity : unreal.Float32;
+  @:uproperty public var DirectionalLightIntensity : unreal.Float32;
   
   /**
     Name to identify the profile
   **/
-  public var ProfileName : unreal.FString;
+  @:uproperty public var ProfileName : unreal.FString;
   
 }

@@ -16,7 +16,7 @@ package unreal.vreditor;
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorWidgetComponent.h")
 @:uname("EVREditorWidgetDrawingPolicy")
-@:class @:uextern extern enum EVREditorWidgetDrawingPolicy {
+@:class @:uextern @:uenum extern enum EVREditorWidgetDrawingPolicy {
   Always;
   Hovering;
   

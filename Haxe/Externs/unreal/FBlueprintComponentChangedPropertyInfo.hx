@@ -18,21 +18,21 @@ package unreal;
   A single changed Blueprint component property.
 **/
 @:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
-@:uextern extern class FBlueprintComponentChangedPropertyInfo {
+@:uextern @:ustruct extern class FBlueprintComponentChangedPropertyInfo {
   
   /**
     The parent struct (owner) of the changed property.
   **/
-  public var PropertyScope : unreal.UStruct;
+  @:uproperty public var PropertyScope : unreal.UStruct;
   
   /**
     The array index of the changed property.
   **/
-  public var ArrayIndex : unreal.Int32;
+  @:uproperty public var ArrayIndex : unreal.Int32;
   
   /**
     The name of the changed property.
   **/
-  public var PropertyName : unreal.FName;
+  @:uproperty public var PropertyName : unreal.FName;
   
 }

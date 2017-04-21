@@ -15,13 +15,13 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportData.h")
-@:uextern extern class UFbxSceneImportData extends unreal.UObject {
+@:uextern @:uclass extern class UFbxSceneImportData extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     The path of the fbx file use for the last import
   **/
-  public var SourceFbxFile : unreal.FString;
+  @:uproperty public var SourceFbxFile : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
 }

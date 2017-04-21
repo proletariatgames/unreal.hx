@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Collision/ParticleModuleCollisionGPU.h")
 @:uname("EParticleCollisionResponse.Type")
-@:uextern extern enum EParticleCollisionResponse {
+@:uextern @:uenum extern enum EParticleCollisionResponse {
   
   /**
     The particle will bounce off of the surface.

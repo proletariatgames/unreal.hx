@@ -20,7 +20,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uname("ESpritePolygonMode.Type")
-@:uextern extern enum ESpritePolygonMode {
+@:uextern @:uenum extern enum ESpritePolygonMode {
   
   /**
     Use the bounding box of the source sprite (no optimization)

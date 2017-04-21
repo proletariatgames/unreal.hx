@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ForceFeedbackEffectFactory.h")
-@:uextern extern class UForceFeedbackEffectFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UForceFeedbackEffectFactory extends unreal.editor.UFactory {
   
 }

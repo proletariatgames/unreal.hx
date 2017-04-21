@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/MorphTarget.h")
-@:uextern extern class UMorphTarget extends unreal.UObject {
+@:uextern @:uclass extern class UMorphTarget extends unreal.UObject {
   
   /**
     USkeletalMesh that this vertex animation works on.
   **/
-  public var BaseSkelMesh : unreal.USkeletalMesh;
+  @:uproperty public var BaseSkelMesh : unreal.USkeletalMesh;
   
 }

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDistanceFieldGradient.h")
-@:noClass @:uextern extern class UMaterialExpressionDistanceFieldGradient extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDistanceFieldGradient extends unreal.UMaterialExpression {
   
   /**
     Defaults to current world position if not specified
   **/
-  public var Position : unreal.FExpressionInput;
+  @:uproperty public var Position : unreal.FExpressionInput;
   
 }

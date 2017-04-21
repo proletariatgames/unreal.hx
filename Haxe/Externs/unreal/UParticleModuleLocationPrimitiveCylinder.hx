@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveCylinder.h")
-@:uextern extern class UParticleModuleLocationPrimitiveCylinder extends unreal.UParticleModuleLocationPrimitiveBase {
+@:uextern @:uclass extern class UParticleModuleLocationPrimitiveCylinder extends unreal.UParticleModuleLocationPrimitiveBase {
   
   /**
     Determine particle particle system axis that should represent the height of the cylinder.
@@ -23,21 +23,21 @@ package unreal;
       PMLPC_HEIGHTAXIS_Y - Orient the height along the particle system Y-axis.
       PMLPC_HEIGHTAXIS_Z - Orient the height along the particle system Z-axis.
   **/
-  public var HeightAxis : unreal.CylinderHeightAxis;
+  @:uproperty public var HeightAxis : unreal.CylinderHeightAxis;
   
   /**
     The height of the cylinder, centered about the location.
   **/
-  public var StartHeight : unreal.FRawDistributionFloat;
+  @:uproperty public var StartHeight : unreal.FRawDistributionFloat;
   
   /**
     The radius of the cylinder.
   **/
-  public var StartRadius : unreal.FRawDistributionFloat;
+  @:uproperty public var StartRadius : unreal.FRawDistributionFloat;
   
   /**
     If true, get the particle velocity form the radial distance inside the primitive.
   **/
-  public var RadialVelocity : Bool;
+  @:uproperty public var RadialVelocity : Bool;
   
 }

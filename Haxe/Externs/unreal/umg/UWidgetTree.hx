@@ -19,12 +19,12 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetTree extends unreal.UObject {
-  private var AllWidgets : unreal.TArray<unreal.umg.UWidget>;
+@:uextern @:uclass extern class UWidgetTree extends unreal.UObject {
+  @:uproperty private var AllWidgets : unreal.TArray<unreal.umg.UWidget>;
   
   /**
     The root widget of the tree
   **/
-  public var RootWidget : unreal.umg.UWidget;
+  @:uproperty public var RootWidget : unreal.umg.UWidget;
   
 }

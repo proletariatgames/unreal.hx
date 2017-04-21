@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorLoadingSavingSettings.h")
 @:uname("ELoadLevelAtStartup.Type")
-@:uextern extern enum ELoadLevelAtStartup {
+@:uextern @:uenum extern enum ELoadLevelAtStartup {
   None;
   ProjectDefault;
   LastOpened;

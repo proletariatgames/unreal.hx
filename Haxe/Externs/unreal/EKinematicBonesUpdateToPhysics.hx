@@ -21,7 +21,7 @@ package unreal;
 **/
 @:glueCppIncludes("Components/SkeletalMeshComponent.h")
 @:uname("EKinematicBonesUpdateToPhysics.Type")
-@:uextern extern enum EKinematicBonesUpdateToPhysics {
+@:uextern @:uenum extern enum EKinematicBonesUpdateToPhysics {
   
   /**
     Update any bones that are not simulating.

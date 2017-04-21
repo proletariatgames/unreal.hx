@@ -20,7 +20,7 @@ package unreal.kismet;
 @:umodule("Kismet")
 @:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
 @:uname("EBlueprintProfilerHeatMapDisplayMode")
-@:class @:uextern extern enum EBlueprintProfilerHeatMapDisplayMode {
+@:class @:uextern @:uenum extern enum EBlueprintProfilerHeatMapDisplayMode {
   None;
   Inclusive;
   Average;

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Sound/SoundConcurrency.h")
 @:uname("EMaxConcurrentResolutionRule.Type")
-@:uextern extern enum EMaxConcurrentResolutionRule {
+@:uextern @:uenum extern enum EMaxConcurrentResolutionRule {
   
   /**
     When Max Concurrent sounds are active do not start a new sound.

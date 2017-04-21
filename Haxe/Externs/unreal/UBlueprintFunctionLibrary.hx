@@ -21,6 +21,6 @@ package unreal;
   Methods in subclasses are expected to be static, and no methods should be added to this base class.
 **/
 @:glueCppIncludes("Kismet/BlueprintFunctionLibrary.h")
-@:uextern extern class UBlueprintFunctionLibrary extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintFunctionLibrary extends unreal.UObject {
   
 }

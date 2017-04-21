@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uname("EMeasuringToolUnits")
-@:uextern extern enum EMeasuringToolUnits {
+@:uextern @:uenum extern enum EMeasuringToolUnits {
   
   /**
     Centimeters

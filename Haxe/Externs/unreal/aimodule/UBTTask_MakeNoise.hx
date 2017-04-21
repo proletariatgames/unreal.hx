@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_MakeNoise.h")
-@:uextern extern class UBTTask_MakeNoise extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_MakeNoise extends unreal.aimodule.UBTTaskNode {
   
   /**
     Loudnes of generated noise
   **/
-  public var Loudnes : unreal.Float32;
+  @:uproperty public var Loudnes : unreal.Float32;
   
 }

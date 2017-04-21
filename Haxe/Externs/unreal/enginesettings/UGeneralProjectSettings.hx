@@ -15,80 +15,90 @@ package unreal.enginesettings;
 
 @:umodule("EngineSettings")
 @:glueCppIncludes("GeneralProjectSettings.h")
-@:uextern extern class UGeneralProjectSettings extends unreal.UObject {
-  public var bAllowMinimize : Bool;
-  public var bAllowMaximize : Bool;
-  public var bAllowClose : Bool;
-  public var bAllowWindowResize : Bool;
+@:uextern @:uclass extern class UGeneralProjectSettings extends unreal.UObject {
+  @:uproperty public var bAllowMinimize : Bool;
+  @:uproperty public var bAllowMaximize : Bool;
+  @:uproperty public var bAllowClose : Bool;
+  @:uproperty public var bAllowWindowResize : Bool;
   
   /**
     Should the game attempt to start in VR, regardless of whether -vr was set on the commandline
   **/
-  public var bStartInVR : Bool;
+  @:uproperty public var bStartInVR : Bool;
   
   /**
     Should the game use a borderless Slate window instead of a window with system title bar and border
   **/
-  public var bUseBorderlessWindow : Bool;
+  @:uproperty public var bUseBorderlessWindow : Bool;
   
   /**
     Should the game's window preserve its aspect ratio when resized by user.
   **/
-  public var bShouldWindowPreserveAspectRatio : Bool;
+  @:uproperty public var bShouldWindowPreserveAspectRatio : Bool;
+  
+  /**
+    Additional data to be displayed on the window title bar in non-shipping configurations (can include the tokens {GameName}, {PlatformArchitecture}, or {RHIName}, which will be replaced with the specified text)
+  **/
+  @:uproperty public var ProjectDebugTitleInfo : unreal.FText;
+  
+  /**
+    The project's title as displayed on the window title bar (can include the tokens {GameName}, {PlatformArchitecture}, or {RHIName}, which will be replaced with the specified text)
+  **/
+  @:uproperty public var ProjectDisplayedTitle : unreal.FText;
   
   /**
     The project's support contact information.
   **/
-  public var SupportContact : unreal.FString;
+  @:uproperty public var SupportContact : unreal.FString;
   
   /**
     The project's version number.
   **/
-  public var ProjectVersion : unreal.FString;
+  @:uproperty public var ProjectVersion : unreal.FString;
   
   /**
     The project's name.
   **/
-  public var ProjectName : unreal.FString;
+  @:uproperty public var ProjectName : unreal.FString;
   
   /**
     The project's unique identifier.
   **/
-  public var ProjectID : unreal.FGuid;
+  @:uproperty public var ProjectID : unreal.FGuid;
   
   /**
     The project's privacy policy.
   **/
-  public var PrivacyPolicy : unreal.FString;
+  @:uproperty public var PrivacyPolicy : unreal.FString;
   
   /**
     The project's licensing terms.
   **/
-  public var LicensingTerms : unreal.FString;
+  @:uproperty public var LicensingTerms : unreal.FString;
   
   /**
     The project's homepage URL.
   **/
-  public var Homepage : unreal.FString;
+  @:uproperty public var Homepage : unreal.FString;
   
   /**
     The project's description text.
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
   /**
     The project's copyright and/or trademark notices.
   **/
-  public var CopyrightNotice : unreal.FString;
+  @:uproperty public var CopyrightNotice : unreal.FString;
   
   /**
     The distinguished name of the company (author, provider) that created the project.
   **/
-  public var CompanyDistinguishedName : unreal.FString;
+  @:uproperty public var CompanyDistinguishedName : unreal.FString;
   
   /**
     The name of the company (author, provider) that created the project.
   **/
-  public var CompanyName : unreal.FString;
+  @:uproperty public var CompanyName : unreal.FString;
   
 }

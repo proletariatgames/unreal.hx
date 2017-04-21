@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/SubDSurface.h")
 @:uname("EVertexAttributeStreamType")
-@:uextern extern enum EVertexAttributeStreamType {
+@:uextern @:uenum extern enum EVertexAttributeStreamType {
   VAST_unknown;
   VAST_float;
   VAST_float2;

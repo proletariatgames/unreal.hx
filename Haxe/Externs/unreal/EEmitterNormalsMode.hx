@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/ParticleModuleRequired.h")
 @:uname("EEmitterNormalsMode")
-@:uextern extern enum EEmitterNormalsMode {
+@:uextern @:uenum extern enum EEmitterNormalsMode {
   
   /**
     Default mode, normals are based on the camera facing geometry.

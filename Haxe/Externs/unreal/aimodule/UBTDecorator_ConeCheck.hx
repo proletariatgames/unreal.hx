@@ -20,26 +20,26 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_ConeCheck.h")
-@:uextern extern class UBTDecorator_ConeCheck extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_ConeCheck extends unreal.aimodule.UBTDecorator {
   
   /**
     blackboard key selector
   **/
-  public var Observed : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var Observed : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     "None" means "use ConeOrigin's direction"
   **/
-  public var ConeDirection : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var ConeDirection : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     blackboard key selector
   **/
-  public var ConeOrigin : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty public var ConeOrigin : unreal.aimodule.FBlackboardKeySelector;
   
   /**
     Angle between cone direction and code cone edge, or a half of the total cone angle
   **/
-  public var ConeHalfAngle : unreal.Float32;
+  @:uproperty public var ConeHalfAngle : unreal.Float32;
   
 }

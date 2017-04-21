@@ -21,6 +21,6 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("MockGameplayTasks.h")
-@:noClass @:uextern extern class UMockGameplayTasksComponent extends unreal.gameplaytasks.UGameplayTasksComponent {
+@:noClass @:uextern @:uclass extern class UMockGameplayTasksComponent extends unreal.gameplaytasks.UGameplayTasksComponent {
   
 }

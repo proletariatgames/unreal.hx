@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/Texture.h")
 @:uname("TextureAddress")
-@:uextern extern enum TextureAddress {
+@:uextern @:uenum extern enum TextureAddress {
   
   /**
     Wrap

@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpFilter_Custom.h")
-@:uextern extern class UInterpFilter_Custom extends unreal.UInterpFilter {
+@:uextern @:uclass extern class UInterpFilter_Custom extends unreal.UInterpFilter {
   #if WITH_EDITORONLY_DATA
   
   /**
     Which groups are included in this filter.
   **/
-  public var GroupsToInclude : unreal.TArray<unreal.UInterpGroup>;
+  @:uproperty public var GroupsToInclude : unreal.TArray<unreal.UInterpGroup>;
   #end // WITH_EDITORONLY_DATA
   
 }

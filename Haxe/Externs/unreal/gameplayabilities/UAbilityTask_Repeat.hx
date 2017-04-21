@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_Repeat.h")
-@:uextern extern class UAbilityTask_Repeat extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_Repeat extends unreal.gameplayabilities.UAbilityTask {
   
   /**
     Start a task that repeats an action or set of actions.
   **/
-  static public function RepeatAction(WorldContextObject : unreal.UObject, TimeBetweenActions : unreal.Float32, TotalActionCount : unreal.Int32) : unreal.gameplayabilities.UAbilityTask_Repeat;
+  @:ufunction static public function RepeatAction(WorldContextObject : unreal.UObject, TimeBetweenActions : unreal.Float32, TotalActionCount : unreal.Int32) : unreal.gameplayabilities.UAbilityTask_Repeat;
   
 }

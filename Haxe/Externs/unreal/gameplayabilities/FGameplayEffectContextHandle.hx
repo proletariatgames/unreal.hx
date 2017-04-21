@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayEffectContextHandle {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayEffectContextHandle {
   
 }

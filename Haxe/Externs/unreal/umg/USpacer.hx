@@ -21,16 +21,16 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class USpacer extends unreal.umg.UWidget {
+@:uextern @:uclass extern class USpacer extends unreal.umg.UWidget {
   
   /**
     The size of the spacer
   **/
-  public var Size : unreal.FVector2D;
+  @:uproperty public var Size : unreal.FVector2D;
   
   /**
     Sets the size of the spacer
   **/
-  @:final public function SetSize(InSize : unreal.FVector2D) : Void;
+  @:ufunction @:final public function SetSize(InSize : unreal.FVector2D) : Void;
   
 }

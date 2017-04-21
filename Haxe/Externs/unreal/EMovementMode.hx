@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMovementMode")
-@:uextern extern enum EMovementMode {
+@:uextern @:uenum extern enum EMovementMode {
   
   /**
     None (movement is disabled).

@@ -20,28 +20,28 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/LevelStreamingVolume.h")
-@:uextern extern class ALevelStreamingVolume extends unreal.AVolume {
+@:uextern @:uclass extern class ALevelStreamingVolume extends unreal.AVolume {
   
   /**
     Determines what this volume is used for, e.g. whether to control loading, loading and visibility or just visibilty (blocking on load)
   **/
-  public var StreamingUsage : unreal.EStreamingVolumeUsage;
+  @:uproperty public var StreamingUsage : unreal.EStreamingVolumeUsage;
   
   /**
     If true, this streaming volume is ignored by the streaming volume code.  Used to either
     disable a level streaming volume without disassociating it from the level, or to toggle
     the control of a level's streaming between Kismet and volume streaming.
   **/
-  public var bDisabled : Bool;
+  @:uproperty public var bDisabled : Bool;
   
   /**
     If true, this streaming volume should only be used for editor streaming level previs.
   **/
-  public var bEditorPreVisOnly : Bool;
+  @:uproperty public var bEditorPreVisOnly : Bool;
   
   /**
     Levels names affected by this level streaming volume.
   **/
-  public var StreamingLevelNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var StreamingLevelNames : unreal.TArray<unreal.FName>;
   
 }

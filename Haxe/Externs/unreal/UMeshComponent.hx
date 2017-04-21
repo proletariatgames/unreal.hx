@@ -21,25 +21,25 @@ package unreal;
   @see USkeletalMeshComponent
 **/
 @:glueCppIncludes("Components/MeshComponent.h")
-@:uextern extern class UMeshComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UMeshComponent extends unreal.UPrimitiveComponent {
   
   /**
     Material overrides.
   **/
-  public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
-  @:thisConst public function GetMaterials() : unreal.TArray<unreal.UMaterialInterface>;
-  @:thisConst public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
-  @:thisConst public function GetMaterialSlotNames() : unreal.TArray<unreal.FName>;
-  @:thisConst public function IsMaterialSlotNameValid(MaterialSlotName : unreal.FName) : Bool;
+  @:uproperty public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
+  @:ufunction @:thisConst public function GetMaterials() : unreal.TArray<unreal.UMaterialInterface>;
+  @:ufunction @:thisConst public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
+  @:ufunction @:thisConst public function GetMaterialSlotNames() : unreal.TArray<unreal.FName>;
+  @:ufunction @:thisConst public function IsMaterialSlotNameValid(MaterialSlotName : unreal.FName) : Bool;
   
   /**
     Set all occurrences of Scalar Material Parameters with ParameterName in the set of materials of the SkeletalMesh to ParameterValue
   **/
-  @:final public function SetScalarParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetScalarParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Float32) : Void;
   
   /**
     Set all occurrences of Vector Material Parameters with ParameterName in the set of materials of the SkeletalMesh to ParameterValue
   **/
-  @:final public function SetVectorParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Const<unreal.FVector>) : Void;
+  @:ufunction @:final public function SetVectorParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Const<unreal.FVector>) : Void;
   
 }

@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UFloatProperty extends unreal.UNumericProperty {
+@:uextern @:uclass extern class UFloatProperty extends unreal.UNumericProperty {
   
 }

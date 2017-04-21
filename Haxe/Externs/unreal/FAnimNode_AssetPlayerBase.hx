@@ -18,32 +18,32 @@ package unreal;
   Base class for any asset playing anim node
 **/
 @:glueCppIncludes("Animation/AnimNode_AssetPlayerBase.h")
-@:uextern extern class FAnimNode_AssetPlayerBase extends unreal.FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_AssetPlayerBase extends unreal.FAnimNode_Base {
   
   /**
     Accumulated time used to reference the asset in this node
   **/
-  private var InternalTimeAccumulator : unreal.Float32;
+  @:uproperty private var InternalTimeAccumulator : unreal.Float32;
   
   /**
     Last encountered blendweight for this node
   **/
-  private var BlendWeight : unreal.Float32;
+  @:uproperty private var BlendWeight : unreal.Float32;
   
   /**
     The role this player can assume within the group (ignored if GroupIndex is INDEX_NONE)
   **/
-  public var GroupRole : unreal.EAnimGroupRole;
+  @:uproperty public var GroupRole : unreal.EAnimGroupRole;
   
   /**
     The group index, assigned at compile time based on the editoronly GroupName (or INDEX_NONE if it is not part of any group)
   **/
-  public var GroupIndex : unreal.Int32;
+  @:uproperty public var GroupIndex : unreal.Int32;
   
   /**
     If true, "Relevant anim" nodes that look for the highest weighted animation in a state will ignore
     this node
   **/
-  public var bIgnoreForRelevancyTest : Bool;
+  @:uproperty public var bIgnoreForRelevancyTest : Bool;
   
 }

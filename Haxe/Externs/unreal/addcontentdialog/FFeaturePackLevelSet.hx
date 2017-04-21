@@ -21,11 +21,11 @@ package unreal.addcontentdialog;
 **/
 @:umodule("AddContentDialog")
 @:glueCppIncludes("FeaturePackContentSource.h")
-@:noCopy @:noEquals @:uextern extern class FFeaturePackLevelSet {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFeaturePackLevelSet {
   
   /**
     Mount name for the shared resource - this is the folder the resource will be copied to on project generation as well as the name of the folder that will appear in the content browser.
   **/
-  public var MountName : unreal.FString;
+  @:uproperty public var MountName : unreal.FString;
   
 }

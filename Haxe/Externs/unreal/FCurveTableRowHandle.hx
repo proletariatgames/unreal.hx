@@ -18,16 +18,16 @@ package unreal;
   Handle to a particular row in a table.
 **/
 @:glueCppIncludes("Engine/CurveTable.h")
-@:uextern extern class FCurveTableRowHandle {
+@:uextern @:ustruct extern class FCurveTableRowHandle {
   
   /**
     Name of row in the table that we want
   **/
-  public var RowName : unreal.FName;
+  @:uproperty public var RowName : unreal.FName;
   
   /**
     Pointer to table we want a row from
   **/
-  public var CurveTable : unreal.UCurveTable;
+  @:uproperty public var CurveTable : unreal.UCurveTable;
   
 }

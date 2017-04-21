@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_LookAt.h")
 @:uname("EInterpolationBlend.Type")
-@:uextern extern enum EInterpolationBlend {
+@:uextern @:uenum extern enum EInterpolationBlend {
   Linear;
   Cubic;
   Sinusoidal;

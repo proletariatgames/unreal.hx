@@ -20,25 +20,25 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataMesh.h")
-@:uextern extern class UParticleModuleTypeDataMesh extends unreal.UParticleModuleTypeDataBase {
+@:uextern @:uclass extern class UParticleModuleTypeDataMesh extends unreal.UParticleModuleTypeDataBase {
   
   /**
     If true, all collisions for mesh particle on this emitter will take the particle size into account.
     If false, particle size will be ignored in collision checks.
   **/
-  public var bCollisionsConsiderPartilceSize : Bool;
+  @:uproperty public var bCollisionsConsiderPartilceSize : Bool;
   
   /**
     If true, all camera facing options will point the mesh against the camera's view direction rather than pointing at the cameras location.
     If false, the camera facing will point to the cameras position as normal.
   **/
-  public var bFaceCameraDirectionRatherThanPosition : Bool;
+  @:uproperty public var bFaceCameraDirectionRatherThanPosition : Bool;
   
   /**
     If true, apply 'sprite' particle rotation about the orientation axis (direction mesh is pointing).
     If false, apply 'sprite' particle rotation about the camera facing axis.
   **/
-  public var bApplyParticleRotationAsSpin : Bool;
+  @:uproperty public var bApplyParticleRotationAsSpin : Bool;
   
   /**
     The camera facing option to use:
@@ -60,7 +60,7 @@ package unreal;
             VelocityAligned_YAxisFacing         - X-axis aligned to the velocity, rotate the Y-axis of the mesh to face towards camera.
             VelocityAligned_NegativeYAxisFacing - X-axis aligned to the velocity, rotate the Y-axis of the mesh to face away from camera.
   **/
-  public var CameraFacingOption : unreal.EMeshCameraFacingOptions;
+  @:uproperty public var CameraFacingOption : unreal.EMeshCameraFacingOptions;
   
   /**
     The axis of the mesh to point up when camera facing the X-axis.
@@ -70,13 +70,13 @@ package unreal;
             CameraFacing_YUp                        Y-axis of the mesh should attempt to point up.
             CameraFacing_NegativeYUp        Y-axis of the mesh should attempt to point down.
   **/
-  @:deprecated public var CameraFacingUpAxisOption_DEPRECATED : unreal.EMeshCameraFacingUpAxis;
+  @:deprecated @:uproperty public var CameraFacingUpAxisOption_DEPRECATED : unreal.EMeshCameraFacingUpAxis;
   
   /**
     If true, then point the X-axis of the mesh towards the camera.
     When set, AxisLockOption as well as all other locked axis/screen alignment settings are ignored.
   **/
-  public var bCameraFacing : Bool;
+  @:uproperty public var bCameraFacing : Bool;
   
   /**
     The axis to lock the mesh on. This overrides TypeSpecific mesh alignment as well as the LockAxis module.
@@ -91,27 +91,27 @@ package unreal;
             EPAL_ROTATE_Y    -      Ignored for mesh emitters. Treated as EPAL_NONE.
             EPAL_ROTATE_Z    -      Ignored for mesh emitters. Treated as EPAL_NONE.
   **/
-  public var AxisLockOption : unreal.EParticleAxisLock;
+  @:uproperty public var AxisLockOption : unreal.EParticleAxisLock;
   
   /**
     The 'pre' rotation pitch (in degrees) to apply to the static mesh used.
   **/
-  public var RollPitchYawRange : unreal.FRawDistributionVector;
-  @:deprecated public var Yaw_DEPRECATED : unreal.Float32;
-  @:deprecated public var Roll_DEPRECATED : unreal.Float32;
+  @:uproperty public var RollPitchYawRange : unreal.FRawDistributionVector;
+  @:deprecated @:uproperty public var Yaw_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var Roll_DEPRECATED : unreal.Float32;
   
   /**
     deprecated properties for initial orientation
   **/
-  @:deprecated public var Pitch_DEPRECATED : unreal.Float32;
-  public var bEnableMotionBlur : Bool;
-  public var bOverrideDefaultMotionBlurSettings : Bool;
+  @:deprecated @:uproperty public var Pitch_DEPRECATED : unreal.Float32;
+  @:uproperty public var bEnableMotionBlur : Bool;
+  @:uproperty public var bOverrideDefaultMotionBlurSettings : Bool;
   
   /**
     If true, use the emitter material when rendering rather than the one applied
     to the static mesh model.
   **/
-  public var bOverrideMaterial : Bool;
+  @:uproperty public var bOverrideMaterial : Bool;
   
   /**
     The alignment to use on the meshes emitted.
@@ -125,21 +125,21 @@ package unreal;
     PSMA_MeshFaceCameraWithLockedAxis
             Face the camera while maintaining the up FVector as the locked direction.
   **/
-  public var MeshAlignment : unreal.EMeshScreenAlignment;
+  @:uproperty public var MeshAlignment : unreal.EMeshScreenAlignment;
   
   /**
     UNUSED (the collision module dictates doing collisions)
   **/
-  public var DoCollisions : Bool;
+  @:uproperty public var DoCollisions : Bool;
   
   /**
     If true, has the meshes cast shadows
   **/
-  public var CastShadows : Bool;
+  @:uproperty public var CastShadows : Bool;
   
   /**
     The static mesh to render at the particle positions
   **/
-  public var Mesh : unreal.UStaticMesh;
+  @:uproperty public var Mesh : unreal.UStaticMesh;
   
 }

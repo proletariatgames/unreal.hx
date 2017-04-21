@@ -16,7 +16,7 @@ package unreal.blueprintgraph;
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("BlueprintEditorSettings.h")
 @:uname("ESaveOnCompile")
-@:uextern extern enum ESaveOnCompile {
+@:uextern @:uenum extern enum ESaveOnCompile {
   
   /**
     Never

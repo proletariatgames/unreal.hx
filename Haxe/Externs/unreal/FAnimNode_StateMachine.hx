@@ -18,32 +18,32 @@ package unreal;
   State machine node
 **/
 @:glueCppIncludes("Animation/AnimNode_StateMachine.h")
-@:uextern extern class FAnimNode_StateMachine extends unreal.FAnimNode_Base {
+@:uextern @:ustruct extern class FAnimNode_StateMachine extends unreal.FAnimNode_Base {
   
   /**
     Elapsed time since entering the current state
   **/
-  private var ElapsedTime : unreal.Float32;
+  @:uproperty private var ElapsedTime : unreal.Float32;
   
   /**
     The current state within the state machine
   **/
-  private var CurrentState : unreal.Int32;
+  @:uproperty private var CurrentState : unreal.Int32;
   
   /**
     Skip transition from entry state on first update?
     default is true, we throw away transition data on first update
   **/
-  public var bSkipFirstUpdateTransition : Bool;
+  @:uproperty public var bSkipFirstUpdateTransition : Bool;
   
   /**
     The maximum number of transitions that can be taken by this machine 'simultaneously' in a single frame
   **/
-  public var MaxTransitionsPerFrame : unreal.Int32;
+  @:uproperty public var MaxTransitionsPerFrame : unreal.Int32;
   
   /**
     Index into the BakedStateMachines array in the owning UAnimBlueprintGeneratedClass
   **/
-  public var StateMachineIndexInClass : unreal.Int32;
+  @:uproperty public var StateMachineIndexInClass : unreal.Int32;
   
 }

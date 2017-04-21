@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EAngularConstraintMotion")
-@:uextern extern enum EAngularConstraintMotion {
+@:uextern @:uenum extern enum EAngularConstraintMotion {
   
   /**
     No constraint against this axis.

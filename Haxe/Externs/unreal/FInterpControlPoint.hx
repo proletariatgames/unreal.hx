@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/InterpToMovementComponent.h")
-@:noCopy @:noEquals @:uextern extern class FInterpControlPoint {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpControlPoint {
   
   /**
     Is the location relative to the root components initial location
   **/
-  public var bPositionIsRelative : Bool;
+  @:uproperty public var bPositionIsRelative : Bool;
   
   /**
     The position of the point
   **/
-  public var PositionControlPoint : unreal.FVector;
+  @:uproperty public var PositionControlPoint : unreal.FVector;
   
 }

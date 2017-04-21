@@ -20,12 +20,12 @@ package unreal;
   So adding this USTRUCT to support it properly
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class FRedirector {
+@:uextern @:ustruct extern class FRedirector {
   
   /**
     Types of objects that this physics objects will collide with.
   **/
-  public var NewName : unreal.FName;
-  public var OldName : unreal.FName;
+  @:uproperty public var NewName : unreal.FName;
+  @:uproperty public var OldName : unreal.FName;
   
 }

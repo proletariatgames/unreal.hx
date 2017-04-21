@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EEndPlayReason.Type")
-@:uextern extern enum EEndPlayReason {
+@:uextern @:uenum extern enum EEndPlayReason {
   
   /**
     When the Actor or Component is explicitly destroyed.

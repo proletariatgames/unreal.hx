@@ -20,11 +20,11 @@ package unreal;
   Struct used to specify the property name of the component to constrain
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FConstrainComponentPropName {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FConstrainComponentPropName {
   
   /**
     Name of property
   **/
-  public var ComponentName : unreal.FName;
+  @:uproperty public var ComponentName : unreal.FName;
   
 }

@@ -19,26 +19,26 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/CompositeFont.h")
-@:uextern extern class FFontData {
+@:uextern @:ustruct extern class FFontData {
   
   /**
     The data associated with the font - this should always be filled in providing the source font filename is valid
   **/
-  @:deprecated public var FontData_DEPRECATED : unreal.TArray<unreal.UInt8>;
+  @:deprecated @:uproperty public var FontData_DEPRECATED : unreal.TArray<unreal.UInt8>;
   
   /**
     The hinting algorithm to use with the font
   **/
-  public var Hinting : unreal.slatecore.EFontHinting;
+  @:uproperty public var Hinting : unreal.slatecore.EFontHinting;
   
   /**
     The data associated with the font
   **/
-  public var BulkDataPtr : unreal.slatecore.UFontBulkData;
+  @:uproperty public var BulkDataPtr : unreal.slatecore.UFontBulkData;
   
   /**
     The filename of the font to use - this may not always exist on disk, as we may have previously loaded and cached the font data inside an asset
   **/
-  public var FontFilename : unreal.FString;
+  @:uproperty public var FontFilename : unreal.FString;
   
 }

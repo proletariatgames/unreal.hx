@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/KismetMathLibrary.h")
-@:uextern extern class FFloatSpringState {
+@:uextern @:ustruct extern class FFloatSpringState {
   
 }

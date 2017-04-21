@@ -19,6 +19,6 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("VIStretchGizmoHandle.h")
-@:uextern extern class UStretchGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
+@:uextern @:uclass extern class UStretchGizmoHandleGroup extends unreal.viewportinteraction.UGizmoHandleGroup {
   
 }

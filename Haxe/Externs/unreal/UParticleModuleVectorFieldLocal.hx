@@ -20,61 +20,61 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldLocal.h")
-@:uextern extern class UParticleModuleVectorFieldLocal extends unreal.UParticleModuleVectorFieldBase {
+@:uextern @:uclass extern class UParticleModuleVectorFieldLocal extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Use fix delta time in the simulation?
   **/
-  public var bUseFixDT : Bool;
+  @:uproperty public var bUseFixDT : Bool;
   
   /**
     Tile vector field in z axis?
   **/
-  public var bTileZ : Bool;
+  @:uproperty public var bTileZ : Bool;
   
   /**
     Tile vector field in y axis?
   **/
-  public var bTileY : Bool;
+  @:uproperty public var bTileY : Bool;
   
   /**
     Tile vector field in x axis?
   **/
-  public var bTileX : Bool;
+  @:uproperty public var bTileX : Bool;
   
   /**
     Ignore component transform.
   **/
-  public var bIgnoreComponentTransform : Bool;
+  @:uproperty public var bIgnoreComponentTransform : Bool;
   
   /**
     Tightness tweak value: 0: Force 1: Velocity.
   **/
-  public var Tightness : unreal.Float32;
+  @:uproperty public var Tightness : unreal.Float32;
   
   /**
     Intensity of the local vector field.
   **/
-  public var Intensity : unreal.Float32;
+  @:uproperty public var Intensity : unreal.Float32;
   
   /**
     Scale of the vector field relative to the emitter.
   **/
-  public var RelativeScale3D : unreal.FVector;
+  @:uproperty public var RelativeScale3D : unreal.FVector;
   
   /**
     Rotation of the vector field relative to the emitter.
   **/
-  public var RelativeRotation : unreal.FRotator;
+  @:uproperty public var RelativeRotation : unreal.FRotator;
   
   /**
     Translation of the vector field relative to the emitter.
   **/
-  public var RelativeTranslation : unreal.FVector;
+  @:uproperty public var RelativeTranslation : unreal.FVector;
   
   /**
     Vector field asset to use.
   **/
-  public var VectorField : unreal.UVectorField;
+  @:uproperty public var VectorField : unreal.UVectorField;
   
 }

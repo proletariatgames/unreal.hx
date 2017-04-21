@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityReplicationPolicy.Type")
-@:uextern extern enum EGameplayAbilityReplicationPolicy {
+@:uextern @:uenum extern enum EGameplayAbilityReplicationPolicy {
   
   /**
     We don't replicate the instance of the ability to anyone.

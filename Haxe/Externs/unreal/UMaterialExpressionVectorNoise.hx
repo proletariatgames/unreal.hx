@@ -20,32 +20,32 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionVectorNoise.h")
-@:noClass @:uextern extern class UMaterialExpressionVectorNoise extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionVectorNoise extends unreal.UMaterialExpression {
   
   /**
     How many units in each tile (if Tiling is on)
     For Perlin noise functions, Tile Size must be a multiple of three
   **/
-  public var TileSize : unreal.FakeUInt32;
+  @:uproperty public var TileSize : unreal.FakeUInt32;
   
   /**
     Whether tile the noise pattern, useful for baking to seam-free repeating textures
   **/
-  public var bTiling : Bool;
+  @:uproperty public var bTiling : Bool;
   
   /**
     For noise functions where applicable, lower numbers are faster and lower quality, higher numbers are slower and higher quality
   **/
-  public var Quality : unreal.Int32;
+  @:uproperty public var Quality : unreal.Int32;
   
   /**
     Noise function, affects performance and look
   **/
-  public var NoiseFunction : unreal.EVectorNoiseFunction;
+  @:uproperty public var NoiseFunction : unreal.EVectorNoiseFunction;
   
   /**
     2 to 3 dimensional vector
   **/
-  public var Position : unreal.FExpressionInput;
+  @:uproperty public var Position : unreal.FExpressionInput;
   
 }

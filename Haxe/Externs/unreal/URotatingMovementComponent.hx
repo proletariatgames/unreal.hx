@@ -20,12 +20,12 @@ package unreal;
   Collision testing is not performed during movement.
 **/
 @:glueCppIncludes("GameFramework/RotatingMovementComponent.h")
-@:uextern extern class URotatingMovementComponent extends unreal.UMovementComponent {
+@:uextern @:uclass extern class URotatingMovementComponent extends unreal.UMovementComponent {
   
   /**
     Whether rotation is applied in local or world space.
   **/
-  public var bRotationInLocalSpace : Bool;
+  @:uproperty public var bRotationInLocalSpace : Bool;
   
   /**
     Translation of pivot point around which we rotate, relative to current rotation.
@@ -33,11 +33,11 @@ package unreal;
     around the point +100 units along the local X axis from the center of the object,
     rather than around the object's origin (the default).
   **/
-  public var PivotTranslation : unreal.FVector;
+  @:uproperty public var PivotTranslation : unreal.FVector;
   
   /**
     How fast to update roll/pitch/yaw of the component we update.
   **/
-  public var RotationRate : unreal.FRotator;
+  @:uproperty public var RotationRate : unreal.FRotator;
   
 }

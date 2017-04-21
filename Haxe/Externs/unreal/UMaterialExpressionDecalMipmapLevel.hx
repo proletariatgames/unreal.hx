@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDecalMipmapLevel.h")
-@:noClass @:uextern extern class UMaterialExpressionDecalMipmapLevel extends unreal.UMaterialExpression {
-  public var ConstHeight : unreal.Float32;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDecalMipmapLevel extends unreal.UMaterialExpression {
+  @:uproperty public var ConstHeight : unreal.Float32;
   
   /**
     only used if TextureSize is not hooked up
   **/
-  public var ConstWidth : unreal.Float32;
+  @:uproperty public var ConstWidth : unreal.Float32;
   
   /**
     Defaults to '(Const Width, Const Height)' if not specified
   **/
-  public var TextureSize : unreal.FExpressionInput;
+  @:uproperty public var TextureSize : unreal.FExpressionInput;
   
 }

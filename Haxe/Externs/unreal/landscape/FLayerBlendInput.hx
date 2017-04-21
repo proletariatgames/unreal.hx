@@ -21,29 +21,29 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
-@:noCopy @:noEquals @:uextern extern class FLayerBlendInput {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLayerBlendInput {
   
   /**
     only used if HeightInput is not hooked up
   **/
-  public var ConstHeightInput : unreal.Float32;
+  @:uproperty public var ConstHeightInput : unreal.Float32;
   
   /**
     only used if LayerInput is not hooked up
   **/
-  public var ConstLayerInput : unreal.FVector;
-  public var PreviewWeight : unreal.Float32;
+  @:uproperty public var ConstLayerInput : unreal.FVector;
+  @:uproperty public var PreviewWeight : unreal.Float32;
   
   /**
     Defaults to 'ConstHeightInput' if not specified
   **/
-  public var HeightInput : unreal.FExpressionInput;
+  @:uproperty public var HeightInput : unreal.FExpressionInput;
   
   /**
     Defaults to 'ConstLayerInput' if not specified
   **/
-  public var LayerInput : unreal.FExpressionInput;
-  public var BlendType : unreal.landscape.ELandscapeLayerBlendType;
-  public var LayerName : unreal.FName;
+  @:uproperty public var LayerInput : unreal.FExpressionInput;
+  @:uproperty public var BlendType : unreal.landscape.ELandscapeLayerBlendType;
+  @:uproperty public var LayerName : unreal.FName;
   
 }

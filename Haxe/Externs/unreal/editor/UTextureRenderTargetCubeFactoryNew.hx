@@ -21,16 +21,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/TextureRenderTargetCubeFactoryNew.h")
-@:uextern extern class UTextureRenderTargetCubeFactoryNew extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UTextureRenderTargetCubeFactoryNew extends unreal.editor.UFactory {
   
   /**
     Pixel format of the texture render target
   **/
-  public var Format : unreal.UInt8;
+  @:uproperty public var Format : unreal.UInt8;
   
   /**
     Width of the texture render target
   **/
-  public var Width : unreal.Int32;
+  @:uproperty public var Width : unreal.Int32;
   
 }

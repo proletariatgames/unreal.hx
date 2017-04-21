@@ -21,26 +21,26 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcNormalGenerationSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcNormalGenerationSettings {
   
   /**
     Determines whether or not the degenerate triangles should be ignored when calculating tangents/normals
   **/
-  public var bIgnoreDegenerateTriangles : Bool;
+  @:uproperty public var bIgnoreDegenerateTriangles : Bool;
   
   /**
     Determines whether or not the normals should be forced to be recomputed
   **/
-  public var bRecomputeNormals : Bool;
+  @:uproperty public var bRecomputeNormals : Bool;
   
   /**
     Threshold used to determine whether an angle between two normals should be considered hard, closer to 0 means more smooth vs 1
   **/
-  public var HardEdgeAngleThreshold : unreal.Float32;
+  @:uproperty public var HardEdgeAngleThreshold : unreal.Float32;
   
   /**
     Whether or not to force smooth normals for each individual object rather than calculating smoothing groups
   **/
-  public var bForceOneSmoothingGroupPerObject : Bool;
+  @:uproperty public var bForceOneSmoothingGroupPerObject : Bool;
   
 }

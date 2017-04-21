@@ -20,6 +20,7 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectUIData_TextOnly.h")
-@:uextern extern class UGameplayEffectUIData_TextOnly extends unreal.gameplayabilities.UGameplayEffectUIData {
+@:uextern @:uclass extern class UGameplayEffectUIData_TextOnly extends unreal.gameplayabilities.UGameplayEffectUIData {
+  @:uproperty public var Description : unreal.FText;
   
 }

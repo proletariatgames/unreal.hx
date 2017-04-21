@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ImportDialogueScriptCommandlet.h")
-@:noClass @:uextern extern class UImportDialogueScriptCommandlet extends unreal.editor.UGatherTextCommandletBase {
+@:noClass @:uextern @:uclass extern class UImportDialogueScriptCommandlet extends unreal.editor.UGatherTextCommandletBase {
   
 }

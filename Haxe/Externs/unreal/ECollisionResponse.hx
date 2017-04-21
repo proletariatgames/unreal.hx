@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ECollisionResponse")
-@:uextern extern enum ECollisionResponse {
+@:uextern @:uenum extern enum ECollisionResponse {
   
   /**
     Ignore

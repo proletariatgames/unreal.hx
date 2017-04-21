@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EPhysicalSurface")
-@:uextern extern enum EPhysicalSurface {
+@:uextern @:uenum extern enum EPhysicalSurface {
   
   /**
     Default

@@ -21,6 +21,6 @@ package unreal.oculusrift;
 **/
 @:umodule("OculusRift")
 @:glueCppIncludes("Private/SceneCubemapCapturer.h")
-@:noClass @:uextern extern class USceneCubemapCapturer extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class USceneCubemapCapturer extends unreal.UObject {
   
 }

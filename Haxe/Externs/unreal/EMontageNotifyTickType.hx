@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EMontageNotifyTickType.Type")
-@:uextern extern enum EMontageNotifyTickType {
+@:uextern @:uenum extern enum EMontageNotifyTickType {
   
   /**
     Queue notifies, and trigger them at the end of the evaluation phase (faster). Not suitable for changing sections or montage position.

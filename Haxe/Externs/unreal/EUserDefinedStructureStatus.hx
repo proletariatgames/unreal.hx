@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/UserDefinedStruct.h")
 @:uname("EUserDefinedStructureStatus")
-@:uextern extern enum EUserDefinedStructureStatus {
+@:uextern @:uenum extern enum EUserDefinedStructureStatus {
   
   /**
     Struct is in an unknown state.

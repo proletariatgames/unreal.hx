@@ -16,7 +16,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h", "Components/WidgetComponent.h")
 @:uname("EWidgetSpace")
-@:class @:uextern extern enum EWidgetSpace {
+@:class @:uextern @:uenum extern enum EWidgetSpace {
   
   /**
     The widget is rendered in the world as mesh, it can be occluded like any other mesh in the world.

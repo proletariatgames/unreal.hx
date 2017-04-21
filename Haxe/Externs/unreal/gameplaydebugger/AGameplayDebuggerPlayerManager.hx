@@ -21,8 +21,8 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerPlayerManager.h")
-@:noClass @:uextern extern class AGameplayDebuggerPlayerManager extends unreal.AActor {
-  private var PendingRegistrations : unreal.TArray<unreal.gameplaydebugger.AGameplayDebuggerCategoryReplicator>;
-  private var PlayerData : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerPlayerData>;
+@:noClass @:uextern @:uclass extern class AGameplayDebuggerPlayerManager extends unreal.AActor {
+  @:uproperty private var PendingRegistrations : unreal.TArray<unreal.gameplaydebugger.AGameplayDebuggerCategoryReplicator>;
+  @:uproperty private var PlayerData : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerPlayerData>;
   
 }

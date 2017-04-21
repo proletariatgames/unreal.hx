@@ -21,8 +21,8 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_SwitchString.h")
-@:uextern extern class UK2Node_SwitchString extends unreal.blueprintgraph.UK2Node_Switch {
-  public var bIsCaseSensitive : Bool;
-  public var PinNames : unreal.TArray<unreal.FString>;
+@:uextern @:uclass extern class UK2Node_SwitchString extends unreal.blueprintgraph.UK2Node_Switch {
+  @:uproperty public var bIsCaseSensitive : Bool;
+  @:uproperty public var PinNames : unreal.TArray<unreal.FString>;
   
 }

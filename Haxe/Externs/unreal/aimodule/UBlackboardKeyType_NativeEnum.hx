@@ -19,8 +19,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType_NativeEnum.h")
-@:uextern extern class UBlackboardKeyType_NativeEnum extends unreal.aimodule.UBlackboardKeyType {
-  public var EnumType : unreal.UEnum;
-  public var EnumName : unreal.FString;
+@:uextern @:uclass extern class UBlackboardKeyType_NativeEnum extends unreal.aimodule.UBlackboardKeyType {
+  @:uproperty public var EnumType : unreal.UEnum;
+  @:uproperty public var EnumName : unreal.FString;
   
 }

@@ -20,16 +20,16 @@ package unreal;
   Settings to allow designers to override the automatic expose
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:noCopy @:noEquals @:uextern extern class FExposureSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FExposureSettings {
   
   /**
     true: fixed exposure using the LogOffset value, false: automatic eye adaptation
   **/
-  public var bFixed : Bool;
+  @:uproperty public var bFixed : Bool;
   
   /**
     usually -4:/16 darker .. +4:16x brighter
   **/
-  public var LogOffset : unreal.Int32;
+  @:uproperty public var LogOffset : unreal.Int32;
   
 }

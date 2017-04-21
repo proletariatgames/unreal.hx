@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
-@:uextern extern class UParticleModuleTypeDataGpu extends unreal.UParticleModuleTypeDataBase {
+@:uextern @:uclass extern class UParticleModuleTypeDataGpu extends unreal.UParticleModuleTypeDataBase {
   
   /**
     When true, all existing partilces are cleared when the emitter is initialized.
   **/
-  public var bClearExistingParticlesOnInit : Bool;
+  @:uproperty public var bClearExistingParticlesOnInit : Bool;
   
   /**
     TEMP: How much to stretch sprites based on camera motion blur.
   **/
-  public var CameraMotionBlurAmount : unreal.Float32;
+  @:uproperty public var CameraMotionBlurAmount : unreal.Float32;
   
   /**
     Data used to initialize runtime resources.
   **/
-  public var ResourceData : unreal.FGPUSpriteResourceData;
+  @:uproperty public var ResourceData : unreal.FGPUSpriteResourceData;
   
   /**
     Information for runtime simulation.
   **/
-  public var EmitterInfo : unreal.FGPUSpriteEmitterInfo;
+  @:uproperty public var EmitterInfo : unreal.FGPUSpriteEmitterInfo;
   
 }

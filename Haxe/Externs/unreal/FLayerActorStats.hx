@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Layers/Layer.h")
-@:noCopy @:noEquals @:uextern extern class FLayerActorStats {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLayerActorStats {
   
   /**
     The total number of Actors of Type assigned to the Layer
   **/
-  public var Total : unreal.Int32;
+  @:uproperty public var Total : unreal.Int32;
   
   /**
     A Type of Actor currently associated with the Layer
   **/
-  public var Type : unreal.UClass;
+  @:uproperty public var Type : unreal.UClass;
   
 }

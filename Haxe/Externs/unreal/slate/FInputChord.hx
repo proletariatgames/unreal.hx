@@ -19,31 +19,31 @@ package unreal.slate;
 **/
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Commands/InputChord.h")
-@:uextern extern class FInputChord {
+@:uextern @:ustruct extern class FInputChord {
   
   /**
     Whether the command key is part of the chord.
   **/
-  public var bCmd : Bool;
+  @:uproperty public var bCmd : Bool;
   
   /**
     Whether the alt key is part of the chord.
   **/
-  public var bAlt : Bool;
+  @:uproperty public var bAlt : Bool;
   
   /**
     Whether the control key is part of the chord.
   **/
-  public var bCtrl : Bool;
+  @:uproperty public var bCtrl : Bool;
   
   /**
     Whether the shift key is part of the chord.
   **/
-  public var bShift : Bool;
+  @:uproperty public var bShift : Bool;
   
   /**
     The Key is the core of the chord.
   **/
-  public var Key : unreal.inputcore.FKey;
+  @:uproperty public var Key : unreal.inputcore.FKey;
   
 }

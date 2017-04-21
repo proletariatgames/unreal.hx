@@ -19,27 +19,27 @@ package unreal.kismet;
 **/
 @:umodule("Kismet")
 @:glueCppIncludes("BlueprintPaletteFavorites.h")
-@:uextern extern class UBlueprintPaletteFavorites extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintPaletteFavorites extends unreal.UObject {
   
   /**
     Users could load pre-existing profiles (intended to share favorites, and
     hook into tutorials). If empty, the default profile will be loaded; if
     the user has customized a pre-existing profile, then this will be "CustomProfile".
   **/
-  public var CurrentProfile : unreal.FString;
+  @:uproperty public var CurrentProfile : unreal.FString;
   
   /**
     A list of favorites that is constructed in PostLoad() (either from a
     profile or the user's set of CustomFavorites). This list is up to date
     and maintained at runtime.
   **/
-  public var CurrentFavorites : unreal.TArray<unreal.kismet.FFavoritedBlueprintPaletteItem>;
+  @:uproperty public var CurrentFavorites : unreal.TArray<unreal.kismet.FFavoritedBlueprintPaletteItem>;
   
   /**
     A list of strings that are used to identify specific palette actions.
     This is what gets saved out when the user has customized their own set,
     and is not updated until PreSave(const class ITargetPlatform* TargetPlatform).
   **/
-  public var CustomFavorites : unreal.TArray<unreal.FString>;
+  @:uproperty public var CustomFavorites : unreal.TArray<unreal.FString>;
   
 }

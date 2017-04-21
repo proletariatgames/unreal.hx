@@ -15,15 +15,15 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQuery.h")
-@:uextern extern class UEnvQuery extends unreal.UDataAsset {
-  private var Options : unreal.TArray<unreal.aimodule.UEnvQueryOption>;
-  private var QueryName : unreal.FName;
+@:uextern @:uclass extern class UEnvQuery extends unreal.UDataAsset {
+  @:uproperty private var Options : unreal.TArray<unreal.aimodule.UEnvQueryOption>;
+  @:uproperty private var QueryName : unreal.FName;
   #if WITH_EDITORONLY_DATA
   
   /**
     Graph for query
   **/
-  public var EdGraph : unreal.UEdGraph;
+  @:uproperty public var EdGraph : unreal.UEdGraph;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -21,12 +21,12 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Analytics/AnalyticsPrivacySettings.h")
-@:uextern extern class UAnalyticsPrivacySettings extends unreal.UObject implements unreal.IImportantToggleSettingInterface {
+@:uextern @:uclass extern class UAnalyticsPrivacySettings extends unreal.UObject implements unreal.IImportantToggleSettingInterface {
   
   /**
     Determines whether the editor sends usage information to Epic Games in order to improve Unreal Engine. Your information will never be shared with 3rd parties.
   **/
-  public var bSendUsageData : Bool;
+  @:uproperty public var bSendUsageData : Bool;
   // ImportantToggleSettingInterface interface implementation
   
 }

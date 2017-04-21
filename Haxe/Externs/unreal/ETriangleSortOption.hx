@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ETriangleSortOption")
-@:uextern extern enum ETriangleSortOption {
+@:uextern @:uenum extern enum ETriangleSortOption {
   TRISORT_None;
   TRISORT_CenterRadialDistance;
   TRISORT_Random;

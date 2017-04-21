@@ -21,9 +21,9 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("K2Node_TransitionRuleGetter.h")
-@:uextern extern class UK2Node_TransitionRuleGetter extends unreal.blueprintgraph.UK2Node {
-  public var AssociatedStateNode : unreal.animgraph.UAnimStateNode;
-  public var AssociatedAnimAssetPlayerNode : unreal.animgraph.UAnimGraphNode_Base;
-  public var GetterType : unreal.animgraph.ETransitionGetter;
+@:uextern @:uclass extern class UK2Node_TransitionRuleGetter extends unreal.blueprintgraph.UK2Node {
+  @:uproperty public var AssociatedStateNode : unreal.animgraph.UAnimStateNode;
+  @:uproperty public var AssociatedAnimAssetPlayerNode : unreal.animgraph.UAnimGraphNode_Base;
+  @:uproperty public var GetterType : unreal.animgraph.ETransitionGetter;
   
 }

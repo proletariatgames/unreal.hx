@@ -19,6 +19,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:uextern extern class UEnvQueryTypes extends unreal.UObject {
+@:uextern @:uclass extern class UEnvQueryTypes extends unreal.UObject {
   
 }

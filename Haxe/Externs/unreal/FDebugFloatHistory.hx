@@ -20,26 +20,26 @@ package unreal;
   Structure for recording float values and displaying them as an Histogram through DrawDebugFloatHistory.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FDebugFloatHistory {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FDebugFloatHistory {
   
   /**
     Auto adjust Min/Max as new values are recorded?
   **/
-  public var bAutoAdjustMinMax : Bool;
+  @:uproperty public var bAutoAdjustMinMax : Bool;
   
   /**
     Max value to record.
   **/
-  public var MaxValue : unreal.Float32;
+  @:uproperty public var MaxValue : unreal.Float32;
   
   /**
     Min value to record.
   **/
-  public var MinValue : unreal.Float32;
+  @:uproperty public var MinValue : unreal.Float32;
   
   /**
     Max Samples to record.
   **/
-  public var MaxSamples : unreal.Float32;
+  @:uproperty public var MaxSamples : unreal.Float32;
   
 }

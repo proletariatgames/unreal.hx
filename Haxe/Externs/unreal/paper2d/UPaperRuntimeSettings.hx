@@ -19,21 +19,21 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperRuntimeSettings.h")
-@:uextern extern class UPaperRuntimeSettings extends unreal.UObject {
+@:uextern @:uclass extern class UPaperRuntimeSettings extends unreal.UObject {
   
   /**
     Enables automatic resizing of various sprite data that is authored in texture space if the source texture gets resized (sockets, the pivot, render and collision geometry, etc...)
   **/
-  public var bResizeSpriteDataToMatchTextures : Bool;
+  @:uproperty public var bResizeSpriteDataToMatchTextures : Bool;
   
   /**
     Enables experimental *incomplete and unsupported* 2D terrain spline editing. Note: You need to restart the editor when enabling this setting for the change to fully take effect.
   **/
-  public var bEnableTerrainSplineEditing : Bool;
+  @:uproperty public var bEnableTerrainSplineEditing : Bool;
   
   /**
     Enables experimental *incomplete and unsupported* texture atlas groups that sprites can be assigned to
   **/
-  public var bEnableSpriteAtlasGroups : Bool;
+  @:uproperty public var bEnableSpriteAtlasGroups : Bool;
   
 }

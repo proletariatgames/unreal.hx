@@ -18,21 +18,21 @@ package unreal;
   Class containing definition of a navigation query filter
 **/
 @:glueCppIncludes("AI/Navigation/NavFilters/NavigationQueryFilter.h")
-@:uextern extern class UNavigationQueryFilter extends unreal.UObject {
+@:uextern @:uclass extern class UNavigationQueryFilter extends unreal.UObject {
   
   /**
     forbidden flags of navigation nodes
   **/
-  public var ExcludeFlags : unreal.FNavigationFilterFlags;
+  @:uproperty public var ExcludeFlags : unreal.FNavigationFilterFlags;
   
   /**
     required flags of navigation nodes
   **/
-  public var IncludeFlags : unreal.FNavigationFilterFlags;
+  @:uproperty public var IncludeFlags : unreal.FNavigationFilterFlags;
   
   /**
     list of overrides for navigation areas
   **/
-  public var Areas : unreal.TArray<unreal.FNavigationFilterArea>;
+  @:uproperty public var Areas : unreal.TArray<unreal.FNavigationFilterArea>;
   
 }

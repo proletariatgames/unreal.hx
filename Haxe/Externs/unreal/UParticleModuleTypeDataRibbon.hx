@@ -20,14 +20,14 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataRibbon.h")
-@:uextern extern class UParticleModuleTypeDataRibbon extends unreal.UParticleModuleTypeDataBase {
+@:uextern @:uclass extern class UParticleModuleTypeDataRibbon extends unreal.UParticleModuleTypeDataBase {
   
   /**
     The tangent scalar for tessellation.
     Angles between tangent A and B are mapped to [0.0f .. 1.0f]
     This is then multiplied by TangentTessellationScalar to give the number of points to tessellate
   **/
-  public var TangentTessellationScalar : unreal.Float32;
+  @:uproperty public var TangentTessellationScalar : unreal.Float32;
   
   /**
     If this flag is enabled, the system will scale the number of interpolated vertices
@@ -39,46 +39,46 @@ package unreal;
     (0..90 degrees) will scale from [0..1]. Anything greater than 90 degrees will clamp
     at a scale of 1.
   **/
-  public var bEnableTangentDiffInterpScale : Bool;
+  @:uproperty public var bEnableTangentDiffInterpScale : Bool;
   
   /**
     The distance step size for tessellation.
     # Tessellation Points = TruncToInt((Distance Between Spawned Particles) / DistanceTessellationStepSize))
   **/
-  public var DistanceTessellationStepSize : unreal.Float32;
+  @:uproperty public var DistanceTessellationStepSize : unreal.Float32;
   
   /**
     The (estimated) covered distance to tile the 2nd UV set at.
     If 0.0, a second UV set will not be passed in.
   **/
-  public var TilingDistance : unreal.Float32;
+  @:uproperty public var TilingDistance : unreal.Float32;
   
   /**
     If true, render the tessellated path between spawned particles
   **/
-  public var bRenderTessellation : Bool;
+  @:uproperty public var bRenderTessellation : Bool;
   
   /**
     If true, render a line showing the tangent at each spawned particle point along the trail
   **/
-  public var bRenderTangents : Bool;
+  @:uproperty public var bRenderTangents : Bool;
   
   /**
     If true, render stars at each spawned particle point along the trail
   **/
-  public var bRenderSpawnPoints : Bool;
+  @:uproperty public var bRenderSpawnPoints : Bool;
   
   /**
     If true, render the trail geometry (this should typically be on)
   **/
-  public var bRenderGeometry : Bool;
+  @:uproperty public var bRenderGeometry : Bool;
   
   /**
     The tangent scalar for spawning.
     Angles between tangent A and B are mapped to [0.0f .. 1.0f]
     This is then multiplied by TangentTessellationScalar to give the number of particles to spawn
   **/
-  public var TangentSpawningScalar : unreal.Float32;
+  @:uproperty public var TangentSpawningScalar : unreal.Float32;
   
   /**
     The 'render' axis for the trail (what axis the trail is stretched out on)
@@ -86,55 +86,55 @@ package unreal;
             Trails_SourceUp - Use the up axis of the source for each spawned particle.
             Trails_WorldUp  - Use the world up axis.
   **/
-  public var RenderAxis : unreal.ETrailsRenderAxisOption;
+  @:uproperty public var RenderAxis : unreal.ETrailsRenderAxisOption;
   
   /**
     If true, ribbon will spawn a particle when it first starts moving
   **/
-  public var bSpawnInitialParticle : Bool;
+  @:uproperty public var bSpawnInitialParticle : Bool;
   
   /**
     If true, recalculate tangents every frame to allow velocity/acceleration to be applied
   **/
-  public var bTangentRecalculationEveryFrame : Bool;
+  @:uproperty public var bTangentRecalculationEveryFrame : Bool;
   
   /**
     If true, recalculate the previous tangent when a new particle is spawned
   **/
-  public var bEnablePreviousTangentRecalculation : Bool;
+  @:uproperty public var bEnablePreviousTangentRecalculation : Bool;
   
   /**
     If true, do not join the trail to the source position
   **/
-  public var bClipSourceSegement : Bool;
+  @:uproperty public var bClipSourceSegement : Bool;
   
   /**
     If true, when the source of a trail is 'lost' (ie, the source particle
     dies), mark the current trail as dead.
   **/
-  public var bDeadTrailsOnSourceLoss : Bool;
+  @:uproperty public var bDeadTrailsOnSourceLoss : Bool;
   
   /**
     If true, when the system is deactivated, mark trails as dead.
     This means they will still render, but will not have more particles
     added to them, even if the system re-activates...
   **/
-  public var bDeadTrailsOnDeactivate : Bool;
+  @:uproperty public var bDeadTrailsOnDeactivate : Bool;
   
   /**
     Max particles per trail
   **/
-  public var MaxParticleInTrailCount : unreal.Int32;
+  @:uproperty public var MaxParticleInTrailCount : unreal.Int32;
   
   /**
     The number of live trails
   **/
-  public var MaxTrailCount : unreal.Int32;
+  @:uproperty public var MaxTrailCount : unreal.Int32;
   
   /**
     The number of sheets to render for the trail.
   **/
-  public var SheetsPerTrail : unreal.Int32;
+  @:uproperty public var SheetsPerTrail : unreal.Int32;
   
   /**
     The maximum amount to tessellate between two particles of the trail.
@@ -142,6 +142,6 @@ package unreal;
     system will select a number of tessellation points
             [0..MaxTessellationBetweenParticles]
   **/
-  public var MaxTessellationBetweenParticles : unreal.Int32;
+  @:uproperty public var MaxTessellationBetweenParticles : unreal.Int32;
   
 }

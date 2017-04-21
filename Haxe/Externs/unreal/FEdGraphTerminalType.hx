@@ -23,26 +23,31 @@ package unreal;
   a structure, rather than implicitly defining names for containers.
 **/
 @:glueCppIncludes("EdGraph/EdGraphPin.h")
-@:noCopy @:noEquals @:uextern extern class FEdGraphTerminalType {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEdGraphTerminalType {
   
   /**
     Whether or not this is a weak reference
   **/
-  public var bTerminalIsWeakPointer : Bool;
+  @:uproperty public var bTerminalIsWeakPointer : Bool;
   
   /**
     Whether or not this pin is a immutable const value
   **/
-  public var bTerminalIsConst : Bool;
+  @:uproperty public var bTerminalIsConst : Bool;
+  
+  /**
+    Sub-category object
+  **/
+  @:uproperty public var TerminalSubCategoryObject : unreal.TWeakObjectPtr<unreal.UObject>;
   
   /**
     Sub-category
   **/
-  public var TerminalSubCategory : unreal.FString;
+  @:uproperty public var TerminalSubCategory : unreal.FString;
   
   /**
     Category
   **/
-  public var TerminalCategory : unreal.FString;
+  @:uproperty public var TerminalCategory : unreal.FString;
   
 }

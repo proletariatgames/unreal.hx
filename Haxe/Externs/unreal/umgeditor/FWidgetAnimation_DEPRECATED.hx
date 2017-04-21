@@ -21,8 +21,8 @@ package unreal.umgeditor;
 **/
 @:umodule("UMGEditor")
 @:glueCppIncludes("WidgetBlueprint.h")
-@:noCopy @:noEquals @:uextern extern class FWidgetAnimation_DEPRECATED {
-  public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
-  public var MovieScene : unreal.moviescene.UMovieScene;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FWidgetAnimation_DEPRECATED {
+  @:uproperty public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
+  @:uproperty public var MovieScene : unreal.moviescene.UMovieScene;
   
 }

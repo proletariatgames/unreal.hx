@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Interfaces/Interface_PostProcessVolume.h")
-@:uextern extern interface IInterface_PostProcessVolume {
+@:uextern @:uclass extern interface IInterface_PostProcessVolume {
   
 }

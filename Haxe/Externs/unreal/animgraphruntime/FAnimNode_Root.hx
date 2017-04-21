@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_Root.h")
-@:uextern extern class FAnimNode_Root extends unreal.FAnimNode_Base {
-  public var Result : unreal.FPoseLink;
+@:uextern @:ustruct extern class FAnimNode_Root extends unreal.FAnimNode_Base {
+  @:uproperty public var Result : unreal.FPoseLink;
   
 }

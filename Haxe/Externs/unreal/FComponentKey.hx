@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InheritableComponentHandler.h")
-@:uextern extern class FComponentKey {
+@:uextern @:ustruct extern class FComponentKey {
   
 }

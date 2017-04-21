@@ -21,6 +21,6 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("Private/NiagaraSequencer.h")
-@:uextern extern class UEmitterMovieSceneTrack extends unreal.moviescene.UMovieSceneNameableTrack {
+@:uextern @:uclass extern class UEmitterMovieSceneTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   
 }

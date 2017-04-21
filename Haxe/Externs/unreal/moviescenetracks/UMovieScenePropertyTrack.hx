@@ -19,21 +19,21 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieScenePropertyTrack.h")
-@:uextern extern class UMovieScenePropertyTrack extends unreal.moviescene.UMovieSceneNameableTrack {
+@:uextern @:uclass extern class UMovieScenePropertyTrack extends unreal.moviescene.UMovieSceneNameableTrack {
   
   /**
     All the sections in this list
   **/
-  private var Sections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
+  @:uproperty private var Sections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
   
   /**
     Path to the property from the source object being changed
   **/
-  private var PropertyPath : unreal.FString;
+  @:uproperty private var PropertyPath : unreal.FString;
   
   /**
     Name of the property being changed
   **/
-  private var PropertyName : unreal.FName;
+  @:uproperty private var PropertyName : unreal.FName;
   
 }

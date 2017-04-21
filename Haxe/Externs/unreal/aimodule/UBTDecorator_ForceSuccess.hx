@@ -24,6 +24,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_ForceSuccess.h")
-@:uextern extern class UBTDecorator_ForceSuccess extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_ForceSuccess extends unreal.aimodule.UBTDecorator {
   
 }

@@ -18,27 +18,27 @@ package unreal;
   Sequence player node
 **/
 @:glueCppIncludes("Animation/AnimNode_SequencePlayer.h")
-@:uextern extern class FAnimNode_SequencePlayer extends unreal.FAnimNode_AssetPlayerBase {
+@:uextern @:ustruct extern class FAnimNode_SequencePlayer extends unreal.FAnimNode_AssetPlayerBase {
   
   /**
     The start up position, it only applies when reinitialized
     if you loop, it will still start from 0.f after finishing the round
   **/
-  public var StartPosition : unreal.Float32;
+  @:uproperty public var StartPosition : unreal.Float32;
   
   /**
     The play rate multiplier. Can be negative, which will cause the animation to play in reverse.
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
   /**
     Should the animation continue looping when it reaches the end?
   **/
-  public var bLoopAnimation : Bool;
+  @:uproperty public var bLoopAnimation : Bool;
   
   /**
     The animation sequence asset to play
   **/
-  public var Sequence : unreal.UAnimSequenceBase;
+  @:uproperty public var Sequence : unreal.UAnimSequenceBase;
   
 }

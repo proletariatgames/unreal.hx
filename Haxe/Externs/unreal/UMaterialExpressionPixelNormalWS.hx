@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionPixelNormalWS.h")
-@:noClass @:uextern extern class UMaterialExpressionPixelNormalWS extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionPixelNormalWS extends unreal.UMaterialExpression {
   
 }

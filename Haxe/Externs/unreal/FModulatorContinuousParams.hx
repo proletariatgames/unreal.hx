@@ -20,41 +20,41 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
-@:noCopy @:noEquals @:uextern extern class FModulatorContinuousParams {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FModulatorContinuousParams {
   
   /**
     The mode with which to treat the input value
   **/
-  public var ParamMode : unreal.ModulationParamMode;
+  @:uproperty public var ParamMode : unreal.ModulationParamMode;
   
   /**
     The maximum output value. The input value will be scaled from the range [MinInput, MaxInput] to [MinOut, MaxOutput]
   **/
-  public var MaxOutput : unreal.Float32;
+  @:uproperty public var MaxOutput : unreal.Float32;
   
   /**
     The minimum output value. The input value will be scaled from the range [MinInput, MaxInput] to [MinOut, MaxOutput]
   **/
-  public var MinOutput : unreal.Float32;
+  @:uproperty public var MinOutput : unreal.Float32;
   
   /**
     The maximum input value. Values will be clamped to the [MinInput, MaxInput] range.
   **/
-  public var MaxInput : unreal.Float32;
+  @:uproperty public var MaxInput : unreal.Float32;
   
   /**
     The minimum input value. Values will be clamped to the [MinInput, MaxInput] range.
   **/
-  public var MinInput : unreal.Float32;
+  @:uproperty public var MinInput : unreal.Float32;
   
   /**
     The default value to be used if the parameter is not found.
   **/
-  public var Default : unreal.Float32;
+  @:uproperty public var Default : unreal.Float32;
   
   /**
     The name of the sound instance parameter that specifies the current value.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

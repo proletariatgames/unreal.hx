@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISenseConfig_Blueprint.h")
-@:uextern extern class UAISenseConfig_Blueprint extends unreal.aimodule.UAISenseConfig {
-  public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Blueprint>;
+@:uextern @:uclass extern class UAISenseConfig_Blueprint extends unreal.aimodule.UAISenseConfig {
+  @:uproperty public var Implementation : unreal.TSubclassOf<unreal.aimodule.UAISense_Blueprint>;
   
 }

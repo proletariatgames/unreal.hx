@@ -21,11 +21,11 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieScene3DConstraintSection.h")
-@:uextern extern class UMovieScene3DConstraintSection extends unreal.moviescene.UMovieSceneSection {
+@:uextern @:uclass extern class UMovieScene3DConstraintSection extends unreal.moviescene.UMovieSceneSection {
   
   /**
     The possessable guid that this constraint uses
   **/
-  private var ConstraintId : unreal.FGuid;
+  @:uproperty private var ConstraintId : unreal.FGuid;
   
 }

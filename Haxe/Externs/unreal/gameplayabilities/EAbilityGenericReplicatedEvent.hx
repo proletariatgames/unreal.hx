@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTargetTypes.h")
 @:uname("EAbilityGenericReplicatedEvent.Type")
-@:uextern extern enum EAbilityGenericReplicatedEvent {
+@:uextern @:uenum extern enum EAbilityGenericReplicatedEvent {
   
   /**
     A generic confirmation to commit the ability

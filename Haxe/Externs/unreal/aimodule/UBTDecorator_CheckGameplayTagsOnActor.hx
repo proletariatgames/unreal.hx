@@ -21,14 +21,14 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_CheckGameplayTagsOnActor.h")
-@:uextern extern class UBTDecorator_CheckGameplayTagsOnActor extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_CheckGameplayTagsOnActor extends unreal.aimodule.UBTDecorator {
   
   /**
     cached description
   **/
-  private var CachedDescription : unreal.FString;
-  private var GameplayTags : unreal.gameplaytags.FGameplayTagContainer;
-  private var TagsToMatch : unreal.gameplaytags.EGameplayContainerMatchType;
-  private var ActorToCheck : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var CachedDescription : unreal.FString;
+  @:uproperty private var GameplayTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty private var TagsToMatch : unreal.gameplaytags.EGameplayContainerMatchType;
+  @:uproperty private var ActorToCheck : unreal.aimodule.FBlackboardKeySelector;
   
 }

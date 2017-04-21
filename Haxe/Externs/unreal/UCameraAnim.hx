@@ -20,55 +20,55 @@ package unreal;
   A predefined animation to be played on a camera
 **/
 @:glueCppIncludes("Camera/CameraAnim.h")
-@:uextern extern class UCameraAnim extends unreal.UObject {
+@:uextern @:uclass extern class UCameraAnim extends unreal.UObject {
   
   /**
     Default PP blend weight to put on the animated camera. For modifying PP without keyframes.
   **/
-  public var BasePostProcessBlendWeight : unreal.Float32;
+  @:uproperty public var BasePostProcessBlendWeight : unreal.Float32;
   
   /**
     Default PP settings to put on the animated camera. For modifying PP without keyframes.
   **/
-  public var BasePostProcessSettings : unreal.FPostProcessSettings;
+  @:uproperty public var BasePostProcessSettings : unreal.FPostProcessSettings;
   
   /**
     The base FOV that all FOV keys are relative to.
   **/
-  public var BaseFOV : unreal.Float32;
+  @:uproperty public var BaseFOV : unreal.Float32;
   
   /**
     If true, assume all FOV keys are intended be offsets from the start of the animation.
     If false, assume all FOV keys are authored relative to the current FOV of the camera at the start of the animation.
   **/
-  public var bRelativeToInitialFOV : Bool;
+  @:uproperty public var bRelativeToInitialFOV : Bool;
   
   /**
     If true, assume all transform keys are intended be offsets from the start of the animation. This allows the animation to be authored at any world location and be applied as a delta to the camera.
     If false, assume all transform keys are authored relative to the world origin. Positions will be directly applied as deltas to the camera.
   **/
-  public var bRelativeToInitialTransform : Bool;
+  @:uproperty public var bRelativeToInitialTransform : Bool;
   
   /**
     AABB in local space.
   **/
-  public var BoundingBox : unreal.FBox;
+  @:uproperty public var BoundingBox : unreal.FBox;
   
   /**
     Length, in seconds.
   **/
-  public var AnimLength : unreal.Float32;
+  @:uproperty public var AnimLength : unreal.Float32;
   #if WITH_EDITORONLY_DATA
   
   /**
     This is to preview and they only exists in editor
   **/
-  public var PreviewInterpGroup : unreal.UInterpGroup;
+  @:uproperty public var PreviewInterpGroup : unreal.UInterpGroup;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The UInterpGroup that holds our actual interpolation data.
   **/
-  public var CameraInterpGroup : unreal.UInterpGroup;
+  @:uproperty public var CameraInterpGroup : unreal.UInterpGroup;
   
 }

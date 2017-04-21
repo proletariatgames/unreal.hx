@@ -20,7 +20,7 @@ package unreal.sequencerecorder;
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderSettings.h")
 @:uname("EAudioRecordingMode")
-@:class @:uextern extern enum EAudioRecordingMode {
+@:class @:uextern @:uenum extern enum EAudioRecordingMode {
   
   /**
     Don't Record Audio

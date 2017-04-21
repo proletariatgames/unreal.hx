@@ -21,11 +21,11 @@ package unreal.iosruntimesettings;
 **/
 @:umodule("IOSRuntimeSettings")
 @:glueCppIncludes("IOSRuntimeSettings.h")
-@:noCopy @:noEquals @:uextern extern class FIOSBuildResourceFilePath {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FIOSBuildResourceFilePath {
   
   /**
     The path to the file.
   **/
-  public var FilePath : unreal.FString;
+  @:uproperty public var FilePath : unreal.FString;
   
 }

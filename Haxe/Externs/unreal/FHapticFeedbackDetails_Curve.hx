@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Haptics/HapticFeedbackEffect_Curve.h")
-@:noCopy @:noEquals @:uextern extern class FHapticFeedbackDetails_Curve {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FHapticFeedbackDetails_Curve {
   
   /**
     The amplitude to vibrate the haptic device at.  Amplitudes are normalized over the range [0.0, 1.0], with 1.0 being the max setting of the device
   **/
-  public var Amplitude : unreal.FRuntimeFloatCurve;
+  @:uproperty public var Amplitude : unreal.FRuntimeFloatCurve;
   
   /**
     The frequency to vibrate the haptic device at.  Frequency ranges vary by device!
   **/
-  public var Frequency : unreal.FRuntimeFloatCurve;
+  @:uproperty public var Frequency : unreal.FRuntimeFloatCurve;
   
 }

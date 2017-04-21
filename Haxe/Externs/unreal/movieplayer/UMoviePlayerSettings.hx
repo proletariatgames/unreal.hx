@@ -19,21 +19,21 @@ package unreal.movieplayer;
 **/
 @:umodule("MoviePlayer")
 @:glueCppIncludes("MoviePlayerSettings.h")
-@:uextern extern class UMoviePlayerSettings extends unreal.UObject {
+@:uextern @:uclass extern class UMoviePlayerSettings extends unreal.UObject {
   
   /**
     Movies to play on startup. Note that these must be in your game's Game/Content/Movies directory.
   **/
-  public var StartupMovies : unreal.TArray<unreal.FString>;
+  @:uproperty public var StartupMovies : unreal.TArray<unreal.FString>;
   
   /**
     If enabled, Startup movies can be skipped by the user when a mouse button is pressed.
   **/
-  public var bMoviesAreSkippable : Bool;
+  @:uproperty public var bMoviesAreSkippable : Bool;
   
   /**
     If enabled, The game waits for startup movies to complete even if loading has finished.
   **/
-  public var bWaitForMoviesToComplete : Bool;
+  @:uproperty public var bWaitForMoviesToComplete : Bool;
   
 }

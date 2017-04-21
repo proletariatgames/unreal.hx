@@ -14,7 +14,7 @@
 package unreal;
 
 @:glueCppIncludes("Engine/InputKeyDelegateBinding.h")
-@:uextern extern class UInputKeyDelegateBinding extends unreal.UInputDelegateBinding {
-  public var InputKeyDelegateBindings : unreal.TArray<unreal.FBlueprintInputKeyDelegateBinding>;
+@:uextern @:uclass extern class UInputKeyDelegateBinding extends unreal.UInputDelegateBinding {
+  @:uproperty public var InputKeyDelegateBindings : unreal.TArray<unreal.FBlueprintInputKeyDelegateBinding>;
   
 }

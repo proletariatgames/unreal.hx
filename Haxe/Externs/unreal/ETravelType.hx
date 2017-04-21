@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
 @:uname("ETravelType")
-@:uextern extern enum ETravelType {
+@:uextern @:uenum extern enum ETravelType {
   
   /**
     Absolute URL.

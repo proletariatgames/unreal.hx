@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("EdGraph/EdGraphNode.h")
 @:uname("ENodeAdvancedPins.Type")
-@:uextern extern enum ENodeAdvancedPins {
+@:uextern @:uenum extern enum ENodeAdvancedPins {
   
   /**
     No advanced pins.

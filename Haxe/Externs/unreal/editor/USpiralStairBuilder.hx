@@ -21,52 +21,52 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Builders/SpiralStairBuilder.h")
-@:uextern extern class USpiralStairBuilder extends unreal.editor.UEditorBrushBuilder {
+@:uextern @:uclass extern class USpiralStairBuilder extends unreal.editor.UEditorBrushBuilder {
   
   /**
     Whether the stair curves clockwise or counter-clockwise
   **/
-  public var CounterClockwise : Bool;
+  @:uproperty public var CounterClockwise : Bool;
   
   /**
     Whether the surface of the spiral is sloped or stepped
   **/
-  public var SlopedFloor : Bool;
+  @:uproperty public var SlopedFloor : Bool;
   
   /**
     Whether the underside of the spiral is sloped or stepped
   **/
-  public var SlopedCeiling : Bool;
-  public var GroupName : unreal.FName;
+  @:uproperty public var SlopedCeiling : Bool;
+  @:uproperty public var GroupName : unreal.FName;
   
   /**
     The total number of steps
   **/
-  public var NumSteps : unreal.Int32;
+  @:uproperty public var NumSteps : unreal.Int32;
   
   /**
     The number of steps in one whole spiral rotation
   **/
-  public var NumStepsPer360 : unreal.Int32;
+  @:uproperty public var NumStepsPer360 : unreal.Int32;
   
   /**
     The thickness of each step
   **/
-  public var StepThickness : unreal.Int32;
+  @:uproperty public var StepThickness : unreal.Int32;
   
   /**
     The height of each step
   **/
-  public var StepHeight : unreal.Int32;
+  @:uproperty public var StepHeight : unreal.Int32;
   
   /**
     The width of each step
   **/
-  public var StepWidth : unreal.Int32;
+  @:uproperty public var StepWidth : unreal.Int32;
   
   /**
     The radius of the inner curve of the stair
   **/
-  public var InnerRadius : unreal.Int32;
+  @:uproperty public var InnerRadius : unreal.Int32;
   
 }

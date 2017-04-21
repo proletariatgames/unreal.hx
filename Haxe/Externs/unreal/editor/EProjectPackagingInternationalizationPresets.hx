@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/ProjectPackagingSettings.h")
 @:uname("EProjectPackagingInternationalizationPresets")
-@:class @:uextern extern enum EProjectPackagingInternationalizationPresets {
+@:class @:uextern @:uenum extern enum EProjectPackagingInternationalizationPresets {
   
   /**
     English only.

@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Animation/SmartName.h")
-@:uextern extern class FSmartNameContainer {
+@:uextern @:ustruct extern class FSmartNameContainer {
   
 }

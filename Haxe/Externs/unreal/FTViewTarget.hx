@@ -18,21 +18,21 @@ package unreal;
   A ViewTarget is the primary actor the camera is associated with.
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
-@:uextern extern class FTViewTarget {
+@:uextern @:ustruct extern class FTViewTarget {
   
   /**
     PlayerState (used to follow same player through pawn transitions, etc., when spectating)
   **/
-  private var PlayerState : unreal.APlayerState;
+  @:uproperty private var PlayerState : unreal.APlayerState;
   
   /**
     Computed point of view
   **/
-  public var POV : unreal.FMinimalViewInfo;
+  @:uproperty public var POV : unreal.FMinimalViewInfo;
   
   /**
     Target Actor used to compute POV
   **/
-  public var Target : unreal.AActor;
+  @:uproperty public var Target : unreal.AActor;
   
 }

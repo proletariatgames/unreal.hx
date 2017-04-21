@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Editor/TemplateMapMetadata.h")
-@:noClass @:uextern extern class UDEPRECATED_TemplateMapMetadata extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UDEPRECATED_TemplateMapMetadata extends unreal.UObject {
   
 }

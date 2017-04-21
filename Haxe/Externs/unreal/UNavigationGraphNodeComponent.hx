@@ -20,9 +20,9 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationGraphNodeComponent.h")
-@:uextern extern class UNavigationGraphNodeComponent extends unreal.USceneComponent {
-  public var PrevNodeComponent : unreal.UNavigationGraphNodeComponent;
-  public var NextNodeComponent : unreal.UNavigationGraphNodeComponent;
-  public var Node : unreal.FNavGraphNode;
+@:uextern @:uclass extern class UNavigationGraphNodeComponent extends unreal.USceneComponent {
+  @:uproperty public var PrevNodeComponent : unreal.UNavigationGraphNodeComponent;
+  @:uproperty public var NextNodeComponent : unreal.UNavigationGraphNodeComponent;
+  @:uproperty public var Node : unreal.FNavGraphNode;
   
 }

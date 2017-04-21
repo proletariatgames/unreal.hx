@@ -19,7 +19,7 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheTrackFlipbookAnimation.h")
-@:uextern extern class UGeometryCacheTrack_FlipbookAnimation extends unreal.geometrycache.UGeometryCacheTrack {
+@:uextern @:uclass extern class UGeometryCacheTrack_FlipbookAnimation extends unreal.geometrycache.UGeometryCacheTrack {
   
   /**
     Add a GeometryCacheMeshData sample to the Track
@@ -28,6 +28,6 @@ package unreal.geometrycache;
     @param SampleTime - SampleTime for the specific sample being added
     @return void
   **/
-  @:final public function AddMeshSample(MeshData : unreal.Const<unreal.PRef<unreal.geometrycache.FGeometryCacheMeshData>>, SampleTime : unreal.Float32) : Void;
+  @:ufunction @:final public function AddMeshSample(MeshData : unreal.Const<unreal.PRef<unreal.geometrycache.FGeometryCacheMeshData>>, SampleTime : unreal.Float32) : Void;
   
 }

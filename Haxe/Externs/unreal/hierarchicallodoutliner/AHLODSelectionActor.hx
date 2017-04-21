@@ -21,13 +21,13 @@ package unreal.hierarchicallodoutliner;
 **/
 @:umodule("HierarchicalLODOutliner")
 @:glueCppIncludes("Private/HLODSelectionActor.h")
-@:noClass @:uextern extern class AHLODSelectionActor extends unreal.AActor {
+@:noClass @:uextern @:uclass extern class AHLODSelectionActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
   
   /**
     Visualization component for rendering the LODActors bounds (cluster bounds)
   **/
-  private var DrawSphereComponent : unreal.UDrawSphereComponent;
+  @:uproperty private var DrawSphereComponent : unreal.UDrawSphereComponent;
   #end // WITH_EDITORONLY_DATA
   
 }

@@ -21,36 +21,36 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcCompressionSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcCompressionSettings {
   
   /**
     Minimum percentage of influenced vertices required for a morph target to be valid
   **/
-  public var MinimumNumberOfVertexInfluencePercentage : unreal.Float32;
+  @:uproperty public var MinimumNumberOfVertexInfluencePercentage : unreal.Float32;
   
   /**
     Will generate given fixed number of bases as morph targets
   **/
-  public var MaxNumberOfBases : unreal.Int32;
+  @:uproperty public var MaxNumberOfBases : unreal.Int32;
   
   /**
     Will generate given percentage of the given bases as morph targets
   **/
-  public var PercentageOfTotalBases : unreal.Float32;
+  @:uproperty public var PercentageOfTotalBases : unreal.Float32;
   
   /**
     Determines how the final number of bases that are stored as morph targets are calculated
   **/
-  public var BaseCalculationType : unreal.alembiclibrary.EBaseCalculationType;
+  @:uproperty public var BaseCalculationType : unreal.alembiclibrary.EBaseCalculationType;
   
   /**
     Whether or not Matrix-only animation should be baked out as vertex animation (or skipped?)
   **/
-  public var bBakeMatrixAnimation : Bool;
+  @:uproperty public var bBakeMatrixAnimation : Bool;
   
   /**
     Whether or not the individual meshes should be merged for compression purposes
   **/
-  public var bMergeMeshes : Bool;
+  @:uproperty public var bMergeMeshes : Bool;
   
 }

@@ -20,61 +20,61 @@ package unreal;
   Holds settings for the import workflow stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FBuildPromotionImportWorkflowSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBuildPromotionImportWorkflowSettings {
   
   /**
     Import settings for any other assets you may want to import
   **/
-  public var OtherAssetsToImport : unreal.TArray<unreal.FEditorImportWorkflowDefinition>;
+  @:uproperty public var OtherAssetsToImport : unreal.TArray<unreal.FEditorImportWorkflowDefinition>;
   
   /**
     Import settings for the surround sound (Select any of the channels.  It will auto import the rest)
   **/
-  public var SurroundSound : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var SurroundSound : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the sound
   **/
-  public var Sound : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var Sound : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the animation asset.  (Will automatically use the skeleton of the skeletal mesh above)
   **/
-  public var Animation : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var Animation : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the skeletal mesh
   **/
-  public var SkeletalMesh : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var SkeletalMesh : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the morph mesh
   **/
-  public var MorphMesh : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var MorphMesh : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the blend shape
   **/
-  public var BlendShapeMesh : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var BlendShapeMesh : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the static mesh to re-import
   **/
-  public var ReimportStaticMesh : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var ReimportStaticMesh : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the static mesh
   **/
-  public var StaticMesh : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var StaticMesh : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the Normalmap texture
   **/
-  public var Normal : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var Normal : unreal.FEditorImportWorkflowDefinition;
   
   /**
     Import settings for the Diffuse texture
   **/
-  public var Diffuse : unreal.FEditorImportWorkflowDefinition;
+  @:uproperty public var Diffuse : unreal.FEditorImportWorkflowDefinition;
   
 }

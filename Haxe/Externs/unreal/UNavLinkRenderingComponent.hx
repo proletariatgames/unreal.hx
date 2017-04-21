@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavLinkRenderingComponent.h")
-@:uextern extern class UNavLinkRenderingComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UNavLinkRenderingComponent extends unreal.UPrimitiveComponent {
   
 }

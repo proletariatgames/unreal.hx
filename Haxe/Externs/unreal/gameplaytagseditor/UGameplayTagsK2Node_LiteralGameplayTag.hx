@@ -21,6 +21,6 @@ package unreal.gameplaytagseditor;
 **/
 @:umodule("GameplayTagsEditor")
 @:glueCppIncludes("GameplayTagsK2Node_LiteralGameplayTag.h")
-@:noClass @:uextern extern class UGameplayTagsK2Node_LiteralGameplayTag extends unreal.blueprintgraph.UK2Node {
+@:noClass @:uextern @:uclass extern class UGameplayTagsK2Node_LiteralGameplayTag extends unreal.blueprintgraph.UK2Node {
   
 }

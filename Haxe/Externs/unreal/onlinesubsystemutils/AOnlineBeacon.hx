@@ -19,21 +19,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBeacon.h")
-@:uextern extern class AOnlineBeacon extends unreal.AActor {
+@:uextern @:uclass extern class AOnlineBeacon extends unreal.AActor {
   
   /**
     Net driver routing network traffic
   **/
-  private var NetDriver : unreal.UNetDriver;
+  @:uproperty private var NetDriver : unreal.UNetDriver;
   
   /**
     Time beacon will wait for packets after establishing a connection before giving up
   **/
-  private var BeaconConnectionTimeout : unreal.Float32;
+  @:uproperty private var BeaconConnectionTimeout : unreal.Float32;
   
   /**
     Time beacon will wait to establish a connection with the beacon host
   **/
-  private var BeaconConnectionInitialTimeout : unreal.Float32;
+  @:uproperty private var BeaconConnectionInitialTimeout : unreal.Float32;
   
 }

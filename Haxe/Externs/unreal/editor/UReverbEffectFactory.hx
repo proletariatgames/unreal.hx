@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/ReverbEffectFactory.h")
-@:uextern extern class UReverbEffectFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UReverbEffectFactory extends unreal.editor.UFactory {
   
 }

@@ -21,7 +21,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Fonts/FontCache.h")
 @:uname("ETextShapingMethod")
-@:class @:uextern extern enum ETextShapingMethod {
+@:class @:uextern @:uenum extern enum ETextShapingMethod {
   
   /**
     Automatically picks the fastest possible shaping method (either KerningOnly or FullShaping) based on the reading direction of the text.

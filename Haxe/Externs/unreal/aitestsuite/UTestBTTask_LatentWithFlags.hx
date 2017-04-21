@@ -21,15 +21,15 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTTask_LatentWithFlags.h")
-@:noClass @:uextern extern class UTestBTTask_LatentWithFlags extends unreal.aimodule.UBTTaskNode {
-  public var LogResult : unreal.aimodule.EBTNodeResult;
-  public var KeyNameAbort : unreal.FName;
-  public var KeyNameExecute : unreal.FName;
-  public var AbortTicks : unreal.Int32;
-  public var ExecuteTicks : unreal.Int32;
-  public var LogIndexAbortFinish : unreal.Int32;
-  public var LogIndexAbortStart : unreal.Int32;
-  public var LogIndexExecuteFinish : unreal.Int32;
-  public var LogIndexExecuteStart : unreal.Int32;
+@:noClass @:uextern @:uclass extern class UTestBTTask_LatentWithFlags extends unreal.aimodule.UBTTaskNode {
+  @:uproperty public var LogResult : unreal.aimodule.EBTNodeResult;
+  @:uproperty public var KeyNameAbort : unreal.FName;
+  @:uproperty public var KeyNameExecute : unreal.FName;
+  @:uproperty public var AbortTicks : unreal.Int32;
+  @:uproperty public var ExecuteTicks : unreal.Int32;
+  @:uproperty public var LogIndexAbortFinish : unreal.Int32;
+  @:uproperty public var LogIndexAbortStart : unreal.Int32;
+  @:uproperty public var LogIndexExecuteFinish : unreal.Int32;
+  @:uproperty public var LogIndexExecuteStart : unreal.Int32;
   
 }

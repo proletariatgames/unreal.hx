@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Distributions/Distribution.h")
-@:uextern extern class UDistribution extends unreal.UObject {
+@:uextern @:uclass extern class UDistribution extends unreal.UObject {
   
 }

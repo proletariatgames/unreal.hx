@@ -22,36 +22,36 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
 @:glueCppIncludes("GameFramework/PlayerInput.h")
-@:noCopy @:noEquals @:uextern extern class FInputActionKeyMapping {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInputActionKeyMapping {
   
   /**
     true if one of the Cmd keys must be down when the KeyEvent is received to be acknowledged
   **/
-  public var bCmd : Bool;
+  @:uproperty public var bCmd : Bool;
   
   /**
     true if one of the Alt keys must be down when the KeyEvent is received to be acknowledged
   **/
-  public var bAlt : Bool;
+  @:uproperty public var bAlt : Bool;
   
   /**
     true if one of the Ctrl keys must be down when the KeyEvent is received to be acknowledged
   **/
-  public var bCtrl : Bool;
+  @:uproperty public var bCtrl : Bool;
   
   /**
     true if one of the Shift keys must be down when the KeyEvent is received to be acknowledged
   **/
-  public var bShift : Bool;
+  @:uproperty public var bShift : Bool;
   
   /**
     Key to bind it to.
   **/
-  public var Key : unreal.inputcore.FKey;
+  @:uproperty public var Key : unreal.inputcore.FKey;
   
   /**
     Friendly name of action, e.g "jump"
   **/
-  public var ActionName : unreal.FName;
+  @:uproperty public var ActionName : unreal.FName;
   
 }

@@ -31,11 +31,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTDecorator.h")
-@:uextern extern class UBTDecorator extends unreal.aimodule.UBTAuxiliaryNode {
+@:uextern @:uclass extern class UBTDecorator extends unreal.aimodule.UBTAuxiliaryNode {
   
   /**
     flow controller settings
   **/
-  private var FlowAbortMode : unreal.aimodule.EBTFlowAbortMode;
+  @:uproperty private var FlowAbortMode : unreal.aimodule.EBTFlowAbortMode;
   
 }

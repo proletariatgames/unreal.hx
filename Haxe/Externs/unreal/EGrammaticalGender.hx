@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Sound/DialogueTypes.h")
 @:uname("EGrammaticalGender.Type")
-@:uextern extern enum EGrammaticalGender {
+@:uextern @:uenum extern enum EGrammaticalGender {
   
   /**
     Neuter

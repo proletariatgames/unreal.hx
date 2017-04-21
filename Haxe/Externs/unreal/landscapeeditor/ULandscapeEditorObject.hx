@@ -21,334 +21,340 @@ package unreal.landscapeeditor;
 **/
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
-@:noClass @:uextern extern class ULandscapeEditorObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class ULandscapeEditorObject extends unreal.UObject {
   
   /**
     Limits painting to only the components that already have the selected layer
   **/
-  public var PaintingRestriction : unreal.landscape.ELandscapeLayerPaintingRestriction;
+  @:uproperty public var PaintingRestriction : unreal.landscape.ELandscapeLayerPaintingRestriction;
   
   /**
     Number of components X/Y to affect at once. 1 means 1x1, 2 means 2x2, etc
   **/
-  public var BrushComponentSize : unreal.Int32;
-  public var AlphaTextureData : unreal.TArray<unreal.UInt8>;
-  public var AlphaTextureSizeY : unreal.Int32;
-  public var AlphaTextureSizeX : unreal.Int32;
+  @:uproperty public var BrushComponentSize : unreal.Int32;
+  @:uproperty public var AlphaTextureData : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var AlphaTextureSizeY : unreal.Int32;
+  @:uproperty public var AlphaTextureSizeX : unreal.Int32;
   
   /**
     Channel of Mask Texture to use
   **/
-  public var AlphaTextureChannel : unreal.landscapeeditor.EColorChannel;
+  @:uproperty public var AlphaTextureChannel : unreal.landscapeeditor.EColorChannel;
   
   /**
     Mask texture to use
   **/
-  public var AlphaTexture : unreal.UTexture2D;
-  public var WorldSpacePatternBrushSettings : unreal.landscapeeditor.FLandscapePatternBrushWorldSpaceSettings;
-  public var bUseWorldSpacePatternBrush : Bool;
+  @:uproperty public var AlphaTexture : unreal.UTexture2D;
+  @:uproperty public var WorldSpacePatternBrushSettings : unreal.landscapeeditor.FLandscapePatternBrushWorldSpaceSettings;
+  @:uproperty public var bUseWorldSpacePatternBrush : Bool;
   
   /**
     Vertically offsets the brush mask texture
   **/
-  public var AlphaBrushPanV : unreal.Float32;
+  @:uproperty public var AlphaBrushPanV : unreal.Float32;
   
   /**
     Horizontally offsets the brush mask texture
   **/
-  public var AlphaBrushPanU : unreal.Float32;
+  @:uproperty public var AlphaBrushPanU : unreal.Float32;
   
   /**
     Rotates the brush mask texture
   **/
-  public var AlphaBrushRotation : unreal.Float32;
+  @:uproperty public var AlphaBrushRotation : unreal.Float32;
   
   /**
     Rotate brush to follow mouse
   **/
-  public var bAlphaBrushAutoRotate : Bool;
+  @:uproperty public var bAlphaBrushAutoRotate : Bool;
   
   /**
     Scale of the brush texture. A scale of 1.000 maps the brush texture to the landscape at a 1 pixel = 1 vertex size
   **/
-  public var AlphaBrushScale : unreal.Float32;
+  @:uproperty public var AlphaBrushScale : unreal.Float32;
   
   /**
     Selects the Clay Brush painting mode
   **/
-  public var bUseClayBrush : Bool;
+  @:uproperty public var bUseClayBrush : Bool;
   
   /**
     The falloff at the edge of the brush, as a fraction of the brush's size. 0 = no falloff, 1 = all falloff
   **/
-  public var BrushFalloff : unreal.Float32;
+  @:uproperty public var BrushFalloff : unreal.Float32;
   
   /**
     The radius of the brush, in unreal units
   **/
-  public var BrushRadius : unreal.Float32;
+  @:uproperty public var BrushRadius : unreal.Float32;
   
   /**
     The landscape layers that will be created. Only layer names referenced in the material assigned above are shown here. Modify the material to add more layers.
   **/
-  public var ImportLandscape_Layers : unreal.TArray<unreal.landscapeeditor.FLandscapeImportLayer>;
+  @:uproperty public var ImportLandscape_Layers : unreal.TArray<unreal.landscapeeditor.FLandscapeImportLayer>;
   
   /**
     Whether the imported alpha maps are to be interpreted as "layered" or "additive" (UE4 uses additive internally)
   **/
-  public var ImportLandscape_AlphamapType : unreal.landscape.ELandscapeImportAlphamapType;
-  public var ImportLandscape_Height : unreal.FakeUInt32;
-  public var ImportLandscape_Width : unreal.FakeUInt32;
+  @:uproperty public var ImportLandscape_AlphamapType : unreal.landscape.ELandscapeImportAlphamapType;
+  @:uproperty public var ImportLandscape_Height : unreal.FakeUInt32;
+  @:uproperty public var ImportLandscape_Width : unreal.FakeUInt32;
   
   /**
     Specify a height map file in 16-bit RAW or PNG format
   **/
-  public var ImportLandscape_HeightmapFilename : unreal.FString;
-  public var ImportLandscape_HeightmapImportResult : unreal.landscapeeditor.ELandscapeImportResult;
+  @:uproperty public var ImportLandscape_HeightmapFilename : unreal.FString;
+  @:uproperty public var ImportLandscape_HeightmapErrorMessage : unreal.FText;
+  @:uproperty public var ImportLandscape_HeightmapImportResult : unreal.landscapeeditor.ELandscapeImportResult;
   
   /**
     The scale of the new landscape. This is the distance between each vertex on the landscape, defaulting to 100 units.
   **/
-  public var NewLandscape_Scale : unreal.FVector;
+  @:uproperty public var NewLandscape_Scale : unreal.FVector;
   
   /**
     The rotation of the new landscape
   **/
-  public var NewLandscape_Rotation : unreal.FRotator;
+  @:uproperty public var NewLandscape_Rotation : unreal.FRotator;
   
   /**
     The location of the new landscape
   **/
-  public var NewLandscape_Location : unreal.FVector;
+  @:uproperty public var NewLandscape_Location : unreal.FVector;
   
   /**
     The number of components in the X and Y direction, determining the overall size of the landscape.
   **/
-  public var NewLandscape_ComponentCount : unreal.FIntPoint;
+  @:uproperty public var NewLandscape_ComponentCount : unreal.FIntPoint;
   
   /**
     The number of sections in a single landscape component. This along with the section size determines the size of each landscape component. A component is the base unit of rendering and culling.
   **/
-  public var NewLandscape_SectionsPerComponent : unreal.Int32;
+  @:uproperty public var NewLandscape_SectionsPerComponent : unreal.Int32;
   
   /**
     The number of quads in a single landscape section. One section is the unit of LOD transition for landscape rendering.
   **/
-  public var NewLandscape_QuadsPerSection : unreal.Int32;
+  @:uproperty public var NewLandscape_QuadsPerSection : unreal.Int32;
+  
+  /**
+    Material initially applied to the landscape. Setting a material here exposes properties for setting up layer info based on the landscape blend nodes in the material.
+  **/
+  @:uproperty public var NewLandscape_Material : unreal.TWeakObjectPtr<unreal.UMaterialInterface>;
   
   /**
     Determines how the new component size will be applied to the existing landscape geometry.
   **/
-  public var ResizeLandscape_ConvertMode : unreal.landscapeeditor.ELandscapeConvertMode;
+  @:uproperty public var ResizeLandscape_ConvertMode : unreal.landscapeeditor.ELandscapeConvertMode;
   
   /**
     Number of components in resulting landscape
   **/
-  public var ResizeLandscape_ComponentCount : unreal.FIntPoint;
+  @:uproperty public var ResizeLandscape_ComponentCount : unreal.FIntPoint;
   
   /**
     Number of sections per landscape component
   **/
-  public var ResizeLandscape_SectionsPerComponent : unreal.Int32;
+  @:uproperty public var ResizeLandscape_SectionsPerComponent : unreal.Int32;
   
   /**
     Number of quads per landscape component section
   **/
-  public var ResizeLandscape_QuadsPerSection : unreal.Int32;
+  @:uproperty public var ResizeLandscape_QuadsPerSection : unreal.Int32;
   
   /**
     Number of vertices either side of the mirror plane to smooth over
   **/
-  public var MirrorSmoothingWidth : unreal.Int32;
+  @:uproperty public var MirrorSmoothingWidth : unreal.Int32;
   
   /**
     Type of mirroring operation to perform e.g. "Minus X To Plus X" copies and flips the -X half of the landscape onto the +X half
   **/
-  public var MirrorOp : unreal.landscapeeditor.ELandscapeMirrorOperation;
+  @:uproperty public var MirrorOp : unreal.landscapeeditor.ELandscapeMirrorOperation;
   
   /**
     Location of the mirror plane, defaults to the center of the landscape. Doesn't normally need to be changed!
   **/
-  public var MirrorPoint : unreal.FVector2D;
-  public var GizmoImportLayers : unreal.TArray<unreal.landscapeeditor.FGizmoImportLayer>;
-  public var GizmoImportSize : unreal.FIntPoint;
-  public var GizmoHeightmapFilenameString : unreal.FString;
+  @:uproperty public var MirrorPoint : unreal.FVector2D;
+  @:uproperty public var GizmoImportLayers : unreal.TArray<unreal.landscapeeditor.FGizmoImportLayer>;
+  @:uproperty public var GizmoImportSize : unreal.FIntPoint;
+  @:uproperty public var GizmoHeightmapFilenameString : unreal.FString;
   
   /**
     Smooths the edges of the gizmo data into the landscape. Without this, the edges of the pasted data will be sharp
   **/
-  public var bSmoothGizmoBrush : Bool;
+  @:uproperty public var bSmoothGizmoBrush : Bool;
   
   /**
     Makes sure the gizmo is snapped perfectly to the landscape so that the sample points line up, which makes copy/paste less blurry. Irrelevant if gizmo is scaled
   **/
-  public var bSnapGizmo : Bool;
+  @:uproperty public var bSnapGizmo : Bool;
   
   /**
     If set, copies/pastes all layers, otherwise only copy/pastes the layer selected in the targets panel
   **/
-  public var bApplyToAllTargets : Bool;
+  @:uproperty public var bApplyToAllTargets : Bool;
   
   /**
     Whether to paste will only raise, only lower, or both
   **/
-  public var PasteMode : unreal.landscapeeditor.ELandscapeToolPasteMode;
+  @:uproperty public var PasteMode : unreal.landscapeeditor.ELandscapeToolPasteMode;
   
   /**
     If enabled, protects the selected region from changes
     If disabled, only allows changes in the selected region
   **/
-  public var bUseNegativeMask : Bool;
+  @:uproperty public var bUseNegativeMask : Bool;
   
   /**
     Uses selected region as a mask for other tools
   **/
-  public var bUseSelectedRegion : Bool;
+  @:uproperty public var bUseSelectedRegion : Bool;
   
   /**
     The size of the perlin noise filter used
   **/
-  public var NoiseScale : unreal.Float32;
+  @:uproperty public var NoiseScale : unreal.Float32;
   
   /**
     Whether to apply noise that raises, lowers, or both
   **/
-  public var NoiseMode : unreal.landscapeeditor.ELandscapeToolNoiseMode;
+  @:uproperty public var NoiseMode : unreal.landscapeeditor.ELandscapeToolNoiseMode;
   
   /**
     Larger detail smoothing values remove more details, while smaller values preserve more details
   **/
-  public var HErosionDetailScale : unreal.Float32;
+  @:uproperty public var HErosionDetailScale : unreal.Float32;
   
   /**
     If checked, performs a detail-preserving smooth to the erosion effect using the specified detail smoothing value
   **/
-  public var bHErosionDetailSmooth : Bool;
+  @:uproperty public var bHErosionDetailSmooth : Bool;
   
   /**
     The size of the noise filter for applying initial rain to the surface
   **/
-  public var RainDistScale : unreal.Float32;
+  @:uproperty public var RainDistScale : unreal.Float32;
   
   /**
     Initial Rain Distribution
   **/
-  public var RainDistMode : unreal.landscapeeditor.ELandscapeToolHydroErosionMode;
+  @:uproperty public var RainDistMode : unreal.landscapeeditor.ELandscapeToolHydroErosionMode;
   
   /**
     Number of erosion iterations, more means more erosion but is slower
   **/
-  public var HErodeIterationNum : unreal.Int32;
+  @:uproperty public var HErodeIterationNum : unreal.Int32;
   
   /**
     The amount of sediment that the water can carry. Larger values will result in more erosion
   **/
-  public var SedimentCapacity : unreal.Float32;
+  @:uproperty public var SedimentCapacity : unreal.Float32;
   
   /**
     The amount of rain to apply to the surface. Larger values will result in more erosion
   **/
-  public var RainAmount : unreal.Int32;
+  @:uproperty public var RainAmount : unreal.Int32;
   
   /**
     The size of the perlin noise filter used
   **/
-  public var ErosionNoiseScale : unreal.Float32;
+  @:uproperty public var ErosionNoiseScale : unreal.Float32;
   
   /**
     Whether to erode by lowering, raising, or both
   **/
-  public var ErosionNoiseMode : unreal.landscapeeditor.ELandscapeToolErosionMode;
+  @:uproperty public var ErosionNoiseMode : unreal.landscapeeditor.ELandscapeToolErosionMode;
   
   /**
     Number of erosion iterations, more means more erosion but is slower
   **/
-  public var ErodeIterationNum : unreal.Int32;
+  @:uproperty public var ErodeIterationNum : unreal.Int32;
   
   /**
     The thickness of the surface for the layer weight erosion effect
   **/
-  public var ErodeSurfaceThickness : unreal.Int32;
+  @:uproperty public var ErodeSurfaceThickness : unreal.Int32;
   
   /**
     The minimum height difference necessary for the erosion effects to be applied. Smaller values will result in more erosion being applied
   **/
-  public var ErodeThresh : unreal.Int32;
+  @:uproperty public var ErodeThresh : unreal.Int32;
   
   /**
     Larger detail smoothing values remove more details, while smaller values preserve more details
   **/
-  public var DetailScale : unreal.Float32;
+  @:uproperty public var DetailScale : unreal.Float32;
   
   /**
     If checked, performs a detail preserving smooth using the specified detail smoothing value
   **/
-  public var bDetailSmooth : Bool;
+  @:uproperty public var bDetailSmooth : Bool;
   
   /**
     The radius smoothing is performed over
     Higher values smooth out bigger details, lower values only smooth out smaller details
   **/
-  public var SmoothFilterKernelSize : unreal.Int32;
+  @:uproperty public var SmoothFilterKernelSize : unreal.Int32;
   
   /**
     Falloff on side of ramp
   **/
-  public var RampSideFalloff : unreal.Float32;
+  @:uproperty public var RampSideFalloff : unreal.Float32;
   
   /**
     Width of ramp
   **/
-  public var RampWidth : unreal.Float32;
+  @:uproperty public var RampWidth : unreal.Float32;
   
   /**
     Whether to show the preview grid for the flatten target height
   **/
-  public var bShowFlattenTargetPreview : Bool;
+  @:uproperty public var bShowFlattenTargetPreview : Bool;
   
   /**
     Target height to flatten towards (in Unreal Units)
   **/
-  public var FlattenTarget : unreal.Float32;
+  @:uproperty public var FlattenTarget : unreal.Float32;
   
   /**
     Enable to flatten towards a target height
   **/
-  public var bUseFlattenTarget : Bool;
+  @:uproperty public var bUseFlattenTarget : Bool;
   
   /**
     Constantly picks new values to flatten towards when dragging around, instead of only using the first clicked point
   **/
-  public var bPickValuePerApply : Bool;
+  @:uproperty public var bPickValuePerApply : Bool;
   
   /**
     Flattens to the angle of the clicked point, instead of horizontal
   **/
-  public var bUseSlopeFlatten : Bool;
+  @:uproperty public var bUseSlopeFlatten : Bool;
   
   /**
     Whether to flatten by lowering, raising, or both
   **/
-  public var FlattenMode : unreal.landscapeeditor.ELandscapeToolFlattenMode;
+  @:uproperty public var FlattenMode : unreal.landscapeeditor.ELandscapeToolFlattenMode;
   
   /**
     I have no idea what this is for but it's used by the noise and erosion tools, and isn't exposed to the UI
   **/
-  public var MaximumValueRadius : unreal.Float32;
+  @:uproperty public var MaximumValueRadius : unreal.Float32;
   
   /**
     Enable to make tools blend towards a target value
   **/
-  public var WeightTargetValue : unreal.Float32;
+  @:uproperty public var WeightTargetValue : unreal.Float32;
   
   /**
     Enable to make tools blend towards a target value
   **/
-  public var bUseWeightTargetValue : Bool;
+  @:uproperty public var bUseWeightTargetValue : Bool;
   
   /**
     Strength of the tool. If you're using a pen/tablet with pressure-sensing, the pressure used affects the strength of the tool.
   **/
-  public var ToolStrength : unreal.Float32;
+  @:uproperty public var ToolStrength : unreal.Float32;
   
 }

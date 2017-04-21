@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationGraphNode.h")
-@:uextern extern class ANavigationGraphNode extends unreal.AActor {
+@:uextern @:uclass extern class ANavigationGraphNode extends unreal.AActor {
   
 }

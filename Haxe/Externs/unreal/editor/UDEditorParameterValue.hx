@@ -15,9 +15,9 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialEditor/DEditorParameterValue.h")
-@:uextern extern class UDEditorParameterValue extends unreal.UObject {
-  public var ExpressionId : unreal.FGuid;
-  public var ParameterName : unreal.FName;
-  public var bOverride : Bool;
+@:uextern @:uclass extern class UDEditorParameterValue extends unreal.UObject {
+  @:uproperty public var ExpressionId : unreal.FGuid;
+  @:uproperty public var ParameterName : unreal.FName;
+  @:uproperty public var bOverride : Bool;
   
 }

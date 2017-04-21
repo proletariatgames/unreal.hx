@@ -18,6 +18,6 @@ package unreal;
   HUD that displays info for the DebugCameraController view.
 **/
 @:glueCppIncludes("Engine/DebugCameraHUD.h")
-@:uextern extern class ADebugCameraHUD extends unreal.AHUD {
+@:uextern @:uclass extern class ADebugCameraHUD extends unreal.AHUD {
   
 }

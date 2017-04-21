@@ -21,21 +21,21 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayAbilitySpecDef {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayAbilitySpecDef {
   
   /**
     This handle can be set if the SpecDef is used to create a real FGameplaybilitySpec
   **/
-  public var AssignedHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle;
-  public var SourceObject : unreal.UObject;
-  public var RemovalPolicy : unreal.gameplayabilities.EGameplayEffectGrantedAbilityRemovePolicy;
-  public var InputID : unreal.Int32;
-  public var LevelScalableFloat : unreal.gameplayabilities.FScalableFloat;
+  @:uproperty public var AssignedHandle : unreal.gameplayabilities.FGameplayAbilitySpecHandle;
+  @:uproperty public var SourceObject : unreal.UObject;
+  @:uproperty public var RemovalPolicy : unreal.gameplayabilities.EGameplayEffectGrantedAbilityRemovePolicy;
+  @:uproperty public var InputID : unreal.Int32;
+  @:uproperty public var LevelScalableFloat : unreal.gameplayabilities.FScalableFloat;
   
   /**
     Deprecated for LevelScalableFloat
   **/
-  public var Level : unreal.Int32;
-  public var Ability : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
+  @:uproperty public var Level : unreal.Int32;
+  @:uproperty public var Ability : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayAbility>;
   
 }

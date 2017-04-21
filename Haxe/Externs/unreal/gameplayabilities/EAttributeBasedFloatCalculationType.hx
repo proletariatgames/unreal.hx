@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EAttributeBasedFloatCalculationType")
-@:class @:uextern extern enum EAttributeBasedFloatCalculationType {
+@:class @:uextern @:uenum extern enum EAttributeBasedFloatCalculationType {
   
   /**
     Use the final evaluated magnitude of the attribute.

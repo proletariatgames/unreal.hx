@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Sound/DialogueTypes.h")
-@:uextern extern class FDialogueContext {
+@:uextern @:ustruct extern class FDialogueContext {
   
   /**
     The people being spoken to.
   **/
-  public var Targets : unreal.TArray<unreal.UDialogueVoice>;
+  @:uproperty public var Targets : unreal.TArray<unreal.UDialogueVoice>;
   
   /**
     The person speaking the dialogue.
   **/
-  public var Speaker : unreal.UDialogueVoice;
+  @:uproperty public var Speaker : unreal.UDialogueVoice;
   
 }

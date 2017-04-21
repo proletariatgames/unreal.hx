@@ -21,71 +21,71 @@ package unreal;
   @see USkeletalMeshComponent
 **/
 @:glueCppIncludes("Components/SkinnedMeshComponent.h")
-@:uextern extern class USkinnedMeshComponent extends unreal.UMeshComponent {
+@:uextern @:uclass extern class USkinnedMeshComponent extends unreal.UMeshComponent {
   
   /**
     Enable on screen debugging of update rate optimization.
     Red = Skipping 0 frames, Green = skipping 1 frame, Blue = skipping 2 frames, black = skipping more than 2 frames.
     @todo: turn this into a console command.
   **/
-  public var bDisplayDebugUpdateRateOptimizations : Bool;
+  @:uproperty public var bDisplayDebugUpdateRateOptimizations : Bool;
   
   /**
     if TRUE, Owner will determine how often animation will be updated and evaluated. See AnimUpdateRateTick()
     This allows to skip frames for performance. (For example based on visibility and size on screen).
   **/
-  public var bEnableUpdateRateOptimizations : Bool;
+  @:uproperty public var bEnableUpdateRateOptimizations : Bool;
   
   /**
     LocalBounds cached, so they're computed just once.
   **/
-  private var CachedLocalBounds : unreal.FBoxSphereBounds;
+  @:uproperty private var CachedLocalBounds : unreal.FBoxSphereBounds;
   
   /**
     CPU skinning rendering - only for previewing in Persona and conversion tools
   **/
-  public var bCPUSkinning : Bool;
+  @:uproperty public var bCPUSkinning : Bool;
   
   /**
     Controls how dark the capsule indirect shadow can be.
   **/
-  public var CapsuleIndirectShadowMinVisibility : unreal.Float32;
+  @:uproperty public var CapsuleIndirectShadowMinVisibility : unreal.Float32;
   
   /**
     Whether to use the capsule representation (when present) from a skeletal mesh's ShadowPhysicsAsset for shadowing indirect lighting (from lightmaps or skylight).
   **/
-  public var bCastCapsuleIndirectShadow : Bool;
+  @:uproperty public var bCastCapsuleIndirectShadow : Bool;
   
   /**
     Whether to use the capsule representation (when present) from a skeletal mesh's ShadowPhysicsAsset for direct shadowing from lights.
     This type of shadowing is approximate but handles extremely wide area shadowing well.  The softness of the shadow depends on the light's LightSourceAngle / SourceRadius.
     This flag will force bCastInsetShadow to be enabled.
   **/
-  public var bCastCapsuleDirectShadow : Bool;
+  @:uproperty public var bCastCapsuleDirectShadow : Bool;
   
   /**
     Editor only. Used for manually selecting the alternate indices for
     TRISORT_CustomLeftRight sections.
   **/
-  public var CustomSortAlternateIndexMode : unreal.UInt8;
+  @:uproperty public var CustomSortAlternateIndexMode : unreal.UInt8;
   #if WITH_EDITORONLY_DATA
   
   /**
     Editor only. Used for visualizing drawing order in Animset Viewer. If < 1.0,
     only the specified fraction of triangles will be rendered
   **/
-  public var ProgressiveDrawingFraction : unreal.Float32;
+  @:uproperty public var ProgressiveDrawingFraction : unreal.Float32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     true if mesh has been recently rendered, false otherwise
   **/
-  public var bRecentlyRendered : Bool;
+  @:uproperty public var bRecentlyRendered : Bool;
   
   /**
     Whether or not we can highlight selected sections - this should really only be done in the editor
   **/
-  public var bCanHighlightSelectedSections : Bool;
+  @:uproperty public var bCanHighlightSelectedSections : Bool;
   
   /**
     This is update frequency flag even when our Owner has not been rendered recently
@@ -94,47 +94,47 @@ package unreal;
     SMU_AlwaysTickPose,                                                  // Always Tick, but Refresh BoneTransforms only when rendered
     SMU_OnlyTickPoseWhenRendered,                                // Tick only when rendered, and it will only RefreshBoneTransforms when rendered
   **/
-  public var MeshComponentUpdateFlag : unreal.EMeshComponentUpdateFlag;
+  @:uproperty public var MeshComponentUpdateFlag : unreal.EMeshComponentUpdateFlag;
   
   /**
     If true, when updating bounds from a PhysicsAsset, consider _all_ BodySetups, not just those flagged with bConsiderForBounds.
   **/
-  public var bConsiderAllBodiesForBounds : Bool;
+  @:uproperty public var bConsiderAllBodiesForBounds : Bool;
   
   /**
     When true, skip using the physics asset etc. and always use the fixed bounds defined in the SkeletalMesh.
   **/
-  public var bComponentUseFixedSkelBounds : Bool;
+  @:uproperty public var bComponentUseFixedSkelBounds : Bool;
   
   /**
     If true, use per-bone motion blur on this skeletal mesh (requires additional rendering, can be disabled to save performance).
   **/
-  public var bPerBoneMotionBlur : Bool;
+  @:uproperty public var bPerBoneMotionBlur : Bool;
   
   /**
     Don't bother rendering the skin.
   **/
-  public var bHideSkin : Bool;
+  @:uproperty public var bHideSkin : Bool;
   
   /**
     Disable Morphtarget for this component.
   **/
-  public var bDisableMorphTarget : Bool;
+  @:uproperty public var bDisableMorphTarget : Bool;
   
   /**
     Draw the skeleton hierarchy for this skel mesh.
   **/
-  public var bDisplayBones : Bool;
+  @:uproperty public var bDisplayBones : Bool;
   
   /**
     Forces the mesh to draw in wireframe mode.
   **/
-  public var bForceWireframe : Bool;
+  @:uproperty public var bForceWireframe : Bool;
   
   /**
     Wireframe color
   **/
-  public var WireframeColor : unreal.FColor;
+  @:uproperty public var WireframeColor : unreal.FColor;
   
   /**
     Allows adjusting the desired streaming distance of streaming textures that uses UV 0.
@@ -142,39 +142,39 @@ package unreal;
     A lower value (0.0-1.0) makes the textures stream in later (you have to be closer).
     Value can be < 0 (from legcay content, or code changes)
   **/
-  public var StreamingDistanceMultiplier : unreal.Float32;
+  @:uproperty public var StreamingDistanceMultiplier : unreal.Float32;
   
   /**
     LOD array info. Each index will correspond to the LOD index *
   **/
-  public var LODInfo : unreal.TArray<unreal.FSkelMeshComponentLODInfo>;
+  @:uproperty public var LODInfo : unreal.TArray<unreal.FSkelMeshComponentLODInfo>;
   
   /**
     This is the min LOD that this component will use.  (e.g. if set to 2 then only 2+ LOD Models will be used.) This is useful to set on
     meshes which are known to be a certain distance away and still want to have better LODs when zoomed in on them.
   **/
-  public var MinLodModel : unreal.Int32;
+  @:uproperty public var MinLodModel : unreal.Int32;
   
   /**
     If 0, auto-select LOD level. if >0, force to (ForcedLodModel-1).
   **/
-  public var ForcedLodModel : unreal.Int32;
+  @:uproperty public var ForcedLodModel : unreal.Int32;
   
   /**
     PhysicsAsset is set in SkeletalMesh by default, but you can override with this value
   **/
-  public var PhysicsAssetOverride : unreal.UPhysicsAsset;
+  @:uproperty public var PhysicsAssetOverride : unreal.UPhysicsAsset;
   #if WITH_EDITORONLY_DATA
   
   /**
     Index of the section to preview... If set to -1, all section will be rendered
   **/
-  public var SectionIndexPreview : unreal.Int32;
+  @:uproperty public var SectionIndexPreview : unreal.Int32;
   
   /**
     Index of the chunk to preview... If set to -1, all chunks will be rendered
   **/
-  public var ChunkIndexPreview : unreal.Int32;
+  @:uproperty public var ChunkIndexPreview : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
@@ -182,12 +182,19 @@ package unreal;
     to the main SkelMesh (e.g. outline mesh or a full body overdraw effect that is toggled) that is always going to be the same
     bounds as parent.  We want to do no calculations in that case.
   **/
-  public var bUseBoundsFromMasterPoseComponent : Bool;
+  @:uproperty public var bUseBoundsFromMasterPoseComponent : Bool;
+  
+  /**
+    If set, this SkeletalMeshComponent will not use its SpaceBase for bone transform, but will
+    use the component space transforms from the MasterPoseComponent. This is used when constructing a character using multiple skeletal meshes sharing the same
+    skeleton within the same Actor.
+  **/
+  @:uproperty public var MasterPoseComponent : unreal.TWeakObjectPtr<unreal.USkinnedMeshComponent>;
   
   /**
     The skeletal mesh used by this component.
   **/
-  public var SkeletalMesh : unreal.USkeletalMesh;
+  @:uproperty public var SkeletalMesh : unreal.USkeletalMesh;
   
   /**
     Override the Physics Asset of the mesh. It uses SkeletalMesh.PhysicsAsset, but if you'd like to override use this function
@@ -195,26 +202,26 @@ package unreal;
     @param       NewPhysicsAsset New PhysicsAsset
     @param       bForceReInit    Force reinitialize
   **/
-  public function SetPhysicsAsset(NewPhysicsAsset : unreal.UPhysicsAsset, bForceReInit : Bool) : Void;
+  @:ufunction public function SetPhysicsAsset(NewPhysicsAsset : unreal.UPhysicsAsset, bForceReInit : Bool = false) : Void;
   
   /**
     Set MinLodModel of the mesh component
     
     @param       InNewMinLOD     Set new MinLodModel that make sure the LOD does not go below of this value. Range from [0, Max Number of LOD - 1]. This will affect in the next tick update.
   **/
-  @:final public function SetMinLOD(InNewMinLOD : unreal.Int32) : Void;
+  @:ufunction @:final public function SetMinLOD(InNewMinLOD : unreal.Int32) : Void;
   
   /**
     Set MinLodModel of the mesh component
     
     @param       InNewForcedLOD  Set new ForcedLODModel that forces to set the incoming LOD. Range from [1, Max Number of LOD]. This will affect in the next tick update.
   **/
-  @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
+  @:ufunction @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
   
   /**
     Returns the number of bones in the skeleton.
   **/
-  @:thisConst @:final public function GetNumBones() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetNumBones() : unreal.Int32;
   
   /**
     Find the index of bone by name. Looks in the current SkeletalMesh being used by this SkeletalMeshComponent.
@@ -225,7 +232,7 @@ package unreal;
     
     @see USkeletalMesh::GetBoneIndex.
   **/
-  @:thisConst @:final public function GetBoneIndex(BoneName : unreal.FName) : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetBoneIndex(BoneName : unreal.FName) : unreal.Int32;
   
   /**
     Get Bone Name from index
@@ -233,7 +240,7 @@ package unreal;
     
     @return the name of the bone at the specified index
   **/
-  @:thisConst @:final public function GetBoneName(BoneIndex : unreal.Int32) : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetBoneName(BoneIndex : unreal.Int32) : unreal.FName;
   
   /**
     Returns bone name linked to a given named socket on the skeletal mesh component.
@@ -243,7 +250,7 @@ package unreal;
     
     @return      bone name
   **/
-  @:thisConst @:final public function GetSocketBoneName(InSocketName : unreal.FName) : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetSocketBoneName(InSocketName : unreal.FName) : unreal.FName;
   
   /**
     Change the SkeletalMesh that is rendered for this Component. Will re-initialize the animation tree etc.
@@ -251,7 +258,7 @@ package unreal;
     @param NewMesh New mesh to set for this component
     @param bReinitPose Whether we should keep current pose or reinitialize.
   **/
-  public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh, bReinitPose : Bool) : Void;
+  @:ufunction public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh, bReinitPose : Bool = true) : Void;
   
   /**
     Get Parent Bone of the input bone
@@ -260,14 +267,14 @@ package unreal;
     
     @return the name of the parent bone for the specified bone. Returns 'None' if the bone does not exist or it is the root bone
   **/
-  @:thisConst @:final public function GetParentBone(BoneName : unreal.FName) : unreal.FName;
+  @:ufunction @:thisConst @:final public function GetParentBone(BoneName : unreal.FName) : unreal.FName;
   
   /**
     Set MasterPoseComponent for this component
     
     @param NewMasterBoneComponent New MasterPoseComponent
   **/
-  @:final public function SetMasterPoseComponent(NewMasterBoneComponent : unreal.USkinnedMeshComponent) : Void;
+  @:ufunction @:final public function SetMasterPoseComponent(NewMasterBoneComponent : unreal.USkinnedMeshComponent) : Void;
   
   /**
     Tests if BoneName is child of (or equal to) ParentBoneName.
@@ -278,7 +285,7 @@ package unreal;
     @return true if child (strictly, not same). false otherwise
     Note - will return false if ChildBoneIndex is the same as ParentBoneIndex ie. must be strictly a child.
   **/
-  @:thisConst @:final public function BoneIsChildOf(BoneName : unreal.FName, ParentBoneName : unreal.FName) : Bool;
+  @:ufunction @:thisConst @:final public function BoneIsChildOf(BoneName : unreal.FName, ParentBoneName : unreal.FName) : Bool;
   
   /**
     Transform a location/rotation from world space to bone relative space.
@@ -290,7 +297,7 @@ package unreal;
     @param OutPosition (out) Transformed position
     @param OutRotation (out) Transformed rotation
   **/
-  @:thisConst @:final public function TransformToBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction @:thisConst @:final public function TransformToBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     Transform a location/rotation in bone relative space to world space.
@@ -301,7 +308,7 @@ package unreal;
     @param OutPosition (out) Transformed position
     @param OutRotation (out) Transformed rotation
   **/
-  @:final public function TransformFromBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction @:final public function TransformFromBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     finds the closest bone to the given location
@@ -313,7 +320,7 @@ package unreal;
     
     @return the name of the bone that was found, or 'None' if no bone was found
   **/
-  @:thisConst @:final public function FindClosestBone_K2(TestLocation : unreal.FVector, BoneLocation : unreal.PRef<unreal.FVector>, IgnoreScale : unreal.Float32, bRequirePhysicsAsset : Bool) : unreal.FName;
+  @:ufunction @:thisConst @:final public function FindClosestBone_K2(TestLocation : unreal.FVector, BoneLocation : unreal.PRef<unreal.FVector>, IgnoreScale : unreal.Float32 = 0.000000, bRequirePhysicsAsset : Bool = false) : unreal.FName;
   
   /**
     Hides the specified bone with name.  Currently this just enforces a scale of 0 for the hidden bones.
@@ -322,14 +329,14 @@ package unreal;
     @param  BoneName            Name of bone to hide
     @param  PhysBodyOption          Option for physics bodies that attach to the bones to be hidden
   **/
-  @:final public function HideBoneByName(BoneName : unreal.FName, PhysBodyOption : unreal.EPhysBodyOp) : Void;
+  @:ufunction @:final public function HideBoneByName(BoneName : unreal.FName, PhysBodyOption : unreal.EPhysBodyOp) : Void;
   
   /**
     UnHide the specified bone with name.  Currently this just enforces a scale of 0 for the hidden bones.
     Compoared to HideBone By Index - This keeps track of list of bones and update when LOD changes
     @param  BoneName            Name of bone to unhide
   **/
-  @:final public function UnHideBoneByName(BoneName : unreal.FName) : Void;
+  @:ufunction @:final public function UnHideBoneByName(BoneName : unreal.FName) : Void;
   
   /**
     Determines if the specified bone is hidden.
@@ -338,6 +345,6 @@ package unreal;
     
     @return true if hidden
   **/
-  @:final public function IsBoneHiddenByName(BoneName : unreal.FName) : Bool;
+  @:ufunction @:final public function IsBoneHiddenByName(BoneName : unreal.FName) : Bool;
   
 }

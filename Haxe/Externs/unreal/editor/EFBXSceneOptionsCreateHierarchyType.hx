@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportOptions.h")
 @:uname("EFBXSceneOptionsCreateHierarchyType")
-@:uextern extern enum EFBXSceneOptionsCreateHierarchyType {
+@:uextern @:uenum extern enum EFBXSceneOptionsCreateHierarchyType {
   
   /**
     Create an actor for every node in the fbx hierarchy. No reimport of the hierarchy.

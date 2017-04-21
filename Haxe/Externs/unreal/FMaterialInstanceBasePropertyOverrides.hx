@@ -18,56 +18,56 @@ package unreal;
   Properties from the base material that can be overridden in material instances.
 **/
 @:glueCppIncludes("Materials/MaterialInstanceBasePropertyOverrides.h")
-@:uextern extern class FMaterialInstanceBasePropertyOverrides {
+@:uextern @:ustruct extern class FMaterialInstanceBasePropertyOverrides {
   
   /**
     Whether the material should support a dithered LOD transition when used with the foliage system.
   **/
-  public var DitheredLODTransition : Bool;
+  @:uproperty public var DitheredLODTransition : Bool;
   
   /**
     Indicates that the material should be rendered without backface culling and the normal should be flipped for backfaces.
   **/
-  public var TwoSided : Bool;
+  @:uproperty public var TwoSided : Bool;
   
   /**
     The shading model
   **/
-  public var ShadingModel : unreal.EMaterialShadingModel;
+  @:uproperty public var ShadingModel : unreal.EMaterialShadingModel;
   
   /**
     The blend mode
   **/
-  public var BlendMode : unreal.EBlendMode;
+  @:uproperty public var BlendMode : unreal.EBlendMode;
   
   /**
     If BlendMode is BLEND_Masked, the surface is not rendered where OpacityMask < OpacityMaskClipValue.
   **/
-  public var OpacityMaskClipValue : unreal.Float32;
+  @:uproperty public var OpacityMaskClipValue : unreal.Float32;
   
   /**
     Enables override of the two sided property.
   **/
-  public var bOverride_TwoSided : Bool;
+  @:uproperty public var bOverride_TwoSided : Bool;
   
   /**
     Enables override of the two sided property.
   **/
-  public var bOverride_DitheredLODTransition : Bool;
+  @:uproperty public var bOverride_DitheredLODTransition : Bool;
   
   /**
     Enables override of the shading model.
   **/
-  public var bOverride_ShadingModel : Bool;
+  @:uproperty public var bOverride_ShadingModel : Bool;
   
   /**
     Enables override of the blend mode.
   **/
-  public var bOverride_BlendMode : Bool;
+  @:uproperty public var bOverride_BlendMode : Bool;
   
   /**
     Enables override of the opacity mask clip value.
   **/
-  public var bOverride_OpacityMaskClipValue : Bool;
+  @:uproperty public var bOverride_OpacityMaskClipValue : Bool;
   
 }

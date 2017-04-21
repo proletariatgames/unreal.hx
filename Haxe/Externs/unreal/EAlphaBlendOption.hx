@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("AlphaBlend.h")
 @:uname("EAlphaBlendOption")
-@:class @:uextern extern enum EAlphaBlendOption {
+@:class @:uextern @:uenum extern enum EAlphaBlendOption {
   
   /**
     Linear interpolation

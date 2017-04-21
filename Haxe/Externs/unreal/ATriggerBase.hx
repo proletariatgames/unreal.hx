@@ -20,6 +20,6 @@ package unreal;
   An actor used to generate collision events (begin/end overlap) in the level.
 **/
 @:glueCppIncludes("Engine/TriggerBase.h")
-@:uextern extern class ATriggerBase extends unreal.AActor {
+@:uextern @:uclass extern class ATriggerBase extends unreal.AActor {
   
 }

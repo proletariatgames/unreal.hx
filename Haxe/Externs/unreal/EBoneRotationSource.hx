@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EBoneRotationSource")
-@:uextern extern enum EBoneRotationSource {
+@:uextern @:uenum extern enum EBoneRotationSource {
   
   /**
     Don't change rotation at all.

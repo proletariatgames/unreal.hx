@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/FixupNeedsLoadForEditorGameCommandlet.h")
-@:noClass @:uextern extern class UFixupNeedsLoadForEditorGameCommandlet extends unreal.editor.UResavePackagesCommandlet {
+@:noClass @:uextern @:uclass extern class UFixupNeedsLoadForEditorGameCommandlet extends unreal.editor.UResavePackagesCommandlet {
   
 }

@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionViewSize.h")
-@:noClass @:uextern extern class UMaterialExpressionViewSize extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionViewSize extends unreal.UMaterialExpression {
   
 }

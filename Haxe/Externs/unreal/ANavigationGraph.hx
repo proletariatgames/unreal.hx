@@ -20,6 +20,6 @@ package unreal;
   currently abstract since it's not full implemented
 **/
 @:glueCppIncludes("AI/Navigation/NavigationGraph.h")
-@:uextern extern class ANavigationGraph extends unreal.ANavigationData {
+@:uextern @:uclass extern class ANavigationGraph extends unreal.ANavigationData {
   
 }

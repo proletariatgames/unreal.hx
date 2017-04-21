@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_WaitAbilityActivate.h")
-@:uextern extern class UAbilityTask_WaitAbilityActivate extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_WaitAbilityActivate extends unreal.gameplayabilities.UAbilityTask {
   
 }

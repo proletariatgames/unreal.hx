@@ -20,26 +20,26 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
-@:uextern extern class FGameplayEffectExecutionDefinition {
+@:uextern @:ustruct extern class FGameplayEffectExecutionDefinition {
   
   /**
     Other Gameplay Effects that will be applied to the target of this execution if the execution is successful. Note if no execution class is selected, these will always apply.
   **/
-  public var ConditionalGameplayEffectClasses : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
+  @:uproperty public var ConditionalGameplayEffectClasses : unreal.TArray<unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffect>>;
   
   /**
     Modifiers that are applied "in place" during the execution calculation
   **/
-  public var CalculationModifiers : unreal.TArray<unreal.gameplayabilities.FGameplayEffectExecutionScopedModifierInfo>;
+  @:uproperty public var CalculationModifiers : unreal.TArray<unreal.gameplayabilities.FGameplayEffectExecutionScopedModifierInfo>;
   
   /**
     These tags are passed into the execution as is, and may be used to do conditional logic
   **/
-  public var PassedInTags : unreal.gameplaytags.FGameplayTagContainer;
+  @:uproperty public var PassedInTags : unreal.gameplaytags.FGameplayTagContainer;
   
   /**
     Custom execution calculation class to run when the gameplay effect executes
   **/
-  public var CalculationClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffectExecutionCalculation>;
+  @:uproperty public var CalculationClass : unreal.TSubclassOf<unreal.gameplayabilities.UGameplayEffectExecutionCalculation>;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/Camera/ParticleModuleCameraOffset.h")
 @:uname("EParticleCameraOffsetUpdateMethod")
-@:uextern extern enum EParticleCameraOffsetUpdateMethod {
+@:uextern @:uenum extern enum EParticleCameraOffsetUpdateMethod {
   
   /**
     Direct Set

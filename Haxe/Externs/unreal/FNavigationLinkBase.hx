@@ -14,101 +14,101 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavLinkDefinition.h")
-@:uextern extern class FNavigationLinkBase {
+@:uextern @:ustruct extern class FNavigationLinkBase {
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag7 : Bool;
+  @:uproperty public var bCustomFlag7 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag6 : Bool;
+  @:uproperty public var bCustomFlag6 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag5 : Bool;
+  @:uproperty public var bCustomFlag5 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag4 : Bool;
+  @:uproperty public var bCustomFlag4 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag3 : Bool;
+  @:uproperty public var bCustomFlag3 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag2 : Bool;
+  @:uproperty public var bCustomFlag2 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag1 : Bool;
+  @:uproperty public var bCustomFlag1 : Bool;
   
   /**
     custom flag, check DescribeCustomFlags for details
   **/
-  public var bCustomFlag0 : Bool;
+  @:uproperty public var bCustomFlag0 : Bool;
   
   /**
     If set, link will try to snap to cheapest area in given radius
   **/
-  public var bSnapToCheapestArea : Bool;
+  @:uproperty public var bSnapToCheapestArea : Bool;
   
   /**
     WITH_EDITORONLY_DATA
   **/
-  public var bUseSnapHeight : Bool;
+  @:uproperty public var bUseSnapHeight : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     this is an editor-only property to put descriptions in navlinks setup, to be able to identify it easier
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   #end // WITH_EDITORONLY_DATA
-  public var bSupportsAgent15 : Bool;
-  public var bSupportsAgent14 : Bool;
-  public var bSupportsAgent13 : Bool;
-  public var bSupportsAgent12 : Bool;
-  public var bSupportsAgent11 : Bool;
-  public var bSupportsAgent10 : Bool;
-  public var bSupportsAgent9 : Bool;
-  public var bSupportsAgent8 : Bool;
-  public var bSupportsAgent7 : Bool;
-  public var bSupportsAgent6 : Bool;
-  public var bSupportsAgent5 : Bool;
-  public var bSupportsAgent4 : Bool;
-  public var bSupportsAgent3 : Bool;
-  public var bSupportsAgent2 : Bool;
-  public var bSupportsAgent1 : Bool;
+  @:uproperty public var bSupportsAgent15 : Bool;
+  @:uproperty public var bSupportsAgent14 : Bool;
+  @:uproperty public var bSupportsAgent13 : Bool;
+  @:uproperty public var bSupportsAgent12 : Bool;
+  @:uproperty public var bSupportsAgent11 : Bool;
+  @:uproperty public var bSupportsAgent10 : Bool;
+  @:uproperty public var bSupportsAgent9 : Bool;
+  @:uproperty public var bSupportsAgent8 : Bool;
+  @:uproperty public var bSupportsAgent7 : Bool;
+  @:uproperty public var bSupportsAgent6 : Bool;
+  @:uproperty public var bSupportsAgent5 : Bool;
+  @:uproperty public var bSupportsAgent4 : Bool;
+  @:uproperty public var bSupportsAgent3 : Bool;
+  @:uproperty public var bSupportsAgent2 : Bool;
+  @:uproperty public var bSupportsAgent1 : Bool;
   
   /**
     DEPRECATED AGENT CONFIG
   **/
-  public var bSupportsAgent0 : Bool;
+  @:uproperty public var bSupportsAgent0 : Bool;
   
   /**
     restrict area only to specified agents
   **/
-  public var SupportedAgents : unreal.FNavAgentSelector;
-  public var SnapHeight : unreal.Float32;
-  public var SnapRadius : unreal.Float32;
-  public var Direction : unreal.ENavLinkDirection;
+  @:uproperty public var SupportedAgents : unreal.FNavAgentSelector;
+  @:uproperty public var SnapHeight : unreal.Float32;
+  @:uproperty public var SnapRadius : unreal.Float32;
+  @:uproperty public var Direction : unreal.ENavLinkDirection;
   
   /**
     if greater than 0 nav system will attempt to project navlink's end point on geometry below
   **/
-  public var MaxFallDownLength : unreal.Float32;
+  @:uproperty public var MaxFallDownLength : unreal.Float32;
   
   /**
     if greater than 0 nav system will attempt to project navlink's start point on geometry below
   **/
-  public var LeftProjectHeight : unreal.Float32;
+  @:uproperty public var LeftProjectHeight : unreal.Float32;
   
 }

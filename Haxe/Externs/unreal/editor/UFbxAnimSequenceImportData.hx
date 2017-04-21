@@ -19,76 +19,76 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxAnimSequenceImportData.h")
-@:uextern extern class UFbxAnimSequenceImportData extends unreal.editor.UFbxAssetImportData {
+@:uextern @:uclass extern class UFbxAnimSequenceImportData extends unreal.editor.UFbxAssetImportData {
   
   /**
     If enabled, this will import a curve within the animation
   **/
-  public var bPreserveLocalTransform : Bool;
+  @:uproperty public var bPreserveLocalTransform : Bool;
   
   /**
     When importing custom attribute or morphtarget as curve, do not import if it doens't have any value other than zero. This is to avoid adding extra curves to evaluate
   **/
-  public var bDoNotImportCurveWithZero : Bool;
+  @:uproperty public var bDoNotImportCurveWithZero : Bool;
   
   /**
     If enabled, this will delete this type of asset from the FBX
   **/
-  public var bDeleteExistingMorphTargetCurves : Bool;
+  @:uproperty public var bDeleteExistingMorphTargetCurves : Bool;
   
   /**
     When importing custom attribute as curve, remove redundant keys
   **/
-  public var bRemoveRedundantKeys : Bool;
+  @:uproperty public var bRemoveRedundantKeys : Bool;
   
   /**
     Set Material Curve Type for the custom attribute with the following suffixes. This doesn't matter if Set Material Curve Type is true
   **/
-  public var MaterialCurveSuffixes : unreal.TArray<unreal.FString>;
+  @:uproperty public var MaterialCurveSuffixes : unreal.TArray<unreal.FString>;
   
   /**
     Set Material Curve Type for all custom attributes that exists
   **/
-  public var bSetMaterialDriveParameterOnCustomAttribute : Bool;
+  @:uproperty public var bSetMaterialDriveParameterOnCustomAttribute : Bool;
   
   /**
     Import if custom attribute as a curve within the animation
   **/
-  public var bImportCustomAttribute : Bool;
+  @:uproperty public var bImportCustomAttribute : Bool;
   
   /**
     Name of source animation that was imported, used to reimport correct animation from the FBX file
   **/
-  public var SourceAnimationName : unreal.FString;
+  @:uproperty public var SourceAnimationName : unreal.FString;
   
   /**
     If enabled, samples all animation curves to 30 FPS
   **/
-  public var bUseDefaultSampleRate : Bool;
+  @:uproperty public var bUseDefaultSampleRate : Bool;
   
   /**
     Frame range used when Set Range is used in Animation Length
   **/
-  public var FrameImportRange : unreal.FInt32Interval;
+  @:uproperty public var FrameImportRange : unreal.FInt32Interval;
   
   /**
     End frame when Set Range is used in Animation Length
   **/
-  @:deprecated public var EndFrame_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var EndFrame_DEPRECATED : unreal.Int32;
   
   /**
     Start frame when Set Range is used in Animation Length
   **/
-  @:deprecated public var StartFrame_DEPRECATED : unreal.Int32;
+  @:deprecated @:uproperty public var StartFrame_DEPRECATED : unreal.Int32;
   
   /**
     Which animation range to import. The one defined at Exported, at Animated time or define a range manually
   **/
-  public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
+  @:uproperty public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
   
   /**
     If checked, meshes nested in bone hierarchies will be imported instead of being converted to bones.
   **/
-  public var bImportMeshesInBoneHierarchy : Bool;
+  @:uproperty public var bImportMeshesInBoneHierarchy : Bool;
   
 }

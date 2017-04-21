@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/CompressAnimationsCommandlet.h")
-@:noClass @:uextern extern class UCompressAnimationsCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UCompressAnimationsCommandlet extends unreal.UCommandlet {
   
 }

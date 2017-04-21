@@ -20,27 +20,27 @@ package unreal;
   
 **/
 @:glueCppIncludes("Sound/SoundGroups.h")
-@:noCopy @:noEquals @:uextern extern class FSoundGroup {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSoundGroup {
   
   /**
     Sound duration in seconds below which sounds are entirely expanded to PCM at load time
     Disregarded if bAlwaysDecompressOnLoad is true
   **/
-  public var DecompressedDuration : unreal.Float32;
+  @:uproperty public var DecompressedDuration : unreal.Float32;
   
   /**
     Whether sounds in this group should always decompress on load
   **/
-  public var bAlwaysDecompressOnLoad : Bool;
+  @:uproperty public var bAlwaysDecompressOnLoad : Bool;
   
   /**
     An override display name for custom game sound groups
   **/
-  public var DisplayName : unreal.FString;
+  @:uproperty public var DisplayName : unreal.FString;
   
   /**
     The sound group enumeration we are setting values for
   **/
-  public var SoundGroup : unreal.ESoundGroup;
+  @:uproperty public var SoundGroup : unreal.ESoundGroup;
   
 }

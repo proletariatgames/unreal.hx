@@ -21,21 +21,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconState.h")
-@:noCopy @:noEquals @:uextern extern class FPlayerReservation {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPlayerReservation {
   
   /**
     Elapsed time since player made reservation and was last seen
   **/
-  public var ElapsedTime : unreal.Float32;
+  @:uproperty public var ElapsedTime : unreal.Float32;
   
   /**
     Info needed to validate user credentials when joining a server
   **/
-  public var ValidationStr : unreal.FString;
+  @:uproperty public var ValidationStr : unreal.FString;
   
   /**
     Unique id for this reservation
   **/
-  public var UniqueId : unreal.FUniqueNetIdRepl;
+  @:uproperty public var UniqueId : unreal.FUniqueNetIdRepl;
   
 }

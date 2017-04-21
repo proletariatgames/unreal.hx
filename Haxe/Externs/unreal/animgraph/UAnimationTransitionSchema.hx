@@ -21,6 +21,6 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimationTransitionSchema.h")
-@:uextern extern class UAnimationTransitionSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
+@:uextern @:uclass extern class UAnimationTransitionSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
   
 }

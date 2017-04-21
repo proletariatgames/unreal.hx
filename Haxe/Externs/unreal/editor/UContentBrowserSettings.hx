@@ -19,21 +19,21 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/ContentBrowserSettings.h")
-@:uextern extern class UContentBrowserSettings extends unreal.UObject {
+@:uextern @:uclass extern class UContentBrowserSettings extends unreal.UObject {
   
   /**
     Whether to display folders in the assets view of the content browser. Note that this implies 'Show Only Assets in Selected Folders'.
   **/
-  public var DisplayFolders : Bool;
+  @:uproperty public var DisplayFolders : Bool;
   
   /**
     Whether to render thumbnails for loaded assets in real-time in the Content Browser
   **/
-  public var RealTimeThumbnails : Bool;
+  @:uproperty public var RealTimeThumbnails : Bool;
   
   /**
     The number of objects to load at once in the Content Browser before displaying a warning about loading many assets
   **/
-  public var NumObjectsToLoadBeforeWarning : unreal.Int32;
+  @:uproperty public var NumObjectsToLoadBeforeWarning : unreal.Int32;
   
 }

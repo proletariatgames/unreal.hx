@@ -20,89 +20,89 @@ package unreal;
   within Unreal Editor without ever needing to write a line of code.
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:uextern extern class UBlueprint extends unreal.UBlueprintCore {
+@:uextern @:uclass extern class UBlueprint extends unreal.UBlueprintCore {
   #if WITH_EDITORONLY_DATA
   
   /**
     If this BP is just a duplicate created for a specific compilation, the reference to original GeneratedClass is needed
   **/
-  public var OriginalClass : unreal.UClass;
-  public var CrcLastCompiledSignature : unreal.FakeUInt32;
+  @:uproperty public var OriginalClass : unreal.UClass;
+  @:uproperty public var CrcLastCompiledSignature : unreal.FakeUInt32;
   
   /**
     CRC for CDO calculated right after the latest compilation used by Reinstancer to check if default values were changed
   **/
-  public var CrcLastCompiledCDO : unreal.FakeUInt32;
+  @:uproperty public var CrcLastCompiledCDO : unreal.FakeUInt32;
   
   /**
     The blueprint is currently compiled
   **/
-  public var bBeingCompiled : Bool;
+  @:uproperty public var bBeingCompiled : Bool;
   
   /**
     Information for thumbnail rendering
   **/
-  public var ThumbnailInfo : unreal.UThumbnailInfo;
-  public var DeprecatedPinWatches : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
-  public var WatchedPins : unreal.TArray<unreal.FEdGraphPinReference>;
+  @:uproperty public var ThumbnailInfo : unreal.UThumbnailInfo;
+  @:uproperty public var DeprecatedPinWatches : unreal.TArray<unreal.UEdGraphPin_Deprecated>;
+  @:uproperty public var WatchedPins : unreal.TArray<unreal.FEdGraphPinReference>;
   
   /**
     Persistent debugging options
   **/
-  public var Breakpoints : unreal.TArray<unreal.UBreakpoint>;
+  @:uproperty public var Breakpoints : unreal.TArray<unreal.UBreakpoint>;
   
   /**
     Set of documents that were being edited in this blueprint, so we can open them right away
   **/
-  public var LastEditedDocuments : unreal.TArray<unreal.FEditedDocumentInfo>;
+  @:uproperty public var LastEditedDocuments : unreal.TArray<unreal.FEditedDocumentInfo>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The version of the blueprint system that was used to  create this blueprint
   **/
-  public var BlueprintSystemVersion : unreal.Int32;
+  @:uproperty public var BlueprintSystemVersion : unreal.Int32;
   #if WITH_EDITORONLY_DATA
   
   /**
     Array of info about the interfaces we implement in this blueprint
   **/
-  public var ImplementedInterfaces : unreal.TArray<unreal.FBPInterfaceDescription>;
+  @:uproperty public var ImplementedInterfaces : unreal.TArray<unreal.FBPInterfaceDescription>;
   
   /**
     Array of user sorted categories
   **/
-  public var CategorySorting : unreal.TArray<unreal.FName>;
+  @:uproperty public var CategorySorting : unreal.TArray<unreal.FName>;
   
   /**
     Array of new variables to be added to generated class
   **/
-  public var NewVariables : unreal.TArray<unreal.FBPVariableDescription>;
+  @:uproperty public var NewVariables : unreal.TArray<unreal.FBPVariableDescription>;
   
   /**
     The current status of this blueprint
   **/
-  public var Status : unreal.EBlueprintStatus;
+  @:uproperty public var Status : unreal.EBlueprintStatus;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The type of this blueprint
   **/
-  public var BlueprintType : unreal.EBlueprintType;
+  @:uproperty public var BlueprintType : unreal.EBlueprintType;
   
   /**
     Stores data to override (in children classes) components (created by SCS) from parent classes
   **/
-  public var InheritableComponentHandler : unreal.UInheritableComponentHandler;
+  @:uproperty public var InheritableComponentHandler : unreal.UInheritableComponentHandler;
   
   /**
     Array of templates for timelines that should be created
   **/
-  public var Timelines : unreal.TArray<unreal.UTimelineTemplate>;
+  @:uproperty public var Timelines : unreal.TArray<unreal.UTimelineTemplate>;
   
   /**
     Array of component template objects, used by AddComponent function
   **/
-  public var ComponentTemplates : unreal.TArray<unreal.UActorComponent>;
+  @:uproperty public var ComponentTemplates : unreal.TArray<unreal.UActorComponent>;
   #if WITH_EDITORONLY_DATA
   
   /**
@@ -119,127 +119,127 @@ package unreal;
     This flag can be used to avoid the package being marked as dirty in the first place. Ideally PostDuplicateObject
     would not rename classes that are still in use by the original object.
   **/
-  public var bDuplicatingReadOnly : Bool;
+  @:uproperty public var bDuplicatingReadOnly : Bool;
   
   /**
     Set of functions actually compiled for this class
   **/
-  public var EventGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var EventGraphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Set of functions actually compiled for this class
   **/
-  public var IntermediateGeneratedGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var IntermediateGeneratedGraphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Set of macros implemented for this class
   **/
-  public var MacroGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var MacroGraphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Graphs of signatures for delegates
   **/
-  public var DelegateSignatureGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var DelegateSignatureGraphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Set of functions implemented for this class graphically
   **/
-  public var FunctionGraphs : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var FunctionGraphs : unreal.TArray<unreal.UEdGraph>;
   
   /**
     Set of pages that combine into a single uber-graph
   **/
-  public var UbergraphPages : unreal.TArray<unreal.UEdGraph>;
+  @:uproperty public var UbergraphPages : unreal.TArray<unreal.UEdGraph>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     'Simple' construction script - graph of components to instance
   **/
-  public var SimpleConstructionScript : unreal.USimpleConstructionScript;
+  @:uproperty public var SimpleConstructionScript : unreal.USimpleConstructionScript;
   #if WITH_EDITORONLY_DATA
   
   /**
     The mode that will be used when compiling this class.
   **/
-  public var CompileMode : unreal.EBlueprintCompileMode;
+  @:uproperty public var CompileMode : unreal.EBlueprintCompileMode;
   
   /**
     Deprecates the Blueprint, marking the generated class with the CLASS_Deprecated flag
   **/
-  public var bDeprecate : Bool;
+  @:uproperty public var bDeprecate : Bool;
   
   /**
     Guid key for finding searchable data for Blueprint in the DDC
   **/
-  public var SearchGuid : unreal.FGuid;
+  @:uproperty public var SearchGuid : unreal.FGuid;
   
   /**
     TRUE to show a warning when attempting to start in PIE and there is a compiler error on this Blueprint
   **/
-  public var bDisplayCompilePIEWarning : Bool;
+  @:uproperty public var bDisplayCompilePIEWarning : Bool;
   
   /**
     Additional HideCategories. These are added to HideCategories from parent.
   **/
-  public var HideCategories : unreal.TArray<unreal.FString>;
+  @:uproperty public var HideCategories : unreal.TArray<unreal.FString>;
   
   /**
     The category of the Blueprint, used to organize this Blueprint class when displayed in palette windows
   **/
-  public var BlueprintCategory : unreal.FString;
+  @:uproperty public var BlueprintCategory : unreal.FString;
   
   /**
     shows up in the content browser when the blueprint is hovered
   **/
-  public var BlueprintDescription : unreal.FString;
+  @:uproperty public var BlueprintDescription : unreal.FString;
   
   /**
     Whether or not this blueprint's class is a abstract class or not.  Should set CLASS_Abstract in the KismetCompiler.
   **/
-  public var bGenerateAbstractClass : Bool;
+  @:uproperty public var bGenerateAbstractClass : Bool;
   
   /**
     Whether or not this blueprint's class is a const class or not.  Should set CLASS_Const in the KismetCompiler.
   **/
-  public var bGenerateConstClass : Bool;
+  @:uproperty public var bGenerateConstClass : Bool;
   
   /**
     whether or not you want to continuously rerun the construction script for an actor as you drag it in the editor, or only when the drag operation is complete
   **/
-  public var bRunConstructionScriptOnDrag : Bool;
+  @:uproperty public var bRunConstructionScriptOnDrag : Bool;
   
   /**
     Whether to force opening the full (non data-only) editor for this blueprint.
   **/
-  public var bForceFullEditor : Bool;
+  @:uproperty public var bForceFullEditor : Bool;
   
   /**
     Whether or not this blueprint is newly created, and hasn't been opened in an editor yet
   **/
-  public var bIsNewlyCreated : Bool;
+  @:uproperty public var bIsNewlyCreated : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     State flag to indicate whether or not the Blueprint is currently being regenerated on load
   **/
-  public var bIsRegeneratingOnLoad : Bool;
+  @:uproperty public var bIsRegeneratingOnLoad : Bool;
   
   /**
     When the class generated by this blueprint is loaded, it will be recompiled the first time.  After that initial recompile, subsequent loads will skip the regeneration step
   **/
-  public var bHasBeenRegenerated : Bool;
-  public var PRIVATE_InnermostPreviousCDO : unreal.UObject;
+  @:uproperty public var bHasBeenRegenerated : Bool;
+  @:uproperty public var PRIVATE_InnermostPreviousCDO : unreal.UObject;
   
   /**
     Pointer to the parent class that the generated class should derive from. This *can* be null under rare circumstances,
     one such case can be created by creating a blueprint (A) based on another blueprint (B), shutting down the editor, and
     deleting the parent blueprint.
   **/
-  public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var ParentClass : unreal.TSubclassOf<unreal.UObject>;
   
   /**
     Whether or not this blueprint should recompile itself on load
   **/
-  public var bRecompileOnLoad : Bool;
+  @:uproperty public var bRecompileOnLoad : Bool;
   
 }

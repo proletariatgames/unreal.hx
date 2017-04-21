@@ -21,6 +21,6 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieSceneFloatTrack.h")
-@:uextern extern class UMovieSceneFloatTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
+@:uextern @:uclass extern class UMovieSceneFloatTrack extends unreal.moviescenetracks.UMovieScenePropertyTrack {
   
 }

@@ -21,19 +21,19 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("TexAligner/TexAligner.h")
-@:noClass @:uextern extern class UTexAligner extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTexAligner extends unreal.UObject {
   
   /**
     Description for the editor to display.
   **/
-  public var Desc : unreal.FString;
-  public var VTile : unreal.Float32;
-  public var UTile : unreal.Float32;
-  public var TAxis : unreal.UInt8;
+  @:uproperty public var Desc : unreal.FString;
+  @:uproperty public var VTile : unreal.Float32;
+  @:uproperty public var UTile : unreal.Float32;
+  @:uproperty public var TAxis : unreal.UInt8;
   
   /**
     The default alignment this aligner represents.
   **/
-  public var DefTexAlign : unreal.editor.ETexAlign;
+  @:uproperty public var DefTexAlign : unreal.editor.ETexAlign;
   
 }

@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionRotateAboutAxis.h")
-@:uextern extern class UMaterialExpressionRotateAboutAxis extends unreal.UMaterialExpression {
-  public var Period : unreal.Float32;
-  public var Position : unreal.FExpressionInput;
-  public var PivotPoint : unreal.FExpressionInput;
-  public var RotationAngle : unreal.FExpressionInput;
-  public var NormalizedRotationAxis : unreal.FExpressionInput;
+@:uextern @:uclass extern class UMaterialExpressionRotateAboutAxis extends unreal.UMaterialExpression {
+  @:uproperty public var Period : unreal.Float32;
+  @:uproperty public var Position : unreal.FExpressionInput;
+  @:uproperty public var PivotPoint : unreal.FExpressionInput;
+  @:uproperty public var RotationAngle : unreal.FExpressionInput;
+  @:uproperty public var NormalizedRotationAxis : unreal.FExpressionInput;
   
 }

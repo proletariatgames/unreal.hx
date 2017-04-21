@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uname("EWASDType")
-@:uextern extern enum EWASDType {
+@:uextern @:uenum extern enum EWASDType {
   
   /**
     Use WASD for Camera Controls

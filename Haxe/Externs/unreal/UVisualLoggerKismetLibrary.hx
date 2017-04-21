@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("VisualLogger/VisualLoggerKismetLibrary.h")
-@:uextern extern class UVisualLoggerKismetLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UVisualLoggerKismetLibrary extends unreal.UBlueprintFunctionLibrary {
   
 }

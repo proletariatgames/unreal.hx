@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Plane.h
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FPlane extends unreal.FVector {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPlane extends unreal.FVector {
   
 }

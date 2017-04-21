@@ -19,41 +19,41 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("AutomatedAssetImportData.h")
-@:uextern extern class UAutomatedAssetImportData extends unreal.UObject {
+@:uextern @:uclass extern class UAutomatedAssetImportData extends unreal.UObject {
   
   /**
     Pointer to the factory currently being sued
   **/
-  public var Factory : unreal.editor.UFactory;
+  @:uproperty public var Factory : unreal.editor.UFactory;
   
   /**
     Whether or not to skip importing over read only assets that could not be checked out
   **/
-  public var bSkipReadOnly : Bool;
+  @:uproperty public var bSkipReadOnly : Bool;
   
   /**
     Whether or not to replace existing assets
   **/
-  public var bReplaceExisting : Bool;
+  @:uproperty public var bReplaceExisting : Bool;
   
   /**
     Name of the factory to use when importing these assets. If not specified the factory type will be auto detected
   **/
-  public var FactoryName : unreal.FString;
+  @:uproperty public var FactoryName : unreal.FString;
   
   /**
     Content path in the projects content directory where assets will be imported
   **/
-  public var DestinationPath : unreal.FString;
+  @:uproperty public var DestinationPath : unreal.FString;
   
   /**
     Filenames to import
   **/
-  public var Filenames : unreal.TArray<unreal.FString>;
+  @:uproperty public var Filenames : unreal.TArray<unreal.FString>;
   
   /**
     Display name of the group. This is for logging purposes only.
   **/
-  public var GroupName : unreal.FString;
+  @:uproperty public var GroupName : unreal.FString;
   
 }

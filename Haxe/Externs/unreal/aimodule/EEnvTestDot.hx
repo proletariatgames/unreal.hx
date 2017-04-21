@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Dot.h")
 @:uname("EEnvTestDot")
-@:class @:uextern extern enum EEnvTestDot {
+@:class @:uextern @:uenum extern enum EEnvTestDot {
   
   /**
     Fully 3D dot-product

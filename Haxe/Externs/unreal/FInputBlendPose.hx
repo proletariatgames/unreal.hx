@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
-@:noCopy @:noEquals @:uextern extern class FInputBlendPose {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInputBlendPose {
   
   /**
     Bone Name to filter *
   **/
-  public var BranchFilters : unreal.TArray<unreal.FBranchFilter>;
+  @:uproperty public var BranchFilters : unreal.TArray<unreal.FBranchFilter>;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ThumbnailRendering/SlateBrushThumbnailRenderer.h")
-@:uextern extern class USlateBrushThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
+@:uextern @:uclass extern class USlateBrushThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
   
 }

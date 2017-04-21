@@ -14,37 +14,37 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
-@:uextern extern class UAnimBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass implements unreal.IAnimClassInterface {
+@:uextern @:uclass extern class UAnimBlueprintGeneratedClass extends unreal.UBlueprintGeneratedClass implements unreal.IAnimClassInterface {
   
   /**
     Array of sync group names in the order that they are requested during compile
   **/
-  public var SyncGroupNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var SyncGroupNames : unreal.TArray<unreal.FName>;
   
   /**
     Indices for each of the saved pose nodes that require updating, in the order they need to get updates.
   **/
-  public var OrderedSavedPoseIndices : unreal.TArray<unreal.Int32>;
+  @:uproperty public var OrderedSavedPoseIndices : unreal.TArray<unreal.Int32>;
   
   /**
     The index of the root node in the animation tree
   **/
-  public var RootAnimNodeIndex : unreal.Int32;
+  @:uproperty public var RootAnimNodeIndex : unreal.Int32;
   
   /**
     A list of anim notifies that state machines (or anything else) may reference
   **/
-  public var AnimNotifies : unreal.TArray<unreal.FAnimNotifyEvent>;
+  @:uproperty public var AnimNotifies : unreal.TArray<unreal.FAnimNotifyEvent>;
   
   /**
     Target skeleton for this blueprint class
   **/
-  public var TargetSkeleton : unreal.USkeleton;
+  @:uproperty public var TargetSkeleton : unreal.USkeleton;
   
   /**
     List of state machines present in this blueprint class
   **/
-  public var BakedStateMachines : unreal.TArray<unreal.FBakedAnimationStateMachine>;
+  @:uproperty public var BakedStateMachines : unreal.TArray<unreal.FBakedAnimationStateMachine>;
   // AnimClassInterface interface implementation
   
 }

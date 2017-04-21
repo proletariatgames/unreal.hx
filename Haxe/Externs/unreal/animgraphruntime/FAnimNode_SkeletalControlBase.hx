@@ -15,8 +15,8 @@ package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_SkeletalControlBase.h")
-@:uextern extern class FAnimNode_SkeletalControlBase extends unreal.FAnimNode_Base {
-  public var ActualAlpha : unreal.Float32;
+@:uextern @:ustruct extern class FAnimNode_SkeletalControlBase extends unreal.FAnimNode_Base {
+  @:uproperty public var ActualAlpha : unreal.Float32;
   
   /**
     * Max LOD that this node is allowed to run
@@ -24,17 +24,17 @@ package unreal.animgraphruntime;
     * when the component LOD becomes 3, it will stop update/evaluate
     * currently transition would be issue and that has to be re-visited
   **/
-  public var LODThreshold : unreal.Int32;
-  public var AlphaScaleBias : unreal.FInputScaleBias;
+  @:uproperty public var LODThreshold : unreal.Int32;
+  @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;
   
   /**
     Current strength of the skeletal control
   **/
-  public var Alpha : unreal.Float32;
+  @:uproperty public var Alpha : unreal.Float32;
   
   /**
     Input link
   **/
-  public var ComponentPose : unreal.FComponentSpacePoseLink;
+  @:uproperty public var ComponentPose : unreal.FComponentSpacePoseLink;
   
 }

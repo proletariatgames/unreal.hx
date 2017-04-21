@@ -15,25 +15,25 @@ package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingControllerComponent.h")
-@:uextern extern class UGameplayDebuggingControllerComponent extends unreal.UActorComponent {
-  public var GameHUDBind : unreal.slate.FInputChord;
-  public var OnScreenDebugMessagesBind : unreal.slate.FInputChord;
-  public var DebugCameraBind : unreal.slate.FInputChord;
-  public var CycleDetailsViewBind : unreal.slate.FInputChord;
-  public var CategoryNineBind : unreal.slate.FInputChord;
-  public var CategoryEightBind : unreal.slate.FInputChord;
-  public var CategorySevenBind : unreal.slate.FInputChord;
-  public var CategorySixBind : unreal.slate.FInputChord;
-  public var CategoryFiveBind : unreal.slate.FInputChord;
-  public var CategoryFourBind : unreal.slate.FInputChord;
-  public var CategoryThreeBind : unreal.slate.FInputChord;
-  public var CategoryTwoBind : unreal.slate.FInputChord;
-  public var CategoryOneBind : unreal.slate.FInputChord;
-  public var CategoryZeroBind : unreal.slate.FInputChord;
-  public var ActivationKey : unreal.slate.FInputChord;
-  private var DebugCameraInputComponent : unreal.UInputComponent;
-  private var AIDebugViewInputComponent : unreal.UInputComponent;
-  private var DebugAITargetActor : unreal.AActor;
-  private var OnDebugAIHUD : unreal.gameplaydebugger.AGameplayDebuggingHUDComponent;
+@:uextern @:uclass extern class UGameplayDebuggingControllerComponent extends unreal.UActorComponent {
+  @:uproperty public var GameHUDBind : unreal.slate.FInputChord;
+  @:uproperty public var OnScreenDebugMessagesBind : unreal.slate.FInputChord;
+  @:uproperty public var DebugCameraBind : unreal.slate.FInputChord;
+  @:uproperty public var CycleDetailsViewBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryNineBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryEightBind : unreal.slate.FInputChord;
+  @:uproperty public var CategorySevenBind : unreal.slate.FInputChord;
+  @:uproperty public var CategorySixBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryFiveBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryFourBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryThreeBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryTwoBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryOneBind : unreal.slate.FInputChord;
+  @:uproperty public var CategoryZeroBind : unreal.slate.FInputChord;
+  @:uproperty public var ActivationKey : unreal.slate.FInputChord;
+  @:uproperty private var DebugCameraInputComponent : unreal.UInputComponent;
+  @:uproperty private var AIDebugViewInputComponent : unreal.UInputComponent;
+  @:uproperty private var DebugAITargetActor : unreal.AActor;
+  @:uproperty private var OnDebugAIHUD : unreal.gameplaydebugger.AGameplayDebuggingHUDComponent;
   
 }

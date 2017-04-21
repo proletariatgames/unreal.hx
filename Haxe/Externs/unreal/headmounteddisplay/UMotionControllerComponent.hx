@@ -15,31 +15,31 @@ package unreal.headmounteddisplay;
 
 @:umodule("HeadMountedDisplay")
 @:glueCppIncludes("MotionControllerComponent.h")
-@:uextern extern class UMotionControllerComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UMotionControllerComponent extends unreal.UPrimitiveComponent {
   
   /**
     The tracking status for the device (e.g. full tracking, inertial tracking only, no tracking)
   **/
-  public var CurrentTrackingStatus : unreal.headmounteddisplay.ETrackingStatus;
+  @:uproperty public var CurrentTrackingStatus : unreal.headmounteddisplay.ETrackingStatus;
   
   /**
     If false, render transforms within the motion controller hierarchy will be updated a second time immediately before rendering.
   **/
-  public var bDisableLowLatencyUpdate : Bool;
+  @:uproperty public var bDisableLowLatencyUpdate : Bool;
   
   /**
     Which hand this component should automatically follow
   **/
-  public var Hand : unreal.inputcore.EControllerHand;
+  @:uproperty public var Hand : unreal.inputcore.EControllerHand;
   
   /**
     Which player index this motion controller should automatically follow
   **/
-  public var PlayerIndex : unreal.Int32;
+  @:uproperty public var PlayerIndex : unreal.Int32;
   
   /**
     Whether or not this component had a valid tracked device this frame
   **/
-  @:thisConst @:final public function IsTracked() : Bool;
+  @:ufunction @:thisConst @:final public function IsTracked() : Bool;
   
 }

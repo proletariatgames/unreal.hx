@@ -21,43 +21,43 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraScript.h")
-@:uextern extern class UNiagaraScript extends unreal.UObject {
+@:uextern @:uclass extern class UNiagaraScript extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     'Source' data/graphs for this script
   **/
-  public var Source : unreal.niagara.UNiagaraScriptSourceBase;
+  @:uproperty public var Source : unreal.niagara.UNiagaraScriptSourceBase;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Contains various usage information for this script.
   **/
-  public var Usage : unreal.niagara.FNiagaraScriptUsageInfo;
+  @:uproperty public var Usage : unreal.niagara.FNiagaraScriptUsageInfo;
   
   /**
     Information about the events this script generates and which variables are written.
   **/
-  public var EventGenerators : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
+  @:uproperty public var EventGenerators : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
   
   /**
     Information about the events this script receives and which variables are accessed.
   **/
-  public var EventReceivers : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
+  @:uproperty public var EventReceivers : unreal.TArray<unreal.niagara.FNiagaraDataSetProperties>;
   
   /**
     Attributes used by this script.
   **/
-  public var Attributes : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
+  @:uproperty public var Attributes : unreal.TArray<unreal.niagara.FNiagaraVariableInfo>;
   
   /**
     All the data for using constants in the script.
   **/
-  public var ConstantData : unreal.niagara.FNiagaraScriptConstantData;
+  @:uproperty public var ConstantData : unreal.niagara.FNiagaraScriptConstantData;
   
   /**
     Byte code to execute for this system
   **/
-  public var ByteCode : unreal.TArray<unreal.UInt8>;
+  @:uproperty public var ByteCode : unreal.TArray<unreal.UInt8>;
   
 }

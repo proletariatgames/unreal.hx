@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("EdGraph/EdGraphPin.h")
-@:noCopy @:noEquals @:uextern extern class FSimpleMemberReference {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSimpleMemberReference {
   
   /**
     The Guid of the member
   **/
-  public var MemberGuid : unreal.FGuid;
+  @:uproperty public var MemberGuid : unreal.FGuid;
   
   /**
     Name of the member
   **/
-  public var MemberName : unreal.FName;
+  @:uproperty public var MemberName : unreal.FName;
   
   /**
     Most often the Class that this member is defined in. Could be a UPackage
     if it is a native delegate signature function (declared globally).
   **/
-  public var MemberParent : unreal.UObject;
+  @:uproperty public var MemberParent : unreal.UObject;
   
 }

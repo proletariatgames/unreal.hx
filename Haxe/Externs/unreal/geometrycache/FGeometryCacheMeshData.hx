@@ -21,6 +21,6 @@ package unreal.geometrycache;
 **/
 @:umodule("GeometryCache")
 @:glueCppIncludes("GeometryCacheMeshData.h")
-@:noCopy @:noEquals @:uextern extern class FGeometryCacheMeshData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGeometryCacheMeshData {
   
 }

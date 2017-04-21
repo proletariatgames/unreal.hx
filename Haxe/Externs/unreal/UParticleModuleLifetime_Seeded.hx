@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Lifetime/ParticleModuleLifetime_Seeded.h")
-@:noClass @:uextern extern class UParticleModuleLifetime_Seeded extends unreal.UParticleModuleLifetime {
+@:noClass @:uextern @:uclass extern class UParticleModuleLifetime_Seeded extends unreal.UParticleModuleLifetime {
   
   /**
     The random seed(s) to use for looking up values in StartLocation
   **/
-  public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
+  @:uproperty public var RandomSeedInfo : unreal.FParticleRandomSeedInfo;
   
 }

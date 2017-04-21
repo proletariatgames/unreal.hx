@@ -14,17 +14,17 @@
 package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTextureSampleParameter.h")
-@:uextern extern class UMaterialExpressionTextureSampleParameter extends unreal.UMaterialExpressionTextureSample {
+@:uextern @:uclass extern class UMaterialExpressionTextureSampleParameter extends unreal.UMaterialExpressionTextureSample {
   
   /**
     The name of the parameter Group to display in MaterialInstance Editor. Default is None group
   **/
-  public var Group : unreal.FName;
+  @:uproperty public var Group : unreal.FName;
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

@@ -21,11 +21,11 @@ package unreal.persona;
 **/
 @:umodule("Persona")
 @:glueCppIncludes("Private/PersonaPreviewSceneDescription.h")
-@:noClass @:uextern extern class UPersonaPreviewSceneDescription extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UPersonaPreviewSceneDescription extends unreal.UObject {
   
   /**
     The method by which the preview is animated
   **/
-  public var AnimationMode : unreal.persona.EPreviewAnimationMode;
+  @:uproperty public var AnimationMode : unreal.persona.EPreviewAnimationMode;
   
 }

@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Exporters/SkeletalMeshExporterFBX.h")
-@:noClass @:uextern extern class USkeletalMeshExporterFBX extends unreal.UExporter {
+@:noClass @:uextern @:uclass extern class USkeletalMeshExporterFBX extends unreal.UExporter {
   
 }

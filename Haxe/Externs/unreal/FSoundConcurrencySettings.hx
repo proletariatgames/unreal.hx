@@ -14,28 +14,28 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundConcurrency.h")
-@:uextern extern class FSoundConcurrencySettings {
+@:uextern @:ustruct extern class FSoundConcurrencySettings {
   
   /**
     The amount of attenuation to apply to older voice instances in this concurrency group. This reduces volume of older voices in a concurrency group as new voices play.
     
     AppliedVolumeScale = Math.Pow(DuckingScale, VoiceGeneration)
   **/
-  public var VolumeScale : unreal.Float32;
+  @:uproperty public var VolumeScale : unreal.Float32;
   
   /**
     Which concurrency resolution policy to use if max voice count is reached.
   **/
-  public var ResolutionRule : unreal.EMaxConcurrentResolutionRule;
+  @:uproperty public var ResolutionRule : unreal.EMaxConcurrentResolutionRule;
   
   /**
     Whether or not to limit the concurrency to per sound owner (i.e. the actor that plays the sound). If the sound doesn't have an owner, it falls back to global concurrency.
   **/
-  public var bLimitToOwner : Bool;
+  @:uproperty public var bLimitToOwner : Bool;
   
   /**
     The max number of allowable concurrent active voices for voices playing in this concurrency group.
   **/
-  public var MaxCount : unreal.Int32;
+  @:uproperty public var MaxCount : unreal.Int32;
   
 }

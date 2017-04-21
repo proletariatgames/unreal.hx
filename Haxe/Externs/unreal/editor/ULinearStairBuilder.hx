@@ -21,32 +21,32 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Builders/LinearStairBuilder.h")
-@:uextern extern class ULinearStairBuilder extends unreal.editor.UEditorBrushBuilder {
-  public var GroupName : unreal.FName;
+@:uextern @:uclass extern class ULinearStairBuilder extends unreal.editor.UEditorBrushBuilder {
+  @:uproperty public var GroupName : unreal.FName;
   
   /**
     The distance below the first step
   **/
-  public var AddToFirstStep : unreal.Int32;
+  @:uproperty public var AddToFirstStep : unreal.Int32;
   
   /**
     The number of steps
   **/
-  public var NumSteps : unreal.Int32;
+  @:uproperty public var NumSteps : unreal.Int32;
   
   /**
     The width of each step
   **/
-  public var StepWidth : unreal.Int32;
+  @:uproperty public var StepWidth : unreal.Int32;
   
   /**
     The height of each step
   **/
-  public var StepHeight : unreal.Int32;
+  @:uproperty public var StepHeight : unreal.Int32;
   
   /**
     The length of each step
   **/
-  public var StepLength : unreal.Int32;
+  @:uproperty public var StepLength : unreal.Int32;
   
 }

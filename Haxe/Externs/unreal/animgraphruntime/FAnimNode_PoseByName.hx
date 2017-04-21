@@ -21,8 +21,8 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_PoseByName.h")
-@:uextern extern class FAnimNode_PoseByName extends unreal.animgraphruntime.FAnimNode_PoseHandler {
-  public var PoseWeight : unreal.Float32;
-  public var PoseName : unreal.FName;
+@:uextern @:ustruct extern class FAnimNode_PoseByName extends unreal.animgraphruntime.FAnimNode_PoseHandler {
+  @:uproperty public var PoseWeight : unreal.Float32;
+  @:uproperty public var PoseName : unreal.FName;
   
 }

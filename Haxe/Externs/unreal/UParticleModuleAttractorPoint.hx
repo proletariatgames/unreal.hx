@@ -20,71 +20,71 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorPoint.h")
-@:uextern extern class UParticleModuleAttractorPoint extends unreal.UParticleModuleAttractorBase {
+@:uextern @:uclass extern class UParticleModuleAttractorPoint extends unreal.UParticleModuleAttractorBase {
   
   /**
     Whether particles can move along the negative Z axis.
   **/
-  public var Negative_Z : Bool;
+  @:uproperty public var Negative_Z : Bool;
   
   /**
     Whether particles can move along the negative Y axis.
   **/
-  public var Negative_Y : Bool;
+  @:uproperty public var Negative_Y : Bool;
   
   /**
     Whether particles can move along the negative X axis.
   **/
-  public var Negative_X : Bool;
+  @:uproperty public var Negative_X : Bool;
   
   /**
     Whether particles can move along the positive Z axis.
   **/
-  public var Positive_Z : Bool;
+  @:uproperty public var Positive_Z : Bool;
   
   /**
     Whether particles can move along the positive Y axis.
   **/
-  public var Positive_Y : Bool;
+  @:uproperty public var Positive_Y : Bool;
   
   /**
     Whether particles can move along the positive X axis.
   **/
-  public var Positive_X : Bool;
+  @:uproperty public var Positive_X : Bool;
   
   /**
     If true, treat the position as world space.  So don't transform the the point to localspace.
   **/
-  public var bUseWorldSpacePosition : Bool;
+  @:uproperty public var bUseWorldSpacePosition : Bool;
   
   /**
     If true, set the velocity.
   **/
-  public var bOverrideVelocity : Bool;
+  @:uproperty public var bOverrideVelocity : Bool;
   
   /**
     If true, the velocity adjustment will be applied to the base velocity.
   **/
-  public var bAffectBaseVelocity : Bool;
+  @:uproperty public var bAffectBaseVelocity : Bool;
   
   /**
     The strength curve is a function of distance or of time.
   **/
-  public var StrengthByDistance : Bool;
+  @:uproperty public var StrengthByDistance : Bool;
   
   /**
     The strength of the point attractor.
   **/
-  public var Strength : unreal.FRawDistributionFloat;
+  @:uproperty public var Strength : unreal.FRawDistributionFloat;
   
   /**
     The radial range of the attractor.
   **/
-  public var Range : unreal.FRawDistributionFloat;
+  @:uproperty public var Range : unreal.FRawDistributionFloat;
   
   /**
     The position of the point attractor from the source of the emitter.
   **/
-  public var Position : unreal.FRawDistributionVector;
+  @:uproperty public var Position : unreal.FRawDistributionVector;
   
 }

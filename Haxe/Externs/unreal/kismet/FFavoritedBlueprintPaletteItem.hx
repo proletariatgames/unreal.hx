@@ -21,6 +21,6 @@ package unreal.kismet;
 **/
 @:umodule("Kismet")
 @:glueCppIncludes("BlueprintPaletteFavorites.h")
-@:noCopy @:noEquals @:uextern extern class FFavoritedBlueprintPaletteItem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFavoritedBlueprintPaletteItem {
   
 }

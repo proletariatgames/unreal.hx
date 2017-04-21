@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_Cooldown.h")
-@:uextern extern class UBTDecorator_Cooldown extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_Cooldown extends unreal.aimodule.UBTDecorator {
   
   /**
     max allowed time for execution of underlying node
   **/
-  public var CoolDownTime : unreal.Float32;
+  @:uproperty public var CoolDownTime : unreal.Float32;
   
 }

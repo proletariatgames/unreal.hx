@@ -15,22 +15,27 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_BlueprintBase.h")
-@:uextern extern class UEnvQueryGenerator_BlueprintBase extends unreal.aimodule.UEnvQueryGenerator {
+@:uextern @:uclass extern class UEnvQueryGenerator_BlueprintBase extends unreal.aimodule.UEnvQueryGenerator {
   
   /**
     @todo this should show up only in the generator's BP, but
         due to the way EQS editor is generating widgets it's there as well
         It's a bug and we'll fix it
   **/
-  public var GeneratedItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;
+  @:uproperty public var GeneratedItemType : unreal.TSubclassOf<unreal.aimodule.UEnvQueryItemType>;
   
   /**
     context
   **/
-  public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
-  @:thisConst public function DoItemGeneration(ContextLocations : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : Void;
-  @:thisConst @:final public function AddGeneratedVector(GeneratedVector : unreal.FVector) : Void;
-  @:thisConst @:final public function AddGeneratedActor(GeneratedActor : unreal.AActor) : Void;
-  @:thisConst @:final public function GetQuerier() : unreal.UObject;
+  @:uproperty public var Context : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  
+  /**
+    A short description of what test does, like "Generate pawn named Joe"
+  **/
+  @:uproperty public var GeneratorsActionDescription : unreal.FText;
+  @:ufunction @:thisConst public function DoItemGeneration(ContextLocations : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : Void;
+  @:ufunction @:thisConst @:final public function AddGeneratedVector(GeneratedVector : unreal.FVector) : Void;
+  @:ufunction @:thisConst @:final public function AddGeneratedActor(GeneratedActor : unreal.AActor) : Void;
+  @:ufunction @:thisConst @:final public function GetQuerier() : unreal.UObject;
   
 }

@@ -19,64 +19,64 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UComboBoxString extends unreal.umg.UWidget {
+@:uextern @:uclass extern class UComboBoxString extends unreal.umg.UWidget {
   
   /**
     The foreground color to pass through the hierarchy.
   **/
-  public var ForegroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var ForegroundColor : unreal.slatecore.FSlateColor;
   
   /**
     The default font to use in the combobox, only applies if you're not implementing OnGenerateWidgetEvent
     to factory each new entry.
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
   /**
     When false, directional keys will change the selection. When true, ComboBox
     must be activated and will only capture arrow input while activated.
   **/
-  public var EnableGamepadNavigationMode : Bool;
+  @:uproperty public var EnableGamepadNavigationMode : Bool;
   
   /**
     When false, the down arrow is not generated and it is up to the API consumer
     to make their own visual hint that this is a drop down.
   **/
-  public var HasDownArrow : Bool;
+  @:uproperty public var HasDownArrow : Bool;
   
   /**
     The max height of the combobox list that opens
   **/
-  public var MaxListHeight : unreal.Float32;
-  public var ContentPadding : unreal.slatecore.FMargin;
+  @:uproperty public var MaxListHeight : unreal.Float32;
+  @:uproperty public var ContentPadding : unreal.slatecore.FMargin;
   
   /**
     The item row style.
   **/
-  public var ItemStyle : unreal.slatecore.FTableRowStyle;
+  @:uproperty public var ItemStyle : unreal.slatecore.FTableRowStyle;
   
   /**
     The style.
   **/
-  public var WidgetStyle : unreal.slatecore.FComboBoxStyle;
-  @:final public function AddOption(Option : unreal.FString) : Void;
-  @:final public function RemoveOption(Option : unreal.FString) : Bool;
-  @:thisConst @:final public function FindOptionIndex(Option : unreal.FString) : unreal.Int32;
-  @:thisConst @:final public function GetOptionAtIndex(Index : unreal.Int32) : unreal.FString;
-  @:final public function ClearOptions() : Void;
-  @:final public function ClearSelection() : Void;
+  @:uproperty public var WidgetStyle : unreal.slatecore.FComboBoxStyle;
+  @:ufunction @:final public function AddOption(Option : unreal.FString) : Void;
+  @:ufunction @:final public function RemoveOption(Option : unreal.FString) : Bool;
+  @:ufunction @:thisConst @:final public function FindOptionIndex(Option : unreal.FString) : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetOptionAtIndex(Index : unreal.Int32) : unreal.FString;
+  @:ufunction @:final public function ClearOptions() : Void;
+  @:ufunction @:final public function ClearSelection() : Void;
   
   /**
     Refreshes the list of options.  If you added new ones, and want to update the list even if it's
     currently being displayed use this.
   **/
-  @:final public function RefreshOptions() : Void;
-  @:final public function SetSelectedOption(Option : unreal.FString) : Void;
-  @:thisConst @:final public function GetSelectedOption() : unreal.FString;
+  @:ufunction @:final public function RefreshOptions() : Void;
+  @:ufunction @:final public function SetSelectedOption(Option : unreal.FString) : Void;
+  @:ufunction @:thisConst @:final public function GetSelectedOption() : unreal.FString;
   
   /**
     @return The number of options
   **/
-  @:thisConst @:final public function GetOptionCount() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetOptionCount() : unreal.Int32;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Camera/CameraShake.h")
 @:uname("EInitialOscillatorOffset")
-@:uextern extern enum EInitialOscillatorOffset {
+@:uextern @:uenum extern enum EInitialOscillatorOffset {
   
   /**
     Start with random offset (default).

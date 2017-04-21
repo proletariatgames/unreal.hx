@@ -21,6 +21,6 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimationConduitGraphSchema.h")
-@:uextern extern class UAnimationConduitGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
+@:uextern @:uclass extern class UAnimationConduitGraphSchema extends unreal.blueprintgraph.UEdGraphSchema_K2 {
   
 }

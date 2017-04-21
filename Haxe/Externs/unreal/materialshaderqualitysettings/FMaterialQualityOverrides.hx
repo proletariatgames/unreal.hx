@@ -21,12 +21,12 @@ package unreal.materialshaderqualitysettings;
 **/
 @:umodule("MaterialShaderQualitySettings")
 @:glueCppIncludes("ShaderPlatformQualitySettings.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialQualityOverrides {
-  public var MobileCSMQuality : unreal.materialshaderqualitysettings.EMobileCSMQuality;
-  public var bForceLQReflections : Bool;
-  public var bForceDisableLMDirectionality : Bool;
-  public var bForceNonMetal : Bool;
-  public var bForceFullyRough : Bool;
-  public var bEnableOverride : Bool;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialQualityOverrides {
+  @:uproperty public var MobileCSMQuality : unreal.materialshaderqualitysettings.EMobileCSMQuality;
+  @:uproperty public var bForceLQReflections : Bool;
+  @:uproperty public var bForceDisableLMDirectionality : Bool;
+  @:uproperty public var bForceNonMetal : Bool;
+  @:uproperty public var bForceFullyRough : Bool;
+  @:uproperty public var bEnableOverride : Bool;
   
 }

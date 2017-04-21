@@ -19,36 +19,36 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UWidgetSwitcher extends unreal.umg.UPanelWidget {
+@:uextern @:uclass extern class UWidgetSwitcher extends unreal.umg.UPanelWidget {
   
   /**
     The slot index to display
   **/
-  public var ActiveWidgetIndex : unreal.Int32;
+  @:uproperty public var ActiveWidgetIndex : unreal.Int32;
   
   /**
     Gets the number of widgets that this switcher manages.
   **/
-  @:thisConst @:final public function GetNumWidgets() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetNumWidgets() : unreal.Int32;
   
   /**
     Gets the slot index of the currently active widget
   **/
-  @:thisConst @:final public function GetActiveWidgetIndex() : unreal.Int32;
+  @:ufunction @:thisConst @:final public function GetActiveWidgetIndex() : unreal.Int32;
   
   /**
     Activates the widget at the specified index.
   **/
-  public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
+  @:ufunction public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
   
   /**
     Activates the widget and makes it the active index.
   **/
-  public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
+  @:ufunction public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
   
   /**
     Get a widget at the provided index
   **/
-  @:thisConst @:final public function GetWidgetAtIndex(Index : unreal.Int32) : unreal.umg.UWidget;
+  @:ufunction @:thisConst @:final public function GetWidgetAtIndex(Index : unreal.Int32) : unreal.umg.UWidget;
   
 }

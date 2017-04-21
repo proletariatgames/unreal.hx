@@ -18,6 +18,6 @@ package unreal;
   A box shaped trigger, used to generate overlap events in the level
 **/
 @:glueCppIncludes("Engine/TriggerBox.h")
-@:uextern extern class ATriggerBox extends unreal.ATriggerBase {
+@:uextern @:uclass extern class ATriggerBox extends unreal.ATriggerBase {
   
 }

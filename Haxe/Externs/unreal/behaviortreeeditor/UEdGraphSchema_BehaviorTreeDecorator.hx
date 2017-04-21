@@ -21,7 +21,7 @@ package unreal.behaviortreeeditor;
 **/
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("EdGraphSchema_BehaviorTreeDecorator.h")
-@:uextern extern class UEdGraphSchema_BehaviorTreeDecorator extends unreal.UEdGraphSchema {
-  public var PC_Boolean : unreal.FString;
+@:uextern @:uclass extern class UEdGraphSchema_BehaviorTreeDecorator extends unreal.UEdGraphSchema {
+  @:uproperty public var PC_Boolean : unreal.FString;
   
 }

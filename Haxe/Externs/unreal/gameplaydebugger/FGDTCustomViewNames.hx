@@ -21,11 +21,11 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerSettings.h")
-@:noCopy @:noEquals @:uextern extern class FGDTCustomViewNames {
-  public var GameView5 : unreal.FString;
-  public var GameView4 : unreal.FString;
-  public var GameView3 : unreal.FString;
-  public var GameView2 : unreal.FString;
-  public var GameView1 : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGDTCustomViewNames {
+  @:uproperty public var GameView5 : unreal.FString;
+  @:uproperty public var GameView4 : unreal.FString;
+  @:uproperty public var GameView3 : unreal.FString;
+  @:uproperty public var GameView2 : unreal.FString;
+  @:uproperty public var GameView1 : unreal.FString;
   
 }

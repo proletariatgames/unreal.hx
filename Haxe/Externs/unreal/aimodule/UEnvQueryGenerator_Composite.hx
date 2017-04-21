@@ -20,8 +20,8 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_Composite.h")
-@:uextern extern class UEnvQueryGenerator_Composite extends unreal.aimodule.UEnvQueryGenerator {
-  public var bHasMatchingItemType : Bool;
-  public var Generators : unreal.TArray<unreal.aimodule.UEnvQueryGenerator>;
+@:uextern @:uclass extern class UEnvQueryGenerator_Composite extends unreal.aimodule.UEnvQueryGenerator {
+  @:uproperty public var bHasMatchingItemType : Bool;
+  @:uproperty public var Generators : unreal.TArray<unreal.aimodule.UEnvQueryGenerator>;
   
 }

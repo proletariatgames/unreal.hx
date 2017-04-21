@@ -21,8 +21,8 @@ package unreal.enginesettings;
 **/
 @:umodule("EngineSettings")
 @:glueCppIncludes("ConsoleSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAutoCompleteCommand {
-  public var Desc : unreal.FString;
-  public var Command : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAutoCompleteCommand {
+  @:uproperty public var Desc : unreal.FString;
+  @:uproperty public var Command : unreal.FString;
   
 }

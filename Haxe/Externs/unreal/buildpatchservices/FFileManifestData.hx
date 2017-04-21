@@ -21,14 +21,14 @@ package unreal.buildpatchservices;
 **/
 @:umodule("BuildPatchServices")
 @:glueCppIncludes("Private/BuildPatchManifest.h")
-@:noCopy @:noEquals @:uextern extern class FFileManifestData {
-  public var bIsCompressed : Bool;
-  public var bIsReadOnly : Bool;
-  public var SymlinkTarget : unreal.FString;
-  public var bIsUnixExecutable : Bool;
-  public var InstallTags : unreal.TArray<unreal.FString>;
-  public var FileChunkParts : unreal.TArray<unreal.buildpatchservices.FChunkPartData>;
-  public var FileHash : unreal.buildpatchservices.FSHAHashData;
-  public var Filename : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFileManifestData {
+  @:uproperty public var bIsCompressed : Bool;
+  @:uproperty public var bIsReadOnly : Bool;
+  @:uproperty public var SymlinkTarget : unreal.FString;
+  @:uproperty public var bIsUnixExecutable : Bool;
+  @:uproperty public var InstallTags : unreal.TArray<unreal.FString>;
+  @:uproperty public var FileChunkParts : unreal.TArray<unreal.buildpatchservices.FChunkPartData>;
+  @:uproperty public var FileHash : unreal.buildpatchservices.FSHAHashData;
+  @:uproperty public var Filename : unreal.FString;
   
 }

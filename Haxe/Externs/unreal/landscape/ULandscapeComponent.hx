@@ -21,173 +21,173 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeComponent.h")
-@:uextern extern class ULandscapeComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class ULandscapeComponent extends unreal.UPrimitiveComponent {
   
   /**
     Generated weight/normal map texture used for ES2. Serialized only when cooking or loading cooked builds.
   **/
-  public var MobileWeightNormalmapTexture : unreal.UTexture2D;
+  @:uproperty public var MobileWeightNormalmapTexture : unreal.UTexture2D;
   
   /**
     Material interface used for ES2. Serialized only when cooking or loading cooked builds.
   **/
-  public var MobileMaterialInterface : unreal.UMaterialInterface;
+  @:uproperty public var MobileMaterialInterface : unreal.UMaterialInterface;
   
   /**
     For ES2
   **/
-  public var MobileBlendableLayerMask : unreal.UInt8;
+  @:uproperty public var MobileBlendableLayerMask : unreal.UInt8;
   #if WITH_EDITORONLY_DATA
   
   /**
     Hash of source for ES2 generated data. Used for mobile preview and cook-in-editor
     to determine if we need to re-generate ES2 pixel data.
   **/
-  public var MobileDataSourceHash : unreal.FGuid;
+  @:uproperty public var MobileDataSourceHash : unreal.FGuid;
   
   /**
     Data texture used for selection mask
   **/
-  public var SelectDataTexture : unreal.UTexture2D;
+  @:uproperty public var SelectDataTexture : unreal.UTexture2D;
   
   /**
     List of layers allowed to be painted on this component
   **/
-  public var LayerWhitelist : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
+  @:uproperty public var LayerWhitelist : unreal.TArray<unreal.landscape.ULandscapeLayerInfoObject>;
   
   /**
     LOD level Bias to use when lighting buidling via lightmass, -1 Means automatic LOD calculation based on ForcedLOD + LODBias
   **/
-  public var LightingLODBias : unreal.Int32;
+  @:uproperty public var LightingLODBias : unreal.Int32;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Pre-baked Base Color texture for use by distance field GI
   **/
-  public var GIBakedBaseColorTexture : unreal.UTexture2D;
+  @:uproperty public var GIBakedBaseColorTexture : unreal.UTexture2D;
   
   /**
     The Material Guid that used when baking, to detect material recompilations
   **/
-  public var BakedTextureMaterialGuid : unreal.FGuid;
-  public var StateId : unreal.FGuid;
+  @:uproperty public var BakedTextureMaterialGuid : unreal.FGuid;
+  @:uproperty public var StateId : unreal.FGuid;
   
   /**
     LOD level Bias to use when rendering
   **/
-  public var LODBias : unreal.Int32;
+  @:uproperty public var LODBias : unreal.Int32;
   
   /**
     Forced LOD level to use when rendering
   **/
-  public var ForcedLOD : unreal.Int32;
+  @:uproperty public var ForcedLOD : unreal.Int32;
   
   /**
     StaticLightingResolution overriding per component, default value 0 means no overriding
   **/
-  public var StaticLightingResolution : unreal.Float32;
+  @:uproperty public var StaticLightingResolution : unreal.Float32;
   
   /**
     Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
     Extension value in the positive Z axis, positive value increases bound size
   **/
-  public var PositiveZBoundsExtension : unreal.Float32;
+  @:uproperty public var PositiveZBoundsExtension : unreal.Float32;
   
   /**
     Allows overriding the landscape bounds. This is useful if you distort the landscape with world-position-offset, for example
     Extension value in the negative Z axis, positive value increases bound size
   **/
-  public var NegativeZBoundsExtension : unreal.Float32;
+  @:uproperty public var NegativeZBoundsExtension : unreal.Float32;
   
   /**
     Heightfield mipmap used to generate simple collision
   **/
-  public var SimpleCollisionMipLevel : unreal.Int32;
+  @:uproperty public var SimpleCollisionMipLevel : unreal.Int32;
   
   /**
     Heightfield mipmap used to generate collision
   **/
-  public var CollisionMipLevel : unreal.Int32;
+  @:uproperty public var CollisionMipLevel : unreal.Int32;
   
   /**
     Legacy irrelevant lights
   **/
-  @:deprecated public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
+  @:deprecated @:uproperty public var IrrelevantLights_DEPRECATED : unreal.TArray<unreal.FGuid>;
   
   /**
     Uniquely identifies this component's built map data.
   **/
-  public var MapBuildDataId : unreal.FGuid;
+  @:uproperty public var MapBuildDataId : unreal.FGuid;
   
   /**
     Cached local-space bounding box, created at heightmap update time
   **/
-  public var CachedLocalBox : unreal.FBox;
+  @:uproperty public var CachedLocalBox : unreal.FBox;
   
   /**
     Heightmap texture reference
   **/
-  public var HeightmapTexture : unreal.UTexture2D;
+  @:uproperty public var HeightmapTexture : unreal.UTexture2D;
   
   /**
     UV offset to Heightmap data from component local coordinates
   **/
-  public var HeightmapScaleBias : unreal.FVector4;
+  @:uproperty public var HeightmapScaleBias : unreal.FVector4;
   
   /**
     U or V offset into the weightmap for the first subsection, in texture UV space
   **/
-  public var WeightmapSubsectionOffset : unreal.Float32;
+  @:uproperty public var WeightmapSubsectionOffset : unreal.Float32;
   
   /**
     UV offset to component's weightmap data from component local coordinates
   **/
-  public var WeightmapScaleBias : unreal.FVector4;
+  @:uproperty public var WeightmapScaleBias : unreal.FVector4;
   
   /**
     XYOffsetmap texture reference
   **/
-  public var XYOffsetmapTexture : unreal.UTexture2D;
+  @:uproperty public var XYOffsetmapTexture : unreal.UTexture2D;
   
   /**
     Weightmap texture reference
   **/
-  public var WeightmapTextures : unreal.TArray<unreal.UTexture2D>;
+  @:uproperty public var WeightmapTextures : unreal.TArray<unreal.UTexture2D>;
   
   /**
     List of layers, and the weightmap and channel they are stored
   **/
-  public var WeightmapLayerAllocations : unreal.TArray<unreal.landscape.FWeightmapLayerAllocationInfo>;
-  public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceConstant>;
+  @:uproperty public var WeightmapLayerAllocations : unreal.TArray<unreal.landscape.FWeightmapLayerAllocationInfo>;
+  @:uproperty public var MaterialInstances : unreal.TArray<unreal.UMaterialInstanceConstant>;
   #if WITH_EDITORONLY_DATA
-  @:deprecated public var MaterialInstance_DEPRECATED : unreal.UMaterialInstanceConstant;
+  @:deprecated @:uproperty public var MaterialInstance_DEPRECATED : unreal.UMaterialInstanceConstant;
   #end // WITH_EDITORONLY_DATA
-  public var OverrideHoleMaterial : unreal.UMaterialInterface;
-  public var OverrideMaterial : unreal.UMaterialInterface;
+  @:uproperty public var OverrideHoleMaterial : unreal.UMaterialInterface;
+  @:uproperty public var OverrideMaterial : unreal.UMaterialInterface;
   
   /**
     Number of subsections in X or Y axis
   **/
-  public var NumSubsections : unreal.Int32;
+  @:uproperty public var NumSubsections : unreal.Int32;
   
   /**
     Number of quads for a subsection of the component. SubsectionSizeQuads+1 must be a power of two.
   **/
-  public var SubsectionSizeQuads : unreal.Int32;
+  @:uproperty public var SubsectionSizeQuads : unreal.Int32;
   
   /**
     Total number of quads for this component, has to be >0
   **/
-  public var ComponentSizeQuads : unreal.Int32;
+  @:uproperty public var ComponentSizeQuads : unreal.Int32;
   
   /**
     Y offset from global components grid origin (in quads)
   **/
-  public var SectionBaseY : unreal.Int32;
+  @:uproperty public var SectionBaseY : unreal.Int32;
   
   /**
     X offset from global components grid origin (in quads)
   **/
-  public var SectionBaseX : unreal.Int32;
+  @:uproperty public var SectionBaseX : unreal.Int32;
   
 }

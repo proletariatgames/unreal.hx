@@ -20,32 +20,32 @@ package unreal;
   A subtitle localized to a specific language.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FLocalizedSubtitle {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLocalizedSubtitle {
   
   /**
     true if the subtitles should be displayed one line at a time.
   **/
-  public var bSingleLine : Bool;
+  @:uproperty public var bSingleLine : Bool;
   
   /**
     true if the subtitles have been split manually.
   **/
-  public var bManualWordWrap : Bool;
+  @:uproperty public var bManualWordWrap : Bool;
   
   /**
     true if this sound is considered to contain mature content.
   **/
-  public var bMature : Bool;
+  @:uproperty public var bMature : Bool;
   
   /**
     Subtitle cues.  If empty, use SoundNodeWave's SpokenText as the subtitle.  Will often be empty,
     as the contents of the subtitle is commonly identical to what is spoken.
   **/
-  public var Subtitles : unreal.TArray<unreal.FSubtitleCue>;
+  @:uproperty public var Subtitles : unreal.TArray<unreal.FSubtitleCue>;
   
   /**
     The 3-letter language for this subtitle
   **/
-  public var LanguageExt : unreal.FString;
+  @:uproperty public var LanguageExt : unreal.FString;
   
 }

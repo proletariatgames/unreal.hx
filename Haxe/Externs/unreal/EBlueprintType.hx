@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
 @:uname("EBlueprintType")
-@:uextern extern enum EBlueprintType {
+@:uextern @:uenum extern enum EBlueprintType {
   
   /**
     Normal blueprint.

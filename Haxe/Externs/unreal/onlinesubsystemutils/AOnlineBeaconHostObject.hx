@@ -22,21 +22,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineBeaconHostObject.h")
-@:uextern extern class AOnlineBeaconHostObject extends unreal.AActor {
+@:uextern @:uclass extern class AOnlineBeaconHostObject extends unreal.AActor {
   
   /**
     List of all client beacon actors with active connections
   **/
-  private var ClientActors : unreal.TArray<unreal.onlinesubsystemutils.AOnlineBeaconClient>;
+  @:uproperty private var ClientActors : unreal.TArray<unreal.onlinesubsystemutils.AOnlineBeaconClient>;
   
   /**
     Class reference for spawning client beacon actor
   **/
-  private var ClientBeaconActorClass : unreal.TSubclassOf<unreal.onlinesubsystemutils.AOnlineBeaconClient>;
+  @:uproperty private var ClientBeaconActorClass : unreal.TSubclassOf<unreal.onlinesubsystemutils.AOnlineBeaconClient>;
   
   /**
     Custom name for this beacon
   **/
-  private var BeaconTypeName : unreal.FString;
+  @:uproperty private var BeaconTypeName : unreal.FString;
   
 }

@@ -20,9 +20,9 @@ package unreal;
   Cached vertex information at the time the mesh was painted.
 **/
 @:glueCppIncludes("Components/StaticMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FPaintedVertex {
-  public var Color : unreal.FColor;
-  public var Normal : unreal.FPackedNormal;
-  public var Position : unreal.FVector;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPaintedVertex {
+  @:uproperty public var Color : unreal.FColor;
+  @:uproperty public var Normal : unreal.FPackedNormal;
+  @:uproperty public var Position : unreal.FVector;
   
 }

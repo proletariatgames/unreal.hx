@@ -21,11 +21,11 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeMeshCollisionComponent.h")
-@:noClass @:uextern extern class ULandscapeMeshCollisionComponent extends unreal.landscape.ULandscapeHeightfieldCollisionComponent {
+@:noClass @:uextern @:uclass extern class ULandscapeMeshCollisionComponent extends unreal.landscape.ULandscapeHeightfieldCollisionComponent {
   
   /**
     Guid used to share PhysX heightfield objects in the editor
   **/
-  public var MeshGuid : unreal.FGuid;
+  @:uproperty public var MeshGuid : unreal.FGuid;
   
 }

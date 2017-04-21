@@ -20,93 +20,93 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
 @:glueCppIncludes("GameFramework/InputSettings.h")
-@:uextern extern class UInputSettings extends unreal.UObject {
+@:uextern @:uclass extern class UInputSettings extends unreal.UObject {
   
   /**
     The keys which open the console.
   **/
-  public var ConsoleKeys : unreal.TArray<unreal.inputcore.FKey>;
+  @:uproperty public var ConsoleKeys : unreal.TArray<unreal.inputcore.FKey>;
   
   /**
     The key which opens the console.
   **/
-  @:deprecated public var ConsoleKey_DEPRECATED : unreal.inputcore.FKey;
+  @:deprecated @:uproperty public var ConsoleKey_DEPRECATED : unreal.inputcore.FKey;
   
   /**
     The default on-screen touch input interface for the game (can be null to disable the onscreen interface)
   **/
-  public var DefaultTouchInterface : unreal.FStringAssetReference;
+  @:uproperty public var DefaultTouchInterface : unreal.FStringAssetReference;
   
   /**
     Whether or not to show the console on 4 finger tap, on mobile platforms
   **/
-  public var bShowConsoleOnFourFingerTap : Bool;
+  @:uproperty public var bShowConsoleOnFourFingerTap : Bool;
   
   /**
     Should the touch input interface be shown always, or only when the platform has a touch screen?
   **/
-  public var bAlwaysShowTouchInterface : Bool;
+  @:uproperty public var bAlwaysShowTouchInterface : Bool;
   
   /**
     List of Axis Mappings
   **/
-  public var AxisMappings : unreal.TArray<unreal.FInputAxisKeyMapping>;
+  @:uproperty public var AxisMappings : unreal.TArray<unreal.FInputAxisKeyMapping>;
   
   /**
     List of Action Mappings
   **/
-  public var ActionMappings : unreal.TArray<unreal.FInputActionKeyMapping>;
+  @:uproperty public var ActionMappings : unreal.TArray<unreal.FInputActionKeyMapping>;
   
   /**
     The default mouse lock state behavior when the viewport acquires capture
   **/
-  public var DefaultViewportMouseLockMode : unreal.EMouseLockMode;
+  @:uproperty public var DefaultViewportMouseLockMode : unreal.EMouseLockMode;
   
   /**
     The default mouse lock state when the viewport acquires capture
   **/
-  @:deprecated public var bDefaultViewportMouseLock_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bDefaultViewportMouseLock_DEPRECATED : Bool;
   
   /**
     The default mouse capture mode for the game viewport
   **/
-  public var DefaultViewportMouseCaptureMode : unreal.EMouseCaptureMode;
+  @:uproperty public var DefaultViewportMouseCaptureMode : unreal.EMouseCaptureMode;
   
   /**
     Controls if the viewport will capture the mouse on Launch of the application
   **/
-  public var bCaptureMouseOnLaunch : Bool;
+  @:uproperty public var bCaptureMouseOnLaunch : Bool;
   
   /**
     If a key is pressed twice in this amount of time it is considered a "double click"
   **/
-  public var DoubleClickTime : unreal.Float32;
+  @:uproperty public var DoubleClickTime : unreal.Float32;
   
   /**
     The scaling value to multiply the field of view by
   **/
-  public var FOVScale : unreal.Float32;
+  @:uproperty public var FOVScale : unreal.Float32;
   
   /**
     Scale the mouse based on the player camera manager's field of view
   **/
-  public var bEnableFOVScaling : Bool;
+  @:uproperty public var bEnableFOVScaling : Bool;
   
   /**
     Mouse smoothing control
   **/
-  public var bEnableMouseSmoothing : Bool;
+  @:uproperty public var bEnableMouseSmoothing : Bool;
   
   /**
     Allow mouse to be used for touch
   **/
-  public var bUseMouseForTouch : Bool;
-  public var bF11TogglesFullscreen : Bool;
-  public var bAltEnterTogglesFullscreen : Bool;
+  @:uproperty public var bUseMouseForTouch : Bool;
+  @:uproperty public var bF11TogglesFullscreen : Bool;
+  @:uproperty public var bAltEnterTogglesFullscreen : Bool;
   
   /**
     List of Axis Properties
   **/
-  public var AxisConfig : unreal.TArray<unreal.FInputAxisConfigEntry>;
+  @:uproperty public var AxisConfig : unreal.TArray<unreal.FInputAxisConfigEntry>;
   
 }

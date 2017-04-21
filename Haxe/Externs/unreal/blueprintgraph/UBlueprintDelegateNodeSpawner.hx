@@ -21,6 +21,6 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("BlueprintDelegateNodeSpawner.h")
-@:uextern extern class UBlueprintDelegateNodeSpawner extends unreal.blueprintgraph.UBlueprintFieldNodeSpawner {
+@:uextern @:uclass extern class UBlueprintDelegateNodeSpawner extends unreal.blueprintgraph.UBlueprintFieldNodeSpawner {
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("AI/Navigation/NavigationData.h")
 @:uname("ERuntimeGenerationType")
-@:class @:uextern extern enum ERuntimeGenerationType {
+@:class @:uextern @:uenum extern enum ERuntimeGenerationType {
   
   /**
     No runtime generation, fully static navigation data

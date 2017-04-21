@@ -19,46 +19,46 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FTextBlockStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FTextBlockStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     The brush used to draw an underline under the text (if any)
   **/
-  public var UnderlineBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var UnderlineBrush : unreal.slatecore.FSlateBrush;
   
   /**
     The shape of highlighted text
   **/
-  public var HighlightShape : unreal.slatecore.FSlateBrush;
+  @:uproperty public var HighlightShape : unreal.slatecore.FSlateBrush;
   
   /**
     The color of highlighted text
   **/
-  public var HighlightColor : unreal.FLinearColor;
+  @:uproperty public var HighlightColor : unreal.FLinearColor;
   
   /**
     The background color of selected text
   **/
-  public var SelectedBackgroundColor : unreal.slatecore.FSlateColor;
+  @:uproperty public var SelectedBackgroundColor : unreal.slatecore.FSlateColor;
   
   /**
     The color and opacity of the shadow
   **/
-  public var ShadowColorAndOpacity : unreal.FLinearColor;
+  @:uproperty public var ShadowColorAndOpacity : unreal.FLinearColor;
   
   /**
     How much should the shadow be offset? An offset of 0 implies no shadow.
   **/
-  public var ShadowOffset : unreal.FVector2D;
+  @:uproperty public var ShadowOffset : unreal.FVector2D;
   
   /**
     The color and opacity of this text
   **/
-  public var ColorAndOpacity : unreal.slatecore.FSlateColor;
+  @:uproperty public var ColorAndOpacity : unreal.slatecore.FSlateColor;
   
   /**
     Font family and size to be used when displaying this text.
   **/
-  public var Font : unreal.slatecore.FSlateFontInfo;
+  @:uproperty public var Font : unreal.slatecore.FSlateFontInfo;
   
 }

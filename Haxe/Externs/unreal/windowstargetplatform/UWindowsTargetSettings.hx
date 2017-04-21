@@ -19,27 +19,27 @@ package unreal.windowstargetplatform;
 **/
 @:umodule("WindowsTargetPlatform")
 @:glueCppIncludes("WindowsTargetSettings.h")
-@:uextern extern class UWindowsTargetSettings extends unreal.UObject {
+@:uextern @:uclass extern class UWindowsTargetSettings extends unreal.UObject {
   
   /**
     The audio device name to use if not the default windows audio device. Leave blank to use default audio device.
   **/
-  public var AudioDevice : unreal.FString;
+  @:uproperty public var AudioDevice : unreal.FString;
   
   /**
     Determine the minimum supported
   **/
-  public var MinimumOSVersion : unreal.windowstargetplatform.EMinimumSupportedOS;
+  @:uproperty public var MinimumOSVersion : unreal.windowstargetplatform.EMinimumSupportedOS;
   
   /**
     The collection of RHI's we want to support on this platform.
     This is not always the full list of RHI we can support.
   **/
-  public var TargetedRHIs : unreal.TArray<unreal.FString>;
+  @:uproperty public var TargetedRHIs : unreal.TArray<unreal.FString>;
   
   /**
     The compiler version to use for this project. May be different to the chosen IDE.
   **/
-  public var Compiler : unreal.windowstargetplatform.ECompilerVersion;
+  @:uproperty public var Compiler : unreal.windowstargetplatform.ECompilerVersion;
   
 }

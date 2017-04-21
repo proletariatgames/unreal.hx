@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/PrecomputedVisibilityOverrideVolume.h")
-@:uextern extern class APrecomputedVisibilityOverrideVolume extends unreal.AVolume {
+@:uextern @:uclass extern class APrecomputedVisibilityOverrideVolume extends unreal.AVolume {
   
   /**
     Array of level names whose actors will always be considered invisible by Precomputed Visibility when viewed from inside this volume.
   **/
-  public var OverrideInvisibleLevels : unreal.TArray<unreal.FName>;
+  @:uproperty public var OverrideInvisibleLevels : unreal.TArray<unreal.FName>;
   
   /**
     Array of actors that will always be considered invisible by Precomputed Visibility when viewed from inside this volume.
   **/
-  public var OverrideInvisibleActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var OverrideInvisibleActors : unreal.TArray<unreal.AActor>;
   
   /**
     Array of actors that will always be considered visible by Precomputed Visibility when viewed from inside this volume.
   **/
-  public var OverrideVisibleActors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var OverrideVisibleActors : unreal.TArray<unreal.AActor>;
   
 }

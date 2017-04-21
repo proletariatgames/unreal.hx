@@ -15,117 +15,117 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("BlueprintEditorSettings.h")
-@:uextern extern class UBlueprintEditorSettings extends unreal.UObject {
+@:uextern @:uclass extern class UBlueprintEditorSettings extends unreal.UObject {
   
   /**
     The node template cache is used to speed up blueprint menuing. This determines the peak data size for that cache.
   **/
-  public var NodeTemplateCacheCapMB : unreal.Float32;
+  @:uproperty public var NodeTemplateCacheCapMB : unreal.Float32;
   
   /**
     Minimum event time threshold used as a filter when additional details are enabled for display in the Compiler Results tab. A value of zero means that all events will be included in the final summary.
   **/
-  public var CompileEventDisplayThresholdMs : unreal.Int32;
+  @:uproperty public var CompileEventDisplayThresholdMs : unreal.Int32;
   
   /**
     If enabled, additional details will be displayed in the Compiler Results tab after compiling a blueprint.
   **/
-  public var bShowDetailedCompileResults : Bool;
+  @:uproperty public var bShowDetailedCompileResults : Bool;
   
   /**
     If enabled, blueprint nodes in the event graph will display with unique names rather than their display name.
   **/
-  public var bBlueprintNodeUniqueNames : Bool;
+  @:uproperty public var bBlueprintNodeUniqueNames : Bool;
   
   /**
     If enabled, tooltips on action menu items will show the associated action's signature id (can be used to setup custom favorites menus).
   **/
-  public var bShowActionMenuItemSignatures : Bool;
+  @:uproperty public var bShowActionMenuItemSignatures : Bool;
   
   /**
     If enabled, nodes can be explicitly disabled via context menu when right-clicking on impure nodes in the Blueprint editor. Disabled nodes will not be compiled, but also will not break existing connections.
   **/
-  public var bAllowExplicitImpureNodeDisabling : Bool;
+  @:uproperty public var bAllowExplicitImpureNodeDisabling : Bool;
   
   /**
     When enabled, if a blueprint has compiler errors, then the graph will jump and focus on the first node generating an error
   **/
-  public var bJumpToNodeErrors : Bool;
+  @:uproperty public var bJumpToNodeErrors : Bool;
   
   /**
     Determines when to save Blueprints post-compile
   **/
-  public var SaveOnCompile : unreal.blueprintgraph.ESaveOnCompile;
-  public var bEnableAdvancedContainers : Bool;
+  @:uproperty public var SaveOnCompile : unreal.blueprintgraph.ESaveOnCompile;
+  @:uproperty public var bEnableAdvancedContainers : Bool;
   
   /**
     If set will exclude components added in a Blueprint class Construction Script from the component details view
   **/
-  public var bHideConstructionScriptComponentsInDetailsView : Bool;
+  @:uproperty public var bHideConstructionScriptComponentsInDetailsView : Bool;
   
   /**
     If set will spawn default nodes in new Blueprints
   **/
-  public var bSpawnDefaultBlueprintNodes : Bool;
+  @:uproperty public var bSpawnDefaultBlueprintNodes : Bool;
   
   /**
     If set we'll show empty sections in the My Blueprint view.
   **/
-  public var bShowEmptySections : Bool;
+  @:uproperty public var bShowEmptySections : Bool;
   
   /**
     If set we'll show the inherited variables in the My Blueprint view.
   **/
-  public var bShowInheritedVariables : Bool;
+  @:uproperty public var bShowInheritedVariables : Bool;
   
   /**
     If true will show the viewport tab when simulate is clicked.
   **/
-  public var bShowViewportOnSimulate : Bool;
+  @:uproperty public var bShowViewportOnSimulate : Bool;
   
   /**
     If enabled, then you'll be able to directly connect arbitrary object pins together (a pure cast node will be injected automatically).
   **/
-  public var bAutoCastObjectConnections : Bool;
+  @:uproperty public var bAutoCastObjectConnections : Bool;
   
   /**
     If enabled, then placed cast nodes will default to their "pure" form (meaning: without execution pins).
   **/
-  public var bFavorPureCastNodes : Bool;
+  @:uproperty public var bFavorPureCastNodes : Bool;
   
   /**
     If enabled, then your Blueprint favorites will be uncategorized, leaving you with less nested categories to sort through.
   **/
-  public var bFlattenFavoritesMenus : Bool;
+  @:uproperty public var bFlattenFavoritesMenus : Bool;
   
   /**
     If enabled, then call-on-member actions will be spawned as a single node (instead of a GetMember + FunctionCall node).
   **/
-  public var bCompactCallOnMemberNodes : Bool;
+  @:uproperty public var bCompactCallOnMemberNodes : Bool;
   
   /**
     If enabled, then a separate section with your Blueprint favorites will be pined to the top of the context menu.
   **/
-  public var bShowContextualFavorites : Bool;
+  @:uproperty public var bShowContextualFavorites : Bool;
   
   /**
     If enabled, then ALL component functions are exposed to the context menu (when the contextual target is a component owner). Ignores "ExposeFunctionCategories" metadata for components.
   **/
-  public var bExposeAllMemberComponentFunctions : Bool;
+  @:uproperty public var bExposeAllMemberComponentFunctions : Bool;
   
   /**
     If enabled, we'll save off your chosen target setting based off of the context (allowing you to have different preferences based off what you're operating on).
   **/
-  public var bSplitContextTargetSettings : Bool;
+  @:uproperty public var bSplitContextTargetSettings : Bool;
   
   /**
     Determines if lightweight tutorial text shows up at the top of empty blueprint graphs
   **/
-  public var bShowGraphInstructionText : Bool;
+  @:uproperty public var bShowGraphInstructionText : Bool;
   
   /**
     Should arrows indicating data/execution flow be drawn halfway along wires?
   **/
-  public var bDrawMidpointArrowsInBlueprints : Bool;
+  @:uproperty public var bDrawMidpointArrowsInBlueprints : Bool;
   
 }

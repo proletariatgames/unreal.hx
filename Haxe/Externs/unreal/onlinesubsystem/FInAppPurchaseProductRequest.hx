@@ -21,16 +21,16 @@ package unreal.onlinesubsystem;
 **/
 @:umodule("OnlineSubsystem")
 @:glueCppIncludes("Interfaces/OnlineStoreInterface.h")
-@:noCopy @:noEquals @:uextern extern class FInAppPurchaseProductRequest {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInAppPurchaseProductRequest {
   
   /**
     Flag to determine whether this is a consumable purchase, or not.
   **/
-  public var bIsConsumable : Bool;
+  @:uproperty public var bIsConsumable : Bool;
   
   /**
     The unique product identifier that matches the one from your targeted store.
   **/
-  public var ProductIdentifier : unreal.FString;
+  @:uproperty public var ProductIdentifier : unreal.FString;
   
 }

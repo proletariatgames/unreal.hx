@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Vehicles/VehicleAnimInstance.h")
-@:uextern extern class UVehicleAnimInstance extends unreal.UAnimInstance {
+@:uextern @:uclass extern class UVehicleAnimInstance extends unreal.UAnimInstance {
   
   /**
     Makes a montage jump to the end of a named section.
   **/
-  @:final public function GetVehicle() : unreal.AWheeledVehicle;
+  @:ufunction @:final public function GetVehicle() : unreal.AWheeledVehicle;
   
 }

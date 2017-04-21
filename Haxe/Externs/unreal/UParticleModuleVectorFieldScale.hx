@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldScale.h")
-@:uextern extern class UParticleModuleVectorFieldScale extends unreal.UParticleModuleVectorFieldBase {
+@:uextern @:uclass extern class UParticleModuleVectorFieldScale extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Per-particle vector field scale. Evaluated using emitter time.
   **/
-  public var VectorFieldScaleRaw : unreal.FRawDistributionFloat;
+  @:uproperty public var VectorFieldScaleRaw : unreal.FRawDistributionFloat;
   
   /**
     Per-particle vector field scale. Evaluated using emitter time.
   **/
-  @:deprecated public var VectorFieldScale_DEPRECATED : unreal.UDistributionFloat;
+  @:deprecated @:uproperty public var VectorFieldScale_DEPRECATED : unreal.UDistributionFloat;
   
 }

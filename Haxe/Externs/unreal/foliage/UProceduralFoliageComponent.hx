@@ -15,48 +15,48 @@ package unreal.foliage;
 
 @:umodule("Foliage")
 @:glueCppIncludes("ProceduralFoliageComponent.h")
-@:uextern extern class UProceduralFoliageComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UProceduralFoliageComponent extends unreal.UActorComponent {
   #if WITH_EDITORONLY_DATA
   
   /**
     Whether to visualize the tiles used for the foliage spawner simulation
   **/
-  public var bShowDebugTiles : Bool;
+  @:uproperty public var bShowDebugTiles : Bool;
   
   /**
     Whether to place foliage on other blocking foliage geometry
   **/
-  public var bAllowFoliage : Bool;
+  @:uproperty public var bAllowFoliage : Bool;
   
   /**
     Whether to place foliage on translucent geometry
   **/
-  public var bAllowTranslucent : Bool;
+  @:uproperty public var bAllowTranslucent : Bool;
   
   /**
     Whether to place foliage on StaticMesh
   **/
-  public var bAllowStaticMesh : Bool;
+  @:uproperty public var bAllowStaticMesh : Bool;
   
   /**
     Whether to place foliage on BSP
   **/
-  public var bAllowBSP : Bool;
+  @:uproperty public var bAllowBSP : Bool;
   
   /**
     Whether to place foliage on landscape
   **/
-  public var bAllowLandscape : Bool;
+  @:uproperty public var bAllowLandscape : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     The amount of overlap between simulation tiles (in cm).
   **/
-  public var TileOverlap : unreal.Float32;
+  @:uproperty public var TileOverlap : unreal.Float32;
   
   /**
     The procedural foliage spawner used to generate foliage instances within this volume.
   **/
-  public var FoliageSpawner : unreal.foliage.UProceduralFoliageSpawner;
+  @:uproperty public var FoliageSpawner : unreal.foliage.UProceduralFoliageSpawner;
   
 }

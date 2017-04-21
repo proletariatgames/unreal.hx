@@ -15,15 +15,15 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnAction_BlueprintBase.h")
-@:uextern extern class UPawnAction_BlueprintBase extends unreal.aimodule.UPawnAction {
+@:uextern @:uclass extern class UPawnAction_BlueprintBase extends unreal.aimodule.UPawnAction {
   
   /**
     Blueprint interface
   **/
-  public function ActionStart(ControlledPawn : unreal.APawn) : Void;
-  public function ActionTick(ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
-  public function ActionPause(ControlledPawn : unreal.APawn) : Void;
-  public function ActionResume(ControlledPawn : unreal.APawn) : Void;
-  public function ActionFinished(ControlledPawn : unreal.APawn, WithResult : unreal.aimodule.EPawnActionResult) : Void;
+  @:ufunction public function ActionStart(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction public function ActionTick(ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction public function ActionPause(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction public function ActionResume(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction public function ActionFinished(ControlledPawn : unreal.APawn, WithResult : unreal.aimodule.EPawnActionResult) : Void;
   
 }

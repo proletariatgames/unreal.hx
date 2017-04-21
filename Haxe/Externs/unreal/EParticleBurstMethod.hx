@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleEmitter.h")
 @:uname("EParticleBurstMethod")
-@:uextern extern enum EParticleBurstMethod {
+@:uextern @:uenum extern enum EParticleBurstMethod {
   
   /**
     Instant

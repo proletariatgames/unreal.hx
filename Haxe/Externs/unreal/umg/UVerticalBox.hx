@@ -23,7 +23,7 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UVerticalBox extends unreal.umg.UPanelWidget {
-  @:final public function AddChildToVerticalBox(Content : unreal.umg.UWidget) : unreal.umg.UVerticalBoxSlot;
+@:uextern @:uclass extern class UVerticalBox extends unreal.umg.UPanelWidget {
+  @:ufunction @:final public function AddChildToVerticalBox(Content : unreal.umg.UWidget) : unreal.umg.UVerticalBoxSlot;
   
 }

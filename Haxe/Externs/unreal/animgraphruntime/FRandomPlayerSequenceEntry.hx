@@ -22,41 +22,41 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_RandomPlayer.h")
-@:noCopy @:noEquals @:uextern extern class FRandomPlayerSequenceEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FRandomPlayerSequenceEntry {
   
   /**
     Blending properties used when this entry is blending in ontop of another entry
   **/
-  public var BlendIn : unreal.FAlphaBlend;
+  @:uproperty public var BlendIn : unreal.FAlphaBlend;
   
   /**
     Maximum playrate for this entry
   **/
-  public var MaxPlayRate : unreal.Float32;
+  @:uproperty public var MaxPlayRate : unreal.Float32;
   
   /**
     Minimum playrate for this entry
   **/
-  public var MinPlayRate : unreal.Float32;
+  @:uproperty public var MinPlayRate : unreal.Float32;
   
   /**
     Maximum number of times this entry will loop before ending
   **/
-  public var MaxLoopCount : unreal.Int32;
+  @:uproperty public var MaxLoopCount : unreal.Int32;
   
   /**
     Minimum number of times this entry will loop before ending
   **/
-  public var MinLoopCount : unreal.Int32;
+  @:uproperty public var MinLoopCount : unreal.Int32;
   
   /**
     When not in shuffle mode, this is the chance this entry will play (normalized against all other sample chances)
   **/
-  public var ChanceToPlay : unreal.Float32;
+  @:uproperty public var ChanceToPlay : unreal.Float32;
   
   /**
     Sequence to play when this entry is picked
   **/
-  public var Sequence : unreal.UAnimSequence;
+  @:uproperty public var Sequence : unreal.UAnimSequence;
   
 }

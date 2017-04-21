@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffect.h")
 @:uname("EGameplayEffectStackingExpirationPolicy")
-@:class @:uextern extern enum EGameplayEffectStackingExpirationPolicy {
+@:class @:uextern @:uenum extern enum EGameplayEffectStackingExpirationPolicy {
   
   /**
     The entire stack is cleared when the active gameplay effect expires

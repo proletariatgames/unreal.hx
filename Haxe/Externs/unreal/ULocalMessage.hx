@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("GameFramework/LocalMessage.h")
-@:uextern extern class ULocalMessage extends unreal.UObject {
+@:uextern @:uclass extern class ULocalMessage extends unreal.UObject {
   
 }

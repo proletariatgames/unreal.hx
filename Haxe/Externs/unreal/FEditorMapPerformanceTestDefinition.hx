@@ -20,16 +20,16 @@ package unreal;
   Holds settings for the asset import / export automation test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FEditorMapPerformanceTestDefinition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorMapPerformanceTestDefinition {
   
   /**
     This is the length of time in seconds that this test will run for before stopping.
   **/
-  public var TestTimer : unreal.Int32;
+  @:uproperty public var TestTimer : unreal.Int32;
   
   /**
     Map to be used for the Performance Capture *
   **/
-  public var PerformanceTestmap : unreal.FFilePath;
+  @:uproperty public var PerformanceTestmap : unreal.FFilePath;
   
 }

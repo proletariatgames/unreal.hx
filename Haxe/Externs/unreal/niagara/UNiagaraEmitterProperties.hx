@@ -22,25 +22,25 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraEmitterProperties.h")
-@:uextern extern class UNiagaraEmitterProperties extends unreal.UObject {
-  public var SpawnScriptProps : unreal.niagara.FNiagaraEmitterScriptProperties;
-  public var UpdateScriptProps : unreal.niagara.FNiagaraEmitterScriptProperties;
-  public var NumLoops : unreal.Int32;
+@:uextern @:uclass extern class UNiagaraEmitterProperties extends unreal.UObject {
+  @:uproperty public var SpawnScriptProps : unreal.niagara.FNiagaraEmitterScriptProperties;
+  @:uproperty public var UpdateScriptProps : unreal.niagara.FNiagaraEmitterScriptProperties;
+  @:uproperty public var NumLoops : unreal.Int32;
   
   /**
     Can get rid of the enum and just have users select a class for this directly in the UI?
   **/
-  public var RendererProperties : unreal.niagara.UNiagaraEffectRendererProperties;
-  public var EndTime : unreal.Float32;
-  public var StartTime : unreal.Float32;
-  public var RenderModuleType : unreal.niagara.EEmitterRenderModuleType;
-  public var Material : unreal.UMaterial;
-  public var SpawnRate : unreal.Float32;
-  public var bIsEnabled : Bool;
+  @:uproperty public var RendererProperties : unreal.niagara.UNiagaraEffectRendererProperties;
+  @:uproperty public var EndTime : unreal.Float32;
+  @:uproperty public var StartTime : unreal.Float32;
+  @:uproperty public var RenderModuleType : unreal.niagara.EEmitterRenderModuleType;
+  @:uproperty public var Material : unreal.UMaterial;
+  @:uproperty public var SpawnRate : unreal.Float32;
+  @:uproperty public var bIsEnabled : Bool;
   
   /**
     End UObject Interface
   **/
-  public var EmitterName : unreal.FString;
+  @:uproperty public var EmitterName : unreal.FString;
   
 }

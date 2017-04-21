@@ -14,21 +14,21 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotifyState.h")
-@:uextern extern class UAnimNotifyState extends unreal.UObject {
+@:uextern @:uclass extern class UAnimNotifyState extends unreal.UObject {
   
   /**
     Implementable event to get a custom name for the notify
   **/
-  @:thisConst public function GetNotifyName() : unreal.FString;
-  @:thisConst public function Received_NotifyBegin(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase, TotalDuration : unreal.Float32) : Bool;
-  @:thisConst public function Received_NotifyTick(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase, FrameDeltaTime : unreal.Float32) : Bool;
-  @:thisConst public function Received_NotifyEnd(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : Bool;
+  @:ufunction @:thisConst public function GetNotifyName() : unreal.FString;
+  @:ufunction @:thisConst public function Received_NotifyBegin(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase, TotalDuration : unreal.Float32) : Bool;
+  @:ufunction @:thisConst public function Received_NotifyTick(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase, FrameDeltaTime : unreal.Float32) : Bool;
+  @:ufunction @:thisConst public function Received_NotifyEnd(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     Color of Notify in editor
   **/
-  public var NotifyColor : unreal.FColor;
+  @:uproperty public var NotifyColor : unreal.FColor;
   #end // WITH_EDITORONLY_DATA
   
 }

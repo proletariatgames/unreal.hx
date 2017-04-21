@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Layers/Layer.h")
-@:uextern extern class ULayer extends unreal.UObject {
+@:uextern @:uclass extern class ULayer extends unreal.UObject {
   
   /**
     Basic stats regarding the number of Actors and their types currently assigned to the Layer
   **/
-  public var ActorStats : unreal.TArray<unreal.FLayerActorStats>;
+  @:uproperty public var ActorStats : unreal.TArray<unreal.FLayerActorStats>;
   
   /**
     Whether actors associated with the layer are visible in the viewport
   **/
-  public var bIsVisible : Bool;
+  @:uproperty public var bIsVisible : Bool;
   
   /**
     The display name of the layer
   **/
-  public var LayerName : unreal.FName;
+  @:uproperty public var LayerName : unreal.FName;
   
 }

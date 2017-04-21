@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
-@:uextern extern class UBoneMaskFilter extends unreal.UObject {
-  public var BlendPoses : unreal.TArray<unreal.FInputBlendPose>;
+@:uextern @:uclass extern class UBoneMaskFilter extends unreal.UObject {
+  @:uproperty public var BlendPoses : unreal.TArray<unreal.FInputBlendPose>;
   
 }

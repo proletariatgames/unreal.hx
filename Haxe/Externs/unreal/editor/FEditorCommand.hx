@@ -21,10 +21,10 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:noCopy @:noEquals @:uextern extern class FEditorCommand {
-  public var Description : unreal.FString;
-  public var ExecCommand : unreal.FString;
-  public var CommandName : unreal.FName;
-  public var Parent : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditorCommand {
+  @:uproperty public var Description : unreal.FString;
+  @:uproperty public var ExecCommand : unreal.FString;
+  @:uproperty public var CommandName : unreal.FName;
+  @:uproperty public var Parent : unreal.FName;
   
 }

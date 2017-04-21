@@ -21,6 +21,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("AIResourceInterface.h")
-@:uextern extern interface IAIResourceInterface {
+@:uextern @:uclass extern interface IAIResourceInterface {
   
 }

@@ -21,7 +21,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Text/TextLayout.h")
 @:uname("ETextFlowDirection")
-@:class @:uextern extern enum ETextFlowDirection {
+@:class @:uextern @:uenum extern enum ETextFlowDirection {
   
   /**
     Automatically detect the flow direction for each paragraph from its text

@@ -21,6 +21,6 @@ package unreal.foliageedit;
 **/
 @:umodule("FoliageEdit")
 @:glueCppIncludes("FoliageType_ISMThumbnailRenderer.h")
-@:noClass @:uextern extern class UFoliageType_ISMThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
+@:noClass @:uextern @:uclass extern class UFoliageType_ISMThumbnailRenderer extends unreal.editor.UDefaultSizedThumbnailRenderer {
   
 }

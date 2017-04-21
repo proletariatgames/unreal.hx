@@ -19,12 +19,12 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraActor.h")
-@:uextern extern class ACineCameraActor extends unreal.ACameraActor {
-  public var LookatTrackingSettings : unreal.cinematiccamera.FCameraLookatTrackingSettings;
+@:uextern @:uclass extern class ACineCameraActor extends unreal.ACameraActor {
+  @:uproperty public var LookatTrackingSettings : unreal.cinematiccamera.FCameraLookatTrackingSettings;
   
   /**
     Returns the CineCameraComponent of this CineCamera
   **/
-  @:thisConst @:final public function GetCineCameraComponent() : unreal.cinematiccamera.UCineCameraComponent;
+  @:ufunction @:thisConst @:final public function GetCineCameraComponent() : unreal.cinematiccamera.UCineCameraComponent;
   
 }

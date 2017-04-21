@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Kismet/HeadMountedDisplayFunctionLibrary.h")
 @:uname("EOrientPositionSelector.Type")
-@:uextern extern enum EOrientPositionSelector {
+@:uextern @:uenum extern enum EOrientPositionSelector {
   
   /**
     Orientation

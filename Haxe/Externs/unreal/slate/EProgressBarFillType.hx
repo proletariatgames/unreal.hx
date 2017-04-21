@@ -20,7 +20,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Widgets/Notifications/SProgressBar.h")
 @:uname("EProgressBarFillType.Type")
-@:uextern extern enum EProgressBarFillType {
+@:uextern @:uenum extern enum EProgressBarFillType {
   
   /**
     will fill up from the left side to the right

@@ -14,13 +14,13 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/DataTableFunctionLibrary.h")
-@:uextern extern class UDataTableFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
-  static public function EvaluateCurveTableRow(CurveTable : unreal.UCurveTable, RowName : unreal.FName, InXY : unreal.Float32, OutResult : unreal.PRef<unreal.EEvaluateCurveTableResult>, OutXY : unreal.Float32, ContextString : unreal.FString) : Void;
-  static public function GetDataTableRowNames(Table : unreal.UDataTable, OutRowNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
+@:uextern @:uclass extern class UDataTableFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
+  @:ufunction static public function EvaluateCurveTableRow(CurveTable : unreal.UCurveTable, RowName : unreal.FName, InXY : unreal.Float32, OutResult : unreal.PRef<unreal.EEvaluateCurveTableResult>, OutXY : unreal.Float32, ContextString : unreal.FString) : Void;
+  @:ufunction static public function GetDataTableRowNames(Table : unreal.UDataTable, OutRowNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
   
   /**
     Get a Row from a DataTable given a RowName
   **/
-  static public function GetDataTableRowFromName(Table : unreal.UDataTable, RowName : unreal.FName, OutRow : unreal.PRef<unreal.FTableRowBase>) : Bool;
+  @:ufunction static public function GetDataTableRowFromName(Table : unreal.UDataTable, RowName : unreal.FName, OutRow : unreal.PRef<unreal.FTableRowBase>) : Bool;
   
 }

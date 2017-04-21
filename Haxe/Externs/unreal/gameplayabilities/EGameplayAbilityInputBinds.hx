@@ -25,7 +25,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySet.h")
 @:uname("EGameplayAbilityInputBinds.Type")
-@:uextern extern enum EGameplayAbilityInputBinds {
+@:uextern @:uenum extern enum EGameplayAbilityInputBinds {
   
   /**
     Ability1 (LMB)

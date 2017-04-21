@@ -21,67 +21,67 @@ package unreal;
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Framework/Pawn/
 **/
 @:glueCppIncludes("GameFramework/Pawn.h")
-@:uextern extern class APawn extends unreal.AActor implements unreal.INavAgentInterface {
+@:uextern @:uclass extern class APawn extends unreal.AActor implements unreal.INavAgentInterface {
   
   /**
     Return our PawnMovementComponent, if we have one.
   **/
-  @:thisConst public function GetMovementComponent() : unreal.UPawnMovementComponent;
+  @:ufunction @:thisConst public function GetMovementComponent() : unreal.UPawnMovementComponent;
   
   /**
     The last control input vector that was processed by ConsumeMovementInputVector().
     @see GetLastMovementInputVector()
   **/
-  private var LastControlInputVector : unreal.FVector;
+  @:uproperty private var LastControlInputVector : unreal.FVector;
   
   /**
     Accumulated control input vector, stored in world space. This is the pending input, which is cleared (zeroed) once consumed.
     @see GetPendingMovementInputVector(), AddMovementInput()
   **/
-  private var ControlInputVector : unreal.FVector;
+  @:uproperty private var ControlInputVector : unreal.FVector;
   
   /**
     Controller currently possessing this Actor
   **/
-  public var Controller : unreal.AController;
+  @:uproperty public var Controller : unreal.AController;
   
   /**
     Controller of the last Actor that caused us damage.
   **/
-  public var LastHitBy : unreal.AController;
+  @:uproperty public var LastHitBy : unreal.AController;
   
   /**
     Replicated so we can see where remote clients are looking.
   **/
-  public var RemoteViewPitch : unreal.UInt8;
+  @:uproperty public var RemoteViewPitch : unreal.UInt8;
   
   /**
     If Pawn is possessed by a player, points to his playerstate.  Needed for network play as controllers are not replicated to clients.
   **/
-  public var PlayerState : unreal.APlayerState;
+  @:uproperty public var PlayerState : unreal.APlayerState;
   
   /**
     Default class to use when pawn is controlled by AI.
   **/
-  public var AIControllerClass : unreal.TSubclassOf<unreal.AController>;
+  @:uproperty public var AIControllerClass : unreal.TSubclassOf<unreal.AController>;
   
   /**
     Determines when the Pawn creates and is possessed by an AI Controller (on level start, when spawned, etc).
     Only possible if AIControllerClass is set, and ignored if AutoPossessPlayer is enabled.
     @see AutoPossessPlayer
   **/
-  public var AutoPossessAI : unreal.EAutoPossessAI;
+  @:uproperty public var AutoPossessAI : unreal.EAutoPossessAI;
   
   /**
     Determines which PlayerController, if any, should automatically possess the pawn when the level starts or when the pawn is spawned.
     @see AutoPossessAI
   **/
-  public var AutoPossessPlayer : unreal.EAutoReceiveInput;
+  @:uproperty public var AutoPossessPlayer : unreal.EAutoReceiveInput;
   
   /**
     Base eye height above collision center.
   **/
-  public var BaseEyeHeight : unreal.Float32;
+  @:uproperty public var BaseEyeHeight : unreal.Float32;
   
   /**
     If set to false (default) given pawn instance will never affect navigation generation.
@@ -90,22 +90,22 @@ package unreal;
         Use SetCanAffectNavigationGeneration to change this value at runtime.
         Note that modifying this value at runtime will result in any navigation change only if runtime navigation generation is enabled.
   **/
-  public var bCanAffectNavigationGeneration : Bool;
+  @:uproperty public var bCanAffectNavigationGeneration : Bool;
   
   /**
     If true, this Pawn's roll will be updated to match the Controller's ControlRotation roll, if controlled by a PlayerController.
   **/
-  public var bUseControllerRotationRoll : Bool;
+  @:uproperty public var bUseControllerRotationRoll : Bool;
   
   /**
     If true, this Pawn's yaw will be updated to match the Controller's ControlRotation yaw, if controlled by a PlayerController.
   **/
-  public var bUseControllerRotationYaw : Bool;
+  @:uproperty public var bUseControllerRotationYaw : Bool;
   
   /**
     If true, this Pawn's pitch will be updated to match the Controller's ControlRotation pitch, if controlled by a PlayerController.
   **/
-  public var bUseControllerRotationPitch : Bool;
+  @:uproperty public var bUseControllerRotationPitch : Bool;
   
   /**
     Inform AIControllers that you've made a noise they might hear (they are sent a HearNoise message if they have bHearNoises==true)
@@ -116,85 +116,85 @@ package unreal;
     @param bUseNoiseMakerLocation - If true, use the location of the NoiseMaker rather than NoiseLocation.  If false, use NoiseLocation.
     @param NoiseMaker - Which actor is the source of the noise.  Not to be confused with the Noise Instigator, which is responsible for the noise (and is the pawn on which this function is called).  If not specified, the pawn instigating the noise will be used as the NoiseMaker
   **/
-  @:final public function PawnMakeNoise(Loudness : unreal.Float32, NoiseLocation : unreal.FVector, bUseNoiseMakerLocation : Bool, NoiseMaker : unreal.AActor) : Void;
+  @:ufunction @:final public function PawnMakeNoise(Loudness : unreal.Float32, NoiseLocation : unreal.FVector, bUseNoiseMakerLocation : Bool = true, NoiseMaker : unreal.AActor) : Void;
   
   /**
     Gets the owning actor of the Movement Base Component on which the pawn is standing.
   **/
-  static public function GetMovementBaseActor(Pawn : unreal.Const<unreal.APawn>) : unreal.AActor;
+  @:ufunction static public function GetMovementBaseActor(Pawn : unreal.Const<unreal.APawn>) : unreal.AActor;
   
   /**
     See if this actor is currently being controlled
   **/
-  @:thisConst @:final public function IsControlled() : Bool;
+  @:ufunction @:thisConst @:final public function IsControlled() : Bool;
   
   /**
     Returns controller for this actor.
   **/
-  @:thisConst @:final public function GetController() : unreal.AController;
+  @:ufunction @:thisConst @:final public function GetController() : unreal.AController;
   
   /**
     Get the rotation of the Controller, often the 'view' rotation of this Pawn.
   **/
-  @:thisConst @:final public function GetControlRotation() : unreal.FRotator;
+  @:ufunction @:thisConst @:final public function GetControlRotation() : unreal.FRotator;
   
   /**
     Called when Controller is replicated
   **/
-  public function OnRep_Controller() : Void;
+  @:ufunction public function OnRep_Controller() : Void;
   
   /**
     PlayerState Replication Notification Callback
   **/
-  public function OnRep_PlayerState() : Void;
+  @:ufunction public function OnRep_PlayerState() : Void;
   
   /**
     Use SetCanAffectNavigationGeneration to change this value at runtime.
         Note that calling this function at runtime will result in any navigation change only if runtime navigation generation is enabled.
   **/
-  @:final public function SetCanAffectNavigationGeneration(bNewValue : Bool, bForceUpdate : Bool) : Void;
+  @:ufunction @:final public function SetCanAffectNavigationGeneration(bNewValue : Bool, bForceUpdate : Bool = false) : Void;
   
   /**
     Basically retrieved pawn's location on navmesh
   **/
-  @:thisConst public function GetNavAgentLocation() : unreal.FVector;
+  @:ufunction @:thisConst public function GetNavAgentLocation() : unreal.FVector;
   
   /**
     Event called when the Pawn is possessed by a Controller (normally only occurs on the server/standalone).
   **/
-  public function ReceivePossessed(NewController : unreal.AController) : Void;
+  @:ufunction public function ReceivePossessed(NewController : unreal.AController) : Void;
   
   /**
     Event called when the Pawn is no longer possessed by a Controller.
   **/
-  public function ReceiveUnpossessed(OldController : unreal.AController) : Void;
+  @:ufunction public function ReceiveUnpossessed(OldController : unreal.AController) : Void;
   
   /**
     @return true if controlled by a local (not network) Controller.
   **/
-  @:thisConst public function IsLocallyControlled() : Bool;
+  @:ufunction @:thisConst public function IsLocallyControlled() : Bool;
   
   /**
     @return true if controlled by a human player (possessed by a PlayerController).
   **/
-  @:thisConst public function IsPlayerControlled() : Bool;
+  @:ufunction @:thisConst public function IsPlayerControlled() : Bool;
   
   /**
     Return the aim rotation for the Pawn.
     If we have a controller, by default we aim at the player's 'eyes' direction
     that is by default the Pawn rotation for AI, and camera (crosshair) rotation for human players.
   **/
-  @:thisConst public function GetBaseAimRotation() : unreal.FRotator;
+  @:ufunction @:thisConst public function GetBaseAimRotation() : unreal.FRotator;
   
   /**
     Call this function to detach safely pawn from its controller, knowing that we will be destroyed soon.
   **/
-  public function DetachFromControllerPendingDestroy() : Void;
+  @:ufunction public function DetachFromControllerPendingDestroy() : Void;
   
   /**
     Spawn default controller for this Pawn, and get possessed by it.
   **/
-  public function SpawnDefaultController() : Void;
+  @:ufunction public function SpawnDefaultController() : Void;
   
   /**
     Add movement input along the given world direction vector (usually normalized) scaled by 'ScaleValue'. If ScaleValue < 0, movement will be in the opposite direction.
@@ -205,7 +205,7 @@ package unreal;
     @param bForce                        If true always add the input, ignoring the result of IsMoveInputIgnored().
     @see GetPendingMovementInputVector(), GetLastMovementInputVector(), ConsumeMovementInputVector()
   **/
-  public function AddMovementInput(WorldDirection : unreal.FVector, ScaleValue : unreal.Float32, bForce : Bool) : Void;
+  @:ufunction public function AddMovementInput(WorldDirection : unreal.FVector, ScaleValue : unreal.Float32 = 1.000000, bForce : Bool = false) : Void;
   
   /**
     Return the pending input vector in world space. This is the most up-to-date value of the input vector, pending ConsumeMovementInputVector() which clears it,
@@ -214,7 +214,7 @@ package unreal;
     @return The pending input vector in world space.
     @see AddMovementInput(), GetLastMovementInputVector(), ConsumeMovementInputVector()
   **/
-  @:thisConst @:final public function GetPendingMovementInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetPendingMovementInputVector() : unreal.FVector;
   
   /**
     Return the last input vector in world space that was processed by ConsumeMovementInputVector(), which is usually done by the Pawn or PawnMovementComponent.
@@ -225,7 +225,7 @@ package unreal;
     @return The last input vector in world space that was processed by ConsumeMovementInputVector().
     @see AddMovementInput(), GetPendingMovementInputVector(), ConsumeMovementInputVector()
   **/
-  @:thisConst @:final public function GetLastMovementInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function GetLastMovementInputVector() : unreal.FVector;
   
   /**
     Returns the pending input vector and resets it to zero.
@@ -233,7 +233,7 @@ package unreal;
     Copies the pending input vector to the saved input vector (GetLastMovementInputVector()).
     @return The pending input vector.
   **/
-  public function ConsumeMovementInputVector() : unreal.FVector;
+  @:ufunction public function ConsumeMovementInputVector() : unreal.FVector;
   
   /**
     Add input (affecting Pitch) to the Controller's ControlRotation, if it is a local PlayerController.
@@ -241,7 +241,7 @@ package unreal;
     @param Val Amount to add to Pitch. This value is multiplied by the PlayerController's InputPitchScale value.
     @see PlayerController::InputPitchScale
   **/
-  public function AddControllerPitchInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddControllerPitchInput(Val : unreal.Float32) : Void;
   
   /**
     Add input (affecting Yaw) to the Controller's ControlRotation, if it is a local PlayerController.
@@ -249,7 +249,7 @@ package unreal;
     @param Val Amount to add to Yaw. This value is multiplied by the PlayerController's InputYawScale value.
     @see PlayerController::InputYawScale
   **/
-  public function AddControllerYawInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddControllerYawInput(Val : unreal.Float32) : Void;
   
   /**
     Add input (affecting Roll) to the Controller's ControlRotation, if it is a local PlayerController.
@@ -257,18 +257,18 @@ package unreal;
     @param Val Amount to add to Roll. This value is multiplied by the PlayerController's InputRollScale value.
     @see PlayerController::InputRollScale
   **/
-  public function AddControllerRollInput(Val : unreal.Float32) : Void;
+  @:ufunction public function AddControllerRollInput(Val : unreal.Float32) : Void;
   
   /**
     Helper to see if move input is ignored. If our controller is a PlayerController, checks Controller->IsMoveInputIgnored().
   **/
-  @:thisConst public function IsMoveInputIgnored() : Bool;
-  @:final public function LaunchPawn(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
+  @:ufunction @:thisConst public function IsMoveInputIgnored() : Bool;
+  @:ufunction @:final public function LaunchPawn(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
   
   /**
     (Deprecated) Return the input vector in world space.
   **/
-  @:thisConst @:final public function K2_GetMovementInputVector() : unreal.FVector;
+  @:ufunction @:thisConst @:final public function K2_GetMovementInputVector() : unreal.FVector;
   // NavAgentInterface interface implementation
   
 }

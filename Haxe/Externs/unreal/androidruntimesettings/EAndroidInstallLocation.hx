@@ -20,7 +20,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EAndroidInstallLocation.Type")
-@:uextern extern enum EAndroidInstallLocation {
+@:uextern @:uenum extern enum EAndroidInstallLocation {
   
   /**
     Install your app only on internal device storage

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMaterialSamplerType")
-@:uextern extern enum EMaterialSamplerType {
+@:uextern @:uenum extern enum EMaterialSamplerType {
   
   /**
     Color

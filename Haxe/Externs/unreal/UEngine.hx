@@ -19,287 +19,287 @@ package unreal;
   Also defines default classes for certain engine systems.
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:uextern extern class UEngine extends unreal.UObject {
-  private var NextWorldContextHandle : unreal.Int32;
+@:uextern @:uclass extern class UEngine extends unreal.UObject {
+  @:uproperty private var NextWorldContextHandle : unreal.Int32;
   
   /**
     true if the loading movie was started during LoadMap().
   **/
-  public var bStartedLoadMapMovie : Bool;
+  @:uproperty public var bStartedLoadMapMovie : Bool;
   
   /**
     Runtime-modified list of server actors, allowing plugins to use serveractors, without permanently adding them to config files
   **/
-  public var RuntimeServerActors : unreal.TArray<unreal.FString>;
+  @:uproperty public var RuntimeServerActors : unreal.TArray<unreal.FString>;
   
   /**
     A configurable list of actors that are automatically spawned upon server startup (just prior to InitGame)
   **/
-  public var ServerActors : unreal.TArray<unreal.FString>;
+  @:uproperty public var ServerActors : unreal.TArray<unreal.FString>;
   
   /**
     A list of named UNetDriver definitions
   **/
-  public var NetDriverDefinitions : unreal.TArray<unreal.FNetDriverDefinition>;
+  @:uproperty public var NetDriverDefinitions : unreal.TArray<unreal.FNetDriverDefinition>;
   
   /**
     Used to alter the intensity level of the selection highlight on selected billboard objects
   **/
-  public var SelectionHighlightIntensityBillboards : unreal.Float32;
+  @:uproperty public var SelectionHighlightIntensityBillboards : unreal.Float32;
   
   /**
     Used to alter the intensity level of the selection highlight on hovered objects
   **/
-  public var HoverHighlightIntensity : unreal.Float32;
+  @:uproperty public var HoverHighlightIntensity : unreal.Float32;
   
   /**
     Used to alter the intensity level of the selection highlight on selected BSP surfaces
   **/
-  public var BSPSelectionHighlightIntensity : unreal.Float32;
+  @:uproperty public var BSPSelectionHighlightIntensity : unreal.Float32;
   
   /**
     Used to alter the intensity level of the selection highlight on selected mesh sections in mesh editors
   **/
-  public var SelectionMeshSectionHighlightIntensity : unreal.Float32;
+  @:uproperty public var SelectionMeshSectionHighlightIntensity : unreal.Float32;
   
   /**
     Used to alter the intensity level of the selection highlight on selected objects
   **/
-  public var SelectionHighlightIntensity : unreal.Float32;
+  @:uproperty public var SelectionHighlightIntensity : unreal.Float32;
   
   /**
     Particle event manager *
   **/
-  public var ParticleEventManagerClassPath : unreal.FString;
+  @:uproperty public var ParticleEventManagerClassPath : unreal.FString;
   
   /**
     true if the the user cannot modify levels that are read only.
   **/
-  public var bLockReadOnlyLevels : Bool;
-  public var bEnableVisualLogRecordingOnStart : unreal.FakeUInt32;
+  @:uproperty public var bLockReadOnlyLevels : Bool;
+  @:uproperty public var bEnableVisualLogRecordingOnStart : unreal.FakeUInt32;
   
   /**
     determines whether AI logging should be processed or not
   **/
-  public var bDisableAILogging : Bool;
+  @:uproperty public var bDisableAILogging : Bool;
   
   /**
     If true, then skip drawing map warnings on screen even in non (UE_BUILD_SHIPPING || UE_BUILD_TEST) builds
   **/
-  public var bSuppressMapWarnings : Bool;
+  @:uproperty public var bSuppressMapWarnings : Bool;
   
   /**
     If true, then disable the display of OnScreenDebug messages (used when running)
   **/
-  public var bEnableOnScreenDebugMessagesDisplay : Bool;
+  @:uproperty public var bEnableOnScreenDebugMessagesDisplay : Bool;
   
   /**
     If true, then disable OnScreenDebug messages. Can be toggled in real-time.
   **/
-  public var bEnableOnScreenDebugMessages : Bool;
+  @:uproperty public var bEnableOnScreenDebugMessages : Bool;
   
   /**
     Minimum desired framerate setting
   **/
-  public var MinDesiredFrameRate : unreal.Float32;
+  @:uproperty public var MinDesiredFrameRate : unreal.Float32;
   
   /**
     Current display gamma setting
   **/
-  public var DisplayGamma : unreal.Float32;
+  @:uproperty public var DisplayGamma : unreal.Float32;
   
   /**
     Number of times to tick each client per second
   **/
-  public var NetClientTicksPerSecond : unreal.Float32;
+  @:uproperty public var NetClientTicksPerSecond : unreal.Float32;
   
   /**
     Error correction data for replicating simulated physics (rigid bodies)
   **/
-  public var PhysicErrorCorrection : unreal.FRigidBodyErrorCorrection;
+  @:uproperty public var PhysicErrorCorrection : unreal.FRigidBodyErrorCorrection;
   
   /**
     @todo document
   **/
-  public var PendingDroppedNotes : unreal.TArray<unreal.FDropNoteInfo>;
+  @:uproperty public var PendingDroppedNotes : unreal.TArray<unreal.FDropNoteInfo>;
   
   /**
     If the resize request is larger than this, spew out a warning to the log
   **/
-  public var MaxParticleResizeWarn : unreal.Int32;
+  @:uproperty public var MaxParticleResizeWarn : unreal.Int32;
   
   /**
     The maximum allowed size to a ParticleEmitterInstance::Resize call.
     If larger, the function will return without resizing.
   **/
-  public var MaxParticleResize : unreal.Int32;
+  @:uproperty public var MaxParticleResize : unreal.Int32;
   
   /**
     Whether to pause the game if focus is lost.
   **/
-  public var bPauseOnLossOfFocus : Bool;
+  @:uproperty public var bPauseOnLossOfFocus : Bool;
   
   /**
     Max screen pixel fraction where retesting when unoccluded is worth the GPU time.
   **/
-  public var MaxOcclusionPixelsFraction : unreal.Float32;
+  @:uproperty public var MaxOcclusionPixelsFraction : unreal.Float32;
   
   /**
     The amount of time a primitive is considered to be probably visible after it was last actually visible.
   **/
-  public var PrimitiveProbablyVisibleTime : unreal.Float32;
+  @:uproperty public var PrimitiveProbablyVisibleTime : unreal.Float32;
   
   /**
     camera movement beyond which occlusion queries are ignored from previous frame (because they are likely not valid)
   **/
-  public var CameraTranslationThreshold : unreal.Float32;
+  @:uproperty public var CameraTranslationThreshold : unreal.Float32;
   
   /**
     camera rotation (deg) beyond which occlusion queries are ignored from previous frame (because they are likely not valid)
   **/
-  public var CameraRotationThreshold : unreal.Float32;
+  @:uproperty public var CameraRotationThreshold : unreal.Float32;
   
   /**
     whether mature language is allowed *
   **/
-  public var bAllowMatureLanguage : Bool;
+  @:uproperty public var bAllowMatureLanguage : Bool;
   
   /**
     Level of detail range control for meshes
   **/
-  public var MeshLODRange : unreal.Float32;
+  @:uproperty public var MeshLODRange : unreal.Float32;
   
   /**
     The gamemode for the destination map
   **/
-  public var TransitionGameMode : unreal.FString;
+  @:uproperty public var TransitionGameMode : unreal.FString;
   
   /**
     The current transition description text.
   **/
-  public var TransitionDescription : unreal.FString;
+  @:uproperty public var TransitionDescription : unreal.FString;
   
   /**
     The current transition type.
   **/
-  public var TransitionType : unreal.ETransitionType;
+  @:uproperty public var TransitionType : unreal.ETransitionType;
   
   /**
     Fudge factor for tweaking the distance based miplevel determination
   **/
-  public var StreamingDistanceFactor : unreal.Float32;
+  @:uproperty public var StreamingDistanceFactor : unreal.Float32;
   
   /**
     @todo document
   **/
-  public var C_BrushShape : unreal.FColor;
+  @:uproperty public var C_BrushShape : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_Volume : unreal.FColor;
+  @:uproperty public var C_Volume : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_OrthoBackground : unreal.FColor;
+  @:uproperty public var C_OrthoBackground : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_BSPCollision : unreal.FColor;
+  @:uproperty public var C_BSPCollision : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_VolumeCollision : unreal.FColor;
+  @:uproperty public var C_VolumeCollision : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_ScaleBoxHi : unreal.FColor;
+  @:uproperty public var C_ScaleBoxHi : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_WireBackground : unreal.FColor;
+  @:uproperty public var C_WireBackground : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_NonSolidWire : unreal.FColor;
+  @:uproperty public var C_NonSolidWire : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_SemiSolidWire : unreal.FColor;
+  @:uproperty public var C_SemiSolidWire : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_SubtractWire : unreal.FColor;
+  @:uproperty public var C_SubtractWire : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_AddWire : unreal.FColor;
+  @:uproperty public var C_AddWire : unreal.FColor;
   
   /**
     @todo document
   **/
-  public var C_BrushWire : unreal.FColor;
+  @:uproperty public var C_BrushWire : unreal.FColor;
   
   /**
     Color preferences.
   **/
-  public var C_WorldBox : unreal.FColor;
+  @:uproperty public var C_WorldBox : unreal.FColor;
   
   /**
     Whether or not the LQ lightmaps should be generated during lighting rebuilds.  This has been moved to r.SupportLowQualityLightmaps.
   **/
-  @:deprecated public var bShouldGenerateLowQualityLightmaps_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bShouldGenerateLowQualityLightmaps_DEPRECATED : Bool;
   
   /**
     If bCheckForMultiplePawnsSpawnedInAFrame==true, then we will check to see that no more than this number of pawns are spawned in a frame. *
   **/
-  public var NumPawnsAllowedToBeSpawnedInAFrame : unreal.Int32;
+  @:uproperty public var NumPawnsAllowedToBeSpawnedInAFrame : unreal.Int32;
   
   /**
     Whether we should check for more than N pawns spawning in a single frame.
     Basically, spawning pawns and all of their attachments can be slow.  And on consoles it
     can be really slow.  If this bool is true we will display a
   **/
-  public var bCheckForMultiplePawnsSpawnedInAFrame : Bool;
+  @:uproperty public var bCheckForMultiplePawnsSpawnedInAFrame : Bool;
   
   /**
     Range of framerates in which smoothing will kick in
   **/
-  public var SmoothedFrameRateRange : unreal.FFloatRange;
+  @:uproperty public var SmoothedFrameRateRange : unreal.FFloatRange;
   
   /**
     The fixed framerate to use.
   **/
-  public var FixedFrameRate : unreal.Float32;
+  @:uproperty public var FixedFrameRate : unreal.Float32;
   
   /**
     Whether to use a fixed framerate.
   **/
-  public var bUseFixedFrameRate : Bool;
+  @:uproperty public var bUseFixedFrameRate : Bool;
   
   /**
     Whether to enable framerate smoothing.
   **/
-  public var bSmoothFrameRate : Bool;
+  @:uproperty public var bSmoothFrameRate : Bool;
   
   /**
     @todo document
   **/
-  public var bEnableEditorPSysRealtimeLOD : Bool;
+  @:uproperty public var bEnableEditorPSysRealtimeLOD : Bool;
   
   /**
     Controls whether anim blueprint nodes that access member variables of their class directly should use the optimized path that avoids a thunk to the Blueprint VM
   **/
-  public var bOptimizeAnimBlueprintMemberVariableAccess : Bool;
+  @:uproperty public var bOptimizeAnimBlueprintMemberVariableAccess : Bool;
   
   /**
     Controls whether Blueprint subclasses of actors or components can tick by default.
@@ -308,622 +308,622 @@ package unreal;
     Blueprints that derive from exactly AActor or UActorComponent will always be able to tick
     Otherwise, they can tick as long as the parent doesn't have meta=(ChildCannotTick) and either bCanBlueprintsTickByDefault is true or the parent has meta=(ChildCanTick)
   **/
-  public var bCanBlueprintsTickByDefault : Bool;
+  @:uproperty public var bCanBlueprintsTickByDefault : Bool;
   
   /**
     Script maximum loop iteration count used as a threshold to warn users about script execution runaway
   **/
-  public var MaximumLoopIterationCount : unreal.Int32;
+  @:uproperty public var MaximumLoopIterationCount : unreal.Int32;
   
   /**
     Flag for forcibly disabling subtitles even if you try to turn them back on they will be off
   **/
-  public var bSubtitlesForcedOff : Bool;
+  @:uproperty public var bSubtitlesForcedOff : Bool;
   
   /**
     Flag for completely disabling subtitles for localized sounds.
   **/
-  public var bSubtitlesEnabled : Bool;
+  @:uproperty public var bSubtitlesEnabled : Bool;
   
   /**
     DEPRECATED - Can a runtime game/application report anonymous hardware survey statistics (such as display resolution and GPU model) back to Epic?
   **/
-  @:deprecated public var bHardwareSurveyEnabled_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bHardwareSurveyEnabled_DEPRECATED : Bool;
   
   /**
     The distance of the camera's near clipping plane.
   **/
-  public var NearClipPlane : unreal.Float32;
+  @:uproperty public var NearClipPlane : unreal.Float32;
   
   /**
     @todo document
   **/
-  public var ClientCycles : unreal.Int32;
+  @:uproperty public var ClientCycles : unreal.Int32;
   
   /**
     @todo document
   **/
-  public var GameCycles : unreal.Int32;
+  @:uproperty public var GameCycles : unreal.Int32;
   
   /**
     @todo document
   **/
-  public var TickCycles : unreal.Int32;
+  @:uproperty public var TickCycles : unreal.Int32;
   
   /**
     Array of deferred command strings/ execs that get executed at the end of the frame
   **/
-  public var DeferredCommands : unreal.TArray<unreal.FString>;
+  @:uproperty public var DeferredCommands : unreal.TArray<unreal.FString>;
   
   /**
     The view port representing the current game instance. Can be 0 so don't use without checking.
   **/
-  public var GameViewport : unreal.UGameViewportClient;
+  @:uproperty public var GameViewport : unreal.UGameViewportClient;
   
   /**
     @todo document
   **/
-  public var LightMapDensityTextureName : unreal.FStringAssetReference;
+  @:uproperty public var LightMapDensityTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used to display LightMapDensity
   **/
-  public var LightMapDensityTexture : unreal.UTexture2D;
+  @:uproperty public var LightMapDensityTexture : unreal.UTexture2D;
   
   /**
     @todo document
   **/
-  public var WeightMapPlaceholderTextureName : unreal.FStringAssetReference;
+  @:uproperty public var WeightMapPlaceholderTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used as a placeholder for terrain weight-maps to give the material the correct texture format.
   **/
-  public var WeightMapPlaceholderTexture : unreal.UTexture;
+  @:uproperty public var WeightMapPlaceholderTexture : unreal.UTexture;
   
   /**
     @todo document
   **/
-  public var MiniFontTextureName : unreal.FStringAssetReference;
+  @:uproperty public var MiniFontTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used to do font rendering in shaders
   **/
-  public var MiniFontTexture : unreal.UTexture2D;
+  @:uproperty public var MiniFontTexture : unreal.UTexture2D;
   
   /**
     @todo document
   **/
-  public var PreIntegratedSkinBRDFTextureName : unreal.FStringAssetReference;
+  @:uproperty public var PreIntegratedSkinBRDFTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used for pre-integrated skin shading
   **/
-  public var PreIntegratedSkinBRDFTexture : unreal.UTexture2D;
-  public var ActiveStructRedirects : unreal.TArray<unreal.FStructRedirect>;
-  public var ActivePluginRedirects : unreal.TArray<unreal.FPluginRedirect>;
-  public var ActiveClassRedirects : unreal.TArray<unreal.FClassRedirect>;
-  public var ActiveGameNameRedirects : unreal.TArray<unreal.FGameNameRedirect>;
+  @:uproperty public var PreIntegratedSkinBRDFTexture : unreal.UTexture2D;
+  @:uproperty public var ActiveStructRedirects : unreal.TArray<unreal.FStructRedirect>;
+  @:uproperty public var ActivePluginRedirects : unreal.TArray<unreal.FPluginRedirect>;
+  @:uproperty public var ActiveClassRedirects : unreal.TArray<unreal.FClassRedirect>;
+  @:uproperty public var ActiveGameNameRedirects : unreal.TArray<unreal.FGameNameRedirect>;
   
   /**
     @todo document
   **/
-  public var DefaultPhysMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultPhysMaterialName : unreal.FStringAssetReference;
   
   /**
     PhysicalMaterial to use if none is defined for a particular object.
   **/
-  public var DefaultPhysMaterial : unreal.UPhysicalMaterial;
+  @:uproperty public var DefaultPhysMaterial : unreal.UPhysicalMaterial;
   #if WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var EditorBrushMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var EditorBrushMaterialName : unreal.FStringAssetReference;
   
   /**
     A material used to render the sides of the builder brush/volumes/etc.
   **/
-  public var EditorBrushMaterial : unreal.UMaterial;
+  @:uproperty public var EditorBrushMaterial : unreal.UMaterial;
   #end // WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var StatColorMappings : unreal.TArray<unreal.FStatColorMapping>;
+  @:uproperty public var StatColorMappings : unreal.TArray<unreal.FStatColorMapping>;
   
   /**
     The color to render selected objects in for LightMap Density view mode.
   **/
-  public var LightMapDensitySelectedColor : unreal.FLinearColor;
+  @:uproperty public var LightMapDensitySelectedColor : unreal.FLinearColor;
   
   /**
     The color to render vertex mapped objects in for LightMap Density view mode.
   **/
-  public var LightMapDensityVertexMappedColor : unreal.FLinearColor;
+  @:uproperty public var LightMapDensityVertexMappedColor : unreal.FLinearColor;
   
   /**
     The scale factor when rendering color density.
   **/
-  public var RenderLightMapDensityColorScale : unreal.Float32;
+  @:uproperty public var RenderLightMapDensityColorScale : unreal.Float32;
   
   /**
     The scale factor when rendering gray scale density.
   **/
-  public var RenderLightMapDensityGrayscaleScale : unreal.Float32;
+  @:uproperty public var RenderLightMapDensityGrayscaleScale : unreal.Float32;
   
   /**
     If true, then render gray scale density.
   **/
-  public var bRenderLightMapDensityGrayscale : Bool;
+  @:uproperty public var bRenderLightMapDensityGrayscale : Bool;
   
   /**
     Maximum lightmap density value for coloring.
   **/
-  public var MaxLightMapDensity : unreal.Float32;
+  @:uproperty public var MaxLightMapDensity : unreal.Float32;
   
   /**
     Ideal lightmap density value for coloring.
   **/
-  public var IdealLightMapDensity : unreal.Float32;
+  @:uproperty public var IdealLightMapDensity : unreal.Float32;
   
   /**
     Minimum lightmap density value for coloring.
   **/
-  public var MinLightMapDensity : unreal.Float32;
-  public var MaxES2PixelShaderAdditiveComplexityCount : unreal.Float32;
+  @:uproperty public var MinLightMapDensity : unreal.Float32;
+  @:uproperty public var MaxES2PixelShaderAdditiveComplexityCount : unreal.Float32;
   
   /**
     Complexity limits for the various complexity view mode combinations.
     These limits are used to map instruction counts to ShaderComplexityColors.
   **/
-  public var MaxPixelShaderAdditiveComplexityCount : unreal.Float32;
+  @:uproperty public var MaxPixelShaderAdditiveComplexityCount : unreal.Float32;
   
   /**
     The colors used for texture streaming accuracy debug view modes.
   **/
-  public var StreamingAccuracyColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var StreamingAccuracyColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render LOD coloration.
   **/
-  public var HLODColorationColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var HLODColorationColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render LOD coloration.
   **/
-  public var LODColorationColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var LODColorationColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render stationary light overlap.
   **/
-  public var StationaryLightOverlapColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var StationaryLightOverlapColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render light complexity.
   **/
-  public var LightComplexityColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var LightComplexityColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render quad complexity.
   **/
-  public var QuadComplexityColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var QuadComplexityColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     The colors used to render shader complexity.
   **/
-  public var ShaderComplexityColors : unreal.TArray<unreal.FLinearColor>;
+  @:uproperty public var ShaderComplexityColors : unreal.TArray<unreal.FLinearColor>;
   
   /**
     @todo document
   **/
-  public var LightingOnlyBrightness : unreal.FLinearColor;
+  @:uproperty public var LightingOnlyBrightness : unreal.FLinearColor;
   
   /**
     @todo document
   **/
-  public var ArrowMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var ArrowMaterialName : unreal.FStringAssetReference;
   
   /**
     Material that 'fakes' lighting, used for arrows, widgets.
   **/
-  public var ArrowMaterial : unreal.UMaterial;
+  @:uproperty public var ArrowMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var PreviewShadowsIndicatorMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var PreviewShadowsIndicatorMaterialName : unreal.FStringAssetReference;
   
   /**
     Material that renders a message about preview shadows being used.
   **/
-  public var PreviewShadowsIndicatorMaterial : unreal.UMaterial;
+  @:uproperty public var PreviewShadowsIndicatorMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var InvalidLightmapSettingsMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var InvalidLightmapSettingsMaterialName : unreal.FStringAssetReference;
   
   /**
     Material that renders a message about lightmap settings being invalid.
   **/
-  public var InvalidLightmapSettingsMaterial : unreal.UMaterial;
-  public var ConstraintLimitMaterialPrismatic : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialZAxis : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialZ : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialYAxis : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialY : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialXAxis : unreal.UMaterialInstanceDynamic;
-  public var ConstraintLimitMaterialX : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var InvalidLightmapSettingsMaterial : unreal.UMaterial;
+  @:uproperty public var ConstraintLimitMaterialPrismatic : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialZAxis : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialZ : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialYAxis : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialY : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialXAxis : unreal.UMaterialInstanceDynamic;
+  @:uproperty public var ConstraintLimitMaterialX : unreal.UMaterialInstanceDynamic;
   
   /**
     Material used to render constraint limits
   **/
-  public var ConstraintLimitMaterial : unreal.UMaterial;
+  @:uproperty public var ConstraintLimitMaterial : unreal.UMaterial;
   #if WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var BoneWeightMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var BoneWeightMaterialName : unreal.FStringAssetReference;
   
   /**
     Material used to render bone weights on skeletal meshes
   **/
-  public var BoneWeightMaterial : unreal.UMaterial;
+  @:uproperty public var BoneWeightMaterial : unreal.UMaterial;
   #end // WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_BlueOnly : unreal.FString;
+  @:uproperty public var VertexColorViewModeMaterialName_BlueOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (blue only)
   **/
-  public var VertexColorViewModeMaterial_BlueOnly : unreal.UMaterial;
+  @:uproperty public var VertexColorViewModeMaterial_BlueOnly : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_GreenOnly : unreal.FString;
+  @:uproperty public var VertexColorViewModeMaterialName_GreenOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (green only)
   **/
-  public var VertexColorViewModeMaterial_GreenOnly : unreal.UMaterial;
+  @:uproperty public var VertexColorViewModeMaterial_GreenOnly : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_RedOnly : unreal.FString;
+  @:uproperty public var VertexColorViewModeMaterialName_RedOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (red only)
   **/
-  public var VertexColorViewModeMaterial_RedOnly : unreal.UMaterial;
+  @:uproperty public var VertexColorViewModeMaterial_RedOnly : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_AlphaAsColor : unreal.FString;
+  @:uproperty public var VertexColorViewModeMaterialName_AlphaAsColor : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (alpha channel as color)
   **/
-  public var VertexColorViewModeMaterial_AlphaAsColor : unreal.UMaterial;
+  @:uproperty public var VertexColorViewModeMaterial_AlphaAsColor : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var VertexColorViewModeMaterialName_ColorOnly : unreal.FString;
+  @:uproperty public var VertexColorViewModeMaterialName_ColorOnly : unreal.FString;
   
   /**
     Material for visualizing vertex colors on meshes in the scene (color only, no alpha)
   **/
-  public var VertexColorViewModeMaterial_ColorOnly : unreal.UMaterial;
+  @:uproperty public var VertexColorViewModeMaterial_ColorOnly : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var VertexColorMaterialName : unreal.FString;
+  @:uproperty public var VertexColorMaterialName : unreal.FString;
   
   /**
     Material that renders vertex color as emmissive.
   **/
-  public var VertexColorMaterial : unreal.UMaterial;
+  @:uproperty public var VertexColorMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var RemoveSurfaceMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var RemoveSurfaceMaterialName : unreal.FStringAssetReference;
   
   /**
     Material used to indicate that the associated BSP surface should be removed.
   **/
-  public var RemoveSurfaceMaterial : unreal.UMaterial;
+  @:uproperty public var RemoveSurfaceMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var ShadedLevelColorationUnlitMaterialName : unreal.FString;
+  @:uproperty public var ShadedLevelColorationUnlitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in unlit view port modes.  Uses shading to show axis directions.
   **/
-  public var ShadedLevelColorationUnlitMaterial : unreal.UMaterial;
+  @:uproperty public var ShadedLevelColorationUnlitMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var ShadedLevelColorationLitMaterialName : unreal.FString;
+  @:uproperty public var ShadedLevelColorationLitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in lit view port modes. Uses shading to show axis directions.
   **/
-  public var ShadedLevelColorationLitMaterial : unreal.UMaterial;
+  @:uproperty public var ShadedLevelColorationLitMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var LightingTexelDensityName : unreal.FString;
+  @:uproperty public var LightingTexelDensityName : unreal.FString;
   
   /**
     Material used for visualizing lighting only w/ lightmap texel density.
   **/
-  public var LightingTexelDensityMaterial : unreal.UMaterial;
+  @:uproperty public var LightingTexelDensityMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var LevelColorationUnlitMaterialName : unreal.FString;
+  @:uproperty public var LevelColorationUnlitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in unlit view port modes.
   **/
-  public var LevelColorationUnlitMaterial : unreal.UMaterial;
+  @:uproperty public var LevelColorationUnlitMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var LevelColorationLitMaterialName : unreal.FString;
+  @:uproperty public var LevelColorationLitMaterialName : unreal.FString;
   
   /**
     Material used for visualizing level membership in lit view port modes.
   **/
-  public var LevelColorationLitMaterial : unreal.UMaterial;
+  @:uproperty public var LevelColorationLitMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var DebugMeshMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var DebugMeshMaterialName : unreal.FStringAssetReference;
   
   /**
     A material used to render debug meshes.
   **/
-  public var DebugMeshMaterial : unreal.UMaterial;
+  @:uproperty public var DebugMeshMaterial : unreal.UMaterial;
   #if WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var GeomMaterialName : unreal.FStringAssetReference;
+  @:uproperty public var GeomMaterialName : unreal.FStringAssetReference;
   
   /**
     A translucent material used to render things in geometry mode.
   **/
-  public var GeomMaterial : unreal.UMaterial;
+  @:uproperty public var GeomMaterial : unreal.UMaterial;
   #end // WITH_EDITORONLY_DATA
   
   /**
     @todo document
   **/
-  public var WireframeMaterialName : unreal.FString;
+  @:uproperty public var WireframeMaterialName : unreal.FString;
   
   /**
     The material used to render wireframe meshes.
   **/
-  public var WireframeMaterial : unreal.UMaterial;
+  @:uproperty public var WireframeMaterial : unreal.UMaterial;
   
   /**
     @todo document
   **/
-  public var DefaultBokehTextureName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultBokehTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used to blur out of focus content, mimics the Bokeh shape of actual cameras
   **/
-  public var DefaultBokehTexture : unreal.UTexture2D;
+  @:uproperty public var DefaultBokehTexture : unreal.UTexture2D;
   
   /**
     @todo document
   **/
-  public var HighFrequencyNoiseTextureName : unreal.FStringAssetReference;
+  @:uproperty public var HighFrequencyNoiseTextureName : unreal.FStringAssetReference;
   
   /**
     Texture used to get random image grain values for post processing
   **/
-  public var HighFrequencyNoiseTexture : unreal.UTexture2D;
+  @:uproperty public var HighFrequencyNoiseTexture : unreal.UTexture2D;
   
   /**
     @todo document
   **/
-  public var DefaultBSPVertexTextureName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultBSPVertexTextureName : unreal.FStringAssetReference;
   
   /**
     @todo document
   **/
-  public var DefaultBSPVertexTexture : unreal.UTexture2D;
+  @:uproperty public var DefaultBSPVertexTexture : unreal.UTexture2D;
   
   /**
     @todo document
   **/
-  public var DefaultDiffuseTextureName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultDiffuseTextureName : unreal.FStringAssetReference;
   
   /**
     A global default diffuse texture.
   **/
-  public var DefaultDiffuseTexture : unreal.UTexture;
+  @:uproperty public var DefaultDiffuseTexture : unreal.UTexture;
   
   /**
     @todo document
   **/
-  public var DefaultTextureName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultTextureName : unreal.FStringAssetReference;
   
   /**
     A global default texture.
   **/
-  public var DefaultTexture : unreal.UTexture2D;
+  @:uproperty public var DefaultTexture : unreal.UTexture2D;
   
   /**
     Path that levels for play on console will be saved to (relative to FPaths::GameSavedDir())
   **/
-  public var PlayOnConsoleSaveDir : unreal.FString;
+  @:uproperty public var PlayOnConsoleSaveDir : unreal.FString;
   
   /**
     Path to the default tire type
   **/
-  public var DefaultTireTypeName : unreal.FStringAssetReference;
+  @:uproperty public var DefaultTireTypeName : unreal.FStringAssetReference;
   
   /**
     The tire type used when no tire type is explicitly applied.
   **/
-  public var DefaultTireType : unreal.UTireType;
+  @:uproperty public var DefaultTireType : unreal.UTireType;
   
   /**
     A UObject spawned at initialization time to handle game-specific data
   **/
-  public var GameSingleton : unreal.UObject;
+  @:uproperty public var GameSingleton : unreal.UObject;
   
   /**
     Name of a singleton class to create at startup time, configurable per game
   **/
-  public var GameSingletonClassName : unreal.FStringClassReference;
+  @:uproperty public var GameSingletonClassName : unreal.FStringClassReference;
   
   /**
     Name of the base class to use for new blueprints, configurable on a per-game basis
   **/
-  public var DefaultBlueprintBaseClassName : unreal.FStringClassReference;
+  @:uproperty public var DefaultBlueprintBaseClassName : unreal.FStringClassReference;
   
   /**
     @todo document
   **/
-  public var LevelScriptActorClassName : unreal.FStringClassReference;
+  @:uproperty public var LevelScriptActorClassName : unreal.FStringClassReference;
   
   /**
     @todo document
   **/
-  public var LevelScriptActorClass : unreal.TSubclassOf<unreal.ALevelScriptActor>;
+  @:uproperty public var LevelScriptActorClass : unreal.TSubclassOf<unreal.ALevelScriptActor>;
   
   /**
     Global instance of the user game settings
   **/
-  public var GameUserSettings : unreal.UGameUserSettings;
+  @:uproperty public var GameUserSettings : unreal.UGameUserSettings;
   
   /**
     name of Controller class to be used as default AIController class for pawns
   **/
-  public var AIControllerClassName : unreal.FStringClassReference;
-  public var GameUserSettingsClass : unreal.TSubclassOf<unreal.UGameUserSettings>;
-  public var GameUserSettingsClassName : unreal.FStringClassReference;
+  @:uproperty public var AIControllerClassName : unreal.FStringClassReference;
+  @:uproperty public var GameUserSettingsClass : unreal.TSubclassOf<unreal.UGameUserSettings>;
+  @:uproperty public var GameUserSettingsClassName : unreal.FStringClassReference;
   
   /**
     Name of PhysicsCollisionHandler class we should use by default.
   **/
-  public var PhysicsCollisionHandlerClassName : unreal.FStringClassReference;
+  @:uproperty public var PhysicsCollisionHandlerClassName : unreal.FStringClassReference;
   
   /**
     PhysicsCollisionHandler class we should use by default *
   **/
-  public var PhysicsCollisionHandlerClass : unreal.TSubclassOf<unreal.UPhysicsCollisionHandler>;
+  @:uproperty public var PhysicsCollisionHandlerClass : unreal.TSubclassOf<unreal.UPhysicsCollisionHandler>;
   
   /**
     The class for behavior tree manager *
   **/
-  public var AvoidanceManagerClass : unreal.TSubclassOf<unreal.UAvoidanceManager>;
+  @:uproperty public var AvoidanceManagerClass : unreal.TSubclassOf<unreal.UAvoidanceManager>;
   
   /**
     Name of behavior tree manager class
   **/
-  public var AvoidanceManagerClassName : unreal.FStringClassReference;
+  @:uproperty public var AvoidanceManagerClassName : unreal.FStringClassReference;
   
   /**
     The class for NavigationSystem *
   **/
-  public var NavigationSystemClass : unreal.TSubclassOf<unreal.UNavigationSystem>;
+  @:uproperty public var NavigationSystemClass : unreal.TSubclassOf<unreal.UNavigationSystem>;
   
   /**
     @todo document
   **/
-  public var NavigationSystemClassName : unreal.FStringClassReference;
+  @:uproperty public var NavigationSystemClassName : unreal.FStringClassReference;
   
   /**
     @todo document
   **/
-  public var WorldSettingsClassName : unreal.FStringClassReference;
+  @:uproperty public var WorldSettingsClassName : unreal.FStringClassReference;
   
   /**
     The class for WorldSettings *
   **/
-  public var WorldSettingsClass : unreal.TSubclassOf<unreal.AWorldSettings>;
+  @:uproperty public var WorldSettingsClass : unreal.TSubclassOf<unreal.AWorldSettings>;
   
   /**
     @todo document
   **/
-  public var LocalPlayerClassName : unreal.FStringClassReference;
+  @:uproperty public var LocalPlayerClassName : unreal.FStringClassReference;
   
   /**
     The class to use for local players.
   **/
-  public var LocalPlayerClass : unreal.TSubclassOf<unreal.ULocalPlayer>;
+  @:uproperty public var LocalPlayerClass : unreal.TSubclassOf<unreal.ULocalPlayer>;
   
   /**
     @todo document
   **/
-  public var GameViewportClientClassName : unreal.FStringClassReference;
+  @:uproperty public var GameViewportClientClassName : unreal.FStringClassReference;
   
   /**
     The class to use for the game viewport client.
   **/
-  public var GameViewportClientClass : unreal.TSubclassOf<unreal.UGameViewportClient>;
+  @:uproperty public var GameViewportClientClass : unreal.TSubclassOf<unreal.UGameViewportClient>;
   
   /**
     @todo document
   **/
-  public var ConsoleClassName : unreal.FStringClassReference;
+  @:uproperty public var ConsoleClassName : unreal.FStringClassReference;
   
   /**
     The class to use for the game console.
   **/
-  public var ConsoleClass : unreal.TSubclassOf<unreal.UConsole>;
+  @:uproperty public var ConsoleClass : unreal.TSubclassOf<unreal.UConsole>;
   
   /**
     @todo document
   **/
-  public var AdditionalFontNames : unreal.TArray<unreal.FString>;
+  @:uproperty public var AdditionalFontNames : unreal.TArray<unreal.FString>;
   
   /**
     @todo document
   **/
-  public var SubtitleFontName : unreal.FStringAssetReference;
+  @:uproperty public var SubtitleFontName : unreal.FStringAssetReference;
   
   /**
     @todo document
   **/
-  public var LargeFontName : unreal.FStringAssetReference;
+  @:uproperty public var LargeFontName : unreal.FStringAssetReference;
   
   /**
     @todo document
   **/
-  public var MediumFontName : unreal.FStringAssetReference;
+  @:uproperty public var MediumFontName : unreal.FStringAssetReference;
   
   /**
     @todo document
   **/
-  public var SmallFontName : unreal.FStringAssetReference;
+  @:uproperty public var SmallFontName : unreal.FStringAssetReference;
   
   /**
     @todo document
   **/
-  public var TinyFontName : unreal.FStringAssetReference;
+  @:uproperty public var TinyFontName : unreal.FStringAssetReference;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/Material.h")
 @:uname("EDecalBlendMode")
-@:uextern extern enum EDecalBlendMode {
+@:uextern @:uenum extern enum EDecalBlendMode {
   
   /**
     Blend full material, updating the GBuffer, does not work for baked lighting.

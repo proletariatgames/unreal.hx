@@ -20,14 +20,14 @@ package unreal.niagara;
 **/
 @:umodule("Niagara")
 @:glueCppIncludes("NiagaraFunctionLibrary.h")
-@:uextern extern class UNiagaraFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UNiagaraFunctionLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Spawns a Niagara effect at the specified world location/rotation
     @return                       The spawned UNiagaraComponent
   **/
-  static public function SpawnEffectAtLocation(WorldContextObject : unreal.UObject, EffectTemplate : unreal.niagara.UNiagaraEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool) : unreal.niagara.UNiagaraComponent;
-  static public function SpawnEffectAttached(EffectTemplate : unreal.niagara.UNiagaraEffect, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bAutoDestroy : Bool) : unreal.niagara.UNiagaraComponent;
-  static public function SetUpdateScriptConstant(Component : unreal.niagara.UNiagaraComponent, EmitterName : unreal.FName, ConstantName : unreal.FName, Value : unreal.FVector) : Void;
+  @:ufunction static public function SpawnEffectAtLocation(WorldContextObject : unreal.UObject, EffectTemplate : unreal.niagara.UNiagaraEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool = true) : unreal.niagara.UNiagaraComponent;
+  @:ufunction static public function SpawnEffectAttached(EffectTemplate : unreal.niagara.UNiagaraEffect, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bAutoDestroy : Bool) : unreal.niagara.UNiagaraComponent;
+  @:ufunction static public function SetUpdateScriptConstant(Component : unreal.niagara.UNiagaraComponent, EmitterName : unreal.FName, ConstantName : unreal.FName, Value : unreal.FVector) : Void;
   
 }

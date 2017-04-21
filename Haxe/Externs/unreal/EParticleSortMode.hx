@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Particles/ParticleModuleRequired.h")
 @:uname("EParticleSortMode")
-@:uextern extern enum EParticleSortMode {
+@:uextern @:uenum extern enum EParticleSortMode {
   PSORTMODE_None;
   PSORTMODE_ViewProjDepth;
   PSORTMODE_DistanceToView;

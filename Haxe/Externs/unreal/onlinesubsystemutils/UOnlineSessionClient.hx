@@ -15,6 +15,6 @@ package unreal.onlinesubsystemutils;
 
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("OnlineSessionClient.h")
-@:uextern extern class UOnlineSessionClient extends unreal.UOnlineSession {
+@:uextern @:uclass extern class UOnlineSessionClient extends unreal.UOnlineSession {
   
 }

@@ -20,7 +20,7 @@ package unreal.slate;
 @:umodule("Slate")
 @:glueCppIncludes("Framework/Text/TextLayout.h")
 @:uname("ETextWrappingPolicy")
-@:class @:uextern extern enum ETextWrappingPolicy {
+@:class @:uextern @:uenum extern enum ETextWrappingPolicy {
   
   /**
     No fallback, just use the given line-break iterator

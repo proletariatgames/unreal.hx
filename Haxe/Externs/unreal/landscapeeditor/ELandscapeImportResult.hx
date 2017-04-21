@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeFileFormatInterface.h")
 @:uname("ELandscapeImportResult")
-@:class @:uextern extern enum ELandscapeImportResult {
+@:class @:uextern @:uenum extern enum ELandscapeImportResult {
   Success;
   Warning;
   Error;

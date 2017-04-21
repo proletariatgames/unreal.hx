@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimTypes.h")
 @:uname("EAnimInterpolationType")
-@:class @:uextern extern enum EAnimInterpolationType {
+@:class @:uextern @:uenum extern enum EAnimInterpolationType {
   
   /**
     Linear interpolation when looking up values between keys.

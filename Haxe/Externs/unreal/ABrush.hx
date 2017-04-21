@@ -14,45 +14,45 @@
 package unreal;
 
 @:glueCppIncludes("Engine/Brush.h")
-@:uextern extern class ABrush extends unreal.AActor {
+@:uextern @:uclass extern class ABrush extends unreal.AActor {
   
   /**
     Stores selection information from geometry mode.  This is the only information that we can't
     regenerate by looking at the source brushes following an undo operation.
   **/
-  public var SavedSelections : unreal.TArray<unreal.FGeomSelection>;
+  @:uproperty public var SavedSelections : unreal.TArray<unreal.FGeomSelection>;
   
   /**
     Flag set when we are in a manipulation (scaling, translation, brush builder param change etc.)
   **/
-  public var bInManipulation : Bool;
+  @:uproperty public var bInManipulation : Bool;
   #if WITH_EDITORONLY_DATA
-  public var BrushBuilder : unreal.UBrushBuilder;
+  @:uproperty public var BrushBuilder : unreal.UBrushBuilder;
   #end // WITH_EDITORONLY_DATA
-  public var BrushComponent : unreal.UBrushComponent;
-  public var Brush : unreal.UModel;
+  @:uproperty public var BrushComponent : unreal.UBrushComponent;
+  @:uproperty public var Brush : unreal.UModel;
   
   /**
     If true, this brush is a builder or otherwise does not need to be loaded into the game
   **/
-  public var bNotForClientOrServer : Bool;
+  @:uproperty public var bNotForClientOrServer : Bool;
   
   /**
     If true, this brush class can be placed using the class browser like other simple class types
   **/
-  public var bPlaceableFromClassBrowser : Bool;
-  public var bSolidWhenSelected : Bool;
-  public var bColored : Bool;
-  public var PolyFlags : unreal.Int32;
+  @:uproperty public var bPlaceableFromClassBrowser : Bool;
+  @:uproperty public var bSolidWhenSelected : Bool;
+  @:uproperty public var bColored : Bool;
+  @:uproperty public var PolyFlags : unreal.Int32;
   
   /**
     Information.
   **/
-  public var BrushColor : unreal.FColor;
+  @:uproperty public var BrushColor : unreal.FColor;
   
   /**
     Type of brush
   **/
-  public var BrushType : unreal.EBrushType;
+  @:uproperty public var BrushType : unreal.EBrushType;
   
 }

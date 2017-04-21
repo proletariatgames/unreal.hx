@@ -14,16 +14,16 @@
 package unreal;
 
 @:glueCppIncludes("Matinee/InterpTrackFloatBase.h")
-@:uextern extern class UInterpTrackFloatBase extends unreal.UInterpTrack {
+@:uextern @:uclass extern class UInterpTrackFloatBase extends unreal.UInterpTrack {
   
   /**
     Tension of curve, used for keypoints using automatic tangents.
   **/
-  public var CurveTension : unreal.Float32;
+  @:uproperty public var CurveTension : unreal.Float32;
   
   /**
     Actually track data containing keyframes of float as it varies over time.
   **/
-  public var FloatTrack : unreal.FInterpCurveFloat;
+  @:uproperty public var FloatTrack : unreal.FInterpCurveFloat;
   
 }

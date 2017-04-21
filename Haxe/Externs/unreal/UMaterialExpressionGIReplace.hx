@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionGIReplace.h")
-@:noClass @:uextern extern class UMaterialExpressionGIReplace extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionGIReplace extends unreal.UMaterialExpression {
   
   /**
     Used for dynamic indirect lighting e.g. Light Propagation Volumes
   **/
-  public var DynamicIndirect : unreal.FExpressionInput;
+  @:uproperty public var DynamicIndirect : unreal.FExpressionInput;
   
   /**
     Used for baked indirect lighting e.g. Lightmass
   **/
-  public var StaticIndirect : unreal.FExpressionInput;
+  @:uproperty public var StaticIndirect : unreal.FExpressionInput;
   
   /**
     Used for direct lighting computations e.g. real-time shaders
   **/
-  public var Default : unreal.FExpressionInput;
+  @:uproperty public var Default : unreal.FExpressionInput;
   
 }

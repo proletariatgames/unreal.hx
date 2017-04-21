@@ -19,61 +19,61 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_TwoBoneIK.h")
-@:uextern extern class FAnimNode_TwoBoneIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_TwoBoneIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     If JointTargetSpaceBoneName is a bone, this is the bone to use. *
   **/
-  public var JointTargetSpaceBoneName : unreal.FName;
+  @:uproperty public var JointTargetSpaceBoneName : unreal.FName;
   
   /**
     Reference frame of Joint Target Location.
   **/
-  public var JointTargetLocationSpace : unreal.EBoneControlSpace;
+  @:uproperty public var JointTargetLocationSpace : unreal.EBoneControlSpace;
   
   /**
     Reference frame of Effector Location.
   **/
-  public var EffectorLocationSpace : unreal.EBoneControlSpace;
+  @:uproperty public var EffectorLocationSpace : unreal.EBoneControlSpace;
   
   /**
     Should stretching be allowed, to be prevent over extension
   **/
-  public var bAllowStretching : Bool;
+  @:uproperty public var bAllowStretching : Bool;
   
   /**
     Keep local rotation of end bone
   **/
-  public var bMaintainEffectorRelRot : Bool;
+  @:uproperty public var bMaintainEffectorRelRot : Bool;
   
   /**
     Set end bone to use End Effector rotation
   **/
-  public var bTakeRotationFromEffectorSpace : Bool;
+  @:uproperty public var bTakeRotationFromEffectorSpace : Bool;
   
   /**
     If EffectorLocationSpace is a bone, this is the bone to use. *
   **/
-  public var EffectorSpaceBoneName : unreal.FName;
+  @:uproperty public var EffectorSpaceBoneName : unreal.FName;
   
   /**
     Limits to use if stretching is allowed.
   **/
-  public var StretchLimits : unreal.FVector2D;
+  @:uproperty public var StretchLimits : unreal.FVector2D;
   
   /**
     Joint Target Location. Location used to orient Joint bone. *
   **/
-  public var JointTargetLocation : unreal.FVector;
+  @:uproperty public var JointTargetLocation : unreal.FVector;
   
   /**
     Effector Location. Target Location to reach.
   **/
-  public var EffectorLocation : unreal.FVector;
+  @:uproperty public var EffectorLocation : unreal.FVector;
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var IKBone : unreal.FBoneReference;
+  @:uproperty public var IKBone : unreal.FBoneReference;
   
 }

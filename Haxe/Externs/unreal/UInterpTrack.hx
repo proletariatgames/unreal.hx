@@ -20,74 +20,74 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpTrack.h")
-@:uextern extern class UInterpTrack extends unreal.UObject {
+@:uextern @:uclass extern class UInterpTrack extends unreal.UObject {
   #if WITH_EDITORONLY_DATA
   
   /**
     If this track is collapsed. (Only applies  to tracks with subtracks).
   **/
-  public var bIsCollapsed : Bool;
+  @:uproperty public var bIsCollapsed : Bool;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Whether or not this track is recording in the editor.
   **/
-  public var bIsRecording : Bool;
+  @:uproperty public var bIsRecording : Bool;
   
   /**
     Whether or not this track is visible in the editor.
   **/
-  public var bVisible : Bool;
+  @:uproperty public var bVisible : Bool;
   
   /**
     If this track can only exist as a sub track.
   **/
-  public var bSubTrackOnly : Bool;
+  @:uproperty public var bSubTrackOnly : Bool;
   
   /**
     If true, the  AActor  this track is working on will have BeginAnimControl/FinishAnimControl called on it.
   **/
-  public var bIsAnimControlTrack : Bool;
+  @:uproperty public var bIsAnimControlTrack : Bool;
   #if WITH_EDITORONLY_DATA
-  public var TrackIcon : unreal.UTexture2D;
+  @:uproperty public var TrackIcon : unreal.UTexture2D;
   #end // WITH_EDITORONLY_DATA
   
   /**
     If this track can only exist inside the Director group.
   **/
-  public var bDirGroupOnly : Bool;
+  @:uproperty public var bDirGroupOnly : Bool;
   
   /**
     Whether there may only be one of this track in an UInterpGroup.
   **/
-  public var bOnePerGroup : Bool;
+  @:uproperty public var bOnePerGroup : Bool;
   
   /**
     Title of track type.
   **/
-  public var TrackTitle : unreal.FString;
+  @:uproperty public var TrackTitle : unreal.FString;
   
   /**
     Sets the condition that must be met for this track to be enabled
   **/
-  public var ActiveCondition : unreal.ETrackActiveCondition;
-  public var TrackInstClass : unreal.TSubclassOf<unreal.UInterpTrackInst>;
+  @:uproperty public var ActiveCondition : unreal.ETrackActiveCondition;
+  @:uproperty public var TrackInstClass : unreal.TSubclassOf<unreal.UInterpTrackInst>;
   #if WITH_EDITORONLY_DATA
   
   /**
     A list of supported tracks that can be a subtrack of this track.
   **/
-  public var SupportedSubTracks : unreal.TArray<unreal.FSupportedSubTrackInfo>;
+  @:uproperty public var SupportedSubTracks : unreal.TArray<unreal.FSupportedSubTrackInfo>;
   
   /**
     A list of subtrack groups (for editor UI organization only)
   **/
-  public var SubTrackGroups : unreal.TArray<unreal.FSubTrackGroup>;
+  @:uproperty public var SubTrackGroups : unreal.TArray<unreal.FSubTrackGroup>;
   #end // WITH_EDITORONLY_DATA
   
   /**
     A list of subtracks that belong to this track
   **/
-  public var SubTracks : unreal.TArray<unreal.UInterpTrack>;
+  @:uproperty public var SubTracks : unreal.TArray<unreal.UInterpTrack>;
   
 }

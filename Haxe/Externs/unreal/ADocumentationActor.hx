@@ -14,14 +14,14 @@
 package unreal;
 
 @:glueCppIncludes("Engine/DocumentationActor.h")
-@:uextern extern class ADocumentationActor extends unreal.AActor {
+@:uextern @:uclass extern class ADocumentationActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var Billboard : unreal.UMaterialBillboardComponent;
+  @:uproperty public var Billboard : unreal.UMaterialBillboardComponent;
   
   /**
     Link to a help document.
   **/
-  public var DocumentLink : unreal.FString;
+  @:uproperty public var DocumentLink : unreal.FString;
   #end // WITH_EDITORONLY_DATA
   
 }

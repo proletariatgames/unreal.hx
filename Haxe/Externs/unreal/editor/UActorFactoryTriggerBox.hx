@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryTriggerBox.h")
-@:uextern extern class UActorFactoryTriggerBox extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryTriggerBox extends unreal.editor.UActorFactory {
   
 }

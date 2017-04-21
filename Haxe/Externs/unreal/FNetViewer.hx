@@ -18,27 +18,27 @@ package unreal;
   stores information on a viewer that actors need to be checked against for relevancy
 **/
 @:glueCppIncludes("GameFramework/WorldSettings.h")
-@:uextern extern class FNetViewer {
+@:uextern @:ustruct extern class FNetViewer {
   
   /**
     Direction the viewer is looking
   **/
-  public var ViewDir : unreal.FVector;
+  @:uproperty public var ViewDir : unreal.FVector;
   
   /**
     Where the viewer is looking from
   **/
-  public var ViewLocation : unreal.FVector;
+  @:uproperty public var ViewLocation : unreal.FVector;
   
   /**
     The actor that is being directly viewed, usually a pawn.  Could also be the net actor of consequence
   **/
-  public var ViewTarget : unreal.AActor;
+  @:uproperty public var ViewTarget : unreal.AActor;
   
   /**
     The "controlling net object" associated with this view (typically player controller)
   **/
-  public var InViewer : unreal.AActor;
-  public var Connection : unreal.UNetConnection;
+  @:uproperty public var InViewer : unreal.AActor;
+  @:uproperty public var Connection : unreal.UNetConnection;
   
 }

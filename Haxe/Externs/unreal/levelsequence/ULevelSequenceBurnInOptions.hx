@@ -15,9 +15,9 @@ package unreal.levelsequence;
 
 @:umodule("LevelSequence")
 @:glueCppIncludes("LevelSequenceActor.h")
-@:uextern extern class ULevelSequenceBurnInOptions extends unreal.UObject {
-  public var Settings : unreal.levelsequence.ULevelSequenceBurnInInitSettings;
-  public var BurnInClass : unreal.FStringClassReference;
-  public var bUseBurnIn : Bool;
+@:uextern @:uclass extern class ULevelSequenceBurnInOptions extends unreal.UObject {
+  @:uproperty public var Settings : unreal.levelsequence.ULevelSequenceBurnInInitSettings;
+  @:uproperty public var BurnInClass : unreal.FStringClassReference;
+  @:uproperty public var bUseBurnIn : Bool;
   
 }

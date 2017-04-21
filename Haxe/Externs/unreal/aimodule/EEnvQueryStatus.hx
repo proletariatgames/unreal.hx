@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvQueryStatus.Type")
-@:uextern extern enum EEnvQueryStatus {
+@:uextern @:uenum extern enum EEnvQueryStatus {
   Processing;
   Success;
   Failed;

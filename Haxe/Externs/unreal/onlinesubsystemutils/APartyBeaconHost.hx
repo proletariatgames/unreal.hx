@@ -19,21 +19,21 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("PartyBeaconHost.h")
-@:uextern extern class APartyBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeaconHostObject {
+@:uextern @:uclass extern class APartyBeaconHost extends unreal.onlinesubsystemutils.AOnlineBeaconHostObject {
   
   /**
     Seconds that can elapse before a reservation is removed due to player not being registered with the session during a travel
   **/
-  private var TravelSessionTimeoutSecs : unreal.Float32;
+  @:uproperty private var TravelSessionTimeoutSecs : unreal.Float32;
   
   /**
     Seconds that can elapse before a reservation is removed due to player not being registered with the session
   **/
-  private var SessionTimeoutSecs : unreal.Float32;
+  @:uproperty private var SessionTimeoutSecs : unreal.Float32;
   
   /**
     State of the beacon
   **/
-  private var State : unreal.onlinesubsystemutils.UPartyBeaconState;
+  @:uproperty private var State : unreal.onlinesubsystemutils.UPartyBeaconState;
   
 }

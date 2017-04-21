@@ -21,12 +21,12 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
-@:noCopy @:noEquals @:uextern extern class FNamedLensPreset {
-  public var LensSettings : unreal.cinematiccamera.FCameraLensSettings;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNamedLensPreset {
+  @:uproperty public var LensSettings : unreal.cinematiccamera.FCameraLensSettings;
   
   /**
     Name for the preset.
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

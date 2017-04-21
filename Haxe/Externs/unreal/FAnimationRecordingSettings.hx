@@ -18,31 +18,31 @@ package unreal;
   Settings describing how to record an animation
 **/
 @:glueCppIncludes("Animation/AnimationRecordingSettings.h")
-@:uextern extern class FAnimationRecordingSettings {
+@:uextern @:ustruct extern class FAnimationRecordingSettings {
   
   /**
     Maximum length of the animation recorded (in seconds). If zero the animation will keep on recording until stopped.
   **/
-  public var Length : unreal.Float32;
+  @:uproperty public var Length : unreal.Float32;
   
   /**
     Sample rate of the recorded animation (in Hz)
   **/
-  public var SampleRate : unreal.Float32;
+  @:uproperty public var SampleRate : unreal.Float32;
   
   /**
     Whether to auto-save asset when recording is completed. Defaults to false
   **/
-  public var bAutoSaveAsset : Bool;
+  @:uproperty public var bAutoSaveAsset : Bool;
   
   /**
     Whether to remove the root bone transform from the animation
   **/
-  public var bRemoveRootAnimation : Bool;
+  @:uproperty public var bRemoveRootAnimation : Bool;
   
   /**
     Whether to record animation in world space, defaults to true
   **/
-  public var bRecordInWorldSpace : Bool;
+  @:uproperty public var bRecordInWorldSpace : Bool;
   
 }

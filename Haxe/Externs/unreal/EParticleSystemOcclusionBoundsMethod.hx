@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleSystem.h")
 @:uname("EParticleSystemOcclusionBoundsMethod")
-@:uextern extern enum EParticleSystemOcclusionBoundsMethod {
+@:uextern @:uenum extern enum EParticleSystemOcclusionBoundsMethod {
   
   /**
     Don't determine occlusion on this particle system

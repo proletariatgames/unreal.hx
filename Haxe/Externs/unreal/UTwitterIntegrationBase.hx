@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/TwitterIntegrationBase.h")
-@:noClass @:uextern extern class UTwitterIntegrationBase extends unreal.UPlatformInterfaceBase {
+@:noClass @:uextern @:uclass extern class UTwitterIntegrationBase extends unreal.UPlatformInterfaceBase {
   
 }

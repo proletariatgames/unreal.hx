@@ -20,50 +20,50 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:uextern extern class UMaterialInstance extends unreal.UMaterialInterface {
-  public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
-  @:deprecated public var bOverrideBaseProperties_DEPRECATED : Bool;
+@:uextern @:uclass extern class UMaterialInstance extends unreal.UMaterialInterface {
+  @:uproperty public var BasePropertyOverrides : unreal.FMaterialInstanceBasePropertyOverrides;
+  @:deprecated @:uproperty public var bOverrideBaseProperties_DEPRECATED : Bool;
   
   /**
     Vector parameters.
   **/
-  public var VectorParameterValues : unreal.TArray<unreal.FVectorParameterValue>;
+  @:uproperty public var VectorParameterValues : unreal.TArray<unreal.FVectorParameterValue>;
   
   /**
     Texture parameters.
   **/
-  public var TextureParameterValues : unreal.TArray<unreal.FTextureParameterValue>;
+  @:uproperty public var TextureParameterValues : unreal.TArray<unreal.FTextureParameterValue>;
   
   /**
     Scalar parameters.
   **/
-  public var ScalarParameterValues : unreal.TArray<unreal.FScalarParameterValue>;
+  @:uproperty public var ScalarParameterValues : unreal.TArray<unreal.FScalarParameterValue>;
   
   /**
     Font parameters.
   **/
-  public var FontParameterValues : unreal.TArray<unreal.FFontParameterValue>;
+  @:uproperty public var FontParameterValues : unreal.TArray<unreal.FFontParameterValue>;
   
   /**
     Defines if SubsurfaceProfile from this instance is used or it uses the parent one.
   **/
-  public var bOverrideSubsurfaceProfile : Bool;
+  @:uproperty public var bOverrideSubsurfaceProfile : Bool;
   
   /**
     Indicates whether the instance has static permutation resources (which are required when static parameters are present)
     Read directly from the rendering thread, can only be modified with the use of a FMaterialUpdateContext.
     When true, StaticPermutationMaterialResources will always be valid and non-null.
   **/
-  public var bHasStaticPermutationResource : Bool;
+  @:uproperty public var bHasStaticPermutationResource : Bool;
   
   /**
     Parent material.
   **/
-  public var Parent : unreal.UMaterialInterface;
+  @:uproperty public var Parent : unreal.UMaterialInterface;
   
   /**
     Physical material to use for this graphics material. Used for sounds, effects etc.
   **/
-  public var PhysMaterial : unreal.UPhysicalMaterial;
+  @:uproperty public var PhysMaterial : unreal.UPhysicalMaterial;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
 @:uname("ERangeBoundTypes.Type")
-@:uextern extern enum ERangeBoundTypes {
+@:uextern @:uenum extern enum ERangeBoundTypes {
   
   /**
     The range excludes the bound.

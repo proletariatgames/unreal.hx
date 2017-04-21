@@ -20,19 +20,19 @@ package unreal;
   Preview APawn class for this track
 **/
 @:glueCppIncludes("Matinee/InterpGroupCamera.h")
-@:noCopy @:noEquals @:uextern extern class FCameraPreviewInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraPreviewInfo {
   
   /**
     APawn Inst - CameraAnimInst doesn't really exist in editor *
   **/
-  public var PawnInst : unreal.APawn;
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var PawnInst : unreal.APawn;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     for now this is read-only. It has maintenance issue to be resolved if I enable this.
   **/
-  public var Location : unreal.FVector;
-  public var AnimSeq : unreal.UAnimSequence;
-  public var PawnClass : unreal.TSubclassOf<unreal.APawn>;
+  @:uproperty public var Location : unreal.FVector;
+  @:uproperty public var AnimSeq : unreal.UAnimSequence;
+  @:uproperty public var PawnClass : unreal.TSubclassOf<unreal.APawn>;
   
 }

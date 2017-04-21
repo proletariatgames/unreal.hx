@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
 @:uname("EConsumeMouseWheel")
-@:class @:uextern extern enum EConsumeMouseWheel {
+@:class @:uextern @:uenum extern enum EConsumeMouseWheel {
   
   /**
     Only consume the mouse wheel event when we actually scroll some amount.

@@ -15,19 +15,19 @@ package unreal.mediaassets;
 
 @:umodule("MediaAssets")
 @:glueCppIncludes("FileMediaSource.h")
-@:uextern extern class UFileMediaSource extends unreal.mediaassets.UMediaSource {
+@:uextern @:uclass extern class UFileMediaSource extends unreal.mediaassets.UMediaSource {
   
   /**
     Load entire media file into memory and play from there (if possible).
   **/
-  public var PrecacheFile : Bool;
+  @:uproperty public var PrecacheFile : Bool;
   
   /**
     The path to the media file to be played.
     
     @see SetFilePath
   **/
-  public var FilePath : unreal.FString;
+  @:uproperty public var FilePath : unreal.FString;
   
   /**
     Set the path to the media file that this source represents.
@@ -38,6 +38,6 @@ package unreal.mediaassets;
     @param Path The path to set.
     @see FilePath, GetFilePath
   **/
-  @:final public function SetFilePath(Path : unreal.FString) : Void;
+  @:ufunction @:final public function SetFilePath(Path : unreal.FString) : Void;
   
 }

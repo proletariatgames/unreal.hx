@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/Material.h")
 @:uname("EMaterialDecalResponse")
-@:uextern extern enum EMaterialDecalResponse {
+@:uextern @:uenum extern enum EMaterialDecalResponse {
   
   /**
     Do not receive decals (Later we still can read the DBuffer channels to customize the effect, this frees up some interpolators).

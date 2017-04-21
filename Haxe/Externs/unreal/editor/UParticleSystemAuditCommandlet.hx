@@ -21,16 +21,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/ParticleSystemAuditCommandlet.h")
-@:noClass @:uextern extern class UParticleSystemAuditCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UParticleSystemAuditCommandlet extends unreal.UCommandlet {
   
   /**
     If a particle system has an LODDistance larger than this value, it will be reported
   **/
-  public var FarLODDistanceTheshold : unreal.Float32;
+  @:uproperty public var FarLODDistanceTheshold : unreal.Float32;
   
   /**
     If a particle system has a spawn rate or burst count greater than this value, it will be reported
   **/
-  public var HighSpawnRateOrBurstThreshold : unreal.Float32;
+  @:uproperty public var HighSpawnRateOrBurstThreshold : unreal.Float32;
   
 }

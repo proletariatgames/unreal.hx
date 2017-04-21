@@ -19,16 +19,16 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FExpandableAreaStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FExpandableAreaStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Image to use when the area is expanded
   **/
-  public var ExpandedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var ExpandedImage : unreal.slatecore.FSlateBrush;
   
   /**
     Image to use when the area is collapsed
   **/
-  public var CollapsedImage : unreal.slatecore.FSlateBrush;
+  @:uproperty public var CollapsedImage : unreal.slatecore.FSlateBrush;
   
 }

@@ -21,8 +21,8 @@ package unreal.aitestsuite;
 **/
 @:umodule("AITestSuite")
 @:glueCppIncludes("BehaviorTree/TestBTService_Log.h")
-@:noClass @:uextern extern class UTestBTService_Log extends unreal.aimodule.UBTService {
-  public var LogDeactivation : unreal.Int32;
-  public var LogActivation : unreal.Int32;
+@:noClass @:uextern @:uclass extern class UTestBTService_Log extends unreal.aimodule.UBTService {
+  @:uproperty public var LogDeactivation : unreal.Int32;
+  @:uproperty public var LogActivation : unreal.Int32;
   
 }

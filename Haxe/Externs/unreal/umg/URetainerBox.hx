@@ -26,12 +26,12 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class URetainerBox extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class URetainerBox extends unreal.umg.UContentWidget {
   
   /**
     The texture sampler parameter of the @EffectMaterial, that we'll set to the render target.
   **/
-  private var TextureParameter : unreal.FName;
+  @:uproperty private var TextureParameter : unreal.FName;
   
   /**
     The effect to optionally apply to the render target.  We will set the texture sampler based on the name
@@ -41,7 +41,7 @@ package unreal.umg;
     and make sure to multiply the alpha you're apply across the surface to the color and the alpha of the render target, otherwise
     you won't see the expected color.
   **/
-  private var EffectMaterial : unreal.UMaterialInterface;
+  @:uproperty private var EffectMaterial : unreal.UMaterialInterface;
   
   /**
     The PhaseCount controls how many phases are possible know what to modulus the current frame
@@ -51,7 +51,7 @@ package unreal.umg;
     If the Phase were 0, and the PhaseCount were 2, this retainer would draw a fresh frame every
     other frame.  So in a 60Hz game, the UI would render at 30Hz.
   **/
-  public var PhaseCount : unreal.Int32;
+  @:uproperty public var PhaseCount : unreal.Int32;
   
   /**
     The Phase this widget will draw on.
@@ -60,21 +60,21 @@ package unreal.umg;
     If the Phase were 0, and the PhaseCount were 2, this retainer would draw a fresh frame every
     other frame.  So in a 60Hz game, the UI would render at 30Hz.
   **/
-  public var Phase : unreal.Int32;
+  @:uproperty public var Phase : unreal.Int32;
   
   /**
     Get the current dynamic effect material applied to the retainer box.
   **/
-  @:thisConst @:final public function GetEffectMaterial() : unreal.UMaterialInstanceDynamic;
+  @:ufunction @:thisConst @:final public function GetEffectMaterial() : unreal.UMaterialInstanceDynamic;
   
   /**
     Set a new effect material to the retainer widget.
   **/
-  @:final public function SetEffectMaterial(EffectMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction @:final public function SetEffectMaterial(EffectMaterial : unreal.UMaterialInterface) : Void;
   
   /**
     Sets the name of the texture parameter to set the render target to on the material.
   **/
-  @:final public function SetTextureParameter(TextureParameter : unreal.FName) : Void;
+  @:ufunction @:final public function SetTextureParameter(TextureParameter : unreal.FName) : Void;
   
 }

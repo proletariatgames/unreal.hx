@@ -21,21 +21,21 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
-@:noCopy @:noEquals @:uextern extern class FCameraTrackingFocusSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraTrackingFocusSettings {
   
   /**
     True to draw a debug representation of the tracked position.
   **/
-  public var bDrawDebugTrackingFocusPoint : Bool;
+  @:uproperty public var bDrawDebugTrackingFocusPoint : Bool;
   
   /**
     Offset from actor position to track. Relative to actor if tracking an actor, relative to world otherwise.
   **/
-  public var RelativeOffset : unreal.FVector;
+  @:uproperty public var RelativeOffset : unreal.FVector;
   
   /**
     Focus distance will be tied to this actor's location.
   **/
-  public var ActorToTrack : unreal.AActor;
+  @:uproperty public var ActorToTrack : unreal.AActor;
   
 }

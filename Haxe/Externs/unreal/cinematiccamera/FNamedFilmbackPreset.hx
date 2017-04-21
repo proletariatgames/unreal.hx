@@ -21,12 +21,12 @@ package unreal.cinematiccamera;
 **/
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CineCameraComponent.h")
-@:noCopy @:noEquals @:uextern extern class FNamedFilmbackPreset {
-  public var FilmbackSettings : unreal.cinematiccamera.FCameraFilmbackSettings;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNamedFilmbackPreset {
+  @:uproperty public var FilmbackSettings : unreal.cinematiccamera.FCameraFilmbackSettings;
   
   /**
     Name for the preset.
   **/
-  public var Name : unreal.FString;
+  @:uproperty public var Name : unreal.FString;
   
 }

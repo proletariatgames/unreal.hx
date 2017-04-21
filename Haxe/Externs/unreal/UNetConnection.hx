@@ -20,57 +20,57 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/NetConnection.h")
-@:uextern extern class UNetConnection extends unreal.UPlayer {
+@:uextern @:uclass extern class UNetConnection extends unreal.UPlayer {
   
   /**
     Internal.
   **/
-  public var LastReceiveTime : unreal.Float64;
+  @:uproperty public var LastReceiveTime : unreal.Float64;
   
   /**
     Net id of remote player on this connection. Only valid on client connections (server side).
   **/
-  public var PlayerId : unreal.FUniqueNetIdRepl;
+  @:uproperty public var PlayerId : unreal.FUniqueNetIdRepl;
   
   /**
     Maximum packet size.
   **/
-  public var InternalAck : Bool;
-  public var MaxPacket : unreal.Int32;
+  @:uproperty public var InternalAck : Bool;
+  @:uproperty public var MaxPacket : unreal.Int32;
   
   /**
     Reference to controlling actor (usually PlayerController)
   **/
-  public var OwningActor : unreal.AActor;
+  @:uproperty public var OwningActor : unreal.AActor;
   
   /**
     The actor that is currently being viewed/controlled by the owning controller
   **/
-  public var ViewTarget : unreal.AActor;
+  @:uproperty public var ViewTarget : unreal.AActor;
   
   /**
     @todo document
   **/
-  public var SentTemporaries : unreal.TArray<unreal.AActor>;
+  @:uproperty public var SentTemporaries : unreal.TArray<unreal.AActor>;
   
   /**
     @todo document
   **/
-  public var OpenChannels : unreal.TArray<unreal.UChannel>;
+  @:uproperty public var OpenChannels : unreal.TArray<unreal.UChannel>;
   
   /**
     Package map between local and remote. (negotiates net serialization)
   **/
-  public var PackageMap : unreal.UPackageMap;
+  @:uproperty public var PackageMap : unreal.UPackageMap;
   
   /**
     Owning net driver
   **/
-  public var Driver : unreal.UNetDriver;
+  @:uproperty public var Driver : unreal.UNetDriver;
   
   /**
     child connections for secondary viewports
   **/
-  public var Children : unreal.TArray<unreal.UChildConnection>;
+  @:uproperty public var Children : unreal.TArray<unreal.UChildConnection>;
   
 }

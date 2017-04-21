@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UDynamicClass extends unreal.UClass {
+@:uextern @:uclass extern class UDynamicClass extends unreal.UClass {
   
 }

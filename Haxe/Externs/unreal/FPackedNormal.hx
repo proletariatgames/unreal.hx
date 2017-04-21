@@ -21,6 +21,6 @@ package unreal;
   The full C++ class is located here: Engine\Source\Runtime\RenderCore\Public\PackedNormal.h
 **/
 @:glueCppIncludes("UObject/NoExportTypes.h")
-@:noCopy @:noEquals @:uextern extern class FPackedNormal {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPackedNormal {
   
 }

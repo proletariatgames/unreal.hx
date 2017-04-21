@@ -15,8 +15,8 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Perception/AISense_Touch.h")
-@:uextern extern class FAITouchEvent {
-  public var OtherActor : unreal.AActor;
-  public var TouchReceiver : unreal.AActor;
+@:uextern @:ustruct extern class FAITouchEvent {
+  @:uproperty public var OtherActor : unreal.AActor;
+  @:uproperty public var TouchReceiver : unreal.AActor;
   
 }

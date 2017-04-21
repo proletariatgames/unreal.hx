@@ -21,16 +21,16 @@ package unreal;
   need to do a full camera update once per tick.
 **/
 @:glueCppIncludes("Camera/PlayerCameraManager.h")
-@:noCopy @:noEquals @:uextern extern class FCameraCacheEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCameraCacheEntry {
   
   /**
     Camera POV to cache.
   **/
-  public var POV : unreal.FMinimalViewInfo;
+  @:uproperty public var POV : unreal.FMinimalViewInfo;
   
   /**
     World time this entry was created.
   **/
-  public var TimeStamp : unreal.Float32;
+  @:uproperty public var TimeStamp : unreal.Float32;
   
 }

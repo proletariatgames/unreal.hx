@@ -21,6 +21,6 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Input/Events.h")
-@:noCopy @:noEquals @:uextern extern class FCharacterEvent extends unreal.slatecore.FInputEvent {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FCharacterEvent extends unreal.slatecore.FInputEvent {
   
 }

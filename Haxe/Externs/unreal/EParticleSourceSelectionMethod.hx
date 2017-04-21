@@ -20,7 +20,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleModule.h")
 @:uname("EParticleSourceSelectionMethod")
-@:uextern extern enum EParticleSourceSelectionMethod {
+@:uextern @:uenum extern enum EParticleSourceSelectionMethod {
   
   /**
     Random         - select a particle at random

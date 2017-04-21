@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Commandlets/PopulateDialogueWaveFromCharacterSheetCommandlet.h")
-@:noClass @:uextern extern class UPopulateDialogueWaveFromCharacterSheetCommandlet extends unreal.UCommandlet {
+@:noClass @:uextern @:uclass extern class UPopulateDialogueWaveFromCharacterSheetCommandlet extends unreal.UCommandlet {
   
 }

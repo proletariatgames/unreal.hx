@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/SkeletalMeshComponent.h")
 @:uname("EAnimationMode.Type")
-@:uextern extern enum EAnimationMode {
+@:uextern @:uenum extern enum EAnimationMode {
   
   /**
     Use Animation Blueprint

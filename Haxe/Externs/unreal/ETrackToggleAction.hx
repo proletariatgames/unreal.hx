@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Matinee/InterpTrackToggle.h")
 @:uname("ETrackToggleAction")
-@:uextern extern enum ETrackToggleAction {
+@:uextern @:uenum extern enum ETrackToggleAction {
   ETTA_Off;
   ETTA_On;
   ETTA_Toggle;

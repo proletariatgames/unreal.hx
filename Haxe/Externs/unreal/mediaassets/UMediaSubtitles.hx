@@ -19,6 +19,6 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaSubtitles.h")
-@:uextern extern class UMediaSubtitles extends unreal.UObject {
+@:uextern @:uclass extern class UMediaSubtitles extends unreal.UObject {
   
 }

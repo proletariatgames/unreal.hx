@@ -25,37 +25,37 @@ package unreal;
   During swept (non-teleporting) movement only collision of UpdatedComponent is considered, attached components will teleport to the end location ignoring collision.
 **/
 @:glueCppIncludes("GameFramework/MovementComponent.h")
-@:uextern extern class UMovementComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UMovementComponent extends unreal.UActorComponent {
   
   /**
     If true, registers the owner's Root component as the UpdatedComponent if there is not one currently assigned.
   **/
-  public var bAutoRegisterUpdatedComponent : Bool;
+  @:uproperty public var bAutoRegisterUpdatedComponent : Bool;
   
   /**
     If true, after registration we will add a tick dependency to tick before our owner (if we can both tick).
     This is important when our tick causes an update in the owner's position, so that when the owner ticks it uses the most recent position without lag.
     Disabling this can improve performance if both objects tick but the order of ticks doesn't matter.
   **/
-  public var bTickBeforeOwner : Bool;
+  @:uproperty public var bTickBeforeOwner : Bool;
   
   /**
     If true, whenever the updated component is changed, this component will enable or disable its tick dependent on whether it has something to update.
     This will NOT enable tick at startup if bAutoActivate is false, because presumably you have a good reason for not wanting it to start ticking initially.
   **/
-  public var bAutoUpdateTickRegistration : Bool;
+  @:uproperty public var bAutoUpdateTickRegistration : Bool;
   
   /**
     If true, skips TickComponent() if UpdatedComponent was not recently rendered.
   **/
-  public var bUpdateOnlyIfRendered : Bool;
+  @:uproperty public var bUpdateOnlyIfRendered : Bool;
   
   /**
     The origin of the plane that constrains movement, if plane constraint is enabled.
     This defines the behavior of snapping a position to the plane, such as by SnapUpdatedComponentToPlane().
     @see bConstrainToPlane, SetPlaneConstraintOrigin().
   **/
-  private var PlaneConstraintOrigin : unreal.FVector;
+  @:uproperty private var PlaneConstraintOrigin : unreal.FVector;
   
   /**
     The normal or axis of the plane that constrains movement, if bConstrainToPlane is enabled.
@@ -63,89 +63,89 @@ package unreal;
     This is recalculated whenever PlaneConstraintAxisSetting changes. It is normalized once the component is registered with the game world.
     @see bConstrainToPlane, SetPlaneConstraintNormal(), SetPlaneConstraintFromVectors()
   **/
-  private var PlaneConstraintNormal : unreal.FVector;
+  @:uproperty private var PlaneConstraintNormal : unreal.FVector;
   
   /**
     If true and plane constraints are enabled, then the updated component will be snapped to the plane when first attached.
   **/
-  public var bSnapToPlaneAtStart : Bool;
+  @:uproperty public var bSnapToPlaneAtStart : Bool;
   
   /**
     If true, movement will be constrained to a plane.
     @see PlaneConstraintNormal, PlaneConstraintOrigin, PlaneConstraintAxisSetting
   **/
-  public var bConstrainToPlane : Bool;
+  @:uproperty public var bConstrainToPlane : Bool;
   
   /**
     Current velocity of updated component.
   **/
-  public var Velocity : unreal.FVector;
+  @:uproperty public var Velocity : unreal.FVector;
   
   /**
     UpdatedComponent, cast as a UPrimitiveComponent. May be invalid if UpdatedComponent was null or not a UPrimitiveComponent.
   **/
-  public var UpdatedPrimitive : unreal.UPrimitiveComponent;
+  @:uproperty public var UpdatedPrimitive : unreal.UPrimitiveComponent;
   
   /**
     The component we move and update.
     If this is null at startup and bAutoRegisterUpdatedComponent is true, the owning Actor's root component will automatically be set as our UpdatedComponent at startup.
     @see bAutoRegisterUpdatedComponent, SetUpdatedComponent(), UpdatedPrimitive
   **/
-  public var UpdatedComponent : unreal.USceneComponent;
+  @:uproperty public var UpdatedComponent : unreal.USceneComponent;
   
   /**
     @return gravity that affects this component
   **/
-  @:thisConst public function GetGravityZ() : unreal.Float32;
+  @:ufunction @:thisConst public function GetGravityZ() : unreal.Float32;
   
   /**
     @return Maximum speed of component in current movement mode.
   **/
-  @:thisConst public function GetMaxSpeed() : unreal.Float32;
+  @:ufunction @:thisConst public function GetMaxSpeed() : unreal.Float32;
   
   /**
     @return a scalar applied to the maximum velocity that the component can currently move.
   **/
-  @:thisConst public function K2_GetMaxSpeedModifier() : unreal.Float32;
+  @:ufunction @:thisConst public function K2_GetMaxSpeedModifier() : unreal.Float32;
   
   /**
     @return the result of GetMaxSpeed() * GetMaxSpeedModifier().
   **/
-  @:thisConst public function K2_GetModifiedMaxSpeed() : unreal.Float32;
+  @:ufunction @:thisConst public function K2_GetModifiedMaxSpeed() : unreal.Float32;
   
   /**
     Returns true if the current velocity is exceeding the given max speed (usually the result of GetMaxSpeed()), within a small error tolerance.
     Note that under normal circumstances updates cause by acceleration will not cause this to be true, however external forces or changes in the max speed limit
     can cause the max speed to be violated.
   **/
-  @:thisConst public function IsExceedingMaxSpeed(MaxSpeed : unreal.Float32) : Bool;
+  @:ufunction @:thisConst public function IsExceedingMaxSpeed(MaxSpeed : unreal.Float32) : Bool;
   
   /**
     Stops movement immediately (zeroes velocity, usually zeros acceleration for components with acceleration).
   **/
-  public function StopMovementImmediately() : Void;
+  @:ufunction public function StopMovementImmediately() : Void;
   
   /**
     @return PhysicsVolume this MovementComponent is using, or the world's default physics volume if none. *
   **/
-  @:thisConst public function GetPhysicsVolume() : unreal.APhysicsVolume;
+  @:ufunction @:thisConst public function GetPhysicsVolume() : unreal.APhysicsVolume;
   
   /**
     Delegate when PhysicsVolume of UpdatedComponent has been changed *
   **/
-  public function PhysicsVolumeChanged(NewVolume : unreal.APhysicsVolume) : Void;
+  @:ufunction public function PhysicsVolumeChanged(NewVolume : unreal.APhysicsVolume) : Void;
   
   /**
     Assign the component we move and update.
   **/
-  public function SetUpdatedComponent(NewUpdatedComponent : unreal.USceneComponent) : Void;
+  @:ufunction public function SetUpdatedComponent(NewUpdatedComponent : unreal.USceneComponent) : Void;
   
   /**
     Moves our UpdatedComponent by the given Delta, and sets rotation to NewRotation.
     Respects the plane constraint, if enabled.
     @return True if some movement occurred, false if no movement occurred. Result of any impact will be stored in OutHit.
   **/
-  @:final public function K2_MoveUpdatedComponent(Delta : unreal.FVector, NewRotation : unreal.FRotator, OutHit : unreal.PRef<unreal.FHitResult>, bSweep : Bool, bTeleport : Bool) : Bool;
+  @:ufunction @:final public function K2_MoveUpdatedComponent(Delta : unreal.FVector, NewRotation : unreal.FRotator, OutHit : unreal.PRef<unreal.FHitResult>, bSweep : Bool = true, bTeleport : Bool = false) : Bool;
   
   /**
     Set the plane constraint axis setting.
@@ -153,12 +153,12 @@ package unreal;
     
     @param  NewAxisSetting New plane constraint axis setting.
   **/
-  public function SetPlaneConstraintAxisSetting(NewAxisSetting : unreal.EPlaneConstraintAxisSetting) : Void;
+  @:ufunction public function SetPlaneConstraintAxisSetting(NewAxisSetting : unreal.EPlaneConstraintAxisSetting) : Void;
   
   /**
     Get the plane constraint axis setting.
   **/
-  @:thisConst @:final public function GetPlaneConstraintAxisSetting() : unreal.EPlaneConstraintAxisSetting;
+  @:ufunction @:thisConst @:final public function GetPlaneConstraintAxisSetting() : unreal.EPlaneConstraintAxisSetting;
   
   /**
     Sets the normal of the plane that constrains movement, enforced if the plane constraint is enabled.
@@ -166,53 +166,53 @@ package unreal;
     
     @param PlaneNormal   The normal of the plane. If non-zero in length, it will be normalized.
   **/
-  public function SetPlaneConstraintNormal(PlaneNormal : unreal.FVector) : Void;
+  @:ufunction public function SetPlaneConstraintNormal(PlaneNormal : unreal.FVector) : Void;
   
   /**
     Uses the Forward and Up vectors to compute the plane that constrains movement, enforced if the plane constraint is enabled.
   **/
-  public function SetPlaneConstraintFromVectors(Forward : unreal.FVector, Up : unreal.FVector) : Void;
+  @:ufunction public function SetPlaneConstraintFromVectors(Forward : unreal.FVector, Up : unreal.FVector) : Void;
   
   /**
     Sets the origin of the plane that constrains movement, enforced if the plane constraint is enabled.
   **/
-  public function SetPlaneConstraintOrigin(PlaneOrigin : unreal.FVector) : Void;
+  @:ufunction public function SetPlaneConstraintOrigin(PlaneOrigin : unreal.FVector) : Void;
   
   /**
     Sets whether or not the plane constraint is enabled.
   **/
-  public function SetPlaneConstraintEnabled(bEnabled : Bool) : Void;
+  @:ufunction public function SetPlaneConstraintEnabled(bEnabled : Bool) : Void;
   
   /**
     @return The normal of the plane that constrains movement, enforced if the plane constraint is enabled.
   **/
-  @:thisConst @:final public function GetPlaneConstraintNormal() : unreal.Const<unreal.PRef<unreal.FVector>>;
+  @:ufunction @:thisConst @:final public function GetPlaneConstraintNormal() : unreal.Const<unreal.PRef<unreal.FVector>>;
   
   /**
     Get the plane constraint origin. This defines the behavior of snapping a position to the plane, such as by SnapUpdatedComponentToPlane().
     @return The origin of the plane that constrains movement, if the plane constraint is enabled.
   **/
-  @:thisConst @:final public function GetPlaneConstraintOrigin() : unreal.Const<unreal.PRef<unreal.FVector>>;
+  @:ufunction @:thisConst @:final public function GetPlaneConstraintOrigin() : unreal.Const<unreal.PRef<unreal.FVector>>;
   
   /**
     Constrain a direction vector to the plane constraint, if enabled.
     @see SetPlaneConstraint
   **/
-  @:thisConst public function ConstrainDirectionToPlane(Direction : unreal.FVector) : unreal.FVector;
+  @:ufunction @:thisConst public function ConstrainDirectionToPlane(Direction : unreal.FVector) : unreal.FVector;
   
   /**
     Constrain a position vector to the plane constraint, if enabled.
   **/
-  @:thisConst public function ConstrainLocationToPlane(Location : unreal.FVector) : unreal.FVector;
+  @:ufunction @:thisConst public function ConstrainLocationToPlane(Location : unreal.FVector) : unreal.FVector;
   
   /**
     Constrain a normal vector (of unit length) to the plane constraint, if enabled.
   **/
-  @:thisConst public function ConstrainNormalToPlane(Normal : unreal.FVector) : unreal.FVector;
+  @:ufunction @:thisConst public function ConstrainNormalToPlane(Normal : unreal.FVector) : unreal.FVector;
   
   /**
     Snap the updated component to the plane constraint, if enabled.
   **/
-  public function SnapUpdatedComponentToPlane() : Void;
+  @:ufunction public function SnapUpdatedComponentToPlane() : Void;
   
 }

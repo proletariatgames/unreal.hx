@@ -15,57 +15,57 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
-@:uextern extern class FEnvTraceData {
+@:uextern @:ustruct extern class FEnvTraceData {
   
   /**
     if set, editor show height up/down properties for projection
   **/
-  public var bCanProjectDown : Bool;
+  @:uproperty public var bCanProjectDown : Bool;
   
   /**
     if set, editor will allow
   **/
-  public var bCanDisableTrace : Bool;
+  @:uproperty public var bCanDisableTrace : Bool;
   
   /**
     if set, editor will allow picking geometry trace
   **/
-  public var bCanTraceOnGeometry : Bool;
+  @:uproperty public var bCanTraceOnGeometry : Bool;
   
   /**
     if set, editor will allow picking navmesh trace
   **/
-  public var bCanTraceOnNavMesh : Bool;
+  @:uproperty public var bCanTraceOnNavMesh : Bool;
   
   /**
     if set, trace will look only for blocking hits
   **/
-  public var bOnlyBlockingHits : Bool;
+  @:uproperty public var bOnlyBlockingHits : Bool;
   
   /**
     if set, trace will run on complex collisions
   **/
-  public var bTraceComplex : Bool;
+  @:uproperty public var bTraceComplex : Bool;
   
   /**
     shape used for geometry tracing
   **/
-  public var TraceMode : unreal.aimodule.EEnvQueryTrace;
+  @:uproperty public var TraceMode : unreal.aimodule.EEnvQueryTrace;
   
   /**
     shape used for geometry tracing
   **/
-  public var TraceShape : unreal.aimodule.EEnvTraceShape;
+  @:uproperty public var TraceShape : unreal.aimodule.EEnvTraceShape;
   
   /**
     geometry trace channel for serialization purposes
   **/
-  public var SerializedChannel : unreal.ECollisionChannel;
+  @:uproperty public var SerializedChannel : unreal.ECollisionChannel;
   
   /**
     geometry trace channel
   **/
-  public var TraceChannel : unreal.ETraceTypeQuery;
+  @:uproperty public var TraceChannel : unreal.ETraceTypeQuery;
   
   /**
     this value will be added to resulting location's Z axis. Can be useful when
@@ -73,41 +73,41 @@ package unreal.aimodule;
         geometry and items may end up being under collide-able geometry which would
         for example falsify visibility tests.
   **/
-  public var PostProjectionVerticalOffset : unreal.Float32;
+  @:uproperty public var PostProjectionVerticalOffset : unreal.Float32;
   
   /**
     shape parameter for trace
   **/
-  public var ExtentZ : unreal.Float32;
+  @:uproperty public var ExtentZ : unreal.Float32;
   
   /**
     shape parameter for trace
   **/
-  public var ExtentY : unreal.Float32;
+  @:uproperty public var ExtentY : unreal.Float32;
   
   /**
     shape parameter for trace
   **/
-  public var ExtentX : unreal.Float32;
+  @:uproperty public var ExtentX : unreal.Float32;
   
   /**
     search height: above point
   **/
-  public var ProjectUp : unreal.Float32;
+  @:uproperty public var ProjectUp : unreal.Float32;
   
   /**
     search height: below point
   **/
-  public var ProjectDown : unreal.Float32;
+  @:uproperty public var ProjectDown : unreal.Float32;
   
   /**
     navigation filter for tracing
   **/
-  public var NavigationFilter : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty public var NavigationFilter : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
   
   /**
     version number for updates
   **/
-  public var VersionNum : unreal.Int32;
+  @:uproperty public var VersionNum : unreal.Int32;
   
 }

@@ -21,61 +21,61 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("UI/VREditorUISystem.h")
-@:noClass @:uextern extern class UVREditorUISystem extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UVREditorUISystem extends unreal.UObject {
   
   /**
     Show UI sound
   **/
-  private var ShowUISound : unreal.USoundCue;
+  @:uproperty private var ShowUISound : unreal.USoundCue;
   
   /**
     Hide UI sound
   **/
-  private var HideUISound : unreal.USoundCue;
+  @:uproperty private var HideUISound : unreal.USoundCue;
   
   /**
     Stop dragging UI sound
   **/
-  private var StopDragUISound : unreal.USoundCue;
+  @:uproperty private var StopDragUISound : unreal.USoundCue;
   
   /**
     Start dragging UI sound
   **/
-  private var StartDragUISound : unreal.USoundCue;
+  @:uproperty private var StartDragUISound : unreal.USoundCue;
   
   /**
     The color picker dockable window
   **/
-  private var ColorPickerUI : unreal.vreditor.AVREditorDockableWindow;
+  @:uproperty private var ColorPickerUI : unreal.vreditor.AVREditorDockableWindow;
   
   /**
     The current UI that is being dragged
   **/
-  private var DraggingUI : unreal.vreditor.AVREditorDockableWindow;
+  @:uproperty private var DraggingUI : unreal.vreditor.AVREditorDockableWindow;
   
   /**
     The Radial Menu UI
   **/
-  private var QuickRadialMenu : unreal.vreditor.AVREditorFloatingUI;
+  @:uproperty private var QuickRadialMenu : unreal.vreditor.AVREditorFloatingUI;
   
   /**
     Editor UI panels
   **/
-  private var EditorUIPanels : unreal.TArray<unreal.vreditor.AVREditorFloatingUI>;
+  @:uproperty private var EditorUIPanels : unreal.TArray<unreal.vreditor.AVREditorFloatingUI>;
   
   /**
     Our Quick Menu UI
   **/
-  private var QuickMenuUI : unreal.vreditor.AVREditorFloatingUI;
+  @:uproperty private var QuickMenuUI : unreal.vreditor.AVREditorFloatingUI;
   
   /**
     All of the floating UIs.  These may or may not be visible (spawned)
   **/
-  private var FloatingUIs : unreal.TArray<unreal.vreditor.AVREditorFloatingUI>;
+  @:uproperty private var FloatingUIs : unreal.TArray<unreal.vreditor.AVREditorFloatingUI>;
   
   /**
     Owning object
   **/
-  private var VRMode : unreal.vreditor.UVREditorMode;
+  @:uproperty private var VRMode : unreal.vreditor.UVREditorMode;
   
 }

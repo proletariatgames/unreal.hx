@@ -15,32 +15,37 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactory.h")
-@:uextern extern class UActorFactory extends unreal.UObject {
+@:uextern @:uclass extern class UActorFactory extends unreal.UObject {
   
   /**
     Translation applied to the spawn position.
   **/
-  public var SpawnPositionOffset : unreal.FVector;
-  public var bUseSurfaceOrientation : Bool;
+  @:uproperty public var SpawnPositionOffset : unreal.FVector;
+  @:uproperty public var bUseSurfaceOrientation : Bool;
   
   /**
     Whether to appear in the editor add actor quick menu
   **/
-  public var bShowInEditorQuickMenu : Bool;
+  @:uproperty public var bShowInEditorQuickMenu : Bool;
   
   /**
     AActor  subclass this ActorFactory creates.
   **/
-  public var NewActorClass : unreal.TSubclassOf<unreal.AActor>;
+  @:uproperty public var NewActorClass : unreal.TSubclassOf<unreal.AActor>;
   
   /**
     name of actor subclass this actorfactory creates - dynamically loaded.  Overrides NewActorClass.
   **/
-  public var NewActorClassName : unreal.FString;
+  @:uproperty public var NewActorClassName : unreal.FString;
   
   /**
     Indicates how far up the menu item should be. The higher the number, the higher up the list.
   **/
-  public var MenuPriority : unreal.Int32;
+  @:uproperty public var MenuPriority : unreal.Int32;
+  
+  /**
+    Name used as basis for 'New Actor' menu.
+  **/
+  @:uproperty public var DisplayName : unreal.FText;
   
 }

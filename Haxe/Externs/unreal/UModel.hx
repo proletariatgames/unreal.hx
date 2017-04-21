@@ -22,6 +22,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Intrinsic/Model.h")
-@:noClass @:uextern extern class UModel extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UModel extends unreal.UObject {
   
 }

@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveSphere.h")
-@:uextern extern class UParticleModuleLocationPrimitiveSphere extends unreal.UParticleModuleLocationPrimitiveBase {
+@:uextern @:uclass extern class UParticleModuleLocationPrimitiveSphere extends unreal.UParticleModuleLocationPrimitiveBase {
   
   /**
     The radius of the sphere. Retrieved using EmitterTime.
   **/
-  public var StartRadius : unreal.FRawDistributionFloat;
+  @:uproperty public var StartRadius : unreal.FRawDistributionFloat;
   
 }

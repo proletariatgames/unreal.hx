@@ -23,45 +23,45 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Services/BTService_BlueprintBase.h")
-@:uextern extern class UBTService_BlueprintBase extends unreal.aimodule.UBTService {
+@:uextern @:uclass extern class UBTService_BlueprintBase extends unreal.aimodule.UBTService {
   
   /**
     Cached actor owner of BehaviorTreeComponent.
   **/
-  private var ActorOwner : unreal.AActor;
+  @:uproperty private var ActorOwner : unreal.AActor;
   
   /**
     Cached AIController owner of BehaviorTreeComponent.
   **/
-  private var AIOwner : unreal.aimodule.AAIController;
+  @:uproperty private var AIOwner : unreal.aimodule.AAIController;
   
   /**
     tick function
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     task search enters branch of tree
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveSearchStart(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveSearchStart(OwnerActor : unreal.AActor) : Void;
   
   /**
     service became active
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveActivation(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveActivation(OwnerActor : unreal.AActor) : Void;
   
   /**
     service became inactive
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveDeactivation(OwnerActor : unreal.AActor) : Void;
+  @:ufunction private function ReceiveDeactivation(OwnerActor : unreal.AActor) : Void;
   
   /**
     Alternative AI version of ReceiveTick function.
@@ -69,7 +69,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     Alternative AI version of ReceiveSearchStart function.
@@ -77,7 +77,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveSearchStartAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveSearchStartAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveActivation function.
@@ -85,7 +85,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveActivationAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveActivationAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveDeactivation function.
@@ -93,11 +93,11 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  private function ReceiveDeactivationAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction private function ReceiveDeactivationAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     check if service is currently being active
   **/
-  @:thisConst @:final private function IsServiceActive() : Bool;
+  @:ufunction @:thisConst @:final private function IsServiceActive() : Bool;
   
 }

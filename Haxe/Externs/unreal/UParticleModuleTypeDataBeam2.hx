@@ -20,15 +20,15 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataBeam2.h")
-@:uextern extern class UParticleModuleTypeDataBeam2 extends unreal.UParticleModuleTypeDataBase {
-  public var RenderTessellation : Bool;
-  public var RenderLines : Bool;
-  public var RenderDirectLine : Bool;
+@:uextern @:uclass extern class UParticleModuleTypeDataBeam2 extends unreal.UParticleModuleTypeDataBase {
+  @:uproperty public var RenderTessellation : Bool;
+  @:uproperty public var RenderLines : Bool;
+  @:uproperty public var RenderDirectLine : Bool;
   
   /**
     Beam Rendering Variables.
   **/
-  public var RenderGeometry : Bool;
+  @:uproperty public var RenderGeometry : Bool;
   
   /**
     Tapering scaling
@@ -36,12 +36,12 @@ package unreal;
         If a curve is used, 0/1 mapping of source/target... which could be integrated into
         the taper factor itself, and therefore makes no sense.
   **/
-  public var TaperScale : unreal.FRawDistributionFloat;
+  @:uproperty public var TaperScale : unreal.FRawDistributionFloat;
   
   /**
     Tapering factor, 0 = source of beam, 1 = target
   **/
-  public var TaperFactor : unreal.FRawDistributionFloat;
+  @:uproperty public var TaperFactor : unreal.FRawDistributionFloat;
   
   /**
     Tapering mode - one of the following:
@@ -49,19 +49,19 @@ package unreal;
     PEBTM_Full              - Taper the beam relative to source-->target, regardless of current beam length
     PEBTM_Partial   - Taper the beam relative to source-->location, 0=source,1=endpoint
   **/
-  public var TaperMethod : unreal.EBeamTaperMethod;
+  @:uproperty public var TaperMethod : unreal.EBeamTaperMethod;
   
   /**
     The distance along the X-axis to stretch the beam
     Distance is only used if BeamMethod is PEB2M_Distance
   **/
-  public var Distance : unreal.FRawDistributionFloat;
+  @:uproperty public var Distance : unreal.FRawDistributionFloat;
   
   /**
     The name of the emitter to branch from (if mode is PEB2M_Branch)
     MUST BE IN THE SAME PARTICLE SYSTEM!
   **/
-  public var BranchParentName : unreal.FName;
+  @:uproperty public var BranchParentName : unreal.FName;
   
   /**
     The approach to use for determining the Up vector(s) for the beam.
@@ -71,48 +71,48 @@ package unreal;
     N indicates an Up FVector should be calculated every N points of the beam and interpolated between them.
         [NOTE: This mode is currently unsupported.]
   **/
-  public var UpVectorStepSize : unreal.Int32;
+  @:uproperty public var UpVectorStepSize : unreal.Int32;
   
   /**
     If true, there will ALWAYS be a beam...
   **/
-  public var bAlwaysOn : Bool;
+  @:uproperty public var bAlwaysOn : Bool;
   
   /**
     Indicates whether the beam should be interpolated.
         <= 0 --> no
         >  0 --> yes (and is equal to the number of interpolation steps that should be taken.
   **/
-  public var InterpolationPoints : unreal.Int32;
+  @:uproperty public var InterpolationPoints : unreal.Int32;
   
   /**
     The speed at which the beam should move from source to target when firing up.
         '0' indicates instantaneous
   **/
-  public var Speed : unreal.Float32;
+  @:uproperty public var Speed : unreal.Float32;
   
   /**
     The number of live beams
   **/
-  public var MaxBeamCount : unreal.Int32;
+  @:uproperty public var MaxBeamCount : unreal.Int32;
   
   /**
     The number of sheets to render
   **/
-  public var Sheets : unreal.Int32;
+  @:uproperty public var Sheets : unreal.Int32;
   
   /**
     The distance per texture tile.
         1st UV set only. 2nd UV set does not Tile.
   **/
-  public var TextureTileDistance : unreal.Float32;
+  @:uproperty public var TextureTileDistance : unreal.Float32;
   
   /**
     The number of times to tile the texture along each beam.
     Overridden by TextureTilingDistance if it is > 0.0.
         1st UV set only. 2nd UV set does not Tile.
   **/
-  public var TextureTile : unreal.Int32;
+  @:uproperty public var TextureTile : unreal.Int32;
   
   /**
     The method with which to form the beam(s). Must be one of the following:
@@ -120,6 +120,6 @@ package unreal;
             PEB2M_Target    - Emit a beam from the source to the supplied target.
             PEB2M_Branch    - Currently unimplemented.
   **/
-  public var BeamMethod : unreal.EBeam2Method;
+  @:uproperty public var BeamMethod : unreal.EBeam2Method;
   
 }

@@ -16,7 +16,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestScoreEquation.Type")
-@:uextern extern enum EEnvTestScoreEquation {
+@:uextern @:uenum extern enum EEnvTestScoreEquation {
   Linear;
   Square;
   InverseLinear;

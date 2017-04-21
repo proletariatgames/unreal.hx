@@ -23,17 +23,17 @@ package unreal.worldbrowser;
 **/
 @:umodule("WorldBrowser")
 @:glueCppIncludes("Private/Tiles/WorldTileDetails.h")
-@:noCopy @:noEquals @:uextern extern class FTileLODEntryDetails {
-  public var SimplificationDetails : unreal.FLevelSimplificationDetails;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTileLODEntryDetails {
+  @:uproperty public var SimplificationDetails : unreal.FLevelSimplificationDetails;
   
   /**
     Relative to original tile streaming distance
   **/
-  public var Distance : unreal.Int32;
+  @:uproperty public var Distance : unreal.Int32;
   
   /**
     Maximum deviation of details percentage
   **/
-  public var LODIndex : unreal.Int32;
+  @:uproperty public var LODIndex : unreal.Int32;
   
 }

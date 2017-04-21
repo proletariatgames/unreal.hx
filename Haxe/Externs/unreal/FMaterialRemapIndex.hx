@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/StaticMesh.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialRemapIndex {
-  public var MaterialRemap : unreal.TArray<unreal.Int32>;
-  public var ImportVersionKey : unreal.FakeUInt32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialRemapIndex {
+  @:uproperty public var MaterialRemap : unreal.TArray<unreal.Int32>;
+  @:uproperty public var ImportVersionKey : unreal.FakeUInt32;
   
 }

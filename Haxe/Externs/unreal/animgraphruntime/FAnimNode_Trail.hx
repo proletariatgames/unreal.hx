@@ -19,61 +19,61 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_Trail.h")
-@:uextern extern class FAnimNode_Trail extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_Trail extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Base Joint to calculate velocity from. If none, it will use Component's World Transform. .
   **/
-  public var BaseJoint : unreal.FBoneReference;
+  @:uproperty public var BaseJoint : unreal.FBoneReference;
   
   /**
     Whether 'fake' velocity should be applied in actor or world space.
   **/
-  public var bActorSpaceFakeVel : Bool;
+  @:uproperty public var bActorSpaceFakeVel : Bool;
   
   /**
     'Fake' velocity applied to bones.
   **/
-  public var FakeVelocity : unreal.FVector;
+  @:uproperty public var FakeVelocity : unreal.FVector;
   
   /**
     If bLimitStretch is true, this indicates how long a bone can stretch beyond its length in the ref-pose.
   **/
-  public var StretchLimit : unreal.Float32;
+  @:uproperty public var StretchLimit : unreal.Float32;
   
   /**
     Limit the amount that a bone can stretch from its ref-pose length.
   **/
-  public var bLimitStretch : Bool;
+  @:uproperty public var bLimitStretch : Bool;
   
   /**
     How quickly we 'relax' the bones to their animated positions. Time 0 will map to top root joint, time 1 will map to the bottom joint.
   **/
-  public var TrailRelaxationSpeed : unreal.FRuntimeFloatCurve;
+  @:uproperty public var TrailRelaxationSpeed : unreal.FRuntimeFloatCurve;
   
   /**
     How quickly we 'relax' the bones to their animated positions. Deprecated. Replaced to TrailRelaxationCurve
   **/
-  @:deprecated public var TrailRelaxation_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var TrailRelaxation_DEPRECATED : unreal.Float32;
   
   /**
     Invert the direction specified in ChainBoneAxis.
   **/
-  public var bInvertChainBoneAxis : Bool;
+  @:uproperty public var bInvertChainBoneAxis : Bool;
   
   /**
     Axis of the bones to point along trail.
   **/
-  public var ChainBoneAxis : unreal.EAxis;
+  @:uproperty public var ChainBoneAxis : unreal.EAxis;
   
   /**
     Number of bones above the active one in the hierarchy to modify. ChainLength should be at least 2.
   **/
-  public var ChainLength : unreal.Int32;
+  @:uproperty public var ChainLength : unreal.Int32;
   
   /**
     Reference to the active bone in the hierarchy to modify.
   **/
-  public var TrailBone : unreal.FBoneReference;
+  @:uproperty public var TrailBone : unreal.FBoneReference;
   
 }

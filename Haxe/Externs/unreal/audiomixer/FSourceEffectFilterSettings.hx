@@ -21,26 +21,26 @@ package unreal.audiomixer;
 **/
 @:umodule("AudioMixer")
 @:glueCppIncludes("SourceEffects/AudioMixerSourceEffectFilter.h")
-@:noCopy @:noEquals @:uextern extern class FSourceEffectFilterSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSourceEffectFilterSettings {
   
   /**
     The Q of the filter.
   **/
-  public var Q : unreal.Float32;
+  @:uproperty public var Q : unreal.Float32;
   
   /**
     The corner or cutoff frequency of the filter in Hz
   **/
-  public var CutoffFrequency : unreal.Float32;
+  @:uproperty public var CutoffFrequency : unreal.Float32;
   
   /**
     The gain of the filter (only used in LowShelf and HighShelf types)
   **/
-  public var GainDb : unreal.Float32;
+  @:uproperty public var GainDb : unreal.Float32;
   
   /**
     The type of filter to use for this source effect
   **/
-  public var FilterType : unreal.audiomixer.ESourceEffectFilter;
+  @:uproperty public var FilterType : unreal.audiomixer.ESourceEffectFilter;
   
 }

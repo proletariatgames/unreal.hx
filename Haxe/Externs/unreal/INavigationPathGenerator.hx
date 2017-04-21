@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/NavigationPathGenerator.h")
-@:uextern extern interface INavigationPathGenerator {
+@:uextern @:uclass extern interface INavigationPathGenerator {
   
 }

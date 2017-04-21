@@ -15,6 +15,6 @@ package unreal.gameprojectgeneration;
 
 @:umodule("GameProjectGeneration")
 @:glueCppIncludes("DefaultTemplateProjectDefs.h")
-@:uextern extern class UDefaultTemplateProjectDefs extends unreal.gameprojectgeneration.UTemplateProjectDefs {
+@:uextern @:uclass extern class UDefaultTemplateProjectDefs extends unreal.gameprojectgeneration.UTemplateProjectDefs {
   
 }

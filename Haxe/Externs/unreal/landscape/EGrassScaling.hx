@@ -16,7 +16,7 @@ package unreal.landscape;
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGrassType.h")
 @:uname("EGrassScaling")
-@:class @:uextern extern enum EGrassScaling {
+@:class @:uextern @:uenum extern enum EGrassScaling {
   
   /**
     Grass instances will have uniform X, Y and Z scales.

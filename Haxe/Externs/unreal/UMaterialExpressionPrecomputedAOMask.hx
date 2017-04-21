@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionPrecomputedAOMask.h")
-@:noClass @:uextern extern class UMaterialExpressionPrecomputedAOMask extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionPrecomputedAOMask extends unreal.UMaterialExpression {
   
 }

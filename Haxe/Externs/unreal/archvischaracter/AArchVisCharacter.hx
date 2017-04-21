@@ -15,46 +15,46 @@ package unreal.archvischaracter;
 
 @:umodule("ArchVisCharacter")
 @:glueCppIncludes("ArchVisCharacter.h")
-@:uextern extern class AArchVisCharacter extends unreal.ACharacter {
+@:uextern @:uclass extern class AArchVisCharacter extends unreal.ACharacter {
   
   /**
     Controls how aggressively mouse motion translates to character rotation in the yaw axis.
   **/
-  public var MouseSensitivityScale_Yaw : unreal.Float32;
+  @:uproperty public var MouseSensitivityScale_Yaw : unreal.Float32;
   
   /**
     Controls how aggressively mouse motion translates to character rotation in the pitch axis.
   **/
-  public var MouseSensitivityScale_Pitch : unreal.Float32;
+  @:uproperty public var MouseSensitivityScale_Pitch : unreal.Float32;
   
   /**
     Axis name for "move left/right" control. This should match an Axis Binding in your input settings
   **/
-  public var MoveRightAxisName : unreal.FString;
+  @:uproperty public var MoveRightAxisName : unreal.FString;
   
   /**
     Axis name for "move forward/back" control. This should match an Axis Binding in your input settings
   **/
-  public var MoveForwardAxisName : unreal.FString;
+  @:uproperty public var MoveForwardAxisName : unreal.FString;
   
   /**
     Axis name for rate-based turn left/right inputs (e.g. joystick). This should match an Axis Binding in your input settings
   **/
-  public var TurnAtRateAxisName : unreal.FString;
+  @:uproperty public var TurnAtRateAxisName : unreal.FString;
   
   /**
     Axis name for direct turn left/right inputs (e.g. mouse). This should match an Axis Binding in your input settings
   **/
-  public var TurnAxisName : unreal.FString;
+  @:uproperty public var TurnAxisName : unreal.FString;
   
   /**
     Axis name for rate-based look up/down inputs (e.g. joystick). This should match an Axis Binding in your input settings
   **/
-  public var LookUpAtRateAxisName : unreal.FString;
+  @:uproperty public var LookUpAtRateAxisName : unreal.FString;
   
   /**
     Axis name for direct look up/down inputs (e.g. mouse). This should match an Axis Binding in your input settings
   **/
-  public var LookUpAxisName : unreal.FString;
+  @:uproperty public var LookUpAxisName : unreal.FString;
   
 }

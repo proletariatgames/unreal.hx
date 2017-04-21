@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolHydroErosionMode.Type")
-@:uextern extern enum ELandscapeToolHydroErosionMode {
+@:uextern @:uenum extern enum ELandscapeToolHydroErosionMode {
   
   /**
     Rains in some places and not others, randomly

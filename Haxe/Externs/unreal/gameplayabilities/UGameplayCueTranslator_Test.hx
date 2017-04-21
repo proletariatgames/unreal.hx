@@ -21,6 +21,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueTranslator.h")
-@:noClass @:uextern extern class UGameplayCueTranslator_Test extends unreal.gameplayabilities.UGameplayCueTranslator {
+@:noClass @:uextern @:uclass extern class UGameplayCueTranslator_Test extends unreal.gameplayabilities.UGameplayCueTranslator {
   
 }

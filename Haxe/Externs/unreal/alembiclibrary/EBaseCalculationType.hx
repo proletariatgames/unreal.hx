@@ -16,7 +16,7 @@ package unreal.alembiclibrary;
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
 @:uname("EBaseCalculationType")
-@:class @:uextern extern enum EBaseCalculationType {
+@:class @:uextern @:uenum extern enum EBaseCalculationType {
   
   /**
     Determines the number of bases that should be used with the given percentage

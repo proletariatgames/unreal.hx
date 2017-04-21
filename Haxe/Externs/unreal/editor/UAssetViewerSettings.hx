@@ -19,11 +19,11 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("AssetViewerSettings.h")
-@:uextern extern class UAssetViewerSettings extends unreal.UObject {
+@:uextern @:uclass extern class UAssetViewerSettings extends unreal.UObject {
   
   /**
     Collection of scene profiles
   **/
-  public var Profiles : unreal.TArray<unreal.editor.FPreviewSceneProfile>;
+  @:uproperty public var Profiles : unreal.TArray<unreal.editor.FPreviewSceneProfile>;
   
 }

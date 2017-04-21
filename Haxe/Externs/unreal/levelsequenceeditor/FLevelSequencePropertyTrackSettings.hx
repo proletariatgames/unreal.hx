@@ -21,16 +21,16 @@ package unreal.levelsequenceeditor;
 **/
 @:umodule("LevelSequenceEditor")
 @:glueCppIncludes("Private/Misc/LevelSequenceEditorSettings.h")
-@:noCopy @:noEquals @:uextern extern class FLevelSequencePropertyTrackSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequencePropertyTrackSettings {
   
   /**
     Path to the keyed property within the Actor or ActorComponent.
   **/
-  public var PropertyPath : unreal.FString;
+  @:uproperty public var PropertyPath : unreal.FString;
   
   /**
     Optional ActorComponent tag (when keying a component property).
   **/
-  public var ComponentPath : unreal.FString;
+  @:uproperty public var ComponentPath : unreal.FString;
   
 }

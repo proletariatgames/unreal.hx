@@ -19,6 +19,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectTypes.h")
-@:uextern extern class FGameplayEffectSpecHandle {
+@:uextern @:ustruct extern class FGameplayEffectSpecHandle {
   
 }

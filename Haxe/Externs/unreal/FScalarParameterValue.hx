@@ -20,9 +20,9 @@ package unreal;
   Editable scalar parameter.
 **/
 @:glueCppIncludes("Materials/MaterialInstance.h")
-@:noCopy @:noEquals @:uextern extern class FScalarParameterValue {
-  public var ExpressionGUID : unreal.FGuid;
-  public var ParameterValue : unreal.Float32;
-  public var ParameterName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FScalarParameterValue {
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var ParameterValue : unreal.Float32;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

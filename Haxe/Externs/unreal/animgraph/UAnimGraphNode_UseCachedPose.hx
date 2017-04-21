@@ -21,7 +21,8 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("AnimGraphNode_UseCachedPose.h")
-@:uextern extern class UAnimGraphNode_UseCachedPose extends unreal.animgraph.UAnimGraphNode_Base {
-  public var Node : unreal.FAnimNode_UseCachedPose;
+@:uextern @:uclass extern class UAnimGraphNode_UseCachedPose extends unreal.animgraph.UAnimGraphNode_Base {
+  @:uproperty public var SaveCachedPoseNode : unreal.TWeakObjectPtr<unreal.animgraph.UAnimGraphNode_SaveCachedPose>;
+  @:uproperty public var Node : unreal.FAnimNode_UseCachedPose;
   
 }

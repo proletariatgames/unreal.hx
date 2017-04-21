@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Engine/Breakpoint.h")
-@:uextern extern class UBreakpoint extends unreal.UObject {
+@:uextern @:uclass extern class UBreakpoint extends unreal.UObject {
   
 }

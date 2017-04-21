@@ -20,27 +20,27 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
-@:uextern extern class FBlackboardKeySelector {
+@:uextern @:ustruct extern class FBlackboardKeySelector {
   
   /**
     ID of selected key
   **/
-  private var SelectedKeyID : unreal.UInt8;
+  @:uproperty private var SelectedKeyID : unreal.UInt8;
   
   /**
     class of selected key
   **/
-  public var SelectedKeyType : unreal.TSubclassOf<unreal.aimodule.UBlackboardKeyType>;
+  @:uproperty public var SelectedKeyType : unreal.TSubclassOf<unreal.aimodule.UBlackboardKeyType>;
   
   /**
     name of selected key
   **/
-  public var SelectedKeyName : unreal.FName;
+  @:uproperty public var SelectedKeyName : unreal.FName;
   
   /**
     array of allowed types with additional properties (e.g. uobject's base class)
     EditAnywhere is required for FBlackboardSelectorDetails::CacheBlackboardData()
   **/
-  public var AllowedTypes : unreal.TArray<unreal.aimodule.UBlackboardKeyType>;
+  @:uproperty public var AllowedTypes : unreal.TArray<unreal.aimodule.UBlackboardKeyType>;
   
 }

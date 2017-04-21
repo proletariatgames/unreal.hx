@@ -21,16 +21,16 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/UnrealEdOptions.h")
-@:noCopy @:noEquals @:uextern extern class FClassPickerDefaults {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FClassPickerDefaults {
   
   /**
     The name of the asset type being created
   **/
-  public var AssetClass : unreal.FString;
+  @:uproperty public var AssetClass : unreal.FString;
   
   /**
     The name of the class to select
   **/
-  public var ClassName : unreal.FString;
+  @:uproperty public var ClassName : unreal.FString;
   
 }

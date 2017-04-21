@@ -15,6 +15,6 @@ package unreal.aigraph;
 
 @:umodule("AIGraph")
 @:glueCppIncludes("K2Node_AIMoveTo.h")
-@:uextern extern class UK2Node_AIMoveTo extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
+@:uextern @:uclass extern class UK2Node_AIMoveTo extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
   
 }

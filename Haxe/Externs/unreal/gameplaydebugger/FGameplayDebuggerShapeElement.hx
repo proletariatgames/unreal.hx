@@ -21,27 +21,27 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggingComponent.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayDebuggerShapeElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerShapeElement {
   
   /**
     type of shape
   **/
-  public var Type : unreal.gameplaydebugger.EGameplayDebuggerShapeElement;
+  @:uproperty public var Type : unreal.gameplaydebugger.EGameplayDebuggerShapeElement;
   
   /**
     color of shape
   **/
-  public var Color : unreal.FColor;
+  @:uproperty public var Color : unreal.FColor;
   
   /**
     description of shape
   **/
-  public var Description : unreal.FString;
-  public var ThicknesOrRadius : unreal.Float32;
+  @:uproperty public var Description : unreal.FString;
+  @:uproperty public var ThicknesOrRadius : unreal.Float32;
   
   /**
     points defining shape
   **/
-  public var Points : unreal.TArray<unreal.FVector>;
+  @:uproperty public var Points : unreal.TArray<unreal.FVector>;
   
 }

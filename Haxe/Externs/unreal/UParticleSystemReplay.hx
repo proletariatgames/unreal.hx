@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/ParticleSystemReplay.h")
-@:noClass @:uextern extern class UParticleSystemReplay extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UParticleSystemReplay extends unreal.UObject {
   
   /**
     Unique ID number for this replay clip
   **/
-  public var ClipIDNumber : unreal.Int32;
+  @:uproperty public var ClipIDNumber : unreal.Int32;
   
 }

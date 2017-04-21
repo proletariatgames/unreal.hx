@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/BlueprintInterfaceFactory.h")
-@:noClass @:uextern extern class UBlueprintInterfaceFactory extends unreal.editor.UFactory {
+@:noClass @:uextern @:uclass extern class UBlueprintInterfaceFactory extends unreal.editor.UFactory {
   
 }

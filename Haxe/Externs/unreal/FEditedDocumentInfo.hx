@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:noCopy @:noEquals @:uextern extern class FEditedDocumentInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEditedDocumentInfo {
   
   /**
     Saved zoom amount
   **/
-  public var SavedZoomAmount : unreal.Float32;
+  @:uproperty public var SavedZoomAmount : unreal.Float32;
   
   /**
     Saved view position
   **/
-  public var SavedViewOffset : unreal.FVector2D;
-  public var EditedObject : unreal.UObject;
+  @:uproperty public var SavedViewOffset : unreal.FVector2D;
+  @:uproperty public var EditedObject : unreal.UObject;
   
 }

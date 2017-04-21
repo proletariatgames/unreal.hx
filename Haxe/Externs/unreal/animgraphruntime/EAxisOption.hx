@@ -16,7 +16,7 @@ package unreal.animgraphruntime;
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_LookAt.h")
 @:uname("EAxisOption.Type")
-@:uextern extern enum EAxisOption {
+@:uextern @:uenum extern enum EAxisOption {
   X;
   Y;
   Z;

@@ -18,6 +18,6 @@ package unreal;
   Regular navigation area, applied to entire navigation data by default
 **/
 @:glueCppIncludes("AI/Navigation/NavAreas/NavArea_Default.h")
-@:uextern extern class UNavArea_Default extends unreal.UNavArea {
+@:uextern @:uclass extern class UNavArea_Default extends unreal.UNavArea {
   
 }

@@ -15,15 +15,15 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("Preferences/CurveEdOptions.h")
-@:uextern extern class UCurveEdOptions extends unreal.UObject {
-  public var SelectedKeyColor : unreal.FLinearColor;
-  public var LabelBlockBkgColor : unreal.FLinearColor;
-  public var GridTextColor : unreal.FLinearColor;
-  public var GridColor : unreal.FLinearColor;
-  public var SelectedLabelColor : unreal.FLinearColor;
-  public var LabelColor : unreal.FLinearColor;
-  public var BackgroundColor : unreal.FLinearColor;
-  public var MaxViewRange : unreal.Float32;
-  public var MinViewRange : unreal.Float32;
+@:uextern @:uclass extern class UCurveEdOptions extends unreal.UObject {
+  @:uproperty public var SelectedKeyColor : unreal.FLinearColor;
+  @:uproperty public var LabelBlockBkgColor : unreal.FLinearColor;
+  @:uproperty public var GridTextColor : unreal.FLinearColor;
+  @:uproperty public var GridColor : unreal.FLinearColor;
+  @:uproperty public var SelectedLabelColor : unreal.FLinearColor;
+  @:uproperty public var LabelColor : unreal.FLinearColor;
+  @:uproperty public var BackgroundColor : unreal.FLinearColor;
+  @:uproperty public var MaxViewRange : unreal.Float32;
+  @:uproperty public var MinViewRange : unreal.Float32;
   
 }

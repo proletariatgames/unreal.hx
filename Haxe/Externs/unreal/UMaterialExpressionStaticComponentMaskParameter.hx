@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionStaticComponentMaskParameter.h")
-@:uextern extern class UMaterialExpressionStaticComponentMaskParameter extends unreal.UMaterialExpressionParameter {
-  public var DefaultA : Bool;
-  public var DefaultB : Bool;
-  public var DefaultG : Bool;
-  public var DefaultR : Bool;
-  public var Input : unreal.FExpressionInput;
+@:uextern @:uclass extern class UMaterialExpressionStaticComponentMaskParameter extends unreal.UMaterialExpressionParameter {
+  @:uproperty public var DefaultA : Bool;
+  @:uproperty public var DefaultB : Bool;
+  @:uproperty public var DefaultG : Bool;
+  @:uproperty public var DefaultR : Bool;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

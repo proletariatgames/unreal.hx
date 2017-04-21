@@ -16,7 +16,7 @@ package unreal.behaviortreeeditor;
 @:umodule("BehaviorTreeEditor")
 @:glueCppIncludes("BehaviorTreeDecoratorGraphNode_Logic.h")
 @:uname("EDecoratorLogicMode.Type")
-@:uextern extern enum EDecoratorLogicMode {
+@:uextern @:uenum extern enum EDecoratorLogicMode {
   Sink;
   And;
   Or;

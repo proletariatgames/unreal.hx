@@ -14,84 +14,84 @@
 package unreal;
 
 @:glueCppIncludes("Matinee/MatineeActor.h")
-@:uextern extern class AMatineeActor extends unreal.AActor {
-  public var InterpPosition : unreal.Float32;
+@:uextern @:uclass extern class AMatineeActor extends unreal.AActor {
+  @:uproperty public var InterpPosition : unreal.Float32;
   
   /**
     The below property is deprecated and will be removed in 4.9.
   **/
-  public var bPendingStop : Bool;
-  public var bPaused : Bool;
-  public var bReversePlayback : Bool;
+  @:uproperty public var bPendingStop : Bool;
+  @:uproperty public var bPaused : Bool;
+  @:uproperty public var bReversePlayback : Bool;
   
   /**
     properties that may change on InterpAction that we need to notify clients about, since the object's properties will not be replicated
   **/
-  public var bIsPlaying : Bool;
+  @:uproperty public var bIsPlaying : Bool;
   #if WITH_EDITORONLY_DATA
   
   /**
     Set by the editor when scrubbing data
   **/
-  public var bIsScrubbing : Bool;
-  public var bIsBeingEdited : Bool;
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var bIsScrubbing : Bool;
+  @:uproperty public var bIsBeingEdited : Bool;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Contains the camera world-position for each camera cut in the cinematic.
   **/
-  public var CameraCuts : unreal.TArray<unreal.FCameraCutInfo>;
+  @:uproperty public var CameraCuts : unreal.TArray<unreal.FCameraCutInfo>;
   
   /**
     Instance data for interp groups. One for each variable/group combination.
   **/
-  public var GroupInst : unreal.TArray<unreal.UInterpGroupInst>;
+  @:uproperty public var GroupInst : unreal.TArray<unreal.UInterpGroupInst>;
   
   /**
     Cached value that indicates whether or not gore was enabled when the sequence was started
   **/
-  public var bShouldShowGore : Bool;
+  @:uproperty public var bShouldShowGore : Bool;
   
   /**
     @todo UE4 matinee - shouldnt be directly editable.  Needs a nice interface in matinee
   **/
-  public var GroupActorInfos : unreal.TArray<unreal.FInterpGroupActorInfo>;
+  @:uproperty public var GroupActorInfos : unreal.TArray<unreal.FInterpGroupActorInfo>;
   
   /**
     Hide HUD during play
   **/
-  public var bHideHud : Bool;
+  @:uproperty public var bHideHud : Bool;
   
   /**
     Hide Player Pawn during play
   **/
-  public var bHidePlayer : Bool;
+  @:uproperty public var bHidePlayer : Bool;
   
   /**
     Disable LookAt Input from player during play
   **/
-  public var bDisableLookAtInput : Bool;
+  @:uproperty public var bDisableLookAtInput : Bool;
   
   /**
     Disable Input from player during play
   **/
-  public var bDisableMovementInput : Bool;
+  @:uproperty public var bDisableMovementInput : Bool;
   
   /**
     Preferred local viewport number (when split screen is active) the director track should associate with, or zero for 'all'.
   **/
-  public var PreferredSplitScreenNum : unreal.Int32;
+  @:uproperty public var PreferredSplitScreenNum : unreal.Int32;
   
   /**
     Lets you skip the matinee with the CANCELMATINEE exec command. Triggers all events to the end along the way.
   **/
-  public var bIsSkippable : Bool;
+  @:uproperty public var bIsSkippable : Bool;
   
   /**
     if bClientSideOnly is true, whether this matinee should be completely skipped if none of the affected Actors are visible
   **/
-  public var bSkipUpdateIfNotVisible : Bool;
+  @:uproperty public var bSkipUpdateIfNotVisible : Bool;
   
   /**
     Indicates that this interpolation does not affect gameplay. This means that:
@@ -99,87 +99,87 @@ package unreal;
     -it is not ticked if no affected Actors are visible
     -on dedicated servers, it is completely ignored
   **/
-  public var bClientSideOnly : Bool;
+  @:uproperty public var bClientSideOnly : Bool;
   
   /**
     If true, disables the realtime radio effect
   **/
-  public var bDisableRadioFilter : Bool;
+  @:uproperty public var bDisableRadioFilter : Bool;
   
   /**
     Only used if bRewindOnPlay if true. Defines what should happen if the Play input is activated while currently playing.
     If true, hitting Play while currently playing will pop the position back to the start and begin playback over again.
     If false, hitting Play while currently playing will do nothing.
   **/
-  public var bRewindIfAlreadyPlaying : Bool;
+  @:uproperty public var bRewindIfAlreadyPlaying : Bool;
   
   /**
     If true, when rewinding this interpolation, reset the 'initial positions' of any RelateToInitial movements to the current location.
     This allows the next loop of movement to proceed from the current locations.
   **/
-  public var bNoResetOnRewind : Bool;
+  @:uproperty public var bNoResetOnRewind : Bool;
   
   /**
     If true, sequence will rewind itself back to the start each time the Play input is activated.
   **/
-  public var bRewindOnPlay : Bool;
+  @:uproperty public var bRewindOnPlay : Bool;
   
   /**
     If sequence should pop back to beginning when finished.
     Note, if true, will never get Completed/Reversed events - sequence must be explicitly Stopped.
   **/
-  public var bLooping : Bool;
+  @:uproperty public var bLooping : Bool;
   
   /**
     Time position to always start at if bForceStartPos is set to true.
   **/
-  public var ForceStartPosition : unreal.Float32;
+  @:uproperty public var ForceStartPosition : unreal.Float32;
   
   /**
     Lets you force the sequence to always start at ForceStartPosition
   **/
-  public var bForceStartPos : Bool;
+  @:uproperty public var bForceStartPos : Bool;
   
   /**
     If true, the matinee will play when the level is loaded.
   **/
-  public var bPlayOnLevelLoad : Bool;
+  @:uproperty public var bPlayOnLevelLoad : Bool;
   
   /**
     Time multiplier for playback.
   **/
-  public var PlayRate : unreal.Float32;
+  @:uproperty public var PlayRate : unreal.Float32;
   
   /**
     Name of controller node in level script, used to know what function to try and find for events
   **/
-  public var MatineeControllerName : unreal.FName;
+  @:uproperty public var MatineeControllerName : unreal.FName;
   
   /**
     The matinee data used by this actor
   **/
-  public var MatineeData : unreal.UInterpData;
+  @:uproperty public var MatineeData : unreal.UInterpData;
   
   /**
     Begin playback of the matinee. Only called in game.
     Will then advance Position by (PlayRate * Deltatime) each time the matinee is ticked.
   **/
-  public function Play() : Void;
+  @:ufunction public function Play() : Void;
   
   /**
     Stops playback at the current position
   **/
-  public function Stop() : Void;
+  @:ufunction public function Stop() : Void;
   
   /**
     Similar to play, but the playback will go backwards until the beginning of the sequence is reached.
   **/
-  public function Reverse() : Void;
+  @:ufunction public function Reverse() : Void;
   
   /**
     Hold playback at its current position. Calling Pause again will continue playback in its current direction.
   **/
-  public function Pause() : Void;
+  @:ufunction public function Pause() : Void;
   
   /**
     Set the position of the interpolation.
@@ -187,17 +187,17 @@ package unreal;
     @param NewPosition the new position to set the interpolation to
     @param bJump if true, teleport to the new position (don't trigger any events between the old and new positions, etc)
   **/
-  @:final public function SetPosition(NewPosition : unreal.Float32, bJump : Bool) : Void;
+  @:ufunction @:final public function SetPosition(NewPosition : unreal.Float32, bJump : Bool = false) : Void;
   
   /**
     Changes the direction of playback (go in reverse if it was going forward, or vice versa)
   **/
-  public function ChangePlaybackDirection() : Void;
+  @:ufunction public function ChangePlaybackDirection() : Void;
   
   /**
     Change the looping behaviour of this matinee
   **/
-  public function SetLoopingState(bNewLooping : Bool) : Void;
-  @:final public function EnableGroupByName(GroupName : unreal.FString, bEnable : Bool) : Void;
+  @:ufunction public function SetLoopingState(bNewLooping : Bool) : Void;
+  @:ufunction @:final public function EnableGroupByName(GroupName : unreal.FString, bEnable : Bool) : Void;
   
 }

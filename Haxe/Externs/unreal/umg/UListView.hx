@@ -19,21 +19,21 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UListView extends unreal.umg.UTableViewBase {
+@:uextern @:uclass extern class UListView extends unreal.umg.UTableViewBase {
   
   /**
     The selection method for the list
   **/
-  public var SelectionMode : unreal.slate.ESelectionMode;
+  @:uproperty public var SelectionMode : unreal.slate.ESelectionMode;
   
   /**
     The list of items to generate widgets for
   **/
-  public var Items : unreal.TArray<unreal.UObject>;
+  @:uproperty public var Items : unreal.TArray<unreal.UObject>;
   
   /**
     The height of each widget
   **/
-  public var ItemHeight : unreal.Float32;
+  @:uproperty public var ItemHeight : unreal.Float32;
   
 }

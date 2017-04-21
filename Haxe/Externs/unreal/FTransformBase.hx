@@ -20,7 +20,7 @@ package unreal;
   This is a mapping table between bone in a particular skeletal mesh and bone of this skeleton set.
 **/
 @:glueCppIncludes("Animation/Rig.h")
-@:noCopy @:noEquals @:uextern extern class FTransformBase {
-  public var Node : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTransformBase {
+  @:uproperty public var Node : unreal.FName;
   
 }

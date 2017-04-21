@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/InstancedStaticMeshComponent.h")
-@:noCopy @:noEquals @:uextern extern class FInstancedStaticMeshMappingInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInstancedStaticMeshMappingInfo {
   
 }

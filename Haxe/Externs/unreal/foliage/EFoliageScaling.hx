@@ -16,7 +16,7 @@ package unreal.foliage;
 @:umodule("Foliage")
 @:glueCppIncludes("FoliageType.h")
 @:uname("EFoliageScaling")
-@:class @:uextern extern enum EFoliageScaling {
+@:class @:uextern @:uenum extern enum EFoliageScaling {
   
   /**
     Foliage instances will have uniform X,Y and Z scales.

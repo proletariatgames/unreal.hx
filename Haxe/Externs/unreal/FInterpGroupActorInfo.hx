@@ -20,8 +20,8 @@ package unreal;
   A group and all the actors controlled by the group
 **/
 @:glueCppIncludes("Matinee/MatineeActor.h")
-@:noCopy @:noEquals @:uextern extern class FInterpGroupActorInfo {
-  public var Actors : unreal.TArray<unreal.AActor>;
-  public var ObjectName : unreal.FName;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FInterpGroupActorInfo {
+  @:uproperty public var Actors : unreal.TArray<unreal.AActor>;
+  @:uproperty public var ObjectName : unreal.FName;
   
 }

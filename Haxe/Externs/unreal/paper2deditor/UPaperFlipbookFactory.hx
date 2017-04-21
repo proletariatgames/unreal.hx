@@ -19,6 +19,6 @@ package unreal.paper2deditor;
 **/
 @:umodule("Paper2DEditor")
 @:glueCppIncludes("PaperFlipbookFactory.h")
-@:uextern extern class UPaperFlipbookFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UPaperFlipbookFactory extends unreal.editor.UFactory {
   
 }

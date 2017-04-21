@@ -21,7 +21,7 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/PhysicalMaterialFactoryNew.h")
-@:uextern extern class UPhysicalMaterialFactoryNew extends unreal.editor.UFactory {
-  public var PhysicalMaterialClass : unreal.TSubclassOf<unreal.UPhysicalMaterial>;
+@:uextern @:uclass extern class UPhysicalMaterialFactoryNew extends unreal.editor.UFactory {
+  @:uproperty public var PhysicalMaterialClass : unreal.TSubclassOf<unreal.UPhysicalMaterial>;
   
 }

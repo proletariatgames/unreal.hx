@@ -15,6 +15,6 @@ package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("FunctionalTestGameMode.h")
-@:uextern extern class AFunctionalTestGameMode extends unreal.AGameModeBase {
+@:uextern @:uclass extern class AFunctionalTestGameMode extends unreal.AGameModeBase {
   
 }

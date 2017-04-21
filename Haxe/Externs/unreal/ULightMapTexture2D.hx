@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/LightMapTexture2D.h")
-@:uextern extern class ULightMapTexture2D extends unreal.UTexture2D {
+@:uextern @:uclass extern class ULightMapTexture2D extends unreal.UTexture2D {
   
 }

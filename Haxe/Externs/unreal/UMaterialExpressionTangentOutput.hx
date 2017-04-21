@@ -20,7 +20,7 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTangentOutput.h")
-@:uextern extern class UMaterialExpressionTangentOutput extends unreal.UMaterialExpressionCustomOutput {
-  public var Input : unreal.FExpressionInput;
+@:uextern @:uclass extern class UMaterialExpressionTangentOutput extends unreal.UMaterialExpressionCustomOutput {
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

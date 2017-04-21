@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FResponseChannel {
-  public var Response : unreal.ECollisionResponse;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FResponseChannel {
+  @:uproperty public var Response : unreal.ECollisionResponse;
   
   /**
     This should match DisplayName of ECollisionChannel
         Meta data of custom channels can be used as well
   **/
-  public var Channel : unreal.FName;
+  @:uproperty public var Channel : unreal.FName;
   
 }

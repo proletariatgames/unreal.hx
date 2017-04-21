@@ -15,6 +15,6 @@ package unreal.onlineblueprintsupport;
 
 @:umodule("OnlineBlueprintSupport")
 @:glueCppIncludes("K2Node_LeaderboardFlush.h")
-@:uextern extern class UK2Node_LeaderboardFlush extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
+@:uextern @:uclass extern class UK2Node_LeaderboardFlush extends unreal.blueprintgraph.UK2Node_BaseAsyncTask {
   
 }

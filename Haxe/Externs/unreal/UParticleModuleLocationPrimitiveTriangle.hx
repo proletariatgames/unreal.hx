@@ -14,10 +14,10 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationPrimitiveTriangle.h")
-@:uextern extern class UParticleModuleLocationPrimitiveTriangle extends unreal.UParticleModuleLocationBase {
-  public var Thickness : unreal.FRawDistributionFloat;
-  public var Angle : unreal.FRawDistributionFloat;
-  public var Height : unreal.FRawDistributionFloat;
-  public var StartOffset : unreal.FRawDistributionVector;
+@:uextern @:uclass extern class UParticleModuleLocationPrimitiveTriangle extends unreal.UParticleModuleLocationBase {
+  @:uproperty public var Thickness : unreal.FRawDistributionFloat;
+  @:uproperty public var Angle : unreal.FRawDistributionFloat;
+  @:uproperty public var Height : unreal.FRawDistributionFloat;
+  @:uproperty public var StartOffset : unreal.FRawDistributionVector;
   
 }

@@ -29,6 +29,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/Tasks/AbilityTask_SpawnActor.h")
-@:uextern extern class UAbilityTask_SpawnActor extends unreal.gameplayabilities.UAbilityTask {
+@:uextern @:uclass extern class UAbilityTask_SpawnActor extends unreal.gameplayabilities.UAbilityTask {
   
 }

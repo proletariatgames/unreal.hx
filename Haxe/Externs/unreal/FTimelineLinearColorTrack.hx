@@ -20,26 +20,26 @@ package unreal;
   Struct that contains one entry for each linear color interpolation performed by the timeline
 **/
 @:glueCppIncludes("Components/TimelineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FTimelineLinearColorTrack {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTimelineLinearColorTrack {
   
   /**
     Cached linear color struct property pointer
   **/
-  public var LinearColorProperty : unreal.UStructProperty;
+  @:uproperty public var LinearColorProperty : unreal.UStructProperty;
   
   /**
     Name of property that we should update from this curve
   **/
-  public var LinearColorPropertyName : unreal.FName;
+  @:uproperty public var LinearColorPropertyName : unreal.FName;
   
   /**
     Name of track, usually set in Timeline Editor. Used by SetInterpLinearColorCurve function.
   **/
-  public var TrackName : unreal.FName;
+  @:uproperty public var TrackName : unreal.FName;
   
   /**
     Float curve to be evaluated
   **/
-  public var LinearColorCurve : unreal.UCurveLinearColor;
+  @:uproperty public var LinearColorCurve : unreal.UCurveLinearColor;
   
 }

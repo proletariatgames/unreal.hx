@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDepthOfFieldFunction.h")
-@:noClass @:uextern extern class UMaterialExpressionDepthOfFieldFunction extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDepthOfFieldFunction extends unreal.UMaterialExpression {
   
   /**
     usually nothing or PixelDepth
   **/
-  public var Depth : unreal.FExpressionInput;
+  @:uproperty public var Depth : unreal.FExpressionInput;
   
   /**
     Determines the mapping place to use on the terrain.
   **/
-  public var FunctionValue : unreal.EDepthOfFieldFunctionValue;
+  @:uproperty public var FunctionValue : unreal.EDepthOfFieldFunctionValue;
   
 }

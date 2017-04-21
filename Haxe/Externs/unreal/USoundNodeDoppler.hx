@@ -20,11 +20,11 @@ package unreal;
   Computes doppler pitch shift
 **/
 @:glueCppIncludes("Sound/SoundNodeDoppler.h")
-@:noClass @:uextern extern class USoundNodeDoppler extends unreal.USoundNode {
+@:noClass @:uextern @:uclass extern class USoundNodeDoppler extends unreal.USoundNode {
   
   /**
     How much to scale the doppler shift (1.0 is normal).
   **/
-  public var DopplerIntensity : unreal.Float32;
+  @:uproperty public var DopplerIntensity : unreal.Float32;
   
 }

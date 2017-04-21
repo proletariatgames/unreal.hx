@@ -21,16 +21,16 @@ package unreal.onlinesubsystemutils;
 **/
 @:umodule("OnlineSubsystemUtils")
 @:glueCppIncludes("Private/OnlinePIESettings.h")
-@:noClass @:uextern extern class UOnlinePIESettings extends unreal.UDeveloperSettings {
+@:noClass @:uextern @:uclass extern class UOnlinePIESettings extends unreal.UDeveloperSettings {
   
   /**
     Login credentials, at least one for each instance of PIE that is intended to be run
   **/
-  public var Logins : unreal.TArray<unreal.onlinesubsystemutils.FPIELoginSettingsInternal>;
+  @:uproperty public var Logins : unreal.TArray<unreal.onlinesubsystemutils.FPIELoginSettingsInternal>;
   
   /**
     Attempt to login with user credentials on a backend service before launching the PIE instance.
   **/
-  public var bOnlinePIEEnabled : Bool;
+  @:uproperty public var bOnlinePIEEnabled : Bool;
   
 }

@@ -15,26 +15,26 @@ package unreal.editor;
 
 @:umodule("UnrealEd")
 @:glueCppIncludes("MaterialGraph/MaterialGraph.h")
-@:uextern extern class UMaterialGraph extends unreal.UEdGraph {
+@:uextern @:uclass extern class UMaterialGraph extends unreal.UEdGraph {
   
   /**
     The name of the material that we are editing
   **/
-  public var OriginalMaterialFullName : unreal.FString;
+  @:uproperty public var OriginalMaterialFullName : unreal.FString;
   
   /**
     Root node representing Material inputs (NULL for Material Functions)
   **/
-  public var RootNode : unreal.editor.UMaterialGraphNode_Root;
+  @:uproperty public var RootNode : unreal.editor.UMaterialGraphNode_Root;
   
   /**
     Material Function this Graph represents (NULL for Materials)
   **/
-  public var MaterialFunction : unreal.UMaterialFunction;
+  @:uproperty public var MaterialFunction : unreal.UMaterialFunction;
   
   /**
     Material this Graph represents
   **/
-  public var Material : unreal.UMaterial;
+  @:uproperty public var Material : unreal.UMaterial;
   
 }

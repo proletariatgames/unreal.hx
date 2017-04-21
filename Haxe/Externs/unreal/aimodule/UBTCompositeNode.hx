@@ -15,16 +15,16 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/BTCompositeNode.h")
-@:uextern extern class UBTCompositeNode extends unreal.aimodule.UBTNode {
+@:uextern @:uclass extern class UBTCompositeNode extends unreal.aimodule.UBTNode {
   
   /**
     service nodes
   **/
-  public var Services : unreal.TArray<unreal.aimodule.UBTService>;
+  @:uproperty public var Services : unreal.TArray<unreal.aimodule.UBTService>;
   
   /**
     child nodes
   **/
-  public var Children : unreal.TArray<unreal.aimodule.FBTCompositeChild>;
+  @:uproperty public var Children : unreal.TArray<unreal.aimodule.FBTCompositeChild>;
   
 }

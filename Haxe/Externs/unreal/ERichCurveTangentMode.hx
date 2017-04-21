@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveTangentMode")
-@:uextern extern enum ERichCurveTangentMode {
+@:uextern @:uenum extern enum ERichCurveTangentMode {
   RCTM_Auto;
   RCTM_User;
   RCTM_Break;

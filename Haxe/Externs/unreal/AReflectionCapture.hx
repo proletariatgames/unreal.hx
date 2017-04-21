@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/ReflectionCapture.h")
-@:uextern extern class AReflectionCapture extends unreal.AActor {
+@:uextern @:uclass extern class AReflectionCapture extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var CaptureOffsetComponent : unreal.UBillboardComponent;
-  public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var CaptureOffsetComponent : unreal.UBillboardComponent;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
   #end // WITH_EDITORONLY_DATA
-  public var CaptureComponent : unreal.UReflectionCaptureComponent;
+  @:uproperty public var CaptureComponent : unreal.UReflectionCaptureComponent;
   
 }

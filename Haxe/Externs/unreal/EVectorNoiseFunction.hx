@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionVectorNoise.h")
 @:uname("EVectorNoiseFunction")
-@:uextern extern enum EVectorNoiseFunction {
+@:uextern @:uenum extern enum EVectorNoiseFunction {
   
   /**
     Random color for each unit cell in 3D space.

@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionGetMaterialAttributes.h")
-@:uextern extern class UMaterialExpressionGetMaterialAttributes extends unreal.UMaterialExpression {
-  public var AttributeGetTypes : unreal.TArray<unreal.FGuid>;
-  public var MaterialAttributes : unreal.FMaterialAttributesInput;
+@:uextern @:uclass extern class UMaterialExpressionGetMaterialAttributes extends unreal.UMaterialExpression {
+  @:uproperty public var AttributeGetTypes : unreal.TArray<unreal.FGuid>;
+  @:uproperty public var MaterialAttributes : unreal.FMaterialAttributesInput;
   
 }

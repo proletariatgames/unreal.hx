@@ -15,48 +15,48 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_Donut.h")
-@:uextern extern class UEnvQueryGenerator_Donut extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
-  public var bDefineArc : Bool;
+@:uextern @:uclass extern class UEnvQueryGenerator_Donut extends unreal.aimodule.UEnvQueryGenerator_ProjectedPoints {
+  @:uproperty public var bDefineArc : Bool;
   
   /**
     context
   **/
-  public var Center : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
+  @:uproperty public var Center : unreal.TSubclassOf<unreal.aimodule.UEnvQueryContext>;
   
   /**
     If true, the rings of the wheel will be rotated in a spiral pattern.  If false, they will all be at a zero
     rotation, looking more like the spokes on a wheel.
   **/
-  public var bUseSpiralPattern : Bool;
+  @:uproperty public var bUseSpiralPattern : Bool;
   
   /**
     If you generate items on a piece of circle you define angle of Arc cut here
   **/
-  public var ArcAngle : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ArcAngle : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     If you generate items on a piece of circle you define direction of Arc cut here
   **/
-  public var ArcDirection : unreal.aimodule.FEnvDirection;
+  @:uproperty public var ArcDirection : unreal.aimodule.FEnvDirection;
   
   /**
     number of items to generate for each ring
   **/
-  public var PointsPerRing : unreal.aimodule.FAIDataProviderIntValue;
+  @:uproperty public var PointsPerRing : unreal.aimodule.FAIDataProviderIntValue;
   
   /**
     number of rings to generate
   **/
-  public var NumberOfRings : unreal.aimodule.FAIDataProviderIntValue;
+  @:uproperty public var NumberOfRings : unreal.aimodule.FAIDataProviderIntValue;
   
   /**
     max distance between point and context
   **/
-  public var OuterRadius : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var OuterRadius : unreal.aimodule.FAIDataProviderFloatValue;
   
   /**
     min distance between point and context
   **/
-  public var InnerRadius : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var InnerRadius : unreal.aimodule.FAIDataProviderFloatValue;
   
 }

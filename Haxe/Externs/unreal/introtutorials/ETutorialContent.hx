@@ -20,7 +20,7 @@ package unreal.introtutorials;
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
 @:uname("ETutorialContent.Type")
-@:uextern extern enum ETutorialContent {
+@:uextern @:uenum extern enum ETutorialContent {
   
   /**
     Blank - displays no content

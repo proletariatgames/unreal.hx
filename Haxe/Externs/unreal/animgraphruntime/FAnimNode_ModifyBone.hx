@@ -19,56 +19,56 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_ModifyBone.h")
-@:uextern extern class FAnimNode_ModifyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_ModifyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Reference frame to apply Scale in.
   **/
-  public var ScaleSpace : unreal.EBoneControlSpace;
+  @:uproperty public var ScaleSpace : unreal.EBoneControlSpace;
   
   /**
     Reference frame to apply Rotation in.
   **/
-  public var RotationSpace : unreal.EBoneControlSpace;
+  @:uproperty public var RotationSpace : unreal.EBoneControlSpace;
   
   /**
     Reference frame to apply Translation in.
   **/
-  public var TranslationSpace : unreal.EBoneControlSpace;
+  @:uproperty public var TranslationSpace : unreal.EBoneControlSpace;
   
   /**
     Whether and how to modify the translation of this bone.
   **/
-  public var ScaleMode : unreal.animgraphruntime.EBoneModificationMode;
+  @:uproperty public var ScaleMode : unreal.animgraphruntime.EBoneModificationMode;
   
   /**
     Whether and how to modify the translation of this bone.
   **/
-  public var RotationMode : unreal.animgraphruntime.EBoneModificationMode;
+  @:uproperty public var RotationMode : unreal.animgraphruntime.EBoneModificationMode;
   
   /**
     Whether and how to modify the translation of this bone.
   **/
-  public var TranslationMode : unreal.animgraphruntime.EBoneModificationMode;
+  @:uproperty public var TranslationMode : unreal.animgraphruntime.EBoneModificationMode;
   
   /**
     New Scale of bone to apply. This is only worldspace.
   **/
-  public var Scale : unreal.FVector;
+  @:uproperty public var Scale : unreal.FVector;
   
   /**
     New rotation of bone to apply.
   **/
-  public var Rotation : unreal.FRotator;
+  @:uproperty public var Rotation : unreal.FRotator;
   
   /**
     New translation of bone to apply.
   **/
-  public var Translation : unreal.FVector;
+  @:uproperty public var Translation : unreal.FVector;
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var BoneToModify : unreal.FBoneReference;
+  @:uproperty public var BoneToModify : unreal.FBoneReference;
   
 }

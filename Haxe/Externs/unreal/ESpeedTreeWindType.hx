@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionSpeedTree.h")
 @:uname("ESpeedTreeWindType")
-@:uextern extern enum ESpeedTreeWindType {
+@:uextern @:uenum extern enum ESpeedTreeWindType {
   
   /**
     None

@@ -20,6 +20,6 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_ReachedMoveGoal.h")
-@:uextern extern class UBTDecorator_ReachedMoveGoal extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_ReachedMoveGoal extends unreal.aimodule.UBTDecorator {
   
 }

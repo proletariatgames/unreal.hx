@@ -18,39 +18,39 @@ package unreal;
   Abstract Base class for all tick functions.
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:uextern extern class FTickFunction {
+@:uextern @:ustruct extern class FTickFunction {
   
   /**
     The frequency in seconds at which this tick function will be executed.  If less than or equal to 0 then it will tick every frame
   **/
-  public var TickInterval : unreal.Float32;
+  @:uproperty public var TickInterval : unreal.Float32;
   
   /**
     If we allow this tick to run on a dedicated server
   **/
-  public var bAllowTickOnDedicatedServer : Bool;
+  @:uproperty public var bAllowTickOnDedicatedServer : Bool;
   
   /**
     If true, this tick function will start enabled, but can be disabled later on.
   **/
-  public var bStartWithTickEnabled : Bool;
+  @:uproperty public var bStartWithTickEnabled : Bool;
   
   /**
     If false, this tick function will never be registered and will never tick. Only settable in defaults.
   **/
-  public var bCanEverTick : Bool;
+  @:uproperty public var bCanEverTick : Bool;
   
   /**
     Bool indicating that this function should execute even if the game is paused. Pause ticks are very limited in capabilities. *
   **/
-  public var bTickEvenWhenPaused : Bool;
+  @:uproperty public var bTickEvenWhenPaused : Bool;
   
   /**
     Defines the tick group that this tick function must finish in. These groups determine the relative order of when objects tick during a frame update.
     
     @see ETickingGroup
   **/
-  public var EndTickGroup : unreal.ETickingGroup;
+  @:uproperty public var EndTickGroup : unreal.ETickingGroup;
   
   /**
     Defines the minimum tick group for this tick function. These groups determine the relative order of when objects tick during a frame update.
@@ -59,6 +59,6 @@ package unreal;
     @see ETickingGroup
     @see FTickFunction::AddPrerequisite()
   **/
-  public var TickGroup : unreal.ETickingGroup;
+  @:uproperty public var TickGroup : unreal.ETickingGroup;
   
 }

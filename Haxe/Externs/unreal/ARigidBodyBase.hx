@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("PhysicsEngine/RigidBodyBase.h")
-@:uextern extern class ARigidBodyBase extends unreal.AActor {
+@:uextern @:uclass extern class ARigidBodyBase extends unreal.AActor {
   
 }

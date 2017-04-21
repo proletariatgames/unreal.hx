@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityNetExecutionPolicy.Type")
-@:uextern extern enum EGameplayAbilityNetExecutionPolicy {
+@:uextern @:uenum extern enum EGameplayAbilityNetExecutionPolicy {
   
   /**
     Part of this ability runs predictively on the local client if there is one

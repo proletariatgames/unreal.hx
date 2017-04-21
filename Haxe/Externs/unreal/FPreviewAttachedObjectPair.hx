@@ -20,11 +20,11 @@ package unreal;
   Preview items that are attached to the skeleton *
 **/
 @:glueCppIncludes("Animation/PreviewAssetAttachComponent.h")
-@:noCopy @:noEquals @:uextern extern class FPreviewAttachedObjectPair {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPreviewAttachedObjectPair {
   
   /**
     The name of the attach point of the Object (for example a bone or socket name)
   **/
-  public var AttachedTo : unreal.FName;
+  @:uproperty public var AttachedTo : unreal.FName;
   
 }

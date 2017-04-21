@@ -19,6 +19,6 @@ package unreal;
   and setting this rule to be used in your project settings.
 **/
 @:glueCppIncludes("Engine/DPICustomScalingRule.h")
-@:uextern extern class UDPICustomScalingRule extends unreal.UObject {
+@:uextern @:uclass extern class UDPICustomScalingRule extends unreal.UObject {
   
 }

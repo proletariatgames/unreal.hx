@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_WaitBlackboardTime.h")
-@:uextern extern class UBTTask_WaitBlackboardTime extends unreal.aimodule.UBTTask_Wait {
+@:uextern @:uclass extern class UBTTask_WaitBlackboardTime extends unreal.aimodule.UBTTask_Wait {
   
   /**
     blackboard key selector
   **/
-  private var BlackboardKey : unreal.aimodule.FBlackboardKeySelector;
+  @:uproperty private var BlackboardKey : unreal.aimodule.FBlackboardKeySelector;
   
 }

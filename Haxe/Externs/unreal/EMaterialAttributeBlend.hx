@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionBlendMaterialAttributes.h")
 @:uname("EMaterialAttributeBlend.Type")
-@:uextern extern enum EMaterialAttributeBlend {
+@:uextern @:uenum extern enum EMaterialAttributeBlend {
   Blend;
   UseA;
   UseB;

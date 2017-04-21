@@ -20,11 +20,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_TimeLimit.h")
-@:uextern extern class UBTDecorator_TimeLimit extends unreal.aimodule.UBTDecorator {
+@:uextern @:uclass extern class UBTDecorator_TimeLimit extends unreal.aimodule.UBTDecorator {
   
   /**
     max allowed time for execution of underlying node
   **/
-  public var TimeLimit : unreal.Float32;
+  @:uproperty public var TimeLimit : unreal.Float32;
   
 }

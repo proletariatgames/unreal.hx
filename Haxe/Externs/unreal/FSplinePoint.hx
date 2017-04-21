@@ -20,13 +20,13 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/SplineComponent.h")
-@:noCopy @:noEquals @:uextern extern class FSplinePoint {
-  public var Type : unreal.ESplinePointType;
-  public var Scale : unreal.FVector;
-  public var Rotation : unreal.FRotator;
-  public var LeaveTangent : unreal.FVector;
-  public var ArriveTangent : unreal.FVector;
-  public var Position : unreal.FVector;
-  public var InputKey : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSplinePoint {
+  @:uproperty public var Type : unreal.ESplinePointType;
+  @:uproperty public var Scale : unreal.FVector;
+  @:uproperty public var Rotation : unreal.FRotator;
+  @:uproperty public var LeaveTangent : unreal.FVector;
+  @:uproperty public var ArriveTangent : unreal.FVector;
+  @:uproperty public var Position : unreal.FVector;
+  @:uproperty public var InputKey : unreal.Float32;
   
 }

@@ -16,7 +16,7 @@ package unreal.androidruntimesettings;
 @:umodule("AndroidRuntimeSettings")
 @:glueCppIncludes("AndroidRuntimeSettings.h")
 @:uname("EAndroidAntVerbosity.Type")
-@:uextern extern enum EAndroidAntVerbosity {
+@:uextern @:uenum extern enum EAndroidAntVerbosity {
   
   /**
     Extra quiet logging (-quiet), errors will be logged by second run at normal verbosity.

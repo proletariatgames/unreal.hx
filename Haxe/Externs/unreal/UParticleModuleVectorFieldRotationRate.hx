@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/VectorField/ParticleModuleVectorFieldRotationRate.h")
-@:noClass @:uextern extern class UParticleModuleVectorFieldRotationRate extends unreal.UParticleModuleVectorFieldBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleVectorFieldRotationRate extends unreal.UParticleModuleVectorFieldBase {
   
   /**
     Constant rotation rate applied to the local vector field.
   **/
-  public var RotationRate : unreal.FVector;
+  @:uproperty public var RotationRate : unreal.FVector;
   
 }

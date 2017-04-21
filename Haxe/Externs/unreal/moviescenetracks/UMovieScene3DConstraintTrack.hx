@@ -21,11 +21,11 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Tracks/MovieScene3DConstraintTrack.h")
-@:uextern extern class UMovieScene3DConstraintTrack extends unreal.moviescene.UMovieSceneTrack {
+@:uextern @:uclass extern class UMovieScene3DConstraintTrack extends unreal.moviescene.UMovieSceneTrack {
   
   /**
     List of all constraint sections.
   **/
-  private var ConstraintSections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
+  @:uproperty private var ConstraintSections : unreal.TArray<unreal.moviescene.UMovieSceneSection>;
   
 }

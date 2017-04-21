@@ -21,10 +21,10 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_InputTouchEvent.h")
-@:uextern extern class UK2Node_InputTouchEvent extends unreal.blueprintgraph.UK2Node_Event {
-  public var bOverrideParentBinding : Bool;
-  public var bExecuteWhenPaused : Bool;
-  public var bConsumeInput : Bool;
-  public var InputKeyEvent : unreal.EInputEvent;
+@:uextern @:uclass extern class UK2Node_InputTouchEvent extends unreal.blueprintgraph.UK2Node_Event {
+  @:uproperty public var bOverrideParentBinding : Bool;
+  @:uproperty public var bExecuteWhenPaused : Bool;
+  @:uproperty public var bConsumeInput : Bool;
+  @:uproperty public var InputKeyEvent : unreal.EInputEvent;
   
 }

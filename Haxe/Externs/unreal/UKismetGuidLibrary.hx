@@ -14,41 +14,41 @@
 package unreal;
 
 @:glueCppIncludes("Kismet/KismetGuidLibrary.h")
-@:uextern extern class UKismetGuidLibrary extends unreal.UBlueprintFunctionLibrary {
+@:uextern @:uclass extern class UKismetGuidLibrary extends unreal.UBlueprintFunctionLibrary {
   
   /**
     Returns true if the values are equal (A == B)
   **/
-  static public function EqualEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction static public function EqualEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Returns true if the values are not equal (A != B)
   **/
-  static public function NotEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction static public function NotEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Checks whether the given GUID is valid
   **/
-  static public function IsValid_Guid(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction static public function IsValid_Guid(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Invalidates the given GUID
   **/
-  static public function Invalidate_Guid(InGuid : unreal.PRef<unreal.FGuid>) : Void;
+  @:ufunction static public function Invalidate_Guid(InGuid : unreal.PRef<unreal.FGuid>) : Void;
   
   /**
     Returns a new unique GUID
   **/
-  static public function NewGuid() : unreal.FGuid;
+  @:ufunction static public function NewGuid() : unreal.FGuid;
   
   /**
     Converts a GUID value to a string, in the form 'A-B-C-D'
   **/
-  static public function Conv_GuidToString(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : unreal.FString;
+  @:ufunction static public function Conv_GuidToString(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : unreal.FString;
   
   /**
     Converts a String of format EGuidFormats to a Guid. Returns Guid OutGuid, Returns bool Success
   **/
-  static public function Parse_StringToGuid(GuidString : unreal.FString, OutGuid : unreal.PRef<unreal.FGuid>, Success : Bool) : Void;
+  @:ufunction static public function Parse_StringToGuid(GuidString : unreal.FString, OutGuid : unreal.PRef<unreal.FGuid>, Success : Bool) : Void;
   
 }

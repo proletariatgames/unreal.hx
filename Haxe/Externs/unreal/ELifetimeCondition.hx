@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("UObject/CoreNetTypes.h")
 @:uname("ELifetimeCondition")
-@:uextern extern enum ELifetimeCondition {
+@:uextern @:uenum extern enum ELifetimeCondition {
   
   /**
     None

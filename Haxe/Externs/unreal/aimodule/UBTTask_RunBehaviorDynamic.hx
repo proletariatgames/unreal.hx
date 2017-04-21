@@ -22,21 +22,21 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("BehaviorTree/Tasks/BTTask_RunBehaviorDynamic.h")
-@:uextern extern class UBTTask_RunBehaviorDynamic extends unreal.aimodule.UBTTaskNode {
+@:uextern @:uclass extern class UBTTask_RunBehaviorDynamic extends unreal.aimodule.UBTTaskNode {
   
   /**
     current subtree
   **/
-  private var BehaviorAsset : unreal.aimodule.UBehaviorTree;
+  @:uproperty private var BehaviorAsset : unreal.aimodule.UBehaviorTree;
   
   /**
     default behavior to run
   **/
-  private var DefaultBehaviorAsset : unreal.aimodule.UBehaviorTree;
+  @:uproperty private var DefaultBehaviorAsset : unreal.aimodule.UBehaviorTree;
   
   /**
     Gameplay tag that will identify this task for subtree injection
   **/
-  private var InjectionTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty private var InjectionTag : unreal.gameplaytags.FGameplayTag;
   
 }

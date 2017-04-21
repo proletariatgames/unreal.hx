@@ -21,32 +21,37 @@ package unreal.animgraph;
 **/
 @:umodule("AnimGraph")
 @:glueCppIncludes("K2Node_AnimGetter.h")
-@:uextern extern class UK2Node_AnimGetter extends unreal.blueprintgraph.UK2Node_CallFunction {
+@:uextern @:uclass extern class UK2Node_AnimGetter extends unreal.blueprintgraph.UK2Node_CallFunction {
   
   /**
     List of valid contexts for the node
   **/
-  public var Contexts : unreal.TArray<unreal.FString>;
+  @:uproperty public var Contexts : unreal.TArray<unreal.FString>;
+  
+  /**
+    Cached node title
+  **/
+  @:uproperty public var CachedTitle : unreal.FText;
   
   /**
     The anim blueprint that generated this getter
   **/
-  public var SourceAnimBlueprint : unreal.UAnimBlueprint;
+  @:uproperty public var SourceAnimBlueprint : unreal.UAnimBlueprint;
   
   /**
     The UAnimInstance derived class that implements the getter we are running
   **/
-  public var GetterClass : unreal.UClass;
+  @:uproperty public var GetterClass : unreal.UClass;
   
   /**
     UAnimStateNode doesn't use the same hierarchy so we need to have a seperate property here to handle
     those.
   **/
-  public var SourceStateNode : unreal.animgraph.UAnimStateNodeBase;
+  @:uproperty public var SourceStateNode : unreal.animgraph.UAnimStateNodeBase;
   
   /**
     The node that is required for the getter
   **/
-  public var SourceNode : unreal.animgraph.UAnimGraphNode_Base;
+  @:uproperty public var SourceNode : unreal.animgraph.UAnimGraphNode_Base;
   
 }

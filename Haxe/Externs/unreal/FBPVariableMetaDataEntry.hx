@@ -20,16 +20,16 @@ package unreal;
   One metadata entry for a variable
 **/
 @:glueCppIncludes("Engine/Blueprint.h")
-@:noCopy @:noEquals @:uextern extern class FBPVariableMetaDataEntry {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBPVariableMetaDataEntry {
   
   /**
     Name of metadata value
   **/
-  public var DataValue : unreal.FString;
+  @:uproperty public var DataValue : unreal.FString;
   
   /**
     Name of metadata key
   **/
-  public var DataKey : unreal.FName;
+  @:uproperty public var DataKey : unreal.FName;
   
 }

@@ -15,101 +15,101 @@ package unreal.sequencerecorder;
 
 @:umodule("SequenceRecorder")
 @:glueCppIncludes("SequenceRecorderSettings.h")
-@:uextern extern class USequenceRecorderSettings extends unreal.UObject {
+@:uextern @:uclass extern class USequenceRecorderSettings extends unreal.UObject {
   
   /**
     Settings applied to actors of a specified class
   **/
-  public var PerActorSettings : unreal.TArray<unreal.sequencerecorder.FSettingsForActorClass>;
+  @:uproperty public var PerActorSettings : unreal.TArray<unreal.sequencerecorder.FSettingsForActorClass>;
   
   /**
     The properties to record for specified classes. Component classes specified here will be recorded. If an actor does not contain one of these classes it will be ignored.
   **/
-  public var ClassesAndPropertiesToRecord : unreal.TArray<unreal.sequencerecorder.FPropertiesToRecordForClass>;
+  @:uproperty public var ClassesAndPropertiesToRecord : unreal.TArray<unreal.sequencerecorder.FPropertiesToRecordForClass>;
   
   /**
     Whether to record actors that are spawned by sequencer itself (this is usually disabled as results can be unexpected)
   **/
-  public var bRecordSequencerSpawnedActors : Bool;
+  @:uproperty public var bRecordSequencerSpawnedActors : Bool;
   
   /**
     Default settings applied to animation recording
   **/
-  public var DefaultAnimationSettings : unreal.FAnimationRecordingSettings;
+  @:uproperty public var DefaultAnimationSettings : unreal.FAnimationRecordingSettings;
   
   /**
     Filter to check spawned actors against to see if they should be recorded
   **/
-  public var ActorFilter : unreal.sequencerecorder.FSequenceRecorderActorFilter;
+  @:uproperty public var ActorFilter : unreal.sequencerecorder.FSequenceRecorderActorFilter;
   
   /**
     Whether to record the world settings actor in the sequence (some games use this to attach world SFX)
   **/
-  public var bRecordWorldSettingsActor : Bool;
+  @:uproperty public var bRecordWorldSettingsActor : Bool;
   
   /**
     Proximity to currently recorded actors to record newly spawned actors.
   **/
-  public var NearbyActorRecordingProximity : unreal.Float32;
+  @:uproperty public var NearbyActorRecordingProximity : unreal.Float32;
   
   /**
     Whether to record nearby spawned actors.
   **/
-  public var bRecordNearbySpawnedActors : Bool;
+  @:uproperty public var bRecordNearbySpawnedActors : Bool;
   
   /**
     The buffer size to use on mic input callbacks. Larger sizes increase latency but reduce chances of buffer overruns (pops and discontinuities).
   **/
-  public var AudioInputBufferSize : unreal.Int32;
+  @:uproperty public var AudioInputBufferSize : unreal.Int32;
   
   /**
     Gain in decibels to apply to recorded audio
   **/
-  public var AudioGain : unreal.Float32;
+  @:uproperty public var AudioGain : unreal.Float32;
   
   /**
     Whether to record audio alongside animation or not
   **/
-  public var RecordAudio : unreal.sequencerecorder.EAudioRecordingMode;
+  @:uproperty public var RecordAudio : unreal.sequencerecorder.EAudioRecordingMode;
   
   /**
     The name of the subdirectory audio will be placed in. Leave this empty to place into the same directory as the sequence base path
   **/
-  public var AudioSubDirectory : unreal.FString;
+  @:uproperty public var AudioSubDirectory : unreal.FString;
   
   /**
     The name of the subdirectory animations will be placed in. Leave this empty to place into the same directory as the sequence base path
   **/
-  public var AnimationSubDirectory : unreal.FString;
+  @:uproperty public var AnimationSubDirectory : unreal.FString;
   
   /**
     Base path for this recording. Sub-assets will be created in subdirectories as specified
   **/
-  public var SequenceRecordingBasePath : unreal.FDirectoryPath;
+  @:uproperty public var SequenceRecordingBasePath : unreal.FDirectoryPath;
   
   /**
     The base name of the sequence to record to. This name will also be used to auto-generate any assets created by this recording.
   **/
-  public var SequenceName : unreal.FString;
+  @:uproperty public var SequenceName : unreal.FString;
   
   /**
     Delay that we will use before starting recording
   **/
-  public var RecordingDelay : unreal.Float32;
+  @:uproperty public var RecordingDelay : unreal.Float32;
   
   /**
     The length of the recorded sequence
   **/
-  public var SequenceLength : unreal.Float32;
+  @:uproperty public var SequenceLength : unreal.Float32;
   
   /**
     Whether to maximize the viewport when recording
   **/
-  public var bImmersiveMode : Bool;
+  @:uproperty public var bImmersiveMode : Bool;
   
   /**
     Whether to create a level sequence when recording. Actors and animations will be inserted into this sequence
   **/
-  public var bCreateLevelSequence : Bool;
+  @:uproperty public var bCreateLevelSequence : Bool;
   
 }

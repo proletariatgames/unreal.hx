@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
 @:uname("ELinearConstraintMotion")
-@:uextern extern enum ELinearConstraintMotion {
+@:uextern @:uenum extern enum ELinearConstraintMotion {
   
   /**
     No constraint against this axis.

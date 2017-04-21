@@ -20,8 +20,8 @@ package unreal;
   Information for one event in the track.
 **/
 @:glueCppIncludes("Matinee/InterpTrackBoolProp.h")
-@:noCopy @:noEquals @:uextern extern class FBoolTrackKey {
-  public var Value : Bool;
-  public var Time : unreal.Float32;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBoolTrackKey {
+  @:uproperty public var Value : Bool;
+  @:uproperty public var Time : unreal.Float32;
   
 }

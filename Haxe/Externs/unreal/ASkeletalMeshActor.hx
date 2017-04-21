@@ -23,38 +23,38 @@ package unreal;
   @see USkeletalMesh
 **/
 @:glueCppIncludes("Animation/SkeletalMeshActor.h")
-@:uextern extern class ASkeletalMeshActor extends unreal.AActor implements unreal.IMatineeAnimInterface {
-  public var ReplicatedMaterial1 : unreal.UMaterialInterface;
+@:uextern @:uclass extern class ASkeletalMeshActor extends unreal.AActor implements unreal.IMatineeAnimInterface {
+  @:uproperty public var ReplicatedMaterial1 : unreal.UMaterialInterface;
   
   /**
     used to replicate the material in index 0
   **/
-  public var ReplicatedMaterial0 : unreal.UMaterialInterface;
+  @:uproperty public var ReplicatedMaterial0 : unreal.UMaterialInterface;
   
   /**
     Used to replicate physics asset to clients
   **/
-  public var ReplicatedPhysAsset : unreal.UPhysicsAsset;
+  @:uproperty public var ReplicatedPhysAsset : unreal.UPhysicsAsset;
   
   /**
     Used to replicate mesh to clients
   **/
-  public var ReplicatedMesh : unreal.USkeletalMesh;
-  public var SkeletalMeshComponent : unreal.USkeletalMeshComponent;
-  @:deprecated public var bWakeOnLevelStart_DEPRECATED : Bool;
+  @:uproperty public var ReplicatedMesh : unreal.USkeletalMesh;
+  @:uproperty public var SkeletalMeshComponent : unreal.USkeletalMeshComponent;
+  @:deprecated @:uproperty public var bWakeOnLevelStart_DEPRECATED : Bool;
   
   /**
     Whether or not this actor should respond to anim notifies - CURRENTLY ONLY AFFECTS PlayParticleEffect NOTIFIES*
   **/
-  public var bShouldDoAnimNotifies : Bool;
+  @:uproperty public var bShouldDoAnimNotifies : Bool;
   
   /**
     Replication Notification Callbacks
   **/
-  public function OnRep_ReplicatedMesh() : Void;
-  public function OnRep_ReplicatedPhysAsset() : Void;
-  public function OnRep_ReplicatedMaterial0() : Void;
-  public function OnRep_ReplicatedMaterial1() : Void;
+  @:ufunction public function OnRep_ReplicatedMesh() : Void;
+  @:ufunction public function OnRep_ReplicatedPhysAsset() : Void;
+  @:ufunction public function OnRep_ReplicatedMaterial0() : Void;
+  @:ufunction public function OnRep_ReplicatedMaterial1() : Void;
   // MatineeAnimInterface interface implementation
   
 }

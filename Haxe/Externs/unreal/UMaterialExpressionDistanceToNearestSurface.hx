@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionDistanceToNearestSurface.h")
-@:noClass @:uextern extern class UMaterialExpressionDistanceToNearestSurface extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionDistanceToNearestSurface extends unreal.UMaterialExpression {
   
   /**
     Defaults to current world position if not specified
   **/
-  public var Position : unreal.FExpressionInput;
+  @:uproperty public var Position : unreal.FExpressionInput;
   
 }

@@ -20,7 +20,7 @@ package unreal.proceduralmeshcomponent;
 @:umodule("ProceduralMeshComponent")
 @:glueCppIncludes("KismetProceduralMeshLibrary.h")
 @:uname("EProcMeshSliceCapOption")
-@:class @:uextern extern enum EProcMeshSliceCapOption {
+@:class @:uextern @:uenum extern enum EProcMeshSliceCapOption {
   
   /**
     Do not create cap geometry

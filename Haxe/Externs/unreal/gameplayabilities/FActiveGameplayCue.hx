@@ -21,14 +21,14 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayCueInterface.h")
-@:noCopy @:noEquals @:uextern extern class FActiveGameplayCue extends unreal.FFastArraySerializerItem {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FActiveGameplayCue extends unreal.FFastArraySerializerItem {
   
   /**
     Has this been predictively removed on the client?
   **/
-  public var bPredictivelyRemoved : Bool;
-  public var Parameters : unreal.gameplayabilities.FGameplayCueParameters;
-  public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
-  public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var bPredictivelyRemoved : Bool;
+  @:uproperty public var Parameters : unreal.gameplayabilities.FGameplayCueParameters;
+  @:uproperty public var PredictionKey : unreal.gameplayabilities.FPredictionKey;
+  @:uproperty public var GameplayCueTag : unreal.gameplaytags.FGameplayTag;
   
 }

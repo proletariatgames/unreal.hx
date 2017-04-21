@@ -19,114 +19,114 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("AbilitySystemGlobals.h")
-@:uextern extern class UAbilitySystemGlobals extends unreal.UObject {
-  private var GlobalGameplayCueManager : unreal.gameplayabilities.UGameplayCueManager;
-  private var GlobalAttributeMetaDataTable : unreal.UDataTable;
+@:uextern @:uclass extern class UAbilitySystemGlobals extends unreal.UObject {
+  @:uproperty private var GlobalGameplayCueManager : unreal.gameplayabilities.UGameplayCueManager;
+  @:uproperty private var GlobalAttributeMetaDataTable : unreal.UDataTable;
   
   /**
     Curve tables containing default values for attribute sets, keyed off of Name/Levels
   **/
-  private var GlobalAttributeDefaultsTables : unreal.TArray<unreal.UCurveTable>;
-  private var GlobalCurveTable : unreal.UCurveTable;
-  private var GameplayTagResponseTable : unreal.gameplayabilities.UGameplayTagReponseTable;
+  @:uproperty private var GlobalAttributeDefaultsTables : unreal.TArray<unreal.UCurveTable>;
+  @:uproperty private var GlobalCurveTable : unreal.UCurveTable;
+  @:uproperty private var GameplayTagResponseTable : unreal.gameplayabilities.UGameplayTagReponseTable;
   
   /**
     The class to instantiate as the GameplayTagResponseTable.
   **/
-  private var GameplayTagResponseTableName : unreal.FStringAssetReference;
+  @:uproperty private var GameplayTagResponseTableName : unreal.FStringAssetReference;
   
   /**
     Look in these paths for GameplayCueNotifies
   **/
-  private var GameplayCueNotifyPaths : unreal.TArray<unreal.FString>;
+  @:uproperty private var GameplayCueNotifyPaths : unreal.TArray<unreal.FString>;
   
   /**
     Object reference to gameplay cue manager (E.g., reference to a specific blueprint of your GameplayCueManager class. This is not necessary unless you want to have data or blueprints in your gameplay cue manager.
   **/
-  private var GlobalGameplayCueManagerName : unreal.FStringAssetReference;
+  @:uproperty private var GlobalGameplayCueManagerName : unreal.FStringAssetReference;
   
   /**
     Class reference to gameplay cue manager. Use this if you want to just instantiate a class for your gameplay cue manager without having to create an asset.
   **/
-  private var GlobalGameplayCueManagerClass : unreal.FStringAssetReference;
+  @:uproperty private var GlobalGameplayCueManagerClass : unreal.FStringAssetReference;
   
   /**
     Array of curve table names to use for default values for attribute sets, keyed off of Name/Levels
   **/
-  private var GlobalAttributeSetDefaultsTableNames : unreal.TArray<unreal.FStringAssetReference>;
+  @:uproperty private var GlobalAttributeSetDefaultsTableNames : unreal.TArray<unreal.FStringAssetReference>;
   
   /**
     Holds default values for attribute sets, keyed off of Name/Levels. NOTE: Preserved for backwards compatibility, should use the array version below now
   **/
-  private var GlobalAttributeSetDefaultsTableName : unreal.FStringAssetReference;
+  @:uproperty private var GlobalAttributeSetDefaultsTableName : unreal.FStringAssetReference;
   
   /**
     Holds information about the valid attributes' min and max values and stacking rules
   **/
-  private var GlobalAttributeMetaDataTableName : unreal.FStringAssetReference;
+  @:uproperty private var GlobalAttributeMetaDataTableName : unreal.FStringAssetReference;
   
   /**
     Name of global curve table to use as the default for scalable floats, etc.
   **/
-  private var GlobalCurveTableName : unreal.FStringAssetReference;
+  @:uproperty private var GlobalCurveTableName : unreal.FStringAssetReference;
   
   /**
     The default mod evaluation channel for the game
   **/
-  private var DefaultGameplayModEvaluationChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
+  @:uproperty private var DefaultGameplayModEvaluationChannel : unreal.gameplayabilities.EGameplayModEvaluationChannel;
   
   /**
     How many bits to use for "number of tags" in FMinimapReplicationTagCountMap::NetSerialize.
   **/
-  public var MinimalReplicationTagCountBits : unreal.Int32;
+  @:uproperty public var MinimalReplicationTagCountBits : unreal.Int32;
   
   /**
     Failed to activate due to invalid networking settings, this is designer error
   **/
-  public var ActivateFailNetworkingName : unreal.FName;
-  public var ActivateFailNetworkingTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var ActivateFailNetworkingName : unreal.FName;
+  @:uproperty public var ActivateFailNetworkingTag : unreal.gameplaytags.FGameplayTag;
   
   /**
     TryActivate failed due to missing required tags
   **/
-  public var ActivateFailTagsMissingName : unreal.FName;
-  public var ActivateFailTagsMissingTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var ActivateFailTagsMissingName : unreal.FName;
+  @:uproperty public var ActivateFailTagsMissingTag : unreal.gameplaytags.FGameplayTag;
   
   /**
     TryActivate failed due to being blocked by other abilities
   **/
-  public var ActivateFailTagsBlockedName : unreal.FName;
-  public var ActivateFailTagsBlockedTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var ActivateFailTagsBlockedName : unreal.FName;
+  @:uproperty public var ActivateFailTagsBlockedTag : unreal.gameplaytags.FGameplayTag;
   
   /**
     TryActivate failed due to not being able to spend costs
   **/
-  public var ActivateFailCostName : unreal.FName;
-  public var ActivateFailCostTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var ActivateFailCostName : unreal.FName;
+  @:uproperty public var ActivateFailCostTag : unreal.gameplaytags.FGameplayTag;
   
   /**
     TryActivate failed due to being on cooldown
   **/
-  public var ActivateFailCooldownName : unreal.FName;
+  @:uproperty public var ActivateFailCooldownName : unreal.FName;
   
   /**
     Global Tags
   **/
-  public var ActivateFailCooldownTag : unreal.gameplaytags.FGameplayTag;
+  @:uproperty public var ActivateFailCooldownTag : unreal.gameplaytags.FGameplayTag;
   
   /**
     The class to instantiate as the globals object. Defaults to this class but can be overridden
   **/
-  public var AbilitySystemGlobalsClassName : unreal.FStringClassReference;
+  @:uproperty public var AbilitySystemGlobalsClassName : unreal.FStringClassReference;
   
   /**
     Toggles whether we should ignore ability cooldowns. Does nothing in shipping builds
   **/
-  public function ToggleIgnoreAbilitySystemCooldowns() : Void;
+  @:ufunction public function ToggleIgnoreAbilitySystemCooldowns() : Void;
   
   /**
     Toggles whether we should ignore ability costs. Does nothing in shipping builds
   **/
-  public function ToggleIgnoreAbilitySystemCosts() : Void;
+  @:ufunction public function ToggleIgnoreAbilitySystemCosts() : Void;
   
 }

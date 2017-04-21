@@ -21,6 +21,6 @@ package unreal.vreditor;
 **/
 @:umodule("VREditor")
 @:glueCppIncludes("VREditorWidgetComponent.h")
-@:noClass @:uextern extern class UVREditorWidgetComponent extends unreal.umg.UWidgetComponent {
+@:noClass @:uextern @:uclass extern class UVREditorWidgetComponent extends unreal.umg.UWidgetComponent {
   
 }

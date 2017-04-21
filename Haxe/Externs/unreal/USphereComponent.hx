@@ -18,34 +18,34 @@ package unreal;
   A sphere generally used for simple collision. Bounds are rendered as lines in the editor.
 **/
 @:glueCppIncludes("Components/SphereComponent.h")
-@:uextern extern class USphereComponent extends unreal.UShapeComponent {
+@:uextern @:uclass extern class USphereComponent extends unreal.UShapeComponent {
   
   /**
     The radius of the sphere *
   **/
-  private var SphereRadius : unreal.Float32;
+  @:uproperty private var SphereRadius : unreal.Float32;
   
   /**
     Change the sphere radius. This is the unscaled radius, before component scale is applied.
     @param       InSphereRadius: the new sphere radius
     @param       bUpdateOverlaps: if true and this shape is registered and collides, updates touching array for owner actor.
   **/
-  @:final public function SetSphereRadius(InSphereRadius : unreal.Float32, bUpdateOverlaps : Bool) : Void;
+  @:ufunction @:final public function SetSphereRadius(InSphereRadius : unreal.Float32, bUpdateOverlaps : Bool = true) : Void;
   
   /**
     @return the radius of the sphere, with component scale applied.
   **/
-  @:thisConst @:final public function GetScaledSphereRadius() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetScaledSphereRadius() : unreal.Float32;
   
   /**
     @return the radius of the sphere, ignoring component scale.
   **/
-  @:thisConst @:final public function GetUnscaledSphereRadius() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetUnscaledSphereRadius() : unreal.Float32;
   
   /**
     Get the scale used by this shape. This is a uniform scale that is the minimum of any non-uniform scaling.
     @return the scale used by this shape.
   **/
-  @:thisConst @:final public function GetShapeScale() : unreal.Float32;
+  @:ufunction @:thisConst @:final public function GetShapeScale() : unreal.Float32;
   
 }

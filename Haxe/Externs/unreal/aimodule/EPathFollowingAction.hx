@@ -20,7 +20,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("Navigation/PathFollowingComponent.h")
 @:uname("EPathFollowingAction.Type")
-@:uextern extern enum EPathFollowingAction {
+@:uextern @:uenum extern enum EPathFollowingAction {
   Error;
   NoMove;
   DirectMove;

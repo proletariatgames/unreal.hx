@@ -25,6 +25,41 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
-@:uextern extern class FGameplayAbilityActorInfo {
+@:uextern @:ustruct extern class FGameplayAbilityActorInfo {
+  
+  /**
+    Movement component of the avatar actor. Often null
+  **/
+  @:uproperty public var MovementComponent : unreal.TWeakObjectPtr<unreal.UMovementComponent>;
+  
+  /**
+    Anim instance of the avatar actor. Often null
+  **/
+  @:uproperty public var AnimInstance : unreal.TWeakObjectPtr<unreal.UAnimInstance>;
+  
+  /**
+    Skeletal mesh of the avatar actor. Often null
+  **/
+  @:uproperty public var SkeletalMeshComponent : unreal.TWeakObjectPtr<unreal.USkeletalMeshComponent>;
+  
+  /**
+    Ability System component associated with the owner actor, shouldn't be null
+  **/
+  @:uproperty public var AbilitySystemComponent : unreal.TWeakObjectPtr<unreal.gameplayabilities.UAbilitySystemComponent>;
+  
+  /**
+    PlayerController associated with the owning actor. This will often be null!
+  **/
+  @:uproperty public var PlayerController : unreal.TWeakObjectPtr<unreal.APlayerController>;
+  
+  /**
+    The physical representation of the owner, used for targeting and animation. This will often be null!
+  **/
+  @:uproperty public var AvatarActor : unreal.TWeakObjectPtr<unreal.AActor>;
+  
+  /**
+    The actor that owns the abilities, shouldn't be null
+  **/
+  @:uproperty public var OwnerActor : unreal.TWeakObjectPtr<unreal.AActor>;
   
 }

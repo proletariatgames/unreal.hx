@@ -18,31 +18,31 @@ package unreal;
   A light component which emits light from a single point equally in all directions.
 **/
 @:glueCppIncludes("Components/PointLightComponent.h")
-@:uextern extern class UPointLightComponent extends unreal.ULightComponent {
+@:uextern @:uclass extern class UPointLightComponent extends unreal.ULightComponent {
   
   /**
     The Lightmass settings for this object.
   **/
-  public var LightmassSettings : unreal.FLightmassPointLightSettings;
+  @:uproperty public var LightmassSettings : unreal.FLightmassPointLightSettings;
   
   /**
     Length of light source shape.
     Note that light sources shapes which intersect shadow casting geometry can cause shadowing artifacts.
   **/
-  public var SourceLength : unreal.Float32;
+  @:uproperty public var SourceLength : unreal.Float32;
   
   /**
     Radius of light source shape.
     Note that light sources shapes which intersect shadow casting geometry can cause shadowing artifacts.
   **/
-  public var SourceRadius : unreal.Float32;
+  @:uproperty public var SourceRadius : unreal.Float32;
   
   /**
     Controls the radial falloff of the light when UseInverseSquaredFalloff is disabled.
     2 is almost linear and very unrealistic and around 8 it looks reasonable.
     With large exponents, the light has contribution to only a small area of its influence radius but still costs the same as low exponents.
   **/
-  public var LightFalloffExponent : unreal.Float32;
+  @:uproperty public var LightFalloffExponent : unreal.Float32;
   
   /**
     Whether to use physically based inverse squared distance falloff, where AttenuationRadius is only clamping the light's contribution.
@@ -50,17 +50,17 @@ package unreal;
     When enabled, the light's Intensity is in units of lumens, where 1700 lumens is a 100W lightbulb.
     When disabled, the light's Intensity is a brightness scale.
   **/
-  public var bUseInverseSquaredFalloff : Bool;
+  @:uproperty public var bUseInverseSquaredFalloff : Bool;
   
   /**
     Bounds the light's visible influence.
     This clamping of the light's influence is not physically correct but very important for performance, larger lights cost more.
   **/
-  public var AttenuationRadius : unreal.Float32;
-  @:deprecated public var Radius_DEPRECATED : unreal.Float32;
-  @:final public function SetAttenuationRadius(NewRadius : unreal.Float32) : Void;
-  @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
-  @:final public function SetSourceRadius(bNewValue : unreal.Float32) : Void;
-  @:final public function SetSourceLength(NewValue : unreal.Float32) : Void;
+  @:uproperty public var AttenuationRadius : unreal.Float32;
+  @:deprecated @:uproperty public var Radius_DEPRECATED : unreal.Float32;
+  @:ufunction @:final public function SetAttenuationRadius(NewRadius : unreal.Float32) : Void;
+  @:ufunction @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
+  @:ufunction @:final public function SetSourceRadius(bNewValue : unreal.Float32) : Void;
+  @:ufunction @:final public function SetSourceLength(NewValue : unreal.Float32) : Void;
   
 }

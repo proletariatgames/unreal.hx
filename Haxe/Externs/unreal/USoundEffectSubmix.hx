@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundEffectSubmix.h")
-@:uextern extern class USoundEffectSubmix extends unreal.USoundEffectBase {
+@:uextern @:uclass extern class USoundEffectSubmix extends unreal.USoundEffectBase {
   
 }

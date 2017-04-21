@@ -21,6 +21,6 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorFactories/ActorFactoryPlaneReflectionCapture.h")
-@:uextern extern class UActorFactoryPlaneReflectionCapture extends unreal.editor.UActorFactory {
+@:uextern @:uclass extern class UActorFactoryPlaneReflectionCapture extends unreal.editor.UActorFactory {
   
 }

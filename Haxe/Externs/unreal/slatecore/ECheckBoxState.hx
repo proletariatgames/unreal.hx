@@ -20,7 +20,7 @@ package unreal.slatecore;
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
 @:uname("ECheckBoxState")
-@:class @:uextern extern enum ECheckBoxState {
+@:class @:uextern @:uenum extern enum ECheckBoxState {
   
   /**
     Unchecked

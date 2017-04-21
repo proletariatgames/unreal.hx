@@ -20,21 +20,21 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTransform.h")
-@:noClass @:uextern extern class UMaterialExpressionTransform extends unreal.UMaterialExpression {
+@:noClass @:uextern @:uclass extern class UMaterialExpressionTransform extends unreal.UMaterialExpression {
   
   /**
     Destination coordinate space of the FVector
   **/
-  public var TransformType : unreal.EMaterialVectorCoordTransform;
+  @:uproperty public var TransformType : unreal.EMaterialVectorCoordTransform;
   
   /**
     Source coordinate space of the FVector
   **/
-  public var TransformSourceType : unreal.EMaterialVectorCoordTransformSource;
+  @:uproperty public var TransformSourceType : unreal.EMaterialVectorCoordTransformSource;
   
   /**
     input expression for this transform
   **/
-  public var Input : unreal.FExpressionInput;
+  @:uproperty public var Input : unreal.FExpressionInput;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EMaterialTessellationMode")
-@:uextern extern enum EMaterialTessellationMode {
+@:uextern @:uenum extern enum EMaterialTessellationMode {
   
   /**
     Tessellation disabled.

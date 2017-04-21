@@ -19,18 +19,18 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("AnimNodes/AnimNode_LayeredBoneBlend.h")
-@:uextern extern class FAnimNode_LayeredBoneBlend extends unreal.FAnimNode_Base {
-  public var bHasRelevantPoses : Bool;
-  public var bBlendRootMotionBasedOnRootBone : Bool;
-  public var CurveBlendOption : unreal.ECurveBlendOption;
-  public var bMeshSpaceRotationBlend : Bool;
-  public var BlendWeights : unreal.TArray<unreal.Float32>;
-  public var LayerSetup : unreal.TArray<unreal.FInputBlendPose>;
+@:uextern @:ustruct extern class FAnimNode_LayeredBoneBlend extends unreal.FAnimNode_Base {
+  @:uproperty public var bHasRelevantPoses : Bool;
+  @:uproperty public var bBlendRootMotionBasedOnRootBone : Bool;
+  @:uproperty public var CurveBlendOption : unreal.ECurveBlendOption;
+  @:uproperty public var bMeshSpaceRotationBlend : Bool;
+  @:uproperty public var BlendWeights : unreal.TArray<unreal.Float32>;
+  @:uproperty public var LayerSetup : unreal.TArray<unreal.FInputBlendPose>;
   
   /**
     @TODO: Anim: Comment these members
   **/
-  public var BlendPoses : unreal.TArray<unreal.FPoseLink>;
-  public var BasePose : unreal.FPoseLink;
+  @:uproperty public var BlendPoses : unreal.TArray<unreal.FPoseLink>;
+  @:uproperty public var BasePose : unreal.FPoseLink;
   
 }

@@ -20,13 +20,13 @@ package unreal;
   Remove FBranchingPoint when VER_UE4_MONTAGE_BRANCHING_POINT_REMOVAL is removed.
 **/
 @:glueCppIncludes("Animation/AnimMontage.h")
-@:noCopy @:noEquals @:uextern extern class FBranchingPoint extends unreal.FAnimLinkableElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBranchingPoint extends unreal.FAnimLinkableElement {
   
   /**
     An offset from the DisplayTime to the actual time we will trigger the notify, as we cannot always trigger it exactly at the time the user wants
   **/
-  public var TriggerTimeOffset : unreal.Float32;
-  @:deprecated public var DisplayTime_DEPRECATED : unreal.Float32;
-  public var EventName : unreal.FName;
+  @:uproperty public var TriggerTimeOffset : unreal.Float32;
+  @:deprecated @:uproperty public var DisplayTime_DEPRECATED : unreal.Float32;
+  @:uproperty public var EventName : unreal.FName;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Kismet/KismetTextLibrary.h")
 @:uname("EFormatArgumentType.Type")
-@:uextern extern enum EFormatArgumentType {
+@:uextern @:uenum extern enum EFormatArgumentType {
   Int;
   UInt;
   Float;

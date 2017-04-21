@@ -21,16 +21,16 @@ package unreal.niagaraeditor;
 **/
 @:umodule("NiagaraEditor")
 @:glueCppIncludes("NiagaraScriptSource.h")
-@:uextern extern class UNiagaraScriptSource extends unreal.niagara.UNiagaraScriptSourceBase {
+@:uextern @:uclass extern class UNiagaraScriptSource extends unreal.niagara.UNiagaraScriptSourceBase {
   
   /**
     The same node graph from above but with all function calls merge into a single graph.
   **/
-  public var FlattenedNodeGraph : unreal.niagaraeditor.UNiagaraGraph;
+  @:uproperty public var FlattenedNodeGraph : unreal.niagaraeditor.UNiagaraGraph;
   
   /**
     Graph for particle update expression
   **/
-  public var NodeGraph : unreal.niagaraeditor.UNiagaraGraph;
+  @:uproperty public var NodeGraph : unreal.niagaraeditor.UNiagaraGraph;
   
 }

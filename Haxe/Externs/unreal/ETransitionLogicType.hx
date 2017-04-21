@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
 @:uname("ETransitionLogicType.Type")
-@:uextern extern enum ETransitionLogicType {
+@:uextern @:uenum extern enum ETransitionLogicType {
   
   /**
     Standard Blend

@@ -15,24 +15,24 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Navigation/PathFollowingComponent.h")
-@:uextern extern class UPathFollowingComponent extends unreal.UActorComponent implements unreal.aimodule.IAIResourceInterface {
+@:uextern @:uclass extern class UPathFollowingComponent extends unreal.UActorComponent implements unreal.aimodule.IAIResourceInterface {
   
   /**
     called when moving agent collides with another actor
   **/
-  public function OnActorBump(SelfActor : unreal.AActor, OtherActor : unreal.AActor, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
-  @:thisConst @:final public function GetPathActionType() : unreal.aimodule.EPathFollowingAction;
-  @:thisConst @:final public function GetPathDestination() : unreal.FVector;
+  @:ufunction public function OnActorBump(SelfActor : unreal.AActor, OtherActor : unreal.AActor, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction @:thisConst @:final public function GetPathActionType() : unreal.aimodule.EPathFollowingAction;
+  @:ufunction @:thisConst @:final public function GetPathDestination() : unreal.FVector;
   
   /**
     navigation data for agent described in movement component
   **/
-  private var MyNavData : unreal.ANavigationData;
+  @:uproperty private var MyNavData : unreal.ANavigationData;
   
   /**
     associated movement component
   **/
-  private var MovementComp : unreal.UNavMovementComponent;
+  @:uproperty private var MovementComp : unreal.UNavMovementComponent;
   // AIResourceInterface interface implementation
   
 }

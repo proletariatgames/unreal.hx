@@ -20,7 +20,7 @@ package unreal.addcontentdialog;
 @:umodule("AddContentDialog")
 @:glueCppIncludes("FeaturePackContentSource.h")
 @:uname("EFeaturePackDetailLevel")
-@:class @:uextern extern enum EFeaturePackDetailLevel {
+@:class @:uextern @:uenum extern enum EFeaturePackDetailLevel {
   Standard;
   High;
   

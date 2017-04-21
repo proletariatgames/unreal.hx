@@ -18,16 +18,16 @@ package unreal;
   Angular roll constraint
 **/
 @:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
-@:uextern extern class FTwistConstraint extends unreal.FConstraintBaseParams {
+@:uextern @:ustruct extern class FTwistConstraint extends unreal.FConstraintBaseParams {
   
   /**
     Indicates whether the Swing1 limit is used.
   **/
-  public var TwistMotion : unreal.EAngularConstraintMotion;
+  @:uproperty public var TwistMotion : unreal.EAngularConstraintMotion;
   
   /**
     Symmetric angle of roll along the X-axis.
   **/
-  public var TwistLimitDegrees : unreal.Float32;
+  @:uproperty public var TwistLimitDegrees : unreal.Float32;
   
 }

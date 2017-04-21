@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/InterpGroupInstCamera.h")
-@:noClass @:uextern extern class UInterpGroupInstCamera extends unreal.UInterpGroupInst {
+@:noClass @:uextern @:uclass extern class UInterpGroupInstCamera extends unreal.UInterpGroupInst {
   
 }

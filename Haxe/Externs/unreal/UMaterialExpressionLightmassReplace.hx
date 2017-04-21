@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionLightmassReplace.h")
-@:noClass @:uextern extern class UMaterialExpressionLightmassReplace extends unreal.UMaterialExpression {
-  public var Lightmass : unreal.FExpressionInput;
-  public var Realtime : unreal.FExpressionInput;
+@:noClass @:uextern @:uclass extern class UMaterialExpressionLightmassReplace extends unreal.UMaterialExpression {
+  @:uproperty public var Lightmass : unreal.FExpressionInput;
+  @:uproperty public var Realtime : unreal.FExpressionInput;
   
 }

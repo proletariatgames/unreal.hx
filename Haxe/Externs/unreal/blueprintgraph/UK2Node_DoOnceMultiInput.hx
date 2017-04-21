@@ -21,16 +21,16 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_DoOnceMultiInput.h")
-@:uextern extern class UK2Node_DoOnceMultiInput extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_DoOnceMultiInput extends unreal.blueprintgraph.UK2Node {
   
   /**
     Reference to the integer that contains
   **/
-  public var DataNode : unreal.blueprintgraph.UK2Node_TemporaryVariable;
+  @:uproperty public var DataNode : unreal.blueprintgraph.UK2Node_TemporaryVariable;
   
   /**
     The number of additional input pins to generate for this node (2 base pins are not included)
   **/
-  public var NumAdditionalInputs : unreal.Int32;
+  @:uproperty public var NumAdditionalInputs : unreal.Int32;
   
 }

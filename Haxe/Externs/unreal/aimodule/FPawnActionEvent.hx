@@ -15,7 +15,7 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnActionsComponent.h")
-@:uextern extern class FPawnActionEvent {
-  public var Action : unreal.aimodule.UPawnAction;
+@:uextern @:ustruct extern class FPawnActionEvent {
+  @:uproperty public var Action : unreal.aimodule.UPawnAction;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/Texture.h")
 @:uname("TextureCompressionSettings")
-@:uextern extern enum TextureCompressionSettings {
+@:uextern @:uenum extern enum TextureCompressionSettings {
   
   /**
     Default (DXT1/5, BC1/3 on DX11)

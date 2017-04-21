@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Components/TextRenderComponent.h")
 @:uname("EVerticalTextAligment")
-@:uextern extern enum EVerticalTextAligment {
+@:uextern @:uenum extern enum EVerticalTextAligment {
   
   /**
     Text Top

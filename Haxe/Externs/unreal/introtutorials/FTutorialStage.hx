@@ -19,31 +19,41 @@ package unreal.introtutorials;
 **/
 @:umodule("IntroTutorials")
 @:glueCppIncludes("EditorTutorial.h")
-@:uextern extern class FTutorialStage {
+@:uextern @:ustruct extern class FTutorialStage {
   
   /**
     If false, stage will be skipped if running on any platform in PlatformsToTest. If true, the stage will be if not running on any platform in PlatformsToTest.
   **/
-  public var bInvertPlatformTest : Bool;
+  @:uproperty public var bInvertPlatformTest : Bool;
   
   /**
     List of platforms to test against. Meaning of test is determined by InvertPlatformTest.
   **/
-  public var PlatformsToTest : unreal.TArray<unreal.FString>;
+  @:uproperty public var PlatformsToTest : unreal.TArray<unreal.FString>;
+  
+  /**
+    Text to display on the back button
+  **/
+  @:uproperty public var BackButtonText : unreal.FText;
+  
+  /**
+    Text to display on the next button
+  **/
+  @:uproperty public var NextButtonText : unreal.FText;
   
   /**
     Widget-bound content to display for this stage
   **/
-  public var WidgetContent : unreal.TArray<unreal.introtutorials.FTutorialWidgetContent>;
+  @:uproperty public var WidgetContent : unreal.TArray<unreal.introtutorials.FTutorialWidgetContent>;
   
   /**
     Non-widget-bound content to display in this stage
   **/
-  public var Content : unreal.introtutorials.FTutorialContent;
+  @:uproperty public var Content : unreal.introtutorials.FTutorialContent;
   
   /**
     Identifier for this stage
   **/
-  public var Name : unreal.FName;
+  @:uproperty public var Name : unreal.FName;
   
 }

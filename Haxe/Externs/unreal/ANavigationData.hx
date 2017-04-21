@@ -19,28 +19,28 @@ package unreal;
   Used as a common interface for all navigation types handled by NavigationSystem
 **/
 @:glueCppIncludes("AI/Navigation/NavigationData.h")
-@:uextern extern class ANavigationData extends unreal.AActor {
+@:uextern @:uclass extern class ANavigationData extends unreal.AActor {
   
   /**
     serialized area class - ID mapping
   **/
-  private var SupportedAreas : unreal.TArray<unreal.FSupportedAreaData>;
+  @:uproperty private var SupportedAreas : unreal.TArray<unreal.FSupportedAreaData>;
   
   /**
     Navigation data versioning.
   **/
-  private var DataVersion : unreal.FakeUInt32;
+  @:uproperty private var DataVersion : unreal.FakeUInt32;
   
   /**
     all observed paths will be processed every ObservedPathsTickInterval seconds
   **/
-  private var ObservedPathsTickInterval : unreal.Float32;
+  @:uproperty private var ObservedPathsTickInterval : unreal.Float32;
   
   /**
     Navigation data runtime generation options
   **/
-  private var RuntimeGeneration : unreal.ERuntimeGenerationType;
-  private var NavDataConfig : unreal.FNavDataConfig;
-  public var RenderingComp : unreal.UPrimitiveComponent;
+  @:uproperty private var RuntimeGeneration : unreal.ERuntimeGenerationType;
+  @:uproperty private var NavDataConfig : unreal.FNavDataConfig;
+  @:uproperty public var RenderingComp : unreal.UPrimitiveComponent;
   
 }

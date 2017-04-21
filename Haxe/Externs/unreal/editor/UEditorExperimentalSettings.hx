@@ -19,153 +19,153 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/EditorExperimentalSettings.h")
-@:uextern extern class UEditorExperimentalSettings extends unreal.UObject {
+@:uextern @:uclass extern class UEditorExperimentalSettings extends unreal.UObject {
   
   /**
     Allows editing of potentially unsafe properties during PIE. Advanced use only - use with caution.
   **/
-  public var bAllowPotentiallyUnsafePropertyEditing : Bool;
+  @:uproperty public var bAllowPotentiallyUnsafePropertyEditing : Bool;
   
   /**
     If true, the tutorial window should always appear when the VR Editor is launched.
   **/
-  public var bAlwaysShowVRTutorial : Bool;
+  @:uproperty public var bAlwaysShowVRTutorial : Bool;
   
   /**
     If true, wearing a Vive or Oculus Rift headset will automatically enter VR Editing mode if Enable VR Editing is true.
   **/
-  public var bEnableAutoVREditMode : Bool;
+  @:uproperty public var bEnableAutoVREditMode : Bool;
   
   /**
     Enables a preview of the Unreal Editor in VR.  This adds a new tool bar button that allows you to toggle into "VR Mode" instantly.  This feature is still in development, but your feedback is appreciated!
   **/
-  public var bEnableVREditing : Bool;
+  @:uproperty public var bEnableVREditing : Bool;
   
   /**
     Whether to use OpenCL to accelerate convex hull decomposition (uses GPU to decrease time taken to decompose meshes, currently only available on Mac OS X)
   **/
-  public var bUseOpenCLForConvexHullDecomp : Bool;
+  @:uproperty public var bUseOpenCLForConvexHullDecomp : Bool;
   
   /**
     Enable multithreaded shadow map encoding (decreases time taken to encode shadow maps)
   **/
-  public var bEnableMultithreadedShadowmapEncoding : Bool;
+  @:uproperty public var bEnableMultithreadedShadowmapEncoding : Bool;
   
   /**
     Enable multithreaded lightmap encoding (decreases time taken to encode lightmaps)
   **/
-  public var bEnableMultithreadedLightmapEncoding : Bool;
+  @:uproperty public var bEnableMultithreadedLightmapEncoding : Bool;
   
   /**
     Allow Vulkan Preview
   **/
-  public var bAllowVulkanPreview : Bool;
+  @:uproperty public var bAllowVulkanPreview : Bool;
   
   /**
     Enable late joining in PIE
   **/
-  public var bAllowLateJoinInPIE : Bool;
+  @:uproperty public var bAllowLateJoinInPIE : Bool;
   
   /**
     Enables Metal/High-end mobile rendering path preview on Desktop
   **/
-  public var bFeatureLevelES31Preview : Bool;
+  @:uproperty public var bFeatureLevelES31Preview : Bool;
   
   /**
     This feature allows you to broadcast to a live streaming service directly from the editor.  This requires you to have a live streaming plugin installed.
   **/
-  public var bLiveStreamingFromEditor : Bool;
+  @:uproperty public var bLiveStreamingFromEditor : Bool;
   
   /**
     Enables Environment Queries editor
   **/
-  public var bEQSEditor : Bool;
-  public var MultiProcessCooking : unreal.Int32;
+  @:uproperty public var bEQSEditor : Bool;
+  @:uproperty public var MultiProcessCooking : unreal.Int32;
   
   /**
     Disable cook in the editor
   **/
-  public var bDisableCookInEditor : Bool;
+  @:uproperty public var bDisableCookInEditor : Bool;
   
   /**
     Allows ChunkIDs to be assigned to assets to via the content browser context menu.
   **/
-  public var bContextMenuChunkAssignments : Bool;
+  @:uproperty public var bContextMenuChunkAssignments : Bool;
   
   /**
     Whether to show AudioMixer-dependent editor data. Only enable if also running with the -audiomixer.
   **/
-  public var bShowAudioMixerData : Bool;
+  @:uproperty public var bShowAudioMixerData : Bool;
   
   /**
     Whether to show Audio Streaming options for SoundWaves (disabling will not stop all audio streaming)
   **/
-  public var bShowAudioStreamingOptions : Bool;
+  @:uproperty public var bShowAudioStreamingOptions : Bool;
   
   /**
     , Category=Blueprints, meta=(DisplayName="Draw midpoint arrows in Blueprints")
   **/
-  public var bDrawMidpointArrowsInBlueprints : Bool;
+  @:uproperty public var bDrawMidpointArrowsInBlueprints : Bool;
   
   /**
     Enables "Find and Replace All" tool in the MyBlueprint window for variables
   **/
-  public var bEnableFindAndReplaceReferences : Bool;
+  @:uproperty public var bEnableFindAndReplaceReferences : Bool;
   
   /**
     Enable experimental blueprint performance analysis tools.
   **/
-  public var bBlueprintPerformanceAnalysisTools : Bool;
+  @:uproperty public var bBlueprintPerformanceAnalysisTools : Bool;
   
   /**
     Break on Exceptions allows you to trap Access Nones and other exceptional events in Blueprints.
   **/
-  public var bBreakOnExceptions : Bool;
+  @:uproperty public var bBreakOnExceptions : Bool;
   
   /**
     Allows for customization of toolbars and menus throughout the editor
   **/
-  public var bToolbarCustomization : Bool;
+  @:uproperty public var bToolbarCustomization : Bool;
   
   /**
     Specify which console-specific nomenclature to use for gamepad label text
   **/
-  public var ConsoleForGamepadLabels : unreal.inputcore.EConsoleForGamepadLabels;
+  @:uproperty public var ConsoleForGamepadLabels : unreal.inputcore.EConsoleForGamepadLabels;
   
   /**
     Device output log window (currently implemented for Android only)
   **/
-  public var bDeviceOutputLog : Bool;
+  @:uproperty public var bDeviceOutputLog : Bool;
   
   /**
     Enable being able to subclass components in blueprints
   **/
-  public var bBlueprintableComponents : Bool;
+  @:uproperty public var bBlueprintableComponents : Bool;
   
   /**
     When enabled, all details panels will be able to have properties marked as favorite that show in a top most category.
     NOTE: Some customizations are not supported yet
   **/
-  public var bEnableFavoriteSystem : Bool;
+  @:uproperty public var bEnableFavoriteSystem : Bool;
   
   /**
     The Blutility shelf holds editor utility Blueprints. Summon from the Workspace menu.
   **/
-  public var bEnableEditorUtilityBlueprints : Bool;
+  @:uproperty public var bEnableEditorUtilityBlueprints : Bool;
   
   /**
     Allows usage of the Translation Picker
   **/
-  public var bEnableTranslationPicker : Bool;
+  @:uproperty public var bEnableTranslationPicker : Bool;
   
   /**
     Allows usage of the Localization Dashboard
   **/
-  public var bEnableLocalizationDashboard : Bool;
+  @:uproperty public var bEnableLocalizationDashboard : Bool;
   
   /**
     Allows usage of the procedural foliage system
   **/
-  public var bProceduralFoliage : Bool;
+  @:uproperty public var bProceduralFoliage : Bool;
   
 }

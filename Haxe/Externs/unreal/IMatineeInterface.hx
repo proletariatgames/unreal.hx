@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Matinee/MatineeInterface.h")
-@:noClass @:uextern extern interface IMatineeInterface {
+@:noClass @:uextern @:uclass extern interface IMatineeInterface {
   
 }

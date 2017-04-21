@@ -18,97 +18,97 @@ package unreal;
   The settings for attenuating.
 **/
 @:glueCppIncludes("Sound/SoundAttenuation.h")
-@:uextern extern class FAttenuationSettings {
+@:uextern @:ustruct extern class FAttenuationSettings {
   
   /**
     The amount of time in seconds to interpolate to the target OcclusionLowPassFilterFrequency when a sound is occluded.
   **/
-  public var OcclusionInterpolationTime : unreal.Float32;
+  @:uproperty public var OcclusionInterpolationTime : unreal.Float32;
   
   /**
     The amount of volume attenuation to apply to sounds which are occluded.
   **/
-  public var OcclusionVolumeAttenuation : unreal.Float32;
+  @:uproperty public var OcclusionVolumeAttenuation : unreal.Float32;
   
   /**
     The low pass filter frequency (in hertz) to apply if the sound playing in this audio component is occluded. This will override the frequency set in LowPassFilterFrequency. A frequency of 0.0 is the device sample rate and will bypass the filter.
   **/
-  public var OcclusionLowPassFilterFrequency : unreal.Float32;
+  @:uproperty public var OcclusionLowPassFilterFrequency : unreal.Float32;
   
   /**
     Which trace channel to use for audio occlusion checks.
   **/
-  public var OcclusionTraceChannel : unreal.ECollisionChannel;
+  @:uproperty public var OcclusionTraceChannel : unreal.ECollisionChannel;
   
   /**
     Amount to attenuate sounds that are not in focus. Can be overridden at the sound-level.
   **/
-  public var NonFocusVolumeAttenuation : unreal.Float32;
+  @:uproperty public var NonFocusVolumeAttenuation : unreal.Float32;
   
   /**
     Amount to attenuate sounds that are in focus. Can be overridden at the sound-level.
   **/
-  public var FocusVolumeAttenuation : unreal.Float32;
+  @:uproperty public var FocusVolumeAttenuation : unreal.Float32;
   
   /**
     Amount to scale the priority of sounds that are not in-focus. Can be used to reduce the priority of sounds that are not in focus.
   **/
-  public var NonFocusPriorityScale : unreal.Float32;
+  @:uproperty public var NonFocusPriorityScale : unreal.Float32;
   
   /**
     Amount to scale the priority of sounds that are in focus. Can be used to boost the priority of sounds that are in focus.
   **/
-  public var FocusPriorityScale : unreal.Float32;
+  @:uproperty public var FocusPriorityScale : unreal.Float32;
   
   /**
     Amount to scale the distance calculation of sounds that are not in-focus. Can be used to make in-focus sounds appear to be closer or further away than they actually are.
   **/
-  public var NonFocusDistanceScale : unreal.Float32;
+  @:uproperty public var NonFocusDistanceScale : unreal.Float32;
   
   /**
     Amount to scale the distance calculation of sounds that are in-focus. Can be used to make in-focus sounds appear to be closer or further away than they actually are.
   **/
-  public var FocusDistanceScale : unreal.Float32;
+  @:uproperty public var FocusDistanceScale : unreal.Float32;
   
   /**
     Azimuth angle (in degrees) relative to the listener forward vector which defines the non-focus region of sounds. Sounds playing at an angle greater than this will be out of focus.
   **/
-  public var NonFocusAzimuth : unreal.Float32;
+  @:uproperty public var NonFocusAzimuth : unreal.Float32;
   
   /**
     Azimuth angle (in degrees) relative to the listener forward vector which defines the focus region of sounds. Sounds playing at an angle less than this will be in focus.
   **/
-  public var FocusAzimuth : unreal.Float32;
+  @:uproperty public var FocusAzimuth : unreal.Float32;
   
   /**
     The Frequency in hertz at which to set the LPF when the sound is at LPFRadiusMax.
   **/
-  public var LPFFrequencyAtMax : unreal.Float32;
+  @:uproperty public var LPFFrequencyAtMax : unreal.Float32;
   
   /**
     The Frequency in hertz at which to set the LPF when the sound is at LPFRadiusMin. (defaults to bypass)
   **/
-  public var LPFFrequencyAtMin : unreal.Float32;
+  @:uproperty public var LPFFrequencyAtMin : unreal.Float32;
   
   /**
     The range at which to apply the maximum amount of low pass filter.
   **/
-  public var LPFRadiusMax : unreal.Float32;
+  @:uproperty public var LPFRadiusMax : unreal.Float32;
   
   /**
     The range at which to start applying a low pass filter.
   **/
-  public var LPFRadiusMin : unreal.Float32;
+  @:uproperty public var LPFRadiusMin : unreal.Float32;
   
   /**
     The distance over which falloff occurs.
   **/
-  public var FalloffDistance : unreal.Float32;
+  @:uproperty public var FalloffDistance : unreal.Float32;
   
   /**
     The distance back from the sound's origin to begin the cone when using the cone attenuation shape.
   **/
-  public var ConeOffset : unreal.Float32;
+  @:uproperty public var ConeOffset : unreal.Float32;
   
   /**
     The dimensions to use for the attenuation shape. Interpretation of the values differ per shape.
@@ -117,70 +117,70 @@ package unreal;
              Box     - X, Y, and Z are the Box's dimensions
              Cone    - X is Cone Radius, Y is Cone Angle, Z is Cone Falloff Angle
   **/
-  public var AttenuationShapeExtents : unreal.FVector;
-  @:deprecated public var RadiusMax_DEPRECATED : unreal.Float32;
-  @:deprecated public var RadiusMin_DEPRECATED : unreal.Float32;
+  @:uproperty public var AttenuationShapeExtents : unreal.FVector;
+  @:deprecated @:uproperty public var RadiusMax_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var RadiusMin_DEPRECATED : unreal.Float32;
   
   /**
     Which spatialization algorithm to use if spatializing mono sources.
   **/
-  public var SpatializationAlgorithm : unreal.ESoundSpatializationAlgorithm;
+  @:uproperty public var SpatializationAlgorithm : unreal.ESoundSpatializationAlgorithm;
   
   /**
     The distance between left and right stereo channels when stereo assets spatialized.
   **/
-  public var StereoSpread : unreal.Float32;
+  @:uproperty public var StereoSpread : unreal.Float32;
   
   /**
     At what distance we start treating the sound source as spatialized
   **/
-  public var OmniRadius : unreal.Float32;
+  @:uproperty public var OmniRadius : unreal.Float32;
   
   /**
     The volume at maximum distance in deciBels.
   **/
-  public var dBAttenuationAtMax : unreal.Float32;
+  @:uproperty public var dBAttenuationAtMax : unreal.Float32;
   
   /**
     The shape of the attenuation volume.
   **/
-  public var AttenuationShape : unreal.EAttenuationShape;
-  @:deprecated public var DistanceType_DEPRECATED : unreal.ESoundDistanceCalc;
-  public var CustomAttenuationCurve : unreal.FRuntimeFloatCurve;
+  @:uproperty public var AttenuationShape : unreal.EAttenuationShape;
+  @:deprecated @:uproperty public var DistanceType_DEPRECATED : unreal.ESoundDistanceCalc;
+  @:uproperty public var CustomAttenuationCurve : unreal.FRuntimeFloatCurve;
   
   /**
     The type of volume versus distance algorithm to use for the attenuation model.
   **/
-  public var DistanceAlgorithm : unreal.ESoundDistanceModel;
+  @:uproperty public var DistanceAlgorithm : unreal.ESoundDistanceModel;
   
   /**
     Whether or not to enable complex geometry occlusion checks.
   **/
-  public var bUseComplexCollisionForOcclusion : Bool;
+  @:uproperty public var bUseComplexCollisionForOcclusion : Bool;
   
   /**
     Whether or not to enable line-of-sight occlusion checking for the sound that plays in this audio component.
   **/
-  public var bEnableOcclusion : Bool;
+  @:uproperty public var bEnableOcclusion : Bool;
   
   /**
     Whether or not listener-focus calculations are enabled for this attenuation.
   **/
-  public var bEnableListenerFocus : Bool;
+  @:uproperty public var bEnableListenerFocus : Bool;
   
   /**
     Enable attenuation via low pass filter.
   **/
-  public var bAttenuateWithLPF : Bool;
+  @:uproperty public var bAttenuateWithLPF : Bool;
   
   /**
     Enable the source to be positioned in 3D.
   **/
-  public var bSpatialize : Bool;
+  @:uproperty public var bSpatialize : Bool;
   
   /**
     Enable attenuation via volume.
   **/
-  public var bAttenuate : Bool;
+  @:uproperty public var bAttenuate : Bool;
   
 }

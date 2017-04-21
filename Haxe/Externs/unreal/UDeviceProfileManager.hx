@@ -18,11 +18,11 @@ package unreal;
   Implements a helper class that manages all profiles in the Device
 **/
 @:glueCppIncludes("DeviceProfiles/DeviceProfileManager.h")
-@:uextern extern class UDeviceProfileManager extends unreal.UObject {
+@:uextern @:uclass extern class UDeviceProfileManager extends unreal.UObject {
   
   /**
     Holds the collection of managed profiles.
   **/
-  public var Profiles : unreal.TArray<unreal.UObject>;
+  @:uproperty public var Profiles : unreal.TArray<unreal.UObject>;
   
 }

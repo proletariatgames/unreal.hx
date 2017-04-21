@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("ELaunchModeType")
-@:uextern extern enum ELaunchModeType {
+@:uextern @:uenum extern enum ELaunchModeType {
   
   /**
     Runs the map on a specified device.

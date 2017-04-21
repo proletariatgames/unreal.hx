@@ -21,9 +21,9 @@ package unreal.gameplaydebugger;
 **/
 @:umodule("GameplayDebugger")
 @:glueCppIncludes("GameplayDebuggerLocalController.h")
-@:noClass @:uextern extern class UGameplayDebuggerLocalController extends unreal.UObject {
-  private var DebugActorCandidate : unreal.AActor;
-  private var CachedPlayerManager : unreal.gameplaydebugger.AGameplayDebuggerPlayerManager;
-  private var CachedReplicator : unreal.gameplaydebugger.AGameplayDebuggerCategoryReplicator;
+@:noClass @:uextern @:uclass extern class UGameplayDebuggerLocalController extends unreal.UObject {
+  @:uproperty private var DebugActorCandidate : unreal.AActor;
+  @:uproperty private var CachedPlayerManager : unreal.gameplaydebugger.AGameplayDebuggerPlayerManager;
+  @:uproperty private var CachedReplicator : unreal.gameplaydebugger.AGameplayDebuggerCategoryReplicator;
   
 }

@@ -21,11 +21,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_PathfindingBatch.h")
-@:noClass @:uextern extern class UEnvQueryTest_PathfindingBatch extends unreal.aimodule.UEnvQueryTest_Pathfinding {
+@:noClass @:uextern @:uclass extern class UEnvQueryTest_PathfindingBatch extends unreal.aimodule.UEnvQueryTest_Pathfinding {
   
   /**
     multiplier for max distance between point and context
   **/
-  public var ScanRangeMultiplier : unreal.aimodule.FAIDataProviderFloatValue;
+  @:uproperty public var ScanRangeMultiplier : unreal.aimodule.FAIDataProviderFloatValue;
   
 }

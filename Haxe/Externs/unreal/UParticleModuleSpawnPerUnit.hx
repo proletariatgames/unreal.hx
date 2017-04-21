@@ -20,22 +20,22 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Spawn/ParticleModuleSpawnPerUnit.h")
-@:uextern extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
+@:uextern @:uclass extern class UParticleModuleSpawnPerUnit extends unreal.UParticleModuleSpawnBase {
   
   /**
     If true, ignore the Z-component of the movement
   **/
-  public var bIgnoreMovementAlongZ : Bool;
+  @:uproperty public var bIgnoreMovementAlongZ : Bool;
   
   /**
     If true, ignore the Y-component of the movement
   **/
-  public var bIgnoreMovementAlongY : Bool;
+  @:uproperty public var bIgnoreMovementAlongY : Bool;
   
   /**
     If true, ignore the X-component of the movement
   **/
-  public var bIgnoreMovementAlongX : Bool;
+  @:uproperty public var bIgnoreMovementAlongX : Bool;
   
   /**
     The maximum valid movement for a single frame.
@@ -45,32 +45,32 @@ package unreal;
     This is primiarily intended to cover cases where the PSystem is
     attached to teleporting objects.
   **/
-  public var MaxFrameDistance : unreal.Float32;
+  @:uproperty public var MaxFrameDistance : unreal.Float32;
   
   /**
     The tolerance for moving vs. not moving w.r.t. the bIgnoreSpawnRateWhenMoving flag.
     Ie, if (DistanceMoved < (UnitScalar x MovementTolerance)) then consider it not moving.
   **/
-  public var MovementTolerance : unreal.Float32;
+  @:uproperty public var MovementTolerance : unreal.Float32;
   
   /**
     If true, process the default spawn rate when not moving...
     When not moving, skip the default spawn rate.
     If false, return the bProcessSpawnRate setting.
   **/
-  public var bIgnoreSpawnRateWhenMoving : Bool;
+  @:uproperty public var bIgnoreSpawnRateWhenMoving : Bool;
   
   /**
     The amount to spawn per meter distribution.
     The value is retrieved using the EmitterTime.
   **/
-  public var SpawnPerUnit : unreal.FRawDistributionFloat;
+  @:uproperty public var SpawnPerUnit : unreal.FRawDistributionFloat;
   
   /**
     The scalar to apply to the distance traveled.
     The value from SpawnPerUnit is divided by this value to give the actual
     number of particles per unit.
   **/
-  public var UnitScalar : unreal.Float32;
+  @:uproperty public var UnitScalar : unreal.Float32;
   
 }

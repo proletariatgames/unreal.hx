@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpression.h")
-@:noCopy @:noEquals @:uextern extern class FExpressionInput {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FExpressionInput {
   
 }

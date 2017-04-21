@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionScreenPosition.h")
 @:uname("EMaterialExpressionScreenPositionMapping")
-@:uextern extern enum EMaterialExpressionScreenPositionMapping {
+@:uextern @:uenum extern enum EMaterialExpressionScreenPositionMapping {
   
   /**
     A UV in the 0..1 range for use with the ScreeTnexture material expression.

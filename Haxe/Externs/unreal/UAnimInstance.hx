@@ -14,20 +14,20 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimInstance.h")
-@:uextern extern class UAnimInstance extends unreal.UObject {
+@:uextern @:uclass extern class UAnimInstance extends unreal.UObject {
   
   /**
     Currently Active AnimNotifyState, stored as a copy of the event as we need to
                   call NotifyEnd on the event after a deletion in the editor. After this the event
                   is removed correctly.
   **/
-  public var ActiveAnimNotifyState : unreal.TArray<unreal.FAnimNotifyEvent>;
+  @:uproperty public var ActiveAnimNotifyState : unreal.TArray<unreal.FAnimNotifyEvent>;
   
   /**
     Selecting this option will cause the compiler to emit warnings whenever a call into Blueprint
     is made from the animation graph. This can help track down optimizations that need to be made.
   **/
-  public var bWarnAboutBlueprintUsage : Bool;
+  @:uproperty public var bWarnAboutBlueprintUsage : Bool;
   
   /**
     Whether we can use parallel updates for our animations.
@@ -35,7 +35,7 @@ package unreal;
     - Use of BlueprintUpdateAnimation
     - Use of non 'fast-path' EvaluateGraphExposedInputs in the node graph
   **/
-  public var bCanUseParallelUpdateAnimation : Bool;
+  @:uproperty public var bCanUseParallelUpdateAnimation : Bool;
   
   /**
     Allows this anim instance to update its native update, blend tree, montages and asset players on
@@ -43,98 +43,98 @@ package unreal;
     - All access of variables in the blend tree should be a direct access of a member variable
     - No BlueprintUpdateAnimation event should be used (i.e. the event graph should be empty). Only native update is permitted.
   **/
-  public var bRunUpdatesInWorkerThreads : Bool;
+  @:uproperty public var bRunUpdatesInWorkerThreads : Bool;
   
   /**
     Sets where this blueprint pulls Root Motion from
   **/
-  public var RootMotionMode : unreal.ERootMotionMode;
+  @:uproperty public var RootMotionMode : unreal.ERootMotionMode;
   
   /**
     This is used to extract animation. If Mesh exists, this will be overwritten by Mesh->Skeleton
   **/
-  public var CurrentSkeleton : unreal.USkeleton;
+  @:uproperty public var CurrentSkeleton : unreal.USkeleton;
   
   /**
     DeltaTime *
   **/
-  @:deprecated public var DeltaTime_DEPRECATED : unreal.Float32;
+  @:deprecated @:uproperty public var DeltaTime_DEPRECATED : unreal.Float32;
   
   /**
     kismet event functions
   **/
-  @:thisConst public function TryGetPawnOwner() : unreal.APawn;
+  @:ufunction @:thisConst public function TryGetPawnOwner() : unreal.APawn;
   
   /**
     Returns the owning actor of this AnimInstance
   **/
-  @:thisConst @:final public function GetOwningActor() : unreal.AActor;
+  @:ufunction @:thisConst @:final public function GetOwningActor() : unreal.AActor;
   
   /**
     Returns the skeletal mesh component that has created this AnimInstance
   **/
-  @:thisConst @:final public function GetOwningComponent() : unreal.USkeletalMeshComponent;
+  @:ufunction @:thisConst @:final public function GetOwningComponent() : unreal.USkeletalMeshComponent;
   
   /**
     Executed when the Animation is initialized
   **/
-  public function BlueprintInitializeAnimation() : Void;
+  @:ufunction public function BlueprintInitializeAnimation() : Void;
   
   /**
     Executed when the Animation is updated
   **/
-  public function BlueprintUpdateAnimation(DeltaTimeX : unreal.Float32) : Void;
+  @:ufunction public function BlueprintUpdateAnimation(DeltaTimeX : unreal.Float32) : Void;
   
   /**
     Executed after the Animation is evaluated
   **/
-  public function BlueprintPostEvaluateAnimation() : Void;
-  @:final public function PlaySlotAnimation(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, InPlayRate : unreal.Float32, LoopCount : unreal.Int32) : unreal.Float32;
+  @:ufunction public function BlueprintPostEvaluateAnimation() : Void;
+  @:ufunction @:final public function PlaySlotAnimation(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32 = 0.250000, BlendOutTime : unreal.Float32 = 0.250000, InPlayRate : unreal.Float32 = 1.000000, LoopCount : unreal.Int32 = 1) : unreal.Float32;
   
   /**
     Play normal animation asset on the slot node by creating a dynamic UAnimMontage. You can only play one asset (whether montage or animsequence) at a time per SlotGroup.
   **/
-  @:final public function PlaySlotAnimationAsDynamicMontage(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32, BlendOutTime : unreal.Float32, InPlayRate : unreal.Float32, LoopCount : unreal.Int32, BlendOutTriggerTime : unreal.Float32, InTimeToStartMontageAt : unreal.Float32) : unreal.UAnimMontage;
+  @:ufunction @:final public function PlaySlotAnimationAsDynamicMontage(Asset : unreal.UAnimSequenceBase, SlotNodeName : unreal.FName, BlendInTime : unreal.Float32 = 0.250000, BlendOutTime : unreal.Float32 = 0.250000, InPlayRate : unreal.Float32 = 1.000000, LoopCount : unreal.Int32 = 1, BlendOutTriggerTime : unreal.Float32 = -1.000000, InTimeToStartMontageAt : unreal.Float32 = 0.000000) : unreal.UAnimMontage;
   
   /**
     Stops currently playing slot animation slot or all
   **/
-  @:final public function StopSlotAnimation(InBlendOutTime : unreal.Float32, SlotNodeName : unreal.FName) : Void;
+  @:ufunction @:final public function StopSlotAnimation(InBlendOutTime : unreal.Float32 = 0.250000, SlotNodeName : unreal.FName = None) : Void;
   
   /**
     Return true if it's playing the slot animation
   **/
-  @:thisConst @:final public function IsPlayingSlotAnimation(Asset : unreal.Const<unreal.UAnimSequenceBase>, SlotNodeName : unreal.FName) : Bool;
+  @:ufunction @:thisConst @:final public function IsPlayingSlotAnimation(Asset : unreal.Const<unreal.UAnimSequenceBase>, SlotNodeName : unreal.FName) : Bool;
   
   /**
     Plays an animation montage. Returns the length of the animation montage in seconds. Returns 0.f if failed to play.
   **/
-  @:final public function Montage_Play(MontageToPlay : unreal.UAnimMontage, InPlayRate : unreal.Float32, ReturnValueType : unreal.EMontagePlayReturnType, InTimeToStartMontageAt : unreal.Float32) : unreal.Float32;
+  @:ufunction @:final public function Montage_Play(MontageToPlay : unreal.UAnimMontage, InPlayRate : unreal.Float32 = 1.000000, ReturnValueType : unreal.EMontagePlayReturnType = MontageLength, InTimeToStartMontageAt : unreal.Float32 = 0.000000) : unreal.Float32;
   
   /**
     Stops the animation montage. If reference is NULL, it will stop ALL active montages.
   **/
-  @:final public function Montage_Stop(InBlendOutTime : unreal.Float32, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_Stop(InBlendOutTime : unreal.Float32, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Pauses the animation montage. If reference is NULL, it will pause ALL active montages.
   **/
-  @:final public function Montage_Pause(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_Pause(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Resumes a paused animation montage. If reference is NULL, it will resume ALL active montages.
   **/
-  @:final public function Montage_Resume(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_Resume(Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Makes a montage jump to a named section. If Montage reference is NULL, it will do that to all active montages.
   **/
-  @:final public function Montage_JumpToSection(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_JumpToSection(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Makes a montage jump to the end of a named section. If Montage reference is NULL, it will do that to all active montages.
   **/
-  @:final public function Montage_JumpToSectionsEnd(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_JumpToSectionsEnd(SectionName : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Relink new next section AFTER SectionNameToChange in run-time
@@ -146,164 +146,164 @@ package unreal;
     @param SectionNameToChange : This should be the name of the Montage Section after which you want to insert a new next section
     @param NextSection   : new next section
   **/
-  @:final public function Montage_SetNextSection(SectionNameToChange : unreal.FName, NextSection : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
+  @:ufunction @:final public function Montage_SetNextSection(SectionNameToChange : unreal.FName, NextSection : unreal.FName, Montage : unreal.Const<unreal.UAnimMontage>) : Void;
   
   /**
     Change AnimMontage play rate. NewPlayRate = 1.0 is the default playback rate.
   **/
-  @:final public function Montage_SetPlayRate(Montage : unreal.Const<unreal.UAnimMontage>, NewPlayRate : unreal.Float32) : Void;
+  @:ufunction @:final public function Montage_SetPlayRate(Montage : unreal.Const<unreal.UAnimMontage>, NewPlayRate : unreal.Float32 = 1.000000) : Void;
   
   /**
     Returns true if the animation montage is active. If the Montage reference is NULL, it will return true if any Montage is active.
   **/
-  @:thisConst @:final public function Montage_IsActive(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
+  @:ufunction @:thisConst @:final public function Montage_IsActive(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
   
   /**
     Returns true if the animation montage is currently active and playing.
           If reference is NULL, it will return true is ANY montage is currently active and playing.
   **/
-  @:thisConst @:final public function Montage_IsPlaying(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
+  @:ufunction @:thisConst @:final public function Montage_IsPlaying(Montage : unreal.Const<unreal.UAnimMontage>) : Bool;
   
   /**
     Returns the name of the current animation montage section.
   **/
-  @:thisConst @:final public function Montage_GetCurrentSection(Montage : unreal.Const<unreal.UAnimMontage>) : unreal.FName;
+  @:ufunction @:thisConst @:final public function Montage_GetCurrentSection(Montage : unreal.Const<unreal.UAnimMontage>) : unreal.FName;
   
   /**
     Set RootMotionMode
   **/
-  @:final public function SetRootMotionMode(Value : unreal.ERootMotionMode) : Void;
+  @:ufunction @:final public function SetRootMotionMode(Value : unreal.ERootMotionMode) : Void;
   
   /**
     Gets the length in seconds of the asset referenced in an asset player node
   **/
-  @:final public function GetInstanceAssetPlayerLength(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceAssetPlayerLength(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the current accumulated time in seconds for an asset player node
   **/
-  @:final public function GetInstanceAssetPlayerTime(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceAssetPlayerTime(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the current accumulated time as a fraction for an asset player node
   **/
-  @:final public function GetInstanceAssetPlayerTimeFraction(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceAssetPlayerTimeFraction(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the time in seconds from the end of an animation in an asset player node
   **/
-  @:final public function GetInstanceAssetPlayerTimeFromEnd(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceAssetPlayerTimeFromEnd(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the time as a fraction of the asset length of an animation in an asset player node
   **/
-  @:final public function GetInstanceAssetPlayerTimeFromEndFraction(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceAssetPlayerTimeFromEndFraction(AssetPlayerIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the blend weight of a specified state machine
   **/
-  @:final public function GetInstanceMachineWeight(MachineIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceMachineWeight(MachineIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the blend weight of a specified state
   **/
-  @:final public function GetInstanceStateWeight(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceStateWeight(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the current elapsed time of a state within the specified state machine
   **/
-  @:final public function GetInstanceCurrentStateElapsedTime(MachineIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceCurrentStateElapsedTime(MachineIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the crossfade duration of a specified transition
   **/
-  @:final public function GetInstanceTransitionCrossfadeDuration(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceTransitionCrossfadeDuration(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the elapsed time in seconds of a specified transition
   **/
-  @:final public function GetInstanceTransitionTimeElapsed(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceTransitionTimeElapsed(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the elapsed time as a fraction of the crossfade duration of a specified transition
   **/
-  @:final public function GetInstanceTransitionTimeElapsedFraction(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetInstanceTransitionTimeElapsedFraction(MachineIndex : unreal.Int32, TransitionIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the time remaining in seconds for the most relevant animation in the source state
   **/
-  @:final public function GetRelevantAnimTimeRemaining(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetRelevantAnimTimeRemaining(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the time remaining as a fraction of the duration for the most relevant animation in the source state
   **/
-  @:final public function GetRelevantAnimTimeRemainingFraction(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetRelevantAnimTimeRemainingFraction(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the length in seconds of the most relevant animation in the source state
   **/
-  @:final public function GetRelevantAnimLength(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetRelevantAnimLength(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the current accumulated time in seconds for the most relevant animation in the source state
   **/
-  @:final public function GetRelevantAnimTime(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetRelevantAnimTime(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Get the current accumulated time as a fraction of the length of the most relevant animation in the source state
   **/
-  @:final public function GetRelevantAnimTimeFraction(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetRelevantAnimTimeFraction(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Returns the value of a named curve.
   **/
-  @:final public function GetCurveValue(CurveName : unreal.FName) : unreal.Float32;
-  static public function GetAnimAssetPlayerLength(AnimAsset : unreal.UAnimationAsset) : unreal.Float32;
-  static public function GetAnimAssetPlayerTimeFraction(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
-  @:final public function GetAnimAssetPlayerTimeFromEnd(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
-  static public function GetAnimAssetPlayerTimeFromEndFraction(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
-  @:final public function GetStateWeight(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
-  @:final public function GetCurrentStateElapsedTime(MachineIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetCurveValue(CurveName : unreal.FName) : unreal.Float32;
+  @:ufunction static public function GetAnimAssetPlayerLength(AnimAsset : unreal.UAnimationAsset) : unreal.Float32;
+  @:ufunction static public function GetAnimAssetPlayerTimeFraction(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
+  @:ufunction @:final public function GetAnimAssetPlayerTimeFromEnd(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
+  @:ufunction static public function GetAnimAssetPlayerTimeFromEndFraction(AnimAsset : unreal.UAnimationAsset, CurrentTime : unreal.Float32) : unreal.Float32;
+  @:ufunction @:final public function GetStateWeight(MachineIndex : unreal.Int32, StateIndex : unreal.Int32) : unreal.Float32;
+  @:ufunction @:final public function GetCurrentStateElapsedTime(MachineIndex : unreal.Int32) : unreal.Float32;
   
   /**
     Returns the name of a currently active state in a state machine.
   **/
-  @:final public function GetCurrentStateName(MachineIndex : unreal.Int32) : unreal.FName;
+  @:ufunction @:final public function GetCurrentStateName(MachineIndex : unreal.Int32) : unreal.FName;
   
   /**
     Sets a morph target to a certain weight.
   **/
-  @:final public function SetMorphTarget(MorphTargetName : unreal.FName, Value : unreal.Float32) : Void;
+  @:ufunction @:final public function SetMorphTarget(MorphTargetName : unreal.FName, Value : unreal.Float32) : Void;
   
   /**
     Clears the current morph targets.
   **/
-  @:final public function ClearMorphTargets() : Void;
+  @:ufunction @:final public function ClearMorphTargets() : Void;
   
   /**
     Returns degree of the angle betwee velocity and Rotation forward vector
     The range of return will be from [-180, 180], and this can be used to feed blendspace directional value
   **/
-  @:final public function CalculateDirection(Velocity : unreal.Const<unreal.PRef<unreal.FVector>>, BaseRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : unreal.Float32;
+  @:ufunction @:final public function CalculateDirection(Velocity : unreal.Const<unreal.PRef<unreal.FVector>>, BaseRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : unreal.Float32;
   
   /**
     locks indicated AI resources of animated pawn
         DEPRECATED. Use LockAIResourcesWithAnimation instead
   **/
-  @:final public function LockAIResources(bLockMovement : Bool, LockAILogic : Bool) : Void;
+  @:ufunction @:final public function LockAIResources(bLockMovement : Bool, LockAILogic : Bool) : Void;
   
   /**
     unlocks indicated AI resources of animated pawn. Will unlock only animation-locked resources.
         DEPRECATED. Use UnlockAIResourcesWithAnimation instead
   **/
-  @:final public function UnlockAIResources(bUnlockMovement : Bool, UnlockAILogic : Bool) : Void;
+  @:ufunction @:final public function UnlockAIResources(bUnlockMovement : Bool, UnlockAILogic : Bool) : Void;
   
   /**
     --- AI communication end ---
   **/
-  @:thisConst @:final public function GetTimeToClosestMarker(SyncGroup : unreal.FName, MarkerName : unreal.FName, OutMarkerTime : unreal.Float32) : Bool;
-  @:thisConst @:final public function HasMarkerBeenHitThisFrame(SyncGroup : unreal.FName, MarkerName : unreal.FName) : Bool;
-  @:thisConst @:final public function IsSyncGroupBetweenMarkers(InSyncGroupName : unreal.FName, PreviousMarker : unreal.FName, NextMarker : unreal.FName, bRespectMarkerOrder : Bool) : Bool;
-  @:thisConst @:final public function GetSyncGroupPosition(InSyncGroupName : unreal.FName) : unreal.FMarkerSyncAnimPosition;
+  @:ufunction @:thisConst @:final public function GetTimeToClosestMarker(SyncGroup : unreal.FName, MarkerName : unreal.FName, OutMarkerTime : unreal.Float32) : Bool;
+  @:ufunction @:thisConst @:final public function HasMarkerBeenHitThisFrame(SyncGroup : unreal.FName, MarkerName : unreal.FName) : Bool;
+  @:ufunction @:thisConst @:final public function IsSyncGroupBetweenMarkers(InSyncGroupName : unreal.FName, PreviousMarker : unreal.FName, NextMarker : unreal.FName, bRespectMarkerOrder : Bool = true) : Bool;
+  @:ufunction @:thisConst @:final public function GetSyncGroupPosition(InSyncGroupName : unreal.FName) : unreal.FMarkerSyncAnimPosition;
   
 }

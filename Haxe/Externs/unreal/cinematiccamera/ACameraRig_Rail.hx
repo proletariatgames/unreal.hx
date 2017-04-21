@@ -15,11 +15,11 @@ package unreal.cinematiccamera;
 
 @:umodule("CinematicCamera")
 @:glueCppIncludes("CameraRig_Rail.h")
-@:uextern extern class ACameraRig_Rail extends unreal.AActor {
+@:uextern @:uclass extern class ACameraRig_Rail extends unreal.AActor {
   
   /**
     Defines current position of the mount point along the rail, in terms of normalized distance from the beginning of the rail.
   **/
-  public var CurrentPositionOnRail : unreal.Float32;
+  @:uproperty public var CurrentPositionOnRail : unreal.Float32;
   
 }

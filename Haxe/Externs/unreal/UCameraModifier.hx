@@ -20,42 +20,42 @@ package unreal;
   can be stateful, and is associated uniquely with a specific APlayerCameraManager.
 **/
 @:glueCppIncludes("Camera/CameraModifier.h")
-@:uextern extern class UCameraModifier extends unreal.UObject {
+@:uextern @:uclass extern class UCameraModifier extends unreal.UObject {
   
   /**
     Current blend alpha.
   **/
-  private var Alpha : unreal.Float32;
+  @:uproperty private var Alpha : unreal.Float32;
   
   /**
     When blending out, alpha proceeds from 1 to 0 over this time
   **/
-  private var AlphaOutTime : unreal.Float32;
+  @:uproperty private var AlphaOutTime : unreal.Float32;
   
   /**
     When blending in, alpha proceeds from 0 to 1 over this time
   **/
-  private var AlphaInTime : unreal.Float32;
+  @:uproperty private var AlphaInTime : unreal.Float32;
   
   /**
     Camera this object is associated with.
   **/
-  private var CameraOwner : unreal.APlayerCameraManager;
+  @:uproperty private var CameraOwner : unreal.APlayerCameraManager;
   
   /**
     Priority value that determines the order in which modifiers are applied. 0 = highest priority, 255 = lowest.
   **/
-  public var Priority : unreal.UInt8;
+  @:uproperty public var Priority : unreal.UInt8;
   
   /**
     If true, no other modifiers of same priority allowed.
   **/
-  public var bExclusive : Bool;
+  @:uproperty public var bExclusive : Bool;
   
   /**
     If true, enables certain debug visualization features.
   **/
-  public var bDebug : Bool;
+  @:uproperty public var bDebug : Bool;
   
   /**
     Called per tick that the modifier is active to allow Blueprinted modifiers to modify the camera's transform.
@@ -68,7 +68,7 @@ package unreal;
     @param       NewViewRotation         (out) The modified camera rotation.
     @param       NewFOV                          (out) The modified camera FOV.
   **/
-  public function BlueprintModifyCamera(DeltaTime : unreal.Float32, ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, FOV : unreal.Float32, NewViewLocation : unreal.PRef<unreal.FVector>, NewViewRotation : unreal.PRef<unreal.FRotator>, NewFOV : unreal.Float32) : Void;
+  @:ufunction public function BlueprintModifyCamera(DeltaTime : unreal.Float32, ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, FOV : unreal.Float32, NewViewLocation : unreal.PRef<unreal.FVector>, NewViewRotation : unreal.PRef<unreal.FRotator>, NewFOV : unreal.Float32) : Void;
   
   /**
     Called per tick that the modifier is active to allow Blueprinted modifiers to modify the camera's postprocess effects.
@@ -77,27 +77,27 @@ package unreal;
     @param       PostProcessBlendWeight  (out) Blend weight applied to the entire postprocess structure.
     @param       PostProcessSettings             (out) Post process structure defining what settings and values to override.
   **/
-  public function BlueprintModifyPostProcess(DeltaTime : unreal.Float32, PostProcessBlendWeight : unreal.Float32, PostProcessSettings : unreal.PRef<unreal.FPostProcessSettings>) : Void;
+  @:ufunction public function BlueprintModifyPostProcess(DeltaTime : unreal.Float32, PostProcessBlendWeight : unreal.Float32, PostProcessSettings : unreal.PRef<unreal.FPostProcessSettings>) : Void;
   
   /**
     @return Returns true if modifier is disabled, false otherwise.
   **/
-  @:thisConst public function IsDisabled() : Bool;
+  @:ufunction @:thisConst public function IsDisabled() : Bool;
   
   /**
     @return Returns the actor the camera is currently viewing.
   **/
-  @:thisConst public function GetViewTarget() : unreal.AActor;
+  @:ufunction @:thisConst public function GetViewTarget() : unreal.AActor;
   
   /**
     Disables this modifier.
     @param  bImmediate  - true to disable with no blend out, false (default) to allow blend out
   **/
-  public function DisableModifier(bImmediate : Bool) : Void;
+  @:ufunction public function DisableModifier(bImmediate : Bool = false) : Void;
   
   /**
     Enables this modifier.
   **/
-  public function EnableModifier() : Void;
+  @:ufunction public function EnableModifier() : Void;
   
 }

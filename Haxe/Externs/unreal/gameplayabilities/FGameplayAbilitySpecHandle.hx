@@ -22,6 +22,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayAbilitySpec.h")
-@:noCopy @:noEquals @:uextern extern class FGameplayAbilitySpecHandle {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayAbilitySpecHandle {
   
 }

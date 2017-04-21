@@ -21,98 +21,98 @@ package unreal;
   interface for when a level should be streamed in and out of memory.
 **/
 @:glueCppIncludes("Engine/LevelStreaming.h")
-@:uextern extern class ULevelStreaming extends unreal.UObject {
+@:uextern @:uclass extern class ULevelStreaming extends unreal.UObject {
   
   /**
     List of keywords to filter on in the level browser
   **/
-  public var Keywords : unreal.TArray<unreal.FString>;
+  @:uproperty public var Keywords : unreal.TArray<unreal.FString>;
   
   /**
     Cooldown time in seconds between volume-based unload requests.  Used in preventing spurious unload requests.
   **/
-  public var MinTimeBetweenVolumeUnloadRequests : unreal.Float32;
+  @:uproperty public var MinTimeBetweenVolumeUnloadRequests : unreal.Float32;
   
   /**
     The level streaming volumes bound to this level.
   **/
-  public var EditorStreamingVolumes : unreal.TArray<unreal.ALevelStreamingVolume>;
+  @:uproperty public var EditorStreamingVolumes : unreal.TArray<unreal.ALevelStreamingVolume>;
   
   /**
     The level color used for visualization. (Show -> Advanced -> Level Coloration)
   **/
-  public var LevelColor : unreal.FLinearColor;
+  @:uproperty public var LevelColor : unreal.FLinearColor;
   
   /**
     Deprecated level color used for visualization.
   **/
-  @:deprecated public var DrawColor_DEPRECATED : unreal.FColor;
+  @:deprecated @:uproperty public var DrawColor_DEPRECATED : unreal.FColor;
   
   /**
     If true, will be drawn on the 'level streaming status' map (STAT LEVELMAP console command)
   **/
-  public var bDrawOnLevelStatusMap : Bool;
+  @:uproperty public var bDrawOnLevelStatusMap : Bool;
   
   /**
     Whether this level streaming object should be ignored by world composition distance streaming,
     so streaming state can be controlled by other systems (ex: in blueprints)
   **/
-  public var bDisableDistanceStreaming : Bool;
+  @:uproperty public var bDisableDistanceStreaming : Bool;
   
   /**
     Requested LOD. Non LOD sub-levels have Index = -1
   **/
-  public var LevelLODIndex : unreal.Int32;
+  @:uproperty public var LevelLODIndex : unreal.Int32;
   
   /**
     Whether we want to force a blocking load
   **/
-  public var bShouldBlockOnLoad : Bool;
+  @:uproperty public var bShouldBlockOnLoad : Bool;
   
   /**
     Whether this level only contains static actors that aren't affected by gameplay or replication.
     If true, the engine can make certain optimizations and will add this level to the StaticLevels collection.
   **/
-  public var bIsStatic : Bool;
+  @:uproperty public var bIsStatic : Bool;
   
   /**
     Whether the level should be visible if it is loaded
   **/
-  public var bShouldBeVisible : Bool;
+  @:uproperty public var bShouldBeVisible : Bool;
   
   /**
     Whether the level should be loaded
   **/
-  public var bShouldBeLoaded : Bool;
+  @:uproperty public var bShouldBeLoaded : Bool;
   
   /**
     Whether this level is locked; that is, its actors are read-only.
   **/
-  public var bLocked : Bool;
+  @:uproperty public var bLocked : Bool;
   
   /**
     Whether this level should be visible in the Editor
   **/
-  public var bShouldBeVisibleInEditor : Bool;
+  @:uproperty public var bShouldBeVisibleInEditor : Bool;
   
   /**
     Transform applied to actors after loading.
   **/
-  public var LevelTransform : unreal.FTransform;
+  @:uproperty public var LevelTransform : unreal.FTransform;
   
   /**
     LOD versions of this level
   **/
-  public var LODPackageNames : unreal.TArray<unreal.FName>;
+  @:uproperty public var LODPackageNames : unreal.TArray<unreal.FName>;
   
   /**
     If this isn't Name_None, then we load from this package on disk to the new package named PackageName
   **/
-  public var PackageNameToLoad : unreal.FName;
+  @:uproperty public var PackageNameToLoad : unreal.FName;
   
   /**
     Deprecated name of the package containing the level to load. Use GetWorldAsset() or GetWorldAssetPackageFName() instead.
   **/
-  @:deprecated public var PackageName_DEPRECATED : unreal.FName;
+  @:deprecated @:uproperty public var PackageName_DEPRECATED : unreal.FName;
   
 }

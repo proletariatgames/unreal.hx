@@ -21,11 +21,11 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_DynamicCast.h")
-@:uextern extern class UK2Node_DynamicCast extends unreal.blueprintgraph.UK2Node {
+@:uextern @:uclass extern class UK2Node_DynamicCast extends unreal.blueprintgraph.UK2Node {
   
   /**
     The type that the input should try to be cast to
   **/
-  public var TargetType : unreal.TSubclassOf<unreal.UObject>;
+  @:uproperty public var TargetType : unreal.TSubclassOf<unreal.UObject>;
   
 }

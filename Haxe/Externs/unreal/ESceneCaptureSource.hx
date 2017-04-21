@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESceneCaptureSource")
-@:uextern extern enum ESceneCaptureSource {
+@:uextern @:uenum extern enum ESceneCaptureSource {
   
   /**
     SceneColor (HDR) in RGB, Inv Opacity in A

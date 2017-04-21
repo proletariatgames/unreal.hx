@@ -19,11 +19,11 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("GameplayEffectCalculation.h")
-@:uextern extern class UGameplayEffectCalculation extends unreal.UObject {
+@:uextern @:uclass extern class UGameplayEffectCalculation extends unreal.UObject {
   
   /**
     Attributes to capture that are relevant to the calculation
   **/
-  private var RelevantAttributesToCapture : unreal.TArray<unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition>;
+  @:uproperty private var RelevantAttributesToCapture : unreal.TArray<unreal.gameplayabilities.FGameplayEffectAttributeCaptureDefinition>;
   
 }

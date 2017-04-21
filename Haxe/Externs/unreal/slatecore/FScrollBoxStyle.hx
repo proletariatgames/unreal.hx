@@ -19,26 +19,26 @@ package unreal.slatecore;
 **/
 @:umodule("SlateCore")
 @:glueCppIncludes("Styling/SlateTypes.h")
-@:uextern extern class FScrollBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
+@:uextern @:ustruct extern class FScrollBoxStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**
     Brush used to draw the right shadow of a scrollbox
   **/
-  public var RightShadowBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var RightShadowBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used to draw the left shadow of a scrollbox
   **/
-  public var LeftShadowBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var LeftShadowBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used to draw the bottom shadow of a scrollbox
   **/
-  public var BottomShadowBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var BottomShadowBrush : unreal.slatecore.FSlateBrush;
   
   /**
     Brush used to draw the top shadow of a scrollbox
   **/
-  public var TopShadowBrush : unreal.slatecore.FSlateBrush;
+  @:uproperty public var TopShadowBrush : unreal.slatecore.FSlateBrush;
   
 }

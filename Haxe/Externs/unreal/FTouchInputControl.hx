@@ -20,51 +20,51 @@ package unreal;
   
 **/
 @:glueCppIncludes("GameFramework/TouchInterface.h")
-@:noCopy @:noEquals @:uextern extern class FTouchInputControl {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FTouchInputControl {
   
   /**
     The alternate input to send from this control (for sticks, this is the vertical axis)
   **/
-  public var AltInputKey : unreal.inputcore.FKey;
+  @:uproperty public var AltInputKey : unreal.inputcore.FKey;
   
   /**
     The main input to send from this control (for sticks, this is the horizontal axis)
   **/
-  public var MainInputKey : unreal.inputcore.FKey;
+  @:uproperty public var MainInputKey : unreal.inputcore.FKey;
   
   /**
     The scale for control input
   **/
-  public var InputScale : unreal.FVector2D;
+  @:uproperty public var InputScale : unreal.FVector2D;
   
   /**
     The interactive size of the control (if <= 1.0, it's relative to screen, > 1.0 is absolute)
   **/
-  public var InteractionSize : unreal.FVector2D;
+  @:uproperty public var InteractionSize : unreal.FVector2D;
   
   /**
     For sticks, the size of the thumb (if <= 1.0, it's relative to screen, > 1.0 is absolute)
   **/
-  public var ThumbSize : unreal.FVector2D;
+  @:uproperty public var ThumbSize : unreal.FVector2D;
   
   /**
     The size of the control (if <= 1.0, it's relative to screen, > 1.0 is absolute)
   **/
-  public var VisualSize : unreal.FVector2D;
+  @:uproperty public var VisualSize : unreal.FVector2D;
   
   /**
     The center point of the control (if <= 1.0, it's relative to screen, > 1.0 is absolute)
   **/
-  public var Center : unreal.FVector2D;
+  @:uproperty public var Center : unreal.FVector2D;
   
   /**
     For sticks, this is the Background
   **/
-  public var Image2 : unreal.UTexture2D;
+  @:uproperty public var Image2 : unreal.UTexture2D;
   
   /**
     For sticks, this is the Thumb
   **/
-  public var Image1 : unreal.UTexture2D;
+  @:uproperty public var Image1 : unreal.UTexture2D;
   
 }

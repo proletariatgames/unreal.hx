@@ -21,12 +21,12 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/AnimMontageFactory.h")
-@:uextern extern class UAnimMontageFactory extends unreal.editor.UFactory {
+@:uextern @:uclass extern class UAnimMontageFactory extends unreal.editor.UFactory {
   
   /**
     Used when creating a montage from an AnimSequence, becomes the only AnimSequence contained
   **/
-  public var SourceAnimation : unreal.UAnimSequence;
-  public var TargetSkeleton : unreal.USkeleton;
+  @:uproperty public var SourceAnimation : unreal.UAnimSequence;
+  @:uproperty public var TargetSkeleton : unreal.USkeleton;
   
 }

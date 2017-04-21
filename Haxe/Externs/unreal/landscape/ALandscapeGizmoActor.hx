@@ -21,16 +21,16 @@ package unreal.landscape;
 **/
 @:umodule("Landscape")
 @:glueCppIncludes("LandscapeGizmoActor.h")
-@:uextern extern class ALandscapeGizmoActor extends unreal.AActor {
+@:uextern @:uclass extern class ALandscapeGizmoActor extends unreal.AActor {
   #if WITH_EDITORONLY_DATA
-  public var SpriteComponent : unreal.UBillboardComponent;
-  public var TargetLandscapeInfo : unreal.landscape.ULandscapeInfo;
-  public var RelativeScaleZ : unreal.Float32;
-  public var MinRelativeZ : unreal.Float32;
-  public var MarginZ : unreal.Float32;
-  public var LengthZ : unreal.Float32;
-  public var Height : unreal.Float32;
-  public var Width : unreal.Float32;
+  @:uproperty public var SpriteComponent : unreal.UBillboardComponent;
+  @:uproperty public var TargetLandscapeInfo : unreal.landscape.ULandscapeInfo;
+  @:uproperty public var RelativeScaleZ : unreal.Float32;
+  @:uproperty public var MinRelativeZ : unreal.Float32;
+  @:uproperty public var MarginZ : unreal.Float32;
+  @:uproperty public var LengthZ : unreal.Float32;
+  @:uproperty public var Height : unreal.Float32;
+  @:uproperty public var Width : unreal.Float32;
   #end // WITH_EDITORONLY_DATA
   
 }

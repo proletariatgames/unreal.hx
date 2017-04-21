@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Materials/MaterialExpressionTextureSample.h")
 @:uname("ETextureMipValueMode")
-@:uextern extern enum ETextureMipValueMode {
+@:uextern @:uenum extern enum ETextureMipValueMode {
   
   /**
     Use hardware computed sample's mip level with automatic anisotropic filtering support.

@@ -15,6 +15,6 @@ package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("NodeDependingOnEnumInterface.h")
-@:uextern extern interface INodeDependingOnEnumInterface {
+@:uextern @:uclass extern interface INodeDependingOnEnumInterface {
   
 }

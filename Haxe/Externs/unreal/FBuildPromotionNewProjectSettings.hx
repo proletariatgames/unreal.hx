@@ -20,16 +20,16 @@ package unreal;
   Holds settings for the new project stage of the build promotion test
 **/
 @:glueCppIncludes("Tests/AutomationTestSettings.h")
-@:noCopy @:noEquals @:uextern extern class FBuildPromotionNewProjectSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBuildPromotionNewProjectSettings {
   
   /**
     The name of the project *
   **/
-  public var NewProjectNameOverride : unreal.FString;
+  @:uproperty public var NewProjectNameOverride : unreal.FString;
   
   /**
     The path for the new project
   **/
-  public var NewProjectFolderOverride : unreal.FDirectoryPath;
+  @:uproperty public var NewProjectFolderOverride : unreal.FDirectoryPath;
   
 }

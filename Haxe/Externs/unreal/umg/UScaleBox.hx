@@ -24,30 +24,30 @@ package unreal.umg;
 **/
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UScaleBox extends unreal.umg.UContentWidget {
+@:uextern @:uclass extern class UScaleBox extends unreal.umg.UContentWidget {
   
   /**
     Optional bool to ignore the inherited scale. Applies inverse scaling to counteract parents before applying the local scale operation.
   **/
-  public var IgnoreInheritedScale : Bool;
+  @:uproperty public var IgnoreInheritedScale : Bool;
   
   /**
     Optional scale that can be specified by the User. Used only for UserSpecified stretching.
   **/
-  public var UserSpecifiedScale : unreal.Float32;
+  @:uproperty public var UserSpecifiedScale : unreal.Float32;
   
   /**
     Controls in what direction content can be scaled
   **/
-  public var StretchDirection : unreal.slate.EStretchDirection;
+  @:uproperty public var StretchDirection : unreal.slate.EStretchDirection;
   
   /**
     The stretching rule to apply when content is stretched
   **/
-  public var Stretch : unreal.slate.EStretch;
-  @:final public function SetStretch(InStretch : unreal.slate.EStretch) : Void;
-  @:final public function SetStretchDirection(InStretchDirection : unreal.slate.EStretchDirection) : Void;
-  @:final public function SetUserSpecifiedScale(InUserSpecifiedScale : unreal.Float32) : Void;
-  @:final public function SetIgnoreInheritedScale(bInIgnoreInheritedScale : Bool) : Void;
+  @:uproperty public var Stretch : unreal.slate.EStretch;
+  @:ufunction @:final public function SetStretch(InStretch : unreal.slate.EStretch) : Void;
+  @:ufunction @:final public function SetStretchDirection(InStretchDirection : unreal.slate.EStretchDirection) : Void;
+  @:ufunction @:final public function SetUserSpecifiedScale(InUserSpecifiedScale : unreal.Float32) : Void;
+  @:ufunction @:final public function SetIgnoreInheritedScale(bInIgnoreInheritedScale : Bool) : Void;
   
 }

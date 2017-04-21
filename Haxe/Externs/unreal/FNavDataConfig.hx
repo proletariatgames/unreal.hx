@@ -14,11 +14,11 @@
 package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavigationTypes.h")
-@:uextern extern class FNavDataConfig extends unreal.FNavAgentProperties {
-  public var NavigationDataClassName : unreal.FStringClassReference;
-  public var NavigationDataClass : unreal.TSubclassOf<unreal.ANavigationData>;
-  public var DefaultQueryExtent : unreal.FVector;
-  public var Color : unreal.FColor;
-  public var Name : unreal.FName;
+@:uextern @:ustruct extern class FNavDataConfig extends unreal.FNavAgentProperties {
+  @:uproperty public var NavigationDataClassName : unreal.FStringClassReference;
+  @:uproperty public var NavigationDataClass : unreal.TSubclassOf<unreal.ANavigationData>;
+  @:uproperty public var DefaultQueryExtent : unreal.FVector;
+  @:uproperty public var Color : unreal.FColor;
+  @:uproperty public var Name : unreal.FName;
   
 }

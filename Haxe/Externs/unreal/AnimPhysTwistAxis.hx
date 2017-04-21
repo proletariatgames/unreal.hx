@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimPhysicsSolver.h")
 @:uname("AnimPhysTwistAxis")
-@:class @:uextern extern enum AnimPhysTwistAxis {
+@:class @:uextern @:uenum extern enum AnimPhysTwistAxis {
   AxisX;
   AxisY;
   AxisZ;

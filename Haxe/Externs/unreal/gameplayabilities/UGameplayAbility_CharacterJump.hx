@@ -19,6 +19,6 @@ package unreal.gameplayabilities;
 **/
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbility_CharacterJump.h")
-@:uextern extern class UGameplayAbility_CharacterJump extends unreal.gameplayabilities.UGameplayAbility {
+@:uextern @:uclass extern class UGameplayAbility_CharacterJump extends unreal.gameplayabilities.UGameplayAbility {
   
 }

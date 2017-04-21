@@ -19,78 +19,78 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
-@:uextern extern class FLevelEditorViewportInstanceSettings {
+@:uextern @:ustruct extern class FLevelEditorViewportInstanceSettings {
   
   /**
     When enabled, the full viewport toolbar will be shown. When disabled, a compact toolbar is used.
   **/
-  public var bShowFullToolbar : Bool;
+  @:uproperty public var bShowFullToolbar : Bool;
   
   /**
     Whether viewport statistics should be enabled by default.
   **/
-  public var EnabledStats : unreal.TArray<unreal.FString>;
+  @:uproperty public var EnabledStats : unreal.TArray<unreal.FString>;
   
   /**
     Whether viewport statistics should be shown.
   **/
-  public var bShowStats : Bool;
+  @:uproperty public var bShowStats : Bool;
   
   /**
     Whether the FPS counter should be shown.
   **/
-  @:deprecated public var bShowFPS_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bShowFPS_DEPRECATED : Bool;
   
   /**
     Whether this viewport is updating in real-time.
   **/
-  public var bIsRealtime : Bool;
+  @:uproperty public var bIsRealtime : Bool;
   
   /**
     Position of the var plane in the editor viewport
   **/
-  public var FarViewPlane : unreal.Float32;
+  @:uproperty public var FarViewPlane : unreal.Float32;
   
   /**
     Field of view angle for the viewport.
   **/
-  public var FOVAngle : unreal.Float32;
+  @:uproperty public var FOVAngle : unreal.Float32;
   
   /**
     Setting to allow designers to override the automatic expose.
   **/
-  public var ExposureSettings : unreal.FExposureSettings;
+  @:uproperty public var ExposureSettings : unreal.FExposureSettings;
   
   /**
     The buffer visualization mode for the viewport.
   **/
-  public var BufferVisualizationMode : unreal.FName;
+  @:uproperty public var BufferVisualizationMode : unreal.FName;
   
   /**
     A set of flags that determines visibility for various scene elements (FEngineShowFlags), converted to string form.
     These have to be saved as strings since FEngineShowFlags is too complex for UHT to parse correctly.
   **/
-  public var GameShowFlagsString : unreal.FString;
+  @:uproperty public var GameShowFlagsString : unreal.FString;
   
   /**
     A set of flags that determines visibility for various scene elements (FEngineShowFlags), converted to string form.
     These have to be saved as strings since FEngineShowFlags is too complex for UHT to parse correctly.
   **/
-  public var EditorShowFlagsString : unreal.FString;
+  @:uproperty public var EditorShowFlagsString : unreal.FString;
   
   /**
     View mode to set when this viewport is not of type LVT_Perspective.
   **/
-  public var OrthoViewModeIndex : unreal.EViewModeIndex;
+  @:uproperty public var OrthoViewModeIndex : unreal.EViewModeIndex;
   
   /**
     View mode to set when this viewport is of type LVT_Perspective.
   **/
-  public var PerspViewModeIndex : unreal.EViewModeIndex;
+  @:uproperty public var PerspViewModeIndex : unreal.EViewModeIndex;
   
   /**
     The viewport type
   **/
-  public var ViewportType : unreal.editor.ELevelViewportType;
+  @:uproperty public var ViewportType : unreal.editor.ELevelViewportType;
   
 }

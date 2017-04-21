@@ -20,56 +20,61 @@ package unreal;
   Struct used to define the type of information carried on this pin
 **/
 @:glueCppIncludes("EdGraph/EdGraphPin.h")
-@:noCopy @:noEquals @:uextern extern class FEdGraphPinType {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FEdGraphPinType {
   
   /**
     Whether or not this is a weak reference
   **/
-  public var bIsWeakPointer : Bool;
+  @:uproperty public var bIsWeakPointer : Bool;
   
   /**
     Whether or not this pin is a immutable const value
   **/
-  public var bIsConst : Bool;
+  @:uproperty public var bIsConst : Bool;
   
   /**
     Whether or not this pin is a value passed by reference or not
   **/
-  public var bIsReference : Bool;
+  @:uproperty public var bIsReference : Bool;
   
   /**
     Whether or not this pin represents an array of values
   **/
-  public var bIsArray : Bool;
+  @:uproperty public var bIsArray : Bool;
   
   /**
     Whether or not this pin represents a set of (unique) values
   **/
-  public var bIsSet : Bool;
+  @:uproperty public var bIsSet : Bool;
   
   /**
     Whether or not this pin represents a map of keys to values
   **/
-  public var bIsMap : Bool;
+  @:uproperty public var bIsMap : Bool;
   
   /**
     Data used to determine value types when bIsMap is true
   **/
-  public var PinValueType : unreal.FEdGraphTerminalType;
+  @:uproperty public var PinValueType : unreal.FEdGraphTerminalType;
   
   /**
     Sub-category member reference
   **/
-  public var PinSubCategoryMemberReference : unreal.FSimpleMemberReference;
+  @:uproperty public var PinSubCategoryMemberReference : unreal.FSimpleMemberReference;
+  
+  /**
+    Sub-category object
+  **/
+  @:uproperty public var PinSubCategoryObject : unreal.TWeakObjectPtr<unreal.UObject>;
   
   /**
     Sub-category of pin type
   **/
-  public var PinSubCategory : unreal.FString;
+  @:uproperty public var PinSubCategory : unreal.FString;
   
   /**
     Category of pin type
   **/
-  public var PinCategory : unreal.FString;
+  @:uproperty public var PinCategory : unreal.FString;
   
 }

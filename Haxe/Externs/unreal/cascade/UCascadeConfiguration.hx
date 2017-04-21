@@ -21,22 +21,22 @@ package unreal.cascade;
 **/
 @:umodule("Cascade")
 @:glueCppIncludes("CascadeConfiguration.h")
-@:noClass @:uextern extern class UCascadeConfiguration extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UCascadeConfiguration extends unreal.UObject {
   
   /**
     Modules that Cascade should ignore in the menu system.
   **/
-  public var ModuleMenu_ModuleRejections : unreal.TArray<unreal.FString>;
+  @:uproperty public var ModuleMenu_ModuleRejections : unreal.TArray<unreal.FString>;
   
   /**
     Module-to-TypeData mappings.
   **/
-  public var ModuleMenu_TypeDataToSpecificModuleRejections : unreal.TArray<unreal.cascade.FModuleMenuMapper>;
+  @:uproperty public var ModuleMenu_TypeDataToSpecificModuleRejections : unreal.TArray<unreal.cascade.FModuleMenuMapper>;
   
   /**
     TypeData-to-base module mappings.
     These will disallow complete 'sub-menus' depending on the TypeData utilized.
   **/
-  public var ModuleMenu_TypeDataToBaseModuleRejections : unreal.TArray<unreal.cascade.FModuleMenuMapper>;
+  @:uproperty public var ModuleMenu_TypeDataToBaseModuleRejections : unreal.TArray<unreal.cascade.FModuleMenuMapper>;
   
 }

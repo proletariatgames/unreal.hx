@@ -21,6 +21,6 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("InstancedFoliageActor.h")
-@:uextern extern class AInstancedFoliageActor extends unreal.AActor {
+@:uextern @:uclass extern class AInstancedFoliageActor extends unreal.AActor {
   
 }

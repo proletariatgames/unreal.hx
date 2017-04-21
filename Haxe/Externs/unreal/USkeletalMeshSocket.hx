@@ -20,17 +20,17 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SkeletalMeshSocket.h")
-@:uextern extern class USkeletalMeshSocket extends unreal.UObject {
+@:uextern @:uclass extern class USkeletalMeshSocket extends unreal.UObject {
   
   /**
     If true then the hierarchy of bones this socket is attached to will always be
               evaluated, even if it had previously been removed due to the current lod setting
   **/
-  public var bForceAlwaysAnimated : Bool;
-  public var RelativeScale : unreal.FVector;
-  public var RelativeRotation : unreal.FRotator;
-  public var RelativeLocation : unreal.FVector;
-  public var BoneName : unreal.FName;
+  @:uproperty public var bForceAlwaysAnimated : Bool;
+  @:uproperty public var RelativeScale : unreal.FVector;
+  @:uproperty public var RelativeRotation : unreal.FRotator;
+  @:uproperty public var RelativeLocation : unreal.FVector;
+  @:uproperty public var BoneName : unreal.FName;
   
   /**
     Defines a named attachment location on the USkeletalMesh.
@@ -38,6 +38,6 @@ package unreal;
     everything explicitly to AttachComponent in the SkeletalMeshComponent.
     The Outer of a SkeletalMeshSocket should always be the USkeletalMesh.
   **/
-  public var SocketName : unreal.FName;
+  @:uproperty public var SocketName : unreal.FName;
   
 }

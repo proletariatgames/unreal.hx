@@ -14,45 +14,45 @@
 package unreal;
 
 @:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
-@:uextern extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
+@:uextern @:uclass extern class UParticleModuleLocationBoneSocket extends unreal.UParticleModuleLocationBase {
   #if WITH_EDITORONLY_DATA
   
   /**
     The name of the skeletal mesh to use in the editor
   **/
-  public var EditorSkelMesh : unreal.USkeletalMesh;
+  @:uproperty public var EditorSkelMesh : unreal.USkeletalMesh;
   #end // WITH_EDITORONLY_DATA
   
   /**
     When we have no source locations and we need to track bone velocities due to bInheritBoneVelocity, we pre select a set of bones to use each frame. This property determines how big the list is.
     Too low and the randomness of selection may suffer, too high and memory will be wasted.
   **/
-  public var NumPreSelectedIndices : unreal.Int32;
+  @:uproperty public var NumPreSelectedIndices : unreal.Int32;
   
   /**
     The parameter name of the skeletal mesh actor that supplies the SkelMeshComponent for in-game.
   **/
-  public var SkelMeshActorParamName : unreal.FName;
+  @:uproperty public var SkelMeshActorParamName : unreal.FName;
   
   /**
     A scale on how much of the bone's velocity a particle will inherit.
   **/
-  public var InheritVelocityScale : unreal.Float32;
+  @:uproperty public var InheritVelocityScale : unreal.Float32;
   
   /**
     If true, particles inherit the associated bone velocity when spawned
   **/
-  public var bInheritBoneVelocity : Bool;
+  @:uproperty public var bInheritBoneVelocity : Bool;
   
   /**
     If true, rotate mesh emitter meshes to orient w/ the socket
   **/
-  public var bOrientMeshEmitters : Bool;
+  @:uproperty public var bOrientMeshEmitters : Bool;
   
   /**
     If true, update the particle locations each frame with that of the bone/socket
   **/
-  public var bUpdatePositionEachFrame : Bool;
+  @:uproperty public var bUpdatePositionEachFrame : Bool;
   
   /**
     The method by which to select the bone/socket to spawn at.
@@ -60,17 +60,17 @@ package unreal;
     SEL_Sequential                  - loop through the bone/socket array in order
     SEL_Random                              - randomly select a bone/socket from the array
   **/
-  public var SelectionMethod : unreal.ELocationBoneSocketSelectionMethod;
+  @:uproperty public var SelectionMethod : unreal.ELocationBoneSocketSelectionMethod;
   
   /**
     The name(s) of the bone/socket(s) to position at. If this is empty, the module will attempt to spawn from all bones or sockets.
   **/
-  public var SourceLocations : unreal.TArray<unreal.FLocationBoneSocketInfo>;
+  @:uproperty public var SourceLocations : unreal.TArray<unreal.FLocationBoneSocketInfo>;
   
   /**
     An offset to apply to each bone/socket
   **/
-  public var UniversalOffset : unreal.FVector;
+  @:uproperty public var UniversalOffset : unreal.FVector;
   
   /**
     Whether the module uses Bones or Sockets for locations.
@@ -78,6 +78,6 @@ package unreal;
     BONESOCKETSOURCE_Bones          - Use Bones as the source locations.
     BONESOCKETSOURCE_Sockets        - Use Sockets as the source locations.
   **/
-  public var SourceType : unreal.ELocationBoneSocketSource;
+  @:uproperty public var SourceType : unreal.ELocationBoneSocketSource;
   
 }

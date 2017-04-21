@@ -21,32 +21,37 @@ package unreal.blueprintgraph;
 **/
 @:umodule("BlueprintGraph")
 @:glueCppIncludes("K2Node_Select.h")
-@:uextern extern class UK2Node_Select extends unreal.blueprintgraph.UK2Node implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
+@:uextern @:uclass extern class UK2Node_Select extends unreal.blueprintgraph.UK2Node implements unreal.blueprintgraph.INodeDependingOnEnumInterface {
   
   /**
     Whether we need to reconstruct the node after the pins have changed
   **/
-  public var bReconstructNode : Bool;
+  @:uproperty public var bReconstructNode : Bool;
+  
+  /**
+    List of the current entries in the enum (Pin Friendly Names)
+  **/
+  @:uproperty public var EnumEntryFriendlyNames : unreal.TArray<unreal.FText>;
   
   /**
     List of the current entries in the enum (Pin Names)
   **/
-  public var EnumEntries : unreal.TArray<unreal.FName>;
+  @:uproperty public var EnumEntries : unreal.TArray<unreal.FName>;
   
   /**
     Name of the enum being switched on
   **/
-  public var Enum : unreal.UEnum;
+  @:uproperty public var Enum : unreal.UEnum;
   
   /**
     The pin type of the index pin
   **/
-  public var IndexPinType : unreal.FEdGraphPinType;
+  @:uproperty public var IndexPinType : unreal.FEdGraphPinType;
   
   /**
     The number of selectable options this node currently has
   **/
-  public var NumOptionPins : unreal.Int32;
+  @:uproperty public var NumOptionPins : unreal.Int32;
   // NodeDependingOnEnumInterface interface implementation
   
 }

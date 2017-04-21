@@ -15,11 +15,11 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("AITypes.h")
-@:uextern extern class FAIMoveRequest {
+@:uextern @:ustruct extern class FAIMoveRequest {
   
   /**
     move goal: actor
   **/
-  private var GoalActor : unreal.AActor;
+  @:uproperty private var GoalActor : unreal.AActor;
   
 }

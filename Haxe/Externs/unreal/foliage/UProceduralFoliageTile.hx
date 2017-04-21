@@ -27,6 +27,6 @@ package unreal.foliage;
 **/
 @:umodule("Foliage")
 @:glueCppIncludes("ProceduralFoliageTile.h")
-@:uextern extern class UProceduralFoliageTile extends unreal.UObject {
+@:uextern @:uclass extern class UProceduralFoliageTile extends unreal.UObject {
   
 }

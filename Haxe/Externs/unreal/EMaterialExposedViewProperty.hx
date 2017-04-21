@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionViewProperty.h")
 @:uname("EMaterialExposedViewProperty")
-@:uextern extern enum EMaterialExposedViewProperty {
+@:uextern @:uenum extern enum EMaterialExposedViewProperty {
   
   /**
     Horizontal and vertical size of the view's buffer in pixels

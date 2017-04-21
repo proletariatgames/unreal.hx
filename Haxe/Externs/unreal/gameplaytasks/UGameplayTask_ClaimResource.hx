@@ -15,6 +15,6 @@ package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
 @:glueCppIncludes("Tasks/GameplayTask_ClaimResource.h")
-@:uextern extern class UGameplayTask_ClaimResource extends unreal.gameplaytasks.UGameplayTask {
+@:uextern @:uclass extern class UGameplayTask_ClaimResource extends unreal.gameplaytasks.UGameplayTask {
   
 }

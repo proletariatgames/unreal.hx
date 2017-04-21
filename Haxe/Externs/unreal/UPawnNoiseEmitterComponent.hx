@@ -19,17 +19,17 @@ package unreal;
   This component is intended to exist on either a Pawn or its Controller. It does nothing on network clients.
 **/
 @:glueCppIncludes("Components/PawnNoiseEmitterComponent.h")
-@:uextern extern class UPawnNoiseEmitterComponent extends unreal.UActorComponent {
+@:uextern @:uclass extern class UPawnNoiseEmitterComponent extends unreal.UActorComponent {
   
   /**
     After this amount of time, new sound events will overwrite previous sounds even if they are not louder (allows old sounds to decay)
   **/
-  public var NoiseLifetime : unreal.Float32;
+  @:uproperty public var NoiseLifetime : unreal.Float32;
   
   /**
     Most recent noise made by this pawn not at its own location
   **/
-  public var LastRemoteNoisePosition : unreal.FVector;
+  @:uproperty public var LastRemoteNoisePosition : unreal.FVector;
   
   /**
     Cache noises instigated by the owning pawn for AI sensing
@@ -37,6 +37,6 @@ package unreal;
     @param Loudness - is the relative loudness of the noise (0.0 to 1.0)
     @param NoiseLocation - is the position of the noise
   **/
-  public function MakeNoise(NoiseMaker : unreal.AActor, Loudness : unreal.Float32, NoiseLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction public function MakeNoise(NoiseMaker : unreal.AActor, Loudness : unreal.Float32, NoiseLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
 }

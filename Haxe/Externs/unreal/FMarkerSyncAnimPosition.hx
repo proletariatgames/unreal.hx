@@ -21,7 +21,7 @@ package unreal;
   based on sync markers
 **/
 @:glueCppIncludes("Animation/AnimationAsset.h")
-@:noCopy @:noEquals @:uextern extern class FMarkerSyncAnimPosition {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMarkerSyncAnimPosition {
   
   /**
     Value between 0 and 1 representing where we are:
@@ -29,16 +29,16 @@ package unreal;
           1   we are at NextMarker
           0.5 we are half way between the two
   **/
-  public var PositionBetweenMarkers : unreal.Float32;
+  @:uproperty public var PositionBetweenMarkers : unreal.Float32;
   
   /**
     The marker we are heading towards
   **/
-  public var NextMarkerName : unreal.FName;
+  @:uproperty public var NextMarkerName : unreal.FName;
   
   /**
     The marker we have passed
   **/
-  public var PreviousMarkerName : unreal.FName;
+  @:uproperty public var PreviousMarkerName : unreal.FName;
   
 }

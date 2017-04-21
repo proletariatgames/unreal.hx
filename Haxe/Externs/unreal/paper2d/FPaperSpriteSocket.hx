@@ -21,16 +21,16 @@ package unreal.paper2d;
 **/
 @:umodule("Paper2D")
 @:glueCppIncludes("PaperSprite.h")
-@:noCopy @:noEquals @:uextern extern class FPaperSpriteSocket {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPaperSpriteSocket {
   
   /**
     Name of the socket
   **/
-  public var SocketName : unreal.FName;
+  @:uproperty public var SocketName : unreal.FName;
   
   /**
     Transform in pivot space (*not* texture space)
   **/
-  public var LocalTransform : unreal.FTransform;
+  @:uproperty public var LocalTransform : unreal.FTransform;
   
 }

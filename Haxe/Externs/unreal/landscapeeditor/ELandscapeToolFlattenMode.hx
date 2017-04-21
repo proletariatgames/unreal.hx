@@ -16,7 +16,7 @@ package unreal.landscapeeditor;
 @:umodule("LandscapeEditor")
 @:glueCppIncludes("LandscapeEditorObject.h")
 @:uname("ELandscapeToolFlattenMode.Type")
-@:uextern extern enum ELandscapeToolFlattenMode {
+@:uextern @:uenum extern enum ELandscapeToolFlattenMode {
   
   /**
     Flatten may both raise and lower values

@@ -20,16 +20,16 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/SkeletalMesh.h")
-@:noCopy @:noEquals @:uextern extern class FBoneMirrorInfo {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBoneMirrorInfo {
   
   /**
     Axis the bone is mirrored across.
   **/
-  public var BoneFlipAxis : unreal.EAxis;
+  @:uproperty public var BoneFlipAxis : unreal.EAxis;
   
   /**
     The bone to mirror.
   **/
-  public var SourceIndex : unreal.Int32;
+  @:uproperty public var SourceIndex : unreal.Int32;
   
 }

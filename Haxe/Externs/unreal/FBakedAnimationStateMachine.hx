@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimStateMachineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FBakedAnimationStateMachine {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FBakedAnimationStateMachine {
   
   /**
     List of all transitions between states
   **/
-  public var Transitions : unreal.TArray<unreal.FAnimationTransitionBetweenStates>;
+  @:uproperty public var Transitions : unreal.TArray<unreal.FAnimationTransitionBetweenStates>;
   
   /**
     List of all states this machine can be in
   **/
-  public var States : unreal.TArray<unreal.FBakedAnimationState>;
+  @:uproperty public var States : unreal.TArray<unreal.FBakedAnimationState>;
   
   /**
     Index of the initial state that the machine will start in
   **/
-  public var InitialState : unreal.Int32;
+  @:uproperty public var InitialState : unreal.Int32;
   
   /**
     Name of this machine (primarily for debugging purposes)
   **/
-  public var MachineName : unreal.FName;
+  @:uproperty public var MachineName : unreal.FName;
   
 }

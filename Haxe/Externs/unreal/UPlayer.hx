@@ -20,26 +20,26 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Player.h")
-@:uextern extern class UPlayer extends unreal.UObject {
+@:uextern @:uclass extern class UPlayer extends unreal.UObject {
   
   /**
     @todo document
   **/
-  public var ConfiguredLanSpeed : unreal.Int32;
+  @:uproperty public var ConfiguredLanSpeed : unreal.Int32;
   
   /**
     @todo document
   **/
-  public var ConfiguredInternetSpeed : unreal.Int32;
+  @:uproperty public var ConfiguredInternetSpeed : unreal.Int32;
   
   /**
     the current speed of the connection
   **/
-  public var CurrentNetSpeed : unreal.Int32;
+  @:uproperty public var CurrentNetSpeed : unreal.Int32;
   
   /**
     The actor this player controls.
   **/
-  public var PlayerController : unreal.APlayerController;
+  @:uproperty public var PlayerController : unreal.APlayerController;
   
 }

@@ -15,15 +15,15 @@ package unreal.landscape;
 
 @:umodule("Landscape")
 @:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerSwitch.h")
-@:uextern extern class UMaterialExpressionLandscapeLayerSwitch extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionLandscapeLayerSwitch extends unreal.UMaterialExpression {
   
   /**
     GUID that should be unique within the material, this is used for parameter renaming.
   **/
-  public var ExpressionGUID : unreal.FGuid;
-  public var PreviewUsed : Bool;
-  public var ParameterName : unreal.FName;
-  public var LayerNotUsed : unreal.FExpressionInput;
-  public var LayerUsed : unreal.FExpressionInput;
+  @:uproperty public var ExpressionGUID : unreal.FGuid;
+  @:uproperty public var PreviewUsed : Bool;
+  @:uproperty public var ParameterName : unreal.FName;
+  @:uproperty public var LayerNotUsed : unreal.FExpressionInput;
+  @:uproperty public var LayerUsed : unreal.FExpressionInput;
   
 }

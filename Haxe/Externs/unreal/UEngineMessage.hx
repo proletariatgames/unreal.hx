@@ -20,46 +20,46 @@ package unreal;
   
 **/
 @:glueCppIncludes("GameFramework/EngineMessage.h")
-@:uextern extern class UEngineMessage extends unreal.ULocalMessage {
+@:uextern @:uclass extern class UEngineMessage extends unreal.ULocalMessage {
   
   /**
     Message when a new spectator enters the server (if spectator is unnamed).
   **/
-  public var NewSpecMessage : unreal.FString;
+  @:uproperty public var NewSpecMessage : unreal.FString;
   
   /**
     Message when a new player enters the server (if player is unnamed).
   **/
-  public var NewPlayerMessage : unreal.FString;
+  @:uproperty public var NewPlayerMessage : unreal.FString;
   
   /**
     Message when a new spectator enters the server (if spectator has a player name).
   **/
-  public var SpecEnteredMessage : unreal.FString;
+  @:uproperty public var SpecEnteredMessage : unreal.FString;
   
   /**
     Message when a player changes his name.
   **/
-  public var GlobalNameChange : unreal.FString;
+  @:uproperty public var GlobalNameChange : unreal.FString;
   
   /**
     Message when a player leaves the game.
   **/
-  public var LeftMessage : unreal.FString;
+  @:uproperty public var LeftMessage : unreal.FString;
   
   /**
     Message when a new player enters the game.
   **/
-  public var EnteredMessage : unreal.FString;
+  @:uproperty public var EnteredMessage : unreal.FString;
   
   /**
     Message when player join attempt is refused because the server is at capacity.
   **/
-  public var MaxedOutMessage : unreal.FString;
+  @:uproperty public var MaxedOutMessage : unreal.FString;
   
   /**
     Message displayed in message dialog when player pawn fails to spawn because no playerstart was available.
   **/
-  public var FailedPlaceMessage : unreal.FString;
+  @:uproperty public var FailedPlaceMessage : unreal.FString;
   
 }

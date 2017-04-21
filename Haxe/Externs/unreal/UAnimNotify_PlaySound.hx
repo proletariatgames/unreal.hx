@@ -14,31 +14,31 @@
 package unreal;
 
 @:glueCppIncludes("Animation/AnimNotifies/AnimNotify_PlaySound.h")
-@:uextern extern class UAnimNotify_PlaySound extends unreal.UAnimNotify {
+@:uextern @:uclass extern class UAnimNotify_PlaySound extends unreal.UAnimNotify {
   
   /**
     Socket or bone name to attach sound to
   **/
-  public var AttachName : unreal.FName;
+  @:uproperty public var AttachName : unreal.FName;
   
   /**
     If this sound should follow its owner
   **/
-  public var bFollow : Bool;
+  @:uproperty public var bFollow : Bool;
   
   /**
     Pitch Multiplier
   **/
-  public var PitchMultiplier : unreal.Float32;
+  @:uproperty public var PitchMultiplier : unreal.Float32;
   
   /**
     Volume Multiplier
   **/
-  public var VolumeMultiplier : unreal.Float32;
+  @:uproperty public var VolumeMultiplier : unreal.Float32;
   
   /**
     Sound to Play
   **/
-  public var Sound : unreal.USoundBase;
+  @:uproperty public var Sound : unreal.USoundBase;
   
 }

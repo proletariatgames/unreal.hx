@@ -20,8 +20,8 @@ package unreal;
   
 **/
 @:glueCppIncludes("Engine/Engine.h")
-@:noCopy @:noEquals @:uextern extern class FPluginRedirect {
-  public var NewPluginName : unreal.FString;
-  public var OldPluginName : unreal.FString;
+@:noCopy @:noEquals @:uextern @:ustruct extern class FPluginRedirect {
+  @:uproperty public var NewPluginName : unreal.FString;
+  @:uproperty public var OldPluginName : unreal.FString;
   
 }

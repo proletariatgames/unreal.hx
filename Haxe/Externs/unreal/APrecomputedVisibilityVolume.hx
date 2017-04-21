@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Lightmass/PrecomputedVisibilityVolume.h")
-@:uextern extern class APrecomputedVisibilityVolume extends unreal.AVolume {
+@:uextern @:uclass extern class APrecomputedVisibilityVolume extends unreal.AVolume {
   
 }

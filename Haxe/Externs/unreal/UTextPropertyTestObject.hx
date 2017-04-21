@@ -20,6 +20,9 @@ package unreal;
   
 **/
 @:glueCppIncludes("Tests/TextPropertyTestObject.h")
-@:noClass @:uextern extern class UTextPropertyTestObject extends unreal.UObject {
+@:noClass @:uextern @:uclass extern class UTextPropertyTestObject extends unreal.UObject {
+  @:uproperty public var TransientText : unreal.FText;
+  @:uproperty public var UndefaultedText : unreal.FText;
+  @:uproperty public var DefaultedText : unreal.FText;
   
 }

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("EVectorQuantization")
-@:class @:uextern extern enum EVectorQuantization {
+@:class @:uextern @:uenum extern enum EVectorQuantization {
   
   /**
     Each vector component will be rounded to the nearest whole number.

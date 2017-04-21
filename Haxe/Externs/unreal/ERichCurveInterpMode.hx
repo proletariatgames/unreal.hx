@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
 @:uname("ERichCurveInterpMode")
-@:uextern extern enum ERichCurveInterpMode {
+@:uextern @:uenum extern enum ERichCurveInterpMode {
   RCIM_Linear;
   RCIM_Constant;
   RCIM_Cubic;

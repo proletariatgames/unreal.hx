@@ -14,12 +14,17 @@
 package unreal;
 
 @:glueCppIncludes("Engine/UserDefinedStruct.h")
-@:uextern extern class UUserDefinedStruct extends unreal.UScriptStruct {
-  public var Guid : unreal.FGuid;
+@:uextern @:uclass extern class UUserDefinedStruct extends unreal.UScriptStruct {
+  @:uproperty public var Guid : unreal.FGuid;
   #if WITH_EDITORONLY_DATA
-  public var EditorData : unreal.UObject;
-  public var ErrorMessage : unreal.FString;
-  public var Status : unreal.EUserDefinedStructureStatus;
+  @:uproperty public var EditorData : unreal.UObject;
+  @:uproperty public var ErrorMessage : unreal.FString;
+  
+  /**
+    the original struct, when current struct isn't a temporary duplicate, the field should be null
+  **/
+  @:uproperty public var PrimaryStruct : unreal.TWeakObjectPtr<unreal.UUserDefinedStruct>;
+  @:uproperty public var Status : unreal.EUserDefinedStructureStatus;
   #end // WITH_EDITORONLY_DATA
   
 }

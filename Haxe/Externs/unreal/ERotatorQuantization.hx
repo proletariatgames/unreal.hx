@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ERotatorQuantization")
-@:class @:uextern extern enum ERotatorQuantization {
+@:class @:uextern @:uenum extern enum ERotatorQuantization {
   
   /**
     The rotator will be compressed to 8 bits per component.

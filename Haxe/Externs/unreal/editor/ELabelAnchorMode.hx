@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("ELabelAnchorMode")
-@:uextern extern enum ELabelAnchorMode {
+@:uextern @:uenum extern enum ELabelAnchorMode {
   
   /**
     Top Left

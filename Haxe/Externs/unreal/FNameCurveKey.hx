@@ -18,16 +18,16 @@ package unreal;
   One key in a curve of FNames.
 **/
 @:glueCppIncludes("Curves/NameCurve.h")
-@:uextern extern class FNameCurveKey {
+@:uextern @:ustruct extern class FNameCurveKey {
   
   /**
     Value at this key
   **/
-  public var Value : unreal.FName;
+  @:uproperty public var Value : unreal.FName;
   
   /**
     Time at this key
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
   
 }

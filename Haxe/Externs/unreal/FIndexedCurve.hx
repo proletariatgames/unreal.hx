@@ -20,11 +20,11 @@ package unreal;
   @todo sequencer: Some heavy refactoring can be done here. Much more stuff can go in this base class.
 **/
 @:glueCppIncludes("Curves/IndexedCurve.h")
-@:uextern extern class FIndexedCurve {
+@:uextern @:ustruct extern class FIndexedCurve {
   
   /**
     Map of which key handles go to which indices.
   **/
-  private var KeyHandlesToIndices : unreal.FKeyHandleMap;
+  @:uproperty private var KeyHandlesToIndices : unreal.FKeyHandleMap;
   
 }

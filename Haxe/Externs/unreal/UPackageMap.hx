@@ -14,6 +14,6 @@
 package unreal;
 
 @:glueCppIncludes("CoreUObject.h")
-@:uextern extern class UPackageMap extends unreal.UObject {
+@:uextern @:uclass extern class UPackageMap extends unreal.UObject {
   
 }

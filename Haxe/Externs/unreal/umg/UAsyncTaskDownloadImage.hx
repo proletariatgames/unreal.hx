@@ -15,7 +15,7 @@ package unreal.umg;
 
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
-@:uextern extern class UAsyncTaskDownloadImage extends unreal.UBlueprintAsyncActionBase {
-  static public function DownloadImage(URL : unreal.FString) : unreal.umg.UAsyncTaskDownloadImage;
+@:uextern @:uclass extern class UAsyncTaskDownloadImage extends unreal.UBlueprintAsyncActionBase {
+  @:ufunction static public function DownloadImage(URL : unreal.FString) : unreal.umg.UAsyncTaskDownloadImage;
   
 }

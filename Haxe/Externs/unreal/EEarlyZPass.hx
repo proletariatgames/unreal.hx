@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/RendererSettings.h")
 @:uname("EEarlyZPass.Type")
-@:uextern extern enum EEarlyZPass {
+@:uextern @:uenum extern enum EEarlyZPass {
   
   /**
     None

@@ -19,36 +19,36 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_CopyBone.h")
-@:uextern extern class FAnimNode_CopyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_CopyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     Space to convert transforms into prior to copying components
   **/
-  public var ControlSpace : unreal.EBoneControlSpace;
+  @:uproperty public var ControlSpace : unreal.EBoneControlSpace;
   
   /**
     If Scale should be copied
   **/
-  public var bCopyScale : Bool;
+  @:uproperty public var bCopyScale : Bool;
   
   /**
     If Rotation should be copied
   **/
-  public var bCopyRotation : Bool;
+  @:uproperty public var bCopyRotation : Bool;
   
   /**
     If Translation should be copied
   **/
-  public var bCopyTranslation : Bool;
+  @:uproperty public var bCopyTranslation : Bool;
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var TargetBone : unreal.FBoneReference;
+  @:uproperty public var TargetBone : unreal.FBoneReference;
   
   /**
     Source Bone Name to get transform from
   **/
-  public var SourceBone : unreal.FBoneReference;
+  @:uproperty public var SourceBone : unreal.FBoneReference;
   
 }

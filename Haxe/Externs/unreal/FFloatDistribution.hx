@@ -20,6 +20,6 @@ package unreal;
   Type-safe floating point distribution.
 **/
 @:glueCppIncludes("Distributions/DistributionFloat.h")
-@:noCopy @:noEquals @:uextern extern class FFloatDistribution {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FFloatDistribution {
   
 }

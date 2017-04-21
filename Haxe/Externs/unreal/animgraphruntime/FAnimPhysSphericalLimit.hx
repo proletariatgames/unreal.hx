@@ -21,26 +21,26 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
-@:noCopy @:noEquals @:uextern extern class FAnimPhysSphericalLimit {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAnimPhysSphericalLimit {
   
   /**
     Whether to lock bodies inside or outside of the sphere
   **/
-  public var LimitType : unreal.animgraphruntime.ESphericalLimitType;
+  @:uproperty public var LimitType : unreal.animgraphruntime.ESphericalLimitType;
   
   /**
     Radius of the sphere
   **/
-  public var LimitRadius : unreal.Float32;
+  @:uproperty public var LimitRadius : unreal.Float32;
   
   /**
     Local offset for the sphere, if no driving bone is set this is in node space, otherwise bone space
   **/
-  public var SphereLocalOffset : unreal.FVector;
+  @:uproperty public var SphereLocalOffset : unreal.FVector;
   
   /**
     Bone to attach the sphere to
   **/
-  public var DrivingBone : unreal.FBoneReference;
+  @:uproperty public var DrivingBone : unreal.FBoneReference;
   
 }

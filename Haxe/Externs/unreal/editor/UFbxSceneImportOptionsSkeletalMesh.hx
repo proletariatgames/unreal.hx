@@ -21,76 +21,76 @@ package unreal.editor;
 **/
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/FbxSceneImportOptionsSkeletalMesh.h")
-@:uextern extern class UFbxSceneImportOptionsSkeletalMesh extends unreal.UObject {
+@:uextern @:uclass extern class UFbxSceneImportOptionsSkeletalMesh extends unreal.UObject {
   
   /**
     Type of asset to import from the FBX file
   **/
-  public var bDeleteExistingMorphTargetCurves : Bool;
+  @:uproperty public var bDeleteExistingMorphTargetCurves : Bool;
   
   /**
     Type of asset to import from the FBX file
   **/
-  public var bPreserveLocalTransform : Bool;
+  @:uproperty public var bPreserveLocalTransform : Bool;
   
   /**
     Import if custom attribute as a curve within the animation *
   **/
-  public var bImportCustomAttribute : Bool;
+  @:uproperty public var bImportCustomAttribute : Bool;
   
   /**
     If enabled, samples all animation curves to 30 FPS
   **/
-  public var bUseDefaultSampleRate : Bool;
+  @:uproperty public var bUseDefaultSampleRate : Bool;
   
   /**
     Frame range used when Set Range is used in Animation Length
   **/
-  public var FrameImportRange : unreal.FInt32Interval;
+  @:uproperty public var FrameImportRange : unreal.FInt32Interval;
   
   /**
     Type of asset to import from the FBX file
   **/
-  public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
+  @:uproperty public var AnimationLength : unreal.editor.EFBXAnimationLengthImportType;
   
   /**
     True to import animations from the FBX File
   **/
-  public var bImportAnimations : Bool;
+  @:uproperty public var bImportAnimations : Bool;
   
   /**
     If checked, do not filter same vertices. Keep all vertices even if they have exact same properties
   **/
-  public var bKeepOverlappingVertices : Bool;
+  @:uproperty public var bKeepOverlappingVertices : Bool;
   
   /**
     If enabled, creates Unreal morph objects for the imported meshes
   **/
-  public var bImportMorphTargets : Bool;
+  @:uproperty public var bImportMorphTargets : Bool;
   
   /**
     If checked, meshes nested in bone hierarchies will be imported instead of being converted to bones.
   **/
-  public var bImportMeshesInBoneHierarchy : Bool;
+  @:uproperty public var bImportMeshesInBoneHierarchy : Bool;
   
   /**
     If checked, triangles with non-matching smoothing groups will be physically split.
   **/
-  public var bPreserveSmoothingGroups : Bool;
+  @:uproperty public var bPreserveSmoothingGroups : Bool;
   
   /**
     TODO support T0AsRefPose Enable this option to use frame 0 as reference pose
   **/
-  public var bUseT0AsRefPose : Bool;
+  @:uproperty public var bUseT0AsRefPose : Bool;
   
   /**
     If checked, create new PhysicsAsset if it doesn't have it
   **/
-  public var bCreatePhysicsAsset : Bool;
+  @:uproperty public var bCreatePhysicsAsset : Bool;
   
   /**
     If enabled, update the Skeleton (of the mesh being imported)'s reference pose.
   **/
-  public var bUpdateSkeletonReferencePose : Bool;
+  @:uproperty public var bUpdateSkeletonReferencePose : Bool;
   
 }

@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Animation/AnimSequence.h")
 @:uname("AnimationCompressionFormat")
-@:uextern extern enum AnimationCompressionFormat {
+@:uextern @:uenum extern enum AnimationCompressionFormat {
   ACF_None;
   ACF_Float96NoW;
   ACF_Fixed48NoW;

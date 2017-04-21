@@ -20,11 +20,16 @@ package unreal;
   A line of subtitle text and the time at which it should be displayed.
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
-@:noCopy @:noEquals @:uextern extern class FSubtitleCue {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FSubtitleCue {
   
   /**
     The time at which the subtitle is to be displayed, in seconds relative to the beginning of the line.
   **/
-  public var Time : unreal.Float32;
+  @:uproperty public var Time : unreal.Float32;
+  
+  /**
+    The text to appear in the subtitle.
+  **/
+  @:uproperty public var Text : unreal.FText;
   
 }

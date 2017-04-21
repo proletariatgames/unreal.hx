@@ -14,18 +14,18 @@
 package unreal;
 
 @:glueCppIncludes("Sound/SoundSubmix.h")
-@:uextern extern class USoundSubmix extends unreal.UObject {
+@:uextern @:uclass extern class USoundSubmix extends unreal.UObject {
   
   /**
     The output wet level to use for the output of this submix in parent submixes
   **/
-  public var OutputWetLevel : unreal.Float32;
-  public var SubmixEffectChain : unreal.TArray<unreal.USoundEffectSubmixPreset>;
-  public var ParentSubmix : unreal.USoundSubmix;
+  @:uproperty public var OutputWetLevel : unreal.Float32;
+  @:uproperty public var SubmixEffectChain : unreal.TArray<unreal.USoundEffectSubmixPreset>;
+  @:uproperty public var ParentSubmix : unreal.USoundSubmix;
   
   /**
     Child submixes to this sound mix
   **/
-  public var ChildSubmixes : unreal.TArray<unreal.USoundSubmix>;
+  @:uproperty public var ChildSubmixes : unreal.TArray<unreal.USoundSubmix>;
   
 }

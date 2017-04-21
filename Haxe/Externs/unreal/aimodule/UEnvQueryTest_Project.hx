@@ -22,11 +22,11 @@ package unreal.aimodule;
 **/
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Project.h")
-@:uextern extern class UEnvQueryTest_Project extends unreal.aimodule.UEnvQueryTest {
+@:uextern @:uclass extern class UEnvQueryTest_Project extends unreal.aimodule.UEnvQueryTest {
   
   /**
     trace params
   **/
-  private var ProjectionData : unreal.aimodule.FEnvTraceData;
+  @:uproperty private var ProjectionData : unreal.aimodule.FEnvTraceData;
   
 }

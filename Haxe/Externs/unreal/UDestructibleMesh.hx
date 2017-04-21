@@ -20,38 +20,38 @@ package unreal;
   Holds an APEX destructible asset as well as an associated USkeletalMesh.
 **/
 @:glueCppIncludes("Engine/DestructibleMesh.h")
-@:uextern extern class UDestructibleMesh extends unreal.USkeletalMesh {
+@:uextern @:uclass extern class UDestructibleMesh extends unreal.USkeletalMesh {
   #if WITH_EDITORONLY_DATA
   
   /**
     Array of static meshes to build the fracture chunks from
   **/
-  public var FractureChunkMeshes : unreal.TArray<unreal.UStaticMesh>;
+  @:uproperty public var FractureChunkMeshes : unreal.TArray<unreal.UStaticMesh>;
   
   /**
     Timestamp of the source static meshes last import at the time this destruction mesh has been generated.
   **/
-  public var SourceSMImportTimestamp : unreal.FDateTime;
+  @:uproperty public var SourceSMImportTimestamp : unreal.FDateTime;
   
   /**
     Static mesh this destructible mesh is created from. Is nullptr if not created from a static mesh
   **/
-  public var SourceStaticMesh : unreal.UStaticMesh;
+  @:uproperty public var SourceStaticMesh : unreal.UStaticMesh;
   
   /**
     Information used to author an NxDestructibleAsset
   **/
-  public var FractureSettings : unreal.UDestructibleFractureSettings;
+  @:uproperty public var FractureSettings : unreal.UDestructibleFractureSettings;
   #end // WITH_EDITORONLY_DATA
   
   /**
     Fracture effects for each fracture level, unless overridden in the component.
   **/
-  public var FractureEffects : unreal.TArray<unreal.FFractureEffect>;
+  @:uproperty public var FractureEffects : unreal.TArray<unreal.FFractureEffect>;
   
   /**
     Parameters controlling the destruction behavior.
   **/
-  public var DefaultDestructibleParameters : unreal.FDestructibleParameters;
+  @:uproperty public var DefaultDestructibleParameters : unreal.FDestructibleParameters;
   
 }

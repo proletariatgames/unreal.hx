@@ -20,19 +20,19 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/SubUV/ParticleModuleSubUV.h")
-@:uextern extern class UParticleModuleSubUV extends unreal.UParticleModuleSubUVBase {
+@:uextern @:uclass extern class UParticleModuleSubUV extends unreal.UParticleModuleSubUVBase {
   
   /**
     If true, use *real* time when updating the image index.
     The movie will update regardless of the slomo settings of the game.
   **/
-  public var bUseRealTime : Bool;
+  @:uproperty public var bUseRealTime : Bool;
   
   /**
     The index of the sub-image that should be used for the particle.
     The value is retrieved using the RelativeTime of the particles.
   **/
-  public var SubImageIndex : unreal.FRawDistributionFloat;
+  @:uproperty public var SubImageIndex : unreal.FRawDistributionFloat;
   
   /**
     SubUV animation asset to use.
@@ -41,6 +41,6 @@ package unreal;
     The bounding geometry is generated off of the texture alpha setup in the SubUV Animation asset, so that has to match what the material is using for opacity, or clipping will occur.
     When specified, SubImages_Horizontal and SubImages_Vertical will come from the asset instead of the Required Module.
   **/
-  public var Animation : unreal.USubUVAnimation;
+  @:uproperty public var Animation : unreal.USubUVAnimation;
   
 }

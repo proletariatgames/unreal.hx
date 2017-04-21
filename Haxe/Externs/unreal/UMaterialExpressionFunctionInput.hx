@@ -20,54 +20,54 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionFunctionInput.h")
-@:uextern extern class UMaterialExpressionFunctionInput extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionFunctionInput extends unreal.UMaterialExpression {
   
   /**
     true when this expression is being compiled in a function preview,
     false when this expression is being compiled into a material that uses the function.
     Only valid in Compile()
   **/
-  public var bCompilingFunctionPreview : Bool;
+  @:uproperty public var bCompilingFunctionPreview : Bool;
   
   /**
     Controls where the input is displayed relative to the other inputs.
   **/
-  public var SortPriority : unreal.Int32;
+  @:uproperty public var SortPriority : unreal.Int32;
   
   /**
     Whether to use the preview value or texture as the default value for this input.
   **/
-  public var bUsePreviewValueAsDefault : Bool;
+  @:uproperty public var bUsePreviewValueAsDefault : Bool;
   
   /**
     Value used to preview this input when editing the material function.
   **/
-  public var PreviewValue : unreal.FVector4;
+  @:uproperty public var PreviewValue : unreal.FVector4;
   
   /**
     Type of this input.
     Input code chunks will be cast to this type, and a compiler error will be emitted if the cast fails.
   **/
-  public var InputType : unreal.EFunctionInputType;
+  @:uproperty public var InputType : unreal.EFunctionInputType;
   
   /**
     Id of this input, used to maintain references through name changes.
   **/
-  public var Id : unreal.FGuid;
+  @:uproperty public var Id : unreal.FGuid;
   
   /**
     The input's description, which will be used as a tooltip on the connector in function call expressions that use this function.
   **/
-  public var Description : unreal.FString;
+  @:uproperty public var Description : unreal.FString;
   
   /**
     The input's name, which will be drawn on the connector in function call expressions that use this function.
   **/
-  public var InputName : unreal.FString;
+  @:uproperty public var InputName : unreal.FString;
   
   /**
     Used for previewing when editing the function, or when bUsePreviewValueAsDefault is enabled.
   **/
-  public var Preview : unreal.FExpressionInput;
+  @:uproperty public var Preview : unreal.FExpressionInput;
   
 }

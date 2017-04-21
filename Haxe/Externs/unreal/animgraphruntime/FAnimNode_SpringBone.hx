@@ -19,71 +19,71 @@ package unreal.animgraphruntime;
 **/
 @:umodule("AnimGraphRuntime")
 @:glueCppIncludes("BoneControllers/AnimNode_SpringBone.h")
-@:uextern extern class FAnimNode_SpringBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
+@:uextern @:ustruct extern class FAnimNode_SpringBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**
     If true take the spring calculation for rotation in Z
   **/
-  public var bRotateZ : Bool;
+  @:uproperty public var bRotateZ : Bool;
   
   /**
     If true take the spring calculation for rotation in Y
   **/
-  public var bRotateY : Bool;
+  @:uproperty public var bRotateY : Bool;
   
   /**
     If true take the spring calculation for rotation in X
   **/
-  public var bRotateX : Bool;
+  @:uproperty public var bRotateX : Bool;
   
   /**
     If true take the spring calculation for translation in Z
   **/
-  public var bTranslateZ : Bool;
+  @:uproperty public var bTranslateZ : Bool;
   
   /**
     If true take the spring calculation for translation in Y
   **/
-  public var bTranslateY : Bool;
+  @:uproperty public var bTranslateY : Bool;
   
   /**
     If true take the spring calculation for translation in X
   **/
-  public var bTranslateX : Bool;
+  @:uproperty public var bTranslateX : Bool;
   
   /**
     If true, Z position is always correct, no spring applied
   **/
-  @:deprecated public var bNoZSpring_DEPRECATED : Bool;
+  @:deprecated @:uproperty public var bNoZSpring_DEPRECATED : Bool;
   
   /**
     If spring stretches more than this, reset it. Useful for catching teleports etc
   **/
-  public var ErrorResetThresh : unreal.Float32;
+  @:uproperty public var ErrorResetThresh : unreal.Float32;
   
   /**
     Damping of spring
   **/
-  public var SpringDamping : unreal.Float32;
+  @:uproperty public var SpringDamping : unreal.Float32;
   
   /**
     Stiffness of spring
   **/
-  public var SpringStiffness : unreal.Float32;
+  @:uproperty public var SpringStiffness : unreal.Float32;
   
   /**
     If bLimitDisplacement is true, this indicates how long a bone can stretch beyond its length in the ref-pose.
   **/
-  public var MaxDisplacement : unreal.Float32;
+  @:uproperty public var MaxDisplacement : unreal.Float32;
   
   /**
     Limit the amount that a bone can stretch from its ref-pose length.
   **/
-  public var bLimitDisplacement : Bool;
+  @:uproperty public var bLimitDisplacement : Bool;
   
   /**
     Name of bone to control. This is the main bone chain to modify from. *
   **/
-  public var SpringBone : unreal.FBoneReference;
+  @:uproperty public var SpringBone : unreal.FBoneReference;
   
 }

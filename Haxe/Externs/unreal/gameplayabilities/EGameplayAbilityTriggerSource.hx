@@ -20,7 +20,7 @@ package unreal.gameplayabilities;
 @:umodule("GameplayAbilities")
 @:glueCppIncludes("Abilities/GameplayAbilityTypes.h")
 @:uname("EGameplayAbilityTriggerSource.Type")
-@:uextern extern enum EGameplayAbilityTriggerSource {
+@:uextern @:uenum extern enum EGameplayAbilityTriggerSource {
   
   /**
     Triggered from a gameplay event, will come with payload

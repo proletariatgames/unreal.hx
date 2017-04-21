@@ -14,13 +14,13 @@
 package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionTextureBase.h")
-@:uextern extern class UMaterialExpressionTextureBase extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionTextureBase extends unreal.UMaterialExpression {
   
   /**
     Is default selected texture when using mesh paint mode texture painting
   **/
-  public var IsDefaultMeshpaintTexture : Bool;
-  public var SamplerType : unreal.EMaterialSamplerType;
-  public var Texture : unreal.UTexture;
+  @:uproperty public var IsDefaultMeshpaintTexture : Bool;
+  @:uproperty public var SamplerType : unreal.EMaterialSamplerType;
+  @:uproperty public var Texture : unreal.UTexture;
   
 }

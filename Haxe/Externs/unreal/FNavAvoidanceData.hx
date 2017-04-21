@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("AI/Navigation/AvoidanceManager.h")
-@:noCopy @:noEquals @:uextern extern class FNavAvoidanceData {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FNavAvoidanceData {
   
 }

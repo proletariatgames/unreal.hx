@@ -15,14 +15,14 @@ package unreal.aimodule;
 
 @:umodule("AIModule")
 @:glueCppIncludes("Actions/PawnAction_Move.h")
-@:uextern extern class UPawnAction_Move extends unreal.aimodule.UPawnAction {
+@:uextern @:uclass extern class UPawnAction_Move extends unreal.aimodule.UPawnAction {
   
   /**
     "None" will result in default filter being used
   **/
-  private var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
-  private var AcceptableRadius : unreal.Float32;
-  private var GoalLocation : unreal.FVector;
-  private var GoalActor : unreal.AActor;
+  @:uproperty private var FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>;
+  @:uproperty private var AcceptableRadius : unreal.Float32;
+  @:uproperty private var GoalLocation : unreal.FVector;
+  @:uproperty private var GoalActor : unreal.AActor;
   
 }

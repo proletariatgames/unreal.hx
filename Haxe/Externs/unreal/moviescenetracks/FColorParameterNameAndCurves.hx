@@ -21,32 +21,32 @@ package unreal.moviescenetracks;
 **/
 @:umodule("MovieSceneTracks")
 @:glueCppIncludes("Sections/MovieSceneParameterSection.h")
-@:noCopy @:noEquals @:uextern extern class FColorParameterNameAndCurves {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FColorParameterNameAndCurves {
   
   /**
     The curve which contains the animation data for the alpha component of the color parameter.
   **/
-  public var AlphaCurve : unreal.FRichCurve;
+  @:uproperty public var AlphaCurve : unreal.FRichCurve;
   
   /**
     The curve which contains the animation data for the blue component of the color parameter.
   **/
-  public var BlueCurve : unreal.FRichCurve;
+  @:uproperty public var BlueCurve : unreal.FRichCurve;
   
   /**
     The curve which contains the animation data for the green component of the color parameter.
   **/
-  public var GreenCurve : unreal.FRichCurve;
+  @:uproperty public var GreenCurve : unreal.FRichCurve;
   
   /**
     The curve which contains the animation data for the red component of the color parameter.
   **/
-  public var RedCurve : unreal.FRichCurve;
-  public var Index : unreal.Int32;
+  @:uproperty public var RedCurve : unreal.FRichCurve;
+  @:uproperty public var Index : unreal.Int32;
   
   /**
     The name of the vector parameter which is being animated.
   **/
-  public var ParameterName : unreal.FName;
+  @:uproperty public var ParameterName : unreal.FName;
   
 }

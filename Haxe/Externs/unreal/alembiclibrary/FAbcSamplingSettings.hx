@@ -21,36 +21,36 @@ package unreal.alembiclibrary;
 **/
 @:umodule("AlembicLibrary")
 @:glueCppIncludes("AbcImportSettings.h")
-@:noCopy @:noEquals @:uextern extern class FAbcSamplingSettings {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FAbcSamplingSettings {
   
   /**
     Skip empty (pre-roll) frames and start importing at the frame which actually contains data
   **/
-  public var bSkipEmpty : Bool;
+  @:uproperty public var bSkipEmpty : Bool;
   
   /**
     Ending index to stop sampling the animation at
   **/
-  public var FrameEnd : unreal.FakeUInt32;
+  @:uproperty public var FrameEnd : unreal.FakeUInt32;
   
   /**
     Starting index to start sampling the animation from
   **/
-  public var FrameStart : unreal.FakeUInt32;
+  @:uproperty public var FrameStart : unreal.FakeUInt32;
   
   /**
     Time steps to take when sampling the animation
   **/
-  public var TimeSteps : unreal.Float32;
+  @:uproperty public var TimeSteps : unreal.Float32;
   
   /**
     Steps to take when sampling the animation
   **/
-  public var FrameSteps : unreal.FakeUInt32;
+  @:uproperty public var FrameSteps : unreal.FakeUInt32;
   
   /**
     Type of sampling performed while importing the animation
   **/
-  public var SamplingType : unreal.alembiclibrary.EAlembicSamplingType;
+  @:uproperty public var SamplingType : unreal.alembiclibrary.EAlembicSamplingType;
   
 }

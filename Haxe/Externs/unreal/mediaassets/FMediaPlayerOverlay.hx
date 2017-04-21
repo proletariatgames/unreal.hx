@@ -21,16 +21,21 @@ package unreal.mediaassets;
 **/
 @:umodule("MediaAssets")
 @:glueCppIncludes("MediaPlayer.h")
-@:noCopy @:noEquals @:uextern extern class FMediaPlayerOverlay {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMediaPlayerOverlay {
+  
+  /**
+    The overlay text.
+  **/
+  @:uproperty public var Text : unreal.FText;
   
   /**
     The text position.
   **/
-  public var Position : unreal.FVector2D;
+  @:uproperty public var Position : unreal.FVector2D;
   
   /**
     Whether the text position is set.
   **/
-  public var HasPosition : Bool;
+  @:uproperty public var HasPosition : Bool;
   
 }

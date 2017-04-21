@@ -19,21 +19,21 @@ package unreal.viewportinteraction;
 **/
 @:umodule("ViewportInteraction")
 @:glueCppIncludes("VIGizmoHandle.h")
-@:uextern extern class UGizmoHandleGroup extends unreal.USceneComponent {
+@:uextern @:uclass extern class UGizmoHandleGroup extends unreal.USceneComponent {
   
   /**
     All the StaticMeshes for this handle type
   **/
-  private var Handles : unreal.TArray<unreal.viewportinteraction.FGizmoHandle>;
+  @:uproperty private var Handles : unreal.TArray<unreal.viewportinteraction.FGizmoHandle>;
   
   /**
     Gizmo material (translucent)
   **/
-  private var TranslucentGizmoMaterial : unreal.UMaterialInterface;
+  @:uproperty private var TranslucentGizmoMaterial : unreal.UMaterialInterface;
   
   /**
     Gizmo material (opaque)
   **/
-  private var GizmoMaterial : unreal.UMaterialInterface;
+  @:uproperty private var GizmoMaterial : unreal.UMaterialInterface;
   
 }

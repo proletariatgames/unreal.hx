@@ -18,21 +18,21 @@ package unreal;
   A 2d material that will be rendered always facing the camera.
 **/
 @:glueCppIncludes("Components/MaterialBillboardComponent.h")
-@:uextern extern class UMaterialBillboardComponent extends unreal.UPrimitiveComponent {
+@:uextern @:uclass extern class UMaterialBillboardComponent extends unreal.UPrimitiveComponent {
   
   /**
     Current array of material billboard elements
   **/
-  public var Elements : unreal.TArray<unreal.FMaterialSpriteElement>;
+  @:uproperty public var Elements : unreal.TArray<unreal.FMaterialSpriteElement>;
   
   /**
     Set all elements of this material billboard component
   **/
-  @:final public function SetElements(NewElements : unreal.Const<unreal.PRef<unreal.TArray<unreal.FMaterialSpriteElement>>>) : Void;
+  @:ufunction @:final public function SetElements(NewElements : unreal.Const<unreal.PRef<unreal.TArray<unreal.FMaterialSpriteElement>>>) : Void;
   
   /**
     Adds an element to the sprite.
   **/
-  @:final public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
+  @:ufunction @:final public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
   
 }

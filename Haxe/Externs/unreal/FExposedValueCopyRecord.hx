@@ -20,34 +20,34 @@ package unreal;
   
 **/
 @:glueCppIncludes("Animation/AnimNodeBase.h")
-@:noCopy @:noEquals @:uextern extern class FExposedValueCopyRecord {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FExposedValueCopyRecord {
   
   /**
     Cached dest property for copying structs
   **/
-  public var CachedStructDestProperty : unreal.UStructProperty;
+  @:uproperty public var CachedStructDestProperty : unreal.UStructProperty;
   
   /**
     cached dest property for performing boolean operations
   **/
-  public var CachedBoolDestProperty : unreal.UBoolProperty;
+  @:uproperty public var CachedBoolDestProperty : unreal.UBoolProperty;
   
   /**
     cached source property for performing boolean operations
   **/
-  public var CachedBoolSourceProperty : unreal.UBoolProperty;
-  public var PostCopyOperation : unreal.EPostCopyOperation;
+  @:uproperty public var CachedBoolSourceProperty : unreal.UBoolProperty;
+  @:uproperty public var PostCopyOperation : unreal.EPostCopyOperation;
   
   /**
     Whether or not the anim instance object is the target for the copy instead of a node.
   **/
-  public var bInstanceIsTarget : Bool;
-  public var Size : unreal.Int32;
-  public var DestArrayIndex : unreal.Int32;
-  public var DestProperty : unreal.UProperty;
-  public var SourceArrayIndex : unreal.Int32;
-  public var SourceSubPropertyName : unreal.FName;
-  public var SourcePropertyName : unreal.FName;
-  @:deprecated public var SourceProperty_DEPRECATED : unreal.UProperty;
+  @:uproperty public var bInstanceIsTarget : Bool;
+  @:uproperty public var Size : unreal.Int32;
+  @:uproperty public var DestArrayIndex : unreal.Int32;
+  @:uproperty public var DestProperty : unreal.UProperty;
+  @:uproperty public var SourceArrayIndex : unreal.Int32;
+  @:uproperty public var SourceSubPropertyName : unreal.FName;
+  @:uproperty public var SourcePropertyName : unreal.FName;
+  @:deprecated @:uproperty public var SourceProperty_DEPRECATED : unreal.UProperty;
   
 }

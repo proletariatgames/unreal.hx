@@ -20,7 +20,7 @@ package unreal.paper2d;
 @:umodule("Paper2D")
 @:glueCppIncludes("SpriteEditorOnlyTypes.h")
 @:uname("ESpriteCollisionMode.Type")
-@:uextern extern enum ESpriteCollisionMode {
+@:uextern @:uenum extern enum ESpriteCollisionMode {
   
   /**
     Should this have no collison and not participate in physics?

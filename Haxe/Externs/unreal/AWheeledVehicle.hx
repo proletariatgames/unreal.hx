@@ -24,8 +24,8 @@ package unreal;
   @see UWheeledVehicleMovementComponent4W
 **/
 @:glueCppIncludes("GameFramework/WheeledVehicle.h")
-@:uextern extern class AWheeledVehicle extends unreal.APawn {
-  public var VehicleMovement : unreal.UWheeledVehicleMovementComponent;
-  public var Mesh : unreal.USkeletalMeshComponent;
+@:uextern @:uclass extern class AWheeledVehicle extends unreal.APawn {
+  @:uproperty public var VehicleMovement : unreal.UWheeledVehicleMovementComponent;
+  @:uproperty public var Mesh : unreal.USkeletalMeshComponent;
   
 }

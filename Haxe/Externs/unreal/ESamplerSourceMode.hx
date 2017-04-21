@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ESamplerSourceMode")
-@:uextern extern enum ESamplerSourceMode {
+@:uextern @:uenum extern enum ESamplerSourceMode {
   
   /**
     Get the sampler from the texture.  Every unique texture will consume a sampler slot, which are limited in number.

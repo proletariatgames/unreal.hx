@@ -20,7 +20,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
 @:uname("ELandscapeFoliageEditorControlType")
-@:class @:uextern extern enum ELandscapeFoliageEditorControlType {
+@:class @:uextern @:uenum extern enum ELandscapeFoliageEditorControlType {
   
   /**
     Ignore Ctrl key (allow but don't require Ctrl held)

@@ -15,7 +15,7 @@ package unreal;
 
 @:glueCppIncludes("Materials/MaterialExpressionSceneColor.h")
 @:uname("EMaterialSceneAttributeInputMode.Type")
-@:uextern extern enum EMaterialSceneAttributeInputMode {
+@:uextern @:uenum extern enum EMaterialSceneAttributeInputMode {
   Coordinates;
   OffsetFraction;
   

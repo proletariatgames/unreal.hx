@@ -20,6 +20,6 @@ package unreal;
   
 **/
 @:glueCppIncludes("Materials/MaterialExpressionVertexColor.h")
-@:uextern extern class UMaterialExpressionVertexColor extends unreal.UMaterialExpression {
+@:uextern @:uclass extern class UMaterialExpressionVertexColor extends unreal.UMaterialExpression {
   
 }

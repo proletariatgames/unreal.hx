@@ -20,36 +20,36 @@ package unreal;
   
 **/
 @:glueCppIncludes("Components/MaterialBillboardComponent.h")
-@:noCopy @:noEquals @:uextern extern class FMaterialSpriteElement {
+@:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialSpriteElement {
   
   /**
     A curve that maps distance on the X axis to the sprite size on the Y axis.
   **/
-  public var DistanceToSizeCurve : unreal.UCurveFloat;
+  @:uproperty public var DistanceToSizeCurve : unreal.UCurveFloat;
   
   /**
     The base height of the sprite, multiplied with the DistanceToSizeCurve.
   **/
-  public var BaseSizeY : unreal.Float32;
+  @:uproperty public var BaseSizeY : unreal.Float32;
   
   /**
     The base width of the sprite, multiplied with the DistanceToSizeCurve.
   **/
-  public var BaseSizeX : unreal.Float32;
+  @:uproperty public var BaseSizeX : unreal.Float32;
   
   /**
     Whether the size is defined in screen-space or world-space.
   **/
-  public var bSizeIsInScreenSpace : Bool;
+  @:uproperty public var bSizeIsInScreenSpace : Bool;
   
   /**
     A curve that maps distance on the X axis to the sprite opacity on the Y axis.
   **/
-  public var DistanceToOpacityCurve : unreal.UCurveFloat;
+  @:uproperty public var DistanceToOpacityCurve : unreal.UCurveFloat;
   
   /**
     The material that the sprite is rendered with.
   **/
-  public var Material : unreal.UMaterialInterface;
+  @:uproperty public var Material : unreal.UMaterialInterface;
   
 }

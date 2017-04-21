@@ -20,11 +20,11 @@ package unreal;
   
 **/
 @:glueCppIncludes("Particles/Event/ParticleModuleEventReceiverKillParticles.h")
-@:noClass @:uextern extern class UParticleModuleEventReceiverKillParticles extends unreal.UParticleModuleEventReceiverBase {
+@:noClass @:uextern @:uclass extern class UParticleModuleEventReceiverKillParticles extends unreal.UParticleModuleEventReceiverBase {
   
   /**
     If true, stop this emitter from spawning as well.
   **/
-  public var bStopSpawning : Bool;
+  @:uproperty public var bStopSpawning : Bool;
   
 }

@@ -16,7 +16,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayOnBuildMode")
-@:uextern extern enum EPlayOnBuildMode {
+@:uextern @:uenum extern enum EPlayOnBuildMode {
   
   /**
     Always build.

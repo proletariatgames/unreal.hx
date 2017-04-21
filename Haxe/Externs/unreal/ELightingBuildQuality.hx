@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Engine/EngineTypes.h")
 @:uname("ELightingBuildQuality")
-@:uextern extern enum ELightingBuildQuality {
+@:uextern @:uenum extern enum ELightingBuildQuality {
   Quality_Preview;
   Quality_Medium;
   Quality_High;

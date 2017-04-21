@@ -19,7 +19,7 @@ package unreal;
 **/
 @:glueCppIncludes("Particles/ParticleEmitter.h")
 @:uname("EEmitterRenderMode")
-@:uextern extern enum EEmitterRenderMode {
+@:uextern @:uenum extern enum EEmitterRenderMode {
   
   /**
     Normal
