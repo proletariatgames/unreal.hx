@@ -42,34 +42,36 @@ class ReflectAPI {
   }
 
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
+    if (obj.IsPendingKill()) {
+      throw 'Cannot call ${func.GetName()}: Object is pending kill';
+    }
+
     var cur:UField = func.Children,
         maxAlignment:Int = 0;
     while (cur != null) {
-      if (Std.is(cur, UProperty)) {
-        var align = cast(cur, UProperty).GetMinAlignment();
-        if (align > maxAlignment) {
-          maxAlignment = align;
-        }
+      var prop:UProperty = cast cur;
+      if (prop == null) {
+        throw 'Unexpected ${Type.getClassName(Type.getClass(cur))} in function\'s type';
+      }
+      var align = prop.GetMinAlignment();
+      if (align > maxAlignment) {
+        maxAlignment = align;
       }
       cur = cur.Next;
     }
     var params:AnyPtr = 0;
-    if (func.ParmsSize > 0) {
+    // if (func.ParmsSize > 0) {
       var paramsData = Wrapper.InlinePodWrapper.create(func.ParmsSize + maxAlignment, 0);
       params = paramsData.getPointer();
       // re-align it
       params = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", params, maxAlignment);
       FMemory.Memzero(params, func.ParmsSize);
-    }
-    var curParam = params;
+    // }
     var defaultExportFlags = EPropertyPortFlags.PPF_Localized,
         i = 0;
     cur = func.Children;
     while(cur != null) {
       var prop:UProperty = cast cur;
-      if (prop == null) {
-        throw 'Unexpected ${Type.getClassName(Type.getClass(cur))} in function\'s type';
-      }
       if (prop.PropertyFlags & (CPF_Parm|CPF_ReturnParm) != CPF_Parm) {
         break;
       }
@@ -82,7 +84,7 @@ class ReflectAPI {
         if (!defaultValue.IsEmpty()) {
           var result = prop.ImportText(
               defaultValue.toString(),
-              curParam + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
+              params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
               defaultExportFlags, null, FOutputDevice.GWarn);
           if (result != null) {
             continue;
@@ -94,8 +96,7 @@ class ReflectAPI {
         }
       }
 
-      bpSetField_rec(curParam, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
-      // curParam += prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+      bpSetField_rec(params, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
     }
 
     obj.ProcessEvent(func, params);
@@ -250,7 +251,13 @@ class ReflectAPI {
       } else if (Std.is(value, unreal.Wrapper)) {
         var wrapperValue:unreal.Wrapper = value;
         prop.CopyCompleteValue(objOffset, value.getPointer());
-        // throw 'Struct set not supported: ${struct.GetDesc()}';
+      } else {
+        var variant:VariantPtr = value;
+        if (!variant.isObject()) {
+          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+        } else {
+          throw 'Struct set not supported: ${struct.GetDesc()} for object $value' #if debug + ' ($path)' #end;
+        }
       }
     } else {
       throw 'Property not supported: $prop';
@@ -297,7 +304,12 @@ class ReflectAPI {
         if (array == null) {
           throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
         }
-        return array[np.GetSignedIntPropertyValue(objPtr)];
+        var ret = array[np.GetSignedIntPropertyValue(objPtr)];
+        if (ret == null) {
+          trace(array);
+          throw 'Cannot find enum of position ${np.GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
+        }
+        return ret;
       }
 
       if (np.IsFloatingPoint()) {

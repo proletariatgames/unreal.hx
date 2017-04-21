@@ -118,13 +118,10 @@ import unreal.helpers.StructInfo;
     if (self.m_flags.hasAny(NeedsDestructor)) {
       if (untyped __cpp__("{0}->ptr->destruct != 0", self.m_info)) {
         var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-        fn.call(untyped __cpp__('((unreal::UIntPtr) ({0}.mPtr + 1))', self));
-        // fn.call(self.getPointer());
-      // } else if (untyped __cpp__("{0}->ptr->upropertyObject != 0", self.m_info)) {
-      //   uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), untyped __cpp__('((unreal::UIntPtr) ({0}.mPtr + 1))', self));
+        fn.call(self.getPointer());
+      } else if (untyped __cpp__('{0}->ptr->upropertyObject != 0', self.m_info)) {
+        uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), self.getPointer());
       }
-      // var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
-      // fn.call(self.getPointer());
       self.m_flags = Disposed;
     }
   }

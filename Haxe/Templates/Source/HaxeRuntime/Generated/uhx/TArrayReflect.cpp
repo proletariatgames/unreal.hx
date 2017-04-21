@@ -107,7 +107,7 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     } else {
       return unreal::helpers::HxcppRuntime::boxInt((int) numeric->GetSignedIntPropertyValue(inPointer));
     }
-  } else if (inProp->IsA<UObjectProperty>() || inProp->IsA<UInterfaceProperty>()) {
+  } else if (inProp->IsA<UObjectProperty>()) {
     // auto objProp = Cast<UObjectProperty>(inProp);
     return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) inPointer) );
   } else if (inProp->IsA<UStructProperty>()) {
@@ -140,7 +140,7 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
     } else {
       numeric->SetIntPropertyValue(dest, (int64) unreal::helpers::HxcppRuntime::unboxInt((int64) value));
     }
-  } else if (inProp->IsA<UObjectProperty>() || inProp->IsA<UInterfaceProperty>()) {
+  } else if (inProp->IsA<UObjectProperty>()) {
     *((UObject **)dest) = (UObject *) unreal::helpers::HxcppRuntime::uobjectUnwrap(value);
   } else if (inProp->IsA<UStructProperty>()) {
     auto prop = Cast<UStructProperty>(inProp);
@@ -177,7 +177,7 @@ unreal::UIntPtr uhx::TArrayReflect_obj::Pop(unreal::VariantPtr self, bool allowS
   uint8 *rawPtr = helper.GetRawPtr(num - 1);
   if (prop->IsA<UNumericProperty>()) {
     ret = getValueWithProperty(prop, rawPtr);
-  } else if (prop->IsA<UObjectProperty>() || prop->IsA<UInterfaceProperty>()) {
+  } else if (prop->IsA<UObjectProperty>()) {
     ret = (unreal::UIntPtr) *((UObject **) rawPtr);
   } else {
     ret = unreal::helpers::HxcppRuntime::boxVariantPtr(createWrapper(prop, 0));
