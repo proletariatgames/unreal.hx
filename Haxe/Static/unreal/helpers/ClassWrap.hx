@@ -81,6 +81,15 @@ import unreal.*;
     }
   }
 
+  public static function isConstructing(obj:UObject) {
+    for (cur in constructingObjects) {
+      if (cur == obj) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static function onGC() {
     var wrappers = wrappers,
         wrapperArray = wrapperArray,

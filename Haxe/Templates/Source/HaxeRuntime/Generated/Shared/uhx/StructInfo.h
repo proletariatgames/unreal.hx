@@ -10,8 +10,10 @@ enum EStructFlags {
   UHX_UPROP = 3, // was created through a UProperty type
 };
 
+struct StructInfo;
+
 typedef void (*IntrinsicFunction)(unreal::UIntPtr);
-typedef bool (*EqFunction)(unreal::UIntPtr, unreal::UIntPtr);
+typedef bool (*EqFunction)(const StructInfo *, unreal::UIntPtr, unreal::UIntPtr);
 typedef void (*AnyFunction)();
 
 /**

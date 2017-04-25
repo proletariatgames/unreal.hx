@@ -92,7 +92,8 @@ private typedef TArrayImpl<T> = Dynamic;
       }
     }
 
-    var compare:cpp.Function<UIntPtr->UIntPtr->Bool, cpp.abi.Abi> = null,
+    var compare:cpp.Function<cpp.RawConstPointer<StructInfo>->UIntPtr->UIntPtr->Bool, cpp.abi.Abi> = null,
+        info:cpp.ConstPointer<StructInfo> = null,
         size = 0;
 
     if (!normalCompare) {
@@ -100,9 +101,10 @@ private typedef TArrayImpl<T> = Dynamic;
       if (thisInfo == null) {
         normalCompare = true;
       } else {
-        compare = cast thisInfo.at(0).ptr.equals;
-        size = cast thisInfo.at(0).ptr.size;
-        normalCompare = compare == untyped __cpp__('0');
+        info = thisInfo.at(0);
+        compare = cast info.ptr.equals;
+        size = cast info.ptr.size;
+        normalCompare = untyped __cpp__('{0}.call == 0', compare);
       }
     }
 
@@ -123,7 +125,7 @@ private typedef TArrayImpl<T> = Dynamic;
 
       var data = this.GetData();
       for(i in 0...len) {
-        if (compare.call(data, obj)) {
+        if (compare.call(info.get_raw(), data, obj)) {
           return i;
         }
         data += size;

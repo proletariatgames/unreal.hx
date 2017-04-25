@@ -1,10 +1,13 @@
 package unreal;
 import unreal.Wrapper;
 import unreal.PropertyFlags.*;
+import unreal.EInternalObjectFlags;
 using StringTools;
 
 class ReflectAPI {
 #if !UHX_NO_UOBJECT
+  static var emptyArray:Array<Dynamic> = [];
+
   /**
     Sets the `obj` `field` to `value`.
     Additionally from the basic types supported by Haxe, the following type transformations are made:
@@ -42,10 +45,60 @@ class ReflectAPI {
   }
 
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
-    if (obj.IsPendingKill()) {
-      throw 'Cannot call ${func.GetName()}: Object is pending kill';
+    if (!obj.isValid() && !unreal.helpers.ClassWrap.isConstructing(obj)) {
+      var msg = 'Cannot call ${func.GetName()} in $obj: Object is invalid';
+      trace('Warning', msg);
+      throw msg;
+    }
+    if (args == null) {
+      args = emptyArray;
     }
 
+    var objIndex = @:privateAccess obj.internalIndex;
+    var flags = objIndex == -1 ? None : unreal.helpers.ObjectArrayHelper.getObjectFlags(objIndex);
+
+    var restoreFlags = false;
+    if (flags.hasAny(Unreachable | PendingKill)) {
+      // unfortunately, Unreal reflection checks if the object is pending kill before calling it
+      // this can lead to a lot of unexpected behaviour when calling an object's function that is referenced by another object,
+      // since objects can still be reachable but pending kill regardless. So instead of having to add yet another
+      // level of complexity of making everything be checked if it's pending kill before calling, or allowing unreal.hx to
+      // fail silently, we'll reset the pending kill bit, and then set it back to what it was after the call is made
+      if (!unreal.helpers.ObjectArrayHelper.clearObjectFlags(objIndex, Unreachable | PendingKill)) {
+        throw 'Object array item for index $objIndex (object $obj) was not found';
+      }
+      if (obj.IsPendingKill()) {
+        throw 'This is still pending kill';
+      }
+      if (obj.IsUnreachable()) {
+        throw 'This is still unreachable';
+      }
+
+      restoreFlags = true;
+    }
+
+    if (!restoreFlags) {
+      return callUFunction_pvt(obj, func, args);
+    } else {
+      var ret = null;
+      try {
+        ret = callUFunction_pvt(obj, func, args);
+      }
+      catch(e:Dynamic) {
+        if (!unreal.helpers.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
+          trace('Error', 'Cannot reset pending kill flag for object at index $objIndex ($obj)');
+        }
+        cpp.Lib.rethrow(e);
+      }
+
+        if (!unreal.helpers.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
+        trace('Error', 'Cannot reset pending kill flag for object at index $objIndex ($obj)');
+      }
+      return ret;
+    }
+  }
+
+  private static function callUFunction_pvt(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
     var cur:UField = func.Children,
         maxAlignment:Int = 0;
     while (cur != null) {

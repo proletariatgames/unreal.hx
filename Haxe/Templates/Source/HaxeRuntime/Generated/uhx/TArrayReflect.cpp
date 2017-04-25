@@ -21,6 +21,15 @@ void uhx::TArrayReflect_obj::init() {
   check(prop->IsA<UProperty>());
 }
 
+static bool valEquals(const uhx::StructInfo *info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
+  if (t1 == t2) {
+    return true;
+  }
+  UProperty *prop = Cast<UProperty>((UObject *) info->upropertyObject);
+  check(prop);
+  return prop->Identical((void*)t1, (void*)t2);
+}
+
 uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
   UProperty *prop = Cast<UProperty>((UObject *) inUPropertyObject);
   check(prop->IsA<UProperty>());
@@ -34,6 +43,7 @@ uhx::StructInfo uhx::infoFromUProperty(void *inUPropertyObject) {
   ret.size = (unreal::UIntPtr) prop->ElementSize;
   ret.alignment = (unreal::UIntPtr) prop->GetMinAlignment();
   ret.upropertyObject = inUPropertyObject;
+  ret.equals = &valEquals;
   return ret;
 }
 
@@ -49,6 +59,8 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny) {
     auto prop = Cast<UArrayProperty>(inProp);
     extraSize += sizeof(uhx::TArrayReflect_obj);
     extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(void*) * 2; // genericParams array
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
     if (pointerIfAny) {
       ret = unreal::helpers::HxcppRuntime::createPointerTemplateWrapper((unreal::UIntPtr) pointerIfAny, (unreal::UIntPtr) &info, extraSize).raw;
       static int offset = unreal::helpers::HxcppRuntime::getTemplatePointerSize();
@@ -59,13 +71,24 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny) {
       startOffset = offset;
     }
 
-    unreal::UIntPtr reflectOffset = ret + startOffset + info.size;
+    unreal::UIntPtr reflectPtr = ret + startOffset + info.size;
     // re-align
-    reflectOffset = (unreal::UIntPtr) ((reflectOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-    reflectOffset += sizeof(uhx::StructInfo);
+    reflectPtr = (unreal::UIntPtr) ((reflectPtr + sizeof(void*) - 1) & ~(sizeof(void*) -1));
+    reflectPtr += sizeof(uhx::StructInfo); // this is where the main info will be at
+
+    uhx::StructInfo * genericParamPtr = ((uhx::StructInfo*) reflectPtr);
+    *genericParamPtr = uhx::infoFromUProperty(prop->Inner);
+    reflectPtr += sizeof(uhx::StructInfo);
+
+    info.genericParams = (const uhx::StructInfo **) reflectPtr;
+    info.genericParams[0] = genericParamPtr;
+    reflectPtr += sizeof(void*);
+    info.genericParams[1] = nullptr;
+    reflectPtr += sizeof(void*);
+
     // re-align
-    reflectOffset = (unreal::UIntPtr) ((reflectOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
-    char *reflectBuf = (char *) reflectOffset;
+    reflectPtr = (unreal::UIntPtr) ((reflectPtr + sizeof(void*) - 1) & ~(sizeof(void*) -1));
+    char *reflectBuf = (char *) reflectPtr;
 
     uhx::TArrayReflect_obj *reflectHelper = new (reflectBuf) uhx::TArrayReflect_obj((unreal::UIntPtr) prop->Inner);
     info.genericImplementation = reflectHelper;
@@ -207,15 +230,16 @@ void uhx::TArrayReflect_obj::SetNumUninitialized(unreal::VariantPtr self, int ar
 }
 
 int uhx::TArrayReflect_obj::Insert(unreal::VariantPtr self, unreal::UIntPtr item, int index) {
-  //TODO
-  check(false);
-  return 0;
+  auto helper = GET_ARRAY_HELPER(self);
+  int num = helper.Num();
+  helper.InsertValues(index);
+  setValueWithProperty( (UProperty *) m_propertyType, helper.GetRawPtr(index), item );
+  return num;
 }
 
 void uhx::TArrayReflect_obj::RemoveAt(unreal::VariantPtr self, cpp::Int32 Index, cpp::Int32 Count, bool bAllowShrinking) {
-  // TODO
-  check(false);
-  return;
+  auto helper = GET_ARRAY_HELPER(self);
+  helper.RemoveValues(Index, Count);
 }
 int uhx::TArrayReflect_obj::Num(unreal::VariantPtr self) {
   return GET_ARRAY_HELPER(self).Num();

@@ -198,7 +198,7 @@ struct TStructData<T, true> {
     return &info;
   }
 
-  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+  static bool doEquals(const uhx::StructInfo* info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
     return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };
@@ -232,7 +232,7 @@ private:
     TDestruct<T>::doDestruct(ptr);
   }
 
-  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+  static bool doEquals(const uhx::StructInfo* info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
     return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 
@@ -272,7 +272,7 @@ struct TSimpleStructData<T, false> {
   }
 private:
 
-  static bool doEquals(unreal::UIntPtr t1, unreal::UIntPtr t2) {
+  static bool doEquals(const uhx::StructInfo* info, unreal::UIntPtr t1, unreal::UIntPtr t2) {
     return t1 == t2 || uhx::TUnrealEquals<T>::isEq( *(reinterpret_cast<T*>(t1)), *(reinterpret_cast<T*>(t2)));
   }
 };

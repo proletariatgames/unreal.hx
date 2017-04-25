@@ -117,8 +117,9 @@ class GlueMethod {
         }
       } else {
         var argNames = [ for (arg in meth.args) arg.name ];
+        var args = argNames.length == 0 ? 'null' : ('[' + argNames.join(", ") + ']');
         this.haxeCode = [
-          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", [' + argNames.join(", ") + ']);'
+          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", $args);'
         ];
         if (!meth.ret.haxeType.isVoid()) {
           this.haxeCode[0] = 'return ' + this.haxeCode[0];

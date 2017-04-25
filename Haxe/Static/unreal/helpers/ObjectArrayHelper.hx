@@ -59,5 +59,29 @@ class ObjectArrayHelper implements ue4hx.internal.NeedsGlue {
   public static function isValid(index:Int, serial:Int, evenIfPendingKill:Bool):Bool {
     return ObjectArrayHelper_Glue.isValid(index, serial, evenIfPendingKill);
   }
+
+  @:glueHeaderCode('static bool setObjectFlags(int index, int flags);')
+  @:glueCppCode('bool unreal::helpers::ObjectArrayHelper_Glue_obj::setObjectFlags(int index, int flags) {\n\tauto item = GUObjectArray.IndexToObject(index);\n\tif(item == nullptr) return false;\n\titem->SetFlags((EInternalObjectFlags) flags);\n\treturn true;\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  @:glueHeaderIncludes('IntPtr.h')
+  public static function setObjectFlags(idx:Int, flags:unreal.EInternalObjectFlags):Bool {
+    return ObjectArrayHelper_Glue.setObjectFlags(idx, flags);
+  }
+
+  @:glueHeaderCode('static bool clearObjectFlags(int index, int flags);')
+  @:glueCppCode('bool unreal::helpers::ObjectArrayHelper_Glue_obj::clearObjectFlags(int index, int flags) {\n\tauto item = GUObjectArray.IndexToObject(index);\n\tif(item == nullptr) return false;\n\titem->ClearFlags((EInternalObjectFlags) flags);\n\treturn true;\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  @:glueHeaderIncludes('IntPtr.h')
+  public static function clearObjectFlags(idx:Int, flags:unreal.EInternalObjectFlags):Bool {
+    return ObjectArrayHelper_Glue.clearObjectFlags(idx, flags);
+  }
+
+  @:glueHeaderCode('static int getObjectFlags(int index);')
+  @:glueCppCode('int unreal::helpers::ObjectArrayHelper_Glue_obj::getObjectFlags(int index) {\n\tauto item = GUObjectArray.IndexToObject(index);\n\tif(item == nullptr) return 0;\n\treturn (int) item->Flags;\n}')
+  @:glueCppIncludes('UObject/UObjectArray.h')
+  @:glueHeaderIncludes('IntPtr.h')
+  public static function getObjectFlags(idx:Int):unreal.EInternalObjectFlags {
+    return ObjectArrayHelper_Glue.getObjectFlags(idx);
+  }
 }
 #end

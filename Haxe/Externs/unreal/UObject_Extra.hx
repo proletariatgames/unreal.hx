@@ -88,6 +88,8 @@ extern class UObject_Extra {
 
   public function IsA(uclass:UClass) : Bool;
 
+  public function IsUnreachable() : Bool;
+
   public function GetOutermost():UPackage;
 
   public function GetOuter():UObject;
