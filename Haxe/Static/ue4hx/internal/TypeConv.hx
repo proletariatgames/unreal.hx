@@ -326,7 +326,6 @@ class TypeConv {
         set.add("UObject/WeakObjectPtrTemplates.h");
       }
       if (flags.hasAny(OSubclassOf)) {
-        canForwardDecl = false;
         set.add("CoreUObject.h");
       }
 
