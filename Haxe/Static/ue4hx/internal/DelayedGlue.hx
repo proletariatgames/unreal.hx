@@ -14,7 +14,7 @@ using StringTools;
 
 class DelayedGlue {
 
-  macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool):haxe.macro.Expr {
+  macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool, isDynamic:Bool):haxe.macro.Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
@@ -25,8 +25,27 @@ class DelayedGlue {
       case _:
         null;
     };
+
     var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
     if (Context.defined('cppia')) {
+      if (isDynamic) {
+        var staticPropName = 'uhx__prop_${fieldName}';
+        var propCheck = macro
+          if ($i{staticPropName} == null) {
+            $i{staticPropName} = unreal.ReflectAPI.getUPropertyFromClass(this.GetClass(), $v{fieldName});
+          };
+        if (isSetter) {
+          return macro {
+            $propCheck;
+            unreal.ReflectAPI.setProperty(this, $i{staticPropName}, value);
+          };
+        } else {
+          return macro {
+            $propCheck;
+            unreal.ReflectAPI.getProperty(this, $i{staticPropName});
+          };
+        }
+      }
       var args = [];
       if (!isStatic) {
         args.push(macro this);
@@ -40,7 +59,6 @@ class DelayedGlue {
 
     var field = findField(cls, fieldName, isStatic || abs != null);
     if (field == null) throw 'assert';
-
     // var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).data.match(CUObject(_)) ? [ "parent" => "this" ] : null;
     var ctx = new ConvCtx();
     var tconv = TypeConv.get(field.type, pos);

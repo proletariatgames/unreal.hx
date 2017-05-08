@@ -65,7 +65,24 @@ class CreateCppia {
 
     addTimestamp();
 
+    var clsDef = macro class CppiaMetaData {};
+    clsDef.pack = ['uhx','meta'];
+    clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
+    Context.defineType(clsDef);
+
     Context.onGenerate(function(types) {
+      var metaDefs = Globals.cur.classesToAddMetaDef;
+      var cur = null;
+      while ( (cur = metaDefs.pop()) != null ) {
+        var type = Context.getType(cur);
+        switch(type) {
+        case TInst(c,_):
+          MetaDefBuild.addUClassMetaDef(c.get());
+        case _:
+        }
+      }
+
+      MetaDefBuild.writeClassDefs();
       var allStatics = [ for (s in statics.concat(blacklist)) s => true ],
           incompleteExcludes = null;
       if (excludeModules != null) {

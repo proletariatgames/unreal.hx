@@ -2,6 +2,7 @@ package unreal;
 
 @:glueCppIncludes("UObject/NameTypes.h")
 @:uname("FName")
+@:ustruct
 @:uextern extern class FNameImpl {
   @:uname('.ctor') static function create(text:TCharStar):FNameImpl;
   @:uname('new') static function createNew(text:TCharStar):POwnedPtr<FNameImpl>;

@@ -1,3 +1,3 @@
 package unreal;
 
-@:unrealType typedef UInt32 = cpp.UInt32;
+typedef UInt32 = cpp.UInt32;

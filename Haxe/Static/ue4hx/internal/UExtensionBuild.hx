@@ -76,9 +76,10 @@ class UExtensionBuild {
       var expose = typeRef.getExposeHelperType();
       var toExpose = new Map(),
           uprops = [];
+      var isDynamicClass = clt.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS');
 
       for (field in clt.statics.get()) {
-        if (field.meta.has(':uproperty') || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+        if ( (!isDynamicClass && field.meta.has(':uproperty')) || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
           uprops.push({ field:field, isStatic: true });
         } else if (shouldExpose(field)) {
           toExpose[field.name] = getMethodDef(field, Static);
@@ -116,7 +117,7 @@ class UExtensionBuild {
             // ensure that the variable this replication function is for exists.
             // Can match the field uname or, if none exists, the field name
             var prop = clt.fields.get().find(function(t){
-              return (getUName(t) == propName); // getUName() returns name if no uname
+              return (MacroHelpers.getUName(t) == propName); // getUName() returns name if no uname
             });
             if (prop == null) {
               throw new Error('Unreal Glue: Replication function defined for property that doesn\'t exist: $propName', field.pos);
@@ -173,7 +174,7 @@ class UExtensionBuild {
         scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
       }
       for (field in toExpose) {
-        var uname = getUName(field.cf);
+        var uname = MacroHelpers.getUName(field.cf);
         var callExpr = null;
         if (!isScript) {
           if (field.type.isStatic()) {
@@ -358,7 +359,7 @@ class UExtensionBuild {
         for (upropDef in uprops) {
           var uprop = upropDef.field,
               isStatic = upropDef.isStatic;
-          var uname = getUName(uprop);
+          var uname = MacroHelpers.getUName(uprop);
           var tconv = TypeConv.get(uprop.type, uprop.pos);
           var data = new StringBuf();
 
@@ -401,7 +402,7 @@ class UExtensionBuild {
               }
 
               var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
-              replicatedProps[getUName(uprop)] = repType;
+              replicatedProps[MacroHelpers.getUName(uprop)] = repType;
               hasReplicatedProperties = true;
             }
 
@@ -652,7 +653,15 @@ class UExtensionBuild {
       targetModule = Globals.cur.module;
 
     var headerDef = new StringBuf(),
-        cppDef = new StringBuf();
+        cppDef = null;
+    if (clt.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS')) {
+      includes.add('uhx/DynamicClass.h');
+      headerDef.add('#if true // UHT bug: it will not find a UCLASS specifier if the following is not enclosed in a ifdef\n');
+      headerDef.add('DECLARE_UHX_DYNAMIC_UCLASS(${ueName});\n');
+      headerDef.add('#endif\n\n');
+      cppDef = new StringBuf();
+      cppDef.add('DEFINE_UHX_DYNAMIC_UCLASS(${ueName});\n');
+    }
     if (uclass != null) {
       headerDef.add('UCLASS(');
       if (uclass.params != null) {
@@ -727,6 +736,9 @@ class UExtensionBuild {
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
+    if (cppDef != null) {
+      metas.push({ name: ':ueCppDef', params:[macro $v{cppDef.toString()}], pos: clt.pos });
+    }
     metas.push({ name:':utargetmodule', params:[macro $v{targetModule}], pos:clt.pos });
 
     return { hasHaxeSuper: hasHaxeSuper };
@@ -825,11 +837,6 @@ class UExtensionBuild {
            'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
       default: true;
     }
-  }
-
-  private static function getUName(cf:ClassField) {
-    var uname = MacroHelpers.extractStrings(cf.meta, ':uname')[0];
-    return uname != null ? uname : cf.name;
   }
 }
 

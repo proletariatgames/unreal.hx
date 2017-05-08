@@ -1,6 +1,10 @@
 package unreal;
 
 extern class UClass_Extra {
+  public var ClassGeneratedBy:UObject;
+
+  public var ClassWithin:UClass;
+
   public function GetSuperClass() : UClass;
   @:global @:typeName
   public static function FindField<T>(Owner:UStruct, FieldName:FName) : PPtr<T>;

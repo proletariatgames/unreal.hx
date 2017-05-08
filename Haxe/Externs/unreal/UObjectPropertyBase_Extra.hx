@@ -5,4 +5,5 @@ extern class UObjectPropertyBase_Extra {
 
   function GetObjectPropertyValue(propertyValueAddress:ConstAnyPtr):UObject;
   function SetObjectPropertyValue(propertyValueAddress:AnyPtr, value:UObject):Void;
+  function SetPropertyClass(PropertyClass:UClass):Void;
 }

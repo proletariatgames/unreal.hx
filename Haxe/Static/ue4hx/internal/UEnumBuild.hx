@@ -49,16 +49,34 @@ class UEnumBuild
 
       var typeRef = TypeRef.fromBaseType(enumType, enumType.pos);
       var enumExpr = Context.parse(typeRef.getClassPath(), enumType.pos);
+
+      var arrCreateName = uname + '_ArrCreate';
+      var createArr = macro class {
+        public static var arr(get, null):Array<Dynamic>;
+        private static function get_arr() {
+          if (arr == null) {
+            return cast std.Type.allEnums(std.Type.resolveEnum($v{typeRef.withoutModule().toString()}));
+          }
+          return arr;
+        }
+      };
+      createArr.name = arrCreateName;
+      createArr.pack = ['uhx','enums'];
+
       var expose = macro class {
         public static function getArray():unreal.UIntPtr {
-          return unreal.helpers.HaxeHelpers.dynamicToPointer( std.Type.allEnums($enumExpr) );
+          return unreal.helpers.HaxeHelpers.dynamicToPointer( $i{arrCreateName}.arr );
         }
       };
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
-      expose.meta.push({ name:':ifFeature', params:[macro $v{typeRef.getClassPath(true) + '.*'}], pos:enumType.pos });
+      var ifFeature:MetadataEntry = { name:':ifFeature', params:[macro $v{typeRef.getClassPath(true) + '.*'}], pos:enumType.pos };
+      expose.meta.push(ifFeature);
+      createArr.meta.push(ifFeature);
+
       expose.name = uname + '_GetArray';
       expose.pack = ['uhx','enums'];
       Globals.cur.hasUnprocessedTypes = true;
+      Context.defineType(createArr);
       Context.defineType(expose);
 
       var writer = new HeaderWriter(headerPath);

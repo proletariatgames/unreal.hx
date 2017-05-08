@@ -6,6 +6,7 @@ package unreal;
 @:glueCppIncludes("Containers/Array.h")
 @:uname("TArray")
 @:noEquals
+@:ustruct
 @:uextern extern class TArrayImpl<T>
 {
   public function get_Item(index:Int):PRef<T>;

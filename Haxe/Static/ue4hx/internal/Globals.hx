@@ -140,7 +140,14 @@ class Globals {
    **/
   public var hasUnprocessedTypes:Bool = false;
 
+  /**
+    Types that will be created dynamically and thus need to have their metadata created
+   **/
+  public var classesToAddMetaDef:Array<String> = [];
+
   public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
+
+  public var allClassDefs:Map<String, { className:String, meta:ue4hx.internal.meta.Metadata }> = new Map();
 
   public var gluesTouched:Map<String,Bool> = new Map();
   public var hasOlderCache:Null<Bool>;

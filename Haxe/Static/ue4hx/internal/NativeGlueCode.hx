@@ -160,6 +160,13 @@ class NativeGlueCode
     }
     writer.buf.add('};\n\n');
 
+    var headerTail = MacroHelpers.extractStrings(cl.meta, ':ueHeaderTail');
+    if (headerTail != null) {
+      for (tail in headerTail) {
+        writer.buf.add(tail);
+      }
+    }
+
     if (headerDefs.length == 0)
       writer.buf.add('typedef ${glueName}_obj $glueName;\n\n');
     for (pack in gluePack) {

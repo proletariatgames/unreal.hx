@@ -1,15 +1,10 @@
 # this file is only here to provide IDE completion information and test
 # for the basic /Static build
--cp Static
--cp bin/externs
+-cp ../../../Haxe/Generated/Externs_Editor
+-cp ./Static
 -cpp bin/dummy
 --no-output
-unreal.UObject
-unreal.AActor
-unreal.helpers.HxcppRuntime
--cp ../../../Haxe/Static/
-entry.ATestEntryPoint
--lib buddy
+-D BUILDTOOL_VERSION_LEVEL=4
 -D haxe_runtime_dir=bin
 -D static_link
 -D dump

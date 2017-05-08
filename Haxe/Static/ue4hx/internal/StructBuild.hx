@@ -60,6 +60,7 @@ class StructBuild {
     if (!tdef.meta.has(":ustruct")) {
       tdef.meta.add(':ustruct', [], tdef.pos);
     }
+    tdef.meta.add(':haxeCreated', [], tdef.pos);
     NeedsGlueBuild.processType(tdef, getSuperField, target, fields);
 
     var typeThis:TypePath = {pack:[], name:tdef.name};

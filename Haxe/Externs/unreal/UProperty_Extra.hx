@@ -3,7 +3,7 @@ package unreal;
 extern class UProperty_Extra {
   var ArrayDim:Int32;
   var ElementSize:Int32;
-  var PropertyFlags:FakeUInt64;
+  var PropertyFlags:UInt64;
   /**
     In memory only: Linked list of properties from most-derived to base
    **/

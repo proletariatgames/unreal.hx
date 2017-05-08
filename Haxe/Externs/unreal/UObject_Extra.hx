@@ -27,17 +27,17 @@ extern class UObject_Extra {
    **/
   public function GetName() : FString;
 
-	/**
-	 * Returns the fully qualified pathname for this object as well as the name of the class, in the format:
-	 * 'ClassName Outermost[.Outer].Name'.
-	 *
-	 * @param	StopOuter	if specified, indicates that the output string should be relative to this object.  if StopOuter
-	 *						does not exist in this object's Outer chain, the result would be the same as passing NULL.
-	 *
-	 * @note	safe to call on NULL object pointers!
-	 */
+  /**
+   * Returns the fully qualified pathname for this object as well as the name of the class, in the format:
+   * 'ClassName Outermost[.Outer].Name'.
+   *
+   * @param	StopOuter	if specified, indicates that the output string should be relative to this object.  if StopOuter
+   *						does not exist in this object's Outer chain, the result would be the same as passing NULL.
+   *
+   * @note	safe to call on NULL object pointers!
+   */
   @:thisConst
-	public function GetFullName( StopOuter:Const<UObject> ) : FString;
+  public function GetFullName( StopOuter:Const<UObject> ) : FString;
 
   /**
     Rename this object to a unique name.
@@ -116,6 +116,10 @@ extern class UObject_Extra {
   @:global public static function NewObjectWithFlags<T>(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("NewObject<UObject>")
+  @:global public static function NewObject_NoTemplate(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PPtr<UObject>;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
@@ -150,6 +154,47 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function MakeUniqueObjectName(outer:UObject, cls:UClass, baseName:FName):FName;
 
+  /**
+   * Fast version of StaticFindObject that relies on the passed in FName being the object name
+   * without any group/ package qualifiers.
+   *
+   * @param Class                   The to be found object's class
+   * @param InOuter                 The to be found object's outer
+   * @param InName                  The to be found object's class
+   * @param ExactClass              Whether to require an exact match with the passed in class
+   * @param AnyPackage              Whether to look in any package
+   * @param ExclusiveFlags          Ignores objects that contain any of the specified exclusive flags
+   * @param ExclusiveInternalFlags  Ignores objects that contain any of the specified internal exclusive flags
+   *
+   * @return   Returns a pointer to the found object or NULL if none could be found
+   */
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function StaticFindObjectFast(Class:UClass, InOuter:UObject, InName:FName, ExactClass:Bool = false, AnyPackage:Bool = false, ExclusiveFlags:EObjectFlags = RF_NoFlags):UObject;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function StaticFindObject(Class:UClass, InOuter:UObject, Name:TCharStar, ExactClass:Bool = false):UObject;
+
+/**
+ * Create a new instance of an object.  The returned object will be fully initialized.  If InFlags contains RF_NeedsLoad (indicating that the object still needs to load its object data from disk), components
+ * are not instanced (this will instead occur in PostLoad()).  The different between StaticConstructObject and StaticAllocateObject is that StaticConstructObject will also call the class constructor on the object
+ * and instance any components.
+ *
+ * @param  Class   the class of the object to create
+ * @param  InOuter   the object to create this object within (the Outer property for the new object will be set to the value specified here).
+ * @param  Name    the name to give the new object. If no value (NAME_None) is specified, the object will be given a unique name in the form of ClassName_#.
+ * @param  SetFlags  the ObjectFlags to assign to the new object. some flags can affect the behavior of constructing the object.
+ * @param  InternalSetFlags  the InternalObjectFlags to assign to the new object. some flags can affect the behavior of constructing the object.
+ * @param  Template  if specified, the property values from this object will be copied to the new object, and the new object's ObjectArchetype value will be set to this object.
+ *           If NULL, the class default object is used instead.
+ * @param  bInCopyTransientsFromClassDefaults - if true, copy transient from the class defaults instead of the pass in archetype ptr (often these are the same)
+ * @param  InstanceGraph
+ *           contains the mappings of instanced objects and components to their templates
+ *
+ * @return a pointer to a fully initialized object of the specified class.
+ **/
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function StaticConstructObject_Internal(Class:UClass, @:opt(unreal.UObject.GetTransientPackage()) InOuter:UObject, Name:FName = None, SetFlags:EObjectFlags = RF_NoFlags):UObject;
+
   public function PostEditImport() : Void;
 
   public function PostDuplicate(bDuplicateForPIE:Bool):Void;
@@ -157,6 +202,11 @@ extern class UObject_Extra {
   public function FindFunction(inName:FName):UFunction;
 
   public function ProcessEvent(func:UFunction, params:AnyPtr):Void;
+
+  public function ClearFlags(flags:EObjectFlags):Void;
+  public function SetFlags(flags:EObjectFlags):Void;
+  public function HasAnyFlags(flags:EObjectFlags):Bool;
+  public function HasAllFlags(flags:EObjectFlags):Bool;
 
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;

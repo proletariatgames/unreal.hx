@@ -1,3 +1,3 @@
 package unreal;
 
-@:unrealType typedef UInt64 = cpp.UInt64;
+typedef UInt64 = cpp.UInt64;

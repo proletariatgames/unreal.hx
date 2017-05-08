@@ -105,6 +105,10 @@ class NeedsGlueBuild
     var superCalls = new Map(),
         uprops = [];
     var nativeCalls = new Map();
+    if (Context.defined('cppia') && Globals.cur.inScriptPass) {
+      Globals.cur.classesToAddMetaDef.push(thisType.getClassPath());
+    }
+
     var methodPtrs = new Map();
     for (field in fields) {
       if (field.access != null && field.access.has(AOverride)) {
@@ -175,20 +179,28 @@ class NeedsGlueBuild
       }
 
       var isStatic = field.access != null && field.access.has(AStatic);
-      if (isUProp) {
+      var isDynamic = isUProp && !isStatic && !Context.defined('NO_DYNAMIC_UCLASS') && !field.meta.hasMeta(':uexpose') && type.meta.has(':uclass') && Globals.cur.inScriptPass;
+      if (isUProp && (!isDynamic || Context.defined('cppia'))) {
         field.meta.push({ name:':keep', pos:field.pos });
         changed = true;
         switch (field.kind) {
           case FVar(t,e) | FProp('default','default',t,e) if (t != null):
+            if (isDynamic) {
+              var staticPropName = 'uhx__prop_${field.name}';
+              var dummy = macro class {
+                private static var $staticPropName:unreal.UProperty;
+              };
+              toAdd.push(dummy.fields[0]);
+            }
             uprops.push(field.name);
             var getter = 'get_' + field.name,
                 setter = 'set_' + field.name;
             var dummy = macro class {
               private function $getter():$t {
-                return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false);
+                return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false, $v{isDynamic});
               }
               private function $setter(value:$t):$t {
-                $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true);
+                $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true, $v{isDynamic});
                 return value;
               }
             };

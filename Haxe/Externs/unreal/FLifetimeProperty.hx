@@ -19,4 +19,6 @@ package unreal;
   public var RepIndex:UInt16;
   public var Condition:ELifetimeCondition;
   public var RepNotifyCondition:ELifetimeRepNotifyCondition;
+
+  public function new(RepIndex:UInt16, InCondition:ELifetimeCondition, InRepNotifyCondition:ELifetimeRepNotifyCondition=REPNOTIFY_OnChanged);
 }

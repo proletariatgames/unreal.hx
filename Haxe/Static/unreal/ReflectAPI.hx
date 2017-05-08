@@ -39,6 +39,27 @@ class ReflectAPI {
     }
   }
 
+  public static function getUPropertyFromClass(cls:UClass, name:String):UProperty {
+    var prop = cls.FindPropertyByName(name);
+    if (prop == null) {
+      throw 'Field "$name" does not exist on ${cls.GetName()}';
+    }
+    return prop;
+  }
+
+  public static function setProperty(obj:UObject, prop:UProperty, value:Dynamic):Void {
+// #if debug
+//     if (prop.GetOuter() != obj.GetClass()) {
+//       throw 'Property ${prop.GetName()} does not belong to uclass ${prop.GetOuter()}';
+//     }
+// #end
+    bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, #if debug prop.GetName().toString() #else null #end);
+  }
+
+  public static function getProperty(obj:UObject, prop:UProperty):Dynamic {
+    return bpGetData(AnyPtr.fromUObject(obj), prop);
+  }
+
   public static function callMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
     var func = obj.FindFunction(funcName);
     return callUFunction(obj, func, args);
@@ -355,11 +376,19 @@ class ReflectAPI {
         var array = unreal.helpers.EnumMap.get(e.CppType.toString());
 
         if (array == null) {
-          throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
+          var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
+          if (arrCreate == null) {
+            throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
+          }
+
+          array = arrCreate.get_arr();
+          if (array == null) {
+            throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
+          }
+          unreal.helpers.EnumMap.set(e.CppType.toString(), array);
         }
         var ret = array[np.GetSignedIntPropertyValue(objPtr)];
         if (ret == null) {
-          trace(array);
           throw 'Cannot find enum of position ${np.GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
         }
         return ret;

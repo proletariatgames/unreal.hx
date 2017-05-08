@@ -61,6 +61,7 @@ class UnrealInit
     var stamp = .0;
     var internalStamp = .0;
 
+    var first = true;
     var disabled = false;
 #if WITH_CPPIA
     function loadCppia() {
@@ -82,7 +83,27 @@ class UnrealInit
             trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
           }
           internalStamp = newStamp;
+
+#if !NO_DYNAMIC_UCLASS
+          if (first) {
+            first = false;
+            var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
+            trace(metaClass);
+            if (metaClass != null) {
+              var metas:Array<{ haxeClass:String, uclass:String }> = cast haxe.rtti.Meta.getType(metaClass).DynamicClasses;
+              for (c in metas) {
+                var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
+                if (hxClass != null) {
+                  var meta = haxe.rtti.Meta.getType(hxClass).UMetaDef;
+                  unreal.helpers.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
+                }
+              }
+            } else {
+              trace('Warning', 'Could not find cppia metadata');
+            }
+          }
         }
+#end
       } catch(e:Dynamic) {
         trace('Error', 'Error while loading cppia: $e');
       }

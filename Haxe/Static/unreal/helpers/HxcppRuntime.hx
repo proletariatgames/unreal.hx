@@ -227,5 +227,13 @@ import ue4hx.internal.HaxeCodeDispatcher;
   public static function callFunction8(ptr:UIntPtr, arg0:UIntPtr, arg1:UIntPtr, arg2:UIntPtr, arg3:UIntPtr, arg4:UIntPtr, arg5:UIntPtr, arg6:UIntPtr, arg7:UIntPtr) : UIntPtr {
     return toPtr( HaxeCodeDispatcher.runWithValue( function() return (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4), toDyn(arg5), toDyn(arg6), toDyn(arg7)) ));
   }
+
+  public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    UReflectionGenerator.addProperties(struct, name.toString());
+#else
+    trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');
+#end
+  }
 }
 

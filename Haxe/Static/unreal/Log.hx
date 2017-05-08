@@ -4,9 +4,9 @@ import unreal.helpers.HaxeHelpers;
 
 @:uextern
 @:ueGluePath("unreal.helpers.Log_Glue")
-@:glueCppIncludes("Core.h")
+@:glueCppIncludes("Core.h", "HaxeInit.h")
 @:glueHeaderIncludes("IntPtr.h")
-@:ueCppDef("DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);\nDEFINE_LOG_CATEGORY(HaxeLog)")
+@:ueCppDef("DEFINE_LOG_CATEGORY(HaxeLog)")
 class Log implements ue4hx.internal.NeedsGlue {
   @:glueHeaderCode('static void trace(unreal::UIntPtr str);')
   @:glueCppCode('void unreal::helpers::Log_Glue_obj::trace(unreal::UIntPtr str) {\n\tUE_LOG(HaxeLog,Log,TEXT("%s"),UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar(str)));\n}')

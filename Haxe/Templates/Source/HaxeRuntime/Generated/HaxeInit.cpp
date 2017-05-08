@@ -10,10 +10,6 @@
 #else
 #endif
 
-// DECLARE_LOG_CATEGORY_EXTERN(HaxeInitLog, Log, All);
-// DEFINE_LOG_CATEGORY(HaxeInitLog);
-DECLARE_LOG_CATEGORY_EXTERN(HaxeLog, Log, All);
-
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
