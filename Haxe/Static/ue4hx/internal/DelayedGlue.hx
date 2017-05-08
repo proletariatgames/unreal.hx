@@ -14,7 +14,7 @@ using StringTools;
 
 class DelayedGlue {
 
-  macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool, isDynamic:Bool):haxe.macro.Expr {
+  macro public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool, isDynamic:Bool, fieldUName:String):haxe.macro.Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
@@ -32,7 +32,7 @@ class DelayedGlue {
         var staticPropName = 'uhx__prop_${fieldName}';
         var propCheck = macro
           if ($i{staticPropName} == null) {
-            $i{staticPropName} = unreal.ReflectAPI.getUPropertyFromClass(this.GetClass(), $v{fieldName});
+            $i{staticPropName} = unreal.ReflectAPI.getUPropertyFromClass(this.GetClass(), $v{fieldUName});
           };
         if (isSetter) {
           return macro {

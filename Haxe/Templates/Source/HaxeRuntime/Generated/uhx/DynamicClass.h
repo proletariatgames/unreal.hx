@@ -4,7 +4,6 @@
 #include "Engine.h"
 #include "UObjectBase.h"
 #include "HaxeInit.h"
-#include "unreal/helpers/HxcppRuntime.h"
 
 #define DECLARE_UHX_DYNAMIC_UCLASS(Class) \
   class Class; \
@@ -23,11 +22,9 @@
   }
 
 #define DEFINE_UHX_DYNAMIC_UCLASS(Class) \
-UClass* TClassCompiledInDefer<Class>::Register() const \
-{ \
-  check_hx_init(); \
-  UClass * ret = Class::StaticClass(); \
-  unreal::helpers::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) ret, #Class); \
+UClass* TClassCompiledInDefer<Class>::Register() const { \
+  UClass *ret = Class::StaticClass(); \
+  ::uhx::DynamicClassHelper::getDynamicsMap().Add(FName(#Class), ret); \
   return ret; \
 }
 
@@ -36,6 +33,8 @@ namespace uhx {
 class HAXERUNTIME_API DynamicClassHelper {
 public:
   static TMap<FName, uint32>& getCrcMap();
+
+  static TMap<FName, UClass *>& getDynamicsMap();
 
   static uint32 getCrc(FName& className) {
     auto ret = getCrcMap().Find(className);

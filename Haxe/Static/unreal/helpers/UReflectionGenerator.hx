@@ -28,20 +28,8 @@ class UReflectionGenerator {
       return;
     }
 
-    var last = null,
-        first = null;
     for (propDef in meta.uclass.uprops) {
-      var cur = generateUProperty(struct, struct, propDef, false);
-      if (last == null) {
-        first = cur;
-        last = cur;
-      } else {
-        last.Next = cur;
-        last = cur;
-      }
-    }
-    if (first != null) {
-      uhx.glues.UStruct_Glue.set_Children(struct, @:privateAccess first.wrapped);
+      generateUProperty(struct, struct, propDef, false);
     }
   }
 
@@ -240,9 +228,6 @@ class UReflectionGenerator {
 
   private static function newProperty(outer:UIntPtr, cls:UIntPtr, name:Struct, flags:EObjectFlags):UProperty {
     var ret = unreal.UObject.wrap(uhx.glues.UObject_Glue.NewObject_NoTemplate( outer, cls, name, flags));
-    if (flags & EObjectFlags.RF_ClassDefaultObject != 0) {
-      ret.ClearFlags(EObjectFlags.RF_ClassDefaultObject);
-    }
     return cast ret;
   }
 
@@ -250,9 +235,6 @@ class UReflectionGenerator {
     // var isLoading = !uhx.glues.UObject_Glue.IsA(outer, uhx.glues.UClass_Glue.get_ClassWithin(uhx.glues.UBoolProperty_Glue.StaticClass()));
     var isLoading = true;
     var flags:EObjectFlags = EObjectFlags.RF_Public;
-    if (isLoading) {
-      flags |= EObjectFlags.RF_ClassDefaultObject;
-    }
 
     var name = new FName(def.uname);
     var prop:UProperty = null;

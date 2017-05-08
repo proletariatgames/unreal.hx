@@ -192,15 +192,19 @@ class NeedsGlueBuild
               };
               toAdd.push(dummy.fields[0]);
             }
+            var fieldUName = field.meta.extractStringsFromMetadata(':uname')[0];
+            if (fieldUName == null) {
+              fieldUName = field.name;
+            }
             uprops.push(field.name);
             var getter = 'get_' + field.name,
                 setter = 'set_' + field.name;
             var dummy = macro class {
               private function $getter():$t {
-                return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false, $v{isDynamic});
+                return $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, false, $v{isDynamic}, $v{fieldUName});
               }
               private function $setter(value:$t):$t {
-                $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true, $v{isDynamic});
+                $delayedglue.getGetterSetterExpr($v{field.name}, $v{isStatic}, true, $v{isDynamic}, $v{fieldUName});
                 return value;
               }
             };
