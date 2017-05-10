@@ -29,4 +29,5 @@ extern class UStruct_Extra {
 
   function StaticLink(bRelinkExistingProperties:Bool = false):Void;
 
+  function Link(ar:PRef<FArchive>, bRelinkExistingProperties:Bool):Void;
 }

@@ -333,6 +333,10 @@ class GlueMethod {
   }
 
   private function genCppCall(body:String, prefix:String, outVars:HelperBuf) {
+    if (this.meth.meta != null && this.meth.meta.hasMeta(':glueCppBody')) {
+      return body;
+    }
+
     var cppArgTypes = [];
     for (arg in this.cppArgs) {
       if (arg.t.data.match(CTypeParam(_)) && arg.t.hasModifier(Ref)) {
@@ -418,6 +422,13 @@ class GlueMethod {
     - May change `this.cppArgs`, `this.retHaxeType` and `this.op`
    **/
   private function getCppBody():String {
+    if (this.meth.meta != null && this.meth.meta.hasMeta(':glueCppBody')) {
+      var ret = MacroHelpers.extractStringsFromMetadata(meth.meta, ':glueCppBody')[0];
+      if (ret != null) {
+        return ret;
+      }
+    }
+
     return if (this.meth.flags.hasAny(Static)) {
       switch (meth.uname) {
         case 'new':

@@ -14,6 +14,7 @@ class UReflectionGenerator {
   private static var uclassToHx:Map<String, String>;
   private static var nativeCompiled:Map<String, UStruct>;
   private static var uclassNames:Array<String>;
+  private static var propertiesAdded:Map<String, Bool>;
 
   private static var staticHxToUClass:Map<String, StaticMeta>;
   private static var staticUClassToHx:Map<String, StaticMeta>;
@@ -26,6 +27,7 @@ class UReflectionGenerator {
       uclassToHx = new Map();
       nativeCompiled = new Map();
       uclassNames = [];
+      propertiesAdded = new Map();
     }
     uclassDefs[uclassName] = meta;
     uclassToHx[uclassName] = hxClassName;
@@ -45,7 +47,11 @@ class UReflectionGenerator {
     nativeCompiled = new Map();
   }
 
-  public static function addProperties(struct:UStruct, uname:String, register:Bool) {
+  public static function addProperties(struct:UStruct, uname:String, isNative:Bool) {
+    if (propertiesAdded.exists(uname)) {
+      trace('Error', 'Trying to add properties to already bound $uname');
+      return;
+    }
     nativeCompiled[uname] = struct;
     var meta = uclassDefs[uname];
     if (meta == null || meta.uclass == null) {
@@ -53,22 +59,65 @@ class UReflectionGenerator {
       return;
     }
 
-    // var lastChild = struct.Children;
-    // while(lastChild != null && lastChild.Next != null) {
-    //   lastChild = lastChild.Next;
-    // }
+    var sup = struct.GetInheritanceSuper();
+    var superUName = sup != null ? sup.GetPrefixCPP().toString() + sup.GetName() : null;
+    if (sup != null && uclassDefs.exists(superUName)) {
+      if (!propertiesAdded.exists(superUName)) {
+        addProperties(sup, superUName, isNative);
+      }
+    }
+
     for (propDef in meta.uclass.uprops) {
       var prop = generateUProperty(struct, struct, propDef, false);
-      if (register) {
-        struct.AddCppProperty(prop);
-        // if (lastChild == null) {
-        //   struct.Children = prop;
-        //   lastChild = prop;
-        // } else {
-        //   lastChild.Next = prop;
-        //   lastChild = prop;
-        // }
+      struct.AddCppProperty(prop);
+    }
+    if (isNative) {
+      bindProperties(uname, struct);
+    }
+    propertiesAdded[uname] = true;
+  }
+
+  private static function bindProperties(uname:String, struct:UStruct) {
+    if (!struct.HasMetaData("HaxeGenerated")) {
+      struct.SetMetaData('HaxeGenerated',"true");
+    }
+
+    var size = struct.PropertiesSize;
+    var ar = new FArchive();
+
+    var sup = struct.GetInheritanceSuper();
+    if (sup != null) {
+      struct.MinAlignment = sup.GetMinAlignment();
+      var superUName = sup.GetPrefixCPP().toString() + sup.GetName();
+      if (uclassDefs.exists(superUName)) {
+        // super class is dynamic as well - use its property size then
+        struct.PropertiesSize = sup.GetPropertiesSize();
+      } else {
+        // we are the first dynamic class. Use the cpp size then
+        var clsName = uclassToHx[uname];
+        if (clsName == null) {
+          throw 'Haxe class for dynamic class $uname was not registered';
+        }
+        var cls:Dynamic = Type.resolveClass(clsName);
+        if (cls == null) {
+          throw 'Haxe class for dynamic class $uname was not found ($clsName)';
+        }
+
+        struct.PropertiesSize = cls.CPPSize();
       }
+    }
+
+    var field = struct.Children;
+    while(field != null) {
+      if (Std.is(field, UProperty)) {
+        var prop:UProperty = cast field;
+        struct.PropertiesSize = prop.Link(ar);
+        var a1 = struct.MinAlignment,
+            a2 = prop.GetMinAlignment();
+
+        struct.MinAlignment = a1 > a2 ? a1 : a2;
+      }
+      field = field.Next;
     }
   }
 
@@ -103,10 +152,15 @@ class UReflectionGenerator {
           }
           ustruct = uclass;
 
-          addProperties(ustruct, uclassName, true);
+          addProperties(ustruct, uclassName, false);
         } else {
           trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++ compilation, and only UClasses currently support dynamic loading. Please recompile the C++ module and try again');
           continue;
+        }
+      } else {
+        var uclass:UClass = cast ustruct;
+        if (uclass != null) {
+          uclass.Bind();
         }
       }
 
@@ -123,10 +177,7 @@ class UReflectionGenerator {
 
     uclassNames = [];
 
-
-    // get CDO on the end if it's a dynamic class
-    // staticlink?
-    // add numReplicatedProperties?
+    // add numReplicatedProperties
   }
 
   private static function createClass(outer:UObject, uclassName:String, parent:UClass, parentHxGenerated:Bool, hxPath:String) {
@@ -154,6 +205,7 @@ class UReflectionGenerator {
     uclass.ClassFlags = flags;
     uclass.ClassCastFlags = uclass.ClassCastFlags | parent.ClassCastFlags;
     uclass.SetMetaData('HaxeClass',hxPath);
+    uclass.SetMetaData('HaxeGenerated',"true");
 
     // TODO add class flags from metadata
     if (!parentHxGenerated) {
@@ -169,52 +221,6 @@ class UReflectionGenerator {
     });
     return uclass;
   }
-
-  // public static function generate(classOrEnum:Dynamic, meta:Metadata):Void {
-  //   if (meta.uclass != null) {
-  //     // generateUClass(cls, classOrEnum, meta.uclass);
-  //   }
-  //   // return null;
-  // }
-
-  // public static function addProperties(struct:UIntPtr, classDef:UClassDef) {
-  //   for (propDef in classDef.uprops) {
-  //     var uprop = generateUProperty(struct, struct, propDef, false);
-  //   }
-  // }
-
-  // private static function generateUClass(outer:UObject, cls:Class<Dynamic>, classDef:UClassDef):UStruct {
-  //   var allProps = [],
-  //       allFuncs = [];
-  //   // var firstScriptClass = collectFields(cls, allProps, allFuncs);
-  //   for (prop in classDef.uprops) {
-  //     allProps.push(prop);
-  //   }
-  //   if (classDef.ufuncs != null) {
-  //     for (fn in classDef.ufuncs) {
-  //       allFuncs.push(fn);
-  //     }
-  //   }
-  //
-  //   var replicatedProps = null;
-  //   if (Reflect.hasField(cls, "replicatedProps")) {
-  //     replicatedProps = [];
-  //     Reflect.setField(cls, "replicatedProps", replicatedProps);
-  //   }
-  //
-  //   // var uclass = UObject.NewObjectByClass(new TypeParam<UBlueprintGeneratedClass>(),
-  //   //     outer, classDef.uname.substr(1));
-  //   // var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
-  //   // bp.GeneratedClass = uclass;
-  //   // uclass.ClassGeneratedBy = bp;
-  //
-  //   // check if we need to create a class constructor. right now it seems we can actually use
-  //   // the native constructor instead
-  //
-  //   for (prop in allProps) {
-  //     // var uprop = generateUProperty(
-  //   }
-  // }
 
   private static function getPropertyFlags(ownerStruct:UStruct, prop:UProperty, propDef:UPropertyDef):UInt64 {
     var flags:UInt64 = 0;
@@ -383,10 +389,29 @@ class UReflectionGenerator {
         prop = ret;
 
       case TUObject:
-        var ret:UObjectProperty = cast newProperty(outer, UObjectProperty.StaticClass(), name, flags);
         var cls = getUClass(def.typeUName.substr(1));
-        ret.SetPropertyClass(cls);
-        prop = ret;
+        if (def.flags.hasAny(FWeak)) {
+          var ret:UWeakObjectProperty = cast newProperty(outer, UWeakObjectProperty.StaticClass(), name, flags);
+          ret.SetPropertyClass(cls);
+          prop = ret;
+        } else if (def.flags.hasAny(FSubclassOf)) {
+          var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, flags);
+          ret.PropertyFlags |= PropertyFlags.CPF_UObjectWrapper;
+          ret.SetPropertyClass(UClass.StaticClass());
+          ret.MetaClass = cls;
+          prop = ret;
+        } else {
+          if (cls.IsA(UClass.StaticClass())) {
+            var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, flags);
+            ret.SetPropertyClass(cls);
+            ret.MetaClass = UObject.StaticClass();
+            prop = ret;
+          } else {
+            var ret:UObjectProperty = cast newProperty(outer, UObjectProperty.StaticClass(), name, flags);
+            ret.SetPropertyClass(cls);
+            prop = ret;
+          }
+        }
       case TInterface:
         var ret:UInterfaceProperty = cast newProperty(outer, UInterfaceProperty.StaticClass(), name, flags);
         var cls = getUClass(def.typeUName.substr(1));
@@ -465,38 +490,5 @@ class UReflectionGenerator {
   public static function getField(name:String):UField {
     return cast UObject.StaticFindObjectFast(UField.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
   }
-
-  // private static function collectFields(cls:Dynamic, allProps:Array<UPropertyDef>, allFuncs:Array<UFunctionDef>):UClassDef {
-  //   var meta = Meta.getType(cls),
-  //       metaDef = meta != null ? meta.UMetaDef : null;
-  //   if (metaDef == null) {
-  //     return null;
-  //   }
-  //
-  //   var meta:Metadata = metaDef[0];
-  //   if (meta == null || meta.uclass == null) {
-  //     trace('Error', 'The metadata descriptor of ${Type.getClassName(cls)} was expected but is not in the correct format');
-  //     return null;
-  //   }
-  //   // we must first try to collect the parent class' fields
-  //   var parent = Type.getSuperClass(cls),
-  //       ret = null;
-  //   if (parent != null) {
-  //     ret = collectFields(parent, allProps, allFuncs);
-  //   }
-  //   if (ret == null) {
-  //     ret = meta.uclass;
-  //   }
-  //
-  //   var uclass = meta.uclass;
-  //   for (prop in uclass.uprops) {
-  //     allProps.push(prop);
-  //   }
-  //   for (fn in uclass.ufuncs) {
-  //     allFuncs.push(fn);
-  //   }
-  //
-  //   return ret;
-  // }
 #end
 }

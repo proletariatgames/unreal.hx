@@ -230,7 +230,7 @@ import ue4hx.internal.HaxeCodeDispatcher;
 
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), false);
+    UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
 #else
     trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');
 #end

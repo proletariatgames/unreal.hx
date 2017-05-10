@@ -824,6 +824,7 @@ class DelayedGlue {
       args: args,
       ret: ret,
       flags: (field.meta.has(':final') ? Final : None) | (isStatic ? Static : None),
+      meta: field.meta.has(':glueCppBody') ? field.meta.extract(':glueCppBody') : null,
       pos: field.pos
     }, this.type);
 

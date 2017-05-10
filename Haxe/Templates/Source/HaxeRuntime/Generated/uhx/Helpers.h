@@ -23,6 +23,7 @@ static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClas
   while (true) {
     hxClassName = curClass->GetMetaData(TEXT("HaxeClass"));
     if (!hxClassName.IsEmpty()) {
+      // this is a dynamic class. So before we continue, we must initialize all properties
       haxeGcRef.set(unreal::helpers::HxcppRuntime::createDynamicHelper( (unreal::UIntPtr) self, TCHAR_TO_UTF8(*hxClassName) ));
       return;
     }
@@ -33,6 +34,19 @@ static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClas
   }
   if (curClass->GetFName() == className) {
     haxeGcRef.set(createHaxeWrapper( (unreal::UIntPtr) self ));
+  }
+}
+
+static void initializeDynamicProperties(UClass *curClass, UObject *self) {
+  uint8 *objPtr = (uint8*) self;
+  auto childClass = curClass;
+  while(childClass != nullptr && childClass->HasMetaData(TEXT("HaxeGenerated"))) {
+    auto child = childClass->PropertyLink;
+    while(child != nullptr) {
+      child->InitializeValue( (void *) (objPtr + child->GetOffset_ReplaceWith_ContainerPtrToValuePtr()) );
+      child = child->PropertyLinkNext;
+    }
+    childClass = childClass->GetSuperClass();
   }
 }
 

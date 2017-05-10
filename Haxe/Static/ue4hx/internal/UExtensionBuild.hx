@@ -89,7 +89,7 @@ class UExtensionBuild {
       var nativeMethods = collectNativeMethods(clt),
           haxeMethods = collectHaxeMethods(clt);
       for (field in clt.fields.get()) {
-        if (field.meta.has(':uproperty') || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+        if ( (!isDynamicClass && field.meta.has(':uproperty')) || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
           uprops.push({ field:field, isStatic: false });
 
           // We also need to expose any functions that are used for custom replication conditions

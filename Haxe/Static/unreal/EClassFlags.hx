@@ -96,4 +96,8 @@ package unreal;
   @:op(A & B) @:extern inline public function and(mask:EClassFlags):EClassFlags {
     return this & mask.t();
   }
+
+  @:op(~A) @:extern inline public function bitNot():EClassFlags {
+    return ~this;
+  }
 }

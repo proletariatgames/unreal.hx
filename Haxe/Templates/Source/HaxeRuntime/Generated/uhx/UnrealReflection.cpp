@@ -8,6 +8,7 @@
 #include "Engine.h"
 #include "HaxeGcRef.h"
 #include "HaxeInit.h"
+#include "uhx/Helpers.h"
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
 #define GET_UPROP() (Cast<UProperty>((UObject *) this->m_propertyType))
@@ -302,12 +303,8 @@ static void dynamicConstruct(const FObjectInitializer& init) {
     return;
   }
 
-  auto child = cls->PropertyLink;
   uint8 *objPtr = (uint8*) obj;
-  while(child != nullptr) {
-    child->InitializeValue( (void *) (objPtr + child->GetOffset_ReplaceWith_ContainerPtrToValuePtr()) );
-    child = child->PropertyLinkNext;
-  }
+  uhx::Helpers::initializeDynamicProperties(cls, obj);
 
   objPtr += gcRefProp->GetOffset_ReplaceWith_ContainerPtrToValuePtr();
   FHaxeGcRef *gcRef = (FHaxeGcRef*) objPtr;

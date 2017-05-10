@@ -325,9 +325,17 @@ class NeedsGlueBuild
     }
 
     if (!type.meta.has(':ustruct')) {
+      var uname = MacroHelpers.getUName(type);
+      var thisClassName = thisType.getClassPath(true);
       var staticClassDef = macro class {
         public static function StaticClass() : unreal.UClass {
           return $delayedglue.getNativeCall('StaticClass', true);
+        }
+
+        @:ifFeature($v{thisClassName})
+        @:glueCppBody($v{'return (int) sizeof(' + uname + ')'})
+        public static function CPPSize() : Int {
+          return $delayedglue.getNativeCall('CPPSize', true);
         }
 
         private static var _uhx_isHaxeType:Bool = true;
@@ -340,6 +348,7 @@ class NeedsGlueBuild
         toAdd.push(field);
       }
       nativeCalls.set('StaticClass', 'StaticClass');
+      nativeCalls.set('CPPSize', 'CPPSize');
     }
 
     if (uprops.length > 0)

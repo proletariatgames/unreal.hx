@@ -37,4 +37,6 @@ extern class UProperty_Extra {
 
   function ImportText(buffer:TCharStar, data:AnyPtr, portFlags:Int32, ownerObject:UObject, errorText:PPtr<FOutputDevice>):TCharStar;
   function GetMinAlignment():Int32;
+
+  function Link(ar:PRef<FArchive>):Int32;
 }
