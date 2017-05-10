@@ -13,4 +13,6 @@ extern class UField_Extra {
   function HasMetaData(key:Const<TCharStar>):Bool;
   function SetMetaData(key:Const<TCharStar>, value:Const<TCharStar>):Void;
 #end
+
+  function Bind():Void;
 }

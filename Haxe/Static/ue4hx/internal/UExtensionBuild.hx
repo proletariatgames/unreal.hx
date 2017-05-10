@@ -353,7 +353,7 @@ class UExtensionBuild {
 
       {
         // add createHaxeWrapper
-        var headerCode = 'public:\n\t\tvirtual unreal::UIntPtr createHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t') +
+        var headerCode = 'public:\n\t\tstatic unreal::UIntPtr createHaxeWrapper(unreal::UIntPtr self)' + (info.hasHaxeSuper ? ';\n\n\t\t' : ';\n\n\t\t') +
           'virtual unreal::UIntPtr createEmptyHaxeWrapper()' + (info.hasHaxeSuper ? ' override;\n\n\t\t' : ';\n\n\t\t');
         var cppCode = '';
         for (upropDef in uprops) {
@@ -432,7 +432,7 @@ class UExtensionBuild {
           }
         }
 
-        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper((unreal::UIntPtr) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper(unreal::UIntPtr self) {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper(self);\n}\n';
         cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
         if (hasReplicatedProperties) {
@@ -712,13 +712,13 @@ class UExtensionBuild {
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>($overrideName)';
     }
 
+    includes.add('uhx/Helpers.h');
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
     ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+      << 'static FName className = FName(TEXT("${ueName.substr(1)}"));\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
-      << 'while (!curClass->HasAllClassFlags(CLASS_Native)) {\n\t\t\t\t'
-      << 'curClass = curClass->GetSuperClass();\n\t\t\t}\n\t\t\t'
-      << 'if (curClass->GetName() == TEXT("${ueName.substr(1)}")) this->haxeGcRef.set(this->createHaxeWrapper());\n\t\t';
+      << '::uhx::Helpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
 
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');

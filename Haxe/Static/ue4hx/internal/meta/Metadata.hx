@@ -22,7 +22,7 @@ typedef UFunctionDef = {
   uname: String, // with the prefix
 
   args: Null<Array<UPropertyDef>>,
-  ret: UPropertyDef,
+  ret: Null<UPropertyDef>, // is null, it means that the function is a void function
 
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
 }
@@ -134,3 +134,12 @@ typedef UEnumDef = {
     return this;
   }
 }
+
+@:enum abstract CompiledClassType(Int) from Int {
+  var CUClass = 1;
+  var CUStruct = 2;
+  var CUEnum = 3;
+  var CUDelegate = 4;
+}
+
+typedef StaticMeta = { hxPath:String, uname:String, type:CompiledClassType };

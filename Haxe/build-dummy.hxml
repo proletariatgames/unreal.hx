@@ -9,3 +9,4 @@
 -D static_link
 -D dump
 -D no-copt
+-D WITH_CPPIA

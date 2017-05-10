@@ -61,9 +61,18 @@ class UnrealInit
     var stamp = .0;
     var internalStamp = .0;
 
-    var first = true;
     var disabled = false;
 #if WITH_CPPIA
+    var metaClass = Type.resolveClass('uhx.meta.StaticMetaData');
+    if (metaClass != null) {
+      var metas = haxe.rtti.Meta.getType(metaClass).UTypes;
+      if (metas != null) {
+        for (meta in metas) {
+          unreal.helpers.UReflectionGenerator.initializeStaticMeta(meta);
+        }
+      }
+    }
+
     function loadCppia() {
       trace('loading cppia');
       try {
@@ -85,12 +94,10 @@ class UnrealInit
           internalStamp = newStamp;
 
 #if !NO_DYNAMIC_UCLASS
-          if (first) {
-            first = false;
-            var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
-            trace(metaClass);
-            if (metaClass != null) {
-              var metas:Array<{ haxeClass:String, uclass:String }> = cast haxe.rtti.Meta.getType(metaClass).DynamicClasses;
+          var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
+          if (metaClass != null) {
+            var metas:Array<{ haxeClass:String, uclass:String }> = cast haxe.rtti.Meta.getType(metaClass).DynamicClasses;
+            if (metas != null) {
               for (c in metas) {
                 var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
                 if (hxClass != null) {
@@ -98,9 +105,9 @@ class UnrealInit
                   unreal.helpers.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
                 }
               }
-            } else {
-              trace('Warning', 'Could not find cppia metadata');
             }
+          } else {
+            trace('Warning', 'Could not find cppia metadata');
           }
         }
 #end

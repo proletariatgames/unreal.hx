@@ -42,6 +42,10 @@ class ReflectAPI {
   public static function getUPropertyFromClass(cls:UClass, name:String):UProperty {
     var prop = cls.FindPropertyByName(name);
     if (prop == null) {
+      var c = cls.Children;
+      while(c != null) {
+        c = c.Next;
+      }
       throw 'Field "$name" does not exist on ${cls.GetName()}';
     }
     return prop;
@@ -217,14 +221,7 @@ class ReflectAPI {
     var objOffset = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
       var np:UNumericProperty = cast prop;
-      var i64:Int64 = 0;
-      if (Std.is(value, Int)) {
-        i64 = cast haxe.Int64.ofInt(value);
-      } else if (Std.is(value, Float)) {
-        i64 = cast haxe.Int64.ofInt(Std.int(value));
-      } else {
-        i64 = value;
-      }
+      var i64:Int64 = value;
       if (np.IsFloatingPoint()) {
         np.SetFloatingPointPropertyValue(objOffset, cast value);
       } else if (Std.is(prop, UInt64Property)) {

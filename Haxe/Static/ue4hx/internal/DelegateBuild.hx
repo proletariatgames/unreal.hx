@@ -30,6 +30,9 @@ class DelegateBuild {
       ueType = new TypeRef(tref.name);
     }
 
+    var hxPath = tref.withoutModule().toString();
+    Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: ueType.toString(), type: ue4hx.internal.meta.Metadata.CompiledClassType.CUDelegate };
+
     switch(type) {
     case 'Delegate' | 'MulticastDelegate' | 'Event' | 'DynamicDelegate' | 'DynamicMulticastDelegate':
       // do nothing

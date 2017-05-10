@@ -55,9 +55,9 @@ class TypeConv {
           case 'uint32':
             TU32;
           case 'int64':
-            TI32;
+            TI64;
           case 'uint64':
-            TU32;
+            TU64;
 
           case 'float':
             F32;

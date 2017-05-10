@@ -6,6 +6,9 @@
 #include "uhx/UnrealReflection.h"
 #include "unreal/helpers/HxcppRuntime.h"
 #include "Engine.h"
+#include "HaxeGcRef.h"
+#include "HaxeInit.h"
+// #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
 #define GET_UPROP() (Cast<UProperty>((UObject *) this->m_propertyType))
 #define GET_ARRAY_HELPER(self) (getArrayHelper((UProperty *) m_propertyType, self))
@@ -273,6 +276,55 @@ unreal::VariantPtr uhx::TArrayReflect_obj::copy(unreal::VariantPtr self) {
 
 unreal::VariantPtr unreal::helpers::UnrealReflection_obj::wrapProperty(unreal::UIntPtr inProp, unreal::UIntPtr pointerIfAny) {
   return createWrapper(Cast<UProperty>( (UObject *) inProp ), (void*) pointerIfAny);
+}
+
+int unreal::helpers::UnrealReflection_obj::getHaxeGcRefOffset() {
+  static int offset = (int) STRUCT_OFFSET(FHaxeGcRef, ref);
+  return offset;
+}
+
+#if WITH_EDITOR
+static void dynamicConstruct(const FObjectInitializer& init) {
+  UObject *obj = init.GetObj();
+  UClass *cls = init.GetClass();
+  FString hxClass = cls->GetMetaData(TEXT("HaxeClass"));
+  while (hxClass.IsEmpty()) {
+    cls = cls->GetSuperClass();
+    hxClass = cls->GetMetaData(TEXT("HaxeClass"));
+  }
+
+  // super()
+  cls->GetSuperClass()->ClassConstructor(init);
+
+  UProperty *gcRefProp = cls->FindPropertyByName(TEXT("haxeGcRef"));
+  if (gcRefProp == nullptr) {
+    UE_LOG(HaxeLog, Error, TEXT("Cannot find the gcRef function for %s"), *cls->GetName());
+    return;
+  }
+
+  auto child = cls->PropertyLink;
+  uint8 *objPtr = (uint8*) obj;
+  while(child != nullptr) {
+    child->InitializeValue( (void *) (objPtr + child->GetOffset_ReplaceWith_ContainerPtrToValuePtr()) );
+    child = child->PropertyLinkNext;
+  }
+
+  objPtr += gcRefProp->GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+  FHaxeGcRef *gcRef = (FHaxeGcRef*) objPtr;
+  gcRef->ref.set(unreal::helpers::HxcppRuntime::createDynamicHelper((unreal::UIntPtr) obj, TCHAR_TO_UTF8(*hxClass)));
+}
+#endif
+
+void unreal::helpers::UnrealReflection_obj::setupClassConstructor(unreal::UIntPtr inDynamicClass, unreal::UIntPtr inDynamicParent, bool parentHxGenerated) {
+#if WITH_EDITOR
+  UClass *inClass = (UClass *)inDynamicClass;
+  UClass *inParent = (UClass *)inDynamicParent;
+  if (parentHxGenerated) {
+    inClass->ClassConstructor = inParent->ClassConstructor;
+  } else {
+    inClass->ClassConstructor = &dynamicConstruct;
+  }
+#endif
 }
 
 #undef GET_UPROP

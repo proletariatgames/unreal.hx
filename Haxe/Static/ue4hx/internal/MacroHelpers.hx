@@ -74,8 +74,6 @@ class MacroHelpers
       }
     case _:
     // TODO error?
-    // TODO handle cases like HideCategories=[SomeValue,Another]
-    //   throw 'assert: $param';
     }
   }
 

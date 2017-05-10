@@ -2,6 +2,7 @@ package unreal;
 
 @:glueCppIncludes("Containers/UnrealString.h")
 @:uname("FString")
+@:ustruct
 @:uextern extern class FStringImpl {
   @:uname('.ctor') static function create(text:TCharStar):FStringImpl;
   @:uname('new') static function createNew(text:TCharStar):POwnedPtr<FStringImpl>;

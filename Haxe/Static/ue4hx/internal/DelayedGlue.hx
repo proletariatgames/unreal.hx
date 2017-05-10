@@ -755,7 +755,7 @@ class DelayedGlue {
     writer.buf.add(');\n\n\n');
 
     writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
-    writer.buf.add('UCLASS() class U${uname}__Dummy : public UObject { GENERATED_BODY() };');
+    writer.buf.add('USTRUCT() struct F${uname}__Dummy { GENERATED_BODY() };');
     writer.close(info.targetModule);
     abs.meta.add(':ufiledependency', [macro $v{nameWithout + "@" + Globals.cur.module}], abs.pos);
   }

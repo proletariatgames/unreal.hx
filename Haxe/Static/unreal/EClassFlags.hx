@@ -79,6 +79,12 @@ package unreal;
   /** Class has been consigned to oblivion as part of a blueprint recompile, and a newer version currently exists. */
   var CLASS_NewerVersionExists = 0x80000000;
 
+  var CLASS_Inherit = CLASS_Transient | CLASS_DefaultConfig | CLASS_Config | CLASS_PerObjectConfig | CLASS_ConfigDoNotCheckDefaults | CLASS_NotPlaceable
+     | CLASS_PointersDefaultToAutoWeak | CLASS_PointersDefaultToWeak | CLASS_Const
+     | CLASS_HasInstancedReference | CLASS_Deprecated | CLASS_DefaultToInstanced | CLASS_GlobalUserConfig;
+
+  var CLASS_ScriptInherit = CLASS_Inherit | CLASS_EditInlineNew | CLASS_CollapseCategories;
+
   @:extern inline private function t() {
     return this;
   }

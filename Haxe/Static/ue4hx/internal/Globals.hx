@@ -1,5 +1,6 @@
 package ue4hx.internal;
 import ue4hx.internal.TypeConv;
+import ue4hx.internal.meta.Metadata;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
@@ -146,6 +147,8 @@ class Globals {
   public var classesToAddMetaDef:Array<String> = [];
 
   public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
+
+  public var staticUTypes:Map<String, StaticMeta> = new Map();
 
   public var allClassDefs:Map<String, { className:String, meta:ue4hx.internal.meta.Metadata }> = new Map();
 

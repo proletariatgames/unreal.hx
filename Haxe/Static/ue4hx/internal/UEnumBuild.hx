@@ -15,6 +15,7 @@ class UEnumBuild
   public static function processEnum(type:haxe.macro.Type) {
     switch (type) {
     case TEnum(enumType, params):
+      var hxPath = enumType.toString();
       var enumType = enumType.get();
       enumType.meta.add(':keep', [], enumType.pos);
       if (enumType.meta.has(':uextern') || !enumType.meta.has(':uenum')) {
@@ -31,6 +32,9 @@ class UEnumBuild
       // Generate the enum C++ definition
       var uname = MacroHelpers.extractStrings(enumType.meta, ":uname")[0];
       if (uname == null) uname = enumType.name;
+
+      Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: ue4hx.internal.meta.Metadata.CompiledClassType.CUEnum };
+
       var headerDir = Globals.cur.haxeRuntimeDir;
       var target = MacroHelpers.extractStrings(enumType.meta, ":utargetmodule")[0];
       if (target == null) {

@@ -13,7 +13,7 @@ class MetaDefBuild {
     var superStructName = null;
     if (base.superClass != null) {
       var superClass = base.superClass.t.get();
-      superStructName = MacroHelpers.getUName(base);
+      superStructName = MacroHelpers.getUName(superClass);
     }
     classDef = {
       uname: MacroHelpers.getUName(base),
@@ -92,9 +92,12 @@ class MetaDefBuild {
 
           var retProp = TypeConv.get(ret, field.pos).toUPropertyDef();
           if (retProp == null) {
-            Context.warning('The return type of field ${field.name} is not supported. This ufunction will be ignored', field.pos);
-            continue;
+            if (!TypeRef.fromType(ret, field.pos).isVoid()) {
+              Context.warning('The return type of field ${field.name} is not supported. This ufunction will be ignored', field.pos);
+              continue;
+            }
           }
+          func.ret = retProp;
 
           var metas = MacroHelpers.extractMetaDef(field.meta, ':ufunction');
           if (metas.length != 0) {
@@ -120,6 +123,20 @@ class MetaDefBuild {
     Globals.cur.allClassDefs[classDef.uname] = { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta };
 
     base.meta.add('UMetaDef', [Context.makeExpr(meta, base.pos)], base.pos);
+  }
+
+  public static function writeStaticDefs() {
+    var map = Globals.cur.staticUTypes;
+    var arr = [ for (val in map) val ];
+
+    switch(Context.getType('uhx.meta.StaticMetaData')) {
+    case TInst(c,_):
+      var c = c.get();
+      c.meta.remove('UTypes');
+      c.meta.add('UTypes', [for (val in map) macro $v{val}], Context.currentPos());
+    case _:
+      Context.warning('Invalid type for StaticMetaData', Context.currentPos());
+    }
   }
 
   public static function writeClassDefs() {
@@ -148,7 +165,9 @@ class MetaDefBuild {
 
     switch(Context.getType('uhx.meta.CppiaMetaData')) {
     case TInst(c,_):
-      c.get().meta.add('DynamicClasses', [for (v in arr) macro $v{v}], Context.currentPos());
+      var c = c.get();
+      c.meta.remove('DynamicClasses');
+      c.meta.add('DynamicClasses', [for (v in arr) macro $v{v}], Context.currentPos());
     case _:
       Context.warning('Invalid type for CppiaMetaData', Context.currentPos());
     }

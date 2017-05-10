@@ -78,19 +78,20 @@ class UHxBootstrap : public UObject {
   DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, 0, HAXERUNTIME_API)
 #endif
   UHxBootstrap(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : UObject(ObjectInitializer) {
+    unreal::helpers::HxcppRuntime::endLoadingDynamic();
   }
 
 };
 
 IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, HAXERUNTIME_API,
-  {
-    check_hx_init();
-    for (auto It = ::uhx::DynamicClassHelper::getDynamicsMap().CreateIterator(); It; ++It) {
-      UClass *val = It.Value();
-      unreal::helpers::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString())); \
-    }
+{
+  check_hx_init();
+  unreal::helpers::HxcppRuntime::startLoadingDynamic();
+  for (auto It = ::uhx::DynamicClassHelper::getDynamicsMap().CreateIterator(); It; ++It) {
+    UClass *val = It.Value();
+    unreal::helpers::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString()));
   }
-);
+});
 
 
 #endif

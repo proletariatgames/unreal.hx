@@ -230,10 +230,40 @@ import ue4hx.internal.HaxeCodeDispatcher;
 
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    UReflectionGenerator.addProperties(struct, name.toString());
+    UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), false);
 #else
     trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');
 #end
   }
-}
 
+  public static function startLoadingDynamic() {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    UReflectionGenerator.startLoadingDynamic();
+#else
+    trace('Warning', 'Trying to start loading Dynamic but dynamic class support was disabled');
+#end
+  }
+
+  public static function endLoadingDynamic() {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    UReflectionGenerator.endLoadingDynamic();
+#else
+    trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
+#end
+  }
+
+  public static function createDynamicHelper(self:UIntPtr, name:cpp.ConstCharStar):UIntPtr {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    var hxType = Type.resolveClass(name.toString());
+    if (hxType == null) {
+      trace('Error', 'Could not find type ${name.toString()}');
+      return 0;
+    }
+    var ret = Type.createInstance(hxType, [self]);
+    return HaxeHelpers.dynamicToPointer(ret);
+#else
+    trace('Error', 'Trying to create a dynamic helper for ${name.toString()}, but dynamic class support was disabled');
+    return 0;
+#end
+  }
+}

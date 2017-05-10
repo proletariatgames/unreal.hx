@@ -16,7 +16,6 @@ using StringTools;
  **/
 class NativeGlueCode
 {
-
   private var glueTypes:Map<String, Ref<ClassType>>;
   private var touchedModules:Map<String,Map<String, TouchKind>>;
   private var modules:Map<String,Bool>;
@@ -363,8 +362,11 @@ class NativeGlueCode
         } else {
           var ret = touched[packPath + Path.withoutExtension(file)];
           if ( ret == null || !ret.hasAny(kind) || (ext != null && Path.extension(file) != ext) ) {
-            trace('Deleting uneeded file $path/$file');
-            FileSystem.deleteFile('$path/$file');
+            // do nothing if the file starts with a dot - it could be a swap file
+            if (!file.startsWith('.')) {
+              trace('Deleting uneeded file $path/$file');
+              FileSystem.deleteFile('$path/$file');
+            }
           } else {
             foundFile = true;
           }

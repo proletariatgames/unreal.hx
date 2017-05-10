@@ -24,4 +24,9 @@ extern class UStruct_Extra {
   function InitializeStruct(dest:AnyPtr, arrayDim:Int32):Void;
 
   function IsChildOf(someBase:Const<UStruct>):Bool;
+
+  function SetSuperStruct(NewSuperStruct:UStruct):Void;
+
+  function StaticLink(bRelinkExistingProperties:Bool = false):Void;
+
 }

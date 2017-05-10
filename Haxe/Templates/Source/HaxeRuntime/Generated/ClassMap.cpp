@@ -31,8 +31,10 @@ unreal::UIntPtr unreal::helpers::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
     }
     cls = cls->GetSuperClass();
   }
+#if !WITH_EDITOR
   UE_LOG(LogTemp,Fatal,TEXT("No haxe wrapper was found for the uobject from class %s nor from any of its superclasses"), *obj->GetClass()->GetName());
-  // won't get here
+#endif
+  // we might get here on 
   return 0;
 }
 

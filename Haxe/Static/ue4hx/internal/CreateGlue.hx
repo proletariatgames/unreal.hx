@@ -171,6 +171,10 @@ class CreateGlue {
 
 
     Context.onGenerate( function(gen) {
+      if (Context.defined('WITH_CPPIA')) {
+        MetaDefBuild.writeStaticDefs();
+      }
+
       // starting from now, we can't create new types
       Globals.cur.reserveCacheFile();
       nativeGlue.onGenerate(gen);
@@ -223,6 +227,13 @@ class CreateGlue {
         Globals.reset();
         return true;
       });
+
+      if (Context.defined('WITH_CPPIA')) {
+        var clsDef = macro class StaticMetaData {};
+        clsDef.pack = ['uhx','meta'];
+        clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
+        Context.defineType(clsDef);
+      }
     }
     Globals.cur.setHaxeRuntimeDir();
     haxe.macro.Compiler.include('unreal.helpers');

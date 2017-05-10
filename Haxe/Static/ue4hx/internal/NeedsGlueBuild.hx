@@ -65,6 +65,10 @@ class NeedsGlueBuild
       cls.meta.add(':uextension', [], cls.pos);
       if (Globals.cur.inScriptPass) {
         cls.meta.add(':uscript', [], cls.pos);
+      } else {
+        var hxPath = localClass.toString();
+        var uname = MacroHelpers.getUName(cls);
+        Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: ue4hx.internal.meta.Metadata.CompiledClassType.CUClass };
       }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
@@ -328,6 +332,9 @@ class NeedsGlueBuild
 
         private static var _uhx_isHaxeType:Bool = true;
       };
+      if (Context.defined('cppia')) {
+        staticClassDef.fields[0].access.push(ADynamic);
+      }
 
       for (field in staticClassDef.fields) {
         toAdd.push(field);
