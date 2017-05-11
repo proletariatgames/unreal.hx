@@ -4,12 +4,14 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import uhx.compiletime.types.*;
-import uhx.meta.Metadata;
+import uhx.meta.MetaDef;
 
 using uhx.compiletime.tools.MacroHelpers;
 
+/**
+  Generates the metadata definitions (MetaDef) for the uproperties and ufunctions that will be added at runtime by cppia
+ **/
 class MetaDefBuild {
-
   public static function addUClassMetaDef(base:ClassType) {
     var classDef:UClassDef = null;
     var superStructName = null;
@@ -121,8 +123,8 @@ class MetaDefBuild {
     }
     classDef.propCrc = crc;
 
-    var meta:uhx.meta.Metadata = { uclass:classDef, signature: Context.signature(classDef) };
-    Globals.cur.allClassDefs[classDef.uname] = { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta };
+    var meta:uhx.meta.MetaDef = { uclass:classDef, signature: Context.signature(classDef) };
+    Globals.cur.scriptClassDefs[classDef.uname] = { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta };
 
     base.meta.add('UMetaDef', [Context.makeExpr(meta, base.pos)], base.pos);
   }
@@ -144,7 +146,7 @@ class MetaDefBuild {
   public static function writeClassDefs() {
     var outputDir = haxe.io.Path.directory(Compiler.getOutput());
     var file = sys.io.File.write(outputDir + '/gameCrcs.data', true);
-    var map = Globals.cur.allClassDefs;
+    var map = Globals.cur.scriptClassDefs;
     var arr = [];
 
     for (key in map.keys()) {

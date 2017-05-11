@@ -635,20 +635,20 @@ class ExternBaker {
             this.begin(' {');
               this.add('var func = cpp.Function.fromStaticFunction(wrapPointer).toFunction();');
               this.newline();
-              this.add('unreal.helpers.ClassMap.addWrapper($glueClassGet, func);');
+              this.add('uhx.ue.ClassMap.addWrapper($glueClassGet, func);');
             this.end('}');
             this.newline();
 
             // add wrap
             this.add('static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
             this.begin(' {');
-              this.add('return unreal.helpers.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
+              this.add('return uhx.internal.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
             this.end('}');
           }
 
           this.add('inline public static function wrap(uobject:${this.thisConv.haxeGlueType}):${this.typeRef.getClassPath()}');
           this.begin(' {');
-            this.add('return cast unreal.helpers.ClassWrap.wrap(uobject);');
+            this.add('return cast uhx.ClassWrap.wrap(uobject);');
           this.end('}');
         }
       } else if (!c.isInterface) {  // non-uobject
@@ -673,7 +673,7 @@ class ExternBaker {
             this.newline();
             this.add('if (Reflect.hasField(Type.getClass(this), "_uhx_isHaxeType"))');
             this.begin(' {');
-              this.add('unreal.helpers.ClassWrap.pushCtor(this);');
+              this.add('uhx.ClassWrap.pushCtor(this);');
             this.end('}');
           this.end('}');
           // this.add('private function new(wrapped) this.wrapped = wrapped;\n\t');
@@ -700,8 +700,8 @@ class ExternBaker {
           this.add('#if (!cppia && !debug) inline #end private function pvtIsValid(threadSafe:Bool):Bool');
           this.begin(' {');
             this.add('return this.wrapped != 0 && '
-                +' unreal.helpers.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex && '
-                +' (!threadSafe || unreal.helpers.ObjectArrayHelper_Glue.isValid(internalIndex, serialNumber, false));');
+                +' uhx.internal.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex && '
+                +' (!threadSafe || uhx.internal.ObjectArrayHelper_Glue.isValid(internalIndex, serialNumber, false));');
           this.end('}');
         }
 
@@ -759,7 +759,7 @@ class ExternBaker {
         // add setFinalizer for debugging purposes
         this.newline();
         this.begin('override private function setFinalizer() {');
-        this.add('ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(this));');
+        this.add('ClassMap.registerWrapper(this.wrapped.ptr.getPointer(), uhx.internal.HaxeHelpers.dynamicToPointer(this));');
         this.add('cpp.vm.Gc.setFinalizer((this : unreal.Wrapper), cpp.Callable.fromStaticFunction(disposeUEPointer));');
         this.end( }');
         this.newline();
@@ -768,7 +768,7 @@ class ExternBaker {
         this.begin('{');
         this.add('if (!wrapper.disposed)');
         this.begin('{');
-        this.add('ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer(), unreal.helpers.HaxeHelpers.dynamicToPointer(wrapper));');
+        this.add('ClassMap.unregisterWrapper(wrapper.wrapped.ptr.getPointer(), uhx.internal.HaxeHelpers.dynamicToPointer(wrapper));');
         this.add('wrapper.wrapped.destroy();');
         this.end('}');
         this.end('}');
@@ -792,7 +792,7 @@ class ExternBaker {
   //   buf << 'template <> class ${meth.name}__if_op<true> {\n\t\t\tpublic:\n\t\t\t';
   //     buf << decl << ' {\n\t\t\t\t$body\n\t\t\t}\n\t\t};\n\n\t\t';
   //   buf << 'template <> class ${meth.name}__if_op<false> {\n\t\t\tpublic:\n\t\t\t';
-  //     buf << decl << ' {\n\t\t\t\t::unreal::helpers::HxcppRuntime::throwString("Calling operator $op in type that can\'t be assigned");\n\t\t\t\tthrow "assert";\n\t\t\t}\n\t\t};\n\n\t\t';
+  //     buf << decl << ' {\n\t\t\t\t::uhx::expose::HxcppRuntime::throwString("Calling operator $op in type that can\'t be assigned");\n\t\t\t\tthrow "assert";\n\t\t\t}\n\t\t};\n\n\t\t';
   //   if (!meth.ret.haxeType.isVoid())
   //     buf << 'return ';
   //   buf << '${meth.name}__if_op<${meth.params[0]}>::${meth.name}($args)';
@@ -1060,7 +1060,7 @@ class ExternBaker {
 
     this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     this.addMeta(e.meta.get());
-    this.add('@:glueCppIncludes("unreal/helpers/HxcppRuntime.h", "uhx/EnumGlue.h")');
+    this.add('@:glueCppIncludes("uhx/expose/HxcppRuntime.h", "uhx/EnumGlue.h")');
     this.newline();
     var fmt = new CodeFormatter();
     fmt << '@:ueCppDef("';
@@ -1072,10 +1072,10 @@ class ExternBaker {
       << '};\n';
     data << '}\n\n';
     data << '$ueEnumType uhx::EnumGlue< $ueEnumType >::haxeToUe(unreal::UIntPtr haxe) {\n'
-          << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( unreal::helpers::HxcppRuntime::enumIndex(haxe) + 1 );\n}\n'
+          << '\t\treturn ($ueEnumType) ${glueType.getCppClass()}::haxeToUe( uhx::expose::HxcppRuntime::enumIndex(haxe) + 1 );\n}\n'
         << 'unreal::UIntPtr uhx::EnumGlue< $ueEnumType >::ueToHaxe($ueEnumType ue) {\n'
-          << '\t\tstatic unreal::UIntPtr array = unreal::helpers::HxcppRuntime::getEnumArray("$ueEnumType");\n'
-          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue) - 1);\n}';
+          << '\t\tstatic unreal::UIntPtr array = uhx::expose::HxcppRuntime::getEnumArray("$ueEnumType");\n'
+          << '\t\treturn uhx::expose::HxcppRuntime::arrayIndex(array, ${glueType.getCppClass()}::ueToHaxe((int) ue) - 1);\n}';
     fmt.addEscaped(data.toString());
     fmt << '")';
     this.add(fmt);
@@ -1085,7 +1085,7 @@ class ExternBaker {
     this.begin('{');
       this.add('public static var all:Array<${e.name}>;');
       this.newline();
-      this.add('static function __init__() { unreal.helpers.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef})); }');
+      this.add('static function __init__() { uhx.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef})); }');
       this.newline();
       var ueCall = isClass ?
         uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :

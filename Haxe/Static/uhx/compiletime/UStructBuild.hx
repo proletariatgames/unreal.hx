@@ -9,7 +9,11 @@ using uhx.compiletime.tools.MacroHelpers;
 using Lambda;
 using StringTools;
 
-class StructBuild {
+/**
+  Builds a UStruct defined by Haxe code through a @:genericBuild type
+  @see unreal.UnrealStruct
+ **/
+class UStructBuild {
   public static function build() {
     var pos = Context.currentPos();
 #if bake_externs
@@ -43,7 +47,7 @@ class StructBuild {
     }
     var fields:Array<Field> = exprToFields(expr);
     var hxPath = tref.withoutModule().toString();
-    Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: ueType.toString(), type: uhx.meta.Metadata.CompiledClassType.CUStruct };
+    Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: ueType.toString(), type: uhx.meta.MetaDef.CompiledClassType.CUStruct };
 
     if (Globals.cur.inScriptPass) {
       tdef.meta.add(':uscript', [], tdef.pos);

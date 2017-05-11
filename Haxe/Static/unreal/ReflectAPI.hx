@@ -70,7 +70,7 @@ class ReflectAPI {
   }
 
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
-    if (!obj.isValid() && !unreal.helpers.ClassWrap.isConstructing(obj)) {
+    if (!obj.isValid() && !uhx.ClassWrap.isConstructing(obj)) {
       var msg = 'Cannot call ${func.GetName()} in $obj: Object is invalid';
       trace('Warning', msg);
       throw msg;
@@ -80,7 +80,7 @@ class ReflectAPI {
     }
 
     var objIndex = @:privateAccess obj.internalIndex;
-    var flags = objIndex == -1 ? None : unreal.helpers.ObjectArrayHelper.getObjectFlags(objIndex);
+    var flags = objIndex == -1 ? None : uhx.internal.ObjectArrayHelper.getObjectFlags(objIndex);
 
     var restoreFlags = false;
     if (flags.hasAny(Unreachable | PendingKill)) {
@@ -89,7 +89,7 @@ class ReflectAPI {
       // since objects can still be reachable but pending kill regardless. So instead of having to add yet another
       // level of complexity of making everything be checked if it's pending kill before calling, or allowing unreal.hx to
       // fail silently, we'll reset the pending kill bit, and then set it back to what it was after the call is made
-      if (!unreal.helpers.ObjectArrayHelper.clearObjectFlags(objIndex, Unreachable | PendingKill)) {
+      if (!uhx.internal.ObjectArrayHelper.clearObjectFlags(objIndex, Unreachable | PendingKill)) {
         throw 'Object array item for index $objIndex (object $obj) was not found';
       }
       if (obj.IsPendingKill()) {
@@ -110,13 +110,13 @@ class ReflectAPI {
         ret = callUFunction_pvt(obj, func, args);
       }
       catch(e:Dynamic) {
-        if (!unreal.helpers.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
+        if (!uhx.internal.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
           trace('Error', 'Cannot reset pending kill flag for object at index $objIndex ($obj)');
         }
         cpp.Lib.rethrow(e);
       }
 
-        if (!unreal.helpers.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
+        if (!uhx.internal.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
         trace('Error', 'Cannot reset pending kill flag for object at index $objIndex ($obj)');
       }
       return ret;
@@ -370,7 +370,7 @@ class ReflectAPI {
       var np:UNumericProperty = cast prop;
       var e = np.GetIntPropertyEnum();
       if (e != null) {
-        var array = unreal.helpers.EnumMap.get(e.CppType.toString());
+        var array = uhx.EnumMap.get(e.CppType.toString());
 
         if (array == null) {
           var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
@@ -382,7 +382,7 @@ class ReflectAPI {
           if (array == null) {
             throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
           }
-          unreal.helpers.EnumMap.set(e.CppType.toString(), array);
+          uhx.EnumMap.set(e.CppType.toString(), array);
         }
         var ret = array[np.GetSignedIntPropertyValue(objPtr)];
         if (ret == null) {
@@ -424,7 +424,7 @@ class ReflectAPI {
       // structs are always just pointers, so we can just return them
       return objPtr.getStruct(0);
     } else if (Std.is(prop, UArrayProperty)) {
-      return unreal.helpers.UnrealReflection.wrapProperty(@:privateAccess prop.wrapped, objPtr);
+      return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
     } else {
       throw 'Property not supported: $prop (for field ${prop.GetName()})';
     }

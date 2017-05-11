@@ -1,4 +1,4 @@
-package unreal.helpers;
+package uhx.internal;
 
 @:unrealGlue extern class Log_Glue {
   public static function trace(str:unreal.UIntPtr):Void;

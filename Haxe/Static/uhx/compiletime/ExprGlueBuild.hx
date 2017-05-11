@@ -13,7 +13,10 @@ using Lambda;
 using StringTools;
 using uhx.compiletime.tools.MacroHelpers;
 
-class RuntimeGlueCreator {
+/**
+  Builds glue code outside of the extern baker pass - by being called as a macro (called by uhx.internal.DelayedGlue, from NeedsGlueBuild)
+ **/
+class ExprGlueBuild {
   public static function getGetterSetterExpr(fieldName:String, isStatic:Bool, isSetter:Bool, isDynamic:Bool, fieldUName:String):Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
@@ -350,7 +353,7 @@ class RuntimeGlueCreator {
           Context.follow(field.type);
         }
         var cls = clsRef.get();
-        var dglue = new RuntimeGlueCreator(cls,pos,local);
+        var dglue = new ExprGlueBuild(cls,pos,local);
         dglue.build();
 
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );

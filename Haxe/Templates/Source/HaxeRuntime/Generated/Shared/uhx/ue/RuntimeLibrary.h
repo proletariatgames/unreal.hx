@@ -4,10 +4,10 @@
 #include "IntPtr.h"
 #include "VariantPtr.h"
 
-namespace unreal {
-namespace helpers {
+namespace uhx {
+namespace ue {
 
-class UnrealReflection_obj {
+class RuntimeLibrary_obj {
 public:
   /**
    * Creates a dynamic wrapper (unreal.Wrapper) that is empty but compatible with `inProp UProperty`

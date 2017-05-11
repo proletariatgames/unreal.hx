@@ -1,6 +1,6 @@
 package uhx.meta;
 
-typedef Metadata = {
+typedef MetaDef = {
   ?uclass:UClassDef,
   ?uenum:UEnumDef,
   signature:String

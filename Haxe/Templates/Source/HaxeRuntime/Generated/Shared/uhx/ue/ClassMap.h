@@ -5,8 +5,8 @@
 #endif
 typedef unreal::UIntPtr (*HaxeWrap)(unreal::UIntPtr);
 
-namespace unreal {
-namespace helpers {
+namespace uhx {
+namespace ue {
 
   class HXCPP_CLASS_ATTRIBUTES ClassMap_obj {
   public:

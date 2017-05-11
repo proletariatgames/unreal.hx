@@ -69,7 +69,7 @@ class NeedsGlueBuild
       } else {
         var hxPath = localClass.toString();
         var uname = MacroHelpers.getUName(cls);
-        Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: uhx.meta.Metadata.CompiledClassType.CUClass };
+        Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: uhx.meta.MetaDef.CompiledClassType.CUClass };
       }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)

@@ -345,7 +345,7 @@ class UExtensionBuild {
         { name: ':uextern', params:[], pos:clt.pos },
       ];
 
-      var headerIncludes = IncludeSet.fromUniqueArray(['<GcRef.h>']),
+      var headerIncludes = IncludeSet.fromUniqueArray(['<uhx/GcRef.h>']),
           cppIncludes = IncludeSet.fromUniqueArray(['<' + expose.getClassPath().replace('.','/') + '.h>']);
       var info = addNativeUeClass(nativeUe, clt, headerIncludes, metas);
       metas.push({ name:':glueCppIncludes', params:[ for (inc in cppIncludes) macro $v{inc} ], pos:clt.pos });
@@ -494,13 +494,13 @@ class UExtensionBuild {
           var ret:unreal.UObject = null;
           try {
             ret = cast $createExpr;
-            unreal.helpers.ClassWrap.popCtor(ret);
+            uhx.ClassWrap.popCtor(ret);
           }
           catch(e:Dynamic) {
-            unreal.helpers.ClassWrap.popCtor(ret);
+            uhx.ClassWrap.popCtor(ret);
             cpp.Lib.rethrow(e);
           }
-          return unreal.helpers.HaxeHelpers.dynamicToPointer(ret);
+          return uhx.internal.HaxeHelpers.dynamicToPointer(ret);
         }';
         buildFields.push({
           name: 'createHaxeWrapper',
@@ -516,7 +516,7 @@ class UExtensionBuild {
         var createEmptyExpr = '{ ' +
           'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )' + ');' +
           '@:privateAccess ret.wrapped = ueType;' +
-          'unreal.helpers.HaxeHelpers.dynamicToPointer(ret);' +
+          'uhx.internal.HaxeHelpers.dynamicToPointer(ret);' +
         '}';
         buildFields.push({
           name: 'createEmptyHaxeWrapper',
@@ -690,7 +690,7 @@ class UExtensionBuild {
 
     headerDef.add('public:\n');
     // include class map
-    includes.add('ClassMap.h');
+    includes.add('uhx/ue/ClassMap.h');
     headerDef.add('\t\tstatic unreal::UIntPtr getHaxePointer(unreal::UIntPtr inUObject) {\n');
       headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
@@ -714,16 +714,16 @@ class UExtensionBuild {
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>($overrideName)';
     }
 
-    includes.add('uhx/Helpers.h');
+    includes.add('uhx/UEHelpers.h');
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
-    ctorBody << '\n\t\t\tstatic bool addToMap = ::unreal::helpers::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+    ctorBody << '\n\t\t\tstatic bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
       << 'static FName className = FName(TEXT("${ueName.substr(1)}"));\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
-      << '::uhx::Helpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
+      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
 
     if (!hasHaxeSuper) {
-      headerDef.add('\t\t::unreal::helpers::GcRef haxeGcRef;\n');
+      headerDef.add('\t\t::uhx::GcRef haxeGcRef;\n');
       if (useObjInitializer) {
         headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
       } else {

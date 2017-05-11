@@ -1,8 +1,8 @@
 #pragma once
 
 #include "IntPtr.h"
-#include <GcRef.h>
-#include <unreal/helpers/HxcppRuntime.h>
+#include <uhx/GcRef.h>
+#include <uhx/expose/HxcppRuntime.h>
 #include <uhx/TypeParamGlue.h>
 
 namespace uhx {
@@ -11,7 +11,7 @@ namespace uhx {
 template<typename RV, typename... Args>
 class LambdaBinder
 {
-  ::unreal::helpers::GcRef haxeGcRef;
+  ::uhx::GcRef haxeGcRef;
 
 public:
   LambdaBinder(unreal::UIntPtr haxeFn) {
@@ -19,7 +19,7 @@ public:
   }
   RV operator() (Args... params) const {
     return TypeParamGlue<RV>::haxeToUe(
-      ::unreal::helpers::HxcppRuntime::callFunction(
+      ::uhx::expose::HxcppRuntime::callFunction(
         const_cast<LambdaBinder<RV, Args...>*>(this)->haxeGcRef.get(),
         TypeParamGlue<Args>::ueToHaxe(params)...
       )
@@ -30,14 +30,14 @@ public:
 template<typename... Args>
 class LambdaBinderVoid
 {
-  ::unreal::helpers::GcRef haxeGcRef;
+  ::uhx::GcRef haxeGcRef;
 
 public:
   LambdaBinderVoid(unreal::UIntPtr haxeFn) {
     this->haxeGcRef.set(haxeFn);
   }
   void operator() (Args... params) const {
-    ::unreal::helpers::HxcppRuntime::callFunction(
+    ::uhx::expose::HxcppRuntime::callFunction(
       const_cast<LambdaBinderVoid<Args...>*>(this)->haxeGcRef.get(),
       TypeParamGlue<Args>::ueToHaxe(params)...
     );

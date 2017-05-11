@@ -120,7 +120,7 @@ class CreateCppia {
               }
             } else {
               switch(c.pack) {
-              case ['unreal','helpers']:
+              case ['uhx','internal'] | ['uhx','expose']:
                 c.exclude();
               case _:
               }
@@ -210,6 +210,5 @@ class CreateCppia {
       });
     }
     Globals.cur.setHaxeRuntimeDir();
-    haxe.macro.Compiler.include('unreal.helpers');
   }
 }

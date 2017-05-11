@@ -5,6 +5,10 @@ import haxe.macro.Type;
 
 using haxe.macro.Tools;
 
+/**
+  Build live reload functions. This is done by storing the typed expression of the function to a big map,
+  and change each function body to instead access that map, and call the function directly
+ **/
 class LiveReloadBuild {
   public static function build(expr:Expr, cls:String, fn:String, isStatic:Bool):Expr {
     var path = '$cls::$fn';
@@ -61,7 +65,7 @@ class LiveReloadBuild {
     // change all expression to call LiveReload with the correct types
     switch(Context.follow(texpr.t)) {
     case TFun(args,ret):
-      var livereload = macro unreal.helpers.LiveReload.reloadableFuncs[$v{path}];
+      var livereload = macro uhx.LiveReload.reloadableFuncs[$v{path}];
       var callArgs = args;
       if (!isStatic) {
         args[0].name = 'this';
@@ -110,7 +114,7 @@ class LiveReloadBuild {
         for (fn in curMap.keys()) {
           var key = '$cls::$fn';
           var texpr = Context.storeTypedExpr(curMap[fn]);
-          expr.push(macro unreal.helpers.LiveReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
+          expr.push(macro uhx.LiveReload.reloadableFuncs[$v{key}] = @:privateAccess $texpr);
         }
       }
     }

@@ -1,11 +1,11 @@
 #if WITH_EDITOR
+import uhx.expose.HxcppRuntime;
 import uhx.HaxeCodeDispatcher;
 import unreal.*;
 import unreal.developer.directorywatcher.*;
 import unreal.developer.hotreload.IHotReloadModule;
 import unreal.editor.*;
 import unreal.editor.UEditorEngine;
-import unreal.helpers.HxcppRuntime;
 import unreal.FTimerManager;
 import sys.FileSystem;
 #end
@@ -68,7 +68,7 @@ class UnrealInit
       var metas = haxe.rtti.Meta.getType(metaClass).UTypes;
       if (metas != null) {
         for (meta in metas) {
-          unreal.helpers.UReflectionGenerator.initializeStaticMeta(meta);
+          uhx.runtime.UReflectionGenerator.initializeStaticMeta(meta);
         }
       }
     }
@@ -102,7 +102,7 @@ class UnrealInit
                 var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
                 if (hxClass != null) {
                   var meta = haxe.rtti.Meta.getType(hxClass).UMetaDef;
-                  unreal.helpers.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
+                  uhx.runtime.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
                 }
               }
             }

@@ -6,6 +6,7 @@ import haxe.macro.Type;
 import sys.FileSystem;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.types.*;
+import uhx.meta.MetaDef;
 
 using haxe.macro.Tools;
 using StringTools;
@@ -35,7 +36,7 @@ class UEnumBuild
       var uname = MacroHelpers.extractStrings(enumType.meta, ":uname")[0];
       if (uname == null) uname = enumType.name;
 
-      Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: uhx.meta.Metadata.CompiledClassType.CUEnum };
+      Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type:CompiledClassType.CUEnum };
 
       var headerDir = Globals.cur.haxeRuntimeDir;
       var target = MacroHelpers.extractStrings(enumType.meta, ":utargetmodule")[0];
@@ -71,7 +72,7 @@ class UEnumBuild
 
       var expose = macro class {
         public static function getArray():unreal.UIntPtr {
-          return unreal.helpers.HaxeHelpers.dynamicToPointer( $i{arrCreateName}.arr );
+          return uhx.internal.HaxeHelpers.dynamicToPointer( $i{arrCreateName}.arr );
         }
       };
       expose.meta.push({ name:':uexpose', pos:enumType.pos });
@@ -88,7 +89,7 @@ class UEnumBuild
       var writer = new HeaderWriter(headerPath);
       writer.include('uhx/EnumGlue.h');
       writer.include('uhx/enums/${uname}_GetArray.h');
-      writer.include('unreal/helpers/HxcppRuntime.h');
+      writer.include('uhx/expose/HxcppRuntime.h');
       writer.include('$uname.generated.h');
 
       var uenum = enumType.meta.extract(':uenum')[0];
@@ -128,10 +129,10 @@ class UEnumBuild
       writer.buf << 'namespace uhx {\n\n';
       writer.buf << 'template<> struct EnumGlue<$uname> {\n'
         << '\tstatic $uname haxeToUe(unreal::UIntPtr haxe) {\n'
-          << '\t\treturn ($uname) unreal::helpers::HxcppRuntime::enumIndex(haxe);\n}\n\n'
+          << '\t\treturn ($uname) uhx::expose::HxcppRuntime::enumIndex(haxe);\n}\n\n'
         << '\tstatic unreal::UIntPtr ueToHaxe($uname ue) {\n'
           << '\t\tstatic unreal::UIntPtr array = uhx::enums::${uname}_GetArray::getArray();\n'
-          << '\t\treturn unreal::helpers::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
+          << '\t\treturn uhx::expose::HxcppRuntime::arrayIndex(array, (int) ue);\n}\n\n'
           << '};\n';
       writer.buf << '}';
 

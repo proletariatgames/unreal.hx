@@ -1,5 +1,4 @@
 package unreal;
-import unreal.helpers.HaxeHelpers;
 
 @:forward abstract FName(FNameImpl) from FNameImpl to FNameImpl #if !bake_externs to Struct to VariantPtr #end  {
 #if !bake_externs
@@ -32,4 +31,3 @@ import unreal.helpers.HaxeHelpers;
   }
 #end
 }
-

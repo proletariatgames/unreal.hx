@@ -4,7 +4,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 import uhx.compiletime.tools.HelperBuf;
 import uhx.compiletime.tools.IncludeSet;
-import uhx.meta.Metadata;
+import uhx.meta.MetaDef;
 
 using haxe.macro.TypeTools;
 using Lambda;
@@ -545,7 +545,7 @@ class TypeConv {
         if (type == OInterface) {
           expr = 'cast $expr';
         }
-        'unreal.helpers.HaxeHelpers.getUObjectWrapped($expr)';
+        'uhx.internal.HaxeHelpers.getUObjectWrapped($expr)';
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(EAbstract, info, _):
@@ -564,11 +564,11 @@ class TypeConv {
         expr;
 
       case CLambda(args,ret):
-        'unreal.helpers.HaxeHelpers.dynamicToPointer( $expr )';
+        'uhx.internal.HaxeHelpers.dynamicToPointer( $expr )';
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name, _):
-        'unreal.helpers.HaxeHelpers.variantToPointer( $expr )';
+        'uhx.internal.HaxeHelpers.variantToPointer( $expr )';
     }
   }
 
@@ -606,11 +606,11 @@ class TypeConv {
         '( @:privateAccess ${info.haxeType.getClassPath()}.fromPointer( $expr ) : $haxeType )';
 
       case CLambda(args,ret):
-        '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
+        '( uhx.internal.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
       case CMethodPointer(cname, args, ret):
         expr;
       case CTypeParam(name, _):
-        '( unreal.helpers.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
+        '( uhx.internal.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
     }
   }
 
@@ -1228,13 +1228,13 @@ class TypeConv {
         haxeGlueType: uintPtr,
         glueType: uintPtr,
 
-        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<unreal/helpers/HxcppRuntime.h>']),
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<uhx/expose/HxcppRuntime.h>']),
         glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
 
-        ueToGlueExpr:'::unreal::helpers::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( (const char *) (%) ))',
-        glueToUeExpr:'UTF8_TO_TCHAR(::unreal::helpers::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
-        haxeToGlueExpr:'unreal.helpers.HaxeHelpers.dynamicToPointer( % )',
-        glueToHaxeExpr:'(unreal.helpers.HaxeHelpers.pointerToDynamic( % ) : String)',
+        ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8( (const char *) (%) ))',
+        glueToUeExpr:'UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%)))',
+        haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
       },
       { // TODO - use Pointer instead
         ueType: byteArray,

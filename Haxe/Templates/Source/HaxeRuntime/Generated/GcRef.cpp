@@ -1,26 +1,26 @@
 #include "HaxeRuntime.h"
 #include "IntPtr.h"
 #include "HaxeInit.h"
-#include <GcRef.h>
+#include <uhx/GcRef.h>
 
-::unreal::helpers::GcRef::GcRef() {
+::uhx::GcRef::GcRef() {
   check_hx_init();
-  this->ref = ::unreal::helpers::GcRefStatic::init();
+  this->ref = ::uhx::expose::GcRefStatic::init();
 }
 
-::unreal::helpers::GcRef::~GcRef() {
-  ::unreal::helpers::GcRefStatic::destruct(this->ref);
+::uhx::GcRef::~GcRef() {
+  ::uhx::expose::GcRefStatic::destruct(this->ref);
 }
 
-::unreal::helpers::GcRef::GcRef(const GcRef& rhs) {
-  this->ref = ::unreal::helpers::GcRefStatic::init();
+::uhx::GcRef::GcRef(const GcRef& rhs) {
+  this->ref = ::uhx::expose::GcRefStatic::init();
   this->set(const_cast<GcRef&>(rhs).get());
 }
 
-void ::unreal::helpers::GcRef::set(unreal::UIntPtr val) {
-  ::unreal::helpers::GcRefStatic::set(this->ref, val);
+void ::uhx::GcRef::set(unreal::UIntPtr val) {
+  ::uhx::expose::GcRefStatic::set(this->ref, val);
 }
 
-unreal::UIntPtr unreal::helpers::GcRef::get() {
-  return ::unreal::helpers::GcRefStatic::get(this->ref);
+unreal::UIntPtr uhx::GcRef::get() {
+  return ::uhx::expose::GcRefStatic::get(this->ref);
 }

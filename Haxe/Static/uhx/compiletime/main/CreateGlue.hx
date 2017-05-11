@@ -116,13 +116,13 @@ class CreateGlue {
             case TInst(c,_):
               var cl = c.get();
               if (cl.meta.has(':ueHasGenerics')) {
-                new GenericFuncBuild().buildFunctions(c);
+                GenericFuncBuild.buildFunctions(c);
               }
             case TAbstract(a,_):
               var a = a.get();
               var cl = a.impl.get();
               if (a.meta.has(':ueHasGenerics')) {
-                new GenericFuncBuild().buildFunctions(a.impl);
+                GenericFuncBuild.buildFunctions(a.impl);
               }
             case _:
               throw 'assert';
@@ -238,7 +238,8 @@ class CreateGlue {
       }
     }
     Globals.cur.setHaxeRuntimeDir();
-    haxe.macro.Compiler.include('unreal.helpers');
+    haxe.macro.Compiler.include('uhx.expose');
+    haxe.macro.Compiler.include('uhx.runtime');
   }
 
   private static function excludeModules(modules:Array<Array<Type>>) {

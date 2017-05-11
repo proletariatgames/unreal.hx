@@ -1,5 +1,6 @@
-package unreal.helpers;
+package uhx;
 import cpp.ConstCharStar;
+import unreal.*;
 
 /**
   This is the base (abstract) class to abstract any ownership model used.

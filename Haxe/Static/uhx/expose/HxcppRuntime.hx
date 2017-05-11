@@ -1,6 +1,9 @@
-package unreal.helpers;
+package uhx.expose;
 import unreal.Wrapper;
+import unreal.*;
+import uhx.EnumMap;
 import uhx.HaxeCodeDispatcher;
+import uhx.internal.HaxeHelpers;
 
 @:headerClassCode('
   inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr) { return callFunction0(ptr); }
@@ -230,7 +233,7 @@ import uhx.HaxeCodeDispatcher;
 
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
+    uhx.runtime.UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
 #else
     trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');
 #end
@@ -238,7 +241,7 @@ import uhx.HaxeCodeDispatcher;
 
   public static function startLoadingDynamic() {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    UReflectionGenerator.startLoadingDynamic();
+    uhx.runtime.UReflectionGenerator.startLoadingDynamic();
 #else
     trace('Warning', 'Trying to start loading Dynamic but dynamic class support was disabled');
 #end
@@ -246,7 +249,7 @@ import uhx.HaxeCodeDispatcher;
 
   public static function endLoadingDynamic() {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    UReflectionGenerator.endLoadingDynamic();
+    uhx.runtime.UReflectionGenerator.endLoadingDynamic();
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end

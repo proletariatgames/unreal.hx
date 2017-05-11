@@ -1,6 +1,7 @@
-package unreal.helpers;
-import uhx.meta.Metadata;
-import unreal.helpers.UnrealReflection;
+package uhx.runtime;
+import uhx.meta.MetaDef;
+import uhx.ue.RuntimeLibrary;
+import unreal.*;
 import haxe.rtti.Meta;
 
 /**
@@ -10,7 +11,7 @@ class UReflectionGenerator {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
   public static var ANY_PACKAGE(default, null) = @:privateAccess new UPackage(-1);
 
-  private static var uclassDefs:Map<String, Metadata>;
+  private static var uclassDefs:Map<String, MetaDef>;
   private static var uclassToHx:Map<String, String>;
   private static var nativeCompiled:Map<String, UStruct>;
   private static var uclassNames:Array<String>;
@@ -19,9 +20,9 @@ class UReflectionGenerator {
   private static var staticHxToUClass:Map<String, StaticMeta>;
   private static var staticUClassToHx:Map<String, StaticMeta>;
 
-  private static var haxeGcRefOffset(default, null) = unreal.helpers.UnrealReflection.getHaxeGcRefOffset();
+  private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
 
-  @:allow(UnrealInit) static function initializeDef(uclassName:String, hxClassName:String, meta:Metadata) {
+  @:allow(UnrealInit) static function initializeDef(uclassName:String, hxClassName:String, meta:MetaDef) {
     if (uclassDefs == null) {
       uclassDefs = new Map();
       uclassToHx = new Map();
@@ -214,7 +215,7 @@ class UReflectionGenerator {
       haxeGcRef.Struct = uhx.FHaxeGcRef.StaticStruct();
       uclass.AddCppProperty(haxeGcRef);
     }
-    UnrealReflection.setupClassConstructor(@:privateAccess uclass.wrapped, @:privateAccess parent.wrapped, parentHxGenerated);
+    RuntimeLibrary.setupClassConstructor(@:privateAccess uclass.wrapped, @:privateAccess parent.wrapped, parentHxGenerated);
 
     Reflect.setField(hxClass, 'StaticClass', function() {
       return uclass;

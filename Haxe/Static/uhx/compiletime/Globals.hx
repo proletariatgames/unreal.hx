@@ -4,7 +4,7 @@ import haxe.macro.Context;
 import haxe.macro.Type;
 import sys.FileSystem;
 import sys.io.File;
-import uhx.meta.Metadata;
+import uhx.meta.MetaDef;
 import uhx.compiletime.types.TypeConv;
 import uhx.compiletime.tools.Lst;
 
@@ -94,6 +94,10 @@ class Globals {
   }
 
   public var builtGlueTypes:Map<String,Bool> = new Map();
+
+  /**
+    The unreal.UObject type cached
+   **/
   public var uobject:Type;
 
   /**
@@ -148,19 +152,38 @@ class Globals {
    **/
   public var classesToAddMetaDef:Array<String> = [];
 
-  public var modulesToProcess:Lst<{ module:String, pack:Array<String> }>;
-
+  /**
+    A list of unreal types created by Haxe that were compiled in the static build phase
+   **/
   public var staticUTypes:Map<String, StaticMeta> = new Map();
 
-  public var allClassDefs:Map<String, { className:String, meta:uhx.meta.Metadata }> = new Map();
+  /**
+    A list of unreal types created by Haxe that were compiled in the script build phase.
+    This also contains their metadata definition of uproperties/ufunctions,
+   **/
+  public var scriptClassDefs:Map<String, { className:String, meta:uhx.meta.MetaDef }> = new Map();
 
+  /**
+    Allows to speed up builds by keeping track of the glues that need to be regenerated
+   **/
   public var gluesTouched:Map<String,Bool> = new Map();
-  public var hasOlderCache:Null<Bool>;
-  public var inScriptPass:Bool = false;
-  // only used when cppia is defined
-  public var scriptModules:Map<String, Bool> = new Map();
 
-  private var modulesSeen:Map<String, Array<String>> = new Map();
+  /**
+    True if the latest compilation was using the same defines as this current.
+    Allows to speed up the builds by skipping some files if they have not changed
+   **/
+  public var hasOlderCache:Null<Bool>;
+
+  /**
+    True if we're building the scripts currently
+   **/
+  public var inScriptPass:Bool = false;
+
+  /**
+    A list of modules that are compiled in the script pass
+    only used when cppia is defined
+   **/
+  public var scriptModules:Map<String, Bool> = new Map();
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);
@@ -179,13 +202,6 @@ class Globals {
       } else {
         this.hasOlderCache = false;
       }
-    }
-  }
-
-  public function markModule(module:String, pack:Array<String>) {
-    if (!modulesSeen.exists(module)) {
-      this.modulesToProcess = this.modulesToProcess.add({ module:module, pack:pack });
-      this.modulesSeen[module] = pack;
     }
   }
 
@@ -234,7 +250,7 @@ class Globals {
       switch(Context.getType('uhx.CachedData')) {
         case TInst(_.get() => c,_):
           if (c.meta.has(':savedTypes')) {
-            for (type in MacroHelpers.extractStrings(c.meta, ':savedTypes')) {
+            for (type in c.meta.extractStrings(':savedTypes')) {
               try {
                 Context.getType(type);
                 this.cachedBuiltTypes.push(type);
@@ -293,5 +309,14 @@ class Globals {
       var pos = Context.makePosition({ file: 'UE4Haxe Toolchain', min:0, max:0 });
       Context.fatalError('You have an incompatible build tool build. Please rebuild it by running `haxe init-plugin.hxml` on the plugin directory', pos);
     }
+  }
+
+
+  // helpers
+  /**
+    True if the `type` is dynamic, and whose properties will be added by cppia at runtime
+   **/
+  public static function isDynamicUType(cl:ClassType) {
+    return cl.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS');
   }
 }

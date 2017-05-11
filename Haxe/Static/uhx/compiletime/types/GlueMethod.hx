@@ -294,7 +294,7 @@ class GlueMethod {
         for (arg in meth.args) {
           switch(arg.t.data) {
             case CStruct(_) if(!arg.t.hasModifier(Ref) && !arg.t.hasModifier(Ptr)):
-              haxeCode.push('if (${arg.name} == null) unreal.helpers.HaxeHelpers.nullDeref("${arg.name}");');
+              haxeCode.push('if (${arg.name} == null) uhx.internal.HaxeHelpers.nullDeref("${arg.name}");');
             case _:
           }
         }
@@ -381,19 +381,19 @@ class GlueMethod {
     }
     var gcFree = this.meth.meta.hasMeta(':gcFree');
     if (gcFree) {
-      cppIncludes.add('<unreal/helpers/HxcppRuntime.h>');
-      outVars << '::unreal::helpers::HxcppRuntime::enterGCFreeZone();';
+      cppIncludes.add('<uhx/expose/HxcppRuntime.h>');
+      outVars << '::uhx::expose::HxcppRuntime::enterGCFreeZone();';
     }
     if (!this.glueRet.haxeType.isVoid()) {
       if (gcFree) {
         outVars << meth.ret.ueType.getCppType() + ' hx_gc_free_ret = $body;';
-        outVars << '::unreal::helpers::HxcppRuntime::exitGCFreeZone();';
+        outVars << '::uhx::expose::HxcppRuntime::exitGCFreeZone();';
         body = 'return ' + this.glueRet.ueToGlue('hx_gc_free_ret', this.ctx);
       } else {
         body = 'return ' + this.glueRet.ueToGlue(body, this.ctx);
       }
     } else if (gcFree) {
-      body = '($body, ::unreal::helpers::HxcppRuntime::exitGCFreeZone())';
+      body = '($body, ::uhx::expose::HxcppRuntime::exitGCFreeZone())';
     }
     return body;
   }
@@ -587,7 +587,7 @@ class GlueMethod {
     var code = this.haxeCode.join('\n');
     if (shouldCheckPointer()) {
       var checkCompl = this.thisConv.data.match(CUObject(_)) ? 'Object' : '';
-      code = 'unreal.helpers.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");\n' + code;
+      code = 'uhx.internal.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");\n' + code;
     }
     var expr = block != null ? Context.parse('{' + code + '}', meth.pos) : null;
     var field:Field = {
@@ -680,7 +680,7 @@ class GlueMethod {
         if (shouldCheckPointer()) {
           var checkCompl = this.thisConv.data.match(CUObject(_)) ? 'Object' : '';
           buf << '#if (debug || UHX_CHECK_POINTER)' << new Newline();
-          buf << 'unreal.helpers.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");' << new Newline();
+          buf << 'uhx.internal.HaxeHelpers.check${checkCompl}Pointer(this, "${meth.name}");' << new Newline();
           buf << '#end' << new Newline();
         }
 

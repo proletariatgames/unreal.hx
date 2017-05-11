@@ -1,4 +1,4 @@
-package unreal.helpers;
+package uhx;
 
 @:enum abstract EStructFlags(Int) from Int {
   var UHXS_Templated = 1;

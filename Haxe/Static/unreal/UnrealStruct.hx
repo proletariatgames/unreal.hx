@@ -24,6 +24,6 @@ package unreal;
     }]>;
   ```
  **/
-@:genericBuild(uhx.compiletime.StructBuild.build())
+@:genericBuild(uhx.compiletime.UStructBuild.build())
 class UnrealStruct<Rest> {
 }

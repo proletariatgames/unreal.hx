@@ -1,8 +1,7 @@
 package unreal;
 
 #if (!bake_externs && !macro)
-import unreal.helpers.HaxeHelpers;
-import unreal.helpers.StructInfo;
+import uhx.StructInfo;
 using unreal.CoreAPI;
 #end
 

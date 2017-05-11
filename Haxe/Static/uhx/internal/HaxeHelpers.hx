@@ -1,8 +1,9 @@
-package unreal.helpers;
+package uhx.internal;
+import unreal.*;
 
 @:unreflective class HaxeHelpers
 {
-  @:ifFeature("unreal.helpers.HaxeHelpers.*") public static function dynamicToPointer(dyn:Dynamic):unreal.UIntPtr {
+  @:ifFeature("uhx.internal.HaxeHelpers.*") public static function dynamicToPointer(dyn:Dynamic):unreal.UIntPtr {
     // there's no way to get a pointer to hxcpp's Dynamic struct
     // so we're using the undocumented GetPtr (defined in `include/hx/Object.h`)
     // this pointer should only be used in the stack - because this pointer will be
@@ -11,7 +12,7 @@ package unreal.helpers;
     return untyped __cpp__('(unreal::UIntPtr) {0}.GetPtr()',dyn);
   }
 
-  @:ifFeature("unreal.helpers.HaxeHelpers.*") public static function pointerToDynamic(ptr:unreal.UIntPtr):Dynamic {
+  @:ifFeature("uhx.internal.HaxeHelpers.*") public static function pointerToDynamic(ptr:unreal.UIntPtr):Dynamic {
     var dyn:Dynamic = untyped __cpp__('Dynamic( (hx::Object *) {0} )', ptr);
     return dyn;
   }
@@ -19,7 +20,7 @@ package unreal.helpers;
   /**
     Same as `dynamicToPointer`, but is aware of variant pointers, and if `dyn` is a raw pointer, will return the unboxed pointer value instead
    **/
-  @:ifFeature("unreal.helpers.HaxeHelpers.*") public static function variantToPointer(dyn:Dynamic):unreal.UIntPtr {
+  @:ifFeature("uhx.internal.HaxeHelpers.*") public static function variantToPointer(dyn:Dynamic):unreal.UIntPtr {
     var variant:VariantPtr = dyn;
     return untyped __cpp__('(unreal::UIntPtr) {0}.raw',variant);
   }

@@ -1,4 +1,6 @@
-package unreal.helpers;
+package uhx;
+import uhx.internal.ObjectArrayHelper;
+import uhx.internal.ObjectArrayHelper_Glue;
 import cpp.Function;
 import unreal.*;
 
@@ -43,13 +45,13 @@ import unreal.*;
     if (serial == 0) {
       serial = ObjectArrayHelper_Glue.allocateSerialNumber(index);
     }
-    var ptr = unreal.helpers.ClassMap.wrap(nativePtr);
+    var ptr = uhx.ue.ClassMap.wrap(nativePtr);
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
     if (ptr == 0) {
       ptr = getDynamicClass(nativePtr);
     }
 #end
-    ret = unreal.helpers.HaxeHelpers.pointerToDynamic(ptr);
+    ret = uhx.internal.HaxeHelpers.pointerToDynamic(ptr);
     if (ret == null) {
       for (obj in constructingObjects) {
         if (obj.wrapped == nativePtr) {
@@ -101,7 +103,7 @@ import unreal.*;
         throw 'Cannot find a wrapper for ${className}';
       }
       var ofs = uhx.glues.UProperty_Glue.GetOffset_ReplaceWith_ContainerPtrToValuePtr(prop);
-      ofs += unreal.helpers.UnrealReflection.getHaxeGcRefOffset();
+      ofs += uhx.ue.RuntimeLibrary.getHaxeGcRefOffset();
       offset = ofs;
       dynamicClassesOffsets[unique] = ofs;
     }
@@ -157,7 +159,7 @@ import unreal.*;
 #if UHX_NO_UOBJECT
     return throw 'Cannot access uobject-derived types inside UE programs';
 #else
-    return unreal.helpers.HaxeHelpers.pointerToDynamic( unreal.helpers.ClassMap.wrap(nativePtr) );
+    return uhx.internal.HaxeHelpers.pointerToDynamic( uhx.ue.ClassMap.wrap(nativePtr) );
 #end
   }
 #end

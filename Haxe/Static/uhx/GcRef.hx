@@ -1,6 +1,7 @@
-package unreal.helpers;
+package uhx;
+import unreal.*;
 
-@:include("GcRef.h") extern class GcRef {
+@:include("uhx/GcRef.h") extern class GcRef {
   public function set(dyn:UIntPtr):Void;
   public function get():UIntPtr;
 }

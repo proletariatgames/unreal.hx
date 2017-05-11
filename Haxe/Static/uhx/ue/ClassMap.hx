@@ -1,9 +1,9 @@
-package unreal.helpers;
+package uhx.ue;
 import cpp.Function;
 import unreal.UIntPtr;
 
-@:native('unreal.helpers.ClassMap')
-@:include("ClassMap.h") extern class ClassMap {
+@:native('uhx.ue.ClassMap')
+@:include("uhx/ue/ClassMap.h") extern class ClassMap {
   /**
    * Adds a wrapper so that given `inUClass`, the function `wrapper` will be called to wrap it
    **/

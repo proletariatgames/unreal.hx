@@ -2,7 +2,7 @@ package unreal;
 import cpp.Pointer;
 import cpp.RawPointer;
 import unreal.WrapperFlags;
-import unreal.helpers.StructInfo;
+import uhx.StructInfo;
 
 @:keep class Wrapper {
 

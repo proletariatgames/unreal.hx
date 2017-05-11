@@ -12,12 +12,13 @@ import uhx.compiletime.main.ExternBaker;
 using StringTools;
 using haxe.macro.Tools;
 
+/**
+  This class presents a routine that is called at the end of the compilation, and checks all templated functions - in order to generate
+  a specific glue code for each template instantiation. Every class that is annotated with the metadata `:ueHasGenerics` will be passed to
+  this type so it can be checked for instantiations
+ **/
 class GenericFuncBuild {
-
-  public function new() {
-  }
-
-  public function buildFunctions(c:Ref<ClassType>) {
+  public static function buildFunctions(c:Ref<ClassType>) {
     var cl = c.get(),
         base:BaseType = null;
     switch(cl.kind) {
@@ -66,6 +67,5 @@ class GenericFuncBuild {
 
       Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(caller.getClassPath());
     }
-
   }
 }

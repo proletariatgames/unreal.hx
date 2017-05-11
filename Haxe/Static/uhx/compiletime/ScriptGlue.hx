@@ -10,6 +10,10 @@ using haxe.macro.Tools;
 using Lambda;
 using StringTools;
 
+/**
+  Helps to build script-accessible glue code by creating a class (called _ScriptGlue)
+  which exposes the raw glue as a hxcpp static function, which can then be called by cppia
+ **/
 class ScriptGlue {
   public static function generate(path:String) {
     var type = Context.getType(path);

@@ -2,11 +2,10 @@
 #ifndef HXCPP_H
 #include <hxcpp.h>
 #endif
-#include <unreal/helpers/GcRefStatic.h>
+#include <uhx/expose/GcRefStatic.h>
 #include "IntPtr.h"
 
-namespace unreal {
-namespace helpers {
+namespace uhx {
 
 class HXCPP_CLASS_ATTRIBUTES GcRef {
 public:
@@ -22,5 +21,3 @@ private:
 };
 
 }
-}
-

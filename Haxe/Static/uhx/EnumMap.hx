@@ -1,4 +1,4 @@
-package unreal.helpers;
+package uhx;
 
 class EnumMap {
   private static var map:Map<String, Array<Dynamic>>;

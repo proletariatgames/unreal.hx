@@ -1,4 +1,4 @@
-package unreal.helpers;
+package uhx.internal;
 
 class GcRoot {
   private static var root(default, null):GcRoot = new GcRoot(null,null);

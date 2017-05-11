@@ -1,4 +1,4 @@
-package unreal.helpers;
+package uhx.internal;
 
 @:unrealGlue extern class ObjectArrayHelper_Glue {
   public static function indexToObject(idx:Int):unreal.UIntPtr;

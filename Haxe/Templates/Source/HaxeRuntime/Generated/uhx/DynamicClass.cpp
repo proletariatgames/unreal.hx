@@ -2,7 +2,7 @@
 #include "DynamicClass.h"
 
 #include "Misc/Paths.h"
-#include "unreal/helpers/HxcppRuntime.h"
+#include "uhx/expose/HxcppRuntime.h"
 
 #ifndef UHX_NO_UOBJECT
 
@@ -78,7 +78,7 @@ class UHxBootstrap : public UObject {
   DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, 0, HAXERUNTIME_API)
 #endif
   UHxBootstrap(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : UObject(ObjectInitializer) {
-    unreal::helpers::HxcppRuntime::endLoadingDynamic();
+    uhx::expose::HxcppRuntime::endLoadingDynamic();
   }
 
 };
@@ -86,10 +86,10 @@ class UHxBootstrap : public UObject {
 IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, HAXERUNTIME_API,
 {
   check_hx_init();
-  unreal::helpers::HxcppRuntime::startLoadingDynamic();
+  uhx::expose::HxcppRuntime::startLoadingDynamic();
   for (auto It = ::uhx::DynamicClassHelper::getDynamicsMap().CreateIterator(); It; ++It) {
     UClass *val = It.Value();
-    unreal::helpers::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString()));
+    uhx::expose::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString()));
   }
 });
 

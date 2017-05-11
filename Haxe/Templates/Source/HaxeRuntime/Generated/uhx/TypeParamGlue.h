@@ -1,7 +1,7 @@
 #pragma once
 
 #include <type_traits>
-#include "unreal/helpers/HxcppRuntime.h"
+#include "uhx/expose/HxcppRuntime.h"
 #include "uhx/StructInfo_UE.h"
 #include "uhx/EnumGlue.h"
 #include "uhx/Wrapper.h"
@@ -242,10 +242,10 @@ struct PtrMaker<TSubclassOf<T>> {
 #define BASIC_TYPE(TYPE,name) \
   template<> struct TypeParamGlue<TYPE, OtherType> { \
     inline static TYPE haxeToUe(unreal::UIntPtr haxe) { \
-      return (TYPE) unreal::helpers::HxcppRuntime::unbox##name(haxe); \
+      return (TYPE) uhx::expose::HxcppRuntime::unbox##name(haxe); \
     } \
     inline static unreal::UIntPtr ueToHaxe(TYPE ue) { \
-      return unreal::helpers::HxcppRuntime::box##name(ue); \
+      return uhx::expose::HxcppRuntime::box##name(ue); \
     } \
   }; \
   template<> struct PtrMaker< TYPE > { typedef PtrHelper_Stack< TYPE > Type; }; \
@@ -315,42 +315,42 @@ struct TypeParamGlue<T, InterfaceType> {
 template<typename T>
 struct TypeParamGlue<T*, ObjectType> {
   inline static T* haxeToUe(unreal::UIntPtr haxe) {
-    return (T *) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe);
+    return (T *) uhx::expose::HxcppRuntime::uobjectUnwrap(haxe);
   }
 
   inline static unreal::UIntPtr ueToHaxe(T* ue) {
-    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) ue);
+    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) ue);
   }
 };
 template<typename T>
 struct TypeParamGlue<T*, InterfaceType> {
   inline static T* haxeToUe(unreal::UIntPtr haxe) {
-    return Cast<T>((UObject *) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe));
+    return Cast<T>((UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T* ue) {
-    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) Cast<UObject>(ue));
+    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) Cast<UObject>(ue));
   }
 };
 
 template<typename T>
 struct TypeParamGlue<T&, ObjectType> {
   inline static T& haxeToUe(unreal::UIntPtr haxe) {
-    return *((UObject *) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe));
+    return *((UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T& ue) {
-    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) &ue);
+    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) &ue);
   }
 };
 template<typename T>
 struct TypeParamGlue<T&, InterfaceType> {
   inline static T& haxeToUe(unreal::UIntPtr haxe) {
-    return *Cast<T>((UObject *) unreal::helpers::HxcppRuntime::uobjectUnwrap(haxe));
+    return *Cast<T>((UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(haxe));
   }
 
   inline static unreal::UIntPtr ueToHaxe(T& ue) {
-    return unreal::helpers::HxcppRuntime::uobjectWrap((unreal::UIntPtr) Cast<UObject>(&ue));
+    return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) Cast<UObject>(&ue));
   }
 };
 
@@ -493,7 +493,7 @@ struct TypeParamGluePtr<T, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T& ue) {
-    return unreal::helpers::HxcppRuntime::boxVariantPtr(StructHelper<T>::fromPointer(&ue));
+    return uhx::expose::HxcppRuntime::boxVariantPtr(StructHelper<T>::fromPointer(&ue));
   }
 };
 
@@ -504,7 +504,7 @@ struct TypeParamGlue<T*, OtherType> {
   }
 
   inline static unreal::UIntPtr ueToHaxe(T* ue) {
-    return unreal::helpers::HxcppRuntime::boxVariantPtr(unreal::VariantPtr(ue));
+    return uhx::expose::HxcppRuntime::boxVariantPtr(unreal::VariantPtr(ue));
   }
 };
 

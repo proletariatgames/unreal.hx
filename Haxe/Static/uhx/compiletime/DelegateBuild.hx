@@ -33,7 +33,7 @@ class DelegateBuild {
     }
 
     var hxPath = tref.withoutModule().toString();
-    Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: ueType.toString(), type: uhx.meta.Metadata.CompiledClassType.CUDelegate };
+    Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: ueType.toString(), type: uhx.meta.MetaDef.CompiledClassType.CUDelegate };
 
     switch(type) {
     case 'Delegate' | 'MulticastDelegate' | 'Event' | 'DynamicDelegate' | 'DynamicMulticastDelegate':
@@ -256,7 +256,7 @@ class DelegateBuild {
       }
       var info = GlueInfo.fromBaseType(tdef, Globals.cur.module);
       var headerPath = info.getHeaderPath();
-      meta.push({ name:':glueCppIncludes', params:[macro $v{headerPath}, macro "<ClassMap.h>"], pos:pos });
+      meta.push({ name:':glueCppIncludes', params:[macro $v{headerPath}, macro "<uhx/ue/ClassMap.h>"], pos:pos });
       meta.push({ name:':uhxdelegate', params:[], pos:pos });
     }
 #end
