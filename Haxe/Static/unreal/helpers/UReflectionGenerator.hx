@@ -1,5 +1,5 @@
 package unreal.helpers;
-import ue4hx.internal.meta.Metadata;
+import uhx.meta.Metadata;
 import unreal.helpers.UnrealReflection;
 import haxe.rtti.Meta;
 

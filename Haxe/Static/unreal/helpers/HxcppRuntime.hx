@@ -1,6 +1,6 @@
 package unreal.helpers;
 import unreal.Wrapper;
-import ue4hx.internal.HaxeCodeDispatcher;
+import uhx.HaxeCodeDispatcher;
 
 @:headerClassCode('
   inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr) { return callFunction0(ptr); }

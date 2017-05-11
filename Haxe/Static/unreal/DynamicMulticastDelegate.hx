@@ -6,7 +6,7 @@ package unreal;
 
   In order to bind to those delegates, see `unreal.Delegates` helper macros
  **/
-@:genericBuild(ue4hx.internal.DelegateBuild.build("DynamicMulticastDelegate"))
+@:genericBuild(uhx.compiletime.DelegateBuild.build("DynamicMulticastDelegate"))
 class DynamicMulticastDelegate<SelfType, T : haxe.Constraints.Function> {
   // added by the compiler:
   // function Broadcast(args):Void;

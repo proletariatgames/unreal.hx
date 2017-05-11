@@ -1,13 +1,13 @@
 #if WITH_EDITOR
+import uhx.HaxeCodeDispatcher;
 import unreal.*;
-import unreal.helpers.HxcppRuntime;
-import ue4hx.internal.HaxeCodeDispatcher;
-import unreal.editor.UEditorEngine;
-import unreal.developer.hotreload.IHotReloadModule;
-import unreal.FTimerManager;
-import unreal.editor.*;
-import sys.FileSystem;
 import unreal.developer.directorywatcher.*;
+import unreal.developer.hotreload.IHotReloadModule;
+import unreal.editor.*;
+import unreal.editor.UEditorEngine;
+import unreal.helpers.HxcppRuntime;
+import unreal.FTimerManager;
+import sys.FileSystem;
 #end
 
 // this code is needed on windows since we're compiling with -MT instead of -MD
@@ -41,7 +41,7 @@ class UnrealInit
 
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
-    var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadStatic');
+    var cls:Dynamic = Type.resolveClass('uhx.LiveReloadStatic');
     if (cls != null) {
       cls.bindFunctions();
     }
@@ -77,12 +77,12 @@ class UnrealInit
       trace('loading cppia');
       try {
         untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
-        var cls:Dynamic = Type.resolveClass('ue4hx.internal.LiveReloadScript');
+        var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
         if (cls != null) {
           trace('Setting cppia live reload types');
           cls.bindFunctions();
         }
-        cls = Type.resolveClass('ue4hx.internal.CppiaCompilation');
+        cls = Type.resolveClass('uhx.meta.CppiaCompilation');
         if (cls != null) {
           var newStamp:Float = cls.timestamp;
           if (Math.abs(newStamp - internalStamp) < .1) {

@@ -213,7 +213,7 @@ class HaxeModuleRules extends BaseModuleRules
           '',
           '-cpp $haxeDir/Generated/$externsFolder',
           '--no-output', // don't generate cpp files; just execute our macro
-          '--macro ue4hx.internal.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedHaxeDir/Externs"], $forceCreateExterns)'
+          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedHaxeDir/Externs"], $forceCreateExterns)'
         ];
         if (UEBuildConfiguration.bBuildEditor) {
           bakeArgs.push('-D WITH_EDITOR');
@@ -285,7 +285,7 @@ class HaxeModuleRules extends BaseModuleRules
             '-D bake_dir=$haxeDir/Generated/$externsFolder',
             '-D HXCPP_DLL_EXPORT',
             '-cpp $targetDir/Built',
-            '--macro ue4hx.internal.CreateGlue.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
+            '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
           ]);
           if (!FileSystem.exists('$targetDir/Built/Data')) {
             FileSystem.createDirectory('$targetDir/Built/Data');
@@ -479,7 +479,7 @@ class HaxeModuleRules extends BaseModuleRules
               '-D cppia',
               '-D ustatic_target=$targetDir/Built',
               '-cpp $gameDir/Binaries/Haxe/game.cppia',
-              '--macro ue4hx.internal.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
+              '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
           ]);
           if (debugSymbols) {
             args.push('-debug');
@@ -653,7 +653,7 @@ class HaxeModuleRules extends BaseModuleRules
   {
     function recurse(path:String, pack:String)
     {
-      if (pack == 'ue4hx.' || pack == 'unreal.') return;
+      if (pack == 'uhx.' || pack == 'unreal.') return;
       for (file in readDirectory(path))
       {
         if (file.endsWith('.hx'))

@@ -9,7 +9,7 @@ package unreal;
   abstract classes, and restricting external classes from invoking the Broadcast, IsBound, and Clear
   functions.
  **/
-@:genericBuild(ue4hx.internal.DelegateBuild.build("Event"))
+@:genericBuild(uhx.compiletime.DelegateBuild.build("Event"))
 class Event<SelfType, T : haxe.Constraints.Function> {
   /**
     Removes a function from this multi-cast delegate
