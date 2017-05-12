@@ -1,5 +1,6 @@
 package uhx;
 import haxe.CallStack;
+import unreal.FFrame;
 
 /**
   This allows us to make all haxe code run inside a try handler so we can have better error messages
@@ -63,8 +64,8 @@ import haxe.CallStack;
     if (world == null || !world.IsPlayInEditor())
 #end
     {
-    unreal.Log.fatal('Haxe run failed');
-    throw 'Error';
+      unreal.Log.fatal('Haxe run failed');
+      throw 'Error';
     }
   }
 }

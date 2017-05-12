@@ -19,6 +19,7 @@ typedef UClassDef = {
 }
 
 typedef UFunctionDef = {
+  hxName:String,
   uname: String, // with the prefix
 
   args: Null<Array<UPropertyDef>>,
@@ -28,6 +29,7 @@ typedef UFunctionDef = {
 }
 
 typedef UPropertyDef = {
+  hxName:String,
   uname: String, // with the prefix
   flags: TypeFlags,
   ?typeUName: String, // with the prefix

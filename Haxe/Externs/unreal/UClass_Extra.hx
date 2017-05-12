@@ -33,4 +33,6 @@ extern class UClass_Extra {
    * @param bForce Assemble the stream even if it has been already assembled (deletes the old one)
    */
   function AssembleReferenceTokenStream(bForce:Bool = false):Void;
+
+  function AddFunctionToFunctionMap(fn:UFunction):Void;
 }

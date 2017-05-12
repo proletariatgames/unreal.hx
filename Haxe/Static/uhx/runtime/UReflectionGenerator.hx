@@ -2,6 +2,8 @@ package uhx.runtime;
 import uhx.meta.MetaDef;
 import uhx.ue.RuntimeLibrary;
 import unreal.*;
+import unreal.EFunctionFlags;
+import unreal.PropertyFlags.*;
 import haxe.rtti.Meta;
 
 /**
@@ -70,12 +72,220 @@ class UReflectionGenerator {
 
     for (propDef in meta.uclass.uprops) {
       var prop = generateUProperty(struct, struct, propDef, false);
+      prop.SetMetaData('HaxeGenerated',"true");
       struct.AddCppProperty(prop);
     }
     if (isNative) {
       bindProperties(uname, struct);
     }
     propertiesAdded[uname] = true;
+  }
+
+  public static function addFunctions(uname:String, isNative:Bool) {
+    var meta = uclassDefs[uname],
+        uclass:UClass = cast nativeCompiled[uname];
+    if (uclass == null) {
+      uclass = getUClass(uname.substr(1));
+      if (uclass == null) {
+        trace('Error', 'Cannot find class $uname to create ufunctions');
+        return;
+      }
+    }
+
+    if (meta == null || meta.uclass == null) {
+      trace('Warning', 'Cannot find metadata to add functions for $uname');
+      return;
+    }
+    if (meta.uclass.ufuncs == null) {
+      trace('Warning', 'No ufunction was found for $uname');
+      return;
+    }
+    var hxClassName = uclassToHx[uname];
+    if (hxClassName == null) {
+      trace('Warning', 'Cannot find Haxe class name for $uname');
+      return;
+    }
+    var hxClass = Type.resolveClass(hxClassName);
+    if (hxClass == null) {
+      trace('Warning', 'Cannot find Haxe class for $uname');
+      return;
+    }
+    var setupFunction = null;
+    {
+      // TODO fix this
+      var cur = hxClass;
+      while (cur != null) {
+        setupFunction = Reflect.field(hxClass, 'setupFunction');
+        if (setupFunction != null) {
+          break;
+        }
+        cur = Type.getSuperClass(cur);
+      }
+    }
+    if (setupFunction == null) {
+      trace('Warning', 'Cannot find setup function for $hxClassName');
+      // TODO allow this
+      return;
+    }
+
+    var sup = uclass.GetSuperClass();
+    for (funcDef in meta.uclass.ufuncs) {
+      var parent = sup == null ? null : sup.FindFunction(funcDef.uname);
+      var func = generatedUFunction(uclass, funcDef, parent);
+      if (func != null) {
+        uclass.AddFunctionToFunctionMap(func);
+        setupFunction(@:privateAccess func.wrapped);
+        func.Next = uclass.Children;
+        uclass.Children = func.Next;
+      }
+    }
+  }
+
+  private static function generatedUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction):UFunction {
+    var fn:UFunction = cast UObject.NewObject_NoTemplate(uclass, UFunction.StaticClass(), func.uname, RF_Public);
+    if (parent != null) {
+      fn.SetSuperStruct(parent);
+    }
+    if (func.hxName != null && func.hxName != func.uname) {
+      fn.SetMetaData('HaxeName', func.hxName);
+    }
+
+    var curChild = null,
+        curProp = null;
+    if (func.args != null) {
+      for (arg in func.args) {
+        var prop = generateUProperty(fn, uclass, arg, false);
+        prop.PropertyFlags |= CPF_Parm;
+        if (curChild == null) {
+          curChild = fn.Children = prop;
+          curProp = fn.PropertyLink = prop;
+        } else {
+          curChild.Next = prop;
+          curProp.PropertyLinkNext = prop;
+          curProp = prop;
+          curChild = prop;
+        }
+      }
+    }
+    fn.NumParms = func.args.length;
+    if (func.ret != null) {
+      var prop = generateUProperty(fn, uclass, func.ret, true);
+        prop.PropertyFlags |= CPF_Parm;
+      prop.PropertyFlags |= CPF_ReturnParm;
+      if (curChild == null) {
+        curChild = fn.Children = prop;
+        curProp = fn.PropertyLink = prop;
+      } else {
+        curChild.Next = prop;
+        curProp.PropertyLinkNext = prop;
+        curProp = prop;
+        curChild = prop;
+      }
+    }
+
+    var flags = getFunctionFlags(uclass, fn, func);
+    fn.FunctionFlags |= flags;
+
+    fn.Bind();
+    fn.StaticLink(true);
+
+    fn.FunctionFlags |= FUNC_Native;
+
+    var arg = fn.PropertyLink;
+    while (arg != null) {
+      if (arg.PropertyFlags & CPF_Parm != 0) {
+        fn.ParmsSize = arg.GetOffset_ForUFunction() + arg.GetSize();
+
+        if (arg.PropertyFlags & CPF_OutParm != 0) {
+          fn.FunctionFlags |= FUNC_HasOutParms;
+        }
+
+        if (arg.PropertyFlags & CPF_ReturnParm != 0) {
+          fn.ParmsSize = arg.GetOffset_ForUFunction() + arg.GetSize();
+        }
+      }
+
+      arg = arg.PropertyLinkNext;
+    }
+
+    return fn;
+  }
+
+  private static function getFunctionFlags(owner:UClass, fn:UFunction, funcDef:UFunctionDef):EFunctionFlags {
+    var flags:EFunctionFlags = 0;
+    if (funcDef.metas == null) {
+      return flags;
+    }
+
+    for (meta in funcDef.metas) {
+      if (meta.isMeta) {
+        fn.SetMetaData(meta.name, meta.value == null ? "" : meta.value);
+        continue;
+      }
+
+      switch(meta.name.toLowerCase()) {
+      case 'blueprintnativeevent':
+        // TODO cannot be FUNC_Net - it cannot be replicated
+        // TODO cannot be BlueprintEvent but not native
+        flags |= FUNC_Event;
+        flags |= FUNC_BlueprintEvent;
+      case 'blueprintimplementableevent':
+        // TODO cannot beFUNC_Net - it cannot be replicated
+        // TODO cannot be BlueprintEvent but native
+        flags |= FUNC_Event;
+        flags |= FUNC_BlueprintEvent;
+        flags &= ~FUNC_Native;
+      case 'exec':
+        flags |= FUNC_Exec;
+        // TODO cannot be FUNC_Net
+      case 'sealedevent':
+        // TODO
+        // fn.bSealedEvent = true;
+      case 'server':
+        // TODO cannot be blueprintevent
+        // TODO cannot be exec
+        flags |= FUNC_Net;
+        flags |= FUNC_NetServer;
+      case 'client':
+        // TODO cannot be blueprintevent
+        flags |= FUNC_Net;
+        flags |= FUNC_NetClient;
+      case 'netmulticast':
+        // TODO cannot be blueprintevent
+        flags |= FUNC_Net;
+        flags |= FUNC_NetMulticast;
+      case 'servicerequest':
+        // TODO cannot be blueprintevent
+        // flags |= FUNC_Net;
+        // flags |= FUNC_NetReliable;
+        // flags |= FUNC_NetRequest;
+        // set FUNCEXPORT_CustomThunk
+        // ParseNetServiceIdentifiers
+        trace('Warning', 'ServiceRequest not supported');
+      case 'serviceresponse':
+        // TODO cannot be blueprintevent
+        trace('Warning', 'ServiceResponse not supported');
+      case 'reliable':
+        flags |= FUNC_NetReliable;
+      case 'unreliable':
+        // TODO - what exactly do we do with that?
+      case 'customthunk':
+        // TODO - FUNCEXPORT_CustomThunk. Don't think we need this
+      case 'blueprintcallable':
+        flags |= FUNC_BlueprintCallable;
+      case 'blueprintpure':
+        flags |= FUNC_BlueprintCallable;
+        flags |= FUNC_BlueprintPure;
+      case 'blueprintauthorityonly':
+        flags |= FUNC_BlueprintAuthorityOnly;
+      case 'blueprintcosmetic':
+        flags |= FUNC_BlueprintCosmetic;
+      case 'withvalidation':
+        // TODO
+      }
+    }
+
+    return flags;
   }
 
   private static function bindProperties(uname:String, struct:UStruct) {
@@ -153,6 +363,7 @@ class UReflectionGenerator {
           }
           ustruct = uclass;
 
+          addFunctions(uclassName, false);
           addProperties(ustruct, uclassName, false);
         } else {
           trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++ compilation, and only UClasses currently support dynamic loading. Please recompile the C++ module and try again');
@@ -212,6 +423,7 @@ class UReflectionGenerator {
     if (!parentHxGenerated) {
       // create the new property where the gc ref will be
       var haxeGcRef:UStructProperty = cast newProperty(uclass, UStructProperty.StaticClass(), "haxeGcRef", 0);
+      haxeGcRef.SetMetaData('HaxeGenerated',"true");
       haxeGcRef.Struct = uhx.FHaxeGcRef.StaticStruct();
       uclass.AddCppProperty(haxeGcRef);
     }
@@ -463,6 +675,9 @@ class UReflectionGenerator {
 
     if (def.replication != null) {
       prop.PropertyFlags |= PropertyFlags.CPF_Net;
+    }
+    if (def.hxName != null && def.hxName != def.uname) {
+      prop.SetMetaData('HaxeName', def.hxName);
     }
     return prop;
   }

@@ -233,7 +233,10 @@ import uhx.internal.HaxeHelpers;
 
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    uhx.runtime.UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
+    HaxeCodeDispatcher.runVoid( function() {
+      uhx.runtime.UReflectionGenerator.addFunctions(name.toString(), true);
+      uhx.runtime.UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
+    });
 #else
     trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');
 #end
@@ -241,7 +244,7 @@ import uhx.internal.HaxeHelpers;
 
   public static function startLoadingDynamic() {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    uhx.runtime.UReflectionGenerator.startLoadingDynamic();
+    HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.startLoadingDynamic() );
 #else
     trace('Warning', 'Trying to start loading Dynamic but dynamic class support was disabled');
 #end
@@ -249,7 +252,7 @@ import uhx.internal.HaxeHelpers;
 
   public static function endLoadingDynamic() {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    uhx.runtime.UReflectionGenerator.endLoadingDynamic();
+    HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.endLoadingDynamic() );
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end
@@ -263,10 +266,18 @@ import uhx.internal.HaxeHelpers;
       return 0;
     }
     var ret = Type.createInstance(hxType, [self]);
-    return HaxeHelpers.dynamicToPointer(ret);
+    return HaxeCodeDispatcher.runWithValue( function() return HaxeHelpers.dynamicToPointer(ret) );
 #else
     trace('Error', 'Trying to create a dynamic helper for ${name.toString()}, but dynamic class support was disabled');
     return 0;
+#end
+  }
+
+  public static function callHaxeFunction(selfHaxe:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(HaxeHelpers.pointerToDynamic(selfHaxe), cast stack, result) );
+#else
+    trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end
   }
 }

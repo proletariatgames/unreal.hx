@@ -380,6 +380,7 @@ class ExprGlueBuild {
   var typeRef:TypeRef;
   var thisConv:TypeConv;
   var firstExternSuper:TypeConv;
+  var firstExternSuperClass:ClassType;
   var gluePath:String;
   var type:Type;
 
@@ -410,6 +411,7 @@ class ExprGlueBuild {
       while (scls != null) {
         var tsup = scls.t.get();
         if (tsup.meta.has(':uextern') && firstExternSuper == null) {
+          firstExternSuperClass = scls.t.get();
           firstExternSuper = TypeConv.get(TInst(scls.t, scls.params), cls.pos);
         }
         if (firstExternSuper == null) {

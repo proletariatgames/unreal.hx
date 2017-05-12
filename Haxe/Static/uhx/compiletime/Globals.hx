@@ -316,7 +316,41 @@ class Globals {
   /**
     True if the `type` is dynamic, and whose properties will be added by cppia at runtime
    **/
-  public static function isDynamicUType(cl:ClassType) {
-    return cl.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS');
+  public static function isDynamicUType(cl:BaseType) {
+    return cl.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS') && !cl.meta.has(':upropExpose') && !cl.meta.has(':ustruct');
   }
+
+  // if you change this, don't forget to change `shouldExposePropertyExpr` as well
+  public static function shouldExposeProperty(cf:ClassField, isDynamicUType:Bool) {
+    if (cf.kind.match(FMethod(_))) {
+      return false;
+    }
+    return cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':uproperty'));
+  }
+
+  public static function shouldExposePropertyExpr(cf:Field, isDynamicUType:Bool) {
+    if (cf.kind.match(FFun(_))) {
+      return false;
+    }
+    return cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':uproperty'));
+  }
+
+  // if you change this, don't forget to change `shouldExposeFunctionExpr` as well
+  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, overridesNative:Bool) {
+    if (!cf.kind.match(FMethod(_))) {
+      return false;
+    }
+
+    return overridesNative || cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
+  }
+
+  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, overridesNative:Bool) {
+    if (!cf.kind.match(FFun(_))) {
+      return false;
+    }
+
+    return overridesNative || cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':ufunction'));
+  }
+
+  public static inline var UHX_CALL_FUNCTION = 'uhx_callFunction';
 }

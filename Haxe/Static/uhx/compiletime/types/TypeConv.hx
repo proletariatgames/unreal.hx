@@ -153,6 +153,7 @@ class TypeConv {
     typeFlags.type = type;
 
     var ret:UPropertyDef = {
+      hxName: null,
       uname: null,
       flags: typeFlags,
       typeUName: name

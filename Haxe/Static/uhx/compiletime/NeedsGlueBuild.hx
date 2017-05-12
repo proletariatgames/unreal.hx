@@ -3,6 +3,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import uhx.compiletime.types.*;
+import uhx.meta.MetaDef;
 
 using Lambda;
 using uhx.compiletime.tools.MacroHelpers;
@@ -50,7 +51,6 @@ class NeedsGlueBuild
     if (Globals.cur.gluesTouched.exists(localClass.toString()))
       return null;
 
-    // addOperators(localClass.toString(), cls, thisType);
     Globals.cur.gluesTouched[localClass.toString()] = true;
 
     if (cls.meta.has(':ueGluePath')) {
@@ -69,7 +69,7 @@ class NeedsGlueBuild
       } else {
         var hxPath = localClass.toString();
         var uname = MacroHelpers.getUName(cls);
-        Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: uhx.meta.MetaDef.CompiledClassType.CUClass };
+        Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type: CompiledClassType.CUClass };
       }
       // FIXME: allow any namespace by using @:native; add @:native handling
       if (cls.pack.length == 0)
@@ -104,6 +104,33 @@ class NeedsGlueBuild
     if (Context.defined('display') || (Context.defined('cppia') && !Globals.cur.scriptModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
+    }
+
+    var isDynamicUType = Globals.isDynamicUType(type),
+        superClass = null,
+        firstExternSuper = null;
+    {
+      var parent = (cast type : ClassType).superClass;
+      if (parent != null) {
+        superClass = parent.t.get();
+        var cur = superClass;
+        while(true) {
+          if (cur.meta.has(':uextern')) {
+            firstExternSuper = cur;
+            break;
+          }
+          if (cur.superClass == null) {
+            break;
+          }
+          cur = cur.superClass.t.get();
+        }
+      }
+    }
+
+    if (!isDynamicUType && superClass != null && Globals.isDynamicUType(superClass)) {
+      Context.error(
+        'A @:upropExpose class definition cannot have a Dynamic script superclass.' +
+        'Consider adding @:upropExpose to the superclass, or taking it off from the current class definition', type.pos);
     }
 
     var changed = false;
@@ -174,18 +201,34 @@ class NeedsGlueBuild
         case _:
         }
       }
-      var isUProp = field.meta.hasMeta(':uproperty');
-      if (!isUProp && field.meta.hasMeta(':uexpose')) {
-        switch(field.kind) {
-        case FVar(_) | FProp(_):
-          isUProp = true;
-        case _:
+      var isExposedProp = false,
+          isDynamic = false,
+          isStatic = field.access != null && field.access.has(AStatic);
+
+      switch(field.kind) {
+      case FVar(_) | FProp(_):
+        var hasExpose = field.meta.hasMeta(":uexpose");
+        isExposedProp = Globals.shouldExposePropertyExpr(field, isDynamicUType);
+        isDynamic = !hasExpose && isDynamicUType;
+
+        if (!isStatic && isDynamicUType && hasExpose) {
+          // check if the parent is also dynamic
+          if (superClass != null && Globals.isDynamicUType(superClass)) {
+            Context.warning(
+              'Unreal Glue Extension: uexpose properties can only exist in subclasses of non-dynamic script UClasses. ' +
+              'Consider adding @:urpopExpose on the superclass, or taking the @:uexpose off from this property.',
+              field.pos);
+            hadErrors = true;
+          }
         }
+      case _:
       }
 
-      var isStatic = field.access != null && field.access.has(AStatic);
-      var isDynamic = isUProp && !isStatic && !Context.defined('NO_DYNAMIC_UCLASS') && !field.meta.hasMeta(':uexpose') && type.meta.has(':uclass') && Globals.cur.inScriptPass;
-      if (isUProp && (!isDynamic || Context.defined('cppia'))) {
+      var shouldAddGetterSetter = isExposedProp;
+      if (!shouldAddGetterSetter && Context.defined('cppia') && field.meta.hasMeta(':uproperty')) {
+        shouldAddGetterSetter = true;
+      }
+      if (shouldAddGetterSetter) {
         field.meta.push({ name:':keep', pos:field.pos });
         changed = true;
         switch (field.kind) {
@@ -236,7 +279,11 @@ class NeedsGlueBuild
       }
 
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
-      if (!isStatic && (field.meta.hasMeta(':ufunction') || field.meta.hasMeta(':uexpose'))) {
+      var shouldExposeFn = Globals.shouldExposeFunctionExpr(
+          field,
+          isDynamicUType,
+          (firstExternSuper == null || isStatic ? false : firstExternSuper.findField(field.name, false) != null));
+      if (!isStatic && shouldExposeFn) {
         field.meta.push({ name:':keep', pos:field.pos });
         switch (field.kind) {
         case FFun(_):
@@ -283,13 +330,35 @@ class NeedsGlueBuild
                 Context.warning('Unreal Glue Extension: $name ufunctions should not contain any implementation', field.pos);
                 hadErrors = true;
               }
-              nativeCalls[field.name] = field.name;
-              var call = {
-                expr:ECall(
-                  macro @:pos(field.pos) $delayedglue.getNativeCall,
-                  [macro $v{field.name}, macro $v{isStatic}].concat([ for (arg in fn.args) macro $i{arg.name} ])),
-                pos: field.pos
-              };
+              var call:Expr = null;
+              if (shouldExposeFn) {
+                nativeCalls[field.name] = field.name;
+                call = {
+                  expr:ECall(
+                    macro @:pos(field.pos) $delayedglue.getNativeCall,
+                    [macro $v{field.name}, macro $v{isStatic}].concat([ for (arg in fn.args) macro $i{arg.name} ])),
+                  pos: field.pos
+                };
+              } else {
+                var staticFuncName = 'uhx__func_${field.name}';
+                var dummy = macro class {
+                  private static var $staticFuncName:unreal.UFunction;
+                };
+
+                var uname = field.name;
+                var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
+                toAdd.push(dummy.fields[0]);
+                var funcData = macro ($i{staticFuncName} != null ?
+                    $i{staticFuncName} :
+                    ($i{staticFuncName} = unreal.ReflectAPI.getUFunctionFromClass(StaticClass(), $v{uname})));
+                var callArgs = [ for (arg in fn.args) macro $i{arg.name} ];
+                call = {
+                  expr:ECall(
+                    macro @:pos(field.pos) unreal.ReflectAPI.callUFunction,
+                    [macro this, funcData, macro $a{callArgs}]),
+                  pos: field.pos
+                };
+              }
               switch (fn.ret) {
               case null | TPath({ pack:[], name:"Void" }):
                 fn.expr = macro { $call; };
@@ -350,6 +419,21 @@ class NeedsGlueBuild
       }
       nativeCalls.set('StaticClass', 'StaticClass');
       nativeCalls.set('CPPSize', 'CPPSize');
+      if (isDynamicUType && (superClass == null || !Globals.isDynamicUType(superClass))) {
+        var ufuncCallDef = macro class {
+          @:ifFeature($v{thisClassName})
+          @:glueCppIncludes("IntPtr.h", "Engine.h")
+          @:glueCppBody($v{'((UFunction*) fn)->SetNativeFunc((Native)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ')'})
+          public static function setupFunction(fn:unreal.UIntPtr):Void {
+            $delayedglue.getNativeCall('setupFunction', true, fn);
+          }
+        };
+
+        for (field in ufuncCallDef.fields) {
+          toAdd.push(field);
+        }
+        nativeCalls.set('setupFunction', 'setupFunction');
+      }
     }
 
     if (uprops.length > 0)
@@ -402,118 +486,4 @@ class NeedsGlueBuild
       return fields;
     return null;
   }
-
-  static function addOperators(name:String, cls:ClassType, thisType:TypeRef) {
-    var startNamespaces = new StringBuf();
-    var endNamespaces = new StringBuf();
-    var getPointer = null;
-    var scls = cls.superClass;
-    while (scls != null) {
-      if (scls.t.toString() == 'unreal.Wrapper') {
-        getPointer = '->ptr->getPointer()';
-        break;
-      } else if (scls.t.toString() == 'unreal.UObject') {
-        getPointer = '';
-        break;
-      } else {
-        scls = scls.t.get().superClass;
-      }
-    }
-    for (ns in cls.pack) {
-      startNamespaces.add('namespace $ns {');
-      endNamespaces.add('} // namespace $ns\n');
-    }
-    var prelude = '';
-    if (name == 'unreal.UObject' && Context.defined('UHX_WRAP_OBJECTS')) {
-      getPointer = '';
-      prelude = '
-       int __Compare(const hx::Object *inRHS) const
-       {
-          const UObject_obj *other = dynamic_cast<const UObject_obj *>(inRHS);
-          if (!other)
-             return -1;
-          return (wrapped == other->wrapped) ? 0 : -1;
-       }
-      ';
-    } else if (name == 'unreal.Wrapper') {
-      getPointer = '->ptr->getPointer()';
-      prelude = '
-       int __Compare(const hx::Object *inRHS) const
-       {
-          const Wrapper_obj *other = dynamic_cast<const Wrapper_obj *>(inRHS);
-          if (!other)
-             return -1;
-          return (const_cast<Wrapper_obj *>(this)->wrapped->ptr->getPointer() == const_cast<Wrapper_obj *>(other)->wrapped->ptr->getPointer()) ? 0 : -1;
-       }
-      ';
-    }
-    var noParams = thisType.withParams([]);
-    if (getPointer != null) {
-      cls.meta.add(':headerClassCode', [macro $v{'
-$prelude
-      }; // class definition
-      $endNamespaces
-        template<>
-        template<typename T>
-        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator==(const T &inTRHS) const {
-          ObjectPtr inRHS(inTRHS.mPtr,false);
-          if (mPtr==inRHS.mPtr) return true;
-          if (!mPtr || !inRHS.mPtr) return false;
-          if (!mPtr->__compare(inRHS.mPtr))
-            return true;
-
-          ${noParams.getCppClass()} obj = inRHS;
-          if (!obj.mPtr) return false;
-          return mPtr->wrapped$getPointer == obj.mPtr->wrapped$getPointer;
-        }
-
-        template<>
-        template<typename T>
-        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator!=(const T &inTRHS) const {
-          ObjectPtr inRHS(inTRHS.mPtr,false);
-          if (mPtr==inRHS.mPtr) return false;
-          if (!mPtr || !inRHS.mPtr) return true;
-          if (!mPtr->__compare(inRHS.mPtr))
-            return false;
-
-          ${noParams.getCppClass()} obj = inRHS;
-          if (!obj.mPtr) return true;
-          return mPtr->wrapped$getPointer != obj.mPtr->wrapped$getPointer;
-        }
-        $startNamespaces
-        namespace dummy {
-      '}], cls.pos);
-    } else if (cls.isInterface) {
-      cls.meta.add(':headerClassCode', [macro $v{'
-      }; // class definition
-      $endNamespaces
-        template<>
-        template<typename T>
-        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator==(const T &inTRHS) const {
-          ObjectPtr inRHS(inTRHS.mPtr,false);
-          if (mPtr==inRHS.mPtr) return true;
-          if (!mPtr || !inRHS.mPtr) return false;
-          if (!mPtr->__compare(inRHS.mPtr))
-            return true;
-
-          return !mPtr->__GetRealObject()->__Compare(inRHS.mPtr->__GetRealObject());
-        }
-
-        template<>
-        template<typename T>
-        bool hx::ObjectPtr<${noParams.getCppClass()}_obj>::operator!=(const T &inTRHS) const {
-          ObjectPtr inRHS(inTRHS.mPtr,false);
-          if (mPtr==inRHS.mPtr) return false;
-          if (!mPtr || !inRHS.mPtr) return true;
-          if (!mPtr->__compare(inRHS.mPtr))
-            return false;
-
-          return mPtr->__GetRealObject()->__Compare(inRHS.mPtr->__GetRealObject());
-        }
-        $startNamespaces
-        namespace dummy {
-      '}], cls.pos);
-    }
-  }
-
 }

@@ -78,12 +78,12 @@ class UExtensionBuild {
       var expose = typeRef.getExposeHelperType();
       var toExpose = new Map(),
           uprops = [];
-      var isDynamicClass = clt.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS');
+      var isDynamicClass = Globals.isDynamicUType(clt);
 
       for (field in clt.statics.get()) {
-        if ( (!isDynamicClass && field.meta.has(':uproperty')) || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+        if ( field.kind.match(FVar(_)) && Globals.shouldExposeProperty(field, isDynamicClass) ) {
           uprops.push({ field:field, isStatic: true });
-        } else if (shouldExpose(field)) {
+        } else if (Globals.shouldExposeFunction(field, isDynamicClass, false)) {
           toExpose[field.name] = getMethodDef(field, Static);
         }
       }
@@ -128,7 +128,7 @@ class UExtensionBuild {
         default:
         }
 
-        if (isOverride || shouldExpose(field)) {
+        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride)) {
           toExpose[field.name] = getMethodDef(field, isOverride ? Override : Member);
         }
       }
@@ -654,9 +654,9 @@ class UExtensionBuild {
     if (targetModule == null)
       targetModule = Globals.cur.module;
 
-    var headerDef = new StringBuf(),
+    var headerDef = new CodeFormatter(),
         cppDef = null;
-    if (clt.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS')) {
+    if (Globals.isDynamicUType(clt)) {
       includes.add('uhx/DynamicClass.h');
       headerDef.add('#if true // UHT bug: it will not find a UCLASS specifier if the following is not enclosed in a ifdef\n');
       headerDef.add('DECLARE_UHX_DYNAMIC_UCLASS(${ueName});\n');
@@ -736,6 +736,13 @@ class UExtensionBuild {
       headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
     }
 
+    if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {
+      includes.add('UObject/Stack.h');
+      headerDef << 'public: void ${Globals.UHX_CALL_FUNCTION}( FFrame& Stack, RESULT_DECL )' << new Begin("{") <<
+        '::uhx::expose::HxcppRuntime::callHaxeFunction(this->haxeGcRef.get(), unreal::VariantPtr(&Stack), (unreal::UIntPtr) RESULT_PARAM);' << new Newline() <<
+      new End('}');
+    }
+
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
     if (cppDef != null) {
@@ -811,22 +818,6 @@ class UExtensionBuild {
       sclass = cur.superClass;
     }
     return ret;
-  }
-
-  private static function shouldExpose(cf:ClassField):Bool {
-    // we will only expose methods that either have @:uexpose metadata
-    // or that override or implement an unreal method
-    switch (cf.kind) {
-    case FMethod(_):
-    case _:
-      // we won't expose our non-@:uproperty vars;
-      // and uproperty vars will be already generated in the UE side
-      return false;
-    }
-
-    if (cf.meta.has(':uexpose') || cf.meta.has(':ufunction'))
-      return true;
-    return false;
   }
 
   private static function isCustomReplicationType(repType:String) : Bool {

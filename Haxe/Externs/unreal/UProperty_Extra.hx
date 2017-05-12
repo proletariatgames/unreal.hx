@@ -24,6 +24,8 @@ extern class UProperty_Extra {
   function SameType(other:Const<UProperty>):Bool;
 
   function GetOffset_ReplaceWith_ContainerPtrToValuePtr():Int32;
+  function GetOffset_ForUFunction():Int32;
+  function GetSize():Int32;
 
   function CopySingleValueToScriptVM(dest:AnyPtr, src:ConstAnyPtr):Void;
   function CopyCompleteValueFromScriptVM(dest:AnyPtr, src:ConstAnyPtr):Void;

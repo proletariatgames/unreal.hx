@@ -25,6 +25,10 @@ import haxe.io.BytesData;
     return new ByteArray(ptr.reinterpret(), size, bytes);
   }
 
+  public function asAnyPtr():AnyPtr {
+    return untyped __cpp__('( (unreal::UIntPtr) {0} )', this.ptr.raw);
+  }
+
   #if !cppia inline #end public function get(i:Int):Int {
     return ptr.at(i);
   }

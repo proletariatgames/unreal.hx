@@ -34,6 +34,7 @@ static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClas
     curClass = curClass->GetSuperClass();
   }
   if (curClass->GetFName() == className) {
+    initializeDynamicProperties(curClass, self);
     haxeGcRef.set(createHaxeWrapper( (unreal::UIntPtr) self ));
   }
 }
@@ -44,7 +45,9 @@ static void initializeDynamicProperties(UClass *curClass, UObject *self) {
   while(childClass != nullptr && childClass->HasMetaData(TEXT("HaxeGenerated"))) {
     auto child = childClass->PropertyLink;
     while(child != nullptr) {
-      child->InitializeValue( (void *) (objPtr + child->GetOffset_ReplaceWith_ContainerPtrToValuePtr()) );
+      if (child->HasMetaData(TEXT("HaxeGenerated"))) {
+        child->InitializeValue( (void *) (objPtr + child->GetOffset_ReplaceWith_ContainerPtrToValuePtr()) );
+      }
       child = child->PropertyLinkNext;
     }
     childClass = childClass->GetSuperClass();

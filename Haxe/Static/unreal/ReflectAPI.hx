@@ -51,6 +51,18 @@ class ReflectAPI {
     return prop;
   }
 
+  public static function getUFunctionFromClass(cls:UClass, name:String):UFunction {
+    var func = cls.FindFunction(name);
+    if (func == null) {
+      var c = cls.Children;
+      while(c != null) {
+        c = c.Next;
+      }
+      throw 'Field "$name" does not exist on ${cls.GetName()}';
+    }
+    return func;
+  }
+
   public static function setProperty(obj:UObject, prop:UProperty, value:Dynamic):Void {
 // #if debug
 //     if (prop.GetOuter() != obj.GetClass()) {
@@ -459,6 +471,57 @@ class ReflectAPI {
       return null;
     }
     return obj.GeneratedClass;
+  }
+
+  public static function callHaxeFunction(obj:UObject, stack:FFrame, result:AnyPtr) {
+    var ufunc = stack.CurrentNativeFunction,
+        stackData = stack.Locals.asAnyPtr();
+    var name = ufunc.HasMetaData('HaxeName') ? ufunc.GetMetaData('HaxeName').toString() : ufunc.GetName().toString();
+    var fn = Reflect.field(obj, name),
+        args = [];
+    if (fn == null) {
+      throw 'Trying to call function $name (from ufunction ${ufunc.GetName()}), but it was not found on object ${Type.getClassName(Type.getClass(obj))}';
+    }
+    var arg = ufunc.Children,
+        retProp = null;
+    while (arg != null) {
+      var prop:UProperty = cast arg;
+      if (prop == null) {
+        throw 'Expected a UProperty, but found ${prop} on ${prop.GetName()}';
+      }
+      if (prop.PropertyFlags & CPF_ReturnParm == CPF_ReturnParm) {
+        retProp = prop;
+        break;
+      }
+
+      args.push(bpGetData(stackData, prop));
+      arg = arg.Next;
+    }
+
+    var ret = Reflect.callMethod(obj, fn, args);
+    if (retProp != null) {
+      bpSetField_rec(stackData, retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
+    }
+
+    if (ufunc.HasAnyFunctionFlags(FUNC_HasOutParms)) {
+      var out = stack.OutParms,
+          i = -1;
+      arg = ufunc.Children;
+      while(arg != null && out != null) {
+        i++;
+        var param:UProperty = cast arg;
+        if (param.PropertyFlags & (CPF_ConstParm | CPF_OutParm) == CPF_OutParm) {
+          var prop = out.Property;
+          if (prop != null) {
+            var addr = stackData + param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+            FMemory.Memcpy(out.PropAddr.asAnyPtr(), addr, prop.ArrayDim * prop.ElementSize);
+          }
+        }
+        if (param.PropertyFlags & CPF_OutParm != 0) {
+          out = out.NextOutParm;
+        }
+      }
+    }
   }
 #end
 }

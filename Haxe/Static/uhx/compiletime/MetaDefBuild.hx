@@ -39,6 +39,7 @@ class MetaDefBuild {
           Context.warning('This field (${field.name}) is marked as a uproperty but its type is not supported. It will be ignored', field.pos);
           continue;
         }
+        prop.hxName = field.name;
         prop.uname = MacroHelpers.getUName(field);
         if (field.meta.has(':ureplicate')) {
           var repl:UPropReplicationKind = Always;
@@ -74,6 +75,7 @@ class MetaDefBuild {
         switch(Context.follow(field.type)) {
         case TFun(args,ret):
           var func:UFunctionDef = {
+            hxName: field.name,
             uname: MacroHelpers.getUName(field),
             args:[],
             ret:null,
@@ -87,6 +89,7 @@ class MetaDefBuild {
               break;
             }
             prop.uname = arg.name;
+            prop.hxName = arg.name;
             func.args.push(prop);
           }
 
