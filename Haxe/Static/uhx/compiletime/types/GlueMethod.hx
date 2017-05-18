@@ -766,6 +766,8 @@ typedef MethodDef = {
   var ForceNonVirtual = 0x80;
   /** method is a ufunction / uproperty **/
   var UnrealReflective = 0x100;
+  /** method was declared as inline **/
+  var Inline = 0x200;
 
   inline private function t() {
     return this;

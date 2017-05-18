@@ -338,6 +338,10 @@ class UReflectionGenerator {
         uclassToHx = uclassToHx,
         nativeCompiled = nativeCompiled;
     var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
+    if (uclassNames == null) {
+      uclassNames = [];
+    }
+
     for (uclassName in uclassNames) {
       var def = uclassDefs[uclassName];
       var ustruct = nativeCompiled[uclassName],

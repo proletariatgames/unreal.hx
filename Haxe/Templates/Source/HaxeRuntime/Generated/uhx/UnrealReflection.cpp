@@ -163,7 +163,7 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
     if (numeric->IsFloatingPoint()) {
       numeric->SetFloatingPointPropertyValue(dest, uhx::expose::HxcppRuntime::unboxFloat(value));
     } else if (numeric->IsA<UInt64Property>() || numeric->IsA<UUInt64Property>()) {
-      numeric->SetIntPropertyValue(dest, uhx::expose::HxcppRuntime::unboxInt64(value));
+      numeric->SetIntPropertyValue(dest, (int64) uhx::expose::HxcppRuntime::unboxInt64(value));
     } else {
       numeric->SetIntPropertyValue(dest, (int64) uhx::expose::HxcppRuntime::unboxInt((int64) value));
     }

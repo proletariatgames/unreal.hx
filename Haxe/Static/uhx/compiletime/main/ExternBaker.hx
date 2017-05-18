@@ -877,6 +877,9 @@ class ExternBaker {
       case TFun(args,ret) if (field.meta.has(':expr')):
         this.addDoc(field.doc);
         this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));
+        if (isStatic) {
+          this.buf.add('static ');
+        }
         this.buf.add( field.isPublic ? 'public function ' : 'private function ' );
         this.buf.add(field.name);
         if (field.params.length > 0) {

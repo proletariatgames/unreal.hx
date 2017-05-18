@@ -58,47 +58,42 @@ class DelegateBuild {
     switch(type) {
     case 'Delegate' | 'DynamicDelegate':
       def = macro class {
-        public function Unbind():Void {
+        @:excludeDynamic public function Unbind():Void {
           $delayedglue.getNativeCall("Unbind", false);
         }
 
-        public function IsBound():Bool {
+        @:excludeDynamic public function IsBound():Bool {
           return $delayedglue.getNativeCall("IsBound", false);
         }
 
-        public function GetUObject():Null<unreal.UObject> {
+        @:excludeDynamic public function GetUObject():Null<unreal.UObject> {
           return $delayedglue.getNativeCall("GetUObject", false);
         }
-      }
-      if (type == 'DynamicDelegate') {
-        // declared on /Core/Public/UObject/ScriptDelegates.h
-        def.fields.pop(); // take off GetUObject
       }
 
       var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
       var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
       if (type != 'DynamicDelegate') {
+        var thisType = tref.toComplexType();
         var dummy = macro class {
+          @:expr(return cast this) @:extern inline private function typingHelper(fn:$lambdaType):$thisType {
+            return cast this;
+          }
+
           public function BindLambda(fn:$lambdaType) : Void {
             $delayedglue.getNativeCall("BindLambda", false, fn);
           }
           public function BindUObject(obj:unreal.UObject, fn:$uobjType) : Void {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
+          @:uname("BindUFunction") public function Internal_BindUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : Void {
+            return $delayedglue.getNativeCall("Internal_BindUFunction", false, obj, name);
+          }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
           }
         }
 
-        for (fld in dummy.fields) {
-          def.fields.push(fld);
-        }
-      } else {
-        var dummy = macro class {
-          @:uname("__Internal_BindDynamic") public function Internal_BindDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("Internal_BindDynamic", false, obj, fn, fnName);
-          }
-        }
         for (fld in dummy.fields) {
           def.fields.push(fld);
         }
@@ -131,11 +126,11 @@ class DelegateBuild {
       }
     case 'MulticastDelegate' | 'DynamicMulticastDelegate' | 'Event':
       def = macro class {
-        public function IsBound():Bool {
+        @:excludeDynamic public function IsBound():Bool {
           return $delayedglue.getNativeCall("IsBound", false);
         }
 
-        public function Clear():Void {
+        @:excludeDynamic public function Clear():Void {
           $delayedglue.getNativeCall("Clear", false);
         }
       }
@@ -168,12 +163,20 @@ class DelegateBuild {
       var lambdaType:ComplexType = TFunction(argsComplex, ret.toComplexType());
       var uobjType:ComplexType = macro :unreal.MethodPointer<unreal.UObject, $lambdaType>;
       if (type != 'DynamicMulticastDelegate') {
+        var thisType = tref.toComplexType();
         var dummy = macro class {
+          @:expr(return cast this) @:extern inline private function typingHelper(fn:$lambdaType):$thisType {
+            return cast this;
+          }
+
           public function AddLambda(fn:$lambdaType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddLambda", false, fn);
           }
           public function AddUObject(obj:unreal.UObject, fn:$uobjType) : unreal.FDelegateHandle {
             return $delayedglue.getNativeCall("AddUObject", false, obj, fn);
+          }
+          @:uname("AddUFunction") public function Internal_AddUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : unreal.FDelegateHandle {
+            return $delayedglue.getNativeCall("Internal_AddUFunction", false, obj, name);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);
@@ -182,25 +185,6 @@ class DelegateBuild {
             $delayedglue.getNativeCall("Remove", false, handle);
           }
         };
-
-        for (fld in dummy.fields) {
-          def.fields.push(fld);
-        }
-      } else {
-        var dummy = macro class {
-          @:uname("__Internal_AddDynamic") public function Internal_AddDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("Internal_AddDynamic", false, obj, fn, fnName);
-          }
-          @:uname("__Internal_AddUniqueDynamic") public function Internal_AddUniqueDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("Internal_AddUniqueDynamic", false, obj, fn, fnName);
-          }
-          @:uname("__Internal_RemoveDynamic") public function Internal_RemoveDynamic(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Void {
-            $delayedglue.getNativeCall("Internal_RemoveDynamic", false, obj, fn, fnName);
-          }
-          @:uname("__Internal_IsAlreadyBound") public function Internal_IsAlreadyBound(obj:unreal.UObject, fn:$uobjType, fnName:unreal.TCharStar) : Bool {
-            return $delayedglue.getNativeCall("Internal_IsAlreadyBound", false, obj, fn, fnName);
-          }
-        }
 
         for (fld in dummy.fields) {
           def.fields.push(fld);
@@ -223,10 +207,16 @@ class DelegateBuild {
         return $delayedglue.getNativeCall("createNew", true);
       }
     }
-    for (field in added.fields)
+    for (field in added.fields) {
       def.fields.push(field);
+    }
+
 #if bake_externs
     for (field in def.fields) {
+      if (field.name == 'typingHelper') {
+        continue;
+      }
+
       switch(field.kind) {
       case FFun(fn):
         fn.expr = null;
@@ -234,11 +224,23 @@ class DelegateBuild {
       }
     }
 #end
+    if (type == 'DynamicDelegate' || type == 'DynamicMulticastDelegate') {
+      var toRemove = [];
+      for (field in def.fields) {
+        if (field.meta.hasMeta(':excludeDynamic')) {
+          toRemove.push(field);
+        }
+      }
+      for (r in toRemove) {
+        def.fields.remove(r);
+      }
+    }
+
     var meta:Metadata = tdef.meta.get();
     if (!meta.exists(function(meta) return meta.name == ':uname')) {
       meta.push({ name:':uname', params:[macro $v{ueType.name}], pos:pos });
     }
-    meta.push({ name:':unativecalls', params:[for (field in def.fields) macro $v{field.name}], pos:pos });
+    meta.push({ name:':unativecalls', params:[for (field in def.fields) if (field.name != 'typingHelper') macro $v{field.name}], pos:pos });
     meta.push({ name:':final', params:[], pos:pos });
 
 #if !bake_externs
@@ -272,6 +274,9 @@ class DelegateBuild {
     var sup:ComplexType = macro : unreal.$supName<$fnArgs>;
 
     meta.push({ name:':keepInit', params:[], pos:pos });
+    if (type == 'DynamicDelegate' || type == 'DynamicMulticastDelegate') {
+      meta.push({ name:':forward', params:[], pos:pos });
+    }
     var ret = def.fields;
     def.name = tref.name;
     def.meta = meta;
@@ -282,7 +287,13 @@ class DelegateBuild {
     def.kind = TDClass();
     def.isExtern = true;
 #else
-    def.kind = TDAbstract( sup, null, [macro : unreal.VariantPtr, macro : unreal.Struct, sup]);
+    var parents =[macro : unreal.VariantPtr, macro : unreal.Struct, sup];
+    if (type == 'DynamicDelegate') {
+      parents.push(macro : unreal.FScriptDelegate);
+    } else if (type == 'DynamicMulticastDelegate') {
+      parents.push(macro : unreal.FMulticastScriptDelegate);
+    }
+    def.kind = TDAbstract( sup, null, parents);
 #end
     Globals.cur.hasUnprocessedTypes = true;
     Globals.cur.cachedBuiltTypes.push('uhx.delegates.${tref.name}');
