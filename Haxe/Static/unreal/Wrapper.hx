@@ -100,8 +100,8 @@ import uhx.StructInfo;
   @:final @:nonVirtual private function init() {
     var needsDestructor:Bool = untyped __cpp__("{0}->ptr->destruct != 0", m_info);
     if (!needsDestructor && untyped __cpp__("{0}->ptr->upropertyObject != 0", m_info)) {
-      var flags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
-      if (flags & PropertyFlags.CPF_NoDestructor == 0) {
+      var flags:EPropertyFlags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
+      if (!flags.hasAny(EPropertyFlags.CPF_NoDestructor)) {
         needsDestructor = true;
       }
     }

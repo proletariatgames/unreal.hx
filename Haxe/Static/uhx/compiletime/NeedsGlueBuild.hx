@@ -108,7 +108,8 @@ class NeedsGlueBuild
 
     var isDynamicUType = Globals.isDynamicUType(type),
         superClass = null,
-        firstExternSuper = null;
+        firstExternSuper = null,
+        hasNativeInterfaces = false;
     {
       var parent = (cast type : ClassType).superClass;
       if (parent != null) {
@@ -125,12 +126,35 @@ class NeedsGlueBuild
           cur = cur.superClass.t.get();
         }
       }
+
+      var ifaces = (cast type : ClassType).interfaces;
+      if (ifaces != null) {
+        function checkInterface(iface:ClassType) {
+          if (hasNativeInterfaces) return;
+          if (iface.meta.has(':uextern')) {
+            hasNativeInterfaces = true;
+            return;
+          }
+          for (iface in iface.interfaces) {
+            checkInterface(iface.t.get());
+          }
+        }
+        for (iface in ifaces) {
+          checkInterface(iface.t.get());
+        }
+      }
+    }
+
+    if (isDynamicUType && hasNativeInterfaces) {
+      Context.error(
+        'The class ${type.name} is a dynamic script class, but it implements native interfaces.' +
+        'Consider adding @:upropertyExpose to this class so no uproperties are dynamically created', type.pos);
     }
 
     if (!isDynamicUType && superClass != null && Globals.isDynamicUType(superClass)) {
       Context.error(
-        'A @:upropExpose class definition cannot have a Dynamic script superclass.' +
-        'Consider adding @:upropExpose to the superclass, or taking it off from the current class definition', type.pos);
+        'A @:upropertyExpose class definition cannot have a Dynamic script superclass.' +
+        'Consider adding @:upropertyExpose to the superclass, or taking it off from the current class definition', type.pos);
     }
 
     var changed = false;

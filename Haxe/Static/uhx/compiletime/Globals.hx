@@ -317,7 +317,7 @@ class Globals {
     True if the `type` is dynamic, and whose properties will be added by cppia at runtime
    **/
   public static function isDynamicUType(cl:BaseType) {
-    return cl.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS') && !cl.meta.has(':upropExpose') && !cl.meta.has(':ustruct');
+    return cl.meta.has(':uscript') && !Context.defined('NO_DYNAMIC_UCLASS') && !cl.meta.has(':upropertyExpose') && !cl.meta.has(':ustruct');
   }
 
   // if you change this, don't forget to change `shouldExposePropertyExpr` as well

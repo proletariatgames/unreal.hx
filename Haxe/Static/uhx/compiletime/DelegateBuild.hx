@@ -87,7 +87,7 @@ class DelegateBuild {
             $delayedglue.getNativeCall("BindUObject", false, obj, fn);
           }
           @:uname("BindUFunction") public function Internal_BindUFunction(obj:unreal.UObject, name:unreal.Const<unreal.PRef<unreal.FName>>) : Void {
-            return $delayedglue.getNativeCall("Internal_BindUFunction", false, obj, name);
+            $delayedglue.getNativeCall("Internal_BindUFunction", false, obj, name);
           }
           public function IsBoundToObject(obj:unreal.UObject) : Bool {
             return $delayedglue.getNativeCall("IsBoundToObject", false, obj);

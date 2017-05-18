@@ -3,7 +3,8 @@ import uhx.meta.MetaDef;
 import uhx.ue.RuntimeLibrary;
 import unreal.*;
 import unreal.EFunctionFlags;
-import unreal.PropertyFlags.*;
+import unreal.EPropertyFlags.*;
+import unreal.EPropertyFlags;
 import haxe.rtti.Meta;
 
 /**
@@ -131,7 +132,7 @@ class UReflectionGenerator {
     var sup = uclass.GetSuperClass();
     for (funcDef in meta.uclass.ufuncs) {
       var parent = sup == null ? null : sup.FindFunction(funcDef.uname);
-      var func = generatedUFunction(uclass, funcDef, parent);
+      var func = generateUFunction(uclass, funcDef, parent);
       if (func != null) {
         uclass.AddFunctionToFunctionMap(func);
         setupFunction(@:privateAccess func.wrapped);
@@ -141,7 +142,7 @@ class UReflectionGenerator {
     }
   }
 
-  private static function generatedUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction):UFunction {
+  private static function generateUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction):UFunction {
     var fn:UFunction = cast UObject.NewObject_NoTemplate(uclass, UFunction.StaticClass(), func.uname, RF_Public);
     if (parent != null) {
       fn.SetSuperStruct(parent);
@@ -170,7 +171,7 @@ class UReflectionGenerator {
     fn.NumParms = func.args.length;
     if (func.ret != null) {
       var prop = generateUProperty(fn, uclass, func.ret, true);
-        prop.PropertyFlags |= CPF_Parm;
+      prop.PropertyFlags |= CPF_Parm;
       prop.PropertyFlags |= CPF_ReturnParm;
       if (curChild == null) {
         curChild = fn.Children = prop;
@@ -193,14 +194,14 @@ class UReflectionGenerator {
 
     var arg = fn.PropertyLink;
     while (arg != null) {
-      if (arg.PropertyFlags & CPF_Parm != 0) {
+      if (arg.PropertyFlags.hasAny(CPF_Parm)) {
         fn.ParmsSize = arg.GetOffset_ForUFunction() + arg.GetSize();
 
-        if (arg.PropertyFlags & CPF_OutParm != 0) {
+        if (arg.PropertyFlags.hasAny(CPF_OutParm)) {
           fn.FunctionFlags |= FUNC_HasOutParms;
         }
 
-        if (arg.PropertyFlags & CPF_ReturnParm != 0) {
+        if (arg.PropertyFlags.hasAny(CPF_ReturnParm)) {
           fn.ParmsSize = arg.GetOffset_ForUFunction() + arg.GetSize();
         }
       }
@@ -439,8 +440,8 @@ class UReflectionGenerator {
     return uclass;
   }
 
-  private static function getPropertyFlags(ownerStruct:UStruct, prop:UProperty, propDef:UPropertyDef):UInt64 {
-    var flags:UInt64 = 0;
+  private static function getPropertyFlags(ownerStruct:UStruct, prop:UProperty, propDef:UPropertyDef):EPropertyFlags {
+    var flags:EPropertyFlags = 0;
     if (propDef.metas == null) {
       return flags;
     }
@@ -453,67 +454,67 @@ class UReflectionGenerator {
 
       switch(meta.name.toLowerCase()) {
       case 'advanceddisplay':
-        flags |= PropertyFlags.CPF_AdvancedDisplay;
+        flags |= CPF_AdvancedDisplay;
       case 'assetregistrysearchable':
-        flags |= PropertyFlags.CPF_AssetRegistrySearchable;
+        flags |= CPF_AssetRegistrySearchable;
       case 'blueprintassignable':
-        flags |= PropertyFlags.CPF_BlueprintAssignable;
+        flags |= CPF_BlueprintAssignable;
       case 'blueprintauthorityonly':
-        flags |= PropertyFlags.CPF_BlueprintAuthorityOnly;
+        flags |= CPF_BlueprintAuthorityOnly;
       case 'blueprintcallable':
-        flags |= PropertyFlags.CPF_BlueprintCallable;
+        flags |= CPF_BlueprintCallable;
       case 'blueprintreadonly':
         // TODO check if there is another edit specifier while compiling
-        flags |= PropertyFlags.CPF_BlueprintVisible | PropertyFlags.CPF_BlueprintReadOnly;
+        flags |= CPF_BlueprintVisible | CPF_BlueprintReadOnly;
       case 'blueprintreadwrite':
         // TODO check if there is another edit specifier while compiling
-        flags |= PropertyFlags.CPF_BlueprintVisible;
+        flags |= CPF_BlueprintVisible;
       case 'config':
-        flags |= PropertyFlags.CPF_Config;
+        flags |= CPF_Config;
       case 'const':
-        flags |= PropertyFlags.CPF_ConstParm;
+        flags |= CPF_ConstParm;
       case 'duplicatetransient':
-        flags |= PropertyFlags.CPF_DuplicateTransient;
+        flags |= CPF_DuplicateTransient;
       case 'editanywhere':
         // TODO check if other edit calls were made while compiling
-        flags |= PropertyFlags.CPF_Edit;
+        flags |= CPF_Edit;
       case 'editdefaultsonly':
         // TODO check if other edit calls were made while compiling
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_DisableEditOnInstance;
+        flags |= CPF_Edit | CPF_DisableEditOnInstance;
       case 'editfixedsize':
-        flags |= PropertyFlags.CPF_EditFixedSize;
+        flags |= CPF_EditFixedSize;
       case 'editinline':
         // TODO deprecated warning while compiling
       case 'editinstanceonly':
         // TODO check if other edit calls were made while compiling
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_DisableEditOnTemplate;
+        flags |= CPF_Edit | CPF_DisableEditOnTemplate;
       case 'export':
-        flags |= PropertyFlags.CPF_ExportObject;
+        flags |= CPF_ExportObject;
       case 'globalconfig':
-        flags |= PropertyFlags.CPF_GlobalConfig | PropertyFlags.CPF_Config;
+        flags |= CPF_GlobalConfig | CPF_Config;
       case 'instanced':
-        flags |= PropertyFlags.CPF_PersistentInstance | PropertyFlags.CPF_ExportObject | PropertyFlags.CPF_InstancedReference;
+        flags |= CPF_PersistentInstance | CPF_ExportObject | CPF_InstancedReference;
         prop.SetMetaData('EditInline', 'true');
       case 'interp':
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_BlueprintVisible | PropertyFlags.CPF_Interp;
+        flags |= CPF_Edit | CPF_BlueprintVisible | CPF_Interp;
       case 'localized':
         // TODO deprecated
       // TODO Native ?
       case 'noclear':
-        flags |= PropertyFlags.CPF_NoClear;
+        flags |= CPF_NoClear;
       case 'nonpieduplicatetransient':
-        flags |= PropertyFlags.CPF_NonPIEDuplicateTransient;
+        flags |= CPF_NonPIEDuplicateTransient;
       case 'nonpietransient':
         // TODO deprecated
-        flags |= PropertyFlags.CPF_NonPIEDuplicateTransient;
+        flags |= CPF_NonPIEDuplicateTransient;
       case 'nontransactional':
-        flags |= PropertyFlags.CPF_NonTransactional;
+        flags |= CPF_NonTransactional;
       case 'notreplicated':
         if (Std.is(ownerStruct, UScriptStruct)) {
-          flags |= PropertyFlags.CPF_RepSkip;
+          flags |= CPF_RepSkip;
         }
       case 'ref':
-        flags |= PropertyFlags.CPF_OutParm | PropertyFlags.CPF_ReferenceParm;
+        flags |= CPF_OutParm | CPF_ReferenceParm;
       case 'replicated' | 'replicatedusing':
         if (!Std.is(ownerStruct, UScriptStruct)) {
           // TODO error if otherwise when compiling
@@ -527,29 +528,29 @@ class UReflectionGenerator {
             continue;
           }
 
-          flags |= PropertyFlags.CPF_Net;
+          flags |= CPF_Net;
         }
       case 'repretry':
         // TODO deprecated
       case 'savegame':
-        flags |= PropertyFlags.CPF_SaveGame;
+        flags |= CPF_SaveGame;
       case 'simpledisplay':
-        flags |= PropertyFlags.CPF_SimpleDisplay;
+        flags |= CPF_SimpleDisplay;
       case 'skipserialization':
-        flags |= PropertyFlags.CPF_SkipSerialization;
+        flags |= CPF_SkipSerialization;
       case 'textexporttransient':
-        flags |= PropertyFlags.CPF_TextExportTransient;
+        flags |= CPF_TextExportTransient;
       case 'transient':
-        flags |= PropertyFlags.CPF_Transient;
+        flags |= CPF_Transient;
       case 'visibleanywhere':
         // TODO check edit specifier
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_EditConst;
+        flags |= CPF_Edit | CPF_EditConst;
       case 'visibledefaultsonly':
         // TODO check edit specifier
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_EditConst | PropertyFlags.CPF_DisableEditOnInstance;
+        flags |= CPF_Edit | CPF_EditConst | CPF_DisableEditOnInstance;
       case 'visibleinstanceonly':
         // TODO check edit specifier
-        flags |= PropertyFlags.CPF_Edit | PropertyFlags.CPF_EditConst | PropertyFlags.CPF_DisableEditOnTemplate;
+        flags |= CPF_Edit | CPF_EditConst | CPF_DisableEditOnTemplate;
       }
     }
 
@@ -613,7 +614,7 @@ class UReflectionGenerator {
           prop = ret;
         } else if (def.flags.hasAny(FSubclassOf)) {
           var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, flags);
-          ret.PropertyFlags |= PropertyFlags.CPF_UObjectWrapper;
+          ret.PropertyFlags |= CPF_UObjectWrapper;
           ret.SetPropertyClass(UClass.StaticClass());
           ret.MetaClass = cls;
           prop = ret;
@@ -649,36 +650,37 @@ class UReflectionGenerator {
     };
     var flags = def.flags;
     if (flags.hasAny(FSubclassOf)) {
-      prop.PropertyFlags |= PropertyFlags.CPF_UObjectWrapper;
+      prop.PropertyFlags |= CPF_UObjectWrapper;
     }
     if (isReturn) {
-      prop.PropertyFlags |= PropertyFlags.CPF_ReturnParm;
+      prop.PropertyFlags |= CPF_ReturnParm;
+      prop.PropertyFlags |= CPF_OutParm;
       if (flags.hasAny(FConst)) {
-        prop.PropertyFlags |= PropertyFlags.CPF_ConstParm;
+        prop.PropertyFlags |= CPF_ConstParm;
       }
       if (flags.hasAny(FRef)) {
-        prop.PropertyFlags |= PropertyFlags.CPF_ReferenceParm;
+        prop.PropertyFlags |= CPF_ReferenceParm;
       }
     } else {
       if (flags.hasAny(FRef)) {
         if (flags.hasAny(FConst)) {
-          prop.PropertyFlags |= PropertyFlags.CPF_ConstParm | PropertyFlags.CPF_ReferenceParm;
+          prop.PropertyFlags |= CPF_ConstParm | CPF_ReferenceParm;
         } else {
-          prop.PropertyFlags |= PropertyFlags.CPF_OutParm;
+          prop.PropertyFlags |= CPF_OutParm;
         }
       } else if (flags.hasAny(FConst)) {
-          prop.PropertyFlags |= PropertyFlags.CPF_ConstParm;
+          prop.PropertyFlags |= CPF_ConstParm;
       }
     }
     if (flags.hasAny(FAutoWeak)) {
-      prop.PropertyFlags |= PropertyFlags.CPF_ConstParm;
+      prop.PropertyFlags |= CPF_ConstParm;
     }
     if (def.metas != null) {
       prop.PropertyFlags |= getPropertyFlags(ownerStruct, prop, def);
     }
 
     if (def.replication != null) {
-      prop.PropertyFlags |= PropertyFlags.CPF_Net;
+      prop.PropertyFlags |= CPF_Net;
     }
     if (def.hxName != null && def.hxName != def.uname) {
       prop.SetMetaData('HaxeName', def.hxName);

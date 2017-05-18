@@ -1,6 +1,7 @@
 package unreal;
 import unreal.Wrapper;
-import unreal.PropertyFlags.*;
+import unreal.EPropertyFlags.*;
+import unreal.EPropertyFlags;
 import unreal.EInternalObjectFlags;
 using StringTools;
 
@@ -162,10 +163,10 @@ class ReflectAPI {
     cur = func.Children;
     while(cur != null) {
       var prop:UProperty = cast cur;
-      if (prop.PropertyFlags & (CPF_Parm|CPF_ReturnParm) != CPF_Parm) {
-        break;
-      }
       cur = cur.Next;
+      if (prop.PropertyFlags & (CPF_Parm|CPF_ReturnParm) != CPF_Parm) {
+        continue;
+      }
 
       if (args == null || i > args.length) {
         // check default value
@@ -192,7 +193,7 @@ class ReflectAPI {
     obj.ProcessEvent(func, params);
     var prop:UProperty = cast cur;
     if (prop != null) {
-      if (prop.PropertyFlags & CPF_ReturnParm != CPF_ReturnParm) {
+      if (prop.PropertyFlags.hasAny(CPF_ReturnParm)) {
         throw 'Bad property flags for return property: ${prop.PropertyFlags}';
       }
       return bpGetData(params, prop);
@@ -489,13 +490,13 @@ class ReflectAPI {
       if (prop == null) {
         throw 'Expected a UProperty, but found ${prop} on ${prop.GetName()}';
       }
-      if (prop.PropertyFlags & CPF_ReturnParm == CPF_ReturnParm) {
+      arg = arg.Next;
+      if (prop.PropertyFlags.hasAll(CPF_ReturnParm)) {
         retProp = prop;
-        break;
+        continue;
       }
 
       args.push(bpGetData(stackData, prop));
-      arg = arg.Next;
     }
 
     var ret = Reflect.callMethod(obj, fn, args);
@@ -517,9 +518,10 @@ class ReflectAPI {
             FMemory.Memcpy(out.PropAddr.asAnyPtr(), addr, prop.ArrayDim * prop.ElementSize);
           }
         }
-        if (param.PropertyFlags & CPF_OutParm != 0) {
+        if (param.PropertyFlags.hasAny(CPF_OutParm)) {
           out = out.NextOutParm;
         }
+        arg = arg.Next;
       }
     }
   }
