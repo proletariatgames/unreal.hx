@@ -132,17 +132,16 @@ class UReflectionGenerator {
     var sup = uclass.GetSuperClass();
     for (funcDef in meta.uclass.ufuncs) {
       var parent = sup == null ? null : sup.FindFunction(funcDef.uname);
-      var func = generateUFunction(uclass, funcDef, parent);
+      var func = generateUFunction(uclass, funcDef, parent, setupFunction);
       if (func != null) {
         uclass.AddFunctionToFunctionMap(func);
-        setupFunction(@:privateAccess func.wrapped);
         func.Next = uclass.Children;
         uclass.Children = func.Next;
       }
     }
   }
 
-  private static function generateUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction):UFunction {
+  private static function generateUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
     var fn:UFunction = cast UObject.NewObject_NoTemplate(uclass, UFunction.StaticClass(), func.uname, RF_Public);
     if (parent != null) {
       fn.SetSuperStruct(parent);
@@ -187,10 +186,9 @@ class UReflectionGenerator {
     var flags = getFunctionFlags(uclass, fn, func);
     fn.FunctionFlags |= flags;
 
+    @:privateAccess setupFunction(uclass.wrapped, fn.wrapped);
     fn.Bind();
     fn.StaticLink(true);
-
-    fn.FunctionFlags |= FUNC_Native;
 
     var arg = fn.PropertyLink;
     while (arg != null) {
@@ -213,7 +211,7 @@ class UReflectionGenerator {
   }
 
   private static function getFunctionFlags(owner:UClass, fn:UFunction, funcDef:UFunctionDef):EFunctionFlags {
-    var flags:EFunctionFlags = 0;
+    var flags:EFunctionFlags = FUNC_Native;
     if (funcDef.metas == null) {
       return flags;
     }

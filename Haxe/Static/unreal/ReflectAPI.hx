@@ -52,14 +52,18 @@ class ReflectAPI {
     return prop;
   }
 
-  public static function getUFunctionFromClass(cls:UClass, name:String):UFunction {
-    var func = cls.FindFunction(name);
+  public static function getUFunctionFromClass(cls:UClass, name:String, throwOnError=true):UFunction {
+    var func = cls.FindFunctionByName(name, IncludeSuper);
     if (func == null) {
-      var c = cls.Children;
-      while(c != null) {
-        c = c.Next;
-      }
-      throw 'Field "$name" does not exist on ${cls.GetName()}';
+      throw 'Function "$name" does not exist on ${cls.GetName()}';
+    }
+    return func;
+  }
+
+  public static function getUFunctionFromObject(obj:UObject, name:String, throwOnError=true):UFunction {
+    var func = obj.FindFunction(name);
+    if (func == null) {
+      throw 'Function "$name" does not exist on ${obj}';
     }
     return func;
   }
@@ -79,6 +83,9 @@ class ReflectAPI {
 
   public static function callMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
     var func = obj.FindFunction(funcName);
+    if (func == null) {
+      throw 'Function $funcName not found for object $obj';
+    }
     return callUFunction(obj, func, args);
   }
 
@@ -160,11 +167,15 @@ class ReflectAPI {
     // }
     var defaultExportFlags = EPropertyPortFlags.PPF_Localized,
         i = 0;
+    var retProp = null;
     cur = func.Children;
     while(cur != null) {
       var prop:UProperty = cast cur;
       cur = cur.Next;
       if (prop.PropertyFlags & (CPF_Parm|CPF_ReturnParm) != CPF_Parm) {
+        if (prop.PropertyFlags.hasAll(CPF_ReturnParm)) {
+          retProp = prop;
+        }
         continue;
       }
 
@@ -191,12 +202,8 @@ class ReflectAPI {
     }
 
     obj.ProcessEvent(func, params);
-    var prop:UProperty = cast cur;
-    if (prop != null) {
-      if (prop.PropertyFlags.hasAny(CPF_ReturnParm)) {
-        throw 'Bad property flags for return property: ${prop.PropertyFlags}';
-      }
-      return bpGetData(params, prop);
+    if (retProp != null) {
+      return bpGetData(params, retProp);
     }
 
     return null;

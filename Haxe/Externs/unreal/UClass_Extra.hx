@@ -22,6 +22,8 @@ extern class UClass_Extra {
   @:global @:typeName
   public static function FindField<T>(Owner:UStruct, FieldName:FName) : PPtr<T>;
 
+  public function FindFunctionByName(name:FName, includeSuper:EIncludeSuperFlag=IncludeSuper) : UFunction;
+
   public function GetDefaultObject(bCreateIfNeeded:Bool=true) : UObject;
 
   public function HasAllClassFlags(flags:Int32):Bool;

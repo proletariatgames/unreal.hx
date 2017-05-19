@@ -13,6 +13,15 @@ package unreal;
 
   function Empty(slack:Int32) : Void;
 
+  function Len() : Int32;
+
+  function Append(text:Const<PRef<FString>>):PRef<FString>;
+  @:uname("Append") function AppendText(text:TCharStar, count:Int32):PRef<FString>;
+
+  function InsertAt(index:Int32, chars:Const<PRef<FString>>):Void;
+
+  function ToLowerInline():Void;
+  function ToUpperInline():Void;
   @:expr(return op_Dereference()) public function toString():String;
 }
 

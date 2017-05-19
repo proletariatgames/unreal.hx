@@ -364,25 +364,40 @@ class NeedsGlueBuild
                   pos: field.pos
                 };
               } else {
-                var staticFuncName = 'uhx__func_${field.name}';
+                var funcName = 'uhx__func_${field.name}';
+                var funcNameSet = 'uhx__func_${field.name}_set';
                 var dummy = macro class {
-                  private static var $staticFuncName:unreal.UFunction;
+                  @:noCompletion private var $funcName:unreal.UFunction;
+                  @:noCompletion private var $funcNameSet:Bool;
                 };
 
                 var uname = field.name;
                 var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
-                toAdd.push(dummy.fields[0]);
-                var funcData = macro ($i{staticFuncName} != null ?
-                    $i{staticFuncName} :
-                    ($i{staticFuncName} = unreal.ReflectAPI.getUFunctionFromClass(StaticClass(), $v{uname})));
+                for (field in dummy.fields) {
+                  toAdd.push(field);
+                }
+
                 var callArgs = [ for (arg in fn.args) macro $i{arg.name} ];
-                call = {
-                  expr:ECall(
-                    macro @:pos(field.pos) unreal.ReflectAPI.callUFunction,
-                    [macro this, funcData, macro $a{callArgs}]),
-                  pos: field.pos
+                var exprCall = macro unreal.ReflectAPI.callUFunction(this, fn, $a{callArgs});
+                if (meta.params.exists(UExtensionBuild.ufuncMetaNeedsImpl)) {
+                  var impl = field.name + '_Implementation';
+                  var implCall = { expr:ECall(macro this.$impl, callArgs), pos:field.pos };
+                  exprCall = macro if (fn != null) $exprCall else $implCall;
+                }
+
+                call = macro {
+                  var fn = $i{funcName};
+                  if (fn == null && !$i{funcNameSet}) {
+                    $i{funcName} = fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
+                    if (fn.HasAllFunctionFlags(unreal.EFunctionFlags.FUNC_Native)) {
+                      fn = null;
+                    }
+                    $i{funcNameSet} = true;
+                  }
+                  $exprCall;
                 };
               }
+
               switch (fn.ret) {
               case null | TPath({ pack:[], name:"Void" }):
                 fn.expr = macro { $call; };
@@ -404,7 +419,10 @@ class NeedsGlueBuild
               for (impl in fields) {
                 if (impl.name == field.name + '_Implementation') {
                   found = true;
-                  impl.meta.push({ name:':uexpose', params:[], pos:impl.pos });
+                  if (shouldExposeFn) {
+                    // expose Implementation as well
+                    impl.meta.push({ name:':uexpose', params:[], pos:impl.pos });
+                  }
                   break;
                 }
               }
@@ -447,9 +465,14 @@ class NeedsGlueBuild
         var ufuncCallDef = macro class {
           @:ifFeature($v{thisClassName})
           @:glueCppIncludes("IntPtr.h", "Engine.h")
-          @:glueCppBody($v{'((UFunction*) fn)->SetNativeFunc((Native)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ')'})
-          public static function setupFunction(fn:unreal.UIntPtr):Void {
-            $delayedglue.getNativeCall('setupFunction', true, fn);
+          @:glueCppBody($v{'{
+            UFunction *realFn = ((UFunction*)fn);
+            Native native = (Native)&' + uname + '::' + Globals.UHX_CALL_FUNCTION + ';
+            ((UClass *) cls)->AddNativeFunction(*realFn->GetName(), native);
+            ((UFunction*) fn)->SetNativeFunc(native);
+          }'})
+          public static function setupFunction(cls:unreal.UIntPtr, fn:unreal.UIntPtr):Void {
+            $delayedglue.getNativeCall('setupFunction', true, cls, fn);
           }
         };
 
