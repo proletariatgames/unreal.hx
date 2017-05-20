@@ -480,7 +480,7 @@ class GlueMethod {
           'new ' + this.thisConv.ueType.getCppClass();
         case '.copyStruct':
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
-          this.thisConv.ueType.getCppClass();
+          ''; // we are already going to dereference it, which will be enough to invoke the copy constructor
         case _ if(meth.flags.hasAny(CppPrivate)):
           if (meth.flags.hasAny(Property)) {
             '(((_staticcall_${meth.name}*)(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '))->' + meth.uname + ')';

@@ -817,8 +817,9 @@ class ExternBaker {
       else
         this.add('private ');
 
-      if (isStatic)
+      if (isStatic) {
         this.add('static ');
+      }
       var tconv = TypeConv.get( field.type, field.pos );
       this.add('var ');
       this.add(field.name);
@@ -877,7 +878,7 @@ class ExternBaker {
       case TFun(args,ret) if (field.meta.has(':expr')):
         this.addDoc(field.doc);
         this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));
-        if (isStatic) {
+        if (isStatic && field.name != 'new') {
           this.buf.add('static ');
         }
         this.buf.add( field.isPublic ? 'public function ' : 'private function ' );

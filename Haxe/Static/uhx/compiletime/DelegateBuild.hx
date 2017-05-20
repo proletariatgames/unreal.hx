@@ -199,6 +199,10 @@ class DelegateBuild {
     complexThis = tref.toComplexType();
     //TODO unify ExternBaker and DelayedGlue implementation so this will work at static-compile time
     var added = macro class {
+      @:expr(this = create()) public function new() {
+        this = create();
+      }
+
       // we need .ctor.struct because delegates don't work with placement new (this seems to be an Unreal issue)
       @:uname(".ctor.struct") public static function create():$complexThis {
         return $delayedglue.getNativeCall("create", true);
@@ -213,7 +217,7 @@ class DelegateBuild {
 
 #if bake_externs
     for (field in def.fields) {
-      if (field.name == 'typingHelper') {
+      if (field.name == 'typingHelper' || field.name == 'new') {
         continue;
       }
 
@@ -240,7 +244,7 @@ class DelegateBuild {
     if (!meta.exists(function(meta) return meta.name == ':uname')) {
       meta.push({ name:':uname', params:[macro $v{ueType.name}], pos:pos });
     }
-    meta.push({ name:':unativecalls', params:[for (field in def.fields) if (field.name != 'typingHelper') macro $v{field.name}], pos:pos });
+    meta.push({ name:':unativecalls', params:[for (field in def.fields) if (field.name != 'typingHelper' && field.name != 'new') macro $v{field.name}], pos:pos });
     meta.push({ name:':final', params:[], pos:pos });
 
 #if !bake_externs
