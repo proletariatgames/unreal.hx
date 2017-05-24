@@ -244,7 +244,7 @@ class CreateGlue {
 
   private static function excludeModules(modules:Array<Array<Type>>) {
     var uobj = Context.getType('unreal.UObject'),
-        ustruct = Context.getType('unreal.Wrapper');
+        ustruct = Context.getType('unreal.Struct');
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
@@ -258,9 +258,6 @@ class CreateGlue {
             c.meta.add(':native', [macro $v{'unreal.UObject'}], c.pos);
             c.meta.add(':include', [macro $v{'unreal/UObject.h'}], c.pos);
             c.exclude();
-          } else if (Context.unify(type, ustruct)) {
-            // c.meta.add(':native', [macro $v{'unreal.Wrapper'}], c.pos);
-            // c.meta.add(':include', [macro $v{'unreal/Wrapper.h'}], c.pos);
           } else {
             c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
             c.exclude();
@@ -270,6 +267,11 @@ class CreateGlue {
           e.meta.remove(':native');
           e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
           e.exclude();
+        case TAbstract(a,_):
+          var a = a.get();
+          if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
+            a.impl.get().exclude();
+          }
         case _:
         }
       }

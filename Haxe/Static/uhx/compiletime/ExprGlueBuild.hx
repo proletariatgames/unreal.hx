@@ -103,7 +103,13 @@ class ExprGlueBuild {
       (isSetter ? glueExpr.toString() : tconv.glueToHaxe( glueExpr.toString(), ctx)) + '; }';
 
     var ret = Context.parse(expr, pos);
-    if (cls.meta.has(':uscript')) {
+    var meta = cls.meta;
+    switch(cls.kind) {
+    case KAbstractImpl(a):
+      meta = a.get().meta;
+    case _:
+    }
+    if (meta.has(':uscript')) {
       var toFlag = ret;
       if (isSetter) {
         toFlag = macro { $ret; value; };
@@ -202,7 +208,13 @@ class ExprGlueBuild {
       block[0];
     else
       { expr:EBlock(block), pos: pos };
-    if (cls.meta.has(':uscript') && !script) {
+    var meta = cls.meta;
+    switch(cls.kind) {
+    case KAbstractImpl(a):
+      meta = a.get().meta;
+    case _:
+    }
+    if (meta.has(':uscript') && !script) {
       var expr = getSuperExpr(fieldName, targetFieldName, [for (arg in origArgs) macro $i{arg.name} ], true);
       flagCurrentField(targetFieldName, cls, false, expr);
     }
@@ -285,7 +297,13 @@ class ExprGlueBuild {
       { expr:EBlock(block), pos: pos };
     };
 
-    if (cls.meta.has(':uscript') && !script) {
+    var meta = cls.meta;
+    switch(cls.kind) {
+    case KAbstractImpl(a):
+      meta = a.get().meta;
+    case _:
+    }
+    if (meta.has(':uscript') && !script) {
       var args = [ for (arg in origArgs) macro $i{arg.name} ];
       var expr = getNativeCall(fieldName, isStatic, args, true);
       flagCurrentField(fieldName, cls, isStatic, expr);
@@ -312,7 +330,7 @@ class ExprGlueBuild {
   }
 
   private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr) {
-    var field = findField(cl, meth, isStatic);
+    var field = findField(cl, meth, isStatic || cl.kind.match(KAbstractImpl(_)));
     if (field == null) throw new Error('assert: no field $meth on current class ${cl.name}', Context.currentPos());
     field.meta.add(':ugluegenerated', [expr], cl.pos);
   }
@@ -359,14 +377,17 @@ class ExprGlueBuild {
         cls.meta.add(':ueGluePath', [macro $v{ glue.getClassPath() }], cls.pos );
         cls.meta.add(':glueHeaderClass', [macro $v{'\t\tinline static void uhx_dummy_field() { }\n'}], cls.pos);
 
+        var meta = cls.meta;
         var path = switch(cls.kind) {
           case KAbstractImpl(a):
-            TypeRef.fromBaseType(a.get(), pos).getClassPath();
+            var a = a.get();
+            meta = a.meta;
+            TypeRef.fromBaseType(a, pos).getClassPath();
           case _:
             type.getClassPath();
         }
         Globals.cur.gluesToGenerate = Globals.cur.gluesToGenerate.add(path);
-        if (cls.meta.has(':uscript')) {
+        if (meta.has(':uscript')) {
           Globals.cur.scriptGlues = Globals.cur.scriptGlues.add(type.getClassPath());
         }
       });

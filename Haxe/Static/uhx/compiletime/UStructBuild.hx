@@ -51,17 +51,12 @@ class UStructBuild {
 
     if (Globals.cur.inScriptPass) {
       tdef.meta.add(':uscript', [], tdef.pos);
-      for (field in fields) {
-        if (field.kind.match(FFun(_))) {
-          field.meta.push({ name:':live', pos:field.pos });
-        }
-      }
     }
 
     tdef.meta.add(':unativecalls', [ macro "create", macro "createNew" ], tdef.pos);
     var structHeaderPath = '${ueType.withoutPrefix().name}.h';
     tdef.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], tdef.pos);
-    var target = new TypeRef(['unreal','structs'],tdef.name);
+    var target = new TypeRef(['uhx','structs'],tdef.name);
 
     var getSuperField = function(v) return null; // TODO: maybe allow super calls on unreal structs' override?
     if (!tdef.meta.has(":ustruct")) {
@@ -106,12 +101,11 @@ class UStructBuild {
     var curPath = [ for (arg in tdef.module.split('.')) { name:arg, pos:tdef.pos } ];
     var packPath = curPath.slice(0,curPath.length-1);
     Globals.cur.hasUnprocessedTypes = true;
-    Context.defineModule('unreal.structs.${tdef.name}',
+    Context.defineModule('uhx.structs.${tdef.name}',
         [def],
         Context.getLocalImports().concat([{path:curPath, mode:INormal }, {path:packPath, mode:IAll}]),
         [for (val in Context.getLocalUsing()) getUsingPath(val.get()) ] );
-	// public static function defineModule( modulePath : String, types : Array<TypeDefinition>, ?imports: Array<ImportExpr>, ?usings : Array<TypePath> ) : Void {
-    return Context.getType('unreal.structs.${tdef.name}');
+    return Context.getType('uhx.structs.${tdef.name}');
   }
 
   inline static function getUsingPath(cl:ClassType):TypePath {

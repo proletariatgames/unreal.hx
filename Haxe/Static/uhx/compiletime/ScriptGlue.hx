@@ -19,6 +19,9 @@ class ScriptGlue {
     var type = Context.getType(path);
     var cl = switch(type) {
       case TInst(c,_): c.get();
+      case TAbstract(a,_):
+        var a = a.get();
+        a.impl.get();
       case _: throw 'assert: $path not found';
     }
 
@@ -30,7 +33,7 @@ class ScriptGlue {
       macro : unreal.Wrapper;
     }
 
-    // don't spend time building this if the type haven't changed
+    // don't spend time building this if the type haven't been changed
     if (cl.meta.has(':ugenerated')) return;
     cl.meta.add(':ugenerated', [], cl.pos);
 
@@ -64,7 +67,7 @@ class ScriptGlue {
     // var args = [ for (arg in field.doc
     switch(Context.follow(field.type)) {
     case TFun(args,ret):
-      var fnArgs:Array<FunctionArg> = [ for (arg in args) { name: arg.name, opt: arg.opt, type: arg.t.toComplexType() } ];
+      var fnArgs:Array<FunctionArg> = [ for (arg in args) { name: arg.name == "this" ? "glue_self" : arg.name, opt: arg.opt, type: arg.t.toComplexType() } ];
       if (!isStatic) {
         fnArgs.unshift({ name:'glue_self', type:thisType });
       }

@@ -69,11 +69,6 @@ class ReflectAPI {
   }
 
   public static function setProperty(obj:UObject, prop:UProperty, value:Dynamic):Void {
-// #if debug
-//     if (prop.GetOuter() != obj.GetClass()) {
-//       throw 'Property ${prop.GetName()} does not belong to uclass ${prop.GetOuter()}';
-//     }
-// #end
     bpSetField_rec(AnyPtr.fromUObject(obj), prop, value, #if debug prop.GetName().toString() #else null #end);
   }
 
@@ -88,8 +83,6 @@ class ReflectAPI {
     }
     return callUFunction(obj, func, args);
   }
-
-  // private static function
 
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
     if (!obj.isValid() && !uhx.ClassWrap.isConstructing(obj)) {
@@ -260,8 +253,7 @@ class ReflectAPI {
             }
           }
           if (argAddr != 0 && argAddr != addr) {
-            param.CopyCompleteValue(argAddr, addr);
-            // FMemory.Memcpy(argAddr, addr, param.ArrayDim * param.ElementSize);
+            FMemory.Memcpy(argAddr, addr, param.ArrayDim * param.ElementSize);
           }
         }
         arg = arg.Next;
@@ -392,7 +384,6 @@ class ReflectAPI {
           data += inner.ElementSize;
         }
       } else {
-        // var value:FScriptArray = cast value.getStruct(0);
         prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
       }
     } else if (Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
