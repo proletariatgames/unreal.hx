@@ -10,6 +10,12 @@
 // #include <hx/LessThanEq.h>
 #endif
 
+#ifndef __UNREAL__
+#ifndef setFixed
+#define setFixed(index, name, value) setFixed(index, name, uhx::ConvertHelper::maybeConvert(value))
+#endif
+#endif
+
 
 namespace unreal {
 
@@ -153,5 +159,24 @@ inline unreal::VariantPtr Dynamic::StaticCast() const
   // Simple reinterpret_cast
   return unreal::VariantPtr_obj::fromDynamic(*this);
 }
+
+
+#ifndef __UNREAL__
+
+namespace uhx {
+
+struct ConvertHelper {
+  template<typename T>
+  static inline T maybeConvert(T val) {
+    return val;
+  }
+
+  static inline ::cpp::Variant maybeConvert(::unreal::VariantPtr v) {
+    return ::cpp::Variant(v.getDynamic());
+  }
+};
+
+}
+#endif
 
 #endif

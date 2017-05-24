@@ -73,6 +73,7 @@ class UnrealInit
       }
     }
 
+    var first = true;
     function loadCppia() {
       trace('loading cppia');
       try {
@@ -118,6 +119,17 @@ class UnrealInit
           }
         }
 #end
+        if (first) {
+          first = false;
+        } else {
+          var reloadFns = unreal.CoreAPI.cppiaReloadFns;
+          if (reloadFns != null && reloadFns.length > 0) {
+            unreal.CoreAPI.cppiaReloadFns = [];
+            for (fn in reloadFns) {
+              fn();
+            }
+          }
+        }
       } catch(e:Dynamic) {
         trace('Error', 'Error while loading cppia: $e');
       }

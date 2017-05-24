@@ -268,6 +268,8 @@ class CreateGlue {
           e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
           e.exclude();
         case TAbstract(a,_):
+          // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
+          // it will work either way!
           var a = a.get();
           if (Context.unify(type, ustruct) && a.meta.has(':uscript')) {
             a.impl.get().exclude();

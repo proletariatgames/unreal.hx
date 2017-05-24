@@ -48,6 +48,22 @@ class CoreAPI {
       hotReloadFns.push(fn);
     }
   }
+
+#if (WITH_CPPIA || cppia)
+  static var cppiaReloadFns:Array<Void->Void>;
+
+  @:noUsing public static function onCppiaReload(fn:Void->Void) {
+    if (cppiaReloadFns == null) {
+      cppiaReloadFns = [fn];
+    } else {
+      cppiaReloadFns.push(fn);
+    }
+  }
+#else
+  @:noUsing public static function onCppiaReload(fn:Void->Void) {
+    trace('Error', 'Trying to add a cppia reload hook, but cppia is not compiled within');
+  }
+#end
 #end
 
   /**
