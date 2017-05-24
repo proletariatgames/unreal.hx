@@ -5,7 +5,10 @@ package unreal;
   public function new();
 
   @:expr({ var ret = new unreal.FScriptDelegate(); ret.BindUFunction(obj, name); return ret; })
-  static function create(obj:UObject, name:FName):FScriptDelegate;
+  static function createBound(obj:UObject, name:FName):FScriptDelegate;
+
+  @:uname(".ctor") static function create():FScriptDelegate;
+  @:uname("new") static function createNew():POwnedPtr<FScriptDelegate>;
 
   /**
    * Checks to see if the user object bound to this delegate is still valid
@@ -47,4 +50,15 @@ package unreal;
    * @return	Function name
    */
   function GetFunctionName():FName;
+
+
+  /**
+   * Executes a delegate by calling the named function on the object bound to the delegate.  You should
+   * always first verify that the delegate is safe to execute by calling IsBound() before calling this function.
+   * In general, you should never call this function directly.  Instead, call Execute() on a derived class.
+   *
+   * @param	Parameters		Parameter structure
+   */
+  // see FCallDelegateHelper
+  @:uname("ProcessDelegate<UObject>") function ProcessDelegate(Parameters:AnyPtr):Void;
 }

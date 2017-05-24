@@ -5,6 +5,7 @@ extern class UStruct_Extra {
   var MinAlignment:Int32;
   var PropertiesSize:Int32;
   var PropertyLink:UProperty;
+  var DestructorLink:UProperty;
 
   /**
     Destroy a struct in memory.

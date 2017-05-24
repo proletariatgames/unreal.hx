@@ -18,9 +18,16 @@ typedef UClassDef = {
   ?ufuncs: Array<UFunctionDef>,
 }
 
+typedef UDelegateDef = {
+  uname: String, // with the prefix
+  signature: UFunctionDef,
+  isMulticast:Bool,
+  ?processed:Bool,
+}
+
 typedef UFunctionDef = {
   hxName:String,
-  uname: String, // with the prefix
+  uname: String,
 
   args: Null<Array<UPropertyDef>>,
   ret: Null<UPropertyDef>, // is null, it means that the function is a void function
@@ -131,6 +138,9 @@ typedef UEnumDef = {
   var TInterface = 17;
   var TStruct = 18;
   var TEnum = 19;
+
+  var TDynamicDelegate = 20;
+  var TDynamicMulticastDelegate = 21;
 
   inline public function t():Int {
     return this;

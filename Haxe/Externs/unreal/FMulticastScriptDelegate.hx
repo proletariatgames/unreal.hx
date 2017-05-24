@@ -4,6 +4,10 @@ package unreal;
 @:uextern extern class FMulticastScriptDelegate {
   public function new();
 
+  @:uname(".ctor") static function create():FMulticastScriptDelegate;
+
+  @:uname("new") static function createNew():POwnedPtr<FMulticastScriptDelegate>;
+
   /**
    * Checks to see if the user object bound to this delegate is still valid
    *
@@ -68,4 +72,15 @@ package unreal;
    * Removes all functions from this delegate's invocation list
    */
   function Clear():Void;
+
+  /**
+   * Executes a multi-cast delegate by calling all functions on objects bound to the delegate.  Always
+   * safe to call, even if when no objects are bound, or if objects have expired.  In general, you should
+   * never call this function directly.  Instead, call Broadcast() on a derived class.
+   *
+   * @param	Params				Parameter structure
+   */
+  // see FCallDelegateHelper
+  @:uname("ProcessMulticastDelegate<UObject>")
+  function ProcessMulticastDelegate(Parameters:AnyPtr):Void;
 }

@@ -137,6 +137,14 @@ package unreal;
     return this & mask.t();
   }
 
+  inline public function hasAny(mask:EFunctionFlags):Bool {
+    return this & mask.t() != 0;
+  }
+
+  inline public function hasAll(mask:EFunctionFlags):Bool {
+    return this & mask.t() == mask.t();
+  }
+
   @:op(~A) @:extern inline public function bitNot():EFunctionFlags {
     return ~this;
   }

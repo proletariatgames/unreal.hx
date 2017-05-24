@@ -280,4 +280,13 @@ import uhx.internal.HaxeHelpers;
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end
   }
+
+  public static function callHaxeFunctionOther(stack:VariantPtr, result:UIntPtr):Void {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    var stack:FFrame = cast stack;
+    HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(stack.Object, stack, result) );
+#else
+    trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
+#end
+  }
 }

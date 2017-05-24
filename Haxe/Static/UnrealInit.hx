@@ -96,7 +96,14 @@ class UnrealInit
 #if !NO_DYNAMIC_UCLASS
           var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
           if (metaClass != null) {
-            var metas:Array<{ haxeClass:String, uclass:String }> = cast haxe.rtti.Meta.getType(metaClass).DynamicClasses;
+            var metadata = haxe.rtti.Meta.getType(metaClass);
+            var metas:Array<Dynamic> = metadata.UDelegates;
+            if (metas != null) {
+              for (del in metas) {
+                uhx.runtime.UReflectionGenerator.initializeDelegate(del);
+              }
+            }
+            var metas:Array<{ haxeClass:String, uclass:String }> = cast metadata.DynamicClasses;
             if (metas != null) {
               for (c in metas) {
                 var hxClass:Dynamic = Type.resolveClass(c.haxeClass);

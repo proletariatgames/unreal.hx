@@ -36,7 +36,7 @@ class ReflectAPI {
     if (prop != null) {
       bpSetField_rec(AnyPtr.fromUObject(cast obj), prop, value, field);
     } else {
-      throw 'Field `$field` does not exist on ${cls.GetDesc()}';
+      throw 'Field `$field` does not exist on ${cls.GetName()}';
     }
   }
 
@@ -89,6 +89,8 @@ class ReflectAPI {
     return callUFunction(obj, func, args);
   }
 
+  // private static function
+
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
     if (!obj.isValid() && !uhx.ClassWrap.isConstructing(obj)) {
       var msg = 'Cannot call ${func.GetName()} in $obj: Object is invalid';
@@ -123,11 +125,11 @@ class ReflectAPI {
     }
 
     if (!restoreFlags) {
-      return callUFunction_pvt(obj, func, args);
+      return callUFunction_pvt(obj, null, false, func, args);
     } else {
       var ret = null;
       try {
-        ret = callUFunction_pvt(obj, func, args);
+        ret = callUFunction_pvt(obj, null, false, func, args);
       }
       catch(e:Dynamic) {
         if (!uhx.internal.ObjectArrayHelper.setObjectFlags(objIndex, flags & (Unreachable | PendingKill) )) {
@@ -143,9 +145,10 @@ class ReflectAPI {
     }
   }
 
-  private static function callUFunction_pvt(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
+  private static function callUFunction_pvt(obj:UObject, delegate:Struct, multicast:Bool, func:UFunction, args:Array<Dynamic>):Dynamic {
     var cur:UField = func.Children,
         maxAlignment:Int = 0;
+    var firstPropertyToDestroy = null;
     while (cur != null) {
       var prop:UProperty = cast cur;
       if (prop == null) {
@@ -157,14 +160,14 @@ class ReflectAPI {
       }
       cur = cur.Next;
     }
-    var params:AnyPtr = 0;
-    // if (func.ParmsSize > 0) {
-      var paramsData = Wrapper.InlinePodWrapper.create(func.ParmsSize + maxAlignment, 0);
-      params = paramsData.getPointer();
+    var params:AnyPtr = 0,
+        parmsSize = func.ParmsSize;
+    if (parmsSize > 0) {
+      params = uhx.ue.RuntimeLibrary.alloca(parmsSize + maxAlignment);
       // re-align it
       params = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", params, maxAlignment);
       FMemory.Memzero(params, func.ParmsSize);
-    // }
+    }
     var defaultExportFlags = EPropertyPortFlags.PPF_Localized,
         i = 0;
     var retProp = null;
@@ -198,15 +201,96 @@ class ReflectAPI {
         }
       }
 
+      var flags = prop.PropertyFlags;
+      if (!flags.hasAny(CPF_ZeroConstructor | CPF_IsPlainOldData)) {
+        prop.InitializeValue(params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr());
+      }
+      if (firstPropertyToDestroy == null && !flags.hasAny(CPF_NoDestructor | CPF_IsPlainOldData)) {
+        firstPropertyToDestroy = prop;
+      }
       bpSetField_rec(params, prop, args[i++], #if debug '${func.GetName()}.${prop.GetName()}' #else null #end);
     }
-
-    obj.ProcessEvent(func, params);
-    if (retProp != null) {
-      return bpGetData(params, retProp);
+    // FUNC_HasOutParms is unreliable, as it isn't defined on delegates
+    if (delegate != null && func.FunctionFlags & (EFunctionFlags.FUNC_Delegate | EFunctionFlags.FUNC_HasOutParms ) == EFunctionFlags.FUNC_Delegate) {
+      // for some reason the compiled delegate functions don't inherit this flag, even if it needs it
+      var arg = func.Children;
+      while(arg != null) {
+        var prop:UProperty = cast arg;
+        if (prop!= null && prop.PropertyFlags & CPF_OutParm == CPF_OutParm) {
+          func.FunctionFlags |= EFunctionFlags.FUNC_HasOutParms;
+          break;
+        }
+        arg = arg.Next;
+      }
     }
 
-    return null;
+
+    if (obj != null) {
+      obj.ProcessEvent(func, params);
+    } else if (delegate != null) {
+      if (multicast) {
+        ( cast delegate : unreal.FMulticastScriptDelegate ).ProcessMulticastDelegate(params);
+      } else {
+        ( cast delegate : unreal.FScriptDelegate ).ProcessDelegate(params);
+      }
+    } else {
+      throw 'No object or delegate was set';
+    }
+
+    if (func.FunctionFlags.hasAny(EFunctionFlags.FUNC_HasOutParms)) {
+      var i = -1;
+      var arg = func.Children;
+      while(arg != null) {
+        i++;
+        var param:UProperty = cast arg;
+        if (!Std.is(param, UNumericProperty) && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_ReturnParm) == CPF_OutParm) {
+          var addr = params + param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+          var curArg:Dynamic = args[i],
+              argAddr:UIntPtr = 0;
+          if (curArg == null) {
+            trace('Error', 'Argument $i is null for function call ${func.GetName()}');
+            arg = arg.Next;
+            continue;
+          } else if (Std.is(curArg, Wrapper)) {
+            argAddr = (curArg : Wrapper).getPointer();
+          } else {
+            var variant : VariantPtr = curArg;
+            if (!variant.isObject()) {
+              argAddr = (curArg : VariantPtr).getUIntPtr() - 1;
+            }
+          }
+          if (argAddr != 0 && argAddr != addr) {
+            param.CopyCompleteValue(argAddr, addr);
+            // FMemory.Memcpy(argAddr, addr, param.ArrayDim * param.ElementSize);
+          }
+        }
+        arg = arg.Next;
+      }
+    }
+
+    var ret = null;
+    if (retProp != null) {
+      if (Std.is(retProp, UNumericProperty) || Std.is(retProp, UBoolProperty) || Std.is(retProp, UObjectProperty)) {
+        ret = bpGetData(params, retProp);
+      } else {
+        // for structs, we must copy the complete value otherwise it will live inside the stack, which will be discarded
+        var retVal:VariantPtr = uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess retProp.wrapped, 0);
+        var retPtr = (retVal.getDynamic() : Wrapper).getPointer();
+        retProp.InitializeValue(retPtr);
+        retProp.CopyCompleteValue(retPtr, params + retProp.GetOffset_ReplaceWith_ContainerPtrToValuePtr());
+        ret = retVal;
+      }
+    }
+
+    // destroy values that need to be destroyed
+    while (firstPropertyToDestroy != null) {
+      if (!firstPropertyToDestroy.PropertyFlags.hasAny(CPF_NoDestructor | CPF_IsPlainOldData)) {
+        firstPropertyToDestroy.DestroyValue(params + firstPropertyToDestroy.GetOffset_ReplaceWith_ContainerPtrToValuePtr());
+      }
+      firstPropertyToDestroy = firstPropertyToDestroy.PropertyLinkNext;
+    }
+
+    return ret;
   }
 
   private static function extSetField_rec(obj:Dynamic, field:String, value:Dynamic, path:String) {
@@ -311,10 +395,28 @@ class ReflectAPI {
         // var value:FScriptArray = cast value.getStruct(0);
         prop.CopyCompleteValue(objOffset, AnyPtr.fromStruct(value));
       }
+    } else if (Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
+      if (Std.is(value, unreal.Wrapper)) {
+        var wrapperValue:unreal.Wrapper = value;
+        prop.CopyCompleteValue(objOffset, value.getPointer());
+      } else {
+        var variant:VariantPtr = value;
+        if (!variant.isObject()) {
+          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+        } else {
+          throw 'Struct set not supported: ${prop.GetName()} for value $value' #if debug + ' ($path)' #end;
+        }
+      }
     } else if (Std.is(prop, UStructProperty)) {
       var prop:UStructProperty = cast prop,
           struct = prop.Struct;
-      if (Type.getClass(value) == null && value != null && !Reflect.isEnumValue(value) && Reflect.isObject(value)) {
+      var variant:VariantPtr = value;
+      if (!variant.isObject()) {
+          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
+      } else if (Std.is(value, unreal.Wrapper)) {
+        var wrapperValue:unreal.Wrapper = value;
+        prop.CopyCompleteValue(objOffset, wrapperValue.getPointer());
+      } else if (Type.getClass(value) == null && value != null && !Reflect.isEnumValue(value) && Reflect.isObject(value)) {
         // set objects
         for (field in Reflect.fields(value)) {
           var newPath =
@@ -335,20 +437,12 @@ class ReflectAPI {
             }
           }
           if (prop == null) {
-            throw 'Field `$field` does not exist on ${struct.GetDesc()}' #if debug + ' ($path)' #end;
+            throw 'Field `$field` does not exist on ${struct.GetName()}' #if debug + ' ($path)' #end;
           }
           bpSetField_rec(objOffset, prop, Reflect.field(value, field), newPath);
         }
-      } else if (Std.is(value, unreal.Wrapper)) {
-        var wrapperValue:unreal.Wrapper = value;
-        prop.CopyCompleteValue(objOffset, value.getPointer());
       } else {
-        var variant:VariantPtr = value;
-        if (!variant.isObject()) {
-          prop.CopyCompleteValue(objOffset, variant.getUIntPtr() - 1);
-        } else {
-          throw 'Struct set not supported: ${struct.GetDesc()} for object $value' #if debug + ' ($path)' #end;
-        }
+        throw 'Struct set not supported: ${struct.GetName()} for value $value' #if debug + ' ($path)' #end;
       }
     } else {
       throw 'Property not supported: $prop';
@@ -378,7 +472,7 @@ class ReflectAPI {
     var cls = obj.GetClass();
     var prop = cls.FindPropertyByName(field);
     if (prop == null) {
-      throw 'Class ${cls.GetDesc()} does not exist!';
+      throw 'Class ${cls.GetName()} does not exist!';
     }
 
     return bpGetData(AnyPtr.fromUObject(obj), prop);
@@ -440,7 +534,7 @@ class ReflectAPI {
       var value:FText = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
-    } else if (Std.is(prop, UStructProperty)) {
+    } else if (Std.is(prop, UStructProperty) || Std.is(prop, UDelegateProperty) || Std.is(prop, UMulticastDelegateProperty)) {
       // structs are always just pointers, so we can just return them
       return objPtr.getStruct(0);
     } else if (Std.is(prop, UArrayProperty)) {
@@ -506,7 +600,7 @@ class ReflectAPI {
       args.push(bpGetData(stackData, prop));
     }
 
-    var ret = Reflect.callMethod(obj, fn, args);
+    var ret:Dynamic = Reflect.callMethod(obj, fn, args);
     if (retProp != null) {
       bpSetField_rec(stackData, retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
     }
@@ -518,17 +612,22 @@ class ReflectAPI {
       while(arg != null && out != null) {
         i++;
         var param:UProperty = cast arg;
-        if (param.PropertyFlags & (CPF_ConstParm | CPF_OutParm) == CPF_OutParm) {
+        if (param != null && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm) == CPF_OutParm) {
           var prop = out.Property;
           if (prop != null) {
-            var addr = stackData + param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+            var addr = stackData + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+            // prop.CopyCompleteValue(out.PropAddr.asAnyPtr(), addr);
             FMemory.Memcpy(out.PropAddr.asAnyPtr(), addr, prop.ArrayDim * prop.ElementSize);
           }
         }
-        if (param.PropertyFlags.hasAny(CPF_OutParm)) {
+        if (param != null && param.PropertyFlags.hasAny(CPF_OutParm)) {
           out = out.NextOutParm;
         }
         arg = arg.Next;
+      }
+    } else {
+      if (retProp != null) {
+        trace('has not out parms but retProp != null');
       }
     }
   }

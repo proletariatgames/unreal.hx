@@ -123,7 +123,7 @@ class CoreAPI {
     var data = getUFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
-    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Add(unreal.FScriptDelegate.create($obj, $v{fnName}));
+    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Add(unreal.FScriptDelegate.createBound($obj, $v{fnName}));
   }
 
   public static macro function AddUniqueDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {
@@ -131,7 +131,7 @@ class CoreAPI {
     var data = getUFunctionFromObj(args),
         obj = data.obj,
         fnName = data.fnName;
-    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).AddUnique(unreal.FScriptDelegate.create($obj, $v{fnName}));
+    return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).AddUnique(unreal.FScriptDelegate.createBound($obj, $v{fnName}));
   }
 
   public static macro function RemoveDynamic<T:haxe.Constraints.Function>(self:ExprOf<unreal.BaseDynamicMulticastDelegate<T>>, args:Array<Expr>) : Expr {

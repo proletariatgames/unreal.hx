@@ -153,6 +153,11 @@ class Globals {
   public var classesToAddMetaDef:Array<String> = [];
 
   /**
+    Types that will be created dynamically and thus need to have their metadata created
+   **/
+  public var delegatesToAddMetaDef:Array<{ uname:String, hxName:String, isMulticast:Bool, args:Array<{ name:String, conv:TypeConv}>, ret:TypeConv, pos:Position }> = [];
+
+  /**
     A list of unreal types created by Haxe that were compiled in the static build phase
    **/
   public var staticUTypes:Map<String, StaticMeta> = new Map();
@@ -162,6 +167,11 @@ class Globals {
     This also contains their metadata definition of uproperties/ufunctions,
    **/
   public var scriptClassDefs:Map<String, { className:String, meta:uhx.meta.MetaDef }> = new Map();
+
+  /**
+    A list of unreal delegates created by Haxe that were compiled in the script build phase.
+   **/
+  public var scriptDelegateDefs:Map<String, uhx.meta.MetaDef.UDelegateDef> = new Map();
 
   /**
     Allows to speed up builds by keeping track of the glues that need to be regenerated

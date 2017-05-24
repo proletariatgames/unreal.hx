@@ -12,8 +12,6 @@ import haxe.rtti.Meta;
  **/
 class UReflectionGenerator {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-  public static var ANY_PACKAGE(default, null) = @:privateAccess new UPackage(-1);
-
   private static var uclassDefs:Map<String, MetaDef>;
   private static var uclassToHx:Map<String, String>;
   private static var nativeCompiled:Map<String, UStruct>;
@@ -22,8 +20,16 @@ class UReflectionGenerator {
 
   private static var staticHxToUClass:Map<String, StaticMeta>;
   private static var staticUClassToHx:Map<String, StaticMeta>;
+  private static var scriptDelegates:Map<String, UDelegateDef>;
 
   private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
+
+  @:allow(UnrealInit) static function initializeDelegate(def:UDelegateDef) {
+    if (scriptDelegates == null) {
+      scriptDelegates = new Map();
+    }
+    scriptDelegates[def.uname] = def;
+  }
 
   @:allow(UnrealInit) static function initializeDef(uclassName:String, hxClassName:String, meta:MetaDef) {
     if (uclassDefs == null) {
@@ -45,6 +51,43 @@ class UReflectionGenerator {
     }
     staticHxToUClass[meta.hxPath] = meta;
     staticUClassToHx[meta.uname] = meta;
+  }
+
+  private static function createDelegate(def:UDelegateDef) {
+    var sig = getDelegateSignature(def.uname.substr(1));
+    if (sig != null) {
+      trace('Warning', 'Creating an already existing delegate: ${def.uname}');
+      // TODO allow hot reload
+      return;
+    }
+
+    var outer = uhx.UCallHelper.StaticClass().GetOuter();
+    var dummyClass:UClass = cast UObject.NewObject_NoTemplate( outer, UBlueprintGeneratedClass.StaticClass(), def.uname.substr(1), RF_Public );
+    var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
+    bp.GeneratedClass = dummyClass;
+    dummyClass.ClassGeneratedBy = bp;
+
+    var parent = UObject.StaticClass();
+    dummyClass.SetSuperStruct(parent);
+    dummyClass.ClassFlags |= EClassFlags.CLASS_Inherit | EClassFlags.CLASS_ScriptInherit | EClassFlags.CLASS_CompiledFromBlueprint;
+
+    dummyClass.PropertyLink = parent.PropertyLink;
+    dummyClass.ClassWithin = parent.ClassWithin;
+    dummyClass.ClassConfigName = parent.ClassConfigName;
+
+    RuntimeLibrary.setupClassConstructor(@:privateAccess dummyClass.wrapped, @:privateAccess parent.wrapped, true);
+
+    dummyClass.Bind();
+    dummyClass.StaticLink(true);
+    dummyClass.GetDefaultObject(true);
+
+    def.signature.uname = def.uname.substr(1) + '__DelegateSignature';
+    var fn = generateUFunction(dummyClass, def.signature, null, null);
+    trace(fn);
+    fn.FunctionFlags |= FUNC_Delegate;
+    if (def.isMulticast) {
+      fn.FunctionFlags |= FUNC_MulticastDelegate;
+    }
   }
 
   public static function startLoadingDynamic() {
@@ -73,6 +116,10 @@ class UReflectionGenerator {
 
     for (propDef in meta.uclass.uprops) {
       var prop = generateUProperty(struct, struct, propDef, false);
+      if (prop == null) {
+        trace('Error', 'Error while creating property ${propDef.uname} for class $uname');
+        continue;
+      }
       prop.SetMetaData('HaxeGenerated',"true");
       struct.AddCppProperty(prop);
     }
@@ -98,7 +145,6 @@ class UReflectionGenerator {
       return;
     }
     if (meta.uclass.ufuncs == null) {
-      trace('Warning', 'No ufunction was found for $uname');
       return;
     }
     var hxClassName = uclassToHx[uname];
@@ -124,9 +170,8 @@ class UReflectionGenerator {
       }
     }
     if (setupFunction == null) {
-      trace('Warning', 'Cannot find setup function for $hxClassName');
-      // TODO allow this
-      return;
+      // this is not exactly right, but it works correctly as the function is not a virtual function
+      setupFunction = uhx.UCallHelper.setupFunction;
     }
 
     var sup = uclass.GetSuperClass();
@@ -141,20 +186,25 @@ class UReflectionGenerator {
     }
   }
 
-  private static function generateUFunction(uclass:UClass, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
-    var fn:UFunction = cast UObject.NewObject_NoTemplate(uclass, UFunction.StaticClass(), func.uname, RF_Public);
+  private static function generateUFunction(outer:UObject, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
+    var fn:UFunction = cast UObject.NewObject_NoTemplate(outer, UFunction.StaticClass(), func.uname, RF_Public);
     if (parent != null) {
       fn.SetSuperStruct(parent);
     }
     if (func.hxName != null && func.hxName != func.uname) {
       fn.SetMetaData('HaxeName', func.hxName);
     }
+    var uclass:UClass = Std.is(outer, UClass) ? cast outer : null;
 
     var curChild = null,
         curProp = null;
     if (func.args != null) {
       for (arg in func.args) {
         var prop = generateUProperty(fn, uclass, arg, false);
+        if (prop == null) {
+          trace('Error', 'Error while creating property ${arg.uname} for function ${func.uname} (class ${outer.GetName()})');
+          return null;
+        }
         prop.PropertyFlags |= CPF_Parm;
         if (curChild == null) {
           curChild = fn.Children = prop;
@@ -170,8 +220,15 @@ class UReflectionGenerator {
     fn.NumParms = func.args.length;
     if (func.ret != null) {
       var prop = generateUProperty(fn, uclass, func.ret, true);
-      prop.PropertyFlags |= CPF_Parm;
-      prop.PropertyFlags |= CPF_ReturnParm;
+      if (prop == null) {
+        trace('Error', 'Error while creating return value for function ${func.uname} (class ${outer.GetName()})');
+        return null;
+      }
+      // if (!prop.PropertyFlags.hasAny(CPF_ZeroConstructor)) {
+      //   fn.FirstPropertyToInit = prop;
+      //   fn.FunctionFlags |= FUNC_HasDefaults;
+      // }
+      prop.PropertyFlags |= CPF_Parm | CPF_ReturnParm | CPF_OutParm;
       if (curChild == null) {
         curChild = fn.Children = prop;
         curProp = fn.PropertyLink = prop;
@@ -186,7 +243,11 @@ class UReflectionGenerator {
     var flags = getFunctionFlags(uclass, fn, func);
     fn.FunctionFlags |= flags;
 
-    @:privateAccess setupFunction(uclass.wrapped, fn.wrapped);
+    if (setupFunction != null && uclass != null) {
+      setupFunction(@:privateAccess uclass.wrapped,@:privateAccess fn.wrapped);
+    } else {
+      fn.FunctionFlags = fn.FunctionFlags & ~FUNC_Native;
+    }
     fn.Bind();
     fn.StaticLink(true);
 
@@ -562,91 +623,129 @@ class UReflectionGenerator {
   private static function generateUProperty(outer:UObject, ownerStruct:UStruct, def:UPropertyDef, isReturn:Bool):UProperty {
     // var isLoading = !uhx.glues.UObject_Glue.IsA(outer, uhx.glues.UClass_Glue.get_ClassWithin(uhx.glues.UBoolProperty_Glue.StaticClass()));
     var isLoading = true;
-    var flags:EObjectFlags = EObjectFlags.RF_Public;
+    var objFlags:EObjectFlags = EObjectFlags.RF_Public;
 
     var name = new FName(def.uname);
     var prop:UProperty = null;
-    switch(def.flags.type) {
+    var flags = def.flags;
+    switch(flags.type) {
       case TBool:
-        prop = newProperty( outer, UBoolProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UBoolProperty.StaticClass(), name, objFlags);
       case TI8:
-        prop = newProperty( outer, UInt8Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UInt8Property.StaticClass(), name, objFlags);
       case TU8:
-        prop = newProperty( outer, UByteProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UByteProperty.StaticClass(), name, objFlags);
       case TI16:
-        prop = newProperty( outer, UInt16Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UInt16Property.StaticClass(), name, objFlags);
       case TU16:
-        prop = newProperty( outer, UUInt16Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UUInt16Property.StaticClass(), name, objFlags);
       case TI32:
-        prop = newProperty( outer, UIntProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UIntProperty.StaticClass(), name, objFlags);
       case TU32:
-        prop = newProperty( outer, UUInt32Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UUInt32Property.StaticClass(), name, objFlags);
       case TI64:
-        prop = newProperty( outer, UInt64Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UInt64Property.StaticClass(), name, objFlags);
       case TU64:
-        prop = newProperty( outer, UUInt64Property.StaticClass(), name, flags);
+        prop = newProperty( outer, UUInt64Property.StaticClass(), name, objFlags);
 
       case F32:
-        prop = newProperty( outer, UFloatProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UFloatProperty.StaticClass(), name, objFlags);
       case F64:
-        prop = newProperty( outer, UDoubleProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UDoubleProperty.StaticClass(), name, objFlags);
 
       case TString:
-        prop = newProperty( outer, UStrProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UStrProperty.StaticClass(), name, objFlags);
       case TText:
-        prop = newProperty( outer, UTextProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UTextProperty.StaticClass(), name, objFlags);
       case TName:
-        prop = newProperty( outer, UNameProperty.StaticClass(), name, flags);
+        prop = newProperty( outer, UNameProperty.StaticClass(), name, objFlags);
 
       case TArray:
-        var ret:UArrayProperty = cast newProperty(outer, UArrayProperty.StaticClass(), name, flags);
+        var ret:UArrayProperty = cast newProperty(outer, UArrayProperty.StaticClass(), name, objFlags);
         var inner = generateUProperty(@:privateAccess ret, ownerStruct, def.params[0], false);
+        if (inner == null) {
+          ret.MarkPendingKill();
+          return null;
+        }
         ret.Inner = inner;
         prop = ret;
 
       case TUObject:
         var cls = getUClass(def.typeUName.substr(1));
-        if (def.flags.hasAny(FWeak)) {
-          var ret:UWeakObjectProperty = cast newProperty(outer, UWeakObjectProperty.StaticClass(), name, flags);
+        if (flags.hasAny(FWeak)) {
+          var ret:UWeakObjectProperty = cast newProperty(outer, UWeakObjectProperty.StaticClass(), name, objFlags);
           ret.SetPropertyClass(cls);
           prop = ret;
-        } else if (def.flags.hasAny(FSubclassOf)) {
-          var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, flags);
+        } else if (flags.hasAny(FSubclassOf)) {
+          var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, objFlags);
           ret.PropertyFlags |= CPF_UObjectWrapper;
           ret.SetPropertyClass(UClass.StaticClass());
           ret.MetaClass = cls;
           prop = ret;
         } else {
           if (cls.IsA(UClass.StaticClass())) {
-            var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, flags);
+            var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, objFlags);
             ret.SetPropertyClass(cls);
             ret.MetaClass = UObject.StaticClass();
             prop = ret;
           } else {
-            var ret:UObjectProperty = cast newProperty(outer, UObjectProperty.StaticClass(), name, flags);
+            var ret:UObjectProperty = cast newProperty(outer, UObjectProperty.StaticClass(), name, objFlags);
             ret.SetPropertyClass(cls);
             prop = ret;
           }
         }
       case TInterface:
-        var ret:UInterfaceProperty = cast newProperty(outer, UInterfaceProperty.StaticClass(), name, flags);
+        var ret:UInterfaceProperty = cast newProperty(outer, UInterfaceProperty.StaticClass(), name, objFlags);
         var cls = getUClass(def.typeUName.substr(1));
         ret.SetInterfaceClass(cls);
         prop = ret;
       case TStruct:
-        var ret:UStructProperty = cast newProperty(outer, UStructProperty.StaticClass(), name, flags);
+        var ret:UStructProperty = cast newProperty(outer, UStructProperty.StaticClass(), name, objFlags);
         var cls = getUStruct(def.typeUName.substr(1));
         ret.Struct = cls;
         prop = ret;
       case TEnum:
-        var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, flags);
+        var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
         var cls = getUEnum(def.typeUName.substr(1));
         ret.Enum = cls;
         prop = ret;
+
+      case TDynamicDelegate:
+        var sigFn = getDelegateSignature(def.typeUName.substr(1));
+        if (sigFn == null) {
+          if (scriptDelegates.exists(def.typeUName)) {
+            createDelegate(scriptDelegates[def.typeUName]);
+          }
+          sigFn = getDelegateSignature(def.typeUName.substr(1));
+        }
+        if (sigFn == null) {
+          trace('Error', 'Cannot find the delegate signature for type ${def.typeUName}');
+          return null;
+        }
+        var ret:UDelegateProperty = cast newProperty(outer, UDelegateProperty.StaticClass(), name, objFlags);
+        ret.SignatureFunction = sigFn;
+        prop = ret;
+
+      case TDynamicMulticastDelegate:
+        var sigFn = getDelegateSignature(def.typeUName.substr(1));
+        if (sigFn == null) {
+          trace(scriptDelegates.exists(def.typeUName));
+          if (scriptDelegates.exists(def.typeUName)) {
+            createDelegate(scriptDelegates[def.typeUName]);
+          }
+          sigFn = getDelegateSignature(def.typeUName.substr(1));
+        }
+        if (sigFn == null) {
+          trace('Error', 'Cannot find the delegate signature for type ${def.typeUName}');
+          return null;
+        }
+        var ret:UMulticastDelegateProperty = cast newProperty(outer, UMulticastDelegateProperty.StaticClass(), name, objFlags);
+        ret.SignatureFunction = sigFn;
+        prop = ret;
+
       case t:
         throw 'No property found for type $t for property $def';
     };
-    var flags = def.flags;
     if (flags.hasAny(FSubclassOf)) {
       prop.PropertyFlags |= CPF_UObjectWrapper;
     }
@@ -711,4 +810,13 @@ class UReflectionGenerator {
     return cast UObject.StaticFindObjectFast(UField.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
   }
 #end
+
+  public static var ANY_PACKAGE(default, null) = @:privateAccess new UPackage(-1);
+
+  /**
+    Finds a delegate signature given the delegate's name (without the prefix)
+   **/
+  public static function getDelegateSignature(name:String):Null<UFunction> {
+    return UObject.FindObject(ANY_PACKAGE, name + '__DelegateSignature');
+  }
 }

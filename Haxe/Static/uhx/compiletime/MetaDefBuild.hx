@@ -12,6 +12,42 @@ using uhx.compiletime.tools.MacroHelpers;
   Generates the metadata definitions (MetaDef) for the uproperties and ufunctions that will be added at runtime by cppia
  **/
 class MetaDefBuild {
+  public static function addUDelegateMetaDef(data:{ uname:String, hxName:String, isMulticast:Bool, args:Array<{ name:String, conv:TypeConv}>, ret:TypeConv, pos:Position }) {
+    var func:UFunctionDef = {
+      hxName: null,
+      uname: null,
+      args:[],
+      ret:null,
+    };
+    for (arg in data.args) {
+      var prop = arg.conv.toUPropertyDef();
+      if (prop == null) {
+        Context.warning('The type of delegate ${data.uname}\'s argument called ${arg.name} is not supported. This delegate will be ignored', data.pos);
+        return;
+      }
+      prop.uname = arg.name;
+      prop.hxName = arg.name;
+      func.args.push(prop);
+    }
+
+    if (data.ret != null) {
+      var retProp = data.ret.toUPropertyDef();
+      if (retProp == null) {
+        Context.warning('The return type of delegate ${data.uname} is not supported. This delegate will be ignored', data.pos);
+        return;
+      }
+      retProp.uname = 'ReturnValue';
+      func.ret = retProp;
+    }
+
+    var delDef:UDelegateDef = {
+      uname: data.uname,
+      isMulticast: data.isMulticast,
+      signature: func
+    };
+    Globals.cur.scriptDelegateDefs.set(data.uname, delDef);
+  }
+
   public static function addUClassMetaDef(base:ClassType) {
     var classDef:UClassDef = null;
     var superStructName = null;
@@ -103,6 +139,8 @@ class MetaDefBuild {
               Context.warning('The return type of field ${field.name} is not supported. This ufunction will be ignored', field.pos);
               continue;
             }
+          } else {
+            retProp.uname = 'ReturnValue';
           }
           func.ret = retProp;
 
@@ -175,6 +213,8 @@ class MetaDefBuild {
       var c = c.get();
       c.meta.remove('DynamicClasses');
       c.meta.add('DynamicClasses', [for (v in arr) macro $v{v}], Context.currentPos());
+      c.meta.remove('UDelegates');
+      c.meta.add('UDelegates', [for (val in Globals.cur.scriptDelegateDefs) macro $v{val}], Context.currentPos());
     case _:
       Context.warning('Invalid type for CppiaMetaData', Context.currentPos());
     }

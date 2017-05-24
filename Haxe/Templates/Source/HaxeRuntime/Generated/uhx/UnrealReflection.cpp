@@ -75,7 +75,16 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny) {
       startOffset = offset;
     }
 
-    unreal::UIntPtr reflectPtr = ret + startOffset + info.size;
+    int align = info.alignment;
+    if (align < sizeof(void*)) {
+      align = sizeof(void*);
+    }
+    align--;
+    unreal::UIntPtr objOffset = ret + startOffset;
+    // re-align
+    objOffset = (objOffset + align) & ~align;
+
+    unreal::UIntPtr reflectPtr = objOffset + info.size;
     // re-align
     reflectPtr = (unreal::UIntPtr) ((reflectPtr + sizeof(void*) - 1) & ~(sizeof(void*) -1));
     reflectPtr += sizeof(uhx::StructInfo); // this is where the main info will be at
@@ -99,17 +108,35 @@ static unreal::VariantPtr createWrapper(UProperty *inProp, void *pointerIfAny) {
   } else if (pointerIfAny) {
     return unreal::VariantPtr(pointerIfAny); // we don't need wrappers
   } else if (info.alignment > sizeof(void*)) {
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
     ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
     startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
   } else if (info.flags == uhx::UHX_POD) {
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
     ret = uhx::expose::HxcppRuntime::createInlinePodWrapper(extraSize, (unreal::UIntPtr) &info).raw;
     startOffset = uhx::expose::HxcppRuntime::getInlinePodWrapperOffset();
   } else {
-    ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
-    startOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
+    extraSize += sizeof(void*); // alignment
+    extraSize += sizeof(uhx::StructInfo); // genericParams info
+    // ret = uhx::expose::HxcppRuntime::createInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    // startOffset = uhx::expose::HxcppRuntime::getInlineWrapperOffset();
+    // Dynamically created wrappers have more strict alignment needs than statically created (because we are using Unreal's reflection API)
+    // so we always create an aligned inline wrapper
+    ret = uhx::expose::HxcppRuntime::createAlignedInlineWrapper(extraSize, (unreal::UIntPtr) &info).raw;
+    startOffset = uhx::expose::HxcppRuntime::getAlignedInlineWrapperSize();
   }
 
-  unreal::UIntPtr infoOffset = ret + startOffset + info.size;
+  int align = info.alignment;
+  if (align < sizeof(void*)) {
+    align = sizeof(void*);
+  }
+  align--;
+  unreal::UIntPtr objOffset = ret + startOffset;
+  // re-align
+  objOffset = (objOffset + align) & ~align;
+  unreal::UIntPtr infoOffset = objOffset + info.size;
   // re-align
   infoOffset = (unreal::UIntPtr) ((infoOffset + sizeof(void*) - 1) & ~(sizeof(void*) -1));
   // set the info inside the allocated space, so it can be reclaimed once the object is garbage collected
@@ -137,7 +164,7 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
   } else if (inProp->IsA<UObjectProperty>()) {
     // auto objProp = Cast<UObjectProperty>(inProp);
     return uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) inPointer) );
-  } else if (inProp->IsA<UStructProperty>()) {
+  } else if (inProp->IsA<UStructProperty>() || inProp->IsA<UDelegateProperty>() || inProp->IsA<UMulticastDelegateProperty>()) {
     return uhx::expose::HxcppRuntime::boxVariantPtr(inPointer);
   } else if (inProp->IsA<UBoolProperty>()) {
     auto prop = Cast<UBoolProperty>(inProp);
@@ -169,9 +196,8 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
     }
   } else if (inProp->IsA<UObjectProperty>()) {
     *((UObject **)dest) = (UObject *) uhx::expose::HxcppRuntime::uobjectUnwrap(value);
-  } else if (inProp->IsA<UStructProperty>()) {
-    auto prop = Cast<UStructProperty>(inProp);
-    prop->CopyCompleteValue(dest, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(value));
+  } else if (inProp->IsA<UStructProperty>() || inProp->IsA<UDelegateProperty>() || inProp->IsA<UMulticastDelegateProperty>()) {
+    inProp->CopyCompleteValue(dest, (void *) uhx::expose::HxcppRuntime::getWrapperPointer(value));
   } else if (inProp->IsA<UBoolProperty>()) {
     auto prop = Cast<UBoolProperty>(inProp);
     prop->SetPropertyValue(dest, uhx::expose::HxcppRuntime::unboxBool(value));
@@ -202,13 +228,14 @@ unreal::UIntPtr uhx::TArrayReflect_obj::Pop(unreal::VariantPtr self, bool allowS
   int num = helper.Num();
   check(num > 0);
   uint8 *rawPtr = helper.GetRawPtr(num - 1);
-  if (prop->IsA<UNumericProperty>()) {
+  if (prop->IsA<UNumericProperty>() || prop->IsA<UBoolProperty>()) {
     ret = getValueWithProperty(prop, rawPtr);
   } else if (prop->IsA<UObjectProperty>()) {
     ret = (unreal::UIntPtr) *((UObject **) rawPtr);
   } else {
     ret = uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(prop, 0));
     unreal::UIntPtr retPtr = uhx::expose::HxcppRuntime::getWrapperPointer(ret);
+    prop->InitializeValue((void *) retPtr);
     prop->CopyCompleteValue((void *) retPtr, (void *) rawPtr);
   }
   helper.Resize(num - 1);

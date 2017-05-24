@@ -210,6 +210,8 @@ extern class UObject_Extra {
 
 #if WITH_EDITOR
   public function PreEditChange(PropertyAboutToChange:UProperty) : Void;
-	public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;
+  public function PostEditChangeProperty( PropertyChangedEvent:PRef<FPropertyChangedEvent>) : Void;
 #end // WITH_EDITOR
+
+  public function MarkPendingKill():Void;
 }

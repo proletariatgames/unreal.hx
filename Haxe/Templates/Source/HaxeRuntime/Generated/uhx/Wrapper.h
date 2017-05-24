@@ -134,19 +134,19 @@ struct PointerOffset<true> {
 template<typename T>
 struct StructHelper<T, uhx::SKNormal> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<false>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) align(inPtr.raw + PointerOffset<false>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<false>::getVariantOffset());
+    T *ptr = (T*) align(ret.raw + PointerOffset<false>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<false>::getVariantOffset());
+    T *ptr = (T*) align(ret.raw + PointerOffset<false>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
@@ -154,7 +154,7 @@ struct StructHelper<T, uhx::SKNormal> {
   template<typename... Args>
   inline static unreal::VariantPtr create(Args... params) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlineWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    void *ptr = (void*) (ret.raw + PointerOffset<false>::getVariantOffset());
+    void *ptr = (void*) align(ret.raw + PointerOffset<false>::getVariantOffset());
     new(ptr) T(params...);
     return ret;
   }
@@ -162,25 +162,30 @@ struct StructHelper<T, uhx::SKNormal> {
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     // TODO - check inOrigin & 1 == 0
     return unreal::VariantPtr(inOrigin);
+  }
+
+private:
+  inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
+    return (ptr + (sizeof(void*) - 1)) & (~(sizeof(void*) - 1));
   }
 };
 
 template<typename T>
 struct StructHelper<T, uhx::SKPOD> {
   inline static T *getPointer(unreal::VariantPtr inPtr) {
-    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) (inPtr.raw + PointerOffset<true>::getVariantOffset()));
+    return (inPtr.raw & 1) == 1 ? ((T *) (inPtr.raw - 1)) : ((inPtr.raw == 0) ? nullptr : (T *) align(inPtr.raw + PointerOffset<true>::getVariantOffset()));
   }
 
   inline static unreal::VariantPtr fromStruct(const T& inOrigin) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<true>::getVariantOffset());
+    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
 
   inline static unreal::VariantPtr fromStruct(T&& inOrigin) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    T *ptr = (T*) (ret.raw + PointerOffset<true>::getVariantOffset());
+    T *ptr = (T*) align(ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(inOrigin);
     return ret;
   }
@@ -188,7 +193,7 @@ struct StructHelper<T, uhx::SKPOD> {
   template<typename... Args>
   inline static unreal::VariantPtr create(Args... params) {
     unreal::VariantPtr ret = uhx::expose::HxcppRuntime::createInlinePodWrapper((int) sizeof(T), (unreal::UIntPtr) TStructData<T>::getInfo());
-    void *ptr = (void*) (ret.raw + PointerOffset<true>::getVariantOffset());
+    void *ptr = (void*) align(ret.raw + PointerOffset<true>::getVariantOffset());
     new(ptr) T(params...);
     return ret;
   }
@@ -196,6 +201,11 @@ struct StructHelper<T, uhx::SKPOD> {
   inline static unreal::VariantPtr fromPointer(T *inOrigin) {
     // TODO - check inOrigin & 1 == 0
     return unreal::VariantPtr(inOrigin);
+  }
+
+private:
+  inline static unreal::UIntPtr align(unreal::UIntPtr ptr) {
+    return (ptr + (sizeof(void*) - 1)) & (~(sizeof(void*) - 1));
   }
 };
 

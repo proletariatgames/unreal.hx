@@ -82,6 +82,12 @@ class CreateCppia {
         }
       }
 
+      var metaDefs = Globals.cur.delegatesToAddMetaDef;
+      var cur = null;
+      while ( (cur = metaDefs.pop()) != null ) {
+        MetaDefBuild.addUDelegateMetaDef(cur);
+      }
+
       MetaDefBuild.writeClassDefs();
       var allStatics = [ for (s in statics.concat(blacklist)) s => true ],
           incompleteExcludes = null;
@@ -130,7 +136,7 @@ class CreateCppia {
               e.exclude();
             }
           case TAbstract(_.get()=>a,_):
-            if (hasExclude(a.module) || a.meta.has(':uextern') || a.meta.has(':coreApi')) {
+            if (hasExclude(a.module) || (a.meta.has(':uextern') && !a.meta.has(':uscript')) || a.meta.has(':coreApi')) {
               var impl = a.impl;
               if (impl != null) {
                 impl.get().exclude();
@@ -187,8 +193,9 @@ class CreateCppia {
           if (ctor != null)
             Context.follow(ctor.get().type);
         case TAbstract(a,_):
-          if (Context.unify(type, ustruct)) {
-            a.get().impl.get().exclude();
+          var a = a.get();
+          if (Context.unify(type, ustruct) && !a.meta.has(':uscript')) {
+            a.impl.get().exclude();
             continue;
           }
         case _:

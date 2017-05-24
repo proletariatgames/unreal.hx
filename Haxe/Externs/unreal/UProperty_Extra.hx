@@ -8,6 +8,7 @@ extern class UProperty_Extra {
     In memory only: Linked list of properties from most-derived to base
    **/
   var PropertyLinkNext:UProperty;
+  var DestructorLinkNext:UProperty;
 
   /**
     Zeros the value for this property.
@@ -41,4 +42,5 @@ extern class UProperty_Extra {
   function GetMinAlignment():Int32;
 
   function Link(ar:PRef<FArchive>):Int32;
+  function InitializeValue(Dest:AnyPtr):Void;
 }

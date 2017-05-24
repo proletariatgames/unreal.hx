@@ -100,14 +100,14 @@ class TypeConv {
       case CEnum(_):
         null;
       case CStruct(type, flags, info, params):
+        switch(type) {
+        case SHaxe:
+          typeFlags |= FHaxeCreated;
+        case SScriptHaxe:
+          typeFlags |= FScriptCreated;
+        case _:
+        }
         if (flags.hasAny(SUStruct)) {
-          switch(type) {
-          case SHaxe:
-            typeFlags |= FHaxeCreated;
-          case SScriptHaxe:
-            typeFlags |= FScriptCreated;
-          case _:
-          }
           switch(info.ueType.name) {
             case 'TArray':
               var param = params[0].toUPropertyDef();
@@ -127,6 +127,12 @@ class TypeConv {
               name = uname;
               TStruct;
           }
+        } else if (flags.hasAny(SDynamicDelegate)) {
+          name = info.ueType.name;
+          TDynamicDelegate;
+        } else if (flags.hasAny(SDynamicMulticastDelegate)) {
+          name = info.ueType.name;
+          TDynamicMulticastDelegate;
         } else {
           null;
         }
@@ -821,6 +827,12 @@ class TypeConv {
         if (it.meta.has(':ustruct')) {
           structFlags |= SUStruct;
         }
+        if (it.meta.has(':udynamicDelegate')) {
+          structFlags |= SDynamicDelegate;
+        }
+        if (it.meta.has(':udynamicMulticastDelegate')) {
+          structFlags |= SDynamicMulticastDelegate;
+        }
         if (it.kind.match(KTypeParameter(_))) {
           var kind = if(ctx.accFlags.hasAny(OSubclassOf)) {
             PSubclassOf;
@@ -950,6 +962,12 @@ class TypeConv {
         var structFlags = (a.meta.has(':typeName') ? STypeName : SNone);
         if (a.meta.has(':ustruct')) {
           structFlags |= SUStruct;
+        }
+        if (a.meta.has(':udynamicDelegate')) {
+          structFlags |= SDynamicDelegate;
+        }
+        if (a.meta.has(':udynamicMulticastDelegate')) {
+          structFlags |= SDynamicMulticastDelegate;
         }
         var hasUextern = a.meta.has(':uextern');
         if (hasUextern && a.meta.has(':enum')) {
@@ -1448,8 +1466,10 @@ enum TypeConvData {
 @:enum abstract StructFlags(Int) from Int {
   var SNone = 0;
   // @:typeName generic types
-  var STypeName = 1;
-  var SUStruct = 2;
+  var STypeName = 0x1;
+  var SUStruct = 0x2;
+  var SDynamicDelegate = 0x4;
+  var SDynamicMulticastDelegate = 0x8;
 
   inline private function t() {
     return this;

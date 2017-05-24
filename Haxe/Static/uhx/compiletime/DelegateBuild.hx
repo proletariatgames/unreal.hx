@@ -2,6 +2,7 @@ package uhx.compiletime;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
+import uhx.compiletime.types.TypeConv;
 import uhx.compiletime.types.TypeRef;
 import uhx.compiletime.types.GlueInfo;
 
@@ -280,7 +281,96 @@ class DelegateBuild {
     meta.push({ name:':keepInit', params:[], pos:pos });
     if (type == 'DynamicDelegate' || type == 'DynamicMulticastDelegate') {
       meta.push({ name:':forward', params:[], pos:pos });
+      if (type == 'DynamicDelegate') {
+        meta.push({ name:':udynamicDelegate', params:[], pos:pos });
+      } else {
+        meta.push({ name:':udynamicMulticastDelegate', params:[], pos:pos });
+      }
+
+      if (Context.defined('cppia') && Globals.cur.inScriptPass) {
+        var name = MacroHelpers.getUName(tdef);
+        if (name.charCodeAt(0) != 'F'.code) {
+          Context.warning('Dyamic delegates must have an "F" prefix to their uname', tdef.pos);
+        }
+        switch(tfun) {
+        case TFun(args, ret):
+          var retConv = TypeRef.fromType(ret, tdef.pos).isVoid() ? null : TypeConv.get(ret, tdef.pos);
+          Globals.cur.delegatesToAddMetaDef.push({ uname:name, hxName:tref.getClassPath(), args:[for(arg in args) { name:arg.name, conv:TypeConv.get(arg.t, tdef.pos), }], ret:retConv, isMulticast: type == 'DynamicMulticastDelegate', pos:tdef.pos });
+        case _:
+          throw 'assert';
+        }
+
+        var toexpose = [],
+            sigName = 'uhx_static_signature',
+            getSigname = 'get_$sigName';
+        var delName = name.substr(1);
+        var isMulticast = type == 'DynamicMulticastDelegate';
+        for (field in def.fields) {
+          switch(field.kind) {
+          case FFun(fn):
+            switch(field.name) {
+            case 'create':
+              fn.expr = isMulticast ?
+                macro return cast unreal.FMulticastScriptDelegate.create() :
+                macro return cast unreal.FScriptDelegate.create();
+            case 'createNew':
+              fn.expr = isMulticast ?
+                macro return cast unreal.FMulticastScriptDelegate.createNew() :
+                macro return cast unreal.FScriptDelegate.createNew();
+            case 'ExecuteIfBound':
+              var arr = [ for (arg in fn.args) macro $i{arg.name} ];
+              var executeCall = { expr:ECall(macro this.Execute, arr), pos:pos };
+              fn.expr = macro if (this.IsBound()) $executeCall;
+            case 'Execute' | 'Broadcast':
+              var arr = [ for (arg in fn.args) macro $i{arg.name} ];
+              var args = [macro null, macro this, macro $v{isMulticast}, macro $i{sigName}, macro $a{arr}];
+              var call = {
+                expr: ECall(macro unreal.ReflectAPI.callUFunction_pvt, args),
+                pos: pos
+              };
+              call = macro @:privateAccess $call;
+              if (fn.ret != null && !fn.ret.match(TPath({ name:"Void", pack:[] } | { name:"StdTypes", pack:[], sub:"Void" }))) {
+                call = macro return $call;
+              }
+              fn.expr = call;
+
+            case name:
+              toexpose.push(name);
+            }
+          case _:
+          }
+        }
+
+        var dummy = macro class {
+          @:noCompletion static var $sigName(get,null):unreal.UFunction;
+          inline private static function $getSigname() {
+            var ret = $i{sigName};
+            if (ret == null) {
+              $i{sigName} = ret = uhx.runtime.UReflectionGenerator.getDelegateSignature($v{delName});
+              if (ret == null) {
+                throw 'Cannot find signature function for dynamically created delegate $delName';
+              }
+            }
+            return ret;
+          }
+        }
+        for (field in dummy.fields) {
+          def.fields.push(field);
+        }
+        def.fields = def.fields.filter(function(field) return !toexpose.exists(function(name) return name == field.name));
+        // meta.push({ name:':forward', params:[for (e in toexpose) macro $v{e}], pos:pos });
+      }
+
+#if !bake_externs
+      if (Globals.cur.inScriptPass) {
+        meta.push({ name:':uscript', params:[], pos:pos });
+      }
+#end
     }
+
+#if !bake_externs
+    meta.push({ name:':haxeCreated', params:[], pos:pos });
+#end
     var ret = def.fields;
     def.name = tref.name;
     def.meta = meta;
