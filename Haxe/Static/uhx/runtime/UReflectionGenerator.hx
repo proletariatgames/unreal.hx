@@ -577,7 +577,6 @@ class UReflectionGenerator {
         // TODO
       case _:
         if (meta.value != null) {
-          trace('Setting meta $meta');
           fn.SetMetaData(meta.name, meta.value);
         }
       }
