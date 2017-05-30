@@ -18,10 +18,21 @@ static TMap<FName, uint32> getCrcMapPvt() {
   char className[257];
   uint32 crc = 0;
   bool success = true;
+  int magic = 0;
+  if (!file->Read((uint8*) &magic, 4) || magic != 0xC5CC991A) {
+    UE_LOG(HaxeLog, Error, TEXT("Invalid gameCrcs magic"));
+    success = false;
+  }
+
+  int ntry = 0;
+
+  if (!success || !file->Read((uint8*) &ntry, 4)) {
+    success = false;
+  }
 
 #define READ(destination, bytesToRead) if (!file->Read(destination, bytesToRead)) { success = false; break; }
 
-  while(true) {
+  while(success) {
     READ(&classNameSize, 1);
     if (classNameSize == 0) {
       break;
@@ -30,6 +41,7 @@ static TMap<FName, uint32> getCrcMapPvt() {
     READ((uint8 *) className, classNameSize);
     className[classNameSize] = 0;
     READ((uint8 *) &crc, 4);
+    crc += ntry;
     FName classFName = FName( UTF8_TO_TCHAR(className) );
     if (crc == 0) {
       UE_LOG(HaxeLog, Error, TEXT("Unreal.hx CRC for class %s was 0"), *classFName.ToString());
@@ -78,7 +90,18 @@ class UHxBootstrap : public UObject {
   DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, 0, HAXERUNTIME_API)
 #endif
   UHxBootstrap(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : UObject(ObjectInitializer) {
-    uhx::expose::HxcppRuntime::endLoadingDynamic();
+    static bool didRunInit = false;
+    if (GIsHotReload && GIsDuplicatingClassForReinstancing) {
+      // when running hot reload, UClassReplaceHotReloadClasses() runs before everything,
+      // so that's the right time to start loading dynamic
+      // It is however called once more when the reinstancer is running, so that's a convenient place to
+      // end loading dynamic as well
+      check_hx_init();
+      uhx::expose::HxcppRuntime::startLoadingDynamic();
+      didRunInit = true;
+    } else {
+      uhx::expose::HxcppRuntime::endLoadingDynamic();
+    }
   }
 
 };

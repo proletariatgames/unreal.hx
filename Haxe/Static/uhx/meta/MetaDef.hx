@@ -3,7 +3,6 @@ package uhx.meta;
 typedef MetaDef = {
   ?uclass:UClassDef,
   ?uenum:UEnumDef,
-  signature:String
 }
 
 typedef UClassDef = {
@@ -12,6 +11,7 @@ typedef UClassDef = {
   superStructUName: String, // with the prefix
   isClass:Bool,
 
+  ?propSig:String, // the signature of all current properties. If this changed, it means we need to perform a full hot reload
   ?propCrc:Int,
 
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
@@ -33,6 +33,7 @@ typedef UFunctionDef = {
   ret: Null<UPropertyDef>, // is null, it means that the function is a void function
 
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
+  ?propSig:String, // the signature of current signature. If this changed, it means we need to perform a full hot reload
 }
 
 typedef UPropertyDef = {
@@ -51,9 +52,6 @@ typedef UEnumDef = {
   constructors: Array<String>,
 }
 
-// @:enum abstract UPropFlags(Int) from Int {
-// }
-
 @:enum abstract UPropReplicationKind(Int) from Int {
   var Always = 1;
   var InitialOnly = 2;
@@ -68,10 +66,6 @@ typedef UEnumDef = {
     return this;
   }
 }
-
-// @:enum abstract UFuncFlags(Int) from Int {
-//   var FOverride = 0x1;
-// }
 
 @:enum abstract TypeFlags(Int) from Int {
   var FSubclassOf = 0x100; // CPF_UObjectWrapper

@@ -57,7 +57,11 @@ class ExprGlueBuild {
         args.push(macro value);
       }
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fullName, args), pos: pos };
+      var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
+      if (cls.meta.has(':hasGlueScriptGetter')) {
+        resolver = macro uhx_glueScript;
+      }
+      return { expr:ECall(macro $resolver.$fullName, args), pos: pos };
     }
 
     var field = findField(cls, fieldName, isStatic || abs != null);
@@ -155,7 +159,11 @@ class ExprGlueBuild {
     if (Context.defined('cppia')) {
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      var ret = { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$targetFieldName, args), pos: pos };
+      var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
+      if (cls.meta.has(':hasGlueScriptGetter')) {
+        resolver = macro uhx_glueScript;
+      }
+      var ret = { expr:ECall(macro $resolver.$targetFieldName, args), pos: pos };
       if (!fret.haxeType.isVoid()) {
         var rtype = fret.haxeType.toComplexType();
         ret = macro ( $ret : $rtype );
@@ -228,7 +236,11 @@ class ExprGlueBuild {
     if (Context.defined('cppia')) {
       var args = isStatic ? args : [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      return { expr:ECall(macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic).$fieldName, args), pos: pos };
+      var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
+      if (cls.meta.has(':hasGlueScriptGetter')) {
+        resolver = macro uhx_glueScript;
+      }
+      return { expr:ECall(macro $resolver.$fieldName, args), pos: pos };
     }
 
     var abs = switch(cls.kind) {

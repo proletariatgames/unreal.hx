@@ -73,7 +73,8 @@ class UnrealInit
       }
     }
 
-    var first = true;
+    var first = true,
+        waitingRebind = false;
     function loadCppia() {
       trace('loading cppia');
       try {
@@ -122,16 +123,26 @@ class UnrealInit
         if (first) {
           first = false;
         } else {
-          var reloadFns = unreal.CoreAPI.cppiaReloadFns;
-          if (reloadFns != null && reloadFns.length > 0) {
-            unreal.CoreAPI.cppiaReloadFns = [];
-            for (fn in reloadFns) {
-              fn();
+          if (!disabled) {
+            switch(uhx.runtime.UReflectionGenerator.cppiaHotReload()) {
+            case WaitingRebind:
+              waitingRebind = true;
+            case Success:
+              var reloadFns = unreal.CoreAPI.cppiaReloadFns;
+              if (reloadFns != null && reloadFns.length > 0) {
+                unreal.CoreAPI.cppiaReloadFns = [];
+                for (fn in reloadFns) {
+                  fn();
+                }
+              }
+            case Failure:
+              trace('Error', 'Hot reload failure');
             }
           }
         }
       } catch(e:Dynamic) {
         trace('Error', 'Error while loading cppia: $e');
+        trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
       }
       stamp = FileSystem.stat(target).mtime.getTime();
     }
@@ -191,6 +202,16 @@ class UnrealInit
 
         for (fn in unreal.CoreAPI.hotReloadFns) {
           fn();
+        }
+        if (waitingRebind) {
+          waitingRebind = false;
+          var reloadFns = unreal.CoreAPI.cppiaReloadFns;
+          if (reloadFns != null && reloadFns.length > 0) {
+            unreal.CoreAPI.cppiaReloadFns = [];
+            for (fn in reloadFns) {
+              fn();
+            }
+          }
         }
       }
     }

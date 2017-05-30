@@ -482,6 +482,21 @@ class NeedsGlueBuild
         nativeCalls.set('setupFunction', 'setupFunction');
       }
     }
+    if (Context.defined('cppia')) {
+      var def = macro class {
+        @:noCompletion static var uhx_glueScript(get,null):Dynamic;
+        @:noCompletion static function get_uhx_glueScript():Dynamic {
+          if (uhx_glueScript == null) {
+            uhx_glueScript = Type.resolveClass($v{thisType.getScriptGlueType().getClassPath(true)});
+          }
+          return uhx_glueScript;
+        }
+      };
+      type.meta.add(':hasGlueScriptGetter', [], type.pos);
+      for (field in def.fields) {
+        toAdd.push(field);
+      }
+    }
 
     if (uprops.length > 0)
       type.meta.add(':uproperties', [ for (prop in uprops) macro $v{prop} ], type.pos);

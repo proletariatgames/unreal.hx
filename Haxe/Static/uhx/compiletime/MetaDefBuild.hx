@@ -40,6 +40,15 @@ class MetaDefBuild {
       func.ret = retProp;
     }
 
+    var sigArr = func.args;
+    if (func.ret != null) {
+      sigArr = sigArr.copy();
+      sigArr.push(func.ret);
+    }
+
+    var argsSig = Context.signature(sigArr);
+    func.propSig = argsSig;
+
     var delDef:UDelegateDef = {
       uname: data.uname,
       isMulticast: data.isMulticast,
@@ -128,6 +137,14 @@ class MetaDefBuild {
             prop.hxName = arg.name;
             func.args.push(prop);
           }
+          var sigArr = func.args;
+          if (func.ret != null) {
+            sigArr = sigArr.copy();
+            sigArr.push(func.ret);
+          }
+
+          var argsSig = Context.signature(sigArr);
+          func.propSig = argsSig;
 
           if (!supported) {
             continue;
@@ -163,8 +180,9 @@ class MetaDefBuild {
       crc = 1; // don't let it be 0
     }
     classDef.propCrc = crc;
+    classDef.propSig = propSignature;
 
-    var meta:uhx.meta.MetaDef = { uclass:classDef, signature: Context.signature(classDef) };
+    var meta:uhx.meta.MetaDef = { uclass:classDef };
     Globals.cur.scriptClassDefs[classDef.uname] = { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta };
 
     base.meta.add('UMetaDef', [Context.makeExpr(meta, base.pos)], base.pos);
@@ -186,7 +204,23 @@ class MetaDefBuild {
 
   public static function writeClassDefs() {
     var outputDir = haxe.io.Path.directory(Compiler.getOutput());
-    var file = sys.io.File.write(outputDir + '/gameCrcs.data', true);
+    var ntry = 0;
+    var file = outputDir + '/gameCrcs.data';
+    if (sys.FileSystem.exists(file)) {
+      try {
+        var reader = sys.io.File.read(file, true);
+        reader.readInt32();
+        ntry = reader.readInt32();
+        ntry++;
+        reader.close();
+      }
+      catch(e:Dynamic) {
+        Context.warning('Error while reading old gameCrcs: $e', Context.currentPos());
+      }
+    }
+    var file = sys.io.File.write(file, true);
+    file.writeInt32(0xC5CC991A);
+    file.writeInt32(ntry);
     var map = Globals.cur.scriptClassDefs;
     var arr = [];
 

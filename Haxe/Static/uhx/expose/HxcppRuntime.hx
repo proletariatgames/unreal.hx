@@ -234,8 +234,10 @@ import uhx.internal.HaxeHelpers;
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
     HaxeCodeDispatcher.runVoid( function() {
-      uhx.runtime.UReflectionGenerator.addFunctions(name.toString(), true);
-      uhx.runtime.UReflectionGenerator.addProperties(cast @:privateAccess unreal.UObject.wrap(struct), name.toString(), true);
+      trace('Add Dynamic Properties $name');
+      var struct:UStruct = cast @:privateAccess unreal.UObject.wrap(struct);
+      uhx.runtime.UReflectionGenerator.addFunctions(cast struct, name.toString(), true);
+      uhx.runtime.UReflectionGenerator.addProperties(struct, name.toString(), true);
     });
 #else
     trace('Warning', 'Trying to add properties for $name but dynamic class support was disabled');

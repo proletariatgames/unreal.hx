@@ -7,6 +7,12 @@ import unreal.EPropertyFlags.*;
 import unreal.EPropertyFlags;
 import haxe.rtti.Meta;
 
+enum HotReloadStatus {
+  Success;
+  Failure;
+  WaitingRebind;
+}
+
 /**
   Given a metadata setting, generates an Unreal UClass/UStruct/UEnum
  **/
@@ -23,6 +29,7 @@ class UReflectionGenerator {
   private static var scriptDelegates:Map<String, UDelegateDef>;
 
   private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
+  private static var needsReinstancing:Bool = false;
 
   @:allow(UnrealInit) static function initializeDelegate(def:UDelegateDef) {
     if (scriptDelegates == null) {
@@ -41,7 +48,11 @@ class UReflectionGenerator {
     }
     uclassDefs[uclassName] = meta;
     uclassToHx[uclassName] = hxClassName;
-    uclassNames.push(uclassName);
+    if (uclassNames.indexOf(uclassName) >= 0) {
+      trace('Error', 'Initializing the same class twice: $uclassName');
+    } else {
+      uclassNames.push(uclassName);
+    }
   }
 
   @:allow(UnrealInit) static function initializeStaticMeta(meta:StaticMeta) {
@@ -53,37 +64,212 @@ class UReflectionGenerator {
     staticUClassToHx[meta.uname] = meta;
   }
 
+  @:allow(UnrealInit) static function cppiaHotReload():HotReloadStatus {
+    var touched = [];
+    // 1st pass - only create classes that need to be created
+    // var haxePackage = UObject.FindPackage(null, '/Script/HaxeCppia');
+    var haxePackage = UObject.GetTransientPackage();
+    var toAdd = [];
+    for (uclass in uclassNames) {
+      var def = uclassDefs[uclass],
+          ustruct = nativeCompiled[uclass],
+          nativeCompiled = true,
+          createProps = false;
+      if (def.uclass != null && def.uclass.isClass) {
+        if (ustruct == null) {
+          nativeCompiled = false;
+          var old = getUClass(uclass.substr(1));
+          if (old != null) {
+            var sig = old.GetMetaData("UHX_PropSignature");
+            if (sig.toString() != def.uclass.propSig) {
+              markHotReloaded(old, null, uclass);
+            } else {
+              ustruct = old;
+              var hxPath = uclassToHx[uclass],
+                  hxClass = Type.resolveClass(hxPath);
+              if (hxClass == null) {
+                trace('Error', 'While loading dynamic class $uclass: The class $hxPath was not found');
+                continue;
+              }
+              Reflect.setField(hxClass, 'StaticClass', function() {
+                return old;
+              });
+            }
+          }
+          if (ustruct == null) {
+            var parentName = def.uclass.superStructUName;
+            var parent = getUClass(parentName.substr(1));
+            if (parent == null) {
+              trace('Error', 'A new UStruct called $uclass was defined since the latest C++ compilation, but its parent class $parentName was not found');
+              continue;
+            }
+            ustruct = createClass(haxePackage, uclass, parent, true, uclassToHx[uclass]);
+            ustruct.SetMetaData('UHX_PropSignature', def.uclass.propSig);
+            createProps = true;
+          }
+        }
+        if (ustruct == null) {
+          trace('Warning', 'Could not find or create the class $uclass. Skipping');
+          continue;
+        }
+        var sig = ustruct.GetMetaData("UHX_PropSignature");
+        if (sig.toString() != def.uclass.propSig) {
+          trace('Class $uclass changed its properties and needs to be reinstanced');
+          needsReinstancing = true;
+          continue;
+        }
+        toAdd.push({ ustruct:ustruct, name:uclass, alsoProperties:createProps, isNative:nativeCompiled });
+      }
+    }
+
+    for (del in scriptDelegates) {
+      createDelegate(del);
+    }
+
+    // 2nd pass - add the functions/properties
+    for (add in toAdd) {
+      var changed = false;
+      if (add.alsoProperties) {
+        changed = true;
+        addProperties(add.ustruct, add.name, add.isNative);
+      }
+      if (addFunctions(cast add.ustruct, add.name, add.isNative)) {
+        changed = true;
+      }
+      if (add.alsoProperties) {
+        // bind the class
+        var uclass:UClass = cast add.ustruct;
+        uclass.Bind();
+        uclass.StaticLink(true);
+        uclass.GetDefaultObject(true);
+        if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
+          uclass.AssembleReferenceTokenStream(false);
+        }
+      }
+
+      if (changed && Std.is(add.ustruct, UClass)) {
+        touched.push(cast add.ustruct);
+      }
+    }
+
+    if (needsReinstancing) {
+      trace('Forcing hot reload');
+      needsReinstancing = false;
+      // reinstance!
+      var outer = uhx.UCallHelper.StaticClass().GetOuter();
+      var packName = unreal.FPackageName.GetShortFName(outer.GetFName());
+
+      var manager = unreal.FModuleManager.Get();
+      var info = new unreal.FModuleStatus();
+      if (!manager.QueryModule(packName, info)) {
+        trace('Error', 'Trying to hot reload, but module $packName was not found!');
+        return Failure;
+      }
+      var path = new haxe.io.Path(info.FilePath.toString());
+      var file = path.file;
+      var regex = ~/\-(\d+)$/;
+      if (regex.match(file)) {
+        file = regex.matchedLeft();
+      }
+      var add = Std.random(1000000);
+      path.file = file + '-$add';
+      while(sys.FileSystem.exists(path.toString())) {
+        add = Std.random(1000000);
+        path.file = file + '-$add';
+      }
+
+      trace('Copying module to $path');
+      sys.io.File.copy(info.FilePath.toString(), path.toString());
+
+      if (unreal.editor.UEditorEngine.GEditor != null) {
+        var module = FModuleManager.LoadModulePtr(new TypeParam<unreal.developer.directorywatcher.FDirectoryWatcherModule>(), "DirectoryWatcher"),
+            watcher = module == null ? null : module.Get();
+        if (watcher == null) {
+          trace('Error', 'Could not find directory watcher. Hot reload will probably fail');
+          return WaitingRebind;
+        }
+        watcher.Tick(0);
+        return WaitingRebind;
+      } else {
+        // TODO check this before making any changes and do not load the new cppia type if that's the case
+        trace('Error', 'Changing properties with hot reload only works if the editor is running. You will need to restart the game for all changes to take place');
+      }
+    } else {
+      refreshBlueprints(touched);
+      return Success;
+    }
+  }
+
+  private static function markHotReloaded(obj:UObject, cls:UClass, name:String) {
+    var name = 'HOTRELOADED_CPPIA_$name';
+    if (cls != null) {
+      name = UObject.MakeUniqueObjectName( obj.GetOuter(), cls, 'HOTRELOADED_CPPIA_${name}').toString();
+    } else {
+      var stamp = Std.string(Math.fceil(Date.now().getTime()));
+      name = '${name}_$stamp';
+    }
+    obj.Rename( name, null, 0 );
+    obj.RemoveFromRoot();
+    obj.MarkPendingKill();
+  }
+
   private static function createDelegate(def:UDelegateDef) {
     var sig = getDelegateSignature(def.uname.substr(1));
     if (sig != null) {
-      trace('Warning', 'Creating an already existing delegate: ${def.uname}');
-      // TODO allow hot reload
-      return;
+      var propSig = sig.GetMetaData("UHX_PropSignature");
+      if (!propSig.IsEmpty()) {
+        if (def.signature.propSig != propSig.toString()) {
+          markHotReloaded(sig, null, def.uname);
+          sig = null;
+        } else {
+          // nothing changed
+          return;
+        }
+      } else {
+        trace('Warning', 'Creating a statically compiled delegate: ${def.uname}');
+        // TODO allow hot reload
+        return;
+      }
     }
 
     var outer = uhx.UCallHelper.StaticClass().GetOuter();
-    var dummyClass:UClass = cast UObject.NewObject_NoTemplate( outer, UBlueprintGeneratedClass.StaticClass(), def.uname.substr(1), RF_Public );
-    var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
-    bp.GeneratedClass = dummyClass;
-    dummyClass.ClassGeneratedBy = bp;
+    var dummyClass:UClass = getUClass(def.uname.substr(1));
+    if (dummyClass == null) {
+      dummyClass = cast UObject.NewObject_NoTemplate( outer, UBlueprintGeneratedClass.StaticClass(), def.uname.substr(1), RF_Public );
+      var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
+      bp.GeneratedClass = dummyClass;
+      dummyClass.ClassGeneratedBy = bp;
 
-    var parent = UObject.StaticClass();
-    dummyClass.SetSuperStruct(parent);
-    dummyClass.ClassFlags |= EClassFlags.CLASS_Inherit | EClassFlags.CLASS_ScriptInherit | EClassFlags.CLASS_CompiledFromBlueprint;
+      var parent = UObject.StaticClass();
+      dummyClass.SetSuperStruct(parent);
+      dummyClass.ClassFlags |= EClassFlags.CLASS_Inherit | EClassFlags.CLASS_ScriptInherit | EClassFlags.CLASS_CompiledFromBlueprint;
 
-    dummyClass.PropertyLink = parent.PropertyLink;
-    dummyClass.ClassWithin = parent.ClassWithin;
-    dummyClass.ClassConfigName = parent.ClassConfigName;
+      dummyClass.PropertyLink = parent.PropertyLink;
+      dummyClass.ClassWithin = parent.ClassWithin;
+      dummyClass.ClassConfigName = parent.ClassConfigName;
 
-    RuntimeLibrary.setupClassConstructor(@:privateAccess dummyClass.wrapped, @:privateAccess parent.wrapped, true);
+      RuntimeLibrary.setupClassConstructor(@:privateAccess dummyClass.wrapped, @:privateAccess parent.wrapped, true);
 
-    dummyClass.Bind();
-    dummyClass.StaticLink(true);
-    dummyClass.GetDefaultObject(true);
+      dummyClass.Bind();
+      dummyClass.StaticLink(true);
+      dummyClass.GetDefaultObject(true);
+      dummyClass.AddToRoot();
+    }
+
+    var old = getDelegateSignature(def.uname.substr(1));
+    if (old != null) {
+      if (def.signature.propSig == old.GetMetaData("UHX_PropSignature").toString()) {
+        // up to date
+        trace('${def.uname} is up-to-date');
+        return;
+      } else {
+        markHotReloaded(old, dummyClass, old.GetName().toString());
+      }
+    }
 
     def.signature.uname = def.uname.substr(1) + '__DelegateSignature';
     var fn = generateUFunction(dummyClass, def.signature, null, null);
-    trace(fn);
+    dummyClass.Children = fn;
     fn.FunctionFlags |= FUNC_Delegate;
     if (def.isMulticast) {
       fn.FunctionFlags |= FUNC_MulticastDelegate;
@@ -95,12 +281,23 @@ class UReflectionGenerator {
   }
 
   public static function addProperties(struct:UStruct, uname:String, isNative:Bool) {
+    var meta = uclassDefs[uname];
     if (propertiesAdded.exists(uname)) {
-      trace('Error', 'Trying to add properties to already bound $uname');
+      var oldSig = struct.GetMetaData("UHX_PropSignature");
+      if(!oldSig.IsEmpty() && meta != null && meta.uclass != null && meta.uclass.propSig != null) {
+        if (meta.uclass.propSig != oldSig.toString()) {
+          // properties changed. We need a full hot reload
+          needsReinstancing = true;
+        }
+        return;
+      } else {
+        trace('Error', 'Properties were added, but missing meta / signature for $uname');
+      }
       return;
     }
-    nativeCompiled[uname] = struct;
-    var meta = uclassDefs[uname];
+    if (isNative) {
+      nativeCompiled[uname] = struct;
+    }
     if (meta == null || meta.uclass == null) {
       trace('Error', 'Cannot find properties for dynamic class $uname');
       return;
@@ -127,44 +324,49 @@ class UReflectionGenerator {
       bindProperties(uname, struct);
     }
     propertiesAdded[uname] = true;
+    if (meta.uclass.propSig != null) {
+      struct.SetMetaData('UHX_PropSignature', meta.uclass.propSig);
+    }
   }
 
-  public static function addFunctions(uname:String, isNative:Bool) {
-    var meta = uclassDefs[uname],
-        uclass:UClass = cast nativeCompiled[uname];
+  public static function addFunctions(uclass:UClass, uname:String, isNative:Bool):Bool {
+    var meta = uclassDefs[uname];
+    var changed = false;
     if (uclass == null) {
-      uclass = getUClass(uname.substr(1));
-      if (uclass == null) {
-        trace('Error', 'Cannot find class $uname to create ufunctions');
-        return;
-      }
+      trace('Error', 'Cannot find class $uname to create ufunctions');
+      return false;
     }
 
     if (meta == null || meta.uclass == null) {
       trace('Warning', 'Cannot find metadata to add functions for $uname');
-      return;
+      return false;
     }
     if (meta.uclass.ufuncs == null) {
-      return;
+      return false;
     }
     var hxClassName = uclassToHx[uname];
     if (hxClassName == null) {
       trace('Warning', 'Cannot find Haxe class name for $uname');
-      return;
+      return false;
     }
     var hxClass = Type.resolveClass(hxClassName);
     if (hxClass == null) {
       trace('Warning', 'Cannot find Haxe class for $uname');
-      return;
+      return false;
     }
     var setupFunction = null;
     {
-      // TODO fix this
       var cur = hxClass;
       while (cur != null) {
         setupFunction = Reflect.field(hxClass, 'setupFunction');
         if (setupFunction != null) {
-          break;
+          var getGlueScript = Reflect.field(hxClass, 'get_uhx_glueScript');
+          if (getGlueScript != null && !Reflect.hasField(getGlueScript(), "setupFunction")) {
+            // this was compiled only by cppia
+            setupFunction = null;
+          } else {
+            break;
+          }
         }
         cur = Type.getSuperClass(cur);
       }
@@ -176,14 +378,45 @@ class UReflectionGenerator {
 
     var sup = uclass.GetSuperClass();
     for (funcDef in meta.uclass.ufuncs) {
-      var parent = sup == null ? null : sup.FindFunction(funcDef.uname);
+      var old = uclass.FindFunctionByName(funcDef.uname, ExcludeSuper);
+      if (old != null) {
+        var sig = old.GetMetaData('UHX_PropSignature');
+        if (sig.IsEmpty()) {
+          trace('Error', 'Trying to hot reload a function that was not created by cppia: ${funcDef.uname} on $uname');
+          continue;
+        }
+        if (sig.toString() != funcDef.propSig) {
+          trace('Cppia: Hot reloading function ${funcDef.uname} on $uname');
+          var child = uclass.Children,
+              last:UField = null;
+          while (child != null) {
+            if (child == old) {
+              if (last == null) {
+                uclass.Children = child.Next;
+              } else {
+                last.Next = child.Next;
+              }
+              break;
+            }
+            last = child;
+            child = child.Next;
+          }
+          markHotReloaded(old, uclass, funcDef.uname);
+        } else {
+          // nothing has changed
+          continue;
+        }
+      }
+      var parent = sup == null ? null : sup.FindFunctionByName(funcDef.uname, ExcludeSuper);
       var func = generateUFunction(uclass, funcDef, parent, setupFunction);
+      changed = true;
       if (func != null) {
         uclass.AddFunctionToFunctionMap(func);
         func.Next = uclass.Children;
-        uclass.Children = func.Next;
+        uclass.Children = func;
       }
     }
+    return changed;
   }
 
   private static function generateUFunction(outer:UObject, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
@@ -193,6 +426,9 @@ class UReflectionGenerator {
     }
     if (func.hxName != null && func.hxName != func.uname) {
       fn.SetMetaData('HaxeName', func.hxName);
+    }
+    if (func.propSig != null) {
+      fn.SetMetaData("UHX_PropSignature", func.propSig);
     }
     var uclass:UClass = Std.is(outer, UClass) ? cast outer : null;
 
@@ -224,10 +460,6 @@ class UReflectionGenerator {
         trace('Error', 'Error while creating return value for function ${func.uname} (class ${outer.GetName()})');
         return null;
       }
-      // if (!prop.PropertyFlags.hasAny(CPF_ZeroConstructor)) {
-      //   fn.FirstPropertyToInit = prop;
-      //   fn.FunctionFlags |= FUNC_HasDefaults;
-      // }
       prop.PropertyFlags |= CPF_Parm | CPF_ReturnParm | CPF_OutParm;
       if (curChild == null) {
         curChild = fn.Children = prop;
@@ -342,6 +574,11 @@ class UReflectionGenerator {
         flags |= FUNC_BlueprintCosmetic;
       case 'withvalidation':
         // TODO
+      case _:
+        if (meta.value != null) {
+          trace('Setting meta $meta');
+          fn.SetMetaData(meta.name, meta.value);
+        }
       }
     }
 
@@ -392,12 +629,40 @@ class UReflectionGenerator {
     }
   }
 
+  private static function createDynamicClass(haxePackage:UObject, uclassName:String, def:MetaDef) {
+    if (def.uclass.isClass) {
+      trace('Creating dynamic class $uclassName');
+      var hxPath = uclassToHx[uclassName];
+      var parentName = def.uclass.superStructUName;
+      var isHxGenerated = uclassToHx.exists(parentName) || staticUClassToHx.exists(parentName);
+
+      var parent = getUClass(parentName.substr(1));
+      if (parent == null) {
+        trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++, but its parent class $parentName could not be found');
+        return null;
+      }
+
+      var uclass = createClass(haxePackage, uclassName, parent, isHxGenerated, hxPath);
+      if (uclass == null) {
+        return null;
+      }
+
+      addFunctions(uclass, uclassName, false);
+      addProperties(uclass, uclassName, false);
+      return uclass;
+    } else {
+      trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++ compilation, and only UClasses currently support dynamic loading. Please recompile the C++ module and try again');
+    }
+    return null;
+  }
+
   public static function endLoadingDynamic() {
     trace('end loading dynamic');
     var uclassDefs = uclassDefs,
         uclassToHx = uclassToHx,
         nativeCompiled = nativeCompiled;
-    var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
+    // var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
+    var haxePackage = UObject.GetTransientPackage();
     if (uclassNames == null) {
       uclassNames = [];
     }
@@ -407,30 +672,24 @@ class UReflectionGenerator {
       var ustruct = nativeCompiled[uclassName],
           nativeClass = true;
       if (ustruct == null) {
+        nativeClass = false;
+        var old = getUClass(uclassName.substr(1));
+        // the class might exist because this might be a hot reload session
+        if (old != null) {
+          var sig = old.GetMetaData("UHX_PropSignature");
+          if (sig.toString() != def.uclass.propSig) {
+            markHotReloaded(old, null, uclassName);
+          } else {
+            // we don't need to create it - just need to update its functions
+            addFunctions(old, uclassName, false);
+            continue;
+          }
+        }
+
         // this is a class that was never compiled into the current binaries
         // so we are going to create it
-        nativeClass = false;
-        if (def.uclass.isClass) {
-          var hxPath = uclassToHx[uclassName];
-          var parentName = def.uclass.superStructUName;
-          var isHxGenerated = uclassToHx.exists(parentName) || staticUClassToHx.exists(parentName);
-
-          var parent = getUClass(parentName.substr(1));
-          if (parent == null) {
-            trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++, but its parent class $parentName could not be found');
-            continue;
-          }
-
-          var uclass = createClass(haxePackage, uclassName, parent, isHxGenerated, hxPath);
-          if (uclass == null) {
-            continue;
-          }
-          ustruct = uclass;
-
-          addFunctions(uclassName, false);
-          addProperties(ustruct, uclassName, false);
-        } else {
-          trace('Warning', 'A new UStruct called $uclassName was defined since the latest C++ compilation, and only UClasses currently support dynamic loading. Please recompile the C++ module and try again');
+        ustruct = createDynamicClass(haxePackage, uclassName, def);
+        if (ustruct == null) {
           continue;
         }
       } else {
@@ -440,20 +699,28 @@ class UReflectionGenerator {
         }
       }
 
-      // add ufunction
-
       if (!nativeClass) {
         var uclass:UClass = cast ustruct;
         uclass.Bind();
         uclass.StaticLink(true);
 
         uclass.GetDefaultObject(true);
+        if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
+          uclass.AssembleReferenceTokenStream(false);
+        }
       }
     }
 
     uclassNames = [];
 
     // add numReplicatedProperties
+  }
+
+  private static function refreshBlueprints(changed:Array<UClass>) {
+    var db = unreal.editor.blueprintgraph.FBlueprintActionDatabase.Get();
+    for (changed in changed) {
+      db.RefreshClassActions(changed);
+    }
   }
 
   private static function createClass(outer:UObject, uclassName:String, parent:UClass, parentHxGenerated:Bool, hxPath:String) {
@@ -482,6 +749,7 @@ class UReflectionGenerator {
     uclass.ClassCastFlags = uclass.ClassCastFlags | parent.ClassCastFlags;
     uclass.SetMetaData('HaxeClass',hxPath);
     uclass.SetMetaData('HaxeGenerated',"true");
+    uclass.AddToRoot();
 
     // TODO add class flags from metadata
     if (!parentHxGenerated) {
@@ -729,7 +997,6 @@ class UReflectionGenerator {
       case TDynamicMulticastDelegate:
         var sigFn = getDelegateSignature(def.typeUName.substr(1));
         if (sigFn == null) {
-          trace(scriptDelegates.exists(def.typeUName));
           if (scriptDelegates.exists(def.typeUName)) {
             createDelegate(scriptDelegates[def.typeUName]);
           }
@@ -786,37 +1053,49 @@ class UReflectionGenerator {
   }
 
   /**
-    Finds a class given its name (without the prefix (U,A,...))
-   **/
-  public static function getUClass(name:String):UClass {
-    return cast UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
-  }
-
-  /**
     Finds a script struct given its name (without the prefix (U,A,...))
    **/
   public static function getUStruct(name:String):UScriptStruct {
-    return cast UObject.StaticFindObjectFast(UScriptStruct.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
+    return cast UObject.StaticFindObjectFast(UScriptStruct.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
 
   /**
     Finds a script struct given its name (without the prefix (U,A,...))
    **/
   public static function getUEnum(name:String):UEnum {
-    return cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
+    return cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
 
   public static function getField(name:String):UField {
-    return cast UObject.StaticFindObjectFast(UField.StaticClass(), null, new FName(name), true, true, EObjectFlags.RF_NoFlags);
+    return cast UObject.StaticFindObjectFast(UField.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
 #end
 
   public static var ANY_PACKAGE(default, null) = @:privateAccess new UPackage(-1);
 
   /**
+    Finds a class given its name (without the prefix (U,A,...))
+   **/
+  public static function getUClass(name:String):UClass {
+    var ret = UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    if (ret == null) {
+      ret = UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    }
+    return cast ret;
+  }
+
+  /**
     Finds a delegate signature given the delegate's name (without the prefix)
    **/
   public static function getDelegateSignature(name:String):Null<UFunction> {
-    return UObject.FindObject(ANY_PACKAGE, name + '__DelegateSignature');
+    var delName = name + '__DelegateSignature';
+    var ret:UFunction = UObject.FindObject(ANY_PACKAGE, delName);
+    if (ret == null) {
+      var cls = getUClass(name);
+      if (cls != null && Std.is(cls.Children, UFunction) && cls.Children.GetName().toString() == delName) {
+        return cast cls.Children;
+      }
+    }
+    return ret;
   }
 }

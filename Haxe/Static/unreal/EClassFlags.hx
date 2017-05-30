@@ -100,4 +100,12 @@ package unreal;
   @:op(~A) @:extern inline public function bitNot():EClassFlags {
     return ~this;
   }
+
+  inline public function hasAny(b:EClassFlags):Bool {
+    return Int64Helpers.uopAnd(this, b.t()) != 0;
+  }
+
+  inline public function hasAll(b:EClassFlags):Bool {
+    return Int64Helpers.uopAnd(this, b.t()) == b.t();
+  }
 }

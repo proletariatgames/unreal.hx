@@ -26,6 +26,7 @@ extern class UObject_Extra {
     Returns the name of this object (with no path information) Name of the object.
    **/
   public function GetName() : FString;
+  public function GetFName() : FName;
 
   /**
    * Returns the fully qualified pathname for this object as well as the name of the class, in the format:
