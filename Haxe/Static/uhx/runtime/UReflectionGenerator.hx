@@ -182,13 +182,6 @@ class UReflectionGenerator {
       sys.io.File.copy(info.FilePath.toString(), path.toString());
 
       if (unreal.editor.UEditorEngine.GEditor != null) {
-        var module = FModuleManager.LoadModulePtr(new TypeParam<unreal.developer.directorywatcher.FDirectoryWatcherModule>(), "DirectoryWatcher"),
-            watcher = module == null ? null : module.Get();
-        if (watcher == null) {
-          trace('Error', 'Could not find directory watcher. Hot reload will probably fail');
-          return WaitingRebind;
-        }
-        watcher.Tick(0);
         return WaitingRebind;
       } else {
         // TODO check this before making any changes and do not load the new cppia type if that's the case
