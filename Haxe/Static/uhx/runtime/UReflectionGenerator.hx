@@ -193,6 +193,7 @@ class UReflectionGenerator {
       } else {
         // TODO check this before making any changes and do not load the new cppia type if that's the case
         trace('Error', 'Changing properties with hot reload only works if the editor is running. You will need to restart the game for all changes to take place');
+        return Failure;
       }
     } else {
       refreshBlueprints(touched);
