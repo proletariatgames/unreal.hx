@@ -215,6 +215,9 @@ class NativeGlueCode
 
     var info = this.getInfo(cl);
     var gluePath = cl.meta.extractStrings(':ueGluePath')[0];
+    if (gluePath == null) {
+      return;
+    }
     this.touch(TCpp, gluePath, info.targetModule);
     var stampPath = '$stampOutput/$gluePath.stamp';
     var cppPath = info.getCppPath(gluePath, true);
@@ -246,6 +249,9 @@ class NativeGlueCode
 
   public function writeGlueHeader(cl:ClassType) {
     var gluePath = cl.meta.extractStrings(':ueGluePath')[0];
+    if (gluePath == null) {
+      return;
+    }
     var info = this.getInfo(cl);
     this.touch(THeader, gluePath, info.targetModule);
 

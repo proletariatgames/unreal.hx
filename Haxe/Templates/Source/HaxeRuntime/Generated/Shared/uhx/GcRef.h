@@ -14,7 +14,7 @@ public:
   ~GcRef();
   GcRef(const GcRef& rhs);
   void set(unreal::UIntPtr val);
-  unreal::UIntPtr get();
+  unreal::UIntPtr get() const;
 
 private:
   unreal::UIntPtr ref;

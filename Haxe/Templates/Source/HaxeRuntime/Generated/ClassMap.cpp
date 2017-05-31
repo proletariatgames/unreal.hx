@@ -12,6 +12,11 @@ static std::unordered_map<UClass *,HaxeWrap>& getClassMap() {
   return classMap;
 }
 
+static TArray<CppInit>& getInits() {
+  static TArray<CppInit> inits;
+  return inits;
+}
+
 bool ::uhx::ue::ClassMap_obj::addWrapper(unreal::UIntPtr inUClass, HaxeWrap inWrapper) {
   getClassMap()[(UClass *)inUClass] = inWrapper;
   return true;
@@ -38,4 +43,14 @@ unreal::UIntPtr uhx::ue::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
   return 0;
 }
 
+void uhx::ue::ClassMap_obj::addCppInit(CppInit inInit) {
+  getInits().Push(inInit);
+}
+
+void uhx::ue::ClassMap_obj::runInits() {
+  TArray<CppInit> curInits = MoveTemp(getInits());
+  for (const CppInit& init : curInits) {
+    init();
+  }
+}
 #endif

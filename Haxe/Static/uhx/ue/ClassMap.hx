@@ -13,4 +13,6 @@ import unreal.UIntPtr;
    * Given `inUObject`, find the best wrapper and return the Haxe wrapper to it
    **/
   static function wrap(inUObject:UIntPtr):UIntPtr;
+
+  static function runInits():Void;
 }

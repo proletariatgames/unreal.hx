@@ -568,7 +568,11 @@ class TypeConv {
 
       case CStruct(type, flags, info, params):
         // '($expr : unreal.VariantPtr)';
-        expr;
+        if (flags.hasAny(SOwnedPtr)) {
+          '($expr).getRaw()';
+        } else {
+          expr;
+        }
 
       case CLambda(args,ret):
         'uhx.internal.HaxeHelpers.dynamicToPointer( $expr )';
@@ -823,7 +827,10 @@ class TypeConv {
         var it = iref.get();
         var ret = null;
         var info = getTypeInfo(it, pos);
-        var structFlags = (it.meta.has(':typeName') ? STypeName : SNone);
+        var structFlags = ctx.accStructFlags == null ? SNone : ctx.accStructFlags;
+        if (it.meta.has(':typeName')) {
+          structFlags |= STypeName;
+        }
         if (it.meta.has(':ustruct')) {
           structFlags |= SUStruct;
         }
@@ -959,7 +966,10 @@ class TypeConv {
         var a = aref.get(),
             ret = null,
             info = getTypeInfo(a, pos);
-        var structFlags = (a.meta.has(':typeName') ? STypeName : SNone);
+        var structFlags = ctx.accStructFlags == null ? SNone : ctx.accStructFlags;
+        if (a.meta.has(':typeName')) {
+          structFlags |= STypeName;
+        }
         if (a.meta.has(':ustruct')) {
           structFlags |= SUStruct;
         }
@@ -994,6 +1004,12 @@ class TypeConv {
             name = null;
             ret = parseMethodPointer(tl, pos);
           case _:
+            if (name == 'unreal.POwnedPtr') {
+              if (ctx.accStructFlags == null) {
+                ctx.accStructFlags = SNone;
+              }
+              ctx.accStructFlags |= SOwnedPtr;
+            }
             if (ctx.original == null) {
               ctx.original = TypeRef.fromBaseType(a, tl, pos);
             }
@@ -1470,6 +1486,7 @@ enum TypeConvData {
   var SUStruct = 0x2;
   var SDynamicDelegate = 0x4;
   var SDynamicMulticastDelegate = 0x8;
+  var SOwnedPtr = 0x10;
 
   inline private function t() {
     return this;
@@ -1491,6 +1508,7 @@ enum TypeConvData {
 private typedef InfoCtx = {
   ?original:TypeRef,
   accFlags:UObjectFlags,
+  ?accStructFlags:StructFlags,
   ?modf:Array<Modifier>
 }
 

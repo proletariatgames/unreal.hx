@@ -21,6 +21,6 @@ void ::uhx::GcRef::set(unreal::UIntPtr val) {
   ::uhx::expose::GcRefStatic::set(this->ref, val);
 }
 
-unreal::UIntPtr uhx::GcRef::get() {
+unreal::UIntPtr uhx::GcRef::get() const {
   return ::uhx::expose::GcRefStatic::get(this->ref);
 }

@@ -558,6 +558,8 @@ class ExprGlueBuild {
     var headerPath = info.getHeaderPath(true),
         cppPath = info.getCppPath(false);
     if (sys.FileSystem.exists(cppPath)) {
+      // delete a perhaps previous cpp path (e.g. before the file was converted to a struct)
+      // we need this since NativeGlueCode will keep this file because of @:ufiledependency
       sys.FileSystem.deleteFile(cppPath);
     }
 

@@ -4,6 +4,7 @@
 #include <hxcpp.h>
 #endif
 typedef unreal::UIntPtr (*HaxeWrap)(unreal::UIntPtr);
+typedef void (*CppInit)();
 
 namespace uhx {
 namespace ue {
@@ -19,7 +20,17 @@ namespace ue {
      * Given `inUObject`, find the best wrapper and return the Haxe wrapper to it
      **/
     static unreal::UIntPtr wrap(unreal::UIntPtr inUObject);
+
+    static void addCppInit(CppInit inInit);
+
+    static void runInits();
   };
 
+  class InitAdd {
+  public:
+    InitAdd(CppInit inInit) {
+      uhx::ue::ClassMap_obj::addCppInit(inInit);
+    }
+  };
 }
 }

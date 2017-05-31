@@ -50,6 +50,8 @@ class UnrealInit
         delayed();
       }
     }
+
+    uhx.ue.ClassMap.runInits();
   }
 
 #if WITH_EDITOR
