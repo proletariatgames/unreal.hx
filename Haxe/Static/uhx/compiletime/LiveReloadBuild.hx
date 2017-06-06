@@ -2,8 +2,10 @@ package uhx.compiletime;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 import haxe.macro.Type;
+import uhx.compiletime.types.TypeRef;
 
 using haxe.macro.Tools;
+using Lambda;
 
 /**
   Build live reload functions. This is done by storing the typed expression of the function to a big map,
@@ -132,5 +134,61 @@ class LiveReloadBuild {
     cls.pack = ['uhx'];
     Globals.cur.hasUnprocessedTypes = true;
     Context.defineType(cls);
+  }
+
+  public static function changeField(thisType:TypeRef, field:Field, toAdd:Array<Field>) {
+    switch(field.kind) {
+    case FFun(fn) if (fn.params == null || fn.params.length == 0):
+      if (field.access != null && field.access.has(AOverride)) {
+        var added = false;
+        function mapExpr(e:Expr) {
+          switch(e.expr) {
+          case ECall(macro super.$fieldName, args):
+            var name = 'uhx_super_${field.name}_${thisType.name}';
+            if (!added) {
+              added = true;
+              var i = 0,
+                  j = 0;
+              toAdd.push({
+                name: name,
+                doc: null,
+                kind: FFun({
+                  args: [for (_ in args) { name:'uhx_arg_${i++}', type:null }],
+                  ret: null,
+                  expr: {
+                    expr:EReturn({
+                      expr: ECall(macro super.$fieldName, [for (_ in args) { expr:EConst(CIdent('uhx_arg_${j++}')), pos:e.pos }]),
+                      pos: e.pos
+                    }),
+                    pos: e.pos
+                  }
+                }),
+                pos:e.pos,
+              });
+            }
+            return { expr:ECall(macro this.$name, args), pos:e.pos };
+          case _:
+            return e.map(mapExpr);
+          }
+        }
+        fn.expr = mapExpr(fn.expr);
+      }
+
+      var map = Globals.liveReloadFuncs[thisType.getClassPath()];
+      if (map == null) {
+        map = new Map();
+        Globals.liveReloadFuncs[thisType.getClassPath()] = map;
+      }
+      var name = thisType.getClassPath() + '::' + field.name;
+      var isStatic = field.access != null ? field.access.has(AStatic) : false;
+      var retfn:Function = {
+        args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:thisType.name }) }].concat(fn.args),
+        ret: fn.ret,
+        expr: fn.expr
+      };
+      var expr = { expr:EFunction(null, retfn), pos:field.pos};
+      fn.expr = macro uhx.internal.LiveReload.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
+    case _:
+    }
   }
 }

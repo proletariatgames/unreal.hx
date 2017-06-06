@@ -1,6 +1,7 @@
 #include "HaxeRuntime.h"
 #ifndef UHX_NO_UOBJECT
 
+#include "uhx/ue/ClassMap.h"
 #include "uhx/TArrayReflect.h"
 #include "uhx/StructInfo.h"
 #include "uhx/ue/RuntimeLibrary.h"
@@ -9,6 +10,7 @@
 #include "HaxeGcRef.h"
 #include "HaxeInit.h"
 #include "uhx/UEHelpers.h"
+#include <unordered_map>
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
 #define GET_UPROP() (Cast<UProperty>((UObject *) this->m_propertyType))
@@ -315,18 +317,25 @@ int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
 static void dynamicConstruct(const FObjectInitializer& init) {
   UObject *obj = init.GetObj();
   UClass *cls = init.GetClass();
-  FString hxClass = cls->GetMetaData(TEXT("HaxeClass"));
+  static FName HaxeClassName(TEXT("HaxeClass"));
+  FString hxClass = cls->GetMetaData(HaxeClassName);
   while (hxClass.IsEmpty()) {
     cls = cls->GetSuperClass();
-    hxClass = cls->GetMetaData(TEXT("HaxeClass"));
+    hxClass = cls->GetMetaData(HaxeClassName);
   }
 
   // super()
-  cls->GetSuperClass()->ClassConstructor(init);
+  auto superClass = cls->GetSuperClass();
+  static FName HaxeDynamicClassName(TEXT("HaxeDynamicClass"));
+  while (superClass->HasMetaData(HaxeDynamicClassName)) {
+    superClass = superClass->GetSuperClass();
+  }
+  superClass->ClassConstructor(init);
 
-  UProperty *gcRefProp = cls->FindPropertyByName(TEXT("haxeGcRef"));
+  static FName haxeGcRefName(TEXT("haxeGcRef"));
+  UProperty *gcRefProp = cls->FindPropertyByName(haxeGcRefName);
   if (gcRefProp == nullptr) {
-    UE_LOG(HaxeLog, Error, TEXT("Cannot find the gcRef function for %s"), *cls->GetName());
+    UE_LOG(HaxeLog, Error, TEXT("Cannot find the gcRef property for %s"), *cls->GetName());
     return;
   }
 
@@ -337,17 +346,64 @@ static void dynamicConstruct(const FObjectInitializer& init) {
   FHaxeGcRef *gcRef = (FHaxeGcRef*) objPtr;
   gcRef->ref.set(uhx::expose::HxcppRuntime::createDynamicHelper((unreal::UIntPtr) obj, TCHAR_TO_UTF8(*hxClass)));
 }
+
+static unreal::UIntPtr dynamicWrapper(unreal::UIntPtr inObj) {
+  static std::unordered_map<UClass *,int> offsets;
+  UObject* obj = (UObject*) inObj;
+  UClass* cls = obj->GetClass();
+  auto it = offsets.find(cls);
+  int offset = 0;
+  if (it != offsets.end()) {
+    offset = it->second;
+  } else {
+    UProperty *gcRefProp = cls->FindPropertyByName(TEXT("haxeGcRef"));
+    if (gcRefProp == nullptr) {
+      UE_LOG(HaxeLog, Error, TEXT("Cannot find the gcRef property for %s"), *cls->GetName());
+      return 0;
+    }
+
+    offset = gcRefProp->GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+    offsets[cls] = offset;
+  }
+
+  FHaxeGcRef *gcRef = (FHaxeGcRef*) (inObj + offset);
+  return gcRef->ref.get();
+}
+
+static void superConstruct(const FObjectInitializer& init) {
+  UClass *cls = init.GetClass();
+  char *name = TCHAR_TO_UTF8(*cls->GetName());
+
+  auto superClass = cls->GetSuperClass();
+  auto firstDynamicClass = superClass;
+  static FName HaxeDynamicClassName(TEXT("HaxeDynamicClass"));
+  while (superClass->HasMetaData(HaxeDynamicClassName)) {
+    firstDynamicClass = superClass;
+    superClass = superClass->GetSuperClass();
+  }
+
+  static FName HaxeGeneratedName(TEXT("HaxeGenerated"));
+  bool bSuperIsHaxeGenerated = superClass->HasMetaData(HaxeGeneratedName);
+  if (bSuperIsHaxeGenerated) {
+    superClass->ClassConstructor(init);
+  } else {
+    firstDynamicClass->ClassConstructor(init);
+  }
+}
 #endif
 
-void uhx::ue::RuntimeLibrary_obj::setupClassConstructor(unreal::UIntPtr inDynamicClass, unreal::UIntPtr inDynamicParent, bool parentHxGenerated) {
+void uhx::ue::RuntimeLibrary_obj::setSuperClassConstructor(unreal::UIntPtr inDynamicClass) {
+#if WITH_EDITOR
+  UClass *cls = (UClass *)inDynamicClass;
+  cls->ClassConstructor = &superConstruct;
+#endif
+}
+
+void uhx::ue::RuntimeLibrary_obj::setupClassConstructor(unreal::UIntPtr inDynamicClass) {
 #if WITH_EDITOR
   UClass *inClass = (UClass *)inDynamicClass;
-  UClass *inParent = (UClass *)inDynamicParent;
-  if (parentHxGenerated) {
-    inClass->ClassConstructor = inParent->ClassConstructor;
-  } else {
-    inClass->ClassConstructor = &dynamicConstruct;
-  }
+  uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) inClass, &dynamicWrapper);
+  inClass->ClassConstructor = &dynamicConstruct;
 #endif
 }
 

@@ -7,7 +7,7 @@ extern class UWorld_Extra {
   public var Scene : PPtr<FSceneInterface>;
 
   @:thisConst
-  public function GetGameState() : AGameState;
+  public function GetGameState() : AGameStateBase;
 
   @:thisConst
   public function GetGameInstance() : UGameInstance;
@@ -193,4 +193,6 @@ extern class UWorld_Extra {
 
 	/** Gets this world's instance for a given collection. */
   function GetParameterCollectionInstance(Collection:Const<UMaterialParameterCollection>) : UMaterialParameterCollectionInstance;
+
+  function AreActorsInitialized():Bool;
 }

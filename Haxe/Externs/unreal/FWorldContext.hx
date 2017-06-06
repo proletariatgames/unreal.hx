@@ -26,5 +26,7 @@ package unreal;
 
   var RunAsDedicated:Bool;
 
+  var WorldType:EWorldType;
+
   function World():UWorld;
 }

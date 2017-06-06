@@ -46,11 +46,6 @@ import unreal.*;
       serial = ObjectArrayHelper_Glue.allocateSerialNumber(index);
     }
     var ptr = uhx.ue.ClassMap.wrap(nativePtr);
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-    if (ptr == 0) {
-      ptr = getDynamicClass(nativePtr);
-    }
-#end
     ret = uhx.internal.HaxeHelpers.pointerToDynamic(ptr);
     if (ret == null) {
       for (obj in constructingObjects) {
@@ -87,39 +82,6 @@ import unreal.*;
       throw 'Current constructed object $obj is different from last: $last';
     }
   }
-
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
-  static var dynamicClassesOffsets = new Map<Int, Int>();
-  static var gcRef:FName = new FName("haxeGcRef");
-
-  private static function getDynamicClass(nativePtr:UIntPtr) {
-    var uclass = uhx.glues.UObject_Glue.GetClass(nativePtr);
-    var unique = uhx.glues.UClass_Glue.get_ClassUnique(uclass);
-    var offset = dynamicClassesOffsets[unique];
-    if (offset == null) {
-      var prop = uhx.glues.UStruct_Glue.FindPropertyByName( uclass, gcRef );
-      if (prop == 0) {
-        var className:FString = cast uhx.glues.UObject_Glue.GetName(uclass);
-        throw 'Cannot find a wrapper for ${className}';
-      }
-      var ofs = uhx.glues.UProperty_Glue.GetOffset_ReplaceWith_ContainerPtrToValuePtr(prop);
-      ofs += uhx.ue.RuntimeLibrary.getHaxeGcRefOffset();
-      offset = ofs;
-      dynamicClassesOffsets[unique] = ofs;
-    }
-    var offset:UIntPtr = offset; // making it a non-nullable type
-    var ptr:cpp.Pointer<GcRef> = cpp.Pointer.fromRaw(VariantPtr.fromUIntPtr(nativePtr + offset).toPointer()).reinterpret();
-    return ptr.ptr.get();
-  }
-
-  @:keep private static function keepFunctions() {
-    var obj:UObject = null;
-    var c = obj.GetClass();
-    var unique = c.ClassUnique;
-    var prop = c.FindPropertyByName(null);
-    prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
-  }
-#end
 
   public static function isConstructing(obj:UObject) {
     for (cur in constructingObjects) {

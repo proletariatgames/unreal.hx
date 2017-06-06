@@ -166,7 +166,8 @@ class Globals {
     A list of unreal types created by Haxe that were compiled in the script build phase.
     This also contains their metadata definition of uproperties/ufunctions,
    **/
-  public var scriptClassDefs:Map<String, { className:String, meta:uhx.meta.MetaDef }> = new Map();
+  public var scriptClassesDefs:Map<String, { className:String, meta:uhx.meta.MetaDef }> = new Map();
+  public var scriptClasses:Array<String> = [];
 
   /**
     A list of unreal delegates created by Haxe that were compiled in the script build phase.
@@ -236,6 +237,13 @@ class Globals {
       FileSystem.createDirectory('$dir/Generated');
     }
     File.saveContent('$dir/Generated/defines.txt', getDefinesString());
+  }
+
+  public function addScriptDef(name:String, def:{ className:String, meta:uhx.meta.MetaDef }) {
+    if (!scriptClassesDefs.exists(name)) {
+      scriptClasses.push(name);
+    }
+    scriptClassesDefs[name] = def;
   }
 
   /**

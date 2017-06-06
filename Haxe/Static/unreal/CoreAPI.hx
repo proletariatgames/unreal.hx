@@ -190,6 +190,14 @@ class CoreAPI {
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Internal_AddUFunction($obj, $v{fnName});
   }
 
+  public static macro function staticVar(e:Expr):Expr {
+    return uhx.compiletime.CoreAPIMacros.runStaticVar(e);
+  }
+
+  public static macro function staticName(e:Expr):Expr {
+    return uhx.compiletime.CoreAPIMacros.runStaticName(e);
+  }
+
 #if macro
   private static function getUFunctionFromObj(args:Array<Expr>):{ obj:Expr, fnName:String } {
     var obj:Expr = null,

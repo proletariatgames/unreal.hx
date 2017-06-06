@@ -130,6 +130,21 @@ class AutomationTest {
     wrapped.AddCommand_Network(newCommand);
   }
 
+  public function addHaxeCommand(fn:Void->Bool) {
+    this.AddCommand(LatentCommand.createFn(fn));
+  }
+
+  public function addHaxeCallback(fn:(Void->Void)->Void) {
+    var finished = false;
+    fn(function() {
+      finished = true;
+    });
+
+    this.AddCommand(LatentCommand.createFn(function() {
+      return finished;
+    }));
+  }
+
   public function err(err:String, ?pos:haxe.PosInfos) {
     wrapped.AddError(pos.fileName + ':' + pos.lineNumber + ': ' + err, 0);
   }

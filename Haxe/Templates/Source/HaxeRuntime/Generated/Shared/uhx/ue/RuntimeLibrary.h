@@ -36,7 +36,12 @@ public:
   /**
    * Sets up the class constructor
    **/
-  static void setupClassConstructor(unreal::UIntPtr inDynamicClass, unreal::UIntPtr inParent, bool parentHxGenerated);
+  static void setupClassConstructor(unreal::UIntPtr inDynamicClass);
+
+  /**
+   * Sets up the class constructor as the super class' constructor
+   **/
+  static void setSuperClassConstructor(unreal::UIntPtr inDynamicClass);
 
   inline static void dummyCall() {
     // this is just here to ensure that this header is included

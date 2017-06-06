@@ -78,7 +78,9 @@ class UnrealInit
     var first = true,
         waitingRebind = false;
     function loadCppia() {
-      trace('loading cppia');
+#if DEBUG_HOTRELOAD
+      trace('${uhx.runtime.UReflectionGenerator.id}: loading cppia');
+#end
       try {
         untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
         var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
@@ -107,13 +109,33 @@ class UnrealInit
                 uhx.runtime.UReflectionGenerator.initializeDelegate(del);
               }
             }
-            var metas:Array<{ haxeClass:String, uclass:String }> = cast metadata.DynamicClasses;
+            var metas:Array<{ haxeClass:String, uclass:String }> = cast metadata.DynamicClasses,
+                map = new Map();
             if (metas != null) {
               for (c in metas) {
                 var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
                 if (hxClass != null) {
                   var meta = haxe.rtti.Meta.getType(hxClass).UMetaDef;
-                  uhx.runtime.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
+                  map[c.uclass] = { haxeClass:c.haxeClass, meta:meta[0], uclass:c.uclass };
+                  // uhx.runtime.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
+                }
+              }
+
+              // make sure we add the definitions in the right order
+              // this should already be in the right order (see MetaDefBuild)
+              // but it's best to make sure
+              function recurse(arg:{ haxeClass:String, uclass:String, meta:uhx.meta.MetaDef }) {
+                var meta = arg.meta;
+                var parent = map[meta.uclass.superStructUName];
+                if (parent != null) {
+                  recurse(parent);
+                }
+                map.remove(arg.uclass);
+                uhx.runtime.UReflectionGenerator.initializeDef(arg.uclass, arg.haxeClass, meta);
+              }
+              for (c in metas) {
+                if (map.exists(c.uclass)) {
+                  recurse(map[c.uclass]);
                 }
               }
             }
@@ -164,7 +186,6 @@ class UnrealInit
         onBeginCompHandle = null;
     var shouldCleanup = false;
     function onBeginCompilation(_) {
-      trace('begin compilation');
       disabled = true;
     }
 
@@ -188,8 +209,13 @@ class UnrealInit
 
     // if we should invalidate the current module, invalidate all active ahdnles
     function onHotReload(triggeredAutomatically:Bool) {
-      if (shouldCleanup) {
+      if (shouldCleanup || waitingRebind) {
+#if DEBUG_HOTRELOAD
+        trace('${uhx.runtime.UReflectionGenerator.id}: Hot reload detected');
+#else
         trace('Hot reload detected');
+#end
+
 #if WITH_CPPIA
         if (dirWatchHandle != null) {
           dirWatchHandle.Unbind();
@@ -206,7 +232,6 @@ class UnrealInit
           fn();
         }
         if (waitingRebind) {
-          waitingRebind = false;
           var reloadFns = unreal.CoreAPI.cppiaReloadFns;
           if (reloadFns != null && reloadFns.length > 0) {
             unreal.CoreAPI.cppiaReloadFns = [];
@@ -215,6 +240,8 @@ class UnrealInit
             }
           }
         }
+      } else {
+        uhx.runtime.UReflectionGenerator.onHotReload();
       }
     }
 
@@ -222,6 +249,13 @@ class UnrealInit
     var dirWatchHandle = FTickerDelegate.create();
     dirWatchHandle.BindLambda(function(deltaTime) {
       if (FileSystem.exists(target) && FileSystem.stat(target).mtime.getTime() > stamp) {
+        if (waitingRebind) {
+#if DEBUG_HOTRELOAD
+          trace('${uhx.runtime.UReflectionGenerator.id}: Disabling watch: waiting for hot reload rebind');
+#end
+          return false;
+        }
+
         if (!disabled) {
           loadCppia();
         }

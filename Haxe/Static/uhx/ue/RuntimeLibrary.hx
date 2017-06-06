@@ -6,7 +6,8 @@ import unreal.*;
 extern class RuntimeLibrary {
   public static function wrapProperty(inProp:UIntPtr, pointerIfAny:UIntPtr):VariantPtr;
   public static function getHaxeGcRefOffset():Int;
-  public static function setupClassConstructor(cls:UIntPtr, parent:UIntPtr, parentHxGenerated:Bool):UIntPtr;
+  public static function setSuperClassConstructor(cls:UIntPtr):Void;
+  public static function setupClassConstructor(dynamicClass:UIntPtr):Void;
   public static function dummyCall():Void;
 
   @:extern inline public static function alloca(size:Int):UIntPtr {

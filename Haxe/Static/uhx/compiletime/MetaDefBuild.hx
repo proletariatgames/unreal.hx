@@ -183,7 +183,7 @@ class MetaDefBuild {
     classDef.propSig = propSignature;
 
     var meta:uhx.meta.MetaDef = { uclass:classDef };
-    Globals.cur.scriptClassDefs[classDef.uname] = { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta };
+    Globals.cur.addScriptDef(classDef.uname, { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta });
 
     base.meta.add('UMetaDef', [Context.makeExpr(meta, base.pos)], base.pos);
   }
@@ -221,10 +221,16 @@ class MetaDefBuild {
     var file = sys.io.File.write(file, true);
     file.writeInt32(0xC5CC991A);
     file.writeInt32(ntry);
-    var map = Globals.cur.scriptClassDefs;
+    var keys = Globals.cur.scriptClasses;
+    var map = Globals.cur.scriptClassesDefs;
     var arr = [];
 
-    for (key in map.keys()) {
+    var i = keys.length;
+    // on the current implementation, the types array is reversed
+    // so we'll add this in the right order. However, to be sure,
+    // we also check the order at runtime at UnrealInit
+    while(i --> 0) {
+      var key = keys[i];
       var entry = map[key];
       var meta = entry.meta;
       if (meta.uclass != null && meta.uclass.propCrc != null) {

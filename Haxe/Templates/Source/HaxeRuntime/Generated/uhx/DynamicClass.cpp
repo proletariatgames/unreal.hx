@@ -6,6 +6,8 @@
 
 #ifndef UHX_NO_UOBJECT
 
+static int uhx_uniqueId = 0;
+
 static TMap<FName, uint32> getCrcMapPvt() {
   TMap<FName, uint32> map;
   FString path = FPaths::ConvertRelativePathToFull(FPaths::GameDir()) + TEXT("/Binaries/Haxe/gameCrcs.data");
@@ -29,6 +31,7 @@ static TMap<FName, uint32> getCrcMapPvt() {
   if (!success || !file->Read((uint8*) &ntry, 4)) {
     success = false;
   }
+  uhx_uniqueId = ntry;
 
 #define READ(destination, bytesToRead) if (!file->Read(destination, bytesToRead)) { success = false; break; }
 
@@ -90,23 +93,33 @@ class UHxBootstrap : public UObject {
   DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR(UHxBootstrap, UObject, 0, HaxeRuntime, 0, HAXERUNTIME_API)
 #endif
   UHxBootstrap(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : UObject(ObjectInitializer) {
-    static bool didRunInit = false;
-    if (GIsHotReload && GIsDuplicatingClassForReinstancing) {
-      // when running hot reload, UClassReplaceHotReloadClasses() runs before everything,
-      // so that's the right time to start loading dynamic
-      // It is however called once more when the reinstancer is running, so that's a convenient place to
-      // end loading dynamic as well
-      check_hx_init();
-      uhx::expose::HxcppRuntime::startLoadingDynamic();
-      didRunInit = true;
-    } else {
+    static bool endLoadingDynamicCalled = false;
+    if (!endLoadingDynamicCalled) {
+      endLoadingDynamicCalled = true;
       uhx::expose::HxcppRuntime::endLoadingDynamic();
     }
   }
 
 };
 
-IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, HAXERUNTIME_API,
+// make sure that UHxBootstrap is always hot reloaded, as its CRC constantly changes
+template<> 
+struct TClassCompiledInDefer<UHxBootstrap> : public FFieldCompiledInInfo 
+{ 
+  TClassCompiledInDefer(const TCHAR* InName, SIZE_T InClassSize, uint32 InCrc) 
+    : FFieldCompiledInInfo(InClassSize, InCrc) 
+  { 
+    static FName className = FName("UHxBootstrap"); 
+    ::uhx::DynamicClassHelper::getCrcMap(); // make sure that the crc map is initialized
+    this->Crc = uhx_uniqueId; 
+    UClassCompiledInDefer(this, InName, InClassSize, this->Crc); 
+  }
+  virtual UClass* Register() const override {
+    return UHxBootstrap::StaticClass();
+  }
+};
+
+IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJECT_API,
 {
   check_hx_init();
   uhx::expose::HxcppRuntime::startLoadingDynamic();

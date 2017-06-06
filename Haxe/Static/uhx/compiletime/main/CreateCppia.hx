@@ -72,6 +72,7 @@ class CreateCppia {
 
     Context.onGenerate(function(types) {
       var metaDefs = Globals.cur.classesToAddMetaDef;
+      Globals.cur.scriptClasses = [];
       var cur = null;
       while ( (cur = metaDefs.pop()) != null ) {
         var type = Context.getType(cur);

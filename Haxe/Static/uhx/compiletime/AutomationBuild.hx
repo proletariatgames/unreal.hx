@@ -23,20 +23,32 @@ class AutomationBuild {
     if (cls.superClass == null) {
       throw new Error('Invalid class. Should subclass unreal.automation.AutomationTest', pos);
     }
-    var sup = cls.superClass.t.toString();
-    if (sup != 'unreal.automation.AutomationTest') {
-      throw new Error('Invalid class. Should subclass unreal.automation.AutomationTest', pos);
-    }
 
-    var fields:Array<Field> = Context.getBuildFields();
+    if (Globals.cur.inScriptPass) {
+      cls.meta.add(':uscript', [], cls.pos);
+    }
+    var fields:Array<Field> = Context.getBuildFields(),
+        toAdd = [],
+        changed = false;
     var overrides = new Map();
     for (f in fields) {
       if (f.access != null && f.access.has(AOverride)) {
         overrides[f.name] = true;
       }
+      if (f.meta.hasMeta(':live')) {
+        changed = true;
+        uhx.compiletime.LiveReloadBuild.changeField(thisType, f, toAdd);
+      }
     }
 
-    var toAdd = [];
+    if (cls.meta.has(':abstract')) {
+      if (changed || toAdd.length > 0) {
+        return fields.concat(toAdd);
+      } else {
+        return null;
+      }
+    }
+
     for (fn in ['RunTest', 'GetTestFlags']) {
       if (!overrides[fn]) {
         throw new Error('Automation classes must override `$fn`', pos);
@@ -80,7 +92,7 @@ class AutomationBuild {
     if (!Context.defined('cppia')) {
       writeDef(cls);
     }
-    if (toAdd.length > 0) {
+    if (toAdd.length > 0 || changed) {
       return fields.concat(toAdd);
     } else {
       return null;
