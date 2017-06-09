@@ -175,6 +175,9 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function StaticFindObject(Class:UClass, InOuter:UObject, Name:TCharStar, ExactClass:Bool = false):UObject;
 
+  @:glueCppIncludes("UObject/CoreNet.h")
+  @:global public static function RPC_ValidateFailed(Reason:Const<TCharStar>):Void;
+
 /**
  * Create a new instance of an object.  The returned object will be fully initialized.  If InFlags contains RF_NeedsLoad (indicating that the object still needs to load its object data from disk), components
  * are not instanced (this will instead occur in PostLoad()).  The different between StaticConstructObject and StaticAllocateObject is that StaticConstructObject will also call the class constructor on the object

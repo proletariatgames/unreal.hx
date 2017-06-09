@@ -9,6 +9,8 @@ extern class UProperty_Extra {
    **/
   var PropertyLinkNext:UProperty;
   var DestructorLinkNext:UProperty;
+  var RepNotifyFunc:FName;
+  var RepIndex:UInt16;
 
   /**
     Zeros the value for this property.
@@ -43,4 +45,7 @@ extern class UProperty_Extra {
 
   function Link(ar:PRef<FArchive>):Int32;
   function InitializeValue(Dest:AnyPtr):Void;
+
+  function GetBlueprintReplicationCondition():ELifetimeCondition;
+  function SetBlueprintReplicationCondition(InBlueprintReplicationCondition:ELifetimeCondition):Void;
 }

@@ -569,7 +569,11 @@ class ReflectAPI {
   public static function callHaxeFunction(obj:UObject, stack:FFrame, result:AnyPtr) {
     var ufunc = stack.CurrentNativeFunction,
         stackData = stack.Locals.asAnyPtr();
-    var name = ufunc.HasMetaData('HaxeName') ? ufunc.GetMetaData('HaxeName').toString() : ufunc.GetName().toString();
+    var name = ufunc.HasMetaData(CoreAPI.staticName('HaxeName')) ? ufunc.GetMetaData(CoreAPI.staticName('HaxeName')).toString() : ufunc.GetName().toString();
+    var debug = name.endsWith("_DynamicRun");
+    if (debug) {
+      trace('calling $name');
+    }
     var fn = Reflect.field(obj, name),
         args = [];
     if (fn == null) {

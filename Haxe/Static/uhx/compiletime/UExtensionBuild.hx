@@ -36,14 +36,14 @@ class UExtensionBuild {
   public static function ufuncMetaNoImpl(meta:Expr) {
     var name = switch(meta.expr) {
       case EConst(CIdent(c)):
-        c;
+        c.toLowerCase();
       case _:
         return false;
     };
     switch(name) {
-    case "BlueprintImplementableEvent" |
-      "BlueprintNativeEvent" | "Server" |
-      "Client" | "NetMulticast":
+    case "blueprintimplementableevent" |
+      "blueprintnativeevent" | "server" |
+      "client" | "netmulticast":
       return true;
     case _:
       return false;
@@ -53,13 +53,43 @@ class UExtensionBuild {
   public static function ufuncMetaNeedsImpl(meta:Expr) {
     var name = switch(meta.expr) {
       case EConst(CIdent(c)):
-        c;
+        c.toLowerCase();
       case _:
         return false;
     };
     switch(name) {
-    case "BlueprintNativeEvent" |
-      "Server" | "Client" | "NetMulticast":
+    case "blueprintnativeevent" |
+      "server" | "client" | "netmulticast":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function ufuncMetaIsNet(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "server" | "client" | "netmulticast":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function ufuncNeedsValidation(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "withvalidation":
       return true;
     case _:
       return false;
@@ -437,7 +467,38 @@ class UExtensionBuild {
         cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper(unreal::UIntPtr self) {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper(self);\n}\n';
         cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
-        if (hasReplicatedProperties) {
+        var aactor = Globals.cur.aactor;
+        if (aactor == null) {
+          Globals.cur.aactor = aactor = Context.getType('unreal.AActor');
+        }
+        if (isDynamicClass) {
+          if (Context.unify(t, aactor)) {
+            glueCppIncs.add('VariantPtr.h');
+            glueCppIncs.add('IntPtr.h');
+            glueCppIncs.add('Engine.h');
+            glueCppIncs.add('uhx/expose/HxcppRuntime.h');
+            glueCppIncs.add('uhx/Wrapper.h');
+            glueCppIncs.add('UnrealNetwork.h');
+
+            headerCode += 'virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;\n\n\t\t';
+            cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
+            cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
+            cppCode += '\tuhx::expose::HxcppRuntime::setLifetimeProperties(' +
+                '(unreal::UIntPtr) this->GetClass(), ' +
+                '"${nativeUe.getCppClass()}", ' +
+                'uhx::TemplateHelper<TArray<FLifetimeProperty>>::fromPointer(&OutLifetimeProps));\n';
+            cppCode += '}\n\n';
+
+            headerCode += 'virtual void PreReplication( IRepChangedPropertyTracker & ChangedPropertyTracker ) override;\n\n\t\t';
+
+            cppCode += 'void ${nativeUe.getCppClass()}::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) {\n';
+            cppCode += '\tSuper::PreReplication(ChangedPropertyTracker);\n';
+            cppCode += '\tuhx::expose::HxcppRuntime::instancePreReplication(' +
+                '(unreal::UIntPtr) this, ' +
+                'unreal::VariantPtr(&ChangedPropertyTracker));\n';
+            cppCode += '}\n\n';
+          }
+        } else if (hasReplicatedProperties) {
           var hasCustomReplications = false;
           var customReplications = new Map();
 

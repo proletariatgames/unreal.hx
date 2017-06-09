@@ -279,7 +279,7 @@ import uhx.internal.HaxeHelpers;
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
     HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(HaxeHelpers.pointerToDynamic(selfHaxe), cast stack, result) );
 #else
-    trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
+    trace('Warning', 'Trying to call haxe function but dynamic class support was disabled');
 #end
   }
 
@@ -287,6 +287,22 @@ import uhx.internal.HaxeHelpers;
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
     var stack:FFrame = cast stack;
     HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(stack.Object, stack, result) );
+#else
+    trace('Warning', 'Trying to call haxe function but dynamic class support was disabled');
+#end
+  }
+
+  public static function setLifetimeProperties(uclass:UIntPtr, uname:cpp.ConstCharStar, out:VariantPtr) {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.setLifetimeProperties(cast UObject.wrap(uclass), uname.toString(), cast out) );
+#else
+    trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
+#end
+  }
+
+  public static function instancePreReplication(obj:UIntPtr, changedPropertyTracker:VariantPtr) {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+    HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.instancePreReplication(cast UObject.wrap(obj), cast changedPropertyTracker) );
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end

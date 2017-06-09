@@ -43,6 +43,7 @@ typedef UPropertyDef = {
   ?typeUName: String, // with the prefix
   ?replication: UPropReplicationKind,
   ?customReplicationName: String,
+  ?repNotify: Bool,
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?params: Array<UPropertyDef>,
 }
@@ -61,6 +62,10 @@ typedef UEnumDef = {
   var AutonomousOnly = 6;
   var SimulatedOrPhysics = 7;
   var InitialOrOwner = 8;
+  var ReplayOrOwner = 9;
+  var ReplayOnly = 10;
+  var SimulatedOnlyNoReplay = 11;
+  var SimulatedOrPhysicsNoReplay = 12;
 
   inline public function t() {
     return this;

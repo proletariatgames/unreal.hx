@@ -101,6 +101,11 @@ class Globals {
   public var uobject:Type;
 
   /**
+    The unreal.AActor type cached
+   **/
+  public var aactor:Type;
+
+  /**
     All live reload functions that were gathered during the build
     This is static so they can survive through compilations
    **/

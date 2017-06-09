@@ -379,19 +379,45 @@ class NeedsGlueBuild
 
                 var callArgs = [ for (arg in fn.args) macro $i{arg.name} ];
                 var exprCall = macro unreal.ReflectAPI.callUFunction(this, fn, $a{callArgs});
+                var implCheck = macro { },
+                    implCall = macro { };
                 if (meta.params.exists(UExtensionBuild.ufuncMetaNeedsImpl)) {
                   var impl = field.name + '_Implementation';
-                  var implCall = { expr:ECall(macro this.$impl, callArgs), pos:field.pos };
+                  implCall = { expr:ECall(macro this.$impl, callArgs), pos:field.pos };
                   exprCall = macro if (fn != null) $exprCall else $implCall;
+                  if (!meta.params.exists(UExtensionBuild.ufuncMetaIsNet)) {
+                    implCheck = macro if (fn.HasAllFunctionFlags(unreal.EFunctionFlags.FUNC_Native)) {
+                      fn = null;
+                    };
+                  }
+                }
+                if (meta.params.exists(UExtensionBuild.ufuncNeedsValidation)) {
+                  var name = field.name + '_Validate';
+                  var validationCall = { expr:ECall(macro @:pos(field.pos) this.$name, callArgs), pos:field.pos };
+                  var validationCheck = macro if (!$validationCall) {
+                    UObject.RPC_ValidateFailed($v{name});
+                    @:pos(field.pos) return;
+                  };
+                  toAdd.push({
+                    name: field.name + '_DynamicRun',
+                    kind: FFun({
+                      args: fn.args,
+                      ret: fn.ret,
+                      expr: macro {
+                        $validationCheck;
+                        $implCall;
+                      }
+                    }),
+                    pos: field.pos,
+                    meta:[ { name:':noCompletion', params:[], pos:field.pos } ]
+                  });
                 }
 
                 call = macro {
                   var fn = $i{funcName};
                   if (fn == null && !$i{funcNameSet}) {
                     $i{funcName} = fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
-                    if (fn.HasAllFunctionFlags(unreal.EFunctionFlags.FUNC_Native)) {
-                      fn = null;
-                    }
+                    $implCheck;
                     $i{funcNameSet} = true;
                   }
                   $exprCall;
@@ -408,7 +434,8 @@ class NeedsGlueBuild
               field.meta.push({ name:':final', params:[], pos:field.pos });
             }
 
-            if (UExtensionBuild.ufuncMetaNeedsImpl(param)) {
+            if (UExtensionBuild.ufuncMetaNeedsImpl(param) || UExtensionBuild.ufuncNeedsValidation(param)) {
+              var suffix = UExtensionBuild.ufuncMetaNeedsImpl(param) ? "_Implementation" : "_Validate";
               var name = switch (param.expr) {
               case EConst(CIdent(i)):
                 i;
@@ -417,7 +444,7 @@ class NeedsGlueBuild
 
               var found = false;
               for (impl in fields) {
-                if (impl.name == field.name + '_Implementation') {
+                if (impl.name == field.name + suffix) {
                   found = true;
                   if (shouldExposeFn) {
                     // expose Implementation as well
@@ -427,7 +454,7 @@ class NeedsGlueBuild
                 }
               }
               if (!found) {
-                Context.warning('Unreal Glue Extension: $name ufunctions need a `_Implementation` function which is missing for function ${field.name}', field.pos);
+                Context.warning('Unreal Glue Extension: $name ufunctions need a `$suffix` function which is missing for function ${field.name}', field.pos);
                 hadErrors = true;
               }
             }

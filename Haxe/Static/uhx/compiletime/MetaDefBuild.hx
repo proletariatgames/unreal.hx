@@ -7,6 +7,7 @@ import uhx.compiletime.types.*;
 import uhx.meta.MetaDef;
 
 using uhx.compiletime.tools.MacroHelpers;
+using Lambda;
 
 /**
   Generates the metadata definitions (MetaDef) for the uproperties and ufunctions that will be added at runtime by cppia
@@ -105,6 +106,14 @@ class MetaDefBuild {
               repl = SimulatedOrPhysics;
             case 'initialorowner':
               repl = InitialOrOwner;
+            case 'replayorowner':
+              repl = ReplayOrOwner;
+            case 'replayonly':
+              repl = ReplayOnly;
+            case 'simulatedonlynoreplay':
+              repl = SimulatedOnlyNoReplay;
+            case 'simulatedorphysicsnoreplay':
+              repl = SimulatedOrPhysicsNoReplay;
             case _:
               prop.customReplicationName = kind;
             }
@@ -182,6 +191,13 @@ class MetaDefBuild {
     classDef.propCrc = crc;
     classDef.propSig = propSignature;
 
+    for (uprop in classDef.uprops) {
+      if (uprop.replication != null || uprop.customReplicationName != null) {
+        if (classDef.ufuncs != null && classDef.ufuncs.exists(function(f) return f.uname == 'onRep_' + uprop.uname)) {
+          uprop.repNotify = true;
+        }
+      }
+    }
     var meta:uhx.meta.MetaDef = { uclass:classDef };
     Globals.cur.addScriptDef(classDef.uname, { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta });
 

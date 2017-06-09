@@ -8,6 +8,8 @@ import unreal.EPropertyFlags;
 import unreal.CoreAPI;
 import haxe.rtti.Meta;
 
+using StringTools;
+
 enum HotReloadStatus {
   Success;
   Failure;
@@ -30,6 +32,7 @@ class UReflectionGenerator {
   private static var scriptDelegates:Map<String, UDelegateDef>;
 
   private static var createdClasses:Map<String, Bool>;
+  private static var customReplicationProps:Map<String, Array<{ uname:String, index:Int, funcName:String }>> = new Map();
 
   private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
 #if DEBUG_HOTRELOAD
@@ -214,6 +217,7 @@ class UReflectionGenerator {
       }
     } else {
       refreshBlueprints(touched);
+      uclassNames = [];
       return Success;
     }
   }
@@ -474,9 +478,6 @@ class UReflectionGenerator {
     if (parent != null) {
       fn.SetSuperStruct(parent);
     }
-    if (func.hxName != null && func.hxName != func.uname) {
-      fn.SetMetaData(CoreAPI.staticName('HaxeName'), func.hxName);
-    }
     if (func.propSig != null) {
       fn.SetMetaData(CoreAPI.staticName("UHX_PropSignature"), func.propSig);
     }
@@ -524,6 +525,20 @@ class UReflectionGenerator {
 
     var flags = getFunctionFlags(uclass, fn, func);
     fn.FunctionFlags |= flags;
+
+    var hxName = func.hxName;
+    if (flags.hasAny(FUNC_Net)) {
+      hxName = func.uname + '_Implementation';
+      for (meta in func.metas) {
+        if (meta.name.toLowerCase() == 'withvalidation') {
+          hxName = func.uname + '_DynamicRun';
+          break;
+        }
+      }
+    }
+    if (hxName != null && hxName != func.uname) {
+      fn.SetMetaData(CoreAPI.staticName('HaxeName'), hxName);
+    }
 
     if (setupFunction != null && uclass != null) {
       setupFunction(@:privateAccess uclass.wrapped,@:privateAccess fn.wrapped);
@@ -755,6 +770,7 @@ class UReflectionGenerator {
               RuntimeLibrary.setupClassConstructor(@:privateAccess old.wrapped);
             }
             addFunctions(old, uclassName, false);
+            // bindReplication(old, uclassName);
             continue;
           }
         }
@@ -806,14 +822,85 @@ class UReflectionGenerator {
     }
   }
 
-  private static function createClass(outer:UObject, uclassName:String, parent:UClass, parentHxGenerated:Bool, hxPath:String) {
+  private static function getReplication(kind:UPropReplicationKind):ELifetimeCondition {
+    return switch (kind) {
+      case Always:
+        return COND_None;
+      case InitialOnly:
+        return COND_InitialOnly;
+      case OwnerOnly:
+        return COND_OwnerOnly;
+      case SkipOwner:
+        return COND_SkipOwner;
+      case SimulatedOnly:
+        return COND_SimulatedOnly;
+      case AutonomousOnly:
+        return COND_AutonomousOnly;
+      case SimulatedOrPhysics:
+        return COND_SimulatedOrPhysics;
+      case InitialOrOwner:
+        return COND_InitialOrOwner;
+      case ReplayOrOwner:
+        return COND_ReplayOrOwner;
+      case ReplayOnly:
+        return COND_ReplayOnly;
+      case SimulatedOnlyNoReplay:
+        return COND_SimulatedOnlyNoReplay;
+      case SimulatedOrPhysicsNoReplay:
+        return COND_SimulatedOrPhysicsNoReplay;
+    };
+  }
+
+  public static function setLifetimeProperties(uclass:UClass, uname:String, out:TArray<FLifetimeProperty>) {
+    var meta = uclassDefs[uname];
+    if (meta == null || meta.uclass == null) {
+      trace('Fatal', 'Trying to set lifetime properties for class $uclass, but no metadata was found');
+      return;
+    }
+
+    var customRepls = [];
+    for (prop in meta.uclass.uprops) {
+      if (prop.replication != null && prop.customReplicationName == null) {
+        var uprop = uclass.FindPropertyByName(prop.uname);
+        if (uprop == null) {
+          trace('Fatal', 'Could not find property ${prop.uname} in class $uname while setting lifetime properties');
+        }
+        out.push(new FLifetimeProperty(uprop.RepIndex, getReplication(prop.replication), REPNOTIFY_OnChanged));
+      } else if (prop.customReplicationName != null) {
+        var uprop = uclass.FindPropertyByName(prop.uname);
+        if (uprop == null) {
+          trace('Fatal', 'Could not find property ${prop.uname} in class $uname while setting lifetime properties');
+        }
+        customRepls.push({ uname:prop.uname, index:(uprop.RepIndex : Int), funcName: prop.customReplicationName });
+        out.push(new FLifetimeProperty(uprop.RepIndex, COND_Custom, REPNOTIFY_OnChanged));
+      }
+    }
+
+    if (customRepls.length == 0) {
+      customRepls = null;
+    }
+    customReplicationProps[uclass.GetName().toString()] = customRepls;
+  }
+
+  public static function instancePreReplication(obj:UObject, changedPropertyTracker:IRepChangedPropertyTracker) {
+    var uclass = obj.GetClass();
+    var customRepls = customReplicationProps[uclass.GetName().toString()];
+    if (customRepls != null) {
+      for (repl in customRepls) {
+        var active = (Reflect.field(obj, repl.funcName))();
+        changedPropertyTracker.SetCustomIsActiveOverride(repl.index, active);
+      }
+    }
+  }
+
+  private static function createClass(outer:UObject, uclassName:String, parent:UClass, parentHxGenerated:Bool, hxPath:String):UClass {
     var hxClass = Type.resolveClass(hxPath);
     if (hxClass == null) {
       trace('Error', 'While loading dynamic class $uclassName the class $hxPath was not found');
       return null;
     }
     var name = uclassName.substr(1);
-    var uclass:UBlueprintGeneratedClass = cast UObject.NewObject_NoTemplate(outer, UBlueprintGeneratedClass.StaticClass(), uclassName.substr(1), 0);
+    var uclass:UBlueprintGeneratedClass = cast UObject.NewObject_NoTemplate(outer, uhx.UHaxeGeneratedClass.StaticClass(), uclassName.substr(1), 0);
     var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
     bp.GeneratedClass = uclass;
     uclass.ClassGeneratedBy = bp;
@@ -1134,6 +1221,11 @@ class UReflectionGenerator {
     if (def.replication != null) {
       prop.PropertyFlags |= CPF_Net;
     }
+    if (def.repNotify) {
+      prop.PropertyFlags |= CPF_RepNotify;
+      prop.RepNotifyFunc = 'onRep_' + def.uname;
+    }
+
     if (def.hxName != null && def.hxName != def.uname) {
       prop.SetMetaData(CoreAPI.staticName('HaxeName'), def.hxName);
     }

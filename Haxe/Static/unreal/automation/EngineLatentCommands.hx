@@ -38,10 +38,15 @@ class EngineLatentCommands {
    **/
   public static function exitGame():Void->Bool {
     return function() {
-      var testWorld = getAnyGameWorld();
-      var pc = UGameplayStatics.GetPlayerController(testWorld, 0);
-      if (pc != null) {
-        pc.ConsoleCommand("Exit", true);
+      var ctxs = UEngine.GEngine.GetWorldContexts();
+      for (i in 0...ctxs.Num()) {
+        var ctx = ctxs.get_Item(i);
+        if (ctx.WorldType.match(PIE | Game) && ctx.World() != null) {
+          var pc = UGameplayStatics.GetPlayerController(ctx.World(), 0);
+          if (pc != null) {
+            pc.ConsoleCommand("Exit", true);
+          }
+        }
       }
       return true;
     };
@@ -63,5 +68,16 @@ class EngineLatentCommands {
     };
   }
 
-
+  /**
+    Latent command to wait for a set amount of time
+   **/
+  public static function waitSeconds(seconds:Float):Void->Bool {
+    var targetTime = .0;
+    return function() {
+      if (targetTime == 0) {
+        targetTime = FPlatformTime.Seconds() + seconds;
+      }
+      return FPlatformTime.Seconds() >= targetTime;
+    }
+  }
 }
