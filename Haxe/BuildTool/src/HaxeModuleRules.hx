@@ -13,11 +13,10 @@ using StringTools;
 /**
   This module will compile Haxe and add the hxcpp runtime to the game.
  **/
-@:nativeGen
 class HaxeModuleRules extends BaseModuleRules
 {
   private static var disabled:Bool = false;
-  private static var VERSION_LEVEL = 4;
+  private static var VERSION_LEVEL = 5;
   private var config:HaxeModuleConfig;
 
   public function new(target) {
@@ -50,6 +49,14 @@ class HaxeModuleRules extends BaseModuleRules
     return base;
   }
 
+  private static function shouldBuildEditor(target:TargetInfo) {
+#if (UE_VER <= 4.14)
+      return target.Type.Value == Editor && UEBuildConfiguration.bBuildEditor;
+#else
+      return target.Type.Value == Editor;
+#end
+  }
+
   private function shouldCompileCppia(target:TargetInfo) {
     if (Std.is(this, HaxeProgramRules)) {
       return false;
@@ -58,8 +65,14 @@ class HaxeModuleRules extends BaseModuleRules
     if (this.config.disableCppia) {
       return false;
     }
-    if (!UEBuildConfiguration.bBuildEditor) {
+
+    var buildEditor = shouldBuildEditor(target);
+
+    if (!buildEditor) {
       // only editor builds will use cppia
+      return false;
+    }
+    if (!buildEditor) {
       return false;
     }
     if (this.config.dce != null && this.config.dce != DceNo) {
@@ -80,7 +93,7 @@ class HaxeModuleRules extends BaseModuleRules
     };
     var name = curName == null ? '' : '${curName}-';
     var outputDir = gameDir + '/Intermediate/Haxe/${name}${target.Platform}-${target.Configuration}';
-    if (UEBuildConfiguration.bBuildEditor) {
+    if (shouldBuildEditor(target)) {
       outputDir += '-Editor';
     }
 
@@ -89,11 +102,21 @@ class HaxeModuleRules extends BaseModuleRules
 
   override private function run(target:TargetInfo, firstRun:Bool)
   {
-    if (ProjectFileGenerator.bGenerateProjectFiles) {
+    var bGenerateProjectFiles = false;
+#if (UE_VER >= 4.14)
+    bGenerateProjectFiles = Reflect.field(std.Type.resolveClass("UnrealBuildTool.ProjectFileGenerator"), 'bGenerateProjectFiles');
+#else
+    bGenerateProjectFiles = ProjectFileGenerator.bGenerateProjectFiles;
+#end
+
+    if (bGenerateProjectFiles) {
       firstRun = false;
     }
 
     this.config = getConfig();
+    var engineVer = getEngineVersion(config);
+    var defineVer = 'UE_VER=${engineVer.MajorVersion}.${engineVer.MinorVersion}',
+        definePatch = 'UE_PATCH=${engineVer.PatchVersion == null ? 0 : engineVer.PatchVersion}';
     if (this.config == null) this.config = {};
     var base = Path.GetFullPath('$modulePath/..');
     var targetModule = std.Type.getClassName(std.Type.getClass(this));
@@ -191,7 +214,6 @@ class HaxeModuleRules extends BaseModuleRules
 
       if (hasHaxe)
       {
-        UEBuildConfiguration.bForceEnableExceptions = true;
         var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
         if (compserver != null) {
           Sys.putEnv("HAXE_COMPILATION_SERVER", null);
@@ -203,17 +225,27 @@ class HaxeModuleRules extends BaseModuleRules
         var escapedHaxeDir = haxeDir.replace('\\','\\\\');
         var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
 
-        var externsFolder = UEBuildConfiguration.bBuildEditor ? 'Externs_Editor' : 'Externs';
+        var ueExternDir = 'UE${engineVer.MajorVersion}.${engineVer.MinorVersion}.${engineVer.PatchVersion}';
+        if (!exists('$pluginPath/Haxe/Externs/$ueExternDir')) {
+          ueExternDir = 'UE${engineVer.MajorVersion}.${engineVer.MinorVersion}';
+          if (!exists('$pluginPath/Haxe/Externs/$ueExternDir')) {
+            traceError('Cannot find an externs directory for the unreal version ${engineVer.MajorVersion}.${engineVer.MinorVersion}');
+            Sys.exit(13);
+          }
+        }
+        var externsFolder = shouldBuildEditor(target) ? 'Externs_Editor' : 'Externs';
         var bakeArgs = [
           '# this pass will bake the extern type definitions into glue code',
           exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
           '-cp $pluginPath/Haxe/Static',
           '-D use-rtti-doc', // we want the documentation to be persisted
           '-D bake-externs',
+          '-D $defineVer',
+          '-D $definePatch',
           '',
           '-cpp $haxeDir/Generated/$externsFolder',
           '--no-output', // don't generate cpp files; just execute our macro
-          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs","$escapedHaxeDir/Externs"], $forceCreateExterns)'
+          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], $forceCreateExterns)'
         ];
         if (UEBuildConfiguration.bBuildEditor) {
           bakeArgs.push('-D WITH_EDITOR');
@@ -284,6 +316,9 @@ class HaxeModuleRules extends BaseModuleRules
             '-D haxe_runtime_dir=$curSourcePath',
             '-D bake_dir=$haxeDir/Generated/$externsFolder',
             '-D HXCPP_DLL_EXPORT',
+            '-D $defineVer',
+            '-D $definePatch',
+
             '-cpp $targetDir/Built',
             '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
           ]);
@@ -351,7 +386,7 @@ class HaxeModuleRules extends BaseModuleRules
           var isCrossCompiling = false;
           var extraArgs = null,
               oldEnvs = null;
-          Sys.putEnv('ThirdPartyDir', Std.string(UnrealBuildTool.EngineSourceThirdPartyDirectory));
+          Sys.putEnv('ThirdPartyDir', Std.string(Helpers.getUbtDir("EngineSourceThirdPartyDirectory")));
           switch(Std.string(target.Platform)) {
           case "Linux" if (Sys.systemName() != "Linux"):
             // cross compiling
@@ -442,7 +477,7 @@ class HaxeModuleRules extends BaseModuleRules
               File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
             }
           }
-          if (ret == 0 && UEBuildConfiguration.bSkipLinkingWhenNothingToCompile && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+          if (ret == 0 && (curStamp == null || stat(outputStatic).mtime.getTime() > curStamp.getTime()))
           {
             // HACK: there seems to be no way to add the .hx files as dependencies
             //       for this project. The PrerequisiteItems variable from Action is the one
@@ -477,6 +512,8 @@ class HaxeModuleRules extends BaseModuleRules
               '-main UnrealCppia',
               '',
               '-D cppia',
+              '-D $defineVer',
+              '-D $definePatch',
               '-D ustatic_target=$targetDir/Built',
               '-cpp $gameDir/Binaries/Haxe/game.cppia',
               '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
@@ -593,7 +630,30 @@ class HaxeModuleRules extends BaseModuleRules
   {
     var proj = getProjectName();
     if (proj == null) throw 'no uproject found!';
-    InitPlugin.updateProject(this.gameDir, this.haxeDir, this.pluginPath, proj, false, targetModule);
+    var ver = haxe.macro.Compiler.getDefine("UE_VER");
+    if (ver == null) {
+      throw 'UE_VER is not set. Please run `haxe init-plugin.hxml -D UE_VER=[target-version]`';
+    }
+    InitPlugin.updateProject(this.gameDir, this.haxeDir, this.pluginPath, proj, ver, false, targetModule);
+  }
+
+  private function getEngineVersion(config:HaxeModuleConfig):{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> } {
+    var engineDir = this.engineDir;
+    if (exists('$engineDir/Build/Build.version')) {
+      return haxe.Json.parse( sys.io.File.getContent('$engineDir/Build/Build.version') );
+    } else if (config.engineVersion != null) {
+      var vers = config.engineVersion.split('.');
+      var ret = { MajorVersion:Std.parseInt(vers[0]), MinorVersion:Std.parseInt(vers[1]), PatchVersion:Std.parseInt(vers[2]) };
+      if (ret.MajorVersion == null || ret.MinorVersion == null) {
+        traceError('The engine version is not in the right pattern (Major.Minor.Patch)');
+        Sys.exit(11);
+      }
+      return ret;
+    } else {
+      traceError('The engine build version file at $engineDir/Build/Build.version could not be found, and neither was an overridden version set on the uhxconfig.local file');
+      Sys.exit(12);
+      return null;
+    }
   }
 
   private static function setEnvs(envs:Map<String,String>):Map<String,String> {

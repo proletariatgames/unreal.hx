@@ -15,7 +15,7 @@ using uhx.compiletime.tools.MacroHelpers;
   Per-build globals
  **/
 class Globals {
-  public static var MIN_BUILDTOOL_VERSION_LEVEL = 4;
+  public static var MIN_BUILDTOOL_VERSION_LEVEL = 5;
 
   public static var cur(default,null):Globals = new Globals();
 

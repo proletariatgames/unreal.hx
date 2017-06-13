@@ -4,6 +4,11 @@
 #ifndef HXCPP_H
 #define HXCPP_H
 
+#ifndef HXCPP_API_LEVEL
+#define HXCPP_API_LEVEL 0
+#define SCOPED_API_LEVEL 1
+#endif
+
 #ifndef _MSC_VER
    #include <stdint.h>
    #ifndef EMSCRIPTEN
@@ -108,5 +113,10 @@ namespace hx { HXCPP_EXTERN_CLASS_ATTRIBUTES void CriticalError(const String &in
 namespace hx { HXCPP_EXTERN_CLASS_ATTRIBUTES void NullReference(const char *type, bool allowFixup); }
 namespace hx { extern String sNone[]; }
 void __hxcpp_check_overflow(int inVal);
+
+#ifdef SCOPED_API_LEVEL
+#undef SCOPED_API_LEVEL
+#undef HXCPP_API_LEVEL
+#endif
 
 #endif

@@ -4,6 +4,21 @@
 #include "Engine.h"
 #include "UObjectBase.h"
 #include "HaxeInit.h"
+#include "uhx/Version.h"
+
+#if UE_VER >= 416
+#define DECLARE_UHX_DYNAMIC_UCLASS_PACK(Class) \
+  virtual const TCHAR* ClassPackage() const override;
+
+#define DEFINE_UHX_DYNAMIC_UCLASS_PACK(Class) \
+  const TCHAR* TClassCompiledInDefer<Class>::ClassPackage() const { \
+    return Class::StaticPackage(); \
+  }
+
+#else
+#define DECLARE_UHX_DYNAMIC_UCLASS_PACK(Class)
+#define DEFINE_UHX_DYNAMIC_UCLASS_PACK(Class)
+#endif
 
 #define DECLARE_UHX_DYNAMIC_UCLASS(Class) \
   class Class; \
@@ -19,6 +34,7 @@
       UClassCompiledInDefer(this, InName, InClassSize, crc); \
     } \
     virtual UClass* Register() const override; \
+    DECLARE_UHX_DYNAMIC_UCLASS_PACK(Class) \
   }
 
 #define DEFINE_UHX_DYNAMIC_UCLASS(Class) \
@@ -26,7 +42,8 @@ UClass* TClassCompiledInDefer<Class>::Register() const { \
   UClass *ret = Class::StaticClass(); \
   ::uhx::DynamicClassHelper::getDynamicsMap().Add(FName(#Class), ret); \
   return ret; \
-}
+} \
+DEFINE_UHX_DYNAMIC_UCLASS_PACK(Class)
 
 namespace uhx {
 

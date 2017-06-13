@@ -4,9 +4,12 @@
 #include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
-	#include <windows.h>
+  #include <windows.h>
+  #ifdef InterlockedCompareExchange // Windows defines InterlockedCompareExchange
+    #undef InterlockedCompareExchange
+  #endif
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
-	#include <pthread.h>
+  #include <pthread.h>
 #else
 #endif
 

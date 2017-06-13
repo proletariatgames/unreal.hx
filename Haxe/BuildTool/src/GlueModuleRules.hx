@@ -13,7 +13,6 @@ using StringTools;
 /**
   This module will compile Haxe and add the hxcpp runtime to the game.
  **/
-@:nativeGen
 class GlueModuleRules extends BaseModuleRules
 {
   override private function run(target:TargetInfo, firstRun:Bool)

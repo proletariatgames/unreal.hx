@@ -13,8 +13,6 @@ using StringTools;
   different behaviours with plugin code - for example, it does not recompile plugins unless
   the binaries are missing.
  **/
-@:nativeGen
-@:native("UnrealBuildTool.Rules.HaxeInit")
 class HaxeInit extends BaseModuleRules
 {
 }

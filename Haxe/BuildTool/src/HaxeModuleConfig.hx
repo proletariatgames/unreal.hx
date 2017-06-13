@@ -91,7 +91,13 @@ typedef HaxeModuleConfig = {
   /**
     Compile with hxcpp debugger support
    **/
-  ?debugger:Bool
+  ?debugger:Bool,
+
+  /**
+    If no engine version was found, use this to set the engine version
+    If the engine version was found, this is ignored
+   **/
+  ?engineVersion:String,
 }
 
 @:enum abstract Dce(String) from String {

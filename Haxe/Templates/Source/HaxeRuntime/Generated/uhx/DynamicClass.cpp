@@ -3,6 +3,7 @@
 
 #include "Misc/Paths.h"
 #include "uhx/expose/HxcppRuntime.h"
+#include "uhx/Version.h"
 
 #ifndef UHX_NO_UOBJECT
 
@@ -84,7 +85,13 @@ TMap<FName, UClass *>& ::uhx::DynamicClassHelper::getDynamicsMap() {
  * are registering, which is the exact place where we should add the dynamic properties
  **/
 class UHxBootstrap : public UObject {
-#if WITH_HOT_RELOAD_CTORS
+#if UE_VER >= 416
+#define UHX_HOTRELOAD 1
+#else
+#define UHX_HOTRELOAD WITH_HOT_RELOAD_CTORS
+#endif
+
+#if UHX_HOTRELOAD
   DECLARE_CASTED_CLASS_INTRINSIC_NO_CTOR_NO_VTABLE_CTOR(UHxBootstrap, UObject, 0, TEXT("/Script/HaxeRuntime"), 0, HAXERUNTIME_API)
 
   UHxBootstrap(FVTableHelper& Helper) : UObject(Helper) {
@@ -100,6 +107,7 @@ class UHxBootstrap : public UObject {
     }
   }
 
+#undef UHX_HOTRELOAD
 };
 
 // make sure that UHxBootstrap is always hot reloaded, as its CRC constantly changes
@@ -117,9 +125,22 @@ struct TClassCompiledInDefer<UHxBootstrap> : public FFieldCompiledInInfo
   virtual UClass* Register() const override {
     return UHxBootstrap::StaticClass();
   }
+
+#if UE_VER >= 416
+  const TCHAR* ClassPackage() const {
+    return UHxBootstrap::StaticPackage();
+  }
+
+#endif
 };
 
-IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJECT_API,
+#if UE_VER >= 416
+#define UHX_IMPLEMENT_INTRINSIC_CLASS(TClass, TRequiredAPI, TSuperClass, TSuperRequiredAPI, InitCode) IMPLEMENT_INTRINSIC_CLASS(TClass, TRequiredAPI, TSuperClass, TSuperRequiredAPI, "/Script/HaxeRuntime", InitCode)
+#else
+#define UHX_IMPLEMENT_INTRINSIC_CLASS(TClass, TRequiredAPI, TSuperClass, TSuperRequiredAPI, InitCode) IMPLEMENT_INTRINSIC_CLASS(TClass, TRequiredAPI, TSuperClass, TSuperRequiredAPI, InitCode)
+#endif
+
+UHX_IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJECT_API,
 {
   check_hx_init();
   uhx::expose::HxcppRuntime::startLoadingDynamic();
@@ -129,5 +150,6 @@ IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJECT_AP
   }
 });
 
+#undef UHX_IMPLEMENT_INTRINSIC_CLASS
 
 #endif

@@ -11,6 +11,7 @@ using StringTools;
   Adds some helper functions to ModuleRules - like getting the game directory and making sure the code only runs once
  **/
 @:nativeGen
+@:nativeChildren
 class BaseModuleRules extends ModuleRules
 {
   // we need this here since the constructor is called more
@@ -25,10 +26,17 @@ class BaseModuleRules extends ModuleRules
   var haxeDir:String;
   var internalHaxeSourcesPath:String;
   var target:TargetInfo;
+  var engineDir:String;
 
+#if (UE_VER <= 4.14)
   public function new(target:TargetInfo)
   {
     super();
+#else
+  public function new(target:ReadOnlyTargetRules)
+  {
+    super(target);
+#end
 
     var curName = cs.Lib.toNativeType(std.Type.getClass(this)).Name;
     var firstRun = !firstRunMap.exists(curName);
@@ -43,6 +51,7 @@ class BaseModuleRules extends ModuleRules
     var haxeInitPath = Path.GetDirectoryName(RulesCompiler.GetFileNameFromType(cs.Lib.toNativeType(HaxeInit)));
     pluginPath = Path.GetFullPath('$haxeInitPath/../..');
     thirdPartyPath = Path.GetFullPath(haxeInitPath + "../ThirdParty");
+    engineDir = Helpers.getUbtDir("EngineDirectory").ToString();
     gameDir = allGames[0].ToString();
     if (gameDir == null)
       gameDir = Path.GetFullPath(haxeInitPath + "../../..");
@@ -54,6 +63,10 @@ class BaseModuleRules extends ModuleRules
         Sys.exit(11);
       }
     }
+
+#if (UE_VER > 4.14)
+    var target = new TargetInfo(target);
+#end
 
     haxeDir = getHaxeDir();
     this.target = target;

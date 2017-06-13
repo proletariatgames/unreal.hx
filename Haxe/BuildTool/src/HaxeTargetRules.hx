@@ -1,0 +1,2 @@
+class HaxeTargetRules extends BaseTargetRules {
+}

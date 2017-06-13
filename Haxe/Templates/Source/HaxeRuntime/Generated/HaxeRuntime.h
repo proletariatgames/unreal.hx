@@ -7,5 +7,9 @@
 #include "ModuleManager.h"
 #include "UnrealEd.h"
 
+#ifndef NO_DYNAMIC_UCLASS
+#define NO_DYNAMIC_UCLASS WITH_EDITOR
+#endif
+
 #endif
 

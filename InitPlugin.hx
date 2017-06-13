@@ -4,6 +4,7 @@ import sys.io.File;
 using StringTools;
 
 class InitPlugin {
+  static inline var LATEST_UE_VER = "4.16";
   static function main() {
     var target = Sys.args()[0];
     if (target == null) {
@@ -13,8 +14,13 @@ class InitPlugin {
     trace("Game location: " + target);
     var gameDir = Path.directory(target);
     var pluginPath = Sys.getCwd();
+    var ver = haxe.macro.Compiler.getDefine("UE_VER");
+    if (ver == null) {
+      trace('Warning: No UE_VER was set. Assuming latest ($LATEST_UE_VER)).\nPlease specify the version with: `haxe init-plugin.hxml -D UE_VER=4.16');
+      ver = LATEST_UE_VER;
+    }
 
-    updateProject(gameDir, '$gameDir/Haxe', pluginPath, new Path(target).file, true);
+    updateProject(gameDir, '$gameDir/Haxe', pluginPath, new Path(target).file, ver, true);
     trace("Project update done.");
   }
 
@@ -41,14 +47,14 @@ class InitPlugin {
       return null;
   }
 
-  public static function updateProject(gameDir:String, haxeDir:String, pluginPath:String, projectName:String, fromCommandLine=false, ?targetModule:String) {
+  public static function updateProject(gameDir:String, haxeDir:String, pluginPath:String, projectName:String, ueVer:String, fromCommandLine=false, ?targetModule:String) {
     gameDir = FileSystem.fullPath(gameDir);
     pluginPath = FileSystem.fullPath(pluginPath);
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
     trace('Updating game module...');
-    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule);
+    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule, ueVer);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
@@ -58,7 +64,7 @@ class InitPlugin {
     checkDir('$haxeDir/Externs');
   }
 
-  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String)
+  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String, ueVer:String)
   {
     var mod = targetModule;
     if (mod == null) {
@@ -115,10 +121,10 @@ class InitPlugin {
       deleteRecursive('$gameDir/Source/HaxeRuntime', true);
     }
 
-    handleModuleRules(gameDir, pluginPath, fromCommandLine);
+    handleModuleRules(gameDir, pluginPath, fromCommandLine, ueVer);
   }
 
-  private static function handleModuleRules(gameDir:String, pluginPath:String, alsoCompile:Bool) {
+  private static function handleModuleRules(gameDir:String, pluginPath:String, alsoCompile:Bool, ueVer:String) {
     if (!FileSystem.exists('$gameDir/Haxe')) {
       FileSystem.createDirectory('$gameDir/Haxe');
     }
@@ -130,17 +136,19 @@ class InitPlugin {
       '-cp $pluginPath/Haxe/BuildTool/src',
       '-cp $pluginPath/Haxe/BuildTool',
       '-cp $pluginPath',
-      '-net-lib $pluginPath/Haxe/BuildTool/lib/DotNETUtilities.dll',
-      '-net-lib $pluginPath/Haxe/BuildTool/lib/UnrealBuildTool.dll',
+      '-net-lib $pluginPath/Haxe/BuildTool/lib/DotNETUtilities-$ueVer.dll',
+      '-net-lib $pluginPath/Haxe/BuildTool/lib/UnrealBuildTool-$ueVer.dll',
       '-cs $gameDir/Intermediate/Haxe/BuildTool',
       'HaxeInit',
       '',
+      '-D UE_VER=${ueVer}',
       '-D no-root',
       '-D net_ver=45',
       '-D analyzer',
       '-D real_position',
       '--macro Package.main("$gameDir/Source", [{ name:"HaxeInit", target:"$pluginPath/Source/HaxeInit/HaxeInit.Build.cs" }])'
     ];
+    trace(args);
     sys.io.File.saveContent('$gameDir/Haxe/gen-build-module-rules.hxml', args.join('\n'));
 
     if (alsoCompile) {

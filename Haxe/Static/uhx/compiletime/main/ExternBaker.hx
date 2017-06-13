@@ -186,21 +186,61 @@ class ExternBaker {
     return latest;
   }
 
-  private static function joinMetas(extraModule:String, file:String) {
-    switch(Context.follow(Context.getType(extraModule))) {
+  private static function joinMetas(extraModuleName:String, file:String) {
+    var pos = Context.makePosition({ min:0, max:0, file:file });
+    var extraModule = getModule(extraModuleName, pos);
+    if (extraModule == null || extraModule.length == 0) {
+      return;
+    }
+    if (extraModule.length > 1) {
+      trace(extraModule);
+      throw new Error('The `_Extra` file should not declare any other type', pos);
+    }
+
+    switch(Context.follow(extraModule[0])) {
     case TInst(_.get() => cextra,_):
-      var base:BaseType = switch(Context.getType(extraModule.substr(0,extraModule.length - '_Extra'.length))) {
-        case TInst(_.get() => cl, _):
-          cl;
-        case TEnum(_.get() => e, _):
-          e;
-        case TAbstract(_.get() => a, _):
-          a;
-        case TType(_.get() => t, _):
-          t;
-        case type:
-          throw new Error('Unsupported type ${type.toString()} for module ${extraModule.substr(0,extraModule.length - '_Extra'.length)}', Context.makePosition({ min:0, max:0, file:file }));
-      };
+      var moduleName = extraModuleName.substr(0,extraModuleName.length - '_Extra'.length);
+      var modules = getModule(moduleName, pos);
+      if (modules == null || modules.length == 0) {
+        return;
+      }
+      var base:BaseType = null;
+      for (mod in modules) {
+        base = switch(mod) {
+          case TInst(cl, _):
+            if (cl.toString() == moduleName) {
+              cl.get();
+            } else {
+              null;
+            }
+          case TEnum(e, _):
+            if (e.toString() == moduleName) {
+              e.get();
+            } else {
+              null;
+            }
+          case TAbstract(a, _):
+            if (a.toString() == moduleName) {
+              a.get();
+            } else {
+              null;
+            }
+          case TType(t, _):
+            if (t.toString() == moduleName) {
+              t.get();
+            } else {
+              null;
+            }
+          case type:
+            throw new Error('Unsupported type ${type.toString()} for module ${extraModuleName.substr(0,extraModuleName.length - '_Extra'.length)}', pos);
+        };
+        if (base != null) {
+          break;
+        }
+      }
+      if (base == null) {
+        throw new Error('Type ${moduleName} is referenced by an `_Extra` type but it does not define a valid type', pos);
+      }
       if (cextra.meta.has(':glueCppIncludes')) {
         base.meta.remove(':glueCppIncludes');
       }
@@ -214,7 +254,7 @@ class ExternBaker {
         base.meta.add(meta.name, meta.params, meta.pos);
       }
     case _:
-      throw new Error('Module $extraModule should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
+      throw new Error('Module $extraModuleName should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
     }
   }
 
@@ -446,9 +486,9 @@ class ExternBaker {
     var meta = c.meta.get();
     // process the _Extra type if found
     var extraName = c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra';
-    try {
-      var extra = Context.getType(extraName);
-      switch(extra) {
+    var extra = getModule(extraName, c.pos);
+    if (extra != null && extra.length > 0) {
+      switch(extra[0]) {
       case TInst(_.get() => ecl,_):
         var efields = ecl.fields.get();
         var estatics = ecl.statics.get();
@@ -477,7 +517,7 @@ class ExternBaker {
           }
         }
       case _:
-        var pos = switch(extra) {
+        var pos = switch(extra[0]) {
         case TAbstract(a,_):
           a.get().pos;
         case TEnum(e,_):
@@ -488,11 +528,6 @@ class ExternBaker {
           c.pos;
         }
         Context.warning('Unreal Extern Baker: Type ${c.name}_Extra is not a class',pos);
-      }
-    }
-    catch(e:Dynamic) {
-      if (!Std.string(e).startsWith("Type not found '" + extraName)) {
-        throw new Error(Std.string(e), c.pos);
       }
     }
 
@@ -1196,5 +1231,16 @@ class ExternBaker {
     if (this.voidType == null)
       this.voidType = TypeConv.get(Context.getType('Void'), this.pos);
     return this.voidType;
+  }
+
+  private static function getModule(name:String, pos:Position) {
+    try {
+      return Context.getModule(name);
+    } catch(e:Dynamic) {
+      if (!Std.string(e).startsWith("Type not found : " + name)) {
+        throw new Error(Std.string(e), pos);
+      }
+      return null;
+    }
   }
 }
