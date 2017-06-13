@@ -74,10 +74,13 @@ class ExternBaker {
 
             var mtime = FileSystem.stat('$dir/$file').mtime.getTime();
             var fname = file.substr(0,-3);
-            if (FileSystem.exists('$dir/${fname}_Extra.hx')) {
-              var extramtime = FileSystem.stat('$dir/${fname}_Extra.hx').mtime.getTime();
-              if (extramtime > mtime)
-                mtime = extramtime;
+            for (cp in classpaths) {
+              var curPath = '$cp/${pack.join("/")}';
+              if (FileSystem.exists('$curPath/${fname}_Extra.hx')) {
+                var extramtime = FileSystem.stat('$curPath/${fname}_Extra.hx').mtime.getTime();
+                if (extramtime > mtime)
+                  mtime = extramtime;
+              }
             }
             var destTime = 0.0;
             var dest = '$target/${pack.join('/')}/$file';
