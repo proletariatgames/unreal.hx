@@ -106,7 +106,7 @@ class UReflectionGenerator {
           continue;
         }
         var sig = reg.getUpdated().GetMetaData(CoreAPI.staticName("UHX_PropSignature"));
-        if (!reg.wasDeleted && sig.toString() != def.uclass.propSig) {
+        if (!reg.wasDeleted && !reg.needsToAddProperties && sig.toString() != def.uclass.propSig) {
           throw 'assert: ${uclass}';
         }
         toAdd.push(reg);
@@ -118,16 +118,16 @@ class UReflectionGenerator {
 
       // 3rd pass - add the functions/properties
       for (add in toAdd) {
-        var changed = false;
-        if (add.needsToAddProperties) {
+        var changed = false,
+            needsToAddProperties = add.needsToAddProperties;
+        if (needsToAddProperties) {
           changed = true;
           addProperties(add.getUpdated(), add.uclassName, add.nativeUClass != null);
-          add.setPropertiesAdded();
         }
         if (addFunctions(add.getUpdated(), add.uclassName, add.nativeUClass != null)) {
           changed = true;
         }
-        if (add.wasDeleted) {
+        if (add.wasDeleted || needsToAddProperties) {
           // bind the class
           var uclass = add.getUpdated();
           uclass.Bind();
@@ -251,10 +251,6 @@ class UReflectionGenerator {
 #if DEBUG_HOTRELOAD
     trace('Marking $name as hot reloaded');
 #end
-    var reg = registry[name];
-    if (reg != null) {
-      reg.setPropertiesAdded();
-    }
     if (Std.is(obj, UClass)) {
       var cls:UClass = cast obj;
       var cdo = uhx.glues.UClass_Glue.GetDefaultObject(@:privateAccess cls.wrapped, false);
@@ -535,6 +531,7 @@ class UReflectionGenerator {
 #if DEBUG_HOTRELOAD
               trace('$id: Found property. Setting repNotify (${prop.RepNotifyFunc})');
 #end
+              prop.PropertyFlags |= CPF_RepNotify;
               prop.RepNotifyFunc = funcDef.uname;
               break;
             }
@@ -811,7 +808,6 @@ class UReflectionGenerator {
 
       if (reg.nativeUClass == null && reg.needsToAddProperties) {
         addProperties(reg.getUpdated(), uclassName, false);
-        reg.setPropertiesAdded();
 
         var uclass = reg.getUpdated();
         uclass.Bind();
@@ -1388,10 +1384,11 @@ class DynamicRegistry {
       trace('Error', 'Setting class $uclassName as deleted twice in the same compilation');
     }
     this.wasDeleted = true;
-    this.needsToAddProperties = false;
+    this.needsToAddProperties = true;
   }
 
   public function resetUpdated() {
     this.isUpdated = false;
+    this.updatedClass = null;
   }
 }
