@@ -98,6 +98,11 @@ typedef HaxeModuleConfig = {
     If the engine version was found, this is ignored
    **/
   ?engineVersion:String,
+
+  /**
+    Set this to true to disable dynamically created uclasses (only relevant when cppia is enabled)
+   **/
+  ?noDynamicUClass:Bool,
 }
 
 @:enum abstract Dce(String) from String {

@@ -5,6 +5,7 @@
 #include "UObjectBase.h"
 #include "HaxeInit.h"
 #include "uhx/Version.h"
+#include "UObject/Class.h"
 
 #if UE_VER >= 416
 #define DECLARE_UHX_DYNAMIC_UCLASS_PACK(Class) \
@@ -45,6 +46,10 @@ UClass* TClassCompiledInDefer<Class>::Register() const { \
 } \
 DEFINE_UHX_DYNAMIC_UCLASS_PACK(Class)
 
+#ifdef GetPrivateStaticClassBody
+#undef GetPrivateStaticClassBody
+#endif
+
 namespace uhx {
 
 class HAXERUNTIME_API DynamicClassHelper {
@@ -61,8 +66,62 @@ public:
     }
     return *ret;
   }
+
+  static void getPrivateDynamicStaticClassBody(
+      const TCHAR* PackageName,
+      const TCHAR* Name,
+      UClass*& ReturnClass,
+      void(*RegisterNativeFunc)(),
+      uint32 InSize,
+      uint32 InClassFlags,
+      EClassCastFlags InClassCastFlags,
+      const TCHAR* InConfigName,
+      UClass::ClassConstructorType InClassConstructor,
+      UClass::ClassVTableHelperCtorCallerType InClassVTableHelperCtorCaller,
+      UClass::ClassAddReferencedObjectsType InClassAddReferencedObjects,
+      UClass::StaticClassFunctionType InSuperClassFn,
+      UClass::StaticClassFunctionType InWithinClassFn,
+      bool bIsDynamic = false) {
+
+    if (GIsHotReload)
+    {
+      UPackage* Package = FindPackage(NULL, PackageName);
+      if (Package)
+      {
+        ReturnClass = FindObject<UClass>((UObject *)Package, Name);
+        if (ReturnClass && ReturnClass->HasMetaData(TEXT("UHX_PropSignature")))
+        {
+          UE_LOG(LogTemp, Warning, TEXT("Resetting properties size"));
+          // this is a dynamic uclass, so the reported C++ size is not correctly set. 
+          // We know for a fact that this class hasn't changed, otherwise FindObject would have failed
+          // at this point. So we're just going to make sure that the reported size is the same as
+          // the dynamic class
+          InSize = ReturnClass->PropertiesSize;
+        }
+      }
+    }
+
+    ::GetPrivateStaticClassBody(
+        PackageName,
+        Name,
+        ReturnClass,
+        RegisterNativeFunc,
+        InSize,
+        InClassFlags,
+        InClassCastFlags,
+        InConfigName,
+        InClassConstructor,
+        InClassVTableHelperCtorCaller,
+        InClassAddReferencedObjects,
+        InSuperClassFn,
+        InWithinClassFn,
+        bIsDynamic);
+  }
 };
 
+
 }
+
+#define GetPrivateStaticClassBody uhx::DynamicClassHelper::getPrivateDynamicStaticClassBody
 
 #endif

@@ -231,6 +231,19 @@ import uhx.internal.HaxeHelpers;
     return toPtr( HaxeCodeDispatcher.runWithValue( function() return (toDyn(ptr))(toDyn(arg0), toDyn(arg1), toDyn(arg2), toDyn(arg3), toDyn(arg4), toDyn(arg5), toDyn(arg6), toDyn(arg7)) ));
   }
 
+  public static function setDynamicNative(struct:UIntPtr, name:cpp.ConstCharStar) {
+    HaxeCodeDispatcher.runVoid( function() {
+      var struct:UClass = cast @:privateAccess unreal.UObject.wrap(struct);
+      uhx.runtime.UReflectionGenerator.setDynamicNative(struct, name.toString());
+    });
+  }
+
+  public static function setNativeTypes() {
+    HaxeCodeDispatcher.runVoid( function() {
+      uhx.runtime.UReflectionGenerator.setNativeTypes();
+    });
+  }
+
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
     HaxeCodeDispatcher.runVoid( function() {

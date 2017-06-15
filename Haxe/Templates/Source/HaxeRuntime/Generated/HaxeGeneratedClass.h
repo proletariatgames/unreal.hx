@@ -27,5 +27,15 @@ public:
         (unreal::UIntPtr) Obj,
         unreal::VariantPtr(&ChangedPropertyTracker));
   }
+
+  static void cdoInit() {
+    for (FRawObjectIterator it(false); it; ++it) {
+      if (UHaxeGeneratedClass* cls = Cast<UHaxeGeneratedClass>((UObject*)(it->Object))) {
+        if (cls->HasAnyFlags(RF_ClassDefaultObject)) {
+          cls->ClassAddReferencedObjects = &UBlueprintGeneratedClass::AddReferencedObjects;
+        }
+      }
+    }
+  }
 };
 

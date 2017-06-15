@@ -794,7 +794,8 @@ class UExtensionBuild {
       headerDef.add('\t\t${ueName}(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : $superName($objectInit) {$ctorBody}\n');
     }
     if (!hasHaxeSuper) {
-      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
+      includes.add('uhx/ThreadAttach.h');
+      headerDef.add('\t\tvoid Serialize( FArchive& Ar ) override {\n\t\t\tSuper::Serialize(Ar);\n\t\t\tuhx::ThreadAttach threadAttach(true);\n\t\t\tif (!Ar.IsSaving() && this->haxeGcRef.get() == 0) this->haxeGcRef.set(this->createEmptyHaxeWrapper());\n\t\t}\n');
     }
 
     if (Globals.isDynamicUType(clt) && (clt.superClass == null || !Globals.isDynamicUType(clt.superClass.t.get()))) {

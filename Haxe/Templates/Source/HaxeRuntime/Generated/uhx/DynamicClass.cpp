@@ -45,7 +45,7 @@ static TMap<FName, uint32> getCrcMapPvt() {
     READ((uint8 *) className, classNameSize);
     className[classNameSize] = 0;
     READ((uint8 *) &crc, 4);
-    crc += ntry;
+    // crc += ntry;
     FName classFName = FName( UTF8_TO_TCHAR(className) );
     if (crc == 0) {
       UE_LOG(HaxeLog, Error, TEXT("Unreal.hx CRC for class %s was 0"), *classFName.ToString());
@@ -144,6 +144,11 @@ UHX_IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJEC
 {
   check_hx_init();
   uhx::expose::HxcppRuntime::startLoadingDynamic();
+  for (auto It = ::uhx::DynamicClassHelper::getDynamicsMap().CreateIterator(); It; ++It) {
+    UClass *val = It.Value();
+    uhx::expose::HxcppRuntime::setDynamicNative((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString()));
+  }
+  uhx::expose::HxcppRuntime::setNativeTypes();
   for (auto It = ::uhx::DynamicClassHelper::getDynamicsMap().CreateIterator(); It; ++It) {
     UClass *val = It.Value();
     uhx::expose::HxcppRuntime::addDynamicProperties((unreal::UIntPtr) val, TCHAR_TO_UTF8(*It.Key().ToString()));

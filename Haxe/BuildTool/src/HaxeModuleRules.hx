@@ -379,8 +379,15 @@ class HaxeModuleRules extends BaseModuleRules
           case _:
           }
 
+          var noDynamicUClass = config.noDynamicUClass;
           if (cppiaEnabled) {
             args = args.concat(['-D scriptable', '-D WITH_CPPIA']);
+          } else {
+            noDynamicUClass = true;
+          }
+          if (noDynamicUClass) {
+            args = args.concat(['-D NO_DYNAMIC_UCLASS']);
+            this.Definitions.Add("NO_DYNAMIC_UCLASS=1");
           }
 
           var isCrossCompiling = false;
