@@ -570,10 +570,6 @@ class ReflectAPI {
     var ufunc = stack.CurrentNativeFunction,
         stackData = stack.Locals.asAnyPtr();
     var name = ufunc.HasMetaData(CoreAPI.staticName('HaxeName')) ? ufunc.GetMetaData(CoreAPI.staticName('HaxeName')).toString() : ufunc.GetName().toString();
-    var debug = name.endsWith("_DynamicRun");
-    if (debug) {
-      trace('calling $name');
-    }
     var fn = Reflect.field(obj, name),
         args = [];
     if (fn == null) {
@@ -619,10 +615,6 @@ class ReflectAPI {
           out = out.NextOutParm;
         }
         arg = arg.Next;
-      }
-    } else {
-      if (retProp != null) {
-        trace('has not out parms but retProp != null');
       }
     }
   }

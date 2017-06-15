@@ -561,6 +561,9 @@ class UExtensionBuild {
             uhx.ClassWrap.popCtor(ret);
             cpp.Lib.rethrow(e);
           }
+          if (ret == null) {
+            trace("Error", "Error while creating ${typeRef.getClassPath()}: It does not exist");
+          }
           return uhx.internal.HaxeHelpers.dynamicToPointer(ret);
         }';
         buildFields.push({
@@ -575,7 +578,9 @@ class UExtensionBuild {
           pos: this.pos
         });
         var createEmptyExpr = '{ ' +
-          'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}") )' + ');' +
+          'var cls = std.Type.resolveClass("${typeRef.getClassPath(true)}");' +
+          'if (cls == null) { trace("Error", "Trying to create empty object of nonexistent class ${typeRef.getClassPath(true)}"); return 0; }' +
+          'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance(cls)' + ');' +
           '@:privateAccess ret.wrapped = ueType;' +
           'uhx.internal.HaxeHelpers.dynamicToPointer(ret);' +
         '}';

@@ -3,6 +3,7 @@
 #include "IntPtr.h"
 #include "uhx/GcRef.h"
 #include "uhx/expose/HxcppRuntime.h"
+#include "HaxeInit.h"
 
 typedef unreal::UIntPtr (*CreateHaxeFn)(unreal::UIntPtr);
 
@@ -35,7 +36,12 @@ static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClas
   }
   if (curClass->GetFName() == className) {
     initializeDynamicProperties(curClass, self);
-    haxeGcRef.set(createHaxeWrapper( (unreal::UIntPtr) self ));
+    unreal::UIntPtr created = createHaxeWrapper( (unreal::UIntPtr) self );
+    if (created == 0) {
+      UE_LOG(HaxeLog, Error, TEXT("Error while creating class %s: It was not found. Perhaps the type was not compiled in the latest cppia compilation"), *className.ToString());
+      self->MarkPendingKill();
+    }
+    haxeGcRef.set(created);
   }
 }
 
