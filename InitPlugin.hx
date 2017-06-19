@@ -6,7 +6,7 @@ using StringTools;
 class InitPlugin {
   static inline var LATEST_UE_VER = "4.16";
   static function main() {
-    var target = Sys.args()[0];
+    var target = haxe.macro.Compiler.getDefine("GAME_DIR");
     if (target == null) {
       target = inferProjectLocation();
     }

@@ -258,7 +258,6 @@ class UReflectionGenerator {
 #if DEBUG_HOTRELOAD
     trace('Marking $name as hot reloaded');
 #end
-    trace('Marking $name as hot reloaded');
     if (Std.is(obj, UClass)) {
       var cls:UClass = cast obj;
       var cdo = uhx.glues.UClass_Glue.GetDefaultObject(@:privateAccess cls.wrapped, false);
@@ -955,6 +954,7 @@ class UReflectionGenerator {
     var uclass:UBlueprintGeneratedClass = cast UObject.NewObject_NoTemplate(outer, uhx.UHaxeGeneratedClass.StaticClass(), uclassName.substr(1), 0);
     var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
     bp.GeneratedClass = uclass;
+    bp.ParentClass = parent;
     uclass.ClassGeneratedBy = bp;
 
     uclass.PropertyLink = parent.PropertyLink;

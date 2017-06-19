@@ -5,12 +5,16 @@
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
   #include <windows.h>
-  #ifdef InterlockedCompareExchange // Windows defines InterlockedCompareExchange
-    #undef InterlockedCompareExchange
-  #endif
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
   #include <pthread.h>
 #else
+#endif
+
+#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
+  // windows.h defines InterlockedCompareExchange which makes it incompatible with Unreal
+  #define UHX_CAS(Dest, Exchange, Comparand) ::InterlockedCompareExchange(Dest, Exchange, Comparand)
+#else
+  #define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange(Dest, Exchange, Comparand)
 #endif
 
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
@@ -55,13 +59,13 @@ static void *get_top_of_stack(void)
 #endif
 }
 
-static volatile int32 gDidInit = 0;
+static volatile uint32 gDidInit = 0;
 DECLARE_FAST_TLS(tlsDidInit);
 
 void check_hx_init()
 {
   bool firstInit = true;
-  if (gDidInit || FPlatformAtomics::InterlockedCompareExchange(&gDidInit, 1, 0) != 0) {
+  if (gDidInit || UHX_CAS(&gDidInit, 1, 0) != 0) {
     // check if the thread was registered
     if (!GET_TLS_VALUE(tlsDidInit)) {
       SET_TLS_VALUE(tlsDidInit, (void *) (intptr_t) 1);
