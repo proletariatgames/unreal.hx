@@ -524,21 +524,6 @@ class UhxBuild {
       if (this.config.disableUObject) {
         this.definitions.push('UHX_NO_UOBJECT=1');
       }
-
-      // var modulesPath = outputDir + '/Static/Built/Data/modules.txt';
-      // var modules = sys.io.File.getContent(modulesPath).trim().split('\n');
-      // modules.sort(Reflect.compare);
-      // this.definitions.sort(Reflect.compare);
-      // var outputDir = this.data.projectDir + '/Intermediate/Haxe/${targetModule}-${data.targetPlatform}-${data.targetConfiguration}';
-      // var name = 'Definitions_${targetModule}_${data.targetPlatform}_${data.targetConfiguration}_${data.targetType}';
-      // var clsDef = 'public class $name {
-      //   public static string[] modules = new string[] { ${modules.map(function(v) return '"$v"').join(", ")} };
-      //   public static string[] definitions = new string[] { ${definitions.map(function(v) return '"$v"').join(", ")} };
-      // }';
-      // var targetPath = this.data.pluginDir + '/Source/HaxeInit/$name.Build.cs';
-      // if (!FileSystem.exists(targetPath) || sys.io.File.getContent(targetPath).trim() != clsDef) {
-      //   sys.io.File.saveContent(targetPath, clsDef);
-      // }
     }
   }
 

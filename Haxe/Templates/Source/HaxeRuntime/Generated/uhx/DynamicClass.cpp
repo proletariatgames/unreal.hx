@@ -3,7 +3,6 @@
 
 #include "Misc/Paths.h"
 #include "uhx/expose/HxcppRuntime.h"
-#include "uhx/Version.h"
 
 #ifndef UHX_NO_UOBJECT
 

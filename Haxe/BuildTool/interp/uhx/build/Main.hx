@@ -41,6 +41,5 @@ class Main {
         err('Error while killing mspdbsrv: $e');
       }
     }
-    trace('killed process');
   }
 }

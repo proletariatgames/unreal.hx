@@ -10,23 +10,16 @@ public class BaseModuleRules : ModuleRules {
 #if (UE_OLDER_416)
   public BaseModuleRules(TargetInfo target) {
     this.init();
+    this.run();
   }
 #else
   public BaseModuleRules(ReadOnlyTargetRules target) : base(target) {
     this.init();
+    this.run();
   }
 #endif
 
   virtual protected void init() {
-    string curName = this.GetType().Name;
-    bool firstRun = false;
-    if (!firstRunMap.TryGetValue(curName, out firstRun)) {
-      firstRun = false;
-    }
-
-    firstRunMap[curName] = true;
-
-    this.run();
   }
 
   virtual protected void run() {
@@ -81,6 +74,7 @@ public class HaxeModuleRules : BaseModuleRules {
    * This is faster since Unreal doesn't have to rebuild every time
    **/
   public bool manualDependencies;
+  public bool disabled;
 
 #if (UE_OLDER_416)
   public HaxeModuleRules(TargetInfo target) : base(target) {
@@ -91,6 +85,10 @@ public class HaxeModuleRules : BaseModuleRules {
 #endif
 
   override protected void run() {
+    if (disabled) {
+      Log.TraceInformation("Compiling without Haxe support");
+    }
+
     if (!manualDependencies) {
       if (Target.Type != TargetType.Program) {
         this.PublicDependencyModuleNames.AddRange(new string[] {"Core","CoreUObject","Engine","InputCore","SlateCore"});
@@ -127,7 +125,7 @@ public class HaxeModuleRules : BaseModuleRules {
       string modulesPath = info.outputDir + "/Static/Built/Data/modules.txt";
       string curName = this.GetType().Name;
       if (!File.Exists(modulesPath)) {
-        Log.TraceWarning("Could not find module definition at " + modulesPath);
+        Log.TraceInformation("Could not find module definition at " + modulesPath);
       } else {
         foreach (string dep in File.ReadAllText(modulesPath).Trim().Split('\n')) {
           if (dep != curName) {
@@ -145,46 +143,44 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
 
     HaxeCompilationInfo info = new HaxeCompilationInfo(rules);
-    bool enabled = true;
-    if (!File.Exists(info.libPath)) {
-      Log.TraceWarning("Could not find the compiled Haxe module at " + info.libPath);
-      Log.TraceWarning("Please check if the Unreal.hx plugin is enabled on your .uproject.");
-      Log.TraceWarning("Compiling without Haxe support");
-      enabled = false;
-    }
     rules.PublicAdditionalLibraries.Add(info.libPath);
 
-    if (enabled) {
-      Log.TraceInformation("Using Haxe");
-      rules.Definitions.Add("WITH_HAXE=1");
-      rules.Definitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
-      rules.Definitions.Add("MAY_EXPORT_SYMBOL=");
+    Log.TraceInformation("Using Haxe");
+    rules.Definitions.Add("WITH_HAXE=1");
+    rules.Definitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
+    rules.Definitions.Add("MAY_EXPORT_SYMBOL=");
 
-      switch (rules.Target.Platform) {
-        case UnrealTargetPlatform.Win64:
-        case UnrealTargetPlatform.Win32:
-          rules.Definitions.Add("HX_WINDOWS");
-          break;
-        case UnrealTargetPlatform.Mac:
-          rules.Definitions.Add("HX_MACOS");
-          break;
-        case UnrealTargetPlatform.Linux:
-          rules.Definitions.Add("HX_LINUX");
-          break;
-        case UnrealTargetPlatform.Android:
-          rules.Definitions.Add("HX_ANDROID");
-          break;
-        case UnrealTargetPlatform.IOS:
-          rules.Definitions.Add("IPHONE");
-          rules.Definitions.Add("IPHONEOS");
-          break;
-        case UnrealTargetPlatform.HTML5:
-          rules.Definitions.Add("EMSCRIPTEN");
-          break;
-        default:
-          break;
-          // XboxOne, PS4
-      }
+    BuildVersion version;
+    if (BuildVersion.TryRead("../Build/Build.version", out version)) {
+      rules.Definitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
+    } else {
+      Log.TraceInformation("Cannot read build.version");
+    }
+
+    switch (rules.Target.Platform) {
+      case UnrealTargetPlatform.Win64:
+      case UnrealTargetPlatform.Win32:
+        rules.Definitions.Add("HX_WINDOWS");
+        break;
+      case UnrealTargetPlatform.Mac:
+        rules.Definitions.Add("HX_MACOS");
+        break;
+      case UnrealTargetPlatform.Linux:
+        rules.Definitions.Add("HX_LINUX");
+        break;
+      case UnrealTargetPlatform.Android:
+        rules.Definitions.Add("HX_ANDROID");
+        break;
+      case UnrealTargetPlatform.IOS:
+        rules.Definitions.Add("IPHONE");
+        rules.Definitions.Add("IPHONEOS");
+        break;
+      case UnrealTargetPlatform.HTML5:
+        rules.Definitions.Add("EMSCRIPTEN");
+        break;
+      default:
+        break;
+        // XboxOne, PS4
     }
 
     if (rules.Target.Platform == UnrealTargetPlatform.Mac && Directory.Exists("/usr/local/bin")) {
@@ -211,7 +207,6 @@ public class HaxeCompilationInfo {
 
   private void init() {
     this.name = rules.Target.Name;
-    Log.TraceInformation("Name " + name);
     if (this.name.EndsWith("Editor")) {
       this.name = this.name.Substring(0, this.name.Length - "Editor".Length);
     }
@@ -222,7 +217,7 @@ public class HaxeCompilationInfo {
       infos = UProjectInfo.FilterGameProjects(true, null);
     }
     if (infos.Count == 0) {
-      Log.TraceError("Could not find any code project");
+      Log.TraceWarning("Could not find any code project");
       this.gameDir = Path.GetFullPath(rules.ModuleDirectory + "/../../");
     } else {
       this.gameDir = infos[0].Folder.ToString();

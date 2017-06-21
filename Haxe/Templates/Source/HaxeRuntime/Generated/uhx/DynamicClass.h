@@ -4,7 +4,6 @@
 #include "Engine.h"
 #include "UObjectBase.h"
 #include "HaxeInit.h"
-#include "uhx/Version.h"
 #include "UObject/Class.h"
 
 #if UE_VER >= 416

@@ -135,7 +135,7 @@ class InitPlugin {
       FileSystem.createDirectory('$gameDir/Haxe');
     }
     var buildFiles = getBuildFiles(gameDir + '/Source');
-    if (buildFiles.length == 0) {
+    if (buildFiles.files.length == 0) {
       trace('No Build.hx / Target.hx files found. Skipping their compilation');
       var generatedContents = '';
       if (Std.parseFloat(ueVer) < 4.16) {
@@ -164,7 +164,7 @@ class InitPlugin {
       '-D net_ver=45',
       '-D analyzer',
       '-D real_position',
-      '--macro Package.main("$gameDir/Source", [{ name:"Generated", target:'$pluginPath/Source/HaxeInit/Generated.Build.cs' }], ${haxe.Json.stringify(buildFiles)})'
+      '--macro Package.main("$gameDir/Source", [{ name:"Generated", target:"$pluginPath/Source/HaxeInit/Generated.Build.cs" }], ${haxe.Json.stringify(buildFiles)})'
     ];
     sys.io.File.saveContent('$gameDir/Haxe/gen-build-module-rules.hxml', args.join('\n'));
 
