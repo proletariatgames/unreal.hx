@@ -1,4 +1,6 @@
 -cp src
+-cp cs
+-cp interp
 Package
 -cs bin
 -net-lib lib/DotNETUtilities-4.16.dll

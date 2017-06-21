@@ -20,7 +20,7 @@ class InitPlugin {
       ver = LATEST_UE_VER;
     }
 
-    updateProject(gameDir, '$gameDir/Haxe', pluginPath, new Path(target).file, ver, true);
+    updateProject(gameDir, '$gameDir/Haxe', pluginPath, new Path(target).file, ver, false, true);
     trace("Project update done.");
   }
 
@@ -47,14 +47,14 @@ class InitPlugin {
       return null;
   }
 
-  public static function updateProject(gameDir:String, haxeDir:String, pluginPath:String, projectName:String, ueVer:String, fromCommandLine=false, ?targetModule:String) {
+  public static function updateProject(gameDir:String, haxeDir:String, pluginPath:String, projectName:String, ueVer:String, isProgram:Bool, fromCommandLine=false, ?targetModule:String) {
     gameDir = FileSystem.fullPath(gameDir);
     pluginPath = FileSystem.fullPath(pluginPath);
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
     trace('Updating game module...');
-    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule, ueVer);
+    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule, ueVer, isProgram);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
@@ -64,7 +64,7 @@ class InitPlugin {
     checkDir('$haxeDir/Externs');
   }
 
-  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String, ueVer:String)
+  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String, ueVer:String, isProgram:Bool)
   {
     var mod = targetModule;
     if (mod == null) {
@@ -85,6 +85,12 @@ class InitPlugin {
         // Only copy the module-specific code if
         if ( mod != 'HaxeRuntime' && (file == 'HaxeRuntime.cpp' || file == 'HaxeRuntime.h') )
           continue;
+        if (isProgram) {
+          switch(file) {
+          case 'HaxeGeneratedClass.h', 'CallHelper.h':
+            continue;
+          }
+        }
         if (checkMap != null) checkMap[file] = true;
         var curTemplPath = '$templatePath/$file',
             curToPath = '$toPath/$file';
@@ -128,8 +134,20 @@ class InitPlugin {
     if (!FileSystem.exists('$gameDir/Haxe')) {
       FileSystem.createDirectory('$gameDir/Haxe');
     }
-    var allBuildFiles = [];
-    gameDir = gameDir.replace('\\','/');
+    var buildFiles = getBuildFiles(gameDir + '/Source');
+    if (buildFiles.length == 0) {
+      trace('No Build.hx / Target.hx files found. Skipping their compilation');
+      var generatedContents = '';
+      if (Std.parseFloat(ueVer) < 4.16) {
+        generatedContents = '#define UE_OLDER_416';
+      }
+      var path = '$pluginPath/Source/HaxeInit/Generated.Build.cs';
+      if (!sys.FileSystem.exists(path) || sys.io.File.getContent(path).trim() != generatedContents.trim()) {
+        sys.io.File.saveContent(path, generatedContents.trim());
+      }
+      return;
+    }
+
     pluginPath = pluginPath.replace('\\','/');
     var args = [
       '# use this to build the build tool. if you have made any changes to any .Build.hx files, run this',
@@ -146,9 +164,8 @@ class InitPlugin {
       '-D net_ver=45',
       '-D analyzer',
       '-D real_position',
-      '--macro Package.main("$gameDir/Source", [{ name:"HaxeInit", target:"$pluginPath/Source/HaxeInit/HaxeInit.Build.cs" }])'
+      '--macro Package.main("$gameDir/Source", [{ name:"Generated", target:'$pluginPath/Source/HaxeInit/Generated.Build.cs' }], ${haxe.Json.stringify(buildFiles)})'
     ];
-    trace(args);
     sys.io.File.saveContent('$gameDir/Haxe/gen-build-module-rules.hxml', args.join('\n'));
 
     if (alsoCompile) {
@@ -157,6 +174,35 @@ class InitPlugin {
       var cmd = Sys.command('haxe',['$gameDir/Haxe/gen-build-module-rules.hxml']);
       if (cmd != 0) throw "Haxe BuildTool compilation failed";
     }
+  }
+
+  private static function getBuildFiles(srcDir:String):{ files:Array<String>, targetExternal:String } {
+    var ret = [],
+        dirs = [];
+    var targetExternal = null;
+    for (dir in FileSystem.readDirectory(srcDir)) {
+      if (FileSystem.isDirectory('$srcDir/$dir')) {
+        dirs.push(dir);
+        for (file in FileSystem.readDirectory('$srcDir/$dir')) {
+          if (file.endsWith('.Build.hx')) {
+            ret.push('$srcDir/$dir/$file');
+          } else if (file.endsWith('.Target.hx')) {
+            ret.push('$srcDir/$dir/$file');
+          } else if (file == 'HaxeExternalModule.Build.cs') {
+            targetExternal = '$srcDir/$dir/$file';
+          }
+        }
+      }
+    }
+    if (targetExternal == null) {
+      if (ret.length > 0) {
+        targetExternal = haxe.io.Path.directory(ret[0]) + '/HaxeExternalModule.Build.cs';
+      } else {
+        if (dirs.length == 0) throw 'No module in source $srcDir was found!';
+        targetExternal = '$srcDir/${dirs[0]}/HaxeExternalModule.Build.cs';
+      }
+    }
+    return { files:ret, targetExternal:targetExternal };
   }
 
   public static function deleteRecursive(path:String, force=false):Bool

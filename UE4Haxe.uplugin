@@ -12,5 +12,16 @@
 	"IsBetaVersion" : true,
 	"Modules" :
 	[
-	]
+	],
+  "PreBuildSteps" : {
+    "Win64" : [
+      "haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\""
+    ],
+    "Linux" : [
+      "haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\""
+    ],
+    "Mac" : [
+      "haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\""
+    ]
+  }
 }

@@ -20,6 +20,8 @@ enum HotReloadStatus {
   Given a metadata setting, generates an Unreal UClass/UStruct/UEnum
  **/
 class UReflectionGenerator {
+#if !UHX_NO_UOBJECT
+
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
   private static var registry:Map<String, DynamicRegistry>;
 
@@ -1419,4 +1421,6 @@ class DynamicRegistry {
     this.isUpdated = false;
     this.updatedClass = null;
   }
+
+#end
 }

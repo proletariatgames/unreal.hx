@@ -37,12 +37,14 @@ package unreal;
    */
   function Unbind():Void;
 
+#if !UHX_NO_UOBJECT
   /**
    * Gets the object bound to this delegate
    *
    * @return	The object
    */
   function GetUObject():UObject;
+#end
 
   /**
    * Gets the name of the function to call on the bound object

@@ -1,6 +1,5 @@
 package uhx;
 import haxe.CallStack;
-import unreal.FFrame;
 
 /**
   This allows us to make all haxe code run inside a try handler so we can have better error messages

@@ -232,20 +232,24 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function setDynamicNative(struct:UIntPtr, name:cpp.ConstCharStar) {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() {
       var struct:UClass = cast @:privateAccess unreal.UObject.wrap(struct);
       uhx.runtime.UReflectionGenerator.setDynamicNative(struct, name.toString());
     });
+#end
   }
 
   public static function setNativeTypes() {
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() {
       uhx.runtime.UReflectionGenerator.setNativeTypes();
     });
+#end
   }
 
   public static function addDynamicProperties(struct:UIntPtr, name:cpp.ConstCharStar) {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() {
       trace('Add Dynamic Properties $name');
       var struct:UStruct = cast @:privateAccess unreal.UObject.wrap(struct);
@@ -258,7 +262,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function startLoadingDynamic() {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.startLoadingDynamic() );
 #else
     trace('Warning', 'Trying to start loading Dynamic but dynamic class support was disabled');
@@ -266,7 +270,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function endLoadingDynamic() {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.endLoadingDynamic() );
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
@@ -274,7 +278,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function createDynamicHelper(self:UIntPtr, name:cpp.ConstCharStar):UIntPtr {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     var hxType = Type.resolveClass(name.toString());
     if (hxType == null) {
       trace('Error', 'Could not find type ${name.toString()}');
@@ -289,7 +293,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function callHaxeFunction(selfHaxe:UIntPtr, stack:VariantPtr, result:UIntPtr):Void {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(HaxeHelpers.pointerToDynamic(selfHaxe), cast stack, result) );
 #else
     trace('Warning', 'Trying to call haxe function but dynamic class support was disabled');
@@ -297,7 +301,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function callHaxeFunctionOther(stack:VariantPtr, result:UIntPtr):Void {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     var stack:FFrame = cast stack;
     HaxeCodeDispatcher.runVoid( function() ReflectAPI.callHaxeFunction(stack.Object, stack, result) );
 #else
@@ -306,7 +310,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function setLifetimeProperties(uclass:UIntPtr, uname:cpp.ConstCharStar, out:VariantPtr) {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.setLifetimeProperties(cast UObject.wrap(uclass), uname.toString(), cast out) );
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
@@ -314,7 +318,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function instancePreReplication(obj:UIntPtr, changedPropertyTracker:VariantPtr) {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
+#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
     HaxeCodeDispatcher.runVoid( function() uhx.runtime.UReflectionGenerator.instancePreReplication(cast UObject.wrap(obj), cast changedPropertyTracker) );
 #else
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');

@@ -124,10 +124,14 @@ import uhx.StructInfo;
   @:final @:nonVirtual private function init() {
     var needsDestructor:Bool = untyped __cpp__("{0}->ptr->destruct != 0", m_info);
     if (!needsDestructor && untyped __cpp__("{0}->ptr->upropertyObject != 0", m_info)) {
+#if !UHX_NO_UOBJECT
       var flags:EPropertyFlags = uhx.glues.UProperty_Glue.get_PropertyFlags(untyped __cpp__("(unreal::UIntPtr) {0}->ptr->upropertyObject", m_info));
       if (!flags.hasAny(EPropertyFlags.CPF_NoDestructor)) {
         needsDestructor = true;
       }
+#else
+      trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
+#end
     }
     if (needsDestructor) {
       m_flags = NeedsDestructor;
@@ -144,7 +148,11 @@ import uhx.StructInfo;
         var fn = (cast self.m_info.ptr.destruct : cpp.Function<UIntPtr->Void, cpp.abi.Abi>);
         fn.call(self.getPointer());
       } else if (untyped __cpp__('{0}->ptr->upropertyObject != 0', self.m_info)) {
+#if !UHX_NO_UOBJECT
         uhx.glues.UProperty_Glue.DestroyValue(untyped __cpp__('(unreal::UIntPtr) {0}->ptr->upropertyObject', self.m_info), self.getPointer());
+#else
+      trace('Fatal', 'UProperty InlineWrapper is not supported on programs');
+#end
       }
       self.m_flags = Disposed;
     }

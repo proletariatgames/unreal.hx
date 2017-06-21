@@ -1,11 +1,4 @@
-import unrealbuildtool.*;
-import cs.system.io.Path;
-import cs.system.collections.generic.List_1 as Lst;
-import sys.FileSystem.*;
-import sys.io.File;
-
-using Helpers;
-using StringTools;
+using UnrealBuildTool;
 
 /**
   This module only setups the HaxeRuntime project correctly as a game module.
@@ -13,6 +6,12 @@ using StringTools;
   different behaviours with plugin code - for example, it does not recompile plugins unless
   the binaries are missing.
  **/
-class HaxeInit extends BaseModuleRules
-{
+public class HaxeInit : BaseModuleRules {
+#if (UE_OLDER_416)
+  public HaxeInit(TargetInfo target) : base(target) {
+  }
+#else
+  public HaxeInit(ReadOnlyTargetRules target) : base(target) {
+  }
+#endif
 }
