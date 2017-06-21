@@ -31,7 +31,6 @@ class UhxBuild {
     if (this.targetModule.endsWith("Editor")) {
       this.targetModule = this.targetModule.substr(0,this.targetModule.length - "Editor".length);
     }
-
   }
 
   private function getConfig():HaxeModuleConfig {
@@ -168,6 +167,9 @@ class UhxBuild {
     if (hasHaxe)
     {
       var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
+      if (compserver == null) {
+        compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
+      }
       if (compserver != null) {
         Sys.putEnv("HAXE_COMPILATION_SERVER", null);
       }
@@ -504,6 +506,8 @@ class UhxBuild {
           err('=============================');
         }
       }
+    } else {
+      warn("Haxe compiler was not found!");
     }
     teverything();
     if (this.config.disabled) {

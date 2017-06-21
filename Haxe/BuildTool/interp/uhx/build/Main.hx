@@ -16,6 +16,7 @@ class Main {
       }
     }
 
+    var ret = 0;
     try {
       var build = new UhxBuild({
         engineDir: haxe.macro.Compiler.getDefine("EngineDir"),
@@ -31,6 +32,7 @@ class Main {
     }
     catch(e:Dynamic) {
       err('Uncaught exception: $e\n${haxe.CallStack.toString(haxe.CallStack.exceptionStack())}');
+      ret = 1;
     }
 
     if (proc != null) {
@@ -41,5 +43,7 @@ class Main {
         err('Error while killing mspdbsrv: $e');
       }
     }
+
+    Sys.exit(ret);
   }
 }

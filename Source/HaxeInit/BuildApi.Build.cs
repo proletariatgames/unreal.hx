@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System;
 using System.IO;
 using UnrealBuildTool;
@@ -113,12 +114,9 @@ public class HaxeModuleRules : BaseModuleRules {
       }
       catch(Exception) {
         // finding uproject
-        foreach (string file in Directory.GetFileSystemEntries(info.gameDir)) {
-          if (file.ToLowerInvariant().EndsWith(".uproject")) {
-            Log.TraceInformation("Touching " + modulePath + " failed. Touching " + file);
-            File.SetLastWriteTimeUtc(file, thisTime);
-            break;
-          }
+        if (info.uprojectPath != null) {
+          Log.TraceInformation("Touching " + modulePath + " failed. Touching " + info.uprojectPath);
+          File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
         }
       }
 
@@ -188,6 +186,42 @@ public class HaxeModuleRules : BaseModuleRules {
       Environment.SetEnvironmentVariable("PATH", path + ":/usr/local/bin");
     }
 
+    Log.TraceWarning("Calling Haxe");
+    string haxeInitPath = RulesCompiler.GetFileNameFromType(typeof(HaxeInit));
+    string pluginPath = Path.GetFullPath(haxeInitPath + "/../../..");
+    string engineDir = Path.GetFullPath("..");
+
+    string cserver = Environment.GetEnvironmentVariable("HAXE_COMPILATION_SERVER");
+    if (cserver != null) {
+      Environment.SetEnvironmentVariable("HAXE_COMPILATION_SERVER", null);
+      Environment.SetEnvironmentVariable("HAXE_COMPILATION_SERVER_DEFER", cserver);
+    }
+
+
+    Process proc = new Process();
+    proc.StartInfo.CreateNoWindow = true;
+    proc.StartInfo.UseShellExecute = false;
+    proc.StartInfo.FileName = "haxe";
+    proc.StartInfo.Arguments = "--cwd \"" + pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir + 
+        "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform + 
+        "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
+        "\" -D \"PluginDir=" + pluginPath + "\"";
+    proc.StartInfo.RedirectStandardOutput = true;
+    proc.StartInfo.RedirectStandardError = true;
+    proc.OutputDataReceived += (sender, args) => Log.TraceInformation(args.Data);
+    proc.ErrorDataReceived += (sender, args) => Log.TraceError(args.Data);
+    proc.Start();
+    proc.BeginOutputReadLine();
+    proc.BeginErrorReadLine();
+    proc.WaitForExit();
+
+    if (proc.ExitCode != 0) {
+      Log.TraceError("Error: Haxe compilation failed");
+      throw new Exception("Haxe compilation failed");
+    }
+
+      // "haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\""
+
     return info;
   }
 }
@@ -199,6 +233,7 @@ public class HaxeCompilationInfo {
   public string gameDir;
   public string outputDir;
   public string libPath;
+  public string uprojectPath;
 
   public HaxeCompilationInfo(ModuleRules rules) {
     this.rules = rules;
@@ -238,6 +273,13 @@ public class HaxeCompilationInfo {
     this.outputDir = this.gameDir + "/Intermediate/Haxe/" + this.name + "-" + this.rules.Target.Platform + "-" + this.rules.Target.Configuration;
     if (this.rules.Target.Type == TargetType.Editor) {
       this.outputDir += "-Editor";
+    }
+
+    foreach (string file in Directory.GetFileSystemEntries(this.gameDir)) {
+      if (file.ToLowerInvariant().EndsWith(".uproject")) {
+        this.uprojectPath = file;
+        break;
+      }
     }
 
     this.libPath = this.outputDir + "/" + libName;
