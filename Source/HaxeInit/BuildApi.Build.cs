@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using System.Diagnostics;
 using System;
 using System.IO;
@@ -11,14 +12,33 @@ public class BaseModuleRules : ModuleRules {
 #if (UE_OLDER_416)
   public BaseModuleRules(TargetInfo target) {
     this.init();
-    this.run();
+    if (!isGeneratingProjectFiles()) {
+      this.run();
+    }
   }
 #else
   public BaseModuleRules(ReadOnlyTargetRules target) : base(target) {
     this.init();
-    this.run();
+    if (!isGeneratingProjectFiles()) {
+      this.run();
+    }
   }
 #endif
+
+  static bool isGeneratingProjectFiles() {
+    System.Type t = System.Type.GetType("UnrealBuildTool.ProjectFileGenerator");
+    if (t != null) {
+      FieldInfo f = t.GetField("bGenerateProjectFiles");
+      if (f != null) {
+        return (bool) f.GetValue(null);
+      }
+      PropertyInfo p = t.GetProperty("bGenerateProjectFiles");
+      if (p != null) {
+        return (bool) p.GetValue(null);
+      }
+    }
+    return false;
+  }
 
   virtual protected void init() {
   }
@@ -85,7 +105,30 @@ public class HaxeModuleRules : BaseModuleRules {
   }
 #endif
 
+  protected bool forceNextRun(HaxeCompilationInfo info) {
+    string modulePath = RulesCompiler.GetFileNameFromType(GetType());
+    // we need to touch a Build/uproject file to make sure this function will get called every single compilation
+    // otherwise, the dependencies won't be updated.
+    // This means that setting manual dependencies on will make C++ compile slightly faster
+    Log.TraceInformation("Touching " + modulePath);
+    DateTime thisTime = DateTime.UtcNow;
+    try {
+      File.SetLastWriteTimeUtc(modulePath, thisTime);
+      return true;
+    }
+    catch(Exception) {
+      // finding uproject
+      if (info != null && info.uprojectPath != null) {
+        Log.TraceInformation("Touching " + modulePath + " failed. Touching " + info.uprojectPath);
+        File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
+        return true;
+      }
+    }
+    return false;
+  }
+
   override protected void run() {
+    bool didTouch = this.forceNextRun(null);
     if (disabled) {
       Log.TraceInformation("Compiling without Haxe support");
     }
@@ -102,24 +145,10 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
     HaxeCompilationInfo info = setupHaxeTarget(this);
+    if (!didTouch) {
+      didTouch = this.forceNextRun(info);
+    }
     if (!manualDependencies) {
-      string modulePath = RulesCompiler.GetFileNameFromType(GetType());
-      // we need to touch a Build/uproject file to make sure this function will get called every single compilation
-      // otherwise, the dependencies won't be updated.
-      // This means that setting manual dependencies on will make C++ compile slightly faster
-      Log.TraceInformation("Touching " + modulePath);
-      DateTime thisTime = DateTime.UtcNow;
-      try {
-        File.SetLastWriteTimeUtc(modulePath, thisTime);
-      }
-      catch(Exception) {
-        // finding uproject
-        if (info.uprojectPath != null) {
-          Log.TraceInformation("Touching " + modulePath + " failed. Touching " + info.uprojectPath);
-          File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
-        }
-      }
-
       string modulesPath = info.outputDir + "/Static/Built/Data/modules.txt";
       string curName = this.GetType().Name;
       if (!File.Exists(modulesPath)) {

@@ -732,6 +732,7 @@ class UExtensionBuild {
     }
     if (uclass != null) {
       headerDef.add('UCLASS(');
+      MacroHelpers.addHaxeGenerated(uclass, typeRef);
       if (uclass.params != null) {
         var first = true;
         for (param in uclass.params) {

@@ -15,6 +15,8 @@ class UhxBuild {
   var haxeDir:String;
   var targetModule:String;
   var definitions = [];
+  var version:{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> };
+  var srcDir:String;
 
   public function new(data) {
     for (field in Reflect.fields(data)) {
@@ -31,15 +33,27 @@ class UhxBuild {
     if (this.targetModule.endsWith("Editor")) {
       this.targetModule = this.targetModule.substr(0,this.targetModule.length - "Editor".length);
     }
+    this.version = getEngineVersion(this.config);
+    this.srcDir = this.getSourceDir();
   }
 
   private function getConfig():HaxeModuleConfig {
-    var base:HaxeModuleConfig = null;
-    if (FileSystem.exists('${data.projectDir}/uhxconfig.local')) {
-      trace('Loading config from ${data.projectDir}/uhxconfig.local');
-      base = haxe.Json.parse(File.getContent('${data.projectDir}/uhxconfig.local'));
-    } else {
-      base = {};
+    var base:HaxeModuleConfig = {};
+    for (file in ['uhxconfig.json','uhxconfig-local.json','uhxconfig.local']) {
+      if (FileSystem.exists('${data.projectDir}/$file')) {
+        trace('Loading config from ${data.projectDir}/$file');
+        var cur = haxe.Json.parse(File.getContent('${data.projectDir}/$file'));
+        for (field in Reflect.fields(cur)) {
+          var data:Dynamic = Reflect.field(cur, field);
+          if (Std.is(data, Array)) {
+            var old:Array<Dynamic> = Reflect.field(base, field);
+            if (old != null && Std.is(old, Array)) {
+              data = old.concat(data);
+            }
+          }
+          Reflect.setField(base, field, data);
+        }
+      }
     }
 
     if (Sys.getEnv('BAKE_EXTERNS') != null) {
@@ -126,13 +140,199 @@ class UhxBuild {
     }
   }
 
+  private function generateExterns() {
+    var baseManifest = data.pluginDir + '/Haxe/BuildTool/UHT/UE' + this.version.MajorVersion + '.' + this.version.MinorVersion + '.json';
+    if (!FileSystem.exists(baseManifest)) {
+      err('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Cannot generate externs');
+      return;
+    }
+    var target = switch(Sys.systemName()) {
+      case 'Windows':
+        'Win64';
+      case 'Mac':
+        'Mac';
+      case 'Linux':
+        'Linux';
+      case _:
+        throw 'assert';
+    };
+
+    var manifest:UhtManifest = haxe.Json.parse(sys.io.File.getContent(baseManifest)),
+        uhtDir = this.data.projectDir + '/Intermediate/Haxe/UHT';
+    if (!FileSystem.exists(uhtDir)) {
+      FileSystem.createDirectory(uhtDir);
+    }
+    if (!FileSystem.exists('$uhtDir/deps.deps')) {
+      sys.io.File.saveContent('$uhtDir/deps.deps', '');
+    }
+    manifest.RootLocalPath = this.data.engineDir + '/..';
+    manifest.RootBuildPath = this.data.engineDir + '/../';
+    manifest.ExternalDependenciesFile = '$uhtDir/deps.deps';
+    manifest.TargetName = this.targetModule;
+
+    function expand(s:String) {
+      return expandVariables(s, target);
+    }
+    for (mod in manifest.Modules) {
+      mod.BaseDirectory = expandVariables(mod.BaseDirectory, target);
+      mod.IncludeBase = expandVariables(mod.IncludeBase, target);
+      mod.OutputDirectory = expandVariables(mod.OutputDirectory, target);
+      mod.PCH = expandVariables(mod.PCH, target);
+      mod.GeneratedCPPFilenameBase = expandVariables(mod.GeneratedCPPFilenameBase, target);
+      mod.ClassesHeaders = mod.ClassesHeaders.map(expand);
+      mod.PublicHeaders = mod.PublicHeaders.map(expand);
+      mod.PrivateHeaders = mod.PrivateHeaders.map(expand);
+      mod.SaveExportedHeaders = false;
+    }
+
+    var targets = [{ name:this.targetModule, path:this.srcDir }];
+    for (target in targets) {
+      var headers = [];
+      collectUhtHeaders(target.path, headers);
+      manifest.Modules.push({
+        Name: target.name,
+        ModuleType: 'GameRuntime',
+        BaseDirectory: target.path,
+        IncludeBase: target.path,
+        OutputDirectory: uhtDir,
+        ClassesHeaders: [],
+        PublicHeaders: headers,
+        PrivateHeaders: [],
+        PCH: "",
+        GeneratedCPPFilenameBase: uhtDir + '/' + target.name + '.generated',
+        SaveExportedHeaders: false,
+        UHTGeneratedCodeVersion: 'None'
+      });
+    }
+
+    sys.io.File.saveContent(uhtDir + '/externs.uhtmanifest', haxe.Json.stringify(manifest));
+    // Call UHT
+    var oldEnvs = setEnvs([
+      'GENERATE_EXTERNS' => '1',
+      'EXTERN_MODULES' => [ for (target in targets) target.name ].join(','),
+      'EXTERN_OUTPUT_DIR' => this.data.projectDir
+    ]);
+    var args = [this.data.projectFile,'$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
+    if (config.verbose) {
+      args.push('-AllowStdOutLogVerbosity');
+    }
+
+    if (this.callUHT(args) != 0) {
+      throw 'UHT call failed';
+    }
+    if (oldEnvs != null) {
+      setEnvs(oldEnvs);
+    }
+  }
+
+  private static function collectUhtHeaders(dir:String, arr:Array<String>, recurse=true) {
+    for (file in FileSystem.readDirectory(dir)) {
+      var path = '$dir/$file';
+      if (file.endsWith('.h')) {
+        if (sys.io.File.getContent(path).indexOf('${file.substr(0,file.length-2)}.generated.h') >= 0) {
+          arr.push(path);
+        }
+      } else if (recurse && FileSystem.isDirectory(path)) {
+        collectUhtHeaders(path, arr, file == 'Generated');
+      }
+    }
+  }
+
+  private function expandVariables(str:String, target:String) {
+    var idx = str.indexOf('$');
+    if (idx < 0) {
+      return str;
+    }
+
+    var buf = new StringBuf(),
+        lastIdx = -1;
+    buf.add(str.substring(0, idx));
+    do {
+      var next = str.indexOf('/',idx);
+      if (next < 0) {
+        next = str.length;
+      }
+      switch(str.substring(idx, next)) {
+      case "$EngineDir":
+        buf.add(this.data.engineDir);
+      case "$TargetPlatform":
+        buf.add(target);
+      case i:
+        warn('Unknown identifier $i at "$str"');
+        buf.add(i);
+      }
+      lastIdx = next;
+      idx = str.indexOf('$', next);
+    } while (idx >= 0);
+
+    if (lastIdx >= 0) {
+      buf.add(str.substr(lastIdx));
+    }
+    return buf.toString();
+  }
+
+  private function callUnrealBuild(platform:Null<String>, project:String, config:String, ?extraArgs:Array<String>) {
+    var args = [];
+    var path = switch(Sys.systemName()) {
+      case 'Windows':
+        if (platform == null) {
+          platform = 'Win64';
+        }
+        this.data.engineDir + '/Build/BatchFiles/Build.bat';
+      case 'Mac':
+        if (platform == null) {
+          platform = 'Mac';
+        }
+        this.data.engineDir + '/Build/BatchFiles/Mac/Build.sh';
+      case 'Linux':
+        if (platform == null) {
+          platform = 'Linux';
+        }
+        this.data.engineDir + '/Build/BatchFiles/Linux/Build.sh';
+      case name:
+        warn('Cannot call unreal build for platform $name');
+        return 1;
+    };
+
+    return this.call(path, [platform,project,config].concat(extraArgs == null ? [] : extraArgs), true);
+  }
+
+  private function callUHT(args:Array<String>) {
+    var path = switch(Sys.systemName()) {
+      case 'Windows':
+        this.data.engineDir + '/Binaries/Win64/UnrealHeaderTool.exe';
+      case 'Mac':
+        this.data.engineDir + '/Binaries/Mac/UnrealHeaderTool';
+      case 'Linux':
+        this.data.engineDir + '/Binaries/Linux/UnrealHeaderTool';
+      case name:
+        warn('Cannot call unreal header tool for platform $name');
+        return 1;
+    };
+
+    log('Calling UHT ${args}');
+    return this.call(path, args, true);
+  }
+
+  private function hasProjectEnabled(name:String) {
+    var uproject:{ Plugins:Array<{ Name:String, Enabled:Bool }> } = haxe.Json.parse(sys.io.File.getContent( data.projectFile ));
+    if (uproject.Plugins == null) {
+      return false;
+    }
+    for (p in uproject.Plugins) {
+      if (p.Name == name) {
+        return p.Enabled;
+      }
+    }
+    return false;
+  }
+
   public function run()
   {
-    var engineVer = getEngineVersion(config);
+    var engineVer = this.version;
     var defineVer = 'UE_VER=${engineVer.MajorVersion}.${engineVer.MinorVersion}',
         definePatch = 'UE_PATCH=${engineVer.PatchVersion == null ? 0 : engineVer.PatchVersion}';
 
-    var srcDir = getSourceDir();
     if (srcDir == null) {
       throw 'Build failed';
     }
@@ -166,6 +366,9 @@ class UhxBuild {
 
     if (hasHaxe)
     {
+      if (this.config.generateExterns) {
+        this.generateExterns();
+      }
       var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
       if (compserver == null) {
         compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
@@ -237,7 +440,7 @@ class UhxBuild {
         scriptPaths = [];
       }
 
-      var curSourcePath = getSourceDir();
+      var curSourcePath = this.srcDir;
       var cps = null;
       var targetDir = '$outputDir/Static';
 
@@ -566,7 +769,9 @@ class UhxBuild {
     var oldEnvs = new Map();
     for (key in envs.keys()) {
       var old = Sys.getEnv(key);
-      oldEnvs[key] = old;
+      if (old != null) {
+        oldEnvs[key] = old;
+      }
       Sys.putEnv(key, envs[key]);
     }
     return oldEnvs;

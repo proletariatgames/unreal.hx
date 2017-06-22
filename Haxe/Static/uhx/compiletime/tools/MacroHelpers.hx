@@ -1,6 +1,7 @@
 package uhx.compiletime.tools;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+import uhx.compiletime.types.TypeRef;
 
 class MacroHelpers
 {
@@ -102,6 +103,42 @@ class MacroHelpers
       }
     }
     return ret;
+  }
+
+  public static function addHaxeGenerated(meta:MetadataEntry, haxeType:TypeRef) {
+    var metaParamArray = null;
+    if (meta.params != null) {
+      var i = -1;
+      for (param in meta.params) {
+        i++;
+        switch(param) {
+        case macro $i{name}=$value:
+          if (name.toLowerCase() == 'meta') {
+            switch(value.expr) {
+              case EArrayDecl(decl):
+                metaParamArray = decl;
+              case _:
+                metaParamArray = [value];
+                meta.params[i] = macro Meta=$a{metaParamArray};
+            }
+            break;
+          }
+        case _:
+        }
+      }
+    }
+    if (metaParamArray == null) {
+      if (meta.params == null) {
+        meta.params =[];
+      }
+      metaParamArray = [];
+      meta.params.push(macro Meta=$a{metaParamArray});
+    }
+    metaParamArray.push(macro HaxeGenerated=true);
+    metaParamArray.push(macro HaxeClass=$v{haxeType.getClassPath(true)});
+    if (haxeType.moduleName != null) {
+      metaParamArray.push(macro HaxeModule=$v{haxeType.moduleName});
+    }
   }
 
   private static var classpaths:Array<String>;

@@ -10,6 +10,8 @@ typedef HaxeModuleConfig = {
    **/
   ?disabled: Bool, /* = false */
 
+  ?verbose: Bool,
+
   /**
     Force bake all externs
    **/
@@ -95,6 +97,18 @@ typedef HaxeModuleConfig = {
     Set this to true to disable dynamically created uclasses (only relevant when cppia is enabled)
    **/
   ?noDynamicUClass:Bool,
+
+  /**
+    Automatically generate the externs for this project's types
+   **/
+  ?generateExterns:Bool,
+
+  // TODO
+  // /**
+  //   If `generateExterns` is true, it will by default only generate the externs for the current module only.
+  //   If more modules are to be generate, define them here
+  //  **/
+  // ?extraGenerateExternsModules:Array<String>,
 }
 
 @:enum abstract Dce(String) from String {

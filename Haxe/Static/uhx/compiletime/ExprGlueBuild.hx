@@ -552,6 +552,7 @@ class ExprGlueBuild {
       abs.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], abs.pos);
       abs.meta.add(':uextension', [], abs.pos);
     }
+    var typeRef = TypeRef.fromBaseType(abs, abs.pos);
     var info = GlueInfo.fromBaseType(abs);
     var uname = info.uname.getClassPath(),
         nameWithout = info.uname.withoutPrefix().getClassPath();
@@ -654,6 +655,7 @@ class ExprGlueBuild {
     var ustruct = abs.meta.extract(':ustruct')[0];
     if (ustruct != null) {
       writer.buf.add('USTRUCT(');
+      MacroHelpers.addHaxeGenerated(ustruct, typeRef);
       if (ustruct.params != null) {
         var first = true;
         for (param in ustruct.params) {

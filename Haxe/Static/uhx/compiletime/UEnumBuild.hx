@@ -94,6 +94,7 @@ class UEnumBuild
 
       var uenum = enumType.meta.extract(':uenum')[0];
       writer.buf.add('UENUM(');
+      MacroHelpers.addHaxeGenerated(uenum, typeRef);
       if (uenum.params != null) {
         var first = true;
         for (param in uenum.params) {
