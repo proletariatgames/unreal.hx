@@ -8,7 +8,7 @@
 #include "UnrealNetwork.h"
 #include "HaxeGeneratedClass.generated.h"
 
-UCLASS()
+UCLASS(Meta=(UHX_Internal=true))
 class HAXERUNTIME_API UHaxeGeneratedClass : public UBlueprintGeneratedClass {
 public:
   GENERATED_BODY()

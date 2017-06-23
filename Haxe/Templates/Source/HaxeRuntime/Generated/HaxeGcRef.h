@@ -4,7 +4,7 @@
 
 #include "HaxeGcRef.generated.h"
 
-USTRUCT()
+USTRUCT(Meta=(UHX_Internal=true))
 struct HAXERUNTIME_API FHaxeGcRef {
   GENERATED_BODY()
 

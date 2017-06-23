@@ -123,6 +123,7 @@ class ExternBaker {
     }
     traverse();
 
+    var unames = new Map();
     for (type in toProcess) {
       var module = Context.getModule(type);
       var pack = type.split('.'),
@@ -133,17 +134,35 @@ class ExternBaker {
         buf.add('package ${pack.join('.')};\n');
       var processor = new ExternBaker(buf);
       for (type in module) {
-        switch(type) {
-        case TInst(c,_):
-          if (c.get().meta.has(':haxeGenerated')) {
-            continue;
-          }
-        case TEnum(e,_):
-          if (e.get().meta.has(':haxeGenerated')) {
-            continue;
-          }
-        case _:
+        var pos = null;
+        var uname = switch(type) {
+          case TInst(c,_):
+            var c = c.get();
+            if (c.meta.has(':haxeGenerated')) {
+              continue;
+            }
+            pos = c.pos;
+            MacroHelpers.getUName(c);
+          case TEnum(e,_):
+            var e = e.get();
+            if (e.meta.has(':haxeGenerated')) {
+              continue;
+            }
+            pos = e.pos;
+            MacroHelpers.getUName(e);
+          case _:
+            null;
         }
+        var lastPos = uname == null ? null : unames[uname];
+        if (lastPos != null) {
+          Context.warning('A class or struct with the name $uname was already defined. Ignoring this definition', pos);
+          Context.warning('$uname was defined here', lastPos);
+          continue;
+        }
+        if (uname != null) {
+          unames[uname] = pos;
+        }
+
         var glueBuf = processor.processType(type),
             glue = Std.string(glueBuf);
         hadErrors = hadErrors || processor.hadErrors;

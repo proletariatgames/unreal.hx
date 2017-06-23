@@ -322,5 +322,5 @@ package unreal;
   /** @return true if this directory was found, false otherwise */
   public static function DirectoryExists(InPath:Const<PRef<FString>>):Bool;
 
-
+  public static function GetBaseFilename(InPath:Const<PRef<FString>>, bRemovePath:Bool) : FString;
 }

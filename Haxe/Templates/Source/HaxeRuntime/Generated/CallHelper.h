@@ -5,7 +5,7 @@
 #include "IntPtr.h"
 #include "CallHelper.generated.h"
 
-UCLASS()
+UCLASS(Meta=(UHX_Internal=true))
 class HAXERUNTIME_API UCallHelper : public UObject {
 public:
   GENERATED_BODY()
