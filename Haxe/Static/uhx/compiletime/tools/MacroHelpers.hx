@@ -135,7 +135,7 @@ class MacroHelpers
       meta.params.push(macro Meta=$a{metaParamArray});
     }
     metaParamArray.push(macro HaxeGenerated=true);
-    metaParamArray.push(macro HaxeClass=$v{haxeType.getClassPath(true)});
+    metaParamArray.push(macro HaxeStaticClass=$v{haxeType.getClassPath(true)});
     if (haxeType.moduleName != null) {
       metaParamArray.push(macro HaxeModule=$v{haxeType.moduleName});
     }

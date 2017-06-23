@@ -972,9 +972,8 @@ class UReflectionGenerator {
     }
     uclass.ClassFlags = flags;
     uclass.ClassCastFlags = uclass.ClassCastFlags | parent.ClassCastFlags;
-    uclass.SetMetaData(CoreAPI.staticName('HaxeClass'),hxPath);
+    uclass.SetMetaData(CoreAPI.staticName('HaxeDynamicClass'),hxPath);
     uclass.SetMetaData(CoreAPI.staticName('HaxeGenerated'),"true");
-    uclass.SetMetaData(CoreAPI.staticName('HaxeDynamicClass'),"true");
     uclass.AddToRoot();
 
     // TODO add class flags from metadata
@@ -1355,6 +1354,8 @@ class DynamicRegistry {
   public var isUpdated(default, null):Bool;
   public var wasDeleted(default, null):Bool;
   public var needsToAddProperties(default, null):Bool;
+
+  public var bound:Bool;
 
   var updatedClass:UClass;
 

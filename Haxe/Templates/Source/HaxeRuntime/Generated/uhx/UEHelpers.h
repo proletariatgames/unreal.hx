@@ -23,9 +23,9 @@ static void createWrapperIfNeeded(const FName& className, UClass *curClass, uhx:
 static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClass, uhx::GcRef& haxeGcRef, UObject *self, CreateHaxeFn createHaxeWrapper) {
   FString hxClassName;
   while (true) {
-    hxClassName = curClass->GetMetaData(TEXT("HaxeClass"));
+    hxClassName = curClass->GetMetaData(TEXT("HaxeDynamicClass"));
     if (!hxClassName.IsEmpty()) {
-      // this is a dynamic class. So before we continue, we must initialize all properties
+      // this is a dynamic class. Its dynamic properties are however already set by its class constructor `dynamicConstruct`
       haxeGcRef.set(uhx::expose::HxcppRuntime::createDynamicHelper( (unreal::UIntPtr) self, TCHAR_TO_UTF8(*hxClassName) ));
       return;
     }

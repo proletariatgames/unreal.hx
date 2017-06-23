@@ -317,17 +317,16 @@ int uhx::ue::RuntimeLibrary_obj::getHaxeGcRefOffset() {
 static void dynamicConstruct(const FObjectInitializer& init) {
   UObject *obj = init.GetObj();
   UClass *cls = init.GetClass();
-  static FName HaxeClassName(TEXT("HaxeClass"));
-  FString hxClass = cls->GetMetaData(HaxeClassName);
+  static FName HaxeDynamicClass(TEXT("HaxeDynamicClass"));
+  FString hxClass = cls->GetMetaData(HaxeDynamicClass);
   while (hxClass.IsEmpty()) {
     cls = cls->GetSuperClass();
-    hxClass = cls->GetMetaData(HaxeClassName);
+    hxClass = cls->GetMetaData(HaxeDynamicClass);
   }
 
   // super()
   auto superClass = cls->GetSuperClass();
-  static FName HaxeDynamicClassName(TEXT("HaxeDynamicClass"));
-  while (superClass->HasMetaData(HaxeDynamicClassName)) {
+  while (superClass->HasMetaData(HaxeDynamicClass)) {
     superClass = superClass->GetSuperClass();
   }
   superClass->ClassConstructor(init);
