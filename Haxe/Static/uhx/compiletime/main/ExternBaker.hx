@@ -51,7 +51,8 @@ class ExternBaker {
     if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
     var processed = new Map(),
         toProcess = [],
-        processFiles = [];
+        processFiles = [],
+        duplicateFiles = new Map();
     var i = classpaths.length;
     var hadErrors = false;
     while( i --> 0 ) {
@@ -93,7 +94,10 @@ class ExternBaker {
             var idx = toProcess.indexOf(module);
             if (idx >= 0) {
               var old = processFiles[idx];
-              Context.warning('Unreal Extern Baker: File $module is defined on another classpath: $old', Context.makePosition({min:0, max:0, file:fileName}));
+              Context.warning('Unreal Extern Baker: File $module is defined on another classpath: $old. Ignoring definition', Context.makePosition({min:0, max:0, file:fileName}));
+              Context.warning('Unreal Extern Baker: Previous definition here', Context.makePosition({min:0, max:0, file:old}));
+              duplicateFiles[module] = true;
+              processed.remove(module);
             } else {
               toProcess.push(module);
               processFiles.push('$dir/$file');
@@ -132,6 +136,10 @@ class ExternBaker {
       }
     }
     traverse();
+
+    if (duplicateFiles.iterator().hasNext()) {
+      Context.error('Unreal Extern Baker: Has duplicate file paths. Exiting', Context.currentPos());
+    }
 
     var unames = new Map();
     for (type in toProcess) {
