@@ -10,7 +10,7 @@ typedef FPreLoadMapDelegate = MulticastDelegate<FPreLoadMapDelegate, Const<PRef<
 #if WITH_EDITOR
 
   // Called when an asset is loaded
-  public static var OnAssetLoaded:FOnAssetLoaded;
+  public static var OnAssetLoaded:FCoreDelegateOnAssetLoaded;
 #end
 
   // Called before garbage collection
@@ -28,5 +28,5 @@ typedef FPreLoadMapDelegate = MulticastDelegate<FPreLoadMapDelegate, Const<PRef<
 
 @:glueCppIncludes('UObject/UObjectGlobals.h')
 @:uname('FCoreUObjectDelegates.FOnAssetLoaded')
-typedef FOnAssetLoaded = MulticastDelegate<FOnAssetLoaded, UObject->Void>;
+typedef FCoreDelegateOnAssetLoaded = MulticastDelegate<FCoreDelegateOnAssetLoaded, UObject->Void>;
 #end

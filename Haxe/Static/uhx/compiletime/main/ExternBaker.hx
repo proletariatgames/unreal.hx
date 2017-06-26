@@ -50,7 +50,8 @@ class ExternBaker {
     var target = Compiler.getOutput();
     if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
     var processed = new Map(),
-        toProcess = [];
+        toProcess = [],
+        processFiles = [];
     var i = classpaths.length;
     var hadErrors = false;
     while( i --> 0 ) {
@@ -87,7 +88,16 @@ class ExternBaker {
             if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal) {
               continue; // already in latest version
             }
-            toProcess.push(module);
+
+            var fileName = '$dir/$file';
+            var idx = toProcess.indexOf(module);
+            if (idx >= 0) {
+              var old = processFiles[idx];
+              Context.warning('Unreal Extern Baker: File $module is defined on another classpath: $old', Context.makePosition({min:0, max:0, file:fileName}));
+            } else {
+              toProcess.push(module);
+              processFiles.push('$dir/$file');
+            }
           }
         }
         for (file in files) {
