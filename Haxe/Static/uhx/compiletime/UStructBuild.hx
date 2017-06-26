@@ -95,6 +95,8 @@ class UStructBuild {
     def.name = target.name;
     def.pack = target.pack;
     def.meta = tdef.meta.get();
+    var structMeta = def.meta.find(function(meta) return meta.name == ':ustruct');
+    MacroHelpers.addHaxeGenerated(structMeta, tref);
 
     // Context.defineType(def);
     Globals.cur.cachedBuiltTypes.push(target.getClassPath());

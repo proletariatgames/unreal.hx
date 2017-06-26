@@ -216,6 +216,7 @@ class DelegateBuild {
       def.fields.push(field);
     }
 
+    var isDynamic = false;
 #if bake_externs
     for (field in def.fields) {
       if (field.name == 'typingHelper' || field.name == 'new') {
@@ -239,12 +240,22 @@ class DelegateBuild {
       for (r in toRemove) {
         def.fields.remove(r);
       }
+      isDynamic = true;
     }
 
     var meta:Metadata = tdef.meta.get();
     if (!meta.exists(function(meta) return meta.name == ':uname')) {
       meta.push({ name:':uname', params:[macro $v{ueType.name}], pos:pos });
     }
+#if !bake_externs
+    if (isDynamic) {
+      var udelegate = meta.find(function(meta) return meta.name == ':udelegate');
+      if (udelegate == null) {
+        meta.push(udelegate = { name:':udelegate', params:[], pos:pos });
+      }
+      MacroHelpers.addHaxeGenerated(udelegate, tref);
+    }
+#end
     meta.push({ name:':unativecalls', params:[for (field in def.fields) if (field.name != 'typingHelper' && field.name != 'new') macro $v{field.name}], pos:pos });
     meta.push({ name:':final', params:[], pos:pos });
 

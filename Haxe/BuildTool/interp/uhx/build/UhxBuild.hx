@@ -218,7 +218,9 @@ class UhxBuild {
     }
 
     if (this.callUHT(args) != 0) {
-      throw 'UHT call failed';
+      warn('==========================================================');
+      warn('UHT: Unable to generate the externs. Build will continue');
+      warn('==========================================================');
     }
     if (oldEnvs != null) {
       setEnvs(oldEnvs);

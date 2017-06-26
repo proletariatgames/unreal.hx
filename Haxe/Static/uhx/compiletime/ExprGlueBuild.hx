@@ -653,20 +653,18 @@ class ExprGlueBuild {
     }
 
     var ustruct = abs.meta.extract(':ustruct')[0];
-    if (ustruct != null) {
-      writer.buf.add('USTRUCT(');
-      MacroHelpers.addHaxeGenerated(ustruct, typeRef);
-      if (ustruct.params != null) {
-        var first = true;
-        for (param in ustruct.params) {
-          if (first) first = false; else writer.buf.add(', ');
-          writer.buf.add(param.toString().replace('[','(').replace(']',')'));
-        }
-      }
-      writer.buf.add(')\n');
-    } else {
-      writer.buf.add('USTRUCT()\n');
+    if (ustruct == null || ustruct.params == null) {
+      ustruct = {name:':ustruct', params:[], pos:abs.pos};
     }
+    writer.buf.add('USTRUCT(');
+    if (ustruct.params != null) {
+      var first = true;
+      for (param in ustruct.params) {
+        if (first) first = false; else writer.buf.add(', ');
+        writer.buf.add(param.toString().replace('[','(').replace(']',')'));
+      }
+    }
+    writer.buf.add(')\n');
     writer.buf.add('struct ${targetModule.toUpperCase()}_API ${uname} $extendsStr\n{\n');
     writer.buf.add('\tGENERATED_USTRUCT_BODY()\n\n');
     for (prop in uprops) {
@@ -705,6 +703,7 @@ class ExprGlueBuild {
     var headerPath = info.getHeaderPath(true);
     var writer = new HeaderWriter(headerPath);
 
+    var typeRef = TypeRef.fromBaseType(abs, abs.pos);
     var parent = null;
     var fnType = switch(abs.type) {
       case TAbstract(a,[fn]):
@@ -742,12 +741,13 @@ class ExprGlueBuild {
       default: false;
     }
 
+    var isDynamic = false;
     var declMacro = switch (type) {
       case 'BaseDelegate': 'DECLARE_DELEGATE';
-      case 'BaseDynamicDelegate': 'DECLARE_DYNAMIC_DELEGATE';
+      case 'BaseDynamicDelegate': isDynamic = true; 'DECLARE_DYNAMIC_DELEGATE';
       case 'BaseEvent': 'DECLARE_EVENT';
       case 'BaseMulticastDelegate': 'DECLARE_MULTICAST_DELEGATE';
-      case 'BaseDynamicMulticastDelegate': 'DECLARE_DYNAMIC_MULTICAST_DELEGATE';
+      case 'BaseDynamicMulticastDelegate': isDynamic = true; 'DECLARE_DYNAMIC_MULTICAST_DELEGATE';
       default: throw 'assert';
     }
 
@@ -769,6 +769,18 @@ class ExprGlueBuild {
 
     // TODO: Support "payload" variables?
 
+    var udelegate = abs.meta.extract(':udelegate')[0];
+    if (udelegate != null) {
+      writer.buf.add('UDELEGATE(');
+      if (udelegate.params != null) {
+        var first = true;
+        for (param in udelegate.params) {
+          if (first) first = false; else writer.buf.add(', ');
+          writer.buf.add(param.toString().replace('[','(').replace(']',')'));
+        }
+      }
+      writer.buf.add(')\n');
+    }
     writer.buf.add('$declMacro$retStr$argStr$constStr(');
 
     if (!ret.haxeType.isVoid()) {

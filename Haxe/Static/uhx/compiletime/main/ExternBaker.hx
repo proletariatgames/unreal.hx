@@ -150,6 +150,13 @@ class ExternBaker {
             }
             pos = e.pos;
             MacroHelpers.getUName(e);
+          case TAbstract(a,_):
+            var a = a.get();
+            if (a.meta.has(':haxeGenerated')) {
+              continue;
+            }
+            pos = a.pos;
+            MacroHelpers.getUName(a);
           case _:
             null;
         }
