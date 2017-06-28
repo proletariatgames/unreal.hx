@@ -1,14 +1,8 @@
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
-@:uextern extern class FDamageEvent {
-
+extern class FDamageEvent_Extra {
   @:uname('.ctor') public static function createWithDamageType(dmgType:TSubclassOf<UDamageType>) : FDamageEvent;
   @:uname('new') public static function createNewWithDamageType(dmgType:TSubclassOf<UDamageType>) : POwnedPtr<FDamageEvent>;
-
-	/** Optional DamageType for this event.  If nullptr, UDamageType will be assumed. */
-	@:uproperty()
-	public var DamageTypeClass : TSubclassOf<UDamageType>;
 
 	@thisConst
 	public function GetTypeID() : Int32;

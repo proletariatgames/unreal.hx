@@ -488,15 +488,6 @@ class TypeConv {
       set.add('uhx/Wrapper.h');
       set.append(info.glueCppIncludes);
 
-      // // we need to know if it was declared as a class or a struct for this to work
-      // if (inPointer && forwardDecls != null) {
-      //   var decl = info.ueType.getForwardDecl();
-      //   forwardDecls[decl] = decl;
-      //   cppSet.append(info.glueCppIncludes);
-      // } else {
-      //   set.append(info.glueCppIncludes);
-      // }
-
       if (params != null) {
         var ptr = inPointer;
         for (param in params) {
@@ -803,8 +794,117 @@ class TypeConv {
     return false;
   }
 
-  inline public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false):TypeConv {
-    return getInfo(type, pos, { accFlags:ONone }, inTypeParam);
+  private static function normalizeType(t:Type):Type {
+    while(true) {
+      switch(t) {
+      case TLazy(fn):
+        t = fn();
+      case TMono(mono):
+        t = mono.get();
+      case TAbstract(a,tl):
+        if (tl.length > 0) {
+          for (i in 0...tl.length) {
+            var t = normalizeType(tl[i]);
+            if (t == null) {
+              return null;
+            }
+            tl[i] = t;
+          }
+        }
+        return t;
+      case TInst(i,tl):
+        if (i.get().kind.match(KTypeParameter(_))) {
+          return null;
+        }
+        if (tl.length > 0) {
+          for (i in 0...tl.length) {
+            var t = normalizeType(tl[i]);
+            if (t == null) {
+              return null;
+            }
+            tl[i] = t;
+          }
+        }
+        return t;
+      case TType(ti,tl):
+        if (tl.length > 0) {
+          for (i in 0...tl.length) {
+            var t = normalizeType(tl[i]);
+            if (t == null) {
+              return null;
+            }
+            tl[i] = t;
+          }
+        }
+        return t;
+      case TFun(args,ret):
+        for (arg in args) {
+          var t = normalizeType(arg.t);
+          if (t == null) {
+            return null;
+          }
+          arg.t = t;
+        }
+        var ret = normalizeType(ret);
+        if (ret == null) {
+          return null;
+        }
+        return TFun(args, ret);
+      case _:
+        return null;
+      }
+    }
+  }
+
+  public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false):TypeConv {
+    var useCache = true;
+    while (true) {
+      switch(type) {
+      case TLazy(fn):
+        type = fn();
+      case TMono(mono):
+        type = mono.get();
+      case TAbstract(_,tl) | TInst(_,tl) | TType(_,tl):
+        if (tl.length > 0) {
+          var norm = normalizeType(type);
+          if (norm == null) {
+            useCache = false;
+          } else {
+            type = norm;
+          }
+        }
+        break;
+      case TFun(_):
+        var norm = normalizeType(type);
+        if (norm == null) {
+          useCache = false;
+        } else {
+          type = norm;
+        }
+        break;
+      case _:
+        useCache = false;
+        break;
+      }
+    }
+
+    if (useCache) {
+      var t = Std.string(type);
+      var cache = Globals.cur.typeConvCache;
+
+      var ret = cache[t];
+      if (ret == null) {
+        var ctx:InfoCtx = { accFlags:ONone };
+        ret = getInfo(type, pos, ctx, inTypeParam);
+        if (!ctx.disableCache) {
+          cache[t] = ret;
+        }
+      }
+
+      return ret;
+    } else {
+      return getInfo(type, pos, { accFlags:ONone }, inTypeParam);
+    }
   }
 
   private static function getInfo(type:Type, pos:Position, ctx:InfoCtx, inTypeParam:Bool):TypeConv {
@@ -813,17 +913,19 @@ class TypeConv {
     while(type != null) {
       switch(type) {
       case TInst(iref, tl):
-        var name = tl.length == 0 ? iref.toString() : null;
-        if (name != null) {
-          var ret = cache[name];
-          if (ret != null && ctx.accFlags == 0) {
-            if (ctx.modf == null && ctx.original == null) {
-              return ret;
-            } else {
-              return new TypeConv(ret.data, ctx.modf, ctx.original);
-            }
+        if (tl.length > 0) {
+          ctx.disableCache = true;
+        }
+        var name = iref.toString();
+        var ret = cache[name];
+        if (ret != null) {
+          if (ctx.modf == null && ctx.original == null) {
+            return ret;
+          } else {
+            return new TypeConv(ret.data, ctx.modf, ctx.original);
           }
         }
+
         var it = iref.get();
         var ret = null;
         var info = getTypeInfo(it, pos);
@@ -850,11 +952,11 @@ class TypeConv {
           } else {
             PNone;
           }
-          name = null; // don't cache
           ctx.original = null;
+          ctx.disableCache = true;
           ret = CTypeParam(it.name, kind);
         } else if (typeIsUObject(type)) {
-          if (ctx.modf != null && ctx.modf.has(Ptr)) {
+          if (ctx.modf != null && ctx.modf.has(Ptr) && !inTypeParam) {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
           if (!it.meta.has(':uextern')) {
@@ -902,16 +1004,12 @@ class TypeConv {
                 Context.warning('Unreal Glue: PRef<> ignored because it is inside a TSubclassOf / TWeakObjectPtr', pos);
               } else if (markerIdx < 0 && ctx.modf.has(Ptr) && !inTypeParam) {
                 // TODO add Ptr suggestion once it's ready
-                throw new Error('Unreal Glue: PPtr of UObjects is not supported', pos);
+                Context.warning('Unreal Glue: PPtr of UObjects is not supported', pos);
               }
             case _:
             }
           }
-          var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          if (tl.length == 0 && name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0) {
-            cache[name] = ret;
-          }
-          return ret;
+          return new TypeConv(ret, ctx.modf, ctx.original);
         }
 
       case TEnum(eref, tl):
@@ -919,16 +1017,6 @@ class TypeConv {
           // Const enums work the same as non-const, so we do support them
           Context.warning('Unreal Glue: PPtr or PRef is not supported on enums', pos);
         }
-        var name = eref.toString();
-        var ret = cache[name];
-        if (ret != null) {
-          if (ctx.modf == null && ctx.original == null) {
-            return ret;
-          } else {
-            return new TypeConv(ret.data, ctx.modf, ctx.original);
-          }
-        }
-
         var e = eref.get(),
             ret = null,
             info = getTypeInfo(e, pos);
@@ -944,13 +1032,12 @@ class TypeConv {
           Context.warning('Unreal Glue: Enum type $eref is not supported: It is not a uextern or a uenum', pos);
         }
 
-        var ret = new TypeConv(ret, ctx.modf, ctx.original);
-        if (name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0) {
-          cache[name] = ret;
-        }
-        return ret;
+        return new TypeConv(ret, ctx.modf, ctx.original);
 
       case TAbstract(aref, tl):
+        if (tl.length > 0) {
+          ctx.disableCache = true;
+        }
         var name = aref.toString();
         if (tl.length == 0) {
           var ret = cache[name];
@@ -1018,11 +1105,7 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          if (tl.length != 0 && name != null && ctx.modf == null && ctx.original == null && ctx.accFlags == 0) {
-            cache[name] = ret;
-          }
-          return ret;
+          return new TypeConv(ret, ctx.modf, ctx.original);
         }
 
       case TType(tref, tl):
@@ -1099,12 +1182,12 @@ class TypeConv {
         }
 
         if (ret != null) {
-          var ret = new TypeConv(ret, ctx.modf, ctx.original);
-          return ret;
+          return new TypeConv(ret, ctx.modf, ctx.original);
         }
         type = t.type.applyTypeParameters(t.params, tl);
 
       case TLazy(f):
+        ctx.disableCache = true;
         type = f();
 
       case TFun(args, ret):
@@ -1118,6 +1201,7 @@ class TypeConv {
         }
         return new TypeConv(CLambda(tcArgs, tcRet), ctx.modf, ctx.original);
       case TMono(mono):
+        ctx.disableCache = true;
         type = mono.get();
 
       case t:
@@ -1509,7 +1593,8 @@ private typedef InfoCtx = {
   ?original:TypeRef,
   accFlags:UObjectFlags,
   ?accStructFlags:StructFlags,
-  ?modf:Array<Modifier>
+  ?modf:Array<Modifier>,
+  ?disableCache:Bool
 }
 
 @:enum abstract Modifier(Int) from Int {

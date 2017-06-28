@@ -297,10 +297,6 @@ class NativeGlueCode
       var cl = t.get();
       var type = TypeRef.fromBaseType(cl, cl.pos);
       var cpath = type.getClassPath();
-      // var cl = switch(Context.getType( cpath )) {
-      //   case TInst(c,_): c.get();
-      //   case _: throw 'assert';
-      // };
       if (isDce && (cl.isExtern || (!cl.meta.has(':used') && !cl.meta.has(':directlyUsed')))) {
         continue;
       }
@@ -347,13 +343,25 @@ class NativeGlueCode
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('$cppTarget/Data'))
+    if (!FileSystem.exists('$cppTarget/Data')) {
       FileSystem.createDirectory('$cppTarget/Data');
+    }
     var mfile = sys.io.File.write('$cppTarget/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }
     mfile.close();
+
+    if (Context.defined("WITH_CPPIA")) {
+      var glueModules = [ for (key in glueTypes.keys()) key ];
+      glueModules.sort(Reflect.compare);
+      var cfile = sys.io.File.write('$cppTarget/Data/compiled.txt');
+      for (mod in glueModules) {
+        cfile.writeString(mod);
+        cfile.writeString('\n');
+      }
+      cfile.close();
+    }
 
     // clean generated folder
     var touched:Map<String,TouchKind> = null;

@@ -25,6 +25,7 @@ class DelegateBuild {
         throw new Error('Unreal Delegate Build: Invalid format for $type: SelfType must be the typedef that defines it, and a function type must be specified', Context.currentPos());
     }
 
+    tdef.meta.add(':uPrimeTypedef', [], pos);
     var tref = TypeRef.fromBaseType(tdef,pos);
     var ueType = null;
     if (tdef.meta.has(':uname')) {
