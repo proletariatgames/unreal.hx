@@ -201,20 +201,41 @@ class MetaDefBuild {
     var meta:uhx.meta.MetaDef = { uclass:classDef };
     Globals.cur.addScriptDef(classDef.uname, { className:TypeRef.fromBaseType(base, base.pos).withoutModule().toString(), meta:meta });
 
+    base.meta.remove('UMetaDef');
     base.meta.add('UMetaDef', [Context.makeExpr(meta, base.pos)], base.pos);
   }
 
   public static function writeStaticDefs() {
     var map = Globals.cur.staticUTypes;
-    var arr = [ for (val in map) val ];
 
     switch(Context.getType('uhx.meta.StaticMetaData')) {
     case TInst(c,_):
       var c = c.get();
+      var oldMeta = c.meta.extract('UTypes');
+      var oldDefs = [];
+      for (meta in oldMeta) {
+        if (meta.params != null) {
+          for (param in meta.params) {
+            var field = objGetField(param, "hxPath");
+            if (field != null && !map.exists(field)) {
+              oldDefs.push(param);
+            }
+          }
+        }
+      }
       c.meta.remove('UTypes');
-      c.meta.add('UTypes', [for (val in map) macro $v{val}], Context.currentPos());
+      c.meta.add('UTypes', oldDefs.concat([for (val in map) macro $v{val}]), Context.currentPos());
     case _:
       Context.warning('Invalid type for StaticMetaData', Context.currentPos());
+    }
+  }
+
+  private static function getClassHelper():ClassType {
+    switch(Context.getType('uhx.meta.MetaDataHelper')) {
+    case TInst(c,_):
+      return c.get();
+    case _:
+      throw 'assert';
     }
   }
 
@@ -237,6 +258,9 @@ class MetaDefBuild {
     var file = sys.io.File.write(file, true);
     file.writeInt32(0xC5CC991A);
     file.writeInt32(ntry);
+
+    var helper = Globals.cur.inCompilationServer ? getClassHelper() : null;
+    var newData = [];
     var keys = Globals.cur.scriptClasses;
     var map = Globals.cur.scriptClassesDefs;
     var arr = [];
@@ -256,10 +280,54 @@ class MetaDefBuild {
           continue;
         }
 
+        newData.push({ key:key, crc:meta.uclass.propCrc });
         file.writeInt8(key.length);
         file.writeString(key);
         file.writeInt32(meta.uclass.propCrc);
       }
+    }
+
+    if (helper != null) {
+      var allMeta = helper.meta.extract('crcs')[0],
+          newParams = [];
+      if (allMeta != null && allMeta.params != null) {
+        for (meta in allMeta.params) {
+          switch(meta.expr) {
+            case EObjectDecl(obj):
+              var key = null,
+                  crc = null;
+              for (v in obj) {
+                if (v.field == 'key') {
+                  key = switch(v.expr.expr) {
+                    case EConst(CString(s)):
+                      s;
+                    case e: trace('Bad meta value: $e'); break;
+                  };
+                } else if (v.field == 'crc') {
+                  crc = switch(v.expr.expr) {
+                    case EConst(CInt(i)):
+                      Std.parseInt(i);
+                    case e: trace('Bad meta value: $e'); break;
+                  };
+                }
+              }
+              if (!map.exists(key)) {
+                file.writeInt8(key.length);
+                file.writeString(key);
+                file.writeInt32(crc);
+                newParams.push(meta);
+              }
+            case _:
+              trace('Bad metadata: $meta');
+              continue;
+          }
+        }
+      }
+      for (data in newData) {
+        newParams.push(macro $v{data});
+      }
+      helper.meta.remove('crcs');
+      helper.meta.add('crcs', newParams, helper.pos);
     }
     file.writeInt8(0);
     file.close();
@@ -267,13 +335,58 @@ class MetaDefBuild {
     switch(Context.getType('uhx.meta.CppiaMetaData')) {
     case TInst(c,_):
       var c = c.get();
+      var oldMeta = c.meta.extract('DynamicClasses');
+      var oldDefs = [];
+      for (dyn in oldMeta) {
+        if (dyn.params != null) {
+          for (param in dyn.params) {
+            var uclass = objGetField(param, "uclass");
+            if (uclass != null && !arr.exists(function(v) return v.uclass == uclass)) {
+              oldDefs.push(param);
+            }
+          }
+        }
+      }
       c.meta.remove('DynamicClasses');
-      c.meta.add('DynamicClasses', [for (v in arr) macro $v{v}], Context.currentPos());
+      c.meta.add('DynamicClasses', oldDefs.concat([for (v in arr) macro $v{v}]), Context.currentPos());
+
+      var oldMeta = c.meta.extract('UDelegates');
+      var oldDefs = [];
+      for (meta in oldMeta) {
+        if (meta.params != null) {
+          for (param in meta.params) {
+            var uname = objGetField(param, "uname");
+            if (uname != null && !Globals.cur.scriptDelegateDefs.exists(uname)) {
+              oldDefs.push(param);
+            }
+          }
+        }
+      }
       c.meta.remove('UDelegates');
-      c.meta.add('UDelegates', [for (val in Globals.cur.scriptDelegateDefs) macro $v{val}], Context.currentPos());
+      c.meta.add('UDelegates', oldDefs.concat([for (val in Globals.cur.scriptDelegateDefs) macro $v{val}]), Context.currentPos());
     case _:
       Context.warning('Invalid type for CppiaMetaData', Context.currentPos());
     }
+  }
+
+  private static function objGetField(objExpr:Expr, field:String):Null<String> {
+    switch(objExpr.expr) {
+    case EObjectDecl(obj):
+      for (param in obj) {
+        if (param.field == field) {
+          switch(param.expr.expr) {
+          case EConst(CString(s)):
+            return s;
+          case _:
+            Context.warning('Unexpected expr ${param.expr} for field $field', objExpr.pos);
+          }
+        }
+      }
+    case _:
+      Context.warning('Unexpected expr $objExpr', objExpr.pos);
+    }
+
+    return null;
   }
 
 }

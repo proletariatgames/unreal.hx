@@ -367,6 +367,10 @@ class UReflectionGenerator {
   }
 
   public static function setDynamicNative(cls:UClass, uname:String) {
+    if (registry == null) {
+      trace('Error', 'No dynamic uclass was initialized by cppia, but there were dynamic classes found: $uname.');
+      registry = new Map();
+    }
     var reg = registry[uname];
     if (reg == null) {
       trace('Error', 'Setting dynamic native on $uname, but no metadef was done');

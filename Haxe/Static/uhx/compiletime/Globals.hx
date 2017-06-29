@@ -44,7 +44,8 @@ class Globals {
     if (this.inCompilationServer != null) {
       return this.inCompilationServer;
     }
-    var target = haxe.macro.Compiler.getOutput() + '/Data/compserver.txt';
+    var target = Context.defined('cppia') ? Context.definedValue('ustatic_target') : haxe.macro.Compiler.getOutput();
+    target += '/Data/compserver.txt';
     if (FileSystem.exists(target)) {
       var ret = File.getContent(target);
       if (ret == "0") {

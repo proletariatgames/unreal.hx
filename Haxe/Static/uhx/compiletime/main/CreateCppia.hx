@@ -72,10 +72,28 @@ class CreateCppia {
 
     addTimestamp();
 
-    var clsDef = macro class CppiaMetaData {};
-    clsDef.pack = ['uhx','meta'];
-    clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
-    Context.defineType(clsDef);
+    try {
+      Context.getType('uhx.meta.CppiaMetaData');
+    }
+    catch(e:Dynamic) {
+      var clsDef = macro class CppiaMetaData {};
+      clsDef.pack = ['uhx','meta'];
+      clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
+      Context.defineType(clsDef);
+      Context.getType('uhx.meta.CppiaMetaData');
+    }
+
+    try{
+      Context.getType('uhx.meta.MetaDataHelper');
+    }
+    catch(e:Dynamic) {
+      trace('creating');
+      var clsDef = macro class MetaDataHelper {};
+      clsDef.pack = ['uhx','meta'];
+      clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
+      Context.defineType(clsDef);
+      Context.getType('uhx.meta.MetaDataHelper');
+    }
 
     Context.onGenerate(function(types) {
       var metaDefs = Globals.cur.classesToAddMetaDef;
