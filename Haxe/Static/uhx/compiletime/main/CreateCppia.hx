@@ -87,13 +87,44 @@ class CreateCppia {
       Context.getType('uhx.meta.MetaDataHelper');
     }
     catch(e:Dynamic) {
-      trace('creating');
       var clsDef = macro class MetaDataHelper {};
       clsDef.pack = ['uhx','meta'];
       clsDef.meta = [{ name:':keep', pos:clsDef.pos }];
       Context.defineType(clsDef);
       Context.getType('uhx.meta.MetaDataHelper');
     }
+
+    var compiledGenerics = new Map();
+    Context.onAfterTyping(function(types) {
+      for (t in types) {
+        switch(t) {
+        case TClassDecl(cl):
+          var c = cl.get();
+          if (c.meta.has(':ueHasGenerics')) {
+            var name = cl.toString();
+            var glueGeneric = TypeRef.fromBaseType(c, c.pos).getGlueHelperType().getClassPath();
+            glueGeneric += 'Generic';
+            var ret = new Map();
+            try {
+              switch(Context.getType(glueGeneric)) {
+              case TInst(c,_):
+                for (field in c.get().statics.get()) {
+                  ret[field.name] = true;
+                }
+              case e:
+                throw 'Unexpected type $e';
+              }
+
+            }
+            catch(e:Dynamic) {
+            }
+
+            compiledGenerics[cl.toString()] = ret;
+          }
+        case _:
+        }
+      }
+    });
 
     Context.onGenerate(function(types) {
       var metaDefs = Globals.cur.classesToAddMetaDef;
@@ -149,7 +180,20 @@ class CreateCppia {
       for (type in types) {
         switch(type) {
           case TInst(c,_):
+            var name = c.toString();
             var c = c.get();
+            var genericFields = compiledGenerics[name];
+            if (genericFields != null) {
+              for (field in c.fields.get().concat(c.statics.get())) {
+                if (field.meta.has(':genericInstance')) {
+                  if (!genericFields.exists(field.name)) {
+                    Context.warning('UHXERR: The generic field implementation ${field.name} was not ' +
+                        'compiled into the latest C++ compilation. Please perform a full C++ compilation - ' +
+                        'otherwise this call will fail', field.pos);
+                  }
+                }
+              }
+            }
             if (c.meta.has(':uextern')) {
               var name = TypeRef.fastClassPath(c);
               if (c.isInterface || compiled.exists(name)) {
