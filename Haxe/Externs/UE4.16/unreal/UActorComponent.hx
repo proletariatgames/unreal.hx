@@ -67,7 +67,7 @@ package unreal;
   /**
     Main tick function for the Actor
   **/
-  @:uproperty public var PrimaryComponentTick : unreal.FActorComponentTickFunction;
+  @:uproperty public var PrimaryComponentTick(default,never) : unreal.FActorComponentTickFunction;
   
   /**
     Returns whether the component is in the process of being destroyed.

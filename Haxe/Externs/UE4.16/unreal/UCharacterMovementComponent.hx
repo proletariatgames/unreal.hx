@@ -63,7 +63,7 @@ package unreal;
   /**
     Post-physics tick function for this character
   **/
-  @:uproperty public var PostPhysicsTickFunction : unreal.FCharacterMovementComponentPostPhysicsTickFunction;
+  @:uproperty public var PostPhysicsTickFunction(default,never) : unreal.FCharacterMovementComponentPostPhysicsTickFunction;
   
   /**
     Ignore small differences in ground height between server and client data during NavWalking mode

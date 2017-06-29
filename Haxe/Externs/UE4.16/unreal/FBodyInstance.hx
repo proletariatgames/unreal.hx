@@ -18,7 +18,7 @@ package unreal;
   Container for a physics representation of an object
 **/
 @:glueCppIncludes("PhysicsEngine/BodyInstance.h")
-@:uextern @:ustruct extern class FBodyInstance {
+@:noCopy @:uextern @:ustruct extern class FBodyInstance {
   
   /**
     Locks physical movement along specified axis.

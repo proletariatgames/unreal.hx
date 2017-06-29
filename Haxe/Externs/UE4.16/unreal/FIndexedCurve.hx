@@ -25,6 +25,6 @@ package unreal;
   /**
     Map of which key handles go to which indices.
   **/
-  @:uproperty private var KeyHandlesToIndices : unreal.FKeyHandleMap;
+  @:uproperty private var KeyHandlesToIndices(default,never) : unreal.FKeyHandleMap;
   
 }

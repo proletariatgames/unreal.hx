@@ -376,7 +376,7 @@ package unreal;
     @see https://docs.unrealengine.com/latest/INT/API/Runtime/Engine/Engine/FTickFunction/
     @see AddTickPrerequisiteActor(), AddTickPrerequisiteComponent()
   **/
-  @:uproperty public var PrimaryActorTick : unreal.FActorTickFunction;
+  @:uproperty public var PrimaryActorTick(default,never) : unreal.FActorTickFunction;
   
   /**
     Called on client when updated bReplicateMovement value is received for this actor.

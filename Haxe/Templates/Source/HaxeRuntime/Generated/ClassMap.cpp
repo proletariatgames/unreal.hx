@@ -3,12 +3,13 @@
 
 #include "IntPtr.h"
 #include "uhx/ue/ClassMap.h"
-#include <CoreUObject.h>
-#include <unordered_map>
+#include "CoreUObject.h"
+#include "Core.h"
+#include "uhx/expose/HxcppRuntime.h"
 
-static std::unordered_map<UClass *,HaxeWrap>& getClassMap() {
+static TMap<UClass *,HaxeWrap>& getClassMap() {
   // lazy instantiation
-  static std::unordered_map<UClass *,HaxeWrap> classMap;
+  static TMap<UClass *,HaxeWrap> classMap;
   return classMap;
 }
 
@@ -18,7 +19,7 @@ static TArray<CppInit>& getInits() {
 }
 
 bool ::uhx::ue::ClassMap_obj::addWrapper(unreal::UIntPtr inUClass, HaxeWrap inWrapper) {
-  getClassMap()[(UClass *)inUClass] = inWrapper;
+  getClassMap().Emplace((UClass *)inUClass, inWrapper);
   return true;
 }
 
@@ -29,9 +30,9 @@ unreal::UIntPtr uhx::ue::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
   auto& map = getClassMap();
   while (cls != nullptr) {
     if (cls->HasAllClassFlags(CLASS_Native)) {
-      auto it = map.find(cls);
-      if (it != map.end()) {
-        return (it->second)(inUObject);
+      auto it = map.Find(cls);
+      if (it != nullptr) {
+        return (*it)(inUObject);
       }
     }
     cls = cls->GetSuperClass();
@@ -52,5 +53,26 @@ void uhx::ue::ClassMap_obj::runInits() {
   for (const CppInit& init : curInits) {
     init();
   }
+}
+
+static TMap<UClass*, FString>& getCppiaWrapperMap() {
+  static TMap<UClass*, FString> ret;
+  return ret;
+}
+
+static unreal::UIntPtr cppiaWrapper(unreal::UIntPtr inUObject) {
+  UObject *obj = (UObject*) inUObject;
+  UClass *cls = obj->GetClass();
+
+  auto& map = getCppiaWrapperMap();
+  FString& hxClass = map[cls];
+
+  return uhx::expose::HxcppRuntime::createDynamicHelper(inUObject, TCHAR_TO_UTF8(*hxClass));
+}
+
+void uhx::ue::ClassMap_obj::addCppiaExternWrapper(const char *inUClass, const char *inHxClass) {
+  UClass *cls = Cast<UClass>(StaticFindObjectFast(UClass::StaticClass(), nullptr, FName(UTF8_TO_TCHAR(inUClass)), false, true, RF_NoFlags));
+  getCppiaWrapperMap().Emplace(cls, FString(UTF8_TO_TCHAR(inHxClass)));
+  addWrapper((unreal::UIntPtr) cls, &cppiaWrapper);
 }
 #endif

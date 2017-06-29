@@ -23,6 +23,6 @@ package unreal.moviescene;
 @:glueCppIncludes("MovieSceneSequence.h")
 @:uextern @:uclass extern class UMovieSceneSequence extends unreal.moviescene.UMovieSceneSignedObject {
   @:uproperty public var TemplateParameters : unreal.moviescene.FMovieSceneTrackCompilationParams;
-  @:uproperty public var EvaluationTemplate : unreal.moviescene.FCachedMovieSceneEvaluationTemplate;
+  @:uproperty public var EvaluationTemplate(default,never) : unreal.moviescene.FCachedMovieSceneEvaluationTemplate;
   
 }

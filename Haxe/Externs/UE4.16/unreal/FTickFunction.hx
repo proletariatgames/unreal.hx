@@ -18,7 +18,7 @@ package unreal;
   Abstract Base class for all tick functions.
 **/
 @:glueCppIncludes("Engine/EngineBaseTypes.h")
-@:uextern @:ustruct extern class FTickFunction {
+@:noCopy @:uextern @:ustruct extern class FTickFunction {
   
   /**
     The frequency in seconds at which this tick function will be executed.  If less than or equal to 0 then it will tick every frame

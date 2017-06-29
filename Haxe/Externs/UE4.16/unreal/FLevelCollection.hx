@@ -19,6 +19,6 @@ package unreal;
   and the context required to properly tick/update those levels. This object is move-only.
 **/
 @:glueCppIncludes("Engine/World.h")
-@:uextern @:ustruct extern class FLevelCollection {
+@:noCopy @:uextern @:ustruct extern class FLevelCollection {
   
 }

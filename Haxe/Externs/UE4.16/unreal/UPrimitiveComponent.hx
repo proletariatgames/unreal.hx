@@ -25,7 +25,7 @@ package unreal;
   /**
     Tick function for physics ticking *
   **/
-  @:uproperty public var PostPhysicsComponentTick : unreal.FPrimitiveComponentPostPhysicsTickFunction;
+  @:uproperty public var PostPhysicsComponentTick(default,never) : unreal.FPrimitiveComponentPostPhysicsTickFunction;
   
   /**
     Event called when a finger is moved off this component when touch over events are enabled in the player controller
@@ -158,7 +158,7 @@ package unreal;
   /**
     Physics scene information for this component, holds a single rigid body with multiple shapes.
   **/
-  @:uproperty public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance(default,never) : unreal.FBodyInstance;
   
   /**
     Multiplier used to scale the Light Propagation Volume light injection bias, to reduce light bleeding.

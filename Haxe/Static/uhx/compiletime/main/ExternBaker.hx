@@ -321,7 +321,6 @@ class ExternBaker {
       return;
     }
     if (extraModule.length > 1) {
-      trace(extraModule);
       throw new Error('The `_Extra` file should not declare any other type', pos);
     }
 
@@ -799,17 +798,29 @@ class ExternBaker {
             var glueClassGet = glueType.getClassPath() + '.StaticClass()';
             this.add('static function __init__():Void');
             this.begin(' {');
+              this.add('#if !cppia');
+              this.newline();
               this.add('var func = cpp.Function.fromStaticFunction(wrapPointer).toFunction();');
               this.newline();
               this.add('uhx.ue.ClassMap.addWrapper($glueClassGet, func);');
+              this.newline();
+              this.add('#else');
+              this.newline();
+              this.add('uhx.runtime.Helpers.addCppiaExternWrapper("${uname}", "${this.typeRef.getClassPath(true)}");');
+              this.newline();
+              this.add('#end');
             this.end('}');
             this.newline();
 
             // add wrap
+            this.add('#if !cppia');
+            this.newline();
             this.add('static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
             this.begin(' {');
               this.add('return uhx.internal.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
             this.end('}');
+            this.add('#end');
+            this.newline();
           }
 
           this.add('inline public static function wrap(uobject:${this.thisConv.haxeGlueType}):${this.typeRef.getClassPath()}');
@@ -863,7 +874,7 @@ class ExternBaker {
             this.add('return this != null && this.pvtIsValid(threadSafe);');
           this.end('}');
 
-          this.add('#if (!cppia && !debug) inline #end private function pvtIsValid(threadSafe:Bool):Bool');
+          this.add('@:noCompletion #if (!cppia && !debug) inline #end private function pvtIsValid(threadSafe:Bool):Bool');
           this.begin(' {');
             this.add('return this.wrapped != 0 && '
                 +' uhx.internal.ObjectArrayHelper_Glue.objectToIndex(this.wrapped) == internalIndex && '

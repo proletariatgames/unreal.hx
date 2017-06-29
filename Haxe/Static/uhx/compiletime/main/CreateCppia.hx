@@ -1,7 +1,9 @@
 package uhx.compiletime.main;
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.macro.Compiler;
 import haxe.macro.Type;
+import uhx.compiletime.types.TypeRef;
 import sys.FileSystem;
 
 using StringTools;
@@ -9,10 +11,16 @@ using StringTools;
 class CreateCppia {
   static var firstCompilation = true;
   static var hasRun = false;
+  static var compiledModules:{ stamp:Float, modules:Map<String, Bool> };
 
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
-    registerMacroCalls();
+
+    var target = Context.definedValue('ustatic_target');
+    compiledModules = getCompiled(target);
+    var compiled = compiledModules.modules;
+
+    registerMacroCalls(target);
 
     var statics = [];
     for (path in staticPaths) {
@@ -26,7 +34,6 @@ class CreateCppia {
     }
     Globals.cur.scriptModules = [ for (module in scripts) module => true ];
     var modules = [ for (module in scripts) Context.getModule(module) ];
-    var target = Context.definedValue('ustatic_target');
     if (target != null && sys.FileSystem.exists('$target/Data/livereload.txt')) {
       var arr = [];
       for (type in sys.io.File.getContent('$target/Data/livereload.txt').split('\n')) {
@@ -102,6 +109,9 @@ class CreateCppia {
           }
         }
       }
+
+      var regModules = new Map(),
+          compiledPath = '$target/Data/compiled.txt';
       inline function hasExclude(module:String) {
         if (allStatics[module]) {
           return true;
@@ -120,8 +130,19 @@ class CreateCppia {
       }
       for (type in types) {
         switch(type) {
-          case TInst(_.get()=>c,_):
-            if (hasExclude(c.module) || c.meta.has(':uextern') || c.meta.has(':coreApi')) {
+          case TInst(c,_):
+            var c = c.get();
+            if (c.meta.has(':uextern')) {
+              var name = TypeRef.fastClassPath(c);
+              if (c.isInterface || compiled.exists(name)) {
+                c.exclude();
+                var mod = c.module;
+                if (!regModules.exists(mod)) {
+                  regModules[mod] = true;
+                  Context.registerModuleDependency(mod, compiledPath);
+                }
+              }
+            } else if (hasExclude(c.module) || c.meta.has(':coreApi')) {
               if (c.name != 'UnrealCppia') {
                 c.exclude();
               }
@@ -132,12 +153,27 @@ class CreateCppia {
               case _:
               }
             }
-          case TEnum(_.get()=>e,_):
+          case TEnum(e,_):
+            var e = e.get();
             if (hasExclude(e.module)) {
               e.exclude();
             }
-          case TAbstract(_.get()=>a,_):
-            if (hasExclude(a.module) || (a.meta.has(':uextern') && !a.meta.has(':uscript')) || a.meta.has(':coreApi')) {
+          case TAbstract(a,_):
+            var a = a.get();
+            if (a.meta.has(':uextern') && !a.meta.has(':uscript')) {
+              var name = TypeRef.fastClassPath(a);
+              if (compiled.exists(name)) {
+                var impl = a.impl;
+                if (impl != null) {
+                  impl.get().exclude();
+                }
+                var mod = a.module;
+                if (!regModules.exists(mod)) {
+                  regModules[mod] = true;
+                  Context.registerModuleDependency(mod, compiledPath);
+                }
+              }
+            } else if (hasExclude(a.module) || a.meta.has(':coreApi')) {
               var impl = a.impl;
               if (impl != null) {
                 impl.get().exclude();
@@ -205,18 +241,49 @@ class CreateCppia {
     }
   }
 
-  private static function registerMacroCalls() {
+  private static function registerMacroCalls(target:String) {
     if (hasRun) return;
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
       Context.onMacroContextReused(function() {
-        trace('macro context reused');
         hasRun = false;
+
+        trace('macro context reused');
         Globals.reset();
         return true;
       });
     }
     Globals.cur.setHaxeRuntimeDir();
+  }
+
+  private static function getCompiled(target:String):{ stamp:Null<Float>, modules:Map<String, Bool> } {
+    var ret = new Map(),
+        path = '$target/Data/compiled.txt';
+    if (!FileSystem.exists(path)) {
+      return { stamp:null, modules:ret };
+    }
+    var stamp = FileSystem.stat(path).mtime.getTime(),
+        file = sys.io.File.read(path);
+    try {
+      while(true) {
+        var cur = file.readLine();
+        ret[cur] = true;
+        Compiler.define('UHX_COMPILED_${cur.replace('.','_')}');
+      }
+    }
+    catch(e:haxe.io.Eof) {
+    }
+
+    if (compiledModules != null) {
+      var old = compiledModules.modules;
+      for (key in old.keys()) {
+        if (!ret.exists(key)) {
+          Compiler.define('UHX_COMPILED_${key.replace('.','_')}', '0');
+        }
+      }
+    }
+
+    return { stamp:stamp, modules:ret };
   }
 }

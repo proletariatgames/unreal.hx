@@ -39,6 +39,7 @@ class GlueMethod {
   var glueRet(default, null):TypeConv;
   var retHaxeType(default, null):TypeRef;
   var op(default, null):String;
+  var thisRef:TypeRef;
 
   ///////////////////////
   /// shared parameters
@@ -52,7 +53,7 @@ class GlueMethod {
     this.type = type;
     this.thisConv = TypeConv.get(type,meth.pos,meth.specialization != null).withModifiers([Ptr]);
     this.firstExternSuper = firstExternSuper;
-    var thisRef = TypeRef.fromType(type, meth.pos);
+    this.thisRef = TypeRef.fromType(type, meth.pos);
     if (glueType == null)
       glueType = thisRef.getGlueHelperType();
     this.glueType = glueType;
@@ -93,6 +94,42 @@ class GlueMethod {
     this.process();
   }
 
+  private function getReflectiveCode() {
+    var isStatic = meth.flags.hasAny(Static);
+    if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
+      var isProp = meth.flags.hasAny(Property);
+      if (isProp) {
+        var isSetter = meth.name.startsWith('set_');
+        if (isSetter) {
+          return [
+            'unreal.ReflectAPI.bpSetField(this, "${meth.uname}", ${meth.args[0].name});',
+            'return ${meth.args[0].name};',
+          ];
+        } else {
+          return [
+            'return unreal.ReflectAPI.bpGetField(this, "${meth.uname}");',
+          ];
+        }
+      } else {
+        var argNames = [ for (arg in meth.args) arg.name ];
+        var args = argNames.length == 0 ? 'null' : ('[' + argNames.join(", ") + ']');
+        var ret = [
+          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", $args);'
+        ];
+        if (!meth.ret.haxeType.isVoid()) {
+          ret[0] = 'return ' + ret[0];
+        }
+        return ret;
+      }
+    } else if (isStatic && meth.name == 'StaticClass') {
+      var uname = thisConv.ueType.withoutPointer(true).getCppType().toString();
+      return [
+        'return uhx.runtime.UReflectionGenerator.getUClass("${uname.substr(1)}");'
+      ];
+    }
+    return null;
+  }
+
   private function process() {
     var meth = this.meth;
     if (meth.meta == null) {
@@ -103,30 +140,12 @@ class GlueMethod {
     var isProp = meth.flags.hasAny(Property);
     var haxeArgs = this.haxeArgs = meth.args;
     this.retHaxeType = meth.ret.haxeType;
-    if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
-      if (isProp) {
-        var isSetter = meth.name.startsWith('set_');
-        if (isSetter) {
-          this.haxeCode = [
-            'unreal.ReflectAPI.bpSetField(this, "${meth.uname}", ${meth.args[0].name});',
-            'return ${meth.args[0].name};',
-          ];
-        } else {
-          this.haxeCode = [
-            'return unreal.ReflectAPI.bpGetField(this, "${meth.uname}");',
-          ];
-        }
-      } else {
-        var argNames = [ for (arg in meth.args) arg.name ];
-        var args = argNames.length == 0 ? 'null' : ('[' + argNames.join(", ") + ']');
-        this.haxeCode = [
-          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", $args);'
-        ];
-        if (!meth.ret.haxeType.isVoid()) {
-          this.haxeCode[0] = 'return ' + this.haxeCode[0];
-        }
+    if (Context.defined('cppia')) {
+      var refl = getReflectiveCode();
+      if (refl != null) {
+        this.haxeCode = refl;
+        return;
       }
-      return;
     }
 
     var ctx = new ConvCtx();
@@ -641,6 +660,15 @@ class GlueMethod {
       buf << '@:ueHeaderCode("' << new Escaped(this.ueHeaderCode) << '")' << new Newline();
     }
 
+    if (this.haxeCode != null && this.cppCode != null && !meth.flags.hasAny(UnrealReflective) && meth.name != 'StaticClass') {
+      var thisType = thisRef.getClassPath().replace('.','_');
+      buf << '#if (cppia && !UHX_COMPILED_${thisType})' << new Newline();
+      buf << '@:deprecated("UHXERR: The field '
+          << meth.name
+          << ' was not compiled into the latest C++ compilation. Please perform a full C++ compilation.")' << new Newline();
+      buf << '#end' << new Newline();
+    }
+
     buf << meth.meta;
 
     /// glue
@@ -684,8 +712,20 @@ class GlueMethod {
           buf << '#end' << new Newline();
         }
 
+        var refl = this.getReflectiveCode();
+        if (refl != null) {
+          buf << '#if cppia' << new Newline();
+          for (expr in refl) {
+            buf << expr << new Newline();
+          }
+          buf << new Newline() << '#else' << new Newline();
+        }
+
         for (expr in this.haxeCode) {
           buf << expr << new Newline();
+        }
+        if (refl != null) {
+          buf << new Newline() << '#end' << new Newline();
         }
       buf << new End('}');
     }

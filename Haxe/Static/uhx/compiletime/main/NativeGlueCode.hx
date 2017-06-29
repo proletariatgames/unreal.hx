@@ -355,12 +355,11 @@ class NativeGlueCode
     if (Context.defined("WITH_CPPIA")) {
       var glueModules = [ for (key in glueTypes.keys()) key ];
       glueModules.sort(Reflect.compare);
-      var cfile = sys.io.File.write('$cppTarget/Data/compiled.txt');
-      for (mod in glueModules) {
-        cfile.writeString(mod);
-        cfile.writeString('\n');
+      var contents = glueModules.join('\n');
+      var file = '$cppTarget/Data/compiled.txt';
+      if (!FileSystem.exists(file) || sys.io.File.getContent(file) != contents) {
+        sys.io.File.saveContent(file, contents);
       }
-      cfile.close();
     }
 
     // clean generated folder

@@ -223,7 +223,7 @@ package unreal.foliage;
   /**
     Custom collision for foliage
   **/
-  @:uproperty public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance(default,never) : unreal.FBodyInstance;
   
   /**
     If enabled, foliage will render a pre-pass which allows it to occlude other primitives, and also allows

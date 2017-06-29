@@ -117,6 +117,21 @@ class TypeRef
       return new TypeRef(ct.pack, ct.name, params);
   }
 
+  public static function fastClassPath(ct:BaseType):String {
+    var mod = ct.module;
+    if (ct.pack.length != 0) {
+      var name = '.' + ct.name;
+      if (mod.endsWith(name)) {
+        return mod.substr(0,mod.length-name.length) + name;
+      }
+    } else {
+      if (mod == ct.name) {
+        return ct.name;
+      }
+    }
+    return mod + '.' + ct.name;
+  }
+
   public static function fromType(t:Type, pos:Position):TypeRef {
     while (true) {
       var base:BaseType = null,

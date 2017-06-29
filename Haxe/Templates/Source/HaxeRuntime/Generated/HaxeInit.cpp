@@ -4,7 +4,7 @@
 #include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
-  #include <windows.h>
+  #include "Windows/MinWindows.h"
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
   #include <pthread.h>
 #else

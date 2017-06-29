@@ -1322,11 +1322,7 @@ class UReflectionGenerator {
     Finds a class given its name (without the prefix (U,A,...))
    **/
   public static function getUClass(name:String):UClass {
-    var ret = UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
-    if (ret == null) {
-      ret = UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
-    }
-    return cast ret;
+    return cast UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
 
   /**

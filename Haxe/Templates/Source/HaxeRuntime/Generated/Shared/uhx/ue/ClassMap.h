@@ -24,6 +24,8 @@ namespace ue {
     static void addCppInit(CppInit inInit);
 
     static void runInits();
+
+    static void addCppiaExternWrapper(const char *inUClass, const char *inHxClass);
   };
 
   class InitAdd {

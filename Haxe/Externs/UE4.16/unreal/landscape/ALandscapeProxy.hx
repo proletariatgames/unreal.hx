@@ -76,7 +76,7 @@ package unreal.landscape;
   /**
     Collision profile settings for this landscape
   **/
-  @:uproperty public var BodyInstance : unreal.FBodyInstance;
+  @:uproperty public var BodyInstance(default,never) : unreal.FBodyInstance;
   
   /**
     Thickness of the collision surface, in unreal units

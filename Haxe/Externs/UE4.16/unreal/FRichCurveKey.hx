@@ -18,7 +18,7 @@ package unreal;
   One key in a rich, editable float curve
 **/
 @:glueCppIncludes("Curves/RichCurve.h")
-@:uextern @:ustruct extern class FRichCurveKey {
+@:noCopy @:uextern @:ustruct extern class FRichCurveKey {
   
   /**
     If RCTWM_WeightedLeave or RCTWM_WeightedBoth, the weight of the right tangent

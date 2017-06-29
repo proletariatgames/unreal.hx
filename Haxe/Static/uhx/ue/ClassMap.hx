@@ -15,4 +15,6 @@ import unreal.UIntPtr;
   static function wrap(inUObject:UIntPtr):UIntPtr;
 
   static function runInits():Void;
+
+  static function addCppiaExternWrapper(inUClass:cpp.ConstCharStar, inHxClass:cpp.ConstCharStar):Void;
 }

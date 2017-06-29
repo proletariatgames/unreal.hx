@@ -376,7 +376,7 @@ class UhxBuild {
         compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
       }
       if (compserver != null) {
-        Sys.putEnv("HAXE_COMPILATION_SERVER", null);
+        Sys.putEnv("HAXE_COMPILATION_SERVER", "");
       }
 
       // Windows paths have '\' which needs to be escaped for macro arguments
@@ -622,9 +622,6 @@ class UhxBuild {
         if (oldEnvs != null) {
           setEnvs(oldEnvs);
         }
-        if (compserver != null) {
-          Sys.putEnv("HAXE_COMPILATION_SERVER", null);
-        }
 
         if (ret == 0 && isCrossCompiling) {
           // somehow -D destination doesn't do anything when cross compiling
@@ -711,6 +708,9 @@ class UhxBuild {
           err('=============================');
         }
       }
+      if (compserver != null) {
+        Sys.putEnv("HAXE_COMPILATION_SERVER", "");
+      }
     } else {
       warn("Haxe compiler was not found!");
     }
@@ -771,9 +771,7 @@ class UhxBuild {
     var oldEnvs = new Map();
     for (key in envs.keys()) {
       var old = Sys.getEnv(key);
-      if (old != null) {
-        oldEnvs[key] = old;
-      }
+      oldEnvs[key] = old == null ? "" : old;
       Sys.putEnv(key, envs[key]);
     }
     return oldEnvs;

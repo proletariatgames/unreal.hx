@@ -278,7 +278,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function createDynamicHelper(self:UIntPtr, name:cpp.ConstCharStar):UIntPtr {
-#if (WITH_CPPIA && !NO_DYNAMIC_UCLASS && !UHX_NO_UOBJECT)
+#if (WITH_CPPIA && !UHX_NO_UOBJECT)
     var hxType = Type.resolveClass(name.toString());
     if (hxType == null) {
       trace('Error', 'Could not find type ${name.toString()}');

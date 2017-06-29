@@ -41,7 +41,7 @@ package unreal;
   /**
     Default properties of the body instance, copied into objects on instantiation, was URB_BodyInstance
   **/
-  @:uproperty public var DefaultInstance : unreal.FBodyInstance;
+  @:uproperty public var DefaultInstance(default,never) : unreal.FBodyInstance;
   
   /**
     Collision Trace behavior - by default, it will keep simple(convex)/complex(per-poly) separate *
