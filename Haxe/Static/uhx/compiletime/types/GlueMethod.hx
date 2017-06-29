@@ -98,17 +98,31 @@ class GlueMethod {
     var isStatic = meth.flags.hasAny(Static);
     if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
       var isProp = meth.flags.hasAny(Property);
+      var isUObj = this.thisConv.data.match(CUObject(_));
       if (isProp) {
         var isSetter = meth.name.startsWith('set_');
         if (isSetter) {
-          return [
-            'unreal.ReflectAPI.bpSetField(this, "${meth.uname}", ${meth.args[0].name});',
-            'return ${meth.args[0].name};',
-          ];
+          if (isUObj) {
+            return [
+              'unreal.ReflectAPI.bpSetField(this, "${meth.uname}", ${meth.args[0].name});',
+              'return ${meth.args[0].name};',
+            ];
+          } else {
+            return [
+              'unreal.ReflectAPI.structSetField(this, uhx_structData, "${meth.uname}", ${meth.args[0].name});',
+              'return ${meth.args[0].name};',
+            ];
+          }
         } else {
-          return [
-            'return unreal.ReflectAPI.bpGetField(this, "${meth.uname}");',
-          ];
+          if (isUObj) {
+            return [
+              'return unreal.ReflectAPI.bpGetField(this, "${meth.uname}");',
+            ];
+          } else {
+            return [
+              'return unreal.ReflectAPI.structGetField(this, uhx_structData, "${meth.uname}");',
+            ];
+          }
         }
       } else {
         var argNames = [ for (arg in meth.args) arg.name ];
@@ -144,6 +158,9 @@ class GlueMethod {
       var refl = getReflectiveCode();
       if (refl != null) {
         this.haxeCode = refl;
+        return;
+      } else {
+        this.haxeCode = ['throw "The function ${meth.name} was not compiled into Unreal.hx. C++ recompilation is needed";'];
         return;
       }
     }
@@ -713,20 +730,20 @@ class GlueMethod {
         }
 
         var refl = this.getReflectiveCode();
+        buf << '#if cppia' << new Newline();
         if (refl != null) {
-          buf << '#if cppia' << new Newline();
           for (expr in refl) {
             buf << expr << new Newline();
           }
-          buf << new Newline() << '#else' << new Newline();
+        } else {
+          buf << 'throw "The function ${meth.name} was not compiled into Unreal.hx. C++ recompilation is needed";';
         }
+        buf << new Newline() << '#else' << new Newline();
 
         for (expr in this.haxeCode) {
           buf << expr << new Newline();
         }
-        if (refl != null) {
-          buf << new Newline() << '#end' << new Newline();
-        }
+        buf << new Newline() << '#end' << new Newline();
       buf << new End('}');
     }
   }

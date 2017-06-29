@@ -74,4 +74,13 @@ package unreal;
    *	Return the GameDir
    */
   static function GameDir():TCharStar;
+
+  /**
+   * Show a message box if possible, otherwise print a message and return the default
+   * @param MsgType What sort of options are provided
+   * @param Text Specific message
+   * @param Caption String indicating the title of the message box
+   * @return Very strange convention...not really EAppReturnType, see implementation
+   */
+  static function MessageBoxExt(msgType:EAppMsgType, text:TCharStar, caption:TCharStar):EAppReturnType;
 }

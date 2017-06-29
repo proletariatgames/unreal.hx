@@ -34,6 +34,7 @@ class UnrealInit
 
       editorSetup();
     } catch(e:Dynamic) {
+      FPlatformMisc.MessageBoxExt(Ok, 'Error while setting up the editor: $e', 'Unreal.hx initialization error');
       trace('Error', 'Error while setting up the editor: $e');
       trace('Error', haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
     }
@@ -92,8 +93,10 @@ class UnrealInit
         if (cls != null) {
           var newStamp:Float = cls.timestamp;
           if (Math.abs(newStamp - internalStamp) < .1) {
-            trace('Error', 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
-                  'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error');
+            var msg = 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
+                      'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error';
+            FPlatformMisc.MessageBoxExt(Ok, msg, 'Unreal.hx cppia initialization error');
+            trace('Error', msg);
           } else if (newStamp < internalStamp) {
             trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
           }
@@ -160,11 +163,13 @@ class UnrealInit
                 }
               }
             case Failure:
+              FPlatformMisc.MessageBoxExt(Ok, 'Unreal.hx cppia hot reload failure', 'Unreal.hx error');
               trace('Error', 'Hot reload failure');
             }
           }
         }
       } catch(e:Dynamic) {
+        FPlatformMisc.MessageBoxExt(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
         trace('Error', 'Error while loading cppia: $e');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
       }

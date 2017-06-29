@@ -1300,13 +1300,6 @@ class UReflectionGenerator {
   /**
     Finds a script struct given its name (without the prefix (U,A,...))
    **/
-  public static function getUStruct(name:String):UScriptStruct {
-    return cast UObject.StaticFindObjectFast(UScriptStruct.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
-  }
-
-  /**
-    Finds a script struct given its name (without the prefix (U,A,...))
-   **/
   public static function getUEnum(name:String):UEnum {
     return cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
@@ -1323,6 +1316,13 @@ class UReflectionGenerator {
    **/
   public static function getUClass(name:String):UClass {
     return cast UObject.StaticFindObjectFast(UClass.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+  }
+
+  /**
+    Finds a script struct given its name (without the prefix (U,A,...))
+   **/
+  public static function getUStruct(name:String):UScriptStruct {
+    return cast UObject.StaticFindObjectFast(UScriptStruct.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
   }
 
   /**

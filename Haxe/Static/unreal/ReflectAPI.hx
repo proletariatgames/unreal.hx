@@ -40,6 +40,15 @@ class ReflectAPI {
     }
   }
 
+  public static function structSetField(struct:Struct, structData:UScriptStruct, field:String, value:Dynamic) {
+    var prop = structData.FindPropertyByName(field);
+    if (prop != null) {
+      bpSetField_rec(AnyPtr.fromStruct(struct), prop, value, field);
+    } else {
+      throw 'Field `$field` does not exist on ${structData.GetName()}';
+    }
+  }
+
   public static function getUPropertyFromClass(cls:UClass, name:String):UProperty {
     var prop = cls.FindPropertyByName(name);
     if (prop == null) {
@@ -469,10 +478,19 @@ class ReflectAPI {
     var cls = obj.GetClass();
     var prop = cls.FindPropertyByName(field);
     if (prop == null) {
-      throw 'Class ${cls.GetName()} does not exist!';
+      throw 'Field $field was not found in class ${cls.GetName()}';
     }
 
     return bpGetData(AnyPtr.fromUObject(obj), prop);
+  }
+
+  public static function structGetField(struct:unreal.Struct, structData:UScriptStruct, field:String):Dynamic {
+    var prop = structData.FindPropertyByName(field);
+    if (prop == null) {
+      throw 'Field $field was not found in class ${structData.GetName()}';
+    }
+
+    return bpGetData(AnyPtr.fromStruct(struct), prop);
   }
 
   private static function bpGetData(obj:AnyPtr, prop:UProperty):Dynamic {

@@ -836,6 +836,26 @@ class ExternBaker {
         this.begin(' {');
           this.add('return cast ptr;');
         this.end('}');
+
+        if (c.meta.has(':ustruct')) {
+          var uname = switch(MacroHelpers.extractStrings(c.meta, ':uname')[0]) {
+          case null:
+            c.name;
+          case name:
+            name;
+          };
+          uname = uname.substr(1);
+          this.add('#if cppia');
+          this.newline();
+          this.add('@:noCompletion private static var uhx_structData:unreal.UScriptStruct;');
+          this.newline();
+          this.add('@:noCompletion private inline function get_structData():unreal.UScriptStruct');
+          this.begin(' {');
+            this.add('return (uhx_structData != null ? uhx_structData : (uhx_structData = uhx.runtime.UReflectionGenerator.getUStruct("$uname")));');
+          this.end('}');
+          this.add('#end');
+          this.newline();
+        }
       }
 
       if (c.superClass == null && !isAbstract && !this.thisConv.data.match(CUObject(OInterface,_,_))) {
@@ -1000,7 +1020,7 @@ class ExternBaker {
       if (isStatic) {
         flags |= Static;
       }
-      if (field.meta.has(":uproperty") && cls.meta.has(':uclass')) {
+      if (field.meta.has(":uproperty") && (cls.meta.has(':uclass') || cls.meta.has(':ustruct'))) {
         flags |= UnrealReflective;
       }
       switch(read) {

@@ -6,4 +6,6 @@ package unreal;
   * Sets the Unfocused Volume Multiplier
   */
   public static function SetUnfocusedVolumeMultiplier(InVolumeMultiplier:Float32) : Void;
+
+  public static function IsUnattended():Bool;
 }
