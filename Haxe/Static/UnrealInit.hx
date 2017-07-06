@@ -24,7 +24,7 @@ class UnrealInit
     if (Sys.getEnv("HXCPP_DEBUG") != null) {
       new debugger.HaxeRemote(true, "localhost");
     }
-#end
+#end // (debug && HXCPP_DEBUGGER)
 
 #if WITH_EDITOR
     try {
@@ -34,11 +34,11 @@ class UnrealInit
 
       editorSetup();
     } catch(e:Dynamic) {
-      FPlatformMisc.MessageBoxExt(Ok, 'Error while setting up the editor: $e', 'Unreal.hx initialization error');
+      FMessageDialog.Open(Ok, 'Error while setting up the editor: $e', 'Unreal.hx initialization error');
       trace('Error', 'Error while setting up the editor: $e');
       trace('Error', haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
     }
-#end
+#end // WITH_EDITOR
 
     var delayed = unreal.CoreAPI.delayedInits;
     unreal.CoreAPI.hasInit = true;
@@ -81,7 +81,7 @@ class UnrealInit
     function loadCppia() {
 #if DEBUG_HOTRELOAD
       trace('${uhx.runtime.UReflectionGenerator.id}: loading cppia');
-#end
+#end // DEBUG_HOTRELOAD
       try {
         untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
         var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
@@ -95,7 +95,7 @@ class UnrealInit
           if (Math.abs(newStamp - internalStamp) < .1) {
             var msg = 'There seems to be an error loading the new cppia script, as the last built script has the same timestamp as the current. Ignore this if the output file had its timestamp updated, ' +
                       'but it wasn\'t recompiled. Otherwise, please check your UE4Editor console (stdout log) to have more information on the error';
-            FPlatformMisc.MessageBoxExt(Ok, msg, 'Unreal.hx cppia initialization error');
+            FMessageDialog.Open(Ok, msg, 'Unreal.hx cppia initialization error');
             trace('Error', msg);
           } else if (newStamp < internalStamp) {
             trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
@@ -146,7 +146,7 @@ class UnrealInit
             trace('Warning', 'Could not find cppia metadata');
           }
         }
-#end
+#end // !NO_DYNAMIC_UCLASS
         if (first) {
           first = false;
         } else {
@@ -163,13 +163,13 @@ class UnrealInit
                 }
               }
             case Failure:
-              FPlatformMisc.MessageBoxExt(Ok, 'Unreal.hx cppia hot reload failure', 'Unreal.hx error');
+              FMessageDialog.Open(Ok, 'Unreal.hx cppia hot reload failure', 'Unreal.hx error');
               trace('Error', 'Hot reload failure');
             }
           }
         }
       } catch(e:Dynamic) {
-        FPlatformMisc.MessageBoxExt(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
+        FMessageDialog.Open(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
         trace('Error', 'Error while loading cppia: $e');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
       }
@@ -184,14 +184,44 @@ class UnrealInit
 
     // add file watcher
     var dirWatchHandle:FTickerDelegate = null;
-#end
+#end // WITH_CPPIA
 
     var hotReloadHandle = null,
         onCompHandle = null,
         onBeginCompHandle = null;
     var shouldCleanup = false;
-    function onBeginCompilation(_) {
+    function onBeginCompilation(async:Bool) {
       disabled = true;
+      // let Haxe compile
+      var ret = null;
+      try {
+#if WITH_CPPIA
+        // try to compile only cppia first
+        ret = compileHaxe(true);
+        if (ret.needsFull) {
+          trace('Sources need a full compilation');
+          ret = compileHaxe(false, ['-D','skip-bake']);
+        }
+#else
+        ret = compileHaxe(false);
+#end
+
+        var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
+        if (FileSystem.exists('$gameDir/Intermediate/Haxe')) {
+          FileSystem.createDirectory('$gameDir/Intermediate/Haxe');
+        }
+
+        if (ret.success) {
+          trace('Skipping haxe compilation');
+          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', '1');
+        } else {
+          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', '0');
+        }
+      }
+      catch(e:Dynamic) {
+        trace('Error', 'Fatal error while trying to compile Haxe sources: $e');
+        trace('Error', haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+      }
     }
 
     // when we finish compiling, we check if we should invalidate the current module
@@ -217,9 +247,9 @@ class UnrealInit
       if (shouldCleanup || waitingRebind) {
 #if DEBUG_HOTRELOAD
         trace('${uhx.runtime.UReflectionGenerator.id}: Hot reload detected');
-#else
+#else // DEBUG_HOTRELOAD
         trace('Hot reload detected');
-#end
+#end // DEBUG_HOTRELOAD
 
 #if WITH_CPPIA
         if (dirWatchHandle != null) {
@@ -227,7 +257,7 @@ class UnrealInit
           dirWatchHandle.dispose();
           dirWatchHandle = null;
         }
-#end
+#end // WITH_CPPIA
         if (hotReloadHandle != null) {
           IHotReloadModule.Get().OnHotReload().Remove(hotReloadHandle);
           hotReloadHandle = null;
@@ -257,7 +287,7 @@ class UnrealInit
         if (waitingRebind) {
 #if DEBUG_HOTRELOAD
           trace('${uhx.runtime.UReflectionGenerator.id}: Disabling watch: waiting for hot reload rebind');
-#end
+#end // DEBUG_HOTRELOAD
           return false;
         }
 
@@ -270,7 +300,7 @@ class UnrealInit
     });
 
     FTicker.GetCoreTicker().AddTicker(dirWatchHandle, 2);
-#end
+#end // WITH_CPPIA
 
     function addWatcher() {
       hotReloadHandle = IHotReloadModule.Get().OnHotReload().AddLambda(onHotReload);
@@ -289,7 +319,123 @@ class UnrealInit
       addWatcher();
     }
   }
+
+  static function compileHaxe(cppiaOnly:Bool, ?additionalArguments:Array<String>) {
+    var pluginPath = getPluginDir();
+    if (pluginPath == null) {
+      trace('Error', 'No plugin dir was found while compiling Haxe. Instead, we will ensure that the normal compiler runs');
+      trace('Error', 'Please review why the plugin directory was not found, and if you believe this is an error, report this');
+
+      var sourceDir = FPaths.ConvertRelativePathToFull(FPaths.GameSourceDir());
+      sys.io.File.saveContent('$sourceDir/Generated.Build.cs', '// do not save this file on your source control. This is generated to make sure that Haxe will compile when the plugin directory cannot be determined');
+      return { success:true, needsFull:false };
+    }
+
+    var compServer = Sys.getEnv('HAXE_COMPILATION_SERVER');
+    if (compServer != null && compServer != '') {
+      Sys.putEnv('HAXE_COMPILATION_SERVER', null);
+      Sys.putEnv('HAXE_COMPILATION_SERVER_DEFER', compServer);
+    }
+    var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()),
+        engineDir = FPaths.ConvertRelativePathToFull(FPaths.EngineDir()),
+        projectFile = FPaths.ConvertRelativePathToFull(FPaths.GetProjectFilePath()),
+        targetName = FApp.GetGameName().toString(), // TODO what about the Editor ?
+        targetType = 'Editor',
+        targetPlatform = FPlatformMisc.GetUBTPlatform(),
+        targetConfiguration = FModuleManager.GetUBTConfiguration();
+
+    var args = [
+      '--cwd', '$pluginPath/Haxe/BuildTool', 'compile-project.hxml',
+      '-D', 'engine-recompile',
+      '-D', 'EngineDir=$engineDir',
+      '-D', 'ProjectDir=$gameDir',
+      '-D', 'TargetName=$targetName',
+      '-D', 'TargetPlatform=$targetPlatform',
+      '-D', 'TargetConfiguration=$targetConfiguration',
+      '-D', 'TargetType=$targetType',
+      '-D', 'ProjectFile=$projectFile',
+      '-D', 'PluginDir=$pluginPath',
+    ];
+#if WITH_CPPIA
+    if (cppiaOnly) {
+      trace('Trying to compile cppia only first');
+      args.push('-D');
+      args.push('cppia-recompile');
+    }
+#else
+    cppiaOnly = false;
 #end
+    if (additionalArguments != null) {
+      args = args.concat(additionalArguments);
+    }
+
+    trace('Calling Haxe compiler with arguments: "${args.join('" "')}"');
+    var proc = null;
+    try {
+      proc = new sys.io.Process('haxe', args);
+    }
+    catch(e:Dynamic) {
+      trace('Error', 'Haxe compilation failed: $e!');
+      return { success:false, needsFull:false };
+    }
+
+    var needsFull = false;
+    function read(name:String, inp:haxe.io.Input) {
+      cpp.vm.Thread.create(function() {
+        try {
+          while(true) {
+            var ln = inp.readLine();
+            if (cppiaOnly) {
+              if (ln.indexOf('UHXERR') >= 0) {
+                needsFull = true;
+              }
+            }
+            if (ln.indexOf('Warning') >= 0) {
+              unreal.Log.warning(ln);
+            } else if (ln.indexOf('Error') >= 0) {
+              unreal.Log.error(ln);
+            } else {
+              unreal.Log.trace(ln);
+            }
+          }
+        }
+        catch(e:haxe.io.Eof) {
+          // expected
+        }
+        catch(e:Dynamic) {
+          trace('Error', 'Error while reading $name stream: $e');
+        }
+      });
+    }
+
+    read('stdout', proc.stdout);
+    read('stderr', proc.stderr);
+
+    var code = proc.exitCode();
+    if (code != 0) {
+      trace('Warning', 'Error while calling the Haxe compiler. It exited with code $code');
+      return { success:false, needsFull:needsFull };
+    }
+    return { success:true, needsFull:needsFull };
+  }
+
+  static function getPluginDir() {
+    var manager = unreal.projects.IPluginManager.Get();
+    if (manager == null) {
+      FMessageDialog.Open(Ok, 'Cannot determine the plugin directory, as the plugin manager is not enabled', 'Unreal.hx Error');
+      return null;
+    }
+
+    var plg = manager.FindPlugin("UnrealHx");
+    if (plg == null || plg.Get() == null) {
+      FMessageDialog.Open(Ok, 'Cannot determine the plugin directory, as the "UnrealHx" plugin was not found. Make sure it is installed as a plugin on your project', 'Unreal.hx Error');
+      return null;
+    }
+
+    return FPaths.ConvertRelativePathToFull(plg.Get().GetBaseDir()).toString();
+  }
+
+#end // WITH_EDITOR
 
   static var oldTrace = haxe.Log.trace;
 

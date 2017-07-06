@@ -18,6 +18,18 @@ class UhxBuild {
   var version:{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> };
   var srcDir:String;
 
+  var scriptPaths:Array<String>;
+  var modulePaths:Array<String>;
+  var defineVer:String;
+  var definePatch:String;
+  var outputStatic:String;
+  var outputDir:String;
+  var debugSymbols:Bool;
+  var compserver:String;
+  var externsFolder:String;
+  var cppiaEnabled:Bool;
+  var targetDir:String;
+
   public function new(data) {
     for (field in Reflect.fields(data)) {
       if (Reflect.field(data, field) == null) {
@@ -104,12 +116,58 @@ class UhxBuild {
       case _:
         'libhaxeruntime.a';
     };
-    var outputDir = this.data.projectDir + '/Intermediate/Haxe/${targetModule}-${data.targetPlatform}-${data.targetConfiguration}';
+    this.outputDir = this.data.projectDir + '/Intermediate/Haxe/${targetModule}-${data.targetPlatform}-${data.targetConfiguration}';
     if (shouldBuildEditor()) {
-      outputDir += '-Editor';
+      this.outputDir += '-Editor';
+    }
+    if (!FileSystem.exists(this.outputDir + '/Data')) {
+      FileSystem.createDirectory(this.outputDir + '/Data');
     }
 
     return '$outputDir/$libName';
+  }
+
+  private static function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool) {
+    if (!FileSystem.exists(stampPath)) {
+      if (traceFiles) {
+        log('File $stampPath does not exist');
+      }
+      return true; // the file needs to be rebuilt
+    }
+
+    var stamp = FileSystem.stat(stampPath).mtime.getTime();
+    if (FileSystem.exists('${haxeDir}/arguments.hxml')) {
+      if (FileSystem.stat('$haxeDir/arguments.hxml').mtime.getTime() >= stamp) {
+        return true;
+      }
+    }
+
+    function recurse(path) {
+      for (file in FileSystem.readDirectory(path)) {
+        if (file.endsWith('.hx')) {
+          if (FileSystem.stat('$path/$file').mtime.getTime() >= stamp) {
+            if (traceFiles) {
+              log('File $path/$file has changed');
+            }
+            return true;
+          }
+        } else if (FileSystem.isDirectory('$path/$file')) {
+          var ret = recurse('$path/$file');
+          if (ret) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    for (path in paths) {
+      if (FileSystem.exists(path)) {
+        if (recurse(path)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public function getSourceDir() {
@@ -157,8 +215,19 @@ class UhxBuild {
         throw 'assert';
     };
 
-    var manifest:UhtManifest = haxe.Json.parse(sys.io.File.getContent(baseManifest)),
-        uhtDir = this.data.projectDir + '/Intermediate/Haxe/UHT';
+    var targets = [{ name:this.targetModule, path:this.srcDir, headers:[] }],
+        uhtDir = this.outputDir + '/UHT';
+    var lastRun = FileSystem.exists('$uhtDir/generated.stamp') ? FileSystem.stat('$uhtDir/generated.stamp').mtime.getTime() : 0.0;
+    var shouldRun = lastRun == 0;
+    for (target in targets) {
+      shouldRun = collectUhtHeaders(target.path, target.headers, lastRun) || shouldRun;
+    }
+
+    if (!shouldRun) {
+      log('Skipping extern generation because no new header was found on the project');
+      return;
+    }
+    var manifest:UhtManifest = haxe.Json.parse(sys.io.File.getContent(baseManifest));
     if (!FileSystem.exists(uhtDir)) {
       FileSystem.createDirectory(uhtDir);
     }
@@ -185,10 +254,7 @@ class UhxBuild {
       mod.SaveExportedHeaders = false;
     }
 
-    var targets = [{ name:this.targetModule, path:this.srcDir }];
     for (target in targets) {
-      var headers = [];
-      collectUhtHeaders(target.path, headers);
       manifest.Modules.push({
         Name: target.name,
         ModuleType: 'GameRuntime',
@@ -196,7 +262,7 @@ class UhxBuild {
         IncludeBase: target.path,
         OutputDirectory: uhtDir,
         ClassesHeaders: [],
-        PublicHeaders: headers,
+        PublicHeaders: target.headers,
         PrivateHeaders: [],
         PCH: "",
         GeneratedCPPFilenameBase: uhtDir + '/' + target.name + '.generated',
@@ -221,23 +287,34 @@ class UhxBuild {
       warn('==========================================================');
       warn('UHT: Unable to generate the externs. Build will continue');
       warn('==========================================================');
+    } else {
+      sys.io.File.saveContent('$uhtDir/generated.stamp', '');
     }
     if (oldEnvs != null) {
       setEnvs(oldEnvs);
     }
   }
 
-  private static function collectUhtHeaders(dir:String, arr:Array<String>, recurse=true) {
+  private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float, recurse=true):Bool {
+    var shouldRun = false;
     for (file in FileSystem.readDirectory(dir)) {
       var path = '$dir/$file';
       if (file.endsWith('.h')) {
         if (sys.io.File.getContent(path).indexOf('${file.substr(0,file.length-2)}.generated.h') >= 0) {
+          // we don't want to check files inside the generated folder, so skip the check if recurse is false
+          if (lastRun != 0 && !shouldRun && recurse) {
+            shouldRun = FileSystem.stat(path).mtime.getTime() >= lastRun;
+          }
           arr.push(path);
         }
       } else if (recurse && FileSystem.isDirectory(path)) {
-        collectUhtHeaders(path, arr, file == 'Generated');
+        var ret = collectUhtHeaders(path, arr, lastRun, file == 'Generated');
+        if (ret) {
+          shouldRun = true;
+        }
       }
     }
+    return shouldRun;
   }
 
   private function expandVariables(str:String, target:String) {
@@ -271,6 +348,329 @@ class UhxBuild {
       buf.add(str.substr(lastIdx));
     }
     return buf.toString();
+  }
+
+  private function getStaticCps() {
+    var cps = [
+      'arguments.hxml',
+      '-cp $haxeDir/Generated/$externsFolder',
+      '-cp ${data.pluginDir}/Haxe/Static',
+    ];
+
+    for (path in this.modulePaths) {
+      cps.push('-cp $path');
+    }
+    return cps;
+  }
+
+  private function bakeExterns() {
+    // Windows paths have '\' which needs to be escaped for macro arguments
+    var escapedHaxeDir = haxeDir.replace('\\','\\\\');
+    var escapedPluginPath = data.pluginDir.replace('\\','\\\\');
+    var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
+
+    var ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}.${this.version.PatchVersion}';
+    if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
+      ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}';
+      if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
+        throw ('Cannot find an externs directory for the unreal version ${this.version.MajorVersion}.${this.version.MinorVersion}');
+      }
+    }
+
+    var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
+#if engine_recompile
+    var shouldRun = checkRecursive(targetStamp, [
+      '${haxeDir}/Externs',
+      '${data.pluginDir}/Haxe/Externs/$ueExternDir',
+      '${data.pluginDir}/Haxe/Externs/Common',
+    ], false);
+    if (!shouldRun) {
+      log('Skipping extern baker, as no file has changed. Delete $haxeDir/Generated/$externsFolder to force');
+      return 0;
+    }
+#end
+
+    var bakeArgs = [
+      '# this pass will bake the extern type definitions into glue code',
+      FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
+      '-cp ${data.pluginDir}/Haxe/Static',
+      '-D use-rtti-doc', // we want the documentation to be persisted
+      '-D bake-externs',
+      '-D ${this.defineVer}',
+      '-D ${this.definePatch}',
+      '',
+      '-cpp $haxeDir/Generated/$externsFolder',
+      '--no-output', // don't generate cpp files; just execute our macro
+      '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], $forceCreateExterns)'
+    ];
+    if (shouldBuildEditor()) {
+      bakeArgs.push('-D WITH_EDITOR');
+    }
+    if (data.targetConfiguration == Shipping) {
+      bakeArgs.push('-D UE_BUILD_SHIPPING');
+    }
+    if (data.targetConfiguration == Shipping) {
+      bakeArgs.push('-D UE_PROGRAM');
+    }
+    if (this.config.disableUObject) {
+      bakeArgs.push('-D UHX_NO_UOBJECT');
+    }
+
+    trace('baking externs');
+    var tbake = timer('bake externs');
+    var ret = compileSources(bakeArgs);
+    tbake();
+    this.createHxml('bake-externs', bakeArgs);
+    if (ret == 0) {
+      sys.io.File.saveContent(targetStamp, '');
+    }
+    return ret;
+  }
+
+  private function compileCppia() {
+    var cps = getStaticCps();
+    for (module in scriptPaths) {
+      cps.push('-cp $module');
+    }
+
+    var args = cps.concat([
+        '',
+        '-main UnrealCppia',
+        '',
+        '-D cppia',
+        '-D ${this.defineVer}',
+        '-D ${this.definePatch}',
+        '-D ustatic_target=$targetDir/Built',
+        '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
+        '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
+    ]);
+    if (debugSymbols) {
+      args.push('-debug');
+    }
+    if (shouldBuildEditor()) {
+      args.push('-D WITH_EDITOR');
+    }
+    if (data.targetConfiguration == Shipping) {
+      args.push('-D UE_BUILD_SHIPPING');
+    }
+    if (config.extraCppiaCompileArgs != null)
+      args = args.concat(config.extraCppiaCompileArgs);
+
+    if (!FileSystem.exists('${data.projectDir}/Binaries/Haxe')) {
+      FileSystem.createDirectory('${data.projectDir}/Binaries/Haxe');
+    }
+
+    var tcppia = timer('Cppia compilation');
+    var cppiaRet = compileSources(args);
+    tcppia();
+    this.createHxml('build-script', args);
+    var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
+    this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
+    return cppiaRet;
+  }
+
+  private function compileStatic() {
+    trace('compiling Haxe');
+    if (!FileSystem.exists(targetDir)) FileSystem.createDirectory(targetDir);
+
+#if engine_recompile
+    var curStamp:Null<Date> = null;
+    if (FileSystem.exists(this.outputStatic)) {
+      curStamp = FileSystem.stat(this.outputStatic).mtime;
+    }
+#end
+
+
+    var curSourcePath = this.srcDir;
+    var cps = getStaticCps();
+    var args = cps.concat([
+      '',
+      '-main UnrealInit',
+      '',
+      '-D static_link',
+      '-D destination=${this.outputStatic}',
+      '-D haxe_runtime_dir=$curSourcePath',
+      '-D bake_dir=$haxeDir/Generated/$externsFolder',
+      '-D HXCPP_DLL_EXPORT',
+      '-D ${this.defineVer}',
+      '-D ${this.definePatch}',
+
+      '-cpp $targetDir/Built',
+      '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(this.scriptPaths) + ')',
+    ]);
+    if (!FileSystem.exists('$targetDir/Built/Data')) {
+      FileSystem.createDirectory('$targetDir/Built/Data');
+    }
+    if (!FileSystem.exists('$targetDir/Built/toolchain')) {
+      FileSystem.createDirectory('$targetDir/Built/toolchain');
+    }
+    for (file in FileSystem.readDirectory('${data.pluginDir}/Haxe/BuildTool/toolchain')) {
+      File.saveBytes('$targetDir/Built/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
+    }
+
+    if (shouldBuildEditor()) {
+      args.push('-D WITH_EDITOR');
+    }
+    if (data.targetConfiguration == Shipping) {
+      args.push('-D UE_BUILD_SHIPPING');
+    }
+    if (data.targetType == Program) {
+      args.push('-D UE_PROGRAM');
+    }
+    if (this.config.disableUObject || data.targetType == Program) {
+      args.push('-D UHX_NO_UOBJECT');
+    }
+
+    if (this.config.dce != null) {
+      args.push('-dce ${this.config.dce}');
+    }
+
+    if (debugSymbols) {
+      args.push('-debug');
+      if (this.config.debugger) {
+        args.push('-lib hxcpp-debugger');
+        args.push('-D HXCPP_DEBUGGER');
+      }
+    }
+
+    switch (data.targetPlatform) {
+    case Win32:
+      args.push('-D HXCPP_M32');
+      if (debugSymbols)
+        args.push('-D HXCPP_DEBUG_LINK');
+    case Win64:
+      args.push('-D HXCPP_M64');
+    case _:
+      args.push('-D HXCPP_M64');
+    }
+
+    // set correct ABI
+    switch (data.targetPlatform) {
+    case Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
+      args.push('-D ABI=-MD');
+    case _:
+    }
+
+    var noDynamicUClass = config.noDynamicUClass;
+    if (this.cppiaEnabled) {
+      args = args.concat(['-D scriptable', '-D WITH_CPPIA']);
+    } else {
+      noDynamicUClass = true;
+    }
+    if (noDynamicUClass) {
+      args = args.concat(['-D NO_DYNAMIC_UCLASS']);
+      this.definitions.push("NO_DYNAMIC_UCLASS=1");
+    }
+
+    var isCrossCompiling = false;
+    var extraArgs = null,
+        oldEnvs = null;
+    var thirdPartyDir = this.data.engineDir + '/Source/ThirdParty';
+    Sys.putEnv('ThirdPartyDir', thirdPartyDir);
+    switch(Std.string(data.targetPlatform)) {
+    case "Linux" if (Sys.systemName() != "Linux"):
+      // cross compiling
+      isCrossCompiling = true;
+      var crossPath = Sys.getEnv("LINUX_MULTIARCH_ROOT");
+      if (crossPath != null) {
+        crossPath = '$crossPath/x86_64-unknown-linux-gnu';
+      } else {
+        crossPath = Sys.getEnv("LINUX_ROOT");
+      }
+
+      if (crossPath != null) {
+        trace('Cross compiling using $crossPath');
+        extraArgs = [
+          '-D toolchain=linux',
+          '-D linux',
+          '-D HXCPP_CLANG',
+          '-D xlinux_compile',
+          '-D magiclibs',
+          '-D HXCPP_VERBOSE'
+        ];
+        oldEnvs = setEnvs([
+          'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
+          'CXX' => (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
+            'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
+            'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"'),
+          'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+          'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
+          'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
+          'HXCPP_LD' => 'x86_64-unknown-linux-gnu-ld',
+          'HXCPP_RANLIB' => 'x86_64-unknown-linux-gnu-ranlib',
+          'HXCPP_STRIP' => 'x86_64-unknown-linux-gnu-strip'
+        ]);
+      } else {
+        warn('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
+      }
+    case "Linux" if(!shouldBuildEditor()):
+      oldEnvs = setEnvs([
+          'CXX' => "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
+      ]);
+    case "Mac":
+      extraArgs = [
+        '-D toolchain=mac-libc'
+      ];
+    }
+
+    if (extraArgs != null) {
+      args = args.concat(extraArgs);
+    }
+    if (this.config.extraCompileArgs != null) {
+      args = args.concat(this.config.extraCompileArgs);
+    }
+
+    if (this.compserver != null) {
+      File.saveContent('$targetDir/Built/Data/compserver.txt','1');
+      Sys.putEnv("HAXE_COMPILATION_SERVER", this.compserver);
+    } else {
+      File.saveContent('$targetDir/Built/Data/compserver.txt','0');
+    }
+
+    var thaxe = timer('Haxe compilation');
+    var ret = compileSources(args);
+    thaxe();
+    if (!isCrossCompiling) {
+      this.createHxml('build-static', args);
+      var complArgs = ['--cwd $haxeDir', '--no-output'].concat(args);
+      this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
+    }
+
+    if (oldEnvs != null) {
+      setEnvs(oldEnvs);
+    }
+
+    if (ret == 0 && isCrossCompiling) {
+      // somehow -D destination doesn't do anything when cross compiling
+      var hxcppDestination = '$targetDir/Built/libUnrealInit';
+      if (debugSymbols) {
+        hxcppDestination += '-debug.a';
+      } else {
+        hxcppDestination += '.a';
+      }
+
+      var shouldCopy =
+        !FileSystem.exists(this.outputStatic) ||
+        (FileSystem.exists(hxcppDestination) &&
+         FileSystem.stat(hxcppDestination).mtime.getTime() > FileSystem.stat(this.outputStatic).mtime.getTime());
+      if (shouldCopy) {
+        File.saveBytes(this.outputStatic, File.getBytes(hxcppDestination));
+      }
+    }
+
+#if engine_recompile
+    if (ret == 0 && (curStamp == null || FileSystem.stat(outputStatic).mtime.getTime() > curStamp.getTime()))
+    {
+      // when compiling through the editor, -skiplink is set - so UBT won't even try to find the right
+      // dependencies unless we give it a little nudge
+      var dep = '${this.srcDir}/Generated/HaxeInit.cpp';
+      trace('Touching $dep to trigger hot-reload');
+      // touch the file
+      File.saveContent(dep, File.getContent(dep));
+    }
+#end
+
+    return ret;
   }
 
   private function callUnrealBuild(platform:Null<String>, project:String, config:String, ?extraArgs:Array<String>) {
@@ -329,33 +729,64 @@ class UhxBuild {
     return false;
   }
 
+  private function setupVars() {
+    this.defineVer = 'UE_VER=${this.version.MajorVersion}.${this.version.MinorVersion}';
+    this.definePatch = 'UE_PATCH=${this.version.PatchVersion == null ? 0 : this.version.PatchVersion}';
+    this.outputStatic = getLibLocation();
+    this.debugSymbols = data.targetConfiguration != Shipping && config.noDebug != true;
+    if (config.noDebug == false) {
+      this.debugSymbols = false;
+    }
+    this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
+    if (this.compserver == null || this.compserver == '') {
+      this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
+    }
+    if (this.compserver == '') {
+      this.compserver = null;
+    }
+
+    this.externsFolder = shouldBuildEditor() ? 'Externs_Editor' : 'Externs';
+
+    // get all modules that need to be compiled
+    this.modulePaths = ['$haxeDir/Static'];
+    this.scriptPaths = ['$haxeDir/Scripts'];
+    if (this.config.extraStaticClasspaths != null) {
+      this.modulePaths = this.modulePaths.concat(this.config.extraStaticClasspaths);
+    }
+    if (this.config.extraScriptClasspaths != null) {
+      this.scriptPaths = this.scriptPaths.concat(this.config.extraScriptClasspaths);
+    }
+    if (this.config.noStatic) {
+      this.scriptPaths = this.modulePaths.concat(this.scriptPaths);
+      this.modulePaths = [];
+    }
+    this.cppiaEnabled = shouldCompileCppia();
+    if (!this.cppiaEnabled) {
+      this.modulePaths = this.modulePaths.concat(this.scriptPaths);
+      this.scriptPaths = [];
+    }
+
+    this.targetDir = '${this.outputDir}/Static';
+  }
+
   public function run()
   {
-    var engineVer = this.version;
-    var defineVer = 'UE_VER=${engineVer.MajorVersion}.${engineVer.MinorVersion}',
-        definePatch = 'UE_PATCH=${engineVer.PatchVersion == null ? 0 : engineVer.PatchVersion}';
-
     if (srcDir == null) {
       throw 'Build failed';
     }
+    this.setupVars();
+    if (this.compserver != null) {
+      Sys.putEnv("HAXE_COMPILATION_SERVER", "");
+    }
 
-    updateProject(targetModule, engineVer.MajorVersion + '.' + engineVer.MinorVersion);
+    updateProject(this.targetModule, this.version.MajorVersion + '.' + this.version.MinorVersion);
 
-    var outputStatic = getLibLocation(),
-        outputDir = haxe.io.Path.directory(outputStatic);
-    if (!FileSystem.exists(outputDir)) FileSystem.createDirectory(outputDir);
+    if (!FileSystem.exists(this.outputDir)) FileSystem.createDirectory(this.outputDir);
 
-    var cppiaEnabled = shouldCompileCppia();
-    if (cppiaEnabled) {
+    if (this.cppiaEnabled) {
       this.config.dce = DceNo;
     } else if (config.noStatic) {
       warn('`config.noStatic` is set to true, but cppia is disabled. Everything will still be compiled as static');
-    }
-
-    // try to compile haxe if we have Haxe installed
-    var debugSymbols = data.targetConfiguration != Shipping && config.noDebug != true;
-    if (config.noDebug == false) {
-      debugSymbols = true;
     }
 
     var teverything = timer('Haxe setup (all compilation times included)');
@@ -368,347 +799,53 @@ class UhxBuild {
 
     if (hasHaxe)
     {
+#if !skip_bake
       if (this.config.generateExterns) {
         this.generateExterns();
       }
-      var compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
-      if (compserver == null) {
-        compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
-      }
-      if (compserver != null) {
-        Sys.putEnv("HAXE_COMPILATION_SERVER", "");
-      }
 
-      // Windows paths have '\' which needs to be escaped for macro arguments
-      var escapedPluginPath = data.pluginDir.replace('\\','\\\\');
-      var escapedHaxeDir = haxeDir.replace('\\','\\\\');
-      var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
-
-      var ueExternDir = 'UE${engineVer.MajorVersion}.${engineVer.MinorVersion}.${engineVer.PatchVersion}';
-      if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
-        ueExternDir = 'UE${engineVer.MajorVersion}.${engineVer.MinorVersion}';
-        if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
-          throw ('Cannot find an externs directory for the unreal version ${engineVer.MajorVersion}.${engineVer.MinorVersion}');
-        }
-      }
-      var externsFolder = shouldBuildEditor() ? 'Externs_Editor' : 'Externs';
-      var bakeArgs = [
-        '# this pass will bake the extern type definitions into glue code',
-        FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
-        '-cp ${data.pluginDir}/Haxe/Static',
-        '-D use-rtti-doc', // we want the documentation to be persisted
-        '-D bake-externs',
-        '-D $defineVer',
-        '-D $definePatch',
-        '',
-        '-cpp $haxeDir/Generated/$externsFolder',
-        '--no-output', // don't generate cpp files; just execute our macro
-        '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], $forceCreateExterns)'
-      ];
-      if (shouldBuildEditor()) {
-        bakeArgs.push('-D WITH_EDITOR');
-      }
-      if (data.targetConfiguration == Shipping) {
-        bakeArgs.push('-D UE_BUILD_SHIPPING');
-      }
-      if (data.targetConfiguration == Shipping) {
-        bakeArgs.push('-D UE_PROGRAM');
-      }
-      if (this.config.disableUObject) {
-        bakeArgs.push('-D UHX_NO_UOBJECT');
-      }
-
-      trace('baking externs');
-      var tbake = timer('bake externs');
-      var ret = compileSources(bakeArgs);
-      tbake();
-      this.createHxml('bake-externs', bakeArgs);
-
-      // get all modules that need to be compiled
-      var modulePaths = ['$haxeDir/Static'],
-          scriptPaths = ['$haxeDir/Scripts'];
-      if (this.config.extraStaticClasspaths != null) {
-        modulePaths = modulePaths.concat(this.config.extraStaticClasspaths);
-      }
-      if (this.config.extraScriptClasspaths != null) {
-        scriptPaths = scriptPaths.concat(this.config.extraScriptClasspaths);
-      }
-      if (this.config.noStatic) {
-        scriptPaths = modulePaths.concat(scriptPaths);
-        modulePaths = [];
-      }
-      if (!cppiaEnabled) {
-        modulePaths = modulePaths.concat(scriptPaths);
-        scriptPaths = [];
-      }
-
-      var curSourcePath = this.srcDir;
-      var cps = null;
-      var targetDir = '$outputDir/Static';
-
+      var ret = this.bakeExterns();
+#else
+      trace('Skipping bake externs');
+      var ret = 0;
+#end
       // compile static
       if (ret == 0)
       {
-        var curStamp:Null<Date> = null;
-        if (FileSystem.exists(outputStatic)) {
-          curStamp = FileSystem.stat(outputStatic).mtime;
-        }
-
-        trace('compiling Haxe');
-        if (!FileSystem.exists(targetDir)) FileSystem.createDirectory(targetDir);
-
-        cps = [
-          'arguments.hxml',
-          '-cp $haxeDir/Generated/$externsFolder',
-          '-cp ${data.pluginDir}/Haxe/Static',
-        ];
-        for (path in modulePaths) {
-          cps.push('-cp $path');
-        }
-
-        var args = cps.concat([
-          '',
-          '-main UnrealInit',
-          '',
-          '-D static_link',
-          '-D destination=$outputStatic',
-          '-D haxe_runtime_dir=$curSourcePath',
-          '-D bake_dir=$haxeDir/Generated/$externsFolder',
-          '-D HXCPP_DLL_EXPORT',
-          '-D $defineVer',
-          '-D $definePatch',
-
-          '-cpp $targetDir/Built',
-          '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ')',
-        ]);
-        if (!FileSystem.exists('$targetDir/Built/Data')) {
-          FileSystem.createDirectory('$targetDir/Built/Data');
-        }
-        if (!FileSystem.exists('$targetDir/Built/toolchain')) {
-          FileSystem.createDirectory('$targetDir/Built/toolchain');
-        }
-        for (file in FileSystem.readDirectory('${data.pluginDir}/Haxe/BuildTool/toolchain')) {
-          File.saveBytes('$targetDir/Built/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
-        }
-
-        if (shouldBuildEditor()) {
-          args.push('-D WITH_EDITOR');
-        }
-        if (data.targetConfiguration == Shipping) {
-          args.push('-D UE_BUILD_SHIPPING');
-        }
-        if (data.targetType == Program) {
-          args.push('-D UE_PROGRAM');
-        }
-        if (this.config.disableUObject || data.targetType == Program) {
-          args.push('-D UHX_NO_UOBJECT');
-        }
-
-        if (this.config.dce != null) {
-          args.push('-dce ${this.config.dce}');
-        }
-
-        if (debugSymbols) {
-          args.push('-debug');
-          if (this.config.debugger) {
-            args.push('-lib hxcpp-debugger');
-            args.push('-D HXCPP_DEBUGGER');
-          }
-        }
-
-        switch (data.targetPlatform) {
-        case Win32:
-          args.push('-D HXCPP_M32');
-          if (debugSymbols)
-            args.push('-D HXCPP_DEBUG_LINK');
-        case Win64:
-          args.push('-D HXCPP_M64');
-        case _:
-          args.push('-D HXCPP_M64');
-        }
-
-        // set correct ABI
-        switch (data.targetPlatform) {
-        case Win64 | Win32 | XboxOne: // TODO: see if XboxOne follows windows' path names
-          args.push('-D ABI=-MD');
-        case _:
-        }
-
-        var noDynamicUClass = config.noDynamicUClass;
-        if (cppiaEnabled) {
-          args = args.concat(['-D scriptable', '-D WITH_CPPIA']);
+#if cppia_recompile
+        var targetStamp = '${this.targetDir}/Built/Data/compiled.txt';
+        var needsStatic = checkRecursive(targetStamp, [
+            '$haxeDir/Generated/$externsFolder',
+            '${data.pluginDir}/Haxe/Static',
+          ].concat(this.modulePaths), true);
+        if (needsStatic) {
+          ret = this.compileStatic();
         } else {
-          noDynamicUClass = true;
-        }
-        if (noDynamicUClass) {
-          args = args.concat(['-D NO_DYNAMIC_UCLASS']);
-          this.definitions.push("NO_DYNAMIC_UCLASS=1");
-        }
-
-        var isCrossCompiling = false;
-        var extraArgs = null,
-            oldEnvs = null;
-        var thirdPartyDir = this.data.engineDir + '/Source/ThirdParty';
-        Sys.putEnv('ThirdPartyDir', thirdPartyDir);
-        switch(Std.string(data.targetPlatform)) {
-        case "Linux" if (Sys.systemName() != "Linux"):
-          // cross compiling
-          isCrossCompiling = true;
-          var crossPath = Sys.getEnv("LINUX_MULTIARCH_ROOT");
-          if (crossPath != null) {
-            crossPath = '$crossPath/x86_64-unknown-linux-gnu';
+          if (compileCppia() != 0) {
+            throw 'Cppia compilation failed';
           } else {
-            crossPath = Sys.getEnv("LINUX_ROOT");
-          }
-
-          if (crossPath != null) {
-            trace('Cross compiling using $crossPath');
-            extraArgs = [
-              '-D toolchain=linux',
-              '-D linux',
-              '-D HXCPP_CLANG',
-              '-D xlinux_compile',
-              '-D magiclibs',
-              '-D HXCPP_VERBOSE'
-            ];
-            oldEnvs = setEnvs([
-              'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
-              'CXX' => (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
-                'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
-                'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"'),
-              'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
-              'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
-              'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
-              'HXCPP_LD' => 'x86_64-unknown-linux-gnu-ld',
-              'HXCPP_RANLIB' => 'x86_64-unknown-linux-gnu-ranlib',
-              'HXCPP_STRIP' => 'x86_64-unknown-linux-gnu-strip'
-            ]);
-          } else {
-            warn('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
-          }
-        case "Linux" if(!shouldBuildEditor()):
-          oldEnvs = setEnvs([
-              'CXX' => "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
-          ]);
-        case "Mac":
-          extraArgs = [
-            '-D toolchain=mac-libc'
-          ];
-        }
-
-        if (extraArgs != null) {
-          args = args.concat(extraArgs);
-        }
-        if (this.config.extraCompileArgs != null) {
-          args = args.concat(this.config.extraCompileArgs);
-        }
-
-        if (compserver != null) {
-          File.saveContent('$targetDir/Built/Data/compserver.txt','1');
-          Sys.putEnv("HAXE_COMPILATION_SERVER", compserver);
-        } else {
-          File.saveContent('$targetDir/Built/Data/compserver.txt','0');
-        }
-
-        var thaxe = timer('Haxe compilation');
-        ret = compileSources(args);
-        thaxe();
-        if (!isCrossCompiling) {
-          this.createHxml('build-static', args);
-          var complArgs = ['--cwd $haxeDir', '--no-output'].concat(args);
-          this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
-        }
-
-        if (oldEnvs != null) {
-          setEnvs(oldEnvs);
-        }
-
-        if (ret == 0 && isCrossCompiling) {
-          // somehow -D destination doesn't do anything when cross compiling
-          var hxcppDestination = '$targetDir/Built/libUnrealInit';
-          if (debugSymbols) {
-            hxcppDestination += '-debug.a';
-          } else {
-            hxcppDestination += '.a';
-          }
-
-          var shouldCopy =
-            !FileSystem.exists(outputStatic) ||
-            (FileSystem.exists(hxcppDestination) &&
-             FileSystem.stat(hxcppDestination).mtime.getTime() > FileSystem.stat(outputStatic).mtime.getTime());
-          if (shouldCopy) {
-            File.saveBytes(outputStatic, File.getBytes(hxcppDestination));
+            return;
           }
         }
-        // if (ret == 0 && (curStamp == null || FileSystem.stat(outputStatic).mtime.getTime() > curStamp.getTime()))
-        // {
-        //   // HACK: there seems to be no way to add the .hx files as dependencies
-        //   //       for this project. The PrerequisiteItems variable from Action is the one
-        //   //       that keeps track of dependencies - and it cannot be set anywhere. Additionally -
-        //   //       what it seems to be a bug - UE4 doesn't track the timestamps for the files it is
-        //   //       linking against.
-        //   //       This leaves little option but to meddle with actual sources' timestamps.
-        //   //       It seems that a better least intrusive hack would be to meddle with the
-        //   //       output library file timestamp. However, it's not possible to reliably find
-        //   //       the output file name at this stage
-        //
-        //   var dep = '${data.projectDir}/Source/$targetModule/Generated/HaxeInit.cpp';
-        //   // touch the file
-        //   // it seems we only need this for UE 4.8
-        //   File.saveContent(dep, File.getContent(dep));
-        // }
+#else
+        ret = compileStatic();
+#end
       }
       if (ret != 0)
       {
-        throw ('Haxe compilation failed');
+        throw 'Haxe compilation failed';
       }
 
       // compile cppia
-      if (cppiaEnabled) {
-        for (module in scriptPaths) {
-          cps.push('-cp $module');
-        }
-
-        var args = cps.concat([
-            '',
-            '-main UnrealCppia',
-            '',
-            '-D cppia',
-            '-D $defineVer',
-            '-D $definePatch',
-            '-D ustatic_target=$targetDir/Built',
-            '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
-            '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
-        ]);
-        if (debugSymbols) {
-          args.push('-debug');
-        }
-        if (shouldBuildEditor()) {
-          args.push('-D WITH_EDITOR');
-        }
-        if (data.targetConfiguration == Shipping) {
-          args.push('-D UE_BUILD_SHIPPING');
-        }
-        if (config.extraCppiaCompileArgs != null)
-          args = args.concat(config.extraCppiaCompileArgs);
-
-        if (!FileSystem.exists('${data.projectDir}/Binaries/Haxe')) {
-          FileSystem.createDirectory('${data.projectDir}/Binaries/Haxe');
-        }
-
-        var tcppia = timer('Cppia compilation');
-        var cppiaRet = compileSources(args);
-        tcppia();
-        this.createHxml('build-script', args);
-        var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
-        this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
+      if (this.cppiaEnabled) {
+        var cppiaRet = compileCppia();
         if (cppiaRet != 0) {
           err('=============================');
           err('Cppia compilation failed');
           err('=============================');
         }
       }
-      if (compserver != null) {
+      if (this.compserver != null) {
         Sys.putEnv("HAXE_COMPILATION_SERVER", "");
       }
     } else {
@@ -720,13 +857,13 @@ class UhxBuild {
       if (FileSystem.exists(gen)) {
         InitPlugin.deleteRecursive(gen,true);
       }
-      if (FileSystem.exists(outputStatic)) {
-        FileSystem.deleteFile(outputStatic);
+      if (FileSystem.exists(this.outputStatic)) {
+        FileSystem.deleteFile(this.outputStatic);
       }
     }
 
     // add the output static linked library
-    if (this.config.disabled || !FileSystem.exists(outputStatic))
+    if (this.config.disabled || !FileSystem.exists(this.outputStatic))
     {
       warn('Haxe support is disabled');
     } else {

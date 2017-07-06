@@ -83,4 +83,6 @@ package unreal;
    * @return Very strange convention...not really EAppReturnType, see implementation
    */
   static function MessageBoxExt(msgType:EAppMsgType, text:TCharStar, caption:TCharStar):EAppReturnType;
+
+  static function GetUBTPlatform():TCharStar;
 }

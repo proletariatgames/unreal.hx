@@ -467,7 +467,7 @@ struct TypeParamGlue<T<First, Mode>, OtherType> {
 template<ESPMode Mode, template<typename, ESPMode> class T, typename First> 
 struct TypeParamGluePtr<T<First, Mode>, OtherType> {
   inline static typename PtrMaker<T<First, Mode>>::Type haxeToUePtr(unreal::UIntPtr haxe) {
-    return typename PtrMaker<T<First, Mode>>::Type( TemplateHelper<T<First, Mode>>::getPointer(haxe) );
+    return typename PtrMaker<T<First, Mode>>::Type( *TemplateHelper<T<First, Mode>>::getPointer(haxe) );
   }
 
   inline static unreal::UIntPtr ueToHaxeRef(T<First, Mode>& ue) {

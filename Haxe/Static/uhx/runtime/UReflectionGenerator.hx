@@ -352,6 +352,10 @@ class UReflectionGenerator {
   }
 
   public static function setNativeTypes() {
+    if (uclassNames == null) {
+      trace('Warning', 'No haxe type was found');
+      return;
+    }
     for (uclassName in uclassNames) {
       var reg = registry[uclassName];
       if (reg == null) {
@@ -809,58 +813,59 @@ class UReflectionGenerator {
     uhx.UHaxeGeneratedClass.cdoInit();
     var registry = registry;
     var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
-    if (uclassNames == null) {
-      uclassNames = [];
-    }
 
-    for (uclassName in uclassNames) {
-      var reg = registry[uclassName];
-      if (reg == null) {
-        continue;
-      }
-      var def = reg.def;
-      if (reg.nativeUClass == null) {
-        getUpdatedClass(reg);
-        addFunctions(reg.getUpdated(), uclassName, false);
-        if (!reg.wasDeleted && !reg.needsToAddProperties) {
-          // we don't need to create it - just need to update its functions
-          var parentName = def.uclass.superStructUName,
-              parentHxGenerated = staticUClassToHx.exists(parentName);
-          if (parentHxGenerated) {
-            RuntimeLibrary.setSuperClassConstructor(@:privateAccess reg.getUpdated().wrapped);
-          } else {
-            RuntimeLibrary.setupClassConstructor(@:privateAccess reg.getUpdated().wrapped);
-          }
+    if (uclassNames != null) {
+      for (uclassName in uclassNames) {
+        var reg = registry[uclassName];
+        if (reg == null) {
           continue;
         }
-      } else {
-        reg.getUpdated().Bind();
-      }
+        var def = reg.def;
+        if (reg.nativeUClass == null) {
+          getUpdatedClass(reg);
+          addFunctions(reg.getUpdated(), uclassName, false);
+          if (!reg.wasDeleted && !reg.needsToAddProperties) {
+            // we don't need to create it - just need to update its functions
+            var parentName = def.uclass.superStructUName,
+                parentHxGenerated = staticUClassToHx.exists(parentName);
+            if (parentHxGenerated) {
+              RuntimeLibrary.setSuperClassConstructor(@:privateAccess reg.getUpdated().wrapped);
+            } else {
+              RuntimeLibrary.setupClassConstructor(@:privateAccess reg.getUpdated().wrapped);
+            }
+            continue;
+          }
+        } else {
+          reg.getUpdated().Bind();
+        }
 
-      if (reg.nativeUClass == null && reg.needsToAddProperties) {
-        addProperties(reg.getUpdated(), uclassName, false);
+        if (reg.nativeUClass == null && reg.needsToAddProperties) {
+          addProperties(reg.getUpdated(), uclassName, false);
 
-        var uclass = reg.getUpdated();
-        uclass.Bind();
-        uclass.StaticLink(true);
+          var uclass = reg.getUpdated();
+          uclass.Bind();
+          uclass.StaticLink(true);
 
-        uclass.GetDefaultObject(true);
-        if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
-          uclass.AssembleReferenceTokenStream(false);
+          uclass.GetDefaultObject(true);
+          if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
+            uclass.AssembleReferenceTokenStream(false);
+          }
         }
       }
     }
 
     uclassNames = [];
 
-    for (del in scriptDelegates) {
-      var sig = getDelegateSignature(del.uname.substr(1));
-      if (sig != null && !sig.HasMetaData("UHX_PropSignature") && !sig.HasMetaData("UHX_PropSignature_Native")) {
-        if (!sig.HasMetaData(CoreAPI.staticName("UHX_PropSignature_Native"))) {
-          sig.SetMetaData(CoreAPI.staticName("UHX_PropSignature_Native"), del.signature.propSig);
+    if (scriptDelegates != null) {
+      for (del in scriptDelegates) {
+        var sig = getDelegateSignature(del.uname.substr(1));
+        if (sig != null && !sig.HasMetaData("UHX_PropSignature") && !sig.HasMetaData("UHX_PropSignature_Native")) {
+          if (!sig.HasMetaData(CoreAPI.staticName("UHX_PropSignature_Native"))) {
+            sig.SetMetaData(CoreAPI.staticName("UHX_PropSignature_Native"), del.signature.propSig);
+          }
+        } else {
+          createDelegate(del);
         }
-      } else {
-        createDelegate(del);
       }
     }
   }

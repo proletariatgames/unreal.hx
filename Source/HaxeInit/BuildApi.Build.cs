@@ -105,30 +105,7 @@ public class HaxeModuleRules : BaseModuleRules {
   }
 #endif
 
-  protected bool forceNextRun(HaxeCompilationInfo info) {
-    string modulePath = RulesCompiler.GetFileNameFromType(GetType());
-    // we need to touch a Build/uproject file to make sure this function will get called every single compilation
-    // otherwise, the dependencies won't be updated.
-    // This means that setting manual dependencies on will make C++ compile slightly faster
-    Log.TraceInformation("Touching " + modulePath);
-    DateTime thisTime = DateTime.UtcNow;
-    try {
-      File.SetLastWriteTimeUtc(modulePath, thisTime);
-      return true;
-    }
-    catch(Exception) {
-      // finding uproject
-      if (info != null && info.uprojectPath != null) {
-        Log.TraceInformation("Touching " + modulePath + " failed. Touching " + info.uprojectPath);
-        File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
-        return true;
-      }
-    }
-    return false;
-  }
-
   override protected void run() {
-    bool didTouch = this.forceNextRun(null);
     if (disabled) {
       Log.TraceInformation("Compiling without Haxe support");
     }
@@ -145,9 +122,6 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
     HaxeCompilationInfo info = setupHaxeTarget(this);
-    if (!didTouch) {
-      didTouch = this.forceNextRun(info);
-    }
     if (!manualDependencies) {
       string modulesPath = info.outputDir + "/Static/Built/Data/modules.txt";
       string curName = this.GetType().Name;
@@ -181,7 +155,7 @@ public class HaxeModuleRules : BaseModuleRules {
     if (BuildVersion.TryRead("../Build/Build.version", out version)) {
       rules.Definitions.Add("UE_VER=" + version.MajorVersion + version.MinorVersion);
     } else {
-      Log.TraceInformation("Cannot read build.version");
+      Log.TraceError("Cannot read build.version");
     }
 
     switch (rules.Target.Platform) {
@@ -210,12 +184,25 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
-    if (rules.Target.Platform == UnrealTargetPlatform.Mac && Directory.Exists("/usr/local/bin")) {
-      string path = Environment.GetEnvironmentVariable("PATH");
-      Environment.SetEnvironmentVariable("PATH", path + ":/usr/local/bin");
+    Log.TraceInformation("SKIP: " + Environment.GetEnvironmentVariable("SKIP_HAXE_COMPILATION"));
+    string skipTxt = info.gameDir + "/Intermediate/Haxe/skip.txt";
+    string skip = File.Exists(skipTxt) ? File.ReadAllText(skipTxt).Trim() : "0";
+    Log.TraceInformation("SKIP: " + skip);
+    if (skip != "1") {
+      callHaxe(rules, info);
+    } else {
+      if (File.Exists(skipTxt)) {
+        File.WriteAllText(skipTxt, "0");
+      }
     }
 
-    Log.TraceWarning("Calling Haxe");
+    return info;
+  }
+
+  // This is not called at the moment - as Haxe is getting called as a PreBuildScript
+  public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info) {
+    Log.TraceInformation("Calling Haxe");
+
     string haxeInitPath = RulesCompiler.GetFileNameFromType(typeof(HaxeInit));
     string pluginPath = Path.GetFullPath(haxeInitPath + "/../../..");
     string engineDir = Path.GetFullPath("..");
@@ -235,6 +222,7 @@ public class HaxeModuleRules : BaseModuleRules {
         "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform + 
         "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
         "\" -D \"PluginDir=" + pluginPath + "\"";
+    Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
     proc.StartInfo.RedirectStandardOutput = true;
     proc.StartInfo.RedirectStandardError = true;
     proc.OutputDataReceived += (sender, args) => Log.TraceInformation(args.Data);
@@ -248,10 +236,6 @@ public class HaxeModuleRules : BaseModuleRules {
       Log.TraceError("Error: Haxe compilation failed");
       throw new Exception("Haxe compilation failed");
     }
-
-      // "haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\""
-
-    return info;
   }
 }
 

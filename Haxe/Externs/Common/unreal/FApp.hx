@@ -8,4 +8,11 @@ package unreal;
   public static function SetUnfocusedVolumeMultiplier(InVolumeMultiplier:Float32) : Void;
 
   public static function IsUnattended():Bool;
+
+  /**
+    Gets the name of the currently running game.
+
+    @return The game name
+   **/
+  public static function GetGameName():TCharStar;
 }
