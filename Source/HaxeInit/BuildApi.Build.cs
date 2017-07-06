@@ -184,12 +184,14 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
-    Log.TraceInformation("SKIP: " + Environment.GetEnvironmentVariable("SKIP_HAXE_COMPILATION"));
     string skipTxt = info.gameDir + "/Intermediate/Haxe/skip.txt";
     string skip = File.Exists(skipTxt) ? File.ReadAllText(skipTxt).Trim() : "0";
     Log.TraceInformation("SKIP: " + skip);
     if (skip != "1") {
       callHaxe(rules, info);
+    } else if (skip == "fail") {
+      File.WriteAllText(skipTxt, "0");
+      throw new Exception("Editor Haxe compilation failed");
     } else {
       if (File.Exists(skipTxt)) {
         File.WriteAllText(skipTxt, "0");

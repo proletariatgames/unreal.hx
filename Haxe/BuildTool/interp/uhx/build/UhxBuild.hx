@@ -127,7 +127,7 @@ class UhxBuild {
     return '$outputDir/$libName';
   }
 
-  private static function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool) {
+  private function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool) {
     if (!FileSystem.exists(stampPath)) {
       if (traceFiles) {
         log('File $stampPath does not exist');
@@ -141,6 +141,7 @@ class UhxBuild {
         return true;
       }
     }
+    paths.push('${data.pluginDir}/Haxe/Static/uhx/compiletime');
 
     function recurse(path) {
       for (file in FileSystem.readDirectory(path)) {
@@ -378,7 +379,7 @@ class UhxBuild {
     }
 
     var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
-#if engine_recompile
+#if editor_recompile
     var shouldRun = checkRecursive(targetStamp, [
       '${haxeDir}/Externs',
       '${data.pluginDir}/Haxe/Externs/$ueExternDir',
@@ -441,7 +442,11 @@ class UhxBuild {
         '-D ${this.defineVer}',
         '-D ${this.definePatch}',
         '-D ustatic_target=$targetDir/Built',
+#if (!editor_recompile && !editor_compile)
         '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
+#else
+        '-cppia ${data.projectDir}/Binaries/Haxe/game-editor.cppia',
+#end
         '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
     ]);
     if (debugSymbols) {
@@ -463,9 +468,11 @@ class UhxBuild {
     var tcppia = timer('Cppia compilation');
     var cppiaRet = compileSources(args);
     tcppia();
+#if (!editor_recompile && !editor_compile)
     this.createHxml('build-script', args);
     var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
     this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
+#end
     return cppiaRet;
   }
 
@@ -473,7 +480,7 @@ class UhxBuild {
     trace('compiling Haxe');
     if (!FileSystem.exists(targetDir)) FileSystem.createDirectory(targetDir);
 
-#if engine_recompile
+#if (editor_recompile || editor_compile)
     var curStamp:Null<Date> = null;
     if (FileSystem.exists(this.outputStatic)) {
       curStamp = FileSystem.stat(this.outputStatic).mtime;
@@ -658,7 +665,7 @@ class UhxBuild {
       }
     }
 
-#if engine_recompile
+#if (editor_recompile || editor_compile)
     if (ret == 0 && (curStamp == null || FileSystem.stat(outputStatic).mtime.getTime() > curStamp.getTime()))
     {
       // when compiling through the editor, -skiplink is set - so UBT won't even try to find the right

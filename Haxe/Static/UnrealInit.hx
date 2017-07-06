@@ -82,8 +82,12 @@ class UnrealInit
 #if DEBUG_HOTRELOAD
       trace('${uhx.runtime.UReflectionGenerator.id}: loading cppia');
 #end // DEBUG_HOTRELOAD
+      var success = false,
+          contents = null,
+          loadPrevious = false;
       try {
-        untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(target));
+        contents = sys.io.File.getContent(target);
+        untyped __global__.__scriptable_load_cppia(contents);
         var cls:Dynamic = Type.resolveClass('uhx.LiveReloadScript');
         if (cls != null) {
           trace('Setting cppia live reload types');
@@ -99,52 +103,53 @@ class UnrealInit
             trace('Error', msg);
           } else if (newStamp < internalStamp) {
             trace('Warning', 'Newly loaded cppia script seems to be older than last version: ${Date.fromTime(newStamp)} and ${Date.fromTime(internalStamp)}');
+          } else {
+            success = true;
           }
           internalStamp = newStamp;
+        }
 
 #if !NO_DYNAMIC_UCLASS
-          var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
-          if (metaClass != null) {
-            var metadata = haxe.rtti.Meta.getType(metaClass);
-            var metas:Array<Dynamic> = metadata.UDelegates;
-            if (metas != null) {
-              for (del in metas) {
-                uhx.runtime.UReflectionGenerator.initializeDelegate(del);
-              }
+        var metaClass = Type.resolveClass('uhx.meta.CppiaMetaData');
+        if (metaClass != null) {
+          var metadata = haxe.rtti.Meta.getType(metaClass);
+          var metas:Array<Dynamic> = metadata.UDelegates;
+          if (metas != null) {
+            for (del in metas) {
+              uhx.runtime.UReflectionGenerator.initializeDelegate(del);
             }
-            var metas:Array<{ haxeClass:String, uclass:String }> = cast metadata.DynamicClasses,
-                map = new Map();
-            if (metas != null) {
-              for (c in metas) {
-                var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
-                if (hxClass != null) {
-                  var meta = haxe.rtti.Meta.getType(hxClass).UMetaDef;
-                  map[c.uclass] = { haxeClass:c.haxeClass, meta:meta[0], uclass:c.uclass };
-                  // uhx.runtime.UReflectionGenerator.initializeDef(c.uclass, c.haxeClass, meta[0]);
-                }
-              }
-
-              // make sure we add the definitions in the right order
-              // this should already be in the right order (see MetaDefBuild)
-              // but it's best to make sure
-              function recurse(arg:{ haxeClass:String, uclass:String, meta:uhx.meta.MetaDef }) {
-                var meta = arg.meta;
-                var parent = map[meta.uclass.superStructUName];
-                if (parent != null) {
-                  recurse(parent);
-                }
-                map.remove(arg.uclass);
-                uhx.runtime.UReflectionGenerator.initializeDef(arg.uclass, arg.haxeClass, meta);
-              }
-              for (c in metas) {
-                if (map.exists(c.uclass)) {
-                  recurse(map[c.uclass]);
-                }
-              }
-            }
-          } else {
-            trace('Warning', 'Could not find cppia metadata');
           }
+          var metas:Array<{ haxeClass:String, uclass:String }> = cast metadata.DynamicClasses,
+              map = new Map();
+          if (metas != null) {
+            for (c in metas) {
+              var hxClass:Dynamic = Type.resolveClass(c.haxeClass);
+              if (hxClass != null) {
+                var meta = haxe.rtti.Meta.getType(hxClass).UMetaDef;
+                map[c.uclass] = { haxeClass:c.haxeClass, meta:meta[0], uclass:c.uclass };
+              }
+            }
+
+            // make sure we add the definitions in the right order
+            // this should already be in the right order (see MetaDefBuild)
+            // but it's best to make sure
+            function recurse(arg:{ haxeClass:String, uclass:String, meta:uhx.meta.MetaDef }) {
+              var meta = arg.meta;
+              var parent = map[meta.uclass.superStructUName];
+              if (parent != null) {
+                recurse(parent);
+              }
+              map.remove(arg.uclass);
+              uhx.runtime.UReflectionGenerator.initializeDef(arg.uclass, arg.haxeClass, meta);
+            }
+            for (c in metas) {
+              if (map.exists(c.uclass)) {
+                recurse(map[c.uclass]);
+              }
+            }
+          }
+        } else {
+          trace('Warning', 'Could not find cppia metadata');
         }
 #end // !NO_DYNAMIC_UCLASS
         if (first) {
@@ -165,6 +170,7 @@ class UnrealInit
             case Failure:
               FMessageDialog.Open(Ok, 'Unreal.hx cppia hot reload failure', 'Unreal.hx error');
               trace('Error', 'Hot reload failure');
+              success = false;
             }
           }
         }
@@ -172,8 +178,25 @@ class UnrealInit
         FMessageDialog.Open(Ok, 'Error while loading cppia: $e', 'Unreal.hx cppia error');
         trace('Error', 'Error while loading cppia: $e');
         trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+        loadPrevious = true;
+        success = false;
       }
       stamp = FileSystem.stat(target).mtime.getTime();
+
+      var workingTarget = '$gameDir/Binaries/Haxe/game-working.cppia';
+      if (success) {
+        if (contents != null) {
+          sys.io.File.saveContent(workingTarget, contents);
+        }
+      } else if (loadPrevious && FileSystem.exists(workingTarget)) {
+        try {
+          trace('Cppia load failed - loading previously working file');
+          untyped __global__.__scriptable_load_cppia(sys.io.File.getContent(workingTarget));
+        }
+        catch(e:Dynamic) {
+          FMessageDialog.Open(Ok, 'Error while loading previously working cppia script: $e', 'Unreal.hx cppia error');
+        }
+      }
     }
 
     if (sys.FileSystem.exists(target)) {
@@ -213,9 +236,11 @@ class UnrealInit
 
         if (ret.success) {
           trace('Skipping haxe compilation');
+          Sys.putEnv("UHX_COMPILATION_SUCCESS", "1");
           sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', '1');
         } else {
-          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', '0');
+          Sys.putEnv("UHX_COMPILATION_SUCCESS", "0");
+          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', 'fail');
         }
       }
       catch(e:Dynamic) {
@@ -226,6 +251,26 @@ class UnrealInit
 
     // when we finish compiling, we check if we should invalidate the current module
     function onCompilation(_, result:ECompilationResult, _) {
+      switch(result) {
+      case CrashOrAssert | OtherCompilationError | Unsupported | Unknown:
+        Sys.putEnv("UHX_COMPILATION_SUCCESS", "0");
+      case _:
+        if (Sys.getEnv("UHX_COMPILATION_SUCCESS") == "1") {
+          trace('Compilation succeeded');
+#if WITH_CPPIA
+          var gameDir = FPaths.ConvertRelativePathToFull(FPaths.GameDir()).toString();
+          var editorTarget = '$gameDir/Binaries/Haxe/game-editor.cppia',
+              target = '$gameDir/Binaries/Haxe/game.cppia';
+          if (Sys.getEnv("UHX_COMPILATION_SUCCESS") == "1" && FileSystem.exists(target)) {
+            if (!FileSystem.exists(target) || FileSystem.stat(target).mtime.getTime() < FileSystem.stat(editorTarget).mtime.getTime()) {
+              trace('Copying $editorTarget to $target');
+              sys.io.File.copy(editorTarget, target);
+            }
+          }
+#end
+        }
+      }
+
       shouldCleanup = shouldCleanup || result == Succeeded;
       if (shouldCleanup) {
         // invalidate our own handles - we won't need it anymore
@@ -346,7 +391,7 @@ class UnrealInit
 
     var args = [
       '--cwd', '$pluginPath/Haxe/BuildTool', 'compile-project.hxml',
-      '-D', 'engine-recompile',
+      '-D', 'editor-compile',
       '-D', 'EngineDir=$engineDir',
       '-D', 'ProjectDir=$gameDir',
       '-D', 'TargetName=$targetName',
@@ -356,8 +401,14 @@ class UnrealInit
       '-D', 'ProjectFile=$projectFile',
       '-D', 'PluginDir=$pluginPath',
     ];
+    var lastCompSuccess = Sys.getEnv("UHX_COMPILATION_SUCCESS") == "1";
+    if (lastCompSuccess) {
+      args.push('-D');
+      args.push('editor-recompile');
+    }
+
 #if WITH_CPPIA
-    if (cppiaOnly) {
+    if (cppiaOnly && (lastCompSuccess || Sys.getEnv("UHX_COMPILATION_SUCCESS") == null)) {
       trace('Trying to compile cppia only first');
       args.push('-D');
       args.push('cppia-recompile');
