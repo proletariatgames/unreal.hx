@@ -20,6 +20,7 @@ class BaseWriter {
 
   public var path(default, null):String;
   public var buf:HelperBuf;
+  public var isDeleted(default, null):Bool;
 
   private var includeMap:Map<String,Bool>;
   private var includes:Array<String>;
@@ -29,6 +30,7 @@ class BaseWriter {
     this.buf = new HelperBuf();
     this.includeMap = new Map();
     this.includes = [];
+    this.isDeleted = false;
   }
 
   public function include(inc:String) {
@@ -82,6 +84,15 @@ class BaseWriter {
     throw 'Not Implemented';
   }
 
+  public function delete() {
+    this.isDeleted = true;
+    if (FileSystem.exists(path)) {
+      FileSystem.deleteFile(path);
+      return true;
+    }
+    return false;
+  }
+
   public function close(module:String) {
     if (module == null) module = Globals.cur.module;
     var contents = getContents(module);
@@ -89,7 +100,8 @@ class BaseWriter {
       if (FileSystem.exists(path)) {
         FileSystem.deleteFile(path);
       }
-      return;
+      this.isDeleted = true;
+      return false;
     }
     contents = prelude + contents.trim();
     if (!FileSystem.exists(path) || File.getContent(path).trim() != contents) {
@@ -99,6 +111,8 @@ class BaseWriter {
       }
 
       File.saveContent(path, contents);
+      return true;
     }
+    return false;
   }
 }

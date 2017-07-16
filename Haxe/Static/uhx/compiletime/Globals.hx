@@ -19,32 +19,50 @@ class Globals {
 
   public static var cur(default,null):Globals = new Globals();
 
-  @:isVar public var haxeRuntimeDir(get,null):String;
-  @:isVar public var glueTargetModule(get,null):String;
+  /**
+    The target unreal source dir
+    e.g. {projectDir}/Source/{project}
+   **/
+  @:isVar public var unrealSourceDir(get,null):String;
+
+  /**
+    The target hxcpp directory
+    e.g. {projectDir}/Intermediate/Haxe/{project}-Win64-Development-Editor
+   **/
+  @:isVar public var staticBaseDir(get,null):String;
+
   @:isVar public var inCompilationServer(get,null):Bool;
+  @:isVar public var pluginDir(default, null):String = Context.definedValue('UHX_PLUGIN_PATH');
+
   public var module(get,null):String;
+  public var glueUnityBuild(default, null):Bool = !Context.defined('no_unity_build');
+  public var withEditor(default, null):Bool = Context.defined('WITH_EDITOR');
+  public var configuration(default, null):String = Context.definedValue('UHX_UE_CONFIGURATION');
+  public var targetType(default, null):String = Context.definedValue('UHX_UE_TARGET_TYPE');
+  public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
+  public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
 
-  private var targetModuleSet:Bool = false;
-
-  private function get_haxeRuntimeDir() {
-    if (this.haxeRuntimeDir == null)
+  private function get_unrealSourceDir() {
+    if (this.unrealSourceDir == null) {
       this.setHaxeRuntimeDir();
-    return this.haxeRuntimeDir;
-  }
-  inline private function get_glueTargetModule() {
-    if (this.targetModuleSet) {
-      return glueTargetModule;
-    } else {
-      setGlueTargetModule();
-      return glueTargetModule;
     }
+    return this.unrealSourceDir;
+  }
+
+  private function get_staticBaseDir() {
+    if (this.staticBaseDir == null) {
+      this.staticBaseDir = haxe.io.Path.normalize(
+        (Context.defined('cppia') ? Context.definedValue('UHX_STATIC_BASE_DIR') : (haxe.macro.Compiler.getOutput() + '/..'))
+      );
+    }
+    return this.staticBaseDir;
   }
 
   private function get_inCompilationServer() {
     if (this.inCompilationServer != null) {
       return this.inCompilationServer;
     }
-    var target = Context.defined('cppia') ? Context.definedValue('ustatic_target') : haxe.macro.Compiler.getOutput();
+    var target = staticBaseDir;
     target += '/Data/compserver.txt';
     if (FileSystem.exists(target)) {
       var ret = File.getContent(target);
@@ -62,33 +80,27 @@ class Globals {
   }
 
   private function get_module() {
-    var ret = haxeRuntimeDir.replace('\\','/');
+    var ret = unrealSourceDir.replace('\\','/');
     while (ret.endsWith('/'))
       ret = ret.substr(0,-1);
     return ret.substr(ret.lastIndexOf('/')+1);
   }
 
   public function setHaxeRuntimeDir() {
-    var dir = haxeRuntimeDir = Context.definedValue('haxe_runtime_dir');
+    var dir = unrealSourceDir = Context.definedValue('UHX_UNREAL_SOURCE_DIR');
 
 #if !bake_externs
     if (dir == null) {
       if (!Context.defined('cppia')) {
-        Context.warning('Unreal Glue: The haxe_runtime_dir directive is not set. This compilation may fail', Context.currentPos());
+        Context.warning('Unreal Glue: The UHX_UNREAL_SOURCE_DIR directive is not set. This compilation may fail', Context.currentPos());
       }
     }
     else
 #end
     {
-      haxeRuntimeDir = FileSystem.fullPath(dir).replace('\\','/');
+      unrealSourceDir = FileSystem.fullPath(dir).replace('\\','/');
     }
   }
-
-  public function setGlueTargetModule() {
-    this.glueTargetModule = Context.definedValue('glue_target_module');
-    this.targetModuleSet = true;
-  }
-
 
   public static function reset() {
     cur = new Globals();
@@ -211,7 +223,7 @@ class Globals {
    **/
   public function checkOlderCache() {
     if (hasOlderCache == null) {
-      var dir = haxeRuntimeDir;
+      var dir = unrealSourceDir;
       if (dir == null) return;
       if (FileSystem.exists('$dir/Generated/defines.txt')) {
         var defines = getDefinesString();
@@ -227,7 +239,7 @@ class Globals {
     `setCacheFile` will force the next compilation to flush its cache
    **/
   public function reserveCacheFile() {
-    var dir = haxeRuntimeDir;
+    var dir = unrealSourceDir;
     if (!FileSystem.exists('$dir/Generated')) {
       FileSystem.createDirectory('$dir/Generated');
     }
@@ -238,11 +250,16 @@ class Globals {
     Sets the cache file to indicate that the last compilation was using our defines
    **/
   public function setCacheFile() {
-    var dir = haxeRuntimeDir;
+    if (Context.defined('cppia')) {
+      throw 'SetCacheFile must only be called by native builds';
+    }
+
+    var dir = unrealSourceDir;
     if (!FileSystem.exists('$dir/Generated')) {
       FileSystem.createDirectory('$dir/Generated');
     }
-    File.saveContent('$dir/Generated/defines.txt', getDefinesString());
+    var str = getDefinesString();
+    File.saveContent('$dir/Generated/defines.txt', str);
   }
 
   public function addScriptDef(name:String, def:{ className:String, meta:uhx.meta.MetaDef }) {

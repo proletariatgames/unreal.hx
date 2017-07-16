@@ -24,11 +24,11 @@ class UhxBuild {
   var definePatch:String;
   var outputStatic:String;
   var outputDir:String;
+  var buildName:String;
   var debugSymbols:Bool;
   var compserver:String;
   var externsFolder:String;
   var cppiaEnabled:Bool;
-  var targetDir:String;
 
   public function new(data) {
     for (field in Reflect.fields(data)) {
@@ -116,10 +116,18 @@ class UhxBuild {
       case _:
         'libhaxeruntime.a';
     };
-    this.outputDir = this.data.projectDir + '/Intermediate/Haxe/${targetModule}-${data.targetPlatform}-${data.targetConfiguration}';
-    if (shouldBuildEditor()) {
-      this.outputDir += '-Editor';
+    var config = data.targetConfiguration;
+    if (config == DebugGame) {
+      config = Development;
     }
+    var platform = data.targetPlatform;
+    switch(platform) {
+    case Win32 | Win64 | WinRT | WinRT_ARM:
+      platform = "Win";
+    case _:
+    }
+    this.buildName = '${targetModule}-${platform}-${config}-${data.targetType}';
+    this.outputDir = this.data.projectDir + '/Intermediate/Haxe/$buildName';
     if (!FileSystem.exists(this.outputDir + '/Data')) {
       FileSystem.createDirectory(this.outputDir + '/Data');
     }
@@ -406,12 +414,10 @@ class UhxBuild {
     ];
     if (shouldBuildEditor()) {
       bakeArgs.push('-D WITH_EDITOR');
+      bakeArgs.push('-D WITH_EDITORONLY_DATA');
     }
-    if (data.targetConfiguration == Shipping) {
-      bakeArgs.push('-D UE_BUILD_SHIPPING');
-    }
-    if (data.targetConfiguration == Shipping) {
-      bakeArgs.push('-D UE_PROGRAM');
+    if (data.targetType == Program) {
+      bakeArgs.push('-D IS_PROGRAM');
     }
     if (this.config.disableUObject) {
       bakeArgs.push('-D UHX_NO_UOBJECT');
@@ -428,6 +434,64 @@ class UhxBuild {
     return ret;
   }
 
+  private static function addConfigurationDefines(defines:Array<String>, config:TargetConfiguration) {
+    switch(config) {
+      case Development | DebugGame:
+        defines.push('-D UE_BUILD_DEVELOPMENT');
+      case Shipping:
+        defines.push('-D UE_BUILD_SHIPPING');
+      case Debug:
+        defines.push('-D UE_BUILD_DEBUG');
+      case Test:
+        defines.push('-D UE_BUILD_TEST');
+    }
+  }
+
+  private static function addTargetDefines(defines:Array<String>, type:TargetType) {
+    switch(type) {
+      case Game:
+        defines.push('-D UE_GAME');
+        defines.push('-D WITH_SERVER_CODE');
+      case Client:
+        defines.push('-D UE_GAME');
+      case Editor:
+        defines.push('-D WITH_SERVER_CODE');
+        defines.push('-D WITH_EDITOR');
+        defines.push('-D WITH_EDITORONLY_DATA');
+        defines.push('-D UE_EDITOR');
+      case Server:
+        defines.push('-D WITH_SERVER_CODE');
+        defines.push('-D UE_SERVER');
+      case Program:
+        defines.push('-D IS_PROGRAM');
+    }
+  }
+
+  private static function addPlatformDefines(defines:Array<String>, platform:TargetPlatform) {
+    switch(platform) {
+      case Win32 | Win64 | WinRT | WinRT_ARM:
+        defines.push('-D PLATFORM_WINDOWS');
+      case Mac:
+        defines.push('-D PLATFORM_MAC');
+      case XboxOne:
+        defines.push('-D PLATFORM_XBOXONE');
+      case PS4:
+        defines.push('-D PLATFORM_PS4');
+      case IOS:
+        defines.push('-D PLATFORM_IOS');
+      case Android:
+        defines.push('-D PLATFORM_ANDROID');
+      case HTML5:
+        defines.push('-D PLATFORM_HTML5');
+      case Linux:
+        defines.push('-D PLATFORM_LINUX');
+      case TVOS:
+        defines.push('-D PLATFORM_TVOS');
+      case _:
+        throw 'Unknown platform $platform';
+    }
+  }
+
   private function compileCppia() {
     var cps = getStaticCps();
     for (module in scriptPaths) {
@@ -441,7 +505,12 @@ class UhxBuild {
         '-D cppia',
         '-D ${this.defineVer}',
         '-D ${this.definePatch}',
-        '-D ustatic_target=$targetDir/Built',
+        '-D UHX_STATIC_BASE_DIR=$outputDir',
+        '-D UHX_PLUGIN_PATH=${data.pluginDir}',
+        '-D UHX_UE_CONFIGURATION=${data.targetConfiguration}',
+        '-D UHX_UE_TARGET_TYPE=${data.targetType}',
+        '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
+        '-D UHX_BUILD_NAME=$buildName',
 #if (!editor_recompile && !editor_compile)
         '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
 #else
@@ -452,12 +521,8 @@ class UhxBuild {
     if (debugSymbols) {
       args.push('-debug');
     }
-    if (shouldBuildEditor()) {
-      args.push('-D WITH_EDITOR');
-    }
-    if (data.targetConfiguration == Shipping) {
-      args.push('-D UE_BUILD_SHIPPING');
-    }
+    addTargetDefines(args, data.targetType);
+    addConfigurationDefines(args, data.targetConfiguration);
     if (config.extraCppiaCompileArgs != null)
       args = args.concat(config.extraCppiaCompileArgs);
 
@@ -478,7 +543,7 @@ class UhxBuild {
 
   private function compileStatic() {
     trace('compiling Haxe');
-    if (!FileSystem.exists(targetDir)) FileSystem.createDirectory(targetDir);
+    if (!FileSystem.exists('$outputDir/Static')) FileSystem.createDirectory('$outputDir/Static');
 
 #if (editor_recompile || editor_compile)
     var curStamp:Null<Date> = null;
@@ -496,34 +561,33 @@ class UhxBuild {
       '',
       '-D static_link',
       '-D destination=${this.outputStatic}',
-      '-D haxe_runtime_dir=$curSourcePath',
-      '-D bake_dir=$haxeDir/Generated/$externsFolder',
+      '-D UHX_UNREAL_SOURCE_DIR=$curSourcePath',
+      '-D UHX_PLUGIN_PATH=${data.pluginDir}',
+      '-D UHX_UE_CONFIGURATION=${data.targetConfiguration}',
+      '-D UHX_UE_TARGET_TYPE=${data.targetType}',
+      '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
+      '-D UHX_BAKE_DIR=$haxeDir/Generated/$externsFolder',
+      '-D UHX_BUILD_NAME=$buildName',
       '-D HXCPP_DLL_EXPORT',
       '-D ${this.defineVer}',
       '-D ${this.definePatch}',
 
-      '-cpp $targetDir/Built',
+      '-cpp $outputDir/Static',
       '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(this.scriptPaths) + ')',
     ]);
-    if (!FileSystem.exists('$targetDir/Built/Data')) {
-      FileSystem.createDirectory('$targetDir/Built/Data');
+    if (!FileSystem.exists('$outputDir/Data')) {
+      FileSystem.createDirectory('$outputDir/Data');
     }
-    if (!FileSystem.exists('$targetDir/Built/toolchain')) {
-      FileSystem.createDirectory('$targetDir/Built/toolchain');
+    if (!FileSystem.exists('$outputDir/Static/toolchain')) {
+      FileSystem.createDirectory('$outputDir/Static/toolchain');
     }
     for (file in FileSystem.readDirectory('${data.pluginDir}/Haxe/BuildTool/toolchain')) {
-      File.saveBytes('$targetDir/Built/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
+      File.saveBytes('$outputDir/Static/toolchain/$file', File.getBytes('${data.pluginDir}/Haxe/BuildTool/toolchain/$file'));
     }
 
-    if (shouldBuildEditor()) {
-      args.push('-D WITH_EDITOR');
-    }
-    if (data.targetConfiguration == Shipping) {
-      args.push('-D UE_BUILD_SHIPPING');
-    }
-    if (data.targetType == Program) {
-      args.push('-D UE_PROGRAM');
-    }
+    addTargetDefines(args, data.targetType);
+    addConfigurationDefines(args, data.targetConfiguration);
+    addPlatformDefines(args, data.targetPlatform);
     if (this.config.disableUObject || data.targetType == Program) {
       args.push('-D UHX_NO_UOBJECT');
     }
@@ -628,10 +692,10 @@ class UhxBuild {
     }
 
     if (this.compserver != null) {
-      File.saveContent('$targetDir/Built/Data/compserver.txt','1');
+      File.saveContent('$outputDir/Data/compserver.txt','1');
       Sys.putEnv("HAXE_COMPILATION_SERVER", this.compserver);
     } else {
-      File.saveContent('$targetDir/Built/Data/compserver.txt','0');
+      File.saveContent('$outputDir/Data/compserver.txt','0');
     }
 
     var thaxe = timer('Haxe compilation');
@@ -649,7 +713,7 @@ class UhxBuild {
 
     if (ret == 0 && isCrossCompiling) {
       // somehow -D destination doesn't do anything when cross compiling
-      var hxcppDestination = '$targetDir/Built/libUnrealInit';
+      var hxcppDestination = '$outputDir/Static/libUnrealInit';
       if (debugSymbols) {
         hxcppDestination += '-debug.a';
       } else {
@@ -772,8 +836,6 @@ class UhxBuild {
       this.modulePaths = this.modulePaths.concat(this.scriptPaths);
       this.scriptPaths = [];
     }
-
-    this.targetDir = '${this.outputDir}/Static';
   }
 
   public function run()
@@ -820,7 +882,7 @@ class UhxBuild {
       if (ret == 0)
       {
 #if cppia_recompile
-        var targetStamp = '${this.targetDir}/Built/Data/compiled.txt';
+        var targetStamp = '${this.outputDir}/Data/compiled.txt';
         var needsStatic = checkRecursive(targetStamp, [
             '$haxeDir/Generated/$externsFolder',
             '${data.pluginDir}/Haxe/Static',

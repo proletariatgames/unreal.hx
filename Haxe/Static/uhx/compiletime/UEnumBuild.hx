@@ -33,27 +33,10 @@ class UEnumBuild
       }
 
       // Generate the enum C++ definition
-      var uname = MacroHelpers.extractStrings(enumType.meta, ":uname")[0];
-      if (uname == null) uname = enumType.name;
-
+      var uname = MacroHelpers.getUName(enumType);
       Globals.cur.staticUTypes[hxPath] = { hxPath:hxPath, uname: uname, type:CompiledClassType.CUEnum };
 
-      var headerDir = Globals.cur.haxeRuntimeDir;
-      var target = MacroHelpers.extractStrings(enumType.meta, ":utargetmodule")[0];
-      if (target == null) {
-        target = Globals.cur.module;
-      }
-      if (target != null) {
-        headerDir += '/../$target';
-        if (!enumType.meta.has(':utargetmodule')) {
-          enumType.meta.add(':utargetmodule', [macro $v{target}], enumType.pos);
-        }
-      }
-      var headerPath = '$headerDir/Generated/Public/${uname.replace('.','/')}.h';
-      if (!FileSystem.exists('$headerDir/Generated/Public')) {
-        FileSystem.createDirectory('$headerDir/Generated/Public');
-      }
-
+      var headerPath = GlueInfo.getExportHeaderPath(uname, true);
       var typeRef = TypeRef.fromBaseType(enumType, enumType.pos);
       var enumExpr = Context.parse(typeRef.getClassPath(), enumType.pos);
 

@@ -18,52 +18,27 @@ using uhx.compiletime.tools.MacroHelpers;
 class NativeGlueCode
 {
   private var glueTypes:Map<String, Ref<ClassType>>;
-  private var touchedModules:Map<String,Map<String, TouchKind>>;
   private var modules:Map<String,Bool>;
-  private var infos:Map<String,GlueInfo>;
+  private var glues:GlueManager;
 
   private var stampOutput:String;
 
   public function new() {
-    this.touchedModules = new Map();
+    this.glues = new GlueManager();
     this.modules = new Map();
     this.glueTypes = new Map();
-    this.infos = new Map();
     this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps';
     if (!FileSystem.exists(this.stampOutput)) {
       FileSystem.createDirectory(this.stampOutput);
     }
   }
 
-  private function getInfo(base:BaseType) {
-    var name = base.pack.join('.') + '.' + base.name;
-    var ret = this.infos[name];
-    if (ret == null) {
-      this.infos[name] = ret = GlueInfo.fromBaseType(base);
-    }
-    return ret;
-  }
-
-  public function touch(kind:TouchKind, file:String, ?module:String) {
-    if (module == null) module = Globals.cur.module;
-    var mod = this.touchedModules[module];
-    if (mod == null) this.touchedModules[module] = mod = new Map();
-    var ret = mod[file];
-    if (ret == null) {
-      ret = kind;
-    } else {
-      ret = ret | kind;
-    }
-    mod[file] = ret;
-  }
-
-  private function writeUEHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, info:GlueInfo) {
+  private function writeUEHeader(cl:ClassType, writer:HeaderWriter, gluePath:String) {
     var gluePack = gluePath.split('.'),
         oldGlueName = gluePack.pop();
     var glueName = oldGlueName + "_UE";
     gluePath += "_UE";
 
-    // touch(THeader, gluePath, info.targetModule);
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
     writer.include('uhx/StructInfo_UE.h');
     writer.include('uhx/TypeTraits.h');
@@ -89,8 +64,9 @@ class NativeGlueCode
       writer.buf << '>';
     }
     writer.buf.add('class HXCPP_CLASS_ATTRIBUTES ${glueName}_obj : public ${oldGlueName}_obj {\n\tpublic:\n');
-    for (inc in cl.meta.extractStrings(':glueCppIncludes'))
+    for (inc in cl.meta.extractStrings(':glueCppIncludes')) {
       writer.include(inc);
+    }
 
     for (field in cl.statics.get().concat(cl.fields.get())) {
       if (field.meta.has(':extern')) continue;
@@ -114,14 +90,13 @@ class NativeGlueCode
       writer.buf.add(data);
     }
     writer.buf.add('#ifdef SCOPED_HXCPP\n#undef SCOPED_HXCPP\n#undef HXCPP_CLASS_ATTRIBUTES\n#endif\n');
-    writer.close(info.targetModule);
+    writer.close(null);
   }
 
-  private function writeHeader(cl:ClassType, writer:HeaderWriter, gluePath:String, info:GlueInfo) {
+  private function writeHeader(cl:ClassType, writer:HeaderWriter, gluePath:String) {
     var gluePack = gluePath.split('.'),
         glueName = gluePack.pop();
 
-    // touch(THeader, gluePath, info.targetModule);
     var headerDefs = cl.meta.extractStrings(':ueHeaderDef');
 
     writer.buf.add('#ifndef HXCPP_CLASS_ATTRIBUTES\n#define SCOPED_HXCPP\n#define HXCPP_CLASS_ATTRIBUTES MAY_EXPORT_SYMBOL\n#endif\n');
@@ -141,8 +116,9 @@ class NativeGlueCode
         writer.buf.add(headerDef);
       }
     }
-    for (inc in cl.meta.extractStrings(':glueHeaderIncludes'))
+    for (inc in cl.meta.extractStrings(':glueHeaderIncludes')) {
       writer.include(inc);
+    }
 
     for (extraField in cl.meta.extractStrings(':glueHeaderClass')) {
       writer.buf.add(extraField);
@@ -151,8 +127,9 @@ class NativeGlueCode
     for (field in cl.statics.get().concat(cl.fields.get())) {
       if (field.meta.has(':extern')) continue;
       var glueHeaderCode = field.meta.extractStrings(':glueHeaderCode')[0];
-      if (glueHeaderCode != null)
+      if (glueHeaderCode != null) {
         writer.buf.add('\t\t$glueHeaderCode\n');
+      }
       for (inc in field.meta.extractStrings(':glueHeaderIncludes'))
         writer.include(inc);
       for (fwd in field.meta.extractStrings(':headerForwards'))
@@ -167,17 +144,23 @@ class NativeGlueCode
       }
     }
 
-    if (headerDefs.length == 0)
+    if (headerDefs.length == 0) {
       writer.buf.add('typedef ${glueName}_obj $glueName;\n\n');
+    }
     for (pack in gluePack) {
       writer.buf.add('}\n');
     }
     writer.buf.add('#ifdef SCOPED_HXCPP\n#undef SCOPED_HXCPP\n#undef HXCPP_CLASS_ATTRIBUTES\n#endif\n');
-    writer.close(info.targetModule);
+    writer.close(null);
   }
 
-  private function writeCpp(cl:ClassType, writer:CppWriter, gluePath:String, info:GlueInfo) {
-    var headerPath = info.getHeaderPath(gluePath);
+  private function writeCpp(cl:ClassType, writer:CppWriter, gluePath:TypeRef) {
+    var headerPath = null;
+    if (cl.meta.has(':uexportheader')) {
+      headerPath = GlueInfo.getExportHeaderPath(gluePath.getClassPath(true));
+    } else {
+      headerPath = GlueInfo.getHeaderPath(gluePath);
+    }
 
     writer.include(headerPath);
     for (inc in cl.meta.extractStrings(':glueCppIncludes')) {
@@ -205,28 +188,47 @@ class NativeGlueCode
       for (inc in field.meta.extractStrings(':glueCppIncludes'))
         writer.include(inc);
     }
-    writer.close(info.targetModule);
+    return writer.close(null);
   }
 
   public function writeGlueCpp(cl:ClassType) {
+    var firstModule = null;
     for (module in cl.meta.extractStrings(':umodule')) {
-      modules[module] = true;
+      if (module != 'Unreal') {
+        modules[module] = true;
+        if (module == 'Unreal') {
+          trace('here ' + cl.name + ' ' + cl.pack);
+        }
+      }
+      if (firstModule == null) {
+        firstModule = module;
+      }
+    }
+    if (firstModule == null) {
+      firstModule = Globals.cur.module;
     }
 
-    var info = this.getInfo(cl);
     var gluePath = cl.meta.extractStrings(':ueGluePath')[0];
     if (gluePath == null) {
       return;
     }
-    this.touch(TCpp, gluePath, info.targetModule);
-    var stampPath = '$stampOutput/$gluePath.stamp';
-    var cppPath = info.getCppPath(gluePath, true);
 
-    if (!checkShouldGenerate(stampPath, cppPath, cl))
+    glues.touch(TPrivateCpp, gluePath);
+    var stampPath = '$stampOutput/$gluePath.stamp';
+    var gluePathRef = TypeRef.parseClassName(gluePath);
+    var cppPath = GlueInfo.getCppPath(gluePathRef, true);
+    var shouldGenerate = checkShouldGenerate(stampPath, cppPath, cl);
+
+    if (!shouldGenerate) {
+      glues.addCpp(cppPath, firstModule, shouldGenerate);
       return;
+    }
 
     var writer = new CppWriter(cppPath);
-    writeCpp(cl, writer, gluePath, info);
+    var generated = writeCpp(cl, writer, gluePathRef);
+    if (!writer.isDeleted) {
+      glues.addCpp(cppPath, firstModule, generated);
+    }
     File.saveContent(stampPath,'');
   }
 
@@ -248,14 +250,20 @@ class NativeGlueCode
   }
 
   public function writeGlueHeader(cl:ClassType) {
+    var kind:TouchKind = TPrivateHeader;
+    if (cl.meta.has(':uexportheader')) {
+      kind = TExportHeader;
+    }
     var gluePath = cl.meta.extractStrings(':ueGluePath')[0];
     if (gluePath == null) {
       return;
     }
-    var info = this.getInfo(cl);
-    this.touch(THeader, gluePath, info.targetModule);
+    glues.touch(kind, gluePath);
 
-    var headerPath = info.getHeaderPath(gluePath,true);
+    var gluePathRef = TypeRef.parseClassName(gluePath);
+    var headerPath = kind == TPrivateHeader ?
+      GlueInfo.getHeaderPath(gluePathRef, true) :
+      GlueInfo.getExportHeaderPath(gluePathRef.getClassPath(true), true);
     // C++ doesn't like Windows forward slashes
     headerPath = headerPath.replace('\\','/');
 
@@ -274,24 +282,25 @@ class NativeGlueCode
     var stampPath = '$stampOutput/$gluePath.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, headerPath, cl);
     if (cl.meta.has(':ueTemplate')) {
-      touch(THeader, gluePath + '_UE', info.targetModule);
+      glues.touch(kind, gluePath + '_UE');
     }
 
     if (shouldGenerate) {
       var writer = new HeaderWriter(headerPath);
       writer.dontInclude(headerPath);
-      writeHeader(cl, writer, gluePath, info);
+      writeHeader(cl, writer, gluePath);
       if (cl.meta.has(':ueTemplate')) {
         var templWriter = new HeaderWriter(headerPath.substr(0,-2) + '_UE.h');
-        writeUEHeader(cl, templWriter, gluePath, info);
+        writeUEHeader(cl, templWriter, gluePath);
       }
       File.saveContent(stampPath,'');
     }
   }
 
   public function onAfterGenerate() {
-    if (Globals.cur.haxeRuntimeDir == null) return;
-    var cppTarget:String = haxe.macro.Compiler.getOutput();
+    if (Globals.cur.unrealSourceDir == null) return;
+    var staticBaseDir:String = Globals.cur.staticBaseDir,
+        cppTarget = haxe.macro.Compiler.getOutput();
     var isDce = Context.definedValue('dce') == 'full';
     for (t in glueTypes) {
       var cl = t.get();
@@ -304,49 +313,47 @@ class NativeGlueCode
         writeGlueCpp(cl);
       }
       if (!cl.isExtern && cl.meta.has(':uexpose')) {
-        var info = this.getInfo(cl);
-        var runtimeDir = info.basePath;
         // copy the header to the generated folder
-        this.touch(THeader, cpath, info.targetModule);
+        glues.touch(TPublicHeader, cpath);
         var path = cpath.replace('.','/');
 
         var headerPath = '$cppTarget/include/${path}.h';
-        if (!FileSystem.exists(headerPath)) continue;
-        var targetPath = '$runtimeDir/Generated/Public/$path.h';
-        var dir = Path.directory(targetPath);
+        if (!FileSystem.exists(headerPath)) {
+          trace('The uexpose header at path $headerPath does not exist. Skipping');
+          continue;
+        }
+        var targetPath = GlueInfo.getPublicHeaderPath(TypeRef.parseClassName( cpath ), true);
         var stampPath = '$stampOutput/$cpath.stamp';
         var shouldCopy = checkShouldGenerate(stampPath, targetPath, cl);
 
         if (shouldCopy) {
-          if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
-
           var contents = File.getContent(headerPath);
           // take off the self-include
           contents = contents.replace('#include <$path.h>', '');
-          if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents)
+          if (!FileSystem.exists(targetPath) || File.getContent(targetPath) != contents) {
             File.saveContent(targetPath, contents);
+          }
           File.saveContent(stampPath, '');
         }
       }
 
       var dependencies = cl.meta.extractStrings(':ufiledependency');
-      var module = cl.meta.extractStrings(':utargetmodule')[0];
-      for (dep in dependencies) {
-        var idx = dep.indexOf('@');
-        if (idx >= 0) {
-          var s = dep.split('@');
-          touch(TAll, s[0], s[1]);
-        } else {
-          touch(TAll, dep, module);
+      if (dependencies != null && dependencies.length > 0) {
+        if (dependencies.length == 1) {
+          throw new Error('The file dependency is not in the newer format', cl.pos);
+        }
+        var kind = TouchKind.parse(dependencies.shift(), cl.pos);
+        for (dep in dependencies) {
+          glues.touch(kind, dep);
         }
       }
     }
 
     // add all extra modules which we depend on
-    if (!FileSystem.exists('$cppTarget/Data')) {
-      FileSystem.createDirectory('$cppTarget/Data');
+    if (!FileSystem.exists('$staticBaseDir/Data')) {
+      FileSystem.createDirectory('$staticBaseDir/Data');
     }
-    var mfile = sys.io.File.write('$cppTarget/Data/modules.txt');
+    var mfile = sys.io.File.write('$staticBaseDir/Data/modules.txt');
     for (module in modules.keys()) {
       mfile.writeString(module + '\n');
     }
@@ -356,53 +363,20 @@ class NativeGlueCode
       var glueModules = [ for (key in glueTypes.keys()) key ];
       glueModules.sort(Reflect.compare);
       var contents = glueModules.join('\n');
-      var file = '$cppTarget/Data/compiled.txt';
+      var file = '$staticBaseDir/Data/compiled.txt';
       if (!FileSystem.exists(file) || sys.io.File.getContent(file) != contents) {
         sys.io.File.saveContent(file, contents);
       }
     }
 
     // clean generated folder
-    var touched:Map<String,TouchKind> = null;
-    function recurse(path:String, packPath:String, ext:String, kind:TouchKind):Bool {
-      var foundFile = false;
-      var dir = FileSystem.readDirectory(path);
-      for (file in dir) {
-        if (FileSystem.isDirectory('$path/$file')) {
-          if ( !(packPath == '' && file == 'Data') ) {
-            var found = recurse('$path/$file', '$packPath$file.', ext, kind);
-            foundFile = foundFile || found;
-          }
-        } else {
-          var ret = touched[packPath + Path.withoutExtension(file)];
-          if ( ret == null || !ret.hasAny(kind) || (ext != null && Path.extension(file) != ext) ) {
-            // do nothing if the file starts with a dot - it could be a swap file
-            if (!file.startsWith('.')) {
-              trace('Deleting uneeded file $path/$file');
-              FileSystem.deleteFile('$path/$file');
-            }
-          } else {
-            foundFile = true;
-          }
-        }
-      }
-      if (!foundFile) {
-        try {
-          FileSystem.deleteDirectory(path);
-        }
-        catch (e:Dynamic) {}
-      }
-      return foundFile;
-    }
-    for (key in this.touchedModules.keys()) {
-      touched = this.touchedModules[key];
-      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Public', '', 'h', THeader);
-      recurse(Globals.cur.haxeRuntimeDir + '/../$key/Generated/Private', '', 'cpp', TCpp);
-    }
+    glues.cleanDirs();
+    glues.makeUnityBuild();
   }
 
   public function onGenerate(types:Array<Type>) {
-    if (Globals.cur.haxeRuntimeDir == null) return;
+    if (Globals.cur.unrealSourceDir == null) return;
+    var targetTemplate = glues.updateGameModule();
 
     for (type in types) {
       switch(type) {
@@ -438,30 +412,17 @@ class NativeGlueCode
         }
         // add only once - we'll select a type that is always compiled
         if (typeName == 'uhx.expose.HxcppRuntime' && !cl.meta.has(':buildXml')) {
-          var dir = Globals.cur.haxeRuntimeDir;
-          if (Globals.cur.glueTargetModule != null) {
-            dir += '/../${Globals.cur.glueTargetModule}';
-          }
+          var dir = Globals.cur.unrealSourceDir;
           cl.meta.add(':buildXml', [macro $v{
           '<files id="haxe">
-            <compilerflag value="-I$dir/Generated/Shared" />
+            <compilerflag value="-I$targetTemplate/Shared" />
           </files>'
           }], cl.pos);
-        }
-        if (cl.meta.has(':uintrinsic')) {
-          var incPath = cl.meta.extractStrings(':uintrinsic')[0];
-          // var targetModule = Globals.cur.haxeTargetModule;
-          var targetDir = Globals.cur.haxeRuntimeDir;
-          if (Globals.cur.glueTargetModule != null) {
-            targetDir += '/../${Globals.cur.glueTargetModule}';
-          }
-          cl.meta.add(':include', [macro $v{'$targetDir/$incPath'}], cl.pos);
         }
       case TEnum(e, _):
         var et = e.get();
         if (et.meta.has(':uenum')) {
-          var info = this.getInfo(et);
-          touch(THeader, info.uname.getClassPath(), info.targetModule);
+          glues.touch(TExportHeader, MacroHelpers.getUName(et));
         }
       case _:
       }
@@ -469,28 +430,3 @@ class NativeGlueCode
   }
 }
 
-@:enum abstract TouchKind(Int) from Int {
-  var TCpp = 1;
-  var THeader = 2;
-  var TAll = 3;
-
-  inline private function t() {
-    return this;
-  }
-
-  @:op(A|B) inline public function add(f:TouchKind):TouchKind {
-    return this | f.t();
-  }
-
-  inline public function hasAll(flag:TouchKind):Bool {
-    return this & flag.t() == flag.t();
-  }
-
-  inline public function hasAny(flag:TouchKind):Bool {
-    return this & flag.t() != 0;
-  }
-
-  inline public function without(flags:TouchKind):TouchKind {
-    return this & ~(flags.t());
-  }
-}

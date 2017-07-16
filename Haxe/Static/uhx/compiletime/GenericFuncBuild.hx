@@ -32,9 +32,9 @@ class GenericFuncBuild {
         caller = new TypeRef(glue.pack, glue.name + "GenericCaller"),
         genericGlue = new TypeRef(glue.pack, glue.name + "Generic");
 
-    var target = Context.definedValue('bake_dir');
+    var target = Context.definedValue('UHX_BAKE_DIR');
     if (target == null) {
-      Context.warning('Haxe Glue Generic Wrapper: `bake_dir` directive is not set and this code uses generics. Make sure you have the latest build tool. Compilation may fail.', cl.pos);
+      Context.warning('Haxe Glue Generic Wrapper: `UHX_BAKE_DIR` directive is not set and this code uses generics. Make sure you have the latest build tool. Compilation may fail.', cl.pos);
       return;
     }
     var buf = new StringBuf();

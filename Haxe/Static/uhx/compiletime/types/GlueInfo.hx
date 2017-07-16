@@ -7,88 +7,99 @@ import sys.FileSystem;
 using uhx.compiletime.tools.MacroHelpers;
 
 class GlueInfo {
-  /**
-    The module where the glue will be generated. Normally will be the same as Globals.cur.module,
-    but it might have a different target module if either Globals.cur.haxeTargetModule is defined, or
-    if @:utargetmodule is set
-   **/
-  public var targetModule(default,null):String;
-  /**
-    The base target path - as a default, it is `Globals.cur.haxeRuntimeDir`
-   **/
-  public var basePath(default,null):String;
-  public var uname(default,null):TypeRef;
+  public static inline var UNITY_CPP_EXT = '.uhxglue.cpp';
 
-  private function new() {
+  public static function getHeaderPath(tref:TypeRef, ?ensureExists=false):String {
+    var ret = getHeaderDir(tref);
+    if (ensureExists && !FileSystem.exists(ret)) {
+      FileSystem.createDirectory(ret);
+    }
+    return ret + '/' + tref.name + '.h';
   }
 
-  public static function fromBaseType(base:BaseType, ?moduleOverride:String) {
-    var uname = base.meta.extractStrings(":uname")[0];
-    if (uname == null) {
-      uname = base.name;
+  public static function getHeaderDir(tref:TypeRef):String {
+    var cur = Globals.cur,
+        ret = null;
+    if (cur.glueUnityBuild) {
+      ret = cur.staticBaseDir + '/Generated';
+    } else {
+      ret = cur.unrealSourceDir + '/Generated';
     }
-    var uname = TypeRef.parseClassName(uname);
-    var basePath = Globals.cur.haxeRuntimeDir;
-
-    var module = moduleOverride;
-    if (module == null) {
-      module = base.meta.extractStrings(':utargetmodule')[0];
-    }
-
-    if (module != Globals.cur.module) {
-      if (module == null) {
-        module = Globals.cur.glueTargetModule;
-      }
-      if (module == null) {
-        module = Globals.cur.module;
-      }
-      basePath += '/../$module';
-    }
-
-    var ret = new GlueInfo();
-    ret.targetModule = module;
-    ret.basePath = basePath;
-    ret.uname = uname;
-    return ret;
+    return ret + '/Private/${tref.pack.join("/")}';
   }
 
-  public function getHeaderPath(?alternatePath:String, ?ensureExists=false):String {
-    var cpath = uname;
-    if (alternatePath != null) {
-      cpath = TypeRef.parseClassName(alternatePath);
-    } else {
-      cpath = cpath.withoutPrefix();
+  public static function getPublicHeaderPath(tref:TypeRef, ?ensureExists=false):String {
+    var ret = getPublicHeaderDir(tref);
+    if (ensureExists && !FileSystem.exists(ret)) {
+      FileSystem.createDirectory(ret);
     }
-
-    if (ensureExists) {
-      var name = cpath.name;
-      var dir = '$basePath/Generated/Public/${cpath.pack.join("/")}';
-      if (!FileSystem.exists(dir)) {
-        FileSystem.createDirectory(dir);
-      }
-      return '$dir/$name.h';
-    } else {
-      return '$basePath/Generated/Public/${cpath.pack.join("/")}/${cpath.name}.h';
-    }
+    return ret + '/' + tref.name + '.h';
   }
 
-  public function getCppPath(?alternatePath:String, ?ensureExists=false):String {
-    var cpath = uname;
-    if (alternatePath != null) {
-      cpath = TypeRef.parseClassName(alternatePath);
+  public static function getPublicHeaderDir(tref:TypeRef):String {
+    var cur = Globals.cur,
+        ret = null;
+    if (cur.glueUnityBuild) {
+      ret = cur.staticBaseDir + '/Generated';
     } else {
-      cpath = cpath.withoutPrefix();
+      ret = cur.unrealSourceDir + '/Generated';
+    }
+    return ret + '/Public/${tref.pack.join("/")}';
+  }
+
+  public static function getCppPath(tref:TypeRef, ?ensureExists=false):String {
+    var ret = getCppDir(tref);
+    if (ensureExists && !FileSystem.exists(ret)) {
+      FileSystem.createDirectory(ret);
+    }
+    return ret + '/' + tref.name + '.cpp';
+  }
+
+  public static function getCppDir(tref:TypeRef):String {
+    var cur = Globals.cur,
+        ret = null;
+    if (cur.glueUnityBuild) {
+      ret = cur.staticBaseDir + '/Generated';
+    } else {
+      ret = cur.unrealSourceDir + '/Generated';
+    }
+    return ret + '/Private/${tref.pack.join("/")}';
+  }
+
+  public static function getUnityDir():Null<String> {
+    var cur = Globals.cur;
+    if (!cur.glueUnityBuild) {
+      return null;
     }
 
-    if (ensureExists) {
-      var name = cpath.name;
-      var dir = '$basePath/Generated/Private/${cpath.pack.join("/")}';
-      if (!FileSystem.exists(dir)) {
-        FileSystem.createDirectory(dir);
-      }
-      return '$dir/$name.cpp';
-    } else {
-      return '$basePath/Generated/Private/${cpath.pack.join("/")}/${cpath.name}.cpp';
+    var dir = cur.unrealSourceDir + '/Generated/Unity/' + cur.buildName;
+    return dir;
+  }
+
+  public static function getUnityPath(umodule:String, ?ensureExists=false):Null<String> {
+    var dir = getUnityDir();
+    if (dir == null) {
+      return null;
     }
+
+    if (ensureExists && !FileSystem.exists(dir)) {
+      FileSystem.createDirectory(dir);
+    }
+
+    return dir + '/' + umodule + UNITY_CPP_EXT;
+  }
+
+  public static function getExportHeaderPath(uname:String, ?ensureExists=false):String {
+    var ret = Globals.cur.unrealSourceDir + '/Generated/Public';
+    if (uname.indexOf('.') >= 0) {
+      var arr = uname.split('.');
+      uname = arr.pop();
+      ret += '/' + arr.join('/');
+    }
+
+    if (ensureExists && !FileSystem.exists(ret)) {
+      FileSystem.createDirectory(ret);
+    }
+    return ret + '/' + uname + '.h';
   }
 }

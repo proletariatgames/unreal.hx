@@ -548,21 +548,13 @@ class ExprGlueBuild {
   }
 
   private function writeStructDefinition(abs:AbstractType) {
-    if (Globals.cur.glueTargetModule != null && !abs.meta.has(':uextension')) {
-      abs.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], abs.pos);
+    if (!abs.meta.has(':uextension')) {
       abs.meta.add(':uextension', [], abs.pos);
     }
-    var typeRef = TypeRef.fromBaseType(abs, abs.pos);
-    var info = GlueInfo.fromBaseType(abs);
-    var uname = info.uname.getClassPath(),
-        nameWithout = info.uname.withoutPrefix().getClassPath();
-    var headerPath = info.getHeaderPath(true),
-        cppPath = info.getCppPath(false);
-    if (sys.FileSystem.exists(cppPath)) {
-      // delete a perhaps previous cpp path (e.g. before the file was converted to a struct)
-      // we need this since NativeGlueCode will keep this file because of @:ufiledependency
-      sys.FileSystem.deleteFile(cppPath);
-    }
+    var typeRef = TypeRef.fromBaseType(abs, abs.pos),
+        uname = MacroHelpers.getUName(abs),
+        nameWithout = uname.substr(1),
+        headerPath = GlueInfo.getExportHeaderPath(nameWithout, true);
 
     var writer = new HeaderWriter(headerPath);
     var cls = abs.impl.get();
@@ -690,17 +682,15 @@ class ExprGlueBuild {
     }
     writer.buf.add('};\n');
 
-    writer.close(info.targetModule);
-    if (!abs.meta.has(':ufiledependency')) {
-      abs.meta.add(':ufiledependency', [macro $v{nameWithout + '@' + info.targetModule}], abs.pos);
-    }
+    writer.close(Globals.cur.module);
+    abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);
   }
 
   private function writeDelegateDefinition(abs:AbstractType) {
-    var info = GlueInfo.fromBaseType(abs, Globals.cur.module);
-    var uname = info.uname.getClassPath(),
-        nameWithout = info.uname.withoutPrefix().getClassPath();
-    var headerPath = info.getHeaderPath(true);
+    var uname = MacroHelpers.getUName(abs),
+        nameWithout = uname.substr(1),
+        tref = TypeRef.fromBaseType(abs, abs.pos),
+        headerPath = GlueInfo.getExportHeaderPath(nameWithout, true);
     var writer = new HeaderWriter(headerPath);
 
     var typeRef = TypeRef.fromBaseType(abs, abs.pos);
@@ -801,8 +791,8 @@ class ExprGlueBuild {
 
     writer.buf.add('// added as workaround for UHT, otherwise it won\'t recognize this file.\n');
     writer.buf.add('USTRUCT(Meta=(UHX_Internal=true)) struct F${uname}__Dummy { GENERATED_BODY() };');
-    writer.close(info.targetModule);
-    abs.meta.add(':ufiledependency', [macro $v{nameWithout + "@" + Globals.cur.module}], abs.pos);
+    writer.close(Globals.cur.module);
+    abs.meta.add(':ufiledependency', [macro "ExportHeader", macro $v{nameWithout}], abs.pos);
   }
 
   private function handleProperty(field:ClassField, isStatic:Bool) {

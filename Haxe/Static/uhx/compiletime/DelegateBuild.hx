@@ -269,12 +269,8 @@ class DelegateBuild {
     def.fields.push(added.fields[0]);
 
     if (!Context.defined('cppia')) {
-      if (Globals.cur.glueTargetModule != null) {
-        meta.push({ name:':utargetmodule', params:[macro $v{Globals.cur.glueTargetModule}], pos:pos });
-        meta.push({ name:':uextension', params:[], pos:pos });
-      }
-      var info = GlueInfo.fromBaseType(tdef, Globals.cur.module);
-      var headerPath = info.getHeaderPath();
+      meta.push({ name:':uextension', params:[], pos:pos });
+      var headerPath = GlueInfo.getExportHeaderPath(ueType.withoutPrefix().toString(), true);
       meta.push({ name:':glueCppIncludes', params:[macro $v{headerPath}, macro "<uhx/ue/ClassMap.h>"], pos:pos });
       meta.push({ name:':uhxdelegate', params:[], pos:pos });
     }

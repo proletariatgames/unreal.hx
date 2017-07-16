@@ -162,7 +162,7 @@ class CreateGlue {
           LiveReloadBuild.bindFunctions('LiveReloadStatic');
           var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
           if (lives.length > 0) {
-            sys.io.File.saveContent( haxe.macro.Compiler.getOutput() + '/Data/livereload.txt', lives.join('\n') );
+            sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
           }
         }
         Globals.cur.loadCachedTypes();

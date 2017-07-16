@@ -164,41 +164,10 @@ class UExtensionBuild {
       }
 
       var buildFields = [];
-      var exportHeader = null,
-          exportCpp = null;
-      var export = null,
-          cppExposeType = expose;
 
       var glueHeaderIncs = new IncludeSet(),
           glueCppIncs = new IncludeSet(),
           headerForwards = new Map();
-      if (Globals.cur.glueTargetModule != null) {
-        export = new TypeRef(expose.pack, expose.name + '_Export');
-        cppExposeType = export;
-        exportHeader = new CodeFormatter();
-        exportCpp = new CodeFormatter();
-        exportHeader <<
-          '#include <hxcpp.h>\n' <<
-          '#include "IntPtr.h"\n' <<
-          '#include <${expose.getClassPath().replace(".","/")}.h>\n\n';
-        for (pack in export.pack) {
-          exportHeader << 'namespace $pack {\n';
-        }
-        exportHeader << '\nclass HXCPP_CLASS_ATTRIBUTES ${export.name}' << new Begin("{") <<
-          'public:' << new Newline() <<
-          'static unreal::UIntPtr createHaxeWrapper(void *self);' << new Newline() <<
-          'static unreal::UIntPtr createEmptyHaxeWrapper(void *self);' << new Newline();
-
-        exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'unreal::UIntPtr ${export.getCppClass()}::createHaxeWrapper(void *self)' << new Begin('{') <<
-            'return (unreal::UIntPtr) ${expose.getCppClass()}::createHaxeWrapper(self);' <<
-          new End('}');
-        exportCpp << '#include <${export.getClassPath().replace(".","/")}.h>\n' << new Newline() <<
-          'unreal::UIntPtr ${export.getCppClass()}::createEmptyHaxeWrapper(void *self)' << new Begin('{') <<
-            'return (unreal::UIntPtr) ${expose.getCppClass()}::createEmptyHaxeWrapper(self);' <<
-          new End('}');
-        glueCppIncs.add(export.getClassPath().replace(".","/") + ".h");
-      }
 
       var isScript = clt.meta.has(':uscript');
       var scriptBase = null;
@@ -239,23 +208,6 @@ class UExtensionBuild {
           [ for (arg in field.args) { name: arg.name, type: arg.type.haxeGlueType.toComplexType() } ];
         if (!field.type.isStatic())
           fnArgs.unshift({ name: 'self', type: thisConv.haxeGlueType.toComplexType() });
-        if (exportHeader != null) {
-          var exportArgs = field.args.copy();
-          if (!field.type.isStatic()) {
-            exportArgs.unshift({ name: 'self', type: thisConv });
-          }
-          var argsDef = new HelperBuf();
-          argsDef.mapJoin(exportArgs, function(arg) return arg.type.glueType.getCppType() + ' ' + arg.name);
-          // field.ret.
-          exportHeader << 'static ${field.ret.glueType.getCppType()} ${field.cf.name}($argsDef);' << new Newline();
-          exportCpp << '${field.ret.glueType.getCppType()} ${export.getCppClass()}::${field.cf.name}($argsDef)' <<
-            new Begin('{') <<
-              (field.ret.haxeType.isVoid() ? '' : 'return ') <<
-              expose.getCppClass() << '::' << field.cf.name << '(';
-          exportCpp.mapJoin(exportArgs, function(arg) return arg.name);
-          exportCpp << ');' <<
-            new End('}') << new Newline();
-        }
         var headerDef = new HelperBuf(),
             cppDef = new HelperBuf();
         var ret = field.ret.ueType.getCppType().toString();
@@ -325,7 +277,7 @@ class UExtensionBuild {
         var args = [ for (arg in field.args) arg.type.ueToGlue( arg.name , ctx) ];
         if (!field.type.isStatic())
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
-        var cppBody = cppExposeType.getCppClass() + '::' + field.cf.name + '(' +
+        var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
         if (!field.ret.haxeType.isVoid())
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
@@ -464,8 +416,10 @@ class UExtensionBuild {
           }
         }
 
-        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper(unreal::UIntPtr self) {\n\treturn ${cppExposeType.getCppClass()}::createHaxeWrapper(self);\n}\n';
-        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\treturn ${cppExposeType.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createHaxeWrapper(unreal::UIntPtr self) {\n\t'
+          + 'return ${expose.getCppClass()}::createHaxeWrapper(self);\n}\n';
+        cppCode += 'unreal::UIntPtr ${nativeUe.getCppClass()}::createEmptyHaxeWrapper() {\n\t'
+          + 'return ${expose.getCppClass()}::createEmptyHaxeWrapper((unreal::UIntPtr) this);\n}\n';
         // Implement GetLifetimeReplicatedProps
         var aactor = Globals.cur.aactor;
         if (aactor == null) {
@@ -555,12 +509,12 @@ class UExtensionBuild {
           var ret:unreal.UObject = null;
           try {
             ret = cast $createExpr;
-            uhx.ClassWrap.popCtor(ret);
           }
           catch(e:Dynamic) {
             uhx.ClassWrap.popCtor(ret);
             cpp.Lib.rethrow(e);
           }
+          uhx.ClassWrap.popCtor(ret);
           if (ret == null) {
             trace("Error", "Error while creating ${typeRef.getClassPath()}: It does not exist");
           }
@@ -595,24 +549,6 @@ class UExtensionBuild {
           meta: [],
           pos: this.pos
         });
-      }
-
-      if (exportHeader != null) {
-        exportHeader << new End('};');
-        for (pack in export.pack) {
-          exportHeader << '}\n';
-        }
-        var path = Globals.cur.haxeRuntimeDir + '/../${Globals.cur.glueTargetModule}/Generated';
-        var header = new HeaderWriter('$path/Public/${export.getClassPath().replace(".","/")}.h');
-        header.buf.add(exportHeader);
-        header.close(Globals.cur.glueTargetModule);
-        var cpp = new CppWriter('$path/Private/${export.getClassPath().replace(".","/")}.cpp');
-        cpp.buf.add(exportCpp);
-        cpp.close(Globals.cur.glueTargetModule);
-
-        metas.push({ name: ':ufiledependency', params:[
-          macro $v{export.getClassPath() + '@' + Globals.cur.glueTargetModule}
-        ], pos:this.pos });
       }
 
       for (field in buildFields) {
@@ -716,10 +652,7 @@ class UExtensionBuild {
       }
     }
 
-    var targetModule = MacroHelpers.extractStrings(clt.meta, ':umodule')[0];
-    if (targetModule == null)
-      targetModule = Globals.cur.module;
-
+    var targetModule = Globals.cur.module;
     var headerDef = new CodeFormatter(),
         cppDef = null;
     if (Globals.isDynamicUType(clt)) {
@@ -813,10 +746,10 @@ class UExtensionBuild {
 
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
+    metas.push({ name: ':uexportheader', params:[], pos: clt.pos });
     if (cppDef != null) {
       metas.push({ name: ':ueCppDef', params:[macro $v{cppDef.toString()}], pos: clt.pos });
     }
-    metas.push({ name:':utargetmodule', params:[macro $v{targetModule}], pos:clt.pos });
 
     return { hasHaxeSuper: hasHaxeSuper };
   }

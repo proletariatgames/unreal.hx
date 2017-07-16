@@ -162,4 +162,25 @@ class MacroHelpers
     var uname = MacroHelpers.extractStrings(cf.meta, ':uname')[0];
     return uname != null ? uname : cf.name;
   }
+
+  public static function deleteRecursive(path:String, force=false):Bool
+  {
+    var shouldDelete = true;
+    if (!sys.FileSystem.isDirectory(path))
+    {
+      sys.FileSystem.deleteFile(path);
+    } else {
+      for (file in sys.FileSystem.readDirectory(path)) {
+        if (force || (file != 'Private' && file != 'Public')) {
+          shouldDelete = deleteRecursive('$path/$file',force);
+        } else {
+          shouldDelete = false;
+        }
+      }
+      if (shouldDelete) {
+        sys.FileSystem.deleteDirectory(path);
+      }
+    }
+    return shouldDelete;
+  }
 }

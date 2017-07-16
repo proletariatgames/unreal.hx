@@ -53,8 +53,13 @@ class InitPlugin {
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
-    trace('Updating game module...');
-    updateGameModule(gameDir, haxeDir, pluginPath, fromCommandLine, targetModule, ueVer, isProgram);
+    if (!FileSystem.exists('$haxeDir/arguments.hxml')) {
+      sys.io.File.saveContent('$haxeDir/arguments.hxml',
+          '# put here your additional haxe arguments\n' +
+          '# please do not add a target (like -cpp) as they will be added automatically\n' +
+          '# (see gen-build-scripts.hxml and gen-build-static.hxml)');
+    }
+    handleModuleRules(gameDir, pluginPath, fromCommandLine, ueVer);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))
         FileSystem.createDirectory(dir);
@@ -62,72 +67,6 @@ class InitPlugin {
     checkDir('$haxeDir/Static');
     checkDir('$haxeDir/Scripts');
     checkDir('$haxeDir/Externs');
-  }
-
-  private static function updateGameModule(gameDir:String, haxeDir:String, pluginPath:String, fromCommandLine:Bool, targetModule:String, ueVer:String, isProgram:Bool)
-  {
-    var mod = targetModule;
-    if (mod == null) {
-      mod = getHaxeModule(gameDir);
-    }
-    // update templates that need to be updated
-    function recurse(templatePath:String, toPath:String, alsoDelete:Bool)
-    {
-      var checkMap = null;
-
-      if (!FileSystem.exists(toPath))
-        FileSystem.createDirectory(toPath);
-      else if (alsoDelete)
-        checkMap = new Map();
-
-      for (file in FileSystem.readDirectory(templatePath))
-      {
-        // Only copy the module-specific code if
-        if ( mod != 'HaxeRuntime' && (file == 'HaxeRuntime.cpp' || file == 'HaxeRuntime.h') )
-          continue;
-        if (isProgram) {
-          switch(file) {
-          case 'HaxeGeneratedClass.h', 'CallHelper.h':
-            continue;
-          }
-        }
-        if (checkMap != null) checkMap[file] = true;
-        var curTemplPath = '$templatePath/$file',
-            curToPath = '$toPath/$file';
-        if (FileSystem.isDirectory(curTemplPath))
-        {
-          recurse(curTemplPath, curToPath, true);
-        } else {
-          var shouldCopy = !FileSystem.exists(curToPath) || file.endsWith('.cs');
-          var contents = File.getContent(curTemplPath);
-          if (mod != 'HaxeRuntime')
-            contents = contents.replace('HAXERUNTIME', mod.toUpperCase()).replace('HaxeRuntime', mod);
-          if (!shouldCopy && file != 'arguments.hxml')
-            shouldCopy = contents != File.getContent(curToPath);
-
-          if (shouldCopy)
-            File.saveContent(curToPath, contents);
-        }
-      }
-
-      if (checkMap != null)
-      {
-        for (file in FileSystem.readDirectory(toPath))
-          if (file != 'Generated' && file != 'Private' && file != 'Public' && !checkMap.exists(file))
-            deleteRecursive('$toPath/$file');
-      }
-    }
-
-    if (mod != null) {
-      recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime', '$gameDir/Source/$mod', false);
-      recurse('$pluginPath/Haxe/Templates/Haxe', '$haxeDir', false);
-    }
-    // TODO: take this off once we can decide where the plugin dir will be
-    if (FileSystem.exists('$gameDir/Source/HaxeRuntime')) {
-      deleteRecursive('$gameDir/Source/HaxeRuntime', true);
-    }
-
-    handleModuleRules(gameDir, pluginPath, fromCommandLine, ueVer);
   }
 
   private static function handleModuleRules(gameDir:String, pluginPath:String, alsoCompile:Bool, ueVer:String) {

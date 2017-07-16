@@ -1,0 +1,286 @@
+package uhx.compiletime.types;
+import haxe.macro.Context;
+import sys.FileSystem;
+import sys.io.File;
+import uhx.compiletime.tools.*;
+using StringTools;
+
+class GlueManager {
+  private var touchedFiles:Map<String, TouchKind> = new Map();
+  private var modules:Map<String, Array<String>>;
+  private var modulesChanged:Map<String, Bool>;
+
+  public function new() {
+    if (Globals.cur.glueUnityBuild) {
+      this.modules = new Map();
+      this.modulesChanged = new Map();
+    }
+  }
+
+  public function touch(kind:TouchKind, file:String) {
+    var ret = this.touchedFiles[file];
+    if (ret == null) {
+      ret = kind;
+    } else {
+      ret = ret | kind;
+    }
+    this.touchedFiles[file] = ret;
+  }
+
+  public function addCpp(file:String, module:String, hasChanged:Bool) {
+    if (this.modules != null) {
+      var arr = this.modules[module];
+      if (arr == null) {
+        this.modules[module] = arr = [];
+      }
+      arr.push(file);
+
+      if (hasChanged) {
+        this.modulesChanged[module] = true;
+      }
+    }
+  }
+
+  public function cleanDirs() {
+    if (Globals.cur.glueUnityBuild) {
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TPrivateCpp, TPrivateHeader, touchedFiles);
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TPublicHeader, touchedFiles);
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TExportHeader, touchedFiles);
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp, TNone, touchedFiles);
+    } else {
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Public', TNone, TPublicHeader | TExportHeader, touchedFiles);
+      cleanDir(Globals.cur.unrealSourceDir + '/Generated/Private', TExportCpp | TPrivateCpp, TPrivateHeader, touchedFiles);
+      // delete static base directory if it exists
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Public', TNone, TNone, touchedFiles);
+      cleanDir(Globals.cur.staticBaseDir + '/Generated/Private', TNone, TNone, touchedFiles);
+    }
+  }
+
+  private static function getUniqueDefines() {
+    var ret = [];
+    switch(Globals.cur.configuration) {
+    case 'Development' | 'DebugGame':
+      ret.push('UE_BUILD_DEVELOPMENT');
+    case 'Shipping':
+      ret.push('UE_BUILD_SHIPPING');
+    case 'Debug':
+      ret.push('UE_BUILD_DEBUG');
+    case 'Test':
+      ret.push('UE_BUILD_TEST');
+    case config:
+      throw 'Unknown configuration $config';
+    }
+
+    switch(Globals.cur.targetType) {
+    case 'Game':
+      ret.push('UE_GAME');
+      ret.push('WITH_SERVER_CODE');
+    case 'Client':
+      ret.push('UE_GAME');
+      ret.push('!WITH_SERVER_CODE');
+    case 'Editor':
+      ret.push('WITH_EDITOR');
+    case 'Server':
+      ret.push('UE_SERVER');
+    case 'Program':
+      ret.push('IS_PROGRAM');
+    case type:
+      throw 'Unknown target type $type';
+    }
+
+    switch(Globals.cur.targetPlatform) {
+    case 'Win32' | 'Win64' | 'WinRT' | 'WinRT_ARM':
+      ret.push('PLATFORM_WINDOWS');
+    case 'Mac':
+      ret.push('PLATFORM_MAC');
+    case 'XboxOne':
+      ret.push('PLATFORM_XBOXONE');
+    case 'PS4':
+      ret.push('PLATFORM_PS4');
+    case 'IOS':
+      ret.push('PLATFORM_IOS');
+    case 'Android':
+      ret.push('PLATFORM_ANDROID');
+    case 'HTML5':
+      ret.push('PLATFORM_HTML5');
+    case 'Linux':
+      ret.push('PLATFORM_LINUX');
+    case 'TVOS':
+      ret.push('PLATFORM_TVOS');
+    case platform:
+      throw 'Unknown target platform $platform';
+    }
+
+    return ret;
+  }
+
+  public function makeUnityBuild() {
+    var dir = GlueInfo.getUnityDir();
+    if (dir == null) {
+      return;
+    }
+
+    for (module in this.modules.keys()) {
+      if (!this.modulesChanged.exists(module)) {
+        var target = GlueInfo.getUnityPath(module, false);
+        if (!sys.FileSystem.exists(target)) {
+          this.modulesChanged[module] = true;
+        }
+      }
+    }
+
+    for (changed in this.modulesChanged.keys()) {
+      var files = this.modules[changed];
+      files.sort(Reflect.compare);
+      var target = sys.io.File.write(GlueInfo.getUnityPath(changed, true), false);
+      var defines = getUniqueDefines();
+      if (defines.length == 0) {
+        throw 'assert';
+      }
+      target.writeString('#include "${Globals.cur.module}.h"\n');
+      target.writeString('#if ' + defines.join(' && ') + '\n');
+
+      for (file in files) {
+        if (file.indexOf('"') >= 0) {
+          target.writeString('#include "${file.replace('"', '\\"')}"\n');
+        } else {
+          target.writeString('#include "$file"\n');
+        }
+      }
+
+      target.writeString('#endif');
+      target.close();
+    }
+
+    if (FileSystem.exists(dir)) {
+      for (file in FileSystem.readDirectory(dir)) {
+        if (file.endsWith(GlueInfo.UNITY_CPP_EXT)) {
+          var mod = file.substr(0, file.length - GlueInfo.UNITY_CPP_EXT.length);
+          if (!this.modules.exists(mod)) {
+            trace('Deleting unused unity build file $dir/$file');
+            FileSystem.deleteFile('$dir/$file');
+          }
+        }
+      }
+    }
+  }
+
+  public function updateGameModule() {
+    var cur = Globals.cur,
+        glueUnityBuild = cur.glueUnityBuild,
+        staticTemplate = cur.staticBaseDir + '/Template',
+        sourceTemplate = cur.unrealSourceDir + '/Generated/Template',
+        srcDir = glueUnityBuild ? staticTemplate : sourceTemplate,
+        oldSrcDir = !glueUnityBuild ? staticTemplate : sourceTemplate,
+        pluginPath = cur.pluginDir,
+        mod = cur.module,
+        isProgram = Context.defined('UE_PROGRAM');
+
+    // update templates that need to be updated
+    function recurse(templatePath:String, toPath:String)
+    {
+      var checkMap = null;
+
+      if (!FileSystem.exists(toPath)) {
+        FileSystem.createDirectory(toPath);
+      } else {
+        checkMap = new Map();
+      }
+
+      for (file in FileSystem.readDirectory(templatePath))
+      {
+        if (isProgram) {
+          switch(file) {
+          case 'HaxeGeneratedClass.h', 'CallHelper.h':
+            continue;
+          }
+        }
+        if (checkMap != null) checkMap[file] = true;
+        var curTemplPath = '$templatePath/$file',
+            curToPath = '$toPath/$file';
+        if (FileSystem.isDirectory(curTemplPath))
+        {
+          recurse(curTemplPath, curToPath);
+        } else {
+          var shouldCopy = !FileSystem.exists(curToPath);
+          var contents = File.getContent(curTemplPath);
+          if (mod != 'HaxeRuntime') {
+            contents = contents.replace('HAXERUNTIME', mod.toUpperCase()).replace('HaxeRuntime', mod);
+          }
+          if (!shouldCopy) {
+            shouldCopy = contents != File.getContent(curToPath);
+          }
+
+          if (shouldCopy) {
+            File.saveContent(curToPath, contents);
+          }
+
+          if (glueUnityBuild && file.endsWith('.cpp')) {
+            this.addCpp(curToPath, 'HaxeRuntime', shouldCopy);
+          }
+        }
+      }
+
+      if (checkMap != null)
+      {
+        for (file in FileSystem.readDirectory(toPath)) {
+          if (!checkMap.exists(file)) {
+            MacroHelpers.deleteRecursive('$toPath/$file');
+          }
+        }
+      }
+    }
+
+    recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Public', '$srcDir/Public');
+    recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Private', '$srcDir/Private');
+    recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Shared', '$srcDir/Shared');
+    var templateExport = '${cur.unrealSourceDir}/Generated/TemplateExport';
+    if (!isProgram) {
+      recurse('$pluginPath/Haxe/Templates/Source/HaxeRuntime/Export', templateExport);
+    } else if (FileSystem.exists(templateExport)) {
+      MacroHelpers.deleteRecursive(templateExport);
+    }
+    if (FileSystem.exists(oldSrcDir)) {
+      MacroHelpers.deleteRecursive(oldSrcDir);
+    }
+    return srcDir;
+  }
+
+  static function cleanDir(path:String, cppMask:TouchKind, headerMask:TouchKind, touchedFiles:Map<String, TouchKind>) {
+    function recurse(path:String, packPath:String) {
+      for (file in FileSystem.readDirectory(path)) {
+        var idx = file.lastIndexOf('.');
+        if (idx >= 0 && file.charCodeAt(0) != '.'.code) {
+          var name = file.substr(0, idx),
+              ext = file.substr(idx+1).toLowerCase();
+          var shouldDelete = false,
+              k:Null<TouchKind> = null,
+              mask:Null<TouchKind> = null;
+          if (ext == 'cpp') {
+            mask = cppMask;
+          } else if (ext == 'h') {
+            mask = headerMask;
+          }
+          if (mask != null) {
+            if (mask == 0 || (k = touchedFiles[packPath + name]) == null || !k.hasAny(mask)) {
+              shouldDelete = true;
+            }
+          }
+          if (shouldDelete) {
+            var fullPath = '$path/$file';
+            trace('Deleting uneeded file $fullPath');
+            FileSystem.deleteFile(fullPath);
+          }
+        } else {
+          var fullPath = '$path/$file';
+          if (FileSystem.isDirectory(fullPath)) {
+            recurse(fullPath, packPath + file + '.');
+          }
+        }
+      }
+    }
+    if (FileSystem.exists(path)) {
+      recurse(path, '');
+    }
+  }
+}

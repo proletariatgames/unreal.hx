@@ -123,7 +123,7 @@ public class HaxeModuleRules : BaseModuleRules {
 
     HaxeCompilationInfo info = setupHaxeTarget(this);
     if (!manualDependencies) {
-      string modulesPath = info.outputDir + "/Static/Built/Data/modules.txt";
+      string modulesPath = info.outputDir + "/Data/modules.txt";
       string curName = this.GetType().Name;
       if (!File.Exists(modulesPath)) {
         Log.TraceInformation("Could not find module definition at " + modulesPath);
@@ -142,9 +142,15 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Public"));
+    rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/TemplateExport"));
 
     HaxeCompilationInfo info = new HaxeCompilationInfo(rules);
     rules.PublicAdditionalLibraries.Add(info.libPath);
+    rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Public"));
+    rules.PrivateIncludePaths.Add(Path.Combine(info.outputDir, "Generated/Private"));
+    rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Template/Shared"));
+    rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Template/Public"));
+    rules.PrivateIncludePaths.Add(Path.Combine(info.outputDir, "Template/Private"));
 
     Log.TraceInformation("Using Haxe");
     rules.Definitions.Add("WITH_HAXE=1");
@@ -247,6 +253,7 @@ public class HaxeCompilationInfo {
   public string name;
   public string gameDir;
   public string outputDir;
+  public string buildName;
   public string libPath;
   public string uprojectPath;
 
@@ -285,10 +292,22 @@ public class HaxeCompilationInfo {
         break;
     }
 
-    this.outputDir = this.gameDir + "/Intermediate/Haxe/" + this.name + "-" + this.rules.Target.Platform + "-" + this.rules.Target.Configuration;
-    if (this.rules.Target.Type == TargetType.Editor) {
-      this.outputDir += "-Editor";
+    string platform = this.rules.Target.Platform + "";
+    switch (rules.Target.Platform) {
+      case UnrealTargetPlatform.Win64:
+      case UnrealTargetPlatform.Win32:
+        platform = "Win";
+        break;
+      default:
+        libName = "libhaxeruntime.a";
+        break;
     }
+    string config = this.rules.Target.Configuration + "";
+    if (config == "DebugGame") {
+      config = "Development";
+    }
+    this.buildName = this.name + "-" + platform + "-" + config + "-" + this.rules.Target.Type;
+    this.outputDir = this.gameDir + "/Intermediate/Haxe/" + this.buildName;
 
     foreach (string file in Directory.GetFileSystemEntries(this.gameDir)) {
       if (file.ToLowerInvariant().EndsWith(".uproject")) {

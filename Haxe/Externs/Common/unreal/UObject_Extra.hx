@@ -79,10 +79,8 @@ extern class UObject_Extra {
    **/
   public function PostLoad():Void;
 
-//#if WITH_ENGINE
   @:thisConst
   public function GetWorld() : UWorld;
-//#endif
 
   @:thisConst
   public function GetLifetimeReplicatedProps(outLifetimeProps:PRef<TArray<FLifetimeProperty>>) : Void;

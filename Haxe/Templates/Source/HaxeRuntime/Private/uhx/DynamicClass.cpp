@@ -1,5 +1,5 @@
 #include "HaxeRuntime.h"
-#include "DynamicClass.h"
+#include "uhx/DynamicClass.h"
 
 #include "Misc/Paths.h"
 #include "uhx/expose/HxcppRuntime.h"

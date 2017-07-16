@@ -16,7 +16,7 @@ class CreateCppia {
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
 
-    var target = Context.definedValue('ustatic_target');
+    var target = Globals.cur.staticBaseDir;
     compiledModules = getCompiled(target);
     var compiled = compiledModules.modules;
 

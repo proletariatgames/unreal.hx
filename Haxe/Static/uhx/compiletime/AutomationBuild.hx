@@ -100,22 +100,12 @@ class AutomationBuild {
   }
 
   private static function writeDef(cls:ClassType) {
-    if (Globals.cur.glueTargetModule != null && !cls.meta.has(':uextension')) {
-      cls.meta.add(':utargetmodule', [macro $v{Globals.cur.glueTargetModule}], cls.pos);
+    if (!cls.meta.has(':uextension')) {
       cls.meta.add(':uextension', [], cls.pos);
     }
-    var info = GlueInfo.fromBaseType(cls),
-        tref = TypeRef.fromBaseType(cls, cls.pos);
-    var uname = info.uname.getClassPath(),
-        nameWithout = info.uname.getClassPath();
-    var cppPath = info.getCppPath(true),
-        headerPath = info.getHeaderPath(false);
+    var tref = TypeRef.fromBaseType(cls, cls.pos),
+        cppPath = GlueInfo.getCppPath(tref, true);
 
-    if (sys.FileSystem.exists(headerPath)) {
-      // delete a perhaps previous header path (e.g. before the file was converted to a struct)
-      // we need this since NativeGlueCode will keep this file because of @:ufiledependency
-      sys.FileSystem.deleteFile(headerPath);
-    }
     var writer = new CppWriter(cppPath);
     writer.include("Engine.h");
     writer.include("uhx/HaxeAutomationTest.h");
@@ -134,8 +124,8 @@ class AutomationBuild {
 #endif
     ');
 
-    writer.close(info.targetModule);
-    cls.meta.add(':ufiledependency', [macro $v{nameWithout + "@" + Globals.cur.module}], cls.pos);
+    writer.close(Globals.cur.module);
+    cls.meta.add(':ufiledependency', [macro "PrivateCpp", macro $v{tref.getClassPath(true)}], cls.pos);
     cls.meta.add(':ueGluePath', [], cls.pos);
   }
 }
