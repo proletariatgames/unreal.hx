@@ -196,9 +196,6 @@ class NativeGlueCode
     for (module in cl.meta.extractStrings(':umodule')) {
       if (module != 'Unreal') {
         modules[module] = true;
-        if (module == 'Unreal') {
-          trace('here ' + cl.name + ' ' + cl.pack);
-        }
       }
       if (firstModule == null) {
         firstModule = module;

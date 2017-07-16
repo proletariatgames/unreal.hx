@@ -20,6 +20,7 @@ static void createWrapperIfNeeded(const FName& className, UClass *curClass, uhx:
   }
 }
 
+#if WITH_EDITOR
 static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClass, uhx::GcRef& haxeGcRef, UObject *self, CreateHaxeFn createHaxeWrapper) {
   FString hxClassName;
   while (true) {
@@ -59,6 +60,7 @@ static void initializeDynamicProperties(UClass *curClass, UObject *self) {
     childClass = childClass->GetSuperClass();
   }
 }
+#endif
 
 };
 

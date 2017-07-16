@@ -9,6 +9,7 @@ class GlueManager {
   private var touchedFiles:Map<String, TouchKind> = new Map();
   private var modules:Map<String, Array<String>>;
   private var modulesChanged:Map<String, Bool>;
+  private var regenUnityFiles:Bool;
 
   public function new() {
     if (Globals.cur.glueUnityBuild) {
@@ -121,7 +122,9 @@ class GlueManager {
     }
 
     for (module in this.modules.keys()) {
-      if (!this.modulesChanged.exists(module)) {
+      if (this.regenUnityFiles) {
+        this.modulesChanged[module] = true;
+      } else if (!this.modulesChanged.exists(module)) {
         var target = GlueInfo.getUnityPath(module, false);
         if (!sys.FileSystem.exists(target)) {
           this.modulesChanged[module] = true;
@@ -132,31 +135,40 @@ class GlueManager {
     for (changed in this.modulesChanged.keys()) {
       var files = this.modules[changed];
       files.sort(Reflect.compare);
-      var target = sys.io.File.write(GlueInfo.getUnityPath(changed, true), false);
+      var buf = new StringBuf();
       var defines = getUniqueDefines();
       if (defines.length == 0) {
         throw 'assert';
       }
-      target.writeString('#include "${Globals.cur.module}.h"\n');
-      target.writeString('#if ' + defines.join(' && ') + '\n');
+      buf.add('#include "${Globals.cur.module}.h"\n');
+      buf.add('#if ' + defines.join(' && ') + '\n');
 
       for (file in files) {
         if (file.indexOf('"') >= 0) {
-          target.writeString('#include "${file.replace('"', '\\"')}"\n');
+          buf.add('#include "${file.replace('"', '\\"')}"\n');
         } else {
-          target.writeString('#include "$file"\n');
+          buf.add('#include "$file"\n');
         }
       }
 
-      target.writeString('#endif');
-      target.close();
+      buf.add('#endif');
+
+      var result = buf.toString();
+      var target = GlueInfo.getUnityPath(changed, true);
+      if (this.regenUnityFiles) {
+        if (!FileSystem.exists(target) || File.getContent(target) != result) {
+          File.saveContent(target, result);
+        }
+      } else {
+        File.saveContent(target, result);
+      }
     }
 
     if (FileSystem.exists(dir)) {
+      var suffix = '.' + Globals.cur.shortBuildName + GlueInfo.UNITY_CPP_EXT;
       for (file in FileSystem.readDirectory(dir)) {
         if (file.endsWith(GlueInfo.UNITY_CPP_EXT)) {
-          var mod = file.substr(0, file.length - GlueInfo.UNITY_CPP_EXT.length);
-          if (!this.modules.exists(mod)) {
+          if (!file.endsWith(suffix) || !this.modules.exists(file.substr(0, file.length - suffix.length))) {
             trace('Deleting unused unity build file $dir/$file');
             FileSystem.deleteFile('$dir/$file');
           }
@@ -246,7 +258,7 @@ class GlueManager {
     return srcDir;
   }
 
-  static function cleanDir(path:String, cppMask:TouchKind, headerMask:TouchKind, touchedFiles:Map<String, TouchKind>) {
+  private function cleanDir(path:String, cppMask:TouchKind, headerMask:TouchKind, touchedFiles:Map<String, TouchKind>) {
     function recurse(path:String, packPath:String) {
       for (file in FileSystem.readDirectory(path)) {
         var idx = file.lastIndexOf('.');
@@ -269,6 +281,9 @@ class GlueManager {
           if (shouldDelete) {
             var fullPath = '$path/$file';
             trace('Deleting uneeded file $fullPath');
+            if (file.endsWith('.cpp')) {
+              regenUnityFiles = true;
+            }
             FileSystem.deleteFile(fullPath);
           }
         } else {

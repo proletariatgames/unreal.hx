@@ -1184,7 +1184,11 @@ class TypeConv {
         if (ret != null) {
           return new TypeConv(ret, ctx.modf, ctx.original);
         }
+        var oldType = Std.string(type);
         type = t.type.applyTypeParameters(t.params, tl);
+        if (oldType == Std.string(type)) {
+          throw new Error('Unreal Glue: Type loop detected on type $oldType. This might happen due to compilation errors on UnrealStruct/Delegates creation', t.pos);
+        }
 
       case TLazy(f):
         ctx.disableCache = true;

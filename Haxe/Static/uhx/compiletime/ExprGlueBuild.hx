@@ -264,7 +264,13 @@ class ExprGlueBuild {
         targs.shift();
       }
       fargs = [ for (arg in targs) { name:'__unative_arg' + argn++, type:TypeConv.get(arg.t, pos) } ];
-      fret = TypeConv.get(tret, pos);
+      switch(Context.follow(tret)) {
+      case TMono(_):
+        Context.warning('Unreal Type: No return type was set for function $fieldName. Assuming void', field.pos);
+        fret = Globals.cur.voidTypeConv;
+      case _:
+        fret = TypeConv.get(tret, pos);
+      }
     case _: throw 'assert';
     }
     if (fargs.length != args.length) {

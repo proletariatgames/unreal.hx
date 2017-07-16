@@ -1,4 +1,6 @@
 #include "HaxeRuntime.h"
+#if WITH_EDITOR
+
 #include "uhx/DynamicClass.h"
 
 #include "Misc/Paths.h"
@@ -157,3 +159,5 @@ UHX_IMPLEMENT_INTRINSIC_CLASS(UHxBootstrap, HAXERUNTIME_API, UObject, COREUOBJEC
 #undef UHX_IMPLEMENT_INTRINSIC_CLASS
 
 #endif
+
+#endif // WITH_EDITOR

@@ -72,7 +72,7 @@ class GlueInfo {
       return null;
     }
 
-    var dir = cur.unrealSourceDir + '/Generated/Unity/' + cur.buildName;
+    var dir = cur.unrealSourceDir + '/Generated/Unity/' + cur.shortBuildName;
     return dir;
   }
 
@@ -86,7 +86,7 @@ class GlueInfo {
       FileSystem.createDirectory(dir);
     }
 
-    return dir + '/' + umodule + UNITY_CPP_EXT;
+    return dir + '/' + umodule + '.' + Globals.cur.shortBuildName + UNITY_CPP_EXT;
   }
 
   public static function getExportHeaderPath(uname:String, ?ensureExists=false):String {

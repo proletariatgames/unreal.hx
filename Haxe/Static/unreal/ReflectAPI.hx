@@ -184,24 +184,26 @@ class ReflectAPI {
         continue;
       }
 
-      if (args == null || i > args.length) {
-        // check default value
-        var defaultProperty = "CPP_Default_" + prop.GetName();
-        var defaultValue = func.GetMetaData(defaultProperty);
-        if (!defaultValue.IsEmpty()) {
-          var result = prop.ImportText(
-              defaultValue.toString(),
-              params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
-              defaultExportFlags, null, FOutputDevice.GWarn);
-          if (result != null) {
-            continue;
-          }
-
-          throw 'Failed to import default cpp property ${prop.GetName()}';
-        } else {
-          throw 'Insufficient number of arguments: Supplied ${args.length}';
-        }
-      }
+      // we will not use default values, as it is not available on
+      // cooked builds - which will make reflection calls behave differently on these builds
+      // if (args == null || i > args.length) {
+      //   // check default value
+      //   var defaultProperty = "CPP_Default_" + prop.GetName();
+      //   var defaultValue = func.GetMetaData(defaultProperty);
+      //   if (!defaultValue.IsEmpty()) {
+      //     var result = prop.ImportText(
+      //         defaultValue.toString(),
+      //         params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
+      //         defaultExportFlags, null, FOutputDevice.GWarn);
+      //     if (result != null) {
+      //       continue;
+      //     }
+      //
+      //     throw 'Failed to import default cpp property ${prop.GetName()}';
+      //   } else {
+      //     throw 'Insufficient number of arguments: Supplied ${args.length}';
+      //   }
+      // }
 
       var flags = prop.PropertyFlags;
       if (!flags.hasAny(CPF_ZeroConstructor | CPF_IsPlainOldData)) {
@@ -617,7 +619,11 @@ class ReflectAPI {
   public static function callHaxeFunction(obj:UObject, stack:FFrame, result:AnyPtr) {
     var ufunc = stack.CurrentNativeFunction,
         stackData = stack.Locals.asAnyPtr();
+#if WITH_EDITOR
     var name = ufunc.HasMetaData(CoreAPI.staticName('HaxeName')) ? ufunc.GetMetaData(CoreAPI.staticName('HaxeName')).toString() : ufunc.GetName().toString();
+#else
+    var name = ufunc.GetName().toString();
+#end
     var fn = Reflect.field(obj, name),
         args = [];
     if (fn == null) {

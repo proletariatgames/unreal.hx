@@ -42,6 +42,8 @@ class Globals {
   public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
 
+  @:isVar public var shortBuildName(get, null):String;
+
   private function get_unrealSourceDir() {
     if (this.unrealSourceDir == null) {
       this.setHaxeRuntimeDir();
@@ -117,6 +119,11 @@ class Globals {
     The unreal.AActor type cached
    **/
   public var aactor:Type;
+
+  /**
+    A cache for the Void TypeConv
+   **/
+  @:isVar public var voidTypeConv(get,null):TypeConv;
 
   /**
     All live reload functions that were gathered during the build
@@ -216,6 +223,30 @@ class Globals {
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);
+  }
+
+  private function get_voidTypeConv() {
+    if (voidTypeConv == null) {
+      this.voidTypeConv = TypeConv.get(Context.getType('Void'), Context.currentPos());
+    }
+    return this.voidTypeConv;
+  }
+
+  private function get_shortBuildName() {
+    if (this.shortBuildName == null) {
+      var bn = buildName.split('-');
+      bn.shift();
+      switch(bn[1]) {
+      case 'Development':
+        bn[1] = 'Dev';
+      case 'Shipping':
+        bn[1] = 'Ship';
+      case 'Debug':
+        bn[1] = 'Dbg';
+      }
+      this.shortBuildName = bn.join('-');
+    }
+    return this.shortBuildName;
   }
 
   /**

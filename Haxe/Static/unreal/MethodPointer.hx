@@ -3,6 +3,7 @@ package unreal;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 using haxe.macro.Tools;
+using Lambda;
 #end
 
 private typedef FunctionGetter = #if macro Dynamic #else unreal.UIntPtr #end;

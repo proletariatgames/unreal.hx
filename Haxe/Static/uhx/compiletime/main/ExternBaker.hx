@@ -692,6 +692,10 @@ class ExternBaker {
     var params = params.toString();
 
     this.addMeta(meta);
+    if (MacroHelpers.extractStrings(c.meta, ':umodule')[0] == 'UnrealEd' || c.pack.join('.') == 'unreal.editor') {
+      this.add('#if !WITH_EDITOR @:deprecated("The class ${c.name} is an editor-only class and should not be used on non-editor builds") #end');
+      this.newline();
+    }
     if (!c.isInterface)
       this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
     if (c.params.length > 0)
