@@ -218,12 +218,18 @@ class UnrealInit
       // let Haxe compile
       var ret = null;
       try {
+        if (FileSystem.exists('$gameDir/Intermediate/Haxe/skip-editor.txt')) {
+          FileSystem.deleteFile('$gameDir/Intermediate/Haxe/skip-editor.txt');
+        }
+        if (FileSystem.exists('$gameDir/Intermediate/Haxe/skip.txt')) {
+          FileSystem.deleteFile('$gameDir/Intermediate/Haxe/skip.txt');
+        }
 #if WITH_CPPIA
         // try to compile only cppia first
         ret = compileHaxe(true);
         if (ret.needsFull) {
           trace('Sources need a full compilation');
-          ret = compileHaxe(false, ['-D','skip-bake']);
+          ret = compileHaxe(false, ['-D','UE_SKIP_BAKE']);
         }
 #else
         ret = compileHaxe(false);
@@ -237,10 +243,10 @@ class UnrealInit
         if (ret.success) {
           trace('Skipping haxe compilation');
           Sys.putEnv("UHX_COMPILATION_SUCCESS", "1");
-          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', '1');
+          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip-editor.txt', '1');
         } else {
           Sys.putEnv("UHX_COMPILATION_SUCCESS", "0");
-          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip.txt', 'fail');
+          sys.io.File.saveContent('$gameDir/Intermediate/Haxe/skip-editor.txt', 'fail');
         }
       }
       catch(e:Dynamic) {
@@ -251,6 +257,12 @@ class UnrealInit
 
     // when we finish compiling, we check if we should invalidate the current module
     function onCompilation(_, result:ECompilationResult, _) {
+      if (FileSystem.exists('$gameDir/Intermediate/Haxe/skip-editor.txt')) {
+        FileSystem.deleteFile('$gameDir/Intermediate/Haxe/skip-editor.txt');
+      }
+      if (FileSystem.exists('$gameDir/Intermediate/Haxe/skip.txt')) {
+        FileSystem.deleteFile('$gameDir/Intermediate/Haxe/skip.txt');
+      }
       switch(result) {
       case CrashOrAssert | OtherCompilationError | Unsupported | Unknown:
         Sys.putEnv("UHX_COMPILATION_SUCCESS", "0");
@@ -391,7 +403,7 @@ class UnrealInit
 
     var args = [
       '--cwd', '$pluginPath/Haxe/BuildTool', 'compile-project.hxml',
-      '-D', 'editor-compile',
+      '-D', 'UE_EDITOR_COMPILE',
       '-D', 'EngineDir=$engineDir',
       '-D', 'ProjectDir=$gameDir',
       '-D', 'TargetName=$targetName',
@@ -404,14 +416,14 @@ class UnrealInit
     var lastCompSuccess = Sys.getEnv("UHX_COMPILATION_SUCCESS") == "1";
     if (lastCompSuccess) {
       args.push('-D');
-      args.push('editor-recompile');
+      args.push('UE_EDITOR_RECOMPILE');
     }
 
 #if WITH_CPPIA
     if (cppiaOnly && (lastCompSuccess || Sys.getEnv("UHX_COMPILATION_SUCCESS") == null)) {
       trace('Trying to compile cppia only first');
       args.push('-D');
-      args.push('cppia-recompile');
+      args.push('UE_CPPIA_RECOMPILE');
     }
 #else
     cppiaOnly = false;

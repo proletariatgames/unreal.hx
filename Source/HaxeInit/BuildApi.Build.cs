@@ -97,6 +97,13 @@ public class HaxeModuleRules : BaseModuleRules {
   public bool manualDependencies;
   public bool disabled;
 
+  /**
+   * Because of the pre-build hooks, forcing the haxe compilation is optional
+   * It should only ever be needed if one is compiling with Unreal unity builds on.
+   * Otherwsie, let the default (false), and Haxe will still be compiled by the pre-build script
+   **/
+  public bool forceHaxeCompilation;
+
 #if (UE_OLDER_416)
   public HaxeModuleRules(TargetInfo target) : base(target) {
   }
@@ -121,7 +128,7 @@ public class HaxeModuleRules : BaseModuleRules {
       }
     }
 
-    HaxeCompilationInfo info = setupHaxeTarget(this);
+    HaxeCompilationInfo info = setupHaxeTarget(this, this.forceHaxeCompilation);
     if (!manualDependencies) {
       string modulesPath = info.outputDir + "/Data/modules.txt";
       string curName = this.GetType().Name;
@@ -137,7 +144,7 @@ public class HaxeModuleRules : BaseModuleRules {
     }
   }
 
-  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules) {
+  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation) {
     rules.PrivateIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Private"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
@@ -190,28 +197,55 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
-    string skipTxt = info.gameDir + "/Intermediate/Haxe/skip.txt";
-    string skip = File.Exists(skipTxt) ? File.ReadAllText(skipTxt).Trim() : "0";
-    if (skip != "1") {
+    if (forceHaxeCompilation) {
       callHaxe(rules, info);
-    } else if (skip == "fail") {
-      File.WriteAllText(skipTxt, "0");
-      throw new Exception("Editor Haxe compilation failed");
-    } else {
-      if (File.Exists(skipTxt)) {
-        File.WriteAllText(skipTxt, "0");
+      // make sure the Build.cs file is called every time
+      forceNextRun(info);
+      AppDomain.CurrentDomain.ProcessExit += delegate(object sender, EventArgs e) {
+        forceNextRun(info);
+      };
+    }
+#if (!UE_OLDER_416)
+    if (!forceHaxeCompilation) {
+      if (rules.Target.bUseUnityBuild || rules.Target.bForceUnityBuild) {
+        Log.TraceWarning("Unreal.hx: If you are compiling with unity builds, please make sure to set `forceHaxeCompilation` to true, as the pre-build scripts are not compatible with unity builds");
       }
     }
+#endif
 
     return info;
+  }
+
+  protected static void forceNextRun(HaxeCompilationInfo info) {
+    DateTime thisTime = DateTime.UtcNow;
+    try {
+      if (info != null && info.uprojectPath != null) {
+        Log.TraceInformation("Touching " + info.uprojectPath);
+        File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
+        return;
+      }
+    }
+    catch(Exception) {
+      Log.TraceWarning("Touching uproject failed");
+    }
+
+    string target = info.pluginPath + "/GeneratedForceBuild.Build.cs";
+    try {
+      if (!File.Exists(target)) {
+        File.WriteAllText(target, "// This file is here to enforce that Unreal always builds the Build.cs file. Do not submit this to source control");
+      } else {
+        File.SetLastWriteTimeUtc(target, thisTime);
+      }
+    }
+    catch(Exception e) {
+      Log.TraceError("Touching " + target + " failed with error " + e);
+      throw new Exception("Build failed");
+    }
   }
 
   // This is not called at the moment - as Haxe is getting called as a PreBuildScript
   public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info) {
     Log.TraceInformation("Calling Haxe");
-
-    string haxeInitPath = RulesCompiler.GetFileNameFromType(typeof(HaxeInit));
-    string pluginPath = Path.GetFullPath(haxeInitPath + "/../../..");
     string engineDir = Path.GetFullPath("..");
 
     string cserver = Environment.GetEnvironmentVariable("HAXE_COMPILATION_SERVER");
@@ -219,17 +253,18 @@ public class HaxeModuleRules : BaseModuleRules {
       Environment.SetEnvironmentVariable("HAXE_COMPILATION_SERVER", null);
       Environment.SetEnvironmentVariable("HAXE_COMPILATION_SERVER_DEFER", cserver);
     }
-
+    Environment.SetEnvironmentVariable("COMPILING_WITH_BUILD_CS", "1");
 
     Process proc = new Process();
     proc.StartInfo.CreateNoWindow = true;
     proc.StartInfo.UseShellExecute = false;
     proc.StartInfo.FileName = "haxe";
-    proc.StartInfo.Arguments = "--cwd \"" + pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir + 
+    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir + 
         "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform + 
         "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
-        "\" -D \"PluginDir=" + pluginPath + "\"";
+        "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS";
     Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
+
     proc.StartInfo.RedirectStandardOutput = true;
     proc.StartInfo.RedirectStandardError = true;
     proc.OutputDataReceived += (sender, args) => Log.TraceInformation(args.Data);
@@ -255,6 +290,7 @@ public class HaxeCompilationInfo {
   public string buildName;
   public string libPath;
   public string uprojectPath;
+  public string pluginPath;
 
   public HaxeCompilationInfo(ModuleRules rules) {
     this.rules = rules;
@@ -316,5 +352,7 @@ public class HaxeCompilationInfo {
     }
 
     this.libPath = this.outputDir + "/" + libName;
+    string haxeInitPath = RulesCompiler.GetFileNameFromType(typeof(HaxeInit));
+    this.pluginPath = Path.GetFullPath(haxeInitPath + "/../../..");
   }
 }

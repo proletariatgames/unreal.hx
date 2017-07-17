@@ -387,7 +387,7 @@ class UhxBuild {
     }
 
     var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
-#if editor_recompile
+#if UE_EDITOR_RECOMPILE
     var shouldRun = checkRecursive(targetStamp, [
       '${haxeDir}/Externs',
       '${data.pluginDir}/Haxe/Externs/$ueExternDir',
@@ -511,7 +511,7 @@ class UhxBuild {
         '-D UHX_UE_TARGET_TYPE=${data.targetType}',
         '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
         '-D UHX_BUILD_NAME=$buildName',
-#if (!editor_recompile && !editor_compile)
+#if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
         '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
 #else
         '-cppia ${data.projectDir}/Binaries/Haxe/game-editor.cppia',
@@ -533,7 +533,7 @@ class UhxBuild {
     var tcppia = timer('Cppia compilation');
     var cppiaRet = compileSources(args);
     tcppia();
-#if (!editor_recompile && !editor_compile)
+#if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
     this.createHxml('build-script', args);
     var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
     this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
@@ -545,7 +545,7 @@ class UhxBuild {
     trace('compiling Haxe');
     if (!FileSystem.exists('$outputDir/Static')) FileSystem.createDirectory('$outputDir/Static');
 
-#if (editor_recompile || editor_compile)
+#if (UE_EDITOR_RECOMPILE || UE_EDITOR_COMPILE)
     var curStamp:Null<Date> = null;
     if (FileSystem.exists(this.outputStatic)) {
       curStamp = FileSystem.stat(this.outputStatic).mtime;
@@ -729,7 +729,7 @@ class UhxBuild {
       }
     }
 
-#if (editor_recompile || editor_compile)
+#if (UE_EDITOR_RECOMPILE || UE_EDITOR_COMPILE)
     if (ret == 0 && (curStamp == null || FileSystem.stat(outputStatic).mtime.getTime() > curStamp.getTime()))
     {
       // when compiling through the editor, -skiplink is set - so UBT won't even try to find the right
@@ -868,7 +868,7 @@ class UhxBuild {
 
     if (hasHaxe)
     {
-#if !skip_bake
+#if !UE_SKIP_BAKE
       if (this.config.generateExterns) {
         this.generateExterns();
       }
@@ -881,7 +881,7 @@ class UhxBuild {
       // compile static
       if (ret == 0)
       {
-#if cppia_recompile
+#if UE_CPPIA_RECOMPILE
         var targetStamp = '${this.outputDir}/Data/compiled.txt';
         var needsStatic = checkRecursive(targetStamp, [
             '$haxeDir/Generated/$externsFolder',
