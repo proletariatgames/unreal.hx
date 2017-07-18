@@ -207,12 +207,64 @@ class UhxBuild {
     }
   }
 
-  private function generateExterns() {
-    var baseManifest = data.pluginDir + '/Haxe/BuildTool/UHT/UE' + this.version.MajorVersion + '.' + this.version.MinorVersion + '.json';
-    if (!FileSystem.exists(baseManifest)) {
-      err('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Cannot generate externs');
-      return;
+  private function findUhtManifest(target:String) {
+    var base = this.data.projectDir + '/Intermediate/Build/$target';
+    if (!FileSystem.exists(base)) {
+      err('Giving up on finding a previous UHT manifest because $base could not be found: perhaps this is the first build?');
+      return null;
     }
+
+    function testPath(path:String) {
+      if (FileSystem.exists(path) && FileSystem.isDirectory(path)) {
+        for (file in FileSystem.readDirectory(path)) {
+          if (file.toLowerCase().endsWith('.uhtmanifest')) {
+            return '$path/$file';
+          }
+        }
+      }
+      return null;
+    }
+    function testTarget(targetName:String) {
+      if (FileSystem.exists('$base/${targetName}')) {
+        var ret = testPath('$base/${targetName}/${this.data.targetConfiguration}');
+        if (ret != null) {
+          return ret;
+        }
+        var path = '$base/${targetName}';
+        for (file in FileSystem.readDirectory(path)) {
+          var ret = testPath('$path/$file');
+          if (ret != null) {
+            return ret;
+          }
+        }
+      }
+      return null;
+    }
+    var ret = testTarget(this.data.targetName + 'Editor');
+    if (ret != null) {
+      return ret;
+    }
+    ret = testTarget(this.data.targetName);
+    if (ret != null) {
+      return ret;
+    }
+
+    for (dir in FileSystem.readDirectory(base)) {
+      if (FileSystem.isDirectory('$base/$dir')) {
+        for (file in FileSystem.readDirectory('$base/$dir')) {
+          if (FileSystem.isDirectory('$base/$dir/$file')) {
+            var ret = testPath('$base/$dir/$file');
+            if (ret != null) {
+              return ret;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  private function generateExterns() {
     var target = switch(Sys.systemName()) {
       case 'Windows':
         'Win64';
@@ -223,14 +275,58 @@ class UhxBuild {
       case _:
         throw 'assert';
     };
+    var baseManifest = findUhtManifest(target);
+    if (baseManifest == null) {
+      err('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Cannot generate externs');
+      return;
+    }
+    log('Found base UHT manifest: $baseManifest');
 
+    var proj:{ Modules:Array<{Name:String}>, Plugins:Array<{Name:String, Enabled:Bool}> } = haxe.Json.parse(sys.io.File.getContent(this.data.projectFile));
     var targets = [{ name:this.targetModule, path:this.srcDir, headers:[] }],
         uhtDir = this.outputDir + '/UHT';
+
+    if (proj.Modules != null) {
+      for (module in proj.Modules) {
+        if (module.Name != this.targetModule) {
+          var targetPath = this.srcDir + '/../' + module.Name;
+          if (FileSystem.exists(targetPath)) {
+            targets.push({ name:module.Name, path:targetPath, headers:[] });
+          } else {
+            warn('The target ${module.Name}\'s path was not found (assumed $targetPath). Ignoring');
+          }
+        }
+      }
+    }
+    if (proj.Plugins != null) {
+      var plugins = new Map();
+      for (plugin in proj.Plugins) {
+        plugins[plugin.Name.toLowerCase()] = true;
+      }
+      for (plugin in FileSystem.readDirectory(this.data.projectDir + '/Plugins')) {
+        var path = this.data.projectDir + '/Plugins/' + plugin;
+        if (FileSystem.isDirectory(path)) {
+          for (file in FileSystem.readDirectory(path)) {
+            if (file.toLowerCase().endsWith('.uplugin')) {
+              var name = file.substr(0,file.length - '.uplugin'.length).toLowerCase();
+              if (plugins.exists(name)) {
+                var proj:{ Modules:Array<{Name:String}> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
+                if (proj.Modules != null) {
+                  for (mod in proj.Modules) {
+                    if (FileSystem.exists('$path/Source/${mod.Name}')) {
+                      targets.push({ name:mod.Name, path:'$path/Source/${mod.Name}', headers:[] });
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     var lastRun = FileSystem.exists('$uhtDir/generated.stamp') ? FileSystem.stat('$uhtDir/generated.stamp').mtime.getTime() : 0.0;
     var shouldRun = lastRun == 0;
-    for (target in targets) {
-      shouldRun = collectUhtHeaders(target.path, target.headers, lastRun) || shouldRun;
-    }
 
     if (!shouldRun) {
       log('Skipping extern generation because no new header was found on the project');
@@ -247,47 +343,45 @@ class UhxBuild {
     manifest.RootBuildPath = this.data.engineDir + '/../';
     manifest.ExternalDependenciesFile = '$uhtDir/deps.deps';
     manifest.TargetName = this.targetModule;
-
-    function expand(s:String) {
-      return expandVariables(s, target);
-    }
-    for (mod in manifest.Modules) {
-      mod.BaseDirectory = expandVariables(mod.BaseDirectory, target);
-      mod.IncludeBase = expandVariables(mod.IncludeBase, target);
-      mod.OutputDirectory = expandVariables(mod.OutputDirectory, target);
-      mod.PCH = expandVariables(mod.PCH, target);
-      mod.GeneratedCPPFilenameBase = expandVariables(mod.GeneratedCPPFilenameBase, target);
-      mod.ClassesHeaders = mod.ClassesHeaders.map(expand);
-      mod.PublicHeaders = mod.PublicHeaders.map(expand);
-      mod.PrivateHeaders = mod.PrivateHeaders.map(expand);
-      mod.SaveExportedHeaders = false;
-    }
+    // manifest.Modules = manifest.Modules.filter(function(v) return !targets.exists(function (target) return target.name == v.Name));
 
     for (target in targets) {
-      manifest.Modules.push({
-        Name: target.name,
-        ModuleType: 'GameRuntime',
-        BaseDirectory: target.path,
-        IncludeBase: target.path,
-        OutputDirectory: uhtDir,
-        ClassesHeaders: [],
-        PublicHeaders: target.headers,
-        PrivateHeaders: [],
-        PCH: "",
-        GeneratedCPPFilenameBase: uhtDir + '/' + target.name + '.generated',
-        SaveExportedHeaders: false,
-        UHTGeneratedCodeVersion: 'None'
-      });
+      var old = manifest.Modules.find(function(v) return v.Name == target.name);
+      if (old == null) {
+        old = {
+          Name: target.name,
+          ModuleType: 'GameRuntime',
+          BaseDirectory: target.path,
+          IncludeBase: target.path,
+          OutputDirectory: uhtDir,
+          ClassesHeaders: [],
+          PublicHeaders: [],
+          PrivateHeaders: [],
+          PCH: "",
+          GeneratedCPPFilenameBase: uhtDir + '/' + target.name + '.generated',
+          SaveExportedHeaders: false,
+          UHTGeneratedCodeVersion: 'None'
+        }
+        manifest.Modules.push(old);
+      }
+      old.SaveExportedHeaders = false;
+      var concat = old.PublicHeaders.concat(old.PrivateHeaders).concat(old.ClassesHeaders);
+      old.ClassesHeaders = [];
+      old.PrivateHeaders = [];
+      old.PublicHeaders = concat;
+      shouldRun = collectUhtHeaders(target.path, concat, lastRun) || shouldRun;
     }
 
     sys.io.File.saveContent(uhtDir + '/externs.uhtmanifest', haxe.Json.stringify(manifest));
+    proj.Plugins = [{ Name:'UnrealHxGenerator', Enabled:true }];
+    sys.io.File.saveContent(uhtDir + '/proj.uproject', haxe.Json.stringify(proj));
     // Call UHT
     var oldEnvs = setEnvs([
       'GENERATE_EXTERNS' => '1',
       'EXTERN_MODULES' => [ for (target in targets) target.name ].join(','),
       'EXTERN_OUTPUT_DIR' => this.data.projectDir
     ]);
-    var args = [this.data.projectFile,'$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
+    var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
     if (config.verbose) {
       args.push('-AllowStdOutLogVerbosity');
     }
@@ -304,26 +398,35 @@ class UhxBuild {
     }
   }
 
-  private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float, recurse=true):Bool {
-    var shouldRun = false;
-    for (file in FileSystem.readDirectory(dir)) {
-      var path = '$dir/$file';
-      if (file.endsWith('.h')) {
-        if (sys.io.File.getContent(path).indexOf('${file.substr(0,file.length-2)}.generated.h') >= 0) {
-          // we don't want to check files inside the generated folder, so skip the check if recurse is false
-          if (lastRun != 0 && !shouldRun && recurse) {
+  private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float):Bool {
+    var processed = new Map();
+    for (a in arr) {
+      processed[haxe.io.Path.withoutDirectory(a).toLowerCase()] = true;
+    }
+
+    function recurse(path:String, recursive:Bool) {
+      var shouldRun = false;
+      for (file in FileSystem.readDirectory(path)) {
+        var path = '$path/$file';
+        var f = file.toLowerCase();
+        if (f.endsWith('.h')) {
+          if (lastRun != 0 && !shouldRun && recursive) {
             shouldRun = FileSystem.stat(path).mtime.getTime() >= lastRun;
           }
-          arr.push(path);
-        }
-      } else if (recurse && FileSystem.isDirectory(path)) {
-        var ret = collectUhtHeaders(path, arr, lastRun, file == 'Generated');
-        if (ret) {
-          shouldRun = true;
+
+          if (!processed.exists(f)) {
+            arr.push(path);
+          }
+        } else if (recursive && FileSystem.isDirectory(path)) {
+          var ret = recurse(path, f != 'generated');
+          if (ret) {
+            shouldRun = true;
+          }
         }
       }
+      return shouldRun;
     }
-    return shouldRun;
+    return recurse(dir, true);
   }
 
   private function expandVariables(str:String, target:String) {
@@ -848,6 +951,16 @@ class UhxBuild {
       Sys.putEnv("HAXE_COMPILATION_SERVER", "");
     }
 
+    if (!FileSystem.exists(haxeDir)) {
+      FileSystem.createDirectory(haxeDir);
+    }
+    if (!FileSystem.exists('$haxeDir/arguments.hxml')) {
+      sys.io.File.saveContent('$haxeDir/arguments.hxml',
+          '# put here your additional haxe arguments\n' +
+          '# please do not add a target (like -cpp) as they will be added automatically\n' +
+          '# (see gen-build-scripts.hxml and gen-build-static.hxml)');
+    }
+
     updateProject(this.targetModule, this.version.MajorVersion + '.' + this.version.MinorVersion);
 
     if (!FileSystem.exists(this.outputDir)) FileSystem.createDirectory(this.outputDir);
@@ -1033,7 +1146,7 @@ class UhxBuild {
       if (pack == 'uhx.' || pack == 'unreal.') return;
       for (file in FileSystem.readDirectory(path))
       {
-        if (file.endsWith('.hx'))
+        if (file.toLowerCase().endsWith('.hx'))
           modules.push(pack + file.substr(0,-3));
         else if (FileSystem.isDirectory('$path/$file'))
           recurse('$path/$file', pack + file + '.');

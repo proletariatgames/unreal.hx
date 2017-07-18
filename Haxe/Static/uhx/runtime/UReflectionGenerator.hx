@@ -122,8 +122,10 @@ class UReflectionGenerator {
         toAdd.push(reg);
       }
 
-      for (del in scriptDelegates) {
-        createDelegate(del);
+      if (scriptDelegates != null) {
+        for (del in scriptDelegates) {
+          createDelegate(del);
+        }
       }
 
       // 3rd pass - add the functions/properties

@@ -53,12 +53,6 @@ class InitPlugin {
 
     trace('Updating game project...');
     updateGameProject(gameDir, projectName);
-    if (!FileSystem.exists('$haxeDir/arguments.hxml')) {
-      sys.io.File.saveContent('$haxeDir/arguments.hxml',
-          '# put here your additional haxe arguments\n' +
-          '# please do not add a target (like -cpp) as they will be added automatically\n' +
-          '# (see gen-build-scripts.hxml and gen-build-static.hxml)');
-    }
     handleModuleRules(gameDir, pluginPath, fromCommandLine, ueVer);
     inline function checkDir(dir:String) {
       if (!FileSystem.exists(dir))

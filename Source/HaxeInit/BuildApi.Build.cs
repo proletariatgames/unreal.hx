@@ -197,8 +197,8 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
+    callHaxe(rules, info);
     if (forceHaxeCompilation) {
-      callHaxe(rules, info);
       // make sure the Build.cs file is called every time
       forceNextRun(info);
       AppDomain.CurrentDomain.ProcessExit += delegate(object sender, EventArgs e) {
