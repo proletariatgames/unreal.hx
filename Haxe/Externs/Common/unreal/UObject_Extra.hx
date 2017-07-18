@@ -102,21 +102,12 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject")
   @:typeName
-  @:global public static function NewObject<T>():PPtr<T>;
-
-  @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:uname("NewObject")
-  @:typeName
-  @:global public static function NewObjectByClass<T>(outer:UObject, uclass:UClass):PPtr<T>;
-
-  @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:uname("NewObject")
-  @:typeName
-  @:global public static function NewObjectWithFlags<T>(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PPtr<T>;
+  @:global public static function NewObjectTemplate<T>():PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject<UObject>")
-  @:global public static function NewObject_NoTemplate(outer:UObject, uclass:UClass, name:FName, flags:EObjectFlags):PPtr<UObject>;
+  @:noTemplate
+  @:typeName @:global public static function NewObject<T : UObject>(outer:UObject, uclass:UClass, ?name:FName, ?flags:EObjectFlags=EObjectFlags.RF_NoFlags, ?template:UObject, bCopyTransientsFromClassDefaults:Bool=false):PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
@@ -125,10 +116,12 @@ extern class UObject_Extra {
   @:global public static function StaticDuplicateObject(sourceObject:UObject, destOuter:UObject, destName:TCharStar):UObject;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:typeName @:global public static function FindObject<T>(outer:UObject, name:TCharStar) : PPtr<T>;
+  @:noTemplate
+  @:typeName @:global public static function FindObject<T : UObject>(outer:UObject, name:TCharStar, ?exactClass:Bool=false) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:typeName @:global public static function LoadObject<T>(outer:UObject, name:TCharStar, filename:TCharStar, loadFlags:Int, sandbox:UPackageMap) : PPtr<T>;
+  @:noTemplate
+  @:typeName @:global public static function LoadObject<T : UObject>(outer:UObject, name:TCharStar, ?filename:TCharStar, loadFlags:Int=0, ?sandbox:UPackageMap) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("GetDefault")
@@ -216,4 +209,6 @@ extern class UObject_Extra {
 #end // WITH_EDITOR
 
   public function MarkPendingKill():Void;
+
+  @:thisConst private function IsSupportedForNetworking():Bool;
 }

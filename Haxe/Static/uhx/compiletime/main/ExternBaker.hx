@@ -684,7 +684,8 @@ class ExternBaker {
     }
 
     var params = new HelperBuf();
-    if (c.params != null && c.params.length > 0) {
+    var isNoTemplate = c.meta.has(':noTemplate');
+    if (c.params != null && c.params.length > 0 && !isNoTemplate) {
       params << '<';
       params.mapJoin(c.params, function(p) return p.name);
       params << '>';
@@ -696,12 +697,15 @@ class ExternBaker {
       this.add('#if !WITH_EDITOR @:deprecated("The class ${c.name} is an editor-only class and should not be used on non-editor builds") #end');
       this.newline();
     }
-    if (!c.isInterface)
+    if (!c.isInterface) {
       this.add('@:ueGluePath("${this.glueType.getClassPath()}")\n');
-    if (c.params.length > 0)
+    }
+    if (c.params.length > 0 && !isNoTemplate) {
       this.add('@:ueTemplate\n');
-    if (c.isPrivate)
+    }
+    if (c.isPrivate) {
       this.add('private ');
+    }
 
     var isAbstract = false,
         isTemplateStruct = false,
@@ -734,7 +738,7 @@ class ExternBaker {
       if (c.superClass == null) {
         switch(c.meta.extract(':udelegate')[0]) {
         case null:
-          if (c.params.length > 0) {
+          if (c.params.length > 0 && !isNoTemplate) {
             superStruct = new TypeRef(['unreal'], 'TemplateStruct');
           } else {
             superStruct = new TypeRef(['unreal'], 'Struct');
@@ -774,7 +778,7 @@ class ExternBaker {
     }
     var methods = [];
     this.begin('{');
-      if (isAbstract && !isTemplateStruct && c.params.length > 0) {
+      if (isAbstract && !isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
         // if a templated struct extends a non-templated struct, we need to expose this
         this.add('@:extern inline private function getTemplateStruct():unreal.Wrapper.TemplateWrapper { return @:privateAccess unreal.TemplateStruct.getTemplateStruct(this); }');
         this.newline();
@@ -991,8 +995,9 @@ class ExternBaker {
         */
       }
 
-    for (meth in methods)
+    for (meth in methods) {
       this.processMethodDef(meth, c.isInterface);
+    }
     this.end('}');
 
     // before defining the class, let's go through all types and see if we have any type parameters that are dependent on
@@ -1008,25 +1013,30 @@ class ExternBaker {
       case name:
         name;
     };
+    var isNoTemplate = field.meta.has(':noTemplate') || this.cls.meta.has(':noTemplate');
 
     switch(field.kind) {
     case FVar(read,write):
       this.addDoc(field.doc);
       var meta = field.meta.get();
       this.addMeta(meta);
-      if (field.isPublic)
+      if (field.isPublic) {
         this.add('public ');
-      else
+      } else {
         this.add('private ');
+      }
 
       if (isStatic) {
         this.add('static ');
       }
-      var tconv = TypeConv.get( field.type, field.pos );
+      var tconv = TypeConv.get( field.type, field.pos, null, isNoTemplate );
       this.add('var ');
       this.add(field.name);
       this.add('(');
       var flags = Property;
+      if (isNoTemplate) {
+        flags |= NoTemplate;
+      }
       var realTConv = if (tconv.data.match(CStruct(_)) && (tconv.modifiers == null || (!tconv.modifiers.has(Ref) && !tconv.modifiers.has(Ptr)))) {
         flags = StructProperty;
         tconv.withModifiers([Ptr]);
@@ -1130,14 +1140,17 @@ class ExternBaker {
         if (field.meta.has(":ufunction") && cls.meta.has(':uclass')) {
           flags |= UnrealReflective;
         }
+        if (isNoTemplate) {
+          flags |= NoTemplate;
+        }
         methods.push( cur = {
           name: field.name,
           uname: specialization == null || uname != field.name ? uname : specialization.genericFunction,
           doc: field.doc,
           meta:specialization != null ? field.meta.get().filter(function(field) return field.name != ':functionCode') : field.meta.get(),
-          params: [ for (p in field.params) p.name ],
-          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos) } ],
-          ret: TypeConv.get(ret, field.pos, specialization != null),
+          params: [ for (p in field.params) { name:p.name, t:TypeConv.get(p.t, field.pos, null, isNoTemplate) } ],
+          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos, null, isNoTemplate) } ],
+          ret: TypeConv.get(ret, field.pos, specialization != null, isNoTemplate),
           flags: flags,
           specialization: specialization,
           pos: field.pos,

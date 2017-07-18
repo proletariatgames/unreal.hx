@@ -24,6 +24,7 @@ class TypeConv {
   public var ueType(default, null):TypeRef;
   public var glueType(default, null):TypeRef;
   public var haxeGlueType(default, null):TypeRef;
+  public var tparamName(default, null):Null<String>;
   private var originalSet(default, null):Bool;
 
   private function new(data, ?modifiers, ?original) {
@@ -589,7 +590,11 @@ class TypeConv {
 
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
-        '( cast unreal.UObject.wrap($expr) : ${this.haxeType} )';
+        if (this.tparamName == null) {
+          '( cast unreal.UObject.wrap($expr) : ${this.haxeType} )';
+        } else {
+          '( cast unreal.UObject.wrap($expr) : ${this.tparamName} )';
+        }
 
       // EExternal, EAbstract, EHaxe, EScriptHaxe
       case CEnum(EAbstract, info, _):
@@ -856,8 +861,8 @@ class TypeConv {
     }
   }
 
-  public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false):TypeConv {
-    var useCache = true;
+  public static function get(type:Type, pos:Position, ?inTypeParam:Bool=false, ?isNoTemplate:Bool=false):TypeConv {
+    var useCache = !isNoTemplate;
     while (true) {
       switch(type) {
       case TLazy(fn):
@@ -895,7 +900,7 @@ class TypeConv {
       var ret = cache[t];
       if (ret == null) {
         var ctx:InfoCtx = { accFlags:ONone };
-        ret = getInfo(type, pos, ctx, inTypeParam);
+        ret = getInfo(type, pos, ctx, inTypeParam, isNoTemplate);
         if (!ctx.disableCache) {
           cache[t] = ret;
         }
@@ -903,11 +908,11 @@ class TypeConv {
 
       return ret;
     } else {
-      return getInfo(type, pos, { accFlags:ONone }, inTypeParam);
+      return getInfo(type, pos, { accFlags:ONone }, inTypeParam, isNoTemplate);
     }
   }
 
-  private static function getInfo(type:Type, pos:Position, ctx:InfoCtx, inTypeParam:Bool):TypeConv {
+  private static function getInfo(type:Type, pos:Position, ctx:InfoCtx, inTypeParam:Bool, isNoTemplate:Bool):TypeConv {
     var cache = Globals.cur.typeConvCache;
     var o = type;
     while(type != null) {
@@ -943,18 +948,35 @@ class TypeConv {
           structFlags |= SDynamicMulticastDelegate;
         }
         if (it.kind.match(KTypeParameter(_))) {
-          var kind = if(ctx.accFlags.hasAny(OSubclassOf)) {
-            PSubclassOf;
-          } else if(ctx.accFlags.hasAll(OAutoWeak)) {
-            PAutoWeak;
-          } else if (ctx.accFlags.hasAny(OWeak)) {
-            PWeak;
+          if (isNoTemplate) {
+            switch(it.kind) {
+            case KTypeParameter([t]):
+              ctx.accFlags |= OWasTParam;
+              var ret = getInfo(t, pos, ctx, inTypeParam, isNoTemplate);
+              ret.tparamName = it.name;
+              switch(ret.data) {
+              case CUObject(_,_,_):
+                return ret;
+              case _:
+                throw new Error('Unreal Glue: The type parameter ${it.name} is a ${ret.data}, but only UObject-derived types are allowed on @:noTemplate types', it.pos);
+              }
+            case _:
+              throw new Error('Unreal Glue: The @:noTemplate type parameter ${it.name} does not contain a single equivalent UObject type', it.pos);
+            }
           } else {
-            PNone;
+            var kind = if(ctx.accFlags.hasAny(OSubclassOf)) {
+              PSubclassOf;
+            } else if(ctx.accFlags.hasAll(OAutoWeak)) {
+              PAutoWeak;
+            } else if (ctx.accFlags.hasAny(OWeak)) {
+              PWeak;
+            } else {
+              PNone;
+            }
+            ctx.original = null;
+            ctx.disableCache = true;
+            ret = CTypeParam(it.name, kind);
           }
-          ctx.original = null;
-          ctx.disableCache = true;
-          ret = CTypeParam(it.name, kind);
         } else if (typeIsUObject(type)) {
           if (ctx.modf != null && ctx.modf.has(Ptr) && !inTypeParam) {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
@@ -1528,6 +1550,7 @@ enum TypeConvData {
   var OWeak = 1;
   var OAutoWeak = 3;
   var OSubclassOf = 4;
+  var OWasTParam = 8;
 
   inline private function t() {
     return this;

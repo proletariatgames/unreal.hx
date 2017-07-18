@@ -147,11 +147,14 @@ extern class UWorld_Extra {
   @:thisConst
   public function SweepSingleByChannel(OutHit:PRef<FHitResult>, Start:Const<PRef<FVector>>, End:Const<PRef<FVector>>, Rot:Const<PRef<FQuat>>, TraceChannel:ECollisionChannel, Shape:Const<PRef<FCollisionShape>>, Params:Const<PRef<FCollisionQueryParams>>) : Bool;
 
-  @:typeName public function SpawnActorDeferred<T>(
+  @:noTemplate
+  @:uname("SpawnActorDeferred<AActor>")
+  @:typeName public function SpawnActorDeferred<T : AActor>(
     aClass:UClass,
     transform:Const<PRef<FTransform>>,
-    owner:AActor,
-    instigator:APawn) : PPtr<T>;
+    ?owner:AActor,
+    ?instigator:APawn,
+    ?collisionHandlingOverride:ESpawnActorCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod.Undefined) : PPtr<T>;
 
   /**
     Test the collision of a shape at the supplied location using a specific channel, and return if any blocking overlap is found

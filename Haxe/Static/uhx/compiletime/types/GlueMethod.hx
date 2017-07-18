@@ -153,7 +153,8 @@ class GlueMethod {
     var isStatic = meth.flags.hasAny(Static);
     var isProp = meth.flags.hasAny(Property);
     var haxeArgs = this.haxeArgs = meth.args;
-    this.retHaxeType = meth.ret.haxeType;
+    var isNoTemplate = meth.flags.hasAny(NoTemplate);
+    this.retHaxeType = isNoTemplate && meth.ret.tparamName != null ? new TypeRef(meth.ret.tparamName) : meth.ret.haxeType;
     if (Context.defined('cppia')) {
       var refl = getReflectiveCode();
       if (refl != null) {
@@ -189,7 +190,7 @@ class GlueMethod {
     cppArgDecl.mapJoin(this.glueArgs, function(arg) return arg.t.glueType.getCppType() + ' ' + escapeCpp(arg.name, true));
     var glueHeaderCode = new HelperBuf();
 
-    if (this.templated) {
+    if (this.templated && !isNoTemplate) {
       glueHeaderCode << 'template<';
       glueHeaderCode.mapJoin(meth.params, function(p) return 'class $p');
       glueHeaderCode << '>\n\t';
@@ -210,7 +211,7 @@ class GlueMethod {
     // get cpp body - might change `cppArgs`, `retHaxeType` and `op`
     glueCppBody << this.getCppBody();
 
-    if (this.templated || meth.specialization != null) {
+    if ((this.templated || meth.specialization != null) && !isNoTemplate) {
       glueCppBody << this.getFunctionCallParams();
     }
 
@@ -251,7 +252,7 @@ class GlueMethod {
     }
 
     var glueCppCode = new HelperBuf();
-    if (this.templated) {
+    if (this.templated && !isNoTemplate) {
       glueCppCode << 'template<';
       glueCppCode.mapJoin(meth.params, function(p) return 'class $p');
       glueCppCode << '>\n\t';
@@ -274,7 +275,7 @@ class GlueMethod {
       meth.meta.push({ name:name, pos:meth.pos });
     }
 
-    if (!this.templated) {
+    if (!this.templated || isNoTemplate) {
       if (!isGlueStatic && isTemplatedThis) {
         // in this case, we'll have glueHeader and ueHeaderCode - no cppCode is added
         this.headerCode = baseGlueHeaderCode;
@@ -296,7 +297,7 @@ class GlueMethod {
       type.collectGlueIncludes( headerIncludes );
     }
 
-    if (this.templated) {
+    if (this.templated && !isNoTemplate) {
       addMeta(':generic');
     }
 
@@ -311,7 +312,7 @@ class GlueMethod {
       addMeta(':nonVirtual');
     }
 
-    if (this.templated) {
+    if (this.templated && !isNoTemplate) {
       if (!isVoid) {
         this.haxeCode = ['return cast null;'];
       } else {
@@ -438,7 +439,7 @@ class GlueMethod {
     var params = new HelperBuf();
     if (this.templated) {
       params << '<';
-      params.mapJoin(meth.params, function(param) return param);
+      params.mapJoin(meth.params, function(param) return param.t.tparamName != null ? (param.t.tparamName + ' : ' + param.t.haxeType) : param.name);
       params << '>';
     } else if (this.meth.specialization != null && !this.isTemplatedThis) {
       var useTypeName = this.meth.meta != null && this.meth.meta.hasMeta(':typeName');
@@ -588,7 +589,8 @@ class GlueMethod {
     var meta = getFieldMeta(true);
 
     var glue:Field = null;
-    if (!this.templated) {
+    var isNoTemplate = meth.flags.hasAny(NoTemplate);
+    if (!this.templated || isNoTemplate) {
       var acc:Array<Access> = [APublic];
 
       if (this.isGlueStatic)
@@ -636,7 +638,7 @@ class GlueMethod {
         args: [ for (arg in args) { name:arg.name, opt:arg.opt, type:arg.type.toComplexType() } ],
         ret: this.retHaxeType.toComplexType(),
         expr: expr,
-        params: (meth.params != null ? [ for (param in meth.params) { name: param } ] : null)
+        params: (meth.params != null ? [ for (param in meth.params) { name: param.name, constraints: param.t.tparamName != null ? [param.t.haxeType.toComplexType()] : null } ] : null)
       })
     };
 
@@ -651,8 +653,8 @@ class GlueMethod {
     if (meth.params != null) {
       var helpers:Array<MethodArg> = [];
       for (param in meth.params) {
-        var name = param + '_TP';
-        helpers.push({ name:name, opt:true, type: new TypeRef(['unreal'], 'TypeParam', [new TypeRef(param)]) });
+        var name = param.name + '_TP';
+        helpers.push({ name:name, opt:true, type: new TypeRef(['unreal'], 'TypeParam', [new TypeRef(param.name)]) });
       }
       args = helpers.concat(args);
     }
@@ -689,7 +691,8 @@ class GlueMethod {
     buf << meth.meta;
 
     /// glue
-    if (!this.templated && this.glueArgs != null) {
+    var isNoTemplate = meth.flags.hasAny(NoTemplate);
+    if ((!this.templated || isNoTemplate) && this.glueArgs != null) {
       var st = '';
       if (this.isGlueStatic)
         st = 'static';
@@ -712,7 +715,7 @@ class GlueMethod {
     buf << 'function ' << meth.name;
     if (meth.params != null && meth.params.length > 0) {
       buf << '<';
-      buf.mapJoin(meth.params, function(p) return p);
+      buf.mapJoin(meth.params, function(param) return param.t.tparamName != null ? (param.t.tparamName + ' : ' + param.t.haxeType.toString()) : param.name);
       buf << '>';
     }
     buf << '(';
@@ -793,7 +796,7 @@ typedef MethodDef = {
   /**
     function type parameters, if any
    **/
-  ?params:Array<String>,
+  ?params:Array<{ name:String, t:TypeConv }>,
 
   /**
     if the method is a templated method, sets the specializatin of it
@@ -825,6 +828,8 @@ typedef MethodDef = {
   var UnrealReflective = 0x100;
   /** method was declared as inline **/
   var Inline = 0x200;
+  /** even though this is a generic function definition, make the glue for it as if it was not **/
+  var NoTemplate = 0x400;
 
   inline private function t() {
     return this;
