@@ -33,9 +33,9 @@ class GlueMethod {
   var thisConv(default, null):TypeConv;
   var cppIncludes(default, null):IncludeSet;
   var headerIncludes(default, null):IncludeSet;
-  var glueArgs(default, null):Array<{ name:String, t:TypeConv }>;
-  var cppArgs(default, null):Array<{ name:String, t:TypeConv }>;
-  var haxeArgs(default, null):Array<{ name:String, t:TypeConv }>;
+  var glueArgs(default, null):Array<{ name:String, t:TypeConv, opt:Null<Expr> }>;
+  var cppArgs(default, null):Array<{ name:String, t:TypeConv, opt:Null<Expr> }>;
+  var haxeArgs(default, null):Array<{ name:String, t:TypeConv, opt:Null<Expr> }>;
   var glueRet(default, null):TypeConv;
   var retHaxeType(default, null):TypeRef;
   var op(default, null):String;
@@ -176,7 +176,7 @@ class GlueMethod {
       // CLEANUP use 'this' directly?
       var name = meth.specialization != null ? 'self' : 'this';
       glueArgs = this.glueArgs = glueArgs.copy();
-      glueArgs.unshift({ name: name, t: this.thisConv });
+      glueArgs.unshift({ name: name, t: this.thisConv, opt:null });
     }
 
     var isSetter = isProp && meth.name.startsWith('set_');
@@ -330,7 +330,7 @@ class GlueMethod {
       if (this.meth.uname != '.equals') {
         for (arg in meth.args) {
           switch(arg.t.data) {
-            case CStruct(_) if(!arg.t.hasModifier(Ref) && !arg.t.hasModifier(Ptr)):
+            case CStruct(_) if(!arg.t.hasModifier(Ref) && !arg.t.hasModifier(Ptr) && arg.opt == null):
               haxeCode.push('if (${arg.name} == null) uhx.internal.HaxeHelpers.nullDeref("${arg.name}");');
             case _:
           }
@@ -338,8 +338,13 @@ class GlueMethod {
       }
 
       for (i in 0...this.glueArgs.length) {
-        var arg = this.glueArgs[i];
-        this.haxeCode.push('var uhx_arg_$i:${arg.t.haxeGlueType.toString()} = ${arg.t.haxeToGlue(arg.name, this.ctx)};');
+        var arg = this.glueArgs[i],
+            optional = getOptional(arg.t, arg.opt);
+        if (optional == null) {
+          this.haxeCode.push('var uhx_arg_$i:${arg.t.haxeGlueType.toString()} = ${arg.t.haxeToGlue(arg.name, this.ctx)};');
+        } else {
+          this.haxeCode.push('var uhx_arg_$i:${arg.t.haxeGlueType.toString()} = ${arg.t.haxeToGlue('${arg.name} != null ? (${arg.name}) : ($optional)', this.ctx)};');
+        }
       }
       var haxeBody =
         '$haxeBodyCall(' +
@@ -357,6 +362,102 @@ class GlueMethod {
         this.haxeCode.unshift(body);
       }
     }
+  }
+
+  private static function parseDefault(str:String):Map<String, String> {
+    var parenRegex=~/\(?([^\)]+)\)?/;
+    if (parenRegex.match(str)) {
+      var ret = new Map();
+      var data = parenRegex.matched(1);
+      var i = 0;
+      for (val in data.split(',')) {
+        var set = val.trim().split('=');
+        if (set.length == 1) {
+          ret['arg${i++}'] = set[0];
+        } else {
+          ret[set[0]] = set[1];
+        }
+      }
+      return ret;
+    }
+
+    return null;
+  }
+
+  private static function getOptional(t:TypeConv, opt:Null<Expr>) {
+    if (opt == null) {
+      return null;
+    }
+    switch(opt.expr) {
+    case EConst(CIdent("null")):
+      switch(t.data) {
+      case CStruct(_,_,info,_):
+        switch(info.ueType.name) {
+        case 'FString' | 'FText':
+          return '("" : unreal.${info.ueType.name})';
+        case 'FName':
+          return 'unreal.FName.None';
+        case _:
+        }
+      case _:
+      }
+      return 'null';
+    case EConst(CString(s)):
+      switch(t.data) {
+      case CStruct(_,_,info,_):
+        switch(info.ueType.name) {
+        case 'FString' | 'FText' | 'FName':
+          return '(' + opt.toString() + ' : unreal.${info.ueType.name})';
+        case 'FLinearColor':
+          var def = parseDefault(s);
+          if (def != null) {
+            var r = def['R'], g = def['G'], b = def['B'], a = def['A'];
+            if (r != null && g != null && b != null && a != null) {
+              return 'unreal.FLinearColor.createWithValues($r,$g,$b,$a)';
+            }
+          }
+          return null;
+        case 'FVector2D':
+          var def = parseDefault(s);
+          if (def != null) {
+            var x = def['X'], y = def['Y'];
+            if (x != null && y != null) {
+              return 'unreal.FVector2D.createWithValues($x,$y)';
+            }
+          }
+          return null;
+        case 'FVector':
+          var def = parseDefault(s);
+          if (def != null) {
+            var x = def['X'], y = def['Y'], z = def['Z'];
+            if (x == null && y == null && z == null) {
+              x = def['arg0'];
+              y = def['arg1'];
+              z = def['arg2'];
+            }
+            if (x != null && y != null && z != null) {
+              return 'unreal.FVector.createWithValues($x,$y,$z)';
+            }
+          }
+          return null;
+        case 'FRotator':
+          var def = parseDefault(s);
+          if (def != null) {
+            var pitch = def['arg0'], yaw = def['arg1'], roll = def['arg2'];
+            if (pitch != null && yaw != null && roll != null) {
+              return 'unreal.FRotator.createWithValues($pitch,$yaw,$roll)';
+            }
+          }
+          return null;
+        case name:
+          return null;
+        }
+      case _:
+      }
+    case _:
+      return '(' + opt.toString() + ' : ' + t.haxeType.toString() + ')';
+    }
+    return null;
   }
 
   private static function isUObjectPointer(type:TypeConv) {
@@ -496,7 +597,7 @@ class GlueMethod {
           '(*' + self.t.glueToUe(self.name, this.ctx) + ')';
         case '.equals':
           var thisType = this.thisConv.withModifiers(null);
-          this.cppArgs = [{ name:'this', t:thisType}, { name:'other', t:thisType }];
+          this.cppArgs = [{ name:'this', t:thisType, opt:null}, { name:'other', t:thisType, opt:null }];
           if (this.meth.meta == null) this.meth.meta = [];
           // this.meth.meta.push({ name:':op', params:[macro A == B], pos:meth.pos});
           'uhx::TypeTraits::Equals<${thisType.ueType.getCppType()}>::isEq';
@@ -513,10 +614,10 @@ class GlueMethod {
           this.op = '!';
           '(!(*(' + self.t.glueToUe(self.name, this.ctx) + ')))';
         case '.copy':
-          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null), opt:null }];
           'new ' + this.thisConv.ueType.getCppClass();
         case '.copyStruct':
-          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null) }];
+          this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null), opt:null }];
           ''; // we are already going to dereference it, which will be enough to invoke the copy constructor
         case _ if(meth.flags.hasAny(CppPrivate)):
           if (meth.flags.hasAny(Property)) {
@@ -649,7 +750,7 @@ class GlueMethod {
     var meth = this.meth;
     if (meth.uname == '.equals')
       return [ { name:this.haxeArgs[0].name, type: this.thisConv.haxeType } ];
-    var args:Array<MethodArg> = [ for (arg in this.haxeArgs) { name:arg.name, type: arg.t.haxeType } ];
+    var args:Array<MethodArg> = [ for (arg in this.haxeArgs) { name:arg.name, type: arg.t.haxeType, opt:arg.opt != null } ];
     if (meth.params != null) {
       var helpers:Array<MethodArg> = [];
       for (param in meth.params) {
@@ -774,7 +875,7 @@ typedef MethodDef = {
   /**
     function arguments
    **/
-  args:Array<{ name:String, t:TypeConv }>,
+  args:Array<{ name:String, t:TypeConv, opt:Null<Expr> }>,
 
   /**
     return type

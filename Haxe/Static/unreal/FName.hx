@@ -2,6 +2,8 @@ package unreal;
 
 @:forward abstract FName(FNameImpl) from FNameImpl to FNameImpl #if !bake_externs to Struct to VariantPtr #end  {
 #if !bake_externs
+  public static var None(default, null):FName = FName.createInt(unreal.UnrealName.NAME_None);
+
   inline public function new(str:String) {
     this = FNameImpl.create(str);
   }

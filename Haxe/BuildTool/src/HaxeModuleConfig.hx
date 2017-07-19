@@ -103,6 +103,11 @@ typedef HaxeModuleConfig = {
    **/
   ?generateExterns:Bool,
 
+  /**
+    Disable glue unity builds
+   **/
+  ?noGlueUnityBuild:Bool
+
   // TODO
   // /**
   //   If `generateExterns` is true, it will by default only generate the externs for the current module only.

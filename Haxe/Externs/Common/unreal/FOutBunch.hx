@@ -4,5 +4,4 @@ package unreal;
 @:noCopy
 @:uextern extern class FOutBunch {
   function new();
-  var Value:UInt32;
 }

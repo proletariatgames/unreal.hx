@@ -39,6 +39,8 @@ class ExternBaker {
     for (cp in classpaths) {
       Compiler.addClassPath(cp);
     }
+    // parse the optional arguments
+    Compiler.addGlobalMetadata("", "@:build(uhx.compiletime.types.OptionalArgsBuild.build())");
 
     // we want to parse the documentation as well
     if (!Context.defined('use_rtti_doc'))
@@ -401,6 +403,7 @@ class ExternBaker {
 
   private var pos:Position;
   private var params:Array<String>;
+  private var optionals:Map<String, Array<Expr>> = new Map();
   public var hadErrors(default, null):Bool;
 
   @:isVar private var voidType(get,null):Null<TypeConv>;
@@ -490,15 +493,18 @@ class ExternBaker {
         var nextIndex = methods.length;
         this.processField(impl, generic.isStatic, specialization, methods);
         var args = [];
-        if (!generic.isStatic)
+        if (!generic.isStatic) {
           args.push(impl.meta.has(':impl') ? 'this1' : 'this');
-        for (arg in methods[nextIndex].args)
+        }
+        for (arg in methods[nextIndex].args) {
           args.push(arg.name);
+        }
         if (methods[nextIndex].meta == null) methods[nextIndex].meta = [];
         methods[nextIndex].meta.push({ name:':ifFeature', params:[macro $v{'${implType}.${impl.name}'}], pos:impl.pos });
         var call = caller.getCppClass() + '::' + impl.name + '(' + args.join(', ') + ');';
-        if (!methods[nextIndex].ret.haxeType.isVoid())
+        if (!methods[nextIndex].ret.haxeType.isVoid()) {
           call = 'return ' + call;
+        }
         impl.meta.add(':functionCode', [macro $v{'\t\t' + call}], impl.pos);
       }
     }
@@ -603,6 +609,18 @@ class ExternBaker {
     c.meta.add(':ueHeaderEnd'  , [macro $v{impl.toString()}], c.pos);
   }
 
+  private static function getOptionals(meta:Metadata, optionals:Map<String, Array<Expr>>):Metadata {
+    var ret = [];
+    for (meta in meta) {
+      if (meta.name.startsWith(':opt_')) {
+        optionals[meta.name.substr(':opt_'.length)] = meta.params;
+      } else {
+        ret.push(meta);
+      }
+    }
+    return ret;
+  }
+
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
     this.params = [ for (p in c.params) p.name ];
@@ -627,8 +645,9 @@ class ExternBaker {
     this.addDoc(c.doc);
     var fields = c.fields.get(),
         statics = c.statics.get(),
-        ctor = c.constructor == null ? null : c.constructor.get();
-    var meta = c.meta.get();
+        ctor = c.constructor == null ? null : c.constructor.get(),
+        meta = c.meta.get();
+    meta = getOptionals(meta, this.optionals);
     // process the _Extra type if found
     var extraName = c.pack.join('.') + (c.pack.length > 0 ? '.' : '') + c.name + '_Extra';
     var extra = getModule(extraName, c.pos);
@@ -718,7 +737,7 @@ class ExternBaker {
       }
       this.add('${c.name}$params ');
       if (c.superClass != null) {
-        var supRef = TInst(c.superClass.t, c.superClass.params).toString();
+        var supRef = TypeConv.get(TInst(c.superClass.t, c.superClass.params), pos).haxeType.toString();
         this.add('extends $supRef ');
       } else if (c.isInterface) {
         this.add('extends unreal.IInterface ');
@@ -969,7 +988,7 @@ class ExternBaker {
             uname: '.equals',
             doc: null,
             meta:null,
-            args:[{name:"other", t:this.thisConv}],
+            args:[{name:"other", t:this.thisConv, opt:null}],
             ret:TypeConv.get(Context.getType("Bool"), c.pos),
             flags: MNone,
             pos: c.pos,
@@ -1072,7 +1091,7 @@ class ExternBaker {
         methods.push({
           name: 'set_' + field.name,
           uname: uname,
-          args: [{ name: 'value', t: tconv }],
+          args: [{ name: 'value', t: tconv, opt:null }],
           ret: tconv,
           flags: Final | HaxePrivate | flags,
           meta: meta,
@@ -1123,8 +1142,6 @@ class ExternBaker {
         var args = args;
         if (specialization != null) {
           if (field.meta.has(':impl')) {
-            // args = args.copy();
-            // args.splice(1,specialization.types.length);
             args = args.slice(specialization.types.length + 1);
           } else {
             args = args.slice(specialization.types.length);
@@ -1143,13 +1160,29 @@ class ExternBaker {
         if (isNoTemplate) {
           flags |= NoTemplate;
         }
+        var opt = optionals[field.name],
+            i = 0;
+        inline function getOpt() {
+          if (opt == null) {
+            return null;
+          } else {
+            var thisOpt = opt[i++];
+            switch(thisOpt.expr) {
+            case EConst(CIdent("__empty__")):
+              return null;
+            case _:
+              return thisOpt;
+            }
+          }
+        }
+
         methods.push( cur = {
           name: field.name,
           uname: specialization == null || uname != field.name ? uname : specialization.genericFunction,
           doc: field.doc,
           meta:specialization != null ? field.meta.get().filter(function(field) return field.name != ':functionCode') : field.meta.get(),
           params: [ for (p in field.params) { name:p.name, t:TypeConv.get(p.t, field.pos, null, isNoTemplate) } ],
-          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos, null, isNoTemplate) } ],
+          args: [ for (arg in args) { name: arg.name, t: TypeConv.get(arg.t, field.pos, null, isNoTemplate), opt:getOpt() } ],
           ret: TypeConv.get(ret, field.pos, specialization != null, isNoTemplate),
           flags: flags,
           specialization: specialization,

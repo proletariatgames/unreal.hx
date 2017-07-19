@@ -107,13 +107,18 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject<UObject>")
   @:noTemplate
-  @:typeName @:global public static function NewObject<T : UObject>(outer:UObject, uclass:UClass, ?name:FName, ?flags:EObjectFlags=EObjectFlags.RF_NoFlags, ?template:UObject, bCopyTransientsFromClassDefaults:Bool=false):PPtr<T>;
+  @:typeName @:global public static function NewObject<T : UObject>(outer:UObject, uclass:UClass, ?name:FName, ?flags:EObjectFlags=EObjectFlags.RF_NoFlags, ?objTemplate:UObject, bCopyTransientsFromClassDefaults:Bool=false):PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function StaticDuplicateObject(sourceObject:UObject, destOuter:UObject, destName:TCharStar):UObject;
+
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:uname("DuplicateObject<UObject>")
+  @:noTemplate
+  @:global public static function DuplicateObject<T : UObject>(sourceObject:T, destOuter:UObject, ?name:FName):T;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:noTemplate
@@ -188,7 +193,7 @@ extern class UObject_Extra {
  * @return a pointer to a fully initialized object of the specified class.
  **/
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:global public static function StaticConstructObject_Internal(Class:UClass, @:opt(unreal.UObject.GetTransientPackage()) InOuter:UObject, Name:FName = None, SetFlags:EObjectFlags = RF_NoFlags):UObject;
+  @:global public static function StaticConstructObject_Internal(Class:UClass, @:opt(unreal.UObject.GetTransientPackage()) InOuter:UObject, ?Name:FName, SetFlags:EObjectFlags = RF_NoFlags):UObject;
 
   public function PostEditImport() : Void;
 

@@ -25,6 +25,7 @@ class UhxBuild {
   var outputStatic:String;
   var outputDir:String;
   var buildName:String;
+  var shortBuildName:String;
   var debugSymbols:Bool;
   var compserver:String;
   var externsFolder:String;
@@ -127,6 +128,17 @@ class UhxBuild {
     case _:
     }
     this.buildName = '${targetModule}-${platform}-${config}-${data.targetType}';
+    var bn = this.buildName.split('-');
+    bn.shift();
+    switch(bn[1]) {
+    case 'Development':
+      bn[1] = 'Dev';
+    case 'Shipping':
+      bn[1] = 'Ship';
+    case 'Debug':
+      bn[1] = 'Dbg';
+    }
+    this.shortBuildName = bn.join('-');
     this.outputDir = this.data.projectDir + '/Intermediate/Haxe/$buildName';
     if (!FileSystem.exists(this.outputDir + '/Data')) {
       FileSystem.createDirectory(this.outputDir + '/Data');
@@ -624,6 +636,9 @@ class UhxBuild {
     if (debugSymbols) {
       args.push('-debug');
     }
+    if (this.config.noGlueUnityBuild) {
+      args.push('-D no_unity_build');
+    }
     addTargetDefines(args, data.targetType);
     addConfigurationDefines(args, data.targetConfiguration);
     if (config.extraCppiaCompileArgs != null)
@@ -693,6 +708,9 @@ class UhxBuild {
     addPlatformDefines(args, data.targetPlatform);
     if (this.config.disableUObject || data.targetType == Program) {
       args.push('-D UHX_NO_UOBJECT');
+    }
+    if (this.config.noGlueUnityBuild) {
+      args.push('-D no_unity_build');
     }
 
     if (this.config.dce != null) {
@@ -837,7 +855,9 @@ class UhxBuild {
     {
       // when compiling through the editor, -skiplink is set - so UBT won't even try to find the right
       // dependencies unless we give it a little nudge
-      var dep = '${this.srcDir}/Generated/HaxeInit.cpp';
+      var dep = this.config.noGlueUnityBuild ?
+        '${this.srcDir}/Generated/HaxeInit.cpp' :
+        '${this.srcDir}/Generated/Unity/${shortBuildName}/HaxeRuntime.${shortBuildName}.uhxglue.cpp';
       trace('Touching $dep to trigger hot-reload');
       // touch the file
       File.saveContent(dep, File.getContent(dep));

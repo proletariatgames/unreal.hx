@@ -136,6 +136,7 @@ class GlueManager {
       var files = this.modules[changed];
       files.sort(Reflect.compare);
       var buf = new StringBuf();
+      trace('new buf $changed');
       var defines = getUniqueDefines();
       if (defines.length == 0) {
         throw 'assert';
@@ -154,6 +155,7 @@ class GlueManager {
       buf.add('#endif');
 
       var result = buf.toString();
+      trace('buf toString*(');
       var target = GlueInfo.getUnityPath(changed, true);
       if (this.regenUnityFiles) {
         if (!FileSystem.exists(target) || File.getContent(target) != result) {

@@ -1042,7 +1042,7 @@ class TypeConv {
         var e = eref.get(),
             ret = null,
             info = getTypeInfo(e, pos);
-        if (e.meta.has(':uextern')) {
+        if (e.meta.has(':uextern') && !e.meta.has(':haxeGenerated')) {
           ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, info, e.meta.has(':uenum'));
         } else if (e.meta.has(':uenum')) {
           if (e.meta.has(':uscript') || Globals.cur.scriptModules.exists(e.module)) {

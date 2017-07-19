@@ -311,8 +311,8 @@ class UReflectionGenerator {
     var outer = UObject.CreatePackage(null, '/Script/HaxeCppia');
     var dummyClass:UClass = getUClass(def.uname.substr(1));
     if (dummyClass == null) {
-      dummyClass = cast UObject.NewObject_NoTemplate( outer, UBlueprintGeneratedClass.StaticClass(), def.uname.substr(1), RF_Public );
-      var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
+      dummyClass = UObject.NewObject( outer, UBlueprintGeneratedClass.StaticClass(), def.uname.substr(1), RF_Public );
+      var bp = UObject.NewObject(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
       bp.GeneratedClass = dummyClass;
       dummyClass.ClassGeneratedBy = bp;
 
@@ -578,7 +578,7 @@ class UReflectionGenerator {
   }
 
   private static function generateUFunction(outer:UObject, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
-    var fn:UFunction = cast UObject.NewObject_NoTemplate(outer, UFunction.StaticClass(), func.uname, RF_Public);
+    var fn:UFunction = UObject.NewObject(outer, UFunction.StaticClass(), func.uname, RF_Public);
     if (parent != null) {
       fn.SetSuperStruct(parent);
     }
@@ -964,8 +964,8 @@ class UReflectionGenerator {
       return null;
     }
     var name = uclassName.substr(1);
-    var uclass:UBlueprintGeneratedClass = cast UObject.NewObject_NoTemplate(outer, uhx.UHaxeGeneratedClass.StaticClass(), uclassName.substr(1), 0);
-    var bp = UObject.NewObjectByClass(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
+    var uclass:UBlueprintGeneratedClass = UObject.NewObject(outer, uhx.UHaxeGeneratedClass.StaticClass(), uclassName.substr(1), 0);
+    var bp = UObject.NewObject(new TypeParam<UBlueprint>(), outer, UBlueprint.StaticClass());
     bp.GeneratedClass = uclass;
     bp.ParentClass = parent;
     uclass.ClassGeneratedBy = bp;
@@ -1125,7 +1125,7 @@ class UReflectionGenerator {
   }
 
   private static function newProperty(outer:UObject, cls:UClass, name:FName, flags:EObjectFlags):UProperty {
-    return cast UObject.NewObject_NoTemplate( outer, cls, name, flags);
+    return UObject.NewObject( outer, cls, name, flags);
   }
 
   private static function generateUProperty(outer:UObject, ownerStruct:UStruct, def:UPropertyDef, isReturn:Bool):UProperty {

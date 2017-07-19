@@ -822,7 +822,7 @@ class ExprGlueBuild {
       var gm = new GlueMethod({
         name: mode + '_' + field.name,
         uname: uname,
-        args: (mode == 'get' ? [] : [{ name:'value', t:tconv }]),
+        args: (mode == 'get' ? [] : [{ name:'value', t:tconv, opt:null }]),
         ret: (mode == 'set' ? TypeConv.get(Context.getType('Void'), field.pos) : tconv),
         flags: Property | Final | HaxePrivate | (isStatic ? Static : MNone) | (isStructProp ? StructProperty : MNone),
         doc: field.doc,
@@ -852,7 +852,7 @@ class ExprGlueBuild {
       isStatic = false;
       args.shift();
     }
-    var args = [ for (arg in args) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ],
+    var args = [ for (arg in args) { name:arg.name, t:TypeConv.get(arg.t, field.pos), opt:null } ],
         ret = TypeConv.get(ret, field.pos);
 
     var uname = field.meta.extractStrings(':uname')[0];
@@ -906,7 +906,7 @@ class ExprGlueBuild {
     var args = null, ret = null;
     switch( Context.follow(superField.type) ) {
       case TFun(targs, tret):
-        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos) } ];
+        args = [ for (arg in targs) { name:arg.name, t:TypeConv.get(arg.t, field.pos), opt:null } ];
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
