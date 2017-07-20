@@ -4,6 +4,9 @@
 #include "uhx/GcRef.h"
 #include "uhx/expose/HxcppRuntime.h"
 #include "HaxeInit.h"
+#include "UObject/ScriptInterface.h"
+#include "Core.h"
+#include "uhx/ue/ClassMap.h"
 
 typedef unreal::UIntPtr (*CreateHaxeFn)(unreal::UIntPtr);
 
@@ -11,18 +14,49 @@ namespace uhx {
 
 struct UEHelpers {
 
+FORCEINLINE static TSet<FName>& getHaxeGeneratedSet() {
+  static TSet<FName> set;
+  return set;
+}
+
+static FName setIsHaxeGenerated(const FName& inName) {
+  getHaxeGeneratedSet().Add(inName);
+  return inName;
+}
+
+FORCEINLINE static bool isHaxeGenerated(const FName& inName) {
+  return getHaxeGeneratedSet().Contains(inName);
+}
+
 static void createWrapperIfNeeded(const FName& className, UClass *curClass, uhx::GcRef& haxeGcRef, UObject *self, CreateHaxeFn createHaxeWrapper) {
-  while (!curClass->HasAllClassFlags(CLASS_Native)) {
+  HaxeWrap *customCtor = nullptr;
+  while (!curClass->HasAllClassFlags(CLASS_Native) || !isHaxeGenerated(curClass->GetFName())) {
+    if (customCtor == nullptr) {
+      customCtor = uhx::ue::ClassMap_obj::getCustomCtor((unreal::UIntPtr)curClass);
+    }
     curClass = curClass->GetSuperClass();
   }
   if (curClass->GetFName() == className) {
+    if (customCtor != nullptr) {
+      createHaxeWrapper = *customCtor;
+    }
     haxeGcRef.set(createHaxeWrapper( (unreal::UIntPtr) self ));
   }
+}
+
+template<class InterfaceType>
+static TScriptInterface<InterfaceType> createScriptInterface(InterfaceType *iface) {
+  TScriptInterface<InterfaceType> ret;
+  ret.SetInterface(iface);
+  ret.SetObject(Cast<UObject>(iface));
+  return ret;
 }
 
 #if WITH_EDITOR
 static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClass, uhx::GcRef& haxeGcRef, UObject *self, CreateHaxeFn createHaxeWrapper) {
   FString hxClassName;
+  FName currentName;
+  HaxeWrap *customCtor = nullptr;
   while (true) {
     hxClassName = curClass->GetMetaData(TEXT("HaxeDynamicClass"));
     if (!hxClassName.IsEmpty()) {
@@ -30,16 +64,21 @@ static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClas
       haxeGcRef.set(uhx::expose::HxcppRuntime::createDynamicHelper( (unreal::UIntPtr) self, TCHAR_TO_UTF8(*hxClassName) ));
       return;
     }
-    if (curClass->HasAllClassFlags(CLASS_Native)) {
+    if (curClass->HasAllClassFlags(CLASS_Native) && isHaxeGenerated( curClass->GetFName() )) {
       break;
+    }
+    if (customCtor == nullptr) {
+      customCtor = uhx::ue::ClassMap_obj::getCustomCtor((unreal::UIntPtr)curClass);
     }
     curClass = curClass->GetSuperClass();
   }
   if (curClass->GetFName() == className) {
     initializeDynamicProperties(curClass, self);
+    if (customCtor != nullptr) {
+      createHaxeWrapper = *customCtor;
+    }
     unreal::UIntPtr created = createHaxeWrapper( (unreal::UIntPtr) self );
     if (created == 0) {
-      UE_LOG(HaxeLog, Error, TEXT("Error while creating class %s: It was not found. Perhaps the type was not compiled in the latest cppia compilation"), *className.ToString());
       self->MarkPendingKill();
     }
     haxeGcRef.set(created);

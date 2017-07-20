@@ -288,6 +288,12 @@ class TypeConv {
           if (this.haxeType == null) {
             this.haxeType = new TypeRef(['unreal'],name,[info.haxeType]);
           }
+        } else if (flags.hasAny(OScriptInterface)) {
+          var name = 'TScriptInterface';
+          this.ueType = new TypeRef(name, [info.ueType]);
+          if (this.haxeType == null) {
+            this.haxeType = new TypeRef(['unreal'], name, [info.haxeType]);
+          }
         }
 
         if (this.haxeType == null) {
@@ -469,6 +475,10 @@ class TypeConv {
       if (flags.hasAny(OSubclassOf)) {
         set.add("CoreUObject.h");
       }
+      if (flags.hasAny(OScriptInterface)) {
+        set.add("UObject/ScriptInterface.h");
+        set.add("uhx/UEHelpers.h");
+      }
 
       if (forwardDecls != null && canForwardDecl) {
         var decl = info.ueType.getForwardDecl();
@@ -638,7 +648,11 @@ class TypeConv {
         // OExternal, OInterface, OHaxe, OScriptHaxe
         var ret = '( (${info.ueType.getCppType()} *) $expr )';
         if (type == OInterface && !flags.hasAny(OSubclassOf)) {
-          ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
+          if (flags.hasAny(OScriptInterface)) {
+            ret = 'uhx::UEHelpers::createScriptInterface<${info.ueType.getCppType()}>(Cast<${info.ueType.getCppType()}>( (UObject *) $expr ))';
+          } else {
+            ret = 'Cast<${info.ueType.getCppType()}>( (UObject *) $expr )';
+          }
         } else if (flags.hasAny(OSubclassOf)) {
           ret = '( (${ueType.withoutPointer(true).getCppType()}) (UClass *) $expr )';
         }
@@ -729,7 +743,11 @@ class TypeConv {
 
         var const = this.hasModifier(Const) ? 'const' : '';
         if (type == OInterface) {
-          ret = 'const_cast<UObject *>(Cast<$const UObject>( $ret ))';
+          if (flags.hasAny(OScriptInterface)) {
+            ret = 'const_cast<UObject *>(Cast<$const UObject>( *($ret) ))';
+          } else {
+            ret = 'const_cast<UObject *>(Cast<$const UObject>( $ret ))';
+          }
         } else if (flags.hasAny(OSubclassOf)) {
           ret = 'const_cast<UClass *>( ($const UClass *) $ret )';
         } else {
@@ -1198,6 +1216,15 @@ class TypeConv {
             if (ctx.modf == null) ctx.modf = [];
             ctx.modf.push(Marker);
             continue;
+          case 'unreal.TScriptInterface':
+            if (ctx.accFlags.hasAny(OWeak | OSubclassOf | OAutoWeak)) {
+              Context.warning('Unreal Type: Illogical type (TScriptInterface with weak / subclassOf flags', pos);
+            }
+            ctx.accFlags |= OScriptInterface;
+            type = tl[0];
+            if (ctx.modf == null) ctx.modf = [];
+            ctx.modf.push(Marker);
+            continue;
           case _:
             throw new Error('Unreal Type: Invalid typedef: $name', pos);
           }
@@ -1551,6 +1578,7 @@ enum TypeConvData {
   var OAutoWeak = 3;
   var OSubclassOf = 4;
   var OWasTParam = 8;
+  var OScriptInterface = 16;
 
   inline private function t() {
     return this;

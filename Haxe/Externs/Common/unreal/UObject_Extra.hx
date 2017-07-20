@@ -122,10 +122,12 @@ extern class UObject_Extra {
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:noTemplate
+  @:uname("FindObject<UObject>")
   @:typeName @:global public static function FindObject<T : UObject>(outer:UObject, name:TCharStar, ?exactClass:Bool=false) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:noTemplate
+  @:uname("LoadObject<UObject>")
   @:typeName @:global public static function LoadObject<T : UObject>(outer:UObject, name:TCharStar, ?filename:TCharStar, loadFlags:Int=0, ?sandbox:UPackageMap) : PPtr<T>;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")

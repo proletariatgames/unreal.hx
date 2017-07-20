@@ -75,4 +75,26 @@ void uhx::ue::ClassMap_obj::addCppiaExternWrapper(const char *inUClass, const ch
   getCppiaWrapperMap().Emplace(cls, FString(UTF8_TO_TCHAR(inHxClass)));
   addWrapper((unreal::UIntPtr) cls, &cppiaWrapper);
 }
+
+static TMap<UClass*, HaxeWrap>& getCustomCtors() {
+  static TMap<UClass*, HaxeWrap> ret;
+  return ret;
+}
+
+bool uhx::ue::ClassMap_obj::hasCustomCtor = false;
+
+void uhx::ue::ClassMap_obj::addCustomCtor(unreal::UIntPtr inUClass, HaxeWrap inCtor) {
+  hasCustomCtor = true;
+  getCustomCtors().Emplace((UClass*)inUClass, inCtor);
+}
+
+void uhx::ue::ClassMap_obj::addCppiaCustomCtor(const char *inUClass, const char *inHxClass) {
+  UClass *cls = Cast<UClass>(StaticFindObjectFast(UClass::StaticClass(), nullptr, FName(UTF8_TO_TCHAR(inUClass)), false, true, RF_NoFlags));
+  getCppiaWrapperMap().Emplace(cls, FString(UTF8_TO_TCHAR(inHxClass)));
+  addCustomCtor((unreal::UIntPtr) cls, &cppiaWrapper);
+}
+
+HaxeWrap *uhx::ue::ClassMap_obj::getCustomCtorImpl(unreal::UIntPtr inUClass) {
+  return getCustomCtors().Find((UClass*)inUClass);
+}
 #endif

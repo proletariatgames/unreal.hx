@@ -211,7 +211,7 @@ class NativeGlueCode
     }
 
     glues.touch(TPrivateCpp, gluePath);
-    var stampPath = '$stampOutput/$gluePath.stamp';
+    var stampPath = '$stampOutput/$gluePath.cpp.stamp';
     var gluePathRef = TypeRef.parseClassName(gluePath);
     var cppPath = GlueInfo.getCppPath(gluePathRef, true);
     var shouldGenerate = checkShouldGenerate(stampPath, cppPath, cl);
@@ -276,7 +276,7 @@ class NativeGlueCode
       // the glue type doesn't exist: this happens when extending a UE4 class
     }
 
-    var stampPath = '$stampOutput/$gluePath.stamp',
+    var stampPath = '$stampOutput/$gluePath.h.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, headerPath, cl);
     if (cl.meta.has(':ueTemplate')) {
       glues.touch(kind, gluePath + '_UE');
@@ -320,7 +320,7 @@ class NativeGlueCode
           continue;
         }
         var targetPath = GlueInfo.getPublicHeaderPath(TypeRef.parseClassName( cpath ), true);
-        var stampPath = '$stampOutput/$cpath.stamp';
+        var stampPath = '$stampOutput/$cpath.h.stamp';
         var shouldCopy = checkShouldGenerate(stampPath, targetPath, cl);
 
         if (shouldCopy) {
@@ -375,6 +375,7 @@ class NativeGlueCode
     if (Globals.cur.unrealSourceDir == null) return;
     var targetTemplate = glues.updateGameModule();
 
+    var hadErrors = false;
     for (type in types) {
       switch(type) {
       case TInst(c,tl):
@@ -387,6 +388,19 @@ class NativeGlueCode
             cl.meta.add(meta.name, meta.params, meta.pos);
           }
         case _:
+        }
+        if (Context.defined('WITH_CPPIA')) {
+          if (!cl.isExtern && !cl.meta.has(':uscript')) {
+            var sup = cl.superClass;
+            if (sup != null) {
+              var superClass = sup.t.get();
+              if (superClass.meta.has(':uscript')) {
+                Context.warning('Unreal.hx Error: The class $typeName is a subclass of script-defined class ${sup.t}, which is not supported.', superClass.pos);
+                Context.warning('Defined here', cl.pos);
+                hadErrors = true;
+              }
+            }
+          }
         }
         if (cl.meta.has(':alreadyCompiled')) {
           if (!cl.meta.has(':wasCompiled')) {
@@ -423,6 +437,10 @@ class NativeGlueCode
         }
       case _:
       }
+    }
+
+    if (hadErrors) {
+      throw new Error('Build finished with errors', Context.currentPos());
     }
   }
 }

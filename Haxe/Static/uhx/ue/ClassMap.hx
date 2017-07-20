@@ -17,4 +17,6 @@ import unreal.UIntPtr;
   static function runInits():Void;
 
   static function addCppiaExternWrapper(inUClass:cpp.ConstCharStar, inHxClass:cpp.ConstCharStar):Void;
+  static function addCppiaCustomCtor(inUClass:cpp.ConstCharStar, inHxClass:cpp.ConstCharStar):Void;
+  static function addCustomCtor(inUClass:UIntPtr, inWrapper:Function<UIntPtr->UIntPtr, cpp.abi.Abi>):Void;
 }

@@ -55,7 +55,7 @@ import unreal.*;
         }
       }
       if (ret == null) {
-        throw 'Could not find ';
+        throw 'Could not find a suitable Haxe wrapper for object';
       }
     }
     ret.serialNumber = serial;

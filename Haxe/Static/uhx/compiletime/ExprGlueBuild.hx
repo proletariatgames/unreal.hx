@@ -824,7 +824,10 @@ class ExprGlueBuild {
         uname: uname,
         args: (mode == 'get' ? [] : [{ name:'value', t:tconv, opt:null }]),
         ret: (mode == 'set' ? TypeConv.get(Context.getType('Void'), field.pos) : tconv),
-        flags: Property | Final | HaxePrivate | (isStatic ? Static : MNone) | (isStructProp ? StructProperty : MNone),
+        flags: Property | Final | HaxePrivate |
+          (isStatic ? Static : MNone) |
+          (isStructProp ? StructProperty : MNone) |
+          (!field.isPublic ? CppPrivate : MNone),
         doc: field.doc,
         meta: null, // this is mostly here to join metadata. We don't need that
         pos: field.pos
@@ -864,7 +867,9 @@ class ExprGlueBuild {
       uname: uname,
       args: args,
       ret: ret,
-      flags: (field.meta.has(':final') ? Final : MNone) | (isStatic ? Static : MNone),
+      flags: (field.meta.has(':final') ? Final : MNone) |
+        (isStatic ? Static : MNone) |
+        (!field.isPublic ? CppPrivate : MNone),
       meta: field.meta.has(':glueCppBody') ? field.meta.extract(':glueCppBody') : null,
       pos: field.pos
     }, this.type);

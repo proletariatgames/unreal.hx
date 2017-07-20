@@ -88,7 +88,7 @@ void check_hx_init()
   void *top_of_stack = get_top_of_stack();
   if (NULL == top_of_stack)
   {
-    // UE_LOG(HXR, Error, TEXT("Currently unsupported Haxe runtime platform. Trying to get approximate stack size"));
+    UE_LOG(HaxeLog, Error, TEXT("Currently unsupported Haxe runtime platform. Trying to get approximate stack size"));
     top_of_stack = &x;
   }
 

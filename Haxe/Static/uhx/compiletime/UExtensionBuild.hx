@@ -324,7 +324,6 @@ class UExtensionBuild {
       var metas = [
         { name: ':uexpose', params:[], pos:clt.pos },
         { name: ':keep', params:[], pos:clt.pos },
-        { name: ':uextern', params:[], pos:clt.pos },
       ];
 
       var headerIncludes = IncludeSet.fromUniqueArray(['<uhx/GcRef.h>']),
@@ -688,6 +687,10 @@ class UExtensionBuild {
     var superConv = TypeConv.get( TInst(clt.superClass.t, clt.superClass.params), clt.pos);
     var superName = superConv.ueType.getCppClass();
 
+    headerDef.add('private:\n\t\tstatic FName uhx_className;\n');
+    if (cppDef == null) {
+      cppDef = new StringBuf();
+    }
     headerDef.add('public:\n');
     // include class map
     includes.add('uhx/ue/ClassMap.h');
@@ -714,13 +717,14 @@ class UExtensionBuild {
       objectInit << '.SetDefaultSubobjectClass<${overrideTypeConv.ueType.getCppClass()}>($overrideName)';
     }
 
+    cppDef.add('FName ${ueName}::uhx_className = uhx::UEHelpers::setIsHaxeGenerated( FName(TEXT("${ueName.substr(1)}")) );\n');
+
     includes.add('uhx/UEHelpers.h');
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
     ctorBody << '\n\t\t\tstatic bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
-      << 'static FName className = FName(TEXT("${ueName.substr(1)}"));\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
-      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
+      << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
 
     if (!hasHaxeSuper) {
       headerDef.add('\t\t::uhx::GcRef haxeGcRef;\n');
@@ -744,6 +748,7 @@ class UExtensionBuild {
       new End('}');
     }
 
+    // metas.push({ name: ':haxeGenerated', params:[], pos: clt.pos });
     metas.push({ name: ':glueHeaderIncludes', params:[for (inc in includes) macro $v{inc}], pos: clt.pos });
     metas.push({ name: ':ueHeaderDef', params:[macro $v{headerDef.toString()}], pos: clt.pos });
     metas.push({ name: ':uexportheader', params:[], pos: clt.pos });
