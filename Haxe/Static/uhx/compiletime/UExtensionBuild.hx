@@ -395,7 +395,7 @@ class UExtensionBuild {
           var cppType = tconv.ueType.getCppType(null) + '';
           if (tconv.data.match(CEnum(EExternal|EAbstract,_))) {
             cppType = 'TEnumAsByte< $cppType >';
-            glueCppIncs.add('Engine.h');
+            glueCppIncs.add('CoreMinimal.h');
           }
           if (isStatic) {
             if (!tconv.data.match(CUObject(_))) {
@@ -428,7 +428,7 @@ class UExtensionBuild {
           if (Context.unify(t, aactor)) {
             glueCppIncs.add('VariantPtr.h');
             glueCppIncs.add('IntPtr.h');
-            glueCppIncs.add('Engine.h');
+            glueCppIncs.add('CoreMinimal.h');
             glueCppIncs.add('uhx/expose/HxcppRuntime.h');
             glueCppIncs.add('uhx/Wrapper.h');
             glueCppIncs.add('UnrealNetwork.h');

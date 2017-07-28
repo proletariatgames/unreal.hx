@@ -19,8 +19,8 @@ extern class AActor_Extra {
   /** Overridable function called whenever this actor is being removed from a level */
   public function EndPlay(Reason:EEndPlayReason) : Void;
 
-	/** Puts actor in dormant networking state */
-	public function SetNetDormancy(NewDormancy:ENetDormancy) : Void;
+  /** Puts actor in dormant networking state */
+  public function SetNetDormancy(NewDormancy:ENetDormancy) : Void;
 
   /**
    * Destroy this actor. Returns true the actor is destroyed or already marked for destruction, false if indestructible.
@@ -29,7 +29,7 @@ extern class AActor_Extra {
    * @param bShouldModifyLevel    [opt] If true, Modify() the level before removing the actor.  Default is true.
    * returns  true if destroyed or already marked for destruction, false if indestructible.
    */
-  public function Destroy(bNetForce:Bool, bShouldModifyLevel:Bool) : Void;
+  public function Destroy(bNetForce:Bool = false, bShouldModifyLevel:Bool = true) : Void;
 
   /** Called once this actor has been deleted */
   public function Destroyed() : Void;
@@ -66,30 +66,30 @@ extern class AActor_Extra {
   public function PostInitializeComponents() : Void;
   public function GetWorldSettings() : AWorldSettings;
 
-	/** Get the timer instance from the actors world */
-	@:thisConst
+  /** Get the timer instance from the actors world */
+  @:thisConst
   public function GetWorldTimerManager() : PRef<FTimerManager>;
 
-	/**
-	 *	Event when this actor overlaps another actor, for example a player walking into a trigger.
-	 *	For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
-	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
-	 */
+  /**
+   *	Event when this actor overlaps another actor, for example a player walking into a trigger.
+   *	For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
+   *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+   */
   public function NotifyActorBeginOverlap(OtherActor:AActor) : Void;
 
-	/**
-	 *	Event when an actor no longer overlaps another actor, and they have separated.
-	 *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
-	 */
-	public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
+  /**
+   *	Event when an actor no longer overlaps another actor, and they have separated.
+   *	@note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
+   */
+  public function NotifyActorEndOverlap(OtherActor:AActor) : Void;
 
   public function TornOff() : Void;
 
-	/**
-	 * Called when an instance of this class is placed (in editor) or spawned.
-	 * @param	Transform			The transform the actor was constructed at.
-	 */
-	public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
+  /**
+   * Called when an instance of this class is placed (in editor) or spawned.
+   * @param	Transform			The transform the actor was constructed at.
+   */
+  public function OnConstruction(Transform:Const<PRef<FTransform>>) : Void;
 
 
   // TODO glue when we can properly handle const UDamageType& extern.
@@ -134,33 +134,33 @@ extern class AActor_Extra {
 
   function TeleportTo(destLocation:Const<PRef<FVector>>, destRotation:Const<PRef<FRotator>>, bIsATest:Bool /* = false */, bNoCheck:Bool /* = false */):Bool;
 
-	/** Returns true if this actor has begun the destruction process.
-	 *  This is set to true in UWorld::DestroyActor, after the network connection has been closed but before any other shutdown has been performed.
-	 *	@return true if this actor has begun destruction, or if this actor has been destroyed already.
-	 **/
+  /** Returns true if this actor has begun the destruction process.
+   *  This is set to true in UWorld::DestroyActor, after the network connection has been closed but before any other shutdown has been performed.
+   *	@return true if this actor has begun destruction, or if this actor has been destroyed already.
+   **/
   @:thisConst
   function IsPendingKillPending() : Bool;
 
-	/* Called when this actor becomes the given PlayerController's ViewTarget. Triggers the Blueprint event K2_OnBecomeViewTarget. */
-	function BecomeViewTarget( PC:APlayerController ) : Void;
+  /* Called when this actor becomes the given PlayerController's ViewTarget. Triggers the Blueprint event K2_OnBecomeViewTarget. */
+  function BecomeViewTarget( PC:APlayerController ) : Void;
 
-	/* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
-	function EndViewTarget( PC:APlayerController ) : Void;
+  /* Called when this actor is no longer the given PlayerController's ViewTarget. Also triggers the Blueprint event K2_OnEndViewTarget. */
+  function EndViewTarget( PC:APlayerController ) : Void;
 
   /** Removes a component from the OwnedComponents array of the Actor.
    *  In general this should not need to be called directly by anything other than UActorComponent functions
    */
   public function RemoveOwnedComponent(Component:UActorComponent) : Void;
 
-	/**
-	* Set the Actor's rotation instantly to the specified rotation.
-	*
-	* @param	NewRotation	The new rotation for the Actor.
-	* @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
-	*						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
-	*						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
-	* @return	Whether the rotation was successfully set.
-	*/
+  /**
+   * Set the Actor's rotation instantly to the specified rotation.
+   *
+   * @param	NewRotation	The new rotation for the Actor.
+   * @param	Teleport	How we teleport the physics state (if physics collision is enabled for this object).
+   *						If equal to ETeleportType::TeleportPhysics, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
+   *						If equal to ETeleportType::None, physics velocity is updated based on the change in position (affecting ragdoll parts).
+   * @return	Whether the rotation was successfully set.
+   */
   function SetActorRotation(NewRotation:FRotator, Teleport:ETeleportType) : Bool;
 
   /** Returns whether an actor has been initialized */
@@ -177,4 +177,6 @@ extern class AActor_Extra {
 
   @:noTemplate
   @:typeName public function FindComponentByClass<T : UActorComponent>( cls:TSubclassOf<UActorComponent> ) : T;
+
+  @:uproperty private var bReplicates:Bool;
 }

@@ -16,7 +16,7 @@ package unreal;
   public function AddZeroed(Count:Int32) : Int32;
   public function SetNumUninitialized(arraySize:Int):Void;
   public function Insert(item:PRef<T>, index:Int):Int;
-  public function RemoveAt(Index:Int32, Count:Int32, bAllowShrinking:Bool):Void;
+  public function RemoveAt(Index:Int32, Count:Int32=1, bAllowShrinking:Bool=true):Void;
   public function Num():Int;
   public function Empty():Void;
   public function Reset():Void;

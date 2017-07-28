@@ -673,13 +673,13 @@ class GlueMethod {
 
     meta.push({ name:':glueCppIncludes', params:[for (inc in this.cppIncludes) macro $v{inc}], pos:meth.pos });
     meta.push({ name:':glueHeaderIncludes', params:[for (inc in this.headerIncludes) macro $v{inc}], pos:meth.pos });
-    if (this.headerCode != null) {
+    if (this.headerCode != null && !meta.hasMeta(':glueHeaderCode')) {
       meta.push({ name:':glueHeaderCode', params:[macro $v{this.headerCode}], pos:meth.pos });
     }
-    if (this.cppCode != null) {
+    if (this.cppCode != null && !meta.hasMeta(':cppCode')) {
       meta.push({ name:':glueCppCode', params:[macro $v{this.cppCode}], pos:meth.pos });
     }
-    if (this.ueHeaderCode != null) {
+    if (this.ueHeaderCode != null && !meta.hasMeta(':ueHeaderCode')) {
       meta.push({ name: ':ueHeaderCode', params:[macro $v{this.ueHeaderCode}], pos:meth.pos });
     }
 
@@ -764,19 +764,25 @@ class GlueMethod {
 
   public function getFieldString(buf:CodeFormatter, glue:CodeFormatter):Void {
     buf << new Comment(meth.doc);
-    buf << '@:glueCppIncludes(';
-    buf.foldJoin(this.cppIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
-    buf << ')' << new Newline();
-    buf << '@:glueHeaderIncludes(';
-    buf.foldJoin(this.headerIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
-    buf << ')' << new Newline();
-    if (this.headerCode != null) {
+    var meta = this.meth.meta;
+    if (!meta.hasMeta(':glueCppIncludes')) {
+      buf << '@:glueCppIncludes(';
+      buf.foldJoin(this.cppIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
+      buf << ')' << new Newline();
+    }
+
+    if (!meta.hasMeta(':glueHeaderIncludes')) {
+      buf << '@:glueHeaderIncludes(';
+      buf.foldJoin(this.headerIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
+      buf << ')' << new Newline();
+    }
+    if (this.headerCode != null && !meta.hasMeta(':glueHeaderCode')) {
       buf << '@:glueHeaderCode("' << new Escaped(this.headerCode) << '")' << new Newline();
     }
-    if (this.cppCode != null) {
+    if (this.cppCode != null && !meta.hasMeta(':cppCode')) {
       buf << '@:glueCppCode("' << new Escaped(this.cppCode) << '")' << new Newline();
     }
-    if (this.ueHeaderCode != null) {
+    if (this.ueHeaderCode != null && !meta.hasMeta(':ueHeaderCode')) {
       buf << '@:ueHeaderCode("' << new Escaped(this.ueHeaderCode) << '")' << new Newline();
     }
 

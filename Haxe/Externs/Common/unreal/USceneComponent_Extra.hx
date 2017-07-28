@@ -9,7 +9,7 @@ extern class USceneComponent_Extra
    * @param  InParent				Parent to attach to.
    * @param  InSocketName			Optional socket to attach to on the parent.
    */
-  function SetupAttachment(InParent:USceneComponent, InSocketName:FName) : Void;
+  function SetupAttachment(InParent:USceneComponent, ?InSocketName:FName) : Void;
 
   /**
    *   Attach this component to another scene component, optionally at a named socket. It is valid to call this on components whether or not they have been Registered.

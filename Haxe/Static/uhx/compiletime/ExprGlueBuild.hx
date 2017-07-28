@@ -623,6 +623,7 @@ class ExprGlueBuild {
       prop.type.collectUeIncludes( incs, fwds, dummyIncs );
     }
 
+    writer.include("CoreMinimal.h");
     for (fwd in fwds) {
       writer.forwardDeclare( fwd );
     }
@@ -726,6 +727,7 @@ class ExprGlueBuild {
     for (fwd in fwds) {
       writer.forwardDeclare( fwd );
     }
+    writer.include("CoreMinimal.h");
     for (inc in incs) {
       writer.include(inc);
     }

@@ -1014,12 +1014,12 @@ class TypeConv {
           }
           ret = CUObject(OInterface, ctx.accFlags, info);
         } else if (it.meta.has(':uextern')) {
-          ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+          ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (it.meta.has(':haxeCreated')) {
           if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
-            ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+            ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           } else {
-            ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+            ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           }
         } else if (it.kind.match(KAbstractImpl(_))) {
           var impl = switch(it.kind) {
@@ -1113,12 +1113,12 @@ class TypeConv {
           }
           ret = CEnum(EAbstract, info, true);
         } else if (hasUextern) {
-          ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+          ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (a.meta.has(':haxeCreated')) {
           if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
-            ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+            ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           } else {
-            ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam)] : null);
+            ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           }
         } else if (a.meta.has(':coreType')) {
           Context.warning('Unreal Glue: Basic type $name is not supported', pos);

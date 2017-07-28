@@ -35,6 +35,20 @@ class CoreAPI {
     }
   }
 
+  @:noUsing macro public static function check(expr:ExprOf<Bool>):Expr {
+    if (
+        (Context.defined("debug") && !Context.defined("NO_ASSERTIONS")) ||
+        Context.defined("WITH_ASSERTIONS")
+      )
+    {
+      return macro if ($expr) {
+        @:pos(expr.pos) trace("Fatal", "Assertion failed: " + $v{expr.toString()});
+      }
+    } else {
+      return macro {};
+    }
+  }
+
 #if WITH_EDITOR
 
   static var hotReloadFns:Array<Void->Void>;

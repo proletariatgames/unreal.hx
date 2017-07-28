@@ -23,7 +23,7 @@ extern class UActorComponent_Extra {
   */
   private function DestroyRenderState_Concurrent() : Void;
 
-	/** Mark the render state as dirty - will be sent to the render thread at the end of the frame. */
+  /** Mark the render state as dirty - will be sent to the render thread at the end of the frame. */
   public function MarkRenderStateDirty() : Void;
 
   /** Recreate the render state right away. Generally you always want to call MarkRenderStateDirty instead.
@@ -36,8 +36,8 @@ extern class UActorComponent_Extra {
   @:thisConv function IsRegistered() : Bool;
 
 
-	/** set value of bCanEverAffectNavigation flag and update navigation octree if needed */
-	function SetCanEverAffectNavigation(bRelevant:Bool) : Void;
+  /** set value of bCanEverAffectNavigation flag and update navigation octree if needed */
+  function SetCanEverAffectNavigation(bRelevant:Bool) : Void;
 
   /**
    * BeginsPlay for the component.  Occurs at level startup. This is before BeginPlay (Actor or Component).
@@ -65,10 +65,15 @@ extern class UActorComponent_Extra {
   /** Called when a component is created (not loaded) */
   function OnComponentCreated() : Void;
 
-	/**
-	 * Called when a component is destroyed
-	 *
-	 * @param	bDestroyingHierarchy  - True if the entire component hierarchy is being torn down, allows avoiding expensive operations
-	 */
+  /**
+   * Called when a component is destroyed
+   *
+   * @param	bDestroyingHierarchy  - True if the entire component hierarchy is being torn down, allows avoiding expensive operations
+   */
   function OnComponentDestroyed(bDestroyingHierarchy:Bool) : Void;
+
+  @:uproperty private var bReplicates:Bool;
+
+  /** Allows a component to replicate other subobject on the actor  */
+  public function ReplicateSubobjects(Channel:UActorChannel, Bunch:PPtr<FOutBunch>, RepFlags:PPtr<FReplicationFlags>):Bool;
 }

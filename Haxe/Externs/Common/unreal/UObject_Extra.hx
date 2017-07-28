@@ -153,6 +153,13 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function MakeUniqueObjectName(outer:UObject, cls:UClass, baseName:FName):FName;
 
+  @:noTemplate
+  public function CreateDefaultSubobject<T : UObject>(SubojectFName:FName, ReturnType:UClass, @:opt(ReturnType) ?ClassToCreateByDefault:UClass, bIsRequired:Bool=true, bAbstract:Bool=false, bIsTransient:Bool=false):T;
+
+  @:typeName
+  @:uname("CreateDefaultSubobject")
+  public function CreateDefaultSubobject_Template<T : UObject>(SubobjectName:FName, bTransient:Bool = false):T;
+
   /**
    * Fast version of StaticFindObject that relies on the passed in FName being the object name
    * without any group/ package qualifiers.

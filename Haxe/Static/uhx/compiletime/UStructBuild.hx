@@ -72,6 +72,10 @@ class UStructBuild {
         return cast ptr;
       }
 
+      @:extern inline public function new() {
+        this = create();
+      }
+
       @:uname(".ctor") public static function create():$complexThis {
         return $delayedglue.getNativeCall("create", true);
       }
