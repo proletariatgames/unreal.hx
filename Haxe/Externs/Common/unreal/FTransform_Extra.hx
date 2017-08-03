@@ -25,6 +25,18 @@ extern class FTransform_Extra {
   @:uname('new')
   public static function createNewRotatorTranslation(InRotation:Const<PRef<FRotator>>, InTranslation:Const<PRef<FVector>>) : POwnedPtr<FTransform>;
 
+  /**
+    createRotatorTranslation alias
+   **/
+  @:expr(return createRotatorTranslation(InRotation, InTranslation))
+  public static function createWithValues(InRotation:FRotator, InTranslation:FVector) : FTransform;
+
+  /**
+    createNewRotatorTranslation alias
+   **/
+  @:expr(return createNewRotatorTranslation(InRotation, InTranslation))
+  public static function createNewWithValues(InRotation:FRotator, InTranslation:FVector) : POwnedPtr<FTransform>;
+
   @:thisConst
   public function InverseTransformVectorNoScale(v:Const<PRef<FVector>>) : FVector;
 

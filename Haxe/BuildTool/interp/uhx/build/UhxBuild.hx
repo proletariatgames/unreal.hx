@@ -503,7 +503,7 @@ class UhxBuild {
 
     var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
 #if UE_EDITOR_RECOMPILE
-    var shouldRun = checkRecursive(targetStamp, [
+    var shouldRun = !this.cppiaEnabled || checkRecursive(targetStamp, [
       '${haxeDir}/Externs',
       '${data.pluginDir}/Haxe/Externs/$ueExternDir',
       '${data.pluginDir}/Haxe/Externs/Common',
@@ -1024,7 +1024,7 @@ class UhxBuild {
           ret = this.compileStatic();
         } else {
           if (compileCppia() != 0) {
-            throw 'Cppia compilation failed';
+            throw 'Cppia compilation failed. Please check the Output Log for more information';
           } else {
             return;
           }

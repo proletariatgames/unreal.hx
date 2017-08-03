@@ -24,7 +24,8 @@ extern class UClass_Extra {
 
   public function FindFunctionByName(name:FName, includeSuper:EIncludeSuperFlag=IncludeSuper) : UFunction;
 
-  public function GetDefaultObject(bCreateIfNeeded:Bool=true) : UObject;
+  @:noTemplate
+  public function GetDefaultObject<T : UObject>(bCreateIfNeeded:Bool=true) : T;
 
   public function HasAllClassFlags(flags:Int32):Bool;
 

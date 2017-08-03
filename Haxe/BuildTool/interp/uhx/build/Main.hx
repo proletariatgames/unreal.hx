@@ -90,7 +90,11 @@ class Main {
       }
     }
     catch(e:Dynamic) {
+#if UE_CPPIA_RECOMPILE
+      err('Build failed: $e');
+#else
       err('Build failed: $e\n${haxe.CallStack.toString(haxe.CallStack.exceptionStack())}');
+#end
       ret = 1;
     }
 

@@ -64,7 +64,8 @@ class UnrealInit
     var stamp = .0;
     var internalStamp = .0;
 
-    var disabled = false;
+    var disabled = false,
+        waitingRebind = false;
 #if WITH_CPPIA
     var metaClass = Type.resolveClass('uhx.meta.StaticMetaData');
     if (metaClass != null) {
@@ -76,8 +77,7 @@ class UnrealInit
       }
     }
 
-    var first = true,
-        waitingRebind = false;
+    var first = true;
     function loadCppia() {
 #if DEBUG_HOTRELOAD
       trace('${uhx.runtime.UReflectionGenerator.id}: loading cppia');
@@ -186,7 +186,12 @@ class UnrealInit
       var workingTarget = '$gameDir/Binaries/Haxe/game-working.cppia';
       if (success) {
         if (contents != null) {
-          sys.io.File.saveContent(workingTarget, contents);
+          try {
+            sys.io.File.saveContent(workingTarget, contents);
+          }
+          catch(e:Dynamic) {
+            trace('Error', 'Error while saving $workingTarget: $e');
+          }
         }
       } else if (loadPrevious && FileSystem.exists(workingTarget)) {
         try {
@@ -279,7 +284,7 @@ class UnrealInit
               sys.io.File.copy(editorTarget, target);
             }
           }
-#end
+#end // WITH_CPPIA
         }
       }
 
@@ -323,6 +328,7 @@ class UnrealInit
         for (fn in unreal.CoreAPI.hotReloadFns) {
           fn();
         }
+#if WITH_CPPIA
         if (waitingRebind) {
           var reloadFns = unreal.CoreAPI.cppiaReloadFns;
           if (reloadFns != null && reloadFns.length > 0) {
@@ -334,6 +340,7 @@ class UnrealInit
         }
       } else {
         uhx.runtime.UReflectionGenerator.onHotReload();
+#end // WITH_CPPIA
       }
     }
 

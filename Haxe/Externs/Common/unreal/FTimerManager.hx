@@ -1,16 +1,12 @@
 package unreal;
 
 @:glueCppIncludes("TimerManager.h")
-@:uname('FTimerDelegate')
-typedef FTimerDelegate = Delegate<FTimerDelegate, Void->Void>;
-
-@:glueCppIncludes("TimerManager.h")
 @:uextern @:noCopy @:noEquals extern class FTimerManager {
 
   @:uname("SetTimer")
   function SetTimerWithUObject(inOutHandle:PRef<FTimerHandle>, obj:UObject, method:MethodPointer<UObject, Void->Void>, rate:Float32, loop:Bool, firstDelay:Float) : Void;
 
-  function SetTimer(inOutHandle:PRef<FTimerHandle>, delegate:Const<PRef<FTimerDelegate>>, rate:Float32, loop:Bool, firstDelay:Float) : Void;
+  function SetTimer(inOutHandle:PRef<FTimerHandle>, delegate:Const<PRef<FTimerDelegate>>, rate:Float32, loop:Bool=false, firstDelay:Float=-1) : Void;
 
   function ClearTimer(handle:FTimerHandle) : Void;
 

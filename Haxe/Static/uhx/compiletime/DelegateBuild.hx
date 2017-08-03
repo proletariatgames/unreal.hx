@@ -78,7 +78,7 @@ class DelegateBuild {
       if (type != 'DynamicDelegate') {
         var thisType = tref.toComplexType();
         var dummy = macro class {
-          @:expr(return cast this) @:extern inline private function typingHelper(fn:$lambdaType):$thisType {
+          @:expr(return cast this) inline private function typingHelper(fn:$lambdaType):$thisType {
             return cast this;
           }
 
@@ -167,7 +167,7 @@ class DelegateBuild {
       if (type != 'DynamicMulticastDelegate') {
         var thisType = tref.toComplexType();
         var dummy = macro class {
-          @:expr(return cast this) @:extern inline private function typingHelper(fn:$lambdaType):$thisType {
+          @:expr(return cast this) inline private function typingHelper(fn:$lambdaType):$thisType {
             return cast this;
           }
 
