@@ -33,6 +33,21 @@ class UExtensionBuild {
   public function new() {
   }
 
+  public static function upropReplicated(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "replicated":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
   public static function ufuncMetaNoImpl(meta:Expr) {
     var name = switch(meta.expr) {
       case EConst(CIdent(c)):

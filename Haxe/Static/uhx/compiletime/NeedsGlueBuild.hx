@@ -252,6 +252,7 @@ class NeedsGlueBuild
       if (!shouldAddGetterSetter && Context.defined('cppia') && field.meta.hasMeta(':uproperty')) {
         shouldAddGetterSetter = true;
       }
+
       if (shouldAddGetterSetter) {
         field.meta.push({ name:':keep', pos:field.pos });
         changed = true;
@@ -457,6 +458,12 @@ class NeedsGlueBuild
                 Context.warning('Unreal Glue Extension: $name ufunctions need a `$suffix` function which is missing for function ${field.name}', field.pos);
                 hadErrors = true;
               }
+            }
+          }
+        } else if (meta.name == ':uproperty' && meta.params != null) {
+          for (param in meta.params) {
+            if (UExtensionBuild.upropReplicated(param) && !field.meta.hasMeta(":ureplicate")) {
+              Context.warning('Do not use `Replicated`. Instead, use the @:ureplicate metadata. Please refer to the Unreal.hx documentation for more information', param.pos);
             }
           }
         }

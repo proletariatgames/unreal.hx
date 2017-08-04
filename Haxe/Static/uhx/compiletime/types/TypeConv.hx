@@ -744,7 +744,7 @@ class TypeConv {
         var const = this.hasModifier(Const) ? 'const' : '';
         if (type == OInterface) {
           if (flags.hasAny(OScriptInterface)) {
-            ret = 'const_cast<UObject *>(Cast<$const UObject>( *($ret) ))';
+            ret = '($ret).GetObject()';
           } else {
             ret = 'const_cast<UObject *>(Cast<$const UObject>( $ret ))';
           }

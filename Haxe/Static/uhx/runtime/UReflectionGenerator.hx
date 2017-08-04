@@ -1007,6 +1007,17 @@ class UReflectionGenerator {
     return uclass;
   }
 
+  private static function doesAnythingInHierarchyHaveDefaultToInstanced(cls:UClass) {
+    var found = false;
+
+    while(!found && cls != null) {
+      found = cls.ClassFlags.hasAny(CLASS_DefaultToInstanced);
+      cls = cls.GetSuperClass();
+    }
+
+    return found;
+  }
+
   private static function getPropertyFlags(ownerStruct:UStruct, prop:UProperty, propDef:UPropertyDef):EPropertyFlags {
     var flags:EPropertyFlags = 0;
     if (propDef.metas == null) {
@@ -1118,6 +1129,12 @@ class UReflectionGenerator {
       case 'visibleinstanceonly':
         // TODO check edit specifier
         flags |= CPF_Edit | CPF_EditConst | CPF_DisableEditOnTemplate;
+      case _:
+        if (meta.value != null) {
+          prop.SetMetaData(meta.name, meta.value);
+        } else {
+          trace('Warning', 'Unprocessed metadata ${meta.name} for property ${upropDef.uname}');
+        }
       }
     }
 
@@ -1135,7 +1152,8 @@ class UReflectionGenerator {
 
     var name = new FName(def.uname);
     var prop:UProperty = null;
-    var flags = def.flags;
+    var flags = def.flags,
+        curCls = null;
     switch(flags.type) {
       case TBool:
         prop = newProperty( outer, UBoolProperty.StaticClass(), name, objFlags);
@@ -1185,9 +1203,9 @@ class UReflectionGenerator {
           if (!reg.isUpdated) {
             getUpdatedClass(reg);
           }
-          cls = reg.getUpdated();
+          curCls = cls = reg.getUpdated();
         } else {
-          cls = getUClass(def.typeUName.substr(1));
+          curCls = cls = getUClass(def.typeUName.substr(1));
         }
         if (flags.hasAny(FWeak)) {
           var ret:UWeakObjectProperty = cast newProperty(outer, UWeakObjectProperty.StaticClass(), name, objFlags);
@@ -1200,7 +1218,7 @@ class UReflectionGenerator {
           ret.MetaClass = cls;
           prop = ret;
         } else {
-          if (cls.IsA(UClass.StaticClass())) {
+          if (cls == UClass.StaticClass()) {
             var ret:UClassProperty = cast newProperty(outer, UClassProperty.StaticClass(), name, objFlags);
             ret.SetPropertyClass(cls);
             ret.MetaClass = UObject.StaticClass();
@@ -1214,7 +1232,7 @@ class UReflectionGenerator {
       case TInterface:
         var ret:UInterfaceProperty = cast newProperty(outer, UInterfaceProperty.StaticClass(), name, objFlags);
         var cls = getUClass(def.typeUName.substr(1));
-        ret.SetInterfaceClass(cls);
+        ret.SetInterfaceClass(curCls = cls);
         prop = ret;
       case TStruct:
         var ret:UStructProperty = cast newProperty(outer, UStructProperty.StaticClass(), name, objFlags);
@@ -1292,6 +1310,10 @@ class UReflectionGenerator {
     }
     if (def.metas != null) {
       prop.PropertyFlags |= getPropertyFlags(ownerStruct, prop, def);
+    }
+    if (curCls != null && doesAnythingInHierarchyHaveDefaultToInstanced(curCls)) {
+      prop.PropertyFlags |= CPF_InstancedReference | CPF_ExportObject;
+      prop.SetMetaData("EditInline", "true");
     }
 
     if (def.replication != null) {

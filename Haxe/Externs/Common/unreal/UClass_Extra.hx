@@ -29,6 +29,8 @@ extern class UClass_Extra {
 
   public function HasAllClassFlags(flags:Int32):Bool;
 
+  public function HasAnyClassFlags(flags:Int32):Bool;
+
   /**
    * Assembles the token stream for realtime garbage collection by combining the per class only
    * token stream for each class in the class hierarchy. This is only done once and duplicate
