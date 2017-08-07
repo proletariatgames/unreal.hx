@@ -608,9 +608,9 @@ class ExprGlueBuild {
           throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
         }
         // we can only override non-extern functions
-        if (supFields[field.name]) {
+        if (field.name != '_new' && supFields[field.name]) {
           if (aSup.meta.has(':uextern')) {
-            throw new Error('Unreal Glue: overriding an extern function in a ustruct is not supported', field.pos);
+            throw new Error('Unreal Glue: overriding an extern function (${field.name}) in a ustruct is not supported', field.pos);
           }
         }
       }

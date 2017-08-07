@@ -765,13 +765,13 @@ class GlueMethod {
   public function getFieldString(buf:CodeFormatter, glue:CodeFormatter):Void {
     buf << new Comment(meth.doc);
     var meta = this.meth.meta;
-    if (!meta.hasMeta(':glueCppIncludes')) {
+    if (meth.specialization != null || !meta.hasMeta(':glueCppIncludes')) {
       buf << '@:glueCppIncludes(';
       buf.foldJoin(this.cppIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
       buf << ')' << new Newline();
     }
 
-    if (!meta.hasMeta(':glueHeaderIncludes')) {
+    if (meth.specialization != null || !meta.hasMeta(':glueHeaderIncludes')) {
       buf << '@:glueHeaderIncludes(';
       buf.foldJoin(this.headerIncludes, function(inc:String, buf:CodeFormatter) return buf << '"' << new Escaped(inc) << '"');
       buf << ')' << new Newline();
