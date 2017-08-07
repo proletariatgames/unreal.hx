@@ -49,8 +49,9 @@ class ExternBaker {
     // we need this timestamp to make sure we bake everything if uhx.compiletime package
     var latestInternal = (force ? 0.0 : getLatestInternalChange());
     // walk into the paths - from last to first - and if needed, create the wrapper code
-    var target = FileSystem.fullPath( Compiler.getOutput() );
+    var target = Compiler.getOutput();
     if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
+    target = FileSystem.fullPath(target);
     var processed = new Map(),
         filesToCompile = new Map(),
         duplicateFiles = new Map();

@@ -1133,7 +1133,7 @@ class UReflectionGenerator {
         if (meta.value != null) {
           prop.SetMetaData(meta.name, meta.value);
         } else {
-          trace('Warning', 'Unprocessed metadata ${meta.name} for property ${upropDef.uname}');
+          trace('Warning', 'Unprocessed metadata ${meta.name} for property ${propDef.uname}');
         }
       }
     }

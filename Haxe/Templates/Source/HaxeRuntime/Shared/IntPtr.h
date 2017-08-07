@@ -13,7 +13,7 @@ typedef unsigned __int64 UIntPtr;
 typedef __W64 signed int IntPtr;
 typedef __W64 unsigned int UIntPtr;
 #endif
-#elif __APPLE__
+#elif defined(__APPLE__) && __APPLE__
 
 #if defined(_M_X64) || defined(__amd64__)
 typedef signed long long int IntPtr;

@@ -1,27 +1,28 @@
 #include "HaxeRuntime.h"
 #include "HaxeInit.h"
 #include "Core.h"
+#include "HAL/PlatformAtomics.h"
 #include <cstdio>
 
-#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
+#if PLATFORM_WINDOWS || PLATFORM_XBOXONE
   #include "Windows/MinWindows.h"
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
   #include <pthread.h>
 #else
 #endif
 
-#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
+#if PLATFORM_WINDOWS || PLATFORM_XBOXONE
   // windows.h defines InterlockedCompareExchange which makes it incompatible with Unreal
   #define UHX_CAS(Dest, Exchange, Comparand) ::InterlockedCompareExchange(Dest, Exchange, Comparand)
 #else
-  #define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange(Dest, Exchange, Comparand)
+  #define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange((volatile int32*) Dest, Exchange, Comparand)
 #endif
 
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
 // void __scriptable_load_cppia(String inCode);
 
-#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE
+#if PLATFORM_WINDOWS || PLATFORM_XBOXONE
   #define DECLARE_FAST_TLS(name) static __declspec( thread ) void *name
   #define GET_TLS_VALUE(name) name
   #define SET_TLS_VALUE(name, value) name = value
@@ -37,7 +38,7 @@ extern "C" const char *hxRunLibrary();
 
 static void *get_top_of_stack(void)
 {
-#if PLATFORM_WINDOWS || PLATFORM_WINRT || PLATFORM_XBOXONE //TODO: see if XBOXONE really behaves like Windows
+#if PLATFORM_WINDOWS || PLATFORM_XBOXONE //TODO: see if XBOXONE really behaves like Windows
   MEMORY_BASIC_INFORMATION info;
   VirtualQuery(&info, &info, sizeof(MEMORY_BASIC_INFORMATION));
   return (void *) (( (char *) info.BaseAddress) + info.RegionSize);
