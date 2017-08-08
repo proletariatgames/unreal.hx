@@ -503,11 +503,15 @@ class UhxBuild {
 
     var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
 #if UE_EDITOR_RECOMPILE
-    var shouldRun = !this.cppiaEnabled || checkRecursive(targetStamp, [
-      '${haxeDir}/Externs',
-      '${data.pluginDir}/Haxe/Externs/$ueExternDir',
-      '${data.pluginDir}/Haxe/Externs/Common',
-    ], false);
+    var shouldRun = !this.cppiaEnabled ||
+      checkRecursive(targetStamp, [
+        '${data.pluginDir}/Haxe/Static/uhx/compiletime'
+      ], false) ||
+      checkRecursive(targetStamp, [
+        '${haxeDir}/Externs',
+        '${data.pluginDir}/Haxe/Externs/$ueExternDir',
+        '${data.pluginDir}/Haxe/Externs/Common',
+      ], false);
     if (!shouldRun) {
       log('Skipping extern baker, as no file has changed. Delete $haxeDir/Generated/$externsFolder to force');
       return 0;
@@ -540,6 +544,7 @@ class UhxBuild {
 
     trace('baking externs');
     var tbake = timer('bake externs');
+    bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
     var ret = compileSources(bakeArgs);
     tbake();
     this.createHxml('bake-externs', bakeArgs);
@@ -641,15 +646,22 @@ class UhxBuild {
     }
     addTargetDefines(args, data.targetType);
     addConfigurationDefines(args, data.targetConfiguration);
-    if (config.extraCppiaCompileArgs != null)
+    if (config.extraCppiaCompileArgs != null) {
       args = args.concat(config.extraCppiaCompileArgs);
+    }
 
     if (!FileSystem.exists('${data.projectDir}/Binaries/Haxe')) {
       FileSystem.createDirectory('${data.projectDir}/Binaries/Haxe');
     }
 
+    var extraArgs = [];
+    if (this.compserver != null) {
+      extraArgs.push('--connect ${this.compserver}');
+    }
     var tcppia = timer('Cppia compilation');
-    var cppiaRet = compileSources(args);
+    args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
+    var cppiaRet = compileSources(extraArgs.concat(args));
+
     tcppia();
 #if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
     this.createHxml('build-script', args);
@@ -814,12 +826,17 @@ class UhxBuild {
 
     if (this.compserver != null) {
       File.saveContent('$outputDir/Data/compserver.txt','1');
-      Sys.putEnv("HAXE_COMPILATION_SERVER", this.compserver);
+      // Sys.putEnv("HAXE_COMPILATION_SERVER", this.compserver);
+      if (extraArgs == null) {
+        extraArgs = [];
+      }
+      extraArgs.push('--connect ${this.compserver}');
     } else {
       File.saveContent('$outputDir/Data/compserver.txt','0');
     }
 
     var thaxe = timer('Haxe compilation');
+    args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
     var ret = compileSources(args);
     thaxe();
     if (!isCrossCompiling) {
@@ -931,7 +948,12 @@ class UhxBuild {
     if (config.noDebug == false) {
       this.debugSymbols = false;
     }
-    this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
+    if (config.compilationServer != null) {
+      this.compserver = Std.string(config.compilationServer);
+    }
+    if (this.compserver == null) {
+      this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER_DEFER");
+    }
     if (this.compserver == null || this.compserver == '') {
       this.compserver = Sys.getEnv("HAXE_COMPILATION_SERVER");
     }
@@ -967,9 +989,6 @@ class UhxBuild {
       throw 'Build failed';
     }
     this.setupVars();
-    if (this.compserver != null) {
-      Sys.putEnv("HAXE_COMPILATION_SERVER", "");
-    }
 
     if (!FileSystem.exists(haxeDir)) {
       FileSystem.createDirectory(haxeDir);
@@ -1046,9 +1065,6 @@ class UhxBuild {
           err('Cppia compilation failed');
           err('=============================');
         }
-      }
-      if (this.compserver != null) {
-        Sys.putEnv("HAXE_COMPILATION_SERVER", "");
       }
     } else {
       warn("Haxe compiler was not found!");
@@ -1129,8 +1145,6 @@ class UhxBuild {
 
   private function compileSources(args:Array<String>, ?realOutput:String)
   {
-    args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-
     var cmdArgs = [];
     for (arg in args) {
       if (arg == '' || arg.charCodeAt(0) == '#'.code) continue;

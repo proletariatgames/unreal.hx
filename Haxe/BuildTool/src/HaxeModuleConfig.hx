@@ -106,7 +106,12 @@ typedef HaxeModuleConfig = {
   /**
     Disable glue unity builds
    **/
-  ?noGlueUnityBuild:Bool
+  ?noGlueUnityBuild:Bool,
+
+  /**
+    The port which the compilation server must use
+   **/
+  ?compilationServer:Int,
 
   // TODO
   // /**
