@@ -14,7 +14,7 @@ abstract Ptr<T>(PtrMacros<T>) {
     return PtrMacros.createStackHelper(false);
   }
 
-#if !macro
+#if (!macro && !bake_externs)
 
   public static function fromStruct<T : Struct>(struct : Struct):Ref<T> {
     return cast uhx.internal.Helpers.getWrapperPointer(struct);

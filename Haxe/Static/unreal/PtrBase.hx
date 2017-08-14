@@ -3,6 +3,9 @@ package unreal;
 import haxe.macro.Expr;
 
 private typedef Underlying = Dynamic;
+#elseif bake_externs
+private typedef Underlying = Dynamic;
+
 #else
 private typedef Underlying = AnyPtr;
 #end
