@@ -17,6 +17,10 @@ abstract Ref<T>(PtrMacros<T>) {
 
 #if (!macro && !bake_externs)
 
+  public static function mkNull<T>():Ref<T> {
+    return cast 0;
+  }
+
   public static function fromStruct<T : Struct>(struct : Struct):Ref<T> {
     return cast uhx.internal.Helpers.getWrapperPointer(struct);
   }

@@ -117,6 +117,8 @@ public:
 
   inline static VariantPtr fromDynamic(Dynamic inDyn) { return VariantPtr( inDyn ); }
 #endif
+
+  inline static VariantPtr fromUIntPtrExternalPointer(UIntPtr inPtr) { return VariantPtr((void*) inPtr); }
 };
 
 }

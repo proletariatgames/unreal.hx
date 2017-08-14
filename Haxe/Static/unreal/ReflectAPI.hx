@@ -235,7 +235,7 @@ class ReflectAPI {
         if (!param.PropertyFlags.hasAny(CPF_Parm)) {
           continue;
         }
-        if (!Std.is(param, UNumericProperty) && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_ReturnParm) == CPF_OutParm) {
+        if (param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_ReturnParm) == CPF_OutParm) {
           var addr = params + param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
           var curArg:Dynamic = args[i],
               argAddr:UIntPtr = 0;
@@ -249,10 +249,12 @@ class ReflectAPI {
             var variant : VariantPtr = curArg;
             if (!variant.isObject()) {
               argAddr = (curArg : VariantPtr).getUIntPtr() - 1;
+            } else {
+              argAddr = curArg; // plain UIntPtr
             }
           }
           if (argAddr != 0 && argAddr != addr) {
-            FMemory.Memcpy(argAddr, addr, param.ArrayDim * param.ElementSize);
+            param.CopyCompleteValue(argAddr, addr);
           }
         }
       }
@@ -483,10 +485,11 @@ class ReflectAPI {
   }
 
   private static function bpGetData(obj:AnyPtr, prop:UProperty, rawPointers:Bool):Dynamic {
+    var propFlags;
     var objPtr:AnyPtr = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
-      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
-        return objPtr;
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return objPtr; // Ptr<> / Ref<> are UIntPtrs, not VariantPtr - so they need to be returned as such
       }
 
       var np:UNumericProperty = cast prop;
@@ -525,8 +528,8 @@ class ReflectAPI {
         return np.GetSignedIntPropertyValue(objPtr);
       }
     } else if (Std.is(prop, UBoolProperty)) {
-      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
-        return objPtr;
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return objPtr; // Ptr<> / Ref<> are UIntPtrs, not VariantPtr - so they need to be returned as such
       }
       var prop:UBoolProperty = cast prop;
       return prop.GetPropertyValue(objPtr);
@@ -534,14 +537,23 @@ class ReflectAPI {
       var prop:UObjectPropertyBase = cast prop;
       return prop.GetObjectPropertyValue(objPtr);
     } else if (Std.is(prop, UNameProperty)) {
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+      }
       var value:FName = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UStrProperty)) {
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+      }
       var value:FString = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
     } else if (Std.is(prop, UTextProperty)) {
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return VariantPtr.fromUIntPtrExternalPointer(objPtr);
+      }
       var value:FText = "";
       prop.CopyCompleteValue(AnyPtr.fromStruct(value),objPtr);
       return value;
@@ -552,8 +564,8 @@ class ReflectAPI {
       return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
-      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
-        return objPtr;
+      if (rawPointers && (propFlags = prop.PropertyFlags).hasAny(CPF_ReferenceParm | CPF_OutParm) && !propFlags.hasAny(CPF_ConstParm)) {
+        return objPtr; // Ptr<> / Ref<> are UIntPtrs, not VariantPtr - so they need to be returned as such
       }
       var prop:UEnumProperty = cast prop;
       var e = prop.GetEnum();
@@ -615,7 +627,8 @@ class ReflectAPI {
 
   public static function callHaxeFunction(obj:UObject, stack:FFrame, result:AnyPtr) {
     var ufunc = stack.CurrentNativeFunction,
-        stackData = stack.Locals.asUIntPtr();
+        stackData = stack.Locals.asUIntPtr(),
+        needsNewStack = false;
 #if WITH_EDITOR
     var name = ufunc.HasMetaData(CoreAPI.staticName('HaxeName')) ? ufunc.GetMetaData(CoreAPI.staticName('HaxeName')).toString() : ufunc.GetName().toString();
 #else
@@ -640,9 +653,11 @@ class ReflectAPI {
         cur = cast cur.Next;
       }
       // this is being run by blueprints, so we need our own stack in order to not conflict with the Blueprint's while running the arguments
+      needsNewStack = true;
       newStack = uhx.ue.RuntimeLibrary.alloca(ufunc.ParmsSize + maxAlignment);
       // re-align it
       newStack = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", newStack, maxAlignment);
+      FMemory.Memzero(newStack, ufunc.ParmsSize);
     }
 
     var arg = ufunc.Children,
@@ -664,8 +679,15 @@ class ReflectAPI {
       if (newStack != 0 && stack.Code.getUInt8(0) != unreal.EExprToken.EX_EndFunctionParms) {
         var propAddr = newStack + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
         prop.InitializeValue(propAddr);
+        stack.MostRecentPropertyAddress = Ptr.mkNull();
         stack.StepCompiledIn(propAddr);
-        addr = newStack;
+        if (stack.MostRecentPropertyAddress.isNotNull() && prop.PropertyFlags.hasAny(CPF_OutParm)) {
+          addr = cast stack.MostRecentPropertyAddress;
+          // bpGetData automatically adds its offset, so subtract that
+          addr -= prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+        } else {
+          addr = newStack;
+        }
       }
 
       args.push(bpGetData(addr, prop, true));
@@ -680,23 +702,17 @@ class ReflectAPI {
       bpSetField_rec(result - retProp.GetOffset_ReplaceWith_ContainerPtrToValuePtr(), retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
     }
 
-    if (ufunc.HasAnyFunctionFlags(FUNC_HasOutParms)) {
-      var out = stack.OutParms,
-          i = -1;
+    if (needsNewStack && ufunc.HasAnyFunctionFlags(FUNC_HasOutParms)) {
+      var i = -1,
+          outLocals = stack.Locals.asUIntPtr();
       arg = ufunc.Children;
-      while(arg != null && out != null) {
+      while(arg != null) {
         i++;
         var param:UProperty = cast arg;
         if (param != null && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_Parm) == (CPF_OutParm | CPF_Parm)) {
-          var prop = out.Property;
-          if (prop != null) {
-            var addr = stackData + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
-            // prop.CopyCompleteValue(out.PropAddr.asAnyPtr(), addr);
-            FMemory.Memcpy(out.PropAddr.asAnyPtr(), addr, prop.ArrayDim * prop.ElementSize);
-          }
-        }
-        if (param != null && param.PropertyFlags.hasAny(CPF_OutParm)) {
-          out = out.NextOutParm;
+          var offset = param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+          // param.CopyCompleteValue()
+          param.CopyCompleteValue(outLocals + offset, stackData + offset);
         }
         arg = arg.Next;
       }

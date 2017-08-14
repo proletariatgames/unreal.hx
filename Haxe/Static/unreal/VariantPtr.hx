@@ -9,16 +9,21 @@ extern class VariantPtr {
   public static function fromDynamic(obj:Dynamic):VariantPtr;
 
   /**
-    Creates a `VariantPtr` from an `IntPtr`. Please note that the most significant bit of the IntPtr will be lost
+    Creates a `VariantPtr` from an `IntPtr`.
    **/
   public static function fromIntPtr(intPtr:IntPtr):VariantPtr;
 
   /**
-    Creates a `VariantPtr` from an `IntPtr`. Please note that the most significant bit of the UIntPtr will be lost
+    Creates a `VariantPtr` from an `IntPtr`. This directly sets `uintPtr` value as the raw value of VariantPtr.
+    If you want to set an external pointer with this, use `fromUIntPtrExternalPointer` instead
    **/
   public static function fromUIntPtr(uintPtr:UIntPtr):VariantPtr;
 
-
+  /**
+    Creates a `VariantPtr` from an `IntPtr`, considering it an external pointer (like `fromPointer` / `fromRawPtr` )
+    This differs from `fromUIntPtr` as it will set the bit as if the pointer references external code
+  **/
+  public static function fromUIntPtrExternalPointer(uintPtr:UIntPtr):VariantPtr;
 #if cpp
   public static function fromPointer<T>(ptr:cpp.Pointer<T>):VariantPtr;
 
