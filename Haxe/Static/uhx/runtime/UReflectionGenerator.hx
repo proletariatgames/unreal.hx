@@ -403,7 +403,7 @@ class UReflectionGenerator {
       if(!oldSig.IsEmpty() && meta != null && meta.uclass != null && meta.uclass.propSig != null) {
         if (meta.uclass.propSig != oldSig.toString()) {
           // properties changed. We need a full hot reload
-          trace('Error', 'THe properties of $uname have changed, but no hot reload call was made');
+          trace('Error', 'The properties of $uname have changed, but no hot reload call was made');
         }
         return;
       } else {
@@ -597,6 +597,9 @@ class UReflectionGenerator {
           return null;
         }
         prop.PropertyFlags |= CPF_Parm;
+        trace('Argument ${arg.uname} ${prop.PropertyFlags}');
+
+        trace(@:privateAccess prop.wrapped);
         if (curChild == null) {
           curChild = fn.Children = prop;
           curProp = fn.PropertyLink = prop;
@@ -1288,17 +1291,13 @@ class UReflectionGenerator {
     if (isReturn) {
       prop.PropertyFlags |= CPF_ReturnParm;
       prop.PropertyFlags |= CPF_OutParm;
+      prop.PropertyFlags |= CPF_Parm;
       if (flags.hasAny(FConst)) {
         prop.PropertyFlags |= CPF_ConstParm;
       }
-      if (flags.hasAny(FRef)) {
-        prop.PropertyFlags |= CPF_ReferenceParm;
-      }
     } else {
       if (flags.hasAny(FRef)) {
-        if (flags.hasAny(FConst)) {
-          prop.PropertyFlags |= CPF_ConstParm | CPF_ReferenceParm;
-        } else {
+        if (!flags.hasAny(FConst)) {
           prop.PropertyFlags |= CPF_OutParm;
         }
       } else if (flags.hasAny(FConst)) {
@@ -1327,6 +1326,8 @@ class UReflectionGenerator {
     if (def.hxName != null && def.hxName != def.uname) {
       prop.SetMetaData(CoreAPI.staticName('HaxeName'), def.hxName);
     }
+
+
     return prop;
   }
 

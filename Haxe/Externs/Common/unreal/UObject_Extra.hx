@@ -142,10 +142,10 @@ extern class UObject_Extra {
   @:global public static function LoadPackage(inOuter:UPackage, packageLongName:TCharStar, loadFlags:Int):UPackage;
 
   @:glueCppIncludes("UObject/UObjectHash.h")
-  @:global public static function GetObjectsWithOuter(inOuter:UObject, results:PRef<TArray<UObject>>, includeNestedObjects:Bool /* = true */, exclusionFlags:EObjectFlags /* = RF_NoFlags */):Void;
+  @:global public static function GetObjectsWithOuter(inOuter:UObject, results:PRef<TArray<UObject>>, includeNestedObjects:Bool = true, exclusionFlags:EObjectFlags = RF_NoFlags):Void;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:global public static function StaticLoadClass(baseClass:UClass, inOuter:UObject, name:TCharStar, filename:TCharStar /* = null */, loadFlags:Int32 /* = 0 */, sandbox:UPackageMap /* = null */):UClass;
+  @:global public static function StaticLoadClass(baseClass:UClass, inOuter:UObject, name:TCharStar, filename:TCharStar = null, loadFlags:Int32 = 0, sandbox:UPackageMap = null):UClass;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function CreatePackage(outer:UObject, packageName:TCharStar):UPackage;

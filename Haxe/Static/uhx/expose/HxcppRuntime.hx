@@ -4,6 +4,7 @@ import unreal.*;
 import uhx.EnumMap;
 import uhx.HaxeCodeDispatcher;
 import uhx.internal.HaxeHelpers;
+import uhx.internal.Helpers;
 
 @:headerClassCode('
   inline static unreal::UIntPtr callFunction(unreal::UIntPtr ptr) { return callFunction0(ptr); }
@@ -189,12 +190,7 @@ import uhx.internal.HaxeHelpers;
   }
 
   public static function getWrapperPointer(vptr : VariantPtr) : UIntPtr {
-    if (vptr.isObject()) {
-      var wrapper:Wrapper = vptr.getDynamic();
-      return wrapper.getPointer();
-    } else {
-      return vptr.getUIntPtr();
-    }
+    return Helpers.getWrapperPointer(vptr);
   }
 
   public static function setWrapperStructInfo(wrapper : UIntPtr, info : UIntPtr) : Void {

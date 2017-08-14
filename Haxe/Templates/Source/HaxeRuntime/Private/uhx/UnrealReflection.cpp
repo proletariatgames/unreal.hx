@@ -6,7 +6,8 @@
 #include "uhx/StructInfo.h"
 #include "uhx/ue/RuntimeLibrary.h"
 #include "uhx/expose/HxcppRuntime.h"
-#include "Engine.h"
+#include "CoreMinimal.h"
+#include "UObject/UnrealType.h"
 #include "HaxeGcRef.h"
 #include "HaxeInit.h"
 #include "uhx/UEHelpers.h"
@@ -296,12 +297,19 @@ unreal::UIntPtr uhx::TArrayReflect_obj::GetData(unreal::VariantPtr self) {
 
 unreal::VariantPtr uhx::TArrayReflect_obj::copyNew(unreal::VariantPtr self) {
   // TODO
+  uhx::expose::HxcppRuntime::throwString("TArray copy is not implemented");
   return 0;
 }
 
 unreal::VariantPtr uhx::TArrayReflect_obj::copy(unreal::VariantPtr self) {
   // TODO
+  uhx::expose::HxcppRuntime::throwString("TArray copy is not implemented");
   return 0;
+}
+
+void uhx::TArrayReflect_obj::assign(unreal::VariantPtr self, unreal::VariantPtr val) {
+  // TODO
+  uhx::expose::HxcppRuntime::throwString("Dynamic TArray assignment is not implemented");
 }
 
 unreal::VariantPtr uhx::ue::RuntimeLibrary_obj::wrapProperty(unreal::UIntPtr inProp, unreal::UIntPtr pointerIfAny) {

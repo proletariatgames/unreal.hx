@@ -2,8 +2,6 @@ package uhx.compiletime;
 import uhx.compiletime.tools.*;
 import uhx.compiletime.tools.CodeFormatter;
 import uhx.compiletime.tools.HelperBuf;
-import uhx.compiletime.tools.CppWriter;
-import uhx.compiletime.tools.HeaderWriter;
 import uhx.compiletime.types.*;
 import uhx.compiletime.types.TypeConv;
 import haxe.macro.Context;
@@ -116,7 +114,11 @@ class UExtensionBuild {
     case TInst(cl,tl):
       var ctx = new ConvCtx(); //["hasParent" => "false"];
       var clt = cl.get();
+      var curPos = Context.getPosInfos(clt.pos);
+      curPos.min = curPos.max = 0;
+      curPos.file += ' (${clt.name})';
       this.pos = clt.pos;
+      var invariantPos = Context.makePosition(curPos);
       var typeRef = TypeRef.fromBaseType(clt, this.pos),
           thisConv = TypeConv.get(t, this.pos);
       var nativeUe = thisConv.ueType;
@@ -332,7 +334,7 @@ class UExtensionBuild {
             expr: Context.parse('@:privateAccess (' + callExpr + ' )', field.cf.pos)
           }),
           meta: metas,
-          pos: field.cf.pos
+          pos: invariantPos
         });
       }
 
@@ -540,10 +542,10 @@ class UExtensionBuild {
           kind: FFun({
             args: [{ name: 'ueType', type: thisConv.haxeGlueType.toComplexType() }],
             ret: thisConv.glueType.toComplexType(),
-            expr: Context.parse(createExpr, this.pos)
+            expr: Context.parse(createExpr, invariantPos)
           }),
           meta: metas,
-          pos: this.pos
+          pos: invariantPos
         });
         var createEmptyExpr = '{ ' +
           'var cls = std.Type.resolveClass("${typeRef.getClassPath(true)}");' +
@@ -558,10 +560,10 @@ class UExtensionBuild {
           kind: FFun({
             args: [{ name: 'ueType', type: thisConv.haxeGlueType.toComplexType() }],
             ret: thisConv.glueType.toComplexType(),
-            expr: Context.parse(createEmptyExpr, this.pos)
+            expr: Context.parse(createEmptyExpr, invariantPos)
           }),
           meta: [],
-          pos: this.pos
+          pos: invariantPos
         });
       }
 

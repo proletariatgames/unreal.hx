@@ -170,9 +170,8 @@ class ReflectAPI {
       params = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", params, maxAlignment);
       FMemory.Memzero(params, func.ParmsSize);
     }
-    var defaultExportFlags = EPropertyPortFlags.PPF_Localized,
-        i = 0;
-    var retProp = null;
+    var i = 0,
+        retProp = null;
     cur = func.Children;
     while(cur != null) {
       var prop:UProperty = cast cur;
@@ -183,27 +182,6 @@ class ReflectAPI {
         }
         continue;
       }
-
-      // we will not use default values, as it is not available on
-      // cooked builds - which will make reflection calls behave differently on these builds
-      // if (args == null || i > args.length) {
-      //   // check default value
-      //   var defaultProperty = "CPP_Default_" + prop.GetName();
-      //   var defaultValue = func.GetMetaData(defaultProperty);
-      //   if (!defaultValue.IsEmpty()) {
-      //     var result = prop.ImportText(
-      //         defaultValue.toString(),
-      //         params + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr(),
-      //         defaultExportFlags, null, FOutputDevice.GWarn);
-      //     if (result != null) {
-      //       continue;
-      //     }
-      //
-      //     throw 'Failed to import default cpp property ${prop.GetName()}';
-      //   } else {
-      //     throw 'Insufficient number of arguments: Supplied ${args.length}';
-      //   }
-      // }
 
       var flags = prop.PropertyFlags;
       if (!flags.hasAny(CPF_ZeroConstructor | CPF_IsPlainOldData)) {
@@ -618,7 +596,7 @@ class ReflectAPI {
 
   public static function callHaxeFunction(obj:UObject, stack:FFrame, result:AnyPtr) {
     var ufunc = stack.CurrentNativeFunction,
-        stackData = stack.Locals.asAnyPtr();
+        stackData = stack.Locals.asUIntPtr();
 #if WITH_EDITOR
     var name = ufunc.HasMetaData(CoreAPI.staticName('HaxeName')) ? ufunc.GetMetaData(CoreAPI.staticName('HaxeName')).toString() : ufunc.GetName().toString();
 #else
@@ -629,25 +607,68 @@ class ReflectAPI {
     if (fn == null) {
       throw 'Trying to call function $name (from ufunction ${ufunc.GetName()}), but it was not found on object ${Type.getClassName(Type.getClass(obj))}';
     }
+    var newStack:AnyPtr = 0;
+    if (stack.Code.isNotNull() && ufunc.Children != null) {
+      var maxAlignment = 0;
+      var cur:UProperty = cast ufunc.Children;
+      while(cur != null) {
+        var align = cur.GetMinAlignment();
+        if (align > maxAlignment) {
+          maxAlignment = align;
+        }
+        cur = cast cur.Next;
+      }
+      // this is being run by blueprints, so we need our own stack in order to not conflict with the Blueprint's while running the arguments
+      newStack = uhx.ue.RuntimeLibrary.alloca(ufunc.ParmsSize + maxAlignment);
+      // re-align it
+      newStack = untyped __cpp__ ("(unreal::UIntPtr) (({0} + {1} - 1) & ~({1} -1))", newStack, maxAlignment);
+    }
+
     var arg = ufunc.Children,
         retProp = null;
     while (arg != null) {
       var prop:UProperty = cast arg;
       if (prop == null) {
-        throw 'Expected a UProperty, but found ${prop} on ${prop.GetName()}';
+        throw 'Expected a UProperty, but found ${prop} when processing ${prop.GetName()}';
       }
       arg = arg.Next;
       if (prop.PropertyFlags.hasAll(CPF_ReturnParm)) {
         retProp = prop;
         continue;
       }
+      var addr = stackData;
+      if (newStack != 0 && stack.Code.getUInt8(0) != unreal.EExprToken.EX_EndFunctionParms) {
+        var propAddr = newStack + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+        prop.InitializeValue(propAddr);
+        stack.StepCompiledIn(propAddr);
+        addr = newStack;
+        // if (prop.PropertyFlags.hasAny(CPF_OutParm)) {
+        //   // this is an out parameter, so the argument might not be set in the stack space
+        //   stack.Step(stack.Object, 0); // setting null here, as the property will end up in MostRecentPropertyAddress
+        //   var propAddr = stack.MostRecentPropertyAddress;
+        //   if (propAddr.isNull()) {
+        //     throw 'MostRecentPropertyAddress should be filled in when running the argument ${prop.GetName()}';
+        //   }
+        //   // bpGetData will add the offset, so we must discount that
+        //   addr = propAddr.addOffset(-prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr()).asUIntPtr();
+        // } else {
+        //   var propAddr = stackData + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+        //   prop.InitializeValue(propAddr);
+        //   stack.Step(stack.Object, propAddr);
+        // }
+        // stack.Code = stack.Code.addOffset(1);
+      }
 
-      args.push(bpGetData(stackData, prop));
+      args.push(bpGetData(addr, prop));
+    }
+
+    if (stack.Code.isNotNull()) {
+      stack.Code = stack.Code.addOffset(1);
     }
 
     var ret:Dynamic = Reflect.callMethod(obj, fn, args);
     if (retProp != null) {
-      bpSetField_rec(stackData, retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
+      bpSetField_rec(result - retProp.GetOffset_ReplaceWith_ContainerPtrToValuePtr(), retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
     }
 
     if (ufunc.HasAnyFunctionFlags(FUNC_HasOutParms)) {
@@ -672,5 +693,6 @@ class ReflectAPI {
       }
     }
   }
+
 #end
 }

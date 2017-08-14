@@ -619,6 +619,10 @@ class GlueMethod {
         case '.copyStruct':
           this.cppArgs = [{ name:'this', t:this.thisConv.withModifiers(null), opt:null }];
           ''; // we are already going to dereference it, which will be enough to invoke the copy constructor
+        case '.assign':
+          var thisType = this.thisConv.withModifiers(null);
+          this.cppArgs = [{ name:'this', t:thisType, opt:null }, {name:'val', t:thisType, opt:null}];
+          'uhx::TypeTraits::Assign<${thisType.ueType.getCppType()}>::doAssign';
         case _ if(meth.flags.hasAny(CppPrivate)):
           if (meth.flags.hasAny(Property)) {
             '(((_staticcall_${meth.name}*)(' + self.t.glueToUe('_s_' + self.name, this.ctx) + '))->' + meth.uname + ')';
@@ -788,7 +792,7 @@ class GlueMethod {
 
     if (this.haxeCode != null && this.cppCode != null && !meth.flags.hasAny(UnrealReflective) && meth.name != 'StaticClass') {
       var thisType = thisRef.getClassPath().replace('.','_');
-      buf << '#if (cppia && !UHX_COMPILED_${thisType})' << new Newline();
+      buf << '#if (!display && cppia && !UHX_COMPILED_${thisType})' << new Newline();
       buf << '@:deprecated("UHXERR: The field '
           << meth.name
           << ' was not compiled into the latest C++ compilation. Please perform a full C++ compilation.")' << new Newline();

@@ -46,6 +46,7 @@ typedef UPropertyDef = {
   ?repNotify: Bool,
   ?metas: Array<{ name:String, ?value:String, ?isMeta:Bool }>,
   ?params: Array<UPropertyDef>,
+  // ?arrayDim: Int
 }
 
 typedef UEnumDef = {

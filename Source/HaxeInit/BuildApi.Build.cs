@@ -208,7 +208,10 @@ public class HaxeModuleRules : BaseModuleRules {
 #if (!UE_OLDER_416)
     if (!forceHaxeCompilation) {
       if (rules.Target.bUseUnityBuild || rules.Target.bForceUnityBuild) {
-        Log.TraceWarning("Unreal.hx: If you are compiling with unity builds, please make sure to set `forceHaxeCompilation` to true, as the pre-build scripts are not compatible with unity builds");
+        // see UE-47634 for more information about this
+        Log.TraceError("Unreal.hx: If you are compiling with unity builds, please make sure to set `forceHaxeCompilation` to true, as the pre-build scripts are not compatible with unity builds");
+        Log.TraceError("If you prefer disabling unity builds (recommended), please set `this.bUseUnityBuild` and `this.bForceUnityBuild` to false on your Target.cs file");
+        throw new Exception("Unreal.hx build cannot proceed with the current unity build settings");
       }
     }
 #endif

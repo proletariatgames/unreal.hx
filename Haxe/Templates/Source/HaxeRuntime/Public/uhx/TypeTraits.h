@@ -1,4 +1,6 @@
 #pragma once
+#include "uhx/expose/HxcppRuntime.h"
+#include "UObject/Class.h"
 enum class ESPMode;
 
 namespace uhx {
@@ -13,6 +15,9 @@ namespace Check {
   template<typename U> static char destructTest(decltype( (std::declval<U *>()->~U(), true) ));
   template<typename U> static int destructTest(...);
 
+  // template<typename U> static char assignTest(decltype(std::declval<U>().operator=(std::declval<U>()), void()) );
+  // template<typename U> static char assignTest(decltype(std::declval<U> = std::declval<U>()) );
+  // template<typename U> static int assignTest(...);
 }
 
 template<typename T>
@@ -28,6 +33,12 @@ template<typename T>
 struct TDestructExists {
   enum { Value = sizeof(::uhx::TypeTraits::Check::destructTest<T>(0)) == sizeof(char) };
 };
+
+// template<typename T>
+// struct TAssignExists {
+//   enum { Value = sizeof(::uhx::TypeTraits::Check::assignTest<T>(0)) == sizeof(char) };
+//   // enum { Value = TStructOpsTypeTraits<T>::WithCopy };
+// };
   
 template<typename T, bool hasEq = uhx::TypeTraits::TEqualsExists<T>::Value>
 struct Equals {
@@ -42,6 +53,20 @@ template<typename T>
 struct Equals<T, true> {
   inline static bool isEq(T const& t1, T const& t2) {
     return t1 == t2;
+  }
+};
+
+// template<typename T, bool hasAssign = TAssignExists<T>::Value>
+// struct Assign {
+//   inline static void doAssign(T& t1, T const& t2) {
+//     uhx::expose::HxcppRuntime::throwString("Trying to assign an unassignable value");
+//   }
+// };
+
+template<typename T>
+struct Assign {
+  inline static void doAssign(T& t1, T const& t2) {
+    t1 = t2;
   }
 };
 

@@ -37,6 +37,11 @@ import haxe.io.BytesData;
     ptr.setAt(i, v);
   }
 
+  public function incBy(amount:Int):ByteArray {
+    ptr.incBy(amount);
+    return this;
+  }
+
   public function toBytes():Bytes {
     var ret = Bytes.alloc(this.length),
         ptr = this.ptr;

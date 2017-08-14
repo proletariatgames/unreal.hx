@@ -100,6 +100,16 @@ class TypeConv {
         TEnum;
       case CEnum(_):
         null;
+      case CPtr(conv, isRef):
+        var ret = conv.toUPropertyDef();
+        if (ret != null) {
+          if (isRef) {
+            ret.flags |= FRef;
+          } else {
+            return null; // Ptr is not supported by uproperties
+          }
+        }
+        return ret;
       case CStruct(type, flags, info, params):
         switch(type) {
         case SHaxe:
@@ -241,6 +251,8 @@ class TypeConv {
             }
           }
         }
+      case CPtr(t,_):
+        return t.hasTypeParams();
       case CLambda(args,ret) | CMethodPointer(_,args,ret):
         if (ret.hasTypeParams()) return true;
         for (param in args) {
@@ -314,6 +326,22 @@ class TypeConv {
         this.ueType = info.ueType;
         this.haxeGlueType = int32Haxe;
         this.glueType = int32Glue;
+      case CPtr(type, isRef):
+        this.haxeType = type.haxeType;
+        this.ueType = type.ueType;
+        this.haxeGlueType = uintPtr;
+        this.glueType = uintPtr;
+        if (isRef) {
+          if (!originalSet) {
+            this.haxeType = new TypeRef(['unreal'], 'Ref', [this.haxeType]);
+          }
+          this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
+        } else {
+          if (!originalSet) {
+            this.haxeType = new TypeRef(['unreal'], 'Ptr', [this.haxeType]);
+          }
+          this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
+        }
       case CStruct(type, flags, info, params):
         // SExternal, SHaxe, SCriptHaxe
         if (this.haxeType == null) {
@@ -449,6 +477,9 @@ class TypeConv {
       set.add('<hxcpp.h>');
     case CStruct(type,_,info,params):
       set.add('VariantPtr.h');
+    
+    case CPtr(of,_):
+      set.add('IntPtr.h');
 
     case CLambda(_, _):
       set.add('IntPtr.h');
@@ -508,6 +539,9 @@ class TypeConv {
         var glue = info.haxeType.getGlueHelperType();
         set.add(glue.pack.join('/') + (glue.pack.length == 0 ? '' : '/') + glue.name + '_UE.h');
       }
+
+    case CPtr(of,_):
+      of.recurseUeIncludes(set, forwardDecls, cppSet, true);
 
     case CLambda(args, ret):
       set.add('uhx/LambdaBinding.h');
@@ -576,6 +610,9 @@ class TypeConv {
           expr;
         }
 
+      case CPtr(of, isRef):
+        return '($expr).asUIntPtr()';
+
       case CLambda(args,ret):
         'uhx.internal.HaxeHelpers.dynamicToPointer( $expr )';
       case CMethodPointer(cname, args, ret):
@@ -621,6 +658,9 @@ class TypeConv {
 
       case CStruct(type, flags, info, params):
         '( @:privateAccess ${info.haxeType.getClassPath()}.fromPointer( $expr ) : $haxeType )';
+
+      case CPtr(of, isRef):
+        '(cast ($expr) : ${this.haxeType})';
 
       case CLambda(args,ret):
         '( uhx.internal.HaxeHelpers.pointerToDynamic( $expr ) : $haxeType )';
@@ -678,6 +718,13 @@ class TypeConv {
           ret = '*$ret';
         }
         ret;
+
+      case CPtr(of, isRef):
+        if (isRef) {
+          '*(reinterpret_cast<${of.ueType.getCppType(true)}*>($expr))';
+        } else {
+          'reinterpret_cast<${this.ueType.getCppType(true)}>($expr)';
+        }
 
       case CLambda(args,ret):
         ueType.getCppType() + '($expr)';
@@ -780,6 +827,13 @@ class TypeConv {
           } else {
             '::uhx::StructHelper<${this.ueType.withoutPointer(true).withConst(false).getCppType()}>::fromStruct($expr)';
           }
+        }
+
+      case CPtr(of, isRef):
+        if (isRef) {
+          '(unreal::UIntPtr) &($expr)';
+        } else {
+          '(unreal::UIntPtr) ($expr)';
         }
 
       case CLambda(args,ret):
@@ -1088,6 +1142,35 @@ class TypeConv {
               return new TypeConv(ret.data, ctx.modf, ctx.original);
             }
           }
+        }
+        switch(name) {
+        case "unreal.Ptr" | "unreal.Ref" | "unreal.FixedArray":
+          var isRef = name == "unreal.Ref";
+          //     size = null;
+          // if(name == "unreal.FixedArray") {
+          //   switch(tl[1]) {
+          //   case TInst(c,_):
+          //     switch(c.get().kind) {
+          //     case KExpr({ expr:EConst(CInt(i)) }):
+          //       size = Std.parseInt(i);
+          //     case _:
+          //       throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + c, pos);  
+          //     }
+          //   case _:
+          //     throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + tl[1], pos);  
+          //   }
+          // }
+          if (ctx.modf != null) {
+            for (modf in ctx.modf) {
+              if (modf == Ref) {
+                throw new Error('Unreal Glue: Invalid modifier PRef for type $name', pos);
+              } else if (modf == Ptr) {
+                throw new Error('Unreal Glue: Invalid modifier PPtr for type $name', pos);
+              }
+            }
+          }
+
+          return new TypeConv(CPtr(TypeConv.get(tl[0], pos), isRef), ctx.modf, ctx.original);
         }
 
         var a = aref.get(),
@@ -1557,8 +1640,7 @@ enum TypeConvData {
   CEnum(type:EEnumType, info:TypeInfo, isUEnum:Bool);
   CStruct(type:StructType, flags:StructFlags, info:TypeInfo, ?params:Array<TypeConv>);
 
-  // TODO - bytearray
-  // CPointer(of:TypeConv, ?size:Int);
+  CPtr(of:TypeConv, isRef:Bool);
 
   CLambda(args:Array<TypeConv>, ret:TypeConv);
   CMethodPointer(className:TypeInfo, args:Array<TypeConv>, ret:TypeConv);

@@ -4,11 +4,11 @@ package unreal;
 @:uextern extern class FFrame {
   public var Node:UFunction;
   public var Object:UObject;
-  public var Code:ByteArray;
-  public var Locals:ByteArray;
+  public var Code:Ptr<UInt8>;
+  public var Locals:Ptr<UInt8>;
 
   public var MostRecentProperty:UProperty;
-  public var MostRecentPropertyAddress:ByteArray;
+  public var MostRecentPropertyAddress:Ptr<UInt8>;
 
   /** Previous frame on the stack */
   public var PreviousFrame:PPtr<FFrame>;
@@ -36,4 +36,9 @@ package unreal;
     This will return the StackTrace of the current callstack from the last native entry point
    **/
   function GetStackTrace():FString;
+
+  function new(InObject:UObject, InNode:UFunction , InLocals:AnyPtr, ?InPreviousFrame:PPtr<FFrame>, ?InPropertyChainForCompiledIn:UField);
+
+  @:uname("StepCompiledIn<UProperty>")
+  function StepCompiledIn(result:AnyPtr):Void;
 }

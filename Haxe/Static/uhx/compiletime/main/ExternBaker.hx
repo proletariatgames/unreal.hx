@@ -978,6 +978,17 @@ class ExternBaker {
             flags: MNone,
             pos: c.pos,
           });
+          var doc = '\n    Assigns the value of `val` to this structure';
+          methods.push({
+            name: 'assign',
+            uname: '.assign',
+            doc: doc,
+            meta:null,
+            args:[{name:'val', t:this.thisConv, opt:null}],
+            ret:TypeConv.get(Context.getType("Void"), c.pos),
+            flags: MNone,
+            pos: c.pos
+          });
         } else {
           this.add('@:deprecated("This type does not support copy constructors") private function copy():${this.thisConv.haxeType.toString()}');
           this.begin(' {');
@@ -1079,35 +1090,52 @@ class ExternBaker {
       }
       switch(read) {
       case AccNormal | AccCall:
-        methods.push({
-          name: 'get_' + field.name,
-          uname: uname,
-          args: [],
-          ret: realTConv,
-          flags: Final | HaxePrivate | flags,
-          meta: meta,
-          pos: field.pos,
-        });
-        this.add('get,');
+        if (field.meta.has(':expr')) {
+          this.add('default,');
+        } else {
+          methods.push({
+            name: 'get_' + field.name,
+            uname: uname,
+            args: [],
+            ret: realTConv,
+            flags: Final | HaxePrivate | flags,
+            meta: meta,
+            pos: field.pos,
+          });
+          this.add('get,');
+        }
       case _:
         this.add('never,');
       }
       switch(write) {
       case AccNormal | AccCall:
-        methods.push({
-          name: 'set_' + field.name,
-          uname: uname,
-          args: [{ name: 'value', t: tconv, opt:null }],
-          ret: tconv,
-          flags: Final | HaxePrivate | flags,
-          meta: meta,
-          pos: field.pos,
-        });
-        this.add('set):');
+        if (field.meta.has(':expr')) {
+          this.add('default):');
+        } else {
+          methods.push({
+            name: 'set_' + field.name,
+            uname: uname,
+            args: [{ name: 'value', t: tconv, opt:null }],
+            ret: tconv,
+            flags: Final | HaxePrivate | flags,
+            meta: meta,
+            pos: field.pos,
+          });
+          this.add('set):');
+        }
       case _:
-        this.add('never):');
+        if (field.meta.has(':expr')) {
+          this.add('null):');
+        } else {
+          this.add('never):');
+        }
       }
       this.add(realTConv.haxeType);
+      if (field.meta.has(':expr')) {
+        var expr = field.meta.extract(':expr')[0].params[0];
+        this.add(' = ');
+        this.add(expr.toString());
+      }
       this.add(';');
       this.newline();
     case FMethod(k):

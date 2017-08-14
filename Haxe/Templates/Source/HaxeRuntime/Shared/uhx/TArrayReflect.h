@@ -30,6 +30,8 @@ public:
   unreal::UIntPtr GetData(unreal::VariantPtr self) override;
   unreal::VariantPtr copyNew(unreal::VariantPtr self) override;
   unreal::VariantPtr copy(unreal::VariantPtr self) override;
+  
+  void assign(unreal::VariantPtr self, unreal::VariantPtr to) override;
 
 protected:
   void *m_propertyType;

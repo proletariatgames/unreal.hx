@@ -2,6 +2,7 @@ package unreal.editor.blueprintgraph;
 
 @:glueCppIncludes("BlueprintActionDatabase.h")
 @:umodule("BlueprintGraph", "Kismet")
+@:noCopy
 @:uextern extern class FBlueprintActionDatabase {
   static function Get():PRef<FBlueprintActionDatabase>;
 
