@@ -597,9 +597,6 @@ class UReflectionGenerator {
           return null;
         }
         prop.PropertyFlags |= CPF_Parm;
-        trace('Argument ${arg.uname} ${prop.PropertyFlags}');
-
-        trace(@:privateAccess prop.wrapped);
         if (curChild == null) {
           curChild = fn.Children = prop;
           curProp = fn.PropertyLink = prop;

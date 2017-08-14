@@ -82,7 +82,7 @@ class ReflectAPI {
   }
 
   public static function getProperty(obj:UObject, prop:UProperty):Dynamic {
-    return bpGetData(AnyPtr.fromUObject(obj), prop);
+    return bpGetData(AnyPtr.fromUObject(obj), prop, false);
   }
 
   public static function callMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
@@ -153,14 +153,17 @@ class ReflectAPI {
     var firstPropertyToDestroy = null;
     while (cur != null) {
       var prop:UProperty = cast cur;
+      cur = cur.Next;
       if (prop == null) {
         throw 'Unexpected ${Type.getClassName(Type.getClass(cur))} in function\'s type';
+      }
+      if (!prop.PropertyFlags.hasAny(CPF_Parm)) {
+        continue;
       }
       var align = prop.GetMinAlignment();
       if (align > maxAlignment) {
         maxAlignment = align;
       }
-      cur = cur.Next;
     }
     var params:AnyPtr = 0,
         parmsSize = func.ParmsSize;
@@ -198,11 +201,14 @@ class ReflectAPI {
       var arg = func.Children;
       while(arg != null) {
         var prop:UProperty = cast arg;
-        if (prop!= null && prop.PropertyFlags & CPF_OutParm == CPF_OutParm) {
+        arg = arg.Next;
+        if (!prop.PropertyFlags.hasAny(CPF_Parm)) {
+          continue;
+        }
+        if (prop != null && prop.PropertyFlags & CPF_OutParm == CPF_OutParm) {
           func.FunctionFlags |= EFunctionFlags.FUNC_HasOutParms;
           break;
         }
-        arg = arg.Next;
       }
     }
 
@@ -225,6 +231,10 @@ class ReflectAPI {
       while(arg != null) {
         i++;
         var param:UProperty = cast arg;
+        arg = arg.Next;
+        if (!param.PropertyFlags.hasAny(CPF_Parm)) {
+          continue;
+        }
         if (!Std.is(param, UNumericProperty) && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_ReturnParm) == CPF_OutParm) {
           var addr = params + param.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
           var curArg:Dynamic = args[i],
@@ -245,14 +255,13 @@ class ReflectAPI {
             FMemory.Memcpy(argAddr, addr, param.ArrayDim * param.ElementSize);
           }
         }
-        arg = arg.Next;
       }
     }
 
     var ret = null;
     if (retProp != null) {
       if (Std.is(retProp, UNumericProperty) || Std.is(retProp, UBoolProperty) || Std.is(retProp, UObjectProperty)) {
-        ret = bpGetData(params, retProp);
+        ret = bpGetData(params, retProp, false);
       } else {
         // for structs, we must copy the complete value otherwise it will live inside the stack, which will be discarded
         var retVal:VariantPtr = uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess retProp.wrapped, 0);
@@ -265,10 +274,10 @@ class ReflectAPI {
 
     // destroy values that need to be destroyed
     while (firstPropertyToDestroy != null) {
-      if (!firstPropertyToDestroy.PropertyFlags.hasAny(CPF_NoDestructor | CPF_IsPlainOldData)) {
+      if (firstPropertyToDestroy.PropertyFlags.hasAny(CPF_Parm) && !firstPropertyToDestroy.PropertyFlags.hasAny(CPF_NoDestructor | CPF_IsPlainOldData)) {
         firstPropertyToDestroy.DestroyValue(params + firstPropertyToDestroy.GetOffset_ReplaceWith_ContainerPtrToValuePtr());
       }
-      firstPropertyToDestroy = firstPropertyToDestroy.PropertyLinkNext;
+      firstPropertyToDestroy = cast firstPropertyToDestroy.Next;
     }
 
     return ret;
@@ -461,7 +470,7 @@ class ReflectAPI {
       throw 'Field $field was not found in class ${cls.GetName()}';
     }
 
-    return bpGetData(AnyPtr.fromUObject(obj), prop);
+    return bpGetData(AnyPtr.fromUObject(obj), prop, false);
   }
 
   public static function structGetField(struct:unreal.Struct, structData:UScriptStruct, field:String):Dynamic {
@@ -470,12 +479,16 @@ class ReflectAPI {
       throw 'Field $field was not found in class ${structData.GetName()}';
     }
 
-    return bpGetData(AnyPtr.fromStruct(struct), prop);
+    return bpGetData(AnyPtr.fromStruct(struct), prop, false);
   }
 
-  private static function bpGetData(obj:AnyPtr, prop:UProperty):Dynamic {
+  private static function bpGetData(obj:AnyPtr, prop:UProperty, rawPointers:Bool):Dynamic {
     var objPtr:AnyPtr = obj + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
     if (Std.is(prop, UNumericProperty)) {
+      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
+        return objPtr;
+      }
+
       var np:UNumericProperty = cast prop;
       var e = np.GetIntPropertyEnum();
       if (e != null) {
@@ -512,6 +525,9 @@ class ReflectAPI {
         return np.GetSignedIntPropertyValue(objPtr);
       }
     } else if (Std.is(prop, UBoolProperty)) {
+      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
+        return objPtr;
+      }
       var prop:UBoolProperty = cast prop;
       return prop.GetPropertyValue(objPtr);
     } else if (Std.is(prop, UObjectPropertyBase)) {
@@ -536,6 +552,9 @@ class ReflectAPI {
       return uhx.ue.RuntimeLibrary.wrapProperty(@:privateAccess prop.wrapped, objPtr);
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
+      if (rawPointers && prop.PropertyFlags.hasAny(CPF_ReferenceParm | CPF_OutParm) && !prop.PropertyFlags.hasAny(CPF_ConstParm)) {
+        return objPtr;
+      }
       var prop:UEnumProperty = cast prop;
       var e = prop.GetEnum();
       var array = uhx.EnumMap.get(e.CppType.toString());
@@ -612,9 +631,11 @@ class ReflectAPI {
       var maxAlignment = 0;
       var cur:UProperty = cast ufunc.Children;
       while(cur != null) {
-        var align = cur.GetMinAlignment();
-        if (align > maxAlignment) {
-          maxAlignment = align;
+        if (cur.PropertyFlags.hasAny(CPF_Parm)) {
+          var align = cur.GetMinAlignment();
+          if (align > maxAlignment) {
+            maxAlignment = align;
+          }
         }
         cur = cast cur.Next;
       }
@@ -628,10 +649,13 @@ class ReflectAPI {
         retProp = null;
     while (arg != null) {
       var prop:UProperty = cast arg;
+      arg = arg.Next;
       if (prop == null) {
         throw 'Expected a UProperty, but found ${prop} when processing ${prop.GetName()}';
       }
-      arg = arg.Next;
+      if (!prop.PropertyFlags.hasAny(CPF_Parm)) {
+        continue;
+      }
       if (prop.PropertyFlags.hasAll(CPF_ReturnParm)) {
         retProp = prop;
         continue;
@@ -642,24 +666,9 @@ class ReflectAPI {
         prop.InitializeValue(propAddr);
         stack.StepCompiledIn(propAddr);
         addr = newStack;
-        // if (prop.PropertyFlags.hasAny(CPF_OutParm)) {
-        //   // this is an out parameter, so the argument might not be set in the stack space
-        //   stack.Step(stack.Object, 0); // setting null here, as the property will end up in MostRecentPropertyAddress
-        //   var propAddr = stack.MostRecentPropertyAddress;
-        //   if (propAddr.isNull()) {
-        //     throw 'MostRecentPropertyAddress should be filled in when running the argument ${prop.GetName()}';
-        //   }
-        //   // bpGetData will add the offset, so we must discount that
-        //   addr = propAddr.addOffset(-prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr()).asUIntPtr();
-        // } else {
-        //   var propAddr = stackData + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
-        //   prop.InitializeValue(propAddr);
-        //   stack.Step(stack.Object, propAddr);
-        // }
-        // stack.Code = stack.Code.addOffset(1);
       }
 
-      args.push(bpGetData(addr, prop));
+      args.push(bpGetData(addr, prop, true));
     }
 
     if (stack.Code.isNotNull()) {
@@ -678,7 +687,7 @@ class ReflectAPI {
       while(arg != null && out != null) {
         i++;
         var param:UProperty = cast arg;
-        if (param != null && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm) == CPF_OutParm) {
+        if (param != null && param.PropertyFlags & (CPF_ConstParm | CPF_OutParm | CPF_Parm) == (CPF_OutParm | CPF_Parm)) {
           var prop = out.Property;
           if (prop != null) {
             var addr = stackData + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
