@@ -47,8 +47,6 @@ class OptionalArgsBuild {
       case _:
       }
       if (hasOpts) {
-        // trace(field.name, [for(opt in opts) opt.toString()]);
-        // trace(field.name, debgs);
         cls.meta.add(':opt_' + field.name, opts, field.pos);
         hasAnyOpt = true;
       }

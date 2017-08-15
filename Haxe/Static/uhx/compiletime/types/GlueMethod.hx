@@ -384,7 +384,7 @@ class GlueMethod {
     return null;
   }
 
-  private static function getOptional(t:TypeConv, opt:Null<Expr>) {
+  private function getOptional(t:TypeConv, opt:Null<Expr>) {
     if (opt == null) {
       return null;
     }
@@ -450,9 +450,13 @@ class GlueMethod {
           }
           return null;
         case name:
+          Context.warning('Unsupported optional value $s for type ${t.haxeType}', meth.pos);
           return null;
         }
+      case CEnum(_):
+        return '(' + s + ' : ' + t.haxeType.toString() + ')';
       case _:
+        Context.warning('Unrecognized optional value $s for type ${t.haxeType}', meth.pos);
       }
     case _:
       return '(' + opt.toString() + ' : ' + t.haxeType.toString() + ')';
