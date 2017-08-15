@@ -249,6 +249,7 @@ import uhx.internal.Helpers;
     HaxeCodeDispatcher.runVoid( function() {
       trace('Add Dynamic Properties $name');
       var struct:UStruct = cast @:privateAccess unreal.UObject.wrap(struct);
+      uhx.runtime.UReflectionGenerator.updateClass(struct, name.toString());
       uhx.runtime.UReflectionGenerator.addFunctions(cast struct, name.toString(), true);
       uhx.runtime.UReflectionGenerator.addProperties(struct, name.toString(), true);
     });

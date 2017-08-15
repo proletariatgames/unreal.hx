@@ -33,8 +33,11 @@ class MacroHelpers
     return ret;
   }
 
-  public static function extractMetaDef(metas:MetaAccess, name:String):Array<{ name:String, ?value:String, ?isMeta:Bool }> {
-    var ret = [];
+  public static function extractMetaDef(metas:MetaAccess, name:String, ?doc:String):Array<{ name:String, ?value:String, ?isMeta:Bool }> {
+    var ret = new Array<{ name:String, ?value:String, ?isMeta:Bool }>();
+    if (doc != null) {
+      ret.push({ name: "Tooltip", value:doc, isMeta:true });
+    }
     if (metas == null) return ret;
     for (field in metas.extract(name)) {
       if (field.params != null) {

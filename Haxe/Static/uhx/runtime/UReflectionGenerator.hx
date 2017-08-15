@@ -135,6 +135,8 @@ class UReflectionGenerator {
         if (needsToAddProperties) {
           changed = true;
           addProperties(add.getUpdated(), add.uclassName, add.nativeUClass != null);
+        } else {
+          updateProperties(add.getUpdated(), add.uclassName);
         }
         if (addFunctions(add.getUpdated(), add.uclassName, add.nativeUClass != null)) {
           changed = true;
@@ -388,6 +390,58 @@ class UReflectionGenerator {
     reg.setNative(cls);
   }
 
+  public static function updateClass(struct:UStruct, uname:String) {
+#if DEBUG_HOTRELOAD
+    trace('$id: updateClass $uname');
+#end
+    var reg = registry[uname];
+    if (reg == null) {
+      trace('Error', 'Trying to update class on deleted class $uname');
+      return;
+    }
+    var meta = reg.def;
+    if (meta.uclass.metas != null) {
+      for (meta in meta.uclass.metas) {
+        if (meta.isMeta) {
+          struct.SetMetaData(meta.name, meta.value == null ? "" : meta.value);
+        }
+      }
+    }
+  }
+
+  private static function updateProperties(struct:UStruct, uname:String) {
+#if DEBUG_HOTRELOAD
+    trace('$id: updateProperty $uname');
+#end
+    var reg = registry[uname];
+    if (reg == null) {
+      trace('Error', 'Trying to update properties on deleted class $uname');
+      return;
+    }
+    var meta = reg.def;
+    if (meta.uclass.metas != null) {
+      for (meta in meta.uclass.metas) {
+        if (meta.isMeta) {
+          struct.SetMetaData(meta.name, meta.value == null ? "" : meta.value);
+        }
+      }
+    }
+
+    for (propDef in meta.uclass.uprops) {
+      if (propDef.metas == null) {
+        continue;
+      }
+      var prop = ReflectAPI.getUPropertyFromClass(cast struct, propDef.uname);
+      if (prop != null) {
+        for (meta in propDef.metas) {
+          if (meta.isMeta) {
+            prop.SetMetaData(meta.name, meta.value == null ? "": meta.value);
+          }
+        }
+      }
+    }
+  }
+
   public static function addProperties(struct:UStruct, uname:String, isNative:Bool) {
 #if DEBUG_HOTRELOAD
     trace('$id: addProperties $uname $isNative');
@@ -577,7 +631,7 @@ class UReflectionGenerator {
     return changed;
   }
 
-  private static function generateUFunction(outer:UObject, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
+  static function generateUFunction(outer:UObject, func:UFunctionDef, parent:UFunction, setupFunction:UIntPtr->UIntPtr->Void):UFunction {
     var fn:UFunction = UObject.NewObject(outer, UFunction.StaticClass(), func.uname, RF_Public);
     if (parent != null) {
       fn.SetSuperStruct(parent);
@@ -841,16 +895,20 @@ class UReflectionGenerator {
           reg.getUpdated().Bind();
         }
 
-        if (reg.nativeUClass == null && reg.needsToAddProperties) {
-          addProperties(reg.getUpdated(), uclassName, false);
+        if (reg.nativeUClass == null) {
+          if (reg.needsToAddProperties) {
+            addProperties(reg.getUpdated(), uclassName, false);
 
-          var uclass = reg.getUpdated();
-          uclass.Bind();
-          uclass.StaticLink(true);
+            var uclass = reg.getUpdated();
+            uclass.Bind();
+            uclass.StaticLink(true);
 
-          uclass.GetDefaultObject(true);
-          if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
-            uclass.AssembleReferenceTokenStream(false);
+            uclass.GetDefaultObject(true);
+            if (!uclass.ClassFlags.hasAny(CLASS_TokenStreamAssembled)) {
+              uclass.AssembleReferenceTokenStream(false);
+            }
+          } else {
+            updateProperties(reg.getUpdated(), uclassName);
           }
         }
       }

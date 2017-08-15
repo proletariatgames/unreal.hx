@@ -244,6 +244,9 @@ class UExtensionBuild {
 
         var ufunc = field.cf.meta.extract(':ufunction');
         if (ufunc != null && ufunc[0] != null) {
+          if (field.cf.doc != null) {
+            headerDef.add('/**\n${field.cf.doc.replace('**/','')}\n**/');
+          }
           headerDef << 'UFUNCTION(';
           var first = true;
           for (meta in ufunc) {
@@ -370,6 +373,9 @@ class UExtensionBuild {
           data.add('public:\n\t\t');
 
           if (uprop.meta.has(':uproperty')) {
+            if (uprop.doc != null) {
+              data.add('/**\n${uprop.doc.replace('**/','')}\n**/');
+            }
             data.add('UPROPERTY(');
             var first = true;
             for (meta in uprop.meta.extract(':uproperty')) {
@@ -678,6 +684,9 @@ class UExtensionBuild {
       headerDef.add('#endif\n\n');
       cppDef = new StringBuf();
       cppDef.add('DEFINE_UHX_DYNAMIC_UCLASS(${ueName});\n');
+    }
+    if (clt.doc != null) {
+      headerDef.add('/**\n${clt.doc.replace('**/','')}\n**/');
     }
     if (uclass != null) {
       headerDef.add('UCLASS(');

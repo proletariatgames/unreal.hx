@@ -75,6 +75,9 @@ class UEnumBuild
       writer.include('uhx/expose/HxcppRuntime.h');
       writer.include('$uname.generated.h');
 
+      if (enumType.doc != null) {
+        writer.buf.add('/**\n${enumType.doc.replace('**/','')}\n**/');
+      }
       var uenum = enumType.meta.extract(':uenum')[0];
       writer.buf.add('UENUM(');
       MacroHelpers.addHaxeGenerated(uenum, typeRef);

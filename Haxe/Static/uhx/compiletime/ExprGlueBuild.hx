@@ -655,6 +655,9 @@ class ExprGlueBuild {
     if (ustruct == null || ustruct.params == null) {
       ustruct = {name:':ustruct', params:[], pos:abs.pos};
     }
+    if (abs.doc != null) {
+      writer.buf.add('/**\n${abs.doc.replace('**/','')}\n**/');
+    }
     writer.buf.add('USTRUCT(');
     if (ustruct.params != null) {
       var first = true;
@@ -667,6 +670,9 @@ class ExprGlueBuild {
     writer.buf.add('struct ${targetModule.toUpperCase()}_API ${uname} $extendsStr\n{\n');
     writer.buf.add('\tGENERATED_USTRUCT_BODY()\n\n');
     for (prop in uprops) {
+      if (prop.field.doc != null) {
+        writer.buf.add('/**\n${prop.field.doc.replace('**/','')}\n**/');
+      }
       writer.buf.add('\tUPROPERTY(');
       var first = true;
       for (meta in prop.field.meta.extract(':uproperty')) {
@@ -767,6 +773,9 @@ class ExprGlueBuild {
 
     // TODO: Support "payload" variables?
 
+    if (abs.doc != null) {
+      writer.buf.add('/**\n${abs.doc.replace('**/','')}\n**/');
+    }
     var udelegate = abs.meta.extract(':udelegate')[0];
     if (udelegate != null) {
       writer.buf.add('UDELEGATE(');

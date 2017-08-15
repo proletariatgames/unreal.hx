@@ -654,7 +654,7 @@ class UhxBuild {
       FileSystem.createDirectory('${data.projectDir}/Binaries/Haxe');
     }
 
-    var extraArgs = [];
+    var extraArgs = ['-D use-rrti-doc'];
     if (this.compserver != null) {
       extraArgs.push('--connect ${this.compserver}');
     }
@@ -664,7 +664,7 @@ class UhxBuild {
 
     tcppia();
 #if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
-    this.createHxml('build-script', args);
+    this.createHxml('build-script', args.concat(['-D use-rrti-doc']));
     var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
     this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
 #end
@@ -824,23 +824,21 @@ class UhxBuild {
       args = args.concat(this.config.extraCompileArgs);
     }
 
+    var compileOnlyArgs = ['-D use-rtti-doc'];
     if (this.compserver != null) {
       File.saveContent('$outputDir/Data/compserver.txt','1');
       // Sys.putEnv("HAXE_COMPILATION_SERVER", this.compserver);
-      if (extraArgs == null) {
-        extraArgs = [];
-      }
-      extraArgs.push('--connect ${this.compserver}');
+      compileOnlyArgs.push('--connect ${this.compserver}');
     } else {
       File.saveContent('$outputDir/Data/compserver.txt','0');
     }
 
     var thaxe = timer('Haxe compilation');
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-    var ret = compileSources(args);
+    var ret = compileSources(args.concat(compileOnlyArgs));
     thaxe();
     if (!isCrossCompiling) {
-      this.createHxml('build-static', args);
+      this.createHxml('build-static', args.concat(['-D use-rtti-doc']));
       var complArgs = ['--cwd $haxeDir', '--no-output'].concat(args);
       this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }

@@ -70,7 +70,7 @@ class MetaDefBuild {
       uprops: [],
       superStructUName: superStructName,
 
-      metas:base.meta.extractMetaDef(':uclass'),
+      metas:base.meta.extractMetaDef(':uclass', base.doc),
 
       isClass:base.meta.has(":uclass"),
     };
@@ -121,7 +121,7 @@ class MetaDefBuild {
           prop.replication = repl;
         }
         classDef.uprops.push(prop);
-        var metas = field.meta.extractMetaDef(':uproperty');
+        var metas = field.meta.extractMetaDef(':uproperty', field.doc);
         if (metas.length != 0) {
           prop.metas = metas;
         }
@@ -152,7 +152,15 @@ class MetaDefBuild {
             sigArr.push(func.ret);
           }
 
-          var argsSig = Context.signature(sigArr);
+          var metas = field.meta.extractMetaDef(':ufunction', field.doc);
+          if (metas.length != 0) {
+            func.metas = metas;
+          }
+          var relevantMeta = null;
+          if (metas.length > 0) {
+            relevantMeta = [for (meta in metas) if (!meta.isMeta) meta];
+          }
+          var argsSig = Context.signature({ sig:sigArr, meta:relevantMeta });
           func.propSig = argsSig;
 
           if (!supported) {
@@ -170,10 +178,6 @@ class MetaDefBuild {
           }
           func.ret = retProp;
 
-          var metas = field.meta.extractMetaDef(':ufunction');
-          if (metas.length != 0) {
-            func.metas = metas;
-          }
           if (classDef.ufuncs == null) {
             classDef.ufuncs = [];
           }
@@ -183,7 +187,18 @@ class MetaDefBuild {
         }
       }
     }
-    var propSignature = Context.signature(classDef.uprops);
+    var relevantProps = [for (prop in classDef.uprops) {
+      hxName:prop.hxName,
+      uname:prop.uname,
+      flags:prop.flags,
+      typeUName:prop.typeUName,
+      replication:prop.replication,
+      customReplicationName:prop.customReplicationName,
+      repNotify:prop.repNotify,
+      metas:prop.metas == null ? null : [for (meta in prop.metas) if (!meta.isMeta) meta],
+      params:prop.params,
+    }];
+    var propSignature = Context.signature(relevantProps);
     var crc = haxe.crypto.Crc32.make(haxe.io.Bytes.ofString(propSignature));
     if (crc == 0) {
       crc = 1; // don't let it be 0
