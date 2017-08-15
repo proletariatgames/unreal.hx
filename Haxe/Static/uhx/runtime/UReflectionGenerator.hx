@@ -254,7 +254,7 @@ class UReflectionGenerator {
       trace('Error', 'A new UStruct called $unameWithPrefix was defined since the latest C++ compilation, but its parent class $parentName was not found');
       return null;
     }
-    var haxePackage = UObject.FindPackage(null, '/Script/HaxeCppia');
+    var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
     var uclass = createClass(haxePackage, unameWithPrefix, parent, superReg != null, reg.hxClassName);
     reg.setUpdated(uclass, true);
     return uclass;
