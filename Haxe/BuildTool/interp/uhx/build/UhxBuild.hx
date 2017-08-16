@@ -310,10 +310,10 @@ class UhxBuild {
         }
       }
     }
+    var plugins = new Map();
     if (proj.Plugins != null) {
-      var plugins = new Map();
       for (plugin in proj.Plugins) {
-        plugins[plugin.Name.toLowerCase()] = true;
+        plugins[plugin.Name.toLowerCase()] = plugin.Name;
       }
       for (plugin in FileSystem.readDirectory(this.data.projectDir + '/Plugins')) {
         var path = this.data.projectDir + '/Plugins/' + plugin;
@@ -322,6 +322,7 @@ class UhxBuild {
             if (file.toLowerCase().endsWith('.uplugin')) {
               var name = file.substr(0,file.length - '.uplugin'.length).toLowerCase();
               if (plugins.exists(name)) {
+                plugins.remove(name);
                 var proj:{ Modules:Array<{Name:String}> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
                 if (proj.Modules != null) {
                   for (mod in proj.Modules) {
@@ -384,13 +385,18 @@ class UhxBuild {
       shouldRun = collectUhtHeaders(target.path, concat, lastRun) || shouldRun;
     }
 
+    var externModules = [for (target in targets) target.name];
+    for (plugin in plugins) {
+      externModules.push(plugin);
+    }
+
     sys.io.File.saveContent(uhtDir + '/externs.uhtmanifest', haxe.Json.stringify(manifest));
     proj.Plugins = [{ Name:'UnrealHxGenerator', Enabled:true }];
     sys.io.File.saveContent(uhtDir + '/proj.uproject', haxe.Json.stringify(proj));
     // Call UHT
     var oldEnvs = setEnvs([
       'GENERATE_EXTERNS' => '1',
-      'EXTERN_MODULES' => [ for (target in targets) target.name ].join(','),
+      'EXTERN_MODULES' => externModules.join(','),
       'EXTERN_OUTPUT_DIR' => this.data.projectDir
     ]);
     var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
