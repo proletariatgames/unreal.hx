@@ -1,0 +1,7 @@
+{
+  "haxe.displayConfigurations": [
+    ["complete.hxml"]
+  ],
+  "haxe.displayServer": {"arguments": ["-v"]},
+  "haxe.executable": {"path": "C:\\HaxeToolkit\\haxe\\haxe.exe"}
+}
