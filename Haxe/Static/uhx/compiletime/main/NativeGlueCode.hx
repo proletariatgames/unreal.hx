@@ -1,5 +1,4 @@
 package uhx.compiletime.main;
-import haxe.io.Path;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -22,6 +21,7 @@ class NativeGlueCode
   private var glues:GlueManager;
 
   private var stampOutput:String;
+  private var newerUhxStamp:Float;
 
   public function new() {
     this.glues = new GlueManager();
@@ -31,6 +31,29 @@ class NativeGlueCode
     if (!FileSystem.exists(this.stampOutput)) {
       FileSystem.createDirectory(this.stampOutput);
     }
+    this.newerUhxStamp = getNewerUhxStamp();
+  }
+
+  private function getNewerUhxStamp() {
+    var best = .0;
+    function recurse(dir:String) {
+      for (file in FileSystem.readDirectory(dir)) {
+        if (file.endsWith('.hx')) {
+          var time = FileSystem.stat('$dir/$file').mtime.getTime();
+          if (time > best) {
+            best = time;
+          }
+        } else if (FileSystem.isDirectory('$dir/$file')) {
+          recurse('$dir/$file');
+        }
+      }
+    }
+    for (cp in Context.getClassPath()) {
+      if (FileSystem.exists('$cp/uhx/compiletime') && FileSystem.isDirectory('$cp/uhx/compiletime')) {
+        recurse('$cp/uhx/compiletime');
+      }
+    }
+    return best;
   }
 
   private function writeUEHeader(cl:ClassType, writer:HeaderWriter, gluePath:String) {
@@ -238,8 +261,12 @@ class NativeGlueCode
       if (clt.meta.has(':uextern')) {
         // we only need to update if the source file was changed more recently
         var sourceFile = MacroHelpers.getPath( Context.getPosInfos(clt.pos).file );
-        if (sourceFile != null && FileSystem.exists(stampPath) && FileSystem.stat(stampPath).mtime.getTime() > FileSystem.stat(sourceFile).mtime.getTime()) {
-          return false;
+        if (sourceFile != null && FileSystem.exists(stampPath)) {
+          var stampPath = FileSystem.stat(stampPath).mtime.getTime(),
+              sourceStat = FileSystem.stat(sourceFile).mtime.getTime();
+          if (stampPath > sourceStat && stampPath > newerUhxStamp) {
+            return false;
+          }
         }
       }
     }

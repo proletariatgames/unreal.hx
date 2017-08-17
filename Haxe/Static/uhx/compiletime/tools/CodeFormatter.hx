@@ -82,6 +82,7 @@ abstract CodeFormatter(CodeFormatterImpl) from CodeFormatterImpl {
     begin('/**');
     addNewlines(text.replace('*/', '*'), false);
     end('**/');
+    newline();
 
     return this;
   }

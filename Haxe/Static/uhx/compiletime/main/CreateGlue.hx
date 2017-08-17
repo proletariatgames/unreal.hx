@@ -168,9 +168,7 @@ class CreateGlue {
         Globals.cur.loadCachedTypes();
         Globals.cur.saveCachedBuilt();
       }
-
     });
-
 
     Context.onGenerate( function(gen) {
       if (Context.defined('WITH_CPPIA')) {
