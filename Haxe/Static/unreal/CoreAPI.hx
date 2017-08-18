@@ -89,7 +89,20 @@ class CoreAPI {
    *  if (pawn != null) { ... }
    */
   public static inline function as<T>(obj:UObject, cls:Class<T>) : Null<T> {
-    return cast obj;
+    var result:T;
+    if (Std.is(obj, cls)) {
+      result = cast obj;
+    } else
+#if cppia
+      // because of live reload, we must test as a string
+      if (slowAsCheck(obj, cls)) {
+        result = cast obj;
+      } else
+#end
+    {
+      result = null;
+    }
+    return result;
   }
 
   private static function slowAsCheck(obj:UObject, cls:Class<Dynamic>) {

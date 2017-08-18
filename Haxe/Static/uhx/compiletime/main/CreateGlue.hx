@@ -23,6 +23,7 @@ class CreateGlue {
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
+    var externsDir = Context.definedValue('UHX_BAKE_DIR');
 
     // get all types that need to be compiled recursively
     var toCompile = [];
@@ -46,17 +47,15 @@ class CreateGlue {
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
     ensureCompiled(modules);
-    // make sure cppia classes are compiled as well
-    for (path in scriptPaths) {
-      // we only add classpaths after all static compilation so it is obvious that we cannot
-      // reference script paths from static
-      haxe.macro.Compiler.addClassPath(path);
-    }
-    Globals.cur.inScriptPass = true;
-    var toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
-    ensureCompiled(toGatherModules);
+    var scriptClassesAdded = scriptModules.length == 0;
+    var toGatherModules = null;
 
-    Globals.cur.inScriptPass = false;
+    var fileDeps = new Map();
+    inline function addFileDep(file:String) {
+      if (file != null && !file.startsWith(externsDir)) {
+        fileDeps.set(file, true);
+      }
+    }
 
     // once we get here, we've built everything we need
 
@@ -66,6 +65,7 @@ class CreateGlue {
         running = false;
     var didProcess = false;
     Context.onAfterTyping(function(types) {
+      Type;
       if (types.exists(function(t) return Std.string(t) == 'TClassDecl(uhx.compiletime.main.CreateGlue)')) {
         return; // macro context
       }
@@ -79,8 +79,30 @@ class CreateGlue {
             switch(type) {
             case TAbstract(a):
               var a = a.get();
+              var isExtern = a.meta.has(':uextern');
+              if (!isExtern) {
+                if (!cur.inScriptPass || a.meta.has(':ustruct')) {
+                  addFileDep(Context.getPosInfos(a.pos).file);
+                }
+              }
               if (a.meta.has(':ueHasGenerics')) {
                 cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
+              }
+            case TClassDecl(c):
+              var c = c.get();
+              var isExtern = c.meta.has(':uextern');
+              if (!isExtern) {
+                if (!cur.inScriptPass || c.meta.has(':uclass')) {
+                  addFileDep(Context.getPosInfos(c.pos).file);
+                }
+              }
+            case TEnumDecl(e):
+              var e = e.get();
+              var isExtern = e.meta.has(':uextern');
+              if (!isExtern) {
+                if (!cur.inScriptPass || e.meta.has(':uenum')) {
+                  addFileDep(Context.getPosInfos(e.pos).file);
+                }
               }
             case _:
             }
@@ -93,7 +115,6 @@ class CreateGlue {
 
         while (
           cur.uextensions != null ||
-          cur.gluesToGenerate != null ||
           cur.delays != null) {
 
           var uextensions = cur.uextensions;
@@ -105,30 +126,6 @@ class CreateGlue {
             new UExtensionBuild().generate(type);
           }
 
-          var glues = cur.gluesToGenerate;
-          cur.gluesToGenerate = null;
-          while (glues != null) {
-            var glue = glues.value;
-            glues = glues.next;
-
-            var type = Context.getType(glue);
-            switch(type) {
-            case TInst(c,_):
-              var cl = c.get();
-              if (cl.meta.has(':ueHasGenerics')) {
-                GenericFuncBuild.buildFunctions(c);
-              }
-            case TAbstract(a,_):
-              var a = a.get();
-              var cl = a.impl.get();
-              if (a.meta.has(':ueHasGenerics')) {
-                GenericFuncBuild.buildFunctions(a.impl);
-              }
-            case _:
-              throw 'assert';
-            }
-          }
-
           var delays = cur.delays;
           cur.delays = null;
           while (delays != null) {
@@ -137,36 +134,86 @@ class CreateGlue {
           }
         }
 
-        if (cur.delays != null || cur.uextensions != null || cur.gluesToGenerate != null) {
+        if (cur.delays != null || cur.uextensions != null) {
           continue;
         }
         running = false;
 
         break;
       }
-      if (!Globals.cur.hasUnprocessedTypes && !didProcess) {
-        didProcess = true;
-
-        while(Globals.cur.scriptGlues != null) {
-          var scriptGlues = Globals.cur.scriptGlues;
-          Globals.cur.scriptGlues = null;
-          while (scriptGlues != null) {
-            var scriptGlue = scriptGlues.value;
-            scriptGlues = scriptGlues.next;
-            ScriptGlue.generate(scriptGlue);
+      if (!Globals.cur.hasUnprocessedTypes) {
+        trace(scriptModules.length > 0);
+        trace(didProcess);
+        trace(scriptClassesAdded);
+        if (!scriptClassesAdded) {
+          trace('adding cppia classes');
+          // make sure cppia classes are compiled as well
+          for (path in scriptPaths) {
+            // we only add classpaths after all static compilation so it is obvious that we cannot
+            // reference script paths from static
+            haxe.macro.Compiler.addClassPath(path);
           }
-        }
+          Globals.cur.inScriptPass = true;
+          toGatherModules = [ for (module in scriptModules) Context.getModule(module) ];
+          ensureCompiled(toGatherModules);
+          scriptClassesAdded = true;
+        } else if (!didProcess) {
+          Globals.cur.inScriptPass = false;
+          var cur = Globals.cur;
+          // we need generics processing to be the very last thing we do
+          while (cur.gluesToGenerate != null) {
+            var glues = cur.gluesToGenerate;
+            cur.gluesToGenerate = null;
+            while (glues != null) {
+              var glue = glues.value;
+              glues = glues.next;
 
-        // create hot reload helper
-        if (Context.defined('WITH_CPPIA')) {
-          LiveReloadBuild.bindFunctions('LiveReloadStatic');
-          var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
-          if (lives.length > 0) {
-            sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
+              var type = Context.getType(glue);
+              switch(type) {
+              case TInst(c,_):
+                var cl = c.get();
+                if (cl.meta.has(':ueHasGenerics')) {
+                  GenericFuncBuild.buildFunctions(c);
+                }
+              case TAbstract(a,_):
+                var a = a.get();
+                var cl = a.impl.get();
+                if (a.meta.has(':ueHasGenerics')) {
+                  GenericFuncBuild.buildFunctions(a.impl);
+                }
+              case _:
+                throw 'assert';
+              }
+            }
           }
+          trace('processing ');
+          if (Globals.cur.hasUnprocessedTypes) {
+            return; // this will still run again
+          }
+
+          didProcess = true;
+
+          while(Globals.cur.scriptGlues != null) {
+            var scriptGlues = Globals.cur.scriptGlues;
+            Globals.cur.scriptGlues = null;
+            while (scriptGlues != null) {
+              var scriptGlue = scriptGlues.value;
+              scriptGlues = scriptGlues.next;
+              ScriptGlue.generate(scriptGlue);
+            }
+          }
+
+          // create hot reload helper
+          if (Context.defined('WITH_CPPIA')) {
+            LiveReloadBuild.bindFunctions('LiveReloadStatic');
+            var lives = [ for (cls in Globals.liveReloadFuncs.keys()) cls ];
+            if (lives.length > 0) {
+              sys.io.File.saveContent( Globals.cur.staticBaseDir + '/Data/livereload.txt', lives.join('\n') );
+            }
+          }
+          Globals.cur.loadCachedTypes();
+          Globals.cur.saveCachedBuilt();
         }
-        Globals.cur.loadCachedTypes();
-        Globals.cur.saveCachedBuilt();
       }
     });
 
@@ -178,14 +225,26 @@ class CreateGlue {
       // starting from now, we can't create new types
       Globals.cur.reserveCacheFile();
       nativeGlue.onGenerate(gen);
-      excludeModules(toGatherModules);
+      if (toGatherModules != null) {
+        excludeModules(toGatherModules);
+      }
     });
     // seems like Haxe macro interpreter has a problem with void member closures,
     // so we need this function definition
     Context.onAfterGenerate( function() {
       nativeGlue.onAfterGenerate();
       Globals.cur.setCacheFile();
+      writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
     });
+  }
+
+  private static function writeFileDeps(fileDeps:Map<String, Bool>, target:String) {
+    var ret = sys.io.File.write(target);
+    for (dep in fileDeps.keys()) {
+      ret.writeString(dep);
+      ret.writeByte('\n'.code);
+    }
+    ret.close();
   }
 
   private static function getModules(path:String, modules:Array<String>)

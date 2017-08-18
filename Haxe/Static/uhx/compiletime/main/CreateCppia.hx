@@ -15,6 +15,7 @@ class CreateCppia {
 
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
+    var externsDir = Context.definedValue('UHX_BAKE_DIR');
     var target = Globals.cur.staticBaseDir;
     compiledModules = getCompiled(target);
     var compiled = compiledModules.modules;
@@ -47,7 +48,7 @@ class CreateCppia {
       }
       modules.push(arr);
     }
-    ensureCompiled(modules);
+    var scriptFiles = ensureCompiled(modules);
     Globals.cur.inScriptPass = false;
 
     // create hot reload helper
@@ -125,6 +126,12 @@ class CreateCppia {
       }
     });
 
+    var fileDeps = new Map();
+    inline function addFileDep(file:String) {
+      if (!scriptFiles.exists(file) && file != null && !file.startsWith(externsDir)) {
+        fileDeps.set(file, true);
+      }
+    }
     Context.onGenerate(function(types) {
       var metaDefs = Globals.cur.classesToAddMetaDef;
       Globals.cur.scriptClasses = [];
@@ -181,6 +188,10 @@ class CreateCppia {
           case TInst(c,_):
             var name = c.toString();
             var c = c.get();
+            var isExtern = c.meta.has(':uextern');
+            if (!isExtern) {
+              addFileDep(Context.getPosInfos(c.pos).file);
+            }
             var genericFields = compiledGenerics[name];
             if (genericFields != null) {
               for (field in c.fields.get().concat(c.statics.get())) {
@@ -193,7 +204,7 @@ class CreateCppia {
                 }
               }
             }
-            if (c.meta.has(':uextern')) {
+            if (isExtern) {
               var name = TypeRef.fastClassPath(c);
               if (c.isInterface || compiled.exists(name)) {
                 c.exclude();
@@ -216,12 +227,19 @@ class CreateCppia {
             }
           case TEnum(e,_):
             var e = e.get();
+            if (!e.meta.has(':uextern')) {
+              addFileDep(Context.getPosInfos(e.pos).file);
+            }
             if (hasExclude(e.module)) {
               e.exclude();
             }
           case TAbstract(a,_):
             var a = a.get();
-            if (a.meta.has(':uextern') && !a.meta.has(':uscript')) {
+            var isExtern = a.meta.has(':uextern');
+            if (!isExtern) {
+              addFileDep(Context.getPosInfos(a.pos).file);
+            }
+            if (isExtern && !a.meta.has(':uscript')) {
               var name = TypeRef.fastClassPath(a);
               if (compiled.exists(name)) {
                 var impl = a.impl;
@@ -244,6 +262,18 @@ class CreateCppia {
         }
       }
     });
+    Context.onAfterGenerate( function() {
+      writeFileDeps(fileDeps, '$target/Data/cppiaDeps.txt');
+    });
+  }
+
+  private static function writeFileDeps(fileDeps:Map<String, Bool>, target:String) {
+    var ret = sys.io.File.write(target);
+    for (dep in fileDeps.keys()) {
+      ret.writeString(dep);
+      ret.writeByte('\n'.code);
+    }
+    ret.close();
   }
 
   private static function addTimestamp() {
@@ -277,12 +307,14 @@ class CreateCppia {
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
+    var ret = new Map();
     var ustruct = Context.getType('unreal.Struct');
     for (module in modules) {
       for (type in module) {
         switch(Context.follow(type)) {
         case TInst(c,_):
           var cl = c.get();
+          ret.set(Context.getPosInfos(cl.pos).file, true);
           for (field in cl.fields.get())
             Context.follow(field.type);
           for (field in cl.statics.get())
@@ -292,14 +324,19 @@ class CreateCppia {
             Context.follow(ctor.get().type);
         case TAbstract(a,_):
           var a = a.get();
+          ret.set(Context.getPosInfos(a.pos).file, true);
           if (Context.unify(type, ustruct) && !a.meta.has(':uscript')) {
             a.impl.get().exclude();
             continue;
           }
+        case TEnum(e,_):
+          var e = e.get();
+          ret.set(Context.getPosInfos(e.pos).file, true);
         case _:
         }
       }
     }
+    return ret;
   }
 
   private static function registerMacroCalls(target:String) {

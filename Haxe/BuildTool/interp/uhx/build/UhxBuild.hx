@@ -532,6 +532,7 @@ class UhxBuild {
       '-D bake-externs',
       '-D ${this.defineVer}',
       '-D ${this.definePatch}',
+      '-D UHX_STATIC_BASE_DIR=$outputDir',
       '',
       '-cpp $haxeDir/Generated/$externsFolder',
       '--no-output', // don't generate cpp files; just execute our macro
@@ -637,6 +638,7 @@ class UhxBuild {
         '-D UHX_UE_TARGET_TYPE=${data.targetType}',
         '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
         '-D UHX_BUILD_NAME=$buildName',
+        '-D UHX_BAKE_DIR=$haxeDir/Generated/$externsFolder',
 #if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
         '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
 #else

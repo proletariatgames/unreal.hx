@@ -21,7 +21,6 @@ class NativeGlueCode
   private var glues:GlueManager;
 
   private var stampOutput:String;
-  private var newerUhxStamp:Float;
 
   public function new() {
     this.glues = new GlueManager();
@@ -31,7 +30,6 @@ class NativeGlueCode
     if (!FileSystem.exists(this.stampOutput)) {
       FileSystem.createDirectory(this.stampOutput);
     }
-    this.newerUhxStamp = getNewerUhxStamp();
   }
 
   private function getNewerUhxStamp() {
@@ -264,7 +262,7 @@ class NativeGlueCode
         if (sourceFile != null && FileSystem.exists(stampPath)) {
           var stampPath = FileSystem.stat(stampPath).mtime.getTime(),
               sourceStat = FileSystem.stat(sourceFile).mtime.getTime();
-          if (stampPath > sourceStat && stampPath > newerUhxStamp) {
+          if (stampPath > sourceStat) {
             return false;
           }
         }
