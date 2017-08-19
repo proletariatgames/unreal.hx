@@ -35,7 +35,7 @@ class ExternBaker {
     By default, `process` will only process Haxe files whose timestamps are higher than
     the target extern file. Set `force` to true to override this
    **/
-  public static function process(classpaths:Array<String>, force:Bool) {
+  public static function process(targetStamp:String, targetFiles:String, classpaths:Array<String>, force:Bool) {
     // first, add the classpaths to the current compiler
     for (cp in classpaths) {
       Compiler.addClassPath(cp);
@@ -91,9 +91,10 @@ class ExternBaker {
             var fname = file.substr(0,-3);
             for (cp in classpaths) {
               var curPath = '$cp/${pack.join("/")}';
-              if (FileSystem.exists('$curPath/${fname}_Extra.hx')) {
-                deps.addDependency('$dir/$file', '$curPath/${fname}_Extra.hx');
-                var extramtime = FileSystem.stat('$curPath/${fname}_Extra.hx').mtime.getTime();
+              var extraPath = '$curPath/${fname}_Extra.hx';
+              if (FileSystem.exists(extraPath)) {
+                deps.setExtraFile(module);
+                var extramtime = FileSystem.stat(extraPath).mtime.getTime();
                 if (extramtime > mtime)
                   mtime = extramtime;
               }
@@ -262,7 +263,7 @@ class ExternBaker {
     }
 #if bake_externs
     var target = Context.definedValue("UHX_STATIC_BASE_DIR");
-    deps.save('$target/Data/externs.deps');
+    deps.save(targetStamp);
 #end
   }
   
@@ -1058,12 +1059,11 @@ class ExternBaker {
         name;
     };
     var isNoTemplate = field.meta.has(':noTemplate') || this.cls.meta.has(':noTemplate');
-    var file = Context.getPosInfos(field.pos).file;
 
     switch(field.kind) {
     case FVar(read,write):
 #if bake_externs
-      deps.updateDeps(file, field.type);
+      deps.updateDeps(this.cls.module, field.type);
 #end
       this.addDoc(field.doc);
       var meta = field.meta.get();
@@ -1155,9 +1155,9 @@ class ExternBaker {
       case TFun(args,ret) if (field.meta.has(':expr')):
 #if bake_externs
         for (arg in args) {
-          deps.updateDeps(file, arg.t);
+          deps.updateDeps(this.cls.module, arg.t);
         }
-        deps.updateDeps(file, ret);
+        deps.updateDeps(this.cls.module, ret);
 #end
         this.addDoc(field.doc);
         this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));

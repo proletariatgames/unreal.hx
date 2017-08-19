@@ -12,23 +12,45 @@ import sys.io.File;
   affect the way the glue is generated on the files that immediately include it
 **/
 class DepList {
-  var reverseDeps:Map<String, Map<String, Bool>>;
-  var extraFiles:Map<String, String>;
+  var stringArray:Array<String>;
+  var stringToIndex:Map<String, Int>;
+  var reverseDeps:Map<Int, Map<Int, Bool>>;
+  var extraFiles:Map<Int, Int>;
   var deletedFiles:Map<String, Bool>;
 
   public function new() {
+    this.stringArray = [];
+    this.stringToIndex = new Map();
     this.reverseDeps = new Map();
     this.extraFiles = new Map();
     this.deletedFiles = new Map();
   }
 
-  public function setExtraFile(mainFile:String, extra:String) {
-    extraFiles[mainFile] = extra;
-    addDependency(mainFile, extra);
-    addDependency(extra, mainFile);
+  private function getIndex(name:String):Int {
+    if (name == '') {
+      throw 'Empty file';
+    }
+
+    var idx = stringToIndex[name];
+    if (idx == null) {
+      idx = stringArray.push(name) - 1;
+      stringToIndex[name] = idx;
+    }
+    return idx;
   }
 
-  public function addDependency(file:String, dependsOn:String) {
+  public function setExtraFile(module:String) {
+    if (module == '') {
+      throw 'Empty file';
+    }
+    var mainFile = getIndex(module),
+        extra = getIndex(module + '_Extra');
+    extraFiles[mainFile] = extra;
+    addDependencyIndex(mainFile, extra);
+    addDependencyIndex(extra, mainFile);
+  }
+
+  private function addDependencyIndex(module:Int, dependsOn:Int) {
     if (dependsOn == null) {
       return;
     }
@@ -36,11 +58,18 @@ class DepList {
     if (dep == null) {
       reverseDeps[dependsOn] = dep = new Map();
     }
-    dep[file] = true;
-    var extra = extraFiles[file];
+    dep[module] = true;
+    var extra = extraFiles[module];
     if (extra != null) {
       dep[extra] = true;
     }
+  }
+
+  public function addDependency(module:String, dependsOn:String) {
+    if (module == '' || dependsOn == '') {
+      return; // just don't add the dependency
+    }
+    this.addDependencyIndex(getIndex(module), getIndex(dependsOn));
   }
 
   public function save(fileName:String) {
@@ -48,75 +77,98 @@ class DepList {
         rev = this.reverseDeps,
         del = this.deletedFiles;
     buf.addByte(1);
-    if (FileSystem.exists(fileName)) {
-      var file = File.read(fileName);
-      if (file.readByte() != 0x1) {
-        file.close();
-        FileSystem.deleteFile(fileName);
-        throw 'Invalid dependency list file version: $fileName';
-      }
-      // read and write
-      try {
-        var source = file.readUntil(0);
-        buf.addString(source);
-        buf.addByte(0);
-        var deps = rev[source];
-        if (deps != null) {
-          rev.remove(source);
-          while(true) {
-            var dep = file.readUntil(0);
-            if (dep == '') {
-              if (file.readByte() != 0x1) {
-                throw 'Invalid break character for $fileName (entry $source)';
-              }
-              break;
-            }
-            buf.addString(dep);
-            buf.addByte(0);
-            deps.remove(dep);
-          }
-          for (dep in deps.keys()) {
-            if (dep != '') {
-              buf.addString(dep);
-              buf.addByte(0);
-            }
-          }
-          buf.addByte(0);
-          buf.addByte(1);
-        } else {
-          buf.addString(file.readUntil(1));
-        }
-      }
-      catch(e:Eof) {
-      }
-      file.close();
+    // var file = null,
+    //     conversion = null;
+    // if (FileSystem.exists(fileName)) {
+    //   file = File.read(fileName);
+    //   if (file.readByte() != 0x1) {
+    //     file.close();
+    //     FileSystem.deleteFile(fileName);
+    //     throw 'Invalid dependency list file version: $fileName';
+    //   }
+    //   conversion = new Map();
+    //   var curIndex = -1;
+    //   while(true) {
+    //     var source = file.readUntil(0);
+    //     if (source == '') {
+    //       if (file.readByte() != 2) {
+    //         throw 'Invalid file';
+    //       }
+    //       break;
+    //     }
+    //     ++curIndex;
+    //     var realIndex = getIndex(source);
+    //     conversion[curIndex] = realIndex;
+    //   }
+    // }
+
+    for (arr in stringArray) {
+      buf.addString(arr);
+      buf.addByte(0);
     }
+    buf.addByte(0);
+
+    // if (file != null) {
+    //   // read and write
+    //   try {
+    //     var source = conversion[file.readInt32()];
+    //     buf.addInt32(source);
+    //     var deps = rev[source];
+    //     if (deps != null) {
+    //       rev.remove(source);
+    //       while(true) {
+    //         var dep = file.readInt32();
+    //         if (dep == -1) {
+    //           break;
+    //         }
+    //         dep = conversion[dep];
+    //         buf.addInt32(dep);
+    //         deps.remove(dep);
+    //       }
+    //       for (dep in deps.keys()) {
+    //         buf.addInt32(dep);
+    //       }
+    //       buf.addInt32(-1);
+    //     } else {
+    //       while(true) {
+    //         var cur = file.readInt32();
+    //         if (cur == -1) {
+    //           break;
+    //         }
+    //         buf.addInt32(conversion[cur]);
+    //       }
+    //       buf.addInt32(-1);
+    //     }
+    //   }
+    //   catch(e:Eof) {
+    //   }
+    //   file.close();
+    // }
 
     for (key in rev.keys()) {
-      buf.addString(key);
-      buf.addByte(0);
+      buf.addInt32(key);
       for (dep in rev[key].keys()) {
-        buf.addString(dep);
-        buf.addByte(0);
+        buf.addInt32(dep);
       }
-      buf.addByte(0);
-      buf.addByte(1);
+      buf.addInt32(-1);
     }
 
     File.saveBytes(fileName, buf.getBytes());
   }
 
-  public function updateDeps(file:String, t:Type) {
+  public function updateDeps(module:String, t:Type) {
     var dependsOn = switch(Context.follow(t)) {
       case TInst(c,_):
-        Context.getPosInfos(c.get().pos).file;
+        c.get().module;
       case TEnum(e,_):
-        Context.getPosInfos(e.get().pos).file;
+        e.get().module;
       case TAbstract(a,_):
-        Context.getPosInfos(a.get().pos).file;
+        a.get().module;
       case _:
         null;
     }
-    this.addDependency(file, dependsOn);
+    if (dependsOn != null) {
+      this.addDependency(module, dependsOn);
+    }
   }
 }

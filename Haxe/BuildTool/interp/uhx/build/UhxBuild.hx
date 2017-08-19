@@ -31,6 +31,8 @@ class UhxBuild {
   var externsFolder:String;
   var cppiaEnabled:Bool;
 
+  var stampOverride:Float;
+
   public function new(data) {
     for (field in Reflect.fields(data)) {
       if (Reflect.field(data, field) == null) {
@@ -48,6 +50,36 @@ class UhxBuild {
     }
     this.version = getEngineVersion(this.config);
     this.srcDir = this.getSourceDir();
+
+    this.stampOverride = getStampOverride();
+  }
+
+  private function getStampOverride() {
+    var stamp = .0;
+    inline function checkFile(path:String) {
+      var curStamp = FileSystem.stat(path).mtime.getTime();
+      if (curStamp > 0) {
+        stamp = curStamp;
+      }
+    }
+
+    // check uhx/compiletime
+    function recurse(dir:String) {
+      for (file in FileSystem.readDirectory(dir)) {
+        if (file.endsWith('.hx')) {
+          checkFile('$dir/$file');
+        } else if (FileSystem.isDirectory('$dir/$file')) {
+          recurse('$dir/$file');
+        }
+      }
+    }
+
+    recurse(data.pluginDir + '/Haxe/Static/uhx/compiletime');
+    checkFile(this.haxeDir + '/arguments.hxml');
+    recurse(data.pluginDir + '/Haxe/BuildTool/interp/');
+    // checkFile(data.projectFile);
+
+    return stamp;
   }
 
   private function getConfig():HaxeModuleConfig {
@@ -145,6 +177,74 @@ class UhxBuild {
     }
 
     return '$outputDir/$libName';
+  }
+
+  private function getBakerChangedFiles(stampPath:String, cps:Array<String>, pathsToCompile:Map<String, Bool>, traceFiles:Bool) {
+    var stamp = .0;
+    if (FileSystem.exists(stampPath)) {
+      stamp = FileSystem.stat(stampPath).mtime.getTime();
+    }
+    if (this.stampOverride >= stamp) {
+      stamp = .0; // recompile everything
+    }
+
+    var file = null,
+        stringArray = [];
+    if (stamp != 0) {
+      file = sys.io.File.read(stampPath);
+      if (file.readByte() != 0x1) {
+        warn('The file "$stampPath" is not a valid dependency file.');
+        stamp = .0;
+        file.close();
+        file = null;
+      } else {
+        while(true) {
+          var str = file.readUntil(0);
+          if (str == '') {
+            break;
+          }
+          stringArray.push(str);
+        }
+      }
+    }
+
+    function recurse(base:String, dir:String, pack:String) {
+      var path = '$base/$dir';
+      for (file in FileSystem.readDirectory(path)) {
+        if (file.endsWith('.hx')) {
+          if (stamp <= 0 || FileSystem.stat('$path/$file').mtime.getTime() >= stamp) {
+            pathsToCompile.set('$pack${file.substr(0,file.length-3)}', true);
+          }
+        } else if (FileSystem.isDirectory('$path/$file')) {
+          recurse(base, '$dir/$file', '$pack$file.');
+        }
+      }
+    }
+
+    for (cp in cps) {
+      recurse(cp, '', '');
+    }
+
+    if (file != null) {
+      try {
+        while(true) {
+          var main = stringArray[file.readInt32()];
+          var shouldAdd = pathsToCompile.exists(main);
+          while (true) {
+            var i32 = file.readInt32();
+            if (i32 < 0) {
+              break;
+            }
+            if (shouldAdd) {
+              pathsToCompile[stringArray[i32]] = true;
+            }
+          }
+        }
+      } catch(e:haxe.io.Eof) {
+      }
+
+      file.close();
+    }
   }
 
   private function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool) {
@@ -507,22 +607,34 @@ class UhxBuild {
       }
     }
 
-    var targetStamp = '$haxeDir/Generated/$externsFolder/externs.stamp';
-#if UE_EDITOR_RECOMPILE
-    var shouldRun = !this.cppiaEnabled ||
-      checkRecursive(targetStamp, [
-        '${data.pluginDir}/Haxe/Static/uhx/compiletime'
-      ], false) ||
-      checkRecursive(targetStamp, [
-        '${haxeDir}/Externs',
-        '${data.pluginDir}/Haxe/Externs/$ueExternDir',
-        '${data.pluginDir}/Haxe/Externs/Common',
-      ], false);
-    if (!shouldRun) {
-      log('Skipping extern baker, as no file has changed. Delete $haxeDir/Generated/$externsFolder to force');
+    var targetStamp = '$outputDir/Data/$externsFolder.deps',
+        targetStampPart = '$outputDir/Data/$externsFolder-part.deps',
+        targetFiles = '$outputDir/Data/$externsFolder.files';
+    var toCompile = new Map();
+
+    var escapedTargetStampPart = targetStampPart.replace('\\','\\\\'),
+        escapedTargetFiles = targetFiles.replace('\\','\\\\');
+
+    var cur = haxe.Timer.stamp();
+    this.getBakerChangedFiles(targetStamp, [
+      '${data.pluginDir}/Haxe/Static',
+      '${data.pluginDir}/Haxe/Externs/Common',
+      '${data.pluginDir}/Haxe/Externs/$ueExternDir',
+      '$haxeDir/Externs'
+    ], toCompile, true);
+
+    trace('Baker change check finished in ${haxe.Timer.stamp() - cur}');
+    if (!toCompile.iterator().hasNext()) {
+      trace('Skipping extern baker since there is nothing to compile');
       return 0;
     }
-#end
+
+    var files = sys.io.File.write(targetFiles);
+    for (module in toCompile.keys()) {
+      files.writeString(module);
+      files.writeByte('\n'.code);
+    }
+    files.close();
 
     var bakeArgs = [
       '# this pass will bake the extern type definitions into glue code',
@@ -536,7 +648,7 @@ class UhxBuild {
       '',
       '-cpp $haxeDir/Generated/$externsFolder',
       '--no-output', // don't generate cpp files; just execute our macro
-      '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], $forceCreateExterns)'
+      '--macro uhx.compiletime.main.ExternBaker.process("$escapedTargetStampPart","$escapedTargetFiles",["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], $forceCreateExterns)'
     ];
     if (shouldBuildEditor()) {
       bakeArgs.push('-D WITH_EDITOR');
@@ -555,9 +667,6 @@ class UhxBuild {
     var ret = compileSources(bakeArgs);
     tbake();
     this.createHxml('bake-externs', bakeArgs);
-    if (ret == 0) {
-      sys.io.File.saveContent(targetStamp, '');
-    }
     return ret;
   }
 
