@@ -12,10 +12,11 @@ class CreateCppia {
   static var firstCompilation = true;
   static var hasRun = false;
   static var compiledModules:{ stamp:Float, modules:Map<String, Bool> };
+  static var externsDir:String;
 
   public static function run(staticPaths:Array<String>, scriptPaths:Array<String>, ?excludeModules:Array<String>) {
     Globals.cur.checkBuildVersionLevel();
-    var externsDir = Context.definedValue('UHX_BAKE_DIR');
+    externsDir = Context.definedValue('UHX_BAKE_DIR');
     var target = Globals.cur.staticBaseDir;
     compiledModules = getCompiled(target);
     var compiled = compiledModules.modules;
@@ -128,7 +129,7 @@ class CreateCppia {
 
     var fileDeps = new Map();
     inline function addFileDep(file:String) {
-      if (!scriptFiles.exists(file) && file != null && !file.startsWith(externsDir)) {
+      if (!scriptFiles.exists(file) && file != null) {
         fileDeps.set(file, true);
       }
     }
@@ -270,6 +271,12 @@ class CreateCppia {
   private static function writeFileDeps(fileDeps:Map<String, Bool>, target:String) {
     var ret = sys.io.File.write(target);
     for (dep in fileDeps.keys()) {
+      if (dep.startsWith(externsDir)) {
+        ret.writeByte('E'.code);
+        dep = dep.substr(externsDir.length);
+      } else {
+        ret.writeByte('C'.code);
+      }
       ret.writeString(dep);
       ret.writeByte('\n'.code);
     }

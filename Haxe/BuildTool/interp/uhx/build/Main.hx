@@ -84,10 +84,17 @@ class Main {
           targetType: haxe.macro.Compiler.getDefine("TargetType"),
           projectFile: haxe.macro.Compiler.getDefine("ProjectFile"),
           pluginDir: haxe.macro.Compiler.getDefine("PluginDir"),
+
+          skipBake: #if UE_SKIP_BAKE true #else false #end,
+          cppiaRecompile: #if UE_CPPIA_RECOMPILE true #else false #end,
         });
 
         build.run();
       }
+    }
+    catch(e:BuildError) {
+      err('Build failed: ${e.msg}');
+      ret = 1;
     }
     catch(e:Dynamic) {
 #if UE_CPPIA_RECOMPILE

@@ -6,7 +6,6 @@ extern class UObject_Extra {
    * NOTE: Actually from UObjectBaseUtility class
    * Checks the RF_PendingKill flag to see if it is dead but memory still valid
    */
-  @:uexpose()
   @:thisConst
   public function IsPendingKill() : Bool;
 
@@ -107,7 +106,7 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("NewObject<UObject>")
   @:noTemplate
-  @:typeName @:global public static function NewObject<T : UObject>(outer:UObject, uclass:UClass, ?name:FName, ?flags:EObjectFlags=EObjectFlags.RF_NoFlags, ?objTemplate:UObject, bCopyTransientsFromClassDefaults:Bool=false):PPtr<T>;
+  @:typeName @:global public static function NewObject<T : UObject>(outer:UObject, uclass:UClass, ?name:FName, ?flags:EObjectFlags=EObjectFlags.RF_NoFlags, ?objTemplate:UObject, bCopyTransientsFromClassDefaults:Bool=false):T;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function GetTransientPackage():UPackage;
@@ -123,12 +122,12 @@ extern class UObject_Extra {
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:noTemplate
   @:uname("FindObject<UObject>")
-  @:typeName @:global public static function FindObject<T : UObject>(outer:UObject, name:TCharStar, ?exactClass:Bool=false) : PPtr<T>;
+  @:typeName @:global public static function FindObject<T : UObject>(outer:UObject, name:TCharStar, ?exactClass:Bool=false) : T;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:noTemplate
   @:uname("LoadObject<UObject>")
-  @:typeName @:global public static function LoadObject<T : UObject>(outer:UObject, name:TCharStar, ?filename:TCharStar, loadFlags:Int=0, ?sandbox:UPackageMap) : PPtr<T>;
+  @:typeName @:global public static function LoadObject<T : UObject>(outer:UObject, name:TCharStar, ?filename:TCharStar, loadFlags:Int=0, ?sandbox:UPackageMap) : T;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:uname("GetDefault")

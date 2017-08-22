@@ -379,7 +379,7 @@ class DelegateBuild {
 #if !bake_externs
     meta.push({ name:':haxeCreated', params:[], pos:pos });
 #end
-    var ret = def.fields;
+    meta.push({ name:':uownerModule', params:[macro $v{tdef.module}], pos:pos});
     def.name = tref.name;
     def.meta = meta;
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;

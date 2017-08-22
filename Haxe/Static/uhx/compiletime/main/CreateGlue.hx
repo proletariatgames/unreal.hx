@@ -17,13 +17,14 @@ class CreateGlue {
   static var firstCompilation = true;
   static var hasRun = false;
   static var lastScriptPaths:Array<String>;
+  static var externsDir:String;
 
   public static function run(alwaysCompilePaths:Array<String>, ?scriptPaths:Array<String>) {
     lastScriptPaths = scriptPaths;
     Globals.cur.checkBuildVersionLevel();
     registerMacroCalls();
     Globals.cur.checkOlderCache();
-    var externsDir = Context.definedValue('UHX_BAKE_DIR');
+    externsDir = Context.definedValue('UHX_BAKE_DIR');
 
     // get all types that need to be compiled recursively
     var toCompile = [];
@@ -52,7 +53,7 @@ class CreateGlue {
 
     var fileDeps = new Map();
     inline function addFileDep(file:String) {
-      if (file != null && !file.startsWith(externsDir)) {
+      if (file != null) {
         fileDeps.set(file, true);
       }
     }
@@ -142,11 +143,7 @@ class CreateGlue {
         break;
       }
       if (!Globals.cur.hasUnprocessedTypes) {
-        trace(scriptModules.length > 0);
-        trace(didProcess);
-        trace(scriptClassesAdded);
         if (!scriptClassesAdded) {
-          trace('adding cppia classes');
           // make sure cppia classes are compiled as well
           for (path in scriptPaths) {
             // we only add classpaths after all static compilation so it is obvious that we cannot
@@ -186,7 +183,6 @@ class CreateGlue {
               }
             }
           }
-          trace('processing ');
           if (Globals.cur.hasUnprocessedTypes) {
             return; // this will still run again
           }
@@ -241,6 +237,12 @@ class CreateGlue {
   private static function writeFileDeps(fileDeps:Map<String, Bool>, target:String) {
     var ret = sys.io.File.write(target);
     for (dep in fileDeps.keys()) {
+      if (dep.startsWith(externsDir)) {
+        ret.writeByte('E'.code);
+        dep = dep.substr(externsDir.length);
+      } else {
+        ret.writeByte('C'.code);
+      }
       ret.writeString(dep);
       ret.writeByte('\n'.code);
     }

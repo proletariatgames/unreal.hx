@@ -30,120 +30,56 @@ class ExternBaker {
     The target directory will be the selected by `-cpp <targetdir>` command-line option
 
     Classpaths included here will be added with ascending priority - the last being the higher
-    prioirty, and the first being the lower.
-
-    By default, `process` will only process Haxe files whose timestamps are higher than
-    the target extern file. Set `force` to true to override this
+    priority, and the first being the lower.
    **/
-  public static function process(targetStamp:String, targetFiles:String, classpaths:Array<String>, force:Bool) {
-    // first, add the classpaths to the current compiler
-    for (cp in classpaths) {
-      Compiler.addClassPath(cp);
-    }
+  public static function process(classpaths:Array<String>, targetStamp:String, targetFiles:String) {
+    classpaths.reverse();
     // parse the optional arguments
     Compiler.addGlobalMetadata("", "@:build(uhx.compiletime.types.OptionalArgsBuild.build())");
 
-    // we want to parse the documentation as well
-    if (!Context.defined('use_rtti_doc'))
-      Compiler.define('use_rtti_doc');
-
-    // we need this timestamp to make sure we bake everything if uhx.compiletime package has changed
-    var latestInternal = (force ? 0.0 : getLatestInternalChange());
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
     if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
     target = FileSystem.fullPath(target);
-    var processed = new Map(),
-        filesToCompile = new Map(),
-        duplicateFiles = new Map();
-    var i = classpaths.length;
-    var hadErrors = false,
-        isLocalExtern = true;
-    while( i --> 0 ) {
-      isLocalExtern = i == classpaths.length - 1;
-      var cp = FileSystem.fullPath(classpaths[i]);
-      if (!FileSystem.exists(cp)) continue;
-      var pack = [];
-      function traverse() {
-        var dir = cp + '/' + pack.join('/');
-        var files = FileSystem.readDirectory(dir);
-        for (file in files) {
-          if (file.endsWith('.hx')) {
-            var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
-            if (file.endsWith('_Extra.hx')) {
-              joinMetas(module, file);
-              continue;
-            }
-            var fileName = '$dir/$file';
-            if (processed.exists(module) || duplicateFiles.exists(module)) {
-              var old = processed[module];
-              Context.warning('Unreal Extern Baker: File $module is defined on another classpath: $old. Ignoring definition', Context.makePosition({min:0, max:0, file:fileName}));
-              if (old != null) {
-                Context.warning('Unreal Extern Baker: Previous definition here', Context.makePosition({min:0, max:0, file:old}));
-              }
-              duplicateFiles[module] = true;
-              processed.remove(module);
-              continue; // already existed on a classpath with higher precedence
-            }
-            processed[module] = fileName;
-
-            var mtime = FileSystem.stat('$dir/$file').mtime.getTime();
-            var fname = file.substr(0,-3);
-            for (cp in classpaths) {
-              var curPath = '$cp/${pack.join("/")}';
-              var extraPath = '$curPath/${fname}_Extra.hx';
-              if (FileSystem.exists(extraPath)) {
-                deps.setExtraFile(module);
-                var extramtime = FileSystem.stat(extraPath).mtime.getTime();
-                if (extramtime > mtime)
-                  mtime = extramtime;
-              }
-            }
-
-            var destTime = 0.0;
-            var dest = '$target/${pack.join('/')}/$file';
-            if (!force && FileSystem.exists(dest) && (destTime = FileSystem.stat(dest).mtime.getTime()) >= mtime && destTime >= latestInternal) {
-              continue; // already in latest version
-            }
-            filesToCompile[fileName.toLowerCase()] = { module:module, file:fileName, localExtern:isLocalExtern };
-          }
-        }
-        for (file in files) {
-          if (file.indexOf('.') < 0 && FileSystem.isDirectory('$dir/$file')) {
-            pack.push(file);
-            traverse();
-            pack.pop();
-          }
-        }
+    var verbose = Context.defined('UHX_VERBOSE');
+    var filesToCompile = new Map();
+    {
+      var file = sys.io.File.read(targetFiles);
+      var ver = file.readLine();
+      if (ver != 'BAKERFILES1') {
+        throw 'Unknown version $ver when processing target file descriptor $targetFiles';
       }
-      traverse();
-    }
-
-    // delete untouched modules
-    var pack = [];
-    function traverse() {
-      var dir = '$target/${pack.join('/')}';
-      if (FileSystem.exists(dir)) {
-        for (file in FileSystem.readDirectory(dir)) {
-          if (file.endsWith('.hx') && !file.endsWith('GlueGeneric.hx') && !file.endsWith('Glue.hx') && !file.endsWith('GlueGenericCaller.hx')) {
-            var module = pack.join('.') + (pack.length == 0 ? '' : '.') + file.substr(0,-3);
-            if (!processed.exists(module)) {
-              trace('Deleting uneeded baked extern $module ($dir/$file)');
-              FileSystem.deleteFile('$dir/$file');
+      try {
+        while(true) {
+          var module = file.readLine();
+          var file = module.replace('.','/') + '.hx';
+          var first = true;
+          var found = false;
+          for (cp in classpaths) {
+            var target = '$cp/$file';
+            if (FileSystem.exists(target)) {
+              found = true;
+              if (module.endsWith('_Extra')) {
+                if (joinMetas(module, target)) {
+                  deps.setExtraFile(module.substr(0, module.length - '_Extra'.length));
+                }
+              } else {
+                filesToCompile[target.toLowerCase()] = { module:module, file:target, localExtern:first };
+              }
+              break;
             }
-          } else if (FileSystem.isDirectory('$dir/$file')) {
-            pack.push(file);
-            traverse();
-            pack.pop();
+            first = false;
+          }
+          if (!found && verbose) {
+            Context.warning('Extern baker: Could not find module $module. Perhaps it was deleted', Context.currentPos());
           }
         }
+      } catch(e:haxe.io.Eof) {
       }
+      file.close();
     }
-    traverse();
 
-    if (duplicateFiles.iterator().hasNext()) {
-      Context.error('Unreal Extern Baker: Has duplicate file paths. Exiting', Context.currentPos());
-    }
+    var hadErrors = false;
 
     function generatedSourceIsValid(srcFile:String, generatedFile:String, info:GeneratedInfo):Bool {
       if (info == null) {
@@ -164,6 +100,7 @@ class ExternBaker {
 
     var unames = new Map();
     for (ref in filesToCompile) {
+      // trace(ref);
       var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
       var module = Context.getModule(ref.module);
       var pack = ref.module.split('.'),
@@ -271,10 +208,12 @@ class ExternBaker {
 
   private static function getGeneratedInfo(generatedFile:String):Null<GeneratedInfo> {
     if (FileSystem.exists(generatedFile)) {
-      var ln:String = null;
+      var ln:String = null,
+          ln2:String = null;
       try {
         var file = sys.io.File.read(generatedFile);
         ln = file.readLine();
+        ln2 = file.readLine();
         file.close();
       }
       catch(e:Dynamic) {
@@ -282,59 +221,30 @@ class ExternBaker {
         return null;
       }
 
-      if (!ln.startsWith('// GenData:')) {
+      if (!ln.startsWith('// Ver:')) {
         // assume it's old data
         return null;
       }
-      ln = ln.substr('// GenData:'.length);
-      var ret:GeneratedInfo = haxe.Json.parse(ln);
-      ret.srcFile = ret.srcFile.toLowerCase();
-      return ret;
+      ln = ln.substr('// Ver:'.length);
+      var ver = Std.parseInt(ln);
+      if (!ln2.startsWith('// GeneratedBy:')) {
+        return null;
+      }
+      ln2 = ln2.substr('// GeneratedBy:'.length);
+      return { ver:ver, srcFile:ln2.toLowerCase() };
     }
     return null;
   }
 
   public static function getGeneratedHeader(info:GeneratedInfo):String {
-    return '// GenData:${haxe.Json.stringify(info)}\n';
+    return '// Ver:${info.ver}\n// GeneratedBy:${info.srcFile}\n';
   }
 
-  private static function getLatestInternalChange():Float {
-    var latest = 0.0;
-    for (cp in Context.getClassPath()) {
-      if (FileSystem.exists('$cp/uhx/compiletime')) {
-        function recurse(dir:String) {
-          for (file in FileSystem.readDirectory(dir)) {
-            if (FileSystem.isDirectory('$dir/$file')) {
-              recurse('$dir/$file');
-            } else if (file.endsWith('.hx')) {
-              var time = FileSystem.stat('$dir/$file').mtime.getTime();
-              if (time > latest) {
-                latest = time;
-              }
-            }
-          }
-        }
-        recurse('$cp/uhx/compiletime');
-      }
-    }
-
-    var cwd = Sys.getCwd();
-    var hxml = '$cwd/baker-arguments.hxml';
-    if (FileSystem.exists(hxml)) {
-      var time = FileSystem.stat(hxml).mtime.getTime();
-      if (time > latest) {
-        latest = time;
-      }
-    }
-
-    return latest;
-  }
-
-  private static function joinMetas(extraModuleName:String, file:String) {
+  private static function joinMetas(extraModuleName:String, file:String):Bool {
     var pos = Context.makePosition({ min:0, max:0, file:file });
     var extraModule = getModule(extraModuleName, pos);
     if (extraModule == null || extraModule.length == 0) {
-      return;
+      return false;
     }
     if (extraModule.length > 1) {
       throw new Error('The `_Extra` file should not declare any other type', pos);
@@ -345,7 +255,7 @@ class ExternBaker {
       var moduleName = extraModuleName.substr(0,extraModuleName.length - '_Extra'.length);
       var modules = getModule(moduleName, pos);
       if (modules == null || modules.length == 0) {
-        return;
+        return false;
       }
       var base:BaseType = null;
       for (mod in modules) {
@@ -399,6 +309,7 @@ class ExternBaker {
     case _:
       throw new Error('Module $extraModuleName should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
     }
+    return true;
   }
 
   private var buf:CodeFormatter;
@@ -407,6 +318,7 @@ class ExternBaker {
   private var glueType:TypeRef;
   private var thisConv:TypeConv;
   private var cls:ClassType;
+  private var module:String;
 
   private var type:Type;
   private var typeRef:TypeRef;
@@ -437,6 +349,10 @@ class ExternBaker {
       this.type = TInst(c, [ for (arg in cl.params) arg.t ]);
     }
     this.cls = cl;
+    this.module = cl.module;
+    if (cl.meta.has(':uownerModule')) {
+      this.module = MacroHelpers.extractStrings(cl.meta, ':uownerModule')[0];
+    }
     this.params = [ for (p in cl.params) p.name ];
     this.glue = new CodeFormatter();
     var typeRef = TypeRef.fromBaseType(base, base.pos),
@@ -475,7 +391,6 @@ class ExternBaker {
     this.add(caller.name);
     this.begin(' {');
 
-    var feat = typeRef.getClassPath(true);
     var methods = [];
     for (generic in generics) {
       if (generic.field.meta.has(':expr')) {
@@ -584,7 +499,6 @@ class ExternBaker {
         impl = new CodeFormatter();
     var cppType = tconv.ueType.getCppType().toString(),
         glueName = tconv.haxeType.getGlueHelperType().getCppType() + '_UE_obj';
-    var className = tconv.ueType.withoutPointer(true).name;
     decl << 'namespace uhx {' << new Newline()
          << 'template<';
     decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
@@ -637,6 +551,10 @@ class ExternBaker {
 
   private function processClass(type:Type, c:ClassType) {
     this.cls = c;
+    this.module = c.module;
+    if (c.meta.has(':uownerModule')) {
+      this.module = MacroHelpers.extractStrings(c.meta, ':uownerModule')[0];
+    }
     this.params = [ for (p in c.params) p.name ];
     this.pos = c.pos;
     if (!c.isExtern) return;
@@ -1063,7 +981,8 @@ class ExternBaker {
     switch(field.kind) {
     case FVar(read,write):
 #if bake_externs
-      deps.updateDeps(this.cls.module, field.type);
+      // trace(this.module,field.type);
+      deps.updateDeps(this.module, field.type);
 #end
       this.addDoc(field.doc);
       var meta = field.meta.get();
@@ -1153,12 +1072,6 @@ class ExternBaker {
     case FMethod(k):
       switch(Context.follow(field.type)) {
       case TFun(args,ret) if (field.meta.has(':expr')):
-#if bake_externs
-        for (arg in args) {
-          deps.updateDeps(this.cls.module, arg.t);
-        }
-        deps.updateDeps(this.cls.module, ret);
-#end
         this.addDoc(field.doc);
         this.addMeta(field.meta.get().filter(function(meta) return meta.name != ':expr'));
         if (isStatic && field.name != 'new') {
@@ -1190,6 +1103,16 @@ class ExternBaker {
         this.buf.add({ expr:EBlock([expr]), pos:expr.pos }.toString());
         this.newline();
       case TFun(args,ret):
+#if bake_externs
+        for (arg in args) {
+          if (arg.name != 'this') {
+            // trace(this.module,arg);
+            deps.updateDeps(this.module, arg.t);
+          }
+        }
+        // trace(this.module,ret);
+        deps.updateDeps(this.module, ret);
+#end
         var cur = null;
         var args = args;
         if (specialization != null) {
@@ -1404,7 +1327,6 @@ class ExternBaker {
         var ctor = e.constructs[name];
         var ueName = MacroHelpers.extractStrings(ctor.meta, ':uname')[0];
         if (ueName == null) ueName = name;
-        var uePack = null;
         ueToHaxe += 'case $ueCall$ueName:\n\t\treturn $idx;\n\t';
         haxeToUe += 'case $idx:\n\t\treturn (int) $ueCall$ueName;\n\t';
         idx++;

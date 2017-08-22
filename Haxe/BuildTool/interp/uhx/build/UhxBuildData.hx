@@ -9,4 +9,7 @@ package uhx.build;
   public var targetType(default, null):TargetType;
   public var projectFile(default, null):String;
   public var pluginDir(default, null):String;
+
+  public var skipBake(default, null):Bool;
+  public var cppiaRecompile(default, null):Bool;
 }

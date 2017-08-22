@@ -1,8 +1,7 @@
 package uhx.compiletime.tools;
-import haxe.io.Eof;
 import haxe.macro.Context;
 import haxe.macro.Type;
-import sys.FileSystem;
+import uhx.compiletime.tools.MacroHelpers;
 import sys.io.File;
 
 /**
@@ -16,14 +15,12 @@ class DepList {
   var stringToIndex:Map<String, Int>;
   var reverseDeps:Map<Int, Map<Int, Bool>>;
   var extraFiles:Map<Int, Int>;
-  var deletedFiles:Map<String, Bool>;
 
   public function new() {
     this.stringArray = [];
     this.stringToIndex = new Map();
     this.reverseDeps = new Map();
     this.extraFiles = new Map();
-    this.deletedFiles = new Map();
   }
 
   private function getIndex(name:String):Int {
@@ -69,81 +66,22 @@ class DepList {
     if (module == '' || dependsOn == '') {
       return; // just don't add the dependency
     }
+    if (module == dependsOn) {
+      return;
+    }
     this.addDependencyIndex(getIndex(module), getIndex(dependsOn));
   }
 
   public function save(fileName:String) {
     var buf = new haxe.io.BytesBuffer(),
-        rev = this.reverseDeps,
-        del = this.deletedFiles;
+        rev = this.reverseDeps;
     buf.addByte(1);
-    // var file = null,
-    //     conversion = null;
-    // if (FileSystem.exists(fileName)) {
-    //   file = File.read(fileName);
-    //   if (file.readByte() != 0x1) {
-    //     file.close();
-    //     FileSystem.deleteFile(fileName);
-    //     throw 'Invalid dependency list file version: $fileName';
-    //   }
-    //   conversion = new Map();
-    //   var curIndex = -1;
-    //   while(true) {
-    //     var source = file.readUntil(0);
-    //     if (source == '') {
-    //       if (file.readByte() != 2) {
-    //         throw 'Invalid file';
-    //       }
-    //       break;
-    //     }
-    //     ++curIndex;
-    //     var realIndex = getIndex(source);
-    //     conversion[curIndex] = realIndex;
-    //   }
-    // }
 
     for (arr in stringArray) {
       buf.addString(arr);
       buf.addByte(0);
     }
     buf.addByte(0);
-
-    // if (file != null) {
-    //   // read and write
-    //   try {
-    //     var source = conversion[file.readInt32()];
-    //     buf.addInt32(source);
-    //     var deps = rev[source];
-    //     if (deps != null) {
-    //       rev.remove(source);
-    //       while(true) {
-    //         var dep = file.readInt32();
-    //         if (dep == -1) {
-    //           break;
-    //         }
-    //         dep = conversion[dep];
-    //         buf.addInt32(dep);
-    //         deps.remove(dep);
-    //       }
-    //       for (dep in deps.keys()) {
-    //         buf.addInt32(dep);
-    //       }
-    //       buf.addInt32(-1);
-    //     } else {
-    //       while(true) {
-    //         var cur = file.readInt32();
-    //         if (cur == -1) {
-    //           break;
-    //         }
-    //         buf.addInt32(conversion[cur]);
-    //       }
-    //       buf.addInt32(-1);
-    //     }
-    //   }
-    //   catch(e:Eof) {
-    //   }
-    //   file.close();
-    // }
 
     for (key in rev.keys()) {
       buf.addInt32(key);
@@ -157,16 +95,75 @@ class DepList {
   }
 
   public function updateDeps(module:String, t:Type) {
-    var dependsOn = switch(Context.follow(t)) {
+    while(true) {
+      switch(t) {
+      case TAbstract(a,_):
+        var a = a.get();
+        if (a.meta.has(':enum')) {
+          return;
+        }
+        if (!a.meta.has(':uextern')) {
+          if (!a.meta.has(':coreType')) {
+            t = Context.followWithAbstracts(t, true);
+            continue;
+          } else {
+            return;
+          }
+        }
+        break;
       case TInst(c,_):
-        c.get().module;
+        if (!c.get().meta.has(':uextern')) {
+          return;
+        }
+        break;
+      case TEnum(e,_):
+        if (!e.get().meta.has(':uextern')) {
+          return;
+        }
+        break;
+      case TType(tdef,_):
+        var tdef = tdef.get();
+        if (tdef.meta.has(':uPrimeTypedef')) {
+          break;
+        }
+        t = Context.follow(t, true);
+      case TMono(ref):
+        t = ref.get();
+        if (t == null) {
+          return;
+        }
+      case TDynamic(_) | TAnonymous(_) | TFun(_):
+        return;
+      case TLazy(fn):
+        t = fn();
+        if (t == null) {
+          return;
+        }
+      }
+    }
+    var dependsOn = switch(t) {
+      case TInst(c,_):
+        var c = c.get();
+        var owner = MacroHelpers.extractStrings(c.meta, ':uownerModule');
+        if (owner.length >= 1) {
+          owner[0];
+        } else {
+          c.module;
+        }
       case TEnum(e,_):
         e.get().module;
       case TAbstract(a,_):
-        a.get().module;
+        var a = a.get();
+        var owner = MacroHelpers.extractStrings(a.meta, ':uownerModule');
+        if (owner.length >= 1) {
+          owner[0];
+        } else {
+          a.module;
+        }
       case _:
         null;
     }
+
     if (dependsOn != null) {
       this.addDependency(module, dependsOn);
     }

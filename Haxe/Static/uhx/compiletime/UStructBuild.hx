@@ -91,6 +91,7 @@ class UStructBuild {
     tdef.meta.add(':keep', [], tdef.pos);
     var def = macro class {
     };
+    tdef.meta.add(':uownerModule',[macro $v{tdef.module}],pos);
     // TDAbstract( tthis : Null<ComplexType>, ?from : Array<ComplexType>, ?to: Array<ComplexType> );
     var structType = macro : unreal.Struct,
         ofType = sup == null ? structType : TypeRef.fromType( sup, tdef.pos ).toComplexType();
