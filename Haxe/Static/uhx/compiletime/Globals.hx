@@ -41,6 +41,7 @@ class Globals {
   public var targetType(default, null):String = Context.definedValue('UHX_UE_TARGET_TYPE');
   public var targetPlatform(default, null):String = Context.definedValue('UHX_UE_TARGET_PLATFORM');
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
+  public var glueManager:Null<uhx.compiletime.types.GlueManager>;
 
   @:isVar public var shortBuildName(get, null):String;
 

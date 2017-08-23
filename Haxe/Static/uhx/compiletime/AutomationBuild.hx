@@ -124,7 +124,8 @@ class AutomationBuild {
 #endif
     ');
 
-    writer.close(Globals.cur.module);
+    var changed = writer.close(Globals.cur.module);
+    Globals.cur.glueManager.addCpp(cppPath, Globals.cur.module, changed);
     cls.meta.add(':ufiledependency', [macro "PrivateCpp", macro $v{tref.getClassPath(true)}], cls.pos);
     cls.meta.add(':ueGluePath', [], cls.pos);
   }

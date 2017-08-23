@@ -16,9 +16,9 @@ using uhx.compiletime.tools.MacroHelpers;
  **/
 class NativeGlueCode
 {
+  public var glues(default, null):GlueManager;
   private var glueTypes:Map<String, Ref<ClassType>>;
   private var modules:Map<String,Bool>;
-  private var glues:GlueManager;
 
   private var stampOutput:String;
 
@@ -30,6 +30,7 @@ class NativeGlueCode
     if (!FileSystem.exists(this.stampOutput)) {
       FileSystem.createDirectory(this.stampOutput);
     }
+    Globals.cur.glueManager = this.glues;
   }
 
   private function getNewerUhxStamp() {

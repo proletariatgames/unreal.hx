@@ -660,6 +660,7 @@ class ReflectAPI {
       FMemory.Memzero(newStack, ufunc.ParmsSize);
     }
 
+    var hasOut = ufunc.FunctionFlags.hasAny(FUNC_HasOutParms);
     var arg = ufunc.Children,
         retProp = null;
     while (arg != null) {
@@ -688,7 +689,18 @@ class ReflectAPI {
         } else {
           addr = newStack;
         }
+      } else if (hasOut && prop.PropertyFlags.hasAny(CPF_OutParm)) {
+        var propAddr = newStack + prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+        // prop.InitializeValue(propAddr);
+        stack.MostRecentPropertyAddress = Ptr.mkNull();
+        stack.StepExplicitProperty(propAddr, prop);
+        if (stack.MostRecentPropertyAddress.isNotNull()) {
+          addr = cast stack.MostRecentPropertyAddress;
+          // bpGetData automatically adds its offset, so subtract that
+          addr -= prop.GetOffset_ReplaceWith_ContainerPtrToValuePtr();
+        }
       }
+
 
       args.push(bpGetData(addr, prop, true));
     }
@@ -702,7 +714,7 @@ class ReflectAPI {
       bpSetField_rec(result - retProp.GetOffset_ReplaceWith_ContainerPtrToValuePtr(), retProp, ret, #if debug '${ufunc.GetName()}.ReturnVal' #else null #end);
     }
 
-    if (needsNewStack && ufunc.HasAnyFunctionFlags(FUNC_HasOutParms)) {
+    if (needsNewStack && hasOut) {
       var i = -1,
           outLocals = stack.Locals.asUIntPtr();
       arg = ufunc.Children;
