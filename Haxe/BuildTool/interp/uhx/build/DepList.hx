@@ -62,7 +62,8 @@ class DepList {
           throw 'Invalid id $mainId';
         }
         var shouldAdd = false,
-            reason = null;
+            reason = null,
+            shouldDelete = false;
         if (modulesToCompile == null) {
           shouldAdd = false;
         } else if (modulesToCompile.exists(main)) {
@@ -70,18 +71,24 @@ class DepList {
           reason = traceFiles ? 'it depends on $main' : null;
         } else if (!processed.exists(main)) {
           shouldAdd = true;
+          shouldDelete = true;
           reason = traceFiles ? 'it depends on $main' : null;
           if (traceFiles) {
-            log(' Baking $main because it was not previously processed');
+            log(' Baking $main\'s dependencies because it was deleted');
           }
         }
-        var arr = deps[mainId] = [];
+        var arr = null;
+        if (!shouldDelete) {
+          deps[mainId] = arr = [];
+        }
         while (true) {
           var i32 = file.readInt32();
           if (i32 < 0) {
             break;
           }
-          arr.push(i32);
+          if (arr != null) {
+            arr.push(i32);
+          }
           if (shouldAdd) {
             var targetModule = stringArray[i32];
             // delay adding so we don't add more dependencies than we need (the extern baker only cares for immediate dependency changes)

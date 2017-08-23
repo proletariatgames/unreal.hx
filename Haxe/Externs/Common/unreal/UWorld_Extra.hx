@@ -154,7 +154,7 @@ extern class UWorld_Extra {
     transform:Const<PRef<FTransform>>,
     ?owner:AActor,
     ?instigator:APawn,
-    ?collisionHandlingOverride:ESpawnActorCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod.Undefined) : PPtr<T>;
+    ?collisionHandlingOverride:ESpawnActorCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod.Undefined) : T;
 
   /**
     Test the collision of a shape at the supplied location using a specific channel, and return if any blocking overlap is found
