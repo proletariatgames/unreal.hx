@@ -1212,7 +1212,7 @@ class UhxBuild {
     }
 
     // check if haxe compiler / sources are present
-    var hasHaxe = call('haxe', ['-version'], false) == 0;
+    var hasHaxe = callHaxe(['-version'], false) == 0;
     if (!FileSystem.exists('${this.outputDir}/Data')) {
       FileSystem.createDirectory('${this.outputDir}/Data');
     }
@@ -1439,7 +1439,37 @@ class UhxBuild {
       cmdArgs.push('macro_times');
     }
 
-    return call('haxe', cmdArgs, true);
+    return callHaxe(cmdArgs, true);
+  }
+
+  private function callHaxe(args:Array<String>, showErrors:Bool) {
+    var cmd = 'haxe';
+    var installPath = this.config.haxeInstallPath;
+    if (installPath != null) {
+      if (!haxe.io.Path.isAbsolute(installPath)) {
+        installPath = this.data.projectDir + '/' + installPath;
+      }
+      if (Sys.systemName() == 'Windows') {
+        cmd = '${installPath}/haxe.exe';
+      } else {
+        cmd = '${installPath}/haxe';
+      }
+      if (!FileSystem.exists(cmd)) {
+        err('File "$cmd" does not exist');
+        return -1;
+      }
+      Sys.putEnv('HAXEPATH', installPath);
+    }
+
+    var haxelibPath = this.config.haxelibPath;
+    if (haxelibPath != null) {
+      if (!haxe.io.Path.isAbsolute(haxelibPath)) {
+        haxelibPath = this.data.projectDir + '/' + haxelibPath;
+      }
+      Sys.putEnv('HAXELIB_PATH', haxelibPath);
+    }
+
+    return call(cmd, args, showErrors);
   }
 
   private function getModules(name:String, modules:Array<String>)

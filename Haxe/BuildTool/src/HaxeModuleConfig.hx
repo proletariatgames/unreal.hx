@@ -113,12 +113,15 @@ typedef HaxeModuleConfig = {
    **/
   ?compilationServer:Int,
 
-  // TODO
-  // /**
-  //   If `generateExterns` is true, it will by default only generate the externs for the current module only.
-  //   If more modules are to be generate, define them here
-  //  **/
-  // ?extraGenerateExternsModules:Array<String>,
+  /**
+    Set a custom haxe path that is not on PATH
+  **/
+  ?haxeInstallPath:String,
+
+  /**
+    Set a custom HAXELIB_PATH
+  **/
+  ?haxelibPath:String,
 }
 
 @:enum abstract Dce(String) from String {
