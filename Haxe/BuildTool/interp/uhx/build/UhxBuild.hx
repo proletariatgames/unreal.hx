@@ -60,10 +60,12 @@ class UhxBuild {
 
   private function getStampOverride() {
     var stamp = .0;
-    inline function checkFile(path:String) {
-      var curStamp = FileSystem.stat(path).mtime.getTime();
-      if (curStamp > stamp) {
-        stamp = curStamp;
+    inline function checkFile(path:String, checkExists=false) {
+      if (!checkExists || FileSystem.exists(path)) {
+        var curStamp = FileSystem.stat(path).mtime.getTime();
+        if (curStamp > stamp) {
+          stamp = curStamp;
+        }
       }
     }
 
@@ -79,7 +81,7 @@ class UhxBuild {
     }
 
     recurse(data.pluginDir + '/Haxe/Static/uhx/compiletime');
-    checkFile(this.haxeDir + '/arguments.hxml');
+    checkFile(this.haxeDir + '/arguments.hxml', true);
     recurse(data.pluginDir + '/Haxe/BuildTool/interp/');
     // checkFile(data.projectFile);
 
