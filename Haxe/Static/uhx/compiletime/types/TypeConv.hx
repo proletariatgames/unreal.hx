@@ -721,9 +721,9 @@ class TypeConv {
 
       case CPtr(of, isRef):
         if (isRef) {
-          '*(reinterpret_cast<${of.ueType.getCppType(true)}*>($expr))';
+          '*(reinterpret_cast<${of.ueType.getCppType(false)}*>($expr))';
         } else {
-          'reinterpret_cast<${this.ueType.getCppType(true)}>($expr)';
+          'reinterpret_cast<${this.ueType.getCppType(false)}>($expr)';
         }
 
       case CLambda(args,ret):
