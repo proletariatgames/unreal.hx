@@ -1234,7 +1234,7 @@ class UhxBuild {
       {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
-        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', compFile, this.config.verbose, 'static');
+        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
         depCheck();
         if (!needsStatic) {
           log('Skipping static compilation because it was not needed');
@@ -1256,7 +1256,14 @@ class UhxBuild {
       if (this.cppiaEnabled) {
         var compFile = '${this.outputDir}/Data/cppiaCompile.stamp';
         var depCheck = timer('script dependency check');
-        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', compFile, this.config.verbose, 'cppia');
+        var targetFile = null;
+#if (!UE_EDITOR_RECOMPILE && !UE_EDITOR_COMPILE)
+        targetFile = '${data.projectDir}/Binaries/Haxe/game.cppia';
+#else
+        targetFile = '${data.projectDir}/Binaries/Haxe/game-editor.cppia';
+#end
+
+        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
         depCheck();
         if (!needsCppia) {
           log('Skipping cppia compilation because it was not needed');
@@ -1305,10 +1312,16 @@ class UhxBuild {
     return new Path(this.data.projectFile).file;
   }
 
-  private function checkDependencies(deps:String, compFile:String, traceFiles:Bool, phase:String) {
+  private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String) {
     if (FileSystem.exists(compFile)) {
       if (traceFiles) {
         log('compiling $phase because last compilation failed');
+      }
+      return true;
+    }
+    if (!FileSystem.exists(targetFile)) {
+      if (traceFiles) {
+        log('compiling $phase because target file does not exist');
       }
       return true;
     }
@@ -1318,7 +1331,11 @@ class UhxBuild {
       }
       return true;
     }
-    var stamp = FileSystem.stat(deps).mtime.getTime();
+    var stamp = FileSystem.stat(deps).mtime.getTime(),
+        targetStamp = FileSystem.stat(targetFile).mtime.getTime();
+    if (stamp > targetStamp) {
+      stamp = targetStamp;
+    }
     var ret = false;
     var file = File.read(deps);
     try {

@@ -80,30 +80,21 @@ class CreateGlue {
             switch(type) {
             case TAbstract(a):
               var a = a.get();
-              var isExtern = a.meta.has(':uextern');
-              if (!isExtern) {
-                if (!cur.inScriptPass || a.meta.has(':ustruct')) {
-                  addFileDep(Context.getPosInfos(a.pos).file);
-                }
+              if (!cur.inScriptPass || a.meta.has(':ustruct')) {
+                addFileDep(Context.getPosInfos(a.pos).file);
               }
               if (a.meta.has(':ueHasGenerics')) {
                 cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
               }
             case TClassDecl(c):
               var c = c.get();
-              var isExtern = c.meta.has(':uextern');
-              if (!isExtern) {
-                if (!cur.inScriptPass || c.meta.has(':uclass')) {
-                  addFileDep(Context.getPosInfos(c.pos).file);
-                }
+              if (!cur.inScriptPass || c.meta.has(':uclass')) {
+                addFileDep(Context.getPosInfos(c.pos).file);
               }
             case TEnumDecl(e):
               var e = e.get();
-              var isExtern = e.meta.has(':uextern');
-              if (!isExtern) {
-                if (!cur.inScriptPass || e.meta.has(':uenum')) {
-                  addFileDep(Context.getPosInfos(e.pos).file);
-                }
+              if (!cur.inScriptPass || e.meta.has(':uenum')) {
+                addFileDep(Context.getPosInfos(e.pos).file);
               }
             case _:
             }
