@@ -59,17 +59,30 @@ class UhxBuild {
   }
 
   private function getStampOverride() {
-    var stamp = .0;
-    inline function checkFile(path:String, checkExists=false) {
-      if (!checkExists || FileSystem.exists(path)) {
-        var curStamp = FileSystem.stat(path).mtime.getTime();
-        if (curStamp > stamp) {
-          stamp = curStamp;
-        }
+    var stamp = getNewerStampRec([data.pluginDir + '/Haxe/Static/uhx/compiletime', 
+      data.pluginDir + '/Haxe/BuildTool/interp/'
+    ]);
+    var arg = this.haxeDir + '/arguments.hxml';
+    if (FileSystem.exists(arg)) {
+      var curStamp = FileSystem.stat(arg).mtime.getTime();
+      if (curStamp >= stamp) {
+        stamp = curStamp;
       }
     }
 
-    // check uhx/compiletime
+    return stamp;
+  }
+
+  private function getNewerStampRec(dirs:Array<String>):Float {
+    var stamp = .0;
+
+    inline function checkFile(path:String) {
+      var curStamp = FileSystem.stat(path).mtime.getTime();
+      if (curStamp > stamp) {
+        stamp = curStamp;
+      }
+    }
+
     function recurse(dir:String) {
       for (file in FileSystem.readDirectory(dir)) {
         if (file.endsWith('.hx')) {
@@ -80,11 +93,11 @@ class UhxBuild {
       }
     }
 
-    recurse(data.pluginDir + '/Haxe/Static/uhx/compiletime');
-    checkFile(this.haxeDir + '/arguments.hxml', true);
-    recurse(data.pluginDir + '/Haxe/BuildTool/interp/');
-    // checkFile(data.projectFile);
-
+    for (dir in dirs) {
+      if (FileSystem.exists(dir)) {
+        recurse(dir);
+      }
+    }
     return stamp;
   }
 
@@ -1232,11 +1245,13 @@ class UhxBuild {
         trace('Skipping bake externs');
       }
       // compile static
+
       if (ret == 0)
       {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
-        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
+        var staticStamp = this.getNewerStampRec(this.modulePaths);
+        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, staticStamp, compFile, this.config.verbose, 'static');
         depCheck();
         if (!needsStatic) {
           log('Skipping static compilation because it was not needed');
@@ -1265,7 +1280,8 @@ class UhxBuild {
         targetFile = '${data.projectDir}/Binaries/Haxe/game-editor.cppia';
 #end
 
-        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
+        var scriptStamp = this.getNewerStampRec(this.scriptPaths);
+        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, scriptStamp, compFile, this.config.verbose, 'cppia');
         depCheck();
         if (!needsCppia) {
           log('Skipping cppia compilation because it was not needed');
@@ -1314,7 +1330,7 @@ class UhxBuild {
     return new Path(this.data.projectFile).file;
   }
 
-  private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String) {
+  private function checkDependencies(deps:String, targetFile:String, filesStamp:Float, compFile:String, traceFiles:Bool, phase:String) {
     if (FileSystem.exists(compFile)) {
       if (traceFiles) {
         log('compiling $phase because last compilation failed');
@@ -1337,6 +1353,12 @@ class UhxBuild {
         targetStamp = FileSystem.stat(targetFile).mtime.getTime();
     if (stamp > targetStamp) {
       stamp = targetStamp;
+    }
+    if (filesStamp >= stamp) {
+      if (traceFiles) {
+        log('compiling $phase because a newer file was found in the compilation path');
+      }
+      return true;
     }
     var ret = false;
     var file = File.read(deps);

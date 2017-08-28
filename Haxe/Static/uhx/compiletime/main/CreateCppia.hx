@@ -129,7 +129,7 @@ class CreateCppia {
 
     var fileDeps = new Map();
     inline function addFileDep(file:String) {
-      if (!scriptFiles.exists(file) && file != null) {
+      if (file != null) {
         fileDeps.set(file, true);
       }
     }
