@@ -465,6 +465,58 @@ class NeedsGlueBuild
             if (UExtensionBuild.upropReplicated(param) && !field.meta.hasMeta(":ureplicate")) {
               Context.warning('Do not use `Replicated`. Instead, use the @:ureplicate metadata. Please refer to the Unreal.hx documentation for more information', param.pos);
             }
+            switch(param.expr) {
+              case EBinop(OpAssign, { expr:EConst(CIdent(left) | CString(left)) }, { expr:EConst(CIdent(right) | CString(right)) }):
+                if (left.toLowerCase() == 'blueprintgetter' || left.toLowerCase() == 'blueprintsetter') {
+#if (UE_VER < 4.17)
+                  Context.warning('Unreal Glue Extension: $left is not available for this unreal version (for field ${field.name})', param.pos);
+                  hadErrors = true;
+                  continue;
+#end
+                  // make sure that the function exists and has the correct metadata
+                  var fn = fields.find(function(f) return f.name == right);
+                  if (fn == null) {
+                    Context.warning('Unreal Glue Extension: ${field.name} requires the function $right, as specified in $left', param.pos);
+                    hadErrors = true;
+                    continue;
+                  }
+                  if (!fn.meta.hasMeta(':ufunction')) {
+                    Context.warning('Unreal Glue Extension: $left must be a ufunction, as specified by ${field.name} ($left)', fn.pos);
+                    hadErrors = true;
+                    continue;
+                  }
+                  var fnMeta = [ for (meta in fn.meta.extractStringsFromMetadata(':ufunction')) meta.toLowerCase() ];
+                  if (!fnMeta.has(left.toLowerCase())) {
+                    // just add it
+                    var meta = fn.meta.extractMeta(':ufunction');
+                    if (meta.params == null) {
+                      meta.params = [];
+                    }
+                    meta.params.push(macro $i{left});
+                  }
+
+                  // make sure that the function has the correct type
+                  // delay the type test to an expression, so it can be inferred
+                  var fieldName = field.name;
+                  var expr = left.toLowerCase() == 'blueprintgetter' ? 
+                    macro @:pos(fn.pos) $i{fieldName} = $i{right}() :
+                    macro @:pos(fn.pos) $i{right}($i{fieldName});
+                  var dummy = macro class {
+                    @:noCompletion @:extern private function dummy() {
+                      $expr;
+                    }
+                  };
+                  var field = dummy.fields[0];
+                  field.name = 'uhx_type_check_${fieldName}_$right';
+                  toAdd.push(field);
+                }
+              case EConst(CIdent(s) | CString(s)):
+                if (s.toLowerCase() == 'blueprintgetter' || s.toLowerCase() == 'blueprintsetter') {
+                  Context.warning('Unreal Glue Extension: Missing the target function specifier for $s', param.pos);
+                  hadErrors = true;
+                }
+              case _:
+            }
           }
         }
       }

@@ -20,6 +20,12 @@
 #define DEFINE_UHX_DYNAMIC_UCLASS_PACK(Class)
 #endif
 
+#if UE_VER >= 417
+typedef EClassFlags UHX_ClassFlags;
+#else
+typedef uint32 UHX_ClassFlags;
+#endif
+
 #define DECLARE_UHX_DYNAMIC_UCLASS(Class) \
   class Class; \
   template<> \
@@ -72,7 +78,7 @@ public:
       UClass*& ReturnClass,
       void(*RegisterNativeFunc)(),
       uint32 InSize,
-      uint32 InClassFlags,
+      UHX_ClassFlags InClassFlags,
       EClassCastFlags InClassCastFlags,
       const TCHAR* InConfigName,
       UClass::ClassConstructorType InClassConstructor,

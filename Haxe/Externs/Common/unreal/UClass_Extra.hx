@@ -27,9 +27,15 @@ extern class UClass_Extra {
   @:noTemplate
   public function GetDefaultObject<T : UObject>(bCreateIfNeeded:Bool=true) : T;
 
+#if (UE_VER >= 4.17)
+  public function HasAllClassFlags(flags:EClassFlags):Bool;
+
+  public function HasAnyClassFlags(flags:EClassFlags):Bool;
+#else
   public function HasAllClassFlags(flags:Int32):Bool;
 
   public function HasAnyClassFlags(flags:Int32):Bool;
+#end
 
   /**
    * Assembles the token stream for realtime garbage collection by combining the per class only

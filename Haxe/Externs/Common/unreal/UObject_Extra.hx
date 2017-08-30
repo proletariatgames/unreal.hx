@@ -78,6 +78,8 @@ extern class UObject_Extra {
    **/
   public function PostLoad():Void;
 
+  public function ConditionalPostLoad():Void;
+
   @:thisConst
   public function GetWorld() : UWorld;
 

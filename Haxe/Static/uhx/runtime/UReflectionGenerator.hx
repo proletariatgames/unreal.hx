@@ -797,6 +797,14 @@ class UReflectionGenerator {
         flags |= FUNC_BlueprintCosmetic;
       case 'withvalidation':
         // TODO
+#if (UE_VER >= 4.17)
+      case 'blueprintgetter':
+        flags |= FUNC_BlueprintCallable | FUNC_BlueprintPure;
+        fn.SetMetaData('BlueprintGetter', "");
+      case 'blueprintsetter':
+        flags |= FUNC_BlueprintCallable;
+        fn.SetMetaData('BlueprintSetter', "");
+#end
       case _:
         if (meta.value != null) {
           fn.SetMetaData(meta.name, meta.value);
@@ -1036,9 +1044,9 @@ class UReflectionGenerator {
     var flags:EClassFlags = uclass.ClassFlags;
     var parentFlags = parent.ClassFlags;
     flags = flags | (parentFlags & (CLASS_Inherit | CLASS_ScriptInherit)) | CLASS_CompiledFromBlueprint;
-    if (!Std.is(parent, UBlueprintGeneratedClass)) {
-      flags = flags | CLASS_Native;
-    }
+    // if we don't set this, bShouldInitializeProperties is set to true at UClass::CreateDefaultObject, which makes the old properties
+    // to be initialized from the parent CDO, which is not what we want
+    flags = flags | CLASS_Native;
     uclass.ClassFlags = flags;
     uclass.ClassCastFlags = uclass.ClassCastFlags | parent.ClassCastFlags;
     uclass.SetMetaData(CoreAPI.staticName('HaxeDynamicClass'),hxPath);
@@ -1187,6 +1195,14 @@ class UReflectionGenerator {
       case 'visibleinstanceonly':
         // TODO check edit specifier
         flags |= CPF_Edit | CPF_EditConst | CPF_DisableEditOnTemplate;
+#if (UE_VER >= 4.17)
+      case 'blueprintgetter':
+        flags |= CPF_BlueprintVisible;
+        prop.SetMetaData('BlueprintGetter', meta.value);
+      case 'blueprintsetter':
+        flags |= CPF_BlueprintVisible;
+        prop.SetMetaData('BlueprintSetter', meta.value);
+#end
       case _:
         if (meta.value != null) {
           prop.SetMetaData(meta.name, meta.value);
