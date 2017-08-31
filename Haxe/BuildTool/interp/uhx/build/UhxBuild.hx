@@ -73,6 +73,47 @@ class UhxBuild {
     return stamp;
   }
 
+  private function hasNewModules(modulesFile:String, dirs:Array<String>, traceFiles:Bool, phase:String):Bool {
+    if (!FileSystem.exists(modulesFile)) {
+      if (traceFiles) {
+        log('compiling $phase because the modules file $modulesFile was not found');
+      }
+      return true;
+    }
+    var modules = new Map();
+    for (mod in sys.io.File.getContent(modulesFile).split('\n')) {
+      modules[mod] = true;
+    }
+
+    function recurse(dir:String, mod:String) {
+      for (file in FileSystem.readDirectory(dir)) {
+        if (file.endsWith('.hx')) {
+          var name = mod + file.substr(0,file.length-3);
+          if (!modules.exists(name)) {
+            if (traceFiles) {
+              log('compiling $phase because there is a new module $name');
+            }
+            return true;
+          }
+        } else if (FileSystem.isDirectory('$dir/$file')) {
+          if (recurse('$dir/$file', mod + file + '.')) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    for (dir in dirs) {
+      if (FileSystem.exists(dir)) {
+        if (recurse(dir, '')) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private function getNewerStampRec(dirs:Array<String>):Float {
     var stamp = .0;
 
@@ -524,6 +565,10 @@ class UhxBuild {
       }
     }
 
+    for (module in manifest.Modules) {
+      module.SaveExportedHeaders = false;
+    }
+
     tcheck();
     if (!shouldRun) {
       log('Skipping extern generation because no new header was found on the project');
@@ -669,72 +714,74 @@ class UhxBuild {
     var depList = deps.depList,
         compiledEverything = deps.compiledEverything;
 
+    var ret = 0;
     if (!modulesToCompile.iterator().hasNext()) {
       trace('Skipping extern baker since there is nothing to compile');
-      return 0;
-    }
-
-    var files = sys.io.File.write(targetFiles);
-    files.writeString("BAKERFILES1"); // version
-    files.writeByte('\n'.code);
-    for (module in modulesToCompile.keys()) {
-      modulesToCompile[module];
-      files.writeString(module);
+    } else {
+      var files = sys.io.File.write(targetFiles);
+      files.writeString("BAKERFILES1"); // version
       files.writeByte('\n'.code);
-    }
-    files.close();
+      for (module in modulesToCompile.keys()) {
+        modulesToCompile[module];
+        files.writeString(module);
+        files.writeByte('\n'.code);
+      }
+      files.close();
 
-    var bakeArgs = [
-      '# this pass will bake the extern type definitions into glue code',
-      FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
-      '-cp ${data.pluginDir}/Haxe/Static',
-      '-cp ${data.pluginDir}/Haxe/Externs/Common',
-      '-cp ${data.pluginDir}/Haxe/Externs/$ueExternDir',
-      '-cp ${haxeDir}/Externs',
-      '-D use-rtti-doc', // we want the documentation to be persisted
-      '-D bake-externs',
-      '-D ${this.defineVer}',
-      '-D ${this.definePatch}',
-      '-D UHX_STATIC_BASE_DIR=$outputDir',
-      this.config.verbose ? '-D UHX_VERBOSE' : '',
-      '',
-      '-cpp $haxeDir/Generated/$externsFolder',
-      '--no-output', // don't generate cpp files; just execute our macro
-      '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' + 
-                                                        '"$escapedTargetStampPart","$escapedTargetFiles")'
-    ];
-    if (shouldBuildEditor()) {
-      bakeArgs.push('-D WITH_EDITOR');
-      bakeArgs.push('-D WITH_EDITORONLY_DATA');
-    }
-    if (data.targetType == Program) {
-      bakeArgs.push('-D IS_PROGRAM');
-    }
-    if (this.config.disableUObject) {
-      bakeArgs.push('-D UHX_NO_UOBJECT');
-    }
+      var bakeArgs = [
+        '# this pass will bake the extern type definitions into glue code',
+        FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
+        '-cp ${data.pluginDir}/Haxe/Static',
+        '-cp ${data.pluginDir}/Haxe/Externs/Common',
+        '-cp ${data.pluginDir}/Haxe/Externs/$ueExternDir',
+        '-cp ${haxeDir}/Externs',
+        '-D use-rtti-doc', // we want the documentation to be persisted
+        '-D bake-externs',
+        '-D ${this.defineVer}',
+        '-D ${this.definePatch}',
+        '-D UHX_STATIC_BASE_DIR=$outputDir',
+        this.config.verbose ? '-D UHX_VERBOSE' : '',
+        '',
+        '-cpp $haxeDir/Generated/$externsFolder',
+        '--no-output', // don't generate cpp files; just execute our macro
+        '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' + 
+                                                          '"$escapedTargetStampPart","$escapedTargetFiles")'
+      ];
+      if (shouldBuildEditor()) {
+        bakeArgs.push('-D WITH_EDITOR');
+        bakeArgs.push('-D WITH_EDITORONLY_DATA');
+      }
+      if (data.targetType == Program) {
+        bakeArgs.push('-D IS_PROGRAM');
+      }
+      if (this.config.disableUObject) {
+        bakeArgs.push('-D UHX_NO_UOBJECT');
+      }
 
-    trace('baking externs');
-    var tbake = timer('bake externs');
-    bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-    var ret = compileSources(bakeArgs);
-    tbake();
-    this.ranExternBaker = true;
+      trace('baking externs');
+      var tbake = timer('bake externs');
+      bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
+      ret = compileSources(bakeArgs);
+      tbake();
+      this.ranExternBaker = true;
+    }
 
     if (ret == 0) {
       var tupdate = timer('update dependencies');
-      if (compiledEverything) {
-        File.copy(targetStampPart, targetStamp);
-      } else {
-        // read dependency lists
-        var newDeps = new DepList(targetStampPart);
-        if (!newDeps.readHeader()) {
-          err('New target stamp part file $targetStampPart is invalid');
-          return -1;
+      if (this.ranExternBaker) {
+        if (compiledEverything) {
+          File.copy(targetStampPart, targetStamp);
+        } else {
+          // read dependency lists
+          var newDeps = new DepList(targetStampPart);
+          if (!newDeps.readHeader()) {
+            err('New target stamp part file $targetStampPart is invalid');
+            return -1;
+          }
+          newDeps.readDependencies(null, null, false);
+          // merge dependency lists
+          depList.merge(newDeps);
         }
-        newDeps.readDependencies(null, null, false);
-        // merge dependency lists
-        depList.merge(newDeps);
       }
       // go through the generated files and delete untouched files
       var base = '$haxeDir/Generated/$externsFolder';
@@ -745,6 +792,7 @@ class UhxBuild {
             var module = '$pack${file.substr(0,file.length-3)}';
             if (!processed.exists(module)) {
               log('Deleting uneeded baked extern $module ($target/$file)');
+              this.ranExternBaker = true; // make sure to re-compile if anything depends on baked files
               FileSystem.deleteFile('$target/$file');
               depList.markDeleted(module);
             }
@@ -1204,6 +1252,7 @@ class UhxBuild {
     if (!FileSystem.exists(haxeDir)) {
       FileSystem.createDirectory(haxeDir);
     }
+
     if (!FileSystem.exists('$haxeDir/arguments.hxml')) {
       sys.io.File.saveContent('$haxeDir/arguments.hxml',
           '# put here your additional haxe arguments\n' +
@@ -1250,8 +1299,11 @@ class UhxBuild {
       {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
-        var staticStamp = this.getNewerStampRec(this.modulePaths);
-        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, staticStamp, compFile, this.config.verbose, 'static');
+        var needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
+        if (!needsStatic) {
+          // TODO #8045 do not add cppia modules here
+          needsStatic = this.hasNewModules('${this.outputDir}/Data/staticModules.txt', this.modulePaths.concat(this.scriptPaths), this.config.verbose, 'static');
+        }
         depCheck();
         if (!needsStatic) {
           log('Skipping static compilation because it was not needed');
@@ -1280,8 +1332,10 @@ class UhxBuild {
         targetFile = '${data.projectDir}/Binaries/Haxe/game-editor.cppia';
 #end
 
-        var scriptStamp = this.getNewerStampRec(this.scriptPaths);
-        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, scriptStamp, compFile, this.config.verbose, 'cppia');
+        var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
+        if (!needsCppia) {
+          needsCppia = this.hasNewModules('${this.outputDir}/Data/cppiaModules.txt', this.scriptPaths, this.config.verbose, 'cppia');
+        }
         depCheck();
         if (!needsCppia) {
           log('Skipping cppia compilation because it was not needed');
@@ -1300,6 +1354,8 @@ class UhxBuild {
             }
           }
         }
+
+        // TODO if static wasn't compiled, but cppia tells that some C++ files need to be recompiled, compile here
       }
     } else {
       warn("Haxe compiler was not found!");
@@ -1330,7 +1386,7 @@ class UhxBuild {
     return new Path(this.data.projectFile).file;
   }
 
-  private function checkDependencies(deps:String, targetFile:String, filesStamp:Float, compFile:String, traceFiles:Bool, phase:String) {
+  private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String) {
     if (FileSystem.exists(compFile)) {
       if (traceFiles) {
         log('compiling $phase because last compilation failed');
@@ -1353,12 +1409,6 @@ class UhxBuild {
         targetStamp = FileSystem.stat(targetFile).mtime.getTime();
     if (stamp > targetStamp) {
       stamp = targetStamp;
-    }
-    if (filesStamp >= stamp) {
-      if (traceFiles) {
-        log('compiling $phase because a newer file was found in the compilation path');
-      }
-      return true;
     }
     var ret = false;
     var file = File.read(deps);

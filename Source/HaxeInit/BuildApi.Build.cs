@@ -98,11 +98,12 @@ public class HaxeModuleRules : BaseModuleRules {
   public bool disabled;
 
   /**
-   * Because of the pre-build hooks, forcing the haxe compilation is optional
-   * It should only ever be needed if one is compiling with Unreal unity builds on.
-   * Otherwsie, let the default (false), and Haxe will still be compiled by the pre-build script
+    This used to be optional, as PreBuildSteps were being used to compile Haxe without the need
+    of Build.cs. However, there are multiple issues with PreBuildSteps currently (see UE-47634)
+    so this is needed. You can still disable this, but make sure to compile Haxe yourself before 
+    if you choose to do so.
    **/
-  public bool forceHaxeCompilation;
+  public bool forceHaxeCompilation = true;
 
 #if (UE_OLDER_416)
   public HaxeModuleRules(TargetInfo target) : base(target) {
@@ -119,7 +120,16 @@ public class HaxeModuleRules : BaseModuleRules {
 
     if (!manualDependencies) {
       if (Target.Type != TargetType.Program) {
-        this.PublicDependencyModuleNames.AddRange(new string[] {"Core","CoreUObject","Engine","InputCore","SlateCore"});
+        // these are all dependencies on an empty unreal.hx project - 
+        // most of them are because of types that reference other modules
+        // without DCE enabled, we can't get past this
+        this.PublicDependencyModuleNames.AddRange(new string[] {
+          "Core",
+          "CoreUObject",
+          "Engine",
+          "InputCore",
+          "SlateCore"
+         });
         if (Target.Type == TargetType.Editor) {
           this.PrivateDependencyModuleNames.Add("UnrealEd");
         }
@@ -159,7 +169,7 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.PublicIncludePaths.Add(Path.Combine(info.outputDir, "Template/Public"));
     rules.PrivateIncludePaths.Add(Path.Combine(info.outputDir, "Template/Private"));
 
-    Log.TraceInformation("Using Haxe");
+    Log.TraceInformation("BuildApi.Build.cs: Using Haxe");
     rules.Definitions.Add("WITH_HAXE=1");
     rules.Definitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
     rules.Definitions.Add("MAY_EXPORT_SYMBOL=");
@@ -200,53 +210,20 @@ public class HaxeModuleRules : BaseModuleRules {
     callHaxe(rules, info);
     if (forceHaxeCompilation) {
       // make sure the Build.cs file is called every time
-      forceNextRun(info);
-      AppDomain.CurrentDomain.ProcessExit += delegate(object sender, EventArgs e) {
-        forceNextRun(info);
-      };
+      forceNextRun(rules, info);
     }
-#if (!UE_OLDER_416)
-    if (!forceHaxeCompilation) {
-      if (rules.Target.bUseUnityBuild || rules.Target.bForceUnityBuild) {
-        // see UE-47634 for more information about this
-        Log.TraceError("Unreal.hx: If you are compiling with unity builds, please make sure to set `forceHaxeCompilation` to true, as the pre-build scripts are not compatible with unity builds");
-        Log.TraceError("If you prefer disabling unity builds (recommended), please set `this.bUseUnityBuild` and `this.bForceUnityBuild` to false on your Target.cs file");
-        throw new Exception("Unreal.hx build cannot proceed with the current unity build settings");
-      }
-    }
-#endif
+
+    rules.ExternalDependencies.Add(info.pluginPath + "/Source/HaxeInit/BuildApi.Build.cs");
+    rules.ExternalDependencies.Add(info.outputDir + "/Data/modules.txt");
 
     return info;
   }
 
-  protected static void forceNextRun(HaxeCompilationInfo info) {
-    DateTime thisTime = DateTime.UtcNow;
-    try {
-      if (info != null && info.uprojectPath != null) {
-        Log.TraceInformation("Touching " + info.uprojectPath);
-        File.SetLastWriteTimeUtc(info.uprojectPath, thisTime);
-        return;
-      }
-    }
-    catch(Exception) {
-      Log.TraceWarning("Touching uproject failed");
-    }
-
-    string target = info.pluginPath + "/GeneratedForceBuild.Build.cs";
-    try {
-      if (!File.Exists(target)) {
-        File.WriteAllText(target, "// This file is here to enforce that Unreal always builds the Build.cs file. Do not submit this to source control");
-      } else {
-        File.SetLastWriteTimeUtc(target, thisTime);
-      }
-    }
-    catch(Exception e) {
-      Log.TraceError("Touching " + target + " failed with error " + e);
-      throw new Exception("Build failed");
-    }
+  protected static void forceNextRun(ModuleRules rules, HaxeCompilationInfo info) {
+    // take off this option once UE-47634 is fixed
+    rules.ExternalDependencies.Add(info.pluginPath + "/Inexistent path to force BuildApi.Build.cs to compile Haxe");
   }
 
-  // This is not called at the moment - as Haxe is getting called as a PreBuildScript
   public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info) {
     Log.TraceInformation("Calling Haxe");
     string engineDir = Path.GetFullPath("..");

@@ -27,11 +27,11 @@ class CreateGlue {
     externsDir = Context.definedValue('UHX_BAKE_DIR');
 
     // get all types that need to be compiled recursively
-    var toCompile = [];
+    var staticModules = [];
     for (path in alwaysCompilePaths) {
-      getModules(path, toCompile);
+      getModules(path, staticModules);
     }
-    toCompile.push('UnrealInit');
+    var toCompile = staticModules.concat(['UnrealInit']);
     if (!Context.defined('UHX_NO_UOBJECT')) {
       toCompile.push('unreal.ReflectAPI');
       toCompile.push('unreal.ByteArray');
@@ -222,6 +222,8 @@ class CreateGlue {
       nativeGlue.onAfterGenerate();
       Globals.cur.setCacheFile();
       writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
+      var allModules = staticModules.concat(scriptModules); // TODO #8045 don't check script modules, and instead let cppia tell if we need to be rebuilt
+      sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', allModules.join('\n'));
     });
   }
 

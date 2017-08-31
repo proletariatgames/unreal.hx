@@ -376,11 +376,13 @@ class NativeGlueCode
     if (!FileSystem.exists('$staticBaseDir/Data')) {
       FileSystem.createDirectory('$staticBaseDir/Data');
     }
-    var mfile = sys.io.File.write('$staticBaseDir/Data/modules.txt');
-    for (module in modules.keys()) {
-      mfile.writeString(module + '\n');
+    var modules = [ for (module in modules.keys()) module ];
+    modules.sort(Reflect.compare);
+    var contents = modules.join('\n').trim();
+    var targetModules = '$staticBaseDir/Data/modules.txt';
+    if (!FileSystem.exists(targetModules) || File.getContent(targetModules).trim() != contents) {
+      File.saveContent(targetModules, contents);
     }
-    mfile.close();
 
     if (Context.defined("WITH_CPPIA")) {
       var glueModules = [ for (key in glueTypes.keys()) key ];

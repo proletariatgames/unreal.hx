@@ -111,17 +111,17 @@ typedef HaxeModuleConfig = {
   /**
     The port which the compilation server must use
    **/
-  ?compilationServer:Int,
+  ?compilationServer:Null<Int>,
 
   /**
     Set a custom haxe path that is not on PATH
   **/
-  ?haxeInstallPath:String,
+  ?haxeInstallPath:Null<String>,
 
   /**
     Set a custom HAXELIB_PATH
   **/
-  ?haxelibPath:String,
+  ?haxelibPath:Null<String>,
 }
 
 @:enum abstract Dce(String) from String {

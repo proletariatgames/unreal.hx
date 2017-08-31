@@ -265,6 +265,7 @@ class CreateCppia {
     });
     Context.onAfterGenerate( function() {
       writeFileDeps(fileDeps, '$target/Data/cppiaDeps.txt');
+      sys.io.File.saveContent('$target/Data/cppiaModules.txt', scripts.join('\n'));
     });
   }
 
