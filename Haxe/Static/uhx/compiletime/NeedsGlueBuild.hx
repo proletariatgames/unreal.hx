@@ -109,7 +109,8 @@ class NeedsGlueBuild
     var isDynamicUType = Globals.isDynamicUType(type),
         superClass = null,
         firstExternSuper = null,
-        hasNativeInterfaces = false;
+        hasNativeInterfaces = false,
+        nonNativeFunctions = new Map();
     {
       var parent = (cast type : ClassType).superClass;
       if (parent != null) {
@@ -122,6 +123,11 @@ class NeedsGlueBuild
           }
           if (cur.superClass == null) {
             break;
+          }
+          if (nonNativeFunctions != null) {
+            for (field in cur.fields.get()) {
+              nonNativeFunctions[field.name] = true;
+            }
           }
           cur = cur.superClass.t.get();
         }
@@ -304,10 +310,12 @@ class NeedsGlueBuild
       }
 
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
+      var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic && 
+                            firstExternSuper != null && !nonNativeFunctions.exists(field.name);
       var shouldExposeFn = Globals.shouldExposeFunctionExpr(
           field,
           isDynamicUType,
-          (firstExternSuper == null || isStatic ? false : firstExternSuper.findField(field.name, false) != null));
+          overridesNative);
       if (!isStatic && shouldExposeFn) {
         field.meta.push({ name:':keep', pos:field.pos });
         switch (field.kind) {

@@ -167,7 +167,7 @@ class ExprGlueBuild {
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
     }
-    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ? 
+    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ?
       'super.$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() :
       null;
     if (Context.defined('cppia')) {
@@ -283,14 +283,18 @@ class ExprGlueBuild {
     case _: throw 'assert';
     }
 
-    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ? 
+    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ?
       '$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() : null;
     if (Context.defined('cppia')) {
       // only check if they are not special fields
-      if (fieldName != 'StaticClass' && fieldName != 'CPPSize' && fieldName != 'setupFunction') { 
+      if (fieldName != 'StaticClass' && fieldName != 'CPPSize' && fieldName != 'setupFunction') {
+        var name = fieldName;
+        if (name.startsWith('_get_') && name.endsWith('_methodPtr')) {
+          name = name.substring('_get_'.length, name.length - '_methodPtr'.length);
+        }
         var sig = clsRef.toString() + ':' + sig;
         if (!Globals.cur.compiledScriptGlues.exists(sig)) {
-          Context.warning('UHXERR: The native call of $fieldName from $clsRef was not compiled into hxcpp', Context.currentPos());
+          Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into hxcpp', Context.currentPos());
         }
       }
 
