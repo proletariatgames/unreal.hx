@@ -59,7 +59,7 @@ class ExprGlueBuild {
       } else {
         var sig = clsRef.toString() + ':' + getSig();
         if (!Globals.cur.compiledScriptGlues.exists(sig)) {
-          Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into hxcpp', Context.currentPos());
+          Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
         }
       }
       var args = [];
@@ -173,7 +173,7 @@ class ExprGlueBuild {
     if (Context.defined('cppia')) {
       var sig = clsRef.toString() + ':' + sig;
       if (!Globals.cur.compiledScriptGlues.exists(sig)) {
-        Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into hxcpp', Context.currentPos());
+        Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
       }
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
@@ -294,7 +294,7 @@ class ExprGlueBuild {
         }
         var sig = clsRef.toString() + ':' + sig;
         if (!Globals.cur.compiledScriptGlues.exists(sig)) {
-          Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into hxcpp', Context.currentPos());
+          Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
         }
       }
 
