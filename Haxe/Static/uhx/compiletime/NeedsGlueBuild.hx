@@ -548,7 +548,7 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
-        if (!Globals.cur.compiledScriptGlues.exists(thisClassName)) {
+        if (!Globals.cur.compiledScriptGlues.exists(thisClassName + ':')) {
           Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
         }
       }
