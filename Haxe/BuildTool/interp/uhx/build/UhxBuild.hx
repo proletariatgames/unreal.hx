@@ -46,7 +46,7 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function getStampOverride() {
-    var stamp = getNewerStampRec([data.pluginDir + '/Haxe/Static/uhx/compiletime', 
+    var stamp = getNewerStampRec([data.pluginDir + '/Haxe/Static/uhx/compiletime',
       data.pluginDir + '/Haxe/BuildTool/interp/'
     ]);
     var arg = this.haxeDir + '/arguments.hxml';
@@ -165,7 +165,7 @@ class UhxBuild extends UhxBaseBuild {
     return '$outputDir/$libName';
   }
 
-  private function getBakerChangedFiles(stampPath:String, cps:Array<String>, modulesToCompile:Map<String, Bool>, 
+  private function getBakerChangedFiles(stampPath:String, cps:Array<String>, modulesToCompile:Map<String, Bool>,
                                         processed:Map<String, Bool>, traceFiles:Bool, force:Bool, outputDir:String) {
     var stamp = .0;
     if (!force) {
@@ -670,7 +670,7 @@ class UhxBuild extends UhxBaseBuild {
         '',
         '-cpp $haxeDir/Generated/$externsFolder',
         '--no-output', // don't generate cpp files; just execute our macro
-        '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' + 
+        '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' +
                                                           '"$escapedTargetStampPart","$escapedTargetFiles")'
       ];
       if (shouldBuildEditor()) {
@@ -818,9 +818,7 @@ class UhxBuild extends UhxBaseBuild {
         '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
         '-D UHX_BUILD_NAME=$buildName',
         '-D UHX_BAKE_DIR=$haxeDir/Generated/$externsFolder',
-        ((this.data.ueEditorRecompile && !this.data.ueEditorCompile) ?
-          '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia' :
-          '-cppia ${data.projectDir}/Binaries/Haxe/game-editor.cppia'),
+        '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
         '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
     ]);
     if (debugSymbols) {
@@ -1266,12 +1264,7 @@ class UhxBuild extends UhxBaseBuild {
       if (this.cppiaEnabled) {
         var compFile = '${this.outputDir}/Data/cppiaCompile.stamp';
         var depCheck = timer('script dependency check');
-        var targetFile = null;
-        if (this.data.ueEditorRecompile && !this.data.ueEditorCompile) {
-          targetFile = '${data.projectDir}/Binaries/Haxe/game.cppia';
-        } else {
-          targetFile = '${data.projectDir}/Binaries/Haxe/game-editor.cppia';
-        }
+        var targetFile = '${data.projectDir}/Binaries/Haxe/game.cppia';
 
         var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');
         if (!needsCppia) {

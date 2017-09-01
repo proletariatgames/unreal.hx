@@ -65,9 +65,9 @@ class CreateGlue {
     // until there's nothing else to be built
     var typesTouched = new Map(),
         running = false;
-    var didProcess = false;
+    var didProcess = false,
+        finalized = false;
     Context.onAfterTyping(function(types) {
-      Type;
       if (types.exists(function(t) return Std.string(t) == 'TClassDecl(uhx.compiletime.main.CreateGlue)')) {
         return; // macro context
       }
@@ -136,6 +136,7 @@ class CreateGlue {
       }
       if (!Globals.cur.hasUnprocessedTypes) {
         if (!scriptClassesAdded) {
+          Globals.cur.hasUnprocessedTypes = true;
           // make sure cppia classes are compiled as well
           for (path in scriptPaths) {
             // we only add classpaths after all static compilation so it is obvious that we cannot
@@ -175,21 +176,30 @@ class CreateGlue {
               }
             }
           }
+          didProcess = true;
           if (Globals.cur.hasUnprocessedTypes) {
             return; // this will still run again
           }
+        }
+        if (!didProcess) {
+          return; // it will run again
+        }
 
-          didProcess = true;
-
-          while(Globals.cur.scriptGlues != null) {
-            var scriptGlues = Globals.cur.scriptGlues;
-            Globals.cur.scriptGlues = null;
-            while (scriptGlues != null) {
-              var scriptGlue = scriptGlues.value;
-              scriptGlues = scriptGlues.next;
-              ScriptGlue.generate(scriptGlue);
-            }
+        while(Globals.cur.scriptGlues != null) {
+          var scriptGlues = Globals.cur.scriptGlues;
+          Globals.cur.scriptGlues = null;
+          while (scriptGlues != null) {
+            var scriptGlue = scriptGlues.value;
+            scriptGlues = scriptGlues.next;
+            ScriptGlue.generate(scriptGlue);
           }
+        }
+        if (Globals.cur.hasUnprocessedTypes) {
+          return; // this will still run again
+        }
+
+        if (!finalized) {
+          finalized = true;
 
           // create hot reload helper
           if (Context.defined('WITH_CPPIA')) {

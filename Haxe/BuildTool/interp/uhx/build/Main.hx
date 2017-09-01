@@ -152,7 +152,8 @@ class Main {
     // and we'd delete a skip-editor.txt on the editor after the build is done. However, something unexpected might
     // happen - for example, the editor could be closed while compiling - which would make the editor file stick around
     if (FileSystem.exists(skipTxt)) {
-      trace('The file $skipTxt still existed. Deleting');
+      // don't show this warning while prebuildsteps are disabled
+      // trace('The file $skipTxt still existed. Deleting');
       FileSystem.deleteFile(skipTxt);
     }
 
