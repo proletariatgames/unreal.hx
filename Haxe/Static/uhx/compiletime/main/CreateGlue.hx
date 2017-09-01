@@ -54,7 +54,7 @@ class CreateGlue {
 
     var fileDeps = new Map();
     inline function addFileDep(file:String) {
-      if (file != null) {
+      if (file != null && file.endsWith('.hx')) {
         fileDeps.set(file, true);
       }
     }
@@ -217,6 +217,8 @@ class CreateGlue {
           var meta = c.get().meta;
           if (meta.has(':ugenerated')) {
             builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated')});
+          } else if (meta.has(':uclass')) {
+            builtGlues.push({ path:c.toString(), glues:[] });
           }
         case TAbstract(a,_):
           var impl = a.get().impl;

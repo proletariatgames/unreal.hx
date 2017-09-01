@@ -130,7 +130,7 @@ class CreateCppia {
 
     var fileDeps = new Map();
     inline function addFileDep(file:String) {
-      if (file != null) {
+      if (file != null && file.endsWith('.hx')) {
         fileDeps.set(file, true);
       }
     }
@@ -326,11 +326,12 @@ class CreateCppia {
         switch (ln.charCodeAt(0)) {
         case ':'.code:
           curBase = ln.substr(1) + ':';
+          ret[curBase] = true;
         case '+'.code:
           ret[curBase + ln.substr(1)] = true;
         case _:
           throw '$path: Unknown script glue part $ln';
-        } 
+        }
       }
     }
     catch(e:haxe.io.Eof) {

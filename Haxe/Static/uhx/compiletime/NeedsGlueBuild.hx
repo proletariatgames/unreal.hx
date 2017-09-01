@@ -310,7 +310,7 @@ class NeedsGlueBuild
       }
 
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
-      var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic && 
+      var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
                             firstExternSuper != null && !nonNativeFunctions.exists(field.name);
       var shouldExposeFn = Globals.shouldExposeFunctionExpr(
           field,
@@ -506,7 +506,7 @@ class NeedsGlueBuild
                   // make sure that the function has the correct type
                   // delay the type test to an expression, so it can be inferred
                   var fieldName = field.name;
-                  var expr = left.toLowerCase() == 'blueprintgetter' ? 
+                  var expr = left.toLowerCase() == 'blueprintgetter' ?
                     macro @:pos(fn.pos) $i{fieldName} = $i{right}() :
                     macro @:pos(fn.pos) $i{right}($i{fieldName});
                   var dummy = macro class {
@@ -548,6 +548,9 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
+        if (!Globals.cur.compiledScriptGlues.exists(thisClassName)) {
+          Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
+        }
       }
 
       for (field in staticClassDef.fields) {
