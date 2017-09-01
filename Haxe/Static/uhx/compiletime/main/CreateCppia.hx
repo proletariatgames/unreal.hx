@@ -302,7 +302,6 @@ class CreateCppia {
   {
     function recurse(path:String, pack:String)
     {
-      if (pack == 'uhx.' || pack == 'unreal.') return;
       for (file in FileSystem.readDirectory(path))
       {
         if (file.endsWith('.hx'))

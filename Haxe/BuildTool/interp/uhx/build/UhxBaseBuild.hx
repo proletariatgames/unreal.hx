@@ -63,7 +63,7 @@ class UhxBaseBuild {
     if (shouldBuild) {
       var ret = callHaxe([
         '-cpp', dir,
-        '-D','destination=$path', 
+        '-D','destination=$path',
         '-cp', this.data.pluginDir + '/Haxe/BuildTool/interp',
         '-cp', this.data.pluginDir + '/Haxe/BuildTool/src',
         '-cp', this.data.pluginDir,
@@ -133,6 +133,7 @@ class UhxBaseBuild {
     }
 
 #if cpp
+    log('$cmd ${args.join(' ')}');
     try {
       var proc = new sys.io.Process(cmd, args),
           err = Sys.stderr(),
@@ -142,7 +143,7 @@ class UhxBaseBuild {
           while(true) {
             Sys.println(stdout.readLine());
           }
-        } 
+        }
         catch(e:haxe.io.Eof) {
         }
       });
@@ -157,7 +158,7 @@ class UhxBaseBuild {
           err.writeString(ln);
           err.writeByte('\n'.code);
         }
-      } 
+      }
       catch(e:haxe.io.Eof) {
       }
 
