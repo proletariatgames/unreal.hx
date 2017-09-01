@@ -43,6 +43,8 @@ class Globals {
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
 
+  public var compiledScriptGlues:Map<String, Bool> = new Map();
+
   @:isVar public var shortBuildName(get, null):String;
 
   private function get_unrealSourceDir() {

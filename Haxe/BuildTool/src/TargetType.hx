@@ -1,5 +1,3 @@
-package uhx.build;
-
 @:enum abstract TargetType(String) from String {
   /**
     Cooked monolithic game executable (GameName.exe).  Also used for a game-agnostic engine executable (UE4Game.exe or RocketGame.exe)

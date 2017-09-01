@@ -29,7 +29,15 @@ class ExprGlueBuild {
         null;
     };
 
+    var field = findField(cls, fieldName, isStatic || abs != null);
+    if (field == null) throw 'assert';
+    var tconv = TypeConv.get(field.type, pos);
+
     var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
+    inline function getSig() {
+      return fullName + ':' + tconv.ueType.getCppType();
+    }
+
     if (Context.defined('cppia')) {
       if (isDynamic) {
         var staticPropName = 'uhx__prop_${fieldName}';
@@ -48,6 +56,11 @@ class ExprGlueBuild {
             unreal.ReflectAPI.getProperty(this, $i{staticPropName});
           };
         }
+      } else {
+        var sig = clsRef.toString() + ':' + getSig();
+        if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+          Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into hxcpp', Context.currentPos());
+        }
       }
       var args = [];
       if (!isStatic) {
@@ -64,11 +77,8 @@ class ExprGlueBuild {
       return { expr:ECall(macro $resolver.$fullName, args), pos: pos };
     }
 
-    var field = findField(cls, fieldName, isStatic || abs != null);
-    if (field == null) throw 'assert';
     // var ctx = !isStatic && !TypeConv.get(Context.getLocalType(), pos).data.match(CUObject(_)) ? [ "parent" => "this" ] : null;
     var ctx = new ConvCtx();
-    var tconv = TypeConv.get(field.type, pos);
 
     var glueType = getGlueType(clsRef, pos);
     var glueExpr = new HelperBuf(),
@@ -118,7 +128,8 @@ class ExprGlueBuild {
       if (isSetter) {
         toFlag = macro { $ret; value; };
       }
-      flagCurrentField(fullName, cls, isStatic, toFlag);
+      var sig = getSig();
+      flagCurrentField(fullName, cls, isStatic, toFlag, sig);
     }
     return ret;
   }
@@ -156,7 +167,14 @@ class ExprGlueBuild {
       fret = TypeConv.get(tret, pos);
     case _: throw 'assert';
     }
+    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ? 
+      'super.$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() :
+      null;
     if (Context.defined('cppia')) {
+      var sig = clsRef.toString() + ':' + sig;
+      if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+        Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into hxcpp', Context.currentPos());
+      }
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
       var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
@@ -224,7 +242,7 @@ class ExprGlueBuild {
     }
     if (meta.has(':uscript') && !script) {
       var expr = getSuperExpr(fieldName, targetFieldName, [for (arg in origArgs) macro $i{arg.name} ], true);
-      flagCurrentField(targetFieldName, cls, false, expr);
+      flagCurrentField(targetFieldName, cls, false, expr, sig);
     }
     return ret;
   }
@@ -233,15 +251,6 @@ class ExprGlueBuild {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
-    if (Context.defined('cppia')) {
-      var args = isStatic ? args : [macro this].concat(args);
-      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
-      var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
-      if (cls.meta.has(':hasGlueScriptGetter')) {
-        resolver = macro uhx_glueScript;
-      }
-      return { expr:ECall(macro $resolver.$fieldName, args), pos: pos };
-    }
 
     var abs = switch(cls.kind) {
       case KAbstractImpl(a):
@@ -273,9 +282,30 @@ class ExprGlueBuild {
       }
     case _: throw 'assert';
     }
+
+    var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ? 
+      '$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() : null;
+    if (Context.defined('cppia')) {
+      // only check if they are not special fields
+      if (fieldName != 'StaticClass' && fieldName != 'CPPSize' && fieldName != 'setupFunction') { 
+        var sig = clsRef.toString() + ':' + sig;
+        if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+          Context.warning('UHXERR: The native call of $fieldName from $clsRef was not compiled into hxcpp', Context.currentPos());
+        }
+      }
+
+      var args = isStatic ? args : [macro this].concat(args);
+      var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
+      var resolver = macro (cast std.Type.resolveClass($v{helper.getClassPath(true)}) : Dynamic);
+      if (cls.meta.has(':hasGlueScriptGetter')) {
+        resolver = macro uhx_glueScript;
+      }
+      return { expr:ECall(macro $resolver.$fieldName, args), pos: pos };
+    }
     if (fargs.length != args.length) {
       throw new Error('Unreal Glue Generation: $fieldName number of call arguments differ from declaration. Expected ${fargs.length}; got ${args.length}', pos);
     }
+
     var argn = 0;
     var block = [ for (arg in args) {
       var name = '__unative_arg' + argn++;
@@ -324,7 +354,7 @@ class ExprGlueBuild {
     if (meta.has(':uscript') && !script) {
       var args = [ for (arg in origArgs) macro $i{arg.name} ];
       var expr = getNativeCall(fieldName, isStatic, args, true);
-      flagCurrentField(fieldName, cls, isStatic, expr);
+      flagCurrentField(fieldName, cls, isStatic, expr, sig);
     }
     return ret;
   }
@@ -347,10 +377,10 @@ class ExprGlueBuild {
     return f;
   }
 
-  private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr) {
+  private static function flagCurrentField(meth:String, cl:ClassType, isStatic:Bool, expr:Expr, sig:String) {
     var field = findField(cl, meth, isStatic || cl.kind.match(KAbstractImpl(_)));
     if (field == null) throw new Error('assert: no field $meth on current class ${cl.name}', Context.currentPos());
-    field.meta.add(':ugluegenerated', [expr], cl.pos);
+    field.meta.add(':ugluegenerated', [expr, macro $v{sig}], cl.pos);
   }
 
   private static function getGlueType(clsRef:Ref<ClassType>, pos:Position) {

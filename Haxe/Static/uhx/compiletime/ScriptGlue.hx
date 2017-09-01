@@ -9,6 +9,7 @@ import uhx.compiletime.types.*;
 using haxe.macro.Tools;
 using Lambda;
 using StringTools;
+using uhx.compiletime.tools.MacroHelpers;
 
 /**
   Helps to build script-accessible glue code by creating a class (called _ScriptGlue)
@@ -17,12 +18,17 @@ using StringTools;
 class ScriptGlue {
   public static function generate(path:String) {
     var type = Context.getType(path);
-    var cl = switch(type) {
+    var cl:ClassType = switch(type) {
       case TInst(c,_): c.get();
       case TAbstract(a,_):
         var a = a.get();
         a.impl.get();
       case _: throw 'assert: $path not found';
+    }
+
+    // don't spend time building this if the type haven't been changed
+    if (cl.meta.has(':ugenerated')) {
+      return;
     }
 
     var typeref = TypeRef.fromBaseType(cl, cl.pos);
@@ -33,19 +39,20 @@ class ScriptGlue {
       macro : unreal.Wrapper;
     }
 
-    // don't spend time building this if the type haven't been changed
-    if (cl.meta.has(':ugenerated')) return;
-    cl.meta.add(':ugenerated', [], cl.pos);
-
-    var toBuild = [];
+    var toBuild = [],
+        ret = [];
     for (field in cl.fields.get()) {
       if (field.meta.has(':ugluegenerated')) {
-        toBuild.push(collectField(field, false, thisType, field.meta.extract(':ugluegenerated')[0].params[0]));
+        var meta = field.meta.extract(':ugluegenerated')[0];
+        toBuild.push(collectField(field, false, thisType, meta.params[0]));
+        ret.push(meta.params[1]);
       }
     }
     for (field in cl.statics.get()) {
       if (field.meta.has(':ugluegenerated')) {
-        toBuild.push(collectField(field, true, thisType, field.meta.extract(':ugluegenerated')[0].params[0]));
+        var meta = field.meta.extract(':ugluegenerated')[0];
+        toBuild.push(collectField(field, true, thisType, meta.params[0]));
+        ret.push(meta.params[1]);
       }
     }
 
@@ -61,10 +68,10 @@ class ScriptGlue {
       kind: TDClass(),
       fields: toBuild
     });
+    cl.meta.add(':ugenerated', ret, cl.pos);
   }
 
   private static function collectField(field:ClassField, isStatic:Bool, thisType:ComplexType, expr:Expr):Field {
-    // var args = [ for (arg in field.doc
     switch(Context.follow(field.type)) {
     case TFun(args,ret):
       var fnArgs:Array<FunctionArg> = [ for (arg in args) { name: arg.name == "this" ? "glue_self" : arg.name, opt: arg.opt, type: arg.t.toComplexType() } ];

@@ -51,9 +51,16 @@ class DelegateBuild {
       case _:
         false;
     };
+    var isExtern = false;
     var delayedglue = macro @:pos(pos) uhx.internal.DelayedGlue;
-    if (Context.defined('cppia') && !Globals.cur.scriptModules.exists(Context.getLocalModule())) {
-      delayedglue = macro cast null;
+    if (Context.defined('cppia')) {
+      if (!Globals.cur.scriptModules.exists(Context.getLocalModule())) {
+        delayedglue = macro cast null;
+        isExtern = true;
+      } else if (type != 'DynamicDelegate' && type != 'DynamicMulticastDelegate') {
+        delayedglue = macro cast null;
+        isExtern = true;
+      }
     }
 
     var def = null;
@@ -384,6 +391,7 @@ class DelegateBuild {
     def.meta = meta;
     // def.pack = TypeRef.parse(Context.getLocalModule()).pack;
     def.pack = ['uhx','delegates'];
+    def.isExtern = isExtern;
 #if bake_externs
     meta.push({ name:':udelegate', params:[macro var _:$sup], pos:pos });
     def.kind = TDClass();

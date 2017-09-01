@@ -3,7 +3,7 @@
   All properties added here will be optional and not setting them will make UE4Haxe use
   the default settings
  **/
-typedef HaxeModuleConfig = {
+typedef UhxBuildConfig = {
   /**
     Disables Haxe compilation entirely
     @default false
@@ -122,6 +122,16 @@ typedef HaxeModuleConfig = {
     Set a custom HAXELIB_PATH
   **/
   ?haxelibPath:Null<String>,
+
+  /**
+    Skip the UhxBuild native compilation and instead interpret using Haxe's interpreter
+  **/
+  ?interp:Bool,
+
+  /**
+    Skips the extern baker step entirely
+  **/
+  ?skipBake:Bool,
 }
 
 @:enum abstract Dce(String) from String {

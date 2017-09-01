@@ -22,6 +22,7 @@ class CreateCppia {
     var compiled = compiledModules.modules;
 
     registerMacroCalls(target);
+    Globals.cur.compiledScriptGlues = readScriptGlues('$target/Data/scriptGlues.txt');
 
     var statics = [];
     for (path in staticPaths) {
@@ -312,6 +313,31 @@ class CreateCppia {
     }
 
     if (FileSystem.exists(path)) recurse(path, '');
+  }
+
+  private static function readScriptGlues(path:String):Map<String, Bool> {
+    var ret = new Map();
+    var curBase = null;
+    var file = sys.io.File.read(path);
+    try {
+      while(true) {
+        var ln = file.readLine();
+        if (ln == '') continue;
+        switch (ln.charCodeAt(0)) {
+        case ':'.code:
+          curBase = ln.substr(1) + ':';
+        case '+'.code:
+          ret[curBase + ln.substr(1)] = true;
+        case _:
+          throw '$path: Unknown script glue part $ln';
+        } 
+      }
+    }
+    catch(e:haxe.io.Eof) {
+    }
+
+    file.close();
+    return ret;
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {

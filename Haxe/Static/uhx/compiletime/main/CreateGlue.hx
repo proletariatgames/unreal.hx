@@ -8,6 +8,7 @@ import uhx.compiletime.types.*;
 
 using StringTools;
 using Lambda;
+using uhx.compiletime.tools.MacroHelpers;
 
 /**
   This command takes care of compiling all the files in the Static folders and generating the glue code as needed.
@@ -80,7 +81,7 @@ class CreateGlue {
             switch(type) {
             case TAbstract(a):
               var a = a.get();
-              if (!cur.inScriptPass || a.meta.has(':ustruct')) {
+              if (!cur.inScriptPass) {
                 addFileDep(Context.getPosInfos(a.pos).file);
               }
               if (a.meta.has(':ueHasGenerics')) {
@@ -88,12 +89,12 @@ class CreateGlue {
               }
             case TClassDecl(c):
               var c = c.get();
-              if (!cur.inScriptPass || c.meta.has(':uclass')) {
+              if (!cur.inScriptPass) {
                 addFileDep(Context.getPosInfos(c.pos).file);
               }
             case TEnumDecl(e):
               var e = e.get();
-              if (!cur.inScriptPass || e.meta.has(':uenum')) {
+              if (!cur.inScriptPass) {
                 addFileDep(Context.getPosInfos(e.pos).file);
               }
             case _:
@@ -204,11 +205,30 @@ class CreateGlue {
       }
     });
 
+    var builtGlues = [];
     Context.onGenerate( function(gen) {
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
 
+      for (t in gen) {
+        switch(t) {
+        case TInst(c,_):
+          var meta = c.get().meta;
+          if (meta.has(':ugenerated')) {
+            builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated')});
+          }
+        case TAbstract(a,_):
+          var impl = a.get().impl;
+          if (impl != null) {
+            var meta = impl.get().meta;
+            if (meta.has(':ugenerated')) {
+              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated')});
+            }
+          }
+        case _:
+        }
+      }
       // starting from now, we can't create new types
       Globals.cur.reserveCacheFile();
       nativeGlue.onGenerate(gen);
@@ -222,9 +242,24 @@ class CreateGlue {
       nativeGlue.onAfterGenerate();
       Globals.cur.setCacheFile();
       writeFileDeps(fileDeps, '${Globals.cur.staticBaseDir}/Data/staticDeps.txt');
-      var allModules = staticModules.concat(scriptModules); // TODO #8045 don't check script modules, and instead let cppia tell if we need to be rebuilt
-      sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', allModules.join('\n'));
+      sys.io.File.saveContent('${Globals.cur.staticBaseDir}/Data/staticModules.txt', staticModules.join('\n'));
+      writeScriptGlues(builtGlues, '${Globals.cur.staticBaseDir}/Data/scriptGlues.txt');
     });
+  }
+
+  private static function writeScriptGlues(builtGlues:Array<{ path:String, glues:Array<String> }>, file:String) {
+    var ret = sys.io.File.write(file);
+    for (glue in builtGlues) {
+      ret.writeByte(':'.code);
+      ret.writeString(glue.path);
+      ret.writeByte('\n'.code);
+      for (glue in glue.glues) {
+        ret.writeByte('+'.code);
+        ret.writeString(glue);
+        ret.writeByte('\n'.code);
+      }
+    }
+    ret.close();
   }
 
   private static function writeFileDeps(fileDeps:Map<String, Bool>, target:String) {

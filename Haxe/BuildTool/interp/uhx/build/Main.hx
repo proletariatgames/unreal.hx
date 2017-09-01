@@ -5,7 +5,6 @@ import sys.FileSystem;
 class Main {
   static function main() {
 #if !UE_POST_BUILD
-
     var proc = null,
         pdbSrvPath = Sys.getEnv('VS140COMNTOOLS') + '/../IDE/mspdbsrv.exe';
     if (FileSystem.exists(pdbSrvPath)) {
@@ -35,7 +34,8 @@ class Main {
       // make sure to clean up the skip texts if this is an editor/ build.cs build
 #if (UE_BUILD_CS || UE_EDITOR_COMPILE)
       if (FileSystem.exists(skipTxt)) {
-        trace('The file $skipTxt was found while running this build');
+        // un-comment this once PreBuildSteps are fixed
+        // trace('The file $skipTxt was found while running this build');
         FileSystem.deleteFile(skipTxt);
       }
 #else
@@ -75,7 +75,7 @@ class Main {
     log('Building Haxe through the editor');
 #end
 
-        var build = new UhxBuild({
+        var build = new UhxBaseBuild({
           engineDir: haxe.macro.Compiler.getDefine("EngineDir"),
           projectDir: haxe.macro.Compiler.getDefine("ProjectDir"),
           targetName: haxe.macro.Compiler.getDefine("TargetName"),
@@ -87,6 +87,8 @@ class Main {
 
           skipBake: #if UE_SKIP_BAKE true #else false #end,
           cppiaRecompile: #if UE_CPPIA_RECOMPILE true #else false #end,
+          ueEditorRecompile: #if UE_EDITOR_RECOMPILE true #else false #end,
+          ueEditorCompile: #if UE_EDITOR_COMPILE true #else false #end,
         });
 
         build.run();

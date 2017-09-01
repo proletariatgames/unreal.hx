@@ -207,7 +207,10 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
+    System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+    sw.Start();
     callHaxe(rules, info);
+    Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
     if (forceHaxeCompilation) {
       // make sure the Build.cs file is called every time
       forceNextRun(rules, info);

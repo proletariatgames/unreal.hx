@@ -1,5 +1,3 @@
-package uhx.build;
-
 @:enum abstract TargetPlatform(String) from String {
   var Win32 = "Win32";
   var Win64 = "Win64";
