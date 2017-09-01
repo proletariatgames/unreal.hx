@@ -94,6 +94,8 @@ extern class UObject_Extra {
 
   public function GetOuter():UObject;
 
+  @:thisConst public function GetPathName(StopOuter:UObject=null):FString;
+
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function IsGarbageCollecting():Bool;
 
