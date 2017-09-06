@@ -63,7 +63,7 @@ class ScriptGlue {
     Context.defineType({
       pack: scriptGlue.pack,
       name: scriptGlue.name,
-      meta: [{ name:':static', params:[], pos:cl.pos }],
+      meta: [{ name:':static', params:[], pos:cl.pos }, {name:':scriptGlue', params:[], pos:cl.pos}],
       pos: cl.pos,
       kind: TDClass(),
       fields: toBuild

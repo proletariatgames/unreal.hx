@@ -34,6 +34,11 @@ public:
   static int getHaxeGcRefOffset();
 
   /**
+   * Gets the GcRef size
+   **/
+  static int getGcRefSize();
+
+  /**
    * Sets up the class constructor
    **/
   static void setupClassConstructor(unreal::UIntPtr inDynamicClass);

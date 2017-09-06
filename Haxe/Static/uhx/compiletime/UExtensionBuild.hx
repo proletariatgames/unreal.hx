@@ -522,23 +522,36 @@ class UExtensionBuild {
           // TODO this should work instead of forcing the @:privateAccess
           //{ name: ':access', params: [ Context.parse(thisConv.haxeType.getClassPath(true),this.pos) ], pos: this.pos }
         ];
+        var nameGet = Context.defined('NO_DYNAMIC_UCLASS') ?
+          '"${typeRef.getClassPath(true)}"' :
+          'uhx.runtime.UReflectionGenerator.getClassName("${nativeUe.getCppClass()}", "${typeRef.getClassPath(true)}")';
         var createExpr = if (isScript) {
-          'std.Type.createInstance( std.Type.resolveClass("${typeRef.getClassPath(true)}"), [ ((cast ueType) : unreal.UIntPtr) ] )';
+          '{
+            var cls = std.Type.resolveClass($nameGet);
+            if (cls != null) {
+              shouldPop = true;
+            }
+            cls == null ? null : std.Type.createInstance(cls, [ ((cast ueType) : unreal.UIntPtr) ]);
+           }';
         } else {
           '@:privateAccess new ${typeRef.getClassPath()}( ((cast ueType) : unreal.UIntPtr) )';
         }
         createExpr = '{
-          var ret:unreal.UObject = null;
+          var ret:unreal.UObject = null,
+              shouldPop = false;
           try {
             ret = cast $createExpr;
+            shouldPop = true;
           }
           catch(e:Dynamic) {
             uhx.ClassWrap.popCtor(ret);
             cpp.Lib.rethrow(e);
           }
-          uhx.ClassWrap.popCtor(ret);
           if (ret == null) {
             trace("Error", "Error while creating ${typeRef.getClassPath()}: It does not exist");
+          }
+          if (shouldPop) {
+            uhx.ClassWrap.popCtor(ret);
           }
           return uhx.internal.HaxeHelpers.dynamicToPointer(ret);
         }';
@@ -554,7 +567,7 @@ class UExtensionBuild {
           pos: invariantPos
         });
         var createEmptyExpr = '{ ' +
-          'var cls = std.Type.resolveClass("${typeRef.getClassPath(true)}");' +
+          'var cls = std.Type.resolveClass($nameGet);' +
           'if (cls == null) { trace("Error", "Trying to create empty object of nonexistent class ${typeRef.getClassPath(true)}"); return 0; }' +
           'var ret:unreal.UObject = cast (' + 'std.Type.createEmptyInstance(cls)' + ');' +
           '@:privateAccess ret.wrapped = ueType;' +

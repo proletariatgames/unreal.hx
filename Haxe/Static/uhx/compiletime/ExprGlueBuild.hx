@@ -58,7 +58,7 @@ class ExprGlueBuild {
         }
       } else {
         var sig = clsRef.toString() + ':' + getSig();
-        if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+        if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
           Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
         }
       }
@@ -172,7 +172,7 @@ class ExprGlueBuild {
       null;
     if (Context.defined('cppia')) {
       var sig = clsRef.toString() + ':' + sig;
-      if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+      if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
         Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
       }
       var args = [macro this].concat(args);
@@ -293,7 +293,7 @@ class ExprGlueBuild {
           name = name.substring('_get_'.length, name.length - '_methodPtr'.length);
         }
         var sig = clsRef.toString() + ':' + sig;
-        if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+        if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
           Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
         }
       }

@@ -11,6 +11,7 @@
 #include "HaxeGcRef.h"
 #include "HaxeInit.h"
 #include "uhx/UEHelpers.h"
+#include "uhx/GcRef.h"
 #include <unordered_map>
 // #include "Templates/UnrealTemplate.h" // For STRUCT_OFFSET
 
@@ -204,7 +205,7 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
   } else if (inProp->IsA<UBoolProperty>()) {
     auto prop = Cast<UBoolProperty>(inProp);
     prop->SetPropertyValue(dest, uhx::expose::HxcppRuntime::unboxBool(value));
-  } else if (inProp->IsA<UNameProperty>() || 
+  } else if (inProp->IsA<UNameProperty>() ||
       inProp->IsA<UStrProperty>() ||
       inProp->IsA<UTextProperty>() ||
       inProp->IsA<UArrayProperty>()) {
@@ -412,6 +413,10 @@ void uhx::ue::RuntimeLibrary_obj::setupClassConstructor(unreal::UIntPtr inDynami
   uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) inClass, &dynamicWrapper);
   inClass->ClassConstructor = &dynamicConstruct;
 #endif
+}
+
+int uhx::ue::RuntimeLibrary_obj::getGcRefSize() {
+  return sizeof(uhx::GcRef);
 }
 
 #undef GET_UPROP

@@ -154,9 +154,14 @@ class UhxBaseBuild {
           var ln = stderr.readLine();
           if (ln.indexOf('UHXERR:') >= 0) {
             this.hadUhxErr = true;
+            if (showErrors) {
+              err.writeString(ln);
+              err.writeByte('\n'.code);
+            }
+          } else {
+            err.writeString(ln);
+            err.writeByte('\n'.code);
           }
-          err.writeString(ln);
-          err.writeByte('\n'.code);
         }
       }
       catch(e:haxe.io.Eof) {

@@ -72,35 +72,36 @@ class CreateGlue {
         return; // macro context
       }
       Globals.cur.hasUnprocessedTypes = false;
-      while (true) {
-        var cur = Globals.cur;
-        for (type in types) {
-          var str = Std.string(type);
-          if (!typesTouched[str]) {
-            typesTouched[str] = true;
-            switch(type) {
-            case TAbstract(a):
-              var a = a.get();
-              if (!cur.inScriptPass) {
-                addFileDep(Context.getPosInfos(a.pos).file);
-              }
-              if (a.meta.has(':ueHasGenerics')) {
-                cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
-              }
-            case TClassDecl(c):
-              var c = c.get();
-              if (!cur.inScriptPass) {
-                addFileDep(Context.getPosInfos(c.pos).file);
-              }
-            case TEnumDecl(e):
-              var e = e.get();
-              if (!cur.inScriptPass) {
-                addFileDep(Context.getPosInfos(e.pos).file);
-              }
-            case _:
+      var cur = Globals.cur;
+      for (type in types) {
+        var str = Std.string(type);
+        if (!typesTouched[str]) {
+          typesTouched[str] = true;
+          switch(type) {
+          case TAbstract(a):
+            var a = a.get();
+            if (!cur.inScriptPass) {
+              addFileDep(Context.getPosInfos(a.pos).file);
             }
+            if (a.meta.has(':ueHasGenerics')) {
+              cur.gluesToGenerate = cur.gluesToGenerate.add(TypeRef.fromBaseType(a, a.pos).getClassPath());
+            }
+          case TClassDecl(c):
+            var c = c.get();
+            if (!cur.inScriptPass && !c.meta.has(':scriptGlue')) {
+              addFileDep(Context.getPosInfos(c.pos).file);
+            }
+          case TEnumDecl(e):
+            var e = e.get();
+            if (!cur.inScriptPass) {
+              addFileDep(Context.getPosInfos(e.pos).file);
+            }
+          case _:
           }
         }
+      }
+
+      while (true) {
         if (running) {
           return;
         }

@@ -798,7 +798,7 @@ class UhxBuild extends UhxBaseBuild {
     }
   }
 
-  private function compileCppia() {
+  private function compileCppia(showErrors:Bool) {
     var cps = getStaticCps();
     for (module in scriptPaths) {
       cps.push('-cp $module');
@@ -843,7 +843,7 @@ class UhxBuild extends UhxBaseBuild {
     }
     var tcppia = timer('Cppia compilation');
     args.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-    var cppiaRet = compileSources(extraArgs.concat(args));
+    var cppiaRet = compileSources(extraArgs.concat(args), showErrors);
 
     tcppia();
     if (!this.data.ueEditorRecompile && !this.data.ueEditorCompile) {
@@ -1275,7 +1275,7 @@ class UhxBuild extends UhxBaseBuild {
           log('Skipping cppia compilation because it was not needed');
         } else {
           this.hadUhxErr = false;
-          var cppiaRet = compileCppia();
+          var cppiaRet = compileCppia(needsStatic);
           if (cppiaRet != 0) {
             if (this.data.cppiaRecompile) {
               throw new BuildError('Cppia compilation failed. Please check the output log for more information');
@@ -1446,7 +1446,7 @@ class UhxBuild extends UhxBaseBuild {
     File.saveContent('$haxeDir/gen-$name.hxml', hxml.toString());
   }
 
-  private function compileSources(args:Array<String>, ?realOutput:String)
+  private function compileSources(args:Array<String>, ?realOutput:String, ?showErrors=true)
   {
     var cmdArgs = [];
     for (arg in args) {
@@ -1473,7 +1473,7 @@ class UhxBuild extends UhxBaseBuild {
       cmdArgs.push('macro_times');
     }
 
-    return callHaxe(cmdArgs, true);
+    return callHaxe(cmdArgs, showErrors);
   }
 
   private function getModules(name:String, modules:Array<String>)

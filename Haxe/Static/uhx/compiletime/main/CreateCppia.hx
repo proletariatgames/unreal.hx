@@ -195,7 +195,7 @@ class CreateCppia {
               addFileDep(Context.getPosInfos(c.pos).file);
             }
             var genericFields = compiledGenerics[name];
-            if (genericFields != null) {
+            if (genericFields != null && !Context.defined('display')) {
               for (field in c.fields.get().concat(c.statics.get())) {
                 if (field.meta.has(':genericInstance')) {
                   if (!genericFields.exists(field.name)) {

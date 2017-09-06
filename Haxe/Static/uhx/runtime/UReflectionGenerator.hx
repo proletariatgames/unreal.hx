@@ -497,7 +497,7 @@ class UReflectionGenerator {
       struct.AddCppProperty(prop);
     }
     if (isNative) {
-      bindProperties(uname, struct);
+      bindNativeProperties(uname, struct);
     }
     reg.setPropertiesAdded();
     if (meta.uclass.propSig != null) {
@@ -815,7 +815,7 @@ class UReflectionGenerator {
     return flags;
   }
 
-  private static function bindProperties(uname:String, struct:UStruct) {
+  private static function bindNativeProperties(uname:String, struct:UStruct) {
     if (!struct.HasMetaData(CoreAPI.staticName("HaxeGenerated"))) {
       struct.SetMetaData(CoreAPI.staticName('HaxeGenerated'),"true");
     }
@@ -846,7 +846,13 @@ class UReflectionGenerator {
           throw 'Haxe class for dynamic class $uname was not found ($clsName)';
         }
 
-        struct.PropertiesSize = cls.CPPSize();
+        try {
+          struct.PropertiesSize = cls.CPPSize();
+        }
+        catch(e:Dynamic) {
+          trace('Warning', 'The class $uname was compiled with another path. Its size cannot be computed correctly. Please perform a full C++ build.');
+          struct.PropertiesSize = sup.PropertiesSize + uhx.ue.RuntimeLibrary.getGcRefSize();
+        }
       }
     }
 
@@ -861,6 +867,18 @@ class UReflectionGenerator {
         struct.MinAlignment = a1 > a2 ? a1 : a2;
       }
       field = field.Next;
+    }
+  }
+
+  public static function getClassName(uname:String, fallback:String) {
+    if (registry == null) {
+      return fallback;
+    }
+    var reg = registry[uname];
+    if (reg != null) {
+      return reg.hxClassName == null ? fallback : reg.hxClassName;
+    } else {
+      return fallback;
     }
   }
 
