@@ -865,7 +865,6 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
 
-
     var curSourcePath = this.srcDir;
     var cps = getStaticCps();
     var args = cps.concat([
@@ -1238,7 +1237,13 @@ class UhxBuild extends UhxBaseBuild {
       {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
-        needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
+        needsStatic = hasCompilationParamsChanged();
+        if (needsStatic && this.config.verbose) {
+          log('compiling static because latest compilation was compiled with different arguments');
+        }
+        if (!needsStatic) {
+          needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
+        }
         if (!needsStatic) {
           // TODO #8045 do not add cppia modules here
           needsStatic = this.hasNewModules('${this.outputDir}/Data/staticModules.txt', this.modulePaths, this.config.verbose, 'static');
@@ -1248,6 +1253,9 @@ class UhxBuild extends UhxBaseBuild {
           log('Skipping static compilation because it was not needed');
         } else {
           ret = this.compileStatic();
+          // regardless if it succeeded or not, we want to make sure that if we change the arguments
+          // it will compile again, so save them
+          saveCompilationParams();
           if (ret == 0) {
             if (FileSystem.exists(compFile)) {
               FileSystem.deleteFile(compFile);
@@ -1321,6 +1329,23 @@ class UhxBuild extends UhxBaseBuild {
 
   private function getProjectName() {
     return new Path(this.data.projectFile).file;
+  }
+
+  private function getCurCompilationParams() {
+    return 'TargetType=${this.data.targetType};TargetConfiguration=${this.data.targetConfiguration};TargetPlatform=${this.data.targetPlatform}';
+  }
+
+  private function hasCompilationParamsChanged() {
+    var file = this.data.projectDir + '/Intermediate/Haxe/lastCompilation.txt';
+    if (!FileSystem.exists(file)) {
+      return true;
+    }
+    return File.getContent(file).trim() != getCurCompilationParams();
+  }
+
+  private function saveCompilationParams() {
+    var file = this.data.projectDir + '/Intermediate/Haxe/lastCompilation.txt';
+    File.saveContent(file, getCurCompilationParams());
   }
 
   private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String) {
