@@ -25,8 +25,21 @@ public class BaseModuleRules : ModuleRules {
   }
 #endif
 
+  static System.Type getType(string name) {
+    System.Type ret = System.Type.GetType(name);
+    if (ret == null) {
+			foreach (Assembly t2 in AppDomain.CurrentDomain.GetAssemblies()) {
+        ret = t2.GetType(name);
+        if (ret != null) {
+          break;
+        }
+      }
+    }
+    return ret;
+  }
+
   static bool isGeneratingProjectFiles() {
-    System.Type t = System.Type.GetType("UnrealBuildTool.ProjectFileGenerator");
+    System.Type t = getType("UnrealBuildTool.ProjectFileGenerator");
     if (t != null) {
       FieldInfo f = t.GetField("bGenerateProjectFiles");
       if (f != null) {
@@ -100,7 +113,7 @@ public class HaxeModuleRules : BaseModuleRules {
   /**
     This used to be optional, as PreBuildSteps were being used to compile Haxe without the need
     of Build.cs. However, there are multiple issues with PreBuildSteps currently (see UE-47634)
-    so this is needed. You can still disable this, but make sure to compile Haxe yourself before 
+    so this is needed. You can still disable this, but make sure to compile Haxe yourself before
     if you choose to do so.
    **/
   public bool forceHaxeCompilation = true;
@@ -120,7 +133,7 @@ public class HaxeModuleRules : BaseModuleRules {
 
     if (!manualDependencies) {
       if (Target.Type != TargetType.Program) {
-        // these are all dependencies on an empty unreal.hx project - 
+        // these are all dependencies on an empty unreal.hx project -
         // most of them are because of types that reference other modules
         // without DCE enabled, we can't get past this
         this.PublicDependencyModuleNames.AddRange(new string[] {
@@ -242,8 +255,8 @@ public class HaxeModuleRules : BaseModuleRules {
     proc.StartInfo.CreateNoWindow = true;
     proc.StartInfo.UseShellExecute = false;
     proc.StartInfo.FileName = "haxe";
-    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir + 
-        "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform + 
+    proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir +
+        "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform +
         "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
         "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS";
     Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
