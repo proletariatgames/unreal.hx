@@ -974,11 +974,13 @@ class UhxBuild extends UhxBaseBuild {
           '-D magiclibs',
           '-D HXCPP_VERBOSE'
         ];
+        var disabledWarnings =
+          '-Wno-null-dereference -Wno-parentheses-equality';
         oldEnvs = setEnvs([
           'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
           'CXX' => (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
-            'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
-            'clang++ --sysroot "$crossPath" -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"'),
+            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
+            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"'),
           'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
           'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
           'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
