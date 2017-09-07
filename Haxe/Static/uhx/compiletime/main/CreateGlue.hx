@@ -41,7 +41,7 @@ class CreateGlue {
     for (path in scriptPaths) {
       getModules(path, scriptModules);
     }
-    Globals.cur.scriptModules = [ for (module in scriptModules) module => true ];
+    Globals.cur.staticModules = [ for (module in staticModules) module => true ];
 
     var nativeGlue = new NativeGlueCode();
 
@@ -361,11 +361,11 @@ class CreateGlue {
             c.meta.add(':native', [macro $v{'Dynamic'}], c.pos);
             c.exclude();
           }
-        case TEnum(e,_):
-          var e = e.get();
-          e.meta.remove(':native');
-          e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
-          e.exclude();
+        // case TEnum(e,_):
+        //   var e = e.get();
+        //   e.meta.remove(':native');
+        //   e.meta.add(':native', [macro $v{'Dynamic'}], e.pos);
+        //   e.exclude();
         case TAbstract(a,_):
           // it seems cppia is smart enough to replace abstract types. So we may want to not exclude them
           // it will work either way!

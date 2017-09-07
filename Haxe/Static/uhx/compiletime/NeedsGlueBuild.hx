@@ -101,7 +101,7 @@ class NeedsGlueBuild
     var hadErrors = false,
         toAdd:Array<Field> = [];
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && !Globals.cur.scriptModules.exists(type.module))) {
+    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
@@ -167,7 +167,7 @@ class NeedsGlueBuild
     var superCalls = new Map(),
         uprops = [];
     var nativeCalls = new Map();
-    if (Context.defined('cppia') && Globals.cur.inScriptPass) {
+    if (Context.defined('cppia') && !Globals.cur.staticModules.exists(type.module)) {
       Globals.cur.classesToAddMetaDef.push(thisType.getClassPath());
     }
 
@@ -225,7 +225,7 @@ class NeedsGlueBuild
               e.map(map);
             }
           }
-          if (!Context.defined('cppia') || Globals.cur.scriptModules.exists(type.module)) {
+          if (!Context.defined('cppia') || !Globals.cur.staticModules.exists(type.module)) {
             fn.expr = map(fn.expr);
           }
         case _:

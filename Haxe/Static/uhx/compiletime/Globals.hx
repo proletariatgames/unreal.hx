@@ -219,10 +219,10 @@ class Globals {
   public var inScriptPass:Bool = false;
 
   /**
-    A list of modules that are compiled in the script pass
+    A list of modules that are compiled in the static pass
     only used when cppia is defined
    **/
-  public var scriptModules:Map<String, Bool> = new Map();
+  public var staticModules:Map<String, Bool> = new Map();
 
   function new() {
     TypeConv.addSpecialTypes(this.typeConvCache);

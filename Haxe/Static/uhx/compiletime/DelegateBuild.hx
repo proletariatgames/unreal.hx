@@ -54,7 +54,7 @@ class DelegateBuild {
     var isExtern = false;
     var delayedglue = macro @:pos(pos) uhx.internal.DelayedGlue;
     if (Context.defined('cppia')) {
-      if (!Globals.cur.scriptModules.exists(Context.getLocalModule())) {
+      if (Globals.cur.staticModules.exists(Context.getLocalModule())) {
         delayedglue = macro cast null;
         isExtern = true;
       } else if (type != 'DynamicDelegate' && type != 'DynamicMulticastDelegate') {

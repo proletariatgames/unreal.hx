@@ -477,7 +477,7 @@ class TypeConv {
       set.add('<hxcpp.h>');
     case CStruct(type,_,info,params):
       set.add('VariantPtr.h');
-    
+
     case CPtr(of,_):
       set.add('IntPtr.h');
 
@@ -1054,7 +1054,7 @@ class TypeConv {
             Context.warning('Unreal Glue: PPtr of a UObject is not supported', pos);
           }
           if (!it.meta.has(':uextern')) {
-            if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
+            if (it.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(it.module))) {
               ret = CUObject(OScriptHaxe, ctx.accFlags, info);
             } else {
               ret = CUObject(OHaxe, ctx.accFlags, info);
@@ -1070,7 +1070,7 @@ class TypeConv {
         } else if (it.meta.has(':uextern')) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (it.meta.has(':haxeCreated')) {
-          if (it.meta.has(':uscript') || Globals.cur.scriptModules.exists(it.module)) {
+          if (it.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(it.module))) {
             ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           } else {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
@@ -1117,7 +1117,7 @@ class TypeConv {
         if (e.meta.has(':uextern') && !e.meta.has(':haxeGenerated')) {
           ret = CEnum(e.meta.has(':class') ? EExternalClass : EExternal, info, e.meta.has(':uenum'));
         } else if (e.meta.has(':uenum')) {
-          if (e.meta.has(':uscript') || Globals.cur.scriptModules.exists(e.module)) {
+          if (e.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(e.module))) {
             ret = CEnum(EScriptHaxe, info, true);
           } else {
             ret = CEnum(EHaxe, info, true);
@@ -1154,10 +1154,10 @@ class TypeConv {
           //     case KExpr({ expr:EConst(CInt(i)) }):
           //       size = Std.parseInt(i);
           //     case _:
-          //       throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + c, pos);  
+          //       throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + c, pos);
           //     }
           //   case _:
-          //     throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + tl[1], pos);  
+          //     throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + tl[1], pos);
           //   }
           // }
           if (ctx.modf != null) {
@@ -1198,7 +1198,7 @@ class TypeConv {
         } else if (hasUextern) {
           ret = CStruct(SExternal, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
         } else if (a.meta.has(':haxeCreated')) {
-          if (a.meta.has(':uscript') || Globals.cur.scriptModules.exists(a.module)) {
+          if (a.meta.has(':uscript') || (Context.defined('cppia') && !Globals.cur.staticModules.exists(a.module))) {
             ret = CStruct(SScriptHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);
           } else {
             ret = CStruct(SHaxe, structFlags, info, tl.length > 0 ? [for (param in tl) get(param, pos, inTypeParam, isNoTemplate)] : null);

@@ -33,7 +33,7 @@ class UStructBuild {
     }
 
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && !Globals.cur.scriptModules.exists(tdef.module))) {
+    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(tdef.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }

@@ -34,7 +34,7 @@ class CreateCppia {
     for (path in scriptPaths) {
       getModules(path,scripts);
     }
-    Globals.cur.scriptModules = [ for (module in scripts) module => true ];
+    Globals.cur.staticModules = [ for (module in statics) module => true ];
     var modules = [ for (module in scripts) Context.getModule(module) ];
     if (target != null && sys.FileSystem.exists('$target/Data/livereload.txt')) {
       var arr = [];
