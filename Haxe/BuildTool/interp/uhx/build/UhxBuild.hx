@@ -937,15 +937,14 @@ class UhxBuild extends UhxBaseBuild {
     case _:
     }
 
-    var noDynamicUClass = config.noDynamicUClass;
+    var noDynamicObjects = config.noDynamicObjects;
     if (this.cppiaEnabled) {
       args = args.concat(['-D scriptable', '-D WITH_CPPIA']);
     } else {
-      noDynamicUClass = true;
+      noDynamicObjects = true;
     }
-    if (noDynamicUClass) {
+    if (noDynamicObjects) {
       args = args.concat(['-D NO_DYNAMIC_UCLASS']);
-      this.definitions.push("NO_DYNAMIC_UCLASS=1");
     }
 
     var isCrossCompiling = false;

@@ -19,11 +19,13 @@ class NativeGlueCode
   public var glues(default, null):GlueManager;
   private var glueTypes:Map<String, Ref<ClassType>>;
   private var modules:Map<String,Bool>;
+  private var producedFiles:Array<String>;
 
   private var stampOutput:String;
 
   public function new() {
     this.glues = new GlueManager();
+    this.producedFiles = [];
     this.modules = new Map();
     this.glueTypes = new Map();
     this.stampOutput = haxe.macro.Compiler.getOutput() + '/Stamps';

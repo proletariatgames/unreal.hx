@@ -5,18 +5,24 @@
 #include <cstdio>
 
 #if PLATFORM_WINDOWS || PLATFORM_XBOXONE
-  #include "Windows/MinWindows.h"
+  #include "Windows/MinimalWindowsApi.h"
+  namespace Windows {
+  typedef struct _MEMORY_BASIC_INFORMATION {
+    LPVOID  BaseAddress;
+    LPVOID  AllocationBase;
+    DWORD  AllocationProtect;
+    SIZE_T RegionSize;
+    DWORD  State;
+    DWORD  Protect;
+    DWORD  Type;
+  } MEMORY_BASIC_INFORMATION, *PMEMORY_BASIC_INFORMATION;
+  extern "C" __declspec(dllimport) SIZE_T WINAPI VirtualQuery(LPCVOID lpAddress, PMEMORY_BASIC_INFORMATION lpBuffer, SIZE_T dwLength);
+  }
 #elif PLATFORM_MAC || PLATFORM_IOS || PLATFORM_LINUX || PLATFORM_ANDROID
   #include <pthread.h>
-#else
 #endif
 
-#if PLATFORM_WINDOWS || PLATFORM_XBOXONE
-  // windows.h defines InterlockedCompareExchange which makes it incompatible with Unreal
-  #define UHX_CAS(Dest, Exchange, Comparand) ::InterlockedCompareExchange(Dest, Exchange, Comparand)
-#else
-  #define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange((volatile int32*) Dest, Exchange, Comparand)
-#endif
+#define UHX_CAS(Dest, Exchange, Comparand) FPlatformAtomics::InterlockedCompareExchange((volatile int32*) Dest, Exchange, Comparand)
 
 extern "C" void  gc_set_top_of_stack(int *inTopOfStack,bool inForce);
 extern "C" const char *hxRunLibrary();
@@ -39,8 +45,8 @@ extern "C" const char *hxRunLibrary();
 static void *get_top_of_stack(void)
 {
 #if PLATFORM_WINDOWS || PLATFORM_XBOXONE //TODO: see if XBOXONE really behaves like Windows
-  MEMORY_BASIC_INFORMATION info;
-  VirtualQuery(&info, &info, sizeof(MEMORY_BASIC_INFORMATION));
+  Windows::MEMORY_BASIC_INFORMATION info;
+  Windows::VirtualQuery(&info, &info, sizeof(Windows::MEMORY_BASIC_INFORMATION));
   return (void *) (( (char *) info.BaseAddress) + info.RegionSize);
 #elif PLATFORM_MAC || PLATFORM_IOS
   return pthread_get_stackaddr_np(pthread_self());

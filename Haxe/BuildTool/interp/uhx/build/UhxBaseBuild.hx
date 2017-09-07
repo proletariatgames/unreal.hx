@@ -201,6 +201,17 @@ class UhxBaseBuild {
         }
       }
     }
+#if !cpp
+    if (haxe.macro.Compiler.getDefine("haxeInstallPath") != null) {
+      base.haxeInstallPath = haxe.macro.Compiler.getDefine("haxeInstallPath");
+    }
+    if (haxe.macro.Compiler.getDefine("haxelibPath") != null) {
+      base.haxelibPath = haxe.macro.Compiler.getDefine("haxelibPath");
+    }
+    if (haxe.macro.Compiler.getDefine("noDynamicObjects") != null) {
+      base.noDynamicObjects = true;
+    }
+#end
 
     if (Sys.getEnv('BAKE_EXTERNS') != null) {
       base.forceBakeExterns = true;

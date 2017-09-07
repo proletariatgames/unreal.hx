@@ -96,7 +96,7 @@ typedef UhxBuildConfig = {
   /**
     Set this to true to disable dynamically created uclasses (only relevant when cppia is enabled)
    **/
-  ?noDynamicUClass:Bool,
+  ?noDynamicObjects:Bool,
 
   /**
     Automatically generate the externs for this project's types
