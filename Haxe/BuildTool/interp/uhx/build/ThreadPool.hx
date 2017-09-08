@@ -33,8 +33,13 @@ class ThreadPool {
 
   public function runCollection(fns:Array<Void->Bool>):Void->Bool {
     var ret = new Deque();
+    var finished = false;
     for (fn in fns) {
       deque.add(function() {
+        if (finished) {
+          ret.add(true);
+        }
+
         var res = fn();
         if (res) {
           ret.add(true);
@@ -48,6 +53,7 @@ class ThreadPool {
       var result = true;
       for (fn in fns) {
         if(!ret.pop(true)) {
+          finished = true;
           return false;
         }
       }

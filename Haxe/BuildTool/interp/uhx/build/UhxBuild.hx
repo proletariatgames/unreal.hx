@@ -180,7 +180,6 @@ class UhxBuild extends UhxBaseBuild {
         }
       }
       if (this.stampOverride >= stamp) {
-        trace('${Date.fromTime(this.stampOverride)} >= ${Date.fromTime(stamp)}');
         stamp = .0; // recompile everything
         if (traceFiles) {
           log('baking everything because Unreal.hx has updated');
@@ -1272,23 +1271,21 @@ class UhxBuild extends UhxBaseBuild {
       {
         var compFile = '${this.outputDir}/Data/staticCompile.stamp';
         var depCheck = timer('static dependency check');
-        needsStatic = hasCompilationParamsChanged();
+        needsStatic = compilationParamsChanged();
         if (needsStatic && this.config.verbose) {
           log('compiling static because latest compilation was compiled with different arguments');
         }
         if (!needsStatic) {
-          needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile,  this.config.verbose, 'static');
-        }
-        if (!needsStatic) {
-          // TODO #8045 do not add cppia modules here
-          needsStatic = this.hasNewModules('${this.outputDir}/Data/staticModules.txt', this.modulePaths, this.config.verbose, 'static');
-        }
-        if (!needsStatic) {
-          needsStatic = this.checkProducedFiles('${this.outputDir}/Data/staticProducedFiles.txt', this.config.verbose, 'static');
-        }
-        if (!needsStatic) {
           var templatePath = this.data.pluginDir + '/Haxe/Templates';
-          needsStatic = this.checkRecursive('${this.outputDir}/Data/staticDeps.txt', [templatePath], this.config.verbose, true);
+          var fns = [
+            checkDependencies.bind('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile,  this.config.verbose, 'static'),
+            this.hasNewModules.bind('${this.outputDir}/Data/staticModules.txt', this.modulePaths, this.config.verbose, 'static'),
+            this.checkProducedFiles.bind('${this.outputDir}/Data/staticProducedFiles.txt', this.config.verbose, 'static'),
+            this.checkRecursive.bind('${this.outputDir}/Data/staticDeps.txt', [templatePath], this.config.verbose, true)
+          ];
+          // we need to invert the logic as the thread pool short cirtcuits when a false is returned
+          var collection = this.threadPool.runCollection([for (fn in fns) function() return !fn()]);
+          needsStatic = !collection();
         }
         depCheck();
         if (!needsStatic) {
@@ -1377,7 +1374,7 @@ class UhxBuild extends UhxBaseBuild {
     return 'TargetType=${this.data.targetType};TargetConfiguration=${this.data.targetConfiguration};TargetPlatform=${this.data.targetPlatform}';
   }
 
-  private function hasCompilationParamsChanged() {
+  private function compilationParamsChanged() {
     var file = this.data.projectDir + '/Intermediate/Haxe/lastCompilation.txt';
     if (!FileSystem.exists(file)) {
       return true;
@@ -1416,7 +1413,6 @@ class UhxBuild extends UhxBaseBuild {
     }
     if (this.stampOverride >= stamp) {
       if (traceFiles) {
-        log('${Date.fromTime(stampOverride)} >= ${Date.fromTime(stamp)}');
         log('compiling $phase because Unreal.hx has changed');
       }
       return true;

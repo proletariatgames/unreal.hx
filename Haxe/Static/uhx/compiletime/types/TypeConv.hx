@@ -1146,20 +1146,6 @@ class TypeConv {
         switch(name) {
         case "unreal.Ptr" | "unreal.Ref" | "unreal.FixedArray":
           var isRef = name == "unreal.Ref";
-          //     size = null;
-          // if(name == "unreal.FixedArray") {
-          //   switch(tl[1]) {
-          //   case TInst(c,_):
-          //     switch(c.get().kind) {
-          //     case KExpr({ expr:EConst(CInt(i)) }):
-          //       size = Std.parseInt(i);
-          //     case _:
-          //       throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + c, pos);
-          //     }
-          //   case _:
-          //     throw new Error("Unreal Glue: The second argument of FixedArray is expected to be a constant, but it is " + tl[1], pos);
-          //   }
-          // }
           if (ctx.modf != null) {
             for (modf in ctx.modf) {
               if (modf == Ref) {
@@ -1170,7 +1156,22 @@ class TypeConv {
             }
           }
 
-          return new TypeConv(CPtr(TypeConv.get(tl[0], pos), isRef), ctx.modf, ctx.original);
+          var ret = TypeConv.get(tl[0], pos);
+          switch(ret.data) {
+          case CStruct(_):
+            if (ret.hasModifier(Ref)) {
+              throw new Error('Unreal Glue: $name of a reference is not allowed', pos);
+            }
+            if (!ret.hasModifier(Ptr)) {
+              var suggestion = isRef ? 'PRef<>' : 'PPtr<>';
+              throw new Error('Unreal Glue: $name of a struct is only allowed on `PPtr<>` types (e.g. $name<PPtr<${tl[0]}>>). Use $suggestion instead', pos);
+            }
+          case CBasic(_) | CSpecial(_) | CUObject(_) | CEnum(_) | CPtr(_) | CTypeParam(_):
+            // ok
+          case _:
+            throw new Error('Unreal Glue: $name is not supported for the type kind ${std.Type.enumConstructor(ret.data)} (${tl[0]})', pos);
+          }
+          return new TypeConv(CPtr(ret, isRef), ctx.modf, ctx.original);
         }
 
         var a = aref.get(),
