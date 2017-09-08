@@ -9,6 +9,7 @@ using StringTools;
 
 class UhxBuild extends UhxBaseBuild {
   private static var VERSION_LEVEL = 5;
+  private static inline var PARALLEL_DEP_CHECK = true;
 
   var haxeDir:String;
   var targetModule:String;
@@ -231,7 +232,6 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
 
-    var i = 0;
     for (cp in cps) {
       recurse(cp, '', '');
     }
@@ -1283,9 +1283,18 @@ class UhxBuild extends UhxBaseBuild {
             this.checkProducedFiles.bind('${this.outputDir}/Data/staticProducedFiles.txt', this.config.verbose, 'static'),
             this.checkRecursive.bind('${this.outputDir}/Data/staticDeps.txt', [templatePath], this.config.verbose, true)
           ];
-          // we need to invert the logic as the thread pool short cirtcuits when a false is returned
-          var collection = this.threadPool.runCollection([for (fn in fns) function() return !fn()]);
-          needsStatic = !collection();
+          if (PARALLEL_DEP_CHECK) {
+            // we need to invert the logic as the thread pool short cirtcuits when a false is returned
+            var collection = this.threadPool.runCollection([for (fn in fns) function() return !fn()]);
+            needsStatic = !collection();
+          } else {
+            for (fn in fns) {
+              needsStatic = fn();
+              if (needsStatic) {
+                break;
+              }
+            }
+          }
         }
         depCheck();
         if (!needsStatic) {
