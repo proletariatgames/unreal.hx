@@ -132,6 +132,11 @@ typedef UhxBuildConfig = {
     Skips the extern baker step entirely
   **/
   ?skipBake:Bool,
+
+  /**
+    Tells the maximum amount of processes to use
+  **/
+  ?numProcessors:Int,
 }
 
 @:enum abstract Dce(String) from String {

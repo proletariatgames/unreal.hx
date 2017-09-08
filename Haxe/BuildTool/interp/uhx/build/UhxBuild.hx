@@ -34,6 +34,8 @@ class UhxBuild extends UhxBaseBuild {
   var ranExternBaker:Bool;
   var externsToCompile:Map<String, Bool>;
 
+  var threadPool:uhx.build.ThreadPool;
+
   public function new(data, ?config:UhxBuildConfig) {
     super(data, config);
     this.haxeDir = data.projectDir + '/Haxe';
@@ -43,6 +45,7 @@ class UhxBuild extends UhxBaseBuild {
     }
 
     this.externsToCompile = new Map();
+    this.threadPool = new uhx.build.ThreadPool(this.config.numProcessors);
   }
 
   private function getStampOverride() {
@@ -177,9 +180,10 @@ class UhxBuild extends UhxBaseBuild {
         }
       }
       if (this.stampOverride >= stamp) {
+        trace('${Date.fromTime(this.stampOverride)} >= ${Date.fromTime(stamp)}');
         stamp = .0; // recompile everything
         if (traceFiles) {
-          log('Baking everything because Unreal.hx has updated');
+          log('baking everything because Unreal.hx has updated');
         }
       }
     }
@@ -239,7 +243,7 @@ class UhxBuild extends UhxBaseBuild {
     return { depList:depList, compiledEverything: stamp <= 0 };
   }
 
-  private function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool) {
+  private function checkRecursive(stampPath:String, paths:Array<String>, traceFiles:Bool, allFiles=false) {
     if (!FileSystem.exists(stampPath)) {
       if (traceFiles) {
         log('File $stampPath does not exist');
@@ -257,16 +261,16 @@ class UhxBuild extends UhxBaseBuild {
 
     function recurse(path) {
       for (file in FileSystem.readDirectory(path)) {
-        if (file.endsWith('.hx')) {
+        if (FileSystem.isDirectory('$path/$file')) {
+          var ret = recurse('$path/$file');
+          if (ret) {
+            return true;
+          }
+        } else if (allFiles || file.endsWith('.hx')) {
           if (FileSystem.stat('$path/$file').mtime.getTime() >= stamp) {
             if (traceFiles) {
               log('File $path/$file has changed');
             }
-            return true;
-          }
-        } else if (FileSystem.isDirectory('$path/$file')) {
-          var ret = recurse('$path/$file');
-          if (ret) {
             return true;
           }
         }
@@ -623,8 +627,8 @@ class UhxBuild extends UhxBaseBuild {
     }
 
     var targetStamp = '$outputDir/Data/$externsFolder.deps',
-        targetStampPart = '$outputDir/Data/$externsFolder-part.deps',
-        targetFiles = '$outputDir/Data/$externsFolder.files';
+        targetStampPart = '$outputDir/Data/$externsFolder-part', //.deps
+        targetFiles = '$outputDir/Data/$externsFolder'; //.files
     var processed = new Map();
 
     var escapedTargetStampPart = targetStampPart.replace('\\','\\\\'),
@@ -640,54 +644,82 @@ class UhxBuild extends UhxBaseBuild {
     var depList = deps.depList,
         compiledEverything = deps.compiledEverything;
 
-    var ret = 0;
-    if (!modulesToCompile.iterator().hasNext()) {
+    var ret = 0,
+        nfiles = 0;
+    var modules = [ for (c in modulesToCompile.keys()) c ];
+    if (modules.length == 0) {
       trace('Skipping extern baker since there is nothing to compile');
     } else {
-      var files = sys.io.File.write(targetFiles);
-      files.writeString("BAKERFILES1"); // version
-      files.writeByte('\n'.code);
-      for (module in modulesToCompile.keys()) {
-        modulesToCompile[module];
-        files.writeString(module);
-        files.writeByte('\n'.code);
+      var partitioned = [[]],
+          minArrLen = 100,
+          cur = partitioned[0];
+      var arrLen = Std.int(modules.length / this.threadPool.size);
+      if (arrLen < minArrLen) {
+        arrLen = minArrLen;
       }
-      files.close();
+      for (mod in modules) {
+        if (!mod.endsWith('_Extra')) {
+          cur.push(mod);
+          if (modulesToCompile.exists(mod + '_Extra')) {
+            cur.push(mod + '_Extra');
+          }
+          if (cur.length >= arrLen) {
+            cur = [];
+            partitioned.push(cur);
+          }
+        }
+      }
+      nfiles = partitioned.length;
+      var fns = [];
 
-      var bakeArgs = [
-        '# this pass will bake the extern type definitions into glue code',
-        FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
-        '-cp ${data.pluginDir}/Haxe/Static',
-        '-cp ${data.pluginDir}/Haxe/Externs/Common',
-        '-cp ${data.pluginDir}/Haxe/Externs/$ueExternDir',
-        '-cp ${haxeDir}/Externs',
-        '-D use-rtti-doc', // we want the documentation to be persisted
-        '-D bake-externs',
-        '-D ${this.defineVer}',
-        '-D ${this.definePatch}',
-        '-D UHX_STATIC_BASE_DIR=$outputDir',
-        this.config.verbose ? '-D UHX_VERBOSE' : '',
-        '',
-        '-cpp $haxeDir/Generated/$externsFolder',
-        '--no-output', // don't generate cpp files; just execute our macro
-        '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' +
-                                                          '"$escapedTargetStampPart","$escapedTargetFiles")'
-      ];
-      if (shouldBuildEditor()) {
-        bakeArgs.push('-D WITH_EDITOR');
-        bakeArgs.push('-D WITH_EDITORONLY_DATA');
-      }
-      if (data.targetType == Program) {
-        bakeArgs.push('-D IS_PROGRAM');
-      }
-      if (this.config.disableUObject) {
-        bakeArgs.push('-D UHX_NO_UOBJECT');
+      for (n in 0...partitioned.length) {
+        var modulesToCompile = partitioned[n];
+        var files = sys.io.File.write(targetFiles + '-$n.files');
+        files.writeString("BAKERFILES1"); // version
+        files.writeByte('\n'.code);
+        for (module in modulesToCompile) {
+          files.writeString(module);
+          files.writeByte('\n'.code);
+        }
+        files.close();
+
+        var bakeArgs = [
+          '# this pass will bake the extern type definitions into glue code',
+          FileSystem.exists('$haxeDir/baker-arguments.hxml') ? 'baker-arguments.hxml' : '',
+          '-cp ${data.pluginDir}/Haxe/Static',
+          '-cp ${data.pluginDir}/Haxe/Externs/Common',
+          '-cp ${data.pluginDir}/Haxe/Externs/$ueExternDir',
+          '-cp ${haxeDir}/Externs',
+          '-D use-rtti-doc', // we want the documentation to be persisted
+          '-D bake-externs',
+          '-D ${this.defineVer}',
+          '-D ${this.definePatch}',
+          '-D UHX_STATIC_BASE_DIR=$outputDir',
+          this.config.verbose ? '-D UHX_VERBOSE' : '',
+          '',
+          '-cpp $haxeDir/Generated/$externsFolder',
+          '--no-output', // don't generate cpp files; just execute our macro
+          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' +
+                                                            '"$escapedTargetStampPart-$n.deps","$escapedTargetFiles-$n.files")'
+        ];
+        if (shouldBuildEditor()) {
+          bakeArgs.push('-D WITH_EDITOR');
+          bakeArgs.push('-D WITH_EDITORONLY_DATA');
+        }
+        if (data.targetType == Program) {
+          bakeArgs.push('-D IS_PROGRAM');
+        }
+        if (this.config.disableUObject) {
+          bakeArgs.push('-D UHX_NO_UOBJECT');
+        }
+
+        bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
+        fns.push(function() return compileSources(bakeArgs) == 0);
       }
 
       trace('baking externs');
       var tbake = timer('bake externs');
-      bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
-      ret = compileSources(bakeArgs);
+      ret = this.threadPool.runCollection(fns)() ? 0 : 1;
       tbake();
       this.ranExternBaker = true;
     }
@@ -695,18 +727,20 @@ class UhxBuild extends UhxBaseBuild {
     if (ret == 0) {
       var tupdate = timer('update dependencies');
       if (this.ranExternBaker) {
-        if (compiledEverything) {
-          File.copy(targetStampPart, targetStamp);
+        if (compiledEverything && nfiles == 1) {
+          File.copy(targetStampPart + '-0.deps', targetStamp);
         } else {
-          // read dependency lists
-          var newDeps = new DepList(targetStampPart);
-          if (!newDeps.readHeader()) {
-            err('New target stamp part file $targetStampPart is invalid');
-            return -1;
+          for (i in 0...nfiles) {
+            // read dependency lists
+            var newDeps = new DepList(targetStampPart + '-$i.deps');
+            if (!newDeps.readHeader()) {
+              err('New target stamp part file $targetStampPart-$i.deps is invalid');
+              return -1;
+            }
+            newDeps.readDependencies(null, null, false);
+            // merge dependency lists
+            depList.merge(newDeps);
           }
-          newDeps.readDependencies(null, null, false);
-          // merge dependency lists
-          depList.merge(newDeps);
         }
       }
       // go through the generated files and delete untouched files
@@ -732,7 +766,7 @@ class UhxBuild extends UhxBaseBuild {
       }
       recurse('', '');
       // save new dependency list
-      if (!compiledEverything) {
+      if (!compiledEverything || nfiles > 1) {
         depList.save(targetStamp);
       }
       tupdate();
@@ -1243,11 +1277,18 @@ class UhxBuild extends UhxBaseBuild {
           log('compiling static because latest compilation was compiled with different arguments');
         }
         if (!needsStatic) {
-          needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile, this.config.verbose, 'static');
+          needsStatic = checkDependencies('${this.outputDir}/Data/staticDeps.txt', this.outputStatic, compFile,  this.config.verbose, 'static');
         }
         if (!needsStatic) {
           // TODO #8045 do not add cppia modules here
           needsStatic = this.hasNewModules('${this.outputDir}/Data/staticModules.txt', this.modulePaths, this.config.verbose, 'static');
+        }
+        if (!needsStatic) {
+          needsStatic = this.checkProducedFiles('${this.outputDir}/Data/staticProducedFiles.txt', this.config.verbose, 'static');
+        }
+        if (!needsStatic) {
+          var templatePath = this.data.pluginDir + '/Haxe/Templates';
+          needsStatic = this.checkRecursive('${this.outputDir}/Data/staticDeps.txt', [templatePath], this.config.verbose, true);
         }
         depCheck();
         if (!needsStatic) {
@@ -1370,11 +1411,12 @@ class UhxBuild extends UhxBaseBuild {
     }
     var stamp = FileSystem.stat(deps).mtime.getTime(),
         targetStamp = FileSystem.stat(targetFile).mtime.getTime();
-    if (stamp > targetStamp) {
+    if (stamp < targetStamp) {
       stamp = targetStamp;
     }
     if (this.stampOverride >= stamp) {
       if (traceFiles) {
+        log('${Date.fromTime(stampOverride)} >= ${Date.fromTime(stamp)}');
         log('compiling $phase because Unreal.hx has changed');
       }
       return true;
@@ -1555,5 +1597,24 @@ class UhxBuild extends UhxBaseBuild {
 
   private static function toMacroDef(arr:Array<String>):String {
     return '[' + [for (val in arr) '"' + val.replace('\\','/') + '"'].join(', ') + ']';
+  }
+
+  private function checkProducedFiles(producedFile:String, verbose:Bool, pass:String):Bool {
+    if (!FileSystem.exists(producedFile)) {
+      if (verbose) {
+        log('compiling $pass because the produced files descriptor does not exist');
+      }
+      return true;
+    }
+
+    for (file in File.getContent(producedFile).split('\n')) {
+      if (!FileSystem.exists(file)) {
+        if (verbose) {
+          log('compiling $pass because the produced file $file does not exist');
+        }
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -24,7 +24,7 @@ class NativeGlueCode
   private var stampOutput:String;
 
   public function new() {
-    this.glues = new GlueManager();
+    this.glues = new GlueManager(this);
     this.producedFiles = [];
     this.modules = new Map();
     this.glueTypes = new Map();
@@ -33,6 +33,10 @@ class NativeGlueCode
       FileSystem.createDirectory(this.stampOutput);
     }
     Globals.cur.glueManager = this.glues;
+  }
+
+  public function addProducedFile(file:String) {
+    this.producedFiles.push(file);
   }
 
   private function getNewerUhxStamp() {
@@ -241,6 +245,7 @@ class NativeGlueCode
     var shouldGenerate = checkShouldGenerate(stampPath, cppPath, cl);
 
     if (!shouldGenerate) {
+      this.producedFiles.push(cppPath);
       glues.addCpp(cppPath, firstModule, shouldGenerate);
       return;
     }
@@ -248,6 +253,7 @@ class NativeGlueCode
     var writer = new CppWriter(cppPath);
     var generated = writeCpp(cl, writer, gluePathRef);
     if (!writer.isDeleted) {
+      this.producedFiles.push(cppPath);
       glues.addCpp(cppPath, firstModule, generated);
     }
     File.saveContent(stampPath,'');
@@ -304,6 +310,7 @@ class NativeGlueCode
       // the glue type doesn't exist: this happens when extending a UE4 class
     }
 
+    this.producedFiles.push(headerPath);
     var stampPath = '$stampOutput/$gluePath.h.stamp',
         shouldGenerate = checkShouldGenerate(stampPath, headerPath, cl);
     if (cl.meta.has(':ueTemplate')) {
@@ -315,7 +322,9 @@ class NativeGlueCode
       writer.dontInclude(headerPath);
       writeHeader(cl, writer, gluePath);
       if (cl.meta.has(':ueTemplate')) {
-        var templWriter = new HeaderWriter(headerPath.substr(0,-2) + '_UE.h');
+        var path = headerPath.substr(0,-2) + '_UE.h';
+        this.producedFiles.push(path);
+        var templWriter = new HeaderWriter(path);
         writeUEHeader(cl, templWriter, gluePath);
       }
       File.saveContent(stampPath,'');
@@ -349,6 +358,7 @@ class NativeGlueCode
         }
         var targetPath = GlueInfo.getPublicHeaderPath(TypeRef.parseClassName( cpath ), true);
         var stampPath = '$stampOutput/$cpath.h.stamp';
+        this.producedFiles.push(targetPath);
         var shouldCopy = checkShouldGenerate(stampPath, targetPath, cl);
 
         if (shouldCopy) {
@@ -399,6 +409,9 @@ class NativeGlueCode
     // clean generated folder
     glues.cleanDirs();
     glues.makeUnityBuild();
+
+    var file = '$staticBaseDir/Data/staticProducedFiles.txt';
+    sys.io.File.saveContent(file, this.producedFiles.join('\n'));
   }
 
   public function onGenerate(types:Array<Type>) {

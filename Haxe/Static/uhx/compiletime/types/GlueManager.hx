@@ -3,6 +3,7 @@ import haxe.macro.Context;
 import sys.FileSystem;
 import sys.io.File;
 import uhx.compiletime.tools.*;
+import uhx.compiletime.main.NativeGlueCode;
 using StringTools;
 
 class GlueManager {
@@ -10,8 +11,10 @@ class GlueManager {
   private var modules:Map<String, Array<String>>;
   private var modulesChanged:Map<String, Bool>;
   private var regenUnityFiles:Bool;
+  private var nativeGlueCode:NativeGlueCode;
 
-  public function new() {
+  public function new(nativeGlueCode) {
+    this.nativeGlueCode = nativeGlueCode;
     if (Globals.cur.glueUnityBuild) {
       this.modules = new Map();
       this.modulesChanged = new Map();
@@ -122,6 +125,7 @@ class GlueManager {
     }
 
     for (module in this.modules.keys()) {
+      nativeGlueCode.addProducedFile(GlueInfo.getUnityPath(module, false));
       if (this.regenUnityFiles) {
         this.modulesChanged[module] = true;
       } else if (!this.modulesChanged.exists(module)) {
@@ -214,6 +218,7 @@ class GlueManager {
         {
           recurse(curTemplPath, curToPath);
         } else {
+          this.nativeGlueCode.addProducedFile(curToPath);
           var shouldCopy = !FileSystem.exists(curToPath);
           var contents = File.getContent(curTemplPath);
           if (mod != 'HaxeRuntime') {

@@ -224,6 +224,10 @@ class UhxBaseBuild {
       base.dce = DceFull;
     }
 
+    if (base.numProcessors == null) {
+      base.numProcessors = getNumberOfProcesses();
+    }
+
     for (fn in ConfigHelper.getConfigs()) {
       base = fn(this.data, base);
     }
@@ -231,32 +235,97 @@ class UhxBaseBuild {
     return base;
   }
 
-  private function getNewerStampRec(dirs:Array<String>):Float {
-    var stamp = .0;
-
-    inline function checkFile(path:String) {
-      var curStamp = FileSystem.stat(path).mtime.getTime();
-      if (curStamp > stamp) {
-        stamp = curStamp;
+  // adapted from hxcpp code
+  public static function getNumberOfProcesses():Int
+  {
+    inline function runProc(cmd:String, args:Array<String>):Null<String> {
+      try {
+        var proc = new sys.io.Process(cmd, args);
+        var ret = proc.stdout.readAll();
+        if (proc.exitCode() != 0) {
+          return null;
+        }
+        return ret.toString();
+      } catch(e:Dynamic) {
+        return null;
       }
     }
-
-    function recurse(dir:String) {
-      for (file in FileSystem.readDirectory(dir)) {
-        if (file.endsWith('.hx')) {
-          checkFile('$dir/$file');
-        } else if (FileSystem.isDirectory('$dir/$file')) {
-          recurse('$dir/$file');
+    var result = null;
+    var sysName = Sys.systemName();
+    if (sysName == "Windows")
+    {
+      var env = Sys.getEnv("NUMBER_OF_PROCESSORS");
+      if (env != null)
+      {
+        result = env;
+      }
+    }
+    else if (sysName == "Linux")
+    {
+      result = runProc("nproc", []);
+      if (result == null)
+      {
+        var cpuinfo = runProc("cat", [ "/proc/cpuinfo" ]);
+        if (cpuinfo != null)
+        {
+          var split = cpuinfo.split("processor");
+          result = Std.string(split.length - 1);
         }
       }
     }
-
-    for (dir in dirs) {
-      if (FileSystem.exists(dir)) {
-        recurse(dir);
+    else if (sysName == "Mac")
+    {
+      var cores = ~/Total Number of Cores: (\d+)/;
+      var output = runProc("/usr/sbin/system_profiler", [ "-detailLevel", "full", "SPHardwareDataType" ]);
+      if (cores.match(output))
+      {
+        result = cores.matched(1);
       }
     }
-    return stamp;
+
+    if (result == null || Std.parseInt(result) < 1)
+    {
+      return 1;
+    }
+    else
+    {
+      return Std.parseInt(result);
+    }
   }
+
+private function getNewerStampRec(dirs:Array<String>):Float {
+  var stamp = .0,
+      newerFile = null;
+
+  inline function checkFile(path:String) {
+    var curStamp = FileSystem.stat(path).mtime.getTime();
+    if (curStamp > stamp) {
+      stamp = curStamp;
+
+      newerFile = path;
+    }
+  }
+
+  function recurse(dir:String) {
+    for (file in FileSystem.readDirectory(dir)) {
+      if (file.endsWith('.hx')) {
+        checkFile('$dir/$file');
+      } else if (FileSystem.isDirectory('$dir/$file')) {
+        recurse('$dir/$file');
+      }
+    }
+  }
+
+  for (dir in dirs) {
+    if (FileSystem.exists(dir)) {
+      recurse(dir);
+    }
+  }
+
+  if (config.verbose) {
+    log('newer file found at $newerFile (${Date.fromTime(stamp)})');
+  }
+  return stamp;
+}
 
 }
