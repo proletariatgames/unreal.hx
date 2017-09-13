@@ -1,6 +1,5 @@
 package unreal;
 
-
 extern class AGameMode_Extra {
   @:global("MatchState")
   public static var EnteringMap(default,never):Const<FName>;
