@@ -203,7 +203,7 @@ class ExternBaker {
     deps.save(targetStamp);
 #end
   }
-  
+
   private static var deps:DepList = new DepList();
 
   private static function getGeneratedInfo(generatedFile:String):Null<GeneratedInfo> {
@@ -681,6 +681,8 @@ class ExternBaker {
       if (!this.thisConv.data.match(CUObject(_))) {
         if (c.superClass == null) {
           this.add('@:forward(dispose,isDisposed) ');
+        } else if (!isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
+          this.add('@:forward(getTemplateStruct) ');
         } else {
           this.add('@:forward ');
         }
@@ -731,7 +733,7 @@ class ExternBaker {
     this.begin('{');
       if (isAbstract && !isTemplateStruct && c.params.length > 0 && !isNoTemplate) {
         // if a templated struct extends a non-templated struct, we need to expose this
-        this.add('@:extern inline private function getTemplateStruct():unreal.Wrapper.TemplateWrapper { return @:privateAccess unreal.TemplateStruct.getTemplateStruct(this); }');
+        this.add('@:extern inline private function getTemplateStruct():unreal.Wrapper.TemplateWrapper { return @:privateAccess this.getTemplateStruct(); }');
         this.newline();
       }
       if (ctor != null) {

@@ -70,6 +70,7 @@ class CreateCppia {
       'unreal.ByteArray',
       'unreal.AnyPtr',
       'unreal.ConstAnyPtr',
+      'unreal.Int64Helpers'
     ];
 
     addTimestamp();

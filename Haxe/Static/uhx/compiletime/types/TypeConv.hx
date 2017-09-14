@@ -1142,6 +1142,9 @@ class TypeConv {
               return new TypeConv(ret.data, ctx.modf, ctx.original);
             }
           }
+        } else if (name == 'Null') {
+          type = tl[0];
+          continue;
         }
         switch(name) {
         case "unreal.Ptr" | "unreal.Ref" | "unreal.FixedArray":

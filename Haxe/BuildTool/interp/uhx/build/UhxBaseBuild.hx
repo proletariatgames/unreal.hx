@@ -61,15 +61,18 @@ class UhxBaseBuild {
       shouldBuild = curStamp < stamp;
     }
     if (shouldBuild) {
-      var ret = callHaxe([
+      var args = [
         '-cpp', dir,
         '-D','destination=$path',
         '-cp', this.data.pluginDir + '/Haxe/BuildTool/interp',
         '-cp', this.data.pluginDir + '/Haxe/BuildTool/src',
         '-cp', this.data.pluginDir,
         '-main', 'uhx.build.CompiledMain',
-        (config.verbose ? '-debug' : '')
-      ], true);
+      ];
+      if (config.verbose) {
+        args.push('-debug');
+      }
+      var ret = callHaxe(args, true);
       if (ret != 0) {
         err('UhxBuild build failed');
         return false;

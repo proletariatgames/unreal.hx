@@ -1371,8 +1371,8 @@ class UReflectionGenerator {
         ret.SignatureFunction = sigFn;
         prop = ret;
 
-      case t:
-        throw 'No property found for type $t for property $def';
+      case _:
+        throw 'No property found for type ${flags.type} for property $def';
     };
     if (flags.hasAny(FSubclassOf)) {
       prop.PropertyFlags |= CPF_UObjectWrapper;
