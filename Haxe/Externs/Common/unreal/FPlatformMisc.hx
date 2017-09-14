@@ -41,6 +41,8 @@ package unreal;
    */
   static function RequestExit( Force:Bool ):Void;
 
+  static function RequestExitWithStatus( Force:Bool, ReturnCode:UInt8):Void;
+
   /** Copies text to the operating system clipboard. */
   static function ClipboardCopy(str:TCharStar):Void;
 
