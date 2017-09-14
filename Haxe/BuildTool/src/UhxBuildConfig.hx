@@ -54,6 +54,11 @@ typedef UhxBuildConfig = {
   ?enableTimers:Bool,
 
   /**
+    Tells whether macro timing should be enabled
+   **/
+  ?enableMacroTimers:Bool,
+
+  /**
     If true, will compile everything as static
     Be aware that even if this is false, cppia will only be compiled if this is an editor build,
     and if DCE is either null or set to 'no'

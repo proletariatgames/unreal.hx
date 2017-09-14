@@ -53,15 +53,42 @@ class UhxBuild extends UhxBaseBuild {
     var stamp = getNewerStampRec([data.pluginDir + '/Haxe/Static/uhx/compiletime',
       data.pluginDir + '/Haxe/BuildTool/interp/'
     ]);
-    var arg = this.haxeDir + '/arguments.hxml';
-    if (FileSystem.exists(arg)) {
-      var curStamp = FileSystem.stat(arg).mtime.getTime();
-      if (curStamp >= stamp) {
-        stamp = curStamp;
+    function addStamp(file:String) {
+      if (FileSystem.exists(file)) {
+        var curStamp = FileSystem.stat(file).mtime.getTime();
+        if (curStamp >= stamp) {
+          stamp = curStamp;
+        }
       }
     }
+    addStamp(this.haxeDir + '/arguments.hxml');
+    addStamp(this.outputDir+'/Data/needed-configs.txt');
 
     return stamp;
+  }
+
+  private function getNeededConfigs() {
+    var vars = ['dce','extraCompileArgs','extraCppiaCompileArgs','extraStaticClasspaths',
+                'extraScriptClasspaths', 'disableCppia', 'noStatic', 'disableUObject',
+                'debugger', 'noDynamicObjects', 'compilationServer', 'haxeInstallPath',
+                'haxelibPath'];
+    var buf = new StringBuf();
+    buf.add('engine=${this.version};');
+    for (v in vars) {
+      var val:Dynamic = Reflect.field(this.config, v);
+      if (val != null) {
+        buf.add('$v=$val;');
+      }
+    }
+    return buf.toString();
+  }
+
+  private function consolidateNeededConfigs() {
+    var needed = getNeededConfigs();
+    var target = this.outputDir+'/Data/needed-configs.txt';
+    if (!FileSystem.exists(target) || File.getContent(target).trim() != needed) {
+      sys.io.File.saveContent(target, needed);
+    }
   }
 
   private function hasNewModules(modulesFile:String, dirs:Array<String>, traceFiles:Bool, phase:String):Bool {
@@ -1157,7 +1184,6 @@ class UhxBuild extends UhxBaseBuild {
   private function setupVars() {
     this.version = getEngineVersion(this.config);
     this.srcDir = this.getSourceDir();
-    this.stampOverride = getStampOverride();
     this.defineVer = 'UE_VER=${this.version.MajorVersion}.${this.version.MinorVersion}';
     this.definePatch = 'UE_PATCH=${this.version.PatchVersion == null ? 0 : this.version.PatchVersion}';
     this.outputStatic = getLibLocation();
@@ -1198,6 +1224,8 @@ class UhxBuild extends UhxBaseBuild {
       this.modulePaths = this.modulePaths.concat(this.scriptPaths);
       this.scriptPaths = [];
     }
+    consolidateNeededConfigs();
+    this.stampOverride = getStampOverride();
   }
 
   override public function run()
@@ -1542,8 +1570,10 @@ class UhxBuild extends UhxBaseBuild {
     cmdArgs = ['--cwd', haxeDir].concat(cmdArgs);
     if (this.config.enableTimers) {
       cmdArgs.push('--times');
-      cmdArgs.push('-D');
-      cmdArgs.push('macro_times');
+      // if (this.config.enableMacroTimers) {
+        cmdArgs.push('-D');
+        cmdArgs.push('macro_times');
+      // }
     }
 
     return callHaxe(cmdArgs, showErrors);
