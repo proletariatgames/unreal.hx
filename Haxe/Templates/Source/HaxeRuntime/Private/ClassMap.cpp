@@ -24,7 +24,7 @@ bool ::uhx::ue::ClassMap_obj::addWrapper(unreal::UIntPtr inUClass, HaxeWrap inWr
 }
 
 unreal::UIntPtr uhx::ue::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
-  if (inUObject == 0) return 0;  
+  if (inUObject == 0) return 0;
   UObject *obj = (UObject *) inUObject;
   UClass *cls = obj->GetClass();
   auto& map = getClassMap();
@@ -40,7 +40,7 @@ unreal::UIntPtr uhx::ue::ClassMap_obj::wrap(unreal::UIntPtr inUObject) {
 #if !WITH_EDITOR
   UE_LOG(LogTemp,Fatal,TEXT("No haxe wrapper was found for the uobject from class %s nor from any of its superclasses"), *obj->GetClass()->GetName());
 #endif
-  // we might get here on 
+  // we might get here on
   return 0;
 }
 
@@ -65,9 +65,19 @@ static unreal::UIntPtr cppiaWrapper(unreal::UIntPtr inUObject) {
   UClass *cls = obj->GetClass();
 
   auto& map = getCppiaWrapperMap();
-  FString& hxClass = map[cls];
+  while (cls != nullptr) {
+    auto it = map.Find(cls);
+    if (it != nullptr) {
+      FString& hxClass = *it;
+      return uhx::expose::HxcppRuntime::createDynamicHelper(inUObject, TCHAR_TO_UTF8(*hxClass));
+    }
+    cls = cls->GetSuperClass();
+  }
 
-  return uhx::expose::HxcppRuntime::createDynamicHelper(inUObject, TCHAR_TO_UTF8(*hxClass));
+#if !WITH_EDITOR
+  UE_LOG(LogTemp,Fatal,TEXT("No cppia wrapper was found for the uobject from class %s nor from any of its superclasses"), *obj->GetClass()->GetName());
+#endif
+  return 0;
 }
 
 void uhx::ue::ClassMap_obj::addCppiaExternWrapper(const char *inUClass, const char *inHxClass) {

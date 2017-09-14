@@ -48,7 +48,7 @@ class CreateGlue {
     var uinits = [];
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
-    ensureCompiled(modules);
+    // ensureCompiled(modules);
     var scriptClassesAdded = scriptModules.length == 0;
     var toGatherModules = null;
 

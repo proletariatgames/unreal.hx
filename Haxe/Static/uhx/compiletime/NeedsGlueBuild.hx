@@ -187,37 +187,36 @@ class NeedsGlueBuild
               var args = [ for (arg in args) map(arg) ];
               changed = true;
               var ret = null;
-              // @:live is disabled currently
-              // if (field.meta.hasMeta(':live') && Globals.cur.staticModules.exists(type.module) && !Context.defined('cppia')) {
-              //   // regardless if the super points to a haxe superclass or not,
-              //   // we will need to be able to call it through a static function
-              //   var fn = findSuperField(sfield);
-              //   // get function arguments
-              //   if (fn == null) {
-              //     Context.warning('Field calls super but no super field with name $sfield', e.pos);
-              //     hadErrors = true;
-              //   } else {
-              //     switch(Context.follow(fn.type)) {
-              //     case TFun(fnargs,fnret):
-              //       var name = field.name + '__supercall_' + type.name;
-              //       var isVoid = fnret.match(TAbstract(_.get() => { name:'Void', pack:[] }, _));
-              //       var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{name}].concat([for (arg in fnargs) macro $i{arg.name}])), pos:e.pos };
-              //       toAdd.push({
-              //         name: name,
-              //         kind: FFun({
-              //           args: [ for (arg in fnargs) { name: arg.name, opt: arg.opt, type: arg.t.toComplexType() } ],
-              //           ret: fnret.toComplexType(),
-              //           expr: isVoid ? expr : macro return $expr,
-              //         }),
-              //         pos: e.pos
-              //       });
-              //       ret = { expr:ECall(macro @:pos(e.pos) this.$name, args), pos:e.pos };
-              //     case _:
-              //       Context.warning('Super cannot be called on non-method members', e.pos);
-              //       hadErrors = true;
-              //     }
-              //   }
-              // }
+              if (field.meta.hasMeta(':live') && Globals.cur.staticModules.exists(type.module) && !Context.defined('cppia')) {
+                // regardless if the super points to a haxe superclass or not,
+                // we will need to be able to call it through a static function
+                var fn = findSuperField(sfield);
+                // get function arguments
+                if (fn == null) {
+                  Context.warning('Field calls super but no super field with name $sfield', e.pos);
+                  hadErrors = true;
+                } else {
+                  switch(Context.follow(fn.type)) {
+                  case TFun(fnargs,fnret):
+                    var name = field.name + '__supercall_' + type.name;
+                    var isVoid = fnret.match(TAbstract(_.get() => { name:'Void', pack:[] }, _));
+                    var expr = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{name}].concat([for (arg in fnargs) macro $i{arg.name}])), pos:e.pos };
+                    toAdd.push({
+                      name: name,
+                      kind: FFun({
+                        args: [ for (arg in fnargs) { name: arg.name, opt: arg.opt, type: arg.t.toComplexType() } ],
+                        ret: fnret.toComplexType(),
+                        expr: isVoid ? expr : macro return $expr,
+                      }),
+                      pos: e.pos
+                    });
+                    ret = { expr:ECall(macro @:pos(e.pos) this.$name, args), pos:e.pos };
+                  case _:
+                    Context.warning('Super cannot be called on non-method members', e.pos);
+                    hadErrors = true;
+                  }
+                }
+              }
               if (ret == null) {
                 ret = { expr:ECall(macro @:pos(e.pos) $delayedglue.getSuperExpr, [macro $v{sfield}, macro $v{sfield}].concat(args)), pos:e.pos };
               }
@@ -618,26 +617,24 @@ class NeedsGlueBuild
     if (Context.defined('cppia') || Context.defined('WITH_CPPIA')) {
       for (field in fields) {
         if (field.meta.hasMeta(':live')) {
-          // This triggers a compilation server bug - still investigating
-          Context.warning('@:live is currently disabled due to Haxe issues', field.pos);
-          // switch(field.kind) {
-          // case FFun(fn) if (fn.params == null || fn.params.length == 0):
-          //   if (!created) {
-          //     created = true;
-          //     Globals.liveReloadFuncs[thisType.getClassPath()] = new Map();
-          //   }
-          //   var name = thisType.getClassPath() + '::' + field.name;
-          //   var isStatic = field.access != null ? field.access.has(AStatic) : false;
-          //   var retfn:Function = {
-          //     args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:type.name }) }].concat(fn.args),
-          //     ret: fn.ret,
-          //     expr: fn.expr
-          //   };
-          //   var expr = { expr:EFunction(null, retfn), pos:field.pos};
-          //   fn.expr = macro uhx.internal.LiveReload.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
-          //   changed = true;
-          // case _:
-          // }
+          switch(field.kind) {
+          case FFun(fn) if (fn.params == null || fn.params.length == 0):
+            if (!created) {
+              created = true;
+              Globals.liveReloadFuncs[thisType.getClassPath()] = new Map();
+            }
+            var name = thisType.getClassPath() + '::' + field.name;
+            var isStatic = field.access != null ? field.access.has(AStatic) : false;
+            var retfn:Function = {
+              args: isStatic ? fn.args : [{ name:'_self', type: TPath({ pack:[], name:type.name }) }].concat(fn.args),
+              ret: fn.ret,
+              expr: fn.expr
+            };
+            var expr = { expr:EFunction(null, retfn), pos:field.pos};
+            fn.expr = macro uhx.internal.LiveReload.build(${expr}, $v{thisType.getClassPath()}, $v{field.name}, $v{isStatic});
+            changed = true;
+          case _:
+          }
         }
       }
     }

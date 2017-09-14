@@ -7,6 +7,7 @@ import uhx.compiletime.types.TypeRef;
 import sys.FileSystem;
 
 using StringTools;
+using Lambda;
 
 class CreateCppia {
   static var firstCompilation = true;
@@ -50,11 +51,8 @@ class CreateCppia {
       }
       modules.push(arr);
     }
-    var scriptFiles = ensureCompiled(modules);
-    Globals.cur.inScriptPass = false;
-
-    // create hot reload helper
-    LiveReloadBuild.bindFunctions('LiveReloadScript');
+    // var scriptFiles = ensureCompiled(modules);
+    // Globals.cur.inScriptPass = false;
 
     var blacklist = [
       'unreal.Wrapper',
@@ -97,8 +95,13 @@ class CreateCppia {
       Context.getType('uhx.meta.MetaDataHelper');
     }
 
-    var compiledGenerics = new Map();
+    var compiledGenerics = new Map(),
+        finalized = false;
     Context.onAfterTyping(function(types) {
+      if (types.exists(function(t) return Std.string(t) == 'TClassDecl(uhx.compiletime.main.CreateCppia)')) {
+        return; // macro context
+      }
+      Globals.cur.hasUnprocessedTypes = false;
       for (t in types) {
         switch(t) {
         case TClassDecl(cl):
@@ -127,6 +130,34 @@ class CreateCppia {
         case _:
         }
       }
+
+      if (!finalized && !Globals.cur.hasUnprocessedTypes) {
+        finalized = true;
+        // create hot reload helper
+        LiveReloadBuild.bindFunctions('LiveReloadScript');
+
+        var metaDefs = Globals.cur.classesToAddMetaDef;
+        var cur = null;
+        while ( (cur = metaDefs.pop()) != null ) {
+          var type = Context.getType(cur);
+          switch(type) {
+          case TInst(c,_):
+            MetaDefBuild.addUClassMetaDef(c.get());
+          case _:
+          }
+        }
+
+        var metaDefs = Globals.cur.delegatesToAddMetaDef;
+        var cur = null;
+        while ( (cur = metaDefs.pop()) != null ) {
+          MetaDefBuild.addUDelegateMetaDef(cur);
+        }
+
+        MetaDefBuild.writeClassDefs();
+
+        Globals.cur.classesToAddMetaDef = [];
+        Globals.cur.delegatesToAddMetaDef = [];
+      }
     });
 
     var fileDeps = new Map();
@@ -137,24 +168,15 @@ class CreateCppia {
     }
     Context.onGenerate(function(types) {
       var metaDefs = Globals.cur.classesToAddMetaDef;
-      Globals.cur.scriptClasses = [];
-      var cur = null;
-      while ( (cur = metaDefs.pop()) != null ) {
-        var type = Context.getType(cur);
-        switch(type) {
-        case TInst(c,_):
-          MetaDefBuild.addUClassMetaDef(c.get());
-        case _:
-        }
+      if (metaDefs.length != 0) {
+        throw 'assert: sanity check failed. there are still classesToAddMetaDef';
       }
 
       var metaDefs = Globals.cur.delegatesToAddMetaDef;
-      var cur = null;
-      while ( (cur = metaDefs.pop()) != null ) {
-        MetaDefBuild.addUDelegateMetaDef(cur);
+      if (metaDefs.length != 0) {
+        throw 'assert: sanity check failed. there are still classesToAddMetaDef';
       }
 
-      MetaDefBuild.writeClassDefs();
       var allStatics = [ for (s in statics.concat(blacklist)) s => true ],
           incompleteExcludes = null;
       if (excludeModules != null) {

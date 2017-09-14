@@ -39,6 +39,9 @@ class UReflectionGenerator {
 #end
 
   @:allow(UnrealInit) static function initializeDelegate(def:UDelegateDef) {
+#if DEBUG_HOTRELOAD
+    trace('$id: Delegate ${def.uname} initializeDelegate');
+#end
     if (scriptDelegates == null) {
       scriptDelegates = new Map();
     }
@@ -46,6 +49,9 @@ class UReflectionGenerator {
   }
 
   @:allow(UnrealInit) static function initializeDef(uclassName:String, hxClassName:String, meta:MetaDef) {
+#if DEBUG_HOTRELOAD
+    trace('$id: Class $uclassName initializeDef');
+#end
     if (registry == null) {
       registry = new Map();
       uclassNames = [];
@@ -199,11 +205,17 @@ class UReflectionGenerator {
   }
 
   private static function getUpdatedClass(reg:DynamicRegistry) {
+#if DEBUG_HOTRELOAD
+      trace('$id: Getting updated class ${reg.uclassName}');
+#end
     if (reg == null || reg.def == null) {
       return null;
     }
 
     if (reg.isUpdated) {
+#if DEBUG_HOTRELOAD
+      trace('$id: ${reg.uclassName} is already updated');
+#end
       return reg.getUpdated();
     }
 
@@ -217,6 +229,9 @@ class UReflectionGenerator {
       if (superReg != null) {
         getUpdatedClass(superReg);
       }
+#if DEBUG_HOTRELOAD
+      trace('$id: SuperReg of ${reg.uclassName} (${def.uclass.superStructUName}) ${superReg != null ? "found" : "not found"}');
+#end
 
       // we need to delete this if either the superclass changed, or if the superclas is a native haxe class the reason
       // why we need to delete it if the superclass is a native compiled class is that the superclass might be hot reloaded
@@ -224,6 +239,9 @@ class UReflectionGenerator {
           (superReg != null && (superReg.wasDeleted || superReg.nativeUClass != null))
          )
       {
+#if DEBUG_HOTRELOAD
+        trace('$id: Setting deleted ${reg.uclassName}');
+#end
         reg.setDeleted();
         markHotReloaded(old, null, unameWithPrefix);
         old = null;

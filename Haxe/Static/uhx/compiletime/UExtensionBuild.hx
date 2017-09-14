@@ -541,7 +541,9 @@ class UExtensionBuild {
               shouldPop = false;
           try {
             ret = cast $createExpr;
-            shouldPop = true;
+            if (ret != null) {
+              shouldPop = true;
+            }
           }
           catch(e:Dynamic) {
             uhx.ClassWrap.popCtor(ret);

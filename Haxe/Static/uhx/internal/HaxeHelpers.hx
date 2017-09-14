@@ -1,7 +1,7 @@
 package uhx.internal;
 import unreal.*;
 
-@:unreflective class HaxeHelpers
+class HaxeHelpers
 {
   @:ifFeature("uhx.internal.HaxeHelpers.*") public static function dynamicToPointer(dyn:Dynamic):unreal.UIntPtr {
     // there's no way to get a pointer to hxcpp's Dynamic struct
@@ -45,7 +45,10 @@ import unreal.*;
     throw 'Cannot dereference null "$name"';
   }
 
-  @:extern inline public static function checkObjectPointer(obj:UObject, fieldName:String) {
+  #if !cppia
+  inline
+  #end
+  public static function checkObjectPointer(obj:UObject, fieldName:String) {
 #if (cpp && !bake_externs && !UHX_NO_UOBJECT && (debug || UHX_CHECK_POINTER))
     if (@:privateAccess obj.wrapped == 0) {
       throw 'Cannot access field "$fieldName" of a garbage collected object. Please check if the object is valid first';
