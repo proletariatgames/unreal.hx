@@ -96,6 +96,11 @@ class CreateGlue {
             if (!cur.inScriptPass) {
               addFileDep(Context.getPosInfos(e.pos).file);
             }
+          case TTypeDecl(t):
+            var t = t.get();
+            if (!cur.inScriptPass) {
+              addFileDep(Context.getPosInfos(t.pos).file);
+            }
           case _:
           }
         }

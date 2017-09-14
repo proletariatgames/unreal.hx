@@ -1,3 +1,3 @@
 package unreal;
 
-typedef Float64 = cpp.Float64;
+typedef Float64 = Float;

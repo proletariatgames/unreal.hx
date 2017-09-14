@@ -261,6 +261,11 @@ class CreateCppia {
                 impl.get().exclude();
               }
             }
+          case TType(t,_):
+            var t = t.get();
+            if (!Globals.cur.staticModules.exists(t.module)) {
+              addFileDep(Context.getPosInfos(t.pos).file);
+            }
           case _:
         }
       }
