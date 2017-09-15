@@ -48,7 +48,7 @@ class CreateGlue {
     var uinits = [];
     var modules = [ for (module in toCompile) Context.getModule(module) ];
     // make sure all fields have been typed
-    // ensureCompiled(modules);
+    keepEnums(modules);
     var scriptClassesAdded = scriptModules.length == 0;
     var toGatherModules = null;
 
@@ -404,6 +404,20 @@ class CreateGlue {
           }
           UEnumBuild.processEnum(type);
         case TAbstract(a,_):
+        case _:
+        }
+      }
+    }
+  }
+
+  private static function keepEnums(modules:Array<Array<Type>>) {
+    for (module in modules) {
+      for (type in module) {
+        switch(Context.follow(type)) {
+        case TEnum(e,_):
+          var e = e.get();
+          e.meta.add(':keep', [], e.pos);
+          UEnumBuild.processEnum(type);
         case _:
         }
       }

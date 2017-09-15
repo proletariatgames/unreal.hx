@@ -544,7 +544,7 @@ class NeedsGlueBuild
           return $delayedglue.getNativeCall('CPPSize', true);
         }
 
-        private static var _uhx_isHaxeType:Bool = true;
+        @:keep private static var _uhx_isHaxeType:Bool = true;
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);

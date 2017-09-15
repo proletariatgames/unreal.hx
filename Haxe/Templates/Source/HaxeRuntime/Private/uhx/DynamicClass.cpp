@@ -112,16 +112,16 @@ class UHxBootstrap : public UObject {
 };
 
 // make sure that UHxBootstrap is always hot reloaded, as its CRC constantly changes
-template<> 
-struct TClassCompiledInDefer<UHxBootstrap> : public FFieldCompiledInInfo 
-{ 
-  TClassCompiledInDefer(const TCHAR* InName, SIZE_T InClassSize, uint32 InCrc) 
-    : FFieldCompiledInInfo(InClassSize, InCrc) 
-  { 
-    static FName className = FName("UHxBootstrap"); 
+template<>
+struct TClassCompiledInDefer<UHxBootstrap> : public FFieldCompiledInInfo
+{
+  TClassCompiledInDefer(const TCHAR* InName, SIZE_T InClassSize, uint32 InCrc)
+    : FFieldCompiledInInfo(InClassSize, InCrc)
+  {
+    static FName className = FName("UHxBootstrap");
     ::uhx::DynamicClassHelper::getCrcMap(); // make sure that the crc map is initialized
-    this->Crc = uhx_uniqueId; 
-    UClassCompiledInDefer(this, InName, InClassSize, this->Crc); 
+    this->Crc = uhx_uniqueId;
+    UClassCompiledInDefer(this, InName, InClassSize, this->Crc);
   }
   virtual UClass* Register() const override {
     return UHxBootstrap::StaticClass();
