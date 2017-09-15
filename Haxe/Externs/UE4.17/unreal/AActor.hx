@@ -974,6 +974,7 @@ package unreal;
     Event to notify blueprints this actor is about to be deleted.
   **/
   @:ufunction public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
+  #if WITH_EDITOR
   
   /**
     Simple accessor to check if the actor is hidden upon editor startup
@@ -1008,6 +1009,7 @@ package unreal;
     @return        Returns true if this actor can EVER be selected in a level in the editor.  Can be overridden by specific actors to make them unselectable.
   **/
   @:ufunction @:thisConst public function IsSelectable() : Bool;
+  #end // WITH_EDITOR
   
   /**
     Set this actor's tick functions to be enabled or disabled. Only has an effect if the function is registered
