@@ -65,7 +65,7 @@ class UReflectionGenerator {
     }
 
     if (uclassNames.indexOf(uclassName) >= 0) {
-      trace('Error', 'Initializing the same class twice: $uclassName');
+      trace('Warning', 'Initializing the same class twice: $uclassName');
     } else {
       uclassNames.push(uclassName);
     }
@@ -85,7 +85,7 @@ class UReflectionGenerator {
     var needsReinstancing = false;
     for (uclass in uclassNames) {
       if (!registry.exists(uclass)) {
-        trace('Error', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
+        trace('Warning', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
         continue;
       }
       var reg = registry[uclass],
@@ -108,7 +108,7 @@ class UReflectionGenerator {
     if (!needsReinstancing) {
       for (uclass in uclassNames) {
         if (!registry.exists(uclass)) {
-          trace('Error', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
+          trace('Warning', 'Cannot find metadata definitions for $uclass. Perhaps it was deleted?');
           continue;
         }
         var reg = registry[uclass],
@@ -250,7 +250,7 @@ class UReflectionGenerator {
         var hxPath = reg.hxClassName,
             hxClass = Type.resolveClass(hxPath);
         if (hxClass == null) {
-          trace('Error', 'While loading dynamic class $unameWithPrefix: The class $hxPath was not found');
+          trace('Warning', 'While loading dynamic class $unameWithPrefix: The class $hxPath was not found');
           return null;
         }
         Reflect.setField(hxClass, 'StaticClass', function() {
@@ -394,12 +394,12 @@ class UReflectionGenerator {
 
   public static function setDynamicNative(cls:UClass, uname:String) {
     if (registry == null) {
-      trace('Error', 'No dynamic uclass was initialized by cppia, but there were dynamic classes found: $uname.');
+      trace('Warning', 'No dynamic uclass was initialized by cppia, but there were dynamic classes found: $uname.');
       registry = new Map();
     }
     var reg = registry[uname];
     if (reg == null) {
-      trace('Error', 'Setting dynamic native on $uname, but no metadef was done');
+      trace('Warning', 'Setting dynamic native on $uname, but no metadef was done');
       return;
     }
 #if DEBUG_HOTRELOAD
@@ -414,7 +414,7 @@ class UReflectionGenerator {
 #end
     var reg = registry[uname];
     if (reg == null) {
-      trace('Error', 'Trying to update class on deleted class $uname');
+      trace('Warning', 'Trying to update class on deleted class $uname');
       return;
     }
     var meta = reg.def;
@@ -433,7 +433,7 @@ class UReflectionGenerator {
 #end
     var reg = registry[uname];
     if (reg == null) {
-      trace('Error', 'Trying to update properties on deleted class $uname');
+      trace('Warning', 'Trying to update properties on deleted class $uname');
       return;
     }
     var meta = reg.def;
@@ -466,7 +466,7 @@ class UReflectionGenerator {
 #end
     var reg = registry[uname];
     if (reg == null) {
-      trace('Error', 'Trying to add properties on deleted class $uname');
+      trace('Warning', 'Trying to add properties on deleted class $uname');
       return;
     }
     var meta = reg.def;
@@ -479,7 +479,7 @@ class UReflectionGenerator {
         }
         return;
       } else {
-        trace('Error', 'Properties were added, but missing meta / signature for $uname');
+        trace('Warning', 'Properties were added, but missing meta / signature for $uname');
       }
       return;
     }
@@ -508,7 +508,7 @@ class UReflectionGenerator {
     for (propDef in meta.uclass.uprops) {
       var prop = generateUProperty(struct, struct, propDef, false);
       if (prop == null) {
-        trace('Error', 'Error while creating property ${propDef.uname} for class $uname');
+        trace('Warning', 'Error while creating property ${propDef.uname} for class $uname');
         continue;
       }
       prop.SetMetaData(CoreAPI.staticName('HaxeGenerated'),"true");
@@ -529,7 +529,7 @@ class UReflectionGenerator {
 #end
     var reg = registry[uname];
     if (reg == null) {
-      trace('Error', 'Trying to add functions on deleted class $uname');
+      trace('Warning', 'Trying to add functions on deleted class $uname');
       return false;
     }
     var changed = false;
@@ -665,7 +665,7 @@ class UReflectionGenerator {
       for (arg in func.args) {
         var prop = generateUProperty(fn, uclass, arg, false);
         if (prop == null) {
-          trace('Error', 'Error while creating property ${arg.uname} for function ${func.uname} (class ${outer.GetName()})');
+          trace('Warning', 'Error while creating property ${arg.uname} for function ${func.uname} (class ${outer.GetName()})');
           return null;
         }
         prop.PropertyFlags |= CPF_Parm;
@@ -684,7 +684,7 @@ class UReflectionGenerator {
     if (func.ret != null) {
       var prop = generateUProperty(fn, uclass, func.ret, true);
       if (prop == null) {
-        trace('Error', 'Error while creating return value for function ${func.uname} (class ${outer.GetName()})');
+        trace('Warning', 'Error while creating return value for function ${func.uname} (class ${outer.GetName()})');
         return null;
       }
       prop.PropertyFlags |= CPF_Parm | CPF_ReturnParm | CPF_OutParm;
@@ -852,7 +852,7 @@ class UReflectionGenerator {
         // we are the first dynamic class. Use the cpp size then
         var reg = registry[uname];
         if (reg == null) {
-          trace('Error', 'Trying to bind deleted class $uname');
+          trace('Warning', 'Trying to bind deleted class $uname');
           return;
         }
         var clsName = reg.hxClassName;
@@ -1513,7 +1513,7 @@ class DynamicRegistry {
 
   public function setUpdated(uclass:UClass, needsToAddProperties:Bool = false) {
     if (this.updatedClass != null || this.isUpdated) {
-      trace('Error', 'An updated class was set (${uclass.GetName()}), but it was already updated: ${uclass.GetName()}');
+      trace('Warning', 'An updated class was set (${uclass.GetName()}), but it was already updated: ${uclass.GetName()}');
     }
     this.isUpdated = true;
     this.updatedClass = uclass;
@@ -1522,7 +1522,7 @@ class DynamicRegistry {
 
   public function setPropertiesAdded() {
     if (!this.needsToAddProperties) {
-      trace('Error', 'Class $uclassName added properties twice');
+      trace('Warning', 'Class $uclassName added properties twice');
       trace(haxe.CallStack.toString(haxe.CallStack.callStack()));
     }
     this.needsToAddProperties = false;
@@ -1530,7 +1530,7 @@ class DynamicRegistry {
 
   public function getUpdated() {
     if (!this.isUpdated) {
-      trace('Error', 'Trying to get updated class when registry is not updated for $uclassName');
+      trace('Warning', 'Trying to get updated class when registry is not updated for $uclassName');
     }
     return this.updatedClass;
   }
@@ -1548,7 +1548,7 @@ class DynamicRegistry {
 
   public function setDeleted() {
     if (this.wasDeleted) {
-      trace('Error', 'Setting class $uclassName as deleted twice in the same compilation');
+      trace('Warning', 'Setting class $uclassName as deleted twice in the same compilation');
     }
     this.wasDeleted = true;
     this.needsToAddProperties = true;
