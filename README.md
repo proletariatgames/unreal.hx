@@ -6,6 +6,7 @@ Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [
 - Haxe compiles directly to C++, for high runtime performance.
 - Full access to the entire Unreal C++ API - including delegates and lambdas.
 - Full support for `UCLASS` creation, subclassing, and Blueprints.
+- Very fast compilation using hxcpp's virtual machine, cppia
 
 ### Haxe Features
 - Familiar C/Java-style syntax.
@@ -16,11 +17,11 @@ Unreal.hx is a plugin for Unreal Engine 4 that allows you to write code in the [
 ### Setup
 
 * Make sure you've got a working `haxe` installation, and have the `hxcpp` and `hxcs` [haxelibs](http://haxe.org/manual/haxelib-using.html) installed
-* Clone this library or add it as a submodule to your Unreal project in the `Plugins/UE4Haxe` directory
-* Port your main `Build.cs` module to `Build.hx` and make sure it extends `HaxeModuleRules`
-* On the `Plugins/UE4Haxe` directory, run `haxe init-plugin.hxml` to make sure your `Build.hx` file was built
+* Clone this library or add it as a submodule to your Unreal project in the `Plugins/UnrealHx` directory
+* Change your `Build.cs` file to extend `HaxeModuleRules` instead of `ModuleRules`
+* Build your project the same way you'd build it before
 * A new directory, `Haxe`, will be created at the root of your project. Add any class to be compiled to `Haxe/Static`, and you may add new compiler arguments to the `arguments.hxml` file
-* For the latest master, you will need Haxe 3.3 and Unreal 4.11 
+* For the latest development, Haxe 3.4.2, 3.4.3, 4.0.0-preview1 are supported, and Unreal versions 4.16 and 4.17 are supported
 
 ### Examples
 
@@ -33,20 +34,20 @@ class AMyActor extends AActor {
   // make a property that is editable in the editor.
   @:uproperty(EditDefaultsOnly, Category=Inventory)
   var items:TArray<AActor>;
-  
+
   // make a function that is callable from C++/Blueprints
   @:ufunction(BlueprintCallable, Category=Inventory)
   public function addToInventory(item:AActor) {
     items.push(item);
   }
-  
+
   // override native C++ function
   override function Tick(deltaTime:Float32) : Void {
     super.Tick(deltaTime); // call super functions
     trace('Hello, World!'); // all traces are redirected to Unreal's Log
     trace('Warning', 'Some Warning'); // and it supports Warning, Error and Fatal as well
   }
-  
+
   // tell Unreal to call our Tick function
   public function new(wrapped) {
     super(wrapped);
@@ -64,7 +65,7 @@ import unreal.*;
 class AMyGameMode extends AGameMode {
   @:uproperty(BlueprintReadWrite)
   public var playerName:FString;
-  
+
   @:ufunction(BlueprintCallable)
   public function makeExternalRequest(data:String) {
     // use Unreal C++ API to make an HTTP Request
@@ -72,19 +73,19 @@ class AMyGameMode extends AGameMode {
     httpRequest.SetVerb("GET");
     httpRequest.SetHeader("Content-Type", "application/json");
     httpRequest.SetURL("www.mygame.com/players");
-    
+
     // use Haxe JSON library to encode data.
     var json = {
       name: this.playerName,
       playerData: data,
     };
     httpRequest.SetContentAsString(haxe.Json.stringify(json));
-    
+
     // Receive a callback when the response is received.
     httpRequest.OnProcessRequestComplete.BindLambda(function (request, response, success) {
       trace('response received: ${response.GetContentAsString()}');
     });
-    
+
     httpRequest.ProcessRequest();
   }
 }
