@@ -1,0 +1,62 @@
+????-??-??: 1.0.0
+  Bugfixes:
+
+  fixed DCE issues
+
+  New Features:
+
+  added Haxe 4.0.0-preview 1 support
+  added dynamic uclasses, which allow entire UClasses be defined only by cppia
+  added ufunction definition support for dynamic uclasses
+  added uproperty definition support for dynamic uclasses
+  added UE 4.17 support
+  supported Build.cs files without having to create a Build.hx file
+  added a way to set configuration options as Haxe code with UhxConfig.hx and UhxConfigLocal.hx
+  added dependency checks so we only build each phase if we really need to
+  added a static compilation for the uhx build tool so it checks the depdencies faster
+  added a way to perform a full C++ build when it is needed, even if no static file has changed
+  added a way to detect when a full C++ rebuild is needed
+  added glue code unity builds so that we build less C++ files that should not really change
+  added UE 4.16 support
+  added the possibility to support multiple UE versions
+  added automation API support
+  fixed many hot reload issues, and added a way to automatically test them
+  added @:noTemplate metadata to allow functions that are generic on the Haxe side, but are not on the C++ glue side
+  changed most templated functions to be @:noTemplate
+  added a way to allow cppia code to bind to dynamic delegates
+
+2017-04-04: 0.3.0
+  added UE 4.14 support
+  added Haxe 3.4.2 support
+
+2016-12-20: 0.2.2
+  fixed occasional `isValid` false positive
+  fixed TSubclassOf forward declaration
+  used a wrapper array cache to speedup `wrap` hash lookups
+  added HXCPP_DEBUGGER support
+  added stack traces when trace('Fatal') is used
+
+2016-06-09: 0.2.1
+  major performance overhaul by adding `VariantPtr` and not wrapping every pointer we receive
+  fixed definition of ustructs on cppia
+  added MSVC 2015 support
+  DCE-related fixes
+  `TypeConv` refactor now allows some complex pointer/ref/template type combinations
+
+2016-04-20: 0.2.0
+  added UE 4.11 support
+  compilation server fixes
+  refactor macro code so it compiles faster
+  added live reload
+  added cppia support so we can selectively build modules much faster
+  added DCE support
+
+2015-12-01: 0.1.0
+  added == support for UObjects
+  added templated types support
+  added auto externs
+  added extern baking to autogenerate haxe code from externs
+  added uobject support
+  added uobject override support
+  added struct extern support
+  added UE 4.9 support
