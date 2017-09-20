@@ -142,6 +142,11 @@ typedef UhxBuildConfig = {
     Tells the maximum amount of processes to use
   **/
   ?numProcessors:Int,
+
+  /**
+    Disables the extern baker check if the source file of each target file has changed, while the original still exists
+  **/
+  ?disableBakerSourceCheck:Bool,
 }
 
 @:enum abstract Dce(String) from String {

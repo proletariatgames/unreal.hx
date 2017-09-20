@@ -738,6 +738,9 @@ class UhxBuild extends UhxBaseBuild {
         if (this.config.disableUObject) {
           bakeArgs.push('-D UHX_NO_UOBJECT');
         }
+        if (this.config.disableBakerSourceCheck) {
+          bakeArgs.push('-D NO_SOURCE_CHECK');
+        }
 
         bakeArgs.push('-D BUILDTOOL_VERSION_LEVEL=$VERSION_LEVEL');
         fns.push(function() return compileSources(bakeArgs) == 0);
