@@ -784,7 +784,9 @@ class TypeConv {
       case CUObject(type, flags, info):
         // OExternal, OInterface, OHaxe, OScriptHaxe
         var ret = originalExpr;
-        if (flags.hasAny(OWeak | OAutoWeak)) {
+        if (hasModifier(Ref)) {
+          ret = '&($ret)';
+        } else if (flags.hasAny(OWeak | OAutoWeak)) {
           ret = '( $ret.Get() )';
         }
 
