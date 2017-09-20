@@ -1,4 +1,4 @@
-package unreal;
+package unreal.assetregistry;
 
 @:glueCppIncludes("ARFilter.h")
 @:uextern extern class FARFilter {
