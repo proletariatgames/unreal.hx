@@ -4,5 +4,6 @@ package unreal.assetregistry;
 @:noEquals
 @:glueCppIncludes("AssetRegistryModule.h")
 @:uextern extern class FAssetRegistryModule {
-  function Get():Const<PRef<IAssetRegistry>>;
+  @:thisConst
+  function Get():PRef<IAssetRegistry>;
 }
