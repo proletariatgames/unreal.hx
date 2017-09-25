@@ -1038,11 +1038,13 @@ class UhxBuild extends UhxBaseBuild {
         ];
         var disabledWarnings =
           '-Wno-null-dereference -Wno-parentheses-equality';
+        var clangCall = (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
+            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
+            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"');
         oldEnvs = setEnvs([
           'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
-          'CXX' => (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
-            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
-            'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"'),
+          'CXX' => clangCall,
+          'HXCPP_XLINUX64_CXX' => clangCall,
           'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
           'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
           'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
@@ -1529,11 +1531,14 @@ class UhxBuild extends UhxBaseBuild {
     }
   }
 
-  private static function setEnvs(envs:Map<String,String>):Map<String,String> {
+  private function setEnvs(envs:Map<String,String>):Map<String,String> {
     var oldEnvs = new Map();
     for (key in envs.keys()) {
       var old = Sys.getEnv(key);
       oldEnvs[key] = old == null ? "" : old;
+      if (config.verbose && old != envs[key]) {
+        log(' Setting environment variable $key = ${envs[key]}');
+      }
       Sys.putEnv(key, envs[key]);
     }
     return oldEnvs;
