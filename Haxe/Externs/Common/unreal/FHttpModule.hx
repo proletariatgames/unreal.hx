@@ -1,6 +1,7 @@
 package unreal;
 
 @:glueCppIncludes("HttpModule.h")
+@:umodule("HTTP")
 @:uextern @:noCopy @:noEquals extern class FHttpModule
 {
   static function Get() : PRef<FHttpModule>;
