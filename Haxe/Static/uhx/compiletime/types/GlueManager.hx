@@ -10,6 +10,7 @@ class GlueManager {
   private var touchedFiles:Map<String, TouchKind> = new Map();
   private var modules:Map<String, Array<String>>;
   private var modulesChanged:Map<String, Bool>;
+  private var modulesDeleted:Map<String, Map<String, Bool>>;
   private var regenUnityFiles:Bool;
   private var nativeGlueCode:NativeGlueCode;
 
@@ -18,6 +19,7 @@ class GlueManager {
     if (Globals.cur.glueUnityBuild) {
       this.modules = new Map();
       this.modulesChanged = new Map();
+      this.modulesDeleted = new Map();
     }
   }
 
@@ -42,6 +44,16 @@ class GlueManager {
       if (hasChanged) {
         this.modulesChanged[module] = true;
       }
+    }
+  }
+
+  public function setDeleted(file:String, module:String) {
+    if (modulesDeleted != null && !modulesChanged.exists(module)) {
+      var files = this.modulesDeleted[module];
+      if (files == null) {
+        this.modulesDeleted[module] = files = new Map();
+      }
+      files['#include "' + file.replace('"','\\"') +'"'] = true;
     }
   }
 
@@ -118,6 +130,23 @@ class GlueManager {
     return ret;
   }
 
+  private function hasAnyInclude(path:String, includes:Map<String, Bool>) {
+    var file = sys.io.File.read(path);
+    try {
+      while(true) {
+        var ln = file.readLine();
+        if (includes.exists(ln)) {
+          file.close();
+          return true;
+        }
+      }
+    }
+    catch(e:haxe.io.Eof) {
+    }
+    file.close();
+    return false;
+  }
+
   public function makeUnityBuild() {
     var dir = GlueInfo.getUnityDir();
     if (dir == null) {
@@ -132,6 +161,19 @@ class GlueManager {
         var target = GlueInfo.getUnityPath(module, false);
         if (!sys.FileSystem.exists(target)) {
           this.modulesChanged[module] = true;
+        }
+      }
+    }
+
+    for (deleted in this.modulesDeleted.keys()) {
+      if (!this.modulesChanged.exists(deleted)) {
+        var target = GlueInfo.getUnityPath(deleted, false);
+        if (!sys.FileSystem.exists(target)) {
+          this.modulesChanged[deleted] = true;
+        } else {
+          if (hasAnyInclude(target, this.modulesDeleted[deleted])) {
+            this.modulesChanged[deleted] = true;
+          }
         }
       }
     }

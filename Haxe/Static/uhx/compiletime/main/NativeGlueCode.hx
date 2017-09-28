@@ -255,6 +255,8 @@ class NativeGlueCode
     if (!writer.isDeleted) {
       this.producedFiles.push(cppPath);
       glues.addCpp(cppPath, firstModule, generated);
+    } else {
+      glues.setDeleted(cppPath, firstModule);
     }
     File.saveContent(stampPath,'');
   }
