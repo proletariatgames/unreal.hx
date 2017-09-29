@@ -774,8 +774,9 @@ class ExternBaker {
 
         // Add the className to the classMap with the wrapped as the value so we can access it in wrap().
         if (!c.isInterface && !meta.hasMeta(':global')) {
-          if (!meta.hasMeta(':noClass')) {
-            if (!methods.exists(function(m) return m.uname == 'StaticClass')) {
+          var glueClassGet = glueType.getClassPath() + '.StaticClass()';
+          if (!methods.exists(function(m) return m.uname == 'StaticClass')) {
+            if (!meta.hasMeta(':noClass')) {
               methods.push({
                 name:'StaticClass',
                 uname:'StaticClass',
@@ -786,36 +787,41 @@ class ExternBaker {
                 flags: Final | Static,
                 pos: c.pos,
               });
+            } else {
+              glueClassGet = 'uhx.glues.UObject_Glue.StaticFindObjectFast(uhx.glues.UClass_Glue.StaticClass(), 0, new unreal.FName("${uname}"), false, true, unreal.EObjectFlags.RF_NoFlags)';
+              this.add('@:ifFeature("${this.thisConv.haxeType.withoutModule().getClassPath()}.*") public static function StaticClass():unreal.UClass');
+              this.begin(' {');
+                this.add('return cast unreal.UObject.StaticFindObjectFast(unreal.UClass.StaticClass(), null, new unreal.FName("${uname}"), false, true, unreal.EObjectFlags.RF_NoFlags);');
+              this.end('}');
             }
+          }
 
-            var glueClassGet = glueType.getClassPath() + '.StaticClass()';
-            var hasHaxeSuper = meta.hasMeta(':haxeSuper');
-            this.add('static function __init__():Void');
-            this.begin(' {');
-              this.add('#if !cppia');
-              this.newline();
-              this.add('var func = cpp.Function.fromStaticFunction(wrapPointer).toFunction();');
-              this.newline();
-              this.add('uhx.ue.ClassMap.${hasHaxeSuper ? "addCustomCtor" : "addWrapper"}($glueClassGet, func);');
-              this.newline();
-              this.add('#else');
-              this.newline();
-              this.add('uhx.runtime.Helpers.${hasHaxeSuper ? "addCppiaCustomCtor" : "addCppiaExternWrapper"}("${uname}", "${this.typeRef.getClassPath(true)}");');
-              this.newline();
-              this.add('#end');
-            this.end('}');
-            this.newline();
-
-            // add wrap
+          var hasHaxeSuper = meta.hasMeta(':haxeSuper');
+          this.add('static function __init__():Void');
+          this.begin(' {');
             this.add('#if !cppia');
             this.newline();
-            this.add('static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
-            this.begin(' {');
-              this.add('return uhx.internal.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
-            this.end('}');
-            this.add('#end');
+            this.add('var func = cpp.Function.fromStaticFunction(wrapPointer).toFunction();');
             this.newline();
-          }
+            this.add('uhx.ue.ClassMap.${hasHaxeSuper ? "addCustomCtor" : "addWrapper"}($glueClassGet, func);');
+            this.newline();
+            this.add('#else');
+            this.newline();
+            this.add('uhx.runtime.Helpers.${hasHaxeSuper ? "addCppiaCustomCtor" : "addCppiaExternWrapper"}("${uname}", "${this.typeRef.getClassPath(true)}");');
+            this.newline();
+            this.add('#end');
+          this.end('}');
+          this.newline();
+
+          // add wrap
+          this.add('#if !cppia');
+          this.newline();
+          this.add('static function wrapPointer(uobject:unreal.UIntPtr):unreal.UIntPtr');
+          this.begin(' {');
+            this.add('return uhx.internal.HaxeHelpers.dynamicToPointer(new ${this.typeRef.getClassPath()}(uobject));');
+          this.end('}');
+          this.add('#end');
+          this.newline();
 
           this.add('inline public static function wrap(uobject:${this.thisConv.haxeGlueType}):${this.typeRef.getClassPath()}');
           this.begin(' {');

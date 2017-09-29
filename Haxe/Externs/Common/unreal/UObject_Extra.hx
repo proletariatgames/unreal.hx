@@ -178,7 +178,7 @@ extern class UObject_Extra {
    * @return   Returns a pointer to the found object or NULL if none could be found
    */
   @:glueCppIncludes("UObject/UObjectGlobals.h")
-  @:global public static function StaticFindObjectFast(Class:UClass, InOuter:UObject, InName:FName, ExactClass:Bool = false, AnyPackage:Bool = false, ExclusiveFlags:EObjectFlags = RF_NoFlags):UObject;
+  @:keep @:global public static function StaticFindObjectFast(Class:UClass, InOuter:UObject, InName:FName, ExactClass:Bool = false, AnyPackage:Bool = false, ExclusiveFlags:EObjectFlags = RF_NoFlags):UObject;
 
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function StaticFindObject(Class:UClass, InOuter:UObject, Name:TCharStar, ExactClass:Bool = false):UObject;
