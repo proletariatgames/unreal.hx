@@ -39,7 +39,6 @@ class ExternBaker {
 
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
-    if (!FileSystem.exists(target)) FileSystem.createDirectory(target);
     target = FileSystem.fullPath(target);
     var verbose = Context.defined('UHX_VERBOSE');
     var filesToCompile = new Map();
@@ -167,7 +166,15 @@ class ExternBaker {
           var glueType = processor.glueType;
           var dir = target + '/' + glueType.pack.join('/');
 
-          if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+          if (!FileSystem.exists(dir)) {
+            try {
+              FileSystem.createDirectory(dir);
+            }
+            catch (e:Dynamic) {
+              trace('failed when creating $dir: there might be a race condition');
+            }
+          }
+
           var targetFile = '$dir/${glueType.name}.hx';
           var info = getGeneratedInfo(targetFile);
           if (generatedSourceIsValid(ref.file, targetFile, info)) {
@@ -185,7 +192,13 @@ class ExternBaker {
         }
       }
       var dir = target + '/' + pack.join('/');
-      if (!FileSystem.exists(dir)) FileSystem.createDirectory(dir);
+      if (!FileSystem.exists(dir)) {
+        try {
+          FileSystem.createDirectory(dir);
+        } catch(e:Dynamic) {
+          trace('failed when creating $dir: there might be a race condition');
+        }
+      }
 
       var targetFile = '$dir/$name.hx';
       var info = getGeneratedInfo(targetFile);

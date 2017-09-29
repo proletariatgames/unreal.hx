@@ -660,6 +660,10 @@ class UhxBuild extends UhxBaseBuild {
     var escapedTargetStampPart = targetStampPart.replace('\\','\\\\'),
         escapedTargetFiles = targetFiles.replace('\\','\\\\');
 
+    var outDir = '$haxeDir/Generated/$externsFolder';
+    if (!FileSystem.exists(outDir)) {
+      FileSystem.createDirectory(outDir);
+    }
     var tdeps = timer('baker dependency check');
     var deps = this.getBakerChangedFiles(targetStamp, [
       '${data.pluginDir}/Haxe/Externs/Common',
