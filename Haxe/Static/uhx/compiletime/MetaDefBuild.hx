@@ -125,6 +125,12 @@ class MetaDefBuild {
         if (metas.length != 0) {
           prop.metas = metas;
         }
+        if (field.meta.has(':uexpose')) {
+          if (prop.metas == null) {
+            prop.metas = [];
+          }
+          prop.metas.push({ name:'UnrealHxExpose', isMeta: true });
+        }
       } else if (field.meta.has(':ufunction') && field.kind.match(FMethod(_))) {
         switch(Context.follow(field.type)) {
         case TFun(args,ret):
@@ -155,6 +161,12 @@ class MetaDefBuild {
           var metas = field.meta.extractMetaDef(':ufunction', field.doc);
           if (metas.length != 0) {
             func.metas = metas;
+          }
+          if (field.meta.has(':uexpose')) {
+            if (func.metas == null) {
+              func.metas = [];
+            }
+            func.metas.push({ name:'UnrealHxExpose', isMeta: true });
           }
           var relevantMeta = null;
           if (metas.length > 0) {

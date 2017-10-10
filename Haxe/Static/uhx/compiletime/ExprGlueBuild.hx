@@ -134,6 +134,20 @@ class ExprGlueBuild {
     return ret;
   }
 
+  public static function checkCompiled(fieldName:String, type:Type, pos:Position):Void {
+    var clsRef = Context.getLocalClass();
+    switch(Context.follow(type)) {
+    case TFun(args,ret):
+      var sig = clsRef.toString() + ':$fieldName(' + [for (arg in args) TypeConv.get(arg.t, pos).ueType.getCppType()].join(',') + '):' + TypeConv.get(ret, pos).ueType.getCppType();
+      var cls = clsRef.get();
+      cls.meta.add(':ucompiled', [macro $v{sig}], pos);
+      if (!Globals.cur.compiledScriptGlues.exists(sig)) {
+        Context.warning('UHXERR: The function $fieldName from $clsRef was not compiled into static. A full C++ compilation is required', pos);
+      }
+    case _:
+    }
+  }
+
   public static function getSuperExpr(fieldName:String, targetFieldName:String, args:Array<Expr>, script:Bool):Expr {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),

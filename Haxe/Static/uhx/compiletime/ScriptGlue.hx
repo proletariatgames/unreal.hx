@@ -41,6 +41,11 @@ class ScriptGlue {
 
     var toBuild = [],
         ret = [];
+    if (cl.meta.has(':ucompiled')) {
+      for (meta in cl.meta.extract(':ucompiled')) {
+        ret.push(meta.params[0]);
+      }
+    }
     for (field in cl.fields.get()) {
       if (field.meta.has(':ugluegenerated')) {
         var meta = field.meta.extract(':ugluegenerated')[0];

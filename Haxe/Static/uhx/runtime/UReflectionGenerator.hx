@@ -9,6 +9,7 @@ import unreal.CoreAPI;
 import haxe.rtti.Meta;
 
 using StringTools;
+using Lambda;
 
 enum HotReloadStatus {
   Success;
@@ -506,6 +507,9 @@ class UReflectionGenerator {
     }
 
     for (propDef in meta.uclass.uprops) {
+      if (isNative && propDef.metas != null && propDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+        continue;
+      }
       var prop = generateUProperty(struct, struct, propDef, false);
       if (prop == null) {
         trace('Warning', 'Error while creating property ${propDef.uname} for class $uname');
@@ -616,6 +620,9 @@ class UReflectionGenerator {
           continue;
         }
       }
+      if (isNative && funcDef.metas != null && funcDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
+        continue;
+      }
       var parent = sup == null ? null : sup.FindFunctionByName(funcDef.uname, ExcludeSuper);
       var func = generateUFunction(uclass, funcDef, parent, setupFunction);
       changed = true;
@@ -642,6 +649,7 @@ class UReflectionGenerator {
         }
 
         uclass.AddFunctionToFunctionMap(func);
+        trace('setting func.Next from (${func.GetName()}) to ${uclass.Children == null ? null : uclass.Children.GetName().toString()}');
         func.Next = uclass.Children;
         uclass.Children = func;
       }

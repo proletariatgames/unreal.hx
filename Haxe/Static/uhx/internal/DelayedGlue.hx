@@ -12,4 +12,11 @@ class DelayedGlue {
   macro public static function getNativeCall(fieldName:String, isStatic:Bool, args:Array<haxe.macro.Expr>):haxe.macro.Expr {
     return uhx.compiletime.ExprGlueBuild.getNativeCall(fieldName, isStatic, args, false);
   }
+
+  macro public static function checkCompiled(fieldName:String, fieldExpr:haxe.macro.Expr):haxe.macro.Expr {
+    if (!haxe.macro.Context.defined('display')) {
+      uhx.compiletime.ExprGlueBuild.checkCompiled(fieldName, haxe.macro.Context.typeof(fieldExpr), fieldExpr.pos);
+    }
+    return macro null;
+  }
 }

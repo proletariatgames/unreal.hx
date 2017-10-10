@@ -173,6 +173,17 @@ class NeedsGlueBuild
 
     var methodPtrs = new Map();
     for (field in fields) {
+      if (field.kind.match(FFun(_)) && (Context.defined('cppia') || Context.defined("WITH_CPPIA")) && field.meta.hasMeta(':uexpose')) {
+        var dummy = macro class {
+          @:noUsing @:noCompletion private function dummy() {
+            $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name});
+          }
+        };
+        var cur = dummy.fields[0];
+        cur.name = 'uhx_dummy_check_' + field.name;
+        toAdd.push(cur);
+      }
+
       if (field.access != null && field.access.has(AOverride)) {
         field.meta.push({ name:':keep', pos:field.pos });
         // TODO: should we check for non-override fields as well? This would
@@ -246,7 +257,7 @@ class NeedsGlueBuild
           if (superClass != null && Globals.isDynamicUType(superClass)) {
             Context.warning(
               'Unreal Glue Extension: uexpose properties can only exist in subclasses of non-dynamic script UClasses. ' +
-              'Consider adding @:urpopExpose on the superclass, or taking the @:uexpose off from this property.',
+              'Consider adding @:upropExpose on the superclass, or taking the @:uexpose off from this property.',
               field.pos);
             hadErrors = true;
           }
