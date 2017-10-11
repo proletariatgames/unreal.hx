@@ -31,12 +31,5 @@ package unreal;
     else
       return this.equals(other);
   }
-
-  @:op(A!=B) inline public function notEquals(other:FString) : Bool {
-    if (this == null)
-      return other != null;
-    else
-      return !this.equals(other);
-  }
 #end
 }

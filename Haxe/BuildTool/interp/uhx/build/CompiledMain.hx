@@ -35,27 +35,19 @@ class CompiledMain {
       if (pos >= 0) {
         var key = arg.substr(0, pos),
             val = arg.substr(pos+1);
-        var dynVal:Dynamic = getArg(val);
+        var dynVal:Dynamic = switch(val) {
+          case 'true':
+            true;
+          case 'false':
+            false;
+          case 'null':
+            null;
+          case _:
+            val;
+        };
         ret[key] = dynVal;
       }
     }
     return ret;
-  }
-
-  private static function getArg(val:String):Dynamic {
-    return (switch(val) {
-      case 'true':
-        true;
-      case 'false':
-        false;
-      case 'null':
-        null;
-      case _:
-        if (val.charCodeAt(0) == '['.code) {
-          var vals = val.substring(1, val.length-1).split(",");
-          return [for (val in vals) getArg(val)];
-        }
-        val;
-    } : Dynamic);
   }
 }
