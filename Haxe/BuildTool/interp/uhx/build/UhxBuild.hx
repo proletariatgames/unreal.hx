@@ -31,6 +31,7 @@ class UhxBuild extends UhxBaseBuild {
   var cppiaEnabled:Bool;
 
   var stampOverride:Float;
+  var ueExternDir:String;
 
   var ranExternBaker:Bool;
   var externsToCompile:Map<String, Bool>;
@@ -437,7 +438,10 @@ class UhxBuild extends UhxBaseBuild {
     var plugins = new Map();
     if (proj.Plugins != null) {
       for (plugin in proj.Plugins) {
-        plugins[plugin.Name.toLowerCase()] = plugin.Name;
+        var name = plugin.Name.toLowerCase();
+        if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir/unreal/$name')) {
+          plugins[plugin.Name.toLowerCase()] = plugin.Name;
+        }
       }
       for (plugin in FileSystem.readDirectory(this.data.projectDir + '/Plugins')) {
         var path = this.data.projectDir + '/Plugins/' + plugin;
@@ -463,6 +467,9 @@ class UhxBuild extends UhxBaseBuild {
     }
 
     var lastRun = FileSystem.exists('$uhtDir/generated.stamp') ? FileSystem.stat('$uhtDir/generated.stamp').mtime.getTime() : 0.0;
+    if (this.stampOverride > lastRun) {
+      lastRun = 0;
+    }
     var shouldRun = lastRun == 0;
 
     var manifest:UhtManifest = haxe.Json.parse(sys.io.File.getContent(baseManifest));
@@ -561,6 +568,14 @@ class UhxBuild extends UhxBaseBuild {
     tgenerate();
   }
 
+  private static function isUhtHeader(path:String, file:String) {
+    var splitFile = file.split('.');
+    splitFile.pop();
+    splitFile.push('generated.h');
+    var genFile = splitFile.join('.');
+    return (sys.io.File.getContent(path).indexOf(genFile) >= 0);
+  }
+
   private static function collectUhtHeaders(dir:String, arr:Array<String>, lastRun:Float):Bool {
     var processed = new Map();
     for (a in arr) {
@@ -577,7 +592,7 @@ class UhxBuild extends UhxBaseBuild {
             shouldRun = FileSystem.stat(path).mtime.getTime() >= lastRun;
           }
 
-          if (!processed.exists(f)) {
+          if (!processed.exists(f) && isUhtHeader(path, file)) {
             arr.push(path);
           }
         } else if (recursive && FileSystem.isDirectory(path)) {
@@ -643,14 +658,6 @@ class UhxBuild extends UhxBaseBuild {
     var escapedHaxeDir = haxeDir.replace('\\','\\\\');
     var escapedPluginPath = data.pluginDir.replace('\\','\\\\');
     var forceCreateExterns = this.config.forceBakeExterns == null ? Sys.getEnv('BAKE_EXTERNS') != null : this.config.forceBakeExterns;
-
-    var ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}.${this.version.PatchVersion}';
-    if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
-      ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}';
-      if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
-        throw new BuildError('Cannot find an externs directory for the unreal version ${this.version.MajorVersion}.${this.version.MinorVersion}');
-      }
-    }
 
     var targetStamp = '$outputDir/Data/$externsFolder.deps',
         targetStampPart = '$outputDir/Data/$externsFolder-part', //.deps
@@ -1016,9 +1023,8 @@ class UhxBuild extends UhxBaseBuild {
 
     var isCrossCompiling = false;
     var extraArgs = null,
-        oldEnvs = null;
+        envs = [];
     var thirdPartyDir = this.data.engineDir + '/Source/ThirdParty';
-    Sys.putEnv('ThirdPartyDir', thirdPartyDir);
     switch(Std.string(data.targetPlatform)) {
     case "Linux" if (Sys.systemName() != "Linux"):
       // cross compiling
@@ -1045,28 +1051,34 @@ class UhxBuild extends UhxBaseBuild {
         var clangCall = (Sys.getEnv("CROSS_LINUX_SYMBOLS") == null ?
             'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"' :
             'clang++ --sysroot "$crossPath" $disabledWarnings -target x86_64-unknown-linux-gnu -g -nostdinc++ \"-I$${ThirdPartyDir}/Linux/LibCxx/include\" \"-I$${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"');
-        oldEnvs = setEnvs([
-          'PATH' => Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
-          'CXX' => clangCall,
-          'HXCPP_XLINUX64_CXX' => clangCall,
-          'CC' => 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
-          'HXCPP_AR' => 'x86_64-unknown-linux-gnu-ar',
-          'HXCPP_AS' => 'x86_64-unknown-linux-gnu-as',
-          'HXCPP_LD' => 'x86_64-unknown-linux-gnu-ld',
-          'HXCPP_RANLIB' => 'x86_64-unknown-linux-gnu-ranlib',
-          'HXCPP_STRIP' => 'x86_64-unknown-linux-gnu-strip'
+        envs = envs.concat([
+          'ThirdPartyDir=' + thirdPartyDir,
+          'PATH=' + Sys.getEnv("PATH") + (Sys.systemName() == "Windows" ? ";" : ":") + crossPath + '/bin',
+          'CXX=' + clangCall,
+          'HXCPP_XLINUX64_CXX=' + clangCall,
+          'CC=' + 'clang --sysroot "$crossPath" -target x86_64-unknown-linux-gnu',
+          'HXCPP_AR=' + 'x86_64-unknown-linux-gnu-ar',
+          'HXCPP_AS=' + 'x86_64-unknown-linux-gnu-as',
+          'HXCPP_LD=' + 'x86_64-unknown-linux-gnu-ld',
+          'HXCPP_RANLIB=' + 'x86_64-unknown-linux-gnu-ranlib',
+          'HXCPP_STRIP=' + 'x86_64-unknown-linux-gnu-strip'
         ]);
       } else {
         warn('Cross-compilation was detected but no LINUX_ROOT environment variable was set');
       }
     case "Linux" if(!shouldBuildEditor()):
-      oldEnvs = setEnvs([
-          'CXX' => "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
+      envs = envs.concat([
+          'ThirdPartyDir=' + thirdPartyDir,
+          'CXX=' + "clang++ -nostdinc++ \"-I${ThirdPartyDir}/Linux/LibCxx/include\" \"-I${ThirdPartyDir}/Linux/LibCxx/include/c++/v1\"",
       ]);
     case "Mac":
       extraArgs = [
         '-D toolchain=mac-libc'
       ];
+    }
+
+    if (envs.length > 0) {
+      args = ['--macro', 'uhx.compiletime.main.Env.set(' + toMacroDef(envs) + ')'].concat(args);
     }
 
     if (extraArgs != null) {
@@ -1093,10 +1105,6 @@ class UhxBuild extends UhxBaseBuild {
       this.createHxml('build-static', args.concat(['-D use-rtti-doc']));
       var complArgs = ['--cwd $haxeDir', '--no-output'].concat(args);
       this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
-    }
-
-    if (oldEnvs != null) {
-      setEnvs(oldEnvs);
     }
 
     if (ret == 0 && isCrossCompiling) {
@@ -1235,6 +1243,15 @@ class UhxBuild extends UhxBaseBuild {
     }
     consolidateNeededConfigs();
     this.stampOverride = getStampOverride();
+
+    this.ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}.${this.version.PatchVersion}';
+    if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
+      this.ueExternDir = 'UE${this.version.MajorVersion}.${this.version.MinorVersion}';
+      if (!FileSystem.exists('${data.pluginDir}/Haxe/Externs/$ueExternDir')) {
+        throw new BuildError('Cannot find an externs directory for the unreal version ${this.version.MajorVersion}.${this.version.MinorVersion}');
+      }
+    }
+
   }
 
   override public function run()
@@ -1643,7 +1660,7 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private static function toMacroDef(arr:Array<String>):String {
-    return '[' + [for (val in arr) '"' + val.replace('\\','/') + '"'].join(', ') + ']';
+    return '[' + [for (val in arr) '"' + val.replace('\\','/').replace('"','\\"') + '"'].join(', ') + ']';
   }
 
   private function checkProducedFiles(producedFile:String, verbose:Bool, pass:String):Bool {
