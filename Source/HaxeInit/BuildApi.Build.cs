@@ -118,6 +118,8 @@ public class HaxeModuleRules : BaseModuleRules {
    **/
   public bool forceHaxeCompilation = true;
 
+  public HaxeConfigOptions options = new HaxeConfigOptions();
+
 #if (UE_OLDER_416)
   public HaxeModuleRules(TargetInfo target) : base(target) {
   }
@@ -151,7 +153,7 @@ public class HaxeModuleRules : BaseModuleRules {
       }
     }
 
-    HaxeCompilationInfo info = setupHaxeTarget(this, this.forceHaxeCompilation);
+    HaxeCompilationInfo info = setupHaxeTarget(this, this.forceHaxeCompilation, this.options);
     if (!manualDependencies) {
       string modulesPath = info.outputDir + "/Data/modules.txt";
       string curName = this.GetType().Name;
@@ -167,7 +169,7 @@ public class HaxeModuleRules : BaseModuleRules {
     }
   }
 
-  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation) {
+  public static HaxeCompilationInfo setupHaxeTarget(ModuleRules rules, bool forceHaxeCompilation, HaxeConfigOptions options) {
     rules.PrivateIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Private"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated"));
     rules.PublicIncludePaths.Add(Path.Combine(rules.ModuleDirectory, "Generated/Shared"));
@@ -186,6 +188,22 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.Definitions.Add("WITH_HAXE=1");
     rules.Definitions.Add("HXCPP_EXTERN_CLASS_ATTRIBUTES=");
     rules.Definitions.Add("MAY_EXPORT_SYMBOL=");
+
+    if (options != null && options.haxeInstallPath != null) {
+      string haxePath = System.IO.Path.Combine(info.gameDir, options.haxeInstallPath);
+      Environment.SetEnvironmentVariable("HAXEPATH", haxePath);
+      Environment.SetEnvironmentVariable("PATH", haxePath + System.IO.Path.PathSeparator + Environment.GetEnvironmentVariable("PATH"));
+    }
+    if (options != null && options.haxelibPath != null) {
+      string libPath = System.IO.Path.Combine(info.gameDir, options.haxelibPath);
+      Environment.SetEnvironmentVariable("HAXELIB_PATH", libPath);
+    }
+    if (options != null && options.noDynamicObjects) {
+      rules.Definitions.Add("NO_DYNAMIC_UCLASS=1");
+    } else {
+      rules.Definitions.Add("NO_DYNAMIC_UCLASS=0");
+    }
+
 
     BuildVersion version;
     if (BuildVersion.TryRead("../Build/Build.version", out version)) {
@@ -222,7 +240,7 @@ public class HaxeModuleRules : BaseModuleRules {
 
     System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
     sw.Start();
-    callHaxe(rules, info);
+    callHaxe(rules, info, options);
     Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
     if (forceHaxeCompilation) {
       // make sure the Build.cs file is called every time
@@ -240,7 +258,7 @@ public class HaxeModuleRules : BaseModuleRules {
     rules.ExternalDependencies.Add(info.pluginPath + "/Inexistent path to force BuildApi.Build.cs to compile Haxe");
   }
 
-  public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info) {
+  public static void callHaxe(ModuleRules rules, HaxeCompilationInfo info, HaxeConfigOptions options) {
     Log.TraceInformation("Calling Haxe");
     string engineDir = Path.GetFullPath("..");
 
@@ -258,7 +276,7 @@ public class HaxeModuleRules : BaseModuleRules {
     proc.StartInfo.Arguments = "--cwd \"" + info.pluginPath + "/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=" + engineDir +
         "\" -D \"ProjectDir=" + info.gameDir + "\" -D \"TargetName=" + rules.Target.Name + "\" -D \"TargetPlatform=" + rules.Target.Platform +
         "\" -D \"TargetConfiguration=" + rules.Target.Configuration + "\" -D \"TargetType=" + rules.Target.Type + "\" -D \"ProjectFile=" + info.uprojectPath +
-        "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS";
+        "\" -D \"PluginDir=" + info.pluginPath + "\" -D UE_BUILD_CS" + (options == null ? "" : options.getOptionsString());
     Log.TraceInformation("Calling the build tool with arguments " + proc.StartInfo.Arguments);
 
     proc.StartInfo.RedirectStandardOutput = true;
@@ -350,5 +368,46 @@ public class HaxeCompilationInfo {
     this.libPath = this.outputDir + "/" + libName;
     string haxeInitPath = RulesCompiler.GetFileNameFromType(typeof(HaxeInit));
     this.pluginPath = Path.GetFullPath(haxeInitPath + "/../../..");
+  }
+}
+
+public class HaxeConfigOptions {
+  /**
+    If using a custom Haxe path, specify it here
+  **/
+  public string haxeInstallPath;
+
+  /**
+    If using a custom haxelib path, specify it here
+  **/
+  public string haxelibPath;
+
+  /**
+    Whether to disable dynamic cppia uobjects. In case this is true, any cppia change that results in a
+    ufunction/uproperty being changed/added must be recompiled
+  **/
+  public bool noDynamicObjects;
+
+  public HaxeConfigOptions() {
+  }
+
+  private static string escapeString(string name, string s) {
+    if (s == null) {
+      return "";
+    }
+    return " -D \"" + name + "=" + s.Replace("\\","\\\\").Replace("\"","\\\"").Replace("\n","\\n") + "\"";
+  }
+
+  private static string escapeBool(string name, bool b) {
+    if (!b) {
+      return "";
+    }
+    return " -D \"" + name;
+  }
+
+  public string getOptionsString() {
+    return escapeString("haxeInstallPath", haxeInstallPath) +
+           escapeString("haxelibPath", haxelibPath) +
+           escapeBool("noDynamicObjects", noDynamicObjects);
   }
 }
