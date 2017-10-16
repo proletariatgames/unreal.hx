@@ -35,7 +35,7 @@ class ExprGlueBuild {
 
     var fullName = (isSetter ? 'set_' : 'get_') + fieldName;
     inline function getSig() {
-      return fullName + ':' + tconv.ueType.getCppType();
+      return (field.meta == null ? '' :UhxMeta.getStaticMetas(field.meta.get())) + fullName + ':' + tconv.ueType.getCppType();
     }
 
     if (Context.defined('cppia')) {
@@ -57,9 +57,9 @@ class ExprGlueBuild {
           };
         }
       } else {
-        var sig = clsRef.toString() + ':' + getSig();
-        if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
-          Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
+        var sig = getSig();
+        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':' +sig) && !Context.defined('display')) {
+          Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
       var args = [];
@@ -123,7 +123,7 @@ class ExprGlueBuild {
       meta = a.get().meta;
     case _:
     }
-    if (meta.has(':uscript')) {
+    if (meta.has(UhxMeta.UScript)) {
       var toFlag = ret;
       if (isSetter) {
         toFlag = macro { $ret; value; };
@@ -134,15 +134,42 @@ class ExprGlueBuild {
     return ret;
   }
 
-  public static function checkCompiled(fieldName:String, type:Type, pos:Position):Void {
+  public static function checkClass() {
+    var clsRef = Context.getLocalClass(),
+        cls = clsRef.get();
+
+    if (cls.meta.has(':uclass') && (Context.defined('cppia') || Context.defined('WITH_CPPIA'))) {
+      var sig = UhxMeta.getStaticMetas(cls.meta.get()) + '@Class';
+      if (Context.defined('cppia')) {
+        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':$sig')) {
+          Context.warning('UHXERR: The class ${clsRef} was not compiled into static, or it was compiled with different metadata', cls.pos);
+        }
+      } else {
+        cls.meta.add(UhxMeta.UCompiled, [macro $v{sig}], cls.pos);
+      }
+    }
+  }
+
+  public static function checkCompiled(fieldName:String, type:Type, pos:Position, isStatic:Bool):Void {
     var clsRef = Context.getLocalClass();
     switch(Context.follow(type)) {
     case TFun(args,ret):
-      var sig = clsRef.toString() + ':$fieldName(' + [for (arg in args) TypeConv.get(arg.t, pos).ueType.getCppType()].join(',') + '):' + TypeConv.get(ret, pos).ueType.getCppType();
+      var sig = '$fieldName(' + [for (arg in args) TypeConv.get(arg.t, pos).ueType.getCppType()].join(',') + '):' + TypeConv.get(ret, pos).ueType.getCppType();
       var cls = clsRef.get();
-      cls.meta.add(':ucompiled', [macro $v{sig}], pos);
-      if (!Globals.cur.compiledScriptGlues.exists(sig)) {
-        Context.warning('UHXERR: The function $fieldName from $clsRef was not compiled into static. A full C++ compilation is required', pos);
+      var field = findField(cls, fieldName, isStatic);
+      if (field == null) {
+        Context.warning('Field $fieldName was not found in $clsRef', pos);
+      } else {
+        if (field.meta != null) {
+          sig = UhxMeta.getStaticMetas(field.meta.get()) + sig;
+        }
+      }
+      if (Context.defined('cppia')) {
+        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ":" + sig)) {
+          Context.warning('UHXERR: The function $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', pos);
+        }
+      } else {
+        cls.meta.add(UhxMeta.UCompiled, [macro $v{sig}], pos);
       }
     case _:
     }
@@ -185,9 +212,9 @@ class ExprGlueBuild {
       'super.$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() :
       null;
     if (Context.defined('cppia')) {
-      var sig = clsRef.toString() + ':' + sig;
-      if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
-        Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
+      var sigCheck = clsRef.toString() + ':' + sig;
+      if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+        Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
       }
       var args = [macro this].concat(args);
       var helper = TypeRef.fromBaseType(cls, pos).getScriptGlueType();
@@ -298,7 +325,7 @@ class ExprGlueBuild {
     }
 
     var sig = Context.defined('cppia') || Context.defined('WITH_CPPIA') ?
-      '$fieldName(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() : null;
+      (field.meta == null ? '' : UhxMeta.getStaticMetas(field.meta.get())) + fieldName + '(' + [for (arg in fargs) arg.type.ueType.getCppType()].join(',') + '):' + fret.ueType.getCppType() : null;
     if (Context.defined('cppia')) {
       // only check if they are not special fields
       if (fieldName != 'StaticClass' && fieldName != 'CPPSize' && fieldName != 'setupFunction') {
@@ -306,9 +333,9 @@ class ExprGlueBuild {
         if (name.startsWith('_get_') && name.endsWith('_methodPtr')) {
           name = name.substring('_get_'.length, name.length - '_methodPtr'.length);
         }
-        var sig = clsRef.toString() + ':' + sig;
-        if (!Globals.cur.compiledScriptGlues.exists(sig) && !Context.defined('display')) {
-          Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static. A full C++ compilation is required', Context.currentPos());
+        var sigCheck = clsRef.toString() + ':' + sig;
+        if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+          Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
 

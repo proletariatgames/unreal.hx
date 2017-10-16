@@ -41,8 +41,8 @@ class ScriptGlue {
 
     var toBuild = [],
         ret = [];
-    if (cl.meta.has(':ucompiled')) {
-      for (meta in cl.meta.extract(':ucompiled')) {
+    if (cl.meta.has(UhxMeta.UCompiled)) {
+      for (meta in cl.meta.extract(UhxMeta.UCompiled)) {
         ret.push(meta.params[0]);
       }
     }

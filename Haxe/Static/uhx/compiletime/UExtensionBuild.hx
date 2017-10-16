@@ -138,11 +138,11 @@ class UExtensionBuild {
       var nativeMethods = collectNativeMethods(clt),
           haxeMethods = collectHaxeMethods(clt);
       for (field in clt.fields.get()) {
-        if ( (!isDynamicClass && field.meta.has(':uproperty')) || (field.kind.match(FVar(_)) && field.meta.has(':uexpose'))) {
+        if ( (!isDynamicClass && field.meta.has(UhxMeta.UProperty)) || (field.kind.match(FVar(_)) && field.meta.has(UhxMeta.UExpose))) {
           uprops.push({ field:field, isStatic: false });
 
           // We also need to expose any functions that are used for custom replication conditions
-          var repType = MacroHelpers.extractStrings(field.meta, ':ureplicate')[0];
+          var repType = MacroHelpers.extractStrings(field.meta, UhxMeta.UReplicate)[0];
           if (isCustomReplicationType(repType)) {
             var fnField = clt.fields.get().find(function(fld) return fld.name == repType);
             if (fnField == null) {
@@ -186,7 +186,7 @@ class UExtensionBuild {
           glueCppIncs = new IncludeSet(),
           headerForwards = new Map();
 
-      var isScript = clt.meta.has(':uscript');
+      var isScript = clt.meta.has(UhxMeta.UScript);
       var scriptBase = null;
       if (isScript) {
         scriptBase = TypeConv.get(Context.getType('unreal.UObject'), clt.pos);
@@ -242,7 +242,7 @@ class UExtensionBuild {
           headerDef << 'protected:\n\t\t';
         }
 
-        var ufunc = field.cf.meta.extract(':ufunction');
+        var ufunc = field.cf.meta.extract(UhxMeta.UFunction);
         if (ufunc != null && ufunc[0] != null) {
           if (field.cf.doc != null) {
             headerDef << new Comment(field.cf.doc);
@@ -266,7 +266,7 @@ class UExtensionBuild {
         cppDef << ret << ' ' << nativeUe.getCppClass() << '::' << cppName << '(';
         var modifier = if (field.type.isStatic())
           'static ';
-        else if (!field.cf.meta.has(':final'))
+        else if (!field.cf.meta.has(UhxMeta.Final))
           'virtual ';
         else
           '';
@@ -275,7 +275,7 @@ class UExtensionBuild {
         var args = [ for (arg in field.args) arg.type.ueType.getCppType() + ' ' + arg.name ].join(', ') + ')';
         cppDef << args; headerDef << args;
         var native = nativeMethods[field.cf.name];
-        var thisConst = field.cf.meta.has(':thisConst') || (native != null && native.meta.has(':thisConst'));
+        var thisConst = field.cf.meta.has(UhxMeta.ThisConst) || (native != null && native.meta.has(UhxMeta.ThisConst));
 
         if (thisConst) {
           headerDef << ' const';
@@ -342,7 +342,7 @@ class UExtensionBuild {
       }
 
       var metas = [
-        { name: ':uexpose', params:[], pos:clt.pos },
+        { name: UhxMeta.UExpose, params:[], pos:clt.pos },
         { name: ':keep', params:[], pos:clt.pos },
       ];
 
@@ -372,13 +372,13 @@ class UExtensionBuild {
           // should go away.
           data.add('public:\n\t\t');
 
-          if (uprop.meta.has(':uproperty')) {
+          if (uprop.meta.has(UhxMeta.UProperty)) {
             if (uprop.doc != null) {
               data.add('/**\n${uprop.doc.replace('**/','')}\n**/\n\t\t');
             }
             data.add('UPROPERTY(');
             var first = true;
-            for (meta in uprop.meta.extract(':uproperty')) {
+            for (meta in uprop.meta.extract(UhxMeta.UProperty)) {
               if (meta.params != null) {
                 for (param in meta.params) {
                   if (first) first = false; else data.add(', ');
@@ -387,7 +387,7 @@ class UExtensionBuild {
               }
             }
 
-            if (uprop.meta.has(":ureplicate")) {
+            if (uprop.meta.has(UhxMeta.UReplicate)) {
               if (first) first = false; else data.add(', ');
 
               var fnName = 'onRep_$uname';
@@ -399,7 +399,7 @@ class UExtensionBuild {
               });
 
               if (replicateFn != null) {
-                if (!replicateFn.meta.has(":ufunction")) {
+                if (!replicateFn.meta.has(UhxMeta.UFunction)) {
                   throw new Error('$fnName must be a ufunction to use ReplicatedUsing', uprop.pos);
                 }
                 data.add('ReplicatedUsing=$fnName');
@@ -407,7 +407,7 @@ class UExtensionBuild {
                 data.add('Replicated');
               }
 
-              var repType = MacroHelpers.extractStrings(uprop.meta, ':ureplicate')[0];
+              var repType = MacroHelpers.extractStrings(uprop.meta, UhxMeta.UReplicate)[0];
               replicatedProps[MacroHelpers.getUName(uprop)] = repType;
               hasReplicatedProperties = true;
             }
@@ -656,7 +656,7 @@ class UExtensionBuild {
         fileName = nativeUe.withoutPrefix().getCppClassName();
     // this ueGluePath is later added to gluesToGenerate (before defineType is called)
     metas.push({ name: ':ueGluePath', params: [macro $v{fileName}], pos: clt.pos });
-    var uclass = clt.meta.extract(':uclass')[0];
+    var uclass = clt.meta.extract(UhxMeta.UClass)[0];
     if (uclass != null) {
       includes.add('${fileName}.generated.h');
     } else {
@@ -673,7 +673,7 @@ class UExtensionBuild {
       // any superclass here should also be present in the native side
       extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
 
-      hasHaxeSuper =  !clt.superClass.t.get().meta.has(':uextern');
+      hasHaxeSuper =  !clt.superClass.t.get().meta.has(UhxMeta.UExtern);
       // we're using the ueType so we'll include the glueCppIncludes
       tconv.collectUeIncludes( includes );
     }
@@ -681,7 +681,7 @@ class UExtensionBuild {
       var impl = iface.t.get();
       // TODO: support UE4 interface declaration in Haxe; for now we'll only add @:uextern interfaces
       // look into @:uextern.
-      if (impl.meta.has(':uextern')) {
+      if (impl.meta.has(UhxMeta.UExtern)) {
         var tconv = TypeConv.get( TInst(iface.t, iface.params), clt.pos );
         extendsAndImplements.push('public ' + tconv.ueType.getCppClass());
         // we're using the ueType so we'll include the glueCppIncludes
@@ -739,8 +739,8 @@ class UExtensionBuild {
       headerDef.add('\t\t\treturn (unreal::UIntPtr) ( (${ueName} *) inUObject )->haxeGcRef.get();\n\t\t}\n');
 
     var objectInit = new HelperBuf() << 'ObjectInitializer';
-    var useObjInitializer = clt.meta.has(':noDefaultConstructor');
-    for (fld in clt.meta.extract(':uoverrideSubobject')) {
+    var useObjInitializer = clt.meta.has(UhxMeta.NoDefaultConstructor) || (clt.superClass != null && clt.superClass.t.get().meta.has(UhxMeta.NoDefaultConstructor));
+    for (fld in clt.meta.extract(UhxMeta.UOverrideSubobject)) {
       useObjInitializer = true;
       if (fld.params == null || fld.params.length != 2) {
         throw new Error(':uoverrideSubobject requires two parameters: the name of the component, and the override type', clt.pos);
@@ -822,7 +822,7 @@ class UExtensionBuild {
     var sclass = cls.superClass;
     while (sclass != null) {
       var cur = sclass.t.get();
-      if (cur.meta.has(':uextern')) {
+      if (cur.meta.has(UhxMeta.UExtern)) {
         for (field in cur.fields.get())
           ret[field.name] = field;
       }
@@ -836,7 +836,7 @@ class UExtensionBuild {
           return;
         touched[name] = true;
         var cl = iface.get();
-        if (cl.meta.has(':uextern')) {
+        if (cl.meta.has(UhxMeta.UExtern)) {
           for (field in cl.fields.get()) {
             if (!ret.exists(field.name)) {
               ret[field.name] = field;
@@ -857,7 +857,7 @@ class UExtensionBuild {
     var sclass = cls.superClass;
     while (sclass != null) {
       var cur = sclass.t.get();
-      if (cur.meta.has(':uextern')) {
+      if (cur.meta.has(UhxMeta.UExtern)) {
         break;
       }
       for (field in cur.fields.get())

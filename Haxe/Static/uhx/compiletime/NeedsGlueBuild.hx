@@ -171,12 +171,23 @@ class NeedsGlueBuild
       Globals.cur.classesToAddMetaDef.push(thisType.getClassPath());
     }
 
+    if (type.meta.has(':uclass') && Context.defined('cppia') || Context.defined('WITH_CPPIA')) {
+      var dummy = macro class {
+        @:noUsing @:noCompletion private function dummy() {
+          $delayedglue.checkClass();
+        }
+      }
+      var cur = dummy.fields[0];
+      cur.name = 'uhx_dummy_check_' + type.name;
+      toAdd.push(cur);
+    }
+
     var methodPtrs = new Map();
     for (field in fields) {
       if (field.kind.match(FFun(_)) && (Context.defined('cppia') || Context.defined("WITH_CPPIA")) && field.meta.hasMeta(':uexpose')) {
         var dummy = macro class {
           @:noUsing @:noCompletion private function dummy() {
-            $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name});
+            $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
           }
         };
         var cur = dummy.fields[0];
