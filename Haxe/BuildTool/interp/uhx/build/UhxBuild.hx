@@ -505,7 +505,7 @@ class UhxBuild extends UhxBaseBuild {
         manifest.Modules.push(old);
       }
       old.SaveExportedHeaders = false;
-      var concat = old.PublicHeaders.concat(old.PrivateHeaders).concat(old.ClassesHeaders);
+      var concat = [];
       old.ClassesHeaders = [];
       old.PrivateHeaders = [];
       old.PublicHeaders = concat;
