@@ -35,6 +35,7 @@ class UhxBuild extends UhxBaseBuild {
 
   var ranExternBaker:Bool;
   var externsToCompile:Map<String, Bool>;
+  var referencedExternChanged:Bool;
 
   var threadPool:uhx.build.ThreadPool;
 
@@ -1394,9 +1395,14 @@ class UhxBuild extends UhxBaseBuild {
             err('Cppia compilation failed');
             err('=============================');
           } else {
-            if (!needsStatic && this.hadUhxErr) {
-              log('Cppia requested a full hxcpp compilation');
-              ret = this.compileStatic();
+            if (!needsStatic) {
+              if (this.hadUhxErr) {
+                log('Cppia requested a full hxcpp compilation');
+                ret = this.compileStatic();
+              } else if (this.referencedExternChanged) {
+                log('An extern referenced by cppia was changed - compiling static');
+                ret = this.compileStatic();
+              }
             }
             if (FileSystem.exists(compFile)) {
               FileSystem.deleteFile(compFile);
@@ -1494,23 +1500,22 @@ class UhxBuild extends UhxBaseBuild {
               if (traceFiles) {
                 log('compiling $phase because the extern module $module has changed');
               }
+              referencedExternChanged = true;
               ret = true;
               break;
             }
           }
-        } else if (kind == 'C'.code) {
+        } else if (!ret && kind == 'C'.code) {
           if (!FileSystem.exists(path)) {
             if (traceFiles) {
               log('compiling $phase because the file $path does not exist anymore');
             }
             ret = true;
-            break;
           } else if (FileSystem.stat(path).mtime.getTime() >= stamp) {
             if (traceFiles) {
               log('compiling $phase because the file $path has changed');
             }
             ret = true;
-            break;
           }
         }
       }
