@@ -7,6 +7,8 @@
 #include "UObject/ScriptInterface.h"
 #include "Core.h"
 #include "uhx/ue/ClassMap.h"
+#include "UObject/UnrealType.h"
+#include "UObject/Class.h"
 
 typedef unreal::UIntPtr (*CreateHaxeFn)(unreal::UIntPtr);
 
