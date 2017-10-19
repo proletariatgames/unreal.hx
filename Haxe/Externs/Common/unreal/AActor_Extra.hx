@@ -179,4 +179,7 @@ extern class AActor_Extra {
   @:typeName public function FindComponentByClass<T : UActorComponent>( cls:TSubclassOf<UActorComponent> ) : T;
 
   @:uproperty private var bReplicates:Bool;
+
+	private function InternalTakeRadialDamage(Damage:Float32, RadialDamageEvent:Const<PRef<FRadialDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
+	private function InternalTakePointDamage(Damage:Float32,  PointDamageEvent:Const<PRef<FPointDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
 }
