@@ -376,26 +376,13 @@ class UhxBuild extends UhxBaseBuild {
       }
       return null;
     }
-    var ret = testTarget(this.data.targetName + 'Editor');
+    var ret = testTarget(this.data.targetName);
     if (ret != null) {
       return ret;
     }
-    ret = testTarget(this.data.targetName);
+    ret = testTarget(this.data.targetName + 'Editor');
     if (ret != null) {
       return ret;
-    }
-
-    for (dir in FileSystem.readDirectory(base)) {
-      if (FileSystem.isDirectory('$base/$dir')) {
-        for (file in FileSystem.readDirectory('$base/$dir')) {
-          if (FileSystem.isDirectory('$base/$dir/$file')) {
-            var ret = testPath('$base/$dir/$file');
-            if (ret != null) {
-              return ret;
-            }
-          }
-        }
-      }
     }
     return null;
   }
@@ -415,8 +402,17 @@ class UhxBuild extends UhxBaseBuild {
     };
     var baseManifest = findUhtManifest(target);
     if (baseManifest == null) {
-      err('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Cannot generate externs');
-      return;
+      warn('No prebuilt manifest found for version ${version.MajorVersion}.${version.MinorVersion}. Calling UBT');
+      var ret = callUnrealBuild(target, this.data.targetName + '', this.data.targetConfiguration + '', ['-SkipBuild', '-assemble', '-NoUBTMakefiles', '-NoMutex']);
+      if (ret != 0) {
+        err('UBT call failed with return code $ret. Skipping extern generation');
+        return;
+      }
+      baseManifest = findUhtManifest(target);
+      if (baseManifest == null) {
+        err('Could not find UHT manifest even after UBT was called. Skipping extern generation');
+        return;
+      }
     }
     log('Found base UHT manifest: $baseManifest');
 
@@ -484,7 +480,6 @@ class UhxBuild extends UhxBaseBuild {
     manifest.RootBuildPath = this.data.engineDir + '/../';
     manifest.ExternalDependenciesFile = '$uhtDir/deps.deps';
     manifest.TargetName = this.targetModule;
-    // manifest.Modules = manifest.Modules.filter(function(v) return !targets.exists(function (target) return target.name == v.Name));
 
     for (target in targets) {
       var old = manifest.Modules.find(function(v) return v.Name == target.name);

@@ -128,6 +128,15 @@ public class HaxeModuleRules : BaseModuleRules {
   }
 #endif
 
+  static bool shouldSkipBuild() {
+    foreach (string arg in Environment.GetCommandLineArgs()) {
+      if (String.Compare(arg, "-SkipBuild", StringComparison.OrdinalIgnoreCase) == 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   override protected void run() {
     if (disabled) {
       Log.TraceInformation("Compiling without Haxe support");
@@ -238,13 +247,17 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
-    System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-    sw.Start();
-    callHaxe(rules, info, options);
-    Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
-    if (forceHaxeCompilation) {
-      // make sure the Build.cs file is called every time
-      forceNextRun(rules, info);
+    if (!shouldSkipBuild()) {
+      System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+      sw.Start();
+      callHaxe(rules, info, options);
+      Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
+      if (forceHaxeCompilation) {
+        // make sure the Build.cs file is called every time
+        forceNextRun(rules, info);
+      }
+    } else {
+      Log.TraceInformation("-SkipBuild detected: Skipping Haxe build");
     }
 
     rules.ExternalDependencies.Add(info.pluginPath + "/Source/HaxeInit/BuildApi.Build.cs");
