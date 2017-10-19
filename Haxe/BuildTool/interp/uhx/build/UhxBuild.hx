@@ -1501,7 +1501,7 @@ class UhxBuild extends UhxBaseBuild {
             }
           }
         } else if (!ret && kind == 'C'.code) {
-          if (!FileSystem.exists(path)) {
+          if (!FileSystem.exists(path) && !FileSystem.exists(this.haxeDir + '/' + path)) {
             if (traceFiles) {
               log('compiling $phase because the file $path does not exist anymore');
             }
