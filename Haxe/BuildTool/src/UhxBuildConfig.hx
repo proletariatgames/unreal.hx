@@ -147,6 +147,12 @@ typedef UhxBuildConfig = {
     Disables the extern baker check if the source file of each target file has changed, while the original still exists
   **/
   ?disableBakerSourceCheck:Bool,
+
+  /**
+    Enables the use of pre-build hooks to build Unreal.hx. Note that this should only be used if you're in an Unreal Engine
+    version that contains the pre-build steps fixes
+  **/
+  ?hooksEnabled:Bool,
 }
 
 @:enum abstract Dce(String) from String {

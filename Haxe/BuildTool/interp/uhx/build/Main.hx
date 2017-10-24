@@ -91,7 +91,16 @@ class Main {
           ueEditorCompile: #if UE_EDITOR_COMPILE true #else false #end,
         });
 
-        build.run();
+#if UE_PRE_BUILD
+        if (!build.config.hooksEnabled)
+        {
+          log('Skipping pre-build script because hooks are disabled');
+        }
+         else
+#end
+        {
+          build.run();
+        }
       }
     }
     catch(e:BuildError) {

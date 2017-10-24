@@ -7,7 +7,7 @@ using StringTools;
 
 class UhxBaseBuild {
   public var data(default, null):UhxBuildData;
-  var config:UhxBuildConfig;
+  public var config(default, null):UhxBuildConfig;
   var hadUhxErr:Bool;
 
   public function new(data:UhxBuildData, ?config:UhxBuildConfig) {
