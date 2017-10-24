@@ -1379,6 +1379,8 @@ class UhxBuild extends UhxBaseBuild {
         depCheck();
         if (!needsCppia) {
           log('Skipping cppia compilation because it was not needed');
+          // update the crcs to make sure that hot reload will work even if cppia hasn't changed
+          changeCrcs('${data.projectDir}/Binaries/Haxe');
         } else {
           this.hadUhxErr = false;
           var cppiaRet = compileCppia(needsStatic);
@@ -1680,5 +1682,29 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
     return false;
+  }
+
+  private function changeCrcs(targetDir:String) {
+    var ntry = 0,
+        extra = null;
+    var file = targetDir + '/gameCrcs.data';
+    if (sys.FileSystem.exists(file)) {
+      try {
+        var reader = sys.io.File.read(file, true);
+        reader.readInt32();
+        ntry = reader.readInt32();
+        ntry++;
+        extra = reader.readAll();
+        reader.close();
+      }
+      catch(e:Dynamic) {
+        warn('Error while reading old gameCrcs: $e');
+      }
+      var file = sys.io.File.write(file, true);
+      file.writeInt32(0xC5CC991A);
+      file.writeInt32(ntry);
+      file.writeBytes(extra,0,extra.length);
+      file.close();
+    }
   }
 }
