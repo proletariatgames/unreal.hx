@@ -17,6 +17,10 @@ class NeedsGlueBuild
     #if bake_externs
     return null;
     #end
+    if (Context.defined('display')) {
+      return null;
+    }
+
     // check version level
     if (!checkedVersion) {
       Globals.cur.checkBuildVersionLevel();
