@@ -28,4 +28,19 @@ extern class AGameModeBase_Extra {
     *
     */
   private function InitNewPlayer(NewPlayerController:APlayerController, UniqueId:Const<PRef<FUniqueNetIdRepl>>, Options:Const<PRef<FString>>, Portal:Const<PRef<FString>>) : FString;
+
+  function InitGameState() : Void;
+  function PostLogin(NewPlayer:APlayerController) : Void;
+  function Logout(Exiting:AController) : Void;
+  function SetPlayerDefaults(PlayerPawn:APawn) : Void;
+  function PostSeamlessTravel() : Void;
+  function GetSeamlessTravelActorList(bToEntry:Bool, actorList:PRef<TArray<AActor>>) : Void;
+  function AllowCheats(P:APlayerController) : Bool;
+
+  // !!FIXME!! Remove these once extern baker automatically generates them
+  function PlayerCanRestart_Implementation(Player : unreal.APlayerController) : Bool;
+  function ChoosePlayerStart_Implementation(player:AController) : AActor;
+  function GetDefaultPawnClassForController_Implementation(inController:unreal.AController) : unreal.UClass;
+  @:thisConst public function MustSpectate_Implementation(NewPlayerController : unreal.APlayerController) : Bool;
+
 }

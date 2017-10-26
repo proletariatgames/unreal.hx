@@ -37,6 +37,12 @@ extern class FVector_Extra {
   public function SizeSquared() : Float32;
 
   @:thisConst
+  public function Size2D() : Float32;
+
+  @:thisConst
+  public function SizeSquared2D() : Float32;
+
+  @:thisConst
   public function Rotation() : FRotator;
 
   public var X:Float32;
