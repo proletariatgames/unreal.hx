@@ -96,7 +96,11 @@ class TypeConv {
           TUObject;
         }
       case CEnum(type, info, true):
-        name = info.ueType.getCppType().toString();
+        if ((type == EExternal || type == EAbstract) && info.ueType.pack.length > 0) {
+          name = info.ueType.pack[info.ueType.pack.length-1];
+        } else {
+          name = info.ueType.name;
+        }
         TEnum;
       case CEnum(_):
         null;

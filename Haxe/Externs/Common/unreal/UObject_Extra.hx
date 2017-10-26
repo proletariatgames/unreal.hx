@@ -228,4 +228,9 @@ extern class UObject_Extra {
   public function MarkPendingKill():Void;
 
   @:thisConst private function IsSupportedForNetworking():Bool;
+
+#if (UE_VER >= 4.17)
+  @:glueCppIncludes("UObject/UObjectGlobals.h")
+  @:global public static function ConstructDynamicType(TypePathName:FName, ConstructionSpecifier:EConstructDynamicType):UObject;
+#end
 }

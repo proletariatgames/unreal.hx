@@ -35,6 +35,7 @@ class UReflectionGenerator {
   private static var customReplicationProps:Map<String, Array<{ uname:String, index:Int, funcName:String }>> = new Map();
 
   private static var haxeGcRefOffset(default, null) = RuntimeLibrary.getHaxeGcRefOffset();
+  private static var delays:Array<Void->Void> = [];
 #if DEBUG_HOTRELOAD
   public static var id:unreal.UIntPtr = untyped __cpp__("(unreal::UIntPtr) &registry");
 #end
@@ -918,6 +919,11 @@ class UReflectionGenerator {
 #if DEBUG_HOTRELOAD
     trace('$id: end loading dynamic');
 #end
+    var curDelays = delays;
+    delays = [];
+    for (delay in curDelays) {
+      delay();
+    }
     uhx.UHaxeGeneratedClass.cdoInit();
     var registry = registry;
     var haxePackage = UObject.CreatePackage(null, '/Script/HaxeCppia');
@@ -1358,10 +1364,27 @@ class UReflectionGenerator {
         ret.Struct = cls;
         prop = ret;
       case TEnum:
-        var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
-        var cls = getUEnum(def.typeUName.substr(1));
-        ret.Enum = cls;
+#if (UE_VER >= 4.18)
+        var ret:UEnumProperty = cast newProperty(outer, UEnumProperty.StaticClass(), name, objFlags);
+        delays.push(function() {
+          var uenum = getUEnum(def.typeUName, true);
+          if (uenum == null) {
+            trace('Error', 'Could not find UENUM ${def.typeUName} while creating property $name');
+          }
+          ret.SetEnum(uenum);
+        });
         prop = ret;
+#else
+        var ret:UByteProperty = cast newProperty(outer, UByteProperty.StaticClass(), name, objFlags);
+        delays.push(function() {
+          var uenum = getUEnum(def.typeUName, true);
+          if (uenum == null) {
+            trace('Error', 'Could not find UENUM ${def.typeUName} while creating property $name');
+          }
+          ret.Enum = uenum;
+        });
+        prop = ret;
+#end
 
       case TDynamicDelegate:
         var delDef = scriptDelegates[def.typeUName],
@@ -1449,8 +1472,18 @@ class UReflectionGenerator {
   /**
     Finds a script struct given its name (without the prefix (U,A,...))
    **/
-  public static function getUEnum(name:String):UEnum {
-    return cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+  public static function getUEnum(name:String, force:Bool):UEnum {
+    var ret:UEnum = cast UObject.StaticFindObjectFast(UEnum.StaticClass(), null, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    if (ret == null && force) {
+      var outer = uhx.UCallHelper.StaticClass().GetOuter();
+      ret = cast UObject.StaticFindObjectFast(UEnum.StaticClass(), outer, new FName(name), false, true, EObjectFlags.RF_NoFlags);
+    }
+#if (UE_VER >= 4.17)
+    if (ret == null && force) {
+      ret = cast UObject.ConstructDynamicType(name, OnlyAllocateClassObject);
+    }
+#end
+    return ret;
   }
 
   public static function getField(name:String):UField {
