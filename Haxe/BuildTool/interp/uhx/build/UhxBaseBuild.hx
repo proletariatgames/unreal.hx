@@ -138,10 +138,14 @@ class UhxBaseBuild {
 
 #if cpp
     log('$cmd ${args.join(' ')}');
+    if (showErrors) {
+      return this.call(cmd,args,showErrors);
+    }
     try {
       var proc = new sys.io.Process(cmd, args),
           err = Sys.stderr(),
           stdout = proc.stdout;
+      var finishLock = new cpp.vm.Lock();
       cpp.vm.Thread.create(function() {
         try {
           while(true) {
@@ -150,6 +154,7 @@ class UhxBaseBuild {
         }
         catch(e:haxe.io.Eof) {
         }
+        finishLock.release();
       });
 
       var stderr = proc.stderr;
@@ -171,6 +176,7 @@ class UhxBaseBuild {
       catch(e:haxe.io.Eof) {
       }
 
+      finishLock.wait();
       return proc.exitCode();
     }
     catch(e:Dynamic) {

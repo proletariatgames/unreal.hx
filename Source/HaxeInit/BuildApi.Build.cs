@@ -247,17 +247,17 @@ public class HaxeModuleRules : BaseModuleRules {
         // XboxOne, PS4
     }
 
-    if (!shouldSkipBuild()) {
-      System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-      sw.Start();
-      callHaxe(rules, info, options);
-      Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
-      if (forceHaxeCompilation) {
+    if (forceHaxeCompilation) {
+      if (!shouldSkipBuild()) {
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        callHaxe(rules, info, options);
+        Log.TraceInformation("Haxe call executed in " + sw.Elapsed);
         // make sure the Build.cs file is called every time
         forceNextRun(rules, info);
+      } else {
+        Log.TraceInformation("-SkipBuild detected: Skipping Haxe build");
       }
-    } else {
-      Log.TraceInformation("-SkipBuild detected: Skipping Haxe build");
     }
 
     rules.ExternalDependencies.Add(info.pluginPath + "/Source/HaxeInit/BuildApi.Build.cs");
