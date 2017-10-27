@@ -1385,12 +1385,7 @@ class UhxBuild extends UhxBaseBuild {
           this.hadUhxErr = false;
           var cppiaRet = compileCppia(needsStatic);
           if (cppiaRet != 0) {
-            if (this.data.cppiaRecompile) {
-              throw new BuildError('Cppia compilation failed. Please check the output log for more information');
-            }
-            err('=============================');
-            err('Cppia compilation failed');
-            err('=============================');
+            throw new BuildError('Cppia compilation failed. Please check the output log for more information');
           } else {
             if (!needsStatic) {
               if (this.hadUhxErr) {
