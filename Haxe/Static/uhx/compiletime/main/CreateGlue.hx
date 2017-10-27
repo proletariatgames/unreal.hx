@@ -28,9 +28,10 @@ class CreateGlue {
     externsDir = Context.definedValue('UHX_BAKE_DIR');
 
     // get all types that need to be compiled recursively
-    var staticModules = [];
+    var staticModules = [],
+        staticPaths = [];
     for (path in alwaysCompilePaths) {
-      getModules(path, staticModules);
+      getModules(path, staticModules, staticPaths);
     }
     var toCompile = staticModules.concat(['UnrealInit']);
     if (!Context.defined('UHX_NO_UOBJECT')) {
@@ -53,6 +54,9 @@ class CreateGlue {
     var toGatherModules = null;
 
     var fileDeps = new Map();
+    for (path in staticPaths) {
+      fileDeps[path] = true;
+    }
     inline function addFileDep(file:String) {
       if (file != null && file.endsWith('.hx')) {
         fileDeps.set(file, true);
@@ -295,16 +299,20 @@ class CreateGlue {
     ret.close();
   }
 
-  private static function getModules(path:String, modules:Array<String>)
+  private static function getModules(path:String, modules:Array<String>, ?paths:Array<String>)
   {
     function recurse(path:String, pack:String)
     {
       for (file in FileSystem.readDirectory(path))
       {
-        if (file.endsWith('.hx'))
+        if (file.endsWith('.hx')) {
           modules.push(pack + file.substr(0,-3));
-        else if (FileSystem.isDirectory('$path/$file'))
+          if (paths != null) {
+            paths.push('$path/$file');
+          }
+        } else if (FileSystem.isDirectory('$path/$file')) {
           recurse('$path/$file', pack + file + '.');
+        }
       }
     }
 
