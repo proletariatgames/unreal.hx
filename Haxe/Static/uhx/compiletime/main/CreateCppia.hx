@@ -420,7 +420,7 @@ class CreateCppia {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Context.onMacroContextReused(function() {
+      Globals.checkRegisteredMacro('script', function() {
         hasRun = false;
 
         trace('macro context reused');

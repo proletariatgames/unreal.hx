@@ -332,7 +332,7 @@ class CreateGlue {
     hasRun = true;
     if (firstCompilation) {
       firstCompilation = false;
-      Context.onMacroContextReused(function() {
+      Globals.checkRegisteredMacro('static', function() {
         // trace('macro context reused');
         hasRun = false;
         // we need to add these classpaths again
