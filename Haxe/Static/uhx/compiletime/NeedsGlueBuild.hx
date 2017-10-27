@@ -18,7 +18,6 @@ class NeedsGlueBuild
     return null;
     #end
     if (Context.defined('display')) {
-      trace('here');
       return null;
     }
 
