@@ -464,7 +464,7 @@ class UhxBuild extends UhxBaseBuild {
     }
 
     var lastRun = FileSystem.exists('$uhtDir/generated.stamp') ? FileSystem.stat('$uhtDir/generated.stamp').mtime.getTime() : 0.0;
-    if (this.stampOverride > lastRun) {
+    if (this.stampOverride > lastRun || FileSystem.stat(this.data.projectFile).mtime.getTime() > lastRun) {
       lastRun = 0;
     }
     var shouldRun = lastRun == 0;
