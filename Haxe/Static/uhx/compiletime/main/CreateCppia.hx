@@ -218,9 +218,7 @@ class CreateCppia {
             var name = c.toString();
             var c = c.get();
             var isExtern = c.meta.has(':uextern');
-            if (!isExtern) {
-              addFileDep(Context.getPosInfos(c.pos).file);
-            }
+            addFileDep(Context.getPosInfos(c.pos).file);
             var genericFields = compiledGenerics[name];
             if (genericFields != null && !Context.defined('display')) {
               for (field in c.fields.get().concat(c.statics.get())) {
@@ -256,8 +254,8 @@ class CreateCppia {
             }
           case TEnum(eRef,_):
             var e = eRef.get();
+            addFileDep(Context.getPosInfos(e.pos).file);
             if (!e.meta.has(':uextern')) {
-              addFileDep(Context.getPosInfos(e.pos).file);
               var sig = UEnumBuild.getSignature(e);
               if (sig != null) {
                 if (!Globals.cur.compiledScriptGlues.exists(eRef.toString() + ':' + sig) && !Context.defined('display')) {
@@ -271,9 +269,7 @@ class CreateCppia {
           case TAbstract(a,_):
             var a = a.get();
             var isExtern = a.meta.has(':uextern');
-            if (!isExtern) {
-              addFileDep(Context.getPosInfos(a.pos).file);
-            }
+            addFileDep(Context.getPosInfos(a.pos).file);
             if (isExtern && !a.meta.has(':uscript')) {
               var name = TypeRef.fastClassPath(a);
               if (compiled.exists(name)) {
