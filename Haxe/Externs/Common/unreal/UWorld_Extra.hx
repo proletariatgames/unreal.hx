@@ -47,7 +47,7 @@ extern class UWorld_Extra {
   public function DestroyActor(actor:AActor, bNetForce:Bool, bShouldModifyLevel:Bool) : Bool;
 
   @:thisConst
-  public function GetAuthGameMode() : AGameMode;
+  public function GetAuthGameMode() : AGameModeBase;
 
   /**
    * Returns time in seconds since world was brought up for play, IS stopped when game pauses, IS dilated/clamped
