@@ -31,9 +31,10 @@ class CreateCppia {
     }
 
     Globals.cur.inScriptPass = true;
-    var scripts = [];
+    var scripts = [],
+        scriptFullPaths = [];
     for (path in scriptPaths) {
-      getModules(path,scripts);
+      getModules(path,scripts,scriptFullPaths);
     }
     Globals.cur.staticModules = [ for (module in statics) module => true ];
     var modules = [ for (module in scripts) Context.getModule(module) ];
@@ -161,6 +162,9 @@ class CreateCppia {
     });
 
     var fileDeps = new Map();
+    for (path in scriptFullPaths) {
+      fileDeps[path] = true;
+    }
     inline function addFileDep(file:String) {
       if (file != null && file.endsWith('.hx')) {
         fileDeps.set(file, true);
@@ -250,10 +254,16 @@ class CreateCppia {
               case _:
               }
             }
-          case TEnum(e,_):
-            var e = e.get();
+          case TEnum(eRef,_):
+            var e = eRef.get();
             if (!e.meta.has(':uextern')) {
               addFileDep(Context.getPosInfos(e.pos).file);
+              var sig = UEnumBuild.getSignature(e);
+              if (sig != null) {
+                if (!Globals.cur.compiledScriptGlues.exists(eRef.toString() + ':' + sig) && !Context.defined('display')) {
+                  Context.warning('UHXERR: The enum $eRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', e.pos);
+                }
+              }
             }
             if (hasExclude(e.module)) {
               e.exclude();
@@ -326,16 +336,20 @@ class CreateCppia {
     Context.defineType(cls);
   }
 
-  private static function getModules(path:String, modules:Array<String>)
+  private static function getModules(path:String, modules:Array<String>, ?paths:Array<String>)
   {
     function recurse(path:String, pack:String)
     {
       for (file in FileSystem.readDirectory(path))
       {
-        if (file.endsWith('.hx'))
+        if (file.endsWith('.hx')) {
           modules.push(pack + file.substr(0,-3));
-        else if (FileSystem.isDirectory('$path/$file'))
+          if (paths != null) {
+            paths.push('$path/$file');
+          }
+        } else if (FileSystem.isDirectory('$path/$file')) {
           recurse('$path/$file', pack + file + '.');
+        }
       }
     }
 
@@ -434,6 +448,7 @@ class CreateCppia {
     }
     catch(e:haxe.io.Eof) {
     }
+    file.close();
 
     if (compiledModules != null) {
       var old = compiledModules.modules;

@@ -248,6 +248,11 @@ class CreateGlue {
               builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated')});
             }
           }
+        case TEnum(e,_):
+          var meta = e.get().meta;
+          if (meta.has(':ugenerated')) {
+            builtGlues.push({ path:e.toString(), glues:meta.extractStrings(':ugenerated') });
+          }
         case _:
         }
       }

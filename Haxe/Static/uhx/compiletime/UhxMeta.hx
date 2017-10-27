@@ -22,6 +22,10 @@ package uhx.compiletime;
     Calls SetDefaultSubobjectClass on the constructor
   **/
   var UOverrideSubobject = ':uoverrideSubobject';
+  /**
+    Defines the C++ name of the target type
+  **/
+  var UName = ":uname";
 
   // Unreal C++ metadata
   var UProperty = ':uproperty';
@@ -38,6 +42,15 @@ package uhx.compiletime;
   **/
   var ThisConst = ':thisConst';
 
+  // UEnum metadata
+  /**
+    Annotates an enum as a C++ `enum class` type
+  **/
+  var Class = ':class';
+  /**
+    Annotates an enum as an UENUM type
+  **/
+  var UEnum = ':uenum';
 
   // Internal metadata
   /**
@@ -49,12 +62,13 @@ package uhx.compiletime;
   **/
   var UCompiled = ':ucompiled';
 
+
   /**
     Returns whether the metadata changes how a class/property/function is compiled in C++
   **/
   public function changesStaticCompilation():Bool {
     switch (this : UhxMeta) {
-      case NoDefaultConstructor | UOverrideSubobject | UClass | UProperty | UFunction | Final | ThisConst | UExpose:
+      case NoDefaultConstructor | UOverrideSubobject | UClass | UProperty | UFunction | Final | ThisConst | UExpose | UName | Class:
         return true;
       case _:
         return false;
