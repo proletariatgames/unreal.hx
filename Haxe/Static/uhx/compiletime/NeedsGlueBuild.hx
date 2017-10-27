@@ -18,6 +18,7 @@ class NeedsGlueBuild
     return null;
     #end
     if (Context.defined('display')) {
+      trace('here');
       return null;
     }
 
@@ -29,6 +30,12 @@ class NeedsGlueBuild
     var localClass = Context.getLocalClass(),
         cls = localClass.get(),
         thisType = TypeRef.fromBaseType(cls, cls.pos);
+
+    if (Globals.registeredNumPath == null) {
+      trace('Internal error: Registered num path is null (compilation server related?)');
+    } else {
+      Context.registerModuleDependency(cls.module, Globals.registeredNumPath);
+    }
 
     var disableUObject = Context.defined('UHX_NO_UOBJECT');
     if (disableUObject) {

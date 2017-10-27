@@ -225,20 +225,21 @@ class Globals {
   public var staticModules:Map<String, Bool> = new Map();
 
   public static var registeredMacro:Bool;
+  public static var registeredNumPath:String;
 
   public static function checkRegisteredMacro(name:String, onMacroReused:Void->Bool) {
     if (!registeredMacro) {
       registeredMacro = true;
-    } else {
       var staticBaseDir = haxe.io.Path.normalize(
         (Context.defined('cppia') ? Context.definedValue('UHX_STATIC_BASE_DIR') : (haxe.macro.Compiler.getOutput() + '/..'))
       );
+      registeredNumPath = staticBaseDir + '/Data/$name-num.txt';
       var num:Null<Int> = null;
-      if (FileSystem.exists(staticBaseDir + '/Data/$name-num.txt')) {
-        num = Std.parseInt(sys.io.File.getContent(staticBaseDir + '/Data/$name-num.txt'));
+      if (FileSystem.exists(registeredNumPath)) {
+        num = Std.parseInt(sys.io.File.getContent(registeredNumPath));
       }
       if (num == null) {
-        num = Std.random(1 << 31);
+        num = Std.int(Math.random() * (1 << 30));
       } else {
         num++;
       }
