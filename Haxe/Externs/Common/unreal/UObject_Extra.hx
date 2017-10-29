@@ -78,6 +78,15 @@ extern class UObject_Extra {
    **/
   public function PostLoad():Void;
 
+	/**
+	 * Instances components for objects being loaded from disk, if necessary.  Ensures that component references
+	 * between nested components are fixed up correctly.
+	 *
+	 * @param	OuterInstanceGraph	when calling this method on subobjects, specifies the instancing graph which contains all instanced
+	 *								subobjects and components for a subobject root.
+	 */
+  public function PostLoadSubobjects(OuterInstanceGraph:PPtr<unreal.FObjectInstancingGraph>) : Void;
+
   public function ConditionalPostLoad():Void;
 
   @:thisConst
