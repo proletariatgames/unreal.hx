@@ -540,10 +540,14 @@ class UhxBuild extends UhxBaseBuild {
     sys.io.File.saveContent(uhtDir + '/proj.uproject', haxe.Json.stringify(proj));
     tsave();
     // Call UHT
+    if (!sys.FileSystem.exists(this.data.projectDir + '/Haxe/GeneratedExterns')) {
+      sys.FileSystem.createDirectory(this.data.projectDir + '/Haxe/GeneratedExterns');
+    }
     var oldEnvs = setEnvs([
       'GENERATE_EXTERNS' => '1',
       'EXTERN_MODULES' => externModules.join(','),
-      'EXTERN_OUTPUT_DIR' => this.data.projectDir
+      'EXTERN_OUTPUT_DIR' => this.data.projectDir,
+      'EXTERN_FULL_OUT_PATH' => this.data.projectDir + '/Haxe/GeneratedExterns'
     ]);
     var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
     if (config.verbose) {
@@ -671,7 +675,8 @@ class UhxBuild extends UhxBaseBuild {
     var deps = this.getBakerChangedFiles(targetStamp, [
       '${data.pluginDir}/Haxe/Externs/Common',
       '${data.pluginDir}/Haxe/Externs/$ueExternDir',
-      '$haxeDir/Externs'
+      '$haxeDir/GeneratedExterns',
+      '$haxeDir/Externs',
     ], modulesToCompile, processed, this.config.verbose, forceCreateExterns, '$haxeDir/Generated/$externsFolder');
     tdeps();
     var depList = deps.depList,
@@ -722,6 +727,7 @@ class UhxBuild extends UhxBaseBuild {
           '-cp ${data.pluginDir}/Haxe/Static',
           '-cp ${data.pluginDir}/Haxe/Externs/Common',
           '-cp ${data.pluginDir}/Haxe/Externs/$ueExternDir',
+          '-cp ${haxeDir}/GeneratedExterns',
           '-cp ${haxeDir}/Externs',
           '-D use-rtti-doc', // we want the documentation to be persisted
           '-D bake-externs',
@@ -732,7 +738,7 @@ class UhxBuild extends UhxBaseBuild {
           '',
           '-cpp $haxeDir/Generated/$externsFolder',
           '--no-output', // don't generate cpp files; just execute our macro
-          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/Externs"], ' +
+          '--macro uhx.compiletime.main.ExternBaker.process(["$escapedPluginPath/Haxe/Externs/Common", "$escapedPluginPath/Haxe/Externs/$ueExternDir", "$escapedHaxeDir/GeneratedExterns", "$escapedHaxeDir/Externs"], ' +
                                                             '"$escapedTargetStampPart-$n.deps","$escapedTargetFiles-$n.files")'
         ];
         if (shouldBuildEditor()) {
