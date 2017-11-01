@@ -153,6 +153,11 @@ typedef UhxBuildConfig = {
     version that contains the pre-build steps fixes
   **/
   ?hooksEnabled:Bool,
+
+  /**
+    Sets the main module (whose source will be at `Source/{mainModule}`)
+  **/
+  ?mainModule:String,
 }
 
 @:enum abstract Dce(String) from String {

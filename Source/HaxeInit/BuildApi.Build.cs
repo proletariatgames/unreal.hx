@@ -261,6 +261,11 @@ public class HaxeModuleRules : BaseModuleRules {
     }
 
     rules.ExternalDependencies.Add(info.pluginPath + "/Source/HaxeInit/BuildApi.Build.cs");
+    foreach (string dir in Directory.EnumerateDirectories(info.gameDir + "/Intermediate/Haxe")) {
+      if (File.Exists(dir + "/Data/modules.txt")) {
+        rules.ExternalDependencies.Add(dir + "/Data/modules.txt");
+      }
+    }
     rules.ExternalDependencies.Add(info.outputDir + "/Data/modules.txt");
 
     return info;
@@ -328,6 +333,8 @@ public class HaxeCompilationInfo {
     this.name = rules.Target.Name;
     if (this.name.EndsWith("Editor")) {
       this.name = this.name.Substring(0, this.name.Length - "Editor".Length);
+    } else if (this.name.EndsWith("Server")) {
+      this.name = this.name.Substring(0, this.name.Length - "Server".Length);
     }
 
     List<UProjectInfo> infos = UProjectInfo.FilterGameProjects(true, this.name);

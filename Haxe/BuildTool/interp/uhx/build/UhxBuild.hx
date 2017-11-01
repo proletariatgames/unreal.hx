@@ -43,8 +43,14 @@ class UhxBuild extends UhxBaseBuild {
     super(data, config);
     this.haxeDir = data.projectDir + '/Haxe';
     this.targetModule = this.data.targetName;
-    if (this.targetModule.endsWith("Editor")) {
-      this.targetModule = this.targetModule.substr(0,this.targetModule.length - "Editor".length);
+    if (this.config.mainModule != null) {
+      this.targetModule = this.config.mainModule;
+    } else {
+      if (this.targetModule.endsWith("Editor")) {
+        this.targetModule = this.targetModule.substr(0,this.targetModule.length - "Editor".length);
+      } else if (this.targetModule.endsWith("Server")) {
+        this.targetModule = this.targetModule.substr(0,this.targetModule.length - "Server".length);
+      }
     }
 
     this.externsToCompile = new Map();
@@ -233,13 +239,14 @@ class UhxBuild extends UhxBaseBuild {
         if (file.endsWith('.hx')) {
           var name = file.substr(0,file.length-3);
           var module = '$pack${name}';
-          var isExtra = name.endsWith('_Extra');
+          var isExtra = name.endsWith('_Extra'),
+              targetFile = isExtra ? file.substr(0,file.length-"_Extra.hx".length)  + '.hx': file;
           processed[module] = true;
           var reason = null,
               shouldCompile = false;
           if (stamp <= 0) {
             shouldCompile = true;
-          } else if (!isExtra && !FileSystem.exists('$outputDir/$dir/$file')) {
+          } else if (!FileSystem.exists('$outputDir/$dir/$targetFile')) {
             shouldCompile = true;
             reason = 'target file does not exist';
           } else if (FileSystem.stat('$path/$file').mtime.getTime() >= stamp) {
