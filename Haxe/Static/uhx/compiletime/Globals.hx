@@ -124,6 +124,11 @@ class Globals {
   public var aactor:Type;
 
   /**
+    The unreal.UActorComponent type cached
+   **/
+  public var uactorcomponent:Type;
+
+  /**
     A cache for the Void TypeConv
    **/
   @:isVar public var voidTypeConv(get,null):TypeConv;

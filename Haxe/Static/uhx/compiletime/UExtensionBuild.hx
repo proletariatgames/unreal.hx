@@ -447,24 +447,28 @@ class UExtensionBuild {
         if (aactor == null) {
           Globals.cur.aactor = aactor = Context.getType('unreal.AActor');
         }
+        var uactorcomponent = Globals.cur.uactorcomponent;
+        if (uactorcomponent == null) {
+          Globals.cur.uactorcomponent = uactorcomponent = Context.getType('unreal.UActorComponent');
+        }
         if (isDynamicClass) {
-          if (Context.unify(t, aactor)) {
-            glueCppIncs.add('VariantPtr.h');
-            glueCppIncs.add('IntPtr.h');
-            glueCppIncs.add('CoreMinimal.h');
-            glueCppIncs.add('uhx/expose/HxcppRuntime.h');
-            glueCppIncs.add('uhx/Wrapper.h');
-            glueCppIncs.add('UnrealNetwork.h');
+          glueCppIncs.add('VariantPtr.h');
+          glueCppIncs.add('IntPtr.h');
+          glueCppIncs.add('CoreMinimal.h');
+          glueCppIncs.add('uhx/expose/HxcppRuntime.h');
+          glueCppIncs.add('uhx/Wrapper.h');
+          glueCppIncs.add('UnrealNetwork.h');
 
-            headerCode += 'virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;\n\n\t\t';
-            cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
-            cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
-            cppCode += '\tuhx::expose::HxcppRuntime::setLifetimeProperties(' +
-                '(unreal::UIntPtr) this->GetClass(), ' +
-                '"${nativeUe.getCppClass()}", ' +
-                'uhx::TemplateHelper<TArray<FLifetimeProperty>>::fromPointer(&OutLifetimeProps));\n';
-            cppCode += '}\n\n';
+          headerCode += 'virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;\n\n\t\t';
+          cppCode += 'void ${nativeUe.getCppClass()}::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {\n';
+          cppCode += '\tSuper::GetLifetimeReplicatedProps(OutLifetimeProps);\n';
+          cppCode += '\tuhx::expose::HxcppRuntime::setLifetimeProperties(' +
+              '(unreal::UIntPtr) this->GetClass(), ' +
+              '"${nativeUe.getCppClass()}", ' +
+              'uhx::TemplateHelper<TArray<FLifetimeProperty>>::fromPointer(&OutLifetimeProps));\n';
+          cppCode += '}\n\n';
 
+          if (Context.unify(t, aactor) || Context.unify(t, uactorcomponent)) {
             headerCode += 'virtual void PreReplication( IRepChangedPropertyTracker & ChangedPropertyTracker ) override;\n\n\t\t';
 
             cppCode += 'void ${nativeUe.getCppClass()}::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) {\n';
