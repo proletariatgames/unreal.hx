@@ -268,7 +268,7 @@ class MetaDefBuild {
 
   public static function writeClassDefs() {
     var outputDir = haxe.io.Path.directory(Compiler.getOutput());
-    var ntry = 0;
+    var ntry = Std.int(Math.random() * 0x7FFFFFFF);
     var file = outputDir + '/gameCrcs.data';
     if (sys.FileSystem.exists(file)) {
       try {

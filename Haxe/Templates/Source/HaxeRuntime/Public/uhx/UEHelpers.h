@@ -56,6 +56,9 @@ static TScriptInterface<InterfaceType> createScriptInterface(InterfaceType *ifac
 
 #if WITH_EDITOR
 static void createDynamicWrapperIfNeeded(const FName& className, UClass *curClass, uhx::GcRef& haxeGcRef, UObject *self, CreateHaxeFn createHaxeWrapper) {
+  if (GIsDuplicatingClassForReinstancing) {
+    return;
+  }
   FString hxClassName;
   FName currentName;
   HaxeWrap *customCtor = nullptr;
