@@ -6,14 +6,13 @@ import haxe.CallStack;
  **/
 @:keep class HaxeCodeDispatcher {
   private static var inHaxeCode = false;
-  private static var inDebugger = #if (debug && HXCPP_DEBUGGER) true; #else unreal.FPlatformMisc.IsDebuggerPresent(); #end
+  private static var inDebugger = #if (debug && HXCPP_DEBUGGER) true; #else false; #end
 
   @:extern inline public static function runWithValue<T>(fn:Void->T, ?name:String):T {
-    if (!inHaxeCode && !inDebugger) {
-      inHaxeCode = true;
+    if (shouldWrap()) {
       try {
         var ret = fn();
-        inHaxeCode = false;
+        endWrap();
         return ret;
       } catch(e:Dynamic) {
         showError(e, CallStack.exceptionStack(), name);
@@ -25,11 +24,10 @@ import haxe.CallStack;
   }
 
   @:extern inline public static function runVoid(fn:Void->Void, ?name:String):Void {
-    if (!inHaxeCode && !inDebugger) {
-      inHaxeCode = true;
+    if (shouldWrap()) {
       try {
         fn();
-        inHaxeCode = false;
+        endWrap();
       } catch(e:Dynamic) {
         showError(e, CallStack.exceptionStack(), name);
       }
@@ -57,7 +55,7 @@ import haxe.CallStack;
       trace('Error', exc);
     }
     trace('Error', 'Stack trace:\n' + CallStack.toString(stack));
-    inHaxeCode = false;
+    endWrap();
 #if WITH_EDITOR
     var world = unreal.UEngine.GWorld.GetReference();
     if (world == null || !world.IsPlayInEditor())

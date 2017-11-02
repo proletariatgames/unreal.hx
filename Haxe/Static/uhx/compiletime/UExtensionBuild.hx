@@ -595,10 +595,29 @@ class UExtensionBuild {
       for (field in buildFields) {
         switch(field.kind) {
         case FFun(fn):
-          var isVoid = fn.ret.match(TPath({ name:'Void' }));
+          var fnRet = fn.ret;
+          var isVoid = fnRet.match(TPath({ name:'Void' }));
           var nullExpr = macro untyped __cpp__('0');
           var nameVal = typeRef.name + '.' + field.name;
           var oldExpr = fn.expr;
+          if (hasReturn(oldExpr)) {
+            if (isVoid) {
+              oldExpr = macro {
+                function uhx_run() {
+                  $oldExpr;
+                }
+                uhx_run();
+              };
+            } else {
+              oldExpr = macro {
+                function uhx_run():$fnRet {
+                  var ret = $oldExpr;
+                  @:pos(field.pos) return ret;
+                }
+                uhx_run();
+              };
+            }
+          }
           var newExpr = null;
           if (isVoid) {
             newExpr = macro {
@@ -881,6 +900,21 @@ class UExtensionBuild {
            'AutonomousOnly', 'SimulatedOrPhysics', 'InitialOrOwner': false;
       default: true;
     }
+  }
+
+  private static function hasReturn(e:Expr) {
+    var ret = false;
+    function check(e:Expr) {
+      switch(e.expr) {
+      case EReturn(_): ret = true;
+      case _:
+        if (!ret){
+          e.iter(check);
+        }
+      }
+    }
+    check(e);
+    return ret;
   }
 }
 
