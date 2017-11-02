@@ -2,6 +2,8 @@ package unreal.gameplaytags;
 
 extern class FGameplayTag_Extra
 {
+	public static var EmptyTag (get,never) : Const<FGameplayTag>;
+
 	public function new();
 	@:uname('.ctor') public static function create() : FGameplayTag;
 
