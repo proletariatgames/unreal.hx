@@ -235,6 +235,9 @@ class UhxBuild extends UhxBaseBuild {
 
     function recurse(base:String, dir:String, pack:String) {
       var path = '$base/$dir';
+      if (!FileSystem.exists(path)) {
+        return;
+      }
       for (file in FileSystem.readDirectory(path)) {
         if (file.endsWith('.hx')) {
           var name = file.substr(0,file.length-3);
