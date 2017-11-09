@@ -191,10 +191,32 @@ class UReflectionGenerator {
         path.file = file + '-$add';
       }
 
+      {
 #if DEBUG_HOTRELOAD
-      trace('$id: Copying module to $path');
+        trace('$id: Copying module to $path');
 #end
-      sys.io.File.copy(info.FilePath.toString(), path.toString());
+        var copiedModule = false;
+        var maxRetries = 10;
+        var backOffSeconds = 0.1;
+        var backOffSecondsIncr = 0.1;
+        for (numRetries in 0...maxRetries) {
+          try {
+            sys.io.File.copy(info.FilePath.toString(), path.toString());
+            copiedModule = true;
+            break;
+          } catch (e:Dynamic) {
+            trace('Warning', 'Failed to copy ${info.FilePath} -> $path, try $numRetries/$maxRetries');
+            Sys.sleep(backOffSeconds);
+            backOffSeconds += backOffSecondsIncr;
+          }
+        }
+
+        if (!copiedModule)
+        {
+          trace('Error', 'Failed to copy module in order to trigger hotreload!');
+          return Failure;
+        }
+      }
 
       if (unreal.editor.UEditorEngine.GEditor != null) {
         return WaitingRebind;
