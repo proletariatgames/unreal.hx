@@ -1501,6 +1501,21 @@ class TypeConv {
         haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
         glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
       },
+      // AnsiCharStar
+      {
+        haxeType: new TypeRef(['unreal'],'AnsiCharStar'),
+        ueType: new TypeRef(['cpp'], 'RawPointer', [new TypeRef('ANSICHAR')]),
+        haxeGlueType: uintPtr,
+        glueType: uintPtr,
+
+        glueCppIncludes:IncludeSet.fromUniqueArray(['Engine.h', '<uhx/expose/HxcppRuntime.h>']),
+        glueHeaderIncludes:IncludeSet.fromUniqueArray(['<hxcpp.h>']),
+
+        ueToGlueExpr:'::uhx::expose::HxcppRuntime::constCharToString(TCHAR_TO_UTF8(ANSI_TO_TCHAR( (const char *) (%) )))',
+        glueToUeExpr:'TCHAR_TO_ANSI(UTF8_TO_TCHAR(::uhx::expose::HxcppRuntime::stringToConstChar((unreal::UIntPtr) (%))))',
+        haxeToGlueExpr:'uhx.internal.HaxeHelpers.dynamicToPointer( % )',
+        glueToHaxeExpr:'(uhx.internal.HaxeHelpers.pointerToDynamic( % ) : String)',
+      },
       { // TODO - use Pointer instead
         ueType: byteArray,
         haxeType: new TypeRef(['unreal'],'ByteArray'),

@@ -344,23 +344,63 @@ class UnrealInit
     var str:String = null;
     if (infos != null) {
       str = infos.fileName + ":" + infos.lineNumber + ": ";
-      if (infos.customParams != null && infos.customParams.length > 0) {
-        switch (Std.string(v).toUpperCase()) {
-        case "LOG":
-          unreal.Log.trace(str + infos.customParams.join(','));
-        case "WARNING":
-          unreal.Log.warning(str + infos.customParams.join(','));
-        case "ERROR":
-          unreal.Log.error(str + infos.customParams.join(','));
-        case "FATAL":
-          unreal.Log.error(str + infos.customParams.join(','));
-          unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
-          unreal.Log.fatal(str + infos.customParams.join(','));
-        case _:
-          unreal.Log.trace(str + v + ',' + infos.customParams.join(','));
-        }
-      } else {
+      if (infos.customParams == null) {
+        // fast path
         unreal.Log.trace(str + v);
+      } else {
+        var idx = -1;
+        var cat:unreal.LogCategory = null;
+        if (Std.is(v, unreal.LogCategory)) {
+          cat = v;
+          idx++;
+        }
+        var verbosity = unreal.ELogVerbosity.Log;
+        var val = idx < 0 ? v : infos.customParams[0];
+        switch (Std.string(val).toUpperCase()) {
+        case "LOG":
+          verbosity = Log;
+          idx++;
+        case "WARNING":
+          verbosity = Warning;
+          idx++;
+        case "ERROR":
+          verbosity = Error;
+          idx++;
+        case "FATAL":
+          verbosity = Fatal;
+          idx++;
+        case _:
+        }
+
+        if (idx < 0) {
+          str += v + ',' + infos.customParams.join(',');
+        } else if (idx == 0) {
+          str += infos.customParams.join(',');
+        } else {
+          str += infos.customParams.slice(idx, null).join(',');
+        }
+
+        if (cat == null) {
+          switch(verbosity) {
+          case Log:
+            unreal.Log.trace(str);
+          case Warning:
+            unreal.Log.warning(str);
+          case Error:
+            unreal.Log.error(str);
+          case Fatal:
+            unreal.Log.error(str);
+            unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
+            unreal.Log.fatal(str);
+          case _:
+          }
+        } else if (!cat.unrealCategory.IsSuppressed(verbosity)) {
+          if (verbosity == Fatal) {
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, "%s", str);
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, Error, "%s", 'Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
+          }
+          unreal.FMsg.Logf(infos.fileName, infos.lineNumber, cat.name, verbosity, "%s", str);
+        }
       }
     } else {
       unreal.Log.trace(Std.string(v));
