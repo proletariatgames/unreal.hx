@@ -38,9 +38,11 @@ class UhxBuild extends UhxBaseBuild {
   var referencedExternChanged:Bool;
 
   var threadPool:uhx.build.ThreadPool;
+  var ignoreArgs:Array<String>;
 
   public function new(data, ?config:UhxBuildConfig) {
     super(data, config);
+    this.ignoreArgs = MacroHelper.getIgnoreArgs();
     this.haxeDir = data.projectDir + '/Haxe';
     this.targetModule = this.data.targetName;
     if (this.config.mainModule != null) {
@@ -890,6 +892,9 @@ class UhxBuild extends UhxBaseBuild {
       cps.push('-cp $module');
     }
 
+    var targetPath = this.data.cppiaRecompile ?
+      '${data.projectDir}/Binaries/Haxe/game-recompile.cppia' :
+      '${data.projectDir}/Binaries/Haxe/game.cppia';
     var args = cps.concat([
         '',
         '-main UnrealCppia',
@@ -904,7 +909,7 @@ class UhxBuild extends UhxBaseBuild {
         '-D UHX_UE_TARGET_PLATFORM=${data.targetPlatform}',
         '-D UHX_BUILD_NAME=$buildName',
         '-D UHX_BAKE_DIR=$haxeDir/Generated/$externsFolder',
-        '-cppia ${data.projectDir}/Binaries/Haxe/game.cppia',
+        '-cppia $targetPath',
         '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
     ]);
     if (debugSymbols) {
@@ -917,6 +922,25 @@ class UhxBuild extends UhxBaseBuild {
     addConfigurationDefines(args, data.targetConfiguration);
     if (config.extraCppiaCompileArgs != null) {
       args = args.concat(config.extraCppiaCompileArgs);
+    }
+
+    if (this.data.cppiaRecompile) {
+      var toIgnore = [for (arg in ignoreArgs) arg => true];
+      #if cpp
+      for (arg in Sys.args()) {
+        var idx = arg.indexOf('=');
+        if (idx > 0 && !toIgnore.exists(arg.substr(0,idx))) {
+          args.push('-D $arg');
+        }
+      }
+      #else
+      var defines = MacroHelper.getDefines();
+      for (arg in defines.keys()) {
+        if (!toIgnore.exists(arg)) {
+          args.push('-D $arg=${defines[arg]}');
+        }
+      }
+      #end
     }
 
     if (!FileSystem.exists('${data.projectDir}/Binaries/Haxe')) {
@@ -932,8 +956,30 @@ class UhxBuild extends UhxBaseBuild {
     var cppiaRet = compileSources(extraArgs.concat(args), showErrors);
 
     tcppia();
-    if (!this.data.ueEditorRecompile && !this.data.ueEditorCompile) {
-      this.createHxml('build-script', args.concat(['-D use-rrti-doc']));
+    if (!this.data.ueEditorRecompile && !this.data.ueEditorCompile && !this.data.cppiaRecompile) {
+      var dir = getBuilderDir(),
+          name = getBuilderName(),
+          path = dir + '/' + name;
+      var cmdArgs = [];
+      UhxBaseBuild.makeArgsFromObj(this.data, cmdArgs);
+      UhxBaseBuild.makeArgsFromObj(this.config, cmdArgs);
+      cmdArgs = [for (arg in cmdArgs) if (!arg.startsWith('cppiaRecompile=')) '-D $arg'];
+      cmdArgs.push('-D builderPath=${path}');
+      cmdArgs.push('-D cppiaRecompile=true');
+
+      var buildArgs = [
+        '--cwd ${data.pluginDir}/Haxe/BuildTool',
+        'fast-compile-project.hxml',
+        '-D EngineDir=${data.engineDir}',
+        '-D ProjectDir=${data.projectDir}',
+        '-D TargetName=${data.targetName}',
+        '-D TargetPlatform=${data.targetPlatform}',
+        '-D TargetConfiguration=${data.targetConfiguration}',
+        '-D ProjectFile=${data.projectFile}',
+        '-D PluginDir=${data.pluginDir}',
+        '-D UE_CPPIA_RECOMPILE',
+      ].concat(cmdArgs);
+      this.createHxml('build-script', buildArgs);
       var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
       this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
@@ -1321,6 +1367,21 @@ class UhxBuild extends UhxBaseBuild {
     if (hasHaxe)
     {
       var ret = 0;
+      if (this.data.cppiaRecompile) {
+        log('Compiling cppia only');
+        this.hadUhxErr = false;
+        ret = this.compileCppia(this.config.ignoreStaticErrors);
+        if (this.hadUhxErr) {
+          throw new BuildError('A full C++ compilation needs to be performed');
+        }
+        if (ret == 0) {
+          // build succeeded
+          sys.io.File.copy('${data.projectDir}/Binaries/Haxe/game-recompile.cppia', '${data.projectDir}/Binaries/Haxe/game.cppia');
+        } else {
+          throw new BuildError('Cppia compilation failed');
+        }
+        return;
+      }
       if (!this.data.skipBake && !this.config.skipBake) {
         if (this.config.generateExterns) {
           this.generateExterns();
@@ -1386,6 +1447,7 @@ class UhxBuild extends UhxBaseBuild {
       if (this.cppiaEnabled) {
         var compFile = '${this.outputDir}/Data/cppiaCompile.stamp';
         var depCheck = timer('script dependency check');
+        var targetName = this.data.cppiaRecompile ? 'game-recompile' : 'game';
         var targetFile = '${data.projectDir}/Binaries/Haxe/game.cppia';
 
         var needsCppia = checkDependencies('${this.outputDir}/Data/cppiaDeps.txt', targetFile, compFile, this.config.verbose, 'cppia');

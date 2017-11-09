@@ -1,0 +1,5 @@
+-cp src
+-cp interp
+-cp ../../
+--interp
+-main uhx.build.FastMain

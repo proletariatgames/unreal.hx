@@ -158,6 +158,12 @@ typedef UhxBuildConfig = {
     Sets the main module (whose source will be at `Source/{mainModule}`)
   **/
   ?mainModule:String,
+
+  /**
+    Ignores the UHXERR error messages when recompiling cppia. This only has effect
+    if compiling through `gen-build-script.hxml`
+  **/
+  ?ignoreStaticErrors:Bool,
 }
 
 @:enum abstract Dce(String) from String {
