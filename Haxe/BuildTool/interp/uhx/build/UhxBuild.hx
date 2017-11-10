@@ -428,12 +428,15 @@ class UhxBuild extends UhxBaseBuild {
     }
     log('Found base UHT manifest: $baseManifest');
 
-    var proj:{ Modules:Array<{Name:String}>, Plugins:Array<{Name:String, Enabled:Bool}> } = haxe.Json.parse(sys.io.File.getContent(this.data.projectFile));
+    var proj:{ Modules:Array<{Name:String, Type:String}>, Plugins:Array<{Name:String, Enabled:Bool}> } = haxe.Json.parse(sys.io.File.getContent(this.data.projectFile));
     var targets = [{ name:this.targetModule, path:this.srcDir, headers:[] }],
         uhtDir = this.outputDir + '/UHT';
 
     if (proj.Modules != null) {
       for (module in proj.Modules) {
+        if (module.Type == 'Editor' && this.data.targetType != Editor) {
+          continue;
+        }
         if (module.Name != this.targetModule) {
           var targetPath = this.srcDir + '/../' + module.Name;
           if (FileSystem.exists(targetPath)) {
@@ -460,9 +463,12 @@ class UhxBuild extends UhxBaseBuild {
               var name = file.substr(0,file.length - '.uplugin'.length).toLowerCase();
               if (plugins.exists(name)) {
                 plugins.remove(name);
-                var proj:{ Modules:Array<{Name:String}> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
+                var proj:{ Modules:Array<{Name:String, Type:String}> } = haxe.Json.parse(sys.io.File.getContent('$path/$file'));
                 if (proj.Modules != null) {
                   for (mod in proj.Modules) {
+                    if (mod.Type == 'Editor' && this.data.targetType != Editor) {
+                      continue;
+                    }
                     if (FileSystem.exists('$path/Source/${mod.Name}')) {
                       targets.push({ name:mod.Name, path:'$path/Source/${mod.Name}', headers:[] });
                     }
