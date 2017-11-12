@@ -21,6 +21,14 @@ extern class FRotator_Extra {
   public var Yaw:Float32;
   public var Roll:Float32;
 
+	/**
+	 * Convert a rotation into a unit vector facing in its direction.
+	 *
+	 * @return Rotation as a unit direction vector.
+	 */
+  @:thisConst
+  public function Vector() : FVector;
+
   static var ZeroRotator(default, never):FRotator;
 
   @:op(A+B)

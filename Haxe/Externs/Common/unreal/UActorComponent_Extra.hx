@@ -60,7 +60,7 @@ extern class UActorComponent_Extra {
   function UnregisterComponent() : Void;
 
   /** Unregister the component, remove it from its outer Actor's Components array and mark for pending kill. */
-  function DestroyComponent(bPromoteChildren:Bool) : Void;
+  function DestroyComponent(bPromoteChildren:Bool = false) : Void;
 
   /** Called when a component is created (not loaded) */
   function OnComponentCreated() : Void;

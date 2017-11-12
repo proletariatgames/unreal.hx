@@ -70,6 +70,26 @@ private typedef TArrayImpl<T> = Dynamic;
     this.RemoveAt(index, count, allowShrinking);
   }
 
+  /** Removes any elements that pass the supplied filter, like an in-place filter().
+   *  @return The number of elements removed. 
+   **/
+  public inline function removeIf(fn:T->Bool, allowShrinking:Bool = true) : Int
+  {
+    var numRemoved = 0;
+    var i = 0;
+    while (i < this.Num())
+    {
+      if (fn(get(i)))
+      {
+        removeAt(i, 1, allowShrinking);
+        ++numRemoved;
+        continue;
+      }
+      ++i;
+    }
+    return numRemoved;
+  }
+
   public inline function empty() : Void {
     return this.Empty();
   }
