@@ -180,6 +180,12 @@ extern class AActor_Extra {
 
   @:uproperty private var bReplicates:Bool;
 
+	/** Called on the actor when a new subobject is dynamically created via replication */
+  public function OnSubobjectCreatedFromReplication(NewSubobject:UObject) : Void;
+
+	/** Called on the actor when a subobject is dynamically destroyed via replication */
+	public function OnSubobjectDestroyFromReplication(Subobject:UObject) : Void;
+
 	private function InternalTakeRadialDamage(Damage:Float32, RadialDamageEvent:Const<PRef<FRadialDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
 	private function InternalTakePointDamage(Damage:Float32,  PointDamageEvent:Const<PRef<FPointDamageEvent>>, EventInstigator:AController, DamageCauser:AActor) : Float32;
 }

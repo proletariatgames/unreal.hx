@@ -238,6 +238,9 @@ extern class UObject_Extra {
 
   @:thisConst private function IsSupportedForNetworking():Bool;
 
+  /** IsNameStableForNetworking means an object can be referred to its path name (relative to outer) over the network */
+  @:thisConst public function IsNameStableForNetworking() : Bool;
+
 #if (UE_VER >= 4.17)
   @:glueCppIncludes("UObject/UObjectGlobals.h")
   @:global public static function ConstructDynamicType(TypePathName:FName, ConstructionSpecifier:EConstructDynamicType):UObject;
