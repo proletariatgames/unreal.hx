@@ -1337,7 +1337,14 @@ class ExternBaker {
     this.begin('{');
       this.add('public static var all:Array<${e.name}>;');
       this.newline();
-      this.add('static function __init__() { uhx.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef})); }');
+      this.add('static function __init__()');
+      this.begin('{');
+        this.add('uhx.EnumMap.set("$ueEnumType", all = std.Type.allEnums(${this.typeRef}));');
+        this.newline();
+        this.add('uhx.EnumMap.setUeToHaxe("$ueEnumType", ueToHaxe);');
+        this.newline();
+        this.add('uhx.EnumMap.setHaxeToUe("${typeRef.getClassPath(true)}", haxeToUe);');
+      this.end('}');
       this.newline();
       var ueCall = isClass ?
         uePack.join('::') + (uePack.length == 0 ? '' : '::') + ueName :

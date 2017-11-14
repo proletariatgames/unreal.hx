@@ -329,7 +329,7 @@ class ReflectAPI {
       } else {
         var e = np.GetIntPropertyEnum();
         if (e != null) {
-          i64 = cast haxe.Int64.ofInt(getEnumInt(value));
+          i64 = cast haxe.Int64.ofInt(hxEnumToCppInt(value));
         }
         np.SetIntPropertyValue(objOffset, i64);
       }
@@ -438,7 +438,7 @@ class ReflectAPI {
 #if (UE_VER >= 4.16)
     } else if (Std.is(prop, UEnumProperty)) {
       var prop:UEnumProperty = cast prop;
-      var i64:Int64 = cast haxe.Int64.ofInt(getEnumInt(value));
+      var i64:Int64 = cast haxe.Int64.ofInt(hxEnumToCppInt(value));
       prop.GetUnderlyingProperty().SetIntPropertyValue(objOffset, i64);
 #end
     } else {
@@ -446,21 +446,43 @@ class ReflectAPI {
     }
   }
 
-  private static function getEnumInt(value:Dynamic):Int {
+  private static function cppIntToHxEnum(cppType:String, value:Int) {
+    var array = uhx.EnumMap.get(cppType);
+
+    if (array == null) {
+      var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${cppType}_ArrCreate');
+      if (arrCreate == null) {
+        throw 'Cannot find enum implementation of ${cppType}';
+      }
+
+      array = arrCreate.get_arr();
+      if (array == null) {
+        throw 'Cannot find enum implementation function of ${cppType}';
+      }
+    }
+
+    var ueToHaxe = uhx.EnumMap.getUeToHaxe(cppType);
+    if (ueToHaxe == null) {
+      return array[value];
+    }
+
+    return array[ueToHaxe(value) - 1];
+  }
+
+  private static function hxEnumToCppInt(value:Dynamic):Int {
     // convert to ue enum value
     var etype = Type.getEnum(value);
     if (etype != null) {
       var ret = Type.enumIndex(value);
       var name = Type.getEnumName(etype);
-      // check for _EnumConv
-      var conv:Dynamic = Type.resolveClass(name + '_EnumConv');
-      if (conv != null) {
-        return conv.haxeToUe(ret + 1);
+      var hxToUe = uhx.EnumMap.getHaxeToUe(name);
+      if (hxToUe != null) {
+        return hxToUe(ret + 1);
       } else {
         return ret;
       }
     } else {
-      return value;
+      throw 'Could not find enum for value $value';
     }
   }
 
@@ -495,25 +517,7 @@ class ReflectAPI {
       var np:UNumericProperty = cast prop;
       var e = np.GetIntPropertyEnum();
       if (e != null) {
-        var array = uhx.EnumMap.get(e.CppType.toString());
-
-        if (array == null) {
-          var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
-          if (arrCreate == null) {
-            throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
-          }
-
-          array = arrCreate.get_arr();
-          if (array == null) {
-            throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
-          }
-          uhx.EnumMap.set(e.CppType.toString(), array);
-        }
-        var ret = array[np.GetSignedIntPropertyValue(objPtr)];
-        if (ret == null) {
-          throw 'Cannot find enum of position ${np.GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
-        }
-        return ret;
+        return cppIntToHxEnum(e.CppType.toString(), np.GetSignedIntPropertyValue(objPtr));
       }
 
       if (np.IsFloatingPoint()) {
@@ -569,21 +573,7 @@ class ReflectAPI {
       }
       var prop:UEnumProperty = cast prop;
       var e = prop.GetEnum();
-      var array = uhx.EnumMap.get(e.CppType.toString());
-
-      if (array == null) {
-        var arrCreate:Dynamic = Type.resolveClass('uhx.enums.${e.CppType}_ArrCreate');
-        if (arrCreate == null) {
-          throw 'Cannot find enum implementation of ${e.CppType} (${e.GetName()})';
-        }
-
-        array = arrCreate.get_arr();
-        if (array == null) {
-          throw 'Cannot find enum implementation function of ${e.CppType} (${e.GetName()})';
-        }
-        uhx.EnumMap.set(e.CppType.toString(), array);
-      }
-      var ret = array[prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr)];
+      var ret = cppIntToHxEnum(e.CppType.toString(), prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr));
       if (ret == null) {
         throw 'Cannot find enum of position ${prop.GetUnderlyingProperty().GetSignedIntPropertyValue(objPtr)} (${e.GetName()})';
       }

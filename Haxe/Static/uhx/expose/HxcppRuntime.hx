@@ -56,6 +56,14 @@ import uhx.internal.Helpers;
     return HaxeHelpers.dynamicToPointer(arr[index]);
   }
 
+  public static function hxEnumToCppInt(value:UIntPtr) : Int {
+    return @:privateAccess unreal.ReflectAPI.hxEnumToCppInt(HaxeHelpers.pointerToDynamic(value));
+  }
+
+  public static function cppIntToHxEnum(cppType:cpp.ConstCharStar, value:Int) : UIntPtr {
+    return HaxeHelpers.dynamicToPointer(@:privateAccess unreal.ReflectAPI.cppIntToHxEnum(cppType.toString(), value));
+  }
+
   public static function enumIndex(e:UIntPtr) : Int {
     return Type.enumIndex( HaxeHelpers.pointerToDynamic(e) );
   }

@@ -155,10 +155,8 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     auto numeric = Cast<UNumericProperty>(inProp);
     UEnum *uenum = numeric->GetIntPropertyEnum();
     if (uenum != nullptr) {
-      unreal::UIntPtr array = uhx::expose::HxcppRuntime::getEnumArray(TCHAR_TO_UTF8(*uenum->CppType));
-      return uhx::expose::HxcppRuntime::arrayIndex(array, (int) numeric->GetSignedIntPropertyValue(inPointer));
-    }
-    if (numeric->IsFloatingPoint()) {
+      return uhx::expose::HxcppRuntime::cppIntToHxEnum(TCHAR_TO_UTF8(*uenum->CppType), (int) numeric->GetSignedIntPropertyValue(inPointer));
+    } else if (numeric->IsFloatingPoint()) {
       return uhx::expose::HxcppRuntime::boxFloat(numeric->GetFloatingPointPropertyValue(inPointer));
     } else if (numeric->IsA<UInt64Property>() || numeric->IsA<UUInt64Property>()) {
       return uhx::expose::HxcppRuntime::boxInt64(numeric->GetSignedIntPropertyValue(inPointer));
@@ -179,6 +177,14 @@ static unreal::UIntPtr getValueWithProperty(UProperty *inProp, void *inPointer) 
     return uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(inProp, inPointer));
   }
 
+  #if (UE_VER >= 417)
+  if (inProp->IsA<UEnumProperty>()) {
+    auto prop = Cast<UEnumProperty>(inProp);
+    UEnum *uenum = prop->GetEnum();
+    return uhx::expose::HxcppRuntime::cppIntToHxEnum(TCHAR_TO_UTF8(*uenum->CppType), (int) prop->GetUnderlyingProperty()->GetSignedIntPropertyValue(inPointer));
+  }
+  #endif
+
   // TODO: delegates, map, and set
   check(false);
   return 0;
@@ -189,9 +195,8 @@ static void setValueWithProperty(UProperty *inProp, void *dest, unreal::UIntPtr 
     auto numeric = Cast<UNumericProperty>(inProp);
     UEnum *uenum = numeric->GetIntPropertyEnum();
     if (uenum != nullptr) {
-      numeric->SetIntPropertyValue(dest, (int64) uhx::expose::HxcppRuntime::enumIndex(value));
-    }
-    if (numeric->IsFloatingPoint()) {
+      numeric->SetIntPropertyValue(dest, (int64) uhx::expose::HxcppRuntime::hxEnumToCppInt(value));
+    } else if (numeric->IsFloatingPoint()) {
       numeric->SetFloatingPointPropertyValue(dest, uhx::expose::HxcppRuntime::unboxFloat(value));
     } else if (numeric->IsA<UInt64Property>() || numeric->IsA<UUInt64Property>()) {
       numeric->SetIntPropertyValue(dest, (int64) uhx::expose::HxcppRuntime::unboxInt64(value));
@@ -235,7 +240,7 @@ unreal::UIntPtr uhx::TArrayReflect_obj::Pop(unreal::VariantPtr self, bool allowS
   if (prop->IsA<UNumericProperty>() || prop->IsA<UBoolProperty>()) {
     ret = getValueWithProperty(prop, rawPtr);
   } else if (prop->IsA<UObjectProperty>()) {
-    ret = (unreal::UIntPtr) *((UObject **) rawPtr);
+    ret = uhx::expose::HxcppRuntime::uobjectWrap((unreal::UIntPtr) *((UObject **) rawPtr));
   } else {
     ret = uhx::expose::HxcppRuntime::boxVariantPtr(createWrapper(prop, 0));
     unreal::UIntPtr retPtr = uhx::expose::HxcppRuntime::getWrapperPointer(ret);
