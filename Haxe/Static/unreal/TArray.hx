@@ -29,13 +29,36 @@ private typedef TArrayImpl<T> = Dynamic;
 
   @:arrayAccess
   public inline function get(index:Int) {
-    return this.get_Item(index);
+    return getChecked(index);
   }
 
   @:arrayAccess
   public inline function set(index:Int, v:T) : T {
+    return setChecked(index, v);
+  }
+
+  public inline function getChecked(index:Int) {
+    #if debug
+    if (!isValidIndex(index)) {
+      throw 'Index $index out of bounds (num=${this.Num()})';
+    }
+    #end
+    return this.get_Item(index);
+  }
+
+  public inline function setChecked(index:Int, v:T) : T {
+    #if debug
+    if (!isValidIndex(index)) {
+      throw 'Index $index out of bounds (num=${this.Num()})';
+    }
+    #end
     this.set_Item(index, v);
     return v;
+  }
+
+  public inline function isValidIndex(index:Int) : Bool
+  {
+    return index >= 0 && index < this.Num();
   }
 
   public inline function iterator() return new TArrayIterator<T>(this);
@@ -71,7 +94,7 @@ private typedef TArrayImpl<T> = Dynamic;
   }
 
   /** Removes any elements that pass the supplied filter, like an in-place filter().
-   *  @return The number of elements removed. 
+   *  @return The number of elements removed.
    **/
   public inline function removeIf(fn:T->Bool, allowShrinking:Bool = true) : Int
   {
@@ -196,19 +219,19 @@ private typedef TArrayImpl<T> = Dynamic;
 
   public function mapToArray<A>(funct:T->A) : Array<A> {
     var len = this.Num();
-    return [for(i in 0...len) funct(this.get_Item(i))];
+    return [for(i in 0...len) funct(getChecked(i))];
   }
 
   public function filterToArray(funct:T->Bool) : Array<T> {
     var len = this.Num();
-    return [for(i in 0...len) if (funct(this.get_Item(i))) this.get_Item(i)];
+    return [for(i in 0...len) if (funct(getChecked(i))) getChecked(i)];
   }
 
   public function count(fn:T->Bool) : Int {
     var cnt = 0;
     var len = this.Num();
     for (i in 0...len) {
-      if (fn(this.get_Item(i))) {
+      if (fn(getChecked(i))) {
         ++cnt;
       }
     }
@@ -379,6 +402,11 @@ class TArrayIterator<T> {
   }
 
   public inline function next() : T {
+    #if debug
+    if (this.num != this.ar.Num()) {
+      throw 'Iterator invalidated: array size changed';
+    }
+    #end
     return this.ar.get_Item(this.idx++);
   }
 }
