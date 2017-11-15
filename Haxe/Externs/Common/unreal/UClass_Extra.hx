@@ -46,4 +46,5 @@ extern class UClass_Extra {
   function AssembleReferenceTokenStream(bForce:Bool = false):Void;
 
   function AddFunctionToFunctionMap(fn:UFunction):Void;
+  function AddFunctionToFunctionMapWithOverriddenName(fn:UFunction, OverriddenName:FName):Void;
 }

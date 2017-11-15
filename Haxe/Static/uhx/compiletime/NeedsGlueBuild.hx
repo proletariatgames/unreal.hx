@@ -121,8 +121,8 @@ class NeedsGlueBuild
         firstExternSuper = null,
         hasNativeInterfaces = false,
         nonNativeFunctions = new Map();
+    var parent = (cast type : ClassType).superClass;
     {
-      var parent = (cast type : ClassType).superClass;
       if (parent != null) {
         superClass = parent.t.get();
         var cur = superClass;
@@ -257,7 +257,8 @@ class NeedsGlueBuild
               e.map(map);
             }
           }
-          if (!Context.defined('cppia') || Globals.cur.inScriptPass || !Globals.cur.staticModules.exists(type.module)) {
+          var shouldMap = !Context.defined('cppia') || Globals.cur.inScriptPass || !Globals.cur.staticModules.exists(type.module);
+          if (shouldMap) {
             fn.expr = map(fn.expr);
           }
         case _:
@@ -344,10 +345,11 @@ class NeedsGlueBuild
       // add the methodPtr accessor for any functions that are exposed/implemented in C++
       var overridesNative = field.access != null && field.access.has(AOverride) && firstExternSuper == null && !isStatic &&
                             firstExternSuper != null && !nonNativeFunctions.exists(field.name);
+      var originalNativeField = overridesNative && firstExternSuper != null ? firstExternSuper.findField(field.name, false) : null;
       var shouldExposeFn = Globals.shouldExposeFunctionExpr(
           field,
           isDynamicUType,
-          overridesNative);
+          originalNativeField);
       if (!isStatic && shouldExposeFn) {
         field.meta.push({ name:':keep', pos:field.pos });
         switch (field.kind) {
@@ -372,6 +374,30 @@ class NeedsGlueBuild
           methodPtrs[field.name] = field.name;
           toAdd.push(dummy.fields[0]);
         case _:
+        }
+      }
+      var parentField = originalNativeField != null || parent == null || (field.access != null && field.access.has(AStatic)) ?
+          originalNativeField :
+          parent.t.get().findField(field.name, false);
+      if (parentField != null && parentField.meta.has(':ufunction')) {
+        var ufunc = parentField.meta.extract(":ufunction");
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                field.meta.push({name:':ufunction', params:[], pos:field.pos});
+                changed = true;
+              } else {
+                field.meta.push({name:':uname', params:[macro $v{field.name + '_Implementation'}], pos:field.pos});
+                if (!UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+                  field.meta.push({name:':ufunction', params:[], pos:field.pos});
+                  field.meta.push({name:'uhx_OverridesNative', params:[macro $v{field.name}], pos:field.pos});
+                }
+                changed = true;
+              }
+              break;
+            }
+          }
         }
       }
 
@@ -405,19 +431,7 @@ class NeedsGlueBuild
                   pos: field.pos
                 };
               } else {
-                var funcName = 'uhx__func_${field.name}';
-                var funcNameSet = 'uhx__func_${field.name}_set';
-                var dummy = macro class {
-                  @:noCompletion private var $funcName:unreal.UFunction;
-                  @:noCompletion private var $funcNameSet:Bool;
-                };
-
                 var uname = field.name;
-                var unameMeta = MacroHelpers.extractMeta(field.meta, ':uname');
-                for (field in dummy.fields) {
-                  toAdd.push(field);
-                }
-
                 var callArgs = [ for (arg in fn.args) macro $i{arg.name} ];
                 var exprCall = macro unreal.ReflectAPI.callUFunction(this, fn, $a{callArgs});
                 var implCheck = macro { },
@@ -455,12 +469,9 @@ class NeedsGlueBuild
                 }
 
                 call = macro {
-                  var fn = $i{funcName};
-                  if (fn == null && !$i{funcNameSet}) {
-                    $i{funcName} = fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
-                    $implCheck;
-                    $i{funcNameSet} = true;
-                  }
+                  var fn = null;
+                  fn = unreal.ReflectAPI.getUFunctionFromObject(this, $v{uname});
+                  $implCheck;
                   $exprCall;
                 };
               }
@@ -472,7 +483,9 @@ class NeedsGlueBuild
                 fn.expr = macro { return cast $call; };
               }
               changed = true;
-              field.meta.push({ name:':final', params:[], pos:field.pos });
+              if (!meta.params.exists(function(meta) return UExtensionBuild.ufuncBlueprintOverridable(meta) && !UExtensionBuild.ufuncBlueprintNativeEvent(meta))) {
+                field.meta.push({ name:':final', params:[], pos:field.pos });
+              }
             }
 
             if (UExtensionBuild.ufuncMetaNeedsImpl(param) || UExtensionBuild.ufuncNeedsValidation(param)) {

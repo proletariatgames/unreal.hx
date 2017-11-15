@@ -453,20 +453,56 @@ class Globals {
   }
 
   // if you change this, don't forget to change `shouldExposeFunctionExpr` as well
-  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, overridesNative:Bool) {
+  public static function shouldExposeFunction(cf:ClassField, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
     if (!cf.kind.match(FMethod(_))) {
       return false;
     }
 
-    return overridesNative || cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
+    if (originalNativeField != null) { // is override
+      var ufunc = originalNativeField.meta.extract(":ufunction");
+      if (ufunc != null) {
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    return cf.meta.has(':uexpose') || (!isDynamicUType && cf.meta.has(':ufunction'));
   }
 
-  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, overridesNative:Bool) {
+  public static function shouldExposeFunctionExpr(cf:Field, isDynamicUType:Bool, originalNativeField:Null<ClassField>) {
     if (!cf.kind.match(FFun(_))) {
       return false;
     }
 
-    return overridesNative || cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':ufunction'));
+    if (originalNativeField != null) {
+      var ufunc = originalNativeField.meta.extract(":ufunction");
+      if (ufunc != null) {
+        for (meta in ufunc) {
+          for (meta in meta.params) {
+            if (UExtensionBuild.ufuncBlueprintOverridable(meta)) {
+              if (isDynamicUType) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    return cf.meta.hasMeta(':uexpose') || (!isDynamicUType && cf.meta.hasMeta(':ufunction'));
   }
 
   public static inline var UHX_CALL_FUNCTION = 'uhx_callFunction';

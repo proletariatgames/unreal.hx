@@ -93,6 +93,15 @@ class ReflectAPI {
     return callUFunction(obj, func, args);
   }
 
+  public static function callSuperMethod(obj:UObject, funcName:String, args:Array<Dynamic>):Dynamic {
+    var cls = obj.GetClass().GetSuperClass();
+    var func = cls.FindFunctionByName(funcName);
+    if (func == null) {
+      throw 'Function $funcName not found as a superclass of object $obj (${cls.GetName()})';
+    }
+    return callUFunction(obj, func, args);
+  }
+
   public static function callUFunction(obj:UObject, func:UFunction, args:Array<Dynamic>):Dynamic {
     if (!obj.isValid() && !uhx.ClassWrap.isConstructing(obj)) {
       var msg = 'Cannot call ${func.GetName()} in $obj: Object is invalid';

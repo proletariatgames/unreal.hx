@@ -9,6 +9,12 @@ package unreal;
     this = FStringImpl.create(str);
   }
 
+  public var length(get,never):Int;
+
+  inline private function get_length() {
+    return this.Len();
+  }
+
   inline public static function create(str:String):FString {
     return FStringImpl.create(str);
   }

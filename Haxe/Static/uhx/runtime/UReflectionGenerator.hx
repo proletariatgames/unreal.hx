@@ -23,6 +23,25 @@ enum HotReloadStatus {
 class UReflectionGenerator {
 #if !UHX_NO_UOBJECT
 
+public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) {
+  var cls = Type.resolveClass(clsName);
+  if (cls == null) {
+    trace('Error', 'Could not add haxe blueprint overrides for $clsName: it was not found!');
+    return;
+  }
+  var fields:haxe.DynamicAccess<Dynamic<Array<Dynamic>>> = cast haxe.rtti.Meta.getFields(cls);
+  for (field in fields.keys()) {
+    if (fields[field].uhx_OverridesNative != null) {
+      var fn = uclass.FindFunctionByName(field + '_Implementation');
+      if (fn == null) {
+        trace('Error', 'The ufunction ${field}_Implementation was not found on $clsName!');
+        continue;
+      }
+      uclass.AddFunctionToFunctionMapWithOverriddenName(fn, field);
+    }
+  }
+}
+
 #if (WITH_CPPIA && !NO_DYNAMIC_UCLASS)
   private static var registry:Map<String, DynamicRegistry>;
 
@@ -672,7 +691,9 @@ class UReflectionGenerator {
         }
 
         uclass.AddFunctionToFunctionMap(func);
+#if DEBUG_HOTRELOAD
         trace('setting func.Next from (${func.GetName()}) to ${uclass.Children == null ? null : uclass.Children.GetName().toString()}');
+#end
         func.Next = uclass.Children;
         uclass.Children = func;
       }

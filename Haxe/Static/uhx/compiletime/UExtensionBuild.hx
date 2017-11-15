@@ -109,6 +109,36 @@ class UExtensionBuild {
     }
   }
 
+  public static function ufuncBlueprintOverridable(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "blueprintimplementableevent" | "blueprintnativeevent":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
+  public static function ufuncBlueprintNativeEvent(meta:Expr) {
+    var name = switch(meta.expr) {
+      case EConst(CIdent(c)):
+        c.toLowerCase();
+      case _:
+        return false;
+    };
+    switch(name) {
+    case "blueprintnativeevent":
+      return true;
+    case _:
+      return false;
+    }
+  }
+
   public function generate(t:Type):Type {
     switch (Context.follow(t)) {
     case TInst(cl,tl):
@@ -130,7 +160,7 @@ class UExtensionBuild {
       for (field in clt.statics.get()) {
         if ( field.kind.match(FVar(_)) && Globals.shouldExposeProperty(field, isDynamicClass) ) {
           uprops.push({ field:field, isStatic: true });
-        } else if (Globals.shouldExposeFunction(field, isDynamicClass, false)) {
+        } else if (Globals.shouldExposeFunction(field, isDynamicClass, null)) {
           toExpose[field.name] = getMethodDef(field, Static);
         }
       }
@@ -148,7 +178,7 @@ class UExtensionBuild {
             if (fnField == null) {
               throw new Error('Unreal Extension: Custom replication function not found: $repType', field.pos);
             }
-            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) ? Override : Member);
+            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) && field.meta.has('uhx_OverridesNative') ? Override : Member);
           }
 
           continue;
@@ -175,8 +205,8 @@ class UExtensionBuild {
         default:
         }
 
-        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride)) {
-          toExpose[field.name] = getMethodDef(field, isOverride ? Override : Member);
+        if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride ? nativeMethods[field.name] : null)) {
+          toExpose[field.name] = getMethodDef(field, isOverride && !field.meta.has('uhx_OverridesNative') ? Override : Member);
         }
       }
 
@@ -787,6 +817,7 @@ class UExtensionBuild {
     var ctorBody = new HelperBuf();
     // first add our unwrapper to the class map
     ctorBody << '\n\t\t\tstatic bool addToMap = ::uhx::ue::ClassMap_obj::addWrapper((unreal::UIntPtr) $ueName::StaticClass(), &getHaxePointer);\n\t\t\t'
+      << '\n\t\t\tstatic bool addFunctions = ::uhx::expose::HxcppRuntime::addHaxeBlueprintOverrides("${typeRef.getClassPath(true)}", (unreal::UIntPtr) $ueName::StaticClass());\n\t\t\t'
       << 'UClass *curClass = ObjectInitializer.GetClass();\n\t\t\t'
       << '::uhx::UEHelpers::create${Context.defined("WITH_CPPIA") ? "Dynamic" : ""}WrapperIfNeeded(uhx_className,curClass,this->haxeGcRef,this,&createHaxeWrapper);\n\t\t\t';
 

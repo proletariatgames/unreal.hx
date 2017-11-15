@@ -194,11 +194,13 @@ class ExprGlueBuild {
     }
 
     var superClass = cls.superClass;
-    if (superClass == null)
+    if (superClass == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no superclass was found', pos);
+    }
     var field = findField(superClass.t.get(), fieldName, false);
-    if (field == null)
+    if (field == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no field was found on super class', pos);
+    }
     var fargs = null, fret = null;
     switch(Context.follow(field.type)) {
     case TFun(targs,tret):
@@ -1001,6 +1003,16 @@ class ExprGlueBuild {
         ret = TypeConv.get(tret, field.pos);
       case _:
         throw 'assert';
+    }
+    if (superField.meta.has(':ufunction')) {
+      for (meta in superField.meta.extract(':ufunction')) {
+        for (meta in meta.params) {
+          if (UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+            uname = uname + '_Implementation';
+            break;
+          }
+        }
+      }
     }
     var meth = new GlueMethod({
       name: field.name,

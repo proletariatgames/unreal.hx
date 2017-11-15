@@ -329,4 +329,11 @@ import uhx.internal.Helpers;
     trace('Warning', 'Trying to end loading Dynamic but dynamic class support was disabled');
 #end
   }
+
+  public static function addHaxeBlueprintOverrides(hxClassName:cpp.ConstCharStar, uclass:UIntPtr):Bool {
+#if !UHX_NO_UOBJECT
+    uhx.runtime.UReflectionGenerator.addHaxeBlueprintOverrides(hxClassName.toString(), @:privateAccess new unreal.UClass(uclass));
+#end
+    return true;
+  }
 }
