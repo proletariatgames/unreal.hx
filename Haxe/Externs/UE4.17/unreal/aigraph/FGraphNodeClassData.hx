@@ -15,7 +15,7 @@
 package unreal.aigraph;
 
 @:umodule("AIGraph")
-@:glueCppIncludes("AIGraphTypes.h")
+@:glueCppIncludes("Classes/AIGraphTypes.h")
 @:uextern @:ustruct extern class FGraphNodeClassData {
   
 }

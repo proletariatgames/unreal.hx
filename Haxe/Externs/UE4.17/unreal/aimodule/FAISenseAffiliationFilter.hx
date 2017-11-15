@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Perception/AIPerceptionTypes.h")
+@:glueCppIncludes("Classes/Perception/AIPerceptionTypes.h")
 @:uextern @:ustruct extern class FAISenseAffiliationFilter {
   @:uproperty public var bDetectFriendlies : Bool;
   @:uproperty public var bDetectNeutrals : Bool;

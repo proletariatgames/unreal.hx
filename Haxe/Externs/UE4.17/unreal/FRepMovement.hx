@@ -19,7 +19,7 @@ package unreal;
   Struct used for efficient replication as velocity and location are generally replicated together (this saves a repindex)
   and velocity.Z is commonly zero (most position replications are for walking pawns).
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uextern @:ustruct extern class FRepMovement {
   
   /**

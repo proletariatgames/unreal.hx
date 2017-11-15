@@ -51,8 +51,8 @@ package unreal.umg;
     A simple string tag you can optionally use to provide extra metadata about the operation.
   **/
   @:uproperty public var Tag : unreal.FString;
-  @:ufunction public function Drop(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
-  @:ufunction public function DragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
-  @:ufunction public function Dragged(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function Drop(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function DragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function Dragged(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
   
 }

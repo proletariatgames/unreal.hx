@@ -18,7 +18,7 @@ package unreal.physxvehicles;
   Simple controller that replaces or adds to the translation/rotation of a single bone.
 **/
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("AnimNode_WheelHandler.h")
+@:glueCppIncludes("Public/AnimNode_WheelHandler.h")
 @:uextern @:ustruct extern class FAnimNode_WheelHandler extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
 }

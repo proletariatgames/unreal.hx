@@ -15,7 +15,7 @@
 package unreal.grapheditor;
 
 @:umodule("GraphEditor")
-@:glueCppIncludes("GraphEditorSettings.h")
+@:glueCppIncludes("Public/GraphEditorSettings.h")
 @:uname("EGraphPanningMouseButton")
 @:class @:uextern @:uenum extern enum EGraphPanningMouseButton {
   

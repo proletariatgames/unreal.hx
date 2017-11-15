@@ -119,26 +119,26 @@ package unreal.umg;
   /**
     Returns true if this button is currently pressed
   **/
-  @:ufunction @:thisConst @:final public function IsPressed() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPressed() : Bool;
   
   /**
     Returns true if the checkbox is currently checked
   **/
-  @:ufunction @:thisConst @:final public function IsChecked() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsChecked() : Bool;
   
   /**
     @return the full current checked state.
   **/
-  @:ufunction @:thisConst @:final public function GetCheckedState() : unreal.slatecore.ECheckBoxState;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCheckedState() : unreal.slatecore.ECheckBoxState;
   
   /**
     Sets the checked state.
   **/
-  @:ufunction @:final public function SetIsChecked(InIsChecked : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsChecked(InIsChecked : Bool) : Void;
   
   /**
     Sets the checked state.
   **/
-  @:ufunction @:final public function SetCheckedState(InCheckedState : unreal.slatecore.ECheckBoxState) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCheckedState(InCheckedState : unreal.slatecore.ECheckBoxState) : Void;
   
 }

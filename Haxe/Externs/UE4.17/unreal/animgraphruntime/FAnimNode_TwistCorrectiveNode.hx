@@ -21,7 +21,7 @@ package unreal.animgraphruntime;
   This isn't the twist control node for bone twist
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_TwistCorrectiveNode.h")
 @:uextern @:ustruct extern class FAnimNode_TwistCorrectiveNode extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   @:uproperty public var Curve : unreal.FAnimCurveParam;
   

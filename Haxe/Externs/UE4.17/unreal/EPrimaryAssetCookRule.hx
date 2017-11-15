@@ -17,7 +17,7 @@ package unreal;
 /**
   Rule about when to cook/ship a primary asset
 **/
-@:glueCppIncludes("Engine/AssetManagerTypes.h")
+@:glueCppIncludes("Classes/Engine/AssetManagerTypes.h")
 @:uname("EPrimaryAssetCookRule")
 @:class @:uextern @:uenum extern enum EPrimaryAssetCookRule {
   

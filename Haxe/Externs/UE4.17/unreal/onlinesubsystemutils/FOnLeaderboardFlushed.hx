@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param SessionName
   
 **/
-@:glueCppIncludes("LeaderboardFlushCallbackProxy.h")
+@:glueCppIncludes("Classes/LeaderboardFlushCallbackProxy.h")
 @:uParamName("SessionName")
 @:umodule("OnlineSubsystemUtils")
 typedef FOnLeaderboardFlushed = unreal.DynamicMulticastDelegate<FOnLeaderboardFlushed, unreal.FName->Void>;

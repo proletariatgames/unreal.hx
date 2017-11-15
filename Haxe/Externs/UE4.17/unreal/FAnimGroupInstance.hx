@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimationAsset.h")
+@:glueCppIncludes("Classes/Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimGroupInstance {
   
 }

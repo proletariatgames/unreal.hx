@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum used to define which way data flows into or out of this pin.
 **/
-@:glueCppIncludes("EdGraph/EdGraphNode.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphNode.h")
 @:uname("EEdGraphPinDirection")
 @:uextern @:uenum extern enum EEdGraphPinDirection {
   EGPD_Input;

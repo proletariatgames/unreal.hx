@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Action to view a node to the graph
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2ViewNode extends unreal.FEdGraphSchemaAction {
   
   /**

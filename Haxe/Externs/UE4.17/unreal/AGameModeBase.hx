@@ -100,27 +100,27 @@ package unreal;
   /**
     Returns default pawn class for given controller
   **/
-  @:ufunction public function GetDefaultPawnClassForController(InController : unreal.AController) : unreal.UClass;
+  @:ufunction(BlueprintNativeEvent) public function GetDefaultPawnClassForController(InController : unreal.AController) : unreal.UClass;
   
   /**
     Returns number of active human players, excluding spectators
   **/
-  @:ufunction public function GetNumPlayers() : unreal.Int32;
+  @:ufunction(BlueprintCallable) public function GetNumPlayers() : unreal.Int32;
   
   /**
     Returns number of human players currently spectating
   **/
-  @:ufunction public function GetNumSpectators() : unreal.Int32;
+  @:ufunction(BlueprintCallable) public function GetNumSpectators() : unreal.Int32;
   
   /**
     Transitions to calls BeginPlay on actors.
   **/
-  @:ufunction public function StartPlay() : Void;
+  @:ufunction(BlueprintCallable) public function StartPlay() : Void;
   
   /**
     Returns true if the match start callbacks have been called
   **/
-  @:ufunction @:thisConst public function HasMatchStarted() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function HasMatchStarted() : Bool;
   
   /**
     Overridable function to determine whether an Actor should have Reset called when the game has Reset called on it.
@@ -129,43 +129,43 @@ package unreal;
     @return true if ActorToReset should have Reset() called on it while restarting the game,
                     false if the GameMode will manually reset it or if the actor does not need to be reset
   **/
-  @:ufunction public function ShouldReset(ActorToReset : unreal.AActor) : Bool;
+  @:ufunction(BlueprintNativeEvent) public function ShouldReset(ActorToReset : unreal.AActor) : Bool;
   
   /**
     Overridable function called when resetting level. This is used to reset the game state while staying in the same map
     Default implementation calls Reset() on all actors except GameMode and Controllers
   **/
-  @:ufunction public function ResetLevel() : Void;
+  @:ufunction(BlueprintCallable) public function ResetLevel() : Void;
   
   /**
     Return to main menu, and disconnect any players
   **/
-  @:ufunction public function ReturnToMainMenuHost() : Void;
+  @:ufunction(BlueprintCallable) public function ReturnToMainMenuHost() : Void;
   
   /**
     Notification that a player has successfully logged in, and has been given a player controller
   **/
-  @:ufunction public function K2_PostLogin(NewPlayer : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_PostLogin(NewPlayer : unreal.APlayerController) : Void;
   
   /**
     Implementable event when a Controller with a PlayerState leaves the game.
   **/
-  @:ufunction public function K2_OnLogout(ExitingController : unreal.AController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnLogout(ExitingController : unreal.AController) : Void;
   
   /**
     Signals that a player is ready to enter the game, which may start it up
   **/
-  @:ufunction public function HandleStartingNewPlayer(NewPlayer : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintNativeEvent) public function HandleStartingNewPlayer(NewPlayer : unreal.APlayerController) : Void;
   
   /**
     Returns true if NewPlayerController may only join the server as a spectator.
   **/
-  @:ufunction @:thisConst public function MustSpectate(NewPlayerController : unreal.APlayerController) : Bool;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function MustSpectate(NewPlayerController : unreal.APlayerController) : Bool;
   
   /**
     Return whether Viewer is allowed to spectate from the point of view of ViewTarget.
   **/
-  @:ufunction public function CanSpectate(Viewer : unreal.APlayerController, ViewTarget : unreal.APlayerState) : Bool;
+  @:ufunction(BlueprintNativeEvent) public function CanSpectate(Viewer : unreal.APlayerController, ViewTarget : unreal.APlayerState) : Bool;
   
   /**
     Sets the name for a controller
@@ -173,7 +173,7 @@ package unreal;
     @param NewName               The name to set the player to
     @param bNameChange   Whether the name is changing or if this is the first time it has been set
   **/
-  @:ufunction public function ChangeName(Controller : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function ChangeName(Controller : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
   
   /**
     Overridable event for GameMode blueprint to respond to a change name call
@@ -181,7 +181,7 @@ package unreal;
     @param NewName               The name to set the player to
     @param bNameChange   Whether the name is changing or if this is the first time it has been set
   **/
-  @:ufunction public function K2_OnChangeName(Other : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnChangeName(Other : unreal.AController, NewName : unreal.FString, bNameChange : Bool) : Void;
   
   /**
     Return the 'best' player start for this player to spawn from
@@ -190,7 +190,7 @@ package unreal;
     @param Player is the controller for whom we are choosing a playerstart
     @returns AActor chosen as player start (usually a PlayerStart)
   **/
-  @:ufunction public function ChoosePlayerStart(Player : unreal.AController) : unreal.AActor;
+  @:ufunction(BlueprintNativeEvent) public function ChoosePlayerStart(Player : unreal.AController) : unreal.AActor;
   
   /**
     Return the specific player start actor that should be used for the next spawn
@@ -200,7 +200,7 @@ package unreal;
     @param IncomingName Specifies the tag of a Player Start to use
     @returns Actor chosen as player start (usually a PlayerStart)
   **/
-  @:ufunction public function FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
+  @:ufunction(BlueprintNativeEvent) public function FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
   
   /**
     Return the specific player start actor that should be used for the next spawn
@@ -210,27 +210,27 @@ package unreal;
     @param IncomingName Specifies the tag of a Player Start to use
     @returns Actor chosen as player start (usually a PlayerStart)
   **/
-  @:ufunction @:final public function K2_FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:final public function K2_FindPlayerStart(Player : unreal.AController, IncomingName : unreal.FString) : unreal.AActor;
   
   /**
     Returns true if it's valid to call RestartPlayer. By default will call Player->CanRestartPlayer
   **/
-  @:ufunction public function PlayerCanRestart(Player : unreal.APlayerController) : Bool;
+  @:ufunction(BlueprintNativeEvent) public function PlayerCanRestart(Player : unreal.APlayerController) : Bool;
   
   /**
     Tries to spawn the player's pawn, at the location returned by FindPlayerStart
   **/
-  @:ufunction public function RestartPlayer(NewPlayer : unreal.AController) : Void;
+  @:ufunction(BlueprintCallable) public function RestartPlayer(NewPlayer : unreal.AController) : Void;
   
   /**
     Tries to spawn the player's pawn at the specified actor's location
   **/
-  @:ufunction public function RestartPlayerAtPlayerStart(NewPlayer : unreal.AController, StartSpot : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function RestartPlayerAtPlayerStart(NewPlayer : unreal.AController, StartSpot : unreal.AActor) : Void;
   
   /**
     Tries to spawn the player's pawn at a specific location
   **/
-  @:ufunction public function RestartPlayerAtTransform(NewPlayer : unreal.AController, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
+  @:ufunction(BlueprintCallable) public function RestartPlayerAtTransform(NewPlayer : unreal.AController, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
   
   /**
     Called during RestartPlayer to actually spawn the player's pawn, when using a start spot
@@ -238,7 +238,7 @@ package unreal;
     @param       StartSpot - Actor at which to spawn pawn
     @return      a pawn of the default pawn class
   **/
-  @:ufunction public function SpawnDefaultPawnFor(NewPlayer : unreal.AController, StartSpot : unreal.AActor) : unreal.APawn;
+  @:ufunction(BlueprintNativeEvent) public function SpawnDefaultPawnFor(NewPlayer : unreal.AController, StartSpot : unreal.AActor) : unreal.APawn;
   
   /**
     Called during RestartPlayer to actually spawn the player's pawn, when using a transform
@@ -246,26 +246,26 @@ package unreal;
     @param       StartSpot - Actor at which to spawn pawn
     @return      a pawn of the default pawn class
   **/
-  @:ufunction public function SpawnDefaultPawnAtTransform(NewPlayer : unreal.AController, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.APawn;
+  @:ufunction(BlueprintNativeEvent) public function SpawnDefaultPawnAtTransform(NewPlayer : unreal.AController, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.APawn;
   
   /**
     Called from RestartPlayerAtPlayerStart, can be used to initialize the start spawn actor
   **/
-  @:ufunction public function InitStartSpot(StartSpot : unreal.AActor, NewPlayer : unreal.AController) : Void;
+  @:ufunction(BlueprintNativeEvent) public function InitStartSpot(StartSpot : unreal.AActor, NewPlayer : unreal.AController) : Void;
   
   /**
     Implementable event called at the end of RestartPlayer
   **/
-  @:ufunction public function K2_OnRestartPlayer(NewPlayer : unreal.AController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnRestartPlayer(NewPlayer : unreal.AController) : Void;
   
   /**
     Initialize the AHUD object for a player. Games can override this to do something different
   **/
-  @:ufunction private function InitializeHUDForPlayer(NewPlayer : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintNativeEvent) private function InitializeHUDForPlayer(NewPlayer : unreal.APlayerController) : Void;
   
   /**
     Called when a PlayerController is swapped to a new one during seamless travel
   **/
-  @:ufunction private function K2_OnSwapPlayerControllers(OldPC : unreal.APlayerController, NewPC : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function K2_OnSwapPlayerControllers(OldPC : unreal.APlayerController, NewPC : unreal.APlayerController) : Void;
   
 }

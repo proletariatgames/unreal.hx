@@ -18,7 +18,7 @@ package unreal.moviescene;
   Base structure used for all movie scene evaluation templates
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvalTemplateBase.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvalTemplateBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvalTemplateBase {
   
 }

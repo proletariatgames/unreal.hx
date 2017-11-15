@@ -17,7 +17,7 @@ package unreal;
 /**
   A rich, editable float curve
 **/
-@:glueCppIncludes("Curves/RichCurve.h")
+@:glueCppIncludes("Classes/Curves/RichCurve.h")
 @:uextern @:ustruct extern class FRichCurve extends unreal.FIndexedCurve {
   
   /**

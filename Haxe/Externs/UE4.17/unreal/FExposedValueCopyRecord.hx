@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNodeBase.h")
+@:glueCppIncludes("Classes/Animation/AnimNodeBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FExposedValueCopyRecord {
   
   /**

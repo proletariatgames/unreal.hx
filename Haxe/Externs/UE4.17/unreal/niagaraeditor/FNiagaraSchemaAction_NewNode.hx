@@ -18,7 +18,7 @@ package unreal.niagaraeditor;
   Action to add a node to the graph
 **/
 @:umodule("NiagaraEditor")
-@:glueCppIncludes("EdGraphSchema_Niagara.h")
+@:glueCppIncludes("Public/EdGraphSchema_Niagara.h")
 @:uextern @:ustruct extern class FNiagaraSchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
   /**

@@ -21,22 +21,22 @@ package unreal.audiomixer;
   /**
     Starts the synth generating audio.
   **/
-  @:ufunction @:final public function Start() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Start() : Void;
   
   /**
     Stops the synth generating audio.
   **/
-  @:ufunction @:final public function Stop() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Stop() : Void;
   
   /**
     Returns true if this component is currently playing.
   **/
-  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Sets how much audio the sound should send to the given submix.
   **/
-  @:ufunction @:final public function SetSubmixSend(Submix : unreal.USoundSubmix, SendLevel : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSubmixSend(Submix : unreal.USoundSubmix, SendLevel : unreal.Float32) : Void;
   
   /**
     An array of submix sends. Audio from this sound will send a portion of its audio to these effects.

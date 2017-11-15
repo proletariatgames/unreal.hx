@@ -14,7 +14,7 @@
 **/
 package unreal.headmounteddisplay;
 
-@:glueCppIncludes("VRNotificationsComponent.h")
+@:glueCppIncludes("Public/VRNotificationsComponent.h")
 @:umodule("HeadMountedDisplay")
 @:uname("UVRNotificationsComponent.FVRNotificationsDelegate")
 typedef FVRNotificationsDelegate = unreal.DynamicMulticastDelegate<FVRNotificationsDelegate, Void->Void>;

@@ -18,7 +18,7 @@ package unreal;
   Contains a group of levels of a particular ELevelCollectionType within a UWorld
   and the context required to properly tick/update those levels. This object is move-only.
 **/
-@:glueCppIncludes("Engine/World.h")
+@:glueCppIncludes("Classes/Engine/World.h")
 @:noCopy @:uextern @:ustruct extern class FLevelCollection {
   
 }

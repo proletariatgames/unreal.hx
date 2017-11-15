@@ -17,7 +17,7 @@ package unreal;
 /**
   A pose in component space (i.e. each transform is relative to the component's transform)
 **/
-@:glueCppIncludes("Animation/AnimationTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimationTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FComponentSpacePose {
   @:uproperty public var Names : unreal.TArray<unreal.FName>;
   @:uproperty public var Transforms : unreal.TArray<unreal.FTransform>;

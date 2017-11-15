@@ -18,7 +18,7 @@ package unreal.animationcore;
   Transform Constraint Types
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uname("ETransformConstraintType")
 @:class @:uextern @:uenum extern enum ETransformConstraintType {
   Translation;

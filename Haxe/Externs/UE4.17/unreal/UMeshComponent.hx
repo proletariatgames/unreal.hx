@@ -27,19 +27,19 @@ package unreal;
     Material overrides.
   **/
   @:uproperty public var OverrideMaterials : unreal.TArray<unreal.UMaterialInterface>;
-  @:ufunction @:thisConst public function GetMaterials() : unreal.TArray<unreal.UMaterialInterface>;
-  @:ufunction @:thisConst public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
-  @:ufunction @:thisConst public function GetMaterialSlotNames() : unreal.TArray<unreal.FName>;
-  @:ufunction @:thisConst public function IsMaterialSlotNameValid(MaterialSlotName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaterials() : unreal.TArray<unreal.UMaterialInterface>;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaterialSlotNames() : unreal.TArray<unreal.FName>;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsMaterialSlotNameValid(MaterialSlotName : unreal.FName) : Bool;
   
   /**
     Set all occurrences of Scalar Material Parameters with ParameterName in the set of materials of the SkeletalMesh to ParameterValue
   **/
-  @:ufunction @:final public function SetScalarParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetScalarParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Float32) : Void;
   
   /**
     Set all occurrences of Vector Material Parameters with ParameterName in the set of materials of the SkeletalMesh to ParameterValue
   **/
-  @:ufunction @:final public function SetVectorParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Const<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVectorParameterValueOnMaterials(ParameterName : unreal.Const<unreal.FName>, ParameterValue : unreal.Const<unreal.FVector>) : Void;
   
 }

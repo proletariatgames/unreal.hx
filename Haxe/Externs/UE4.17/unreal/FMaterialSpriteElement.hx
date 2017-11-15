@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/MaterialBillboardComponent.h")
+@:glueCppIncludes("Classes/Components/MaterialBillboardComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialSpriteElement {
   
   /**

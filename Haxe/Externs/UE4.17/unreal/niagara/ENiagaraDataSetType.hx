@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:uname("ENiagaraDataSetType")
 @:class @:uextern @:uenum extern enum ENiagaraDataSetType {
   ParticleData;

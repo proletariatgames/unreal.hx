@@ -18,7 +18,7 @@ package unreal.niagara;
   Struct containing usage information about a script. Things such as whether it reads attribute data, reads or writes events data etc.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraScriptDataUsageInfo {
   
   /**

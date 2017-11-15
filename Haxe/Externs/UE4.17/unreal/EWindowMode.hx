@@ -17,7 +17,7 @@ package unreal;
 /**
   Supported windowing modes (mirrored from GenericWindow.h)
 **/
-@:glueCppIncludes("GameFramework/GameUserSettings.h")
+@:glueCppIncludes("Classes/GameFramework/GameUserSettings.h")
 @:uname("EWindowMode.Type")
 @:uextern @:uenum extern enum EWindowMode {
   

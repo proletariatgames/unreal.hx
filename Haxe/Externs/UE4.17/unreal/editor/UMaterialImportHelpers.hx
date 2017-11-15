@@ -22,7 +22,7 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("Factories/MaterialImportHelpers.h")
 @:noClass @:uextern @:uclass extern class UMaterialImportHelpers extends unreal.UObject {
-  @:ufunction static public function FindExistingMaterialFromSearchLocation(MaterialFullName : unreal.FString, BasePackagePath : unreal.FString, SearchLocation : unreal.editor.EMaterialSearchLocation, OutError : unreal.PRef<unreal.FText>) : unreal.UMaterialInterface;
-  @:ufunction static public function FindExistingMaterial(BasePath : unreal.FString, MaterialFullName : unreal.FString, OutError : unreal.PRef<unreal.FText>) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) static public function FindExistingMaterialFromSearchLocation(MaterialFullName : unreal.FString, BasePackagePath : unreal.FString, SearchLocation : unreal.editor.EMaterialSearchLocation, OutError : unreal.PRef<unreal.FText>) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) static public function FindExistingMaterial(BasePath : unreal.FString, MaterialFullName : unreal.FString, OutError : unreal.PRef<unreal.FText>) : unreal.UMaterialInterface;
   
 }

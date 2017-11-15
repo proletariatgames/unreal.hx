@@ -18,7 +18,7 @@ package unreal;
   Particle Selection Method, for any emitters that utilize particles
   as the source points.
 **/
-@:glueCppIncludes("Particles/ParticleModule.h")
+@:glueCppIncludes("Classes/Particles/ParticleModule.h")
 @:uname("EParticleSourceSelectionMethod")
 @:uextern @:uenum extern enum EParticleSourceSelectionMethod {
   

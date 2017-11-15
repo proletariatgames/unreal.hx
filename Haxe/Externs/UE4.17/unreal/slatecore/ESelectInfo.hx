@@ -18,7 +18,7 @@ package unreal.slatecore;
   Additional information about a selection event
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Types/SlateEnums.h")
+@:glueCppIncludes("Public/Types/SlateEnums.h")
 @:uname("ESelectInfo.Type")
 @:uextern @:uenum extern enum ESelectInfo {
   

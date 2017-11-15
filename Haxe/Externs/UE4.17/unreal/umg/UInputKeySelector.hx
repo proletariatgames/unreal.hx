@@ -81,36 +81,36 @@ package unreal.umg;
   /**
     Sets the currently selected key.
   **/
-  @:ufunction @:final public function SetSelectedKey(InSelectedKey : unreal.Const<unreal.PRef<unreal.slate.FInputChord>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSelectedKey(InSelectedKey : unreal.Const<unreal.PRef<unreal.slate.FInputChord>>) : Void;
   
   /**
     Sets the text which is displayed while selecting keys.
   **/
-  @:ufunction @:final public function SetKeySelectionText(InKeySelectionText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetKeySelectionText(InKeySelectionText : unreal.FText) : Void;
   
   /**
     Sets the text to display when no key text is available or not selecting a key.
   **/
-  @:ufunction @:final public function SetNoKeySpecifiedText(InNoKeySpecifiedText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNoKeySpecifiedText(InNoKeySpecifiedText : unreal.FText) : Void;
   
   /**
     Sets whether or not modifier keys are allowed in the selected key.
   **/
-  @:ufunction @:final public function SetAllowModifierKeys(bInAllowModifierKeys : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAllowModifierKeys(bInAllowModifierKeys : Bool) : Void;
   
   /**
     Sets whether or not gamepad keys are allowed in the selected key.
   **/
-  @:ufunction @:final public function SetAllowGamepadKeys(bInAllowGamepadKeys : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAllowGamepadKeys(bInAllowGamepadKeys : Bool) : Void;
   
   /**
     Returns true if the widget is currently selecting a key, otherwise returns false.
   **/
-  @:ufunction @:thisConst @:final public function GetIsSelectingKey() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetIsSelectingKey() : Bool;
   
   /**
     Sets the visibility of the text block.
   **/
-  @:ufunction @:final public function SetTextBlockVisibility(InVisibility : unreal.Const<unreal.umg.ESlateVisibility>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTextBlockVisibility(InVisibility : unreal.Const<unreal.umg.ESlateVisibility>) : Void;
   
 }

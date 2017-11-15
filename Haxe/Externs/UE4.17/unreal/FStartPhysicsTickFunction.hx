@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that starts the physics tick
 **/
-@:glueCppIncludes("Engine/World.h")
+@:glueCppIncludes("Classes/Engine/World.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStartPhysicsTickFunction extends unreal.FTickFunction {
   
 }

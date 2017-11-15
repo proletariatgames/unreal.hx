@@ -15,7 +15,7 @@
 package unreal.automationcontroller;
 
 @:umodule("AutomationController")
-@:glueCppIncludes("Interfaces/IAutomationReport.h")
+@:glueCppIncludes("Public/Interfaces/IAutomationReport.h")
 @:uname("EAutomationArtifactType")
 @:class @:uextern @:uenum extern enum EAutomationArtifactType {
   None;

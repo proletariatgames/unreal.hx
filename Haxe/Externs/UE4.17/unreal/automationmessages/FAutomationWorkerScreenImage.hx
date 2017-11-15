@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that is sent in containing a screen shot run during performance test.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerScreenImage {
   @:uproperty public var Metadata : unreal.automationmessages.FAutomationScreenshotMetadata;
   

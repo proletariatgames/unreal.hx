@@ -17,7 +17,7 @@ package unreal;
 /**
   Used by rendering project settings.
 **/
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:uname("EAntiAliasingMethod")
 @:uextern @:uenum extern enum EAntiAliasingMethod {
   

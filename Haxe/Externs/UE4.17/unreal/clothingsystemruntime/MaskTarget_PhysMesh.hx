@@ -18,7 +18,7 @@ package unreal.clothingsystemruntime;
   The possible targets for a physical mesh mask
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:uname("MaskTarget_PhysMesh")
 @:class @:uextern @:uenum extern enum MaskTarget_PhysMesh {
   None;

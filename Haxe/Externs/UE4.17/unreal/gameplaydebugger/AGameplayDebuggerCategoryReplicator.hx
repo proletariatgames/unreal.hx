@@ -25,18 +25,18 @@ package unreal.gameplaydebugger;
   @:uproperty private var DebugActor : unreal.gameplaydebugger.FGameplayDebuggerDebugActor;
   @:uproperty private var ReplicatedData : unreal.gameplaydebugger.FGameplayDebuggerNetPack;
   @:uproperty private var OwnerPC : unreal.APlayerController;
-  @:ufunction private function ServerSetEnabled(bEnable : Bool) : Void;
-  @:ufunction private function ServerSetDebugActor(Actor : unreal.AActor) : Void;
-  @:ufunction private function ServerSetCategoryEnabled(CategoryId : unreal.Int32, bEnable : Bool) : Void;
+  @:ufunction(Server) private function ServerSetEnabled(bEnable : Bool) : Void;
+  @:ufunction(Server) private function ServerSetDebugActor(Actor : unreal.AActor) : Void;
+  @:ufunction(Server) private function ServerSetCategoryEnabled(CategoryId : unreal.Int32, bEnable : Bool) : Void;
   
   /**
     helper function for replicating input for category handlers
   **/
-  @:ufunction private function ServerSendCategoryInputEvent(CategoryId : unreal.Int32, HandlerId : unreal.Int32) : Void;
+  @:ufunction(Server) private function ServerSendCategoryInputEvent(CategoryId : unreal.Int32, HandlerId : unreal.Int32) : Void;
   
   /**
     helper function for replicating input for extension handlers
   **/
-  @:ufunction private function ServerSendExtensionInputEvent(ExtensionId : unreal.Int32, HandlerId : unreal.Int32) : Void;
+  @:ufunction(Server) private function ServerSendExtensionInputEvent(ExtensionId : unreal.Int32, HandlerId : unreal.Int32) : Void;
   
 }

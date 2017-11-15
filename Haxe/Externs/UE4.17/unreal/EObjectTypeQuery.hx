@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EObjectTypeQuery")
 @:uextern @:uenum extern enum EObjectTypeQuery {
   ObjectTypeQuery1;

@@ -25,7 +25,7 @@ package unreal.blutility;
   /**
     Returns the current selection set in the editor.  Note that for non-editor builds, this will return an empty array
   **/
-  @:ufunction @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
+  @:ufunction(BlueprintCallable) @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
   
   /**
     Gets information about the camera position for the primary level editor viewport.  In non-editor builds, these will be zeroed
@@ -34,7 +34,7 @@ package unreal.blutility;
     @param       CameraRotation  (out) Current rotation of the level editing viewport camera, or zero if none found
     @return      Whether or not we were able to get a camera for a level editing viewport
   **/
-  @:ufunction @:final public function GetLevelViewportCameraInfo(CameraLocation : unreal.PRef<unreal.FVector>, CameraRotation : unreal.PRef<unreal.FRotator>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function GetLevelViewportCameraInfo(CameraLocation : unreal.PRef<unreal.FVector>, CameraRotation : unreal.PRef<unreal.FRotator>) : Bool;
   
   /**
     Sets information about the camera position for the primary level editor viewport.
@@ -42,28 +42,28 @@ package unreal.blutility;
     @param        CameraLocation  Location the camera will be moved to.
     @param        CameraRotation  Rotation the camera will be set to.
   **/
-  @:ufunction @:final public function SetLevelViewportCameraInfo(CameraLocation : unreal.FVector, CameraRotation : unreal.FRotator) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLevelViewportCameraInfo(CameraLocation : unreal.FVector, CameraRotation : unreal.FRotator) : Void;
   
   /**
     Remove all actors from the selection set
   **/
-  @:ufunction @:final public function ClearActorSelectionSet() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearActorSelectionSet() : Void;
   
   /**
     Selects nothing in the editor (another way to clear the selection)
   **/
-  @:ufunction @:final public function SelectNothing() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SelectNothing() : Void;
   
   /**
     Set the selection state for the selected actor
   **/
-  @:ufunction @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
   
   /**
     Attempts to find the actor specified by PathToActor in the current editor world
     @param        PathToActor     The path to the actor (e.g. PersistentLevel.PlayerStart)
     @return       A reference to the actor, or none if it wasn't found
   **/
-  @:ufunction @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
   
 }

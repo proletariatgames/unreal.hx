@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxSceneImportOptions.h")
+@:glueCppIncludes("Classes/Factories/FbxSceneImportOptions.h")
 @:uname("EFBXSceneOptionsCreateHierarchyType")
 @:uextern @:uenum extern enum EFBXSceneOptionsCreateHierarchyType {
   

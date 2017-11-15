@@ -24,17 +24,17 @@ package unreal.onlinesubsystemutils;
   /**
     out
   **/
-  @:ufunction static public function GetIsMyTurn(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, bIsMyTurn : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function GetIsMyTurn(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, bIsMyTurn : Bool) : Void;
   
   /**
     out
   **/
-  @:ufunction static public function GetMyPlayerIndex(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32) : Void;
-  @:ufunction static public function RegisterTurnBasedMatchInterfaceObject(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, Object : unreal.UObject) : Void;
+  @:ufunction(BlueprintCallable) static public function GetMyPlayerIndex(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function RegisterTurnBasedMatchInterfaceObject(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, Object : unreal.UObject) : Void;
   
   /**
     out
   **/
-  @:ufunction static public function GetPlayerDisplayName(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32, PlayerDisplayName : unreal.PRef<unreal.FString>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetPlayerDisplayName(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, MatchID : unreal.FString, PlayerIndex : unreal.Int32, PlayerDisplayName : unreal.PRef<unreal.FString>) : Void;
   
 }

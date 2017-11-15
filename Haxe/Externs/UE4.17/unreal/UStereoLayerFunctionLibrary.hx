@@ -28,23 +28,23 @@ package unreal;
     @param Offset                         (in) Position from which to start rendering the texture.
     @param ShowLoadingMovie       (in) Whether the splash screen presents loading movies.
   **/
-  @:ufunction static public function SetSplashScreen(Texture : unreal.UTexture, @:opt("(X=1.000,Y=1.000)") Scale : unreal.FVector2D, @:opt("(X=0.000,Y=0.000)") Offset : unreal.FVector2D, bShowLoadingMovie : Bool = false, bShowOnSet : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function SetSplashScreen(Texture : unreal.UTexture, @:opt("(X=1.000,Y=1.000)") Scale : unreal.FVector2D, @:opt("(X=0.000,Y=0.000)") Offset : unreal.FVector2D, bShowLoadingMovie : Bool = false, bShowOnSet : Bool = false) : Void;
   
   /**
     Show the splash screen and override the VR display
   **/
-  @:ufunction static public function ShowSplashScreen() : Void;
+  @:ufunction(BlueprintCallable) static public function ShowSplashScreen() : Void;
   
   /**
     Hide the splash screen and return to normal display.
   **/
-  @:ufunction static public function HideSplashScreen() : Void;
+  @:ufunction(BlueprintCallable) static public function HideSplashScreen() : Void;
   
   /**
     Enables/disables splash screen to be automatically shown when LoadMap is called.
     
     @param       bAutoShowEnabled        (in)    True, if automatic showing of splash screens is enabled when map is being loaded.
   **/
-  @:ufunction static public function EnableAutoLoadingSplashScreen(InAutoShowEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function EnableAutoLoadingSplashScreen(InAutoShowEnabled : Bool) : Void;
   
 }

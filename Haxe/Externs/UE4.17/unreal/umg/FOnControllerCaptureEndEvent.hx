@@ -14,6 +14,6 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Components/Slider.h")
+@:glueCppIncludes("UMG.h", "Public/Components/Slider.h")
 @:umodule("UMG")
 typedef FOnControllerCaptureEndEvent = unreal.DynamicMulticastDelegate<FOnControllerCaptureEndEvent, Void->Void>;

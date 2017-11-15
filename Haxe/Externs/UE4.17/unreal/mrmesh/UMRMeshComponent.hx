@@ -17,7 +17,7 @@ package unreal.mrmesh;
 @:umodule("MRMesh")
 @:glueCppIncludes("MRMeshComponent.h")
 @:uextern @:uclass extern class UMRMeshComponent extends unreal.UPrimitiveComponent {
-  @:ufunction @:final public function ConnectReconstructor(Reconstructor : unreal.mrmesh.UMeshReconstructorBase) : Void;
-  @:ufunction @:thisConst @:final public function GetReconstructor() : unreal.mrmesh.UMeshReconstructorBase;
+  @:ufunction(BlueprintCallable) @:final public function ConnectReconstructor(Reconstructor : unreal.mrmesh.UMeshReconstructorBase) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetReconstructor() : unreal.mrmesh.UMeshReconstructorBase;
   
 }

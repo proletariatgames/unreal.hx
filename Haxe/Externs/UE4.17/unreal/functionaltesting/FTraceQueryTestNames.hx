@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("TraceQueryTestResults.h")
+@:glueCppIncludes("Classes/TraceQueryTestResults.h")
 @:uextern @:ustruct extern class FTraceQueryTestNames {
   @:uproperty public var ActorName : unreal.FName;
   @:uproperty public var PhysicalMaterialName : unreal.FName;

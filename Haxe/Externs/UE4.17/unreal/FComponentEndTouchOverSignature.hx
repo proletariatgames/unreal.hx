@@ -19,7 +19,7 @@ package unreal;
   @param TouchedComponent
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("FingerIndex")
 @:uParamName("TouchedComponent")
 typedef FComponentEndTouchOverSignature = unreal.DynamicMulticastDelegate<FComponentEndTouchOverSignature, unreal.inputcore.ETouchIndex->unreal.UPrimitiveComponent->Void>;

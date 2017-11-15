@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure with publicly exposed information about an asset type. These can be loaded out of a config file
 **/
-@:glueCppIncludes("Engine/AssetManagerTypes.h")
+@:glueCppIncludes("Classes/Engine/AssetManagerTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimaryAssetTypeInfo {
   
   /**

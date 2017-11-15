@@ -18,7 +18,7 @@ package unreal.editor;
   A single dependency, read from ini file
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Commandlets/ChunkDependencyInfo.h")
+@:glueCppIncludes("Public/Commandlets/ChunkDependencyInfo.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FChunkDependency {
   
   /**

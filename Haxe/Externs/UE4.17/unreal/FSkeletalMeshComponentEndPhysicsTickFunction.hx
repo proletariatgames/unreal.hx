@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that does post physics work on skeletal mesh component. This executes in EndPhysics (after physics is done)
 **/
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkeletalMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshComponentEndPhysicsTickFunction extends unreal.FTickFunction {
   
 }

@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_LegIK.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FIKChain {
   
 }

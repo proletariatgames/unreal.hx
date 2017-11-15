@@ -53,17 +53,17 @@ package unreal;
     Get the control rotation. This is the full aim rotation, which may be different than a camera orientation (for example in a third person view),
     and may differ from the rotation of the controlled Pawn (which may choose not to visually pitch or roll, for example).
   **/
-  @:ufunction @:thisConst public function GetControlRotation() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetControlRotation() : unreal.FRotator;
   
   /**
     Set the control rotation.
   **/
-  @:ufunction public function SetControlRotation(NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction(BlueprintCallable) public function SetControlRotation(NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Set the initial location and rotation of the controller, as well as the control rotation. Typically used when the controller is first created.
   **/
-  @:ufunction public function SetInitialLocationAndRotation(NewLocation : unreal.Const<unreal.PRef<unreal.FVector>>, NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction(BlueprintCallable) public function SetInitialLocationAndRotation(NewLocation : unreal.Const<unreal.PRef<unreal.FVector>>, NewRotation : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Checks line to center and top of other actor
@@ -72,54 +72,54 @@ package unreal;
     @param bAlternateChecks used only in AIController implementation
     @return true if controller's pawn can see Other actor.
   **/
-  @:ufunction @:thisConst public function LineOfSightTo(Other : unreal.Const<unreal.AActor>, ViewPoint : unreal.FVector, bAlternateChecks : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function LineOfSightTo(Other : unreal.Const<unreal.AActor>, ViewPoint : unreal.FVector, bAlternateChecks : Bool = false) : Bool;
   
   /**
     Replication Notification Callbacks
   **/
   @:ufunction public function OnRep_Pawn() : Void;
   @:ufunction public function OnRep_PlayerState() : Void;
-  @:ufunction @:final public function CastToPlayerController() : unreal.APlayerController;
+  @:ufunction(BlueprintCallable) @:final public function CastToPlayerController() : unreal.APlayerController;
   
   /**
     Replicated function to set the pawn location and rotation, allowing server to force (ex. teleports).
   **/
-  @:ufunction public function ClientSetLocation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
+  @:ufunction(Client) public function ClientSetLocation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
   
   /**
     Replicated function to set the pawn rotation, allowing the server to force.
   **/
-  @:ufunction public function ClientSetRotation(NewRotation : unreal.FRotator, bResetCamera : Bool) : Void;
+  @:ufunction(Client) public function ClientSetRotation(NewRotation : unreal.FRotator, bResetCamera : Bool) : Void;
   
   /**
     Return the Pawn that is currently 'controlled' by this PlayerController
   **/
-  @:ufunction @:thisConst @:final public function K2_GetPawn() : unreal.APawn;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetPawn() : unreal.APawn;
   
   /**
     Get the actor the controller is looking at
   **/
-  @:ufunction @:thisConst public function GetViewTarget() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetViewTarget() : unreal.AActor;
   
   /**
     Get the desired pawn target rotation
   **/
-  @:ufunction @:thisConst public function GetDesiredRotation() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetDesiredRotation() : unreal.FRotator;
   
   /**
     Returns whether this Controller is a PlayerController.
   **/
-  @:ufunction @:thisConst @:final public function IsPlayerController() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlayerController() : Bool;
   
   /**
     Returns whether this Controller is a locally controlled PlayerController.
   **/
-  @:ufunction @:thisConst @:final public function IsLocalPlayerController() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsLocalPlayerController() : Bool;
   
   /**
     Returns whether this Controller is a local controller.
   **/
-  @:ufunction @:thisConst public function IsLocalController() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsLocalController() : Bool;
   
   /**
     Handles attaching this controller to the specified pawn.
@@ -127,59 +127,59 @@ package unreal;
     @param InPawn The Pawn to be possessed.
     @see HasAuthority()
   **/
-  @:ufunction public function Possess(InPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintCallable) public function Possess(InPawn : unreal.APawn) : Void;
   
   /**
     Called to unpossess our pawn for any reason that is not the pawn being destroyed (destruction handled by PawnDestroyed()).
   **/
-  @:ufunction public function UnPossess() : Void;
+  @:ufunction(BlueprintCallable) public function UnPossess() : Void;
   
   /**
     Aborts the move the controller is currently performing
   **/
-  @:ufunction public function StopMovement() : Void;
+  @:ufunction(BlueprintCallable) public function StopMovement() : Void;
   
   /**
     Locks or unlocks movement input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreMoveInput.
     @param bNewMoveInput  If true, move input is ignored. If false, input is not ignored.
   **/
-  @:ufunction public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetIgnoreMoveInput(bNewMoveInput : Bool) : Void;
   
   /**
     Stops ignoring move input by resetting the ignore move input state.
   **/
-  @:ufunction public function ResetIgnoreMoveInput() : Void;
+  @:ufunction(BlueprintCallable) public function ResetIgnoreMoveInput() : Void;
   
   /**
     Returns true if movement input is ignored.
   **/
-  @:ufunction @:thisConst public function IsMoveInputIgnored() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsMoveInputIgnored() : Bool;
   
   /**
     Locks or unlocks look input, consecutive calls stack up and require the same amount of calls to undo, or can all be undone using ResetIgnoreLookInput.
     @param bNewLookInput  If true, look input is ignored. If false, input is not ignored.
   **/
-  @:ufunction public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetIgnoreLookInput(bNewLookInput : Bool) : Void;
   
   /**
     Stops ignoring look input by resetting the ignore look input state.
   **/
-  @:ufunction public function ResetIgnoreLookInput() : Void;
+  @:ufunction(BlueprintCallable) public function ResetIgnoreLookInput() : Void;
   
   /**
     Returns true if look input is ignored.
   **/
-  @:ufunction @:thisConst public function IsLookInputIgnored() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsLookInputIgnored() : Bool;
   
   /**
     Reset move and look input ignore flags.
   **/
-  @:ufunction public function ResetIgnoreInputFlags() : Void;
+  @:ufunction(BlueprintCallable) public function ResetIgnoreInputFlags() : Void;
   
   /**
     Event when this controller instigates ANY damage
   **/
-  @:ufunction private function ReceiveInstigatedAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, DamagedActor : unreal.AActor, DamageCauser : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveInstigatedAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, DamagedActor : unreal.AActor, DamageCauser : unreal.AActor) : Void;
   // NavAgentInterface interface implementation
   
 }

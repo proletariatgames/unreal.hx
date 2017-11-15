@@ -17,7 +17,7 @@ package unreal;
 /**
   How particles respond to collision events.
 **/
-@:glueCppIncludes("Particles/Collision/ParticleModuleCollisionGPU.h")
+@:glueCppIncludes("Classes/Particles/Collision/ParticleModuleCollisionGPU.h")
 @:uname("EParticleCollisionResponse.Type")
 @:uextern @:uenum extern enum EParticleCollisionResponse {
   

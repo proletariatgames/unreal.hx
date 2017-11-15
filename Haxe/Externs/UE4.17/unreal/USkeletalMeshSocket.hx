@@ -39,11 +39,11 @@ package unreal;
     The Outer of a SkeletalMeshSocket should always be the USkeletalMesh.
   **/
   @:uproperty public var SocketName : unreal.FName;
-  @:ufunction @:thisConst @:final public function GetSocketLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSocketLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>) : unreal.FVector;
   
   /**
     Sets BoneName, RelativeLocation and RelativeRotation based on closest bone to WorldLocation and WorldNormal
   **/
-  @:ufunction @:final public function InitializeSocketFromLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>, WorldLocation : unreal.FVector, WorldNormal : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function InitializeSocketFromLocation(SkelComp : unreal.Const<unreal.USkeletalMeshComponent>, WorldLocation : unreal.FVector, WorldNormal : unreal.FVector) : Void;
   
 }

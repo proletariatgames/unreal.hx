@@ -17,7 +17,7 @@ package unreal;
 /**
   The source data for runtime resources.
 **/
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataGpu.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGPUSpriteResourceData {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure that represents the name of physical surfaces.
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicsSettings.h")
+@:glueCppIncludes("Classes/PhysicsEngine/PhysicsSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPhysicalSurfaceName {
   @:uproperty public var Name : unreal.FName;
   @:uproperty public var Type : unreal.EPhysicalSurface;

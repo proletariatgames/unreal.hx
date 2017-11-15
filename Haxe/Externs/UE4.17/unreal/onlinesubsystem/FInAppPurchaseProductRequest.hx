@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   Micro-transaction request information
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("Interfaces/OnlineStoreInterface.h")
+@:glueCppIncludes("Public/Interfaces/OnlineStoreInterface.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInAppPurchaseProductRequest {
   
   /**

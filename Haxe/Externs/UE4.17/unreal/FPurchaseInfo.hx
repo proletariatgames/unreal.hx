@@ -17,7 +17,7 @@ package unreal;
 /**
   Purchase information structure
 **/
-@:glueCppIncludes("Engine/MicroTransactionBase.h")
+@:glueCppIncludes("Classes/Engine/MicroTransactionBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPurchaseInfo {
   
   /**

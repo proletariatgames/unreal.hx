@@ -18,7 +18,7 @@ package unreal.editor;
   Units used by measuring tool
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uname("EMeasuringToolUnits")
 @:uextern @:uenum extern enum EMeasuringToolUnits {
   

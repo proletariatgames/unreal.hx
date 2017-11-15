@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Animation/DebugSkelMeshComponent.h")
+@:glueCppIncludes("Classes/Animation/DebugSkelMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSelectedSocketInfo {
   
 }

@@ -18,7 +18,7 @@ package unreal.aimodule;
   cache of instances with sorted tests
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEnvQueryInstanceCache {
   
   /**

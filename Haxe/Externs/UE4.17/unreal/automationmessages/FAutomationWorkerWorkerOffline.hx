@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that notifies automation controllers that a worker went off-line.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerWorkerOffline {
   
 }

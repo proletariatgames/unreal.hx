@@ -20,6 +20,6 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern @:uclass extern class UOverlay extends unreal.umg.UPanelWidget {
-  @:ufunction @:final public function AddChildToOverlay(Content : unreal.umg.UWidget) : unreal.umg.UOverlaySlot;
+  @:ufunction(BlueprintCallable) @:final public function AddChildToOverlay(Content : unreal.umg.UWidget) : unreal.umg.UOverlaySlot;
   
 }

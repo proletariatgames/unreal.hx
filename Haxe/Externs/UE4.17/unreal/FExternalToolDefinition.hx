@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure for defining an external tool
 **/
-@:glueCppIncludes("Tests/AutomationTestSettings.h")
+@:glueCppIncludes("Classes/Tests/AutomationTestSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FExternalToolDefinition {
   
   /**

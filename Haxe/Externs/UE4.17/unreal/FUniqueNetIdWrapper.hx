@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("UObject/CoreOnline.h")
+@:glueCppIncludes("Public/UObject/CoreOnline.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FUniqueNetIdWrapper {
   
 }

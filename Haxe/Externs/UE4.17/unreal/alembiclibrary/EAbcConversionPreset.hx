@@ -18,7 +18,7 @@ package unreal.alembiclibrary;
   Enum that describes type of asset to import
 **/
 @:umodule("AlembicLibrary")
-@:glueCppIncludes("AbcImportSettings.h")
+@:glueCppIncludes("Public/AbcImportSettings.h")
 @:uname("EAbcConversionPreset")
 @:class @:uextern @:uenum extern enum EAbcConversionPreset {
   

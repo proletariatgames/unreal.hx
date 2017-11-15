@@ -20,7 +20,7 @@ package unreal;
 @:glueCppIncludes("AI/Navigation/NavModifierVolume.h")
 @:uextern @:uclass extern class ANavModifierVolume extends unreal.AVolume implements unreal.INavRelevantInterface {
   @:uproperty private var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
-  @:ufunction @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
   // NavRelevantInterface interface implementation
   
 }

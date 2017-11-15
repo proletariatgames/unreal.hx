@@ -24,11 +24,11 @@ package unreal.onlinesubsystemutils;
   /**
     Send a ping RPC to the client
   **/
-  @:ufunction public function ClientPing() : Void;
+  @:ufunction(Client) public function ClientPing() : Void;
   
   /**
     Send a pong RPC to the host
   **/
-  @:ufunction public function ServerPong() : Void;
+  @:ufunction(Server) public function ServerPong() : Void;
   
 }

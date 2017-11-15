@@ -17,7 +17,7 @@ package unreal;
 /**
   Defines FVector oscillation.
 **/
-@:glueCppIncludes("Camera/CameraShake.h")
+@:glueCppIncludes("Classes/Camera/CameraShake.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVOscillator {
   
   /**

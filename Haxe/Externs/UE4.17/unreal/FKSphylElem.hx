@@ -17,7 +17,7 @@ package unreal;
 /**
   Capsule shape used for collision. Z axis is capsule axis.
 **/
-@:glueCppIncludes("PhysicsEngine/SphylElem.h")
+@:glueCppIncludes("Classes/PhysicsEngine/SphylElem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKSphylElem extends unreal.FKShapeElem {
   
   /**

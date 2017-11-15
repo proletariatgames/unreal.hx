@@ -17,7 +17,7 @@ package unreal;
 /**
   Stores information about a function that this material references, used to know when the material needs to be recompiled.
 **/
-@:glueCppIncludes("Materials/Material.h")
+@:glueCppIncludes("Classes/Materials/Material.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialFunctionInfo {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   A single entry for a blend scale within a profile, mapping a bone to a blendscale
 **/
-@:glueCppIncludes("Animation/BlendProfile.h")
+@:glueCppIncludes("Classes/Animation/BlendProfile.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlendProfileBoneEntry {
   @:uproperty public var BlendScale : unreal.Float32;
   @:uproperty public var BoneReference : unreal.FBoneReference;

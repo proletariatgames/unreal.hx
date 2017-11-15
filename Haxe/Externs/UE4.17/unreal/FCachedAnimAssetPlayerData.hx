@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/CachedAnimData.h")
+@:glueCppIncludes("Public/Animation/CachedAnimData.h")
 @:uextern @:ustruct extern class FCachedAnimAssetPlayerData {
   
   /**

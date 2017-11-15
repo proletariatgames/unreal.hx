@@ -15,7 +15,7 @@
 package unreal.umgeditor;
 
 @:umodule("UMGEditor")
-@:glueCppIncludes("WidgetBlueprint.h")
+@:glueCppIncludes("Public/WidgetBlueprint.h")
 @:uextern @:ustruct extern class FEditorPropertyPathSegment {
   
 }

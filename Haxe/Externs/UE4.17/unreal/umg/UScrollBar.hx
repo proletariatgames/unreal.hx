@@ -39,6 +39,6 @@ package unreal.umg;
     @param InOffsetFraction     Offset of the thumbnail from the top as a fraction of the total available scroll space.
     @param InThumbSizeFraction  Size of thumbnail as a fraction of the total available scroll space.
   **/
-  @:ufunction @:final public function SetState(InOffsetFraction : unreal.Float32, InThumbSizeFraction : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetState(InOffsetFraction : unreal.Float32, InThumbSizeFraction : unreal.Float32) : Void;
   
 }

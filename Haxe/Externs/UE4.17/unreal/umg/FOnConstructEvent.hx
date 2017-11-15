@@ -18,6 +18,6 @@ package unreal.umg;
   TODO UMG If you want to host a widget that's full screen there may need to be a SWindow equivalent that you spawn it into.
   
 **/
-@:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/UserWidget.h")
 @:umodule("UMG")
 typedef FOnConstructEvent = unreal.DynamicMulticastDelegate<FOnConstructEvent, Void->Void>;

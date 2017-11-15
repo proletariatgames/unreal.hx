@@ -17,7 +17,7 @@ package unreal;
 /**
   The data needed by the runtime to simulate sprites.
 **/
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataGpu.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGPUSpriteEmitterInfo {
   
   /**

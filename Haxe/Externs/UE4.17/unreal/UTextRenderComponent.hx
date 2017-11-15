@@ -84,71 +84,71 @@ package unreal;
     Text content, can be multi line using <br> as line separator
   **/
   @:uproperty public var Text : unreal.FText;
-  @:ufunction @:final public function SetText(Value : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetText(Value : unreal.FString) : Void;
   
   /**
     Change the text value and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function K2_SetText(Value : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetText(Value : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Change the text material and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetTextMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTextMaterial(Material : unreal.UMaterialInterface) : Void;
   
   /**
     Change the font and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetFont(Value : unreal.UFont) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFont(Value : unreal.UFont) : Void;
   
   /**
     Change the horizontal alignment and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetHorizontalAlignment(Value : unreal.EHorizTextAligment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(Value : unreal.EHorizTextAligment) : Void;
   
   /**
     Change the vertical alignment and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetVerticalAlignment(Value : unreal.EVerticalTextAligment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(Value : unreal.EVerticalTextAligment) : Void;
   
   /**
     Change the text render color and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetTextRenderColor(Value : unreal.FColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTextRenderColor(Value : unreal.FColor) : Void;
   
   /**
     Change the text X scale and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetXScale(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetXScale(Value : unreal.Float32) : Void;
   
   /**
     Change the text Y scale and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetYScale(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetYScale(Value : unreal.Float32) : Void;
   
   /**
     Change the text horizontal spacing adjustment and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetHorizSpacingAdjust(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizSpacingAdjust(Value : unreal.Float32) : Void;
   
   /**
     Change the text vertical spacing adjustment and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetVertSpacingAdjust(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVertSpacingAdjust(Value : unreal.Float32) : Void;
   
   /**
     Change the world size of the text and signal the primitives to be rebuilt
   **/
-  @:ufunction @:final public function SetWorldSize(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWorldSize(Value : unreal.Float32) : Void;
   
   /**
     Get local size of text
   **/
-  @:ufunction @:thisConst @:final public function GetTextLocalSize() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTextLocalSize() : unreal.FVector;
   
   /**
     Get world space size of text
   **/
-  @:ufunction @:thisConst @:final public function GetTextWorldSize() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTextWorldSize() : unreal.FVector;
   
 }

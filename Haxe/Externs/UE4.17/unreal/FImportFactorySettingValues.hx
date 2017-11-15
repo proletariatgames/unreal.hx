@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds UProperty names and values to customize factory settings
 **/
-@:glueCppIncludes("Tests/AutomationTestSettings.h")
+@:glueCppIncludes("Classes/Tests/AutomationTestSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FImportFactorySettingValues {
   
   /**

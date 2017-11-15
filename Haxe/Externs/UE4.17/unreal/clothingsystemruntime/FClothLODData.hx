@@ -15,7 +15,7 @@
 package unreal.clothingsystemruntime;
 
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:uextern @:ustruct extern class FClothLODData {
   #if WITH_EDITORONLY_DATA
   

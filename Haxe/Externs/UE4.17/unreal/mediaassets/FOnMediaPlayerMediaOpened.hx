@@ -19,7 +19,7 @@ package unreal.mediaassets;
   @param OpenedUrl
   
 **/
-@:glueCppIncludes("MediaPlayer.h")
+@:glueCppIncludes("Public/MediaPlayer.h")
 @:uParamName("OpenedUrl")
 @:umodule("MediaAssets")
 typedef FOnMediaPlayerMediaOpened = unreal.DynamicMulticastDelegate<FOnMediaPlayerMediaOpened, unreal.FString->Void>;

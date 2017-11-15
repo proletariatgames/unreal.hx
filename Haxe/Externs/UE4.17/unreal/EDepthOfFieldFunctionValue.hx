@@ -17,7 +17,7 @@ package unreal;
 /**
   Note: The index is used to map the enum to different code in the shader
 **/
-@:glueCppIncludes("Materials/MaterialExpressionDepthOfFieldFunction.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionDepthOfFieldFunction.h")
 @:uname("EDepthOfFieldFunctionValue")
 @:uextern @:uenum extern enum EDepthOfFieldFunctionValue {
   

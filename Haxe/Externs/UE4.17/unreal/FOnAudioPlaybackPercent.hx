@@ -22,7 +22,7 @@ package unreal;
   @param PlaybackPercent
   
 **/
-@:glueCppIncludes("Components/AudioComponent.h")
+@:glueCppIncludes("Classes/Components/AudioComponent.h")
 @:uParamName("PlayingSoundWave")
 @:uParamName("PlaybackPercent")
 typedef FOnAudioPlaybackPercent = unreal.DynamicMulticastDelegate<FOnAudioPlaybackPercent, unreal.Const<unreal.USoundWave>->unreal.Float32->Void>;

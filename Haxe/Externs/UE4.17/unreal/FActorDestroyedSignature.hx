@@ -18,6 +18,6 @@ package unreal;
   @param DestroyedActor
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("DestroyedActor")
 typedef FActorDestroyedSignature = unreal.DynamicMulticastDelegate<FActorDestroyedSignature, unreal.AActor->Void>;

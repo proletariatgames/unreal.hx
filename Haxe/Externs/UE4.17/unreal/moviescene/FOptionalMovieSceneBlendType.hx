@@ -18,7 +18,7 @@ package unreal.moviescene;
   Optional blend type structure
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/Blending/MovieSceneBlendType.h")
+@:glueCppIncludes("Public/Evaluation/Blending/MovieSceneBlendType.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FOptionalMovieSceneBlendType {
   
 }

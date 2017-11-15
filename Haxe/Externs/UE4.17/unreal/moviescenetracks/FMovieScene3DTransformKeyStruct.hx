@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Proxy structure for 3D transform section key data.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieScene3DTransformSection.h")
+@:glueCppIncludes("Public/Sections/MovieScene3DTransformSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieScene3DTransformKeyStruct extends unreal.moviescene.FMovieSceneKeyStruct {
   
   /**

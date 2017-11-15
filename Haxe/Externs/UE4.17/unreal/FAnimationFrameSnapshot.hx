@@ -17,7 +17,7 @@ package unreal;
 /**
   This structure represents debugging information for a frame snapshot
 **/
-@:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
+@:glueCppIncludes("Classes/Animation/AnimBlueprintGeneratedClass.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationFrameSnapshot {
   
 }

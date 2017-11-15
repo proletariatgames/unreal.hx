@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("AITypes.h")
+@:glueCppIncludes("Classes/AITypes.h")
 @:uname("FAIDistanceType")
 @:class @:uextern @:uenum extern enum FAIDistanceType {
   Distance3D;

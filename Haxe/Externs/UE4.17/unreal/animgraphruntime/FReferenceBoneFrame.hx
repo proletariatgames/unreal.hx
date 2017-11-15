@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Reference Bone Frame
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_TwistCorrectiveNode.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_TwistCorrectiveNode.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FReferenceBoneFrame {
   @:uproperty public var Axis : unreal.animationcore.FAxis;
   @:uproperty public var Bone : unreal.FBoneReference;

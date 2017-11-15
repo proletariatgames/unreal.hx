@@ -56,12 +56,12 @@ package unreal;
   /**
     Directly specify component to connect. Will update frames based on current position.
   **/
-  @:ufunction @:final public function SetConstrainedComponents(Component1 : unreal.UPrimitiveComponent, BoneName1 : unreal.FName, Component2 : unreal.UPrimitiveComponent, BoneName2 : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetConstrainedComponents(Component1 : unreal.UPrimitiveComponent, BoneName1 : unreal.FName, Component2 : unreal.UPrimitiveComponent, BoneName2 : unreal.FName) : Void;
   
   /**
     Break this constraint
   **/
-  @:ufunction @:final public function BreakConstraint() : Void;
+  @:ufunction(BlueprintCallable) @:final public function BreakConstraint() : Void;
   
   /**
     Enables/Disables linear position drive
@@ -70,7 +70,7 @@ package unreal;
         @param bEnableDriveY    Indicates whether the drive for the Y-Axis should be enabled
         @param bEnableDriveZ    Indicates whether the drive for the Z-Axis should be enabled
   **/
-  @:ufunction @:final public function SetLinearPositionDrive(bEnableDriveX : Bool, bEnableDriveY : Bool, bEnableDriveZ : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearPositionDrive(bEnableDriveX : Bool, bEnableDriveY : Bool, bEnableDriveZ : Bool) : Void;
   
   /**
     Enables/Disables linear position drive
@@ -79,7 +79,7 @@ package unreal;
         @param bEnableDriveY    Indicates whether the drive for the Y-Axis should be enabled
         @param bEnableDriveZ    Indicates whether the drive for the Z-Axis should be enabled
   **/
-  @:ufunction @:final public function SetLinearVelocityDrive(bEnableDriveX : Bool, bEnableDriveY : Bool, bEnableDriveZ : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearVelocityDrive(bEnableDriveX : Bool, bEnableDriveY : Bool, bEnableDriveZ : Bool) : Void;
   
   /**
     Enables/Disables angular orientation drive. Only relevant if the AngularDriveMode is set to Twist and Swing
@@ -87,7 +87,7 @@ package unreal;
         @param bEnableSwingDrive        Indicates whether the drive for the swing axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
         @param bEnableTwistDrive        Indicates whether the drive for the twist axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
   **/
-  @:ufunction @:final public function SetAngularOrientationDrive(bEnableSwingDrive : Bool, bEnableTwistDrive : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularOrientationDrive(bEnableSwingDrive : Bool, bEnableTwistDrive : Bool) : Void;
   
   /**
     Enables/Disables angular orientation drive. Only relevant if the AngularDriveMode is set to Twist and Swing
@@ -95,15 +95,15 @@ package unreal;
          @param bEnableSwingDrive        Indicates whether the drive for the swing axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
          @param bEnableTwistDrive        Indicates whether the drive for the twist axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
   **/
-  @:ufunction @:final public function SetOrientationDriveTwistAndSwing(bEnableTwistDrive : Bool, bEnableSwingDrive : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrientationDriveTwistAndSwing(bEnableTwistDrive : Bool, bEnableSwingDrive : Bool) : Void;
   
   /**
     Enables/Disables the angular orientation slerp drive. Only relevant if the AngularDriveMode is set to SLERP
     
          @param bEnableSLERP             Indicates whether the SLERP drive should be enabled. Only relevant if the AngularDriveMode is set to SLERP
   **/
-  @:ufunction @:final public function SetOrientationDriveSLERP(bEnableSLERP : Bool) : Void;
-  @:ufunction @:final public function SetAngularVelocityDrive(bEnableSwingDrive : Bool, bEnableTwistDrive : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrientationDriveSLERP(bEnableSLERP : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularVelocityDrive(bEnableSwingDrive : Bool, bEnableTwistDrive : Bool) : Void;
   
   /**
     Enables/Disables angular velocity twist and swing drive. Only relevant if the AngularDriveMode is set to Twist and Swing
@@ -111,33 +111,33 @@ package unreal;
          @param bEnableSwingDrive        Indicates whether the drive for the swing axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
          @param bEnableTwistDrive        Indicates whether the drive for the twist axis should be enabled. Only relevant if the AngularDriveMode is set to Twist and Swing
   **/
-  @:ufunction @:final public function SetAngularVelocityDriveTwistAndSwing(bEnableTwistDrive : Bool, bEnableSwingDrive : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularVelocityDriveTwistAndSwing(bEnableTwistDrive : Bool, bEnableSwingDrive : Bool) : Void;
   
   /**
     Enables/Disables the angular velocity slerp drive. Only relevant if the AngularDriveMode is set to SLERP
     
          @param bEnableSLERP             Indicates whether the SLERP drive should be enabled. Only relevant if the AngularDriveMode is set to SLERP
   **/
-  @:ufunction @:final public function SetAngularVelocityDriveSLERP(bEnableSLERP : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularVelocityDriveSLERP(bEnableSLERP : Bool) : Void;
   
   /**
     Switches the angular drive mode between SLERP and Twist And Swing
     
          @param DriveMode        The angular drive mode to use. SLERP uses shortest spherical path, but will not work if any angular constraints are locked. Twist and Swing decomposes the path into the different angular degrees of freedom but may experience gimbal lock
   **/
-  @:ufunction @:final public function SetAngularDriveMode(DriveMode : unreal.EAngularDriveMode) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularDriveMode(DriveMode : unreal.EAngularDriveMode) : Void;
   
   /**
     Sets the target position for the linear drive.
         @param InPosTarget              Target position
   **/
-  @:ufunction @:final public function SetLinearPositionTarget(InPosTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearPositionTarget(InPosTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Sets the target velocity for the linear drive.
         @param InVelTarget              Target velocity
   **/
-  @:ufunction @:final public function SetLinearVelocityTarget(InVelTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearVelocityTarget(InVelTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Sets the drive params for the linear drive.
@@ -145,19 +145,19 @@ package unreal;
         @param VelocityStrength         Velocity strength of the drive (damping)
         @param InForceLimit     Max force applied by the drive
   **/
-  @:ufunction @:final public function SetLinearDriveParams(PositionStrength : unreal.Float32, VelocityStrength : unreal.Float32, InForceLimit : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearDriveParams(PositionStrength : unreal.Float32, VelocityStrength : unreal.Float32, InForceLimit : unreal.Float32) : Void;
   
   /**
     Sets the target orientation for the angular drive.
         @param InPosTarget              Target orientation
   **/
-  @:ufunction @:final public function SetAngularOrientationTarget(InPosTarget : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularOrientationTarget(InPosTarget : unreal.Const<unreal.PRef<unreal.FRotator>>) : Void;
   
   /**
     Sets the target velocity for the angular drive.
         @param InVelTarget              Target velocity
   **/
-  @:ufunction @:final public function SetAngularVelocityTarget(InVelTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularVelocityTarget(InVelTarget : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Sets the drive params for the angular drive.
@@ -165,107 +165,107 @@ package unreal;
         @param VelocityStrength         Velocity strength of the drive (damping)
         @param InForceLimit     Max force applied by the drive
   **/
-  @:ufunction @:final public function SetAngularDriveParams(PositionStrength : unreal.Float32, VelocityStrength : unreal.Float32, InForceLimit : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularDriveParams(PositionStrength : unreal.Float32, VelocityStrength : unreal.Float32, InForceLimit : unreal.Float32) : Void;
   
   /**
     Sets the LinearX Motion Type
          @param ConstraintType   New Constraint Type
          @param LimitSize                Size of limit
   **/
-  @:ufunction @:final public function SetLinearXLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearXLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
   
   /**
     Sets the LinearY Motion Type
          @param ConstraintType   New Constraint Type
          @param LimitSize                Size of limit
   **/
-  @:ufunction @:final public function SetLinearYLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearYLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
   
   /**
     Sets the LinearZ Motion Type
          @param ConstraintType   New Constraint Type
          @param LimitSize                Size of limit
   **/
-  @:ufunction @:final public function SetLinearZLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearZLimit(ConstraintType : unreal.ELinearConstraintMotion, LimitSize : unreal.Float32) : Void;
   
   /**
     Sets the Angular Swing1 Motion Type
          @param ConstraintType   New Constraint Type
          @param Swing1LimitAngle Size of limit in degrees
   **/
-  @:ufunction @:final public function SetAngularSwing1Limit(MotionType : unreal.EAngularConstraintMotion, Swing1LimitAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularSwing1Limit(MotionType : unreal.EAngularConstraintMotion, Swing1LimitAngle : unreal.Float32) : Void;
   
   /**
     Sets the Angular Swing2 Motion Type
          @param ConstraintType   New Constraint Type
          @param Swing2LimitAngle Size of limit in degrees
   **/
-  @:ufunction @:final public function SetAngularSwing2Limit(MotionType : unreal.EAngularConstraintMotion, Swing2LimitAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularSwing2Limit(MotionType : unreal.EAngularConstraintMotion, Swing2LimitAngle : unreal.Float32) : Void;
   
   /**
     Sets the Angular Twist Motion Type
          @param ConstraintType   New Constraint Type
          @param TwistLimitAngle  Size of limit in degrees
   **/
-  @:ufunction @:final public function SetAngularTwistLimit(ConstraintType : unreal.EAngularConstraintMotion, TwistLimitAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularTwistLimit(ConstraintType : unreal.EAngularConstraintMotion, TwistLimitAngle : unreal.Float32) : Void;
   
   /**
     Sets the Linear Breakable properties
          @param bLinearBreakable         Whether it is possible to break the joint with linear force
          @param LinearBreakThreshold     Force needed to break the joint
   **/
-  @:ufunction @:final public function SetLinearBreakable(bLinearBreakable : Bool, LinearBreakThreshold : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearBreakable(bLinearBreakable : Bool, LinearBreakThreshold : unreal.Float32) : Void;
   
   /**
     Sets the Angular Breakable properties
          @param bAngularBreakable                Whether it is possible to break the joint with angular force
          @param AngularBreakThreshold    Torque needed to break the joint
   **/
-  @:ufunction @:final public function SetAngularBreakable(bAngularBreakable : Bool, AngularBreakThreshold : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularBreakable(bAngularBreakable : Bool, AngularBreakThreshold : unreal.Float32) : Void;
   
   /**
     Gets the current Angular Twist of the constraint
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentTwist() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentTwist() : unreal.Float32;
   
   /**
     Gets the current Swing1 of the constraint
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentSwing1() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentSwing1() : unreal.Float32;
   
   /**
     Gets the current Swing2 of the constraint
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentSwing2() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentSwing2() : unreal.Float32;
   
   /**
     Pass in reference frame in. If the constraint is currently active, this will set its active local pose. Otherwise the change will take affect in InitConstraint.
   **/
-  @:ufunction @:final public function SetConstraintReferenceFrame(Frame : unreal.EConstraintFrame, RefFrame : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetConstraintReferenceFrame(Frame : unreal.EConstraintFrame, RefFrame : unreal.Const<unreal.PRef<unreal.FTransform>>) : Void;
   
   /**
     Pass in reference position in (maintains reference orientation). If the constraint is currently active, this will set its active local pose. Otherwise the change will take affect in InitConstraint.
   **/
-  @:ufunction @:final public function SetConstraintReferencePosition(Frame : unreal.EConstraintFrame, RefPosition : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetConstraintReferencePosition(Frame : unreal.EConstraintFrame, RefPosition : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Pass in reference orientation in (maintains reference position). If the constraint is currently active, this will set its active local pose. Otherwise the change will take affect in InitConstraint.
   **/
-  @:ufunction @:final public function SetConstraintReferenceOrientation(Frame : unreal.EConstraintFrame, PriAxis : unreal.Const<unreal.PRef<unreal.FVector>>, SecAxis : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetConstraintReferenceOrientation(Frame : unreal.EConstraintFrame, PriAxis : unreal.Const<unreal.PRef<unreal.FVector>>, SecAxis : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     If true, the collision between the two rigid bodies of the constraint will be disabled.
   **/
-  @:ufunction @:final public function SetDisableCollision(bDisableCollision : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDisableCollision(bDisableCollision : Bool) : Void;
   
   /**
     Retrieve the constraint force most recently applied to maintain this constraint. Returns 0 forces if the constraint is not initialized or broken.
   **/
-  @:ufunction @:final public function GetConstraintForce(OutLinearForce : unreal.PRef<unreal.FVector>, OutAngularForce : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetConstraintForce(OutLinearForce : unreal.PRef<unreal.FVector>, OutAngularForce : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Retrieve the status of constraint being broken.
   **/
-  @:ufunction @:final public function IsBroken() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function IsBroken() : Bool;
   
 }

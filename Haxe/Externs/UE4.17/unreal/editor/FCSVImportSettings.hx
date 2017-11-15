@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/CSVImportFactory.h")
+@:glueCppIncludes("Classes/Factories/CSVImportFactory.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCSVImportSettings {
   @:uproperty public var ImportCurveInterpMode : unreal.ERichCurveInterpMode;
   @:uproperty public var ImportType : unreal.editor.ECSVImportType;

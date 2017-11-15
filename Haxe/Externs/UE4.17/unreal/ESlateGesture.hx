@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Kismet/KismetInputLibrary.h")
+@:glueCppIncludes("Classes/Kismet/KismetInputLibrary.h")
 @:uname("ESlateGesture")
 @:class @:uextern @:uenum extern enum ESlateGesture {
   None;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Parameters to describe the application of U,V coordinates on a particular slice within a destructible.
 **/
-@:glueCppIncludes("Engine/DestructibleFractureSettings.h")
+@:glueCppIncludes("Classes/Engine/DestructibleFractureSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFractureMaterial {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.actorsequence;
 
 @:umodule("ActorSequence")
-@:glueCppIncludes("ActorSequenceObjectReference.h")
+@:glueCppIncludes("Public/ActorSequenceObjectReference.h")
 @:uname("EActorSequenceObjectReferenceType")
 @:class @:uextern @:uenum extern enum EActorSequenceObjectReferenceType {
   

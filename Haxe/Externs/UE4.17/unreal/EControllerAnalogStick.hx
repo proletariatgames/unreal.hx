@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/InputComponent.h")
+@:glueCppIncludes("Classes/Components/InputComponent.h")
 @:uname("EControllerAnalogStick.Type")
 @:uextern @:uenum extern enum EControllerAnalogStick {
   CAS_LeftStick;

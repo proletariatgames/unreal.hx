@@ -22,8 +22,8 @@ package unreal.aimodule;
     called when moving agent collides with another actor
   **/
   @:ufunction public function OnActorBump(SelfActor : unreal.AActor, OtherActor : unreal.AActor, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
-  @:ufunction @:thisConst @:final public function GetPathActionType() : unreal.aimodule.EPathFollowingAction;
-  @:ufunction @:thisConst @:final public function GetPathDestination() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPathActionType() : unreal.aimodule.EPathFollowingAction;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPathDestination() : unreal.FVector;
   
   /**
     navigation data for agent described in movement component

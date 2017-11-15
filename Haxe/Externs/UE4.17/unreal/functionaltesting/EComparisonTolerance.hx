@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("AutomationScreenshotOptions.h")
+@:glueCppIncludes("Public/AutomationScreenshotOptions.h")
 @:uname("EComparisonTolerance")
 @:class @:uextern @:uenum extern enum EComparisonTolerance {
   Zero;

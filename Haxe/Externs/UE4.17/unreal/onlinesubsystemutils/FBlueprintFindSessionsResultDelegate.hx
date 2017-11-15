@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param Results
   
 **/
-@:glueCppIncludes("FindSessionsCallbackProxy.h")
+@:glueCppIncludes("Classes/FindSessionsCallbackProxy.h")
 @:uParamName("Results")
 @:umodule("OnlineSubsystemUtils")
 typedef FBlueprintFindSessionsResultDelegate = unreal.DynamicMulticastDelegate<FBlueprintFindSessionsResultDelegate, unreal.Const<unreal.PRef<unreal.TArray<unreal.onlinesubsystemutils.FBlueprintSessionResult>>>->Void>;

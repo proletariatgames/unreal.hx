@@ -19,7 +19,7 @@ package unreal.assetregistry;
   This struct is transient and should never be serialized
 **/
 @:umodule("AssetRegistry")
-@:glueCppIncludes("AssetData.h")
+@:glueCppIncludes("Public/AssetData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAssetData {
   
   /**

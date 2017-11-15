@@ -17,7 +17,7 @@ package unreal;
 /**
   Handle to a particular row in a table.
 **/
-@:glueCppIncludes("Engine/CurveTable.h")
+@:glueCppIncludes("Classes/Engine/CurveTable.h")
 @:uextern @:ustruct extern class FCurveTableRowHandle {
   
   /**

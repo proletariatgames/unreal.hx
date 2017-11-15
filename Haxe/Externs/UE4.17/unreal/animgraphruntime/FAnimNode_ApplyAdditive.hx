@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_ApplyAdditive.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_ApplyAdditive.h")
 @:uextern @:ustruct extern class FAnimNode_ApplyAdditive extends unreal.FAnimNode_Base {
   @:uproperty public var ActualAlpha : unreal.Float32;
   

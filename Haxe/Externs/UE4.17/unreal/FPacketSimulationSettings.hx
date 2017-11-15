@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds the packet simulation settings in one place
 **/
-@:glueCppIncludes("Engine/NetDriver.h")
+@:glueCppIncludes("Classes/Engine/NetDriver.h")
 @:uextern @:ustruct extern class FPacketSimulationSettings {
   
   /**

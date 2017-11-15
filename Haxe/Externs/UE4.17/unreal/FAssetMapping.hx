@@ -17,7 +17,7 @@ package unreal;
 /**
   This defines one asset mapping
 **/
-@:glueCppIncludes("Animation/AssetMappingTable.h")
+@:glueCppIncludes("Classes/Animation/AssetMappingTable.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAssetMapping {
   
   /**

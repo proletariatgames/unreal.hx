@@ -15,7 +15,7 @@
 package unreal.renderer;
 
 @:umodule("Renderer")
-@:glueCppIncludes("LightPropagationVolumeSettings.h")
+@:glueCppIncludes("Public/LightPropagationVolumeSettings.h")
 @:uextern @:ustruct extern class FLightPropagationVolumeSettings {
   
   /**

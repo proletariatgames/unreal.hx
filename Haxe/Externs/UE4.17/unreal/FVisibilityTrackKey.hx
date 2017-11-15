@@ -17,7 +17,7 @@ package unreal;
 /**
   Information for one toggle in the track.
 **/
-@:glueCppIncludes("Matinee/InterpTrackVisibility.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackVisibility.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVisibilityTrackKey {
   
   /**

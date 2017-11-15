@@ -18,7 +18,7 @@ package unreal.editorstyle;
   Enumerates color vision deficiency types.
 **/
 @:umodule("EditorStyle")
-@:glueCppIncludes("Classes/EditorStyleSettings.h")
+@:glueCppIncludes("Public/Classes/EditorStyleSettings.h")
 @:uname("EColorVisionDeficiency")
 @:uextern @:uenum extern enum EColorVisionDeficiency {
   

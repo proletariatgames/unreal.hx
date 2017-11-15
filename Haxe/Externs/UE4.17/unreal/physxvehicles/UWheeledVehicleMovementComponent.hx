@@ -263,88 +263,88 @@ package unreal.physxvehicles;
   /**
     Set the user input for the vehicle throttle
   **/
-  @:ufunction @:final public function SetThrottleInput(Throttle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetThrottleInput(Throttle : unreal.Float32) : Void;
   
   /**
     Set the user input for the vehicle Brake
   **/
-  @:ufunction @:final public function SetBrakeInput(Brake : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrakeInput(Brake : unreal.Float32) : Void;
   
   /**
     Set the user input for the vehicle steering
   **/
-  @:ufunction @:final public function SetSteeringInput(Steering : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSteeringInput(Steering : unreal.Float32) : Void;
   
   /**
     Set the user input for handbrake
   **/
-  @:ufunction @:final public function SetHandbrakeInput(bNewHandbrake : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHandbrakeInput(bNewHandbrake : Bool) : Void;
   
   /**
     Set the user input for gear up
   **/
-  @:ufunction @:final public function SetGearUp(bNewGearUp : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGearUp(bNewGearUp : Bool) : Void;
   
   /**
     Set the user input for gear down
   **/
-  @:ufunction @:final public function SetGearDown(bNewGearDown : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGearDown(bNewGearDown : Bool) : Void;
   
   /**
     Set the user input for gear (-1 reverse, 0 neutral, 1+ forward)
   **/
-  @:ufunction @:final public function SetTargetGear(GearNum : unreal.Int32, bImmediate : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTargetGear(GearNum : unreal.Int32, bImmediate : Bool) : Void;
   
   /**
     Set the flag that will be used to select auto-gears
   **/
-  @:ufunction @:final public function SetUseAutoGears(bUseAuto : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUseAutoGears(bUseAuto : Bool) : Void;
   
   /**
     How fast the vehicle is moving forward
   **/
-  @:ufunction @:thisConst @:final public function GetForwardSpeed() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetForwardSpeed() : unreal.Float32;
   
   /**
     Get current engine's rotation speed
   **/
-  @:ufunction @:thisConst @:final public function GetEngineRotationSpeed() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetEngineRotationSpeed() : unreal.Float32;
   
   /**
     Get current engine's max rotation speed
   **/
-  @:ufunction @:thisConst @:final public function GetEngineMaxRotationSpeed() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetEngineMaxRotationSpeed() : unreal.Float32;
   
   /**
     Get current gear
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentGear() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentGear() : unreal.Int32;
   
   /**
     Get target gear
   **/
-  @:ufunction @:thisConst @:final public function GetTargetGear() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTargetGear() : unreal.Int32;
   
   /**
     Are gears being changed automatically?
   **/
-  @:ufunction @:thisConst @:final public function GetUseAutoGears() : Bool;
-  @:ufunction @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
-  @:ufunction @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
-  @:ufunction @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUseAutoGears() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   
   /**
     Change avoidance state and register with RVO manager if necessary
   **/
-  @:ufunction @:final public function SetAvoidanceEnabled(bEnable : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceEnabled(bEnable : Bool) : Void;
   
   /**
     Pass current state to server
   **/
-  @:ufunction private function ServerUpdateState(InSteeringInput : unreal.Float32, InThrottleInput : unreal.Float32, InBrakeInput : unreal.Float32, InHandbrakeInput : unreal.Float32, CurrentGear : unreal.Int32) : Void;
+  @:ufunction(Server) private function ServerUpdateState(InSteeringInput : unreal.Float32, InThrottleInput : unreal.Float32, InBrakeInput : unreal.Float32, InHandbrakeInput : unreal.Float32, CurrentGear : unreal.Int32) : Void;
   // RVOAvoidanceInterface interface implementation
   
 }

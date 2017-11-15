@@ -15,7 +15,7 @@
 package unreal.sequencer;
 
 @:umodule("Sequencer")
-@:glueCppIncludes("SequencerSettings.h")
+@:glueCppIncludes("Public/SequencerSettings.h")
 @:uname("ESequencerLoopMode")
 @:uextern @:uenum extern enum ESequencerLoopMode {
   

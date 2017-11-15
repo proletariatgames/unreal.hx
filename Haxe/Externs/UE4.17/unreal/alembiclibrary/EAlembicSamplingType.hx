@@ -15,7 +15,7 @@
 package unreal.alembiclibrary;
 
 @:umodule("AlembicLibrary")
-@:glueCppIncludes("AbcImportSettings.h")
+@:glueCppIncludes("Public/AbcImportSettings.h")
 @:uname("EAlembicSamplingType")
 @:class @:uextern @:uenum extern enum EAlembicSamplingType {
   

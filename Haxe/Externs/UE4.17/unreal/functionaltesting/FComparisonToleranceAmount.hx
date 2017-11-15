@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("AutomationScreenshotOptions.h")
+@:glueCppIncludes("Public/AutomationScreenshotOptions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FComparisonToleranceAmount {
   @:uproperty public var MaxBrightness : unreal.UInt8;
   @:uproperty public var MinBrightness : unreal.UInt8;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionViewProperty.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionViewProperty.h")
 @:uname("EMaterialExposedViewProperty")
 @:uextern @:uenum extern enum EMaterialExposedViewProperty {
   

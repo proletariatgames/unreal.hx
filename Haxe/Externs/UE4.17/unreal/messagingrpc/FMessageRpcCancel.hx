@@ -18,7 +18,7 @@ package unreal.messagingrpc;
   Message for canceling an RPC call.
 **/
 @:umodule("MessagingRpc")
-@:glueCppIncludes("MessageRpcMessages.h")
+@:glueCppIncludes("Public/MessageRpcMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMessageRpcCancel {
   
   /**

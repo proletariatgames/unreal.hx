@@ -18,7 +18,7 @@ package unreal.materialbaking;
   Enum to define different types of baking materials
 **/
 @:umodule("MaterialBaking")
-@:glueCppIncludes("MaterialOptions.h")
+@:glueCppIncludes("Public/MaterialOptions.h")
 @:uname("EMaterialBakeMethod")
 @:class @:uextern @:uenum extern enum EMaterialBakeMethod {
   

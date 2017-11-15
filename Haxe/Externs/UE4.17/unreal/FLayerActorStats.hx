@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Layers/Layer.h")
+@:glueCppIncludes("Classes/Layers/Layer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLayerActorStats {
   
   /**

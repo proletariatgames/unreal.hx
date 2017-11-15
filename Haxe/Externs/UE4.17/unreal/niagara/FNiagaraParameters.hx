@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraParameters.h")
+@:glueCppIncludes("Public/NiagaraParameters.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraParameters {
   
   /**

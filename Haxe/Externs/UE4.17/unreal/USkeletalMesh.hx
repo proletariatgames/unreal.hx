@@ -216,36 +216,36 @@ package unreal;
   /**
     Get the extended bounds of this mesh (imported bounds plus bounds extension)
   **/
-  @:ufunction @:final public function GetBounds() : unreal.FBoxSphereBounds;
+  @:ufunction(BlueprintCallable) @:final public function GetBounds() : unreal.FBoxSphereBounds;
   
   /**
     Get the original imported bounds of the skel mesh
   **/
-  @:ufunction @:final public function GetImportedBounds() : unreal.FBoxSphereBounds;
-  @:ufunction @:thisConst @:final public function GetNodeMappingContainer(SourceAsset : unreal.UBlueprint) : unreal.UNodeMappingContainer;
+  @:ufunction(BlueprintCallable) @:final public function GetImportedBounds() : unreal.FBoxSphereBounds;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNodeMappingContainer(SourceAsset : unreal.UBlueprint) : unreal.UNodeMappingContainer;
   
   /**
     Find a socket object in this SkeletalMesh by name.
     Entering NAME_None will return NULL. If there are multiple sockets with the same name, will return the first one.
   **/
-  @:ufunction @:thisConst @:final public function FindSocket(InSocketName : unreal.FName) : unreal.USkeletalMeshSocket;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function FindSocket(InSocketName : unreal.FName) : unreal.USkeletalMeshSocket;
   
   /**
     Find a socket object in this SkeletalMesh by name.
     Entering NAME_None will return NULL. If there are multiple sockets with the same name, will return the first one.
     Also returns the index for the socket allowing for future fast access via GetSocketByIndex()
   **/
-  @:ufunction @:thisConst @:final public function FindSocketAndIndex(InSocketName : unreal.FName, OutIndex : unreal.Int32) : unreal.USkeletalMeshSocket;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function FindSocketAndIndex(InSocketName : unreal.FName, OutIndex : unreal.Int32) : unreal.USkeletalMeshSocket;
   
   /**
     Returns the number of sockets available. Both on this mesh and it's skeleton.
   **/
-  @:ufunction @:thisConst @:final public function NumSockets() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function NumSockets() : unreal.Int32;
   
   /**
     Returns a socket by index. Max index is NumSockets(). The meshes sockets are accessed first, then the skeletons.
   **/
-  @:ufunction @:thisConst @:final public function GetSocketByIndex(Index : unreal.Int32) : unreal.USkeletalMeshSocket;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSocketByIndex(Index : unreal.Int32) : unreal.USkeletalMeshSocket;
   
   /**
     Checks whether the provided section is using APEX cloth. if bCheckCorrespondingSections is true
@@ -255,7 +255,7 @@ package unreal;
     @param InSectionIndex Index to check
     @param bCheckCorrespondingSections Whether to check corresponding sections for disabled sections
   **/
-  @:ufunction @:thisConst @:final public function IsSectionUsingCloth(InSectionIndex : unreal.Int32, bCheckCorrespondingSections : Bool = true) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsSectionUsingCloth(InSectionIndex : unreal.Int32, bCheckCorrespondingSections : Bool = true) : Bool;
   // Interface_CollisionDataProvider interface implementation
   // Interface_AssetUserData interface implementation
   

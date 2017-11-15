@@ -17,7 +17,7 @@ package unreal;
 /**
   Indicates whether an animation is additive, and what kind.
 **/
-@:glueCppIncludes("Animation/AnimTypes.h")
+@:glueCppIncludes("Public/Animation/AnimTypes.h")
 @:uname("EAdditiveAnimationType")
 @:uextern @:uenum extern enum EAdditiveAnimationType {
   

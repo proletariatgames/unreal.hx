@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   This represents a baked transition
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_TwoWayBlend.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_TwoWayBlend.h")
 @:uextern @:ustruct extern class FAnimNode_TwoWayBlend extends unreal.FAnimNode_Base {
   @:uproperty private var InternalBlendAlpha : unreal.Float32;
   @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;

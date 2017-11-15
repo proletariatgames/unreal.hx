@@ -15,7 +15,7 @@
 package unreal.physxvehicles;
 
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("WheeledVehicleMovementComponent.h")
+@:glueCppIncludes("Public/WheeledVehicleMovementComponent.h")
 @:uextern @:ustruct extern class FVehicleInputRate {
   
   /**

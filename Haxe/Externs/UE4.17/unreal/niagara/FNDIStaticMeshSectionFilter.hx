@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraDataInterfaceStaticMesh.h")
+@:glueCppIncludes("Classes/NiagaraDataInterfaceStaticMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNDIStaticMeshSectionFilter {
   
   /**

@@ -19,7 +19,7 @@ package unreal;
   @see FWalkableSlopeOverride
   @see UCharacterMovementComponent::GetWalkableFloorAngle(), UCharacterMovementComponent::SetWalkableFloorAngle()
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EWalkableSlopeBehavior")
 @:uextern @:uenum extern enum EWalkableSlopeBehavior {
   

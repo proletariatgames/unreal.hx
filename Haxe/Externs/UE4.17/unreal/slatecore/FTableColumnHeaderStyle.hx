@@ -18,7 +18,7 @@ package unreal.slatecore;
   Represents the appearance of an STableColumnHeader
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateTypes.h")
+@:glueCppIncludes("Public/Styling/SlateTypes.h")
 @:uextern @:ustruct extern class FTableColumnHeaderStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

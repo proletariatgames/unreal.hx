@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that prepares and simulates cloth
 **/
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkeletalMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshComponentClothTickFunction extends unreal.FTickFunction {
   
 }

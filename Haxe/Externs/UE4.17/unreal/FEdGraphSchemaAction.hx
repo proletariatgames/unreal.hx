@@ -17,7 +17,7 @@ package unreal;
 /**
   This structure represents a context dependent action, with sufficient information for the schema to perform it.
 **/
-@:glueCppIncludes("EdGraph/EdGraphSchema.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphSchema.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction {
   @:uproperty public var SearchText : unreal.FString;
   @:uproperty public var LocalizedFullSearchCategoryArray : unreal.TArray<unreal.FString>;

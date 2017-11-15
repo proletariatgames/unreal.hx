@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Supply curves from some external source (e.g. audio)
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_CurveSource.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_CurveSource.h")
 @:uextern @:ustruct extern class FAnimNode_CurveSource extends unreal.FAnimNode_Base {
   
   /**

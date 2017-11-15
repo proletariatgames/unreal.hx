@@ -17,7 +17,7 @@ package unreal;
 /**
   Texture source data management.
 **/
-@:glueCppIncludes("Engine/Texture.h")
+@:glueCppIncludes("Classes/Engine/Texture.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTextureSource {
   
 }

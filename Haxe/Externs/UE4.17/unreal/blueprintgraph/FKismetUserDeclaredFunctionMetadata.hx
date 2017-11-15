@@ -19,7 +19,7 @@ package unreal.blueprintgraph;
   It will be turned into regular metadata during compilation
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_EditablePinBase.h")
+@:glueCppIncludes("Classes/K2Node_EditablePinBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKismetUserDeclaredFunctionMetadata {
   
   /**

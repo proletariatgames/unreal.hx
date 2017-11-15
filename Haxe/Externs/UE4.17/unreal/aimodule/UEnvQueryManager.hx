@@ -17,7 +17,7 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
 @:uextern @:uclass extern class UEnvQueryManager extends unreal.UObject {
-  @:ufunction static public function RunEQSQuery(WorldContextObject : unreal.UObject, QueryTemplate : unreal.aimodule.UEnvQuery, Querier : unreal.UObject, RunMode : unreal.aimodule.EEnvQueryRunMode, WrapperClass : unreal.TSubclassOf<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>) : unreal.aimodule.UEnvQueryInstanceBlueprintWrapper;
+  @:ufunction(BlueprintCallable) static public function RunEQSQuery(WorldContextObject : unreal.UObject, QueryTemplate : unreal.aimodule.UEnvQuery, Querier : unreal.UObject, RunMode : unreal.aimodule.EEnvQueryRunMode, WrapperClass : unreal.TSubclassOf<unreal.aimodule.UEnvQueryInstanceBlueprintWrapper>) : unreal.aimodule.UEnvQueryInstanceBlueprintWrapper;
   
   /**
     how often (in seconds) we will warn about the number of queries (allows us to catch multiple occurrences in a session)

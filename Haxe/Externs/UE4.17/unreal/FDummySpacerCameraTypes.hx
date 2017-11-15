@@ -18,7 +18,7 @@ package unreal;
   NOTE:
   This code is work in progress - do not use these types until this comment is removed.
 **/
-@:glueCppIncludes("Camera/CameraStackTypes.h")
+@:glueCppIncludes("Classes/Camera/CameraStackTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDummySpacerCameraTypes {
   
 }

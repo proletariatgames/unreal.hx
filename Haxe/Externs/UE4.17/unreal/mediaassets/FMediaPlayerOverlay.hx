@@ -15,7 +15,7 @@
 package unreal.mediaassets;
 
 @:umodule("MediaAssets")
-@:glueCppIncludes("MediaOverlays.h")
+@:glueCppIncludes("Public/MediaOverlays.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMediaPlayerOverlay {
   
   /**

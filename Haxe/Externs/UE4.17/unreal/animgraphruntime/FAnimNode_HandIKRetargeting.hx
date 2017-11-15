@@ -21,7 +21,7 @@ package unreal.animgraphruntime;
   This is used so characters of different proportions can handle the same props.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_HandIKRetargeting.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_HandIKRetargeting.h")
 @:uextern @:ustruct extern class FAnimNode_HandIKRetargeting extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

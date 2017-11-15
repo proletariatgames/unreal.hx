@@ -133,133 +133,133 @@ package unreal.umg;
     as variables, so this allows only the most useful ones to end up being exposed.
   **/
   @:uproperty public var bIsVariable : Bool;
-  @:ufunction @:final public function SetRenderTransform(InTransform : unreal.umg.FWidgetTransform) : Void;
-  @:ufunction @:final public function SetRenderScale(Scale : unreal.FVector2D) : Void;
-  @:ufunction @:final public function SetRenderShear(Shear : unreal.FVector2D) : Void;
-  @:ufunction @:final public function SetRenderAngle(Angle : unreal.Float32) : Void;
-  @:ufunction @:final public function SetRenderTranslation(Translation : unreal.FVector2D) : Void;
-  @:ufunction @:final public function SetRenderTransformPivot(Pivot : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderTransform(InTransform : unreal.umg.FWidgetTransform) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderScale(Scale : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderShear(Shear : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderAngle(Angle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderTranslation(Translation : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderTransformPivot(Pivot : unreal.FVector2D) : Void;
   
   /**
     Gets the current enabled status of the widget
   **/
-  @:ufunction @:thisConst @:final public function GetIsEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetIsEnabled() : Bool;
   
   /**
     Sets the current enabled status of the widget
   **/
-  @:ufunction public function SetIsEnabled(bInIsEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetIsEnabled(bInIsEnabled : Bool) : Void;
   
   /**
     Sets the tooltip text for the widget.
   **/
-  @:ufunction @:final public function SetToolTipText(InToolTipText : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetToolTipText(InToolTipText : unreal.Const<unreal.PRef<unreal.FText>>) : Void;
   
   /**
     Sets a custom widget as the tooltip of the widget.
   **/
-  @:ufunction @:final public function SetToolTip(Widget : unreal.umg.UWidget) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetToolTip(Widget : unreal.umg.UWidget) : Void;
   
   /**
     Sets the cursor to show over the widget.
   **/
-  @:ufunction @:final public function SetCursor(InCursor : unreal.EMouseCursor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCursor(InCursor : unreal.EMouseCursor) : Void;
   
   /**
     Resets the cursor to use on the widget, removing any customization for it.
   **/
-  @:ufunction @:final public function ResetCursor() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResetCursor() : Void;
   
   /**
     @return true if the widget is Visible, HitTestInvisible or SelfHitTestInvisible.
   **/
-  @:ufunction @:thisConst @:final public function IsVisible() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsVisible() : Bool;
   
   /**
     Gets the current visibility of the widget.
   **/
-  @:ufunction @:thisConst @:final public function GetVisibility() : unreal.umg.ESlateVisibility;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetVisibility() : unreal.umg.ESlateVisibility;
   
   /**
     Sets the visibility of the widget.
   **/
-  @:ufunction public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
+  @:ufunction(BlueprintCallable) public function SetVisibility(InVisibility : unreal.umg.ESlateVisibility) : Void;
   
   /**
     Gets the clipping state of this widget.
   **/
-  @:ufunction @:thisConst @:final public function GetClipping() : unreal.slatecore.EWidgetClipping;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetClipping() : unreal.slatecore.EWidgetClipping;
   
   /**
     Sets the clipping state of this widget.
   **/
-  @:ufunction @:final public function SetClipping(InClipping : unreal.slatecore.EWidgetClipping) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetClipping(InClipping : unreal.slatecore.EWidgetClipping) : Void;
   
   /**
     Sets the forced volatility of the widget.
   **/
-  @:ufunction @:final public function ForceVolatile(bForce : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ForceVolatile(bForce : Bool) : Void;
   
   /**
     @return true if the widget is currently being hovered by a pointer device
   **/
-  @:ufunction @:thisConst @:final public function IsHovered() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsHovered() : Bool;
   
   /**
     Checks to see if this widget currently has the keyboard focus
     
     @return  True if this widget has keyboard focus
   **/
-  @:ufunction @:thisConst @:final public function HasKeyboardFocus() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasKeyboardFocus() : Bool;
   
   /**
     Checks to see if this widget is the current mouse captor
     @return  True if this widget has captured the mouse
   **/
-  @:ufunction @:thisConst @:final public function HasMouseCapture() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasMouseCapture() : Bool;
   
   /**
     Sets the focus to this widget.
   **/
-  @:ufunction @:final public function SetKeyboardFocus() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetKeyboardFocus() : Void;
   
   /**
     @return true if this widget is focused by a specific user.
   **/
-  @:ufunction @:thisConst @:final public function HasUserFocus(PlayerController : unreal.APlayerController) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasUserFocus(PlayerController : unreal.APlayerController) : Bool;
   
   /**
     @return true if this widget is focused by any user.
   **/
-  @:ufunction @:thisConst @:final public function HasAnyUserFocus() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasAnyUserFocus() : Bool;
   
   /**
     @return true if any descendant widget is focused by any user.
   **/
-  @:ufunction @:thisConst @:final public function HasFocusedDescendants() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasFocusedDescendants() : Bool;
   
   /**
     @return true if any descendant widget is focused by a specific user.
   **/
-  @:ufunction @:thisConst @:final public function HasUserFocusedDescendants(PlayerController : unreal.APlayerController) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasUserFocusedDescendants(PlayerController : unreal.APlayerController) : Bool;
   
   /**
     Sets the focus to this widget for a specific user
   **/
-  @:ufunction @:final public function SetUserFocus(PlayerController : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUserFocus(PlayerController : unreal.APlayerController) : Void;
   
   /**
     Forces a pre-pass.  A pre-pass caches the desired size of the widget hierarchy owned by this widget.
     One pre-pass is already happens for every widget before Tick occurs.  You only need to perform another
     pre-pass if you are adding child widgets this frame and want them to immediately be visible this frame.
   **/
-  @:ufunction @:final public function ForceLayoutPrepass() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ForceLayoutPrepass() : Void;
   
   /**
     Invalidates the widget from the view of a layout caching widget that may own this widget.
     will force the owning widget to redraw and cache children on the next paint pass.
   **/
-  @:ufunction @:final public function InvalidateLayoutAndVolatility() : Void;
+  @:ufunction(BlueprintCallable) @:final public function InvalidateLayoutAndVolatility() : Void;
   
   /**
     Gets the widgets desired size.
@@ -268,14 +268,14 @@ package unreal.umg;
     
     @return The widget's desired size
   **/
-  @:ufunction @:thisConst @:final public function GetDesiredSize() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDesiredSize() : unreal.FVector2D;
   
   /**
     Sets the widget navigation rules for all directions. This can only be called on widgets that are in a widget tree.
     @param Rule The rule to use when navigation is taking place
     @param WidgetToFocus When using the Explicit rule, focus on this widget
   **/
-  @:ufunction @:final public function SetAllNavigationRules(Rule : unreal.slatecore.EUINavigationRule, WidgetToFocus : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAllNavigationRules(Rule : unreal.slatecore.EUINavigationRule, WidgetToFocus : unreal.FName) : Void;
   
   /**
     Sets the widget navigation rules for a specific direction. This can only be called on widgets that are in a widget tree.
@@ -283,18 +283,18 @@ package unreal.umg;
     @param Rule The rule to use when navigation is taking place
     @param WidgetToFocus When using the Explicit rule, focus on this widget
   **/
-  @:ufunction @:final public function SetNavigationRule(Direction : unreal.slatecore.EUINavigation, Rule : unreal.slatecore.EUINavigationRule, WidgetToFocus : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNavigationRule(Direction : unreal.slatecore.EUINavigation, Rule : unreal.slatecore.EUINavigationRule, WidgetToFocus : unreal.FName) : Void;
   
   /**
     Gets the parent widget
   **/
-  @:ufunction @:thisConst @:final public function GetParent() : unreal.umg.UPanelWidget;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetParent() : unreal.umg.UPanelWidget;
   
   /**
     Removes the widget from its parent widget.  If this widget was added to the player's screen or the viewport
     it will also be removed from those containers.
   **/
-  @:ufunction public function RemoveFromParent() : Void;
+  @:ufunction(BlueprintCallable) public function RemoveFromParent() : Void;
   
   /**
     Gets the last geometry used to Tick the widget.  This data may not exist yet if this call happens prior to
@@ -305,12 +305,12 @@ package unreal.umg;
     or what are referred to as hysteresis problems, both caused by depending on geometry from the previous frame
     being used to advise how to layout a dependent object the current frame.
   **/
-  @:ufunction @:thisConst @:final public function GetCachedGeometry() : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCachedGeometry() : unreal.Const<unreal.PRef<unreal.slatecore.FGeometry>>;
   
   /**
     Gets the player controller associated with this UI.
     @return The player controller that owns the UI.
   **/
-  @:ufunction @:thisConst public function GetOwningPlayer() : unreal.APlayerController;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetOwningPlayer() : unreal.APlayerController;
   
 }

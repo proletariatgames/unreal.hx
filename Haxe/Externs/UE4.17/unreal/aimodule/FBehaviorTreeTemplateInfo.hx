@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/BehaviorTreeManager.h")
+@:glueCppIncludes("Classes/BehaviorTree/BehaviorTreeManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBehaviorTreeTemplateInfo {
   
   /**

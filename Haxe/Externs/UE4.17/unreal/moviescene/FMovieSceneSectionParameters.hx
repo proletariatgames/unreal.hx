@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSectionParameters.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSectionParameters.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSectionParameters {
   @:deprecated @:uproperty public var PostrollTime_DEPRECATED : unreal.Float32;
   @:deprecated @:uproperty public var PrerollTime_DEPRECATED : unreal.Float32;

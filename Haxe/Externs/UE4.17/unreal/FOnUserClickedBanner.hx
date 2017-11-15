@@ -20,5 +20,5 @@ package unreal;
   function, make sure to set it back when switching levels.
   
 **/
-@:glueCppIncludes("Engine/InGameAdManager.h")
+@:glueCppIncludes("Classes/Engine/InGameAdManager.h")
 typedef FOnUserClickedBanner = unreal.DynamicDelegate<FOnUserClickedBanner, Void->Void>;

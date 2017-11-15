@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_RefPose.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_RefPose.h")
 @:uname("ERefPoseType")
 @:uextern @:uenum extern enum ERefPoseType {
   EIT_LocalSpace;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/StaticMeshComponent.h")
+@:glueCppIncludes("Classes/Components/StaticMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStaticMeshComponentLODInfo {
   
   /**

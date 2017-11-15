@@ -18,7 +18,7 @@ package unreal.paper2d;
   The kind of collision that a Paper2D asset or component might participate in
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("SpriteEditorOnlyTypes.h")
+@:glueCppIncludes("Classes/SpriteEditorOnlyTypes.h")
 @:uname("ESpriteCollisionMode.Type")
 @:uextern @:uenum extern enum ESpriteCollisionMode {
   

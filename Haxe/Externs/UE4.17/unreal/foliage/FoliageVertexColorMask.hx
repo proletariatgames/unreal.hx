@@ -15,7 +15,7 @@
 package unreal.foliage;
 
 @:umodule("Foliage")
-@:glueCppIncludes("FoliageType.h")
+@:glueCppIncludes("Public/FoliageType.h")
 @:uname("FoliageVertexColorMask")
 @:uextern @:uenum extern enum FoliageVertexColorMask {
   

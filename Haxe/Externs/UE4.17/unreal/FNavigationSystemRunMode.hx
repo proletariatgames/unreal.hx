@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavigationSystem.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationSystem.h")
 @:uname("FNavigationSystemRunMode")
 @:class @:uextern @:uenum extern enum FNavigationSystemRunMode {
   InvalidMode;

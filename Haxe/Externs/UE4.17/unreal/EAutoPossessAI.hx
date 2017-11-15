@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EAutoPossessAI")
 @:class @:uextern @:uenum extern enum EAutoPossessAI {
   

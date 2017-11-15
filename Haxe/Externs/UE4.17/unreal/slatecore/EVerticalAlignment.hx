@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates vertical alignment options, i.e. for widget slots.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Types/SlateEnums.h")
+@:glueCppIncludes("Public/Types/SlateEnums.h")
 @:uname("EVerticalAlignment")
 @:uextern @:uenum extern enum EVerticalAlignment {
   

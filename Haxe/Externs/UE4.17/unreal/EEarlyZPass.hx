@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates available options for early Z-passes.
 **/
-@:glueCppIncludes("Engine/RendererSettings.h")
+@:glueCppIncludes("Classes/Engine/RendererSettings.h")
 @:uname("EEarlyZPass.Type")
 @:uextern @:uenum extern enum EEarlyZPass {
   

@@ -18,7 +18,7 @@ package unreal.moviescene;
   Enumeration specifying how a movie scene object binding ID relates to the sequence
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneObjectBindingID.h")
+@:glueCppIncludes("Public/MovieSceneObjectBindingID.h")
 @:uname("EMovieSceneObjectBindingSpace")
 @:class @:uextern @:uenum extern enum EMovieSceneObjectBindingSpace {
   

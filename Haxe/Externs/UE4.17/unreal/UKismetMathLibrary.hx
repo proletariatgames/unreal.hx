@@ -20,321 +20,321 @@ package unreal;
   /**
     Returns a uniformly distributed random bool
   **/
-  @:ufunction static public function RandomBool() : Bool;
+  @:ufunction(BlueprintCallable) static public function RandomBool() : Bool;
   
   /**
     Get a random chance with the specified weight. Range of weight is 0.0 - 1.0 E.g.,
                  Weight = .6 return value = True 60% of the time
   **/
-  @:ufunction static public function RandomBoolWithWeight(@:bpopt("0.5") Weight : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function RandomBoolWithWeight(@:bpopt("0.5") Weight : unreal.Float32) : Bool;
   
   /**
     Get a random chance with the specified weight. Range of weight is 0.0 - 1.0 E.g.,
                   Weight = .6 return value = True 60% of the time
   **/
-  @:ufunction static public function RandomBoolWithWeightFromStream(@:bpopt("0.5") Weight : unreal.Float32, RandomStream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function RandomBoolWithWeightFromStream(@:bpopt("0.5") Weight : unreal.Float32, RandomStream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Bool;
   
   /**
     Returns the logical complement of the Boolean value (NOT A)
   **/
-  @:ufunction static public function Not_PreBool(A : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function Not_PreBool(A : Bool) : Bool;
   
   /**
     Returns true if the values are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_BoolBool(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_BoolBool(A : Bool, B : Bool) : Bool;
   
   /**
     Returns true if the values are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_BoolBool(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_BoolBool(A : Bool, B : Bool) : Bool;
   
   /**
     Returns the logical AND of two values (A AND B)
   **/
-  @:ufunction static public function BooleanAND(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BooleanAND(A : Bool, B : Bool) : Bool;
   
   /**
     Returns the logical NAND of two values (A AND B)
   **/
-  @:ufunction static public function BooleanNAND(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BooleanNAND(A : Bool, B : Bool) : Bool;
   
   /**
     Returns the logical OR of two values (A OR B)
   **/
-  @:ufunction static public function BooleanOR(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BooleanOR(A : Bool, B : Bool) : Bool;
   
   /**
     Returns the logical eXclusive OR of two values (A XOR B)
   **/
-  @:ufunction static public function BooleanXOR(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BooleanXOR(A : Bool, B : Bool) : Bool;
   
   /**
     Returns the logical Not OR of two values (A NOR B)
   **/
-  @:ufunction static public function BooleanNOR(A : Bool, B : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BooleanNOR(A : Bool, B : Bool) : Bool;
   
   /**
     Multiplication (A * B)
   **/
-  @:ufunction static public function Multiply_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Multiply_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
   
   /**
     Division (A / B)
   **/
-  @:ufunction static public function Divide_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Divide_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
   
   /**
     Modulo (A % B)
   **/
-  @:ufunction static public function Percent_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Percent_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
   
   /**
     Addition (A + B)
   **/
-  @:ufunction static public function Add_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Add_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Subtract_ByteByte(A : unreal.UInt8, B : unreal.UInt8 = 1) : unreal.UInt8;
   
   /**
     Returns the minimum value of A and B
   **/
-  @:ufunction static public function BMin(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function BMin(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
   
   /**
     Returns the maximum value of A and B
   **/
-  @:ufunction static public function BMax(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function BMax(A : unreal.UInt8, B : unreal.UInt8) : unreal.UInt8;
   
   /**
     Returns true if A is less than B (A < B)
   **/
-  @:ufunction static public function Less_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function Less_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Returns true if A is greater than B (A > B)
   **/
-  @:ufunction static public function Greater_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function Greater_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Returns true if A is less than or equal to B (A <= B)
   **/
-  @:ufunction static public function LessEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function LessEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Returns true if A is greater than or equal to B (A >= B)
   **/
-  @:ufunction static public function GreaterEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function GreaterEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Returns true if A is equal to B (A == B)
   **/
-  @:ufunction static public function EqualEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Returns true if A is not equal to B (A != B)
   **/
-  @:ufunction static public function NotEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_ByteByte(A : unreal.UInt8, B : unreal.UInt8) : Bool;
   
   /**
     Multiplication (A * B)
   **/
-  @:ufunction static public function Multiply_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Multiply_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Division (A / B)
   **/
-  @:ufunction static public function Divide_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Divide_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
   
   /**
     Modulo (A % B)
   **/
-  @:ufunction static public function Percent_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Percent_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
   
   /**
     Addition (A + B)
   **/
-  @:ufunction static public function Add_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Add_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Subtract_IntInt(A : unreal.Int32, B : unreal.Int32 = 1) : unreal.Int32;
   
   /**
     Returns true if A is less than B (A < B)
   **/
-  @:ufunction static public function Less_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function Less_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Returns true if A is greater than B (A > B)
   **/
-  @:ufunction static public function Greater_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function Greater_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Returns true if A is less than or equal to B (A <= B)
   **/
-  @:ufunction static public function LessEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function LessEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Returns true if A is greater than or equal to B (A >= B)
   **/
-  @:ufunction static public function GreaterEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function GreaterEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Returns true if A is equal to B (A == B)
   **/
-  @:ufunction static public function EqualEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Returns true if A is not equal to B (A != B)
   **/
-  @:ufunction static public function NotEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_IntInt(A : unreal.Int32, B : unreal.Int32) : Bool;
   
   /**
     Bitwise AND (A & B)
   **/
-  @:ufunction static public function And_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function And_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Bitwise XOR (A ^ B)
   **/
-  @:ufunction static public function Xor_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Xor_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Bitwise OR (A | B)
   **/
-  @:ufunction static public function Or_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Or_IntInt(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Bitwise NOT (~A)
   **/
-  @:ufunction static public function Not_Int(A : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Not_Int(A : unreal.Int32) : unreal.Int32;
   
   /**
     Sign (integer, returns -1 if A < 0, 0 if A is zero, and +1 if A > 0)
   **/
-  @:ufunction static public function SignOfInteger(A : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function SignOfInteger(A : unreal.Int32) : unreal.Int32;
   
   /**
     Returns a uniformly distributed random number between 0 and Max - 1
   **/
-  @:ufunction static public function RandomInteger(Max : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function RandomInteger(Max : unreal.Int32) : unreal.Int32;
   
   /**
     Return a random integer between Min and Max (>= Min and <= Max)
   **/
-  @:ufunction static public function RandomIntegerInRange(Min : unreal.Int32, Max : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function RandomIntegerInRange(Min : unreal.Int32, Max : unreal.Int32) : unreal.Int32;
   
   /**
     Returns the minimum value of A and B
   **/
-  @:ufunction static public function Min(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Min(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Returns the maximum value of A and B
   **/
-  @:ufunction static public function Max(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Max(A : unreal.Int32, B : unreal.Int32) : unreal.Int32;
   
   /**
     Returns Value clamped to be between A and B (inclusive)
   **/
-  @:ufunction static public function Clamp(Value : unreal.Int32, Min : unreal.Int32, Max : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Clamp(Value : unreal.Int32, Min : unreal.Int32, Max : unreal.Int32) : unreal.Int32;
   
   /**
     Returns the absolute (positive) value of A
   **/
-  @:ufunction static public function Abs_Int(A : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Abs_Int(A : unreal.Int32) : unreal.Int32;
   
   /**
     Power (Base to the Exp-th power)
   **/
-  @:ufunction static public function MultiplyMultiply_FloatFloat(Base : unreal.Float32, Exp : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function MultiplyMultiply_FloatFloat(Base : unreal.Float32, Exp : unreal.Float32) : unreal.Float32;
   
   /**
     Multiplication (A * B)
   **/
-  @:ufunction static public function Multiply_FloatFloat(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Multiply_FloatFloat(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Multiplication (A * B)
   **/
-  @:ufunction static public function Multiply_IntFloat(A : unreal.Int32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Multiply_IntFloat(A : unreal.Int32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Division (A / B)
   **/
-  @:ufunction static public function Divide_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Divide_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Modulo (A % B)
   **/
-  @:ufunction static public function Percent_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Percent_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Returns the fractional part of a float.
   **/
-  @:ufunction static public function Fraction(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Fraction(A : unreal.Float32) : unreal.Float32;
   
   /**
     Addition (A + B)
   **/
-  @:ufunction static public function Add_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Add_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Subtract_FloatFloat(A : unreal.Float32, B : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Returns true if A is Less than B (A < B)
   **/
-  @:ufunction static public function Less_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function Less_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if A is greater than B (A > B)
   **/
-  @:ufunction static public function Greater_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function Greater_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if A is Less than or equal to B (A <= B)
   **/
-  @:ufunction static public function LessEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function LessEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if A is greater than or equal to B (A >= B)
   **/
-  @:ufunction static public function GreaterEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function GreaterEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if A is exactly equal to B (A == B)
   **/
-  @:ufunction static public function EqualEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if A is nearly equal to B (|A - B| < ErrorTolerance)
   **/
-  @:ufunction static public function NearlyEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32, ErrorTolerance : unreal.Float32 = 0.000001) : Bool;
+  @:ufunction(BlueprintCallable) static public function NearlyEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32, ErrorTolerance : unreal.Float32 = 0.000001) : Bool;
   
   /**
     Returns true if A does not equal B (A != B)
   **/
-  @:ufunction static public function NotEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_FloatFloat(A : unreal.Float32, B : unreal.Float32) : Bool;
   
   /**
     Returns true if value is between Min and Max (V >= Min && V <= Max)
            * If InclusiveMin is true, value needs to be equal or larger than Min, else it needs to be larger
            * If InclusiveMax is true, value needs to be smaller or equal than Max, else it needs to be smaller
   **/
-  @:ufunction static public function InRange_FloatFloat(Value : unreal.Float32, @:bpopt("0.0") Min : unreal.Float32, @:bpopt("1.0") Max : unreal.Float32, InclusiveMin : Bool = true, InclusiveMax : Bool = true) : Bool;
+  @:ufunction(BlueprintCallable) static public function InRange_FloatFloat(Value : unreal.Float32, @:bpopt("0.0") Min : unreal.Float32, @:bpopt("1.0") Max : unreal.Float32, InclusiveMin : Bool = true, InclusiveMax : Bool = true) : Bool;
   
   /**
     Returns the hypotenuse of a right-angled triangle given the width and height.
   **/
-  @:ufunction static public function Hypotenuse(Width : unreal.Float32, Height : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Hypotenuse(Width : unreal.Float32, Height : unreal.Float32) : unreal.Float32;
   
   /**
     Snaps a value to the nearest grid multiple. E.g.,
@@ -342,137 +342,137 @@ package unreal;
     If GridSize is 0 Location is returned
     if GridSize is very small precision issues may occur.
   **/
-  @:ufunction static public function GridSnap_Float(Location : unreal.Float32, GridSize : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GridSnap_Float(Location : unreal.Float32, GridSize : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the absolute (positive) value of A
   **/
-  @:ufunction static public function Abs(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Abs(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the sine of A (expects Radians)
   **/
-  @:ufunction static public function Sin(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Sin(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse sine (arcsin) of A (result is in Radians)
   **/
-  @:ufunction static public function Asin(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Asin(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the cosine of A (expects Radians)
   **/
-  @:ufunction static public function Cos(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Cos(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse cosine (arccos) of A (result is in Radians)
   **/
-  @:ufunction static public function Acos(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Acos(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the tan of A (expects Radians)
   **/
-  @:ufunction static public function Tan(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Tan(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse tan (atan) (result is in Radians)
   **/
-  @:ufunction static public function Atan(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Atan(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse tan (atan2) of A/B (result is in Radians)
   **/
-  @:ufunction static public function Atan2(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Atan2(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Returns exponential(e) to the power A (e^A)
   **/
-  @:ufunction static public function Exp(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Exp(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns log of A base B (if B^R == A, returns R)
   **/
-  @:ufunction static public function Log(A : unreal.Float32, Base : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Log(A : unreal.Float32, Base : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Returns natural log of A (if e^R == A, returns R)
   **/
-  @:ufunction static public function Loge(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Loge(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns square root of A
   **/
-  @:ufunction static public function Sqrt(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Sqrt(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns square of A (A*A)
   **/
-  @:ufunction static public function Square(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Square(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns a random float between 0 and 1
   **/
-  @:ufunction static public function RandomFloat() : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RandomFloat() : unreal.Float32;
   
   /**
     Generate a random number between Min and Max
   **/
-  @:ufunction static public function RandomFloatInRange(Min : unreal.Float32, Max : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RandomFloatInRange(Min : unreal.Float32, Max : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the value of PI
   **/
-  @:ufunction static public function GetPI() : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetPI() : unreal.Float32;
   
   /**
     Returns the value of TAU (= 2 * PI)
   **/
-  @:ufunction static public function GetTAU() : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTAU() : unreal.Float32;
   
   /**
     Returns radians value based on the input degrees
   **/
-  @:ufunction static public function DegreesToRadians(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegreesToRadians(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns degrees value based on the input radians
   **/
-  @:ufunction static public function RadiansToDegrees(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RadiansToDegrees(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the sin of A (expects Degrees)
   **/
-  @:ufunction static public function DegSin(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegSin(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse sin (arcsin) of A (result is in Degrees)
   **/
-  @:ufunction static public function DegAsin(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegAsin(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the cos of A (expects Degrees)
   **/
-  @:ufunction static public function DegCos(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegCos(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse cos (arccos) of A (result is in Degrees)
   **/
-  @:ufunction static public function DegAcos(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegAcos(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the tan of A (expects Degrees)
   **/
-  @:ufunction static public function DegTan(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegTan(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse tan (atan) (result is in Degrees)
   **/
-  @:ufunction static public function DegAtan(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegAtan(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the inverse tan (atan2) of A/B (result is in Degrees)
   **/
-  @:ufunction static public function DegAtan2(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DegAtan2(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Clamps an arbitrary angle to be between the given angles.  Will clamp to nearest boundary.
@@ -481,57 +481,57 @@ package unreal;
     @param MaxAngleDegrees       "to" angle that defines the end of the range of valid angles
     @return Returns clamped angle in the range -180..180.
   **/
-  @:ufunction static public function ClampAngle(AngleDegrees : unreal.Float32, MinAngleDegrees : unreal.Float32, MaxAngleDegrees : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function ClampAngle(AngleDegrees : unreal.Float32, MinAngleDegrees : unreal.Float32, MaxAngleDegrees : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the minimum value of A and B
   **/
-  @:ufunction static public function FMin(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FMin(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the maximum value of A and B
   **/
-  @:ufunction static public function FMax(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FMax(A : unreal.Float32, B : unreal.Float32) : unreal.Float32;
   
   /**
     Returns Value clamped between A and B (inclusive)
   **/
-  @:ufunction static public function FClamp(Value : unreal.Float32, @:bpopt("0.0") Min : unreal.Float32, @:bpopt("1.0") Max : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FClamp(Value : unreal.Float32, @:bpopt("0.0") Min : unreal.Float32, @:bpopt("1.0") Max : unreal.Float32) : unreal.Float32;
   
   /**
     Returns max of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MaxOfIntArray(IntArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function MaxOfIntArray(IntArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.Int32) : Void;
   
   /**
     Returns min of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MinOfIntArray(IntArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function MinOfIntArray(IntArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.Int32) : Void;
   
   /**
     Returns max of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MaxOfFloatArray(FloatArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Float32>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function MaxOfFloatArray(FloatArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Float32>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.Float32) : Void;
   
   /**
     Returns min of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MinOfFloatArray(FloatArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Float32>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function MinOfFloatArray(FloatArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.Float32>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.Float32) : Void;
   
   /**
     Returns max of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MaxOfByteArray(ByteArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.UInt8>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.UInt8) : Void;
+  @:ufunction(BlueprintCallable) static public function MaxOfByteArray(ByteArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.UInt8>>>, IndexOfMaxValue : unreal.Int32, MaxValue : unreal.UInt8) : Void;
   
   /**
     Returns min of all array entries and the index at which it was found. Returns value of 0 and index of -1 if the supplied array is empty.
   **/
-  @:ufunction static public function MinOfByteArray(ByteArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.UInt8>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.UInt8) : Void;
+  @:ufunction(BlueprintCallable) static public function MinOfByteArray(ByteArray : unreal.Const<unreal.PRef<unreal.TArray<unreal.UInt8>>>, IndexOfMinValue : unreal.Int32, MinValue : unreal.UInt8) : Void;
   
   /**
     Linearly interpolates between A and B based on Alpha (100% of A when Alpha=0 and 100% of B when Alpha=1)
   **/
-  @:ufunction static public function Lerp(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Lerp(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32) : unreal.Float32;
   
   /**
     Returns the fraction (alpha) of the range B-A that corresponds to Value, e.g.,
@@ -543,72 +543,72 @@ package unreal;
     @param Value A value intended to be normalized relative to B-A
     @return A normalized alpha value considering A and B.
   **/
-  @:ufunction static public function InverseLerp(A : unreal.Float32, B : unreal.Float32, Value : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function InverseLerp(A : unreal.Float32, B : unreal.Float32, Value : unreal.Float32) : unreal.Float32;
   
   /**
     Easeing  between A and B using a specified easing function
   **/
-  @:ufunction static public function Ease(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Ease(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.Float32;
   
   /**
     Rounds A to the nearest integer
   **/
-  @:ufunction static public function Round(A : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Round(A : unreal.Float32) : unreal.Int32;
   
   /**
     Rounds A to the largest previous integer
   **/
-  @:ufunction static public function FFloor(A : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function FFloor(A : unreal.Float32) : unreal.Int32;
   
   /**
     Rounds A to an integer with truncation towards zero.  (e.g. -1.7 truncated to -1, 2.8 truncated to 2)
   **/
-  @:ufunction static public function FTrunc(A : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function FTrunc(A : unreal.Float32) : unreal.Int32;
   
   /**
     Rounds A to an integer with truncation towards zero for each element in a vector.  (e.g. -1.7 truncated to -1, 2.8 truncated to 2)
   **/
-  @:ufunction static public function FTruncVector(InVector : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FIntVector;
+  @:ufunction(BlueprintCallable) static public function FTruncVector(InVector : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FIntVector;
   
   /**
     Rounds A to the smallest following integer
   **/
-  @:ufunction static public function FCeil(A : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function FCeil(A : unreal.Float32) : unreal.Int32;
   
   /**
     Returns the number of times Divisor will go into Dividend (i.e., Dividend divided by Divisor), as well as the remainder
   **/
-  @:ufunction static public function FMod(Dividend : unreal.Float32, Divisor : unreal.Float32, Remainder : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function FMod(Dividend : unreal.Float32, Divisor : unreal.Float32, Remainder : unreal.Float32) : unreal.Int32;
   
   /**
     Sign (float, returns -1 if A < 0, 0 if A is zero, and +1 if A > 0)
   **/
-  @:ufunction static public function SignOfFloat(A : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function SignOfFloat(A : unreal.Float32) : unreal.Float32;
   
   /**
     Returns Value normalized to the given range.  (e.g. 20 normalized to the range 10->50 would result in 0.25)
   **/
-  @:ufunction static public function NormalizeToRange(Value : unreal.Float32, RangeMin : unreal.Float32, RangeMax : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function NormalizeToRange(Value : unreal.Float32, RangeMin : unreal.Float32, RangeMax : unreal.Float32) : unreal.Float32;
   
   /**
     Returns Value mapped from one range into another.  (e.g. 20 normalized from the range 10->50 to 20->40 would result in 25)
   **/
-  @:ufunction static public function MapRangeUnclamped(Value : unreal.Float32, InRangeA : unreal.Float32, InRangeB : unreal.Float32, OutRangeA : unreal.Float32, OutRangeB : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function MapRangeUnclamped(Value : unreal.Float32, InRangeA : unreal.Float32, InRangeB : unreal.Float32, OutRangeA : unreal.Float32, OutRangeB : unreal.Float32) : unreal.Float32;
   
   /**
     Returns Value mapped from one range into another where the Value is clamped to the Input Range.  (e.g. 0.5 normalized from the range 0->1 to 0->50 would result in 25)
   **/
-  @:ufunction static public function MapRangeClamped(Value : unreal.Float32, InRangeA : unreal.Float32, InRangeB : unreal.Float32, OutRangeA : unreal.Float32, OutRangeB : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function MapRangeClamped(Value : unreal.Float32, InRangeA : unreal.Float32, InRangeB : unreal.Float32, OutRangeA : unreal.Float32, OutRangeB : unreal.Float32) : unreal.Float32;
   
   /**
     Multiplies the input value by pi.
   **/
-  @:ufunction static public function MultiplyByPi(Value : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function MultiplyByPi(Value : unreal.Float32) : unreal.Float32;
   
   /**
     Interpolate between A and B, applying an ease in/out function.  Exp controls the degree of the curve.
   **/
-  @:ufunction static public function FInterpEaseInOut(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32, Exponent : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FInterpEaseInOut(A : unreal.Float32, B : unreal.Float32, Alpha : unreal.Float32, Exponent : unreal.Float32) : unreal.Float32;
   
   /**
     Simple function to create a pulsating scalar value
@@ -619,7 +619,7 @@ package unreal;
     
     @return  Pulsating value (0.0-1.0)
   **/
-  @:ufunction static public function MakePulsatingValue(InCurrentTime : unreal.Float32, InPulsesPerSecond : unreal.Float32 = 1.000000, InPhase : unreal.Float32 = 0.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function MakePulsatingValue(InCurrentTime : unreal.Float32, InPulsesPerSecond : unreal.Float32 = 1.000000, InPhase : unreal.Float32 = 0.000000) : unreal.Float32;
   
   /**
     Returns a new rotation component value
@@ -630,169 +630,169 @@ package unreal;
     
     @return a new rotation component value clamped in the range (-360,360)
   **/
-  @:ufunction static public function FixedTurn(InCurrent : unreal.Float32, InDesired : unreal.Float32, InDeltaRate : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FixedTurn(InCurrent : unreal.Float32, InDesired : unreal.Float32, InDeltaRate : unreal.Float32) : unreal.Float32;
   
   /**
     Scales Vector A by B
   **/
-  @:ufunction static public function Multiply_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Multiply_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
   
   /**
     Scales Vector A by B
   **/
-  @:ufunction static public function Multiply_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Multiply_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
   
   /**
     Element-wise Vector multiplication (Result = {A.x*B.x, A.y*B.y, A.z*B.z})
   **/
-  @:ufunction static public function Multiply_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Multiply_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
   
   /**
     Vector divide by a float
   **/
-  @:ufunction static public function Divide_VectorFloat(A : unreal.FVector, B : unreal.Float32 = 1.000000) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Divide_VectorFloat(A : unreal.FVector, B : unreal.Float32 = 1.000000) : unreal.FVector;
   
   /**
     Vector divide by an integer
   **/
-  @:ufunction static public function Divide_VectorInt(A : unreal.FVector, B : unreal.Int32 = 1) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Divide_VectorInt(A : unreal.FVector, B : unreal.Int32 = 1) : unreal.FVector;
   
   /**
     Element-wise Vector division (Result = {A.x/B.x, A.y/B.y, A.z/B.z})
   **/
-  @:ufunction static public function Divide_VectorVector(A : unreal.FVector, @:opt("1.000000,1.000000,1.000000") B : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Divide_VectorVector(A : unreal.FVector, @:opt("1.000000,1.000000,1.000000") B : unreal.FVector) : unreal.FVector;
   
   /**
     Vector addition
   **/
-  @:ufunction static public function Add_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Add_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
   
   /**
     Adds a float to each component of a vector
   **/
-  @:ufunction static public function Add_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Add_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
   
   /**
     Adds an integer to each component of a vector
   **/
-  @:ufunction static public function Add_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Add_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
   
   /**
     Vector subtraction
   **/
-  @:ufunction static public function Subtract_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Subtract_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
   
   /**
     Subtracts a float from each component of a vector
   **/
-  @:ufunction static public function Subtract_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Subtract_VectorFloat(A : unreal.FVector, B : unreal.Float32) : unreal.FVector;
   
   /**
     Subtracts an integer from each component of a vector
   **/
-  @:ufunction static public function Subtract_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Subtract_VectorInt(A : unreal.FVector, B : unreal.Int32) : unreal.FVector;
   
   /**
     Returns result of vector A rotated by the inverse of Rotator B
   **/
-  @:ufunction static public function LessLess_VectorRotator(A : unreal.FVector, B : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function LessLess_VectorRotator(A : unreal.FVector, B : unreal.FRotator) : unreal.FVector;
   
   /**
     Returns result of vector A rotated by Rotator B
   **/
-  @:ufunction static public function GreaterGreater_VectorRotator(A : unreal.FVector, B : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GreaterGreater_VectorRotator(A : unreal.FVector, B : unreal.FRotator) : unreal.FVector;
   
   /**
     Returns result of vector A rotated by AngleDeg around Axis
   **/
-  @:ufunction static public function RotateAngleAxis(InVect : unreal.FVector, AngleDeg : unreal.Float32, Axis : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RotateAngleAxis(InVect : unreal.FVector, AngleDeg : unreal.Float32, Axis : unreal.FVector) : unreal.FVector;
   
   /**
     Returns true if vector A is equal to vector B (A == B) within a specified error tolerance
   **/
-  @:ufunction static public function EqualEqual_VectorVector(A : unreal.FVector, B : unreal.FVector, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_VectorVector(A : unreal.FVector, B : unreal.FVector, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns true if vector A is not equal to vector B (A != B) within a specified error tolerance
   **/
-  @:ufunction static public function NotEqual_VectorVector(A : unreal.FVector, B : unreal.FVector, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_VectorVector(A : unreal.FVector, B : unreal.FVector, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns the dot product of two 3d vectors
   **/
-  @:ufunction static public function Dot_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Dot_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.Float32;
   
   /**
     Returns the cross product of two 3d vectors
   **/
-  @:ufunction static public function Cross_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Cross_VectorVector(A : unreal.FVector, B : unreal.FVector) : unreal.FVector;
   
   /**
     Returns the dot product of two 2d vectors
   **/
-  @:ufunction static public function DotProduct2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function DotProduct2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.Float32;
   
   /**
     Returns the cross product of two 2d vectors
   **/
-  @:ufunction static public function CrossProduct2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function CrossProduct2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.Float32;
   
   /**
     Returns the length of the FVector
   **/
-  @:ufunction static public function VSize(A : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function VSize(A : unreal.FVector) : unreal.Float32;
   
   /**
     Returns the length of a 2d FVector.
   **/
-  @:ufunction static public function VSize2D(A : unreal.FVector2D) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function VSize2D(A : unreal.FVector2D) : unreal.Float32;
   
   /**
     Returns the squared length of the FVector
   **/
-  @:ufunction static public function VSizeSquared(A : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function VSizeSquared(A : unreal.FVector) : unreal.Float32;
   
   /**
     Returns the squared length of a 2d FVector.
   **/
-  @:ufunction static public function VSize2DSquared(A : unreal.FVector2D) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function VSize2DSquared(A : unreal.FVector2D) : unreal.Float32;
   
   /**
     Returns a unit normal version of the FVector A
   **/
-  @:ufunction static public function Normal(A : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Normal(A : unreal.FVector) : unreal.FVector;
   
   /**
     Returns a unit normal version of the vector2d A
   **/
-  @:ufunction static public function Normal2D(A : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Normal2D(A : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Linearly interpolates between A and B based on Alpha (100% of A when Alpha=0 and 100% of B when Alpha=1)
   **/
-  @:ufunction static public function VLerp(A : unreal.FVector, B : unreal.FVector, Alpha : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function VLerp(A : unreal.FVector, B : unreal.FVector, Alpha : unreal.Float32) : unreal.FVector;
   
   /**
     Easeing  between A and B using a specified easing function
   **/
-  @:ufunction static public function VEase(A : unreal.FVector, B : unreal.FVector, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function VEase(A : unreal.FVector, B : unreal.FVector, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FVector;
   
   /**
     Returns a random vector with length of 1
   **/
-  @:ufunction static public function RandomUnitVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomUnitVector() : unreal.FVector;
   
   /**
     Returns a random point within the specified bounding box
   **/
-  @:ufunction static public function RandomPointInBoundingBox(Origin : unreal.Const<unreal.PRef<unreal.FVector>>, BoxExtent : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomPointInBoundingBox(Origin : unreal.Const<unreal.PRef<unreal.FVector>>, BoxExtent : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FVector;
   
   /**
     Returns a random vector with length of 1, within the specified cone, with uniform random distribution.
     @param ConeDir       The base "center" direction of the cone.
     @param ConeHalfAngle         The half-angle of the cone (from ConeDir to edge), in radians.
   **/
-  @:ufunction static public function RandomUnitVectorInCone(ConeDir : unreal.FVector, ConeHalfAngle : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomUnitVectorInCone(ConeDir : unreal.FVector, ConeHalfAngle : unreal.Float32) : unreal.FVector;
   
   /**
     RandomUnitVectorWithYawAndPitch
@@ -800,12 +800,12 @@ package unreal;
     @param MaxYaw - The Yaw-angle of the cone (from ConeDir to horizontal-edge), in degrees.
     @param MaxPitch - The Pitch-angle of the cone (from ConeDir to vertical-edge), in degrees.
   **/
-  @:ufunction static public function RandomUnitVectorInConeWithYawAndPitch(ConeDir : unreal.FVector, MaxYawInDegrees : unreal.Float32, MaxPitchInDegrees : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomUnitVectorInConeWithYawAndPitch(ConeDir : unreal.FVector, MaxYawInDegrees : unreal.Float32, MaxPitchInDegrees : unreal.Float32) : unreal.FVector;
   
   /**
     Mirrors a vector by a normal
   **/
-  @:ufunction static public function MirrorVectorByNormal(InVect : unreal.FVector, InNormal : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function MirrorVectorByNormal(InVect : unreal.FVector, InNormal : unreal.FVector) : unreal.FVector;
   
   /**
     Projects one vector (V) onto another (Target) and returns the projected vector.
@@ -815,7 +815,7 @@ package unreal;
     @param  Target Vector on which we are projecting.
     @return V projected on to Target.
   **/
-  @:ufunction static public function ProjectVectorOnToVector(V : unreal.FVector, Target : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function ProjectVectorOnToVector(V : unreal.FVector, Target : unreal.FVector) : unreal.FVector;
   
   /**
     Given a direction vector and a surface normal, returns the vector reflected across the surface normal.
@@ -826,7 +826,7 @@ package unreal;
     
     @returns Reflected vector.
   **/
-  @:ufunction static public function GetReflectionVector(Direction : unreal.FVector, SurfaceNormal : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetReflectionVector(Direction : unreal.FVector, SurfaceNormal : unreal.FVector) : unreal.FVector;
   
   /**
     Find closest points between 2 segments.
@@ -838,7 +838,7 @@ package unreal;
     @param       Segment1Point   Closest point on segment 1 to segment 2.
     @param       Segment2Point   Closest point on segment 2 to segment 1.
   **/
-  @:ufunction static public function FindNearestPointsOnLineSegments(Segment1Start : unreal.FVector, Segment1End : unreal.FVector, Segment2Start : unreal.FVector, Segment2End : unreal.FVector, Segment1Point : unreal.PRef<unreal.FVector>, Segment2Point : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function FindNearestPointsOnLineSegments(Segment1Start : unreal.FVector, Segment1End : unreal.FVector, Segment2Start : unreal.FVector, Segment2End : unreal.FVector, Segment1Point : unreal.PRef<unreal.FVector>, Segment2Point : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Find the closest point on a segment to a given point.
@@ -848,7 +848,7 @@ package unreal;
     @param SegmentEnd    End of the segment.
     @return The closest point on the segment to the given point.
   **/
-  @:ufunction static public function FindClosestPointOnSegment(Point : unreal.FVector, SegmentStart : unreal.FVector, SegmentEnd : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function FindClosestPointOnSegment(Point : unreal.FVector, SegmentStart : unreal.FVector, SegmentEnd : unreal.FVector) : unreal.FVector;
   
   /**
     Find the closest point on an infinite line to a given point.
@@ -858,7 +858,7 @@ package unreal;
     @param LineDirection Direction of the line. Not required to be normalized.
     @return The closest point on the line to the given point.
   **/
-  @:ufunction static public function FindClosestPointOnLine(Point : unreal.FVector, LineOrigin : unreal.FVector, LineDirection : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function FindClosestPointOnLine(Point : unreal.FVector, LineOrigin : unreal.FVector, LineDirection : unreal.FVector) : unreal.FVector;
   
   /**
     Find the distance from a point to the closest point on a segment.
@@ -868,7 +868,7 @@ package unreal;
     @param SegmentEnd             End of the segment.
     @return The distance from the given point to the closest point on the segment.
   **/
-  @:ufunction static public function GetPointDistanceToSegment(Point : unreal.FVector, SegmentStart : unreal.FVector, SegmentEnd : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetPointDistanceToSegment(Point : unreal.FVector, SegmentStart : unreal.FVector, SegmentEnd : unreal.FVector) : unreal.Float32;
   
   /**
     Find the distance from a point to the closest point on an infinite line.
@@ -878,7 +878,7 @@ package unreal;
     @param LineDirection  Direction of the line. Not required to be normalized.
     @return The distance from the given point to the closest point on the line.
   **/
-  @:ufunction static public function GetPointDistanceToLine(Point : unreal.FVector, LineOrigin : unreal.FVector, LineDirection : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetPointDistanceToLine(Point : unreal.FVector, LineOrigin : unreal.FVector, LineDirection : unreal.FVector) : unreal.Float32;
   
   /**
     Projects a point onto a plane defined by a point on the plane and a plane normal.
@@ -888,7 +888,7 @@ package unreal;
     @param  PlaneNormal Normal of the plane.
     @return Point projected onto the plane.
   **/
-  @:ufunction static public function ProjectPointOnToPlane(Point : unreal.FVector, PlaneBase : unreal.FVector, PlaneNormal : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function ProjectPointOnToPlane(Point : unreal.FVector, PlaneBase : unreal.FVector, PlaneNormal : unreal.FVector) : unreal.FVector;
   
   /**
     Projects a vector onto a plane defined by a normalized vector (PlaneNormal).
@@ -897,97 +897,97 @@ package unreal;
     @param  PlaneNormal Normal of the plane.
     @return Vector projected onto the plane.
   **/
-  @:ufunction static public function ProjectVectorOnToPlane(V : unreal.FVector, PlaneNormal : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function ProjectVectorOnToPlane(V : unreal.FVector, PlaneNormal : unreal.FVector) : unreal.FVector;
   
   /**
     Negate a vector.
   **/
-  @:ufunction static public function NegateVector(A : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function NegateVector(A : unreal.FVector) : unreal.FVector;
   
   /**
     Clamp the vector size between a min and max length
   **/
-  @:ufunction static public function ClampVectorSize(A : unreal.FVector, Min : unreal.Float32, Max : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function ClampVectorSize(A : unreal.FVector, Min : unreal.Float32, Max : unreal.Float32) : unreal.FVector;
   
   /**
     Find the minimum element (X, Y or Z) of a vector
   **/
-  @:ufunction static public function GetMinElement(A : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetMinElement(A : unreal.FVector) : unreal.Float32;
   
   /**
     Find the maximum element (X, Y or Z) of a vector
   **/
-  @:ufunction static public function GetMaxElement(A : unreal.FVector) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetMaxElement(A : unreal.FVector) : unreal.Float32;
   
   /**
     Find the average of an array of vectors
   **/
-  @:ufunction static public function GetVectorArrayAverage(Vectors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetVectorArrayAverage(Vectors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : unreal.FVector;
   
   /**
     Find the unit direction vector from one position to another.
   **/
-  @:ufunction static public function GetDirectionUnitVector(From : unreal.FVector, To : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetDirectionUnitVector(From : unreal.FVector, To : unreal.FVector) : unreal.FVector;
   
   /**
     Returns true if rotator A is equal to rotator B (A == B) within a specified error tolerance
   **/
-  @:ufunction static public function EqualEqual_RotatorRotator(A : unreal.FRotator, B : unreal.FRotator, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_RotatorRotator(A : unreal.FRotator, B : unreal.FRotator, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns true if rotator A is not equal to rotator B (A != B) within a specified error tolerance
   **/
-  @:ufunction static public function NotEqual_RotatorRotator(A : unreal.FRotator, B : unreal.FRotator, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_RotatorRotator(A : unreal.FRotator, B : unreal.FRotator, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns rotator representing rotator A scaled by B
   **/
-  @:ufunction static public function Multiply_RotatorFloat(A : unreal.FRotator, B : unreal.Float32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function Multiply_RotatorFloat(A : unreal.FRotator, B : unreal.Float32) : unreal.FRotator;
   
   /**
     Returns rotator representing rotator A scaled by B
   **/
-  @:ufunction static public function Multiply_RotatorInt(A : unreal.FRotator, B : unreal.Int32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function Multiply_RotatorInt(A : unreal.FRotator, B : unreal.Int32) : unreal.FRotator;
   
   /**
     Combine 2 rotations to give you the resulting rotation
   **/
-  @:ufunction static public function ComposeRotators(A : unreal.FRotator, B : unreal.FRotator) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function ComposeRotators(A : unreal.FRotator, B : unreal.FRotator) : unreal.FRotator;
   
   /**
     Negate a rotator
   **/
-  @:ufunction static public function NegateRotator(A : unreal.FRotator) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function NegateRotator(A : unreal.FRotator) : unreal.FRotator;
   
   /**
     Get the reference frame direction vectors (axes) described by this rotation
   **/
-  @:ufunction static public function GetAxes(A : unreal.FRotator, X : unreal.PRef<unreal.FVector>, Y : unreal.PRef<unreal.FVector>, Z : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetAxes(A : unreal.FRotator, X : unreal.PRef<unreal.FVector>, Y : unreal.PRef<unreal.FVector>, Z : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Generates a random rotation, with optional random roll.
   **/
-  @:ufunction static public function RandomRotator(bRoll : Bool = false) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RandomRotator(bRoll : Bool = false) : unreal.FRotator;
   
   /**
     Linearly interpolates between A and B based on Alpha (100% of A when Alpha=0 and 100% of B when Alpha=1)
   **/
-  @:ufunction static public function RLerp(A : unreal.FRotator, B : unreal.FRotator, Alpha : unreal.Float32, bShortestPath : Bool) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RLerp(A : unreal.FRotator, B : unreal.FRotator, Alpha : unreal.Float32, bShortestPath : Bool) : unreal.FRotator;
   
   /**
     Easeing  between A and B using a specified easing function
   **/
-  @:ufunction static public function REase(A : unreal.FRotator, B : unreal.FRotator, Alpha : unreal.Float32, bShortestPath : Bool, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function REase(A : unreal.FRotator, B : unreal.FRotator, Alpha : unreal.Float32, bShortestPath : Bool, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FRotator;
   
   /**
     Normalized A-B
   **/
-  @:ufunction static public function NormalizedDeltaRotator(A : unreal.FRotator, B : unreal.FRotator) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function NormalizedDeltaRotator(A : unreal.FRotator, B : unreal.FRotator) : unreal.FRotator;
   
   /**
     Create a rotation from an axis and and angle (in degrees)
   **/
-  @:ufunction static public function RotatorFromAxisAndAngle(Axis : unreal.FVector, Angle : unreal.Float32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RotatorFromAxisAndAngle(Axis : unreal.FVector, Angle : unreal.Float32) : unreal.FRotator;
   
   /**
     Clamps an angle to the range of [0, 360].
@@ -995,7 +995,7 @@ package unreal;
     @param Angle The angle to clamp.
     @return The clamped angle.
   **/
-  @:ufunction static public function ClampAxis(Angle : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function ClampAxis(Angle : unreal.Float32) : unreal.Float32;
   
   /**
     Clamps an angle to the range of [-180, 180].
@@ -1003,12 +1003,12 @@ package unreal;
     @param Angle The Angle to clamp.
     @return The clamped angle.
   **/
-  @:ufunction static public function NormalizeAxis(Angle : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function NormalizeAxis(Angle : unreal.Float32) : unreal.Float32;
   
   /**
     Linearly interpolates between A and B based on Alpha (100% of A when Alpha=0 and 100% of B when Alpha=1)
   **/
-  @:ufunction static public function LinearColorLerp(A : unreal.FLinearColor, B : unreal.FLinearColor, Alpha : unreal.Float32) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function LinearColorLerp(A : unreal.FLinearColor, B : unreal.FLinearColor, Alpha : unreal.Float32) : unreal.FLinearColor;
   
   /**
     Linearly interpolates between two colors by the specified Alpha amount (100% of A when Alpha=0 and 100% of B when Alpha=1).  The interpolation is performed in HSV color space taking the shortest path to the new color's hue.  This can give better results than a normal lerp, but is much more expensive.  The incoming colors are in RGB space, and the output color will be RGB.  The alpha value will also be interpolated.
@@ -1019,17 +1019,17 @@ package unreal;
     
     @return      The interpolated color in linear RGB space along with the interpolated alpha value
   **/
-  @:ufunction static public function LinearColorLerpUsingHSV(A : unreal.FLinearColor, B : unreal.FLinearColor, Alpha : unreal.Float32) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function LinearColorLerpUsingHSV(A : unreal.FLinearColor, B : unreal.FLinearColor, Alpha : unreal.Float32) : unreal.FLinearColor;
   
   /**
     Element-wise multiplication of two linear colors (R*R, G*G, B*B, A*A)
   **/
-  @:ufunction static public function Multiply_LinearColorLinearColor(A : unreal.FLinearColor, B : unreal.FLinearColor) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function Multiply_LinearColorLinearColor(A : unreal.FLinearColor, B : unreal.FLinearColor) : unreal.FLinearColor;
   
   /**
     Element-wise multiplication of a linear color by a float (F*R, F*G, F*B, F*A)
   **/
-  @:ufunction static public function Multiply_LinearColorFloat(A : unreal.FLinearColor, B : unreal.Float32) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function Multiply_LinearColorFloat(A : unreal.FLinearColor, B : unreal.Float32) : unreal.FLinearColor;
   
   /**
     Creates a plane with a facing direction of Normal at the given Point
@@ -1038,682 +1038,682 @@ package unreal;
     @param Normal  The Normal of the plane at Point
     @return Plane instance
   **/
-  @:ufunction static public function MakePlaneFromPointAndNormal(Point : unreal.FVector, Normal : unreal.FVector) : unreal.FPlane;
+  @:ufunction(BlueprintCallable) static public function MakePlaneFromPointAndNormal(Point : unreal.FVector, Normal : unreal.FVector) : unreal.FPlane;
   
   /**
     Makes a DateTime struct
   **/
-  @:ufunction static public function MakeDateTime(Year : unreal.Int32, Month : unreal.Int32, Day : unreal.Int32, Hour : unreal.Int32 = 0, Minute : unreal.Int32 = 0, Second : unreal.Int32 = 0, Millisecond : unreal.Int32 = 0) : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function MakeDateTime(Year : unreal.Int32, Month : unreal.Int32, Day : unreal.Int32, Hour : unreal.Int32 = 0, Minute : unreal.Int32 = 0, Second : unreal.Int32 = 0, Millisecond : unreal.Int32 = 0) : unreal.FDateTime;
   
   /**
     Breaks a DateTime into its components
   **/
-  @:ufunction static public function BreakDateTime(InDateTime : unreal.FDateTime, Year : unreal.Int32, Month : unreal.Int32, Day : unreal.Int32, Hour : unreal.Int32, Minute : unreal.Int32, Second : unreal.Int32, Millisecond : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakDateTime(InDateTime : unreal.FDateTime, Year : unreal.Int32, Month : unreal.Int32, Day : unreal.Int32, Hour : unreal.Int32, Minute : unreal.Int32, Second : unreal.Int32, Millisecond : unreal.Int32) : Void;
   
   /**
     Addition (A + B)
   **/
-  @:ufunction static public function Add_DateTimeTimespan(A : unreal.FDateTime, B : unreal.FTimespan) : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function Add_DateTimeTimespan(A : unreal.FDateTime, B : unreal.FTimespan) : unreal.FDateTime;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_DateTimeTimespan(A : unreal.FDateTime, B : unreal.FTimespan) : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function Subtract_DateTimeTimespan(A : unreal.FDateTime, B : unreal.FTimespan) : unreal.FDateTime;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function Subtract_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : unreal.FTimespan;
   
   /**
     Returns true if the values are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns true if the values are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns true if A is greater than B (A > B)
   **/
-  @:ufunction static public function Greater_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function Greater_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns true if A is greater than or equal to B (A >= B)
   **/
-  @:ufunction static public function GreaterEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function GreaterEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns true if A is less than B (A < B)
   **/
-  @:ufunction static public function Less_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function Less_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns true if A is less than or equal to B (A <= B)
   **/
-  @:ufunction static public function LessEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function LessEqual_DateTimeDateTime(A : unreal.FDateTime, B : unreal.FDateTime) : Bool;
   
   /**
     Returns the date component of A
   **/
-  @:ufunction static public function GetDate(A : unreal.FDateTime) : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function GetDate(A : unreal.FDateTime) : unreal.FDateTime;
   
   /**
     Returns the day component of A (1 to 31)
   **/
-  @:ufunction static public function GetDay(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetDay(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the day of year of A
   **/
-  @:ufunction static public function GetDayOfYear(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetDayOfYear(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the hour component of A (24h format)
   **/
-  @:ufunction static public function GetHour(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetHour(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the hour component of A (12h format)
   **/
-  @:ufunction static public function GetHour12(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetHour12(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the millisecond component of A
   **/
-  @:ufunction static public function GetMillisecond(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetMillisecond(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the minute component of A
   **/
-  @:ufunction static public function GetMinute(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetMinute(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the month component of A
   **/
-  @:ufunction static public function GetMonth(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetMonth(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the second component of A
   **/
-  @:ufunction static public function GetSecond(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetSecond(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns the time elapsed since midnight of A
   **/
-  @:ufunction static public function GetTimeOfDay(A : unreal.FDateTime) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function GetTimeOfDay(A : unreal.FDateTime) : unreal.FTimespan;
   
   /**
     Returns the year component of A
   **/
-  @:ufunction static public function GetYear(A : unreal.FDateTime) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetYear(A : unreal.FDateTime) : unreal.Int32;
   
   /**
     Returns whether A's time is in the afternoon
   **/
-  @:ufunction static public function IsAfternoon(A : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsAfternoon(A : unreal.FDateTime) : Bool;
   
   /**
     Returns whether A's time is in the morning
   **/
-  @:ufunction static public function IsMorning(A : unreal.FDateTime) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsMorning(A : unreal.FDateTime) : Bool;
   
   /**
     Returns the number of days in the given year and month
   **/
-  @:ufunction static public function DaysInMonth(Year : unreal.Int32, Month : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function DaysInMonth(Year : unreal.Int32, Month : unreal.Int32) : unreal.Int32;
   
   /**
     Returns the number of days in the given year
   **/
-  @:ufunction static public function DaysInYear(Year : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function DaysInYear(Year : unreal.Int32) : unreal.Int32;
   
   /**
     Returns whether given year is a leap year
   **/
-  @:ufunction static public function IsLeapYear(Year : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsLeapYear(Year : unreal.Int32) : Bool;
   
   /**
     Returns the maximum date and time value
   **/
-  @:ufunction static public function DateTimeMaxValue() : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function DateTimeMaxValue() : unreal.FDateTime;
   
   /**
     Returns the minimum date and time value
   **/
-  @:ufunction static public function DateTimeMinValue() : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function DateTimeMinValue() : unreal.FDateTime;
   
   /**
     Returns the local date and time on this computer
   **/
-  @:ufunction static public function Now() : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function Now() : unreal.FDateTime;
   
   /**
     Returns the local date on this computer
   **/
-  @:ufunction static public function Today() : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function Today() : unreal.FDateTime;
   
   /**
     Returns the UTC date and time on this computer
   **/
-  @:ufunction static public function UtcNow() : unreal.FDateTime;
+  @:ufunction(BlueprintCallable) static public function UtcNow() : unreal.FDateTime;
   
   /**
     Converts a date string in ISO-8601 format to a DateTime object
   **/
-  @:ufunction static public function DateTimeFromIsoString(IsoString : unreal.FString, Result : unreal.PRef<unreal.FDateTime>) : Bool;
+  @:ufunction(BlueprintCallable) static public function DateTimeFromIsoString(IsoString : unreal.FString, Result : unreal.PRef<unreal.FDateTime>) : Bool;
   
   /**
     Converts a date string to a DateTime object
   **/
-  @:ufunction static public function DateTimeFromString(DateTimeString : unreal.FString, Result : unreal.PRef<unreal.FDateTime>) : Bool;
+  @:ufunction(BlueprintCallable) static public function DateTimeFromString(DateTimeString : unreal.FString, Result : unreal.PRef<unreal.FDateTime>) : Bool;
   
   /**
     Makes a Timespan struct
   **/
-  @:ufunction static public function MakeTimespan(Days : unreal.Int32, Hours : unreal.Int32, Minutes : unreal.Int32, Seconds : unreal.Int32, Milliseconds : unreal.Int32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function MakeTimespan(Days : unreal.Int32, Hours : unreal.Int32, Minutes : unreal.Int32, Seconds : unreal.Int32, Milliseconds : unreal.Int32) : unreal.FTimespan;
   
   /**
     Breaks a Timespan into its components
   **/
-  @:ufunction static public function BreakTimespan(InTimespan : unreal.FTimespan, Days : unreal.Int32, Hours : unreal.Int32, Minutes : unreal.Int32, Seconds : unreal.Int32, Milliseconds : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakTimespan(InTimespan : unreal.FTimespan, Days : unreal.Int32, Hours : unreal.Int32, Minutes : unreal.Int32, Seconds : unreal.Int32, Milliseconds : unreal.Int32) : Void;
   
   /**
     Addition (A + B)
   **/
-  @:ufunction static public function Add_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function Add_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.FTimespan;
   
   /**
     Subtraction (A - B)
   **/
-  @:ufunction static public function Subtract_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function Subtract_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.FTimespan;
   
   /**
     Scalar multiplication (A * s)
   **/
-  @:ufunction static public function Multiply_TimespanFloat(A : unreal.FTimespan, Scalar : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function Multiply_TimespanFloat(A : unreal.FTimespan, Scalar : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns true if the values are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns true if the values are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns true if A is greater than B (A > B)
   **/
-  @:ufunction static public function Greater_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function Greater_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns true if A is greater than or equal to B (A >= B)
   **/
-  @:ufunction static public function GreaterEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function GreaterEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns true if A is less than B (A < B)
   **/
-  @:ufunction static public function Less_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function Less_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns true if A is less than or equal to B (A <= B)
   **/
-  @:ufunction static public function LessEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
+  @:ufunction(BlueprintCallable) static public function LessEqual_TimespanTimespan(A : unreal.FTimespan, B : unreal.FTimespan) : Bool;
   
   /**
     Returns the days component of A
   **/
-  @:ufunction static public function GetDays(A : unreal.FTimespan) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetDays(A : unreal.FTimespan) : unreal.Int32;
   
   /**
     Returns the absolute value of A
   **/
-  @:ufunction static public function GetDuration(A : unreal.FTimespan) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function GetDuration(A : unreal.FTimespan) : unreal.FTimespan;
   
   /**
     Returns the hours component of A
   **/
-  @:ufunction static public function GetHours(A : unreal.FTimespan) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetHours(A : unreal.FTimespan) : unreal.Int32;
   
   /**
     Returns the milliseconds component of A
   **/
-  @:ufunction static public function GetMilliseconds(A : unreal.FTimespan) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetMilliseconds(A : unreal.FTimespan) : unreal.Int32;
   
   /**
     Returns the minutes component of A
   **/
-  @:ufunction static public function GetMinutes(A : unreal.FTimespan) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetMinutes(A : unreal.FTimespan) : unreal.Int32;
   
   /**
     Returns the seconds component of A
   **/
-  @:ufunction static public function GetSeconds(A : unreal.FTimespan) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetSeconds(A : unreal.FTimespan) : unreal.Int32;
   
   /**
     Returns the total number of days in A
   **/
-  @:ufunction static public function GetTotalDays(A : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTotalDays(A : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns the total number of hours in A
   **/
-  @:ufunction static public function GetTotalHours(A : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTotalHours(A : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns the total number of milliseconds in A
   **/
-  @:ufunction static public function GetTotalMilliseconds(A : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTotalMilliseconds(A : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns the total number of minutes in A
   **/
-  @:ufunction static public function GetTotalMinutes(A : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTotalMinutes(A : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns the total number of seconds in A
   **/
-  @:ufunction static public function GetTotalSeconds(A : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTotalSeconds(A : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns a time span that represents the specified number of days
   **/
-  @:ufunction static public function FromDays(Days : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function FromDays(Days : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns a time span that represents the specified number of hours
   **/
-  @:ufunction static public function FromHours(Hours : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function FromHours(Hours : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns a time span that represents the specified number of milliseconds
   **/
-  @:ufunction static public function FromMilliseconds(Milliseconds : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function FromMilliseconds(Milliseconds : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns a time span that represents the specified number of minutes
   **/
-  @:ufunction static public function FromMinutes(Minutes : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function FromMinutes(Minutes : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns a time span that represents the specified number of seconds
   **/
-  @:ufunction static public function FromSeconds(Seconds : unreal.Float32) : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function FromSeconds(Seconds : unreal.Float32) : unreal.FTimespan;
   
   /**
     Returns the maximum time span value
   **/
-  @:ufunction static public function TimespanMaxValue() : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function TimespanMaxValue() : unreal.FTimespan;
   
   /**
     Returns the minimum time span value
   **/
-  @:ufunction static public function TimespanMinValue() : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function TimespanMinValue() : unreal.FTimespan;
   
   /**
     Returns the ratio between two time spans (A / B), handles zero values
   **/
-  @:ufunction static public function TimespanRatio(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function TimespanRatio(A : unreal.FTimespan, B : unreal.FTimespan) : unreal.Float32;
   
   /**
     Returns a zero time span value
   **/
-  @:ufunction static public function TimespanZeroValue() : unreal.FTimespan;
+  @:ufunction(BlueprintCallable) static public function TimespanZeroValue() : unreal.FTimespan;
   
   /**
     Converts a time span string to a Timespan object
   **/
-  @:ufunction static public function TimespanFromString(TimespanString : unreal.FString, Result : unreal.PRef<unreal.FTimespan>) : Bool;
+  @:ufunction(BlueprintCallable) static public function TimespanFromString(TimespanString : unreal.FString, Result : unreal.PRef<unreal.FTimespan>) : Bool;
   
   /**
     Converts a byte to a float
   **/
-  @:ufunction static public function Conv_ByteToFloat(InByte : unreal.UInt8) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Conv_ByteToFloat(InByte : unreal.UInt8) : unreal.Float32;
   
   /**
     Converts an integer to a float
   **/
-  @:ufunction static public function Conv_IntToFloat(InInt : unreal.Int32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Conv_IntToFloat(InInt : unreal.Int32) : unreal.Float32;
   
   /**
     Converts an integer to a byte (if the integer is too large, returns the low 8 bits)
   **/
-  @:ufunction static public function Conv_IntToByte(InInt : unreal.Int32) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Conv_IntToByte(InInt : unreal.Int32) : unreal.UInt8;
   
   /**
     Converts an integer to an IntVector
   **/
-  @:ufunction static public function Conv_IntToIntVector(InInt : unreal.Int32) : unreal.FIntVector;
+  @:ufunction(BlueprintCallable) static public function Conv_IntToIntVector(InInt : unreal.Int32) : unreal.FIntVector;
   
   /**
     Converts a int to a bool
   **/
-  @:ufunction static public function Conv_IntToBool(InInt : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function Conv_IntToBool(InInt : unreal.Int32) : Bool;
   
   /**
     Converts a bool to an int
   **/
-  @:ufunction static public function Conv_BoolToInt(InBool : Bool) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Conv_BoolToInt(InBool : Bool) : unreal.Int32;
   
   /**
     Converts a bool to a float (0.0f or 1.0f)
   **/
-  @:ufunction static public function Conv_BoolToFloat(InBool : Bool) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function Conv_BoolToFloat(InBool : Bool) : unreal.Float32;
   
   /**
     Converts a bool to a byte
   **/
-  @:ufunction static public function Conv_BoolToByte(InBool : Bool) : unreal.UInt8;
+  @:ufunction(BlueprintCallable) static public function Conv_BoolToByte(InBool : Bool) : unreal.UInt8;
   
   /**
     Converts a byte to an integer
   **/
-  @:ufunction static public function Conv_ByteToInt(InByte : unreal.UInt8) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function Conv_ByteToInt(InByte : unreal.UInt8) : unreal.Int32;
   
   /**
     Converts a vector to LinearColor
   **/
-  @:ufunction static public function Conv_VectorToLinearColor(InVec : unreal.FVector) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function Conv_VectorToLinearColor(InVec : unreal.FVector) : unreal.FLinearColor;
   
   /**
     Converts a LinearColor to a vector
   **/
-  @:ufunction static public function Conv_LinearColorToVector(InLinearColor : unreal.FLinearColor) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Conv_LinearColorToVector(InLinearColor : unreal.FLinearColor) : unreal.FVector;
   
   /**
     Converts a color to LinearColor
   **/
-  @:ufunction static public function Conv_ColorToLinearColor(InColor : unreal.FColor) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function Conv_ColorToLinearColor(InColor : unreal.FColor) : unreal.FLinearColor;
   
   /**
     Converts a LinearColor to a color
   **/
-  @:ufunction static public function Conv_LinearColorToColor(InLinearColor : unreal.FLinearColor) : unreal.FColor;
+  @:ufunction(BlueprintCallable) static public function Conv_LinearColorToColor(InLinearColor : unreal.FLinearColor) : unreal.FColor;
   
   /**
     Convert a vector to a transform. Uses vector as location
   **/
-  @:ufunction static public function Conv_VectorToTransform(InLocation : unreal.FVector) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function Conv_VectorToTransform(InLocation : unreal.FVector) : unreal.FTransform;
   
   /**
     Convert a Vector to a Vector2D
   **/
-  @:ufunction static public function Conv_VectorToVector2D(InVector : unreal.FVector) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Conv_VectorToVector2D(InVector : unreal.FVector) : unreal.FVector2D;
   
   /**
     Convert a Vector2D to a Vector
   **/
-  @:ufunction static public function Conv_Vector2DToVector(InVector2D : unreal.FVector2D, Z : unreal.Float32 = 0.000000) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Conv_Vector2DToVector(InVector2D : unreal.FVector2D, Z : unreal.Float32 = 0.000000) : unreal.FVector;
   
   /**
     Convert an IntVector to a vector
   **/
-  @:ufunction static public function Conv_IntVectorToVector(InIntVector : unreal.Const<unreal.PRef<unreal.FIntVector>>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Conv_IntVectorToVector(InIntVector : unreal.Const<unreal.PRef<unreal.FIntVector>>) : unreal.FVector;
   
   /**
     Convert a float into a vector, where each element is that float
   **/
-  @:ufunction static public function Conv_FloatToVector(InFloat : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Conv_FloatToVector(InFloat : unreal.Float32) : unreal.FVector;
   
   /**
     Convert a float into a LinearColor, where each element is that float
   **/
-  @:ufunction static public function Conv_FloatToLinearColor(InFloat : unreal.Float32) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function Conv_FloatToLinearColor(InFloat : unreal.Float32) : unreal.FLinearColor;
   
   /**
     Makes an FBox from Min and Max and sets IsValid to true
   **/
-  @:ufunction static public function MakeBox(Min : unreal.FVector, Max : unreal.FVector) : unreal.FBox;
+  @:ufunction(BlueprintCallable) static public function MakeBox(Min : unreal.FVector, Max : unreal.FVector) : unreal.FBox;
   
   /**
     Makes an FBox2D from Min and Max and sets IsValid to true
   **/
-  @:ufunction static public function MakeBox2D(Min : unreal.FVector2D, Max : unreal.FVector2D) : unreal.FBox2D;
+  @:ufunction(BlueprintCallable) static public function MakeBox2D(Min : unreal.FVector2D, Max : unreal.FVector2D) : unreal.FBox2D;
   
   /**
     Makes a vector {X, Y, Z}
   **/
-  @:ufunction static public function MakeVector(X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function MakeVector(X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32) : unreal.FVector;
   
   /**
     Breaks a vector apart into X, Y, Z
   **/
-  @:ufunction static public function BreakVector(InVec : unreal.FVector, X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakVector(InVec : unreal.FVector, X : unreal.Float32, Y : unreal.Float32, Z : unreal.Float32) : Void;
   
   /**
     Makes a 2d vector {X, Y}
   **/
-  @:ufunction static public function MakeVector2D(X : unreal.Float32, Y : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function MakeVector2D(X : unreal.Float32, Y : unreal.Float32) : unreal.FVector2D;
   
   /**
     Breaks a 2D vector apart into X, Y.
   **/
-  @:ufunction static public function BreakVector2D(InVec : unreal.FVector2D, X : unreal.Float32, Y : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakVector2D(InVec : unreal.FVector2D, X : unreal.Float32, Y : unreal.Float32) : Void;
   
   /**
     Rotate the world forward vector by the given rotation
   **/
-  @:ufunction static public function GetForwardVector(InRot : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetForwardVector(InRot : unreal.FRotator) : unreal.FVector;
   
   /**
     Rotate the world right vector by the given rotation
   **/
-  @:ufunction static public function GetRightVector(InRot : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetRightVector(InRot : unreal.FRotator) : unreal.FVector;
   
   /**
     Rotate the world up vector by the given rotation
   **/
-  @:ufunction static public function GetUpVector(InRot : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetUpVector(InRot : unreal.FRotator) : unreal.FVector;
   
   /**
     Creates a directional vector from rotation values {Pitch, Yaw} supplied in degrees with specified Length
   **/
-  @:ufunction static public function CreateVectorFromYawPitch(Yaw : unreal.Float32, Pitch : unreal.Float32, Length : unreal.Float32 = 1.000000) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function CreateVectorFromYawPitch(Yaw : unreal.Float32, Pitch : unreal.Float32, Length : unreal.Float32 = 1.000000) : unreal.FVector;
   
   /**
     Breaks a vector apart into Yaw, Pitch rotation values given in degrees. (non-clamped)
   **/
-  @:ufunction static public function GetYawPitchFromVector(InVec : unreal.FVector, Yaw : unreal.Float32, Pitch : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function GetYawPitchFromVector(InVec : unreal.FVector, Yaw : unreal.Float32, Pitch : unreal.Float32) : Void;
   
   /**
     Makes a rotator {Roll, Pitch, Yaw} from rotation values supplied in degrees
   **/
-  @:ufunction static public function MakeRotator(Roll : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotator(Roll : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32) : unreal.FRotator;
   
   /**
     Find a rotation for an object at Start location to point at Target location.
   **/
-  @:ufunction static public function FindLookAtRotation(Start : unreal.Const<unreal.PRef<unreal.FVector>>, Target : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function FindLookAtRotation(Start : unreal.Const<unreal.PRef<unreal.FVector>>, Target : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a rotator given only a XAxis. Y and Z are unspecified but will be orthonormal. XAxis need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromX(X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromX(X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a rotation matrix given only a YAxis. X and Z are unspecified but will be orthonormal. YAxis need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromY(Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromY(Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a rotation matrix given only a ZAxis. X and Y are unspecified but will be orthonormal. ZAxis need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromZ(Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromZ(Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given X and Y axes. X will remain fixed, Y may be changed minimally to enforce orthogonality. Z will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromXY(X : unreal.Const<unreal.PRef<unreal.FVector>>, Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromXY(X : unreal.Const<unreal.PRef<unreal.FVector>>, Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given X and Z axes. X will remain fixed, Z may be changed minimally to enforce orthogonality. Y will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromXZ(X : unreal.Const<unreal.PRef<unreal.FVector>>, Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromXZ(X : unreal.Const<unreal.PRef<unreal.FVector>>, Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given Y and X axes. Y will remain fixed, X may be changed minimally to enforce orthogonality. Z will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromYX(Y : unreal.Const<unreal.PRef<unreal.FVector>>, X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromYX(Y : unreal.Const<unreal.PRef<unreal.FVector>>, X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given Y and Z axes. Y will remain fixed, Z may be changed minimally to enforce orthogonality. X will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromYZ(Y : unreal.Const<unreal.PRef<unreal.FVector>>, Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromYZ(Y : unreal.Const<unreal.PRef<unreal.FVector>>, Z : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given Z and X axes. Z will remain fixed, X may be changed minimally to enforce orthogonality. Y will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromZX(Z : unreal.Const<unreal.PRef<unreal.FVector>>, X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromZX(Z : unreal.Const<unreal.PRef<unreal.FVector>>, X : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Builds a matrix with given Z and Y axes. Z will remain fixed, Y may be changed minimally to enforce orthogonality. X will be computed. Inputs need not be normalized.
   **/
-  @:ufunction static public function MakeRotFromZY(Z : unreal.Const<unreal.PRef<unreal.FVector>>, Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotFromZY(Z : unreal.Const<unreal.PRef<unreal.FVector>>, Y : unreal.Const<unreal.PRef<unreal.FVector>>) : unreal.FRotator;
   
   /**
     Breaks apart a rotator into {Roll, Pitch, Yaw} angles in degrees
   **/
-  @:ufunction static public function BreakRotator(InRot : unreal.FRotator, Roll : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakRotator(InRot : unreal.FRotator, Roll : unreal.Float32, Pitch : unreal.Float32, Yaw : unreal.Float32) : Void;
   
   /**
     Breaks apart a rotator into its component axes
   **/
-  @:ufunction static public function BreakRotIntoAxes(InRot : unreal.Const<unreal.PRef<unreal.FRotator>>, X : unreal.PRef<unreal.FVector>, Y : unreal.PRef<unreal.FVector>, Z : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakRotIntoAxes(InRot : unreal.Const<unreal.PRef<unreal.FRotator>>, X : unreal.PRef<unreal.FVector>, Y : unreal.PRef<unreal.FVector>, Z : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Make a transform from location, rotation and scale
   **/
-  @:ufunction static public function MakeTransform(Location : unreal.FVector, Rotation : unreal.FRotator, @:bpopt("1,1,1") Scale : unreal.FVector) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function MakeTransform(Location : unreal.FVector, Rotation : unreal.FRotator, @:bpopt("1,1,1") Scale : unreal.FVector) : unreal.FTransform;
   
   /**
     Breaks apart a transform into location, rotation and scale
   **/
-  @:ufunction static public function BreakTransform(InTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.PRef<unreal.FVector>, Rotation : unreal.PRef<unreal.FRotator>, Scale : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakTransform(InTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.PRef<unreal.FVector>, Rotation : unreal.PRef<unreal.FRotator>, Scale : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Makes a SRand-based random number generator
   **/
-  @:ufunction static public function MakeRandomStream(InitialSeed : unreal.Int32) : unreal.FRandomStream;
+  @:ufunction(BlueprintCallable) static public function MakeRandomStream(InitialSeed : unreal.Int32) : unreal.FRandomStream;
   
   /**
     Breaks apart a random number generator
   **/
-  @:ufunction static public function BreakRandomStream(InRandomStream : unreal.Const<unreal.PRef<unreal.FRandomStream>>, InitialSeed : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakRandomStream(InRandomStream : unreal.Const<unreal.PRef<unreal.FRandomStream>>, InitialSeed : unreal.Int32) : Void;
   
   /**
     Make a color from individual color components (RGB space)
   **/
-  @:ufunction static public function MakeColor(R : unreal.Float32, G : unreal.Float32, B : unreal.Float32, A : unreal.Float32 = 1.000000) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function MakeColor(R : unreal.Float32, G : unreal.Float32, B : unreal.Float32, A : unreal.Float32 = 1.000000) : unreal.FLinearColor;
   
   /**
     Breaks apart a color into individual RGB components (as well as alpha)
   **/
-  @:ufunction static public function BreakColor(InColor : unreal.Const<unreal.FLinearColor>, R : unreal.Float32, G : unreal.Float32, B : unreal.Float32, A : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function BreakColor(InColor : unreal.Const<unreal.FLinearColor>, R : unreal.Float32, G : unreal.Float32, B : unreal.Float32, A : unreal.Float32) : Void;
   
   /**
     Make a color from individual color components (HSV space)
   **/
-  @:ufunction static public function HSVToRGB(H : unreal.Float32, S : unreal.Float32, V : unreal.Float32, A : unreal.Float32 = 1.000000) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function HSVToRGB(H : unreal.Float32, S : unreal.Float32, V : unreal.Float32, A : unreal.Float32 = 1.000000) : unreal.FLinearColor;
   
   /**
     Breaks apart a color into individual HSV components (as well as alpha)
   **/
-  @:ufunction static public function RGBToHSV(InColor : unreal.Const<unreal.FLinearColor>, H : unreal.Float32, S : unreal.Float32, V : unreal.Float32, A : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function RGBToHSV(InColor : unreal.Const<unreal.FLinearColor>, H : unreal.Float32, S : unreal.Float32, V : unreal.Float32, A : unreal.Float32) : Void;
   
   /**
     Converts a HSV linear color (where H is in R, S is in G, and V is in B) to RGB
   **/
-  @:ufunction static public function HSVToRGB_Vector(HSV : unreal.Const<unreal.FLinearColor>, RGB : unreal.PRef<unreal.FLinearColor>) : Void;
+  @:ufunction(BlueprintCallable) static public function HSVToRGB_Vector(HSV : unreal.Const<unreal.FLinearColor>, RGB : unreal.PRef<unreal.FLinearColor>) : Void;
   
   /**
     Converts a RGB linear color to HSV (where H is in R, S is in G, and V is in B)
   **/
-  @:ufunction static public function RGBToHSV_Vector(RGB : unreal.Const<unreal.FLinearColor>, HSV : unreal.PRef<unreal.FLinearColor>) : Void;
+  @:ufunction(BlueprintCallable) static public function RGBToHSV_Vector(RGB : unreal.Const<unreal.FLinearColor>, HSV : unreal.PRef<unreal.FLinearColor>) : Void;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectString(A : unreal.FString, B : unreal.FString, bPickA : Bool) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function SelectString(A : unreal.FString, B : unreal.FString, bPickA : Bool) : unreal.FString;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectInt(A : unreal.Int32, B : unreal.Int32, bPickA : Bool) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function SelectInt(A : unreal.Int32, B : unreal.Int32, bPickA : Bool) : unreal.Int32;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectFloat(A : unreal.Float32, B : unreal.Float32, bPickA : Bool) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function SelectFloat(A : unreal.Float32, B : unreal.Float32, bPickA : Bool) : unreal.Float32;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectVector(A : unreal.FVector, B : unreal.FVector, bPickA : Bool) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function SelectVector(A : unreal.FVector, B : unreal.FVector, bPickA : Bool) : unreal.FVector;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectRotator(A : unreal.FRotator, B : unreal.FRotator, bPickA : Bool) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function SelectRotator(A : unreal.FRotator, B : unreal.FRotator, bPickA : Bool) : unreal.FRotator;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectColor(A : unreal.FLinearColor, B : unreal.FLinearColor, bPickA : Bool) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function SelectColor(A : unreal.FLinearColor, B : unreal.FLinearColor, bPickA : Bool) : unreal.FLinearColor;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, bPickA : Bool) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function SelectTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, bPickA : Bool) : unreal.FTransform;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectObject(A : unreal.UObject, B : unreal.UObject, bSelectA : Bool) : unreal.UObject;
+  @:ufunction(BlueprintCallable) static public function SelectObject(A : unreal.UObject, B : unreal.UObject, bSelectA : Bool) : unreal.UObject;
   
   /**
     If bPickA is true, A is returned, otherwise B is
   **/
-  @:ufunction static public function SelectClass(A : unreal.UClass, B : unreal.UClass, bSelectA : Bool) : unreal.UClass;
+  @:ufunction(BlueprintCallable) static public function SelectClass(A : unreal.UClass, B : unreal.UClass, bSelectA : Bool) : unreal.UClass;
   
   /**
     Build a reference frame from three axes
   **/
-  @:ufunction static public function MakeRotationFromAxes(Forward : unreal.FVector, Right : unreal.FVector, Up : unreal.FVector) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function MakeRotationFromAxes(Forward : unreal.FVector, Right : unreal.FVector, Up : unreal.FVector) : unreal.FRotator;
   
   /**
     Create a rotator which orients X along the supplied direction vector
   **/
-  @:ufunction static public function Conv_VectorToRotator(InVec : unreal.FVector) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function Conv_VectorToRotator(InVec : unreal.FVector) : unreal.FRotator;
   
   /**
     Get the X direction vector after this rotation
   **/
-  @:ufunction static public function Conv_RotatorToVector(InRot : unreal.FRotator) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function Conv_RotatorToVector(InRot : unreal.FRotator) : unreal.FVector;
   
   /**
     Returns true if A and B are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_ObjectObject(A : unreal.UObject, B : unreal.UObject) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_ObjectObject(A : unreal.UObject, B : unreal.UObject) : Bool;
   
   /**
     Returns true if A and B are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_ObjectObject(A : unreal.UObject, B : unreal.UObject) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_ObjectObject(A : unreal.UObject, B : unreal.UObject) : Bool;
   
   /**
     Returns true if A and B are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_ClassClass(A : unreal.UClass, B : unreal.UClass) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_ClassClass(A : unreal.UClass, B : unreal.UClass) : Bool;
   
   /**
     Returns true if A and B are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_ClassClass(A : unreal.UClass, B : unreal.UClass) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_ClassClass(A : unreal.UClass, B : unreal.UClass) : Bool;
   
   /**
     Determine if a class is a child of another class.
@@ -1721,41 +1721,41 @@ package unreal;
     @return      true if TestClass == ParentClass, or if TestClass is a child of ParentClass; false otherwise, or if either
                          the value for either parameter is 'None'.
   **/
-  @:ufunction static public function ClassIsChildOf(TestClass : unreal.TSubclassOf<unreal.UObject>, ParentClass : unreal.TSubclassOf<unreal.UObject>) : Bool;
+  @:ufunction(BlueprintCallable) static public function ClassIsChildOf(TestClass : unreal.TSubclassOf<unreal.UObject>, ParentClass : unreal.TSubclassOf<unreal.UObject>) : Bool;
   
   /**
     Returns true if A and B are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_NameName(A : unreal.FName, B : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_NameName(A : unreal.FName, B : unreal.FName) : Bool;
   
   /**
     Returns true if A and B are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_NameName(A : unreal.FName, B : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_NameName(A : unreal.FName, B : unreal.FName) : Bool;
   
   /**
     Transform a position by the supplied transform.
     For example, if T was an object's transform, would transform a position from local space to world space.
   **/
-  @:ufunction static public function TransformLocation(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function TransformLocation(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.FVector) : unreal.FVector;
   
   /**
     Transform a direction vector by the supplied transform - will not change its length.
     For example, if T was an object's transform, would transform a direction from local space to world space.
   **/
-  @:ufunction static public function TransformDirection(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Direction : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function TransformDirection(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Direction : unreal.FVector) : unreal.FVector;
   
   /**
     Transform a position by the inverse of the supplied transform.
     For example, if T was an object's transform, would transform a position from world space to local space.
   **/
-  @:ufunction static public function InverseTransformLocation(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function InverseTransformLocation(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Location : unreal.FVector) : unreal.FVector;
   
   /**
     Transform a direction vector by the inverse of the supplied transform - will not change its length.
     For example, if T was an object's transform, would transform a direction from world space to local space.
   **/
-  @:ufunction static public function InverseTransformDirection(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Direction : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function InverseTransformDirection(T : unreal.Const<unreal.PRef<unreal.FTransform>>, Direction : unreal.FVector) : unreal.FVector;
   
   /**
     Compose two transforms in order: A * B.
@@ -1768,7 +1768,7 @@ package unreal;
     
     @return New transform: A * B
   **/
-  @:ufunction static public function ComposeTransforms(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function ComposeTransforms(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
   
   /**
     Returns the given transform, converted to be relative to the given ParentTransform.
@@ -1779,7 +1779,7 @@ package unreal;
     @param               ParentTransform The transform the conversion is relative to (in the same space as Transform)
     @return              The new relative transform
   **/
-  @:ufunction static public function ConvertTransformToRelative(Transform : unreal.Const<unreal.PRef<unreal.FTransform>>, ParentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function ConvertTransformToRelative(Transform : unreal.Const<unreal.PRef<unreal.FTransform>>, ParentTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
   
   /**
     Returns the inverse of the given transform T.
@@ -1789,27 +1789,27 @@ package unreal;
     @param       T       The transform you wish to invert
     @return      The inverse of T.
   **/
-  @:ufunction static public function InvertTransform(T : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function InvertTransform(T : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.FTransform;
   
   /**
     Linearly interpolates between A and B based on Alpha (100% of A when Alpha=0 and 100% of B when Alpha=1).
   **/
-  @:ufunction static public function TLerp(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, Alpha : unreal.Float32, InterpMode : unreal.ELerpInterpolationMode = QuatInterp) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function TLerp(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, Alpha : unreal.Float32, InterpMode : unreal.ELerpInterpolationMode = QuatInterp) : unreal.FTransform;
   
   /**
     Ease between A and B using a specified easing function.
   **/
-  @:ufunction static public function TEase(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function TEase(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, Alpha : unreal.Float32, EasingFunc : unreal.EEasingFunc, BlendExp : unreal.Float32 = 2.000000, Steps : unreal.Int32 = 2) : unreal.FTransform;
   
   /**
     Tries to reach a target transform.
   **/
-  @:ufunction static public function TInterpTo(Current : unreal.Const<unreal.PRef<unreal.FTransform>>, Target : unreal.Const<unreal.PRef<unreal.FTransform>>, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) static public function TInterpTo(Current : unreal.Const<unreal.PRef<unreal.FTransform>>, Target : unreal.Const<unreal.PRef<unreal.FTransform>>, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FTransform;
   
   /**
     Returns true if transform A is equal to transform B
   **/
-  @:ufunction static public function EqualEqual_TransformTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_TransformTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>) : Bool;
   
   /**
     Returns true if transform A is nearly equal to B
@@ -1817,57 +1817,57 @@ package unreal;
     @param RotationTolerance        How close rotations of transforms need to be to be considered equal
     @param Scale3DTolerance         How close scale of transforms need to be to be considered equal
   **/
-  @:ufunction static public function NearlyEqual_TransformTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, LocationTolerance : unreal.Float32 = 0.000100, RotationTolerance : unreal.Float32 = 0.000100, Scale3DTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function NearlyEqual_TransformTransform(A : unreal.Const<unreal.PRef<unreal.FTransform>>, B : unreal.Const<unreal.PRef<unreal.FTransform>>, LocationTolerance : unreal.Float32 = 0.000100, RotationTolerance : unreal.Float32 = 0.000100, Scale3DTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns addition of Vector A and Vector B (A + B)
   **/
-  @:ufunction static public function Add_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Add_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Returns subtraction of Vector B from Vector A (A - B)
   **/
-  @:ufunction static public function Subtract_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Subtract_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Returns Vector A scaled by B
   **/
-  @:ufunction static public function Multiply_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Multiply_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
   
   /**
     Element-wise Vector multiplication (Result = {A.x*B.x, A.y*B.y})
   **/
-  @:ufunction static public function Multiply_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Multiply_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Returns Vector A divided by B
   **/
-  @:ufunction static public function Divide_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32 = 1.000000) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Divide_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32 = 1.000000) : unreal.FVector2D;
   
   /**
     Element-wise Vector divide (Result = {A.x/B.x, A.y/B.y})
   **/
-  @:ufunction static public function Divide_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Divide_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     Returns Vector A added by B
   **/
-  @:ufunction static public function Add_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Add_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
   
   /**
     Returns Vector A subtracted by B
   **/
-  @:ufunction static public function Subtract_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Subtract_Vector2DFloat(A : unreal.FVector2D, B : unreal.Float32) : unreal.FVector2D;
   
   /**
     Returns true if vector2D A is equal to vector2D B (A == B) within a specified error tolerance
   **/
-  @:ufunction static public function EqualEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Returns true if vector2D A is not equal to vector2D B (A != B) within a specified error tolerance
   **/
-  @:ufunction static public function NotEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_Vector2DVector2D(A : unreal.FVector2D, B : unreal.FVector2D, ErrorTolerance : unreal.Float32 = 0.000100) : Bool;
   
   /**
     Tries to reach Target based on distance from Current position, giving a nice smooth feeling when tracking a position.
@@ -1878,7 +1878,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function FInterpTo(Current : unreal.Float32, Target : unreal.Float32, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FInterpTo(Current : unreal.Float32, Target : unreal.Float32, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.Float32;
   
   /**
     Tries to reach Target at a constant rate.
@@ -1889,7 +1889,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function FInterpTo_Constant(Current : unreal.Float32, Target : unreal.Float32, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FInterpTo_Constant(Current : unreal.Float32, Target : unreal.Float32, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.Float32;
   
   /**
     Tries to reach Target based on distance from Current position, giving a nice smooth feeling when tracking a position.
@@ -1900,7 +1900,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function VInterpTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function VInterpTo(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
   
   /**
     Tries to reach Target at a constant rate.
@@ -1911,7 +1911,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function VInterpTo_Constant(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function VInterpTo_Constant(Current : unreal.FVector, Target : unreal.FVector, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector;
   
   /**
     Tries to reach Target based on distance from Current position, giving a nice smooth feeling when tracking a position.
@@ -1922,7 +1922,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function Vector2DInterpTo(Current : unreal.FVector2D, Target : unreal.FVector2D, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Vector2DInterpTo(Current : unreal.FVector2D, Target : unreal.FVector2D, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector2D;
   
   /**
     Tries to reach Target at a constant rate.
@@ -1933,7 +1933,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function Vector2DInterpTo_Constant(Current : unreal.FVector2D, Target : unreal.FVector2D, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function Vector2DInterpTo_Constant(Current : unreal.FVector2D, Target : unreal.FVector2D, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FVector2D;
   
   /**
     Tries to reach Target rotation based on Current rotation, giving a nice smooth feeling when rotating to Target rotation.
@@ -1944,7 +1944,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function RInterpTo(Current : unreal.FRotator, Target : unreal.FRotator, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RInterpTo(Current : unreal.FRotator, Target : unreal.FRotator, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FRotator;
   
   /**
     Tries to reach Target rotation at a constant rate.
@@ -1955,7 +1955,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated position
   **/
-  @:ufunction static public function RInterpTo_Constant(Current : unreal.FRotator, Target : unreal.FRotator, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RInterpTo_Constant(Current : unreal.FRotator, Target : unreal.FRotator, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FRotator;
   
   /**
     Interpolates towards a varying target color smoothly.
@@ -1966,7 +1966,7 @@ package unreal;
     @param               InterpSpeed             Interpolation speed
     @return              New interpolated Color
   **/
-  @:ufunction static public function CInterpTo(Current : unreal.FLinearColor, Target : unreal.FLinearColor, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function CInterpTo(Current : unreal.FLinearColor, Target : unreal.FLinearColor, DeltaTime : unreal.Float32, InterpSpeed : unreal.Float32) : unreal.FLinearColor;
   
   /**
     Uses a simple spring model to interpolate a float from Current to Target.
@@ -1978,7 +1978,7 @@ package unreal;
     @param CriticalDampingFactor How much damping to apply to the spring (0 means no damping, 1 means critically damped which means no oscillation)
     @param Mass                                  Multiplier that acts like mass on a spring
   **/
-  @:ufunction static public function FloatSpringInterp(Current : unreal.Float32, Target : unreal.Float32, SpringState : unreal.PRef<unreal.FFloatSpringState>, Stiffness : unreal.Float32, CriticalDampingFactor : unreal.Float32, DeltaTime : unreal.Float32, Mass : unreal.Float32 = 1.000000) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function FloatSpringInterp(Current : unreal.Float32, Target : unreal.Float32, SpringState : unreal.PRef<unreal.FFloatSpringState>, Stiffness : unreal.Float32, CriticalDampingFactor : unreal.Float32, DeltaTime : unreal.Float32, Mass : unreal.Float32 = 1.000000) : unreal.Float32;
   
   /**
     Uses a simple spring model to interpolate a vector from Current to Target.
@@ -1990,67 +1990,67 @@ package unreal;
     @param CriticalDampingFactor  How much damping to apply to the spring (0 means no damping, 1 means critically damped which means no oscillation)
     @param Mass                                   Multiplier that acts like mass on a spring
   **/
-  @:ufunction static public function VectorSpringInterp(Current : unreal.FVector, Target : unreal.FVector, SpringState : unreal.PRef<unreal.FVectorSpringState>, Stiffness : unreal.Float32, CriticalDampingFactor : unreal.Float32, DeltaTime : unreal.Float32, Mass : unreal.Float32 = 1.000000) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function VectorSpringInterp(Current : unreal.FVector, Target : unreal.FVector, SpringState : unreal.PRef<unreal.FVectorSpringState>, Stiffness : unreal.Float32, CriticalDampingFactor : unreal.Float32, DeltaTime : unreal.Float32, Mass : unreal.Float32 = 1.000000) : unreal.FVector;
   
   /**
     Resets the state of a given spring
   **/
-  @:ufunction static public function ResetFloatSpringState(SpringState : unreal.PRef<unreal.FFloatSpringState>) : Void;
+  @:ufunction(BlueprintCallable) static public function ResetFloatSpringState(SpringState : unreal.PRef<unreal.FFloatSpringState>) : Void;
   
   /**
     Resets the state of a given spring
   **/
-  @:ufunction static public function ResetVectorSpringState(SpringState : unreal.PRef<unreal.FVectorSpringState>) : Void;
+  @:ufunction(BlueprintCallable) static public function ResetVectorSpringState(SpringState : unreal.PRef<unreal.FVectorSpringState>) : Void;
   
   /**
     Returns a uniformly distributed random number between 0 and Max - 1
   **/
-  @:ufunction static public function RandomIntegerFromStream(Max : unreal.Int32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function RandomIntegerFromStream(Max : unreal.Int32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Int32;
   
   /**
     Return a random integer between Min and Max (>= Min and <= Max)
   **/
-  @:ufunction static public function RandomIntegerInRangeFromStream(Min : unreal.Int32, Max : unreal.Int32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function RandomIntegerInRangeFromStream(Min : unreal.Int32, Max : unreal.Int32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Int32;
   
   /**
     Returns a random bool
   **/
-  @:ufunction static public function RandomBoolFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function RandomBoolFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Bool;
   
   /**
     Returns a random float between 0 and 1
   **/
-  @:ufunction static public function RandomFloatFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RandomFloatFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Float32;
   
   /**
     Generate a random number between Min and Max
   **/
-  @:ufunction static public function RandomFloatInRangeFromStream(Min : unreal.Float32, Max : unreal.Float32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RandomFloatInRangeFromStream(Min : unreal.Float32, Max : unreal.Float32, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.Float32;
   
   /**
     Returns a random vector with length of 1.0
   **/
-  @:ufunction static public function RandomUnitVectorFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomUnitVectorFromStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.FVector;
   
   /**
     Create a random rotation
   **/
-  @:ufunction static public function RandomRotatorFromStream(bRoll : Bool, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) static public function RandomRotatorFromStream(bRoll : Bool, Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : unreal.FRotator;
   
   /**
     Reset a random stream
   **/
-  @:ufunction static public function ResetRandomStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Void;
+  @:ufunction(BlueprintCallable) static public function ResetRandomStream(Stream : unreal.Const<unreal.PRef<unreal.FRandomStream>>) : Void;
   
   /**
     Create a new random seed for a random stream
   **/
-  @:ufunction static public function SeedRandomStream(Stream : unreal.PRef<unreal.FRandomStream>) : Void;
+  @:ufunction(BlueprintCallable) static public function SeedRandomStream(Stream : unreal.PRef<unreal.FRandomStream>) : Void;
   
   /**
     Set the seed of a random stream to a specific number
   **/
-  @:ufunction static public function SetRandomStreamSeed(Stream : unreal.PRef<unreal.FRandomStream>, NewSeed : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetRandomStreamSeed(Stream : unreal.PRef<unreal.FRandomStream>, NewSeed : unreal.Int32) : Void;
   
   /**
     Finds the minimum area rectangle that encloses all of the points in InVerts
@@ -2061,7 +2061,7 @@ package unreal;
     @outparam    OutRectSideA - Vector oriented and sized to represent one edge of the enclosing rectangle, orthogonal to OutRectSideB
     @outparam    OutRectSideB - Vector oriented and sized to represent one edge of the enclosing rectangle, orthogonal to OutRectSideA
   **/
-  @:ufunction static public function MinimumAreaRectangle(WorldContextObject : unreal.UObject, InVerts : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, SampleSurfaceNormal : unreal.Const<unreal.PRef<unreal.FVector>>, OutRectCenter : unreal.PRef<unreal.FVector>, OutRectRotation : unreal.PRef<unreal.FRotator>, OutSideLengthX : unreal.Float32, OutSideLengthY : unreal.Float32, bDebugDraw : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function MinimumAreaRectangle(WorldContextObject : unreal.UObject, InVerts : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, SampleSurfaceNormal : unreal.Const<unreal.PRef<unreal.FVector>>, OutRectCenter : unreal.PRef<unreal.FVector>, OutRectRotation : unreal.PRef<unreal.FRotator>, OutSideLengthX : unreal.Float32, OutSideLengthY : unreal.Float32, bDebugDraw : Bool = false) : Void;
   
   /**
     Determines whether a given set of points are coplanar, with a tolerance. Any three points or less are always coplanar.
@@ -2071,7 +2071,7 @@ package unreal;
     
     @return Whether the points are relatively coplanar, based on the tolerance
   **/
-  @:ufunction static public function PointsAreCoplanar(Points : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Tolerance : unreal.Float32 = 0.100000) : Bool;
+  @:ufunction(BlueprintCallable) static public function PointsAreCoplanar(Points : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Tolerance : unreal.Float32 = 0.100000) : Bool;
   
   /**
     Determines whether the given point is in a box. Includes points on the box.
@@ -2081,7 +2081,7 @@ package unreal;
     @param BoxExtent             Extents of the box (distance in each axis from origin)
     @return Whether the point is in the box.
   **/
-  @:ufunction static public function IsPointInBox(Point : unreal.FVector, BoxOrigin : unreal.FVector, BoxExtent : unreal.FVector) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsPointInBox(Point : unreal.FVector, BoxOrigin : unreal.FVector, BoxExtent : unreal.FVector) : Bool;
   
   /**
     Determines whether a given point is in a box with a given transform. Includes points on the box.
@@ -2091,7 +2091,7 @@ package unreal;
     @param BoxExtent                      Extents of the box (distance in each axis from origin), in component space.
     @return Whether the point is in the box.
   **/
-  @:ufunction static public function IsPointInBoxWithTransform(Point : unreal.FVector, BoxWorldTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, BoxExtent : unreal.FVector) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsPointInBoxWithTransform(Point : unreal.FVector, BoxWorldTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, BoxExtent : unreal.FVector) : Bool;
   
   /**
     Computes the intersection point between a line and a plane.
@@ -2099,7 +2099,7 @@ package unreal;
     @param               Intersection - The point of intersection between the line and the plane
     @return              True if the intersection test was successful.
   **/
-  @:ufunction static public function LinePlaneIntersection(LineStart : unreal.Const<unreal.PRef<unreal.FVector>>, LineEnd : unreal.Const<unreal.PRef<unreal.FVector>>, APlane : unreal.Const<unreal.PRef<unreal.FPlane>>, T : unreal.Float32, Intersection : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) static public function LinePlaneIntersection(LineStart : unreal.Const<unreal.PRef<unreal.FVector>>, LineEnd : unreal.Const<unreal.PRef<unreal.FVector>>, APlane : unreal.Const<unreal.PRef<unreal.FPlane>>, T : unreal.Float32, Intersection : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Computes the intersection point between a line and a plane.
@@ -2107,6 +2107,6 @@ package unreal;
     @param               Intersection - The point of intersection between the line and the plane
     @return              True if the intersection test was successful.
   **/
-  @:ufunction static public function LinePlaneIntersection_OriginNormal(LineStart : unreal.Const<unreal.PRef<unreal.FVector>>, LineEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PlaneOrigin : unreal.FVector, PlaneNormal : unreal.FVector, T : unreal.Float32, Intersection : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) static public function LinePlaneIntersection_OriginNormal(LineStart : unreal.Const<unreal.PRef<unreal.FVector>>, LineEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PlaneOrigin : unreal.FVector, PlaneNormal : unreal.FVector, T : unreal.Float32, Intersection : unreal.PRef<unreal.FVector>) : Bool;
   
 }

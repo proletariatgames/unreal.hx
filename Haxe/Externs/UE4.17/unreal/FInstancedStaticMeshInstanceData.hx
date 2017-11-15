@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/InstancedStaticMeshComponent.h")
+@:glueCppIncludes("Classes/Components/InstancedStaticMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInstancedStaticMeshInstanceData {
   
   /**

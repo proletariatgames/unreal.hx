@@ -17,7 +17,7 @@ package unreal;
 /**
   Simple structure to allow overriding asset rules for a specific primary asset. This can be used to set chunks
 **/
-@:glueCppIncludes("Engine/AssetManagerSettings.h")
+@:glueCppIncludes("Classes/Engine/AssetManagerSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimaryAssetRulesOverride {
   
   /**

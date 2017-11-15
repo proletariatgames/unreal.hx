@@ -67,25 +67,25 @@ package unreal;
   /**
     Toggles the display of debug info and input commands for the Debug Camera.
   **/
-  @:ufunction @:final public function ToggleDisplay() : Void;
-  @:ufunction @:thisConst @:final public function GetSelectedActor() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:final public function ToggleDisplay() : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSelectedActor() : unreal.AActor;
   
   /**
     Sets the pawn movement speed scale.
   **/
-  @:ufunction @:final public function SetPawnMovementSpeedScale(NewSpeedScale : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPawnMovementSpeedScale(NewSpeedScale : unreal.Float32) : Void;
   
   /**
     Function called on activation of debug camera controller.
     @param OriginalPC The active player controller before this debug camera controller was possessed by the player.
   **/
-  @:ufunction public function ReceiveOnActivate(OriginalPC : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveOnActivate(OriginalPC : unreal.APlayerController) : Void;
   
   /**
     Function called on deactivation of debug camera controller.
     @param RestoredPC The Player Controller that the player input is being returned to.
   **/
-  @:ufunction public function ReceiveOnDeactivate(RestoredPC : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveOnDeactivate(RestoredPC : unreal.APlayerController) : Void;
   
   /**
     Called when an actor has been selected with the primary key (e.g. left mouse button).
@@ -95,6 +95,6 @@ package unreal;
     @param SelectHitLocation The exact world-space location where the selection trace hit the New Selected Actor.
     @param SelectHitNormal The world-space surface normal of the New Selected Actor at the hit location.
   **/
-  @:ufunction private function ReceiveOnActorSelected(NewSelectedActor : unreal.AActor, SelectHitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, SelectHitNormal : unreal.Const<unreal.PRef<unreal.FVector>>, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveOnActorSelected(NewSelectedActor : unreal.AActor, SelectHitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, SelectHitNormal : unreal.Const<unreal.PRef<unreal.FVector>>, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
 }

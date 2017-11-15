@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleModule.h")
+@:glueCppIncludes("Classes/Particles/ParticleModule.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleCurvePair {
   @:uproperty public var CurveObject : unreal.UObject;
   @:uproperty public var CurveName : unreal.FString;

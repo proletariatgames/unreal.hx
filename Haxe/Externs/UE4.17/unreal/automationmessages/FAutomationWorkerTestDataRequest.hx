@@ -19,7 +19,7 @@ package unreal.automationmessages;
   for the first time this test is run, it might need to store things, or get things.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerTestDataRequest {
   @:uproperty public var JsonData : unreal.FString;
   @:uproperty public var DataName : unreal.FString;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Compile modes.
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:uname("EBlueprintCompileMode")
 @:class @:uextern @:uenum extern enum EBlueprintCompileMode {
   

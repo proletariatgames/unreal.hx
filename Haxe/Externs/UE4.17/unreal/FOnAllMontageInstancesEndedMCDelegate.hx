@@ -18,5 +18,5 @@ package unreal;
   Delegate for when all montage instances have ended.
   
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 typedef FOnAllMontageInstancesEndedMCDelegate = unreal.DynamicMulticastDelegate<FOnAllMontageInstancesEndedMCDelegate, Void->Void>;

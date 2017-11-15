@@ -15,7 +15,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Blueprint/WidgetBlueprintGeneratedClass.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/WidgetBlueprintGeneratedClass.h")
 @:uname("EBindingKind")
 @:class @:uextern @:uenum extern enum EBindingKind {
   Function;

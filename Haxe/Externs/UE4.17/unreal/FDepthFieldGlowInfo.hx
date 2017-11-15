@@ -17,7 +17,7 @@ package unreal;
 /**
   info for glow when using depth field rendering
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDepthFieldGlowInfo {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   A local-space pose link to another node
 **/
-@:glueCppIncludes("Animation/AnimNodeBase.h")
+@:glueCppIncludes("Classes/Animation/AnimNodeBase.h")
 @:uextern @:ustruct extern class FPoseLink extends unreal.FPoseLinkBase {
   
 }

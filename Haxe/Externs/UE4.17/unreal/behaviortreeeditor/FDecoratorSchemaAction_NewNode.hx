@@ -18,7 +18,7 @@ package unreal.behaviortreeeditor;
   Action to add a node to the graph
 **/
 @:umodule("BehaviorTreeEditor")
-@:glueCppIncludes("EdGraphSchema_BehaviorTreeDecorator.h")
+@:glueCppIncludes("Classes/EdGraphSchema_BehaviorTreeDecorator.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDecoratorSchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
   /**

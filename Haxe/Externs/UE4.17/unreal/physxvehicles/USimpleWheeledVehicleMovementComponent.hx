@@ -21,16 +21,16 @@ package unreal.physxvehicles;
   /**
     Set the brake torque to be applied to a specific wheel
   **/
-  @:ufunction @:final public function SetBrakeTorque(BrakeTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrakeTorque(BrakeTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
   /**
     Set the drive torque to be applied to a specific wheel
   **/
-  @:ufunction @:final public function SetDriveTorque(DriveTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDriveTorque(DriveTorque : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
   /**
     Set the steer angle (in degrees) to be applied to a specific wheel
   **/
-  @:ufunction @:final public function SetSteerAngle(SteerAngle : unreal.Float32, WheelIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSteerAngle(SteerAngle : unreal.Float32, WheelIndex : unreal.Int32) : Void;
   
 }

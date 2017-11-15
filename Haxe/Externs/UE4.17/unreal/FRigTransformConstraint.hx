@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/Rig.h")
+@:glueCppIncludes("Classes/Animation/Rig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRigTransformConstraint {
   
   /**

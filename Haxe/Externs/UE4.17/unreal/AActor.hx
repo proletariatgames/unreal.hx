@@ -192,7 +192,7 @@ package unreal;
   /**
     Collision primitive that defines the transform (location, rotation, scale) of this Actor.
   **/
-  @:uproperty private var RootComponent : unreal.USceneComponent;
+  @:uproperty(BlueprintGetter=K2_GetRootComponent) private var RootComponent : unreal.USceneComponent;
   
   /**
     Array of Actors whose Owner is this actor
@@ -386,7 +386,7 @@ package unreal;
   /**
     Networking - Server - TearOff this actor to stop replication to clients. Will set bTearOff to true.
   **/
-  @:ufunction public function TearOff() : Void;
+  @:ufunction(BlueprintCallable) public function TearOff() : Void;
   @:ufunction private function OnRep_Owner() : Void;
   
   /**
@@ -396,18 +396,18 @@ package unreal;
     @param bInReplicates Whether this Actor replicates to network clients.
     @see https://docs.unrealengine.com/latest/INT/Gameplay/Networking/Replication/
   **/
-  @:ufunction @:final public function SetReplicates(bInReplicates : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetReplicates(bInReplicates : Bool) : Void;
   
   /**
     Set whether this actor's movement replicates to network clients.
     @param bInReplicateMovement Whether this Actor's movement replicates to clients.
   **/
-  @:ufunction public function SetReplicateMovement(bInReplicateMovement : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetReplicateMovement(bInReplicateMovement : Bool) : Void;
   
   /**
     Returns how much control the remote machine has over this actor.
   **/
-  @:ufunction @:thisConst @:final public function GetRemoteRole() : unreal.ENetRole;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetRemoteRole() : unreal.ENetRole;
   
   /**
     Called on client when updated AttachmentReplication value is received for this actor.
@@ -423,49 +423,49 @@ package unreal;
     Pushes this actor on to the stack of input being handled by a PlayerController.
     @param PlayerController The PlayerController whose input events we want to receive.
   **/
-  @:ufunction public function EnableInput(PlayerController : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintCallable) public function EnableInput(PlayerController : unreal.APlayerController) : Void;
   
   /**
     Removes this actor from the stack of input being handled by a PlayerController.
     @param PlayerController The PlayerController whose input events we no longer want to receive. If null, this actor will stop receiving input from all PlayerControllers.
   **/
-  @:ufunction public function DisableInput(PlayerController : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintCallable) public function DisableInput(PlayerController : unreal.APlayerController) : Void;
   
   /**
     Gets the value of the input axis if input is enabled for this actor.
   **/
-  @:ufunction @:thisConst @:final public function GetInputAxisValue(InputAxisName : unreal.Const<unreal.FName>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInputAxisValue(InputAxisName : unreal.Const<unreal.FName>) : unreal.Float32;
   
   /**
     Gets the value of the input axis key if input is enabled for this actor.
   **/
-  @:ufunction @:thisConst @:final public function GetInputAxisKeyValue(InputAxisKey : unreal.Const<unreal.inputcore.FKey>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInputAxisKeyValue(InputAxisKey : unreal.Const<unreal.inputcore.FKey>) : unreal.Float32;
   
   /**
     Gets the value of the input axis key if input is enabled for this actor.
   **/
-  @:ufunction @:thisConst @:final public function GetInputVectorAxisValue(InputAxisKey : unreal.Const<unreal.inputcore.FKey>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInputVectorAxisValue(InputAxisKey : unreal.Const<unreal.inputcore.FKey>) : unreal.FVector;
   
   /**
     Returns the instigator for this actor, or NULL if there is none.
   **/
-  @:ufunction @:thisConst @:final public function GetInstigator() : unreal.APawn;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInstigator() : unreal.APawn;
   
   /**
     Returns the instigator's controller for this actor, or NULL if there is none.
   **/
-  @:ufunction @:thisConst @:final public function GetInstigatorController() : unreal.AController;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInstigatorController() : unreal.AController;
   
   /**
     Get the actor-to-world transform.
     @return The transform that transforms from actor space to world space.
   **/
-  @:ufunction @:thisConst @:final public function GetTransform() : unreal.FTransform;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTransform() : unreal.FTransform;
   
   /**
     Returns the location of the RootComponent of this Actor
   **/
-  @:ufunction @:thisConst @:final public function K2_GetActorLocation() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetActorLocation() : unreal.FVector;
   
   /**
     Move the Actor to the specified location.
@@ -479,43 +479,43 @@ package unreal;
     @param SweepHitResult        The hit result from the move if swept.
     @return      Whether the location was successfully set (if not swept), or whether movement occurred at all (if swept).
   **/
-  @:ufunction @:final public function K2_SetActorLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
   
   /**
     Returns rotation of the RootComponent of this Actor.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetActorRotation() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetActorRotation() : unreal.FRotator;
   
   /**
     Get the forward (X) vector (length 1.0) from this Actor, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetActorForwardVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorForwardVector() : unreal.FVector;
   
   /**
     Get the up (Z) vector (length 1.0) from this Actor, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetActorUpVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorUpVector() : unreal.FVector;
   
   /**
     Get the right (Y) vector (length 1.0) from this Actor, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetActorRightVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorRightVector() : unreal.FVector;
   
   /**
     Returns the bounding box of all components that make up this Actor (excluding ChildActorComponents).
     @param       bOnlyCollidingComponents        If true, will only return the bounding box for components with collision enabled.
   **/
-  @:ufunction @:thisConst @:final public function GetActorBounds(bOnlyCollidingComponents : Bool, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorBounds(bOnlyCollidingComponents : Bool, Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Returns the RootComponent of this Actor
   **/
-  @:ufunction @:thisConst @:final public function K2_GetRootComponent() : unreal.USceneComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetRootComponent() : unreal.USceneComponent;
   
   /**
     Returns velocity (in cm/s (Unreal Units/second) of the rootcomponent if it is either using physics or has an associated MovementComponent
   **/
-  @:ufunction @:thisConst public function GetVelocity() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetVelocity() : unreal.FVector;
   
   /**
     Set the Actor's rotation instantly to the specified rotation.
@@ -526,7 +526,7 @@ package unreal;
                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
     @return      Whether the rotation was successfully set.
   **/
-  @:ufunction @:final public function K2_SetActorRotation(NewRotation : unreal.FRotator, bTeleportPhysics : Bool) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorRotation(NewRotation : unreal.FRotator, bTeleportPhysics : Bool) : Bool;
   
   /**
     Move the actor instantly to the specified location and rotation.
@@ -542,47 +542,47 @@ package unreal;
     @param SweepHitResult        The hit result from the move if swept.
     @return      Whether the rotation was successfully set.
   **/
-  @:ufunction @:final public function K2_SetActorLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
   
   /**
     Set the Actor's world-space scale.
   **/
-  @:ufunction @:final public function SetActorScale3D(NewScale3D : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorScale3D(NewScale3D : unreal.FVector) : Void;
   
   /**
     Returns the Actor's world-space scale.
   **/
-  @:ufunction @:thisConst @:final public function GetActorScale3D() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorScale3D() : unreal.FVector;
   
   /**
     Returns the distance from this Actor to OtherActor.
   **/
-  @:ufunction @:thisConst @:final public function GetDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the squared distance from this Actor to OtherActor.
   **/
-  @:ufunction @:thisConst @:final public function GetSquaredDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSquaredDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the distance from this Actor to OtherActor, ignoring Z.
   **/
-  @:ufunction @:thisConst @:final public function GetHorizontalDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetHorizontalDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the distance from this Actor to OtherActor, ignoring XY.
   **/
-  @:ufunction @:thisConst @:final public function GetVerticalDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetVerticalDistanceTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the dot product from this Actor to OtherActor. Returns -2.0 on failure. Returns 0.0 for coincidental actors.
   **/
-  @:ufunction @:thisConst @:final public function GetDotProductTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDotProductTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Returns the dot product from this Actor to OtherActor, ignoring Z. Returns -2.0 on failure. Returns 0.0 for coincidental actors.
   **/
-  @:ufunction @:thisConst @:final public function GetHorizontalDotProductTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetHorizontalDotProductTo(OtherActor : unreal.Const<unreal.AActor>) : unreal.Float32;
   
   /**
     Adds a delta to the location of this actor in world space.
@@ -596,7 +596,7 @@ package unreal;
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
     @param SweepHitResult        The hit result from the move if swept.
   **/
-  @:ufunction @:final public function K2_AddActorWorldOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorWorldOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the rotation of this actor in world space.
@@ -609,12 +609,12 @@ package unreal;
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
     @param SweepHitResult        The hit result from the move if swept.
   **/
-  @:ufunction @:final public function K2_AddActorWorldRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorWorldRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the transform of this actor in world space. Scale is unchanged.
   **/
-  @:ufunction @:final public function K2_AddActorWorldTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorWorldTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the Actors transform to the specified one.
@@ -626,7 +626,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_SetActorTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Bool;
   
   /**
     Adds a delta to the location of this component in its local reference frame.
@@ -638,7 +638,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_AddActorLocalOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorLocalOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the rotation of this component in its local reference frame
@@ -650,7 +650,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_AddActorLocalRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorLocalRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the transform of this component in its local reference frame
@@ -662,7 +662,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_AddActorLocalTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddActorLocalTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the actor's RootComponent to the specified relative location.
@@ -674,7 +674,7 @@ package unreal;
                                                                  If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                                  If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_SetActorRelativeLocation(NewRelativeLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorRelativeLocation(NewRelativeLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the actor's RootComponent to the specified relative rotation
@@ -686,7 +686,7 @@ package unreal;
                                                                  If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                                  If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_SetActorRelativeRotation(NewRelativeRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorRelativeRotation(NewRelativeRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the actor's RootComponent to the specified relative transform
@@ -698,44 +698,44 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire swept volume.
   **/
-  @:ufunction @:final public function K2_SetActorRelativeTransform(NewRelativeTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetActorRelativeTransform(NewRelativeTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the actor's RootComponent to the specified relative scale 3d
     @param NewRelativeScale      New scale to set the actor's RootComponent to
   **/
-  @:ufunction @:final public function SetActorRelativeScale3D(NewRelativeScale : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorRelativeScale3D(NewRelativeScale : unreal.FVector) : Void;
   
   /**
     Return the actor's relative scale 3d
   **/
-  @:ufunction @:thisConst @:final public function GetActorRelativeScale3D() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorRelativeScale3D() : unreal.FVector;
   
   /**
     Sets the actor to be hidden in the game
     @param  bNewHidden      Whether or not to hide the actor and all its components
   **/
-  @:ufunction public function SetActorHiddenInGame(bNewHidden : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetActorHiddenInGame(bNewHidden : Bool) : Void;
   
   /**
     Allows enabling/disabling collision for the whole actor
   **/
-  @:ufunction @:final public function SetActorEnableCollision(bNewActorEnableCollision : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorEnableCollision(bNewActorEnableCollision : Bool) : Void;
   
   /**
     Get current state of collision for the whole actor
   **/
-  @:ufunction @:thisConst @:final public function GetActorEnableCollision() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorEnableCollision() : Bool;
   
   /**
     Destroy the actor
   **/
-  @:ufunction public function K2_DestroyActor() : Void;
+  @:ufunction(BlueprintCallable) public function K2_DestroyActor() : Void;
   
   /**
     Returns whether this actor has network authority
   **/
-  @:ufunction @:thisConst @:final public function HasAuthority() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasAuthority() : Bool;
   
   /**
     Creates a new component and assigns ownership to the Actor this is
@@ -752,9 +752,9 @@ package unreal;
     @param RelativeTransform                             The relative transform between the new component and its attach parent (automatic only)
     @param ComponentTemplateContext              Optional UBlueprintGeneratedClass reference to use to find the template in. If null (or not a BPGC), component is sought in this Actor's class
   **/
-  @:ufunction @:final public function AddComponent(TemplateName : unreal.FName, bManualAttachment : Bool, RelativeTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, ComponentTemplateContext : unreal.Const<unreal.UObject>) : unreal.UActorComponent;
-  @:ufunction @:final public function K2_DestroyComponent(Component : unreal.UActorComponent) : Void;
-  @:ufunction @:final public function K2_AttachRootComponentTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddComponent(TemplateName : unreal.FName, bManualAttachment : Bool, RelativeTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, ComponentTemplateContext : unreal.Const<unreal.UObject>) : unreal.UActorComponent;
+  @:ufunction(BlueprintCallable) @:final public function K2_DestroyComponent(Component : unreal.UActorComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachRootComponentTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Void;
   
   /**
     Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
@@ -763,8 +763,8 @@ package unreal;
     @param  AttachmentRules                      How to handle transforms when attaching.
     @param  bWeldSimulatedBodies         Whether to weld together simulated physics bodies.
   **/
-  @:ufunction @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Void;
-  @:ufunction @:final public function K2_AttachRootComponentToActor(InParentActor : unreal.AActor, @:opt("None") InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachRootComponentToActor(InParentActor : unreal.AActor, @:opt("None") InSocketName : unreal.FName, AttachLocationType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Void;
   
   /**
     Attaches the RootComponent of this Actor to the supplied component, optionally at a named socket. It is not valid to call this on components that are not Registered.
@@ -775,9 +775,9 @@ package unreal;
     @param ScaleRule                                     How to handle scale when attaching.
     @param bWeldSimulatedBodies          Whether to weld together simulated physics bodies.
   **/
-  @:ufunction @:final public function K2_AttachToActor(ParentActor : unreal.AActor, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Void;
-  @:ufunction @:final public function SnapRootComponentTo(InParentActor : unreal.AActor, InSocketName : unreal.FName) : Void;
-  @:ufunction @:final public function DetachRootComponentFromParent(bMaintainWorldPosition : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachToActor(ParentActor : unreal.AActor, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SnapRootComponentTo(InParentActor : unreal.AActor, InSocketName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function DetachRootComponentFromParent(bMaintainWorldPosition : Bool = true) : Void;
   
   /**
     Detaches the RootComponent of this Actor from any SceneComponent it is currently attached to.
@@ -785,54 +785,54 @@ package unreal;
     @param  RotationRule                         How to handle rotation when detaching.
     @param  ScaleRule                            How to handle scale when detaching.
   **/
-  @:ufunction @:final public function K2_DetachFromActor(@:opt("KeepRelative") LocationRule : unreal.EDetachmentRule, @:opt("KeepRelative") RotationRule : unreal.EDetachmentRule, @:opt("KeepRelative") ScaleRule : unreal.EDetachmentRule) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DetachFromActor(@:opt("KeepRelative") LocationRule : unreal.EDetachmentRule, @:opt("KeepRelative") RotationRule : unreal.EDetachmentRule, @:opt("KeepRelative") ScaleRule : unreal.EDetachmentRule) : Void;
   
   /**
     See if this actor contains the supplied tag
   **/
-  @:ufunction @:thisConst @:final public function ActorHasTag(Tag : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function ActorHasTag(Tag : unreal.FName) : Bool;
   
   /**
     Get CustomTimeDilation - this can be used for input control or speed control for slomo.
     We don't want to scale input globally because input can be used for UI, which do not care for TimeDilation.
   **/
-  @:ufunction @:thisConst @:final public function GetActorTimeDilation() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorTimeDilation() : unreal.Float32;
   
   /**
     Make this actor tick after PrerequisiteActor. This only applies to this actor's tick function; dependencies for owned components must be set up separately if desired.
   **/
-  @:ufunction public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Make this actor tick after PrerequisiteComponent. This only applies to this actor's tick function; dependencies for owned components must be set up separately if desired.
   **/
-  @:ufunction public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction(BlueprintCallable) public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Remove tick dependency on PrerequisiteActor.
   **/
-  @:ufunction public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Remove tick dependency on PrerequisiteComponent.
   **/
-  @:ufunction public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Gets whether this actor can tick when paused.
   **/
-  @:ufunction @:final public function GetTickableWhenPaused() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function GetTickableWhenPaused() : Bool;
   
   /**
     Sets whether this actor can tick when paused.
   **/
-  @:ufunction @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
-  @:ufunction @:final public function MakeMIDForMaterial(Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function MakeMIDForMaterial(Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     The number of seconds (in game time) since this Actor was created, relative to Get Game Time In Seconds.
   **/
-  @:ufunction @:final public function GetGameTimeSinceCreation() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:final public function GetGameTimeSinceCreation() : unreal.Float32;
   
   /**
     Trigger a noise caused by a given Pawn, at a given location.
@@ -845,99 +845,99 @@ package unreal;
     @param MaxRange Max range at which the sound may be heard. A value of 0 indicates no max range (though perception may have its own range). Loudness scales the range. (Note: not supported for legacy PawnSensingComponent, only for AIPerception)
     @param Tag Identifier for the noise.
   **/
-  @:ufunction @:final public function MakeNoise(Loudness : unreal.Float32 = 1.000000, NoiseInstigator : unreal.APawn, NoiseLocation : unreal.FVector, MaxRange : unreal.Float32 = 0.000000, @:opt("None") Tag : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function MakeNoise(Loudness : unreal.Float32 = 1.000000, NoiseInstigator : unreal.APawn, NoiseLocation : unreal.FVector, MaxRange : unreal.Float32 = 0.000000, @:opt("None") Tag : unreal.FName) : Void;
   
   /**
     Event when play begins for this actor.
   **/
-  @:ufunction private function ReceiveBeginPlay() : Void;
-  @:ufunction @:thisConst @:final public function IsActorBeingDestroyed() : Bool;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveBeginPlay() : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsActorBeingDestroyed() : Bool;
   
   /**
     Event when this actor takes ANY damage
   **/
-  @:ufunction public function ReceiveAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveAnyDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor) : Void;
   
   /**
     Event when this actor takes RADIAL damage
     @todo Pass it the full array of hits instead of just one?
   **/
-  @:ufunction public function ReceiveRadialDamage(DamageReceived : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, Origin : unreal.FVector, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveRadialDamage(DamageReceived : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, Origin : unreal.FVector, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor) : Void;
   
   /**
     Event when this actor takes POINT damage
   **/
-  @:ufunction public function ReceivePointDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, HitLocation : unreal.FVector, HitNormal : unreal.FVector, HitComponent : unreal.UPrimitiveComponent, BoneName : unreal.FName, ShotFromDirection : unreal.FVector, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceivePointDamage(Damage : unreal.Float32, DamageType : unreal.Const<unreal.UDamageType>, HitLocation : unreal.FVector, HitNormal : unreal.FVector, HitComponent : unreal.UPrimitiveComponent, BoneName : unreal.FName, ShotFromDirection : unreal.FVector, InstigatedBy : unreal.AController, DamageCauser : unreal.AActor, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Event called every frame
   **/
-  @:ufunction public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
   
   /**
     Event when this actor overlaps another actor, for example a player walking into a trigger.
     For events when objects have a blocking collision, for example a player hitting a wall, see 'Hit' events.
     @note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
   **/
-  @:ufunction public function ReceiveActorBeginOverlap(OtherActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorBeginOverlap(OtherActor : unreal.AActor) : Void;
   
   /**
     Event when an actor no longer overlaps another actor, and they have separated.
     @note Components on both this and the other Actor must have bGenerateOverlapEvents set to true to generate overlap events.
   **/
-  @:ufunction public function ReceiveActorEndOverlap(OtherActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorEndOverlap(OtherActor : unreal.AActor) : Void;
   
   /**
     Event when this actor has the mouse moved over it with the clickable interface.
   **/
-  @:ufunction public function ReceiveActorBeginCursorOver() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorBeginCursorOver() : Void;
   
   /**
     Event when this actor has the mouse moved off of it with the clickable interface.
   **/
-  @:ufunction public function ReceiveActorEndCursorOver() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorEndCursorOver() : Void;
   
   /**
     Event when this actor is clicked by the mouse when using the clickable interface.
   **/
-  @:ufunction public function ReceiveActorOnClicked(ButtonPressed : unreal.inputcore.FKey) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnClicked(ButtonPressed : unreal.inputcore.FKey) : Void;
   
   /**
     Event when this actor is under the mouse when left mouse button is released while using the clickable interface.
   **/
-  @:ufunction public function ReceiveActorOnReleased(ButtonReleased : unreal.inputcore.FKey) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnReleased(ButtonReleased : unreal.inputcore.FKey) : Void;
   
   /**
     Event when this actor is touched when click events are enabled.
   **/
-  @:ufunction public function ReceiveActorOnInputTouchBegin(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnInputTouchBegin(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
   
   /**
     Event when this actor is under the finger when untouched when click events are enabled.
   **/
-  @:ufunction public function ReceiveActorOnInputTouchEnd(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnInputTouchEnd(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
   
   /**
     Event when this actor has a finger moved over it with the clickable interface.
   **/
-  @:ufunction public function ReceiveActorOnInputTouchEnter(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnInputTouchEnter(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
   
   /**
     Event when this actor has a finger moved off of it with the clickable interface.
   **/
-  @:ufunction public function ReceiveActorOnInputTouchLeave(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveActorOnInputTouchLeave(FingerIndex : unreal.Const<unreal.inputcore.ETouchIndex>) : Void;
   
   /**
     Returns list of actors this actor is overlapping (any component overlapping any component). Does not return itself.
     @param OverlappingActors             [out] Returned list of overlapping actors
     @param ClassFilter                   [optional] If set, only returns actors of this class or subclasses
   **/
-  @:ufunction @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Returns list of components this actor is overlapping.
   **/
-  @:ufunction @:thisConst @:final public function GetOverlappingComponents(OverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOverlappingComponents(OverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
   
   /**
     Event when this actor bumps into a blocking object, or blocks another actor that bumps into it.
@@ -949,17 +949,17 @@ package unreal;
     will be adjusted to indicate force from the other object against this object.
     @note NormalImpulse will be filled in for physics-simulating bodies, but will be zero for swept-component blocking collisions.
   **/
-  @:ufunction public function ReceiveHit(MyComp : unreal.UPrimitiveComponent, Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, bSelfMoved : Bool, HitLocation : unreal.FVector, HitNormal : unreal.FVector, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveHit(MyComp : unreal.UPrimitiveComponent, Other : unreal.AActor, OtherComp : unreal.UPrimitiveComponent, bSelfMoved : Bool, HitLocation : unreal.FVector, HitNormal : unreal.FVector, NormalImpulse : unreal.FVector, Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Set the lifespan of this actor. When it expires the object will be destroyed. If requested lifespan is 0, the timer is cleared and the actor will not be destroyed.
   **/
-  @:ufunction public function SetLifeSpan(InLifespan : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function SetLifeSpan(InLifespan : unreal.Float32) : Void;
   
   /**
     Get the remaining lifespan of this actor. If zero is returned the actor lives forever.
   **/
-  @:ufunction @:thisConst public function GetLifeSpan() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetLifeSpan() : unreal.Float32;
   
   /**
     Construction script, the place to spawn components and do other setup.
@@ -967,48 +967,48 @@ package unreal;
     @param       Location        The location.
     @param       Rotation        The rotation.
   **/
-  @:ufunction public function UserConstructionScript() : Void;
-  @:ufunction public function ReceiveDestroyed() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function UserConstructionScript() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveDestroyed() : Void;
   
   /**
     Event to notify blueprints this actor is about to be deleted.
   **/
-  @:ufunction public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
   #if WITH_EDITOR
   
   /**
     Simple accessor to check if the actor is hidden upon editor startup
     @return      true if the actor is hidden upon editor startup; false if it is not
   **/
-  @:ufunction @:thisConst @:final public function IsHiddenEdAtStartup() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsHiddenEdAtStartup() : Bool;
   
   /**
     Returns true if this actor is hidden in the editor viewports.
   **/
-  @:ufunction @:thisConst @:final public function IsHiddenEd() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsHiddenEd() : Bool;
   
   /**
     Sets whether or not this actor is hidden in the editor for the duration of the current editor session
     
     @param bIsHidden     True if the actor is hidden
   **/
-  @:ufunction public function SetIsTemporarilyHiddenInEditor(bIsHidden : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetIsTemporarilyHiddenInEditor(bIsHidden : Bool) : Void;
   
   /**
     @param  bIncludeParent - Whether to recurse up child actor hierarchy or not
     @return Whether or not this actor is hidden in the editor for the duration of the current editor session
   **/
-  @:ufunction @:thisConst @:final public function IsTemporarilyHiddenInEditor(bIncludeParent : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsTemporarilyHiddenInEditor(bIncludeParent : Bool = false) : Bool;
   
   /**
     @return        Returns true if this actor is allowed to be displayed, selected and manipulated by the editor.
   **/
-  @:ufunction @:thisConst @:final public function IsEditable() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsEditable() : Bool;
   
   /**
     @return        Returns true if this actor can EVER be selected in a level in the editor.  Can be overridden by specific actors to make them unselectable.
   **/
-  @:ufunction @:thisConst public function IsSelectable() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsSelectable() : Bool;
   #end // WITH_EDITOR
   
   /**
@@ -1016,23 +1016,23 @@ package unreal;
     This only modifies the tick function on actor itself
     @param       bEnabled        Whether it should be enabled or not
   **/
-  @:ufunction @:final public function SetActorTickEnabled(bEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorTickEnabled(bEnabled : Bool) : Void;
   
   /**
     Returns whether this actor has tick enabled or not
   **/
-  @:ufunction @:thisConst @:final public function IsActorTickEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsActorTickEnabled() : Bool;
   
   /**
     Sets the tick interval of this actor's primary tick function. Will not enable a disabled tick function. Takes effect on next tick.
     @param TickInterval   The rate at which this actor should be ticking
   **/
-  @:ufunction @:final public function SetActorTickInterval(TickInterval : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorTickInterval(TickInterval : unreal.Float32) : Void;
   
   /**
     Returns the tick interval of this actor's primary tick function
   **/
-  @:ufunction @:thisConst @:final public function GetActorTickInterval() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActorTickInterval() : unreal.Float32;
   
   /**
     ReplicatedMovement struct replication event
@@ -1043,45 +1043,45 @@ package unreal;
     Set the owner of this Actor, used primarily for network replication.
     @param NewOwner      The Actor whom takes over ownership of this Actor
   **/
-  @:ufunction public function SetOwner(NewOwner : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function SetOwner(NewOwner : unreal.AActor) : Void;
   
   /**
     Get the owner of this Actor, used primarily for network replication.
     @return Actor that owns this Actor
   **/
-  @:ufunction @:thisConst @:final public function GetOwner() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOwner() : unreal.AActor;
   
   /**
     Check whether any component of this Actor is overlapping any component of another Actor.
     @param Other The other Actor to test against
     @return Whether any component of this Actor is overlapping any component of another Actor.
   **/
-  @:ufunction @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
   
   /**
     Forces dormant actor to replicate but doesn't change NetDormancy state (i.e., they will go dormant again if left dormant)
   **/
-  @:ufunction @:final public function FlushNetDormancy() : Void;
+  @:ufunction(BlueprintCallable) @:final public function FlushNetDormancy() : Void;
   
   /**
     Returns whether this Actor was spawned by a child actor component
   **/
-  @:ufunction @:thisConst @:final public function IsChildActor() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsChildActor() : Bool;
   
   /**
     Returns a list of all child actors, including children of children
   **/
-  @:ufunction @:thisConst @:final public function GetAllChildActors(ChildActors : unreal.PRef<unreal.TArray<unreal.AActor>>, bIncludeDescendants : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAllChildActors(ChildActors : unreal.PRef<unreal.TArray<unreal.AActor>>, bIncludeDescendants : Bool = true) : Void;
   
   /**
     If this Actor was created by a Child Actor Component returns that Child Actor Component
   **/
-  @:ufunction @:thisConst @:final public function GetParentComponent() : unreal.UChildActorComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetParentComponent() : unreal.UChildActorComponent;
   
   /**
     If this Actor was created by a Child Actor Component returns the Actor that owns that Child Actor Component
   **/
-  @:ufunction @:thisConst @:final public function GetParentActor() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetParentActor() : unreal.AActor;
   
   /**
     Teleport this actor to a new location. If the actor doesn't fit exactly at the location specified, tries to slightly move it out of walls and such.
@@ -1090,43 +1090,43 @@ package unreal;
     @param DestRotation The target rotation at the destination
     @return true if the actor has been successfully moved, or false if it couldn't fit.
   **/
-  @:ufunction @:final public function K2_TeleportTo(DestLocation : unreal.FVector, DestRotation : unreal.FRotator) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_TeleportTo(DestLocation : unreal.FVector, DestRotation : unreal.FRotator) : Bool;
   
   /**
     Walk up the attachment chain from RootComponent until we encounter a different actor, and return it. If we are not attached to a component in a different actor, returns NULL
   **/
-  @:ufunction @:thisConst @:final public function GetAttachParentActor() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachParentActor() : unreal.AActor;
   
   /**
     Walk up the attachment chain from RootComponent until we encounter a different actor, and return the socket name in the component. If we are not attached to a component in a different actor, returns NAME_None
   **/
-  @:ufunction @:thisConst @:final public function GetAttachParentSocketName() : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachParentSocketName() : unreal.FName;
   
   /**
     Find all Actors which are attached directly to a component in this actor
   **/
-  @:ufunction @:thisConst @:final public function GetAttachedActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachedActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Sets the ticking group for this actor.
     @param NewTickGroup the new value to assign
   **/
-  @:ufunction @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
   
   /**
     Event called when this Actor becomes the view target for the given PlayerController.
   **/
-  @:ufunction public function K2_OnBecomeViewTarget(PC : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnBecomeViewTarget(PC : unreal.APlayerController) : Void;
   
   /**
     Event called when this Actor is no longer the view target for the given PlayerController.
   **/
-  @:ufunction public function K2_OnEndViewTarget(PC : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnEndViewTarget(PC : unreal.APlayerController) : Void;
   
   /**
     Event called when this Actor is reset to its initial state - used when restarting level without reloading.
   **/
-  @:ufunction public function K2_OnReset() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnReset() : Void;
   
   /**
     Returns true if this actor has been rendered "recently", with a tolerance in seconds to define what "recent" means.
@@ -1135,12 +1135,12 @@ package unreal;
     @param Tolerance  How many seconds ago the actor last render time can be and still count as having been "recently" rendered.
     @return Whether this actor was recently rendered.
   **/
-  @:ufunction @:thisConst @:final public function WasRecentlyRendered(Tolerance : unreal.Float32 = 0.200000) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function WasRecentlyRendered(Tolerance : unreal.Float32 = 0.200000) : Bool;
   
   /**
     Force actor to be updated to clients
   **/
-  @:ufunction public function ForceNetUpdate() : Void;
+  @:ufunction(BlueprintCallable) public function ForceNetUpdate() : Void;
   
   /**
     Returns the point of view of the actor.
@@ -1152,22 +1152,22 @@ package unreal;
     @param       OutLocation - location of view point
     @param       OutRotation - view rotation of actor.
   **/
-  @:ufunction @:thisConst public function GetActorEyesViewPoint(OutLocation : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetActorEyesViewPoint(OutLocation : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     Script exposed version of FindComponentByClass
   **/
-  @:ufunction @:thisConst @:final public function GetComponentByClass(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.UActorComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetComponentByClass(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.UActorComponent;
   
   /**
     Gets all the components that inherit from the given class.
           Currently returns an array of UActorComponent which must be cast to the correct type.
   **/
-  @:ufunction @:thisConst @:final public function GetComponentsByClass(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.TArray<unreal.UActorComponent>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetComponentsByClass(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>) : unreal.TArray<unreal.UActorComponent>;
   
   /**
     Gets all the components that inherit from the given class with a given tag.
   **/
-  @:ufunction @:thisConst @:final public function GetComponentsByTag(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>, Tag : unreal.FName) : unreal.TArray<unreal.UActorComponent>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetComponentsByTag(@:bpopt("ActorComponent") ComponentClass : unreal.TSubclassOf<unreal.UActorComponent>, Tag : unreal.FName) : unreal.TArray<unreal.UActorComponent>;
   
 }

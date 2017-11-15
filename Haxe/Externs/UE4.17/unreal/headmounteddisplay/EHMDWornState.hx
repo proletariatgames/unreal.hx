@@ -18,7 +18,7 @@ package unreal.headmounteddisplay;
   Stores if the user is wearing the HMD or not. For HMDs without a sensor to detect the user wearing it, the state defaults to Unknown.
 **/
 @:umodule("HeadMountedDisplay")
-@:glueCppIncludes("HeadMountedDisplayTypes.h")
+@:glueCppIncludes("Public/HeadMountedDisplayTypes.h")
 @:uname("EHMDWornState.Type")
 @:uextern @:uenum extern enum EHMDWornState {
   

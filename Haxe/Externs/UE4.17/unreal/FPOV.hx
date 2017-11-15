@@ -17,7 +17,7 @@ package unreal;
 /**
   Point Of View type.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPOV {
   
   /**

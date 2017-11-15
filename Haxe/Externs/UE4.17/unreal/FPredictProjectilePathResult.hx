@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for the result of a projectile path trace (using PredictProjectilePath).
 **/
-@:glueCppIncludes("Kismet/GameplayStaticsTypes.h")
+@:glueCppIncludes("Classes/Kismet/GameplayStaticsTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPredictProjectilePathResult {
   
   /**

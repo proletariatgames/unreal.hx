@@ -18,7 +18,7 @@ package unreal.levelsequence;
   An array of binding references
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceBindingReference.h")
+@:glueCppIncludes("Public/LevelSequenceBindingReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceBindingReferenceArray {
   @:uproperty public var References : unreal.TArray<unreal.levelsequence.FLevelSequenceBindingReference>;
   

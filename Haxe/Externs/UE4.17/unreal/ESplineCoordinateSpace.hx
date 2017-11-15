@@ -17,7 +17,7 @@ package unreal;
 /**
   Types of coordinate space accepted by the functions.
 **/
-@:glueCppIncludes("Components/SplineComponent.h")
+@:glueCppIncludes("Classes/Components/SplineComponent.h")
 @:uname("ESplineCoordinateSpace.Type")
 @:uextern @:uenum extern enum ESplineCoordinateSpace {
   Local;

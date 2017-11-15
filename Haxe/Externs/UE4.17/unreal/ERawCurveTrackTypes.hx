@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimCurveTypes.h")
+@:glueCppIncludes("Public/Animation/AnimCurveTypes.h")
 @:uname("ERawCurveTrackTypes")
 @:class @:uextern @:uenum extern enum ERawCurveTrackTypes {
   

@@ -29,6 +29,6 @@ package unreal;
     Render the scene to the texture target immediately.
     This should not be used if bCaptureEveryFrame is enabled, or the scene capture will render redundantly.
   **/
-  @:ufunction @:final public function CaptureScene() : Void;
+  @:ufunction(BlueprintCallable) @:final public function CaptureScene() : Void;
   
 }

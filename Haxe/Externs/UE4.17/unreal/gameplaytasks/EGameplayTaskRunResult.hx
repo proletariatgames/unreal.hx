@@ -15,7 +15,7 @@
 package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
-@:glueCppIncludes("GameplayTasksComponent.h")
+@:glueCppIncludes("Classes/GameplayTasksComponent.h")
 @:uname("EGameplayTaskRunResult")
 @:class @:uextern @:uenum extern enum EGameplayTaskRunResult {
   

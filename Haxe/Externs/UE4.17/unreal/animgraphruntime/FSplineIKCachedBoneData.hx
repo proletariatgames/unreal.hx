@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Data cached per bone in the chain
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_SplineIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_SplineIK.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSplineIKCachedBoneData {
   
   /**

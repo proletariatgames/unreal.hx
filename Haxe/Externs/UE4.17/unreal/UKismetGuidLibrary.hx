@@ -20,36 +20,36 @@ package unreal;
   /**
     Returns true if the values are equal (A == B)
   **/
-  @:ufunction static public function EqualEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function EqualEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Returns true if the values are not equal (A != B)
   **/
-  @:ufunction static public function NotEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function NotEqual_GuidGuid(A : unreal.Const<unreal.PRef<unreal.FGuid>>, B : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Checks whether the given GUID is valid
   **/
-  @:ufunction static public function IsValid_Guid(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsValid_Guid(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : Bool;
   
   /**
     Invalidates the given GUID
   **/
-  @:ufunction static public function Invalidate_Guid(InGuid : unreal.PRef<unreal.FGuid>) : Void;
+  @:ufunction(BlueprintCallable) static public function Invalidate_Guid(InGuid : unreal.PRef<unreal.FGuid>) : Void;
   
   /**
     Returns a new unique GUID
   **/
-  @:ufunction static public function NewGuid() : unreal.FGuid;
+  @:ufunction(BlueprintCallable) static public function NewGuid() : unreal.FGuid;
   
   /**
     Converts a GUID value to a string, in the form 'A-B-C-D'
   **/
-  @:ufunction static public function Conv_GuidToString(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function Conv_GuidToString(InGuid : unreal.Const<unreal.PRef<unreal.FGuid>>) : unreal.FString;
   
   /**
     Converts a String of format EGuidFormats to a Guid. Returns Guid OutGuid, Returns bool Success
   **/
-  @:ufunction static public function Parse_StringToGuid(GuidString : unreal.FString, OutGuid : unreal.PRef<unreal.FGuid>, Success : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function Parse_StringToGuid(GuidString : unreal.FString, OutGuid : unreal.PRef<unreal.FGuid>, Success : Bool) : Void;
   
 }

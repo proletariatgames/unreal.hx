@@ -18,7 +18,7 @@ package unreal.landscape;
   Deprecated
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeSplineSegment.h")
+@:glueCppIncludes("Classes/LandscapeSplineSegment.h")
 @:uname("LandscapeSplineMeshOrientation")
 @:uextern @:uenum extern enum LandscapeSplineMeshOrientation {
   LSMO_XUp;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimTypes.h")
+@:glueCppIncludes("Public/Animation/AnimTypes.h")
 @:uname("ECurveBlendOption.Type")
 @:uextern @:uenum extern enum ECurveBlendOption {
   

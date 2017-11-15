@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Texture.h")
+@:glueCppIncludes("Classes/Engine/Texture.h")
 @:uname("ECompositeTextureMode")
 @:uextern @:uenum extern enum ECompositeTextureMode {
   

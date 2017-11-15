@@ -17,7 +17,7 @@ package unreal;
 /**
   RadialForce applies a force pulling or pushing away from a given world location to the target
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource_RadialForce extends unreal.FRootMotionSource {
   @:uproperty public var FixedWorldDirection : unreal.FRotator;
   @:uproperty public var bUseFixedWorldDirection : Bool;

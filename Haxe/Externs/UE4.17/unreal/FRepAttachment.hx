@@ -17,7 +17,7 @@ package unreal;
 /**
   Handles attachment replication to clients. Movement replication will not happen while AttachParent is non-nullptr
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRepAttachment {
   @:uproperty public var AttachComponent : unreal.USceneComponent;
   @:uproperty public var AttachSocket : unreal.FName;

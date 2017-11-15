@@ -96,57 +96,57 @@ package unreal.introtutorials;
     @param        PathToActor     The path to the actor (e.g. PersistentLevel.PlayerStart)
     @return       A reference to the actor, or none if it wasn't found
   **/
-  @:ufunction @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
   
   /**
     Event fired when a tutorial stage begins
   **/
-  @:ufunction private function OnTutorialStageStarted(StageName : unreal.FName) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function OnTutorialStageStarted(StageName : unreal.FName) : Void;
   
   /**
     Event fired when a tutorial stage ends
   **/
-  @:ufunction private function OnTutorialStageEnded(StageName : unreal.FName) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function OnTutorialStageEnded(StageName : unreal.FName) : Void;
   
   /**
     Event fired when a tutorial is launched
   **/
-  @:ufunction private function OnTutorialLaunched() : Void;
+  @:ufunction(BlueprintImplementableEvent) private function OnTutorialLaunched() : Void;
   
   /**
     Event fired when a tutorial is closed
   **/
-  @:ufunction private function OnTutorialClosed() : Void;
+  @:ufunction(BlueprintImplementableEvent) private function OnTutorialClosed() : Void;
   
   /**
     Advance to the next stage of a tutorial
   **/
-  @:ufunction static private function GoToNextTutorialStage() : Void;
+  @:ufunction(BlueprintCallable) static private function GoToNextTutorialStage() : Void;
   
   /**
     Advance to the previous stage of a tutorial
   **/
-  @:ufunction static private function GoToPreviousTutorialStage() : Void;
+  @:ufunction(BlueprintCallable) static private function GoToPreviousTutorialStage() : Void;
   
   /**
     Begin a tutorial. Note that this will end the current tutorial that is in progress, if any
   **/
-  @:ufunction static private function BeginTutorial(TutorialToStart : unreal.introtutorials.UEditorTutorial, bRestart : Bool) : Void;
+  @:ufunction(BlueprintCallable) static private function BeginTutorial(TutorialToStart : unreal.introtutorials.UEditorTutorial, bRestart : Bool) : Void;
   
   /**
     Open an asset for use by a tutorial
     @param       Asset   The asset to open
   **/
-  @:ufunction static private function OpenAsset(Asset : unreal.UObject) : Void;
+  @:ufunction(BlueprintCallable) static private function OpenAsset(Asset : unreal.UObject) : Void;
   
   /**
     Sets the visibility of the engine folder in the content browser
   **/
-  @:ufunction static private function SetEngineFolderVisibilty(bNewVisibility : Bool) : Void;
+  @:ufunction(BlueprintCallable) static private function SetEngineFolderVisibilty(bNewVisibility : Bool) : Void;
   
   /**
     Returns the visibility of the engine folder in the content browser
   **/
-  @:ufunction static private function GetEngineFolderVisibilty() : Bool;
+  @:ufunction(BlueprintCallable) static private function GetEngineFolderVisibilty() : Bool;
   
 }

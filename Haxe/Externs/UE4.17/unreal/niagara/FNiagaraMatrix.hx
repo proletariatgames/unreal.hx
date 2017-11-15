@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraTypes.h")
+@:glueCppIncludes("Public/NiagaraTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraMatrix {
   @:uproperty public var Row3 : unreal.FVector4;
   @:uproperty public var Row2 : unreal.FVector4;

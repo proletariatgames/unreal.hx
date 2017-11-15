@@ -18,7 +18,7 @@ package unreal.moviescene;
   Movie scene compilation parameters. Serialized items contribute to a compiled template's cached hash
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneTrack.h")
+@:glueCppIncludes("Public/MovieSceneTrack.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackCompilationParams {
   
   /**

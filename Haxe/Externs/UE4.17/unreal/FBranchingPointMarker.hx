@@ -18,7 +18,7 @@ package unreal;
   AnimNotifies marked as BranchingPoints will create these markers on their Begin/End times.
         They create stopping points when the Montage is being ticked to dispatch events.
 **/
-@:glueCppIncludes("Animation/AnimMontage.h")
+@:glueCppIncludes("Classes/Animation/AnimMontage.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBranchingPointMarker {
   @:uproperty public var NotifyEventType : unreal.EAnimNotifyEventType;
   @:uproperty public var TriggerTime : unreal.Float32;

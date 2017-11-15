@@ -17,7 +17,7 @@ package unreal;
 /**
   A pose for a skeletal mesh
 **/
-@:glueCppIncludes("Animation/PoseSnapshot.h")
+@:glueCppIncludes("Public/Animation/PoseSnapshot.h")
 @:uextern @:ustruct extern class FPoseSnapshot {
   
   /**

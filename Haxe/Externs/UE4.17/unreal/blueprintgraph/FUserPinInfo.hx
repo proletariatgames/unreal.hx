@@ -15,7 +15,7 @@
 package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_EditablePinBase.h")
+@:glueCppIncludes("Classes/K2Node_EditablePinBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FUserPinInfo {
   
   /**

@@ -32,6 +32,6 @@ package unreal.umg;
     The column fill rules
   **/
   @:uproperty public var ColumnFill : unreal.TArray<unreal.Float32>;
-  @:ufunction @:final public function AddChildToGrid(Content : unreal.umg.UWidget) : unreal.umg.UGridSlot;
+  @:ufunction(BlueprintCallable) @:final public function AddChildToGrid(Content : unreal.umg.UWidget) : unreal.umg.UGridSlot;
   
 }

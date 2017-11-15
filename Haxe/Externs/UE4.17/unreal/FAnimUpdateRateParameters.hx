@@ -18,7 +18,7 @@ package unreal;
   Container for Animation Update Rate parameters.
   They are shared for all components of an Actor, so they can be updated in sync.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimUpdateRateParameters {
   
   /**

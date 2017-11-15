@@ -17,7 +17,7 @@ package unreal;
 /**
   used by FPostProcessSettings AutoExposure
 **/
-@:glueCppIncludes("Engine/RendererSettings.h")
+@:glueCppIncludes("Classes/Engine/RendererSettings.h")
 @:uname("EAutoExposureMethodUI.Type")
 @:uextern @:uenum extern enum EAutoExposureMethodUI {
   

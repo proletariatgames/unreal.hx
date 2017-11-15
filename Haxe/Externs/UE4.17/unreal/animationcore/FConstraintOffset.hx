@@ -21,7 +21,7 @@ package unreal.animationcore;
   Used by Constraint for saving the offset, and recovering the offset
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FConstraintOffset {
   @:uproperty public var Parent : unreal.FTransform;
   @:uproperty public var Scale : unreal.FVector;

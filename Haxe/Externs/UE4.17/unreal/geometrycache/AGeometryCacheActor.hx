@@ -24,6 +24,6 @@ package unreal.geometrycache;
   /**
     Returns GeometryCacheComponent subobject *
   **/
-  @:ufunction @:thisConst @:final public function GetGeometryCacheComponent() : unreal.geometrycache.UGeometryCacheComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetGeometryCacheComponent() : unreal.geometrycache.UGeometryCacheComponent;
   
 }

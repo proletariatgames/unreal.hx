@@ -18,7 +18,7 @@ package unreal.textureeditor;
   Enumerates background for the texture editor view port.
 **/
 @:umodule("TextureEditor")
-@:glueCppIncludes("TextureEditorSettings.h")
+@:glueCppIncludes("Classes/TextureEditorSettings.h")
 @:uname("ETextureEditorBackgrounds")
 @:uextern @:uenum extern enum ETextureEditorBackgrounds {
   

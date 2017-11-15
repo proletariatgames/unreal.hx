@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper structure for displaying the parameter.
 **/
-@:glueCppIncludes("Particles/Parameter/ParticleModuleParameterDynamic.h")
+@:glueCppIncludes("Classes/Particles/Parameter/ParticleModuleParameterDynamic.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEmitterDynamicParameter {
   
   /**

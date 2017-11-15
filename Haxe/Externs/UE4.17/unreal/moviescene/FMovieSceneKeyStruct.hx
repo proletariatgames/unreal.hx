@@ -19,7 +19,7 @@ package unreal.moviescene;
   have their changes propagated to key values.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneKeyStruct.h")
+@:glueCppIncludes("Public/MovieSceneKeyStruct.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneKeyStruct {
   
 }

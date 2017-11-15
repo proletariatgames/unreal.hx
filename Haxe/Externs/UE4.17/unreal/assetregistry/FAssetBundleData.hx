@@ -18,7 +18,7 @@ package unreal.assetregistry;
   A struct with a list of asset bundle entries. If one of these is inside a UObject it will get automatically exported as the asset registry tag AssetBundleData
 **/
 @:umodule("AssetRegistry")
-@:glueCppIncludes("AssetBundleData.h")
+@:glueCppIncludes("Public/AssetBundleData.h")
 @:uextern @:ustruct extern class FAssetBundleData {
   
   /**

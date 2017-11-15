@@ -18,7 +18,7 @@ package unreal.oculushmd;
   DEPRECATED in 4.17 : All functions using this enum have been deprecated and it will be removed with them. If you are still needing this, then please create your own replacement.
 **/
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusFunctionLibrary.h")
+@:glueCppIncludes("Public/OculusFunctionLibrary.h")
 @:uname("EGearVRControllerHandedness_DEPRECATED")
 @:class @:uextern @:uenum extern enum EGearVRControllerHandedness_DEPRECATED {
   RightHanded_DEPRECATED;

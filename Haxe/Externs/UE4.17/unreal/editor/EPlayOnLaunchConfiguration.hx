@@ -18,7 +18,7 @@ package unreal.editor;
   Configuration to use when launching on device.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorPlaySettings.h")
 @:uname("EPlayOnLaunchConfiguration")
 @:uextern @:uenum extern enum EPlayOnLaunchConfiguration {
   

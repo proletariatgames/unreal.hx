@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper struct for tracking on screen messages.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FScreenMessageString {
   
   /**

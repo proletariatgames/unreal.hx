@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryTypes.h")
 @:uname("EEnvTestScoreOperator.Type")
 @:uextern @:uenum extern enum EEnvTestScoreOperator {
   

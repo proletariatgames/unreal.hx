@@ -19,7 +19,7 @@ package unreal.niagara;
   Do not alter this struct without updating the data interfaces that use it!
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraDataInterfaceStaticMesh.h")
+@:glueCppIncludes("Classes/NiagaraDataInterfaceStaticMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshTriCoordinate {
   @:uproperty public var BaryCoord : unreal.FVector;
   @:uproperty public var Tri : unreal.Int32;

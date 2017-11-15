@@ -35,7 +35,7 @@ package unreal.gameplaytags;
   Note: these have an extensive details and graph pin customization for editing, so there is no need to expose the internals to Blueprints.
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagContainer.h")
+@:glueCppIncludes("Classes/GameplayTagContainer.h")
 @:uextern @:ustruct extern class FGameplayTagQuery {
   
 }

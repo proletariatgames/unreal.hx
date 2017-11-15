@@ -37,15 +37,15 @@ package unreal;
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:ufunction @:final public function Activate() : Void;
-  @:ufunction @:final public function Deactivate() : Void;
-  @:ufunction @:final public function ToggleActive() : Void;
-  @:ufunction @:thisConst @:final public function IsActive() : Bool;
-  @:ufunction public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
-  @:ufunction @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
-  @:ufunction @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
-  @:ufunction @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Activate() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Deactivate() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ToggleActive() : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsActive() : Bool;
+  @:ufunction(BlueprintCallable) public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
   
 }

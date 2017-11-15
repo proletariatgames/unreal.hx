@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionLandscapeLayerBlend.h")
 @:uname("ELandscapeLayerBlendType")
 @:uextern @:uenum extern enum ELandscapeLayerBlendType {
   LB_WeightBlend;

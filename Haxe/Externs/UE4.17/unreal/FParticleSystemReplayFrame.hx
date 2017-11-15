@@ -17,7 +17,7 @@ package unreal;
 /**
   A single frame within this replay
 **/
-@:glueCppIncludes("Particles/ParticleSystemReplay.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystemReplay.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleSystemReplayFrame {
   
 }

@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneSection.h")
+@:glueCppIncludes("Public/MovieSceneSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSectionEvalOptions {
   
   /**

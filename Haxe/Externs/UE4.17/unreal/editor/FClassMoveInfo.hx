@@ -18,7 +18,7 @@ package unreal.editor;
   Used during asset renaming/duplication to specify class-specific package/group targets.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/UnrealEdEngine.h")
+@:glueCppIncludes("Classes/Editor/UnrealEdEngine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClassMoveInfo {
   
   /**

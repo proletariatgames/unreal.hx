@@ -62,21 +62,21 @@ package unreal;
     0 implies spring is at rest
     1 implies fully compressed
   **/
-  @:ufunction @:thisConst @:final public function GetNormalizedCompressionScalar() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNormalizedCompressionScalar() : unreal.Float32;
   
   /**
     Returns the spring resting point in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetSpringRestingPoint() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSpringRestingPoint() : unreal.FVector;
   
   /**
     Returns the spring current end point in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetSpringCurrentEndPoint() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSpringCurrentEndPoint() : unreal.FVector;
   
   /**
     Returns the spring direction from start to resting point
   **/
-  @:ufunction @:thisConst @:final public function GetSpringDirection() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSpringDirection() : unreal.FVector;
   
 }

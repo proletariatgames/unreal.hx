@@ -17,7 +17,7 @@ package unreal;
 /**
   Saved editor viewport state information
 **/
-@:glueCppIncludes("Engine/World.h")
+@:glueCppIncludes("Classes/Engine/World.h")
 @:uextern @:ustruct extern class FLevelViewportInfo {
   
   /**

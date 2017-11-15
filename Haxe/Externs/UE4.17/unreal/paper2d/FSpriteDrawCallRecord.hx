@@ -15,7 +15,7 @@
 package unreal.paper2d;
 
 @:umodule("Paper2D")
-@:glueCppIncludes("SpriteDrawCall.h")
+@:glueCppIncludes("Classes/SpriteDrawCall.h")
 @:uextern @:ustruct extern class FSpriteDrawCallRecord {
   @:uproperty public var Color : unreal.FColor;
   @:uproperty public var BaseTexture : unreal.UTexture;

@@ -17,7 +17,7 @@ package unreal;
 /**
   The update method for the offset
 **/
-@:glueCppIncludes("Particles/Camera/ParticleModuleCameraOffset.h")
+@:glueCppIncludes("Classes/Particles/Camera/ParticleModuleCameraOffset.h")
 @:uname("EParticleCameraOffsetUpdateMethod")
 @:uextern @:uenum extern enum EParticleCameraOffsetUpdateMethod {
   

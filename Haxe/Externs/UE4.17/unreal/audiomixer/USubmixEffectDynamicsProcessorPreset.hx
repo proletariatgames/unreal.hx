@@ -17,7 +17,7 @@ package unreal.audiomixer;
 @:umodule("AudioMixer")
 @:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
 @:uextern @:uclass extern class USubmixEffectDynamicsProcessorPreset extends unreal.USoundEffectSubmixPreset {
-  @:ufunction @:final public function SetSettings(InSettings : unreal.Const<unreal.PRef<unreal.audiomixer.FSubmixEffectDynamicsProcessorSettings>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSettings(InSettings : unreal.Const<unreal.PRef<unreal.audiomixer.FSubmixEffectDynamicsProcessorSettings>>) : Void;
   @:uproperty public var Settings : unreal.audiomixer.FSubmixEffectDynamicsProcessorSettings;
   
 }

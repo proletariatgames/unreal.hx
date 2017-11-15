@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that calls UActorComponent::ConditionalTick
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActorComponentTickFunction extends unreal.FTickFunction {
   
 }

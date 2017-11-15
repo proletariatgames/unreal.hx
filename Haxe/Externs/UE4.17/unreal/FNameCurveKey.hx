@@ -17,7 +17,7 @@ package unreal;
 /**
   One key in a curve of FNames.
 **/
-@:glueCppIncludes("Curves/NameCurve.h")
+@:glueCppIncludes("Classes/Curves/NameCurve.h")
 @:uextern @:ustruct extern class FNameCurveKey {
   
   /**

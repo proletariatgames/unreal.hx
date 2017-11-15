@@ -18,7 +18,7 @@ package unreal.animgraph;
   Action to add a node to the graph
 **/
 @:umodule("AnimGraph")
-@:glueCppIncludes("AnimationStateMachineSchema.h")
+@:glueCppIncludes("Classes/AnimationStateMachineSchema.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_NewStateNode extends unreal.FEdGraphSchemaAction {
   
 }

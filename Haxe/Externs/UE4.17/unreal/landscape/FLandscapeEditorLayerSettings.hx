@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeProxy.h")
+@:glueCppIncludes("Classes/LandscapeProxy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeEditorLayerSettings {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var ReimportLayerFilePath : unreal.FString;

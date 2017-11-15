@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Net/OnlineBlueprintCallProxyBase.h")
+@:glueCppIncludes("Public/Net/OnlineBlueprintCallProxyBase.h")
 typedef FEmptyOnlineDelegate = unreal.DynamicMulticastDelegate<FEmptyOnlineDelegate, Void->Void>;

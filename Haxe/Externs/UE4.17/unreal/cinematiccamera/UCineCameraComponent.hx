@@ -111,11 +111,11 @@ package unreal.cinematiccamera;
   /**
     Returns the horizonal FOV of the camera with current settings.
   **/
-  @:ufunction @:thisConst @:final public function GetHorizontalFieldOfView() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetHorizontalFieldOfView() : unreal.Float32;
   
   /**
     Returns the vertical FOV of the camera with current settings.
   **/
-  @:ufunction @:thisConst @:final public function GetVerticalFieldOfView() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetVerticalFieldOfView() : unreal.Float32;
   
 }

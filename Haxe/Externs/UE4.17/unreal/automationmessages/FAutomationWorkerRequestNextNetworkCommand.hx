@@ -15,7 +15,7 @@
 package unreal.automationmessages;
 
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerRequestNextNetworkCommand {
   @:uproperty public var ExecutionCount : unreal.FakeUInt32;
   

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimInstanceProxy.h")
+@:glueCppIncludes("Public/Animation/AnimInstanceProxy.h")
 @:uname("EDrawDebugItemType.Type")
 @:uextern @:uenum extern enum EDrawDebugItemType {
   DirectionalArrow;

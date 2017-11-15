@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStatColorMapping {
   @:uproperty public var DisableBlend : Bool;
   @:uproperty public var ColorMap : unreal.TArray<unreal.FStatColorMapEntry>;

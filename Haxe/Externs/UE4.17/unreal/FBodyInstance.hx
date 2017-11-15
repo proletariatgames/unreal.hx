@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for a physics representation of an object
 **/
-@:glueCppIncludes("PhysicsEngine/BodyInstance.h")
+@:glueCppIncludes("Classes/PhysicsEngine/BodyInstance.h")
 @:noCopy @:uextern @:ustruct extern class FBodyInstance {
   
   /**

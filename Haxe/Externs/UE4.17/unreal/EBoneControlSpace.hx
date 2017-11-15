@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for controlling which reference frame a controller is applied in.
 **/
-@:glueCppIncludes("Animation/AnimTypes.h")
+@:glueCppIncludes("Public/Animation/AnimTypes.h")
 @:uname("EBoneControlSpace")
 @:uextern @:uenum extern enum EBoneControlSpace {
   

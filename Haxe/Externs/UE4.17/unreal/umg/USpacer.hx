@@ -31,6 +31,6 @@ package unreal.umg;
   /**
     Sets the size of the spacer
   **/
-  @:ufunction @:final public function SetSize(InSize : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSize(InSize : unreal.FVector2D) : Void;
   
 }

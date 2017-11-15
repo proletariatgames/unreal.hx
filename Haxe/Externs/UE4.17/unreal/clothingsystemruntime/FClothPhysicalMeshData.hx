@@ -18,7 +18,7 @@ package unreal.clothingsystemruntime;
   Physical mesh data created during asset import or created from a skeletal mesh
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:uextern @:ustruct extern class FClothPhysicalMeshData {
   
   /**

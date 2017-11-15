@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Reference to an structure (only used in 'docked' palette)
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2Struct extends unreal.FEdGraphSchemaAction {
   
 }

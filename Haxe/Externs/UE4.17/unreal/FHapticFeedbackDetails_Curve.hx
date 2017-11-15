@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Haptics/HapticFeedbackEffect_Curve.h")
+@:glueCppIncludes("Classes/Haptics/HapticFeedbackEffect_Curve.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FHapticFeedbackDetails_Curve {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_SkeletalControlBase.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_SkeletalControlBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSocketReference {
   
   /**

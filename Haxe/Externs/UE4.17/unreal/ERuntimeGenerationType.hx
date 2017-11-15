@@ -17,7 +17,7 @@ package unreal;
 /**
   Supported options for runtime navigation data generation
 **/
-@:glueCppIncludes("AI/Navigation/NavigationData.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationData.h")
 @:uname("ERuntimeGenerationType")
 @:class @:uextern @:uenum extern enum ERuntimeGenerationType {
   

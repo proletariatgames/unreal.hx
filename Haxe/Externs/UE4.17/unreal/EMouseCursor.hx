@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("EMouseCursor.Type")
 @:uextern @:uenum extern enum EMouseCursor {
   

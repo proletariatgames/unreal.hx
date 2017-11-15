@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Supported angular constraint types
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysAngularConstraintType")
 @:class @:uextern @:uenum extern enum AnimPhysAngularConstraintType {
   Angular;

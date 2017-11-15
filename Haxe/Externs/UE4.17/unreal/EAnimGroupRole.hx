@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimationAsset.h")
+@:glueCppIncludes("Classes/Animation/AnimationAsset.h")
 @:uname("EAnimGroupRole.Type")
 @:uextern @:uenum extern enum EAnimGroupRole {
   

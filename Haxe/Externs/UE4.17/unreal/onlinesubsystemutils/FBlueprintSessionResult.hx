@@ -15,7 +15,7 @@
 package unreal.onlinesubsystemutils;
 
 @:umodule("OnlineSubsystemUtils")
-@:glueCppIncludes("FindSessionsCallbackProxy.h")
+@:glueCppIncludes("Classes/FindSessionsCallbackProxy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintSessionResult {
   
 }

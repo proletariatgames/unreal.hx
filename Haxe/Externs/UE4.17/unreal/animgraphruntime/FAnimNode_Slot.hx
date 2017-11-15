@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
   Source input.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_Slot.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_Slot.h")
 @:uextern @:ustruct extern class FAnimNode_Slot extends unreal.FAnimNode_Base {
   
   /**

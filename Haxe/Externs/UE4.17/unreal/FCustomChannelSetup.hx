@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure for custom channel setup information.
 **/
-@:glueCppIncludes("Engine/CollisionProfile.h")
+@:glueCppIncludes("Classes/Engine/CollisionProfile.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCustomChannelSetup {
   
   /**

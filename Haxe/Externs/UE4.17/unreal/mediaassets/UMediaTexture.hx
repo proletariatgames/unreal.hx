@@ -44,7 +44,7 @@ package unreal.mediaassets;
     @return Texture aspect ratio.
     @see GetHeight, GetWidth
   **/
-  @:ufunction @:thisConst @:final public function GetAspectRatio() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAspectRatio() : unreal.Float32;
   
   /**
     Gets the current height of the texture.
@@ -52,7 +52,7 @@ package unreal.mediaassets;
     @return Texture height (in pixels).
     @see GetAspectRatio, GetWidth
   **/
-  @:ufunction @:thisConst @:final public function GetHeight() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetHeight() : unreal.Int32;
   
   /**
     Gets the current width of the texture.
@@ -60,6 +60,6 @@ package unreal.mediaassets;
     @return Texture width (in pixels).
     @see GetAspectRatio, GetHeight
   **/
-  @:ufunction @:thisConst @:final public function GetWidth() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetWidth() : unreal.Int32;
   
 }

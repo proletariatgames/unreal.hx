@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeSplineControlPoint.h")
+@:glueCppIncludes("Classes/LandscapeSplineControlPoint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeSplineConnection {
   
   /**

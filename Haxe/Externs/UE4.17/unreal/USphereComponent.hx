@@ -30,22 +30,22 @@ package unreal;
     @param       InSphereRadius: the new sphere radius
     @param       bUpdateOverlaps: if true and this shape is registered and collides, updates touching array for owner actor.
   **/
-  @:ufunction @:final public function SetSphereRadius(InSphereRadius : unreal.Float32, bUpdateOverlaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSphereRadius(InSphereRadius : unreal.Float32, bUpdateOverlaps : Bool = true) : Void;
   
   /**
     @return the radius of the sphere, with component scale applied.
   **/
-  @:ufunction @:thisConst @:final public function GetScaledSphereRadius() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetScaledSphereRadius() : unreal.Float32;
   
   /**
     @return the radius of the sphere, ignoring component scale.
   **/
-  @:ufunction @:thisConst @:final public function GetUnscaledSphereRadius() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUnscaledSphereRadius() : unreal.Float32;
   
   /**
     Get the scale used by this shape. This is a uniform scale that is the minimum of any non-uniform scaling.
     @return the scale used by this shape.
   **/
-  @:ufunction @:thisConst @:final public function GetShapeScale() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetShapeScale() : unreal.Float32;
   
 }

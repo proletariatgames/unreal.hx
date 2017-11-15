@@ -20,9 +20,9 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern @:uclass extern class UBorderSlot extends unreal.umg.UPanelSlot {
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
   /**
     The alignment of the object vertically.

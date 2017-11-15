@@ -18,7 +18,7 @@ package unreal.levelsequence;
   Frame snapshot information for a level sequence
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequencePlayer.h")
+@:glueCppIncludes("Public/LevelSequencePlayer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequencePlayerSnapshot {
   @:uproperty public var Settings : unreal.levelsequence.FLevelSequenceSnapshotSettings;
   @:uproperty public var CameraComponent : unreal.UCameraComponent;

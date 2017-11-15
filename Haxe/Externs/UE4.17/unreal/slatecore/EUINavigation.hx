@@ -18,7 +18,7 @@ package unreal.slatecore;
   Navigation context for event
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Types/SlateEnums.h")
+@:glueCppIncludes("Public/Types/SlateEnums.h")
 @:uname("EUINavigation")
 @:class @:uextern @:uenum extern enum EUINavigation {
   

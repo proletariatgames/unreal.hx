@@ -18,7 +18,7 @@ package unreal.moviescenecapture;
   Common movie-scene capture settings
 **/
 @:umodule("MovieSceneCapture")
-@:glueCppIncludes("MovieSceneCaptureSettings.h")
+@:glueCppIncludes("Public/MovieSceneCaptureSettings.h")
 @:uextern @:ustruct extern class FMovieSceneCaptureSettings {
   
   /**

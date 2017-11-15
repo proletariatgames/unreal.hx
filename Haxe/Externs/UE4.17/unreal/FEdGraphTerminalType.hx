@@ -20,7 +20,7 @@ package unreal;
   a structure, or a primitive. Support for "Container of Containers" is done by wrapping
   a structure, rather than implicitly defining names for containers.
 **/
-@:glueCppIncludes("EdGraph/EdGraphNode.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphNode.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEdGraphTerminalType {
   
   /**

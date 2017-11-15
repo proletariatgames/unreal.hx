@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionNoise.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionNoise.h")
 @:uname("ENoiseFunction")
 @:uextern @:uenum extern enum ENoiseFunction {
   

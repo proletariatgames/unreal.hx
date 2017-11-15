@@ -15,7 +15,7 @@
 package unreal.niagaraeditor;
 
 @:umodule("NiagaraEditor")
-@:glueCppIncludes("NiagaraNodeInput.h")
+@:glueCppIncludes("Public/NiagaraNodeInput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraInputExposureOptions {
   
   /**

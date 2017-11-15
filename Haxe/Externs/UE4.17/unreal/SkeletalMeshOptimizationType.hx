@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum specifying the reduction type to use when simplifying skeletal meshes.
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:uname("SkeletalMeshOptimizationType")
 @:uextern @:uenum extern enum SkeletalMeshOptimizationType {
   SMOT_NumOfTriangles;

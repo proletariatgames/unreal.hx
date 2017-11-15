@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   Types of reservation requests that can be made by this beacon
 **/
 @:umodule("OnlineSubsystemUtils")
-@:glueCppIncludes("PartyBeaconClient.h")
+@:glueCppIncludes("Public/PartyBeaconClient.h")
 @:uname("EClientRequestType")
 @:class @:uextern @:uenum extern enum EClientRequestType {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   keep in sync with rcRegionPartitioning enum!
 **/
-@:glueCppIncludes("AI/Navigation/RecastNavMesh.h")
+@:glueCppIncludes("Classes/AI/Navigation/RecastNavMesh.h")
 @:uname("ERecastPartitioning.Type")
 @:uextern @:uenum extern enum ERecastPartitioning {
   Monotone;

@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeProxy.h")
+@:glueCppIncludes("Classes/LandscapeProxy.h")
 @:uname("ELandscapeLayerDisplayMode")
 @:class @:uextern @:uenum extern enum ELandscapeLayerDisplayMode {
   

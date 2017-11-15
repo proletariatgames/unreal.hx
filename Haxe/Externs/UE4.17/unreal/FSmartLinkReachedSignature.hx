@@ -19,7 +19,7 @@ package unreal;
   @param DestinationPoint
   
 **/
-@:glueCppIncludes("AI/Navigation/NavLinkProxy.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavLinkProxy.h")
 @:uParamName("MovingActor")
 @:uParamName("DestinationPoint")
 typedef FSmartLinkReachedSignature = unreal.DynamicMulticastDelegate<FSmartLinkReachedSignature, unreal.AActor->unreal.Const<unreal.PRef<unreal.FVector>>->Void>;

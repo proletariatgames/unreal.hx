@@ -21,7 +21,7 @@ package unreal.kismet;
   invoked from this class (separated to divide ui and node-spawning).
 **/
 @:umodule("Kismet")
-@:glueCppIncludes("BlueprintActionMenuItem.h")
+@:glueCppIncludes("Public/BlueprintActionMenuItem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintActionMenuItem extends unreal.FEdGraphSchemaAction {
   
 }

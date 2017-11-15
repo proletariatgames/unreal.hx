@@ -19,7 +19,7 @@ package unreal.umg;
   trace from to try to find a widget under a virtual pointer device.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/WidgetInteractionComponent.h")
+@:glueCppIncludes("UMG.h", "Public/Components/WidgetInteractionComponent.h")
 @:uname("EWidgetInteractionSource")
 @:class @:uextern @:uenum extern enum EWidgetInteractionSource {
   

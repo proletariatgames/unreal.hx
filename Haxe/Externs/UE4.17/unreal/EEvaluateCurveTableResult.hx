@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum used to indicate success or failure of EvaluateCurveTableRow.
 **/
-@:glueCppIncludes("Kismet/DataTableFunctionLibrary.h")
+@:glueCppIncludes("Classes/Kismet/DataTableFunctionLibrary.h")
 @:uname("EEvaluateCurveTableResult.Type")
 @:uextern @:uenum extern enum EEvaluateCurveTableResult {
   

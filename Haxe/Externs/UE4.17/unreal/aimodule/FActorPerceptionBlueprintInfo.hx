@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Perception/AIPerceptionComponent.h")
+@:glueCppIncludes("Classes/Perception/AIPerceptionComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActorPerceptionBlueprintInfo {
   @:uproperty public var bIsHostile : Bool;
   @:uproperty public var LastSensedStimuli : unreal.TArray<unreal.aimodule.FAIStimulus>;

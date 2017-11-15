@@ -15,7 +15,7 @@
 package unreal.sequencer;
 
 @:umodule("Sequencer")
-@:glueCppIncludes("SequencerSettings.h")
+@:glueCppIncludes("Public/SequencerSettings.h")
 @:uname("ESequencerTimeSnapInterval")
 @:uextern @:uenum extern enum ESequencerTimeSnapInterval {
   

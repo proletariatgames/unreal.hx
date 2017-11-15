@@ -18,7 +18,7 @@ package unreal.animationcore;
   A description of how to apply a simple transform constraint
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FConstraintDescriptionEx {
   @:uproperty public var AxesFilterOption : unreal.animationcore.FFilterOptionPerAxis;
   

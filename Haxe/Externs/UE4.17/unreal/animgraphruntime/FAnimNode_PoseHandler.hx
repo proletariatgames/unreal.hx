@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
   This node will not trigger any notifies present in the associated sequence.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseHandler.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseHandler.h")
 @:uextern @:ustruct extern class FAnimNode_PoseHandler extends unreal.FAnimNode_AssetPlayerBase {
   
   /**

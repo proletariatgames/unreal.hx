@@ -17,7 +17,7 @@ package unreal;
 /**
   Internal state, not accessible to script.
 **/
-@:glueCppIncludes("Engine/BrushBuilder.h")
+@:glueCppIncludes("Classes/Engine/BrushBuilder.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBuilderPoly {
   @:uproperty public var PolyFlags : unreal.Int32;
   @:uproperty public var ItemName : unreal.FName;

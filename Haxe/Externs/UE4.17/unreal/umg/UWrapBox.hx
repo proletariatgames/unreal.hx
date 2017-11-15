@@ -43,7 +43,7 @@ package unreal.umg;
   /**
     Sets the inner slot padding goes between slots sharing borders
   **/
-  @:ufunction @:final public function SetInnerSlotPadding(InPadding : unreal.FVector2D) : Void;
-  @:ufunction @:final public function AddChildWrapBox(Content : unreal.umg.UWidget) : unreal.umg.UWrapBoxSlot;
+  @:ufunction(BlueprintCallable) @:final public function SetInnerSlotPadding(InPadding : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddChildWrapBox(Content : unreal.umg.UWidget) : unreal.umg.UWrapBoxSlot;
   
 }

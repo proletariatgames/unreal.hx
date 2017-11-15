@@ -18,7 +18,7 @@ package unreal.moviescene;
   Evaluation data that specifies information about what to evaluate for a given template
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSegment.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSegment.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSectionEvaluationData {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure for collision response templates.
 **/
-@:glueCppIncludes("Engine/CollisionProfile.h")
+@:glueCppIncludes("Classes/Engine/CollisionProfile.h")
 @:uextern @:ustruct extern class FCollisionResponseTemplate {
   
   /**

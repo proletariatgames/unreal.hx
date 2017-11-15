@@ -18,7 +18,7 @@ package unreal.audiomixer;
   A submix dynamics processor
 **/
 @:umodule("AudioMixer")
-@:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
+@:glueCppIncludes("Classes/SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
 @:uextern @:ustruct extern class FSubmixEffectDynamicsProcessorSettings {
   
   /**

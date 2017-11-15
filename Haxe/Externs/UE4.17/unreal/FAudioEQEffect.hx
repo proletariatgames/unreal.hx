@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundMix.h")
+@:glueCppIncludes("Classes/Sound/SoundMix.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAudioEQEffect {
   
   /**

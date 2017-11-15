@@ -18,7 +18,7 @@ package unreal;
   Container responsible for managing the mute state of a player controller
   at the gameplay level (VoiceInterface handles actual muting)
 **/
-@:glueCppIncludes("GameFramework/PlayerMuteList.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerMuteList.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPlayerMuteList {
   @:uproperty public var VoiceChannelIdx : unreal.Int32;
   

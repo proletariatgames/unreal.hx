@@ -18,7 +18,7 @@ package unreal.introtutorials;
   The type of tutorial content to display
 **/
 @:umodule("IntroTutorials")
-@:glueCppIncludes("EditorTutorial.h")
+@:glueCppIncludes("Public/EditorTutorial.h")
 @:uname("ETutorialContent.Type")
 @:uextern @:uenum extern enum ETutorialContent {
   

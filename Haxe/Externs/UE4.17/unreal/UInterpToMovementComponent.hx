@@ -96,16 +96,16 @@ package unreal;
   /**
     Clears the reference to UpdatedComponent, fires stop event, and stops ticking.
   **/
-  @:ufunction @:final public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Reset to start. Sets time to zero and direction to 1.
   **/
-  @:ufunction @:final public function RestartMovement(InitialDirection : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RestartMovement(InitialDirection : unreal.Float32 = 1.000000) : Void;
   
   /**
     Initialise the control points array. Call after adding control points if they are add after begin play .
   **/
-  @:ufunction @:final public function FinaliseControlPoints() : Void;
+  @:ufunction(BlueprintCallable) @:final public function FinaliseControlPoints() : Void;
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNodeBase.h")
+@:glueCppIncludes("Classes/Animation/AnimNodeBase.h")
 @:uname("ECopyType")
 @:class @:uextern @:uenum extern enum ECopyType {
   

@@ -19,6 +19,6 @@ package unreal;
 **/
 @:glueCppIncludes("Components/ChildActorComponent.h")
 @:uextern @:uclass extern class UChildActorComponent extends unreal.USceneComponent {
-  @:ufunction @:final public function SetChildActorClass(InClass : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetChildActorClass(InClass : unreal.TSubclassOf<unreal.AActor>) : Void;
   
 }

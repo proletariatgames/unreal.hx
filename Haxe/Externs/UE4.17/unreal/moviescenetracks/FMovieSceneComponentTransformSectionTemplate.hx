@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Evaluation/MovieScene3DTransformTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieScene3DTransformTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneComponentTransformSectionTemplate extends unreal.moviescene.FMovieSceneEvalTemplate {
   @:uproperty public var TemplateData : unreal.moviescenetracks.FMovieScene3DTransformTemplateData;
   

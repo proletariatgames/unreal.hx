@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundAttenuation.h")
+@:glueCppIncludes("Classes/Sound/SoundAttenuation.h")
 @:uname("ESoundSpatializationAlgorithm")
 @:uextern @:uenum extern enum ESoundSpatializationAlgorithm {
   SPATIALIZATION_Default;

@@ -37,6 +37,6 @@ package unreal.foliage;
     The seed used for generating the randomness of the simulation.
   **/
   @:uproperty public var RandomSeed : unreal.Int32;
-  @:ufunction @:final public function Simulate(NumSteps : unreal.Int32 = -1) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Simulate(NumSteps : unreal.Int32 = -1) : Void;
   
 }

@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/GameUserSettings.h")
+@:glueCppIncludes("Classes/GameFramework/GameUserSettings.h")
 typedef FOnGameUserSettingsUINeedsUpdate = unreal.DynamicMulticastDelegate<FOnGameUserSettingsUINeedsUpdate, Void->Void>;

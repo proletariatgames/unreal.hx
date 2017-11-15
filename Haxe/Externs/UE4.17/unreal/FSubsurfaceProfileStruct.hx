@@ -17,7 +17,7 @@ package unreal;
 /**
   struct with all the settings we want in USubsurfaceProfile, separate to make it easer to pass this data around in the engine.
 **/
-@:glueCppIncludes("Engine/SubsurfaceProfile.h")
+@:glueCppIncludes("Classes/Engine/SubsurfaceProfile.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSubsurfaceProfileStruct {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Blueprint/WidgetNavigation.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/WidgetNavigation.h")
 @:uextern @:ustruct extern class FWidgetNavigationData {
   @:uproperty public var Widget : unreal.TWeakObjectPtr<unreal.umg.UWidget>;
   @:uproperty public var WidgetToFocus : unreal.FName;

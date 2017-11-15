@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Information about each target in the PoseDriver
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:uextern @:ustruct extern class FPoseDriverTarget {
   
   /**

@@ -19,7 +19,7 @@ package unreal.aimodule;
   @param Stimulus
   
 **/
-@:glueCppIncludes("Perception/AIPerceptionComponent.h")
+@:glueCppIncludes("Classes/Perception/AIPerceptionComponent.h")
 @:uParamName("Actor")
 @:uParamName("Stimulus")
 @:umodule("AIModule")

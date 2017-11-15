@@ -26,7 +26,7 @@ package unreal;
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:ufunction @:final public function SetRadius(NewRadius : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRadius(NewRadius : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
   
 }

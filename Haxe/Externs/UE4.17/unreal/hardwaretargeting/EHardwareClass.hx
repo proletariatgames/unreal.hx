@@ -18,7 +18,7 @@ package unreal.hardwaretargeting;
   Enum specifying a class of hardware
 **/
 @:umodule("HardwareTargeting")
-@:glueCppIncludes("HardwareTargetingSettings.h")
+@:glueCppIncludes("Public/HardwareTargetingSettings.h")
 @:uname("EHardwareClass.Type")
 @:uextern @:uenum extern enum EHardwareClass {
   

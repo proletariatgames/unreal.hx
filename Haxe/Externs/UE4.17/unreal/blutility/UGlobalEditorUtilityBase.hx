@@ -34,50 +34,50 @@ package unreal.blutility;
   @:uproperty public var bAutoRunDefaultAction : Bool;
   @:uproperty public var bDirtiedSelectionSet : Bool;
   @:uproperty public var HelpText : unreal.FString;
-  @:ufunction @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
+  @:ufunction(BlueprintCallable) @:final public function GetSelectionSet() : unreal.TArray<unreal.AActor>;
   
   /**
     Attempts to find the actor specified by PathToActor in the current editor world
     @param       PathToActor     The path to the actor (e.g. PersistentLevel.PlayerStart)
     @return      A reference to the actor, or none if it wasn't found
   **/
-  @:ufunction @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:final public function GetActorReference(PathToActor : unreal.FString) : unreal.AActor;
   
   /**
     The default action called when the blutility is invoked if bAutoRunDefaultAction=true (it is never called otherwise)
   **/
-  @:ufunction public function OnDefaultActionClicked() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnDefaultActionClicked() : Void;
   
   /**
     Calls OnEachSelectedActor for each selected actor
   **/
-  @:ufunction @:final public function ForEachSelectedActor() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ForEachSelectedActor() : Void;
   
   /**
     Calls OnEachSelectedAsset for each selected asset
   **/
-  @:ufunction @:final public function ForEachSelectedAsset() : Void;
-  @:ufunction @:final public function GetEditorUserSettings() : unreal.editor.UEditorPerProjectUserSettings;
+  @:ufunction(BlueprintCallable) @:final public function ForEachSelectedAsset() : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetEditorUserSettings() : unreal.editor.UEditorPerProjectUserSettings;
   
   /**
     Remove all actors from the selection set
   **/
-  @:ufunction @:final public function ClearActorSelectionSet() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearActorSelectionSet() : Void;
   
   /**
     Selects nothing in the editor (another way to clear the selection)
   **/
-  @:ufunction @:final public function SelectNothing() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SelectNothing() : Void;
   
   /**
     Set the selection state for the selected actor
   **/
-  @:ufunction @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
-  @:ufunction @:final public function GetSelectionBounds(Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorSelectionState(Actor : unreal.AActor, bShouldBeSelected : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetSelectionBounds(Origin : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>, SphereRadius : unreal.Float32) : Void;
   
   /**
     Renames an asset (cannot move folders)
   **/
-  @:ufunction @:final public function RenameAsset(Asset : unreal.UObject, NewName : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RenameAsset(Asset : unreal.UObject, NewName : unreal.FString) : Void;
   
 }

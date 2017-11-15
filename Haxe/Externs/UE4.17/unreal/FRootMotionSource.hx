@@ -52,7 +52,7 @@ package unreal;
           Character movement controlled by splines/curves in-editor instead of requiring animation tweaks
                   - Same as animation root motion but source from spline/curve data
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource {
   
   /**

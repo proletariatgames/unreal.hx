@@ -17,7 +17,7 @@ package unreal;
 /**
   Defines oscillation of a single number.
 **/
-@:glueCppIncludes("Camera/CameraShake.h")
+@:glueCppIncludes("Classes/Camera/CameraShake.h")
 @:uextern @:ustruct extern class FFOscillator {
   
   /**

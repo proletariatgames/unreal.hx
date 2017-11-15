@@ -26,8 +26,8 @@ package unreal;
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:ufunction @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
-  @:ufunction @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
-  @:ufunction public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
 }

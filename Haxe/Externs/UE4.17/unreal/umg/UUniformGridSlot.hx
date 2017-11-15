@@ -45,13 +45,13 @@ package unreal.umg;
   /**
     Sets the row index of the slot, this determines what cell the slot is in the panel
   **/
-  @:ufunction @:final public function SetRow(InRow : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRow(InRow : unreal.Int32) : Void;
   
   /**
     Sets the column index of the slot, this determines what cell the slot is in the panel
   **/
-  @:ufunction @:final public function SetColumn(InColumn : unreal.Int32) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColumn(InColumn : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

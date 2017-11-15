@@ -19,7 +19,7 @@ package unreal.umg;
   @param CommitMethod
   
 **/
-@:glueCppIncludes("UMG.h", "Components/MultiLineEditableTextBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/MultiLineEditableTextBox.h")
 @:uParamName("Text")
 @:uParamName("CommitMethod")
 @:umodule("UMG")

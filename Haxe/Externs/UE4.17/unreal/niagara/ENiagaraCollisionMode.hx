@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCollision.h")
+@:glueCppIncludes("Classes/NiagaraCollision.h")
 @:uname("ENiagaraCollisionMode")
 @:class @:uextern @:uenum extern enum ENiagaraCollisionMode {
   None;

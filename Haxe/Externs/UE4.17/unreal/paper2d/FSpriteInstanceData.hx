@@ -15,7 +15,7 @@
 package unreal.paper2d;
 
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperGroupedSpriteComponent.h")
+@:glueCppIncludes("Classes/PaperGroupedSpriteComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSpriteInstanceData {
   @:uproperty public var MaterialIndex : unreal.Int32;
   @:uproperty public var VertexColor : unreal.FColor;

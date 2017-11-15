@@ -15,7 +15,7 @@
 package unreal.widgetcarousel;
 
 @:umodule("WidgetCarousel")
-@:glueCppIncludes("WidgetCarouselStyle.h")
+@:glueCppIncludes("Public/WidgetCarouselStyle.h")
 @:uextern @:ustruct extern class FWidgetCarouselNavigationButtonStyle extends unreal.slatecore.FSlateWidgetStyle {
   @:uproperty public var NavigationButtonRightImage : unreal.slatecore.FSlateBrush;
   @:uproperty public var NavigationButtonLeftImage : unreal.slatecore.FSlateBrush;

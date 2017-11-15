@@ -58,33 +58,33 @@ package unreal.umg;
     The padding area between the slot and the content it contains.
   **/
   @:uproperty public var Padding : unreal.slatecore.FMargin;
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
   
   /**
     Sets the row index of the slot, this determines what cell the slot is in the panel
   **/
-  @:ufunction @:final public function SetRow(InRow : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRow(InRow : unreal.Int32) : Void;
   
   /**
     How many rows this this slot spans over
   **/
-  @:ufunction @:final public function SetRowSpan(InRowSpan : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRowSpan(InRowSpan : unreal.Int32) : Void;
   
   /**
     Sets the column index of the slot, this determines what cell the slot is in the panel
   **/
-  @:ufunction @:final public function SetColumn(InColumn : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColumn(InColumn : unreal.Int32) : Void;
   
   /**
     How many columns this slot spans over
   **/
-  @:ufunction @:final public function SetColumnSpan(InColumnSpan : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColumnSpan(InColumnSpan : unreal.Int32) : Void;
   
   /**
     Sets positive values offset this cell to be hit-tested and drawn on top of others.
   **/
-  @:ufunction @:final public function SetLayer(InLayer : unreal.Int32) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLayer(InLayer : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
   
 }

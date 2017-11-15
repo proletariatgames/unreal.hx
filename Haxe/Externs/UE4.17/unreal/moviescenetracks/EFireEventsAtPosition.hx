@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Indicates at what point in the sequence evaluation events should fire
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Tracks/MovieSceneEventTrack.h")
+@:glueCppIncludes("Public/Tracks/MovieSceneEventTrack.h")
 @:uname("EFireEventsAtPosition")
 @:class @:uextern @:uenum extern enum EFireEventsAtPosition {
   

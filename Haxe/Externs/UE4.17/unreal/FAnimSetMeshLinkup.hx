@@ -17,7 +17,7 @@ package unreal;
 /**
   This is a mapping table between each bone in a particular skeletal mesh and the tracks of this animation set.
 **/
-@:glueCppIncludes("Animation/AnimSet.h")
+@:glueCppIncludes("Classes/Animation/AnimSet.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSetMeshLinkup {
   
   /**

@@ -18,7 +18,7 @@ package unreal.moviescene;
   Custom serialized type that attempts to store a track implementation template in inline memory if possible
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneTrackImplementation.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneTrackImplementation.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackImplementationPtr {
   
 }

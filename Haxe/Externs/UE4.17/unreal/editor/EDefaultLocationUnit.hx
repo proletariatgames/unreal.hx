@@ -18,7 +18,7 @@ package unreal.editor;
   UENUM to define the specific set of allowable default units
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/EditorProjectSettings.h")
+@:glueCppIncludes("Public/Settings/EditorProjectSettings.h")
 @:uname("EDefaultLocationUnit")
 @:class @:uextern @:uenum extern enum EDefaultLocationUnit {
   Micrometers;

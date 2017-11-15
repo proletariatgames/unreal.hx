@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param InAppPurchaseInformation
   
 **/
-@:glueCppIncludes("InAppPurchaseQueryCallbackProxy.h")
+@:glueCppIncludes("Classes/InAppPurchaseQueryCallbackProxy.h")
 @:uParamName("InAppPurchaseInformation")
 @:umodule("OnlineSubsystemUtils")
 typedef FInAppPurchaseQueryResult = unreal.DynamicMulticastDelegate<FInAppPurchaseQueryResult, unreal.Const<unreal.PRef<unreal.TArray<unreal.onlinesubsystem.FInAppPurchaseProductInfo>>>->Void>;

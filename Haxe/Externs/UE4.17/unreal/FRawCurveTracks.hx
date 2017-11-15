@@ -17,7 +17,7 @@ package unreal;
 /**
   Raw Curve data for serialization
 **/
-@:glueCppIncludes("Animation/AnimCurveTypes.h")
+@:glueCppIncludes("Public/Animation/AnimCurveTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRawCurveTracks {
   #if WITH_EDITORONLY_DATA
   

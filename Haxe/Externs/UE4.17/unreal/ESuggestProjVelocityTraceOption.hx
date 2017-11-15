@@ -17,7 +17,7 @@ package unreal;
 /**
   Trace option to SuggestProjectileVelocity functions.
 **/
-@:glueCppIncludes("Kismet/GameplayStaticsTypes.h")
+@:glueCppIncludes("Classes/Kismet/GameplayStaticsTypes.h")
 @:uname("ESuggestProjVelocityTraceOption.Type")
 @:uextern @:uenum extern enum ESuggestProjVelocityTraceOption {
   DoNotTrace;

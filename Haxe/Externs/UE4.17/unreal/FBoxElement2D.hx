@@ -17,7 +17,7 @@ package unreal;
 /**
   Box shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
+@:glueCppIncludes("Classes/PhysicsEngine/AggregateGeometry2D.h")
 @:uextern @:ustruct extern class FBoxElement2D {
   
   /**

@@ -18,7 +18,7 @@ package unreal.cinematiccamera;
   Settings to control tracking-focus mode.
 **/
 @:umodule("CinematicCamera")
-@:glueCppIncludes("CineCameraComponent.h")
+@:glueCppIncludes("Public/CineCameraComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCameraTrackingFocusSettings {
   
   /**

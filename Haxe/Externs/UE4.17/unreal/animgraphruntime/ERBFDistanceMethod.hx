@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Method for determining distance from input to targets
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("RBF/RBFSolver.h")
+@:glueCppIncludes("Public/RBF/RBFSolver.h")
 @:uname("ERBFDistanceMethod")
 @:class @:uextern @:uenum extern enum ERBFDistanceMethod {
   

@@ -18,7 +18,7 @@ package unreal.levelsequence;
   @param CameraComponent
   
 **/
-@:glueCppIncludes("LevelSequencePlayer.h")
+@:glueCppIncludes("Public/LevelSequencePlayer.h")
 @:uParamName("CameraComponent")
 @:umodule("LevelSequence")
 typedef FOnLevelSequencePlayerCameraCutEvent = unreal.DynamicMulticastDelegate<FOnLevelSequencePlayerCameraCutEvent, unreal.UCameraComponent->Void>;

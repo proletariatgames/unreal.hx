@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:uname("EBloomMethod")
 @:uextern @:uenum extern enum EBloomMethod {
   

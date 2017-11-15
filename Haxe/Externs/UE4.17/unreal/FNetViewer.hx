@@ -17,7 +17,7 @@ package unreal;
 /**
   stores information on a viewer that actors need to be checked against for relevancy
 **/
-@:glueCppIncludes("GameFramework/WorldSettings.h")
+@:glueCppIncludes("Classes/GameFramework/WorldSettings.h")
 @:uextern @:ustruct extern class FNetViewer {
   
   /**

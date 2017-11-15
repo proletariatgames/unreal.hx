@@ -18,7 +18,7 @@ package unreal.aimodule;
   @param UpdatedActors
   
 **/
-@:glueCppIncludes("Perception/AIPerceptionComponent.h")
+@:glueCppIncludes("Classes/Perception/AIPerceptionComponent.h")
 @:uParamName("UpdatedActors")
 @:umodule("AIModule")
 typedef FPerceptionUpdatedDelegate = unreal.DynamicMulticastDelegate<FPerceptionUpdatedDelegate, unreal.TArray<unreal.AActor>->Void>;

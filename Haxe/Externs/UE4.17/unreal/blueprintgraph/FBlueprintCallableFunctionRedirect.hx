@@ -19,7 +19,7 @@ package unreal.blueprintgraph;
   into their never versions (with class param instead of blueprint).
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintCallableFunctionRedirect {
   @:uproperty public var ClassParamName : unreal.FString;
   @:uproperty public var BlueprintParamName : unreal.FString;

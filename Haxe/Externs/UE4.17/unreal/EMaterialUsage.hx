@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialInterface.h")
+@:glueCppIncludes("Classes/Materials/MaterialInterface.h")
 @:uname("EMaterialUsage")
 @:uextern @:uenum extern enum EMaterialUsage {
   MATUSAGE_SkeletalMesh;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Brush.h")
+@:glueCppIncludes("Classes/Engine/Brush.h")
 @:uname("EBrushType")
 @:uextern @:uenum extern enum EBrushType {
   

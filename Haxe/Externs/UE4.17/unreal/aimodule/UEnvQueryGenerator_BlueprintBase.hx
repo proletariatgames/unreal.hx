@@ -34,9 +34,9 @@ package unreal.aimodule;
     A short description of what test does, like "Generate pawn named Joe"
   **/
   @:uproperty public var GeneratorsActionDescription : unreal.FText;
-  @:ufunction @:thisConst public function DoItemGeneration(ContextLocations : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : Void;
-  @:ufunction @:thisConst @:final public function AddGeneratedVector(GeneratedVector : unreal.FVector) : Void;
-  @:ufunction @:thisConst @:final public function AddGeneratedActor(GeneratedActor : unreal.AActor) : Void;
-  @:ufunction @:thisConst @:final public function GetQuerier() : unreal.UObject;
+  @:ufunction(BlueprintImplementableEvent) @:thisConst public function DoItemGeneration(ContextLocations : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function AddGeneratedVector(GeneratedVector : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function AddGeneratedActor(GeneratedActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetQuerier() : unreal.UObject;
   
 }

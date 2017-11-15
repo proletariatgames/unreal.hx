@@ -18,7 +18,7 @@ package unreal.moviescenetools;
   Largely redundant structure that is used to forward detail customizations for keys
 **/
 @:umodule("MovieSceneTools")
-@:glueCppIncludes("GenericKeyArea.h")
+@:glueCppIncludes("Public/GenericKeyArea.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneCurveInterfaceKeyEditStruct {
   @:uproperty public var bBenignPropertyToEnsurePropertyCustomization : Bool;
   

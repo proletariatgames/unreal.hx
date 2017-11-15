@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/InheritableComponentHandler.h")
+@:glueCppIncludes("Classes/Engine/InheritableComponentHandler.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FComponentOverrideRecord {
   @:uproperty public var CookedComponentInstancingData : unreal.FBlueprintCookedComponentInstancingData;
   @:uproperty public var ComponentKey : unreal.FComponentKey;

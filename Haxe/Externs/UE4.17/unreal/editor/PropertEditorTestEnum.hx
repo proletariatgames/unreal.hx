@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/PropertyEditorTestObject.h")
+@:glueCppIncludes("Classes/Editor/PropertyEditorTestObject.h")
 @:uname("PropertEditorTestEnum")
 @:uextern @:uenum extern enum PropertEditorTestEnum {
   

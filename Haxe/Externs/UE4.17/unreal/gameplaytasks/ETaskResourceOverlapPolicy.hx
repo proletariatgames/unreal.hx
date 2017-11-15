@@ -15,7 +15,7 @@
 package unreal.gameplaytasks;
 
 @:umodule("GameplayTasks")
-@:glueCppIncludes("GameplayTask.h")
+@:glueCppIncludes("Classes/GameplayTask.h")
 @:uname("ETaskResourceOverlapPolicy")
 @:class @:uextern @:uenum extern enum ETaskResourceOverlapPolicy {
   

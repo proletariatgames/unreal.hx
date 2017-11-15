@@ -21,7 +21,7 @@ package unreal;
   @param DamageCauser
   
 **/
-@:glueCppIncludes("GameFramework/Controller.h")
+@:glueCppIncludes("Classes/GameFramework/Controller.h")
 @:uParamName("Damage")
 @:uParamName("DamageType")
 @:uParamName("DamagedActor")

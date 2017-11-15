@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that is published to find automation workers.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerFindWorkers {
   
   /**

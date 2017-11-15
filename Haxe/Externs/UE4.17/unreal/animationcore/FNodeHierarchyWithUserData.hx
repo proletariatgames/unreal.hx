@@ -15,7 +15,7 @@
 package unreal.animationcore;
 
 @:umodule("AnimationCore")
-@:glueCppIncludes("NodeHierarchy.h")
+@:glueCppIncludes("Public/NodeHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNodeHierarchyWithUserData {
   @:uproperty private var Hierarchy : unreal.animationcore.FNodeHierarchyData;
   

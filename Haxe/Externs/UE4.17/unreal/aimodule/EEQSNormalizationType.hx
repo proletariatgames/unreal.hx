@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTest.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryTest.h")
 @:uname("EEQSNormalizationType")
 @:class @:uextern @:uenum extern enum EEQSNormalizationType {
   

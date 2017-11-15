@@ -36,7 +36,7 @@ package unreal;
      world context. If the PIE UWorld changes, the UEditorEngine::PlayWorld pointer will be automatically updated. This is done with AddRef() and
   SetCurrentWorld().
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FWorldContext {
   
   /**

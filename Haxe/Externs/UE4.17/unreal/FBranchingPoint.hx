@@ -17,7 +17,7 @@ package unreal;
 /**
   Remove FBranchingPoint when VER_UE4_MONTAGE_BRANCHING_POINT_REMOVAL is removed.
 **/
-@:glueCppIncludes("Animation/AnimMontage.h")
+@:glueCppIncludes("Classes/Animation/AnimMontage.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBranchingPoint extends unreal.FAnimLinkableElement {
   
   /**

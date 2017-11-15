@@ -26,17 +26,17 @@ package unreal;
   /**
     UObject end
   **/
-  @:ufunction @:thisConst @:final public function GetDebugString() : unreal.FString;
-  @:ufunction @:final public function EnableDebugDrawing(bShouldDrawDebugData : Bool, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") PathColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDebugString() : unreal.FString;
+  @:ufunction(BlueprintCallable) @:final public function EnableDebugDrawing(bShouldDrawDebugData : Bool, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") PathColor : unreal.FLinearColor) : Void;
   
   /**
     if enabled path will request recalculation if it gets invalidated due to a change to underlying navigation
   **/
-  @:ufunction @:final public function EnableRecalculationOnInvalidation(DoRecalculation : unreal.ENavigationOptionFlag) : Void;
-  @:ufunction @:thisConst @:final public function GetPathLength() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function GetPathCost() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function IsPartial() : Bool;
-  @:ufunction @:thisConst @:final public function IsValid() : Bool;
-  @:ufunction @:thisConst @:final public function IsStringPulled() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function EnableRecalculationOnInvalidation(DoRecalculation : unreal.ENavigationOptionFlag) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPathLength() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPathCost() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPartial() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsValid() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsStringPulled() : Bool;
   
 }

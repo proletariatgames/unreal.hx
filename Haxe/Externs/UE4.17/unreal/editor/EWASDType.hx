@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates camera control types for the W, A, S and D keys.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uname("EWASDType")
 @:uextern @:uenum extern enum EWASDType {
   

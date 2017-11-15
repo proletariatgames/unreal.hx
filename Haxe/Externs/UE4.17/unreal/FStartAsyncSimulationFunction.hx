@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that starts the cloth tick
 **/
-@:glueCppIncludes("Engine/World.h")
+@:glueCppIncludes("Classes/Engine/World.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStartAsyncSimulationFunction extends unreal.FTickFunction {
   
 }

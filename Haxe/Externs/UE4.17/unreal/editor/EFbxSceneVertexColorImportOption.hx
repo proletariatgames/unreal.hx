@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxSceneImportOptionsStaticMesh.h")
+@:glueCppIncludes("Classes/Factories/FbxSceneImportOptionsStaticMesh.h")
 @:uname("EFbxSceneVertexColorImportOption.Type")
 @:uextern @:uenum extern enum EFbxSceneVertexColorImportOption {
   

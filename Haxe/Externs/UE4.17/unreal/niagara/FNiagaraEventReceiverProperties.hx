@@ -19,7 +19,7 @@ package unreal.niagara;
   One that calls a BP exposed delegate?
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEmitterProperties.h")
+@:glueCppIncludes("Classes/NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEventReceiverProperties {
   @:uproperty public var EmitterActions : unreal.TArray<unreal.niagara.UNiagaraEventReceiverEmitterAction>;
   

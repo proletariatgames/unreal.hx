@@ -17,7 +17,7 @@ package unreal;
 /**
   @TODO: Document
 **/
-@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimStateMachineTypes.h")
 @:uname("ETransitionBlendMode.Type")
 @:uextern @:uenum extern enum ETransitionBlendMode {
   

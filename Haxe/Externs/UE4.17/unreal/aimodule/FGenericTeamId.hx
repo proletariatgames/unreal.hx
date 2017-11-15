@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("GenericTeamAgentInterface.h")
+@:glueCppIncludes("Classes/GenericTeamAgentInterface.h")
 @:uextern @:ustruct extern class FGenericTeamId {
   @:uproperty private var TeamID : unreal.UInt8;
   

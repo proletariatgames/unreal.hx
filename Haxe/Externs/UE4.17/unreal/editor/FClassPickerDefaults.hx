@@ -18,7 +18,7 @@ package unreal.editor;
   Default Classes for the Class Picker Dialog
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Preferences/UnrealEdOptions.h")
+@:glueCppIncludes("Classes/Preferences/UnrealEdOptions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClassPickerDefaults {
   
   /**

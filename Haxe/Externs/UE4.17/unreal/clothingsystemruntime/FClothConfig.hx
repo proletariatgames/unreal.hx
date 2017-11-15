@@ -18,7 +18,7 @@ package unreal.clothingsystemruntime;
   Holds initial, asset level config for clothing actors.
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothConfig {
   
   /**

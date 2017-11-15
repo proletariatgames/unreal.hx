@@ -136,25 +136,25 @@ package unreal;
     Global density factor.
   **/
   @:uproperty public var FogDensity : unreal.Float32;
-  @:ufunction @:final public function SetFogDensity(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetFogInscatteringColor(Value : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetInscatteringColorCubemap(Value : unreal.UTextureCube) : Void;
-  @:ufunction @:final public function SetInscatteringColorCubemapAngle(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetFullyDirectionalInscatteringColorDistance(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetNonDirectionalInscatteringColorDistance(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetInscatteringTextureTint(Value : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetDirectionalInscatteringExponent(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetDirectionalInscatteringStartDistance(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetDirectionalInscatteringColor(Value : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetFogHeightFalloff(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetFogMaxOpacity(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetStartDistance(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetFogCutoffDistance(Value : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVolumetricFog(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetVolumetricFogScatteringDistribution(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVolumetricFogExtinctionScale(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVolumetricFogAlbedo(NewValue : unreal.FColor) : Void;
-  @:ufunction @:final public function SetVolumetricFogEmissive(NewValue : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetVolumetricFogDistance(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogDensity(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogInscatteringColor(Value : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInscatteringColorCubemap(Value : unreal.UTextureCube) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInscatteringColorCubemapAngle(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFullyDirectionalInscatteringColorDistance(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNonDirectionalInscatteringColorDistance(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInscatteringTextureTint(Value : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDirectionalInscatteringExponent(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDirectionalInscatteringStartDistance(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDirectionalInscatteringColor(Value : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogHeightFalloff(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogMaxOpacity(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStartDistance(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogCutoffDistance(Value : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFog(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFogScatteringDistribution(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFogExtinctionScale(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFogAlbedo(NewValue : unreal.FColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFogEmissive(NewValue : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricFogDistance(NewValue : unreal.Float32) : Void;
   
 }

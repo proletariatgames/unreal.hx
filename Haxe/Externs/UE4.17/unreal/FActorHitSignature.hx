@@ -21,7 +21,7 @@ package unreal;
   @param Hit
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("SelfActor")
 @:uParamName("OtherActor")
 @:uParamName("NormalImpulse")

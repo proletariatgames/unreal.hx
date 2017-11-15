@@ -17,7 +17,7 @@ package unreal;
 /**
   Different methods for interpolating rotation between transforms
 **/
-@:glueCppIncludes("Kismet/KismetMathLibrary.h")
+@:glueCppIncludes("Classes/Kismet/KismetMathLibrary.h")
 @:uname("ELerpInterpolationMode.Type")
 @:uextern @:uenum extern enum ELerpInterpolationMode {
   

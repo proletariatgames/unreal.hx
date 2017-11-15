@@ -18,7 +18,7 @@ package unreal.androidruntimesettings;
   Depth buffer precision preferences // IF THIS CHANGES, MAKE SURE TO UPDATE UEDeployAndroid.cs, ConvertDepthBufferIniValue()!
 **/
 @:umodule("AndroidRuntimeSettings")
-@:glueCppIncludes("AndroidRuntimeSettings.h")
+@:glueCppIncludes("Classes/AndroidRuntimeSettings.h")
 @:uname("EAndroidDepthBufferPreference.Type")
 @:uextern @:uenum extern enum EAndroidDepthBufferPreference {
   

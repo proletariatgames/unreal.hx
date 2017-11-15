@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/Skeleton.h")
+@:glueCppIncludes("Classes/Animation/Skeleton.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSlotGroup {
   @:uproperty public var SlotNames : unreal.TArray<unreal.FName>;
   @:uproperty public var GroupName : unreal.FName;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Used to indicate each slot name and how many channels they have.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSlotDesc {
   
   /**

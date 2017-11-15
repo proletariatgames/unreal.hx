@@ -18,7 +18,7 @@ package unreal.umg;
   @param Text
   
 **/
-@:glueCppIncludes("UMG.h", "Components/MultiLineEditableTextBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/MultiLineEditableTextBox.h")
 @:uParamName("Text")
 @:umodule("UMG")
 @:uname("UMultiLineEditableTextBox.FOnMultiLineEditableTextBoxChangedEvent")

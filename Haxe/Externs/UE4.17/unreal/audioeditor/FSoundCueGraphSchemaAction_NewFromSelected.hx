@@ -18,7 +18,7 @@ package unreal.audioeditor;
   Action to add nodes to the graph based on selected objects
 **/
 @:umodule("AudioEditor")
-@:glueCppIncludes("SoundCueGraph/SoundCueGraphSchema.h")
+@:glueCppIncludes("Classes/SoundCueGraph/SoundCueGraphSchema.h")
 @:uextern @:ustruct extern class FSoundCueGraphSchemaAction_NewFromSelected extends unreal.audioeditor.FSoundCueGraphSchemaAction_NewNode {
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uname("ERootMotionFinishVelocityMode")
 @:class @:uextern @:uenum extern enum ERootMotionFinishVelocityMode {
   

@@ -18,7 +18,7 @@ package unreal.umg;
   @param InValue
   
 **/
-@:glueCppIncludes("UMG.h", "Components/SpinBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SpinBox.h")
 @:uParamName("InValue")
 @:umodule("UMG")
 @:uname("USpinBox.FOnSpinBoxValueChangedEvent")

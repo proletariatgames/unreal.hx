@@ -132,14 +132,14 @@ package unreal;
     Whether to occlude fog and atmosphere inscattering with screenspace blurred occlusion from this light.
   **/
   @:uproperty public var bEnableLightShaftOcclusion : Bool;
-  @:ufunction @:final public function SetDynamicShadowDistanceMovableLight(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetDynamicShadowDistanceStationaryLight(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetDynamicShadowCascades(NewValue : unreal.Int32) : Void;
-  @:ufunction @:final public function SetCascadeDistributionExponent(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetCascadeTransitionFraction(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetShadowDistanceFadeoutFraction(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetEnableLightShaftOcclusion(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetOcclusionMaskDarkness(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLightShaftOverrideDirection(NewValue : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDynamicShadowDistanceMovableLight(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDynamicShadowDistanceStationaryLight(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDynamicShadowCascades(NewValue : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCascadeDistributionExponent(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCascadeTransitionFraction(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetShadowDistanceFadeoutFraction(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEnableLightShaftOcclusion(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOcclusionMaskDarkness(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightShaftOverrideDirection(NewValue : unreal.FVector) : Void;
   
 }

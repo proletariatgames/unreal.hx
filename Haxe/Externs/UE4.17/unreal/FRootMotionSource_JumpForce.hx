@@ -17,7 +17,7 @@ package unreal;
 /**
   JumpForce moves the target in a jump-like manner (ends when landing, applied force is relative)
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource_JumpForce extends unreal.FRootMotionSource {
   @:uproperty public var TimeMappingCurve : unreal.UCurveFloat;
   @:uproperty public var PathOffsetCurve : unreal.UCurveVector;

@@ -15,7 +15,7 @@
 package unreal.screenshotcomparisontools;
 
 @:umodule("ScreenShotComparisonTools")
-@:glueCppIncludes("ImageComparer.h")
+@:glueCppIncludes("Public/ImageComparer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FImageTolerance {
   @:uproperty public var MaximumGlobalError : unreal.Float32;
   @:uproperty public var MaximumLocalError : unreal.Float32;

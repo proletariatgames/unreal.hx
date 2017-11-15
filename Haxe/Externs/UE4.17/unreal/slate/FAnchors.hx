@@ -18,7 +18,7 @@ package unreal.slate;
   Describes how a widget is anchored.
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Widgets/Layout/Anchors.h")
+@:glueCppIncludes("Public/Widgets/Layout/Anchors.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnchors {
   
   /**

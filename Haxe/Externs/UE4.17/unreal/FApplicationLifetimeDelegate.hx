@@ -14,6 +14,6 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/ApplicationLifecycleComponent.h")
+@:glueCppIncludes("Classes/Components/ApplicationLifecycleComponent.h")
 @:uname("UApplicationLifecycleComponent.FApplicationLifetimeDelegate")
 typedef FApplicationLifetimeDelegate = unreal.DynamicMulticastDelegate<FApplicationLifetimeDelegate, Void->Void>;

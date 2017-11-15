@@ -20,7 +20,7 @@ package unreal.clothingsystemruntimeinterface;
   shape created by the planes combined.
 **/
 @:umodule("ClothingSystemRuntimeInterface")
-@:glueCppIncludes("ClothingSystemRuntimeTypes.h")
+@:glueCppIncludes("Public/ClothingSystemRuntimeTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothCollisionPrim_Convex {
   @:uproperty public var BoneIndex : unreal.Int32;
   @:uproperty public var Planes : unreal.TArray<unreal.FPlane>;

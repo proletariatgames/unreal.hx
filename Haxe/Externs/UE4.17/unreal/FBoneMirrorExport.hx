@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure to export/import bone mirroring information
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBoneMirrorExport {
   @:uproperty public var BoneFlipAxis : unreal.EAxis;
   @:uproperty public var SourceBoneName : unreal.FName;

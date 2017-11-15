@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavigationTestingActor.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationTestingActor.h")
 @:uname("ENavCostDisplay.Type")
 @:uextern @:uenum extern enum ENavCostDisplay {
   TotalCost;

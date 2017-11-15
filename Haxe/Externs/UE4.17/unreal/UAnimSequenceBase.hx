@@ -52,6 +52,6 @@ package unreal;
   /**
     Returns the total play length of the montage, if played back with a speed of 1.0.
   **/
-  @:ufunction public function GetPlayLength() : unreal.Float32;
+  @:ufunction(BlueprintCallable) public function GetPlayLength() : unreal.Float32;
   
 }

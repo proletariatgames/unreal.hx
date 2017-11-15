@@ -25,6 +25,6 @@ package unreal;
   /**
     Evaluate this float curve at the specified time
   **/
-  @:ufunction @:thisConst @:final public function GetVectorValue(InTime : unreal.Float32) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetVectorValue(InTime : unreal.Float32) : unreal.FVector;
   
 }

@@ -18,7 +18,7 @@ package unreal;
   @param Loaded
   
 **/
-@:glueCppIncludes("Kismet/KismetSystemLibrary.h")
+@:glueCppIncludes("Classes/Kismet/KismetSystemLibrary.h")
 @:uParamName("Loaded")
 @:uname("UKismetSystemLibrary.FOnAssetClassLoaded")
 typedef FOnAssetClassLoaded = unreal.DynamicDelegate<FOnAssetClassLoaded, unreal.TSubclassOf<unreal.UObject>->Void>;

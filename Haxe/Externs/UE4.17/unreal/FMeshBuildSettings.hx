@@ -17,7 +17,7 @@ package unreal;
 /**
   Settings applied when building a mesh.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshBuildSettings {
   @:uproperty public var DistanceFieldReplacementMesh : unreal.UStaticMesh;
   @:deprecated @:uproperty public var DistanceFieldBias_DEPRECATED : unreal.Float32;

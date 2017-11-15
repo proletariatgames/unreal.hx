@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVMExternalFunctionBindingInfo {
   @:uproperty public var NumOutputs : unreal.Int32;
   @:uproperty public var InputParamLocations : unreal.TArray<Bool>;

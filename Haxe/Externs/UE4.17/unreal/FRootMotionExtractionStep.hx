@@ -20,7 +20,7 @@ package unreal;
   We break those up into different steps, to help with RootMotion extraction,
   as we can only extract a contiguous range per AnimSequence.
 **/
-@:glueCppIncludes("Animation/AnimCompositeBase.h")
+@:glueCppIncludes("Classes/Animation/AnimCompositeBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRootMotionExtractionStep {
   
   /**

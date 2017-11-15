@@ -17,7 +17,7 @@ package unreal;
 /**
   Source model from which a renderable static mesh is built.
 **/
-@:glueCppIncludes("Engine/StaticMesh.h")
+@:glueCppIncludes("Classes/Engine/StaticMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStaticMeshSourceModel {
   
   /**

@@ -18,7 +18,7 @@ package unreal;
   Enum for controlling buckets for update rate optimizations if we need to stagger
   Multiple actor populations separately.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EUpdateRateShiftBucket")
 @:class @:uextern @:uenum extern enum EUpdateRateShiftBucket {
   ShiftBucket0;

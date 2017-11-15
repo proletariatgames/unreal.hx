@@ -17,7 +17,7 @@ package unreal;
 /**
   Sphere shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/SphereElem.h")
+@:glueCppIncludes("Classes/PhysicsEngine/SphereElem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKSphereElem extends unreal.FKShapeElem {
   
   /**

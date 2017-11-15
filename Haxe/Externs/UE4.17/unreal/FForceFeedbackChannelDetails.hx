@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/ForceFeedbackEffect.h")
+@:glueCppIncludes("Classes/GameFramework/ForceFeedbackEffect.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FForceFeedbackChannelDetails {
   @:uproperty public var Curve : unreal.FRuntimeFloatCurve;
   @:uproperty public var bAffectsRightSmall : Bool;

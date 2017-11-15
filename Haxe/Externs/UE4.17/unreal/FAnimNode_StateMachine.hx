@@ -17,7 +17,7 @@ package unreal;
 /**
   State machine node
 **/
-@:glueCppIncludes("Animation/AnimNode_StateMachine.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_StateMachine.h")
 @:uextern @:ustruct extern class FAnimNode_StateMachine extends unreal.FAnimNode_Base {
   
   /**

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/LineBatchComponent.h")
+@:glueCppIncludes("Classes/Components/LineBatchComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBatchedPoint {
   @:uproperty public var DepthPriority : unreal.UInt8;
   @:uproperty public var RemainingLifeTime : unreal.Float32;

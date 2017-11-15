@@ -111,72 +111,72 @@ package unreal.umg;
   /**
     Get the current value of the spin box.
   **/
-  @:ufunction @:thisConst @:final public function GetValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetValue() : unreal.Float32;
   
   /**
     Set the value of the spin box.
   **/
-  @:ufunction @:final public function SetValue(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetValue(NewValue : unreal.Float32) : Void;
   
   /**
     Get the current minimum value that can be manually set in the spin box.
   **/
-  @:ufunction @:thisConst @:final public function GetMinValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMinValue() : unreal.Float32;
   
   /**
     Set the minimum value that can be manually set in the spin box.
   **/
-  @:ufunction @:final public function SetMinValue(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the minimum value that can be manually set in the spin box.
   **/
-  @:ufunction @:final public function ClearMinValue() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMinValue() : Void;
   
   /**
     Get the current maximum value that can be manually set in the spin box.
   **/
-  @:ufunction @:thisConst @:final public function GetMaxValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMaxValue() : unreal.Float32;
   
   /**
     Set the maximum value that can be manually set in the spin box.
   **/
-  @:ufunction @:final public function SetMaxValue(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the maximum value that can be manually set in the spin box.
   **/
-  @:ufunction @:final public function ClearMaxValue() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMaxValue() : Void;
   
   /**
     Get the current minimum value that can be specified using the slider.
   **/
-  @:ufunction @:thisConst @:final public function GetMinSliderValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMinSliderValue() : unreal.Float32;
   
   /**
     Set the minimum value that can be specified using the slider.
   **/
-  @:ufunction @:final public function SetMinSliderValue(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinSliderValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the minimum value that can be specified using the slider.
   **/
-  @:ufunction @:final public function ClearMinSliderValue() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMinSliderValue() : Void;
   
   /**
     Get the current maximum value that can be specified using the slider.
   **/
-  @:ufunction @:thisConst @:final public function GetMaxSliderValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMaxSliderValue() : unreal.Float32;
   
   /**
     Set the maximum value that can be specified using the slider.
   **/
-  @:ufunction @:final public function SetMaxSliderValue(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxSliderValue(NewValue : unreal.Float32) : Void;
   
   /**
     Clear the maximum value that can be specified using the slider.
   **/
-  @:ufunction @:final public function ClearMaxSliderValue() : Void;
-  @:ufunction @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMaxSliderValue() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
   
 }

@@ -28,7 +28,7 @@ package unreal.mediaassets;
     @param Time The for which to get the overlays.
     @see GetSubtitles, GetTexts
   **/
-  @:ufunction @:thisConst @:final public function GetCaptions(OutCaptions : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCaptions(OutCaptions : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
   
   /**
     Get the current subtitle text overlays for the specified time, if any.
@@ -37,7 +37,7 @@ package unreal.mediaassets;
     @param Time The for which to get the overlays.
     @see GetCaptions, GetTexts
   **/
-  @:ufunction @:thisConst @:final public function GetSubtitles(OutSubtitles : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSubtitles(OutSubtitles : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
   
   /**
     Get the current generic text overlays for the specified time, if any.
@@ -46,6 +46,6 @@ package unreal.mediaassets;
     @param Time The for which to get the overlays.
     @see GetCaptions, GetSubtitles
   **/
-  @:ufunction @:thisConst @:final public function GetTexts(OutTexts : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTexts(OutTexts : unreal.PRef<unreal.TArray<unreal.mediaassets.FMediaPlayerOverlay>>, Time : unreal.FTimespan) : Void;
   
 }

@@ -19,7 +19,7 @@ package unreal.mediaassets;
   @param FailedUrl
   
 **/
-@:glueCppIncludes("MediaPlayer.h")
+@:glueCppIncludes("Public/MediaPlayer.h")
 @:uParamName("FailedUrl")
 @:umodule("MediaAssets")
 typedef FOnMediaPlayerMediaOpenFailed = unreal.DynamicMulticastDelegate<FOnMediaPlayerMediaOpenFailed, unreal.FString->Void>;

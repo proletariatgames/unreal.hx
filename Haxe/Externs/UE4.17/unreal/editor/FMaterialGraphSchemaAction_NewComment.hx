@@ -18,7 +18,7 @@ package unreal.editor;
   Action to add a comment node to the graph
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("MaterialGraph/MaterialGraphSchema.h")
+@:glueCppIncludes("Classes/MaterialGraph/MaterialGraphSchema.h")
 @:uextern @:ustruct extern class FMaterialGraphSchemaAction_NewComment extends unreal.FEdGraphSchemaAction {
   
 }

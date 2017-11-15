@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Options for what PoseDriver should be driving
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:uname("EPoseDriverOutput")
 @:class @:uextern @:uenum extern enum EPoseDriverOutput {
   

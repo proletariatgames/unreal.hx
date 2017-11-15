@@ -18,7 +18,7 @@ package unreal.umg;
   Flags used by the widget designer.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/Widget.h")
+@:glueCppIncludes("UMG.h", "Public/Components/Widget.h")
 @:uname("EWidgetDesignFlags.Type")
 @:uextern @:uenum extern enum EWidgetDesignFlags {
   None;

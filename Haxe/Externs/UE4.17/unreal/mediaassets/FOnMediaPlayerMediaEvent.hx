@@ -18,6 +18,6 @@ package unreal.mediaassets;
   Multicast delegate that is invoked when a media event occurred in the player.
   
 **/
-@:glueCppIncludes("MediaPlayer.h")
+@:glueCppIncludes("Public/MediaPlayer.h")
 @:umodule("MediaAssets")
 typedef FOnMediaPlayerMediaEvent = unreal.DynamicMulticastDelegate<FOnMediaPlayerMediaEvent, Void->Void>;

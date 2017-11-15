@@ -18,7 +18,7 @@ package unreal.niagara;
   Represents timed burst of particles in an emitter.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEmitterProperties.h")
+@:glueCppIncludes("Classes/NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEmitterBurst {
   
   /**

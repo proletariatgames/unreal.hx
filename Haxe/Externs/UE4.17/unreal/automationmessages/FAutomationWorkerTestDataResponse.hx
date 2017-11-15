@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that responds to TestDataRequests.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerTestDataResponse {
   @:uproperty public var bIsNew : Bool;
   @:uproperty public var JsonData : unreal.FString;

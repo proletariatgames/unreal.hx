@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/PhysicsAsset.h")
+@:glueCppIncludes("Classes/PhysicsEngine/PhysicsAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPhysicalAnimationProfile {
   
   /**

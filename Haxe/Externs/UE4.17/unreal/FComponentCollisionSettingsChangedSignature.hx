@@ -19,6 +19,6 @@ package unreal;
   @param ChangedComponent
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("ChangedComponent")
 typedef FComponentCollisionSettingsChangedSignature = unreal.DynamicMulticastDelegate<FComponentCollisionSettingsChangedSignature, unreal.UPrimitiveComponent->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   This struct is serialized using native serialization so any changes to it require a package version bump.
 **/
-@:glueCppIncludes("Engine/Font.h")
+@:glueCppIncludes("Classes/Engine/Font.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFontCharacter {
   @:uproperty public var VerticalOffset : unreal.Int32;
   @:uproperty public var TextureIndex : unreal.UInt8;

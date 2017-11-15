@@ -18,7 +18,7 @@ package unreal.editor;
   Scroll gesture direction
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uname("EScrollGestureDirection")
 @:class @:uextern @:uenum extern enum EScrollGestureDirection {
   

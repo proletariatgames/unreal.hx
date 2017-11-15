@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Layered blend (per bone); has dynamic number of blendposes that can blend per different bone sets
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_LayeredBoneBlend.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_LayeredBoneBlend.h")
 @:uextern @:ustruct extern class FAnimNode_LayeredBoneBlend extends unreal.FAnimNode_Base {
   @:uproperty private var VirtualBoneGuid : unreal.FGuid;
   @:uproperty private var SkeletonGuid : unreal.FGuid;

@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_CompareBBEntries.h")
+@:glueCppIncludes("Classes/BehaviorTree/Decorators/BTDecorator_CompareBBEntries.h")
 @:uname("EBlackBoardEntryComparison.Type")
 @:uextern @:uenum extern enum EBlackBoardEntryComparison {
   

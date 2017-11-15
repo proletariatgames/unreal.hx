@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLightingChannels {
   @:uproperty public var bChannel2 : Bool;
   @:uproperty public var bChannel1 : Bool;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNode_UseCachedPose.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_UseCachedPose.h")
 @:uextern @:ustruct extern class FAnimNode_UseCachedPose extends unreal.FAnimNode_Base {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Selects the texture property to output
 **/
-@:glueCppIncludes("Materials/MaterialExpressionTextureProperty.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionTextureProperty.h")
 @:uname("EMaterialExposedTextureProperty")
 @:uextern @:uenum extern enum EMaterialExposedTextureProperty {
   

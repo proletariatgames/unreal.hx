@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimBlueprint.h")
+@:glueCppIncludes("Classes/Animation/AnimBlueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimGroupInfo {
   @:uproperty public var Color : unreal.FLinearColor;
   @:uproperty public var Name : unreal.FName;

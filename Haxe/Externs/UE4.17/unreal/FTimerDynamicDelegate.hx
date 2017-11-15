@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 typedef FTimerDynamicDelegate = unreal.DynamicDelegate<FTimerDynamicDelegate, Void->Void>;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/Material.h")
+@:glueCppIncludes("Classes/Materials/Material.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParameterGroupData {
   @:uproperty public var GroupSortPriority : unreal.Int32;
   @:uproperty public var GroupName : unreal.FString;

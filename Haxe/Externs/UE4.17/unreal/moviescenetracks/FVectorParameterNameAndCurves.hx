@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Structure representing an animated vector parameter and it's associated animation curve.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneParameterSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneParameterSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVectorParameterNameAndCurves {
   
   /**

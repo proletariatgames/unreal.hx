@@ -58,9 +58,9 @@ package unreal;
   **/
   @:uproperty public var AttenuationRadius : unreal.Float32;
   @:deprecated @:uproperty public var Radius_DEPRECATED : unreal.Float32;
-  @:ufunction @:final public function SetAttenuationRadius(NewRadius : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
-  @:ufunction @:final public function SetSourceRadius(bNewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetSourceLength(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAttenuationRadius(NewRadius : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFalloffExponent(NewLightFalloffExponent : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSourceRadius(bNewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSourceLength(NewValue : unreal.Float32) : Void;
   
 }

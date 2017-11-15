@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:uname("EBlueprintNativizationFlag")
 @:class @:uextern @:uenum extern enum EBlueprintNativizationFlag {
   Disabled;

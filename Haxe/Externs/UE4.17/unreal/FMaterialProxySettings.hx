@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/MaterialMerging.h")
+@:glueCppIncludes("Classes/Engine/MaterialMerging.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialProxySettings {
   @:uproperty public var BlendMode : unreal.EBlendMode;
   @:uproperty public var MaterialMergeType : unreal.EMaterialMergeType;

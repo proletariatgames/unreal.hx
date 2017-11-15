@@ -15,7 +15,7 @@
 package unreal.audiomixer;
 
 @:umodule("AudioMixer")
-@:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
+@:glueCppIncludes("Classes/SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
 @:uname("ESubmixEffectDynamicsProcessorType")
 @:class @:uextern @:uenum extern enum ESubmixEffectDynamicsProcessorType {
   Compressor;

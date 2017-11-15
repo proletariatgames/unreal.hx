@@ -15,7 +15,7 @@
 package unreal.foliage;
 
 @:umodule("Foliage")
-@:glueCppIncludes("FoliageType.h")
+@:glueCppIncludes("Public/FoliageType.h")
 @:uname("EFoliageScaling")
 @:class @:uextern @:uenum extern enum EFoliageScaling {
   

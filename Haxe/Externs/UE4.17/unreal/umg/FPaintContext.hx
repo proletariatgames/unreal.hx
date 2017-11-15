@@ -19,7 +19,7 @@ package unreal.umg;
   allow script code to override OnPaint behavior.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/UserWidget.h")
 @:uextern @:ustruct extern class FPaintContext {
   
 }

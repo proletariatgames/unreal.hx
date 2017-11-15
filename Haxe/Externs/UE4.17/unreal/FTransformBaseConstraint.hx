@@ -17,7 +17,7 @@ package unreal;
 /**
   This defines what constraint it is defined
 **/
-@:glueCppIncludes("Animation/Rig.h")
+@:glueCppIncludes("Classes/Animation/Rig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTransformBaseConstraint {
   
   /**

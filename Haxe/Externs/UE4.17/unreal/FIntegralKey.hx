@@ -17,7 +17,7 @@ package unreal;
 /**
   An integral key, which holds the key time and the key value
 **/
-@:glueCppIncludes("Curves/IntegralCurve.h")
+@:glueCppIncludes("Classes/Curves/IntegralCurve.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FIntegralKey {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Evaluation/MovieScene3DTransformTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieScene3DTransformTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieScene3DTransformTemplateData {
   @:uproperty public var Mask : unreal.moviescenetracks.FMovieSceneTransformMask;
   @:uproperty public var BlendType : unreal.moviescene.EMovieSceneBlendType;

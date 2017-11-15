@@ -17,7 +17,7 @@ package unreal;
 /**
   Legacy object for back-compat loading, no longer used by clothing system
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothPhysicsProperties_Legacy {
   @:uproperty public var FiberResistance : unreal.Float32;
   @:uproperty public var FiberExpansion : unreal.Float32;

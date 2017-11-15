@@ -23,12 +23,12 @@ package unreal.aimodule;
     Asks perception system to supply Requestor with PredictedActor's predicted location in PredictionTime seconds
         Location is being predicted based on PredicterActor's current location and velocity
   **/
-  @:ufunction static public function RequestControllerPredictionEvent(Requestor : unreal.aimodule.AAIController, PredictedActor : unreal.AActor, PredictionTime : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function RequestControllerPredictionEvent(Requestor : unreal.aimodule.AAIController, PredictedActor : unreal.AActor, PredictionTime : unreal.Float32) : Void;
   
   /**
     Asks perception system to supply Requestor with PredictedActor's predicted location in PredictionTime seconds
         Location is being predicted based on PredicterActor's current location and velocity
   **/
-  @:ufunction static public function RequestPawnPredictionEvent(Requestor : unreal.APawn, PredictedActor : unreal.AActor, PredictionTime : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function RequestPawnPredictionEvent(Requestor : unreal.APawn, PredictedActor : unreal.AActor, PredictionTime : unreal.Float32) : Void;
   
 }

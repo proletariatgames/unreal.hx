@@ -29,14 +29,14 @@ package unreal.umg;
     
     @param InColorAndOpacity             The new text color and opacity
   **/
-  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.slatecore.FSlateColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.slatecore.FSlateColor) : Void;
   
   /**
     Sets the opacity of the text in this text block
     
     @param InOpacity              The new text opacity
   **/
-  @:ufunction @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
   
   /**
     Sets the color and opacity of the text drop shadow
@@ -44,35 +44,35 @@ package unreal.umg;
     
     @param InShadowColorAndOpacity               The new drop shadow color and opacity
   **/
-  @:ufunction @:final public function SetShadowColorAndOpacity(InShadowColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetShadowColorAndOpacity(InShadowColorAndOpacity : unreal.FLinearColor) : Void;
   
   /**
     Sets the offset that the text drop shadow should be drawn at
     
     @param InShadowOffset                The new offset
   **/
-  @:ufunction @:final public function SetShadowOffset(InShadowOffset : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetShadowOffset(InShadowOffset : unreal.FVector2D) : Void;
   
   /**
     Dynamically set the font info for this text block
     
     @param InFontInfo THe new font info
   **/
-  @:ufunction @:final public function SetFont(InFontInfo : unreal.slatecore.FSlateFontInfo) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFont(InFontInfo : unreal.slatecore.FSlateFontInfo) : Void;
   
   /**
     Set the text justification for this text block
     
     @param InJustification new justification
   **/
-  @:ufunction @:final public function SetJustification(InJustification : unreal.slate.ETextJustify) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetJustification(InJustification : unreal.slate.ETextJustify) : Void;
   
   /**
     Set the minimum desired width for this text block
     
     @param InMinDesiredWidth new minimum desired width
   **/
-  @:ufunction @:final public function SetMinDesiredWidth(InMinDesiredWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinDesiredWidth(InMinDesiredWidth : unreal.Float32) : Void;
   
   /**
     If true, it will automatically wrap this text widget with an invalidation panel
@@ -128,13 +128,13 @@ package unreal.umg;
     Gets the widget text
     @return The widget text
   **/
-  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetText() : unreal.FText;
   
   /**
     Directly sets the widget text.
     Warning: This will wipe any binding created for the Text property!
     @param InText The text to assign to the widget
   **/
-  @:ufunction public function SetText(InText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) public function SetText(InText : unreal.FText) : Void;
   
 }

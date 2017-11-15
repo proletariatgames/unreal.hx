@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTemplateGenerationLedger {
   @:uproperty public var LastTrackIdentifier : unreal.moviescene.FMovieSceneTrackIdentifier;
   

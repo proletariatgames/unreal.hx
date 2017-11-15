@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SplineComponent.h")
+@:glueCppIncludes("Classes/Components/SplineComponent.h")
 @:uextern @:ustruct extern class FSplineCurves {
   
   /**

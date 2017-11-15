@@ -18,7 +18,7 @@ package unreal.levelsequence;
   Structure that stores a one to many mapping from object binding ID, to object references that pertain to that ID.
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceBindingReference.h")
+@:glueCppIncludes("Public/LevelSequenceBindingReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceBindingReferences {
   
 }

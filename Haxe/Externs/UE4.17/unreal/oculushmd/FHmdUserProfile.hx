@@ -15,7 +15,7 @@
 package unreal.oculushmd;
 
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusFunctionLibrary.h")
+@:glueCppIncludes("Public/OculusFunctionLibrary.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FHmdUserProfile {
   @:uproperty public var ExtraFields : unreal.TArray<unreal.oculushmd.FHmdUserProfileField>;
   

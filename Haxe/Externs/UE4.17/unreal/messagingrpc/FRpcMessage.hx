@@ -18,7 +18,7 @@ package unreal.messagingrpc;
   Base type for RPC messages.
 **/
 @:umodule("MessagingRpc")
-@:glueCppIncludes("RpcMessage.h")
+@:glueCppIncludes("Public/RpcMessage.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRpcMessage {
   
   /**

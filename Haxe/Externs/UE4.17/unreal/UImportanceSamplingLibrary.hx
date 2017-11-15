@@ -28,7 +28,7 @@ package unreal;
     @param Seed - Random seed (in the range 0-1) to randomize across multiple sequences
     @return Sobol-distributed random number between 0 and 1
   **/
-  @:ufunction static public function RandomSobolFloat(Index : unreal.Int32, Dimension : unreal.Int32, Seed : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function RandomSobolFloat(Index : unreal.Int32, Dimension : unreal.Int32, Seed : unreal.Float32) : unreal.Float32;
   
   /**
     @param Index - Which sequential point
@@ -36,7 +36,7 @@ package unreal;
     @param PreviousValue - The Sobol value for Index-1
     @return Sobol-distributed random number between 0 and 1
   **/
-  @:ufunction static public function NextSobolFloat(Index : unreal.Int32, Dimension : unreal.Int32, PreviousValue : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function NextSobolFloat(Index : unreal.Int32, Dimension : unreal.Int32, PreviousValue : unreal.Float32) : unreal.Float32;
   
   /**
     @param Index - Which sequential point in the cell (starting at 0)
@@ -45,7 +45,7 @@ package unreal;
     @param Seed - Random 2D seed (components in the range 0-1) to randomize across multiple sequences
     @return Sobol-distributed random 2D position in the given grid cell
   **/
-  @:ufunction static public function RandomSobolCell2D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("(X=0.000,Y=0.000)") Cell : unreal.FVector2D, @:opt("(X=0.000,Y=0.000)") Seed : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function RandomSobolCell2D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("(X=0.000,Y=0.000)") Cell : unreal.FVector2D, @:opt("(X=0.000,Y=0.000)") Seed : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     @param Index - Which sequential point
@@ -53,7 +53,7 @@ package unreal;
     @param PreviousValue - The Sobol value for Index-1
     @return Sobol-distributed random 2D position in the same grid cell
   **/
-  @:ufunction static public function NextSobolCell2D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("(X=0.000,Y=0.000)") PreviousValue : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function NextSobolCell2D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("(X=0.000,Y=0.000)") PreviousValue : unreal.FVector2D) : unreal.FVector2D;
   
   /**
     @param Index - Which sequential point in the cell (starting at 0)
@@ -62,7 +62,7 @@ package unreal;
     @param Seed - Random 3D seed (components in the range 0-1) to randomize across multiple sequences
     @return Sobol-distributed random 3D vector in the given grid cell
   **/
-  @:ufunction static public function RandomSobolCell3D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("0.000000,0.000000,0.000000") Cell : unreal.FVector, @:opt("0.000000,0.000000,0.000000") Seed : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RandomSobolCell3D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("0.000000,0.000000,0.000000") Cell : unreal.FVector, @:opt("0.000000,0.000000,0.000000") Seed : unreal.FVector) : unreal.FVector;
   
   /**
     @param Index - Which sequential point
@@ -70,7 +70,7 @@ package unreal;
     @param PreviousValue - The Sobol value for Index-1
     @return Sobol-distributed random 3D position in the same grid cell
   **/
-  @:ufunction static public function NextSobolCell3D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("0.000000,0.000000,0.000000") PreviousValue : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function NextSobolCell3D(Index : unreal.Int32, NumCells : unreal.Int32 = 1, @:opt("0.000000,0.000000,0.000000") PreviousValue : unreal.FVector) : unreal.FVector;
   
   /**
     Create an FImportanceTexture object for texture-driven importance sampling from a 2D RGBA8 texture
@@ -78,7 +78,7 @@ package unreal;
     @param WeightingFunc - How to turn the texture data into probability weights
     @return new ImportanceTexture object for use with ImportanceSample
   **/
-  @:ufunction static public function MakeImportanceTexture(Texture : unreal.UTexture2D, WeightingFunc : unreal.EImportanceWeight) : unreal.FImportanceTexture;
+  @:ufunction(BlueprintCallable) static public function MakeImportanceTexture(Texture : unreal.UTexture2D, WeightingFunc : unreal.EImportanceWeight) : unreal.FImportanceTexture;
   
   /**
     Distribute sample points proportional to Texture2D luminance.
@@ -90,6 +90,6 @@ package unreal;
     @outparam SampleIntensity - Intensity of individual points, scaled by probability and number of samples
     @outparam SampleSize - Local density of points near Position (scaled for 1x1 texture space)
   **/
-  @:ufunction static public function ImportanceSample(Texture : unreal.Const<unreal.PRef<unreal.FImportanceTexture>>, Rand : unreal.Const<unreal.PRef<unreal.FVector2D>>, Samples : unreal.Int32, Intensity : unreal.Float32, SamplePosition : unreal.PRef<unreal.FVector2D>, SampleColor : unreal.PRef<unreal.FLinearColor>, SampleIntensity : unreal.Float32, SampleSize : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function ImportanceSample(Texture : unreal.Const<unreal.PRef<unreal.FImportanceTexture>>, Rand : unreal.Const<unreal.PRef<unreal.FVector2D>>, Samples : unreal.Int32, Intensity : unreal.Float32, SamplePosition : unreal.PRef<unreal.FVector2D>, SampleColor : unreal.PRef<unreal.FLinearColor>, SampleIntensity : unreal.Float32, SampleSize : unreal.Float32) : Void;
   
 }

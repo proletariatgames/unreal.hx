@@ -17,7 +17,7 @@ package unreal;
 /**
   Selection information for geometry mode
 **/
-@:glueCppIncludes("Engine/Brush.h")
+@:glueCppIncludes("Classes/Engine/Brush.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGeomSelection {
   
   /**

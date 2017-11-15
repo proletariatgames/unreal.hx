@@ -18,7 +18,7 @@ package unreal;
   @TODO: this can encapsulate globally defined fields as well (like with native
          delegate signatures); consider renaming to FFieldReference
 **/
-@:glueCppIncludes("Engine/MemberReference.h")
+@:glueCppIncludes("Classes/Engine/MemberReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMemberReference {
   
   /**

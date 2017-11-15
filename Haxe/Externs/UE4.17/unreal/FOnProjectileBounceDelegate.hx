@@ -19,7 +19,7 @@ package unreal;
   @param ImpactVelocity
   
 **/
-@:glueCppIncludes("GameFramework/ProjectileMovementComponent.h")
+@:glueCppIncludes("Classes/GameFramework/ProjectileMovementComponent.h")
 @:uParamName("ImpactResult")
 @:uParamName("ImpactVelocity")
 @:uname("UProjectileMovementComponent.FOnProjectileBounceDelegate")

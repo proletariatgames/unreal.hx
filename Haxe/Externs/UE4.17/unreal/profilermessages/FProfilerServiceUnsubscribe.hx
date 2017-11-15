@@ -15,7 +15,7 @@
 package unreal.profilermessages;
 
 @:umodule("ProfilerMessages")
-@:glueCppIncludes("ProfilerServiceMessages.h")
+@:glueCppIncludes("Public/ProfilerServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FProfilerServiceUnsubscribe {
   @:uproperty public var InstanceId : unreal.FGuid;
   @:uproperty public var SessionId : unreal.FGuid;

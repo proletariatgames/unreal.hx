@@ -14,7 +14,7 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Components/InputKeySelector.h")
+@:glueCppIncludes("UMG.h", "Public/Components/InputKeySelector.h")
 @:umodule("UMG")
 @:uname("UInputKeySelector.FOnIsSelectingKeyChanged")
 typedef FOnIsSelectingKeyChanged = unreal.DynamicMulticastDelegate<FOnIsSelectingKeyChanged, Void->Void>;

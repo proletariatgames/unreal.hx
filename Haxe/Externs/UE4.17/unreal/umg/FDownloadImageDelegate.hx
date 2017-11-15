@@ -18,7 +18,7 @@ package unreal.umg;
   @param Texture
   
 **/
-@:glueCppIncludes("UMG.h", "Blueprint/AsyncTaskDownloadImage.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/AsyncTaskDownloadImage.h")
 @:uParamName("Texture")
 @:umodule("UMG")
 typedef FDownloadImageDelegate = unreal.DynamicMulticastDelegate<FDownloadImageDelegate, unreal.UTexture2DDynamic->Void>;

@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorPlaySettings.h")
 @:uname("ELaunchModeType")
 @:uextern @:uenum extern enum ELaunchModeType {
   

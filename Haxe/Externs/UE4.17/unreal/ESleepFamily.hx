@@ -17,7 +17,7 @@ package unreal;
 /**
   Presets of values used in considering when put this body to sleep.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("ESleepFamily")
 @:class @:uextern @:uenum extern enum ESleepFamily {
   

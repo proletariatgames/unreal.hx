@@ -17,7 +17,7 @@ package unreal;
 /**
   Input parameters to PredictProjectilePath functions.
 **/
-@:glueCppIncludes("Kismet/GameplayStaticsTypes.h")
+@:glueCppIncludes("Classes/Kismet/GameplayStaticsTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPredictProjectilePathParams {
   
   /**

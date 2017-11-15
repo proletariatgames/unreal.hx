@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundNodeDistanceCrossFade.h")
+@:glueCppIncludes("Classes/Sound/SoundNodeDistanceCrossFade.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDistanceDatum {
   
   /**

@@ -18,7 +18,7 @@ package unreal.niagara;
   Enumerates states a Niagara script can be in.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:uname("ENiagaraScriptCompileStatus")
 @:class @:uextern @:uenum extern enum ENiagaraScriptCompileStatus {
   

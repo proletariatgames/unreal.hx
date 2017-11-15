@@ -17,7 +17,7 @@ package unreal;
 /**
   application state when the game receives a notification
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uname("EApplicationState.Type")
 @:uextern @:uenum extern enum EApplicationState {
   

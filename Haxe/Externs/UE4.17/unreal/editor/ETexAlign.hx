@@ -18,7 +18,7 @@ package unreal.editor;
   Alignment types.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("TexAligner/TexAligner.h")
+@:glueCppIncludes("Classes/TexAligner/TexAligner.h")
 @:uname("ETexAlign")
 @:uextern @:uenum extern enum ETexAlign {
   

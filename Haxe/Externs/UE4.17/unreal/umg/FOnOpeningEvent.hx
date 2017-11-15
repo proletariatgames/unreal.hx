@@ -14,7 +14,7 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Components/ComboBoxString.h")
+@:glueCppIncludes("UMG.h", "Public/Components/ComboBoxString.h")
 @:umodule("UMG")
 @:uname("UComboBoxString.FOnOpeningEvent")
 typedef FOnOpeningEvent = unreal.DynamicMulticastDelegate<FOnOpeningEvent, Void->Void>;

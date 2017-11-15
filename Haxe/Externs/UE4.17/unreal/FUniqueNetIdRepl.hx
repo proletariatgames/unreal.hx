@@ -20,7 +20,7 @@ package unreal;
   Makes sure that the opaque aspects of FUniqueNetId are properly handled/serialized
   over network RPC and actor replication
 **/
-@:glueCppIncludes("GameFramework/OnlineReplStructs.h")
+@:glueCppIncludes("Classes/GameFramework/OnlineReplStructs.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FUniqueNetIdRepl extends unreal.FUniqueNetIdWrapper {
   
 }

@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that is sent in response to FAutomationWorkerRunTests.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerRunTestsReply {
   @:uproperty public var Success : Bool;
   @:uproperty public var ExecutionCount : unreal.FakeUInt32;

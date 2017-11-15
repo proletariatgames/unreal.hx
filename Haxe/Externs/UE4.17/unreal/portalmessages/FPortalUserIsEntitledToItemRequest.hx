@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalUserMessages.h")
+@:glueCppIncludes("Public/PortalUserMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserIsEntitledToItemRequest extends unreal.messagingrpc.FRpcMessage {
   @:uproperty public var CacheLevel : unreal.portalservices.EEntitlementCacheLevelRequest;
   @:uproperty public var ItemId : unreal.FString;

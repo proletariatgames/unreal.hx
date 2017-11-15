@@ -17,7 +17,7 @@ package unreal;
 /**
   Use UNavigationSystem.DescribeFilterFlags() to setup user friendly names of flags
 **/
-@:glueCppIncludes("AI/Navigation/NavFilters/NavigationQueryFilter.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavFilters/NavigationQueryFilter.h")
 @:uextern @:ustruct extern class FNavigationFilterFlags {
   @:uproperty public var bNavFlag15 : Bool;
   @:uproperty public var bNavFlag14 : Bool;

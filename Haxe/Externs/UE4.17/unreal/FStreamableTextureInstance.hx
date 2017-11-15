@@ -18,7 +18,7 @@ package unreal;
   Structure containing all information needed for determining the screen space
   size of an object/ texture instance.
 **/
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Classes/Engine/Level.h")
 @:uextern @:ustruct extern class FStreamableTextureInstance {
   
 }

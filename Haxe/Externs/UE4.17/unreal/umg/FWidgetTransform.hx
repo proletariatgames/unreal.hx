@@ -18,7 +18,7 @@ package unreal.umg;
   Describes the standard transformation of a widget
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Slate/WidgetTransform.h")
+@:glueCppIncludes("UMG.h", "Public/Slate/WidgetTransform.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FWidgetTransform {
   
   /**

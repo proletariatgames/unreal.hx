@@ -18,7 +18,7 @@ package unreal.umg;
   @param Operation
   
 **/
-@:glueCppIncludes("UMG.h", "Blueprint/DragDropOperation.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/DragDropOperation.h")
 @:uParamName("Operation")
 @:umodule("UMG")
 typedef FOnDragDropMulticast = unreal.DynamicMulticastDelegate<FOnDragDropMulticast, unreal.umg.UDragDropOperation->Void>;

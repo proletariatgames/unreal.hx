@@ -17,7 +17,7 @@ package unreal;
 /**
   A pose in local space (i.e. each transform is relative to its parent)
 **/
-@:glueCppIncludes("Animation/AnimationTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimationTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLocalSpacePose {
   @:uproperty public var Names : unreal.TArray<unreal.FName>;
   @:uproperty public var Transforms : unreal.TArray<unreal.FTransform>;

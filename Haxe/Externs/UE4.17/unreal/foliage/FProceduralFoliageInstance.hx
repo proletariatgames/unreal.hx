@@ -15,7 +15,7 @@
 package unreal.foliage;
 
 @:umodule("Foliage")
-@:glueCppIncludes("ProceduralFoliageInstance.h")
+@:glueCppIncludes("Public/ProceduralFoliageInstance.h")
 @:uextern @:ustruct extern class FProceduralFoliageInstance {
   @:uproperty public var Type : unreal.foliage.UFoliageType_InstancedStaticMesh;
   @:uproperty public var Scale : unreal.Float32;

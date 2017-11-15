@@ -17,7 +17,7 @@ package unreal;
 /**
   This structure represents a baked transition rule inside a state
 **/
-@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimStateMachineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationTransitionRule {
   @:uproperty public var TransitionIndex : unreal.Int32;
   

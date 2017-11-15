@@ -15,7 +15,7 @@
 package unreal.alembiclibrary;
 
 @:umodule("AlembicLibrary")
-@:glueCppIncludes("AbcImportSettings.h")
+@:glueCppIncludes("Public/AbcImportSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAbcNormalGenerationSettings {
   
   /**

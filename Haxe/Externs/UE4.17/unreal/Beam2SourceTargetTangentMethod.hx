@@ -17,7 +17,7 @@ package unreal;
 /**
   The method to use in determining the source/target tangent.
 **/
-@:glueCppIncludes("Particles/Beam/ParticleModuleBeamBase.h")
+@:glueCppIncludes("Classes/Particles/Beam/ParticleModuleBeamBase.h")
 @:uname("Beam2SourceTargetTangentMethod")
 @:uextern @:uenum extern enum Beam2SourceTargetTangentMethod {
   

@@ -101,36 +101,36 @@ package unreal.umg;
   /**
     Gets the current value of the slider.
   **/
-  @:ufunction @:thisConst @:final public function GetValue() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetValue() : unreal.Float32;
   
   /**
     Sets the current value of the slider.
   **/
-  @:ufunction @:final public function SetValue(InValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetValue(InValue : unreal.Float32) : Void;
   
   /**
     Sets if the slidable area should be indented to fit the handle
   **/
-  @:ufunction @:final public function SetIndentHandle(InValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIndentHandle(InValue : Bool) : Void;
   
   /**
     Sets the handle to be interactive or fixed
   **/
-  @:ufunction @:final public function SetLocked(InValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLocked(InValue : Bool) : Void;
   
   /**
     Sets the amount to adjust the value by, when using a controller or keyboard
   **/
-  @:ufunction @:final public function SetStepSize(InValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStepSize(InValue : unreal.Float32) : Void;
   
   /**
     Sets the color of the slider bar
   **/
-  @:ufunction @:final public function SetSliderBarColor(InValue : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSliderBarColor(InValue : unreal.FLinearColor) : Void;
   
   /**
     Sets the color of the handle bar
   **/
-  @:ufunction @:final public function SetSliderHandleColor(InValue : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSliderHandleColor(InValue : unreal.FLinearColor) : Void;
   
 }

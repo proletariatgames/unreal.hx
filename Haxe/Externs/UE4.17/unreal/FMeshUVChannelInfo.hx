@@ -17,7 +17,7 @@ package unreal;
 /**
   The world size for each texcoord mapping. Used by the texture streaming.
 **/
-@:glueCppIncludes("Components.h")
+@:glueCppIncludes("Public/Components.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshUVChannelInfo {
   
   /**

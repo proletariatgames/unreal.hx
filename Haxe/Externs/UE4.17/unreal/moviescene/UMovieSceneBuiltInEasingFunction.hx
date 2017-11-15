@@ -23,6 +23,6 @@ package unreal.moviescene;
   /**
     Evaluate the easing with an interpolation value between 0 and 1
   **/
-  @:ufunction @:thisConst private function OnEvaluate(Interp : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintImplementableEvent, BlueprintCallable) @:thisConst private function OnEvaluate(Interp : unreal.Float32) : unreal.Float32;
   
 }

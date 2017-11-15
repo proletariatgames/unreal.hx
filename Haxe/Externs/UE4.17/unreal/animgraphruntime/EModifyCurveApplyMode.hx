@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_ModifyCurve.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_ModifyCurve.h")
 @:uname("EModifyCurveApplyMode")
 @:class @:uextern @:uenum extern enum EModifyCurveApplyMode {
   

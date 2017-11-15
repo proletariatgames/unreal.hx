@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimMontage.h")
+@:glueCppIncludes("Classes/Animation/AnimMontage.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimMontageInstance {
   
   /**

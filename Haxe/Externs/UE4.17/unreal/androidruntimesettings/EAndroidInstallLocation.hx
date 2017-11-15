@@ -18,7 +18,7 @@ package unreal.androidruntimesettings;
   The default install location for the application
 **/
 @:umodule("AndroidRuntimeSettings")
-@:glueCppIncludes("AndroidRuntimeSettings.h")
+@:glueCppIncludes("Classes/AndroidRuntimeSettings.h")
 @:uname("EAndroidInstallLocation.Type")
 @:uextern @:uenum extern enum EAndroidInstallLocation {
   

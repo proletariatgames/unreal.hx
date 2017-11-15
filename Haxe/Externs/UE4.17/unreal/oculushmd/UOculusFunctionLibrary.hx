@@ -28,7 +28,7 @@ package unreal.oculushmd;
     @param bUsePositionForPlayerCamera   (in) Should be set to 'true' if the position is going to be used to update position of the camera manually.
     @param PositionScale         (in) The 3D scale that will be applied to position.
   **/
-  @:ufunction static public function GetPose(DeviceRotation : unreal.PRef<unreal.FRotator>, DevicePosition : unreal.PRef<unreal.FVector>, NeckPosition : unreal.PRef<unreal.FVector>, bUseOrienationForPlayerCamera : Bool = false, bUsePositionForPlayerCamera : Bool = false, PositionScale : unreal.Const<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetPose(DeviceRotation : unreal.PRef<unreal.FRotator>, DevicePosition : unreal.PRef<unreal.FVector>, NeckPosition : unreal.PRef<unreal.FVector>, bUseOrienationForPlayerCamera : Bool = false, bUsePositionForPlayerCamera : Bool = false, PositionScale : unreal.Const<unreal.FVector>) : Void;
   
   /**
     Reports raw sensor data. If HMD doesn't support any of the parameters then it will be set to zero.
@@ -39,17 +39,17 @@ package unreal.oculushmd;
     @param LinearVelocity                 (out) Velocity in meters per second.
     @param TimeInSeconds                  (out) Time when the reported IMU reading took place, in seconds.
   **/
-  @:ufunction static public function GetRawSensorData(AngularAcceleration : unreal.PRef<unreal.FVector>, LinearAcceleration : unreal.PRef<unreal.FVector>, AngularVelocity : unreal.PRef<unreal.FVector>, LinearVelocity : unreal.PRef<unreal.FVector>, TimeInSeconds : unreal.Float32, @:opt("HMD") DeviceType : unreal.oculushmd.ETrackedDeviceType) : Void;
+  @:ufunction(BlueprintCallable) static public function GetRawSensorData(AngularAcceleration : unreal.PRef<unreal.FVector>, LinearAcceleration : unreal.PRef<unreal.FVector>, AngularVelocity : unreal.PRef<unreal.FVector>, LinearVelocity : unreal.PRef<unreal.FVector>, TimeInSeconds : unreal.Float32, @:opt("HMD") DeviceType : unreal.oculushmd.ETrackedDeviceType) : Void;
   
   /**
     Returns if the device is currently tracked by the runtime or not.
   **/
-  @:ufunction static public function IsDeviceTracked(DeviceType : unreal.oculushmd.ETrackedDeviceType) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsDeviceTracked(DeviceType : unreal.oculushmd.ETrackedDeviceType) : Bool;
   
   /**
     Returns if the device is currently tracked by the runtime or not.
   **/
-  @:ufunction static public function SetCPUAndGPULevels(CPULevel : unreal.Int32, GPULevel : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetCPUAndGPULevels(CPULevel : unreal.Int32, GPULevel : unreal.Int32) : Void;
   
   /**
     Returns current user profile.
@@ -57,7 +57,7 @@ package unreal.oculushmd;
     @param Profile                (out) Structure to hold current user profile.
     @return (boolean)     True, if user profile was acquired.
   **/
-  @:ufunction static public function GetUserProfile(Profile : unreal.PRef<unreal.oculushmd.FHmdUserProfile>) : Bool;
+  @:ufunction(BlueprintCallable) static public function GetUserProfile(Profile : unreal.PRef<unreal.oculushmd.FHmdUserProfile>) : Bool;
   
   /**
     Sets 'base rotation' - the rotation that will be subtracted from
@@ -71,7 +71,7 @@ package unreal.oculushmd;
     @param BaseOffsetInMeters (in) the vector to be set as base offset, in meters.
     @param Options                        (in) specifies either position, orientation or both should be set.
   **/
-  @:ufunction static public function SetBaseRotationAndBaseOffsetInMeters(Rotation : unreal.FRotator, BaseOffsetInMeters : unreal.FVector, Options : unreal.headmounteddisplay.EOrientPositionSelector) : Void;
+  @:ufunction(BlueprintCallable) static public function SetBaseRotationAndBaseOffsetInMeters(Rotation : unreal.FRotator, BaseOffsetInMeters : unreal.FVector, Options : unreal.headmounteddisplay.EOrientPositionSelector) : Void;
   
   /**
     Returns current base rotation and base offset.
@@ -83,14 +83,14 @@ package unreal.oculushmd;
     @param OutRotation                    (out) Rotator object with base rotation
     @param OutBaseOffsetInMeters  (out) base position offset, vector, in meters.
   **/
-  @:ufunction static public function GetBaseRotationAndBaseOffsetInMeters(OutRotation : unreal.PRef<unreal.FRotator>, OutBaseOffsetInMeters : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetBaseRotationAndBaseOffsetInMeters(OutRotation : unreal.PRef<unreal.FRotator>, OutBaseOffsetInMeters : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Scales the HMD position that gets added to the virtual camera position.
     
     @param PosScale3D    (in) the scale to apply to the HMD position.
   **/
-  @:ufunction static public function SetPositionScale3D(PosScale3D : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) static public function SetPositionScale3D(PosScale3D : unreal.FVector) : Void;
   
   /**
     Sets 'base rotation' - the rotation that will be subtracted from
@@ -103,7 +103,7 @@ package unreal.oculushmd;
     @param PosOffset                     (in) the vector to be added to HMD position.
     @param Options                       (in) specifies either position, orientation or both should be set.
   **/
-  @:ufunction static public function SetBaseRotationAndPositionOffset(BaseRot : unreal.FRotator, PosOffset : unreal.FVector, Options : unreal.headmounteddisplay.EOrientPositionSelector) : Void;
+  @:ufunction(BlueprintCallable) static public function SetBaseRotationAndPositionOffset(BaseRot : unreal.FRotator, PosOffset : unreal.FVector, Options : unreal.headmounteddisplay.EOrientPositionSelector) : Void;
   
   /**
     Returns current base rotation and position offset.
@@ -111,7 +111,7 @@ package unreal.oculushmd;
     @param OutRot                        (out) Rotator object with base rotation
     @param OutPosOffset          (out) the vector with previously set position offset.
   **/
-  @:ufunction static public function GetBaseRotationAndPositionOffset(OutRot : unreal.PRef<unreal.FRotator>, OutPosOffset : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetBaseRotationAndPositionOffset(OutRot : unreal.PRef<unreal.FRotator>, OutPosOffset : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Adds loading splash screen with parameters
@@ -123,51 +123,51 @@ package unreal.oculushmd;
     @param DeltaRotation         (in) Incremental rotation, that is added each 2nd frame to the quad transform. The quad is rotated around the center of the quad.
     @param bClearBeforeAdd       (in) If true, clears splashes before adding a new one.
   **/
-  @:ufunction static public function AddLoadingSplashScreen(Texture : unreal.UTexture2D, TranslationInMeters : unreal.FVector, Rotation : unreal.FRotator, @:opt("(X=1.000,Y=1.000)") SizeInMeters : unreal.FVector2D, DeltaRotation : unreal.FRotator, bClearBeforeAdd : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function AddLoadingSplashScreen(Texture : unreal.UTexture2D, TranslationInMeters : unreal.FVector, Rotation : unreal.FRotator, @:opt("(X=1.000,Y=1.000)") SizeInMeters : unreal.FVector2D, DeltaRotation : unreal.FRotator, bClearBeforeAdd : Bool = false) : Void;
   
   /**
     Removes all the splash screens.
   **/
-  @:ufunction static public function ClearLoadingSplashScreens() : Void;
+  @:ufunction(BlueprintCallable) static public function ClearLoadingSplashScreens() : Void;
   
   /**
     Shows loading splash screen.
   **/
-  @:ufunction static public function ShowLoadingSplashScreen() : Void;
+  @:ufunction(BlueprintCallable) static public function ShowLoadingSplashScreen() : Void;
   
   /**
     Hides loading splash screen.
     
     @param       bClear  (in) Clear all splash screens after hide.
   **/
-  @:ufunction static public function HideLoadingSplashScreen(bClear : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function HideLoadingSplashScreen(bClear : Bool = false) : Void;
   
   /**
     Enables/disables splash screen to be automatically shown when LoadMap is called.
     
     @param       bAutoShowEnabled        (in)    True, if automatic showing of splash screens is enabled when map is being loaded.
   **/
-  @:ufunction static public function EnableAutoLoadingSplashScreen(bAutoShowEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function EnableAutoLoadingSplashScreen(bAutoShowEnabled : Bool) : Void;
   
   /**
     Returns true, if the splash screen is automatically shown when LoadMap is called.
   **/
-  @:ufunction static public function IsAutoLoadingSplashScreenEnabled() : Bool;
+  @:ufunction(BlueprintCallable) static public function IsAutoLoadingSplashScreenEnabled() : Bool;
   
   /**
     Sets a texture for loading icon mode and shows it. This call will clear all the splashes.
   **/
-  @:ufunction static public function ShowLoadingIcon(Texture : unreal.UTexture2D) : Void;
+  @:ufunction(BlueprintCallable) static public function ShowLoadingIcon(Texture : unreal.UTexture2D) : Void;
   
   /**
     Clears the loading icon. This call will clear all the splashes.
   **/
-  @:ufunction static public function HideLoadingIcon() : Void;
+  @:ufunction(BlueprintCallable) static public function HideLoadingIcon() : Void;
   
   /**
     Returns true, if the splash screen is in loading icon mode.
   **/
-  @:ufunction static public function IsLoadingIconEnabled() : Bool;
+  @:ufunction(BlueprintCallable) static public function IsLoadingIconEnabled() : Bool;
   
   /**
     Sets loading splash screen parameters.
@@ -178,7 +178,7 @@ package unreal.oculushmd;
     @param RotationAxes          (in) A vector that specifies the axis of the splash screen rotation (if RotationDelta is specified).
     @param RotationDeltaInDeg (in) Rotation delta, in degrees, that is added each 2nd frame to the quad transform. The quad is rotated around the vector "RotationAxes".
   **/
-  @:ufunction static public function SetLoadingSplashParams(TexturePath : unreal.FString, DistanceInMeters : unreal.FVector, SizeInMeters : unreal.FVector2D, RotationAxis : unreal.FVector, RotationDeltaInDeg : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetLoadingSplashParams(TexturePath : unreal.FString, DistanceInMeters : unreal.FVector, SizeInMeters : unreal.FVector2D, RotationAxis : unreal.FVector, RotationDeltaInDeg : unreal.Float32) : Void;
   
   /**
     Returns loading splash screen parameters.
@@ -189,6 +189,6 @@ package unreal.oculushmd;
     @param RotationAxes          (out) A vector that specifies the axis of the splash screen rotation (if RotationDelta is specified).
     @param RotationDeltaInDeg (out) Rotation delta, in degrees, that is added each 2nd frame to the quad transform. The quad is rotated around the vector "RotationAxes".
   **/
-  @:ufunction static public function GetLoadingSplashParams(TexturePath : unreal.PRef<unreal.FString>, DistanceInMeters : unreal.PRef<unreal.FVector>, SizeInMeters : unreal.PRef<unreal.FVector2D>, RotationAxis : unreal.PRef<unreal.FVector>, RotationDeltaInDeg : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function GetLoadingSplashParams(TexturePath : unreal.PRef<unreal.FString>, DistanceInMeters : unreal.PRef<unreal.FVector>, SizeInMeters : unreal.PRef<unreal.FVector2D>, RotationAxis : unreal.PRef<unreal.FVector>, RotationDeltaInDeg : unreal.Float32) : Void;
   
 }

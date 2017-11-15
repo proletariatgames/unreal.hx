@@ -40,21 +40,21 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveExecute(OwnerActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveExecute(OwnerActor : unreal.AActor) : Void;
   
   /**
     if blueprint graph contains this event, task will stay active until FinishAbort is called
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveAbort(OwnerActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveAbort(OwnerActor : unreal.AActor) : Void;
   
   /**
     tick function
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveTick(OwnerActor : unreal.AActor, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     Alternative AI version of ReceiveExecute
@@ -62,7 +62,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveExecuteAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveExecuteAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of ReceiveAbort
@@ -70,7 +70,7 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveAbortAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveAbortAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn) : Void;
   
   /**
     Alternative AI version of tick function.
@@ -78,36 +78,36 @@ package unreal.aimodule;
         @Note that if both generic and AI event versions are implemented only the more
         suitable one will be called, meaning the AI version if called for AI, generic one otherwise
   **/
-  @:ufunction private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveTickAI(OwnerController : unreal.aimodule.AAIController, ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
   
   /**
     finishes task execution with Success or Fail result
   **/
-  @:ufunction @:final private function FinishExecute(bSuccess : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final private function FinishExecute(bSuccess : Bool) : Void;
   
   /**
     aborts task execution
   **/
-  @:ufunction @:final private function FinishAbort() : Void;
+  @:ufunction(BlueprintCallable) @:final private function FinishAbort() : Void;
   
   /**
     task execution will be finished (with result 'Success') after receiving specified message
   **/
-  @:ufunction @:final private function SetFinishOnMessage(MessageName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final private function SetFinishOnMessage(MessageName : unreal.FName) : Void;
   
   /**
     task execution will be finished (with result 'Success') after receiving specified message with indicated ID
   **/
-  @:ufunction @:final private function SetFinishOnMessageWithId(MessageName : unreal.FName, RequestID : unreal.Int32 = -1) : Void;
+  @:ufunction(BlueprintCallable) @:final private function SetFinishOnMessageWithId(MessageName : unreal.FName, RequestID : unreal.Int32 = -1) : Void;
   
   /**
     check if task is currently being executed
   **/
-  @:ufunction @:thisConst @:final private function IsTaskExecuting() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final private function IsTaskExecuting() : Bool;
   
   /**
     check if task is currently being aborted
   **/
-  @:ufunction @:thisConst @:final private function IsTaskAborting() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final private function IsTaskAborting() : Bool;
   
 }

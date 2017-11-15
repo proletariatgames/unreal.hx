@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavigationTypes.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationTypes.h")
 @:uname("ENavigationOptionFlag.Type")
 @:uextern @:uenum extern enum ENavigationOptionFlag {
   Default;

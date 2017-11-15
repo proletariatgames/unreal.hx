@@ -17,7 +17,7 @@ package unreal;
 /**
   Sequence player node
 **/
-@:glueCppIncludes("Animation/AnimNode_SequencePlayer.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_SequencePlayer.h")
 @:uextern @:ustruct extern class FAnimNode_SequencePlayer extends unreal.FAnimNode_AssetPlayerBase {
   
   /**

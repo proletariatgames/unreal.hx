@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionScreenPosition.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionScreenPosition.h")
 @:uname("EMaterialExpressionScreenPositionMapping")
 @:uextern @:uenum extern enum EMaterialExpressionScreenPositionMapping {
   

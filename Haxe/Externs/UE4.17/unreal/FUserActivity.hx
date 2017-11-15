@@ -17,7 +17,7 @@ package unreal;
 /**
   The description of a user activity
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FUserActivity {
   
   /**

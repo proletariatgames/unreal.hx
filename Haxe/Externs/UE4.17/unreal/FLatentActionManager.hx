@@ -17,7 +17,7 @@ package unreal;
 /**
   The latent action manager handles all pending latent actions for a single world
 **/
-@:glueCppIncludes("Engine/LatentActionManager.h")
+@:glueCppIncludes("Classes/Engine/LatentActionManager.h")
 @:uextern @:ustruct extern class FLatentActionManager {
   
 }

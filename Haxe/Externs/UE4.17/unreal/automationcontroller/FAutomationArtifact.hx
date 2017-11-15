@@ -15,7 +15,7 @@
 package unreal.automationcontroller;
 
 @:umodule("AutomationController")
-@:glueCppIncludes("Interfaces/IAutomationReport.h")
+@:glueCppIncludes("Public/Interfaces/IAutomationReport.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationArtifact {
   @:uproperty public var Type : unreal.automationcontroller.EAutomationArtifactType;
   @:uproperty public var Name : unreal.FString;

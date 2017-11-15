@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Beam/ParticleModuleBeamModifier.h")
+@:glueCppIncludes("Classes/Particles/Beam/ParticleModuleBeamModifier.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBeamModifierOptions {
   
   /**

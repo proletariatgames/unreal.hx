@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for picking current angular twist axis
 **/
-@:glueCppIncludes("Animation/AnimPhysicsSolver.h")
+@:glueCppIncludes("Public/Animation/AnimPhysicsSolver.h")
 @:uname("AnimPhysTwistAxis")
 @:class @:uextern @:uenum extern enum AnimPhysTwistAxis {
   AxisX;

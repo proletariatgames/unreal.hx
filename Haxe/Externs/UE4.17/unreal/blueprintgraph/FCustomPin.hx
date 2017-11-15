@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   UK2Node_EaseFunction
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_EaseFunction.h")
+@:glueCppIncludes("Classes/K2Node_EaseFunction.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCustomPin {
   
   /**

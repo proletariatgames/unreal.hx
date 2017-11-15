@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param LeaderboardValue
   
 **/
-@:glueCppIncludes("LeaderboardQueryCallbackProxy.h")
+@:glueCppIncludes("Classes/LeaderboardQueryCallbackProxy.h")
 @:uParamName("LeaderboardValue")
 @:umodule("OnlineSubsystemUtils")
 typedef FLeaderboardQueryResult = unreal.DynamicMulticastDelegate<FLeaderboardQueryResult, unreal.Int32->Void>;

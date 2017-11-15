@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/DemoNetDriver.h")
+@:glueCppIncludes("Classes/Engine/DemoNetDriver.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelNameAndTime {
   @:uproperty public var LevelChangeTimeInMS : unreal.FakeUInt32;
   @:uproperty public var LevelName : unreal.FString;

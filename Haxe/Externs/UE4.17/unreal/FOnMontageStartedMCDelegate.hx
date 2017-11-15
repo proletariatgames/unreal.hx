@@ -19,6 +19,6 @@ package unreal;
   @param Montage
   
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:uParamName("Montage")
 typedef FOnMontageStartedMCDelegate = unreal.DynamicMulticastDelegate<FOnMontageStartedMCDelegate, unreal.UAnimMontage->Void>;

@@ -54,8 +54,8 @@ package unreal;
     Decal material.
   **/
   @:uproperty public var DecalMaterial : unreal.UMaterialInterface;
-  @:ufunction @:thisConst @:final public function GetFadeStartDelay() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function GetFadeDuration() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetFadeStartDelay() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetFadeDuration() : unreal.Float32;
   
   /**
     Sets the decal's fade start time, duration and if the owning actor should be destroyed after the decal is fully faded out.
@@ -66,31 +66,31 @@ package unreal;
     @param Duration - Time in second for the decal to fade out.
     @param DestroyOwnerAfterFade - Should the owning actor automatically be destroyed after it is completely faded out.
   **/
-  @:ufunction @:final public function SetFadeOut(StartDelay : unreal.Float32, Duration : unreal.Float32, DestroyOwnerAfterFade : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFadeOut(StartDelay : unreal.Float32, Duration : unreal.Float32, DestroyOwnerAfterFade : Bool = true) : Void;
   
   /**
     Set the FadeScreenSize for this decal component
   **/
-  @:ufunction @:final public function SetFadeScreenSize(NewFadeScreenSize : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFadeScreenSize(NewFadeScreenSize : unreal.Float32) : Void;
   
   /**
     Sets the sort order for the decal component. Higher values draw later (on top). This will force the decal to reattach
   **/
-  @:ufunction @:final public function SetSortOrder(Value : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSortOrder(Value : unreal.Int32) : Void;
   
   /**
     setting decal material on decal component. This will force the decal to reattach
   **/
-  @:ufunction @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDecalMaterial(NewDecalMaterial : unreal.UMaterialInterface) : Void;
   
   /**
     Accessor for decal material
   **/
-  @:ufunction @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDecalMaterial() : unreal.UMaterialInterface;
   
   /**
     Utility to allocate a new Dynamic Material Instance, set its parent to the currently applied material, and assign it
   **/
-  @:ufunction public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) public function CreateDynamicMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
 }

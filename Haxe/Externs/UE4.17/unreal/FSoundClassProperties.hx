@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure containing configurable properties of a sound class.
 **/
-@:glueCppIncludes("Sound/SoundClass.h")
+@:glueCppIncludes("Classes/Sound/SoundClass.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSoundClassProperties {
   
   /**

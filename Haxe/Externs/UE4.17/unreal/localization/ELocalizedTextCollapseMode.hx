@@ -15,7 +15,7 @@
 package unreal.localization;
 
 @:umodule("Localization")
-@:glueCppIncludes("PortableObjectPipeline.h")
+@:glueCppIncludes("Public/PortableObjectPipeline.h")
 @:uname("ELocalizedTextCollapseMode")
 @:class @:uextern @:uenum extern enum ELocalizedTextCollapseMode {
   

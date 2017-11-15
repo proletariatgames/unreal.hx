@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates tangent weight modes.
 **/
-@:glueCppIncludes("Curves/RichCurve.h")
+@:glueCppIncludes("Classes/Curves/RichCurve.h")
 @:uname("ERichCurveTangentWeightMode")
 @:uextern @:uenum extern enum ERichCurveTangentWeightMode {
   RCTWM_WeightedNone;

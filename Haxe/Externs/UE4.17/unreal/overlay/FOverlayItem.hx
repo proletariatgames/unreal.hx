@@ -15,7 +15,7 @@
 package unreal.overlay;
 
 @:umodule("Overlay")
-@:glueCppIncludes("Overlays.h")
+@:glueCppIncludes("Public/Overlays.h")
 @:uextern @:ustruct extern class FOverlayItem {
   
   /**

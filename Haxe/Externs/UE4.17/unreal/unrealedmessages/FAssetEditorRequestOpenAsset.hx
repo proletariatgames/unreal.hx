@@ -18,7 +18,7 @@ package unreal.unrealedmessages;
   Implements a message for opening an asset in the asset browser.
 **/
 @:umodule("UnrealEdMessages")
-@:glueCppIncludes("AssetEditorMessages.h")
+@:glueCppIncludes("Classes/AssetEditorMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAssetEditorRequestOpenAsset {
   
   /**

@@ -18,7 +18,7 @@ package unreal;
   Struct that encompasses the most common types of data. This is the data payload
   of PlatformInterfaceDelegateResult.
 **/
-@:glueCppIncludes("Engine/PlatformInterfaceBase.h")
+@:glueCppIncludes("Classes/Engine/PlatformInterfaceBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPlatformInterfaceData {
   @:uproperty public var ObjectValue : unreal.UObject;
   @:uproperty public var StringValue : unreal.FString;

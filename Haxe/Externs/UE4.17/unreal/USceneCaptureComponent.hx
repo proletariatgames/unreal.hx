@@ -83,46 +83,46 @@ package unreal;
   /**
     Adds the component to our list of hidden components.
   **/
-  @:ufunction @:final public function HideComponent(InComponent : unreal.UPrimitiveComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function HideComponent(InComponent : unreal.UPrimitiveComponent) : Void;
   
   /**
     Adds all primitive components in the actor to our list of hidden components.
   **/
-  @:ufunction @:final public function HideActorComponents(InActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function HideActorComponents(InActor : unreal.AActor) : Void;
   
   /**
     Adds the component to our list of show-only components.
   **/
-  @:ufunction @:final public function ShowOnlyComponent(InComponent : unreal.UPrimitiveComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ShowOnlyComponent(InComponent : unreal.UPrimitiveComponent) : Void;
   
   /**
     Adds all primitive components in the actor to our list of show-only components.
   **/
-  @:ufunction @:final public function ShowOnlyActorComponents(InActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ShowOnlyActorComponents(InActor : unreal.AActor) : Void;
   
   /**
     Removes a component from the Show Only list.
   **/
-  @:ufunction @:final public function RemoveShowOnlyComponent(InComponent : unreal.UPrimitiveComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveShowOnlyComponent(InComponent : unreal.UPrimitiveComponent) : Void;
   
   /**
     Removes a actor's components from the Show Only list.
   **/
-  @:ufunction @:final public function RemoveShowOnlyActorComponents(InActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveShowOnlyActorComponents(InActor : unreal.AActor) : Void;
   
   /**
     Clears the Show Only list.
   **/
-  @:ufunction @:final public function ClearShowOnlyComponents(InComponent : unreal.UPrimitiveComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearShowOnlyComponents(InComponent : unreal.UPrimitiveComponent) : Void;
   
   /**
     Clears the hidden list.
   **/
-  @:ufunction @:final public function ClearHiddenComponents() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearHiddenComponents() : Void;
   
   /**
     Changes the value of TranslucentSortPriority.
   **/
-  @:ufunction @:final public function SetCaptureSortPriority(NewCaptureSortPriority : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCaptureSortPriority(NewCaptureSortPriority : unreal.Int32) : Void;
   
 }

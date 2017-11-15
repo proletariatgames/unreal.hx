@@ -91,22 +91,22 @@ package unreal.umg;
     Color and opacity multiplier of content in the border
   **/
   @:uproperty public var ContentColorAndOpacity : unreal.FLinearColor;
-  @:ufunction @:final public function SetContentColorAndOpacity(InContentColorAndOpacity : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
-  @:ufunction @:final public function SetBrushColor(InBrushColor : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
-  @:ufunction @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
-  @:ufunction @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D) : Void;
-  @:ufunction @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
-  @:ufunction @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:final public function SetContentColorAndOpacity(InContentColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushColor(InBrushColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
   
   /**
     Sets the DesireSizeScale of this border.
     
     @param InScale    The X and Y multipliers for the desired size
   **/
-  @:ufunction @:final public function SetDesiredSizeScale(InScale : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDesiredSizeScale(InScale : unreal.FVector2D) : Void;
   
 }

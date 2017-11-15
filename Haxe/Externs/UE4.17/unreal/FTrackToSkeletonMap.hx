@@ -17,7 +17,7 @@ package unreal;
 /**
   @note We have a plan to support skeletal hierarchy. When that happens, we'd like to keep skeleton indexing.
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FTrackToSkeletonMap {
   
   /**

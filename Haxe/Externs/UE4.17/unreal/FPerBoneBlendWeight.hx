@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimTypes.h")
+@:glueCppIncludes("Public/Animation/AnimTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPerBoneBlendWeight {
   @:uproperty public var BlendWeight : unreal.Float32;
   

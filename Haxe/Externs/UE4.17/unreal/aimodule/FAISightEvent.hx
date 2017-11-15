@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Perception/AISense_Sight.h")
+@:glueCppIncludes("Classes/Perception/AISense_Sight.h")
 @:uextern @:ustruct extern class FAISightEvent {
   @:uproperty public var Observer : unreal.AActor;
   @:uproperty public var SeenActor : unreal.AActor;

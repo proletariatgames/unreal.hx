@@ -28,35 +28,35 @@ package unreal.sourcecontrol;
     @param       InPackageName   The package name to get the filename for
     @return the filename
   **/
-  @:ufunction static public function PackageFilename(InPackageName : unreal.FString) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function PackageFilename(InPackageName : unreal.FString) : unreal.FString;
   
   /**
     Helper function to convert package name array into a filename array.
     @param       InPackageNames  The package name array
     @return an array of filenames
   **/
-  @:ufunction static public function PackageFilenames(InPackageNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.TArray<unreal.FString>;
+  @:ufunction(BlueprintCallable) static public function PackageFilenames(InPackageNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.TArray<unreal.FString>;
   
   /**
     Helper function to convert a filename array to absolute paths.
     @param       InFileNames     The filename array
     @return an array of filenames, transformed into absolute paths
   **/
-  @:ufunction static public function AbsoluteFilenames(InFileNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.TArray<unreal.FString>;
+  @:ufunction(BlueprintCallable) static public function AbsoluteFilenames(InFileNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.TArray<unreal.FString>;
   
   /**
     Helper function to check out a file
     @param       InFile          The file path to check in
     @return      Success or failure of the checkout operation
   **/
-  @:ufunction static public function CheckOutFile(InFile : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function CheckOutFile(InFile : unreal.FString) : Bool;
   
   /**
     Helper function to mark a file for add. Does nothing (and returns true) if the file is already under SC
     @param       InFile          The file path to check in
     @return      Success or failure of the mark for add operation
   **/
-  @:ufunction static public function MarkFileForAdd(InFile : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function MarkFileForAdd(InFile : unreal.FString) : Bool;
   
   /**
     Helper function to copy a file into our 'source controlled' directories, handling checkout/add etc.
@@ -66,6 +66,6 @@ package unreal.sourcecontrol;
     @param       OutFailReason           Text describing why the operation failed
     @return      Success or failure of the operation
   **/
-  @:ufunction static public function CopyFileUnderSourceControl(InDestFile : unreal.FString, InSourceFile : unreal.FString, InFileDescription : unreal.Const<unreal.PRef<unreal.FText>>, OutFailReason : unreal.PRef<unreal.FText>) : Bool;
+  @:ufunction(BlueprintCallable) static public function CopyFileUnderSourceControl(InDestFile : unreal.FString, InSourceFile : unreal.FString, InFileDescription : unreal.Const<unreal.PRef<unreal.FText>>, OutFailReason : unreal.PRef<unreal.FText>) : Bool;
   
 }

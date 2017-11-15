@@ -18,7 +18,7 @@ package unreal.audioeditor;
   Action to add a node to the graph
 **/
 @:umodule("AudioEditor")
-@:glueCppIncludes("SoundCueGraph/SoundCueGraphSchema.h")
+@:glueCppIncludes("Classes/SoundCueGraph/SoundCueGraphSchema.h")
 @:uextern @:ustruct extern class FSoundCueGraphSchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
   /**

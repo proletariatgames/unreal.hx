@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Generators/MovieSceneEasingCurves.h")
+@:glueCppIncludes("Public/Generators/MovieSceneEasingCurves.h")
 @:uname("EMovieSceneBuiltInEasing")
 @:class @:uextern @:uenum extern enum EMovieSceneBuiltInEasing {
   

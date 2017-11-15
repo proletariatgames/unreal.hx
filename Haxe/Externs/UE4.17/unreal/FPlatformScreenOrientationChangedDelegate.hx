@@ -18,7 +18,7 @@ package unreal;
   @param inScreenOrientation
   
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uParamName("inScreenOrientation")
 @:uname("UPlatformGameInstance.FPlatformScreenOrientationChangedDelegate")
 typedef FPlatformScreenOrientationChangedDelegate = unreal.DynamicMulticastDelegate<FPlatformScreenOrientationChangedDelegate, unreal.EScreenOrientation->Void>;

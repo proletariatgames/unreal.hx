@@ -15,7 +15,7 @@
 package unreal.gameplaytags;
 
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsManager.h")
+@:glueCppIncludes("Classes/GameplayTagsManager.h")
 @:uname("EGameplayTagSourceType")
 @:class @:uextern @:uenum extern enum EGameplayTagSourceType {
   Native;

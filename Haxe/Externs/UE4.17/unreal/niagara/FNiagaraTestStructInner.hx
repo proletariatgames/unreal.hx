@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraTypes.h")
+@:glueCppIncludes("Public/NiagaraTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraTestStructInner {
   @:uproperty public var InnerVector2 : unreal.FVector;
   @:uproperty public var InnerVector1 : unreal.FVector;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Abstract Base class for all tick functions.
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:noCopy @:uextern @:ustruct extern class FTickFunction {
   
   /**

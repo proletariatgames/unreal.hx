@@ -19,7 +19,7 @@ package unreal;
   
   This identifies an object as a "primary" asset that can be searched for by the AssetManager and used in various tools
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimaryAssetId {
   
 }

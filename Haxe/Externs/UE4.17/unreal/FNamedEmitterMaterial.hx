@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleSystem.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNamedEmitterMaterial {
   @:uproperty public var Material : unreal.UMaterialInterface;
   @:uproperty public var Name : unreal.FName;

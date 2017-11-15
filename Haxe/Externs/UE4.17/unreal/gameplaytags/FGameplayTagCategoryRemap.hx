@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   Category remapping. This allows base engine tag category meta data to remap to multiple project-specific categories.
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsSettings.h")
+@:glueCppIncludes("Classes/GameplayTagsSettings.h")
 @:uextern @:ustruct extern class FGameplayTagCategoryRemap {
   @:uproperty public var RemapCategories : unreal.TArray<unreal.FString>;
   @:uproperty public var BaseCategory : unreal.FString;

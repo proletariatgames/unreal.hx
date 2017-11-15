@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Visibility options for 3d trajectory.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieScene3DTransformSection.h")
+@:glueCppIncludes("Public/Sections/MovieScene3DTransformSection.h")
 @:uname("EShow3DTrajectory")
 @:class @:uextern @:uenum extern enum EShow3DTrajectory {
   

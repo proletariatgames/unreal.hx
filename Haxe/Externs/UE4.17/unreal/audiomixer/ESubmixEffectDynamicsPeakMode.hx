@@ -15,7 +15,7 @@
 package unreal.audiomixer;
 
 @:umodule("AudioMixer")
-@:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
+@:glueCppIncludes("Classes/SubmixEffects/AudioMixerSubmixEffectDynamicsProcessor.h")
 @:uname("ESubmixEffectDynamicsPeakMode")
 @:class @:uextern @:uenum extern enum ESubmixEffectDynamicsPeakMode {
   MeanSquared;

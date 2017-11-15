@@ -19,7 +19,7 @@ package unreal.slatecore;
   It is passed to event handlers dealing with touch input.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Input/Events.h")
+@:glueCppIncludes("Public/Input/Events.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMotionEvent extends unreal.slatecore.FInputEvent {
   
 }

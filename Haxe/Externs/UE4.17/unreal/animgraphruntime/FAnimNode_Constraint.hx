@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Constraint node to parent or world transform for rotation/translation
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_Constraint.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_Constraint.h")
 @:uextern @:ustruct extern class FAnimNode_Constraint extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

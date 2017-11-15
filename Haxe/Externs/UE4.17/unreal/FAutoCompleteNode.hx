@@ -17,7 +17,7 @@ package unreal;
 /**
   Node for storing an auto-complete tree based on each char in the command.
 **/
-@:glueCppIncludes("Engine/Console.h")
+@:glueCppIncludes("Classes/Engine/Console.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutoCompleteNode {
   
   /**

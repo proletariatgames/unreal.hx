@@ -19,7 +19,7 @@ package unreal.aimodule;
   @param QueryStatus
   
 **/
-@:glueCppIncludes("EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h")
 @:uParamName("QueryInstance")
 @:uParamName("QueryStatus")
 @:umodule("AIModule")

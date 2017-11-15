@@ -19,7 +19,7 @@ package unreal;
   
   Type-safe 4-vector distribution.
 **/
-@:glueCppIncludes("Distributions/DistributionVector.h")
+@:glueCppIncludes("Classes/Distributions/DistributionVector.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVector4Distribution {
   
 }

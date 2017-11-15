@@ -18,7 +18,7 @@ package unreal.umg;
   @param CurrentOffset
   
 **/
-@:glueCppIncludes("UMG.h", "Components/ScrollBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/ScrollBox.h")
 @:uParamName("CurrentOffset")
 @:umodule("UMG")
 typedef FOnUserScrolledEvent = unreal.DynamicMulticastDelegate<FOnUserScrolledEvent, unreal.Float32->Void>;

@@ -775,22 +775,22 @@ package unreal;
     Character movement component belongs to
   **/
   @:uproperty private var CharacterOwner : unreal.ACharacter;
-  @:ufunction @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
-  @:ufunction @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
-  @:ufunction @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
-  @:ufunction @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceGroup(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceGroupMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToAvoid(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToAvoidMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToIgnore(GroupFlags : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGroupsToIgnoreMask(GroupMask : unreal.Const<unreal.PRef<unreal.FNavAvoidanceMask>>) : Void;
   
   /**
     Change avoidance state and registers in RVO manager if needed
   **/
-  @:ufunction @:final public function SetAvoidanceEnabled(bEnable : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAvoidanceEnabled(bEnable : Bool) : Void;
   
   /**
     Get the Character that owns UpdatedComponent.
   **/
-  @:ufunction @:thisConst @:final public function GetCharacterOwner() : unreal.ACharacter;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCharacterOwner() : unreal.ACharacter;
   
   /**
     Change movement mode.
@@ -798,28 +798,28 @@ package unreal;
     @param NewMovementMode       The new movement mode
     @param NewCustomMode         The new custom sub-mode, only applicable if NewMovementMode is Custom.
   **/
-  @:ufunction public function SetMovementMode(NewMovementMode : unreal.EMovementMode, NewCustomMode : unreal.UInt8 = 0) : Void;
+  @:ufunction(BlueprintCallable) public function SetMovementMode(NewMovementMode : unreal.EMovementMode, NewCustomMode : unreal.UInt8 = 0) : Void;
   
   /**
     @return true if the character is in the 'Walking' movement mode.
   **/
-  @:ufunction @:thisConst @:final public function IsWalking() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsWalking() : Bool;
   
   /**
     Make movement impossible (sets movement mode to MOVE_None).
   **/
-  @:ufunction public function DisableMovement() : Void;
+  @:ufunction(BlueprintCallable) public function DisableMovement() : Void;
   
   /**
     Return PrimitiveComponent we are based on (standing and walking on).
   **/
-  @:ufunction @:thisConst @:final public function GetMovementBase() : unreal.UPrimitiveComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMovementBase() : unreal.UPrimitiveComponent;
   
   /**
     If we have a movement base, get the velocity that should be imparted by that base, usually when jumping off of it.
     Only applies the components of the velocity enabled by bImpartBaseVelocityX, bImpartBaseVelocityY, bImpartBaseVelocityZ.
   **/
-  @:ufunction @:thisConst public function GetImpartedMovementBaseVelocity() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetImpartedMovementBaseVelocity() : unreal.FVector;
   
   /**
     Updates Velocity and Acceleration based on the current state, applying the effects of friction and acceleration or deceleration. Does not apply gravity.
@@ -830,54 +830,54 @@ package unreal;
     @param       bFluid                                                  true if moving through a fluid, causing Friction to always be applied regardless of acceleration.
     @param       BrakingDeceleration                             deceleration applied when not accelerating, or when exceeding max velocity.
   **/
-  @:ufunction public function CalcVelocity(DeltaTime : unreal.Float32, Friction : unreal.Float32, bFluid : Bool, BrakingDeceleration : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function CalcVelocity(DeltaTime : unreal.Float32, Friction : unreal.Float32, bFluid : Bool, BrakingDeceleration : unreal.Float32) : Void;
   
   /**
     Compute the max jump height based on the JumpZVelocity velocity and gravity.
     This does not take into account the CharacterOwner's MaxJumpHoldTime.
   **/
-  @:ufunction @:thisConst public function GetMaxJumpHeight() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaxJumpHeight() : unreal.Float32;
   
   /**
     Compute the max jump height based on the JumpZVelocity velocity and gravity.
     This does take into account the CharacterOwner's MaxJumpHoldTime.
   **/
-  @:ufunction @:thisConst public function GetMaxJumpHeightWithJumpTime() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaxJumpHeightWithJumpTime() : unreal.Float32;
   
   /**
     @return Maximum acceleration for the current state.
   **/
-  @:ufunction @:thisConst public function GetMinAnalogSpeed() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMinAnalogSpeed() : unreal.Float32;
   
   /**
     @return Maximum acceleration for the current state, based on MaxAcceleration and any additional modifiers.
   **/
-  @:ufunction @:thisConst public function K2_GetModifiedMaxAcceleration() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function K2_GetModifiedMaxAcceleration() : unreal.Float32;
   
   /**
     @return Maximum acceleration for the current state.
   **/
-  @:ufunction @:thisConst public function GetMaxAcceleration() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaxAcceleration() : unreal.Float32;
   
   /**
     @return Maximum deceleration for the current state when braking (ie when there is no acceleration).
   **/
-  @:ufunction @:thisConst public function GetMaxBrakingDeceleration() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaxBrakingDeceleration() : unreal.Float32;
   
   /**
     @return Current acceleration, computed from input vector each update.
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentAcceleration() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentAcceleration() : unreal.FVector;
   
   /**
     @return Modifier [0..1] based on the magnitude of the last input vector, which is used to modify the acceleration and max speed during movement.
   **/
-  @:ufunction @:thisConst @:final public function GetAnalogInputModifier() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAnalogInputModifier() : unreal.Float32;
   
   /**
     Clears forces accumulated through AddImpulse() and AddForce(), and also pending launch velocity.
   **/
-  @:ufunction public function ClearAccumulatedForces() : Void;
+  @:ufunction(BlueprintCallable) public function ClearAccumulatedForces() : Void;
   
   /**
     Add impulse to character. Impulses are accumulated each tick and applied together
@@ -889,7 +889,7 @@ package unreal;
     @param       Impulse                         Impulse to apply.
     @param       bVelocityChange         Whether or not the impulse is relative to mass.
   **/
-  @:ufunction public function AddImpulse(Impulse : unreal.FVector, bVelocityChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddImpulse(Impulse : unreal.FVector, bVelocityChange : Bool = false) : Void;
   
   /**
     Add force to character. Forces are accumulated each tick and applied together
@@ -901,43 +901,43 @@ package unreal;
     
     @param       Force                   Force to apply.
   **/
-  @:ufunction public function AddForce(Force : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) public function AddForce(Force : unreal.FVector) : Void;
   
   /**
     @return The distance from the edge of the capsule within which we don't allow the character to perch on the edge of a surface.
   **/
-  @:ufunction @:thisConst @:final public function GetPerchRadiusThreshold() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPerchRadiusThreshold() : unreal.Float32;
   
   /**
     Returns the radius within which we can stand on the edge of a surface without falling (if this is a walkable surface).
     Simply computed as the capsule radius minus the result of GetPerchRadiusThreshold().
   **/
-  @:ufunction @:thisConst @:final public function GetValidPerchRadius() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetValidPerchRadius() : unreal.Float32;
   
   /**
     Return true if the hit result should be considered a walkable surface for the character.
   **/
-  @:ufunction @:thisConst public function IsWalkable(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsWalkable(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Bool;
   
   /**
     Get the max angle in degrees of a walkable surface for the character.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetWalkableFloorAngle() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetWalkableFloorAngle() : unreal.Float32;
   
   /**
     Set the max angle in degrees of a walkable surface for the character. Also computes WalkableFloorZ.
   **/
-  @:ufunction @:final public function SetWalkableFloorAngle(InWalkableFloorAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWalkableFloorAngle(InWalkableFloorAngle : unreal.Float32) : Void;
   
   /**
     Get the Z component of the normal of the steepest walkable surface for the character. Any lower than this and it is not walkable.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetWalkableFloorZ() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetWalkableFloorZ() : unreal.Float32;
   
   /**
     Set the Z component of the normal of the steepest walkable surface for the character. Also computes WalkableFloorAngle.
   **/
-  @:ufunction @:final public function SetWalkableFloorZ(InWalkableFloorZ : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWalkableFloorZ(InWalkableFloorZ : unreal.Float32) : Void;
   
   /**
     Sweeps a vertical trace to find the floor for the capsule at the given location. Will attempt to perch if ShouldComputePerchResult() returns true for the downward sweep result.
@@ -946,7 +946,7 @@ package unreal;
     @param CapsuleLocation                Location where the capsule sweep should originate
     @param FloorResult                    Result of the floor check
   **/
-  @:ufunction @:thisConst @:final public function K2_FindFloor(CapsuleLocation : unreal.FVector, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_FindFloor(CapsuleLocation : unreal.FVector, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
   
   /**
     Compute distance to the floor from bottom sphere of capsule and store the result in FloorResult.
@@ -959,7 +959,7 @@ package unreal;
     @param SweepRadius                    The radius to use for sweep tests. Should be <= capsule radius.
     @param FloorResult                    Result of the floor check
   **/
-  @:ufunction @:thisConst @:final public function K2_ComputeFloorDist(CapsuleLocation : unreal.FVector, LineDistance : unreal.Float32, SweepDistance : unreal.Float32, SweepRadius : unreal.Float32, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_ComputeFloorDist(CapsuleLocation : unreal.FVector, LineDistance : unreal.Float32, SweepDistance : unreal.Float32, SweepRadius : unreal.Float32, FloorResult : unreal.PRef<unreal.FFindFloorResult>) : Void;
   
   /**
     Called when the collision capsule touches another primitive component
@@ -969,47 +969,47 @@ package unreal;
   /**
     Replicated function sent by client to server - contains client movement and view info.
   **/
-  @:ufunction public function ServerMove(TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, CompressedMoveFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Server) public function ServerMove(TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, CompressedMoveFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
   
   /**
     Replicated function sent by client to server - contains client movement and view info for two moves.
   **/
-  @:ufunction public function ServerMoveDual(TimeStamp0 : unreal.Float32, InAccel0 : unreal.FVector_NetQuantize10, PendingFlags : unreal.UInt8, View0 : unreal.FakeUInt32, TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, NewFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Server) public function ServerMoveDual(TimeStamp0 : unreal.Float32, InAccel0 : unreal.FVector_NetQuantize10, PendingFlags : unreal.UInt8, View0 : unreal.FakeUInt32, TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, NewFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
   
   /**
     Replicated function sent by client to server - contains client movement and view info for two moves. First move is non root motion, second is root motion.
   **/
-  @:ufunction public function ServerMoveDualHybridRootMotion(TimeStamp0 : unreal.Float32, InAccel0 : unreal.FVector_NetQuantize10, PendingFlags : unreal.UInt8, View0 : unreal.FakeUInt32, TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, NewFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Server) public function ServerMoveDualHybridRootMotion(TimeStamp0 : unreal.Float32, InAccel0 : unreal.FVector_NetQuantize10, PendingFlags : unreal.UInt8, View0 : unreal.FakeUInt32, TimeStamp : unreal.Float32, InAccel : unreal.FVector_NetQuantize10, ClientLoc : unreal.FVector_NetQuantize100, NewFlags : unreal.UInt8, ClientRoll : unreal.UInt8, View : unreal.FakeUInt32, ClientMovementBase : unreal.UPrimitiveComponent, ClientBaseBoneName : unreal.FName, ClientMovementMode : unreal.UInt8) : Void;
   
   /**
     Resending an (important) old move. Process it if not already processed.
   **/
-  @:ufunction public function ServerMoveOld(OldTimeStamp : unreal.Float32, OldAccel : unreal.FVector_NetQuantize10, OldMoveFlags : unreal.UInt8) : Void;
+  @:ufunction(Server) public function ServerMoveOld(OldTimeStamp : unreal.Float32, OldAccel : unreal.FVector_NetQuantize10, OldMoveFlags : unreal.UInt8) : Void;
   
   /**
     If no client adjustment is needed after processing received ServerMove(), ack the good move so client can remove it from SavedMoves
   **/
-  @:ufunction public function ClientAckGoodMove(TimeStamp : unreal.Float32) : Void;
+  @:ufunction(Client) public function ClientAckGoodMove(TimeStamp : unreal.Float32) : Void;
   
   /**
     Replicate position correction to client, associated with a timestamped servermove.  Client will replay subsequent moves after applying adjustment.
   **/
-  @:ufunction public function ClientAdjustPosition(TimeStamp : unreal.Float32, NewLoc : unreal.FVector, NewVel : unreal.FVector, NewBase : unreal.UPrimitiveComponent, NewBaseBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Client) public function ClientAdjustPosition(TimeStamp : unreal.Float32, NewLoc : unreal.FVector, NewVel : unreal.FVector, NewBase : unreal.UPrimitiveComponent, NewBaseBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   
   /**
     Bandwidth saving version, when velocity is zeroed
   **/
-  @:ufunction public function ClientVeryShortAdjustPosition(TimeStamp : unreal.Float32, NewLoc : unreal.FVector, NewBase : unreal.UPrimitiveComponent, NewBaseBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Client) public function ClientVeryShortAdjustPosition(TimeStamp : unreal.Float32, NewLoc : unreal.FVector, NewBase : unreal.UPrimitiveComponent, NewBaseBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   
   /**
     Replicate position correction to client when using root motion for movement. (animation root motion specific)
   **/
-  @:ufunction public function ClientAdjustRootMotionPosition(TimeStamp : unreal.Float32, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Client) public function ClientAdjustRootMotionPosition(TimeStamp : unreal.Float32, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   
   /**
     Replicate root motion source correction to client when using root motion for movement.
   **/
-  @:ufunction public function ClientAdjustRootMotionSourcePosition(TimeStamp : unreal.Float32, ServerRootMotion : unreal.FRootMotionSourceGroup, bHasAnimRootMotion : Bool, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
+  @:ufunction(Client) public function ClientAdjustRootMotionSourcePosition(TimeStamp : unreal.Float32, ServerRootMotion : unreal.FRootMotionSourceGroup, bHasAnimRootMotion : Bool, ServerMontageTrackPosition : unreal.Float32, ServerLoc : unreal.FVector, ServerRotation : unreal.FVector_NetQuantizeNormal, ServerVelZ : unreal.Float32, ServerBase : unreal.UPrimitiveComponent, ServerBoneName : unreal.FName, bHasBase : Bool, bBaseRelativePosition : Bool, ServerMovementMode : unreal.UInt8) : Void;
   // RVOAvoidanceInterface interface implementation
   // NetworkPredictionInterface interface implementation
   

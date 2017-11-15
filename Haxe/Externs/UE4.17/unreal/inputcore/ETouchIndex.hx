@@ -18,7 +18,7 @@ package unreal.inputcore;
   The number of entries in ETouchIndex must match the number of touch keys defined in EKeys and NUM_TOUCH_KEYS above
 **/
 @:umodule("InputCore")
-@:glueCppIncludes("InputCoreTypes.h")
+@:glueCppIncludes("Classes/InputCoreTypes.h")
 @:uname("ETouchIndex.Type")
 @:uextern @:uenum extern enum ETouchIndex {
   Touch1;

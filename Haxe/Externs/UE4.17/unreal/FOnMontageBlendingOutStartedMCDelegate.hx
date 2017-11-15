@@ -23,7 +23,7 @@ package unreal;
   @param bInterrupted
   
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:uParamName("Montage")
 @:uParamName("bInterrupted")
 typedef FOnMontageBlendingOutStartedMCDelegate = unreal.DynamicMulticastDelegate<FOnMontageBlendingOutStartedMCDelegate, unreal.UAnimMontage->Bool->Void>;

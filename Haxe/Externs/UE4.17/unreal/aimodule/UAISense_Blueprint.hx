@@ -25,29 +25,29 @@ package unreal.aimodule;
     returns requested amount of time to pass until next frame.
         Return 0 to get update every frame (WARNING: hits performance)
   **/
-  @:ufunction public function OnUpdate(EventsToProcess : unreal.Const<unreal.PRef<unreal.TArray<unreal.aimodule.UAISenseEvent>>>) : unreal.Float32;
+  @:ufunction(BlueprintImplementableEvent) public function OnUpdate(EventsToProcess : unreal.Const<unreal.PRef<unreal.TArray<unreal.aimodule.UAISenseEvent>>>) : unreal.Float32;
   
   /**
     @param PerceptionComponent is ActorListener's AIPerceptionComponent instance
   **/
-  @:ufunction public function OnListenerRegistered(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnListenerRegistered(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
   
   /**
     @param PerceptionComponent is ActorListener's AIPerceptionComponent instance
   **/
-  @:ufunction public function OnListenerUpdated(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnListenerUpdated(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
   
   /**
     called when a listener unregistered from this sense. Most often this is called due to actor's death
         @param PerceptionComponent is ActorListener's AIPerceptionComponent instance
   **/
-  @:ufunction public function OnListenerUnregistered(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
-  @:ufunction @:thisConst @:final public function GetAllListenerActors(ListenerActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
-  @:ufunction @:thisConst @:final public function GetAllListenerComponents(ListenerComponents : unreal.PRef<unreal.TArray<unreal.aimodule.UAIPerceptionComponent>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnListenerUnregistered(ActorListener : unreal.AActor, PerceptionComponent : unreal.aimodule.UAIPerceptionComponent) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAllListenerActors(ListenerActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAllListenerComponents(ListenerComponents : unreal.PRef<unreal.TArray<unreal.aimodule.UAIPerceptionComponent>>) : Void;
   
   /**
     called when sense's instance gets notified about new pawn that has just been spawned
   **/
-  @:ufunction public function K2_OnNewPawn(NewPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnNewPawn(NewPawn : unreal.APawn) : Void;
   
 }

@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   Note that the values are set to match up with EAxis (but without 'None')
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_SplineIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_SplineIK.h")
 @:uname("ESplineBoneAxis")
 @:class @:uextern @:uenum extern enum ESplineBoneAxis {
   X;

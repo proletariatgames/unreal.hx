@@ -19,6 +19,6 @@ package unreal;
   @param Output
   
 **/
-@:glueCppIncludes("Components/TimelineComponent.h")
+@:glueCppIncludes("Classes/Components/TimelineComponent.h")
 @:uParamName("Output")
 typedef FOnTimelineVector = unreal.DynamicDelegate<FOnTimelineVector, unreal.FVector->Void>;

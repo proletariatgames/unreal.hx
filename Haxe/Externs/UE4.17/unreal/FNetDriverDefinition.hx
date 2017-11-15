@@ -19,7 +19,7 @@ package unreal;
   The engine will try to construct a netdriver of a given type and, failing that,
   the fallback version.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNetDriverDefinition {
   
   /**

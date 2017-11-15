@@ -23,10 +23,10 @@ package unreal;
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:ufunction @:final public function FadeIn(FadeInDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32 = 1.000000) : Void;
-  @:ufunction @:final public function FadeOut(FadeOutDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32) : Void;
-  @:ufunction @:final public function AdjustVolume(AdjustVolumeDuration : unreal.Float32, AdjustVolumeLevel : unreal.Float32) : Void;
-  @:ufunction @:final public function Play(StartTime : unreal.Float32 = 0.000000) : Void;
-  @:ufunction @:final public function Stop() : Void;
+  @:ufunction(BlueprintCallable) @:final public function FadeIn(FadeInDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function FadeOut(FadeOutDuration : unreal.Float32, FadeVolumeLevel : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AdjustVolume(AdjustVolumeDuration : unreal.Float32, AdjustVolumeLevel : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Play(StartTime : unreal.Float32 = 0.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Stop() : Void;
   
 }

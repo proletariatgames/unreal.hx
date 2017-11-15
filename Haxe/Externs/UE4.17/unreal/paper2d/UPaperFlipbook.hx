@@ -44,38 +44,38 @@ package unreal.paper2d;
   /**
     Returns the total number of frames
   **/
-  @:ufunction @:thisConst @:final public function GetNumFrames() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumFrames() : unreal.Int32;
   
   /**
     Returns the total duration in seconds
   **/
-  @:ufunction @:thisConst @:final public function GetTotalDuration() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTotalDuration() : unreal.Float32;
   
   /**
     Returns the keyframe index that covers the specified time (in seconds), or INDEX_NONE if none exists.
     When bClampToEnds is true, it will choose the first or last keyframe if the time is out of range.
   **/
-  @:ufunction @:thisConst @:final public function GetKeyFrameIndexAtTime(Time : unreal.Float32, bClampToEnds : Bool = false) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetKeyFrameIndexAtTime(Time : unreal.Float32, bClampToEnds : Bool = false) : unreal.Int32;
   
   /**
     Returns the sprite at the specified time (in seconds), or nullptr if none exists.
     When bClampToEnds is true, it will choose the first or last sprite if the time is out of range.
   **/
-  @:ufunction @:thisConst @:final public function GetSpriteAtTime(Time : unreal.Float32, bClampToEnds : Bool = false) : unreal.paper2d.UPaperSprite;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSpriteAtTime(Time : unreal.Float32, bClampToEnds : Bool = false) : unreal.paper2d.UPaperSprite;
   
   /**
     Returns the sprite at the specified keyframe index, or nullptr if none exists
   **/
-  @:ufunction @:thisConst @:final public function GetSpriteAtFrame(FrameIndex : unreal.Int32) : unreal.paper2d.UPaperSprite;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSpriteAtFrame(FrameIndex : unreal.Int32) : unreal.paper2d.UPaperSprite;
   
   /**
     Returns the number of key frames
   **/
-  @:ufunction @:thisConst @:final public function GetNumKeyFrames() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumKeyFrames() : unreal.Int32;
   
   /**
     Is the specified Index within the valid range of key frames?
   **/
-  @:ufunction @:thisConst @:final public function IsValidKeyFrameIndex(Index : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsValidKeyFrameIndex(Index : unreal.Int32) : Bool;
   
 }

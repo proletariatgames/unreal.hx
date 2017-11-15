@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/CollisionProfile.h")
+@:glueCppIncludes("Classes/Engine/CollisionProfile.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCollisionProfileName {
   @:uproperty public var Name : unreal.FName;
   

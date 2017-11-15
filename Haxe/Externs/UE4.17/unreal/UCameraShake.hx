@@ -122,22 +122,22 @@ package unreal;
   /**
     Called every tick to let the shake modify the point of view
   **/
-  @:ufunction public function BlueprintUpdateCameraShake(DeltaTime : unreal.Float32, Alpha : unreal.Float32, POV : unreal.Const<unreal.PRef<unreal.FMinimalViewInfo>>, ModifiedPOV : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function BlueprintUpdateCameraShake(DeltaTime : unreal.Float32, Alpha : unreal.Float32, POV : unreal.Const<unreal.PRef<unreal.FMinimalViewInfo>>, ModifiedPOV : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
   
   /**
     Called when the shake starts playing
   **/
-  @:ufunction public function ReceivePlayShake(Scale : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceivePlayShake(Scale : unreal.Float32) : Void;
   
   /**
     Called to allow a shake to decide when it's finished playing.
   **/
-  @:ufunction @:thisConst public function ReceiveIsFinished() : Bool;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function ReceiveIsFinished() : Bool;
   
   /**
     Called when the shake is explicitly stopped.
     @param bImmediatly           If true, shake stops right away regardless of blend out settings. If false, shake may blend out according to its settings.
   **/
-  @:ufunction public function ReceiveStopShake(bImmediately : Bool) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveStopShake(bImmediately : Bool) : Void;
   
 }

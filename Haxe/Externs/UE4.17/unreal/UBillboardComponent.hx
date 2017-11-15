@@ -47,16 +47,16 @@ package unreal;
   /**
     Change the sprite texture used by this component
   **/
-  @:ufunction public function SetSprite(NewSprite : unreal.UTexture2D) : Void;
+  @:ufunction(BlueprintCallable) public function SetSprite(NewSprite : unreal.UTexture2D) : Void;
   
   /**
     Change the sprite's UVs
   **/
-  @:ufunction public function SetUV(NewU : unreal.Int32, NewUL : unreal.Int32, NewV : unreal.Int32, NewVL : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetUV(NewU : unreal.Int32, NewUL : unreal.Int32, NewV : unreal.Int32, NewVL : unreal.Int32) : Void;
   
   /**
     Change the sprite texture and the UV's used by this component
   **/
-  @:ufunction public function SetSpriteAndUV(NewSprite : unreal.UTexture2D, NewU : unreal.Int32, NewUL : unreal.Int32, NewV : unreal.Int32, NewVL : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetSpriteAndUV(NewSprite : unreal.UTexture2D, NewU : unreal.Int32, NewUL : unreal.Int32, NewV : unreal.Int32, NewVL : unreal.Int32) : Void;
   
 }

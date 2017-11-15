@@ -104,13 +104,13 @@ package unreal;
     *
     * @param OldPlayerState         Old PlayerState, which we use to fill the new one with
   **/
-  @:ufunction private function ReceiveOverrideWith(OldPlayerState : unreal.APlayerState) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveOverrideWith(OldPlayerState : unreal.APlayerState) : Void;
   
   /**
     * Can be implemented in Blueprint Child to move more properties from old to new PlayerState when traveling to a new level
     *
     * @param NewPlayerState         New PlayerState, which we fill with the current properties
   **/
-  @:ufunction private function ReceiveCopyProperties(NewPlayerState : unreal.APlayerState) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function ReceiveCopyProperties(NewPlayerState : unreal.APlayerState) : Void;
   
 }

@@ -14,6 +14,6 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uname("UPlatformGameInstance.FPlatformDelegate")
 typedef FPlatformDelegate = unreal.DynamicMulticastDelegate<FPlatformDelegate, Void->Void>;

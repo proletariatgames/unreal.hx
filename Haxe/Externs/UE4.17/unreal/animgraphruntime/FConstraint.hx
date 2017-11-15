@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Constraint Set up
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_Constraint.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_Constraint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FConstraint {
   
   /**

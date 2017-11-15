@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_BlendBoneByChannel.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_BlendBoneByChannel.h")
 @:uextern @:ustruct extern class FAnimNode_BlendBoneByChannel extends unreal.FAnimNode_Base {
   @:uproperty private var InternalBlendAlpha : unreal.Float32;
   

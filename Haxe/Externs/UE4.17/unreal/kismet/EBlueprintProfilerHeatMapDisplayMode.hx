@@ -18,7 +18,7 @@ package unreal.kismet;
   Heat map display mode
 **/
 @:umodule("Kismet")
-@:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
+@:glueCppIncludes("Public/Profiler/BlueprintProfilerSettings.h")
 @:uname("EBlueprintProfilerHeatMapDisplayMode")
 @:class @:uextern @:uenum extern enum EBlueprintProfilerHeatMapDisplayMode {
   None;

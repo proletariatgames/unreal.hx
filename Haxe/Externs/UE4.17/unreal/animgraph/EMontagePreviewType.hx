@@ -18,7 +18,7 @@ package unreal.animgraph;
   Enum to know how montage is being played
 **/
 @:umodule("AnimGraph")
-@:glueCppIncludes("AnimPreviewInstance.h")
+@:glueCppIncludes("Classes/AnimPreviewInstance.h")
 @:uname("EMontagePreviewType")
 @:uextern @:uenum extern enum EMontagePreviewType {
   

@@ -21,36 +21,36 @@ package unreal.audiomixer;
   /**
     Adds a submix effect preset to the master submix.
   **/
-  @:ufunction static public function AddMasterSubmixEffect(WorldContextObject : unreal.Const<unreal.UObject>, SubmixEffectPreset : unreal.USoundEffectSubmixPreset) : Void;
+  @:ufunction(BlueprintCallable) static public function AddMasterSubmixEffect(WorldContextObject : unreal.Const<unreal.UObject>, SubmixEffectPreset : unreal.USoundEffectSubmixPreset) : Void;
   
   /**
     Removes a submix effect preset from the master submix.
   **/
-  @:ufunction static public function RemoveMasterSubmixEffect(WorldContextObject : unreal.Const<unreal.UObject>, SubmixEffectPreset : unreal.USoundEffectSubmixPreset) : Void;
+  @:ufunction(BlueprintCallable) static public function RemoveMasterSubmixEffect(WorldContextObject : unreal.Const<unreal.UObject>, SubmixEffectPreset : unreal.USoundEffectSubmixPreset) : Void;
   
   /**
     Clears all master submix effects.
   **/
-  @:ufunction static public function ClearMasterSubmixEffects(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
+  @:ufunction(BlueprintCallable) static public function ClearMasterSubmixEffects(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
   
   /**
     Adds source effect entry to preset chain. Only effects the instance of the preset chain
   **/
-  @:ufunction static public function AddSourceEffectToPresetChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, Entry : unreal.FSourceEffectChainEntry) : Void;
+  @:ufunction(BlueprintCallable) static public function AddSourceEffectToPresetChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, Entry : unreal.FSourceEffectChainEntry) : Void;
   
   /**
     Adds source effect entry to preset chain. Only affects the instance of preset chain.
   **/
-  @:ufunction static public function RemoveSourceEffectFromPresetChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, EntryIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function RemoveSourceEffectFromPresetChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, EntryIndex : unreal.Int32) : Void;
   
   /**
     Set whether or not to bypass the effect at the source effect chain index.
   **/
-  @:ufunction static public function SetBypassSourceEffectChainEntry(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, EntryIndex : unreal.Int32, bBypassed : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function SetBypassSourceEffectChainEntry(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain, EntryIndex : unreal.Int32, bBypassed : Bool) : Void;
   
   /**
     Returns the number of effect chain entries in the given source effect chain.
   **/
-  @:ufunction static public function GetNumberOfEntriesInSourceEffectChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetNumberOfEntriesInSourceEffectChain(WorldContextObject : unreal.Const<unreal.UObject>, PresetChain : unreal.USoundEffectSourcePresetChain) : unreal.Int32;
   
 }

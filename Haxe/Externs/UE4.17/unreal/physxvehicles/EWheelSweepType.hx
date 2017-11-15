@@ -15,7 +15,7 @@
 package unreal.physxvehicles;
 
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("VehicleWheel.h")
+@:glueCppIncludes("Public/VehicleWheel.h")
 @:uname("EWheelSweepType")
 @:uextern @:uenum extern enum EWheelSweepType {
   

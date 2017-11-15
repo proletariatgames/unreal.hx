@@ -24,11 +24,11 @@ package unreal.onlinesubsystemutils;
   /**
     out
   **/
-  @:ufunction static public function GetCachedAchievementProgress(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Progress : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function GetCachedAchievementProgress(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Progress : unreal.Float32) : Void;
   
   /**
     out
   **/
-  @:ufunction static public function GetCachedAchievementDescription(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Title : unreal.PRef<unreal.FText>, LockedDescription : unreal.PRef<unreal.FText>, UnlockedDescription : unreal.PRef<unreal.FText>, bHidden : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function GetCachedAchievementDescription(WorldContextObject : unreal.UObject, PlayerController : unreal.APlayerController, AchievementID : unreal.FName, bFoundID : Bool, Title : unreal.PRef<unreal.FText>, LockedDescription : unreal.PRef<unreal.FText>, UnlockedDescription : unreal.PRef<unreal.FText>, bHidden : Bool) : Void;
   
 }

@@ -18,7 +18,7 @@ package unreal.umg;
   @param SelectedKey
   
 **/
-@:glueCppIncludes("UMG.h", "Components/InputKeySelector.h")
+@:glueCppIncludes("UMG.h", "Public/Components/InputKeySelector.h")
 @:uParamName("SelectedKey")
 @:umodule("UMG")
 @:uname("UInputKeySelector.FOnKeySelected")

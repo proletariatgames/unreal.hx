@@ -24,7 +24,7 @@ package unreal.foliage;
   @param DamageCauser
   
 **/
-@:glueCppIncludes("FoliageInstancedStaticMeshComponent.h")
+@:glueCppIncludes("Public/FoliageInstancedStaticMeshComponent.h")
 @:uParamName("Instances")
 @:uParamName("Damages")
 @:uParamName("InstigatedBy")

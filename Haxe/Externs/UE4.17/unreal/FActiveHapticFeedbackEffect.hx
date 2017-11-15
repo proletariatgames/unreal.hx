@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Haptics/HapticFeedbackEffect_Base.h")
+@:glueCppIncludes("Classes/Haptics/HapticFeedbackEffect_Base.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActiveHapticFeedbackEffect {
   @:uproperty public var HapticEffect : unreal.UHapticFeedbackEffect_Base;
   

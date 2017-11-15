@@ -19,7 +19,7 @@ package unreal;
   @param OtherActor
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("OverlappedActor")
 @:uParamName("OtherActor")
 typedef FActorBeginOverlapSignature = unreal.DynamicMulticastDelegate<FActorBeginOverlapSignature, unreal.AActor->unreal.AActor->Void>;

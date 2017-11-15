@@ -19,7 +19,7 @@ package unreal.clothingsystemruntimeinterface;
   sphere on its own, or part of a capsule referenced by the indices in FClothCollisionPrim_Capsule
 **/
 @:umodule("ClothingSystemRuntimeInterface")
-@:glueCppIncludes("ClothingSystemRuntimeTypes.h")
+@:glueCppIncludes("Public/ClothingSystemRuntimeTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothCollisionPrim_Sphere {
   @:uproperty public var LocalPosition : unreal.FVector;
   @:uproperty public var Radius : unreal.Float32;

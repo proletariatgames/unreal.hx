@@ -15,7 +15,7 @@
 package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node.h")
+@:glueCppIncludes("Classes/K2Node.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FOptionalPinFromProperty {
   
   /**

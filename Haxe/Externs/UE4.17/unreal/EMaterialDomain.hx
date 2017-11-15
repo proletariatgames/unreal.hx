@@ -17,7 +17,7 @@ package unreal;
 /**
   Defines the domain of a material.
 **/
-@:glueCppIncludes("MaterialShared.h")
+@:glueCppIncludes("Public/MaterialShared.h")
 @:uname("EMaterialDomain")
 @:uextern @:uenum extern enum EMaterialDomain {
   

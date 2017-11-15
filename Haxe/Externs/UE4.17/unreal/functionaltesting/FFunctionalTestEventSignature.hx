@@ -14,6 +14,6 @@
 **/
 package unreal.functionaltesting;
 
-@:glueCppIncludes("FunctionalTest.h")
+@:glueCppIncludes("Classes/FunctionalTest.h")
 @:umodule("FunctionalTesting")
 typedef FFunctionalTestEventSignature = unreal.DynamicMulticastDelegate<FFunctionalTestEventSignature, Void->Void>;

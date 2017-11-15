@@ -18,7 +18,7 @@ package unreal.locationservicesbplibrary;
   Struct to hold relevant location data retrieved from the mobile implementation's Location Service
 **/
 @:umodule("LocationServicesBPLibrary")
-@:glueCppIncludes("LocationServicesBPLibrary.h")
+@:glueCppIncludes("Classes/LocationServicesBPLibrary.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLocationServicesData {
   
   /**

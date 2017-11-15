@@ -44,16 +44,16 @@ package unreal.paper2d;
   /**
     Change the PaperSprite used by this instance.
   **/
-  @:ufunction public function SetSprite(NewSprite : unreal.paper2d.UPaperSprite) : Bool;
+  @:ufunction(BlueprintCallable) public function SetSprite(NewSprite : unreal.paper2d.UPaperSprite) : Bool;
   
   /**
     Gets the PaperSprite used by this instance.
   **/
-  @:ufunction public function GetSprite() : unreal.paper2d.UPaperSprite;
+  @:ufunction(BlueprintCallable) public function GetSprite() : unreal.paper2d.UPaperSprite;
   
   /**
     Set color of the sprite
   **/
-  @:ufunction @:final public function SetSpriteColor(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSpriteColor(NewColor : unreal.FLinearColor) : Void;
   
 }

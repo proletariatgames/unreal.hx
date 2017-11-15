@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EOcclusionCombineMode")
 @:uextern @:uenum extern enum EOcclusionCombineMode {
   

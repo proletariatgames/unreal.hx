@@ -21,7 +21,7 @@ package unreal.animationcore;
   The goal is to have contiguous memory location where they can iterate through linearly
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FConstraintDescriptor {
   @:uproperty public var Type : unreal.animationcore.EConstraintType;
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about one contact between a pair of rigid bodies.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRigidBodyContactInfo {
   @:uproperty public var ContactPenetration : unreal.Float32;
   @:uproperty public var ContactNormal : unreal.FVector;

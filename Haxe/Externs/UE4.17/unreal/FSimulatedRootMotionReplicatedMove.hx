@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSimulatedRootMotionReplicatedMove {
   
   /**

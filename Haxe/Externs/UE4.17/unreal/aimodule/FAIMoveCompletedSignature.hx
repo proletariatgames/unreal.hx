@@ -19,7 +19,7 @@ package unreal.aimodule;
   @param Result
   
 **/
-@:glueCppIncludes("AIController.h")
+@:glueCppIncludes("Classes/AIController.h")
 @:uParamName("RequestID")
 @:uParamName("Result")
 @:umodule("AIModule")

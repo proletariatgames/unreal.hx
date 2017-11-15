@@ -15,7 +15,7 @@
 package unreal.slate;
 
 @:umodule("Slate")
-@:glueCppIncludes("Framework/Views/ITypedTableView.h")
+@:glueCppIncludes("Public/Framework/Views/ITypedTableView.h")
 @:uname("ESelectionMode.Type")
 @:uextern @:uenum extern enum ESelectionMode {
   

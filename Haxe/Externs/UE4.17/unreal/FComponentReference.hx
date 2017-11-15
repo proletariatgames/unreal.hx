@@ -18,7 +18,7 @@ package unreal;
   Struct that allows for different ways to reference a component.
   If just an Actor is specified, will return RootComponent of that Actor.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uextern @:ustruct extern class FComponentReference {
   
   /**

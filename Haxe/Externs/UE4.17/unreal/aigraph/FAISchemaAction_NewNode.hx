@@ -18,7 +18,7 @@ package unreal.aigraph;
   Action to add a node to the graph
 **/
 @:umodule("AIGraph")
-@:glueCppIncludes("AIGraphSchema.h")
+@:glueCppIncludes("Classes/AIGraphSchema.h")
 @:uextern @:ustruct extern class FAISchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.alembiclibrary;
 
 @:umodule("AlembicLibrary")
-@:glueCppIncludes("AbcImportSettings.h")
+@:glueCppIncludes("Public/AbcImportSettings.h")
 @:uname("EBaseCalculationType")
 @:class @:uextern @:uenum extern enum EBaseCalculationType {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   Configurable properties for control axes.
 **/
-@:glueCppIncludes("GameFramework/PlayerInput.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerInput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInputAxisConfigEntry {
   
   /**

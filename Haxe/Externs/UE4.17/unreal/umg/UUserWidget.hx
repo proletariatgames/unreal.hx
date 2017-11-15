@@ -27,7 +27,7 @@ package unreal.umg;
     
     @param ZOrder The higher the number, the more on top this widget will be.
   **/
-  @:ufunction @:final public function AddToViewport(ZOrder : unreal.Int32 = 0) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddToViewport(ZOrder : unreal.Int32 = 0) : Void;
   
   /**
     Adds the widget to the game's viewport in a section dedicated to the player.  This is valuable in a split screen
@@ -35,12 +35,12 @@ package unreal.umg;
     
     @param ZOrder The higher the number, the more on top this widget will be.
   **/
-  @:ufunction @:final public function AddToPlayerScreen(ZOrder : unreal.Int32 = 0) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function AddToPlayerScreen(ZOrder : unreal.Int32 = 0) : Bool;
   
   /**
     Removes the widget from the viewport.
   **/
-  @:ufunction @:final public function RemoveFromViewport() : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveFromViewport() : Void;
   
   /**
     Sets the widgets position in the viewport.
@@ -49,42 +49,42 @@ package unreal.umg;
     Otherwise inverse DPI is applied to the position so that when the location is scaled
     by DPI, it ends up in the expected position.
   **/
-  @:ufunction @:final public function SetPositionInViewport(Position : unreal.FVector2D, bRemoveDPIScale : Bool = true) : Void;
-  @:ufunction @:final public function SetDesiredSizeInViewport(Size : unreal.FVector2D) : Void;
-  @:ufunction @:final public function SetAnchorsInViewport(Anchors : unreal.slate.FAnchors) : Void;
-  @:ufunction @:final public function SetAlignmentInViewport(Alignment : unreal.FVector2D) : Void;
-  @:ufunction @:thisConst @:final public function GetAnchorsInViewport() : unreal.slate.FAnchors;
-  @:ufunction @:thisConst @:final public function GetAlignmentInViewport() : unreal.FVector2D;
-  @:ufunction @:thisConst @:final public function GetIsVisible() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetPositionInViewport(Position : unreal.FVector2D, bRemoveDPIScale : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDesiredSizeInViewport(Size : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAnchorsInViewport(Anchors : unreal.slate.FAnchors) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAlignmentInViewport(Alignment : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAnchorsInViewport() : unreal.slate.FAnchors;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAlignmentInViewport() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetIsVisible() : Bool;
   
   /**
     @return true if the widget was added to the viewport using AddToViewport.
   **/
-  @:ufunction @:thisConst @:final public function IsInViewport() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsInViewport() : Bool;
   
   /**
     Gets the local player associated with this UI.
     @return The owning local player.
   **/
-  @:ufunction @:thisConst @:final public function GetOwningLocalPlayer() : unreal.ULocalPlayer;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOwningLocalPlayer() : unreal.ULocalPlayer;
   
   /**
     Sets the player associated with this UI via LocalPlayer reference.
     @param LocalPlayer The local player you want to be the conceptual owner of this UI.
   **/
-  @:ufunction @:final public function SetOwningLocalPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOwningLocalPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
   
   /**
     Sets the local player associated with this UI via PlayerController reference.
     @param LocalPlayerController The PlayerController of the local player you want to be the conceptual owner of this UI.
   **/
-  @:ufunction @:final public function SetOwningPlayer(LocalPlayerController : unreal.APlayerController) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOwningPlayer(LocalPlayerController : unreal.APlayerController) : Void;
   
   /**
     Gets the player pawn associated with this UI.
     @return Gets the owning player pawn that's owned by the player controller assigned to this widget.
   **/
-  @:ufunction @:thisConst @:final public function GetOwningPlayerPawn() : unreal.APawn;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOwningPlayerPawn() : unreal.APawn;
   
   /**
     Called by both the game and the editor.  Allows users to run initial setup for their widgets to better preview
@@ -98,19 +98,19 @@ package unreal.umg;
     In the event you save the asset with blueprint code that causes a crash on evaluation.  You can turn off
     PreConstruct evaluation in the Widget Designer settings in the Editor Preferences.
   **/
-  @:ufunction public function PreConstruct(IsDesignTime : Bool) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function PreConstruct(IsDesignTime : Bool) : Void;
   
   /**
     Called after the underlying slate widget is constructed.  Depending on how the slate object is used
     this event may be called multiple times due to adding and removing from the hierarchy.
   **/
-  @:ufunction public function Construct() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function Construct() : Void;
   
   /**
     Called when a widget is no longer referenced causing the slate resource to destroyed.  Just like
     Construct this event can be called multiple times.
   **/
-  @:ufunction public function Destruct() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function Destruct() : Void;
   
   /**
     Ticks this widget.  Override in derived classes, but always call the parent implementation.
@@ -118,13 +118,13 @@ package unreal.umg;
     @param  MyGeometry The space allotted for this widget
     @param  InDeltaTime  Real time passed since last tick
   **/
-  @:ufunction public function Tick(MyGeometry : unreal.slatecore.FGeometry, InDeltaTime : unreal.Float32) : Void;
-  @:ufunction @:thisConst public function OnPaint(Context : unreal.PRef<unreal.umg.FPaintContext>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function Tick(MyGeometry : unreal.slatecore.FGeometry, InDeltaTime : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) @:thisConst public function OnPaint(Context : unreal.PRef<unreal.umg.FPaintContext>) : Void;
   
   /**
     Gets a value indicating if the widget is interactive.
   **/
-  @:ufunction @:thisConst public function IsInteractable() : Bool;
+  @:ufunction(BlueprintImplementableEvent) @:thisConst public function IsInteractable() : Bool;
   
   /**
     Called when keyboard focus is given to this widget.  This event does not bubble.
@@ -133,14 +133,14 @@ package unreal.umg;
     @param InFocusEvent  FocusEvent
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnFocusReceived(MyGeometry : unreal.slatecore.FGeometry, InFocusEvent : unreal.slatecore.FFocusEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnFocusReceived(MyGeometry : unreal.slatecore.FGeometry, InFocusEvent : unreal.slatecore.FFocusEvent) : unreal.umg.FEventReply;
   
   /**
     Called when this widget loses focus.  This event does not bubble.
     
     @param  InFocusEvent  FocusEvent
   **/
-  @:ufunction public function OnFocusLost(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnFocusLost(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
   
   /**
     If focus is gained on on this widget or on a child widget and this widget is added
@@ -148,7 +148,7 @@ package unreal.umg;
     
     @param  InFocusEvent  FocusEvent
   **/
-  @:ufunction public function OnAddedToFocusPath(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnAddedToFocusPath(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
   
   /**
     If focus is lost on on this widget or on a child widget and this widget is
@@ -156,7 +156,7 @@ package unreal.umg;
     
     @param  InFocusEvent  FocusEvent
   **/
-  @:ufunction public function OnRemovedFromFocusPath(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnRemovedFromFocusPath(InFocusEvent : unreal.slatecore.FFocusEvent) : Void;
   
   /**
     Called after a character is entered while this widget has focus
@@ -165,7 +165,7 @@ package unreal.umg;
     @param  InCharacterEvent  Character event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnKeyChar(MyGeometry : unreal.slatecore.FGeometry, InCharacterEvent : unreal.slatecore.FCharacterEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnKeyChar(MyGeometry : unreal.slatecore.FGeometry, InCharacterEvent : unreal.slatecore.FCharacterEvent) : unreal.umg.FEventReply;
   
   /**
     Called after a key (keyboard, controller, ...) is pressed when this widget or a child of this widget has focus
@@ -178,7 +178,7 @@ package unreal.umg;
     @param  InKeyEvent  Key event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnPreviewKeyDown(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnPreviewKeyDown(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
   
   /**
     Called after a key (keyboard, controller, ...) is pressed when this widget has focus (this event bubbles if not handled)
@@ -187,7 +187,7 @@ package unreal.umg;
     @param  InKeyEvent  Key event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnKeyDown(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnKeyDown(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
   
   /**
     Called after a key (keyboard, controller, ...) is released when this widget has focus
@@ -196,7 +196,7 @@ package unreal.umg;
     @param  InKeyEvent  Key event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnKeyUp(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnKeyUp(MyGeometry : unreal.slatecore.FGeometry, InKeyEvent : unreal.slatecore.FKeyEvent) : unreal.umg.FEventReply;
   
   /**
     Called when an analog value changes on a button that supports analog
@@ -205,7 +205,7 @@ package unreal.umg;
     @param  InAnalogInputEvent  Analog Event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnAnalogValueChanged(MyGeometry : unreal.slatecore.FGeometry, InAnalogInputEvent : unreal.slatecore.FAnalogInputEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnAnalogValueChanged(MyGeometry : unreal.slatecore.FGeometry, InAnalogInputEvent : unreal.slatecore.FAnalogInputEvent) : unreal.umg.FEventReply;
   
   /**
     The system calls this method to notify the widget that a mouse button was pressed within it. This event is bubbled.
@@ -214,7 +214,7 @@ package unreal.umg;
     @param MouseEvent Information about the input event
     @return Whether the event was handled along with possible requests for the system to take action.
   **/
-  @:ufunction public function OnMouseButtonDown(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseButtonDown(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Just like OnMouseButtonDown, but tunnels instead of bubbling.
@@ -227,7 +227,7 @@ package unreal.umg;
     @param MouseEvent Information about the input event
     @return Whether the event was handled along with possible requests for the system to take action.
   **/
-  @:ufunction public function OnPreviewMouseButtonDown(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnPreviewMouseButtonDown(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     The system calls this method to notify the widget that a mouse button was release within it. This event is bubbled.
@@ -236,7 +236,7 @@ package unreal.umg;
     @param MouseEvent Information about the input event
     @return Whether the event was handled along with possible requests for the system to take action.
   **/
-  @:ufunction public function OnMouseButtonUp(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseButtonUp(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     The system calls this method to notify the widget that a mouse moved within it. This event is bubbled.
@@ -245,7 +245,7 @@ package unreal.umg;
     @param MouseEvent Information about the input event
     @return Whether the event was handled along with possible requests for the system to take action.
   **/
-  @:ufunction public function OnMouseMove(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseMove(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     The system will use this event to notify a widget that the cursor has entered it. This event is NOT bubbled.
@@ -253,14 +253,14 @@ package unreal.umg;
     @param MyGeometry The Geometry of the widget receiving the event
     @param MouseEvent Information about the input event
   **/
-  @:ufunction public function OnMouseEnter(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseEnter(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
   
   /**
     The system will use this event to notify a widget that the cursor has left it. This event is NOT bubbled.
     
     @param MouseEvent Information about the input event
   **/
-  @:ufunction public function OnMouseLeave(MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseLeave(MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : Void;
   
   /**
     Called when the mouse wheel is spun. This event is bubbled.
@@ -268,7 +268,7 @@ package unreal.umg;
     @param  MouseEvent  Mouse event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnMouseWheel(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseWheel(MyGeometry : unreal.slatecore.FGeometry, MouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when a mouse button is double clicked.  Override this in derived classes.
@@ -277,7 +277,7 @@ package unreal.umg;
     @param  InMouseEvent  Mouse button event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnMouseButtonDoubleClick(InMyGeometry : unreal.slatecore.FGeometry, InMouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseButtonDoubleClick(InMyGeometry : unreal.slatecore.FGeometry, InMouseEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when the user cancels the drag operation, typically when they simply release the mouse button after
@@ -286,7 +286,7 @@ package unreal.umg;
     @param  PointerEvent  Last mouse event from when the drag was canceled.
     @param  Operation     The drag operation that was canceled.
   **/
-  @:ufunction public function OnDragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>, Operation : unreal.umg.UDragDropOperation) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnDragCancelled(PointerEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>, Operation : unreal.umg.UDragDropOperation) : Void;
   
   /**
     Called during drag and drop when the drag enters the widget.
@@ -295,7 +295,7 @@ package unreal.umg;
     @param PointerEvent   The mouse event from when the drag entered the widget.
     @param Operation      The drag operation that entered the widget.
   **/
-  @:ufunction public function OnDragEnter(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnDragEnter(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Void;
   
   /**
     Called during drag and drop when the drag leaves the widget.
@@ -303,7 +303,7 @@ package unreal.umg;
     @param PointerEvent   The mouse event from when the drag left the widget.
     @param Operation      The drag operation that entered the widget.
   **/
-  @:ufunction public function OnDragLeave(PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnDragLeave(PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Void;
   
   /**
     Called during drag and drop when the the mouse is being dragged over a widget.
@@ -314,7 +314,7 @@ package unreal.umg;
     
     @return 'true' to indicate that you handled the drag over operation.  Returning 'false' will cause the operation to continue to bubble up.
   **/
-  @:ufunction public function OnDragOver(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Bool;
+  @:ufunction(BlueprintImplementableEvent) public function OnDragOver(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Bool;
   
   /**
     Called when the user is dropping something onto a widget.  Ends the drag and drop operation, even if no widget handles this.
@@ -325,7 +325,7 @@ package unreal.umg;
     
     @return 'true' to indicate you handled the drop operation.
   **/
-  @:ufunction public function OnDrop(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Bool;
+  @:ufunction(BlueprintImplementableEvent) public function OnDrop(MyGeometry : unreal.slatecore.FGeometry, PointerEvent : unreal.slatecore.FPointerEvent, Operation : unreal.umg.UDragDropOperation) : Bool;
   
   /**
     Called when the user performs a gesture on trackpad. This event is bubbled.
@@ -334,7 +334,7 @@ package unreal.umg;
     @param  GestureEvent  gesture event
     @return  Returns whether the event was handled, along with other possible actions
   **/
-  @:ufunction public function OnTouchGesture(MyGeometry : unreal.slatecore.FGeometry, GestureEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnTouchGesture(MyGeometry : unreal.slatecore.FGeometry, GestureEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when a touchpad touch is started (finger down)
@@ -342,7 +342,7 @@ package unreal.umg;
     @param MyGeometry    The geometry of the widget receiving the event.
     @param InTouchEvent  The touch event generated
   **/
-  @:ufunction public function OnTouchStarted(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnTouchStarted(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when a touchpad touch is moved  (finger moved)
@@ -350,7 +350,7 @@ package unreal.umg;
     @param MyGeometry    The geometry of the widget receiving the event.
     @param InTouchEvent  The touch event generated
   **/
-  @:ufunction public function OnTouchMoved(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnTouchMoved(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when a touchpad touch is ended (finger lifted)
@@ -358,7 +358,7 @@ package unreal.umg;
     @param MyGeometry    The geometry of the widget receiving the event.
     @param InTouchEvent  The touch event generated
   **/
-  @:ufunction public function OnTouchEnded(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnTouchEnded(MyGeometry : unreal.slatecore.FGeometry, InTouchEvent : unreal.Const<unreal.PRef<unreal.slatecore.FPointerEvent>>) : unreal.umg.FEventReply;
   
   /**
     Called when motion is detected (controller or device)
@@ -367,33 +367,33 @@ package unreal.umg;
     @param MyGeometry    The geometry of the widget receiving the event.
     @param MotionEvent   The motion event generated
   **/
-  @:ufunction public function OnMotionDetected(MyGeometry : unreal.slatecore.FGeometry, InMotionEvent : unreal.slatecore.FMotionEvent) : unreal.umg.FEventReply;
+  @:ufunction(BlueprintImplementableEvent) public function OnMotionDetected(MyGeometry : unreal.slatecore.FGeometry, InMotionEvent : unreal.slatecore.FMotionEvent) : unreal.umg.FEventReply;
   
   /**
     Called when mouse capture is lost if it was owned by this widget.
   **/
-  @:ufunction public function OnMouseCaptureLost() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnMouseCaptureLost() : Void;
   
   /**
     Called when an animation is started.
     
     @param Animation the animation that started
   **/
-  @:ufunction public function OnAnimationStarted(Animation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnAnimationStarted(Animation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
   
   /**
     Called when an animation has either played all the way through or is stopped
     
     @param Animation The animation that has finished playing
   **/
-  @:ufunction public function OnAnimationFinished(Animation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnAnimationFinished(Animation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
   
   /**
     Sets the tint of the widget, this affects all child widgets.
     
     @param InColorAndOpacity     The tint to apply to all child widgets.
   **/
-  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
   
   /**
     Sets the foreground color of the widget, this is inherited by sub widgets.  Any color property
@@ -401,8 +401,8 @@ package unreal.umg;
     
     @param InForegroundColor     The foreground color.
   **/
-  @:ufunction @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetForegroundColor(InForegroundColor : unreal.slatecore.FSlateColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
   
   /**
     Plays an animation in this widget a specified number of times
@@ -413,7 +413,7 @@ package unreal.umg;
     @param PlaybackSpeed The speed at which the animation should play
     @param PlayMode Specifies the playback mode
   **/
-  @:ufunction @:final public function PlayAnimation(InAnimation : unreal.umg.UWidgetAnimation, StartAtTime : unreal.Float32 = 0.000000, NumLoopsToPlay : unreal.Int32 = 1, PlayMode : unreal.umg.EUMGSequencePlayMode = Forward, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayAnimation(InAnimation : unreal.umg.UWidgetAnimation, StartAtTime : unreal.Float32 = 0.000000, NumLoopsToPlay : unreal.Int32 = 1, PlayMode : unreal.umg.EUMGSequencePlayMode = Forward, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
   
   /**
     Plays an animation in this widget a specified number of times stoping at a specified time
@@ -425,14 +425,14 @@ package unreal.umg;
     @param PlaybackSpeed The speed at which the animation should play
     @param PlayMode Specifies the playback mode
   **/
-  @:ufunction @:final public function PlayAnimationTo(InAnimation : unreal.umg.UWidgetAnimation, StartAtTime : unreal.Float32 = 0.000000, EndAtTime : unreal.Float32 = 0.000000, NumLoopsToPlay : unreal.Int32 = 1, PlayMode : unreal.umg.EUMGSequencePlayMode = Forward, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayAnimationTo(InAnimation : unreal.umg.UWidgetAnimation, StartAtTime : unreal.Float32 = 0.000000, EndAtTime : unreal.Float32 = 0.000000, NumLoopsToPlay : unreal.Int32 = 1, PlayMode : unreal.umg.EUMGSequencePlayMode = Forward, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
   
   /**
     Stops an already running animation in this widget
     
     @param The name of the animation to stop
   **/
-  @:ufunction @:final public function StopAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function StopAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
   
   /**
     Pauses an already running animation in this widget
@@ -440,7 +440,7 @@ package unreal.umg;
     @param The name of the animation to pause
     @return the time point the animation was at when it was paused, relative to its start position.  Use this as the StartAtTime when you trigger PlayAnimation.
   **/
-  @:ufunction @:final public function PauseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:final public function PauseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
   
   /**
     Gets the current time of the animation in this widget
@@ -448,7 +448,7 @@ package unreal.umg;
     @param The name of the animation to get the current time for
     @return the current time of the animation.
   **/
-  @:ufunction @:thisConst @:final public function GetAnimationCurrentTime(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAnimationCurrentTime(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : unreal.Float32;
   
   /**
     Gets whether an animation is currently playing on this widget.
@@ -456,12 +456,12 @@ package unreal.umg;
     @param InAnimation The animation to check the playback status of
     @return True if the animation is currently playing
   **/
-  @:ufunction @:thisConst @:final public function IsAnimationPlaying(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsAnimationPlaying(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
   
   /**
     @return True if any animation is currently playing
   **/
-  @:ufunction @:thisConst @:final public function IsAnyAnimationPlaying() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsAnyAnimationPlaying() : Bool;
   
   /**
     Changes the number of loops to play given a playing animation
@@ -469,7 +469,7 @@ package unreal.umg;
     @param InAnimation The animation that is already playing
     @param NumLoopsToPlay The number of loops to play. (0 to loop indefinitely)
   **/
-  @:ufunction @:final public function SetNumLoopsToPlay(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, NumLoopsToPlay : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNumLoopsToPlay(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, NumLoopsToPlay : unreal.Int32) : Void;
   
   /**
     Changes the playback rate of a playing animation
@@ -477,33 +477,33 @@ package unreal.umg;
     @param InAnimation The animation that is already playing
     @param PlaybackRate Playback rate multiplier (1 is default)
   **/
-  @:ufunction @:final public function SetPlaybackSpeed(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPlaybackSpeed(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>, PlaybackSpeed : unreal.Float32 = 1.000000) : Void;
   
   /**
     If an animation is playing, this function will reverse the playback.
     
     @param InAnimation The playing animation that we want to reverse
   **/
-  @:ufunction @:final public function ReverseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ReverseAnimation(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Void;
   
   /**
     returns true if the animation is currently playing forward, false otherwise.
     
     @param InAnimation The playing animation that we want to know about
   **/
-  @:ufunction @:final public function IsAnimationPlayingForward(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function IsAnimationPlayingForward(InAnimation : unreal.Const<unreal.umg.UWidgetAnimation>) : Bool;
   
   /**
     Plays a sound through the UI
     
     @param The sound to play
   **/
-  @:ufunction @:final public function PlaySound(SoundToPlay : unreal.USoundBase) : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlaySound(SoundToPlay : unreal.USoundBase) : Void;
   
   /**
     Are we currently playing any animations?
   **/
-  @:ufunction @:thisConst @:final public function IsPlayingAnimation() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlayingAnimation() : Bool;
   @:uproperty private var InputComponent : unreal.UInputComponent;
   
   /**
@@ -586,38 +586,38 @@ package unreal.umg;
     Listens for a particular Player Input Action by name.  This requires that those actions are being executed, and
     that we're not currently in UI-Only Input Mode.
   **/
-  @:ufunction @:final private function ListenForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent, bConsume : Bool, Callback : unreal.umg.FOnInputAction) : Void;
+  @:ufunction(BlueprintCallable) @:final private function ListenForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent, bConsume : Bool, Callback : unreal.umg.FOnInputAction) : Void;
   
   /**
     Removes the binding for a particular action's callback.
   **/
-  @:ufunction @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent) : Void;
+  @:ufunction(BlueprintCallable) @:final private function StopListeningForInputAction(ActionName : unreal.FName, EventType : unreal.EInputEvent) : Void;
   
   /**
     Stops listening to all input actions, and unregisters the input component with the player controller.
   **/
-  @:ufunction @:final private function StopListeningForAllInputActions() : Void;
+  @:ufunction(BlueprintCallable) @:final private function StopListeningForAllInputActions() : Void;
   
   /**
     ListenForInputAction will automatically Register an Input Component with the player input system.
     If you however, want to Pause and Resume, listening for a set of actions, the best way is to use
     UnregisterInputComponent to pause, and RegisterInputComponent to resume listening.
   **/
-  @:ufunction @:final private function RegisterInputComponent() : Void;
+  @:ufunction(BlueprintCallable) @:final private function RegisterInputComponent() : Void;
   
   /**
     StopListeningForAllInputActions will automatically Register an Input Component with the player input system.
     If you however, want to Pause and Resume, listening for a set of actions, the best way is to use
     UnregisterInputComponent to pause, and RegisterInputComponent to resume listening.
   **/
-  @:ufunction @:final private function UnregisterInputComponent() : Void;
+  @:ufunction(BlueprintCallable) @:final private function UnregisterInputComponent() : Void;
   
   /**
     Checks if the action has a registered callback with the input component.
   **/
-  @:ufunction @:thisConst @:final private function IsListeningForInputAction(ActionName : unreal.FName) : Bool;
-  @:ufunction @:final private function SetInputActionPriority(NewPriority : unreal.Int32) : Void;
-  @:ufunction @:final private function SetInputActionBlocking(bShouldBlock : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final private function IsListeningForInputAction(ActionName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:final private function SetInputActionPriority(NewPriority : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final private function SetInputActionBlocking(bShouldBlock : Bool) : Void;
   // NamedSlotInterface interface implementation
   
 }

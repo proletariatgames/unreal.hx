@@ -50,21 +50,21 @@ package unreal.umg;
   /**
     Sets how many pieces there are
   **/
-  @:ufunction @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
   
   /**
     Sets whether the pieces animate horizontally.
   **/
-  @:ufunction @:final public function SetAnimateHorizontally(bInAnimateHorizontally : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAnimateHorizontally(bInAnimateHorizontally : Bool) : Void;
   
   /**
     Sets whether the pieces animate vertically.
   **/
-  @:ufunction @:final public function SetAnimateVertically(bInAnimateVertically : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAnimateVertically(bInAnimateVertically : Bool) : Void;
   
   /**
     Sets whether the pieces animate their opacity.
   **/
-  @:ufunction @:final public function SetAnimateOpacity(bInAnimateOpacity : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAnimateOpacity(bInAnimateOpacity : Bool) : Void;
   
 }

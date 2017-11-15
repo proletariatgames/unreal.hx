@@ -18,7 +18,7 @@ package unreal;
   Each slot data referenced by Animation Slot
   contains slot name, and animation data
 **/
-@:glueCppIncludes("Animation/AnimMontage.h")
+@:glueCppIncludes("Classes/Animation/AnimMontage.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSlotAnimationTrack {
   @:uproperty public var AnimTrack : unreal.FAnimTrack;
   @:uproperty public var SlotName : unreal.FName;

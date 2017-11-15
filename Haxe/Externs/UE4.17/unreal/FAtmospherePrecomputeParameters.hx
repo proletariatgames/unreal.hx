@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure storing Data for pre-computation
 **/
-@:glueCppIncludes("Atmosphere/AtmosphericFogComponent.h")
+@:glueCppIncludes("Classes/Atmosphere/AtmosphericFogComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAtmospherePrecomputeParameters {
   
   /**

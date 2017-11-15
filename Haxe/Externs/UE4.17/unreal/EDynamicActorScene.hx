@@ -17,7 +17,7 @@ package unreal;
 /**
   Whether to override the sync/async scene used by a dynamic actor
 **/
-@:glueCppIncludes("PhysicsEngine/BodyInstance.h")
+@:glueCppIncludes("Classes/PhysicsEngine/BodyInstance.h")
 @:uname("EDynamicActorScene")
 @:class @:uextern @:uenum extern enum EDynamicActorScene {
   

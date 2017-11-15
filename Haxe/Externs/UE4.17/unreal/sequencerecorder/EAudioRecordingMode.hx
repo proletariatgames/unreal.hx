@@ -18,7 +18,7 @@ package unreal.sequencerecorder;
   Enum denoting if (and how) to record audio
 **/
 @:umodule("SequenceRecorder")
-@:glueCppIncludes("SequenceRecorderSettings.h")
+@:glueCppIncludes("Public/SequenceRecorderSettings.h")
 @:uname("EAudioRecordingMode")
 @:class @:uextern @:uenum extern enum EAudioRecordingMode {
   

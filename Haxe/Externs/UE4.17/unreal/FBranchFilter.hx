@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimData/BoneMaskFilter.h")
+@:glueCppIncludes("Classes/Animation/AnimData/BoneMaskFilter.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBranchFilter {
   
   /**

@@ -19,7 +19,7 @@ package unreal;
   @param TouchedActor
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("FingerIndex")
 @:uParamName("TouchedActor")
 typedef FActorEndTouchOverSignature = unreal.DynamicMulticastDelegate<FActorEndTouchOverSignature, unreal.inputcore.ETouchIndex->unreal.AActor->Void>;

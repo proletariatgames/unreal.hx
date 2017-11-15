@@ -26,21 +26,21 @@ package unreal.aimodule;
     Registers owning actor as source of stimuli for senses specified in RegisterAsSourceForSenses.
         Note that you don't have to do it if bAutoRegisterAsSource == true
   **/
-  @:ufunction @:final public function RegisterWithPerceptionSystem() : Void;
+  @:ufunction(BlueprintCallable) @:final public function RegisterWithPerceptionSystem() : Void;
   
   /**
     Registers owning actor as source for specified sense class
   **/
-  @:ufunction @:final public function RegisterForSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RegisterForSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
   
   /**
     Unregister owning actor from being a source of sense stimuli
   **/
-  @:ufunction @:final public function UnregisterFromPerceptionSystem() : Void;
+  @:ufunction(BlueprintCallable) @:final public function UnregisterFromPerceptionSystem() : Void;
   
   /**
     Unregisters owning actor from sources list of a specified sense class
   **/
-  @:ufunction @:final public function UnregisterFromSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function UnregisterFromSense(SenseClass : unreal.TSubclassOf<unreal.aimodule.UAISense>) : Void;
   
 }

@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   In a random order. If shuffle mode is enabled then each entry will be played once before repeating any
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_RandomPlayer.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_RandomPlayer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRandomPlayerSequenceEntry {
   
   /**

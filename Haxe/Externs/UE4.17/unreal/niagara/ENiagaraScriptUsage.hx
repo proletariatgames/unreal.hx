@@ -18,7 +18,7 @@ package unreal.niagara;
   Defines different usages for a niagara script.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraScript.h")
+@:glueCppIncludes("Classes/NiagaraScript.h")
 @:uname("ENiagaraScriptUsage")
 @:class @:uextern @:uenum extern enum ENiagaraScriptUsage {
   

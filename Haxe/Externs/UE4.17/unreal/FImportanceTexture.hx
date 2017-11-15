@@ -18,7 +18,7 @@ package unreal;
   Texture processed for importance sampling
   Holds marginal PDF of the rows, as well as the PDF of each row
 **/
-@:glueCppIncludes("Kismet/ImportanceSamplingLibrary.h")
+@:glueCppIncludes("Classes/Kismet/ImportanceSamplingLibrary.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FImportanceTexture {
   
   /**

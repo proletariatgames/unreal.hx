@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Attenuation.h")
+@:glueCppIncludes("Classes/Engine/Attenuation.h")
 @:uname("EAttenuationShape.Type")
 @:uextern @:uenum extern enum EAttenuationShape {
   Sphere;

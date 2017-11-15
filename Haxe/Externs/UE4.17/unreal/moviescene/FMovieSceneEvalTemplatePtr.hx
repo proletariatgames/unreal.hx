@@ -18,7 +18,7 @@ package unreal.moviescene;
   Custom serialized type that allows serializing structs derived from FMovieSceneEvalTemplate, and attempts to store an evaluation template in inline memory if possible
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvalTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvalTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvalTemplatePtr {
   
 }

@@ -18,7 +18,7 @@ package unreal.portalmessages;
   Service discovery messages
 **/
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalPackageInstallerMessages.h")
+@:glueCppIncludes("Public/PortalPackageInstallerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalPackageInstallerInstallRequest extends unreal.messagingrpc.FRpcMessage {
   @:uproperty public var DestinationPath : unreal.FString;
   @:uproperty public var BuildLabel : unreal.FString;

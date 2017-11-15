@@ -30,7 +30,7 @@ package unreal.assetregistry;
     @param PackagePath the path to query asset data in
     @param bRecursive if true, the supplied path will be tested recursively
   **/
-  @:ufunction @:thisConst public function HasAssets(PackagePath : unreal.Const<unreal.FName>, bRecursive : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function HasAssets(PackagePath : unreal.Const<unreal.FName>, bRecursive : Bool = false) : Bool;
   
   /**
     Gets asset data for the assets in the package with the specified package name
@@ -38,7 +38,7 @@ package unreal.assetregistry;
     @param PackageName the package name for the requested assets
     @param OutAssetData the list of assets in this path
   **/
-  @:ufunction @:thisConst public function GetAssetsByPackageName(PackageName : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAssetsByPackageName(PackageName : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
   
   /**
     Gets asset data for all assets in the supplied folder path
@@ -47,7 +47,7 @@ package unreal.assetregistry;
     @param OutAssetData the list of assets in this path
     @param bRecursive if true, all supplied paths will be searched recursively
   **/
-  @:ufunction @:thisConst public function GetAssetsByPath(PackagePath : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bRecursive : Bool = false, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAssetsByPath(PackagePath : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bRecursive : Bool = false, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
   
   /**
     Gets asset data for all assets with the supplied class
@@ -56,7 +56,7 @@ package unreal.assetregistry;
     @param OutAssetData the list of assets in this path
     @param bSearchSubClasses if true, all subclasses of the passed in class will be searched as well
   **/
-  @:ufunction @:thisConst public function GetAssetsByClass(ClassName : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bSearchSubClasses : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAssetsByClass(ClassName : unreal.FName, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bSearchSubClasses : Bool = false) : Bool;
   
   /**
     Gets asset data for all assets that match the filter.
@@ -66,7 +66,7 @@ package unreal.assetregistry;
     @param Filter filter to apply to the assets in the AssetRegistry
     @param OutAssetData the list of assets in this path
   **/
-  @:ufunction @:thisConst public function GetAssets(Filter : unreal.Const<unreal.PRef<unreal.assetregistry.FARFilter>>, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAssets(Filter : unreal.Const<unreal.PRef<unreal.assetregistry.FARFilter>>, OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>) : Bool;
   
   /**
     Gets the asset data for the specified object path
@@ -75,7 +75,7 @@ package unreal.assetregistry;
     @param bIncludeOnlyOnDiskAssets if true, in-memory objects will be ignored. The call will be faster.
     @return the assets data;Will be invalid if object could not be found
   **/
-  @:ufunction @:thisConst public function GetAssetByObjectPath(ObjectPath : unreal.Const<unreal.FName>, bIncludeOnlyOnDiskAssets : Bool = false) : unreal.assetregistry.FAssetData;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAssetByObjectPath(ObjectPath : unreal.Const<unreal.FName>, bIncludeOnlyOnDiskAssets : Bool = false) : unreal.assetregistry.FAssetData;
   
   /**
     Gets asset data for all assets in the registry.
@@ -83,26 +83,26 @@ package unreal.assetregistry;
     
     @param OutAssetData the list of assets in this path
   **/
-  @:ufunction @:thisConst public function GetAllAssets(OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAllAssets(OutAssetData : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, bIncludeOnlyOnDiskAssets : Bool = false) : Bool;
   
   /**
     Gets a list of all paths that are currently cached
   **/
-  @:ufunction @:thisConst public function GetAllCachedPaths(OutPathList : unreal.PRef<unreal.TArray<unreal.FString>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAllCachedPaths(OutPathList : unreal.PRef<unreal.TArray<unreal.FString>>) : Void;
   
   /**
     Gets a list of all paths that are currently cached below the passed-in base path
   **/
-  @:ufunction @:thisConst public function GetSubPaths(InBasePath : unreal.FString, OutPathList : unreal.PRef<unreal.TArray<unreal.FString>>, bInRecurse : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetSubPaths(InBasePath : unreal.FString, OutPathList : unreal.PRef<unreal.TArray<unreal.FString>>, bInRecurse : Bool) : Void;
   
   /**
     Trims items out of the asset data list that do not pass the supplied filter
   **/
-  @:ufunction @:thisConst public function RunAssetsThroughFilter(AssetDataList : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, Filter : unreal.Const<unreal.PRef<unreal.assetregistry.FARFilter>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function RunAssetsThroughFilter(AssetDataList : unreal.PRef<unreal.TArray<unreal.assetregistry.FAssetData>>, Filter : unreal.Const<unreal.PRef<unreal.assetregistry.FARFilter>>) : Void;
   
   /**
     Returns true if the asset registry is currently loading files and does not yet know about all assets
   **/
-  @:ufunction @:thisConst public function IsLoadingAssets() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsLoadingAssets() : Bool;
   
 }

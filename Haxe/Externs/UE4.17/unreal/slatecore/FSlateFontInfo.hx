@@ -18,7 +18,7 @@ package unreal.slatecore;
   A representation of a font in Slate.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Fonts/SlateFontInfo.h")
+@:glueCppIncludes("Public/Fonts/SlateFontInfo.h")
 @:uextern @:ustruct extern class FSlateFontInfo {
   
   /**

@@ -34,7 +34,7 @@ package unreal;
   /**
     Tries to find an event named "EventName" on all other levels, and calls it
   **/
-  @:ufunction public function RemoteEvent(EventName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) public function RemoteEvent(EventName : unreal.FName) : Bool;
   
   /**
     Sets the cinematic mode on all PlayerControllers
@@ -45,12 +45,12 @@ package unreal;
     @param       bAffectsMovement        specify true to disable movement in cinematic mode, enable it when leaving
     @param       bAffectsTurning         specify true to disable turning in cinematic mode or enable it when leaving
   **/
-  @:ufunction public function SetCinematicMode(bCinematicMode : Bool, bHidePlayer : Bool = true, bAffectsHUD : Bool = true, bAffectsMovement : Bool = false, bAffectsTurning : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function SetCinematicMode(bCinematicMode : Bool, bHidePlayer : Bool = true, bAffectsHUD : Bool = true, bAffectsMovement : Bool = false, bAffectsTurning : Bool = false) : Void;
   
   /**
     @todo document
   **/
-  @:ufunction public function LevelReset() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function LevelReset() : Void;
   
   /**
     Event called on world origin location changes
@@ -58,6 +58,6 @@ package unreal;
     @param       OldOriginLocation       Previous world origin location
     @param       NewOriginLocation       New world origin location
   **/
-  @:ufunction public function WorldOriginLocationChanged(OldOriginLocation : unreal.FIntVector, NewOriginLocation : unreal.FIntVector) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function WorldOriginLocationChanged(OldOriginLocation : unreal.FIntVector, NewOriginLocation : unreal.FIntVector) : Void;
   
 }

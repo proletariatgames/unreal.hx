@@ -18,7 +18,7 @@ package unreal.editor;
   Is Ctrl key required for editing landscape/foliage?
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uname("ELandscapeFoliageEditorControlType")
 @:class @:uextern @:uenum extern enum ELandscapeFoliageEditorControlType {
   

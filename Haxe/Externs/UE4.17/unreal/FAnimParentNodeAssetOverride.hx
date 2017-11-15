@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimBlueprint.h")
+@:glueCppIncludes("Classes/Animation/AnimBlueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimParentNodeAssetOverride {
   @:uproperty public var ParentNodeGuid : unreal.FGuid;
   @:uproperty public var NewAsset : unreal.UAnimationAsset;

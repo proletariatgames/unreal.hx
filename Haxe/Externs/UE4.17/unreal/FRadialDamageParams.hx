@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uextern @:ustruct extern class FRadialDamageParams {
   @:uproperty public var DamageFalloff : unreal.Float32;
   @:uproperty public var OuterRadius : unreal.Float32;

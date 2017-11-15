@@ -17,7 +17,7 @@ package unreal;
 /**
   result of how much weight of the grid element *
 **/
-@:glueCppIncludes("Animation/BlendSpaceBase.h")
+@:glueCppIncludes("Classes/Animation/BlendSpaceBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGridBlendSample {
   @:uproperty public var BlendWeight : unreal.Float32;
   @:uproperty public var GridElement : unreal.FEditorElement;

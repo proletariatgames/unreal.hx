@@ -26,7 +26,7 @@ package unreal.niagara;
     Spawns a Niagara effect at the specified world location/rotation
     @return                       The spawned UNiagaraComponent
   **/
-  @:ufunction static public function SpawnEffectAtLocation(WorldContextObject : unreal.UObject, EffectTemplate : unreal.niagara.UNiagaraEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool = true) : unreal.niagara.UNiagaraComponent;
-  @:ufunction static public function SpawnEffectAttached(EffectTemplate : unreal.niagara.UNiagaraEffect, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bAutoDestroy : Bool) : unreal.niagara.UNiagaraComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnEffectAtLocation(WorldContextObject : unreal.UObject, EffectTemplate : unreal.niagara.UNiagaraEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool = true) : unreal.niagara.UNiagaraComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnEffectAttached(EffectTemplate : unreal.niagara.UNiagaraEffect, AttachToComponent : unreal.USceneComponent, AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation, bAutoDestroy : Bool) : unreal.niagara.UNiagaraComponent;
   
 }

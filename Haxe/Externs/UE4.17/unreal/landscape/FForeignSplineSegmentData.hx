@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeSplinesComponent.h")
+@:glueCppIncludes("Classes/LandscapeSplinesComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FForeignSplineSegmentData {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var MeshComponents : unreal.TArray<unreal.USplineMeshComponent>;

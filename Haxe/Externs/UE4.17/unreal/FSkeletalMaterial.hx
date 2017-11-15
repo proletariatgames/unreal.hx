@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMaterial {
   
   /**

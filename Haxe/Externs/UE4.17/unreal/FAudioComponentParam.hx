@@ -18,7 +18,7 @@ package unreal;
   Struct used for storing one per-instance named parameter for this AudioComponent.
   Certain nodes in the SoundCue may reference parameters by name so they can be adjusted per-instance.
 **/
-@:glueCppIncludes("Components/AudioComponent.h")
+@:glueCppIncludes("Classes/Components/AudioComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAudioComponentParam {
   
   /**

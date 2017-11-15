@@ -192,7 +192,7 @@ package unreal;
     This is automatically called during initialization; call this at runtime if you intend to change the default mesh offset from the capsule.
     @see GetBaseTranslationOffset(), GetBaseRotationOffset()
   **/
-  @:ufunction public function CacheInitialMeshOffset(MeshRelativeLocation : unreal.FVector, MeshRelativeRotation : unreal.FRotator) : Void;
+  @:ufunction(BlueprintCallable) public function CacheInitialMeshOffset(MeshRelativeLocation : unreal.FVector, MeshRelativeRotation : unreal.FRotator) : Void;
   
   /**
     Rep notify for ReplicatedBasedMovement
@@ -202,12 +202,12 @@ package unreal;
   /**
     Get the saved translation offset of mesh. This is how much extra offset is applied from the center of the capsule.
   **/
-  @:ufunction @:thisConst @:final public function GetBaseTranslationOffset() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBaseTranslationOffset() : unreal.FVector;
   
   /**
     Get the saved rotation offset of mesh. This is how much extra rotation is applied from the capsule rotation.
   **/
-  @:ufunction @:thisConst @:final public function GetBaseRotationOffsetRotator() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBaseRotationOffsetRotator() : unreal.FRotator;
   
   /**
     Handle Crouching replicated from server
@@ -222,7 +222,7 @@ package unreal;
     as on a button up event), otherwise the character will carry on receiving the
     velocity until JumpKeyHoldTime is reached.
   **/
-  @:ufunction public function Jump() : Void;
+  @:ufunction(BlueprintCallable) public function Jump() : Void;
   
   /**
     Stop the character from jumping on the next update.
@@ -230,7 +230,7 @@ package unreal;
     jump Z-velocity. If this is not called, then jump z-velocity will be applied
     until JumpMaxHoldTime is reached.
   **/
-  @:ufunction public function StopJumping() : Void;
+  @:ufunction(BlueprintCallable) public function StopJumping() : Void;
   
   /**
     Check if the character can jump in the current state.
@@ -239,7 +239,7 @@ package unreal;
     
     @Return Whether the character can jump in the current state.
   **/
-  @:ufunction @:thisConst @:final public function CanJump() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function CanJump() : Bool;
   
   /**
     Customizable event to check if the character can jump in the current state.
@@ -252,28 +252,28 @@ package unreal;
     
     @Return Whether the character can jump in the current state.
   **/
-  @:ufunction @:thisConst private function CanJumpInternal() : Bool;
+  @:ufunction(BlueprintNativeEvent) @:thisConst private function CanJumpInternal() : Bool;
   
   /**
     True if jump is actively providing a force, such as when the jump key is held and the time it has been held is less than JumpMaxHoldTime.
     @see CharacterMovement->IsFalling
   **/
-  @:ufunction @:thisConst public function IsJumpProvidingForce() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsJumpProvidingForce() : Bool;
   
   /**
     Play Animation Montage on the character mesh *
   **/
-  @:ufunction public function PlayAnimMontage(AnimMontage : unreal.UAnimMontage, InPlayRate : unreal.Float32 = 1.000000, @:opt("None") StartSectionName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) public function PlayAnimMontage(AnimMontage : unreal.UAnimMontage, InPlayRate : unreal.Float32 = 1.000000, @:opt("None") StartSectionName : unreal.FName) : unreal.Float32;
   
   /**
     Stop Animation Montage. If NULL, it will stop what's currently active. The Blend Out Time is taken from the montage asset that is being stopped. *
   **/
-  @:ufunction public function StopAnimMontage(AnimMontage : unreal.UAnimMontage) : Void;
+  @:ufunction(BlueprintCallable) public function StopAnimMontage(AnimMontage : unreal.UAnimMontage) : Void;
   
   /**
     Return current playing Montage *
   **/
-  @:ufunction @:final public function GetCurrentMontage() : unreal.UAnimMontage;
+  @:ufunction(BlueprintCallable) @:final public function GetCurrentMontage() : unreal.UAnimMontage;
   
   /**
     Set a pending launch velocity on the Character. This velocity will be processed on the next CharacterMovementComponent tick,
@@ -282,17 +282,17 @@ package unreal;
     @PARAM bXYOverride if true replace the XY part of the Character's velocity instead of adding to it.
     @PARAM bZOverride if true replace the Z component of the Character's velocity instead of adding to it.
   **/
-  @:ufunction public function LaunchCharacter(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function LaunchCharacter(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
   
   /**
     Let blueprint know that we were launched
   **/
-  @:ufunction public function OnLaunched(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnLaunched(LaunchVelocity : unreal.FVector, bXYOverride : Bool, bZOverride : Bool) : Void;
   
   /**
     Event fired when the character has just started jumping
   **/
-  @:ufunction public function OnJumped() : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnJumped() : Void;
   
   /**
     Called upon landing when falling, to perform actions based on the Hit result.
@@ -302,7 +302,7 @@ package unreal;
     @param Hit Result describing the landing that resulted in a valid landing spot.
     @see OnMovementModeChanged()
   **/
-  @:ufunction public function OnLanded(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function OnLanded(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Event fired when the Character is walking off a surface and is about to fall because CharacterMovement->CurrentFloor became unwalkable.
@@ -314,7 +314,7 @@ package unreal;
     @param  PreviousLocation     Previous character location before movement off the ledge.
     @param  TimeTick     Time delta of movement update resulting in moving off the ledge.
   **/
-  @:ufunction public function OnWalkingOffLedge(PreviousFloorImpactNormal : unreal.Const<unreal.PRef<unreal.FVector>>, PreviousFloorContactNormal : unreal.Const<unreal.PRef<unreal.FVector>>, PreviousLocation : unreal.Const<unreal.PRef<unreal.FVector>>, TimeDelta : unreal.Float32) : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnWalkingOffLedge(PreviousFloorImpactNormal : unreal.Const<unreal.PRef<unreal.FVector>>, PreviousFloorContactNormal : unreal.Const<unreal.PRef<unreal.FVector>>, PreviousLocation : unreal.Const<unreal.PRef<unreal.FVector>>, TimeDelta : unreal.Float32) : Void;
   
   /**
     Request the character to start crouching. The request is processed on the next update of the CharacterMovementComponent.
@@ -322,7 +322,7 @@ package unreal;
     @see IsCrouched
     @see CharacterMovement->WantsToCrouch
   **/
-  @:ufunction public function Crouch(bClientSimulation : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function Crouch(bClientSimulation : Bool = false) : Void;
   
   /**
     Request the character to stop crouching. The request is processed on the next update of the CharacterMovementComponent.
@@ -330,21 +330,21 @@ package unreal;
     @see IsCrouched
     @see CharacterMovement->WantsToCrouch
   **/
-  @:ufunction public function UnCrouch(bClientSimulation : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function UnCrouch(bClientSimulation : Bool = false) : Void;
   
   /**
     Event when Character stops crouching.
     @param       HalfHeightAdjust                difference between default collision half-height, and actual crouched capsule half-height.
     @param       ScaledHalfHeightAdjust  difference after component scale is taken in to account.
   **/
-  @:ufunction public function K2_OnEndCrouch(HalfHeightAdjust : unreal.Float32, ScaledHalfHeightAdjust : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnEndCrouch(HalfHeightAdjust : unreal.Float32, ScaledHalfHeightAdjust : unreal.Float32) : Void;
   
   /**
     Event when Character crouches.
     @param       HalfHeightAdjust                difference between default collision half-height, and actual crouched capsule half-height.
     @param       ScaledHalfHeightAdjust  difference after component scale is taken in to account.
   **/
-  @:ufunction public function K2_OnStartCrouch(HalfHeightAdjust : unreal.Float32, ScaledHalfHeightAdjust : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnStartCrouch(HalfHeightAdjust : unreal.Float32, ScaledHalfHeightAdjust : unreal.Float32) : Void;
   
   /**
     Called from CharacterMovementComponent to notify the character that the movement mode has changed.
@@ -353,18 +353,18 @@ package unreal;
     @param       PrevCustomMode          Custom mode before the change (applicable if PrevMovementMode is Custom)
     @param       NewCustomMode           New custom mode (applicable if NewMovementMode is Custom)
   **/
-  @:ufunction public function K2_OnMovementModeChanged(PrevMovementMode : unreal.EMovementMode, NewMovementMode : unreal.EMovementMode, PrevCustomMode : unreal.UInt8, NewCustomMode : unreal.UInt8) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_OnMovementModeChanged(PrevMovementMode : unreal.EMovementMode, NewMovementMode : unreal.EMovementMode, PrevCustomMode : unreal.UInt8, NewCustomMode : unreal.UInt8) : Void;
   
   /**
     Event for implementing custom character movement mode. Called by CharacterMovement if MovementMode is set to Custom.
     @note C++ code should override UCharacterMovementComponent::PhysCustom() instead.
     @see UCharacterMovementComponent::PhysCustom()
   **/
-  @:ufunction public function K2_UpdateCustomMovement(DeltaTime : unreal.Float32) : Void;
-  @:ufunction public function ClientCheatWalk() : Void;
-  @:ufunction public function ClientCheatFly() : Void;
-  @:ufunction public function ClientCheatGhost() : Void;
-  @:ufunction public function RootMotionDebugClientPrintOnScreen(InString : unreal.FString) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function K2_UpdateCustomMovement(DeltaTime : unreal.Float32) : Void;
+  @:ufunction(Client) public function ClientCheatWalk() : Void;
+  @:ufunction(Client) public function ClientCheatFly() : Void;
+  @:ufunction(Client) public function ClientCheatGhost() : Void;
+  @:ufunction(Client) public function RootMotionDebugClientPrintOnScreen(InString : unreal.FString) : Void;
   
   /**
     Handles replicated root motion properties on simulated proxies and position correction.
@@ -374,17 +374,17 @@ package unreal;
   /**
     true if we are playing Root Motion right now
   **/
-  @:ufunction @:thisConst @:final public function IsPlayingRootMotion() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlayingRootMotion() : Bool;
   
   /**
     true if we are playing Root Motion right now, through a Montage with RootMotionMode == ERootMotionMode::RootMotionFromMontagesOnly.
     This means code path for networked root motion is enabled.
   **/
-  @:ufunction @:thisConst @:final public function IsPlayingNetworkedRootMotionMontage() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlayingNetworkedRootMotionMontage() : Bool;
   
   /**
     Returns current value of AnimRootMotionScale
   **/
-  @:ufunction @:thisConst @:final public function GetAnimRootMotionTranslationScale() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAnimRootMotionTranslationScale() : unreal.Float32;
   
 }

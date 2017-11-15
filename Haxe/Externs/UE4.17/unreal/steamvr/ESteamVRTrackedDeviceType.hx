@@ -18,7 +18,7 @@ package unreal.steamvr;
   Defines the class of tracked devices in SteamVR
 **/
 @:umodule("SteamVR")
-@:glueCppIncludes("SteamVRFunctionLibrary.h")
+@:glueCppIncludes("Classes/SteamVRFunctionLibrary.h")
 @:uname("ESteamVRTrackedDeviceType")
 @:class @:uextern @:uenum extern enum ESteamVRTrackedDeviceType {
   

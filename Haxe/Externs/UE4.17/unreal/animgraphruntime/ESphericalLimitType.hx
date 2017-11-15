@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Whether spheres keep bodies inside, or outside of their shape
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("ESphericalLimitType")
 @:class @:uextern @:uenum extern enum ESphericalLimitType {
   Inner;

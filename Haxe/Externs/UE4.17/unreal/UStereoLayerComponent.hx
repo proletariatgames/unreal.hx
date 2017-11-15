@@ -24,50 +24,50 @@ package unreal;
     Change the texture displayed on the stereo layer quad
     @param       InTexture: new Texture2D
   **/
-  @:ufunction @:final public function SetTexture(InTexture : unreal.UTexture) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTexture(InTexture : unreal.UTexture) : Void;
   
   /**
     @return the texture mapped to the stereo layer quad
   **/
-  @:ufunction @:thisConst @:final public function GetTexture() : unreal.UTexture;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTexture() : unreal.UTexture;
   
   /**
     Change the quad size. This is the unscaled height and width, before component scale is applied.
     @param       InQuadSize: new quad size.
   **/
-  @:ufunction @:final public function SetQuadSize(InQuadSize : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetQuadSize(InQuadSize : unreal.FVector2D) : Void;
   
   /**
     @return the height and width of the rendered quad
   **/
-  @:ufunction @:thisConst @:final public function GetQuadSize() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetQuadSize() : unreal.FVector2D;
   
   /**
     Change the UV coordinates mapped to the quad face
     @param       InUVRect: Min and Max UV coordinates
   **/
-  @:ufunction @:final public function SetUVRect(InUVRect : unreal.FBox2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUVRect(InUVRect : unreal.FBox2D) : Void;
   
   /**
     @return the UV coordinates mapped to the quad face
   **/
-  @:ufunction @:thisConst @:final public function GetUVRect() : unreal.FBox2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUVRect() : unreal.FBox2D;
   
   /**
     Change the layer's render priority, higher priorities render on top of lower priorities
     @param       InPriority: Priority value
   **/
-  @:ufunction @:final public function SetPriority(InPriority : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPriority(InPriority : unreal.Int32) : Void;
   
   /**
     @return the render priority
   **/
-  @:ufunction @:thisConst @:final public function GetPriority() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPriority() : unreal.Int32;
   
   /**
     Manually mark the stereo layer texture for updating
   **/
-  @:ufunction @:final public function MarkTextureForUpdate() : Void;
+  @:ufunction(BlueprintCallable) @:final public function MarkTextureForUpdate() : Void;
   
   /**
     Render priority among all stereo layers, higher priority render on top of lower priority *

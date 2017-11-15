@@ -18,7 +18,7 @@ package unreal.animationcore;
   Hierarchy of nodes
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("NodeHierarchy.h")
+@:glueCppIncludes("Public/NodeHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNodeHierarchyData {
   
   /**

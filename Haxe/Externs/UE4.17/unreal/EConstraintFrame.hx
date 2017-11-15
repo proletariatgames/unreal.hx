@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum to indicate which frame we want.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EConstraintFrame.Type")
 @:uextern @:uenum extern enum EConstraintFrame {
   Frame1;

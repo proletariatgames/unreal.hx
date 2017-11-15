@@ -18,7 +18,7 @@ package unreal.editor;
   2D layer settings
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/EditorProjectSettings.h")
+@:glueCppIncludes("Public/Settings/EditorProjectSettings.h")
 @:uextern @:ustruct extern class FMode2DLayer {
   
   /**

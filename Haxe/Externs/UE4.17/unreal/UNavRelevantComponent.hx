@@ -16,7 +16,7 @@ package unreal;
 
 @:glueCppIncludes("AI/Navigation/NavRelevantComponent.h")
 @:uextern @:uclass extern class UNavRelevantComponent extends unreal.UActorComponent implements unreal.INavRelevantInterface {
-  @:ufunction @:final public function SetNavigationRelevancy(bRelevant : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNavigationRelevancy(bRelevant : Bool) : Void;
   @:uproperty private var CachedNavParent : unreal.UObject;
   // NavRelevantInterface interface implementation
   

@@ -34,52 +34,52 @@ package unreal;
   /**
     Pause the game for Delay seconds.
   **/
-  @:ufunction public function FreezeFrame(Delay : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function FreezeFrame(Delay : unreal.Float32) : Void;
   
   /**
     Teleport to surface player is looking at.
   **/
-  @:ufunction public function Teleport() : Void;
+  @:ufunction(BlueprintCallable) public function Teleport() : Void;
   
   /**
     Scale the player's size to be F * default size.
   **/
-  @:ufunction public function ChangeSize(F : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function ChangeSize(F : unreal.Float32) : Void;
   
   /**
     Pawn can fly.
   **/
-  @:ufunction public function Fly() : Void;
+  @:ufunction(BlueprintCallable) public function Fly() : Void;
   
   /**
     Return to walking movement mode from Fly or Ghost cheat.
   **/
-  @:ufunction public function Walk() : Void;
+  @:ufunction(BlueprintCallable) public function Walk() : Void;
   
   /**
     Pawn no longer collides with the world, and can fly
   **/
-  @:ufunction public function Ghost() : Void;
+  @:ufunction(BlueprintCallable) public function Ghost() : Void;
   
   /**
     Invulnerability cheat.
   **/
-  @:ufunction public function God() : Void;
+  @:ufunction(BlueprintCallable) public function God() : Void;
   
   /**
     Modify time dilation to change apparent speed of passage of time. e.g. "Slomo 0.1" makes everything move very slowly, while "Slomo 10" makes everything move very fast.
   **/
-  @:ufunction public function Slomo(NewTimeDilation : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function Slomo(NewTimeDilation : unreal.Float32) : Void;
   
   /**
     Damage the actor you're looking at (sourced from the player).
   **/
-  @:ufunction public function DamageTarget(DamageAmount : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function DamageTarget(DamageAmount : unreal.Float32) : Void;
   
   /**
     Destroy the actor you're looking at.
   **/
-  @:ufunction public function DestroyTarget() : Void;
+  @:ufunction(BlueprintCallable) public function DestroyTarget() : Void;
   
   /**
     Destroy all actors of class aClass
@@ -104,7 +104,7 @@ package unreal;
   /**
     Freeze everything in the level except for players.
   **/
-  @:ufunction public function PlayersOnly() : Void;
+  @:ufunction(BlueprintCallable) public function PlayersOnly() : Void;
   
   /**
     Make controlled pawn the viewtarget again.
@@ -150,7 +150,7 @@ package unreal;
     toggles AI logging
   **/
   @:ufunction public function ToggleAILogging() : Void;
-  @:ufunction public function ServerToggleAILogging() : Void;
+  @:ufunction(Server) public function ServerToggleAILogging() : Void;
   
   /**
     Toggle capsule trace debugging. Will trace a capsule from current view point and show where it hits the world
@@ -273,21 +273,21 @@ package unreal;
   /**
     BP implementable event for when CheatManager is created to allow any needed initialization.
   **/
-  @:ufunction public function ReceiveInitCheatManager() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveInitCheatManager() : Void;
   
   /**
     This is the End Play event for the CheatManager
   **/
-  @:ufunction public function ReceiveEndPlay() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveEndPlay() : Void;
   
   /**
     Switch controller to debug camera without locking gameplay and with locking local player controller input
   **/
-  @:ufunction private function EnableDebugCamera() : Void;
+  @:ufunction(BlueprintCallable) private function EnableDebugCamera() : Void;
   
   /**
     Switch controller from debug camera back to normal controller
   **/
-  @:ufunction private function DisableDebugCamera() : Void;
+  @:ufunction(BlueprintCallable) private function DisableDebugCamera() : Void;
   
 }

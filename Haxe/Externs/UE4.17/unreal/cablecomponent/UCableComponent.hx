@@ -113,21 +113,21 @@ package unreal.cablecomponent;
   /**
     Attaches the end of the cable to a specific Component within an Actor *
   **/
-  @:ufunction @:final public function SetAttachEndTo(Actor : unreal.AActor, ComponentProperty : unreal.FName, @:opt("None") SocketName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAttachEndTo(Actor : unreal.AActor, ComponentProperty : unreal.FName, @:opt("None") SocketName : unreal.FName) : Void;
   
   /**
     Gets the Actor that the cable is attached to *
   **/
-  @:ufunction @:thisConst @:final public function GetAttachedActor() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachedActor() : unreal.AActor;
   
   /**
     Gets the specific USceneComponent that the cable is attached to *
   **/
-  @:ufunction @:thisConst @:final public function GetAttachedComponent() : unreal.USceneComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachedComponent() : unreal.USceneComponent;
   
   /**
     Get array of locations of particles (in world space) making up the cable simulation.
   **/
-  @:ufunction @:thisConst @:final public function GetCableParticleLocations(Locations : unreal.PRef<unreal.TArray<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCableParticleLocations(Locations : unreal.PRef<unreal.TArray<unreal.FVector>>) : Void;
   
 }

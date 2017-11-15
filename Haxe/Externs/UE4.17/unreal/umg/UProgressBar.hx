@@ -74,16 +74,16 @@ package unreal.umg;
   /**
     Sets the current value of the ProgressBar.
   **/
-  @:ufunction @:final public function SetPercent(InPercent : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPercent(InPercent : unreal.Float32) : Void;
   
   /**
     Sets the fill color of the progress bar.
   **/
-  @:ufunction @:final public function SetFillColorAndOpacity(InColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFillColorAndOpacity(InColor : unreal.FLinearColor) : Void;
   
   /**
     Sets the progress bar to show as a marquee.
   **/
-  @:ufunction @:final public function SetIsMarquee(InbIsMarquee : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsMarquee(InbIsMarquee : Bool) : Void;
   
 }

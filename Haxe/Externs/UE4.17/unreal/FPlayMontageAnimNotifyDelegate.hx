@@ -20,7 +20,7 @@ package unreal;
   @param BranchingPointPayload
   
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:uParamName("NotifyName")
 @:uParamName("BranchingPointPayload")
 typedef FPlayMontageAnimNotifyDelegate = unreal.DynamicMulticastDelegate<FPlayMontageAnimNotifyDelegate, unreal.FName->unreal.Const<unreal.PRef<unreal.FBranchingPointNotifyPayload>>->Void>;

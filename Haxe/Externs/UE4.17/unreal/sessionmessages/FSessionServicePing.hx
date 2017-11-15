@@ -18,7 +18,7 @@ package unreal.sessionmessages;
   Implements a message that is published to discover existing application sessions.
 **/
 @:umodule("SessionMessages")
-@:glueCppIncludes("SessionServiceMessages.h")
+@:glueCppIncludes("Public/SessionServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSessionServicePing {
   
   /**

@@ -24,88 +24,88 @@ package unreal.moviescene;
   /**
     Start playback forwards from the current time cursor position, using the current play rate.
   **/
-  @:ufunction @:final public function Play() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Play() : Void;
   
   /**
     Reverse playback.
   **/
-  @:ufunction @:final public function PlayReverse() : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayReverse() : Void;
   
   /**
     Changes the direction of playback (go in reverse if it was going forward, or vice versa)
   **/
-  @:ufunction @:final public function ChangePlaybackDirection() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ChangePlaybackDirection() : Void;
   
   /**
     Start playback from the current time cursor position, looping the specified number of times.
     @param NumLoops - The number of loops to play. -1 indicates infinite looping.
   **/
-  @:ufunction @:final public function PlayLooping(NumLoops : unreal.Int32 = -1) : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayLooping(NumLoops : unreal.Int32 = -1) : Void;
   
   /**
     Start playback from the current time cursor position, using the current play rate. Does not update the animation until next tick.
   **/
-  @:ufunction @:final public function StartPlayingNextTick() : Void;
+  @:ufunction(BlueprintCallable) @:final public function StartPlayingNextTick() : Void;
   
   /**
     Pause playback.
   **/
-  @:ufunction @:final public function Pause() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Pause() : Void;
   
   /**
     Scrub playback.
   **/
-  @:ufunction @:final public function Scrub() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Scrub() : Void;
   
   /**
     Stop playback.
   **/
-  @:ufunction @:final public function Stop() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Stop() : Void;
   
   /**
     Go to end of the sequence and stop. Adheres to 'When Finished' section rules.
   **/
-  @:ufunction @:final public function GoToEndAndStop() : Void;
+  @:ufunction(BlueprintCallable) @:final public function GoToEndAndStop() : Void;
   
   /**
     Get the current playback position
   **/
-  @:ufunction @:thisConst @:final public function GetPlaybackPosition() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPlaybackPosition() : unreal.Float32;
   
   /**
     Set the current playback position
     @param NewPlaybackPosition - The new playback position to set.
     If the animation is currently playing, it will continue to do so from the new position
   **/
-  @:ufunction @:final public function SetPlaybackPosition(NewPlaybackPosition : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPlaybackPosition(NewPlaybackPosition : unreal.Float32) : Void;
   
   /**
     Jump to new playback position
     @param NewPlaybackPosition - The new playback position to set.
     This can be used to update sequencer repeatedly, as if in a scrubbing state
   **/
-  @:ufunction @:final public function JumpToPosition(NewPlaybackPosition : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function JumpToPosition(NewPlaybackPosition : unreal.Float32) : Void;
   
   /**
     Check whether the sequence is actively playing.
   **/
-  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Get the playback length of the sequence
   **/
-  @:ufunction @:thisConst @:final public function GetLength() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLength() : unreal.Float32;
   
   /**
     Get the playback rate of this player.
   **/
-  @:ufunction @:thisConst @:final public function GetPlayRate() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPlayRate() : unreal.Float32;
   
   /**
     Set the playback rate of this player. Negative values will play the animation in reverse.
     @param PlayRate - The new rate of playback for the animation.
   **/
-  @:ufunction @:final public function SetPlayRate(PlayRate : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPlayRate(PlayRate : unreal.Float32) : Void;
   
   /**
     Sets the range in time to be played back by this player, overriding the default range stored in the asset
@@ -113,17 +113,17 @@ package unreal.moviescene;
     @param       NewStartTime    The new starting time for playback
     @param       NewEndTime              The new ending time for playback.  Must be larger than the start time.
   **/
-  @:ufunction @:final public function SetPlaybackRange(NewStartTime : unreal.Float32, NewEndTime : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPlaybackRange(NewStartTime : unreal.Float32, NewEndTime : unreal.Float32) : Void;
   
   /**
     Get the offset within the level sequence to start playing
   **/
-  @:ufunction @:thisConst @:final public function GetPlaybackStart() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPlaybackStart() : unreal.Float32;
   
   /**
     Get the offset within the level sequence to finish playing
   **/
-  @:ufunction @:thisConst @:final public function GetPlaybackEnd() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPlaybackEnd() : unreal.Float32;
   
   /**
     Specific playback settings for the animation.
@@ -183,6 +183,6 @@ package unreal.moviescene;
   /**
     Retrieve all objects currently bound to the specified binding identifier
   **/
-  @:ufunction @:final public function GetBoundObjects(ObjectBinding : unreal.moviescene.FMovieSceneObjectBindingID) : unreal.TArray<unreal.UObject>;
+  @:ufunction(BlueprintCallable) @:final public function GetBoundObjects(ObjectBinding : unreal.moviescene.FMovieSceneObjectBindingID) : unreal.TArray<unreal.UObject>;
   
 }

@@ -55,22 +55,22 @@ package unreal;
   /**
     Get the number of avoidance objects currently in the manager.
   **/
-  @:ufunction @:final public function GetObjectCount() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:final public function GetObjectCount() : unreal.Int32;
   
   /**
     Get appropriate UID for use when reporting to this function or requesting RVO assistance.
   **/
-  @:ufunction @:final public function GetNewAvoidanceUID() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:final public function GetNewAvoidanceUID() : unreal.Int32;
   
   /**
     Register with the given avoidance manager.
     @param AvoidanceWeight      When avoiding each other, actors divert course in proportion to their relative weights. Range is 0.0 to 1.0. Special: at 1.0, actor will not divert course at all.
   **/
-  @:ufunction @:final public function RegisterMovementComponent(MovementComp : unreal.UMovementComponent, AvoidanceWeight : unreal.Float32 = 0.500000) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function RegisterMovementComponent(MovementComp : unreal.UMovementComponent, AvoidanceWeight : unreal.Float32 = 0.500000) : Bool;
   
   /**
     Calculate avoidance velocity for component (avoids collisions with the supplied component)
   **/
-  @:ufunction @:final public function GetAvoidanceVelocityForComponent(MovementComp : unreal.UMovementComponent) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function GetAvoidanceVelocityForComponent(MovementComp : unreal.UMovementComponent) : unreal.FVector;
   
 }

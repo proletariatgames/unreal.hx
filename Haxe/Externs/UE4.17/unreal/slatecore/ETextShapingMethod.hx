@@ -19,7 +19,7 @@ package unreal.slatecore;
   @note If you change this enum, make sure and update CVarDefaultTextShapingMethod and GetDefaultTextShapingMethod.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Fonts/FontCache.h")
+@:glueCppIncludes("Public/Fonts/FontCache.h")
 @:uname("ETextShapingMethod")
 @:class @:uextern @:uenum extern enum ETextShapingMethod {
   

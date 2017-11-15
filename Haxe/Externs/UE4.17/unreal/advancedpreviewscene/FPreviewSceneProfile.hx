@@ -18,7 +18,7 @@ package unreal.advancedpreviewscene;
   Preview scene profile settings structure.
 **/
 @:umodule("AdvancedPreviewScene")
-@:glueCppIncludes("AssetViewerSettings.h")
+@:glueCppIncludes("Public/AssetViewerSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPreviewSceneProfile {
   
   /**

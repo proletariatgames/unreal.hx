@@ -18,7 +18,7 @@ package unreal.kismet;
   Heat map level metrics type
 **/
 @:umodule("Kismet")
-@:glueCppIncludes("Profiler/BlueprintProfilerSettings.h")
+@:glueCppIncludes("Public/Profiler/BlueprintProfilerSettings.h")
 @:uname("EBlueprintProfilerHeatLevelMetricsType")
 @:class @:uextern @:uenum extern enum EBlueprintProfilerHeatLevelMetricsType {
   ClassRelative;

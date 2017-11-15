@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneLegacyTrackInstanceTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneLegacyTrackInstanceTemplate.h")
 @:uextern @:ustruct extern class FMovieSceneLegacyTrackInstanceTemplate extends unreal.moviescene.FMovieSceneEvalTemplate {
   @:uproperty public var Track : unreal.moviescene.UMovieSceneTrack;
   

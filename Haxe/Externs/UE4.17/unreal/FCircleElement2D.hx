@@ -17,7 +17,7 @@ package unreal;
 /**
   Sphere shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
+@:glueCppIncludes("Classes/PhysicsEngine/AggregateGeometry2D.h")
 @:uextern @:ustruct extern class FCircleElement2D {
   @:uproperty public var Radius : unreal.Float32;
   @:uproperty public var Center : unreal.FVector2D;

@@ -36,7 +36,7 @@ package unreal;
   @param PhysMat
   
 **/
-@:glueCppIncludes("Particles/Emitter.h")
+@:glueCppIncludes("Classes/Particles/Emitter.h")
 @:uParamName("EventName")
 @:uParamName("EmitterTime")
 @:uParamName("ParticleTime")

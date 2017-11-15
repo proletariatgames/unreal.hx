@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavCollision.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavCollision.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNavCollisionCylinder {
   @:uproperty public var Height : unreal.Float32;
   @:uproperty public var Radius : unreal.Float32;

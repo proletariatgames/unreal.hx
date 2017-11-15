@@ -15,7 +15,7 @@
 package unreal.paper2d;
 
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperSpriteAtlas.h")
+@:glueCppIncludes("Classes/PaperSpriteAtlas.h")
 @:uname("EPaperSpriteAtlasPadding")
 @:class @:uextern @:uenum extern enum EPaperSpriteAtlasPadding {
   

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavFilters/NavigationQueryFilter.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavFilters/NavigationQueryFilter.h")
 @:uextern @:ustruct extern class FNavigationFilterArea {
   @:uproperty public var bOverrideEnteringCost : Bool;
   @:uproperty public var bOverrideTravelCost : Bool;

@@ -18,7 +18,7 @@ package unreal.speedtreeimporter;
   Geometry import type
 **/
 @:umodule("SpeedTreeImporter")
-@:glueCppIncludes("SpeedTreeImportData.h")
+@:glueCppIncludes("Classes/SpeedTreeImportData.h")
 @:uname("EImportGeometryType")
 @:uextern @:uenum extern enum EImportGeometryType {
   

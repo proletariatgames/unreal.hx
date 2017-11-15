@@ -17,7 +17,7 @@ package unreal;
 /**
   Tick function that ends the physics tick
 **/
-@:glueCppIncludes("Engine/World.h")
+@:glueCppIncludes("Classes/Engine/World.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEndPhysicsTickFunction extends unreal.FTickFunction {
   
 }

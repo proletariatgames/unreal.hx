@@ -15,7 +15,7 @@
 package unreal.internationalizationsettings;
 
 @:umodule("InternationalizationSettings")
-@:glueCppIncludes("InternationalizationSettingsModel.h")
+@:glueCppIncludes("Classes/InternationalizationSettingsModel.h")
 @:uname("ETimezoneSetting")
 @:class @:uextern @:uenum extern enum ETimezoneSetting {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   An entry in a preview mesh collection
 **/
-@:glueCppIncludes("Engine/PreviewMeshCollection.h")
+@:glueCppIncludes("Classes/Engine/PreviewMeshCollection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPreviewMeshCollectionEntry {
   
 }

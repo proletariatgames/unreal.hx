@@ -18,7 +18,7 @@ package unreal.slate;
   The different methods that can be used if a word is too long to be broken by the default line-break iterator.
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Framework/Text/TextLayout.h")
+@:glueCppIncludes("Public/Framework/Text/TextLayout.h")
 @:uname("ETextWrappingPolicy")
 @:class @:uextern @:uenum extern enum ETextWrappingPolicy {
   

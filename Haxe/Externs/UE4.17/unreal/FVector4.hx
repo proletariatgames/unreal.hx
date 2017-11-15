@@ -20,7 +20,7 @@ package unreal;
   A 4-D homogeneous vector.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Vector4.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVector4 {
   
 }

@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:uextern @:ustruct extern class FNiagaraScriptDataInterfaceInfo {
   @:uproperty public var Name : unreal.FName;
   

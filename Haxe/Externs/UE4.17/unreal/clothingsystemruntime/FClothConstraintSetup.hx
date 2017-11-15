@@ -18,7 +18,7 @@ package unreal.clothingsystemruntime;
   Container for a constraint setup, these can be horizontal, vertical, shear and bend
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothConstraintSetup {
   
   /**

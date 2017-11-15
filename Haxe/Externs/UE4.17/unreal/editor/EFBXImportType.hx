@@ -18,7 +18,7 @@ package unreal.editor;
   Import mesh type
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxImportUI.h")
+@:glueCppIncludes("Classes/Factories/FbxImportUI.h")
 @:uname("EFBXImportType")
 @:uextern @:uenum extern enum EFBXImportType {
   

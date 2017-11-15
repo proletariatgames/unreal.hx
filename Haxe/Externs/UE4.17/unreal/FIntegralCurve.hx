@@ -17,7 +17,7 @@ package unreal;
 /**
   An integral curve, which holds the key time and the key value
 **/
-@:glueCppIncludes("Curves/IntegralCurve.h")
+@:glueCppIncludes("Classes/Curves/IntegralCurve.h")
 @:uextern @:ustruct extern class FIntegralCurve extends unreal.FIndexedCurve {
   
 }

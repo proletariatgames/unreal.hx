@@ -17,7 +17,7 @@ package unreal;
 /**
   Indicates how animation should be evaluated between keys.
 **/
-@:glueCppIncludes("Animation/AnimTypes.h")
+@:glueCppIncludes("Public/Animation/AnimTypes.h")
 @:uname("EAnimInterpolationType")
 @:class @:uextern @:uenum extern enum EAnimInterpolationType {
   

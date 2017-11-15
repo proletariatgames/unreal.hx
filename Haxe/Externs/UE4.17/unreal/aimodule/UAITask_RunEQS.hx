@@ -17,6 +17,6 @@ package unreal.aimodule;
 @:umodule("AIModule")
 @:glueCppIncludes("Tasks/AITask_RunEQS.h")
 @:uextern @:uclass extern class UAITask_RunEQS extends unreal.aimodule.UAITask {
-  @:ufunction static public function RunEQS(Controller : unreal.aimodule.AAIController, QueryTemplate : unreal.aimodule.UEnvQuery) : unreal.aimodule.UAITask_RunEQS;
+  @:ufunction(BlueprintCallable) static public function RunEQS(Controller : unreal.aimodule.AAIController, QueryTemplate : unreal.aimodule.UEnvQuery) : unreal.aimodule.UAITask_RunEQS;
   
 }

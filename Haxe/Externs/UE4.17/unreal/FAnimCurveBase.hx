@@ -17,7 +17,7 @@ package unreal;
 /**
   Float curve data for one track
 **/
-@:glueCppIncludes("Animation/AnimCurveTypes.h")
+@:glueCppIncludes("Public/Animation/AnimCurveTypes.h")
 @:uextern @:ustruct extern class FAnimCurveBase {
   @:uproperty public var Name : unreal.FSmartName;
   

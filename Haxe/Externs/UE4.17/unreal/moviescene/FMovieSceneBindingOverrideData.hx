@@ -18,7 +18,7 @@ package unreal.moviescene;
   Movie scene binding override data
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneBindingOverrides.h")
+@:glueCppIncludes("Public/MovieSceneBindingOverrides.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneBindingOverrideData {
   
   /**

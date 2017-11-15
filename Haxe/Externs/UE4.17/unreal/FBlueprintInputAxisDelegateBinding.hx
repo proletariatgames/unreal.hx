@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/InputAxisDelegateBinding.h")
+@:glueCppIncludes("Classes/Engine/InputAxisDelegateBinding.h")
 @:uextern @:ustruct extern class FBlueprintInputAxisDelegateBinding extends unreal.FBlueprintInputDelegateBinding {
   @:uproperty public var FunctionNameToBind : unreal.FName;
   @:uproperty public var InputAxisName : unreal.FName;

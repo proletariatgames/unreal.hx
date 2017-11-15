@@ -17,7 +17,7 @@ package unreal;
 /**
   Detail mode for scene component rendering.
 **/
-@:glueCppIncludes("Components/SceneComponent.h")
+@:glueCppIncludes("Classes/Components/SceneComponent.h")
 @:uname("EDetailMode")
 @:uextern @:uenum extern enum EDetailMode {
   

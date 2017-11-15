@@ -18,7 +18,7 @@ package unreal.locationservicesbplibrary;
   @param LocationData
   
 **/
-@:glueCppIncludes("LocationServicesBPLibrary.h")
+@:glueCppIncludes("Classes/LocationServicesBPLibrary.h")
 @:uParamName("LocationData")
 @:umodule("LocationServicesBPLibrary")
 typedef FLocationServicesData_OnLocationChanged = unreal.DynamicMulticastDelegate<FLocationServicesData_OnLocationChanged, unreal.locationservicesbplibrary.FLocationServicesData->Void>;

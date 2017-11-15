@@ -18,6 +18,6 @@ package unreal;
   @param TouchedComponent
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("TouchedComponent")
 typedef FComponentEndCursorOverSignature = unreal.DynamicMulticastDelegate<FComponentEndCursorOverSignature, unreal.UPrimitiveComponent->Void>;

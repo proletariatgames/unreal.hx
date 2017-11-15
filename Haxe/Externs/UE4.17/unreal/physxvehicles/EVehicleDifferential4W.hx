@@ -15,7 +15,7 @@
 package unreal.physxvehicles;
 
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("WheeledVehicleMovementComponent4W.h")
+@:glueCppIncludes("Public/WheeledVehicleMovementComponent4W.h")
 @:uname("EVehicleDifferential4W.Type")
 @:uextern @:uenum extern enum EVehicleDifferential4W {
   LimitedSlip_4W;

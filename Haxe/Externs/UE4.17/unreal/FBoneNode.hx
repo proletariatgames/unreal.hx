@@ -17,7 +17,7 @@ package unreal;
 /**
   Each Bone node in BoneTree
 **/
-@:glueCppIncludes("Animation/Skeleton.h")
+@:glueCppIncludes("Classes/Animation/Skeleton.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBoneNode {
   
   /**

@@ -20,7 +20,7 @@ package unreal.onlinesubsystemutils;
   @param WrittenUserTag
   
 **/
-@:glueCppIncludes("AchievementWriteCallbackProxy.h")
+@:glueCppIncludes("Classes/AchievementWriteCallbackProxy.h")
 @:uParamName("WrittenAchievementName")
 @:uParamName("WrittenProgress")
 @:uParamName("WrittenUserTag")

@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   Struct defining where gameplay tags are loaded/saved from. Mostly for the editor
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsManager.h")
+@:glueCppIncludes("Classes/GameplayTagsManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagSource {
   
   /**

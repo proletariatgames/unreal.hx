@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieScenePropertyTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieScenePropertyTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieScenePropertySectionData {
   @:uproperty public var NotifyFunctionName : unreal.FName;
   @:uproperty public var FunctionName : unreal.FName;

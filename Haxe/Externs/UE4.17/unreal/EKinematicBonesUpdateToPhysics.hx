@@ -19,7 +19,7 @@ package unreal;
         If bone is simulating, you don't have to waste time on updating bone transform from kinematic.
         But also sometimes you don't like fixed bones to be updated by animation data.
 **/
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkeletalMeshComponent.h")
 @:uname("EKinematicBonesUpdateToPhysics.Type")
 @:uextern @:uenum extern enum EKinematicBonesUpdateToPhysics {
   

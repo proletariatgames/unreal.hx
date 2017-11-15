@@ -15,7 +15,7 @@
 package unreal.assetregistry;
 
 @:umodule("AssetRegistry")
-@:glueCppIncludes("AssetRegistryHelpers.h")
+@:glueCppIncludes("Public/AssetRegistryHelpers.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTagAndValue {
   @:uproperty public var Value : unreal.FString;
   @:uproperty public var Tag : unreal.FName;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/HierarchicalInstancedStaticMeshComponent.h")
+@:glueCppIncludes("Classes/Components/HierarchicalInstancedStaticMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClusterNode {
   @:uproperty public var LastInstance : unreal.Int32;
   @:uproperty public var FirstInstance : unreal.Int32;

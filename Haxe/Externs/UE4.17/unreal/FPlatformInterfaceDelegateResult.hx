@@ -17,7 +17,7 @@ package unreal;
 /**
   Generic structure for returning most any kind of data from C++ to delegate functions
 **/
-@:glueCppIncludes("Engine/PlatformInterfaceBase.h")
+@:glueCppIncludes("Classes/Engine/PlatformInterfaceBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPlatformInterfaceDelegateResult {
   
   /**

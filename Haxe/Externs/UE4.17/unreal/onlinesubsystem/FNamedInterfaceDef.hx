@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   Holds a name to class name mapping for adding the named interfaces automatically
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("NamedInterfaces.h")
+@:glueCppIncludes("Public/NamedInterfaces.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNamedInterfaceDef {
   
   /**

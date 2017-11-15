@@ -21,7 +21,7 @@ package unreal.headmounteddisplay;
   Disabled is supported on all except PSVR.
 **/
 @:umodule("HeadMountedDisplay")
-@:glueCppIncludes("HeadMountedDisplayTypes.h")
+@:glueCppIncludes("Public/HeadMountedDisplayTypes.h")
 @:uname("ESpectatorScreenMode")
 @:class @:uextern @:uenum extern enum ESpectatorScreenMode {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   PhysicsBody options when bone is hidden
 **/
-@:glueCppIncludes("Components/SkinnedMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkinnedMeshComponent.h")
 @:uname("EPhysBodyOp")
 @:uextern @:uenum extern enum EPhysBodyOp {
   

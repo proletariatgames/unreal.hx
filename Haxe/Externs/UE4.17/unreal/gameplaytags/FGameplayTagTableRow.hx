@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   Simple struct for a table row in the gameplay tag table and element in the ini list
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsManager.h")
+@:glueCppIncludes("Classes/GameplayTagsManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagTableRow extends unreal.FTableRowBase {
   
   /**

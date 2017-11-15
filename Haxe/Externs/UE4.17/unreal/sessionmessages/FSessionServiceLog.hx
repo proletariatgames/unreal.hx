@@ -18,7 +18,7 @@ package unreal.sessionmessages;
   Implements a message that contains a console log entry.
 **/
 @:umodule("SessionMessages")
-@:glueCppIncludes("SessionServiceMessages.h")
+@:glueCppIncludes("Public/SessionServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSessionServiceLog {
   
   /**

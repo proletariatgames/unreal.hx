@@ -19,7 +19,7 @@ package unreal;
   CurveName: Morph Target Name
   CurveWeights: List of weights for each frame
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FCurveTrack {
   @:uproperty public var CurveWeights : unreal.TArray<unreal.Float32>;
   @:uproperty public var CurveName : unreal.FName;

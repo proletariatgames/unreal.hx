@@ -18,7 +18,7 @@ package unreal.sessionmessages;
   Implements a message to subscribe to an application's console log.
 **/
 @:umodule("SessionMessages")
-@:glueCppIncludes("SessionServiceMessages.h")
+@:glueCppIncludes("Public/SessionServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSessionServiceLogSubscribe {
   
 }

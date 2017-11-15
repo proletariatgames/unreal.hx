@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct that is used to store an array of asset import data as an asset registry tag
 **/
-@:glueCppIncludes("EditorFramework/AssetImportData.h")
+@:glueCppIncludes("Classes/EditorFramework/AssetImportData.h")
 @:uextern @:ustruct extern class FAssetImportInfo {
   
 }

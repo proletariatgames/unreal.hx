@@ -18,7 +18,7 @@ package unreal.editor;
   Action to paste clipboard contents into the graph
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("MaterialGraph/MaterialGraphSchema.h")
+@:glueCppIncludes("Classes/MaterialGraph/MaterialGraphSchema.h")
 @:uextern @:ustruct extern class FMaterialGraphSchemaAction_Paste extends unreal.FEdGraphSchemaAction {
   
 }

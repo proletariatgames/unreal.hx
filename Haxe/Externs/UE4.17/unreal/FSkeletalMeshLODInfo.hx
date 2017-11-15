@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct containing information for a particular LOD level, such as materials and info for when to use it.
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshLODInfo {
   @:uproperty public var bHasPerLODVertexColors : Bool;
   

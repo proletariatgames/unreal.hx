@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure for directory paths that are displayed in the UI.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDirectoryPath {
   
   /**

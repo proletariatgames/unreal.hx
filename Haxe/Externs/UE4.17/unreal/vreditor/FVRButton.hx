@@ -18,7 +18,7 @@ package unreal.vreditor;
   Structure to keep track of all relevant interaction and animation elements of a VR Button
 **/
 @:umodule("VREditor")
-@:glueCppIncludes("/VREditorUISystem.h")
+@:glueCppIncludes("UI/VREditorUISystem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVRButton {
   
   /**

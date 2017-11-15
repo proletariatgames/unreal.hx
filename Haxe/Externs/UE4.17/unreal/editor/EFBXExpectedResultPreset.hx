@@ -18,7 +18,7 @@ package unreal.editor;
   Import mesh type
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Tests/FbxAutomationCommon.h")
+@:glueCppIncludes("Public/Tests/FbxAutomationCommon.h")
 @:uname("EFBXExpectedResultPreset")
 @:uextern @:uenum extern enum EFBXExpectedResultPreset {
   

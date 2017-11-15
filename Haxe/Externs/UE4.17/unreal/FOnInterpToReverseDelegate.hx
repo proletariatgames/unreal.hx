@@ -19,7 +19,7 @@ package unreal;
   @param Time
   
 **/
-@:glueCppIncludes("Components/InterpToMovementComponent.h")
+@:glueCppIncludes("Classes/Components/InterpToMovementComponent.h")
 @:uParamName("ImpactResult")
 @:uParamName("Time")
 @:uname("UInterpToMovementComponent.FOnInterpToReverseDelegate")

@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds settings for the asset import / export automation test
 **/
-@:glueCppIncludes("Tests/AutomationTestSettings.h")
+@:glueCppIncludes("Classes/Tests/AutomationTestSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditorMapPerformanceTestDefinition {
   
   /**

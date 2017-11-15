@@ -20,6 +20,6 @@ package unreal;
   /**
     Called to trigger the action once the delegates have been bound
   **/
-  @:ufunction public function Activate() : Void;
+  @:ufunction(BlueprintCallable) public function Activate() : Void;
   
 }

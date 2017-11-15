@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeGrassType.h")
+@:glueCppIncludes("Classes/LandscapeGrassType.h")
 @:uname("EGrassScaling")
 @:class @:uextern @:uenum extern enum EGrassScaling {
   

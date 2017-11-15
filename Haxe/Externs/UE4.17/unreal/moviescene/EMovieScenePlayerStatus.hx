@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneFwd.h")
+@:glueCppIncludes("Public/MovieSceneFwd.h")
 @:uname("EMovieScenePlayerStatus.Type")
 @:uextern @:uenum extern enum EMovieScenePlayerStatus {
   Stopped;

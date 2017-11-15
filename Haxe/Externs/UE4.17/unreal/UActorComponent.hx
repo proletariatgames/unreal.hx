@@ -72,131 +72,131 @@ package unreal;
   /**
     Returns whether the component is in the process of being destroyed.
   **/
-  @:ufunction @:thisConst @:final public function IsBeingDestroyed() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsBeingDestroyed() : Bool;
   @:ufunction @:final public function OnRep_IsActive() : Void;
   
   /**
     Follow the Outer chain to get the  AActor  that 'Owns' this component
   **/
-  @:ufunction @:thisConst @:final public function GetOwner() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOwner() : unreal.AActor;
   
   /**
     See if this component contains the supplied tag
   **/
-  @:ufunction @:thisConst @:final public function ComponentHasTag(Tag : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function ComponentHasTag(Tag : unreal.FName) : Bool;
   
   /**
     Activates the SceneComponent
     @param bReset - The value to assign to HiddenGame.
   **/
-  @:ufunction public function Activate(bReset : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function Activate(bReset : Bool = false) : Void;
   
   /**
     Deactivates the SceneComponent.
   **/
-  @:ufunction public function Deactivate() : Void;
+  @:ufunction(BlueprintCallable) public function Deactivate() : Void;
   
   /**
     Sets whether the component is active or not
     @param bNewActive - The new active state of the component
   **/
-  @:ufunction public function SetActive(bNewActive : Bool, bReset : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function SetActive(bNewActive : Bool, bReset : Bool = false) : Void;
   
   /**
     Toggles the active state of the component
   **/
-  @:ufunction public function ToggleActive() : Void;
+  @:ufunction(BlueprintCallable) public function ToggleActive() : Void;
   
   /**
     Returns whether the component is active or not
     @return - The active state of the component.
   **/
-  @:ufunction @:thisConst public function IsActive() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsActive() : Bool;
   
   /**
     Sets whether the component should be auto activate or not. Only safe during construction scripts.
     @param bNewAutoActivate - The new auto activate state of the component
   **/
-  @:ufunction public function SetAutoActivate(bNewAutoActivate : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetAutoActivate(bNewAutoActivate : Bool) : Void;
   
   /**
     Sets whether this component can tick when paused.
   **/
-  @:ufunction @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTickableWhenPaused(bTickableWhenPaused : Bool) : Void;
   
   /**
     Enable or disable replication. This is the equivalent of RemoteRole for actors (only a bool is required for components)
   **/
-  @:ufunction @:final public function SetIsReplicated(ShouldReplicate : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsReplicated(ShouldReplicate : Bool) : Void;
   
   /**
     Blueprint implementable event for when the component is beginning play, called before its Owner's BeginPlay on Actor BeginPlay
     or when the component is dynamically created if the Actor has already BegunPlay.
   **/
-  @:ufunction public function ReceiveBeginPlay() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveBeginPlay() : Void;
   
   /**
     Blueprint implementable event for when the component ends play, generally via destruction or its Actor's EndPlay.
   **/
-  @:ufunction public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveEndPlay(EndPlayReason : unreal.EEndPlayReason) : Void;
   
   /**
     Set this component's tick functions to be enabled or disabled. Only has an effect if the function is registered
     
     @param       bEnabled - Whether it should be enabled or not
   **/
-  @:ufunction public function SetComponentTickEnabled(bEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetComponentTickEnabled(bEnabled : Bool) : Void;
   
   /**
     Returns whether this component has tick enabled or not
   **/
-  @:ufunction @:thisConst @:final public function IsComponentTickEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsComponentTickEnabled() : Bool;
   
   /**
     Sets the tick interval for this component's primary tick function. Does not enable the tick interval. Takes effect on next tick.
     @param TickInterval   The duration between ticks for this component's primary tick function
   **/
-  @:ufunction @:final public function SetComponentTickInterval(TickInterval : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetComponentTickInterval(TickInterval : unreal.Float32) : Void;
   
   /**
     Returns whether this component has tick enabled or not
   **/
-  @:ufunction @:thisConst @:final public function GetComponentTickInterval() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetComponentTickInterval() : unreal.Float32;
   
   /**
     Unregister and mark for pending kill a component.  This may not be used to destroy a component is owned by an actor other than the one calling the function.
   **/
-  @:ufunction @:final public function K2_DestroyComponent(Object : unreal.UObject) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DestroyComponent(Object : unreal.UObject) : Void;
   
   /**
     Changes the ticking group for this component
   **/
-  @:ufunction @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTickGroup(NewTickGroup : unreal.ETickingGroup) : Void;
   
   /**
     Make this component tick after PrerequisiteActor
   **/
-  @:ufunction public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function AddTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Make this component tick after PrerequisiteComponent.
   **/
-  @:ufunction public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction(BlueprintCallable) public function AddTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Remove tick dependency on PrerequisiteActor.
   **/
-  @:ufunction public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveTickPrerequisiteActor(PrerequisiteActor : unreal.AActor) : Void;
   
   /**
     Remove tick dependency on PrerequisiteComponent.
   **/
-  @:ufunction public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveTickPrerequisiteComponent(PrerequisiteComponent : unreal.UActorComponent) : Void;
   
   /**
     Event called every frame
   **/
-  @:ufunction public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveTick(DeltaSeconds : unreal.Float32) : Void;
   // Interface_AssetUserData interface implementation
   
 }

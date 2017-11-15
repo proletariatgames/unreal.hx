@@ -17,7 +17,7 @@ package unreal;
 /**
   Cached 'cosmetic' information about a macro graph (this is transient and is computed at load)
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintMacroCosmeticInfo {
   
 }

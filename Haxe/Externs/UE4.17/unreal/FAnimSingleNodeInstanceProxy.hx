@@ -17,7 +17,7 @@ package unreal;
 /**
   Proxy override for this UAnimInstance-derived class
 **/
-@:glueCppIncludes("Animation/AnimSingleNodeInstanceProxy.h")
+@:glueCppIncludes("Public/Animation/AnimSingleNodeInstanceProxy.h")
 @:uextern @:ustruct extern class FAnimSingleNodeInstanceProxy extends unreal.FAnimInstanceProxy {
   
 }

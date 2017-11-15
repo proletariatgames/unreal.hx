@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum used to define what container type a pin represents.
 **/
-@:glueCppIncludes("EdGraph/EdGraphNode.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphNode.h")
 @:uname("EPinContainerType")
 @:class @:uextern @:uenum extern enum EPinContainerType {
   None;

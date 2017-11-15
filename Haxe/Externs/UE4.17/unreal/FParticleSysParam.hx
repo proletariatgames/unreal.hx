@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct used for a particular named instance parameter for this ParticleSystemComponent.
 **/
-@:glueCppIncludes("Particles/ParticleSystemComponent.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystemComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleSysParam {
   @:uproperty public var Material : unreal.UMaterialInterface;
   @:uproperty public var Actor : unreal.AActor;

@@ -18,7 +18,7 @@ package unreal.editor;
   Enum to indicate what to import CSV as
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/CSVImportFactory.h")
+@:glueCppIncludes("Classes/Factories/CSVImportFactory.h")
 @:uname("ECSVImportType")
 @:class @:uextern @:uenum extern enum ECSVImportType {
   

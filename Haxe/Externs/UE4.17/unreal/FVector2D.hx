@@ -20,7 +20,7 @@ package unreal;
   A point or direction FVector in 2d space.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\Vector2D.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVector2D {
   
 }

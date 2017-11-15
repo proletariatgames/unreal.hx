@@ -18,7 +18,7 @@ package unreal.oculushmd;
   When player returns within outer bounds
   
 **/
-@:glueCppIncludes("OculusBoundaryComponent.h")
+@:glueCppIncludes("Public/OculusBoundaryComponent.h")
 @:umodule("OculusHMD")
 @:uname("UOculusBoundaryComponent.FOculusOuterBoundaryReturnedEvent")
 typedef FOculusOuterBoundaryReturnedEvent = unreal.DynamicMulticastDelegate<FOculusOuterBoundaryReturnedEvent, Void->Void>;

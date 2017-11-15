@@ -17,7 +17,7 @@ package unreal;
 /**
   The Side to use when scaling the UI.
 **/
-@:glueCppIncludes("Engine/UserInterfaceSettings.h")
+@:glueCppIncludes("Classes/Engine/UserInterfaceSettings.h")
 @:uname("EUIScalingRule")
 @:class @:uextern @:uenum extern enum EUIScalingRule {
   

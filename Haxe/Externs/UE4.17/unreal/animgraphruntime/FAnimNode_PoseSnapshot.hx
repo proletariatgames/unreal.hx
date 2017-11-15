@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Provide a snapshot pose, either from the internal named pose cache or via a supplied snapshot
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseSnapshot.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseSnapshot.h")
 @:uextern @:ustruct extern class FAnimNode_PoseSnapshot extends unreal.FAnimNode_Base {
   
   /**

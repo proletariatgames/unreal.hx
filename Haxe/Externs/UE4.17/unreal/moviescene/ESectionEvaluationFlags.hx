@@ -18,7 +18,7 @@ package unreal.moviescene;
   Enumeration specifying how to evaluate a particular section when inside a segment
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSegment.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSegment.h")
 @:uname("ESectionEvaluationFlags")
 @:class @:uextern @:uenum extern enum ESectionEvaluationFlags {
   

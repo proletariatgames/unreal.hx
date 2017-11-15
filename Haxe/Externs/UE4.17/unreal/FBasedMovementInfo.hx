@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct to hold information about the "base" object the character is standing on.
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBasedMovementInfo {
   
   /**

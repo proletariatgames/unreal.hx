@@ -40,7 +40,7 @@ package unreal.levelsequence;
     @return Level sequence, or nullptr if not assigned or if it cannot be loaded.
     @see SetSequence
   **/
-  @:ufunction @:thisConst @:final public function GetSequence(bLoad : Bool = false, bInitializePlayer : Bool = false) : unreal.levelsequence.ULevelSequence;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSequence(bLoad : Bool = false, bInitializePlayer : Bool = false) : unreal.levelsequence.ULevelSequence;
   
   /**
     Set the level sequence being played by this actor.
@@ -48,39 +48,39 @@ package unreal.levelsequence;
     @param InSequence The sequence object to set.
     @see GetSequence
   **/
-  @:ufunction @:final public function SetSequence(InSequence : unreal.levelsequence.ULevelSequence) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSequence(InSequence : unreal.levelsequence.ULevelSequence) : Void;
   
   /**
     Set an array of additional actors that will receive events triggerd from this sequence actor
     
     @param AdditionalReceivers An array of actors to receive events
   **/
-  @:ufunction @:final public function SetEventReceivers(AdditionalReceivers : unreal.TArray<unreal.AActor>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEventReceivers(AdditionalReceivers : unreal.TArray<unreal.AActor>) : Void;
   
   /**
     Overrides the specified binding with the specified actors, optionally still allowing the bindings defined in the Level Sequence asset
   **/
-  @:ufunction @:final public function SetBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, bAllowBindingsFromAsset : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, bAllowBindingsFromAsset : Bool = false) : Void;
   
   /**
     Adds the specified actor to the overridden bindings for the specified binding ID, optionally still allowing the bindings defined in the Level Sequence asset
   **/
-  @:ufunction @:final public function AddBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actor : unreal.AActor, bAllowBindingsFromAsset : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actor : unreal.AActor, bAllowBindingsFromAsset : Bool = false) : Void;
   
   /**
     Removes the specified actor from the specified binding's actor array
   **/
-  @:ufunction @:final public function RemoveBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actor : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID, Actor : unreal.AActor) : Void;
   
   /**
     Resets the specified binding back to the defaults defined by the Level Sequence asset
   **/
-  @:ufunction @:final public function ResetBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResetBinding(Binding : unreal.moviescene.FMovieSceneObjectBindingID) : Void;
   
   /**
     Resets all overridden bindings back to the defaults defined by the Level Sequence asset
   **/
-  @:ufunction @:final public function ResetBindings() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResetBindings() : Void;
   // MovieSceneBindingOwnerInterface interface implementation
   
 }

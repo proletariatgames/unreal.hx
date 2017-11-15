@@ -18,7 +18,7 @@ package unreal.moviescene;
   Sub sequence data that is stored within an evaluation template as a backreference to the originating sequence, and section
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSequenceHierarchy.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSequenceHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSubSequenceData {
   #if WITH_EDITORONLY_DATA
   

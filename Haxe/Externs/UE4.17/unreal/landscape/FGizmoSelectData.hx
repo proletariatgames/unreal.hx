@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeGizmoActiveActor.h")
+@:glueCppIncludes("Classes/LandscapeGizmoActiveActor.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGizmoSelectData {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var HeightData : unreal.Float32;

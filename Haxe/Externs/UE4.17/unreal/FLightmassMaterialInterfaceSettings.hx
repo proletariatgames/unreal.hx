@@ -17,7 +17,7 @@ package unreal;
 /**
   UMaterial interface settings for Lightmass
 **/
-@:glueCppIncludes("Materials/MaterialInterface.h")
+@:glueCppIncludes("Classes/Materials/MaterialInterface.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassMaterialInterfaceSettings {
   
   /**

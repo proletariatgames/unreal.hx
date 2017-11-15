@@ -18,7 +18,7 @@ package unreal.landscape;
   Stores information about which weightmap texture and channel each layer is stored
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeComponent.h")
+@:glueCppIncludes("Classes/LandscapeComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FWeightmapLayerAllocationInfo {
   @:uproperty public var WeightmapTextureChannel : unreal.UInt8;
   @:uproperty public var WeightmapTextureIndex : unreal.UInt8;

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Constraint setup struct, holds data required to build a physics constraint
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_AnimDynamics.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimPhysConstraintSetup {
   
   /**

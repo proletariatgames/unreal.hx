@@ -17,7 +17,7 @@ package unreal;
 /**
   A ViewTarget is the primary actor the camera is associated with.
 **/
-@:glueCppIncludes("Camera/PlayerCameraManager.h")
+@:glueCppIncludes("Classes/Camera/PlayerCameraManager.h")
 @:uextern @:ustruct extern class FTViewTarget {
   
   /**

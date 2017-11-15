@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Attenuation.h")
+@:glueCppIncludes("Classes/Engine/Attenuation.h")
 @:uname("EAttenuationDistanceModel")
 @:class @:uextern @:uenum extern enum EAttenuationDistanceModel {
   Linear;

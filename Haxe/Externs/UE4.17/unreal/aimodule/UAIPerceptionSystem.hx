@@ -22,10 +22,10 @@ package unreal.aimodule;
 @:uextern @:uclass extern class UAIPerceptionSystem extends unreal.UObject {
   @:uproperty private var PerceptionAgingRate : unreal.Float32;
   @:uproperty private var Senses : unreal.TArray<unreal.aimodule.UAISense>;
-  @:ufunction @:final public function ReportEvent(PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
-  @:ufunction static public function ReportPerceptionEvent(WorldContextObject : unreal.UObject, PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
-  @:ufunction static public function RegisterPerceptionStimuliSource(WorldContextObject : unreal.UObject, Sense : unreal.TSubclassOf<unreal.aimodule.UAISense>, Target : unreal.AActor) : Bool;
-  @:ufunction static public function GetSenseClassForStimulus(WorldContextObject : unreal.UObject, Stimulus : unreal.Const<unreal.PRef<unreal.aimodule.FAIStimulus>>) : unreal.TSubclassOf<unreal.aimodule.UAISense>;
+  @:ufunction(BlueprintCallable) @:final public function ReportEvent(PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
+  @:ufunction(BlueprintCallable) static public function ReportPerceptionEvent(WorldContextObject : unreal.UObject, PerceptionEvent : unreal.aimodule.UAISenseEvent) : Void;
+  @:ufunction(BlueprintCallable) static public function RegisterPerceptionStimuliSource(WorldContextObject : unreal.UObject, Sense : unreal.TSubclassOf<unreal.aimodule.UAISense>, Target : unreal.AActor) : Bool;
+  @:ufunction(BlueprintCallable) static public function GetSenseClassForStimulus(WorldContextObject : unreal.UObject, Stimulus : unreal.Const<unreal.PRef<unreal.aimodule.FAIStimulus>>) : unreal.TSubclassOf<unreal.aimodule.UAISense>;
   @:ufunction @:final private function OnPerceptionStimuliSourceEndPlay(Actor : unreal.AActor, EndPlayReason : unreal.EEndPlayReason) : Void;
   
 }

@@ -24,6 +24,6 @@ package unreal.steamvrcontroller;
     
     @param  NewMapping   Defines the set of input events you want associated with the four directional touchpad buttons.
   **/
-  @:ufunction static public function SetTouchDPadMapping(@:opt("FaceButtons") NewMapping : unreal.steamvrcontroller.ESteamVRTouchDPadMapping) : Void;
+  @:ufunction(BlueprintCallable) static public function SetTouchDPadMapping(@:opt("FaceButtons") NewMapping : unreal.steamvrcontroller.ESteamVRTouchDPadMapping) : Void;
   
 }

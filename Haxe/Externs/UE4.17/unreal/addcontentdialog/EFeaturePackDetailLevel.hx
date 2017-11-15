@@ -18,7 +18,7 @@ package unreal.addcontentdialog;
   Defines categories for shared template resource levels.
 **/
 @:umodule("AddContentDialog")
-@:glueCppIncludes("FeaturePackContentSource.h")
+@:glueCppIncludes("Public/FeaturePackContentSource.h")
 @:uname("EFeaturePackDetailLevel")
 @:class @:uextern @:uenum extern enum EFeaturePackDetailLevel {
   Standard;

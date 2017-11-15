@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNode_ApplyMeshSpaceAdditive.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_ApplyMeshSpaceAdditive.h")
 @:uextern @:ustruct extern class FAnimNode_ApplyMeshSpaceAdditive extends unreal.FAnimNode_Base {
   @:uproperty public var ActualAlpha : unreal.Float32;
   

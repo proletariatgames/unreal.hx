@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavLinkDefinition.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavLinkDefinition.h")
 @:uname("ENavLinkDirection.Type")
 @:uextern @:uenum extern enum ENavLinkDirection {
   BothWays;

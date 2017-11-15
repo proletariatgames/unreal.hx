@@ -18,7 +18,7 @@ package unreal.moviescene;
   Keyable struct that represents a particular entity within an evaluation template (either a section/template or a track)
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationKey.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationKey.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationKey {
   
 }

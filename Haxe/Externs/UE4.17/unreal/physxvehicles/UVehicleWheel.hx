@@ -192,9 +192,9 @@ package unreal.physxvehicles;
     (if empty, sphere will be added as wheel shape, check bDontCreateShape flag)
   **/
   @:uproperty public var CollisionMesh : unreal.UStaticMesh;
-  @:ufunction @:thisConst @:final public function GetSteerAngle() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function GetRotationAngle() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function GetSuspensionOffset() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function IsInAir() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSteerAngle() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetRotationAngle() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSuspensionOffset() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsInAir() : Bool;
   
 }

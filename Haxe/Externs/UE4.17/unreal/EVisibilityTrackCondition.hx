@@ -17,7 +17,7 @@ package unreal;
 /**
   Required condition for firing this event
 **/
-@:glueCppIncludes("Matinee/InterpTrackVisibility.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackVisibility.h")
 @:uname("EVisibilityTrackCondition")
 @:uextern @:uenum extern enum EVisibilityTrackCondition {
   

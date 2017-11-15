@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_BlendBoneByChannel.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_BlendBoneByChannel.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlendBoneByChannelEntry {
   
   /**

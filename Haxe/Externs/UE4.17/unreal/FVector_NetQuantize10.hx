@@ -21,7 +21,7 @@ package unreal;
   Up to 24 bits per component.
   Valid range: 2^24 / 10 = +/- 1,677,721.6
 **/
-@:glueCppIncludes("Engine/NetSerialization.h")
+@:glueCppIncludes("Classes/Engine/NetSerialization.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVector_NetQuantize10 extends unreal.FVector {
   
 }

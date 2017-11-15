@@ -21,7 +21,7 @@ package unreal;
   @see FDebugDisplayProperty
   @see DrawStatsHUD
 **/
-@:glueCppIncludes("Engine/DebugDisplayProperty.h")
+@:glueCppIncludes("Classes/Engine/DebugDisplayProperty.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDebugDisplayProperty {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   information used in font rendering
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFontRenderInfo {
   
   /**

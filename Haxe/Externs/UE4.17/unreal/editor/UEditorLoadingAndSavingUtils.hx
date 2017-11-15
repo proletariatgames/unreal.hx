@@ -25,14 +25,14 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("FileHelpers.h")
 @:noClass @:uextern @:uclass extern class UEditorLoadingAndSavingUtils extends unreal.UObject {
-  @:ufunction static public function NewBlankMap(bSaveExistingMap : Bool) : unreal.UWorld;
-  @:ufunction static public function NewMapFromTemplate(PathToTemplateLevel : unreal.FString, bSaveExistingMap : Bool) : unreal.UWorld;
+  @:ufunction(BlueprintCallable) static public function NewBlankMap(bSaveExistingMap : Bool) : unreal.UWorld;
+  @:ufunction(BlueprintCallable) static public function NewMapFromTemplate(PathToTemplateLevel : unreal.FString, bSaveExistingMap : Bool) : unreal.UWorld;
   
   /**
     Prompts the user to save the current map if necessary, the presents a load dialog and
     loads a new map if selected by the user.
   **/
-  @:ufunction static public function LoadMapWithDialog() : unreal.UWorld;
+  @:ufunction(BlueprintCallable) static public function LoadMapWithDialog() : unreal.UWorld;
   
   /**
     Loads the specified map.  Does not prompt the user to save the current map.
@@ -40,7 +40,7 @@ package unreal.editor;
     @param       Filename                Level package filename, including path.
     @return                                      true if the map was loaded successfully.
   **/
-  @:ufunction static public function LoadMap(Filename : unreal.FString) : unreal.UWorld;
+  @:ufunction(BlueprintCallable) static public function LoadMap(Filename : unreal.FString) : unreal.UWorld;
   
   /**
     Saves the specified map, returning true on success.
@@ -50,7 +50,7 @@ package unreal.editor;
     
     @return                                      true if the map was saved successfully.
   **/
-  @:ufunction static public function SaveMap(World : unreal.UWorld, AssetPath : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function SaveMap(World : unreal.UWorld, AssetPath : unreal.FString) : Bool;
   
   /**
     Looks at all currently loaded packages and saves them if their "bDirty" flag is set, optionally prompting the user to select which packages to save)
@@ -60,37 +60,37 @@ package unreal.editor;
     @param       bPromptUserToSave                       true if we should prompt the user to save dirty packages we found and check them out from source control(if enabled). False to assume all dirty packages should be saved and checked out
     @return                                                              true on success, false on fail.
   **/
-  @:ufunction static public function SaveDirtyPackages(bSaveMapPackages : Bool, bSaveContentPackages : Bool, bPromptUser : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function SaveDirtyPackages(bSaveMapPackages : Bool, bSaveContentPackages : Bool, bPromptUser : Bool) : Bool;
   
   /**
     Saves the active level, prompting the use for checkout if necessary.
     
     @return      true on success, False on fail
   **/
-  @:ufunction static public function SaveCurrentLevel() : Bool;
+  @:ufunction(BlueprintCallable) static public function SaveCurrentLevel() : Bool;
   
   /**
     Appends array with all currently dirty map packages.
     
     @param OutDirtyPackages Array to append dirty packages to.
   **/
-  @:ufunction static public function GetDirtyMapPackages(OutDirtyPackages : unreal.PRef<unreal.TArray<unreal.UPackage>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetDirtyMapPackages(OutDirtyPackages : unreal.PRef<unreal.TArray<unreal.UPackage>>) : Void;
   
   /**
     Appends array with all currently dirty content packages.
     
     @param OutDirtyPackages Array to append dirty packages to.
   **/
-  @:ufunction static public function GetDirtyContentPackages(OutDirtyPackages : unreal.PRef<unreal.TArray<unreal.UPackage>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetDirtyContentPackages(OutDirtyPackages : unreal.PRef<unreal.TArray<unreal.UPackage>>) : Void;
   
   /**
     Imports a file such as (FBX or obj) and spawns actors f into the current level
   **/
-  @:ufunction static public function ImportScene(Filename : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) static public function ImportScene(Filename : unreal.FString) : Void;
   
   /**
     Exports the current scene
   **/
-  @:ufunction static public function ExportScene(bExportSelectedActorsOnly : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function ExportScene(bExportSelectedActorsOnly : Bool) : Void;
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal.steamvr;
 
-@:glueCppIncludes("SteamVRChaperoneComponent.h")
+@:glueCppIncludes("Classes/SteamVRChaperoneComponent.h")
 @:umodule("SteamVR")
 @:uname("USteamVRChaperoneComponent.FSteamVRChaperoneEvent")
 typedef FSteamVRChaperoneEvent = unreal.DynamicMulticastDelegate<FSteamVRChaperoneEvent, Void->Void>;

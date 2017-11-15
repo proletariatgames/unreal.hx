@@ -19,6 +19,6 @@ package unreal;
   @param Output
   
 **/
-@:glueCppIncludes("Components/TimelineComponent.h")
+@:glueCppIncludes("Classes/Components/TimelineComponent.h")
 @:uParamName("Output")
 typedef FOnTimelineLinearColor = unreal.DynamicDelegate<FOnTimelineLinearColor, unreal.FLinearColor->Void>;

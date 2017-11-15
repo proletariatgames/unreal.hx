@@ -17,7 +17,7 @@ package unreal;
 /**
   Data about a single point in a projectile path trace.
 **/
-@:glueCppIncludes("Kismet/GameplayStaticsTypes.h")
+@:glueCppIncludes("Classes/Kismet/GameplayStaticsTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPredictProjectilePathPointData {
   
   /**

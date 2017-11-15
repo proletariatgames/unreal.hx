@@ -17,7 +17,7 @@ package unreal;
 /**
   Movement modes for Characters.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EMovementMode")
 @:uextern @:uenum extern enum EMovementMode {
   

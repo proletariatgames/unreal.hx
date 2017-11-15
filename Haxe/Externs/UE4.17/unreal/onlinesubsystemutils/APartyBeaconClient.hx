@@ -26,26 +26,26 @@ package unreal.onlinesubsystemutils;
     
     @param ReservationResponse response from server
   **/
-  @:ufunction public function ClientReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
+  @:ufunction(Client) public function ClientReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
   
   /**
     Response from the host session after making a cancellation request
     
     @param ReservationResponse response from server
   **/
-  @:ufunction public function ClientCancelReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
+  @:ufunction(Client) public function ClientCancelReservationResponse(ReservationResponse : unreal.onlinesubsystemutils.EPartyReservationResult) : Void;
   
   /**
     Response from the host session that the reservation count has changed
     
     @param NumRemainingReservations number of slots remaining until a full session
   **/
-  @:ufunction public function ClientSendReservationUpdates(NumRemainingReservations : unreal.Int32) : Void;
+  @:ufunction(Client) public function ClientSendReservationUpdates(NumRemainingReservations : unreal.Int32) : Void;
   
   /**
     Response from the host session that the reservation is full
   **/
-  @:ufunction public function ClientSendReservationFull() : Void;
+  @:ufunction(Client) public function ClientSendReservationFull() : Void;
   
   /**
     Type of request currently being handled by this client beacon
@@ -68,7 +68,7 @@ package unreal.onlinesubsystemutils;
     @param SessionId expected session id on the other end (must match)
     @param Reservation pending reservation request to make with server
   **/
-  @:ufunction private function ServerReservationRequest(SessionId : unreal.FString, Reservation : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FPartyReservation>>) : Void;
+  @:ufunction(Server) private function ServerReservationRequest(SessionId : unreal.FString, Reservation : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FPartyReservation>>) : Void;
   
   /**
     Tell the server about the reservation update request being made
@@ -76,13 +76,13 @@ package unreal.onlinesubsystemutils;
     @param SessionId expected session id on the other end (must match)
     @param ReservationUpdate pending reservation request to make with server
   **/
-  @:ufunction private function ServerUpdateReservationRequest(SessionId : unreal.FString, ReservationUpdate : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FPartyReservation>>) : Void;
+  @:ufunction(Server) private function ServerUpdateReservationRequest(SessionId : unreal.FString, ReservationUpdate : unreal.Const<unreal.PRef<unreal.onlinesubsystemutils.FPartyReservation>>) : Void;
   
   /**
     Tell the server to cancel a pending or existing reservation
     
     @param PartyLeader id of the party leader for the reservation to cancel
   **/
-  @:ufunction private function ServerCancelReservationRequest(PartyLeader : unreal.Const<unreal.PRef<unreal.FUniqueNetIdRepl>>) : Void;
+  @:ufunction(Server) private function ServerCancelReservationRequest(PartyLeader : unreal.Const<unreal.PRef<unreal.FUniqueNetIdRepl>>) : Void;
   
 }

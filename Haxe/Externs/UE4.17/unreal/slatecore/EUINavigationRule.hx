@@ -15,7 +15,7 @@
 package unreal.slatecore;
 
 @:umodule("SlateCore")
-@:glueCppIncludes("Input/NavigationReply.h")
+@:glueCppIncludes("Public/Input/NavigationReply.h")
 @:uname("EUINavigationRule")
 @:class @:uextern @:uenum extern enum EUINavigationRule {
   

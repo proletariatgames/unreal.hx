@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Runtime foot data after validation, we guarantee these bones to exist
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_LegIK.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimLegIKData {
   
 }

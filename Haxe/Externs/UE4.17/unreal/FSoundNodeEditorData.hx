@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundCue.h")
+@:glueCppIncludes("Classes/Sound/SoundCue.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSoundNodeEditorData {
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataBeam2.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataBeam2.h")
 @:uname("EBeam2Method")
 @:uextern @:uenum extern enum EBeam2Method {
   

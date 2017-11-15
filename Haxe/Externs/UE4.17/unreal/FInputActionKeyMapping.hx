@@ -19,7 +19,7 @@ package unreal;
   
   @see https://docs.unrealengine.com/latest/INT/Gameplay/Input/index.html
 **/
-@:glueCppIncludes("GameFramework/PlayerInput.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerInput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInputActionKeyMapping {
   
   /**

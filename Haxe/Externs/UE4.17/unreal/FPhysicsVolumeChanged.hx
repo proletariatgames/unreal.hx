@@ -18,6 +18,6 @@ package unreal;
   @param NewVolume
   
 **/
-@:glueCppIncludes("Components/SceneComponent.h")
+@:glueCppIncludes("Classes/Components/SceneComponent.h")
 @:uParamName("NewVolume")
 typedef FPhysicsVolumeChanged = unreal.DynamicMulticastDelegate<FPhysicsVolumeChanged, unreal.APhysicsVolume->Void>;

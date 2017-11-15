@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates modes for the viewport's rotation grid.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uname("ERotationGridMode")
 @:uextern @:uenum extern enum ERotationGridMode {
   

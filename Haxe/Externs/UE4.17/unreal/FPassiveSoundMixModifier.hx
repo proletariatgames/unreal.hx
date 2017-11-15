@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure containing information on a SoundMix to activate passively.
 **/
-@:glueCppIncludes("Sound/SoundClass.h")
+@:glueCppIncludes("Classes/Sound/SoundClass.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPassiveSoundMixModifier {
   
   /**

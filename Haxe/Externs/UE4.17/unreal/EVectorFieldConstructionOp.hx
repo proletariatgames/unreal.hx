@@ -17,7 +17,7 @@ package unreal;
 /**
   Operation used to construct the vector field from a 2D texture.
 **/
-@:glueCppIncludes("VectorField/VectorFieldAnimated.h")
+@:glueCppIncludes("Classes/VectorField/VectorFieldAnimated.h")
 @:uname("EVectorFieldConstructionOp")
 @:uextern @:uenum extern enum EVectorFieldConstructionOp {
   

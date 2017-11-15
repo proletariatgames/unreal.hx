@@ -18,7 +18,7 @@ package unreal.moviescene;
   Structure for labels that can be assigned to movie scene tracks.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieScene.h")
+@:glueCppIncludes("Public/MovieScene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackLabels {
   @:uproperty public var Strings : unreal.TArray<unreal.FString>;
   

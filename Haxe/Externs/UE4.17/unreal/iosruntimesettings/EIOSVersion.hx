@@ -15,7 +15,7 @@
 package unreal.iosruntimesettings;
 
 @:umodule("IOSRuntimeSettings")
-@:glueCppIncludes("IOSRuntimeSettings.h")
+@:glueCppIncludes("Classes/IOSRuntimeSettings.h")
 @:uname("EIOSVersion")
 @:class @:uextern @:uenum extern enum EIOSVersion {
   

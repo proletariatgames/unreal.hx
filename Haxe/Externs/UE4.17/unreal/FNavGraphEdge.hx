@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavigationGraph.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationGraph.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNavGraphEdge {
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   Implements a curve of FNames.
 **/
-@:glueCppIncludes("Curves/NameCurve.h")
+@:glueCppIncludes("Classes/Curves/NameCurve.h")
 @:uextern @:ustruct extern class FNameCurve extends unreal.FIndexedCurve {
   
   /**

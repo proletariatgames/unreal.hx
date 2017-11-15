@@ -18,7 +18,7 @@ package unreal.automationcontroller;
   Enumeration of unit test status for special dialog
 **/
 @:umodule("AutomationController")
-@:glueCppIncludes("Interfaces/IAutomationReport.h")
+@:glueCppIncludes("Public/Interfaces/IAutomationReport.h")
 @:uname("EAutomationState")
 @:class @:uextern @:uenum extern enum EAutomationState {
   NotRun;

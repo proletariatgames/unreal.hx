@@ -37,27 +37,27 @@ package unreal;
   /**
     called when agent reaches smart link during path following, use ResumePathFollowing() to give control back
   **/
-  @:ufunction public function ReceiveSmartLinkReached(Agent : unreal.AActor, Destination : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveSmartLinkReached(Agent : unreal.AActor, Destination : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     resume normal path following
   **/
-  @:ufunction @:final public function ResumePathFollowing(Agent : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResumePathFollowing(Agent : unreal.AActor) : Void;
   
   /**
     check if smart link is enabled
   **/
-  @:ufunction @:thisConst @:final public function IsSmartLinkEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsSmartLinkEnabled() : Bool;
   
   /**
     change state of smart link
   **/
-  @:ufunction @:final public function SetSmartLinkEnabled(bEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSmartLinkEnabled(bEnabled : Bool) : Void;
   
   /**
     check if any agent is moving through smart link right now
   **/
-  @:ufunction @:thisConst @:final public function HasMovingAgents() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasMovingAgents() : Bool;
   // NavLinkHostInterface interface implementation
   // NavRelevantInterface interface implementation
   

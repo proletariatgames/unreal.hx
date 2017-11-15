@@ -15,7 +15,7 @@
 package unreal.landscapeeditor;
 
 @:umodule("LandscapeEditor")
-@:glueCppIncludes("LandscapeEditorObject.h")
+@:glueCppIncludes("Public/LandscapeEditorObject.h")
 @:uname("ELandscapeToolFlattenMode.Type")
 @:uextern @:uenum extern enum ELandscapeToolFlattenMode {
   

@@ -17,7 +17,7 @@ package unreal;
 /**
   Font character set type for importing TrueType fonts.
 **/
-@:glueCppIncludes("Engine/FontImportOptions.h")
+@:glueCppIncludes("Classes/Engine/FontImportOptions.h")
 @:uname("EFontImportCharacterSet")
 @:uextern @:uenum extern enum EFontImportCharacterSet {
   FontICS_Default;

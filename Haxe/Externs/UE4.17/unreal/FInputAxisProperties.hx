@@ -17,7 +17,7 @@ package unreal;
 /**
   Configurable properties for control axes, used to transform raw input into game ready values.
 **/
-@:glueCppIncludes("GameFramework/PlayerInput.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerInput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInputAxisProperties {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.levelsequence;
 
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceActor.h")
+@:glueCppIncludes("Public/LevelSequenceActor.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBoundActorProxy {
   #if WITH_EDITORONLY_DATA
   

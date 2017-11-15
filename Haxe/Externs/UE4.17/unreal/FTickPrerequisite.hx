@@ -17,7 +17,7 @@ package unreal;
 /**
   This is small structure to hold prerequisite tick functions
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTickPrerequisite {
   
 }

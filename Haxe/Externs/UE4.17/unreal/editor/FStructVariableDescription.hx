@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("UserDefinedStructure/UserDefinedStructEditorData.h")
+@:glueCppIncludes("Classes/UserDefinedStructure/UserDefinedStructEditorData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStructVariableDescription {
   @:uproperty public var ToolTip : unreal.FString;
   

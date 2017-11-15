@@ -18,6 +18,6 @@ package unreal;
   @param Component
   
 **/
-@:glueCppIncludes("Components/ActorComponent.h")
+@:glueCppIncludes("Classes/Components/ActorComponent.h")
 @:uParamName("Component")
 typedef FActorComponentDeactivateSignature = unreal.DynamicMulticastDelegate<FActorComponentDeactivateSignature, unreal.UActorComponent->Void>;

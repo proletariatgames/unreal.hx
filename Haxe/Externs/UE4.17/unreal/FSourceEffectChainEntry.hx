@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundEffectSource.h")
+@:glueCppIncludes("Classes/Sound/SoundEffectSource.h")
 @:uextern @:ustruct extern class FSourceEffectChainEntry {
   @:uproperty public var bBypass : Bool;
   @:uproperty public var Preset : unreal.USoundEffectSourcePreset;

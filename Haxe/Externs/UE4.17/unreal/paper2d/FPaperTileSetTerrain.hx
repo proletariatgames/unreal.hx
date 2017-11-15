@@ -18,7 +18,7 @@ package unreal.paper2d;
   Information about a terrain type
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperTileSet.h")
+@:glueCppIncludes("Classes/PaperTileSet.h")
 @:uextern @:ustruct extern class FPaperTileSetTerrain {
   @:uproperty public var CenterTileIndex : unreal.Int32;
   @:uproperty public var TerrainName : unreal.FString;

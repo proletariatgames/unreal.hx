@@ -197,17 +197,17 @@ package unreal;
   /**
     Change the StaticMesh used by this instance.
   **/
-  @:ufunction public function SetStaticMesh(NewMesh : unreal.UStaticMesh) : Bool;
-  @:ufunction @:final public function SetForcedLodModel(NewForcedLodModel : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetStaticMesh(NewMesh : unreal.UStaticMesh) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetForcedLodModel(NewForcedLodModel : unreal.Int32) : Void;
   
   /**
     Sets the component's DistanceFieldSelfShadowBias.  bOverrideDistanceFieldSelfShadowBias must be enabled for this to have an effect.
   **/
-  @:ufunction @:final public function SetDistanceFieldSelfShadowBias(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDistanceFieldSelfShadowBias(NewValue : unreal.Float32) : Void;
   
   /**
     Get Local bounds
   **/
-  @:ufunction @:thisConst @:final public function GetLocalBounds(Min : unreal.PRef<unreal.FVector>, Max : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLocalBounds(Min : unreal.PRef<unreal.FVector>, Max : unreal.PRef<unreal.FVector>) : Void;
   
 }

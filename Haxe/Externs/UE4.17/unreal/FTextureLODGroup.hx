@@ -17,7 +17,7 @@ package unreal;
 /**
   LOD settings for a single texture group.
 **/
-@:glueCppIncludes("Engine/TextureLODSettings.h")
+@:glueCppIncludes("Classes/Engine/TextureLODSettings.h")
 @:uextern @:ustruct extern class FTextureLODGroup {
   @:uproperty public var MipFilter : unreal.FName;
   @:uproperty public var MinMagFilter : unreal.FName;

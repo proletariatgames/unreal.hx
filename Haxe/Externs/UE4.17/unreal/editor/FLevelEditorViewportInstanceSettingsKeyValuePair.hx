@@ -18,7 +18,7 @@ package unreal.editor;
   Implements a key -> value pair for the per-instance view port settings
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uextern @:ustruct extern class FLevelEditorViewportInstanceSettingsKeyValuePair {
   
   /**

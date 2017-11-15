@@ -18,7 +18,7 @@ package unreal.moviescene;
   Movie scene blend type enumeration
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/Blending/MovieSceneBlendType.h")
+@:glueCppIncludes("Public/Evaluation/Blending/MovieSceneBlendType.h")
 @:uname("EMovieSceneBlendType")
 @:class @:uextern @:uenum extern enum EMovieSceneBlendType {
   

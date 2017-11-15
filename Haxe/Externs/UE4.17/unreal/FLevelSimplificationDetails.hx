@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Classes/Engine/Level.h")
 @:uextern @:ustruct extern class FLevelSimplificationDetails {
   @:deprecated @:uproperty public var bGenerateLandscapeSpecularMap_DEPRECATED : Bool;
   @:deprecated @:uproperty public var bGenerateLandscapeRoughnessMap_DEPRECATED : Bool;

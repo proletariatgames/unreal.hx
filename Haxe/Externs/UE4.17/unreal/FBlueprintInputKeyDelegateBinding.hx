@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/InputKeyDelegateBinding.h")
+@:glueCppIncludes("Classes/Engine/InputKeyDelegateBinding.h")
 @:uextern @:ustruct extern class FBlueprintInputKeyDelegateBinding extends unreal.FBlueprintInputDelegateBinding {
   @:uproperty public var FunctionNameToBind : unreal.FName;
   @:uproperty public var InputKeyEvent : unreal.EInputEvent;

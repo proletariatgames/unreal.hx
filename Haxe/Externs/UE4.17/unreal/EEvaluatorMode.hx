@@ -17,7 +17,7 @@ package unreal;
 /**
   Determines the behavior this node will use when updating and evaluating.
 **/
-@:glueCppIncludes("Animation/AnimNode_TransitionPoseEvaluator.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_TransitionPoseEvaluator.h")
 @:uname("EEvaluatorMode.Mode")
 @:uextern @:uenum extern enum EEvaluatorMode {
   

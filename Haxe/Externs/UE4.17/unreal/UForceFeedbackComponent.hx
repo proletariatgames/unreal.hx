@@ -64,27 +64,27 @@ package unreal;
   /**
     Set what force feedback effect is played by this component
   **/
-  @:ufunction @:final public function SetForceFeedbackEffect(NewForceFeedbackEffect : unreal.UForceFeedbackEffect) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetForceFeedbackEffect(NewForceFeedbackEffect : unreal.UForceFeedbackEffect) : Void;
   
   /**
     Start a feedback effect playing
   **/
-  @:ufunction public function Play(StartTime : unreal.Float32 = 0.000000) : Void;
+  @:ufunction(BlueprintCallable) public function Play(StartTime : unreal.Float32 = 0.000000) : Void;
   
   /**
     Stop playing the feedback effect
   **/
-  @:ufunction public function Stop() : Void;
+  @:ufunction(BlueprintCallable) public function Stop() : Void;
   
   /**
     Set a new intensity multiplier
   **/
-  @:ufunction @:final public function SetIntensityMultiplier(NewIntensityMultiplier : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIntensityMultiplier(NewIntensityMultiplier : unreal.Float32) : Void;
   
   /**
     Modify the attenuation settings of the component
   **/
-  @:ufunction @:final public function AdjustAttenuation(InAttenuationSettings : unreal.Const<unreal.PRef<unreal.FForceFeedbackAttenuationSettings>>) : Void;
-  @:ufunction @:thisConst @:final public function BP_GetAttenuationSettingsToApply(OutAttenuationSettings : unreal.PRef<unreal.FForceFeedbackAttenuationSettings>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function AdjustAttenuation(InAttenuationSettings : unreal.Const<unreal.PRef<unreal.FForceFeedbackAttenuationSettings>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function BP_GetAttenuationSettingsToApply(OutAttenuationSettings : unreal.PRef<unreal.FForceFeedbackAttenuationSettings>) : Bool;
   
 }

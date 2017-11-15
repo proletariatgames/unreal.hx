@@ -19,7 +19,7 @@ package unreal;
   
   
 **/
-@:glueCppIncludes("Engine/SpringInterpolator.h")
+@:glueCppIncludes("Classes/Engine/SpringInterpolator.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFloatRK4SpringInterpolator {
   
 }

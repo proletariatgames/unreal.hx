@@ -15,7 +15,7 @@
 package unreal.headmounteddisplay;
 
 @:umodule("HeadMountedDisplay")
-@:glueCppIncludes("HeadMountedDisplayTypes.h")
+@:glueCppIncludes("Public/HeadMountedDisplayTypes.h")
 @:uname("EOrientPositionSelector.Type")
 @:uextern @:uenum extern enum EOrientPositionSelector {
   

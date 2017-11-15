@@ -87,19 +87,19 @@ package unreal;
     Indicates where to get the light contribution from.
   **/
   @:uproperty public var SourceType : unreal.ESkyLightSourceType;
-  @:ufunction @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
-  @:ufunction @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVolumetricScatteringIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricScatteringIntensity(NewIntensity : unreal.Float32) : Void;
   
   /**
     Set color of the light
   **/
-  @:ufunction @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
   
   /**
     Sets the cubemap used when SourceType is set to SpecifiedCubemap, and causes a skylight update on the next tick.
   **/
-  @:ufunction @:final public function SetCubemap(NewCubemap : unreal.UTextureCube) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCubemap(NewCubemap : unreal.UTextureCube) : Void;
   
   /**
     Creates sky lighting from a blend between two cubemaps, which is only valid when SourceType is set to SpecifiedCubemap.
@@ -107,17 +107,17 @@ package unreal;
     The caller should continue to update the blend until BlendFraction is 0 or 1 to reduce rendering cost.
     The caller is responsible for avoiding pops due to changing the source or destination.
   **/
-  @:ufunction @:final public function SetCubemapBlend(SourceCubemap : unreal.UTextureCube, DestinationCubemap : unreal.UTextureCube, InBlendFraction : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOcclusionTint(InTint : unreal.Const<unreal.PRef<unreal.FColor>>) : Void;
-  @:ufunction @:final public function SetOcclusionContrast(InOcclusionContrast : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOcclusionExponent(InOcclusionExponent : unreal.Float32) : Void;
-  @:ufunction @:final public function SetMinOcclusion(InMinOcclusion : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCubemapBlend(SourceCubemap : unreal.UTextureCube, DestinationCubemap : unreal.UTextureCube, InBlendFraction : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOcclusionTint(InTint : unreal.Const<unreal.PRef<unreal.FColor>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOcclusionContrast(InOcclusionContrast : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOcclusionExponent(InOcclusionExponent : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinOcclusion(InMinOcclusion : unreal.Float32) : Void;
   
   /**
     Recaptures the scene for the skylight.
     This is useful for making sure the sky light is up to date after changing something in the world that it would capture.
     Warning: this is very costly and will definitely cause a hitch.
   **/
-  @:ufunction @:final public function RecaptureSky() : Void;
+  @:ufunction(BlueprintCallable) @:final public function RecaptureSky() : Void;
   
 }

@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneSpawnable.h")
+@:glueCppIncludes("Public/MovieSceneSpawnable.h")
 @:uname("ESpawnOwnership")
 @:class @:uextern @:uenum extern enum ESpawnOwnership {
   

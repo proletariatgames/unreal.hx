@@ -18,7 +18,7 @@ package unreal;
   Represent a current play position in an animation
   based on sync markers
 **/
-@:glueCppIncludes("Animation/AnimationAsset.h")
+@:glueCppIncludes("Classes/Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMarkerSyncAnimPosition {
   
   /**

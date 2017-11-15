@@ -18,7 +18,7 @@ package unreal.moviescene;
   Enumeration to determine how a track should be evaluated
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTrack.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTrack.h")
 @:uname("EEvaluationMethod")
 @:class @:uextern @:uenum extern enum EEvaluationMethod {
   

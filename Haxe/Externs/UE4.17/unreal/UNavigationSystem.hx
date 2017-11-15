@@ -62,51 +62,51 @@ package unreal;
   /**
     Blueprint functions
   **/
-  @:ufunction static public function GetNavigationSystem(WorldContextObject : unreal.UObject) : unreal.UNavigationSystem;
+  @:ufunction(BlueprintCallable) static public function GetNavigationSystem(WorldContextObject : unreal.UObject) : unreal.UNavigationSystem;
   
   /**
     Project a point onto the NavigationData
   **/
-  @:ufunction static public function K2_ProjectPointToNavigation(WorldContextObject : unreal.UObject, Point : unreal.Const<unreal.PRef<unreal.FVector>>, ProjectedLocation : unreal.PRef<unreal.FVector>, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, QueryExtent : unreal.Const<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) static public function K2_ProjectPointToNavigation(WorldContextObject : unreal.UObject, Point : unreal.Const<unreal.PRef<unreal.FVector>>, ProjectedLocation : unreal.PRef<unreal.FVector>, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, QueryExtent : unreal.Const<unreal.FVector>) : Bool;
   
   /**
     Generates a random location reachable from given Origin location.
         @return Return Value represents if the call was successful
   **/
-  @:ufunction static public function K2_GetRandomReachablePointInRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, RandomLocation : unreal.PRef<unreal.FVector>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : Bool;
+  @:ufunction(BlueprintCallable) static public function K2_GetRandomReachablePointInRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, RandomLocation : unreal.PRef<unreal.FVector>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : Bool;
   
   /**
     Generates a random location in navigable space within given radius of Origin.
         @return Return Value represents if the call was successful
   **/
-  @:ufunction static public function K2_GetRandomPointInNavigableRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, RandomLocation : unreal.PRef<unreal.FVector>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : Bool;
+  @:ufunction(BlueprintCallable) static public function K2_GetRandomPointInNavigableRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, RandomLocation : unreal.PRef<unreal.FVector>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : Bool;
   
   /**
     Potentially expensive. Use with caution. Consider using UPathFollowingComponent::GetRemainingPathCost instead
   **/
-  @:ufunction static public function GetPathCost(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathCost : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.ENavigationQueryResult;
+  @:ufunction(BlueprintCallable) static public function GetPathCost(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathCost : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.ENavigationQueryResult;
   
   /**
     Potentially expensive. Use with caution
   **/
-  @:ufunction static public function GetPathLength(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathLength : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.ENavigationQueryResult;
-  @:ufunction static public function IsNavigationBeingBuilt(WorldContextObject : unreal.UObject) : Bool;
-  @:ufunction static public function IsNavigationBeingBuiltOrLocked(WorldContextObject : unreal.UObject) : Bool;
-  @:ufunction static public function SimpleMoveToActor(Controller : unreal.AController, Goal : unreal.Const<unreal.AActor>) : Void;
-  @:ufunction static public function SimpleMoveToLocation(Controller : unreal.AController, Goal : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetPathLength(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathLength : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.ENavigationQueryResult;
+  @:ufunction(BlueprintCallable) static public function IsNavigationBeingBuilt(WorldContextObject : unreal.UObject) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsNavigationBeingBuiltOrLocked(WorldContextObject : unreal.UObject) : Bool;
+  @:ufunction(BlueprintCallable) static public function SimpleMoveToActor(Controller : unreal.AController, Goal : unreal.Const<unreal.AActor>) : Void;
+  @:ufunction(BlueprintCallable) static public function SimpleMoveToLocation(Controller : unreal.AController, Goal : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
   /**
     Finds path instantly, in a FindPath Synchronously.
         @param PathfindingContext could be one of following: NavigationData (like Navmesh actor), Pawn or Controller. This parameter determines parameters of specific pathfinding query
   **/
-  @:ufunction static public function FindPathToLocationSynchronously(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathfindingContext : unreal.AActor, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.UNavigationPath;
+  @:ufunction(BlueprintCallable) static public function FindPathToLocationSynchronously(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, PathEnd : unreal.Const<unreal.PRef<unreal.FVector>>, PathfindingContext : unreal.AActor, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.UNavigationPath;
   
   /**
     Finds path instantly, in a FindPath Synchronously. Main advantage over FindPathToLocationSynchronously is that
         the resulting path will automatically get updated if goal actor moves more than TetherDistance away from last path node
         @param PathfindingContext could be one of following: NavigationData (like Navmesh actor), Pawn or Controller. This parameter determines parameters of specific pathfinding query
   **/
-  @:ufunction static public function FindPathToActorSynchronously(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, GoalActor : unreal.AActor, TetherDistance : unreal.Float32 = 50.000000, PathfindingContext : unreal.AActor, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.UNavigationPath;
+  @:ufunction(BlueprintCallable) static public function FindPathToActorSynchronously(WorldContextObject : unreal.UObject, PathStart : unreal.Const<unreal.PRef<unreal.FVector>>, GoalActor : unreal.AActor, TetherDistance : unreal.Float32 = 50.000000, PathfindingContext : unreal.AActor, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.UNavigationPath;
   
   /**
     Performs navigation raycast on NavigationData appropriate for given Querier.
@@ -114,18 +114,18 @@ package unreal;
         @param HitLocation if line was obstructed this will be set to hit location. Otherwise it contains SegmentEnd
         @return true if line from RayStart to RayEnd was obstructed. Also, true when no navigation data present
   **/
-  @:ufunction static public function NavigationRaycast(WorldContextObject : unreal.UObject, RayStart : unreal.Const<unreal.PRef<unreal.FVector>>, RayEnd : unreal.Const<unreal.PRef<unreal.FVector>>, HitLocation : unreal.PRef<unreal.FVector>, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, Querier : unreal.AController) : Bool;
+  @:ufunction(BlueprintCallable) static public function NavigationRaycast(WorldContextObject : unreal.UObject, RayStart : unreal.Const<unreal.PRef<unreal.FVector>>, RayEnd : unreal.Const<unreal.PRef<unreal.FVector>>, HitLocation : unreal.PRef<unreal.FVector>, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, Querier : unreal.AController) : Bool;
   
   /**
     will limit the number of simultaneously running navmesh tile generation jobs to specified number.
         @param MaxNumberOfJobs gets trimmed to be at least 1. You cannot use this function to pause navmesh generation
   **/
-  @:ufunction @:final public function SetMaxSimultaneousTileGenerationJobsCount(MaxNumberOfJobs : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxSimultaneousTileGenerationJobsCount(MaxNumberOfJobs : unreal.Int32) : Void;
   
   /**
     Brings limit of simultaneous navmesh tile generation jobs back to Project Setting's default value
   **/
-  @:ufunction @:final public function ResetMaxSimultaneousTileGenerationJobsCount() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResetMaxSimultaneousTileGenerationJobsCount() : Void;
   
   /**
     Registers given actor as a "navigation enforcer" which means navigation system will
@@ -133,21 +133,21 @@ package unreal;
         @note: you need NavigationSystem's GenerateNavigationOnlyAroundNavigationInvokers to be set to true
                 to take advantage of this feature
   **/
-  @:ufunction @:final public function RegisterNavigationInvoker(Invoker : unreal.AActor, TileGenerationRadius : unreal.Float32 = 3000.000000, TileRemovalRadius : unreal.Float32 = 5000.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RegisterNavigationInvoker(Invoker : unreal.AActor, TileGenerationRadius : unreal.Float32 = 3000.000000, TileRemovalRadius : unreal.Float32 = 5000.000000) : Void;
   
   /**
     Removes given actor from the list of active navigation enforcers.
         @see RegisterNavigationInvoker for more details
   **/
-  @:ufunction @:final public function UnregisterNavigationInvoker(Invoker : unreal.AActor) : Void;
-  @:ufunction @:final public function SetGeometryGatheringMode(NewMode : unreal.ENavDataGatheringModeConfig) : Void;
+  @:ufunction(BlueprintCallable) @:final public function UnregisterNavigationInvoker(Invoker : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetGeometryGatheringMode(NewMode : unreal.ENavDataGatheringModeConfig) : Void;
   
   /**
     @todo document
   **/
-  @:ufunction @:final public function OnNavigationBoundsUpdated(NavVolume : unreal.ANavMeshBoundsVolume) : Void;
-  @:ufunction static public function ProjectPointToNavigation(WorldContextObject : unreal.UObject, Point : unreal.Const<unreal.PRef<unreal.FVector>>, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, QueryExtent : unreal.Const<unreal.FVector>) : unreal.FVector;
-  @:ufunction static public function GetRandomReachablePointInRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
-  @:ufunction static public function GetRandomPointInNavigableRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function OnNavigationBoundsUpdated(NavVolume : unreal.ANavMeshBoundsVolume) : Void;
+  @:ufunction(BlueprintCallable) static public function ProjectPointToNavigation(WorldContextObject : unreal.UObject, Point : unreal.Const<unreal.PRef<unreal.FVector>>, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>, QueryExtent : unreal.Const<unreal.FVector>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetRandomReachablePointInRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetRandomPointInNavigableRadius(WorldContextObject : unreal.UObject, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, NavData : unreal.ANavigationData, FilterClass : unreal.TSubclassOf<unreal.UNavigationQueryFilter>) : unreal.FVector;
   
 }

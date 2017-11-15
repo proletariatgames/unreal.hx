@@ -18,7 +18,7 @@ package unreal.slatecore;
   Represents the appearance of an inline image used by rich text
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateTypes.h")
+@:glueCppIncludes("Public/Styling/SlateTypes.h")
 @:uextern @:ustruct extern class FInlineTextImageStyle extends unreal.slatecore.FSlateWidgetStyle {
   
   /**

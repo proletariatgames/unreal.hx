@@ -18,7 +18,7 @@ package unreal.hardwaretargeting;
   Enum specifying a graphics preset preference
 **/
 @:umodule("HardwareTargeting")
-@:glueCppIncludes("HardwareTargetingSettings.h")
+@:glueCppIncludes("Public/HardwareTargetingSettings.h")
 @:uname("EGraphicsPreset.Type")
 @:uextern @:uenum extern enum EGraphicsPreset {
   

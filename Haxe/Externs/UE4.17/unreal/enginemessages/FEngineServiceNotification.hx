@@ -18,7 +18,7 @@ package unreal.enginemessages;
   Implements a message that contains a notification or log output.
 **/
 @:umodule("EngineMessages")
-@:glueCppIncludes("EngineServiceMessages.h")
+@:glueCppIncludes("Public/EngineServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEngineServiceNotification {
   
   /**

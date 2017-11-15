@@ -18,7 +18,7 @@ package unreal.materialshaderqualitysettings;
   FMaterialQualityOverrides represents the full set of possible material overrides per quality level.
 **/
 @:umodule("MaterialShaderQualitySettings")
-@:glueCppIncludes("ShaderPlatformQualitySettings.h")
+@:glueCppIncludes("Classes/ShaderPlatformQualitySettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialQualityOverrides {
   @:uproperty public var MobileCSMQuality : unreal.materialshaderqualitysettings.EMobileCSMQuality;
   @:uproperty public var bForceLQReflections : Bool;

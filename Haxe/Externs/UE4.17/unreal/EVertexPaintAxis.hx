@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("MeshVertexPainter/MeshVertexPainter.h")
+@:glueCppIncludes("Classes/MeshVertexPainter/MeshVertexPainter.h")
 @:uname("EVertexPaintAxis")
 @:class @:uextern @:uenum extern enum EVertexPaintAxis {
   X;

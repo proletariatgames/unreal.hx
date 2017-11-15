@@ -19,7 +19,7 @@ package unreal.blutility;
   @param Index
   
 **/
-@:glueCppIncludes("GlobalEditorUtilityBase.h")
+@:glueCppIncludes("Classes/GlobalEditorUtilityBase.h")
 @:uParamName("Asset")
 @:uParamName("Index")
 @:umodule("Blutility")

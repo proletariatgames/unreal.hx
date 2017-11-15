@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Action to target a specific node on graph
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2TargetNode extends unreal.blueprintgraph.FEdGraphSchemaAction_K2NewNode {
   
 }

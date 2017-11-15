@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Enum value to describe how you'd like to maintain offset
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_Constraint.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_Constraint.h")
 @:uname("EConstraintOffsetOption")
 @:class @:uextern @:uenum extern enum EConstraintOffsetOption {
   None;

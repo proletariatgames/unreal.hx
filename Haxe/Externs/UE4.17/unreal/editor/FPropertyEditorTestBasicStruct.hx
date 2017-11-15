@@ -18,7 +18,7 @@ package unreal.editor;
   This structs properties should be pushed out to categories inside its parent category unless it is in an array
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/PropertyEditorTestObject.h")
+@:glueCppIncludes("Classes/Editor/PropertyEditorTestObject.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPropertyEditorTestBasicStruct {
   @:uproperty public var InnerStruct : unreal.editor.FPropertyEditorTestSubStruct;
   @:uproperty public var ObjectPropertyInsideAStruct : unreal.UObject;

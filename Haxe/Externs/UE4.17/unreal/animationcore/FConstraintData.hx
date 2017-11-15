@@ -19,7 +19,7 @@ package unreal.animationcore;
   You can have as many of these per node
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FConstraintData {
   @:uproperty public var CurrentTransform : unreal.FTransform;
   

@@ -18,7 +18,7 @@ package unreal.moviescene;
   Informational meta-data that applies to a given time range
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationMetaData {
   
   /**

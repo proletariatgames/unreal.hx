@@ -16,9 +16,9 @@ package unreal;
 
 @:glueCppIncludes("Sound/AudioVolume.h")
 @:uextern @:uclass extern class AAudioVolume extends unreal.AVolume {
-  @:ufunction @:final public function SetPriority(NewPriority : unreal.Float32) : Void;
-  @:ufunction @:final public function SetEnabled(bNewEnabled : Bool) : Void;
-  @:ufunction @:final public function SetReverbSettings(NewReverbSettings : unreal.Const<unreal.PRef<unreal.FReverbSettings>>) : Void;
-  @:ufunction @:final public function SetInteriorSettings(NewInteriorSettings : unreal.Const<unreal.PRef<unreal.FInteriorSettings>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPriority(NewPriority : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEnabled(bNewEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetReverbSettings(NewReverbSettings : unreal.Const<unreal.PRef<unreal.FReverbSettings>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInteriorSettings(NewInteriorSettings : unreal.Const<unreal.PRef<unreal.FInteriorSettings>>) : Void;
   
 }

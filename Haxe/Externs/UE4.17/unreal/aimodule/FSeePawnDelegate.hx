@@ -18,7 +18,7 @@ package unreal.aimodule;
   @param Pawn
   
 **/
-@:glueCppIncludes("Perception/PawnSensingComponent.h")
+@:glueCppIncludes("Classes/Perception/PawnSensingComponent.h")
 @:uParamName("Pawn")
 @:umodule("AIModule")
 @:uname("UPawnSensingComponent.FSeePawnDelegate")

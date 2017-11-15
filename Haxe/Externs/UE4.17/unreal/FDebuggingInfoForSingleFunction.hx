@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
+@:glueCppIncludes("Classes/Engine/BlueprintGeneratedClass.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDebuggingInfoForSingleFunction {
   
 }

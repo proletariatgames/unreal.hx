@@ -18,7 +18,7 @@ package unreal.unrealedmessages;
   Implements a message that is published by file servers when they're ready to accept connections.
 **/
 @:umodule("UnrealEdMessages")
-@:glueCppIncludes("FileServerMessages.h")
+@:glueCppIncludes("Classes/FileServerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFileServerReady {
   
   /**

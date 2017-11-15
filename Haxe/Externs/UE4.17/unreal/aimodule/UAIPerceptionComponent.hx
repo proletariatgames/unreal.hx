@@ -40,27 +40,27 @@ package unreal.aimodule;
   /**
     Notifies AIPerceptionSystem to update properties for this "stimuli listener"
   **/
-  @:ufunction @:final public function RequestStimuliListenerUpdate() : Void;
+  @:ufunction(BlueprintCallable) @:final public function RequestStimuliListenerUpdate() : Void;
   
   /**
     blueprint interface
   **/
-  @:ufunction @:thisConst @:final public function GetPerceivedHostileActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPerceivedHostileActors(OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     If SenseToUse is none all actors currently perceived in any way will get fetched
   **/
-  @:ufunction @:thisConst @:final public function GetCurrentlyPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCurrentlyPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     If SenseToUse is none all actors ever perceived in any way (and not forgotten yet) will get fetched
   **/
-  @:ufunction @:thisConst @:final public function GetKnownPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
-  @:ufunction @:thisConst @:final public function GetPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetKnownPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPerceivedActors(SenseToUse : unreal.TSubclassOf<unreal.aimodule.UAISense>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Retrieves whatever has been sensed about given actor
   **/
-  @:ufunction @:final public function GetActorsPerception(Actor : unreal.AActor, Info : unreal.PRef<unreal.aimodule.FActorPerceptionBlueprintInfo>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function GetActorsPerception(Actor : unreal.AActor, Info : unreal.PRef<unreal.aimodule.FActorPerceptionBlueprintInfo>) : Bool;
   
 }

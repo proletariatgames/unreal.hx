@@ -15,7 +15,7 @@
 package unreal.slatecore;
 
 @:umodule("SlateCore")
-@:glueCppIncludes("Fonts/CompositeFont.h")
+@:glueCppIncludes("Public/Fonts/CompositeFont.h")
 @:uname("EFontLayoutMethod")
 @:class @:uextern @:uenum extern enum EFontLayoutMethod {
   

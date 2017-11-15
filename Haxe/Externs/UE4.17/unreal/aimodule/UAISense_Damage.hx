@@ -22,6 +22,6 @@ package unreal.aimodule;
   /**
     EventLocation will be reported as Instigator's location at the moment of event happening
   **/
-  @:ufunction static public function ReportDamageEvent(WorldContextObject : unreal.UObject, DamagedActor : unreal.AActor, Instigator : unreal.AActor, DamageAmount : unreal.Float32, EventLocation : unreal.FVector, HitLocation : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) static public function ReportDamageEvent(WorldContextObject : unreal.UObject, DamagedActor : unreal.AActor, Instigator : unreal.AActor, DamageAmount : unreal.Float32, EventLocation : unreal.FVector, HitLocation : unreal.FVector) : Void;
   
 }

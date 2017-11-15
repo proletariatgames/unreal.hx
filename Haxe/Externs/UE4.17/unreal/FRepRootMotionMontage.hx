@@ -17,7 +17,7 @@ package unreal;
 /**
   Replicated data when playing a root motion montage.
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRepRootMotionMontage {
   
   /**

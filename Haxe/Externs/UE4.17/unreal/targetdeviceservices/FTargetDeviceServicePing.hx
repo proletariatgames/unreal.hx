@@ -18,7 +18,7 @@ package unreal.targetdeviceservices;
   Implements a message for discovering target device services on the network.
 **/
 @:umodule("TargetDeviceServices")
-@:glueCppIncludes("TargetDeviceServiceMessages.h")
+@:glueCppIncludes("Classes/TargetDeviceServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTargetDeviceServicePing {
   
   /**

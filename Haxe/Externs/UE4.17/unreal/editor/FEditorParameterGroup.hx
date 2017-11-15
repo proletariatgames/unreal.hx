@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
+@:glueCppIncludes("Classes/MaterialEditor/MaterialEditorInstanceConstant.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditorParameterGroup {
   @:uproperty public var GroupSortPriority : unreal.Int32;
   @:uproperty public var Parameters : unreal.TArray<unreal.editor.UDEditorParameterValue>;

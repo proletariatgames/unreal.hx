@@ -18,7 +18,7 @@ package unreal;
   in the future if we need more bools, please convert to bitfield
   These are not saved in asset but per skeleton.
 **/
-@:glueCppIncludes("Animation/SmartName.h")
+@:glueCppIncludes("Classes/Animation/SmartName.h")
 @:uextern @:ustruct extern class FAnimCurveType {
   
 }

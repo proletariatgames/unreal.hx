@@ -17,7 +17,7 @@ package unreal;
 /**
   Data for a single key in this track
 **/
-@:glueCppIncludes("Matinee/InterpTrackParticleReplay.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackParticleReplay.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleReplayTrackKey {
   
   /**

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FColorGradePerRangeSettings {
   @:uproperty public var Offset : unreal.FVector4;
   @:uproperty public var Gain : unreal.FVector4;

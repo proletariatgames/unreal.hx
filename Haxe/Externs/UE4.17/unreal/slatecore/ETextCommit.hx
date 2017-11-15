@@ -18,7 +18,7 @@ package unreal.slatecore;
   Additional information about a text committal
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Types/SlateEnums.h")
+@:glueCppIncludes("Public/Types/SlateEnums.h")
 @:uname("ETextCommit.Type")
 @:uextern @:uenum extern enum ETextCommit {
   

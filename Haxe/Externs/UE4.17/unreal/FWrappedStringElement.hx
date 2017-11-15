@@ -17,7 +17,7 @@ package unreal;
 /**
   Used by UUIString::WrapString to track information about each line that is generated as the result of wrapping.
 **/
-@:glueCppIncludes("CanvasTypes.h")
+@:glueCppIncludes("Public/CanvasTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FWrappedStringElement {
   
   /**

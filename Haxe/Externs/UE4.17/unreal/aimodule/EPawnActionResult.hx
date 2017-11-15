@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("AITypes.h")
+@:glueCppIncludes("Classes/AITypes.h")
 @:uname("EPawnActionResult.Type")
 @:uextern @:uenum extern enum EPawnActionResult {
   NotStarted;

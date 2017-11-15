@@ -18,7 +18,7 @@ package unreal.audioeditor;
   Action to paste clipboard contents into the graph
 **/
 @:umodule("AudioEditor")
-@:glueCppIncludes("SoundCueGraph/SoundCueGraphSchema.h")
+@:glueCppIncludes("Classes/SoundCueGraph/SoundCueGraphSchema.h")
 @:uextern @:ustruct extern class FSoundCueGraphSchemaAction_Paste extends unreal.FEdGraphSchemaAction {
   
 }

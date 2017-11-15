@@ -17,7 +17,7 @@ package unreal;
 /**
   A scalar parameter
 **/
-@:glueCppIncludes("Materials/MaterialParameterCollection.h")
+@:glueCppIncludes("Classes/Materials/MaterialParameterCollection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCollectionScalarParameter extends unreal.FCollectionParameterBase {
   @:uproperty public var DefaultValue : unreal.Float32;
   

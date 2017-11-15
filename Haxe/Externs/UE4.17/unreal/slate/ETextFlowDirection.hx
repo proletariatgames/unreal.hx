@@ -19,7 +19,7 @@ package unreal.slate;
   @note If you change this enum, make sure and update CVarDefaultTextFlowDirection and GetDefaultTextFlowDirection.
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Framework/Text/TextLayout.h")
+@:glueCppIncludes("Public/Framework/Text/TextLayout.h")
 @:uname("ETextFlowDirection")
 @:class @:uextern @:uenum extern enum ETextFlowDirection {
   

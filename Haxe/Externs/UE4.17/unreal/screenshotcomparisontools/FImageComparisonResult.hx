@@ -15,7 +15,7 @@
 package unreal.screenshotcomparisontools;
 
 @:umodule("ScreenShotComparisonTools")
-@:glueCppIncludes("ImageComparer.h")
+@:glueCppIncludes("Public/ImageComparer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FImageComparisonResult {
   @:uproperty public var Tolerance : unreal.screenshotcomparisontools.FImageTolerance;
   @:uproperty public var ErrorMessage : unreal.FText;

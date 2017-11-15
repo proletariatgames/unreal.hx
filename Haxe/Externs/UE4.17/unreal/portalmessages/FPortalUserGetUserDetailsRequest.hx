@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalUserMessages.h")
+@:glueCppIncludes("Public/PortalUserMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserGetUserDetailsRequest extends unreal.messagingrpc.FRpcMessage {
   
 }

@@ -19,7 +19,7 @@ package unreal;
   @param ButtonPressed
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("TouchedActor")
 @:uParamName("ButtonPressed")
 typedef FActorOnClickedSignature = unreal.DynamicMulticastDelegate<FActorOnClickedSignature, unreal.AActor->unreal.inputcore.FKey->Void>;

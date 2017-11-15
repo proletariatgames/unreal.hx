@@ -15,7 +15,7 @@
 package unreal.audiomixer;
 
 @:umodule("AudioMixer")
-@:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectReverb.h")
+@:glueCppIncludes("Classes/SubmixEffects/AudioMixerSubmixEffectReverb.h")
 @:uextern @:ustruct extern class FSubmixEffectReverbSettings {
   
   /**

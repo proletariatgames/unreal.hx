@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimCurveTypes.h")
+@:glueCppIncludes("Public/Animation/AnimCurveTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTransformCurve extends unreal.FAnimCurveBase {
   @:uproperty public var ScaleCurve : unreal.FVectorCurve;
   

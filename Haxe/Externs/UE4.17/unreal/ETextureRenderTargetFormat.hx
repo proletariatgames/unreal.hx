@@ -17,7 +17,7 @@ package unreal;
 /**
   Subset of EPixelFormat exposed to UTextureRenderTarget2D
 **/
-@:glueCppIncludes("Engine/TextureRenderTarget2D.h")
+@:glueCppIncludes("Classes/Engine/TextureRenderTarget2D.h")
 @:uname("ETextureRenderTargetFormat")
 @:uextern @:uenum extern enum ETextureRenderTargetFormat {
   

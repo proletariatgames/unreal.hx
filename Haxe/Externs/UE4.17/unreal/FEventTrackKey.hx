@@ -17,7 +17,7 @@ package unreal;
 /**
   Information for one event in the track.
 **/
-@:glueCppIncludes("Matinee/InterpTrackEvent.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackEvent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEventTrackKey {
   @:uproperty public var EventName : unreal.FName;
   @:uproperty public var Time : unreal.Float32;

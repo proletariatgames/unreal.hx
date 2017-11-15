@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/SubUVAnimation.h")
+@:glueCppIncludes("Classes/Particles/SubUVAnimation.h")
 @:uname("EOpacitySourceMode")
 @:uextern @:uenum extern enum EOpacitySourceMode {
   OSM_Alpha;

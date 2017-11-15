@@ -18,7 +18,7 @@ package unreal.immediatephysics;
   Controller that simulates physics based on the physics asset of the skeletal mesh component
 **/
 @:umodule("ImmediatePhysics")
-@:glueCppIncludes("BoneControllers/AnimNode_RigidBody.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_RigidBody.h")
 @:uextern @:ustruct extern class FAnimNode_RigidBody extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/EditorEngine.h")
+@:glueCppIncludes("Classes/Editor/EditorEngine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSlatePlayInEditorInfo {
   
 }

@@ -18,7 +18,7 @@ package unreal.umg;
   @param Value
   
 **/
-@:glueCppIncludes("UMG.h", "Components/Slider.h")
+@:glueCppIncludes("UMG.h", "Public/Components/Slider.h")
 @:uParamName("Value")
 @:umodule("UMG")
 typedef FOnFloatValueChangedEvent = unreal.DynamicMulticastDelegate<FOnFloatValueChangedEvent, unreal.Float32->Void>;

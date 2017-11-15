@@ -15,7 +15,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/WidgetComponent.h")
+@:glueCppIncludes("UMG.h", "Public/Components/WidgetComponent.h")
 @:uname("EWidgetGeometryMode")
 @:class @:uextern @:uenum extern enum EWidgetGeometryMode {
   

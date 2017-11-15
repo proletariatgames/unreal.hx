@@ -18,7 +18,7 @@ package unreal;
   Helper struct, since UnrealScript doesn't allow arrays of arrays, but
   arrays of structs of arrays are okay.
 **/
-@:glueCppIncludes("Engine/PlatformInterfaceBase.h")
+@:glueCppIncludes("Classes/Engine/PlatformInterfaceBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDelegateArray {
   @:uproperty public var Delegates : unreal.TArray<unreal.FPlatformInterfaceDelegate>;
   

@@ -18,7 +18,7 @@ package unreal.meshpaint;
   Mesh paint color view modes (somewhat maps to EVertexColorViewMode engine enum.)
 **/
 @:umodule("MeshPaint")
-@:glueCppIncludes("MeshPaintSettings.h")
+@:glueCppIncludes("Public/MeshPaintSettings.h")
 @:uname("EMeshPaintColorViewMode")
 @:class @:uextern @:uenum extern enum EMeshPaintColorViewMode {
   

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("ETraceTypeQuery")
 @:uextern @:uenum extern enum ETraceTypeQuery {
   TraceTypeQuery1;

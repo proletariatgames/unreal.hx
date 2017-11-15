@@ -52,7 +52,7 @@ package unreal;
   /**
     Walks up parent chain and finds the base Material that this is an instance of. Just calls the virtual GetMaterial()
   **/
-  @:ufunction @:final public function GetBaseMaterial() : unreal.UMaterial;
+  @:ufunction(BlueprintCallable) @:final public function GetBaseMaterial() : unreal.UMaterial;
   // BlendableInterface interface implementation
   
 }

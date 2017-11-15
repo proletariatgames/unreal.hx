@@ -17,7 +17,7 @@ package unreal;
 /**
   An enum for the types of data used in a PlatformInterfaceData struct.
 **/
-@:glueCppIncludes("Engine/PlatformInterfaceBase.h")
+@:glueCppIncludes("Classes/Engine/PlatformInterfaceBase.h")
 @:uname("EPlatformInterfaceDataType")
 @:uextern @:uenum extern enum EPlatformInterfaceDataType {
   

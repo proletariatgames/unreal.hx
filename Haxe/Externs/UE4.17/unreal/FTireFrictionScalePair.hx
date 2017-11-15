@@ -17,7 +17,7 @@ package unreal;
 /**
   DEPRECATED Pairs desired tire friction scale with tire type
 **/
-@:glueCppIncludes("PhysicalMaterials/PhysicalMaterial.h")
+@:glueCppIncludes("Classes/PhysicalMaterials/PhysicalMaterial.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTireFrictionScalePair {
   
   /**

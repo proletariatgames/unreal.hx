@@ -18,7 +18,7 @@ package unreal.umg;
   Describes playback modes for UMG sequences.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/UserWidget.h")
 @:uname("EUMGSequencePlayMode.Type")
 @:uextern @:uenum extern enum EUMGSequencePlayMode {
   

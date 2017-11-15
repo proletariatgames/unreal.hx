@@ -17,7 +17,7 @@ package unreal;
 /**
   When to render the Focus Brush for widgets that have user focus. Based on the EFocusCause.
 **/
-@:glueCppIncludes("Engine/UserInterfaceSettings.h")
+@:glueCppIncludes("Classes/Engine/UserInterfaceSettings.h")
 @:uname("ERenderFocusRule")
 @:class @:uextern @:uenum extern enum ERenderFocusRule {
   

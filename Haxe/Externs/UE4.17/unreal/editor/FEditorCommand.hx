@@ -18,7 +18,7 @@ package unreal.editor;
   A parameterless exec command that can be bound to hotkeys and menu items in the editor.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Preferences/UnrealEdOptions.h")
+@:glueCppIncludes("Classes/Preferences/UnrealEdOptions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditorCommand {
   @:uproperty public var Description : unreal.FString;
   @:uproperty public var ExecCommand : unreal.FString;

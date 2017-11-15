@@ -18,7 +18,7 @@ package unreal.umg;
   @param bIsOpen
   
 **/
-@:glueCppIncludes("UMG.h", "Components/MenuAnchor.h")
+@:glueCppIncludes("UMG.h", "Public/Components/MenuAnchor.h")
 @:uParamName("bIsOpen")
 @:umodule("UMG")
 typedef FOnMenuOpenChangedEvent = unreal.DynamicMulticastDelegate<FOnMenuOpenChangedEvent, Bool->Void>;

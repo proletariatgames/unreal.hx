@@ -18,7 +18,7 @@ package unreal.moviescene;
   Settings for the level sequence player actor.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneSequencePlayer.h")
+@:glueCppIncludes("Public/MovieSceneSequencePlayer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequencePlaybackSettings {
   
   /**

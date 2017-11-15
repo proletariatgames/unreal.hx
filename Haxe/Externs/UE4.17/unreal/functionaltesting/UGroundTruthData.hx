@@ -17,9 +17,9 @@ package unreal.functionaltesting;
 @:umodule("FunctionalTesting")
 @:glueCppIncludes("GroundTruthData.h")
 @:uextern @:uclass extern class UGroundTruthData extends unreal.UObject {
-  @:ufunction @:final public function SaveObject(GroundTruth : unreal.UObject) : Void;
-  @:ufunction @:final public function LoadObject() : unreal.UObject;
-  @:ufunction @:thisConst @:final public function CanModify() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SaveObject(GroundTruth : unreal.UObject) : Void;
+  @:ufunction(BlueprintCallable) @:final public function LoadObject() : unreal.UObject;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function CanModify() : Bool;
   @:uproperty private var ObjectData : unreal.UObject;
   @:uproperty public var bResetGroundTruth : Bool;
   

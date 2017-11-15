@@ -19,7 +19,7 @@ package unreal.moviescene;
   Contains user-defined evaluation templates, and an optional track implementation
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTrack.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTrack.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationTrack {
   
 }

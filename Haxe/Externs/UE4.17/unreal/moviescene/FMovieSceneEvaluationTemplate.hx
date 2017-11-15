@@ -18,7 +18,7 @@ package unreal.moviescene;
   Template that is used for efficient runtime evaluation of a movie scene sequence. Potentially serialized into the asset.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationTemplate {
   
   /**

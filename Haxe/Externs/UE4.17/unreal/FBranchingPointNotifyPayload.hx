@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNotifies/AnimNotify.h")
+@:glueCppIncludes("Classes/Animation/AnimNotifies/AnimNotify.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBranchingPointNotifyPayload {
   
 }

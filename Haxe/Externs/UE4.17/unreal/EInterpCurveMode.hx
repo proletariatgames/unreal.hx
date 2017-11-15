@@ -17,7 +17,7 @@ package unreal;
 /**
   Interpolation data types.
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("EInterpCurveMode")
 @:uextern @:uenum extern enum EInterpCurveMode {
   

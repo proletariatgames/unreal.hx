@@ -18,7 +18,7 @@ package unreal;
   @param inInt
   
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uParamName("inInt")
 @:uname("UPlatformGameInstance.FPlatformRegisteredForUserNotificationsDelegate")
 typedef FPlatformRegisteredForUserNotificationsDelegate = unreal.DynamicMulticastDelegate<FPlatformRegisteredForUserNotificationsDelegate, unreal.Int32->Void>;

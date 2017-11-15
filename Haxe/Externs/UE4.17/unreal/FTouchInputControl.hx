@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/TouchInterface.h")
+@:glueCppIncludes("Classes/GameFramework/TouchInterface.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTouchInputControl {
   
   /**

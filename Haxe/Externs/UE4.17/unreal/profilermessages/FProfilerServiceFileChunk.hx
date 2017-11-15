@@ -19,7 +19,7 @@ package unreal.profilermessages;
   Unfortunately assumes that InstanceId and Filename are transfered without errors.
 **/
 @:umodule("ProfilerMessages")
-@:glueCppIncludes("ProfilerServiceMessages.h")
+@:glueCppIncludes("Public/ProfilerServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FProfilerServiceFileChunk {
   
   /**

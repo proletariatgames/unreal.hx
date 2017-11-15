@@ -18,7 +18,7 @@ package unreal.viewportinteraction;
   Represents a generic action
 **/
 @:umodule("ViewportInteraction")
-@:glueCppIncludes("ViewportInteractionTypes.h")
+@:glueCppIncludes("Public/ViewportInteractionTypes.h")
 @:uextern @:ustruct extern class FViewportActionKeyInput {
   
 }

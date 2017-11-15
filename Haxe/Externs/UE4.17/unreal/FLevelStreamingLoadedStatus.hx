@@ -18,5 +18,5 @@ package unreal;
   Delegate signatures
   
 **/
-@:glueCppIncludes("Engine/LevelStreaming.h")
+@:glueCppIncludes("Classes/Engine/LevelStreaming.h")
 typedef FLevelStreamingLoadedStatus = unreal.DynamicMulticastDelegate<FLevelStreamingLoadedStatus, Void->Void>;

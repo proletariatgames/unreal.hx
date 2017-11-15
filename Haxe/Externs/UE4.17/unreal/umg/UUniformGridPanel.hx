@@ -35,9 +35,9 @@ package unreal.umg;
     Padding given to each slot
   **/
   @:uproperty public var SlotPadding : unreal.slatecore.FMargin;
-  @:ufunction @:final public function SetSlotPadding(InSlotPadding : unreal.slatecore.FMargin) : Void;
-  @:ufunction @:final public function SetMinDesiredSlotWidth(InMinDesiredSlotWidth : unreal.Float32) : Void;
-  @:ufunction @:final public function SetMinDesiredSlotHeight(InMinDesiredSlotHeight : unreal.Float32) : Void;
-  @:ufunction @:final public function AddChildToUniformGrid(Content : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
+  @:ufunction(BlueprintCallable) @:final public function SetSlotPadding(InSlotPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinDesiredSlotWidth(InMinDesiredSlotWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinDesiredSlotHeight(InMinDesiredSlotHeight : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddChildToUniformGrid(Content : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
   
 }

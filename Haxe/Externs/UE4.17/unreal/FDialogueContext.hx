@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/DialogueTypes.h")
+@:glueCppIncludes("Classes/Sound/DialogueTypes.h")
 @:uextern @:ustruct extern class FDialogueContext {
   
   /**

@@ -18,7 +18,7 @@ package unreal.targetdeviceservices;
   Struct for a flavor's information
 **/
 @:umodule("TargetDeviceServices")
-@:glueCppIncludes("TargetDeviceServiceMessages.h")
+@:glueCppIncludes("Classes/TargetDeviceServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTargetDeviceVariant {
   @:uproperty public var PlatformDisplayName : unreal.FString;
   @:uproperty public var VanillaPlatformId : unreal.FName;

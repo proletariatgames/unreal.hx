@@ -19,7 +19,7 @@ package unreal;
   
   Struct that represents an expression's output.
 **/
-@:glueCppIncludes("Materials/MaterialExpression.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpression.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FExpressionOutput {
   
 }

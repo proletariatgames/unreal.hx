@@ -18,7 +18,7 @@ package unreal.paper2d;
   Method of specifying polygons for a sprite's render or collision data
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("SpriteEditorOnlyTypes.h")
+@:glueCppIncludes("Classes/SpriteEditorOnlyTypes.h")
 @:uname("ESpritePolygonMode.Type")
 @:uextern @:uenum extern enum ESpritePolygonMode {
   

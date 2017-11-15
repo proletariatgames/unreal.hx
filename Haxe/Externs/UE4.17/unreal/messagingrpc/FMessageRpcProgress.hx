@@ -18,7 +18,7 @@ package unreal.messagingrpc;
   Message for updating the progress of an RPC call.
 **/
 @:umodule("MessagingRpc")
-@:glueCppIncludes("MessageRpcMessages.h")
+@:glueCppIncludes("Public/MessageRpcMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMessageRpcProgress {
   
   /**

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Curves/CurveLinearColor.h")
+@:glueCppIncludes("Classes/Curves/CurveLinearColor.h")
 @:uextern @:ustruct extern class FRuntimeCurveLinearColor {
   @:uproperty public var ExternalCurve : unreal.UCurveLinearColor;
   

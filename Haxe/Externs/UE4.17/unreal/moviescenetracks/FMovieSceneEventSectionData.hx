@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   A curve of events
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneEventSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneEventSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEventSectionData {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalApplicationWindowMessages.h")
+@:glueCppIncludes("Public/PortalApplicationWindowMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalApplicationWindowNavigateToResponse extends unreal.messagingrpc.FRpcMessage {
   @:uproperty public var Result : Bool;
   

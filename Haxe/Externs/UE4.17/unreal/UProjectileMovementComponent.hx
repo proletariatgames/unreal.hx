@@ -164,16 +164,16 @@ package unreal;
   /**
     Sets the velocity to the new value, rotated into Actor space.
   **/
-  @:ufunction public function SetVelocityInLocalSpace(NewVelocity : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) public function SetVelocityInLocalSpace(NewVelocity : unreal.FVector) : Void;
   
   /**
     Clears the reference to UpdatedComponent, fires stop event (OnProjectileStop), and stops ticking (if bAutoUpdateTickRegistration is true).
   **/
-  @:ufunction public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
+  @:ufunction(BlueprintCallable) public function StopSimulating(HitResult : unreal.Const<unreal.PRef<unreal.FHitResult>>) : Void;
   
   /**
     Don't allow velocity magnitude to exceed MaxSpeed, if MaxSpeed is non-zero.
   **/
-  @:ufunction @:thisConst @:final private function LimitVelocity(NewVelocity : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final private function LimitVelocity(NewVelocity : unreal.FVector) : unreal.FVector;
   
 }

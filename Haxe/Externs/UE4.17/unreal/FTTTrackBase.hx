@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/TimelineTemplate.h")
+@:glueCppIncludes("Classes/Engine/TimelineTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTTTrackBase {
   
   /**

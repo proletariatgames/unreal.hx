@@ -18,7 +18,7 @@ package unreal;
   @param ImpactResult
   
 **/
-@:glueCppIncludes("GameFramework/ProjectileMovementComponent.h")
+@:glueCppIncludes("Classes/GameFramework/ProjectileMovementComponent.h")
 @:uParamName("ImpactResult")
 @:uname("UProjectileMovementComponent.FOnProjectileStopDelegate")
 typedef FOnProjectileStopDelegate = unreal.DynamicMulticastDelegate<FOnProjectileStopDelegate, unreal.Const<unreal.PRef<unreal.FHitResult>>->Void>;

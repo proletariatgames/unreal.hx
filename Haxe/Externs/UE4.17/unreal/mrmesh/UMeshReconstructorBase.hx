@@ -17,11 +17,11 @@ package unreal.mrmesh;
 @:umodule("MRMesh")
 @:glueCppIncludes("MeshReconstructorBase.h")
 @:uextern @:uclass extern class UMeshReconstructorBase extends unreal.UObject {
-  @:ufunction public function StartReconstruction() : Void;
-  @:ufunction public function StopReconstruction() : Void;
-  @:ufunction public function PauseReconstruction() : Void;
-  @:ufunction @:thisConst public function IsReconstructionStarted() : Bool;
-  @:ufunction @:thisConst public function IsReconstructionPaused() : Bool;
+  @:ufunction(BlueprintCallable) public function StartReconstruction() : Void;
+  @:ufunction(BlueprintCallable) public function StopReconstruction() : Void;
+  @:ufunction(BlueprintCallable) public function PauseReconstruction() : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsReconstructionStarted() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsReconstructionPaused() : Bool;
   @:ufunction public function ConnectMRMesh(Mesh : unreal.mrmesh.UMRMeshComponent) : unreal.mrmesh.FMRMeshConfiguration;
   @:ufunction public function DisconnectMRMesh() : Void;
   

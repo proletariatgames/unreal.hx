@@ -25,7 +25,7 @@ package unreal.moviescene;
   Transforms apply offset first, then time scale.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSequenceTransform.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSequenceTransform.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequenceTransform {
   
   /**

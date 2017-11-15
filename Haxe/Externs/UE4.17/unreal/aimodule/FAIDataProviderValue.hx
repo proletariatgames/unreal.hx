@@ -24,7 +24,7 @@ package unreal.aimodule;
   Non editable properties are holding data
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("DataProviders/AIDataProvider.h")
+@:glueCppIncludes("Classes/DataProviders/AIDataProvider.h")
 @:uextern @:ustruct extern class FAIDataProviderValue {
   
   /**

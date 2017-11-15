@@ -17,7 +17,7 @@ package unreal;
 /**
   A named color
 **/
-@:glueCppIncludes("Animation/AnimationTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimationTypes.h")
 @:uextern @:ustruct extern class FNamedColor {
   @:uproperty public var Name : unreal.FName;
   @:uproperty public var Value : unreal.FColor;

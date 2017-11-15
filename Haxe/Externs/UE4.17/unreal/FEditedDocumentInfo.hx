@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditedDocumentInfo {
   
   /**

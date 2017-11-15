@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SceneCaptureComponent.h")
+@:glueCppIncludes("Classes/Components/SceneCaptureComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEngineShowFlagsSetting {
   @:uproperty public var Enabled : Bool;
   @:uproperty public var ShowFlagName : unreal.FString;

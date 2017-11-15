@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("EdGraph/EdGraphPin.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphPin.h")
 @:uextern @:ustruct extern class FEdGraphPinReference {
   
 }

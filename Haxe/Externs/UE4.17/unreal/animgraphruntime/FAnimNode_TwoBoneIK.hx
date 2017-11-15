@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Simple 2 Bone IK Controller.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_TwoBoneIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_TwoBoneIK.h")
 @:uextern @:ustruct extern class FAnimNode_TwoBoneIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message to request the performance data for this hardware.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerPerformanceDataRequest {
   @:uproperty public var DataPoints : unreal.TArray<unreal.Float64>;
   @:uproperty public var TestName : unreal.FString;

@@ -18,7 +18,7 @@ package unreal.actorsequence;
   An external reference to an level sequence object, resolvable through an arbitrary context.
 **/
 @:umodule("ActorSequence")
-@:glueCppIncludes("ActorSequenceObjectReference.h")
+@:glueCppIncludes("Public/ActorSequenceObjectReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActorSequenceObjectReference {
   
 }

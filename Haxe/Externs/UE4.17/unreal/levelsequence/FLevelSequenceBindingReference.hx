@@ -22,7 +22,7 @@ package unreal.levelsequence;
   Currently, the package name should only ever be empty for component references, which must remain relative bindings to work correctly with spawnables and reinstanced actors.
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceBindingReference.h")
+@:glueCppIncludes("Public/LevelSequenceBindingReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceBindingReference {
   
 }

@@ -18,7 +18,7 @@ package unreal.assetregistry;
   A struct to serve as a filter for Asset Registry queries. Each component element is processed as an 'OR' operation while all the components are processed together as an 'AND' operation.
 **/
 @:umodule("AssetRegistry")
-@:glueCppIncludes("ARFilter.h")
+@:glueCppIncludes("Public/ARFilter.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FARFilter {
   
   /**

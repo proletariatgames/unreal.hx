@@ -18,7 +18,7 @@ package unreal.steamvrcontroller;
   Defines the set of input events you want associated with your SteamVR d-pad buttons
 **/
 @:umodule("SteamVRController")
-@:glueCppIncludes("SteamVRControllerLibrary.h")
+@:glueCppIncludes("Classes/SteamVRControllerLibrary.h")
 @:uname("ESteamVRTouchDPadMapping")
 @:class @:uextern @:uenum extern enum ESteamVRTouchDPadMapping {
   

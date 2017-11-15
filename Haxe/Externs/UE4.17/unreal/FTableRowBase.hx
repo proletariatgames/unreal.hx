@@ -17,7 +17,7 @@ package unreal;
 /**
   Base class for all table row structs to inherit from.
 **/
-@:glueCppIncludes("Engine/DataTable.h")
+@:glueCppIncludes("Classes/Engine/DataTable.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTableRowBase {
   
 }

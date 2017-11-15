@@ -29,16 +29,16 @@ package unreal.umg;
   /**
     Set item width
   **/
-  @:ufunction @:final public function SetItemWidth(Width : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetItemWidth(Width : unreal.Float32) : Void;
   
   /**
     Set item height
   **/
-  @:ufunction @:final public function SetItemHeight(Height : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetItemHeight(Height : unreal.Float32) : Void;
   
   /**
     Refreshes the list
   **/
-  @:ufunction @:final public function RequestListRefresh() : Void;
+  @:ufunction(BlueprintCallable) @:final public function RequestListRefresh() : Void;
   
 }

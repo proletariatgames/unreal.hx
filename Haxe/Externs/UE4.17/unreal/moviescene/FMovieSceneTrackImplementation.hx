@@ -18,7 +18,7 @@ package unreal.moviescene;
   Structure that allows the implementation of setup/teardown/initialization/evaluation logic at the track level.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneTrackImplementation.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneTrackImplementation.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackImplementation extends unreal.moviescene.FMovieSceneEvalTemplateBase {
   
 }

@@ -18,6 +18,6 @@ package unreal;
   @param Hit
   
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:uParamName("Hit")
 typedef FLandedSignature = unreal.DynamicMulticastDelegate<FLandedSignature, unreal.Const<unreal.PRef<unreal.FHitResult>>->Void>;

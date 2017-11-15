@@ -75,17 +75,17 @@ package unreal;
   /**
     Add an instance to this component. Transform is given in local space of this component.
   **/
-  @:ufunction public function AddInstance(InstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) public function AddInstance(InstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.Int32;
   
   /**
     Add an instance to this component. Transform is given in world space.
   **/
-  @:ufunction @:final public function AddInstanceWorldSpace(WorldTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:final public function AddInstanceWorldSpace(WorldTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.Int32;
   
   /**
     Get the transform for the instance specified. Instance is returned in local space of this component unless bWorldSpace is set.  Returns True on success.
   **/
-  @:ufunction @:thisConst @:final public function GetInstanceTransform(InstanceIndex : unreal.Int32, OutInstanceTransform : unreal.PRef<unreal.FTransform>, bWorldSpace : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInstanceTransform(InstanceIndex : unreal.Int32, OutInstanceTransform : unreal.PRef<unreal.FTransform>, bWorldSpace : Bool = false) : Bool;
   
   /**
     Update the transform for the instance specified.
@@ -97,36 +97,36 @@ package unreal;
     @param bTeleport                              Whether or not the instance's physics should be moved normally, or teleported (moved instantly, ignoring velocity).
     @return                                               True on success.
   **/
-  @:ufunction public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool = false, bMarkRenderStateDirty : Bool = false, bTeleport : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) public function UpdateInstanceTransform(InstanceIndex : unreal.Int32, NewInstanceTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bWorldSpace : Bool = false, bMarkRenderStateDirty : Bool = false, bTeleport : Bool = false) : Bool;
   
   /**
     Remove the instance specified. Returns True on success. Note that this will leave the array in order, but may shrink it.
   **/
-  @:ufunction public function RemoveInstance(InstanceIndex : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) public function RemoveInstance(InstanceIndex : unreal.Int32) : Bool;
   
   /**
     Clear all instances being rendered by this component.
   **/
-  @:ufunction public function ClearInstances() : Void;
+  @:ufunction(BlueprintCallable) public function ClearInstances() : Void;
   
   /**
     Get the number of instances in this component.
   **/
-  @:ufunction @:thisConst @:final public function GetInstanceCount() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetInstanceCount() : unreal.Int32;
   
   /**
     Sets the fading start and culling end distances for this component.
   **/
-  @:ufunction @:final public function SetCullDistances(StartCullDistance : unreal.Int32, EndCullDistance : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCullDistances(StartCullDistance : unreal.Int32, EndCullDistance : unreal.Int32) : Void;
   
   /**
     Returns the instances with instance bounds overlapping the specified sphere. The return value is an array of instance indices.
   **/
-  @:ufunction @:thisConst public function GetInstancesOverlappingSphere(Center : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, bSphereInWorldSpace : Bool = true) : unreal.TArray<unreal.Int32>;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetInstancesOverlappingSphere(Center : unreal.Const<unreal.PRef<unreal.FVector>>, Radius : unreal.Float32, bSphereInWorldSpace : Bool = true) : unreal.TArray<unreal.Int32>;
   
   /**
     Returns the instances with instance bounds overlapping the specified box. The return value is an array of instance indices.
   **/
-  @:ufunction @:thisConst public function GetInstancesOverlappingBox(Box : unreal.Const<unreal.PRef<unreal.FBox>>, bBoxInWorldSpace : Bool = true) : unreal.TArray<unreal.Int32>;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetInstancesOverlappingBox(Box : unreal.Const<unreal.PRef<unreal.FBox>>, bBoxInWorldSpace : Bool = true) : unreal.TArray<unreal.Int32>;
   
 }

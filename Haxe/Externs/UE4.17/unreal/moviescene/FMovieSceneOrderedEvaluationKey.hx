@@ -18,7 +18,7 @@ package unreal.moviescene;
   Struct that stores the key for an evaluated entity, and the index at which it was (or is to be) evaluated
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneOrderedEvaluationKey {
   @:uproperty public var EvaluationIndex : unreal.FakeUInt32;
   @:uproperty public var Key : unreal.moviescene.FMovieSceneEvaluationKey;

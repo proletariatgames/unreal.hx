@@ -18,7 +18,7 @@ package unreal.jsonutilities;
   UStruct that holds a JsonObject, can be used by structs passed to JsonObjectConverter to pass through JsonObjects directly
 **/
 @:umodule("JsonUtilities")
-@:glueCppIncludes("JsonObjectWrapper.h")
+@:glueCppIncludes("Public/JsonObjectWrapper.h")
 @:uextern @:ustruct extern class FJsonObjectWrapper {
   @:uproperty public var JsonString : unreal.FString;
   

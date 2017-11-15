@@ -25,17 +25,17 @@ package unreal.aimodule;
   /**
     blueprint interface
   **/
-  @:ufunction static public function K2_PerformAction(Pawn : unreal.APawn, Action : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority = HardScript) : Bool;
-  @:ufunction @:final public function K2_PushAction(NewAction : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority, Instigator : unreal.UObject) : Bool;
+  @:ufunction(BlueprintCallable) static public function K2_PerformAction(Pawn : unreal.APawn, Action : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority = HardScript) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_PushAction(NewAction : unreal.aimodule.UPawnAction, Priority : unreal.aimodule.EAIRequestPriority, Instigator : unreal.UObject) : Bool;
   
   /**
     Aborts given action instance
   **/
-  @:ufunction @:final public function K2_AbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
+  @:ufunction(BlueprintCallable) @:final public function K2_AbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
   
   /**
     Aborts given action instance
   **/
-  @:ufunction @:final public function K2_ForceAbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
+  @:ufunction(BlueprintCallable) @:final public function K2_ForceAbortAction(ActionToAbort : unreal.aimodule.UPawnAction) : unreal.aimodule.EPawnActionAbortState;
   
 }

@@ -18,7 +18,7 @@ package unreal.moviescene;
   Persistent identifier to a specific object binding within a sequence hierarchy.
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneObjectBindingID.h")
+@:glueCppIncludes("Public/MovieSceneObjectBindingID.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneObjectBindingID {
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   This needs to be mirrored in EditorFactories.cpp.
 **/
-@:glueCppIncludes("Engine/Texture.h")
+@:glueCppIncludes("Classes/Engine/Texture.h")
 @:uname("TextureCompressionSettings")
 @:uextern @:uenum extern enum TextureCompressionSettings {
   

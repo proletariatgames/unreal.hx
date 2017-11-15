@@ -24,7 +24,7 @@ package unreal;
   @param ParticleCount
   
 **/
-@:glueCppIncludes("Particles/Emitter.h")
+@:glueCppIncludes("Classes/Particles/Emitter.h")
 @:uParamName("EventName")
 @:uParamName("EmitterTime")
 @:uParamName("ParticleCount")

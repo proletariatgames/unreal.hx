@@ -17,7 +17,7 @@ package unreal;
 /**
   The list of possible device/screen orientation for mobile devices
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uname("EScreenOrientation.Type")
 @:uextern @:uenum extern enum EScreenOrientation {
   

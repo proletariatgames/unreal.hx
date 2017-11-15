@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   State of a connection.
 **/
 @:umodule("OnlineSubsystemUtils")
-@:glueCppIncludes("OnlineBeaconClient.h")
+@:glueCppIncludes("Public/OnlineBeaconClient.h")
 @:uname("EBeaconConnectionState")
 @:class @:uextern @:uenum extern enum EBeaconConnectionState {
   Invalid;

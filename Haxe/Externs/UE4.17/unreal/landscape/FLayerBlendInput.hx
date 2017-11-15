@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerBlend.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionLandscapeLayerBlend.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLayerBlendInput {
   
   /**

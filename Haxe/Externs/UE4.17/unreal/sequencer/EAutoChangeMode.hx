@@ -18,7 +18,7 @@ package unreal.sequencer;
   Defines auto change modes.
 **/
 @:umodule("Sequencer")
-@:glueCppIncludes("ISequencer.h")
+@:glueCppIncludes("Public/ISequencer.h")
 @:uname("EAutoChangeMode")
 @:class @:uextern @:uenum extern enum EAutoChangeMode {
   

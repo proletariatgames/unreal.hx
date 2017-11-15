@@ -21,26 +21,26 @@ package unreal.functionaltesting;
   /**
     Takes a screenshot of the game's viewport.  Does not capture any UI.
   **/
-  @:ufunction static public function TakeAutomationScreenshot(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
+  @:ufunction(BlueprintCallable) static public function TakeAutomationScreenshot(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
   
   /**
     Takes a screenshot of the game's viewport, from a particular camera actors POV.  Does not capture any UI.
   **/
-  @:ufunction static public function TakeAutomationScreenshotAtCamera(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Camera : unreal.ACameraActor, NameOverride : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
-  @:ufunction static public function TakeAutomationScreenshotOfUI(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
-  @:ufunction static public function EnableStatGroup(WorldContextObject : unreal.UObject, GroupName : unreal.FName) : Void;
-  @:ufunction static public function DisableStatGroup(WorldContextObject : unreal.UObject, GroupName : unreal.FName) : Void;
-  @:ufunction static public function GetStatIncAverage(StatName : unreal.FName) : unreal.Float32;
-  @:ufunction static public function GetStatIncMax(StatName : unreal.FName) : unreal.Float32;
-  @:ufunction static public function GetStatExcAverage(StatName : unreal.FName) : unreal.Float32;
-  @:ufunction static public function GetStatExcMax(StatName : unreal.FName) : unreal.Float32;
-  @:ufunction static public function GetStatCallCount(StatName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function TakeAutomationScreenshotAtCamera(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Camera : unreal.ACameraActor, NameOverride : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
+  @:ufunction(BlueprintCallable) static public function TakeAutomationScreenshotOfUI(WorldContextObject : unreal.UObject, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo, Name : unreal.FString, Options : unreal.Const<unreal.PRef<unreal.functionaltesting.FAutomationScreenshotOptions>>) : Void;
+  @:ufunction(BlueprintCallable) static public function EnableStatGroup(WorldContextObject : unreal.UObject, GroupName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) static public function DisableStatGroup(WorldContextObject : unreal.UObject, GroupName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) static public function GetStatIncAverage(StatName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetStatIncMax(StatName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetStatExcAverage(StatName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetStatExcMax(StatName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetStatCallCount(StatName : unreal.FName) : unreal.Float32;
   
   /**
     Lets you know if any automated tests are running, or are about to run and the automation system is spinning up tests.
   **/
-  @:ufunction static public function AreAutomatedTestsRunning() : Bool;
-  @:ufunction static public function GetDefaultScreenshotOptionsForGameplay(@:opt("Low") Tolerance : unreal.functionaltesting.EComparisonTolerance, Delay : unreal.Float32 = 0.200000) : unreal.functionaltesting.FAutomationScreenshotOptions;
-  @:ufunction static public function GetDefaultScreenshotOptionsForRendering(@:opt("Low") Tolerance : unreal.functionaltesting.EComparisonTolerance, Delay : unreal.Float32 = 0.200000) : unreal.functionaltesting.FAutomationScreenshotOptions;
+  @:ufunction(BlueprintCallable) static public function AreAutomatedTestsRunning() : Bool;
+  @:ufunction(BlueprintCallable) static public function GetDefaultScreenshotOptionsForGameplay(@:opt("Low") Tolerance : unreal.functionaltesting.EComparisonTolerance, Delay : unreal.Float32 = 0.200000) : unreal.functionaltesting.FAutomationScreenshotOptions;
+  @:ufunction(BlueprintCallable) static public function GetDefaultScreenshotOptionsForRendering(@:opt("Low") Tolerance : unreal.functionaltesting.EComparisonTolerance, Delay : unreal.Float32 = 0.200000) : unreal.functionaltesting.FAutomationScreenshotOptions;
   
 }

@@ -19,7 +19,7 @@ package unreal.slatecore;
   It is passed to event handlers dealing with analog keys.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Input/Events.h")
+@:glueCppIncludes("Public/Input/Events.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnalogInputEvent extends unreal.slatecore.FKeyEvent {
   
 }

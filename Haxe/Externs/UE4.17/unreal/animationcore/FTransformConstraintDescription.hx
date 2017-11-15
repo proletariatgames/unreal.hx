@@ -18,7 +18,7 @@ package unreal.animationcore;
   A description of how to apply a simple transform constraint
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FTransformConstraintDescription extends unreal.animationcore.FConstraintDescriptionEx {
   @:uproperty public var TransformType : unreal.animationcore.ETransformConstraintType;
   

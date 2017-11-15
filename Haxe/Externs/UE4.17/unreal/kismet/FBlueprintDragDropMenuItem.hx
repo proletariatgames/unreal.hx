@@ -28,7 +28,7 @@ package unreal.kismet;
   the proper FDragDropOperation.
 **/
 @:umodule("Kismet")
-@:glueCppIncludes("BlueprintDragDropMenuItem.h")
+@:glueCppIncludes("Public/BlueprintDragDropMenuItem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlueprintDragDropMenuItem extends unreal.FEdGraphSchemaAction {
   
 }

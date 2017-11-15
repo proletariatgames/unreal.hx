@@ -19,7 +19,7 @@ package unreal.landscape;
   these are editor-only, but we don't have the concept of an editor-only USTRUCT
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeSplinesComponent.h")
+@:glueCppIncludes("Classes/LandscapeSplinesComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FForeignControlPointData {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var MeshComponent : unreal.landscape.UControlPointMeshComponent;

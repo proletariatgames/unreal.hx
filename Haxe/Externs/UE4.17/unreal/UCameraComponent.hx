@@ -89,20 +89,20 @@ package unreal;
     The horizontal field of view (in degrees) in perspective mode (ignored in Orthographic mode)
   **/
   @:uproperty public var FieldOfView : unreal.Float32;
-  @:ufunction @:final public function SetFieldOfView(InFieldOfView : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOrthoWidth(InOrthoWidth : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOrthoNearClipPlane(InOrthoNearClipPlane : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOrthoFarClipPlane(InOrthoFarClipPlane : unreal.Float32) : Void;
-  @:ufunction @:final public function SetAspectRatio(InAspectRatio : unreal.Float32) : Void;
-  @:ufunction @:final public function SetConstraintAspectRatio(bInConstrainAspectRatio : Bool) : Void;
-  @:ufunction @:final public function SetUseFieldOfViewForLOD(bInUseFieldOfViewForLOD : Bool) : Void;
-  @:ufunction @:final public function SetProjectionMode(InProjectionMode : unreal.ECameraProjectionMode) : Void;
-  @:ufunction @:final public function SetPostProcessBlendWeight(InPostProcessBlendWeight : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFieldOfView(InFieldOfView : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrthoWidth(InOrthoWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrthoNearClipPlane(InOrthoNearClipPlane : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrthoFarClipPlane(InOrthoFarClipPlane : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAspectRatio(InAspectRatio : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetConstraintAspectRatio(bInConstrainAspectRatio : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUseFieldOfViewForLOD(bInUseFieldOfViewForLOD : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetProjectionMode(InProjectionMode : unreal.ECameraProjectionMode) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPostProcessBlendWeight(InPostProcessBlendWeight : unreal.Float32) : Void;
   
   /**
     Returns camera's Point of View.
     Called by Camera class. Subclass and postprocess to add any effects.
   **/
-  @:ufunction public function GetCameraView(DeltaTime : unreal.Float32, DesiredView : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
+  @:ufunction(BlueprintCallable) public function GetCameraView(DeltaTime : unreal.Float32, DesiredView : unreal.PRef<unreal.FMinimalViewInfo>) : Void;
   
 }

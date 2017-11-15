@@ -18,7 +18,7 @@ package unreal.aimodule;
   Decorator for accessing blackboard values
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_Blackboard.h")
+@:glueCppIncludes("Classes/BehaviorTree/Decorators/BTDecorator_Blackboard.h")
 @:uname("EBTBlackboardRestart.Type")
 @:uextern @:uenum extern enum EBTBlackboardRestart {
   

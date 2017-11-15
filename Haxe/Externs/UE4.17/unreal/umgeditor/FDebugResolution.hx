@@ -15,7 +15,7 @@
 package unreal.umgeditor;
 
 @:umodule("UMGEditor")
-@:glueCppIncludes("UMGEditorProjectSettings.h")
+@:glueCppIncludes("Public/UMGEditorProjectSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDebugResolution {
   @:uproperty public var Color : unreal.FLinearColor;
   @:uproperty public var Description : unreal.FString;

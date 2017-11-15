@@ -14,7 +14,7 @@
 **/
 package unreal.gameplaytasks;
 
-@:glueCppIncludes("Tasks/GameplayTask_WaitDelay.h")
+@:glueCppIncludes("Classes/Tasks/GameplayTask_WaitDelay.h")
 @:umodule("GameplayTasks")
 @:uname("UGameplayTask_WaitDelay.FTaskDelayDelegate")
 typedef FTaskDelayDelegate = unreal.DynamicMulticastDelegate<FTaskDelayDelegate, Void->Void>;

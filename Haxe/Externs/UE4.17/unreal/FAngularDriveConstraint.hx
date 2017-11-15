@@ -17,7 +17,7 @@ package unreal;
 /**
   Angular Drive
 **/
-@:glueCppIncludes("PhysicsEngine/ConstraintDrives.h")
+@:glueCppIncludes("Classes/PhysicsEngine/ConstraintDrives.h")
 @:uextern @:ustruct extern class FAngularDriveConstraint {
   
   /**

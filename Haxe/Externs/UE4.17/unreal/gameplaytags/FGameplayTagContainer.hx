@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   A Tag Container holds a collection of FGameplayTags, tags are included explicitly by adding them, and implicitly from adding child tags
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagContainer.h")
+@:glueCppIncludes("Classes/GameplayTagContainer.h")
 @:uextern @:ustruct extern class FGameplayTagContainer {
   
   /**

@@ -18,7 +18,7 @@ package unreal.aimodule;
   wrapper for easy query execution
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryManager.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryManager.h")
 @:uextern @:ustruct extern class FEnvQueryRequest {
   
   /**

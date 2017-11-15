@@ -18,7 +18,7 @@ package unreal.portalservices;
   Used to delineate which cache an entitlement check result was retrieved from.
 **/
 @:umodule("PortalServices")
-@:glueCppIncludes("Account/IPortalUser.h")
+@:glueCppIncludes("Public/Account/IPortalUser.h")
 @:uname("EEntitlementCacheLevelRetrieved")
 @:class @:uextern @:uenum extern enum EEntitlementCacheLevelRetrieved {
   None;

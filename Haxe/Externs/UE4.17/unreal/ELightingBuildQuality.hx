@@ -17,7 +17,7 @@ package unreal;
 /**
   Lighting build quality enumeration
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("ELightingBuildQuality")
 @:uextern @:uenum extern enum ELightingBuildQuality {
   Quality_Preview;

@@ -14,6 +14,6 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Animation/WidgetAnimation.h")
+@:glueCppIncludes("UMG.h", "Public/Animation/WidgetAnimation.h")
 @:umodule("UMG")
 typedef FOnWidgetAnimationPlaybackStatusChanged = unreal.DynamicMulticastDelegate<FOnWidgetAnimationPlaybackStatusChanged, Void->Void>;

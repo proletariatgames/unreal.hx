@@ -17,7 +17,7 @@ package unreal;
 /**
   level streaming updates that should be applied immediately after committing the map change
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelStreamingStatus {
   @:uproperty public var LODIndex : unreal.FakeUInt32;
   @:uproperty public var bShouldBeVisible : Bool;

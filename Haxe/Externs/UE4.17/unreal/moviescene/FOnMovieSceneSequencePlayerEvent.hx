@@ -14,6 +14,6 @@
 **/
 package unreal.moviescene;
 
-@:glueCppIncludes("MovieSceneSequencePlayer.h")
+@:glueCppIncludes("Public/MovieSceneSequencePlayer.h")
 @:umodule("MovieScene")
 typedef FOnMovieSceneSequencePlayerEvent = unreal.DynamicMulticastDelegate<FOnMovieSceneSequencePlayerEvent, Void->Void>;

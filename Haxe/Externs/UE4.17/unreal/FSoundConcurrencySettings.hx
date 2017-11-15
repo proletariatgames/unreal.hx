@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundConcurrency.h")
+@:glueCppIncludes("Classes/Sound/SoundConcurrency.h")
 @:uextern @:ustruct extern class FSoundConcurrencySettings {
   
   /**

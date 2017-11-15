@@ -34,7 +34,7 @@ package unreal;
     Degrees.
   **/
   @:uproperty public var InnerConeAngle : unreal.Float32;
-  @:ufunction @:final public function SetInnerConeAngle(NewInnerConeAngle : unreal.Float32) : Void;
-  @:ufunction @:final public function SetOuterConeAngle(NewOuterConeAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInnerConeAngle(NewInnerConeAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOuterConeAngle(NewOuterConeAngle : unreal.Float32) : Void;
   
 }

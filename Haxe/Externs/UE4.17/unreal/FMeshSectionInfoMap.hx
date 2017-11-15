@@ -17,7 +17,7 @@ package unreal;
 /**
   Map containing per-section settings for each section of each LOD.
 **/
-@:glueCppIncludes("Engine/StaticMesh.h")
+@:glueCppIncludes("Classes/Engine/StaticMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshSectionInfoMap {
   
 }

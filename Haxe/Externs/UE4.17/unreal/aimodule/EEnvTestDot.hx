@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Dot.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/Tests/EnvQueryTest_Dot.h")
 @:uname("EEnvTestDot")
 @:class @:uextern @:uenum extern enum EEnvTestDot {
   

@@ -58,13 +58,13 @@ package unreal;
   /**
     Take damage
   **/
-  @:ufunction public function ApplyDamage(DamageAmount : unreal.Float32, HitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseDir : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseStrength : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function ApplyDamage(DamageAmount : unreal.Float32, HitLocation : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseDir : unreal.Const<unreal.PRef<unreal.FVector>>, ImpulseStrength : unreal.Float32) : Void;
   
   /**
     Take radius damage
   **/
-  @:ufunction public function ApplyRadiusDamage(BaseDamage : unreal.Float32, HurtOrigin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, ImpulseStrength : unreal.Float32, bFullDamage : Bool) : Void;
-  @:ufunction @:final public function SetDestructibleMesh(NewMesh : unreal.UDestructibleMesh) : Void;
-  @:ufunction @:final public function GetDestructibleMesh() : unreal.UDestructibleMesh;
+  @:ufunction(BlueprintCallable) public function ApplyRadiusDamage(BaseDamage : unreal.Float32, HurtOrigin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, ImpulseStrength : unreal.Float32, bFullDamage : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDestructibleMesh(NewMesh : unreal.UDestructibleMesh) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetDestructibleMesh() : unreal.UDestructibleMesh;
   
 }

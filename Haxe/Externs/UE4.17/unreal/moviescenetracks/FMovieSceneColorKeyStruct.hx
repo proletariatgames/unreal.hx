@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Proxy structure for color section key data.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneColorSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneColorSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneColorKeyStruct extends unreal.moviescene.FMovieSceneKeyStruct {
   
   /**

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Deprecated
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:uname("EPoseDriverType")
 @:class @:uextern @:uenum extern enum EPoseDriverType {
   SwingAndTwist;

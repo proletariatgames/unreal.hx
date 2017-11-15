@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   Simple tree node for gameplay tags, this stores metadata about specific tags
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsManager.h")
+@:glueCppIncludes("Classes/GameplayTagsManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagNode {
   
 }

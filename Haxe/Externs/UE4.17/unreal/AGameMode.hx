@@ -25,37 +25,37 @@ package unreal;
   /**
     Returns the current match state, this is an accessor to protect the state machine flow
   **/
-  @:ufunction @:thisConst @:final public function GetMatchState() : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMatchState() : unreal.FName;
   
   /**
     Returns true if the match state is InProgress or other gameplay state
   **/
-  @:ufunction @:thisConst public function IsMatchInProgress() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsMatchInProgress() : Bool;
   
   /**
     Returns true if the match state is WaitingPostMatch or later
   **/
-  @:ufunction @:thisConst public function HasMatchEnded() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function HasMatchEnded() : Bool;
   
   /**
     Transition from WaitingToStart to InProgress. You can call this manually, will also get called if ReadyToStartMatch returns true
   **/
-  @:ufunction public function StartMatch() : Void;
+  @:ufunction(BlueprintCallable) public function StartMatch() : Void;
   
   /**
     Transition from InProgress to WaitingPostMatch. You can call this manually, will also get called if ReadyToEndMatch returns true
   **/
-  @:ufunction public function EndMatch() : Void;
+  @:ufunction(BlueprintCallable) public function EndMatch() : Void;
   
   /**
     Restart the game, by default travel to the current map
   **/
-  @:ufunction public function RestartGame() : Void;
+  @:ufunction(BlueprintCallable) public function RestartGame() : Void;
   
   /**
     Report that a match has failed due to unrecoverable error
   **/
-  @:ufunction public function AbortMatch() : Void;
+  @:ufunction(BlueprintCallable) public function AbortMatch() : Void;
   
   /**
     Time a playerstate will stick around in an inactive state after a player logout
@@ -110,22 +110,22 @@ package unreal;
   /**
     Implementable event to respond to match state changes
   **/
-  @:ufunction private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
+  @:ufunction(BlueprintImplementableEvent) private function K2_OnSetMatchState(NewState : unreal.FName) : Void;
   
   /**
     @return True if ready to Start Match. Games should override this
   **/
-  @:ufunction private function ReadyToStartMatch() : Bool;
+  @:ufunction(BlueprintNativeEvent) private function ReadyToStartMatch() : Bool;
   
   /**
     @return true if ready to End Match. Games should override this
   **/
-  @:ufunction private function ReadyToEndMatch() : Bool;
+  @:ufunction(BlueprintNativeEvent) private function ReadyToEndMatch() : Bool;
   
   /**
     Exec command to broadcast a string to all players
   **/
-  @:ufunction public function Say(Msg : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) public function Say(Msg : unreal.FString) : Void;
   @:ufunction public function SetBandwidthLimit(AsyncIOBandwidthLimit : unreal.Float32) : Void;
   
 }

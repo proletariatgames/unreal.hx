@@ -17,7 +17,7 @@ package unreal;
 /**
   The settings for attenuating.
 **/
-@:glueCppIncludes("Sound/SoundAttenuation.h")
+@:glueCppIncludes("Classes/Sound/SoundAttenuation.h")
 @:uextern @:ustruct extern class FSoundAttenuationSettings extends unreal.FBaseAttenuationSettings {
   
   /**

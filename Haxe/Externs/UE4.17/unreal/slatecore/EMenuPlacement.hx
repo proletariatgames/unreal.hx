@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates possible placements for pop-up menus.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Types/SlateEnums.h")
+@:glueCppIncludes("Public/Types/SlateEnums.h")
 @:uname("EMenuPlacement")
 @:uextern @:uenum extern enum EMenuPlacement {
   

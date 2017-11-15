@@ -17,7 +17,7 @@ package unreal;
 /**
   This is the base class that both baked states and transitions use
 **/
-@:glueCppIncludes("Animation/AnimStateMachineTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimStateMachineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationStateBase {
   
   /**

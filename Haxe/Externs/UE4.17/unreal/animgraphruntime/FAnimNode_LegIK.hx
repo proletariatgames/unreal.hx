@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_LegIK.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_LegIK.h")
 @:uextern @:ustruct extern class FAnimNode_LegIK extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   @:uproperty public var LegsData : unreal.TArray<unreal.animgraphruntime.FAnimLegIKData>;
   @:uproperty public var LegsDefinition : unreal.TArray<unreal.animgraphruntime.FAnimLegIKDefinition>;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/MeshMerging.h")
+@:glueCppIncludes("Classes/Engine/MeshMerging.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshProxySettings {
   
   /**

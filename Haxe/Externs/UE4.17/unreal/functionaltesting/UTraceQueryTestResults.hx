@@ -36,6 +36,6 @@ package unreal.functionaltesting;
   /**
     Output string value
   **/
-  @:ufunction @:final public function ToString() : unreal.FString;
+  @:ufunction(BlueprintCallable) @:final public function ToString() : unreal.FString;
   
 }

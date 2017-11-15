@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:uname("EMontagePlayReturnType")
 @:class @:uextern @:uenum extern enum EMontagePlayReturnType {
   

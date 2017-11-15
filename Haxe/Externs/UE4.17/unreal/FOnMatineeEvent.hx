@@ -18,5 +18,5 @@ package unreal;
   Signature of function to handle a matinee event track key
   
 **/
-@:glueCppIncludes("Matinee/MatineeActor.h")
+@:glueCppIncludes("Classes/Matinee/MatineeActor.h")
 typedef FOnMatineeEvent = unreal.DynamicMulticastDelegate<FOnMatineeEvent, Void->Void>;

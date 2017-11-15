@@ -21,7 +21,7 @@ package unreal.portalservices;
   Disk cache level includes Memory cache level.
 **/
 @:umodule("PortalServices")
-@:glueCppIncludes("Account/IPortalUser.h")
+@:glueCppIncludes("Public/Account/IPortalUser.h")
 @:uname("EEntitlementCacheLevelRequest")
 @:class @:uextern @:uenum extern enum EEntitlementCacheLevelRequest {
   

@@ -18,6 +18,6 @@ package unreal;
   @param AxisValue
   
 **/
-@:glueCppIncludes("Components/InputComponent.h")
+@:glueCppIncludes("Classes/Components/InputComponent.h")
 @:uParamName("AxisValue")
 typedef FInputVectorAxisHandlerDynamicSignature = unreal.DynamicDelegate<FInputVectorAxisHandlerDynamicSignature, unreal.FVector->Void>;

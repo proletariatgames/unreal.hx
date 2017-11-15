@@ -17,7 +17,7 @@ package unreal;
 /**
   LOD specific setup for the skeletal mesh component.
 **/
-@:glueCppIncludes("Components/SkinnedMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkinnedMeshComponent.h")
 @:uextern @:ustruct extern class FSkelMeshComponentLODInfo {
   
   /**

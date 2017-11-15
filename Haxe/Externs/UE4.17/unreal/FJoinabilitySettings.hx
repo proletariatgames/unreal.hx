@@ -19,7 +19,7 @@ package unreal;
   
   Circular dependency on Core vs UHT means we have to noexport these structs so tools can build
 **/
-@:glueCppIncludes("UObject/CoreOnline.h")
+@:glueCppIncludes("Public/UObject/CoreOnline.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FJoinabilitySettings {
   
 }

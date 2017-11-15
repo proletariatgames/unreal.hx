@@ -15,7 +15,7 @@
 package unreal.inputcore;
 
 @:umodule("InputCore")
-@:glueCppIncludes("InputCoreTypes.h")
+@:glueCppIncludes("Classes/InputCoreTypes.h")
 @:uname("EConsoleForGamepadLabels.Type")
 @:uextern @:uenum extern enum EConsoleForGamepadLabels {
   None;

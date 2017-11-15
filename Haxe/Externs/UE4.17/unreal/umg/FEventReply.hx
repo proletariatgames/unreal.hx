@@ -18,7 +18,7 @@ package unreal.umg;
   Allows users to handle events and return information to the underlying UI layer.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SlateWrapperTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEventReply {
   
 }

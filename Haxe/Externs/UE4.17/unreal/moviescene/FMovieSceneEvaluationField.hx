@@ -18,7 +18,7 @@ package unreal.moviescene;
   Memory layout optimized primarily for speed of searching the applicable ranges
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationField {
   
   /**

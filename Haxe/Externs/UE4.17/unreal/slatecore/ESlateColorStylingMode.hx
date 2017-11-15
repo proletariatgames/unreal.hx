@@ -20,7 +20,7 @@ package unreal.slatecore;
   Should we use the specified color? If not, then which color from the style should we use.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateColor.h")
+@:glueCppIncludes("Public/Styling/SlateColor.h")
 @:uname("ESlateColorStylingMode.Type")
 @:uextern @:uenum extern enum ESlateColorStylingMode {
   

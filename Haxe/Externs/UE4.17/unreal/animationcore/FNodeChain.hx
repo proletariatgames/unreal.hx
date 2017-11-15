@@ -18,7 +18,7 @@ package unreal.animationcore;
   A chain of nodes in a hierarchy
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("NodeChain.h")
+@:glueCppIncludes("Public/NodeChain.h")
 @:uextern @:ustruct extern class FNodeChain {
   @:uproperty public var Nodes : unreal.TArray<unreal.FName>;
   

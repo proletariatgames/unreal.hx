@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   Holds a named object interface for dynamically bound interfaces
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("NamedInterfaces.h")
+@:glueCppIncludes("Public/NamedInterfaces.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNamedInterface {
   
   /**

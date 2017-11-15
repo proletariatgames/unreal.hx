@@ -15,7 +15,7 @@
 package unreal.logvisualizer;
 
 @:umodule("LogVisualizer")
-@:glueCppIncludes("LogVisualizerSettings.h")
+@:glueCppIncludes("Public/LogVisualizerSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVisualLoggerFilters extends unreal.logvisualizer.FVisualLoggerFiltersData {
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Matinee/InterpTrackMove.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackMove.h")
 @:uname("EInterpTrackMoveRotMode")
 @:uextern @:uenum extern enum EInterpTrackMoveRotMode {
   

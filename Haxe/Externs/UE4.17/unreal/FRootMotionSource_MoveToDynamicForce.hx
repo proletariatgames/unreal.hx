@@ -18,7 +18,7 @@ package unreal;
   MoveToDynamicForce moves the target to a given location in world space over the duration, where the end location
   is dynamic and can change during the move (meant to be used for things like moving to a moving target)
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource_MoveToDynamicForce extends unreal.FRootMotionSource {
   @:uproperty public var TimeMappingCurve : unreal.UCurveFloat;
   @:uproperty public var PathOffsetCurve : unreal.UCurveVector;

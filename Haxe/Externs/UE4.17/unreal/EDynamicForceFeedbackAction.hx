@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/PlayerController.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerController.h")
 @:uname("EDynamicForceFeedbackAction.Type")
 @:uextern @:uenum extern enum EDynamicForceFeedbackAction {
   Start;

@@ -18,7 +18,7 @@ package unreal.moviescene;
   Enumeration specifying how to handle state when this section is no longer evaluated
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneSection.h")
+@:glueCppIncludes("Public/MovieSceneSection.h")
 @:uname("EMovieSceneCompletionMode")
 @:class @:uextern @:uenum extern enum EMovieSceneCompletionMode {
   KeepState;

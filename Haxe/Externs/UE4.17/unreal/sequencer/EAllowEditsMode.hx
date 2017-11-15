@@ -18,7 +18,7 @@ package unreal.sequencer;
   Defines allow edits mode.
 **/
 @:umodule("Sequencer")
-@:glueCppIncludes("ISequencer.h")
+@:glueCppIncludes("Public/ISequencer.h")
 @:uname("EAllowEditsMode")
 @:class @:uextern @:uenum extern enum EAllowEditsMode {
   

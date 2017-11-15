@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates label anchor modes.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorPlaySettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorPlaySettings.h")
 @:uname("ELabelAnchorMode")
 @:uextern @:uenum extern enum ELabelAnchorMode {
   

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/MaterialMerging.h")
+@:glueCppIncludes("Classes/Engine/MaterialMerging.h")
 @:uname("ETextureSizingType")
 @:uextern @:uenum extern enum ETextureSizingType {
   

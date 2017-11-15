@@ -17,7 +17,7 @@ package unreal;
 /**
   One convex hull, used for simplified collision.
 **/
-@:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
+@:glueCppIncludes("Classes/PhysicsEngine/AggregateGeometry2D.h")
 @:uextern @:ustruct extern class FConvexElement2D {
   
   /**

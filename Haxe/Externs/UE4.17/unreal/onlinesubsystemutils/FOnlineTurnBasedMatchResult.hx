@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param MatchID
   
 **/
-@:glueCppIncludes("FindTurnBasedMatchCallbackProxy.h")
+@:glueCppIncludes("Classes/FindTurnBasedMatchCallbackProxy.h")
 @:uParamName("MatchID")
 @:umodule("OnlineSubsystemUtils")
 typedef FOnlineTurnBasedMatchResult = unreal.DynamicMulticastDelegate<FOnlineTurnBasedMatchResult, unreal.FString->Void>;

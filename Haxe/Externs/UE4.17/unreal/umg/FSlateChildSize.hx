@@ -18,7 +18,7 @@ package unreal.umg;
   A struct exposing size param related properties to UMG.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SlateWrapperTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSlateChildSize {
   
   /**

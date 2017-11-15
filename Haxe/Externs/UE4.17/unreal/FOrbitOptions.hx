@@ -17,7 +17,7 @@ package unreal;
 /**
   Container struct for holding options on the data updating for the module.
 **/
-@:glueCppIncludes("Particles/Orbit/ParticleModuleOrbit.h")
+@:glueCppIncludes("Classes/Particles/Orbit/ParticleModuleOrbit.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FOrbitOptions {
   
   /**

@@ -67,12 +67,12 @@ package unreal.umg;
     The padding area between the slot and the content it contains.
   **/
   @:uproperty public var Padding : unreal.slatecore.FMargin;
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
-  @:ufunction @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
-  @:ufunction @:final public function SetApplyAlphaToBlur(bInApplyAlphaToBlur : Bool) : Void;
-  @:ufunction @:final public function SetBlurRadius(InBlurRadius : unreal.Int32) : Void;
-  @:ufunction public function SetBlurStrength(InStrength : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLowQualityFallbackBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVerticalAlignment(InVerticalAlignment : unreal.slatecore.EVerticalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetApplyAlphaToBlur(bInApplyAlphaToBlur : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBlurRadius(InBlurRadius : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBlurStrength(InStrength : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLowQualityFallbackBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
   
 }

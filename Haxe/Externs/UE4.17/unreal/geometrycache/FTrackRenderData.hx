@@ -18,7 +18,7 @@ package unreal.geometrycache;
   Stores the RenderData for each individual track
 **/
 @:umodule("GeometryCache")
-@:glueCppIncludes("GeometryCacheComponent.h")
+@:glueCppIncludes("Classes/GeometryCacheComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTrackRenderData {
   
 }

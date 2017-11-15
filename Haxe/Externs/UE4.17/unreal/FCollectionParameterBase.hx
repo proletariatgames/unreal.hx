@@ -17,7 +17,7 @@ package unreal;
 /**
   Base struct for collection parameters
 **/
-@:glueCppIncludes("Materials/MaterialParameterCollection.h")
+@:glueCppIncludes("Classes/Materials/MaterialParameterCollection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCollectionParameterBase {
   
   /**

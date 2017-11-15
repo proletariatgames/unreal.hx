@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FCompressedTrack {
   @:uproperty public var Times : unreal.TArray<unreal.Float32>;
   @:uproperty public var ByteStream : unreal.TArray<unreal.UInt8>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Platform-specific data used streaming audio at runtime.
 **/
-@:glueCppIncludes("Sound/SoundWave.h")
+@:glueCppIncludes("Classes/Sound/SoundWave.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStreamedAudioPlatformData {
   
 }

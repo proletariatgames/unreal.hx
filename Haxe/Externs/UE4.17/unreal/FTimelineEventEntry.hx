@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct that contains one entry for an 'event' during the timeline
 **/
-@:glueCppIncludes("Components/TimelineComponent.h")
+@:glueCppIncludes("Classes/Components/TimelineComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTimelineEventEntry {
   
   /**

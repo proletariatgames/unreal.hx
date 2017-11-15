@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalUserLoginMessages.h")
+@:glueCppIncludes("Public/PortalUserLoginMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserLoginPromptUserForSignInRequest extends unreal.messagingrpc.FRpcMessage {
   
 }

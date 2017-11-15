@@ -19,7 +19,7 @@ package unreal;
   @param ButtonPressed
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("TouchedComponent")
 @:uParamName("ButtonPressed")
 typedef FComponentOnClickedSignature = unreal.DynamicMulticastDelegate<FComponentOnClickedSignature, unreal.UPrimitiveComponent->unreal.inputcore.FKey->Void>;

@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxStaticMeshImportData.h")
+@:glueCppIncludes("Classes/Factories/FbxStaticMeshImportData.h")
 @:uname("EVertexColorImportOption.Type")
 @:uextern @:uenum extern enum EVertexColorImportOption {
   

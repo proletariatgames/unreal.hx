@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure containing information about minimum translation direction (MTD)
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uextern @:ustruct extern class FMTDResult {
   
   /**

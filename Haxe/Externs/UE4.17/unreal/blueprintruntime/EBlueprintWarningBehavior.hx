@@ -15,7 +15,7 @@
 package unreal.blueprintruntime;
 
 @:umodule("BlueprintRuntime")
-@:glueCppIncludes("BlueprintRuntimeSettings.h")
+@:glueCppIncludes("Public/BlueprintRuntimeSettings.h")
 @:uname("EBlueprintWarningBehavior")
 @:class @:uextern @:uenum extern enum EBlueprintWarningBehavior {
   Warn;

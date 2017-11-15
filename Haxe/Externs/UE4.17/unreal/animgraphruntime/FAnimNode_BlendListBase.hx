@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Blend list node; has many children
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_BlendListBase.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_BlendListBase.h")
 @:uextern @:ustruct extern class FAnimNode_BlendListBase extends unreal.FAnimNode_Base {
   @:uproperty private var PerBoneSampleData : unreal.TArray<unreal.FBlendSampleData>;
   @:uproperty private var LastActiveChildIndex : unreal.Int32;

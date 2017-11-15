@@ -19,7 +19,7 @@ package unreal;
   
   A struct used as stub for deleted ones.
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFallbackStruct {
   
 }

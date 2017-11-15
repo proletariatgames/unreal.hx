@@ -18,7 +18,7 @@ package unreal.levelsequence;
   Legacy method by which objects were referenced within a level sequence. No longer used. See FLevelSequenceBindingReference for up-to-date implementation.
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceLegacyObjectReference.h")
+@:glueCppIncludes("Public/LevelSequenceLegacyObjectReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceLegacyObjectReference {
   
 }

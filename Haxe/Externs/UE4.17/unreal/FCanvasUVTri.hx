@@ -17,7 +17,7 @@ package unreal;
 /**
   Simple 2d triangle with UVs
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCanvasUVTri {
   
   /**

@@ -482,104 +482,104 @@ package unreal;
     Components on the other Actor may also need to be told to do the same when they move.
     Does not affect movement of this component when simulating physics.
   **/
-  @:ufunction @:final public function IgnoreActorWhenMoving(Actor : unreal.AActor, bShouldIgnore : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function IgnoreActorWhenMoving(Actor : unreal.AActor, bShouldIgnore : Bool) : Void;
   
   /**
     Returns the list of actors we currently ignore when moving.
   **/
-  @:ufunction @:final public function CopyArrayOfMoveIgnoreActors() : unreal.TArray<unreal.AActor>;
+  @:ufunction(BlueprintCallable) @:final public function CopyArrayOfMoveIgnoreActors() : unreal.TArray<unreal.AActor>;
   
   /**
     Clear the list of actors we ignore when moving.
   **/
-  @:ufunction @:final public function ClearMoveIgnoreActors() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMoveIgnoreActors() : Void;
   
   /**
     Tells this component whether to ignore collision with another component when this component is moved.
     The other components may also need to be told to do the same when they move.
     Does not affect movement of this component when simulating physics.
   **/
-  @:ufunction @:final public function IgnoreComponentWhenMoving(Component : unreal.UPrimitiveComponent, bShouldIgnore : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function IgnoreComponentWhenMoving(Component : unreal.UPrimitiveComponent, bShouldIgnore : Bool) : Void;
   
   /**
     Returns the list of actors we currently ignore when moving.
   **/
-  @:ufunction @:final public function CopyArrayOfMoveIgnoreComponents() : unreal.TArray<unreal.UPrimitiveComponent>;
+  @:ufunction(BlueprintCallable) @:final public function CopyArrayOfMoveIgnoreComponents() : unreal.TArray<unreal.UPrimitiveComponent>;
   
   /**
     Clear the list of components we ignore when moving.
   **/
-  @:ufunction @:final public function ClearMoveIgnoreComponents() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMoveIgnoreComponents() : Void;
   
   /**
     Check whether this component is overlapping another component.
     @param OtherComp Component to test this component against.
     @return Whether this component is overlapping another component.
   **/
-  @:ufunction @:thisConst @:final public function IsOverlappingComponent(OtherComp : unreal.Const<unreal.UPrimitiveComponent>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsOverlappingComponent(OtherComp : unreal.Const<unreal.UPrimitiveComponent>) : Bool;
   
   /**
     Check whether this component is overlapping any component of the given Actor.
     @param Other Actor to test this component against.
     @return Whether this component is overlapping any component of the given Actor.
   **/
-  @:ufunction @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsOverlappingActor(Other : unreal.Const<unreal.AActor>) : Bool;
   
   /**
     Returns a list of actors that this component is overlapping.
     @param OverlappingActors             [out] Returned list of overlapping actors
     @param ClassFilter                   [optional] If set, only returns actors of this class or subclasses
   **/
-  @:ufunction @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOverlappingActors(OverlappingActors : unreal.PRef<unreal.TArray<unreal.AActor>>, ClassFilter : unreal.TSubclassOf<unreal.AActor>) : Void;
   
   /**
     Returns list of components this component is overlapping.
   **/
-  @:ufunction @:thisConst @:final public function GetOverlappingComponents(InOverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOverlappingComponents(InOverlappingComponents : unreal.PRef<unreal.TArray<unreal.UPrimitiveComponent>>) : Void;
   
   /**
     Scale the bounds of this object, used for frustum culling. Useful for features like WorldPositionOffset.
   **/
-  @:ufunction @:final public function SetBoundsScale(NewBoundsScale : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoundsScale(NewBoundsScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Returns the material used by the element at the specified index
     @param ElementIndex - The element to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  @:ufunction @:thisConst public function GetMaterial(ElementIndex : unreal.Int32) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaterial(ElementIndex : unreal.Int32) : unreal.UMaterialInterface;
   
   /**
     Changes the material applied to an element of the mesh.
     @param ElementIndex - The element to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  @:ufunction public function SetMaterial(ElementIndex : unreal.Int32, Material : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) public function SetMaterial(ElementIndex : unreal.Int32, Material : unreal.UMaterialInterface) : Void;
   
   /**
     Changes the material applied to an element of the mesh.
     @param MaterialSlotName - The slot name to access the material of.
     @return the material used by the indexed element of this mesh.
   **/
-  @:ufunction public function SetMaterialByName(MaterialSlotName : unreal.FName, Material : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) public function SetMaterialByName(MaterialSlotName : unreal.FName, Material : unreal.UMaterialInterface) : Void;
   
   /**
     Creates a Dynamic Material Instance for the specified element index.  The parent of the instance is set to the material being replaced.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  @:ufunction public function CreateAndSetMaterialInstanceDynamic(ElementIndex : unreal.Int32) : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) public function CreateAndSetMaterialInstanceDynamic(ElementIndex : unreal.Int32) : unreal.UMaterialInstanceDynamic;
   
   /**
     Creates a Dynamic Material Instance for the specified element index.  The parent of the instance is set to the material being replaced.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  @:ufunction public function CreateAndSetMaterialInstanceDynamicFromMaterial(ElementIndex : unreal.Int32, Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) public function CreateAndSetMaterialInstanceDynamicFromMaterial(ElementIndex : unreal.Int32, Parent : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     Creates a Dynamic Material Instance for the specified element index, optionally from the supplied material.
     @param ElementIndex - The index of the skin to replace the material for.  If invalid, the material is unchanged and NULL is returned.
   **/
-  @:ufunction public function CreateDynamicMaterialInstance(ElementIndex : unreal.Int32, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) public function CreateDynamicMaterialInstance(ElementIndex : unreal.Int32, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     Try and retrieve the material applied to a particular collision face of mesh. Used with face index returned from collision trace.
@@ -587,17 +587,17 @@ package unreal;
          @param  SectionIndex    Section of the mesh that the face belongs to
          @return                                 Material applied to section that the hit face belongs to
   **/
-  @:ufunction @:thisConst public function GetMaterialFromCollisionFaceIndex(FaceIndex : unreal.Int32, SectionIndex : unreal.Int32) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMaterialFromCollisionFaceIndex(FaceIndex : unreal.Int32, SectionIndex : unreal.Int32) : unreal.UMaterialInterface;
   
   /**
     Returns the slope override struct for this component.
   **/
-  @:ufunction @:thisConst @:final public function GetWalkableSlopeOverride() : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetWalkableSlopeOverride() : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>;
   
   /**
     Sets a new slope override for this component instance.
   **/
-  @:ufunction @:final public function SetWalkableSlopeOverride(NewOverride : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWalkableSlopeOverride(NewOverride : unreal.Const<unreal.PRef<unreal.FWalkableSlopeOverride>>) : Void;
   
   /**
     Sets whether or not a single body should use physics simulation, or should be 'fixed' (kinematic).
@@ -605,14 +605,14 @@ package unreal;
     
     @param  bSimulate       New simulation state for single body
   **/
-  @:ufunction public function SetSimulatePhysics(bSimulate : Bool) : Void;
-  @:ufunction public function SetLockedAxis(LockedAxis : unreal.EDOFMode) : Void;
+  @:ufunction(BlueprintCallable) public function SetSimulatePhysics(bSimulate : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetLockedAxis(LockedAxis : unreal.EDOFMode) : Void;
   
   /**
     Sets the constraint mode of the component.
     @param ConstraintMode        The type of constraint to use.
   **/
-  @:ufunction public function SetConstraintMode(ConstraintMode : unreal.EDOFMode) : Void;
+  @:ufunction(BlueprintCallable) public function SetConstraintMode(ConstraintMode : unreal.EDOFMode) : Void;
   
   /**
     Add an impulse to a single rigid body. Good for one time instant burst.
@@ -621,7 +621,7 @@ package unreal;
     @param  BoneName        If a SkeletalMeshComponent, name of body to apply impulse to. 'None' indicates root body.
     @param  bVelChange      If true, the Strength is taken as a change in velocity instead of an impulse (ie. mass will have no affect).
   **/
-  @:ufunction public function AddImpulse(Impulse : unreal.FVector, @:opt("None") BoneName : unreal.FName, bVelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddImpulse(Impulse : unreal.FVector, @:opt("None") BoneName : unreal.FName, bVelChange : Bool = false) : Void;
   
   /**
     Add an angular impulse to a single rigid body. Good for one time instant burst.
@@ -630,7 +630,7 @@ package unreal;
     @param  BoneName        If a SkeletalMeshComponent, name of body to apply angular impulse to. 'None' indicates root body.
     @param  bVelChange      If true, the Strength is taken as a change in angular velocity instead of an impulse (ie. mass will have no affect).
   **/
-  @:ufunction public function AddAngularImpulse(Impulse : unreal.FVector, @:opt("None") BoneName : unreal.FName, bVelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddAngularImpulse(Impulse : unreal.FVector, @:opt("None") BoneName : unreal.FName, bVelChange : Bool = false) : Void;
   
   /**
     Add an impulse to a single rigid body at a specific location.
@@ -639,7 +639,7 @@ package unreal;
     @param  Location        Point in world space to apply impulse at.
     @param  BoneName        If a SkeletalMeshComponent, name of bone to apply impulse to. 'None' indicates root body.
   **/
-  @:ufunction public function AddImpulseAtLocation(Impulse : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) public function AddImpulseAtLocation(Impulse : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Add an impulse to all rigid bodies in this component, radiating out from the specified position.
@@ -650,7 +650,7 @@ package unreal;
     @param Falloff               Allows you to control the strength of the impulse as a function of distance from Origin.
     @param bVelChange    If true, the Strength is taken as a change in velocity instead of an impulse (ie. mass will have no affect).
   **/
-  @:ufunction public function AddRadialImpulse(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bVelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddRadialImpulse(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bVelChange : Bool = false) : Void;
   
   /**
     Add a force to a single rigid body.
@@ -660,7 +660,7 @@ package unreal;
     @param  BoneName         If a SkeletalMeshComponent, name of body to apply force to. 'None' indicates root body.
     @param  bAccelChange If true, Force is taken as a change in acceleration instead of a physical force (i.e. mass will have no affect).
   **/
-  @:ufunction public function AddForce(Force : unreal.FVector, @:opt("None") BoneName : unreal.FName, bAccelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddForce(Force : unreal.FVector, @:opt("None") BoneName : unreal.FName, bAccelChange : Bool = false) : Void;
   
   /**
     Add a force to a single rigid body at a particular location in world space.
@@ -670,7 +670,7 @@ package unreal;
     @param Location         Location to apply force, in world space.
     @param BoneName         If a SkeletalMeshComponent, name of body to apply force to. 'None' indicates root body.
   **/
-  @:ufunction public function AddForceAtLocation(Force : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) public function AddForceAtLocation(Force : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Add a force to a single rigid body at a particular location. Both Force and Location should be in body space.
@@ -680,7 +680,7 @@ package unreal;
     @param Location         Location to apply force, in component space.
     @param BoneName         If a SkeletalMeshComponent, name of body to apply force to. 'None' indicates root body.
   **/
-  @:ufunction public function AddForceAtLocationLocal(Force : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) public function AddForceAtLocationLocal(Force : unreal.FVector, Location : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Add a force to all bodies in this component, originating from the supplied world-space location.
@@ -691,7 +691,7 @@ package unreal;
     @param Falloff              Allows you to control the strength of the force as a function of distance from Origin.
     @param bAccelChange If true, Strength is taken as a change in acceleration instead of a physical force (i.e. mass will have no affect).
   **/
-  @:ufunction public function AddRadialForce(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bAccelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddRadialForce(Origin : unreal.FVector, Radius : unreal.Float32, Strength : unreal.Float32, Falloff : unreal.ERadialImpulseFalloff, bAccelChange : Bool = false) : Void;
   
   /**
     Add a torque to a single rigid body.
@@ -699,7 +699,7 @@ package unreal;
     @param BoneName         If a SkeletalMeshComponent, name of body to apply torque to. 'None' indicates root body.
     @param bAccelChange If true, Torque is taken as a change in angular acceleration instead of a physical torque (i.e. mass will have no affect).
   **/
-  @:ufunction @:final public function AddTorque(Torque : unreal.FVector, @:opt("None") BoneName : unreal.FName, bAccelChange : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddTorque(Torque : unreal.FVector, @:opt("None") BoneName : unreal.FName, bAccelChange : Bool = false) : Void;
   
   /**
     Set the linear velocity of a single body.
@@ -709,20 +709,20 @@ package unreal;
     @param bAddToCurrent    If true, NewVel is added to the existing velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function SetPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Get the linear velocity of a single body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function GetPhysicsLinearVelocity(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function GetPhysicsLinearVelocity(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Get the linear velocity of a point on a single body.
     @param Point                    Point is specified in world space.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function GetPhysicsLinearVelocityAtPoint(Point : unreal.FVector, @:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function GetPhysicsLinearVelocityAtPoint(Point : unreal.FVector, @:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Set the linear velocity of all bodies in this component.
@@ -730,7 +730,7 @@ package unreal;
     @param NewVel                   New linear velocity to apply to physics.
     @param bAddToCurrent    If true, NewVel is added to the existing velocity of the body.
   **/
-  @:ufunction public function SetAllPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function SetAllPhysicsLinearVelocity(NewVel : unreal.FVector, bAddToCurrent : Bool = false) : Void;
   
   /**
     Set the angular velocity of a single body.
@@ -740,7 +740,7 @@ package unreal;
     @param bAddToCurrent    If true, NewAngVel is added to the existing angular velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify angular velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function SetPhysicsAngularVelocity(NewAngVel : unreal.FVector, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPhysicsAngularVelocity(NewAngVel : unreal.FVector, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Set the maximum angular velocity of a single body.
@@ -749,20 +749,20 @@ package unreal;
     @param bAddToCurrent    If true, NewMaxAngVel is added to the existing maximum angular velocity of the body.
     @param BoneName                 If a SkeletalMeshComponent, name of body to modify maximum angular velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function SetPhysicsMaxAngularVelocity(NewMaxAngVel : unreal.Float32, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPhysicsMaxAngularVelocity(NewMaxAngVel : unreal.Float32, bAddToCurrent : Bool = false, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Get the angular velocity of a single body, in degrees per second.
     @param BoneName                 If a SkeletalMeshComponent, name of body to get velocity of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function GetPhysicsAngularVelocity(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function GetPhysicsAngularVelocity(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Get the center of mass of a single body. In the case of a welded body this will return the center of mass of the entire welded body (including its parent and children)
     Objects that are not simulated return (0,0,0) as they do not have COM
     @param BoneName                 If a SkeletalMeshComponent, name of body to get center of mass of. 'None' indicates root body.
   **/
-  @:ufunction @:thisConst @:final public function GetCenterOfMass(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCenterOfMass(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Set the center of mass of a single body. This will offset the physx-calculated center of mass.
@@ -770,60 +770,60 @@ package unreal;
     @param CenterOfMassOffset               User specified offset for the center of mass of this object, from the calculated location.
     @param BoneName                 If a SkeletalMeshComponent, name of body to set center of mass of. 'None' indicates root body.
   **/
-  @:ufunction @:final public function SetCenterOfMass(CenterOfMassOffset : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCenterOfMass(CenterOfMassOffset : unreal.FVector, @:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     'Wake' physics simulation for a single body.
     @param  BoneName        If a SkeletalMeshComponent, name of body to wake. 'None' indicates root body.
   **/
-  @:ufunction public function WakeRigidBody(@:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) public function WakeRigidBody(@:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Force a single body back to sleep.
     @param  BoneName        If a SkeletalMeshComponent, name of body to put to sleep. 'None' indicates root body.
   **/
-  @:ufunction @:final public function PutRigidBodyToSleep(@:opt("None") BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function PutRigidBodyToSleep(@:opt("None") BoneName : unreal.FName) : Void;
   
   /**
     Changes the value of bNotifyRigidBodyCollision
     @param bNewNotifyRigidBodyCollision - The value to assign to bNotifyRigidBodyCollision
   **/
-  @:ufunction public function SetNotifyRigidBodyCollision(bNewNotifyRigidBodyCollision : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetNotifyRigidBodyCollision(bNewNotifyRigidBodyCollision : Bool) : Void;
   
   /**
     Changes the value of bOwnerNoSee.
   **/
-  @:ufunction @:final public function SetOwnerNoSee(bNewOwnerNoSee : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOwnerNoSee(bNewOwnerNoSee : Bool) : Void;
   
   /**
     Changes the value of bOnlyOwnerSee.
   **/
-  @:ufunction @:final public function SetOnlyOwnerSee(bNewOnlyOwnerSee : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOnlyOwnerSee(bNewOnlyOwnerSee : Bool) : Void;
   
   /**
     Changes the value of CastShadow.
   **/
-  @:ufunction @:final public function SetCastShadow(NewCastShadow : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCastShadow(NewCastShadow : Bool) : Void;
   
   /**
     Changes the value of bSingleSampleShadowFromStationaryLights.
   **/
-  @:ufunction @:final public function SetSingleSampleShadowFromStationaryLights(bNewSingleSampleShadowFromStationaryLights : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSingleSampleShadowFromStationaryLights(bNewSingleSampleShadowFromStationaryLights : Bool) : Void;
   
   /**
     Changes the value of TranslucentSortPriority.
   **/
-  @:ufunction @:final public function SetTranslucentSortPriority(NewTranslucentSortPriority : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTranslucentSortPriority(NewTranslucentSortPriority : unreal.Int32) : Void;
   
   /**
     Changes the value of bReceivesDecals.
   **/
-  @:ufunction @:final public function SetReceivesDecals(bNewReceivesDecals : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetReceivesDecals(bNewReceivesDecals : Bool) : Void;
   
   /**
     Controls what kind of collision is enabled for this body
   **/
-  @:ufunction public function SetCollisionEnabled(NewType : unreal.ECollisionEnabled) : Void;
+  @:ufunction(BlueprintCallable) public function SetCollisionEnabled(NewType : unreal.ECollisionEnabled) : Void;
   
   /**
     Set Collision Profile Name
@@ -832,53 +832,53 @@ package unreal;
     
     @param InCollisionProfileName : New Profile Name
   **/
-  @:ufunction public function SetCollisionProfileName(InCollisionProfileName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) public function SetCollisionProfileName(InCollisionProfileName : unreal.FName) : Void;
   
   /**
     Get the collision profile name
   **/
-  @:ufunction @:thisConst @:final public function GetCollisionProfileName() : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCollisionProfileName() : unreal.FName;
   
   /**
     Changes the collision channel that this object uses when it moves
     @param      Channel     The new channel for this component to use
   **/
-  @:ufunction public function SetCollisionObjectType(Channel : unreal.ECollisionChannel) : Void;
+  @:ufunction(BlueprintCallable) public function SetCollisionObjectType(Channel : unreal.ECollisionChannel) : Void;
   
   /**
     Perform a line trace against a single component
   **/
-  @:ufunction @:final public function K2_LineTraceComponent(TraceStart : unreal.FVector, TraceEnd : unreal.FVector, @:bpopt("true") bTraceComplex : Bool, bShowTrace : Bool, HitLocation : unreal.PRef<unreal.FVector>, HitNormal : unreal.PRef<unreal.FVector>, BoneName : unreal.PRef<unreal.FName>, OutHit : unreal.PRef<unreal.FHitResult>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function K2_LineTraceComponent(TraceStart : unreal.FVector, TraceEnd : unreal.FVector, @:bpopt("true") bTraceComplex : Bool, bShowTrace : Bool, HitLocation : unreal.PRef<unreal.FVector>, HitNormal : unreal.PRef<unreal.FVector>, BoneName : unreal.PRef<unreal.FName>, OutHit : unreal.PRef<unreal.FHitResult>) : Bool;
   
   /**
     Sets the bRenderCustomDepth property and marks the render state dirty.
   **/
-  @:ufunction @:final public function SetRenderCustomDepth(bValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderCustomDepth(bValue : Bool) : Void;
   
   /**
     Sets the CustomDepth stencil value (0 - 255) and marks the render state dirty.
   **/
-  @:ufunction @:final public function SetCustomDepthStencilValue(Value : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCustomDepthStencilValue(Value : unreal.Int32) : Void;
   
   /**
     Sets the CustomDepth stencil write mask and marks the render state dirty.
   **/
-  @:ufunction @:final public function SetCustomDepthStencilWriteMask(WriteMaskBit : unreal.ERendererStencilMask) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCustomDepthStencilWriteMask(WriteMaskBit : unreal.ERendererStencilMask) : Void;
   
   /**
     Sets bRenderInMainPass property and marks the render state dirty.
   **/
-  @:ufunction @:final public function SetRenderInMainPass(bValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderInMainPass(bValue : Bool) : Void;
   
   /**
     Sets bRenderInMono property and marks the render state dirty.
   **/
-  @:ufunction @:final public function SetRenderInMono(bValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRenderInMono(bValue : Bool) : Void;
   
   /**
     @return number of material elements in this primitive
   **/
-  @:ufunction @:thisConst public function GetNumMaterials() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetNumMaterials() : unreal.Int32;
   
   /**
     Returns the distance and closest point to the collision surface.
@@ -891,37 +891,37 @@ package unreal;
     @return               Success if returns > 0.f, if returns 0.f, it is either not convex or inside of the point
                                   If returns < 0.f, this primitive does not have collsion
   **/
-  @:ufunction @:thisConst @:final public function GetClosestPointOnCollision(Point : unreal.Const<unreal.PRef<unreal.FVector>>, OutPointOnBody : unreal.PRef<unreal.FVector>, @:opt("None") BoneName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetClosestPointOnCollision(Point : unreal.Const<unreal.PRef<unreal.FVector>>, OutPointOnBody : unreal.PRef<unreal.FVector>, @:opt("None") BoneName : unreal.FName) : unreal.Float32;
   
   /**
     Returns the form of collision for this component
   **/
-  @:ufunction @:thisConst public function GetCollisionEnabled() : unreal.ECollisionEnabled;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetCollisionEnabled() : unreal.ECollisionEnabled;
   
   /**
     Utility to see if there is any form of collision (query or physics) enabled on this component.
   **/
-  @:ufunction @:thisConst @:final public function K2_IsCollisionEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_IsCollisionEnabled() : Bool;
   
   /**
     Utility to see if there is any query collision enabled on this component.
   **/
-  @:ufunction @:thisConst @:final public function K2_IsQueryCollisionEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_IsQueryCollisionEnabled() : Bool;
   
   /**
     Utility to see if there is any physics collision enabled on this component.
   **/
-  @:ufunction @:thisConst @:final public function K2_IsPhysicsCollisionEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_IsPhysicsCollisionEnabled() : Bool;
   
   /**
     Gets the response type given a specific channel
   **/
-  @:ufunction @:thisConst public function GetCollisionResponseToChannel(Channel : unreal.ECollisionChannel) : unreal.ECollisionResponse;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetCollisionResponseToChannel(Channel : unreal.ECollisionChannel) : unreal.ECollisionResponse;
   
   /**
     Gets the collision object type
   **/
-  @:ufunction @:thisConst public function GetCollisionObjectType() : unreal.ECollisionChannel;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetCollisionObjectType() : unreal.ECollisionChannel;
   
   /**
     Set the angular velocity of all bodies in this component.
@@ -929,84 +929,84 @@ package unreal;
     @param NewAngVel                New angular velocity to apply to physics, in degrees per second.
     @param bAddToCurrent    If true, NewAngVel is added to the existing angular velocity of all bodies.
   **/
-  @:ufunction public function SetAllPhysicsAngularVelocity(NewAngVel : unreal.Const<unreal.PRef<unreal.FVector>>, bAddToCurrent : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function SetAllPhysicsAngularVelocity(NewAngVel : unreal.Const<unreal.PRef<unreal.FVector>>, bAddToCurrent : Bool = false) : Void;
   
   /**
     Ensure simulation is running for all bodies in this component.
   **/
-  @:ufunction public function WakeAllRigidBodies() : Void;
+  @:ufunction(BlueprintCallable) public function WakeAllRigidBodies() : Void;
   
   /**
     Enables/disables whether this component is affected by gravity. This applies only to components with bSimulatePhysics set to true.
   **/
-  @:ufunction public function SetEnableGravity(bGravityEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetEnableGravity(bGravityEnabled : Bool) : Void;
   
   /**
     Returns whether this component is affected by gravity. Returns always false if the component is not simulated.
   **/
-  @:ufunction @:thisConst public function IsGravityEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsGravityEnabled() : Bool;
   
   /**
     Sets the linear damping of this component.
   **/
-  @:ufunction public function SetLinearDamping(InDamping : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function SetLinearDamping(InDamping : unreal.Float32) : Void;
   
   /**
     Returns the linear damping of this component.
   **/
-  @:ufunction @:thisConst public function GetLinearDamping() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetLinearDamping() : unreal.Float32;
   
   /**
     Sets the angular damping of this component.
   **/
-  @:ufunction public function SetAngularDamping(InDamping : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function SetAngularDamping(InDamping : unreal.Float32) : Void;
   
   /**
     Returns the angular damping of this component.
   **/
-  @:ufunction @:thisConst public function GetAngularDamping() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetAngularDamping() : unreal.Float32;
   
   /**
     Change the mass scale used to calculate the mass of a single physics body
   **/
-  @:ufunction public function SetMassScale(@:opt("None") BoneName : unreal.FName, InMassScale : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) public function SetMassScale(@:opt("None") BoneName : unreal.FName, InMassScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Returns the mass scale used to calculate the mass of a single physics body
   **/
-  @:ufunction @:thisConst public function GetMassScale(@:opt("None") BoneName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMassScale(@:opt("None") BoneName : unreal.FName) : unreal.Float32;
   
   /**
     Change the mass scale used fo all bodies in this component
   **/
-  @:ufunction public function SetAllMassScale(InMassScale : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) public function SetAllMassScale(InMassScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Override the mass (in Kg) of a single physics body.
     Note that in the case where multiple bodies are attached together, the override mass will be set for the entire group.
     Set the Override Mass to false if you want to reset the body's mass to the auto-calculated physx mass.
   **/
-  @:ufunction public function SetMassOverrideInKg(@:opt("None") BoneName : unreal.FName, MassInKg : unreal.Float32 = 1.000000, bOverrideMass : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) public function SetMassOverrideInKg(@:opt("None") BoneName : unreal.FName, MassInKg : unreal.Float32 = 1.000000, bOverrideMass : Bool = true) : Void;
   
   /**
     Returns the mass of this component in kg.
   **/
-  @:ufunction @:thisConst public function GetMass() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetMass() : unreal.Float32;
   
   /**
     Returns the inertia tensor of this component in kg cm^2. The inertia tensor is in local component space.
   **/
-  @:ufunction @:thisConst public function GetInertiaTensor(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetInertiaTensor(@:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Scales the given vector by the world space moment of inertia. Useful for computing the torque needed to rotate an object.
   **/
-  @:ufunction @:thisConst public function ScaleByMomentOfInertia(InputVector : unreal.FVector, @:opt("None") BoneName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function ScaleByMomentOfInertia(InputVector : unreal.FVector, @:opt("None") BoneName : unreal.FName) : unreal.FVector;
   
   /**
     Returns if any body in this component is currently awake and simulating.
   **/
-  @:ufunction public function IsAnyRigidBodyAwake() : Bool;
+  @:ufunction(BlueprintCallable) public function IsAnyRigidBodyAwake() : Bool;
   
   /**
     Changes a member of the ResponseToChannels container for this PrimitiveComponent.
@@ -1014,27 +1014,27 @@ package unreal;
     @param       Channel      The channel to change the response of
     @param       NewResponse  What the new response should be to the supplied Channel
   **/
-  @:ufunction public function SetCollisionResponseToChannel(Channel : unreal.ECollisionChannel, NewResponse : unreal.ECollisionResponse) : Void;
+  @:ufunction(BlueprintCallable) public function SetCollisionResponseToChannel(Channel : unreal.ECollisionChannel, NewResponse : unreal.ECollisionResponse) : Void;
   
   /**
     Changes all ResponseToChannels container for this PrimitiveComponent. to be NewResponse
     
     @param       NewResponse  What the new response should be to the supplied Channel
   **/
-  @:ufunction public function SetCollisionResponseToAllChannels(NewResponse : unreal.ECollisionResponse) : Void;
+  @:ufunction(BlueprintCallable) public function SetCollisionResponseToAllChannels(NewResponse : unreal.ECollisionResponse) : Void;
   
   /**
     Changes the current PhysMaterialOverride for this component.
     Note that if physics is already running on this component, this will _not_ alter its mass/inertia etc,
     it will only change its surface properties like friction.
   **/
-  @:ufunction public function SetPhysMaterialOverride(NewPhysMaterial : unreal.UPhysicalMaterial) : Void;
+  @:ufunction(BlueprintCallable) public function SetPhysMaterialOverride(NewPhysMaterial : unreal.UPhysicalMaterial) : Void;
   
   /**
     Changes the value of CullDistance.
     @param NewCullDistance - The value to assign to CullDistance.
   **/
-  @:ufunction @:final public function SetCullDistance(NewCullDistance : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCullDistance(NewCullDistance : unreal.Float32) : Void;
   
   /**
     Return true if the given Pawn can step up onto this component.
@@ -1042,7 +1042,7 @@ package unreal;
     @param Pawn the Pawn that wants to step onto this component.
     @see CanCharacterStepUpOn
   **/
-  @:ufunction @:thisConst public function CanCharacterStepUp(Pawn : unreal.APawn) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function CanCharacterStepUp(Pawn : unreal.APawn) : Bool;
   // NavRelevantInterface interface implementation
   
 }

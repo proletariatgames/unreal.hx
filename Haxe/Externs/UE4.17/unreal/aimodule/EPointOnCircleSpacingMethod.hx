@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Generators/EnvQueryGenerator_OnCircle.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/Generators/EnvQueryGenerator_OnCircle.h")
 @:uname("EPointOnCircleSpacingMethod")
 @:class @:uextern @:uenum extern enum EPointOnCircleSpacingMethod {
   

@@ -21,16 +21,16 @@ package unreal;
     Get the name that this curve source can be bound to by.
     Clients of this curve source will use this name to identify this source.
   **/
-  @:ufunction @:thisConst public function GetBindingName() : unreal.FName;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function GetBindingName() : unreal.FName;
   
   /**
     Get the value for a specified curve
   **/
-  @:ufunction @:thisConst public function GetCurveValue(CurveName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function GetCurveValue(CurveName : unreal.FName) : unreal.Float32;
   
   /**
     Evaluate all curves that this source provides
   **/
-  @:ufunction @:thisConst public function GetCurves(OutValues : unreal.PRef<unreal.TArray<unreal.FNamedCurveValue>>) : Void;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function GetCurves(OutValues : unreal.PRef<unreal.TArray<unreal.FNamedCurveValue>>) : Void;
   
 }

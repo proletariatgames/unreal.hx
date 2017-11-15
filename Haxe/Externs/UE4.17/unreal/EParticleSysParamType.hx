@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for specifying type of a name instance parameter.
 **/
-@:glueCppIncludes("Particles/ParticleSystemComponent.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystemComponent.h")
 @:uname("EParticleSysParamType")
 @:uextern @:uenum extern enum EParticleSysParamType {
   

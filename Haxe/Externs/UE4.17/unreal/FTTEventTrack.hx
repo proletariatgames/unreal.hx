@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure storing information about one event track
 **/
-@:glueCppIncludes("Engine/TimelineTemplate.h")
+@:glueCppIncludes("Classes/Engine/TimelineTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTTEventTrack extends unreal.FTTTrackBase {
   
   /**

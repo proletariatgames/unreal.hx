@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieScene3DTransformSection.h")
+@:glueCppIncludes("Public/Sections/MovieScene3DTransformSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTransformMask {
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   Simple structure for redirecting an old asset name/path to a new one
 **/
-@:glueCppIncludes("Engine/AssetManagerSettings.h")
+@:glueCppIncludes("Classes/Engine/AssetManagerSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAssetManagerRedirect {
   @:uproperty public var New : unreal.FString;
   @:uproperty public var Old : unreal.FString;

@@ -24,7 +24,7 @@ package unreal.slatecore;
   the corresponding parent widget.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Layout/Geometry.h")
+@:glueCppIncludes("Public/Layout/Geometry.h")
 @:uextern @:ustruct extern class FGeometry {
   
 }

@@ -29,26 +29,26 @@ package unreal.umg;
   /**
     Gets the number of widgets that this switcher manages.
   **/
-  @:ufunction @:thisConst @:final public function GetNumWidgets() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumWidgets() : unreal.Int32;
   
   /**
     Gets the slot index of the currently active widget
   **/
-  @:ufunction @:thisConst @:final public function GetActiveWidgetIndex() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActiveWidgetIndex() : unreal.Int32;
   
   /**
     Activates the widget at the specified index.
   **/
-  @:ufunction public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetActiveWidgetIndex(Index : unreal.Int32) : Void;
   
   /**
     Activates the widget and makes it the active index.
   **/
-  @:ufunction public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
+  @:ufunction(BlueprintCallable) public function SetActiveWidget(Widget : unreal.umg.UWidget) : Void;
   
   /**
     Get a widget at the provided index
   **/
-  @:ufunction @:thisConst @:final public function GetWidgetAtIndex(Index : unreal.Int32) : unreal.umg.UWidget;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetWidgetAtIndex(Index : unreal.Int32) : unreal.umg.UWidget;
   
 }

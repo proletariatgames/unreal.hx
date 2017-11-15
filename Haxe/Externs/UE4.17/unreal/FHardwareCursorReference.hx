@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/UserInterfaceSettings.h")
+@:glueCppIncludes("Classes/Engine/UserInterfaceSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FHardwareCursorReference {
   
   /**

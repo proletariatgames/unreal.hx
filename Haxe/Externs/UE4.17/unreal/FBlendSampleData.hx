@@ -17,7 +17,7 @@ package unreal;
 /**
   Transform definition
 **/
-@:glueCppIncludes("Animation/AnimationAsset.h")
+@:glueCppIncludes("Classes/Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlendSampleData {
   @:uproperty public var PreviousTime : unreal.Float32;
   @:uproperty public var Time : unreal.Float32;

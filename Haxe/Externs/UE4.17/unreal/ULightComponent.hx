@@ -165,26 +165,26 @@ package unreal;
   /**
     Set intensity of the light
   **/
-  @:ufunction @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
-  @:ufunction @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
-  @:ufunction @:final public function SetVolumetricScatteringIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIndirectLightingIntensity(NewIntensity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVolumetricScatteringIntensity(NewIntensity : unreal.Float32) : Void;
   
   /**
     Set color of the light
   **/
-  @:ufunction @:final public function SetLightColor(NewLightColor : unreal.FLinearColor, bSRGB : Bool = true) : Void;
-  @:ufunction @:final public function SetTemperature(NewTemperature : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
-  @:ufunction @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
-  @:ufunction @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
-  @:ufunction @:final public function SetLightFunctionDisabledBrightness(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetAffectDynamicIndirectLighting(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetEnableLightShaftBloom(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetBloomScale(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetBloomThreshold(NewValue : unreal.Float32) : Void;
-  @:ufunction @:final public function SetBloomTint(NewValue : unreal.FColor) : Void;
-  @:ufunction @:final public function SetIESTexture(NewValue : unreal.UTextureLightProfile) : Void;
-  @:ufunction @:final public function SetShadowBias(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightColor(NewLightColor : unreal.FLinearColor, bSRGB : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTemperature(NewTemperature : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionDisabledBrightness(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAffectDynamicIndirectLighting(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEnableLightShaftBloom(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBloomScale(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBloomThreshold(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBloomTint(NewValue : unreal.FColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIESTexture(NewValue : unreal.UTextureLightProfile) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetShadowBias(NewValue : unreal.Float32) : Void;
   
 }

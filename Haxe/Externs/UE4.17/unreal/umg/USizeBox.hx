@@ -66,39 +66,39 @@ package unreal.umg;
   /**
     When specified, ignore the content's desired size and report the WidthOverride as the Box's desired width.
   **/
-  @:ufunction @:final public function SetWidthOverride(InWidthOverride : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearWidthOverride() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWidthOverride(InWidthOverride : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearWidthOverride() : Void;
   
   /**
     When specified, ignore the content's desired size and report the HeightOverride as the Box's desired height.
   **/
-  @:ufunction @:final public function SetHeightOverride(InHeightOverride : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearHeightOverride() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHeightOverride(InHeightOverride : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearHeightOverride() : Void;
   
   /**
     When specified, will report the MinDesiredWidth if larger than the content's desired width.
   **/
-  @:ufunction @:final public function SetMinDesiredWidth(InMinDesiredWidth : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearMinDesiredWidth() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinDesiredWidth(InMinDesiredWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMinDesiredWidth() : Void;
   
   /**
     When specified, will report the MinDesiredHeight if larger than the content's desired height.
   **/
-  @:ufunction @:final public function SetMinDesiredHeight(InMinDesiredHeight : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearMinDesiredHeight() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinDesiredHeight(InMinDesiredHeight : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMinDesiredHeight() : Void;
   
   /**
     When specified, will report the MaxDesiredWidth if smaller than the content's desired width.
   **/
-  @:ufunction @:final public function SetMaxDesiredWidth(InMaxDesiredWidth : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearMaxDesiredWidth() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxDesiredWidth(InMaxDesiredWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMaxDesiredWidth() : Void;
   
   /**
     When specified, will report the MaxDesiredHeight if smaller than the content's desired height.
   **/
-  @:ufunction @:final public function SetMaxDesiredHeight(InMaxDesiredHeight : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearMaxDesiredHeight() : Void;
-  @:ufunction @:final public function SetMaxAspectRatio(InMaxAspectRatio : unreal.Float32) : Void;
-  @:ufunction @:final public function ClearMaxAspectRatio() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxDesiredHeight(InMaxDesiredHeight : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMaxDesiredHeight() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaxAspectRatio(InMaxAspectRatio : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearMaxAspectRatio() : Void;
   
 }

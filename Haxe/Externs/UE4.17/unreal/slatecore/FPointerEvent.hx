@@ -19,7 +19,7 @@ package unreal.slatecore;
   It is passed to event handlers dealing with pointer-based input.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Input/Events.h")
+@:glueCppIncludes("Public/Input/Events.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPointerEvent extends unreal.slatecore.FInputEvent {
   
 }

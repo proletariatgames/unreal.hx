@@ -18,6 +18,6 @@ package unreal;
   @param Value
   
 **/
-@:glueCppIncludes("Components/InputComponent.h")
+@:glueCppIncludes("Classes/Components/InputComponent.h")
 @:uParamName("Value")
 typedef FInputGestureHandlerDynamicSignature = unreal.DynamicDelegate<FInputGestureHandlerDynamicSignature, unreal.Float32->Void>;

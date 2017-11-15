@@ -15,7 +15,7 @@
 package unreal.oculushmd;
 
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusFunctionLibrary.h")
+@:glueCppIncludes("Public/OculusFunctionLibrary.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FHmdUserProfileField {
   @:uproperty public var FieldValue : unreal.FString;
   @:uproperty public var FieldName : unreal.FString;

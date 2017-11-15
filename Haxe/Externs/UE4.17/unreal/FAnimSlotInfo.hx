@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct used for passing information from Matinee to an Actor for blending animations during a sequence.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimSlotInfo {
   
   /**

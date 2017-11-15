@@ -17,7 +17,7 @@ package unreal;
 /**
   Proxy object passed around during animation tree update in lieu of a UAnimInstance
 **/
-@:glueCppIncludes("Animation/AnimInstanceProxy.h")
+@:glueCppIncludes("Public/Animation/AnimInstanceProxy.h")
 @:uextern @:ustruct extern class FAnimInstanceProxy {
   
 }

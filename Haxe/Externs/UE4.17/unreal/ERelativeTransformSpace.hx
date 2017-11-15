@@ -17,7 +17,7 @@ package unreal;
 /**
   The space for the transform
 **/
-@:glueCppIncludes("Components/SceneComponent.h")
+@:glueCppIncludes("Classes/Components/SceneComponent.h")
 @:uname("ERelativeTransformSpace")
 @:uextern @:uenum extern enum ERelativeTransformSpace {
   

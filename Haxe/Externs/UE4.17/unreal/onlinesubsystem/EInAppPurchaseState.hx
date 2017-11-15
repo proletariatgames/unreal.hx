@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   Possible result states of an in-app purchase transaction
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("Interfaces/OnlineStoreInterface.h")
+@:glueCppIncludes("Public/Interfaces/OnlineStoreInterface.h")
 @:uname("EInAppPurchaseState.Type")
 @:uextern @:uenum extern enum EInAppPurchaseState {
   

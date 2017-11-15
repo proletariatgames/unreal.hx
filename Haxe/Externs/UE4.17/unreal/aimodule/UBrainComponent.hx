@@ -23,10 +23,10 @@ package unreal.aimodule;
     blackboard component
   **/
   @:uproperty private var BlackboardComp : unreal.aimodule.UBlackboardComponent;
-  @:ufunction public function RestartLogic() : Void;
-  @:ufunction public function StopLogic(Reason : unreal.FString) : Void;
-  @:ufunction @:thisConst public function IsRunning() : Bool;
-  @:ufunction @:thisConst public function IsPaused() : Bool;
+  @:ufunction(BlueprintCallable) public function RestartLogic() : Void;
+  @:ufunction(BlueprintCallable) public function StopLogic(Reason : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsRunning() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsPaused() : Bool;
   // AIResourceInterface interface implementation
   
 }

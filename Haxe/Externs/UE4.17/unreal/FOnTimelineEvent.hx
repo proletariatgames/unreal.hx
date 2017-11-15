@@ -18,5 +18,5 @@ package unreal;
   Signature of function to handle a timeline 'event'
   
 **/
-@:glueCppIncludes("Components/TimelineComponent.h")
+@:glueCppIncludes("Classes/Components/TimelineComponent.h")
 typedef FOnTimelineEvent = unreal.DynamicDelegate<FOnTimelineEvent, Void->Void>;

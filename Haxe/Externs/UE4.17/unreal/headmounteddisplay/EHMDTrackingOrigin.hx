@@ -18,7 +18,7 @@ package unreal.headmounteddisplay;
   For HMDs that support it, this specifies whether the origin of the tracking universe will be at the floor, or at the user's eye height
 **/
 @:umodule("HeadMountedDisplay")
-@:glueCppIncludes("HeadMountedDisplayTypes.h")
+@:glueCppIncludes("Public/HeadMountedDisplayTypes.h")
 @:uname("EHMDTrackingOrigin.Type")
 @:uextern @:uenum extern enum EHMDTrackingOrigin {
   

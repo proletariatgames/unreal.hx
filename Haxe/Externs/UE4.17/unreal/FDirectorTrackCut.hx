@@ -17,7 +17,7 @@ package unreal;
 /**
   Information for one cut in this track.
 **/
-@:glueCppIncludes("Matinee/InterpTrackDirector.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackDirector.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDirectorTrackCut {
   
   /**

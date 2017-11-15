@@ -17,7 +17,7 @@ package unreal;
 /**
   * Base class for attenuation settings.
 **/
-@:glueCppIncludes("Engine/Attenuation.h")
+@:glueCppIncludes("Classes/Engine/Attenuation.h")
 @:uextern @:ustruct extern class FBaseAttenuationSettings {
   
   /**

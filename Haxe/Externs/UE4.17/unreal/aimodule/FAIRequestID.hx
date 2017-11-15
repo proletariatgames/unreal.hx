@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("AITypes.h")
+@:glueCppIncludes("Classes/AITypes.h")
 @:uextern @:ustruct extern class FAIRequestID {
   
 }

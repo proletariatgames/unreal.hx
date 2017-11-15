@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Template that performs evaluation of parameter sections
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Evaluation/MovieSceneParameterTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneParameterTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneParameterSectionTemplate extends unreal.moviescene.FMovieSceneEvalTemplate {
   
 }

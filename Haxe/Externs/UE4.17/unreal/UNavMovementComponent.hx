@@ -38,36 +38,36 @@ package unreal;
   /**
     Stops applying further movement (usually zeros acceleration).
   **/
-  @:ufunction public function StopActiveMovement() : Void;
+  @:ufunction(BlueprintCallable) public function StopActiveMovement() : Void;
   
   /**
     Stops movement immediately (reset velocity) but keeps following current path
   **/
-  @:ufunction @:final public function StopMovementKeepPathing() : Void;
+  @:ufunction(BlueprintCallable) @:final public function StopMovementKeepPathing() : Void;
   
   /**
     @return true if currently crouching
   **/
-  @:ufunction @:thisConst public function IsCrouching() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsCrouching() : Bool;
   
   /**
     @return true if currently falling (not flying, in a non-fluid volume, and not on the ground)
   **/
-  @:ufunction @:thisConst public function IsFalling() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsFalling() : Bool;
   
   /**
     @return true if currently moving on the ground (e.g. walking or driving)
   **/
-  @:ufunction @:thisConst public function IsMovingOnGround() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsMovingOnGround() : Bool;
   
   /**
     @return true if currently swimming (moving through a fluid volume)
   **/
-  @:ufunction @:thisConst public function IsSwimming() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsSwimming() : Bool;
   
   /**
     @return true if currently flying (moving through a non-fluid volume without resting on the ground)
   **/
-  @:ufunction @:thisConst public function IsFlying() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsFlying() : Bool;
   
 }

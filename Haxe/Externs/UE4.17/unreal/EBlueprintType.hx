@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates types of blueprints.
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:uname("EBlueprintType")
 @:uextern @:uenum extern enum EBlueprintType {
   

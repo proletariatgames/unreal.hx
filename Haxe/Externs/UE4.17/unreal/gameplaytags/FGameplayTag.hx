@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   A single gameplay tag, which represents a hierarchical name of the form x.y that is registered in the GameplayTagsManager
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagContainer.h")
+@:glueCppIncludes("Classes/GameplayTagContainer.h")
 @:uextern @:ustruct extern class FGameplayTag {
   
   /**

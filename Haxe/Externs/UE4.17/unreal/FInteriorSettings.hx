@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct encapsulating settings for interior areas.
 **/
-@:glueCppIncludes("Sound/AudioVolume.h")
+@:glueCppIncludes("Classes/Sound/AudioVolume.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInteriorSettings {
   
   /**

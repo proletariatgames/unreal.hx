@@ -17,7 +17,7 @@ package unreal;
 /**
   A subtitle localized to a specific language.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLocalizedSubtitle {
   
   /**

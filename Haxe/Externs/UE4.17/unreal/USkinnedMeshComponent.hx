@@ -207,29 +207,29 @@ package unreal;
     @param       NewPhysicsAsset New PhysicsAsset
     @param       bForceReInit    Force reinitialize
   **/
-  @:ufunction public function SetPhysicsAsset(NewPhysicsAsset : unreal.UPhysicsAsset, bForceReInit : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function SetPhysicsAsset(NewPhysicsAsset : unreal.UPhysicsAsset, bForceReInit : Bool = false) : Void;
   
   /**
     Set MinLodModel of the mesh component
     
     @param       InNewMinLOD     Set new MinLodModel that make sure the LOD does not go below of this value. Range from [0, Max Number of LOD - 1]. This will affect in the next tick update.
   **/
-  @:ufunction @:final public function SetMinLOD(InNewMinLOD : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMinLOD(InNewMinLOD : unreal.Int32) : Void;
   
   /**
     Set MinLodModel of the mesh component
     
     @param       InNewForcedLOD  Set new ForcedLODModel that forces to set the incoming LOD. Range from [1, Max Number of LOD]. This will affect in the next tick update.
   **/
-  @:ufunction @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
-  @:ufunction @:final public function SetCastCapsuleDirectShadow(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetCastCapsuleIndirectShadow(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetCapsuleIndirectShadowMinVisibility(NewValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetForcedLOD(InNewForcedLOD : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCastCapsuleDirectShadow(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCastCapsuleIndirectShadow(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCapsuleIndirectShadowMinVisibility(NewValue : unreal.Float32) : Void;
   
   /**
     Returns the number of bones in the skeleton.
   **/
-  @:ufunction @:thisConst @:final public function GetNumBones() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumBones() : unreal.Int32;
   
   /**
     Find the index of bone by name. Looks in the current SkeletalMesh being used by this SkeletalMeshComponent.
@@ -240,7 +240,7 @@ package unreal;
     
     @see USkeletalMesh::GetBoneIndex.
   **/
-  @:ufunction @:thisConst @:final public function GetBoneIndex(BoneName : unreal.FName) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBoneIndex(BoneName : unreal.FName) : unreal.Int32;
   
   /**
     Get Bone Name from index
@@ -248,7 +248,7 @@ package unreal;
     
     @return the name of the bone at the specified index
   **/
-  @:ufunction @:thisConst @:final public function GetBoneName(BoneIndex : unreal.Int32) : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBoneName(BoneIndex : unreal.Int32) : unreal.FName;
   
   /**
     Returns bone name linked to a given named socket on the skeletal mesh component.
@@ -258,7 +258,7 @@ package unreal;
     
     @return      bone name
   **/
-  @:ufunction @:thisConst @:final public function GetSocketBoneName(InSocketName : unreal.FName) : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSocketBoneName(InSocketName : unreal.FName) : unreal.FName;
   
   /**
     Change the SkeletalMesh that is rendered for this Component. Will re-initialize the animation tree etc.
@@ -266,7 +266,7 @@ package unreal;
     @param NewMesh New mesh to set for this component
     @param bReinitPose Whether we should keep current pose or reinitialize.
   **/
-  @:ufunction public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh, bReinitPose : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) public function SetSkeletalMesh(NewMesh : unreal.USkeletalMesh, bReinitPose : Bool = true) : Void;
   
   /**
     Get Parent Bone of the input bone
@@ -275,34 +275,34 @@ package unreal;
     
     @return the name of the parent bone for the specified bone. Returns 'None' if the bone does not exist or it is the root bone
   **/
-  @:ufunction @:thisConst @:final public function GetParentBone(BoneName : unreal.FName) : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetParentBone(BoneName : unreal.FName) : unreal.FName;
   
   /**
     Allow override of vertex colors on a per-component basis, taking array of Blueprint-friendly LinearColors.
   **/
-  @:ufunction @:final public function SetVertexColorOverride_LinearColor(LODIndex : unreal.Int32, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVertexColorOverride_LinearColor(LODIndex : unreal.Int32, VertexColors : unreal.Const<unreal.PRef<unreal.TArray<unreal.FLinearColor>>>) : Void;
   
   /**
     Clear any applied vertex color override
   **/
-  @:ufunction @:final public function ClearVertexColorOverride(LODIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearVertexColorOverride(LODIndex : unreal.Int32) : Void;
   
   /**
     Allow override of skin weights on a per-component basis.
   **/
-  @:ufunction @:final public function SetSkinWeightOverride(LODIndex : unreal.Int32, SkinWeights : unreal.Const<unreal.PRef<unreal.TArray<unreal.FSkelMeshSkinWeightInfo>>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSkinWeightOverride(LODIndex : unreal.Int32, SkinWeights : unreal.Const<unreal.PRef<unreal.TArray<unreal.FSkelMeshSkinWeightInfo>>>) : Void;
   
   /**
     Clear any applied skin weight override
   **/
-  @:ufunction @:final public function ClearSkinWeightOverride(LODIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearSkinWeightOverride(LODIndex : unreal.Int32) : Void;
   
   /**
     Set MasterPoseComponent for this component
     
     @param NewMasterBoneComponent New MasterPoseComponent
   **/
-  @:ufunction @:final public function SetMasterPoseComponent(NewMasterBoneComponent : unreal.USkinnedMeshComponent) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMasterPoseComponent(NewMasterBoneComponent : unreal.USkinnedMeshComponent) : Void;
   
   /**
     Tests if BoneName is child of (or equal to) ParentBoneName.
@@ -313,7 +313,7 @@ package unreal;
     @return true if child (strictly, not same). false otherwise
     Note - will return false if ChildBoneIndex is the same as ParentBoneIndex ie. must be strictly a child.
   **/
-  @:ufunction @:thisConst @:final public function BoneIsChildOf(BoneName : unreal.FName, ParentBoneName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function BoneIsChildOf(BoneName : unreal.FName, ParentBoneName : unreal.FName) : Bool;
   
   /**
     Transform a location/rotation from world space to bone relative space.
@@ -325,7 +325,7 @@ package unreal;
     @param OutPosition (out) Transformed position
     @param OutRotation (out) Transformed rotation
   **/
-  @:ufunction @:thisConst @:final public function TransformToBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function TransformToBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     Transform a location/rotation in bone relative space to world space.
@@ -336,7 +336,7 @@ package unreal;
     @param OutPosition (out) Transformed position
     @param OutRotation (out) Transformed rotation
   **/
-  @:ufunction @:final public function TransformFromBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function TransformFromBoneSpace(BoneName : unreal.FName, InPosition : unreal.FVector, InRotation : unreal.FRotator, OutPosition : unreal.PRef<unreal.FVector>, OutRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     finds the closest bone to the given location
@@ -348,7 +348,7 @@ package unreal;
     
     @return the name of the bone that was found, or 'None' if no bone was found
   **/
-  @:ufunction @:thisConst @:final public function FindClosestBone_K2(TestLocation : unreal.FVector, BoneLocation : unreal.PRef<unreal.FVector>, IgnoreScale : unreal.Float32 = 0.000000, bRequirePhysicsAsset : Bool = false) : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function FindClosestBone_K2(TestLocation : unreal.FVector, BoneLocation : unreal.PRef<unreal.FVector>, IgnoreScale : unreal.Float32 = 0.000000, bRequirePhysicsAsset : Bool = false) : unreal.FName;
   
   /**
     Hides the specified bone with name.  Currently this just enforces a scale of 0 for the hidden bones.
@@ -357,14 +357,14 @@ package unreal;
     @param  BoneName            Name of bone to hide
     @param  PhysBodyOption          Option for physics bodies that attach to the bones to be hidden
   **/
-  @:ufunction @:final public function HideBoneByName(BoneName : unreal.FName, PhysBodyOption : unreal.EPhysBodyOp) : Void;
+  @:ufunction(BlueprintCallable) @:final public function HideBoneByName(BoneName : unreal.FName, PhysBodyOption : unreal.EPhysBodyOp) : Void;
   
   /**
     UnHide the specified bone with name.  Currently this just enforces a scale of 0 for the hidden bones.
     Compoared to HideBone By Index - This keeps track of list of bones and update when LOD changes
     @param  BoneName            Name of bone to unhide
   **/
-  @:ufunction @:final public function UnHideBoneByName(BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function UnHideBoneByName(BoneName : unreal.FName) : Void;
   
   /**
     Determines if the specified bone is hidden.
@@ -373,6 +373,6 @@ package unreal;
     
     @return true if hidden
   **/
-  @:ufunction @:final public function IsBoneHiddenByName(BoneName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function IsBoneHiddenByName(BoneName : unreal.FName) : Bool;
   
 }

@@ -19,7 +19,7 @@ package unreal.umg;
   @param SelectionType
   
 **/
-@:glueCppIncludes("UMG.h", "Components/ComboBoxString.h")
+@:glueCppIncludes("UMG.h", "Public/Components/ComboBoxString.h")
 @:uParamName("SelectedItem")
 @:uParamName("SelectionType")
 @:umodule("UMG")

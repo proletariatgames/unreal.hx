@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryTypes.h")
 @:uextern @:ustruct extern class FEQSParametrizedQueryExecutionRequest {
   @:uproperty public var bUseBBKeyForQueryTemplate : Bool;
   

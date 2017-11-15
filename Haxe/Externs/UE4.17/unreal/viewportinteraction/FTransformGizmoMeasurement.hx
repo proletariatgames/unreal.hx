@@ -18,7 +18,7 @@ package unreal.viewportinteraction;
   Displays measurements along the bounds of selected objects
 **/
 @:umodule("ViewportInteraction")
-@:glueCppIncludes("VIBaseTransformGizmo.h")
+@:glueCppIncludes("Public/VIBaseTransformGizmo.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTransformGizmoMeasurement {
   
   /**

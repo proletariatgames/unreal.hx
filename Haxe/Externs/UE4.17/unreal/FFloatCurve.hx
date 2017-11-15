@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimCurveTypes.h")
+@:glueCppIncludes("Public/Animation/AnimCurveTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFloatCurve extends unreal.FAnimCurveBase {
   
   /**

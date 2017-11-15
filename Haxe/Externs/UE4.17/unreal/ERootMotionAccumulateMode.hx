@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumeration for RootMotionSource accumulation mode
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uname("ERootMotionAccumulateMode")
 @:class @:uextern @:uenum extern enum ERootMotionAccumulateMode {
   

@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Action to add a 'comment' node to the graph
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEdGraphSchemaAction_K2AddComment extends unreal.FEdGraphSchemaAction {
   
 }

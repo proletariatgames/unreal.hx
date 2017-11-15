@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   A whole party reservation
 **/
 @:umodule("OnlineSubsystemUtils")
-@:glueCppIncludes("PartyBeaconState.h")
+@:glueCppIncludes("Public/PartyBeaconState.h")
 @:uextern @:ustruct extern class FPartyReservation {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   EMaterialProperty
 **/
-@:glueCppIncludes("SceneTypes.h")
+@:glueCppIncludes("Public/SceneTypes.h")
 @:uname("EMaterialProperty")
 @:uextern @:uenum extern enum EMaterialProperty {
   

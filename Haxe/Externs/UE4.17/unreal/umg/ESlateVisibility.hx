@@ -18,7 +18,7 @@ package unreal.umg;
   Is an entity visible?
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SlateWrapperTypes.h")
 @:uname("ESlateVisibility")
 @:class @:uextern @:uenum extern enum ESlateVisibility {
   

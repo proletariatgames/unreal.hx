@@ -18,7 +18,7 @@ package unreal.inputcore;
   Defines the controller hands for tracking.  Could be expanded, as needed, to facilitate non-handheld controllers
 **/
 @:umodule("InputCore")
-@:glueCppIncludes("InputCoreTypes.h")
+@:glueCppIncludes("Classes/InputCoreTypes.h")
 @:uname("EControllerHand")
 @:class @:uextern @:uenum extern enum EControllerHand {
   Left;

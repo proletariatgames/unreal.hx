@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Location/ParticleModuleLocationEmitter.h")
+@:glueCppIncludes("Classes/Particles/Location/ParticleModuleLocationEmitter.h")
 @:uname("ELocationEmitterSelectionMethod")
 @:uextern @:uenum extern enum ELocationEmitterSelectionMethod {
   ELESM_Random;

@@ -18,7 +18,7 @@ package unreal.animgraph;
   Action to create new comment
 **/
 @:umodule("AnimGraph")
-@:glueCppIncludes("AnimationStateMachineSchema.h")
+@:glueCppIncludes("Classes/AnimationStateMachineSchema.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_NewStateComment extends unreal.FEdGraphSchemaAction {
   
 }

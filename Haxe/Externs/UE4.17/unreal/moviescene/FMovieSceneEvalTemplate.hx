@@ -23,7 +23,7 @@ package unreal.moviescene;
               3) Execute: Called on all previously submitted execution tokens to apply the evaluated state to the movie scene player
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvalTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvalTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvalTemplate extends unreal.moviescene.FMovieSceneEvalTemplateBase {
   
   /**

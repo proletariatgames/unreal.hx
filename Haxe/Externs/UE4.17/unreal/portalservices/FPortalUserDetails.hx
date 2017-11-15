@@ -18,7 +18,7 @@ package unreal.portalservices;
   The basic data for the last or currently signed-in user.
 **/
 @:umodule("PortalServices")
-@:glueCppIncludes("Account/IPortalUser.h")
+@:glueCppIncludes("Public/Account/IPortalUser.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserDetails {
   
   /**

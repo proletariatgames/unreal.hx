@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_AnimDynamics.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_AnimDynamics.h")
 @:uname("AnimPhysSimSpaceType")
 @:class @:uextern @:uenum extern enum AnimPhysSimSpaceType {
   

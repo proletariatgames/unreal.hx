@@ -17,7 +17,7 @@ package unreal;
 /**
   Settings used to reduce a mesh.
 **/
-@:glueCppIncludes("Engine/MeshMerging.h")
+@:glueCppIncludes("Classes/Engine/MeshMerging.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshReductionSettings {
   
   /**

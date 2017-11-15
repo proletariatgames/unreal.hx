@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneCameraAnimSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneCameraAnimSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneCameraAnimSectionData {
   @:uproperty public var bLooping : Bool;
   @:uproperty public var BlendOutTime : unreal.Float32;

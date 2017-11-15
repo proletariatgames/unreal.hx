@@ -24,7 +24,7 @@ package unreal;
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
     @return True if the culture was set, false otherwise.
   **/
-  @:ufunction static public function SetCurrentCulture(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetCurrentCulture(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
   
   /**
     Get the current culture as an IETF language tag:
@@ -34,7 +34,7 @@ package unreal;
     @note This function exists for legacy API parity with SetCurrentCulture and is equivalent to GetCurrentLanguage.
     @return The culture as an IETF language tag (eg, "zh-Hans-CN").
   **/
-  @:ufunction static public function GetCurrentCulture() : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetCurrentCulture() : unreal.FString;
   
   /**
     Set *only* the current language (for localization).
@@ -43,7 +43,7 @@ package unreal;
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
     @return True if the language was set, false otherwise.
   **/
-  @:ufunction static public function SetCurrentLanguage(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetCurrentLanguage(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
   
   /**
     Get the current language (for localization) as an IETF language tag:
@@ -52,7 +52,7 @@ package unreal;
      - An optional two-letter ISO 3166-1 country code (eg, "CN").
     @return The language as an IETF language tag (eg, "zh-Hans-CN").
   **/
-  @:ufunction static public function GetCurrentLanguage() : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetCurrentLanguage() : unreal.FString;
   
   /**
     Set *only* the current locale (for internationalization).
@@ -61,7 +61,7 @@ package unreal;
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
     @return True if the locale was set, false otherwise.
   **/
-  @:ufunction static public function SetCurrentLocale(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetCurrentLocale(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
   
   /**
     Get the current locale (for internationalization) as an IETF language tag:
@@ -70,7 +70,7 @@ package unreal;
      - An optional two-letter ISO 3166-1 country code (eg, "CN").
     @return The locale as an IETF language tag (eg, "zh-Hans-CN").
   **/
-  @:ufunction static public function GetCurrentLocale() : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetCurrentLocale() : unreal.FString;
   
   /**
     Set the current language (for localization) and locale (for internationalization).
@@ -78,7 +78,7 @@ package unreal;
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
     @return True if the language and locale were set, false otherwise.
   **/
-  @:ufunction static public function SetCurrentLanguageAndLocale(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetCurrentLanguageAndLocale(Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
   
   /**
     Set the given asset group category culture from an IETF language tag (eg, "zh-Hans-CN").
@@ -87,7 +87,7 @@ package unreal;
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
     @return True if the culture was set, false otherwise.
   **/
-  @:ufunction static public function SetCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>, Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>, Culture : unreal.FString, SaveToConfig : Bool = false) : Bool;
   
   /**
     Get the given asset group category culture.
@@ -95,13 +95,13 @@ package unreal;
     @param AssetGroup The asset group to get the culture for.
     @return The culture as an IETF language tag (eg, "zh-Hans-CN").
   **/
-  @:ufunction static public function GetCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>) : unreal.FString;
   
   /**
     Clear the given asset group category culture.
     @param AssetGroup The asset group to clear the culture for.
     @param SaveToConfig If true, save the new setting to the users' "GameUserSettings" config so that it persists after a reload.
   **/
-  @:ufunction static public function ClearCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>, SaveToConfig : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function ClearCurrentAssetGroupCulture(AssetGroup : unreal.Const<unreal.FName>, SaveToConfig : Bool = false) : Void;
   
 }

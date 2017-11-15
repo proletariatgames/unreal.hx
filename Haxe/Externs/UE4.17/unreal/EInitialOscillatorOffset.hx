@@ -17,7 +17,7 @@ package unreal;
 /**
   Shake start offset parameter
 **/
-@:glueCppIncludes("Camera/CameraShake.h")
+@:glueCppIncludes("Classes/Camera/CameraShake.h")
 @:uname("EInitialOscillatorOffset")
 @:uextern @:uenum extern enum EInitialOscillatorOffset {
   

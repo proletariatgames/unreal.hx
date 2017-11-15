@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPluginRedirect {
   @:uproperty public var NewPluginName : unreal.FString;
   @:uproperty public var OldPluginName : unreal.FString;

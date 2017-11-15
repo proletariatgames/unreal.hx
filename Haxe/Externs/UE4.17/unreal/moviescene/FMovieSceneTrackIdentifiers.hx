@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackIdentifiers {
   @:uproperty public var Data : unreal.TArray<unreal.moviescene.FMovieSceneTrackIdentifier>;
   

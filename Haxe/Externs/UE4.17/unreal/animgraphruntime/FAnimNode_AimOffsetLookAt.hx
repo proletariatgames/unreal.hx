@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   Yaw and Pitch directions for a referenced aim offset given a point in the world to look at.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_AimOffsetLookAt.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_AimOffsetLookAt.h")
 @:uextern @:ustruct extern class FAnimNode_AimOffsetLookAt extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
   
   /**

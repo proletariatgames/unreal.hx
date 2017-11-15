@@ -17,7 +17,7 @@ package unreal;
 /**
   A small structure holding data for grouping subtracks. (For UI drawing purposes)
 **/
-@:glueCppIncludes("Matinee/InterpTrack.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrack.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSubTrackGroup {
   
   /**

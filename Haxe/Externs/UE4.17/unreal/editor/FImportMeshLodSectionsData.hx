@@ -18,7 +18,7 @@ package unreal.editor;
   Action to add nodes to the graph based on selected objects
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxMeshImportData.h")
+@:glueCppIncludes("Classes/Factories/FbxMeshImportData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FImportMeshLodSectionsData {
   
   /**

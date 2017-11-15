@@ -18,7 +18,7 @@ package unreal;
   @param inString
   
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uParamName("inString")
 @:uname("UPlatformGameInstance.FPlatformFailedToRegisterForRemoteNotificationsDelegate")
 typedef FPlatformFailedToRegisterForRemoteNotificationsDelegate = unreal.DynamicMulticastDelegate<FPlatformFailedToRegisterForRemoteNotificationsDelegate, unreal.FString->Void>;

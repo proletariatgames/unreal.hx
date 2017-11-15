@@ -18,7 +18,7 @@ package unreal.animationcore;
   Axis to represent direction
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("CommonAnimTypes.h")
+@:glueCppIncludes("Public/CommonAnimTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAxis {
   @:uproperty public var bInLocalSpace : Bool;
   @:uproperty public var Axis : unreal.FVector;

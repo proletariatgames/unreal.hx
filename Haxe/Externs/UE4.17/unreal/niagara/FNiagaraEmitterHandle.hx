@@ -19,7 +19,7 @@ package unreal.niagara;
   stores whether or not this emitter is enabled, and it's name within the editor.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEmitterHandle.h")
+@:glueCppIncludes("Classes/NiagaraEmitterHandle.h")
 @:uextern @:ustruct extern class FNiagaraEmitterHandle {
   
 }

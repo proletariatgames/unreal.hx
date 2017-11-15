@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalPackageInstallerMessages.h")
+@:glueCppIncludes("Public/PortalPackageInstallerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalPackageInstallerUninstallRequest extends unreal.messagingrpc.FRpcMessage {
   @:uproperty public var RemoveUserFiles : Bool;
   @:uproperty public var InstallationPath : unreal.FString;

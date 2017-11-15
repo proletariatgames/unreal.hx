@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SceneCaptureComponent.h")
+@:glueCppIncludes("Classes/Components/SceneCaptureComponent.h")
 @:uname("ESceneCapturePrimitiveRenderMode")
 @:uextern @:uenum extern enum ESceneCapturePrimitiveRenderMode {
   

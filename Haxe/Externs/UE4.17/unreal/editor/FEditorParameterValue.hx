@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("MaterialEditor/MaterialEditorInstanceConstant.h")
+@:glueCppIncludes("Classes/MaterialEditor/MaterialEditorInstanceConstant.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditorParameterValue {
   @:uproperty public var ExpressionId : unreal.FGuid;
   @:uproperty public var ParameterName : unreal.FName;

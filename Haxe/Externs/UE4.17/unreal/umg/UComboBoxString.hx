@@ -75,24 +75,24 @@ package unreal.umg;
     The style.
   **/
   @:uproperty public var WidgetStyle : unreal.slatecore.FComboBoxStyle;
-  @:ufunction @:final public function AddOption(Option : unreal.FString) : Void;
-  @:ufunction @:final public function RemoveOption(Option : unreal.FString) : Bool;
-  @:ufunction @:thisConst @:final public function FindOptionIndex(Option : unreal.FString) : unreal.Int32;
-  @:ufunction @:thisConst @:final public function GetOptionAtIndex(Index : unreal.Int32) : unreal.FString;
-  @:ufunction @:final public function ClearOptions() : Void;
-  @:ufunction @:final public function ClearSelection() : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddOption(Option : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveOption(Option : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function FindOptionIndex(Option : unreal.FString) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOptionAtIndex(Index : unreal.Int32) : unreal.FString;
+  @:ufunction(BlueprintCallable) @:final public function ClearOptions() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearSelection() : Void;
   
   /**
     Refreshes the list of options.  If you added new ones, and want to update the list even if it's
     currently being displayed use this.
   **/
-  @:ufunction @:final public function RefreshOptions() : Void;
-  @:ufunction @:final public function SetSelectedOption(Option : unreal.FString) : Void;
-  @:ufunction @:thisConst @:final public function GetSelectedOption() : unreal.FString;
+  @:ufunction(BlueprintCallable) @:final public function RefreshOptions() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSelectedOption(Option : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSelectedOption() : unreal.FString;
   
   /**
     @return The number of options
   **/
-  @:ufunction @:thisConst @:final public function GetOptionCount() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOptionCount() : unreal.Int32;
   
 }

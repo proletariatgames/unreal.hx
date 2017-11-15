@@ -20,7 +20,7 @@ package unreal.animationcore;
   This is used to filter per axis for constraint options
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FFilterOptionPerAxis {
   @:uproperty public var bZ : Bool;
   @:uproperty public var bY : Bool;

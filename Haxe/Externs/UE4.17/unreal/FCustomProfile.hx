@@ -21,7 +21,7 @@ package unreal;
   if you'd like to override all about profile, please use
   +Profiles=(Name=NameOfProfileYouLikeToOverwrite,....)
 **/
-@:glueCppIncludes("Engine/CollisionProfile.h")
+@:glueCppIncludes("Classes/Engine/CollisionProfile.h")
 @:uextern @:ustruct extern class FCustomProfile {
   
   /**

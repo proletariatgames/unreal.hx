@@ -17,7 +17,7 @@ package unreal;
 /**
   Provides different weighting functions for texture importance sampling
 **/
-@:glueCppIncludes("Kismet/ImportanceSamplingLibrary.h")
+@:glueCppIncludes("Classes/Kismet/ImportanceSamplingLibrary.h")
 @:uname("EImportanceWeight.Type")
 @:uextern @:uenum extern enum EImportanceWeight {
   

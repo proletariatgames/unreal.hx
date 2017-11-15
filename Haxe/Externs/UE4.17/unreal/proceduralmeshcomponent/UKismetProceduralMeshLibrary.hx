@@ -21,18 +21,18 @@ package unreal.proceduralmeshcomponent;
   /**
     Generate vertex and index buffer for a simple box, given the supplied dimensions. Normals, UVs and tangents are also generated for each vertex.
   **/
-  @:ufunction static public function GenerateBoxMesh(BoxRadius : unreal.FVector, Vertices : unreal.PRef<unreal.TArray<unreal.FVector>>, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, UVs : unreal.PRef<unreal.TArray<unreal.FVector2D>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GenerateBoxMesh(BoxRadius : unreal.FVector, Vertices : unreal.PRef<unreal.TArray<unreal.FVector>>, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, UVs : unreal.PRef<unreal.TArray<unreal.FVector2D>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
   
   /**
     Automatically generate normals and tangent vectors for a mesh
     UVs are required for correct tangent generation.
   **/
-  @:ufunction static public function CalculateTangentsForMesh(Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, UVs : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
+  @:ufunction(BlueprintCallable) static public function CalculateTangentsForMesh(Vertices : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector>>>, Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>, UVs : unreal.Const<unreal.PRef<unreal.TArray<unreal.FVector2D>>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
   
   /**
     Add a quad, specified by four indices, to a triangle index buffer as two triangles.
   **/
-  @:ufunction static public function ConvertQuadToTriangles(Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Vert0 : unreal.Int32, Vert1 : unreal.Int32, Vert2 : unreal.Int32, Vert3 : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function ConvertQuadToTriangles(Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Vert0 : unreal.Int32, Vert1 : unreal.Int32, Vert2 : unreal.Int32, Vert3 : unreal.Int32) : Void;
   
   /**
     Generate an index buffer for a grid of quads.
@@ -41,16 +41,16 @@ package unreal.proceduralmeshcomponent;
     @param  bWinding                Reverses winding of indices generated for each quad
     @out    Triangles               Output index buffer
   **/
-  @:ufunction static public function CreateGridMeshTriangles(NumX : unreal.Int32, NumY : unreal.Int32, bWinding : Bool, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>) : Void;
+  @:ufunction(BlueprintCallable) static public function CreateGridMeshTriangles(NumX : unreal.Int32, NumY : unreal.Int32, bWinding : Bool, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>) : Void;
   
   /**
     Grab geometry data from a StaticMesh asset.
   **/
-  @:ufunction static public function GetSectionFromStaticMesh(InMesh : unreal.UStaticMesh, LODIndex : unreal.Int32, SectionIndex : unreal.Int32, Vertices : unreal.PRef<unreal.TArray<unreal.FVector>>, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, UVs : unreal.PRef<unreal.TArray<unreal.FVector2D>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetSectionFromStaticMesh(InMesh : unreal.UStaticMesh, LODIndex : unreal.Int32, SectionIndex : unreal.Int32, Vertices : unreal.PRef<unreal.TArray<unreal.FVector>>, Triangles : unreal.PRef<unreal.TArray<unreal.Int32>>, Normals : unreal.PRef<unreal.TArray<unreal.FVector>>, UVs : unreal.PRef<unreal.TArray<unreal.FVector2D>>, Tangents : unreal.PRef<unreal.TArray<unreal.proceduralmeshcomponent.FProcMeshTangent>>) : Void;
   
   /**
     Copy materials from StaticMeshComponent to ProceduralMeshComponent.
   **/
-  @:ufunction static public function CopyProceduralMeshFromStaticMeshComponent(StaticMeshComponent : unreal.UStaticMeshComponent, LODIndex : unreal.Int32, ProcMeshComponent : unreal.proceduralmeshcomponent.UProceduralMeshComponent, bCreateCollision : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function CopyProceduralMeshFromStaticMeshComponent(StaticMeshComponent : unreal.UStaticMeshComponent, LODIndex : unreal.Int32, ProcMeshComponent : unreal.proceduralmeshcomponent.UProceduralMeshComponent, bCreateCollision : Bool) : Void;
   
 }

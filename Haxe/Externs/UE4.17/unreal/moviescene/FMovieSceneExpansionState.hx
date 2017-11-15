@@ -18,7 +18,7 @@ package unreal.moviescene;
   @todo: remove this type when support for intrinsics on TMap values is added?
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieScene.h")
+@:glueCppIncludes("Public/MovieScene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneExpansionState {
   @:uproperty public var bExpanded : Bool;
   

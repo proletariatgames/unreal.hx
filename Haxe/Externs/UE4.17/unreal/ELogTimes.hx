@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum that defines how the log times are to be displayed (mirrored from OutputDevice.h).
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("ELogTimes.Type")
 @:uextern @:uenum extern enum ELogTimes {
   

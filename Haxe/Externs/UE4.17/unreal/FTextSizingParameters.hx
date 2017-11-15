@@ -17,7 +17,7 @@ package unreal;
 /**
   General purpose data structure for grouping all parameters needed when sizing or wrapping a string
 **/
-@:glueCppIncludes("CanvasTypes.h")
+@:glueCppIncludes("Public/CanvasTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTextSizingParameters {
   
   /**

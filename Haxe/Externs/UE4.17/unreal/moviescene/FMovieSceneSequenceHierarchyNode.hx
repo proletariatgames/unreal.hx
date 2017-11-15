@@ -18,7 +18,7 @@ package unreal.moviescene;
   Simple structure specifying parent and child sequence IDs for any given sequences
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSequenceHierarchy.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSequenceHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequenceHierarchyNode {
   
   /**

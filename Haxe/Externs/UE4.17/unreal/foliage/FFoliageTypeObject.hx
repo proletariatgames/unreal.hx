@@ -18,7 +18,7 @@ package unreal.foliage;
   A wrapper struct used to allow the use of either FoliageType assets or FoliageType blueprint classes
 **/
 @:umodule("Foliage")
-@:glueCppIncludes("FoliageTypeObject.h")
+@:glueCppIncludes("Public/FoliageTypeObject.h")
 @:uextern @:ustruct extern class FFoliageTypeObject {
   
 }

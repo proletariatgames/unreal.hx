@@ -17,7 +17,7 @@ package unreal;
 /**
   Directional light settings for Lightmass
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassDirectionalLightSettings extends unreal.FLightmassLightSettings {
   
   /**

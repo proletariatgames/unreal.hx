@@ -15,7 +15,7 @@
 package unreal.portalmessages;
 
 @:umodule("PortalMessages")
-@:glueCppIncludes("PortalUserMessages.h")
+@:glueCppIncludes("Public/PortalUserMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserIsEntitledToItemResponse extends unreal.messagingrpc.FRpcMessage {
   @:uproperty public var Result : unreal.portalservices.FPortalUserIsEntitledToItemResult;
   

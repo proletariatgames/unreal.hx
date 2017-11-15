@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/BlueprintGeneratedClass.h")
+@:glueCppIncludes("Classes/Engine/BlueprintGeneratedClass.h")
 @:uextern @:ustruct extern class FEventGraphFastCallPair {
   @:uproperty public var EventGraphCallOffset : unreal.Int32;
   @:uproperty public var FunctionToPatch : unreal.UFunction;

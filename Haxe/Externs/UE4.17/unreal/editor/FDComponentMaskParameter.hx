@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("MaterialEditor/DEditorStaticComponentMaskParameterValue.h")
+@:glueCppIncludes("Classes/MaterialEditor/DEditorStaticComponentMaskParameterValue.h")
 @:uextern @:ustruct extern class FDComponentMaskParameter {
   @:uproperty public var A : Bool;
   @:uproperty public var B : Bool;

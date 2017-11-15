@@ -62,6 +62,6 @@ package unreal;
   /**
     Updates the arrow's colour, and tells it to refresh
   **/
-  @:ufunction public function SetArrowColor(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) public function SetArrowColor(NewColor : unreal.FLinearColor) : Void;
   
 }

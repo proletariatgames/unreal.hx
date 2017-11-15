@@ -21,7 +21,7 @@ package unreal.animationmodifiers;
   /**
     Executed when the Animation is initialized (native event for debugging / testing purposes)
   **/
-  @:ufunction public function OnApply(AnimationSequence : unreal.UAnimSequence) : Void;
-  @:ufunction public function OnRevert(AnimationSequence : unreal.UAnimSequence) : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnApply(AnimationSequence : unreal.UAnimSequence) : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnRevert(AnimationSequence : unreal.UAnimSequence) : Void;
   
 }

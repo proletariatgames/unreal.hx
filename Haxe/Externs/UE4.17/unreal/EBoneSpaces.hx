@@ -17,7 +17,7 @@ package unreal;
 /**
   Values for specifying bone space.
 **/
-@:glueCppIncludes("Components/SkinnedMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkinnedMeshComponent.h")
 @:uname("EBoneSpaces.Type")
 @:uextern @:uenum extern enum EBoneSpaces {
   

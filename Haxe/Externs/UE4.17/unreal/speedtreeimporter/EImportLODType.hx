@@ -18,7 +18,7 @@ package unreal.speedtreeimporter;
   LOD type *
 **/
 @:umodule("SpeedTreeImporter")
-@:glueCppIncludes("SpeedTreeImportData.h")
+@:glueCppIncludes("Classes/SpeedTreeImportData.h")
 @:uname("EImportLODType")
 @:uextern @:uenum extern enum EImportLODType {
   

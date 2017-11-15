@@ -30,16 +30,16 @@ package unreal;
     @param       InBoxExtent: new extent (radius) for the box.
     @param       bUpdateOverlaps: if true and this shape is registered and collides, updates touching array for owner actor.
   **/
-  @:ufunction @:final public function SetBoxExtent(InBoxExtent : unreal.FVector, bUpdateOverlaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoxExtent(InBoxExtent : unreal.FVector, bUpdateOverlaps : Bool = true) : Void;
   
   /**
     @return the box extent, scaled by the component scale.
   **/
-  @:ufunction @:thisConst @:final public function GetScaledBoxExtent() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetScaledBoxExtent() : unreal.FVector;
   
   /**
     @return the box extent, ignoring component scale.
   **/
-  @:ufunction @:thisConst @:final public function GetUnscaledBoxExtent() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUnscaledBoxExtent() : unreal.FVector;
   
 }

@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Evaluation template for primitive component materials
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Evaluation/MovieSceneParameterTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneParameterTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneComponentMaterialSectionTemplate extends unreal.moviescenetracks.FMovieSceneParameterSectionTemplate {
   
 }

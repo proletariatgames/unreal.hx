@@ -18,7 +18,7 @@ package unreal.introtutorials;
   Content that is displayed relative to a widget
 **/
 @:umodule("IntroTutorials")
-@:glueCppIncludes("EditorTutorial.h")
+@:glueCppIncludes("Public/EditorTutorial.h")
 @:uextern @:ustruct extern class FTutorialWidgetContent {
   
   /**

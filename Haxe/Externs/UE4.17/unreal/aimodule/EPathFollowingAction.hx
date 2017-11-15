@@ -18,7 +18,7 @@ package unreal.aimodule;
   DEPRECATED, will be removed with GetPathActionType function
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("Navigation/PathFollowingComponent.h")
+@:glueCppIncludes("Classes/Navigation/PathFollowingComponent.h")
 @:uname("EPathFollowingAction.Type")
 @:uextern @:uenum extern enum EPathFollowingAction {
   Error;

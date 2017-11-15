@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   A single redirect from a deleted tag to the new tag that should replace it
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagsSettings.h")
+@:glueCppIncludes("Classes/GameplayTagsSettings.h")
 @:uextern @:ustruct extern class FGameplayTagRedirect {
   @:uproperty public var NewTagName : unreal.FName;
   @:uproperty public var OldTagName : unreal.FName;

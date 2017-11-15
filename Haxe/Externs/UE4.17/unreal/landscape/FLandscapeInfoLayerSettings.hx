@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeInfo.h")
+@:glueCppIncludes("Classes/LandscapeInfo.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeInfoLayerSettings {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var bValid : Bool;

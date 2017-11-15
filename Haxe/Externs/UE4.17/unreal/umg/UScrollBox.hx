@@ -66,36 +66,36 @@ package unreal.umg;
     The style
   **/
   @:uproperty public var WidgetStyle : unreal.slatecore.FScrollBoxStyle;
-  @:ufunction @:final public function SetOrientation(NewOrientation : unreal.slatecore.EOrientation) : Void;
-  @:ufunction @:final public function SetScrollBarVisibility(NewScrollBarVisibility : unreal.umg.ESlateVisibility) : Void;
-  @:ufunction @:final public function SetScrollbarThickness(NewScrollbarThickness : unreal.Const<unreal.PRef<unreal.FVector2D>>) : Void;
-  @:ufunction @:final public function SetAlwaysShowScrollbar(NewAlwaysShowScrollbar : Bool) : Void;
-  @:ufunction @:final public function SetAllowOverscroll(NewAllowOverscroll : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOrientation(NewOrientation : unreal.slatecore.EOrientation) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetScrollBarVisibility(NewScrollBarVisibility : unreal.umg.ESlateVisibility) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetScrollbarThickness(NewScrollbarThickness : unreal.Const<unreal.PRef<unreal.FVector2D>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAlwaysShowScrollbar(NewAlwaysShowScrollbar : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAllowOverscroll(NewAllowOverscroll : Bool) : Void;
   
   /**
     Updates the scroll offset of the scrollbox.
     @param NewScrollOffset is in Slate Units.
   **/
-  @:ufunction @:final public function SetScrollOffset(NewScrollOffset : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetScrollOffset(NewScrollOffset : unreal.Float32) : Void;
   
   /**
     Gets the scroll offset of the scrollbox in Slate Units.
   **/
-  @:ufunction @:thisConst @:final public function GetScrollOffset() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetScrollOffset() : unreal.Float32;
   
   /**
     Scrolls the ScrollBox to the top instantly
   **/
-  @:ufunction @:final public function ScrollToStart() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ScrollToStart() : Void;
   
   /**
     Scrolls the ScrollBox to the bottom instantly during the next layout pass.
   **/
-  @:ufunction @:final public function ScrollToEnd() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ScrollToEnd() : Void;
   
   /**
     Scrolls the ScrollBox to the widget during the next layout pass.
   **/
-  @:ufunction @:final public function ScrollWidgetIntoView(WidgetToFind : unreal.umg.UWidget, AnimateScroll : Bool = true, @:opt("IntoView") ScrollDesintion : unreal.slate.EDescendantScrollDestination) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ScrollWidgetIntoView(WidgetToFind : unreal.umg.UWidget, AnimateScroll : Bool = true, @:opt("IntoView") ScrollDesintion : unreal.slate.EDescendantScrollDestination) : Void;
   
 }

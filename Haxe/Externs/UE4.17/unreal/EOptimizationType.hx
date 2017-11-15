@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum specifying the reduction type to use when simplifying static meshes.
 **/
-@:glueCppIncludes("Engine/StaticMesh.h")
+@:glueCppIncludes("Classes/Engine/StaticMesh.h")
 @:uname("EOptimizationType")
 @:uextern @:uenum extern enum EOptimizationType {
   OT_NumOfTriangles;

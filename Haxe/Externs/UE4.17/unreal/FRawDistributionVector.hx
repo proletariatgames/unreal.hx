@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Distributions/DistributionVector.h")
+@:glueCppIncludes("Classes/Distributions/DistributionVector.h")
 @:uextern @:ustruct extern class FRawDistributionVector extends unreal.FRawDistribution {
   @:uproperty public var Distribution : unreal.UDistributionVector;
   

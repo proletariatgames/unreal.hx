@@ -18,7 +18,7 @@ package unreal.profilermessages;
   Profiler Service data.
 **/
 @:umodule("ProfilerMessages")
-@:glueCppIncludes("ProfilerServiceMessages.h")
+@:glueCppIncludes("Public/ProfilerServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FProfilerServiceData2 {
   
   /**

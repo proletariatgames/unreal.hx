@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Transform aspect used to drive interpolation
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:uname("EPoseDriverSource")
 @:class @:uextern @:uenum extern enum EPoseDriverSource {
   

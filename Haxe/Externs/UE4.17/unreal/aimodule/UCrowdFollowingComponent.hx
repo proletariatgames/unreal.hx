@@ -38,7 +38,7 @@ package unreal.aimodule;
   /**
     master switch for crowd steering & avoidance
   **/
-  @:ufunction public function SuspendCrowdSteering(bSuspend : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SuspendCrowdSteering(bSuspend : Bool) : Void;
   // CrowdAgentInterface interface implementation
   
 }

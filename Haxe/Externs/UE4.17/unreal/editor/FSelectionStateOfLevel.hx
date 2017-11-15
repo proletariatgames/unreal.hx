@@ -18,7 +18,7 @@ package unreal.editor;
   Represents the current selection state of a level (its selected actors and components) from a given point in a time, in a way that can be safely restored later even if the level is reloaded
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/EditorEngine.h")
+@:glueCppIncludes("Classes/Editor/EditorEngine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSelectionStateOfLevel {
   
   /**

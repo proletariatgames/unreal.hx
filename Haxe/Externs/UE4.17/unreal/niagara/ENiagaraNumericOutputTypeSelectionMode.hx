@@ -18,7 +18,7 @@ package unreal.niagara;
   Defines different modes for selecting the output numeric type of a function or operation based on the types of the inputs.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraTypes.h")
+@:glueCppIncludes("Public/NiagaraTypes.h")
 @:uname("ENiagaraNumericOutputTypeSelectionMode")
 @:class @:uextern @:uenum extern enum ENiagaraNumericOutputTypeSelectionMode {
   

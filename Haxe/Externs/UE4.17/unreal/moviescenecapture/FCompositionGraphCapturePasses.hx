@@ -15,7 +15,7 @@
 package unreal.moviescenecapture;
 
 @:umodule("MovieSceneCapture")
-@:glueCppIncludes("Protocols/CompositionGraphCaptureProtocol.h")
+@:glueCppIncludes("Public/Protocols/CompositionGraphCaptureProtocol.h")
 @:uextern @:ustruct extern class FCompositionGraphCapturePasses {
   @:uproperty public var Value : unreal.TArray<unreal.FString>;
   

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/PhysicsSettingsEnums.h")
+@:glueCppIncludes("Classes/PhysicsEngine/PhysicsSettingsEnums.h")
 @:uname("EFrictionCombineMode.Type")
 @:uextern @:uenum extern enum EFrictionCombineMode {
   

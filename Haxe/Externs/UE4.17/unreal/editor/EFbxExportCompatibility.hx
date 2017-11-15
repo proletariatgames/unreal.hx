@@ -18,7 +18,7 @@ package unreal.editor;
   Fbx export compatibility
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/EditorPerProjectUserSettings.h")
+@:glueCppIncludes("Classes/Editor/EditorPerProjectUserSettings.h")
 @:uname("EFbxExportCompatibility")
 @:class @:uextern @:uenum extern enum EFbxExportCompatibility {
   FBX_2010;

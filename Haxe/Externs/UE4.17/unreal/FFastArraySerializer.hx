@@ -17,7 +17,7 @@ package unreal;
 /**
   Base struct for wrapping the array used in Fast TArray Replication
 **/
-@:glueCppIncludes("Engine/NetSerialization.h")
+@:glueCppIncludes("Classes/Engine/NetSerialization.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFastArraySerializer {
   
 }

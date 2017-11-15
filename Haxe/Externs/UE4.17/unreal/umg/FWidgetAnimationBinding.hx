@@ -18,7 +18,7 @@ package unreal.umg;
   A single object bound to a UMG sequence.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Animation/WidgetAnimationBinding.h")
+@:glueCppIncludes("UMG.h", "Public/Animation/WidgetAnimationBinding.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FWidgetAnimationBinding {
   @:uproperty public var bIsRootWidget : Bool;
   @:uproperty public var AnimationGuid : unreal.FGuid;

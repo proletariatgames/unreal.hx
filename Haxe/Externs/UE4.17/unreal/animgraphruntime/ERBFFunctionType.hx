@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Function to use for each target falloff
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("RBF/RBFSolver.h")
+@:glueCppIncludes("Public/RBF/RBFSolver.h")
 @:uname("ERBFFunctionType")
 @:class @:uextern @:uenum extern enum ERBFFunctionType {
   Gaussian;

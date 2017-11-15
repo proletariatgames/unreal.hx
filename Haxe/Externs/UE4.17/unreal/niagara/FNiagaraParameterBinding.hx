@@ -18,7 +18,7 @@ package unreal.niagara;
   Represents a binding between a parameter on an effect and a parameter on an emitter.
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEffect.h")
+@:glueCppIncludes("Classes/NiagaraEffect.h")
 @:uextern @:ustruct extern class FNiagaraParameterBinding {
   
 }

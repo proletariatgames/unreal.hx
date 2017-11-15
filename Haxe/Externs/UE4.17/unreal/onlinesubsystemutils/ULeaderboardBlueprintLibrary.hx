@@ -24,6 +24,6 @@ package unreal.onlinesubsystemutils;
   /**
     Writes an integer value to the specified leaderboard
   **/
-  @:ufunction static public function WriteLeaderboardInteger(PlayerController : unreal.APlayerController, StatName : unreal.FName, StatValue : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function WriteLeaderboardInteger(PlayerController : unreal.APlayerController, StatName : unreal.FName, StatValue : unreal.Int32) : Bool;
   
 }

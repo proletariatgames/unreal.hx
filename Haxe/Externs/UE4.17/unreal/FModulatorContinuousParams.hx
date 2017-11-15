@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundNodeModulatorContinuous.h")
+@:glueCppIncludes("Classes/Sound/SoundNodeModulatorContinuous.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FModulatorContinuousParams {
   
   /**

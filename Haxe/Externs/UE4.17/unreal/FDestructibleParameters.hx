@@ -17,7 +17,7 @@ package unreal;
 /**
   Parameters that apply to a destructible actor.
 **/
-@:glueCppIncludes("Engine/DestructibleMesh.h")
+@:glueCppIncludes("Classes/Engine/DestructibleMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleParameters {
   
   /**

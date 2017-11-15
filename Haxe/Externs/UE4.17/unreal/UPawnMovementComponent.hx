@@ -31,7 +31,7 @@ package unreal;
     @param bForce                        If true always add the input, ignoring the result of IsMoveInputIgnored().
     @see APawn::AddMovementInput()
   **/
-  @:ufunction public function AddInputVector(WorldVector : unreal.FVector, bForce : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function AddInputVector(WorldVector : unreal.FVector, bForce : Bool = false) : Void;
   
   /**
     Return the pending input vector in world space. This is the most up-to-date value of the input vector, pending ConsumeMovementInputVector() which clears it.
@@ -39,7 +39,7 @@ package unreal;
     @return The pending input vector in world space.
     @see AddInputVector(), ConsumeInputVector(), GetLastInputVector()
   **/
-  @:ufunction @:thisConst @:final public function GetPendingInputVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPendingInputVector() : unreal.FVector;
   
   /**
     Return the last input vector in world space that was processed by ConsumeInputVector(), which is usually done by the Pawn or PawnMovementComponent.
@@ -47,7 +47,7 @@ package unreal;
     @return The last input vector in world space that was processed by ConsumeInputVector().
     @see AddInputVector(), ConsumeInputVector(), GetPendingInputVector()
   **/
-  @:ufunction @:thisConst @:final public function GetLastInputVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLastInputVector() : unreal.FVector;
   
   /**
     Returns the pending input vector and resets it to zero.
@@ -55,17 +55,17 @@ package unreal;
            * Copies the pending input vector to the saved input vector (GetLastMovementInputVector()).
            * @return The pending input vector.
   **/
-  @:ufunction public function ConsumeInputVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) public function ConsumeInputVector() : unreal.FVector;
   
   /**
     Helper to see if move input is ignored. If there is no Pawn or UpdatedComponent, returns true, otherwise defers to the Pawn's implementation of IsMoveInputIgnored().
   **/
-  @:ufunction @:thisConst public function IsMoveInputIgnored() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsMoveInputIgnored() : Bool;
   
   /**
     Return the Pawn that owns UpdatedComponent.
   **/
-  @:ufunction @:thisConst @:final public function GetPawnOwner() : unreal.APawn;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPawnOwner() : unreal.APawn;
   
   /**
     Pawn that owns this component.
@@ -75,6 +75,6 @@ package unreal;
   /**
     (Deprecated) Return the input vector in world space.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetInputVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetInputVector() : unreal.FVector;
   
 }

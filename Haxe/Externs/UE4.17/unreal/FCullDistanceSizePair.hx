@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper structure containing size and cull distance pair.
 **/
-@:glueCppIncludes("Engine/CullDistanceVolume.h")
+@:glueCppIncludes("Classes/Engine/CullDistanceVolume.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCullDistanceSizePair {
   
   /**

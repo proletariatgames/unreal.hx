@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Simple controller to copy a bone's transform to another one.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_CopyBone.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_CopyBone.h")
 @:uextern @:ustruct extern class FAnimNode_CopyBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

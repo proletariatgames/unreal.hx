@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Trail/ParticleModuleTrailSource.h")
+@:glueCppIncludes("Classes/Particles/Trail/ParticleModuleTrailSource.h")
 @:uname("ETrail2SourceMethod")
 @:uextern @:uenum extern enum ETrail2SourceMethod {
   

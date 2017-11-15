@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates available mobile MSAA sample counts.
 **/
-@:glueCppIncludes("Engine/RendererSettings.h")
+@:glueCppIncludes("Classes/Engine/RendererSettings.h")
 @:uname("EMobileMSAASampleCount.Type")
 @:uextern @:uenum extern enum EMobileMSAASampleCount {
   

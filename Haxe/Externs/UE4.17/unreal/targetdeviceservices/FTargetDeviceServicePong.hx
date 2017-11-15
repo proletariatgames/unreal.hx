@@ -18,7 +18,7 @@ package unreal.targetdeviceservices;
   Implements a message that is sent in response to target device service discovery messages.
 **/
 @:umodule("TargetDeviceServices")
-@:glueCppIncludes("TargetDeviceServiceMessages.h")
+@:glueCppIncludes("Classes/TargetDeviceServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTargetDeviceServicePong {
   
   /**

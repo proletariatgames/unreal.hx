@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavigationTypes.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationTypes.h")
 @:uname("ENavDataGatheringMode")
 @:class @:uextern @:uenum extern enum ENavDataGatheringMode {
   Default;

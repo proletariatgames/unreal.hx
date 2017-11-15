@@ -15,7 +15,7 @@
 package unreal.paper2deditor;
 
 @:umodule("Paper2DEditor")
-@:glueCppIncludes("TileMapAssetImportData.h")
+@:glueCppIncludes("Classes/TileMapAssetImportData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTileSetImportMapping {
   @:uproperty public var ImportedTexture : unreal.TWeakObjectPtr<unreal.UTexture>;
   @:uproperty public var ImportedTileSet : unreal.TWeakObjectPtr<unreal.paper2d.UPaperTileSet>;

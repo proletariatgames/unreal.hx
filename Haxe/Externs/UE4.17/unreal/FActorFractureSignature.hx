@@ -20,7 +20,7 @@ package unreal;
   @param HitDirection
   
 **/
-@:glueCppIncludes("PhysicsEngine/DestructibleActor.h")
+@:glueCppIncludes("Classes/PhysicsEngine/DestructibleActor.h")
 @:uParamName("HitPoint")
 @:uParamName("HitDirection")
 typedef FActorFractureSignature = unreal.DynamicMulticastDelegate<FActorFractureSignature, unreal.Const<unreal.PRef<unreal.FVector>>->unreal.Const<unreal.PRef<unreal.FVector>>->Void>;

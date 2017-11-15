@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum specifying the importance of properties when simplifying skeletal meshes.
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:uname("SkeletalMeshOptimizationImportance")
 @:uextern @:uenum extern enum SkeletalMeshOptimizationImportance {
   SMOI_Off;

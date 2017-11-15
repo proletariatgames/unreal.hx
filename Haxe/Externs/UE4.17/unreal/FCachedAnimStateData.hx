@@ -18,7 +18,7 @@ package unreal;
   This file contains a number of helper structures that can be used to process state-machine-
   related data in C++. This includes relevancy, state weights, animation time etc.
 **/
-@:glueCppIncludes("Animation/CachedAnimData.h")
+@:glueCppIncludes("Public/Animation/CachedAnimData.h")
 @:uextern @:ustruct extern class FCachedAnimStateData {
   
   /**

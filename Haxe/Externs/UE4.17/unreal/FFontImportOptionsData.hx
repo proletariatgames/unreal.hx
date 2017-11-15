@@ -17,7 +17,7 @@ package unreal;
 /**
   Font import options
 **/
-@:glueCppIncludes("Engine/FontImportOptions.h")
+@:glueCppIncludes("Classes/Engine/FontImportOptions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFontImportOptionsData {
   
   /**

@@ -192,19 +192,19 @@ package unreal;
     into photography mode.
     Return ResultCameraLocation as modified according to your constraints.
   **/
-  @:ufunction public function PhotographyCameraModify(NewCameraLocation : unreal.Const<unreal.FVector>, PreviousCameraLocation : unreal.Const<unreal.FVector>, OriginalCameraLocation : unreal.Const<unreal.FVector>, ResultCameraLocation : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintNativeEvent) public function PhotographyCameraModify(NewCameraLocation : unreal.Const<unreal.FVector>, PreviousCameraLocation : unreal.Const<unreal.FVector>, OriginalCameraLocation : unreal.Const<unreal.FVector>, ResultCameraLocation : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Event triggered upon entering Photography mode (before pausing, if
     r.Photography.AutoPause is 1).
   **/
-  @:ufunction public function OnPhotographySessionStart() : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnPhotographySessionStart() : Void;
   
   /**
     Event triggered upon leaving Photography mode (after unpausing, if
     r.Photography.AutoPause is 1).
   **/
-  @:ufunction public function OnPhotographySessionEnd() : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnPhotographySessionEnd() : Void;
   
   /**
     Event triggered upon the start of a multi-part photograph capture (i.e. a
@@ -213,7 +213,7 @@ package unreal;
     bloom, etc; most of these are automatically disabled when
     r.Photography.AutoPostprocess is 1).
   **/
-  @:ufunction public function OnPhotographyMultiPartCaptureStart() : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnPhotographyMultiPartCaptureStart() : Void;
   
   /**
     Event triggered upon the end of a multi-part photograph capture, when manual
@@ -221,71 +221,71 @@ package unreal;
     Here you may re-enable whatever was turned off within
     OnPhotographyMultiPartCaptureStart.
   **/
-  @:ufunction public function OnPhotographyMultiPartCaptureEnd() : Void;
+  @:ufunction(BlueprintNativeEvent) public function OnPhotographyMultiPartCaptureEnd() : Void;
   
   /**
     Blueprint hook to allow blueprints to override existing camera behavior or implement custom cameras.
     If this function returns true, we will use the given returned values and skip further calculations to determine
     final camera POV.
   **/
-  @:ufunction public function BlueprintUpdateCamera(CameraTarget : unreal.AActor, NewCameraLocation : unreal.PRef<unreal.FVector>, NewCameraRotation : unreal.PRef<unreal.FRotator>, NewCameraFOV : unreal.Float32) : Bool;
+  @:ufunction(BlueprintImplementableEvent) public function BlueprintUpdateCamera(CameraTarget : unreal.AActor, NewCameraLocation : unreal.PRef<unreal.FVector>, NewCameraRotation : unreal.PRef<unreal.FRotator>, NewCameraFOV : unreal.Float32) : Bool;
   
   /**
     Returns the PlayerController that owns this camera.
   **/
-  @:ufunction @:thisConst public function GetOwningPlayerController() : unreal.APlayerController;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetOwningPlayerController() : unreal.APlayerController;
   
   /**
     Creates and initializes a new camera modifier of the specified class.
     @param ModifierClass - The class of camera modifier to create.
     @return Returns the newly created camera modifier.
   **/
-  @:ufunction public function AddNewCameraModifier(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
+  @:ufunction(BlueprintCallable) public function AddNewCameraModifier(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
   
   /**
     Returns camera modifier for this camera of the given class, if it exists.
     Exact class match only. If there are multiple modifiers of the same class, the first one is returned.
   **/
-  @:ufunction public function FindCameraModifierByClass(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
+  @:ufunction(BlueprintCallable) public function FindCameraModifierByClass(ModifierClass : unreal.TSubclassOf<unreal.UCameraModifier>) : unreal.UCameraModifier;
   
   /**
     Removes the given camera modifier from this camera (if it's on the camera in the first place) and discards it.
     @return True if successfully removed, false otherwise.
   **/
-  @:ufunction public function RemoveCameraModifier(ModifierToRemove : unreal.UCameraModifier) : Bool;
+  @:ufunction(BlueprintCallable) public function RemoveCameraModifier(ModifierToRemove : unreal.UCameraModifier) : Bool;
   
   /**
     @return Returns the camera's current full FOV angle, in degrees.
   **/
-  @:ufunction @:thisConst public function GetFOVAngle() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetFOVAngle() : unreal.Float32;
   
   /**
     @return Returns camera's current rotation.
   **/
-  @:ufunction @:thisConst @:final public function GetCameraRotation() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCameraRotation() : unreal.FRotator;
   
   /**
     @return Returns camera's current location.
   **/
-  @:ufunction @:thisConst @:final public function GetCameraLocation() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCameraLocation() : unreal.FVector;
   
   /**
     Creates a camera lens effect of the given class on this camera.
     @param LensEffectEmitterClass - Class of lens effect emitter to create.
     @return Returns the new emitter actor.
   **/
-  @:ufunction public function AddCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : unreal.AEmitterCameraLensEffectBase;
+  @:ufunction(BlueprintCallable) public function AddCameraLensEffect(LensEffectEmitterClass : unreal.TSubclassOf<unreal.AEmitterCameraLensEffectBase>) : unreal.AEmitterCameraLensEffectBase;
   
   /**
     Removes the given lens effect from the camera.
     @param Emitter - the emitter actor to remove from the camera
   **/
-  @:ufunction public function RemoveCameraLensEffect(Emitter : unreal.AEmitterCameraLensEffectBase) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveCameraLensEffect(Emitter : unreal.AEmitterCameraLensEffectBase) : Void;
   
   /**
     Removes all camera lens effects.
   **/
-  @:ufunction public function ClearCameraLensEffects() : Void;
+  @:ufunction(BlueprintCallable) public function ClearCameraLensEffects() : Void;
   
   /**
     Plays a camera shake on this camera.
@@ -294,22 +294,22 @@ package unreal;
     @param PlaySpace - Which coordinate system to play the shake in (affects oscillations and camera anims)
     @param UserPlaySpaceRot - Coordinate system to play shake when PlaySpace == CAPS_UserDefined.
   **/
-  @:ufunction public function PlayCameraShake(ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32 = 1.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraShake;
+  @:ufunction(BlueprintCallable) public function PlayCameraShake(ShakeClass : unreal.TSubclassOf<unreal.UCameraShake>, Scale : unreal.Float32 = 1.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraShake;
   
   /**
     Immediately stops the given shake instance and invalidates it.
   **/
-  @:ufunction public function StopCameraShake(ShakeInstance : unreal.UCameraShake, bImmediately : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) public function StopCameraShake(ShakeInstance : unreal.UCameraShake, bImmediately : Bool = true) : Void;
   
   /**
     Stops playing CameraShake of the given class.
   **/
-  @:ufunction public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) public function StopAllInstancesOfCameraShake(Shake : unreal.TSubclassOf<unreal.UCameraShake>, bImmediately : Bool = true) : Void;
   
   /**
     Stops all active camera shakes on this camera.
   **/
-  @:ufunction public function StopAllCameraShakes(bImmediately : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) public function StopAllCameraShakes(bImmediately : Bool = true) : Void;
   
   /**
     Does a camera fade to/from a solid color.  Animates automatically.
@@ -320,18 +320,18 @@ package unreal;
     @param bShouldFadeAudio - True to fade audio volume along with the alpha of the solid color.
     @param bHoldWhenFinished - True for fade to hold at the ToAlpha until explicitly stopped (e.g. with StopCameraFade)
   **/
-  @:ufunction public function StartCameraFade(FromAlpha : unreal.Float32, ToAlpha : unreal.Float32, Duration : unreal.Float32, Color : unreal.FLinearColor, bShouldFadeAudio : Bool = false, bHoldWhenFinished : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function StartCameraFade(FromAlpha : unreal.Float32, ToAlpha : unreal.Float32, Duration : unreal.Float32, Color : unreal.FLinearColor, bShouldFadeAudio : Bool = false, bHoldWhenFinished : Bool = false) : Void;
   
   /**
     Stops camera fading.
   **/
-  @:ufunction public function StopCameraFade() : Void;
+  @:ufunction(BlueprintCallable) public function StopCameraFade() : Void;
   
   /**
     Turns on camera fading at the given opacity. Does not auto-animate, allowing user to animate themselves.
     Call StopCameraFade to turn fading back off.
   **/
-  @:ufunction public function SetManualCameraFade(InFadeAmount : unreal.Float32, Color : unreal.FLinearColor, bInFadeAudio : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetManualCameraFade(InFadeAmount : unreal.Float32, Color : unreal.FLinearColor, bInFadeAudio : Bool) : Void;
   
   /**
     Play the indicated CameraAnim on this camera.
@@ -348,24 +348,24 @@ package unreal;
     @param UserPlaySpaceRot  Custom play space, used when PlaySpace is UserDefined.
     @return The CameraAnim instance, which can be stored to manipulate/stop the anim after the fact.
   **/
-  @:ufunction public function PlayCameraAnim(Anim : unreal.UCameraAnim, Rate : unreal.Float32 = 1.000000, Scale : unreal.Float32 = 1.000000, BlendInTime : unreal.Float32 = 0.000000, BlendOutTime : unreal.Float32 = 0.000000, bLoop : Bool = false, bRandomStartTime : Bool = false, Duration : unreal.Float32 = 0.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraAnimInst;
+  @:ufunction(BlueprintCallable) public function PlayCameraAnim(Anim : unreal.UCameraAnim, Rate : unreal.Float32 = 1.000000, Scale : unreal.Float32 = 1.000000, BlendInTime : unreal.Float32 = 0.000000, BlendOutTime : unreal.Float32 = 0.000000, bLoop : Bool = false, bRandomStartTime : Bool = false, Duration : unreal.Float32 = 0.000000, PlaySpace : unreal.ECameraAnimPlaySpace = CameraLocal, UserPlaySpaceRot : unreal.FRotator) : unreal.UCameraAnimInst;
   
   /**
     Stop playing all instances of the indicated CameraAnim.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  @:ufunction public function StopAllInstancesOfCameraAnim(Anim : unreal.UCameraAnim, bImmediate : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function StopAllInstancesOfCameraAnim(Anim : unreal.UCameraAnim, bImmediate : Bool = false) : Void;
   
   /**
     Stops the given CameraAnimInst from playing.  The given pointer should be considered invalid after this.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  @:ufunction public function StopCameraAnimInst(AnimInst : unreal.UCameraAnimInst, bImmediate : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function StopCameraAnimInst(AnimInst : unreal.UCameraAnimInst, bImmediate : Bool = false) : Void;
   
   /**
     Stop playing all CameraAnims on this CameraManager.
     @param bImmediate    True to stop it right now and ignore blend out, false to let it blend out as indicated.
   **/
-  @:ufunction public function StopAllCameraAnims(bImmediate : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function StopAllCameraAnims(bImmediate : Bool = false) : Void;
   
 }

@@ -20,7 +20,7 @@ package unreal;
   Structure for arbitrarily oriented boxes (i.e. not necessarily axis-aligned).
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\OrientedBox.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FOrientedBox {
   
 }

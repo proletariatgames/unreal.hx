@@ -19,7 +19,7 @@ package unreal.clothingsystemruntimeinterface;
   been processed as they are really just indexing the existing spheres
 **/
 @:umodule("ClothingSystemRuntimeInterface")
-@:glueCppIncludes("ClothingSystemRuntimeTypes.h")
+@:glueCppIncludes("Public/ClothingSystemRuntimeTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothCollisionPrim_SphereConnection {
   
 }

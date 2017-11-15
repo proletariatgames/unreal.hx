@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/InterpToMovementComponent.h")
+@:glueCppIncludes("Classes/Components/InterpToMovementComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInterpControlPoint {
   
   /**

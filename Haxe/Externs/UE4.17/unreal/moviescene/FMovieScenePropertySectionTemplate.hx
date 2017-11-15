@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieScenePropertyTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieScenePropertyTemplate.h")
 @:uextern @:ustruct extern class FMovieScenePropertySectionTemplate extends unreal.moviescene.FMovieSceneEvalTemplate {
   @:uproperty private var PropertyData : unreal.moviescene.FMovieScenePropertySectionData;
   

@@ -18,7 +18,7 @@ package unreal.physxvehicles;
   Allows overriding of friction of this tire config on a specific material
 **/
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("TireConfig.h")
+@:glueCppIncludes("Public/TireConfig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTireConfigMaterialFriction {
   
   /**

@@ -20,7 +20,7 @@ package unreal.umg;
   @param ReturnValue
   
 **/
-@:glueCppIncludes("UMG.h", "Components/TableViewBase.h")
+@:glueCppIncludes("UMG.h", "Public/Components/TableViewBase.h")
 @:uParamName("Item")
 @:uParamName("ReturnValue")
 @:umodule("UMG")

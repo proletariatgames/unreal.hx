@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates the available internationalization data presets for project packaging.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/ProjectPackagingSettings.h")
+@:glueCppIncludes("Classes/Settings/ProjectPackagingSettings.h")
 @:uname("EProjectPackagingInternationalizationPresets")
 @:class @:uextern @:uenum extern enum EProjectPackagingInternationalizationPresets {
   

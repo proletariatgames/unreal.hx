@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("Materials/MaterialExpressionLandscapeGrassOutput.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionLandscapeGrassOutput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGrassInput {
   @:uproperty public var Input : unreal.FExpressionInput;
   @:uproperty public var GrassType : unreal.landscape.ULandscapeGrassType;

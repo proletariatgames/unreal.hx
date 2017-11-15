@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
   This node will not trigger any notifies present in the associated sequence.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_BlendSpaceEvaluator.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_BlendSpaceEvaluator.h")
 @:uextern @:ustruct extern class FAnimNode_BlendSpaceEvaluator extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
   
   /**

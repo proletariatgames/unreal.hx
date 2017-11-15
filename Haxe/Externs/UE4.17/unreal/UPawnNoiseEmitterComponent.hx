@@ -37,6 +37,6 @@ package unreal;
     @param Loudness - is the relative loudness of the noise (0.0 to 1.0)
     @param NoiseLocation - is the position of the noise
   **/
-  @:ufunction public function MakeNoise(NoiseMaker : unreal.AActor, Loudness : unreal.Float32, NoiseLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
+  @:ufunction(BlueprintCallable) public function MakeNoise(NoiseMaker : unreal.AActor, Loudness : unreal.Float32, NoiseLocation : unreal.Const<unreal.PRef<unreal.FVector>>) : Void;
   
 }

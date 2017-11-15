@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Builders/SheetBuilder.h")
+@:glueCppIncludes("Classes/Builders/SheetBuilder.h")
 @:uname("ESheetAxis")
 @:uextern @:uenum extern enum ESheetAxis {
   AX_Horizontal;

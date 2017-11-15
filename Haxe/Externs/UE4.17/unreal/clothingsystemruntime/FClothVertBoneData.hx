@@ -18,7 +18,7 @@ package unreal.clothingsystemruntime;
   Bone data for a vertex
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothVertBoneData {
   
 }

@@ -18,7 +18,7 @@ package unreal.enginesettings;
   Ways the screen can be split with three players.
 **/
 @:umodule("EngineSettings")
-@:glueCppIncludes("GameMapsSettings.h")
+@:glueCppIncludes("Classes/GameMapsSettings.h")
 @:uname("EThreePlayerSplitScreenType.Type")
 @:uextern @:uenum extern enum EThreePlayerSplitScreenType {
   FavorTop;

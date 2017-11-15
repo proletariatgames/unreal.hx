@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about a streaming texture that a primitive uses for rendering.
 **/
-@:glueCppIncludes("Engine/TextureStreamingTypes.h")
+@:glueCppIncludes("Classes/Engine/TextureStreamingTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FStreamingTexturePrimitiveInfo {
   
   /**

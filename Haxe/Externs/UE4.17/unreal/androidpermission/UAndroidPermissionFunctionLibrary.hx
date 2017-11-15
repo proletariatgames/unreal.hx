@@ -21,11 +21,11 @@ package unreal.androidpermission;
   /**
     check if the permission is already granted
   **/
-  @:ufunction static public function CheckPermission(permission : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function CheckPermission(permission : unreal.FString) : Bool;
   
   /**
     try to acquire permissions and return a singleton callback proxy object containing OnPermissionsGranted delegate
   **/
-  @:ufunction static public function AcquirePermissions(permissions : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.androidpermission.UAndroidPermissionCallbackProxy;
+  @:ufunction(BlueprintCallable) static public function AcquirePermissions(permissions : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>) : unreal.androidpermission.UAndroidPermissionCallbackProxy;
   
 }

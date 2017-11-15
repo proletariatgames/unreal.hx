@@ -17,7 +17,7 @@ package unreal;
 /**
   One key in a rich, editable float curve
 **/
-@:glueCppIncludes("Curves/RichCurve.h")
+@:glueCppIncludes("Classes/Curves/RichCurve.h")
 @:noCopy @:uextern @:ustruct extern class FRichCurveKey {
   
   /**

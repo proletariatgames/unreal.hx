@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/TextRenderComponent.h")
+@:glueCppIncludes("Classes/Components/TextRenderComponent.h")
 @:uname("EHorizTextAligment")
 @:uextern @:uenum extern enum EHorizTextAligment {
   

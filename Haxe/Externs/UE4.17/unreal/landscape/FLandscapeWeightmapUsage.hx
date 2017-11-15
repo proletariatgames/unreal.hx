@@ -18,7 +18,7 @@ package unreal.landscape;
   Structure storing channel usage for weightmap textures
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeProxy.h")
+@:glueCppIncludes("Classes/LandscapeProxy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeWeightmapUsage {
   
 }

@@ -19,7 +19,7 @@ package unreal.aimodule;
   (e.g. only entries holding points and objects derived form actor class)
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
+@:glueCppIncludes("Classes/BehaviorTree/BehaviorTreeTypes.h")
 @:uextern @:ustruct extern class FBlackboardKeySelector {
   
   /**

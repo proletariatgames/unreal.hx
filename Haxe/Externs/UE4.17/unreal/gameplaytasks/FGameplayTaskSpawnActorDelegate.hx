@@ -18,7 +18,7 @@ package unreal.gameplaytasks;
   @param SpawnedActor
   
 **/
-@:glueCppIncludes("Tasks/GameplayTask_SpawnActor.h")
+@:glueCppIncludes("Classes/Tasks/GameplayTask_SpawnActor.h")
 @:uParamName("SpawnedActor")
 @:umodule("GameplayTasks")
 typedef FGameplayTaskSpawnActorDelegate = unreal.DynamicMulticastDelegate<FGameplayTaskSpawnActorDelegate, unreal.AActor->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Info about one note dropped in the map during PIE.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDropNoteInfo {
   
   /**

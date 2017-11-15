@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   How to access the snapshot
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseSnapshot.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseSnapshot.h")
 @:uname("ESnapshotSourceMode")
 @:class @:uextern @:uenum extern enum ESnapshotSourceMode {
   

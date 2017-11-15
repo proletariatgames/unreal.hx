@@ -25,6 +25,6 @@ package unreal.cinematiccamera;
   /**
     Returns the CineCameraComponent of this CineCamera
   **/
-  @:ufunction @:thisConst @:final public function GetCineCameraComponent() : unreal.cinematiccamera.UCineCameraComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetCineCameraComponent() : unreal.cinematiccamera.UCineCameraComponent;
   
 }

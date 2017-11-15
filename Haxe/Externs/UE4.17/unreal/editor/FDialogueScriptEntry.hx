@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Commandlets/ExportDialogueScriptCommandlet.h")
+@:glueCppIncludes("Classes/Commandlets/ExportDialogueScriptCommandlet.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDialogueScriptEntry {
   @:uproperty public var DialogueAssetGUID : unreal.FString;
   @:uproperty public var TargetVoiceGUIDs : unreal.TArray<unreal.FString>;

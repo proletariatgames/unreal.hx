@@ -19,7 +19,7 @@ package unreal;
   I wonder in the future, we change all compressed to be inside as well, so they all stay together
   When remove tracks, it should be handled together
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FAnimSequenceTrackContainer {
   @:uproperty public var TrackNames : unreal.TArray<unreal.FName>;
   @:uproperty public var AnimationTracks : unreal.TArray<unreal.FRawAnimSequenceTrack>;

@@ -19,7 +19,7 @@ package unreal;
   
   A type of primary asset, this is a wrapper around FName and can be cast back and forth
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimaryAssetType {
   
 }

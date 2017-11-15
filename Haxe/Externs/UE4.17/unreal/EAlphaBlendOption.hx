@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AlphaBlend.h")
+@:glueCppIncludes("Public/AlphaBlend.h")
 @:uname("EAlphaBlendOption")
 @:class @:uextern @:uenum extern enum EAlphaBlendOption {
   

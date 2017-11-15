@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("SingleAnimationPlayData.h")
+@:glueCppIncludes("Public/SingleAnimationPlayData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSingleAnimationPlayData {
   
   /**

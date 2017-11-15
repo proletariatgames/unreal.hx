@@ -15,7 +15,7 @@
 package unreal.clothingsystemruntimeinterface;
 
 @:umodule("ClothingSystemRuntimeInterface")
-@:glueCppIncludes("ClothingSystemRuntimeTypes.h")
+@:glueCppIncludes("Public/ClothingSystemRuntimeTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothCollisionData {
   
   /**

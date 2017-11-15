@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct that stores information about a function output which is needed to maintain connections and implement the function call.
 **/
-@:glueCppIncludes("Materials/MaterialExpressionMaterialFunctionCall.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionMaterialFunctionCall.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFunctionExpressionOutput {
   
   /**

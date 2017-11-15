@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param PlayerController
   
 **/
-@:glueCppIncludes("LogoutCallbackProxy.h")
+@:glueCppIncludes("Classes/LogoutCallbackProxy.h")
 @:uParamName("PlayerController")
 @:umodule("OnlineSubsystemUtils")
 typedef FOnlineLogoutResult = unreal.DynamicMulticastDelegate<FOnlineLogoutResult, unreal.APlayerController->Void>;

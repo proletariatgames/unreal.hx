@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/InterpCurveEdSetup.h")
+@:glueCppIncludes("Classes/Engine/InterpCurveEdSetup.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCurveEdTab {
   @:uproperty public var ViewEndOutput : unreal.Float32;
   @:uproperty public var ViewStartOutput : unreal.Float32;

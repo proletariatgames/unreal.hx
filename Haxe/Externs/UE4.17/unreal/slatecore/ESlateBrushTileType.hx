@@ -18,7 +18,7 @@ package unreal.slatecore;
   Enumerates tiling options for image drawing.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateBrush.h")
+@:glueCppIncludes("Public/Styling/SlateBrush.h")
 @:uname("ESlateBrushTileType.Type")
 @:uextern @:uenum extern enum ESlateBrushTileType {
   

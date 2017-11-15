@@ -18,7 +18,7 @@ package unreal.physxvehicles;
   Proxy override for this UAnimInstance-derived class
 **/
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("VehicleAnimInstance.h")
+@:glueCppIncludes("Public/VehicleAnimInstance.h")
 @:uextern @:ustruct extern class FVehicleAnimInstanceProxy extends unreal.FAnimInstanceProxy {
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   This is a mapping table between bone in a particular skeletal mesh and bone of this skeleton set.
 **/
-@:glueCppIncludes("Animation/Skeleton.h")
+@:glueCppIncludes("Classes/Animation/Skeleton.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FReferencePose {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var ReferenceMesh : unreal.USkeletalMesh;

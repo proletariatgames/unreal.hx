@@ -18,7 +18,7 @@ package unreal.editor;
   Data structure for storing PIE login credentials
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/EditorEngine.h")
+@:glueCppIncludes("Classes/Editor/EditorEngine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPIELoginInfo {
   
   /**

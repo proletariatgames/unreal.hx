@@ -20,7 +20,7 @@ package unreal;
   Used to pass argument/value pairs into FText::Format.
   The full C++ struct is located here: Engine\Source\Runtime\Core\Public\Internationalization\Text.h
 **/
-@:glueCppIncludes("Kismet/KismetTextLibrary.h")
+@:glueCppIncludes("Classes/Kismet/KismetTextLibrary.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFormatArgumentData {
   
 }

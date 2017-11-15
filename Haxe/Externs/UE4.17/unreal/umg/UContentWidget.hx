@@ -17,8 +17,8 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern @:uclass extern class UContentWidget extends unreal.umg.UPanelWidget {
-  @:ufunction @:thisConst @:final public function GetContentSlot() : unreal.umg.UPanelSlot;
-  @:ufunction @:final public function SetContent(Content : unreal.umg.UWidget) : unreal.umg.UPanelSlot;
-  @:ufunction @:thisConst @:final public function GetContent() : unreal.umg.UWidget;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetContentSlot() : unreal.umg.UPanelSlot;
+  @:ufunction(BlueprintCallable) @:final public function SetContent(Content : unreal.umg.UWidget) : unreal.umg.UPanelSlot;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetContent() : unreal.umg.UWidget;
   
 }

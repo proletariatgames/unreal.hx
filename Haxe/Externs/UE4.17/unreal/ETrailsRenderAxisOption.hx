@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataRibbon.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataRibbon.h")
 @:uname("ETrailsRenderAxisOption")
 @:uextern @:uenum extern enum ETrailsRenderAxisOption {
   

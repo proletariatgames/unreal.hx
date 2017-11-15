@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Decorators/BTDecorator_DoesPathExist.h")
+@:glueCppIncludes("Classes/BehaviorTree/Decorators/BTDecorator_DoesPathExist.h")
 @:uname("EPathExistanceQueryType.Type")
 @:uextern @:uenum extern enum EPathExistanceQueryType {
   

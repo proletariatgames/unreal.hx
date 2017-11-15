@@ -15,7 +15,7 @@
 package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
-@:glueCppIncludes("GameplayDebuggerConfig.h")
+@:glueCppIncludes("Public/GameplayDebuggerConfig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerExtensionConfig {
   @:uproperty public var InputHandlers : unreal.TArray<unreal.gameplaydebugger.FGameplayDebuggerInputConfig>;
   @:uproperty public var UseExtension : unreal.gameplaydebugger.EGameplayDebuggerOverrideMode;

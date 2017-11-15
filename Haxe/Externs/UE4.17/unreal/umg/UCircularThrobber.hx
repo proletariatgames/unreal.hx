@@ -48,16 +48,16 @@ package unreal.umg;
   /**
     Sets how many pieces there are.
   **/
-  @:ufunction @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetNumberOfPieces(InNumberOfPieces : unreal.Int32) : Void;
   
   /**
     Sets the amount of time for a full circle (in seconds).
   **/
-  @:ufunction @:final public function SetPeriod(InPeriod : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPeriod(InPeriod : unreal.Float32) : Void;
   
   /**
     Sets the radius of the circle.
   **/
-  @:ufunction @:final public function SetRadius(InRadius : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetRadius(InRadius : unreal.Float32) : Void;
   
 }

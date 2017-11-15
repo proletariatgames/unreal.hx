@@ -15,7 +15,7 @@
 package unreal.landscapeeditor;
 
 @:umodule("LandscapeEditor")
-@:glueCppIncludes("LandscapeEditorObject.h")
+@:glueCppIncludes("Public/LandscapeEditorObject.h")
 @:uname("ELandscapeToolErosionMode.Type")
 @:uextern @:uenum extern enum ELandscapeToolErosionMode {
   

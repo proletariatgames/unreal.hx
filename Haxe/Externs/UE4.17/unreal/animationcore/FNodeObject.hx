@@ -18,7 +18,7 @@ package unreal.animationcore;
   A node in a named hierarchy
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("NodeHierarchy.h")
+@:glueCppIncludes("Public/NodeHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNodeObject {
   
   /**

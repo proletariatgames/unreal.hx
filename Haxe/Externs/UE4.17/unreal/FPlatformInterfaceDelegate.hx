@@ -19,6 +19,6 @@ package unreal;
   @param Result
   
 **/
-@:glueCppIncludes("Engine/PlatformInterfaceBase.h")
+@:glueCppIncludes("Classes/Engine/PlatformInterfaceBase.h")
 @:uParamName("Result")
 typedef FPlatformInterfaceDelegate = unreal.DynamicDelegate<FPlatformInterfaceDelegate, unreal.Const<unreal.PRef<unreal.FPlatformInterfaceDelegateResult>>->Void>;

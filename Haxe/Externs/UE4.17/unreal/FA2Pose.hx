@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FA2Pose {
   @:uproperty public var Bones : unreal.TArray<unreal.FTransform>;
   

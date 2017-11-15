@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleModuleRequired.h")
+@:glueCppIncludes("Classes/Particles/ParticleModuleRequired.h")
 @:uname("EEmitterNormalsMode")
 @:uextern @:uenum extern enum EEmitterNormalsMode {
   

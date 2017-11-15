@@ -18,7 +18,7 @@ package unreal.aimodule;
   keep in sync with DescribeFinishMode
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Composites/BTComposite_SimpleParallel.h")
+@:glueCppIncludes("Classes/BehaviorTree/Composites/BTComposite_SimpleParallel.h")
 @:uname("EBTParallelMode.Type")
 @:uextern @:uenum extern enum EBTParallelMode {
   

@@ -20,7 +20,7 @@ package unreal;
   A packed normal.
   The full C++ class is located here: Engine\Source\Runtime\RenderCore\Public\PackedNormal.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPackedNormal {
   
 }

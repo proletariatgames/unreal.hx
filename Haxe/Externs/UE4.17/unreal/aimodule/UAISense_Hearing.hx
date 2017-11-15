@@ -34,6 +34,6 @@ package unreal.aimodule;
     @param MaxRange Max range at which the sound can be heard, multiplied by Loudness. Values <= 0 mean no limit (still limited by listener's range however).
     @param Tag Identifier for the event.
   **/
-  @:ufunction static public function ReportNoiseEvent(WorldContextObject : unreal.UObject, NoiseLocation : unreal.FVector, Loudness : unreal.Float32 = 1.000000, Instigator : unreal.AActor, MaxRange : unreal.Float32 = 0.000000, @:opt("None") Tag : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) static public function ReportNoiseEvent(WorldContextObject : unreal.UObject, NoiseLocation : unreal.FVector, Loudness : unreal.Float32 = 1.000000, Instigator : unreal.AActor, MaxRange : unreal.Float32 = 0.000000, @:opt("None") Tag : unreal.FName) : Void;
   
 }

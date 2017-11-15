@@ -18,7 +18,7 @@ package unreal.moviescene;
   Structure that stores hierarchical information pertaining to all sequences contained within a master sequence
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSequenceHierarchy.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSequenceHierarchy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequenceHierarchy {
   
 }

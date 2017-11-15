@@ -18,7 +18,7 @@ package unreal.umg;
   @param bIsChecked
   
 **/
-@:glueCppIncludes("UMG.h", "Components/CheckBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/CheckBox.h")
 @:uParamName("bIsChecked")
 @:umodule("UMG")
 typedef FOnCheckBoxComponentStateChanged = unreal.DynamicMulticastDelegate<FOnCheckBoxComponentStateChanged, Bool->Void>;

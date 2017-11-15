@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates transition types.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:uname("ETransitionType")
 @:uextern @:uenum extern enum ETransitionType {
   TT_None;

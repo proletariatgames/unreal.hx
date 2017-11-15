@@ -17,7 +17,7 @@ package unreal;
 /**
   Reference to a specific material in a PrimitiveComponent.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimitiveMaterialRef {
   @:uproperty public var ElementIndex : unreal.Int32;
   @:uproperty public var Decal : unreal.UDecalComponent;

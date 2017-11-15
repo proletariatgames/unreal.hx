@@ -67,6 +67,6 @@ package unreal;
     The particle system to use for this trail.
   **/
   @:uproperty public var PSTemplate : unreal.UParticleSystem;
-  @:ufunction @:thisConst public function OverridePSTemplate(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : unreal.UParticleSystem;
+  @:ufunction(BlueprintImplementableEvent) @:thisConst public function OverridePSTemplate(MeshComp : unreal.USkeletalMeshComponent, Animation : unreal.UAnimSequenceBase) : unreal.UParticleSystem;
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleSystemReplay.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystemReplay.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleEmitterReplayFrame {
   
 }

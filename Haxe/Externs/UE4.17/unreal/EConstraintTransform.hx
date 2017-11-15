@@ -17,7 +17,7 @@ package unreal;
 /**
   Constraint Transform Type. - currently unused
 **/
-@:glueCppIncludes("Animation/Rig.h")
+@:glueCppIncludes("Classes/Animation/Rig.h")
 @:uname("EConstraintTransform.Type")
 @:uextern @:uenum extern enum EConstraintTransform {
   

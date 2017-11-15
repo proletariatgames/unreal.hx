@@ -20,7 +20,7 @@ package unreal;
   @param CueDuration
   
 **/
-@:glueCppIncludes("Components/AudioComponent.h")
+@:glueCppIncludes("Classes/Components/AudioComponent.h")
 @:uParamName("Subtitles")
 @:uParamName("CueDuration")
 typedef FOnQueueSubtitles = unreal.DynamicDelegate<FOnQueueSubtitles, unreal.Const<unreal.PRef<unreal.TArray<unreal.FSubtitleCue>>>->unreal.Float32->Void>;

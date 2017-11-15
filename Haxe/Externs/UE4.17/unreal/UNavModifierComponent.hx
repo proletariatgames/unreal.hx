@@ -22,6 +22,6 @@ package unreal;
   **/
   @:uproperty public var FailsafeExtent : unreal.FVector;
   @:uproperty public var AreaClass : unreal.TSubclassOf<unreal.UNavArea>;
-  @:ufunction @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAreaClass(NewAreaClass : unreal.TSubclassOf<unreal.UNavArea>) : Void;
   
 }

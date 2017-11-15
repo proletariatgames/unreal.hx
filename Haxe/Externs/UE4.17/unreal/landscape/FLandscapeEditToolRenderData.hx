@@ -18,7 +18,7 @@ package unreal.landscape;
   FLandscapeEditToolRenderData
 **/
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeComponent.h")
+@:glueCppIncludes("Classes/LandscapeComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLandscapeEditToolRenderData {
   @:uproperty public var DataTexture : unreal.UTexture2D;
   @:uproperty public var DebugChannelB : unreal.Int32;

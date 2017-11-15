@@ -17,7 +17,7 @@ package unreal;
 /**
   This is used by the drawing passes to determine tessellation policy, so changes here need to be supported in native code.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EMaterialTessellationMode")
 @:uextern @:uenum extern enum EMaterialTessellationMode {
   

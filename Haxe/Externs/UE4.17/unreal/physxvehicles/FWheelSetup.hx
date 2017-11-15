@@ -18,7 +18,7 @@ package unreal.physxvehicles;
   Vehicle-specific wheel setup
 **/
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("WheeledVehicleMovementComponent.h")
+@:glueCppIncludes("Public/WheeledVehicleMovementComponent.h")
 @:uextern @:ustruct extern class FWheelSetup {
   
   /**

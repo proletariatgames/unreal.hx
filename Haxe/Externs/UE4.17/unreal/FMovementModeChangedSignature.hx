@@ -20,7 +20,7 @@ package unreal;
   @param PreviousCustomMode
   
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:uParamName("Character")
 @:uParamName("PrevMovementMode")
 @:uParamName("PreviousCustomMode")

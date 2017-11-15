@@ -18,7 +18,7 @@ package unreal.animationcore;
   A description of how to apply aim constraint
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FAimConstraintDescription extends unreal.animationcore.FConstraintDescriptionEx {
   @:uproperty public var bUseLookUp : Bool;
   @:uproperty public var LookUp_Axis : unreal.animationcore.FAxis;

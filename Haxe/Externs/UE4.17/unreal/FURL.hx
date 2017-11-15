@@ -17,7 +17,7 @@ package unreal;
 /**
   URL structure.
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:uextern @:ustruct extern class FURL {
   @:uproperty public var Valid : unreal.Int32;
   

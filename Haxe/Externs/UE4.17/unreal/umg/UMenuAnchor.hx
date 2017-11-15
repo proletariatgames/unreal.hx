@@ -57,38 +57,38 @@ package unreal.umg;
     
     @param bFocusOnOpen  Should we focus the popup as soon as it opens?
   **/
-  @:ufunction @:final public function ToggleOpen(bFocusOnOpen : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ToggleOpen(bFocusOnOpen : Bool) : Void;
   
   /**
     Opens the menu if it is not already open
   **/
-  @:ufunction @:final public function Open(bFocusMenu : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Open(bFocusMenu : Bool) : Void;
   
   /**
     Closes the menu if it is currently open.
   **/
-  @:ufunction @:final public function Close() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Close() : Void;
   
   /**
     @return true if the popup is open; false otherwise.
   **/
-  @:ufunction @:thisConst @:final public function IsOpen() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsOpen() : Bool;
   
   /**
     @return true if we should open the menu due to a click. Sometimes we should not, if
     the same MouseDownEvent that just closed the menu is about to re-open it because it
     happens to land on the button.
   **/
-  @:ufunction @:thisConst @:final public function ShouldOpenDueToClick() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function ShouldOpenDueToClick() : Bool;
   
   /**
     @return The current menu position
   **/
-  @:ufunction @:thisConst @:final public function GetMenuPosition() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMenuPosition() : unreal.FVector2D;
   
   /**
     @return Whether this menu has open submenus
   **/
-  @:ufunction @:thisConst @:final public function HasOpenSubMenus() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function HasOpenSubMenus() : Bool;
   
 }

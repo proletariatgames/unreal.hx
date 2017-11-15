@@ -17,7 +17,7 @@ package unreal;
 /**
   Represents a mapping of key handles to key index that may be serialized
 **/
-@:glueCppIncludes("Curves/KeyHandle.h")
+@:glueCppIncludes("Classes/Curves/KeyHandle.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKeyHandleMap {
   
 }

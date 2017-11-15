@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
+@:glueCppIncludes("Classes/PhysicsEngine/ConstraintTypes.h")
 @:uextern @:ustruct extern class FConstraintBaseParams {
   
   /**

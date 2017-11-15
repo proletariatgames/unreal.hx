@@ -18,7 +18,7 @@ package unreal.viewportinteraction;
   Data structure that holds all arguments that can be used while dragging a transformable.
 **/
 @:umodule("ViewportInteraction")
-@:glueCppIncludes("ViewportDragOperation.h")
+@:glueCppIncludes("Public/ViewportDragOperation.h")
 @:uextern @:ustruct extern class FDraggingTransformableData {
   
 }

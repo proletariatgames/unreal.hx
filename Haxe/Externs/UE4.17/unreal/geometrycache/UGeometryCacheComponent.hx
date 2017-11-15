@@ -24,77 +24,77 @@ package unreal.geometrycache;
   /**
     Start playback of GeometryCache
   **/
-  @:ufunction @:final public function Play() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Play() : Void;
   
   /**
     Start playback of GeometryCache from the start
   **/
-  @:ufunction @:final public function PlayFromStart() : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayFromStart() : Void;
   
   /**
     Start playback of GeometryCache in reverse
   **/
-  @:ufunction @:final public function PlayReversed() : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayReversed() : Void;
   
   /**
     Start playback of GeometryCache from the end and play in reverse
   **/
-  @:ufunction @:final public function PlayReversedFromEnd() : Void;
+  @:ufunction(BlueprintCallable) @:final public function PlayReversedFromEnd() : Void;
   
   /**
     Pause playback of GeometryCache
   **/
-  @:ufunction @:final public function Pause() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Pause() : Void;
   
   /**
     Stop playback of GeometryCache
   **/
-  @:ufunction @:final public function Stop() : Void;
+  @:ufunction(BlueprintCallable) @:final public function Stop() : Void;
   
   /**
     Get whether this GeometryCache is playing or not.
   **/
-  @:ufunction @:thisConst @:final public function IsPlaying() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlaying() : Bool;
   
   /**
     Get whether this GeometryCache is playing in reverse or not.
   **/
-  @:ufunction @:thisConst @:final public function IsPlayingReversed() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPlayingReversed() : Bool;
   
   /**
     Get whether this GeometryCache is looping or not.
   **/
-  @:ufunction @:thisConst @:final public function IsLooping() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsLooping() : Bool;
   
   /**
     Set whether this GeometryCache is looping or not.
   **/
-  @:ufunction @:final public function SetLooping(bNewLooping : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLooping(bNewLooping : Bool) : Void;
   
   /**
     Get current playback speed for GeometryCache.
   **/
-  @:ufunction @:thisConst @:final public function GetPlaybackSpeed() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPlaybackSpeed() : unreal.Float32;
   
   /**
     Set new playback speed for GeometryCache.
   **/
-  @:ufunction @:final public function SetPlaybackSpeed(NewPlaybackSpeed : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPlaybackSpeed(NewPlaybackSpeed : unreal.Float32) : Void;
   
   /**
     Change the Geometry Cache used by this instance.
   **/
-  @:ufunction public function SetGeometryCache(NewGeomCache : unreal.geometrycache.UGeometryCache) : Bool;
+  @:ufunction(BlueprintCallable) public function SetGeometryCache(NewGeomCache : unreal.geometrycache.UGeometryCache) : Bool;
   
   /**
     Get current start time offset for GeometryCache.
   **/
-  @:ufunction @:thisConst @:final public function GetStartTimeOffset() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetStartTimeOffset() : unreal.Float32;
   
   /**
     Set current start time offset for GeometryCache.
   **/
-  @:ufunction @:final public function SetStartTimeOffset(NewStartTimeOffset : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStartTimeOffset(NewStartTimeOffset : unreal.Float32) : Void;
   @:uproperty private var ElapsedTime : unreal.Float32;
   @:uproperty private var NumTracks : unreal.Int32;
   @:uproperty private var PlaybackSpeed : unreal.Float32;

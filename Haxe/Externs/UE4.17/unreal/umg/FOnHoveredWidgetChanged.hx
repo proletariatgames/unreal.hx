@@ -20,7 +20,7 @@ package unreal.umg;
   @param PreviousWidgetComponent
   
 **/
-@:glueCppIncludes("UMG.h", "Components/WidgetInteractionComponent.h")
+@:glueCppIncludes("UMG.h", "Public/Components/WidgetInteractionComponent.h")
 @:uParamName("WidgetComponent")
 @:uParamName("PreviousWidgetComponent")
 @:umodule("UMG")

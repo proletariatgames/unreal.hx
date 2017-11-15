@@ -17,7 +17,7 @@ package unreal;
 /**
   Handle to a particular row in a table
 **/
-@:glueCppIncludes("Engine/DataTable.h")
+@:glueCppIncludes("Classes/Engine/DataTable.h")
 @:uextern @:ustruct extern class FDataTableRowHandle {
   
   /**

@@ -18,7 +18,7 @@ package unreal.paper2d;
   Describes the space around a 2D area on an integer grid.
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("IntMargin.h")
+@:glueCppIncludes("Classes/IntMargin.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FIntMargin {
   
   /**

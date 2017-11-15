@@ -15,7 +15,7 @@
 package unreal.physxvehicles;
 
 @:umodule("PhysXVehicles")
-@:glueCppIncludes("WheeledVehicleMovementComponent4W.h")
+@:glueCppIncludes("Public/WheeledVehicleMovementComponent4W.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVehicleDifferential4WData {
   
   /**

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:uextern @:ustruct extern class FSkeletalMeshClothBuildParams {
   @:uproperty public var SimulatedParticleMaxDistance : unreal.Float32;
   @:uproperty public var AutoFixThreshold : unreal.Float32;

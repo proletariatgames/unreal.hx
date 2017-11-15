@@ -18,5 +18,5 @@ package unreal;
   called when we finish playing audio, either because it played to completion or because a Stop() call turned it off early
   
 **/
-@:glueCppIncludes("Components/AudioComponent.h")
+@:glueCppIncludes("Classes/Components/AudioComponent.h")
 typedef FOnAudioFinished = unreal.DynamicMulticastDelegate<FOnAudioFinished, Void->Void>;

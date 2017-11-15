@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Simple controller that multiplies scalar value to the translation/rotation/scale of a single bone.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_RotationMultiplier.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_RotationMultiplier.h")
 @:uextern @:ustruct extern class FAnimNode_RotationMultiplier extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   @:uproperty public var bIsAdditive : Bool;
   @:uproperty public var RotationAxisToRefer : unreal.EBoneAxis;

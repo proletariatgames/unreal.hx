@@ -18,7 +18,7 @@ package unreal;
   @param inArray
   
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uParamName("inArray")
 @:uname("UPlatformGameInstance.FPlatformRegisteredForRemoteNotificationsDelegate")
 typedef FPlatformRegisteredForRemoteNotificationsDelegate = unreal.DynamicMulticastDelegate<FPlatformRegisteredForRemoteNotificationsDelegate, unreal.Const<unreal.PRef<unreal.TArray<unreal.UInt8>>>->Void>;

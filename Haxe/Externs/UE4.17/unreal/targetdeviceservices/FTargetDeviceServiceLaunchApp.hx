@@ -22,7 +22,7 @@ package unreal.targetdeviceservices;
   @see FTargetDeviceServiceLaunchFinished
 **/
 @:umodule("TargetDeviceServices")
-@:glueCppIncludes("TargetDeviceServiceMessages.h")
+@:glueCppIncludes("Classes/TargetDeviceServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTargetDeviceServiceLaunchApp {
   
   /**

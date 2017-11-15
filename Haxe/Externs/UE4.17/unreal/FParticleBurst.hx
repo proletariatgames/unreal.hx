@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleEmitter.h")
+@:glueCppIncludes("Classes/Particles/ParticleEmitter.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleBurst {
   
   /**

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Simple controller that replaces or adds to the translation/rotation of a single bone.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_SpringBone.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_SpringBone.h")
 @:uextern @:ustruct extern class FAnimNode_SpringBone extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   
   /**

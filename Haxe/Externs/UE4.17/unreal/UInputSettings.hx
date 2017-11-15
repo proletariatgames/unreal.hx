@@ -112,52 +112,52 @@ package unreal;
   /**
     Returns the game local machine settings (resolution, windowing mode, scalability settings, etc...)
   **/
-  @:ufunction static public function GetInputSettings() : unreal.UInputSettings;
+  @:ufunction(BlueprintCallable) static public function GetInputSettings() : unreal.UInputSettings;
   
   /**
     Programmatically add an action mapping to the project defaults
   **/
-  @:ufunction @:final public function AddActionMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputActionKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
-  @:ufunction @:thisConst @:final public function GetActionMappingByName(InActionName : unreal.Const<unreal.FName>, OutMappings : unreal.PRef<unreal.TArray<unreal.FInputActionKeyMapping>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddActionMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputActionKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActionMappingByName(InActionName : unreal.Const<unreal.FName>, OutMappings : unreal.PRef<unreal.TArray<unreal.FInputActionKeyMapping>>) : Void;
   
   /**
     Programmatically remove an action mapping to the project defaults
   **/
-  @:ufunction @:final public function RemoveActionMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputActionKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveActionMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputActionKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
   
   /**
     Programmatically add an axis mapping to the project defaults
   **/
-  @:ufunction @:final public function AddAxisMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputAxisKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddAxisMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputAxisKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
   
   /**
     Retrieve all axis mappings by a certain name.
   **/
-  @:ufunction @:thisConst @:final public function GetAxisMappingByName(InAxisName : unreal.Const<unreal.FName>, OutMappings : unreal.PRef<unreal.TArray<unreal.FInputAxisKeyMapping>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAxisMappingByName(InAxisName : unreal.Const<unreal.FName>, OutMappings : unreal.PRef<unreal.TArray<unreal.FInputAxisKeyMapping>>) : Void;
   
   /**
     Programmatically remove an axis mapping to the project defaults
   **/
-  @:ufunction @:final public function RemoveAxisMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputAxisKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function RemoveAxisMapping(KeyMapping : unreal.Const<unreal.PRef<unreal.FInputAxisKeyMapping>>, bForceRebuildKeymaps : Bool = true) : Void;
   
   /**
     Flush the current mapping values to the config file
   **/
-  @:ufunction @:final public function SaveKeyMappings() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SaveKeyMappings() : Void;
   
   /**
     Populate a list of all defined action names
   **/
-  @:ufunction @:thisConst @:final public function GetActionNames(ActionNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetActionNames(ActionNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
   
   /**
     Populate a list of all defined axis names
   **/
-  @:ufunction @:thisConst @:final public function GetAxisNames(AxisNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAxisNames(AxisNames : unreal.PRef<unreal.TArray<unreal.FName>>) : Void;
   
   /**
     When changes are made to the default mappings, push those changes out to PlayerInput key maps
   **/
-  @:ufunction @:final public function ForceRebuildKeymaps() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ForceRebuildKeymaps() : Void;
   
 }

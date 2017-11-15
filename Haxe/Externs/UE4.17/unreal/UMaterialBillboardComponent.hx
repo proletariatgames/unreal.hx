@@ -28,11 +28,11 @@ package unreal;
   /**
     Set all elements of this material billboard component
   **/
-  @:ufunction @:final public function SetElements(NewElements : unreal.Const<unreal.PRef<unreal.TArray<unreal.FMaterialSpriteElement>>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetElements(NewElements : unreal.Const<unreal.PRef<unreal.TArray<unreal.FMaterialSpriteElement>>>) : Void;
   
   /**
     Adds an element to the sprite.
   **/
-  @:ufunction @:final public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddElement(Material : unreal.UMaterialInterface, DistanceToOpacityCurve : unreal.UCurveFloat, bSizeIsInScreenSpace : Bool, BaseSizeX : unreal.Float32, BaseSizeY : unreal.Float32, DistanceToSizeCurve : unreal.UCurveFloat) : Void;
   
 }

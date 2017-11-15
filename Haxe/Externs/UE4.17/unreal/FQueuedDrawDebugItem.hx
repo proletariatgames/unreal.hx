@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimInstanceProxy.h")
+@:glueCppIncludes("Public/Animation/AnimInstanceProxy.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FQueuedDrawDebugItem {
   @:uproperty public var TextScale : unreal.FVector2D;
   @:uproperty public var Message : unreal.FString;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Used by IStereoLayer
 **/
-@:glueCppIncludes("Components/StereoLayerComponent.h")
+@:glueCppIncludes("Classes/Components/StereoLayerComponent.h")
 @:uname("EStereoLayerType")
 @:uextern @:uenum extern enum EStereoLayerType {
   

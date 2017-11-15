@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   This node is effectively a 'branch', picking one of two input poses based on an input Boolean value
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_BlendListByBool.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_BlendListByBool.h")
 @:uextern @:ustruct extern class FAnimNode_BlendListByBool extends unreal.animgraphruntime.FAnimNode_BlendListBase {
   
   /**

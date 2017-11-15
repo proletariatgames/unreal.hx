@@ -18,7 +18,7 @@ package unreal.slatecore;
   Current state of the check box
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateTypes.h")
+@:glueCppIncludes("Public/Styling/SlateTypes.h")
 @:uname("ECheckBoxState")
 @:class @:uextern @:uenum extern enum ECheckBoxState {
   

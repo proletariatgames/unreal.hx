@@ -17,7 +17,7 @@ package unreal;
 /**
   Class used to send audio to submixes from USoundBase
 **/
-@:glueCppIncludes("Sound/SoundSubmix.h")
+@:glueCppIncludes("Classes/Sound/SoundSubmix.h")
 @:uextern @:ustruct extern class FSoundSubmixSendInfo {
   
   /**

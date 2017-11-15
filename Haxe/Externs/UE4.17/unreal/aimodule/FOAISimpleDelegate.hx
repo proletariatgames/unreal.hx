@@ -18,7 +18,7 @@ package unreal.aimodule;
   @param MovementResult
   
 **/
-@:glueCppIncludes("Blueprint/AIAsyncTaskBlueprintProxy.h")
+@:glueCppIncludes("Classes/Blueprint/AIAsyncTaskBlueprintProxy.h")
 @:uParamName("MovementResult")
 @:umodule("AIModule")
 typedef FOAISimpleDelegate = unreal.DynamicMulticastDelegate<FOAISimpleDelegate, unreal.aimodule.EPathFollowingResult->Void>;

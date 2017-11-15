@@ -18,7 +18,7 @@ package unreal.editor;
   An editor hotkey binding to a parameterless exec.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Preferences/UnrealEdKeyBindings.h")
+@:glueCppIncludes("Classes/Preferences/UnrealEdKeyBindings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEditorKeyBinding {
   @:uproperty public var CommandName : unreal.FName;
   @:uproperty public var Key : unreal.inputcore.FKey;

@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 typedef FCharacterReachedApexSignature = unreal.DynamicMulticastDelegate<FCharacterReachedApexSignature, Void->Void>;

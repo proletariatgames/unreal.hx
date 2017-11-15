@@ -17,7 +17,7 @@ package unreal;
 /**
   MoveToForce moves the target to a given fixed location in world space over the duration
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource_MoveToForce extends unreal.FRootMotionSource {
   @:uproperty public var PathOffsetCurve : unreal.UCurveVector;
   @:uproperty public var bRestrictSpeedToExpected : Bool;

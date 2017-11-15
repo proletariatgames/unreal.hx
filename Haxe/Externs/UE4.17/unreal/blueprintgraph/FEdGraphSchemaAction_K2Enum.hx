@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Reference to an enumeration (only used in 'docked' palette)
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2Enum extends unreal.FEdGraphSchemaAction {
   
 }

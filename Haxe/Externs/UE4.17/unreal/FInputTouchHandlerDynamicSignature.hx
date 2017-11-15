@@ -19,7 +19,7 @@ package unreal;
   @param Location
   
 **/
-@:glueCppIncludes("Components/InputComponent.h")
+@:glueCppIncludes("Classes/Components/InputComponent.h")
 @:uParamName("FingerIndex")
 @:uParamName("Location")
 typedef FInputTouchHandlerDynamicSignature = unreal.DynamicDelegate<FInputTouchHandlerDynamicSignature, unreal.inputcore.ETouchIndex->unreal.FVector->Void>;

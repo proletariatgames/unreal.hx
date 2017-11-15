@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraSpriteRendererProperties.h")
+@:glueCppIncludes("Public/NiagaraSpriteRendererProperties.h")
 @:uname("ENiagaraSortMode")
 @:class @:uextern @:uenum extern enum ENiagaraSortMode {
   SortNone;

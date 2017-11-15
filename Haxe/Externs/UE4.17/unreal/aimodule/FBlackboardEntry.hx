@@ -18,7 +18,7 @@ package unreal.aimodule;
   blackboard entry definition
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/BlackboardData.h")
+@:glueCppIncludes("Classes/BehaviorTree/BlackboardData.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBlackboardEntry {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Input scaling struct
 **/
-@:glueCppIncludes("Animation/InputScaleBias.h")
+@:glueCppIncludes("Classes/Animation/InputScaleBias.h")
 @:uextern @:ustruct extern class FInputScaleBias {
   @:uproperty public var Bias : unreal.Float32;
   @:uproperty public var Scale : unreal.Float32;

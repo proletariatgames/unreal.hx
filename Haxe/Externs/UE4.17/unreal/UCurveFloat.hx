@@ -30,6 +30,6 @@ package unreal;
   /**
     Evaluate this float curve at the specified time
   **/
-  @:ufunction @:thisConst @:final public function GetFloatValue(InTime : unreal.Float32) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetFloatValue(InTime : unreal.Float32) : unreal.Float32;
   
 }

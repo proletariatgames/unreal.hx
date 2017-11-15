@@ -20,7 +20,7 @@ package unreal;
   Thread-safe RNG.
   The full C++ class is located here: Engine\Source\Runtime\Core\Public\Math\RandomStream.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRandomStream {
   
 }

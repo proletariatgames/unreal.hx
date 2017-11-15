@@ -19,7 +19,7 @@ package unreal;
   @param ButtonReleased
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("TouchedActor")
 @:uParamName("ButtonReleased")
 typedef FActorOnReleasedSignature = unreal.DynamicMulticastDelegate<FActorOnReleasedSignature, unreal.AActor->unreal.inputcore.FKey->Void>;

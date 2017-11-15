@@ -15,7 +15,7 @@
 package unreal.androidruntimesettings;
 
 @:umodule("AndroidRuntimeSettings")
-@:glueCppIncludes("AndroidRuntimeSettings.h")
+@:glueCppIncludes("Classes/AndroidRuntimeSettings.h")
 @:uname("EGoogleVRMode.Type")
 @:uextern @:uenum extern enum EGoogleVRMode {
   

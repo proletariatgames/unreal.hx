@@ -17,7 +17,7 @@ package unreal;
 /**
   Serialized ULevel information about dynamic texture instances
 **/
-@:glueCppIncludes("Engine/Level.h")
+@:glueCppIncludes("Classes/Engine/Level.h")
 @:uextern @:ustruct extern class FDynamicTextureInstance extends unreal.FStreamableTextureInstance {
   
   /**

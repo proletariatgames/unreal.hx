@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates the available methods for Blueprint nativization during project packaging.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/ProjectPackagingSettings.h")
+@:glueCppIncludes("Classes/Settings/ProjectPackagingSettings.h")
 @:uname("EProjectPackagingBlueprintNativizationMethod")
 @:class @:uextern @:uenum extern enum EProjectPackagingBlueprintNativizationMethod {
   

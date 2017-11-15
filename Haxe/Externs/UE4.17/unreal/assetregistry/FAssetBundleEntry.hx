@@ -18,7 +18,7 @@ package unreal.assetregistry;
   A struct representing a single AssetBundle
 **/
 @:umodule("AssetRegistry")
-@:glueCppIncludes("AssetBundleData.h")
+@:glueCppIncludes("Public/AssetBundleData.h")
 @:uextern @:ustruct extern class FAssetBundleEntry {
   
   /**

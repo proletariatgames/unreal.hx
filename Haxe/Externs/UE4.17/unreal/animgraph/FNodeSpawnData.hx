@@ -15,7 +15,7 @@
 package unreal.animgraph;
 
 @:umodule("AnimGraph")
-@:glueCppIncludes("K2Node_AnimGetter.h")
+@:glueCppIncludes("Classes/K2Node_AnimGetter.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNodeSpawnData {
   
   /**

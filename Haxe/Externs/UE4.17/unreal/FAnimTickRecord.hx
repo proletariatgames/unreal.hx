@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about an animation asset that needs to be ticked
 **/
-@:glueCppIncludes("Animation/AnimationAsset.h")
+@:glueCppIncludes("Classes/Animation/AnimationAsset.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimTickRecord {
   @:uproperty public var SourceAsset : unreal.UAnimationAsset;
   

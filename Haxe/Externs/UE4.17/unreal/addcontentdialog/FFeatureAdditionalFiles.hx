@@ -18,7 +18,7 @@ package unreal.addcontentdialog;
   Structure that defines a shared feature pack resource.
 **/
 @:umodule("AddContentDialog")
-@:glueCppIncludes("FeaturePackContentSource.h")
+@:glueCppIncludes("Public/FeaturePackContentSource.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFeatureAdditionalFiles {
   
   /**

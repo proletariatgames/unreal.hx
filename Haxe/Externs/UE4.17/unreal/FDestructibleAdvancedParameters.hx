@@ -17,7 +17,7 @@ package unreal;
 /**
   Parameters that are less-often used.
 **/
-@:glueCppIncludes("Engine/DestructibleMesh.h")
+@:glueCppIncludes("Classes/Engine/DestructibleMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleAdvancedParameters {
   
   /**

@@ -21,7 +21,7 @@ package unreal.gameplaytasks;
   /**
     Called to trigger the actual task once the delegates have been set up
   **/
-  @:ufunction @:final public function ReadyForActivation() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ReadyForActivation() : Void;
   
   /**
     Called explicitly to end the task (usually by the task itself). Calls OnDestroy.
@@ -29,7 +29,7 @@ package unreal.gameplaytasks;
         If you don't the task will still be in an "active" state while the event receivers may
         assume it's already "finished"
   **/
-  @:ufunction @:final public function EndTask() : Void;
+  @:ufunction(BlueprintCallable) @:final public function EndTask() : Void;
   
   /**
     child task instance

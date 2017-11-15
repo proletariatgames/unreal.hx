@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimSingleNodeInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimSingleNodeInstance.h")
 typedef FPostEvaluateAnimEvent = unreal.DynamicDelegate<FPostEvaluateAnimEvent, Void->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct containing mappings for legacy method of binding keys to exec commands.
 **/
-@:glueCppIncludes("GameFramework/PlayerInput.h")
+@:glueCppIncludes("Classes/GameFramework/PlayerInput.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKeyBind {
   @:uproperty public var bDisabled : Bool;
   

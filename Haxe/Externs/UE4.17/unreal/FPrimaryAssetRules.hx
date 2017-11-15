@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure defining rules for what to do with assets, this is defined per type and can be overridden per asset
 **/
-@:glueCppIncludes("Engine/AssetManagerTypes.h")
+@:glueCppIncludes("Classes/Engine/AssetManagerTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPrimaryAssetRules {
   
   /**

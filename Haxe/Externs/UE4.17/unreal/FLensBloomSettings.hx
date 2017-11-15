@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLensBloomSettings {
   
   /**

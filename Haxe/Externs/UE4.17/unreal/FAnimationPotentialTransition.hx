@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNode_StateMachine.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_StateMachine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationPotentialTransition {
   
 }

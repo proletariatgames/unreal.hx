@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Translation and rotation for a particular bone at a particular target
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPoseDriverTransform {
   
   /**

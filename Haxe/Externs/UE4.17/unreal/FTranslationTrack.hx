@@ -17,7 +17,7 @@ package unreal;
 /**
   Keyframe position data for one track.  Pos(i) occurs at Time(i).  Pos.Num() always equals Time.Num().
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FTranslationTrack {
   @:uproperty public var Times : unreal.TArray<unreal.Float32>;
   @:uproperty public var PosKeys : unreal.TArray<unreal.FVector>;

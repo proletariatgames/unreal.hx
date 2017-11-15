@@ -18,7 +18,7 @@ package unreal.moviescene;
   Holds segment pointers for all segments that are active for a given range of the sequence
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationGroup {
   
   /**

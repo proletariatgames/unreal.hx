@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure for recording float values and displaying them as an Histogram through DrawDebugFloatHistory.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDebugFloatHistory {
   
   /**

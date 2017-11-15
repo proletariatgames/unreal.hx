@@ -18,7 +18,7 @@ package unreal.editor;
   Defines visibility states for the curves in the curve editor.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("CurveEditorSettings.h")
+@:glueCppIncludes("Public/CurveEditorSettings.h")
 @:uname("ECurveEditorCurveVisibility.Type")
 @:uextern @:uenum extern enum ECurveEditorCurveVisibility {
   

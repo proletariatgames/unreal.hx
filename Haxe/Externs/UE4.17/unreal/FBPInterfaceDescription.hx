@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct containing information about what interfaces are implemented in this blueprint
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBPInterfaceDescription {
   
   /**

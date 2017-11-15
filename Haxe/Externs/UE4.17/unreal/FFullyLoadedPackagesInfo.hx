@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct to help hold information about packages needing to be fully-loaded for DLC, etc.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFullyLoadedPackagesInfo {
   
   /**

@@ -18,7 +18,7 @@ package unreal.aigraph;
   Action to add a subnode to the selected node
 **/
 @:umodule("AIGraph")
-@:glueCppIncludes("AIGraphSchema.h")
+@:glueCppIncludes("Classes/AIGraphSchema.h")
 @:uextern @:ustruct extern class FAISchemaAction_NewSubNode extends unreal.FEdGraphSchemaAction {
   
   /**

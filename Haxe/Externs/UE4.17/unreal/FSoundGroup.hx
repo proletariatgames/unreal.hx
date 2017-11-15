@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/SoundGroups.h")
+@:glueCppIncludes("Classes/Sound/SoundGroups.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSoundGroup {
   
   /**

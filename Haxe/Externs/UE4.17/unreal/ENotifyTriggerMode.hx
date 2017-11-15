@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/BlendSpaceBase.h")
+@:glueCppIncludes("Classes/Animation/BlendSpaceBase.h")
 @:uname("ENotifyTriggerMode.Type")
 @:uextern @:uenum extern enum ENotifyTriggerMode {
   

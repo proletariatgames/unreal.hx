@@ -36,82 +36,82 @@ package unreal.umg;
   /**
     Sets the layout data of the slot
   **/
-  @:ufunction @:final public function SetLayout(InLayoutData : unreal.Const<unreal.PRef<unreal.umg.FAnchorData>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLayout(InLayoutData : unreal.Const<unreal.PRef<unreal.umg.FAnchorData>>) : Void;
   
   /**
     Gets the layout data of the slot
   **/
-  @:ufunction @:thisConst @:final public function GetLayout() : unreal.umg.FAnchorData;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLayout() : unreal.umg.FAnchorData;
   
   /**
     Sets the position of the slot
   **/
-  @:ufunction @:final public function SetPosition(InPosition : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPosition(InPosition : unreal.FVector2D) : Void;
   
   /**
     Gets the position of the slot
   **/
-  @:ufunction @:thisConst @:final public function GetPosition() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPosition() : unreal.FVector2D;
   
   /**
     Sets the size of the slot
   **/
-  @:ufunction @:final public function SetSize(InSize : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSize(InSize : unreal.FVector2D) : Void;
   
   /**
     Gets the size of the slot
   **/
-  @:ufunction @:thisConst @:final public function GetSize() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetSize() : unreal.FVector2D;
   
   /**
     Sets the offset data of the slot, which could be position and size, or margins depending on the anchor points
   **/
-  @:ufunction @:final public function SetOffsets(InOffset : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOffsets(InOffset : unreal.slatecore.FMargin) : Void;
   
   /**
     Gets the offset data of the slot, which could be position and size, or margins depending on the anchor points
   **/
-  @:ufunction @:thisConst @:final public function GetOffsets() : unreal.slatecore.FMargin;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOffsets() : unreal.slatecore.FMargin;
   
   /**
     Sets the anchors on the slot
   **/
-  @:ufunction @:final public function SetAnchors(InAnchors : unreal.slate.FAnchors) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAnchors(InAnchors : unreal.slate.FAnchors) : Void;
   
   /**
     Gets the anchors on the slot
   **/
-  @:ufunction @:thisConst @:final public function GetAnchors() : unreal.slate.FAnchors;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAnchors() : unreal.slate.FAnchors;
   
   /**
     Sets the alignment on the slot
   **/
-  @:ufunction @:final public function SetAlignment(InAlignment : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAlignment(InAlignment : unreal.FVector2D) : Void;
   
   /**
     Gets the alignment on the slot
   **/
-  @:ufunction @:thisConst @:final public function GetAlignment() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAlignment() : unreal.FVector2D;
   
   /**
     Sets if the slot to be auto-sized
   **/
-  @:ufunction @:final public function SetAutoSize(InbAutoSize : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAutoSize(InbAutoSize : Bool) : Void;
   
   /**
     Gets if the slot to be auto-sized
   **/
-  @:ufunction @:thisConst @:final public function GetAutoSize() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAutoSize() : Bool;
   
   /**
     Sets the z-order on the slot
   **/
-  @:ufunction @:final public function SetZOrder(InZOrder : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetZOrder(InZOrder : unreal.Int32) : Void;
   
   /**
     Gets the z-order on the slot
   **/
-  @:ufunction @:thisConst @:final public function GetZOrder() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetZOrder() : unreal.Int32;
   
   /**
     Sets the anchors on the slot

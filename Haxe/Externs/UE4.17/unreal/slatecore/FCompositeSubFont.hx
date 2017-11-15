@@ -15,7 +15,7 @@
 package unreal.slatecore;
 
 @:umodule("SlateCore")
-@:glueCppIncludes("Fonts/CompositeFont.h")
+@:glueCppIncludes("Public/Fonts/CompositeFont.h")
 @:uextern @:ustruct extern class FCompositeSubFont {
   #if WITH_EDITORONLY_DATA
   

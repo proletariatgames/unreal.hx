@@ -18,7 +18,7 @@ package unreal.enginemessages;
   Implements a message for executing a console command.
 **/
 @:umodule("EngineMessages")
-@:glueCppIncludes("EngineServiceMessages.h")
+@:glueCppIncludes("Public/EngineServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEngineServiceExecuteCommand {
   
   /**

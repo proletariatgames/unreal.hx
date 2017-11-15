@@ -18,7 +18,7 @@ package unreal.gameplaytags;
   Helper struct: drop this in another struct to get an embedded create new tag widget.
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagContainer.h")
+@:glueCppIncludes("Classes/GameplayTagContainer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagCreationWidgetHelper {
   
 }

@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/Blackboard/BlackboardKeyType.h")
+@:glueCppIncludes("Classes/BehaviorTree/Blackboard/BlackboardKeyType.h")
 @:uname("EArithmeticKeyOperation.Type")
 @:uextern @:uenum extern enum EArithmeticKeyOperation {
   

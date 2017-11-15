@@ -18,7 +18,7 @@ package unreal.paper2d;
   This is the contents of a tile map cell
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperTileLayer.h")
+@:glueCppIncludes("Classes/PaperTileLayer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPaperTileInfo {
   
   /**

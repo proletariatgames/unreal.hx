@@ -23,6 +23,6 @@ package unreal;
   /**
     Returns index of the player for whom we auto-activate, or INDEX_NONE (-1) if disabled.
   **/
-  @:ufunction @:thisConst @:final public function GetAutoActivatePlayerIndex() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAutoActivatePlayerIndex() : unreal.Int32;
   
 }

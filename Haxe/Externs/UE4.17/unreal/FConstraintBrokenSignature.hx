@@ -19,6 +19,6 @@ package unreal;
   @param ConstraintIndex
   
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uParamName("ConstraintIndex")
 typedef FConstraintBrokenSignature = unreal.DynamicMulticastDelegate<FConstraintBrokenSignature, unreal.Int32->Void>;

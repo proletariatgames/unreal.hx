@@ -15,7 +15,7 @@
 package unreal.launchdaemonmessages;
 
 @:umodule("LaunchDaemonMessages")
-@:glueCppIncludes("IOSMessageProtocol.h")
+@:glueCppIncludes("Classes/IOSMessageProtocol.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FIOSLaunchDaemonPong {
   @:uproperty public var bCanReboot : Bool;
   @:uproperty public var bCanPowerOn : Bool;

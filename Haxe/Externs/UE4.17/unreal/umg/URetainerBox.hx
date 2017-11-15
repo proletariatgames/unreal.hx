@@ -65,16 +65,16 @@ package unreal.umg;
   /**
     Get the current dynamic effect material applied to the retainer box.
   **/
-  @:ufunction @:thisConst @:final public function GetEffectMaterial() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetEffectMaterial() : unreal.UMaterialInstanceDynamic;
   
   /**
     Set a new effect material to the retainer widget.
   **/
-  @:ufunction @:final public function SetEffectMaterial(EffectMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEffectMaterial(EffectMaterial : unreal.UMaterialInterface) : Void;
   
   /**
     Sets the name of the texture parameter to set the render target to on the material.
   **/
-  @:ufunction @:final public function SetTextureParameter(TextureParameter : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTextureParameter(TextureParameter : unreal.FName) : Void;
   
 }

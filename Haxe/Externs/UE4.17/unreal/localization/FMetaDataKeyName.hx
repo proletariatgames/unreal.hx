@@ -15,7 +15,7 @@
 package unreal.localization;
 
 @:umodule("Localization")
-@:glueCppIncludes("LocalizationTargetTypes.h")
+@:glueCppIncludes("Public/LocalizationTargetTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMetaDataKeyName {
   @:uproperty public var Name : unreal.FString;
   

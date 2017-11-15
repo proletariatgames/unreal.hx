@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure used for holding information for one animation played on the Anim Control track.
 **/
-@:glueCppIncludes("Matinee/InterpTrackAnimControl.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackAnimControl.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimControlTrackKey {
   
   /**

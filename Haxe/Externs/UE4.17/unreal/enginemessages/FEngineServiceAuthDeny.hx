@@ -18,7 +18,7 @@ package unreal.enginemessages;
   Implements a message for denying service access to a remote user.
 **/
 @:umodule("EngineMessages")
-@:glueCppIncludes("EngineServiceMessages.h")
+@:glueCppIncludes("Public/EngineServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEngineServiceAuthDeny {
   
   /**

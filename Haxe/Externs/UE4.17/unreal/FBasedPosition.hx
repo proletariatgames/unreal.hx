@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct for handling positions relative to a base actor, which is potentially moving
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uextern @:ustruct extern class FBasedPosition {
   @:uproperty public var CachedTransPosition : unreal.FVector;
   @:uproperty public var CachedBaseRotation : unreal.FRotator;

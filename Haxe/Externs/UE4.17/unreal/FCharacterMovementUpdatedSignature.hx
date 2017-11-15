@@ -20,7 +20,7 @@ package unreal;
   @param OldVelocity
   
 **/
-@:glueCppIncludes("GameFramework/Character.h")
+@:glueCppIncludes("Classes/GameFramework/Character.h")
 @:uParamName("DeltaSeconds")
 @:uParamName("OldLocation")
 @:uParamName("OldVelocity")

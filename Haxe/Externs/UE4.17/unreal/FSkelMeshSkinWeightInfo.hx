@@ -17,7 +17,7 @@ package unreal;
 /**
   Vertex skin weight info supplied for a component override.
 **/
-@:glueCppIncludes("Components/SkinnedMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkinnedMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkelMeshSkinWeightInfo {
   
 }

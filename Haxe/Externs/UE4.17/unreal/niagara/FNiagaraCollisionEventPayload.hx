@@ -19,7 +19,7 @@ package unreal.niagara;
   TODO: figure out how we can pipe attributes from the colliding particle in here
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEvents.h")
+@:glueCppIncludes("Classes/NiagaraEvents.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraCollisionEventPayload {
   @:uproperty public var ParticleIndex : unreal.Int32;
   @:uproperty public var CollisionVelocity : unreal.FVector;

@@ -31,55 +31,55 @@ package unreal.umg;
   /**
     @return The user widget object displayed by this component
   **/
-  @:ufunction @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUserWidgetObject() : unreal.umg.UUserWidget;
   
   /**
     @return The render target to which the user widget is rendered
   **/
-  @:ufunction @:thisConst @:final public function GetRenderTarget() : unreal.UTextureRenderTarget2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetRenderTarget() : unreal.UTextureRenderTarget2D;
   
   /**
     @return The dynamic material instance used to render the user widget
   **/
-  @:ufunction @:thisConst @:final public function GetMaterialInstance() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMaterialInstance() : unreal.UMaterialInstanceDynamic;
   
   /**
     Sets the widget to use directly. This function will keep track of the widget till the next time it's called
         with either a newer widget or a nullptr
   **/
-  @:ufunction public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
+  @:ufunction(BlueprintCallable) public function SetWidget(Widget : unreal.umg.UUserWidget) : Void;
   
   /**
     Sets the local player that owns this widget component.  Setting the owning player controls
     which player's viewport the widget appears on in a split screen scenario.  Additionally it
     forwards the owning player to the actual UserWidget that is spawned.
   **/
-  @:ufunction @:final public function SetOwnerPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOwnerPlayer(LocalPlayer : unreal.ULocalPlayer) : Void;
   
   /**
     Gets the local player that owns this widget component.
   **/
-  @:ufunction @:thisConst @:final public function GetOwnerPlayer() : unreal.ULocalPlayer;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetOwnerPlayer() : unreal.ULocalPlayer;
   
   /**
     @return The draw size of the quad in the world
   **/
-  @:ufunction @:thisConst @:final public function GetDrawSize() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetDrawSize() : unreal.FVector2D;
   
   /**
     Sets the draw size of the quad in the world
   **/
-  @:ufunction @:final public function SetDrawSize(Size : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDrawSize(Size : unreal.FVector2D) : Void;
   
   /**
     Requests that the widget be redrawn.
   **/
-  @:ufunction public function RequestRedraw() : Void;
+  @:ufunction(BlueprintCallable) public function RequestRedraw() : Void;
   
   /**
     Sets the background color and opacityscale for this widget
   **/
-  @:ufunction @:final public function SetBackgroundColor(NewBackgroundColor : unreal.Const<unreal.FLinearColor>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBackgroundColor(NewBackgroundColor : unreal.Const<unreal.FLinearColor>) : Void;
   
   /**
     Curvature of a cylindrical widget in degrees.

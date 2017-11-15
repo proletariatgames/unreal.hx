@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("AITypes.h")
+@:glueCppIncludes("Classes/AITypes.h")
 @:uname("EPawnActionAbortState.Type")
 @:uextern @:uenum extern enum EPawnActionAbortState {
   NeverStarted;

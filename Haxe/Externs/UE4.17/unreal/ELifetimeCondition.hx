@@ -17,7 +17,7 @@ package unreal;
 /**
   Secondary condition to check before considering the replication of a lifetime property.
 **/
-@:glueCppIncludes("UObject/CoreNetTypes.h")
+@:glueCppIncludes("Public/UObject/CoreNetTypes.h")
 @:uname("ELifetimeCondition")
 @:uextern @:uenum extern enum ELifetimeCondition {
   

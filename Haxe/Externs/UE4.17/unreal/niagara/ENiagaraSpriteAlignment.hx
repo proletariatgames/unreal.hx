@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraSpriteRendererProperties.h")
+@:glueCppIncludes("Public/NiagaraSpriteRendererProperties.h")
 @:uname("ENiagaraSpriteAlignment")
 @:class @:uextern @:uenum extern enum ENiagaraSpriteAlignment {
   Unaligned;

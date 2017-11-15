@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param PlayerController
   
 **/
-@:glueCppIncludes("ShowLoginUICallbackProxy.h")
+@:glueCppIncludes("Classes/ShowLoginUICallbackProxy.h")
 @:uParamName("PlayerController")
 @:umodule("OnlineSubsystemUtils")
 typedef FOnlineShowLoginUIResult = unreal.DynamicMulticastDelegate<FOnlineShowLoginUIResult, unreal.APlayerController->Void>;

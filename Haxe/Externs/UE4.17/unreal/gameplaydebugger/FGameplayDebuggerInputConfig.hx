@@ -15,7 +15,7 @@
 package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
-@:glueCppIncludes("GameplayDebuggerConfig.h")
+@:glueCppIncludes("Public/GameplayDebuggerConfig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayDebuggerInputConfig {
   @:uproperty public var bModCmd : Bool;
   @:uproperty public var bModAlt : Bool;

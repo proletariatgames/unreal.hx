@@ -105,12 +105,12 @@ package unreal;
   /**
     Sets whether this light casts shadows
   **/
-  @:ufunction @:final public function SetCastShadows(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCastShadows(bNewValue : Bool) : Void;
   
   /**
     Gets the light color as a linear color
   **/
-  @:ufunction @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
-  @:ufunction @:final public function SetCastVolumetricShadow(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) @:final public function SetCastVolumetricShadow(bNewValue : Bool) : Void;
   
 }

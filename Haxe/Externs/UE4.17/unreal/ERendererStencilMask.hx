@@ -17,7 +17,7 @@ package unreal;
 /**
   Exposed enum to parallel RHI's EStencilMask and show up in the editor. Has a paired struct to convert between the two.
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uname("ERendererStencilMask")
 @:class @:uextern @:uenum extern enum ERendererStencilMask {
   

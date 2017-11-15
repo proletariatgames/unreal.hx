@@ -17,7 +17,7 @@ package unreal;
 /**
   Data needed for local vector fields.
 **/
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataGpu.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataGpu.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGPUSpriteLocalVectorFieldInfo {
   
   /**

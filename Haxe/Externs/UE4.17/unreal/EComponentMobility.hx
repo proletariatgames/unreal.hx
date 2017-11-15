@@ -17,7 +17,7 @@ package unreal;
 /**
   Describes how often this component is allowed to move.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EComponentMobility.Type")
 @:uextern @:uenum extern enum EComponentMobility {
   

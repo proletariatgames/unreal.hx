@@ -18,7 +18,7 @@ package unreal.enginemessages;
   Implements a message for responding to a request to discover engine instances on the network.
 **/
 @:umodule("EngineMessages")
-@:glueCppIncludes("EngineServiceMessages.h")
+@:glueCppIncludes("Public/EngineServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FEngineServicePong {
   
   /**

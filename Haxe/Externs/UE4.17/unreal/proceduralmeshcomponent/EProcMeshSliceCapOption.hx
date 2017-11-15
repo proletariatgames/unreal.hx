@@ -18,7 +18,7 @@ package unreal.proceduralmeshcomponent;
   Options for creating cap geometry when slicing
 **/
 @:umodule("ProceduralMeshComponent")
-@:glueCppIncludes("KismetProceduralMeshLibrary.h")
+@:glueCppIncludes("Public/KismetProceduralMeshLibrary.h")
 @:uname("EProcMeshSliceCapOption")
 @:class @:uextern @:uenum extern enum EProcMeshSliceCapOption {
   

@@ -14,6 +14,6 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/UserWidget.h")
 @:umodule("UMG")
 typedef FOnInputAction = unreal.DynamicDelegate<FOnInputAction, Void->Void>;

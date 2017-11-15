@@ -41,6 +41,6 @@ package unreal.headmounteddisplay;
   /**
     Whether or not this component had a valid tracked device this frame
   **/
-  @:ufunction @:thisConst @:final public function IsTracked() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsTracked() : Bool;
   
 }

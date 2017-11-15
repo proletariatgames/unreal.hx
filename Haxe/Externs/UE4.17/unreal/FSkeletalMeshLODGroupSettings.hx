@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/SkeletalMeshReductionSettings.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMeshReductionSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshLODGroupSettings {
   
   /**

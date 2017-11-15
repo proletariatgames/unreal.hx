@@ -19,7 +19,7 @@ package unreal.oculushmd;
   @param OuterBoundsInteractionList
   
 **/
-@:glueCppIncludes("OculusBoundaryComponent.h")
+@:glueCppIncludes("Public/OculusBoundaryComponent.h")
 @:uParamName("OuterBoundsInteractionList")
 @:umodule("OculusHMD")
 @:uname("UOculusBoundaryComponent.FOculusOuterBoundaryTriggeredEvent")

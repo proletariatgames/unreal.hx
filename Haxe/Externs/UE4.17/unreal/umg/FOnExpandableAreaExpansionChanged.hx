@@ -19,7 +19,7 @@ package unreal.umg;
   @param bIsExpanded
   
 **/
-@:glueCppIncludes("UMG.h", "Components/ExpandableArea.h")
+@:glueCppIncludes("UMG.h", "Public/Components/ExpandableArea.h")
 @:uParamName("Area")
 @:uParamName("bIsExpanded")
 @:umodule("UMG")

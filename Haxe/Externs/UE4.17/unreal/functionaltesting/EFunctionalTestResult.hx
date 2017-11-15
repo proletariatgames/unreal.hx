@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("FunctionalTest.h")
+@:glueCppIncludes("Classes/FunctionalTest.h")
 @:uname("EFunctionalTestResult")
 @:class @:uextern @:uenum extern enum EFunctionalTestResult {
   

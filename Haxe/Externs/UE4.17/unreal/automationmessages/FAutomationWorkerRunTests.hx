@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message to request the running of automation tests on a worker.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerRunTests {
   
   /**

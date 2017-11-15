@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneSkeletalAnimationSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneSkeletalAnimationSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSkeletalAnimationParams {
   
   /**

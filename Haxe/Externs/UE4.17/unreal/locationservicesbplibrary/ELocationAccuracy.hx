@@ -19,7 +19,7 @@ package unreal.locationservicesbplibrary;
   enums since those were the most restrictive (but convienently also had descriptive names)
 **/
 @:umodule("LocationServicesBPLibrary")
-@:glueCppIncludes("LocationServicesBPLibrary.h")
+@:glueCppIncludes("Classes/LocationServicesBPLibrary.h")
 @:uname("ELocationAccuracy")
 @:class @:uextern @:uenum extern enum ELocationAccuracy {
   

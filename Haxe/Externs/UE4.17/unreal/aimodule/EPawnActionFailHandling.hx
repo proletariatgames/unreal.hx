@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Actions/PawnAction.h")
+@:glueCppIncludes("Classes/Actions/PawnAction.h")
 @:uname("EPawnActionFailHandling.Type")
 @:uextern @:uenum extern enum EPawnActionFailHandling {
   RequireSuccess;

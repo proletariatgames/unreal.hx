@@ -18,7 +18,7 @@ package unreal.behaviortreeeditor;
   Action to auto arrange the graph
 **/
 @:umodule("BehaviorTreeEditor")
-@:glueCppIncludes("EdGraphSchema_BehaviorTree.h")
+@:glueCppIncludes("Classes/EdGraphSchema_BehaviorTree.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBehaviorTreeSchemaAction_AutoArrange extends unreal.FEdGraphSchemaAction {
   
 }

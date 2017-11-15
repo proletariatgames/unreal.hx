@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataMesh.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataMesh.h")
 @:uname("EMeshScreenAlignment")
 @:uextern @:uenum extern enum EMeshScreenAlignment {
   

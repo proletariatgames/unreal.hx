@@ -17,7 +17,7 @@ package unreal;
 /**
   Automation
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("EAutomationEventType")
 @:class @:uextern @:uenum extern enum EAutomationEventType {
   Info;

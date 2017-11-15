@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Proxy structure for vector4 section key data.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneVectorSection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneVectorSection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneVector4KeyStruct extends unreal.moviescenetracks.FMovieSceneVectorKeyStructBase {
   
   /**

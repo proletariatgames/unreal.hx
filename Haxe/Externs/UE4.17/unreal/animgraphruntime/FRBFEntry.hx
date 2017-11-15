@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Struct storing a particular entry within the RBF
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("RBF/RBFSolver.h")
+@:glueCppIncludes("Public/RBF/RBFSolver.h")
 @:uextern @:ustruct extern class FRBFEntry {
   
   /**

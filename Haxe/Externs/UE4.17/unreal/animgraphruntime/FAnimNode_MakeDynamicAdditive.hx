@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_MakeDynamicAdditive.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_MakeDynamicAdditive.h")
 @:uextern @:ustruct extern class FAnimNode_MakeDynamicAdditive extends unreal.FAnimNode_Base {
   
   /**

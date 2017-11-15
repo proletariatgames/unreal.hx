@@ -18,7 +18,7 @@ package unreal.androidruntimesettings;
   IF THIS CHANGES, MAKE SURE TO UPDATE UEDeployAndroid.cs, ConvertOrientationIniValue()!
 **/
 @:umodule("AndroidRuntimeSettings")
-@:glueCppIncludes("AndroidRuntimeSettings.h")
+@:glueCppIncludes("Classes/AndroidRuntimeSettings.h")
 @:uname("EAndroidScreenOrientation.Type")
 @:uextern @:uenum extern enum EAndroidScreenOrientation {
   

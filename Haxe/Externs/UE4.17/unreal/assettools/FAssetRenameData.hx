@@ -15,7 +15,7 @@
 package unreal.assettools;
 
 @:umodule("AssetTools")
-@:glueCppIncludes("IAssetTools.h")
+@:glueCppIncludes("Public/IAssetTools.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAssetRenameData {
   @:uproperty public var OriginalAssetPath : unreal.FString;
   @:uproperty public var NewName : unreal.FString;

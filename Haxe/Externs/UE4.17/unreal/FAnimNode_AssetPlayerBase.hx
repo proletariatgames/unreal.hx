@@ -17,7 +17,7 @@ package unreal;
 /**
   Base class for any asset playing anim node
 **/
-@:glueCppIncludes("Animation/AnimNode_AssetPlayerBase.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_AssetPlayerBase.h")
 @:uextern @:ustruct extern class FAnimNode_AssetPlayerBase extends unreal.FAnimNode_Base {
   
   /**

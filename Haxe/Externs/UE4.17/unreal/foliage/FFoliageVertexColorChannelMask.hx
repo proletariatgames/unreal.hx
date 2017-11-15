@@ -15,7 +15,7 @@
 package unreal.foliage;
 
 @:umodule("Foliage")
-@:glueCppIncludes("FoliageType.h")
+@:glueCppIncludes("Public/FoliageType.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFoliageVertexColorChannelMask {
   
   /**

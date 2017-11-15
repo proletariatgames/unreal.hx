@@ -15,7 +15,7 @@
 package unreal.slate;
 
 @:umodule("Slate")
-@:glueCppIncludes("Framework/Text/TextLayout.h")
+@:glueCppIncludes("Public/Framework/Text/TextLayout.h")
 @:uname("ETextJustify.Type")
 @:uextern @:uenum extern enum ETextJustify {
   

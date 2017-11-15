@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("EdGraphNode_Comment.h")
+@:glueCppIncludes("Public/EdGraphNode_Comment.h")
 @:uname("ECommentBoxMode.Type")
 @:uextern @:uenum extern enum ECommentBoxMode {
   

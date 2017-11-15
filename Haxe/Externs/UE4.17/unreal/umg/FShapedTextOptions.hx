@@ -19,7 +19,7 @@ package unreal.umg;
   Contains the common options that should be exposed for the underlying Slate widget.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/TextWidgetTypes.h")
+@:glueCppIncludes("UMG.h", "Public/Components/TextWidgetTypes.h")
 @:uextern @:ustruct extern class FShapedTextOptions {
   
   /**

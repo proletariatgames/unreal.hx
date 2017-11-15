@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Spawn track eval template that evaluates a curve
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Evaluation/MovieSceneSpawnTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSpawnTemplate.h")
 @:uextern @:ustruct extern class FMovieSceneSpawnSectionTemplate extends unreal.moviescene.FMovieSceneEvalTemplate {
   @:uproperty private var Curve : unreal.FIntegralCurve;
   

@@ -138,26 +138,26 @@ package unreal;
   /**
     Gets the package name for the world asset referred to by this level streaming as an FName
   **/
-  @:ufunction @:thisConst @:final public function GetWorldAssetPackageFName() : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetWorldAssetPackageFName() : unreal.FName;
   
   /**
     Returns whether streaming level is visible
   **/
-  @:ufunction @:thisConst @:final public function IsLevelVisible() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsLevelVisible() : Bool;
   
   /**
     Returns whether streaming level is loaded
   **/
-  @:ufunction @:thisConst @:final public function IsLevelLoaded() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsLevelLoaded() : Bool;
   
   /**
     Returns whether level has streaming state change pending
   **/
-  @:ufunction @:thisConst @:final public function IsStreamingStatePending() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsStreamingStatePending() : Bool;
   
   /**
     Returns the Level Script Actor of the level if the level is loaded and valid
   **/
-  @:ufunction @:final public function GetLevelScriptActor() : unreal.ALevelScriptActor;
+  @:ufunction(BlueprintCallable) @:final public function GetLevelScriptActor() : unreal.ALevelScriptActor;
   
 }

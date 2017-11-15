@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   @TODO: Comment
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_RotationOffsetBlendSpace.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_RotationOffsetBlendSpace.h")
 @:uextern @:ustruct extern class FAnimNode_RotationOffsetBlendSpace extends unreal.animgraphruntime.FAnimNode_BlendSpacePlayer {
   @:uproperty public var ActualAlpha : unreal.Float32;
   @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;

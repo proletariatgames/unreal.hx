@@ -14,7 +14,7 @@
 **/
 package unreal.gameplaytasks;
 
-@:glueCppIncludes("GameplayTask.h")
+@:glueCppIncludes("Classes/GameplayTask.h")
 @:umodule("GameplayTasks")
 @:uname("UGameplayTask.FGenericGameplayTaskDelegate")
 typedef FGenericGameplayTaskDelegate = unreal.DynamicMulticastDelegate<FGenericGameplayTaskDelegate, Void->Void>;

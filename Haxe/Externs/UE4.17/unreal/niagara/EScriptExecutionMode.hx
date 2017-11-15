@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEmitterProperties.h")
+@:glueCppIncludes("Classes/NiagaraEmitterProperties.h")
 @:uname("EScriptExecutionMode")
 @:class @:uextern @:uenum extern enum EScriptExecutionMode {
   EveryParticle;

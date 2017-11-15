@@ -17,7 +17,7 @@ package unreal;
 /**
   Component space poses.
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:uextern @:ustruct extern class FA2CSPose extends unreal.FA2Pose {
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/WindDirectionalSourceComponent.h")
+@:glueCppIncludes("Classes/Components/WindDirectionalSourceComponent.h")
 @:uname("EWindSourceType")
 @:class @:uextern @:uenum extern enum EWindSourceType {
   Directional;

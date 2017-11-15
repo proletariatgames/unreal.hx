@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Curves/CurveFloat.h")
+@:glueCppIncludes("Classes/Curves/CurveFloat.h")
 @:uextern @:ustruct extern class FRuntimeFloatCurve {
   @:uproperty public var ExternalCurve : unreal.UCurveFloat;
   @:uproperty public var EditorCurveData : unreal.FRichCurve;

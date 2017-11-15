@@ -24,12 +24,12 @@ package unreal.levelsequence;
   /**
     Called when this burn in is receiving its settings
   **/
-  @:ufunction public function SetSettings(InSettings : unreal.UObject) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function SetSettings(InSettings : unreal.UObject) : Void;
   
   /**
     Get the settings class to use for this burn in
   **/
-  @:ufunction @:thisConst public function GetSettingsClass() : unreal.TSubclassOf<unreal.levelsequence.ULevelSequenceBurnInInitSettings>;
+  @:ufunction(BlueprintNativeEvent) @:thisConst public function GetSettingsClass() : unreal.TSubclassOf<unreal.levelsequence.ULevelSequenceBurnInInitSettings>;
   
   /**
     The actor to get our burn in frames from

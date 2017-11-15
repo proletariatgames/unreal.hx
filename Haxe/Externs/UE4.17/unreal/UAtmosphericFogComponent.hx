@@ -98,66 +98,66 @@ package unreal;
   /**
     Set brightness of the light
   **/
-  @:ufunction @:final public function SetDefaultBrightness(NewBrightness : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDefaultBrightness(NewBrightness : unreal.Float32) : Void;
   
   /**
     Set color of the light
   **/
-  @:ufunction @:final public function SetDefaultLightColor(NewLightColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDefaultLightColor(NewLightColor : unreal.FLinearColor) : Void;
   
   /**
     Set SunMultiplier
   **/
-  @:ufunction @:final public function SetSunMultiplier(NewSunMultiplier : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSunMultiplier(NewSunMultiplier : unreal.Float32) : Void;
   
   /**
     Set FogMultiplier
   **/
-  @:ufunction @:final public function SetFogMultiplier(NewFogMultiplier : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFogMultiplier(NewFogMultiplier : unreal.Float32) : Void;
   
   /**
     Set DensityMultiplier
   **/
-  @:ufunction @:final public function SetDensityMultiplier(NewDensityMultiplier : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDensityMultiplier(NewDensityMultiplier : unreal.Float32) : Void;
   
   /**
     Set DensityOffset
   **/
-  @:ufunction @:final public function SetDensityOffset(NewDensityOffset : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDensityOffset(NewDensityOffset : unreal.Float32) : Void;
   
   /**
     Set DistanceScale
   **/
-  @:ufunction @:final public function SetDistanceScale(NewDistanceScale : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDistanceScale(NewDistanceScale : unreal.Float32) : Void;
   
   /**
     Set AltitudeScale
   **/
-  @:ufunction @:final public function SetAltitudeScale(NewAltitudeScale : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAltitudeScale(NewAltitudeScale : unreal.Float32) : Void;
   
   /**
     Set StartDistance
   **/
-  @:ufunction @:final public function SetStartDistance(NewStartDistance : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStartDistance(NewStartDistance : unreal.Float32) : Void;
   
   /**
     Set DistanceOffset
   **/
-  @:ufunction @:final public function SetDistanceOffset(NewDistanceOffset : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDistanceOffset(NewDistanceOffset : unreal.Float32) : Void;
   
   /**
     Set DisableSunDisk
   **/
-  @:ufunction @:final public function DisableSunDisk(NewSunDisk : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function DisableSunDisk(NewSunDisk : Bool) : Void;
   
   /**
     Set DisableGroundScattering
   **/
-  @:ufunction @:final public function DisableGroundScattering(NewGroundScattering : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function DisableGroundScattering(NewGroundScattering : Bool) : Void;
   
   /**
     Set PrecomputeParams, only valid in Editor mode
   **/
-  @:ufunction @:final public function SetPrecomputeParams(DensityHeight : unreal.Float32, MaxScatteringOrder : unreal.Int32, InscatterAltitudeSampleNum : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPrecomputeParams(DensityHeight : unreal.Float32, MaxScatteringOrder : unreal.Int32, InscatterAltitudeSampleNum : unreal.Int32) : Void;
   
 }

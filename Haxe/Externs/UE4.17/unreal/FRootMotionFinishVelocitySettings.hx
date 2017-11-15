@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct for RootMotion Finish Velocity options.
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionFinishVelocitySettings {
   
   /**

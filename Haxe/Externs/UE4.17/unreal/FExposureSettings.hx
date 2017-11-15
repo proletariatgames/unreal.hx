@@ -17,7 +17,7 @@ package unreal;
 /**
   Settings to allow designers to override the automatic expose
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FExposureSettings {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationTemplate.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationTemplate.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequenceCachedSignature {
   @:uproperty public var CachedSignature : unreal.FGuid;
   @:uproperty public var Sequence : unreal.TWeakObjectPtr<unreal.moviescene.UMovieSceneSequence>;

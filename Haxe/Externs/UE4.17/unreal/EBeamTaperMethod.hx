@@ -17,7 +17,7 @@ package unreal;
 /**
   Beam Tapering Variables.
 **/
-@:glueCppIncludes("Particles/TypeData/ParticleModuleTypeDataBeam2.h")
+@:glueCppIncludes("Classes/Particles/TypeData/ParticleModuleTypeDataBeam2.h")
 @:uname("EBeamTaperMethod")
 @:uextern @:uenum extern enum EBeamTaperMethod {
   

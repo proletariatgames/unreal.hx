@@ -18,7 +18,7 @@ package unreal.sessionmessages;
   Implements a message to unsubscribe from an application's console log.
 **/
 @:umodule("SessionMessages")
-@:glueCppIncludes("SessionServiceMessages.h")
+@:glueCppIncludes("Public/SessionServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSessionServiceLogUnsubscribe {
   
 }

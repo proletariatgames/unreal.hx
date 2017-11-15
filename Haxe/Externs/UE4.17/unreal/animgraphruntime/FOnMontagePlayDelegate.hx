@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   @param NotifyName
   
 **/
-@:glueCppIncludes("PlayMontageCallbackProxy.h")
+@:glueCppIncludes("Public/PlayMontageCallbackProxy.h")
 @:uParamName("NotifyName")
 @:umodule("AnimGraphRuntime")
 typedef FOnMontagePlayDelegate = unreal.DynamicMulticastDelegate<FOnMontagePlayDelegate, unreal.FName->Void>;

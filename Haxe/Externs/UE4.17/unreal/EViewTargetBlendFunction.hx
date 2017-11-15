@@ -18,7 +18,7 @@ package unreal;
   Options that define how to blend when changing view targets.
   @see FViewTargetTransitionParams, SetViewTarget
 **/
-@:glueCppIncludes("Camera/PlayerCameraManager.h")
+@:glueCppIncludes("Classes/Camera/PlayerCameraManager.h")
 @:uname("EViewTargetBlendFunction")
 @:uextern @:uenum extern enum EViewTargetBlendFunction {
   

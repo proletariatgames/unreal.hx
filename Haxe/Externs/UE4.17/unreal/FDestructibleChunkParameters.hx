@@ -17,7 +17,7 @@ package unreal;
 /**
   Per-chunk authoring data.
 **/
-@:glueCppIncludes("Engine/DestructibleFractureSettings.h")
+@:glueCppIncludes("Classes/Engine/DestructibleFractureSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FDestructibleChunkParameters {
   
   /**

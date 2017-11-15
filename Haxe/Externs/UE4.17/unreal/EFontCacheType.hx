@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates supported font caching types.
 **/
-@:glueCppIncludes("Engine/Font.h")
+@:glueCppIncludes("Classes/Engine/Font.h")
 @:uname("EFontCacheType")
 @:class @:uextern @:uenum extern enum EFontCacheType {
   

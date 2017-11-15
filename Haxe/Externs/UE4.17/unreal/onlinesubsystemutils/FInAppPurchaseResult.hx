@@ -19,7 +19,7 @@ package unreal.onlinesubsystemutils;
   @param InAppPurchaseInformation
   
 **/
-@:glueCppIncludes("InAppPurchaseCallbackProxy.h")
+@:glueCppIncludes("Classes/InAppPurchaseCallbackProxy.h")
 @:uParamName("CompletionStatus")
 @:uParamName("InAppPurchaseInformation")
 @:umodule("OnlineSubsystemUtils")

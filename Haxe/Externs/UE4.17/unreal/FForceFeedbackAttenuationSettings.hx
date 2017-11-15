@@ -17,7 +17,7 @@ package unreal;
 /**
   The struct for defining the properties used when determining attenuation for a force feedback effect
 **/
-@:glueCppIncludes("GameFramework/ForceFeedbackAttenuation.h")
+@:glueCppIncludes("Classes/GameFramework/ForceFeedbackAttenuation.h")
 @:uextern @:ustruct extern class FForceFeedbackAttenuationSettings extends unreal.FBaseAttenuationSettings {
   
 }

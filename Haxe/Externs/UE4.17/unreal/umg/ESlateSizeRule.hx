@@ -18,7 +18,7 @@ package unreal.umg;
   The sizing options of UWidgets
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Components/SlateWrapperTypes.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SlateWrapperTypes.h")
 @:uname("ESlateSizeRule.Type")
 @:uextern @:uenum extern enum ESlateSizeRule {
   

@@ -20,7 +20,7 @@ package unreal.umg;
   @param ReturnValue
   
 **/
-@:glueCppIncludes("UMG.h", "Components/Widget.h")
+@:glueCppIncludes("UMG.h", "Public/Components/Widget.h")
 @:uParamName("MyGeometry")
 @:uParamName("MouseEvent")
 @:uParamName("ReturnValue")

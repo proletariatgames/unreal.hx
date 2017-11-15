@@ -18,7 +18,7 @@ package unreal.editor;
   The developer folder view modes used in SClassViewer
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/ClassViewerSettings.h")
+@:glueCppIncludes("Classes/Settings/ClassViewerSettings.h")
 @:uname("EClassViewerDeveloperType")
 @:class @:uextern @:uenum extern enum EClassViewerDeveloperType {
   

@@ -93,18 +93,18 @@ package unreal.aimodule;
     If we are currently waiting for an interval, this can either extend or shorten that interval.
     A value <= 0 prevents any updates.
   **/
-  @:ufunction public function SetSensingInterval(NewSensingInterval : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function SetSensingInterval(NewSensingInterval : unreal.Float32) : Void;
   
   /**
     Enables or disables sensing updates. The timer is reset in either case.
   **/
-  @:ufunction public function SetSensingUpdatesEnabled(bEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetSensingUpdatesEnabled(bEnabled : Bool) : Void;
   
   /**
     Sets PeripheralVisionAngle. Calculates PeripheralVisionCosine from PeripheralVisionAngle
   **/
-  @:ufunction public function SetPeripheralVisionAngle(NewPeripheralVisionAngle : unreal.Float32) : Void;
-  @:ufunction @:thisConst @:final public function GetPeripheralVisionAngle() : unreal.Float32;
-  @:ufunction @:thisConst @:final public function GetPeripheralVisionCosine() : unreal.Float32;
+  @:ufunction(BlueprintCallable) public function SetPeripheralVisionAngle(NewPeripheralVisionAngle : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPeripheralVisionAngle() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPeripheralVisionCosine() : unreal.Float32;
   
 }

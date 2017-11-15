@@ -18,7 +18,7 @@ package unreal.editor;
   Boolean parameter value
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Editor/UnrealEdTypes.h")
+@:glueCppIncludes("Classes/Editor/UnrealEdTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassBooleanParameterValue extends unreal.editor.FLightmassParameterValue {
   
   /**

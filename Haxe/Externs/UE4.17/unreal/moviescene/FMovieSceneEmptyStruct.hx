@@ -18,7 +18,7 @@ package unreal.moviescene;
   Empty struct used for serialization
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvalTemplateBase.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvalTemplateBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEmptyStruct {
   
 }

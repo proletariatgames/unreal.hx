@@ -18,7 +18,7 @@ package unreal.editor;
   Enumerates the available build configurations for project packaging.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/ProjectPackagingSettings.h")
+@:glueCppIncludes("Classes/Settings/ProjectPackagingSettings.h")
 @:uname("EProjectPackagingBuildConfigurations")
 @:uextern @:uenum extern enum EProjectPackagingBuildConfigurations {
   

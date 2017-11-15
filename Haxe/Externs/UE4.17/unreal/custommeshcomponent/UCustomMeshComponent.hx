@@ -24,16 +24,16 @@ package unreal.custommeshcomponent;
   /**
     Set the geometry to use on this triangle mesh
   **/
-  @:ufunction @:final public function SetCustomMeshTriangles(Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.custommeshcomponent.FCustomMeshTriangle>>>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetCustomMeshTriangles(Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.custommeshcomponent.FCustomMeshTriangle>>>) : Bool;
   
   /**
     Add to the geometry to use on this triangle mesh.  This may cause an allocation.  Use SetCustomMeshTriangles() instead when possible to reduce allocations.
   **/
-  @:ufunction @:final public function AddCustomMeshTriangles(Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.custommeshcomponent.FCustomMeshTriangle>>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddCustomMeshTriangles(Triangles : unreal.Const<unreal.PRef<unreal.TArray<unreal.custommeshcomponent.FCustomMeshTriangle>>>) : Void;
   
   /**
     Removes all geometry from this triangle mesh.  Does not deallocate memory, allowing new geometry to reuse the existing allocation.
   **/
-  @:ufunction @:final public function ClearCustomMeshTriangles() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ClearCustomMeshTriangles() : Void;
   
 }

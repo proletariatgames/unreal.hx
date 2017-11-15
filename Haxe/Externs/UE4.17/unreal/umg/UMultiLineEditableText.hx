@@ -65,8 +65,8 @@ package unreal.umg;
     The text content for this editable text box widget
   **/
   @:uproperty public var Text : unreal.FText;
-  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
-  @:ufunction @:final public function SetText(InText : unreal.FText) : Void;
-  @:ufunction @:final public function SetIsReadOnly(bReadOnly : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetText() : unreal.FText;
+  @:ufunction(BlueprintCallable) @:final public function SetText(InText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsReadOnly(bReadOnly : Bool) : Void;
   
 }

@@ -15,7 +15,7 @@
 package unreal.blueprintgraph;
 
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("K2Node_Variable.h")
+@:glueCppIncludes("Classes/K2Node_Variable.h")
 @:uname("ESelfContextInfo.Type")
 @:uextern @:uenum extern enum ESelfContextInfo {
   Unspecified;

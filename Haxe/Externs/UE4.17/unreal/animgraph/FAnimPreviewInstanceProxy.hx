@@ -18,7 +18,7 @@ package unreal.animgraph;
   Proxy override for this UAnimInstance-derived class
 **/
 @:umodule("AnimGraph")
-@:glueCppIncludes("AnimPreviewInstance.h")
+@:glueCppIncludes("Classes/AnimPreviewInstance.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimPreviewInstanceProxy extends unreal.FAnimSingleNodeInstanceProxy {
   
 }

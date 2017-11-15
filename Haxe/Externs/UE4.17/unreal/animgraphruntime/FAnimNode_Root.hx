@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Root node of an animation tree (sink)
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_Root.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_Root.h")
 @:uextern @:ustruct extern class FAnimNode_Root extends unreal.FAnimNode_Base {
   @:uproperty public var Result : unreal.FPoseLink;
   

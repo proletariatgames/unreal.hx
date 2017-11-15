@@ -22,7 +22,7 @@ package unreal.slatecore;
   additional GPU overhead.
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Layout/Clipping.h")
+@:glueCppIncludes("Public/Layout/Clipping.h")
 @:uname("EWidgetClipping")
 @:class @:uextern @:uenum extern enum EWidgetClipping {
   

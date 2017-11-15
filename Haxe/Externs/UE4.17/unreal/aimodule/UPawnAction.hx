@@ -30,8 +30,8 @@ package unreal.aimodule;
   /**
     Blueprint interface
   **/
-  @:ufunction @:final public function GetActionPriority() : unreal.aimodule.EAIRequestPriority;
-  @:ufunction static public function CreateActionInstance(WorldContextObject : unreal.UObject, ActionClass : unreal.TSubclassOf<unreal.aimodule.UPawnAction>) : unreal.aimodule.UPawnAction;
-  @:ufunction private function Finish(WithResult : unreal.aimodule.EPawnActionResult) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetActionPriority() : unreal.aimodule.EAIRequestPriority;
+  @:ufunction(BlueprintCallable) static public function CreateActionInstance(WorldContextObject : unreal.UObject, ActionClass : unreal.TSubclassOf<unreal.aimodule.UPawnAction>) : unreal.aimodule.UPawnAction;
+  @:ufunction(BlueprintCallable) private function Finish(WithResult : unreal.aimodule.EPawnActionResult) : Void;
   
 }

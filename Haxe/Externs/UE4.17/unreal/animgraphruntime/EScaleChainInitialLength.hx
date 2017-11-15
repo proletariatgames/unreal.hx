@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_ScaleChainLength.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_ScaleChainLength.h")
 @:uname("EScaleChainInitialLength")
 @:class @:uextern @:uenum extern enum EScaleChainInitialLength {
   

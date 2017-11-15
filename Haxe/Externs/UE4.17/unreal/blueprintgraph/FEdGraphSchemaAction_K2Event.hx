@@ -19,7 +19,7 @@ package unreal.blueprintgraph;
   to be used the 'docked' palette only.
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2Event extends unreal.blueprintgraph.FEdGraphSchemaAction_K2TargetNode {
   
 }

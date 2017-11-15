@@ -17,7 +17,7 @@ package unreal;
 /**
   Struct indicating a variable in the generated class
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBPVariableDescription {
   
   /**

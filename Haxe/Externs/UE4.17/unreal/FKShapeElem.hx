@@ -17,7 +17,7 @@ package unreal;
 /**
   Sphere shape used for collision
 **/
-@:glueCppIncludes("PhysicsEngine/ShapeElem.h")
+@:glueCppIncludes("Classes/PhysicsEngine/ShapeElem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FKShapeElem {
   
 }

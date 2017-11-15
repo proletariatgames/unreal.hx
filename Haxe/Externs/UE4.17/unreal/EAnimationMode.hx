@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkeletalMeshComponent.h")
 @:uname("EAnimationMode.Type")
 @:uextern @:uenum extern enum EAnimationMode {
   

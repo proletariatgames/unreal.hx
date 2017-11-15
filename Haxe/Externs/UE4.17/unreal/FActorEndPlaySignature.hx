@@ -19,7 +19,7 @@ package unreal;
   @param EndPlayReason
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("Actor")
 @:uParamName("EndPlayReason")
 typedef FActorEndPlaySignature = unreal.DynamicMulticastDelegate<FActorEndPlaySignature, unreal.AActor->unreal.EEndPlayReason->Void>;

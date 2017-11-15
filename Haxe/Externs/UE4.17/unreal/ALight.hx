@@ -30,17 +30,17 @@ package unreal;
   /**
     BEGIN DEPRECATED (use component functions now in level script)
   **/
-  @:ufunction @:final public function SetEnabled(bSetEnabled : Bool) : Void;
-  @:ufunction @:thisConst @:final public function IsEnabled() : Bool;
-  @:ufunction @:final public function ToggleEnabled() : Void;
-  @:ufunction @:final public function SetBrightness(NewBrightness : unreal.Float32) : Void;
-  @:ufunction @:thisConst @:final public function GetBrightness() : unreal.Float32;
-  @:ufunction @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
-  @:ufunction @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
-  @:ufunction @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
-  @:ufunction @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
-  @:ufunction @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
-  @:ufunction @:final public function SetCastShadows(bNewValue : Bool) : Void;
-  @:ufunction @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetEnabled(bSetEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsEnabled() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function ToggleEnabled() : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrightness(NewBrightness : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBrightness() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:final public function SetLightColor(NewLightColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetLightColor() : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionMaterial(NewLightFunctionMaterial : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionScale(NewLightFunctionScale : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLightFunctionFadeDistance(NewLightFunctionFadeDistance : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetCastShadows(bNewValue : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAffectTranslucentLighting(bNewValue : Bool) : Void;
   
 }

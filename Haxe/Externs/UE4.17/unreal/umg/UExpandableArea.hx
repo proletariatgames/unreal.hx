@@ -35,9 +35,9 @@ package unreal.umg;
   @:uproperty public var BorderColor : unreal.slatecore.FSlateColor;
   @:uproperty public var BorderBrush : unreal.slatecore.FSlateBrush;
   @:uproperty public var Style : unreal.slatecore.FExpandableAreaStyle;
-  @:ufunction @:thisConst @:final public function GetIsExpanded() : Bool;
-  @:ufunction @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
-  @:ufunction @:final public function SetIsExpanded_Animated(IsExpanded : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetIsExpanded() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetIsExpanded(IsExpanded : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsExpanded_Animated(IsExpanded : Bool) : Void;
   // NamedSlotInterface interface implementation
   
 }

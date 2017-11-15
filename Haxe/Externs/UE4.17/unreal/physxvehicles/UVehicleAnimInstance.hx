@@ -21,6 +21,6 @@ package unreal.physxvehicles;
   /**
     Makes a montage jump to the end of a named section.
   **/
-  @:ufunction @:final public function GetVehicle() : unreal.physxvehicles.AWheeledVehicle;
+  @:ufunction(BlueprintCallable) @:final public function GetVehicle() : unreal.physxvehicles.AWheeledVehicle;
   
 }

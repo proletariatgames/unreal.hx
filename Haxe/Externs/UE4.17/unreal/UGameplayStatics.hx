@@ -20,33 +20,33 @@ package unreal;
   /**
     --- Create Object
   **/
-  @:ufunction static public function SpawnObject(ObjectClass : unreal.TSubclassOf<unreal.UObject>, Outer : unreal.UObject) : unreal.UObject;
+  @:ufunction(BlueprintCallable) static public function SpawnObject(ObjectClass : unreal.TSubclassOf<unreal.UObject>, Outer : unreal.UObject) : unreal.UObject;
   
   /**
     Spawns an instance of a blueprint, but does not automatically run its construction script.
   **/
-  @:ufunction static public function BeginSpawningActorFromBlueprint(WorldContextObject : unreal.Const<unreal.UObject>, Blueprint : unreal.Const<unreal.UBlueprint>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bNoCollisionFail : Bool) : unreal.AActor;
-  @:ufunction static public function BeginSpawningActorFromClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bNoCollisionFail : Bool = false, Owner : unreal.AActor) : unreal.AActor;
+  @:ufunction(BlueprintCallable) static public function BeginSpawningActorFromBlueprint(WorldContextObject : unreal.Const<unreal.UObject>, Blueprint : unreal.Const<unreal.UBlueprint>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bNoCollisionFail : Bool) : unreal.AActor;
+  @:ufunction(BlueprintCallable) static public function BeginSpawningActorFromClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bNoCollisionFail : Bool = false, Owner : unreal.AActor) : unreal.AActor;
   
   /**
     Spawns an instance of an actor class, but does not automatically run its construction script.
   **/
-  @:ufunction static public function BeginDeferredActorSpawnFromClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, @:opt("Undefined") CollisionHandlingOverride : unreal.ESpawnActorCollisionHandlingMethod, Owner : unreal.AActor) : unreal.AActor;
+  @:ufunction(BlueprintCallable) static public function BeginDeferredActorSpawnFromClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, @:opt("Undefined") CollisionHandlingOverride : unreal.ESpawnActorCollisionHandlingMethod, Owner : unreal.AActor) : unreal.AActor;
   
   /**
     'Finish' spawning an actor.  This will run the construction script.
   **/
-  @:ufunction static public function FinishSpawningActor(Actor : unreal.AActor, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.AActor;
+  @:ufunction(BlueprintCallable) static public function FinishSpawningActor(Actor : unreal.AActor, SpawnTransform : unreal.Const<unreal.PRef<unreal.FTransform>>) : unreal.AActor;
   
   /**
     Find the average location (centroid) of an array of Actors
   **/
-  @:ufunction static public function GetActorArrayAverageLocation(Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function GetActorArrayAverageLocation(Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : unreal.FVector;
   
   /**
     Bind the bounds of an array of Actors
   **/
-  @:ufunction static public function GetActorArrayBounds(Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, bOnlyCollidingComponents : Bool, Center : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetActorArrayBounds(Actors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, bOnlyCollidingComponents : Bool, Center : unreal.PRef<unreal.FVector>, BoxExtent : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Find all Actors in the world of the specified class.
@@ -54,7 +54,7 @@ package unreal;
     @param  ActorClass      Class of Actor to find. Must be specified or result array will be empty.
     @param  OutActors       Output array of Actors of the specified class.
   **/
-  @:ufunction static public function GetAllActorsOfClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetAllActorsOfClass(WorldContextObject : unreal.Const<unreal.UObject>, ActorClass : unreal.TSubclassOf<unreal.AActor>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Find all Actors in the world with the specified interface.
@@ -62,7 +62,7 @@ package unreal;
     @param  Interface       Interface to find. Must be specified or result array will be empty.
     @param  OutActors       Output array of Actors of the specified interface.
   **/
-  @:ufunction static public function GetAllActorsWithInterface(WorldContextObject : unreal.Const<unreal.UObject>, Interface : unreal.TSubclassOf<unreal.IInterface>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetAllActorsWithInterface(WorldContextObject : unreal.Const<unreal.UObject>, Interface : unreal.TSubclassOf<unreal.IInterface>, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Find all Actors in the world with the specified tag.
@@ -70,85 +70,85 @@ package unreal;
     @param  Tag                     Tag to find. Must be specified or result array will be empty.
     @param  OutActors       Output array of Actors of the specified tag.
   **/
-  @:ufunction static public function GetAllActorsWithTag(WorldContextObject : unreal.Const<unreal.UObject>, Tag : unreal.FName, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetAllActorsWithTag(WorldContextObject : unreal.Const<unreal.UObject>, Tag : unreal.FName, OutActors : unreal.PRef<unreal.TArray<unreal.AActor>>) : Void;
   
   /**
     Returns the game instance object
   **/
-  @:ufunction static public function GetGameInstance(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.UGameInstance;
+  @:ufunction(BlueprintCallable) static public function GetGameInstance(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.UGameInstance;
   
   /**
     Returns the player controller at the specified player index
   **/
-  @:ufunction static public function GetPlayerController(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APlayerController;
+  @:ufunction(BlueprintCallable) static public function GetPlayerController(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APlayerController;
   
   /**
     Returns the player pawn at the specified player index
   **/
-  @:ufunction static public function GetPlayerPawn(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APawn;
+  @:ufunction(BlueprintCallable) static public function GetPlayerPawn(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APawn;
   
   /**
     Returns the player character (NULL if the player pawn doesn't exist OR is not a character) at the specified player index
   **/
-  @:ufunction static public function GetPlayerCharacter(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.ACharacter;
+  @:ufunction(BlueprintCallable) static public function GetPlayerCharacter(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.ACharacter;
   
   /**
     Returns the player's camera manager for the specified player index
   **/
-  @:ufunction static public function GetPlayerCameraManager(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APlayerCameraManager;
+  @:ufunction(BlueprintCallable) static public function GetPlayerCameraManager(WorldContextObject : unreal.Const<unreal.UObject>, PlayerIndex : unreal.Int32) : unreal.APlayerCameraManager;
   
   /**
     Create a new player for this game.
     @param ControllerId         The ID of the controller that the should control the newly created player.  A value of -1 specifies to use the next available ID
     @param bSpawnPawn           Whether a pawn should be spawned immediately. If false a pawn will not be created until transition to the next map.
   **/
-  @:ufunction static public function CreatePlayer(WorldContextObject : unreal.Const<unreal.UObject>, ControllerId : unreal.Int32 = -1, bSpawnPawn : Bool = true) : unreal.APlayerController;
+  @:ufunction(BlueprintCallable) static public function CreatePlayer(WorldContextObject : unreal.Const<unreal.UObject>, ControllerId : unreal.Int32 = -1, bSpawnPawn : Bool = true) : unreal.APlayerController;
   
   /**
     Removes a player from this game.
     @param Player                       The player controller of the player to be removed
     @param bDestroyPawn         Whether the controlled pawn should be deleted as well
   **/
-  @:ufunction static public function RemovePlayer(Player : unreal.APlayerController, bDestroyPawn : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function RemovePlayer(Player : unreal.APlayerController, bDestroyPawn : Bool) : Void;
   
   /**
     Gets what controller ID a Player is using
     @param Player         The player controller of the player to get the ID of
     @return                       The ID of the passed in player. -1 if there is no controller for the passed in player
   **/
-  @:ufunction static public function GetPlayerControllerID(Player : unreal.APlayerController) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetPlayerControllerID(Player : unreal.APlayerController) : unreal.Int32;
   
   /**
     Sets what controller ID a Player should be using
     @param Player                        The player controller of the player to change the controller ID of
     @param ControllerId          The controller ID to assign to this player
   **/
-  @:ufunction static public function SetPlayerControllerID(Player : unreal.APlayerController, ControllerId : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetPlayerControllerID(Player : unreal.APlayerController, ControllerId : unreal.Int32) : Void;
   
   /**
     Stream the level with the LevelName ; Calling again before it finishes has no effect
   **/
-  @:ufunction static public function LoadStreamLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, bMakeVisibleAfterLoad : Bool, bShouldBlockOnLoad : Bool, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction(BlueprintCallable) static public function LoadStreamLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, bMakeVisibleAfterLoad : Bool, bShouldBlockOnLoad : Bool, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Unload a streamed in level
   **/
-  @:ufunction static public function UnloadStreamLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
+  @:ufunction(BlueprintCallable) static public function UnloadStreamLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, @:bpopt("LatentInfo") LatentInfo : unreal.FLatentActionInfo) : Void;
   
   /**
     Returns level streaming object with specified level package name
   **/
-  @:ufunction static public function GetStreamingLevel(WorldContextObject : unreal.Const<unreal.UObject>, PackageName : unreal.FName) : unreal.ULevelStreaming;
+  @:ufunction(BlueprintCallable) static public function GetStreamingLevel(WorldContextObject : unreal.Const<unreal.UObject>, PackageName : unreal.FName) : unreal.ULevelStreaming;
   
   /**
     Flushes level streaming in blocking fashion and returns when all sub-levels are loaded / visible / hidden
   **/
-  @:ufunction static public function FlushLevelStreaming(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
+  @:ufunction(BlueprintCallable) static public function FlushLevelStreaming(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
   
   /**
     Cancels all currently queued streaming packages
   **/
-  @:ufunction static public function CancelAsyncLoading() : Void;
+  @:ufunction(BlueprintCallable) static public function CancelAsyncLoading() : Void;
   
   /**
     Travel to another level
@@ -157,54 +157,54 @@ package unreal;
     @param       bAbsolute                       if true options are reset, if false options are carried over from current level
     @param       Options                         a string of options to use for the travel URL
   **/
-  @:ufunction static public function OpenLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, bAbsolute : Bool = true, Options : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) static public function OpenLevel(WorldContextObject : unreal.Const<unreal.UObject>, LevelName : unreal.FName, bAbsolute : Bool = true, Options : unreal.FString) : Void;
   
   /**
     Get the name of the currently-open level.
     
     @param bRemovePrefixString    remove any streaming- or editor- added prefixes from the level name.
   **/
-  @:ufunction static public function GetCurrentLevelName(WorldContextObject : unreal.Const<unreal.UObject>, bRemovePrefixString : Bool = true) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetCurrentLevelName(WorldContextObject : unreal.Const<unreal.UObject>, bRemovePrefixString : Bool = true) : unreal.FString;
   
   /**
     Returns the current GameModeBase or Null if it can't be retrieved, such as on the client
   **/
-  @:ufunction static public function GetGameMode(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.AGameModeBase;
+  @:ufunction(BlueprintCallable) static public function GetGameMode(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.AGameModeBase;
   
   /**
     Returns the current GameStateBase or Null if it can't be retrieved
   **/
-  @:ufunction static public function GetGameState(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.AGameStateBase;
+  @:ufunction(BlueprintCallable) static public function GetGameState(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.AGameStateBase;
   
   /**
     Returns the class of a passed in Object, will always be valid if Object is not NULL
   **/
-  @:ufunction static public function GetObjectClass(Object : unreal.Const<unreal.UObject>) : unreal.UClass;
+  @:ufunction(BlueprintCallable) static public function GetObjectClass(Object : unreal.Const<unreal.UObject>) : unreal.UClass;
   
   /**
     Gets the current global time dilation.
     @return Current time dilation.
   **/
-  @:ufunction static public function GetGlobalTimeDilation(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetGlobalTimeDilation(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
   
   /**
     Sets the global time dilation.
     @param       TimeDilation    value to set the global time dilation to
   **/
-  @:ufunction static public function SetGlobalTimeDilation(WorldContextObject : unreal.Const<unreal.UObject>, TimeDilation : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetGlobalTimeDilation(WorldContextObject : unreal.Const<unreal.UObject>, TimeDilation : unreal.Float32) : Void;
   
   /**
     Sets the game's paused state
     @param       bPaused         Whether the game should be paused or not
     @return      Whether the game was successfully paused/unpaused
   **/
-  @:ufunction static public function SetGamePaused(WorldContextObject : unreal.Const<unreal.UObject>, bPaused : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetGamePaused(WorldContextObject : unreal.Const<unreal.UObject>, bPaused : Bool) : Bool;
   
   /**
     Returns the game's paused state
     @return      Whether the game is currently paused or not
   **/
-  @:ufunction static public function IsGamePaused(WorldContextObject : unreal.Const<unreal.UObject>) : Bool;
+  @:ufunction(BlueprintCallable) static public function IsGamePaused(WorldContextObject : unreal.Const<unreal.UObject>) : Bool;
   
   /**
     Hurt locally authoritative actors within the radius. Will only hit components that block the Visibility channel.
@@ -218,7 +218,7 @@ package unreal;
     @param DamagePreventionChannel - Damage will not be applied to victim if there is something between the origin and the victim which blocks traces on this channel
     @return true if damage was applied to at least one actor.
   **/
-  @:ufunction static public function ApplyRadialDamage(WorldContextObject : unreal.Const<unreal.UObject>, BaseDamage : unreal.Float32, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>, IgnoreActors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DamageCauser : unreal.AActor, InstigatedByController : unreal.AController, bDoFullDamage : Bool = false, DamagePreventionChannel : unreal.ECollisionChannel = ECC_Visibility) : Bool;
+  @:ufunction(BlueprintCallable) static public function ApplyRadialDamage(WorldContextObject : unreal.Const<unreal.UObject>, BaseDamage : unreal.Float32, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageRadius : unreal.Float32, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>, IgnoreActors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DamageCauser : unreal.AActor, InstigatedByController : unreal.AController, bDoFullDamage : Bool = false, DamagePreventionChannel : unreal.ECollisionChannel = ECC_Visibility) : Bool;
   
   /**
     Hurt locally authoritative actors within the radius. Will only hit components that block the Visibility channel.
@@ -234,7 +234,7 @@ package unreal;
     @param DamagePreventionChannel - Damage will not be applied to victim if there is something between the origin and the victim which blocks traces on this channel
     @return true if damage was applied to at least one actor.
   **/
-  @:ufunction static public function ApplyRadialDamageWithFalloff(WorldContextObject : unreal.Const<unreal.UObject>, BaseDamage : unreal.Float32, MinimumDamage : unreal.Float32, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageInnerRadius : unreal.Float32, DamageOuterRadius : unreal.Float32, DamageFalloff : unreal.Float32, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>, IgnoreActors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DamageCauser : unreal.AActor, InstigatedByController : unreal.AController, DamagePreventionChannel : unreal.ECollisionChannel = ECC_Visibility) : Bool;
+  @:ufunction(BlueprintCallable) static public function ApplyRadialDamageWithFalloff(WorldContextObject : unreal.Const<unreal.UObject>, BaseDamage : unreal.Float32, MinimumDamage : unreal.Float32, Origin : unreal.Const<unreal.PRef<unreal.FVector>>, DamageInnerRadius : unreal.Float32, DamageOuterRadius : unreal.Float32, DamageFalloff : unreal.Float32, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>, IgnoreActors : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DamageCauser : unreal.AActor, InstigatedByController : unreal.AController, DamagePreventionChannel : unreal.ECollisionChannel = ECC_Visibility) : Bool;
   
   /**
     Hurts the specified actor with the specified impact.
@@ -247,7 +247,7 @@ package unreal;
     @param DamageTypeClass - Class that describes the damage that was done.
     @return Actual damage the ended up being applied to the actor.
   **/
-  @:ufunction static public function ApplyPointDamage(DamagedActor : unreal.AActor, BaseDamage : unreal.Float32, HitFromDirection : unreal.Const<unreal.PRef<unreal.FVector>>, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>, EventInstigator : unreal.AController, DamageCauser : unreal.AActor, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function ApplyPointDamage(DamagedActor : unreal.AActor, BaseDamage : unreal.Float32, HitFromDirection : unreal.Const<unreal.PRef<unreal.FVector>>, HitInfo : unreal.Const<unreal.PRef<unreal.FHitResult>>, EventInstigator : unreal.AController, DamageCauser : unreal.AActor, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>) : unreal.Float32;
   
   /**
     Hurts the specified actor with generic damage.
@@ -258,7 +258,7 @@ package unreal;
     @param DamageTypeClass - Class that describes the damage that was done.
     @return Actual damage the ended up being applied to the actor.
   **/
-  @:ufunction static public function ApplyDamage(DamagedActor : unreal.AActor, BaseDamage : unreal.Float32, EventInstigator : unreal.AController, DamageCauser : unreal.AActor, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function ApplyDamage(DamagedActor : unreal.AActor, BaseDamage : unreal.Float32, EventInstigator : unreal.AController, DamageCauser : unreal.AActor, DamageTypeClass : unreal.TSubclassOf<unreal.UDamageType>) : unreal.Float32;
   
   /**
     Plays an in-world camera shake that affects all nearby local players, with distance-based attenuation. Does not replicate.
@@ -270,7 +270,7 @@ package unreal;
     @param Falloff - Affects falloff of effect as it nears OuterRadius
     @param bOrientShakeTowardsEpicenter - Changes the rotation of shake to point towards epicenter instead of forward
   **/
-  @:ufunction static public function PlayWorldCameraShake(WorldContextObject : unreal.Const<unreal.UObject>, Shake : unreal.TSubclassOf<unreal.UCameraShake>, Epicenter : unreal.FVector, InnerRadius : unreal.Float32, OuterRadius : unreal.Float32, Falloff : unreal.Float32 = 1.000000, bOrientShakeTowardsEpicenter : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) static public function PlayWorldCameraShake(WorldContextObject : unreal.Const<unreal.UObject>, Shake : unreal.TSubclassOf<unreal.UCameraShake>, Epicenter : unreal.FVector, InnerRadius : unreal.Float32, OuterRadius : unreal.Float32, Falloff : unreal.Float32 = 1.000000, bOrientShakeTowardsEpicenter : Bool = false) : Void;
   
   /**
     Plays the specified effect at the given location and rotation, fire and forget. The system will go away when the effect is complete. Does not replicate.
@@ -280,7 +280,7 @@ package unreal;
     @param Rotation - rotation to place the effect in world space
     @param bAutoDestroy - Whether the component will automatically be destroyed when the particle system completes playing or whether it can be reactivated
   **/
-  @:ufunction static public function SpawnEmitterAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, EmitterTemplate : unreal.UParticleSystem, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool = true) : unreal.UParticleSystemComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnEmitterAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, EmitterTemplate : unreal.UParticleSystem, Location : unreal.FVector, Rotation : unreal.FRotator, bAutoDestroy : Bool = true) : unreal.UParticleSystemComponent;
   
   /**
     Plays the specified effect attached to and following the specified component. The system will go away when the effect is complete. Does not replicate.
@@ -292,7 +292,7 @@ package unreal;
     @param LocationType - Specifies whether Location is a relative offset or an absolute world position
     @param bAutoDestroy - Whether the component will automatically be destroyed when the particle system completes playing or whether it can be reactivated
   **/
-  @:ufunction static public function SpawnEmitterAttached(EmitterTemplate : unreal.UParticleSystem, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bAutoDestroy : Bool = true) : unreal.UParticleSystemComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnEmitterAttached(EmitterTemplate : unreal.UParticleSystem, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bAutoDestroy : Bool = true) : unreal.UParticleSystemComponent;
   
   /**
     Determines if any audio listeners are within range of the specified location
@@ -300,7 +300,7 @@ package unreal;
     @param MaximumRange  The maximum distance away from Location that a listener can be
     @note This will always return false if there is no audio device, or the audio device is disabled.
   **/
-  @:ufunction static public function AreAnyListenersWithinRange(WorldContextObject : unreal.Const<unreal.UObject>, Location : unreal.FVector, MaximumRange : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function AreAnyListenersWithinRange(WorldContextObject : unreal.Const<unreal.UObject>, Location : unreal.FVector, MaximumRange : unreal.Float32) : Bool;
   
   /**
     Sets a global pitch modulation scalar that will apply to all non-UI sounds
@@ -310,7 +310,7 @@ package unreal;
     @param PitchModulation - A pitch modulation value to globally set.
     @param TimeSec - A time value to linearly interpolate the global modulation pitch over from it's current value.
   **/
-  @:ufunction static public function SetGlobalPitchModulation(WorldContextObject : unreal.Const<unreal.UObject>, PitchModulation : unreal.Float32, TimeSec : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function SetGlobalPitchModulation(WorldContextObject : unreal.Const<unreal.UObject>, PitchModulation : unreal.Float32, TimeSec : unreal.Float32) : Void;
   
   /**
     Sets the global listener focus parameters which will scale focus behavior of sounds based on their focus azimuth settings in their attenuation settings.
@@ -326,7 +326,7 @@ package unreal;
     @param FocusPriorityScale - A priority scale value (> 0.0) to use for sounds which are in-focus. Values < 1.0 will reduce the priority of in-focus sounds, values > 1.0 will increase the priority of in-focus sounds.
     @param NonFocusPriorityScale - A priority scale value (> 0.0) to use for sounds which are out-of-focus. Values < 1.0 will reduce the priority of sounds out-of-focus sounds, values > 1.0 will increase the priority of out-of-focus sounds.
   **/
-  @:ufunction static public function SetGlobalListenerFocusParameters(WorldContextObject : unreal.Const<unreal.UObject>, FocusAzimuthScale : unreal.Float32 = 1.000000, NonFocusAzimuthScale : unreal.Float32 = 1.000000, FocusDistanceScale : unreal.Float32 = 1.000000, NonFocusDistanceScale : unreal.Float32 = 1.000000, FocusVolumeScale : unreal.Float32 = 1.000000, NonFocusVolumeScale : unreal.Float32 = 1.000000, FocusPriorityScale : unreal.Float32 = 1.000000, NonFocusPriorityScale : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function SetGlobalListenerFocusParameters(WorldContextObject : unreal.Const<unreal.UObject>, FocusAzimuthScale : unreal.Float32 = 1.000000, NonFocusAzimuthScale : unreal.Float32 = 1.000000, FocusDistanceScale : unreal.Float32 = 1.000000, NonFocusDistanceScale : unreal.Float32 = 1.000000, FocusVolumeScale : unreal.Float32 = 1.000000, NonFocusVolumeScale : unreal.Float32 = 1.000000, FocusPriorityScale : unreal.Float32 = 1.000000, NonFocusPriorityScale : unreal.Float32 = 1.000000) : Void;
   
   /**
     Plays a sound directly with no attenuation, perfect for UI sounds.
@@ -339,7 +339,7 @@ package unreal;
     @param ConcurrencySettings - Override concurrency settings package to play sound with
     @param StartTime - How far in to the sound to begin playback at
   **/
-  @:ufunction static public function PlaySound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency) : Void;
+  @:ufunction(BlueprintCallable) static public function PlaySound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency) : Void;
   
   /**
     Spawns a sound with no attenuation, perfect for UI sounds.
@@ -354,7 +354,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return An audio component to manipulate the spawned sound
   **/
-  @:ufunction static public function SpawnSound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency, bPersistAcrossLevelTransition : Bool = false, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnSound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency, bPersistAcrossLevelTransition : Bool = false, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Creates a sound with no attenuation, perfect for UI sounds. This does NOT play the sound
@@ -369,7 +369,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return An audio component to manipulate the created sound
   **/
-  @:ufunction static public function CreateSound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency, bPersistAcrossLevelTransition : Bool = false, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function CreateSound2D(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, ConcurrencySettings : unreal.USoundConcurrency, bPersistAcrossLevelTransition : Bool = false, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Plays a sound at the given location. This is a fire and forget sound and does not travel with any actor. Replication is also not handled at this point.
@@ -382,7 +382,7 @@ package unreal;
     @param AttenuationSettings - Override attenuation settings package to play sound with
     @param ConcurrencySettings - Override concurrency settings package to play sound with
   **/
-  @:ufunction static public function PlaySoundAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency) : Void;
+  @:ufunction(BlueprintCallable) static public function PlaySoundAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency) : Void;
   
   /**
     Spawns a sound at the given location. This does not travel with any actor. Replication is also not handled at this point.
@@ -397,7 +397,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return An audio component to manipulate the spawned sound
   **/
-  @:ufunction static public function SpawnSoundAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnSoundAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Sound : unreal.USoundBase, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Plays a sound attached to and following the specified component. This is a fire and forget sound. Replication is also not handled at this point.
@@ -416,7 +416,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return An audio component to manipulate the spawned sound
   **/
-  @:ufunction static public function SpawnSoundAttached(Sound : unreal.USoundBase, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnSoundAttached(Sound : unreal.USoundBase, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, ConcurrencySettings : unreal.USoundConcurrency, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Plays a dialogue directly with no attenuation, perfect for UI.
@@ -429,7 +429,7 @@ package unreal;
     @param PitchMultiplier - Multiplies the pitch.
     @param StartTime - How far in to the dialogue to begin playback at
   **/
-  @:ufunction static public function PlayDialogue2D(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function PlayDialogue2D(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000) : Void;
   
   /**
     Spawns a dialogue with no attenuation, perfect for UI.
@@ -443,7 +443,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return An audio component to manipulate the spawned sound
   **/
-  @:ufunction static public function SpawnDialogue2D(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnDialogue2D(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Plays a dialogue at the given location. This is a fire and forget sound and does not travel with any actor. Replication is also not handled at this point.
@@ -456,7 +456,7 @@ package unreal;
     @param StartTime - How far in to the dialogue to begin playback at
     @param AttenuationSettings - Override attenuation settings package to play sound with
   **/
-  @:ufunction static public function PlayDialogueAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation) : Void;
+  @:ufunction(BlueprintCallable) static public function PlayDialogueAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation) : Void;
   
   /**
     Plays a dialogue at the given location. This is a fire and forget sound and does not travel with any actor. Replication is also not handled at this point.
@@ -471,7 +471,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return Audio Component to manipulate the playing dialogue with
   **/
-  @:ufunction static public function SpawnDialogueAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnDialogueAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, Location : unreal.FVector, Rotation : unreal.FRotator, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Spawns a dialogue attached to and following the specified component. This is a fire and forget sound. Replication is also not handled at this point.
@@ -490,7 +490,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned audio component will be automatically cleaned up when the sound finishes (by completing or stopping) or whether it can be reactivated
     @return Audio Component to manipulate the playing dialogue with
   **/
-  @:ufunction static public function SpawnDialogueAttached(Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnDialogueAttached(Dialogue : unreal.UDialogueWave, Context : unreal.Const<unreal.PRef<unreal.FDialogueContext>>, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, VolumeMultiplier : unreal.Float32 = 1.000000, PitchMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.USoundAttenuation, bAutoDestroy : Bool = true) : unreal.UAudioComponent;
   
   /**
     Plays a force feedback effect at the given location. This is a fire and forget effect and does not travel with any actor. Replication is also not handled at this point.
@@ -503,7 +503,7 @@ package unreal;
     @param bAutoDestroy - Whether the returned force feedback component will be automatically cleaned up when the feedback patern finishes (by completing or stopping) or whether it can be reactivated
     @return Force Feedback Component to manipulate the playing feedback effect with
   **/
-  @:ufunction static public function SpawnForceFeedbackAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, ForceFeedbackEffect : unreal.UForceFeedbackEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bLooping : Bool = false, IntensityMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.UForceFeedbackAttenuation, bAutoDestroy : Bool = true) : unreal.UForceFeedbackComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnForceFeedbackAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, ForceFeedbackEffect : unreal.UForceFeedbackEffect, Location : unreal.FVector, Rotation : unreal.FRotator, bLooping : Bool = false, IntensityMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.UForceFeedbackAttenuation, bAutoDestroy : Bool = true) : unreal.UForceFeedbackComponent;
   
   /**
     Plays a force feedback effect attached to and following the specified component. This is a fire and forget effect. Replication is also not handled at this point.
@@ -520,24 +520,24 @@ package unreal;
     @param bAutoDestroy - Whether the returned force feedback component will be automatically cleaned up when the feedback patern finishes (by completing or stopping) or whether it can be reactivated
     @return Force Feedback Component to manipulate the playing feedback effect with
   **/
-  @:ufunction static public function SpawnForceFeedbackAttached(ForceFeedbackEffect : unreal.UForceFeedbackEffect, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, bLooping : Bool = false, IntensityMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.UForceFeedbackAttenuation, bAutoDestroy : Bool = true) : unreal.UForceFeedbackComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnForceFeedbackAttached(ForceFeedbackEffect : unreal.UForceFeedbackEffect, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, bStopWhenAttachedToDestroyed : Bool = false, bLooping : Bool = false, IntensityMultiplier : unreal.Float32 = 1.000000, StartTime : unreal.Float32 = 0.000000, AttenuationSettings : unreal.UForceFeedbackAttenuation, bAutoDestroy : Bool = true) : unreal.UForceFeedbackComponent;
   
   /**
     Will set subtitles to be enabled or disabled.
     @param bEnabled will enable subtitle drawing if true, disable if false.
   **/
-  @:ufunction static public function SetSubtitlesEnabled(bEnabled : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function SetSubtitlesEnabled(bEnabled : Bool) : Void;
   
   /**
     Returns whether or not subtitles are currently enabled.
     @return true if subtitles are enabled.
   **/
-  @:ufunction static public function AreSubtitlesEnabled() : Bool;
+  @:ufunction(BlueprintCallable) static public function AreSubtitlesEnabled() : Bool;
   
   /**
     Set the sound mix of the audio system for special EQing *
   **/
-  @:ufunction static public function SetBaseSoundMix(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMix : unreal.USoundMix) : Void;
+  @:ufunction(BlueprintCallable) static public function SetBaseSoundMix(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMix : unreal.USoundMix) : Void;
   
   /**
     Overrides the sound class adjuster in the given sound mix. If the sound class does not exist in the input sound mix, the sound class adjustment will be added to the sound mix.
@@ -548,7 +548,7 @@ package unreal;
     @param FadeInTime The interpolation time to use to go from the current sound class adjuster values to the new values.
     @param bApplyToChildren Whether or not to apply this override to the sound class' children or to just the specified sound class.
   **/
-  @:ufunction static public function SetSoundMixClassOverride(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix, InSoundClass : unreal.USoundClass, Volume : unreal.Float32 = 1.000000, Pitch : unreal.Float32 = 1.000000, FadeInTime : unreal.Float32 = 1.000000, bApplyToChildren : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) static public function SetSoundMixClassOverride(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix, InSoundClass : unreal.USoundClass, Volume : unreal.Float32 = 1.000000, Pitch : unreal.Float32 = 1.000000, FadeInTime : unreal.Float32 = 1.000000, bApplyToChildren : Bool = true) : Void;
   
   /**
     Clears the override of the sound class adjuster in the given sound mix. If the override did not exist in the sound mix, this will do nothing.
@@ -556,22 +556,22 @@ package unreal;
     @param InSoundClass The sound class to override (or add) in the sound mix.
     @param FadeOutTime The interpolation time to use to go from the current sound class adjuster override values to the non-override values.
   **/
-  @:ufunction static public function ClearSoundMixClassOverride(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix, InSoundClass : unreal.USoundClass, FadeOutTime : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function ClearSoundMixClassOverride(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix, InSoundClass : unreal.USoundClass, FadeOutTime : unreal.Float32 = 1.000000) : Void;
   
   /**
     Push a sound mix modifier onto the audio system *
   **/
-  @:ufunction static public function PushSoundMixModifier(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix) : Void;
+  @:ufunction(BlueprintCallable) static public function PushSoundMixModifier(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix) : Void;
   
   /**
     Pop a sound mix modifier from the audio system *
   **/
-  @:ufunction static public function PopSoundMixModifier(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix) : Void;
+  @:ufunction(BlueprintCallable) static public function PopSoundMixModifier(WorldContextObject : unreal.Const<unreal.UObject>, InSoundMixModifier : unreal.USoundMix) : Void;
   
   /**
     Clear all sound mix modifiers from the audio system *
   **/
-  @:ufunction static public function ClearSoundMixModifiers(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
+  @:ufunction(BlueprintCallable) static public function ClearSoundMixModifiers(WorldContextObject : unreal.Const<unreal.UObject>) : Void;
   
   /**
     Activates a Reverb Effect without the need for a volume
@@ -581,19 +581,19 @@ package unreal;
     @param Volume Volume level of Reverb Effect
     @param FadeTime Time before Reverb Effect is fully active
   **/
-  @:ufunction static public function ActivateReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>, ReverbEffect : unreal.UReverbEffect, TagName : unreal.FName, Priority : unreal.Float32 = 0.000000, Volume : unreal.Float32 = 0.500000, FadeTime : unreal.Float32 = 2.000000) : Void;
+  @:ufunction(BlueprintCallable) static public function ActivateReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>, ReverbEffect : unreal.UReverbEffect, TagName : unreal.FName, Priority : unreal.Float32 = 0.000000, Volume : unreal.Float32 = 0.500000, FadeTime : unreal.Float32 = 2.000000) : Void;
   
   /**
     Deactivates a Reverb Effect not applied by a volume
     
     @param TagName Tag associated with Reverb Effect to remove
   **/
-  @:ufunction static public function DeactivateReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>, TagName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) static public function DeactivateReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>, TagName : unreal.FName) : Void;
   
   /**
     Returns the highest priority reverb settings currently active from any source (volumes or manual setting).
   **/
-  @:ufunction static public function GetCurrentReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.UReverbEffect;
+  @:ufunction(BlueprintCallable) static public function GetCurrentReverbEffect(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.UReverbEffect;
   
   /**
     Spawns a decal at the given location and rotation, fire and forget. Does not replicate.
@@ -603,7 +603,7 @@ package unreal;
     @param Rotation - rotation to place the decal in world space
     @param LifeSpan - destroy decal component after time runs out (0 = infinite)
   **/
-  @:ufunction static public function SpawnDecalAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, DecalMaterial : unreal.UMaterialInterface, DecalSize : unreal.FVector, Location : unreal.FVector, @:opt("-90.000000,0.000000,0.000000") Rotation : unreal.FRotator, LifeSpan : unreal.Float32 = 0.000000) : unreal.UDecalComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnDecalAtLocation(WorldContextObject : unreal.Const<unreal.UObject>, DecalMaterial : unreal.UMaterialInterface, DecalSize : unreal.FVector, Location : unreal.FVector, @:opt("-90.000000,0.000000,0.000000") Rotation : unreal.FRotator, LifeSpan : unreal.Float32 = 0.000000) : unreal.UDecalComponent;
   
   /**
     Spawns a decal attached to and following the specified component. Does not replicate.
@@ -616,7 +616,7 @@ package unreal;
     @param LocationType - Specifies whether Location is a relative offset or an absolute world position
     @param LifeSpan - destroy decal component after time runs out (0 = infinite)
   **/
-  @:ufunction static public function SpawnDecalAttached(DecalMaterial : unreal.UMaterialInterface, DecalSize : unreal.FVector, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, LifeSpan : unreal.Float32 = 0.000000) : unreal.UDecalComponent;
+  @:ufunction(BlueprintCallable) static public function SpawnDecalAttached(DecalMaterial : unreal.UMaterialInterface, DecalSize : unreal.FVector, AttachToComponent : unreal.USceneComponent, @:opt("None") AttachPointName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator, LocationType : unreal.EAttachLocation = KeepRelativeOffset, LifeSpan : unreal.Float32 = 0.000000) : unreal.UDecalComponent;
   
   /**
     Create a HitResult struct
@@ -635,32 +635,32 @@ package unreal;
     @param HitItem               Primitive-specific data recording which item in the primitive was hit
     @param FaceIndex             If colliding with trimesh or landscape, index of face that was hit.
   **/
-  @:ufunction static public function MakeHitResult(bBlockingHit : Bool, bInitialOverlap : Bool, Time : unreal.Float32, Location : unreal.FVector, ImpactPoint : unreal.FVector, @:bpopt("0,0,1") Normal : unreal.FVector, @:bpopt("0,0,1") ImpactNormal : unreal.FVector, PhysMat : unreal.UPhysicalMaterial, HitActor : unreal.AActor, HitComponent : unreal.UPrimitiveComponent, HitBoneName : unreal.FName, HitItem : unreal.Int32, FaceIndex : unreal.Int32, TraceStart : unreal.FVector, TraceEnd : unreal.FVector) : unreal.FHitResult;
+  @:ufunction(BlueprintCallable) static public function MakeHitResult(bBlockingHit : Bool, bInitialOverlap : Bool, Time : unreal.Float32, Location : unreal.FVector, ImpactPoint : unreal.FVector, @:bpopt("0,0,1") Normal : unreal.FVector, @:bpopt("0,0,1") ImpactNormal : unreal.FVector, PhysMat : unreal.UPhysicalMaterial, HitActor : unreal.AActor, HitComponent : unreal.UPrimitiveComponent, HitBoneName : unreal.FName, HitItem : unreal.Int32, FaceIndex : unreal.Int32, TraceStart : unreal.FVector, TraceEnd : unreal.FVector) : unreal.FHitResult;
   
   /**
     Returns the EPhysicalSurface type of the given Hit.
     To edit surface type for your project, use ProjectSettings/Physics/PhysicalSurface section
   **/
-  @:ufunction static public function GetSurfaceType(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : unreal.EPhysicalSurface;
+  @:ufunction(BlueprintCallable) static public function GetSurfaceType(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>) : unreal.EPhysicalSurface;
   
   /**
     Try and find the UV for a collision impact. Note this ONLY works if 'Support UV From Hit Results' is enabled in Physics Settings.
   **/
-  @:ufunction static public function FindCollisionUV(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>, UVChannel : unreal.Int32, UV : unreal.PRef<unreal.FVector2D>) : Bool;
+  @:ufunction(BlueprintCallable) static public function FindCollisionUV(Hit : unreal.Const<unreal.PRef<unreal.FHitResult>>, UVChannel : unreal.Int32, UV : unreal.PRef<unreal.FVector2D>) : Bool;
   
   /**
     Create a new, empty SaveGame object to set data on and then pass to SaveGameToSlot.
     @param  SaveGameClass   Class of SaveGame to create
     @return                                 New SaveGame object to write data to
   **/
-  @:ufunction static public function CreateSaveGameObject(SaveGameClass : unreal.TSubclassOf<unreal.USaveGame>) : unreal.USaveGame;
+  @:ufunction(BlueprintCallable) static public function CreateSaveGameObject(SaveGameClass : unreal.TSubclassOf<unreal.USaveGame>) : unreal.USaveGame;
   
   /**
     Create a new, empty SaveGame object to set data on and then pass to SaveGameToSlot.
     @param  SaveGameBlueprint       Blueprint of SaveGame to create
     @return                                         New SaveGame object to write data to
   **/
-  @:ufunction static public function CreateSaveGameObjectFromBlueprint(SaveGameBlueprint : unreal.UBlueprint) : unreal.USaveGame;
+  @:ufunction(BlueprintCallable) static public function CreateSaveGameObjectFromBlueprint(SaveGameBlueprint : unreal.UBlueprint) : unreal.USaveGame;
   
   /**
     Save the contents of the SaveGameObject to a slot.
@@ -669,14 +669,14 @@ package unreal;
     @param UserIndex            For some platforms, master user index to identify the user doing the saving.
     @return                                 Whether we successfully saved this information
   **/
-  @:ufunction static public function SaveGameToSlot(SaveGameObject : unreal.USaveGame, SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function SaveGameToSlot(SaveGameObject : unreal.USaveGame, SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
   
   /**
     See if a save game exists with the specified name.
     @param SlotName                 Name of save game slot.
     @param UserIndex            For some platforms, master user index to identify the user doing the saving.
   **/
-  @:ufunction static public function DoesSaveGameExist(SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function DoesSaveGameExist(SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
   
   /**
     Load the contents from a given slot.
@@ -684,7 +684,7 @@ package unreal;
     @param UserIndex            For some platforms, master user index to identify the user doing the loading.
     @return SaveGameObject  Object containing loaded game state (NULL if load fails)
   **/
-  @:ufunction static public function LoadGameFromSlot(SlotName : unreal.FString, UserIndex : unreal.Int32) : unreal.USaveGame;
+  @:ufunction(BlueprintCallable) static public function LoadGameFromSlot(SlotName : unreal.FString, UserIndex : unreal.Int32) : unreal.USaveGame;
   
   /**
     Delete a save game in a particular slot.
@@ -692,45 +692,45 @@ package unreal;
      @param UserIndex            For some platforms, master user index to identify the user doing the deletion.
      @return True if a file was actually able to be deleted. use DoesSaveGameExist to distinguish between delete failures and failure due to file not existing.
   **/
-  @:ufunction static public function DeleteGameInSlot(SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
+  @:ufunction(BlueprintCallable) static public function DeleteGameInSlot(SlotName : unreal.FString, UserIndex : unreal.Int32) : Bool;
   
   /**
     Returns the frame delta time in seconds, adjusted by time dilation.
   **/
-  @:ufunction static public function GetWorldDeltaSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetWorldDeltaSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
   
   /**
     Returns time in seconds since world was brought up for play, adjusted by time dilation and IS stopped when game pauses
   **/
-  @:ufunction static public function GetTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
   
   /**
     Returns time in seconds since world was brought up for play, adjusted by time dilation and IS NOT stopped when game pauses
   **/
-  @:ufunction static public function GetUnpausedTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetUnpausedTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
   
   /**
     Returns time in seconds since world was brought up for play, does NOT stop when game pauses, NOT dilated/clamped
   **/
-  @:ufunction static public function GetRealTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetRealTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
   
   /**
     Returns time in seconds since world was brought up for play, IS stopped when game pauses, NOT dilated/clamped.
   **/
-  @:ufunction static public function GetAudioTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
-  @:ufunction static public function GetAccurateRealTime(WorldContextObject : unreal.Const<unreal.UObject>, Seconds : unreal.Int32, PartialSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) static public function GetAudioTimeSeconds(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetAccurateRealTime(WorldContextObject : unreal.Const<unreal.UObject>, Seconds : unreal.Int32, PartialSeconds : unreal.Float32) : Void;
   
   /**
     Toggle live DVR streaming.
     @param Enable                        If true enable streaming, otherwise disable.
   **/
-  @:ufunction static public function EnableLiveStreaming(@:bpopt("true") Enable : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function EnableLiveStreaming(@:bpopt("true") Enable : Bool) : Void;
   
   /**
     Returns the string name of the current platform, to perform different behavior based on platform.
     (Platform names include Windows, Mac, IOS, Android, PS4, XboxOne, HTML5, Linux)
   **/
-  @:ufunction static public function GetPlatformName() : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function GetPlatformName() : unreal.FString;
   
   /**
     Calculates an launch velocity for a projectile to hit a specified point.
@@ -745,7 +745,7 @@ package unreal;
     @param bDrawDebug            When true, a debug arc is drawn (red for an invalid arc, green for a valid arc)
     @return                                      Returns false if there is no valid solution or the valid solutions are blocked.  Returns true otherwise.
   **/
-  @:ufunction static public function BlueprintSuggestProjectileVelocity(WorldContextObject : unreal.Const<unreal.UObject>, TossVelocity : unreal.PRef<unreal.FVector>, StartLocation : unreal.FVector, EndLocation : unreal.FVector, LaunchSpeed : unreal.Float32, OverrideGravityZ : unreal.Float32, TraceOption : unreal.ESuggestProjVelocityTraceOption, CollisionRadius : unreal.Float32, bFavorHighArc : Bool, bDrawDebug : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function BlueprintSuggestProjectileVelocity(WorldContextObject : unreal.Const<unreal.UObject>, TossVelocity : unreal.PRef<unreal.FVector>, StartLocation : unreal.FVector, EndLocation : unreal.FVector, LaunchSpeed : unreal.Float32, OverrideGravityZ : unreal.Float32, TraceOption : unreal.ESuggestProjVelocityTraceOption, CollisionRadius : unreal.Float32, bFavorHighArc : Bool, bDrawDebug : Bool) : Bool;
   
   /**
     Predict the arc of a virtual projectile affected by gravity with collision checks along the arc. Returns a list of positions of the simulated arc and the destination reached by the simulation.
@@ -768,7 +768,7 @@ package unreal;
     @param OverrideGravityZ                       Optional override of Gravity (if 0, uses WorldGravityZ)
     @return                                                       True if hit something along the path (if tracing with collision).
   **/
-  @:ufunction static public function Blueprint_PredictProjectilePath_ByTraceChannel(WorldContextObject : unreal.Const<unreal.UObject>, OutHit : unreal.PRef<unreal.FHitResult>, OutPathPositions : unreal.PRef<unreal.TArray<unreal.FVector>>, OutLastTraceDestination : unreal.PRef<unreal.FVector>, StartPos : unreal.FVector, LaunchVelocity : unreal.FVector, @:bpopt("TRUE") bTracePath : Bool, ProjectileRadius : unreal.Float32, @:bpopt("ECC_WorldDynamic") TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, DrawDebugTime : unreal.Float32, SimFrequency : unreal.Float32 = 15.000000, MaxSimTime : unreal.Float32 = 2.000000, OverrideGravityZ : unreal.Float32 = 0.000000) : Bool;
+  @:ufunction(BlueprintCallable) static public function Blueprint_PredictProjectilePath_ByTraceChannel(WorldContextObject : unreal.Const<unreal.UObject>, OutHit : unreal.PRef<unreal.FHitResult>, OutPathPositions : unreal.PRef<unreal.TArray<unreal.FVector>>, OutLastTraceDestination : unreal.PRef<unreal.FVector>, StartPos : unreal.FVector, LaunchVelocity : unreal.FVector, @:bpopt("TRUE") bTracePath : Bool, ProjectileRadius : unreal.Float32, @:bpopt("ECC_WorldDynamic") TraceChannel : unreal.ECollisionChannel, bTraceComplex : Bool, ActorsToIgnore : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DrawDebugType : unreal.EDrawDebugTrace, DrawDebugTime : unreal.Float32, SimFrequency : unreal.Float32 = 15.000000, MaxSimTime : unreal.Float32 = 2.000000, OverrideGravityZ : unreal.Float32 = 0.000000) : Bool;
   
   /**
     Predict the arc of a virtual projectile affected by gravity with collision checks along the arc.
@@ -778,7 +778,7 @@ package unreal;
     @param PredictResult                          Output result of the trace (Hit result, array of location/velocity/times for each trace step, etc).
     @return                                                       True if hit something along the path (if tracing with collision).
   **/
-  @:ufunction static public function Blueprint_PredictProjectilePath_Advanced(WorldContextObject : unreal.Const<unreal.UObject>, PredictParams : unreal.Const<unreal.PRef<unreal.FPredictProjectilePathParams>>, PredictResult : unreal.PRef<unreal.FPredictProjectilePathResult>) : Bool;
+  @:ufunction(BlueprintCallable) static public function Blueprint_PredictProjectilePath_Advanced(WorldContextObject : unreal.Const<unreal.UObject>, PredictParams : unreal.Const<unreal.PRef<unreal.FPredictProjectilePathParams>>, PredictResult : unreal.PRef<unreal.FPredictProjectilePathResult>) : Bool;
   
   /**
     Returns the launch velocity needed for a projectile at rest at StartPos to land on EndPos.
@@ -791,27 +791,27 @@ package unreal;
     @param OverrideGravityZ                       Optional override of WorldGravityZ
     @param ArcParam                                       Change height of arc between 0.0-1.0 where 0.5 is the default medium arc
   **/
-  @:ufunction static public function SuggestProjectileVelocity_CustomArc(WorldContextObject : unreal.Const<unreal.UObject>, OutLaunchVelocity : unreal.PRef<unreal.FVector>, StartPos : unreal.FVector, EndPos : unreal.FVector, OverrideGravityZ : unreal.Float32 = 0.000000, ArcParam : unreal.Float32 = 0.500000) : Bool;
+  @:ufunction(BlueprintCallable) static public function SuggestProjectileVelocity_CustomArc(WorldContextObject : unreal.Const<unreal.UObject>, OutLaunchVelocity : unreal.PRef<unreal.FVector>, StartPos : unreal.FVector, EndPos : unreal.FVector, OverrideGravityZ : unreal.Float32 = 0.000000, ArcParam : unreal.Float32 = 0.500000) : Bool;
   
   /**
     Returns world origin current location.
   **/
-  @:ufunction static public function GetWorldOriginLocation(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.FIntVector;
+  @:ufunction(BlueprintCallable) static public function GetWorldOriginLocation(WorldContextObject : unreal.Const<unreal.UObject>) : unreal.FIntVector;
   
   /**
     Requests a new location for a world origin.
   **/
-  @:ufunction static public function SetWorldOriginLocation(WorldContextObject : unreal.Const<unreal.UObject>, NewLocation : unreal.FIntVector) : Void;
+  @:ufunction(BlueprintCallable) static public function SetWorldOriginLocation(WorldContextObject : unreal.Const<unreal.UObject>, NewLocation : unreal.FIntVector) : Void;
   
   /**
     Returns origin based position for local world location.
   **/
-  @:ufunction static public function RebaseLocalOriginOntoZero(WorldContextObject : unreal.UObject, WorldLocation : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RebaseLocalOriginOntoZero(WorldContextObject : unreal.UObject, WorldLocation : unreal.FVector) : unreal.FVector;
   
   /**
     Returns local location for origin based position.
   **/
-  @:ufunction static public function RebaseZeroOriginOntoLocal(WorldContextObject : unreal.UObject, WorldLocation : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) static public function RebaseZeroOriginOntoLocal(WorldContextObject : unreal.UObject, WorldLocation : unreal.FVector) : unreal.FVector;
   
   /**
     Counts how many grass foliage instances overlap a given sphere.
@@ -822,7 +822,7 @@ package unreal;
     
     @return Number of foliage instances with their mesh set to Mesh that overlap the sphere.
   **/
-  @:ufunction static public function GrassOverlappingSphereCount(WorldContextObject : unreal.Const<unreal.UObject>, StaticMesh : unreal.Const<unreal.UStaticMesh>, CenterPosition : unreal.FVector, Radius : unreal.Float32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GrassOverlappingSphereCount(WorldContextObject : unreal.Const<unreal.UObject>, StaticMesh : unreal.Const<unreal.UStaticMesh>, CenterPosition : unreal.FVector, Radius : unreal.Float32) : unreal.Int32;
   
   /**
     Transforms the given 2D screen space coordinate into a 3D world-space point and direction.
@@ -831,7 +831,7 @@ package unreal;
     @param WorldPosition         (out) Corresponding 3D position in world space.
     @param WorldDirection        (out) World space direction vector away from the camera at the given 2d point.
   **/
-  @:ufunction static public function DeprojectScreenToWorld(Player : unreal.APlayerController, ScreenPosition : unreal.Const<unreal.PRef<unreal.FVector2D>>, WorldPosition : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) static public function DeprojectScreenToWorld(Player : unreal.APlayerController, ScreenPosition : unreal.Const<unreal.PRef<unreal.FVector2D>>, WorldPosition : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Transforms the given 3D world-space point into a its 2D screen space coordinate.
@@ -840,7 +840,7 @@ package unreal;
     @param ScreenPosition        (out) Corresponding 2D position in screen space
     @param bPlayerViewportRelative       Should this be relative to the player viewport subregion (useful when using player attached widgets in split screen)
   **/
-  @:ufunction static public function ProjectWorldToScreen(Player : unreal.APlayerController, WorldPosition : unreal.Const<unreal.PRef<unreal.FVector>>, ScreenPosition : unreal.PRef<unreal.FVector2D>, bPlayerViewportRelative : Bool = false) : Bool;
+  @:ufunction(BlueprintCallable) static public function ProjectWorldToScreen(Player : unreal.APlayerController, WorldPosition : unreal.Const<unreal.PRef<unreal.FVector>>, ScreenPosition : unreal.PRef<unreal.FVector2D>, bPlayerViewportRelative : Bool = false) : Bool;
   
   /**
     Break up a key=value pair into its key and value.
@@ -848,7 +848,7 @@ package unreal;
     @param Key                   (out) Key portion of Pair. If no = in string will be the same as Pair.
     @param Value                 (out) Value portion of Pair. If no = in string will be empty.
   **/
-  @:ufunction static public function GetKeyValue(Pair : unreal.FString, Key : unreal.PRef<unreal.FString>, Value : unreal.PRef<unreal.FString>) : Void;
+  @:ufunction(BlueprintCallable) static public function GetKeyValue(Pair : unreal.FString, Key : unreal.PRef<unreal.FString>, Value : unreal.PRef<unreal.FString>) : Void;
   
   /**
     Find an option in the options string and return it.
@@ -856,7 +856,7 @@ package unreal;
     @param Key                   The key to find the value of in Options.
     @return                              The value associated with Key if Key found in Options string.
   **/
-  @:ufunction static public function ParseOption(Options : unreal.FString, Key : unreal.FString) : unreal.FString;
+  @:ufunction(BlueprintCallable) static public function ParseOption(Options : unreal.FString, Key : unreal.FString) : unreal.FString;
   
   /**
     Returns whether a key exists in an options string.
@@ -864,7 +864,7 @@ package unreal;
     @param Key                   The key to determine if it exists in Options.
     @return                              Whether Key was found in Options.
   **/
-  @:ufunction static public function HasOption(Options : unreal.FString, InKey : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function HasOption(Options : unreal.FString, InKey : unreal.FString) : Bool;
   
   /**
     Find an option in the options string and return it as an integer.
@@ -872,12 +872,12 @@ package unreal;
     @param Key                   The key to find the value of in Options.
     @return                              The value associated with Key as an integer if Key found in Options string, otherwise DefaultValue.
   **/
-  @:ufunction static public function GetIntOption(Options : unreal.FString, Key : unreal.FString, DefaultValue : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetIntOption(Options : unreal.FString, Key : unreal.FString, DefaultValue : unreal.Int32) : unreal.Int32;
   
   /**
     Checks the commandline to see if the desired option was specified on the commandline (e.g. -demobuild)
     @return                               True if the launch option was specified on the commandline, false otherwise
   **/
-  @:ufunction static public function HasLaunchOption(OptionToCheck : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function HasLaunchOption(OptionToCheck : unreal.FString) : Bool;
   
 }

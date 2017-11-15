@@ -18,6 +18,6 @@ package unreal;
   @param Key
   
 **/
-@:glueCppIncludes("Components/InputComponent.h")
+@:glueCppIncludes("Classes/Components/InputComponent.h")
 @:uParamName("Key")
 typedef FInputActionHandlerDynamicSignature = unreal.DynamicDelegate<FInputActionHandlerDynamicSignature, unreal.inputcore.FKey->Void>;

@@ -30,7 +30,7 @@ package unreal.umg;
     The padding area between the slot and the content it contains.
   **/
   @:uproperty public var Padding : unreal.slatecore.FMargin;
-  @:ufunction @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
-  @:ufunction @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPadding(InPadding : unreal.slatecore.FMargin) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHorizontalAlignment(InHorizontalAlignment : unreal.slatecore.EHorizontalAlignment) : Void;
   
 }

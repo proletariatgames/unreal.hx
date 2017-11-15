@@ -179,22 +179,22 @@ package unreal;
     Begin playback of the matinee. Only called in game.
     Will then advance Position by (PlayRate * Deltatime) each time the matinee is ticked.
   **/
-  @:ufunction public function Play() : Void;
+  @:ufunction(BlueprintCallable) public function Play() : Void;
   
   /**
     Stops playback at the current position
   **/
-  @:ufunction public function Stop() : Void;
+  @:ufunction(BlueprintCallable) public function Stop() : Void;
   
   /**
     Similar to play, but the playback will go backwards until the beginning of the sequence is reached.
   **/
-  @:ufunction public function Reverse() : Void;
+  @:ufunction(BlueprintCallable) public function Reverse() : Void;
   
   /**
     Hold playback at its current position. Calling Pause again will continue playback in its current direction.
   **/
-  @:ufunction public function Pause() : Void;
+  @:ufunction(BlueprintCallable) public function Pause() : Void;
   
   /**
     Set the position of the interpolation.
@@ -202,17 +202,17 @@ package unreal;
     @param NewPosition the new position to set the interpolation to
     @param bJump if true, teleport to the new position (don't trigger any events between the old and new positions, etc)
   **/
-  @:ufunction @:final public function SetPosition(NewPosition : unreal.Float32, bJump : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetPosition(NewPosition : unreal.Float32, bJump : Bool = false) : Void;
   
   /**
     Changes the direction of playback (go in reverse if it was going forward, or vice versa)
   **/
-  @:ufunction public function ChangePlaybackDirection() : Void;
+  @:ufunction(BlueprintCallable) public function ChangePlaybackDirection() : Void;
   
   /**
     Change the looping behaviour of this matinee
   **/
-  @:ufunction public function SetLoopingState(bNewLooping : Bool) : Void;
-  @:ufunction @:final public function EnableGroupByName(GroupName : unreal.FString, bEnable : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetLoopingState(bNewLooping : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function EnableGroupByName(GroupName : unreal.FString, bEnable : Bool) : Void;
   
 }

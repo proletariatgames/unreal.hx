@@ -17,7 +17,7 @@ package unreal;
 /**
   Permitted spline point types for SplineComponent.
 **/
-@:glueCppIncludes("Components/SplineComponent.h")
+@:glueCppIncludes("Classes/Components/SplineComponent.h")
 @:uname("ESplinePointType.Type")
 @:uextern @:uenum extern enum ESplinePointType {
   Linear;

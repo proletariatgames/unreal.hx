@@ -19,7 +19,7 @@ package unreal.gameplaytags;
   will display a tree view of assets referencing the tag
 **/
 @:umodule("GameplayTags")
-@:glueCppIncludes("GameplayTagContainer.h")
+@:glueCppIncludes("Classes/GameplayTagContainer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameplayTagReferenceHelper {
   
 }

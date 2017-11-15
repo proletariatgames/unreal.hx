@@ -207,38 +207,38 @@ package unreal;
   /**
     Returns the number of LODs used by the mesh.
   **/
-  @:ufunction @:thisConst @:final public function GetNumLODs() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumLODs() : unreal.Int32;
   
   /**
     Returns the number of bounds of the mesh.
     
     @return      The bounding box represented as box origin with extents and also a sphere that encapsulates that box
   **/
-  @:ufunction @:thisConst @:final public function GetBounds() : unreal.FBoxSphereBounds;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBounds() : unreal.FBoxSphereBounds;
   
   /**
     Returns the bounding box, in local space including bounds extension(s), of the StaticMesh asset
   **/
-  @:ufunction @:thisConst @:final public function GetBoundingBox() : unreal.FBox;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBoundingBox() : unreal.FBox;
   
   /**
     Returns number of Sections that this StaticMesh has, in the supplied LOD (LOD 0 is the highest)
   **/
-  @:ufunction @:thisConst @:final public function GetNumSections(InLOD : unreal.Int32) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumSections(InLOD : unreal.Int32) : unreal.Int32;
   
   /**
     Gets a Material given a Material Index and an LOD number
     
     @return Requested material
   **/
-  @:ufunction @:thisConst @:final public function GetMaterial(MaterialIndex : unreal.Int32) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMaterial(MaterialIndex : unreal.Int32) : unreal.UMaterialInterface;
   
   /**
     Gets a Material index given a slot name
     
     @return Requested material
   **/
-  @:ufunction @:thisConst @:final public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetMaterialIndex(MaterialSlotName : unreal.FName) : unreal.Int32;
   // Interface_CollisionDataProvider interface implementation
   // Interface_AssetUserData interface implementation
   

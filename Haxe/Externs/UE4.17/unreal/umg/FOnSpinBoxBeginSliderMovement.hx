@@ -14,7 +14,7 @@
 **/
 package unreal.umg;
 
-@:glueCppIncludes("UMG.h", "Components/SpinBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SpinBox.h")
 @:umodule("UMG")
 @:uname("USpinBox.FOnSpinBoxBeginSliderMovement")
 typedef FOnSpinBoxBeginSliderMovement = unreal.DynamicMulticastDelegate<FOnSpinBoxBeginSliderMovement, Void->Void>;

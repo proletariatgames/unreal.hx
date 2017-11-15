@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about an overall collision, including contacts.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCollisionImpactData {
   
   /**

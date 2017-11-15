@@ -26,33 +26,33 @@ package unreal;
     @param Val Amount of movement in the forward direction (or backward if negative).
     @see APawn::AddMovementInput()
   **/
-  @:ufunction public function MoveForward(Val : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function MoveForward(Val : unreal.Float32) : Void;
   
   /**
     Input callback to strafe right in local space (or left if Val is negative).
     @param Val Amount of movement in the right direction (or left if negative).
     @see APawn::AddMovementInput()
   **/
-  @:ufunction public function MoveRight(Val : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function MoveRight(Val : unreal.Float32) : Void;
   
   /**
     Input callback to move up in world space (or down if Val is negative).
     @param Val Amount of movement in the world up direction (or down if negative).
     @see APawn::AddMovementInput()
   **/
-  @:ufunction public function MoveUp_World(Val : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) public function MoveUp_World(Val : unreal.Float32) : Void;
   
   /**
     Called via input to turn at a given rate.
     @param Rate  This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
   **/
-  @:ufunction @:final public function TurnAtRate(Rate : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function TurnAtRate(Rate : unreal.Float32) : Void;
   
   /**
     Called via input to look up at a given rate (or down if Rate is negative).
     @param Rate   This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
   **/
-  @:ufunction @:final public function LookUpAtRate(Rate : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function LookUpAtRate(Rate : unreal.Float32) : Void;
   
   /**
     If true, adds default input bindings for movement and camera look.

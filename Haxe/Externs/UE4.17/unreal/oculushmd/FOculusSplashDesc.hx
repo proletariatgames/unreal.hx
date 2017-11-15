@@ -15,7 +15,7 @@
 package unreal.oculushmd;
 
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusHMDTypes.h")
+@:glueCppIncludes("Public/OculusHMDTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FOculusSplashDesc {
   
   /**

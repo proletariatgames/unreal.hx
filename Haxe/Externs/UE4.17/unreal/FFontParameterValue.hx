@@ -17,7 +17,7 @@ package unreal;
 /**
   Editable font parameter.
 **/
-@:glueCppIncludes("Materials/MaterialInstance.h")
+@:glueCppIncludes("Classes/Materials/MaterialInstance.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FFontParameterValue {
   @:uproperty public var ExpressionGUID : unreal.FGuid;
   @:uproperty public var FontPage : unreal.Int32;

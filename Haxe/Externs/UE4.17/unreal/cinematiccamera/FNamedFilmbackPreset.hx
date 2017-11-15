@@ -18,7 +18,7 @@ package unreal.cinematiccamera;
   A named bundle of filmback settings used to implement filmback presets
 **/
 @:umodule("CinematicCamera")
-@:glueCppIncludes("CineCameraComponent.h")
+@:glueCppIncludes("Public/CineCameraComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNamedFilmbackPreset {
   @:uproperty public var FilmbackSettings : unreal.cinematiccamera.FCameraFilmbackSettings;
   

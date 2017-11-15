@@ -59,27 +59,27 @@ package unreal;
   /**
     Returns the simulated TimeSeconds on the server, will be synchronized on client and server
   **/
-  @:ufunction @:thisConst public function GetServerWorldTimeSeconds() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetServerWorldTimeSeconds() : unreal.Float32;
   
   /**
     Returns true if the world has started play (called BeginPlay on actors)
   **/
-  @:ufunction @:thisConst public function HasBegunPlay() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function HasBegunPlay() : Bool;
   
   /**
     Returns true if the world has started match (called MatchStarted callbacks)
   **/
-  @:ufunction @:thisConst public function HasMatchStarted() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function HasMatchStarted() : Bool;
   
   /**
     Returns the time that should be used as when a player started
   **/
-  @:ufunction @:thisConst public function GetPlayerStartTime(Controller : unreal.AController) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetPlayerStartTime(Controller : unreal.AController) : unreal.Float32;
   
   /**
     Returns how much time needs to be spent before a player can respawn
   **/
-  @:ufunction @:thisConst public function GetPlayerRespawnDelay(Controller : unreal.AController) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetPlayerRespawnDelay(Controller : unreal.AController) : unreal.Float32;
   
   /**
     GameModeBase class notification callback.

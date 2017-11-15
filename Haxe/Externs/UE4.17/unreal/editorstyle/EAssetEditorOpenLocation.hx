@@ -15,7 +15,7 @@
 package unreal.editorstyle;
 
 @:umodule("EditorStyle")
-@:glueCppIncludes("Classes/EditorStyleSettings.h")
+@:glueCppIncludes("Public/Classes/EditorStyleSettings.h")
 @:uname("EAssetEditorOpenLocation")
 @:class @:uextern @:uenum extern enum EAssetEditorOpenLocation {
   

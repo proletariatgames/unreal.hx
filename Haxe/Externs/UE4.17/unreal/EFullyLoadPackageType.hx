@@ -17,7 +17,7 @@ package unreal;
 /**
   Enumerates types of fully loaded packages.
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:uname("EFullyLoadPackageType")
 @:uextern @:uenum extern enum EFullyLoadPackageType {
   

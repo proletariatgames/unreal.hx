@@ -18,7 +18,7 @@ package unreal.editor;
   Defines visibility states for the tangents in the curve editor.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("CurveEditorSettings.h")
+@:glueCppIncludes("Public/CurveEditorSettings.h")
 @:uname("ECurveEditorTangentVisibility.Type")
 @:uextern @:uenum extern enum ECurveEditorTangentVisibility {
   

@@ -29,7 +29,7 @@ package unreal.umg;
     @return Start time in seconds.
     @see GetEndTime
   **/
-  @:ufunction @:thisConst @:final public function GetStartTime() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetStartTime() : unreal.Float32;
   
   /**
     Get the end time of this animation.
@@ -37,7 +37,7 @@ package unreal.umg;
     @return End time in seconds.
     @see GetStartTime
   **/
-  @:ufunction @:thisConst @:final public function GetEndTime() : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetEndTime() : unreal.Float32;
   @:uproperty public var AnimationBindings : unreal.TArray<unreal.umg.FWidgetAnimationBinding>;
   
   /**

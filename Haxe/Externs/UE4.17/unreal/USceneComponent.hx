@@ -116,7 +116,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetRelativeLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetRelativeLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the rotation of the component relative to its parent
@@ -127,7 +127,7 @@ package unreal;
                                                          If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
   **/
-  @:ufunction @:final public function K2_SetRelativeRotation(NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetRelativeRotation(NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the transform of the component relative to its parent
@@ -138,22 +138,22 @@ package unreal;
                                                          If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
   **/
-  @:ufunction @:final public function K2_SetRelativeTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetRelativeTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Returns the transform of the component relative to its parent
   **/
-  @:ufunction @:thisConst @:final public function GetRelativeTransform() : unreal.FTransform;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetRelativeTransform() : unreal.FTransform;
   
   /**
     Reset the transform of the component relative to its parent. Sets relative location to zero, relative rotation to no rotation, and Scale to 1.
   **/
-  @:ufunction @:final public function ResetRelativeTransform() : Void;
+  @:ufunction(BlueprintCallable) @:final public function ResetRelativeTransform() : Void;
   
   /**
     Set the non-uniform scale of the component relative to its parent
   **/
-  @:ufunction public function SetRelativeScale3D(NewScale3D : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) public function SetRelativeScale3D(NewScale3D : unreal.FVector) : Void;
   
   /**
     Adds a delta to the translation of the component relative to its parent
@@ -166,7 +166,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddRelativeLocation(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddRelativeLocation(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta the rotation of the component relative to its parent
@@ -177,7 +177,7 @@ package unreal;
                                                          If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
   **/
-  @:ufunction @:final public function K2_AddRelativeRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddRelativeRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the location of the component in its local reference frame
@@ -190,7 +190,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddLocalOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddLocalOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the rotation of the component in its local reference frame
@@ -201,7 +201,7 @@ package unreal;
                                                          If true, physics velocity for this object is unchanged (so ragdoll parts are not affected by change in location).
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
   **/
-  @:ufunction @:final public function K2_AddLocalRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddLocalRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the transform of the component in its local reference frame. Scale is unchanged.
@@ -214,7 +214,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddLocalTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddLocalTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Put this component at the specified location in world space. Updates relative location to achieve the final world location.
@@ -227,7 +227,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetWorldLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetWorldLocation(NewLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     * Put this component at the specified rotation in world space. Updates relative rotation to achieve the final world rotation.
@@ -239,13 +239,13 @@ package unreal;
     *                                                      If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
     *                                                      If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetWorldRotation(NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetWorldRotation(NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set the relative scale of the component to put it at the supplied scale in world space.
     @param NewScale              New scale in world space for this component.
   **/
-  @:ufunction @:final public function SetWorldScale3D(NewScale : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetWorldScale3D(NewScale : unreal.FVector) : Void;
   
   /**
     Set the transform of the component in world space.
@@ -258,7 +258,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetWorldTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetWorldTransform(NewTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the location of the component in world space.
@@ -271,7 +271,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddWorldOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddWorldOffset(DeltaLocation : unreal.FVector, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the rotation of the component in world space.
@@ -283,7 +283,7 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddWorldRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddWorldRotation(DeltaRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Adds a delta to the transform of the component in world space. Scale is unchanged.
@@ -296,85 +296,85 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_AddWorldTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AddWorldTransform(DeltaTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Return location of the component, in world space
   **/
-  @:ufunction @:thisConst @:final public function K2_GetComponentLocation() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetComponentLocation() : unreal.FVector;
   
   /**
     Returns rotation of the component, in world space.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetComponentRotation() : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetComponentRotation() : unreal.FRotator;
   
   /**
     Returns scale of the component, in world space.
   **/
-  @:ufunction @:thisConst @:final public function K2_GetComponentScale() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetComponentScale() : unreal.FVector;
   
   /**
     Get the current component-to-world transform for this component
   **/
-  @:ufunction @:thisConst @:final public function K2_GetComponentToWorld() : unreal.FTransform;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function K2_GetComponentToWorld() : unreal.FTransform;
   
   /**
     Get the forward (X) unit direction vector from this component, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetForwardVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetForwardVector() : unreal.FVector;
   
   /**
     Get the up (Z) unit direction vector from this component, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetUpVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetUpVector() : unreal.FVector;
   
   /**
     Get the right (Y) unit direction vector from this component, in world space.
   **/
-  @:ufunction @:thisConst @:final public function GetRightVector() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetRightVector() : unreal.FVector;
   
   /**
     Returns whether the specified body is currently using physics simulation
   **/
-  @:ufunction @:thisConst public function IsSimulatingPhysics(@:opt("None") BoneName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsSimulatingPhysics(@:opt("None") BoneName : unreal.FName) : Bool;
   
   /**
     Returns whether the specified body is currently using physics simulation
   **/
-  @:ufunction @:thisConst public function IsAnySimulatingPhysics() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsAnySimulatingPhysics() : Bool;
   
   /**
     Get the SceneComponent we are attached to.
   **/
-  @:ufunction @:thisConst @:final public function GetAttachParent() : unreal.USceneComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachParent() : unreal.USceneComponent;
   
   /**
     Get the socket we are attached to.
   **/
-  @:ufunction @:thisConst @:final public function GetAttachSocketName() : unreal.FName;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAttachSocketName() : unreal.FName;
   
   /**
     Gets all parent components up to and including the root component
   **/
-  @:ufunction @:thisConst @:final public function GetParentComponents(Parents : unreal.PRef<unreal.TArray<unreal.USceneComponent>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetParentComponents(Parents : unreal.PRef<unreal.TArray<unreal.USceneComponent>>) : Void;
   
   /**
     Gets the number of attached children components
   **/
-  @:ufunction @:thisConst @:final public function GetNumChildrenComponents() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumChildrenComponents() : unreal.Int32;
   
   /**
     Gets the attached child component at the specified location
   **/
-  @:ufunction @:thisConst @:final public function GetChildComponent(ChildIndex : unreal.Int32) : unreal.USceneComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetChildComponent(ChildIndex : unreal.Int32) : unreal.USceneComponent;
   
   /**
     Gets all the attached child components
     @param bIncludeAllDescendants Whether to include all descendants in the list of children (i.e. grandchildren, great grandchildren, etc.)
     @param Children The list of attached child components
   **/
-  @:ufunction @:thisConst @:final public function GetChildrenComponents(bIncludeAllDescendants : Bool, Children : unreal.PRef<unreal.TArray<unreal.USceneComponent>>) : Void;
-  @:ufunction @:final public function K2_AttachTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName, AttachType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetChildrenComponents(bIncludeAllDescendants : Bool, Children : unreal.PRef<unreal.TArray<unreal.USceneComponent>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName, AttachType : unreal.EAttachLocation = KeepRelativeOffset, bWeldSimulatedBodies : Bool = true) : Bool;
   
   /**
     Attach this component to another scene component, optionally at a named socket. It is valid to call this on components whether or not they have been Registered.
@@ -386,9 +386,9 @@ package unreal;
     @param  bWeldSimulatedBodies          Whether to weld together simulated physics bodies.
     @return True if attachment is successful (or already attached to requested parent/socket), false if attachment is rejected and there is no change in AttachParent.
   **/
-  @:ufunction @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Bool;
-  @:ufunction @:final public function SnapTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName) : Bool;
-  @:ufunction public function DetachFromParent(bMaintainWorldPosition : Bool = false, bCallModify : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_AttachToComponent(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule, @:bpopt("TRUE") bWeldSimulatedBodies : Bool) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SnapTo(InParent : unreal.USceneComponent, @:opt("None") InSocketName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) public function DetachFromParent(bMaintainWorldPosition : Bool = false, bCallModify : Bool = true) : Void;
   
   /**
     Detach this component from whatever it is attached to. Automatically unwelds components that are welded together (See WeldTo)
@@ -397,81 +397,81 @@ package unreal;
     @param ScaleRule                                     How to handle scales when detaching.
     @param bCallModify                           If true, call Modify() on the component and the current attach parent component
   **/
-  @:ufunction @:final public function K2_DetachFromComponent(@:opt("KeepRelative") LocationRule : unreal.EDetachmentRule, @:opt("KeepRelative") RotationRule : unreal.EDetachmentRule, @:opt("KeepRelative") ScaleRule : unreal.EDetachmentRule, bCallModify : Bool = true) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DetachFromComponent(@:opt("KeepRelative") LocationRule : unreal.EDetachmentRule, @:opt("KeepRelative") RotationRule : unreal.EDetachmentRule, @:opt("KeepRelative") ScaleRule : unreal.EDetachmentRule, bCallModify : Bool = true) : Void;
   
   /**
     Gets the names of all the sockets on the component.
     @return Get the names of all the sockets on the component.
   **/
-  @:ufunction @:thisConst @:final public function GetAllSocketNames() : unreal.TArray<unreal.FName>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetAllSocketNames() : unreal.TArray<unreal.FName>;
   
   /**
     Get world-space socket transform.
     @param InSocketName Name of the socket or the bone to get the transform
     @return Socket transform in world space if socket if found. Otherwise it will return component's transform in world space.
   **/
-  @:ufunction @:thisConst public function GetSocketTransform(InSocketName : unreal.FName, TransformSpace : unreal.ERelativeTransformSpace = RTS_World) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetSocketTransform(InSocketName : unreal.FName, TransformSpace : unreal.ERelativeTransformSpace = RTS_World) : unreal.FTransform;
   
   /**
     Get world-space socket or bone location.
     @param InSocketName Name of the socket or the bone to get the transform
     @return Socket transform in world space if socket if found. Otherwise it will return component's transform in world space.
   **/
-  @:ufunction @:thisConst public function GetSocketLocation(InSocketName : unreal.FName) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetSocketLocation(InSocketName : unreal.FName) : unreal.FVector;
   
   /**
     Get world-space socket or bone  FRotator rotation.
     @param InSocketName Name of the socket or the bone to get the transform
     @return Socket transform in world space if socket if found. Otherwise it will return component's transform in world space.
   **/
-  @:ufunction @:thisConst public function GetSocketRotation(InSocketName : unreal.FName) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetSocketRotation(InSocketName : unreal.FName) : unreal.FRotator;
   
   /**
     Get world-space socket or bone FQuat rotation.
     @param InSocketName Name of the socket or the bone to get the transform
     @return Socket transform in world space if socket if found. Otherwise it will return component's transform in world space.
   **/
-  @:ufunction @:thisConst public function GetSocketQuaternion(InSocketName : unreal.FName) : unreal.FQuat;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetSocketQuaternion(InSocketName : unreal.FName) : unreal.FQuat;
   
   /**
     return true if socket with the given name exists
     @param InSocketName Name of the socket or the bone to get the transform
     @return true if the socket with the given name exists. Otherwise, return false
   **/
-  @:ufunction @:thisConst public function DoesSocketExist(InSocketName : unreal.FName) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function DoesSocketExist(InSocketName : unreal.FName) : Bool;
   
   /**
     Get velocity of the component: either ComponentVelocity, or the velocity of the physics body if simulating physics.
     @return Velocity of the component
   **/
-  @:ufunction @:thisConst public function GetComponentVelocity() : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetComponentVelocity() : unreal.FVector;
   
   /**
     Is this component visible or not in game
     @return true if visible
   **/
-  @:ufunction @:thisConst public function IsVisible() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsVisible() : Bool;
   
   /**
     Set visibility of the component, if during game use this to turn on/off
   **/
-  @:ufunction @:final public function SetVisibility(bNewVisibility : Bool, bPropagateToChildren : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVisibility(bNewVisibility : Bool, bPropagateToChildren : Bool = false) : Void;
   
   /**
     Toggle visibility of the component
   **/
-  @:ufunction @:final public function ToggleVisibility(bPropagateToChildren : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function ToggleVisibility(bPropagateToChildren : Bool = false) : Void;
   
   /**
     Changes the value of HiddenGame.
     @param NewHidden     - The value to assign to HiddenGame.
   **/
-  @:ufunction @:final public function SetHiddenInGame(NewHidden : Bool, bPropagateToChildren : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHiddenInGame(NewHidden : Bool, bPropagateToChildren : Bool = false) : Void;
   
   /**
     Get the PhysicsVolume overlapping this component.
   **/
-  @:ufunction @:thisConst @:final public function GetPhysicsVolume() : unreal.APhysicsVolume;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetPhysicsVolume() : unreal.APhysicsVolume;
   
   /**
     Set the location and rotation of the component relative to its parent
@@ -485,12 +485,12 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetRelativeLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetRelativeLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
   /**
     Set which parts of the relative transform should be relative to parent, and which should be relative to world
   **/
-  @:ufunction @:final public function SetAbsolute(bNewAbsoluteLocation : Bool = false, bNewAbsoluteRotation : Bool = false, bNewAbsoluteScale : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAbsolute(bNewAbsoluteLocation : Bool = false, bNewAbsoluteRotation : Bool = false, bNewAbsoluteScale : Bool = false) : Void;
   
   /**
     Set the relative location and rotation of the component to put it at the supplied pose in world space.
@@ -504,6 +504,6 @@ package unreal;
                                                          If false, physics velocity is updated based on the change in position (affecting ragdoll parts).
                                                          If CCD is on and not teleporting, this will affect objects along the entire sweep volume.
   **/
-  @:ufunction @:final public function K2_SetWorldLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_SetWorldLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator, bSweep : Bool, SweepHitResult : unreal.PRef<unreal.FHitResult>, bTeleport : Bool) : Void;
   
 }

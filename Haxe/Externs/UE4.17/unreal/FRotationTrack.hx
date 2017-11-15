@@ -17,7 +17,7 @@ package unreal;
 /**
   Keyframe rotation data for one track.  Rot(i) occurs at Time(i).  Rot.Num() always equals Time.Num().
 **/
-@:glueCppIncludes("Animation/AnimSequence.h")
+@:glueCppIncludes("Classes/Animation/AnimSequence.h")
 @:uextern @:ustruct extern class FRotationTrack {
   @:uproperty public var Times : unreal.TArray<unreal.Float32>;
   @:uproperty public var RotKeys : unreal.TArray<unreal.FQuat>;

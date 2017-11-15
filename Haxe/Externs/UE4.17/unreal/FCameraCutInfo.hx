@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper struct for storing the camera world-position for each camera cut in the cinematic.
 **/
-@:glueCppIncludes("Matinee/MatineeActor.h")
+@:glueCppIncludes("Classes/Matinee/MatineeActor.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCameraCutInfo {
   @:uproperty public var TimeStamp : unreal.Float32;
   @:uproperty public var Location : unreal.FVector;

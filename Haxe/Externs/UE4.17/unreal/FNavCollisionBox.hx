@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("AI/Navigation/NavCollision.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavCollision.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNavCollisionBox {
   @:uproperty public var Extent : unreal.FVector;
   @:uproperty public var Offset : unreal.FVector;

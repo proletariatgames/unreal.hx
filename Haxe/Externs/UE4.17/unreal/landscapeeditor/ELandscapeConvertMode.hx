@@ -15,7 +15,7 @@
 package unreal.landscapeeditor;
 
 @:umodule("LandscapeEditor")
-@:glueCppIncludes("LandscapeEditorObject.h")
+@:glueCppIncludes("Public/LandscapeEditorObject.h")
 @:uname("ELandscapeConvertMode.Type")
 @:uextern @:uenum extern enum ELandscapeConvertMode {
   

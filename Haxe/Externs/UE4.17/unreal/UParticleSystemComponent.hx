@@ -169,7 +169,7 @@ package unreal;
     @param  LocationType         Option for how we handle our location when we attach to Parent.
     @see bAutoManageAttachment, AutoAttachParent, AutoAttachSocketName, AutoAttachLocationType
   **/
-  @:ufunction @:final public function SetAutoAttachParams(Parent : unreal.USceneComponent, @:opt("None") SocketName : unreal.FName, LocationType : unreal.EAttachLocation = KeepRelativeOffset) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAutoAttachParams(Parent : unreal.USceneComponent, @:opt("None") SocketName : unreal.FName, LocationType : unreal.EAttachLocation = KeepRelativeOffset) : Void;
   
   /**
     Set AutoAttachParent, AutoAttachSocketName, AutoAttachLocationRule, AutoAttachRotationRule, AutoAttachScaleRule to the specified parameters. Does not change bAutoManageAttachment; that must be set separately.
@@ -180,7 +180,7 @@ package unreal;
     @param  ScaleRule            Option for how we handle our scale when we attach to Parent.
     @see bAutoManageAttachment, AutoAttachParent, AutoAttachSocketName, AutoAttachLocationRule, AutoAttachRotationRule, AutoAttachScaleRule
   **/
-  @:ufunction @:final public function SetAutoAttachmentParameters(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAutoAttachmentParameters(Parent : unreal.USceneComponent, SocketName : unreal.FName, LocationRule : unreal.EAttachmentRule, RotationRule : unreal.EAttachmentRule, ScaleRule : unreal.EAttachmentRule) : Void;
   
   /**
     Set the beam end point
@@ -188,7 +188,7 @@ package unreal;
     @param  EmitterIndex            The index of the emitter to set it on
     @param  NewEndPoint                     The value to set it to
   **/
-  @:ufunction public function SetBeamEndPoint(EmitterIndex : unreal.Int32, NewEndPoint : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamEndPoint(EmitterIndex : unreal.Int32, NewEndPoint : unreal.FVector) : Void;
   
   /**
     Set the beam source point
@@ -197,7 +197,7 @@ package unreal;
     @param  NewSourcePoint          The value to set it to
     @param  SourceIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamSourcePoint(EmitterIndex : unreal.Int32, NewSourcePoint : unreal.FVector, SourceIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamSourcePoint(EmitterIndex : unreal.Int32, NewSourcePoint : unreal.FVector, SourceIndex : unreal.Int32) : Void;
   
   /**
     Set the beam source tangent
@@ -206,7 +206,7 @@ package unreal;
     @param  NewTangentPoint         The value to set it to
     @param  SourceIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamSourceTangent(EmitterIndex : unreal.Int32, NewTangentPoint : unreal.FVector, SourceIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamSourceTangent(EmitterIndex : unreal.Int32, NewTangentPoint : unreal.FVector, SourceIndex : unreal.Int32) : Void;
   
   /**
     Set the beam source strength
@@ -215,7 +215,7 @@ package unreal;
     @param  NewSourceStrength       The value to set it to
     @param  SourceIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamSourceStrength(EmitterIndex : unreal.Int32, NewSourceStrength : unreal.Float32, SourceIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamSourceStrength(EmitterIndex : unreal.Int32, NewSourceStrength : unreal.Float32, SourceIndex : unreal.Int32) : Void;
   
   /**
     Set the beam target point
@@ -224,7 +224,7 @@ package unreal;
     @param  NewTargetPoint          The value to set it to
     @param  TargetIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamTargetPoint(EmitterIndex : unreal.Int32, NewTargetPoint : unreal.FVector, TargetIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamTargetPoint(EmitterIndex : unreal.Int32, NewTargetPoint : unreal.FVector, TargetIndex : unreal.Int32) : Void;
   
   /**
     Set the beam target tangent
@@ -233,7 +233,7 @@ package unreal;
     @param  NewTangentPoint         The value to set it to
     @param  TargetIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamTargetTangent(EmitterIndex : unreal.Int32, NewTangentPoint : unreal.FVector, TargetIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamTargetTangent(EmitterIndex : unreal.Int32, NewTangentPoint : unreal.FVector, TargetIndex : unreal.Int32) : Void;
   
   /**
     Set the beam target strength
@@ -242,7 +242,7 @@ package unreal;
     @param  NewTargetStrength       The value to set it to
     @param  TargetIndex                     Which beam within the emitter to set it on
   **/
-  @:ufunction public function SetBeamTargetStrength(EmitterIndex : unreal.Int32, NewTargetStrength : unreal.Float32, TargetIndex : unreal.Int32) : Void;
+  @:ufunction(BlueprintCallable) public function SetBeamTargetStrength(EmitterIndex : unreal.Int32, NewTargetStrength : unreal.Float32, TargetIndex : unreal.Int32) : Void;
   
   /**
     Get the beam end point
@@ -252,7 +252,7 @@ package unreal;
     @return true            EmitterIndex is valid and End point is set - OutEndPoint is valid
                     false           EmitterIndex invalid or End point is not set - OutEndPoint is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamEndPoint(EmitterIndex : unreal.Int32, OutEndPoint : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamEndPoint(EmitterIndex : unreal.Int32, OutEndPoint : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Get the beam source point
@@ -264,7 +264,7 @@ package unreal;
     @return true            EmitterIndex and SourceIndex are valid - OutSourcePoint is valid
                     false           EmitterIndex or SourceIndex is invalid - OutSourcePoint is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamSourcePoint(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourcePoint : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamSourcePoint(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourcePoint : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Get the beam source tangent
@@ -276,7 +276,7 @@ package unreal;
     @return true            EmitterIndex and SourceIndex are valid - OutTangentPoint is valid
                     false           EmitterIndex or SourceIndex is invalid - OutTangentPoint is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamSourceTangent(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamSourceTangent(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Get the beam source strength
@@ -288,7 +288,7 @@ package unreal;
     @return true            EmitterIndex and SourceIndex are valid - OutSourceStrength is valid
                     false           EmitterIndex or SourceIndex is invalid - OutSourceStrength is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamSourceStrength(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourceStrength : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamSourceStrength(EmitterIndex : unreal.Int32, SourceIndex : unreal.Int32, OutSourceStrength : unreal.Float32) : Bool;
   
   /**
     Get the beam target point
@@ -300,7 +300,7 @@ package unreal;
     @return true            EmitterIndex and TargetIndex are valid - OutTargetPoint is valid
                     false           EmitterIndex or TargetIndex is invalid - OutTargetPoint is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamTargetPoint(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetPoint : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamTargetPoint(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetPoint : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Get the beam target tangent
@@ -312,7 +312,7 @@ package unreal;
     @return true            EmitterIndex and TargetIndex are valid - OutTangentPoint is valid
                     false           EmitterIndex or TargetIndex is invalid - OutTangentPoint is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamTargetTangent(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamTargetTangent(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTangentPoint : unreal.PRef<unreal.FVector>) : Bool;
   
   /**
     Get the beam target strength
@@ -324,7 +324,7 @@ package unreal;
     @return true            EmitterIndex and TargetIndex are valid - OutTargetStrength is valid
                     false           EmitterIndex or TargetIndex is invalid - OutTargetStrength is invalid
   **/
-  @:ufunction @:thisConst public function GetBeamTargetStrength(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetStrength : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetBeamTargetStrength(EmitterIndex : unreal.Int32, TargetIndex : unreal.Int32, OutTargetStrength : unreal.Float32) : Bool;
   
   /**
     Enables/Disables a sub-emitter
@@ -332,46 +332,46 @@ package unreal;
     @param  EmitterName                     The name of the sub-emitter to set it on
     @param  bNewEnableState         The value to set it to
   **/
-  @:ufunction public function SetEmitterEnable(EmitterName : unreal.FName, bNewEnableState : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function SetEmitterEnable(EmitterName : unreal.FName, bNewEnableState : Bool) : Void;
   
   /**
     Change a named float parameter
   **/
-  @:ufunction @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFloatParameter(ParameterName : unreal.FName, Param : unreal.Float32) : Void;
   
   /**
     Set a named vector instance parameter on this ParticleSystemComponent.
     Updates the parameter if it already exists, or creates a new entry if not.
   **/
-  @:ufunction @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetVectorParameter(ParameterName : unreal.FName, Param : unreal.FVector) : Void;
   
   /**
     Set a named color instance parameter on this ParticleSystemComponent.
     Updates the parameter if it already exists, or creates a new entry if not.
   **/
-  @:ufunction @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColorParameter(ParameterName : unreal.FName, Param : unreal.FLinearColor) : Void;
   
   /**
     Set a named actor instance parameter on this ParticleSystemComponent.
     Updates the parameter if it already exists, or creates a new entry if not.
   **/
-  @:ufunction @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetActorParameter(ParameterName : unreal.FName, Param : unreal.AActor) : Void;
   
   /**
     Set a named material instance parameter on this ParticleSystemComponent.
     Updates the parameter if it already exists, or creates a new entry if not.
   **/
-  @:ufunction @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetMaterialParameter(ParameterName : unreal.FName, Param : unreal.UMaterialInterface) : Void;
   
   /**
     Change the ParticleSystem used by this ParticleSystemComponent
   **/
-  @:ufunction @:final public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTemplate(NewTemplate : unreal.UParticleSystem) : Void;
   
   /**
     Get the current number of active particles in this system
   **/
-  @:ufunction @:thisConst @:final public function GetNumActiveParticles() : unreal.Int32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetNumActiveParticles() : unreal.Int32;
   
   /**
     Begins all trail emitters in this component.
@@ -381,12 +381,12 @@ package unreal;
     @param        InWidthMode                     How the width value is applied to the trail.
     @param        InWidth                         The width of the trail.
   **/
-  @:ufunction @:final public function BeginTrails(InFirstSocketName : unreal.FName, InSecondSocketName : unreal.FName, InWidthMode : unreal.ETrailWidthMode, InWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function BeginTrails(InFirstSocketName : unreal.FName, InSecondSocketName : unreal.FName, InWidthMode : unreal.ETrailWidthMode, InWidth : unreal.Float32) : Void;
   
   /**
     Ends all trail emitters in this component.
   **/
-  @:ufunction @:final public function EndTrails() : Void;
+  @:ufunction(BlueprintCallable) @:final public function EndTrails() : Void;
   
   /**
     Sets the defining data for all trails in this component.
@@ -396,18 +396,18 @@ package unreal;
     @param        InWidthMode                     How the width value is applied to the trail.
     @param        InWidth                         The width of the trail.
   **/
-  @:ufunction @:final public function SetTrailSourceData(InFirstSocketName : unreal.FName, InSecondSocketName : unreal.FName, InWidthMode : unreal.ETrailWidthMode, InWidth : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTrailSourceData(InFirstSocketName : unreal.FName, InSecondSocketName : unreal.FName, InWidthMode : unreal.ETrailWidthMode, InWidth : unreal.Float32) : Void;
   
   /**
     Creates a Dynamic Material Instance for the specified named material override, optionally from the supplied material.
     @param Name - The slot name of the material to replace.  If invalid, the material is unchanged and NULL is returned.
   **/
-  @:ufunction public function CreateNamedDynamicMaterialInstance(InName : unreal.FName, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) public function CreateNamedDynamicMaterialInstance(InName : unreal.FName, SourceMaterial : unreal.UMaterialInterface) : unreal.UMaterialInstanceDynamic;
   
   /**
     Returns a named material. If this named material is not found, returns NULL.
   **/
-  @:ufunction @:thisConst public function GetNamedMaterial(InName : unreal.FName) : unreal.UMaterialInterface;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetNamedMaterial(InName : unreal.FName) : unreal.UMaterialInterface;
   
   /**
     Record a kismet event.
@@ -418,6 +418,6 @@ package unreal;
     @param  InVelocity                              The velocity of the particle when the event fired.
     @param  InNormal                                Normal vector of the collision in coordinate system of the returner. Zero=none.
   **/
-  @:ufunction @:final public function GenerateParticleEvent(InEventName : unreal.Const<unreal.FName>, InEmitterTime : unreal.Float32, InLocation : unreal.Const<unreal.FVector>, InDirection : unreal.Const<unreal.FVector>, InVelocity : unreal.Const<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GenerateParticleEvent(InEventName : unreal.Const<unreal.FName>, InEmitterTime : unreal.Float32, InLocation : unreal.Const<unreal.FVector>, InDirection : unreal.Const<unreal.FVector>, InVelocity : unreal.Const<unreal.FVector>) : Void;
   
 }

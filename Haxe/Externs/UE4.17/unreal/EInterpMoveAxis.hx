@@ -17,7 +17,7 @@ package unreal;
 /**
   List of axies this track can use
 **/
-@:glueCppIncludes("Matinee/InterpTrackMoveAxis.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackMoveAxis.h")
 @:uname("EInterpMoveAxis")
 @:uextern @:uenum extern enum EInterpMoveAxis {
   AXIS_TranslationX;

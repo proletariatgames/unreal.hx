@@ -18,7 +18,7 @@ package unreal.automationmessages;
   Implements a message that responds to PerformanceDataRequest.
 **/
 @:umodule("AutomationMessages")
-@:glueCppIncludes("AutomationWorkerMessages.h")
+@:glueCppIncludes("Classes/AutomationWorkerMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAutomationWorkerPerformanceDataResponse {
   @:uproperty public var ErrorMessage : unreal.FString;
   @:uproperty public var bSuccess : Bool;

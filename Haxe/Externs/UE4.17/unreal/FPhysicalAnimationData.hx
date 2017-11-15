@@ -17,7 +17,7 @@ package unreal;
 /**
   Stores info on the type of motor that will be used for a given bone
 **/
-@:glueCppIncludes("PhysicsEngine/PhysicalAnimationComponent.h")
+@:glueCppIncludes("Classes/PhysicsEngine/PhysicalAnimationComponent.h")
 @:uextern @:ustruct extern class FPhysicalAnimationData {
   
   /**

@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxSceneImportOptionsStaticMesh.h")
+@:glueCppIncludes("Classes/Factories/FbxSceneImportOptionsStaticMesh.h")
 @:uname("EFBXSceneNormalGenerationMethod.Type")
 @:uextern @:uenum extern enum EFBXSceneNormalGenerationMethod {
   

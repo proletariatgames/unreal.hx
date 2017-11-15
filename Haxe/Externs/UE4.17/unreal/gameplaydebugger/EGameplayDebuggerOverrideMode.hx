@@ -15,7 +15,7 @@
 package unreal.gameplaydebugger;
 
 @:umodule("GameplayDebugger")
-@:glueCppIncludes("GameplayDebuggerConfig.h")
+@:glueCppIncludes("Public/GameplayDebuggerConfig.h")
 @:uname("EGameplayDebuggerOverrideMode")
 @:class @:uextern @:uenum extern enum EGameplayDebuggerOverrideMode {
   Enable;

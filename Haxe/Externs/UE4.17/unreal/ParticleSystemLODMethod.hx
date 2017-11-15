@@ -17,7 +17,7 @@ package unreal;
 /**
   ParticleSystemLODMethod
 **/
-@:glueCppIncludes("Particles/ParticleSystem.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystem.h")
 @:uname("ParticleSystemLODMethod")
 @:uextern @:uenum extern enum ParticleSystemLODMethod {
   

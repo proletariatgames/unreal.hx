@@ -18,7 +18,7 @@ package unreal.aimodule;
   keep in sync with DescribeFlowAbortMode()
 **/
 @:umodule("AIModule")
-@:glueCppIncludes("BehaviorTree/BehaviorTreeTypes.h")
+@:glueCppIncludes("Classes/BehaviorTree/BehaviorTreeTypes.h")
 @:uname("EBTFlowAbortMode.Type")
 @:uextern @:uenum extern enum EBTFlowAbortMode {
   

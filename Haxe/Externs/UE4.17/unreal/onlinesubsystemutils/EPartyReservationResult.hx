@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   The result code that will be returned during party reservation
 **/
 @:umodule("OnlineSubsystemUtils")
-@:glueCppIncludes("PartyBeaconState.h")
+@:glueCppIncludes("Public/PartyBeaconState.h")
 @:uname("EPartyReservationResult.Type")
 @:uextern @:uenum extern enum EPartyReservationResult {
   

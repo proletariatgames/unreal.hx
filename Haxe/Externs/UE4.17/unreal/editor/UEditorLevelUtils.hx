@@ -32,7 +32,7 @@ package unreal.editor;
     
     @return      Returns the newly created level, or NULL on failure
   **/
-  @:ufunction static public function CreateNewStreamingLevel(LevelStreamingClass : unreal.TSubclassOf<unreal.ULevelStreaming>, NewLevelPath : unreal.FString, bMoveSelectedActorsIntoNewLevel : Bool = false) : unreal.ULevelStreaming;
+  @:ufunction(BlueprintCallable) static public function CreateNewStreamingLevel(LevelStreamingClass : unreal.TSubclassOf<unreal.ULevelStreaming>, NewLevelPath : unreal.FString, bMoveSelectedActorsIntoNewLevel : Bool = false) : unreal.ULevelStreaming;
   
   /**
     Makes the specified streaming level the current level for editing.
@@ -40,7 +40,7 @@ package unreal.editor;
     
     @return      true    If a level was removed.
   **/
-  @:ufunction static public function MakeLevelCurrent(InStreamingLevel : unreal.ULevelStreaming) : Void;
+  @:ufunction(BlueprintCallable) static public function MakeLevelCurrent(InStreamingLevel : unreal.ULevelStreaming) : Void;
   
   /**
     Moves the specified list of actors to the specified streaming level. The new actors will be selected
@@ -49,7 +49,7 @@ package unreal.editor;
     @param       DestStreamingLevel      The destination streaming level of the current world to move the actors to
     @return                                              The number of actors that were successfully moved to the new level
   **/
-  @:ufunction static public function MoveActorsToLevel(ActorsToMove : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DestStreamingLevel : unreal.ULevelStreaming) : unreal.Int32;
-  @:ufunction static public function MoveSelectedActorsToLevel(DestLevel : unreal.ULevelStreaming) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function MoveActorsToLevel(ActorsToMove : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>, DestStreamingLevel : unreal.ULevelStreaming) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function MoveSelectedActorsToLevel(DestLevel : unreal.ULevelStreaming) : unreal.Int32;
   
 }

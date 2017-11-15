@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about the sprite category
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSpriteCategoryInfo {
   
   /**

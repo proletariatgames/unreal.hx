@@ -18,7 +18,7 @@ package unreal;
   Local anim node for extensible processing.
   Cant be used outside of this context as it has no graph node counterpart
 **/
-@:glueCppIncludes("Animation/AnimSingleNodeInstanceProxy.h")
+@:glueCppIncludes("Public/Animation/AnimSingleNodeInstanceProxy.h")
 @:uextern @:ustruct extern class FAnimNode_SingleNode extends unreal.FAnimNode_Base {
   @:uproperty public var SourcePose : unreal.FPoseLink;
   

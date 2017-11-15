@@ -14,6 +14,6 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/PlatformEventsComponent.h")
+@:glueCppIncludes("Classes/Components/PlatformEventsComponent.h")
 @:uname("UPlatformEventsComponent.FPlatformEventDelegate")
 typedef FPlatformEventDelegate = unreal.DynamicMulticastDelegate<FPlatformEventDelegate, Void->Void>;

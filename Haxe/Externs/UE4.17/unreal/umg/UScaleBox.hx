@@ -54,9 +54,9 @@ package unreal.umg;
     The stretching rule to apply when content is stretched
   **/
   @:uproperty public var Stretch : unreal.slate.EStretch;
-  @:ufunction @:final public function SetStretch(InStretch : unreal.slate.EStretch) : Void;
-  @:ufunction @:final public function SetStretchDirection(InStretchDirection : unreal.slate.EStretchDirection) : Void;
-  @:ufunction @:final public function SetUserSpecifiedScale(InUserSpecifiedScale : unreal.Float32) : Void;
-  @:ufunction @:final public function SetIgnoreInheritedScale(bInIgnoreInheritedScale : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStretch(InStretch : unreal.slate.EStretch) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStretchDirection(InStretchDirection : unreal.slate.EStretchDirection) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetUserSpecifiedScale(InUserSpecifiedScale : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIgnoreInheritedScale(bInIgnoreInheritedScale : Bool) : Void;
   
 }

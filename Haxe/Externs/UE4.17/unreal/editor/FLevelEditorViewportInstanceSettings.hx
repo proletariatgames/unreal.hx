@@ -18,7 +18,7 @@ package unreal.editor;
   Implements the Level Editor's per-instance view port settings.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/LevelEditorViewportSettings.h")
+@:glueCppIncludes("Classes/Settings/LevelEditorViewportSettings.h")
 @:uextern @:ustruct extern class FLevelEditorViewportInstanceSettings {
   
   /**

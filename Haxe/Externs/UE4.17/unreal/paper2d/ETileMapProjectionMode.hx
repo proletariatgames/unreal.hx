@@ -18,7 +18,7 @@ package unreal.paper2d;
   The different kinds of projection modes supported
 **/
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperTileMap.h")
+@:glueCppIncludes("Classes/PaperTileMap.h")
 @:uname("ETileMapProjectionMode.Type")
 @:uextern @:uenum extern enum ETileMapProjectionMode {
   

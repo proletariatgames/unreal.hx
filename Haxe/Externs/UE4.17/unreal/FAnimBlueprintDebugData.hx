@@ -18,7 +18,7 @@ package unreal;
   This structure represents animation-related debugging information for an entire AnimBlueprint
   (general debug information for the event graph, etc... is still contained in a FBlueprintDebugData structure)
 **/
-@:glueCppIncludes("Animation/AnimBlueprintGeneratedClass.h")
+@:glueCppIncludes("Classes/Animation/AnimBlueprintGeneratedClass.h")
 @:uextern @:ustruct extern class FAnimBlueprintDebugData {
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   A named transform
 **/
-@:glueCppIncludes("Animation/AnimationTypes.h")
+@:glueCppIncludes("Classes/Animation/AnimationTypes.h")
 @:uextern @:ustruct extern class FNamedTransform {
   @:uproperty public var Name : unreal.FName;
   @:uproperty public var Value : unreal.FTransform;

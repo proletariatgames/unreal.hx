@@ -17,7 +17,7 @@ package unreal;
 /**
   This struct holds data about how a texture is sampled within a material.
 **/
-@:glueCppIncludes("Materials/MaterialInterface.h")
+@:glueCppIncludes("Classes/Materials/MaterialInterface.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMaterialTextureInfo {
   #if WITH_EDITORONLY_DATA
   

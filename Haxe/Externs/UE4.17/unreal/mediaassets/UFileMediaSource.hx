@@ -39,6 +39,6 @@ package unreal.mediaassets;
     @param Path The path to set.
     @see FilePath, GetFilePath
   **/
-  @:ufunction @:final public function SetFilePath(Path : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetFilePath(Path : unreal.FString) : Void;
   
 }

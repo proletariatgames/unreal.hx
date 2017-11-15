@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/BlendSpaceBase.h")
+@:glueCppIncludes("Classes/Animation/BlendSpaceBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPerBoneInterpolation {
   @:uproperty public var InterpolationSpeedPerSec : unreal.Float32;
   @:uproperty public var BoneReference : unreal.FBoneReference;

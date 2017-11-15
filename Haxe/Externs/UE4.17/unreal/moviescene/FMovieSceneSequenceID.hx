@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneSequenceID.h")
+@:glueCppIncludes("Public/MovieSceneSequenceID.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSequenceID {
   
 }

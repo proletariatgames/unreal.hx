@@ -20,7 +20,7 @@ package unreal.animgraphruntime;
   This node will not trigger any notifies present in the associated sequence.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_SequenceEvaluator.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_SequenceEvaluator.h")
 @:uextern @:ustruct extern class FAnimNode_SequenceEvaluator extends unreal.FAnimNode_AssetPlayerBase {
   @:uproperty public var bReinitialized : Bool;
   

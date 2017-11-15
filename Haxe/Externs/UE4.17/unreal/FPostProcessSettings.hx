@@ -19,7 +19,7 @@ package unreal;
   // the variable declaration and further down the default value for it.
   // The comment should include the meaning and usable range.
 **/
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPostProcessSettings {
   
   /**

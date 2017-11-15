@@ -19,7 +19,7 @@ package unreal.androidpermission;
   @param GrantResults
   
 **/
-@:glueCppIncludes("AndroidPermissionCallbackProxy.h")
+@:glueCppIncludes("Classes/AndroidPermissionCallbackProxy.h")
 @:uParamName("Permissions")
 @:uParamName("GrantResults")
 @:umodule("AndroidPermission")

@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:uname("ENiagaraInputNodeUsage")
 @:class @:uextern @:uenum extern enum ENiagaraInputNodeUsage {
   Undefined;

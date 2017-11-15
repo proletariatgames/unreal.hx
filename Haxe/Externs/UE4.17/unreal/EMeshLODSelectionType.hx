@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/MeshMerging.h")
+@:glueCppIncludes("Classes/Engine/MeshMerging.h")
 @:uname("EMeshLODSelectionType")
 @:class @:uextern @:uenum extern enum EMeshLODSelectionType {
   

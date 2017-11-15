@@ -15,7 +15,7 @@
 package unreal.paper2d;
 
 @:umodule("Paper2D")
-@:glueCppIncludes("PaperFlipbook.h")
+@:glueCppIncludes("Classes/PaperFlipbook.h")
 @:uname("EFlipbookCollisionMode.Type")
 @:uextern @:uenum extern enum EFlipbookCollisionMode {
   

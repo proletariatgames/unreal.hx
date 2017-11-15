@@ -19,7 +19,7 @@ package unreal;
   @param bReset
   
 **/
-@:glueCppIncludes("Components/ActorComponent.h")
+@:glueCppIncludes("Classes/Components/ActorComponent.h")
 @:uParamName("Component")
 @:uParamName("bReset")
 typedef FActorComponentActivatedSignature = unreal.DynamicMulticastDelegate<FActorComponentActivatedSignature, unreal.UActorComponent->Bool->Void>;

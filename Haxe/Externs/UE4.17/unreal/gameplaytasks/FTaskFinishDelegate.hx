@@ -14,7 +14,7 @@
 **/
 package unreal.gameplaytasks;
 
-@:glueCppIncludes("Tasks/GameplayTask_TimeLimitedExecution.h")
+@:glueCppIncludes("Classes/Tasks/GameplayTask_TimeLimitedExecution.h")
 @:umodule("GameplayTasks")
 @:uname("UGameplayTask_TimeLimitedExecution.FTaskFinishDelegate")
 typedef FTaskFinishDelegate = unreal.DynamicMulticastDelegate<FTaskFinishDelegate, Void->Void>;

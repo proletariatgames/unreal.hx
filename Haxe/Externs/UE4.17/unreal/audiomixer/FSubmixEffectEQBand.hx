@@ -18,7 +18,7 @@ package unreal.audiomixer;
   A multiband EQ submix effect.
 **/
 @:umodule("AudioMixer")
-@:glueCppIncludes("SubmixEffects/AudioMixerSubmixEffectEQ.h")
+@:glueCppIncludes("Classes/SubmixEffects/AudioMixerSubmixEffectEQ.h")
 @:uextern @:ustruct extern class FSubmixEffectEQBand {
   @:uproperty public var bEnabled : Bool;
   @:uproperty public var GainDb : unreal.Float32;

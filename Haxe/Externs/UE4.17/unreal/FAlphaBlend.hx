@@ -17,7 +17,7 @@ package unreal;
 /**
   Alpha Blend class that supports different blend options as well as custom curves
 **/
-@:glueCppIncludes("AlphaBlend.h")
+@:glueCppIncludes("Public/AlphaBlend.h")
 @:uextern @:ustruct extern class FAlphaBlend {
   
 }

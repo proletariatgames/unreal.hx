@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("ThumbnailRendering/WorldThumbnailInfo.h")
+@:glueCppIncludes("Classes/ThumbnailRendering/WorldThumbnailInfo.h")
 @:uname("EOrthoThumbnailDirection.Type")
 @:uextern @:uenum extern enum EOrthoThumbnailDirection {
   Top;

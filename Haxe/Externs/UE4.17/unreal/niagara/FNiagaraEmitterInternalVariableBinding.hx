@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEffect.h")
+@:glueCppIncludes("Classes/NiagaraEffect.h")
 @:uextern @:ustruct extern class FNiagaraEmitterInternalVariableBinding {
   @:uproperty public var DestinationEmitterVariableName : unreal.FString;
   @:uproperty public var DestinationEmitterId : unreal.FGuid;

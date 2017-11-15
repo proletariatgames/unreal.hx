@@ -15,7 +15,7 @@
 package unreal.portalservices;
 
 @:umodule("PortalServices")
-@:glueCppIncludes("Account/IPortalUser.h")
+@:glueCppIncludes("Public/Account/IPortalUser.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPortalUserIsEntitledToItemResult {
   
   /**

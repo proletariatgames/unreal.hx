@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/Tests/EnvQueryTest_Pathfinding.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/Tests/EnvQueryTest_Pathfinding.h")
 @:uname("EEnvTestPathfinding.Type")
 @:uextern @:uenum extern enum EEnvTestPathfinding {
   PathExist;

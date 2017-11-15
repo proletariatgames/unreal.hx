@@ -15,7 +15,7 @@
 package unreal.behaviortreeeditor;
 
 @:umodule("BehaviorTreeEditor")
-@:glueCppIncludes("EdGraphSchema_BehaviorTree.h")
+@:glueCppIncludes("Classes/EdGraphSchema_BehaviorTree.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBehaviorTreeSchemaAction_AddComment extends unreal.FEdGraphSchemaAction {
   
 }

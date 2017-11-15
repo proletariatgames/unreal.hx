@@ -17,7 +17,7 @@ package unreal;
 /**
   Data about the floor for walking movement, used by CharacterMovementComponent.
 **/
-@:glueCppIncludes("GameFramework/CharacterMovementComponent.h")
+@:glueCppIncludes("Classes/GameFramework/CharacterMovementComponent.h")
 @:uextern @:ustruct extern class FFindFloorResult {
   
   /**

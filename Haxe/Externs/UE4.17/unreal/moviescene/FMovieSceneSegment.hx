@@ -18,7 +18,7 @@ package unreal.moviescene;
   Information about a single segment of an evaluation track
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneSegment.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneSegment.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneSegment {
   
 }

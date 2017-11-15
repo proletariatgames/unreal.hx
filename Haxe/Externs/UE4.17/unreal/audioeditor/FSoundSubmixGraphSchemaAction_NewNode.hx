@@ -18,7 +18,7 @@ package unreal.audioeditor;
   Action to add a node to the graph
 **/
 @:umodule("AudioEditor")
-@:glueCppIncludes("SoundSubmixGraph/SoundSubmixGraphSchema.h")
+@:glueCppIncludes("Classes/SoundSubmixGraph/SoundSubmixGraphSchema.h")
 @:uextern @:ustruct extern class FSoundSubmixGraphSchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
 }

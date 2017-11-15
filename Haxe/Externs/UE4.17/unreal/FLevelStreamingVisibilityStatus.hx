@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/LevelStreaming.h")
+@:glueCppIncludes("Classes/Engine/LevelStreaming.h")
 typedef FLevelStreamingVisibilityStatus = unreal.DynamicMulticastDelegate<FLevelStreamingVisibilityStatus, Void->Void>;

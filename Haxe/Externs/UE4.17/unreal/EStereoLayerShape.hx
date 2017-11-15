@@ -17,7 +17,7 @@ package unreal;
 /**
   The shape to use for the stereo layer.  Note that some shapes might not be supported on all platforms!
 **/
-@:glueCppIncludes("Components/StereoLayerComponent.h")
+@:glueCppIncludes("Classes/Components/StereoLayerComponent.h")
 @:uname("EStereoLayerShape")
 @:uextern @:uenum extern enum EStereoLayerShape {
   

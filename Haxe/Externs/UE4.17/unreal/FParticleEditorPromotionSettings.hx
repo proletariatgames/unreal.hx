@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds settings for the particle editor build promotion tests
 **/
-@:glueCppIncludes("Tests/AutomationTestSettings.h")
+@:glueCppIncludes("Classes/Tests/AutomationTestSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleEditorPromotionSettings {
   
   /**

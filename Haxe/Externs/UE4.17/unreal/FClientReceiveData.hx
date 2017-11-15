@@ -17,7 +17,7 @@ package unreal;
 /**
   Handles the many pieces of data passed into Client Receive
 **/
-@:glueCppIncludes("GameFramework/LocalMessage.h")
+@:glueCppIncludes("Classes/GameFramework/LocalMessage.h")
 @:uextern @:ustruct extern class FClientReceiveData {
   @:uproperty public var OptionalObject : unreal.UObject;
   @:uproperty public var RelatedPlayerState_2 : unreal.APlayerState;

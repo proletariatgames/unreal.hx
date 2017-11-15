@@ -20,7 +20,7 @@ package unreal;
   16 bits per component
   Valid range: -1..+1 inclusive
 **/
-@:glueCppIncludes("Engine/NetSerialization.h")
+@:glueCppIncludes("Classes/Engine/NetSerialization.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVector_NetQuantizeNormal extends unreal.FVector {
   
 }

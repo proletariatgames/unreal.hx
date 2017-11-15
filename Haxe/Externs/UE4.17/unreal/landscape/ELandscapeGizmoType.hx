@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeGizmoActiveActor.h")
+@:glueCppIncludes("Classes/LandscapeGizmoActiveActor.h")
 @:uname("ELandscapeGizmoType")
 @:uextern @:uenum extern enum ELandscapeGizmoType {
   LGT_None;

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SkyLightComponent.h")
+@:glueCppIncludes("Classes/Components/SkyLightComponent.h")
 @:uname("ESkyLightSourceType")
 @:uextern @:uenum extern enum ESkyLightSourceType {
   

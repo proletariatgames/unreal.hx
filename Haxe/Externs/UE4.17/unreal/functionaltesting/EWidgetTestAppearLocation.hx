@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("FunctionalUIScreenshotTest.h")
+@:glueCppIncludes("Classes/FunctionalUIScreenshotTest.h")
 @:uname("EWidgetTestAppearLocation")
 @:class @:uextern @:uenum extern enum EWidgetTestAppearLocation {
   Viewport;

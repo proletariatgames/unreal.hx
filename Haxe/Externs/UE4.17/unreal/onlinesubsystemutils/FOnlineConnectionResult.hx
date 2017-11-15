@@ -18,7 +18,7 @@ package unreal.onlinesubsystemutils;
   @param ErrorCode
   
 **/
-@:glueCppIncludes("ConnectionCallbackProxy.h")
+@:glueCppIncludes("Classes/ConnectionCallbackProxy.h")
 @:uParamName("ErrorCode")
 @:umodule("OnlineSubsystemUtils")
 typedef FOnlineConnectionResult = unreal.DynamicMulticastDelegate<FOnlineConnectionResult, unreal.Int32->Void>;

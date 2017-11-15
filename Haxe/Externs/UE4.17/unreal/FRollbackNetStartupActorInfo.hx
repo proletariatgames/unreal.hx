@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about net startup actors that need to be rolled back by being destroyed and re-created
 **/
-@:glueCppIncludes("Engine/DemoNetDriver.h")
+@:glueCppIncludes("Classes/Engine/DemoNetDriver.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRollbackNetStartupActorInfo {
   @:uproperty public var Level : unreal.ULevel;
   @:uproperty public var Archetype : unreal.UObject;

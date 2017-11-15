@@ -18,7 +18,7 @@ package unreal.moviescenecapture;
   Used by UCompositionGraphCaptureSettings. Matches gamut oreder in TonemapCommon.usf OuputGamutMappingMatrix()
 **/
 @:umodule("MovieSceneCapture")
-@:glueCppIncludes("Protocols/CompositionGraphCaptureProtocol.h")
+@:glueCppIncludes("Public/Protocols/CompositionGraphCaptureProtocol.h")
 @:uname("EHDRCaptureGamut")
 @:uextern @:uenum extern enum EHDRCaptureGamut {
   

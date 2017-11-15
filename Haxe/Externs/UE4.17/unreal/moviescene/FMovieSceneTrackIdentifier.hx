@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneTrackIdentifier.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneTrackIdentifier.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackIdentifier {
   
 }

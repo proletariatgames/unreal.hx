@@ -17,7 +17,7 @@ package unreal;
 /**
   Cone constraint
 **/
-@:glueCppIncludes("PhysicsEngine/ConstraintTypes.h")
+@:glueCppIncludes("Classes/PhysicsEngine/ConstraintTypes.h")
 @:uextern @:ustruct extern class FConeConstraint extends unreal.FConstraintBaseParams {
   
   /**

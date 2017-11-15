@@ -15,7 +15,7 @@
 package unreal.animgraphruntime;
 
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_RefPose.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_RefPose.h")
 @:uextern @:ustruct extern class FAnimNode_MeshSpaceRefPose extends unreal.FAnimNode_Base {
   
 }

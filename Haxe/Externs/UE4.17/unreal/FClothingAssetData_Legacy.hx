@@ -17,7 +17,7 @@ package unreal;
 /**
   Legacy struct for handling back compat serialization
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FClothingAssetData_Legacy {
   @:uproperty public var PhysicsProperties : unreal.FClothPhysicsProperties_Legacy;
   @:uproperty public var bClothPropertiesChanged : Bool;

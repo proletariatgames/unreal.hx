@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("EnvironmentQuery/EnvQueryTypes.h")
+@:glueCppIncludes("Classes/EnvironmentQuery/EnvQueryTypes.h")
 @:uextern @:ustruct extern class FEnvNamedValue {
   @:uproperty public var Value : unreal.Float32;
   @:uproperty public var ParamType : unreal.aimodule.EAIParamType;

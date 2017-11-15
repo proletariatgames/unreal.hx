@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Parameters used by RBF solver
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("RBF/RBFSolver.h")
+@:glueCppIncludes("Public/RBF/RBFSolver.h")
 @:uextern @:ustruct extern class FRBFParams {
   
   /**

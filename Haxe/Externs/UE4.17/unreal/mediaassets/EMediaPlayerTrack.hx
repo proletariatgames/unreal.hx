@@ -20,7 +20,7 @@ package unreal.mediaassets;
   Note: Keep this in sync with EMediaTrackType
 **/
 @:umodule("MediaAssets")
-@:glueCppIncludes("MediaPlayer.h")
+@:glueCppIncludes("Public/MediaPlayer.h")
 @:uname("EMediaPlayerTrack")
 @:class @:uextern @:uenum extern enum EMediaPlayerTrack {
   

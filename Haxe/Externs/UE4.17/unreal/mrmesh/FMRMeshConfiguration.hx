@@ -15,7 +15,7 @@
 package unreal.mrmesh;
 
 @:umodule("MRMesh")
-@:glueCppIncludes("MeshReconstructorBase.h")
+@:glueCppIncludes("Public/MeshReconstructorBase.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMRMeshConfiguration {
   
 }

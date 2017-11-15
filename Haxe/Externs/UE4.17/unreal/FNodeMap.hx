@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/NodeMappingContainer.h")
+@:glueCppIncludes("Public/Animation/NodeMappingContainer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNodeMap {
   @:uproperty public var SourceToTargetTransform : unreal.FTransform;
   @:uproperty public var TargetNodeName : unreal.FName;

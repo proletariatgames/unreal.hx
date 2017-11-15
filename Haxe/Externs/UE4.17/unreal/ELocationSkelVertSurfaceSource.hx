@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Location/ParticleModuleLocationSkelVertSurface.h")
+@:glueCppIncludes("Classes/Particles/Location/ParticleModuleLocationSkelVertSurface.h")
 @:uname("ELocationSkelVertSurfaceSource")
 @:uextern @:uenum extern enum ELocationSkelVertSurfaceSource {
   

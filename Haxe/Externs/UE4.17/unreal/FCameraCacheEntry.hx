@@ -18,7 +18,7 @@ package unreal;
   Cached camera POV info, stored as optimization so we only
   need to do a full camera update once per tick.
 **/
-@:glueCppIncludes("Camera/PlayerCameraManager.h")
+@:glueCppIncludes("Classes/Camera/PlayerCameraManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCameraCacheEntry {
   
   /**

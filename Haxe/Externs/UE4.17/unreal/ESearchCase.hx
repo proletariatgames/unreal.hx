@@ -17,7 +17,7 @@ package unreal;
 /**
   String search case used in UnrealString.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("ESearchCase.Type")
 @:uextern @:uenum extern enum ESearchCase {
   CaseSensitive;

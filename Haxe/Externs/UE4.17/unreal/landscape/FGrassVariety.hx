@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("LandscapeGrassType.h")
+@:glueCppIncludes("Classes/LandscapeGrassType.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGrassVariety {
   
   /**

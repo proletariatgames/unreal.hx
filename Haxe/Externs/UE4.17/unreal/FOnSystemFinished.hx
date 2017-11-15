@@ -19,6 +19,6 @@ package unreal;
   @param PSystem
   
 **/
-@:glueCppIncludes("Particles/ParticleSystemComponent.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystemComponent.h")
 @:uParamName("PSystem")
 typedef FOnSystemFinished = unreal.DynamicMulticastDelegate<FOnSystemFinished, unreal.UParticleSystemComponent->Void>;

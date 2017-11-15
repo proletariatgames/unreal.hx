@@ -15,7 +15,7 @@
 package unreal.sequencerecorder;
 
 @:umodule("SequenceRecorder")
-@:glueCppIncludes("SequenceRecorderSettings.h")
+@:glueCppIncludes("Public/SequenceRecorderSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSettingsForActorClass {
   
   /**

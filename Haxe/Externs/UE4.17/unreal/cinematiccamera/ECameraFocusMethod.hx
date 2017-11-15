@@ -18,7 +18,7 @@ package unreal.cinematiccamera;
   Supported methods for focusing the camera.
 **/
 @:umodule("CinematicCamera")
-@:glueCppIncludes("CineCameraComponent.h")
+@:glueCppIncludes("Public/CineCameraComponent.h")
 @:uname("ECameraFocusMethod")
 @:class @:uextern @:uenum extern enum ECameraFocusMethod {
   

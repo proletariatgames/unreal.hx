@@ -15,7 +15,7 @@
 package unreal.clothingsystemruntime;
 
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:uname("EClothingWindMethod")
 @:class @:uextern @:uenum extern enum EClothingWindMethod {
   

@@ -48,13 +48,13 @@ package unreal.umg;
     Image to draw
   **/
   @:deprecated @:uproperty public var Image_DEPRECATED : unreal.USlateBrushAsset;
-  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
-  @:ufunction @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
-  @:ufunction @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
-  @:ufunction @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
-  @:ufunction @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D, bMatchSize : Bool = false) : Void;
-  @:ufunction @:final public function SetBrushFromTextureDynamic(Texture : unreal.UTexture2DDynamic, bMatchSize : Bool = false) : Void;
-  @:ufunction @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
-  @:ufunction @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
+  @:ufunction(BlueprintCallable) @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetOpacity(InOpacity : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrush(InBrush : unreal.Const<unreal.PRef<unreal.slatecore.FSlateBrush>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromAsset(Asset : unreal.USlateBrushAsset) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromTexture(Texture : unreal.UTexture2D, bMatchSize : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromTextureDynamic(Texture : unreal.UTexture2DDynamic, bMatchSize : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBrushFromMaterial(Material : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetDynamicMaterial() : unreal.UMaterialInstanceDynamic;
   
 }

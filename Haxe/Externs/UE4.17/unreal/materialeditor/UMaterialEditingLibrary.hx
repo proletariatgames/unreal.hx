@@ -24,17 +24,17 @@ package unreal.materialeditor;
   /**
     Returns number of material expressions in the supplied material
   **/
-  @:ufunction static public function GetNumMaterialExpressions(Material : unreal.Const<unreal.UMaterial>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetNumMaterialExpressions(Material : unreal.Const<unreal.UMaterial>) : unreal.Int32;
   
   /**
     Delete all material expressions in the supplied material
   **/
-  @:ufunction static public function DeleteAllMaterialExpressions(Material : unreal.UMaterial) : Void;
+  @:ufunction(BlueprintCallable) static public function DeleteAllMaterialExpressions(Material : unreal.UMaterial) : Void;
   
   /**
     Delete a specific expression from a material. Will disconnect from other expressions.
   **/
-  @:ufunction static public function DeleteMaterialExpression(Material : unreal.UMaterial, Expression : unreal.UMaterialExpression) : Void;
+  @:ufunction(BlueprintCallable) static public function DeleteMaterialExpression(Material : unreal.UMaterial, Expression : unreal.UMaterialExpression) : Void;
   
   /**
     Create a new material expression node within the supplied material
@@ -43,7 +43,7 @@ package unreal.materialeditor;
     @param  NodePosX                        X position of new expression node
     @param  NodePosY                        Y position of new expression node
   **/
-  @:ufunction static public function CreateMaterialExpression(Material : unreal.UMaterial, ExpressionClass : unreal.TSubclassOf<unreal.UMaterialExpression>, NodePosX : unreal.Int32 = 0, NodePosY : unreal.Int32 = 0) : unreal.UMaterialExpression;
+  @:ufunction(BlueprintCallable) static public function CreateMaterialExpression(Material : unreal.UMaterial, ExpressionClass : unreal.TSubclassOf<unreal.UMaterialExpression>, NodePosX : unreal.Int32 = 0, NodePosY : unreal.Int32 = 0) : unreal.UMaterialExpression;
   
   /**
     Enable a particular usage for the supplied material (e.g. SkeletalMesh, ParticleSprite etc)
@@ -51,7 +51,7 @@ package unreal.materialeditor;
     @param  Usage                           New usage type to enable for this material
     @param  bNeedsRecompile         Returned to indicate if material needs recompiling after this change
   **/
-  @:ufunction static public function SetMaterialUsage(Material : unreal.UMaterial, Usage : unreal.EMaterialUsage, bNeedsRecompile : Bool) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetMaterialUsage(Material : unreal.UMaterial, Usage : unreal.EMaterialUsage, bNeedsRecompile : Bool) : Bool;
   
   /**
     Connect a material expression output to one of the material property inputs (e.g. diffuse color, opacity etc)
@@ -59,7 +59,7 @@ package unreal.materialeditor;
     @param  FromOutputName          Name of output of FromExpression to make connection from
     @param  Property                        Property input on material to make connection to
   **/
-  @:ufunction static public function ConnectMaterialProperty(FromExpression : unreal.UMaterialExpression, FromOutputName : unreal.FString, Property : unreal.EMaterialProperty) : Bool;
+  @:ufunction(BlueprintCallable) static public function ConnectMaterialProperty(FromExpression : unreal.UMaterialExpression, FromOutputName : unreal.FString, Property : unreal.EMaterialProperty) : Bool;
   
   /**
     Create connection between two material expressions
@@ -68,17 +68,17 @@ package unreal.materialeditor;
     @param  ToExpression            Expression to make connection to
     @param  ToInputName                     Name of input of ToExpression to make connection to. Leave empty to use first input.
   **/
-  @:ufunction static public function ConnectMaterialExpressions(FromExpression : unreal.UMaterialExpression, FromOutputName : unreal.FString, ToExpression : unreal.UMaterialExpression, ToInputName : unreal.FString) : Bool;
+  @:ufunction(BlueprintCallable) static public function ConnectMaterialExpressions(FromExpression : unreal.UMaterialExpression, FromOutputName : unreal.FString, ToExpression : unreal.UMaterialExpression, ToInputName : unreal.FString) : Bool;
   
   /**
     Trigger a recompile of a material. Must be performed after making changes to the graph to have changes reflected.
   **/
-  @:ufunction static public function RecompileMaterial(Material : unreal.UMaterial) : Void;
+  @:ufunction(BlueprintCallable) static public function RecompileMaterial(Material : unreal.UMaterial) : Void;
   
   /**
     Returns number of material expressions in the supplied material
   **/
-  @:ufunction static public function GetNumMaterialExpressionsInFunction(MaterialFunction : unreal.Const<unreal.UMaterialFunction>) : unreal.Int32;
+  @:ufunction(BlueprintCallable) static public function GetNumMaterialExpressionsInFunction(MaterialFunction : unreal.Const<unreal.UMaterialFunction>) : unreal.Int32;
   
   /**
     Create a new material expression node within the supplied material function
@@ -87,67 +87,67 @@ package unreal.materialeditor;
     @param  NodePosX                        X position of new expression node
     @param  NodePosY                        Y position of new expression node
   **/
-  @:ufunction static public function CreateMaterialExpressionInFunction(MaterialFunction : unreal.UMaterialFunction, ExpressionClass : unreal.TSubclassOf<unreal.UMaterialExpression>, NodePosX : unreal.Int32 = 0, NodePosY : unreal.Int32 = 0) : unreal.UMaterialExpression;
+  @:ufunction(BlueprintCallable) static public function CreateMaterialExpressionInFunction(MaterialFunction : unreal.UMaterialFunction, ExpressionClass : unreal.TSubclassOf<unreal.UMaterialExpression>, NodePosX : unreal.Int32 = 0, NodePosY : unreal.Int32 = 0) : unreal.UMaterialExpression;
   
   /**
     Delete all material expressions in the supplied material function
   **/
-  @:ufunction static public function DeleteAllMaterialExpressionsInFunction(MaterialFunction : unreal.UMaterialFunction) : Void;
+  @:ufunction(BlueprintCallable) static public function DeleteAllMaterialExpressionsInFunction(MaterialFunction : unreal.UMaterialFunction) : Void;
   
   /**
     Delete a specific expression from a material function. Will disconnect from other expressions.
   **/
-  @:ufunction static public function DeleteMaterialExpressionInFunction(MaterialFunction : unreal.UMaterialFunction, Expression : unreal.UMaterialExpression) : Void;
+  @:ufunction(BlueprintCallable) static public function DeleteMaterialExpressionInFunction(MaterialFunction : unreal.UMaterialFunction, Expression : unreal.UMaterialExpression) : Void;
   
   /**
     Update a Material Function after edits have been made.
     Will recompile any Materials that use the supplied Material Function.
   **/
-  @:ufunction static public function UpdateMaterialFunction(MaterialFunction : unreal.UMaterialFunction, PreviewMaterial : unreal.UMaterial) : Void;
+  @:ufunction(BlueprintCallable) static public function UpdateMaterialFunction(MaterialFunction : unreal.UMaterialFunction, PreviewMaterial : unreal.UMaterial) : Void;
   
   /**
     Set the parent Material or Material Instance to use for this Material Instance
   **/
-  @:ufunction static public function SetMaterialInstanceParent(Instance : unreal.UMaterialInstanceConstant, NewParent : unreal.UMaterialInterface) : Void;
+  @:ufunction(BlueprintCallable) static public function SetMaterialInstanceParent(Instance : unreal.UMaterialInstanceConstant, NewParent : unreal.UMaterialInterface) : Void;
   
   /**
     Clears all material parameters set by this Material Instance
   **/
-  @:ufunction static public function ClearAllMaterialInstanceParameters(Instance : unreal.UMaterialInstanceConstant) : Void;
+  @:ufunction(BlueprintCallable) static public function ClearAllMaterialInstanceParameters(Instance : unreal.UMaterialInstanceConstant) : Void;
   
   /**
     Get the current scalar (float) parameter value from a Material Instance
   **/
-  @:ufunction static public function GetMaterialInstanceScalarParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetMaterialInstanceScalarParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.Float32;
   
   /**
     Set the scalar (float) parameter value for a Material Instance
   **/
-  @:ufunction static public function SetMaterialInstanceScalarParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetMaterialInstanceScalarParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.Float32) : Bool;
   
   /**
     Get the current texture parameter value from a Material Instance
   **/
-  @:ufunction static public function GetMaterialInstanceTextureParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.UTexture;
+  @:ufunction(BlueprintCallable) static public function GetMaterialInstanceTextureParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.UTexture;
   
   /**
     Set the texture parameter value for a Material Instance
   **/
-  @:ufunction static public function SetMaterialInstanceTextureParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.UTexture) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetMaterialInstanceTextureParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.UTexture) : Bool;
   
   /**
     Get the current vector parameter value from a Material Instance
   **/
-  @:ufunction static public function GetMaterialInstanceVectorParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.FLinearColor;
+  @:ufunction(BlueprintCallable) static public function GetMaterialInstanceVectorParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName) : unreal.FLinearColor;
   
   /**
     Set the vector parameter value for a Material Instance
   **/
-  @:ufunction static public function SetMaterialInstanceVectorParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.FLinearColor) : Bool;
+  @:ufunction(BlueprintCallable) static public function SetMaterialInstanceVectorParameterValue(Instance : unreal.UMaterialInstanceConstant, ParameterName : unreal.FName, Value : unreal.FLinearColor) : Bool;
   
   /**
     Called after making modifications to a Material Instance to recompile shaders etc.
   **/
-  @:ufunction static public function UpdateMaterialInstance(Instance : unreal.UMaterialInstanceConstant) : Void;
+  @:ufunction(BlueprintCallable) static public function UpdateMaterialInstance(Instance : unreal.UMaterialInstanceConstant) : Void;
   
 }

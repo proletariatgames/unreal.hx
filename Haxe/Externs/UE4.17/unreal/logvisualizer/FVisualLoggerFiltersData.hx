@@ -15,7 +15,7 @@
 package unreal.logvisualizer;
 
 @:umodule("LogVisualizer")
-@:glueCppIncludes("LogVisualizerSettings.h")
+@:glueCppIncludes("Public/LogVisualizerSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FVisualLoggerFiltersData {
   @:uproperty public var SelectedClasses : unreal.TArray<unreal.FString>;
   @:uproperty public var Categories : unreal.TArray<unreal.logvisualizer.FCategoryFilter>;

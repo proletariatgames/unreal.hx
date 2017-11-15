@@ -15,7 +15,7 @@
 package unreal.animationcore;
 
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uextern @:ustruct extern class FTransformConstraint {
   
   /**

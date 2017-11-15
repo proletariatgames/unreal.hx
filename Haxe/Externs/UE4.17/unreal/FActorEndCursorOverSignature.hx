@@ -18,6 +18,6 @@ package unreal;
   @param TouchedActor
   
 **/
-@:glueCppIncludes("GameFramework/Actor.h")
+@:glueCppIncludes("Classes/GameFramework/Actor.h")
 @:uParamName("TouchedActor")
 typedef FActorEndCursorOverSignature = unreal.DynamicMulticastDelegate<FActorEndCursorOverSignature, unreal.AActor->Void>;

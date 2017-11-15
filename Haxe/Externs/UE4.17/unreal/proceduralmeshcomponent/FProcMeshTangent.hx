@@ -19,7 +19,7 @@ package unreal.proceduralmeshcomponent;
   The Y tangent is computed from the cross product of the vertex normal (Tangent Z) and the TangentX member.
 **/
 @:umodule("ProceduralMeshComponent")
-@:glueCppIncludes("ProceduralMeshComponent.h")
+@:glueCppIncludes("Public/ProceduralMeshComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FProcMeshTangent {
   
   /**

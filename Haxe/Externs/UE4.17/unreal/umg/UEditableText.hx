@@ -145,16 +145,16 @@ package unreal.umg;
     Gets the widget text
     @return The widget text
   **/
-  @:ufunction @:thisConst @:final public function GetText() : unreal.FText;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetText() : unreal.FText;
   
   /**
     Directly sets the widget text.
     Warning: This will wipe any binding created for the Text property!
     @param InText The text to assign to the widget
   **/
-  @:ufunction @:final public function SetText(InText : unreal.FText) : Void;
-  @:ufunction @:final public function SetIsPassword(InbIsPassword : Bool) : Void;
-  @:ufunction @:final public function SetHintText(InHintText : unreal.FText) : Void;
-  @:ufunction @:final public function SetIsReadOnly(InbIsReadyOnly : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetText(InText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsPassword(InbIsPassword : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetHintText(InHintText : unreal.FText) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetIsReadOnly(InbIsReadyOnly : Bool) : Void;
   
 }

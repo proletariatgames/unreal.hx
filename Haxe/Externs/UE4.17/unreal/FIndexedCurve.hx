@@ -19,7 +19,7 @@ package unreal;
   
   @todo sequencer: Some heavy refactoring can be done here. Much more stuff can go in this base class.
 **/
-@:glueCppIncludes("Curves/IndexedCurve.h")
+@:glueCppIncludes("Classes/Curves/IndexedCurve.h")
 @:uextern @:ustruct extern class FIndexedCurve {
   
   /**

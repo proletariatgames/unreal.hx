@@ -19,7 +19,7 @@ package unreal.umg;
   @param CommitMethod
   
 **/
-@:glueCppIncludes("UMG.h", "Components/SpinBox.h")
+@:glueCppIncludes("UMG.h", "Public/Components/SpinBox.h")
 @:uParamName("InValue")
 @:uParamName("CommitMethod")
 @:umodule("UMG")

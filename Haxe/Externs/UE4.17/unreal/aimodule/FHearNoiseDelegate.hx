@@ -20,7 +20,7 @@ package unreal.aimodule;
   @param Volume
   
 **/
-@:glueCppIncludes("Perception/PawnSensingComponent.h")
+@:glueCppIncludes("Classes/Perception/PawnSensingComponent.h")
 @:uParamName("Instigator")
 @:uParamName("Location")
 @:uParamName("Volume")

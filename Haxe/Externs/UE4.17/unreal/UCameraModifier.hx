@@ -68,7 +68,7 @@ package unreal;
     @param       NewViewRotation         (out) The modified camera rotation.
     @param       NewFOV                          (out) The modified camera FOV.
   **/
-  @:ufunction public function BlueprintModifyCamera(DeltaTime : unreal.Float32, ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, FOV : unreal.Float32, NewViewLocation : unreal.PRef<unreal.FVector>, NewViewRotation : unreal.PRef<unreal.FRotator>, NewFOV : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function BlueprintModifyCamera(DeltaTime : unreal.Float32, ViewLocation : unreal.FVector, ViewRotation : unreal.FRotator, FOV : unreal.Float32, NewViewLocation : unreal.PRef<unreal.FVector>, NewViewRotation : unreal.PRef<unreal.FRotator>, NewFOV : unreal.Float32) : Void;
   
   /**
     Called per tick that the modifier is active to allow Blueprinted modifiers to modify the camera's postprocess effects.
@@ -77,27 +77,27 @@ package unreal;
     @param       PostProcessBlendWeight  (out) Blend weight applied to the entire postprocess structure.
     @param       PostProcessSettings             (out) Post process structure defining what settings and values to override.
   **/
-  @:ufunction public function BlueprintModifyPostProcess(DeltaTime : unreal.Float32, PostProcessBlendWeight : unreal.Float32, PostProcessSettings : unreal.PRef<unreal.FPostProcessSettings>) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function BlueprintModifyPostProcess(DeltaTime : unreal.Float32, PostProcessBlendWeight : unreal.Float32, PostProcessSettings : unreal.PRef<unreal.FPostProcessSettings>) : Void;
   
   /**
     @return Returns true if modifier is disabled, false otherwise.
   **/
-  @:ufunction @:thisConst public function IsDisabled() : Bool;
+  @:ufunction(BlueprintCallable) @:thisConst public function IsDisabled() : Bool;
   
   /**
     @return Returns the actor the camera is currently viewing.
   **/
-  @:ufunction @:thisConst public function GetViewTarget() : unreal.AActor;
+  @:ufunction(BlueprintCallable) @:thisConst public function GetViewTarget() : unreal.AActor;
   
   /**
     Disables this modifier.
     @param  bImmediate  - true to disable with no blend out, false (default) to allow blend out
   **/
-  @:ufunction public function DisableModifier(bImmediate : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) public function DisableModifier(bImmediate : Bool = false) : Void;
   
   /**
     Enables this modifier.
   **/
-  @:ufunction public function EnableModifier() : Void;
+  @:ufunction(BlueprintCallable) public function EnableModifier() : Void;
   
 }

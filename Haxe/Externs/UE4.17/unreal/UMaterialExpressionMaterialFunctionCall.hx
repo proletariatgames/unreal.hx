@@ -37,7 +37,7 @@ package unreal;
   **/
   @:uproperty public var MaterialFunction : unreal.UMaterialFunction;
   #if WITH_EDITOR
-  @:ufunction @:final public function SetMaterialFunction(NewMaterialFunction : unreal.UMaterialFunction) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetMaterialFunction(NewMaterialFunction : unreal.UMaterialFunction) : Bool;
   #end // WITH_EDITOR
   
 }

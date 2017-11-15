@@ -19,7 +19,7 @@ package unreal.animgraphruntime;
   instead of the copy bone node which copies the absolute transform
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_CopyBoneDelta.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_CopyBoneDelta.h")
 @:uextern @:ustruct extern class FAnimNode_CopyBoneDelta extends unreal.animgraphruntime.FAnimNode_SkeletalControlBase {
   @:uproperty public var ScaleMultiplier : unreal.Float32;
   @:uproperty public var RotationMultiplier : unreal.Float32;

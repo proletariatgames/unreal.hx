@@ -17,7 +17,7 @@ package unreal;
 /**
   Rig Controller for bone transform *
 **/
-@:glueCppIncludes("Animation/Rig.h")
+@:glueCppIncludes("Classes/Animation/Rig.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNode {
   @:uproperty public var bAdvanced : Bool;
   

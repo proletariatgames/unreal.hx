@@ -15,7 +15,7 @@
 package unreal.actorsequence;
 
 @:umodule("ActorSequence")
-@:glueCppIncludes("ActorSequenceObjectReference.h")
+@:glueCppIncludes("Public/ActorSequenceObjectReference.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActorSequenceObjectReferences {
   @:uproperty public var Array : unreal.TArray<unreal.actorsequence.FActorSequenceObjectReference>;
   

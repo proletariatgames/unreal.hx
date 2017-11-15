@@ -16,6 +16,6 @@ package unreal;
 
 @:glueCppIncludes("Engine/SceneCaptureCube.h")
 @:uextern @:uclass extern class ASceneCaptureCube extends unreal.ASceneCapture {
-  @:ufunction @:final public function OnInterpToggle(bEnable : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function OnInterpToggle(bEnable : Bool) : Void;
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("GameFramework/WorldSettings.h")
+@:glueCppIncludes("Classes/GameFramework/WorldSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLightmassWorldInfoSettings {
   
   /**

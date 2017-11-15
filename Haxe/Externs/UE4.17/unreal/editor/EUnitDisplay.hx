@@ -18,7 +18,7 @@ package unreal.editor;
   UENUM to define the specific set of allowable unit types
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/EditorProjectSettings.h")
+@:glueCppIncludes("Public/Settings/EditorProjectSettings.h")
 @:uname("EUnitDisplay")
 @:class @:uextern @:uenum extern enum EUnitDisplay {
   None;

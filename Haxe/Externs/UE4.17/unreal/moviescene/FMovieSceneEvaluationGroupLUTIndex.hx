@@ -18,7 +18,7 @@ package unreal.moviescene;
   Lookup table index for a group of evaluation templates
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationGroupLUTIndex {
   
   /**

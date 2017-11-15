@@ -18,7 +18,7 @@ package unreal.umg;
   A struct used for caching part of a property path.  Don't use this class directly.
 **/
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Binding/DynamicPropertyPath.h")
+@:glueCppIncludes("UMG.h", "Public/Binding/DynamicPropertyPath.h")
 @:uextern @:ustruct extern class FPropertyPathSegment {
   
   /**

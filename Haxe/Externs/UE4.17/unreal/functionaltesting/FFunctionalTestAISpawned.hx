@@ -19,7 +19,7 @@ package unreal.functionaltesting;
   @param Pawn
   
 **/
-@:glueCppIncludes("FunctionalAITest.h")
+@:glueCppIncludes("Classes/FunctionalAITest.h")
 @:uParamName("Controller")
 @:uParamName("Pawn")
 @:umodule("FunctionalTesting")

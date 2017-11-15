@@ -26,6 +26,6 @@ package unreal.steamvr;
   /**
     Returns the bounds from the Chaperone, in Unreal-scale HMD-space coordinates, centered around the HMD's calibration origin (0,0,0).  Each set of four bounds will form a quad to define a set of bounds
   **/
-  @:ufunction @:thisConst @:final public function GetBounds() : unreal.TArray<unreal.FVector>;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetBounds() : unreal.TArray<unreal.FVector>;
   
 }

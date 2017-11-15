@@ -18,7 +18,7 @@ package unreal.levelsequence;
   Structure for animated Actor objects.
 **/
 @:umodule("LevelSequence")
-@:glueCppIncludes("LevelSequenceObject.h")
+@:glueCppIncludes("Public/LevelSequenceObject.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLevelSequenceObject {
   
 }

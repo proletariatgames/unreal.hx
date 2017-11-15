@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/ReflectionCaptureComponent.h")
+@:glueCppIncludes("Classes/Components/ReflectionCaptureComponent.h")
 @:uname("EReflectionSourceType")
 @:class @:uextern @:uenum extern enum EReflectionSourceType {
   

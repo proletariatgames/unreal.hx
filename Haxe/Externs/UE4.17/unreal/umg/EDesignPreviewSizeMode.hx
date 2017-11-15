@@ -15,7 +15,7 @@
 package unreal.umg;
 
 @:umodule("UMG")
-@:glueCppIncludes("UMG.h", "Blueprint/UserWidget.h")
+@:glueCppIncludes("UMG.h", "Public/Blueprint/UserWidget.h")
 @:uname("EDesignPreviewSizeMode")
 @:class @:uextern @:uenum extern enum EDesignPreviewSizeMode {
   FillScreen;

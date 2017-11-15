@@ -18,7 +18,7 @@ package unreal.meshpaint;
   Mesh paint mode
 **/
 @:umodule("MeshPaint")
-@:glueCppIncludes("MeshPaintTypes.h")
+@:glueCppIncludes("Public/MeshPaintTypes.h")
 @:uname("EMeshPaintMode")
 @:class @:uextern @:uenum extern enum EMeshPaintMode {
   

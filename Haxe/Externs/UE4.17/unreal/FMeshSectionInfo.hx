@@ -17,7 +17,7 @@ package unreal;
 /**
   Per-section settings.
 **/
-@:glueCppIncludes("Engine/StaticMesh.h")
+@:glueCppIncludes("Classes/Engine/StaticMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMeshSectionInfo {
   
   /**

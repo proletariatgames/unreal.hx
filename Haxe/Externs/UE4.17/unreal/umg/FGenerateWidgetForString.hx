@@ -20,7 +20,7 @@ package unreal.umg;
   @param ReturnValue
   
 **/
-@:glueCppIncludes("UMG.h", "Components/Widget.h")
+@:glueCppIncludes("UMG.h", "Public/Components/Widget.h")
 @:uParamName("Item")
 @:uParamName("ReturnValue")
 @:umodule("UMG")

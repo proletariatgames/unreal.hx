@@ -14,5 +14,5 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Components/SkeletalMeshComponent.h")
+@:glueCppIncludes("Classes/Components/SkeletalMeshComponent.h")
 typedef FOnAnimInitialized = unreal.DynamicMulticastDelegate<FOnAnimInitialized, Void->Void>;

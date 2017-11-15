@@ -17,7 +17,7 @@ package unreal;
 /**
   Occlusion method enumeration
 **/
-@:glueCppIncludes("Particles/ParticleSystem.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystem.h")
 @:uname("EParticleSystemOcclusionBoundsMethod")
 @:uextern @:uenum extern enum EParticleSystemOcclusionBoundsMethod {
   

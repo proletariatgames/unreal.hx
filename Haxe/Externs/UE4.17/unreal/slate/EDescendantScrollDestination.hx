@@ -18,7 +18,7 @@ package unreal.slate;
   Where to scroll the descendant to
 **/
 @:umodule("Slate")
-@:glueCppIncludes("Widgets/Layout/SScrollBox.h")
+@:glueCppIncludes("Public/Widgets/Layout/SScrollBox.h")
 @:uname("EDescendantScrollDestination")
 @:class @:uextern @:uenum extern enum EDescendantScrollDestination {
   

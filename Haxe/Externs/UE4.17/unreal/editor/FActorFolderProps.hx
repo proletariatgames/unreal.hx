@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("EditorActorFolders.h")
+@:glueCppIncludes("Public/EditorActorFolders.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FActorFolderProps {
   
 }

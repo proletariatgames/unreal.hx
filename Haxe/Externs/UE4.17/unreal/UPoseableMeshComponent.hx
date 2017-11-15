@@ -19,15 +19,15 @@ package unreal;
 **/
 @:glueCppIncludes("Components/PoseableMeshComponent.h")
 @:uextern @:uclass extern class UPoseableMeshComponent extends unreal.USkinnedMeshComponent {
-  @:ufunction @:final public function SetBoneTransformByName(BoneName : unreal.FName, InTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, BoneSpace : unreal.EBoneSpaces) : Void;
-  @:ufunction @:final public function SetBoneLocationByName(BoneName : unreal.FName, InLocation : unreal.FVector, BoneSpace : unreal.EBoneSpaces) : Void;
-  @:ufunction @:final public function SetBoneRotationByName(BoneName : unreal.FName, InRotation : unreal.FRotator, BoneSpace : unreal.EBoneSpaces) : Void;
-  @:ufunction @:final public function SetBoneScaleByName(BoneName : unreal.FName, InScale3D : unreal.FVector, BoneSpace : unreal.EBoneSpaces) : Void;
-  @:ufunction @:final public function GetBoneTransformByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FTransform;
-  @:ufunction @:final public function GetBoneLocationByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FVector;
-  @:ufunction @:final public function GetBoneRotationByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FRotator;
-  @:ufunction @:final public function GetBoneScaleByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FVector;
-  @:ufunction @:final public function ResetBoneTransformByName(BoneName : unreal.FName) : Void;
-  @:ufunction @:final public function CopyPoseFromSkeletalComponent(InComponentToCopy : unreal.Const<unreal.USkeletalMeshComponent>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoneTransformByName(BoneName : unreal.FName, InTransform : unreal.Const<unreal.PRef<unreal.FTransform>>, BoneSpace : unreal.EBoneSpaces) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoneLocationByName(BoneName : unreal.FName, InLocation : unreal.FVector, BoneSpace : unreal.EBoneSpaces) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoneRotationByName(BoneName : unreal.FName, InRotation : unreal.FRotator, BoneSpace : unreal.EBoneSpaces) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBoneScaleByName(BoneName : unreal.FName, InScale3D : unreal.FVector, BoneSpace : unreal.EBoneSpaces) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GetBoneTransformByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FTransform;
+  @:ufunction(BlueprintCallable) @:final public function GetBoneLocationByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function GetBoneRotationByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FRotator;
+  @:ufunction(BlueprintCallable) @:final public function GetBoneScaleByName(BoneName : unreal.FName, BoneSpace : unreal.EBoneSpaces) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function ResetBoneTransformByName(BoneName : unreal.FName) : Void;
+  @:ufunction(BlueprintCallable) @:final public function CopyPoseFromSkeletalComponent(InComponentToCopy : unreal.Const<unreal.USkeletalMeshComponent>) : Void;
   
 }

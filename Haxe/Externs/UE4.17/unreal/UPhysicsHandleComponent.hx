@@ -54,71 +54,71 @@ package unreal;
     Component we are currently holding
   **/
   @:uproperty public var GrabbedComponent : unreal.UPrimitiveComponent;
-  @:ufunction public function GrabComponent(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, GrabLocation : unreal.FVector, bConstrainRotation : Bool) : Void;
+  @:ufunction(BlueprintCallable) public function GrabComponent(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, GrabLocation : unreal.FVector, bConstrainRotation : Bool) : Void;
   
   /**
     Grab the specified component at a given location. Does NOT constraint rotation which means the handle will pivot about GrabLocation.
   **/
-  @:ufunction @:final public function GrabComponentAtLocation(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, GrabLocation : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GrabComponentAtLocation(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, GrabLocation : unreal.FVector) : Void;
   
   /**
     Grab the specified component at a given location and rotation. Constrains rotation.
   **/
-  @:ufunction @:final public function GrabComponentAtLocationWithRotation(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator) : Void;
+  @:ufunction(BlueprintCallable) @:final public function GrabComponentAtLocationWithRotation(Component : unreal.UPrimitiveComponent, InBoneName : unreal.FName, Location : unreal.FVector, Rotation : unreal.FRotator) : Void;
   
   /**
     Release the currently held component
   **/
-  @:ufunction public function ReleaseComponent() : Void;
+  @:ufunction(BlueprintCallable) public function ReleaseComponent() : Void;
   
   /**
     Returns the currently grabbed component, or null if nothing is grabbed.
   **/
-  @:ufunction @:thisConst @:final public function GetGrabbedComponent() : unreal.UPrimitiveComponent;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetGrabbedComponent() : unreal.UPrimitiveComponent;
   
   /**
     Set the target location
   **/
-  @:ufunction @:final public function SetTargetLocation(NewLocation : unreal.FVector) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTargetLocation(NewLocation : unreal.FVector) : Void;
   
   /**
     Set the target rotation
   **/
-  @:ufunction @:final public function SetTargetRotation(NewRotation : unreal.FRotator) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTargetRotation(NewRotation : unreal.FRotator) : Void;
   
   /**
     Set target location and rotation
   **/
-  @:ufunction @:final public function SetTargetLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTargetLocationAndRotation(NewLocation : unreal.FVector, NewRotation : unreal.FRotator) : Void;
   
   /**
     Get the current location and rotation
   **/
-  @:ufunction @:thisConst @:final public function GetTargetLocationAndRotation(TargetLocation : unreal.PRef<unreal.FVector>, TargetRotation : unreal.PRef<unreal.FRotator>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTargetLocationAndRotation(TargetLocation : unreal.PRef<unreal.FVector>, TargetRotation : unreal.PRef<unreal.FRotator>) : Void;
   
   /**
     Set linear damping
   **/
-  @:ufunction @:final public function SetLinearDamping(NewLinearDamping : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearDamping(NewLinearDamping : unreal.Float32) : Void;
   
   /**
     Set linear stiffness
   **/
-  @:ufunction @:final public function SetLinearStiffness(NewLinearStiffness : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetLinearStiffness(NewLinearStiffness : unreal.Float32) : Void;
   
   /**
     Set angular damping
   **/
-  @:ufunction @:final public function SetAngularDamping(NewAngularDamping : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularDamping(NewAngularDamping : unreal.Float32) : Void;
   
   /**
     Set angular stiffness
   **/
-  @:ufunction @:final public function SetAngularStiffness(NewAngularStiffness : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetAngularStiffness(NewAngularStiffness : unreal.Float32) : Void;
   
   /**
     Set interpolation speed
   **/
-  @:ufunction @:final public function SetInterpolationSpeed(NewInterpolationSpeed : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetInterpolationSpeed(NewInterpolationSpeed : unreal.Float32) : Void;
   
 }

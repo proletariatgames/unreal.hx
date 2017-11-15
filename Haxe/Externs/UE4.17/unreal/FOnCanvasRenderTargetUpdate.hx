@@ -21,7 +21,7 @@ package unreal;
   @param Height
   
 **/
-@:glueCppIncludes("Engine/CanvasRenderTarget2D.h")
+@:glueCppIncludes("Classes/Engine/CanvasRenderTarget2D.h")
 @:uParamName("Canvas")
 @:uParamName("Width")
 @:uParamName("Height")

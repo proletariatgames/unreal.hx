@@ -18,7 +18,7 @@ package unreal.materialbaking;
   Structure to represent a single property the user wants to bake out for a given set of materials
 **/
 @:umodule("MaterialBaking")
-@:glueCppIncludes("MaterialOptions.h")
+@:glueCppIncludes("Public/MaterialOptions.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FPropertyEntry {
   
   /**

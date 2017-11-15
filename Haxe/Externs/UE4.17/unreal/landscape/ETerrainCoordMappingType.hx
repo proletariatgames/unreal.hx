@@ -15,7 +15,7 @@
 package unreal.landscape;
 
 @:umodule("Landscape")
-@:glueCppIncludes("Materials/MaterialExpressionLandscapeLayerCoords.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionLandscapeLayerCoords.h")
 @:uname("ETerrainCoordMappingType")
 @:uextern @:uenum extern enum ETerrainCoordMappingType {
   TCMT_Auto;

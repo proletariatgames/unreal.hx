@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Event/ParticleModuleEventGenerator.h")
+@:glueCppIncludes("Classes/Particles/Event/ParticleModuleEventGenerator.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleEvent_GenerateInfo {
   
   /**

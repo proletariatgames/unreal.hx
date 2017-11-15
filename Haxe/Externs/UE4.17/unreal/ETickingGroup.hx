@@ -17,7 +17,7 @@ package unreal;
 /**
   Determines which ticking group a tick function belongs to.
 **/
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:uname("ETickingGroup")
 @:uextern @:uenum extern enum ETickingGroup {
   

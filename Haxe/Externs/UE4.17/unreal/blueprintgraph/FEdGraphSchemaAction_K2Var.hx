@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Reference to a variable (only used in 'docked' palette)
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2Var extends unreal.FEdGraphSchemaAction {
   
 }

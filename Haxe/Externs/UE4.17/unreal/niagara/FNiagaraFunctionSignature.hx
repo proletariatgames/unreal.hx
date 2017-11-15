@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraCommon.h")
+@:glueCppIncludes("Public/NiagaraCommon.h")
 @:uextern @:ustruct extern class FNiagaraFunctionSignature {
   #if WITH_EDITORONLY_DATA
   @:uproperty public var Description : unreal.FText;

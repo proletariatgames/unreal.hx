@@ -37,16 +37,16 @@ package unreal;
   /**
     Stops this instance playing whatever animation it is playing.
   **/
-  @:ufunction @:final public function Stop(bImmediate : Bool = false) : Void;
+  @:ufunction(BlueprintCallable) @:final public function Stop(bImmediate : Bool = false) : Void;
   
   /**
     Changes the running duration of this active anim, while maintaining playback position.
   **/
-  @:ufunction @:final public function SetDuration(NewDuration : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetDuration(NewDuration : unreal.Float32) : Void;
   
   /**
     Changes the scale of the animation while playing.
   **/
-  @:ufunction @:final public function SetScale(NewDuration : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetScale(NewDuration : unreal.Float32) : Void;
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   Describes the physical state of a rigid body.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FRigidBodyState {
   @:uproperty public var Flags : unreal.UInt8;
   @:uproperty public var AngVel : unreal.FVector_NetQuantize100;

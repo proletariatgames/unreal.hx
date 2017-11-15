@@ -18,7 +18,7 @@ package unreal.oculushmd;
   Tracked device types corresponding to ovrTrackedDeviceType enum
 **/
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusFunctionLibrary.h")
+@:glueCppIncludes("Public/OculusFunctionLibrary.h")
 @:uname("ETrackedDeviceType")
 @:class @:uextern @:uenum extern enum ETrackedDeviceType {
   

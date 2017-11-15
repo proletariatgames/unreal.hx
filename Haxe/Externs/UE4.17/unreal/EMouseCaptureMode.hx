@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/EngineBaseTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineBaseTypes.h")
 @:uname("EMouseCaptureMode")
 @:class @:uextern @:uenum extern enum EMouseCaptureMode {
   

@@ -18,7 +18,7 @@ package unreal.moviescene;
   A pointer to a particular segment of a track held within an evaluation template
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("Evaluation/MovieSceneEvaluationField.h")
+@:glueCppIncludes("Public/Evaluation/MovieSceneEvaluationField.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneEvaluationFieldSegmentPtr extends unreal.moviescene.FMovieSceneEvaluationFieldTrackPtr {
   
   /**

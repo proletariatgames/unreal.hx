@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("DataProviders/AIDataProvider.h")
+@:glueCppIncludes("Classes/DataProviders/AIDataProvider.h")
 @:uextern @:ustruct extern class FAIDataProviderIntValue extends unreal.aimodule.FAIDataProviderTypedValue {
   @:uproperty public var DefaultValue : unreal.Int32;
   

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Data about a particular target in the RBF, including scaling factor
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("RBF/RBFSolver.h")
+@:glueCppIncludes("Public/RBF/RBFSolver.h")
 @:uextern @:ustruct extern class FRBFTarget extends unreal.animgraphruntime.FRBFEntry {
   
   /**

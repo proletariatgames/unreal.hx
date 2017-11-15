@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("BoneContainer.h")
+@:glueCppIncludes("Public/BoneContainer.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBoneReference {
   
   /**

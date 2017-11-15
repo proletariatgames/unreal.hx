@@ -17,7 +17,7 @@ package unreal;
 /**
   Rules for attaching components - needs to be kept synced to EDetachmentRule
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("EAttachmentRule")
 @:class @:uextern @:uenum extern enum EAttachmentRule {
   

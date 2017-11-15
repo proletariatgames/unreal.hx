@@ -23,6 +23,6 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern @:uclass extern class UHorizontalBox extends unreal.umg.UPanelWidget {
-  @:ufunction @:final public function AddChildToHorizontalBox(Content : unreal.umg.UWidget) : unreal.umg.UHorizontalBoxSlot;
+  @:ufunction(BlueprintCallable) @:final public function AddChildToHorizontalBox(Content : unreal.umg.UWidget) : unreal.umg.UHorizontalBoxSlot;
   
 }

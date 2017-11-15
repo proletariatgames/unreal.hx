@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("PhysicsEngine/BodyInstance.h")
+@:glueCppIncludes("Classes/PhysicsEngine/BodyInstance.h")
 @:uname("EDOFMode.Type")
 @:uextern @:uenum extern enum EDOFMode {
   

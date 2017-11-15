@@ -15,7 +15,7 @@
 package unreal.functionaltesting;
 
 @:umodule("FunctionalTesting")
-@:glueCppIncludes("TraceQueryTestResults.h")
+@:glueCppIncludes("Classes/TraceQueryTestResults.h")
 @:uextern @:ustruct extern class FTraceQueryTestResultsInner {
   
   /**

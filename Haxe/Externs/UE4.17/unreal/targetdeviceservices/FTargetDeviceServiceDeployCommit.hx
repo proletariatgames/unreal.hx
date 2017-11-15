@@ -20,7 +20,7 @@ package unreal.targetdeviceservices;
   @see FTargetDeviceServiceDeployFile, FTargetDeviceServiceDeployFinished
 **/
 @:umodule("TargetDeviceServices")
-@:glueCppIncludes("TargetDeviceServiceMessages.h")
+@:glueCppIncludes("Classes/TargetDeviceServiceMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTargetDeviceServiceDeployCommit {
   
   /**

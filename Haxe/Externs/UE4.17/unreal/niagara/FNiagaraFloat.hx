@@ -18,7 +18,7 @@ package unreal.niagara;
   basic type struct definitions
 **/
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraTypes.h")
+@:glueCppIncludes("Public/NiagaraTypes.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraFloat {
   
   /**

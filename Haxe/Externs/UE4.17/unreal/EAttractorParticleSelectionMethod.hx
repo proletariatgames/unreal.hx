@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Attractor/ParticleModuleAttractorParticle.h")
+@:glueCppIncludes("Classes/Particles/Attractor/ParticleModuleAttractorParticle.h")
 @:uname("EAttractorParticleSelectionMethod")
 @:uextern @:uenum extern enum EAttractorParticleSelectionMethod {
   

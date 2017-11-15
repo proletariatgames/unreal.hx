@@ -20,7 +20,7 @@ package unreal.clothingsystemruntime;
   is then later applied to a phys mesh
 **/
 @:umodule("ClothingSystemRuntime")
-@:glueCppIncludes("Assets/ClothingAsset.h")
+@:glueCppIncludes("Public/Assets/ClothingAsset.h")
 @:uextern @:ustruct extern class FClothParameterMask_PhysMesh {
   
   /**

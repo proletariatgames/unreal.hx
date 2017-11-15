@@ -21,10 +21,10 @@ package unreal.aimodule;
   /**
     Blueprint interface
   **/
-  @:ufunction public function ActionStart(ControlledPawn : unreal.APawn) : Void;
-  @:ufunction public function ActionTick(ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
-  @:ufunction public function ActionPause(ControlledPawn : unreal.APawn) : Void;
-  @:ufunction public function ActionResume(ControlledPawn : unreal.APawn) : Void;
-  @:ufunction public function ActionFinished(ControlledPawn : unreal.APawn, WithResult : unreal.aimodule.EPawnActionResult) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ActionStart(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ActionTick(ControlledPawn : unreal.APawn, DeltaSeconds : unreal.Float32) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ActionPause(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ActionResume(ControlledPawn : unreal.APawn) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ActionFinished(ControlledPawn : unreal.APawn, WithResult : unreal.aimodule.EPawnActionResult) : Void;
   
 }

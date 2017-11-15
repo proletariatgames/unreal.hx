@@ -15,7 +15,7 @@
 package unreal.aimodule;
 
 @:umodule("AIModule")
-@:glueCppIncludes("Perception/AIPerceptionTypes.h")
+@:glueCppIncludes("Classes/Perception/AIPerceptionTypes.h")
 @:uname("EAISenseNotifyType")
 @:class @:uextern @:uenum extern enum EAISenseNotifyType {
   

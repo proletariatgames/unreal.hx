@@ -17,7 +17,7 @@ package unreal;
 /**
   Whether or not the timeline should be finished after the specified length, or the last keyframe in the tracks
 **/
-@:glueCppIncludes("Components/TimelineComponent.h")
+@:glueCppIncludes("Classes/Components/TimelineComponent.h")
 @:uname("ETimelineLengthMode")
 @:uextern @:uenum extern enum ETimelineLengthMode {
   TL_TimelineLength;

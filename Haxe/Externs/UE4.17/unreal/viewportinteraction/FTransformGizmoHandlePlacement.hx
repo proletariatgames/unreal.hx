@@ -18,7 +18,7 @@ package unreal.viewportinteraction;
   Placement of a handle in pivot space
 **/
 @:umodule("ViewportInteraction")
-@:glueCppIncludes("ViewportInteractionTypes.h")
+@:glueCppIncludes("Public/ViewportInteractionTypes.h")
 @:uextern @:ustruct extern class FTransformGizmoHandlePlacement {
   
 }

@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionTransform.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionTransform.h")
 @:uname("EMaterialVectorCoordTransform")
 @:uextern @:uenum extern enum EMaterialVectorCoordTransform {
   

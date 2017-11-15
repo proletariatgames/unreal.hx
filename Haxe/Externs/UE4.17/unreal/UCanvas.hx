@@ -94,7 +94,7 @@ package unreal;
     @param Thickness                             How many pixels thick this line should be.
     @param RenderColor                   Color to render the line.
   **/
-  @:ufunction @:final public function K2_DrawLine(ScreenPositionA : unreal.FVector2D, ScreenPositionB : unreal.FVector2D, Thickness : unreal.Float32 = 1.000000, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawLine(ScreenPositionA : unreal.FVector2D, ScreenPositionB : unreal.FVector2D, Thickness : unreal.Float32 = 1.000000, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor) : Void;
   
   /**
     Draws a texture on the Canvas.
@@ -109,7 +109,7 @@ package unreal;
     @param Rotation                                      Rotation, in degrees, to render the texture.
     @param PivotPoint                            Normalized pivot point to use when rotating the texture.
   **/
-  @:ufunction @:final public function K2_DrawTexture(RenderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, BlendMode : unreal.EBlendMode = BLEND_Translucent, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawTexture(RenderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, BlendMode : unreal.EBlendMode = BLEND_Translucent, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D) : Void;
   
   /**
     Draws a material on the Canvas.
@@ -122,7 +122,7 @@ package unreal;
     @param Rotation                                      Rotation, in degrees, to render the texture.
     @param PivotPoint                            Normalized pivot point to use when rotating the texture.
   **/
-  @:ufunction @:final public function K2_DrawMaterial(RenderMaterial : unreal.UMaterialInterface, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawMaterial(RenderMaterial : unreal.UMaterialInterface, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D) : Void;
   
   /**
     Draws text on the Canvas.
@@ -139,7 +139,7 @@ package unreal;
     @param bOutlined                                     If true, then the text should be rendered with an outline.
     @param OutlineColor                          Color to render the outline for the text.
   **/
-  @:ufunction @:final public function K2_DrawText(RenderFont : unreal.UFont, RenderText : unreal.FString, ScreenPosition : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, Kerning : unreal.Float32 = 0.000000, @:opt("(R=0.000000,G=0.000000,B=0.000000,A=1.000000)") ShadowColor : unreal.FLinearColor, @:opt("(X=1.000,Y=1.000)") ShadowOffset : unreal.FVector2D, bCentreX : Bool = false, bCentreY : Bool = false, bOutlined : Bool = false, @:opt("(R=0.000000,G=0.000000,B=0.000000,A=1.000000)") OutlineColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawText(RenderFont : unreal.UFont, RenderText : unreal.FString, ScreenPosition : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, Kerning : unreal.Float32 = 0.000000, @:opt("(R=0.000000,G=0.000000,B=0.000000,A=1.000000)") ShadowColor : unreal.FLinearColor, @:opt("(X=1.000,Y=1.000)") ShadowOffset : unreal.FVector2D, bCentreX : Bool = false, bCentreY : Bool = false, bOutlined : Bool = false, @:opt("(R=0.000000,G=0.000000,B=0.000000,A=1.000000)") OutlineColor : unreal.FLinearColor) : Void;
   
   /**
     Draws a 3x3 grid border with tiled frame and tiled interior on the Canvas.
@@ -161,7 +161,7 @@ package unreal;
     @param PivotPoint                            Normalized pivot point to use when rotating the texture.
     @param CornerSize                            Frame corner size in percent of frame texture (should be < 0.5f).
   **/
-  @:ufunction @:final public function K2_DrawBorder(BorderTexture : unreal.UTexture, BackgroundTexture : unreal.UTexture, LeftBorderTexture : unreal.UTexture, RightBorderTexture : unreal.UTexture, TopBorderTexture : unreal.UTexture, BottomBorderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, @:opt("(X=0.100,Y=0.100)") BorderScale : unreal.FVector2D, @:opt("(X=0.100,Y=0.100)") BackgroundScale : unreal.FVector2D, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D, CornerSize : unreal.FVector2D) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawBorder(BorderTexture : unreal.UTexture, BackgroundTexture : unreal.UTexture, LeftBorderTexture : unreal.UTexture, RightBorderTexture : unreal.UTexture, TopBorderTexture : unreal.UTexture, BottomBorderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, CoordinatePosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") CoordinateSize : unreal.FVector2D, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor, @:opt("(X=0.100,Y=0.100)") BorderScale : unreal.FVector2D, @:opt("(X=0.100,Y=0.100)") BackgroundScale : unreal.FVector2D, Rotation : unreal.Float32 = 0.000000, @:opt("(X=0.500,Y=0.500)") PivotPoint : unreal.FVector2D, CornerSize : unreal.FVector2D) : Void;
   
   /**
     Draws an unfilled box on the Canvas.
@@ -170,7 +170,7 @@ package unreal;
     @param ScreenSize                            Screen space size to render the texture.
     @param Thickness                                     How many pixels thick the box lines should be.
   **/
-  @:ufunction @:final public function K2_DrawBox(ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, Thickness : unreal.Float32 = 1.000000) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawBox(ScreenPosition : unreal.FVector2D, ScreenSize : unreal.FVector2D, Thickness : unreal.Float32 = 1.000000) : Void;
   
   /**
     Draws a set of triangles on the Canvas.
@@ -178,7 +178,7 @@ package unreal;
     @param RenderTexture                         Texture to use when rendering the triangles. If no texture is set, then the default white texture is used.
     @param Triangles                                     Triangles to render.
   **/
-  @:ufunction @:final public function K2_DrawTriangle(RenderTexture : unreal.UTexture, Triangles : unreal.TArray<unreal.FCanvasUVTri>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawTriangle(RenderTexture : unreal.UTexture, Triangles : unreal.TArray<unreal.FCanvasUVTri>) : Void;
   
   /**
     Draws a set of triangles on the Canvas.
@@ -186,7 +186,7 @@ package unreal;
     @param RenderMaterial                        Material to use when rendering. Remember that only the emissive channel is able to be rendered as no lighting is performed when rendering to the Canvas.
     @param Triangles                                     Triangles to render.
   **/
-  @:ufunction @:final public function K2_DrawMaterialTriangle(RenderMaterial : unreal.UMaterialInterface, Triangles : unreal.TArray<unreal.FCanvasUVTri>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawMaterialTriangle(RenderMaterial : unreal.UMaterialInterface, Triangles : unreal.TArray<unreal.FCanvasUVTri>) : Void;
   
   /**
     Draws a polygon on the Canvas.
@@ -197,7 +197,7 @@ package unreal;
     @param NumberOfSides                         How many sides this polygon should have. This should be above or equal to three.
     @param RenderColor                           Color to tint the polygon.
   **/
-  @:ufunction @:final public function K2_DrawPolygon(RenderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") Radius : unreal.FVector2D, NumberOfSides : unreal.Int32 = 3, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_DrawPolygon(RenderTexture : unreal.UTexture, ScreenPosition : unreal.FVector2D, @:opt("(X=1.000,Y=1.000)") Radius : unreal.FVector2D, NumberOfSides : unreal.Int32 = 3, @:opt("(R=1.000000,G=1.000000,B=1.000000,A=1.000000)") RenderColor : unreal.FLinearColor) : Void;
   
   /**
     Performs a projection of a world space coordinates using the projection matrix set up for the Canvas.
@@ -205,7 +205,7 @@ package unreal;
     @param WorldLocation                         World space location to project onto the Canvas rendering plane.
     @return                                                      Returns a vector where X, Y defines a screen space position representing the world space location.
   **/
-  @:ufunction @:final public function K2_Project(WorldLocation : unreal.FVector) : unreal.FVector;
+  @:ufunction(BlueprintCallable) @:final public function K2_Project(WorldLocation : unreal.FVector) : unreal.FVector;
   
   /**
     Performs a deprojection of a screen space coordinate using the projection matrix set up for the Canvas.
@@ -214,7 +214,7 @@ package unreal;
     @param WorldOrigin                           Vector which is the world position of the screen space position.
     @param WorldDirection                        Vector which can be used in a trace to determine what is "behind" the screen space position. Useful for object picking.
   **/
-  @:ufunction @:final public function K2_Deproject(ScreenPosition : unreal.FVector2D, WorldOrigin : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function K2_Deproject(ScreenPosition : unreal.FVector2D, WorldOrigin : unreal.PRef<unreal.FVector>, WorldDirection : unreal.PRef<unreal.FVector>) : Void;
   
   /**
     Returns the wrapped text size in screen space coordinates.
@@ -223,7 +223,7 @@ package unreal;
     @param RenderText                            Text to determine the size of.
     @return                                                      Returns the screen space size of the text.
   **/
-  @:ufunction @:final public function K2_StrLen(RenderFont : unreal.UFont, RenderText : unreal.FString) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:final public function K2_StrLen(RenderFont : unreal.UFont, RenderText : unreal.FString) : unreal.FVector2D;
   
   /**
     Returns the clipped text size in screen space coordinates.
@@ -233,6 +233,6 @@ package unreal;
     @param Scale                                         Scale of the font to use when determining the size of the text.
     @return                                                      Returns the screen space size of the text.
   **/
-  @:ufunction @:final public function K2_TextSize(RenderFont : unreal.UFont, RenderText : unreal.FString, @:opt("(X=1.000,Y=1.000)") Scale : unreal.FVector2D) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) @:final public function K2_TextSize(RenderFont : unreal.UFont, RenderText : unreal.FString, @:opt("(X=1.000,Y=1.000)") Scale : unreal.FVector2D) : unreal.FVector2D;
   
 }

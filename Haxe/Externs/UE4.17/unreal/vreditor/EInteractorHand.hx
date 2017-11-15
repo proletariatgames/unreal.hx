@@ -15,7 +15,7 @@
 package unreal.vreditor;
 
 @:umodule("VREditor")
-@:glueCppIncludes("VRModeSettings.h")
+@:glueCppIncludes("Public/VRModeSettings.h")
 @:uname("EInteractorHand")
 @:class @:uextern @:uenum extern enum EInteractorHand {
   

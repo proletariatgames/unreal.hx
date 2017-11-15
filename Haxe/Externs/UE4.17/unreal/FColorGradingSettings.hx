@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Scene.h")
+@:glueCppIncludes("Classes/Engine/Scene.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FColorGradingSettings {
   @:uproperty public var HighlightsMin : unreal.Float32;
   @:uproperty public var ShadowsMax : unreal.Float32;

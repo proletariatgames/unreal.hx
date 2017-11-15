@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Animation/AnimNode_SubInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_SubInstance.h")
 @:uextern @:ustruct extern class FAnimNode_SubInstance extends unreal.FAnimNode_Base {
   
   /**

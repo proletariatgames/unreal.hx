@@ -17,7 +17,7 @@ package unreal;
 /**
   Container for an aggregate of 2D collision shapes
 **/
-@:glueCppIncludes("PhysicsEngine/AggregateGeometry2D.h")
+@:glueCppIncludes("Classes/PhysicsEngine/AggregateGeometry2D.h")
 @:uextern @:ustruct extern class FAggregateGeometry2D {
   @:uproperty public var ConvexElements : unreal.TArray<unreal.FConvexElement2D>;
   @:uproperty public var BoxElements : unreal.TArray<unreal.FBoxElement2D>;

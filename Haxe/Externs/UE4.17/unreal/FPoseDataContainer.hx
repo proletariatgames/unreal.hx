@@ -19,7 +19,7 @@ package unreal;
   
   Contains animation and curve for all poses
 **/
-@:glueCppIncludes("Animation/PoseAsset.h")
+@:glueCppIncludes("Classes/Animation/PoseAsset.h")
 @:uextern @:ustruct extern class FPoseDataContainer {
   
 }

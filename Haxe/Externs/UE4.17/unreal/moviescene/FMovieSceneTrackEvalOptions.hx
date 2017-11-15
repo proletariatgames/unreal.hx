@@ -18,7 +18,7 @@ package unreal.moviescene;
   Generic evaluation options for any track
 **/
 @:umodule("MovieScene")
-@:glueCppIncludes("MovieSceneTrack.h")
+@:glueCppIncludes("Public/MovieSceneTrack.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMovieSceneTrackEvalOptions {
   @:deprecated @:uproperty public var bEvaluateNearestSection_DEPRECATED : Bool;
   

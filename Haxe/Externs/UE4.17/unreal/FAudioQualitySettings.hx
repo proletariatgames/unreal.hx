@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Sound/AudioSettings.h")
+@:glueCppIncludes("Classes/Sound/AudioSettings.h")
 @:uextern @:ustruct extern class FAudioQualitySettings {
   
   /**

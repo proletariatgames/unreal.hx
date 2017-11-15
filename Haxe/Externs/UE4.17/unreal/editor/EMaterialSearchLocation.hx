@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/MaterialImportHelpers.h")
+@:glueCppIncludes("Classes/Factories/MaterialImportHelpers.h")
 @:uname("EMaterialSearchLocation")
 @:class @:uextern @:uenum extern enum EMaterialSearchLocation {
   

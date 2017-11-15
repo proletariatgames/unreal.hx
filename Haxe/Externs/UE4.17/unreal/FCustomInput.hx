@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Materials/MaterialExpressionCustom.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionCustom.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCustomInput {
   @:uproperty public var Input : unreal.FExpressionInput;
   @:uproperty public var InputName : unreal.FString;

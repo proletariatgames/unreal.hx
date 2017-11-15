@@ -33,7 +33,7 @@ package unreal.umg;
 @:umodule("UMG")
 @:glueCppIncludes("UMG.h")
 @:uextern @:uclass extern class USafeZone extends unreal.umg.UContentWidget {
-  @:ufunction @:final public function SetSidesToPad(InPadLeft : Bool, InPadRight : Bool, InPadTop : Bool, InPadBottom : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetSidesToPad(InPadLeft : Bool, InPadRight : Bool, InPadTop : Bool, InPadBottom : Bool) : Void;
   
   /**
     If this safe zone should pad for the bottom side of the screen's safe zone

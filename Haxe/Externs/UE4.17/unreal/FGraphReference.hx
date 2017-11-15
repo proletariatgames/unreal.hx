@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("EdGraph/EdGraph.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraph.h")
 @:uextern @:ustruct extern class FGraphReference {
   
   /**

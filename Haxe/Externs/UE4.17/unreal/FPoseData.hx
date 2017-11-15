@@ -22,7 +22,7 @@ package unreal;
   All poses within this asset should contain same number of tracks,
   so that we can blend quickly
 **/
-@:glueCppIncludes("Animation/PoseAsset.h")
+@:glueCppIncludes("Classes/Animation/PoseAsset.h")
 @:uextern @:ustruct extern class FPoseData {
   
   /**

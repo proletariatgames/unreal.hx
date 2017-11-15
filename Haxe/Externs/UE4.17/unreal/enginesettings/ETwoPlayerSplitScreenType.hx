@@ -18,7 +18,7 @@ package unreal.enginesettings;
   Ways the screen can be split with two players.
 **/
 @:umodule("EngineSettings")
-@:glueCppIncludes("GameMapsSettings.h")
+@:glueCppIncludes("Classes/GameMapsSettings.h")
 @:uname("ETwoPlayerSplitScreenType.Type")
 @:uextern @:uenum extern enum ETwoPlayerSplitScreenType {
   Horizontal;

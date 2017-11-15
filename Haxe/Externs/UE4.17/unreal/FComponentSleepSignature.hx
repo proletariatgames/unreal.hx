@@ -20,7 +20,7 @@ package unreal;
   @param BoneName
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("SleepingComponent")
 @:uParamName("BoneName")
 typedef FComponentSleepSignature = unreal.DynamicMulticastDelegate<FComponentSleepSignature, unreal.UPrimitiveComponent->unreal.FName->Void>;

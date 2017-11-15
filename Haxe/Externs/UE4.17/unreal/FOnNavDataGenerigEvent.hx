@@ -19,6 +19,6 @@ package unreal;
   @param NavData
   
 **/
-@:glueCppIncludes("AI/Navigation/NavigationSystem.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationSystem.h")
 @:uParamName("NavData")
 typedef FOnNavDataGenerigEvent = unreal.DynamicMulticastDelegate<FOnNavDataGenerigEvent, unreal.ANavigationData->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds settings for the editor build promotion test
 **/
-@:glueCppIncludes("Tests/AutomationTestSettings.h")
+@:glueCppIncludes("Classes/Tests/AutomationTestSettings.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBuildPromotionTestSettings {
   
   /**

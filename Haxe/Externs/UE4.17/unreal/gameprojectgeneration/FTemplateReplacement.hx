@@ -15,7 +15,7 @@
 package unreal.gameprojectgeneration;
 
 @:umodule("GameProjectGeneration")
-@:glueCppIncludes("TemplateProjectDefs.h")
+@:glueCppIncludes("Classes/TemplateProjectDefs.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FTemplateReplacement {
   @:uproperty public var bCaseSensitive : Bool;
   @:uproperty public var To : unreal.FString;

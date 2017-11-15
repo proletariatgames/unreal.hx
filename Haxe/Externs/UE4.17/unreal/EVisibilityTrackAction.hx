@@ -17,7 +17,7 @@ package unreal;
 /**
   Visibility track actions
 **/
-@:glueCppIncludes("Matinee/InterpTrackVisibility.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrackVisibility.h")
 @:uname("EVisibilityTrackAction")
 @:uextern @:uenum extern enum EVisibilityTrackAction {
   

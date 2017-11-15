@@ -15,7 +15,7 @@
 package unreal.moviescenetracks;
 
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieScene3DPathSection.h")
+@:glueCppIncludes("Public/Sections/MovieScene3DPathSection.h")
 @:uname("MovieScene3DPathSection_Axis")
 @:class @:uextern @:uenum extern enum MovieScene3DPathSection_Axis {
   

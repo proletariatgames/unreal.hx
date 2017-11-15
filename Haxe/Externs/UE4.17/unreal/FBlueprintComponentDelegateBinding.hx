@@ -17,7 +17,7 @@ package unreal;
 /**
   Entry for a delegate to assign after a blueprint has been instanced
 **/
-@:glueCppIncludes("Engine/ComponentDelegateBinding.h")
+@:glueCppIncludes("Classes/Engine/ComponentDelegateBinding.h")
 @:uextern @:ustruct extern class FBlueprintComponentDelegateBinding {
   
   /**

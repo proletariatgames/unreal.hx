@@ -15,7 +15,7 @@
 package unreal.niagara;
 
 @:umodule("Niagara")
-@:glueCppIncludes("NiagaraEmitterProperties.h")
+@:glueCppIncludes("Classes/NiagaraEmitterProperties.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNiagaraEventScriptProperties extends unreal.niagara.FNiagaraEmitterScriptProperties {
   @:uproperty public var SourceEventName : unreal.FName;
   @:uproperty public var SourceEmitterID : unreal.FGuid;

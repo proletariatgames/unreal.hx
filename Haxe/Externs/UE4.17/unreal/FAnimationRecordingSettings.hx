@@ -17,7 +17,7 @@ package unreal;
 /**
   Settings describing how to record an animation
 **/
-@:glueCppIncludes("Animation/AnimationRecordingSettings.h")
+@:glueCppIncludes("Classes/Animation/AnimationRecordingSettings.h")
 @:uextern @:ustruct extern class FAnimationRecordingSettings {
   
   /**

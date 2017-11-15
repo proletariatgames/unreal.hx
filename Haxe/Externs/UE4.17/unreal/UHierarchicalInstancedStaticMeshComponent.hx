@@ -62,6 +62,6 @@ package unreal;
   /**
     Removes all the instances with indices specified in the InstancesToRemove array. Returns true on success.
   **/
-  @:ufunction @:final public function RemoveInstances(InstancesToRemove : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Bool;
+  @:ufunction(BlueprintCallable) @:final public function RemoveInstances(InstancesToRemove : unreal.Const<unreal.PRef<unreal.TArray<unreal.Int32>>>) : Bool;
   
 }

@@ -17,7 +17,7 @@ package unreal;
 /**
   defines how MipValue is used
 **/
-@:glueCppIncludes("Materials/MaterialExpressionTextureSample.h")
+@:glueCppIncludes("Classes/Materials/MaterialExpressionTextureSample.h")
 @:uname("ETextureMipValueMode")
 @:uextern @:uenum extern enum ETextureMipValueMode {
   

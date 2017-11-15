@@ -17,7 +17,7 @@ package unreal;
 /**
   Information about an active transition on the transition stack
 **/
-@:glueCppIncludes("Animation/AnimNode_StateMachine.h")
+@:glueCppIncludes("Classes/Animation/AnimNode_StateMachine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FAnimationActiveTransitionEntry {
   
   /**

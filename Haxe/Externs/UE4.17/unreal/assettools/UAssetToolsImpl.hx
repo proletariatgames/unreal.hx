@@ -34,27 +34,27 @@ package unreal.assettools;
     @param CallingContext optional name of the module or method calling CreateAsset() - this is passed to the factory
     @return the new asset or NULL if it fails
   **/
-  @:ufunction public function CreateAsset(AssetName : unreal.FString, PackagePath : unreal.FString, AssetClass : unreal.UClass, Factory : unreal.editor.UFactory, @:opt("None") CallingContext : unreal.FName) : unreal.UObject;
+  @:ufunction(BlueprintCallable) public function CreateAsset(AssetName : unreal.FString, PackagePath : unreal.FString, AssetClass : unreal.UClass, Factory : unreal.editor.UFactory, @:opt("None") CallingContext : unreal.FName) : unreal.UObject;
   
   /**
     Opens an asset picker dialog and creates an asset with the specified name and path
   **/
-  @:ufunction public function CreateAssetWithDialog(AssetName : unreal.FString, PackagePath : unreal.FString, AssetClass : unreal.UClass, Factory : unreal.editor.UFactory, @:opt("None") CallingContext : unreal.FName) : unreal.UObject;
+  @:ufunction(BlueprintCallable) public function CreateAssetWithDialog(AssetName : unreal.FString, PackagePath : unreal.FString, AssetClass : unreal.UClass, Factory : unreal.editor.UFactory, @:opt("None") CallingContext : unreal.FName) : unreal.UObject;
   
   /**
     Opens an asset picker dialog and creates an asset with the specified name and path. Uses OriginalObject as the duplication source.
   **/
-  @:ufunction public function DuplicateAssetWithDialog(AssetName : unreal.FString, PackagePath : unreal.FString, OriginalObject : unreal.UObject) : unreal.UObject;
+  @:ufunction(BlueprintCallable) public function DuplicateAssetWithDialog(AssetName : unreal.FString, PackagePath : unreal.FString, OriginalObject : unreal.UObject) : unreal.UObject;
   
   /**
     Creates an asset with the specified name and path. Uses OriginalObject as the duplication source.
   **/
-  @:ufunction public function DuplicateAsset(AssetName : unreal.FString, PackagePath : unreal.FString, OriginalObject : unreal.UObject) : unreal.UObject;
+  @:ufunction(BlueprintCallable) public function DuplicateAsset(AssetName : unreal.FString, PackagePath : unreal.FString, OriginalObject : unreal.UObject) : unreal.UObject;
   
   /**
     Renames assets using the specified names.
   **/
-  @:ufunction @:thisConst public function RenameAssets(AssetsAndNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.assettools.FAssetRenameData>>>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function RenameAssets(AssetsAndNames : unreal.Const<unreal.PRef<unreal.TArray<unreal.assettools.FAssetRenameData>>>) : Void;
   
   /**
     Opens a file open dialog to choose files to import to the destination path.
@@ -62,7 +62,7 @@ package unreal.assettools;
     @param DestinationPath       Path to import files to
     @return list of successfully imported assets
   **/
-  @:ufunction public function ImportAssetsWithDialog(DestinationPath : unreal.FString) : unreal.TArray<unreal.UObject>;
+  @:ufunction(BlueprintCallable) public function ImportAssetsWithDialog(DestinationPath : unreal.FString) : unreal.TArray<unreal.UObject>;
   
   /**
     Imports assets using data specified completely up front.  Does not ever ask any questions of the user or show any modal error messages
@@ -70,7 +70,7 @@ package unreal.assettools;
     @param AutomatedImportData   Data that specifies how to import each file
     @return list of successfully imported assets
   **/
-  @:ufunction @:thisConst public function ImportAssetsAutomated(ImportData : unreal.Const<unreal.editor.UAutomatedAssetImportData>) : unreal.TArray<unreal.UObject>;
+  @:ufunction(BlueprintCallable) @:thisConst public function ImportAssetsAutomated(ImportData : unreal.Const<unreal.editor.UAutomatedAssetImportData>) : unreal.TArray<unreal.UObject>;
   
   /**
     Exports the specified objects to file.
@@ -78,7 +78,7 @@ package unreal.assettools;
     @param       AssetsToExport                                  List of full asset names (e.g /Game/Path/Asset) to export
     @param       ExportPath                                              The directory path to export to.
   **/
-  @:ufunction @:thisConst public function ExportAssets(AssetsToExport : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>, ExportPath : unreal.FString) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function ExportAssets(AssetsToExport : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>, ExportPath : unreal.FString) : Void;
   
   /**
     Exports the specified objects to file. First prompting the user to pick an export directory and optionally prompting the user to pick a unique directory per file
@@ -86,11 +86,11 @@ package unreal.assettools;
     @param       AssetsToExport                                  List of assets to export
     @param       ExportPath                                              The directory path to export to.
   **/
-  @:ufunction @:thisConst public function ExportAssetsWithDialog(AssetsToExport : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>, bPromptForIndividualFilenames : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function ExportAssetsWithDialog(AssetsToExport : unreal.Const<unreal.PRef<unreal.TArray<unreal.FString>>>, bPromptForIndividualFilenames : Bool) : Void;
   
   /**
     Creates a unique package and asset name taking the form InBasePackageName+InSuffix
   **/
-  @:ufunction @:thisConst public function CreateUniqueAssetName(InBasePackageName : unreal.FString, InSuffix : unreal.FString, OutPackageName : unreal.PRef<unreal.FString>, OutAssetName : unreal.PRef<unreal.FString>) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst public function CreateUniqueAssetName(InBasePackageName : unreal.FString, InSuffix : unreal.FString, OutPackageName : unreal.PRef<unreal.FString>, OutAssetName : unreal.PRef<unreal.FString>) : Void;
   
 }

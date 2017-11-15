@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   RBF based orientation driver
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_PoseDriver.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_PoseDriver.h")
 @:uextern @:ustruct extern class FAnimNode_PoseDriver extends unreal.animgraphruntime.FAnimNode_PoseHandler {
   @:deprecated @:uproperty public var RadialScaling_DEPRECATED : unreal.Float32;
   @:deprecated @:uproperty public var Type_DEPRECATED : unreal.animgraphruntime.EPoseDriverType;

@@ -18,7 +18,7 @@ package unreal.animationcore;
   Constraint Types
 **/
 @:umodule("AnimationCore")
-@:glueCppIncludes("Constraint.h")
+@:glueCppIncludes("Public/Constraint.h")
 @:uname("EConstraintType")
 @:class @:uextern @:uenum extern enum EConstraintType {
   

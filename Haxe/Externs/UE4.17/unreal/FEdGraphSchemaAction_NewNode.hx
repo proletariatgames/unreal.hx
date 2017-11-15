@@ -17,7 +17,7 @@ package unreal;
 /**
   Action to add a node to the graph
 **/
-@:glueCppIncludes("EdGraph/EdGraphSchema.h")
+@:glueCppIncludes("Classes/EdGraph/EdGraphSchema.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_NewNode extends unreal.FEdGraphSchemaAction {
   
   /**

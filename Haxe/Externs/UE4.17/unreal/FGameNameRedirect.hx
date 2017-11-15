@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FGameNameRedirect {
   @:uproperty public var NewGameName : unreal.FName;
   @:uproperty public var OldGameName : unreal.FName;

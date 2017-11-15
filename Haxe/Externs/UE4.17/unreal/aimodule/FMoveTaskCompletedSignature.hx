@@ -19,7 +19,7 @@ package unreal.aimodule;
   @param AIController
   
 **/
-@:glueCppIncludes("Tasks/AITask_MoveTo.h")
+@:glueCppIncludes("Classes/Tasks/AITask_MoveTo.h")
 @:uParamName("Result")
 @:uParamName("AIController")
 @:umodule("AIModule")

@@ -18,7 +18,7 @@ package unreal.messagingrpc;
   Message for notifying RPC clients that a call was not handled by the server.
 **/
 @:umodule("MessagingRpc")
-@:glueCppIncludes("MessageRpcMessages.h")
+@:glueCppIncludes("Public/MessageRpcMessages.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FMessageRpcUnhandled {
   
   /**

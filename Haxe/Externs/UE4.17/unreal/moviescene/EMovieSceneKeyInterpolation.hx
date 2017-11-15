@@ -15,7 +15,7 @@
 package unreal.moviescene;
 
 @:umodule("MovieScene")
-@:glueCppIncludes("KeyParams.h")
+@:glueCppIncludes("Public/KeyParams.h")
 @:uname("EMovieSceneKeyInterpolation")
 @:class @:uextern @:uenum extern enum EMovieSceneKeyInterpolation {
   

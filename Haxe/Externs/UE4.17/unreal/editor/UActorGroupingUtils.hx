@@ -20,53 +20,53 @@ package unreal.editor;
 @:umodule("UnrealEd")
 @:glueCppIncludes("ActorGroupingUtils.h")
 @:uextern @:uclass extern class UActorGroupingUtils extends unreal.UObject {
-  @:ufunction static public function IsGroupingActive() : Bool;
-  @:ufunction static public function SetGroupingActive(bInGroupingActive : Bool) : Void;
+  @:ufunction(BlueprintCallable) static public function IsGroupingActive() : Bool;
+  @:ufunction(BlueprintCallable) static public function SetGroupingActive(bInGroupingActive : Bool) : Void;
   
   /**
     Convenience method for accessing grouping utils in a blueprint or script
   **/
-  @:ufunction static public function Get() : unreal.editor.UActorGroupingUtils;
+  @:ufunction(BlueprintCallable) static public function Get() : unreal.editor.UActorGroupingUtils;
   
   /**
     Creates a new group from the current selection removing the actors from any existing groups they are already in
   **/
-  @:ufunction public function GroupSelected() : Void;
+  @:ufunction(BlueprintCallable) public function GroupSelected() : Void;
   
   /**
     Creates a new group from the provided list of actors removing the actors from any existing groups they are already in
   **/
-  @:ufunction public function GroupActors(ActorsToGroup : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : Void;
+  @:ufunction(BlueprintCallable) public function GroupActors(ActorsToGroup : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : Void;
   
   /**
     Disbands any groups in the current selection, does not attempt to maintain any hierarchy
   **/
-  @:ufunction public function UngroupSelected() : Void;
+  @:ufunction(BlueprintCallable) public function UngroupSelected() : Void;
   
   /**
     Disbands any groups that the provided actors belong to, does not attempt to maintain any hierarchy
   **/
-  @:ufunction public function UngroupActors(ActorsToUngroup : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : Void;
+  @:ufunction(BlueprintCallable) public function UngroupActors(ActorsToUngroup : unreal.Const<unreal.PRef<unreal.TArray<unreal.AActor>>>) : Void;
   
   /**
     Locks any groups in the current selection
   **/
-  @:ufunction public function LockSelectedGroups() : Void;
+  @:ufunction(BlueprintCallable) public function LockSelectedGroups() : Void;
   
   /**
     Unlocks any groups in the current selection
   **/
-  @:ufunction public function UnlockSelectedGroups() : Void;
+  @:ufunction(BlueprintCallable) public function UnlockSelectedGroups() : Void;
   
   /**
     Activates "Add to Group" mode which allows the user to select a group to append current selection
   **/
-  @:ufunction public function AddSelectedToGroup() : Void;
+  @:ufunction(BlueprintCallable) public function AddSelectedToGroup() : Void;
   
   /**
     Removes any groups or actors in the current selection from their immediate parent.
     If all actors/subgroups are removed, the parent group will be destroyed.
   **/
-  @:ufunction public function RemoveSelectedFromGroup() : Void;
+  @:ufunction(BlueprintCallable) public function RemoveSelectedFromGroup() : Void;
   
 }

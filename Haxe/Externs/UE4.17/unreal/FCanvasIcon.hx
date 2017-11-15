@@ -17,7 +17,7 @@ package unreal;
 /**
   Holds texture information with UV coordinates as well.
 **/
-@:glueCppIncludes("Engine/Canvas.h")
+@:glueCppIncludes("Classes/Engine/Canvas.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCanvasIcon {
   @:uproperty public var VL : unreal.Float32;
   @:uproperty public var UL : unreal.Float32;

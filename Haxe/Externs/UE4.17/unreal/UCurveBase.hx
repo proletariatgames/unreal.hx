@@ -23,12 +23,12 @@ package unreal;
   /**
     Get the time range across all curves
   **/
-  @:ufunction @:thisConst @:final public function GetTimeRange(MinTime : unreal.Float32, MaxTime : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTimeRange(MinTime : unreal.Float32, MaxTime : unreal.Float32) : Void;
   
   /**
     Get the value range across all curves
   **/
-  @:ufunction @:thisConst @:final public function GetValueRange(MinValue : unreal.Float32, MaxValue : unreal.Float32) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetValueRange(MinValue : unreal.Float32, MaxValue : unreal.Float32) : Void;
   #if WITH_EDITORONLY_DATA
   
   /**

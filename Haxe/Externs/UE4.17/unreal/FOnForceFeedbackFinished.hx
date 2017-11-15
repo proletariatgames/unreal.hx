@@ -19,6 +19,6 @@ package unreal;
   @param ForceFeedbackComponent
   
 **/
-@:glueCppIncludes("Components/ForceFeedbackComponent.h")
+@:glueCppIncludes("Classes/Components/ForceFeedbackComponent.h")
 @:uParamName("ForceFeedbackComponent")
 typedef FOnForceFeedbackFinished = unreal.DynamicMulticastDelegate<FOnForceFeedbackFinished, unreal.UForceFeedbackComponent->Void>;

@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Scale the length of a chain of bones.
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("BoneControllers/AnimNode_ScaleChainLength.h")
+@:glueCppIncludes("Public/BoneControllers/AnimNode_ScaleChainLength.h")
 @:uextern @:ustruct extern class FAnimNode_ScaleChainLength extends unreal.FAnimNode_Base {
   @:uproperty public var bBoneIndicesCached : Bool;
   @:uproperty public var AlphaScaleBias : unreal.FInputScaleBias;

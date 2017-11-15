@@ -15,7 +15,7 @@
 package unreal.materialshaderqualitysettings;
 
 @:umodule("MaterialShaderQualitySettings")
-@:glueCppIncludes("ShaderPlatformQualitySettings.h")
+@:glueCppIncludes("Classes/ShaderPlatformQualitySettings.h")
 @:uname("EMobileCSMQuality")
 @:class @:uextern @:uenum extern enum EMobileCSMQuality {
   

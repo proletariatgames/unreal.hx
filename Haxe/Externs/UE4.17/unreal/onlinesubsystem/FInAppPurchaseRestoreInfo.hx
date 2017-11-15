@@ -18,7 +18,7 @@ package unreal.onlinesubsystem;
   Micro-transaction restored purchase information
 **/
 @:umodule("OnlineSubsystem")
-@:glueCppIncludes("Interfaces/OnlineStoreInterface.h")
+@:glueCppIncludes("Public/Interfaces/OnlineStoreInterface.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FInAppPurchaseRestoreInfo {
   
   /**

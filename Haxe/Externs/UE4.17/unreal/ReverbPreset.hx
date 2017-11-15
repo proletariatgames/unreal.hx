@@ -18,7 +18,7 @@ package unreal;
   DEPRECATED: Exists for backwards compatibility
   Indicates a reverb preset to use.
 **/
-@:glueCppIncludes("Sound/AudioVolume.h")
+@:glueCppIncludes("Classes/Sound/AudioVolume.h")
 @:uname("ReverbPreset")
 @:uextern @:uenum extern enum ReverbPreset {
   REVERB_Default;

@@ -22,7 +22,7 @@ package unreal;
   @param OtherBodyIndex
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("OverlappedComponent")
 @:uParamName("OtherActor")
 @:uParamName("OtherComp")

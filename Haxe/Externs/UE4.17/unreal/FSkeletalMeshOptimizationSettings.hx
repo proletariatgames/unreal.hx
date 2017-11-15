@@ -17,7 +17,7 @@ package unreal;
 /**
   FSkeletalMeshOptimizationSettings - The settings used to optimize a skeletal mesh LOD.
 **/
-@:glueCppIncludes("Engine/SkeletalMesh.h")
+@:glueCppIncludes("Classes/Engine/SkeletalMesh.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSkeletalMeshOptimizationSettings {
   @:deprecated @:uproperty public var BakePose_DEPRECATED : unreal.UAnimSequence;
   

@@ -19,7 +19,7 @@ package unreal.gameplaytasks;
   @param FreshlyReleased
   
 **/
-@:glueCppIncludes("GameplayTasksComponent.h")
+@:glueCppIncludes("Classes/GameplayTasksComponent.h")
 @:uParamName("NewlyClaimed")
 @:uParamName("FreshlyReleased")
 @:umodule("GameplayTasks")

@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper struct for Slot node pose evaluation.
 **/
-@:glueCppIncludes("Animation/AnimInstance.h")
+@:glueCppIncludes("Classes/Animation/AnimInstance.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSlotEvaluationPose {
   
   /**

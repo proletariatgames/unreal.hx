@@ -18,7 +18,7 @@ package unreal;
   Active and named net drivers instantiated from an FNetDriverDefinition
   The net driver will remain instantiated on this struct until it is destroyed
 **/
-@:glueCppIncludes("Engine/Engine.h")
+@:glueCppIncludes("Classes/Engine/Engine.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FNamedNetDriver {
   
   /**

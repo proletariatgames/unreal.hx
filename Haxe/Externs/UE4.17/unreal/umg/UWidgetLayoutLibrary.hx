@@ -26,41 +26,41 @@ package unreal.umg;
     @param ScreenPosition The position in the viewport with quality scale removed and DPI scale remove.
     @return true if the position projects onto the screen.
   **/
-  @:ufunction static public function ProjectWorldLocationToWidgetPosition(PlayerController : unreal.APlayerController, WorldLocation : unreal.FVector, ScreenPosition : unreal.PRef<unreal.FVector2D>) : Bool;
+  @:ufunction(BlueprintCallable) static public function ProjectWorldLocationToWidgetPosition(PlayerController : unreal.APlayerController, WorldLocation : unreal.FVector, ScreenPosition : unreal.PRef<unreal.FVector2D>) : Bool;
   
   /**
     Gets the current DPI Scale being applied to the viewport and all the Widgets.
   **/
-  @:ufunction static public function GetViewportScale(WorldContextObject : unreal.UObject) : unreal.Float32;
+  @:ufunction(BlueprintCallable) static public function GetViewportScale(WorldContextObject : unreal.UObject) : unreal.Float32;
   
   /**
     Gets the size of the game viewport.
   **/
-  @:ufunction static public function GetViewportSize(WorldContextObject : unreal.UObject) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function GetViewportSize(WorldContextObject : unreal.UObject) : unreal.FVector2D;
   
   /**
     Gets the geometry of the widget holding all widgets added to the "Viewport".  You
     can use this geometry to convert between absolute and local space of widgets held on this
     widget.
   **/
-  @:ufunction static public function GetViewportWidgetGeometry(WorldContextObject : unreal.UObject) : unreal.slatecore.FGeometry;
+  @:ufunction(BlueprintCallable) static public function GetViewportWidgetGeometry(WorldContextObject : unreal.UObject) : unreal.slatecore.FGeometry;
   
   /**
     Gets the geometry of the widget holding all widgets added to the "Player Screen". You
     can use this geometry to convert between absolute and local space of widgets held on this
     widget.
   **/
-  @:ufunction static public function GetPlayerScreenWidgetGeometry(PlayerController : unreal.APlayerController) : unreal.slatecore.FGeometry;
+  @:ufunction(BlueprintCallable) static public function GetPlayerScreenWidgetGeometry(PlayerController : unreal.APlayerController) : unreal.slatecore.FGeometry;
   
   /**
     Gets the platform's mouse cursor position.  This is the 'absolute' desktop location of the mouse.
   **/
-  @:ufunction static public function GetMousePositionOnPlatform() : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function GetMousePositionOnPlatform() : unreal.FVector2D;
   
   /**
     Gets the platform's mouse cursor position in the local space of the viewport widget.
   **/
-  @:ufunction static public function GetMousePositionOnViewport(WorldContextObject : unreal.UObject) : unreal.FVector2D;
+  @:ufunction(BlueprintCallable) static public function GetMousePositionOnViewport(WorldContextObject : unreal.UObject) : unreal.FVector2D;
   
   /**
     Gets the mouse position of the player controller, scaled by the DPI.  If you're trying to go from raw mouse screenspace coordinates
@@ -69,53 +69,53 @@ package unreal.umg;
     MousePositionScaledByDPI = MousePosition * (1 / ViewportScale).
             //DEPRECATED(4.17, "Use GetMousePositionOnViewport() instead.  Optionally and for more options, you can use GetViewportWidgetGeometry and GetPlayerScreenWidgetGeometry are newly introduced to give you the geometry of the viewport and the player screen for widgets to help convert between spaces.")
   **/
-  @:ufunction static public function GetMousePositionScaledByDPI(Player : unreal.APlayerController, LocationX : unreal.Float32, LocationY : unreal.Float32) : Bool;
+  @:ufunction(BlueprintCallable) static public function GetMousePositionScaledByDPI(Player : unreal.APlayerController, LocationX : unreal.Float32, LocationY : unreal.Float32) : Bool;
   
   /**
     Gets the slot object on the child widget as a Border Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a border panel.
   **/
-  @:ufunction static public function SlotAsBorderSlot(Widget : unreal.umg.UWidget) : unreal.umg.UBorderSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsBorderSlot(Widget : unreal.umg.UWidget) : unreal.umg.UBorderSlot;
   
   /**
     Gets the slot object on the child widget as a Canvas Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a canvas panel.
   **/
-  @:ufunction static public function SlotAsCanvasSlot(Widget : unreal.umg.UWidget) : unreal.umg.UCanvasPanelSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsCanvasSlot(Widget : unreal.umg.UWidget) : unreal.umg.UCanvasPanelSlot;
   
   /**
     Gets the slot object on the child widget as a Grid Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a grid panel.
   **/
-  @:ufunction static public function SlotAsGridSlot(Widget : unreal.umg.UWidget) : unreal.umg.UGridSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsGridSlot(Widget : unreal.umg.UWidget) : unreal.umg.UGridSlot;
   
   /**
     Gets the slot object on the child widget as a Horizontal Box Slot, allowing you to manipulate its information.
     @param Widget The child widget of a Horizontal Box.
   **/
-  @:ufunction static public function SlotAsHorizontalBoxSlot(Widget : unreal.umg.UWidget) : unreal.umg.UHorizontalBoxSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsHorizontalBoxSlot(Widget : unreal.umg.UWidget) : unreal.umg.UHorizontalBoxSlot;
   
   /**
     Gets the slot object on the child widget as a Overlay Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a overlay panel.
   **/
-  @:ufunction static public function SlotAsOverlaySlot(Widget : unreal.umg.UWidget) : unreal.umg.UOverlaySlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsOverlaySlot(Widget : unreal.umg.UWidget) : unreal.umg.UOverlaySlot;
   
   /**
     Gets the slot object on the child widget as a Uniform Grid Slot, allowing you to manipulate layout information.
     @param Widget The child widget of a uniform grid panel.
   **/
-  @:ufunction static public function SlotAsUniformGridSlot(Widget : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsUniformGridSlot(Widget : unreal.umg.UWidget) : unreal.umg.UUniformGridSlot;
   
   /**
     Gets the slot object on the child widget as a Vertical Box Slot, allowing you to manipulate its information.
     @param Widget The child widget of a Vertical Box.
   **/
-  @:ufunction static public function SlotAsVerticalBoxSlot(Widget : unreal.umg.UWidget) : unreal.umg.UVerticalBoxSlot;
+  @:ufunction(BlueprintCallable) static public function SlotAsVerticalBoxSlot(Widget : unreal.umg.UWidget) : unreal.umg.UVerticalBoxSlot;
   
   /**
     Removes all widgets from the viewport.
   **/
-  @:ufunction static public function RemoveAllWidgets(WorldContextObject : unreal.UObject) : Void;
+  @:ufunction(BlueprintCallable) static public function RemoveAllWidgets(WorldContextObject : unreal.UObject) : Void;
   
 }

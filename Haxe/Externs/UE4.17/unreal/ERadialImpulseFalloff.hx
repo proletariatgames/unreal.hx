@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum for controlling the falloff of strength of a radial impulse as a function of distance from Origin.
 **/
-@:glueCppIncludes("Engine/EngineTypes.h")
+@:glueCppIncludes("Classes/Engine/EngineTypes.h")
 @:uname("ERadialImpulseFalloff")
 @:uextern @:uenum extern enum ERadialImpulseFalloff {
   

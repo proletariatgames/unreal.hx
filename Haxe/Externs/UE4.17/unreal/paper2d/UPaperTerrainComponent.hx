@@ -68,6 +68,6 @@ package unreal.paper2d;
   /**
     Set color of the terrain
   **/
-  @:ufunction @:final public function SetTerrainColor(NewColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTerrainColor(NewColor : unreal.FLinearColor) : Void;
   
 }

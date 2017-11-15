@@ -21,7 +21,7 @@ package unreal.editor;
   border color.
 **/
 @:umodule("UnrealEd")
-@:glueCppIncludes("ThumbnailRendering/ThumbnailManager.h")
+@:glueCppIncludes("Classes/ThumbnailRendering/ThumbnailManager.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FThumbnailRenderingInfo {
   
   /**

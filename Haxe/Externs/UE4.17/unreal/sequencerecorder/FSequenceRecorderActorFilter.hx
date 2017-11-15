@@ -15,7 +15,7 @@
 package unreal.sequencerecorder;
 
 @:umodule("SequenceRecorder")
-@:glueCppIncludes("SequenceRecorderActorFilter.h")
+@:glueCppIncludes("Public/SequenceRecorderActorFilter.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSequenceRecorderActorFilter {
   
   /**

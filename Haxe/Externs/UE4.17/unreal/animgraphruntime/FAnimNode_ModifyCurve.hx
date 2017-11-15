@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Easy way to modify curve values on a pose
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimNodes/AnimNode_ModifyCurve.h")
+@:glueCppIncludes("Public/AnimNodes/AnimNode_ModifyCurve.h")
 @:uextern @:ustruct extern class FAnimNode_ModifyCurve extends unreal.FAnimNode_Base {
   @:uproperty public var Alpha : unreal.Float32;
   @:uproperty public var CurveNames : unreal.TArray<unreal.FName>;

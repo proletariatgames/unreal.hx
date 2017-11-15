@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/ParticleSpriteEmitter.h")
+@:glueCppIncludes("Classes/Particles/ParticleSpriteEmitter.h")
 @:uname("EParticleScreenAlignment")
 @:uextern @:uenum extern enum EParticleScreenAlignment {
   PSA_FacingCameraPosition;

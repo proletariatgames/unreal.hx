@@ -18,7 +18,7 @@ package unreal.slatecore;
   Represents the appearance of an SSlider
 **/
 @:umodule("SlateCore")
-@:glueCppIncludes("Styling/SlateTypes.h")
+@:glueCppIncludes("Public/Styling/SlateTypes.h")
 @:uextern @:ustruct extern class FSliderStyle extends unreal.slatecore.FSlateWidgetStyle {
   @:uproperty public var BarThickness : unreal.Float32;
   

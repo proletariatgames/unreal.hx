@@ -21,17 +21,17 @@ package unreal.aimodule;
   /**
     @return the cooldown tag end time, 0.0f if CooldownTag is not found
   **/
-  @:ufunction @:thisConst @:final public function GetTagCooldownEndTime(CooldownTag : unreal.gameplaytags.FGameplayTag) : unreal.Float32;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function GetTagCooldownEndTime(CooldownTag : unreal.gameplaytags.FGameplayTag) : unreal.Float32;
   
   /**
     add to the cooldown tag's duration
   **/
-  @:ufunction @:final public function AddCooldownTagDuration(CooldownTag : unreal.gameplaytags.FGameplayTag, CooldownDuration : unreal.Float32, bAddToExistingDuration : Bool) : Void;
+  @:ufunction(BlueprintCallable) @:final public function AddCooldownTagDuration(CooldownTag : unreal.gameplaytags.FGameplayTag, CooldownDuration : unreal.Float32, bAddToExistingDuration : Bool) : Void;
   
   /**
     assign subtree to RunBehaviorDynamic task specified by tag
   **/
-  @:ufunction public function SetDynamicSubtree(InjectTag : unreal.gameplaytags.FGameplayTag, BehaviorAsset : unreal.aimodule.UBehaviorTree) : Void;
+  @:ufunction(BlueprintCallable) public function SetDynamicSubtree(InjectTag : unreal.gameplaytags.FGameplayTag, BehaviorAsset : unreal.aimodule.UBehaviorTree) : Void;
   
   /**
     instanced nodes

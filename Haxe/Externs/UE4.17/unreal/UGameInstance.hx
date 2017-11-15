@@ -32,22 +32,22 @@ package unreal;
   /**
     Opportunity for blueprints to handle the game instance being initialized.
   **/
-  @:ufunction public function ReceiveInit() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveInit() : Void;
   
   /**
     Opportunity for blueprints to handle the game instance being shutdown.
   **/
-  @:ufunction public function ReceiveShutdown() : Void;
+  @:ufunction(BlueprintImplementableEvent) public function ReceiveShutdown() : Void;
   
   /**
     Opportunity for blueprints to handle network errors.
   **/
-  @:ufunction public function HandleNetworkError(FailureType : unreal.ENetworkFailure, bIsServer : Bool) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function HandleNetworkError(FailureType : unreal.ENetworkFailure, bIsServer : Bool) : Void;
   
   /**
     Opportunity for blueprints to handle travel errors.
   **/
-  @:ufunction public function HandleTravelError(FailureType : unreal.ETravelFailure) : Void;
+  @:ufunction(BlueprintImplementableEvent) public function HandleTravelError(FailureType : unreal.ETravelFailure) : Void;
   
   /**
     Debug console command to create a player.

@@ -19,7 +19,7 @@ package unreal;
   @param PathEvent
   
 **/
-@:glueCppIncludes("AI/Navigation/NavigationPath.h")
+@:glueCppIncludes("Classes/AI/Navigation/NavigationPath.h")
 @:uParamName("AffectedPath")
 @:uParamName("PathEvent")
 typedef FOnNavigationPathUpdated = unreal.DynamicMulticastDelegate<FOnNavigationPathUpdated, unreal.UNavigationPath->unreal.ENavPathEvent->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   String search dir used in UnrealString.h
 **/
-@:glueCppIncludes("UObject/NoExportTypes.h")
+@:glueCppIncludes("Public/UObject/NoExportTypes.h")
 @:uname("ESearchDir.Type")
 @:uextern @:uenum extern enum ESearchDir {
   FromStart;

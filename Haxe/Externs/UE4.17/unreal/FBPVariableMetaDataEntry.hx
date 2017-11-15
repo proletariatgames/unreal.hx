@@ -17,7 +17,7 @@ package unreal;
 /**
   One metadata entry for a variable
 **/
-@:glueCppIncludes("Engine/Blueprint.h")
+@:glueCppIncludes("Classes/Engine/Blueprint.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBPVariableMetaDataEntry {
   
   /**

@@ -17,7 +17,7 @@ package unreal;
 /**
   Preview APawn class for this track
 **/
-@:glueCppIncludes("Matinee/InterpGroupCamera.h")
+@:glueCppIncludes("Classes/Matinee/InterpGroupCamera.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCameraPreviewInfo {
   
   /**

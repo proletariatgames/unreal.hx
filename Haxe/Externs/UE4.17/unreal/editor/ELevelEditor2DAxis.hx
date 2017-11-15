@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Settings/EditorProjectSettings.h")
+@:glueCppIncludes("Public/Settings/EditorProjectSettings.h")
 @:uname("ELevelEditor2DAxis")
 @:class @:uextern @:uenum extern enum ELevelEditor2DAxis {
   X;

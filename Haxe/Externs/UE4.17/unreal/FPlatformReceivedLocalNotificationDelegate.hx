@@ -20,7 +20,7 @@ package unreal;
   @param inAppState
   
 **/
-@:glueCppIncludes("Kismet/BlueprintPlatformLibrary.h")
+@:glueCppIncludes("Classes/Kismet/BlueprintPlatformLibrary.h")
 @:uParamName("inString")
 @:uParamName("inInt")
 @:uParamName("inAppState")

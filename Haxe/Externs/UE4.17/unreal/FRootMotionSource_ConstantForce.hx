@@ -17,7 +17,7 @@ package unreal;
 /**
   ConstantForce applies a fixed force to the target
 **/
-@:glueCppIncludes("GameFramework/RootMotionSource.h")
+@:glueCppIncludes("Classes/GameFramework/RootMotionSource.h")
 @:uextern @:ustruct extern class FRootMotionSource_ConstantForce extends unreal.FRootMotionSource {
   @:uproperty public var StrengthOverTime : unreal.UCurveFloat;
   @:uproperty public var Force : unreal.FVector;

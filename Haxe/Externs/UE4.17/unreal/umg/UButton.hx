@@ -81,25 +81,25 @@ package unreal.umg;
   /**
     Sets the color multiplier for the button background
   **/
-  @:ufunction @:final public function SetStyle(InStyle : unreal.Const<unreal.PRef<unreal.slatecore.FButtonStyle>>) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetStyle(InStyle : unreal.Const<unreal.PRef<unreal.slatecore.FButtonStyle>>) : Void;
   
   /**
     Sets the color multiplier for the button content
   **/
-  @:ufunction @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetColorAndOpacity(InColorAndOpacity : unreal.FLinearColor) : Void;
   
   /**
     Sets the color multiplier for the button background
   **/
-  @:ufunction @:final public function SetBackgroundColor(InBackgroundColor : unreal.FLinearColor) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetBackgroundColor(InBackgroundColor : unreal.FLinearColor) : Void;
   
   /**
     Returns true if the user is actively pressing the button.  Do not use this for detecting 'Clicks', use the OnClicked event instead.
     
     @return true if the user is actively pressing the button otherwise false.
   **/
-  @:ufunction @:thisConst @:final public function IsPressed() : Bool;
-  @:ufunction @:final public function SetClickMethod(InClickMethod : unreal.slatecore.EButtonClickMethod) : Void;
-  @:ufunction @:final public function SetTouchMethod(InTouchMethod : unreal.slatecore.EButtonTouchMethod) : Void;
+  @:ufunction(BlueprintCallable) @:thisConst @:final public function IsPressed() : Bool;
+  @:ufunction(BlueprintCallable) @:final public function SetClickMethod(InClickMethod : unreal.slatecore.EButtonClickMethod) : Void;
+  @:ufunction(BlueprintCallable) @:final public function SetTouchMethod(InTouchMethod : unreal.slatecore.EButtonTouchMethod) : Void;
   
 }

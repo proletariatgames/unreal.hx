@@ -17,7 +17,7 @@ package unreal;
 /**
   A vector parameter
 **/
-@:glueCppIncludes("Materials/MaterialParameterCollection.h")
+@:glueCppIncludes("Classes/Materials/MaterialParameterCollection.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FCollectionVectorParameter extends unreal.FCollectionParameterBase {
   @:uproperty public var DefaultValue : unreal.FLinearColor;
   

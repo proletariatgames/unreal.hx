@@ -18,7 +18,7 @@ package unreal.animgraphruntime;
   Proxy override for this UAnimInstance-derived class
 **/
 @:umodule("AnimGraphRuntime")
-@:glueCppIncludes("AnimSequencerInstanceProxy.h")
+@:glueCppIncludes("Public/AnimSequencerInstanceProxy.h")
 @:uextern @:ustruct extern class FAnimSequencerInstanceProxy extends unreal.FAnimInstanceProxy {
   
 }

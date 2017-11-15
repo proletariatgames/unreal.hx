@@ -19,7 +19,7 @@ package unreal;
   @param ButtonReleased
   
 **/
-@:glueCppIncludes("Components/PrimitiveComponent.h")
+@:glueCppIncludes("Classes/Components/PrimitiveComponent.h")
 @:uParamName("TouchedComponent")
 @:uParamName("ButtonReleased")
 typedef FComponentOnReleasedSignature = unreal.DynamicMulticastDelegate<FComponentOnReleasedSignature, unreal.UPrimitiveComponent->unreal.inputcore.FKey->Void>;

@@ -17,7 +17,7 @@ package unreal;
 /**
   Structure containing per-LOD settings that pertain to the entire UParticleSystem.
 **/
-@:glueCppIncludes("Particles/ParticleSystem.h")
+@:glueCppIncludes("Classes/Particles/ParticleSystem.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FParticleSystemLOD {
   
 }

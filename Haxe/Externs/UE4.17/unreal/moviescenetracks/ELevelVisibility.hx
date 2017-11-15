@@ -18,7 +18,7 @@ package unreal.moviescenetracks;
   Visibility options for the level visibility section.
 **/
 @:umodule("MovieSceneTracks")
-@:glueCppIncludes("Sections/MovieSceneLevelVisibilitySection.h")
+@:glueCppIncludes("Public/Sections/MovieSceneLevelVisibilitySection.h")
 @:uname("ELevelVisibility")
 @:class @:uextern @:uenum extern enum ELevelVisibility {
   

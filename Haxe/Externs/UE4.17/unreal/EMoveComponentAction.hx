@@ -17,7 +17,7 @@ package unreal;
 /**
   Enum used to indicate desired behavior for MoveComponentTo latent function.
 **/
-@:glueCppIncludes("Kismet/KismetSystemLibrary.h")
+@:glueCppIncludes("Classes/Kismet/KismetSystemLibrary.h")
 @:uname("EMoveComponentAction.Type")
 @:uextern @:uenum extern enum EMoveComponentAction {
   

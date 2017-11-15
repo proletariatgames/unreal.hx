@@ -18,6 +18,6 @@ package unreal.paper2d;
   Event for a non-looping flipbook finishing play
   
 **/
-@:glueCppIncludes("PaperFlipbookComponent.h")
+@:glueCppIncludes("Classes/PaperFlipbookComponent.h")
 @:umodule("Paper2D")
 typedef FFlipbookFinishedPlaySignature = unreal.DynamicMulticastDelegate<FFlipbookFinishedPlaySignature, Void->Void>;

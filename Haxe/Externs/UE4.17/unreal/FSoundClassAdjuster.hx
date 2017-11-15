@@ -17,7 +17,7 @@ package unreal;
 /**
   Elements of data for sound group volume control
 **/
-@:glueCppIncludes("Sound/SoundMix.h")
+@:glueCppIncludes("Classes/Sound/SoundMix.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSoundClassAdjuster {
   
   /**

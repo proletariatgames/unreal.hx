@@ -17,7 +17,7 @@ package unreal;
 /**
   Name/value pair for retrieving curve values
 **/
-@:glueCppIncludes("Animation/CurveSourceInterface.h")
+@:glueCppIncludes("Classes/Animation/CurveSourceInterface.h")
 @:uextern @:ustruct extern class FNamedCurveValue {
   
   /**

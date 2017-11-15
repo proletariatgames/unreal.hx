@@ -17,7 +17,7 @@ package unreal;
 /**
   Helper struct for creating sub tracks supported by this track
 **/
-@:glueCppIncludes("Matinee/InterpTrack.h")
+@:glueCppIncludes("Classes/Matinee/InterpTrack.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FSupportedSubTrackInfo {
   
   /**

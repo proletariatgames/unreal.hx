@@ -14,7 +14,7 @@
 **/
 package unreal;
 
-@:glueCppIncludes("Particles/Location/ParticleModuleLocationBoneSocket.h")
+@:glueCppIncludes("Classes/Particles/Location/ParticleModuleLocationBoneSocket.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FLocationBoneSocketInfo {
   
   /**

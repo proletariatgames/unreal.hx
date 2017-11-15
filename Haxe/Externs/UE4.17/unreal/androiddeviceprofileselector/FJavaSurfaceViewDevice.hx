@@ -15,7 +15,7 @@
 package unreal.androiddeviceprofileselector;
 
 @:umodule("AndroidDeviceProfileSelector")
-@:glueCppIncludes("AndroidJavaSurfaceViewDevices.h")
+@:glueCppIncludes("Public/AndroidJavaSurfaceViewDevices.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FJavaSurfaceViewDevice {
   @:uproperty public var Model : unreal.FString;
   @:uproperty public var Manufacturer : unreal.FString;

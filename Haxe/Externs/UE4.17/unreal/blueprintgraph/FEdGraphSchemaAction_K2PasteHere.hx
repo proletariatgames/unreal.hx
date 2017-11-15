@@ -18,7 +18,7 @@ package unreal.blueprintgraph;
   Action to paste at this location on graph
 **/
 @:umodule("BlueprintGraph")
-@:glueCppIncludes("EdGraphSchema_K2_Actions.h")
+@:glueCppIncludes("Classes/EdGraphSchema_K2_Actions.h")
 @:uextern @:ustruct extern class FEdGraphSchemaAction_K2PasteHere extends unreal.blueprintgraph.FEdGraphSchemaAction_K2NewNode {
   
 }

@@ -15,7 +15,7 @@
 package unreal.editor;
 
 @:umodule("UnrealEd")
-@:glueCppIncludes("Factories/FbxMeshImportData.h")
+@:glueCppIncludes("Classes/Factories/FbxMeshImportData.h")
 @:uname("EFBXNormalImportMethod")
 @:uextern @:uenum extern enum EFBXNormalImportMethod {
   

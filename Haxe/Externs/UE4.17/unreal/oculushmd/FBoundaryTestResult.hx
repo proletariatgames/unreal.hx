@@ -20,7 +20,7 @@ package unreal.oculushmd;
   * All dimensions, points, and vectors are returned in Unreal world coordinate space.
 **/
 @:umodule("OculusHMD")
-@:glueCppIncludes("OculusBoundaryComponent.h")
+@:glueCppIncludes("Public/OculusBoundaryComponent.h")
 @:noCopy @:noEquals @:uextern @:ustruct extern class FBoundaryTestResult {
   
   /**

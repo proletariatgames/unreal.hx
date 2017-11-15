@@ -58,16 +58,16 @@ package unreal;
   /**
     Fire a single impulse
   **/
-  @:ufunction public function FireImpulse() : Void;
+  @:ufunction(BlueprintCallable) public function FireImpulse() : Void;
   
   /**
     Add an object type for this radial force to affect
   **/
-  @:ufunction public function AddObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
+  @:ufunction(BlueprintCallable) public function AddObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
   
   /**
     Remove an object type that is affected by this radial force
   **/
-  @:ufunction public function RemoveObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
+  @:ufunction(BlueprintCallable) public function RemoveObjectTypeToAffect(ObjectType : unreal.EObjectTypeQuery) : Void;
   
 }
