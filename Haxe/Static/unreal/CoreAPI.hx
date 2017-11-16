@@ -9,6 +9,8 @@ class UObject {} // trick to avoid triggering build macros
 #else
 import unreal.UObject;
 import unreal.Wrapper;
+
+typedef AutoImportLogVerbosity = ELogVerbosity;
 #end
 
 #if !macro
@@ -16,24 +18,6 @@ import unreal.Wrapper;
 @:access(unreal.UObject.wrapped)
 #end
 class CoreAPI {
-
-  static var delayedInits:Array<Void->Void>;
-  static var hasInit = false;
-
-  /**
-    Runs function `fn` after hxcpp static initialization but before any other Unreal code has executed
-   **/
-  @:noUsing public static function runAtInit(fn:Void->Void) {
-    if (hasInit) {
-      var msg = 'All `runAtInit` functions should be registered at initialization time (e.g. on `__init__` static functions)';
-      trace('Error', msg);
-      throw msg;
-    } else if (delayedInits == null) {
-      delayedInits = [fn];
-    } else {
-      delayedInits.push(fn);
-    }
-  }
 
   @:noUsing macro public static function check(expr:ExprOf<Bool>):Expr {
     if (
@@ -47,74 +31,6 @@ class CoreAPI {
     } else {
       return macro {};
     }
-  }
-
-#if WITH_EDITOR
-
-  static var hotReloadFns:Array<Void->Void>;
-  /**
-    Runs function `fn` every time hot reload happens
-   **/
-  @:noUsing public static function onHotReload(fn:Void->Void) {
-    if (hotReloadFns == null) {
-      hotReloadFns = [fn];
-    } else {
-      hotReloadFns.push(fn);
-    }
-  }
-
-#if (WITH_CPPIA || cppia)
-  static var cppiaReloadFns:Array<Void->Void>;
-
-  @:noUsing public static function onCppiaReload(fn:Void->Void) {
-    if (cppiaReloadFns == null) {
-      cppiaReloadFns = [fn];
-    } else {
-      cppiaReloadFns.push(fn);
-    }
-  }
-#else
-  @:noUsing public static function onCppiaReload(fn:Void->Void) {
-    trace('Error', 'Trying to add a cppia reload hook, but cppia is not compiled within');
-  }
-#end
-#end
-
-  /**
-   * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
-   * This is meant as a replacement for Cast<Type> in Unreal C++
-   * Example:
-   *  var actor:AActor = GetOwner();
-   *  var pawn:APawn = actor.as(APawn);
-   *  if (pawn != null) { ... }
-   */
-  public static inline function as<T>(obj:UObject, cls:Class<T>) : Null<T> {
-    var result:T;
-    if (Std.is(obj, cls)) {
-      result = cast obj;
-    } else
-#if cppia
-      // because of live reload, we must test as a string
-      if (slowAsCheck(obj, cls)) {
-        result = cast obj;
-      } else
-#end
-    {
-      result = null;
-    }
-    return result;
-  }
-
-  private static function slowAsCheck(obj:UObject, cls:Class<Dynamic>) {
-    var target = Type.getClassName(cls);
-    var cur:Class<Dynamic> = cast Type.getClass(obj);
-    while(cur != null) {
-      if (Type.getClassName(cur) == target) {
-        return true;
-      }
-      cur = Type.getSuperClass(cur);
-    }
-    return false;
   }
 
   public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
@@ -212,7 +128,105 @@ class CoreAPI {
     return uhx.compiletime.CoreAPIMacros.runStaticName(e);
   }
 
-#if macro
+
+#if !macro
+  public static var HaxeLog(get, null):LogCategory;
+
+  private static function get_HaxeLog() {
+    if (HaxeLog == null) {
+      HaxeLog = LogCategory.get("HaxeLog");
+    }
+    return HaxeLog;
+  }
+
+  static var delayedInits:Array<Void->Void>;
+  static var hasInit = false;
+
+  /**
+    Runs function `fn` after hxcpp static initialization but before any other Unreal code has executed
+   **/
+  @:noUsing public static function runAtInit(fn:Void->Void) {
+    if (hasInit) {
+      var msg = 'All `runAtInit` functions should be registered at initialization time (e.g. on `__init__` static functions)';
+      trace('Error', msg);
+      throw msg;
+    } else if (delayedInits == null) {
+      delayedInits = [fn];
+    } else {
+      delayedInits.push(fn);
+    }
+  }
+
+
+#if WITH_EDITOR
+
+  static var hotReloadFns:Array<Void->Void>;
+  /**
+    Runs function `fn` every time hot reload happens
+   **/
+  @:noUsing public static function onHotReload(fn:Void->Void) {
+    if (hotReloadFns == null) {
+      hotReloadFns = [fn];
+    } else {
+      hotReloadFns.push(fn);
+    }
+  }
+
+#if (WITH_CPPIA || cppia)
+  static var cppiaReloadFns:Array<Void->Void>;
+
+  @:noUsing public static function onCppiaReload(fn:Void->Void) {
+    if (cppiaReloadFns == null) {
+      cppiaReloadFns = [fn];
+    } else {
+      cppiaReloadFns.push(fn);
+    }
+  }
+#else
+  @:noUsing public static function onCppiaReload(fn:Void->Void) {
+    trace('Error', 'Trying to add a cppia reload hook, but cppia is not compiled within');
+  }
+#end
+#end
+
+  /**
+   * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
+   * This is meant as a replacement for Cast<Type> in Unreal C++
+   * Example:
+   *  var actor:AActor = GetOwner();
+   *  var pawn:APawn = actor.as(APawn);
+   *  if (pawn != null) { ... }
+   */
+  public static inline function as<T>(obj:UObject, cls:Class<T>) : Null<T> {
+    var result:T;
+    if (Std.is(obj, cls)) {
+      result = cast obj;
+    } else
+#if cppia
+      // because of live reload, we must test as a string
+      if (slowAsCheck(obj, cls)) {
+        result = cast obj;
+      } else
+#end
+    {
+      result = null;
+    }
+    return result;
+  }
+
+  private static function slowAsCheck(obj:UObject, cls:Class<Dynamic>) {
+    var target = Type.getClassName(cls);
+    var cur:Class<Dynamic> = cast Type.getClass(obj);
+    while(cur != null) {
+      if (Type.getClassName(cur) == target) {
+        return true;
+      }
+      cur = Type.getSuperClass(cur);
+    }
+    return false;
+  }
+
+#else
   private static function getUFunctionFromObj(args:Array<Expr>):{ obj:Expr, fnName:String } {
     var obj:Expr = null,
         fnName:String = null;

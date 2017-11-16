@@ -355,21 +355,35 @@ class UnrealInit
           idx++;
         }
         var verbosity = unreal.ELogVerbosity.Log;
-        var val = idx < 0 ? v : infos.customParams[0];
-        switch (Std.string(val).toUpperCase()) {
-        case "LOG":
-          verbosity = Log;
+        var val:Dynamic = idx < 0 ? v : infos.customParams[0];
+        if (Std.is(val, unreal.ELogVerbosity)) {
+          verbosity = val;
           idx++;
-        case "WARNING":
-          verbosity = Warning;
-          idx++;
-        case "ERROR":
-          verbosity = Error;
-          idx++;
-        case "FATAL":
-          verbosity = Fatal;
-          idx++;
-        case _:
+        } else {
+          switch (Std.string(val).toUpperCase()) {
+          case "LOG":
+            verbosity = Log;
+            idx++;
+          case "WARNING":
+            verbosity = Warning;
+            idx++;
+          case "ERROR":
+            verbosity = Error;
+            idx++;
+          case "FATAL":
+            verbosity = Fatal;
+            idx++;
+          case "DISPLAY":
+            verbosity = Display;
+            idx++;
+          case "VERBOSE":
+            verbosity = Verbose;
+            idx++;
+          case "VERYVERBOSE":
+            verbosity = VeryVerbose;
+            idx++;
+          case _:
+          }
         }
 
         if (idx < 0) {
@@ -382,17 +396,12 @@ class UnrealInit
 
         if (cat == null) {
           switch(verbosity) {
-          case Log:
-            unreal.Log.trace(str);
-          case Warning:
-            unreal.Log.warning(str);
-          case Error:
-            unreal.Log.error(str);
           case Fatal:
             unreal.Log.error(str);
             unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
             unreal.Log.fatal(str);
           case _:
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, CoreAPI.staticName("HaxeLog"), verbosity, "%s", str);
           }
         } else if (!cat.unrealCategory.IsSuppressed(verbosity)) {
           if (verbosity == Fatal) {
