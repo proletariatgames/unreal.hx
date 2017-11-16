@@ -120,6 +120,16 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
 #end
           needsReinstancing = true;
           break;
+        } else {
+          if (def.uclass.ufuncs != null) {
+            for (fn in def.uclass.ufuncs) {
+              if (fn.uname.startsWith('onRep_') && ustruct.FindFunctionByName(fn.uname) == null) {
+                // if onRep is found, perform a full hot reload
+                needsReinstancing = true;
+                break;
+              }
+            }
+          }
         }
       }
     }
