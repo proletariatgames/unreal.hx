@@ -401,7 +401,7 @@ class UnrealInit
             unreal.Log.error('Stack trace:\n' + haxe.CallStack.toString(haxe.CallStack.callStack()));
             unreal.Log.fatal(str);
           case _:
-            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, CoreAPI.staticName("HaxeLog"), verbosity, "%s", str);
+            unreal.FMsg.Logf(infos.fileName, infos.lineNumber, unreal.CoreAPI.staticName("HaxeLog"), verbosity, "%s", str);
           }
         } else if (!cat.unrealCategory.IsSuppressed(verbosity)) {
           if (verbosity == Fatal) {
