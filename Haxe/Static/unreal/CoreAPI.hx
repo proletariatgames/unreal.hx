@@ -192,7 +192,7 @@ class CoreAPI {
 #end
 #end
 
-#if UHX_NO_UOBJECT
+#if !UHX_NO_UOBJECT
   /**
    * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
    * This is meant as a replacement for Cast<Type> in Unreal C++
