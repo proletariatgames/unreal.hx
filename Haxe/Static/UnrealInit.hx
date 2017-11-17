@@ -52,7 +52,9 @@ class UnrealInit
       }
     }
 
+#if !UHX_NO_UOBJECT
     uhx.ue.ClassMap.runInits();
+#end
   }
 
 #if WITH_EDITOR

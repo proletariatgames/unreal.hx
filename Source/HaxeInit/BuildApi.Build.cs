@@ -161,13 +161,13 @@ public class HaxeModuleRules : BaseModuleRules {
         this.PrivateDependencyModuleNames.AddRange(new string[] {
           "Core",
           "Projects", // for IPluginManager
-          "Launch" // for RequiredProgramMainCPPInclude.h
         });
         // for RequiredProgramMainCPPInclude.h
+        string engineDir = Path.GetFullPath("..");
         PublicIncludePaths.AddRange(
           new string[] {
-            "Runtime/Launch/Public",
-            "Runtime/Launch/Private",
+            engineDir + "/Source/Runtime/Launch/Public",
+            engineDir + "/Source/Runtime/Launch/Private",
           }
         );
       }
