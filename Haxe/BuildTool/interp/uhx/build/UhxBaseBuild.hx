@@ -8,6 +8,7 @@ using StringTools;
 class UhxBaseBuild {
   public var data(default, null):UhxBuildData;
   public var config(default, null):UhxBuildConfig;
+  public var rootDir(default, null):String;
   var hadUhxErr:Bool;
 
   public function new(data:UhxBuildData, ?config:UhxBuildConfig) {
@@ -19,7 +20,24 @@ class UhxBaseBuild {
     }
 
     this.data = data;
+    if (data.targetType == Program) {
+      this.rootDir = getProgramRoot();
+    } else {
+      this.rootDir = data.projectDir;
+    }
     this.config = config == null ? getConfig() : config;
+    if (data.targetType == Program && this.config.disableUObject == null) {
+      this.config.disableUObject = true;
+    }
+  }
+
+  private function getProgramRoot() {
+    var sourceDir = this.data.projectDir + '/Source';
+    var targetSourceDir = '$sourceDir/${data.targetName}';
+    if (!FileSystem.exists(targetSourceDir)) {
+      throw new BuildError('Could not find the source directory for target ${data.targetName} (expected $targetSourceDir)');
+    }
+    return targetSourceDir;
   }
 
   public function run() {
@@ -114,7 +132,7 @@ class UhxBaseBuild {
     var installPath = this.config.haxeInstallPath;
     if (installPath != null) {
       if (!haxe.io.Path.isAbsolute(installPath)) {
-        installPath = this.data.projectDir + '/' + installPath;
+        installPath = this.rootDir + '/' + installPath;
       }
       if (Sys.systemName() == 'Windows') {
         cmd = '${installPath}/haxe.exe';
@@ -131,7 +149,7 @@ class UhxBaseBuild {
     var haxelibPath = this.config.haxelibPath;
     if (haxelibPath != null) {
       if (!haxe.io.Path.isAbsolute(haxelibPath)) {
-        haxelibPath = this.data.projectDir + '/' + haxelibPath;
+        haxelibPath = this.rootDir + '/' + haxelibPath;
       }
       Sys.putEnv('HAXELIB_PATH', haxelibPath);
     }
@@ -196,9 +214,9 @@ class UhxBaseBuild {
   private function getConfig():UhxBuildConfig {
     var base:UhxBuildConfig = {};
     for (file in ['uhxconfig.json','uhxconfig-local.json','uhxconfig.local']) {
-      if (FileSystem.exists('${data.projectDir}/$file')) {
-        trace('Loading config from ${data.projectDir}/$file');
-        var cur = haxe.Json.parse(File.getContent('${data.projectDir}/$file'));
+      if (FileSystem.exists('${rootDir}/$file')) {
+        trace('Loading config from ${rootDir}/$file');
+        var cur = haxe.Json.parse(File.getContent('${rootDir}/$file'));
         for (field in Reflect.fields(cur)) {
           var data:Dynamic = Reflect.field(cur, field);
           if (Std.is(data, Array)) {

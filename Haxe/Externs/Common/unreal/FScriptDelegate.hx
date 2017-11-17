@@ -4,9 +4,6 @@ package unreal;
 @:uextern extern class FScriptDelegate {
   public function new();
 
-  @:expr({ var ret = new unreal.FScriptDelegate(); ret.BindUFunction(obj, name); return ret; })
-  static function createBound(obj:UObject, name:FName):FScriptDelegate;
-
   @:uname(".ctor") static function create():FScriptDelegate;
   @:uname("new") static function createNew():POwnedPtr<FScriptDelegate>;
 
@@ -17,6 +14,7 @@ package unreal;
    */
   function IsBound():Bool;
 
+#if !UHX_NO_UOBJECT
   /**
    * Binds a UFunction to this delegate.
    *
@@ -24,6 +22,10 @@ package unreal;
    * @param InFunctionName The name of the function to call.
    */
   function BindUFunction(obj:UObject, functionName:Const<PRef<FName>>):Void;
+
+  @:expr({ var ret = new unreal.FScriptDelegate(); ret.BindUFunction(obj, name); return ret; })
+  static function createBound(obj:UObject, name:FName):FScriptDelegate;
+#end
 
   /**
    * Checks to see if the user object bound to this delegate will ever be valid again

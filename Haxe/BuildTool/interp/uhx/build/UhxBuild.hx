@@ -13,7 +13,7 @@ class UhxBuild extends UhxBaseBuild {
 
   var haxeDir:String;
   var targetModule:String;
-  var definitions = [];
+  var defines = [];
   var version:{ MajorVersion:Int, MinorVersion:Int, PatchVersion:Null<Int> };
   var srcDir:String;
 
@@ -43,7 +43,7 @@ class UhxBuild extends UhxBaseBuild {
   public function new(data, ?config:UhxBuildConfig) {
     super(data, config);
     this.ignoreArgs = MacroHelper.getIgnoreArgs();
-    this.haxeDir = data.projectDir + '/Haxe';
+    this.haxeDir = rootDir + '/Haxe';
     this.targetModule = this.data.targetName;
     if (this.config.mainModule != null) {
       this.targetModule = this.config.mainModule;
@@ -558,14 +558,14 @@ class UhxBuild extends UhxBaseBuild {
     sys.io.File.saveContent(uhtDir + '/proj.uproject', haxe.Json.stringify(proj));
     tsave();
     // Call UHT
-    if (!sys.FileSystem.exists(this.data.projectDir + '/Haxe/GeneratedExterns')) {
-      sys.FileSystem.createDirectory(this.data.projectDir + '/Haxe/GeneratedExterns');
+    if (!sys.FileSystem.exists(this.rootDir + '/Haxe/GeneratedExterns')) {
+      sys.FileSystem.createDirectory(this.rootDir + '/Haxe/GeneratedExterns');
     }
     var oldEnvs = setEnvs([
       'GENERATE_EXTERNS' => '1',
       'EXTERN_MODULES' => externModules.join(','),
-      'EXTERN_OUTPUT_DIR' => this.data.projectDir,
-      'EXTERN_FULL_OUT_PATH' => this.data.projectDir + '/Haxe/GeneratedExterns'
+      'EXTERN_OUTPUT_DIR' => this.rootDir,
+      'EXTERN_FULL_OUT_PATH' => this.rootDir + '/Haxe/GeneratedExterns'
     ]);
     var args = [uhtDir + '/proj.uproject','$uhtDir/externs.uhtmanifest', '-PLUGIN=UnrealHxGenerator', '-Unattended', '-stdout'];
     if (config.verbose) {
@@ -764,7 +764,7 @@ class UhxBuild extends UhxBaseBuild {
           bakeArgs.push('-D WITH_EDITORONLY_DATA');
         }
         if (data.targetType == Program) {
-          bakeArgs.push('-D IS_PROGRAM');
+          bakeArgs.push('-D UE_PROGRAM');
         }
         if (this.config.disableUObject) {
           bakeArgs.push('-D UHX_NO_UOBJECT');
@@ -863,7 +863,7 @@ class UhxBuild extends UhxBaseBuild {
         defines.push('-D WITH_SERVER_CODE');
         defines.push('-D UE_SERVER');
       case Program:
-        defines.push('-D IS_PROGRAM');
+        defines.push('-D UE_PROGRAM');
     }
   }
 
@@ -986,7 +986,7 @@ class UhxBuild extends UhxBaseBuild {
         '-D UE_CPPIA_RECOMPILE',
       ].concat(cmdArgs);
       this.createHxml('build-script', buildArgs);
-      var complArgs = ['--cwd ${data.projectDir}/Haxe', '--no-output'].concat(args);
+      var complArgs = ['--cwd ${rootDir}/Haxe', '--no-output'].concat(args);
       this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
     return cppiaRet;
@@ -1038,7 +1038,7 @@ class UhxBuild extends UhxBaseBuild {
     addTargetDefines(args, data.targetType);
     addConfigurationDefines(args, data.targetConfiguration);
     addPlatformDefines(args, data.targetPlatform);
-    if (this.config.disableUObject || data.targetType == Program) {
+    if (this.config.disableUObject) {
       args.push('-D UHX_NO_UOBJECT');
     }
     if (this.config.noGlueUnityBuild) {
@@ -1498,16 +1498,22 @@ class UhxBuild extends UhxBaseBuild {
       if (FileSystem.exists(this.outputStatic)) {
         FileSystem.deleteFile(this.outputStatic);
       }
+    } else {
+      if (this.config.disableUObject) {
+        this.defines.push('UHX_NO_UOBJECT=1');
+      }
+      this.defines.sort(Reflect.compare);
+      var allDefs = this.defines.join('\n').trim();
+      var targetDefs = '$outputDir/Data/defines.txt';
+      if (!FileSystem.exists(targetDefs) || sys.io.File.getContent(targetDefs).trim() != allDefs) {
+        sys.io.File.saveContent(targetDefs, allDefs);
+      }
     }
 
     // add the output static linked library
     if (this.config.disabled || !FileSystem.exists(this.outputStatic))
     {
       warn('Haxe support is disabled');
-    } else {
-      if (this.config.disableUObject) {
-        this.definitions.push('UHX_NO_UOBJECT=1');
-      }
     }
   }
 
@@ -1703,7 +1709,7 @@ class UhxBuild extends UhxBaseBuild {
       }
     }
 
-    var game = '${data.projectDir}/Haxe/$name';
+    var game = '${rootDir}/Haxe/$name';
     if (FileSystem.exists(game)) recurse(game, '');
     var templ = '${data.pluginDir}/Haxe/$name';
     if (FileSystem.exists(templ)) recurse(templ, '');

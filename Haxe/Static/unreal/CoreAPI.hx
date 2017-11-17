@@ -33,6 +33,7 @@ class CoreAPI {
     }
   }
 
+#if !UHX_NO_UOBJECT
   public static macro function getComponent<T>(obj:ExprOf<AActor>, cls:ExprOf<Class<T>>) : ExprOf<T> {
     var clsType = switch (cls.expr) {
     case EConst(CIdent(className)):
@@ -120,11 +121,13 @@ class CoreAPI {
     return macro (@:privateAccess @:pos(pos) $self.typingHelper($obj.$fnName)).Internal_AddUFunction($obj, $v{fnName});
   }
 
+#end // UHX_NO_UOBJECT
+
   public static macro function staticVar(e:Expr):Expr {
     return uhx.compiletime.CoreAPIMacros.runStaticVar(e);
   }
 
-  public static macro function staticName(e:Expr):Expr {
+  public static macro function staticName(e:ExprOf<String>):Expr {
     return uhx.compiletime.CoreAPIMacros.runStaticName(e);
   }
 
@@ -189,6 +192,7 @@ class CoreAPI {
 #end
 #end
 
+#if UHX_NO_UOBJECT
   /**
    * For UObject types, returns the object casted to the input class, or null if the object is null or not of that type.
    * This is meant as a replacement for Cast<Type> in Unreal C++
@@ -225,6 +229,8 @@ class CoreAPI {
     }
     return false;
   }
+
+#end // UHX_NO_UOBJECT
 
 #else
   private static function getUFunctionFromObj(args:Array<Expr>):{ obj:Expr, fnName:String } {

@@ -158,7 +158,18 @@ public class HaxeModuleRules : BaseModuleRules {
           this.PrivateDependencyModuleNames.Add("UnrealEd");
         }
       } else {
-        this.PrivateDependencyModuleNames.Add("Core");
+        this.PrivateDependencyModuleNames.AddRange(new string[] {
+          "Core",
+          "Projects", // for IPluginManager
+          "Launch" // for RequiredProgramMainCPPInclude.h
+        });
+        // for RequiredProgramMainCPPInclude.h
+        PublicIncludePaths.AddRange(
+          new string[] {
+            "Runtime/Launch/Public",
+            "Runtime/Launch/Private",
+          }
+        );
       }
     }
 
@@ -170,9 +181,19 @@ public class HaxeModuleRules : BaseModuleRules {
         Log.TraceInformation("Could not find module definition at " + modulesPath);
       } else {
         foreach (string dep in File.ReadAllText(modulesPath).Trim().Split('\n')) {
-          if (dep != curName) {
+          if (dep != curName && dep != "") {
             this.PrivateDependencyModuleNames.Add(dep);
           }
+        }
+      }
+    }
+    string definesPath = info.outputDir + "/Data/defines.txt";
+    if (!File.Exists(definesPath)) {
+      Log.TraceInformation("Could not find defines file at " + definesPath);
+    } else {
+      foreach (string def in File.ReadAllText(definesPath).Trim().Split('\n')) {
+        if (def != "") {
+          this.Definitions.Add(def);
         }
       }
     }
@@ -267,6 +288,7 @@ public class HaxeModuleRules : BaseModuleRules {
       }
     }
     rules.ExternalDependencies.Add(info.outputDir + "/Data/modules.txt");
+    rules.ExternalDependencies.Add(info.outputDir + "/Data/defines.txt");
 
     return info;
   }

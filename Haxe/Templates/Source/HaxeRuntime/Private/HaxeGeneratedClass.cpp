@@ -1,4 +1,5 @@
 #include "HaxeRuntime.h"
+#ifndef UHX_NO_UOBJECT
 #include "HaxeGeneratedClass.h"
 #include "uhx/glues/TArrayImpl_Glue_UE.h"
 #include "IntPtr.h"
@@ -29,3 +30,4 @@ void UHaxeGeneratedClass::cdoInit() {
     }
   }
 }
+#endif

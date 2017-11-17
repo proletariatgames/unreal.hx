@@ -57,11 +57,19 @@ import uhx.internal.Helpers;
   }
 
   public static function hxEnumToCppInt(value:UIntPtr) : Int {
+    #if !UHX_NO_UOBJECT
     return @:privateAccess unreal.ReflectAPI.hxEnumToCppInt(HaxeHelpers.pointerToDynamic(value));
+    #else
+    return throw "Cannot access uobjects on UE programs";
+    #end
   }
 
   public static function cppIntToHxEnum(cppType:cpp.ConstCharStar, value:Int) : UIntPtr {
+    #if !UHX_NO_UOBJECT
     return HaxeHelpers.dynamicToPointer(@:privateAccess unreal.ReflectAPI.cppIntToHxEnum(cppType.toString(), value));
+    #else
+    return throw "Cannot access uobjects on UE programs";
+    #end
   }
 
   public static function enumIndex(e:UIntPtr) : Int {
