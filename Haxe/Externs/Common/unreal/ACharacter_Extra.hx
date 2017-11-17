@@ -31,4 +31,7 @@ extern class ACharacter_Extra {
   public static var CharacterMovementComponentName : FName;
 
   public function MoveBlockedBy(Impact:Const<PRef<FHitResult>>):Void;
+
+	/** @return true if this character is currently able to crouch (and is not currently crouched) */
+  public function CanCrouch() : Bool;
 }
