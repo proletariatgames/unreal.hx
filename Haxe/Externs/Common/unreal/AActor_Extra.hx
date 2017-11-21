@@ -180,6 +180,11 @@ extern class AActor_Extra {
 
   @:uproperty private var bReplicates:Bool;
 
+  /** The time this actor was created, relative to World->GetTimeSeconds().
+  @see UWorld::GetTimeSeconds()
+  */
+  public var CreationTime:Float32;
+
 	/** Called on the actor when a new subobject is dynamically created via replication */
   public function OnSubobjectCreatedFromReplication(NewSubobject:UObject) : Void;
 
