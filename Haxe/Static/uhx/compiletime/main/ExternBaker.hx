@@ -37,6 +37,21 @@ class ExternBaker {
     // parse the optional arguments
     Compiler.addGlobalMetadata("", "@:build(uhx.compiletime.types.OptionalArgsBuild.build())");
 
+    #if bake_externs
+    TypeConv.onTypeLoad = function(name:String) {
+      try {
+        var extra = Context.getType(name + '_Extra');
+        // it exists
+        if (extra != null) {
+          Context.getType(name);
+          joinMetas(name + '_Extra', name);
+        }
+      }
+      catch(e:Dynamic) {
+      }
+    };
+    #end
+
     // walk into the paths - from last to first - and if needed, create the wrapper code
     var target = Compiler.getOutput();
     target = FileSystem.fullPath(target);
@@ -99,7 +114,6 @@ class ExternBaker {
 
     var unames = new Map();
     for (ref in filesToCompile) {
-      // trace(ref);
       var generatedHeader = getGeneratedHeader({ srcFile: ref.file.toLowerCase(), ver:1 });
       var module = Context.getModule(ref.module);
       var pack = ref.module.split('.'),
@@ -258,6 +272,10 @@ class ExternBaker {
   }
 
   private static function joinMetas(extraModuleName:String, file:String):Bool {
+#if bake_externs
+    TypeConv.setTypeLoaded(extraModuleName);
+    TypeConv.setTypeLoaded(extraModuleName.substr(0,extraModuleName.length - '_Extra'.length));
+#end
     var pos = Context.makePosition({ min:0, max:0, file:file });
     var extraModule = getModule(extraModuleName, pos);
     if (extraModule == null || extraModule.length == 0) {
@@ -519,9 +537,10 @@ class ExternBaker {
     decl << 'namespace uhx {' << new Newline()
          << 'template<';
     decl.foldJoin(c.params, function(param,buf) return buf << 'class ' << param.name);
+    var noUObject = Context.defined('UHX_NO_UOBJECT');
     decl << '>' << new Newline();
     decl << 'struct TTemplatedData<' << cppType << '>' << new Begin('{')
-          << 'typedef TStructOpsTypeTraits<$cppType> TTraits;' << new Newline()
+          << (noUObject ? '' : 'typedef TStructOpsTypeTraits<$cppType> TTraits;') << new Newline()
           << 'FORCEINLINE static const StructInfo *getInfo();' << new Newline()
           << 'private:' << new Newline()
           << 'static void destruct(unreal::UIntPtr ptr)' << new Begin('{')
@@ -543,7 +562,7 @@ class ExternBaker {
             << '/* .flags = */ UHX_Templated,' << new Newline()
             << '/* .size = */ (unreal::UIntPtr) sizeof(' << cppType << '),' << new Newline()
             << '/* .alignment = */ (unreal::UIntPtr) uhx::Alignment<' << cppType << '>::get(),' << new Newline()
-            << '/* .destruct = */ (TTraits::WithNoDestructor || std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
+            << '/* .destruct = */ (${noUObject ? "" : "TTraits::WithNoDestructor || "}std::is_trivially_destructible<' << cppType << '>::value ? nullptr : &TTemplatedData<$cppType>::destruct),' << new Newline()
             << '/* .equals = */ nullptr,' << new Newline()
             << '/* .genericParams = */ genericParams,' << new Newline()
             << '/* .genericImplementation = */ &genericImplementation'
@@ -1006,7 +1025,6 @@ class ExternBaker {
     switch(field.kind) {
     case FVar(read,write):
 #if bake_externs
-      // trace(this.module,field.type);
       deps.updateDeps(this.module, field.type);
 #end
       this.addDoc(field.doc);
@@ -1131,11 +1149,9 @@ class ExternBaker {
 #if bake_externs
         for (arg in args) {
           if (arg.name != 'this') {
-            // trace(this.module,arg);
             deps.updateDeps(this.module, arg.t);
           }
         }
-        // trace(this.module,ret);
         deps.updateDeps(this.module, ret);
 #end
         var cur = null;

@@ -17,6 +17,10 @@ using StringTools;
   @see TypeConvInfo
  **/
 class TypeConv {
+#if bake_externs
+  private static var typeHasLoaded:Map<String, Bool> = new Map();
+  public static var onTypeLoad:String->Void = null;
+#end
   public var data(default, null):TypeConvData;
   public var modifiers(default, null):Null<Array<Modifier>>;
 
@@ -33,6 +37,21 @@ class TypeConv {
     this.modifiers = modifiers;
     consolidate();
   }
+
+  inline private static function checkTypeLoaded(name:String) {
+#if bake_externs
+    if (onTypeLoad != null && !typeHasLoaded.exists(name)) {
+      typeHasLoaded[name] = true;
+      onTypeLoad(name);
+    }
+#end
+  }
+
+#if bake_externs
+  inline public static function setTypeLoaded(name:String) {
+    typeHasLoaded[name] = true;
+  }
+#end
 
   public function toUPropertyDef():Null<UPropertyDef> {
     var name:Null<String> = null,
@@ -1000,6 +1019,7 @@ class TypeConv {
           ctx.disableCache = true;
         }
         var name = iref.toString();
+        checkTypeLoaded(name);
         var ret = cache[name];
         if (ret != null) {
           if (ctx.modf == null && ctx.original == null) {
@@ -1117,6 +1137,9 @@ class TypeConv {
           // Const enums work the same as non-const, so we do support them
           Context.warning('Unreal Glue: PPtr or PRef is not supported on enums', pos);
         }
+#if bake_externs
+        checkTypeLoaded(eref.toString());
+#end
         var e = eref.get(),
             ret = null,
             info = getTypeInfo(e, pos);
@@ -1139,6 +1162,7 @@ class TypeConv {
           ctx.disableCache = true;
         }
         var name = aref.toString();
+        checkTypeLoaded(name);
         if (tl.length == 0) {
           var ret = cache[name];
           if (ret != null) {
