@@ -271,7 +271,12 @@ class ExternBaker {
     return '// Ver:${info.ver}\n// GeneratedBy:${info.srcFile}\n';
   }
 
+  private static var joinedMetas = new Map();
+
   private static function joinMetas(extraModuleName:String, file:String):Bool {
+    if (joinedMetas[extraModuleName]) {
+      return true;
+    }
 #if bake_externs
     TypeConv.setTypeLoaded(extraModuleName);
     TypeConv.setTypeLoaded(extraModuleName.substr(0,extraModuleName.length - '_Extra'.length));
@@ -344,6 +349,7 @@ class ExternBaker {
     case _:
       throw new Error('Module $extraModuleName should be an extern class', Context.makePosition({ min:0, max:0, file:file }));
     }
+    joinedMetas[extraModuleName] = true;
     return true;
   }
 
