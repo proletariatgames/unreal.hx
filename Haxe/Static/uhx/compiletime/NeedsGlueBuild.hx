@@ -17,8 +17,37 @@ class NeedsGlueBuild
     #if bake_externs
     return null;
     #end
+    var localClass = Context.getLocalClass(),
+        cls:ClassType = localClass.get();
     if (Context.defined('display')) {
-      return null;
+      if (cls.isInterface || cls.isExtern) {
+        return null;
+      }
+      var displayPos = haxe.macro.Compiler.getDisplayPos();
+      if (displayPos == null ||
+          sys.FileSystem.fullPath(displayPos.file).toLowerCase() != sys.FileSystem.fullPath(Context.getPosInfos(cls.pos).file).toLowerCase()
+         )
+      {
+        return null;
+      }
+
+      var fields:Array<Field> = Context.getBuildFields(),
+          needsUpdate = false;
+      for (field in fields) {
+        switch (field.kind) {
+        case FFun(fn):
+          if (fn.expr == null) {
+            fn.expr = macro {throw "Not Implemented";};
+            needsUpdate = true;
+          }
+        case _:
+        }
+      }
+      if (needsUpdate) {
+        return fields;
+      } else {
+        return null;
+      }
     }
 
     // check version level
@@ -26,9 +55,7 @@ class NeedsGlueBuild
       Globals.cur.checkBuildVersionLevel();
       checkedVersion = true;
     }
-    var localClass = Context.getLocalClass(),
-        cls = localClass.get(),
-        thisType = TypeRef.fromBaseType(cls, cls.pos);
+    var thisType = TypeRef.fromBaseType(cls, cls.pos);
 
     if (Globals.registeredNumPath == null) {
       trace('Internal error: Registered num path is null (compilation server related?)');
