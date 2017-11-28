@@ -179,28 +179,39 @@ class ExprGlueBuild {
     var clsRef = Context.getLocalClass(),
         cls = clsRef.get(),
         pos = Context.currentPos();
-    // make sure that the super field was not already defined in haxe code
+    inline function checkSuper(superField:ClassField) {
+      for (meta in superField.meta.extract(':ufunction')) {
+        for (meta in meta.params) {
+          if (UExtensionBuild.ufuncBlueprintOverridable(meta) && !UExtensionBuild.ufuncBlueprintNativeEvent(meta)) {
+            throw new Error('Unreal Glue Generation: This super call "$fieldName" cannot be called, since its parent function is an unimplemented BlueprintImplementableEvent', pos);
+          }
+        }
+      }
+    }
+
+    // make sure that the eluper field was not already defined in haxe code
     var sup = cls.superClass;
     while (sup != null) {
       var scls = sup.t.get();
       if (scls.meta.has(':uextern')) break;
       for (sfield in scls.fields.get()) {
         if (sfield.name == fieldName) {
+          checkSuper(sfield);
           // this field was already defined in a Haxe class; just use normal super
           return { expr:ECall(macro @:pos(pos) super.$fieldName, args), pos:pos };
         }
       }
       sup = scls.superClass;
     }
-
     var superClass = cls.superClass;
     if (superClass == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no superclass was found', pos);
     }
-    var field = findField(superClass.t.get(), fieldName, false);
+    var field = sup == null ? null : findField(sup.t.get(), fieldName, false);
     if (field == null) {
       throw new Error('Unreal Glue Generation: Field calls super but no field was found on super class', pos);
     }
+    checkSuper(field);
     var fargs = null, fret = null;
     switch(Context.follow(field.type)) {
     case TFun(targs,tret):
