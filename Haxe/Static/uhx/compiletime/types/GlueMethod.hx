@@ -796,7 +796,7 @@ class GlueMethod {
 
     if (this.haxeCode != null && this.cppCode != null && !meth.flags.hasAny(UnrealReflective) && meth.name != 'StaticClass') {
       var thisType = thisRef.getClassPath().replace('.','_');
-      buf << '#if (!display && cppia && !UHX_COMPILED_${thisType})' << new Newline();
+      buf << '#if (!UHX_DISPLAY && cppia && !UHX_COMPILED_${thisType})' << new Newline();
       buf << '@:deprecated("UHXERR: The field '
           << meth.name
           << ' was not compiled into the latest C++ compilation. Please perform a full C++ compilation.")' << new Newline();

@@ -986,7 +986,7 @@ class UhxBuild extends UhxBaseBuild {
         '-D UE_CPPIA_RECOMPILE',
       ].concat(cmdArgs);
       this.createHxml('build-script', buildArgs);
-      var complArgs = ['--cwd ${rootDir}/Haxe', '--no-output'].concat(args);
+      var complArgs = ['--cwd ${rootDir}/Haxe', '--no-output', '-D UHX_DISPLAY'].concat(args);
       this.createHxml('compl-script', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
     return cppiaRet;
@@ -1167,7 +1167,7 @@ class UhxBuild extends UhxBaseBuild {
     thaxe();
     if (!isCrossCompiling) {
       this.createHxml('build-static', args.concat(['-D use-rtti-doc']));
-      var complArgs = ['--cwd $haxeDir', '--no-output'].concat(args);
+      var complArgs = ['--cwd $haxeDir', '--no-output', '-D UHX_DISPLAY'].concat(args);
       this.createHxml('compl-static', complArgs.filter(function(v) return !v.startsWith('--macro')));
     }
 
