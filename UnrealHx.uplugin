@@ -17,7 +17,7 @@
 		"Win64": [
 			"SET ProjectDir=$(ProjectDir)",
 			"SET PluginDir=$(PluginDir)",
-			"if exist \"$(ProjectDir)\"\\uhxenv.bat \"$(ProjectDir)\"\\uhxenv.bat",
+			"IF EXIST \"$(ProjectDir)\"\\uhxenv.bat CALL \"$(ProjectDir)\"\\uhxenv.bat",
 			"haxe --cwd \"$(PluginDir)/Haxe/BuildTool\" compile-project.hxml -D \"EngineDir=$(EngineDir)\" -D \"ProjectDir=$(ProjectDir)\" -D \"TargetName=$(TargetName)\" -D \"TargetPlatform=$(TargetPlatform)\" -D \"TargetConfiguration=$(TargetConfiguration)\" -D \"TargetType=$(TargetType)\" -D \"ProjectFile=$(ProjectFile)\" -D \"PluginDir=$(PluginDir)\" -D UE_PRE_BUILD"
 		],
 		"Linux": [
