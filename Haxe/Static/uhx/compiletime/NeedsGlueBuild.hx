@@ -19,7 +19,7 @@ class NeedsGlueBuild
     #end
     var localClass = Context.getLocalClass(),
         cls:ClassType = localClass.get();
-    if (Context.defined('display')) {
+    if (Context.defined('UHX_DISPLAY')) {
       if (cls.isInterface || cls.isExtern) {
         return null;
       }
@@ -138,7 +138,7 @@ class NeedsGlueBuild
     var hadErrors = false,
         toAdd:Array<Field> = [];
     var delayedglue = macro uhx.internal.DelayedGlue;
-    if (Context.defined('display') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
+    if (Context.defined('UHX_DISPLAY') || (Context.defined('cppia') && Globals.cur.staticModules.exists(type.module))) {
       // don't spend precious macro processing time if this is not a script module
       delayedglue = macro cast null;
     }
@@ -620,7 +620,7 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
-        if (!Context.defined('display') && !Globals.cur.compiledScriptGlues.exists(thisClassName + ':')) {
+        if (!Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGlues.exists(thisClassName + ':')) {
           Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
         }
       }
