@@ -1,9 +1,11 @@
 package unreal;
+import unreal.inputcore.*;
+import unreal.slate.*;
 
 @:glueCppIncludes('Components/InputComponent.h')
-@:uextern extern class FInputAxisBinding extends FInputBinding {
-	/** The axis mapping being bound to. */
-	public var AxisName:FName;
+@:uextern extern class FInputAxisKeyBinding extends FInputBinding {
+	/** The axis being bound to. */
+	public var AxisKey:FKey;
 
 	/**
 	 * The delegate bound to the axis.
@@ -14,9 +16,9 @@ package unreal;
 
 	/**
 	 * The value of the axis as calculated during the most recent UPlayerInput::ProcessInputStack
-	 * if the InputComponent was in the stack, otherwise all values should be 0.
+	 * if the InputComponent containing the binding was in the stack, otherwise the value will be 0.
 	 */
 	public var AxisValue:Float32;
 
-  function new(InAxisName:FName);
+  function new(InAxisKey:FKey);
 }
