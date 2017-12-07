@@ -124,6 +124,7 @@ struct TClassCompiledInDefer<UHxBootstrap> : public FFieldCompiledInInfo
     UClassCompiledInDefer(this, InName, InClassSize, this->Crc);
   }
   virtual UClass* Register() const override {
+    check_hx_init();
     return UHxBootstrap::StaticClass();
   }
 
