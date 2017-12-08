@@ -96,7 +96,7 @@ class GlueMethod {
 
   private function getReflectiveCode() {
     var isStatic = meth.flags.hasAny(Static);
-    if (meth.flags.hasAny(UnrealReflective) && !isStatic) {
+    if (meth.flags.hasAny(UnrealReflective)) {
       var isProp = meth.flags.hasAny(Property);
       var isUObj = this.thisConv.data.match(CUObject(_));
       if (isProp) {
@@ -125,10 +125,11 @@ class GlueMethod {
           }
         }
       } else {
+        var thisObj = isStatic ? 'StaticClass().GetDefaultObject()' : 'this';
         var argNames = [ for (arg in meth.args) arg.name ];
         var args = argNames.length == 0 ? 'null' : ('[' + argNames.join(", ") + ']');
         var ret = [
-          'unreal.ReflectAPI.callMethod(this, "${meth.uname}", $args);'
+          'unreal.ReflectAPI.callMethod($thisObj, "${meth.uname}", $args);'
         ];
         if (!meth.ret.haxeType.isVoid()) {
           ret[0] = 'return ' + ret[0];
