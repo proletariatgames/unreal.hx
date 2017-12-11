@@ -25,6 +25,7 @@ extern class ACharacter_Extra {
    */
   public function Landed(Hit:Const<PRef<FHitResult>>) : Void;
 
+  @:thisConst
   private function CanJumpInternal_Implementation() : Bool;
 
   /** Name of the CharacterMovement component. Use this name if you want to use a different class (with ObjectInitializer.SetDefaultSubobjectClass). */
