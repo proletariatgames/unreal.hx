@@ -1,6 +1,6 @@
 package unreal.rhi;
 
-@:glueCppIncludes("DynamicRHI.h")
+@:glueCppIncludes("RHIResources.h", "DynamicRHI.h")
 @:noCopy
 @:noEquals
 @:umodule("RHI")
