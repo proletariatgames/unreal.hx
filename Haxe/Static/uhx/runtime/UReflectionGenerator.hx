@@ -558,7 +558,10 @@ public static function addHaxeBlueprintOverrides(clsName:String, uclass:UClass) 
       }
     }
 
-    for (propDef in meta.uclass.uprops) {
+    var uprops = meta.uclass.uprops,
+        i = uprops.length;
+    while (i --> 0) {
+      var propDef = uprops[i];
       if (isNative && propDef.metas != null && propDef.metas.exists(function(m) return m.name == 'UnrealHxExpose')) {
         continue;
       }
