@@ -44,7 +44,7 @@ extern class UWorld_Extra {
    * @param	bShouldModifyLevel		[opt] If true, Modify() the level before removing the actor.  Default is true.
    * @return							true if destroyed or already marked for destruction, false if actor couldn't be destroyed.
    */
-  public function DestroyActor(actor:AActor, bNetForce:Bool, bShouldModifyLevel:Bool) : Bool;
+  public function DestroyActor(actor:AActor, bNetForce:Bool=false, bShouldModifyLevel:Bool=true) : Bool;
 
   @:thisConst
   public function GetAuthGameMode() : AGameModeBase;

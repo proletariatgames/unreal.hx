@@ -54,4 +54,6 @@ extern class APlayerController_Extra {
   public function PreClientTravel(PendingURL:Const<PRef<FString>>, TravelType:ETravelType, bIsSeamlessTravel:Bool):Void;
 
   public function CleanupPlayerState() : Void;
+
+  public function SetPawn(InPawn:APawn) : Void;
 }
