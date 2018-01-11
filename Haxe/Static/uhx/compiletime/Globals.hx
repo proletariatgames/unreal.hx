@@ -232,6 +232,23 @@ class Globals {
   public static var registeredMacro:Bool;
   public static var registeredNumPath:String;
 
+  private static var generateHooks:Map<String, Array<Type>->Void>;
+
+  public static function addGenerateHook(name:String, fn:Array<Type>->Void) {
+    if (generateHooks == null) {
+      generateHooks = new Map();
+    }
+    generateHooks[name] = fn;
+  }
+
+  public static function callGenerateHooks(types:Array<Type>) {
+    if (generateHooks != null) {
+      for (hook in generateHooks) {
+        hook(types);
+      }
+    }
+  }
+
   public static function checkRegisteredMacro(name:String, onMacroReused:Void->Bool) {
     if (!registeredMacro) {
       registeredMacro = true;

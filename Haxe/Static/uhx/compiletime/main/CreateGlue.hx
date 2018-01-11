@@ -227,6 +227,7 @@ class CreateGlue {
 
     var builtGlues = [];
     Context.onGenerate( function(gen) {
+      Globals.callGenerateHooks(gen);
       if (Context.defined('WITH_CPPIA')) {
         MetaDefBuild.writeStaticDefs();
       }
