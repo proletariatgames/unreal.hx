@@ -113,7 +113,7 @@ class DelegateBuild {
         names.push('ExecuteIfBound');
       for (name in names) {
         var idx = 0;
-        var expr = {
+        var expr = isExtern ? macro cast null : {
           expr:ECall(
             macro $delayedglue.getNativeCall,
             [macro $v{name}, macro false].concat([ for (arg in args) macro $i{ 'arg_' + idx++ } ])),

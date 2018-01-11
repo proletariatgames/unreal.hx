@@ -990,6 +990,7 @@ class TypeConv {
       }
     }
 
+#if (haxe_ver < 4)
     if (useCache) {
       var t = Std.string(type);
       var cache = Globals.cur.typeConvCache;
@@ -1004,7 +1005,10 @@ class TypeConv {
       }
 
       return ret;
-    } else {
+    }
+    else
+#end
+    {
       return getInfo(type, pos, { accFlags:ONone }, inTypeParam, isNoTemplate);
     }
   }
@@ -1350,9 +1354,17 @@ class TypeConv {
         if (ret != null) {
           return new TypeConv(ret, ctx.modf, ctx.original);
         }
+#if (haxe_ver < 4)
         var oldType = Std.string(type);
+#else
+        var oldType = haxe.macro.TypeTools.toString(type);
+#end
         type = t.type.applyTypeParameters(t.params, tl);
+#if (haxe_ver < 4)
         if (oldType == Std.string(type)) {
+#else
+        if (oldType == haxe.macro.TypeTools.toString(type)) {
+#end
           throw new Error('Unreal Glue: Type loop detected on type $oldType. This might happen due to compilation errors on UnrealStruct/Delegates creation', t.pos);
         }
 
