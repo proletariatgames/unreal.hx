@@ -220,16 +220,23 @@ class NeedsGlueBuild
     }
 
     var methodPtrs = new Map();
+    var usesCppia = Context.defined('cppia') || Context.defined("WITH_CPPIA");
     for (field in fields) {
-      if (field.kind.match(FFun(_)) && (Context.defined('cppia') || Context.defined("WITH_CPPIA")) && field.meta.hasMeta(':uexpose')) {
-        var dummy = macro class {
-          @:noUsing @:noCompletion private function dummy() {
-            $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
-          }
-        };
-        var cur = dummy.fields[0];
-        cur.name = 'uhx_dummy_check_' + field.name;
-        toAdd.push(cur);
+      if (field.kind.match(FFun(_)) && usesCppia) {
+        var needsStatic = field.meta.hasMeta(':uexpose');
+        if (!needsStatic && isDynamicUType) {
+          needsStatic = field.access != null && field.access.has(AOverride) && !nonNativeFunctions.exists(field.name);
+        }
+        if (needsStatic) {
+          var dummy = macro class {
+            @:extern @:noUsing @:noCompletion inline private function dummy() {
+              $delayedglue.checkCompiled($v{field.name}, @:pos(field.pos) $i{field.name}, $v{field.access != null && field.access.has(AStatic)});
+            }
+          };
+          var cur = dummy.fields[0];
+          cur.name = 'uhx_dummy_check_' + field.name;
+          toAdd.push(cur);
+        }
       }
 
       if (field.access != null && field.access.has(AOverride)) {
@@ -620,7 +627,7 @@ class NeedsGlueBuild
       };
       if (Context.defined('cppia')) {
         staticClassDef.fields[0].access.push(ADynamic);
-        if (!Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGlues.exists(thisClassName + ':')) {
+        if (!Context.defined('UHX_DISPLAY') && !Globals.cur.compiledScriptGluesExists(thisClassName + ':')) {
           Context.warning('UHXERR: The @:uclass ${thisClassName} was never compiled into C++. It is recommended to run a full C++ compilation', type.pos);
         }
       }

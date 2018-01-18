@@ -53,7 +53,7 @@ class UStructBuild {
       tdef.meta.add(':uscript', [], tdef.pos);
     }
 
-    tdef.meta.add(':unativecalls', [ macro "create", macro "createNew" ], tdef.pos);
+    tdef.meta.add(':unativecalls', [ macro "create", macro "createNew", macro "copy", macro "copyNew" ], tdef.pos);
     var structHeaderPath = '${ueType.withoutPrefix().name}.h';
     tdef.meta.add(':glueCppIncludes', [macro $v{structHeaderPath}], tdef.pos);
     var target = new TypeRef(['uhx','structs'],tdef.name);
@@ -81,6 +81,13 @@ class UStructBuild {
       }
       @:uname("new") public static function createNew():unreal.POwnedPtr<$complexThis> {
         return $delayedglue.getNativeCall("createNew", true);
+      }
+
+      @:uname(".copyStruct") public function copy():$complexThis {
+        return $delayedglue.getNativeCall("copy", false);
+      }
+      @:uname(".copy") public function copyNew():unreal.POwnedPtr<$complexThis> {
+        return $delayedglue.getNativeCall("copyNew", false);
       }
     };
     for (field in added.fields) {

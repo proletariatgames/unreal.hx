@@ -58,7 +58,7 @@ class ExprGlueBuild {
         }
       } else {
         var sig = getSig();
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':' +sig) && !Context.defined('display')) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ':' +sig) && !Context.defined('display')) {
           Context.warning('UHXERR: The field $fullName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
@@ -141,7 +141,7 @@ class ExprGlueBuild {
     if (cls.meta.has(':uclass') && (Context.defined('cppia') || Context.defined('WITH_CPPIA'))) {
       var sig = UhxMeta.getStaticMetas(cls.meta.get()) + '@Class';
       if (Context.defined('cppia')) {
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ':$sig')) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ':$sig')) {
           Context.warning('UHXERR: The class ${clsRef} was not compiled into static, or it was compiled with different metadata', cls.pos);
         }
       } else {
@@ -165,7 +165,7 @@ class ExprGlueBuild {
         }
       }
       if (Context.defined('cppia')) {
-        if (!Globals.cur.compiledScriptGlues.exists(clsRef.toString() + ":" + sig)) {
+        if (!Globals.cur.compiledScriptGluesExists(clsRef.toString() + ":" + sig)) {
           Context.warning('UHXERR: The function $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', pos);
         }
       } else {
@@ -226,7 +226,7 @@ class ExprGlueBuild {
       null;
     if (Context.defined('cppia')) {
       var sigCheck = clsRef.toString() + ':' + sig;
-      if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+      if (!Globals.cur.compiledScriptGluesExists(sigCheck) && !Context.defined('display')) {
         Context.warning('UHXERR: The super call of $fieldName from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
       }
       var args = [macro this].concat(args);
@@ -347,7 +347,7 @@ class ExprGlueBuild {
           name = name.substring('_get_'.length, name.length - '_methodPtr'.length);
         }
         var sigCheck = clsRef.toString() + ':' + sig;
-        if (!Globals.cur.compiledScriptGlues.exists(sigCheck) && !Context.defined('display')) {
+        if (!Globals.cur.compiledScriptGluesExists(sigCheck) && !Context.defined('display')) {
           Context.warning('UHXERR: The native call of $name from $clsRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', Context.currentPos());
         }
       }
@@ -696,7 +696,7 @@ class ExprGlueBuild {
           throw new Error('Unreal Glue: ufunctions are not supported on ustructs', field.pos);
         }
         // we can only override non-extern functions
-        if (field.name != '_new' && supFields[field.name]) {
+        if (field.name != '_new'  && field.name != 'copy' && field.name != 'copyNew' && supFields[field.name]) {
           if (aSup.meta.has(':uextern')) {
             throw new Error('Unreal Glue: overriding an extern function (${field.name}) in a ustruct is not supported', field.pos);
           }

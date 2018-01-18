@@ -57,9 +57,9 @@ class CreateGlue {
     for (path in staticPaths) {
       fileDeps[path] = true;
     }
-    inline function addFileDep(file:String) {
+    inline function addFileDep(file:String, direct=true) {
       if (file != null && file.endsWith('.hx')) {
-        fileDeps.set(file, true);
+        fileDeps.set(file, direct);
       }
     }
 
@@ -92,18 +92,26 @@ class CreateGlue {
             }
           case TClassDecl(c):
             var c = c.get();
-            if (!cur.inScriptPass && !c.meta.has(':scriptGlue')) {
-              addFileDep(Context.getPosInfos(c.pos).file);
+            if (!c.meta.has(':scriptGlue')) {
+              if (!cur.inScriptPass) {
+                addFileDep(Context.getPosInfos(c.pos).file);
+              } else if (!c.meta.has(':uextern') && c.meta.has(':uclass')) {
+                addFileDep(Context.getPosInfos(c.pos).file, false);
+              }
             }
           case TEnumDecl(e):
             var e = e.get();
             if (!cur.inScriptPass) {
               addFileDep(Context.getPosInfos(e.pos).file);
+            } else if (!e.meta.has(':uextern') && e.meta.has(':uenum')) {
+              addFileDep(Context.getPosInfos(e.pos).file, false);
             }
           case TTypeDecl(t):
             var t = t.get();
             if (!cur.inScriptPass) {
               addFileDep(Context.getPosInfos(t.pos).file);
+            } else if (t.meta.has(':ustruct') || t.meta.has(':udelegate')) {
+              addFileDep(Context.getPosInfos(t.pos).file, false);
             }
           case _:
           }
@@ -294,10 +302,14 @@ class CreateGlue {
     var ret = sys.io.File.write(target);
     for (dep in fileDeps.keys()) {
       if (dep.startsWith(externsDir)) {
-        ret.writeByte('E'.code);
-        dep = dep.substr(externsDir.length);
-      } else {
+        if (fileDeps[dep]) {
+          ret.writeByte('E'.code);
+          dep = dep.substr(externsDir.length);
+        }
+      } else if (fileDeps[dep]) {
         ret.writeByte('C'.code);
+      } else {
+        ret.writeByte('I'.code);
       }
       ret.writeString(dep);
       ret.writeByte('\n'.code);

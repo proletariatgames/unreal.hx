@@ -118,6 +118,26 @@ class UhxBaseBuild {
     var args = [];
     makeArgsFromObj(this.data, args);
     makeArgsFromObj(this.config, args);
+
+    if (Sys.getEnv('UHX_DEBUG_BUILDER') == '1') {
+      if (Sys.systemName() == 'Linux') {
+        args = ['--args', path].concat(args);
+        path = 'gdb';
+      } else {
+        var tools = Sys.getEnv('VS140COMNTOOLS');
+        if (tools == null) {
+          tools = Sys.getEnv('VS130COMNTOOLS');
+        }
+        if (tools == null) {
+          tools = Sys.getEnv('VS120COMNTOOLS');
+        }
+        if (tools == null) {
+          throw 'Cannot find VSCOMNTOOLS to debug';
+        }
+        args = ['/DebugExe', path].concat(args);
+        path = '$tools/../IDE/devenv.exe';
+      }
+    }
     return this.call(path, args, true);
   }
 
@@ -181,7 +201,7 @@ class UhxBaseBuild {
           var ln = stderr.readLine();
           if (ln.indexOf('UHXERR:') >= 0) {
             this.hadUhxErr = true;
-            if (showErrors) {
+            if (showErrors || config.verbose) {
               err.writeString(ln);
               err.writeByte('\n'.code);
             }

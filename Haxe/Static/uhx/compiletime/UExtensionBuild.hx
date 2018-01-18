@@ -161,7 +161,7 @@ class UExtensionBuild {
         if ( field.kind.match(FVar(_)) && Globals.shouldExposeProperty(field, isDynamicClass) ) {
           uprops.push({ field:field, isStatic: true });
         } else if (Globals.shouldExposeFunction(field, isDynamicClass, null)) {
-          toExpose[field.name] = getMethodDef(field, Static);
+          toExpose[field.name] = getMethodDef(field, null, Static);
         }
       }
 
@@ -178,7 +178,7 @@ class UExtensionBuild {
             if (fnField == null) {
               throw new Error('Unreal Extension: Custom replication function not found: $repType', field.pos);
             }
-            toExpose[field.name] = getMethodDef(fnField, nativeMethods.exists(repType) && field.meta.has('uhx_OverridesNative') ? Override : Member);
+            toExpose[field.name] = getMethodDef(fnField, null, nativeMethods.exists(repType) && field.meta.has('uhx_OverridesNative') ? Override : Member);
           }
 
           continue;
@@ -206,7 +206,11 @@ class UExtensionBuild {
         }
 
         if (Globals.shouldExposeFunction(field, isDynamicClass, isOverride ? nativeMethods[field.name] : null)) {
-          toExpose[field.name] = getMethodDef(field, isOverride && !field.meta.has('uhx_OverridesNative') ? Override : Member);
+          toExpose[field.name] = getMethodDef(field, isOverride ? nativeMethods[field.name] : null, isOverride && !field.meta.has('uhx_OverridesNative') ? Override : Member);
+          // if (isOverride) {
+          //   var sig = UhxMeta.getStaticMetas(field.meta.get()) + field.name;
+          //   clt.meta.add(':ugenerated', [macro $v{sig}], field.pos);
+          // }
         }
       }
 
@@ -329,8 +333,9 @@ class UExtensionBuild {
           args.unshift( thisConv.ueToGlue(thisConst ? 'const_cast<${ nativeUe.getCppType() }>(this)' : 'this', ctx) );
         var cppBody = expose.getCppClass() + '::' + field.cf.name + '(' +
           args.join(', ') + ')';
-        if (!field.ret.haxeType.isVoid())
+        if (!field.ret.haxeType.isVoid()) {
           cppBody = 'return ' + field.ret.glueToUe( cppBody , ctx);
+        }
         cppDef << cppBody << ';\n}\n';
 
         var allTypes = [ for (arg in field.args) arg.type ];
@@ -854,7 +859,36 @@ class UExtensionBuild {
     return { hasHaxeSuper: hasHaxeSuper };
   }
 
-  private static function getMethodDef(field:ClassField, fieldType:FieldType) {
+  private static function getMethodDef(field:ClassField, overriddenField:ClassField, fieldType:FieldType) {
+    if (overriddenField != null && !field.meta.has(':supressOverrideCheck')) {
+      var reason = [];
+      switch [Context.follow(field.type), Context.follow(overriddenField.type)] {
+      case [TFun(a1,r1), TFun(a2,r2)]:
+        if (a1.length != a2.length) {
+          reason.push('different number of arguments');
+        } else {
+          for (i in 0...a1.length) {
+            var t2 = TypeConv.get(a2[i].t, field.pos);
+            if (!TypeConv.get(a1[i].t, field.pos).equivalentTo(t2) && t2.ueType.withoutPointer(true).name != 'FString') {
+              reason.push('the type of the argument ${a1[i].name} should be ${t2.haxeType}');
+            }
+          }
+          var r2 = TypeConv.get(r2, field.pos);
+          if (!TypeConv.get(r1, field.pos).equivalentTo(r2)) {
+            reason.push('the return type should be ${r2.haxeType}');
+          }
+        }
+      case _:
+        throw 'assert';
+      }
+      if (reason.length > 0) {
+        var msg = 'Unreal.hx: The function ${field.name} override has invalid argument issues:\n'
+                  + reason.join('\n') + '\n'
+                  + 'If this is intentional, you can add a @:supressOverrideCheck metadata to your function definition';
+        Context.warning(msg, field.pos);
+      }
+    }
+
     var args = null, ret = null;
     switch(Context.follow(field.type)) {
       case TFun(a,r):
@@ -958,4 +992,3 @@ class UExtensionBuild {
     return this == Static;
   }
 }
-

@@ -43,9 +43,34 @@ class Globals {
   public var buildName(default, null):String = Context.definedValue('UHX_BUILD_NAME');
   public var glueManager:Null<uhx.compiletime.types.GlueManager>;
 
-  public var compiledScriptGlues:Map<String, Bool> = new Map();
+  var compiledScriptGlues:Map<String, Bool> = new Map();
+  var compiledScriptGluesByName:Map<String, Array<String>> = new Map();
 
   @:isVar public var shortBuildName(get, null):String;
+
+  public function setCompiledScriptGlues(map:Map<String, Bool>) {
+    this.compiledScriptGlues = map;
+  }
+
+  public function setCompiledScriptGluesByName(map:Map<String, Array<String>>) {
+    this.compiledScriptGluesByName = map;
+  }
+
+  public function getScriptGluesByName(name:String) {
+    return this.compiledScriptGluesByName[name];
+  }
+
+  public function compiledScriptGluesExists(sig:String):Bool {
+    if (compiledScriptGlues.exists(sig)) {
+      compiledScriptGlues[sig] = true;
+      return true;
+    }
+    return false;
+  }
+
+  public function compiledScriptGlueWasTouched(sig:String):Bool {
+    return compiledScriptGlues.get(sig);
+  }
 
   private function get_unrealSourceDir() {
     if (this.unrealSourceDir == null) {

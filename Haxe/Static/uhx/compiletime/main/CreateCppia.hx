@@ -23,7 +23,7 @@ class CreateCppia {
     var compiled = compiledModules.modules;
 
     registerMacroCalls(target);
-    Globals.cur.compiledScriptGlues = readScriptGlues('$target/Data/scriptGlues.txt');
+    readScriptGlues('$target/Data/scriptGlues.txt');
 
     var statics = [];
     for (path in staticPaths) {
@@ -153,6 +153,22 @@ class CreateCppia {
         while ( (cur = metaDefs.pop()) != null ) {
           MetaDefBuild.addUDelegateMetaDef(cur);
         }
+        for (def in Globals.cur.scriptClassesDefs) {
+          var name = def.className;
+          var scripts = Globals.cur.getScriptGluesByName(name);
+          if (scripts != null) {
+            for (script in scripts) {
+              if (script.startsWith('StaticClass()') || script.startsWith('CPPSize()') || script.startsWith('setupFunction(')) {
+                continue;
+              }
+              if (!Globals.cur.compiledScriptGlueWasTouched(name + ':' + script)) {
+                Context.warning('UHXERR: $name: The script function $script was changed or deleted since the last C++ compilation. A full C++ compilation is required', Context.currentPos());
+              }
+            }
+          } else {
+            Context.warning('UHXERR: The type $name was not compiled since the last C++ compilation. A full C++ compilation is required', Context.currentPos());
+          }
+        }
 
         MetaDefBuild.writeClassDefs();
 
@@ -253,13 +269,14 @@ class CreateCppia {
               case _:
               }
             }
+
           case TEnum(eRef,_):
             var e = eRef.get();
             addFileDep(Context.getPosInfos(e.pos).file);
             if (!e.meta.has(':uextern')) {
               var sig = UEnumBuild.getSignature(e);
               if (sig != null) {
-                if (!Globals.cur.compiledScriptGlues.exists(eRef.toString() + ':' + sig) && !Context.defined('display')) {
+                if (!Globals.cur.compiledScriptGluesExists(eRef.toString() + ':' + sig) && !Context.defined('display')) {
                   Context.warning('UHXERR: The enum $eRef was not compiled into static, or it was compiled with a different signature. A full C++ compilation is required', e.pos);
                 }
               }
@@ -353,8 +370,10 @@ class CreateCppia {
     if (FileSystem.exists(path)) recurse(path, '');
   }
 
-  private static function readScriptGlues(path:String):Map<String, Bool> {
-    var ret = new Map();
+  private static function readScriptGlues(path:String):Void {
+    var scriptGlues = new Map(),
+        byName = new Map(),
+        curArr = null;
     var curBase = null;
     var file = sys.io.File.read(path);
     try {
@@ -363,10 +382,14 @@ class CreateCppia {
         if (ln == '') continue;
         switch (ln.charCodeAt(0)) {
         case ':'.code:
-          curBase = ln.substr(1) + ':';
-          ret[curBase] = true;
+          var cur = ln.substr(1);
+          curBase = cur + ':';
+          scriptGlues[curBase] = true;
+          byName[cur] = curArr = [];
         case '+'.code:
-          ret[curBase + ln.substr(1)] = true;
+          var cur = ln.substr(1);
+          scriptGlues[curBase + cur] = false;
+          curArr.push(cur);
         case _:
           throw '$path: Unknown script glue part $ln';
         }
@@ -376,7 +399,8 @@ class CreateCppia {
     }
 
     file.close();
-    return ret;
+    Globals.cur.setCompiledScriptGlues(scriptGlues);
+    Globals.cur.setCompiledScriptGluesByName(byName);
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {

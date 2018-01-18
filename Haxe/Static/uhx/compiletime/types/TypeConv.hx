@@ -38,6 +38,99 @@ class TypeConv {
     consolidate();
   }
 
+  public function equivalentTo(other:TypeConv) {
+    if (this == other) {
+      return true;
+    }
+
+    if ((this.modifiers == null) != (other.modifiers == null)) {
+      return false;
+    }
+    if (this.modifiers != null) {
+      for (modf in this.modifiers) {
+        switch(modf) {
+          case Ptr:
+            if (!other.modifiers.has(Ptr)) {
+              return false;
+            }
+          case Ref:
+            if (!other.modifiers.has(Ref)) {
+              return false;
+            }
+          case Const:
+            if (!other.modifiers.has(Const)) {
+              return false;
+            }
+          case _:
+        }
+      }
+    }
+
+    switch [this.data, other.data] {
+    case [CBasic(infoT), CBasic(infoO)]:
+      return infoT.ueType.name == infoO.ueType.name;
+    case [CSpecial(infoT), CSpecial(infoO)]:
+      return infoT.haxeType.toString() == infoO.haxeType.toString();
+    case [CUObject(_, f1, i1), CUObject(_, f2, i2)]:
+      if (f1 != f2) {
+        return false;
+      }
+      return i1.haxeType.toString() == i2.haxeType.toString();
+    case [CEnum(_, i1, _), CEnum(_, i2, _)]:
+      return i1.haxeType.toString() == i2.haxeType.toString();
+    case [CStruct(_, f1, i1, p1), CStruct(_, f2, i2, p2)]:
+      if (f1 != f2) {
+        return false;
+      }
+      if (p1 != null) {
+        if (p2 == null) {
+          return false;
+        }
+        if (p1.length != p2.length) {
+          return false;
+        }
+        for (i in 0...p1.length) {
+          if (!p1[i].equivalentTo(p2[i])) {
+            return false;
+          }
+        }
+      }
+      return i1.ueType.withoutPointer(true).toString() == i2.ueType.withoutPointer(true).toString();
+    case [CPtr(t1, r1), CPtr(t2,r2)]:
+      if (r1 != r2) {
+        return false;
+      }
+      return t1.equivalentTo(t2);
+    case [CLambda(a1, r1), CLambda(a2,r2)]:
+      if (a1.length != a2.length) {
+        return false;
+      }
+      for (i in 0...a1.length) {
+        if (!a1[i].equivalentTo(a2[i])) {
+          return false;
+        }
+      }
+      return r1.equivalentTo(r2);
+    case [CMethodPointer(c1, a1, r1), CMethodPointer(c2, a2, r2)]:
+      if (c1 != c2) {
+        return false;
+      }
+      if (a1.length != a2.length) {
+        return false;
+      }
+      for (i in 0...a1.length) {
+        if (!a1[i].equivalentTo(a2[i])) {
+          return false;
+        }
+      }
+      return r1.equivalentTo(r2);
+    case [CTypeParam(_,k1), CTypeParam(_,k2)]:
+      return k1 == k2;
+    case _:
+      return false;
+    }
+  }
+
   inline private static function checkTypeLoaded(name:String) {
 #if bake_externs
     if (onTypeLoad != null && !typeHasLoaded.exists(name)) {
@@ -355,14 +448,10 @@ class TypeConv {
         this.haxeGlueType = uintPtr;
         this.glueType = uintPtr;
         if (isRef) {
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Ref', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Ref', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
         } else {
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Ptr', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Ptr', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
         }
       case CStruct(type, flags, info, params):
@@ -464,23 +553,17 @@ class TypeConv {
       while (i --> 0) {
         switch(modf[i]) {
         case Const:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'Const', [this.haxeType]);
           if (this.data.match(CUObject(_)) && !hadMarker) {
             this.ueType = this.ueType.leafWithConst(true);
           } else {
             this.ueType = this.ueType.withConst(true);
           }
         case Ref:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'PRef', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'Reference', [this.ueType]);
         case Ptr:
-          if (!originalSet) {
-            this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
-          }
+          this.haxeType = new TypeRef(['unreal'], 'PPtr', [this.haxeType]);
           this.ueType = new TypeRef(['cpp'], 'RawPointer', [this.ueType]);
         case Marker:
           hadMarker = true;

@@ -67,6 +67,9 @@ class UhxBuild extends UhxBaseBuild {
       if (FileSystem.exists(file)) {
         var curStamp = FileSystem.stat(file).mtime.getTime();
         if (curStamp >= stamp) {
+          if (config.verbose) {
+            log('newer file found at $file (${Date.fromTime(curStamp)})');
+          }
           stamp = curStamp;
         }
       }
@@ -94,9 +97,12 @@ class UhxBuild extends UhxBaseBuild {
   }
 
   private function consolidateNeededConfigs() {
-    var needed = getNeededConfigs();
+    var needed = getNeededConfigs().trim();
     var target = this.outputDir+'/Data/needed-configs.txt';
     if (!FileSystem.exists(target) || File.getContent(target).trim() != needed) {
+      if (config.verbose) {
+        log('setting new needed config file because ${!FileSystem.exists(target) ? "it does not exist" : ('it has changed: ' + File.getContent(target).trim())}');
+      }
       sys.io.File.saveContent(target, needed);
     }
   }
@@ -218,10 +224,10 @@ class UhxBuild extends UhxBaseBuild {
         }
       }
       if (this.stampOverride >= stamp) {
-        stamp = .0; // recompile everything
         if (traceFiles) {
-          log('baking everything because Unreal.hx has updated');
+          log('baking everything because Unreal.hx has updated (last unreal.hx stamp: ${Date.fromTime(stampOverride)} last stamp: ${Date.fromTime(stamp)})');
         }
+        stamp = .0; // recompile everything
       }
     }
 
@@ -779,6 +785,7 @@ class UhxBuild extends UhxBaseBuild {
       }
 
       trace('baking externs');
+
       var tbake = timer('bake externs');
       ret = this.threadPool.runCollection(fns)() ? 0 : 1;
       tbake();
@@ -919,6 +926,11 @@ class UhxBuild extends UhxBaseBuild {
         '-cppia $targetPath',
         '--macro uhx.compiletime.main.CreateCppia.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(scriptPaths) + ',' + (config.cppiaModuleExclude == null ? 'null' : toMacroDef(config.cppiaModuleExclude)) + ')',
     ]);
+    var additional = Sys.getEnv('UHX_INTERNAL_ARGS');
+    if (additional != null && additional != '') {
+      args = args.concat(additional.split('\n'));
+    }
+
     if (debugSymbols) {
       args.push('-debug');
     }
@@ -1026,6 +1038,11 @@ class UhxBuild extends UhxBaseBuild {
       '-cpp $outputDir/Static',
       '--macro uhx.compiletime.main.CreateGlue.run(' +toMacroDef(this.modulePaths) +', ' + toMacroDef(this.scriptPaths) + ')',
     ]);
+    var additional = Sys.getEnv('UHX_INTERNAL_ARGS');
+    if (additional != null && additional != '') {
+      args = args.concat(additional.split('\n'));
+    }
+
     if (!FileSystem.exists('$outputDir/Data')) {
       FileSystem.createDirectory('$outputDir/Data');
     }
@@ -1305,6 +1322,8 @@ class UhxBuild extends UhxBaseBuild {
     if (!this.cppiaEnabled) {
       this.modulePaths = this.modulePaths.concat(this.scriptPaths);
       this.scriptPaths = [];
+    } else {
+      this.config.dce = DceNo;
     }
     consolidateNeededConfigs();
     this.stampOverride = getStampOverride();
@@ -1461,6 +1480,12 @@ class UhxBuild extends UhxBaseBuild {
         if (!needsCppia) {
           needsCppia = this.hasNewModules('${this.outputDir}/Data/cppiaModules.txt', this.scriptPaths, this.config.verbose, 'cppia');
         }
+        if (!needsCppia && !needsStatic && Sys.getEnv('UHX_INTERNAL_ARGS') != null && Sys.getEnv('UHX_INTERNAL_ARGS') != '') {
+          needsCppia = true;
+          if (config.verbose) {
+            log('compiling cppia because internal arguments were set');
+          }
+        }
         depCheck();
         if (!needsCppia) {
           log('Skipping cppia compilation because it was not needed');
@@ -1539,7 +1564,7 @@ class UhxBuild extends UhxBaseBuild {
     File.saveContent(file, getCurCompilationParams());
   }
 
-  private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String) {
+  private function checkDependencies(deps:String, targetFile:String, compFile:String, traceFiles:Bool, phase:String, onlyExists=false) {
     if (FileSystem.exists(compFile)) {
       if (traceFiles) {
         log('compiling $phase because last compilation failed');
@@ -1565,7 +1590,7 @@ class UhxBuild extends UhxBaseBuild {
     }
     if (this.stampOverride >= stamp) {
       if (traceFiles) {
-        log('compiling $phase because Unreal.hx has changed');
+        log('compiling $phase because Unreal.hx has changed (last unreal.hx stamp: ${Date.fromTime(stampOverride)} last stamp: ${Date.fromTime(stamp)})');
       }
       return true;
     }
@@ -1594,9 +1619,16 @@ class UhxBuild extends UhxBaseBuild {
               log('compiling $phase because the file $path does not exist anymore');
             }
             ret = true;
-          } else if (FileSystem.stat(path).mtime.getTime() >= stamp) {
+          } else if (!onlyExists && FileSystem.stat(path).mtime.getTime() >= stamp) {
             if (traceFiles) {
               log('compiling $phase because the file $path has changed');
+            }
+            ret = true;
+          }
+        } else if (kind == 'I'.code) {
+          if (!FileSystem.exists(path) && !FileSystem.exists(this.haxeDir + '/' + path)) {
+            if (traceFiles) {
+              log('compiling $phase because the file $path does not exist anymore');
             }
             ret = true;
           }
