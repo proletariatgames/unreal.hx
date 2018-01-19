@@ -1398,6 +1398,15 @@ class UhxBuild extends UhxBaseBuild {
         this.hadUhxErr = false;
         ret = this.compileCppia(this.config.ignoreStaticErrors);
         if (this.hadUhxErr) {
+          var cppiaDeps = '${this.outputDir}/Data/cppiaDeps.txt';
+          var staticDeps = '${this.outputDir}/Data/staticDeps.txt';
+          // make life easier and make sure that a full build will be performed
+          if (FileSystem.exists(cppiaDeps)) {
+            FileSystem.deleteFile(cppiaDeps);
+          }
+          if (FileSystem.exists(staticDeps)) {
+            FileSystem.deleteFile(staticDeps);
+          }
           throw new BuildError('A full C++ compilation needs to be performed');
         }
         if (ret == 0) {
@@ -1499,6 +1508,7 @@ class UhxBuild extends UhxBaseBuild {
           } else {
             if (!needsStatic) {
               if (this.hadUhxErr) {
+                needsStatic = true;
                 log('Cppia requested a full hxcpp compilation');
                 ret = this.compileStatic();
               } else if (this.referencedExternChanged) {
@@ -1509,6 +1519,30 @@ class UhxBuild extends UhxBaseBuild {
             if (FileSystem.exists(compFile)) {
               FileSystem.deleteFile(compFile);
             }
+          }
+        }
+
+        if (config.testMode) {
+          if (Sys.getEnv("UHXBUILD_ASSERT_CPPIA_CHANGE") == "1") {
+            if (!needsCppia) {
+              throw new BuildError("Assertion failed: The environment variable UHX_ASSERT_CPPIA_CHANGE is set to 1, but there was no cppia change detected");
+            }
+          } else if (Sys.getEnv("UHXBUILD_ASSERT_CPPIA_CHANGE") == "0") {
+            if (needsCppia) {
+              throw new BuildError("Assertion failed: The environment variable UHX_ASSERT_CPPIA_CHANGE is set to 0, but there was a cppia change detected");
+            }
+          }
+        }
+      }
+
+      if (config.testMode) {
+        if (Sys.getEnv("UHXBUILD_ASSERT_STATIC_CHANGE") == "1") {
+          if (!needsStatic) {
+            throw new BuildError("Assertion failed: The environment variable UHX_ASSERT_STATIC_CHANGE is set to 1, but there was no static change detected");
+          }
+        } else if (Sys.getEnv("UHXBUILD_ASSERT_STATIC_CHANGE") == "0") {
+          if (needsStatic) {
+            throw new BuildError("Assertion failed: The environment variable UHX_ASSERT_STATIC_CHANGE is set to 0, but there was a static change detected");
           }
         }
       }

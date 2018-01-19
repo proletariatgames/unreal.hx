@@ -41,6 +41,11 @@ class ScriptGlue {
 
     var toBuild = [],
         ret = [];
+    if (cl.superClass != null) {
+      // var superType = TypeRef.fromBaseType(cl.superClass.t.get(), null, cl.pos).getClassPath(true);
+      var superType = cl.superClass.t.get().getUName();
+      ret.push(macro $v{superType});
+    }
     if (cl.meta.has(UhxMeta.UCompiled)) {
       for (meta in cl.meta.extract(UhxMeta.UCompiled)) {
         ret.push(meta.params[0]);

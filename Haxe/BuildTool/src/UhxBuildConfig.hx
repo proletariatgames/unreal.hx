@@ -164,6 +164,11 @@ typedef UhxBuildConfig = {
     if compiling through `gen-build-script.hxml`
   **/
   ?ignoreStaticErrors:Bool,
+
+  /**
+    Sets UhxBuild to test mode, which allows assertions to be passed onto it
+  **/
+  ?testMode:Bool,
 }
 
 @:enum abstract Dce(String) from String {

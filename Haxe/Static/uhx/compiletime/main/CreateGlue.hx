@@ -245,22 +245,23 @@ class CreateGlue {
         case TInst(c,_):
           var meta = c.get().meta;
           if (meta.has(':ugenerated')) {
-            builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated')});
+            builtGlues.push({ path:c.toString(), glues:meta.extractStrings(':ugenerated'), isScript:meta.has(':uscript')});
           } else if (meta.has(':uclass')) {
-            builtGlues.push({ path:c.toString(), glues:[] });
+            builtGlues.push({ path:c.toString(), glues:[], isScript:meta.has(':uscript') });
           }
         case TAbstract(a,_):
           var impl = a.get().impl;
           if (impl != null) {
             var meta = impl.get().meta;
             if (meta.has(':ugenerated')) {
-              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated')});
+              var a = a.get();
+              builtGlues.push({ path:impl.toString(), glues:meta.extractStrings(':ugenerated'), isScript:a.meta.has(':uscript') && !a.meta.has(':udelegate')});
             }
           }
         case TEnum(e,_):
           var meta = e.get().meta;
           if (meta.has(':ugenerated')) {
-            builtGlues.push({ path:e.toString(), glues:meta.extractStrings(':ugenerated') });
+            builtGlues.push({ path:e.toString(), glues:meta.extractStrings(':ugenerated'), isScript:false });
           }
         case _:
         }
@@ -283,12 +284,15 @@ class CreateGlue {
     });
   }
 
-  private static function writeScriptGlues(builtGlues:Array<{ path:String, glues:Array<String> }>, file:String) {
+  private static function writeScriptGlues(builtGlues:Array<{ path:String, glues:Array<String>, isScript:Bool }>, file:String) {
     var ret = sys.io.File.write(file);
     for (glue in builtGlues) {
       ret.writeByte(':'.code);
       ret.writeString(glue.path);
       ret.writeByte('\n'.code);
+      if (glue.isScript) {
+        ret.writeString('=script\n');
+      }
       for (glue in glue.glues) {
         ret.writeByte('+'.code);
         ret.writeString(glue);

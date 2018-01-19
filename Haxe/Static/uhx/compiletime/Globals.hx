@@ -45,6 +45,7 @@ class Globals {
 
   var compiledScriptGlues:Map<String, Bool> = new Map();
   var compiledScriptGluesByName:Map<String, Array<String>> = new Map();
+  public var compiledScriptGlueTypes:Array<String> = [];
 
   @:isVar public var shortBuildName(get, null):String;
 
@@ -57,7 +58,11 @@ class Globals {
   }
 
   public function getScriptGluesByName(name:String) {
-    return this.compiledScriptGluesByName[name];
+    var ret = this.compiledScriptGluesByName[name];
+    if (ret != null) {
+      compiledScriptGlues[name + ':'] = true;
+    }
+    return ret;
   }
 
   public function compiledScriptGluesExists(sig:String):Bool {

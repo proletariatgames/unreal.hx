@@ -6,6 +6,7 @@ import haxe.macro.Type;
 import uhx.compiletime.types.TypeRef;
 import sys.FileSystem;
 
+using uhx.compiletime.tools.MacroHelpers;
 using StringTools;
 using Lambda;
 
@@ -153,22 +154,6 @@ class CreateCppia {
         while ( (cur = metaDefs.pop()) != null ) {
           MetaDefBuild.addUDelegateMetaDef(cur);
         }
-        for (def in Globals.cur.scriptClassesDefs) {
-          var name = def.className;
-          var scripts = Globals.cur.getScriptGluesByName(name);
-          if (scripts != null) {
-            for (script in scripts) {
-              if (script.startsWith('StaticClass()') || script.startsWith('CPPSize()') || script.startsWith('setupFunction(')) {
-                continue;
-              }
-              if (!Globals.cur.compiledScriptGlueWasTouched(name + ':' + script)) {
-                Context.warning('UHXERR: $name: The script function $script was changed or deleted since the last C++ compilation. A full C++ compilation is required', Context.currentPos());
-              }
-            }
-          } else {
-            Context.warning('UHXERR: The type $name was not compiled since the last C++ compilation. A full C++ compilation is required', Context.currentPos());
-          }
-        }
 
         MetaDefBuild.writeClassDefs();
 
@@ -230,11 +215,23 @@ class CreateCppia {
         }
       }
       for (type in types) {
+        var typeToCheck = null,
+            curPos = null;
         switch(type) {
           case TInst(c,_):
             var name = c.toString();
             var c = c.get();
+            curPos = c.pos;
             var isExtern = c.meta.has(':uextern');
+            if (c.meta.has(':uscript') && c.meta.has(':uclass')) {
+              typeToCheck = name;
+              if (c.superClass != null) {
+                var superClass = c.superClass.t.get().getUName();
+                if (!Globals.cur.compiledScriptGluesExists(name + ':' + superClass)) {
+                  Context.warning('UHXERR: The type $name was compiled with a different superclass since the last C++ compilation. A full C++ compilation is required', Context.currentPos());
+                }
+              }
+            }
             addFileDep(Context.getPosInfos(c.pos).file);
             var genericFields = compiledGenerics[name];
             if (genericFields != null && !Context.defined('display')) {
@@ -272,6 +269,7 @@ class CreateCppia {
 
           case TEnum(eRef,_):
             var e = eRef.get();
+            curPos = e.pos;
             addFileDep(Context.getPosInfos(e.pos).file);
             if (!e.meta.has(':uextern')) {
               var sig = UEnumBuild.getSignature(e);
@@ -284,11 +282,16 @@ class CreateCppia {
             if (hasExclude(e.module)) {
               e.exclude();
             }
-          case TAbstract(a,_):
-            var a = a.get();
+          case TAbstract(at,_):
+            var a = at.get();
+            curPos = a.pos;
             var isExtern = a.meta.has(':uextern');
             addFileDep(Context.getPosInfos(a.pos).file);
-            if (isExtern && !a.meta.has(':uscript')) {
+            if (a.meta.has(':uscript')) {
+              if (!a.meta.has(':udelegate')) {
+                typeToCheck = a.impl != null ? a.impl.toString() : at.toString();
+              }
+            } else if (isExtern) {
               var name = TypeRef.fastClassPath(a);
               if (compiled.exists(name)) {
                 var impl = a.impl;
@@ -307,12 +310,35 @@ class CreateCppia {
                 impl.get().exclude();
               }
             }
-          case TType(t,_):
-            var t = t.get();
+          case TType(tt,_):
+            var t = tt.get();
+            curPos = t.pos;
             if (!Globals.cur.staticModules.exists(t.module)) {
               addFileDep(Context.getPosInfos(t.pos).file);
             }
           case _:
+        }
+
+        if (typeToCheck != null) {
+          var scripts = Globals.cur.getScriptGluesByName(typeToCheck);
+          if (scripts != null) {
+            for (script in scripts) {
+              if (script.startsWith('StaticClass()') || script.startsWith('CPPSize()') || script.startsWith('setupFunction(')) {
+                continue;
+              }
+              if (!Globals.cur.compiledScriptGlueWasTouched(typeToCheck + ':' + script)) {
+                Context.warning('UHXERR: $typeToCheck: The script function $script was changed or deleted since the last C++ compilation. A full C++ compilation is required', curPos);
+              }
+            }
+          } else {
+            Context.warning('UHXERR: The type $typeToCheck was not compiled since the last C++ compilation. A full C++ compilation is required', curPos);
+          }
+        }
+      }
+
+      for (glueType in Globals.cur.compiledScriptGlueTypes) {
+        if (!Globals.cur.compiledScriptGlueWasTouched(glueType)) {
+          Context.warning('UHXERR: The type $glueType was previously compiled in C++ but it was removed. A full C++ compilation is recommended', Context.currentPos());
         }
       }
     });
@@ -373,7 +399,8 @@ class CreateCppia {
   private static function readScriptGlues(path:String):Void {
     var scriptGlues = new Map(),
         byName = new Map(),
-        curArr = null;
+        curArr = null,
+        scriptGlueTypes = [];
     var curBase = null;
     var file = sys.io.File.read(path);
     try {
@@ -384,12 +411,16 @@ class CreateCppia {
         case ':'.code:
           var cur = ln.substr(1);
           curBase = cur + ':';
-          scriptGlues[curBase] = true;
+          scriptGlues[curBase] = false;
           byName[cur] = curArr = [];
         case '+'.code:
           var cur = ln.substr(1);
           scriptGlues[curBase + cur] = false;
           curArr.push(cur);
+        case '='.code:
+          if (ln == '=script') {
+            scriptGlueTypes.push(curBase);
+          }
         case _:
           throw '$path: Unknown script glue part $ln';
         }
@@ -401,6 +432,7 @@ class CreateCppia {
     file.close();
     Globals.cur.setCompiledScriptGlues(scriptGlues);
     Globals.cur.setCompiledScriptGluesByName(byName);
+    Globals.cur.compiledScriptGlueTypes = scriptGlueTypes;
   }
 
   private static function ensureCompiled(modules:Array<Array<Type>>) {
