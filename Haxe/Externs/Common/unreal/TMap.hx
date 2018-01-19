@@ -62,5 +62,5 @@ package unreal;
       }
     };
   })
-  public function key():Iterator<K>;
+  public function keys():Iterator<K>;
 }
