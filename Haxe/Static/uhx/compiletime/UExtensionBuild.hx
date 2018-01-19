@@ -420,6 +420,7 @@ class UExtensionBuild {
                   data.add(param.toString().replace('[','(').replace(']',')'));
                 }
               }
+              break;
             }
 
             if (uprop.meta.has(UhxMeta.UReplicate)) {
