@@ -49,6 +49,9 @@ extern class AActor_Extra {
   public function GetRootComponent() : USceneComponent;
 
   @:thisConst
+  public function GetRootPrimitiveComponent() : UPrimitiveComponent;
+
+  @:thisConst
   public function GetActorLocation() : FVector;
 
   public function SetActorLocation(vec:Const<PRef<FVector>>, bSweep:Bool, outSweepResult:PPtr<FHitResult>) : Bool;
